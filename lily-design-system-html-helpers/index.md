@@ -8,19 +8,24 @@ these helpers wrap a complete lifecycle (selection + persistence +
 DOM application) for one small, common job — and ship that lifecycle
 as a registered custom element you drop into any page.
 
-Most helpers own a **user preference**. `<share-chooser>` is the first
-that owns an **action** instead: it applies nothing to the document and
-persists nothing, but it owns its interaction end to end and ships the
-same headless contract.
+Most helpers own a **user preference**. `<share-picker>` owns an
+**action** instead: it applies nothing to the document and persists
+nothing, but it owns its interaction end to end and ships the same
+headless contract. `<date-time-picker>` is a third shape again — a
+**form control**: like `<share-picker>` it persists nothing, but unlike
+every other helper here it collects a value a form submits, via a text
+field plus a WAI-ARIA APG Date Picker Dialog rather than a preference
+listbox.
 
 ## Catalog
 
-| Helper                                                                              | Custom element     | Purpose                                                        |
-| ----------------------------------------------------------------------------------- | ------------------ | -------------------------------------------------------------- |
-| [`lily-design-system-html-theme-chooser`](./lily-design-system-html-theme-chooser/)   | `<theme-chooser>`   | Pick a visual theme; dynamic CSS load + `data-theme` swap.     |
-| [`lily-design-system-html-locale-chooser`](./lily-design-system-html-locale-chooser/) | `<locale-chooser>`  | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
-| [`lily-design-system-html-text-size-chooser`](./lily-design-system-html-text-size-chooser/) | `<text-size-chooser>` | Pick a text size; sets `data-text-size` on the document root. |
-| [`lily-design-system-html-share-chooser`](./lily-design-system-html-share-chooser/) | `<share-chooser>`   | Share the page: native share sheet, or a disclosure list of your destinations + copy the URL. |
+| Helper                                                                                    | Custom element        | Purpose                                                                                       |
+| ----------------------------------------------------------------------------------------- | --------------------- | --------------------------------------------------------------------------------------------- |
+| [`lily-design-system-html-theme-picker`](./lily-design-system-html-theme-picker/)         | `<theme-picker>`     | Pick a visual theme; dynamic CSS load + `data-theme` swap.                                    |
+| [`lily-design-system-html-locale-picker`](./lily-design-system-html-locale-picker/)       | `<locale-picker>`    | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.                               |
+| [`lily-design-system-html-text-size-picker`](./lily-design-system-html-text-size-picker/) | `<text-size-picker>` | Pick a text size; sets `data-text-size` on the document root.                                 |
+| [`lily-design-system-html-share-picker`](./lily-design-system-html-share-picker/)         | `<share-picker>`     | Share the page: native share sheet, or a disclosure list of your destinations + copy the URL. |
+| [`lily-design-system-html-date-time-picker`](./lily-design-system-html-date-time-picker/) | `<date-time-picker>` | Pick a date, a time, or both: a typeable field plus a WAI-ARIA APG Date Picker Dialog. |
 
 ## Conventions
 
@@ -64,7 +69,7 @@ Shared design decisions across the catalog:
 - **One rendering shape per pattern**: the three preference helpers
   render an icon button that opens a `role="listbox"` dropdown,
   implementing the WAI-ARIA APG listbox keyboard contract in JS.
-  `<share-chooser>` is the deliberate exception — its items are links,
+  `<share-picker>` is the deliberate exception — its items are links,
   so it is a **disclosure** with real `<a>` elements, no `role`
   override, and real focus movement rather than
   `aria-activedescendant`. Because light DOM has no `<slot>`, the
@@ -79,12 +84,15 @@ Shared design decisions across the catalog:
   consumers who need ergonomic native arrays.
 - **CustomEvent for change notifications**: every helper dispatches
   bubbling, composed `CustomEvent`s (`themechange`, `localechange`,
-  and `share` / `copy` / `nativeshare`) carrying a strongly-typed
-  `detail` object. No `update:value` pattern — the element's
-  attribute / property is the source of truth. Where a member cannot
-  be an attribute because it carries a function — `<share-chooser>`'s
-  `targets` and its three callbacks — it is exposed as a JS property
-  and paired with an event, which is the primary contract.
+  `share` / `copy` / `nativeshare`, and `date-time-picker`'s
+  `datetimechange` / `shortcut` / `invalidinput`) carrying a
+  strongly-typed `detail` object. No `update:value` pattern — the
+  element's attribute / property is the source of truth. Where a member
+  cannot be an attribute because it carries a function — `<share-picker>`'s
+  `targets` and its three callbacks, `<date-time-picker>`'s `labels`,
+  `shortcuts`, `isDateDisabled`, `formatValue`, `parseInput`, and its
+  three callbacks — it is exposed as a JS property and paired with an
+  event where one applies, which is the primary contract.
 - **TypeScript** on the public surface; types exported from
   `index.ts`.
 - **Headless**: no bundled CSS, fonts, icons, or images. Consumer
@@ -121,7 +129,7 @@ The helpers commit to a small set of platform features:
   objects).
 - `CustomEvent` for change notifications: `bubbles: true`,
   `composed: true`, `detail` typed via an exported helper type
-  (`ThemeChooserChangeDetail`, `LocaleChooserChangeDetail`).
+  (`ThemePickerChangeDetail`, `LocalePickerChangeDetail`).
 - Imperative DOM mutation in the element body — no template
   libraries, no Shadow DOM, no string templating helpers.
 
@@ -132,7 +140,7 @@ and tests stay in lock-step across frameworks.
 
 The HTML headless library mirrors the canonical 490-component
 catalog. Each entry is a static HTML snippet plus a minimal
-initialisation hook. A consumer typing on top of `theme-chooser.html`
+initialisation hook. A consumer typing on top of `theme-picker.html`
 from `lily-design-system-html-headless` writes their own radio
 markup, their own persistence, and their own dynamic loading.
 
@@ -159,17 +167,17 @@ identically — no `bind:value` (Svelte) and no `v-model:value`
 
 Differences between this catalog and the Svelte canonical:
 
-| Concept              | Svelte canonical                       | HTML port (custom element)                                  |
-| -------------------- | -------------------------------------- | ----------------------------------------------------------- |
-| Two-way binding      | `bind:value`                           | Read/write `el.value` / `el.setAttribute("value", …)`       |
-| Reactive state       | `$state`, `$bindable`                  | Internal `#private` fields + `attributeChangedCallback`     |
-| Reactive side-effects | `$effect`                              | `connectedCallback` + `attributeChangedCallback`            |
-| Render props / slots | Snippet (`{#snippet children(...)}`)   | Subclass the element class, override `renderButtonContent()` |
-| Stylesheet head      | `<svelte:head>`                        | Imperative `document.head.appendChild(...)`                 |
-| Change notification  | `onchange` prop callback               | `CustomEvent("themechange" / "localechange")`               |
-| SSR                  | `hooks.server.ts` + `transformPageChunk` | Static-site generator (Eleventy / Astro / Hugo) renders attributes, client upgrades |
-| Storybook            | `*.stories.svelte`                     | Static `.html` files in `examples/`                         |
-| File ext             | `.svelte`                              | `.ts` (class) + `.html` (examples)                          |
+| Concept               | Svelte canonical                         | HTML port (custom element)                                                          |
+| --------------------- | ---------------------------------------- | ----------------------------------------------------------------------------------- |
+| Two-way binding       | `bind:value`                             | Read/write `el.value` / `el.setAttribute("value", …)`                               |
+| Reactive state        | `$state`, `$bindable`                    | Internal `#private` fields + `attributeChangedCallback`                             |
+| Reactive side-effects | `$effect`                                | `connectedCallback` + `attributeChangedCallback`                                    |
+| Render props / slots  | Snippet (`{#snippet children(...)}`)     | Subclass the element class, override `renderButtonContent()`                        |
+| Stylesheet head       | `<svelte:head>`                          | Imperative `document.head.appendChild(...)`                                         |
+| Change notification   | `onchange` prop callback                 | `CustomEvent("themechange" / "localechange")`                                       |
+| SSR                   | `hooks.server.ts` + `transformPageChunk` | Static-site generator (Eleventy / Astro / Hugo) renders attributes, client upgrades |
+| Storybook             | `*.stories.svelte`                       | Static `.html` files in `examples/`                                                 |
+| File ext              | `.svelte`                                | `.ts` (class) + `.html` (examples)                                                  |
 
 The DOM contract and behaviour are otherwise identical; the tests
 match clause-for-clause.
@@ -182,7 +190,7 @@ file matches one `it(...)` per numbered item, named with the section
 number for fast cross-referencing.
 
 ```bash
-cd lily-design-system-html-theme-chooser
+cd lily-design-system-html-theme-picker
 pnpm test
 ```
 

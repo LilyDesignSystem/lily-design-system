@@ -9,7 +9,7 @@ The usual production configuration. Storage wins for returning users;
 the navigator only decides the very first visit.
 
 ```tsx
-<LocaleChooser
+<LocalePicker
     label="Language"
     locales={["en", "fr", "de", "es"]}
     storageKey="my-app:locale"
@@ -34,7 +34,7 @@ const endonyms = {
     ar: "العربية",
 };
 
-<LocaleChooser
+<LocalePicker
     label="Language"
     locales={Object.keys(endonyms)}
     localeLabels={endonyms}
@@ -49,7 +49,7 @@ right voice without extra work.
 ```tsx
 const [locale, setLocale] = useState("en");
 
-<LocaleChooser
+<LocalePicker
     label={t("language")}
     locales={["en", "fr", "de"]}
     value={locale}
@@ -88,7 +88,7 @@ return (
 export function LocaleClient({ initial }: { initial: string }) {
     const [locale, setLocale] = useState(initial);
     return (
-        <LocaleChooser
+        <LocalePicker
             label="Language"
             locales={["en", "fr", "ar"]}
             value={locale}
@@ -117,7 +117,7 @@ useEffect(() => setReady(true), []);
 
 <div ref={panelRef}>
     {ready && (
-        <LocaleChooser
+        <LocalePicker
             label="Panel language"
             locales={["en", "fr"]}
             name="panel-locale"
@@ -137,9 +137,9 @@ Give each a distinct `name` so their hidden inputs do not collide in a
 surrounding form, and a distinct `storageKey` if both persist:
 
 ```tsx
-<LocaleChooser label="Interface language" locales={ui} name="ui-locale"
+<LocalePicker label="Interface language" locales={ui} name="ui-locale"
               storageKey="app:ui-locale" />
-<LocaleChooser label="Content language" locales={content} name="content-locale"
+<LocalePicker label="Content language" locales={content} name="content-locale"
               storageKey="app:content-locale" applyDir={false} />
 ```
 
@@ -153,7 +153,7 @@ The hidden input is always rendered, so no extra wiring is needed:
 
 ```tsx
 <form action="/preferences" method="post">
-    <LocaleChooser label="Language" locales={["en", "fr"]} name="locale" />
+    <LocalePicker label="Language" locales={["en", "fr"]} name="locale" />
     <button type="submit">Save</button>
 </form>
 ```
@@ -190,7 +190,7 @@ const sorted = [...locales].sort((a, b) =>
     localeName(a).localeCompare(localeName(b), bcp47LocaleTag(a)),
 );
 
-<LocaleChooser label="Language" locales={sorted} localeLabels={endonyms} />
+<LocalePicker label="Language" locales={sorted} localeLabels={endonyms} />
 ```
 
 Sorting by code (`de`, `el`, `en`) is meaningless to a reader scanning
@@ -201,8 +201,8 @@ does the heavy lifting — see
 ## Style the trigger from open state without a render prop
 
 ```css
-.locale-chooser-button::after { content: "▾"; display: inline-block; }
-.locale-chooser-button[aria-expanded="true"]::after { transform: rotate(180deg); }
+.locale-picker-button::after { content: "▾"; display: inline-block; }
+.locale-picker-button[aria-expanded="true"]::after { transform: rotate(180deg); }
 ```
 
 No `children` needed — `aria-expanded` is already on the button.

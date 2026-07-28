@@ -8,12 +8,12 @@ strategies, ordered by quality.
 
 ## TL;DR
 
-| Strategy                | Flash of default locale?  | Survives reload?      | SEO-friendly? |
-| ----------------------- | ------------------------- | --------------------- | ------------- |
-| `detectFromNavigator`   | yes (until client mounts) | only if `storageKey`  | no            |
-| `localStorage`          | yes (until client mounts) | yes                   | no            |
-| Cookie (Analog)         | **no**                    | yes                   | no            |
-| URL prefix (`/fr/about`)| **no**                    | yes                   | **yes**       |
+| Strategy                 | Flash of default locale?  | Survives reload?     | SEO-friendly? |
+| ------------------------ | ------------------------- | -------------------- | ------------- |
+| `detectFromNavigator`    | yes (until client mounts) | only if `storageKey` | no            |
+| `localStorage`           | yes (until client mounts) | yes                  | no            |
+| Cookie (Analog)          | **no**                    | yes                  | no            |
+| URL prefix (`/fr/about`) | **no**                    | yes                  | **yes**       |
 
 Use the **cookie** strategy unless you need SEO-distinct pages
 per locale; then use **URL prefix**.
@@ -29,7 +29,7 @@ client picks `ar`, the page jumps:
 
 1. Browser parses `<html lang="en">` → default LTR layout.
 2. Browser fetches CSS, paints English page (FOUC-style flash).
-3. JS hydrates, `LocaleChooser` runs its `effect()`, reads
+3. JS hydrates, `LocalePicker` runs its `effect()`, reads
    `localStorage["app-locale"] === "ar"`, writes
    `<html lang="ar" dir="rtl">`.
 4. Browser repaints in RTL → layout shift.
@@ -53,8 +53,8 @@ server→client bridge.
 import { defineEventHandler, getCookie } from "h3";
 
 export default defineEventHandler((event) => {
-    const cookie = getCookie(event, "locale") ?? "en";
-    event.context.locale = cookie;
+  const cookie = getCookie(event, "locale") ?? "en";
+  event.context.locale = cookie;
 });
 ```
 
@@ -66,17 +66,17 @@ import { InjectionToken, inject } from "@angular/core";
 import { REQUEST } from "@analogjs/router/tokens";
 
 export const INITIAL_LOCALE = new InjectionToken<string>("INITIAL_LOCALE", {
-    providedIn: "root",
-    factory: () => {
-        const req = inject(REQUEST, { optional: true });
-        if (!req) {
-            if (typeof document === "undefined") return "en";
-            const match = document.cookie.match(/(?:^|; )locale=([^;]*)/);
-            return match ? decodeURIComponent(match[1]) : "en";
-        }
-        const ctx = (req as { context?: { locale?: string } }).context;
-        return ctx?.locale ?? "en";
-    },
+  providedIn: "root",
+  factory: () => {
+    const req = inject(REQUEST, { optional: true });
+    if (!req) {
+      if (typeof document === "undefined") return "en";
+      const match = document.cookie.match(/(?:^|; )locale=([^;]*)/);
+      return match ? decodeURIComponent(match[1]) : "en";
+    }
+    const ctx = (req as { context?: { locale?: string } }).context;
+    return ctx?.locale ?? "en";
+  },
 });
 ```
 
@@ -85,28 +85,28 @@ export const INITIAL_LOCALE = new InjectionToken<string>("INITIAL_LOCALE", {
 ```ts
 // src/app/app.config.server.ts
 import {
-    ApplicationConfig,
-    inject,
-    mergeApplicationConfig,
-    provideEnvironmentInitializer,
+  ApplicationConfig,
+  inject,
+  mergeApplicationConfig,
+  provideEnvironmentInitializer,
 } from "@angular/core";
 import { DOCUMENT } from "@angular/common";
 import { appConfig } from "./app.config";
 import { INITIAL_LOCALE } from "./tokens/initial-locale";
-import { bcp47LocaleTag, isRtlLocale } from "../locale-chooser.component";
+import { bcp47LocaleTag, isRtlLocale } from "../locale-picker.component";
 
 export const config = mergeApplicationConfig(appConfig, {
-    providers: [
-        provideEnvironmentInitializer(() => {
-            const doc = inject(DOCUMENT);
-            const code = inject(INITIAL_LOCALE);
-            doc.documentElement.setAttribute("lang", bcp47LocaleTag(code));
-            doc.documentElement.setAttribute(
-                "dir",
-                isRtlLocale(code) ? "rtl" : "ltr",
-            );
-        }),
-    ],
+  providers: [
+    provideEnvironmentInitializer(() => {
+      const doc = inject(DOCUMENT);
+      const code = inject(INITIAL_LOCALE);
+      doc.documentElement.setAttribute("lang", bcp47LocaleTag(code));
+      doc.documentElement.setAttribute(
+        "dir",
+        isRtlLocale(code) ? "rtl" : "ltr",
+      );
+    }),
+  ],
 });
 ```
 
@@ -114,34 +114,34 @@ export const config = mergeApplicationConfig(appConfig, {
 
 ```ts
 import { Component, inject, signal } from "@angular/core";
-import { LocaleChooser } from "../locale-chooser.component";
+import { LocalePicker } from "../locale-picker.component";
 import { INITIAL_LOCALE } from "./tokens/initial-locale";
 
 @Component({
-    selector: "app-root",
-    standalone: true,
-    imports: [LocaleChooser],
-    template: `
-        <lily-locale-chooser
-            label="Language"
-            [locales]="['en', 'fr', 'ar']"
-            [(value)]="locale"
-            (localeChange)="persistLocaleCookie($event)"
-        />
-        <router-outlet />
-    `,
+  selector: "app-root",
+  standalone: true,
+  imports: [LocalePicker],
+  template: `
+    <lily-locale-picker
+      label="Language"
+      [locales]="['en', 'fr', 'ar']"
+      [(value)]="locale"
+      (localeChange)="persistLocaleCookie($event)"
+    />
+    <router-outlet />
+  `,
 })
 export class App {
-    locale = signal(inject(INITIAL_LOCALE));
+  locale = signal(inject(INITIAL_LOCALE));
 
-    async persistLocaleCookie(code: string): Promise<void> {
-        if (typeof fetch === "undefined") return;
-        await fetch("/api/locale", {
-            method: "POST",
-            headers: { "content-type": "application/json" },
-            body: JSON.stringify({ locale: code }),
-        });
-    }
+  async persistLocaleCookie(code: string): Promise<void> {
+    if (typeof fetch === "undefined") return;
+    await fetch("/api/locale", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ locale: code }),
+    });
+  }
 }
 ```
 
@@ -154,20 +154,20 @@ import { defineEventHandler, readBody, setCookie } from "h3";
 const SUPPORTED = new Set(["en", "fr", "ar"]);
 
 export default defineEventHandler(async (event) => {
-    const body = (await readBody<{ locale?: string }>(event)) ?? {};
-    const code = String(body.locale ?? "");
-    if (!SUPPORTED.has(code)) {
-        event.node.res.statusCode = 400;
-        return { error: "Unknown locale" };
-    }
-    setCookie(event, "locale", code, {
-        path: "/",
-        httpOnly: false,
-        sameSite: "lax",
-        maxAge: 60 * 60 * 24 * 365,
-    });
-    event.node.res.statusCode = 204;
-    return null;
+  const body = (await readBody<{ locale?: string }>(event)) ?? {};
+  const code = String(body.locale ?? "");
+  if (!SUPPORTED.has(code)) {
+    event.node.res.statusCode = 400;
+    return { error: "Unknown locale" };
+  }
+  setCookie(event, "locale", code, {
+    path: "/",
+    httpOnly: false,
+    sameSite: "lax",
+    maxAge: 60 * 60 * 24 * 365,
+  });
+  event.node.res.statusCode = 204;
+  return null;
 });
 ```
 
@@ -212,30 +212,28 @@ middleware that inspects the URL, and drive the select from
 
 ```ts
 @Component({
-    standalone: true,
-    imports: [LocaleChooser],
-    template: `
-        <lily-locale-chooser
-            label="Language"
-            [locales]="['en', 'fr', 'ar']"
-            [value]="current()"
-            (localeChange)="navigate($event)"
-        />
-        <router-outlet />
-    `,
+  standalone: true,
+  imports: [LocalePicker],
+  template: `
+    <lily-locale-picker
+      label="Language"
+      [locales]="['en', 'fr', 'ar']"
+      [value]="current()"
+      (localeChange)="navigate($event)"
+    />
+    <router-outlet />
+  `,
 })
 export class Layout {
-    private route = inject(ActivatedRoute);
-    private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
-    current = signal<string>(
-        this.route.snapshot.paramMap.get("locale") ?? "en",
-    );
+  current = signal<string>(this.route.snapshot.paramMap.get("locale") ?? "en");
 
-    navigate(next: string): void {
-        const path = this.router.url.replace(/^\/(en|fr|ar)/, `/${next}`);
-        this.router.navigateByUrl(path);
-    }
+  navigate(next: string): void {
+    const path = this.router.url.replace(/^\/(en|fr|ar)/, `/${next}`);
+    this.router.navigateByUrl(path);
+  }
 }
 ```
 
@@ -248,12 +246,12 @@ The fallback when there is no server. The select flickers
 everything else works.
 
 ```html
-<lily-locale-chooser
-    label="Language"
-    [locales]="['en', 'fr', 'ar']"
-    [(value)]="locale"
-    storageKey="app-locale"
-    [detectFromNavigator]="true"
+<lily-locale-picker
+  label="Language"
+  [locales]="['en', 'fr', 'ar']"
+  [(value)]="locale"
+  storageKey="app-locale"
+  [detectFromNavigator]="true"
 />
 ```
 
@@ -279,7 +277,7 @@ default because:
   param / server-resolved state).
 - The list renders closed (`hidden`, `aria-expanded="false"`) on both
   sides, so the open/close state cannot mismatch.
-- Element ids come from the `nextLocaleChooserId()` module counter, not
+- Element ids come from the `nextLocalePickerId()` module counter, not
   `Math.random()` or `Date.now()`, so `aria-controls`, the list `id`,
   and every option `id` match byte-for-byte across the boundary.
 
@@ -307,7 +305,7 @@ const RTL = /^(ar|he|fa|ur|ps)/.test(locale);
 ---
 <html lang={locale} dir={RTL ? "rtl" : "ltr"}>
     <body>
-        <lily-locale-chooser
+        <lily-locale-picker
             client:load
             label="Language"
             [locales]={["en", "fr", "ar"]}
@@ -336,21 +334,21 @@ import { defineEventHandler, getCookie, getRequestHeader } from "h3";
 const SUPPORTED = ["en", "fr", "ar"];
 
 function pickFromAcceptLanguage(header: string | undefined): string {
-    if (!header) return "en";
-    for (const item of header.split(",")) {
-        const tag = item.split(";")[0].trim().toLowerCase();
-        if (SUPPORTED.includes(tag)) return tag;
-        const base = tag.split("-")[0];
-        if (SUPPORTED.includes(base)) return base;
-    }
-    return "en";
+  if (!header) return "en";
+  for (const item of header.split(",")) {
+    const tag = item.split(";")[0].trim().toLowerCase();
+    if (SUPPORTED.includes(tag)) return tag;
+    const base = tag.split("-")[0];
+    if (SUPPORTED.includes(base)) return base;
+  }
+  return "en";
 }
 
 export default defineEventHandler((event) => {
-    const cookie = getCookie(event, "locale");
-    event.context.locale = cookie ?? pickFromAcceptLanguage(
-        getRequestHeader(event, "accept-language"),
-    );
+  const cookie = getCookie(event, "locale");
+  event.context.locale =
+    cookie ??
+    pickFromAcceptLanguage(getRequestHeader(event, "accept-language"));
 });
 ```
 

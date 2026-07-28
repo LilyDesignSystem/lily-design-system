@@ -9,7 +9,7 @@
     language.
 
     Outcome: an icon button (the globe glyph, U+1F310) that opens a
-    <ul class="locale-chooser-list" role="listbox"> with three
+    <ul class="locale-picker-list" role="listbox"> with three
     <li role="option"> entries. Picking one writes
     `<html lang="…" dir="…">` and updates the controlled `value`.
 
@@ -19,7 +19,7 @@
     That keeps the control one icon wide, but it means neither a sighted
     user nor a screen-reader user learns the active language without
     opening the listbox. The
-    <p className="locale-chooser-status"> below is the compensating
+    <p className="locale-picker-status"> below is the compensating
     channel, and it is the default pattern this package ships — see
     ../docs/accessibility.md.
 
@@ -44,21 +44,21 @@
 */
 
 import { useState } from "react";
-import { LocaleChooser, localeName } from "../LocaleChooser";
+import { LocalePicker, localeName } from "../LocalePicker";
 
 export function SelectDefaultExample() {
     const [locale, setLocale] = useState("en");
 
     return (
         <>
-            <LocaleChooser
+            <LocalePicker
                 label="Choose your language"
                 locales={["en", "fr", "ar"]}
                 value={locale}
                 onChange={setLocale}
             />
 
-            <p className="locale-chooser-status" aria-live="polite">
+            <p className="locale-picker-status" aria-live="polite">
                 Active language: {localeName(locale)}
             </p>
         </>

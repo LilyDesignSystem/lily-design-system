@@ -1,25 +1,25 @@
-# SSR — LocaleChooser (Vue)
+# SSR — LocalePicker (Vue)
 
-The chooser runs cleanly under Vue 3 SSR (Nuxt 3, plain
+The picker runs cleanly under Vue 3 SSR (Nuxt 3, plain
 `vue/server-renderer`, Astro Vue islands). This page lists the
 Vue-specific recipes; the canonical rules live in
 [`../../AGENTS/ssr.md`](../../AGENTS/ssr.md).
 
-## What the chooser does on the server
+## What the picker does on the server
 
-Under SSR, `onMounted` and `watch` are no-ops. The chooser renders:
+Under SSR, `onMounted` and `watch` are no-ops. The picker renders:
 
 ```html
-<div class="locale-chooser">
+<div class="locale-picker">
     <input type="hidden" name="locale" value="en" />
-    <button type="button" class="locale-chooser-button" aria-label="Language"
+    <button type="button" class="locale-picker-button" aria-label="Language"
             aria-haspopup="listbox" aria-expanded="false"
-            aria-controls="locale-chooser-1-list">
-        <span class="locale-chooser-icon" aria-hidden="true">🌐</span>
+            aria-controls="locale-picker-1-list">
+        <span class="locale-picker-icon" aria-hidden="true">🌐</span>
     </button>
-    <ul class="locale-chooser-list" id="locale-chooser-1-list" role="listbox"
+    <ul class="locale-picker-list" id="locale-picker-1-list" role="listbox"
         aria-label="Language" tabindex="-1" hidden>
-        <li class="locale-chooser-option" id="locale-chooser-1-option-0"
+        <li class="locale-picker-option" id="locale-picker-1-option-0"
             role="option" aria-selected="true" lang="en">English</li>
         …
     </ul>
@@ -30,7 +30,7 @@ If the consumer passes `value="ar"`, the corresponding `<li>` renders
 with `aria-selected="true"` server-side and the hidden input carries
 `ar`.
 
-Element ids come from `nextLocaleChooserId()`, a module-level counter —
+Element ids come from `nextLocalePickerId()`, a module-level counter —
 not `Math.random()` or `Date.now()` — so server and client agree and
 hydration does not warn on the `id` / `aria-controls` pair.
 
@@ -45,7 +45,7 @@ the page jumps:
 
 1. Browser parses `<html lang="en">` → default LTR layout.
 2. Browser fetches CSS, paints English page.
-3. JS hydrates, chooser's `onMounted` runs, reads
+3. JS hydrates, picker's `onMounted` runs, reads
    `localStorage["app-locale"] === "ar"`, writes
    `<html lang="ar" dir="rtl">`.
 4. Browser repaints in RTL → layout shift.
@@ -87,7 +87,7 @@ export default defineNuxtPlugin(() => {
 ```vue
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import LocaleChooser, { isRtlLocale, bcp47LocaleTag } from "@/lib/LocaleChooser.vue";
+import LocalePicker, { isRtlLocale, bcp47LocaleTag } from "@/lib/LocalePicker.vue";
 
 const { $initialLocale } = useNuxtApp() as unknown as { $initialLocale: string };
 const locale = ref<string>($initialLocale);
@@ -109,7 +109,7 @@ async function persistLocaleCookie(code: string) {
 </script>
 
 <template>
-    <LocaleChooser
+    <LocalePicker
         label="Language"
         :locales="['en', 'fr', 'ar']"
         v-model:value="locale"
@@ -146,18 +146,18 @@ export default defineEventHandler(async (event) => {
 ```
 
 Result: first paint arrives with the right `lang` and `dir`. The
-chooser hydrates without writing anything visible.
+picker hydrates without writing anything visible.
 
 ## Nuxt 3 URL-prefix strategy
 
 For SEO-friendly URLs (`/en/about`, `/fr/about`), use Nuxt's file-
 based dynamic routes. Define `[locale]/*` route segments, validate
-in middleware, and drive the chooser from `useRoute().params.locale`.
+in middleware, and drive the picker from `useRoute().params.locale`.
 
 ```vue
 <script setup lang="ts">
 import { computed } from "vue";
-import LocaleChooser from "@/lib/LocaleChooser.vue";
+import LocalePicker from "@/lib/LocalePicker.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -171,7 +171,7 @@ function navigate(next: string) {
 </script>
 
 <template>
-    <LocaleChooser
+    <LocalePicker
         label="Language"
         :locales="['en', 'fr', 'ar']"
         :value="current"
@@ -210,7 +210,7 @@ export default defineEventHandler((event) => {
 });
 ```
 
-The chooser stays unchanged.
+The picker stays unchanged.
 
 ## Astro Vue islands
 
@@ -220,7 +220,7 @@ const locale = Astro.cookies.get("locale")?.value ?? "en";
 ---
 <html lang={locale} dir={/^(ar|he|fa|ur)/.test(locale) ? "rtl" : "ltr"}>
     <body>
-        <LocaleChooser
+        <LocalePicker
             client:load
             label="Language"
             :locales={["en", "fr", "ar"]}
@@ -246,9 +246,9 @@ common cause is:
 ```ts
 import { createSSRApp } from "vue";
 import { renderToString } from "vue/server-renderer";
-import LocaleChooser from "./LocaleChooser.vue";
+import LocalePicker from "./LocalePicker.vue";
 
-const app = createSSRApp(LocaleChooser, {
+const app = createSSRApp(LocalePicker, {
     label: "Language",
     locales: ["en", "fr", "ar"],
     value: "fr",

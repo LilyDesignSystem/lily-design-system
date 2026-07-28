@@ -10,82 +10,82 @@
     `[(value)]` signal. The select still drives lang/dir/change.
 
     The sibling list is class="locale-button-group", NOT
-    "locale-chooser-list" — that hook now belongs to the helper's own
+    "locale-picker-list" — that hook now belongs to the helper's own
     <ul role="listbox">, and reusing it here would make consumer
     popup-positioning CSS apply to this inline group too.
 
-    `className="locale-chooser-hidden"` must hide the helper COMPLETELY
+    `className="locale-picker-hidden"` must hide the helper COMPLETELY
     (`display: none`), not with an `.sr-only` clip-path recipe: these
     buttons are the real control, and a visually-hidden-but-AT-exposed
     globe button would be a duplicate.
 */
+import { ChangeDetectionStrategy, Component, signal } from "@angular/core";
 import {
-    ChangeDetectionStrategy,
-    Component,
-    signal,
-} from "@angular/core";
-import {
-    LocaleChooser,
-    bcp47LocaleTag,
-    isRtlLocale,
-} from "../locale-chooser.component";
+  LocalePicker,
+  bcp47LocaleTag,
+  isRtlLocale,
+} from "../locale-picker.component";
 import { defaultLocaleLabels } from "../locales";
 
 @Component({
-    selector: "example-sibling-buttons",
-    standalone: true,
-    imports: [LocaleChooser],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
-        <lily-locale-chooser
-            label="Language"
-            [locales]="locales"
-            [(value)]="locale"
-            className="locale-chooser-hidden"
-        />
+  selector: "example-sibling-buttons",
+  standalone: true,
+  imports: [LocalePicker],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <lily-locale-picker
+      label="Language"
+      [locales]="locales"
+      [(value)]="locale"
+      className="locale-picker-hidden"
+    />
 
-        <ul class="locale-button-group" role="list">
-            @for (l of locales; track l) {
-                <li>
-                    <button
-                        type="button"
-                        [attr.aria-pressed]="locale() === l"
-                        [attr.lang]="tagFor(l)"
-                        [attr.dir]="isRtl(l) ? 'rtl' : 'ltr'"
-                        [attr.title]="labelFor(l)"
-                        (click)="locale.set(l)"
-                    >{{ SHORT[l] ?? l.toUpperCase() }}</button>
-                </li>
-            }
-        </ul>
+    <ul class="locale-button-group" role="list">
+      @for (l of locales; track l) {
+        <li>
+          <button
+            type="button"
+            [attr.aria-pressed]="locale() === l"
+            [attr.lang]="tagFor(l)"
+            [attr.dir]="isRtl(l) ? 'rtl' : 'ltr'"
+            [attr.title]="labelFor(l)"
+            (click)="locale.set(l)"
+          >
+            {{ SHORT[l] ?? l.toUpperCase() }}
+          </button>
+        </li>
+      }
+    </ul>
 
-        <p>Selected: <code>{{ locale() }}</code></p>
-    `,
+    <p>
+      Selected: <code>{{ locale() }}</code>
+    </p>
+  `,
 })
 export class SiblingButtonsExample {
-    readonly locales = ["en", "fr", "es", "de", "ar", "he"];
+  readonly locales = ["en", "fr", "es", "de", "ar", "he"];
 
-    // Short two-letter codes for compact display.
-    readonly SHORT: Record<string, string> = {
-        en: "EN",
-        fr: "FR",
-        es: "ES",
-        de: "DE",
-        ar: "ع",
-        he: "ע",
-    };
+  // Short two-letter codes for compact display.
+  readonly SHORT: Record<string, string> = {
+    en: "EN",
+    fr: "FR",
+    es: "ES",
+    de: "DE",
+    ar: "ع",
+    he: "ע",
+  };
 
-    locale = signal("en");
+  locale = signal("en");
 
-    tagFor(l: string): string {
-        return bcp47LocaleTag(l);
-    }
+  tagFor(l: string): string {
+    return bcp47LocaleTag(l);
+  }
 
-    isRtl(l: string): boolean {
-        return isRtlLocale(l);
-    }
+  isRtl(l: string): boolean {
+    return isRtlLocale(l);
+  }
 
-    labelFor(l: string): string {
-        return defaultLocaleLabels[l] ?? l;
-    }
+  labelFor(l: string): string {
+    return defaultLocaleLabels[l] ?? l;
+  }
 }

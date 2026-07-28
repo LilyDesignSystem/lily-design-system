@@ -10,7 +10,7 @@ Applied as `aria-label` to **both** the trigger button and the
 listbox. Always supplied, always translatable.
 
 ```html
-<lily-theme-chooser label="Theme" themesUrl="/t/" [themes]="themes" />
+<lily-theme-picker label="Theme" themesUrl="/t/" [themes]="themes" />
 ```
 
 The input is marked `input.required<string>()`, so the TypeScript
@@ -46,10 +46,10 @@ the stylesheet href. Choose slugs that are safe URL path segments —
 kebab-case ASCII is recommended.
 
 ```html
-<lily-theme-chooser
-    label="Theme"
-    themesUrl="/assets/themes/"
-    [themes]="['light', 'dark', 'abyss']"
+<lily-theme-picker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  [themes]="['light', 'dark', 'abyss']"
 />
 ```
 
@@ -63,7 +63,7 @@ The active slug. Two-way bindable with `[(value)]` so the
 surrounding code can read and write the selection.
 
 ```html
-<lily-theme-chooser [(value)]="theme" ... />
+<lily-theme-picker [(value)]="theme" ... />
 ```
 
 ```ts
@@ -82,7 +82,7 @@ falls back to `"light"` (when present in `themes`) and then to
 `themes[0]`.
 
 ```html
-<lily-theme-chooser defaultValue="dark" ... />
+<lily-theme-picker defaultValue="dark" ... />
 ```
 
 ## `storageKey` — optional, string
@@ -96,14 +96,14 @@ Errors (private mode, quota, disabled storage) are silently
 swallowed — the select continues to work in-memory.
 
 ```html
-<lily-theme-chooser storageKey="my-app:theme" ... />
+<lily-theme-picker storageKey="my-app:theme" ... />
 ```
 
 ## `detectFromSystem` — optional, boolean — defaults to `false`
 
 Resolve the operating system's colour-scheme preference to a theme on
 first visit. This is the mirror of `detectFromNavigator` on
-locale-chooser, and it sits in the same slot in the resolution order:
+locale-picker, and it sits in the same slot in the resolution order:
 
 ```
 value > storage > detection > defaultValue > "light" > themes[0]
@@ -125,13 +125,13 @@ effect:
   and write to the `[(value)]`-bound signal yourself.
 
 ```html
-<lily-theme-chooser
-    label="Theme"
-    themesUrl="/assets/themes/"
-    [themes]="['light', 'dark']"
-    [detectFromSystem]="true"
-    storageKey="my-app:theme"
-    [(value)]="theme"
+<lily-theme-picker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  [themes]="['light', 'dark']"
+  [detectFromSystem]="true"
+  storageKey="my-app:theme"
+  [(value)]="theme"
 />
 ```
 
@@ -150,15 +150,15 @@ Two jobs, both of them real:
    no native form control in the markup any more, so this input is how
    the selection reaches a form submission.
 2. The discriminator on the managed `<link>` element
-   (`data-lily-theme-chooser="{name}"`).
+   (`data-lily-theme-picker="{name}"`).
 
 Because of (2), multiple selects on one page **must** be given
 distinct `name` values — otherwise they fight over the same managed
 `<link>`.
 
 ```html
-<lily-theme-chooser name="select-1" ... />
-<lily-theme-chooser name="select-2" ... />
+<lily-theme-picker name="select-1" ... />
+<lily-theme-picker name="select-2" ... />
 ```
 
 ## `extension` — optional, string — defaults to `".css"`
@@ -168,7 +168,7 @@ Pass `".css?v=2"` to bust a cached version, or `".module.css"` to
 point at CSS-module-style files.
 
 ```html
-<lily-theme-chooser extension=".css?v=2026-06-05" ... />
+<lily-theme-picker extension=".css?v=2026-06-05" ... />
 ```
 
 ## `target` — optional, HTMLElement | null
@@ -183,24 +183,24 @@ ref or `viewChild()` query:
 
 ```ts
 import { Component, viewChild, signal } from "@angular/core";
-import { ThemeChooser } from "./theme-chooser.component";
+import { ThemePicker } from "./theme-picker.component";
 
 @Component({
-    standalone: true,
-    imports: [ThemeChooser],
-    template: `
-        <section #section>
-            <lily-theme-chooser
-                label="Section theme"
-                themesUrl="/assets/themes/"
-                [themes]="['light', 'dark']"
-                [target]="section.nativeElement"
-            />
-        </section>
-    `,
+  standalone: true,
+  imports: [ThemePicker],
+  template: `
+    <section #section>
+      <lily-theme-picker
+        label="Section theme"
+        themesUrl="/assets/themes/"
+        [themes]="['light', 'dark']"
+        [target]="section.nativeElement"
+      />
+    </section>
+  `,
 })
 export class ScopedSection {
-    section = viewChild<ElementRef<HTMLElement>>("section");
+  section = viewChild<ElementRef<HTMLElement>>("section");
 }
 ```
 
@@ -224,30 +224,30 @@ localising them localises the typeahead.
 
 ```ts
 const labels = {
-    light: "Clair",
-    dark: "Sombre",
-    "united-kingdom-national-health-service-england-for-patients":
-        "NHS England (patients)",
+  light: "Clair",
+  dark: "Sombre",
+  "united-kingdom-national-health-service-england-for-patients":
+    "NHS England (patients)",
 };
 ```
 
 ```html
-<lily-theme-chooser [themeLabels]="labels" ... />
+<lily-theme-picker [themeLabels]="labels" ... />
 ```
 
 ## `className` — optional, string
 
 Extra CSS class hook on the root `<div>`. Always emitted after
-`"theme-chooser"`, so consumer styles can use either selector.
+`"theme-picker"`, so consumer styles can use either selector.
 
 ```html
-<lily-theme-chooser className="my-extra" ... />
+<lily-theme-picker className="my-extra" ... />
 ```
 
 Renders:
 
 ```html
-<div class="theme-chooser my-extra">
+<div class="theme-picker my-extra"></div>
 ```
 
 The `className` input is Angular's equivalent of Vue's
@@ -261,7 +261,7 @@ Emits the new slug after every successful apply. Use it for
 analytics, server sync, or cookie writes.
 
 ```html
-<lily-theme-chooser (themeChange)="onThemeChange($event)" ... />
+<lily-theme-picker (themeChange)="onThemeChange($event)" ... />
 ```
 
 ```ts
@@ -279,14 +279,10 @@ subscribe directly:
 
 ```html
 <!-- Two-way binding (recommended) -->
-<lily-theme-chooser [(value)]="theme" ... />
+<lily-theme-picker [(value)]="theme" ... />
 
 <!-- Equivalent explicit form -->
-<lily-theme-chooser
-    [value]="theme()"
-    (valueChange)="theme.set($event)"
-    ...
-/>
+<lily-theme-picker [value]="theme()" (valueChange)="theme.set($event)" ... />
 ```
 
 ## Content projection — the icon `<ng-template>`
@@ -295,14 +291,14 @@ Not an input, but part of the public surface. A projected
 `<ng-template>` replaces the default glyph inside the trigger button:
 
 ```html
-<lily-theme-chooser label="Theme" [themesUrl]="url" [themes]="themes">
-    <ng-template let-args>{{ args.labelFor(args.value) }}</ng-template>
-</lily-theme-chooser>
+<lily-theme-picker label="Theme" [themesUrl]="url" [themes]="themes">
+  <ng-template let-args>{{ args.labelFor(args.value) }}</ng-template>
+</lily-theme-picker>
 ```
 
 The context is `ChildArgs` — `{ value, open, labelFor }`, supplied as
-both `$implicit` and named properties. The optional `ThemeChooserIcon`
-marker directive (`ng-template[lilyThemeChooserIcon]`) gives typed
+both `$implicit` and named properties. The optional `ThemePickerIcon`
+marker directive (`ng-template[lilyThemePickerIcon]`) gives typed
 `let-` variables under `strictTemplates`.
 
 The template replaces the **glyph only**; it does not render options,
@@ -315,16 +311,16 @@ Not inputs, but part of the public surface. Import them from the
 barrel when you build a sibling affordance, resolve a theme
 server-side, or write a test.
 
-| Export | Signature | Purpose |
-| ------ | --------- | ------- |
-| `themeName` | `(theme: string) => string` | Title-cases each hyphen-separated word: `"high-contrast"` → `"High Contrast"`. The single implementation of the default-label rule — the component's own `labelFor` delegates to it. Mirror of locale-chooser's `localeName`. |
-| `matchSystemTheme` | `(themes: readonly string[]) => string` | Resolves `prefers-color-scheme` to `"dark"` / `"light"`, or `""` when that slug is absent from `themes` or `matchMedia` is unavailable. Mirror of locale-chooser's `matchNavigatorLanguage`. |
-| `normaliseThemesUrl` | `(themesUrl: string) => string` | Ensures exactly one trailing `/`. |
-| `themeHref` | `(themesUrl: string, slug: string, extension: string) => string` | Builds the stylesheet href. |
-| `nextThemeChooserId` | `() => string` | Per-instance id prefix from a module counter — SSR-safe, no `Math.random()` / `Date.now()`. |
-| `CIRCLE_WITH_RIGHT_HALF_BLACK` | `string` | The default button glyph, `◑` (U+25D1). |
-| `ThemeChooserIcon` | directive | Optional marker for the projected icon `<ng-template>`; typing only, not matching. |
-| `ChildArgs` | type | The projected template's context. |
+| Export                         | Signature                                                        | Purpose                                                                                                                                                                                                                       |
+| ------------------------------ | ---------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `themeName`                    | `(theme: string) => string`                                      | Title-cases each hyphen-separated word: `"high-contrast"` → `"High Contrast"`. The single implementation of the default-label rule — the component's own `labelFor` delegates to it. Mirror of locale-picker's `localeName`. |
+| `matchSystemTheme`             | `(themes: readonly string[]) => string`                          | Resolves `prefers-color-scheme` to `"dark"` / `"light"`, or `""` when that slug is absent from `themes` or `matchMedia` is unavailable. Mirror of locale-picker's `matchNavigatorLanguage`.                                  |
+| `normaliseThemesUrl`           | `(themesUrl: string) => string`                                  | Ensures exactly one trailing `/`.                                                                                                                                                                                             |
+| `themeHref`                    | `(themesUrl: string, slug: string, extension: string) => string` | Builds the stylesheet href.                                                                                                                                                                                                   |
+| `nextThemePickerId`           | `() => string`                                                   | Per-instance id prefix from a module counter — SSR-safe, no `Math.random()` / `Date.now()`.                                                                                                                                   |
+| `CIRCLE_WITH_RIGHT_HALF_BLACK` | `string`                                                         | The default button glyph, `◑` (U+25D1).                                                                                                                                                                                       |
+| `ThemePickerIcon`             | directive                                                        | Optional marker for the projected icon `<ng-template>`; typing only, not matching.                                                                                                                                            |
+| `ChildArgs`                    | type                                                             | The projected template's context.                                                                                                                                                                                             |
 
 `matchSystemTheme` returning `""` rather than throwing is the SSR
 guard: there is no `window.matchMedia` on a server, and jsdom does not
@@ -332,13 +328,13 @@ implement it either, so the same code path covers both.
 
 ```ts
 import {
-    matchSystemTheme,
-    themeName,
-} from "./lily-design-system-angular-theme-chooser";
+  matchSystemTheme,
+  themeName,
+} from "./lily-design-system-angular-theme-picker";
 
 matchSystemTheme(["light", "dark"]); // "dark" | "light"
-matchSystemTheme(["solarized"]);     // "" — neither slug is available
-themeName("high-contrast");          // "High Contrast"
+matchSystemTheme(["solarized"]); // "" — neither slug is available
+themeName("high-contrast"); // "High Contrast"
 ```
 
 ---

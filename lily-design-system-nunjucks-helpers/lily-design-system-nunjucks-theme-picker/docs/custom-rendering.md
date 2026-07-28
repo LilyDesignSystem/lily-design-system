@@ -17,12 +17,12 @@ Nunjucks templates are strings and cannot pass first-class
 functions, so `{% call %}` is the language's equivalent of
 "children". The macro checks `caller` and, when present, renders the
 block body **inside the button** in place of the default
-`<span class="theme-chooser-icon">`:
+`<span class="theme-picker-icon">`:
 
 ```njk
-{% from "../theme-chooser.njk" import themeChooser %}
+{% from "../theme-picker.njk" import themePicker %}
 
-{% call themeChooser({
+{% call themePicker({
     label: "Theme",
     themesUrl: "/assets/themes/",
     themes: ["light", "dark", "abyss"],
@@ -58,23 +58,36 @@ native-`<select>` behaviour; a `{% call %}` body emitting
 Most "custom rendering" requests are really styling requests, and
 the class hooks cover them without forking anything:
 
-| Hook                                   | Element                          |
-| -------------------------------------- | -------------------------------- |
-| `.theme-chooser`                        | Root `<div>`                     |
-| `.theme-chooser-button`                 | The trigger                      |
-| `.theme-chooser-icon`                   | The default glyph `<span>`       |
-| `.theme-chooser-list`                   | The `<ul role="listbox">`        |
-| `.theme-chooser-option`                 | Each `<li role="option">`        |
-| `[aria-expanded="true"]`               | Open state, on the button        |
-| `[data-active]`                        | The keyboard cursor, on an option |
-| `[aria-selected="true"]`               | The applied theme, on an option  |
+| Hook                     | Element                           |
+| ------------------------ | --------------------------------- |
+| `.theme-picker`         | Root `<div>`                      |
+| `.theme-picker-button`  | The trigger                       |
+| `.theme-picker-icon`    | The default glyph `<span>`        |
+| `.theme-picker-list`    | The `<ul role="listbox">`         |
+| `.theme-picker-option`  | Each `<li role="option">`         |
+| `[aria-expanded="true"]` | Open state, on the button         |
+| `[data-active]`          | The keyboard cursor, on an option |
+| `[aria-selected="true"]` | The applied theme, on an option   |
 
 ```css
-.theme-chooser { position: relative; display: inline-block; }
-.theme-chooser-list { position: absolute; inset-inline-start: 0; z-index: 1; }
-.theme-chooser-list[hidden] { display: none; }
-.theme-chooser-option[data-active] { background: Highlight; }
-.theme-chooser-option[aria-selected="true"]::after { content: "\2713"; }
+.theme-picker {
+  position: relative;
+  display: inline-block;
+}
+.theme-picker-list {
+  position: absolute;
+  inset-inline-start: 0;
+  z-index: 1;
+}
+.theme-picker-list[hidden] {
+  display: none;
+}
+.theme-picker-option[data-active] {
+  background: Highlight;
+}
+.theme-picker-option[aria-selected="true"]::after {
+  content: "\2713";
+}
 ```
 
 The client toggles the `hidden` attribute on the list, so let
@@ -84,45 +97,77 @@ leave a closed list in the accessibility tree.
 ## Pattern 3: hand-written markup
 
 The client.js doesn't require the macro at all — it reads the DOM
-contract. Emit it yourself and `initThemeChooser` will wire it:
+contract. Emit it yourself and `initThemePicker` will wire it:
 
 ```html
 <div
-    class="theme-chooser"
-    data-lily-theme-chooser-root
-    data-lily-theme-chooser-name="theme"
-    data-lily-theme-chooser-themes-url="/assets/themes/"
-    data-lily-theme-chooser-extension=".css"
-    data-lily-theme-chooser-storage-key="my-app:theme"
+  class="theme-picker"
+  data-lily-theme-picker-root
+  data-lily-theme-picker-name="theme"
+  data-lily-theme-picker-themes-url="/assets/themes/"
+  data-lily-theme-picker-extension=".css"
+  data-lily-theme-picker-storage-key="my-app:theme"
 >
-    <input type="hidden" name="theme" value="light" data-lily-theme-chooser-input>
-    <button type="button" class="theme-chooser-button" aria-label="Theme"
-            aria-haspopup="listbox" aria-expanded="false"
-            aria-controls="my-theme-list" data-lily-theme-chooser-button>
-        <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
-    </button>
-    <ul class="theme-chooser-list" id="my-theme-list" role="listbox"
-        aria-label="Theme" tabindex="-1" hidden data-lily-theme-chooser-list>
-        <li class="theme-chooser-option" id="my-theme-option-0" role="option"
-            aria-selected="true" data-value="light">Light</li>
-        <li class="theme-chooser-option" id="my-theme-option-1" role="option"
-            aria-selected="false" data-value="dark">Dark</li>
-    </ul>
+  <input
+    type="hidden"
+    name="theme"
+    value="light"
+    data-lily-theme-picker-input
+  />
+  <button
+    type="button"
+    class="theme-picker-button"
+    aria-label="Theme"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="my-theme-list"
+    data-lily-theme-picker-button
+  >
+    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
+  </button>
+  <ul
+    class="theme-picker-list"
+    id="my-theme-list"
+    role="listbox"
+    aria-label="Theme"
+    tabindex="-1"
+    hidden
+    data-lily-theme-picker-list
+  >
+    <li
+      class="theme-picker-option"
+      id="my-theme-option-0"
+      role="option"
+      aria-selected="true"
+      data-value="light"
+    >
+      Light
+    </li>
+    <li
+      class="theme-picker-option"
+      id="my-theme-option-1"
+      role="option"
+      aria-selected="false"
+      data-value="dark"
+    >
+      Dark
+    </li>
+  </ul>
 </div>
 ```
 
 The parts the client.js requires:
 
-- `[data-lily-theme-chooser-root]` — the element you pass to
-  `initThemeChooser`, carrying the `data-lily-theme-chooser-*` config.
-- `[data-lily-theme-chooser-button]` — the trigger. Without it,
-  `initThemeChooser` returns a no-op controller.
-- `[data-lily-theme-chooser-list]` — the listbox. Also required.
+- `[data-lily-theme-picker-root]` — the element you pass to
+  `initThemePicker`, carrying the `data-lily-theme-picker-*` config.
+- `[data-lily-theme-picker-button]` — the trigger. Without it,
+  `initThemePicker` returns a no-op controller.
+- `[data-lily-theme-picker-list]` — the listbox. Also required.
 - `[role="option"]` children with `data-value="{slug}"`. Their text
   content is the typeahead corpus; their `id`s feed
   `aria-activedescendant`, so every id must be unique in the
   document.
-- `[data-lily-theme-chooser-input]` — optional. When present, the
+- `[data-lily-theme-picker-input]` — optional. When present, the
   client mirrors the applied slug into its `value`.
 
 You are then on the hook for the parts the macro would have got
@@ -130,7 +175,7 @@ right: unique ids, `aria-controls` matching the list id,
 `aria-selected` on exactly one option, and the pre-filled hidden
 input.
 
-## What custom rendering should *not* do
+## What custom rendering should _not_ do
 
 - Don't mutate `document.head` or `data-theme` yourself — let the
   client.js own that lifecycle.
@@ -140,13 +185,13 @@ input.
   the macro emits.
 - Don't reuse a `name` across two instances without also passing
   distinct `id`s; the listbox and option ids are derived from `id`,
-  which defaults to `theme-chooser-{name}`.
+  which defaults to `theme-picker-{name}`.
 
 ## Custom rendering does not fix the no-JS gap
 
 None of these patterns make the control work without JavaScript.
 Open/close, focus movement, and the keyboard contract all live in
-`theme-chooser.client.js`, and hand-written markup has exactly the
+`theme-picker.client.js`, and hand-written markup has exactly the
 same limitation as macro-rendered markup: the button does nothing
 until the module runs. The pre-filled hidden input is the only
 no-JS affordance. See [ssr.md](./ssr.md).

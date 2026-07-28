@@ -16,7 +16,7 @@
 */
 
 import { useState } from "react";
-import { LocaleChooser } from "../LocaleChooser";
+import { LocalePicker } from "../LocalePicker";
 
 // Short two-letter codes for compact display.
 const SHORT: Record<string, string> = {
@@ -33,7 +33,7 @@ export function ButtonsExample() {
 
     return (
         <>
-            <LocaleChooser
+            <LocalePicker
                 label="Language"
                 locales={["en", "fr", "es", "de", "ar", "he"]}
                 value={locale}
@@ -46,7 +46,7 @@ export function ButtonsExample() {
                         {SHORT[value] ?? value.toUpperCase()}
                     </span>
                 )}
-            </LocaleChooser>
+            </LocalePicker>
 
             <p>
                 Selected: <code>{locale}</code>

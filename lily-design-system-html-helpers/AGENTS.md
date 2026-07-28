@@ -10,10 +10,11 @@ Each helper follows the file shape in
 
 ## Helpers currently in the catalog
 
-- [`lily-design-system-html-theme-chooser`](./lily-design-system-html-theme-chooser/) — `<theme-chooser>` dynamic theme CSS loader.
-- [`lily-design-system-html-locale-chooser`](./lily-design-system-html-locale-chooser/) — `<locale-chooser>` `lang` + `dir` locale chooser.
-- [`lily-design-system-html-text-size-chooser`](./lily-design-system-html-text-size-chooser/) — `<text-size-chooser>` `data-text-size` text-size chooser.
-- [`lily-design-system-html-share-chooser`](./lily-design-system-html-share-chooser/) — `<share-chooser>` native-sheet / disclosure share control.
+- [`lily-design-system-html-theme-picker`](./lily-design-system-html-theme-picker/) — `<theme-picker>` dynamic theme CSS loader.
+- [`lily-design-system-html-locale-picker`](./lily-design-system-html-locale-picker/) — `<locale-picker>` `lang` + `dir` locale picker.
+- [`lily-design-system-html-text-size-picker`](./lily-design-system-html-text-size-picker/) — `<text-size-picker>` `data-text-size` text-size picker.
+- [`lily-design-system-html-share-picker`](./lily-design-system-html-share-picker/) — `<share-picker>` native-sheet / disclosure share control.
+- [`lily-design-system-html-date-time-picker`](./lily-design-system-html-date-time-picker/) — `<date-time-picker>` WAI-ARIA APG date/time picker dialog.
 
 ## Working rules
 
@@ -29,15 +30,15 @@ Each helper follows the file shape in
   attributes or properties.
 - Light DOM only — no Shadow DOM, no scoped styling. The
   consumer's CSS targets the rendered children directly via the
-  kebab-case class hooks the element emits (`theme-chooser-option`,
-  `locale-chooser-option`, etc.).
+  kebab-case class hooks the element emits (`theme-picker-option`,
+  `locale-picker-option`, etc.).
 - One rendering shape for the preference helpers. All three render an
   icon button that opens a `role="listbox"` dropdown (WAI-ARIA APG
   listbox pattern, keyboard implemented in JS). Do not reintroduce the
   native `<select>` — or its `placeholder` attribute — to any of them.
-  `<text-size-chooser>` was the last holdout and joined the other two;
+  `<text-size-picker>` was the last holdout and joined the other two;
   its glyph is `"A"` (U+0041) rather than a pictograph.
-- `<share-chooser>` is the deliberate exception to that rule: it is a
+- `<share-picker>` is the deliberate exception to that rule: it is a
   **disclosure** whose items are real `<a>` elements with no `role`
   override, and focus moves to the item rather than staying on the
   `<ul>` with `aria-activedescendant`. Share destinations are
@@ -46,6 +47,13 @@ Each helper follows the file shape in
   "harmonise" it into a listbox. It is also the first helper that owns
   an **action** rather than a user preference: it applies nothing to the
   document and persists nothing.
+- `<date-time-picker>` is a second, different kind of exception: it is a
+  **form control**, not a page-header preference widget, so its trigger
+  opens a `role="dialog"` month grid (WAI-ARIA APG Date Picker Dialog),
+  not a listbox. Like `<share-picker>` it persists nothing. Its `labels`
+  and `shortcuts` are property-only rather than JSON-encoded attributes
+  — see its `spec/index.md` §4.3 for why the object-attribute convention
+  below does not fit here.
 - Attributes are kebab-case; observed attributes trigger
   `attributeChangedCallback`. Array attributes are
   comma-separated strings; the matching JS property accepts an

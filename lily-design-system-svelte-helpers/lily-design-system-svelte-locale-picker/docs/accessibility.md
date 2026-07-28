@@ -161,7 +161,7 @@ The other consequences:
   component can compensate.
 - The name is invisible to sighted users. The globe glyph is a
   reasonably well-established convention for "language", which softens
-  this compared to `theme-chooser`'s `◑` — but a convention is not a
+  this compared to `theme-picker`'s `◑` — but a convention is not a
   label.
 
 What to do:
@@ -181,14 +181,14 @@ What to do:
   here: an endonym is readable by exactly the user who needs it.
 
   ```svelte
-  <LocaleChooser label="Language" {locales} bind:value={locale}>
+  <LocalePicker label="Language" {locales} bind:value={locale}>
     {#snippet children({ value, labelFor })}
       <span aria-hidden="true">🌐︎</span>
-      <span class="locale-chooser-text" lang={bcp47LocaleTag(value)}>
+      <span class="locale-picker-text" lang={bcp47LocaleTag(value)}>
         {labelFor(value)}
       </span>
     {/snippet}
-  </LocaleChooser>
+  </LocalePicker>
   ```
 
   This gives up the narrow-control benefit. For a locale select
@@ -256,7 +256,7 @@ user's device:
 - **The variation selector may be ignored.** VS15 *requests* text
   presentation; it does not guarantee it. A platform whose only
   covering font is a colour-emoji font will render a blue globe
-  regardless, which is precisely the mismatch with `theme-chooser`'s
+  regardless, which is precisely the mismatch with `theme-picker`'s
   monochrome `◑` that VS15 exists to prevent. Verified working in
   Chromium; not swept across every platform.
 - **It may substitute.** If the page's font stack lacks the codepoint,
@@ -283,7 +283,7 @@ exactly the user who cannot read the page and cannot hear the
 
 What to do:
 
-- **Set an explicit font stack** on `.locale-chooser-icon` that you have
+- **Set an explicit font stack** on `.locale-picker-icon` that you have
   verified covers the codepoint in text presentation on your target
   platforms.
 - **Or replace the glyph** via the `children` snippet with an inline
@@ -316,17 +316,17 @@ locale is self-evident only if you can read the page.
 
 ```svelte
 <script lang="ts">
-    import LocaleChooser, {
+    import LocalePicker, {
         bcp47LocaleTag,
         localeName,
-    } from "../LocaleChooser.svelte";
+    } from "../LocalePicker.svelte";
 
     let locale = $state("en");
 </script>
 
-<LocaleChooser label="Language" locales={["en", "fr", "ar"]} bind:value={locale} />
+<LocalePicker label="Language" locales={["en", "fr", "ar"]} bind:value={locale} />
 
-<p class="locale-chooser-status" aria-live="polite">
+<p class="locale-picker-status" aria-live="polite">
     Active language:
     <span lang={bcp47LocaleTag(locale)}>{localeName(locale)}</span>
 </p>
@@ -344,7 +344,7 @@ Why it is shaped this way:
   design genuinely cannot spare the space, keep the element and the
   live region and hide it visually with `clip-path: inset(50%)` — see
   [styling.md](./styling.md#the-status-line). Prefer visible.
-- **`.locale-chooser-status` is the class hook**, in the same kebab-case
+- **`.locale-picker-status` is the class hook**, in the same kebab-case
   convention as the rest of the system.
 - **`lang` on the name.** Wrapping the locale name in a `<span lang>`
   carries WCAG 3.1.2 (Language of Parts) through to the status line, so
@@ -368,7 +368,7 @@ large, 7:1 AAA) is your CSS's responsibility — for the button, the
 glyph, the listbox, and both option states.
 
 ```css
-.locale-chooser-button {
+.locale-picker-button {
     /* WCAG AAA-grade contrast against white */
     color: #003087; /* NHS blue */
     border: 1px solid #003087;

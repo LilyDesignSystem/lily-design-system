@@ -13,21 +13,21 @@
 
     Two things worth keeping straight:
 
-    - The ShareChooser itself is still rendered, and still needs to be. It
+    - The SharePicker itself is still rendered, and still needs to be. It
       owns the list, the status region, and the focus contract. Hiding it
       with display:none would take the list away too; if you do not want
-      the trigger visible, style .share-chooser-button — but then the
+      the trigger visible, style .share-picker-button — but then the
       control's accessible name has to live on YOUR button instead.
 
     - Your external button needs its own accessible name. Label names the
       component's trigger, not yours.
 *@
 
-@page "/examples/share-chooser/external-activation"
+@page "/examples/share-picker/external-activation"
 @rendermode InteractiveServer
 @using LilyDesignSystem.Blazor.Helpers
 
-<ShareChooser @ref="_share"
+<SharePicker @ref="_share"
              Label="Share this page"
              Targets="@Targets"
              CopyLabel="Copy link"
@@ -43,7 +43,7 @@
 <p aria-live="polite">@_last</p>
 
 @code {
-    private ShareChooser? _share;
+    private SharePicker? _share;
     private string _last = "";
 
     private async Task ActivateAsync()

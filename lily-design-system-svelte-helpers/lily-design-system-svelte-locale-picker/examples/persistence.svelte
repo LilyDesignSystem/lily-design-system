@@ -49,16 +49,16 @@
     The matcher is exported if you want to run it server-side against
     an Accept-Language header instead:
 
-        import { matchNavigatorLanguage } from "../LocaleChooser.svelte";
+        import { matchNavigatorLanguage } from "../LocalePicker.svelte";
         matchNavigatorLanguage(["fr-CA", "fr"], ["en", "fr"]);  // "fr"
 -->
 <script lang="ts">
-    import LocaleChooser, { localeName } from "../LocaleChooser.svelte";
+    import LocalePicker, { localeName } from "../LocalePicker.svelte";
 
     let locale = $state("");
 </script>
 
-<LocaleChooser
+<LocalePicker
     label="Language"
     locales={["en", "fr", "fr_CA", "es", "de", "ar"]}
     bind:value={locale}
@@ -66,7 +66,7 @@
     detectFromNavigator
 />
 
-<p class="locale-chooser-status" aria-live="polite">
+<p class="locale-picker-status" aria-live="polite">
     Active language: {localeName(locale)}
 </p>
 

@@ -9,30 +9,31 @@ their package changes.
 
 ### Changed (BREAKING — all four helpers renamed)
 
-- Every helper in the catalog is renamed to `*-chooser`:
+- Every helper in the catalog is renamed to `*-picker`:
 
-  | Was | Now |
-  | --- | --- |
-  | `lily-design-system-react-theme-select` | `lily-design-system-react-theme-chooser` |
-  | `lily-design-system-react-locale-select` | `lily-design-system-react-locale-chooser` |
-  | `lily-design-system-react-text-size-select` | `lily-design-system-react-text-size-chooser` |
-  | `lily-design-system-react-share-button` | `lily-design-system-react-share-chooser` |
+  | Was                                         | Now                                         |
+  | ------------------------------------------- | ------------------------------------------- |
+  | `lily-design-system-react-theme-select`     | `lily-design-system-react-theme-picker`     |
+  | `lily-design-system-react-locale-select`    | `lily-design-system-react-locale-picker`    |
+  | `lily-design-system-react-text-size-select` | `lily-design-system-react-text-size-picker` |
+  | `lily-design-system-react-share-button`     | `lily-design-system-react-share-picker`     |
 
-  The rename is full-depth: directories, file names (`ThemeChooser.tsx` →
-  `ThemeChooser.tsx` and so on), package ids, exported symbols
-  (`ThemeChooser` → `ThemeChooser`, `LocaleChooser` → `LocaleChooser`,
-  `TextSizeChooser` → `TextSizeChooser`, `ShareChooser` → `ShareChooser`,
-  plus derived names such as `nextShareChooserId` → `nextShareChooserId`),
-  CSS class hooks (`.theme-chooser*` → `.theme-chooser*`, `.share-chooser*`
-  → `.share-chooser*`), and data attributes (`data-lily-theme-select` →
-  `data-lily-theme-chooser`, and the locale / text-size equivalents).
-- `theme-chooser` in particular collided with the catalog component of the
+  The rename is full-depth: directories, file names (`ThemePicker.tsx` →
+  `ThemePicker.tsx` and so on), package ids, exported symbols
+  (`ThemePicker` → `ThemePicker`, `LocalePicker` → `LocalePicker`,
+  `TextSizePicker` → `TextSizePicker`, `SharePicker` → `SharePicker`,
+  plus derived names such as `nextSharePickerId` → `nextSharePickerId`),
+  CSS class hooks (`.theme-picker*` → `.theme-picker*`, `.share-picker*`
+  → `.share-picker*`), and data attributes (`data-lily-theme-select` →
+  `data-lily-theme-picker`, and the locale / text-size equivalents).
+
+- `theme-picker` in particular collided with the catalog component of the
   same slug in `components.tsv` — a genuine `<select>` that owns the
-  `.theme-chooser` hook. None of these helpers has been a `<select>` since
-  the listbox port, so `-chooser` is both accurate and unambiguous.
-- `share-chooser` loses its naming exception. Its trigger hook was
+  `.theme-picker` hook. None of these helpers has been a `<select>` since
+  the listbox port, so `-picker` is both accurate and unambiguous.
+- `share-picker` loses its naming exception. Its trigger hook was
   `share-button-trigger` only because `.share-button-button` read badly;
-  it is now `share-chooser-button`, matching the other three.
+  it is now `share-picker-button`, matching the other three.
 - **All four packages reset to `0.1.0`.** A renamed npm package carries no
   history, so continuing at 0.4.0 / 0.2.0 / 0.1.0 would imply releases
   that never existed under these names. Nothing had been published, so
@@ -56,8 +57,8 @@ and `*-share-button`.
 
 ### Changed (BREAKING)
 
-- `theme-chooser` and `locale-chooser` bumped to **0.3.0**: both are now
-  *placeholder-pinned*. The closed `<select>` always displays a short
+- `theme-picker` and `locale-picker` bumped to **0.3.0**: both are now
+  _placeholder-pinned_. The closed `<select>` always displays a short
   placeholder word ("Theme", "Locale") instead of the active value, so
   the control is only ever as wide as that word rather than as wide as
   the longest option. Each renders a leading placeholder `<option>` with
@@ -70,7 +71,7 @@ and `*-share-button`.
   selection. The bindable `value` prop is the single source of truth.
   Behaviour contracts (DOM application, persistence, SSR safety, i18n)
   are otherwise unchanged.
-- `text-size-chooser` is untouched and stays at **0.1.0**.
+- `text-size-picker` is untouched and stays at **0.1.0**.
 
 ### Added
 
@@ -85,7 +86,7 @@ and `*-share-button`.
 
 ### Changed (BREAKING)
 
-- `theme-chooser` and `locale-chooser` bumped to **0.2.0**: migrated from
+- `theme-picker` and `locale-picker` bumped to **0.2.0**: migrated from
   the radio-group "picker" rendering to a native `<select>` with
   `<option>` children (landed in-tree 2026-06-17), with renamed packages
   (`*-picker` → `*-select`), changed class hooks, and native `<select>`
@@ -94,7 +95,7 @@ and `*-share-button`.
 
 ### Added
 
-- `text-size-chooser` **0.1.0** — native-`<select>` text-size helper that
+- `text-size-picker` **0.1.0** — native-`<select>` text-size helper that
   sets `data-text-size` on the document root, with optional
   `localStorage` persistence (added 2026-06-17; born select-based, so it
   carries no picker migration).
@@ -104,10 +105,10 @@ and `*-share-button`.
 ### Added
 
 - Initial catalog scaffold with two helpers:
-  - [`lily-design-system-react-theme-chooser`](./lily-design-system-react-theme-chooser/)
+  - [`lily-design-system-react-theme-picker`](./lily-design-system-react-theme-picker/)
     — dynamic theme CSS loader (`<link>` swap + `data-theme`).
-  - [`lily-design-system-react-locale-chooser`](./lily-design-system-react-locale-chooser/)
-    — `lang` + `dir` locale chooser with BCP 47 normalisation and
+  - [`lily-design-system-react-locale-picker`](./lily-design-system-react-locale-picker/)
+    — `lang` + `dir` locale picker with BCP 47 normalisation and
     optional `navigator.languages` detection.
 - Parent README (`index.md`) describing the catalog conventions:
   React 19 function components, `"use client"` directive, controlled

@@ -14,7 +14,7 @@
     Two things this example does NOT ship, because the package is
     headless, and which you must supply yourself:
 
-    1. Positioning CSS for .locale-chooser-list. Without it the listbox
+    1. Positioning CSS for .locale-picker-list. Without it the listbox
        renders in normal document flow and shoves the page down when it
        opens. Use logical properties (inset-inline-start, not left) —
        this control flips the page to RTL, and a popup pinned with
@@ -50,17 +50,17 @@
     WCAG 3.1.2 (Language of Parts) is satisfied for that fragment.
 -->
 <script lang="ts">
-    import LocaleChooser, { localeName } from "../LocaleChooser.svelte";
+    import LocalePicker, { localeName } from "../LocalePicker.svelte";
 
     let locale = $state("en");
 </script>
 
-<LocaleChooser
+<LocalePicker
     label="Choose your language"
     locales={["en", "fr", "ar"]}
     bind:value={locale}
 />
 
-<p class="locale-chooser-status" aria-live="polite">
+<p class="locale-picker-status" aria-live="polite">
     Active language: {localeName(locale)}
 </p>

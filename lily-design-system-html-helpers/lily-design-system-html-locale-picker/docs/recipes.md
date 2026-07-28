@@ -1,11 +1,11 @@
 # Recipes
 
 Task-shaped snippets. Each is self-contained; each assumes the element
-is registered (`import "lily-design-system-html-locale-chooser"`) and
+is registered (`import "lily-design-system-html-locale-picker"`) and
 that you have applied at least the positioning CSS from
 [styling.md](./styling.md).
 
-Throughout, `el` is `document.querySelector("locale-chooser") as LocaleChooser`.
+Throughout, `el` is `document.querySelector("locale-picker") as LocalePicker`.
 
 ## Follow the browser's language on first visit
 
@@ -13,12 +13,12 @@ Opt in with the boolean attribute. It only applies when there is no
 `value` and nothing in storage, so it never overrides a real choice:
 
 ```html
-<locale-chooser
+<locale-picker
   label="Choose language"
   locales="en,fr,de,ar"
   storage-key="myapp:locale"
   detect-from-navigator
-></locale-chooser>
+></locale-picker>
 ```
 
 Resolution order is `value` > storage > navigator > `default-value` >
@@ -31,7 +31,7 @@ the wrong language and keeps cached HTML unambiguous. Reuse the same
 matching rule the element uses so client and server never disagree:
 
 ```ts
-import { matchNavigatorLanguage } from "lily-design-system-html-locale-chooser";
+import { matchNavigatorLanguage } from "lily-design-system-html-locale-picker";
 
 const SUPPORTED = ["en", "fr", "de", "ar"];
 
@@ -48,8 +48,10 @@ function parseAcceptLanguage(header: string): string[] {
 }
 
 const locale =
-  matchNavigatorLanguage(parseAcceptLanguage(req.headers["accept-language"] ?? ""), SUPPORTED) ||
-  "en";
+  matchNavigatorLanguage(
+    parseAcceptLanguage(req.headers["accept-language"] ?? ""),
+    SUPPORTED,
+  ) || "en";
 ```
 
 Then render `value="${locale}"` on the element and leave
@@ -65,12 +67,12 @@ element adopts it without a flash.
 {# Eleventy / Nunjucks #}
 <html lang="{{ locale | bcp47 }}" dir="{{ locale | dir }}">
   ...
-  <locale-chooser
+  <locale-picker
     label="{{ 'nav.language' | t }}"
     locales="en,fr,ar"
     value="{{ locale }}"
     name="locale"
-  ></locale-chooser>
+  ></locale-picker>
 ```
 
 Set `lang` and `dir` on the server-rendered `<html>` too. The element
@@ -86,8 +88,7 @@ server on the next request — skip `storage-key` and write it yourself:
 ```ts
 el.addEventListener("localechange", (e) => {
   const { locale } = (e as CustomEvent<{ locale: string }>).detail;
-  document.cookie =
-    `locale=${encodeURIComponent(locale)}; path=/; max-age=31536000; samesite=lax`;
+  document.cookie = `locale=${encodeURIComponent(locale)}; path=/; max-age=31536000; samesite=lax`;
 });
 ```
 
@@ -118,7 +119,7 @@ loop. Compare against the current locale first:
 let current = el.value;
 el.addEventListener("localechange", (e) => {
   const { locale } = (e as CustomEvent<{ locale: string }>).detail;
-  if (locale === current) return;   // initial apply, or a no-op re-set
+  if (locale === current) return; // initial apply, or a no-op re-set
   current = locale;
   location.assign(/* … */);
 });
@@ -187,18 +188,18 @@ Two-letter codes are a common alternative to the globe glyph. Subclass
 and override the tier-1 hook; the base class keeps all aria wiring:
 
 ```ts
-import { LocaleChooser } from "lily-design-system-html-locale-chooser";
+import { LocalePicker } from "lily-design-system-html-locale-picker";
 
-class CodeLocaleChooser extends LocaleChooser {
+class CodeLocalePicker extends LocalePicker {
   renderButtonContent(): Node {
     const span = document.createElement("span");
-    span.className = "locale-chooser-code";
+    span.className = "locale-picker-code";
     span.setAttribute("aria-hidden", "true");
-    span.textContent = this.value.split(/[-_]/)[0].toUpperCase();  // "fr_CA" → "FR"
+    span.textContent = this.value.split(/[-_]/)[0].toUpperCase(); // "fr_CA" → "FR"
     return span;
   }
 }
-customElements.define("code-locale-chooser", CodeLocaleChooser);
+customElements.define("code-locale-picker", CodeLocalePicker);
 ```
 
 Keep `aria-hidden="true"`: the accessible name still comes from
@@ -220,7 +221,7 @@ language and previewing another. Because `dir` is scoped too, the
 preview flips independently — which is exactly what you want, and
 also why the surrounding chrome must use logical properties.
 
-Note this sets a *part* language (WCAG 3.1.2), not the document
+Note this sets a _part_ language (WCAG 3.1.2), not the document
 language (WCAG 3.1.1). A scoped select should not be the page's only
 locale control.
 
@@ -230,7 +231,11 @@ If a framework or template already writes `dir`, turn the element's
 half off rather than letting two writers fight:
 
 ```html
-<locale-chooser label="Language" locales="en,ar" apply-dir="false"></locale-chooser>
+<locale-picker
+  label="Language"
+  locales="en,ar"
+  apply-dir="false"
+></locale-picker>
 ```
 
 The element still writes `lang`, still persists, still fires
@@ -238,7 +243,7 @@ The element still writes `lang`, still persists, still fires
 the rule stays identical:
 
 ```ts
-import { isRtlLocale } from "lily-design-system-html-locale-chooser";
+import { isRtlLocale } from "lily-design-system-html-locale-picker";
 router.afterEach(() => {
   document.documentElement.dir = isRtlLocale(currentLocale) ? "rtl" : "ltr";
 });
@@ -247,11 +252,11 @@ router.afterEach(() => {
 ## Open or close the list from your own code
 
 ```ts
-el.openList();                 // selected option active (or index 0)
-el.openList(0);                // force the first option active
-el.closeList();                // close, return focus to the button
-el.closeList(false);           // close without stealing focus
-el.open;                       // → boolean, read-only
+el.openList(); // selected option active (or index 0)
+el.openList(0); // force the first option active
+el.closeList(); // close, return focus to the button
+el.closeList(false); // close without stealing focus
+el.open; // → boolean, read-only
 ```
 
 Opening moves focus to the `<ul>`, so only call `openList()` in
@@ -260,13 +265,13 @@ keyboard users who did not ask for it.
 
 ## Sync the locale across tabs
 
-`localStorage` fires `storage` in *other* tabs only, so this cannot
+`localStorage` fires `storage` in _other_ tabs only, so this cannot
 loop:
 
 ```ts
 addEventListener("storage", (e) => {
   if (e.key === "myapp:locale" && e.newValue && e.newValue !== el.value) {
-    el.value = e.newValue;   // runs the full apply lifecycle
+    el.value = e.newValue; // runs the full apply lifecycle
   }
 });
 ```
@@ -326,6 +331,6 @@ Property setters only exist once the class is defined. Setting
 `el.locales` before then just puts an expando on a plain element:
 
 ```ts
-await customElements.whenDefined("locale-chooser");
-(document.querySelector("locale-chooser") as LocaleChooser).locales = LOCALES;
+await customElements.whenDefined("locale-picker");
+(document.querySelector("locale-picker") as LocalePicker).locales = LOCALES;
 ```

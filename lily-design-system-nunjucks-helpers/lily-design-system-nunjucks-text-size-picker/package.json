@@ -1,7 +1,7 @@
 {
-  "name": "lily-design-system-nunjucks-text-size-chooser",
+  "name": "lily-design-system-nunjucks-text-size-picker",
   "version": "0.1.0",
-  "description": "Lily Design System - Nunjucks 3 text size chooser",
+  "description": "Lily Design System - Nunjucks 3 text size picker",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -11,7 +11,7 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./template": "./dist/text-size-chooser.njk"
+    "./template": "./dist/text-size-picker.njk"
   },
   "files": [
     "dist",
@@ -27,7 +27,7 @@
     "system",
     "nunjucks",
     "text-size",
-    "chooser"
+    "picker"
   ],
   "author": "joel@joelparkerhenderson.com",
   "license": "MIT"

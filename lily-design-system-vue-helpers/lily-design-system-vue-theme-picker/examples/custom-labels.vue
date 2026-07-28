@@ -6,7 +6,7 @@
     don't gracefully title-case (e.g. country-prefixed Lily theme slugs).
 -->
 <script setup lang="ts">
-import ThemeChooser from "../ThemeChooser.vue";
+import ThemePicker from "../ThemePicker.vue";
 
 const labels: Record<string, string> = {
     light: "Clair",
@@ -17,7 +17,7 @@ const labels: Record<string, string> = {
 </script>
 
 <template>
-    <ThemeChooser
+    <ThemePicker
         label="Thème"
         themes-url="/assets/themes/"
         :themes="[

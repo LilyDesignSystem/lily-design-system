@@ -1,15 +1,15 @@
-# LocaleChooser — Specification
+# LocalePicker — Specification
 
 Single source of truth for the
-`lily-design-system-angular-locale-chooser` Angular helper. This file
+`lily-design-system-angular-locale-picker` Angular helper. This file
 drives implementation, testing, and documentation in the
 spec-driven-development style: anything not in this spec is out of
 scope; anything in this spec must be exercised by a test.
 
 Sibling files in this directory:
 
-- `locale-chooser.component.ts` — the implementation
-- `locale-chooser.component.spec.ts` — vitest spec exercising every clause in §4–§7
+- `locale-picker.component.ts` — the implementation
+- `locale-picker.component.spec.ts` — vitest spec exercising every clause in §4–§7
 - `locales.ts` — built-in locale-code → English-name table and RTL sets,
   derived from `locales.tsv`
 - `locales.tsv` — canonical 436-row list of locale codes and English names
@@ -20,7 +20,7 @@ Sibling files in this directory:
 
 ## 1. Goal
 
-Give an Angular 20 application a drop-in, headless locale chooser that:
+Give an Angular 20 application a drop-in, headless locale picker that:
 
 1. Renders an accessible icon button that opens a WAI-ARIA APG
    listbox of available locales.
@@ -35,7 +35,7 @@ Give an Angular 20 application a drop-in, headless locale chooser that:
 5. Optionally falls back to `navigator.language` on first visit when
    no value, storage entry, or default is supplied.
 6. Ships zero CSS — the consumer styles every visual aspect via the
-   `locale-chooser` class hook and the `lang` / `dir` attributes.
+   `locale-picker` class hook and the `lang` / `dir` attributes.
 7. Provides BCP 47-compliant tag output. Underscores in locale codes
    (e.g. `en_US`) are converted to hyphens (`en-US`) when written to
    the `lang` attribute, per RFC 5646.
@@ -76,14 +76,14 @@ Give an Angular 20 application a drop-in, headless locale chooser that:
 - **Form participation via a hidden input.** Because there is no
   `<select>`, a `<input type="hidden" [name] [value]>` carries the
   value into an enclosing `<form>`.
-- **Per-instance ids from a module counter.** `nextLocaleChooserId()`
+- **Per-instance ids from a module counter.** `nextLocalePickerId()`
   increments a module-scoped integer. It is deliberately not
   `Math.random()` / `Date.now()` so server and client render the
   same ids and hydration does not mismatch.
 - **The projected `<ng-template>` replaces the glyph, nothing more.**
   Angular's answer to the Svelte canonical's `children` snippet. The
   component queries any projected template with
-  `contentChild(TemplateRef)`; the exported `LocaleChooserIcon`
+  `contentChild(TemplateRef)`; the exported `LocalePickerIcon`
   marker directive exists only to give consumers typed `let-`
   variables.
 - **The `lang` attribute is the source of truth.** `dir` is the
@@ -96,7 +96,7 @@ Give an Angular 20 application a drop-in, headless locale chooser that:
 - **No dependencies beyond `@angular/core` / `@angular/common`.**
 - **Pure helper functions exported** so consumers can reuse them
   outside the component: `bcp47LocaleTag`, `isRtlLocale`,
-  `localeName`, `matchNavigatorLanguage`, plus `nextLocaleChooserId`
+  `localeName`, `matchNavigatorLanguage`, plus `nextLocalePickerId`
   and re-exports of `defaultLocaleLabels`, `RTL_LANGUAGE_TAGS`,
   `RTL_SCRIPT_SUBTAGS`.
 - **No template casts.** The catalog-wide `$any($event.target).value`
@@ -114,20 +114,20 @@ Give an Angular 20 application a drop-in, headless locale chooser that:
 
 ### 4.1 Inputs / outputs
 
-| Input / output        | Type                                | Required | Default                          | Purpose |
-| --------------------- | ----------------------------------- | -------- | -------------------------------- | ------- |
-| `label`               | `input.required<string>()`          | yes      | —                                | Accessible name for the button **and** the listbox. The button is icon-only, so this is its only accessible name. |
-| `locales`             | `input.required<string[]>()`        | yes      | —                                | Available locale codes. |
-| `value`               | `model<string>()`                   | no       | `""`                             | Currently selected locale code. Two-way bindable. |
-| `defaultValue`        | `input<string>()`                   | no       | `""`                             | Initial locale when nothing else is supplied. |
-| `storageKey`          | `input<string>()`                   | no       | `""`                             | If non-empty, persist the selection to `localStorage` under this key. |
-| `detectFromNavigator` | `input<boolean>()`                  | no       | `false`                          | Resolve `navigator.languages` on first visit. |
-| `name`                | `input<string>()`                   | no       | `"locale"`                       | `name` attribute of the hidden input that carries the value into an enclosing form. |
-| `target`              | `input<HTMLElement \| null>()`      | no       | `null` (→ `document.documentElement`) | Element that receives `lang` and `dir`. |
-| `applyDir`            | `input<boolean>()`                  | no       | `true`                           | If false, the select only writes `lang`. |
-| `localeLabels`        | `input<Record<string, string>>()`   | no       | `{}`                             | Optional pretty labels per locale code. |
-| `className`           | `input<string>()`                   | no       | `""`                             | Extra CSS class appended to the root `<div>`. |
-| `localeChange`        | `output<string>()`                  | no       | —                                | Emits after the select applies a new locale (consumer-form code). |
+| Input / output        | Type                              | Required | Default                               | Purpose                                                                                                           |
+| --------------------- | --------------------------------- | -------- | ------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `label`               | `input.required<string>()`        | yes      | —                                     | Accessible name for the button **and** the listbox. The button is icon-only, so this is its only accessible name. |
+| `locales`             | `input.required<string[]>()`      | yes      | —                                     | Available locale codes.                                                                                           |
+| `value`               | `model<string>()`                 | no       | `""`                                  | Currently selected locale code. Two-way bindable.                                                                 |
+| `defaultValue`        | `input<string>()`                 | no       | `""`                                  | Initial locale when nothing else is supplied.                                                                     |
+| `storageKey`          | `input<string>()`                 | no       | `""`                                  | If non-empty, persist the selection to `localStorage` under this key.                                             |
+| `detectFromNavigator` | `input<boolean>()`                | no       | `false`                               | Resolve `navigator.languages` on first visit.                                                                     |
+| `name`                | `input<string>()`                 | no       | `"locale"`                            | `name` attribute of the hidden input that carries the value into an enclosing form.                               |
+| `target`              | `input<HTMLElement \| null>()`    | no       | `null` (→ `document.documentElement`) | Element that receives `lang` and `dir`.                                                                           |
+| `applyDir`            | `input<boolean>()`                | no       | `true`                                | If false, the select only writes `lang`.                                                                          |
+| `localeLabels`        | `input<Record<string, string>>()` | no       | `{}`                                  | Optional pretty labels per locale code.                                                                           |
+| `className`           | `input<string>()`                 | no       | `""`                                  | Extra CSS class appended to the root `<div>`.                                                                     |
+| `localeChange`        | `output<string>()`                | no       | —                                     | Emits after the select applies a new locale (consumer-form code).                                                 |
 
 ### 4.2 Content projection
 
@@ -136,23 +136,23 @@ the button. It does **not** render options — the listbox is
 component-owned.
 
 ```html
-<lily-locale-chooser label="Language" [locales]="locales">
+<lily-locale-picker label="Language" [locales]="locales">
   <ng-template let-args>{{ args.labelFor(args.value) }}</ng-template>
-</lily-locale-chooser>
+</lily-locale-picker>
 ```
 
 The template receives the `ChildArgs` context both as `$implicit`
 and as named properties:
 
-| Context key | Type                            | Meaning |
-| ----------- | ------------------------------- | ------- |
-| `$implicit` | `ChildArgs`                     | The whole context, for `let-args`. |
-| `value`     | `string`                        | Selected locale code, consumer form. |
-| `open`      | `boolean`                       | Is the listbox open? |
-| `labelFor`  | `(locale: string) => string`    | Resolve a code to its display label. |
+| Context key | Type                         | Meaning                              |
+| ----------- | ---------------------------- | ------------------------------------ |
+| `$implicit` | `ChildArgs`                  | The whole context, for `let-args`.   |
+| `value`     | `string`                     | Selected locale code, consumer form. |
+| `open`      | `boolean`                    | Is the listbox open?                 |
+| `labelFor`  | `(locale: string) => string` | Resolve a code to its display label. |
 
-The exported `LocaleChooserIcon` marker directive (selector
-`ng-template[lilyLocaleChooserIcon]`) is optional. The component
+The exported `LocalePickerIcon` marker directive (selector
+`ng-template[lilyLocalePickerIcon]`) is optional. The component
 queries any projected `<ng-template>` via `contentChild(TemplateRef)`,
 so the marker is for type-checking and readability, not matching.
 
@@ -161,16 +161,36 @@ so the marker is for type-checking and readability, not matching.
 The rendered tree, with the listbox closed:
 
 ```html
-<div class="locale-chooser {className}">
+<div class="locale-picker {className}">
   <input type="hidden" name="{name}" value="{value}" />
-  <button type="button" class="locale-chooser-button" aria-label="{label}"
-          aria-haspopup="listbox" aria-expanded="false" aria-controls="{listId}">
-    <span class="locale-chooser-icon" aria-hidden="true">&#127760;</span>
+  <button
+    type="button"
+    class="locale-picker-button"
+    aria-label="{label}"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="{listId}"
+  >
+    <span class="locale-picker-icon" aria-hidden="true">&#127760;</span>
   </button>
-  <ul class="locale-chooser-list" id="{listId}" role="listbox" aria-label="{label}"
-      tabindex="-1" hidden>
-    <li class="locale-chooser-option" id="{listId-less base}-option-0" role="option"
-        aria-selected="true" data-active lang="en-US">English (United States)</li>
+  <ul
+    class="locale-picker-list"
+    id="{listId}"
+    role="listbox"
+    aria-label="{label}"
+    tabindex="-1"
+    hidden
+  >
+    <li
+      class="locale-picker-option"
+      id="{listId-less base}-option-0"
+      role="option"
+      aria-selected="true"
+      data-active
+      lang="en-US"
+    >
+      English (United States)
+    </li>
     …
   </ul>
 </div>
@@ -178,28 +198,28 @@ The rendered tree, with the listbox closed:
 
 Element by element:
 
-- **Root** — a `<div>` carrying the `locale-chooser` class hook plus
+- **Root** — a `<div>` carrying the `locale-picker` class hook plus
   the consumer's `className`. It is the click / focus boundary: a
   click outside it, or focus leaving it, closes the listbox.
 - **Hidden input** — `<input type="hidden">` carrying `name` and the
   current `value`, so the control participates in an enclosing
   `<form>` exactly as the old `<select>` did.
 - **Button** — `type="button"` (never submits), class
-  `locale-chooser-button`, `aria-label="{label}"`,
+  `locale-picker-button`, `aria-label="{label}"`,
   `aria-haspopup="listbox"`, `aria-expanded` tracking the open state,
   and `aria-controls` pointing at the list's `id`.
-- **Glyph** — `<span class="locale-chooser-icon" aria-hidden="true">`
+- **Glyph** — `<span class="locale-picker-icon" aria-hidden="true">`
   containing U+1F310 GLOBE WITH MERIDIANS (`&#127760;`), exported as
   the constant `GLOBE_WITH_MERIDIANS`. It is hidden from assistive
   technology because `aria-label` on the button already names the
   control. A projected `<ng-template>` (§4.2) replaces this span
   entirely.
-- **List** — `<ul class="locale-chooser-list">` with `role="listbox"`,
+- **List** — `<ul class="locale-picker-list">` with `role="listbox"`,
   its own `aria-label="{label}"`, `tabindex="-1"` so it can receive
   focus programmatically, and the `hidden` attribute while closed.
   While open it carries `aria-activedescendant` pointing at the
   active option's `id`; while closed the attribute is absent.
-- **Options** — one `<li class="locale-chooser-option" role="option">`
+- **Options** — one `<li class="locale-picker-option" role="option">`
   per locale code, each with a stable per-instance `id`,
   `aria-selected` (`"true"` on the selected locale, `"false"`
   otherwise), `data-active` on the keyboard-active option while open,
@@ -213,9 +233,9 @@ Further rules:
   (WCAG 3.1.2, Language of Parts). Putting a `lang` on the button or
   the `<ul>` would mislabel the language of the control's own chrome,
   so neither carries one.
-- **Ids are stable and unique per instance.** `nextLocaleChooserId()`
+- **Ids are stable and unique per instance.** `nextLocalePickerId()`
   increments a module-scoped counter to produce a base id; the list
-  is `{base}-list` and option *i* is `{base}-option-{i}`. No
+  is `{base}-list` and option _i_ is `{base}-option-{i}`. No
   randomness and no clock read, so SSR and client hydration agree.
 - **`value` is the single source of truth.** Every downstream
   behaviour (`lang`, `dir`, persistence, `localeChange`) is driven
@@ -226,17 +246,17 @@ Further rules:
   `target` element on every apply.
 - The list sits in normal document flow and this package ships zero
   CSS. Overlaying it is consumer CSS — typically `position: absolute`
-  on `.locale-chooser-list` with `position: relative` on
-  `.locale-chooser`.
+  on `.locale-picker-list` with `position: relative` on
+  `.locale-picker`.
 
 ### 4.4 Re-exports
 
 `index.ts` exports:
 
-- `LocaleChooser` (the component class)
-- `LocaleChooserIcon` (the optional icon-template marker directive)
+- `LocalePicker` (the component class)
+- `LocalePickerIcon` (the optional icon-template marker directive)
 - `GLOBE_WITH_MERIDIANS` (the default button glyph)
-- `nextLocaleChooserId` (the per-instance id generator)
+- `nextLocalePickerId` (the per-instance id generator)
 - `bcp47LocaleTag`, `isRtlLocale`, `localeName`,
   `matchNavigatorLanguage` (pure helpers)
 - `defaultLocaleLabels`, `RTL_LANGUAGE_TAGS`, `RTL_SCRIPT_SUBTAGS`
@@ -359,19 +379,19 @@ The control implements the
 with a collapsing button. Nothing here is inherited from the
 platform: every role, state, and key is the component's own.
 
-| Element  | Role / property                                     | Source         |
-| -------- | --------------------------------------------------- | -------------- |
-| `<div>`  | none (structural; click / focus boundary)            | Component      |
-| `<input type="hidden">` | `name`, `value`                       | Component      |
-| `<button>` | `aria-label={label}`                              | Consumer input |
-| `<button>` | `aria-haspopup="listbox"`                         | Component      |
-| `<button>` | `aria-expanded="true|false"`                      | Component      |
-| `<button>` | `aria-controls={listId}`                          | Component      |
-| `<span>` | `aria-hidden="true"` (the glyph)                     | Component      |
-| `<ul>`   | `role="listbox"`, `aria-label={label}`, `tabindex="-1"` | Component  |
-| `<ul>`   | `aria-activedescendant={optionId}` (open only)       | Component      |
-| `<li>`   | `role="option"`, `aria-selected`                     | Component      |
-| `<li>`   | `lang={tagFor(locale)}`                              | Component      |
+| Element                 | Role / property                                         | Source         |
+| ----------------------- | ------------------------------------------------------- | -------------- |
+| `<div>`                 | none (structural; click / focus boundary)               | Component      |
+| `<input type="hidden">` | `name`, `value`                                         | Component      |
+| `<button>`              | `aria-label={label}`                                    | Consumer input |
+| `<button>`              | `aria-haspopup="listbox"`                               | Component      |
+| `<button>`              | `aria-expanded="true                                    | false"`        | Component |
+| `<button>`              | `aria-controls={listId}`                                | Component      |
+| `<span>`                | `aria-hidden="true"` (the glyph)                        | Component      |
+| `<ul>`                  | `role="listbox"`, `aria-label={label}`, `tabindex="-1"` | Component      |
+| `<ul>`                  | `aria-activedescendant={optionId}` (open only)          | Component      |
+| `<li>`                  | `role="option"`, `aria-selected`                        | Component      |
+| `<li>`                  | `lang={tagFor(locale)}`                                 | Component      |
 
 Notes:
 
@@ -396,34 +416,34 @@ Implemented by the component, following the APG listbox pattern.
 
 On the **button**:
 
-| Key                       | Action                                                     |
-| ------------------------- | ---------------------------------------------------------- |
-| `Tab` / `Shift+Tab`       | Move focus to / from the button.                           |
-| `Enter` / `Space`         | Open the list, active option = the selected one (else 0).  |
-| `Arrow Down`              | Open the list, active option = the selected one (else 0).  |
-| `Arrow Up`                | Open the list, active option = the **last** one.           |
+| Key                 | Action                                                    |
+| ------------------- | --------------------------------------------------------- |
+| `Tab` / `Shift+Tab` | Move focus to / from the button.                          |
+| `Enter` / `Space`   | Open the list, active option = the selected one (else 0). |
+| `Arrow Down`        | Open the list, active option = the selected one (else 0). |
+| `Arrow Up`          | Open the list, active option = the **last** one.          |
 
 Opening always moves focus to the `<ul>`.
 
 On the **listbox**:
 
-| Key                       | Action                                                     |
-| ------------------------- | ---------------------------------------------------------- |
-| `Arrow Down` / `Arrow Up` | Move the active option one step; **clamps**, never wraps.  |
-| `Home` / `End`            | Jump to the first / last option.                           |
-| `Enter` / `Space`         | Select the active option, apply it, close, refocus button. |
-| `Escape`                  | Close and refocus the button; the value is unchanged.      |
-| `Tab`                     | Close **without** stealing focus back; the browser moves on. |
+| Key                       | Action                                                                               |
+| ------------------------- | ------------------------------------------------------------------------------------ |
+| `Arrow Down` / `Arrow Up` | Move the active option one step; **clamps**, never wraps.                            |
+| `Home` / `End`            | Jump to the first / last option.                                                     |
+| `Enter` / `Space`         | Select the active option, apply it, close, refocus button.                           |
+| `Escape`                  | Close and refocus the button; the value is unchanged.                                |
+| `Tab`                     | Close **without** stealing focus back; the browser moves on.                         |
 | Printable characters      | Typeahead over the option **labels**; buffer clears 500 ms after the last keystroke. |
 
 Pointer and focus equivalents:
 
-| Interaction              | Action                                        |
-| ------------------------ | --------------------------------------------- |
-| Click the button         | Toggle the list open / closed.                |
-| Click an option          | Select it, apply it, and close.               |
-| Click outside the root   | Close, leaving focus where it is.             |
-| Focus leaves the root    | Close, leaving focus where it is.             |
+| Interaction            | Action                            |
+| ---------------------- | --------------------------------- |
+| Click the button       | Toggle the list open / closed.    |
+| Click an option        | Select it, apply it, and close.   |
+| Click outside the root | Close, leaving focus where it is. |
+| Focus leaves the root  | Close, leaving focus where it is. |
 
 ### 6.3 Internationalisation
 
@@ -438,7 +458,7 @@ Language Subtag Registry is the single authoritative source.
 
 ## 7. Testing acceptance criteria
 
-`locale-chooser.component.spec.ts` must assert every numbered item
+`locale-picker.component.spec.ts` must assert every numbered item
 below. Tests run under vitest + jsdom + `@angular/core/testing`
 `TestBed`.
 
@@ -447,8 +467,8 @@ below. Tests run under vitest + jsdom + `@angular/core/testing`
 1. Renders a `<button type="button">` with `aria-haspopup="listbox"`,
    `aria-expanded="false"`, and an `aria-controls` matching the
    `<ul role="listbox">`'s `id`; the root is a `<div>` carrying the
-   `locale-chooser` class hook plus the consumer's `className`; the
-   button contains a `.locale-chooser-icon` span holding U+1F310
+   `locale-picker` class hook plus the consumer's `className`; the
+   button contains a `.locale-picker-icon` span holding U+1F310
    (equal to `GLOBE_WITH_MERIDIANS`) and marked `aria-hidden="true"`.
 2. `aria-label` is the supplied `label` on **both** the button and
    the listbox.
@@ -463,7 +483,7 @@ below. Tests run under vitest + jsdom + `@angular/core/testing`
 5. Each option carries `lang="{tagFor(locale)}"` (BCP 47 hyphen
    form); the button and the list carry no `lang` of their own.
 6. The visible option text is `localeLabels[code]
-   ?? defaultLocaleLabels[code] ?? Intl.DisplayNames ?? code`.
+?? defaultLocaleLabels[code] ?? Intl.DisplayNames ?? code`.
 
 ### 7.2 Pure helpers (mirrors §5.1, §5.6)
 
@@ -508,7 +528,7 @@ below. Tests run under vitest + jsdom + `@angular/core/testing`
 22. The consumer's `className` is appended to the root `<div>`'s
     class list.
 23. A projected `<ng-template>` replaces the default glyph inside the
-    button — the `.locale-chooser-icon` span is absent — and receives
+    button — the `.locale-picker-icon` span is absent — and receives
     the `ChildArgs` context (`value`, `open`, `labelFor`).
 
 ### 7.6 Keyboard contract (mirrors §5.9, §6.2)
@@ -537,7 +557,7 @@ below. Tests run under vitest + jsdom + `@angular/core/testing`
 ## 8. Out-of-scope (future, not implemented here)
 
 - A complementary `LocaleView` helper.
-- A `LocaleChooser` sibling defaulting to radio-group markup. For
+- A `LocalePicker` sibling defaulting to radio-group markup. For
   now a sibling widget bound to the same `[(value)]` signal covers
   that case.
 - `Intl.LocaleMatcher` / RFC 4647 integration.
@@ -545,7 +565,7 @@ below. Tests run under vitest + jsdom + `@angular/core/testing`
 
 ## 9. Tracking
 
-- Package directory: `lily-design-system-angular-helpers/lily-design-system-angular-locale-chooser/`
+- Package directory: `lily-design-system-angular-helpers/lily-design-system-angular-locale-picker/`
 - Spec version: 0.1.0
 - Created: 2026-06-05
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause

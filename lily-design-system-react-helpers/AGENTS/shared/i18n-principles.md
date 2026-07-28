@@ -15,18 +15,18 @@ and announcement is a prop supplied by the consumer.
 
 Stable across frameworks and across helpers:
 
-| Prop name         | Purpose                                                  |
-| ----------------- | -------------------------------------------------------- |
-| `label`           | Accessible name (select, dialog, region).                |
-| `description`    | Supplementary descriptive text.                          |
-| `placeholder`     | Input placeholder text.                                  |
-| `error`           | Validation error string.                                 |
-| `helpText`        | Help text shown alongside an input.                      |
-| `dismissLabel`    | `aria-label` for a close / dismiss button.               |
-| `loadingLabel`    | Announcement for a loading region.                       |
-| `confirmLabel`    | Confirmation action button label.                        |
-| `cancelLabel`     | Cancellation action button label.                        |
-| `{x}Labels`       | Per-option label override map (e.g. `themeLabels`, `localeLabels`). |
+| Prop name      | Purpose                                                             |
+| -------------- | ------------------------------------------------------------------- |
+| `label`        | Accessible name (select, dialog, region).                           |
+| `description`  | Supplementary descriptive text.                                     |
+| `placeholder`  | Input placeholder text.                                             |
+| `error`        | Validation error string.                                            |
+| `helpText`     | Help text shown alongside an input.                                 |
+| `dismissLabel` | `aria-label` for a close / dismiss button.                          |
+| `loadingLabel` | Announcement for a loading region.                                  |
+| `confirmLabel` | Confirmation action button label.                                   |
+| `cancelLabel`  | Cancellation action button label.                                   |
+| `{x}Labels`    | Per-option label override map (e.g. `themeLabels`, `localeLabels`). |
 
 New helpers reuse these names rather than inventing synonyms.
 
@@ -38,7 +38,7 @@ etc.) as a prop and either pass it through to `Intl.*` formatters
 or expose it via a data attribute so consumers can format. The
 helpers do not pick a default locale.
 
-`LocaleChooser` is itself the producer of the locale; everything
+`LocalePicker` is itself the producer of the locale; everything
 else in the catalog (and downstream Lily components) consume it
 via the `lang` attribute on `<html>`.
 
@@ -70,9 +70,9 @@ string.
 ## RTL / bidirectional text
 
 Right-to-left and bidirectional text are inherited from the
-consumer's `dir` attribute and CSS. `LocaleChooser` writes
+consumer's `dir` attribute and CSS. `LocalePicker` writes
 `dir="rtl"` or `dir="ltr"` to `<html>` based on the chosen locale
-(see `../../lily-design-system-react-locale-chooser/docs/rtl.md`).
+(see `../../lily-design-system-react-locale-picker/docs/rtl.md`).
 Other helpers do not assume LTR layout.
 
 ## React-specific application
@@ -85,19 +85,15 @@ plus the underlying state. They wrap or replace the default
 markup with their own i18n strings.
 
 ```tsx
-<ThemeChooser label="主题" themesUrl="/t/" themes={["light", "dark"]}>
-    {({ themes, value, setTheme, labelFor }) =>
-        themes.map((t) => (
-            <button
-                key={t}
-                aria-pressed={value === t}
-                onClick={() => setTheme(t)}
-            >
-                {labelFor(t)}
-            </button>
-        ))
-    }
-</ThemeChooser>
+<ThemePicker label="主题" themesUrl="/t/" themes={["light", "dark"]}>
+  {({ themes, value, setTheme, labelFor }) =>
+    themes.map((t) => (
+      <button key={t} aria-pressed={value === t} onClick={() => setTheme(t)}>
+        {labelFor(t)}
+      </button>
+    ))
+  }
+</ThemePicker>
 ```
 
 `labelFor` is the helper's resolution chain (override map → built-in
@@ -111,24 +107,24 @@ For SEO and first-paint correctness, resolve labels on the server:
 ```tsx
 // app/page.tsx — server component
 import { getDictionary } from "./i18n";
-import { LocaleChooser } from "./locale-chooser";
+import { LocalePicker } from "./locale-picker";
 
 export default async function Page() {
-    const t = await getDictionary("fr");
-    return (
-        <LocaleChooser
-            label={t.languageLabel}
-            localeLabels={{
-                en: t.englishLabel,
-                fr: t.frenchLabel,
-                ar: t.arabicLabel,
-            }}
-        />
-    );
+  const t = await getDictionary("fr");
+  return (
+    <LocalePicker
+      label={t.languageLabel}
+      localeLabels={{
+        en: t.englishLabel,
+        fr: t.frenchLabel,
+        ar: t.arabicLabel,
+      }}
+    />
+  );
 }
 ```
 
-`LocaleChooser` is a thin client wrapper around the helper. Server
+`LocalePicker` is a thin client wrapper around the helper. Server
 data flows into client props; the i18n library runs server-side.
 
 ## When the helper "knows" English
@@ -136,11 +132,11 @@ data flows into client props; the i18n library runs server-side.
 Two cases where the React helpers ship default English text — both
 intentional and overridable:
 
-1. `LocaleChooser`'s built-in `defaultLocaleLabels` table (in
+1. `LocalePicker`'s built-in `defaultLocaleLabels` table (in
    `locales.ts`, derived from `locales.tsv`). This is the
    English-name list — overridable per-locale via the
    `localeLabels` prop.
-2. `ThemeChooser`'s default `labelFor` title-cases the slug. This
+2. `ThemePicker`'s default `labelFor` title-cases the slug. This
    is a deterministic transformation, not a translation —
    overridable via the `themeLabels` prop.
 
@@ -165,7 +161,7 @@ strings, so testing one locale path covers all of them.
 
 - Repo root `AGENTS/internationalization.md` — canonical
   cross-framework rules.
-- `lily-design-system-react-locale-chooser/docs/i18n-integration.md`
+- `lily-design-system-react-locale-picker/docs/i18n-integration.md`
   — wiring react-intl, react-i18next, Paraglide, Tolgee.
-- `lily-design-system-react-locale-chooser/docs/bcp47.md` — BCP 47
+- `lily-design-system-react-locale-picker/docs/bcp47.md` — BCP 47
   tag composition and `Intl.DisplayNames`.

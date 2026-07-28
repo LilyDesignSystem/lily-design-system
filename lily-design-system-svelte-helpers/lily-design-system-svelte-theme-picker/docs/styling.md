@@ -11,28 +11,28 @@ when it opens. See [Positioning the listbox](#positioning-the-listbox).
 
 | Selector                         | Element                                                                                                                                                  |
 | -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `.theme-chooser`                 | The root `<div>`.                                                                                                                                        |
-| `.theme-chooser.{consumerClass}` | Both classes when `class` is passed.                                                                                                                     |
-| `.theme-chooser-button`          | The trigger `<button type="button">`.                                                                                                                    |
-| `.theme-chooser-icon`            | The `<span>` wrapping the `◑` glyph. Absent when a `children` snippet replaces the glyph.                                                                |
-| `.theme-chooser-list`            | The popup `<ul role="listbox">`.                                                                                                                         |
-| `.theme-chooser-option`          | Each `<li role="option">`.                                                                                                                               |
-| `.theme-chooser-status`          | The status line stating the active theme. Rendered by the consumer _next to_ the select, not by the component — see [The status line](#the-status-line). |
+| `.theme-picker`                 | The root `<div>`.                                                                                                                                        |
+| `.theme-picker.{consumerClass}` | Both classes when `class` is passed.                                                                                                                     |
+| `.theme-picker-button`          | The trigger `<button type="button">`.                                                                                                                    |
+| `.theme-picker-icon`            | The `<span>` wrapping the `◑` glyph. Absent when a `children` snippet replaces the glyph.                                                                |
+| `.theme-picker-list`            | The popup `<ul role="listbox">`.                                                                                                                         |
+| `.theme-picker-option`          | Each `<li role="option">`.                                                                                                                               |
+| `.theme-picker-status`          | The status line stating the active theme. Rendered by the consumer _next to_ the select, not by the component — see [The status line](#the-status-line). |
 
-The `theme-chooser-placeholder` hook from 0.3.0 **no longer exists.**
+The `theme-picker-placeholder` hook from 0.3.0 **no longer exists.**
 There is no placeholder option, because there is no `<select>`.
 
 If you pass a `children` snippet it replaces the glyph inside the
-button, so `.theme-chooser-icon` disappears but every other hook stays.
+button, so `.theme-picker-icon` disappears but every other hook stays.
 
 ## Attribute hooks
 
 | Attribute                         | On                          | Purpose                                                                                         |
 | --------------------------------- | --------------------------- | ----------------------------------------------------------------------------------------------- |
-| `[aria-expanded="true"]`          | `.theme-chooser-button`     | The listbox is open. Style the trigger's open state.                                            |
-| `[hidden]`                        | `.theme-chooser-list`       | The listbox is closed.                                                                          |
-| `[aria-selected="true"]`          | `.theme-chooser-option`     | The **applied** theme.                                                                          |
-| `[data-active]`                   | `.theme-chooser-option`     | The **keyboard-active** option. Bare attribute, present on at most one option, only while open. |
+| `[aria-expanded="true"]`          | `.theme-picker-button`     | The listbox is open. Style the trigger's open state.                                            |
+| `[hidden]`                        | `.theme-picker-list`       | The listbox is closed.                                                                          |
+| `[aria-selected="true"]`          | `.theme-picker-option`     | The **applied** theme.                                                                          |
+| `[data-active]`                   | `.theme-picker-option`     | The **keyboard-active** option. Bare attribute, present on at most one option, only while open. |
 | `data-theme="<slug>"`             | `target` (default `<html>`) | Active theme indicator for theme CSS files.                                                     |
 | `data-lily-theme-picker="<name>"` | the managed `<link>`        | Discriminator for multiple selects.                                                             |
 
@@ -47,12 +47,12 @@ arrows.
 The minimum that makes the control behave like a popup:
 
 ```css
-.theme-chooser {
+.theme-picker {
   position: relative;
   display: inline-block;
 }
 
-.theme-chooser-list {
+.theme-picker-list {
   position: absolute;
   z-index: 10;
   inset-block-start: 100%;
@@ -64,7 +64,7 @@ The minimum that makes the control behave like a popup:
   overflow-y: auto;
 }
 
-.theme-chooser-list[hidden] {
+.theme-picker-list[hidden] {
   display: none;
 }
 ```
@@ -84,7 +84,7 @@ Notes:
 ## Suggested baseline CSS
 
 ```css
-.theme-chooser-button {
+.theme-picker-button {
   padding: 0.25rem 0.5rem;
   border: 1px solid var(--color-base-300, currentColor);
   border-radius: var(--radius-selector, 0.25rem);
@@ -94,23 +94,23 @@ Notes:
   line-height: 1;
 }
 
-.theme-chooser-button:focus-visible {
+.theme-picker-button:focus-visible {
   outline: 2px solid var(--color-primary, currentColor);
   outline-offset: 2px;
 }
 
-.theme-chooser-option {
+.theme-picker-option {
   padding: 0.25rem 0.75rem;
   cursor: pointer;
 }
 
 /* Where the keyboard cursor is. */
-.theme-chooser-option[data-active] {
+.theme-picker-option[data-active] {
   background: var(--color-base-200, #eee);
 }
 
 /* Which theme is actually applied. */
-.theme-chooser-option[aria-selected="true"] {
+.theme-picker-option[aria-selected="true"] {
   font-weight: 600;
 }
 ```
@@ -129,20 +129,20 @@ The listbox is what now needs a width decision, since it is absolutely
 positioned and will otherwise shrink-wrap to its content:
 
 ```css
-.theme-chooser-list {
+.theme-picker-list {
   min-inline-size: 12rem;
 }
 ```
 
 ## The glyph
 
-`.theme-chooser-icon` holds a bare Unicode character, U+25D1. Its
+`.theme-picker-icon` holds a bare Unicode character, U+25D1. Its
 rendering depends on the fonts installed on the user's device — see
 [accessibility.md § Tradeoff 3](./accessibility.md#tradeoff-3--the-glyph-is-font-dependent).
 Pin a font stack you have verified:
 
 ```css
-.theme-chooser-icon {
+.theme-picker-icon {
   font-family: system-ui, "Segoe UI Symbol", "Apple Symbols", sans-serif;
   font-size: 1.125em;
 }
@@ -155,10 +155,10 @@ written anywhere on the page unless you write it. The recommended
 pattern pairs the select with a polite live region — see
 [accessibility.md § The status region](./accessibility.md#the-status-region).
 The component does not render it; you do, with the
-`.theme-chooser-status` hook:
+`.theme-picker-status` hook:
 
 ```svelte
-<p class="theme-chooser-status" aria-live="polite">
+<p class="theme-picker-status" aria-live="polite">
   Active theme: {labelFor(theme)}
 </p>
 ```
@@ -167,7 +167,7 @@ Keep it **visible** by default — that is now the main reason to have
 it. A minimal treatment:
 
 ```css
-.theme-chooser-status {
+.theme-picker-status {
   margin-block-start: 0.5rem;
   font-size: 0.875rem;
   color: var(--color-base-content, inherit);
@@ -179,7 +179,7 @@ If a design genuinely cannot spare the space, hide it **visually only**
 announces:
 
 ```css
-.theme-chooser-status {
+.theme-picker-status {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -201,7 +201,7 @@ and defeats the point.
 - Don't hide the button with `display: none`. It is the accessibility
   tree's anchor point. Use `clip-path` or a `.sr-only` recipe if you
   need to visually replace it.
-- Don't forget `.theme-chooser-list[hidden] { display: none; }`.
+- Don't forget `.theme-picker-list[hidden] { display: none; }`.
 - Don't style only `[aria-selected]` and skip `[data-active]`, or
   keyboard users lose their cursor.
 - Don't override the component's `aria-*` attributes from CSS or

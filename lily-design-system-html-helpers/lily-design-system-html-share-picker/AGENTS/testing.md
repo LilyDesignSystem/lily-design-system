@@ -1,6 +1,6 @@
-# Testing — `<share-chooser>` (HTML helper)
+# Testing — `<share-picker>` (HTML helper)
 
-The suite lives in [`../share-chooser.test.ts`](../share-chooser.test.ts)
+The suite lives in [`../share-picker.test.ts`](../share-picker.test.ts)
 and asserts every numbered clause in
 [`../spec/index.md` §7](../spec/index.md#7-testing-acceptance-criteria).
 Test names are prefixed with the clause number (`§7.14 a dismissed share
@@ -12,19 +12,22 @@ sheet …`) so a reviewer can spot a gap. Catalog-wide rules:
 ## Harness
 
 ```ts
-if (typeof customElements !== "undefined" && !customElements.get("share-chooser")) {
-    customElements.define("share-chooser", ShareChooser);
+if (
+  typeof customElements !== "undefined" &&
+  !customElements.get("share-picker")
+) {
+  customElements.define("share-picker", SharePicker);
 }
 
 function mount(
-    attrs: Record<string, string>,
-    { targets = TARGETS, tag = "share-chooser" }: MountOptions = {},
-): ShareChooser {
-    const el = document.createElement(tag) as ShareChooser;
-    for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
-    el.targets = targets;          // property-only — see AGENTS/api.md
-    document.body.appendChild(el);
-    return el;
+  attrs: Record<string, string>,
+  { targets = TARGETS, tag = "share-picker" }: MountOptions = {},
+): SharePicker {
+  const el = document.createElement(tag) as SharePicker;
+  for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+  el.targets = targets; // property-only — see AGENTS/api.md
+  document.body.appendChild(el);
+  return el;
 }
 ```
 
@@ -44,7 +47,8 @@ console:
 
 ```ts
 function swallowNavigation(event: MouseEvent): void {
-    if ((event.target as HTMLElement | null)?.closest?.("a[href]")) event.preventDefault();
+  if ((event.target as HTMLElement | null)?.closest?.("a[href]"))
+    event.preventDefault();
 }
 beforeEach(() => document.addEventListener("click", swallowNavigation));
 afterEach(() => document.removeEventListener("click", swallowNavigation));
@@ -58,14 +62,14 @@ that is the feature.
 
 jsdom ships neither `navigator.share` nor `navigator.clipboard`. Delete
 them in `beforeEach` and `afterEach` so "no native sheet" and "no
-clipboard" are *asserted* states rather than assumed ones — §7.10 and
+clipboard" are _asserted_ states rather than assumed ones — §7.10 and
 §7.13 depend on it.
 
 ```ts
 beforeEach(() => {
-    document.body.replaceChildren();
-    delete (navigator as any).share;
-    delete (navigator as any).clipboard;
+  document.body.replaceChildren();
+  delete (navigator as any).share;
+  delete (navigator as any).clipboard;
 });
 ```
 
@@ -94,9 +98,9 @@ el.onNativeShare = onNativeShare;
 await flush();
 click(trigger());
 await flush();
-expect(nat.calls.length).toBe(1);              // it was attempted
+expect(nat.calls.length).toBe(1); // it was attempted
 expect(list().hasAttribute("hidden")).toBe(true); // and did NOT fall through
-expect(onNativeShare).not.toHaveBeenCalled();  // a dismissal is not a success
+expect(onNativeShare).not.toHaveBeenCalled(); // a dismissal is not a success
 ```
 
 ## Testing focus-out (§7.19)
@@ -105,8 +109,10 @@ Focus has to **actually move**, because the handler defers and re-reads
 `document.activeElement`. A `focusout` event alone proves nothing:
 
 ```ts
-outside.focus();                                  // required
-from.dispatchEvent(new FocusEvent("focusout", { bubbles: true, relatedTarget: outside }));
+outside.focus(); // required
+from.dispatchEvent(
+  new FocusEvent("focusout", { bubbles: true, relatedTarget: outside }),
+);
 ```
 
 The suite asserts both directions — leaving closes, moving within does
@@ -114,7 +120,7 @@ not.
 
 ## Testing the `#render` / `#syncState` split
 
-Assert that a non-structural change preserves the *identity* of the
+Assert that a non-structural change preserves the _identity_ of the
 focused node, not merely that something is focused:
 
 ```ts
@@ -122,8 +128,8 @@ click(trigger());
 const before = items()[0];
 el.url = "https://example.test/other";
 await flush();
-expect(document.activeElement).toBe(before);   // same node, still focused
-expect(items()[0]).toBe(before);               // not a rebuilt replacement
+expect(document.activeElement).toBe(before); // same node, still focused
+expect(items()[0]).toBe(before); // not a rebuilt replacement
 expect(list().hasAttribute("hidden")).toBe(false);
 ```
 
@@ -132,14 +138,16 @@ And that a structural change closes rather than orphaning focus.
 ## Testing `renderButtonContent()` (§7.22)
 
 Subclass, register once guarded, then assert **both halves**: the custom
-node replaced the glyph, *and* the base class's aria wiring survived.
+node replaced the glyph, _and_ the base class's aria wiring survived.
 
 ```ts
-class CustomShareChooser extends ShareChooser {
-    renderButtonContent(): Node { /* reads this.open, this.currentUrl() */ }
+class CustomSharePicker extends SharePicker {
+  renderButtonContent(): Node {
+    /* reads this.open, this.currentUrl() */
+  }
 }
-if (!customElements.get("custom-share-chooser")) {
-    customElements.define("custom-share-chooser", CustomShareChooser);
+if (!customElements.get("custom-share-picker")) {
+  customElements.define("custom-share-picker", CustomSharePicker);
 }
 ```
 
@@ -167,16 +175,16 @@ disconnect, and SSR import safety.
 ## Mutation checks
 
 The suite has been mutation-checked. Each of these was applied to
-`share-chooser.ts` and confirmed to fail:
+`share-picker.ts` and confirmed to fail:
 
-| Mutation | Caught by |
-| -------- | --------- |
-| Arrows wrap instead of clamping | §7.16 |
-| Drop `rel="noopener noreferrer"` | §7.3 (both cases) |
-| Dismissed sheet returns `false` (falls through to the list) | §7.14 |
-| `url` change calls `#render()` instead of `#syncState()` | the split test |
-| `copyLabel` defaults to `"Copy link"` | §7.5 |
-| Destinations get `role="menuitem"` | §7.3 |
+| Mutation                                                    | Caught by         |
+| ----------------------------------------------------------- | ----------------- |
+| Arrows wrap instead of clamping                             | §7.16             |
+| Drop `rel="noopener noreferrer"`                            | §7.3 (both cases) |
+| Dismissed sheet returns `false` (falls through to the list) | §7.14             |
+| `url` change calls `#render()` instead of `#syncState()`    | the split test    |
+| `copyLabel` defaults to `"Copy link"`                       | §7.5              |
+| Destinations get `role="menuitem"`                          | §7.3              |
 
 Re-run these after any refactor of the render split or the keyboard
 handling.

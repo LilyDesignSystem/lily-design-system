@@ -13,13 +13,13 @@ CSS, so the `<ul role="listbox">` is a normal-flow block element.
 
 ## "The listbox is visible even when closed"
 
-**Likely cause.** Your CSS sets `display` on `.locale-chooser-list`,
+**Likely cause.** Your CSS sets `display` on `.locale-picker-list`,
 which overrides the user-agent's `[hidden] { display: none }` rule.
 
 **Fix.** Add an explicit reset:
 
 ```css
-.locale-chooser-list[hidden] { display: none; }
+.locale-picker-list[hidden] { display: none; }
 ```
 
 ## "The popup jumps to the wrong side after picking Arabic"
@@ -50,7 +50,7 @@ guarantee it: a platform whose only covering font is a colour-emoji
 font renders colour anyway.
 
 **Fix.** Pin a text-presentation font ahead of any emoji font on
-`.locale-chooser-icon`, or replace the glyph with an inline SVG via the
+`.locale-picker-icon`, or replace the glyph with an inline SVG via the
 `children` snippet. See
 [accessibility.md § Tradeoff 3](./accessibility.md#tradeoff-3--the-glyph-is-font-dependent).
 

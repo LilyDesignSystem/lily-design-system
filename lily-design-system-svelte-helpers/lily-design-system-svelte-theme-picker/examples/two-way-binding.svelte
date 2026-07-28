@@ -6,7 +6,7 @@
   the server, or notifying a sibling component.
 -->
 <script lang="ts">
-  import ThemeChooser from "../ThemeChooser.svelte";
+  import ThemePicker from "../ThemePicker.svelte";
 
   let theme = $state("");
 
@@ -16,7 +16,7 @@
   }
 </script>
 
-<ThemeChooser
+<ThemePicker
   label="Theme"
   themesUrl="/assets/themes/"
   themes={["light", "dark", "abyss"]}

@@ -1,6 +1,6 @@
 export {
     default,
-    LocaleChooser,
+    LocalePicker,
     bcp47LocaleTag,
     isRtlLocale,
     localeName,
@@ -9,5 +9,5 @@ export {
     RTL_LANGUAGE_TAGS,
     RTL_SCRIPT_SUBTAGS,
     GLOBE_WITH_MERIDIANS,
-} from "./LocaleChooser";
-export type { Props, ChildArgs } from "./LocaleChooser";
+} from "./LocalePicker";
+export type { Props, ChildArgs } from "./LocalePicker";

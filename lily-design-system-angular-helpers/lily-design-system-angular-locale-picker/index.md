@@ -1,6 +1,6 @@
-# LocaleChooser (Angular helper)
+# LocalePicker (Angular helper)
 
-A reusable, headless Angular 20 locale chooser. It renders a globe
+A reusable, headless Angular 20 locale picker. It renders a globe
 icon button that opens a WAI-ARIA APG listbox of locales, and applies
 the chosen locale to the document root via `lang` and `dir`, with
 optional `localStorage` persistence and `navigator.languages`
@@ -37,22 +37,22 @@ dependency. The only runtime dependencies are `@angular/core` and
 `@angular/common` (Angular 20+).
 
 ```ts
-import { LocaleChooser } from "./lily-design-system-angular-locale-chooser";
+import { LocalePicker } from "./lily-design-system-angular-locale-picker";
 ```
 
 Or via the barrel (recommended; gives you the typed helpers too):
 
 ```ts
 import {
-    LocaleChooser,
-    LocaleChooserIcon,
-    GLOBE_WITH_MERIDIANS,
-    bcp47LocaleTag,
-    isRtlLocale,
-    localeName,
-    matchNavigatorLanguage,
-    defaultLocaleLabels,
-} from "./lily-design-system-angular-locale-chooser";
+  LocalePicker,
+  LocalePickerIcon,
+  GLOBE_WITH_MERIDIANS,
+  bcp47LocaleTag,
+  isRtlLocale,
+  localeName,
+  matchNavigatorLanguage,
+  defaultLocaleLabels,
+} from "./lily-design-system-angular-locale-picker";
 ```
 
 ## Quick start
@@ -65,48 +65,48 @@ technology all see the change.
 ```ts
 import { Component, signal } from "@angular/core";
 import {
-    LocaleChooser,
-    bcp47LocaleTag,
-    localeName,
-} from "./lily-design-system-angular-locale-chooser";
+  LocalePicker,
+  bcp47LocaleTag,
+  localeName,
+} from "./lily-design-system-angular-locale-picker";
 
 @Component({
-    selector: "app-settings",
-    standalone: true,
-    imports: [LocaleChooser],
-    template: `
-        <lily-locale-chooser
-            label="Language"
-            [locales]="locales"
-            [(value)]="locale"
-            storageKey="lily-locale"
-            [detectFromNavigator]="true"
-            (localeChange)="onLocaleChange($event)"
-        />
+  selector: "app-settings",
+  standalone: true,
+  imports: [LocalePicker],
+  template: `
+    <lily-locale-picker
+      label="Language"
+      [locales]="locales"
+      [(value)]="locale"
+      storageKey="lily-locale"
+      [detectFromNavigator]="true"
+      (localeChange)="onLocaleChange($event)"
+    />
 
-        <p class="locale-chooser-status" aria-live="polite">
-            Active language:
-            <span [attr.lang]="tagFor(locale())">{{ nameFor(locale()) }}</span>
-        </p>
-    `,
+    <p class="locale-picker-status" aria-live="polite">
+      Active language:
+      <span [attr.lang]="tagFor(locale())">{{ nameFor(locale()) }}</span>
+    </p>
+  `,
 })
 export class Settings {
-    locales = ["en", "en_US", "fr", "fr_CA", "ar", "he"];
-    locale = signal("");
+  locales = ["en", "en_US", "fr", "fr_CA", "ar", "he"];
+  locale = signal("");
 
-    nameFor = localeName;
-    tagFor = bcp47LocaleTag;
+  nameFor = localeName;
+  tagFor = bcp47LocaleTag;
 
-    onLocaleChange(code: string) {
-        // Wire to your i18n library here.
-    }
+  onLocaleChange(code: string) {
+    // Wire to your i18n library here.
+  }
 }
 ```
 
 The status line is part of the pattern, not decoration. The closed
 control shows a globe glyph and nothing else — never the active locale
 name — so on its own it never tells any user which locale is in
-effect. The `locale-chooser-status` element restores that, in visible
+effect. The `locale-picker-status` element restores that, in visible
 text, for sighted and screen-reader users alike; `aria-live="polite"`
 announces only changes, so it is silent on first paint and speaks once
 per switch. The locale name carries its own `lang` for the same reason
@@ -138,9 +138,9 @@ converts to the hyphen form when writing to the DOM. The bindable
 `value` preserves your original form, so round-trips are lossless.
 
 ```ts
-bcp47LocaleTag("en_US");      // "en-US"
+bcp47LocaleTag("en_US"); // "en-US"
 bcp47LocaleTag("zh_Hant_TW"); // "zh-Hant-TW"
-bcp47LocaleTag("en");         // "en"
+bcp47LocaleTag("en"); // "en"
 ```
 
 References:
@@ -158,10 +158,10 @@ script subtag is one of `Arab`, `Hebr`, `Thaa`, `Syrc`, `Nkoo`,
 `Mong`, `Adlm`.
 
 ```ts
-isRtlLocale("ar");         // true
-isRtlLocale("he_IL");      // true
+isRtlLocale("ar"); // true
+isRtlLocale("he_IL"); // true
 isRtlLocale("uz_Arab_AF"); // true (script subtag)
-isRtlLocale("en");         // false
+isRtlLocale("en"); // false
 ```
 
 Pass `[applyDir]="false"` if you want full control of `dir`
@@ -173,41 +173,67 @@ yourself.
 
 ```ts
 import { Component, signal } from "@angular/core";
-import { LocaleChooser } from "./lily-design-system-angular-locale-chooser";
+import { LocalePicker } from "./lily-design-system-angular-locale-picker";
 
 @Component({
-    standalone: true,
-    imports: [LocaleChooser],
-    template: `
-        <lily-locale-chooser
-            label="Language"
-            [locales]="['en', 'cy']"
-            [(value)]="locale"
-        />
-    `,
+  standalone: true,
+  imports: [LocalePicker],
+  template: `
+    <lily-locale-picker
+      label="Language"
+      [locales]="['en', 'cy']"
+      [(value)]="locale"
+    />
+  `,
 })
 export class Settings {
-    locale = signal("en");
+  locale = signal("en");
 }
 ```
 
 Renders (listbox closed):
 
 ```html
-<div class="locale-chooser">
-    <input type="hidden" name="locale" value="en" />
-    <button type="button" class="locale-chooser-button" aria-label="Language"
-            aria-haspopup="listbox" aria-expanded="false"
-            aria-controls="locale-chooser-1-list">
-        <span class="locale-chooser-icon" aria-hidden="true">&#127760;</span>
-    </button>
-    <ul class="locale-chooser-list" id="locale-chooser-1-list" role="listbox"
-        aria-label="Language" tabindex="-1" hidden>
-        <li class="locale-chooser-option" id="locale-chooser-1-option-0" role="option"
-            aria-selected="true" data-active lang="en">English</li>
-        <li class="locale-chooser-option" id="locale-chooser-1-option-1" role="option"
-            aria-selected="false" lang="cy">Welsh</li>
-    </ul>
+<div class="locale-picker">
+  <input type="hidden" name="locale" value="en" />
+  <button
+    type="button"
+    class="locale-picker-button"
+    aria-label="Language"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="locale-picker-1-list"
+  >
+    <span class="locale-picker-icon" aria-hidden="true">&#127760;</span>
+  </button>
+  <ul
+    class="locale-picker-list"
+    id="locale-picker-1-list"
+    role="listbox"
+    aria-label="Language"
+    tabindex="-1"
+    hidden
+  >
+    <li
+      class="locale-picker-option"
+      id="locale-picker-1-option-0"
+      role="option"
+      aria-selected="true"
+      data-active
+      lang="en"
+    >
+      English
+    </li>
+    <li
+      class="locale-picker-option"
+      id="locale-picker-1-option-1"
+      role="option"
+      aria-selected="false"
+      lang="cy"
+    >
+      Welsh
+    </li>
+  </ul>
 </div>
 ```
 
@@ -230,9 +256,9 @@ only — the listbox is component-owned and the template never renders
 options.
 
 ```html
-<lily-locale-chooser label="Language" [locales]="locales" [(value)]="locale">
-    <ng-template let-args>{{ args.labelFor(args.value) }}</ng-template>
-</lily-locale-chooser>
+<lily-locale-picker label="Language" [locales]="locales" [(value)]="locale">
+  <ng-template let-args>{{ args.labelFor(args.value) }}</ng-template>
+</lily-locale-picker>
 ```
 
 The context (`ChildArgs`) gives you three things:
@@ -243,15 +269,15 @@ The context (`ChildArgs`) gives you three things:
 | `open`     | `boolean`                    | Is the listbox open?               |
 | `labelFor` | `(locale: string) => string` | Resolve a code to a display label. |
 
-Import the optional `LocaleChooserIcon` directive if you want typed
+Import the optional `LocalePickerIcon` directive if you want typed
 `let-` variables:
 
 ```html
-<lily-locale-chooser label="Language" [locales]="locales" [(value)]="locale">
-    <ng-template lilyLocaleChooserIcon let-args>
-        <span [attr.data-open]="args.open">{{ args.value }}</span>
-    </ng-template>
-</lily-locale-chooser>
+<lily-locale-picker label="Language" [locales]="locales" [(value)]="locale">
+  <ng-template lilyLocalePickerIcon let-args>
+    <span [attr.data-open]="args.open">{{ args.value }}</span>
+  </ng-template>
+</lily-locale-picker>
 ```
 
 The default glyph is exported as `GLOBE_WITH_MERIDIANS` if you want to
@@ -269,11 +295,11 @@ By default the select uses the English names from `locales.tsv`
 raw code). Override per-code with `localeLabels`:
 
 ```html
-<lily-locale-chooser
-    label="Langue"
-    [locales]="['en', 'fr', 'ar']"
-    [localeLabels]="{ en: 'English', fr: 'Français', ar: 'العربية' }"
-    [(value)]="locale"
+<lily-locale-picker
+  label="Langue"
+  [locales]="['en', 'fr', 'ar']"
+  [localeLabels]="{ en: 'English', fr: 'Français', ar: 'العربية' }"
+  [(value)]="locale"
 />
 ```
 
@@ -285,23 +311,23 @@ token:
 
 ```ts
 import { Component, inject, signal } from "@angular/core";
-import { LocaleChooser } from "./lily-design-system-angular-locale-chooser";
+import { LocalePicker } from "./lily-design-system-angular-locale-picker";
 import { INITIAL_LOCALE } from "./tokens/initial-locale";
 
 @Component({
-    standalone: true,
-    imports: [LocaleChooser],
-    template: `
-        <lily-locale-chooser
-            label="Language"
-            [locales]="['en', 'fr', 'ar']"
-            [(value)]="locale"
-            [value]="locale()"
-        />
-    `,
+  standalone: true,
+  imports: [LocalePicker],
+  template: `
+    <lily-locale-picker
+      label="Language"
+      [locales]="['en', 'fr', 'ar']"
+      [(value)]="locale"
+      [value]="locale()"
+    />
+  `,
 })
 export class App {
-    locale = signal(inject(INITIAL_LOCALE));
+  locale = signal(inject(INITIAL_LOCALE));
 }
 ```
 
@@ -318,26 +344,26 @@ to a region (e.g. a multilingual side panel):
 
 ```ts
 import { Component, ElementRef, signal, viewChild } from "@angular/core";
-import { LocaleChooser } from "./lily-design-system-angular-locale-chooser";
+import { LocalePicker } from "./lily-design-system-angular-locale-picker";
 
 @Component({
-    standalone: true,
-    imports: [LocaleChooser],
-    template: `
-        <section #region>
-            <p>This panel switches language independently of the page.</p>
-            <lily-locale-chooser
-                label="Panel language"
-                [locales]="['en', 'fr', 'ar']"
-                [target]="region.nativeElement"
-                [(value)]="panelLocale"
-            />
-        </section>
-    `,
+  standalone: true,
+  imports: [LocalePicker],
+  template: `
+    <section #region>
+      <p>This panel switches language independently of the page.</p>
+      <lily-locale-picker
+        label="Panel language"
+        [locales]="['en', 'fr', 'ar']"
+        [target]="region.nativeElement"
+        [(value)]="panelLocale"
+      />
+    </section>
+  `,
 })
 export class Panel {
-    region = viewChild<ElementRef<HTMLElement>>("region");
-    panelLocale = signal("fr");
+  region = viewChild<ElementRef<HTMLElement>>("region");
+  panelLocale = signal("fr");
 }
 ```
 
@@ -348,13 +374,13 @@ chosen one.
 
 The package ships **zero CSS**. These are the class hooks it emits:
 
-| Hook                    | Element                | Notes                                            |
-| ----------------------- | ---------------------- | ------------------------------------------------ |
-| `.locale-chooser`        | root `<div>`           | Plus whatever you pass as `className`.           |
-| `.locale-chooser-button` | the trigger `<button>` | Icon-only by default.                            |
-| `.locale-chooser-icon`   | the glyph `<span>`     | Absent when you project your own `<ng-template>`. |
-| `.locale-chooser-list`   | the `<ul role="listbox">` | Carries `hidden` while closed.                |
-| `.locale-chooser-option` | each `<li role="option">` | Style selection with `[aria-selected="true"]` and the keyboard-active option with `[data-active]`. |
+| Hook                     | Element                   | Notes                                                                                              |
+| ------------------------ | ------------------------- | -------------------------------------------------------------------------------------------------- |
+| `.locale-picker`        | root `<div>`              | Plus whatever you pass as `className`.                                                             |
+| `.locale-picker-button` | the trigger `<button>`    | Icon-only by default.                                                                              |
+| `.locale-picker-icon`   | the glyph `<span>`        | Absent when you project your own `<ng-template>`.                                                  |
+| `.locale-picker-list`   | the `<ul role="listbox">` | Carries `hidden` while closed.                                                                     |
+| `.locale-picker-option` | each `<li role="option">` | Style selection with `[aria-selected="true"]` and the keyboard-active option with `[data-active]`. |
 
 **The list needs positioning CSS and this package ships none.** As
 rendered, the `<ul>` sits in normal document flow and pushes the rest
@@ -362,15 +388,15 @@ of the page down when it opens. To overlay it, position the list
 absolutely inside a relatively-positioned root:
 
 ```css
-.locale-chooser {
-    position: relative;
+.locale-picker {
+  position: relative;
 }
 
-.locale-chooser-list {
-    position: absolute;
-    top: 100%;
-    inset-inline-start: 0;
-    z-index: 1;
+.locale-picker-list {
+  position: absolute;
+  top: 100%;
+  inset-inline-start: 0;
+  z-index: 1;
 }
 ```
 
@@ -392,13 +418,13 @@ import the data directly:
 
 ```ts
 import {
-    defaultLocaleLabels,
-    RTL_LANGUAGE_TAGS,
-    RTL_SCRIPT_SUBTAGS,
-} from "./lily-design-system-angular-locale-chooser";
+  defaultLocaleLabels,
+  RTL_LANGUAGE_TAGS,
+  RTL_SCRIPT_SUBTAGS,
+} from "./lily-design-system-angular-locale-picker";
 
 console.log(defaultLocaleLabels["en_US"]); // "English (United States)"
-console.log(RTL_LANGUAGE_TAGS.has("ar"));  // true
+console.log(RTL_LANGUAGE_TAGS.has("ar")); // true
 ```
 
 ## Inputs
@@ -417,9 +443,9 @@ carefully as you would write visible link text.
 
 ## Outputs
 
-| Output         | Payload  | When                                                  |
-| -------------- | -------- | ----------------------------------------------------- |
-| `valueChange`  | `string` | Implicit on the `value` model signal — drives `[(value)]`. |
+| Output         | Payload  | When                                                        |
+| -------------- | -------- | ----------------------------------------------------------- |
+| `valueChange`  | `string` | Implicit on the `value` model signal — drives `[(value)]`.  |
 | `localeChange` | `string` | After the select applies a new locale (consumer-form code). |
 
 ## Keyboard
@@ -431,24 +457,24 @@ component's own.
 
 On the **button**:
 
-| Key                   | Action                                                       |
-| --------------------- | ------------------------------------------------------------ |
-| Tab / Shift+Tab       | Move focus to / from the button.                             |
-| Enter / Space         | Open the list on the selected option (or the first).         |
-| Arrow Down            | Open the list on the selected option (or the first).         |
-| Arrow Up              | Open the list on the **last** option.                        |
+| Key             | Action                                               |
+| --------------- | ---------------------------------------------------- |
+| Tab / Shift+Tab | Move focus to / from the button.                     |
+| Enter / Space   | Open the list on the selected option (or the first). |
+| Arrow Down      | Open the list on the selected option (or the first). |
+| Arrow Up        | Open the list on the **last** option.                |
 
 Opening moves focus to the list.
 
 On the **list**:
 
-| Key                   | Action                                                       |
-| --------------------- | ------------------------------------------------------------ |
-| Arrow Down / Arrow Up | Move the active option. Clamps at the ends; does not wrap.   |
-| Home / End            | Jump to the first / last option.                             |
-| Enter / Space         | Choose the active option, apply it, close, focus the button. |
-| Escape                | Close and focus the button; the locale is unchanged.         |
-| Tab                   | Close and let focus move on normally.                        |
+| Key                   | Action                                                                     |
+| --------------------- | -------------------------------------------------------------------------- |
+| Arrow Down / Arrow Up | Move the active option. Clamps at the ends; does not wrap.                 |
+| Home / End            | Jump to the first / last option.                                           |
+| Enter / Space         | Choose the active option, apply it, close, focus the button.               |
+| Escape                | Close and focus the button; the locale is unchanged.                       |
+| Tab                   | Close and let focus move on normally.                                      |
 | Any printable key     | Typeahead over the option labels; resets 500 ms after your last keystroke. |
 
 With a mouse: clicking the button toggles the list, clicking an option
@@ -498,55 +524,55 @@ flicker-free first paint, resolve the locale on the server (cookie
 
 ## Files in this directory
 
-| File                              | Purpose                                          |
-| --------------------------------- | ------------------------------------------------ |
-| `spec/index.md`                         | Single source of truth — API, behaviour, tests.  |
-| `AGENTS.md`                       | Fast-index pointer; loads the AGENTS bundle.     |
-| `AGENTS/`                         | Topic-by-topic agent files.                      |
-| `CLAUDE.md`                       | `@AGENTS.md`.                                    |
-| `locale-chooser.component.ts`      | The component implementation.                    |
-| `locale-chooser.component.spec.ts` | vitest suite covering every spec §7 item.        |
-| `locales.ts`                      | Built-in code → English-name map and RTL sets.   |
-| `locales.tsv`                     | Canonical 436-row source for `locales.ts`.       |
-| `index.ts`                        | Re-export barrel.                                |
-| `index.md`                        | This file.                                       |
-| `docs/`                           | Deep-dive guides — see [Documentation](#documentation). |
-| `examples/`                       | Runnable Angular component files — see [Examples directory](#examples-directory). |
-| `CHANGELOG.md`                    | Version history.                                 |
+| File                               | Purpose                                                                           |
+| ---------------------------------- | --------------------------------------------------------------------------------- |
+| `spec/index.md`                    | Single source of truth — API, behaviour, tests.                                   |
+| `AGENTS.md`                        | Fast-index pointer; loads the AGENTS bundle.                                      |
+| `AGENTS/`                          | Topic-by-topic agent files.                                                       |
+| `CLAUDE.md`                        | `@AGENTS.md`.                                                                     |
+| `locale-picker.component.ts`      | The component implementation.                                                     |
+| `locale-picker.component.spec.ts` | vitest suite covering every spec §7 item.                                         |
+| `locales.ts`                       | Built-in code → English-name map and RTL sets.                                    |
+| `locales.tsv`                      | Canonical 436-row source for `locales.ts`.                                        |
+| `index.ts`                         | Re-export barrel.                                                                 |
+| `index.md`                         | This file.                                                                        |
+| `docs/`                            | Deep-dive guides — see [Documentation](#documentation).                           |
+| `examples/`                        | Runnable Angular component files — see [Examples directory](#examples-directory). |
+| `CHANGELOG.md`                     | Version history.                                                                  |
 
 ## Documentation
 
-| Guide                                                | Covers                                                                       |
-| ---------------------------------------------------- | ---------------------------------------------------------------------------- |
-| [docs/concepts.md](./docs/concepts.md)               | Mental model, lifecycle diagram, why the defaults are what they are.         |
-| [docs/bcp47.md](./docs/bcp47.md)                     | Language-tag syntax (RFC 5646), IANA registry, subtag composition.           |
-| [docs/rtl.md](./docs/rtl.md)                         | What's auto-detected, what `dir="rtl"` actually changes, CSS tips.           |
-| [docs/i18n-integration.md](./docs/i18n-integration.md) | Wiring @angular/localize, Transloco, ngx-translate, raw `Intl.*`.          |
-| [docs/ssr.md](./docs/ssr.md)                         | Cookie, URL-prefix, Accept-Language, FOUC avoidance for Analog v1.           |
-| [docs/accessibility.md](./docs/accessibility.md)     | WCAG 2.2 AAA mapping, keyboard contract, screen-reader matrix.               |
-| [docs/props-reference.md](./docs/props-reference.md) | Every input, output, and exported helper, with types and defaults.          |
-| [docs/styling.md](./docs/styling.md)                 | Class hooks, listbox positioning, logical properties, focus and state.      |
-| [docs/custom-rendering.md](./docs/custom-rendering.md) | Replacing the button glyph, and the sibling-widget contract.               |
-| [docs/recipes.md](./docs/recipes.md)                 | Short task-shaped snippets for the common wiring jobs.                      |
-| [docs/troubleshooting.md](./docs/troubleshooting.md) | Symptom → cause → fix for the things that actually go wrong.                |
+| Guide                                                  | Covers                                                                 |
+| ------------------------------------------------------ | ---------------------------------------------------------------------- |
+| [docs/concepts.md](./docs/concepts.md)                 | Mental model, lifecycle diagram, why the defaults are what they are.   |
+| [docs/bcp47.md](./docs/bcp47.md)                       | Language-tag syntax (RFC 5646), IANA registry, subtag composition.     |
+| [docs/rtl.md](./docs/rtl.md)                           | What's auto-detected, what `dir="rtl"` actually changes, CSS tips.     |
+| [docs/i18n-integration.md](./docs/i18n-integration.md) | Wiring @angular/localize, Transloco, ngx-translate, raw `Intl.*`.      |
+| [docs/ssr.md](./docs/ssr.md)                           | Cookie, URL-prefix, Accept-Language, FOUC avoidance for Analog v1.     |
+| [docs/accessibility.md](./docs/accessibility.md)       | WCAG 2.2 AAA mapping, keyboard contract, screen-reader matrix.         |
+| [docs/props-reference.md](./docs/props-reference.md)   | Every input, output, and exported helper, with types and defaults.     |
+| [docs/styling.md](./docs/styling.md)                   | Class hooks, listbox positioning, logical properties, focus and state. |
+| [docs/custom-rendering.md](./docs/custom-rendering.md) | Replacing the button glyph, and the sibling-widget contract.           |
+| [docs/recipes.md](./docs/recipes.md)                   | Short task-shaped snippets for the common wiring jobs.                 |
+| [docs/troubleshooting.md](./docs/troubleshooting.md)   | Symptom → cause → fix for the things that actually go wrong.           |
 
 ## Examples directory
 
 Each file in `examples/` is a complete, runnable Angular 20
 standalone component you can copy into your project.
 
-| Example                                                                                | Demonstrates                                                       |
-| -------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| [basic.component.ts](./examples/basic.component.ts)                            | The default button + listbox rendering, with the status region.   |
-| [sibling-select.component.ts](./examples/sibling-select.component.ts)                            | Sibling native `<select>` bound to `[(value)]` for long locale lists. |
-| [sibling-buttons.component.ts](./examples/sibling-buttons.component.ts)                          | Toggle-button group with short codes / glyphs.                     |
-| [rtl-demo.component.ts](./examples/rtl-demo.component.ts)                        | Live RTL preview — Arabic, Hebrew, Persian, Urdu, Pashto.          |
-| [nhs-style.component.ts](./examples/nhs-style.component.ts)                      | NHS UK-style language banner with endonyms.                        |
-| [with-transloco.component.ts](./examples/with-transloco.component.ts)            | Binding to Transloco's active language.                            |
-| [with-ngx-translate.component.ts](./examples/with-ngx-translate.component.ts)    | Driving `TranslateService.use()` from `(localeChange)`.            |
-| [analog-cookie.component.ts](./examples/analog-cookie.component.ts)                    | Analog cookie-based SSR — no flash of default locale.              |
-| [scoped-target.component.ts](./examples/scoped-target.component.ts)              | Multiple per-region selects, each scoped to its own panel.         |
-| [combobox.component.ts](./examples/combobox.component.ts)                        | Native `<datalist>` type-ahead for 436 locales.                    |
+| Example                                                                       | Demonstrates                                                          |
+| ----------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| [basic.component.ts](./examples/basic.component.ts)                           | The default button + listbox rendering, with the status region.       |
+| [sibling-select.component.ts](./examples/sibling-select.component.ts)         | Sibling native `<select>` bound to `[(value)]` for long locale lists. |
+| [sibling-buttons.component.ts](./examples/sibling-buttons.component.ts)       | Toggle-button group with short codes / glyphs.                        |
+| [rtl-demo.component.ts](./examples/rtl-demo.component.ts)                     | Live RTL preview — Arabic, Hebrew, Persian, Urdu, Pashto.             |
+| [nhs-style.component.ts](./examples/nhs-style.component.ts)                   | NHS UK-style language banner with endonyms.                           |
+| [with-transloco.component.ts](./examples/with-transloco.component.ts)         | Binding to Transloco's active language.                               |
+| [with-ngx-translate.component.ts](./examples/with-ngx-translate.component.ts) | Driving `TranslateService.use()` from `(localeChange)`.               |
+| [analog-cookie.component.ts](./examples/analog-cookie.component.ts)           | Analog cookie-based SSR — no flash of default locale.                 |
+| [scoped-target.component.ts](./examples/scoped-target.component.ts)           | Multiple per-region selects, each scoped to its own panel.            |
+| [combobox.component.ts](./examples/combobox.component.ts)                     | Native `<datalist>` type-ahead for 436 locales.                       |
 
 ## License
 

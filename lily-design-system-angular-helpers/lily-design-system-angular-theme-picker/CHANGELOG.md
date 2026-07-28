@@ -1,4 +1,4 @@
-# Changelog — ThemeChooser (Angular)
+# Changelog — ThemePicker (Angular)
 
 All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
@@ -8,23 +8,23 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 ### Added
 
-- Initial release under this name. `ThemeChooser` is an Angular 20
+- Initial release under this name. `ThemePicker` is an Angular 20
   headless theme loader: a single-glyph button (◑, U+25D1) that opens a
   WAI-ARIA APG listbox of themes, swaps `href` on a managed
-  `<link rel="stylesheet" data-lily-theme-chooser="{name}">` in
+  `<link rel="stylesheet" data-lily-theme-picker="{name}">` in
   `document.head`, and sets `data-theme="{slug}"` on the document root
   (or on a consumer-supplied `target`). Standalone, signal-based,
   `OnPush`, `@for` control flow, zero CSS.
 - Initial selection resolves `value > storage > detection >
-  defaultValue > "light" > first theme`, with optional `localStorage`
+defaultValue > "light" > first theme`, with optional `localStorage`
   persistence via `storageKey` and optional `prefers-color-scheme`
   detection via `detectFromSystem`.
-- Public surface: `ThemeChooser` (selector `lily-theme-chooser`),
-  `ThemeChooserIcon` (`ng-template[lilyThemeChooserIcon]`),
-  `nextThemeChooserId`, `themeName`, `matchSystemTheme`,
+- Public surface: `ThemePicker` (selector `lily-theme-picker`),
+  `ThemePickerIcon` (`ng-template[lilyThemePickerIcon]`),
+  `nextThemePickerId`, `themeName`, `matchSystemTheme`,
   `normaliseThemesUrl`, `themeHref`, `CIRCLE_WITH_RIGHT_HALF_BLACK`,
   and the `ChildArgs` type.
-- Class hooks: `.theme-chooser`, `-button`, `-icon`, `-list`,
+- Class hooks: `.theme-picker`, `-button`, `-icon`, `-list`,
   `-option`. Every user-facing string is an input; the glyph is
   `aria-hidden` and the accessible name comes from `label`.
 
@@ -33,10 +33,10 @@ and the project follows [Semantic Versioning](https://semver.org/).
 - **Previously released in-tree as
   `lily-design-system-angular-theme-select`** (last in-tree version
   0.4.0). The package name, directory, component class, selector,
-  marker directive, class hooks and the `data-lily-theme-chooser`
+  marker directive, class hooks and the `data-lily-theme-picker`
   attribute all changed with it. The version resets to 0.1.0 because
   nothing has ever been published under the new name.
-- The catalog component `theme-chooser` in `components.tsv` is a
+- The catalog component `theme-picker` in `components.tsv` is a
   different thing entirely and is untouched — removing that collision is
   why this rename happened.
 
@@ -51,17 +51,17 @@ version numbers were never published under the current name.
 
 #### Unreleased (pre-rename)
 
-#### Added (symmetry with locale-chooser)
+#### Added (symmetry with locale-picker)
 
-- **`themeName(theme)` is exported.** locale-chooser has exported
-  `localeName(code)` all along; theme-chooser had no equivalent, so
+- **`themeName(theme)` is exported.** locale-picker has exported
+  `localeName(code)` all along; theme-picker had no equivalent, so
   examples across the catalogs hand-duplicated its title-casing rule.
   `themeName("high-contrast")` returns `"High Contrast"`. The
   component's own `labelFor` now delegates to it, so there is exactly
   one implementation of the rule. `themeLabels` entries still override
   it.
 - **`detectFromSystem` input and the exported `matchSystemTheme`
-  helper**, mirroring locale-chooser's `detectFromNavigator` /
+  helper**, mirroring locale-picker's `detectFromNavigator` /
   `matchNavigatorLanguage`. `matchSystemTheme(themes)` reads
   `matchMedia("(prefers-color-scheme: dark)")`, maps it to `"dark"` /
   `"light"`, and returns `""` when that slug is not in `themes` **or
@@ -69,7 +69,7 @@ version numbers were never published under the current name.
   covers jsdom, since jsdom does not implement `matchMedia`.
 
   Detection slots into the resolution order in the same position
-  navigator detection occupies for locale-chooser:
+  navigator detection occupies for locale-picker:
 
   ```
   value > storage > detection > defaultValue > "light"/"en" > first
@@ -81,14 +81,13 @@ version numbers were never published under the current name.
   `examples/system-preference.component.ts` now uses the input
   instead of hand-rolling the media query.
 
-
 #### Changed (BREAKING — the control is no longer a `<select>`)
 
 - **`<select>` → icon button + WAI-ARIA APG listbox.** The rendered
-  control is now a root `<div class="theme-chooser">` containing a
-  `<button class="theme-chooser-button">` that toggles a
-  `<ul class="theme-chooser-list" role="listbox">` of
-  `<li class="theme-chooser-option" role="option">` children. The
+  control is now a root `<div class="theme-picker">` containing a
+  `<button class="theme-picker-button">` that toggles a
+  `<ul class="theme-picker-list" role="listbox">` of
+  `<li class="theme-picker-option" role="option">` children. The
   button carries `aria-haspopup="listbox"`, `aria-expanded`, and
   `aria-controls`; the listbox carries `aria-activedescendant` while
   open; each option carries `aria-selected` plus a `data-active`
@@ -98,19 +97,19 @@ version numbers were never published under the current name.
 - **A hidden `<input type="hidden">` carries the value**, so the
   control still participates in a surrounding `<form>` now that no
   native form control remains. It takes the `name` input, which
-  *also* still discriminates the managed
-  `<link data-lily-theme-chooser="{name}">`.
+  _also_ still discriminates the managed
+  `<link data-lily-theme-picker="{name}">`.
 - **The `placeholder` input is removed.** There is no `<select>` left
   to pin an option in, so the "pinned placeholder keeps the control
   narrow" tradeoff introduced in 0.3.0 no longer exists. The
-  `.theme-chooser-placeholder` class hook and the `field-sizing`
+  `.theme-picker-placeholder` class hook and the `field-sizing`
   width recipe that served it are gone with it. Consumers passing
   `placeholder` must delete the binding.
-- **Class hooks changed.** `theme-chooser` now names the root `<div>`
-  (and is where `className` lands). New: `theme-chooser-button`,
-  `theme-chooser-icon`, `theme-chooser-list`. `theme-chooser-option`
+- **Class hooks changed.** `theme-picker` now names the root `<div>`
+  (and is where `className` lands). New: `theme-picker-button`,
+  `theme-picker-icon`, `theme-picker-list`. `theme-picker-option`
   now names an `<li>`, not an `<option>`. Removed:
-  `theme-chooser-placeholder`. New state selectors:
+  `theme-picker-placeholder`. New state selectors:
   `[data-active]` (keyboard highlight) and `[aria-selected="true"]`
   (theme in effect) — different states, usually on different options.
 - **The package now needs consumer positioning CSS.** The listbox is
@@ -143,14 +142,14 @@ version numbers were never published under the current name.
 
 #### Added
 
-- `ThemeChooserIcon` — optional exported marker directive
-  (`ng-template[lilyThemeChooserIcon]`) giving typed `let-` variables
+- `ThemePickerIcon` — optional exported marker directive
+  (`ng-template[lilyThemePickerIcon]`) giving typed `let-` variables
   for the icon template via `ngTemplateContextGuard`. Purely a
   type-checking aid; the component's query does not require it.
 - `CIRCLE_WITH_RIGHT_HALF_BLACK` — the default button glyph, `◑`
   U+25D1 CIRCLE WITH RIGHT HALF BLACK (`&#9681;`), exported so
   consumers can reuse it without hardcoding the code point.
-- `nextThemeChooserId` — the per-instance id generator. An
+- `nextThemePickerId` — the per-instance id generator. An
   incrementing module counter rather than `Math.random()` /
   `Date.now()`, which is what makes the `id` / `aria-controls` /
   `aria-activedescendant` wiring stable across server and client
@@ -188,14 +187,14 @@ active theme.
 - `placeholder` input (optional, `string`). Sets the text of the new
   leading placeholder option. Defaults to the `label` value, so the
   package still emits no hardcoded user-facing string.
-- `.theme-chooser-placeholder` class hook on the placeholder option, and
+- `.theme-picker-placeholder` class hook on the placeholder option, and
   a width recipe (`field-sizing: content` + `max-width`) in
   `docs/styling.md`. The package still ships zero CSS.
 
 #### Changed (BREAKING — DOM contract)
 
 - The `<select>` now renders a leading
-  `<option class="theme-chooser-option theme-chooser-placeholder" value="" selected>`
+  `<option class="theme-picker-option theme-picker-placeholder" value="" selected>`
   before the theme options. **Option count is one greater than
   `themes.length`**, and the first option's `value` is `""`. Consumers
   asserting on option count or index will need to account for it.
@@ -220,10 +219,10 @@ before, and `value` remains the two-way bindable source of truth.
 
 - The compensating status region is now the **default pattern**, not a
   suggestion: the basic example and the `index.md` quick-start both ship
-  a visible `<p class="theme-chooser-status" aria-live="polite">` showing
+  a visible `<p class="theme-picker-status" aria-live="polite">` showing
   the active theme. `aria-live="polite"` announces mutations only, so it
   stays silent on first paint and speaks on each change.
-  `docs/accessibility.md` reframes opting *out* as the deliberate choice
+  `docs/accessibility.md` reframes opting _out_ as the deliberate choice
   and keeps an explicit "what this does and does not fix" note — the
   region announces transitions, it does not restore combobox value
   semantics.
@@ -234,12 +233,12 @@ before, and `value` remains the two-way bindable source of truth.
 
 - Migrated from the radio-group "picker" rendering to a native
   `<select>` (landed in-tree 2026-06-17): the root element is now
-  `<select class="theme-chooser">` with one `<option class="theme-chooser-option">`
+  `<select class="theme-picker">` with one `<option class="theme-picker-option">`
   per choice, replacing the former `<fieldset role="radiogroup">` with
   `<input type="radio">` children. The package was renamed from the
   `*-picker` name to `*-select` accordingly.
-- Class-hook contract changed: `theme-chooser` now names the `<select>` root
-  and `theme-chooser-option` is the only sub-class; the radio/label sub-class
+- Class-hook contract changed: `theme-picker` now names the `<select>` root
+  and `theme-picker-option` is the only sub-class; the radio/label sub-class
   hooks are gone.
 - Keyboard interaction is the native `<select>` contract (Arrow keys,
   Home / End, first-letter typeahead) instead of radio-group cycling.
@@ -258,13 +257,13 @@ Initial release.
 
 #### Added
 
-- `theme-chooser.component.ts` — Angular 20 standalone component.
+- `theme-picker.component.ts` — Angular 20 standalone component.
   Implements the full Svelte canonical contract:
-  - Renders `<select class="theme-chooser …" [attr.aria-label]="…"
-    [name]="…">` with one `<option class="theme-chooser-option">`
+  - Renders `<select class="theme-picker …" [attr.aria-label]="…"
+[name]="…">` with one `<option class="theme-picker-option">`
     per theme slug.
   - Manages a single `<link rel="stylesheet"
-    data-lily-theme-chooser="{name}">` in `document.head` and swaps
+data-lily-theme-picker="{name}">` in `document.head` and swaps
     its `href` on each apply.
   - Sets `data-theme="{slug}"` on the resolved target element
     (defaults to `document.documentElement`).
@@ -274,9 +273,9 @@ Initial release.
   - `themeChange` output for post-apply side effects.
   - `className` input for the consumer's CSS hook on the root
     `<select>`.
-- `index.ts` barrel re-exporting `ThemeChooser`, `normaliseThemesUrl`,
+- `index.ts` barrel re-exporting `ThemePicker`, `normaliseThemesUrl`,
   `themeHref`.
-- `theme-chooser.component.spec.ts` — vitest suite asserting every
+- `theme-picker.component.spec.ts` — vitest suite asserting every
   numbered acceptance criterion in `spec/index.md` §7 (13 items + extras).
 - `spec/index.md` — spec-driven contract, version 0.1.0.
 - `AGENTS/` subdirectory with `api.md`, `lifecycle.md`,
@@ -310,7 +309,7 @@ Initial release.
 #### Parity
 
 This is a direct port of the Svelte canonical
-`lily-design-system-svelte-theme-chooser` v0.1.0. The DOM contract,
+`lily-design-system-svelte-theme-picker` v0.1.0. The DOM contract,
 managed-link discriminator, initial-value resolution, and apply
 order match clause-for-clause.
 

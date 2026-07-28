@@ -7,7 +7,7 @@
     2. It is the discriminator on the managed <link> element, so
        each control swaps its own stylesheet without stepping on the
        other.
-    3. It seeds the default id prefix ("theme-chooser-{name}"), so
+    3. It seeds the default id prefix ("theme-picker-{name}"), so
        distinct names also give the two listboxes distinct ids.
 
   That third role matters: Nunjucks macros cannot generate
@@ -25,11 +25,11 @@
   a per-control `target` via the client.js init opts (see the script
   below).
 #}
-{% from "../theme-chooser.njk" import themeChooser %}
+{% from "../theme-picker.njk" import themePicker %}
 
 <section class="region region-a">
     <h2>Region A</h2>
-    {{ themeChooser({
+    {{ themePicker({
         label: "Region A theme",
         name: "region-a",
         themesUrl: "/assets/themes/",
@@ -39,7 +39,7 @@
 
 <section class="region region-b">
     <h2>Region B</h2>
-    {{ themeChooser({
+    {{ themePicker({
         label: "Region B theme",
         name: "region-b",
         themesUrl: "/assets/themes/",
@@ -48,14 +48,14 @@
 </section>
 
 <script type="module">
-    import { initThemeChooser } from "../theme-chooser.client.js";
+    import { initThemePicker } from "../theme-picker.client.js";
 
     const a = document.querySelector(
-        "[data-lily-theme-chooser-root][data-lily-theme-chooser-name='region-a']",
+        "[data-lily-theme-picker-root][data-lily-theme-picker-name='region-a']",
     );
     const b = document.querySelector(
-        "[data-lily-theme-chooser-root][data-lily-theme-chooser-name='region-b']",
+        "[data-lily-theme-picker-root][data-lily-theme-picker-name='region-b']",
     );
-    if (a) initThemeChooser(a, { target: a.closest("section.region-a") });
-    if (b) initThemeChooser(b, { target: b.closest("section.region-b") });
+    if (a) initThemePicker(a, { target: a.closest("section.region-a") });
+    if (b) initThemePicker(b, { target: b.closest("section.region-b") });
 </script>

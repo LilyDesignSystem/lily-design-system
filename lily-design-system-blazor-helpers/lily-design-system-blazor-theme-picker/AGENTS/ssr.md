@@ -1,4 +1,4 @@
-# SSR — ThemeChooser (Blazor)
+# SSR — ThemePicker (Blazor)
 
 The select runs cleanly under every Blazor 10 hosting model.
 This page lists the Blazor-specific recipes; the canonical rules
@@ -10,19 +10,36 @@ Under static SSR / prerender, no `OnAfterRenderAsync` callback fires
 and the select does not touch the DOM. The rendered HTML looks like:
 
 ```html
-<div class="theme-chooser">
-    <input type="hidden" name="theme" value="light" />
-    <button type="button" class="theme-chooser-button" aria-label="Theme"
-            aria-haspopup="listbox" aria-expanded="false"
-            aria-controls="theme-chooser-1-list">
-        <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
-    </button>
-    <ul class="theme-chooser-list" id="theme-chooser-1-list" role="listbox"
-        aria-label="Theme" tabindex="-1" hidden>
-        <li class="theme-chooser-option" id="theme-chooser-1-option-0"
-            role="option" aria-selected="true">Light</li>
-        …
-    </ul>
+<div class="theme-picker">
+  <input type="hidden" name="theme" value="light" />
+  <button
+    type="button"
+    class="theme-picker-button"
+    aria-label="Theme"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="theme-picker-1-list"
+  >
+    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
+  </button>
+  <ul
+    class="theme-picker-list"
+    id="theme-picker-1-list"
+    role="listbox"
+    aria-label="Theme"
+    tabindex="-1"
+    hidden
+  >
+    <li
+      class="theme-picker-option"
+      id="theme-picker-1-option-0"
+      role="option"
+      aria-selected="true"
+    >
+      Light
+    </li>
+    …
+  </ul>
 </div>
 ```
 
@@ -122,7 +139,7 @@ record ThemeBody(string Theme);
 @page "/settings"
 @using LilyDesignSystem.Blazor.Helpers
 
-<ThemeChooser
+<ThemePicker
     Label="Theme"
     ThemesUrl="/assets/themes/"
     Themes="@(new[]{ "light", "dark", "abyss" })"
@@ -160,7 +177,7 @@ WebAssembly. The select hydrates from `localStorage` like a SPA,
 which means a one-frame flash of the default theme on first paint.
 
 ```razor
-<ThemeChooser
+<ThemePicker
     Label="Theme"
     ThemesUrl="/assets/themes/"
     Themes="@(new[]{ "light", "dark", "abyss" })"
@@ -177,20 +194,20 @@ default theme via a small inline script in `wwwroot/index.html`:
 
 ```html
 <head>
-    …
-    <script>
-        (function() {
-            try {
-                var stored = localStorage.getItem("lily-theme") || "light";
-                document.documentElement.setAttribute("data-theme", stored);
-                var link = document.createElement("link");
-                link.rel = "stylesheet";
-                link.href = "/assets/themes/" + stored + ".css";
-                link.setAttribute("data-lily-theme-chooser", "theme");
-                document.head.appendChild(link);
-            } catch (e) {}
-        })();
-    </script>
+  …
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem("lily-theme") || "light";
+        document.documentElement.setAttribute("data-theme", stored);
+        var link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = "/assets/themes/" + stored + ".css";
+        link.setAttribute("data-lily-theme-picker", "theme");
+        document.head.appendChild(link);
+      } catch (e) {}
+    })();
+  </script>
 </head>
 ```
 
@@ -218,7 +235,7 @@ The select stays consistent because:
 - Parameters that affect markup (`Value`, `Themes`, `Label`) are
   deterministic; they don't depend on `document.*`, `window.*`, or
   `localStorage`.
-- DOM mutations only happen *after* hydration, so they don't
+- DOM mutations only happen _after_ hydration, so they don't
   conflict with the SSR DOM.
 
 The two cases that produce warnings:

@@ -9,7 +9,7 @@
  * an icon system of your own. The accessible name still comes from
  * `label`, so whatever you render stays decorative.
  */
-import ShareChooser, { type ShareTarget } from "../ShareChooser";
+import SharePicker, { type ShareTarget } from "../SharePicker";
 
 const targets: ShareTarget[] = [
     {
@@ -21,9 +21,9 @@ const targets: ShareTarget[] = [
     },
 ];
 
-export default function CustomGlyphShareChooser() {
+export default function CustomGlyphSharePicker() {
     return (
-        <ShareChooser
+        <SharePicker
             label="Share this page"
             title="An article worth reading"
             targets={targets}
@@ -37,6 +37,6 @@ export default function CustomGlyphShareChooser() {
                     {open ? "▾" : "▸"}
                 </span>
             )}
-        </ShareChooser>
+        </SharePicker>
     );
 }

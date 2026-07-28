@@ -1,7 +1,7 @@
 # Custom rendering
 
 The default slot replaces the **button glyph** — the `◑` character
-inside `<span class="theme-chooser-icon" aria-hidden="true">`. That is
+inside `<span class="theme-picker-icon" aria-hidden="true">`. That is
 the whole of what it controls.
 
 It does **not** render the options. The listbox, its
@@ -17,12 +17,12 @@ The slot receives one object with three fields:
 
 ```ts
 type SlotArgs = {
-    /** Currently selected theme slug. */
-    value: string;
-    /** Is the listbox open? */
-    open: boolean;
-    /** Resolve a slug to its display label. */
-    labelFor: (theme: string) => string;
+  /** Currently selected theme slug. */
+  value: string;
+  /** Is the listbox open? */
+  open: boolean;
+  /** Resolve a slug to its display label. */
+  labelFor: (theme: string) => string;
 };
 ```
 
@@ -30,7 +30,10 @@ type SlotArgs = {
 canonical Svelte helper's type name. Both come from `index.ts`:
 
 ```ts
-import type { SlotArgs, ChildArgs } from "./lily-design-system-vue-theme-chooser";
+import type {
+  SlotArgs,
+  ChildArgs,
+} from "./lily-design-system-vue-theme-picker";
 ```
 
 In Vue templates the slot props arrive in camelCase via the
@@ -38,7 +41,7 @@ In Vue templates the slot props arrive in camelCase via the
 
 ```vue
 <template #default="{ value, open, labelFor }">
-    <!-- … -->
+  <!-- … -->
 </template>
 ```
 
@@ -72,15 +75,15 @@ user's fonts and may render inconsistently or be missing entirely. An
 inline SVG renders identically everywhere and inherits `currentColor`.
 
 ```vue
-<ThemeChooser
-    label="Theme"
-    themes-url="/assets/themes/"
-    :themes="['light', 'dark']"
-    v-model:value="theme"
+<ThemePicker
+  label="Theme"
+  themes-url="/assets/themes/"
+  :themes="['light', 'dark']"
+  v-model:value="theme"
 >
     <template #default>
         <svg
-            class="theme-chooser-icon"
+            class="theme-picker-icon"
             width="16"
             height="16"
             viewBox="0 0 16 16"
@@ -91,7 +94,7 @@ inline SVG renders identically everywhere and inherits `currentColor`.
             <path d="M8 1a7 7 0 0 1 0 14Z" fill="currentColor" />
         </svg>
     </template>
-</ThemeChooser>
+</ThemePicker>
 ```
 
 ### A swatch previewing the active theme
@@ -102,12 +105,12 @@ theme files use:
 
 ```vue
 <template #default="{ value, labelFor }">
-    <span
-        class="theme-chooser-swatch"
-        :data-theme="value"
-        :title="labelFor(value)"
-        aria-hidden="true"
-    />
+  <span
+    class="theme-picker-swatch"
+    :data-theme="value"
+    :title="labelFor(value)"
+    aria-hidden="true"
+  />
 </template>
 ```
 
@@ -124,22 +127,24 @@ Working example:
 
 ```vue
 <template #default="{ value, open, labelFor }">
-    <span
-        class="theme-chooser-swatch"
-        :data-theme="value"
-        :title="labelFor(value)"
-        aria-hidden="true"
-    />
-    <span class="theme-chooser-caret" aria-hidden="true">{{ open ? "▴" : "▾" }}</span>
+  <span
+    class="theme-picker-swatch"
+    :data-theme="value"
+    :title="labelFor(value)"
+    aria-hidden="true"
+  />
+  <span class="theme-picker-caret" aria-hidden="true">{{
+    open ? "▴" : "▾"
+  }}</span>
 </template>
 ```
 
-You do not need `open` for state *styling* — `aria-expanded` is already
-on the button, so `.theme-chooser-button[aria-expanded="true"]` works
+You do not need `open` for state _styling_ — `aria-expanded` is already
+on the button, so `.theme-picker-button[aria-expanded="true"]` works
 from CSS. Reach for `open` when the content itself must change, as
 above.
 
-## What the slot should *not* do
+## What the slot should _not_ do
 
 - **Don't render `<option>` or `<li>` elements.** They would land
   inside the `<button>`, not inside the listbox. The options are
@@ -163,7 +168,7 @@ question entirely:
 
 ```vue
 <slot v-bind="{ value: current, open, labelFor }">
-    <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
+    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
 </slot>
 ```
 

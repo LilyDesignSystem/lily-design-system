@@ -21,7 +21,7 @@
 -->
 <script setup lang="ts">
 import { ref } from "vue";
-import LocaleChooser from "../LocaleChooser.vue";
+import LocalePicker from "../LocalePicker.vue";
 // import { setLocale, getLocale, type Locale } from "@/paraglide/runtime.js";
 // import * as m from "@/paraglide/messages.js";
 
@@ -41,7 +41,7 @@ const current = ref<string>(getLocale());
 </script>
 
 <template>
-    <LocaleChooser
+    <LocalePicker
         label="Language"
         :locales="['en', 'fr', 'ar']"
         v-model:value="current"

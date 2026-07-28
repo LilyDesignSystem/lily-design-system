@@ -2,7 +2,7 @@
     Example 5 — Custom button glyph via the default scoped slot.
 
     By default the button renders a single half-circle glyph (U+25D1)
-    inside <span class="theme-chooser-icon" aria-hidden="true">. The
+    inside <span class="theme-picker-icon" aria-hidden="true">. The
     default slot REPLACES that glyph — as of the icon-button rewrite it
     no longer renders the options. The listbox, its options, the
     keyboard contract, and the apply lifecycle all stay
@@ -24,25 +24,25 @@
     than introducing a competing name.
 -->
 <script setup lang="ts">
-import ThemeChooser from "../ThemeChooser.vue";
+import ThemePicker from "../ThemePicker.vue";
 </script>
 
 <template>
-    <ThemeChooser
+    <ThemePicker
         label="Theme"
         themes-url="/assets/themes/"
         :themes="['light', 'dark', 'abyss', 'cupcake', 'dracula']"
     >
         <template #default="{ value, open, labelFor }">
             <span
-                class="theme-chooser-swatch"
+                class="theme-picker-swatch"
                 :data-theme="value"
                 :title="labelFor(value)"
                 aria-hidden="true"
             />
-            <span class="theme-chooser-caret" aria-hidden="true">{{
+            <span class="theme-picker-caret" aria-hidden="true">{{
                 open ? "▴" : "▾"
             }}</span>
         </template>
-    </ThemeChooser>
+    </ThemePicker>
 </template>

@@ -23,48 +23,50 @@
     every `translate` pipe in the template.
 */
 import {
-    ChangeDetectionStrategy,
-    Component,
-    inject,
-    signal,
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
 } from "@angular/core";
 // In a real app these come from @ngx-translate/core.
 // import { TranslateModule, TranslateService } from "@ngx-translate/core";
-import { LocaleChooser } from "../locale-chooser.component";
+import { LocalePicker } from "../locale-picker.component";
 
 // Demo-only stand-ins so this file compiles without ngx-translate.
 class TranslateService {
-    currentLang = "en";
-    use(lang: string) { this.currentLang = lang; }
+  currentLang = "en";
+  use(lang: string) {
+    this.currentLang = lang;
+  }
 }
 
 @Component({
-    selector: "example-with-ngx-translate",
-    standalone: true,
-    imports: [LocaleChooser],
-    providers: [TranslateService],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
-        <lily-locale-chooser
-            label="Language"
-            [locales]="['en', 'fr', 'ar']"
-            [(value)]="current"
-            storageKey="app-locale"
-            (localeChange)="onLocaleChange($event)"
-        />
+  selector: "example-with-ngx-translate",
+  standalone: true,
+  imports: [LocalePicker],
+  providers: [TranslateService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <lily-locale-picker
+      label="Language"
+      [locales]="['en', 'fr', 'ar']"
+      [(value)]="current"
+      storageKey="app-locale"
+      (localeChange)="onLocaleChange($event)"
+    />
 
-        <h1>Hello, {{ current() }}</h1>
-        <p>
-            In a real ngx-translate app, replace this with
-            <code>{{ '{{ "home.body" | translate }}' }}</code>.
-        </p>
-    `,
+    <h1>Hello, {{ current() }}</h1>
+    <p>
+      In a real ngx-translate app, replace this with
+      <code>{{ '{{ "home.body" | translate }}' }}</code>.
+    </p>
+  `,
 })
 export class WithNgxTranslateExample {
-    private translate = inject(TranslateService);
-    current = signal<string>(this.translate.currentLang);
+  private translate = inject(TranslateService);
+  current = signal<string>(this.translate.currentLang);
 
-    onLocaleChange(code: string): void {
-        this.translate.use(code);
-    }
+  onLocaleChange(code: string): void {
+    this.translate.use(code);
+  }
 }

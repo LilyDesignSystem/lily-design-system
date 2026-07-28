@@ -10,7 +10,7 @@
   list everywhere.
 -->
 <script setup lang="ts">
-import ShareChooser, { type ShareTarget } from "../ShareChooser.vue";
+import SharePicker, { type ShareTarget } from "../SharePicker.vue";
 
 const targets: ShareTarget[] = [
   {
@@ -34,7 +34,7 @@ function onShare(targetId: string, url: string): void {
 </script>
 
 <template>
-  <ShareChooser
+  <SharePicker
     label="Share this page"
     title="An article worth reading"
     :targets="targets"

@@ -50,13 +50,13 @@ CSS, so the `<ul role="listbox">` is a normal-flow block element.
 
 ## "The listbox is visible even when closed"
 
-**Likely cause.** Your CSS sets `display` on `.theme-chooser-list`,
+**Likely cause.** Your CSS sets `display` on `.theme-picker-list`,
 which overrides the user-agent's `[hidden] { display: none }` rule.
 
 **Fix.** Add an explicit reset:
 
 ```css
-.theme-chooser-list[hidden] { display: none; }
+.theme-picker-list[hidden] { display: none; }
 ```
 
 ## "Keyboard users can't see which option they're on"
@@ -73,7 +73,7 @@ applied theme, `data-active` is the keyboard cursor.
 **Likely cause.** No font on the device covers U+25D1, so the glyph
 falls back to `.notdef` ("tofu") or nothing.
 
-**Fix.** Pin a font stack on `.theme-chooser-icon`, or replace the glyph
+**Fix.** Pin a font stack on `.theme-picker-icon`, or replace the glyph
 with an inline SVG via the `children` snippet. See
 [accessibility.md § Tradeoff 3](./accessibility.md#tradeoff-3--the-glyph-is-font-dependent).
 

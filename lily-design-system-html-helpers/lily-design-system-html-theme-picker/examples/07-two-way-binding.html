@@ -20,28 +20,28 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>theme-chooser — two-way</title>
-    <script type="module" src="/dist/theme-chooser.js"></script>
+    <title>theme-picker — two-way</title>
+    <script type="module" src="/dist/theme-picker.js"></script>
 </head>
 <body>
-    <h1>Theme chooser — two-way</h1>
+    <h1>Theme picker — two-way</h1>
 
-    <theme-chooser
-        id="theme-chooser"
+    <theme-picker
+        id="theme-picker"
         label="Theme"
         themes-url="/assets/themes/"
         themes="light,dark,abyss"
         value="light"
-    ></theme-chooser>
+    ></theme-picker>
 
     <p>Current theme: <strong id="current">light</strong></p>
 
     <button id="toggle" type="button">Toggle light/dark from outside</button>
 
     <script type="module">
-        await customElements.whenDefined("theme-chooser");
+        await customElements.whenDefined("theme-picker");
 
-        const select = document.querySelector("#theme-chooser");
+        const select = document.querySelector("#theme-picker");
         const current = document.querySelector("#current");
         const toggle = document.querySelector("#toggle");
 

@@ -7,20 +7,20 @@
     errors are silently swallowed.
 */
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { ThemeChooser } from "../theme-chooser.component";
+import { ThemePicker } from "../theme-picker.component";
 
 @Component({
-    selector: "example-persistence",
-    standalone: true,
-    imports: [ThemeChooser],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
-        <lily-theme-chooser
-            label="Theme"
-            themesUrl="/assets/themes/"
-            [themes]="['light', 'dark', 'abyss']"
-            storageKey="my-app:theme"
-        />
-    `,
+  selector: "example-persistence",
+  standalone: true,
+  imports: [ThemePicker],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <lily-theme-picker
+      label="Theme"
+      themesUrl="/assets/themes/"
+      [themes]="['light', 'dark', 'abyss']"
+      storageKey="my-app:theme"
+    />
+  `,
 })
 export class PersistenceExample {}

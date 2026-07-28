@@ -9,9 +9,9 @@
   number examples in that locale's formatting conventions, all
   without a page reload or any i18n library.
 #}
-{% from "../locale-chooser.njk" import localeChooser %}
+{% from "../locale-picker.njk" import localePicker %}
 
-{{ localeChooser({
+{{ localePicker({
     label: "Language",
     locales: ["en", "en-US", "en-GB", "fr", "fr-CA", "de", "ar", "ja"],
     value: "en",
@@ -33,7 +33,7 @@
     import {
         autoInit,
         bcp47LocaleTag,
-    } from "../locale-chooser.client.js";
+    } from "../locale-picker.client.js";
 
     function format(code) {
         const tag = bcp47LocaleTag(code);

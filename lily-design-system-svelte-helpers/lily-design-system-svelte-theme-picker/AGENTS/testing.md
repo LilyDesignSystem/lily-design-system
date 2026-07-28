@@ -1,7 +1,7 @@
-# Testing — ThemeChooser (Svelte)
+# Testing — ThemePicker (Svelte)
 
 The select's test suite lives in
-[`../ThemeChooser.test.ts`](../ThemeChooser.test.ts) and asserts every
+[`../ThemePicker.test.ts`](../ThemePicker.test.ts) and asserts every
 numbered acceptance criterion in `spec/index.md` §7. This file documents
 the test harness and the conventions specific to this helper. For
 the catalog-wide test rules see
@@ -13,10 +13,10 @@ the catalog-wide test rules see
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { render } from "@testing-library/svelte";
 import { tick } from "svelte";
-import ThemeChooser, {
+import ThemePicker, {
   themeHref,
   normaliseThemesUrl,
-} from "./ThemeChooser.svelte";
+} from "./ThemePicker.svelte";
 
 beforeEach(() => {
   // Reset shared state between tests.
@@ -27,7 +27,7 @@ beforeEach(() => {
 ```
 
 Each test re-runs the whole `$effect` lifecycle by calling
-`render(ThemeChooser, { props })` followed by `await tick()`.
+`render(ThemePicker, { props })` followed by `await tick()`.
 
 ## Async waits
 
@@ -35,7 +35,7 @@ The select's `$effect` fires on the next microtask after mount. Use
 `await tick()` to let it run:
 
 ```ts
-const { container } = render(ThemeChooser, { props: {/* … */} });
+const { container } = render(ThemePicker, { props: {/* … */} });
 await tick();
 // initial-value resolution may have re-run $effect; a second tick
 // guarantees the apply step has fired.
@@ -78,7 +78,7 @@ import { fireEvent, screen } from "@testing-library/svelte";
 
 async function pick(slug: string, themes: string[]): Promise<void> {
   await fireEvent.click(screen.getByRole("button"));
-  const opts = document.querySelectorAll(".theme-chooser-option");
+  const opts = document.querySelectorAll(".theme-picker-option");
   await fireEvent.click(opts[themes.indexOf(slug)]);
 }
 ```
@@ -93,7 +93,7 @@ the button — focus moves to the `<ul>` on open:
 
 ```ts
 async function openWith(key: string) {
-  render(ThemeChooser, {
+  render(ThemePicker, {
     props: { label: "Theme", themesUrl: "/t/", themes: THEMES },
   });
   await flush();
@@ -102,7 +102,7 @@ async function openWith(key: string) {
   await flush();
   return {
     button,
-    list: document.querySelector(".theme-chooser-list") as HTMLElement,
+    list: document.querySelector(".theme-picker-list") as HTMLElement,
   };
 }
 ```
@@ -179,7 +179,7 @@ spy on `onChange`:
 
 ```ts
 const onChange = vi.fn();
-const { container } = render(ThemeChooser, {
+const { container } = render(ThemePicker, {
   props: {
     label: "Theme",
     themesUrl: "/t/",
@@ -209,7 +209,7 @@ it("§7.13 children snippet replaces the glyph and receives ChildArgs", async ()
     captured = args();
     return { render: () => "<span data-testid='custom'></span>" };
   });
-  render(ThemeChooser, {
+  render(ThemePicker, {
     props: {
       label: "Theme",
       themesUrl: "/t/",
@@ -221,9 +221,9 @@ it("§7.13 children snippet replaces the glyph and receives ChildArgs", async ()
   await tick();
   // The snippet replaces the glyph *inside the button*.
   expect(screen.getByTestId("custom").closest("button")?.className).toContain(
-    "theme-chooser-button",
+    "theme-picker-button",
   );
-  expect(document.querySelector(".theme-chooser-icon")).toBeNull();
+  expect(document.querySelector(".theme-picker-icon")).toBeNull();
   expect(captured.value).toBe("dark");
   expect(captured.open).toBe(false);
   expect(typeof captured.labelFor).toBe("function");
@@ -238,7 +238,7 @@ once at first render, before the effect resolves an initial theme.
 
 If `createRawSnippet` is unavailable in the test runtime, write a
 small wrapper `.svelte` fixture under `tests/fixtures/` that imports
-`ThemeChooser` and supplies the snippet inline, then `render` the
+`ThemePicker` and supplies the snippet inline, then `render` the
 fixture instead.
 
 ## SSR sanity test
@@ -247,7 +247,7 @@ fixture instead.
 import { render as ssrRender } from "svelte/server";
 
 it("renders cleanly under SSR", () => {
-  const { html } = ssrRender(ThemeChooser, {
+  const { html } = ssrRender(ThemePicker, {
     props: {
       label: "Theme",
       themesUrl: "/t/",
@@ -255,7 +255,7 @@ it("renders cleanly under SSR", () => {
       value: "light",
     },
   });
-  expect(html).toContain('class="theme-chooser"');
+  expect(html).toContain('class="theme-picker"');
   expect(html).toContain('aria-label="Theme"');
   expect(html).toContain('aria-haspopup="listbox"');
   expect(html).toContain('role="listbox"');

@@ -1,6 +1,6 @@
 export {
     default,
-    default as LocaleChooser,
+    default as LocalePicker,
     bcp47LocaleTag,
     isRtlLocale,
     localeName,
@@ -9,5 +9,5 @@ export {
     RTL_LANGUAGE_TAGS,
     RTL_SCRIPT_SUBTAGS,
     GLOBE_WITH_MERIDIANS,
-} from "./LocaleChooser.svelte";
-export type { Props, ChildArgs } from "./LocaleChooser.svelte";
+} from "./LocalePicker.svelte";
+export type { Props, ChildArgs } from "./LocalePicker.svelte";

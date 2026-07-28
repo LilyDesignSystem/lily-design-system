@@ -1,0 +1,48 @@
+@*
+    Example 1 — Basic usage.
+
+    The minimum viable date picker: a label, the required Labels object,
+    and a two-way bound Value. Mode defaults to Date, so Value is a plain
+    ISO YYYY-MM-DD string — sortable, unambiguous across locales, and
+    identical to what <input type="date"> posts.
+
+    Locale drives everything derived: month names, weekday names, first
+    day of week, and numeric field order for typed input. Leave it unset
+    and the runtime's default culture is used.
+
+    An interactive render mode is required. Under static SSR the markup
+    renders but OnAfterRenderAsync never fires, so the Tab focus trap is
+    never installed and the roving tabindex cannot move under keyboard use.
+*@
+
+@page "/examples/date-time-picker/basic"
+@rendermode InteractiveServer
+@using LilyDesignSystem.Blazor.Helpers
+
+<p>
+    Selected date: <strong>@(string.IsNullOrEmpty(_value) ? "(none)" : _value)</strong>
+</p>
+
+<DateTimePicker Label="Pick a date"
+                Labels="@Labels"
+                Locale="en-GB"
+                @bind-Value="_value" />
+
+@code {
+    private string _value = "";
+
+    // The four navigation labels and the two footer labels are required:
+    // they name buttons that always render, and a button whose accessible
+    // name was invented in English is precisely the defect this package
+    // exists to avoid.
+    private static readonly DateTimePickerLabels Labels = new()
+    {
+        PreviousYear = "Previous year",
+        PreviousMonth = "Previous month",
+        NextMonth = "Next month",
+        NextYear = "Next year",
+        Confirm = "OK",
+        Cancel = "Cancel",
+        Clear = "Clear date",
+    };
+}

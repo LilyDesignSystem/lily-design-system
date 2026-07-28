@@ -1,6 +1,6 @@
 # Concepts
 
-How `LocaleChooser` thinks about locale, where it sits in your stack,
+How `LocalePicker` thinks about locale, where it sits in your stack,
 and what it deliberately leaves to you.
 
 ## Three orthogonal concerns
@@ -9,8 +9,8 @@ A web app changes language across three independent axes:
 
 | Axis                       | What changes                                               | Owner                                  |
 | -------------------------- | ---------------------------------------------------------- | -------------------------------------- |
-| **Document language**      | The `lang` attribute on `<html>`. Screen readers, search engines, hyphenation, font selection. | `LocaleChooser` (this helper).        |
-| **Writing direction**      | The `dir` attribute on `<html>`. Bidi text, scrollbar position, flexbox/grid mirror. | `LocaleChooser` (auto-detected from the locale; opt out with `applyDir={false}`). |
+| **Document language**      | The `lang` attribute on `<html>`. Screen readers, search engines, hyphenation, font selection. | `LocalePicker` (this helper).        |
+| **Writing direction**      | The `dir` attribute on `<html>`. Bidi text, scrollbar position, flexbox/grid mirror. | `LocalePicker` (auto-detected from the locale; opt out with `applyDir={false}`). |
 | **Translated strings**     | The actual visible words on the page.                      | Your i18n library (`svelte-i18n`, Paraglide, Inlang, Tolgee, raw `Intl`). |
 
 The helper owns the first two and signals the third via a bindable
@@ -27,7 +27,7 @@ The select:
 
 - Renders an icon button plus a WAI-ARIA APG listbox — semantic HTML
   (`<button>`, `<ul>`, `<li>`) with the ARIA the pattern requires.
-- Carries stable kebab-case class hooks (`locale-chooser` on the root
+- Carries stable kebab-case class hooks (`locale-picker` on the root
   `<div>`, plus `-button`, `-icon`, `-list`, `-option`) so your CSS can
   target it without prefixes or specificity tricks.
 - Ships **no** colour, spacing, typography, font, icon, or animation
@@ -72,7 +72,7 @@ Two reasons:
    you offer three locales or all 436 in `locales.tsv`. A native
    `<select>` is as wide as its longest option, or truncates it —
    awkward in the page header where a language switcher usually lives.
-2. **Symmetry with `ThemeChooser`.** The sibling helper in this
+2. **Symmetry with `ThemePicker`.** The sibling helper in this
    directory has the identical DOM shape, keyboard contract, and glyph
    treatment, so the two sit side by side in a header and read as one
    set. One block of CSS styles both.
@@ -150,7 +150,7 @@ this component implements rather than inheriting. Open with a key on
 the button, then send keys to the `<ul>` — focus moves there on open —
 and assert `aria-activedescendant` rather than focus.
 
-See [../LocaleChooser.test.ts](../LocaleChooser.test.ts) for the
+See [../LocalePicker.test.ts](../LocalePicker.test.ts) for the
 reference suite covering every `spec/index.md` §7 acceptance clause.
 
 ---

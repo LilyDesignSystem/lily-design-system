@@ -1,35 +1,35 @@
-# AGENTS — ThemeChooser (Angular helper)
+# AGENTS — ThemePicker (Angular helper)
 
 Single source of truth: [spec/index.md](./spec/index.md). Read it first; everything
 below is a fast index.
 
 ## What this package is
 
-A reusable Angular 20 headless theme chooser that **loads theme CSS
+A reusable Angular 20 headless theme picker that **loads theme CSS
 files dynamically at runtime** from a developer-supplied directory
 URL. The control is an icon button that opens a WAI-ARIA APG
 listbox — not a native `<select>` — so the component owns the roles,
 focus moves, and the whole keyboard contract itself. Ships no CSS;
-consumer styles the `theme-chooser` class hooks and supplies the
+consumer styles the `theme-picker` class hooks and supplies the
 listbox positioning.
 
 ## Files
 
-| File                              | Purpose                                          |
-| --------------------------------- | ------------------------------------------------ |
-| `spec/index.md`                         | Specification-driven contract (canonical).       |
-| `theme-chooser.component.ts`       | Implementation. Standalone, signal-based, OnPush.|
-| `theme-chooser.component.spec.ts`  | Vitest spec, one assertion per §7 acceptance.    |
-| `index.ts`                        | Barrel re-export.                                |
-| `index.md`                        | User guide.                                      |
+| File                              | Purpose                                           |
+| --------------------------------- | ------------------------------------------------- |
+| `spec/index.md`                   | Specification-driven contract (canonical).        |
+| `theme-picker.component.ts`      | Implementation. Standalone, signal-based, OnPush. |
+| `theme-picker.component.spec.ts` | Vitest spec, one assertion per §7 acceptance.     |
+| `index.ts`                        | Barrel re-export.                                 |
+| `index.md`                        | User guide.                                       |
 
 ## Public surface
 
-- `ThemeChooser` (component class, selector `lily-theme-chooser`).
-- `ThemeChooserIcon` (optional marker directive,
-  `ng-template[lilyThemeChooserIcon]`, for typed `let-` variables).
+- `ThemePicker` (component class, selector `lily-theme-picker`).
+- `ThemePickerIcon` (optional marker directive,
+  `ng-template[lilyThemePickerIcon]`, for typed `let-` variables).
 - `CIRCLE_WITH_RIGHT_HALF_BLACK` (the default glyph, `◑` U+25D1).
-- `nextThemeChooserId` (per-instance id generator).
+- `nextThemePickerId` (per-instance id generator).
 - `normaliseThemesUrl`, `themeHref`, `themeName`, `matchSystemTheme`
   (pure helpers).
 - `ChildArgs` (type).
@@ -40,7 +40,7 @@ Required inputs: `label`, `themesUrl`, `themes`. Full table in
 ## Behaviour contract (one paragraph)
 
 On every theme change the select (1) sets the `href` of one managed
-`<link rel="stylesheet" data-lily-theme-chooser="{name}">` in
+`<link rel="stylesheet" data-lily-theme-picker="{name}">` in
 `document.head` to `${themesUrl}${slug}${extension}`, (2) sets
 `data-theme="{slug}"` on `target` (defaults to
 `document.documentElement`), (3) optionally writes the slug to
@@ -48,7 +48,7 @@ On every theme change the select (1) sets the `href` of one managed
 SSR-safe — all DOM writes guard on `typeof document`. Initial value
 resolves from `value` > storage > system detection (if
 `detectFromSystem`) > `defaultValue` > `"light"` (if present) >
-`themes[0]` — the same shape as locale-chooser's
+`themes[0]` — the same shape as locale-picker's
 `value` > storage > navigator > `defaultValue` > `"en"` >
 `locales[0]`. `value` is the single source of truth; the hidden input
 mirrors it for form participation.
@@ -56,21 +56,41 @@ mirrors it for form participation.
 ## HTML
 
 ```html
-<div class="theme-chooser {className}">
+<div class="theme-picker {className}">
   <input type="hidden" name="{name}" value="{value}" />
-  <button type="button" class="theme-chooser-button" aria-label="{label}"
-          aria-haspopup="listbox" aria-expanded="false" aria-controls="{listId}">
-    <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
+  <button
+    type="button"
+    class="theme-picker-button"
+    aria-label="{label}"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="{listId}"
+  >
+    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
   </button>
-  <ul class="theme-chooser-list" id="{listId}" role="listbox" aria-label="{label}"
-      tabindex="-1" hidden aria-activedescendant="{optionId, only while open}">
-    <li class="theme-chooser-option" id="{optionId}" role="option"
-        aria-selected="true|false" data-active>Light</li>
+  <ul
+    class="theme-picker-list"
+    id="{listId}"
+    role="listbox"
+    aria-label="{label}"
+    tabindex="-1"
+    hidden
+    aria-activedescendant="{optionId, only while open}"
+  >
+    <li
+      class="theme-picker-option"
+      id="{optionId}"
+      role="option"
+      aria-selected="true|false"
+      data-active
+    >
+      Light
+    </li>
   </ul>
 </div>
 ```
 
-`@for` is used (not `*ngFor`). Ids come from `nextThemeChooserId()`, an
+`@for` is used (not `*ngFor`). Ids come from `nextThemePickerId()`, an
 incrementing module counter — stable, unique per instance, SSR-safe.
 A projected `<ng-template>` (queried via `contentChild(TemplateRef)`)
 replaces the glyph inside the button and receives `ChildArgs`

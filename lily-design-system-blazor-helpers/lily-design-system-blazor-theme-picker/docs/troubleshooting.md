@@ -76,7 +76,7 @@ theme on screen, render it yourself next to the control — a status
 region works well:
 
 ```razor
-<ThemeChooser Label="Theme" ThemesUrl="/assets/themes/"
+<ThemePicker Label="Theme" ThemesUrl="/assets/themes/"
              Themes="@themes" @bind-Value="theme" />
 <p role="status">@theme</p>
 ```
@@ -84,12 +84,12 @@ region works well:
 ## "The open list pushes my page around"
 
 **Likely cause.** The package ships no CSS at all, so the
-`<ul class="theme-chooser-list">` is an ordinary in-flow block. When
+`<ul class="theme-picker-list">` is an ordinary in-flow block. When
 it stops being `hidden`, it takes up layout space and shoves
 following content down.
 
 **Fix.** Position it out of flow: `position: relative` on the root
-`.theme-chooser` and `position: absolute` on `.theme-chooser-list`.
+`.theme-picker` and `position: absolute` on `.theme-picker-list`.
 The full block, including the logical `inset-inline-start` that
 mirrors correctly under RTL, is in [styling.md](./styling.md).
 
@@ -172,7 +172,7 @@ bUnit's `TestContext` auto-injects a mock `IJSRuntime`. If your
 tests get `null`, you forgot to derive from `Bunit.TestContext`:
 
 ```csharp
-public class ThemeChooserTests : TestContext { /* … */ }
+public class ThemePickerTests : TestContext { /* … */ }
 ```
 
 ## "JSInterop.Invocations is empty after first render"
@@ -181,7 +181,7 @@ The `OnAfterRenderAsync` continuations may not have settled. Add
 `await Task.Yield()` after `RenderComponent`:
 
 ```csharp
-var cut = RenderComponent<ThemeChooser>(...);
+var cut = RenderComponent<ThemePicker>(...);
 await Task.Yield();
 // JSInterop.Invocations is populated now.
 ```
@@ -249,7 +249,7 @@ is mode-agnostic.
 
 ## "Theme select mounts twice"
 
-If a `<ThemeChooser>` is inside a `<Virtualize>` or a `<KeyedCollection>`
+If a `<ThemePicker>` is inside a `<Virtualize>` or a `<KeyedCollection>`
 whose key changes, it can mount and unmount repeatedly. Avoid putting
 the select in a virtualised list; mount it in a stable layout slot
 (header, settings page) and bind its `Value` via a shared state

@@ -1,6 +1,6 @@
 # i18n integration
 
-`LocaleChooser` is intentionally not an i18n library. It changes the
+`LocalePicker` is intentionally not an i18n library. It changes the
 document language and tells you when the user changed it; the
 actual string substitution is your i18n library's job.
 
@@ -50,7 +50,7 @@ builder.Services.AddLocalization(options => options.ResourcesPath = "Resources")
 @using LilyDesignSystem.Blazor.Helpers
 @inject IStringLocalizer<SharedResources> Localizer
 
-<LocaleChooser
+<LocalePicker
     Label="@Localizer["chooseLanguage"]"
     Locales="@(new[] { "en", "fr", "ar" })"
     LocaleLabels="@(new Dictionary<string, string>
@@ -116,7 +116,7 @@ In your `.resx` files you define keys like `chooseLanguage`,
 ```razor
 @inject IStringLocalizer<Settings> Loc
 
-<LocaleChooser
+<LocalePicker
     Label="@Loc["chooseLanguage"]"
     Locales="@(new[] { "en", "fr", "ar" })"
     @bind-Value="locale"
@@ -137,7 +137,7 @@ maintained string tables in C#):
 @using System.Globalization
 @using LilyDesignSystem.Blazor.Helpers
 
-<LocaleChooser
+<LocalePicker
     Label="Language"
     Locales="@(new[] { "en", "fr", "ar" })"
     @bind-Value="locale"

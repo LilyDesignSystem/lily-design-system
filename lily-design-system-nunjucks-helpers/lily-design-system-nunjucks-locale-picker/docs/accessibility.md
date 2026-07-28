@@ -104,7 +104,7 @@ or hidden entirely by a user stylesheet or forced-colors mode.
 The macro emits the glyph followed by U+FE0E VARIATION SELECTOR-15,
 which requests the *text* presentation. Without it browsers reach for
 the colour-emoji font and the globe renders blue — inconsistent with
-theme-chooser's monochrome ◑, and at a different optical size and
+theme-picker's monochrome ◑, and at a different optical size and
 baseline. VS15 is a request, not a guarantee: a platform with no text
 presentation for the codepoint will still show the colour form.
 
@@ -126,24 +126,24 @@ discoverable from the closed control by anyone.
 
 That cost is real and this page does not claim it away. What it does
 claim is where the compensation belongs: **in the pattern, by
-default.** Lily targets WCAG 2.2 AAA, so the locale chooser ships
+default.** Lily targets WCAG 2.2 AAA, so the locale picker ships
 alongside a status region in the quick start and in
 [`../examples/01-basic.njk`](../examples/01-basic.njk). Pair the
 control with the region; **opting out is the deliberate choice, not
 opting in.**
 
 ```njk
-{{ localeChooser({
+{{ localePicker({
     label: "Language",
     locales: ["en", "fr", "ar"]
 }) }}
-<p class="locale-chooser-status" aria-live="polite"></p>
+<p class="locale-picker-status" aria-live="polite"></p>
 ```
 
 ```js
-import { autoInit, localeName } from "./locale-chooser.client.js";
+import { autoInit, localeName } from "./locale-picker.client.js";
 
-const status = document.querySelector(".locale-chooser-status");
+const status = document.querySelector(".locale-picker-status");
 
 autoInit({
     onChange(code) {
@@ -167,7 +167,7 @@ Why this shape:
   this stays i18n-clean. `localeName(code)` resolves the human name
   from the built-in table, so the region shows "English (United
   States)" rather than `en_US`.
-- **`.locale-chooser-status`** is the class hook, kebab-case like the
+- **`.locale-picker-status`** is the class hook, kebab-case like the
   rest of the system. See [`./styling.md`](./styling.md).
 - **Mind the region's own `lang`.** The document `lang` changes at the
   same moment the region updates, so give the status element its own
@@ -211,7 +211,7 @@ looking for their language recognises it in its own script.
 
 ## Keyboard contract
 
-Owned entirely by `locale-chooser.client.js`. Nothing below works
+Owned entirely by `locale-picker.client.js`. Nothing below works
 before that module runs — see [`./ssr.md`](./ssr.md).
 
 On the **button**:
@@ -272,8 +272,8 @@ The control ships no colour. WCAG 1.4.3 contrast (4.5:1 normal,
 to the button, the list, and the options. A safe default:
 
 ```css
-.locale-chooser-button,
-.locale-chooser-list {
+.locale-picker-button,
+.locale-picker-list {
     /* WCAG AAA-grade contrast against white */
     color: #003087; /* NHS blue */
     border: 1px solid #003087;
@@ -315,10 +315,10 @@ provided you position the list with logical properties
   replaces the glyph, not the label. Anything you render there should
   be `aria-hidden="true"` too.
 - **Styling the list open by default.** The `hidden` attribute is the
-  open-state contract; a CSS rule like `.locale-chooser-list { display:
+  open-state contract; a CSS rule like `.locale-picker-list { display:
   block }` overrides `hidden` and leaves the list permanently visible
   and out of sync with `aria-expanded`. Use
-  `.locale-chooser-list:not([hidden])` for open-state styling.
+  `.locale-picker-list:not([hidden])` for open-state styling.
 - **Hiding the button with `display: none`.** That removes it from the
   accessibility tree. Use a visually-hidden pattern instead.
 

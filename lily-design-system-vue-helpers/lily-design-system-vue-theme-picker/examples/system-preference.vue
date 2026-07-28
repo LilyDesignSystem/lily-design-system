@@ -13,7 +13,7 @@
     that is not in `themes`, detection yields nothing and resolution
     falls through to `defaultValue`.
 
-    This mirrors `detect-from-navigator` on locale-chooser.
+    This mirrors `detect-from-navigator` on locale-picker.
 
     If you want the select to *track* the OS preference over time (re-
     apply when the user toggles their system setting), add a
@@ -22,7 +22,7 @@
 -->
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from "vue";
-import ThemeChooser from "../ThemeChooser.vue";
+import ThemePicker from "../ThemePicker.vue";
 
 const theme = ref("");
 
@@ -44,7 +44,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-    <ThemeChooser
+    <ThemePicker
         label="Theme"
         themes-url="/assets/themes/"
         :themes="['light', 'dark']"

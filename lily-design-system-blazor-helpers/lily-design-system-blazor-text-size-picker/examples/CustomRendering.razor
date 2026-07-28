@@ -6,7 +6,7 @@
     cannot break the listbox semantics (role, aria-selected, ids,
     aria-activedescendant).
 
-    The fragment receives TextSizeChooserContext:
+    The fragment receives TextSizePickerContext:
 
         Value    — the currently selected slug
         Open     — is the listbox open? (use it for a caret / rotation)
@@ -21,11 +21,11 @@
     name still comes from the button's aria-label.
 *@
 
-@page "/examples/text-size-chooser/custom-rendering"
+@page "/examples/text-size-picker/custom-rendering"
 @rendermode InteractiveServer
 @using LilyDesignSystem.Blazor.Helpers
 
-<TextSizeChooser
+<TextSizePicker
     Label="Text size"
     Sizes="@Sizes"
     @bind-Value="size">
@@ -37,10 +37,10 @@
         </svg>
         <span class="caret" aria-hidden="true">@(ctx.Open ? "▲" : "▼")</span>
     </ChildContent>
-</TextSizeChooser>
+</TextSizePicker>
 
-<p class="text-size-chooser-status" aria-live="polite">
-    Text size: @(string.IsNullOrEmpty(size) ? "none" : TextSizeChooser.SizeName(size))
+<p class="text-size-picker-status" aria-live="polite">
+    Text size: @(string.IsNullOrEmpty(size) ? "none" : TextSizePicker.SizeName(size))
 </p>
 
 @code {

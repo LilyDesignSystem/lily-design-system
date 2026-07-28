@@ -41,7 +41,7 @@ coding agents.
 | [tooling](tooling/index.md) | The `bin/` scripts, the rsync sync model, `bin/test` verification, subtree push. |
 | [testing](testing/index.md) | Per-framework test suites, Storybook coverage, Playwright e2e, axe, responsive sweep. |
 | [frameworks](frameworks/index.md) | The seven framework pairs, per-framework file shapes and idioms, the copy-pattern. |
-| [helpers](helpers/index.md) | The `*-helpers` catalogs — theme-chooser, locale-chooser, text-size-chooser — their `<select>` contracts, manifests, and publish pipeline. |
+| [helpers](helpers/index.md) | The `*-helpers` catalogs — theme-picker, locale-picker, text-size-picker — their `<select>` contracts, manifests, and publish pipeline. |
 | [national-identifiers](national-identifiers/index.md) | The 80 national personal identifier components, normalization, validation algorithms. |
 | [citations](citations/index.md) | Design systems Lily learns from, the NHS UK reference, Reuters Graphics influence. |
 | [trademarks](trademarks.md) | The Lily™ / Lily Design System™ marks, the first-occurrence ™ convention, the standard footer. |
@@ -90,7 +90,7 @@ committing.
 - Component documentation per component (`components/{slug}/index.md`,
   `AGENTS.md`, `CLAUDE.md`, `spec/index.md`).
 - Seven framework-helper catalogs (`*-helpers`), each shipping the
-  `theme-chooser`, `locale-chooser`, and `text-size-chooser` helper packages.
+  `theme-picker`, `locale-picker`, and `text-size-picker` helper packages.
 - A `themes/` directory of 45 ready-to-use reference theme stylesheets.
 - Tooling for listing, scaffolding, syncing, and testing components across
   subprojects (`bin/`).
@@ -152,7 +152,7 @@ standalone remote via `bin/git-subtree-push`.
   demonstrating every component with the NHS UK visual reference.
 - **Helpers** (7 subprojects) — small catalogs of opinionated packages that
   each own one user-preference lifecycle end to end. Every catalog ships
-  three helpers — `theme-chooser`, `locale-chooser`, `text-size-chooser` —
+  three helpers — `theme-picker`, `locale-picker`, `text-size-picker` —
   as native `<select>` controls with DOM application (`data-theme`,
   `lang`/`dir`, `data-text-size`), optional `localStorage` persistence,
   and SSR safety. The Svelte catalog is the canonical reference; the
@@ -223,7 +223,7 @@ breakpoints — the forbidden-literal list is in the AGENTS file. The
 root [`themes/`](../themes/) directory ships 45 ready-to-use reference
 stylesheets (NHS England/Scotland/Wales patient + practitioner
 variants, GOV.UK GDS, USWDS, Adobe Spectrum, Mozilla Protocol, and
-general-purpose themes) that the `theme-chooser` helper loads at runtime
+general-purpose themes) that the `theme-picker` helper loads at runtime
 by swapping a managed `<link>` and setting `data-theme`.
 
 ### 4.5 Examples ([AGENTS/examples.md](../AGENTS/examples.md), [topic](examples/index.md))
@@ -432,11 +432,11 @@ checked is considered live work; anything unchecked is queued in §12.
       in §11.8.
 - [x] All 7 helper subprojects exist (Svelte canonical, plus React, Vue,
       Angular, HTML, Nunjucks, Blazor ports). Each catalog ships the
-      `theme-chooser`, `locale-chooser`, and `text-size-chooser` helpers as
+      `theme-picker`, `locale-picker`, and `text-size-picker` helpers as
       native `<select>` controls (initial release 0.1.0 on 2026-06-05;
       converted from the earlier radio-group pickers on 2026-06-17 and
-      released as the breaking 0.2.0 for theme-chooser and locale-chooser
-      on 2026-07-03; text-size-chooser stays 0.1.0), with per-package
+      released as the breaking 0.2.0 for theme-picker and locale-picker
+      on 2026-07-03; text-size-picker stays 0.1.0), with per-package
       manifests (npm `package.json`, or NuGet `.csproj` for Blazor),
       dist build pipelines (`build.js`), and CHANGELOGs.
 - [x] All 21 subprojects have required files (`index.md`, `README.md`
@@ -642,14 +642,14 @@ Medium-term:
 - Wire the `themes/` reference stylesheets (GOV.UK GDS, USWDS, Mozilla
   Protocol, Adobe Spectrum, NHS variants — shipped June 2026) into the
   example subprojects as switchable alternatives to the default NHS layer,
-  e.g. via the `theme-chooser` helper.
+  e.g. via the `theme-picker` helper.
 - Expand composed-page demos beyond the required routes.
 
 Long-term:
 
 - Versioned releases per subproject npm/NuGet package (started: the 21
-  helper packages publish via `bin/publish-helpers`; theme-chooser and
-  locale-chooser, text-size-chooser and share-chooser all at 0.1.0 —
+  helper packages publish via `bin/publish-helpers`; theme-picker and
+  locale-picker, text-size-picker and share-picker all at 0.1.0 —
   the July 2026 rename reset them, see §14.1).
 - Contributor onboarding documentation (currently informal).
 
@@ -670,10 +670,10 @@ Long-term:
 
 ### 14.1 Changelog highlights
 
-- **Helpers renamed to `*-chooser` (2026-07-21)** — every helper package
-  in all seven catalogs is renamed: `theme-select` → `theme-chooser`,
-  `locale-select` → `locale-chooser`, `text-size-select` →
-  `text-size-chooser`, `share-button` → `share-chooser`. Full depth:
+- **Helpers renamed to `*-picker` (2026-07-21)** — every helper package
+  in all seven catalogs is renamed: `theme-select` → `theme-picker`,
+  `locale-select` → `locale-picker`, `text-size-select` →
+  `text-size-picker`, `share-button` → `share-picker`. Full depth:
   directories, npm/NuGet package ids, exported symbols, CSS class hooks,
   `data-lily-*` attributes, framework selectors and element tags. The
   catalog components `theme-select` / `theme-select-option` — two of the
@@ -681,8 +681,8 @@ Long-term:
   they merely used to share the `.theme-select` class hook, which is why
   the 45 `themes/*.css` needed a `:has(> .theme-select-button)` guard to
   tell helper from component. The rename dissolves that collision, so
-  the guard is deleted. `share-chooser` also loses its
-  `share-button-trigger` naming exception, since `.share-chooser-button`
+  the guard is deleted. `share-picker` also loses its
+  `share-button-trigger` naming exception, since `.share-picker-button`
   no longer reads badly. Every package resets to **0.1.0**: a renamed
   package has no history under its new name, and nothing had been
   published, so the reset costs nothing; prior history is preserved in
@@ -690,7 +690,7 @@ Long-term:
   **unchanged counts** in every catalog — this was a rename, not a
   behaviour change. Also fixed along the way: `el?.scrollIntoView(...)`
   guarded the element but not the method, so it threw under jsdom in the
-  canonical theme- and locale-chooser after `activeIndex` was already
+  canonical theme- and locale-picker after `activeIndex` was already
   assigned — 45 silent unhandled exceptions with the suite still green,
   the same shape as the earlier `CSS.escape` bug. Full record:
   [CHANGELOG.md](../CHANGELOG.md).
@@ -719,8 +719,8 @@ Long-term:
   against component dirs, CSS hooks, and all twelve example-app
   registries; `bin/generate-registries` regenerates every registry from
   `components.tsv` + the canonical demo map; `bin/check-links` verifies
-  markdown links (89 broken links fixed); CI added. theme-chooser and
-  locale-chooser released as the breaking 0.2.0. This file slimmed from
+  markdown links (89 broken links fixed); CI added. theme-picker and
+  locale-picker released as the breaking 0.2.0. This file slimmed from
   76 KB to under 40 KB; the Analog SSG engineering log relocated to the
   angular-examples docs with a ready-to-file upstream issue draft. Full
   record: [CHANGELOG.md](../CHANGELOG.md).

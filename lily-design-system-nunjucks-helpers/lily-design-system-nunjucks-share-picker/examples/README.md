@@ -1,8 +1,8 @@
-# ShareChooser examples
+# SharePicker examples
 
 Each file is a self-contained Nunjucks template fragment. They assume
-`share-chooser.njk` is resolvable by your environment's loader and that
-`share-chooser.client.js` is served somewhere the browser can import it.
+`share-picker.njk` is resolvable by your environment's loader and that
+`share-picker.client.js` is served somewhere the browser can import it.
 
 | File | Shows |
 | ---- | ----- |

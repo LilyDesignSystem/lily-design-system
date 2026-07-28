@@ -9,7 +9,7 @@ flicker-free first paint.
 ## Read this first: the control does not work without JavaScript
 
 The server-rendered markup paints correctly, but it is **not
-operable** until `theme-chooser.client.js` runs. Specifically:
+operable** until `theme-picker.client.js` runs. Specifically:
 
 - The button has no handler. Clicking it, or pressing `Enter` /
   `Space` / `ArrowDown` on it, does nothing.
@@ -39,7 +39,7 @@ What still works with no JS:
   the value.
 
 If no-JS operability is a hard requirement, use the headless catalog's
-plain `theme-chooser` container
+plain `theme-picker` container
 (`lily-design-system-nunjucks-headless/components/theme-select/`),
 which is a native `<select>` with `<option>` children, and wire the
 lifecycle yourself.
@@ -56,7 +56,7 @@ touch:
 - environment variables
 
 If the consumer passes `opts.value="dark"`, the root `<div>` gets
-`data-lily-theme-chooser-value="dark"` rendered server-side, the
+`data-lily-theme-picker-value="dark"` rendered server-side, the
 matching `<li>` gets `aria-selected="true"`, and the hidden input is
 pre-filled with `dark` — see the next section.
 
@@ -81,26 +81,51 @@ so that CSS is in place before any pixel is painted.
 ### The `opts.value` control flash — still fixed, by the same mechanism
 
 **There is no pre-hydration flash when you pass `opts.value`.** The
-`data-lily-theme-chooser-value` attribute introduced to fix that flash
+`data-lily-theme-picker-value` attribute introduced to fix that flash
 is still exactly how `opts.value` reaches the client, and it is still
 carrying its weight for the same reason: the macro communicates the
 value out-of-band rather than baking it into control state the browser
 would paint before the client could correct it.
 
 ```html
-<div class="theme-chooser" … data-lily-theme-chooser-value="dark">
-  <input type="hidden" name="theme" value="dark" data-lily-theme-chooser-input>
-  <button type="button" class="theme-chooser-button" aria-label="Theme"
-          aria-haspopup="listbox" aria-expanded="false"
-          aria-controls="theme-chooser-theme-list">
-    <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
+<div class="theme-picker" … data-lily-theme-picker-value="dark">
+  <input type="hidden" name="theme" value="dark" data-lily-theme-picker-input />
+  <button
+    type="button"
+    class="theme-picker-button"
+    aria-label="Theme"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="theme-picker-theme-list"
+  >
+    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
   </button>
-  <ul class="theme-chooser-list" id="theme-chooser-theme-list" role="listbox"
-      aria-label="Theme" tabindex="-1" hidden>
-    <li class="theme-chooser-option" id="theme-chooser-theme-option-0"
-        role="option" aria-selected="false" data-value="light">Light</li>
-    <li class="theme-chooser-option" id="theme-chooser-theme-option-1"
-        role="option" aria-selected="true" data-value="dark">Dark</li>
+  <ul
+    class="theme-picker-list"
+    id="theme-picker-theme-list"
+    role="listbox"
+    aria-label="Theme"
+    tabindex="-1"
+    hidden
+  >
+    <li
+      class="theme-picker-option"
+      id="theme-picker-theme-option-0"
+      role="option"
+      aria-selected="false"
+      data-value="light"
+    >
+      Light
+    </li>
+    <li
+      class="theme-picker-option"
+      id="theme-picker-theme-option-1"
+      role="option"
+      aria-selected="true"
+      data-value="dark"
+    >
+      Dark
+    </li>
   </ul>
 </div>
 ```
@@ -111,9 +136,9 @@ looks identical whatever the value is; the listbox is `hidden`, so its
 does guarantee is **consistency**: exactly one option carries
 `aria-selected="true"`, and the hidden input agrees with it, so the
 DOM is never internally contradictory even for the frames before
-`initThemeChooser(root)` runs.
+`initThemePicker(root)` runs.
 
-`initThemeChooser(root)` reads `data-lily-theme-chooser-value` during
+`initThemePicker(root)` reads `data-lily-theme-picker-value` during
 initial-value resolution (step 2 of the order in §5.2) and applies the
 theme — mutating `data-theme`, the managed `<link>`, the hidden input,
 and the options' `aria-selected`.
@@ -151,7 +176,7 @@ For sites where the default theme is acceptable on first paint:
     <body>
         {% block content %}{% endblock %}
         <script type="module">
-            import { autoInit } from "/lily-design-system-nunjucks-theme-chooser/theme-chooser.client.js";
+            import { autoInit } from "/lily-design-system-nunjucks-theme-picker/theme-picker.client.js";
             autoInit();
         </script>
     </body>
@@ -171,17 +196,17 @@ For per-request resolution:
 ```js
 // functions/_middleware.js
 export async function onRequest(context) {
-    const cookie = context.request.headers.get("cookie") ?? "";
-    const theme = /(?:^|; )theme=([^;]+)/.exec(cookie)?.[1] ?? "light";
-    const response = await context.next();
-    if (!response.headers.get("content-type")?.startsWith("text/html")) {
-        return response;
-    }
-    const html = await response.text();
-    const out = html
-        .replace("__THEME__", theme)
-        .replace("data-theme=\"PLACEHOLDER\"", `data-theme="${theme}"`);
-    return new Response(out, response);
+  const cookie = context.request.headers.get("cookie") ?? "";
+  const theme = /(?:^|; )theme=([^;]+)/.exec(cookie)?.[1] ?? "light";
+  const response = await context.next();
+  if (!response.headers.get("content-type")?.startsWith("text/html")) {
+    return response;
+  }
+  const html = await response.text();
+  const out = html
+    .replace("__THEME__", theme)
+    .replace('data-theme="PLACEHOLDER"', `data-theme="${theme}"`);
+  return new Response(out, response);
 }
 ```
 
@@ -213,20 +238,20 @@ nunjucks.configure("views", { express: app, autoescape: true });
 const SUPPORTED = new Set(["light", "dark", "abyss"]);
 
 app.get("/", (req, res) => {
-    const cookie = req.cookies.theme;
-    const theme = cookie && SUPPORTED.has(cookie) ? cookie : "light";
-    res.render("index.njk", { theme });
+  const cookie = req.cookies.theme;
+  const theme = cookie && SUPPORTED.has(cookie) ? cookie : "light";
+  res.render("index.njk", { theme });
 });
 
 app.post("/api/theme", express.json(), (req, res) => {
-    const theme = String(req.body?.theme ?? "");
-    if (!SUPPORTED.has(theme)) return res.status(400).end();
-    res.cookie("theme", theme, {
-        path: "/",
-        sameSite: "lax",
-        maxAge: 60 * 60 * 24 * 365 * 1000,
-    });
-    res.status(204).end();
+  const theme = String(req.body?.theme ?? "");
+  if (!SUPPORTED.has(theme)) return res.status(400).end();
+  res.cookie("theme", theme, {
+    path: "/",
+    sameSite: "lax",
+    maxAge: 60 * 60 * 24 * 365 * 1000,
+  });
+  res.status(204).end();
 });
 ```
 
@@ -237,7 +262,7 @@ app.post("/api/theme", express.json(), (req, res) => {
         …
     </head>
     <body>
-        {{ themeChooser({
+        {{ themePicker({
             label: "Theme",
             themesUrl: "/assets/themes/",
             themes: ["light", "dark", "abyss"],
@@ -246,7 +271,7 @@ app.post("/api/theme", express.json(), (req, res) => {
         }) }}
 
         <script type="module">
-            import { autoInit } from "/path/to/theme-chooser.client.js";
+            import { autoInit } from "/path/to/theme-picker.client.js";
             autoInit({
                 onChange(slug) {
                     fetch("/api/theme", {
@@ -270,19 +295,17 @@ loader:
 import nunjucks from "nunjucks";
 import templates from "./templates.json";
 
-const env = new nunjucks.Environment(
-    new nunjucks.PrecompiledLoader(templates),
-);
+const env = new nunjucks.Environment(new nunjucks.PrecompiledLoader(templates));
 
 export default {
-    async fetch(request) {
-        const cookie = request.headers.get("cookie") ?? "";
-        const theme = /(?:^|; )theme=([^;]+)/.exec(cookie)?.[1] ?? "light";
-        const html = env.render("index.njk", { theme });
-        return new Response(html, {
-            headers: { "content-type": "text/html; charset=utf-8" },
-        });
-    },
+  async fetch(request) {
+    const cookie = request.headers.get("cookie") ?? "";
+    const theme = /(?:^|; )theme=([^;]+)/.exec(cookie)?.[1] ?? "light";
+    const html = env.render("index.njk", { theme });
+    return new Response(html, {
+      headers: { "content-type": "text/html; charset=utf-8" },
+    });
+  },
 };
 ```
 
@@ -302,7 +325,7 @@ There is no virtual-DOM hydration mismatch in this catalog
 because the macro is one-shot HTML, not a diff. The only
 cross-render gotcha is:
 
-- The server renders no `data-lily-theme-chooser-value`, but the client
+- The server renders no `data-lily-theme-picker-value`, but the client
   picks a non-empty value from `localStorage`. The page therefore
   paints unthemed for one frame before `data-theme` and the managed
   `<link>` land. The control itself is unaffected — it shows the same

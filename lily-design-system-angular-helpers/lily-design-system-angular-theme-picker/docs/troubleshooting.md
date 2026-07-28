@@ -7,17 +7,17 @@ Symptoms, root causes, and fixes for the most common problems.
 **Cause.** The package ships zero CSS, and the `<ul>` is in normal
 document flow until you position it.
 
-**Fix.** `position: relative` on `.theme-chooser`, `position: absolute`
-on `.theme-chooser-list`. Full recipe in
+**Fix.** `position: relative` on `.theme-picker`, `position: absolute`
+on `.theme-picker-list`. Full recipe in
 [styling.md](./styling.md#positioning-the-list).
 
 ## "The list never closes"
 
 **Cause.** An unconditional `display` rule in your CSS —
-`.theme-chooser-list { display: block }` — overrides the `hidden`
+`.theme-picker-list { display: block }` — overrides the `hidden`
 attribute the component toggles.
 
-**Fix.** Scope it: `.theme-chooser-list:not([hidden]) { display: block }`.
+**Fix.** Scope it: `.theme-picker-list:not([hidden]) { display: block }`.
 
 ## "The button renders an empty box, or a □"
 
@@ -25,7 +25,7 @@ attribute the component toggles.
 BLACK), a Geometric Shapes character. Whether it renders depends on
 the fonts installed on the user's device.
 
-**Fix.** Either set a font stack on `.theme-chooser-icon` that you know
+**Fix.** Either set a font stack on `.theme-picker-icon` that you know
 covers the code point plus a `min-width` / `min-height` on the button
 so it stays a visible target, or replace the glyph with your own
 inline SVG via a projected `<ng-template>`. See
@@ -47,13 +47,13 @@ they are on different options.
 
 ## "Keyboard users can't tell where they are in the list"
 
-**Cause.** No focus ring on `.theme-chooser-list`. The `<ul>` — not the
+**Cause.** No focus ring on `.theme-picker-list`. The `<ul>` — not the
 options — holds focus for the whole open interaction, so if it has no
 visible indicator, nothing on screen ties the highlight to the user's
 keystrokes.
 
-**Fix.** Style `.theme-chooser-list:focus-visible` as well as
-`.theme-chooser-button:focus-visible`. See
+**Fix.** Style `.theme-picker-list:focus-visible` as well as
+`.theme-picker-button:focus-visible`. See
 [accessibility.md](./accessibility.md#visible-focus).
 
 ## "Arrow keys stop at the ends instead of wrapping"
@@ -87,7 +87,7 @@ to a real file. Check that:
 
 ## "SSR hydration mismatch (NG0500)"
 
-**Not the ids.** `nextThemeChooserId()` is a deterministic module
+**Not the ids.** `nextThemePickerId()` is a deterministic module
 counter, not `Math.random()` / `Date.now()`, so `id`,
 `aria-controls`, and the option ids are identical on both sides.
 
@@ -127,7 +127,7 @@ The typeahead matches the **display label**, not the slug. With
 type `c`. The buffer also resets after a 500 ms pause, so typing
 slowly starts a fresh search each time.
 
-## "Multiple choosers fight over `<html data-theme>`"
+## "Multiple pickers fight over `<html data-theme>`"
 
 When two selects share `document.documentElement` as the target,
 the last apply wins. Either pass a per-select `target` element, or
@@ -172,18 +172,18 @@ inside method calls. Use `$any($event.target).value` instead — the
 canonical template-cast pattern across angular-headless and
 angular-helpers.
 
-`ThemeChooser` itself no longer needs it: there is no native control to
+`ThemePicker` itself no longer needs it: there is no native control to
 read a value from, and its `(click)` / `(keydown)` bindings call typed
 handler methods with the whole event. You may still hit this in your
 own wrapper templates.
 
 ## "`let-args` is `any` in my icon template"
 
-Add the exported `ThemeChooserIcon` marker directive to the
+Add the exported `ThemePickerIcon` marker directive to the
 `<ng-template>` and to your component's `imports`:
 
 ```html
-<ng-template lilyThemeChooserIcon let-args>{{ args.labelFor(args.value) }}</ng-template>
+<ng-template lilyThemePickerIcon let-args>{{ args.labelFor(args.value) }}</ng-template>
 ```
 
 Its `ngTemplateContextGuard` types the context as `ChildArgs` under
@@ -211,7 +211,7 @@ Use `componentRef.setInput(...)` instead of writing to the
 instance directly:
 
 ```ts
-const fixture = TestBed.createComponent(ThemeChooser);
+const fixture = TestBed.createComponent(ThemePicker);
 fixture.componentRef.setInput("label", "Theme");
 fixture.componentRef.setInput("themesUrl", "/t/");
 fixture.componentRef.setInput("themes", ["light", "dark"]);
@@ -252,15 +252,15 @@ story's `component` field:
 
 ```ts
 import { Meta, StoryObj } from "@storybook/angular";
-import { ThemeChooser } from "./theme-chooser.component";
+import { ThemePicker } from "./theme-picker.component";
 
-const meta: Meta<ThemeChooser> = {
-    title: "Helpers/ThemeChooser",
-    component: ThemeChooser,
+const meta: Meta<ThemePicker> = {
+    title: "Helpers/ThemePicker",
+    component: ThemePicker,
 };
 export default meta;
 
-export const Default: StoryObj<ThemeChooser> = {
+export const Default: StoryObj<ThemePicker> = {
     args: {
         label: "Theme",
         themesUrl: "/assets/themes/",
@@ -271,7 +271,7 @@ export const Default: StoryObj<ThemeChooser> = {
 
 ## "`effect()` runs forever / infinite loop"
 
-The effect inside `ThemeChooser` reads `value()` and writes
+The effect inside `ThemePicker` reads `value()` and writes
 `value.set(initial)` on first run only (guarded by
 `this.initialised`). If you see a loop:
 

@@ -56,7 +56,7 @@ but not every platform honours it.
 Name a symbol font ahead of the emoji font:
 
 ```css
-.locale-chooser-icon {
+.locale-picker-icon {
     font-family: "Segoe UI Symbol", "Noto Sans Symbols 2", system-ui, sans-serif;
 }
 ```
@@ -93,8 +93,8 @@ The package ships no CSS, including no positioning. The `<ul>` is
 in-flow until you take it out:
 
 ```css
-.locale-chooser { position: relative; display: inline-block; }
-.locale-chooser-list {
+.locale-picker { position: relative; display: inline-block; }
+.locale-picker-list {
     position: absolute;
     z-index: 10;
     inset-block-start: 100%;
@@ -121,9 +121,9 @@ is already there for the browser to act on; give it a font stack that
 has the glyphs:
 
 ```css
-.locale-chooser-option:lang(zh),
-.locale-chooser-option:lang(ja),
-.locale-chooser-option:lang(ko) { font-family: var(--font-cjk, system-ui); }
+.locale-picker-option:lang(zh),
+.locale-picker-option:lang(ja),
+.locale-picker-option:lang(ko) { font-family: var(--font-cjk, system-ui); }
 ```
 
 ## "A screen reader reads 'Français' with an English voice"
@@ -133,10 +133,10 @@ usual culprit is a **status region you rendered yourself** without one:
 
 ```razor
 <!-- wrong -->
-<span class="locale-chooser-status">@Endonyms[locale]</span>
+<span class="locale-picker-status">@Endonyms[locale]</span>
 
 <!-- right -->
-<span class="locale-chooser-status" lang="@Locales.Bcp47LocaleTag(locale)">@Endonyms[locale]</span>
+<span class="locale-picker-status" lang="@Locales.Bcp47LocaleTag(locale)">@Endonyms[locale]</span>
 ```
 
 ## "`DetectFromNavigator` picks the wrong language"
@@ -258,8 +258,8 @@ Multiple locale selects all write the same `<html lang>` — they are
 views onto one shared document state. Bind them to the **same** field:
 
 ```razor
-<LocaleChooser Name="header-locale" @bind-Value="locale" ... />
-<LocaleChooser Name="footer-locale" @bind-Value="locale" ... />
+<LocalePicker Name="header-locale" @bind-Value="locale" ... />
+<LocalePicker Name="footer-locale" @bind-Value="locale" ... />
 ```
 
 Separate fields will drift apart the moment one is used.
@@ -285,7 +285,7 @@ The `string[]?` setup is the `navigator.languages` probe; without it a
 completed when the assertion runs. Yield first:
 
 ```csharp
-var cut = RenderComponent<LocaleChooser>(/* … */);
+var cut = RenderComponent<LocalePicker>(/* … */);
 await Task.Yield();
 Assert.Contains(JSInterop.Invocations, i => i.Identifier == "eval");
 ```

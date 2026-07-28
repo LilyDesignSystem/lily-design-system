@@ -1,7 +1,7 @@
-# Testing — LocaleChooser (Svelte)
+# Testing — LocalePicker (Svelte)
 
 The select's test suite lives in
-[`../LocaleChooser.test.ts`](../LocaleChooser.test.ts) and asserts
+[`../LocalePicker.test.ts`](../LocalePicker.test.ts) and asserts
 every numbered acceptance criterion in `spec/index.md` §7. This file
 documents the test harness and the conventions specific to this
 helper. For the catalog-wide test rules see
@@ -13,12 +13,12 @@ helper. For the catalog-wide test rules see
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { render } from "@testing-library/svelte";
 import { tick } from "svelte";
-import LocaleChooser, {
+import LocalePicker, {
     bcp47LocaleTag,
     isRtlLocale,
     localeName,
     matchNavigatorLanguage,
-} from "./LocaleChooser.svelte";
+} from "./LocalePicker.svelte";
 
 beforeEach(() => {
     // Reset shared state between tests.
@@ -51,7 +51,7 @@ it("§7.12 localeName looks up the English name", () => {
 
 ```ts
 it("§7.1 renders a button that controls a listbox", async () => {
-    render(LocaleChooser, {
+    render(LocalePicker, {
         props: { label: "Language", locales: ["en", "fr"] },
     });
     await tick();
@@ -76,7 +76,7 @@ expect(document.documentElement.dir).toBe("rtl");
 ## Asserting per-option `lang`
 
 ```ts
-const options = document.querySelectorAll(".locale-chooser-option");
+const options = document.querySelectorAll(".locale-picker-option");
 expect(options[0].getAttribute("lang")).toBe("en");
 expect(options[1].getAttribute("lang")).toBe("fr-CA");
 ```
@@ -93,7 +93,7 @@ import { fireEvent, screen } from "@testing-library/svelte";
 
 async function pick(code: string, locales: string[]): Promise<void> {
     await fireEvent.click(screen.getByRole("button"));
-    const opts = document.querySelectorAll(".locale-chooser-option");
+    const opts = document.querySelectorAll(".locale-picker-option");
     await fireEvent.click(opts[locales.indexOf(code)]);
 }
 ```
@@ -108,12 +108,12 @@ the button — focus moves to the `<ul>` on open:
 
 ```ts
 async function openWith(key: string) {
-    render(LocaleChooser, { props: { label: "Language", locales: LOCALES } });
+    render(LocalePicker, { props: { label: "Language", locales: LOCALES } });
     await flush();
     const button = screen.getByRole("button");
     await fireEvent.keyDown(button, { key });
     await flush();
-    return { button, list: document.querySelector(".locale-chooser-list") as HTMLElement };
+    return { button, list: document.querySelector(".locale-picker-list") as HTMLElement };
 }
 ```
 
@@ -138,7 +138,7 @@ variation selector (and so renders a blue colour emoji) will pass
 silently:
 
 ```ts
-const icon = document.querySelector(".locale-chooser-icon") as HTMLElement;
+const icon = document.querySelector(".locale-picker-icon") as HTMLElement;
 expect(icon.textContent).toBe("\u{1F310}\uFE0E");
 expect(icon.getAttribute("aria-hidden")).toBe("true");
 ```
@@ -151,7 +151,7 @@ it("§7.20 detectFromNavigator picks an exact match", async () => {
         configurable: true,
         get: () => ["fr-FR", "en"],
     });
-    render(LocaleChooser, {
+    render(LocalePicker, {
         props: {
             label: "L",
             locales: ["en", "fr_FR", "ar"],
@@ -189,7 +189,7 @@ or spy on `onChange`:
 
 ```ts
 const onChange = vi.fn();
-render(LocaleChooser, {
+render(LocalePicker, {
     props: {
         label: "L",
         locales: ["en", "fr", "ar"],
@@ -218,14 +218,14 @@ it("§7.23 children snippet replaces the glyph and receives ChildArgs", async ()
         captured = args();
         return { render: () => "<span data-testid='custom'></span>" };
     });
-    render(LocaleChooser, {
+    render(LocalePicker, {
         props: { label: "L", locales: ["en", "fr"], value: "fr", children },
     });
     await tick();
     // The snippet replaces the glyph *inside the button*.
     expect(screen.getByTestId("custom").closest("button")?.className)
-        .toContain("locale-chooser-button");
-    expect(document.querySelector(".locale-chooser-icon")).toBeNull();
+        .toContain("locale-picker-button");
+    expect(document.querySelector(".locale-picker-icon")).toBeNull();
     expect(captured.value).toBe("fr");
     expect(captured.open).toBe(false);
     expect(typeof captured.labelFor).toBe("function");
@@ -238,14 +238,14 @@ it("§7.23 children snippet replaces the glyph and receives ChildArgs", async ()
 import { render as ssrRender } from "svelte/server";
 
 it("renders cleanly under SSR", () => {
-    const { html } = ssrRender(LocaleChooser, {
+    const { html } = ssrRender(LocalePicker, {
         props: {
             label: "Language",
             locales: ["en", "fr"],
             value: "fr",
         },
     });
-    expect(html).toContain('class="locale-chooser"');
+    expect(html).toContain('class="locale-picker"');
     expect(html).toContain('aria-label="Language"');
     expect(html).toContain('aria-haspopup="listbox"');
     expect(html).toContain('role="listbox"');

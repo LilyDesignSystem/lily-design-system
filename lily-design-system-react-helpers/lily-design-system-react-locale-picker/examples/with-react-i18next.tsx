@@ -25,7 +25,7 @@
 */
 
 import { useState } from "react";
-import { LocaleChooser } from "../LocaleChooser";
+import { LocalePicker } from "../LocalePicker";
 
 // Demo-only stand-ins so this file compiles without react-i18next installed.
 // In your real app, replace these with:
@@ -63,7 +63,7 @@ export function WithReactI18nextExample() {
 
     return (
         <>
-            <LocaleChooser
+            <LocalePicker
                 label="Language"
                 locales={["en", "fr", "ar"]}
                 value={i18n.resolvedLanguage}

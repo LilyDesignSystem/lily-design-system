@@ -38,9 +38,9 @@ The theme is exposed as a flat object whose keys flatten into
 Consumer CSS reads `var(--theme-color-primary)`,
 `var(--theme-space-md)`, etc.
 
-## How the Svelte theme-chooser fits in
+## How the Svelte theme-picker fits in
 
-The Svelte `ThemeChooser` helper writes two signals to the document
+The Svelte `ThemePicker` helper writes two signals to the document
 root on every change:
 
 1. The `href` of a managed `<link rel="stylesheet"
@@ -119,7 +119,7 @@ consumer's choice.
 ### `<svelte:head>` vs imperative `document.head` mutation
 
 `<svelte:head>` is Svelte's declarative head-mutation slot. The
-catalog's `ThemeChooser` uses imperative `document.head.appendChild`
+catalog's `ThemePicker` uses imperative `document.head.appendChild`
 for the managed `<link>` because:
 
 - The managed `<link>` is a singleton across the select's lifetime,
@@ -145,7 +145,7 @@ end-to-end recipe. The select hydrates over the pre-set
 
 ### Multiple selects in one app
 
-A consumer can mount more than one `ThemeChooser` (e.g. a quick
+A consumer can mount more than one `ThemePicker` (e.g. a quick
 toggle in the header, a full radio list in the settings page) by
 passing distinct `name` props. Each select manages its own `<link>`
 identified by `data-lily-theme-picker="{name}"`. Selections do not

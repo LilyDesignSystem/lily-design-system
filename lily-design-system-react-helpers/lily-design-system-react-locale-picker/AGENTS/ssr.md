@@ -1,16 +1,16 @@
-# AGENTS / ssr — LocaleChooser
+# AGENTS / ssr — LocalePicker
 
-SSR specifics for `LocaleChooser`. Read
+SSR specifics for `LocalePicker`. Read
 [`../../AGENTS.md`](../../AGENTS.md) for the catalog-wide React
 conventions; this file is the per-helper application.
 
 ## The directive
 
-`LocaleChooser.tsx` is a **client component**. Every consumer file that
+`LocalePicker.tsx` is a **client component**. Every consumer file that
 imports it should also carry `"use client"` if it touches React state
 or hooks.
 
-If `LocaleChooser.tsx` does not currently start with `"use client"`,
+If `LocalePicker.tsx` does not currently start with `"use client"`,
 add it at the top:
 
 ```tsx
@@ -30,19 +30,45 @@ The select outputs deterministic HTML based purely on the resolved
 `value`:
 
 ```html
-<div class="locale-chooser">
-    <input type="hidden" name="locale" value="en" />
-    <button type="button" class="locale-chooser-button" aria-label="Language"
-            aria-haspopup="listbox" aria-expanded="false" aria-controls="locale-chooser-«r0»-list">
-        <span class="locale-chooser-icon" aria-hidden="true">🌐</span>
-    </button>
-    <ul class="locale-chooser-list" id="locale-chooser-«r0»-list" role="listbox"
-        aria-label="Language" tabindex="-1" hidden>
-        <li class="locale-chooser-option" id="locale-chooser-«r0»-option-0"
-            role="option" aria-selected="true" lang="en">English</li>
-        <li class="locale-chooser-option" id="locale-chooser-«r0»-option-1"
-            role="option" aria-selected="false" lang="fr">French</li>
-    </ul>
+<div class="locale-picker">
+  <input type="hidden" name="locale" value="en" />
+  <button
+    type="button"
+    class="locale-picker-button"
+    aria-label="Language"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="locale-picker-«r0»-list"
+  >
+    <span class="locale-picker-icon" aria-hidden="true">🌐</span>
+  </button>
+  <ul
+    class="locale-picker-list"
+    id="locale-picker-«r0»-list"
+    role="listbox"
+    aria-label="Language"
+    tabindex="-1"
+    hidden
+  >
+    <li
+      class="locale-picker-option"
+      id="locale-picker-«r0»-option-0"
+      role="option"
+      aria-selected="true"
+      lang="en"
+    >
+      English
+    </li>
+    <li
+      class="locale-picker-option"
+      id="locale-picker-«r0»-option-1"
+      role="option"
+      aria-selected="false"
+      lang="fr"
+    >
+      French
+    </li>
+  </ul>
 </div>
 ```
 
@@ -91,28 +117,31 @@ shape is:
 // app/layout.tsx — SERVER component
 import { cookies } from "next/headers";
 import { LocaleClient } from "./locale-client";
-import { isRtlLocale, bcp47LocaleTag } from "./lily-design-system-react-locale-chooser";
+import {
+  isRtlLocale,
+  bcp47LocaleTag,
+} from "./lily-design-system-react-locale-picker";
 
 const KNOWN = new Set(["en", "fr", "ar", "he"]);
 
 export default async function RootLayout({
-    children,
+  children,
 }: {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-    const cookieStore = await cookies();
-    const cookieLocale = cookieStore.get("locale")?.value;
-    const locale = cookieLocale && KNOWN.has(cookieLocale) ? cookieLocale : "en";
-    const lang = bcp47LocaleTag(locale);
-    const dir = isRtlLocale(locale) ? "rtl" : "ltr";
+  const cookieStore = await cookies();
+  const cookieLocale = cookieStore.get("locale")?.value;
+  const locale = cookieLocale && KNOWN.has(cookieLocale) ? cookieLocale : "en";
+  const lang = bcp47LocaleTag(locale);
+  const dir = isRtlLocale(locale) ? "rtl" : "ltr";
 
-    return (
-        <html lang={lang} dir={dir}>
-            <body>
-                <LocaleClient initialLocale={locale}>{children}</LocaleClient>
-            </body>
-        </html>
-    );
+  return (
+    <html lang={lang} dir={dir}>
+      <body>
+        <LocaleClient initialLocale={locale}>{children}</LocaleClient>
+      </body>
+    </html>
+  );
 }
 ```
 
@@ -121,36 +150,35 @@ export default async function RootLayout({
 "use client";
 
 import * as React from "react";
-import { LocaleChooser } from "./lily-design-system-react-locale-chooser";
+import { LocalePicker } from "./lily-design-system-react-locale-picker";
 
 export function LocaleClient({
-    initialLocale,
-    children,
+  initialLocale,
+  children,
 }: {
-    initialLocale: string;
-    children: React.ReactNode;
+  initialLocale: string;
+  children: React.ReactNode;
 }) {
-    const [locale, setLocale] = React.useState(initialLocale);
+  const [locale, setLocale] = React.useState(initialLocale);
 
-    function writeCookie(code: string) {
-        document.cookie =
-            `locale=${code}; path=/; max-age=31536000; SameSite=Lax`;
-    }
+  function writeCookie(code: string) {
+    document.cookie = `locale=${code}; path=/; max-age=31536000; SameSite=Lax`;
+  }
 
-    return (
-        <>
-            <LocaleChooser
-                label="Language"
-                locales={["en", "fr", "ar", "he"]}
-                value={locale}
-                onChange={(code) => {
-                    setLocale(code);
-                    writeCookie(code);
-                }}
-            />
-            {children}
-        </>
-    );
+  return (
+    <>
+      <LocalePicker
+        label="Language"
+        locales={["en", "fr", "ar", "he"]}
+        value={locale}
+        onChange={(code) => {
+          setLocale(code);
+          writeCookie(code);
+        }}
+      />
+      {children}
+    </>
+  );
 }
 ```
 
@@ -168,23 +196,29 @@ Result:
 // app/root.tsx
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json, useLoaderData } from "@remix-run/react";
-import { isRtlLocale, bcp47LocaleTag } from "./lily-design-system-react-locale-chooser";
+import {
+  isRtlLocale,
+  bcp47LocaleTag,
+} from "./lily-design-system-react-locale-picker";
 
 export async function loader({ request }: LoaderFunctionArgs) {
-    const cookie = request.headers.get("cookie") ?? "";
-    const locale = cookie.match(/locale=([^;]+)/)?.[1] ?? "en";
-    return json({ locale });
+  const cookie = request.headers.get("cookie") ?? "";
+  const locale = cookie.match(/locale=([^;]+)/)?.[1] ?? "en";
+  return json({ locale });
 }
 
 export default function App() {
-    const { locale } = useLoaderData<typeof loader>();
-    return (
-        <html lang={bcp47LocaleTag(locale)} dir={isRtlLocale(locale) ? "rtl" : "ltr"}>
-            <body>
-                <LocaleClient initialLocale={locale} />
-            </body>
-        </html>
-    );
+  const { locale } = useLoaderData<typeof loader>();
+  return (
+    <html
+      lang={bcp47LocaleTag(locale)}
+      dir={isRtlLocale(locale) ? "rtl" : "ltr"}
+    >
+      <body>
+        <LocaleClient initialLocale={locale} />
+      </body>
+    </html>
+  );
 }
 ```
 
@@ -196,16 +230,14 @@ When the cookie is absent, fall back to the request's `Accept-Language`
 header:
 
 ```tsx
-import { matchNavigatorLanguage } from "./lily-design-system-react-locale-chooser";
+import { matchNavigatorLanguage } from "./lily-design-system-react-locale-picker";
 
 const SUPPORTED = ["en", "fr", "ar"];
 
 function pickFromAcceptLanguage(header: string | null): string {
-    if (!header) return SUPPORTED[0];
-    const tags = header
-        .split(",")
-        .map((s) => s.split(";")[0].trim());
-    return matchNavigatorLanguage(tags, SUPPORTED) || SUPPORTED[0];
+  if (!header) return SUPPORTED[0];
+  const tags = header.split(",").map((s) => s.split(";")[0].trim());
+  return matchNavigatorLanguage(tags, SUPPORTED) || SUPPORTED[0];
 }
 ```
 
@@ -271,20 +303,20 @@ The select itself MUST be a client component. But the cookie-read +
 `<html lang dir>` writing happens in a server component (the layout).
 The handoff is:
 
-| Server component                     | Client component                |
-| ------------------------------------ | ------------------------------- |
-| Reads cookie / Accept-Language       | Receives `initialLocale` prop   |
-| Computes `lang` and `dir`            | Renders `<LocaleChooser>`        |
-| Writes `<html lang dir>`             | Wires `onChange` cookie writer  |
-| Imports pure helpers only            | Imports `LocaleChooser` + helpers |
+| Server component               | Client component                  |
+| ------------------------------ | --------------------------------- |
+| Reads cookie / Accept-Language | Receives `initialLocale` prop     |
+| Computes `lang` and `dir`      | Renders `<LocalePicker>`         |
+| Writes `<html lang dir>`       | Wires `onChange` cookie writer    |
+| Imports pure helpers only      | Imports `LocalePicker` + helpers |
 
-Importing `LocaleChooser` (the React component) from a server component
+Importing `LocalePicker` (the React component) from a server component
 would force the server bundle to include the client runtime. Import
 only the pure helpers there.
 
 ## Checklist for SSR adoption
 
-- [ ] `LocaleChooser.tsx` starts with `"use client"`.
+- [ ] `LocalePicker.tsx` starts with `"use client"`.
 - [ ] Server reads the cookie and writes `<html lang dir>`.
 - [ ] Server uses `bcp47LocaleTag` and `isRtlLocale` to compute the
       values (same predicates as the client).

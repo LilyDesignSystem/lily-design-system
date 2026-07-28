@@ -7,7 +7,7 @@
     the same lifecycle the listbox does: data-text-size is set,
     localStorage is written, OnChange and ValueChanged fire.
 
-    TextSizeChooser.SizeName is exported for exactly this reason: your own
+    TextSizePicker.SizeName is exported for exactly this reason: your own
     UI can render labels that match the listbox without duplicating the
     title-casing rule.
 
@@ -16,11 +16,11 @@
     as a highlight (WCAG 1.4.1: no colour-only meaning).
 *@
 
-@page "/examples/text-size-chooser/external-buttons"
+@page "/examples/text-size-picker/external-buttons"
 @rendermode InteractiveServer
 @using LilyDesignSystem.Blazor.Helpers
 
-<TextSizeChooser
+<TextSizePicker
     @ref="picker"
     Label="Text size"
     Sizes="@Sizes"
@@ -33,19 +33,19 @@
         <button type="button"
                 aria-pressed="@(slug == size ? "true" : "false")"
                 @onclick="() => picker!.SetSizeAsync(slug)">
-            @TextSizeChooser.SizeName(slug)
+            @TextSizePicker.SizeName(slug)
         </button>
     }
 </div>
 
-<p class="text-size-chooser-status" aria-live="polite">
-    Text size: @(string.IsNullOrEmpty(size) ? "none" : TextSizeChooser.SizeName(size))
+<p class="text-size-picker-status" aria-live="polite">
+    Text size: @(string.IsNullOrEmpty(size) ? "none" : TextSizePicker.SizeName(size))
 </p>
 
 @code {
     private static readonly string[] Sizes =
         new[] { "small", "medium", "large", "x-large" };
 
-    private TextSizeChooser? picker;
+    private TextSizePicker? picker;
     private string size = "";
 }

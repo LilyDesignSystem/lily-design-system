@@ -1,6 +1,6 @@
 # Accessibility
 
-The chooser targets **WCAG 2.2 AAA**. It is an icon button that opens
+The picker targets **WCAG 2.2 AAA**. It is an icon button that opens
 a WAI-ARIA APG listbox, so — unlike the native `<select>` it replaced
 — the roles, the states, and the whole keyboard contract are the
 component's own work rather than the platform's. This page lists
@@ -9,7 +9,7 @@ consumer's responsibility.
 
 ## Built-in
 
-| WCAG / APG item | How the chooser satisfies it |
+| WCAG / APG item | How the picker satisfies it |
 | --------------- | --------------------------- |
 | WCAG 3.1.1 Language of Page | Writes `lang` to the document root on every locale change. |
 | WCAG 3.1.2 Language of Parts | Each `<li role="option">` carries its own `lang` attribute so option text is announced in the right language. |
@@ -24,19 +24,19 @@ consumer's responsibility.
 ## Roles and properties
 
 ```html
-<div class="locale-chooser">
+<div class="locale-picker">
     <input type="hidden" name="locale" value="fr" />
-    <button type="button" class="locale-chooser-button" aria-label="Language"
+    <button type="button" class="locale-picker-button" aria-label="Language"
             aria-haspopup="listbox" aria-expanded="true"
-            aria-controls="locale-chooser-1-list">
-        <span class="locale-chooser-icon" aria-hidden="true">🌐</span>
+            aria-controls="locale-picker-1-list">
+        <span class="locale-picker-icon" aria-hidden="true">🌐</span>
     </button>
-    <ul class="locale-chooser-list" id="locale-chooser-1-list" role="listbox"
+    <ul class="locale-picker-list" id="locale-picker-1-list" role="listbox"
         aria-label="Language" tabindex="-1"
-        aria-activedescendant="locale-chooser-1-option-1">
-        <li id="locale-chooser-1-option-0" role="option"
+        aria-activedescendant="locale-picker-1-option-1">
+        <li id="locale-picker-1-option-0" role="option"
             aria-selected="false" lang="en">English</li>
-        <li id="locale-chooser-1-option-1" role="option"
+        <li id="locale-picker-1-option-1" role="option"
             aria-selected="true" data-active lang="fr">Français</li>
     </ul>
 </div>
@@ -110,7 +110,7 @@ control is effectively unnamed: a screen-reader user hears "button"
 and a sighted user sees a globe with no explanation.
 
 There is a specific irony here that does not apply to the sibling
-`ThemeChooser`. **This is a language picker, and its own name is
+`ThemePicker`. **This is a language picker, and its own name is
 written in one language.** A user who has landed on a page in a
 language they cannot read is precisely the user most likely to need
 this control — and `aria-label="Language"` helps them only if they
@@ -158,7 +158,7 @@ It gets, for free and without a line of script:
 A `role="listbox"` + `aria-activedescendant` widget re-implements all
 of that in JavaScript. This one is APG-conformant and
 keyboard-complete — every clause is covered by a test in
-`LocaleChooser.test.ts` — but conformance to the pattern is not the
+`LocalePicker.test.ts` — but conformance to the pattern is not the
 same as parity with the platform:
 
 - Real-world screen reader coverage of `aria-activedescendant` is
@@ -212,14 +212,14 @@ If you care about pixel-level consistency, ship your own artwork
 through the default slot. Keep it decorative:
 
 ```vue
-<LocaleChooser label="Language" :locales="['en', 'fr', 'ar']" v-model:value="locale">
+<LocalePicker label="Language" :locales="['en', 'fr', 'ar']" v-model:value="locale">
     <template #default>
-        <svg class="locale-chooser-icon" width="20" height="20"
+        <svg class="locale-picker-icon" width="20" height="20"
              viewBox="0 0 20 20" aria-hidden="true" focusable="false">
             <!-- your own globe path -->
         </svg>
     </template>
-</LocaleChooser>
+</LocalePicker>
 ```
 
 The slot replaces the glyph only — the listbox, the options, and the
@@ -229,7 +229,7 @@ name still comes from `label`, so the SVG must stay `aria-hidden`.
 ## The status region is the default pattern
 
 Because of the first tradeoff above, the entry-point example in this
-package pairs the chooser with a status region, and so does the quick
+package pairs the picker with a status region, and so does the quick
 start in [`index.md`](../index.md). **Shipping it is the default;
 removing it is the deliberate choice** you make with your
 accessibility reviewer — not something you opt into later.
@@ -246,19 +246,19 @@ appears.
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import LocaleChooser, { localeName } from "../LocaleChooser.vue";
+import LocalePicker, { localeName } from "../LocalePicker.vue";
 
 const locale = ref("en");
 </script>
 
 <template>
-    <LocaleChooser
+    <LocalePicker
         v-model:value="locale"
         label="Language"
         :locales="['en', 'fr', 'ar']"
     />
 
-    <p class="locale-chooser-status" aria-live="polite">
+    <p class="locale-picker-status" aria-live="polite">
         Current language: {{ localeName(locale) }}
     </p>
 </template>
@@ -273,7 +273,7 @@ Four decisions are baked into that snippet:
    keep the element and hide it visually:
 
    ```css
-   .locale-chooser-status {
+   .locale-picker-status {
        position: absolute;
        width: 1px;
        height: 1px;
@@ -304,7 +304,7 @@ Four decisions are baked into that snippet:
    still in the page language:
 
    ```vue
-   <p class="locale-chooser-status" aria-live="polite">
+   <p class="locale-picker-status" aria-live="polite">
        Current language:
        <span :lang="bcp47LocaleTag(locale)">{{ labelFor(locale) }}</span>
    </p>
@@ -314,9 +314,9 @@ All these strings are consumer-supplied, so they localise with the
 rest of your copy. No hardcoded natural-language string is ever
 emitted by the helper.
 
-Use the `.locale-chooser-status` class hook for the element —
-kebab-case, consistent with `locale-chooser`, `locale-chooser-button`,
-and `locale-chooser-option`.
+Use the `.locale-picker-status` class hook for the element —
+kebab-case, consistent with `locale-picker`, `locale-picker-button`,
+and `locale-picker-option`.
 
 What the status region does **not** fix: a user who tabs to the
 button later, without re-reading the page, still has no way to query
@@ -386,7 +386,7 @@ Three things to take from that table:
 
 - **The button name never includes the active locale.** There is no
   value to announce on a closed icon button. The
-  `.locale-chooser-status` live region is what reports the change;
+  `.locale-picker-status` live region is what reports the change;
   verify it fires once per change and stays silent on page load.
 - **The counts have no leading placeholder any more.** A five-locale
   list reads "of 5", not "of 6".
@@ -411,7 +411,7 @@ consistently.
 If you need free-text *filtering* rather than prefix matching, the
 APG Combobox pattern is the right shape — and this helper does not
 ship one. Render your own combobox next to the component and bind
-both to the same ref: `LocaleChooser` keeps owning the apply lifecycle
+both to the same ref: `LocalePicker` keeps owning the apply lifecycle
 (`lang` / `dir` / storage / `change`), and your input is simply a
 second way to write the bound value. See
 [examples/combobox.vue](../examples/combobox.vue) for that
@@ -419,18 +419,18 @@ side-by-side arrangement, built on a `<datalist>`.
 
 ## Colour contrast
 
-The chooser ships no colour. WCAG 1.4.3 contrast (4.5:1 normal, 3:1
+The picker ships no colour. WCAG 1.4.3 contrast (4.5:1 normal, 3:1
 large, 7:1 AAA) is your CSS's responsibility — and it now applies to
 the listbox too, which the browser used to draw for you:
 
 ```css
-.locale-chooser-button {
+.locale-picker-button {
     /* WCAG AAA-grade contrast against white */
     color: #003087; /* NHS blue */
     font-weight: 600;
 }
 
-.locale-chooser-option[data-active] {
+.locale-picker-option[data-active] {
     /* Do not signal the active row with colour alone (WCAG 1.4.1). */
     outline: 2px solid currentColor;
     outline-offset: -2px;

@@ -1,4 +1,4 @@
-# Lifecycle — LocaleChooser (Blazor)
+# Lifecycle — LocalePicker (Blazor)
 
 The Blazor-flavoured walk-through of the select's lifecycle. The
 canonical contract is in [`../spec/index.md`](../spec/index.md) §5; this file
@@ -144,7 +144,7 @@ private async Task ApplyLocaleAsync(string code)
 
 `SetLocaleAsync` is `public` so consumers can drive the control from
 their own UI — hold a `@ref` to the component and call it. It is not
-reachable from `LocaleChooserContext`, which now carries only `Value`,
+reachable from `LocalePickerContext`, which now carries only `Value`,
 `Open`, and `LabelFor`.
 
 ## Why one giant `eval` call per change

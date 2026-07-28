@@ -9,7 +9,7 @@ rationale and common usage.
 `aria-label` on **both** the rendered `<button>` and the rendered
 `<ul role="listbox">`. Always supplied, always translatable.
 
-The control is icon-only, so this is the *entire* accessible name —
+The control is icon-only, so this is the _entire_ accessible name —
 there is no visible text to fall back on. A vague `label` leaves the
 control unusable to screen-reader users, and the absence of a
 visible label means the control fails WCAG 2.5.3 Label in Name
@@ -41,7 +41,7 @@ that are safe URL path segments — kebab-case ASCII is recommended.
 The matching JS property `el.themes` accepts a native `string[]`:
 
 ```ts
-(select as ThemeChooser).themes = ["light", "dark", "abyss"];
+(select as ThemePicker).themes = ["light", "dark", "abyss"];
 // equivalent to: select.setAttribute("themes", "light,dark,abyss")
 ```
 
@@ -53,9 +53,9 @@ escaping commas.
 The active slug. Read and write via attribute or property:
 
 ```ts
-select.setAttribute("value", "dark");          // → applies "dark"
-select.value = "abyss";                         // → applies "abyss"
-select.getAttribute("value");                   // → "abyss"
+select.setAttribute("value", "dark"); // → applies "dark"
+select.value = "abyss"; // → applies "abyss"
+select.getAttribute("value"); // → "abyss"
 ```
 
 When supplied as a non-empty string on first mount, the select
@@ -86,16 +86,16 @@ stored slug, resolve the OS colour-scheme preference to a supported
 theme and use it.
 
 ```html
-<theme-chooser
+<theme-picker
   label="Theme"
   themes-url="/assets/themes/"
   themes="light,dark"
   storage-key="myapp:theme"
   detect-from-system
-></theme-chooser>
+></theme-picker>
 ```
 
-This is the mirror of locale-chooser's `detect-from-navigator`, and it
+This is the mirror of locale-picker's `detect-from-navigator`, and it
 occupies the same slot in the resolution order:
 
 ```
@@ -111,10 +111,10 @@ The rule is implemented by the exported pure helper
 `matchSystemTheme(themes)`, which mirrors `matchNavigatorLanguage`:
 
 ```ts
-import { matchSystemTheme } from "lily-design-system-html-theme-chooser";
+import { matchSystemTheme } from "lily-design-system-html-theme-picker";
 
-matchSystemTheme(["light", "dark"]);   // → "dark" on a dark-mode OS
-matchSystemTheme(["light", "abyss"]);  // → ""  (no "dark" slug offered)
+matchSystemTheme(["light", "dark"]); // → "dark" on a dark-mode OS
+matchSystemTheme(["light", "abyss"]); // → ""  (no "dark" slug offered)
 ```
 
 It reads `matchMedia("(prefers-color-scheme: dark)")` and maps the
@@ -127,7 +127,7 @@ resolution falls through to `default-value` — in two cases:
    optional: it is the SSR case, and also jsdom, which does not
    implement `matchMedia` either.
 
-Detection resolves the *initial* value only; it does not subscribe to
+Detection resolves the _initial_ value only; it does not subscribe to
 later OS changes. To track them live, add your own listener — see
 [recipes.md](./recipes.md#track-os-colour-scheme-changes-live).
 
@@ -139,7 +139,7 @@ a form control, so the hidden input supplies the form
 participation the old native `<select>` had).
 
 It also serves as the discriminator on the managed `<link>` element
-(`data-lily-theme-chooser="{name}"`), so multiple controls can
+(`data-lily-theme-picker="{name}"`), so multiple controls can
 coexist by giving each a distinct `name`.
 
 ## `extension` — optional, string — defaults to `".css"`
@@ -155,9 +155,9 @@ JS property `el.themeLabels` accepts a native
 `Record<string, string>`:
 
 ```ts
-(select as ThemeChooser).themeLabels = {
-    light: "Bright",
-    dark: "Midnight",
+(select as ThemePicker).themeLabels = {
+  light: "Bright",
+  dark: "Midnight",
 };
 // equivalent to:
 // select.setAttribute("theme-labels", '{"light":"Bright","dark":"Midnight"}')
@@ -171,11 +171,15 @@ i18n or for slugs that don't gracefully title-case (e.g.
 ## `class` — optional, string
 
 Extra CSS class on the rendered root `<div>`. Always emitted after
-`"theme-chooser"`, so consumer styles can use either selector:
+`"theme-picker"`, so consumer styles can use either selector:
 
 ```css
-.theme-chooser.extra-class { /* … */ }
-.extra-class .theme-chooser-option { /* … */ }
+.theme-picker.extra-class {
+  /* … */
+}
+.extra-class .theme-picker-option {
+  /* … */
+}
 ```
 
 ## `el.target` — JS-only, `HTMLElement | null`
@@ -190,7 +194,7 @@ there is no attribute form — only the JS-property setter:
 
 ```ts
 const section = document.querySelector("section.theme-region") as HTMLElement;
-(select as ThemeChooser).target = section;
+(select as ThemePicker).target = section;
 select.value = "dark"; // section now has data-theme="dark"
 ```
 
@@ -199,18 +203,18 @@ select.value = "dark"; // section now has data-theme="dark"
 Every observed attribute mirrors a JS property of the same name in
 camelCase:
 
-| Attribute       | Property         | Encoding      |
-| --------------- | ---------------- | ------------- |
-| `label`         | `label`          | string        |
-| `themes-url`    | `themesUrl`      | string        |
-| `themes`        | `themes`         | CSV ↔ string[] |
-| `value`         | `value`          | string        |
-| `default-value` | `defaultValue`   | string        |
-| `storage-key`   | `storageKey`     | string        |
-| `name`          | `name`           | string        |
-| `extension`     | `extension`      | string        |
-| `theme-labels`  | `themeLabels`    | JSON ↔ object |
-| `class`         | (use `el.classList` / `class` attr) | string |
+| Attribute       | Property                            | Encoding       |
+| --------------- | ----------------------------------- | -------------- |
+| `label`         | `label`                             | string         |
+| `themes-url`    | `themesUrl`                         | string         |
+| `themes`        | `themes`                            | CSV ↔ string[] |
+| `value`         | `value`                             | string         |
+| `default-value` | `defaultValue`                      | string         |
+| `storage-key`   | `storageKey`                        | string         |
+| `name`          | `name`                              | string         |
+| `extension`     | `extension`                         | string         |
+| `theme-labels`  | `themeLabels`                       | JSON ↔ object  |
+| `class`         | (use `el.classList` / `class` attr) | string         |
 
 Setting an array / object property writes back the encoded form to
 the attribute, which feeds through `attributeChangedCallback` so
@@ -227,14 +231,14 @@ runtime value cannot be expressed as a string.
 
 Not attributes, but part of the public surface:
 
-| Member                     | Type      | Purpose                                                    |
-| -------------------------- | --------- | ----------------------------------------------------------- |
-| `el.open`                  | `boolean` | Whether the listbox is open. Read-only.                     |
-| `el.listId`                | `string`  | id of the rendered `<ul role="listbox">`.                   |
-| `el.optionId(index)`       | `string`  | id of the rendered option at `index`.                       |
-| `el.openList(startIndex?)` | `void`    | Open the list; optionally choose which option starts active. |
-| `el.closeList(refocus?)`   | `void`    | Close the list; pass `false` to leave focus where it is.     |
-| `el.labelFor(slug)`        | `string`  | Display label for a slug — applies `theme-labels`, else title-cases. |
+| Member                     | Type      | Purpose                                                                                      |
+| -------------------------- | --------- | -------------------------------------------------------------------------------------------- |
+| `el.open`                  | `boolean` | Whether the listbox is open. Read-only.                                                      |
+| `el.listId`                | `string`  | id of the rendered `<ul role="listbox">`.                                                    |
+| `el.optionId(index)`       | `string`  | id of the rendered option at `index`.                                                        |
+| `el.openList(startIndex?)` | `void`    | Open the list; optionally choose which option starts active.                                 |
+| `el.closeList(refocus?)`   | `void`    | Close the list; pass `false` to leave focus where it is.                                     |
+| `el.labelFor(slug)`        | `string`  | Display label for a slug — applies `theme-labels`, else title-cases.                         |
 | `el.renderButtonContent()` | `Node`    | Overridable hook for the button's content. See [custom-rendering.md](./custom-rendering.md). |
 
 `labelFor` is the one to reach for when writing a status region: it
@@ -243,13 +247,13 @@ picks up `theme-labels` overrides and translations for free.
 ## Fall-through attributes
 
 Other attributes on the host (`id`, `data-*`, event handlers, ARIA
-overrides) stay on `<theme-chooser>` and don't propagate to the
+overrides) stay on `<theme-picker>` and don't propagate to the
 rendered children. This is the natural behaviour of custom
 elements: the host is where the consumer declares them; the
 rendered children are recreated on every render.
 
 The one exception is `class`, which the element deliberately mirrors
-onto the rendered root after the `theme-chooser` base hook.
+onto the rendered root after the `theme-picker` base hook.
 
 If you need an attribute to land on a rendered child, write a
 consumer wrapper or subclass and post-process the children.

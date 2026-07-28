@@ -6,17 +6,17 @@
     "light" is in the list), sets data-theme="light" on <html>, and
     injects a <link rel="stylesheet"> pointing at /assets/themes/light.css.
 
-    The default markup is a <div class="theme-chooser"> holding a hidden
-    input, a <button class="theme-chooser-button"> showing the half-circle
-    glyph (◑, U+25D1), and a <ul class="theme-chooser-list" role="listbox">
-    with one <li class="theme-chooser-option" role="option"> per slug.
+    The default markup is a <div class="theme-picker"> holding a hidden
+    input, a <button class="theme-picker-button"> showing the half-circle
+    glyph (◑, U+25D1), and a <ul class="theme-picker-list" role="listbox">
+    with one <li class="theme-picker-option" role="option"> per slug.
 
     The status line is part of the basic pattern, not an add-on.
     ------------------------------------------------------------------
     The control is icon-only: the closed button shows a glyph and
     nothing else, so the active theme has no on-screen representation
     and is not announced as any control's value. The
-    <p class="theme-chooser-status"> below is the compensating channel,
+    <p class="theme-picker-status"> below is the compensating channel,
     and it is the default pattern this package ships — see
     ../docs/accessibility.md.
 
@@ -36,12 +36,12 @@
 -->
 <script setup lang="ts">
 import { ref } from "vue";
-import ThemeChooser from "../ThemeChooser.vue";
+import ThemePicker from "../ThemePicker.vue";
 
 const theme = ref("");
 
 /*
- * ThemeChooser keeps its own labelFor() internal and exposes it only
+ * ThemePicker keeps its own labelFor() internal and exposes it only
  * through the default scoped slot (which replaces the button glyph).
  * The status line below is outside the component, so mirror the
  * component's default label rule: title-case the slug. Pass the same
@@ -56,14 +56,14 @@ function labelFor(slug: string): string {
 </script>
 
 <template>
-    <ThemeChooser
+    <ThemePicker
         label="Theme"
         themes-url="/assets/themes/"
         :themes="['light', 'dark', 'abyss']"
         v-model:value="theme"
     />
 
-    <p class="theme-chooser-status" aria-live="polite">
+    <p class="theme-picker-status" aria-live="polite">
         Active theme: {{ labelFor(theme) }}
     </p>
 </template>

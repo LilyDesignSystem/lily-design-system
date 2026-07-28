@@ -1,6 +1,6 @@
-# ThemeChooser (Nunjucks helper)
+# ThemePicker (Nunjucks helper)
 
-A reusable, headless Nunjucks 3 + vanilla-JS theme chooser that
+A reusable, headless Nunjucks 3 + vanilla-JS theme picker that
 **loads themes dynamically at runtime** from a developer-specified
 directory.
 
@@ -31,7 +31,7 @@ and for working code see [examples/](./examples/).
 
 ## Why this exists
 
-Most theme choosers couple selection, persistence, and styling into
+Most theme pickers couple selection, persistence, and styling into
 one opinionated widget. This one splits the contract cleanly:
 
 - **Authors** drop theme CSS files (e.g. `light.css`, `dark.css`)
@@ -40,7 +40,7 @@ one opinionated widget. This one splits the contract cleanly:
   accessibility — via a Nunjucks macro for the markup and a small
   ES module for the runtime.
 - **Consumers** own the visual style of the select via the
-  `theme-chooser` class hook.
+  `theme-picker` class hook.
 
 The result is a tiny reusable widget that works in any Nunjucks
 host (Eleventy, Express, Cloudflare Workers, plain
@@ -49,7 +49,7 @@ DaisyUI-inspired themes, NHS-aligned themes, or your own bespoke
 set.
 
 The helper is a direct port of the Svelte canonical
-`lily-design-system-svelte-theme-chooser`. The DOM contract and
+`lily-design-system-svelte-theme-picker`. The DOM contract and
 behaviour match clause-for-clause; only the framework idioms
 differ.
 
@@ -57,29 +57,29 @@ differ.
 
 The helper is a **macro + client.js** pair:
 
-- The macro (`theme-chooser.njk`) renders the icon button and the
+- The macro (`theme-picker.njk`) renders the icon button and the
   listbox markup server-side or at static-site build time.
-- The client (`theme-chooser.client.js`) is an ES module the
+- The client (`theme-picker.client.js`) is an ES module the
   consumer loads once per page. It picks up the markup via
-  `data-lily-theme-chooser-*` attributes and owns both the listbox
+  `data-lily-theme-picker-*` attributes and owns both the listbox
   **interaction** (open / close, focus, keyboard) and the theme
   **lifecycle** (storage, dynamic `<link>` swap, `data-theme` set).
 
 ```
 Nunjucks render time                 │  Browser runtime
                                       │
-{{ themeChooser({…}) }}                │  import { autoInit } from
-   │                                  │    "./theme-chooser.client.js";
+{{ themePicker({…}) }}                │  import { autoInit } from
+   │                                  │    "./theme-picker.client.js";
    ▼                                  │  autoInit();
 <div                                  │     │
-  class="theme-chooser"                │     ▼
-  data-lily-theme-chooser-root         │  finds [data-lily-theme-chooser-root]
-  data-lily-theme-chooser-themes-url   │     │
+  class="theme-picker"                │     ▼
+  data-lily-theme-picker-root         │  finds [data-lily-theme-picker-root]
+  data-lily-theme-picker-themes-url   │     │
   …>                                  │     ▼
   <input type="hidden" name="theme">  │  wires button + listbox events
-  <button class="theme-chooser-button" │     │
+  <button class="theme-picker-button" │     │
           aria-haspopup="listbox">◑   │     ▼
-  <ul class="theme-chooser-list"       │  resolves initial value
+  <ul class="theme-picker-list"       │  resolves initial value
       role="listbox" hidden>          │     │
     <li role="option">…</li>          │     ▼
   </ul>                               │  applyTheme(slug):
@@ -100,12 +100,12 @@ The directory ships as a folder-style import. Consumers either copy
 the four core files into their project or wire as a workspace
 dependency:
 
-| File                       | Purpose                                          |
-| -------------------------- | ------------------------------------------------ |
-| `theme-chooser.njk`         | The Nunjucks macro.                              |
-| `theme-chooser.client.js`   | The ES-module runtime.                           |
-| `index.ts` (optional)      | Re-export of the client.js for ESM imports.      |
-| `spec/index.md` / `index.md`     | Documentation.                                   |
+| File                         | Purpose                                     |
+| ---------------------------- | ------------------------------------------- |
+| `theme-picker.njk`          | The Nunjucks macro.                         |
+| `theme-picker.client.js`    | The ES-module runtime.                      |
+| `index.ts` (optional)        | Re-export of the client.js for ESM imports. |
+| `spec/index.md` / `index.md` | Documentation.                              |
 
 Runtime dependencies: `nunjucks` ≥ 3 server-side and standard DOM
 APIs client-side. No bundler required.
@@ -120,9 +120,9 @@ APIs client-side. No bundler required.
 2. Render the macro in your Nunjucks template:
 
 ```njk
-{% from "./lily-design-system-nunjucks-theme-chooser/theme-chooser.njk" import themeChooser %}
+{% from "./lily-design-system-nunjucks-theme-picker/theme-picker.njk" import themePicker %}
 
-{{ themeChooser({
+{{ themePicker({
   label: "Theme",
   themesUrl: "/assets/themes/",
   themes: ["light", "dark", "abyss"],
@@ -133,7 +133,7 @@ APIs client-side. No bundler required.
    never shows the active theme's name. Surface it here instead —
    visibly, for sighted and screen-reader users alike.
    See docs/accessibility.md. #}
-<p class="theme-chooser-status" aria-live="polite"></p>
+<p class="theme-picker-status" aria-live="polite"></p>
 ```
 
 3. Load the client.js once per page and keep the status region in
@@ -141,10 +141,10 @@ APIs client-side. No bundler required.
 
 ```html
 <script type="module">
-  import { autoInit } from "/path/to/theme-chooser.client.js";
+  import { autoInit } from "/path/to/theme-picker.client.js";
 
   const THEME_LABELS = { light: "Light", dark: "Dark", abyss: "Abyss" };
-  const status = document.querySelector(".theme-chooser-status");
+  const status = document.querySelector(".theme-picker-status");
 
   autoInit({
     onChange(slug) {
@@ -175,7 +175,7 @@ When the user picks `dark`, the client:
 On every theme change the client.js performs five steps, in order:
 
 1. **Locate or create** a managed
-   `<link rel="stylesheet" data-lily-theme-chooser="{name}">` in
+   `<link rel="stylesheet" data-lily-theme-picker="{name}">` in
    `document.head`.
 2. **Swap the href** to `${themesUrl}${slug}${extension}` so the
    new theme's CSS is fetched and applied. The previous theme's
@@ -199,20 +199,51 @@ for form participation, an icon-only button, and a listbox that starts
 `hidden`:
 
 ```html
-<div class="theme-chooser" data-lily-theme-chooser-root …>
-  <input type="hidden" name="theme" value="light" data-lily-theme-chooser-input>
-  <button type="button" class="theme-chooser-button" aria-label="Theme"
-          aria-haspopup="listbox" aria-expanded="false"
-          aria-controls="theme-chooser-theme-list"
-          data-lily-theme-chooser-button>
-    <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
+<div class="theme-picker" data-lily-theme-picker-root …>
+  <input
+    type="hidden"
+    name="theme"
+    value="light"
+    data-lily-theme-picker-input
+  />
+  <button
+    type="button"
+    class="theme-picker-button"
+    aria-label="Theme"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="theme-picker-theme-list"
+    data-lily-theme-picker-button
+  >
+    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
   </button>
-  <ul class="theme-chooser-list" id="theme-chooser-theme-list" role="listbox"
-      aria-label="Theme" tabindex="-1" hidden data-lily-theme-chooser-list>
-    <li class="theme-chooser-option" id="theme-chooser-theme-option-0"
-        role="option" aria-selected="true" data-value="light">Light</li>
-    <li class="theme-chooser-option" id="theme-chooser-theme-option-1"
-        role="option" aria-selected="false" data-value="dark">Dark</li>
+  <ul
+    class="theme-picker-list"
+    id="theme-picker-theme-list"
+    role="listbox"
+    aria-label="Theme"
+    tabindex="-1"
+    hidden
+    data-lily-theme-picker-list
+  >
+    <li
+      class="theme-picker-option"
+      id="theme-picker-theme-option-0"
+      role="option"
+      aria-selected="true"
+      data-value="light"
+    >
+      Light
+    </li>
+    <li
+      class="theme-picker-option"
+      id="theme-picker-theme-option-1"
+      role="option"
+      aria-selected="false"
+      data-value="dark"
+    >
+      Dark
+    </li>
   </ul>
 </div>
 ```
@@ -231,17 +262,17 @@ input, in `aria-selected` on the options, in `localStorage` when
 ## Default theme
 
 The default theme is `"light"` whenever `"light"` appears in your
-`themes` list. The full resolution order on first `initThemeChooser`
+`themes` list. The full resolution order on first `initThemePicker`
 call is:
 
-1. The root's `data-lily-theme-chooser-value` (i.e. the consumer's
+1. The root's `data-lily-theme-picker-value` (i.e. the consumer's
    `opts.value`). This attribute is still the only channel by which
    `opts.value` reaches the client — see
    [docs/ssr.md](./docs/ssr.md).
 2. `localStorage.getItem(storageKey)` (when `storageKey` is set and
    readable).
 3. `matchSystemTheme(themes)` — only when `detectFromSystem` is on.
-4. The root's `data-lily-theme-chooser-default-value`
+4. The root's `data-lily-theme-picker-default-value`
    (i.e. `opts.defaultValue`).
 5. `"light"` if present among the rendered option values.
 6. The first option value, or `""` if none.
@@ -273,7 +304,7 @@ Required: `label`, `themesUrl`, `themes`. Optional: `value`,
 `id`, `classes`, `attributes`.
 
 `id` is the id prefix for the listbox (`{id}-list`) and its options
-(`{id}-option-{index}`). It defaults to `"theme-chooser-{name}"`, so
+(`{id}-option-{index}`). It defaults to `"theme-picker-{name}"`, so
 two instances that share a `name` **must** be given distinct `id`s —
 Nunjucks macros cannot hold a module-level counter, so an explicit
 `id` is this framework's stable-id mechanism.
@@ -287,17 +318,17 @@ Imports:
 
 ```js
 import {
-    initThemeChooser,
-    autoInit,
-    normaliseThemesUrl,
-    themeHref,
-    CIRCLE_WITH_RIGHT_HALF_BLACK,
-} from "./theme-chooser.client.js";
+  initThemePicker,
+  autoInit,
+  normaliseThemesUrl,
+  themeHref,
+  CIRCLE_WITH_RIGHT_HALF_BLACK,
+} from "./theme-picker.client.js";
 ```
 
-- `autoInit(opts?)` — find every `[data-lily-theme-chooser-root]`
+- `autoInit(opts?)` — find every `[data-lily-theme-picker-root]`
   on the page and wire it.
-- `initThemeChooser(root, opts?)` — wire a single root `<div>`;
+- `initThemePicker(root, opts?)` — wire a single root `<div>`;
   returns `{setTheme, destroy}`.
 - `normaliseThemesUrl(url)` — ensure exactly one trailing `/`.
 - `themeHref(url, slug, extension)` — build the full href.
@@ -314,9 +345,9 @@ Optional `opts`:
 The returned controller is the imperative escape hatch:
 
 ```js
-const controller = initThemeChooser(root, { onChange: console.log });
-controller.setTheme("dark");   // apply imperatively
-controller.destroy();            // remove every listener
+const controller = initThemePicker(root, { onChange: console.log });
+controller.setTheme("dark"); // apply imperatively
+controller.destroy(); // remove every listener
 ```
 
 ## Custom rendering
@@ -324,10 +355,10 @@ controller.destroy();            // remove every listener
 The button's glyph is the one part of the markup the macro hands
 over. Nunjucks has no render props, so its equivalent of "children"
 is a `{% call %}` block: the block body replaces the default
-`<span class="theme-chooser-icon">&#9681;</span>` **inside** the button.
+`<span class="theme-picker-icon">&#9681;</span>` **inside** the button.
 
 ```njk
-{% call themeChooser({
+{% call themePicker({
     label: "Theme",
     themesUrl: "/assets/themes/",
     themes: ["light", "dark"]
@@ -384,7 +415,7 @@ recipe.
 - **Tradeoff, and the default answer to it**: the closed button is
   icon-only, so a screen-reader user hears the control's label but
   not the active theme until the listbox is opened. The examples and
-  the quick start therefore ship a visible `.theme-chooser-status`
+  the quick start therefore ship a visible `.theme-picker-status`
   region with `aria-live="polite"` next to the control. Treat that
   region as part of the pattern; omitting it is the deliberate
   choice.
@@ -396,17 +427,17 @@ recipe.
 Implemented entirely by the client.js — none of it works before the
 script runs.
 
-| Key                   | Where     | Action                                                            |
-| --------------------- | --------- | ----------------------------------------------------------------- |
-| `Arrow Down`          | Button    | Open, active option = the selected one (or the first).            |
-| `Enter` / `Space`     | Button    | Same as `Arrow Down`.                                             |
-| `Arrow Up`            | Button    | Open with the **last** option active.                             |
-| `Arrow Down` / `Up`   | Listbox   | Move the active option. Clamps at the ends — no wrapping.         |
-| `Home` / `End`        | Listbox   | Jump to the first / last option.                                  |
-| `Enter` / `Space`     | Listbox   | Select the active option, apply it, close, refocus the button.    |
-| `Escape`              | Listbox   | Close and refocus the button without changing the theme.          |
-| `Tab`                 | Listbox   | Close without stealing focus back, so Tab proceeds normally.      |
-| Printable characters  | Listbox   | Typeahead over the option labels; the buffer resets after 500 ms. |
+| Key                  | Where   | Action                                                            |
+| -------------------- | ------- | ----------------------------------------------------------------- |
+| `Arrow Down`         | Button  | Open, active option = the selected one (or the first).            |
+| `Enter` / `Space`    | Button  | Same as `Arrow Down`.                                             |
+| `Arrow Up`           | Button  | Open with the **last** option active.                             |
+| `Arrow Down` / `Up`  | Listbox | Move the active option. Clamps at the ends — no wrapping.         |
+| `Home` / `End`       | Listbox | Jump to the first / last option.                                  |
+| `Enter` / `Space`    | Listbox | Select the active option, apply it, close, refocus the button.    |
+| `Escape`             | Listbox | Close and refocus the button without changing the theme.          |
+| `Tab`                | Listbox | Close without stealing focus back, so Tab proceeds normally.      |
+| Printable characters | Listbox | Typeahead over the option labels; the buffer resets after 500 ms. |
 
 Opening moves focus to the `<ul>`. Clicking an option selects it;
 clicking outside, or focus leaving the root, closes the listbox.
@@ -420,11 +451,11 @@ in, same HTML out — and it emits a complete, correctly-labelled
 control: the collapsed button, the hidden listbox, exactly one
 option marked `aria-selected="true"`, and a hidden input pre-filled
 with that slug. Your `opts.value` is additionally carried on
-`data-lily-theme-chooser-value` for the client to read.
+`data-lily-theme-picker-value` for the client to read.
 
 **The server-rendered markup is not fully usable without
 JavaScript.** The button will not open the listbox until
-`theme-chooser.client.js` has run — open/close, focus movement, and
+`theme-picker.client.js` has run — open/close, focus movement, and
 the whole keyboard contract live in the client. This is a real
 regression versus the native `<select>` this helper used to render.
 The one no-JS affordance that remains is the hidden input: it is
@@ -446,9 +477,9 @@ is fetched on demand. To switch instantly between themes, preload
 them all in your layout `<head>`:
 
 ```html
-<link rel="stylesheet" href="/assets/themes/light.css">
-<link rel="stylesheet" href="/assets/themes/dark.css">
-<link rel="stylesheet" href="/assets/themes/abyss.css">
+<link rel="stylesheet" href="/assets/themes/light.css" />
+<link rel="stylesheet" href="/assets/themes/dark.css" />
+<link rel="stylesheet" href="/assets/themes/abyss.css" />
 ```
 
 The select still mutates `data-theme`, and since every theme's CSS
@@ -462,7 +493,7 @@ example: [`examples/05-preloaded.njk`](./examples/05-preloaded.njk).
 
 Pass a distinct `name` to each macro call. The `name` is used as
 both the hidden input's `name` attribute and the discriminator on
-the managed `<link>` element (`data-lily-theme-chooser="{name}"`).
+the managed `<link>` element (`data-lily-theme-picker="{name}"`).
 Because the default id prefix is derived from `name`, distinct names
 also give the two listboxes distinct ids.
 
@@ -475,10 +506,10 @@ Example: [`examples/03-multiple-selects.njk`](./examples/03-multiple-selects.njk
 
 ## Styling
 
-The control ships no CSS. Class hooks: `.theme-chooser` on the root
-`<div>`, `.theme-chooser-button` on the trigger,
-`.theme-chooser-icon` on the default glyph, `.theme-chooser-list` on
-the listbox, and `.theme-chooser-option` on each option. The
+The control ships no CSS. Class hooks: `.theme-picker` on the root
+`<div>`, `.theme-picker-button` on the trigger,
+`.theme-picker-icon` on the default glyph, `.theme-picker-list` on
+the listbox, and `.theme-picker-option` on each option. The
 client.js also sets `data-active` on the active option while the
 listbox is open, and toggles the list's `hidden` attribute.
 
@@ -486,10 +517,19 @@ The listbox is a plain in-flow `<ul>` until you style it, so most
 consumers position it themselves:
 
 ```css
-.theme-chooser { position: relative; }
-.theme-chooser-list { position: absolute; z-index: 1; }
-.theme-chooser-option[data-active] { /* active-option highlight */ }
-.theme-chooser-option[aria-selected="true"] { /* selected marker */ }
+.theme-picker {
+  position: relative;
+}
+.theme-picker-list {
+  position: absolute;
+  z-index: 1;
+}
+.theme-picker-option[data-active] {
+  /* active-option highlight */
+}
+.theme-picker-option[aria-selected="true"] {
+  /* selected marker */
+}
 ```
 
 Topic guide: [`docs/styling.md`](./docs/styling.md).
@@ -526,19 +566,19 @@ acceptance criterion in
 
 ## Files in this directory
 
-| File                      | Purpose                                          |
-| ------------------------- | ------------------------------------------------ |
-| `spec/index.md`                 | Single source of truth — API, behaviour, tests.  |
-| `AGENTS.md`               | Fast-index pointer; loads the AGENTS bundle.     |
-| `AGENTS/`                 | Topic-by-topic agent files.                      |
-| `CLAUDE.md`               | `@AGENTS.md`.                                    |
-| `theme-chooser.njk`        | The macro.                                       |
-| `theme-chooser.client.js`  | The ES-module runtime.                           |
-| `theme-chooser.test.ts`    | vitest suite covering every spec §7 item.        |
-| `index.md`                | This file.                                       |
-| `docs/`                   | Deep-dive topic guides.                          |
-| `examples/`               | Runnable Nunjucks templates.                     |
-| `CHANGELOG.md`            | Version history.                                 |
+| File                      | Purpose                                         |
+| ------------------------- | ----------------------------------------------- |
+| `spec/index.md`           | Single source of truth — API, behaviour, tests. |
+| `AGENTS.md`               | Fast-index pointer; loads the AGENTS bundle.    |
+| `AGENTS/`                 | Topic-by-topic agent files.                     |
+| `CLAUDE.md`               | `@AGENTS.md`.                                   |
+| `theme-picker.njk`       | The macro.                                      |
+| `theme-picker.client.js` | The ES-module runtime.                          |
+| `theme-picker.test.ts`   | vitest suite covering every spec §7 item.       |
+| `index.md`                | This file.                                      |
+| `docs/`                   | Deep-dive topic guides.                         |
+| `examples/`               | Runnable Nunjucks templates.                    |
+| `CHANGELOG.md`            | Version history.                                |
 
 ## License
 

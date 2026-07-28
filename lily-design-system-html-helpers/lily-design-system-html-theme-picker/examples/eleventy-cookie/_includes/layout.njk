@@ -5,19 +5,19 @@
 <html lang="en" data-theme="{{ theme.defaultTheme }}">
     <head>
         <meta charset="utf-8">
-        <title>{{ title or "Lily Theme Chooser — Eleventy" }}</title>
+        <title>{{ title or "Lily Theme Picker — Eleventy" }}</title>
         <link rel="stylesheet" href="/assets/themes/{{ theme.defaultTheme }}.css">
-        <script type="module" src="/dist/theme-chooser.js"></script>
+        <script type="module" src="/dist/theme-picker.js"></script>
     </head>
     <body>
         <header>
-            <theme-chooser
+            <theme-picker
                 label="Theme"
                 themes-url="/assets/themes/"
                 themes="{{ theme.available | join(',') }}"
                 value="{{ theme.defaultTheme }}"
                 storage-key="lily-theme"
-            ></theme-chooser>
+            ></theme-picker>
         </header>
 
         <main>

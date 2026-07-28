@@ -2,7 +2,7 @@
 # Publish the Lily Design System helper packages.
 #
 #   - npm packages: the svelte / react / vue / angular / html / nunjucks
-#     the `*-chooser` helpers in each catalog. The globs are
+#     the `*-picker` helpers in each catalog. The globs are
 #     deliberately broad — every loop guards on package.json / dist / *.csproj
 #     existing — so a new helper is picked up without editing this script.
 #   - NuGet packages: the Blazor helpers.

@@ -23,10 +23,10 @@
   need filtering (typing narrows the list rather than jumping within
   it), that is a combobox, which this helper does not implement —
   hand-write conforming markup with the same
-  `data-lily-locale-chooser-*` hooks, or reach for Lily's upstream
+  `data-lily-locale-picker-*` hooks, or reach for Lily's upstream
   `Combobox` headless primitive.
 #}
-{% from "../locale-chooser.njk" import localeChooser %}
+{% from "../locale-picker.njk" import localePicker %}
 
 {% set LOCALES = [
     "en", "en-US", "en-GB", "en-AU", "en-CA", "en-IE", "en-IN", "en-NZ", "en-ZA",
@@ -67,7 +67,7 @@
     "ms": "Bahasa Melayu"
 } %}
 
-{{ localeChooser({
+{{ localePicker({
     label: "Language",
     locales: LOCALES,
     localeLabels: LABELS,
@@ -81,13 +81,13 @@
   a status region. With 57 options this matters more, not less: a
   screen-reader user needs to hear the result of a typeahead commit.
 #}
-<p class="locale-chooser-status" aria-live="polite"></p>
+<p class="locale-picker-status" aria-live="polite"></p>
 <p>Selected locale: <code id="current-locale">en</code></p>
 
 <script type="module">
-    import { autoInit, localeName } from "../locale-chooser.client.js";
+    import { autoInit, localeName } from "../locale-picker.client.js";
 
-    const status = document.querySelector(".locale-chooser-status");
+    const status = document.querySelector(".locale-picker-status");
 
     autoInit({
         onChange(code) {

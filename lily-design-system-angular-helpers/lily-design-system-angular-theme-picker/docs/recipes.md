@@ -8,25 +8,25 @@ more error handling.
 
 ```ts
 import { Component, signal } from "@angular/core";
-import { ThemeChooser } from "../theme-chooser.component";
+import { ThemePicker } from "../theme-picker.component";
 
 @Component({
-    standalone: true,
-    imports: [ThemeChooser],
-    template: `
-        <lily-theme-chooser
-            label="Theme"
-            themesUrl="/assets/themes/"
-            [themes]="['light', 'dark']"
-            [defaultValue]="prefersDark ? 'dark' : 'light'"
-            storageKey="my-app:theme"
-        />
-    `,
+  standalone: true,
+  imports: [ThemePicker],
+  template: `
+    <lily-theme-picker
+      label="Theme"
+      themesUrl="/assets/themes/"
+      [themes]="['light', 'dark']"
+      [defaultValue]="prefersDark ? 'dark' : 'light'"
+      storageKey="my-app:theme"
+    />
+  `,
 })
 export class Settings {
-    readonly prefersDark =
-        typeof window !== "undefined" &&
-        window.matchMedia?.("(prefers-color-scheme: dark)").matches;
+  readonly prefersDark =
+    typeof window !== "undefined" &&
+    window.matchMedia?.("(prefers-color-scheme: dark)").matches;
 }
 ```
 
@@ -37,33 +37,33 @@ visits.
 
 ```ts
 import { Component, DestroyRef, inject, signal, effect } from "@angular/core";
-import { ThemeChooser } from "../theme-chooser.component";
+import { ThemePicker } from "../theme-picker.component";
 
 @Component({
-    standalone: true,
-    imports: [ThemeChooser],
-    template: `
-        <lily-theme-chooser
-            label="Theme"
-            themesUrl="/assets/themes/"
-            [themes]="['light', 'dark']"
-            [(value)]="theme"
-        />
-    `,
+  standalone: true,
+  imports: [ThemePicker],
+  template: `
+    <lily-theme-picker
+      label="Theme"
+      themesUrl="/assets/themes/"
+      [themes]="['light', 'dark']"
+      [(value)]="theme"
+    />
+  `,
 })
 export class Settings {
-    theme = signal("");
-    private destroyRef = inject(DestroyRef);
+  theme = signal("");
+  private destroyRef = inject(DestroyRef);
 
-    constructor() {
-        if (typeof window === "undefined") return;
-        const mql = window.matchMedia("(prefers-color-scheme: dark)");
-        const handler = (e: MediaQueryListEvent) => {
-            this.theme.set(e.matches ? "dark" : "light");
-        };
-        mql.addEventListener("change", handler);
-        this.destroyRef.onDestroy(() => mql.removeEventListener("change", handler));
-    }
+  constructor() {
+    if (typeof window === "undefined") return;
+    const mql = window.matchMedia("(prefers-color-scheme: dark)");
+    const handler = (e: MediaQueryListEvent) => {
+      this.theme.set(e.matches ? "dark" : "light");
+    };
+    mql.addEventListener("change", handler);
+    this.destroyRef.onDestroy(() => mql.removeEventListener("change", handler));
+  }
 }
 ```
 
@@ -77,7 +77,7 @@ the full recipe.
 1. Keep `storageKey` for now so existing users don't lose their
    preference.
 2. In the `(themeChange)` handler, also `fetch("/api/theme", {
-   method: "POST", body: ... })` to write the cookie.
+method: "POST", body: ... })` to write the cookie.
 3. On the server, prefer the cookie. On the client, prefer the
    server-supplied value via `[value]="…"` (which short-circuits
    the storage read).
@@ -85,10 +85,10 @@ the full recipe.
 ## Serve themes from a CDN
 
 ```html
-<lily-theme-chooser
-    themesUrl="https://cdn.example.com/lily-themes/"
-    [themes]="['light', 'dark', 'abyss']"
-    label="Theme"
+<lily-theme-picker
+  themesUrl="https://cdn.example.com/lily-themes/"
+  [themes]="['light', 'dark', 'abyss']"
+  label="Theme"
 />
 ```
 
@@ -101,11 +101,11 @@ origin).
 ## Cache-bust a theme
 
 ```html
-<lily-theme-chooser
-    themesUrl="/assets/themes/"
-    [themes]="['light', 'dark']"
-    extension=".css?v=2026-06-05"
-    label="Theme"
+<lily-theme-picker
+  themesUrl="/assets/themes/"
+  [themes]="['light', 'dark']"
+  extension=".css?v=2026-06-05"
+  label="Theme"
 />
 ```
 
@@ -114,7 +114,7 @@ after the slug works.
 
 ## Multiple regions with independent themes
 
-See [`../examples/multiple-choosers.component.ts`](../examples/multiple-choosers.component.ts).
+See [`../examples/multiple-pickers.component.ts`](../examples/multiple-pickers.component.ts).
 Each select gets a distinct `name` (so the hidden inputs and the
 managed `<link>`s don't collide) and a distinct `target` (so
 `data-theme` goes on the section root rather than `<html>`).
@@ -129,37 +129,39 @@ import { Injectable, signal } from "@angular/core";
 
 @Injectable({ providedIn: "root" })
 export class ThemeStore {
-    readonly theme = signal("");
+  readonly theme = signal("");
 }
 ```
 
 ```ts
 // in the select host
 @Component({
-    standalone: true,
-    imports: [ThemeChooser],
-    template: `
-        <lily-theme-chooser
-            label="Theme"
-            themesUrl="/assets/themes/"
-            [themes]="['light', 'dark']"
-            [(value)]="store.theme"
-        />
-    `,
+  standalone: true,
+  imports: [ThemePicker],
+  template: `
+    <lily-theme-picker
+      label="Theme"
+      themesUrl="/assets/themes/"
+      [themes]="['light', 'dark']"
+      [(value)]="store.theme"
+    />
+  `,
 })
 export class Settings {
-    constructor(public store: ThemeStore) {}
+  constructor(public store: ThemeStore) {}
 }
 ```
 
 ```ts
 // in a sibling
 @Component({
-    template: `<button (click)="goNight()">Go dark</button>`,
+  template: `<button (click)="goNight()">Go dark</button>`,
 })
 export class Sidebar {
-    constructor(private store: ThemeStore) {}
-    goNight() { this.store.theme.set("dark"); }
+  constructor(private store: ThemeStore) {}
+  goNight() {
+    this.store.theme.set("dark");
+  }
 }
 ```
 
@@ -169,35 +171,37 @@ export class Sidebar {
 
 ```ts
 import { Component, DestroyRef, inject, signal } from "@angular/core";
-import { ThemeChooser } from "../theme-chooser.component";
+import { ThemePicker } from "../theme-picker.component";
 
 @Component({
-    standalone: true,
-    imports: [ThemeChooser],
-    template: `
-        <lily-theme-chooser
-            label="Theme"
-            themesUrl="/assets/themes/"
-            [themes]="['light', 'dark']"
-            [(value)]="theme"
-            storageKey="my-app:theme"
-        />
-    `,
+  standalone: true,
+  imports: [ThemePicker],
+  template: `
+    <lily-theme-picker
+      label="Theme"
+      themesUrl="/assets/themes/"
+      [themes]="['light', 'dark']"
+      [(value)]="theme"
+      storageKey="my-app:theme"
+    />
+  `,
 })
 export class Settings {
-    theme = signal("");
-    private destroyRef = inject(DestroyRef);
+  theme = signal("");
+  private destroyRef = inject(DestroyRef);
 
-    constructor() {
-        if (typeof window === "undefined") return;
-        const handler = (e: StorageEvent) => {
-            if (e.key === "my-app:theme" && e.newValue) {
-                this.theme.set(e.newValue);
-            }
-        };
-        window.addEventListener("storage", handler);
-        this.destroyRef.onDestroy(() => window.removeEventListener("storage", handler));
-    }
+  constructor() {
+    if (typeof window === "undefined") return;
+    const handler = (e: StorageEvent) => {
+      if (e.key === "my-app:theme" && e.newValue) {
+        this.theme.set(e.newValue);
+      }
+    };
+    window.addEventListener("storage", handler);
+    this.destroyRef.onDestroy(() =>
+      window.removeEventListener("storage", handler),
+    );
+  }
 }
 ```
 
@@ -210,33 +214,33 @@ preselect it:
 import { Component, signal, inject } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { ThemeChooser } from "../theme-chooser.component";
+import { ThemePicker } from "../theme-picker.component";
 
 @Component({
-    standalone: true,
-    imports: [ThemeChooser],
-    template: `
-        <lily-theme-chooser
-            label="Theme"
-            themesUrl="/assets/themes/"
-            [themes]="['light', 'dark']"
-            [(value)]="theme"
-            (themeChange)="syncRoute($event)"
-        />
-    `,
+  standalone: true,
+  imports: [ThemePicker],
+  template: `
+    <lily-theme-picker
+      label="Theme"
+      themesUrl="/assets/themes/"
+      [themes]="['light', 'dark']"
+      [(value)]="theme"
+      (themeChange)="syncRoute($event)"
+    />
+  `,
 })
 export class Settings {
-    private route = inject(ActivatedRoute);
-    private router = inject(Router);
-    theme = signal<string>(this.route.snapshot.queryParamMap.get("theme") ?? "");
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  theme = signal<string>(this.route.snapshot.queryParamMap.get("theme") ?? "");
 
-    syncRoute(slug: string) {
-        this.router.navigate([], {
-            relativeTo: this.route,
-            queryParams: { theme: slug },
-            queryParamsHandling: "merge",
-        });
-    }
+  syncRoute(slug: string) {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { theme: slug },
+      queryParamsHandling: "merge",
+    });
+  }
 }
 ```
 

@@ -1,7 +1,7 @@
 # Examples
 
 Self-contained Angular 20 examples for
-`lily-design-system-angular-theme-chooser`. Each file is a runnable
+`lily-design-system-angular-theme-picker`. Each file is a runnable
 standalone component that can be dropped into any Angular 20 host
 (Analog page, Angular CLI route, Storybook story).
 
@@ -16,24 +16,24 @@ Every example assumes:
   `:root[data-theme="<slug>"]`.
 - **Some CSS of your own.** The control is an icon button that opens a
   listbox, and the package ships zero CSS — including no positioning
-  for the list. Without `position: relative` on `.theme-chooser` and
-  `position: absolute` on `.theme-chooser-list`, opening the list pushes
+  for the list. Without `position: relative` on `.theme-picker` and
+  `position: absolute` on `.theme-picker-list`, opening the list pushes
   page content around. The examples below deliberately don't ship
   styles; take the baseline recipe from
   [`../docs/styling.md`](../docs/styling.md).
 
-| # | File                                                          | Demonstrates                              |
-|---|---------------------------------------------------------------|-------------------------------------------|
-| 1 | [`basic.component.ts`](./basic.component.ts)                  | Minimal three-theme chooser.               |
-| 2 | [`two-way-binding.component.ts`](./two-way-binding.component.ts) | `[(value)]` and `(themeChange)`.       |
-| 3 | [`persistence.component.ts`](./persistence.component.ts)      | `localStorage` survival across reloads.   |
-| 4 | [`custom-labels.component.ts`](./custom-labels.component.ts)  | `themeLabels` for i18n / display names.   |
-| 5 | [`custom-rendering.component.ts`](./custom-rendering.component.ts) | `<ng-template>` button-glyph override. |
-| 6 | [`preloaded.component.ts`](./preloaded.component.ts)          | Zero-flicker switching via preloading.    |
-| 7 | [`multiple-choosers.component.ts`](./multiple-choosers.component.ts) | Two choosers in one page via `name`.   |
-| 8 | [`system-preference.component.ts`](./system-preference.component.ts) | Follow `prefers-color-scheme`.      |
-| 9 | [`lily-themes.component.ts`](./lily-themes.component.ts)      | All 41 Lily / DaisyUI themes at once.     |
-| 10 | [`analog-cookie/`](./analog-cookie/)                         | SSR-resolved theme via a cookie (Analog). |
+| #   | File                                                                 | Demonstrates                              |
+| --- | -------------------------------------------------------------------- | ----------------------------------------- |
+| 1   | [`basic.component.ts`](./basic.component.ts)                         | Minimal three-theme picker.              |
+| 2   | [`two-way-binding.component.ts`](./two-way-binding.component.ts)     | `[(value)]` and `(themeChange)`.          |
+| 3   | [`persistence.component.ts`](./persistence.component.ts)             | `localStorage` survival across reloads.   |
+| 4   | [`custom-labels.component.ts`](./custom-labels.component.ts)         | `themeLabels` for i18n / display names.   |
+| 5   | [`custom-rendering.component.ts`](./custom-rendering.component.ts)   | `<ng-template>` button-glyph override.    |
+| 6   | [`preloaded.component.ts`](./preloaded.component.ts)                 | Zero-flicker switching via preloading.    |
+| 7   | [`multiple-pickers.component.ts`](./multiple-pickers.component.ts) | Two pickers in one page via `name`.      |
+| 8   | [`system-preference.component.ts`](./system-preference.component.ts) | Follow `prefers-color-scheme`.            |
+| 9   | [`lily-themes.component.ts`](./lily-themes.component.ts)             | All 41 Lily / DaisyUI themes at once.     |
+| 10  | [`analog-cookie/`](./analog-cookie/)                                 | SSR-resolved theme via a cookie (Analog). |
 
 ## Running the examples
 

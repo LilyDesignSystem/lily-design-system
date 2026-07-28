@@ -1,6 +1,6 @@
-# `<theme-chooser>` — Specification
+# `<theme-picker>` — Specification
 
-Single source of truth for the `lily-design-system-html-theme-chooser`
+Single source of truth for the `lily-design-system-html-theme-picker`
 HTML helper. This file drives implementation, testing, and
 documentation in the spec-driven-development style: anything not in
 this spec is out of scope; anything in this spec must be exercised by
@@ -8,19 +8,19 @@ a test.
 
 Sibling files in this directory:
 
-- `theme-chooser.ts` — the custom-element implementation
-- `theme-chooser.test.ts` — vitest + jsdom spec exercising every clause in §4–§7
+- `theme-picker.ts` — the custom-element implementation
+- `theme-picker.test.ts` — vitest + jsdom spec exercising every clause in §4–§7
 - `index.ts` — re-export barrel (side-effectfully registers the element)
 - `index.md` — user-facing readme
 
 The companion headless catalog entry
-(`lily-design-system-html-headless/components/theme-chooser.html`) is
+(`lily-design-system-html-headless/components/theme-picker.html`) is
 a pure container plus a stub script. This helper is the opinionated,
 reusable counterpart packaged as a single custom element that owns
 the dynamic loading lifecycle.
 
 The Svelte sibling
-(`lily-design-system-svelte-helpers/lily-design-system-svelte-theme-chooser/`)
+(`lily-design-system-svelte-helpers/lily-design-system-svelte-theme-picker/`)
 shares the same numbered acceptance criteria; this spec mirrors §1–§9
 re-expressed for the custom-element idiom.
 
@@ -28,7 +28,7 @@ re-expressed for the custom-element idiom.
 
 ## 1. Goal
 
-Give any HTML page a drop-in, headless theme chooser that:
+Give any HTML page a drop-in, headless theme picker that:
 
 1. Renders an accessible icon button that opens a dropdown listbox
    of available themes (WAI-ARIA APG listbox pattern).
@@ -40,7 +40,7 @@ Give any HTML page a drop-in, headless theme chooser that:
 4. Optionally persists the chosen theme to `localStorage` so the
    choice survives reload.
 5. Ships zero CSS — the consumer styles every visual aspect via the
-   `theme-chooser` class hook on the element's children. This
+   `theme-picker` class hook on the element's children. This
    includes the dropdown's positioning: without consumer CSS the
    list renders in normal flow, not as an overlay.
 
@@ -69,20 +69,20 @@ Give any HTML page a drop-in, headless theme chooser that:
 ## 3. Architectural decisions
 
 - **Custom element extends `HTMLElement`.** The tag is
-  `<theme-chooser>`. The class is exported as `ThemeChooser` from
-  `theme-chooser.ts` and `index.ts`.
+  `<theme-picker>`. The class is exported as `ThemePicker` from
+  `theme-picker.ts` and `index.ts`.
 - **Side-effectful registration on import.** `index.ts` calls
-  `customElements.define("theme-chooser", ThemeChooser)` on first
+  `customElements.define("theme-picker", ThemePicker)` on first
   module evaluation, guarded by a `customElements.get(...)` check
   so re-imports are idempotent. Consumers who want to control
   registration themselves can import the class directly from
-  `theme-chooser.ts` (which does not register) and call
+  `theme-picker.ts` (which does not register) and call
   `customElements.define(...)` with their preferred tag.
 - **Light DOM.** The element renders its `<div>` root, button, and
   listbox as children, not in a shadow root. Consumer CSS targets
-  the kebab-case class hooks (`theme-chooser`,
-  `theme-chooser-button`, `theme-chooser-icon`, `theme-chooser-list`,
-  `theme-chooser-option`) directly.
+  the kebab-case class hooks (`theme-picker`,
+  `theme-picker-button`, `theme-picker-icon`, `theme-picker-list`,
+  `theme-picker-option`) directly.
 - **Icon button + listbox, not a native `<select>`.** The control
   is a `<button aria-haspopup="listbox">` paired with a
   `<ul role="listbox">`, following the WAI-ARIA APG listbox
@@ -94,11 +94,11 @@ Give any HTML page a drop-in, headless theme chooser that:
   `<input type="hidden" name="{name}" value="{value}">` inside the
   root. This also keeps `name` meaningful for the managed `<link>`
   discriminator.
-- **Stable ids from a module counter.** `nextThemeChooserId()`
+- **Stable ids from a module counter.** `nextThemePickerId()`
   increments a module-level integer. No `Math.random()` and no
   `Date.now()`, so ids are deterministic and SSR-safe.
 - **One `<link>` per select name.** Switching themes mutates `href`
-  on a single `<link rel="stylesheet" data-lily-theme-chooser="{name}">`.
+  on a single `<link rel="stylesheet" data-lily-theme-picker="{name}">`.
   Multiple selects can coexist on a page by passing distinct
   `name` attributes.
 - **`data-theme` attribute is the activation switch.** Theme CSS
@@ -114,19 +114,19 @@ Give any HTML page a drop-in, headless theme chooser that:
 All observed attributes are kebab-case. `attributeChangedCallback`
 re-renders / re-applies as needed.
 
-| Attribute       | Type            | Required | Default                  | Purpose |
-| --------------- | --------------- | -------- | ------------------------ | ------- |
-| `label`         | `string`        | yes      | —                        | Accessible name. Applied as `aria-label` on both the button and the listbox. The control is icon-only, so this is the *entire* accessible name — see §6.5. |
-| `themes-url`    | `string`        | yes      | —                        | Base URL of the themes directory. Trailing `/` is auto-normalised. |
-| `themes`        | `string` (CSV)  | yes      | —                        | Available theme slugs, comma-separated (e.g. `"light,dark,abyss"`). The JS property `el.themes` accepts `string[]`. |
-| `value`         | `string`        | no       | `""`                     | Currently selected theme slug. |
-| `default-value` | `string`        | no       | `"light"` if present in themes, else first item | Initial theme when nothing else is supplied. |
-| `storage-key`   | `string`        | no       | `undefined`              | If set, persist the selection to `localStorage` under this key. |
-| `detect-from-system` | `boolean` attr | no  | absent / `false`         | If present (and not `="false"`), resolve `prefers-color-scheme` to a supported theme on first visit. Mirrors locale-chooser's `detect-from-navigator`. |
-| `name`          | `string`        | no       | `"theme"`                | `name` on the rendered hidden `<input>`, and the discriminator on the managed `<link data-lily-theme-chooser="{name}">`. |
-| `extension`     | `string`        | no       | `".css"`                 | File extension appended to each slug when constructing the URL. |
-| `theme-labels`  | `string` (JSON) | no       | `"{}"`                   | Pretty labels per slug, JSON-encoded object. The JS property `el.themeLabels` accepts `Record<string, string>`. |
-| `class`         | `string`        | no       | `""`                     | Extra CSS class on the rendered root `<div>` (in addition to `theme-chooser`). |
+| Attribute            | Type            | Required | Default                                         | Purpose                                                                                                                                                    |
+| -------------------- | --------------- | -------- | ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `label`              | `string`        | yes      | —                                               | Accessible name. Applied as `aria-label` on both the button and the listbox. The control is icon-only, so this is the _entire_ accessible name — see §6.5. |
+| `themes-url`         | `string`        | yes      | —                                               | Base URL of the themes directory. Trailing `/` is auto-normalised.                                                                                         |
+| `themes`             | `string` (CSV)  | yes      | —                                               | Available theme slugs, comma-separated (e.g. `"light,dark,abyss"`). The JS property `el.themes` accepts `string[]`.                                        |
+| `value`              | `string`        | no       | `""`                                            | Currently selected theme slug.                                                                                                                             |
+| `default-value`      | `string`        | no       | `"light"` if present in themes, else first item | Initial theme when nothing else is supplied.                                                                                                               |
+| `storage-key`        | `string`        | no       | `undefined`                                     | If set, persist the selection to `localStorage` under this key.                                                                                            |
+| `detect-from-system` | `boolean` attr  | no       | absent / `false`                                | If present (and not `="false"`), resolve `prefers-color-scheme` to a supported theme on first visit. Mirrors locale-picker's `detect-from-navigator`.     |
+| `name`               | `string`        | no       | `"theme"`                                       | `name` on the rendered hidden `<input>`, and the discriminator on the managed `<link data-lily-theme-picker="{name}">`.                                    |
+| `extension`          | `string`        | no       | `".css"`                                        | File extension appended to each slug when constructing the URL.                                                                                            |
+| `theme-labels`       | `string` (JSON) | no       | `"{}"`                                          | Pretty labels per slug, JSON-encoded object. The JS property `el.themeLabels` accepts `Record<string, string>`.                                            |
+| `class`              | `string`        | no       | `""`                                            | Extra CSS class on the rendered root `<div>` (in addition to `theme-picker`).                                                                             |
 
 ### 4.2 JS properties
 
@@ -142,27 +142,27 @@ Mirror every attribute with a getter/setter on the element instance:
 
 Read-only state and id accessors:
 
-| Member                      | Type      | Purpose                                                        |
-| --------------------------- | --------- | -------------------------------------------------------------- |
-| `el.open`                   | `boolean` | Whether the listbox is currently open. Read-only.               |
-| `el.listId`                 | `string`  | id of the rendered `<ul role="listbox">`.                       |
-| `el.optionId(index)`        | `string`  | id of the rendered option at `index`.                           |
+| Member               | Type      | Purpose                                           |
+| -------------------- | --------- | ------------------------------------------------- |
+| `el.open`            | `boolean` | Whether the listbox is currently open. Read-only. |
+| `el.listId`          | `string`  | id of the rendered `<ul role="listbox">`.         |
+| `el.optionId(index)` | `string`  | id of the rendered option at `index`.             |
 
 ### 4.2.1 Public methods
 
-| Method                          | Purpose                                                                  |
-| ------------------------------- | ------------------------------------------------------------------------ |
-| `openList(startIndex?)`         | Open the listbox. `startIndex` overrides which option starts active; the default is the selected option, else index 0. Moves focus to the `<ul>`. No-op when `themes` is empty. |
-| `closeList(refocus = true)`     | Close the listbox. Returns focus to the button unless `refocus` is `false`. |
-| `labelFor(slug)`                | Resolve a slug to its display label — `themeLabels[slug]` when supplied, otherwise the slug title-cased per hyphen-separated word. Public so subclasses and custom rendering can reuse it. |
-| `renderButtonContent()`         | **Overridable rendering hook.** Returns the `Node` placed inside the button. See §4.7. |
+| Method                      | Purpose                                                                                                                                                                                    |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `openList(startIndex?)`     | Open the listbox. `startIndex` overrides which option starts active; the default is the selected option, else index 0. Moves focus to the `<ul>`. No-op when `themes` is empty.            |
+| `closeList(refocus = true)` | Close the listbox. Returns focus to the button unless `refocus` is `false`.                                                                                                                |
+| `labelFor(slug)`            | Resolve a slug to its display label — `themeLabels[slug]` when supplied, otherwise the slug title-cased per hyphen-separated word. Public so subclasses and custom rendering can reuse it. |
+| `renderButtonContent()`     | **Overridable rendering hook.** Returns the `Node` placed inside the button. See §4.7.                                                                                                     |
 
 ### 4.3 Lifecycle callbacks
 
 - `static get observedAttributes()` returns
   `["label", "themes-url", "themes", "value", "default-value",
-    "storage-key", "detect-from-system", "name", "extension",
-    "theme-labels", "class"]`.
+  "storage-key", "detect-from-system", "name", "extension",
+  "theme-labels", "class"]`.
 - `connectedCallback()` resolves the initial value (per §5.2) and
   renders the children.
 - `attributeChangedCallback(name, _old, _new)` updates the
@@ -173,7 +173,7 @@ Read-only state and id accessors:
   open would destroy focus and the active descendant — so it only
   runs the state sync described in §4.5.
 - `disconnectedCallback()` removes the managed `<link>` element only
-  if no other `<theme-chooser>` with the same `name` remains in the
+  if no other `<theme-picker>` with the same `name` remains in the
   document.
 
 ### 4.4 Events
@@ -188,32 +188,56 @@ After render, the element contains exactly one child `<div>` root
 holding a hidden `<input>`, the icon button, and the listbox:
 
 ```html
-<theme-chooser label="Theme" themes-url="/assets/themes/" themes="light,dark">
-  <div class="theme-chooser {consumer class}">
+<theme-picker label="Theme" themes-url="/assets/themes/" themes="light,dark">
+  <div class="theme-picker {consumer class}">
     <input type="hidden" name="theme" value="light" />
-    <button type="button" class="theme-chooser-button"
-            aria-label="Theme" aria-haspopup="listbox"
-            aria-expanded="false" aria-controls="theme-chooser-1-list">
-      <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
+    <button
+      type="button"
+      class="theme-picker-button"
+      aria-label="Theme"
+      aria-haspopup="listbox"
+      aria-expanded="false"
+      aria-controls="theme-picker-1-list"
+    >
+      <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
     </button>
-    <ul class="theme-chooser-list" id="theme-chooser-1-list" role="listbox"
-        aria-label="Theme" tabindex="-1" hidden>
-      <li class="theme-chooser-option" id="theme-chooser-1-option-0"
-          role="option" aria-selected="true" data-active>Light</li>
-      <li class="theme-chooser-option" id="theme-chooser-1-option-1"
-          role="option" aria-selected="false">Dark</li>
+    <ul
+      class="theme-picker-list"
+      id="theme-picker-1-list"
+      role="listbox"
+      aria-label="Theme"
+      tabindex="-1"
+      hidden
+    >
+      <li
+        class="theme-picker-option"
+        id="theme-picker-1-option-0"
+        role="option"
+        aria-selected="true"
+        data-active
+      >
+        Light
+      </li>
+      <li
+        class="theme-picker-option"
+        id="theme-picker-1-option-1"
+        role="option"
+        aria-selected="false"
+      >
+        Dark
+      </li>
     </ul>
   </div>
-</theme-chooser>
+</theme-picker>
 ```
 
 Binding rules for that markup:
 
-- **Root.** A `<div class="theme-chooser {class}">` in light DOM. The
+- **Root.** A `<div class="theme-picker {class}">` in light DOM. The
   consumer's `class` attribute on the host is mirrored onto it after
   the base hook.
 - **Glyph.** The default button content is
-  `<span class="theme-chooser-icon" aria-hidden="true">` containing
+  `<span class="theme-picker-icon" aria-hidden="true">` containing
   U+25D1 CIRCLE WITH RIGHT HALF BLACK (`&#9681;`), exported as
   `CIRCLE_WITH_RIGHT_HALF_BLACK`. It is hidden from assistive
   technology, so the accessible name comes from the button's
@@ -231,7 +255,7 @@ Binding rules for that markup:
   keyboard-highlighted option; `aria-selected` marks the chosen one.
   They are different things and frequently differ while the list is
   open.
-- **ids** come from `nextThemeChooserId()`, a module-level
+- **ids** come from `nextThemePickerId()`, a module-level
   incrementing counter, so they are stable, unique per instance, and
   SSR-safe.
 
@@ -251,7 +275,7 @@ inside it.
 (attribute + property). Consumers read it from `el.value` or from
 the `themechange` detail.
 
-A single managed `<link rel="stylesheet" data-lily-theme-chooser="{name}">`
+A single managed `<link rel="stylesheet" data-lily-theme-picker="{name}">`
 in `document.head` is created on first apply, reused thereafter.
 
 `data-theme="{slug}"` is set on the `target` element on every apply
@@ -266,17 +290,17 @@ list) if it is to overlay the page rather than push content down.
 
 `index.ts` exports:
 
-- `ThemeChooser` (the class)
+- `ThemePicker` (the class)
 - `normalizeThemesUrl`, `themeHref` (pure helpers; American spelling
   to match the rest of the file)
 - `themeName` (slug → title-cased label; the mirror of
-  locale-chooser's `localeName`. `labelFor` delegates to it, so there
+  locale-picker's `localeName`. `labelFor` delegates to it, so there
   is exactly one implementation of the rule)
 - `matchSystemTheme` (OS colour-scheme preference → supported slug, or
-  `""`; the mirror of locale-chooser's `matchNavigatorLanguage`)
-- `nextThemeChooserId` (the id counter)
+  `""`; the mirror of locale-picker's `matchNavigatorLanguage`)
+- `nextThemePickerId` (the id counter)
 - `CIRCLE_WITH_RIGHT_HALF_BLACK` (the default glyph)
-- `type ThemeChooserProps`, `type ThemeChooserChangeDetail`
+- `type ThemePickerProps`, `type ThemePickerChangeDetail`
 
 ### 4.7 `renderButtonContent()` — the custom-rendering hook
 
@@ -287,21 +311,21 @@ have no equivalent mechanism — `<slot>` is Shadow DOM only — so the
 HTML helper's stand-in is an overridable method:
 
 ```ts
-class MyThemeChooser extends ThemeChooser {
-    renderButtonContent(): Node {
-        const span = document.createElement("span");
-        span.textContent = this.labelFor(this.value);  // ChildArgs.value + labelFor
-        span.dataset.open = String(this.open);          // ChildArgs.open
-        return span;
-    }
+class MyThemePicker extends ThemePicker {
+  renderButtonContent(): Node {
+    const span = document.createElement("span");
+    span.textContent = this.labelFor(this.value); // ChildArgs.value + labelFor
+    span.dataset.open = String(this.open); // ChildArgs.open
+    return span;
+  }
 }
-customElements.define("my-theme-chooser", MyThemeChooser);
+customElements.define("my-theme-picker", MyThemePicker);
 ```
 
 Contract:
 
 - Whatever `Node` it returns is placed inside the button, replacing
-  the default `<span class="theme-chooser-icon">`.
+  the default `<span class="theme-picker-icon">`.
 - `this.value`, `this.open`, and `this.labelFor(...)` stand in for
   the `ChildArgs` the other frameworks pass.
 - The base class still builds the button and the listbox, so the
@@ -356,7 +380,7 @@ Resolution writes back to the `value` property and the matching
 attribute.
 
 Step 3 occupies the same slot navigator detection occupies in
-locale-chooser, giving both helpers one shared shape:
+locale-picker, giving both helpers one shared shape:
 
 ```
 value > storage > DETECTION > defaultValue > "light" / "en" > first
@@ -370,7 +394,7 @@ later OS changes.
 Applying a theme `slug` performs, in order:
 
 1. Locate or create the managed `<link>` (matched by
-   `data-lily-theme-chooser="{name}"`).
+   `data-lily-theme-picker="{name}"`).
 2. Set `link.href = normalizeThemesUrl(themesUrl) + slug + extension`.
 3. Set `data-theme="{slug}"` on the resolved target element. If
    `target` is `null` or `undefined`, use
@@ -424,15 +448,15 @@ nothing in the rendered markup varies between runs.
 The control implements the WAI-ARIA APG listbox pattern with a
 collapsed trigger:
 
-| Element                       | Role / property                                             |
-| ----------------------------- | ----------------------------------------------------------- |
-| `<theme-chooser>` (host)       | none — a transparent lifecycle container.                   |
-| `<div class="theme-chooser">`  | none — a styling root.                                      |
-| `<button>`                    | implicit `button` role; `aria-label={label}`, `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls={listId}`. |
-| `<span class="theme-chooser-icon">` | `aria-hidden="true"` so the glyph never becomes the name. |
-| `<ul>`                        | `role="listbox"`, `aria-label={label}`, `tabindex="-1"`, `hidden` while closed, `aria-activedescendant` while open. |
-| `<li>`                        | `role="option"`, unique `id`, `aria-selected`; `data-active` when keyboard-highlighted. |
-| `<input type="hidden">`       | form participation only; not in the accessibility tree.     |
+| Element                             | Role / property                                                                                                     |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `<theme-picker>` (host)            | none — a transparent lifecycle container.                                                                           |
+| `<div class="theme-picker">`       | none — a styling root.                                                                                              |
+| `<button>`                          | implicit `button` role; `aria-label={label}`, `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls={listId}`. |
+| `<span class="theme-picker-icon">` | `aria-hidden="true"` so the glyph never becomes the name.                                                           |
+| `<ul>`                              | `role="listbox"`, `aria-label={label}`, `tabindex="-1"`, `hidden` while closed, `aria-activedescendant` while open. |
+| `<li>`                              | `role="option"`, unique `id`, `aria-selected`; `data-active` when keyboard-highlighted.                             |
+| `<input type="hidden">`             | form participation only; not in the accessibility tree.                                                             |
 
 **Focus model.** Focus moves to the `<ul>` when the list opens and
 never to an individual `<li>`. The highlighted option is conveyed
@@ -445,27 +469,27 @@ Implemented in JavaScript — none of this comes from the platform.
 
 On the **button**:
 
-| Key                 | Action                                                             |
-| ------------------- | ------------------------------------------------------------------ |
-| `Tab` / `Shift+Tab` | Move focus onto / off the button.                                  |
-| `ArrowDown`         | Open the list with the selected option active (else index 0).      |
-| `Enter`             | Same as `ArrowDown`.                                               |
-| `Space`             | Same as `ArrowDown`.                                               |
-| `ArrowUp`           | Open the list with the **last** option active.                     |
+| Key                 | Action                                                        |
+| ------------------- | ------------------------------------------------------------- |
+| `Tab` / `Shift+Tab` | Move focus onto / off the button.                             |
+| `ArrowDown`         | Open the list with the selected option active (else index 0). |
+| `Enter`             | Same as `ArrowDown`.                                          |
+| `Space`             | Same as `ArrowDown`.                                          |
+| `ArrowUp`           | Open the list with the **last** option active.                |
 
 On the **listbox** (`<ul>`, which holds focus while open):
 
-| Key                 | Action                                                             |
-| ------------------- | ------------------------------------------------------------------ |
-| `ArrowDown`         | Move the active option down one. Clamps at the last option — no wrapping. |
-| `ArrowUp`           | Move the active option up one. Clamps at the first option.         |
-| `Home`              | Make the first option active.                                      |
-| `End`               | Make the last option active.                                       |
-| `Enter`             | Select the active option, apply it, close, return focus to the button. |
-| `Space`             | Same as `Enter`.                                                   |
-| `Escape`            | Close and return focus to the button **without** changing the value. |
-| `Tab`               | Close without stealing focus back — focus moves on normally.       |
-| printable character | Typeahead over the option *labels*; the buffer resets after 500 ms of no typing. The search starts at the active option and wraps once. |
+| Key                 | Action                                                                                                                                  |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `ArrowDown`         | Move the active option down one. Clamps at the last option — no wrapping.                                                               |
+| `ArrowUp`           | Move the active option up one. Clamps at the first option.                                                                              |
+| `Home`              | Make the first option active.                                                                                                           |
+| `End`               | Make the last option active.                                                                                                            |
+| `Enter`             | Select the active option, apply it, close, return focus to the button.                                                                  |
+| `Space`             | Same as `Enter`.                                                                                                                        |
+| `Escape`            | Close and return focus to the button **without** changing the value.                                                                    |
+| `Tab`               | Close without stealing focus back — focus moves on normally.                                                                            |
+| printable character | Typeahead over the option _labels_; the buffer resets after 500 ms of no typing. The search starts at the active option and wraps once. |
 
 Pointer equivalents: clicking the button toggles the list, clicking
 an option selects it, clicking outside the root closes it.
@@ -517,7 +541,7 @@ updated on `themechange` is the documented default pattern; see
 
 ## 7. Testing acceptance criteria
 
-`theme-chooser.test.ts` must assert every numbered item below, and
+`theme-picker.test.ts` must assert every numbered item below, and
 every test names the clause it covers (`§7.4 …`). Tests run under
 vitest + jsdom. Several clauses carry more than one test; no clause
 is without one.
@@ -528,19 +552,19 @@ appending a trailing slash, `themeHref` composing the href) exercise
 
 ### Markup contract
 
-1. The rendered root is a `<div class="theme-chooser">` containing a
-   `<button type="button" class="theme-chooser-button">` with
+1. The rendered root is a `<div class="theme-picker">` containing a
+   `<button type="button" class="theme-picker-button">` with
    `aria-haspopup="listbox"`, `aria-expanded="false"`, and an
    `aria-controls` pointing at the rendered `<ul role="listbox">`.
    The button's default content is
-   `<span class="theme-chooser-icon" aria-hidden="true">` holding
+   `<span class="theme-picker-icon" aria-hidden="true">` holding
    U+25D1 (`◑`), the value of the exported
    `CIRCLE_WITH_RIGHT_HALF_BLACK`.
 2. `aria-label` carries the supplied `label` on **both** the button
    and the listbox.
-3. One `<li class="theme-chooser-option">` is rendered per entry in
+3. One `<li class="theme-picker-option">` is rendered per entry in
    `themes`, and the hidden `<input>` carries the supplied `name`
-   and the resolved value. No `.theme-chooser-placeholder` element
+   and the resolved value. No `.theme-picker-placeholder` element
    and no `<select>` element is rendered.
 4. The listbox starts `hidden` with `tabindex="-1"`; clicking the
    button unhides it and sets `aria-expanded="true"`. Exactly one
@@ -559,7 +583,7 @@ appending a trailing slash, `themeHref` composing the href) exercise
    present in `themes`, otherwise `themes[0]`. It is written to
    `document.documentElement.dataset.theme`.
 7. After mount, a `<link rel="stylesheet"
-   data-lily-theme-chooser="{name}">` exists in `document.head` and
+data-lily-theme-picker="{name}">` exists in `document.head` and
    its `href` equals
    `${normalizeThemesUrl(themesUrl)}${initial}${extension}`.
 8. Choosing a different option updates the link `href`,
@@ -579,7 +603,7 @@ appending a trailing slash, `themeHref` composing the href) exercise
 12. Extra DOM properties / attributes on the host survive
     re-rendering (`id`, `data-*` are untouched; the host stays the
     element). The consumer's `class` is appended to the root hook,
-    giving `class="theme-chooser my-picker"`.
+    giving `class="theme-picker my-picker"`.
 13. Setting `el.themes` as an array property is equivalent to
     setting the `themes` attribute as CSV, and `el.themeLabels`
     accepts a native object. List and option ids are unique across
@@ -607,7 +631,7 @@ appending a trailing slash, `themeHref` composing the href) exercise
 ### Custom rendering
 
 19. A subclass overriding `renderButtonContent()` replaces the
-    default glyph — no `.theme-chooser-icon` is rendered — while the
+    default glyph — no `.theme-picker-icon` is rendered — while the
     button/listbox structure and aria wiring
     (`aria-haspopup`, `aria-label`, a resolvable `aria-controls`)
     are untouched. `this.value`, `this.open`, and `this.labelFor()`
@@ -629,7 +653,7 @@ appending a trailing slash, `themeHref` composing the href) exercise
 ## 9. Tracking
 
 - Package directory:
-  `lily-design-system-html-helpers/lily-design-system-html-theme-chooser/`
+  `lily-design-system-html-helpers/lily-design-system-html-theme-picker/`
 - Spec version: 0.1.0
 - Created: 2026-06-05
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause

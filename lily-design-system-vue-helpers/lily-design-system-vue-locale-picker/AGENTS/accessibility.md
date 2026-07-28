@@ -1,6 +1,6 @@
-# Accessibility — LocaleChooser (Vue)
+# Accessibility — LocalePicker (Vue)
 
-The chooser targets WCAG 2.2 AAA. It is an icon button that opens a
+The picker targets WCAG 2.2 AAA. It is an icon button that opens a
 WAI-ARIA APG listbox, so — unlike the native `<select>` it replaced —
 the roles, states, and keyboard contract are the component's own
 responsibility. The canonical contract is in
@@ -73,7 +73,7 @@ colour-only meaning is required:
 
 Note what is *not* in that list: the closed control itself. It shows
 only a glyph, so consumers should surface the active locale in a
-`.locale-chooser-status` live region — see
+`.locale-picker-status` live region — see
 [`../docs/accessibility.md`](../docs/accessibility.md).
 
 ## Per-option `lang` is important

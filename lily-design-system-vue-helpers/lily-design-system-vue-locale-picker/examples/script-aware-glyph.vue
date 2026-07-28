@@ -24,10 +24,10 @@
 -->
 <script setup lang="ts">
 import { ref } from "vue";
-import LocaleChooser, {
+import LocalePicker, {
     bcp47LocaleTag,
     isRtlLocale,
-} from "../LocaleChooser.vue";
+} from "../LocalePicker.vue";
 
 const locale = ref("en");
 
@@ -43,25 +43,25 @@ const SHORT: Record<string, string> = {
 </script>
 
 <template>
-    <LocaleChooser
+    <LocalePicker
         label="Language"
         :locales="['en', 'fr', 'es', 'de', 'ar', 'he']"
         v-model:value="locale"
     >
         <template #default="{ value, open, labelFor }">
             <span
-                class="locale-chooser-code"
+                class="locale-picker-code"
                 :lang="bcp47LocaleTag(value)"
                 :dir="isRtlLocale(value) ? 'rtl' : 'ltr'"
                 :title="labelFor(value)"
                 aria-hidden="true"
                 >{{ SHORT[value] ?? value.toUpperCase() }}</span
             >
-            <span class="locale-chooser-caret" aria-hidden="true">{{
+            <span class="locale-picker-caret" aria-hidden="true">{{
                 open ? "▴" : "▾"
             }}</span>
         </template>
-    </LocaleChooser>
+    </LocalePicker>
 
     <p>Selected: <code>{{ locale }}</code></p>
 </template>

@@ -1,39 +1,39 @@
-# AGENTS — LocaleChooser (Angular helper)
+# AGENTS — LocalePicker (Angular helper)
 
 Single source of truth: [spec/index.md](./spec/index.md). Read it first; everything
 below is a fast index.
 
 ## What this package is
 
-A reusable Angular 20 headless locale chooser. Renders an icon button
+A reusable Angular 20 headless locale picker. Renders an icon button
 that opens a WAI-ARIA APG listbox of locales, and applies the chosen
 locale to the document root via `lang` and `dir`, with optional
 `localStorage` persistence and `navigator.languages` detection. Ships
-no CSS; consumer styles the `locale-chooser` class hook (and needs to
+no CSS; consumer styles the `locale-picker` class hook (and needs to
 supply positioning for the list — see
 [index.md](./index.md#styling-hooks)).
 
 ## Files
 
-| File                                | Purpose                                          |
-| ----------------------------------- | ------------------------------------------------ |
-| `spec/index.md`                           | Specification-driven contract (canonical).       |
-| `locale-chooser.component.ts`        | Implementation. Standalone, signal-based, OnPush.|
-| `locale-chooser.component.spec.ts`   | Vitest spec, one assertion per §7 acceptance.    |
-| `locales.ts`                        | Code → English-name map and RTL sets.            |
-| `locales.tsv`                       | Canonical 436-row source for `locales.ts`.       |
-| `index.ts`                          | Barrel re-export.                                |
-| `index.md`                          | User guide.                                      |
+| File                               | Purpose                                           |
+| ---------------------------------- | ------------------------------------------------- |
+| `spec/index.md`                    | Specification-driven contract (canonical).        |
+| `locale-picker.component.ts`      | Implementation. Standalone, signal-based, OnPush. |
+| `locale-picker.component.spec.ts` | Vitest spec, one assertion per §7 acceptance.     |
+| `locales.ts`                       | Code → English-name map and RTL sets.             |
+| `locales.tsv`                      | Canonical 436-row source for `locales.ts`.        |
+| `index.ts`                         | Barrel re-export.                                 |
+| `index.md`                         | User guide.                                       |
 
 ## Public surface
 
-- `LocaleChooser` (component class, selector `lily-locale-chooser`).
-- `LocaleChooserIcon` (optional marker directive for the projected
-  icon `<ng-template>`; selector `ng-template[lilyLocaleChooserIcon]`).
+- `LocalePicker` (component class, selector `lily-locale-picker`).
+- `LocalePickerIcon` (optional marker directive for the projected
+  icon `<ng-template>`; selector `ng-template[lilyLocalePickerIcon]`).
 - `GLOBE_WITH_MERIDIANS` (the default button glyph, U+1F310 +
   U+FE0E VARIATION SELECTOR-15 — VS15 forces text presentation so
-  the globe renders monochrome, matching theme-chooser's ◑).
-- `nextLocaleChooserId` (module-counter id generator; SSR-safe).
+  the globe renders monochrome, matching theme-picker's ◑).
+- `nextLocalePickerId` (module-counter id generator; SSR-safe).
 - `bcp47LocaleTag`, `isRtlLocale`, `localeName`,
   `matchNavigatorLanguage` (pure helpers).
 - `defaultLocaleLabels`, `RTL_LANGUAGE_TAGS`, `RTL_SCRIPT_SUBTAGS`
@@ -63,23 +63,44 @@ button — the apply pipeline then runs off the `value` change.
 ## HTML
 
 ```html
-<div class="locale-chooser {className}">
+<div class="locale-picker {className}">
   <input type="hidden" name="{name}" value="{value}" />
-  <button type="button" class="locale-chooser-button" aria-label="{label}"
-          aria-haspopup="listbox" aria-expanded="false" aria-controls="{listId}">
-    <span class="locale-chooser-icon" aria-hidden="true">&#127760;</span>
+  <button
+    type="button"
+    class="locale-picker-button"
+    aria-label="{label}"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="{listId}"
+  >
+    <span class="locale-picker-icon" aria-hidden="true">&#127760;</span>
   </button>
-  <ul class="locale-chooser-list" id="{listId}" role="listbox" aria-label="{label}"
-      tabindex="-1" hidden aria-activedescendant="{optionId, open only}">
-    <li class="locale-chooser-option" id="{optionId}" role="option"
-        aria-selected="true|false" data-active lang="en-US">English (United States)</li>
+  <ul
+    class="locale-picker-list"
+    id="{listId}"
+    role="listbox"
+    aria-label="{label}"
+    tabindex="-1"
+    hidden
+    aria-activedescendant="{optionId, open only}"
+  >
+    <li
+      class="locale-picker-option"
+      id="{optionId}"
+      role="option"
+      aria-selected="true|false"
+      data-active
+      lang="en-US"
+    >
+      English (United States)
+    </li>
   </ul>
 </div>
 ```
 
 Each option carries its own `lang` so its name is pronounced in its
 own language; the button and the list carry none. Ids come from
-`nextLocaleChooserId()` — a module counter, not `Math.random()` /
+`nextLocalePickerId()` — a module counter, not `Math.random()` /
 `Date.now()` — so SSR and hydration agree. `@for` is used (not
 `*ngFor`). A projected `<ng-template>` replaces the glyph span only;
 it never renders options, and its context is

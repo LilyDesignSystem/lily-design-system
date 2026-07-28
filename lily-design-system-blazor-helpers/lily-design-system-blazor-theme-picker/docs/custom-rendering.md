@@ -4,18 +4,18 @@ The default markup is an icon button that opens a dropdown listbox,
 and the button's whole content is one glyph: `◑` (U+25D1). When you
 want a different mark — an inline SVG, a glyph plus a text label, a
 glyph that reacts to the open state — pass your own
-`RenderFragment<ThemeChooserContext>`.
+`RenderFragment<ThemePickerContext>`.
 
 `ChildContent` **replaces the glyph inside the button**. It does not
 render the options: the listbox is owned by the component and built
 from the `Themes` parameter.
 
-## The ThemeChooserContext contract
+## The ThemePickerContext contract
 
 The fragment receives one record with three fields:
 
 ```csharp
-public sealed class ThemeChooserContext
+public sealed class ThemePickerContext
 {
     public required string Value { get; init; }
     public required bool Open { get; init; }
@@ -30,11 +30,11 @@ open, and `LabelFor(slug)` resolves a slug to its display label
 In Razor, the fragment is declared with `<ChildContent Context="ctx">`:
 
 ```razor
-<ThemeChooser Label="…" ThemesUrl="/…" Themes="@(…)">
+<ThemePicker Label="…" ThemesUrl="/…" Themes="@(…)">
     <ChildContent Context="ctx">
         @* ctx.Value, ctx.Open, ctx.LabelFor *@
     </ChildContent>
-</ThemeChooser>
+</ThemePicker>
 ```
 
 The `Context="ctx"` attribute names the lambda parameter; without
@@ -45,18 +45,18 @@ it Blazor defaults to `context` (also fine).
 ### Inline SVG instead of the glyph
 
 ```razor
-<ThemeChooser
+<ThemePicker
     Label="Theme"
     ThemesUrl="/assets/themes/"
     Themes="@(new[] { "light", "dark" })">
     <ChildContent Context="ctx">
-        <svg class="theme-chooser-icon" aria-hidden="true" focusable="false"
+        <svg class="theme-picker-icon" aria-hidden="true" focusable="false"
              viewBox="0 0 16 16" width="16" height="16">
             <circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" />
             <path d="M8 1a7 7 0 0 1 0 14z" fill="currentColor" />
         </svg>
     </ChildContent>
-</ThemeChooser>
+</ThemePicker>
 ```
 
 Keep `aria-hidden="true"` (and `focusable="false"` on SVG). The
@@ -67,15 +67,15 @@ with that name instead of adding to it.
 ### Glyph plus a text label
 
 ```razor
-<ThemeChooser
+<ThemePicker
     Label="Theme"
     ThemesUrl="/assets/themes/"
     Themes="@(new[] { "light", "dark" })">
     <ChildContent Context="ctx">
-        <span class="theme-chooser-icon" aria-hidden="true">@ThemeChooser.CircleWithRightHalfBlack</span>
-        <span class="theme-chooser-text" aria-hidden="true">@ctx.LabelFor(ctx.Value)</span>
+        <span class="theme-picker-icon" aria-hidden="true">@ThemePicker.CircleWithRightHalfBlack</span>
+        <span class="theme-picker-text" aria-hidden="true">@ctx.LabelFor(ctx.Value)</span>
     </ChildContent>
-</ThemeChooser>
+</ThemePicker>
 ```
 
 Both spans stay `aria-hidden`, so the button still announces as
@@ -91,7 +91,7 @@ of two competing ones.
 
 ```razor
 <ChildContent Context="ctx">
-    <span class="theme-chooser-icon" aria-hidden="true">
+    <span class="theme-picker-icon" aria-hidden="true">
         @(ctx.Open ? "▾" : ctx.Value == "dark" ? "●" : "◑")
     </span>
 </ChildContent>
@@ -115,7 +115,7 @@ component still owns the `<link>` swap, `data-theme`, persistence,
 and the callbacks:
 
 ```razor
-<ThemeChooser @ref="select"
+<ThemePicker @ref="select"
              Label="Theme"
              ThemesUrl="/assets/themes/"
              Themes="@themes"
@@ -136,7 +136,7 @@ and the callbacks:
 </div>
 
 @code {
-    private ThemeChooser? select;
+    private ThemePicker? select;
     private string[] themes = { "light", "dark" };
     private string theme = "";
 }
@@ -149,23 +149,23 @@ harness) settles before the next statement runs.
 ### Route 2: skip the component, use the statics
 
 When you want none of the component's markup, drive the apply
-yourself. `ThemeChooser` exposes the URL construction as pure
+yourself. `ThemePicker` exposes the URL construction as pure
 statics:
 
 ```csharp
-ThemeChooser.NormaliseThemesUrl("/assets/themes")          // "/assets/themes/"
-ThemeChooser.ThemeHref("/assets/themes", "dark", ".css")   // "/assets/themes/dark.css"
+ThemePicker.NormaliseThemesUrl("/assets/themes")          // "/assets/themes/"
+ThemePicker.ThemeHref("/assets/themes", "dark", ".css")   // "/assets/themes/dark.css"
 ```
 
 Going this route means you also own the four apply steps in
 [spec/index.md §5.3](../spec/index.md#53-applying-a-theme): locating
 or creating the managed `<link rel="stylesheet"
-data-lily-theme-chooser="{Name}">`, setting its `href`, setting
+data-lily-theme-picker="{Name}">`, setting its `href`, setting
 `data-theme` on `document.documentElement`, and the optional
 `localStorage` write. Prefer route 1 unless you specifically need to
 own that lifecycle.
 
-## What the fragment should *not* do
+## What the fragment should _not_ do
 
 - Don't render `<option>` or `<li role="option">` elements. The
   listbox is built from `Themes`; markup you add lands inside the

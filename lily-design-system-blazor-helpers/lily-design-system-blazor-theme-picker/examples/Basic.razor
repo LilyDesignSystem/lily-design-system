@@ -23,17 +23,17 @@
     docs/styling.md for the recipe.
 *@
 
-@page "/examples/theme-chooser/basic"
+@page "/examples/theme-picker/basic"
 @rendermode InteractiveServer
 @using LilyDesignSystem.Blazor.Helpers
 
-<ThemeChooser
+<ThemePicker
     Label="Theme"
     ThemesUrl="/assets/themes/"
     Themes="@Themes"
     @bind-Value="theme" />
 
-<p class="theme-chooser-status" aria-live="polite">
+<p class="theme-picker-status" aria-live="polite">
     Active theme: @ThemeLabel(theme)
 </p>
 

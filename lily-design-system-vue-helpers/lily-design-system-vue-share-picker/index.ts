@@ -1,15 +1,15 @@
 export {
     default,
-    default as ShareChooser,
+    default as SharePicker,
     canShareNatively,
     canCopy,
-    nextShareChooserId,
+    nextSharePickerId,
     BLACK_RIGHTWARDS_ARROWHEAD,
-} from "./ShareChooser.vue";
+} from "./SharePicker.vue";
 export type {
     Props,
     SlotArgs,
     ChildArgs,
     ShareTarget,
     ShareStrategy,
-} from "./ShareChooser.vue";
+} from "./SharePicker.vue";

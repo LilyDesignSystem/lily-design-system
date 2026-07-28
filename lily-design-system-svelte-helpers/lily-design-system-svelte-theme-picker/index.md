@@ -1,6 +1,6 @@
-# ThemeChooser (Svelte helper)
+# ThemePicker (Svelte helper)
 
-A reusable, headless Svelte 5 theme chooser — an **icon button that
+A reusable, headless Svelte 5 theme picker — an **icon button that
 opens a WAI-ARIA APG listbox** — that **loads themes dynamically at
 runtime** from a developer-specified directory.
 
@@ -23,7 +23,7 @@ human-readable guide. For topic deep-dives see
 - [Accessibility](#accessibility)
 - [SSR and hydration](#ssr-and-hydration)
 - [Preloading for zero-flicker switching](#preloading-for-zero-flicker-switching)
-- [Multiple choosers in one app](#multiple-choosers-in-one-app)
+- [Multiple pickers in one app](#multiple-pickers-in-one-app)
 - [Recipes](#recipes)
 - [Troubleshooting](#troubleshooting)
 - [Testing](#testing)
@@ -38,7 +38,7 @@ opinionated widget. This one splits the contract cleanly:
 - **This component** owns selection, dynamic loading, persistence, and
   accessibility.
 - **Consumers** own the visual style of the select via the
-  `theme-chooser` class hook.
+  `theme-picker` class hook.
 
 The result is a small reusable widget that works in any Svelte 5 host
 (SvelteKit, plain Vite, Astro, Storybook) and against any theme
@@ -52,9 +52,9 @@ copy it into their project or wire it as a workspace dependency. The
 only runtime dependency is `svelte` ≥ 5.
 
 ```ts
-import ThemeChooser from "./lily-design-system-svelte-theme-picker/ThemeChooser.svelte";
+import ThemePicker from "./lily-design-system-svelte-theme-picker/ThemePicker.svelte";
 // or via the barrel:
-import { ThemeChooser } from "./lily-design-system-svelte-theme-picker";
+import { ThemePicker } from "./lily-design-system-svelte-theme-picker";
 import type {
   Props,
   ChildArgs,
@@ -72,12 +72,12 @@ import type {
 
 ```svelte
 <script lang="ts">
-  import ThemeChooser, { themeName } from "./lily-design-system-svelte-theme-picker/ThemeChooser.svelte";
+  import ThemePicker, { themeName } from "./lily-design-system-svelte-theme-picker/ThemePicker.svelte";
 
   let theme = $state("");
 </script>
 
-<ThemeChooser
+<ThemePicker
   label="Theme"
   themesUrl="/assets/themes/"
   themes={["light", "dark", "abyss"]}
@@ -85,7 +85,7 @@ import type {
   storageKey="lily-theme"
 />
 
-<p class="theme-chooser-status" aria-live="polite">
+<p class="theme-picker-status" aria-live="polite">
   Active theme: {themeName(theme)}
 </p>
 ```
@@ -138,45 +138,45 @@ inside a `$effect`, which never runs on the server.
 ## Rendered markup
 
 ```html
-<div class="theme-chooser">
+<div class="theme-picker">
   <input type="hidden" name="theme" value="dark" />
   <button
     type="button"
-    class="theme-chooser-button"
+    class="theme-picker-button"
     aria-label="Theme"
     aria-haspopup="listbox"
     aria-expanded="false"
-    aria-controls="theme-chooser-1-list"
+    aria-controls="theme-picker-1-list"
   >
-    <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
+    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
   </button>
   <ul
-    class="theme-chooser-list"
-    id="theme-chooser-1-list"
+    class="theme-picker-list"
+    id="theme-picker-1-list"
     role="listbox"
     aria-label="Theme"
     tabindex="-1"
     hidden
   >
     <li
-      class="theme-chooser-option"
-      id="theme-chooser-1-option-0"
+      class="theme-picker-option"
+      id="theme-picker-1-option-0"
       role="option"
       aria-selected="false"
     >
       Light
     </li>
     <li
-      class="theme-chooser-option"
-      id="theme-chooser-1-option-1"
+      class="theme-picker-option"
+      id="theme-picker-1-option-1"
       role="option"
       aria-selected="true"
     >
       Dark
     </li>
     <li
-      class="theme-chooser-option"
-      id="theme-chooser-1-option-2"
+      class="theme-picker-option"
+      id="theme-picker-1-option-2"
       role="option"
       aria-selected="false"
     >
@@ -263,7 +263,7 @@ in `themes`, and only when neither `value` nor storage supplied one, so
 an explicit user choice always wins:
 
 ```svelte
-<ThemeChooser
+<ThemePicker
   label="Theme"
   themesUrl="/assets/themes/"
   themes={["light", "dark"]}
@@ -274,7 +274,7 @@ an explicit user choice always wins:
 
 It resolves **once**, on mount. To keep following the OS setting for
 the whole session, add a `matchMedia` listener — see
-[docs/recipes.md](./docs/recipes.md). This mirrors `locale-chooser`'s
+[docs/recipes.md](./docs/recipes.md). This mirrors `locale-picker`'s
 `detectFromNavigator`.
 
 ## Props
@@ -310,7 +310,7 @@ button. It receives `{ value, open, labelFor }` — and it does **not**
 render the options; the listbox is component-owned.
 
 ```svelte
-<ThemeChooser
+<ThemePicker
   label="Theme"
   themesUrl="/assets/themes/"
   themes={["light", "dark", "abyss"]}
@@ -318,10 +318,10 @@ render the options; the listbox is component-owned.
 >
   {#snippet children({ value, open, labelFor })}
     <span aria-hidden="true">&#9681;</span>
-    <span class="theme-chooser-text">{labelFor(value)}</span>
+    <span class="theme-picker-text">{labelFor(value)}</span>
     <span aria-hidden="true">{open ? "▴" : "▾"}</span>
   {/snippet}
-</ThemeChooser>
+</ThemePicker>
 ```
 
 Adding a visible word like this is the recommended mitigation for the
@@ -368,7 +368,7 @@ aria-haspopup="listbox">` controlling a `<ul role="listbox">` whose
 2. A hand-rolled listbox has **weaker assistive-technology support**
    than a native `<select>` — particularly on mobile, where a native
    select opens the OS picker. For some audiences a native `<select>`
-   is genuinely the better choice; the headless `ThemeChooser` container
+   is genuinely the better choice; the headless `ThemePicker` container
    in `lily-design-system-svelte-headless` is one.
 3. The glyph is a **font-dependent character**. It may substitute to a
    mismatched font, or render as a "tofu" box, or not render at all,
@@ -410,13 +410,13 @@ instantly with the attribute change — no network round-trip.
 Topic guide: [`docs/preloading.md`](./docs/preloading.md). Working
 example: [`examples/preloaded.svelte`](./examples/preloaded.svelte).
 
-## Multiple choosers in one app
+## Multiple pickers in one app
 
 Pass a distinct `name` prop to each select. The `name` is used as
 both the hidden input's `name` and the discriminator on the managed
 `<link>` element (`data-lily-theme-picker="{name}"`).
 
-Example: [`examples/multiple-choosers.svelte`](./examples/multiple-choosers.svelte).
+Example: [`examples/multiple-pickers.svelte`](./examples/multiple-pickers.svelte).
 
 ## Recipes
 

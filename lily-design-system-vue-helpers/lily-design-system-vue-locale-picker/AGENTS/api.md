@@ -1,4 +1,4 @@
-# API — LocaleChooser (Vue)
+# API — LocalePicker (Vue)
 
 Authoritative API surface lives in [`../spec/index.md`](../spec/index.md) §4.
 This file documents the Vue-flavoured shape of the contract.
@@ -8,48 +8,48 @@ This file documents the Vue-flavoured shape of the contract.
 The barrel (`index.ts`) re-exports:
 
 ```ts
-export { default, default as LocaleChooser } from "./LocaleChooser.vue";
-export type { Props, SlotArgs, ChildArgs } from "./LocaleChooser.vue";
+export { default, default as LocalePicker } from "./LocalePicker.vue";
+export type { Props, SlotArgs, ChildArgs } from "./LocalePicker.vue";
 export {
-    bcp47LocaleTag,
-    isRtlLocale,
-    localeName,
-    matchNavigatorLanguage,
-    nextLocaleChooserId,
-    GLOBE_WITH_MERIDIANS,
-    defaultLocaleLabels,
-    RTL_LANGUAGE_TAGS,
-    RTL_SCRIPT_SUBTAGS,
-} from "./LocaleChooser.vue";
+  bcp47LocaleTag,
+  isRtlLocale,
+  localeName,
+  matchNavigatorLanguage,
+  nextLocalePickerId,
+  GLOBE_WITH_MERIDIANS,
+  defaultLocaleLabels,
+  RTL_LANGUAGE_TAGS,
+  RTL_SCRIPT_SUBTAGS,
+} from "./LocalePicker.vue";
 ```
 
 A consumer can import either the component or the pure helpers:
 
 ```ts
-import LocaleChooser, {
-    bcp47LocaleTag,
-    isRtlLocale,
-    matchNavigatorLanguage,
-    type Props,
-    type SlotArgs,
-} from "./lily-design-system-vue-locale-chooser";
+import LocalePicker, {
+  bcp47LocaleTag,
+  isRtlLocale,
+  matchNavigatorLanguage,
+  type Props,
+  type SlotArgs,
+} from "./lily-design-system-vue-locale-picker";
 ```
 
 ## Props
 
-| Prop                  | Type                     | Required | Default                                            |
-| --------------------- | ------------------------ | -------- | -------------------------------------------------- |
-| `label`               | `string`                 | yes      | —                                                  |
-| `locales`             | `string[]`               | yes      | —                                                  |
-| `value`               | `string`                 | no       | `""`                                               |
-| `defaultValue`        | `string`                 | no       | `undefined` (resolves to `"en"` or `locales[0]`)   |
-| `storageKey`          | `string`                 | no       | `undefined`                                        |
-| `detectFromNavigator` | `boolean`                | no       | `false`                                            |
-| `name`                | `string`                 | no       | `"locale"`                                         |
+| Prop                  | Type                     | Required | Default                                              |
+| --------------------- | ------------------------ | -------- | ---------------------------------------------------- |
+| `label`               | `string`                 | yes      | —                                                    |
+| `locales`             | `string[]`               | yes      | —                                                    |
+| `value`               | `string`                 | no       | `""`                                                 |
+| `defaultValue`        | `string`                 | no       | `undefined` (resolves to `"en"` or `locales[0]`)     |
+| `storageKey`          | `string`                 | no       | `undefined`                                          |
+| `detectFromNavigator` | `boolean`                | no       | `false`                                              |
+| `name`                | `string`                 | no       | `"locale"`                                           |
 | `target`              | `HTMLElement \| null`    | no       | `undefined` (resolves to `document.documentElement`) |
-| `applyDir`            | `boolean`                | no       | `true`                                             |
-| `localeLabels`        | `Record<string, string>` | no       | `{}`                                               |
-| `class`               | `string`                 | no       | `""`                                               |
+| `applyDir`            | `boolean`                | no       | `true`                                               |
+| `localeLabels`        | `Record<string, string>` | no       | `{}`                                                 |
+| `class`               | `string`                 | no       | `""`                                                 |
 
 `label` names **both** the button and the listbox; the button is
 icon-only, so it is the button's only accessible name. `name` is the
@@ -65,8 +65,8 @@ the root `<div>` via Vue's default `inheritAttrs`.
 
 ```ts
 defineEmits<{
-    (event: "update:value", value: string): void;
-    (event: "change", value: string): void;
+  (event: "update:value", value: string): void;
+  (event: "change", value: string): void;
 }>();
 ```
 
@@ -78,7 +78,7 @@ component back to the parent. It fires:
 - once on `onMounted` if the resolved initial value differs from
   the supplied `value` prop.
 
-`change` fires every time the chooser successfully applies a locale.
+`change` fires every time the picker successfully applies a locale.
 Use it for analytics, server cookie writes, or for telling your
 i18n library to load message bundles.
 
@@ -90,9 +90,9 @@ the apply lifecycle stay component-owned. Its `SlotArgs`:
 
 ```ts
 export type SlotArgs = {
-    value: string;
-    open: boolean;
-    labelFor: (locale: string) => string;
+  value: string;
+  open: boolean;
+  labelFor: (locale: string) => string;
 };
 
 export type ChildArgs = SlotArgs; // alias matching the Svelte canonical
@@ -101,13 +101,13 @@ export type ChildArgs = SlotArgs; // alias matching the Svelte canonical
 Consumers consume it via `<template #default="{ … }">`:
 
 ```vue
-<LocaleChooser label="Language" :locales="['en', 'fr', 'ar']">
+<LocalePicker label="Language" :locales="['en', 'fr', 'ar']">
     <template #default="{ value, open, labelFor }">
         <span :title="labelFor(value)" aria-hidden="true">
             {{ value.toUpperCase() }}{{ open ? " ▴" : " ▾" }}
         </span>
     </template>
-</LocaleChooser>
+</LocalePicker>
 ```
 
 Slot content is decorative: the button's accessible name always comes
@@ -115,7 +115,7 @@ from `label` via `aria-label`, so slot markup should be
 `aria-hidden="true"` or text-free.
 
 When no slot is supplied, the button renders
-`<span class="locale-chooser-icon" aria-hidden="true">🌐</span>` — the
+`<span class="locale-picker-icon" aria-hidden="true">🌐</span>` — the
 markup documented in `spec/index.md §4.4`.
 
 ## Pure helpers
@@ -127,11 +127,11 @@ export function bcp47LocaleTag(locale: string): string;
 export function isRtlLocale(locale: string): boolean;
 export function localeName(locale: string): string;
 export function matchNavigatorLanguage(
-    navLangs: readonly string[],
-    locales: readonly string[],
+  navLangs: readonly string[],
+  locales: readonly string[],
 ): string | "";
 // per-instance id generator (module counter; SSR-safe):
-export function nextLocaleChooserId(): string;
+export function nextLocalePickerId(): string;
 // + the constants:
 export const GLOBE_WITH_MERIDIANS: string; // "\u{1F310}"
 export const defaultLocaleLabels: Record<string, string>;
@@ -141,34 +141,53 @@ export const RTL_SCRIPT_SUBTAGS: ReadonlySet<string>;
 
 All pure functions are side-effect-free; consumers can call them
 from tests, server code, or other components without instantiating
-the chooser. `nextLocaleChooserId` is the one exception — it increments
+the picker. `nextLocalePickerId` is the one exception — it increments
 a module-level counter, which is exactly what makes the element ids
 stable and SSR-safe (never `Math.random()` or `Date.now()`).
 
 ## DOM contract
 
 ```html
-<div class="locale-chooser {class}" ...$attrs>
-    <input type="hidden" name="{name}" value="{value}" />
-    <button type="button" class="locale-chooser-button"
-            aria-label="{label}" aria-haspopup="listbox"
-            aria-expanded="false" aria-controls="{listId}">
-        <!-- default slot output, or: -->
-        <span class="locale-chooser-icon" aria-hidden="true">🌐</span>
-    </button>
-    <ul class="locale-chooser-list" id="{listId}" role="listbox"
-        aria-label="{label}" tabindex="-1" hidden aria-activedescendant>
-        <li class="locale-chooser-option" id="{optionId}" role="option"
-            aria-selected="true|false" data-active
-            lang="{tagFor(locale)}">{{ labelFor(locale) }}</li>
-    </ul>
+<div class="locale-picker {class}" ...$attrs>
+  <input type="hidden" name="{name}" value="{value}" />
+  <button
+    type="button"
+    class="locale-picker-button"
+    aria-label="{label}"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="{listId}"
+  >
+    <!-- default slot output, or: -->
+    <span class="locale-picker-icon" aria-hidden="true">🌐</span>
+  </button>
+  <ul
+    class="locale-picker-list"
+    id="{listId}"
+    role="listbox"
+    aria-label="{label}"
+    tabindex="-1"
+    hidden
+    aria-activedescendant
+  >
+    <li
+      class="locale-picker-option"
+      id="{optionId}"
+      role="option"
+      aria-selected="true|false"
+      data-active
+      lang="{tagFor(locale)}"
+    >
+      {{ labelFor(locale) }}
+    </li>
+  </ul>
 </div>
 ```
 
 Document mutations (only inside `onMounted` / `watch`):
 
 ```html
-<html lang="{tagFor(locale)}" dir="rtl|ltr">
+<html lang="{tagFor(locale)}" dir="rtl|ltr"></html>
 ```
 
 `dir` is only written when `applyDir` is `true` (the default).
@@ -179,12 +198,12 @@ Document mutations (only inside `onMounted` / `watch`):
 so consumers can type their wrapping code:
 
 ```ts
-import type { Props, SlotArgs } from "./lily-design-system-vue-locale-chooser";
+import type { Props, SlotArgs } from "./lily-design-system-vue-locale-picker";
 
 const config: Pick<Props, "locales" | "storageKey" | "detectFromNavigator"> = {
-    locales: ["en", "fr", "ar"],
-    storageKey: "my-app:locale",
-    detectFromNavigator: true,
+  locales: ["en", "fr", "ar"],
+  storageKey: "my-app:locale",
+  detectFromNavigator: true,
 };
 ```
 

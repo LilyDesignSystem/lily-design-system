@@ -18,7 +18,7 @@
     and IStringLocalizer<SharedResources> resolves the right strings.
 *@
 
-@page "/examples/locale-chooser/with-istring-localizer"
+@page "/examples/locale-picker/with-istring-localizer"
 @rendermode InteractiveServer
 @using System.Globalization
 @using LilyDesignSystem.Blazor.Helpers
@@ -28,7 +28,7 @@
    demo stand-in keeps this example runnable in isolation. *@
 @inject IStringLocalizer<SharedResourcesDemo> Loc
 
-<LocaleChooser
+<LocalePicker
     Label="@Loc["chooseLanguage"]"
     Locales="@(new[] { "en", "fr", "ar" })"
     LocaleLabels="@(new Dictionary<string, string>

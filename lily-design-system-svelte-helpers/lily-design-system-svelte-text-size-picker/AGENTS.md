@@ -1,4 +1,4 @@
-# AGENTS — TextSizeChooser (Svelte helper)
+# AGENTS — TextSizePicker (Svelte helper)
 
 Single source of truth: [spec/index.md](./spec/index.md). Read it first; everything
 below is a fast index.
@@ -8,7 +8,7 @@ below is a fast index.
 A reusable Svelte 5 headless text-size select. Renders a native
 `<select>` of size slugs and applies the chosen slug to the document
 root via `data-text-size`, with optional `localStorage` persistence.
-Ships no CSS; consumer styles the `text-size-chooser` class hook and
+Ships no CSS; consumer styles the `text-size-picker` class hook and
 maps each `[data-text-size="…"]` slug to real typography.
 
 ## Files
@@ -16,15 +16,15 @@ maps each `[data-text-size="…"]` slug to real typography.
 | File                       | Purpose                                          |
 | -------------------------- | ------------------------------------------------ |
 | `spec/index.md`                  | Specification-driven contract (canonical).       |
-| `TextSizeChooser.svelte`    | Implementation. TypeScript + Svelte 5 runes.     |
-| `TextSizeChooser.test.ts`   | Vitest spec, one assertion per §7 acceptance.    |
+| `TextSizePicker.svelte`    | Implementation. TypeScript + Svelte 5 runes.     |
+| `TextSizePicker.test.ts`   | Vitest spec, one assertion per §7 acceptance.    |
 | `index.ts`                 | Barrel re-export.                                |
 | `index.md`                 | User guide.                                      |
 
 ## Public surface
 
-- Default export: `TextSizeChooser` component.
-- Named export: `TextSizeChooser`.
+- Default export: `TextSizePicker` component.
+- Named export: `TextSizePicker`.
 - Type exports: `Props`, `ChildArgs`.
 
 Required props: `label`, `sizes`.
@@ -40,8 +40,8 @@ Initial value resolves from `value` > storage > `defaultValue` >
 
 ## HTML
 
-`<select class="text-size-chooser {class}" aria-label="{label}"
-name="{name}">` with one native `<option class="text-size-chooser-option">`
+`<select class="text-size-picker {class}" aria-label="{label}"
+name="{name}">` with one native `<option class="text-size-picker-option">`
 per slug. Custom rendering via the `children` snippet receiving
 `{ sizes, value, setSize, name, labelFor }`.
 

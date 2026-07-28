@@ -12,7 +12,7 @@
 */
 
 import { useRef, useState } from "react";
-import { LocaleChooser } from "../LocaleChooser";
+import { LocalePicker } from "../LocalePicker";
 
 export function ScopedTargetExample() {
     const panelARef = useRef<HTMLElement | null>(null);
@@ -33,7 +33,7 @@ export function ScopedTargetExample() {
                 className="panel"
             >
                 <h2>Panel A</h2>
-                <LocaleChooser
+                <LocalePicker
                     label="Panel A language"
                     name="panel-a-locale"
                     locales={["en", "fr", "ar"]}
@@ -51,7 +51,7 @@ export function ScopedTargetExample() {
                 className="panel"
             >
                 <h2>Panel B</h2>
-                <LocaleChooser
+                <LocalePicker
                     label="Panel B language"
                     name="panel-b-locale"
                     locales={["en", "fr", "ar"]}

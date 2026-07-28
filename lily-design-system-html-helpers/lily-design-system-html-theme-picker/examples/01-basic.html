@@ -15,7 +15,7 @@
     the page may briefly look unstyled before the JS bundle loads.
 
     THE POSITIONING CSS IS NOT OPTIONAL. The package ships no CSS at
-    all, so the <ul class="theme-chooser-list"> renders in normal flow
+    all, so the <ul class="theme-picker-list"> renders in normal flow
     and pushes the page down when it opens. The <style> block below is
     the minimum that makes it behave like a dropdown. Note the
     [hidden] rule: any `display` value on the list would override the
@@ -50,16 +50,16 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>theme-chooser — basic</title>
-    <script type="module" src="/dist/theme-chooser.js"></script>
+    <title>theme-picker — basic</title>
+    <script type="module" src="/dist/theme-picker.js"></script>
     <style>
         /* The root is the positioning context for the dropdown. */
-        .theme-chooser {
+        .theme-picker {
             position: relative;
             display: inline-block;
         }
 
-        .theme-chooser-button {
+        .theme-picker-button {
             display: inline-flex;
             align-items: center;
             padding: 0.35rem 0.5rem;
@@ -71,13 +71,13 @@
             line-height: 1;
         }
 
-        .theme-chooser-button:focus-visible,
-        .theme-chooser-list:focus-visible {
+        .theme-picker-button:focus-visible,
+        .theme-picker-list:focus-visible {
             outline: 2px solid currentColor;
             outline-offset: 2px;
         }
 
-        .theme-chooser-list {
+        .theme-picker-list {
             position: absolute;
             inset-block-start: calc(100% + 0.25rem);
             inset-inline-start: 0;
@@ -93,45 +93,45 @@
 
         /* Any `display` rule above would beat the UA stylesheet's
            `[hidden] { display: none }`, so re-assert it here. */
-        .theme-chooser-list[hidden] {
+        .theme-picker-list[hidden] {
             display: none;
         }
 
-        .theme-chooser-option {
+        .theme-picker-option {
             padding: 0.35rem 0.75rem;
             cursor: pointer;
         }
 
         /* The keyboard-highlighted option: where Enter would land.
            Focus stays on the <ul>, so :focus never matches an <li>. */
-        .theme-chooser-option[data-active] {
+        .theme-picker-option[data-active] {
             background: Highlight;
             color: HighlightText;
         }
 
         /* The chosen option: a deliberately different signal, since
            the two frequently disagree while the list is open. */
-        .theme-chooser-option[aria-selected="true"]::after {
+        .theme-picker-option[aria-selected="true"]::after {
             content: " ✓";
         }
     </style>
 </head>
 <body>
-    <h1>Theme chooser — basic</h1>
+    <h1>Theme picker — basic</h1>
 
-    <theme-chooser
+    <theme-picker
         label="Theme"
         themes-url="/assets/themes/"
         themes="light,dark,abyss"
-    ></theme-chooser>
+    ></theme-picker>
 
-    <p class="theme-chooser-status" aria-live="polite">Active theme: Light</p>
+    <p class="theme-picker-status" aria-live="polite">Active theme: Light</p>
 
     <script type="module">
-        await customElements.whenDefined("theme-chooser");
+        await customElements.whenDefined("theme-picker");
 
-        const select = document.querySelector("theme-chooser");
-        const status = document.querySelector(".theme-chooser-status");
+        const select = document.querySelector("theme-picker");
+        const status = document.querySelector(".theme-picker-status");
 
         // labelFor() is a public method on the element, so any
         // theme-labels overrides and translations are picked up for

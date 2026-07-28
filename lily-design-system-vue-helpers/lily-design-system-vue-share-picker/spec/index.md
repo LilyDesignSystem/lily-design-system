@@ -1,19 +1,19 @@
-# ShareChooser — Specification
+# SharePicker — Specification
 
-Single source of truth for the `lily-design-system-vue-share-chooser`
+Single source of truth for the `lily-design-system-vue-share-picker`
 Vue 3 helper. This file drives implementation, testing, and documentation:
 anything not in this spec is out of scope; anything in this spec must be
 exercised by a test.
 
 A direct port of the canonical
-[`lily-design-system-svelte-share-chooser`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-chooser/spec/index.md).
+[`lily-design-system-svelte-share-picker`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-picker/spec/index.md).
 Where the two disagree, the Svelte side wins. The §7 clause numbers are
 kept identical across catalogs so the suites cross-reference.
 
 Sibling files:
 
-- `ShareChooser.vue` — the implementation
-- `ShareChooser.test.ts` — vitest spec exercising every clause in §7
+- `SharePicker.vue` — the implementation
+- `SharePicker.test.ts` — vitest spec exercising every clause in §7
 - `index.ts` — re-export barrel
 - `index.md` — user-facing guide
 
@@ -40,14 +40,14 @@ Give a Vue 3 application a drop-in, headless share control that:
   assets; destination labels are text supplied by the consumer.
 - **Share counts, analytics, or tracking.** The component reports what
   the user chose via the `share` event; what you do with that is yours.
-- **Persistence.** Unlike the `*-chooser` preference helpers, this
+- **Persistence.** Unlike the `*-picker` preference helpers, this
   control has no state to remember. Nothing is written to `localStorage`.
 
 ## 3. Architectural decisions
 
 - **A helper, but not a preference lifecycle.** The other helpers own
-  *selection + DOM application + optional persistence*. This one owns an
-  *action*: it applies nothing to the document and persists nothing. It
+  _selection + DOM application + optional persistence_. This one owns an
+  _action_: it applies nothing to the document and persists nothing. It
   is a helper because it owns a complete interaction end to end and ships
   the same headless contract. See `AGENTS/helpers.md`.
 - **Disclosure + real links, not a menu.** Share destinations are
@@ -67,7 +67,7 @@ Give a Vue 3 application a drop-in, headless share control that:
   there would resurrect UI the user just dismissed, so a rejection ends
   the interaction.
 - **This helper is a disclosure, not a listbox.** The three
-  `*-chooser` preference helpers in this catalog are APG listboxes with
+  `*-picker` preference helpers in this catalog are APG listboxes with
   `aria-activedescendant` and a virtual active option. This one is not:
   its items are real focusable links and buttons, so focus moves for
   real. The divergence is deliberate and follows from §3's
@@ -77,32 +77,32 @@ Give a Vue 3 application a drop-in, headless share control that:
 
 ### 4.1 Props
 
-| Prop | Type | Required | Default | Purpose |
-| ---- | ---- | -------- | ------- | ------- |
-| `label` | `string` | yes | — | Accessible name for the button and the list. |
-| `targets` | `ShareTarget[]` | no | `[]` | Destinations to offer. Empty is valid when `copyLabel` is set. |
-| `url` | `string` | no | current page URL | URL to share. Resolved lazily, so the default is SSR-safe. |
-| `title` | `string` | no | `""` | Passed to `href(...)` and the native sheet. |
-| `text` | `string` | no | `""` | Passed to `href(...)` and the native sheet. |
-| `copyLabel` | `string` | no | `undefined` | Label for the copy item. Omit it and no copy item renders. |
-| `copiedLabel` | `string` | no | `undefined` | Announced in the status region after a successful copy. |
-| `copyFailedLabel` | `string` | no | `undefined` | Announced when the clipboard write fails. |
-| `strategy` | `"auto" \| "native" \| "list"` | no | `"auto"` | Whether to prefer the native sheet. |
-| `class` | `string` | no | `""` | Extra class on the root. |
-| `$attrs` | any HTML attributes | no | — | Fall through to the root `<div>`. |
+| Prop              | Type                           | Required | Default          | Purpose                                                        |
+| ----------------- | ------------------------------ | -------- | ---------------- | -------------------------------------------------------------- |
+| `label`           | `string`                       | yes      | —                | Accessible name for the button and the list.                   |
+| `targets`         | `ShareTarget[]`                | no       | `[]`             | Destinations to offer. Empty is valid when `copyLabel` is set. |
+| `url`             | `string`                       | no       | current page URL | URL to share. Resolved lazily, so the default is SSR-safe.     |
+| `title`           | `string`                       | no       | `""`             | Passed to `href(...)` and the native sheet.                    |
+| `text`            | `string`                       | no       | `""`             | Passed to `href(...)` and the native sheet.                    |
+| `copyLabel`       | `string`                       | no       | `undefined`      | Label for the copy item. Omit it and no copy item renders.     |
+| `copiedLabel`     | `string`                       | no       | `undefined`      | Announced in the status region after a successful copy.        |
+| `copyFailedLabel` | `string`                       | no       | `undefined`      | Announced when the clipboard write fails.                      |
+| `strategy`        | `"auto" \| "native" \| "list"` | no       | `"auto"`         | Whether to prefer the native sheet.                            |
+| `class`           | `string`                       | no       | `""`             | Extra class on the root.                                       |
+| `$attrs`          | any HTML attributes            | no       | —                | Fall through to the root `<div>`.                              |
 
 ### 4.2 Events
 
 The Svelte canonical takes `onShare` / `onCopy` / `onNativeShare`
 callback props; the Vue idiom for the same contract is emitted events,
-matching how `onChange` maps to `@change` on the `*-chooser` preference
+matching how `onChange` maps to `@change` on the `*-picker` preference
 helpers.
 
-| Event | Payload | Fires when |
-| ----- | ------- | ---------- |
-| `share` | `(targetId: string, url: string)` | A destination is chosen. |
-| `copy` | `(url: string)` | The URL was copied successfully. |
-| `nativeShare` | `(url: string)` | The native sheet was used instead of the list. Template: `@native-share`. |
+| Event         | Payload                           | Fires when                                                                |
+| ------------- | --------------------------------- | ------------------------------------------------------------------------- |
+| `share`       | `(targetId: string, url: string)` | A destination is chosen.                                                  |
+| `copy`        | `(url: string)`                   | The URL was copied successfully.                                          |
+| `nativeShare` | `(url: string)`                   | The native sheet was used instead of the list. Template: `@native-share`. |
 
 There is no `update:value` / `v-model` binding: this helper owns an
 action, not a value.
@@ -124,41 +124,52 @@ type ShareTarget = {
   id: string;
   label: string;
   href: (url: string, title: string, text: string) => string;
-  newTab?: boolean;   // default true
+  newTab?: boolean; // default true
 };
 ```
 
 ### 4.4 DOM contract
 
 ```html
-<div class="share-chooser {class}">
-  <button type="button" class="share-chooser-button"
-          aria-label="{label}" aria-expanded aria-controls="{listId}">
-    <span class="share-chooser-icon" aria-hidden="true">&#10148;</span>
+<div class="share-picker {class}">
+  <button
+    type="button"
+    class="share-picker-button"
+    aria-label="{label}"
+    aria-expanded
+    aria-controls="{listId}"
+  >
+    <span class="share-picker-icon" aria-hidden="true">&#10148;</span>
   </button>
-  <ul class="share-chooser-list" id="{listId}" hidden>
-    <li class="share-chooser-list-item">
-      <a class="share-chooser-target" data-target-id="{id}" href="{href(...)}"
-         target="_blank" rel="noopener noreferrer">{label}</a>
+  <ul class="share-picker-list" id="{listId}" hidden>
+    <li class="share-picker-list-item">
+      <a
+        class="share-picker-target"
+        data-target-id="{id}"
+        href="{href(...)}"
+        target="_blank"
+        rel="noopener noreferrer"
+        >{label}</a
+      >
     </li>
-    <li class="share-chooser-list-item">
-      <button type="button" class="share-chooser-copy">{copyLabel}</button>
+    <li class="share-picker-list-item">
+      <button type="button" class="share-picker-copy">{copyLabel}</button>
     </li>
   </ul>
-  <p class="share-chooser-status" aria-live="polite"></p>
+  <p class="share-picker-status" aria-live="polite"></p>
 </div>
 ```
 
-The trigger's class is `share-chooser-button`, following the same
-`{helper}-button` convention as `theme-chooser`, `locale-chooser` and
-`text-size-chooser`. (Under the helper's former name this was
+The trigger's class is `share-picker-button`, following the same
+`{helper}-button` convention as `theme-picker`, `locale-picker` and
+`text-size-picker`. (Under the helper's former name this was
 `share-button-trigger`, because `.share-button-button` read badly; the
-rename to `share-chooser` removed the need for that exception.)
+rename to `share-picker` removed the need for that exception.)
 
 ### 4.5 Re-exports
 
-`index.ts` exports `default`, `ShareChooser`, `canShareNatively`,
-`canCopy`, `nextShareChooserId`, `BLACK_RIGHTWARDS_ARROWHEAD`, and the
+`index.ts` exports `default`, `SharePicker`, `canShareNatively`,
+`canCopy`, `nextSharePickerId`, `BLACK_RIGHTWARDS_ARROWHEAD`, and the
 types `Props`, `SlotArgs`, `ChildArgs` (alias of `SlotArgs`),
 `ShareTarget`, `ShareStrategy`.
 
@@ -180,14 +191,14 @@ Either way the list closes.
 
 ### 5.3 Keyboard
 
-| Key | On the button | In the list |
-| --- | ------------- | ----------- |
-| `Enter` / `Space` | Activates (native browser behaviour) | Activates the focused item |
-| `ArrowDown` | Opens, focuses the first item | Moves focus down, clamping |
-| `ArrowUp` | Opens, focuses the last item | Moves focus up, clamping |
-| `Home` / `End` | — | First / last item |
-| `Escape` | — | Closes and returns focus to the button |
-| `Tab` | Moves on | Closes, focus goes where the browser sends it |
+| Key               | On the button                        | In the list                                   |
+| ----------------- | ------------------------------------ | --------------------------------------------- |
+| `Enter` / `Space` | Activates (native browser behaviour) | Activates the focused item                    |
+| `ArrowDown`       | Opens, focuses the first item        | Moves focus down, clamping                    |
+| `ArrowUp`         | Opens, focuses the last item         | Moves focus up, clamping                      |
+| `Home` / `End`    | —                                    | First / last item                             |
+| `Escape`          | —                                    | Closes and returns focus to the button        |
+| `Tab`             | Moves on                             | Closes, focus goes where the browser sends it |
 
 Items are real focusable elements, so focus moves for real rather than
 via `aria-activedescendant`. Clicking outside, or focus leaving the root,
@@ -206,7 +217,7 @@ closes the list.
   can catch its removal — the ordering is load-bearing in production
   only.
 - The outside-click listener is registered in `onMounted` and removed
-  in `onBeforeUnmount`, matching `theme-chooser`.
+  in `onBeforeUnmount`, matching `theme-picker`.
 
 ## 6. Accessibility
 
@@ -224,7 +235,7 @@ sees on a phone is not what they see on a desktop. Full treatment in
 
 ## 7. Testing acceptance criteria
 
-`ShareChooser.test.ts` asserts every clause below.
+`SharePicker.test.ts` asserts every clause below.
 
 1. Renders a disclosure `<button>` with `aria-expanded` controlling a `<ul>`.
 2. The list is hidden until the button is activated.
@@ -254,10 +265,10 @@ In addition, §4.2's root contract (class hook + consumer `class` +
 
 ## 8. Tracking
 
-- Package: lily-design-system-vue-share-chooser
+- Package: lily-design-system-vue-share-picker
 - Version: 0.1.0
 - License: MIT
-- Ported from: `lily-design-system-svelte-share-chooser` 0.1.0
+- Ported from: `lily-design-system-svelte-share-picker` 0.1.0
 
 ---
 

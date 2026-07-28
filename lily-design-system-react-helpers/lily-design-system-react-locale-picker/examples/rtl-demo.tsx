@@ -12,10 +12,10 @@
 
 import { useState } from "react";
 import {
-    LocaleChooser,
+    LocalePicker,
     isRtlLocale,
     bcp47LocaleTag,
-} from "../LocaleChooser";
+} from "../LocalePicker";
 
 // CLDR-style names of each language *in that language*.
 const NATIVE: Record<string, string> = {
@@ -43,7 +43,7 @@ export function RtlDemoExample() {
 
     return (
         <>
-            <LocaleChooser
+            <LocalePicker
                 label="Direction demo"
                 locales={["en", "ar", "he", "fa", "ur", "ps"]}
                 localeLabels={NATIVE}

@@ -9,7 +9,7 @@ rationale and common usage.
 `aria-label` on **both** the trigger `<button>` and the
 `<ul role="listbox">`. Always supplied, always translatable.
 
-The button is icon-only, so this is its *entire* accessible name —
+The button is icon-only, so this is its _entire_ accessible name —
 there is no visible text to fall back to. A wrong, missing, or
 untranslated `label` leaves the control announced as a bare "button".
 Treat it as load-bearing copy and route it through the same
@@ -19,7 +19,7 @@ translation pipeline as the rest of your strings. See
 > **Removed in the icon-button rewrite:** `placeholder`. It described
 > the leading `<option>` of the old native `<select>`, and there is no
 > `<select>` left to pin. Delete the prop from your usage; the
-> `.theme-chooser-placeholder` class hook is gone too.
+> `.theme-picker-placeholder` class hook is gone too.
 
 ## `themesUrl` — required, string
 
@@ -38,7 +38,7 @@ Acceptable values:
 
 ## `themes` — required, string[]
 
-The slugs of the themes the chooser exposes as options — one
+The slugs of the themes the picker exposes as options — one
 `<li role="option">` per entry, in array order. The slug is used both
 as the option's identity and as the URL path segment when constructing
 the stylesheet href. Choose slugs that are safe URL path segments —
@@ -53,12 +53,12 @@ the closed button opens with the last entry active.
 The active slug. Two-way bindable with `v-model:value` so the
 surrounding code can read and write the selection.
 
-When supplied as a non-empty string, the chooser treats it as the
+When supplied as a non-empty string, the picker treats it as the
 authoritative initial value — `storageKey` and `defaultValue` are
 both skipped on first mount.
 
 ```vue
-<ThemeChooser v-model:value="theme" ... />
+<ThemePicker v-model:value="theme" ... />
 ```
 
 ## `defaultValue` — optional, string
@@ -70,22 +70,22 @@ falls back to `"light"` (when present in `themes`) and then to
 
 ## `storageKey` — optional, string
 
-`localStorage` key for persistence. When set, the chooser:
+`localStorage` key for persistence. When set, the picker:
 
 - Reads the stored slug during initial-value resolution.
 - Writes the slug to storage after every successful apply.
 
 Errors (private mode, quota, disabled storage) are silently
-swallowed — the chooser continues to work in-memory.
+swallowed — the picker continues to work in-memory.
 
 ## `name` — optional, string — defaults to `"theme"`
 
 The `name` attribute on the hidden `<input type="hidden">` that carries
-the active slug, so the chooser participates in a surrounding `<form>`
+the active slug, so the picker participates in a surrounding `<form>`
 exactly as the old native `<select>` did.
 
 It also serves as the discriminator on the managed `<link>` element
-(`data-lily-theme-chooser="{name}"`), so multiple choosers can coexist by
+(`data-lily-theme-picker="{name}"`), so multiple pickers can coexist by
 giving each a distinct `name`.
 
 ## `extension` — optional, string — defaults to `".css"`
@@ -110,14 +110,14 @@ const section = ref<HTMLElement | null>(null);
 </script>
 
 <template>
-    <section ref="section">
-        <ThemeChooser
-            label="Section theme"
-            themes-url="/assets/themes/"
-            :themes="['light', 'dark']"
-            :target="section"
-        />
-    </section>
+  <section ref="section">
+    <ThemePicker
+      label="Section theme"
+      themes-url="/assets/themes/"
+      :themes="['light', 'dark']"
+      :target="section"
+    />
+  </section>
 </template>
 ```
 
@@ -135,7 +135,7 @@ localising them localises the typeahead too.
 ## `class` — optional, string
 
 Extra CSS class hook on the root `<div>`. Always emitted after
-`"theme-chooser"`, so consumer styles can use either selector.
+`"theme-picker"`, so consumer styles can use either selector.
 
 ## Default scoped slot
 
@@ -143,9 +143,9 @@ Replaces the **button glyph** — not the options. The slot receives:
 
 ```ts
 type SlotArgs = {
-    value: string;                        // the active slug
-    open: boolean;                        // is the listbox open?
-    labelFor: (theme: string) => string;  // resolved display label
+  value: string; // the active slug
+  open: boolean; // is the listbox open?
+  labelFor: (theme: string) => string; // resolved display label
 };
 ```
 

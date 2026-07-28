@@ -1,4 +1,4 @@
-# AGENTS — ShareChooser (Blazor helper)
+# AGENTS — SharePicker (Blazor helper)
 
 Single source of truth: [spec/index.md](./spec/index.md). Read it first;
 everything below is a fast index.
@@ -12,32 +12,32 @@ a built-in copy-the-URL action. Ships no CSS, no icons, no JS file, and
 no third-party endpoints.
 
 The canonical implementation is the Svelte helper
-[`lily-design-system-svelte-share-chooser`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-chooser/);
+[`lily-design-system-svelte-share-picker`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-picker/);
 this is a direct port with Blazor idioms swapped. When the two disagree,
 Svelte wins — see [spec/index.md §9](./spec/index.md#9-blazor-deviations-from-the-canonical-svelte-implementation)
 for the deviations that could not be avoided.
 
 ## Files
 
-| File | Purpose |
-| ---- | ------- |
-| `spec/index.md` | Specification-driven contract (canonical). |
-| `ShareChooser.razor` | Razor markup. |
-| `ShareChooser.razor.cs` | C# code-behind (partial class). |
-| `ShareChooserTests.cs` | bUnit + xUnit spec, mapped to the §7 clauses. |
-| `index.md` | User guide. |
-| `docs/accessibility.md` | Tradeoffs, stated plainly. |
-| `examples/` | Copy-pasteable Razor snippets. |
+| File                    | Purpose                                       |
+| ----------------------- | --------------------------------------------- |
+| `spec/index.md`         | Specification-driven contract (canonical).    |
+| `SharePicker.razor`    | Razor markup.                                 |
+| `SharePicker.razor.cs` | C# code-behind (partial class).               |
+| `SharePickerTests.cs`  | bUnit + xUnit spec, mapped to the §7 clauses. |
+| `index.md`              | User guide.                                   |
+| `docs/accessibility.md` | Tradeoffs, stated plainly.                    |
+| `examples/`             | Copy-pasteable Razor snippets.                |
 
 ## Public surface
 
-- Component: `ShareChooser` in namespace
+- Component: `SharePicker` in namespace
   `LilyDesignSystem.Blazor.Helpers`.
-- Types: `ShareTarget`, `ShareStrategy`, `ShareChooserContext`,
+- Types: `ShareTarget`, `ShareStrategy`, `SharePickerContext`,
   `ShareEventArgs`, `NativeShareOutcome`.
-- Constant: `ShareChooser.BlackRightwardsArrowhead` — the default glyph
+- Constant: `SharePicker.BlackRightwardsArrowhead` — the default glyph
   `"➤"` (U+27A4).
-- Statics: `NextShareChooserId()`, `CanShareNativelyAsync(IJSRuntime)`,
+- Statics: `NextSharePickerId()`, `CanShareNativelyAsync(IJSRuntime)`,
   `CanCopyAsync(IJSRuntime)`. The two probes are **async** because the
   browser is only reachable over interop; both return `false` during
   prerender rather than throwing.
@@ -63,15 +63,15 @@ Nothing is applied to the document and nothing is persisted.
 
 ## HTML
 
-`<div class="share-chooser">` → `<button class="share-chooser-button">`
-with an `aria-hidden` glyph span → `<ul class="share-chooser-list" hidden>`
-of `<li>` containing `<a class="share-chooser-target">` and an optional
-`<button class="share-chooser-copy">` → `<p class="share-chooser-status"
+`<div class="share-picker">` → `<button class="share-picker-button">`
+with an `aria-hidden` glyph span → `<ul class="share-picker-list" hidden>`
+of `<li>` containing `<a class="share-picker-target">` and an optional
+`<button class="share-picker-copy">` → `<p class="share-picker-status"
 aria-live="polite">`.
 
 **Not a menu.** Destinations are real `<a>` elements; `role="menuitem"`
 would strip middle-click, open-in-new-tab and copy-link-address. The
-trigger class is `share-chooser-button`, matching the `{helper}-button`
+trigger class is `share-picker-button`, matching the `{helper}-button`
 convention the sibling helpers use.
 
 `target="_blank" rel="noopener noreferrer"` on every destination unless
@@ -93,11 +93,11 @@ still carries `hidden`.
 The injected script resolves a sentinel and never rejects, so the .NET
 side can tell these apart:
 
-| Sentinel | Result |
-| -------- | ------ |
-| `"shared"` | `OnNativeShare` fires; list stays closed. |
-| `"dismissed"` | Interaction ends; list stays closed. |
-| `"unsupported"` | Fall back to the list. |
+| Sentinel        | Result                                    |
+| --------------- | ----------------------------------------- |
+| `"shared"`      | `OnNativeShare` fires; list stays closed. |
+| `"dismissed"`   | Interaction ends; list stays closed.      |
+| `"unsupported"` | Fall back to the list.                    |
 
 **A dismissed sheet must not fall through to the list** — that would
 resurrect UI the user just dismissed. A bare try/catch around the interop
@@ -120,7 +120,7 @@ Both mechanisms are documented in
 - Blazor partial class (`.razor` + `.razor.cs`), Blazor 10 / .NET 10.
 - `[Parameter, EditorRequired]` for `Label`;
   `[Parameter(CaptureUnmatchedValues = true)]` for spread.
-- `EventCallback<T>` for events; `RenderFragment<ShareChooserContext>`
+- `EventCallback<T>` for events; `RenderFragment<SharePickerContext>`
   for the custom glyph.
 - All browser access through `IJSRuntime` from event handlers or
   `OnAfterRenderAsync`, so the component is SSR / prerender safe.

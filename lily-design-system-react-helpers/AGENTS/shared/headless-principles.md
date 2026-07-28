@@ -17,10 +17,10 @@ keyboard semantics. Consumers ship every visual decision.
 - The first attribute on the root element is the kebab-case base
   class plus the consumer's optional `className`. For the current
   catalog this means
-  `className={\`theme-chooser ${className}\`.trim()}` and
-  `className={\`locale-chooser ${className}\`.trim()}`. Consumer
+  `className={\`theme-picker ${className}\`.trim()}` and
+  `className={\`locale-picker ${className}\`.trim()}`. Consumer
   CSS targets either form with a single selector.
-- Inner sub-classes (`theme-chooser-option`, `locale-chooser-option`)
+- Inner sub-classes (`theme-picker-option`, `locale-picker-option`)
   are kebab-case derivatives of the base class. They are stable
   contracts: consumers can rely on them, so don't rename or remove
   them between versions.
@@ -84,10 +84,10 @@ These belong to the consumer.
 `data-*` attributes are used for state that the consumer's CSS or
 JS may want to observe:
 
-| Attribute                          | On                          | Set by                            |
-| ---------------------------------- | --------------------------- | --------------------------------- |
-| `data-theme="<slug>"`              | `target` (default `<html>`) | `ThemeChooser`                     |
-| `data-lily-theme-chooser="<name>"`  | the managed `<link>`        | `ThemeChooser` (discriminator)     |
+| Attribute                         | On                          | Set by                         |
+| --------------------------------- | --------------------------- | ------------------------------ |
+| `data-theme="<slug>"`             | `target` (default `<html>`) | `ThemePicker`                 |
+| `data-lily-theme-picker="<name>"` | the managed `<link>`        | `ThemePicker` (discriminator) |
 
 For state that's purely for assistive technology (`aria-pressed`,
 `aria-expanded`), use the ARIA attribute, not `data-*`.

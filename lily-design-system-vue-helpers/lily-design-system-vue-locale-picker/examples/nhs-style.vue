@@ -2,8 +2,8 @@
     NHS UK-style language banner.
 
     Mirrors the NHS UK Design System's pattern of placing a language
-    chooser in a top utility banner. The banner keeps the
-    `locale-chooser` class hook so consumer CSS can target it without
+    picker in a top utility banner. The banner keeps the
+    `locale-picker` class hook so consumer CSS can target it without
     duplication.
 
     Since the icon-button rewrite the control is a globe button that
@@ -19,7 +19,7 @@
 -->
 <script setup lang="ts">
 import { ref } from "vue";
-import LocaleChooser from "../LocaleChooser.vue";
+import LocalePicker from "../LocalePicker.vue";
 
 const locale = ref("en");
 
@@ -41,7 +41,7 @@ const NATIVE: Record<string, string> = {
     <header class="utility-banner" aria-label="Site utilities">
         <span>NHS</span>
 
-        <LocaleChooser
+        <LocalePicker
             label="Language"
             :locales="[
                 'en', 'cy', 'gd', 'ga',
@@ -58,7 +58,7 @@ const NATIVE: Record<string, string> = {
             language in text as well. `lang` on the name keeps the
             endonym pronounced correctly (WCAG 3.1.2).
         -->
-        <p class="locale-chooser-status" aria-live="polite">
+        <p class="locale-picker-status" aria-live="polite">
             Language:
             <span :lang="locale.replace(/_/g, '-')">{{
                 NATIVE[locale] ?? locale

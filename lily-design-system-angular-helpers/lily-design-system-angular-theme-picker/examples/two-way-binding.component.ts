@@ -6,30 +6,32 @@
     analytics, telling the server, or notifying a sibling component.
 */
 import { ChangeDetectionStrategy, Component, signal } from "@angular/core";
-import { ThemeChooser } from "../theme-chooser.component";
+import { ThemePicker } from "../theme-picker.component";
 
 @Component({
-    selector: "example-two-way-binding",
-    standalone: true,
-    imports: [ThemeChooser],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
-        <lily-theme-chooser
-            label="Theme"
-            themesUrl="/assets/themes/"
-            [themes]="['light', 'dark', 'abyss']"
-            [(value)]="theme"
-            (themeChange)="trackThemeChange($event)"
-        />
+  selector: "example-two-way-binding",
+  standalone: true,
+  imports: [ThemePicker],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <lily-theme-picker
+      label="Theme"
+      themesUrl="/assets/themes/"
+      [themes]="['light', 'dark', 'abyss']"
+      [(value)]="theme"
+      (themeChange)="trackThemeChange($event)"
+    />
 
-        <p>Current theme: <strong>{{ theme() || "(resolving…)" }}</strong></p>
-    `,
+    <p>
+      Current theme: <strong>{{ theme() || "(resolving…)" }}</strong>
+    </p>
+  `,
 })
 export class TwoWayBindingExample {
-    theme = signal("");
+  theme = signal("");
 
-    trackThemeChange(slug: string): void {
-        // e.g. fetch("/api/preferences", { method: "POST", body: JSON.stringify({ theme: slug }) });
-        console.info("theme changed:", slug);
-    }
+  trackThemeChange(slug: string): void {
+    // e.g. fetch("/api/preferences", { method: "POST", body: JSON.stringify({ theme: slug }) });
+    console.info("theme changed:", slug);
+  }
 }

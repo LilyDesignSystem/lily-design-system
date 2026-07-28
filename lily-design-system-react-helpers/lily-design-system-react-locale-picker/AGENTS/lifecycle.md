@@ -1,4 +1,4 @@
-# AGENTS / lifecycle — LocaleChooser
+# AGENTS / lifecycle — LocalePicker
 
 Implementation lifecycle. Read [`../spec/index.md §5`](../spec/index.md#5-behaviour)
 for the formal contract; this file documents the React 19 mechanics.

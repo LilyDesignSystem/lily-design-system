@@ -1,6 +1,6 @@
-# TextSizeChooser (React helper)
+# TextSizePicker (React helper)
 
-A reusable, headless React 19 **text-size chooser**. Renders an icon
+A reusable, headless React 19 **text-size picker**. Renders an icon
 button that opens a dropdown listbox of text-size slugs and, on every
 change, sets `data-text-size="{slug}"` on a target element (default
 `document.documentElement`), optionally persisting the choice to
@@ -8,10 +8,18 @@ change, sets `data-text-size="{slug}"` on a target element (default
 real typography via CSS, e.g.:
 
 ```css
-:root[data-text-size="small"]   { font-size: 87.5%; }
-:root[data-text-size="medium"]  { font-size: 100%; }
-:root[data-text-size="large"]   { font-size: 112.5%; }
-:root[data-text-size="x-large"] { font-size: 125%; }
+:root[data-text-size="small"] {
+  font-size: 87.5%;
+}
+:root[data-text-size="medium"] {
+  font-size: 100%;
+}
+:root[data-text-size="large"] {
+  font-size: 112.5%;
+}
+:root[data-text-size="x-large"] {
+  font-size: 125%;
+}
 ```
 
 This supports WCAG 2.2 — 1.4.4 (Resize Text) and 1.4.12 (Text
@@ -19,8 +27,8 @@ Spacing) — by letting users pick a comfortable reading size that the
 app remembers.
 
 The control is the same icon-button-plus-listbox shape as the sibling
-[`theme-chooser`](../lily-design-system-react-theme-chooser/) and
-[`locale-chooser`](../lily-design-system-react-locale-chooser/) helpers,
+[`theme-picker`](../lily-design-system-react-theme-picker/) and
+[`locale-picker`](../lily-design-system-react-locale-picker/) helpers,
 so a row of Lily™ preference controls in one banner is uniform. Its
 glyph is `"A"` (U+0041).
 
@@ -37,12 +45,12 @@ only runtime dependency is `react` ≥ 19.
 
 ```ts
 import {
-    TextSizeChooser,
-    sizeName,
-    LATIN_CAPITAL_LETTER_A,
-    type Props,
-    type ChildArgs,
-} from "./lily-design-system-react-text-size-chooser";
+  TextSizePicker,
+  sizeName,
+  LATIN_CAPITAL_LETTER_A,
+  type Props,
+  type ChildArgs,
+} from "./lily-design-system-react-text-size-picker";
 ```
 
 ## Quick start
@@ -52,42 +60,42 @@ import {
 
 import { useState } from "react";
 import {
-    TextSizeChooser,
-    sizeName,
-} from "./lily-design-system-react-text-size-chooser";
+  TextSizePicker,
+  sizeName,
+} from "./lily-design-system-react-text-size-picker";
 
-export function TextSizeChooser() {
-    const [size, setSize] = useState("");
-    return (
-        <>
-            <TextSizeChooser
-                label="Text size"
-                sizes={["small", "medium", "large", "x-large"]}
-                value={size}
-                onChange={setSize}
-                storageKey="lily-text-size"
-            />
-            <p className="text-size-chooser-status" aria-live="polite">
-                Text size: {sizeName(size)}
-            </p>
-        </>
-    );
+export function TextSizePicker() {
+  const [size, setSize] = useState("");
+  return (
+    <>
+      <TextSizePicker
+        label="Text size"
+        sizes={["small", "medium", "large", "x-large"]}
+        value={size}
+        onChange={setSize}
+        storageKey="lily-text-size"
+      />
+      <p className="text-size-picker-status" aria-live="polite">
+        Text size: {sizeName(size)}
+      </p>
+    </>
+  );
 }
 
 // Renders:
-// <div class="text-size-chooser">
+// <div class="text-size-picker">
 //   <input type="hidden" name="text-size" value="medium" />
-//   <button type="button" class="text-size-chooser-button"
+//   <button type="button" class="text-size-picker-button"
 //           aria-label="Text size" aria-haspopup="listbox"
 //           aria-expanded="false" aria-controls="…-list">
-//     <span class="text-size-chooser-icon" aria-hidden="true">A</span>
+//     <span class="text-size-picker-icon" aria-hidden="true">A</span>
 //   </button>
-//   <ul class="text-size-chooser-list" id="…-list" role="listbox"
+//   <ul class="text-size-picker-list" id="…-list" role="listbox"
 //       aria-label="Text size" tabindex="-1" hidden>
-//     <li class="text-size-chooser-option" role="option" aria-selected="false">Small</li>
-//     <li class="text-size-chooser-option" role="option" aria-selected="true">Medium</li>
-//     <li class="text-size-chooser-option" role="option" aria-selected="false">Large</li>
-//     <li class="text-size-chooser-option" role="option" aria-selected="false">X Large</li>
+//     <li class="text-size-picker-option" role="option" aria-selected="false">Small</li>
+//     <li class="text-size-picker-option" role="option" aria-selected="true">Medium</li>
+//     <li class="text-size-picker-option" role="option" aria-selected="false">Large</li>
+//     <li class="text-size-picker-option" role="option" aria-selected="false">X Large</li>
 //   </ul>
 // </div>
 ```
@@ -110,19 +118,19 @@ no positioning, so give the root `position: relative` and the list
 
 ## Props
 
-| Prop          | Type                        | Required | Description                                            |
-| ------------- | --------------------------- | -------- | ------------------------------------------------------ |
-| `label`       | `string`                    | yes      | Accessible name (`aria-label`) for the button and listbox. |
-| `sizes`       | `string[]`                  | yes      | Available size slugs.                                  |
-| `value`       | `string`                    | no       | Selected slug. When supplied, the component is controlled. |
-| `defaultValue`| `string`                    | no       | Initial slug when nothing else is supplied.            |
-| `storageKey`  | `string`                    | no       | If set, persist the slug to `localStorage`.            |
-| `name`        | `string`                    | no       | `name` of the hidden input (default `"text-size"`).    |
-| `target`      | `HTMLElement \| null`       | no       | Element to receive `data-text-size`. Default `<html>`. |
-| `sizeLabels`  | `Record<string,string>`     | no       | Pretty labels per slug.                                |
-| `children`    | `(args) => ReactNode`       | no       | Render prop replacing the button glyph; receives `ChildArgs`. |
-| `onChange`    | `(size: string) => void`    | no       | Called after a new size is applied.                    |
-| `className`   | `string`                    | no       | Extra CSS class on the root `<div>`.                   |
+| Prop           | Type                     | Required | Description                                                   |
+| -------------- | ------------------------ | -------- | ------------------------------------------------------------- |
+| `label`        | `string`                 | yes      | Accessible name (`aria-label`) for the button and listbox.    |
+| `sizes`        | `string[]`               | yes      | Available size slugs.                                         |
+| `value`        | `string`                 | no       | Selected slug. When supplied, the component is controlled.    |
+| `defaultValue` | `string`                 | no       | Initial slug when nothing else is supplied.                   |
+| `storageKey`   | `string`                 | no       | If set, persist the slug to `localStorage`.                   |
+| `name`         | `string`                 | no       | `name` of the hidden input (default `"text-size"`).           |
+| `target`       | `HTMLElement \| null`    | no       | Element to receive `data-text-size`. Default `<html>`.        |
+| `sizeLabels`   | `Record<string,string>`  | no       | Pretty labels per slug.                                       |
+| `children`     | `(args) => ReactNode`    | no       | Render prop replacing the button glyph; receives `ChildArgs`. |
+| `onChange`     | `(size: string) => void` | no       | Called after a new size is applied.                           |
+| `className`    | `string`                 | no       | Extra CSS class on the root `<div>`.                          |
 
 There is no detection prop. Unlike `prefers-color-scheme` or
 `navigator.languages`, no platform signal exposes a preferred text size,
@@ -134,10 +142,10 @@ By default each option's text is the slug title-cased per hyphen-word,
 so `x-large` renders as `X Large`. Override per-slug with `sizeLabels`:
 
 ```tsx
-<TextSizeChooser
-    label="Text size"
-    sizes={["small", "medium", "large", "x-large"]}
-    sizeLabels={{ small: "Compact", "x-large": "Huge" }}
+<TextSizePicker
+  label="Text size"
+  sizes={["small", "medium", "large", "x-large"]}
+  sizeLabels={{ small: "Compact", "x-large": "Huge" }}
 />
 ```
 
@@ -148,8 +156,8 @@ labels, so your status line and the options always agree:
 sizeName("x-large"); // "X Large"
 ```
 
-It mirrors `themeName` in theme-chooser and `localeName` in
-locale-chooser.
+It mirrors `themeName` in theme-picker and `localeName` in
+locale-picker.
 
 ## Replacing the glyph
 
@@ -158,22 +166,22 @@ button**. It does not render the options — the component owns those.
 It receives `{ value, open, labelFor }`:
 
 ```tsx
-<TextSizeChooser
-    label="Text size"
-    sizes={["small", "medium", "large", "x-large"]}
-    value={size}
-    onChange={setSize}
-    storageKey="lily-text-size"
+<TextSizePicker
+  label="Text size"
+  sizes={["small", "medium", "large", "x-large"]}
+  value={size}
+  onChange={setSize}
+  storageKey="lily-text-size"
 >
-    {({ value, open, labelFor }) => (
-        <>
-            <svg aria-hidden="true" viewBox="0 0 16 16" width="16" height="16">
-                <path d="M2 14 L8 2 L14 14" fill="none" stroke="currentColor" />
-            </svg>
-            <span aria-hidden="true">{labelFor(value)}</span>
-        </>
-    )}
-</TextSizeChooser>
+  {({ value, open, labelFor }) => (
+    <>
+      <svg aria-hidden="true" viewBox="0 0 16 16" width="16" height="16">
+        <path d="M2 14 L8 2 L14 14" fill="none" stroke="currentColor" />
+      </svg>
+      <span aria-hidden="true">{labelFor(value)}</span>
+    </>
+  )}
+</TextSizePicker>
 ```
 
 Keep custom glyph content `aria-hidden="true"` — the button's
@@ -185,16 +193,16 @@ text, make `label` begin with that text (WCAG 2.5.3, Label in Name).
 The component implements the WAI-ARIA APG listbox contract itself;
 nothing is inherited from a native `<select>`.
 
-| Key                             | Where    | Action                                            |
-| ------------------------------- | -------- | ------------------------------------------------- |
-| `ArrowDown` / `Enter` / `Space` | button   | Open on the selected option; focus moves to the list. |
-| `ArrowUp`                       | button   | Open on the **last** option.                      |
-| `ArrowDown` / `ArrowUp`         | listbox  | Move the active option; clamps, does not wrap.    |
-| `Home` / `End`                  | listbox  | Jump to the first / last option.                  |
-| `Enter` / `Space`               | listbox  | Select, apply, close, refocus the button.         |
-| `Escape`                        | listbox  | Close and refocus the button; value unchanged.    |
-| `Tab`                           | listbox  | Close and let focus move on.                      |
-| Printable character             | listbox  | Typeahead over labels; buffer resets after 500 ms. |
+| Key                             | Where   | Action                                                |
+| ------------------------------- | ------- | ----------------------------------------------------- |
+| `ArrowDown` / `Enter` / `Space` | button  | Open on the selected option; focus moves to the list. |
+| `ArrowUp`                       | button  | Open on the **last** option.                          |
+| `ArrowDown` / `ArrowUp`         | listbox | Move the active option; clamps, does not wrap.        |
+| `Home` / `End`                  | listbox | Jump to the first / last option.                      |
+| `Enter` / `Space`               | listbox | Select, apply, close, refocus the button.             |
+| `Escape`                        | listbox | Close and refocus the button; value unchanged.        |
+| `Tab`                           | listbox | Close and let focus move on.                          |
+| Printable character             | listbox | Typeahead over labels; buffer resets after 500 ms.    |
 
 Clicking an option selects it; clicking the button again, clicking
 outside, or moving focus out all close without changing the value.
@@ -222,17 +230,17 @@ from React's `useId`, so they survive hydration.
 
 ## Files in this directory
 
-| File                          | Purpose                                          |
-| ----------------------------- | ------------------------------------------------ |
-| `spec/index.md`               | Single source of truth — API, behaviour, tests.  |
-| `TextSizeChooser.tsx`          | The component implementation.                    |
-| `TextSizeChooser.test.tsx`     | vitest suite covering every spec §7 item.        |
-| `index.ts`                    | Re-export barrel.                                |
-| `index.md`                    | This file — quick start + worked examples.       |
-| `docs/accessibility.md`       | Roles, keyboard contract, tradeoffs, smoke test. |
-| `AGENTS.md`                   | AI-agent metadata pointer.                       |
-| `CLAUDE.md`                   | Loads `AGENTS.md`.                               |
-| `README.md`                   | Symlink to `index.md`.                           |
+| File                       | Purpose                                          |
+| -------------------------- | ------------------------------------------------ |
+| `spec/index.md`            | Single source of truth — API, behaviour, tests.  |
+| `TextSizePicker.tsx`      | The component implementation.                    |
+| `TextSizePicker.test.tsx` | vitest suite covering every spec §7 item.        |
+| `index.ts`                 | Re-export barrel.                                |
+| `index.md`                 | This file — quick start + worked examples.       |
+| `docs/accessibility.md`    | Roles, keyboard contract, tradeoffs, smoke test. |
+| `AGENTS.md`                | AI-agent metadata pointer.                       |
+| `CLAUDE.md`                | Loads `AGENTS.md`.                               |
+| `README.md`                | Symlink to `index.md`.                           |
 
 ---
 

@@ -46,7 +46,7 @@ never crawls, fetches, or introspects a translation backend. For all
 436 built-in codes:
 
 ```ts
-import { defaultLocaleLabels } from "../LocaleChooser.svelte";
+import { defaultLocaleLabels } from "../LocalePicker.svelte";
 const ALL = Object.keys(defaultLocaleLabels);
 ```
 
@@ -108,7 +108,7 @@ resolution falls through to `defaultValue`.
 value > storage > detectFromNavigator > defaultValue > "en" > locales[0]
 ```
 
-This mirrors `detectFromSystem` in `theme-chooser`. The underlying
+This mirrors `detectFromSystem` in `theme-picker`. The underlying
 `matchNavigatorLanguage(navLangs, locales)` helper is exported if you
 want to call it yourself — on the server against `Accept-Language`, for
 instance.
@@ -124,7 +124,7 @@ The `name` attribute of the hidden `<input type="hidden">` that carries
 the value for form submission. The value submitted is the
 consumer-form code, not the BCP 47 tag.
 
-Unlike `theme-chooser`'s `name`, it has no second job — there is no
+Unlike `theme-picker`'s `name`, it has no second job — there is no
 managed `<link>` here — so multiple selects on one page only need
 distinct names if they submit to the same form.
 
@@ -204,7 +204,7 @@ type ChildArgs = {
 };
 ```
 
-When supplied, no `.locale-chooser-icon` span is emitted. The
+When supplied, no `.locale-picker-icon` span is emitted. The
 pre-listbox `tagFor` and `isRtl` members are gone; use the exported
 `bcp47LocaleTag` and `isRtlLocale` helpers instead.
 
@@ -213,7 +213,7 @@ See [custom-rendering.md](./custom-rendering.md) for patterns.
 ## `class` — optional, string
 
 Extra CSS class hook on the root `<div>`. Always emitted after
-`"locale-chooser"`, so consumer styles can use either selector.
+`"locale-picker"`, so consumer styles can use either selector.
 
 ## `...restProps` — any HTML attributes
 

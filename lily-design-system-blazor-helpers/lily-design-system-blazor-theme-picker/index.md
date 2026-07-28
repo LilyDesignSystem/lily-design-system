@@ -1,4 +1,4 @@
-# ThemeChooser (Blazor helper)
+# ThemePicker (Blazor helper)
 
 A reusable, headless Blazor theme select that **loads themes
 dynamically at runtime** from a developer-specified directory.
@@ -42,7 +42,7 @@ opinionated widget. This one splits the contract cleanly:
 - **This component** owns selection, dynamic loading, persistence, and
   accessibility.
 - **Consumers** own the visual style of the select via the
-  `theme-chooser` class hook.
+  `theme-picker` class hook.
 
 The result is a small reusable widget that works in any Blazor 10
 host (Server, WebAssembly, Web App with mixed render modes, static
@@ -51,7 +51,7 @@ DaisyUI-inspired themes, NHS-aligned themes, or your own bespoke
 set.
 
 The component is a direct port of the Svelte canonical
-`lily-design-system-svelte-theme-chooser`. APIs and behaviour match;
+`lily-design-system-svelte-theme-picker`. APIs and behaviour match;
 only the framework idioms differ.
 
 ## Install
@@ -65,8 +65,8 @@ namespace import to your `_Imports.razor`:
 
 The only runtime dependency is
 `Microsoft.AspNetCore.Components.Web` 10.0. There is no extra NuGet
-package; the helper is two source files (`ThemeChooser.razor` +
-`ThemeChooser.razor.cs`).
+package; the helper is two source files (`ThemePicker.razor` +
+`ThemePicker.razor.cs`).
 
 ## Quick start
 
@@ -81,14 +81,14 @@ package; the helper is two source files (`ThemeChooser.razor` +
 ```razor
 @using LilyDesignSystem.Blazor.Helpers
 
-<ThemeChooser
+<ThemePicker
     Label="Theme"
     ThemesUrl="/assets/themes/"
     Themes="@(new []{ "light", "dark", "abyss" })"
     @bind-Value="theme"
     StorageKey="lily-theme" />
 
-<p class="theme-chooser-status" aria-live="polite">
+<p class="theme-picker-status" aria-live="polite">
     Active theme: @ThemeLabel(theme)
 </p>
 
@@ -126,7 +126,7 @@ On every theme change the select performs four steps via a single
 `IJSRuntime.InvokeVoidAsync("eval", …)` call:
 
 1. **Locate or create** a managed
-   `<link rel="stylesheet" data-lily-theme-chooser="{Name}">` in
+   `<link rel="stylesheet" data-lily-theme-picker="{Name}">` in
    `document.head`.
 2. **Swap the href** to `${ThemesUrl}${slug}${Extension}` so the new
    theme's CSS is fetched and applied. The previous theme's CSS is
@@ -143,24 +143,47 @@ so static-SSR / prerender renders the markup with no DOM mutation.
 ## Rendered markup
 
 ```html
-<div class="theme-chooser">
-    <input type="hidden" name="theme" value="light" />
-    <button type="button" class="theme-chooser-button"
-            aria-label="Theme" aria-haspopup="listbox"
-            aria-expanded="false" aria-controls="theme-chooser-1-list">
-        <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
-    </button>
-    <ul class="theme-chooser-list" id="theme-chooser-1-list" role="listbox"
-        aria-label="Theme" tabindex="-1" hidden>
-        <li class="theme-chooser-option" id="theme-chooser-1-option-0"
-            role="option" aria-selected="true">Light</li>
-        <li class="theme-chooser-option" id="theme-chooser-1-option-1"
-            role="option" aria-selected="false">Dark</li>
-    </ul>
+<div class="theme-picker">
+  <input type="hidden" name="theme" value="light" />
+  <button
+    type="button"
+    class="theme-picker-button"
+    aria-label="Theme"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="theme-picker-1-list"
+  >
+    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
+  </button>
+  <ul
+    class="theme-picker-list"
+    id="theme-picker-1-list"
+    role="listbox"
+    aria-label="Theme"
+    tabindex="-1"
+    hidden
+  >
+    <li
+      class="theme-picker-option"
+      id="theme-picker-1-option-0"
+      role="option"
+      aria-selected="true"
+    >
+      Light
+    </li>
+    <li
+      class="theme-picker-option"
+      id="theme-picker-1-option-1"
+      role="option"
+      aria-selected="false"
+    >
+      Dark
+    </li>
+  </ul>
 </div>
 ```
 
-- **The root `<div>`** carries the `theme-chooser` class hook plus your
+- **The root `<div>`** carries the `theme-picker` class hook plus your
   `CssClass`, and everything captured by `AdditionalAttributes` spreads
   onto it.
 - **The hidden input** carries `Name` and `Value` so the control still
@@ -175,7 +198,7 @@ so static-SSR / prerender renders the markup with no DOM mutation.
   points at the active option, which also carries `data-active` as a
   styling hook — both attributes are emitted only while open.
 - List and option ids come from a monotonic process-wide counter
-  (`theme-chooser-{n}`), so they are stable across re-render and safe
+  (`theme-picker-{n}`), so they are stable across re-render and safe
   under SSR.
 
 The real selection lives in `Value`, which stays two-way bindable.
@@ -195,9 +218,9 @@ rather than to the widest theme name — and give it a floor so it stays a
 clear target even if the platform substitutes or drops the character:
 
 ```css
-.theme-chooser-button {
-    min-inline-size: 2.25rem;
-    min-block-size: 2.25rem;
+.theme-picker-button {
+  min-inline-size: 2.25rem;
+  min-block-size: 2.25rem;
 }
 ```
 
@@ -230,7 +253,7 @@ On the **listbox**:
 | `Enter` / `Space` | Select the active option, apply it, close, return focus to the button. |
 | `Escape`          | Close and return focus **without** changing the value.                 |
 | `Tab`             | Close **without** stealing focus back.                                 |
-| Printable chars   | Typeahead over the option *labels*, 500 ms buffer reset.               |
+| Printable chars   | Typeahead over the option _labels_, 500 ms buffer reset.               |
 
 Pointer and focus:
 
@@ -265,22 +288,22 @@ to each hyphen-separated word of the slug, title-cased
 
 The complete table is in [spec/index.md §4.1](./spec/index.md#41-parameters). Highlights:
 
-| Parameter      | Type                                  | Required | Notes                                      |
-| -------------- | ------------------------------------- | -------- | ------------------------------------------ |
-| `Label`        | `string`                              | yes      | `aria-label` on the button AND the listbox. The button is icon-only, so this is its entire accessible name. |
-| `ThemesUrl`    | `string`                              | yes      | Trailing `/` is auto-added.                |
-| `Themes`       | `IReadOnlyList<string>`               | yes      | Available slugs.                           |
-| `Value`        | `string` (`@bind-Value`)              | no       | Two-way bind for the current slug.         |
-| `DefaultValue` | `string?`                             | no       | Initial when nothing else applies.         |
-| `StorageKey`   | `string?`                             | no       | `localStorage` persistence.                |
-| `DetectFromSystem` | `bool`                            | no       | Follow OS `prefers-color-scheme` on first visit; off by default. |
-| `Name`         | `string`                              | no       | `name` on the hidden input AND the `data-lily-theme-chooser` discriminator on the managed `<link>`; defaults to `"theme"`. |
-| `Extension`    | `string`                              | no       | Defaults to `".css"`.                      |
-| `ThemeLabels`  | `IReadOnlyDictionary<string,string>`  | no       | Per-slug display label override.           |
-| `OnChange`     | `EventCallback<string>`               | no       | Callback fired after apply.                |
-| `ChildContent` | `RenderFragment<ThemeChooserContext>?` | no       | Replaces the glyph inside the button. It does not render options. |
-| `CssClass`     | `string`                              | no       | Extra CSS class merged into the root `<div>`. |
-| `AdditionalAttributes` | `Dictionary<string,object>?`  | no       | Unmatched attributes; spread onto the root `<div>`. |
+| Parameter              | Type                                   | Required | Notes                                                                                                                     |
+| ---------------------- | -------------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `Label`                | `string`                               | yes      | `aria-label` on the button AND the listbox. The button is icon-only, so this is its entire accessible name.               |
+| `ThemesUrl`            | `string`                               | yes      | Trailing `/` is auto-added.                                                                                               |
+| `Themes`               | `IReadOnlyList<string>`                | yes      | Available slugs.                                                                                                          |
+| `Value`                | `string` (`@bind-Value`)               | no       | Two-way bind for the current slug.                                                                                        |
+| `DefaultValue`         | `string?`                              | no       | Initial when nothing else applies.                                                                                        |
+| `StorageKey`           | `string?`                              | no       | `localStorage` persistence.                                                                                               |
+| `DetectFromSystem`     | `bool`                                 | no       | Follow OS `prefers-color-scheme` on first visit; off by default.                                                          |
+| `Name`                 | `string`                               | no       | `name` on the hidden input AND the `data-lily-theme-picker` discriminator on the managed `<link>`; defaults to `"theme"`. |
+| `Extension`            | `string`                               | no       | Defaults to `".css"`.                                                                                                     |
+| `ThemeLabels`          | `IReadOnlyDictionary<string,string>`   | no       | Per-slug display label override.                                                                                          |
+| `OnChange`             | `EventCallback<string>`                | no       | Callback fired after apply.                                                                                               |
+| `ChildContent`         | `RenderFragment<ThemePickerContext>?` | no       | Replaces the glyph inside the button. It does not render options.                                                         |
+| `CssClass`             | `string`                               | no       | Extra CSS class merged into the root `<div>`.                                                                             |
+| `AdditionalAttributes` | `Dictionary<string,object>?`           | no       | Unmatched attributes; spread onto the root `<div>`.                                                                       |
 
 There is **no `Placeholder` parameter**. It existed only to pin a native
 `<select>`'s closed display, and there is no `<select>` any more.
@@ -290,10 +313,10 @@ for a field-by-field reference.
 
 ## Events
 
-| Event           | Payload  | When                                                  |
-| --------------- | -------- | ----------------------------------------------------- |
-| `ValueChanged`  | `string` | After selection, drives `@bind-Value`.                |
-| `OnChange`      | `string` | After the select applies a new theme (post-DOM-write). |
+| Event          | Payload  | When                                                   |
+| -------------- | -------- | ------------------------------------------------------ |
+| `ValueChanged` | `string` | After selection, drives `@bind-Value`.                 |
+| `OnChange`     | `string` | After the select applies a new theme (post-DOM-write). |
 
 `ValueChanged` is the `@bind-Value` half; consumers usually only
 wire `OnChange` for analytics, cookie writes, or imperative
@@ -301,13 +324,13 @@ side-effect coordination.
 
 ## Custom button content
 
-Pass a `ChildContent` `RenderFragment<ThemeChooserContext>` to replace
+Pass a `ChildContent` `RenderFragment<ThemePickerContext>` to replace
 the default glyph **inside the button**. It does not render the options
 — the listbox is owned by the component. The fragment receives a
-`ThemeChooserContext` with `{ Value, Open, LabelFor }`:
+`ThemePickerContext` with `{ Value, Open, LabelFor }`:
 
 ```razor
-<ThemeChooser
+<ThemePicker
     Label="Theme"
     ThemesUrl="/assets/themes/"
     Themes="@(new []{ "light", "dark", "abyss" })"
@@ -315,13 +338,13 @@ the default glyph **inside the button**. It does not render the options
 
     <ChildContent Context="ctx">
         @* An inline SVG is the robust alternative to the font glyph. *@
-        <svg class="theme-chooser-glyph" aria-hidden="true"
+        <svg class="theme-picker-glyph" aria-hidden="true"
              width="18" height="18" viewBox="0 0 20 20">
             <circle cx="10" cy="10" r="9" fill="none" stroke="currentColor" />
             <path d="M10 1a9 9 0 0 1 0 18Z" fill="currentColor" />
         </svg>
     </ChildContent>
-</ThemeChooser>
+</ThemePicker>
 ```
 
 Keep the replacement `aria-hidden="true"`: the button's accessible name
@@ -342,11 +365,11 @@ on a `@ref` to the component. The old `ctx.SetTheme` callback is gone
 along with the option-rendering role:
 
 ```razor
-<ThemeChooser @ref="select" Label="Theme" ... />
+<ThemePicker @ref="select" Label="Theme" ... />
 <button type="button" @onclick="@(() => select!.SetThemeAsync("dark"))">Dark</button>
 
 @code {
-    private ThemeChooser? select;
+    private ThemePicker? select;
 }
 ```
 
@@ -419,9 +442,9 @@ is fetched on demand. To switch instantly between themes, preload
 them all yourself:
 
 ```html
-<link rel="stylesheet" href="/assets/themes/light.css">
-<link rel="stylesheet" href="/assets/themes/dark.css">
-<link rel="stylesheet" href="/assets/themes/abyss.css">
+<link rel="stylesheet" href="/assets/themes/light.css" />
+<link rel="stylesheet" href="/assets/themes/dark.css" />
+<link rel="stylesheet" href="/assets/themes/abyss.css" />
 ```
 
 The select still mutates `data-theme`, and since every theme's CSS
@@ -436,9 +459,9 @@ example: [`examples/Preloaded.razor`](./examples/Preloaded.razor).
 Pass a distinct `Name` parameter to each select. The `Name` is used
 as both the hidden input's `name` (so the selects stay independent in
 a form) and the discriminator on the managed `<link>` element
-(`data-lily-theme-chooser="{Name}"`).
+(`data-lily-theme-picker="{Name}"`).
 
-Example: [`examples/MultipleChoosers.razor`](./examples/MultipleChoosers.razor).
+Example: [`examples/MultiplePickers.razor`](./examples/MultiplePickers.razor).
 
 ## Recipes
 
@@ -478,19 +501,19 @@ acceptance criterion in
 
 ## Files in this directory
 
-| File                  | Purpose                                          |
-| --------------------- | ------------------------------------------------ |
-| `spec/index.md`             | Single source of truth — API, behaviour, tests.  |
-| `AGENTS.md`           | Fast-index pointer; loads the AGENTS bundle.     |
-| `AGENTS/`             | Topic-by-topic agent files.                      |
-| `CLAUDE.md`           | `@AGENTS.md`.                                    |
-| `ThemeChooser.razor`   | Razor markup.                                    |
-| `ThemeChooser.razor.cs`| C# code-behind (partial class).                  |
-| `ThemeChooserTests.cs` | bUnit + xUnit spec covering every spec §7 item.  |
-| `index.md`            | This file.                                       |
-| `docs/`               | Deep-dive topic guides.                          |
-| `examples/`           | Runnable `.razor` files.                         |
-| `CHANGELOG.md`        | Version history.                                 |
+| File                    | Purpose                                         |
+| ----------------------- | ----------------------------------------------- |
+| `spec/index.md`         | Single source of truth — API, behaviour, tests. |
+| `AGENTS.md`             | Fast-index pointer; loads the AGENTS bundle.    |
+| `AGENTS/`               | Topic-by-topic agent files.                     |
+| `CLAUDE.md`             | `@AGENTS.md`.                                   |
+| `ThemePicker.razor`    | Razor markup.                                   |
+| `ThemePicker.razor.cs` | C# code-behind (partial class).                 |
+| `ThemePickerTests.cs`  | bUnit + xUnit spec covering every spec §7 item. |
+| `index.md`              | This file.                                      |
+| `docs/`                 | Deep-dive topic guides.                         |
+| `examples/`             | Runnable `.razor` files.                        |
+| `CHANGELOG.md`          | Version history.                                |
 
 ## License
 

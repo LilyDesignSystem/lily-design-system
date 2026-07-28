@@ -1,6 +1,6 @@
-# AGENTS / accessibility — ThemeChooser
+# AGENTS / accessibility — ThemePicker
 
-Accessibility contract specific to `ThemeChooser`. Read
+Accessibility contract specific to `ThemePicker`. Read
 [`../docs/accessibility.md`](../docs/accessibility.md) for the
 consumer-facing guide; this file is the AI-coding contract.
 
@@ -19,11 +19,11 @@ consumer-facing guide; this file is the AI-coding contract.
 
 | Element     | Attribute                          | Source        |
 | ----------- | ---------------------------------- | ------------- |
-| `<div>`     | class hook `theme-chooser`          | Component     |
+| `<div>`     | class hook `theme-picker`          | Component     |
 | `<input type="hidden">` | `name`, `value`        | Component     |
 | `<button>`  | `aria-label={label}`               | Consumer prop |
 | `<button>`  | `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls` | Component |
-| `<span class="theme-chooser-icon">` | `aria-hidden="true"` | Component |
+| `<span class="theme-picker-icon">` | `aria-hidden="true"` | Component |
 | `<ul>`      | `role="listbox"`, `aria-label={label}`, `tabindex="-1"`, `hidden` | Component |
 | `<ul>`      | `aria-activedescendant` (while open only) | Component |
 | `<li>`      | `role="option"`, `aria-selected`, `data-active` | Component |
@@ -99,7 +99,7 @@ own status region — see [`../docs/accessibility.md`](../docs/accessibility.md)
 const [announce, setAnnounce] = useState("");
 return (
     <>
-        <ThemeChooser
+        <ThemePicker
             onChange={(slug) => setAnnounce(`Theme changed to ${slug}`)}
             {...rest}
         />
@@ -115,8 +115,8 @@ consumer's CSS supplies the focus ring. NHS-UK and Lily themes
 ship a high-contrast focus outline that meets AAA.
 
 ```css
-.theme-chooser-button:focus-visible,
-.theme-chooser-list:focus-visible {
+.theme-picker-button:focus-visible,
+.theme-picker-list:focus-visible {
     outline: 2px solid var(--theme-color-primary, currentColor);
     outline-offset: 2px;
 }

@@ -1,4 +1,4 @@
-# Accessibility — `<locale-chooser>` (HTML helper)
+# Accessibility — `<locale-picker>` (HTML helper)
 
 The select targets WCAG 2.2 AAA and implements the **WAI-ARIA APG
 listbox pattern** in JavaScript: an icon button that opens a
@@ -10,7 +10,7 @@ nothing from the platform. The canonical contract is in
 
 | Element                       | Role / Property                                  | Source        |
 | ----------------------------- | ------------------------------------------------ | ------------- |
-| `<locale-chooser>` (host)      | none (transparent)                               | —             |
+| `<locale-picker>` (host)      | none (transparent)                               | —             |
 | Rendered `<div>` root         | none (styling container)                         | —             |
 | `<input type="hidden">`       | `name` + current value (form participation)      | Select        |
 | `<button>`                    | `aria-label={label}`                             | Consumer attr |
@@ -157,10 +157,10 @@ technically incorrect: the visible text is English even though the
 attribute says French. Drop it by subclassing:
 
 ```ts
-class ViewerLanguageLocaleChooser extends LocaleChooser {
+class ViewerLanguageLocalePicker extends LocalePicker {
     connectedCallback() {
         super.connectedCallback();
-        for (const option of this.querySelectorAll(".locale-chooser-option")) {
+        for (const option of this.querySelectorAll(".locale-picker-option")) {
             option.removeAttribute("lang");
         }
     }
@@ -193,7 +193,7 @@ The package ships no CSS, so these are the consumer's:
   gets `position: relative` and the list `position: absolute`.
   Without it the list shoves page content around when it opens.
 - **Respect `hidden`.** Guard any `display` rule with
-  `.locale-chooser-list[hidden] { display: none; }`.
+  `.locale-picker-list[hidden] { display: none; }`.
 - **Visible focus** on both the button and the `<ul>`; never
   `outline: none`.
 - **Non-colour-only** distinction between `[data-active]` and

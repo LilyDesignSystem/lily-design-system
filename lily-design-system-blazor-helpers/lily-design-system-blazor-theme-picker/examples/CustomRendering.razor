@@ -1,9 +1,9 @@
 @*
-    Example 5 — Custom button face via RenderFragment<ThemeChooserContext>.
+    Example 5 — Custom button face via RenderFragment<ThemePickerContext>.
 
     ChildContent replaces the glyph INSIDE the button. It does not render
     the options — the listbox is always the component's own APG listbox.
-    The fragment receives a ThemeChooserContext with exactly three members:
+    The fragment receives a ThemePickerContext with exactly three members:
       - Value:    the active slug
       - Open:     is the listbox currently open?
       - LabelFor: the resolved display label for a slug
@@ -25,13 +25,13 @@
     compare two button faces, not to recommend shipping two theme selects.
 *@
 
-@page "/examples/theme-chooser/custom-rendering"
+@page "/examples/theme-picker/custom-rendering"
 @rendermode InteractiveServer
 @using LilyDesignSystem.Blazor.Helpers
 
 <h2>Inline SVG glyph</h2>
 
-<ThemeChooser
+<ThemePicker
     Label="Theme"
     Name="theme-svg"
     ThemesUrl="/assets/themes/"
@@ -40,7 +40,7 @@
     <ChildContent Context="ctx">
         @* Decorative artwork: a half-filled circle echoing the default ◑.
            focusable="false" keeps legacy IE/Edge from tab-stopping the SVG. *@
-        <svg class="theme-chooser-icon"
+        <svg class="theme-picker-icon"
              aria-hidden="true"
              focusable="false"
              width="16" height="16" viewBox="0 0 16 16">
@@ -48,11 +48,11 @@
             <path d="M8 1 A7 7 0 0 1 8 15 Z" fill="currentColor" />
         </svg>
     </ChildContent>
-</ThemeChooser>
+</ThemePicker>
 
 <h2>State-aware face</h2>
 
-<ThemeChooser
+<ThemePicker
     Label="Theme"
     Name="theme-stateful"
     ThemesUrl="/assets/themes/"
@@ -62,14 +62,14 @@
         @* Still one aria-hidden subtree: the accessible name stays "Theme",
            and aria-expanded on the button already conveys Open to AT. This
            markup is the sighted-user echo of the same two facts. *@
-        <span class="theme-chooser-icon" aria-hidden="true">
-            <span class="theme-chooser-face-name">@ctx.LabelFor(ctx.Value)</span>
-            <span class="theme-chooser-face-caret">@(ctx.Open ? "▴" : "▾")</span>
+        <span class="theme-picker-icon" aria-hidden="true">
+            <span class="theme-picker-face-name">@ctx.LabelFor(ctx.Value)</span>
+            <span class="theme-picker-face-caret">@(ctx.Open ? "▴" : "▾")</span>
         </span>
     </ChildContent>
-</ThemeChooser>
+</ThemePicker>
 
-<p class="theme-chooser-status" aria-live="polite">
+<p class="theme-picker-status" aria-live="polite">
     Active themes: @svgTheme / @statefulTheme
 </p>
 

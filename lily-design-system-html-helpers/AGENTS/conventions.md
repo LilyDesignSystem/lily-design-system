@@ -80,7 +80,7 @@ The guard makes re-imports idempotent and SSR-safe (the
 
 - **Attributes are kebab-case.** `themes-url`, `default-value`,
   `storage-key`, `detect-from-navigator`. `static get
-  observedAttributes()` lists every one that should trigger
+observedAttributes()` lists every one that should trigger
   `attributeChangedCallback`.
 - **Properties are camelCase mirrors.** `el.themesUrl`,
   `el.defaultValue`, `el.storageKey`, `el.detectFromNavigator`.
@@ -92,7 +92,7 @@ The guard makes re-imports idempotent and SSR-safe (the
   matching JS property accepts a native `string[]`; the setter
   encodes back to CSV via `arr.join(",")`.
 - **Object attributes serialise as JSON.** `theme-labels='{"light":
-  "Bright"}'`. The matching JS property accepts a
+"Bright"}'`. The matching JS property accepts a
   `Record<string, string>`; the setter encodes back via
   `JSON.stringify(obj)`. Malformed JSON parses to `{}`.
 - **Boolean attributes follow the HTML convention.** Presence is
@@ -155,12 +155,12 @@ The rendered root is the same shape for all three helpers: a
 `<div class="{helper}">` wrapping a hidden input, a
 `<button class="{helper}-button">` holding a
 `<span class="{helper}-icon">`, and a `<ul class="{helper}-list">` of
-`<li class="{helper}-option">`. Substitute `theme-chooser`,
-`locale-chooser`, or `text-size-chooser` for `{helper}`.
+`<li class="{helper}-option">`. Substitute `theme-picker`,
+`locale-picker`, or `text-size-picker` for `{helper}`.
 
 The consumer's optional `class` attribute on the custom element is
-re-applied to that rendered root, so `<theme-chooser
-class="extra-class">` produces `<div class="theme-chooser
+re-applied to that rendered root, so `<theme-picker
+class="extra-class">` produces `<div class="theme-picker
 extra-class">`.
 
 ## SSR
@@ -184,10 +184,10 @@ Everything visual and locale-specific is the consumer's. See
 ## Naming
 
 - Class hooks are kebab-case derivatives of the tag name:
-  `theme-chooser`, `theme-chooser-button`, `theme-chooser-icon`,
-  `theme-chooser-list`, `theme-chooser-option`.
+  `theme-picker`, `theme-picker-button`, `theme-picker-icon`,
+  `theme-picker-list`, `theme-picker-option`.
 - Data attributes the consumer / CSS may want to observe use
-  `data-*` (e.g. `data-theme`, `data-lily-theme-chooser`).
+  `data-*` (e.g. `data-theme`, `data-lily-theme-picker`).
 - Don't introduce new ARIA attributes — use the platform's.
 
 ## Pure helpers exported from each module

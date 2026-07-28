@@ -1,6 +1,6 @@
 # Styling
 
-The chooser ships **no CSS**. Everything below is yours to write. This
+The picker ships **no CSS**. Everything below is yours to write. This
 file documents the hooks the component guarantees, plus a baseline
 stylesheet you can paste and edit.
 
@@ -16,19 +16,19 @@ major version.
 
 | Hook                    | Element                          | Notes                                        |
 | ----------------------- | -------------------------------- | -------------------------------------------- |
-| `.locale-chooser`        | root `<div>`                     | Your `class` prop is appended after this.    |
-| `.locale-chooser-button` | the trigger `<button>`           | Icon-only; `aria-label` is its whole name.   |
-| `.locale-chooser-icon`   | `<span>` inside the button       | Holds the 🌐 glyph. Absent when you supply a slot. |
-| `.locale-chooser-list`   | `<ul role="listbox">`            | `hidden` while closed.                       |
-| `.locale-chooser-option` | each `<li role="option">`        | Carries its own `lang`.                      |
+| `.locale-picker`        | root `<div>`                     | Your `class` prop is appended after this.    |
+| `.locale-picker-button` | the trigger `<button>`           | Icon-only; `aria-label` is its whole name.   |
+| `.locale-picker-icon`   | `<span>` inside the button       | Holds the 🌐 glyph. Absent when you supply a slot. |
+| `.locale-picker-list`   | `<ul role="listbox">`            | `hidden` while closed.                       |
+| `.locale-picker-option` | each `<li role="option">`        | Carries its own `lang`.                      |
 
 Two more hooks are *conventions*, not component output — you render
 them yourself:
 
 | Hook                      | What it is                                             |
 | ------------------------- | ------------------------------------------------------ |
-| `.locale-chooser-status`   | The live region naming the active locale. See [accessibility.md](./accessibility.md). |
-| `.locale-chooser-placeholder` | **Gone.** Removed with the native `<select>`.       |
+| `.locale-picker-status`   | The live region naming the active locale. See [accessibility.md](./accessibility.md). |
+| `.locale-picker-placeholder` | **Gone.** Removed with the native `<select>`.       |
 
 ## Attribute hooks
 
@@ -38,10 +38,10 @@ state from drifting apart.
 
 | Selector                                            | Means                                   |
 | --------------------------------------------------- | --------------------------------------- |
-| `.locale-chooser-button[aria-expanded="true"]`        | The listbox is open.                    |
-| `.locale-chooser-list[hidden]`                        | Closed. Browsers apply `display: none`. |
-| `.locale-chooser-option[aria-selected="true"]`        | The active locale — persistent state.   |
-| `.locale-chooser-option[data-active]`                 | The keyboard-focused option — transient. |
+| `.locale-picker-button[aria-expanded="true"]`        | The listbox is open.                    |
+| `.locale-picker-list[hidden]`                        | Closed. Browsers apply `display: none`. |
+| `.locale-picker-option[aria-selected="true"]`        | The active locale — persistent state.   |
+| `.locale-picker-option[data-active]`                 | The keyboard-focused option — transient. |
 
 `aria-selected` and `data-active` are different things and should look
 different. `aria-selected` is "this is your language"; `data-active` is
@@ -58,7 +58,7 @@ The component writes `dir` on the target, which is usually `<html>`.
 That makes direction available to CSS for free:
 
 ```css
-[dir="rtl"] .locale-chooser-list {
+[dir="rtl"] .locale-picker-list {
     right: auto;
     left: 0;
 }
@@ -75,12 +75,12 @@ recipe is an absolutely-positioned list inside a relatively-positioned
 root:
 
 ```css
-.locale-chooser {
+.locale-picker {
     position: relative;
     display: inline-block;
 }
 
-.locale-chooser-list {
+.locale-picker-list {
     position: absolute;
     inset-block-start: 100%;
     inset-inline-start: 0;
@@ -91,13 +91,13 @@ root:
 }
 ```
 
-`max-block-size` + `overflow-y` matter more here than on theme-chooser:
+`max-block-size` + `overflow-y` matter more here than on theme-picker:
 a locale list is often long. The component calls `scrollIntoView({
 block: "nearest" })` on the active option as you arrow, which does the
 right thing only if the list is the scroll container.
 
 For a list that must escape an `overflow: hidden` ancestor, either
-render the chooser outside that ancestor or reach for CSS anchor
+render the picker outside that ancestor or reach for CSS anchor
 positioning / a popover library — the component does not portal.
 
 ## Suggested baseline CSS
@@ -106,14 +106,14 @@ Accessible, unopinionated, and direction-agnostic. Tokens are the Lily
 `--theme-*` custom properties; substitute your own.
 
 ```css
-.locale-chooser {
+.locale-picker {
     position: relative;
     display: inline-block;
 }
 
 /* ---- Trigger ---- */
 
-.locale-chooser-button {
+.locale-picker-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -128,16 +128,16 @@ Accessible, unopinionated, and direction-agnostic. Tokens are the Lily
     line-height: 1;
 }
 
-.locale-chooser-button:hover {
+.locale-picker-button:hover {
     background: var(--theme-color-surface-hover, #f3f4f6);
 }
 
-.locale-chooser-button:focus-visible {
+.locale-picker-button:focus-visible {
     outline: 3px solid var(--theme-color-focus, #ffeb3b);
     outline-offset: 2px;
 }
 
-.locale-chooser-icon {
+.locale-picker-icon {
     font-size: 1.25rem;
     /* Keep the globe monochrome even where a colour-emoji font wins. */
     font-family: system-ui, "Segoe UI Symbol", sans-serif;
@@ -145,7 +145,7 @@ Accessible, unopinionated, and direction-agnostic. Tokens are the Lily
 
 /* ---- Listbox ---- */
 
-.locale-chooser-list {
+.locale-picker-list {
     position: absolute;
     inset-block-start: calc(100% + 0.25rem);
     inset-inline-start: 0;
@@ -162,14 +162,14 @@ Accessible, unopinionated, and direction-agnostic. Tokens are the Lily
     box-shadow: 0 8px 24px rgb(0 0 0 / 0.12);
 }
 
-.locale-chooser-list:focus-visible {
+.locale-picker-list:focus-visible {
     outline: 3px solid var(--theme-color-focus, #ffeb3b);
     outline-offset: -3px;
 }
 
 /* ---- Options ---- */
 
-.locale-chooser-option {
+.locale-picker-option {
     padding: 0.5rem 0.75rem;
     border-radius: var(--theme-radius-sm, 0.25rem);
     cursor: pointer;
@@ -178,21 +178,21 @@ Accessible, unopinionated, and direction-agnostic. Tokens are the Lily
 }
 
 /* Keyboard position. */
-.locale-chooser-option[data-active] {
+.locale-picker-option[data-active] {
     background: var(--theme-color-surface-hover, #e5e7eb);
 }
 
 /* Current language — must not rely on colour alone (WCAG 1.4.1). */
-.locale-chooser-option[aria-selected="true"] {
+.locale-picker-option[aria-selected="true"] {
     font-weight: 700;
 }
 
-.locale-chooser-option[aria-selected="true"]::after {
+.locale-picker-option[aria-selected="true"]::after {
     content: " ✓";
 }
 
 @media (prefers-reduced-motion: no-preference) {
-    .locale-chooser-option {
+    .locale-picker-option {
         transition: background-color 120ms ease;
     }
 }
@@ -211,11 +211,11 @@ mark the tick with a separate `<span>` in your own wrapper.
 
 ## Styling the status region
 
-The documented pattern pairs the chooser with a consumer-rendered live
+The documented pattern pairs the picker with a consumer-rendered live
 region, because an icon-only button never announces the current value:
 
 ```css
-.locale-chooser-status {
+.locale-picker-status {
     margin-inline-start: 0.5rem;
     font-size: 0.875rem;
     color: var(--theme-color-text-muted, #4b5563);
@@ -228,7 +228,7 @@ When the design has no room for visible status text, keep it for
 assistive technology only — never delete it:
 
 ```css
-.locale-chooser-status {
+.locale-picker-status {
     position: absolute;
     inline-size: 1px;
     block-size: 1px;
@@ -256,7 +256,7 @@ once. Two practical consequences:
   cursive joining in Arabic and Indic scripts.
 
 ```css
-.locale-chooser-option {
+.locale-picker-option {
     letter-spacing: normal; /* never override this here */
 }
 ```
@@ -277,20 +277,20 @@ once. Two practical consequences:
 ## Vue scoped styles in consumer wrappers
 
 `<style scoped>` adds a data attribute to elements rendered by *that*
-component's template. The chooser's internals are rendered by the
-chooser, so scoped rules will not reach them. Three options:
+component's template. The picker's internals are rendered by the
+picker, so scoped rules will not reach them. Three options:
 
 ```vue
 <style scoped>
 /* Reaches the root only — the component is the child element. */
-.locale-chooser { /* … */ }
+.locale-picker { /* … */ }
 
 /* Reaches internals: :deep() drops the scoping attribute. */
-.wrapper :deep(.locale-chooser-option) { /* … */ }
+.wrapper :deep(.locale-picker-option) { /* … */ }
 </style>
 ```
 
-…or put the chooser's CSS in a global stylesheet, which is usually
+…or put the picker's CSS in a global stylesheet, which is usually
 cleaner since the hooks are a stable public contract anyway.
 
 ## See also

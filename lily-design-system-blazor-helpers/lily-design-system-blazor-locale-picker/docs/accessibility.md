@@ -23,21 +23,21 @@ responsibility.
 
 | Element                      | Role / Property                                   | Source             |
 | ---------------------------- | ------------------------------------------------- | ------------------ |
-| `div.locale-chooser`          | none (plain container)                            | Component          |
+| `div.locale-picker`          | none (plain container)                            | Component          |
 | `input[type=hidden]`         | `name` — form participation only                  | Component          |
-| `button.locale-chooser-button`| implicit `role="button"`                          | Browser            |
-| `button.locale-chooser-button`| `aria-label="@Label"`                             | Consumer parameter |
-| `button.locale-chooser-button`| `aria-haspopup="listbox"`                         | Component          |
-| `button.locale-chooser-button`| `aria-expanded="true\|false"`                     | Component          |
-| `button.locale-chooser-button`| `aria-controls="{list id}"`                       | Component          |
-| `span.locale-chooser-icon`    | `aria-hidden="true"`                              | Component          |
-| `ul.locale-chooser-list`      | `role="listbox"`, `tabindex="-1"`                 | Component          |
-| `ul.locale-chooser-list`      | `aria-label="@Label"`                             | Consumer parameter |
-| `ul.locale-chooser-list`      | `aria-activedescendant` (only while open)         | Component          |
-| `ul.locale-chooser-list`      | `hidden` while closed                             | Component          |
-| `li.locale-chooser-option`    | `role="option"`, `aria-selected="true\|false"`    | Component          |
-| `li.locale-chooser-option`    | `lang` — BCP 47 hyphen form (WCAG 3.1.2)          | Component          |
-| `li.locale-chooser-option`    | `data-active` on the active option (styling hook) | Component          |
+| `button.locale-picker-button`| implicit `role="button"`                          | Browser            |
+| `button.locale-picker-button`| `aria-label="@Label"`                             | Consumer parameter |
+| `button.locale-picker-button`| `aria-haspopup="listbox"`                         | Component          |
+| `button.locale-picker-button`| `aria-expanded="true\|false"`                     | Component          |
+| `button.locale-picker-button`| `aria-controls="{list id}"`                       | Component          |
+| `span.locale-picker-icon`    | `aria-hidden="true"`                              | Component          |
+| `ul.locale-picker-list`      | `role="listbox"`, `tabindex="-1"`                 | Component          |
+| `ul.locale-picker-list`      | `aria-label="@Label"`                             | Consumer parameter |
+| `ul.locale-picker-list`      | `aria-activedescendant` (only while open)         | Component          |
+| `ul.locale-picker-list`      | `hidden` while closed                             | Component          |
+| `li.locale-picker-option`    | `role="option"`, `aria-selected="true\|false"`    | Component          |
+| `li.locale-picker-option`    | `lang` — BCP 47 hyphen form (WCAG 3.1.2)          | Component          |
+| `li.locale-picker-option`    | `data-active` on the active option (styling hook) | Component          |
 
 Focus stays on the `<ul>` while the listbox is open; the active option
 is conveyed by `aria-activedescendant`, never by moving DOM focus onto
@@ -155,7 +155,7 @@ both.)
 
 The default glyph is `🌐︎` (U+1F310 GLOBE WITH MERIDIANS followed by
 U+FE0E VARIATION SELECTOR-15, which requests the monochrome text
-presentation so the globe matches ThemeChooser's `◑`). This package
+presentation so the globe matches ThemePicker's `◑`). This package
 ships no fonts, no icons, and no images, so what the user sees is
 whatever the platform's font stack resolves. Depending on OS, browser,
 font settings, and the user's own stylesheet it may render as a colour
@@ -170,7 +170,7 @@ Because the glyph is `aria-hidden`, a missing glyph is a *visual*
 failure, not a naming failure — the control stays operable and named.
 But it can leave a sighted user with an unlabelled blank button. If
 that matters, supply your own `ChildContent` (an inline SVG is the
-robust choice) and/or give `.locale-chooser-button` a visible
+robust choice) and/or give `.locale-picker-button` a visible
 `min-width` / `min-height` so it stays a clear target either way.
 
 ## The status region is still the recommended pattern
@@ -181,9 +181,9 @@ region echoing the active locale, and that is what the
 [quick start](../index.md#quick-start) shows.
 
 ```razor
-<LocaleChooser Label="Choose a locale" @bind-Value="locale" ... />
+<LocalePicker Label="Choose a locale" @bind-Value="locale" ... />
 
-<p class="locale-chooser-status" aria-live="polite">
+<p class="locale-picker-status" aria-live="polite">
     @Localizer["currentLanguage"]
     <span lang="@Locales.Bcp47LocaleTag(locale)">@Locales.LocaleName(locale)</span>
 </p>
@@ -271,14 +271,14 @@ The consumer's CSS is responsible for the visible focus ring — on the
 active option:
 
 ```css
-.locale-chooser-button:focus-visible,
-.locale-chooser-list:focus-visible {
+.locale-picker-button:focus-visible,
+.locale-picker-list:focus-visible {
     outline: 2px solid var(--color-primary, currentColor);
     outline-offset: 2px;
 }
 
 /* The active option is not focused; give it its own visible cue. */
-.locale-chooser-option[data-active] {
+.locale-picker-option[data-active] {
     outline: 2px solid var(--color-primary, currentColor);
     outline-offset: -2px;
 }
@@ -299,7 +299,7 @@ you add a dropdown transition in consumer CSS, gate it:
 
 ```css
 @media (prefers-reduced-motion: reduce) {
-    .locale-chooser-list {
+    .locale-picker-list {
         transition: none;
     }
 }
@@ -315,7 +315,7 @@ you add a dropdown transition in consumer CSS, gate it:
 - **Hiding the options with `display: none`.** That removes them from
   the accessibility tree. The component's own `hidden` on the `<ul>` is
   the correct mechanism; do not add a second one.
-- **Styling `.locale-chooser-list` without positioning it.** The package
+- **Styling `.locale-picker-list` without positioning it.** The package
   ships no CSS, so an open list participates in normal flow and shoves
   the page around. Give the root `position: relative` and the list
   `position: absolute`.

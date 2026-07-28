@@ -1,14 +1,14 @@
 export {
-  LocaleChooser,
-  LocaleChooserIcon,
+  LocalePicker,
+  LocalePickerIcon,
   GLOBE_WITH_MERIDIANS,
-  nextLocaleChooserId,
+  nextLocalePickerId,
   bcp47LocaleTag,
   isRtlLocale,
   localeName,
   matchNavigatorLanguage,
-} from "./locale-chooser.component";
-export type { ChildArgs } from "./locale-chooser.component";
+} from "./locale-picker.component";
+export type { ChildArgs } from "./locale-picker.component";
 export {
   defaultLocaleLabels,
   RTL_LANGUAGE_TAGS,

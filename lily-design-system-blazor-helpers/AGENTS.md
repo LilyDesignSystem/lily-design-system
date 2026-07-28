@@ -8,10 +8,11 @@ follows the file shape in [AGENTS/conventions.md](./AGENTS/conventions.md).
 
 ## Helpers currently in the catalog
 
-- [`lily-design-system-blazor-theme-chooser`](./lily-design-system-blazor-theme-chooser/) — dynamic theme CSS loader.
-- [`lily-design-system-blazor-locale-chooser`](./lily-design-system-blazor-locale-chooser/) — `lang` + `dir` locale select.
-- [`lily-design-system-blazor-text-size-chooser`](./lily-design-system-blazor-text-size-chooser/) — `data-text-size` text-size select.
-- [`lily-design-system-blazor-share-chooser`](./lily-design-system-blazor-share-chooser/) — share via the native sheet or a list of consumer-supplied destinations, plus copy-the-URL. Owns an *action*, not a preference: applies nothing, persists nothing.
+- [`lily-design-system-blazor-theme-picker`](./lily-design-system-blazor-theme-picker/) — dynamic theme CSS loader.
+- [`lily-design-system-blazor-locale-picker`](./lily-design-system-blazor-locale-picker/) — `lang` + `dir` locale select.
+- [`lily-design-system-blazor-text-size-picker`](./lily-design-system-blazor-text-size-picker/) — `data-text-size` text-size select.
+- [`lily-design-system-blazor-share-picker`](./lily-design-system-blazor-share-picker/) — share via the native sheet or a list of consumer-supplied destinations, plus copy-the-URL. Owns an _action_, not a preference: applies nothing, persists nothing.
+- [`lily-design-system-blazor-date-time-picker`](./lily-design-system-blazor-date-time-picker/) — a headless date/time-picking form control: a text field plus an icon button opening a WAI-ARIA APG Date Picker Dialog. Owns a _form value_, not a preference or an action: applies nothing, persists nothing.
 
 ## Working rules
 
@@ -50,20 +51,21 @@ lily-design-system-blazor-helpers/
 ├── CLAUDE.md                ← `@AGENTS.md`
 ├── index.md                 ← catalog overview
 ├── CHANGELOG.md             ← parent-level version history
-├── lily-design-system-blazor-theme-chooser/    ← helper 1
-├── lily-design-system-blazor-locale-chooser/   ← helper 2
-├── lily-design-system-blazor-text-size-chooser/ ← helper 3
-└── lily-design-system-blazor-share-chooser/    ← helper 4
+├── lily-design-system-blazor-theme-picker/    ← helper 1
+├── lily-design-system-blazor-locale-picker/   ← helper 2
+├── lily-design-system-blazor-text-size-picker/ ← helper 3
+├── lily-design-system-blazor-share-picker/    ← helper 4
+└── lily-design-system-blazor-date-time-picker/ ← helper 5
 ```
 
 ## Topic index (parent)
 
-| Topic              | Path                                              |
-| ------------------ | ------------------------------------------------- |
-| File shape         | [AGENTS/conventions.md](./AGENTS/conventions.md)  |
-| Testing harness    | [AGENTS/testing.md](./AGENTS/testing.md)          |
-| Accessibility      | [AGENTS/accessibility.md](./AGENTS/accessibility.md) |
-| SSR / hosting      | [AGENTS/ssr.md](./AGENTS/ssr.md)                  |
-| Headless rules     | [AGENTS/shared/headless-principles.md](./AGENTS/shared/headless-principles.md) |
-| i18n rules         | [AGENTS/shared/i18n-principles.md](./AGENTS/shared/i18n-principles.md)         |
-| Theme rules        | [AGENTS/shared/theme-principles.md](./AGENTS/shared/theme-principles.md)       |
+| Topic           | Path                                                                           |
+| --------------- | ------------------------------------------------------------------------------ |
+| File shape      | [AGENTS/conventions.md](./AGENTS/conventions.md)                               |
+| Testing harness | [AGENTS/testing.md](./AGENTS/testing.md)                                       |
+| Accessibility   | [AGENTS/accessibility.md](./AGENTS/accessibility.md)                           |
+| SSR / hosting   | [AGENTS/ssr.md](./AGENTS/ssr.md)                                               |
+| Headless rules  | [AGENTS/shared/headless-principles.md](./AGENTS/shared/headless-principles.md) |
+| i18n rules      | [AGENTS/shared/i18n-principles.md](./AGENTS/shared/i18n-principles.md)         |
+| Theme rules     | [AGENTS/shared/theme-principles.md](./AGENTS/shared/theme-principles.md)       |

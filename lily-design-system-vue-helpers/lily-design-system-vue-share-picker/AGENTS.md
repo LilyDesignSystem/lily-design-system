@@ -1,4 +1,4 @@
-# AGENTS — ShareChooser (Vue helper)
+# AGENTS — SharePicker (Vue helper)
 
 Single source of truth: [spec/index.md](./spec/index.md). Read it first;
 everything below is a fast index.
@@ -12,25 +12,25 @@ built-in copy-the-URL action. Ships no CSS, no icons, and no
 third-party endpoints.
 
 A direct port of the canonical
-[`lily-design-system-svelte-share-chooser`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-chooser/).
+[`lily-design-system-svelte-share-picker`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-picker/).
 When the two disagree, the Svelte side wins.
 
 ## Files
 
-| File | Purpose |
-| ---- | ------- |
-| `spec/index.md` | Specification-driven contract (canonical). |
-| `ShareChooser.vue` | Implementation. `<script setup lang="ts">`. |
-| `ShareChooser.test.ts` | Vitest spec, mapped to the §7 clauses. |
-| `index.ts` | Barrel re-export. |
-| `index.md` | User guide. |
-| `docs/accessibility.md` | Tradeoffs, stated plainly. |
+| File                    | Purpose                                     |
+| ----------------------- | ------------------------------------------- |
+| `spec/index.md`         | Specification-driven contract (canonical).  |
+| `SharePicker.vue`      | Implementation. `<script setup lang="ts">`. |
+| `SharePicker.test.ts`  | Vitest spec, mapped to the §7 clauses.      |
+| `index.ts`              | Barrel re-export.                           |
+| `index.md`              | User guide.                                 |
+| `docs/accessibility.md` | Tradeoffs, stated plainly.                  |
 
 ## Public surface
 
-- Default export: `ShareChooser` component.
-- Named exports: `ShareChooser`, `canShareNatively`, `canCopy`,
-  `nextShareChooserId`, `BLACK_RIGHTWARDS_ARROWHEAD`.
+- Default export: `SharePicker` component.
+- Named exports: `SharePicker`, `canShareNatively`, `canCopy`,
+  `nextSharePickerId`, `BLACK_RIGHTWARDS_ARROWHEAD`.
 - Type exports: `Props`, `SlotArgs`, `ChildArgs` (alias of `SlotArgs`),
   `ShareTarget`, `ShareStrategy`.
 
@@ -44,23 +44,23 @@ list. Destinations are real links built by each target's `href(url,
 title, text)`. The copy item writes `url` to the clipboard, emits
 `copy`, and announces `copiedLabel` / `copyFailedLabel` in a polite
 live region. Nothing is applied to the document and nothing is
-persisted — unlike the `*-chooser` preference helpers, this owns an
+persisted — unlike the `*-picker` preference helpers, this owns an
 action, not a preference, so there is no `v-model` and no `storageKey`.
 
 ## HTML
 
-`<div class="share-chooser">` → `<button class="share-chooser-button">`
-with an `aria-hidden` glyph span → `<ul class="share-chooser-list" hidden>`
-of `<li>` containing `<a class="share-chooser-target">` and an optional
-`<button class="share-chooser-copy">` → `<p class="share-chooser-status"
+`<div class="share-picker">` → `<button class="share-picker-button">`
+with an `aria-hidden` glyph span → `<ul class="share-picker-list" hidden>`
+of `<li>` containing `<a class="share-picker-target">` and an optional
+`<button class="share-picker-copy">` → `<p class="share-picker-status"
 aria-live="polite">`.
 
 **Not a menu.** Destinations are real `<a>` elements; `role="menuitem"`
 would strip middle-click, open-in-new-tab and copy-link-address. The
-trigger class is `share-chooser-button`, following the same
+trigger class is `share-picker-button`, following the same
 `{helper}-button` convention as the other three helpers.
 
-**Not a listbox either.** The three `*-chooser` preference helpers in
+**Not a listbox either.** The three `*-picker` preference helpers in
 this catalog are APG listboxes driven by `aria-activedescendant`; this one moves
 real focus between real focusable elements. Do not "harmonise" it into
 a listbox.
@@ -69,7 +69,7 @@ a listbox.
 
 The Svelte canonical's `onShare` / `onCopy` / `onNativeShare` callback
 props map to the `share` / `copy` / `nativeShare` emitted events, the
-same way `onChange` maps to `@change` on the `*-chooser` preference
+same way `onChange` maps to `@change` on the `*-picker` preference
 helpers. `nativeShare` is written `@native-share` in templates.
 
 ## Vue gotchas this package already handles

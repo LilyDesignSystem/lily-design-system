@@ -8,8 +8,8 @@ The component ships no CSS, so the `<ul>` is in normal flow. Position
 it yourself:
 
 ```css
-.locale-chooser { position: relative; }
-.locale-chooser-list { position: absolute; inset-block-start: 100%; z-index: 50; }
+.locale-picker { position: relative; }
+.locale-picker-list { position: absolute; inset-block-start: 100%; z-index: 50; }
 ```
 
 See [styling.md](./styling.md#positioning-the-listbox).
@@ -18,11 +18,11 @@ See [styling.md](./styling.md#positioning-the-listbox).
 
 Something in your CSS is overriding the `hidden` attribute — usually a
 blanket `ul { display: block }` or a `display` on
-`.locale-chooser-list`. `hidden` is only a UA-stylesheet
+`.locale-picker-list`. `hidden` is only a UA-stylesheet
 `display: none`, so any author rule beats it.
 
 ```css
-.locale-chooser-list[hidden] { display: none; }
+.locale-picker-list[hidden] { display: none; }
 ```
 
 ## "Arrowing through the list does nothing visible"
@@ -33,7 +33,7 @@ focus. So `:focus` never matches an option. Style the attribute the
 component actually sets:
 
 ```css
-.locale-chooser-option[data-active] { background: #e5e7eb; }
+.locale-picker-option[data-active] { background: #e5e7eb; }
 ```
 
 ## "The globe renders blue / as a colour emoji"
@@ -43,7 +43,7 @@ requests text presentation. Some platforms ignore VS15 when the first
 font in the stack is a colour-emoji font. Force a text-first stack:
 
 ```css
-.locale-chooser-icon {
+.locale-picker-icon {
     font-family: system-ui, "Segoe UI Symbol", sans-serif;
 }
 ```
@@ -136,13 +136,13 @@ const locale = ref<string>("en");
 
 Correct — it was removed with the native `<select>` in the
 icon-button rewrite. There is no leading option to label any more.
-Delete the prop; the `.locale-chooser-placeholder` hook is gone too.
+Delete the prop; the `.locale-picker-placeholder` hook is gone too.
 
 ## "My slot content isn't replacing the options"
 
 It is not supposed to. The default slot replaces the **button glyph**
 only; the option list is component-owned. Style
-`.locale-chooser-option`, or render your own control alongside and bind
+`.locale-picker-option`, or render your own control alongside and bind
 both to one ref. See
 [custom-rendering.md](./custom-rendering.md#if-you-need-a-different-control-entirely).
 
@@ -161,7 +161,7 @@ Typeahead matches the **display label**, not the code. With
 `Deutsch`. That is intended — users type what they see. The buffer
 resets after 500 ms of no keystrokes.
 
-## "Two choosers fight over `<html lang>`"
+## "Two pickers fight over `<html lang>`"
 
 Both default to `target = document.documentElement`, so the last one
 to apply wins. If they are meant to be independent, give at least one
@@ -180,13 +180,13 @@ you are passing.
 scroll container. Give it one:
 
 ```css
-.locale-chooser-list { max-block-size: 20rem; overflow-y: auto; }
+.locale-picker-list { max-block-size: 20rem; overflow-y: auto; }
 ```
 
 ## "The list is cut off by an ancestor"
 
 An ancestor has `overflow: hidden` (or a transform/filter creating a
-containing block). The component does not portal. Move the chooser
+containing block). The component does not portal. Move the picker
 outside that ancestor, or use CSS anchor positioning / a popover
 library.
 
@@ -201,11 +201,11 @@ never `letter-spacing` — it breaks cursive joining. See
 
 Both write `<html>`. `useHead` re-applies on navigation and can undo
 the component's write. Make `useHead` the single writer, driven by the
-same ref the chooser binds to — the recipe in
+same ref the picker binds to — the recipe in
 [recipes.md](./recipes.md#read-a-locale-cookie-before-render-nuxt-3)
 does this.
 
-## "Inside `<Suspense>` the chooser shows the default for a frame"
+## "Inside `<Suspense>` the picker shows the default for a frame"
 
 `onMounted` runs after the suspense boundary resolves, so the
 pre-resolution value paints first. Pass a server-resolved `value` so

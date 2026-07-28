@@ -1,6 +1,6 @@
-# ThemeChooser — Specification (Nunjucks)
+# ThemePicker — Specification (Nunjucks)
 
-Single source of truth for the `lily-design-system-nunjucks-theme-chooser`
+Single source of truth for the `lily-design-system-nunjucks-theme-picker`
 Nunjucks helper. This file drives implementation, testing, and
 documentation in the spec-driven-development style: anything not in
 this spec is out of scope; anything in this spec must be exercised by a
@@ -8,9 +8,9 @@ test.
 
 Sibling files in this directory:
 
-- `theme-chooser.njk` — the macro implementation
-- `theme-chooser.client.js` — the runtime JS that owns the lifecycle
-- `theme-chooser.test.ts` — vitest spec exercising every clause in §4–§7
+- `theme-picker.njk` — the macro implementation
+- `theme-picker.client.js` — the runtime JS that owns the lifecycle
+- `theme-picker.test.ts` — vitest spec exercising every clause in §4–§7
 - `index.md` — user-facing readme
 
 The companion headless catalog entry
@@ -27,7 +27,7 @@ This helper is the opinionated, reusable counterpart split into:
 
 ## 1. Goal
 
-Give a Nunjucks-rendered application a drop-in, headless theme chooser
+Give a Nunjucks-rendered application a drop-in, headless theme picker
 that:
 
 1. Renders an accessible icon button that opens a listbox of available
@@ -41,7 +41,7 @@ that:
 4. Optionally persists the chosen theme to `localStorage` so the choice
    survives reload.
 5. Ships zero CSS — the consumer styles every visual aspect via the
-   `theme-chooser` class hook.
+   `theme-picker` class hook.
 
 ## 2. Non-goals
 
@@ -72,7 +72,7 @@ that:
   both the listbox interaction (open/close, focus, keyboard, typeahead)
   and the lifecycle (storage, link swap, attribute set) can only happen
   in the browser. The macro emits the markup with
-  `data-lily-theme-chooser-*` hooks and the client.js looks them up.
+  `data-lily-theme-picker-*` hooks and the client.js looks them up.
 - **Ids come from a macro parameter, not a counter.** A Nunjucks macro
   is a pure template with no module-level mutable state, so it cannot
   mint an incrementing per-instance id the way the canonical Svelte
@@ -81,17 +81,17 @@ that:
   and SSR-safe (no `Math.random`, no `Date.now`) — but two instances
   sharing a `name` collide unless the consumer passes distinct `id`s.
 - **One `<link>` per select name.** Switching themes mutates `href`
-  on a single `<link rel="stylesheet" data-lily-theme-chooser="{name}">`.
+  on a single `<link rel="stylesheet" data-lily-theme-picker="{name}">`.
   Only the active theme is fetched.
 - **`data-theme` attribute is the activation switch.** Theme CSS
   files scope their `:root[data-theme="slug"]` rules so authors can
   preload multiple themes and switch with the attribute alone.
 - **Single `opts` object on the macro** — matches the Lily Nunjucks
-  convention (`{% from "…" import themeChooser %}` then
-  `{{ themeChooser({label: "Theme", themesUrl: "/assets/themes/", themes: […]}) }}`).
+  convention (`{% from "…" import themePicker %}` then
+  `{{ themePicker({label: "Theme", themesUrl: "/assets/themes/", themes: […]}) }}`).
 - **Vanilla ES module client.js** — no framework dependency. The
-  client exports `initThemeChooser(root, opts?)` to wire one select
-  and `autoInit()` to find every `data-lily-theme-chooser-root` on
+  client exports `initThemePicker(root, opts?)` to wire one select
+  and `autoInit()` to find every `data-lily-theme-picker-root` on
   the page.
 - **SSR-safe** — the macro is a pure template. The client.js guards
   every DOM read/write behind a `typeof document !== "undefined"`
@@ -102,24 +102,24 @@ that:
 
 ### 4.1 Macro parameters
 
-`{% from "./theme-chooser.njk" import themeChooser %}` then
-`{{ themeChooser(opts) }}`.
+`{% from "./theme-picker.njk" import themePicker %}` then
+`{{ themePicker(opts) }}`.
 
-| Key            | Type                       | Required | Default                  | Purpose |
-| -------------- | -------------------------- | -------- | ------------------------ | ------- |
-| `label`        | `string`                   | yes      | —                        | Accessible name for BOTH the button and the listbox. The button is icon-only, so this is the only accessible name it has. |
-| `themesUrl`    | `string`                   | yes      | —                        | Base URL of the themes directory. Trailing `/` is auto-normalised at runtime. |
-| `themes`       | `array<string>`            | yes      | —                        | Available theme slugs (e.g. `["light", "dark", "abyss"]`). |
-| `value`        | `string`                   | no       | `""`                     | Initial theme slug. Emitted as `data-lily-theme-chooser-value` for the client to read (see §4.2). |
-| `defaultValue` | `string`                   | no       | —                        | Initial theme when nothing else is supplied at runtime. |
-| `storageKey`   | `string`                   | no       | `""`                     | If non-empty, the client.js persists the selection to `localStorage`. |
-| `detectFromSystem` | `boolean`              | no       | `false`                  | When true, the client.js resolves `prefers-color-scheme` to `"dark"` / `"light"` if neither `value` nor storage supplied a slug. Client-only — see §5.2 and §5.8. |
-| `name`         | `string`                   | no       | `"theme"`                | Hidden-input `name`, AND the discriminator on the managed `<link data-lily-theme-chooser="{name}">`, AND the default id prefix. |
-| `extension`    | `string`                   | no       | `".css"`                 | File extension appended to each slug to build the URL. |
-| `themeLabels`  | `object<string,string>`    | no       | `{}`                     | Optional pretty labels per slug. |
-| `id`           | `string`                   | no       | `"theme-chooser-{name}"`  | Id prefix for the listbox (`{id}-list`) and its options (`{id}-option-{i}`). Pass an explicit value when two instances share a `name`. |
-| `classes`      | `string`                   | no       | `""`                     | Extra CSS classes on the root `<div>`. |
-| `attributes`   | `object<string,string>`    | no       | `{}`                     | Extra HTML attributes spread onto the root `<div>`. |
+| Key                | Type                    | Required | Default                  | Purpose                                                                                                                                                           |
+| ------------------ | ----------------------- | -------- | ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `label`            | `string`                | yes      | —                        | Accessible name for BOTH the button and the listbox. The button is icon-only, so this is the only accessible name it has.                                         |
+| `themesUrl`        | `string`                | yes      | —                        | Base URL of the themes directory. Trailing `/` is auto-normalised at runtime.                                                                                     |
+| `themes`           | `array<string>`         | yes      | —                        | Available theme slugs (e.g. `["light", "dark", "abyss"]`).                                                                                                        |
+| `value`            | `string`                | no       | `""`                     | Initial theme slug. Emitted as `data-lily-theme-picker-value` for the client to read (see §4.2).                                                                  |
+| `defaultValue`     | `string`                | no       | —                        | Initial theme when nothing else is supplied at runtime.                                                                                                           |
+| `storageKey`       | `string`                | no       | `""`                     | If non-empty, the client.js persists the selection to `localStorage`.                                                                                             |
+| `detectFromSystem` | `boolean`               | no       | `false`                  | When true, the client.js resolves `prefers-color-scheme` to `"dark"` / `"light"` if neither `value` nor storage supplied a slug. Client-only — see §5.2 and §5.8. |
+| `name`             | `string`                | no       | `"theme"`                | Hidden-input `name`, AND the discriminator on the managed `<link data-lily-theme-picker="{name}">`, AND the default id prefix.                                    |
+| `extension`        | `string`                | no       | `".css"`                 | File extension appended to each slug to build the URL.                                                                                                            |
+| `themeLabels`      | `object<string,string>` | no       | `{}`                     | Optional pretty labels per slug.                                                                                                                                  |
+| `id`               | `string`                | no       | `"theme-picker-{name}"` | Id prefix for the listbox (`{id}-list`) and its options (`{id}-option-{i}`). Pass an explicit value when two instances share a `name`.                            |
+| `classes`          | `string`                | no       | `""`                     | Extra CSS classes on the root `<div>`.                                                                                                                            |
+| `attributes`       | `object<string,string>` | no       | `{}`                     | Extra HTML attributes spread onto the root `<div>`.                                                                                                               |
 
 The `placeholder` parameter was **removed** in the icon-button release.
 There is no `<select>` left to pin a placeholder onto, and the closed
@@ -129,7 +129,7 @@ A `{% call %}` block body replaces the default glyph inside the button
 — the Nunjucks equivalent of the canonical helper's `children`:
 
 ```njk
-{% call themeChooser({label: "Theme", themesUrl: "/assets/themes/", themes: themes}) %}
+{% call themePicker({label: "Theme", themesUrl: "/assets/themes/", themes: themes}) %}
   <svg class="my-icon" aria-hidden="true" viewBox="0 0 16 16">…</svg>
 {% endcall %}
 ```
@@ -145,38 +145,62 @@ and otherwise from the slug with its first character upper-cased
 ### 4.2 DOM contract (macro output)
 
 ```html
-<div class="theme-chooser {classes}"
-     data-lily-theme-chooser-root
-     data-lily-theme-chooser-name="{name}"
-     data-lily-theme-chooser-themes-url="{themesUrl}"
-     data-lily-theme-chooser-extension="{extension}"
-     data-lily-theme-chooser-storage-key="{storageKey}"
-     data-lily-theme-chooser-default-value="{defaultValue}"
-     data-lily-theme-chooser-value="{value}"
-     {…attributes}>
-  <input type="hidden" name="{name}" value="{selected}"
-         data-lily-theme-chooser-input>
-  <button type="button" class="theme-chooser-button"
-          aria-label="{label}" aria-haspopup="listbox"
-          aria-expanded="false" aria-controls="{id}-list"
-          data-lily-theme-chooser-button>
-    <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
+<div
+  class="theme-picker {classes}"
+  data-lily-theme-picker-root
+  data-lily-theme-picker-name="{name}"
+  data-lily-theme-picker-themes-url="{themesUrl}"
+  data-lily-theme-picker-extension="{extension}"
+  data-lily-theme-picker-storage-key="{storageKey}"
+  data-lily-theme-picker-default-value="{defaultValue}"
+  data-lily-theme-picker-value="{value}"
+  {…attributes}
+>
+  <input
+    type="hidden"
+    name="{name}"
+    value="{selected}"
+    data-lily-theme-picker-input
+  />
+  <button
+    type="button"
+    class="theme-picker-button"
+    aria-label="{label}"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="{id}-list"
+    data-lily-theme-picker-button
+  >
+    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
   </button>
-  <ul class="theme-chooser-list" id="{id}-list" role="listbox"
-      aria-label="{label}" tabindex="-1" hidden
-      data-lily-theme-chooser-list>
-    <li class="theme-chooser-option" id="{id}-option-{i}" role="option"
-        aria-selected="true|false" data-value="{slug}">{labelFor(slug)}</li>
+  <ul
+    class="theme-picker-list"
+    id="{id}-list"
+    role="listbox"
+    aria-label="{label}"
+    tabindex="-1"
+    hidden
+    data-lily-theme-picker-list
+  >
+    <li
+      class="theme-picker-option"
+      id="{id}-option-{i}"
+      role="option"
+      aria-selected="true|false"
+      data-value="{slug}"
+    >
+      {labelFor(slug)}
+    </li>
   </ul>
 </div>
 ```
 
-- The root is a `<div>` carrying the `theme-chooser` class hook plus the
+- The root is a `<div>` carrying the `theme-picker` class hook plus the
   consumer's `classes`; `attributes` spread onto it.
 - The button glyph is U+25D1 CIRCLE WITH RIGHT HALF BLACK (`&#9681;`),
   wrapped in `aria-hidden="true"`. The accessible name comes from
   `aria-label` alone — the glyph is never the name.
-- `data-lily-theme-chooser-value` is emitted **only when `opts.value` is
+- `data-lily-theme-picker-value` is emitted **only when `opts.value` is
   non-empty**; it remains the sole channel by which the consumer's
   `value` prop reaches the client. It is a data attribute rather than
   baked-in control state precisely so the browser paints nothing the
@@ -193,39 +217,39 @@ and otherwise from the slug with its first character upper-cased
   list carries no `aria-activedescendant`. Those are all client-owned,
   open-state concerns.
 - Option ids are deterministic: `{id}-option-{index}`, where `id`
-  defaults to `theme-chooser-{name}`. No `Math.random`, no `Date.now`,
+  defaults to `theme-picker-{name}`. No `Math.random`, no `Date.now`,
   so server and client markup always agree.
 - The hidden `<input>` preserves form participation and the `name`
   prop. It is pre-filled server-side, so a form submitted without any
   JS still carries a theme.
 - The macro output contains NO inline `<style>` and NO `<script>` —
-  the consumer loads `theme-chooser.client.js` separately.
+  the consumer loads `theme-picker.client.js` separately.
 
 ### 4.3 Client.js exports
 
-`theme-chooser.client.js` is an ES module exporting:
+`theme-picker.client.js` is an ES module exporting:
 
-| Export              | Type                                                | Purpose |
-| ------------------- | --------------------------------------------------- | ------- |
-| `normaliseThemesUrl(url)` | `(string) => string`                          | Ensure exactly one trailing `/`. |
-| `themeHref(url, slug, extension)` | `(string, string, string) => string`  | Build the theme href. |
-| `themeName(theme)`  | `(string) => string`                                | Resolve a slug to its display label: each hyphen-separated word title-cased (`"high-contrast"` → `"High Contrast"`). Mirrors `localeName` in locale-chooser. |
-| `matchSystemTheme(themes)` | `(string[]) => string`                       | Resolve `prefers-color-scheme` to `"dark"` / `"light"`, or `""` when that slug is absent from `themes` or `matchMedia` is unavailable. Mirrors `matchNavigatorLanguage` in locale-chooser. |
-| `CIRCLE_WITH_RIGHT_HALF_BLACK` | `string`                               | The default button glyph, U+25D1. |
-| `initThemeChooser(root, opts?)` | `(HTMLElement, object?) => {setTheme, destroy}` | Wire one rendered root. |
-| `autoInit(opts?)`   | `(object?) => Array<{setTheme, destroy}>`           | Find every `[data-lily-theme-chooser-root]` and init it. |
+| Export                            | Type                                            | Purpose                                                                                                                                                                                    |
+| --------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `normaliseThemesUrl(url)`         | `(string) => string`                            | Ensure exactly one trailing `/`.                                                                                                                                                           |
+| `themeHref(url, slug, extension)` | `(string, string, string) => string`            | Build the theme href.                                                                                                                                                                      |
+| `themeName(theme)`                | `(string) => string`                            | Resolve a slug to its display label: each hyphen-separated word title-cased (`"high-contrast"` → `"High Contrast"`). Mirrors `localeName` in locale-picker.                               |
+| `matchSystemTheme(themes)`        | `(string[]) => string`                          | Resolve `prefers-color-scheme` to `"dark"` / `"light"`, or `""` when that slug is absent from `themes` or `matchMedia` is unavailable. Mirrors `matchNavigatorLanguage` in locale-picker. |
+| `CIRCLE_WITH_RIGHT_HALF_BLACK`    | `string`                                        | The default button glyph, U+25D1.                                                                                                                                                          |
+| `initThemePicker(root, opts?)`   | `(HTMLElement, object?) => {setTheme, destroy}` | Wire one rendered root.                                                                                                                                                                    |
+| `autoInit(opts?)`                 | `(object?) => Array<{setTheme, destroy}>`       | Find every `[data-lily-theme-picker-root]` and init it.                                                                                                                                    |
 
-`initThemeChooser` returns a controller with:
+`initThemePicker` returns a controller with:
 
 - `setTheme(slug)` — apply a theme imperatively (mirrors choosing an option).
 - `destroy()` — remove every event listener the module attached,
   including the one on `document`. The applied DOM is left as-is.
 
-`initThemeChooser` returns an inert controller (both methods no-ops) when
+`initThemePicker` returns an inert controller (both methods no-ops) when
 `document` is undefined, when `root` is falsy, or when the expected
 button / listbox children are missing.
 
-Optional `opts` for both `initThemeChooser` and `autoInit`:
+Optional `opts` for both `initThemePicker` and `autoInit`:
 
 - `onChange(slug)` — callback fired after every apply.
 - `target` — `HTMLElement` that receives `data-theme` (defaults to
@@ -243,11 +267,11 @@ normaliseThemesUrl(themesUrl) + slug + extension
 
 `normaliseThemesUrl` ensures exactly one trailing `/`.
 
-### 5.2 Initial value resolution (client-side, on `initThemeChooser`)
+### 5.2 Initial value resolution (client-side, on `initThemePicker`)
 
 The initial theme is the first non-empty value of:
 
-1. The root's `data-lily-theme-chooser-value` attribute (i.e. the
+1. The root's `data-lily-theme-picker-value` attribute (i.e. the
    consumer's `value` prop). The macro omits the attribute entirely
    when `opts.value` is unset, so an absent attribute reads as `""`
    and falls through.
@@ -256,14 +280,14 @@ The initial theme is the first non-empty value of:
 3. `matchSystemTheme(values)` — only when `detectFromSystem` is true.
    Returns `""` when the preferred scheme is not among the rendered
    options, or when `matchMedia` is unavailable.
-4. The root's `data-lily-theme-chooser-default-value` attribute.
+4. The root's `data-lily-theme-picker-default-value` attribute.
 5. `"light"` if present among the rendered option values.
 6. The first option's `data-value`, or `""` if none.
 
 **BREAKING (Unreleased): `value` now precedes storage.** Until this
 change the order was storage-first, on the theory that a returning
 user's saved choice should win. It should not. `opts.value` is the
-channel a Nunjucks consumer uses to pass a theme they *already*
+channel a Nunjucks consumer uses to pass a theme they _already_
 resolved on the server — from a cookie, a session, a signed-in user's
 profile — and that is the whole point of rendering server-side. Under
 storage-first, a stale `localStorage` entry silently overrode it, so a
@@ -272,13 +296,13 @@ preference was updated server-side, saw the old theme with no
 indication why. Value-first also matches every other Lily helper,
 including the canonical Svelte one.
 
-Storage still wins over everything *below* `value`, so the returning
+Storage still wins over everything _below_ `value`, so the returning
 user with no server-resolved theme lands on their saved choice exactly
 as before. Consumers who genuinely want the old behaviour can get it
 explicitly by reading `localStorage` themselves and passing the result
 as `opts.value`.
 
-This position mirrors `detectFromNavigator` in locale-chooser: detection
+This position mirrors `detectFromNavigator` in locale-picker: detection
 slots in after storage and before `defaultValue` in both helpers.
 
 ### 5.3 Applying a theme
@@ -286,7 +310,7 @@ slots in after storage and before `defaultValue` in both helpers.
 Applying a theme `slug` performs, in order:
 
 1. Locate or create the managed `<link
-   rel="stylesheet" data-lily-theme-chooser="{name}">` in
+rel="stylesheet" data-lily-theme-picker="{name}">` in
    `document.head`.
 2. Set `link.href = normaliseThemesUrl(themesUrl) + slug + extension`.
 3. Set `data-theme="{slug}"` on the resolved target element
@@ -324,21 +348,21 @@ focus to the button.
 
 On the **button**:
 
-| Key | Action |
-| --- | ------ |
+| Key                           | Action                                               |
+| ----------------------------- | ---------------------------------------------------- |
 | `ArrowDown`, `Enter`, `Space` | Open, active option = the selected one (or index 0). |
-| `ArrowUp` | Open, active option = the LAST option. |
+| `ArrowUp`                     | Open, active option = the LAST option.               |
 
 On the **listbox**:
 
-| Key | Action |
-| --- | ------ |
-| `ArrowDown` / `ArrowUp` | Move the active option. Clamps at the ends; does NOT wrap. |
-| `Home` / `End` | Jump to the first / last option. |
-| `Enter` / `Space` | Select the active option, apply it, close, return focus to the button. |
-| `Escape` | Close and return focus, leaving the value unchanged. |
-| `Tab` | Close without stealing focus back, so the browser's own Tab handling proceeds. |
-| Printable character | Typeahead over the option labels; the buffer accumulates and resets 500 ms after the last keystroke. Chords with Ctrl / Meta / Alt are ignored. |
+| Key                     | Action                                                                                                                                          |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ArrowDown` / `ArrowUp` | Move the active option. Clamps at the ends; does NOT wrap.                                                                                      |
+| `Home` / `End`          | Jump to the first / last option.                                                                                                                |
+| `Enter` / `Space`       | Select the active option, apply it, close, return focus to the button.                                                                          |
+| `Escape`                | Close and return focus, leaving the value unchanged.                                                                                            |
+| `Tab`                   | Close without stealing focus back, so the browser's own Tab handling proceeds.                                                                  |
+| Printable character     | Typeahead over the option labels; the buffer accumulates and resets 500 ms after the last keystroke. Chords with Ctrl / Meta / Alt are ignored. |
 
 Pointer behaviour: clicking an option selects it; clicking the button
 toggles; clicking outside the root closes; focus leaving the root
@@ -348,7 +372,7 @@ closes.
 
 The macro renders deterministic markup; no DOM access at template
 time. The client.js touches `document` only after
-`initThemeChooser(root)` is called, and only when
+`initThemePicker(root)` is called, and only when
 `typeof document !== "undefined"`.
 
 **The control is not operable before the client JS runs.** The button
@@ -358,7 +382,7 @@ listbox stays `hidden`. This is a genuine regression from the native
 JS at all. The only no-JS affordance that survives is the pre-filled
 hidden input, which lets a form submit still carry a theme. Consumers
 for whom no-JS operability is a hard requirement should use the
-headless catalog's plain `theme-chooser` `<select>` container instead of
+headless catalog's plain `theme-picker` `<select>` container instead of
 this helper. See [docs/ssr.md](../docs/ssr.md).
 
 ### 5.8 Where detection lives, and why the server markup ignores it
@@ -366,14 +390,14 @@ this helper. See [docs/ssr.md](../docs/ssr.md).
 `detectFromSystem` is resolved **only** in the client.js. `matchMedia`
 does not exist at Nunjucks render time, so the macro cannot know the
 user's colour-scheme preference and does not try: it emits the flag as
-`data-lily-theme-chooser-detect-from-system` and nothing more.
+`data-lily-theme-picker-detect-from-system` and nothing more.
 
 The macro's own server-side `selected` resolution (§4.2) therefore stays
 the narrower `value or defaultValue or ("light" if present else
-themes[0])`. It is deliberately *not* the §5.2 chain — storage and
+themes[0])`. It is deliberately _not_ the §5.2 chain — storage and
 `matchMedia` are both client-only inputs — and the two are consistent
 rather than contradictory: the server marks the best slug it can know
-about, the listbox renders closed, and `initThemeChooser` runs
+about, the listbox renders closed, and `initThemePicker` runs
 `applyTheme` on init, rewriting `aria-selected` and the hidden input if
 the client resolves something different. No user ever sees the
 intermediate state as an interactive control, because the button is
@@ -385,7 +409,7 @@ different theme than the one that ends up applied. That is expected. A
 consumer who needs the two to agree on first paint must resolve the
 theme server-side — a cookie set from a client-side `matchMedia` probe
 — and pass it as `opts.value`. This is the same tradeoff
-`detectFromNavigator` carries in locale-chooser.
+`detectFromNavigator` carries in locale-picker.
 
 ## 6. Accessibility
 
@@ -410,12 +434,12 @@ theme server-side — a cookie set from a client-side `matchMedia` probe
 
 ## 7. Testing acceptance criteria
 
-`theme-chooser.test.ts` must assert every numbered item below. Tests
+`theme-picker.test.ts` must assert every numbered item below. Tests
 run under vitest + jsdom. Items 1–6 exercise the macro via
 `nunjucks.renderString`; items 7–13 exercise the client.js against a
 jsdom document populated from the macro output.
 
-1. Macro renders a `<div class="theme-chooser">` root containing a
+1. Macro renders a `<div class="theme-picker">` root containing a
    `<button type="button">` with `aria-haspopup="listbox"`,
    `aria-expanded="false"`, and `aria-controls` pointing at a
    `<ul role="listbox" tabindex="-1">`.
@@ -431,8 +455,8 @@ jsdom document populated from the macro output.
 5. Default labels title-case the slug (`"light"` → `"Light"`); the
    word `"default"` never appears.
 6. `themeLabels` override the default title-case label.
-7. After `initThemeChooser(root)`, a `<link rel="stylesheet"
-   data-lily-theme-chooser="{name}">` exists in `document.head` and
+7. After `initThemePicker(root)`, a `<link rel="stylesheet"
+data-lily-theme-picker="{name}">` exists in `document.head` and
    its `href` equals `${normalise(themesUrl)}${initial}${extension}`,
    where `initial` resolves to `"light"` when present (else first
    theme).
@@ -463,11 +487,11 @@ jsdom document populated from the macro output.
 16. The hidden input is pre-filled server-side with the resolved slug,
     so a no-JS form submit still carries a theme.
 17. When `opts.value` is set, the root carries
-    `data-lily-theme-chooser-value="{value}"`, and
-    `initThemeChooser(root)` resolves the initial theme from it (in
+    `data-lily-theme-picker-value="{value}"`, and
+    `initThemePicker(root)` resolves the initial theme from it (in
     preference to `defaultValue`).
 18. When `opts.value` is unset, the root carries no
-    `data-lily-theme-chooser-value` attribute at all.
+    `data-lily-theme-picker-value` attribute at all.
 19. A `{% call %}` block body replaces the default glyph inside the
     button; `aria-label` still carries the accessible name.
 20. On the button, `ArrowDown` / `Enter` / `Space` open the listbox,
@@ -497,7 +521,7 @@ jsdom document populated from the macro output.
 27. `detectFromSystem` resolves the initial theme when nothing above it
     in §5.2 did; detection is off unless opted in; storage beats
     detection; detection beats `defaultValue`. The macro emits
-    `data-lily-theme-chooser-detect-from-system` (defaulting to
+    `data-lily-theme-picker-detect-from-system` (defaulting to
     `"false"`), and detection never changes the server-rendered
     `aria-selected`.
 28. `opts.value` beats a conflicting `localStorage` entry; storage
@@ -513,7 +537,7 @@ jsdom document populated from the macro output.
 
 ## 9. Tracking
 
-- Package directory: `lily-design-system-nunjucks-helpers/lily-design-system-nunjucks-theme-chooser/`
+- Package directory: `lily-design-system-nunjucks-helpers/lily-design-system-nunjucks-theme-picker/`
 - Spec version: 0.1.0
 - Created: 2026-06-05
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause

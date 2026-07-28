@@ -1,4 +1,4 @@
-# Lifecycle — ThemeChooser (Blazor)
+# Lifecycle — ThemePicker (Blazor)
 
 The Blazor-flavoured walk-through of the select's lifecycle. The
 canonical contract is in [`../spec/index.md`](../spec/index.md) §5; this file
@@ -29,7 +29,7 @@ OnAfterRenderAsync(firstRender: true) ─► resolve initial value
   │
   ▼
 ApplyThemeAsync(slug):
-  1. JS eval: locate / create <link data-lily-theme-chooser="{Name}">, set href = ThemeHref(...)
+  1. JS eval: locate / create <link data-lily-theme-picker="{Name}">, set href = ThemeHref(...)
   2. JS eval: document.documentElement.setAttribute('data-theme', slug)
   3. JS eval: if StorageKey: localStorage.setItem(StorageKey, slug)
   4. await OnChange.InvokeAsync(slug)
@@ -188,7 +188,7 @@ private async Task ApplyThemeAsync(string slug)
 
 `SetThemeAsync` is `public` so a consumer holding a `@ref` to the
 component can apply a theme imperatively from their own UI. It is not
-reachable from `ThemeChooserContext`, which carries only `Value`,
+reachable from `ThemePickerContext`, which carries only `Value`,
 `Open`, and `LabelFor`.
 
 ## Why one giant `eval` call per change
@@ -258,19 +258,19 @@ The component does not clean up the managed `<link>` or the
 - The select may be unmounted because the consumer navigated away
   from the settings page; the theme should stay applied.
 - The next select mount reuses the same managed `<link>` (located
-  by `data-lily-theme-chooser="{Name}"`).
+  by `data-lily-theme-picker="{Name}"`).
 
 If a consumer wants to fully tear down the theme on unmount, they
 can implement `IAsyncDisposable` in a wrapping component themselves.
 
 ## State machine summary
 
-| State           | Trigger                                       | Effect                                              |
-| --------------- | --------------------------------------------- | --------------------------------------------------- |
-| `_initialised = false` | construction                            | Select is ready to render its markup.               |
-| `OnAfterRenderAsync(true)` | first interactive render             | Resolve initial value, apply, fire callbacks.       |
-| `_initialised = true` | after first render                       | Future renders skip the initial-value path.         |
-| `_open = true`  | button click / `ArrowDown` / `ArrowUp` / `Enter` / `Space` | Reveal the listbox, seed `_activeIndex`, focus the `<ul>` after render. |
-| `_open = false` | option chosen / `Escape` / `Tab` / root `focusout` | Re-hide the listbox; refocus the button unless `Tab` or `focusout` closed it. |
-| `SetThemeAsync(slug)` | option chosen, or a consumer `@ref` call | Mutate state, fire callbacks, apply, re-render.     |
-| dispose / unmount | parent removed from render tree              | No-op; theme persists.                              |
+| State                      | Trigger                                                    | Effect                                                                        |
+| -------------------------- | ---------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| `_initialised = false`     | construction                                               | Select is ready to render its markup.                                         |
+| `OnAfterRenderAsync(true)` | first interactive render                                   | Resolve initial value, apply, fire callbacks.                                 |
+| `_initialised = true`      | after first render                                         | Future renders skip the initial-value path.                                   |
+| `_open = true`             | button click / `ArrowDown` / `ArrowUp` / `Enter` / `Space` | Reveal the listbox, seed `_activeIndex`, focus the `<ul>` after render.       |
+| `_open = false`            | option chosen / `Escape` / `Tab` / root `focusout`         | Re-hide the listbox; refocus the button unless `Tab` or `focusout` closed it. |
+| `SetThemeAsync(slug)`      | option chosen, or a consumer `@ref` call                   | Mutate state, fire callbacks, apply, re-render.                               |
+| dispose / unmount          | parent removed from render tree                            | No-op; theme persists.                                                        |

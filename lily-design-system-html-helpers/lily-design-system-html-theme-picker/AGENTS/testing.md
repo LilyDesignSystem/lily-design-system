@@ -1,7 +1,7 @@
-# Testing — `<theme-chooser>` (HTML helper)
+# Testing — `<theme-picker>` (HTML helper)
 
 The select's test suite lives in
-[`../theme-chooser.test.ts`](../theme-chooser.test.ts) and asserts
+[`../theme-picker.test.ts`](../theme-picker.test.ts) and asserts
 every numbered acceptance criterion in `spec/index.md` §7. This file
 documents the test harness and the conventions specific to this
 helper. For the catalog-wide test rules see
@@ -11,22 +11,22 @@ helper. For the catalog-wide test rules see
 
 ```ts
 import { describe, it, expect, beforeEach } from "vitest";
-import "./index"; // registers <theme-chooser> globally
-import type { ThemeChooser } from "./theme-chooser";
-import { themeHref, normalizeThemesUrl } from "./theme-chooser";
+import "./index"; // registers <theme-picker> globally
+import type { ThemePicker } from "./theme-picker";
+import { themeHref, normalizeThemesUrl } from "./theme-picker";
 
 beforeEach(() => {
-    // Reset shared state between tests.
-    document.documentElement.removeAttribute("data-theme");
-    document.head
-        .querySelectorAll("link[data-lily-theme-chooser]")
-        .forEach((n) => n.remove());
-    document.body.replaceChildren();
-    try {
-        localStorage.clear();
-    } catch {
-        /* ignore */
-    }
+  // Reset shared state between tests.
+  document.documentElement.removeAttribute("data-theme");
+  document.head
+    .querySelectorAll("link[data-lily-theme-picker]")
+    .forEach((n) => n.remove());
+  document.body.replaceChildren();
+  try {
+    localStorage.clear();
+  } catch {
+    /* ignore */
+  }
 });
 ```
 
@@ -40,18 +40,22 @@ before asserting so deferred handlers have settled.
 ## Standard mount
 
 ```ts
-function mount(attrs: Record<string, string>): ThemeChooser {
-    const el = document.createElement("theme-chooser") as ThemeChooser;
-    for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
-    document.body.appendChild(el);
-    return el;
+function mount(attrs: Record<string, string>): ThemePicker {
+  const el = document.createElement("theme-picker") as ThemePicker;
+  for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+  document.body.appendChild(el);
+  return el;
 }
 
 test("§7.2 aria-label names the button and the listbox", async () => {
-    mount({ label: "Choose theme", "themes-url": "/themes/", themes: "light,dark" });
-    await flush();
-    expect(button().getAttribute("aria-label")).toBe("Choose theme");
-    expect(list().getAttribute("aria-label")).toBe("Choose theme");
+  mount({
+    label: "Choose theme",
+    "themes-url": "/themes/",
+    themes: "light,dark",
+  });
+  await flush();
+  expect(button().getAttribute("aria-label")).toBe("Choose theme");
+  expect(list().getAttribute("aria-label")).toBe("Choose theme");
 });
 ```
 
@@ -62,18 +66,26 @@ selectors, plus `press` / `click` event helpers and a `flush` that
 awaits a macrotask:
 
 ```ts
-const button = () => document.body.querySelector<HTMLButtonElement>(".theme-chooser-button")!;
-const list   = () => document.body.querySelector<HTMLUListElement>(".theme-chooser-list")!;
-const options = () => [...document.body.querySelectorAll<HTMLLIElement>(".theme-chooser-option")];
+const button = () =>
+  document.body.querySelector<HTMLButtonElement>(".theme-picker-button")!;
+const list = () =>
+  document.body.querySelector<HTMLUListElement>(".theme-picker-list")!;
+const options = () => [
+  ...document.body.querySelectorAll<HTMLLIElement>(".theme-picker-option"),
+];
 
 function press(el: Element, key: string): void {
-    el.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true }));
+  el.dispatchEvent(
+    new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true }),
+  );
 }
 function click(el: Element): void {
-    el.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
+  el.dispatchEvent(
+    new MouseEvent("click", { bubbles: true, cancelable: true }),
+  );
 }
 function flush(): Promise<void> {
-    return new Promise((r) => setTimeout(r, 0));
+  return new Promise((r) => setTimeout(r, 0));
 }
 ```
 
@@ -99,8 +111,8 @@ Open the list, then click the option:
 
 ```ts
 function pick(slug: string, themes: string[]): void {
-    click(button());
-    click(options()[themes.indexOf(slug)]);
+  click(button());
+  click(options()[themes.indexOf(slug)]);
 }
 
 pick("dark", ["light", "dark", "abyss"]);
@@ -136,7 +148,7 @@ values depend on how many elements earlier tests mounted.
 ## Asserting open / closed state
 
 ```ts
-expect(list().hasAttribute("hidden")).toBe(true);          // closed
+expect(list().hasAttribute("hidden")).toBe(true); // closed
 expect(button().getAttribute("aria-expanded")).toBe("false");
 expect(list().hasAttribute("aria-activedescendant")).toBe(false);
 ```
@@ -147,7 +159,7 @@ expect(list().hasAttribute("aria-activedescendant")).toBe(false);
 
 ```ts
 const link = document.head.querySelector<HTMLLinkElement>(
-    'link[data-lily-theme-chooser="theme"]',
+  'link[data-lily-theme-picker="theme"]',
 );
 expect(link).not.toBeNull();
 expect(link!.href).toMatch(/\/themes\/light\.css$/);
@@ -175,9 +187,9 @@ Run `localStorage.clear()` in `beforeEach` to keep tests isolated.
 ## Capturing the `themechange` CustomEvent
 
 ```ts
-const events: ThemeChooserChangeDetail[] = [];
+const events: ThemePickerChangeDetail[] = [];
 el.addEventListener("themechange", (e) => {
-    events.push((e as CustomEvent<ThemeChooserChangeDetail>).detail);
+  events.push((e as CustomEvent<ThemePickerChangeDetail>).detail);
 });
 
 el.setAttribute("value", "dark");
@@ -190,7 +202,7 @@ A `document.body`-level listener also catches the event because
 ```ts
 let detail;
 document.body.addEventListener("themechange", (e) => {
-    detail = (e as CustomEvent).detail;
+  detail = (e as CustomEvent).detail;
 });
 ```
 
@@ -201,8 +213,8 @@ const a = mount({ themes: "light,dark,abyss" });
 const b = mount({});
 b.themes = ["light", "dark", "abyss"]; // assigns through the setter
 
-expect(a.querySelectorAll(".theme-chooser-option").length).toBe(3);
-expect(b.querySelectorAll(".theme-chooser-option").length).toBe(3);
+expect(a.querySelectorAll(".theme-picker-option").length).toBe(3);
+expect(b.querySelectorAll(".theme-picker-option").length).toBe(3);
 expect(b.getAttribute("themes")).toBe("light,dark,abyss");
 ```
 
@@ -212,22 +224,22 @@ Define the subclass and register it once at module scope, guarded
 so a re-run doesn't throw:
 
 ```ts
-class GlyphlessThemeChooser extends ThemeChooser {
-    renderButtonContent(): Node {
-        const span = document.createElement("span");
-        span.setAttribute("data-testid", "custom");
-        span.setAttribute("data-open", String(this.open));
-        span.setAttribute("data-value", this.value);
-        return span;
-    }
+class GlyphlessThemePicker extends ThemePicker {
+  renderButtonContent(): Node {
+    const span = document.createElement("span");
+    span.setAttribute("data-testid", "custom");
+    span.setAttribute("data-open", String(this.open));
+    span.setAttribute("data-value", this.value);
+    return span;
+  }
 }
-if (!customElements.get("glyphless-theme-chooser")) {
-    customElements.define("glyphless-theme-chooser", GlyphlessThemeChooser);
+if (!customElements.get("glyphless-theme-picker")) {
+  customElements.define("glyphless-theme-picker", GlyphlessThemePicker);
 }
 ```
 
 Assert both halves: that the custom node replaced the glyph
-(`.theme-chooser-icon` is gone) and that the base class's aria wiring
+(`.theme-picker-icon` is gone) and that the base class's aria wiring
 survived (`aria-haspopup`, `aria-label`, a resolvable
 `aria-controls`).
 
@@ -238,11 +250,11 @@ needed:
 
 ```ts
 test("normalizeThemesUrl appends a missing trailing slash", () => {
-    expect(normalizeThemesUrl("/x")).toBe("/x/");
+  expect(normalizeThemesUrl("/x")).toBe("/x/");
 });
 
 test("themeHref builds the href", () => {
-    expect(themeHref("/x/", "dark", ".css")).toBe("/x/dark.css");
+  expect(themeHref("/x/", "dark", ".css")).toBe("/x/dark.css");
 });
 ```
 
@@ -255,14 +267,14 @@ The class file has no top-level DOM access:
 
 ```ts
 it("module is import-safe under SSR", async () => {
-    const original = (globalThis as any).customElements;
-    delete (globalThis as any).customElements;
-    try {
-        const mod = await import("./index");
-        expect(mod.ThemeChooser).toBeDefined();
-    } finally {
-        (globalThis as any).customElements = original;
-    }
+  const original = (globalThis as any).customElements;
+  delete (globalThis as any).customElements;
+  try {
+    const mod = await import("./index");
+    expect(mod.ThemePicker).toBeDefined();
+  } finally {
+    (globalThis as any).customElements = original;
+  }
 });
 ```
 

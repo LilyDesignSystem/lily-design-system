@@ -1,4 +1,4 @@
-// _data/theme.js — build-time configuration for the theme chooser.
+// _data/theme.js — build-time configuration for the theme picker.
 //
 // Eleventy reads this file once per build and exposes the export at
 // `{{ theme.* }}` in templates. The select resolves the per-user

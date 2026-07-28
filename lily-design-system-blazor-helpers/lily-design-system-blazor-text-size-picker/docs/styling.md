@@ -7,17 +7,17 @@ own and adapt.
 
 | Hook                             | Element                                        |
 | -------------------------------- | ---------------------------------------------- |
-| `.text-size-chooser`              | Root `<div>`. Also carries `CssClass`.         |
-| `.text-size-chooser-button`       | The icon `<button>`.                           |
-| `.text-size-chooser-icon`         | The `<span>` wrapping the `A` glyph.           |
-| `.text-size-chooser-list`         | The `<ul role="listbox">`.                     |
-| `.text-size-chooser-option`       | Each `<li role="option">`.                     |
-| `.text-size-chooser-option[data-active]`   | The keyboard cursor's option.         |
-| `.text-size-chooser-option[aria-selected="true"]` | The applied size.              |
+| `.text-size-picker`              | Root `<div>`. Also carries `CssClass`.         |
+| `.text-size-picker-button`       | The icon `<button>`.                           |
+| `.text-size-picker-icon`         | The `<span>` wrapping the `A` glyph.           |
+| `.text-size-picker-list`         | The `<ul role="listbox">`.                     |
+| `.text-size-picker-option`       | Each `<li role="option">`.                     |
+| `.text-size-picker-option[data-active]`   | The keyboard cursor's option.         |
+| `.text-size-picker-option[aria-selected="true"]` | The applied size.              |
 
 The list carries `hidden` while closed — the browser's default
 `display: none` handles that, so you do not need a rule for it. Do not
-add a competing `display` on `.text-size-chooser-list` or you will
+add a competing `display` on `.text-size-picker-list` or you will
 override `hidden` and leave the list permanently visible.
 
 ## Positioning is not optional
@@ -26,12 +26,12 @@ An unpositioned open list participates in normal flow and shoves the
 page around.
 
 ```css
-.text-size-chooser {
+.text-size-picker {
     position: relative;
     display: inline-block;
 }
 
-.text-size-chooser-list {
+.text-size-picker-list {
     position: absolute;
     inset-inline-start: 0;
     top: 100%;
@@ -51,7 +51,7 @@ correctly under RTL.
 ## The button and glyph
 
 ```css
-.text-size-chooser-button {
+.text-size-picker-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -64,7 +64,7 @@ correctly under RTL.
     cursor: pointer;
 }
 
-.text-size-chooser-icon {
+.text-size-picker-icon {
     /* The glyph is a letter in the page font; pin it so it does not
        grow along with the very setting this control adjusts. */
     font-size: 1.125rem;
@@ -76,30 +76,30 @@ correctly under RTL.
 ## Options
 
 ```css
-.text-size-chooser-option {
+.text-size-picker-option {
     padding: 0.375em 0.75em;
     cursor: pointer;
     white-space: nowrap;
 }
 
-.text-size-chooser-option:hover {
+.text-size-picker-option:hover {
     background: var(--color-surface-hover, Highlight);
     color: var(--color-on-surface-hover, HighlightText);
 }
 
 /* The keyboard cursor. Focus is on the <ul>, so this is the only
    visual signal of where the arrow keys have moved. Required. */
-.text-size-chooser-option[data-active] {
+.text-size-picker-option[data-active] {
     outline: 2px solid var(--color-primary, currentColor);
     outline-offset: -2px;
 }
 
 /* The applied size. Not colour-only — add a mark. */
-.text-size-chooser-option[aria-selected="true"] {
+.text-size-picker-option[aria-selected="true"] {
     font-weight: 700;
 }
 
-.text-size-chooser-option[aria-selected="true"]::after {
+.text-size-picker-option[aria-selected="true"]::after {
     content: " ✓";
 }
 ```
@@ -110,10 +110,10 @@ A nice touch specific to this helper: render each option at the size it
 represents, so the list previews the choice.
 
 ```css
-.text-size-chooser-option[data-size="small"]   { font-size: 0.875rem; }
-.text-size-chooser-option[data-size="medium"]  { font-size: 1rem; }
-.text-size-chooser-option[data-size="large"]   { font-size: 1.125rem; }
-.text-size-chooser-option[data-size="x-large"] { font-size: 1.25rem; }
+.text-size-picker-option[data-size="small"]   { font-size: 0.875rem; }
+.text-size-picker-option[data-size="medium"]  { font-size: 1rem; }
+.text-size-picker-option[data-size="large"]   { font-size: 1.125rem; }
+.text-size-picker-option[data-size="x-large"] { font-size: 1.25rem; }
 ```
 
 The component does not emit `data-size`, so scope this by nth-child or
@@ -123,8 +123,8 @@ your minimum regardless of the rendered text size.
 ## Focus
 
 ```css
-.text-size-chooser-button:focus-visible,
-.text-size-chooser-list:focus-visible {
+.text-size-picker-button:focus-visible,
+.text-size-picker-list:focus-visible {
     outline: 2px solid var(--color-primary, currentColor);
     outline-offset: 2px;
 }
@@ -140,7 +140,7 @@ The recommended companion to the control (see
 Keep it visible if you can:
 
 ```css
-.text-size-chooser-status {
+.text-size-picker-status {
     margin-block-start: 0.5rem;
 }
 ```
@@ -149,7 +149,7 @@ If the design truly cannot spare the space, hide it visually but keep
 it in the accessibility tree — never `display: none`:
 
 ```css
-.text-size-chooser-status {
+.text-size-picker-status {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -182,13 +182,13 @@ see [accessibility.md](./accessibility.md#wcag-144-resize-text--this-helpers-spe
 
 ```css
 @media (forced-colors: active) {
-    .text-size-chooser-button {
+    .text-size-picker-button {
         border-color: ButtonText;
     }
-    .text-size-chooser-list {
+    .text-size-picker-list {
         border-color: CanvasText;
     }
-    .text-size-chooser-option[data-active] {
+    .text-size-picker-option[data-active] {
         outline-color: Highlight;
     }
 }

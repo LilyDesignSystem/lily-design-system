@@ -1,4 +1,4 @@
-# AGENTS — LocaleChooser (Blazor helper)
+# AGENTS — LocalePicker (Blazor helper)
 
 Single source of truth: [spec/index.md](./spec/index.md). Read it first; everything
 below is a fast index.
@@ -9,8 +9,8 @@ A reusable Blazor headless locale select that applies the chosen
 locale to the document root via `lang` and `dir`, with optional
 `localStorage` persistence and `navigator.languages` detection. It
 renders an icon button (`🌐`) that opens a dropdown listbox. Ships no
-CSS; consumer styles the `locale-chooser`, `locale-chooser-button`,
-`locale-chooser-icon`, `locale-chooser-list`, and `locale-chooser-option`
+CSS; consumer styles the `locale-picker`, `locale-picker-button`,
+`locale-picker-icon`, `locale-picker-list`, and `locale-picker-option`
 class hooks.
 
 ## Files
@@ -18,9 +18,9 @@ class hooks.
 | File                       | Purpose                                          |
 | -------------------------- | ------------------------------------------------ |
 | `spec/index.md`                  | Specification-driven contract (canonical).       |
-| `LocaleChooser.razor`       | Razor markup.                                    |
-| `LocaleChooser.razor.cs`    | C# code-behind (partial class).                  |
-| `LocaleChooserTests.cs`     | bUnit + xUnit spec, one `[Fact]` per §7 item.    |
+| `LocalePicker.razor`       | Razor markup.                                    |
+| `LocalePicker.razor.cs`    | C# code-behind (partial class).                  |
+| `LocalePickerTests.cs`     | bUnit + xUnit spec, one `[Fact]` per §7 item.    |
 | `Locales.cs`               | Static helpers + label / RTL data tables.        |
 | `locales.tsv`              | Canonical 436-row code → English-name list.      |
 | `index.md`                 | User guide.                                      |
@@ -29,13 +29,13 @@ class hooks.
 
 ## Public surface
 
-- Component: `LocaleChooser` in namespace
+- Component: `LocalePicker` in namespace
   `LilyDesignSystem.Blazor.Helpers`.
-- Context: `LocaleChooserContext` (`Value`, `Open`, `LabelFor`) for a
+- Context: `LocalePickerContext` (`Value`, `Open`, `LabelFor`) for a
   custom `ChildContent` glyph.
-- Constant: `LocaleChooser.GlobeWithMeridians` — the default glyph
+- Constant: `LocalePicker.GlobeWithMeridians` — the default glyph
   `"🌐︎"` (U+1F310 + U+FE0E VARIATION SELECTOR-15, which forces the
-  monochrome text presentation so it matches ThemeChooser's `◑`).
+  monochrome text presentation so it matches ThemePicker's `◑`).
 - Method: `SetLocaleAsync(string code)`.
 - Required parameters: `Label`, `Locales`.
 - **Removed:** the `Placeholder` parameter. It only existed to pin a
@@ -70,15 +70,15 @@ lives in `Value` and rides a hidden input for form participation.
 ## HTML
 
 ```html
-<div class="locale-chooser @CssClass" ...AdditionalAttributes>
+<div class="locale-picker @CssClass" ...AdditionalAttributes>
   <input type="hidden" name="@Name" value="@Value" />
-  <button type="button" class="locale-chooser-button" aria-label="@Label"
+  <button type="button" class="locale-picker-button" aria-label="@Label"
           aria-haspopup="listbox" aria-expanded="false" aria-controls="{listId}">
-    <span class="locale-chooser-icon" aria-hidden="true">&#127760;</span>
+    <span class="locale-picker-icon" aria-hidden="true">&#127760;</span>
   </button>
-  <ul class="locale-chooser-list" id="{listId}" role="listbox" aria-label="@Label"
+  <ul class="locale-picker-list" id="{listId}" role="listbox" aria-label="@Label"
       tabindex="-1" hidden aria-activedescendant="{active option id, open only}">
-    <li class="locale-chooser-option" id="{optionId}" role="option"
+    <li class="locale-picker-option" id="{optionId}" role="option"
         aria-selected="true|false" data-active
         lang="@TagFor(code)">{LabelFor(code)}</li>
   </ul>
@@ -88,7 +88,7 @@ lives in `Value` and rides a hidden input for form participation.
 Options keep their per-locale `lang`; the button and the list carry
 none. `ChildContent` **replaces the glyph inside the button**; it no
 longer renders options. Ids come from a monotonic process-wide counter
-(`locale-chooser-{n}`) so they are stable and SSR-safe.
+(`locale-picker-{n}`) so they are stable and SSR-safe.
 
 ## Keyboard
 

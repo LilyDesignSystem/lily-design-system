@@ -53,7 +53,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 
 ```vue
 <script setup lang="ts">
-import LocaleChooser from "@/components/LocaleChooser.vue";
+import LocalePicker from "@/components/LocalePicker.vue";
 
 const { $initialLocale } = useNuxtApp();
 const locale = ref<string>($initialLocale);
@@ -68,7 +68,7 @@ function persistCookie(code: string) {
 </script>
 
 <template>
-    <LocaleChooser
+    <LocalePicker
         label="Language"
         :locales="['en', 'fr', 'ar']"
         v-model:value="locale"
@@ -95,7 +95,7 @@ export default defineEventHandler((event) => {
 
 ```vue
 <script setup lang="ts">
-import ThemeChooser from "@/components/ThemeChooser.vue";
+import ThemePicker from "@/components/ThemePicker.vue";
 
 const { $initialTheme } = useNuxtApp();
 const theme = ref<string>($initialTheme);
@@ -108,7 +108,7 @@ function persistCookie(slug: string) {
 </script>
 
 <template>
-    <ThemeChooser
+    <ThemePicker
         label="Theme"
         themes-url="/assets/themes/"
         :themes="['light', 'dark', 'abyss']"
@@ -126,9 +126,9 @@ The plugin file mirrors `plugins/locale.ts`; substitute `theme` for
 ```ts
 import { createSSRApp } from "vue";
 import { renderToString } from "vue/server-renderer";
-import ThemeChooser from "./ThemeChooser.vue";
+import ThemePicker from "./ThemePicker.vue";
 
-const app = createSSRApp(ThemeChooser, {
+const app = createSSRApp(ThemePicker, {
     label: "Theme",
     themesUrl: "/themes/",
     themes: ["light", "dark"],
@@ -155,7 +155,7 @@ const theme = Astro.cookies.get("theme")?.value ?? "light";
         <link rel="stylesheet" href={`/assets/themes/${theme}.css`} />
     </head>
     <body>
-        <ThemeChooser
+        <ThemePicker
             client:load
             label="Theme"
             themes-url="/assets/themes/"

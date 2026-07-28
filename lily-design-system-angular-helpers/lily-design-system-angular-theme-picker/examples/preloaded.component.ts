@@ -20,25 +20,25 @@
     place them in index.html (the static shell).
 */
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { ThemeChooser } from "../theme-chooser.component";
+import { ThemePicker } from "../theme-picker.component";
 
 @Component({
-    selector: "example-preloaded",
-    standalone: true,
-    imports: [ThemeChooser],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
-        <!--
+  selector: "example-preloaded",
+  standalone: true,
+  imports: [ThemePicker],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <!--
             In src/index.html, add:
               <link rel="stylesheet" href="/assets/themes/light.css">
               <link rel="stylesheet" href="/assets/themes/dark.css">
               <link rel="stylesheet" href="/assets/themes/abyss.css">
         -->
-        <lily-theme-chooser
-            label="Theme"
-            themesUrl="/assets/themes/"
-            [themes]="['light', 'dark', 'abyss']"
-        />
-    `,
+    <lily-theme-picker
+      label="Theme"
+      themesUrl="/assets/themes/"
+      [themes]="['light', 'dark', 'abyss']"
+    />
+  `,
 })
 export class PreloadedExample {}

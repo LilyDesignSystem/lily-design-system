@@ -1,15 +1,15 @@
-# AGENTS — `<locale-chooser>` (HTML helper)
+# AGENTS — `<locale-picker>` (HTML helper)
 
 Single source of truth: [spec/index.md](./spec/index.md). Read it first; everything
 below is a fast index.
 
 ## What this package is
 
-A reusable vanilla HTML/JS headless locale chooser, packaged as the
-`<locale-chooser>` custom element. Applies the chosen locale to the
+A reusable vanilla HTML/JS headless locale picker, packaged as the
+`<locale-picker>` custom element. Applies the chosen locale to the
 document root via `lang` and `dir`, with optional `localStorage`
 persistence and `navigator.languages` detection. Ships no CSS;
-consumer styles the `locale-chooser` class hooks on rendered children.
+consumer styles the `locale-picker` class hooks on rendered children.
 
 The control is an **icon button that opens a dropdown listbox**
 (WAI-ARIA APG listbox pattern), not a native `<select>`.
@@ -19,8 +19,8 @@ The control is an **icon button that opens a dropdown listbox**
 | File                       | Purpose                                          |
 | -------------------------- | ------------------------------------------------ |
 | `spec/index.md`            | Specification-driven contract (canonical).       |
-| `locale-chooser.ts`         | Implementation (TypeScript class).               |
-| `locale-chooser.test.ts`    | Vitest + jsdom spec, one test per §7 clause.     |
+| `locale-picker.ts`         | Implementation (TypeScript class).               |
+| `locale-picker.test.ts`    | Vitest + jsdom spec, one test per §7 clause.     |
 | `locales.ts`               | Built-in code → English-name map and RTL sets.   |
 | `locales.tsv`              | Canonical 436-row source for `locales.ts`.       |
 | `index.ts`                 | Barrel re-export + side-effectful registration.  |
@@ -34,13 +34,13 @@ The control is an **icon button that opens a dropdown listbox**
 
 ## Public surface
 
-- Class `LocaleChooser extends HTMLElement` (registered as
-  `<locale-chooser>` on import of `index.ts`).
-- Named exports: `LocaleChooser`, `bcp47LocaleTag`, `isRtlLocale`,
+- Class `LocalePicker extends HTMLElement` (registered as
+  `<locale-picker>` on import of `index.ts`).
+- Named exports: `LocalePicker`, `bcp47LocaleTag`, `isRtlLocale`,
   `localeName`, `matchNavigatorLanguage`, `defaultLocaleLabels`,
-  `RTL_LANGUAGE_TAGS`, `RTL_SCRIPT_SUBTAGS`, `nextLocaleChooserId`,
+  `RTL_LANGUAGE_TAGS`, `RTL_SCRIPT_SUBTAGS`, `nextLocalePickerId`,
   `GLOBE_WITH_MERIDIANS`.
-- Type exports: `LocaleChooserProps`, `LocaleChooserChangeDetail`.
+- Type exports: `LocalePickerProps`, `LocalePickerChangeDetail`.
 - Instance members beyond the attribute mirrors: `open` (getter),
   `listId` (getter), `optionId(index)`, `openList(startIndex?)`,
   `closeList(refocus = true)`, `labelFor(code)`, `tagFor(locale)`,
@@ -72,23 +72,23 @@ rebuild and close the list first.
 
 ## HTML
 
-`<locale-chooser>` renders a `<div class="locale-chooser {class}">`
+`<locale-picker>` renders a `<div class="locale-picker {class}">`
 containing, in order: a `<input type="hidden" name="{name}">` for
-form participation; a `<button type="button" class="locale-chooser-button"
+form participation; a `<button type="button" class="locale-picker-button"
 aria-label="{label}" aria-haspopup="listbox" aria-expanded
 aria-controls="{listId}">` whose content is
-`<span class="locale-chooser-icon" aria-hidden="true">` carrying
+`<span class="locale-picker-icon" aria-hidden="true">` carrying
 U+1F310 GLOBE WITH MERIDIANS followed by U+FE0E VARIATION
 SELECTOR-15 (VS15 forces the monochrome text presentation); and a
-`<ul class="locale-chooser-list" id="{listId}" role="listbox"
+`<ul class="locale-picker-list" id="{listId}" role="listbox"
 aria-label="{label}" tabindex="-1" hidden>` holding one
-`<li class="locale-chooser-option" id="{optionId}" role="option"
+`<li class="locale-picker-option" id="{optionId}" role="option"
 aria-selected lang="{tag}">` per locale.
 
 `aria-activedescendant` sits on the `<ul>` only while open.
 `data-active` marks the keyboard-highlighted option; `aria-selected`
 marks the applied one — different things. Ids come from
-`nextLocaleChooserId()`, a module-level counter (SSR-safe; no
+`nextLocalePickerId()`, a module-level counter (SSR-safe; no
 `Math.random()` / `Date.now()`).
 
 ## Keyboard

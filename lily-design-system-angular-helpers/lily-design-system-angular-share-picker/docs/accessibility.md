@@ -9,7 +9,7 @@ well and what it costs — the costs are real and are not talked around.
   consumer-supplied `aria-label`, so it localises with your copy.
 - `aria-expanded` on the trigger reflects the list state, and
   `aria-controls` points at it. The list carries a per-instance id from
-  `nextShareChooserId()`, so several share choosers on one page never
+  `nextSharePickerId()`, so several share pickers on one page never
   collide.
 - Destinations keep **native link semantics**: they are real `<a>`
   elements with no `role` override, so middle-click, open-in-new-tab and
@@ -47,8 +47,8 @@ Force one path with `strategy="list"` if consistency matters more.
 
 **The glyph is font-dependent.** ➤ (U+27A4) is an in-font arrow rather
 than a pictograph, so it is far safer than an emoji — it renders in the
-page's own font and stays monochrome alongside theme-chooser's ◑,
-locale-chooser's 🌐 and text-size-chooser's "A". It is still not
+page's own font and stays monochrome alongside theme-picker's ◑,
+locale-picker's 🌐 and text-size-picker's "A". It is still not
 guaranteed on every font stack. Override it with a projected
 `<ng-template>` if your stack lacks it.
 
@@ -58,7 +58,7 @@ all fail, and none of them are visible to the person who just clicked.
 Always supply `copyFailedLabel` and make it actionable — say what to do
 instead ("copy it from the address bar"), not just that it failed.
 
-**The list ships no positioning CSS.** `<ul class="share-chooser-list">`
+**The list ships no positioning CSS.** `<ul class="share-picker-list">`
 sits in normal document flow, so it pushes content down when opened
 unless you give it `position: absolute` inside a `position: relative`
 root. Content jumping under a keyboard user is a real usability cost;

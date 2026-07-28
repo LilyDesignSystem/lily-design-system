@@ -27,7 +27,7 @@
     Two things you must supply for a list this long:
 
     1. A scroll container. Set max-block-size and overflow-y on
-       .locale-chooser-list. The component calls
+       .locale-picker-list. The component calls
        scrollIntoView({ block: "nearest" }) on the active option, which
        only does something useful if the list actually scrolls.
     2. A min-inline-size, so the popup does not jump width as the
@@ -43,12 +43,12 @@
     add one, because its output lives inside a <button>.
 -->
 <script lang="ts">
-    import LocaleChooser, { localeName } from "../LocaleChooser.svelte";
+    import LocalePicker, { localeName } from "../LocalePicker.svelte";
 
     let locale = $state("en");
 </script>
 
-<LocaleChooser
+<LocalePicker
     label="Language"
     locales={[
         "en", "en_US", "en_GB", "fr", "fr_CA", "es", "es_419", "de",
@@ -60,6 +60,6 @@
     detectFromNavigator
 />
 
-<p class="locale-chooser-status" aria-live="polite">
+<p class="locale-picker-status" aria-live="polite">
     Active language: {localeName(locale)} (<code>{locale}</code>)
 </p>

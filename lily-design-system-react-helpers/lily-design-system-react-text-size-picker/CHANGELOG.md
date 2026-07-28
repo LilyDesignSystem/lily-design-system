@@ -1,19 +1,19 @@
-# CHANGELOG — lily-design-system-react-text-size-chooser
+# CHANGELOG — lily-design-system-react-text-size-picker
 
 ## 0.1.0 — 2026-07-21
 
 Initial release under this name.
 
-`TextSizeChooser` is a headless React 19 text-size control: an icon button
+`TextSizePicker` is a headless React 19 text-size control: an icon button
 ("A", U+0041) that opens a WAI-ARIA APG listbox of size slugs. Choosing one
 sets `data-text-size` on the target element, optionally persists to
 `localStorage`, and calls `onChange`; the consumer's CSS maps each value to
-actual sizing. It ships no CSS; the consumer styles the `text-size-chooser`,
-`text-size-chooser-button`, `text-size-chooser-icon`,
-`text-size-chooser-list` and `text-size-chooser-option` class hooks. All DOM
+actual sizing. It ships no CSS; the consumer styles the `text-size-picker`,
+`text-size-picker-button`, `text-size-picker-icon`,
+`text-size-picker-list` and `text-size-picker-option` class hooks. All DOM
 writes happen inside `useEffect`, so it is SSR-safe.
 
-Public surface: `TextSizeChooser` (default and named), `sizeName`,
+Public surface: `TextSizePicker` (default and named), `sizeName`,
 `LATIN_CAPITAL_LETTER_A`, plus the `Props` and `ChildArgs` types. Required
 props are `label` and `sizes`.
 
@@ -21,11 +21,11 @@ props are `label` and `sizes`.
 
 - Previously released in-tree as
   `lily-design-system-react-text-size-select`. The rename to
-  `-text-size-chooser` also renames the `TextSizeChooser` symbol to
-  `TextSizeChooser`, the `text-size-chooser*` class hooks to
-  `text-size-chooser*`, and the `data-lily-text-size-select*` attributes to
-  `data-lily-text-size-chooser*`. It brings the helper into line with the
-  catalog-wide `*-chooser` naming and keeps the `-select` suffix reserved
+  `-text-size-picker` also renames the `TextSizePicker` symbol to
+  `TextSizePicker`, the `text-size-picker*` class hooks to
+  `text-size-picker*`, and the `data-lily-text-size-select*` attributes to
+  `data-lily-text-size-picker*`. It brings the helper into line with the
+  catalog-wide `*-picker` naming and keeps the `-select` suffix reserved
   for components that really are a `<select>`. Nothing was ever published
   under the old name, so the version restarts at `0.1.0` rather than
   continuing the in-tree numbering; the entries below record that earlier
@@ -35,34 +35,35 @@ props are `label` and `sizes`.
 
 - **The control is no longer a native `<select>`.** It is now an icon
   button that opens a dropdown listbox, following the WAI-ARIA APG
-  listbox pattern — the shape `theme-chooser` and `locale-chooser` already
+  listbox pattern — the shape `theme-picker` and `locale-picker` already
   moved to. All three helpers are now structurally identical, so a row
   of Lily™ preference controls in one banner is uniform. The root is a
-  `<div class="text-size-chooser {className}">` — rest props spread onto
+  `<div class="text-size-picker {className}">` — rest props spread onto
   that `<div>`, not onto a `<select>` — containing:
   - `<input type="hidden" name="{name}" value="{value}">`, so the
     control still submits with a surrounding form;
-  - `<button type="button" class="text-size-chooser-button" aria-label
-    aria-haspopup="listbox" aria-expanded aria-controls>` holding
-    `<span class="text-size-chooser-icon" aria-hidden="true">A</span>`;
-  - `<ul class="text-size-chooser-list" role="listbox" aria-label
-    tabindex="-1" hidden>` with one
-    `<li class="text-size-chooser-option" role="option" aria-selected>`
+  - `<button type="button" class="text-size-picker-button" aria-label
+aria-haspopup="listbox" aria-expanded aria-controls>` holding
+    `<span class="text-size-picker-icon" aria-hidden="true">A</span>`;
+  - `<ul class="text-size-picker-list" role="listbox" aria-label
+tabindex="-1" hidden>` with one
+    `<li class="text-size-picker-option" role="option" aria-selected>`
     per slug, plus `data-active` on the keyboard-active option and
     `aria-activedescendant` on the list while open.
 
   Option and list ids come from React's `useId`, so they are stable and
   hydration-safe.
+
 - **The glyph is `"A"` (U+0041 LATIN CAPITAL LETTER A)**, exported from
-  `TextSizeChooser.tsx` and the barrel as `LATIN_CAPITAL_LETTER_A`. It is
+  `TextSizePicker.tsx` and the barrel as `LATIN_CAPITAL_LETTER_A`. It is
   a plain letter, not a pictograph, deliberately: U+1F5DB DECREASE FONT
   SIZE SYMBOL has no real glyph in common font stacks — it falls back to
-  a crude bitmap shape — and it means *decrease* rather than *size*. "A"
+  a crude bitmap shape — and it means _decrease_ rather than _size_. "A"
   renders in the page's own font everywhere and stays monochrome like
-  theme-chooser's ◑.
+  theme-picker's ◑.
 - **`titleCaseSize` is renamed `sizeName`.** Same behaviour
   (`"x-large"` → `"X Large"`), harmonised with `themeName` in
-  theme-chooser and `localeName` in locale-chooser so all three catalogs
+  theme-picker and `localeName` in locale-picker so all three catalogs
   expose the label rule under a parallel name. The internal `labelFor`
   delegates to it. Update imports; `titleCaseSize` is gone.
 - **`children` changed meaning entirely.** It no longer renders the
@@ -91,8 +92,8 @@ props are `label` and `sizes`.
 - Pointer behaviour: clicking an option selects it; clicking the button
   again, clicking outside the root, or focus leaving the root closes
   without changing the value.
-- New class hooks: `text-size-chooser-button`, `text-size-chooser-icon`,
-  `text-size-chooser-list`. New attribute hooks for styling:
+- New class hooks: `text-size-picker-button`, `text-size-picker-icon`,
+  `text-size-picker-list`. New attribute hooks for styling:
   `[data-active]` and `[aria-selected]` on the options,
   `[aria-expanded]` on the button, `[hidden]` on the list.
 - `docs/accessibility.md`, documenting the roles, the keyboard contract,
@@ -111,8 +112,8 @@ props are `label` and `sizes`.
   the hidden input rather than on the `<select>`.
 - The no-hardcoded-strings i18n rule: every user-facing string still
   comes from props, and the word "default" is still never emitted.
-- **No detection prop was added.** Unlike `theme-chooser`
-  (`prefers-color-scheme`) and `locale-chooser` (`navigator.languages`),
+- **No detection prop was added.** Unlike `theme-picker`
+  (`prefers-color-scheme`) and `locale-picker` (`navigator.languages`),
   no platform signal exposes a preferred text size, so there is nothing
   to detect.
 

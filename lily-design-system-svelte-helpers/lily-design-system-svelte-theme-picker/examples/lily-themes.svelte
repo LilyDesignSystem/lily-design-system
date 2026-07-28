@@ -6,7 +6,7 @@
   "light" remains the default because it is in the list.
 -->
 <script lang="ts">
-  import ThemeChooser from "../ThemeChooser.svelte";
+  import ThemePicker from "../ThemePicker.svelte";
 
   const themes = [
     "abyss",
@@ -57,7 +57,7 @@
   ];
 </script>
 
-<ThemeChooser
+<ThemePicker
   label="Lily theme"
   themesUrl="/assets/themes/"
   {themes}

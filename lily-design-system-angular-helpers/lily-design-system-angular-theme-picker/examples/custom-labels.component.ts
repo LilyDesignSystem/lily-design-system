@@ -7,34 +7,34 @@
     slugs).
 */
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { ThemeChooser } from "../theme-chooser.component";
+import { ThemePicker } from "../theme-picker.component";
 
 @Component({
-    selector: "example-custom-labels",
-    standalone: true,
-    imports: [ThemeChooser],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
-        <lily-theme-chooser
-            label="Thème"
-            themesUrl="/assets/themes/"
-            [themes]="[
-                'light',
-                'dark',
-                'united-kingdom-national-health-service-england-for-patients',
-                'united-kingdom-national-health-service-england-for-practitioners',
-            ]"
-            [themeLabels]="labels"
-        />
-    `,
+  selector: "example-custom-labels",
+  standalone: true,
+  imports: [ThemePicker],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <lily-theme-picker
+      label="Thème"
+      themesUrl="/assets/themes/"
+      [themes]="[
+        'light',
+        'dark',
+        'united-kingdom-national-health-service-england-for-patients',
+        'united-kingdom-national-health-service-england-for-practitioners',
+      ]"
+      [themeLabels]="labels"
+    />
+  `,
 })
 export class CustomLabelsExample {
-    readonly labels: Record<string, string> = {
-        light: "Clair",
-        dark: "Sombre",
-        "united-kingdom-national-health-service-england-for-patients":
-            "NHS England (patients)",
-        "united-kingdom-national-health-service-england-for-practitioners":
-            "NHS England (practitioners)",
-    };
+  readonly labels: Record<string, string> = {
+    light: "Clair",
+    dark: "Sombre",
+    "united-kingdom-national-health-service-england-for-patients":
+      "NHS England (patients)",
+    "united-kingdom-national-health-service-england-for-practitioners":
+      "NHS England (practitioners)",
+  };
 }

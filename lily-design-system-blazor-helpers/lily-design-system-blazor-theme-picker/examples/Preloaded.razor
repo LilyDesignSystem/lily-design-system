@@ -16,7 +16,7 @@
     OnChange handler that only sets data-theme yourself.
 *@
 
-@page "/examples/theme-chooser/preloaded"
+@page "/examples/theme-picker/preloaded"
 @rendermode InteractiveServer
 @using LilyDesignSystem.Blazor.Helpers
 
@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="/assets/themes/abyss.css" />
 </HeadContent>
 
-<ThemeChooser
+<ThemePicker
     Label="Theme"
     ThemesUrl="/assets/themes/"
     Themes="@(new[] { "light", "dark", "abyss" })" />

@@ -1,26 +1,26 @@
-# TextSizeChooser — Specification (Blazor)
+# TextSizePicker — Specification (Blazor)
 
 Single source of truth for the
-`lily-design-system-blazor-text-size-chooser` Blazor helper. This file
+`lily-design-system-blazor-text-size-picker` Blazor helper. This file
 drives implementation, testing, and documentation in the
 spec-driven-development style: anything not in this spec is out of
 scope; anything in this spec must be exercised by a test.
 
 This is a one-to-one port of the canonical Svelte helper
-`lily-design-system-svelte-text-size-chooser`; when the two disagree,
+`lily-design-system-svelte-text-size-picker`; when the two disagree,
 the Svelte side wins and the Blazor side is patched.
 
 Sibling files in this directory:
 
-- `TextSizeChooser.razor` — Razor markup
-- `TextSizeChooser.razor.cs` — C# code-behind (partial class)
-- `TextSizeChooserTests.cs` — bUnit + xUnit spec exercising every clause in §4–§7
+- `TextSizePicker.razor` — Razor markup
+- `TextSizePicker.razor.cs` — C# code-behind (partial class)
+- `TextSizePickerTests.cs` — bUnit + xUnit spec exercising every clause in §4–§7
 - `index.md` — user-facing readme
 - `docs/` — accessibility and styling guides
 - `examples/` — copy-pasteable Razor snippets
 
 The Blazor headless library does not include a canonical
-`TextSizeChooser`; this helper is the opinionated, reusable counterpart
+`TextSizePicker`; this helper is the opinionated, reusable counterpart
 that owns the text-size-application lifecycle (the `data-text-size`
 attribute on the document root) and the persistence choice.
 
@@ -38,8 +38,8 @@ Give a Blazor application a drop-in, headless text-size select that:
 3. Optionally persists the chosen size to `localStorage` so the choice
    survives reload.
 4. Ships zero CSS — the consumer styles every visual aspect via the
-   `text-size-chooser`, `text-size-chooser-button`, `text-size-chooser-icon`,
-   `text-size-chooser-list`, and `text-size-chooser-option` class hooks,
+   `text-size-picker`, `text-size-picker-button`, `text-size-picker-icon`,
+   `text-size-picker-list`, and `text-size-picker-option` class hooks,
    and maps each `[data-text-size="{slug}"]` to real typography.
 
 ## 2. Non-goals
@@ -56,27 +56,27 @@ Give a Blazor application a drop-in, headless text-size select that:
   `DetectFromSystem` parameter. Users who scale text at the OS level
   are already served by the browser's own zoom / minimum-font-size,
   which this helper must not fight.
-- **`lang` / `dir`**. Out of scope here — see `LocaleChooser`.
+- **`lang` / `dir`**. Out of scope here — see `LocalePicker`.
 - **A `<link>` swap**. No managed stylesheet element is created — see
-  `ThemeChooser`.
+  `ThemePicker`.
 
 ## 3. Architectural decisions
 
 - **`data-text-size` on the document root is the source of truth.**
   Consumer CSS keys off `[data-text-size="{slug}"]`.
 - **Icon button plus a custom listbox, not a native `<select>`.** This
-  matches `ThemeChooser` and `LocaleChooser`, so all three helpers are one
+  matches `ThemePicker` and `LocalePicker`, so all three helpers are one
   shape. The tradeoffs are stated plainly in
   [`docs/accessibility.md`](../docs/accessibility.md).
 - **The button glyph is `"A"` (U+0041 LATIN CAPITAL LETTER A).** A
   letter, not a pictograph: U+1F5DB DECREASE FONT SIZE SYMBOL has no
-  real glyph in common font stacks and means *decrease* rather than
-  *size*, whereas "A" renders in the page's own font everywhere, stays
+  real glyph in common font stacks and means _decrease_ rather than
+  _size_, whereas "A" renders in the page's own font everywhere, stays
   monochrome like `◑`, and is the conventional text-size affordance.
 - **A hidden `<input>` preserves form participation.** The listbox is
   not a form control, so `Name` / `Value` ride a hidden input.
 - **Ids come from a monotonic process-wide counter**
-  (`text-size-chooser-{n}`) — stable and SSR-safe, never `Random` or a
+  (`text-size-picker-{n}`) — stable and SSR-safe, never `Random` or a
   clock read.
 - **`IJSRuntime` for all DOM writes.** The `data-text-size` attribute
   is set via `IJSRuntime.InvokeVoidAsync("eval", …)`.
@@ -86,29 +86,29 @@ Give a Blazor application a drop-in, headless text-size select that:
 
 ### 4.1 Parameters
 
-| Parameter             | Type                                     | Required | Default                                | Purpose |
-| --------------------- | ---------------------------------------- | -------- | -------------------------------------- | ------- |
-| `Label`               | `string`                                 | yes      | —                                      | Accessible name for the button **and** the listbox. |
-| `Sizes`               | `IReadOnlyList<string>`                  | yes      | —                                      | Available size slugs. |
-| `Value`               | `string`                                 | no       | `""`                                   | Currently selected size slug. Two-way bindable via `@bind-Value`. |
-| `ValueChanged`        | `EventCallback<string>`                  | no       | —                                      | Two-way binding callback. |
-| `DefaultValue`        | `string?`                                | no       | `"medium"` if present, else `Sizes[0]` | Initial size when nothing else is supplied. |
-| `StorageKey`          | `string?`                                | no       | `null`                                 | If set, persist selection to `localStorage`. |
-| `Name`                | `string`                                 | no       | `"text-size"`                          | `name` set on the hidden `<input>`. |
-| `SizeLabels`          | `IReadOnlyDictionary<string,string>`     | no       | empty                                  | Optional pretty labels per size slug. |
-| `ChildContent`        | `RenderFragment<TextSizeChooserContext>?` | no       | the `"A"` glyph                        | **Replaces the glyph inside the button.** It does not render options. |
-| `OnChange`            | `EventCallback<string>`                  | no       | —                                      | Fires after the control applies a new size. |
-| `CssClass`            | `string`                                 | no       | `""`                                   | Extra CSS class merged into the root `<div>`. |
-| `AdditionalAttributes`| `Dictionary<string,object>?`             | no       | —                                      | Captures unmatched attributes; spread onto the root `<div>`. |
+| Parameter              | Type                                      | Required | Default                                | Purpose                                                               |
+| ---------------------- | ----------------------------------------- | -------- | -------------------------------------- | --------------------------------------------------------------------- |
+| `Label`                | `string`                                  | yes      | —                                      | Accessible name for the button **and** the listbox.                   |
+| `Sizes`                | `IReadOnlyList<string>`                   | yes      | —                                      | Available size slugs.                                                 |
+| `Value`                | `string`                                  | no       | `""`                                   | Currently selected size slug. Two-way bindable via `@bind-Value`.     |
+| `ValueChanged`         | `EventCallback<string>`                   | no       | —                                      | Two-way binding callback.                                             |
+| `DefaultValue`         | `string?`                                 | no       | `"medium"` if present, else `Sizes[0]` | Initial size when nothing else is supplied.                           |
+| `StorageKey`           | `string?`                                 | no       | `null`                                 | If set, persist selection to `localStorage`.                          |
+| `Name`                 | `string`                                  | no       | `"text-size"`                          | `name` set on the hidden `<input>`.                                   |
+| `SizeLabels`           | `IReadOnlyDictionary<string,string>`      | no       | empty                                  | Optional pretty labels per size slug.                                 |
+| `ChildContent`         | `RenderFragment<TextSizePickerContext>?` | no       | the `"A"` glyph                        | **Replaces the glyph inside the button.** It does not render options. |
+| `OnChange`             | `EventCallback<string>`                   | no       | —                                      | Fires after the control applies a new size.                           |
+| `CssClass`             | `string`                                  | no       | `""`                                   | Extra CSS class merged into the root `<div>`.                         |
+| `AdditionalAttributes` | `Dictionary<string,object>?`              | no       | —                                      | Captures unmatched attributes; spread onto the root `<div>`.          |
 
-### 4.2 `TextSizeChooserContext`
+### 4.2 `TextSizePickerContext`
 
 `ChildContent` replaces the glyph, so the context is narrowed to what a
 glyph needs. Options are component-owned and cannot be overridden — the
 listbox semantics therefore cannot be broken by a consumer.
 
 ```csharp
-public sealed class TextSizeChooserContext
+public sealed class TextSizePickerContext
 {
     public required string Value { get; init; }
     public required bool Open { get; init; }
@@ -118,30 +118,48 @@ public sealed class TextSizeChooserContext
 
 ### 4.3 Statics
 
-- `TextSizeChooser.LatinCapitalLetterA` — the default glyph `"A"`
+- `TextSizePicker.LatinCapitalLetterA` — the default glyph `"A"`
   (U+0041).
-- `TextSizeChooser.SizeName(string slug)` — the ONE title-casing rule
+- `TextSizePicker.SizeName(string slug)` — the ONE title-casing rule
   (`"x-large"` → `"X Large"`). The private instance `LabelFor`
   delegates to it, so consumers rendering their own UI never duplicate
-  it. Mirrors `ThemeChooser.ThemeName` and `Locales.LocaleName`.
-- `TextSizeChooser.SetSizeAsync(string slug)` — apply a size
+  it. Mirrors `ThemePicker.ThemeName` and `Locales.LocaleName`.
+- `TextSizePicker.SetSizeAsync(string slug)` — apply a size
   imperatively via a `@ref`.
 
 ### 4.4 DOM contract
 
 ```html
-<div class="text-size-chooser {CssClass}" ...AdditionalAttributes>
+<div class="text-size-picker {CssClass}" ...AdditionalAttributes>
   <input type="hidden" name="{Name}" value="{Value}" />
-  <button type="button" class="text-size-chooser-button"
-          aria-label="{Label}" aria-haspopup="listbox"
-          aria-expanded="false" aria-controls="{listId}">
-    <span class="text-size-chooser-icon" aria-hidden="true">A</span>
+  <button
+    type="button"
+    class="text-size-picker-button"
+    aria-label="{Label}"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="{listId}"
+  >
+    <span class="text-size-picker-icon" aria-hidden="true">A</span>
   </button>
-  <ul class="text-size-chooser-list" id="{listId}" role="listbox"
-      aria-label="{Label}" tabindex="-1" hidden
-      aria-activedescendant="{active option id, only while open}">
-    <li class="text-size-chooser-option" id="{optionId}" role="option"
-        aria-selected="true|false" data-active>Medium</li>
+  <ul
+    class="text-size-picker-list"
+    id="{listId}"
+    role="listbox"
+    aria-label="{Label}"
+    tabindex="-1"
+    hidden
+    aria-activedescendant="{active option id, only while open}"
+  >
+    <li
+      class="text-size-picker-option"
+      id="{optionId}"
+      role="option"
+      aria-selected="true|false"
+      data-active
+    >
+      Medium
+    </li>
   </ul>
 </div>
 ```
@@ -205,7 +223,7 @@ On the **listbox**:
 | `Enter` / `Space` | Select the active option, apply it, close, return focus to the button. |
 | `Escape`          | Close and return focus **without** changing the value.                 |
 | `Tab`             | Close **without** stealing focus back.                                 |
-| Printable chars   | Typeahead over the option *labels*, 500 ms buffer reset.               |
+| Printable chars   | Typeahead over the option _labels_, 500 ms buffer reset.               |
 
 Clicking an option selects it; focus leaving the root closes the
 listbox without changing the value.
@@ -220,7 +238,7 @@ carries `hidden`.
 ### 5.6 Blazor deviations from the canonical Svelte implementation
 
 Two clauses of the canonical keyboard contract could not be implemented
-identically. Both are shared with `ThemeChooser` and `LocaleChooser`.
+identically. Both are shared with `ThemePicker` and `LocalePicker`.
 
 - **No `preventDefault` on keydown.** Blazor evaluates
   `@onkeydown:preventDefault` at render time, not per event, so it
@@ -252,17 +270,17 @@ an option does not blur the listbox before the click handler runs.
 
 ## 7. Testing acceptance criteria
 
-`TextSizeChooserTests.cs` must assert every numbered item below, one
+`TextSizePickerTests.cs` must assert every numbered item below, one
 `[Fact]` per clause. Tests run under bUnit + xUnit.
 
 ### Markup contract
 
-1. §7.1 — The root is a `<div class="text-size-chooser">` containing a
-   `<button type="button" class="text-size-chooser-button">` with
+1. §7.1 — The root is a `<div class="text-size-picker">` containing a
+   `<button type="button" class="text-size-picker-button">` with
    `aria-haspopup="listbox"`, `aria-expanded`, and `aria-controls`
    pointing at a `<ul role="listbox" tabindex="-1">`. No `<select>`.
 2. §7.2 — The button renders the `"A"` glyph in
-   `span.text-size-chooser-icon` with `aria-hidden="true"`, and
+   `span.text-size-picker-icon` with `aria-hidden="true"`, and
    `LatinCapitalLetterA` is `"A"`.
 3. §7.3 — `aria-label` equals `Label` on both the button and the list.
 4. §7.4 — One `<li role="option">` per size; the hidden input carries
@@ -276,7 +294,7 @@ an option does not blur the listbox before the click handler runs.
 7. §7.7 — Default labels title-case the slug (`x-large` → `X Large`);
    `SizeLabels` overrides.
 8. §7.8 — List and option ids are stable across re-render and unique
-   across instances, prefixed `text-size-chooser-`.
+   across instances, prefixed `text-size-picker-`.
 
 ### Keyboard contract
 
@@ -321,7 +339,7 @@ an option does not blur the listbox before the click handler runs.
 ## 9. Tracking
 
 - Package directory:
-  `lily-design-system-blazor-helpers/lily-design-system-blazor-text-size-chooser/`
+  `lily-design-system-blazor-helpers/lily-design-system-blazor-text-size-picker/`
 - Spec version: 0.1.0
 - Created: 2026-06-17
 - Updated: 2026-07-20
@@ -329,7 +347,7 @@ an option does not blur the listbox before the click handler runs.
   contact for other terms)
 - Contact: Joel Parker Henderson &lt;joel@joelparkerhenderson.com&gt;
 - Canonical contract:
-  [`../../lily-design-system-svelte-helpers/lily-design-system-svelte-text-size-chooser/spec/index.md`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-text-size-chooser/spec/index.md)
+  [`../../lily-design-system-svelte-helpers/lily-design-system-svelte-text-size-picker/spec/index.md`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-text-size-picker/spec/index.md)
 
 ---
 

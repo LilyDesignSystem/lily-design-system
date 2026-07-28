@@ -1,7 +1,7 @@
-# Testing — LocaleChooser (Nunjucks)
+# Testing — LocalePicker (Nunjucks)
 
 The select's test suite lives in
-[`../locale-chooser.test.ts`](../locale-chooser.test.ts) and
+[`../locale-picker.test.ts`](../locale-picker.test.ts) and
 asserts every numbered acceptance criterion in `spec/index.md` §7.
 This file documents the test harness and the conventions
 specific to this helper. For the catalog-wide test rules see
@@ -17,53 +17,53 @@ import * as path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
-    autoInit,
-    initLocaleChooser,
-    bcp47LocaleTag,
-    GLOBE_WITH_MERIDIANS,
-    isRtlLocale,
-    localeName,
-    matchNavigatorLanguage,
-    defaultLocaleLabels,
-} from "./locale-chooser.client.js";
+  autoInit,
+  initLocalePicker,
+  bcp47LocaleTag,
+  GLOBE_WITH_MERIDIANS,
+  isRtlLocale,
+  localeName,
+  matchNavigatorLanguage,
+  defaultLocaleLabels,
+} from "./locale-picker.client.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const env = nunjucks.configure(__dirname, {
-    autoescape: true,
-    throwOnUndefined: false,
-    trimBlocks: true,
-    lstripBlocks: true,
+  autoescape: true,
+  throwOnUndefined: false,
+  trimBlocks: true,
+  lstripBlocks: true,
 });
 
 function renderMacro(opts: Record<string, unknown>): string {
-    const src =
-        `{% from "./locale-chooser.njk" import localeChooser %}` +
-        `{{ localeChooser(opts) }}`;
-    return env.renderString(src, { opts });
+  const src =
+    `{% from "./locale-picker.njk" import localePicker %}` +
+    `{{ localePicker(opts) }}`;
+  return env.renderString(src, { opts });
 }
 
 function renderMacroWithCaller(
-    opts: Record<string, unknown>,
-    body: string,
+  opts: Record<string, unknown>,
+  body: string,
 ): string {
-    const src =
-        `{% from "./locale-chooser.njk" import localeChooser %}` +
-        `{% call localeChooser(opts) %}${body}{% endcall %}`;
-    return env.renderString(src, { opts });
+  const src =
+    `{% from "./locale-picker.njk" import localePicker %}` +
+    `{% call localePicker(opts) %}${body}{% endcall %}`;
+  return env.renderString(src, { opts });
 }
 
 function mountIntoBody(html: string): HTMLElement {
-    document.body.innerHTML = html;
-    return document.body.querySelector(
-        "[data-lily-locale-chooser-root]",
-    ) as HTMLElement;
+  document.body.innerHTML = html;
+  return document.body.querySelector(
+    "[data-lily-locale-picker-root]",
+  ) as HTMLElement;
 }
 
 beforeEach(() => {
-    document.body.innerHTML = "";
-    document.documentElement.removeAttribute("lang");
-    document.documentElement.removeAttribute("dir");
-    localStorage.clear();
+  document.body.innerHTML = "";
+  document.documentElement.removeAttribute("lang");
+  document.documentElement.removeAttribute("dir");
+  localStorage.clear();
 });
 ```
 
@@ -74,17 +74,17 @@ four parts. The suite keeps a `partsOf(root)` helper:
 
 ```ts
 function partsOf(root: HTMLElement) {
-    return {
-        root,
-        button: root.querySelector(".locale-chooser-button") as HTMLButtonElement,
-        list: root.querySelector(".locale-chooser-list") as HTMLElement,
-        options: Array.from(
-            root.querySelectorAll<HTMLElement>(".locale-chooser-option"),
-        ),
-        input: root.querySelector(
-            "[data-lily-locale-chooser-input]",
-        ) as HTMLInputElement,
-    };
+  return {
+    root,
+    button: root.querySelector(".locale-picker-button") as HTMLButtonElement,
+    list: root.querySelector(".locale-picker-list") as HTMLElement,
+    options: Array.from(
+      root.querySelectorAll<HTMLElement>(".locale-picker-option"),
+    ),
+    input: root.querySelector(
+      "[data-lily-locale-picker-input]",
+    ) as HTMLInputElement,
+  };
 }
 ```
 
@@ -98,26 +98,26 @@ one call, and thin `key(el, k, init?)` / `click(el)` dispatchers.
 
 ```ts
 test("§7.7 bcp47LocaleTag(en_US) === en-US", () => {
-    expect(bcp47LocaleTag("en_US")).toBe("en-US");
+  expect(bcp47LocaleTag("en_US")).toBe("en-US");
 });
 
 test("§7.10 isRtlLocale handles script subtags", () => {
-    expect(isRtlLocale("uz_Arab_AF")).toBe(true);
+  expect(isRtlLocale("uz_Arab_AF")).toBe(true);
 });
 ```
 
 ## Two-phase test pattern
 
 ```ts
-test("§7.13 initLocaleChooser sets target.lang", () => {
-    const html = renderMacro({
-        label: "Language",
-        locales: ["en", "fr", "ar"],
-        value: "fr",
-    });
-    const root = mountIntoBody(html);
-    initLocaleChooser(root);
-    expect(document.documentElement.lang).toBe("fr");
+test("§7.13 initLocalePicker sets target.lang", () => {
+  const html = renderMacro({
+    label: "Language",
+    locales: ["en", "fr", "ar"],
+    value: "fr",
+  });
+  const root = mountIntoBody(html);
+  initLocalePicker(root);
+  expect(document.documentElement.lang).toBe("fr");
 });
 ```
 
@@ -147,12 +147,12 @@ user would — open it, then commit with a key or a click:
 ```ts
 const { button, list, options, input } = setup();
 
-key(button, "ArrowDown");      // opens, focus moves to the <ul>
-key(list, "ArrowDown");        // moves the active option only
-key(list, "Enter");            // commits
+key(button, "ArrowDown"); // opens, focus moves to the <ul>
+key(list, "ArrowDown"); // moves the active option only
+key(list, "Enter"); // commits
 
 expect(document.documentElement.lang).toBe("en-US");
-expect(input.value).toBe("en_US");           // consumer form
+expect(input.value).toBe("en_US"); // consumer form
 expect(list.hasAttribute("hidden")).toBe(true);
 expect(document.activeElement).toBe(button); // focus returned
 ```
@@ -164,12 +164,12 @@ Clicking works the same way: `click(button)` then `click(options[4])`.
 Open / closed and active / selected are four separate attributes;
 assert the one that carries the meaning:
 
-| Assertion target                            | Attribute                     |
-| ------------------------------------------- | ----------------------------- |
-| Is the listbox open?                        | `list.hasAttribute("hidden")` |
-| Does the button agree?                      | `button.getAttribute("aria-expanded")` |
-| Which option is active (roved to)?          | `list.getAttribute("aria-activedescendant")`, `[data-active]` |
-| Which locale is applied?                    | `option.getAttribute("aria-selected")`, `input.value` |
+| Assertion target                   | Attribute                                                     |
+| ---------------------------------- | ------------------------------------------------------------- |
+| Is the listbox open?               | `list.hasAttribute("hidden")`                                 |
+| Does the button agree?             | `button.getAttribute("aria-expanded")`                        |
+| Which option is active (roved to)? | `list.getAttribute("aria-activedescendant")`, `[data-active]` |
+| Which locale is applied?           | `option.getAttribute("aria-selected")`, `input.value`         |
 
 Active and selected are independent: arrowing changes the former
 only. The suite has a dedicated regression test for that.
@@ -182,15 +182,17 @@ The typeahead buffer resets 500 ms after the last keystroke, so use
 ```ts
 vi.useFakeTimers();
 try {
-    const { button, list, options } = setup();
-    key(button, "ArrowDown");
-    key(list, "f"); key(list, "r"); key(list, "_"); // matches "fr_CA"
-    expect(list.getAttribute("aria-activedescendant")).toBe(options[3].id);
-    vi.advanceTimersByTime(600);
-    key(list, "a");                                 // fresh search
-    expect(list.getAttribute("aria-activedescendant")).toBe(options[4].id);
+  const { button, list, options } = setup();
+  key(button, "ArrowDown");
+  key(list, "f");
+  key(list, "r");
+  key(list, "_"); // matches "fr_CA"
+  expect(list.getAttribute("aria-activedescendant")).toBe(options[3].id);
+  vi.advanceTimersByTime(600);
+  key(list, "a"); // fresh search
+  expect(list.getAttribute("aria-activedescendant")).toBe(options[4].id);
 } finally {
-    vi.useRealTimers();
+  vi.useRealTimers();
 }
 ```
 
@@ -198,18 +200,18 @@ try {
 
 ```ts
 test("§7.20 detectFromNavigator picks an exact match", () => {
-    Object.defineProperty(navigator, "languages", {
-        configurable: true,
-        get: () => ["fr-FR", "en"],
-    });
-    const html = renderMacro({
-        label: "L",
-        locales: ["en", "fr_FR", "ar"],
-        detectFromNavigator: true,
-    });
-    const root = mountIntoBody(html);
-    initLocaleChooser(root);
-    expect(document.documentElement.lang).toBe("fr-FR");
+  Object.defineProperty(navigator, "languages", {
+    configurable: true,
+    get: () => ["fr-FR", "en"],
+  });
+  const html = renderMacro({
+    label: "L",
+    locales: ["en", "fr_FR", "ar"],
+    detectFromNavigator: true,
+  });
+  const root = mountIntoBody(html);
+  initLocalePicker(root);
+  expect(document.documentElement.lang).toBe("fr-FR");
 });
 ```
 
@@ -223,7 +225,9 @@ tests. To simulate a thrown read:
 
 ```ts
 const original = Storage.prototype.getItem;
-Storage.prototype.getItem = () => { throw new Error("private mode"); };
+Storage.prototype.getItem = () => {
+  throw new Error("private mode");
+};
 // … run test …
 Storage.prototype.getItem = original;
 ```
@@ -237,13 +241,13 @@ render:
 
 ```ts
 test("macro renders without touching DOM", () => {
-    const html = renderMacro({
-        label: "L",
-        locales: ["en", "fr"],
-        value: "fr",
-    });
-    expect(html).toContain('role="listbox"');
-    expect(document.documentElement.hasAttribute("lang")).toBe(false);
+  const html = renderMacro({
+    label: "L",
+    locales: ["en", "fr"],
+    value: "fr",
+  });
+  expect(html).toContain('role="listbox"');
+  expect(document.documentElement.hasAttribute("lang")).toBe(false);
 });
 ```
 
@@ -264,14 +268,14 @@ nothing else:
 
 ```ts
 const root = mountIntoBody(
-    renderMacroWithCaller(
-        { label: "Language", locales: LOCALES },
-        `<span class="my-glyph" aria-hidden="true">L</span>`,
-    ),
+  renderMacroWithCaller(
+    { label: "Language", locales: LOCALES },
+    `<span class="my-glyph" aria-hidden="true">L</span>`,
+  ),
 );
 const { button } = partsOf(root);
 expect(button.querySelector(".my-glyph")).not.toBeNull();
-expect(button.querySelector(".locale-chooser-icon")).toBeNull();
+expect(button.querySelector(".locale-picker-icon")).toBeNull();
 expect(button.getAttribute("aria-label")).toBe("Language");
 ```
 
@@ -279,32 +283,42 @@ expect(button.getAttribute("aria-label")).toBe("Language");
 
 Give the two instances distinct `name`s (or distinct `id`s) so their
 listbox and option ids do not collide — the macro derives ids from
-`opts.id`, which defaults to `"locale-chooser-{name}"`:
+`opts.id`, which defaults to `"locale-picker-{name}"`:
 
 ```ts
 test("§7.23 autoInit wires every root on the page", () => {
-    document.body.innerHTML =
-        renderMacro({ label: "A", locales: ["en", "fr"], name: "a", defaultValue: "fr" }) +
-        renderMacro({ label: "B", locales: ["en", "ar"], name: "b", defaultValue: "ar" });
-    const controllers = autoInit();
-    expect(controllers).toHaveLength(2);
-    const lists = document.querySelectorAll(".locale-chooser-list");
-    expect(lists[0].id).not.toBe(lists[1].id);
+  document.body.innerHTML =
+    renderMacro({
+      label: "A",
+      locales: ["en", "fr"],
+      name: "a",
+      defaultValue: "fr",
+    }) +
+    renderMacro({
+      label: "B",
+      locales: ["en", "ar"],
+      name: "b",
+      defaultValue: "ar",
+    });
+  const controllers = autoInit();
+  expect(controllers).toHaveLength(2);
+  const lists = document.querySelectorAll(".locale-picker-list");
+  expect(lists[0].id).not.toBe(lists[1].id);
 });
 ```
 
 ## Section map
 
-| §7 group        | Test focus                                                                |
-| --------------- | ------------------------------------------------------------------------- |
-| 7.1 — 7.6       | Macro DOM contract (root, button, listbox, glyph, ids, per-option `lang`). |
-| 7.7 — 7.12      | Pure helpers (`bcp47LocaleTag`, `isRtlLocale`, `localeName`).             |
-| 7.13 — 7.17     | Client.js apply lifecycle (`lang`, `dir`, custom `target`).               |
-| 7.18 — 7.21     | Initial-value resolution (value, storage, navigator, default).            |
-| 7.22 — 7.25     | Attribute spread, caller block, `destroy`, `autoInit`.                    |
-| 7.26 — 7.27     | `data-lily-locale-chooser-value` as the sole `opts.value` channel.         |
-| 7.28 — 7.30     | Server-rendered listbox state (closed, one `aria-selected`, filled input).|
-| 7.31 — 7.35     | Keyboard, typeahead, and pointer contract (APG listbox).                  |
+| §7 group    | Test focus                                                                 |
+| ----------- | -------------------------------------------------------------------------- |
+| 7.1 — 7.6   | Macro DOM contract (root, button, listbox, glyph, ids, per-option `lang`). |
+| 7.7 — 7.12  | Pure helpers (`bcp47LocaleTag`, `isRtlLocale`, `localeName`).              |
+| 7.13 — 7.17 | Client.js apply lifecycle (`lang`, `dir`, custom `target`).                |
+| 7.18 — 7.21 | Initial-value resolution (value, storage, navigator, default).             |
+| 7.22 — 7.25 | Attribute spread, caller block, `destroy`, `autoInit`.                     |
+| 7.26 — 7.27 | `data-lily-locale-picker-value` as the sole `opts.value` channel.          |
+| 7.28 — 7.30 | Server-rendered listbox state (closed, one `aria-selected`, filled input). |
+| 7.31 — 7.35 | Keyboard, typeahead, and pointer contract (APG listbox).                   |
 
 ## One test per §7 acceptance
 

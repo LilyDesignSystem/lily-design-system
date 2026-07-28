@@ -10,19 +10,36 @@ Under SSR, the `effect()` callback's `typeof document !==
 "undefined"` guard prevents any DOM mutation. The select renders:
 
 ```html
-<div class="theme-chooser ">
-    <input type="hidden" name="theme" value="light" />
-    <button type="button" class="theme-chooser-button" aria-label="Theme"
-            aria-haspopup="listbox" aria-expanded="false"
-            aria-controls="theme-chooser-1-list">
-        <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
-    </button>
-    <ul class="theme-chooser-list" id="theme-chooser-1-list" role="listbox"
-        aria-label="Theme" tabindex="-1" hidden>
-        <li class="theme-chooser-option" id="theme-chooser-1-option-0"
-            role="option" aria-selected="true">Light</li>
-        …
-    </ul>
+<div class="theme-picker ">
+  <input type="hidden" name="theme" value="light" />
+  <button
+    type="button"
+    class="theme-picker-button"
+    aria-label="Theme"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="theme-picker-1-list"
+  >
+    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
+  </button>
+  <ul
+    class="theme-picker-list"
+    id="theme-picker-1-list"
+    role="listbox"
+    aria-label="Theme"
+    tabindex="-1"
+    hidden
+  >
+    <li
+      class="theme-picker-option"
+      id="theme-picker-1-option-0"
+      role="option"
+      aria-selected="true"
+    >
+      Light
+    </li>
+    …
+  </ul>
 </div>
 ```
 
@@ -30,13 +47,13 @@ The listbox is always closed server-side — open state is user
 interaction, and there has been none — so `aria-expanded` is `false`,
 `hidden` is present, and `aria-activedescendant` is absent.
 
-**Ids are deterministic.** They come from `nextThemeChooserId()`, an
+**Ids are deterministic.** They come from `nextThemePickerId()`, an
 incrementing module counter, not `Math.random()` or `Date.now()`. That
 is precisely so the `id` / `aria-controls` / option-id triple matches
 between the server and client renders; random ids would both trip
 hydration and silently break the ARIA wiring.
 
-The attributes that *can* differ across the boundary are the ones
+The attributes that _can_ differ across the boundary are the ones
 derived from `value`: the hidden input's `value`, and which `<li>`
 carries `aria-selected="true"`. If the server renders from an empty
 `value` while the client resolves one from `localStorage`, they
@@ -96,23 +113,23 @@ initializer:
 ```ts
 // src/app/app.config.server.ts
 import {
-    ApplicationConfig,
-    inject,
-    provideEnvironmentInitializer,
-    mergeApplicationConfig,
+  ApplicationConfig,
+  inject,
+  provideEnvironmentInitializer,
+  mergeApplicationConfig,
 } from "@angular/core";
 import { DOCUMENT } from "@angular/common";
 import { appConfig } from "./app.config";
 import { INITIAL_THEME } from "./tokens/initial-theme";
 
 const serverConfig: ApplicationConfig = {
-    providers: [
-        provideEnvironmentInitializer(() => {
-            const doc = inject(DOCUMENT);
-            const slug = inject(INITIAL_THEME);
-            doc.documentElement.setAttribute("data-theme", slug);
-        }),
-    ],
+  providers: [
+    provideEnvironmentInitializer(() => {
+      const doc = inject(DOCUMENT);
+      const slug = inject(INITIAL_THEME);
+      doc.documentElement.setAttribute("data-theme", slug);
+    }),
+  ],
 };
 
 export const config = mergeApplicationConfig(appConfig, serverConfig);
@@ -137,7 +154,7 @@ const theme = Astro.cookies.get("theme")?.value ?? "light";
         <link rel="stylesheet" href={`/assets/themes/${theme}.css`} />
     </head>
     <body>
-        <lily-theme-chooser
+        <lily-theme-picker
             client:load
             label="Theme"
             themesUrl="/assets/themes/"
@@ -195,7 +212,7 @@ the consumer wire the integration.
 If you see an Angular warning like "NG0500: Hydration: node
 mismatch", the most common cause is:
 
-- **Not the ids** — `nextThemeChooserId()` is a deterministic counter,
+- **Not the ids** — `nextThemePickerId()` is a deterministic counter,
   so `id`, `aria-controls`, and the option ids agree on both sides.
 - **Possibly the value-derived attributes** — the hidden input's
   `value` and the `aria-selected` flags. They differ if the server
@@ -212,7 +229,7 @@ the right theme. Only use `@defer` if you accept the FOUC.
 
 ## Inside `@defer` blocks
 
-`@defer (on viewport) { <lily-theme-chooser ... /> }` defers the
+`@defer (on viewport) { <lily-theme-picker ... /> }` defers the
 select until it enters the viewport. The FOUT window grows because
 the effect doesn't run on the first paint. Move the select outside
 the `@defer` boundary, or pre-resolve the theme on the server and

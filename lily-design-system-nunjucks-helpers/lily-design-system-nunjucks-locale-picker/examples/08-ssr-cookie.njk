@@ -2,7 +2,7 @@
   Example 08 — Cookie-resolved value, server-rendered.
 
   The select accepts `opts.value`, which the macro serialises as
-  `data-lily-locale-chooser-value` server-side — the sole channel by
+  `data-lily-locale-picker-value` server-side — the sole channel by
   which it reaches the client. The macro also marks the matching
   <li role="option"> `aria-selected="true"` and pre-fills the hidden
   input with the same code. Combine with a cookie-resolved value in
@@ -12,7 +12,7 @@
 
   The pre-filled hidden input is also the one thing that still works
   with JS disabled: the trigger button opens nothing until
-  locale-chooser.client.js runs, but a form submitted unenhanced still
+  locale-picker.client.js runs, but a form submitted unenhanced still
   carries a locale. See ../docs/ssr.md.
 
   This example assumes the consumer's host (Express, Eleventy
@@ -26,7 +26,7 @@
   Picking a different locale writes the cookie back, then
   reloads so the next request paints in the new locale.
 #}
-{% from "../locale-chooser.njk" import localeChooser %}
+{% from "../locale-picker.njk" import localePicker %}
 
 {# Demo defaults — in production these come from the host. #}
 {% set locale = locale or "fr" %}
@@ -41,7 +41,7 @@
         <title>SSR cookie demo</title>
     </head>
     <body>
-        {{ localeChooser({
+        {{ localePicker({
             label: "Language",
             locales: supported,
             value: locale,
@@ -56,7 +56,7 @@
         </main>
 
         <script type="module">
-            import { autoInit } from "../locale-chooser.client.js";
+            import { autoInit } from "../locale-picker.client.js";
             autoInit({
                 onChange(code) {
                     // Write a 1-year cookie and reload so the server
@@ -78,7 +78,7 @@
     import cookieParser from "cookie-parser";
     import {
         bcp47LocaleTag, isRtlLocale,
-    } from "./locale-chooser.client.js";
+    } from "./locale-picker.client.js";
 
     const SUPPORTED = ["en", "fr", "ar"];
     const app = express();

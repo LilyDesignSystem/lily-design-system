@@ -20,7 +20,7 @@
     contract yourself. See docs/custom-rendering.md.
 
     What this subclass preserves, deliberately:
-      - The .locale-chooser class hook, because it appends INTO the
+      - The .locale-picker class hook, because it appends INTO the
         base root rather than replacing it. Lose the root and the
         consumer's CSS hook disappears.
       - The hidden <input name=…>, so form participation still works.
@@ -33,114 +33,134 @@
     went with them. aria-pressed on a button group is a legitimate
     substitute pattern — it just has to be complete.
 
-    Note: locale-chooser.ts may need compilation to .js — adjust
+    Note: locale-picker.ts may need compilation to .js — adjust
     the <script src=…> per your build output.
 -->
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>locale-chooser — buttons</title>
-    <script type="module" src="../../locale-chooser.js"></script>
-    <style>
-        body { font-family: system-ui, sans-serif; padding: 2rem; }
-        .locale-chooser { border: 0; padding: 0; }
-        .locale-chooser-buttons {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-        .locale-chooser-buttons button {
-            font: inherit;
-            padding: 0.5rem 1rem;
-            border: 2px solid #4c6272;
-            background: #ffffff;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .locale-chooser-buttons button[aria-pressed="true"] {
-            background: #005eb8;
-            color: #ffffff;
-            border-color: #005eb8;
-        }
-        .locale-chooser-buttons button:focus-visible {
-            outline: 3px solid #ffeb3b;
-            outline-offset: 2px;
-        }
-    </style>
-</head>
-<body>
-    <h1>Locale chooser — toggle buttons</h1>
-
-    <button-locale-chooser
-        label="Language"
-        locales="en,fr,de,es,nl"
-    ></button-locale-chooser>
-
-    <p>Current: <code id="out">en</code></p>
-
-    <script type="module">
-        import { LocaleChooser, defaultLocaleLabels } from "../../locale-chooser.js";
-
-        const NATIVE = {
-            en: "English",
-            fr: "Français",
-            de: "Deutsch",
-            es: "Español",
-            nl: "Nederlands",
-        };
-
-        class ButtonLocaleChooser extends LocaleChooser {
-            connectedCallback() {
-                super.connectedCallback();
-                this._rerender();
+    <head>
+        <meta charset="utf-8" />
+        <title>locale-picker — buttons</title>
+        <script type="module" src="../../locale-picker.js"></script>
+        <style>
+            body {
+                font-family: system-ui, sans-serif;
+                padding: 2rem;
             }
-            attributeChangedCallback(name, oldVal, newVal) {
-                super.attributeChangedCallback(name, oldVal, newVal);
-                // A `value` change syncs state in place rather than
-                // rebuilding, so re-run on it too to refresh
-                // aria-pressed.
-                if (name === "value" || name === "locales") this._rerender();
+            .locale-picker {
+                border: 0;
+                padding: 0;
             }
-            _rerender() {
-                // The base root is a <div class="locale-chooser">
-                // holding the hidden input, the button, and the <ul>.
-                const root = this.querySelector("div.locale-chooser");
-                if (!root) return;
+            .locale-picker-buttons {
+                display: flex;
+                gap: 0.5rem;
+                flex-wrap: wrap;
+            }
+            .locale-picker-buttons button {
+                font: inherit;
+                padding: 0.5rem 1rem;
+                border: 2px solid #4c6272;
+                background: #ffffff;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+            .locale-picker-buttons button[aria-pressed="true"] {
+                background: #005eb8;
+                color: #ffffff;
+                border-color: #005eb8;
+            }
+            .locale-picker-buttons button:focus-visible {
+                outline: 3px solid #ffeb3b;
+                outline-offset: 2px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Locale picker — toggle buttons</h1>
 
-                // Hide the base control; keep the root and the hidden
-                // input so the class hook and form participation live on.
-                const trigger = root.querySelector(".locale-chooser-button");
-                if (trigger) trigger.hidden = true;
-                root.querySelector(".locale-chooser-buttons")?.remove();
+        <button-locale-picker
+            label="Language"
+            locales="en,fr,de,es,nl"
+        ></button-locale-picker>
 
-                const row = document.createElement("div");
-                row.className = "locale-chooser-buttons";
-                row.setAttribute("role", "group");
-                row.setAttribute("aria-label", this.label);
+        <p>Current: <code id="out">en</code></p>
 
-                for (const locale of this.locales) {
-                    const btn = document.createElement("button");
-                    btn.type = "button";
-                    btn.setAttribute("aria-pressed", String(this.value === locale));
-                    // Per-option lang, exactly as the base <li> options carry.
-                    btn.setAttribute("lang", this.tagFor(locale));
-                    btn.textContent =
-                        NATIVE[locale] ?? defaultLocaleLabels[locale] ?? locale;
-                    // Write the value and let the base class apply it.
-                    btn.addEventListener("click", () => { this.value = locale; });
-                    row.appendChild(btn);
+        <script type="module">
+            import {
+                LocalePicker,
+                defaultLocaleLabels,
+            } from "../../locale-picker.js";
+
+            const NATIVE = {
+                en: "English",
+                fr: "Français",
+                de: "Deutsch",
+                es: "Español",
+                nl: "Nederlands",
+            };
+
+            class ButtonLocalePicker extends LocalePicker {
+                connectedCallback() {
+                    super.connectedCallback();
+                    this._rerender();
                 }
-                root.appendChild(row);
-            }
-        }
-        customElements.define("button-locale-chooser", ButtonLocaleChooser);
+                attributeChangedCallback(name, oldVal, newVal) {
+                    super.attributeChangedCallback(name, oldVal, newVal);
+                    // A `value` change syncs state in place rather than
+                    // rebuilding, so re-run on it too to refresh
+                    // aria-pressed.
+                    if (name === "value" || name === "locales")
+                        this._rerender();
+                }
+                _rerender() {
+                    // The base root is a <div class="locale-picker">
+                    // holding the hidden input, the button, and the <ul>.
+                    const root = this.querySelector("div.locale-picker");
+                    if (!root) return;
 
-        await customElements.whenDefined("button-locale-chooser");
-        document
-            .querySelector("button-locale-chooser")
-            .addEventListener("localechange", (e) => {
-                document.querySelector("#out").textContent = e.detail.locale;
-            });
-    </script>
-</body>
+                    // Hide the base control; keep the root and the hidden
+                    // input so the class hook and form participation live on.
+                    const trigger = root.querySelector(
+                        ".locale-picker-button",
+                    );
+                    if (trigger) trigger.hidden = true;
+                    root.querySelector(".locale-picker-buttons")?.remove();
+
+                    const row = document.createElement("div");
+                    row.className = "locale-picker-buttons";
+                    row.setAttribute("role", "group");
+                    row.setAttribute("aria-label", this.label);
+
+                    for (const locale of this.locales) {
+                        const btn = document.createElement("button");
+                        btn.type = "button";
+                        btn.setAttribute(
+                            "aria-pressed",
+                            String(this.value === locale),
+                        );
+                        // Per-option lang, exactly as the base <li> options carry.
+                        btn.setAttribute("lang", this.tagFor(locale));
+                        btn.textContent =
+                            NATIVE[locale] ??
+                            defaultLocaleLabels[locale] ??
+                            locale;
+                        // Write the value and let the base class apply it.
+                        btn.addEventListener("click", () => {
+                            this.value = locale;
+                        });
+                        row.appendChild(btn);
+                    }
+                    root.appendChild(row);
+                }
+            }
+            customElements.define("button-locale-picker", ButtonLocalePicker);
+
+            await customElements.whenDefined("button-locale-picker");
+            document
+                .querySelector("button-locale-picker")
+                .addEventListener("localechange", (e) => {
+                    document.querySelector("#out").textContent =
+                        e.detail.locale;
+                });
+        </script>
+    </body>
 </html>

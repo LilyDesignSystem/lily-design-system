@@ -2,10 +2,10 @@
     Default rendering.
 
     The simplest possible mount. The component renders a
-    <div class="locale-chooser"> holding a hidden input, a
-    <button class="locale-chooser-button"> showing the globe glyph
-    (🌐, U+1F310), and a <ul class="locale-chooser-list" role="listbox">
-    with one <li class="locale-chooser-option" role="option"> per locale,
+    <div class="locale-picker"> holding a hidden input, a
+    <button class="locale-picker-button"> showing the globe glyph
+    (🌐, U+1F310), and a <ul class="locale-picker-list" role="listbox">
+    with one <li class="locale-picker-option" role="option"> per locale,
     each showing its locale's pretty name (from the built-in
     `locales.tsv` table). Each option carries `lang="…"` so screen
     readers pronounce the name in the right language.
@@ -19,7 +19,7 @@
     The control is icon-only: the closed button shows a glyph and
     nothing else, so the active locale has no on-screen representation
     and is not announced as any control's value. The
-    <p class="locale-chooser-status"> below is the compensating channel,
+    <p class="locale-picker-status"> below is the compensating channel,
     and it is the default pattern this package ships — see
     ../docs/accessibility.md.
 
@@ -47,19 +47,19 @@
 -->
 <script setup lang="ts">
 import { ref } from "vue";
-import LocaleChooser, { localeName } from "../LocaleChooser.vue";
+import LocalePicker, { localeName } from "../LocalePicker.vue";
 
 const locale = ref("en");
 </script>
 
 <template>
-    <LocaleChooser
+    <LocalePicker
         label="Choose your language"
         :locales="['en', 'fr', 'ar']"
         v-model:value="locale"
     />
 
-    <p class="locale-chooser-status" aria-live="polite">
+    <p class="locale-picker-status" aria-live="polite">
         Current language: {{ localeName(locale) }}
     </p>
 

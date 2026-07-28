@@ -1,20 +1,20 @@
-# TextSizeChooser — Specification
+# TextSizePicker — Specification
 
 Single source of truth for the
-`lily-design-system-angular-text-size-chooser` Angular helper. This file
+`lily-design-system-angular-text-size-picker` Angular helper. This file
 drives implementation, testing, and documentation in the
 spec-driven-development style: anything not in this spec is out of
 scope; anything in this spec must be exercised by a test.
 
 This is the Angular port of the canonical Svelte contract in
-[`../../lily-design-system-svelte-helpers/lily-design-system-svelte-text-size-chooser/spec/index.md`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-text-size-chooser/spec/index.md).
+[`../../lily-design-system-svelte-helpers/lily-design-system-svelte-text-size-picker/spec/index.md`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-text-size-picker/spec/index.md).
 When the Angular port and the Svelte canonical disagree, the Svelte
 side wins and the Angular side is patched.
 
 Sibling files in this directory:
 
-- `text-size-chooser.component.ts` — the implementation
-- `text-size-chooser.component.spec.ts` — vitest spec exercising every clause in §4–§7
+- `text-size-picker.component.ts` — the implementation
+- `text-size-picker.component.spec.ts` — vitest spec exercising every clause in §4–§7
 - `index.ts` — re-export barrel
 - `index.md` — user-facing readme
 
@@ -22,18 +22,18 @@ Sibling files in this directory:
 
 ## 1. Goal
 
-Give an Angular 20 application a drop-in, headless text-size chooser
+Give an Angular 20 application a drop-in, headless text-size picker
 that:
 
 1. Renders an **icon button that opens a WAI-ARIA APG listbox** of
-   available size slugs — the same shape as the sibling `theme-chooser`
-   and `locale-chooser` helpers.
+   available size slugs — the same shape as the sibling `theme-picker`
+   and `locale-picker` helpers.
 2. **Applies the chosen size** by setting `data-text-size="{slug}"`
    on the document root (or on a consumer-supplied target).
 3. Optionally persists the chosen size to `localStorage` so the
    choice survives reload.
 4. Ships zero CSS — the consumer maps each `[data-text-size="…"]`
-   slug to real typography via CSS targeting the `text-size-chooser`
+   slug to real typography via CSS targeting the `text-size-picker`
    class hook, and supplies the listbox positioning.
 
 ## 2. Non-goals
@@ -45,7 +45,7 @@ that:
 - **OS preference detection.** There is no "preferred text size"
   media query equivalent to `prefers-color-scheme` or
   `navigator.languages`, so this helper has no `detectFromSystem`
-  counterpart to theme-chooser's.
+  counterpart to theme-picker's.
 - **Custom default rendering**. The default is the icon-button +
   listbox pair for symmetry with the sibling helpers. Consumers who
   want a different widget bind it to the same `[(value)]` signal.
@@ -63,7 +63,7 @@ that:
   every role, state, focus move, and keystroke. This is a deliberate
   tradeoff — see §6 and
   [`../docs/accessibility.md`](../docs/accessibility.md).
-- **Element ids come from a module counter** (`nextTextSizeChooserId`),
+- **Element ids come from a module counter** (`nextTextSizePickerId`),
   so they are deterministic, unique per instance, and identical
   across server and client renders. No `Math.random` / `Date.now`.
 - **No template casts are needed.** The component handles `(click)` /
@@ -75,32 +75,52 @@ that:
 
 ### 4.1 Inputs / outputs
 
-| Input / output | Type                           | Required | Default                               | Purpose |
-| -------------- | ------------------------------ | -------- | ------------------------------------- | ------- |
-| `label`        | `input.required<string>()`     | yes      | —                                     | Accessible name for the button **and** the listbox. |
-| `sizes`        | `input.required<string[]>()`   | yes      | —                                     | Available size slugs. |
-| `value`        | `model<string>()`              | no       | `""`                                  | Currently selected size slug. Two-way bindable. |
-| `defaultValue` | `input<string>()`              | no       | `""`                                  | Initial size when nothing else is supplied. |
-| `storageKey`   | `input<string>()`              | no       | `""`                                  | If non-empty, persist the selection to `localStorage` under this key. |
-| `name`         | `input<string>()`              | no       | `"text-size"`                         | `name` attribute of the hidden input that carries the value in a form. |
-| `target`       | `input<HTMLElement \| null>()` | no       | `null` (→ `document.documentElement`) | Element that receives `data-text-size`. |
-| `sizeLabels`   | `input<Record<string,string>>()` | no     | `{}`                                  | Optional pretty labels per size slug. |
-| `className`    | `input<string>()`              | no       | `""`                                  | Extra CSS class on the root `<div>`. |
-| `sizeChange`   | `output<string>()`             | no       | —                                     | Emits after the control applies a new size. |
+| Input / output | Type                             | Required | Default                               | Purpose                                                                |
+| -------------- | -------------------------------- | -------- | ------------------------------------- | ---------------------------------------------------------------------- |
+| `label`        | `input.required<string>()`       | yes      | —                                     | Accessible name for the button **and** the listbox.                    |
+| `sizes`        | `input.required<string[]>()`     | yes      | —                                     | Available size slugs.                                                  |
+| `value`        | `model<string>()`                | no       | `""`                                  | Currently selected size slug. Two-way bindable.                        |
+| `defaultValue` | `input<string>()`                | no       | `""`                                  | Initial size when nothing else is supplied.                            |
+| `storageKey`   | `input<string>()`                | no       | `""`                                  | If non-empty, persist the selection to `localStorage` under this key.  |
+| `name`         | `input<string>()`                | no       | `"text-size"`                         | `name` attribute of the hidden input that carries the value in a form. |
+| `target`       | `input<HTMLElement \| null>()`   | no       | `null` (→ `document.documentElement`) | Element that receives `data-text-size`.                                |
+| `sizeLabels`   | `input<Record<string,string>>()` | no       | `{}`                                  | Optional pretty labels per size slug.                                  |
+| `className`    | `input<string>()`                | no       | `""`                                  | Extra CSS class on the root `<div>`.                                   |
+| `sizeChange`   | `output<string>()`               | no       | —                                     | Emits after the control applies a new size.                            |
 
 ### 4.2 DOM contract
 
 ```html
-<div class="text-size-chooser {className}">
+<div class="text-size-picker {className}">
   <input type="hidden" name="{name}" value="{value}" />
-  <button type="button" class="text-size-chooser-button" aria-label="{label}"
-          aria-haspopup="listbox" aria-expanded="false" aria-controls="{listId}">
-    <span class="text-size-chooser-icon" aria-hidden="true">A</span>
+  <button
+    type="button"
+    class="text-size-picker-button"
+    aria-label="{label}"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="{listId}"
+  >
+    <span class="text-size-picker-icon" aria-hidden="true">A</span>
   </button>
-  <ul class="text-size-chooser-list" id="{listId}" role="listbox" aria-label="{label}"
-      tabindex="-1" hidden aria-activedescendant="{optionId, only while open}">
-    <li class="text-size-chooser-option" id="{optionId}" role="option"
-        aria-selected="true|false" data-active>Medium</li>
+  <ul
+    class="text-size-picker-list"
+    id="{listId}"
+    role="listbox"
+    aria-label="{label}"
+    tabindex="-1"
+    hidden
+    aria-activedescendant="{optionId, only while open}"
+  >
+    <li
+      class="text-size-picker-option"
+      id="{optionId}"
+      role="option"
+      aria-selected="true|false"
+      data-active
+    >
+      Medium
+    </li>
   </ul>
 </div>
 ```
@@ -108,8 +128,8 @@ that:
 - The default button glyph is `LATIN_CAPITAL_LETTER_A` — `"A"`,
   U+0041. A plain letter rather than a pictograph: U+1F5DB DECREASE
   FONT SIZE SYMBOL has no real glyph in common font stacks and means
-  *decrease* rather than *size*, whereas "A" renders in the page's own
-  font everywhere and stays monochrome like theme-chooser's `◑`.
+  _decrease_ rather than _size_, whereas "A" renders in the page's own
+  font everywhere and stays monochrome like theme-picker's `◑`.
 - The hidden input preserves `name` and form participation.
 - `aria-activedescendant` is emitted only while the listbox is open.
 - `data-active` marks the keyboard cursor; `aria-selected` marks the
@@ -123,11 +143,11 @@ that:
 
 ### 4.3 Re-exports
 
-`index.ts` exports `TextSizeChooser` (the component class),
-`TextSizeChooserIcon` (the optional marker directive
-`ng-template[lilyTextSizeChooserIcon]`, for typed `let-` variables),
+`index.ts` exports `TextSizePicker` (the component class),
+`TextSizePickerIcon` (the optional marker directive
+`ng-template[lilyTextSizePickerIcon]`, for typed `let-` variables),
 `LATIN_CAPITAL_LETTER_A` (the default glyph),
-`nextTextSizeChooserId` (per-instance id generator), `sizeName` (the
+`nextTextSizePickerId` (per-instance id generator), `sizeName` (the
 pure label resolver), and the `ChildArgs` type.
 
 ## 5. Behaviour
@@ -149,7 +169,7 @@ non-empty value of:
 `labelFor(slug)` returns `sizeLabels[slug]` if present, else delegates
 to the exported `sizeName(slug)`, which title-cases the slug per
 hyphen-word (`x-large` → `X Large`). `sizeName` mirrors `themeName`
-in theme-chooser and `localeName` in locale-chooser, and is the single
+in theme-picker and `localeName` in locale-picker, and is the single
 implementation — `labelFor` does not duplicate it.
 
 ### 5.3 Applying a size
@@ -214,8 +234,8 @@ with the **last** option active. Opening moves focus to the `<ul>`.
 
 On the **listbox**:
 
-| Key               | Action                                                            |
-| ----------------- | ----------------------------------------------------------------- |
+| Key               | Action                                                             |
+| ----------------- | ------------------------------------------------------------------ |
 | `Arrow Down`      | Active option down one. **Clamps** at the last option — no wrap.   |
 | `Arrow Up`        | Active option up one. **Clamps** at the first option — no wrap.    |
 | `Home` / `End`    | First / last option becomes active.                                |
@@ -229,7 +249,7 @@ The typeahead matches the rendered label, not the slug — with
 
 ## 7. Testing acceptance criteria
 
-`text-size-chooser.component.spec.ts` must assert every numbered item
+`text-size-picker.component.spec.ts` must assert every numbered item
 below. Tests run under vitest + jsdom + `@angular/core/testing`
 `TestBed`.
 
@@ -238,8 +258,8 @@ below. Tests run under vitest + jsdom + `@angular/core/testing`
 1. Renders a `<button type="button">` with `aria-haspopup="listbox"`,
    `aria-expanded="false"`, and `aria-controls` pointing at the
    `role="listbox"` element; the root is a `<div>` carrying the
-   `text-size-chooser` class hook; the button renders `"A"` inside a
-   `.text-size-chooser-icon` span marked `aria-hidden="true"`.
+   `text-size-picker` class hook; the button renders `"A"` inside a
+   `.text-size-picker-icon` span marked `aria-hidden="true"`.
 2. `aria-label` names the button **and** the listbox.
 3. Renders one `<li role="option">` per entry in `sizes`; the hidden
    input carries the supplied `name` (default `"text-size"`); option
@@ -278,7 +298,7 @@ below. Tests run under vitest + jsdom + `@angular/core/testing`
     list.
 13. A projected `<ng-template>` replaces the glyph inside the button
     and receives `ChildArgs` (`value`, `open`, `labelFor`); the
-    default `.text-size-chooser-icon` is then absent.
+    default `.text-size-picker-icon` is then absent.
 
 ### 7.6 Keyboard contract (mirrors §6.2)
 
@@ -309,10 +329,10 @@ below. Tests run under vitest + jsdom + `@angular/core/testing`
 
 ## 9. Tracking
 
-- Package directory: `lily-design-system-angular-helpers/lily-design-system-angular-text-size-chooser/`
+- Package directory: `lily-design-system-angular-helpers/lily-design-system-angular-text-size-picker/`
 - Spec version: 0.1.0
 - Created: 2026-06-17
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause
   (or contact for other terms)
 - Contact: Joel Parker Henderson &lt;joel@joelparkerhenderson.com&gt;
-- Canonical contract: [`../../lily-design-system-svelte-helpers/lily-design-system-svelte-text-size-chooser/spec/index.md`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-text-size-chooser/spec/index.md)
+- Canonical contract: [`../../lily-design-system-svelte-helpers/lily-design-system-svelte-text-size-picker/spec/index.md`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-text-size-picker/spec/index.md)

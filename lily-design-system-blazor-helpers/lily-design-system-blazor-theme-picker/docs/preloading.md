@@ -92,7 +92,7 @@ select then doesn't need to swap stylesheets at all — only
 <!-- The select still emits a managed <link>; its href fetch
      resolves from the same origin as `all.css` so the cost is
      either a 304 or a small extra request you can ignore. -->
-<ThemeChooser
+<ThemePicker
     Label="Theme"
     ThemesUrl="/assets/themes/"
     Themes="@(new[] { "light", "dark", "abyss" })" />
@@ -123,7 +123,7 @@ with locale-specific theme palettes.
     <link rel="stylesheet" href="@($"/assets/themes/{Locale}.css")" />
 </HeadContent>
 
-<ThemeChooser ... />
+<ThemePicker ... />
 
 @code {
     [Parameter] public string Locale { get; set; } = "en";
@@ -150,7 +150,7 @@ For all four strategies, the select's `Extension` parameter is the
 right place to append a cache-bust query:
 
 ```razor
-<ThemeChooser
+<ThemePicker
     Label="Theme"
     ThemesUrl="/assets/themes/"
     Themes="@(new[] { "light", "dark" })"

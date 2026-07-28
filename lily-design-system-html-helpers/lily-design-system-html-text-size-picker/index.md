@@ -1,13 +1,13 @@
-# `<text-size-chooser>` (HTML helper)
+# `<text-size-picker>` (HTML helper)
 
-A reusable, headless vanilla HTML/JS **text-size chooser**, packaged as
-the `<text-size-chooser>` custom element. Renders an icon button that
+A reusable, headless vanilla HTML/JS **text-size picker**, packaged as
+the `<text-size-picker>` custom element. Renders an icon button that
 opens a dropdown listbox (WAI-ARIA APG listbox pattern) of text-size
 slugs and, on every change, sets `data-text-size="{slug}"` on a target
 element (default `document.documentElement`), optionally persisting the
 choice to `localStorage`.
 
-It is structurally identical to its `theme-chooser` and `locale-chooser`
+It is structurally identical to its `theme-picker` and `locale-picker`
 siblings — all three helpers in this catalog are the same shape.
 
 The single source of truth is [spec/index.md](./spec/index.md). This file is the
@@ -17,54 +17,62 @@ comprehensive user guide.
 
 Letting users resize text — beyond browser zoom — is a WCAG 2.2
 commitment (1.4.4 Resize Text, 1.4.12 Text Spacing). This helper owns
-the *selection + persistence + DOM application* of a text-size
+the _selection + persistence + DOM application_ of a text-size
 preference; the consumer owns the typography itself via CSS keyed on
 `[data-text-size="{slug}"]`:
 
 ```css
-:root[data-text-size="small"]   { font-size: 87.5%; }
-:root[data-text-size="medium"]  { font-size: 100%; }
-:root[data-text-size="large"]   { font-size: 112.5%; }
-:root[data-text-size="x-large"] { font-size: 125%; }
+:root[data-text-size="small"] {
+  font-size: 87.5%;
+}
+:root[data-text-size="medium"] {
+  font-size: 100%;
+}
+:root[data-text-size="large"] {
+  font-size: 112.5%;
+}
+:root[data-text-size="x-large"] {
+  font-size: 125%;
+}
 ```
 
 The element is a direct port of the Svelte canonical
-`lily-design-system-svelte-text-size-chooser`. APIs and behaviour match;
+`lily-design-system-svelte-text-size-picker`. APIs and behaviour match;
 only the framework idioms differ.
 
 ## Install
 
 ```ts
-// One side-effect import registers <text-size-chooser> globally:
-import "./lily-design-system-html-text-size-chooser";
+// One side-effect import registers <text-size-picker> globally:
+import "./lily-design-system-html-text-size-picker";
 
 // Or grab the class, helpers, and types:
 import {
-    TextSizeChooser,
-    sizeName,                 // "x-large" → "X Large"
-    nextTextSizeChooserId,
-    LATIN_CAPITAL_LETTER_A,   // the default "A" glyph
-    type TextSizeChooserProps,
-    type TextSizeChooserChangeDetail,
-} from "./lily-design-system-html-text-size-chooser";
+  TextSizePicker,
+  sizeName, // "x-large" → "X Large"
+  nextTextSizePickerId,
+  LATIN_CAPITAL_LETTER_A, // the default "A" glyph
+  type TextSizePickerProps,
+  type TextSizePickerChangeDetail,
+} from "./lily-design-system-html-text-size-picker";
 ```
 
 The barrel guards registration with
-`customElements.get("text-size-chooser")` so re-imports and SSR contexts
+`customElements.get("text-size-picker")` so re-imports and SSR contexts
 don't throw.
 
 ## Quick start
 
 ```html
-<script type="module" src="/dist/text-size-chooser.js"></script>
+<script type="module" src="/dist/text-size-picker.js"></script>
 
-<text-size-chooser
-    label="Text size"
-    sizes="small,medium,large,x-large"
-    storage-key="lily-text-size"
-></text-size-chooser>
+<text-size-picker
+  label="Text size"
+  sizes="small,medium,large,x-large"
+  storage-key="lily-text-size"
+></text-size-picker>
 
-<p class="text-size-chooser-status" aria-live="polite">Text size: Medium</p>
+<p class="text-size-picker-status" aria-live="polite">Text size: Medium</p>
 ```
 
 When the user picks `large`, the element:
@@ -80,12 +88,12 @@ tells a user which size is active. Wire `textsizechange` (or read
 `el.value`) to keep it current:
 
 ```ts
-const select = document.querySelector("text-size-chooser")!;
-const status = document.querySelector(".text-size-chooser-status")!;
+const select = document.querySelector("text-size-picker")!;
+const status = document.querySelector(".text-size-picker-status")!;
 
 select.addEventListener("textsizechange", (e) => {
-    const { size } = (e as CustomEvent<{ size: string }>).detail;
-    status.textContent = `Text size: ${select.labelFor(size)}`;
+  const { size } = (e as CustomEvent<{ size: string }>).detail;
+  status.textContent = `Text size: ${select.labelFor(size)}`;
 });
 ```
 
@@ -93,8 +101,13 @@ Because the list is a plain flow element, give it positioning — the
 helper ships no CSS at all:
 
 ```css
-.text-size-chooser { position: relative; }
-.text-size-chooser-list { position: absolute; z-index: 10; }
+.text-size-picker {
+  position: relative;
+}
+.text-size-picker-list {
+  position: absolute;
+  z-index: 10;
+}
 ```
 
 ## Default size
@@ -114,30 +127,30 @@ The default slug is `"medium"` whenever `"medium"` appears in your
 The complete table is in [spec/index.md §4.1](./spec/index.md#41-observed-attributes).
 Highlights:
 
-| Attribute       | Type          | Required | Notes                                       |
-| --------------- | ------------- | -------- | ------------------------------------------- |
-| `label`         | string        | yes      | `aria-label` on the button *and* the list.  |
-| `sizes`         | string (CSV)  | yes      | Available slugs.                            |
-| `value`         | string        | no       | Current slug.                               |
-| `default-value` | string        | no       | Initial when nothing else applies.          |
-| `storage-key`   | string        | no       | `localStorage` persistence.                 |
+| Attribute       | Type          | Required | Notes                                           |
+| --------------- | ------------- | -------- | ----------------------------------------------- |
+| `label`         | string        | yes      | `aria-label` on the button _and_ the list.      |
+| `sizes`         | string (CSV)  | yes      | Available slugs.                                |
+| `value`         | string        | no       | Current slug.                                   |
+| `default-value` | string        | no       | Initial when nothing else applies.              |
+| `storage-key`   | string        | no       | `localStorage` persistence.                     |
 | `name`          | string        | no       | Defaults to `"text-size"`; on the hidden input. |
-| `size-labels`   | string (JSON) | no       | Per-slug label overrides.                   |
-| `class`         | string        | no       | Extra class on the root `<div>`.            |
+| `size-labels`   | string (JSON) | no       | Per-slug label overrides.                       |
+| `class`         | string        | no       | Extra class on the root `<div>`.                |
 
-There is no detection attribute. Unlike `theme-chooser`
-(`detect-from-system`) and `locale-chooser` (`detect-from-navigator`),
+There is no detection attribute. Unlike `theme-picker`
+(`detect-from-system`) and `locale-picker` (`detect-from-navigator`),
 the platform exposes no preferred-text-size signal to detect.
 
 ## Class hooks
 
-| Class                      | Element                                      |
-| -------------------------- | -------------------------------------------- |
-| `text-size-chooser`         | root `<div>`                                 |
-| `text-size-chooser-button`  | the icon `<button>`                          |
-| `text-size-chooser-icon`    | the `<span>` holding the "A" glyph           |
-| `text-size-chooser-list`    | the `<ul role="listbox">`                    |
-| `text-size-chooser-option`  | each `<li role="option">`                    |
+| Class                      | Element                            |
+| -------------------------- | ---------------------------------- |
+| `text-size-picker`        | root `<div>`                       |
+| `text-size-picker-button` | the icon `<button>`                |
+| `text-size-picker-icon`   | the `<span>` holding the "A" glyph |
+| `text-size-picker-list`   | the `<ul role="listbox">`          |
+| `text-size-picker-option` | each `<li role="option">`          |
 
 Style `[data-active]` (keyboard-highlighted) differently from
 `[aria-selected="true"]` (chosen) — they mean different things.
@@ -147,7 +160,7 @@ Style `[data-active]` (keyboard-highlighted) differently from
 Every observed attribute mirrors a camelCase JS property:
 
 ```ts
-const select = document.querySelector("text-size-chooser") as TextSizeChooser;
+const select = document.querySelector("text-size-picker") as TextSizePicker;
 
 select.sizes = ["small", "medium", "large", "x-large"]; // CSV-encoded in attribute
 select.sizeLabels = { small: "Compact", large: "Comfortable" };
@@ -181,14 +194,14 @@ React / Vue siblings take, and `this.value`, `this.open`, and
 `this.labelFor(...)` are all readable inside it:
 
 ```ts
-class MyTextSizeChooser extends TextSizeChooser {
-    renderButtonContent(): Node {
-        const span = document.createElement("span");
-        span.textContent = `A — ${this.labelFor(this.value)}`;
-        return span;
-    }
+class MyTextSizePicker extends TextSizePicker {
+  renderButtonContent(): Node {
+    const span = document.createElement("span");
+    span.textContent = `A — ${this.labelFor(this.value)}`;
+    return span;
+  }
 }
-customElements.define("my-text-size-chooser", MyTextSizeChooser);
+customElements.define("my-text-size-picker", MyTextSizePicker);
 ```
 
 The base class still builds the button and listbox, so the aria wiring
@@ -206,8 +219,8 @@ and the whole keyboard contract keep working.
   characters run a 500 ms typeahead.
 - Focus sits on the `<ul>` while open; the highlighted option is
   conveyed by `aria-activedescendant`. Style
-  `.text-size-chooser-list:focus-visible` and
-  `.text-size-chooser-option[data-active]`, or keyboard users get no
+  `.text-size-picker-list:focus-visible` and
+  `.text-size-picker-option[data-active]`, or keyboard users get no
   feedback.
 - Directly supports WCAG 2.2 — 1.4.4 (Resize Text), 1.4.10 (Reflow),
   and 1.4.12 (Text Spacing).
@@ -219,9 +232,9 @@ and the whole keyboard contract keep working.
 
 The element compiles cleanly under static-site generators. On the
 server no lifecycle hook runs; the SSG emits the literal
-`<text-size-chooser>` tag, and the browser upgrades it after the JS
+`<text-size-picker>` tag, and the browser upgrades it after the JS
 loads. For zero-flicker first paint, pre-render `<html
-data-text-size="…">` and the matching `<text-size-chooser value="…">`
+data-text-size="…">` and the matching `<text-size-picker value="…">`
 host.
 
 ## Testing
@@ -235,16 +248,16 @@ Exercises every numbered acceptance criterion in
 
 ## Files in this directory
 
-| File                       | Purpose                                          |
-| -------------------------- | ------------------------------------------------ |
-| `spec/index.md`            | Single source of truth.                          |
-| `AGENTS.md`                | Fast-index pointer; loads the AGENTS bundle.     |
-| `CLAUDE.md`                | `@AGENTS.md`.                                    |
-| `text-size-chooser.ts`      | The custom-element class.                        |
-| `text-size-chooser.test.ts` | vitest suite.                                    |
-| `index.ts`                 | Barrel + side-effectful `customElements.define`. |
-| `index.md`                 | This file.                                       |
-| `docs/accessibility.md`    | Roles, keyboard contract, known tradeoffs.       |
+| File                        | Purpose                                          |
+| --------------------------- | ------------------------------------------------ |
+| `spec/index.md`             | Single source of truth.                          |
+| `AGENTS.md`                 | Fast-index pointer; loads the AGENTS bundle.     |
+| `CLAUDE.md`                 | `@AGENTS.md`.                                    |
+| `text-size-picker.ts`      | The custom-element class.                        |
+| `text-size-picker.test.ts` | vitest suite.                                    |
+| `index.ts`                  | Barrel + side-effectful `customElements.define`. |
+| `index.md`                  | This file.                                       |
+| `docs/accessibility.md`     | Roles, keyboard contract, known tradeoffs.       |
 
 ## License
 

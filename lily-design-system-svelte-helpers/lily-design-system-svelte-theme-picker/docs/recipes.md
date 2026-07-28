@@ -11,10 +11,10 @@ yourself:
 
 ```svelte
 <script lang="ts">
-  import ThemeChooser from "../ThemeChooser.svelte";
+  import ThemePicker from "../ThemePicker.svelte";
 </script>
 
-<ThemeChooser
+<ThemePicker
   label="Theme"
   themesUrl="/assets/themes/"
   themes={["light", "dark"]}
@@ -32,7 +32,7 @@ To use the underlying helper directly — on the server, in a store, or
 to decide something else — import it:
 
 ```ts
-import { matchSystemTheme } from "../ThemeChooser.svelte";
+import { matchSystemTheme } from "../ThemePicker.svelte";
 
 matchSystemTheme(["light", "dark"]);  // "dark" | "light"
 matchSystemTheme(["solarized"]);      // "" — neither slug on offer
@@ -49,7 +49,7 @@ write to the bound `value`:
 
 ```svelte
 <script lang="ts">
-  import ThemeChooser from "../ThemeChooser.svelte";
+  import ThemePicker from "../ThemePicker.svelte";
   import { onMount } from "svelte";
 
   let theme = $state("");
@@ -64,7 +64,7 @@ write to the bound `value`:
   });
 </script>
 
-<ThemeChooser
+<ThemePicker
   label="Theme"
   themesUrl="/assets/themes/"
   themes={["light", "dark"]}
@@ -104,13 +104,13 @@ active theme unless you state it:
 
 ```svelte
 <script lang="ts">
-  import ThemeChooser, { themeName } from "../ThemeChooser.svelte";
+  import ThemePicker, { themeName } from "../ThemePicker.svelte";
   let theme = $state("");
 </script>
 
-<ThemeChooser label="Theme" themesUrl="/assets/themes/" themes={["light", "dark"]} bind:value={theme} />
+<ThemePicker label="Theme" themesUrl="/assets/themes/" themes={["light", "dark"]} bind:value={theme} />
 
-<p class="theme-chooser-status" aria-live="polite">
+<p class="theme-picker-status" aria-live="polite">
   Active theme: {themeName(theme)}
 </p>
 ```
@@ -121,7 +121,7 @@ drift apart. Reasoning: [accessibility.md § The status region](./accessibility.
 ## Serve themes from a CDN
 
 ```svelte
-<ThemeChooser
+<ThemePicker
   themesUrl="https://cdn.example.com/lily-themes/"
   themes={["light", "dark", "abyss"]}
   label="Theme"
@@ -136,7 +136,7 @@ crossorigin="…">` attribute is needed if you also need
 ## Cache-bust a theme
 
 ```svelte
-<ThemeChooser
+<ThemePicker
   themesUrl="/assets/themes/"
   themes={["light", "dark"]}
   extension=".css?v=2025-06-05"
@@ -149,7 +149,7 @@ the slug works.
 
 ## Multiple regions with independent themes
 
-See [`../examples/multiple-choosers.svelte`](../examples/multiple-choosers.svelte).
+See [`../examples/multiple-pickers.svelte`](../examples/multiple-pickers.svelte).
 Each select gets a distinct `name` (so the hidden inputs and the
 managed `<link>`s don't collide) and a distinct `target` (so
 `data-theme` goes on the section root rather than `<html>`).

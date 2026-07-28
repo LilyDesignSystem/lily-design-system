@@ -1,19 +1,27 @@
-# TextSizeChooser (Angular helper)
+# TextSizePicker (Angular helper)
 
-A reusable Angular 20 headless **text-size chooser**. Renders an icon
+A reusable Angular 20 headless **text-size picker**. Renders an icon
 button that opens a [WAI-ARIA APG listbox](https://www.w3.org/WAI/ARIA/apg/patterns/listbox/)
 of text-size slugs and, on every change, sets
 `data-text-size="{slug}"` on a target element (default
 `document.documentElement`), optionally persisting the choice to
-`localStorage`. Same shape as the sibling `theme-chooser` and
-`locale-chooser` helpers. Ships no CSS — the consumer supplies the
+`localStorage`. Same shape as the sibling `theme-picker` and
+`locale-picker` helpers. Ships no CSS — the consumer supplies the
 listbox positioning and maps each size slug to real typography, e.g.:
 
 ```css
-:root[data-text-size="small"]   { font-size: 87.5%; }
-:root[data-text-size="medium"]  { font-size: 100%; }
-:root[data-text-size="large"]   { font-size: 112.5%; }
-:root[data-text-size="x-large"] { font-size: 125%; }
+:root[data-text-size="small"] {
+  font-size: 87.5%;
+}
+:root[data-text-size="medium"] {
+  font-size: 100%;
+}
+:root[data-text-size="large"] {
+  font-size: 112.5%;
+}
+:root[data-text-size="x-large"] {
+  font-size: 125%;
+}
 ```
 
 This supports WCAG 2.2 — 1.4.4 (Resize Text) and 1.4.12 (Text
@@ -24,13 +32,13 @@ app remembers.
 
 ```ts
 import { Component, signal } from "@angular/core";
-import { TextSizeChooser } from "lily-design-system-angular-text-size-chooser";
+import { TextSizePicker } from "lily-design-system-angular-text-size-picker";
 
 @Component({
   standalone: true,
-  imports: [TextSizeChooser],
+  imports: [TextSizePicker],
   template: `
-    <lily-text-size-chooser
+    <lily-text-size-picker
       label="Text size"
       [sizes]="['small', 'medium', 'large', 'x-large']"
       [(value)]="size"
@@ -45,32 +53,50 @@ export class SettingsPage {
 
 ## Inputs / outputs
 
-| Input / output | Type                           | Required | Description                                            |
-| -------------- | ------------------------------ | -------- | ------------------------------------------------------ |
-| `label`        | `string`                       | yes      | Accessible name (`aria-label`) for the button and listbox. |
-| `sizes`        | `string[]`                     | yes      | Available size slugs.                                  |
-| `value`        | `string`                       | no       | Selected slug. Two-way bindable via `[(value)]`.       |
-| `defaultValue` | `string`                       | no       | Initial slug when nothing else is supplied.            |
-| `storageKey`   | `string`                       | no       | If set, persist the slug to `localStorage`.            |
-| `name`         | `string`                       | no       | `name` of the hidden input (default `"text-size"`).    |
-| `target`       | `HTMLElement \| null`          | no       | Element to receive `data-text-size`. Default `<html>`. |
-| `sizeLabels`   | `Record<string,string>`        | no       | Pretty labels per slug.                                |
-| `className`    | `string`                       | no       | Extra CSS class on the root `<div>`.                   |
-| `sizeChange`   | `output<string>`               | no       | Emits after a new size is applied.                     |
+| Input / output | Type                    | Required | Description                                                |
+| -------------- | ----------------------- | -------- | ---------------------------------------------------------- |
+| `label`        | `string`                | yes      | Accessible name (`aria-label`) for the button and listbox. |
+| `sizes`        | `string[]`              | yes      | Available size slugs.                                      |
+| `value`        | `string`                | no       | Selected slug. Two-way bindable via `[(value)]`.           |
+| `defaultValue` | `string`                | no       | Initial slug when nothing else is supplied.                |
+| `storageKey`   | `string`                | no       | If set, persist the slug to `localStorage`.                |
+| `name`         | `string`                | no       | `name` of the hidden input (default `"text-size"`).        |
+| `target`       | `HTMLElement \| null`   | no       | Element to receive `data-text-size`. Default `<html>`.     |
+| `sizeLabels`   | `Record<string,string>` | no       | Pretty labels per slug.                                    |
+| `className`    | `string`                | no       | Extra CSS class on the root `<div>`.                       |
+| `sizeChange`   | `output<string>`        | no       | Emits after a new size is applied.                         |
 
 ## Markup
 
 ```html
-<div class="text-size-chooser">
+<div class="text-size-picker">
   <input type="hidden" name="text-size" value="medium" />
-  <button type="button" class="text-size-chooser-button" aria-label="Text size"
-          aria-haspopup="listbox" aria-expanded="false" aria-controls="…-list">
-    <span class="text-size-chooser-icon" aria-hidden="true">A</span>
+  <button
+    type="button"
+    class="text-size-picker-button"
+    aria-label="Text size"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="…-list"
+  >
+    <span class="text-size-picker-icon" aria-hidden="true">A</span>
   </button>
-  <ul class="text-size-chooser-list" id="…-list" role="listbox"
-      aria-label="Text size" tabindex="-1" hidden>
-    <li class="text-size-chooser-option" role="option" aria-selected="true"
-        data-active>Medium</li>
+  <ul
+    class="text-size-picker-list"
+    id="…-list"
+    role="listbox"
+    aria-label="Text size"
+    tabindex="-1"
+    hidden
+  >
+    <li
+      class="text-size-picker-option"
+      role="option"
+      aria-selected="true"
+      data-active
+    >
+      Medium
+    </li>
   </ul>
 </div>
 ```
@@ -86,11 +112,11 @@ Project an `<ng-template>` to replace the glyph inside the button. It
 receives `{ value, open, labelFor }`; it does **not** render options.
 
 ```html
-<lily-text-size-chooser label="Text size" [sizes]="sizes">
-  <ng-template lilyTextSizeChooserIcon let-args>
+<lily-text-size-picker label="Text size" [sizes]="sizes">
+  <ng-template lilyTextSizePickerIcon let-args>
     <svg width="16" height="16" aria-hidden="true" focusable="false">…</svg>
   </ng-template>
-</lily-text-size-chooser>
+</lily-text-size-picker>
 ```
 
 ## Behaviour

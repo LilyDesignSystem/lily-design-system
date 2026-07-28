@@ -5,11 +5,11 @@ Task-shaped answers. Each one is self-contained; copy and edit.
 ## Detect the browser's language on first visit
 
 ```vue
-<LocaleChooser
-    label="Language"
-    :locales="['en', 'fr', 'de', 'ar']"
-    detect-from-navigator
-    storage-key="my-app:locale"
+<LocalePicker
+  label="Language"
+  :locales="['en', 'fr', 'de', 'ar']"
+  detect-from-navigator
+  storage-key="my-app:locale"
 />
 ```
 
@@ -21,26 +21,26 @@ Matching is two-pass: exact first (`fr-CA` → `fr_CA`), then
 language-only (`fr-CA` → `fr`). If neither hits, detection yields
 nothing and resolution falls through.
 
-This mirrors `detect-from-system` on theme-chooser.
+This mirrors `detect-from-system` on theme-picker.
 
 ## Show each language in its own language (endonyms)
 
-The single highest-value thing you can do for a locale chooser. A user
-looking for their language scans for *their* word for it, not the
+The single highest-value thing you can do for a locale picker. A user
+looking for their language scans for _their_ word for it, not the
 English one.
 
 ```vue
-<LocaleChooser
-    label="Language"
-    :locales="['en', 'fr', 'de', 'es', 'ar', 'ja']"
-    :locale-labels="{
-        en: 'English',
-        fr: 'Français',
-        de: 'Deutsch',
-        es: 'Español',
-        ar: 'العربية',
-        ja: '日本語',
-    }"
+<LocalePicker
+  label="Language"
+  :locales="['en', 'fr', 'de', 'es', 'ar', 'ja']"
+  :locale-labels="{
+    en: 'English',
+    fr: 'Français',
+    de: 'Deutsch',
+    es: 'Español',
+    ar: 'العربية',
+    ja: '日本語',
+  }"
 />
 ```
 
@@ -50,30 +50,37 @@ font that can render the script — no extra work.
 
 ## Read a locale cookie before render (Nuxt 3)
 
-The flicker-free path: resolve on the server, hand the chooser an
+The flicker-free path: resolve on the server, hand the picker an
 explicit `value`, and let `value`-beats-everything do the rest.
 
 ```vue
 <script setup lang="ts">
-import LocaleChooser, { bcp47LocaleTag, isRtlLocale } from "lily-design-system-vue-locale-chooser";
+import LocalePicker, {
+  bcp47LocaleTag,
+  isRtlLocale,
+} from "lily-design-system-vue-locale-picker";
 
 const locale = useCookie<string>("locale", { default: () => "en" });
 
 useHead({
-    htmlAttrs: {
-        lang: computed(() => bcp47LocaleTag(locale.value)),
-        dir: computed(() => (isRtlLocale(locale.value) ? "rtl" : "ltr")),
-    },
+  htmlAttrs: {
+    lang: computed(() => bcp47LocaleTag(locale.value)),
+    dir: computed(() => (isRtlLocale(locale.value) ? "rtl" : "ltr")),
+  },
 });
 </script>
 
 <template>
-    <LocaleChooser label="Language" :locales="['en', 'fr', 'ar']" v-model:value="locale" />
+  <LocalePicker
+    label="Language"
+    :locales="['en', 'fr', 'ar']"
+    v-model:value="locale"
+  />
 </template>
 ```
 
 `useHead` puts the right `lang` / `dir` in the server-rendered HTML;
-the chooser then re-applies the same values on mount, so nothing
+the picker then re-applies the same values on mount, so nothing
 flashes. See [ssr.md](./ssr.md) and
 [`../examples/ssr-cookie.vue`](../examples/ssr-cookie.vue).
 
@@ -88,18 +95,18 @@ existing users' choices, write both for one release:
 const cookie = useCookie<string>("locale");
 
 function onChange(code: string) {
-    cookie.value = code; // new home
+  cookie.value = code; // new home
 }
 </script>
 
 <template>
-    <LocaleChooser
-        label="Language"
-        :locales="locales"
-        :value="cookie || undefined"
-        storage-key="my-app:locale"
-        @change="onChange"
-    />
+  <LocalePicker
+    label="Language"
+    :locales="locales"
+    :value="cookie || undefined"
+    storage-key="my-app:locale"
+    @change="onChange"
+  />
 </template>
 ```
 
@@ -115,10 +122,14 @@ const panel = ref<HTMLElement | null>(null);
 </script>
 
 <template>
-    <section ref="panel">
-        <LocaleChooser label="Quotation language" :locales="['en', 'ar']" :target="panel" />
-        <blockquote>…</blockquote>
-    </section>
+  <section ref="panel">
+    <LocalePicker
+      label="Quotation language"
+      :locales="['en', 'ar']"
+      :target="panel"
+    />
+    <blockquote>…</blockquote>
+  </section>
 </template>
 ```
 
@@ -134,18 +145,20 @@ Give each scoped select a distinct `name` if several sit in one form.
 ```vue
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
-import LocaleChooser, { bcp47LocaleTag } from "lily-design-system-vue-locale-chooser";
+import LocalePicker, {
+  bcp47LocaleTag,
+} from "lily-design-system-vue-locale-picker";
 
 const { locale, availableLocales } = useI18n();
 </script>
 
 <template>
-    <LocaleChooser
-        label="Language"
-        :locales="availableLocales"
-        v-model:value="locale"
-        storage-key="my-app:locale"
-    />
+  <LocalePicker
+    label="Language"
+    :locales="availableLocales"
+    v-model:value="locale"
+    storage-key="my-app:locale"
+  />
 </template>
 ```
 
@@ -164,32 +177,34 @@ import { setLocale } from "$lib/paraglide/runtime";
 </script>
 
 <template>
-    <LocaleChooser
-        label="Language"
-        :locales="['en', 'fr', 'de']"
-        @change="(code) => setLocale(code)"
-    />
+  <LocalePicker
+    label="Language"
+    :locales="['en', 'fr', 'de']"
+    @change="(code) => setLocale(code)"
+  />
 </template>
 ```
 
-`change` fires *after* the chooser has applied `lang` / `dir` /
+`change` fires _after_ the picker has applied `lang` / `dir` /
 storage, so the DOM is already consistent when your library reloads
 its messages. See [i18n-integration.md](./i18n-integration.md).
 
 ## Format dates and numbers with the same locale
 
-The chooser owns the selection, not the formatting. Derive your
+The picker owns the selection, not the formatting. Derive your
 formatters from the bound ref:
 
 ```vue
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { bcp47LocaleTag } from "lily-design-system-vue-locale-chooser";
+import { bcp47LocaleTag } from "lily-design-system-vue-locale-picker";
 
 const locale = ref("en");
 const tag = computed(() => bcp47LocaleTag(locale.value));
 
-const dateFmt = computed(() => new Intl.DateTimeFormat(tag.value, { dateStyle: "long" }));
+const dateFmt = computed(
+  () => new Intl.DateTimeFormat(tag.value, { dateStyle: "long" }),
+);
 const numFmt = computed(() => new Intl.NumberFormat(tag.value));
 </script>
 ```
@@ -207,9 +222,12 @@ user's own collation:
 const PRIORITY = ["en", "es", "zh_Hans"];
 
 const ordered = computed(() => {
-    const rest = ALL.filter((c) => !PRIORITY.includes(c));
-    const collator = new Intl.Collator(bcp47LocaleTag(locale.value));
-    return [...PRIORITY, ...rest.sort((a, b) => collator.compare(labelOf(a), labelOf(b)))];
+  const rest = ALL.filter((c) => !PRIORITY.includes(c));
+  const collator = new Intl.Collator(bcp47LocaleTag(locale.value));
+  return [
+    ...PRIORITY,
+    ...rest.sort((a, b) => collator.compare(labelOf(a), labelOf(b))),
+  ];
 });
 ```
 
@@ -223,7 +241,8 @@ non-Latin labels in an order that looks arbitrary to a native reader.
 const locale = ref("en");
 
 function onStorage(event: StorageEvent) {
-    if (event.key === "my-app:locale" && event.newValue) locale.value = event.newValue;
+  if (event.key === "my-app:locale" && event.newValue)
+    locale.value = event.newValue;
 }
 
 onMounted(() => window.addEventListener("storage", onStorage));
@@ -231,7 +250,7 @@ onBeforeUnmount(() => window.removeEventListener("storage", onStorage));
 </script>
 ```
 
-The `storage` event fires in *other* tabs only, so there is no loop.
+The `storage` event fires in _other_ tabs only, so there is no loop.
 
 ## Announce the change to screen readers
 
@@ -240,10 +259,10 @@ you render it. This is the documented default pattern, not an extra:
 
 ```vue
 <template>
-    <LocaleChooser label="Language" :locales="locales" v-model:value="locale" />
-    <p class="locale-chooser-status" role="status" :lang="bcp47LocaleTag(locale)">
-        {{ localeName(locale) }}
-    </p>
+  <LocalePicker label="Language" :locales="locales" v-model:value="locale" />
+  <p class="locale-picker-status" role="status" :lang="bcp47LocaleTag(locale)">
+    {{ localeName(locale) }}
+  </p>
 </template>
 ```
 
@@ -255,10 +274,10 @@ the visually-hidden CSS in [styling.md](./styling.md).
 
 The built-in typeahead (500 ms buffer, matches on label) handles
 dozens of entries. Past that, render a `<datalist>` combobox alongside
-and bind both to the same ref — the chooser keeps owning the lifecycle:
+and bind both to the same ref — the picker keeps owning the lifecycle:
 
 ```vue
-<LocaleChooser label="Language" :locales="ALL" v-model:value="locale" />
+<LocalePicker label="Language" :locales="ALL" v-model:value="locale" />
 <input list="locale-options" v-model="locale" />
 <datalist id="locale-options">
     <option v-for="c in ALL" :key="c" :value="c">{{ localeName(c) }}</option>
@@ -273,7 +292,7 @@ The user most in need of this control cannot read the page. Consider a
 bilingual `label`:
 
 ```vue
-<LocaleChooser label="Language / Idioma" :locales="['en', 'es']" />
+<LocalePicker label="Language / Idioma" :locales="['en', 'es']" />
 ```
 
 There is no general answer — see the `label` discussion in

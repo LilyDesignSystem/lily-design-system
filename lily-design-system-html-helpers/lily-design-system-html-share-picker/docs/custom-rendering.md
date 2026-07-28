@@ -1,4 +1,4 @@
-# Custom rendering — `<share-chooser>`
+# Custom rendering — `<share-picker>`
 
 Light DOM has no `<slot>`, so the customisation surface is
 **subclassing**. Override `renderButtonContent()` to replace the ➤
@@ -33,13 +33,13 @@ strands focus.
 The safest option if your font stack might lack U+27A4.
 
 ```js
-import { ShareChooser } from "lily-design-system-html-share-chooser/share-chooser";
+import { SharePicker } from "lily-design-system-html-share-picker/share-picker";
 
-class SvgShareChooser extends ShareChooser {
+class SvgSharePicker extends SharePicker {
   renderButtonContent() {
     const ns = "http://www.w3.org/2000/svg";
     const svg = document.createElementNS(ns, "svg");
-    svg.setAttribute("class", "share-chooser-icon");
+    svg.setAttribute("class", "share-picker-icon");
     svg.setAttribute("aria-hidden", "true");
     svg.setAttribute("viewBox", "0 0 24 24");
     svg.setAttribute("width", "1em");
@@ -51,7 +51,7 @@ class SvgShareChooser extends ShareChooser {
     return svg;
   }
 }
-customElements.define("svg-share-chooser", SvgShareChooser);
+customElements.define("svg-share-picker", SvgSharePicker);
 ```
 
 Keep `aria-hidden="true"` and `fill="currentColor"`: the name comes from
@@ -63,16 +63,16 @@ Addresses the biggest accessibility cost — an icon-only trigger — but
 brings WCAG 2.5.3 into play.
 
 ```js
-class LabelledShareChooser extends ShareChooser {
+class LabelledSharePicker extends SharePicker {
   renderButtonContent() {
     const frag = document.createDocumentFragment();
     const icon = document.createElement("span");
-    icon.className = "share-chooser-icon";
+    icon.className = "share-picker-icon";
     icon.setAttribute("aria-hidden", "true");
     icon.textContent = "\u27A4";
     const text = document.createElement("span");
-    text.className = "share-chooser-text";
-    text.textContent = this.label;   // reuse the same string
+    text.className = "share-picker-text";
+    text.textContent = this.label; // reuse the same string
     frag.append(icon, text);
     return frag;
   }
@@ -80,7 +80,7 @@ class LabelledShareChooser extends ShareChooser {
 ```
 
 **Label in Name (WCAG 2.5.3):** once visible text exists, the
-`aria-label` must *contain* it, or voice-control users saying "click
+`aria-label` must _contain_ it, or voice-control users saying "click
 Share" will fail to match. Rendering `this.label` as the visible text,
 as above, keeps them identical by construction. If you render different
 text, update `label` to include it.
@@ -88,10 +88,10 @@ text, update `label` to include it.
 ## Reacting to open state
 
 ```js
-class ChevronShareChooser extends ShareChooser {
+class ChevronSharePicker extends SharePicker {
   renderButtonContent() {
     const span = document.createElement("span");
-    span.className = "share-chooser-icon";
+    span.className = "share-picker-icon";
     span.setAttribute("aria-hidden", "true");
     span.textContent = this.open ? "×" : "➤";
     return span;
@@ -105,7 +105,7 @@ the trigger, which is where assistive technology looks.
 ## Showing the URL
 
 ```js
-class UrlShareChooser extends ShareChooser {
+class UrlSharePicker extends SharePicker {
   renderButtonContent() {
     const span = document.createElement("span");
     span.setAttribute("aria-hidden", "true");
@@ -121,14 +121,14 @@ set, else `location.href`.
 ## Registering a subclass
 
 ```js
-if (!customElements.get("svg-share-chooser")) {
-  customElements.define("svg-share-chooser", SvgShareChooser);
+if (!customElements.get("svg-share-picker")) {
+  customElements.define("svg-share-picker", SvgSharePicker);
 }
 ```
 
 The guard keeps hot-reload and re-imports from throwing. Import the
-class from `.../share-chooser` (not the barrel) if you want the subclass
-without also registering the base `<share-chooser>` tag.
+class from `.../share-picker` (not the barrel) if you want the subclass
+without also registering the base `<share-picker>` tag.
 
 ## What not to override
 

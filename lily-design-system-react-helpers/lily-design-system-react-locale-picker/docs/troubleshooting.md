@@ -12,14 +12,16 @@ An unstyled `<ul>` is a block element in normal flow.
 
 ## "The dropdown is always open" / "never opens"
 
-**Likely cause.** Your CSS sets `display` on `.locale-chooser-list`,
+**Likely cause.** Your CSS sets `display` on `.locale-picker-list`,
 overriding the UA stylesheet's `[hidden] { display: none }`. The
 component toggles the `hidden` attribute; it does not set `display`.
 
 **Fix.** Re-assert the rule after your own:
 
 ```css
-.locale-chooser-list[hidden] { display: none; }
+.locale-picker-list[hidden] {
+  display: none;
+}
 ```
 
 ## "The dropdown opens on the wrong side after switching to Arabic"
@@ -43,11 +45,11 @@ font.
 import the constant instead:
 
 ```tsx
-import { GLOBE_WITH_MERIDIANS } from "lily-design-system-react-locale-chooser";
+import { GLOBE_WITH_MERIDIANS } from "lily-design-system-react-locale-picker";
 ```
 
 If it is still coloured, your CSS font stack may be forcing an emoji
-face. Try `font-variant-emoji: text` on `.locale-chooser-icon`, or put a
+face. Try `font-variant-emoji: text` on `.locale-picker-icon`, or put a
 text-presentation face ahead of the emoji font.
 
 ## "The button shows an empty box (tofu) instead of a globe"
@@ -58,9 +60,13 @@ text-presentation face ahead of the emoji font.
 inline SVG via the `children` render prop:
 
 ```tsx
-<LocaleChooser label="Language" locales={locales}>
-    {() => <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20">…</svg>}
-</LocaleChooser>
+<LocalePicker label="Language" locales={locales}>
+  {() => (
+    <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20">
+      …
+    </svg>
+  )}
+</LocalePicker>
 ```
 
 Remember `aria-hidden="true"` — see
@@ -148,7 +154,7 @@ previous value in your handler, or track a `hasInteracted` flag.
 
 ## "`onChange` gives me `en_US` but `Intl` wants `en-US`"
 
-**Working as intended.** The callback hands back the code in *your*
+**Working as intended.** The callback hands back the code in _your_
 form so it round-trips against your own `locales` array.
 
 **Fix.** Normalise at the boundary with the exported helper:
@@ -159,7 +165,7 @@ onChange={(code) => i18n.changeLanguage(bcp47LocaleTag(code))}
 
 ## "Typeahead jumps to the wrong option"
 
-**Likely cause.** Typeahead matches the *rendered label*, not the code.
+**Likely cause.** Typeahead matches the _rendered label_, not the code.
 If you overrode `localeLabels` with endonyms, typing `g` for "German"
 will not find "Deutsch".
 
@@ -185,16 +191,18 @@ against the surrounding paragraph direction.
 **Fix.** Isolate each label:
 
 ```css
-.locale-chooser-option { unicode-bidi: isolate; }
+.locale-picker-option {
+  unicode-bidi: isolate;
+}
 ```
 
 ## "Tests fail with `matchMedia is not a function` or similar"
 
-**Not this component.** `LocaleChooser` does not use `matchMedia`; that
-is `ThemeChooser`'s system-preference detection. If a shared test setup
+**Not this component.** `LocalePicker` does not use `matchMedia`; that
+is `ThemePicker`'s system-preference detection. If a shared test setup
 stubs one control's globals, make sure it is not clearing the other's.
 
-For `LocaleChooser`, the globals that matter in jsdom are
+For `LocalePicker`, the globals that matter in jsdom are
 `navigator.languages` (present, but usually just `["en-US"]`) and
 `localStorage` (present). Stub `navigator.languages` with
 `Object.defineProperty` when testing `detectFromNavigator`.

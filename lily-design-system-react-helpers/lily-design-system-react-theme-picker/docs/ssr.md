@@ -11,21 +11,44 @@ Vite SSR), no `useEffect` runs and the select does not touch the
 DOM. The rendered HTML looks like:
 
 ```html
-<div class="theme-chooser">
-    <input type="hidden" name="theme" value="" />
-    <button type="button" class="theme-chooser-button" aria-label="Theme"
-            aria-haspopup="listbox" aria-expanded="false"
-            aria-controls="theme-chooser-«r0»-list">
-        <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
-    </button>
-    <ul class="theme-chooser-list" id="theme-chooser-«r0»-list" role="listbox"
-        aria-label="Theme" tabindex="-1" hidden>
-        <li class="theme-chooser-option" id="theme-chooser-«r0»-option-0"
-            role="option" aria-selected="false">Light</li>
-        <li class="theme-chooser-option" id="theme-chooser-«r0»-option-1"
-            role="option" aria-selected="false">Dark</li>
-        …
-    </ul>
+<div class="theme-picker">
+  <input type="hidden" name="theme" value="" />
+  <button
+    type="button"
+    class="theme-picker-button"
+    aria-label="Theme"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="theme-picker-«r0»-list"
+  >
+    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
+  </button>
+  <ul
+    class="theme-picker-list"
+    id="theme-picker-«r0»-list"
+    role="listbox"
+    aria-label="Theme"
+    tabindex="-1"
+    hidden
+  >
+    <li
+      class="theme-picker-option"
+      id="theme-picker-«r0»-option-0"
+      role="option"
+      aria-selected="false"
+    >
+      Light
+    </li>
+    <li
+      class="theme-picker-option"
+      id="theme-picker-«r0»-option-1"
+      role="option"
+      aria-selected="false"
+    >
+      Dark
+    </li>
+    …
+  </ul>
 </div>
 ```
 
@@ -78,18 +101,22 @@ The shape is:
 import { cookies } from "next/headers";
 import { ThemeClient } from "./theme-client";
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-    const theme = (await cookies()).get("theme")?.value ?? "light";
-    return (
-        <html lang="en" data-theme={theme}>
-            <head>
-                <link rel="stylesheet" href={`/assets/themes/${theme}.css`} />
-            </head>
-            <body>
-                <ThemeClient initialTheme={theme}>{children}</ThemeClient>
-            </body>
-        </html>
-    );
+export default async function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const theme = (await cookies()).get("theme")?.value ?? "light";
+  return (
+    <html lang="en" data-theme={theme}>
+      <head>
+        <link rel="stylesheet" href={`/assets/themes/${theme}.css`} />
+      </head>
+      <body>
+        <ThemeClient initialTheme={theme}>{children}</ThemeClient>
+      </body>
+    </html>
+  );
 }
 ```
 
@@ -98,32 +125,31 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 "use client";
 
 import { useState } from "react";
-import { ThemeChooser } from "./lily-design-system-react-theme-chooser";
+import { ThemePicker } from "./lily-design-system-react-theme-picker";
 
 export function ThemeClient({
-    initialTheme,
-    children,
+  initialTheme,
+  children,
 }: {
-    initialTheme: string;
-    children: React.ReactNode;
+  initialTheme: string;
+  children: React.ReactNode;
 }) {
-    const [theme, setTheme] = useState(initialTheme);
-    return (
-        <>
-            <ThemeChooser
-                label="Theme"
-                themesUrl="/assets/themes/"
-                themes={["light", "dark", "abyss"]}
-                value={theme}
-                onChange={(slug) => {
-                    setTheme(slug);
-                    document.cookie =
-                        `theme=${slug}; path=/; max-age=31536000; SameSite=Lax`;
-                }}
-            />
-            {children}
-        </>
-    );
+  const [theme, setTheme] = useState(initialTheme);
+  return (
+    <>
+      <ThemePicker
+        label="Theme"
+        themesUrl="/assets/themes/"
+        themes={["light", "dark", "abyss"]}
+        value={theme}
+        onChange={(slug) => {
+          setTheme(slug);
+          document.cookie = `theme=${slug}; path=/; max-age=31536000; SameSite=Lax`;
+        }}
+      />
+      {children}
+    </>
+  );
 }
 ```
 
@@ -134,23 +160,23 @@ export function ThemeClient({
 import { json, useLoaderData } from "@remix-run/react";
 
 export async function loader({ request }: { request: Request }) {
-    const cookie = request.headers.get("cookie") ?? "";
-    const theme = cookie.match(/theme=([^;]+)/)?.[1] ?? "light";
-    return json({ theme });
+  const cookie = request.headers.get("cookie") ?? "";
+  const theme = cookie.match(/theme=([^;]+)/)?.[1] ?? "light";
+  return json({ theme });
 }
 
 export default function App() {
-    const { theme } = useLoaderData<typeof loader>();
-    return (
-        <html lang="en" data-theme={theme}>
-            <head>
-                <link rel="stylesheet" href={`/assets/themes/${theme}.css`} />
-            </head>
-            <body>
-                <ThemeClient initialTheme={theme} />
-            </body>
-        </html>
-    );
+  const { theme } = useLoaderData<typeof loader>();
+  return (
+    <html lang="en" data-theme={theme}>
+      <head>
+        <link rel="stylesheet" href={`/assets/themes/${theme}.css`} />
+      </head>
+      <body>
+        <ThemeClient initialTheme={theme} />
+      </body>
+    </html>
+  );
 }
 ```
 
@@ -173,21 +199,21 @@ Next.js consumers may prefer a server action over `document.cookie`:
 import { cookies } from "next/headers";
 
 export async function setThemeCookie(slug: string) {
-    (await cookies()).set("theme", slug, {
-        path: "/",
-        maxAge: 60 * 60 * 24 * 365,
-        sameSite: "lax",
-    });
+  (await cookies()).set("theme", slug, {
+    path: "/",
+    maxAge: 60 * 60 * 24 * 365,
+    sameSite: "lax",
+  });
 }
 ```
 
 ```tsx
-<ThemeChooser
-    onChange={(slug) => {
-        setTheme(slug);
-        setThemeCookie(slug); // server action
-    }}
-    {...required}
+<ThemePicker
+  onChange={(slug) => {
+    setTheme(slug);
+    setThemeCookie(slug); // server action
+  }}
+  {...required}
 />
 ```
 
@@ -212,7 +238,7 @@ the consumer wire the integration.
 - React 19 effects run after hydration. StrictMode double-invokes
   them in development; the select's `initialisedRef` guard handles
   it.
-- Server Components cannot directly render `ThemeChooser` — they
+- Server Components cannot directly render `ThemePicker` — they
   render a client wrapper that renders the select. This is the
   canonical RSC boundary pattern.
 

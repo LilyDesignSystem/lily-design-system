@@ -17,7 +17,7 @@ does not honour, fails the very criterion it exists to satisfy.
 | -------------------------------------- | ----------------------------------------------------------- | ------------- |
 | `<button>`                             | `aria-label={label}`                                        | Consumer prop |
 | `<button>`                             | `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls` | Component     |
-| `<span class="text-size-chooser-icon">` | `aria-hidden="true"`                                        | Component     |
+| `<span class="text-size-picker-icon">` | `aria-hidden="true"`                                        | Component     |
 | `<ul>`                                 | `role="listbox"`, `aria-label={label}`, `tabindex="-1"`, `hidden` | Component |
 | `<ul>`                                 | `aria-activedescendant` (only while open)                   | Component     |
 | `<li>`                                 | `role="option"`, `aria-selected`                            | Component     |
@@ -64,7 +64,7 @@ element (default `<html>`) — no colour-only meaning is required.
 ## The tradeoffs this pattern accepts
 
 A button-plus-listbox buys a compact, fully styleable control, and it
-makes this helper match its `theme-chooser` and `locale-chooser` siblings
+makes this helper match its `theme-picker` and `locale-picker` siblings
 so a row of preference controls reads as one system. It is not free.
 Three costs are worth stating plainly before you adopt it.
 
@@ -128,7 +128,7 @@ weight and baseline, and stays monochrome. It is why the glyph is a
 letter: the obvious alternative, U+1F5DB DECREASE FONT SIZE SYMBOL, has
 no real glyph in common font stacks — it degrades to a crude bitmap
 shape or a `.notdef` box — and it means *decrease* rather than *size*.
-Compare `theme-chooser`'s ◑ and `locale-chooser`'s 🌐, both of which carry
+Compare `theme-picker`'s ◑ and `locale-picker`'s 🌐, both of which carry
 genuine font-availability risk.
 
 What remains is optical, not existential: "A" inks a smaller fraction of
@@ -175,8 +175,8 @@ value to read, and no selected-option state until the listbox is opened.
 ```tsx
 const [size, setSize] = useState("");
 
-<TextSizeChooser label="Text size" sizes={sizes} value={size} onChange={setSize} />
-<p className="text-size-chooser-status" aria-live="polite">
+<TextSizePicker label="Text size" sizes={sizes} value={size} onChange={setSize} />
+<p className="text-size-picker-status" aria-live="polite">
     Text size: {sizeName(size)}
 </p>
 ```
@@ -236,8 +236,8 @@ locale.
 The control does not suppress `:focus` or `:focus-visible` styling. The
 consumer's CSS is responsible for the visible focus ring.
 
-Two elements take focus, so style both: the `.text-size-chooser-button`
-and the `.text-size-chooser-list` (which receives focus while open).
+Two elements take focus, so style both: the `.text-size-picker-button`
+and the `.text-size-picker-list` (which receives focus while open).
 Style `[data-active]` on the options too — with
 `aria-activedescendant` the options never receive real DOM focus, so
 `:focus-visible` will never match them and the user would otherwise have
@@ -265,7 +265,7 @@ tradeoff 2 above. Check, at minimum:
   likely thing to be weak or silent on a given reader.
 - `Escape` returns you to the button and re-announces it.
 - Selection changes are **not** announced by the control itself. Verify
-  the `.text-size-chooser-status` region instead — it should speak once
+  the `.text-size-picker-status` region instead — it should speak once
   per change and stay silent on load.
 - Repeat the pass with the largest size active, and with browser zoom at
   200%, to confirm the control is still reachable and readable.

@@ -34,36 +34,45 @@ Every helper SFC follows this template:
 ```vue
 <script lang="ts">
 /** Public scoped-slot args. */
-export type SlotArgs = { /* … */ };
+export type SlotArgs = {/* … */};
 
 /** Public props — see spec/index.md §4. */
-export type Props = { /* … */ };
+export type Props = {/* … */};
 
 /** Pure helpers exported for consumer reuse. */
-export function helperName() { /* … */ }
+export function helperName() {
+  /* … */
+}
 </script>
 
 <script setup lang="ts">
 import { onMounted, watch } from "vue";
 
-const props = withDefaults(defineProps<Props>(), { /* … */ });
+const props = withDefaults(defineProps<Props>(), {/* … */});
 const emit = defineEmits<{
-    (event: "update:value", value: string): void;
-    (event: "change", value: string): void;
+  (event: "update:value", value: string): void;
+  (event: "change", value: string): void;
 }>();
 
-onMounted(() => { /* initial-value resolution */ });
-watch(() => props.value, (next, prev) => { /* apply */ });
+onMounted(() => {
+  /* initial-value resolution */
+});
+watch(
+  () => props.value,
+  (next, prev) => {
+    /* apply */
+  },
+);
 </script>
 
 <template>
-    <root-element
-        :class="`{base-class} ${props.class ?? ''}`.trim()"
-        role="..."
-        :aria-label="label"
-    >
-        <slot v-bind="slotArgs"><!-- default markup --></slot>
-    </root-element>
+  <root-element
+    :class="`{base-class} ${props.class ?? ''}`.trim()"
+    role="..."
+    :aria-label="label"
+  >
+    <slot v-bind="slotArgs"><!-- default markup --></slot>
+  </root-element>
 </template>
 ```
 
@@ -80,7 +89,7 @@ name (rather than the default `modelValue`) keeps the API symmetric
 with the Svelte canonical's `bind:value` and reads naturally:
 
 ```vue
-<ThemeChooser v-model:value="theme" ... />
+<ThemePicker v-model:value="theme" ... />
 ```
 
 Inside the component:
@@ -88,8 +97,8 @@ Inside the component:
 ```ts
 const props = withDefaults(defineProps<Props>(), { value: "" });
 const emit = defineEmits<{
-    (event: "update:value", value: string): void;
-    (event: "change", value: string): void;
+  (event: "update:value", value: string): void;
+  (event: "change", value: string): void;
 }>();
 ```
 
@@ -105,11 +114,11 @@ default scoped slot:
 
 ```vue
 <slot
-    :themes="themes"
-    :value="value ?? ''"
-    :set-theme="setTheme"
-    :name="name"
-    :label-for="labelFor"
+  :themes="themes"
+  :value="value ?? ''"
+  :set-theme="setTheme"
+  :name="name"
+  :label-for="labelFor"
 >
     <!-- default markup -->
 </slot>
@@ -118,11 +127,11 @@ default scoped slot:
 Consumers use kebab-case attribute names on the template side:
 
 ```vue
-<ThemeChooser>
+<ThemePicker>
     <template #default="{ themes, value, setTheme, labelFor }">
         <!-- … -->
     </template>
-</ThemeChooser>
+</ThemePicker>
 ```
 
 Vue automatically converts kebab-case slot props to camelCase in the
@@ -132,8 +141,8 @@ destructured object, so the `SlotArgs` type stays in camelCase.
 
 Vue forwards `$attrs` to the root element by default
 (`inheritAttrs: true`). Each helper declares the root's static class
-hook with `:class="\`{base} ${props.class}\`.trim()"` so a consumer
-can pass `class="my-extra"` and end up with both classes on the
+hook with `:class="\`{base} ${props.class}\`.trim()"`so a consumer
+can pass`class="my-extra"` and end up with both classes on the
 root. Other attrs (`data-*`, `id`, event handlers, ARIA overrides)
 fall through automatically.
 
@@ -162,7 +171,7 @@ Everything visual and locale-specific is the consumer's. See
 ## Naming
 
 - Class hooks are kebab-case derivatives of the file name:
-  `theme-chooser`, `theme-chooser-option`.
+  `theme-picker`, `theme-picker-option`.
 - Data attributes the consumer / CSS may want to observe use
-  `data-*` (e.g. `data-theme`, `data-lily-theme-chooser`).
+  `data-*` (e.g. `data-theme`, `data-lily-theme-picker`).
 - Don't introduce new ARIA attributes — use the platform's.

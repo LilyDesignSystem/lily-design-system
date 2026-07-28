@@ -1,4 +1,4 @@
-# `<share-chooser>` — Lily Design System HTML helper
+# `<share-picker>` — Lily Design System HTML helper
 
 A headless share control, packaged as a vanilla custom element. A
 single-glyph button (➤) that opens the **native share sheet** where the
@@ -13,22 +13,22 @@ Canonical contract: [spec/index.md](./spec/index.md).
 ## Install
 
 ```sh
-npm install lily-design-system-html-share-chooser
+npm install lily-design-system-html-share-picker
 ```
 
 ## Quick start
 
 ```html
-<share-chooser
+<share-picker
   id="share"
   label="Share this page"
   copy-label="Copy link"
   copied-label="Link copied to clipboard"
   copy-failed-label="Could not copy — press Ctrl+C to copy the address bar"
-></share-chooser>
+></share-picker>
 
 <script type="module">
-  import "lily-design-system-html-share-chooser";
+  import "lily-design-system-html-share-picker";
 
   // `targets` is a JS property, not an attribute: each target's `href`
   // is a function, so there is no honest string encoding for it.
@@ -50,9 +50,9 @@ npm install lily-design-system-html-share-chooser
 </script>
 ```
 
-Importing the module registers `<share-chooser>`. Registration is
+Importing the module registers `<share-picker>`. Registration is
 idempotent. To control the tag name yourself, import the class from
-`lily-design-system-html-share-chooser/share-chooser` instead and call
+`lily-design-system-html-share-picker/share-picker` instead and call
 `customElements.define(...)`.
 
 ## No social networks ship with this package
@@ -68,21 +68,21 @@ forbids — so the copy item renders only when you pass `copy-label`.
 
 ## Attributes
 
-| Attribute | Default | Purpose |
-| --------- | ------- | ------- |
-| `label` | `""` | **Required.** Accessible name for the trigger. |
-| `url` | current page URL | URL to share. Resolved lazily. |
-| `share-title` | `""` | Passed to `href(...)` and the native sheet. |
-| `text` | `""` | Passed to `href(...)` and the native sheet. |
-| `copy-label` | — | Label for the copy item. Omit it and no copy item renders. |
-| `copied-label` | — | Announced after a successful copy. |
-| `copy-failed-label` | — | Announced when the clipboard write fails. |
-| `strategy` | `auto` | `auto` \| `native` \| `list`. |
-| `class` | `""` | Extra class on the rendered root `<div>`. |
+| Attribute           | Default          | Purpose                                                    |
+| ------------------- | ---------------- | ---------------------------------------------------------- |
+| `label`             | `""`             | **Required.** Accessible name for the trigger.             |
+| `url`               | current page URL | URL to share. Resolved lazily.                             |
+| `share-title`       | `""`             | Passed to `href(...)` and the native sheet.                |
+| `text`              | `""`             | Passed to `href(...)` and the native sheet.                |
+| `copy-label`        | —                | Label for the copy item. Omit it and no copy item renders. |
+| `copied-label`      | —                | Announced after a successful copy.                         |
+| `copy-failed-label` | —                | Announced when the clipboard write fails.                  |
+| `strategy`          | `auto`           | `auto` \| `native` \| `list`.                              |
+| `class`             | `""`             | Extra class on the rendered root `<div>`.                  |
 
 ### Why `share-title` and not `title`
 
-`title` is a global HTML attribute: `<share-chooser title="…">` would
+`title` is a global HTML attribute: `<share-picker title="…">` would
 paint a native tooltip over the whole control. So the share title is
 `share-title` (property `shareTitle`), and `el.title` keeps its ordinary
 HTML meaning. It is the only name that differs from the Svelte, React
@@ -92,15 +92,15 @@ and Vue versions of this helper.
 
 Two parts of the API cannot be attributes, because attributes are
 strings and these carry functions. Each is exposed as a **property**,
-and each callback has a **matching event** — the same way `theme-chooser`
-exposes `themechange` and `locale-chooser` exposes `localechange`.
+and each callback has a **matching event** — the same way `theme-picker`
+exposes `themechange` and `locale-picker` exposes `localechange`.
 
-| Property | Event | Detail |
-| -------- | ----- | ------ |
-| `targets: ShareTarget[]` | — | — |
-| `onShare(targetId, url)` | `share` | `{ targetId, url }` |
-| `onCopy(url)` | `copy` | `{ url }` |
-| `onNativeShare(url)` | `nativeshare` | `{ url }` |
+| Property                 | Event         | Detail              |
+| ------------------------ | ------------- | ------------------- |
+| `targets: ShareTarget[]` | —             | —                   |
+| `onShare(targetId, url)` | `share`       | `{ targetId, url }` |
+| `onCopy(url)`            | `copy`        | `{ url }`           |
+| `onNativeShare(url)`     | `nativeshare` | `{ url }`           |
 
 The events are the primary contract; the callbacks are a convenience for
 code that already holds an element reference. Both fire, callback first.
@@ -119,8 +119,8 @@ success nor an error.
 
 ```ts
 type ShareTarget = {
-  id: string;      // reported back on share
-  label: string;   // visible link text — yours, so it localises
+  id: string; // reported back on share
+  label: string; // visible link text — yours, so it localises
   href: (url: string, title: string, text: string) => string;
   newTab?: boolean; // default true
 };
@@ -133,29 +133,40 @@ Every attribute also has a mirrored camelCase property, plus read-only
 ## Rendered markup
 
 ```html
-<share-chooser label="Share">
-  <div class="share-chooser">
-    <button type="button" class="share-chooser-button"
-            aria-label="Share" aria-expanded="false" aria-controls="share-chooser-1-list">
-      <span class="share-chooser-icon" aria-hidden="true">&#10148;</span>
+<share-picker label="Share">
+  <div class="share-picker">
+    <button
+      type="button"
+      class="share-picker-button"
+      aria-label="Share"
+      aria-expanded="false"
+      aria-controls="share-picker-1-list"
+    >
+      <span class="share-picker-icon" aria-hidden="true">&#10148;</span>
     </button>
-    <ul class="share-chooser-list" id="share-chooser-1-list" hidden>
-      <li class="share-chooser-list-item">
-        <a class="share-chooser-target" data-target-id="mastodon"
-           href="…" target="_blank" rel="noopener noreferrer">Mastodon</a>
+    <ul class="share-picker-list" id="share-picker-1-list" hidden>
+      <li class="share-picker-list-item">
+        <a
+          class="share-picker-target"
+          data-target-id="mastodon"
+          href="…"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Mastodon</a
+        >
       </li>
-      <li class="share-chooser-list-item">
-        <button type="button" class="share-chooser-copy">Copy link</button>
+      <li class="share-picker-list-item">
+        <button type="button" class="share-picker-copy">Copy link</button>
       </li>
     </ul>
-    <p class="share-chooser-status" aria-live="polite"></p>
+    <p class="share-picker-status" aria-live="polite"></p>
   </div>
-</share-chooser>
+</share-picker>
 ```
 
 Two details worth knowing:
 
-- **The trigger's class is `share-chooser-button`**, matching the
+- **The trigger's class is `share-picker-button`**, matching the
   `{helper}-button` convention the sibling helpers use.
 - **Destinations are real links with no `role` override.** They are
   navigation, so `role="menuitem"` would strip middle-click,
@@ -165,12 +176,15 @@ Two details worth knowing:
 ## Styling
 
 The package ships no CSS — including the list's positioning. The
-`<ul class="share-chooser-list">` renders in normal flow until you give
+`<ul class="share-picker-list">` renders in normal flow until you give
 the root `position: relative` and the list `position: absolute`:
 
 ```css
-.share-chooser { position: relative; display: inline-block; }
-.share-chooser-list {
+.share-picker {
+  position: relative;
+  display: inline-block;
+}
+.share-picker-list {
   position: absolute;
   inset-block-start: 100%;
   inset-inline-start: 0;
@@ -180,9 +194,15 @@ the root `position: relative` and the list `position: absolute`:
   min-inline-size: max-content;
 }
 /* Re-assert the closed state: the rule above would otherwise show it. */
-.share-chooser-list[hidden] { display: none; }
-.share-chooser-target,
-.share-chooser-copy { display: block; inline-size: 100%; text-align: start; }
+.share-picker-list[hidden] {
+  display: none;
+}
+.share-picker-target,
+.share-picker-copy {
+  display: block;
+  inline-size: 100%;
+  text-align: start;
+}
 ```
 
 Style the status region as visible text, or hide it visually while
@@ -198,13 +218,13 @@ Override `renderButtonContent()`; it sees `this.open` and
 pass to their `children` slot, and it re-runs on every state change.
 
 ```js
-import { ShareChooser } from "lily-design-system-html-share-chooser/share-chooser";
+import { SharePicker } from "lily-design-system-html-share-picker/share-picker";
 
-class LabelledShareChooser extends ShareChooser {
+class LabelledSharePicker extends SharePicker {
   renderButtonContent() {
     const frag = document.createDocumentFragment();
     const icon = document.createElement("span");
-    icon.className = "share-chooser-icon";
+    icon.className = "share-picker-icon";
     icon.setAttribute("aria-hidden", "true");
     icon.textContent = "\u27A4";
     const text = document.createElement("span");
@@ -213,19 +233,19 @@ class LabelledShareChooser extends ShareChooser {
     return frag;
   }
 }
-customElements.define("labelled-share-chooser", LabelledShareChooser);
+customElements.define("labelled-share-picker", LabelledSharePicker);
 ```
 
 ## Keyboard
 
-| Key | On the trigger | In the list |
-| --- | -------------- | ----------- |
-| `Enter` / `Space` | Activates | Activates the focused item |
-| `ArrowDown` | Opens, focuses the first item | Moves down, clamping |
-| `ArrowUp` | Opens, focuses the last item | Moves up, clamping |
-| `Home` / `End` | — | First / last item |
-| `Escape` | — | Closes, focus returns to the trigger |
-| `Tab` | Moves on | Closes, focus moves on |
+| Key               | On the trigger                | In the list                          |
+| ----------------- | ----------------------------- | ------------------------------------ |
+| `Enter` / `Space` | Activates                     | Activates the focused item           |
+| `ArrowDown`       | Opens, focuses the first item | Moves down, clamping                 |
+| `ArrowUp`         | Opens, focuses the last item  | Moves up, clamping                   |
+| `Home` / `End`    | —                             | First / last item                    |
+| `Escape`          | —                             | Closes, focus returns to the trigger |
+| `Tab`             | Moves on                      | Closes, focus moves on               |
 
 Items are real focusable elements, so focus moves for real — no
 `aria-activedescendant`.
@@ -242,10 +262,10 @@ Runnable pages in [examples/](./examples/).
 
 ## Related
 
-- [`lily-design-system-html-theme-chooser`](../lily-design-system-html-theme-chooser/)
-- [`lily-design-system-html-locale-chooser`](../lily-design-system-html-locale-chooser/)
-- [`lily-design-system-html-text-size-chooser`](../lily-design-system-html-text-size-chooser/)
-- [Svelte original](../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-chooser/)
+- [`lily-design-system-html-theme-picker`](../lily-design-system-html-theme-picker/)
+- [`lily-design-system-html-locale-picker`](../lily-design-system-html-locale-picker/)
+- [`lily-design-system-html-text-size-picker`](../lily-design-system-html-text-size-picker/)
+- [Svelte original](../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-picker/)
 
 ---
 

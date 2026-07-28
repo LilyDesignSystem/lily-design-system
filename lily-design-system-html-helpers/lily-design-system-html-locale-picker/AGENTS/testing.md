@@ -1,7 +1,7 @@
-# Testing — `<locale-chooser>` (HTML helper)
+# Testing — `<locale-picker>` (HTML helper)
 
 The select's test suite lives in
-[`../locale-chooser.test.ts`](../locale-chooser.test.ts) and asserts
+[`../locale-picker.test.ts`](../locale-picker.test.ts) and asserts
 every numbered acceptance criterion in `spec/index.md` §7. This file
 documents the test harness and conventions specific to this helper.
 For the catalog-wide rules see
@@ -12,24 +12,31 @@ For the catalog-wide rules see
 ```ts
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import {
-    LocaleChooser,
-    bcp47LocaleTag,
-    isRtlLocale,
-    localeName,
-    matchNavigatorLanguage,
-    GLOBE_WITH_MERIDIANS,
-} from "./locale-chooser.js";
+  LocalePicker,
+  bcp47LocaleTag,
+  isRtlLocale,
+  localeName,
+  matchNavigatorLanguage,
+  GLOBE_WITH_MERIDIANS,
+} from "./locale-picker.js";
 
 // Register once; re-registering the same tag throws.
-if (typeof customElements !== "undefined" && !customElements.get("locale-chooser")) {
-    customElements.define("locale-chooser", LocaleChooser);
+if (
+  typeof customElements !== "undefined" &&
+  !customElements.get("locale-picker")
+) {
+  customElements.define("locale-picker", LocalePicker);
 }
 
 beforeEach(() => {
-    document.documentElement.removeAttribute("lang");
-    document.documentElement.removeAttribute("dir");
-    document.body.replaceChildren();
-    try { localStorage.clear(); } catch { /* ignore */ }
+  document.documentElement.removeAttribute("lang");
+  document.documentElement.removeAttribute("dir");
+  document.body.replaceChildren();
+  try {
+    localStorage.clear();
+  } catch {
+    /* ignore */
+  }
 });
 ```
 
@@ -41,17 +48,20 @@ every test reaches for one of four things. Factor them out:
 ```ts
 const LOCALES = ["en", "en_US", "fr", "fr_CA", "ar"];
 
-function mount(attrs: Record<string, string>): LocaleChooser {
-    const el = document.createElement("locale-chooser") as LocaleChooser;
-    for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
-    document.body.appendChild(el);
-    return el;
+function mount(attrs: Record<string, string>): LocalePicker {
+  const el = document.createElement("locale-picker") as LocalePicker;
+  for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+  document.body.appendChild(el);
+  return el;
 }
 
-const button = () => document.body.querySelector<HTMLButtonElement>(".locale-chooser-button")!;
-const list   = () => document.body.querySelector<HTMLUListElement>(".locale-chooser-list")!;
-const options = () =>
-    [...document.body.querySelectorAll<HTMLLIElement>(".locale-chooser-option")];
+const button = () =>
+  document.body.querySelector<HTMLButtonElement>(".locale-picker-button")!;
+const list = () =>
+  document.body.querySelector<HTMLUListElement>(".locale-picker-list")!;
+const options = () => [
+  ...document.body.querySelectorAll<HTMLLIElement>(".locale-picker-option"),
+];
 ```
 
 ## Driving the control
@@ -61,17 +71,21 @@ synthetic events on the button and the list:
 
 ```ts
 function press(el: Element, key: string): void {
-    el.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true }));
+  el.dispatchEvent(
+    new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true }),
+  );
 }
 
 function click(el: Element): void {
-    el.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
+  el.dispatchEvent(
+    new MouseEvent("click", { bubbles: true, cancelable: true }),
+  );
 }
 
 /** Open the listbox and click the option for `code`. */
 function pick(code: string, locales: string[] = LOCALES): void {
-    click(button());
-    click(options()[locales.indexOf(code)]);
+  click(button());
+  click(options()[locales.indexOf(code)]);
 }
 ```
 
@@ -83,19 +97,21 @@ function pick(code: string, locales: string[] = LOCALES): void {
 const btn = button();
 expect(btn.getAttribute("aria-haspopup")).toBe("listbox");
 expect(btn.getAttribute("aria-expanded")).toBe("false");
-expect(document.getElementById(btn.getAttribute("aria-controls")!)).toBe(list());
+expect(document.getElementById(btn.getAttribute("aria-controls")!)).toBe(
+  list(),
+);
 
-const icon = document.body.querySelector<HTMLElement>(".locale-chooser-icon")!;
-expect(icon.textContent).toBe("\u{1F310}\uFE0E");    // GLOBE + VS15 (text presentation)
+const icon = document.body.querySelector<HTMLElement>(".locale-picker-icon")!;
+expect(icon.textContent).toBe("\u{1F310}\uFE0E"); // GLOBE + VS15 (text presentation)
 expect(icon.getAttribute("aria-hidden")).toBe("true");
 ```
 
-Assert the *absence* of the old rendering too — it is the cheapest
+Assert the _absence_ of the old rendering too — it is the cheapest
 guard against a regression:
 
 ```ts
 expect(document.body.querySelector("select")).toBeNull();
-expect(document.body.querySelector(".locale-chooser-placeholder")).toBeNull();
+expect(document.body.querySelector(".locale-picker-placeholder")).toBeNull();
 ```
 
 ## Asserting `lang` and `dir`
@@ -112,7 +128,7 @@ none. Assert both halves:
 
 ```ts
 const opts = options();
-expect(opts[1].getAttribute("lang")).toBe("en-US");   // hyphen form
+expect(opts[1].getAttribute("lang")).toBe("en-US"); // hyphen form
 expect(button().hasAttribute("lang")).toBe(false);
 expect(list().hasAttribute("lang")).toBe(false);
 ```
@@ -129,7 +145,7 @@ expect(document.activeElement).toBe(list());
 expect(list().getAttribute("aria-activedescendant")).toBe(options()[0].id);
 expect(options()[0].hasAttribute("data-active")).toBe(true);
 
-press(list(), "ArrowUp");   // clamps — no wrapping
+press(list(), "ArrowUp"); // clamps — no wrapping
 expect(list().getAttribute("aria-activedescendant")).toBe(options()[0].id);
 
 press(list(), "Enter");
@@ -138,7 +154,7 @@ expect(document.activeElement).toBe(button());
 expect(list().hasAttribute("aria-activedescendant")).toBe(false);
 ```
 
-`ArrowUp` on the *button* opens with the last option active — a
+`ArrowUp` on the _button_ opens with the last option active — a
 distinct case from `ArrowUp` on the list.
 
 Typeahead searches the resolved **labels**, not the codes:
@@ -154,10 +170,10 @@ expect(list().getAttribute("aria-activedescendant")).toBe(options()[2].id);
 ```ts
 const onChange = vi.fn();
 el.addEventListener("localechange", (e) => {
-    onChange((e as CustomEvent<{ locale: string }>).detail.locale);
+  onChange((e as CustomEvent<{ locale: string }>).detail.locale);
 });
 pick("en_US");
-expect(onChange).toHaveBeenLastCalledWith("en_US");   // consumer form
+expect(onChange).toHaveBeenLastCalledWith("en_US"); // consumer form
 ```
 
 ## Mocking `navigator.languages`
@@ -165,8 +181,8 @@ expect(onChange).toHaveBeenLastCalledWith("en_US");   // consumer form
 ```ts
 const original = Object.getOwnPropertyDescriptor(window.navigator, "languages");
 Object.defineProperty(window.navigator, "languages", {
-    configurable: true,
-    get: () => ["fr-CA", "fr"],
+  configurable: true,
+  get: () => ["fr-CA", "fr"],
 });
 mount({ label: "L", locales: "en,fr_CA,fr", "detect-from-navigator": "" });
 await flush();
@@ -185,7 +201,9 @@ than leaving the stub in place for the next test.
 
 ```ts
 const original = Storage.prototype.getItem;
-Storage.prototype.getItem = () => { throw new Error("private mode"); };
+Storage.prototype.getItem = () => {
+  throw new Error("private mode");
+};
 // … run test …
 Storage.prototype.getItem = original;
 ```
@@ -198,17 +216,17 @@ The select swallows the error inside try/catch.
 its tag once at module scope inside the `describe`:
 
 ```ts
-class FlagLocaleChooser extends LocaleChooser {
-    renderButtonContent(): Node {
-        const span = document.createElement("span");
-        span.setAttribute("data-testid", "custom");
-        span.setAttribute("data-open", String(this.open));
-        span.setAttribute("data-value", this.value);
-        return span;
-    }
+class FlagLocalePicker extends LocalePicker {
+  renderButtonContent(): Node {
+    const span = document.createElement("span");
+    span.setAttribute("data-testid", "custom");
+    span.setAttribute("data-open", String(this.open));
+    span.setAttribute("data-value", this.value);
+    return span;
+  }
 }
-if (!customElements.get("flag-locale-chooser")) {
-    customElements.define("flag-locale-chooser", FlagLocaleChooser);
+if (!customElements.get("flag-locale-picker")) {
+  customElements.define("flag-locale-picker", FlagLocalePicker);
 }
 ```
 
@@ -217,11 +235,13 @@ contract survived it:
 
 ```ts
 expect(el.querySelector('[data-testid="custom"]')).not.toBeNull();
-expect(el.querySelector(".locale-chooser-icon")).toBeNull();
+expect(el.querySelector(".locale-picker-icon")).toBeNull();
 
-const btn = el.querySelector<HTMLButtonElement>(".locale-chooser-button")!;
+const btn = el.querySelector<HTMLButtonElement>(".locale-picker-button")!;
 expect(btn.getAttribute("aria-haspopup")).toBe("listbox");
-expect(el.querySelector(`#${btn.getAttribute("aria-controls")}`)).not.toBeNull();
+expect(
+  el.querySelector(`#${btn.getAttribute("aria-controls")}`),
+).not.toBeNull();
 ```
 
 ## jsdom gotchas
@@ -243,18 +263,18 @@ expect(el.querySelector(`#${btn.getAttribute("aria-controls")}`)).not.toBeNull()
 const el = mount({ label: "Language", locales: "en,fr" });
 el.locales = ["en", "fr", "ar"];
 expect(el.getAttribute("locales")).toBe("en,fr,ar");
-expect(el.querySelectorAll(".locale-chooser-option").length).toBe(3);
+expect(el.querySelectorAll(".locale-picker-option").length).toBe(3);
 ```
 
 ## Boolean attribute tests
 
 ```ts
 const a = mount({ label: "L", locales: "en,fr" });
-expect((a as LocaleChooser).detectFromNavigator).toBe(false);   // absent → false
-expect((a as LocaleChooser).applyDir).toBe(true);               // absent → true
+expect((a as LocalePicker).detectFromNavigator).toBe(false); // absent → false
+expect((a as LocalePicker).applyDir).toBe(true); // absent → true
 
 const c = mount({ label: "L", locales: "ar,en", "apply-dir": "false" });
-expect((c as LocaleChooser).applyDir).toBe(false);
+expect((c as LocalePicker).applyDir).toBe(false);
 expect(document.documentElement.hasAttribute("dir")).toBe(false);
 ```
 
@@ -263,17 +283,19 @@ expect(document.documentElement.hasAttribute("dir")).toBe(false);
 Each test description starts with the clause number:
 
 ```ts
-test("§7.16 selecting a different option updates lang, dir, and fires localechange …", async () => { /* … */ });
+test("§7.16 selecting a different option updates lang, dir, and fires localechange …", async () => {
+  /* … */
+});
 ```
 
 Section map:
 
-| §7 group            | Clauses | Test focus                                              |
-| ------------------- | ------- | ------------------------------------------------------- |
-| 7.1 markup          | 1–6     | div root, button, listbox, options, glyph, hidden input, per-option `lang` |
-| 7.2 pure helpers    | 7–12    | `bcp47LocaleTag`, `isRtlLocale`, `localeName`            |
-| 7.3 application     | 13–17   | `target.lang`, `target.dir`, `applyDir`, CustomEvent     |
-| 7.4 init value      | 18–21   | storage / value / navigator / defaultValue ordering      |
-| 7.5 property API    | 22–23   | array / object property mirroring, class hook, unique ids|
-| 7.6 keyboard        | 24–28   | APG listbox contract, typeahead, outside click           |
-| 7.7 custom rendering| 29      | `renderButtonContent()` override, base lifecycle intact  |
+| §7 group             | Clauses | Test focus                                                                 |
+| -------------------- | ------- | -------------------------------------------------------------------------- |
+| 7.1 markup           | 1–6     | div root, button, listbox, options, glyph, hidden input, per-option `lang` |
+| 7.2 pure helpers     | 7–12    | `bcp47LocaleTag`, `isRtlLocale`, `localeName`                              |
+| 7.3 application      | 13–17   | `target.lang`, `target.dir`, `applyDir`, CustomEvent                       |
+| 7.4 init value       | 18–21   | storage / value / navigator / defaultValue ordering                        |
+| 7.5 property API     | 22–23   | array / object property mirroring, class hook, unique ids                  |
+| 7.6 keyboard         | 24–28   | APG listbox contract, typeahead, outside click                             |
+| 7.7 custom rendering | 29      | `renderButtonContent()` override, base lifecycle intact                    |

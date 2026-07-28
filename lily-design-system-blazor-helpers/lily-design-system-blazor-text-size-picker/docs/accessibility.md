@@ -10,20 +10,20 @@ are stated plainly below rather than buried.
 
 | Element                         | Role / Property                                   | Source             |
 | ------------------------------- | ------------------------------------------------- | ------------------ |
-| `div.text-size-chooser`          | none (plain container)                            | Component          |
+| `div.text-size-picker`          | none (plain container)                            | Component          |
 | `input[type=hidden]`            | `name` — form participation only                  | Component          |
-| `button.text-size-chooser-button`| implicit `role="button"`                          | Browser            |
-| `button.text-size-chooser-button`| `aria-label="@Label"`                             | Consumer parameter |
-| `button.text-size-chooser-button`| `aria-haspopup="listbox"`                         | Component          |
-| `button.text-size-chooser-button`| `aria-expanded="true\|false"`                     | Component          |
-| `button.text-size-chooser-button`| `aria-controls="{list id}"`                       | Component          |
-| `span.text-size-chooser-icon`    | `aria-hidden="true"`                              | Component          |
-| `ul.text-size-chooser-list`      | `role="listbox"`, `tabindex="-1"`                 | Component          |
-| `ul.text-size-chooser-list`      | `aria-label="@Label"`                             | Consumer parameter |
-| `ul.text-size-chooser-list`      | `aria-activedescendant` (only while open)         | Component          |
-| `ul.text-size-chooser-list`      | `hidden` while closed                             | Component          |
-| `li.text-size-chooser-option`    | `role="option"`, `aria-selected="true\|false"`    | Component          |
-| `li.text-size-chooser-option`    | `data-active` on the active option (styling hook) | Component          |
+| `button.text-size-picker-button`| implicit `role="button"`                          | Browser            |
+| `button.text-size-picker-button`| `aria-label="@Label"`                             | Consumer parameter |
+| `button.text-size-picker-button`| `aria-haspopup="listbox"`                         | Component          |
+| `button.text-size-picker-button`| `aria-expanded="true\|false"`                     | Component          |
+| `button.text-size-picker-button`| `aria-controls="{list id}"`                       | Component          |
+| `span.text-size-picker-icon`    | `aria-hidden="true"`                              | Component          |
+| `ul.text-size-picker-list`      | `role="listbox"`, `tabindex="-1"`                 | Component          |
+| `ul.text-size-picker-list`      | `aria-label="@Label"`                             | Consumer parameter |
+| `ul.text-size-picker-list`      | `aria-activedescendant` (only while open)         | Component          |
+| `ul.text-size-picker-list`      | `hidden` while closed                             | Component          |
+| `li.text-size-picker-option`    | `role="option"`, `aria-selected="true\|false"`    | Component          |
+| `li.text-size-picker-option`    | `data-active` on the active option (styling hook) | Component          |
 
 Focus stays on the `<ul>` while the listbox is open; the active option
 is conveyed by `aria-activedescendant`, never by moving DOM focus onto
@@ -107,7 +107,7 @@ checkbox.
   scrolling at your top slug.
 
 - **The control itself must scale too.** Give
-  `.text-size-chooser-button` and `.text-size-chooser-option` `em` / `rem`
+  `.text-size-picker-button` and `.text-size-picker-option` `em` / `rem`
   sizing so the user can still read and hit the control they just used
   to enlarge everything else.
 
@@ -161,7 +161,7 @@ crude bitmap shape, and means *decrease* rather than *size*.
 The residual risk is smaller but not zero: `A` inherits the page's
 font, so it changes weight and shape with your type choices — and,
 being a text-size control, it will also scale with the very setting it
-adjusts. Give `.text-size-chooser-button` a fixed `min-width` /
+adjusts. Give `.text-size-picker-button` a fixed `min-width` /
 `min-height` (or size the glyph in `px`) if you need the target to stay
 stable across slugs.
 
@@ -177,9 +177,9 @@ region echoing the active size, and that is what
 [quick start](../index.md#quick-start) show.
 
 ```razor
-<TextSizeChooser Label="Choose a text size" @bind-Value="size" ... />
+<TextSizePicker Label="Choose a text size" @bind-Value="size" ... />
 
-<p class="text-size-chooser-status" aria-live="polite">
+<p class="text-size-picker-status" aria-live="polite">
     @Localizer["currentTextSize", SizeLabel(size)]
 </p>
 ```
@@ -197,7 +197,7 @@ Why this shape:
 - **`role="status"` is an equivalent spelling.** `role="status"` implies
   `aria-live="polite"`; use either, not both plus a redundant one.
 - **Show the human label, not the raw slug.** Use
-  `TextSizeChooser.SizeName(slug)` so the echo matches the listbox
+  `TextSizePicker.SizeName(slug)` so the echo matches the listbox
   exactly, or localise it alongside your `SizeLabels`.
 
 The selection *is* also readable off the control itself: reopening the
@@ -218,7 +218,7 @@ A `IStringLocalizer<T>` example:
 ```razor
 @inject IStringLocalizer<SharedResources> Localizer
 
-<TextSizeChooser
+<TextSizePicker
     Label="@Localizer["chooseTextSize"]"
     Sizes="@(new[]{ "small", "medium", "large", "x-large" })"
     SizeLabels="@(new Dictionary<string, string>
@@ -242,14 +242,14 @@ outline that meets AAA.
 A safe default:
 
 ```css
-.text-size-chooser-button:focus-visible,
-.text-size-chooser-list:focus-visible {
+.text-size-picker-button:focus-visible,
+.text-size-picker-list:focus-visible {
     outline: 2px solid var(--color-primary, currentColor);
     outline-offset: 2px;
 }
 
 /* The active option is not focused; give it its own visible cue. */
-.text-size-chooser-option[data-active] {
+.text-size-picker-option[data-active] {
     outline: 2px solid var(--color-primary, currentColor);
     outline-offset: -2px;
 }
@@ -267,7 +267,7 @@ either in consumer CSS, gate it:
 
 ```css
 @media (prefers-reduced-motion: reduce) {
-    .text-size-chooser-list {
+    .text-size-picker-list {
         transition: none;
     }
 }
@@ -303,7 +303,7 @@ as a guarantee.
 - **Hiding the options with `display: none`.** That removes them from
   the accessibility tree. The component's own `hidden` on the `<ul>` is
   the correct mechanism; do not add a second one.
-- **Styling `.text-size-chooser-list` without positioning it.** The
+- **Styling `.text-size-picker-list` without positioning it.** The
   package ships no CSS, so an open list participates in normal flow and
   shoves the page around. Give the root `position: relative` and the
   list `position: absolute`. See [styling.md](./styling.md).
@@ -334,22 +334,22 @@ unless you have measured the trade-off.
 [Fact]
 public void Has_Accessible_Name_And_Listbox_Wiring()
 {
-    var cut = RenderComponent<TextSizeChooser>(p => p
+    var cut = RenderComponent<TextSizePicker>(p => p
         .Add(x => x.Label, "Text size")
         .Add(x => x.Sizes, new[] { "small", "medium", "large" }));
 
-    var button = cut.Find("button.text-size-chooser-button");
+    var button = cut.Find("button.text-size-picker-button");
     Assert.Equal("Text size", button.GetAttribute("aria-label"));
     Assert.Equal("listbox", button.GetAttribute("aria-haspopup"));
     Assert.Equal("false", button.GetAttribute("aria-expanded"));
 
-    var list = cut.Find("ul.text-size-chooser-list");
+    var list = cut.Find("ul.text-size-picker-list");
     Assert.Equal(button.GetAttribute("aria-controls"), list.GetAttribute("id"));
     Assert.Equal("Text size", list.GetAttribute("aria-label"));
     Assert.True(list.HasAttribute("hidden"));
 
     // The glyph must never become the accessible name.
-    Assert.Equal("true", cut.Find(".text-size-chooser-icon").GetAttribute("aria-hidden"));
+    Assert.Equal("true", cut.Find(".text-size-picker-icon").GetAttribute("aria-hidden"));
 }
 ```
 
@@ -361,8 +361,8 @@ test manually.
 ## Blazor-specific deviations
 
 Two clauses of the canonical (Svelte) keyboard contract could not be
-implemented identically in Blazor. Both are shared with `ThemeChooser`
-and `LocaleChooser`, and both are behavioural refinements rather than
+implemented identically in Blazor. Both are shared with `ThemePicker`
+and `LocalePicker`, and both are behavioural refinements rather than
 contract breaks:
 
 - **Arrow keys and `Space` do not suppress page scroll.** Blazor

@@ -9,10 +9,10 @@
 -->
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import LocaleChooser, {
+import LocalePicker, {
     isRtlLocale,
     bcp47LocaleTag,
-} from "../LocaleChooser.vue";
+} from "../LocalePicker.vue";
 
 const locale = ref("en");
 
@@ -42,7 +42,7 @@ const tag = computed(() => bcp47LocaleTag(locale.value));
 </script>
 
 <template>
-    <LocaleChooser
+    <LocalePicker
         label="Direction demo"
         :locales="['en', 'ar', 'he', 'fa', 'ur', 'ps']"
         :locale-labels="NATIVE"

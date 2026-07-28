@@ -112,12 +112,12 @@ What to do:
   button interior:
 
   ```svelte
-  <ThemeChooser label="Theme" {themesUrl} {themes} bind:value={theme}>
+  <ThemePicker label="Theme" {themesUrl} {themes} bind:value={theme}>
     {#snippet children({ labelFor, value })}
       <span aria-hidden="true">&#9681;</span>
-      <span class="theme-chooser-text">{labelFor(value)}</span>
+      <span class="theme-picker-text">{labelFor(value)}</span>
     {/snippet}
-  </ThemeChooser>
+  </ThemePicker>
   ```
 
   This gives up the narrow-control benefit, which may well be the right
@@ -154,7 +154,7 @@ more besides. Being direct about the gap:
 choice.** If your users are predominantly on mobile, or on older
 assistive technology, or in a regulated context where you must
 demonstrate maximum compatibility rather than argue for a pattern, then
-this helper is the wrong tool. Use the plain headless `ThemeChooser`
+this helper is the wrong tool. Use the plain headless `ThemePicker`
 container in `lily-design-system-svelte-headless`, which is a native
 `<select>` with `<option>` children. That is a legitimate outcome, not
 a failure to configure this package correctly.
@@ -175,13 +175,13 @@ user's device:
 - **It may substitute.** If the page's font stack lacks the codepoint,
   the browser falls back to some other installed font. The glyph then
   renders at a different weight, size, or baseline than the surrounding
-  text, and may sit visibly wrong next to `locale-chooser`'s globe.
+  text, and may sit visibly wrong next to `locale-picker`'s globe.
 - **It may not render at all.** On a device with no font covering the
   range, the user sees a `.notdef` box — the "tofu" rectangle — or
   nothing. The control is then a blank button.
 - **It may render as emoji.** Some codepoints in this space have emoji
   presentations. `◑` does not, which is why it was chosen; the sibling
-  `locale-chooser` has to append U+FE0E VARIATION SELECTOR-15 to its
+  `locale-picker` has to append U+FE0E VARIATION SELECTOR-15 to its
   globe to force text presentation. If you substitute your own glyph,
   check it in both presentations.
 - **It carries no inherent meaning.** `◑` is a half-filled circle. It is
@@ -196,7 +196,7 @@ exactly the users who cannot hear the `aria-label`.
 
 What to do:
 
-- **Set an explicit font stack** on `.theme-chooser-icon` that you have
+- **Set an explicit font stack** on `.theme-picker-icon` that you have
   verified covers the codepoint on your target platforms.
 - **Or replace the glyph** via the `children` snippet with an inline
   SVG you control, which removes the font dependency entirely. The
@@ -219,8 +219,8 @@ anywhere on the page. The region supplies one without requiring
 interaction.
 
 ```svelte
-<ThemeChooser label="Theme" {themesUrl} {themes} bind:value={theme} />
-<p class="theme-chooser-status" aria-live="polite">
+<ThemePicker label="Theme" {themesUrl} {themes} bind:value={theme} />
+<p class="theme-picker-status" aria-live="polite">
   Active theme: {labelFor(theme)}
 </p>
 ```
@@ -236,10 +236,10 @@ Why it is shaped this way:
   throws away the benefit for sighted users. See the recipe in
   [styling.md](./styling.md#the-status-line) if you truly cannot spare
   the space.
-- **`.theme-chooser-status` is the class hook**, in the same kebab-case
+- **`.theme-picker-status` is the class hook**, in the same kebab-case
   convention as the rest of the system.
 - **Show the label, not the slug.** `themeName` is exported from
-  `ThemeChooser.svelte` (though not yet from the `index.ts` barrel), so
+  `ThemePicker.svelte` (though not yet from the `index.ts` barrel), so
   import it from there rather than re-implementing the title-casing. If
   you pass a `themeLabels` map, read from that same map so the control
   and the status line cannot disagree.

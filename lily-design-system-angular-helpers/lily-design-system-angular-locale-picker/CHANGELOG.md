@@ -1,4 +1,4 @@
-# Changelog — LocaleChooser (Angular)
+# Changelog — LocalePicker (Angular)
 
 All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
@@ -8,23 +8,23 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 ### Added
 
-- Initial release under this name. `LocaleChooser` is an Angular 20
+- Initial release under this name. `LocalePicker` is an Angular 20
   headless locale control: a single-glyph button (🌐, U+1F310 U+FE0E)
   that opens a WAI-ARIA APG listbox of locales and sets `lang` (BCP 47,
   hyphenated) and `dir` (`ltr` / `rtl`, auto-detected per script) on the
   document root or a consumer-supplied `target`. It translates nothing.
   Standalone, signal-based, `OnPush`, `@for` control flow, zero CSS.
 - Initial selection resolves `value > storage > detection >
-  defaultValue > "en" > first locale`, with optional `localStorage`
+defaultValue > "en" > first locale`, with optional `localStorage`
   persistence via `storageKey` and optional `navigator.language`
   first-visit detection via `detectFromNavigator`.
-- Public surface: `LocaleChooser` (selector `lily-locale-chooser`),
-  `LocaleChooserIcon` (`ng-template[lilyLocaleChooserIcon]`),
-  `nextLocaleChooserId`, `localeName`, `matchNavigatorLanguage`,
+- Public surface: `LocalePicker` (selector `lily-locale-picker`),
+  `LocalePickerIcon` (`ng-template[lilyLocalePickerIcon]`),
+  `nextLocalePickerId`, `localeName`, `matchNavigatorLanguage`,
   `bcp47LocaleTag`, `isRtlLocale`, `GLOBE_WITH_MERIDIANS`,
   `defaultLocaleLabels`, `RTL_LANGUAGE_TAGS`, `RTL_SCRIPT_SUBTAGS`, and
   the `ChildArgs` type.
-- Class hooks: `.locale-chooser`, `-button`, `-icon`, `-list`,
+- Class hooks: `.locale-picker`, `-button`, `-icon`, `-list`,
   `-option`. Every user-facing string is an input; the glyph is
   `aria-hidden` and the accessible name comes from `label`.
 
@@ -48,12 +48,12 @@ version numbers were never published under the current name.
 
 #### Unreleased (pre-rename)
 
-#### Changed (symmetry with theme-chooser)
+#### Changed (symmetry with theme-picker)
 
 - **The default globe glyph gains U+FE0E VARIATION SELECTOR-15.**
   `GLOBE_WITH_MERIDIANS` is now `"\u{1F310}\uFE0E"` rather than
   `"\u{1F310}"`. Without VS15 the browser picks the colour-emoji font
-  and the globe renders blue, which does not match theme-chooser's
+  and the globe renders blue, which does not match theme-picker's
   monochrome `◑` (U+25D1) — the two controls sit next to each other in
   a page header and should read as one set. Verified in Chromium.
   Consumers who assert on the glyph's exact code points need to expect
@@ -61,11 +61,11 @@ version numbers were never published under the current name.
 
 #### Added (docs and examples)
 
-- **Five shared topic guides**, so locale-chooser and theme-chooser now
+- **Five shared topic guides**, so locale-picker and theme-picker now
   offer the same doc shape: `docs/props-reference.md`,
   `docs/styling.md`, `docs/custom-rendering.md`, `docs/recipes.md`,
-  and `docs/troubleshooting.md`. Written for locale-chooser rather
-  than adapted from the theme-chooser copies. The topic-specific
+  and `docs/troubleshooting.md`. Written for locale-picker rather
+  than adapted from the theme-picker copies. The topic-specific
   guides (`bcp47`, `rtl`, `i18n-integration`, `concepts`) stay as
   they are; `preloading` remains theme-only since it is about
   stylesheet preloading.
@@ -73,23 +73,23 @@ version numbers were never published under the current name.
 #### Changed (examples renamed)
 
 - **Examples move from the radio-group era's ordinal names to
-  descriptive ones**, matching theme-chooser's convention. None of the
+  descriptive ones**, matching theme-picker's convention. None of the
   three lead names described their content any more — no example has
   rendered radios, a bare `<select>`, or a button group as the helper
   itself since the listbox port.
 
-  | Was | Now |
-  | --- | --- |
-  | `01-radios.component.ts` | `basic.component.ts` |
-  | `02-select.component.ts` | `sibling-select.component.ts` |
-  | `03-buttons.component.ts` | `sibling-buttons.component.ts` |
-  | `04-rtl-demo.component.ts` | `rtl-demo.component.ts` |
-  | `05-nhs-style.component.ts` | `nhs-style.component.ts` |
-  | `06-with-transloco.component.ts` | `with-transloco.component.ts` |
+  | Was                                  | Now                               |
+  | ------------------------------------ | --------------------------------- |
+  | `01-radios.component.ts`             | `basic.component.ts`              |
+  | `02-select.component.ts`             | `sibling-select.component.ts`     |
+  | `03-buttons.component.ts`            | `sibling-buttons.component.ts`    |
+  | `04-rtl-demo.component.ts`           | `rtl-demo.component.ts`           |
+  | `05-nhs-style.component.ts`          | `nhs-style.component.ts`          |
+  | `06-with-transloco.component.ts`     | `with-transloco.component.ts`     |
   | `07-with-ngx-translate.component.ts` | `with-ngx-translate.component.ts` |
-  | `08-ssr-cookie.component.ts` | `analog-cookie.component.ts` |
-  | `09-scoped-target.component.ts` | `scoped-target.component.ts` |
-  | `10-combobox.component.ts` | `combobox.component.ts` |
+  | `08-ssr-cookie.component.ts`         | `analog-cookie.component.ts`      |
+  | `09-scoped-target.component.ts`      | `scoped-target.component.ts`      |
+  | `10-combobox.component.ts`           | `combobox.component.ts`           |
 
   Stale identifiers went with them: `RadiosExample` → `BasicExample`,
   `SelectExample` → `SiblingSelectExample`, `ButtonsExample` →
@@ -101,16 +101,16 @@ version numbers were never published under the current name.
 
 - **The control is no longer a native `<select>`.** It is now an icon
   button that opens a WAI-ARIA APG listbox. The root is a
-  `<div class="locale-chooser {className}">` containing a
-  `<button class="locale-chooser-button">` with
+  `<div class="locale-picker {className}">` containing a
+  `<button class="locale-picker-button">` with
   `aria-haspopup="listbox"`, `aria-expanded`, and `aria-controls`, and
-  a `<ul class="locale-chooser-list" role="listbox">` of
-  `<li class="locale-chooser-option" role="option">` children. Any
-  consumer CSS, test, or e2e selector targeting `select.locale-chooser`
-  or `option.locale-chooser-option` must be updated.
+  a `<ul class="locale-picker-list" role="listbox">` of
+  `<li class="locale-picker-option" role="option">` children. Any
+  consumer CSS, test, or e2e selector targeting `select.locale-picker`
+  or `option.locale-picker-option` must be updated.
 - **The `placeholder` input is removed.** With no `<select>` to pin,
   the "pinned placeholder keeps the control narrow" tradeoff from
-  0.3.0 no longer exists. The `locale-chooser-placeholder` class hook
+  0.3.0 no longer exists. The `locale-picker-placeholder` class hook
   is gone with it. There is no deprecation shim: passing
   `placeholder` is now a template type error.
 - **Form participation moves to a hidden input.**
@@ -136,20 +136,20 @@ version numbers were never published under the current name.
 
 #### Added
 
-- `locale-chooser-button`, `locale-chooser-icon`, and
-  `locale-chooser-list` class hooks. The package still ships zero CSS.
+- `locale-picker-button`, `locale-picker-icon`, and
+  `locale-picker-list` class hooks. The package still ships zero CSS.
   Note that the list now needs positioning CSS from the consumer
   (`position: absolute` on the list, `position: relative` on the root)
   or it will push page content down when opened.
 - `GLOBE_WITH_MERIDIANS` export — the default button glyph, U+1F310
   GLOBE WITH MERIDIANS (`&#127760;`), rendered inside an
   `aria-hidden` span.
-- `LocaleChooserIcon` export — an optional marker directive
-  (`ng-template[lilyLocaleChooserIcon]`) giving consumers typed `let-`
+- `LocalePickerIcon` export — an optional marker directive
+  (`ng-template[lilyLocalePickerIcon]`) giving consumers typed `let-`
   variables on the projected icon template. The component matches any
   projected `<ng-template>` via `contentChild(TemplateRef)`, so the
   marker is never required.
-- `nextLocaleChooserId` export — the module-counter id generator behind
+- `nextLocalePickerId` export — the module-counter id generator behind
   the per-instance list and option ids. Deliberately not
   `Math.random()` / `Date.now()`, so SSR and client renders agree and
   hydration stays clean.
@@ -187,14 +187,14 @@ never the active locale name.
 - `placeholder` input (optional, `string`). Sets the text of the new
   leading placeholder option. Defaults to the `label` value, so the
   package still emits no hardcoded user-facing string.
-- `.locale-chooser-placeholder` class hook on the placeholder option.
+- `.locale-picker-placeholder` class hook on the placeholder option.
   The package still ships zero CSS; see the root `themes/` stylesheets
   for the shipped width implementation.
 
 #### Changed (BREAKING — DOM contract)
 
 - The `<select>` now renders a leading
-  `<option class="locale-chooser-option locale-chooser-placeholder" value="" selected>`
+  `<option class="locale-picker-option locale-picker-placeholder" value="" selected>`
   before the locale options. **Option count is one greater than
   `locales.length`**, and the first option's `value` is `""`.
   Consumers asserting on option count or index will need to account
@@ -222,11 +222,11 @@ before, and `value` remains the two-way bindable source of truth.
 
 - The compensating status region is now the **default pattern**, not a
   suggestion: the entry-point example and the `index.md` quick-start both
-  ship a visible `<p class="locale-chooser-status" aria-live="polite">`
+  ship a visible `<p class="locale-picker-status" aria-live="polite">`
   showing the active locale via the exported `localeName`.
   `aria-live="polite"` announces mutations only, so it stays silent on
   first paint and speaks on each change. `docs/accessibility.md`
-  reframes opting *out* as the deliberate choice and keeps an explicit
+  reframes opting _out_ as the deliberate choice and keeps an explicit
   "what this does and does not fix" note — the region announces
   transitions, it does not restore combobox value semantics.
 
@@ -236,12 +236,12 @@ before, and `value` remains the two-way bindable source of truth.
 
 - Migrated from the radio-group "picker" rendering to a native
   `<select>` (landed in-tree 2026-06-17): the root element is now
-  `<select class="locale-chooser">` with one `<option class="locale-chooser-option">`
+  `<select class="locale-picker">` with one `<option class="locale-picker-option">`
   per choice, replacing the former `<fieldset role="radiogroup">` with
   `<input type="radio">` children. The package was renamed from the
   `*-picker` name to `*-select` accordingly.
-- Class-hook contract changed: `locale-chooser` now names the `<select>` root
-  and `locale-chooser-option` is the only sub-class; the radio/label sub-class
+- Class-hook contract changed: `locale-picker` now names the `<select>` root
+  and `locale-picker-option` is the only sub-class; the radio/label sub-class
   hooks are gone.
 - Keyboard interaction is the native `<select>` contract (Arrow keys,
   Home / End, first-letter typeahead) instead of radio-group cycling.
@@ -260,7 +260,7 @@ Initial release.
 
 #### Added
 
-- `locale-chooser.component.ts` — Angular 20 standalone component.
+- `locale-picker.component.ts` — Angular 20 standalone component.
   Implements the full Svelte canonical contract:
   - Renders `<select [attr.aria-label]="…" [name]="…">` with one
     `<option [attr.lang]="tagFor(locale)">` per locale code per
@@ -283,11 +283,11 @@ Initial release.
   Svelte / Vue canonical helpers (framework-agnostic data).
 - `locales.tsv` — canonical source for `locales.ts`. Byte-identical
   to the Svelte / Vue canonical helpers.
-- `index.ts` barrel re-exporting `LocaleChooser`, `bcp47LocaleTag`,
+- `index.ts` barrel re-exporting `LocalePicker`, `bcp47LocaleTag`,
   `isRtlLocale`, `localeName`, `matchNavigatorLanguage`,
   `defaultLocaleLabels`, `RTL_LANGUAGE_TAGS`,
   `RTL_SCRIPT_SUBTAGS`.
-- `locale-chooser.component.spec.ts` — vitest suite asserting every
+- `locale-picker.component.spec.ts` — vitest suite asserting every
   numbered acceptance criterion in `spec/index.md` §7 (23 items).
 - `spec/index.md` — spec-driven contract, version 0.1.0.
 - `AGENTS/` subdirectory with `api.md`, `lifecycle.md`,
@@ -319,7 +319,7 @@ Initial release.
 #### Parity
 
 This is a direct port of the Svelte canonical
-`lily-design-system-svelte-locale-chooser` v0.1.0. The DOM
+`lily-design-system-svelte-locale-picker` v0.1.0. The DOM
 contract, BCP 47 normalisation rules, RTL detection sets,
 initial-value resolution order, and apply order match
 clause-for-clause.

@@ -8,12 +8,13 @@ DOM application) for one small, common job.
 
 ## Catalog
 
-| Helper                                                                                  | Purpose                                                        |
-| --------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| [`lily-design-system-react-theme-chooser`](./lily-design-system-react-theme-chooser/)     | Pick a visual theme; dynamic CSS load + `data-theme` swap.     |
-| [`lily-design-system-react-locale-chooser`](./lily-design-system-react-locale-chooser/)   | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
-| [`lily-design-system-react-text-size-chooser`](./lily-design-system-react-text-size-chooser/) | Pick a text size; sets `data-text-size` on the document root.  |
-| [`lily-design-system-react-share-chooser`](./lily-design-system-react-share-chooser/) | Share the page: native share sheet, else a list of destinations + copy the URL. |
+| Helper                                                                                      | Purpose                                                                         |
+| ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| [`lily-design-system-react-theme-picker`](./lily-design-system-react-theme-picker/)         | Pick a visual theme; dynamic CSS load + `data-theme` swap.                      |
+| [`lily-design-system-react-locale-picker`](./lily-design-system-react-locale-picker/)       | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.                 |
+| [`lily-design-system-react-text-size-picker`](./lily-design-system-react-text-size-picker/) | Pick a text size; sets `data-text-size` on the document root.                   |
+| [`lily-design-system-react-share-picker`](./lily-design-system-react-share-picker/)         | Share the page: native share sheet, else a list of destinations + copy the URL. |
+| [`lily-design-system-react-date-time-picker`](./lily-design-system-react-date-time-picker/) | Collect a date, a time, or both: a typeable text field plus an APG Date Picker Dialog. |
 
 ## Conventions
 
@@ -54,8 +55,8 @@ Shared design decisions across the catalog:
 - **One job per helper**: each helper owns one complete interaction
   end to end and composes cleanly with the others. For the three
   selects that job is a user-preference dimension (theme, language,
-  text size). `share-chooser` is the exception that proves the shape:
-  it owns an *action* rather than a preference, so it applies nothing
+  text size). `share-picker` is the exception that proves the shape:
+  it owns an _action_ rather than a preference, so it applies nothing
   to the document and persists nothing — but it ships the same
   headless contract, the same class-hook convention, and the same
   spec-driven tests.
@@ -73,7 +74,7 @@ Shared design decisions across the catalog:
 
 The headless library mirrors the canonical 490-component catalog.
 Each component is a pure container with no lifecycle. A consumer
-typing on top of `ThemeChooser` from `lily-design-system-react-headless`
+typing on top of `ThemePicker` from `lily-design-system-react-headless`
 writes their own select markup, their own persistence, and their own
 loading.
 
@@ -91,16 +92,16 @@ sharing the same spec numbering, the same `data-*` attributes, the
 same class hooks, and the same `locales.tsv` source data. The only
 intentional divergences are framework idioms:
 
-| Concern              | Svelte                                  | React                                       |
-| -------------------- | --------------------------------------- | ------------------------------------------- |
-| Reactivity           | Runes (`$state`, `$effect`, `$bindable`)| Hooks (`useState`, `useEffect`, `useRef`)   |
-| Two-way binding      | `bind:value={…}`                        | Controlled `value` + `onChange` callback    |
-| Custom rendering     | `Snippet<[ChildArgs]>`                  | `(args: ChildArgs) => React.ReactNode`      |
-| File extension       | `.svelte`                               | `.tsx`                                      |
-| Effect site          | `$effect(...)` inside `<script>`        | `useEffect(...)` inside the component body  |
-| Rest props           | `{...restProps}` on root                | `{...restProps}` on root                    |
-| Server boundary      | SvelteKit `+layout.server.ts`           | Next.js `"use client"` directive            |
-| Cookie persistence   | `transformPageChunk` in `hooks.server.ts` | Cookie read in a server component, value piped to a client component |
+| Concern            | Svelte                                    | React                                                                |
+| ------------------ | ----------------------------------------- | -------------------------------------------------------------------- |
+| Reactivity         | Runes (`$state`, `$effect`, `$bindable`)  | Hooks (`useState`, `useEffect`, `useRef`)                            |
+| Two-way binding    | `bind:value={…}`                          | Controlled `value` + `onChange` callback                             |
+| Custom rendering   | `Snippet<[ChildArgs]>`                    | `(args: ChildArgs) => React.ReactNode`                               |
+| File extension     | `.svelte`                                 | `.tsx`                                                               |
+| Effect site        | `$effect(...)` inside `<script>`          | `useEffect(...)` inside the component body                           |
+| Rest props         | `{...restProps}` on root                  | `{...restProps}` on root                                             |
+| Server boundary    | SvelteKit `+layout.server.ts`             | Next.js `"use client"` directive                                     |
+| Cookie persistence | `transformPageChunk` in `hooks.server.ts` | Cookie read in a server component, value piped to a client component |
 
 The behavioural contract, the §7 acceptance criteria, the DOM the
 helpers produce, and the `data-theme` / `lang` / `dir` attribute
@@ -113,20 +114,20 @@ See [`./AGENTS.md`](./AGENTS.md) for the canonical AI-coding
 entrypoint. Per-topic AGENTS files live in
 [`./AGENTS/`](./AGENTS/).
 
-| File                                              | Topic                                            |
-| ------------------------------------------------- | ------------------------------------------------ |
-| [AGENTS.md](./AGENTS.md)                          | Entrypoint + catalog pointer.                    |
-| [AGENTS/conventions.md](./AGENTS/conventions.md)  | React idioms used across the catalog.            |
-| [AGENTS/testing.md](./AGENTS/testing.md)          | vitest + jsdom + RTL test conventions.           |
-| [AGENTS/accessibility.md](./AGENTS/accessibility.md) | WCAG 2.2 AAA contract; APG patterns.          |
-| [AGENTS/ssr.md](./AGENTS/ssr.md)                  | Next.js App Router, Remix, RSC boundaries.       |
-| [AGENTS/shared/](./AGENTS/shared/)                | Cross-framework Lily design principles.          |
+| File                                                 | Topic                                      |
+| ---------------------------------------------------- | ------------------------------------------ |
+| [AGENTS.md](./AGENTS.md)                             | Entrypoint + catalog pointer.              |
+| [AGENTS/conventions.md](./AGENTS/conventions.md)     | React idioms used across the catalog.      |
+| [AGENTS/testing.md](./AGENTS/testing.md)             | vitest + jsdom + RTL test conventions.     |
+| [AGENTS/accessibility.md](./AGENTS/accessibility.md) | WCAG 2.2 AAA contract; APG patterns.       |
+| [AGENTS/ssr.md](./AGENTS/ssr.md)                     | Next.js App Router, Remix, RSC boundaries. |
+| [AGENTS/shared/](./AGENTS/shared/)                   | Cross-framework Lily design principles.    |
 
 ## Cross-helper compatibility
 
 The three selects in the current catalog are deliberately compatible:
 
-- `ThemeChooser`, `LocaleChooser`, and `TextSizeChooser` all render the
+- `ThemePicker`, `LocalePicker`, and `TextSizePicker` all render the
   same icon-button-plus-listbox shape — a
   `<div class="{helper}">` wrapping a hidden input, an
   `aria-label`led `<button aria-haspopup="listbox">` holding one
@@ -137,8 +138,8 @@ The three selects in the current catalog are deliberately compatible:
 - The three selects do not share state. Each owns its own
   `localStorage` key, its own `data-*` attribute, and its own
   managed DOM nodes.
-- The class hooks (`theme-chooser`, `locale-chooser`,
-  `text-size-chooser`) are independent so a single stylesheet rule can
+- The class hooks (`theme-picker`, `locale-picker`,
+  `text-size-picker`) are independent so a single stylesheet rule can
   target any one of them.
 - Each exports its own label resolver under a parallel name —
   `themeName`, `localeName`, `sizeName` — all applying the same

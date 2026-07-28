@@ -1,6 +1,6 @@
 # Custom rendering
 
-`ThemeChooser` exposes exactly one rendering escape hatch: a projected
+`ThemePicker` exposes exactly one rendering escape hatch: a projected
 `<ng-template>` that **replaces the glyph inside the trigger button**.
 
 That is the whole surface, and the narrowness is deliberate. The
@@ -15,17 +15,17 @@ So: the glyph is yours, the listbox is the component's.
 ## The basic form
 
 Project an `<ng-template>` as the component's content. It replaces the
-default `<span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>`
+default `<span class="theme-picker-icon" aria-hidden="true">&#9681;</span>`
 inside the button.
 
 ```html
-<lily-theme-chooser label="Theme" [themesUrl]="url" [themes]="themes">
-    <ng-template let-args>{{ args.labelFor(args.value) }}</ng-template>
-</lily-theme-chooser>
+<lily-theme-picker label="Theme" [themesUrl]="url" [themes]="themes">
+  <ng-template let-args>{{ args.labelFor(args.value) }}</ng-template>
+</lily-theme-picker>
 ```
 
 The component queries the template with `contentChild(TemplateRef)`,
-so *any* projected `<ng-template>` matches — no structural directive
+so _any_ projected `<ng-template>` matches — no structural directive
 or template reference name is required.
 
 ## The template context
@@ -34,12 +34,12 @@ The context is the exported `ChildArgs` type:
 
 ```ts
 export type ChildArgs = {
-    /** Currently selected theme slug. */
-    value: string;
-    /** Is the listbox open? */
-    open: boolean;
-    /** Resolve a slug to its display label. */
-    labelFor: (theme: string) => string;
+  /** Currently selected theme slug. */
+  value: string;
+  /** Is the listbox open? */
+  open: boolean;
+  /** Resolve a slug to its display label. */
+  labelFor: (theme: string) => string;
 };
 ```
 
@@ -52,52 +52,52 @@ binding styles work:
 
 <!-- Individual named properties -->
 <ng-template let-value="value" let-open="open" let-labelFor="labelFor">
-    {{ labelFor(value) }}{{ open ? " ▴" : " ▾" }}
+  {{ labelFor(value) }}{{ open ? " ▴" : " ▾" }}
 </ng-template>
 ```
 
-Note what is *not* in the context: no `themes`, no `setTheme`. The
+Note what is _not_ in the context: no `themes`, no `setTheme`. The
 template renders the button's inside, not a list of choices, so it has
 nothing to iterate and nothing to select. To read or write the
 selection from outside, use `[(value)]` and `(themeChange)`.
 
-## Typed `let-` variables with `ThemeChooserIcon`
+## Typed `let-` variables with `ThemePickerIcon`
 
 By default `let-args` is implicitly `any`. Add the exported
-`ThemeChooserIcon` marker directive to get `ChildArgs` typed under
+`ThemePickerIcon` marker directive to get `ChildArgs` typed under
 `strictTemplates`:
 
 ```ts
 import {
-    ThemeChooser,
-    ThemeChooserIcon,
-} from "./lily-design-system-angular-theme-chooser";
+  ThemePicker,
+  ThemePickerIcon,
+} from "./lily-design-system-angular-theme-picker";
 
 @Component({
-    selector: "app-settings",
-    standalone: true,
-    imports: [ThemeChooser, ThemeChooserIcon],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
-        <lily-theme-chooser
-            label="Theme"
-            themesUrl="/assets/themes/"
-            [themes]="themes"
-            [(value)]="theme"
-        >
-            <ng-template lilyThemeChooserIcon let-args>
-                {{ args.labelFor(args.value) }}
-            </ng-template>
-        </lily-theme-chooser>
-    `,
+  selector: "app-settings",
+  standalone: true,
+  imports: [ThemePicker, ThemePickerIcon],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <lily-theme-picker
+      label="Theme"
+      themesUrl="/assets/themes/"
+      [themes]="themes"
+      [(value)]="theme"
+    >
+      <ng-template lilyThemePickerIcon let-args>
+        {{ args.labelFor(args.value) }}
+      </ng-template>
+    </lily-theme-picker>
+  `,
 })
 export class Settings {
-    readonly themes = ["light", "dark", "abyss"];
-    theme = signal("");
+  readonly themes = ["light", "dark", "abyss"];
+  theme = signal("");
 }
 ```
 
-The directive's selector is `ng-template[lilyThemeChooserIcon]` and its
+The directive's selector is `ng-template[lilyThemePickerIcon]` and its
 only member is an `ngTemplateContextGuard`. It exists for
 type-checking and readability — the component's `contentChild` query
 does not look for it, so a plain `<ng-template>` behaves identically at
@@ -110,22 +110,27 @@ on platform font coverage, and may render at an odd weight or as tofu.
 An inline SVG is under your control.
 
 ```html
-<lily-theme-chooser label="Theme" [themesUrl]="url" [themes]="themes">
-    <ng-template>
-        <svg width="16" height="16" viewBox="0 0 16 16"
-             aria-hidden="true" focusable="false">
-            <circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" />
-            <path d="M8 1a7 7 0 0 1 0 14z" fill="currentColor" />
-        </svg>
-    </ng-template>
-</lily-theme-chooser>
+<lily-theme-picker label="Theme" [themesUrl]="url" [themes]="themes">
+  <ng-template>
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" />
+      <path d="M8 1a7 7 0 0 1 0 14z" fill="currentColor" />
+    </svg>
+  </ng-template>
+</lily-theme-picker>
 ```
 
 Keep `aria-hidden="true"` and `focusable="false"` on the SVG. The
 button's accessible name comes from `aria-label`; a named or
 focusable graphic inside it only adds noise.
 
-Note that `.theme-chooser-icon` is *not* rendered when a template is
+Note that `.theme-picker-icon` is _not_ rendered when a template is
 projected, so any CSS you wrote against that hook no longer applies.
 Style your own element, or add the class yourself.
 
@@ -136,17 +141,21 @@ The closed button shows only a glyph and never names the active theme
 One way to address that is to put the label in the button itself:
 
 ```html
-<lily-theme-chooser label="Theme" [themesUrl]="url" [themes]="themes"
-                   [(value)]="theme">
-    <ng-template let-args>{{ args.labelFor(args.value) }}</ng-template>
-</lily-theme-chooser>
+<lily-theme-picker
+  label="Theme"
+  [themesUrl]="url"
+  [themes]="themes"
+  [(value)]="theme"
+>
+  <ng-template let-args>{{ args.labelFor(args.value) }}</ng-template>
+</lily-theme-picker>
 ```
 
 Two things follow from this, and both matter:
 
 1. The button is no longer icon-only, so it will be as wide as the
    longest label it displays. Budget layout space for it.
-2. The button now has visible text *and* an `aria-label`. In the
+2. The button now has visible text _and_ an `aria-label`. In the
    accessibility tree `aria-label` wins, so a voice-control user
    saying the visible words may fail to activate it. WCAG 2.5.3
    (Label in Name) wants the accessible name to contain the visible
@@ -161,18 +170,18 @@ it sidesteps both problems.
 `open` lets the glyph respond to the listbox:
 
 ```html
-<lily-theme-chooser label="Theme" [themesUrl]="url" [themes]="themes">
-    <ng-template let-args>
-        <span [class.is-open]="args.open" aria-hidden="true">
-            {{ args.open ? "▴" : "▾" }}
-        </span>
-    </ng-template>
-</lily-theme-chooser>
+<lily-theme-picker label="Theme" [themesUrl]="url" [themes]="themes">
+  <ng-template let-args>
+    <span [class.is-open]="args.open" aria-hidden="true">
+      {{ args.open ? "▴" : "▾" }}
+    </span>
+  </ng-template>
+</lily-theme-picker>
 ```
 
 For CSS-only cases you don't need the template at all — the button
 already carries `aria-expanded`, so
-`.theme-chooser-button[aria-expanded="true"]` is available as a
+`.theme-picker-button[aria-expanded="true"]` is available as a
 selector. See [styling.md](./styling.md).
 
 ## What the template cannot do
@@ -199,99 +208,101 @@ about thirty lines:
 
 ```ts
 import {
-    ChangeDetectionStrategy,
-    Component,
-    effect,
-    input,
-    model,
-    output,
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  input,
+  model,
+  output,
 } from "@angular/core";
 import {
-    normaliseThemesUrl,
-    themeHref,
-} from "./lily-design-system-angular-theme-chooser";
+  normaliseThemesUrl,
+  themeHref,
+} from "./lily-design-system-angular-theme-picker";
 
 @Component({
-    selector: "my-theme-swatches",
-    standalone: true,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
-        <div class="my-theme-swatches" role="group" [attr.aria-label]="label()">
-            @for (theme of themes(); track theme) {
-                <button
-                    type="button"
-                    class="my-theme-swatch"
-                    [attr.data-theme]="theme"
-                    [attr.aria-pressed]="value() === theme"
-                    (click)="setTheme(theme)"
-                >
-                    {{ labelFor(theme) }}
-                </button>
-            }
-        </div>
-    `,
+  selector: "my-theme-swatches",
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <div class="my-theme-swatches" role="group" [attr.aria-label]="label()">
+      @for (theme of themes(); track theme) {
+        <button
+          type="button"
+          class="my-theme-swatch"
+          [attr.data-theme]="theme"
+          [attr.aria-pressed]="value() === theme"
+          (click)="setTheme(theme)"
+        >
+          {{ labelFor(theme) }}
+        </button>
+      }
+    </div>
+  `,
 })
 export class MyThemeSwatches {
-    readonly label = input.required<string>();
-    readonly themesUrl = input.required<string>();
-    readonly themes = input.required<string[]>();
-    readonly themeLabels = input<Record<string, string>>({});
-    readonly value = model<string>("");
-    readonly themeChange = output<string>();
+  readonly label = input.required<string>();
+  readonly themesUrl = input.required<string>();
+  readonly themes = input.required<string[]>();
+  readonly themeLabels = input<Record<string, string>>({});
+  readonly value = model<string>("");
+  readonly themeChange = output<string>();
 
-    constructor() {
-        effect(() => {
-            const v = this.value();
-            if (typeof document === "undefined" || !v) return;
-            // managed link + data-theme writes (copy from theme-chooser.component.ts)
-            // …
-            this.themeChange.emit(v);
-        });
-    }
+  constructor() {
+    effect(() => {
+      const v = this.value();
+      if (typeof document === "undefined" || !v) return;
+      // managed link + data-theme writes (copy from theme-picker.component.ts)
+      // …
+      this.themeChange.emit(v);
+    });
+  }
 
-    labelFor(theme: string): string {
-        return this.themeLabels()[theme] ?? theme;
-    }
+  labelFor(theme: string): string {
+    return this.themeLabels()[theme] ?? theme;
+  }
 
-    setTheme(slug: string): void {
-        this.value.set(slug);
-    }
+  setTheme(slug: string): void {
+    this.value.set(slug);
+  }
 }
 ```
 
-A lighter alternative: keep `ThemeChooser` mounted so it owns the
+A lighter alternative: keep `ThemePicker` mounted so it owns the
 lifecycle, hide it visually, and have your own UI write to the same
 signal.
 
 ```ts
 @Component({
-    standalone: true,
-    imports: [ThemeChooser],
-    template: `
-        <lily-theme-chooser
-            [label]="hiddenLabel"
-            themesUrl="/assets/themes/"
-            [themes]="themes"
-            [(value)]="theme"
-            className="sr-only"
-        />
+  standalone: true,
+  imports: [ThemePicker],
+  template: `
+    <lily-theme-picker
+      [label]="hiddenLabel"
+      themesUrl="/assets/themes/"
+      [themes]="themes"
+      [(value)]="theme"
+      className="sr-only"
+    />
 
-        <div role="group" [attr.aria-label]="groupLabel">
-            @for (t of themes; track t) {
-                <button
-                    type="button"
-                    [attr.aria-pressed]="theme() === t"
-                    (click)="theme.set(t)"
-                >{{ t }}</button>
-            }
-        </div>
-    `,
+    <div role="group" [attr.aria-label]="groupLabel">
+      @for (t of themes; track t) {
+        <button
+          type="button"
+          [attr.aria-pressed]="theme() === t"
+          (click)="theme.set(t)"
+        >
+          {{ t }}
+        </button>
+      }
+    </div>
+  `,
 })
 export class Custom {
-    readonly themes = ["light", "dark"];
-    readonly hiddenLabel = "Theme";
-    readonly groupLabel = "Theme swatches";
-    theme = signal("");
+  readonly themes = ["light", "dark"];
+  readonly hiddenLabel = "Theme";
+  readonly groupLabel = "Theme swatches";
+  theme = signal("");
 }
 ```
 
@@ -307,26 +318,26 @@ service:
 ```ts
 @Injectable({ providedIn: "root" })
 export class ThemeStore {
-    readonly current = signal<string>("");
+  readonly current = signal<string>("");
 }
 ```
 
 ```ts
 @Component({
-    standalone: true,
-    imports: [ThemeChooser],
-    template: `
-        <lily-theme-chooser
-            label="Theme"
-            themesUrl="/assets/themes/"
-            [themes]="themes"
-            [(value)]="store.current"
-        />
-    `,
+  standalone: true,
+  imports: [ThemePicker],
+  template: `
+    <lily-theme-picker
+      label="Theme"
+      themesUrl="/assets/themes/"
+      [themes]="themes"
+      [(value)]="store.current"
+    />
+  `,
 })
 export class Settings {
-    readonly themes = ["light", "dark"];
-    constructor(public store: ThemeStore) {}
+  readonly themes = ["light", "dark"];
+  constructor(public store: ThemeStore) {}
 }
 ```
 

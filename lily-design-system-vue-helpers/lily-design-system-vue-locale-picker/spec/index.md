@@ -1,6 +1,6 @@
-# LocaleChooser — Specification
+# LocalePicker — Specification
 
-Single source of truth for the `lily-design-system-vue-locale-chooser`
+Single source of truth for the `lily-design-system-vue-locale-picker`
 Vue 3 helper. This file drives implementation, testing, and
 documentation in the spec-driven-development style: anything not in
 this spec is out of scope; anything in this spec must be exercised by
@@ -8,8 +8,8 @@ a test.
 
 Sibling files in this directory:
 
-- `LocaleChooser.vue` — the implementation
-- `LocaleChooser.test.ts` — vitest spec exercising every clause in §4–§7
+- `LocalePicker.vue` — the implementation
+- `LocalePicker.test.ts` — vitest spec exercising every clause in §4–§7
 - `locales.ts` — built-in locale-code → English-name table and RTL
   sets, derived from `locales.tsv` (copied verbatim from the Svelte
   canonical helper — framework-agnostic data)
@@ -19,7 +19,7 @@ Sibling files in this directory:
 - `index.md` — user-facing readme
 
 The canonical reference for this helper is the Svelte sibling at
-`../../lily-design-system-svelte-helpers/lily-design-system-svelte-locale-chooser/`.
+`../../lily-design-system-svelte-helpers/lily-design-system-svelte-locale-picker/`.
 This Vue port mirrors the contract and behaviour, swapping in Vue 3
 idioms (Composition API, `defineProps`, `defineModel`, `ref`,
 `watch`, `onMounted`, slots).
@@ -40,7 +40,7 @@ idioms (Composition API, `defineProps`, `defineModel`, `ref`,
 
 ## 1. Goal
 
-Give a Vue 3 application a drop-in, headless locale chooser that:
+Give a Vue 3 application a drop-in, headless locale picker that:
 
 1. Renders an accessible icon button that opens a listbox of
    available locales.
@@ -55,7 +55,7 @@ Give a Vue 3 application a drop-in, headless locale chooser that:
 5. Optionally falls back to `navigator.language` on first visit when
    no value, storage entry, or default is supplied.
 6. Ships zero CSS — the consumer styles every visual aspect via the
-   `locale-chooser` class hook and the `lang` / `dir` attributes.
+   `locale-picker` class hook and the `lang` / `dir` attributes.
 7. Provides BCP 47-compliant tag output. Underscores in locale codes
    (e.g. `en_US`) are converted to hyphens (`en-US`) when written to
    the `lang` attribute, per RFC 5646.
@@ -88,13 +88,13 @@ Give a Vue 3 application a drop-in, headless locale chooser that:
   is the authoritative signal for current document language.
 - **The `dir` attribute is the secondary switch.** Setting `dir` on
   the document root is what causes browsers to mirror layout, scrollbar
-  position, and bidi text. The chooser derives it from the locale.
+  position, and bidi text. The picker derives it from the locale.
 - **BCP 47 hyphen form on the wire.** Locale codes are stored in the
-  consumer's array using whichever form they prefer. When the chooser
+  consumer's array using whichever form they prefer. When the picker
   writes to the DOM, it normalises to the BCP 47 hyphen form. The
   `v-model:value` mirrors back the original consumer form.
 - **TypeScript everywhere.** Public surface is fully typed via a
-  `Props` type exported from `LocaleChooser.vue`.
+  `Props` type exported from `LocalePicker.vue`.
 - **SSR-safe.** All DOM mutations happen inside `onMounted` /
   `watch`. No DOM access during server rendering.
 - **No dependencies beyond `vue`.** No `Intl.DisplayNames` polyfill,
@@ -109,26 +109,26 @@ Give a Vue 3 application a drop-in, headless locale chooser that:
 
 ### 4.1 Props
 
-| Prop                | Type                                  | Required | Default                  | Purpose |
-| ------------------- | ------------------------------------- | -------- | ------------------------ | ------- |
-| `label`             | `string`                              | yes      | —                        | Accessible name for **both** the button and the listbox. The button is icon-only, so this is its only name. |
-| `locales`           | `string[]`                            | yes      | —                        | Available locale codes. |
-| `value`             | `string` (`v-model:value`)            | no       | `""`                     | Currently selected locale code. |
-| `defaultValue`      | `string`                              | no       | `"en"` if present in `locales`, else first | Initial locale. |
-| `storageKey`        | `string`                              | no       | `undefined`              | If set, persist to `localStorage` under this key. |
-| `detectFromNavigator` | `boolean`                           | no       | `false`                  | Resolve `navigator.language` on first visit. |
-| `name`              | `string`                              | no       | `"locale"`               | `name` of the hidden input that carries the value in a form. |
-| `target`            | `HTMLElement \| null`                 | no       | `document.documentElement` | Element that receives `lang` and `dir`. |
-| `applyDir`          | `boolean`                             | no       | `true`                   | If false, the chooser only writes `lang` and never touches `dir`. |
-| `localeLabels`      | `Record<string, string>`              | no       | `{}`                     | Optional pretty labels per locale code. |
-| `class`             | `string`                              | no       | `""`                     | Extra CSS class on the root `<div>`. |
+| Prop                  | Type                       | Required | Default                                    | Purpose                                                                                                     |
+| --------------------- | -------------------------- | -------- | ------------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
+| `label`               | `string`                   | yes      | —                                          | Accessible name for **both** the button and the listbox. The button is icon-only, so this is its only name. |
+| `locales`             | `string[]`                 | yes      | —                                          | Available locale codes.                                                                                     |
+| `value`               | `string` (`v-model:value`) | no       | `""`                                       | Currently selected locale code.                                                                             |
+| `defaultValue`        | `string`                   | no       | `"en"` if present in `locales`, else first | Initial locale.                                                                                             |
+| `storageKey`          | `string`                   | no       | `undefined`                                | If set, persist to `localStorage` under this key.                                                           |
+| `detectFromNavigator` | `boolean`                  | no       | `false`                                    | Resolve `navigator.language` on first visit.                                                                |
+| `name`                | `string`                   | no       | `"locale"`                                 | `name` of the hidden input that carries the value in a form.                                                |
+| `target`              | `HTMLElement \| null`      | no       | `document.documentElement`                 | Element that receives `lang` and `dir`.                                                                     |
+| `applyDir`            | `boolean`                  | no       | `true`                                     | If false, the picker only writes `lang` and never touches `dir`.                                           |
+| `localeLabels`        | `Record<string, string>`   | no       | `{}`                                       | Optional pretty labels per locale code.                                                                     |
+| `class`               | `string`                   | no       | `""`                                       | Extra CSS class on the root `<div>`.                                                                        |
 
 ### 4.2 Events
 
-| Event           | Payload          | Purpose                                                |
-| --------------- | ---------------- | ------------------------------------------------------ |
-| `update:value`  | `string`         | Emitted on selection (drives `v-model:value`).         |
-| `change`        | `string`         | Emitted after the chooser applies a new locale (consumer-form code, not BCP 47). |
+| Event          | Payload  | Purpose                                                                          |
+| -------------- | -------- | -------------------------------------------------------------------------------- |
+| `update:value` | `string` | Emitted on selection (drives `v-model:value`).                                   |
+| `change`       | `string` | Emitted after the picker applies a new locale (consumer-form code, not BCP 47). |
 
 ### 4.3 Slots
 
@@ -159,24 +159,42 @@ name.
 ### 4.4 DOM contract
 
 ```html
-<div class="locale-chooser {class}" ...$attrs>
+<div class="locale-picker {class}" ...$attrs>
   <input type="hidden" name="{name}" value="{value}" />
-  <button type="button" class="locale-chooser-button"
-          aria-label="{label}" aria-haspopup="listbox"
-          aria-expanded="false" aria-controls="{listId}">
-    <span class="locale-chooser-icon" aria-hidden="true">🌐</span>
+  <button
+    type="button"
+    class="locale-picker-button"
+    aria-label="{label}"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="{listId}"
+  >
+    <span class="locale-picker-icon" aria-hidden="true">🌐</span>
   </button>
-  <ul class="locale-chooser-list" id="{listId}" role="listbox"
-      aria-label="{label}" tabindex="-1" hidden
-      aria-activedescendant="{optionId of active, only while open}">
-    <li class="locale-chooser-option" id="{optionId}" role="option"
-        aria-selected="true|false" data-active
-        lang="{tagFor(locale)}">{labelFor(locale)}</li>
+  <ul
+    class="locale-picker-list"
+    id="{listId}"
+    role="listbox"
+    aria-label="{label}"
+    tabindex="-1"
+    hidden
+    aria-activedescendant="{optionId of active, only while open}"
+  >
+    <li
+      class="locale-picker-option"
+      id="{optionId}"
+      role="option"
+      aria-selected="true|false"
+      data-active
+      lang="{tagFor(locale)}"
+    >
+      {labelFor(locale)}
+    </li>
   </ul>
 </div>
 ```
 
-- Root element: a `<div class="locale-chooser {class}">`. `$attrs`
+- Root element: a `<div class="locale-picker {class}">`. `$attrs`
   falls through to it via the default Vue `inheritAttrs` behaviour.
 - The button is icon-only. The glyph is `🌐` (U+1F310 GLOBE WITH
   MERIDIANS, `&#127760;`), exported as `GLOBE_WITH_MERIDIANS`,
@@ -188,7 +206,7 @@ name.
 - The listbox carries `hidden` while closed, `tabindex="-1"` so it can
   receive focus on open, and `aria-activedescendant` **only while
   open** — it is removed on close.
-- One `<li class="locale-chooser-option" role="option">` per locale
+- One `<li class="locale-picker-option" role="option">` per locale
   code, with a stable per-instance `id`, `aria-selected` reflecting
   the active code, and `data-active` on the keyboard-active option.
 - Each option carries `lang="{tagFor(locale)}"` so assistive
@@ -197,7 +215,7 @@ name.
   listbox itself carry **no** `lang` of their own — they are not
   locale-specific.
 - Option ids come from an incrementing module counter
-  (`nextLocaleChooserId()`), so they are stable and SSR-safe — never
+  (`nextLocalePickerId()`), so they are stable and SSR-safe — never
   `Math.random()` or `Date.now()`.
 - The selection lives in `value` / `v-model:value`, in the hidden
   input, and in `lang` / `dir` on the target.
@@ -211,10 +229,10 @@ name.
 `index.ts` exports:
 
 - `default` (the component)
-- `LocaleChooser` (named alias)
+- `LocalePicker` (named alias)
 - `bcp47LocaleTag`, `isRtlLocale`, `localeName`,
   `matchNavigatorLanguage`, `defaultLocaleLabels` (pure helpers)
-- `nextLocaleChooserId` (per-instance id generator)
+- `nextLocalePickerId` (per-instance id generator)
 - `GLOBE_WITH_MERIDIANS` (the default button glyph)
 - `RTL_LANGUAGE_TAGS`, `RTL_SCRIPT_SUBTAGS` (constants)
 - `type Props`, `type SlotArgs`, `type ChildArgs`
@@ -272,7 +290,7 @@ Applying a locale `code` performs, in order:
    use `document.documentElement`.
 2. Set `target.lang = bcp47LocaleTag(code)`.
 3. If `applyDir` is true, set `target.dir = isRtlLocale(code) ?
-   "rtl" : "ltr"`.
+"rtl" : "ltr"`.
 4. If `storageKey` is set, write `code` to `localStorage` inside a
    try/catch.
 5. Emit `change` with `code` (consumer form, not BCP 47).
@@ -328,24 +346,24 @@ on commit or cancel.
 
 On the **button**:
 
-| Key                  | Action                                                        |
-| -------------------- | ------------------------------------------------------------- |
-| `ArrowDown`          | Open, active option = the selected one (or index 0).          |
-| `Enter` / `Space`    | Open, active option = the selected one (or index 0).          |
-| `ArrowUp`            | Open, active option = the **last** option.                    |
-| `Tab` / `Shift+Tab`  | Move focus away (native).                                     |
+| Key                 | Action                                               |
+| ------------------- | ---------------------------------------------------- |
+| `ArrowDown`         | Open, active option = the selected one (or index 0). |
+| `Enter` / `Space`   | Open, active option = the selected one (or index 0). |
+| `ArrowUp`           | Open, active option = the **last** option.           |
+| `Tab` / `Shift+Tab` | Move focus away (native).                            |
 
 On the **listbox**:
 
-| Key                  | Action                                                        |
-| -------------------- | ------------------------------------------------------------- |
-| `ArrowDown`          | Move the active option down one. **Clamps** — no wrapping.    |
-| `ArrowUp`            | Move the active option up one. **Clamps** — no wrapping.      |
-| `Home` / `End`       | Jump to the first / last option.                              |
-| `Enter` / `Space`    | Select the active option, apply it, close, refocus the button.|
-| `Escape`             | Close and refocus the button **without** changing the value.  |
-| `Tab`                | Close without stealing focus back.                            |
-| Printable characters | Typeahead over the option **labels**, 500 ms buffer reset.    |
+| Key                  | Action                                                         |
+| -------------------- | -------------------------------------------------------------- |
+| `ArrowDown`          | Move the active option down one. **Clamps** — no wrapping.     |
+| `ArrowUp`            | Move the active option up one. **Clamps** — no wrapping.       |
+| `Home` / `End`       | Jump to the first / last option.                               |
+| `Enter` / `Space`    | Select the active option, apply it, close, refocus the button. |
+| `Escape`             | Close and refocus the button **without** changing the value.   |
+| `Tab`                | Close without stealing focus back.                             |
+| Printable characters | Typeahead over the option **labels**, 500 ms buffer reset.     |
 
 Pointer and focus behaviour: clicking an option selects it; clicking
 outside the root closes the listbox; focus leaving the root closes it.
@@ -361,7 +379,7 @@ outside the root closes the listbox; focus leaving the root closes it.
 
 ## 7. Testing acceptance criteria
 
-`LocaleChooser.test.ts` must assert every numbered item below. Tests
+`LocalePicker.test.ts` must assert every numbered item below. Tests
 run under vitest + jsdom + `@vue/test-utils`.
 
 ### 7.1 Markup contract (mirrors §4.4)
@@ -369,12 +387,12 @@ run under vitest + jsdom + `@vue/test-utils`.
 1. Renders a `<button type="button">` with `aria-haspopup="listbox"`,
    `aria-expanded="false"`, and an `aria-controls` pointing at an
    element with `role="listbox"`. The root is a `<div>` carrying the
-   `locale-chooser` class hook plus the consumer's `class`. The button
+   `locale-picker` class hook plus the consumer's `class`. The button
    renders `🌐` (U+1F310) inside
-   `<span class="locale-chooser-icon" aria-hidden="true">`.
+   `<span class="locale-picker-icon" aria-hidden="true">`.
 2. `aria-label` is the supplied `label` on **both** the button and the
    listbox.
-3. Renders one `<li class="locale-chooser-option">` per entry in
+3. Renders one `<li class="locale-picker-option">` per entry in
    `locales`, and a hidden input carrying the supplied `name` and the
    resolved value.
 4. The listbox carries `hidden` until the button is activated; then
@@ -383,7 +401,7 @@ run under vitest + jsdom + `@vue/test-utils`.
 5. Each option carries `lang="{tagFor(locale)}"` (BCP 47 hyphen
    form). The button and the listbox carry no `lang` of their own.
 6. The default rendering shows `localeLabels[code]
-   ?? defaultLocaleLabels[code] ?? code` as the visible option text.
+?? defaultLocaleLabels[code] ?? code` as the visible option text.
 
 ### 7.2 Pure helpers (mirrors §5.1, §5.6)
 
@@ -416,16 +434,16 @@ run under vitest + jsdom + `@vue/test-utils`.
 19. When `value` is supplied as a non-empty prop, the initial-value
     resolution skips storage, navigator detection, and defaults.
 20. When `detectFromNavigator` is true and `navigator.languages`
-    contains a supported locale, the chooser resolves to that locale.
+    contains a supported locale, the picker resolves to that locale.
 21. When `detectFromNavigator` is true and only a language-only match
-    is available, the chooser resolves to the language-only locale.
+    is available, the picker resolves to the language-only locale.
 
 ### 7.5 Spread + custom slot (mirrors §4.1, §4.3)
 
 22. Extra attributes spread through onto the root `<div>` (e.g.
     `data-testid`).
 23. A custom default slot replaces the button glyph — the
-    `.locale-chooser-icon` span is absent — and receives the `SlotArgs`
+    `.locale-picker-icon` span is absent — and receives the `SlotArgs`
     contract (`value`, `open`, `labelFor`). Its `open` flag tracks the
     listbox state.
 
@@ -451,7 +469,7 @@ run under vitest + jsdom + `@vue/test-utils`.
 
 - A complementary `LocaleView` helper that displays the active
   locale's pretty name.
-- A `LocaleChooser` sibling that renders an always-visible radio group
+- A `LocalePicker` sibling that renders an always-visible radio group
   or button row. The default slot no longer covers that case — it
   replaces the button glyph only.
 - An `Intl.LocaleMatcher` / RFC 4647 lookup integration.
@@ -461,7 +479,7 @@ run under vitest + jsdom + `@vue/test-utils`.
 ## 9. Tracking
 
 - Package directory:
-  `lily-design-system-vue-helpers/lily-design-system-vue-locale-chooser/`
+  `lily-design-system-vue-helpers/lily-design-system-vue-locale-picker/`
 - Spec version: 0.3.0
 - Created: 2026-06-05
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause

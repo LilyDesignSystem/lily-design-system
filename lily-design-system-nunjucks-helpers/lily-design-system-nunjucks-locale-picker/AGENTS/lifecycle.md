@@ -1,4 +1,4 @@
-# Lifecycle — LocaleChooser (Nunjucks)
+# Lifecycle — LocalePicker (Nunjucks)
 
 The Nunjucks-flavoured walk-through of the select's lifecycle. The
 canonical contract is in [`../spec/index.md`](../spec/index.md) §5; this file
@@ -11,10 +11,10 @@ macro + client.js split.
 Nunjucks render time
   │
   ▼
-localeChooser(opts) macro
-  │  emits <div data-lily-locale-chooser-root …> containing
+localePicker(opts) macro
+  │  emits <div data-lily-locale-picker-root …> containing
   │   a hidden input, a trigger <button>, and a <ul role="listbox" hidden>
-  │   with data-lily-locale-chooser-value = opts.value (if non-empty)
+  │   with data-lily-locale-picker-value = opts.value (if non-empty)
   │   and per-option <li lang="{tagFor(locale)}">.
   │   Exactly one <li> is aria-selected="true" and the hidden input is
   │   pre-filled with the same code, resolved server-side.
@@ -27,13 +27,13 @@ Browser parses HTML, paints the collapsed button
   │  (the button is INERT here — nothing opens until the module runs)
   │
   ▼
-<script type="module"> imports locale-chooser.client.js
+<script type="module"> imports locale-picker.client.js
   │
   ▼
-autoInit() finds [data-lily-locale-chooser-root] in DOM
+autoInit() finds [data-lily-locale-picker-root] in DOM
   │
   ▼
-For each root, initLocaleChooser(root) runs:
+For each root, initLocalePicker(root) runs:
   1. Query the button, the listbox, the hidden input, the options
   2. Read data-lily-* attrs into local vars
   3. Attach listeners: button click + keydown, list keydown + click,
@@ -81,19 +81,19 @@ so focus keeps moving where the user sent it.
 
 ## Why a separate "init" and "apply"
 
-`initLocaleChooser` runs once per root; `applyLocale` runs every
+`initLocalePicker` runs once per root; `applyLocale` runs every
 time the user commits a selection. The split lets the
 controller's `setLocale(code)` reuse the same code path as the
 user picking an option — both flow through `applyLocale`.
 
-Moving the active option is deliberately *not* applying it: arrowing
+Moving the active option is deliberately _not_ applying it: arrowing
 through the listbox changes only `aria-activedescendant` and
 `data-active`. Nothing touches `lang`, `dir`, storage, the hidden
 input, or `onChange` until Enter, Space, or a click commits.
 
 ## Initial-value resolution
 
-Inside `initLocaleChooser(root)`:
+Inside `initLocalePicker(root)`:
 
 ```js
 const options = Array.from(list.querySelectorAll('[role="option"]'));
@@ -101,18 +101,19 @@ const optionValues = options.map((o) => o.getAttribute("data-value") || "");
 let initial = "";
 
 // 1. value prop — read from the data attribute the macro emits.
-initial = root.getAttribute("data-lily-locale-chooser-value") || "";
+initial = root.getAttribute("data-lily-locale-picker-value") || "";
 
 // 2. storage
 if (!initial && storageKey) initial = safeStorageGet(storageKey) || "";
 
 // 3. navigator
 if (!initial && detectFromNavigator && typeof navigator !== "undefined") {
-    const navLangs =
-        navigator.languages?.length
-            ? Array.from(navigator.languages)
-            : navigator.language ? [navigator.language] : [];
-    initial = matchNavigatorLanguage(navLangs, optionValues);
+  const navLangs = navigator.languages?.length
+    ? Array.from(navigator.languages)
+    : navigator.language
+      ? [navigator.language]
+      : [];
+  initial = matchNavigatorLanguage(navLangs, optionValues);
 }
 
 // 4. default-value
@@ -132,7 +133,7 @@ The resolution order is documented in
 Putting the consumer's `value` first means a server-resolved cookie
 always wins — important for flicker-free SSR.
 
-`opts.value` is read from the `data-lily-locale-chooser-value`
+`opts.value` is read from the `data-lily-locale-picker-value`
 attribute, **not** from the server-marked `aria-selected` option. The
 macro marks one option selected so the pre-hydration markup is
 coherent, but the client re-resolves from scratch: storage and
@@ -144,19 +145,19 @@ When they disagree, the client's resolution wins and it rewrites
 
 ```js
 function applyLocale(code) {
-    if (!code) return;
-    current = code;
-    const target = opts.target || document.documentElement;
-    target.setAttribute("lang", bcp47LocaleTag(code));
-    if (applyDir) {
-        target.setAttribute("dir", isRtlLocale(code) ? "rtl" : "ltr");
-    }
-    if (storageKey) safeStorageSet(storageKey, code);
-    if (input) input.value = code;
-    options.forEach((o, i) => {
-        o.setAttribute("aria-selected", values[i] === code ? "true" : "false");
-    });
-    if (typeof opts.onChange === "function") opts.onChange(code);
+  if (!code) return;
+  current = code;
+  const target = opts.target || document.documentElement;
+  target.setAttribute("lang", bcp47LocaleTag(code));
+  if (applyDir) {
+    target.setAttribute("dir", isRtlLocale(code) ? "rtl" : "ltr");
+  }
+  if (storageKey) safeStorageSet(storageKey, code);
+  if (input) input.value = code;
+  options.forEach((o, i) => {
+    o.setAttribute("aria-selected", values[i] === code ? "true" : "false");
+  });
+  if (typeof opts.onChange === "function") opts.onChange(code);
 }
 ```
 
@@ -184,7 +185,7 @@ The macro never writes `lang` / `dir` to `<html>`. Those happen
 in the client.js on hydration. To avoid a first-paint flash,
 write `<html lang="…" dir="…">` in your layout (substituting from
 a cookie / header / session) and pass `opts.value`, which the macro
-emits as `data-lily-locale-chooser-value` for the client to pick up.
+emits as `data-lily-locale-picker-value` for the client to pick up.
 
 The server markup is **not** fully usable on its own. The button has
 no behaviour until the client module runs: the listbox stays
@@ -230,7 +231,7 @@ This is rare. Most apps want the locale to outlive the select.
 ## Navigator-detection runs once
 
 `matchNavigatorLanguage` is only called inside
-`initLocaleChooser`. The select never re-runs detection mid-
+`initLocalePicker`. The select never re-runs detection mid-
 session — the user's choice should win over `navigator.languages`
 once expressed. To re-detect (e.g. on a settings reset), call the
 exported helper manually and pass the result to

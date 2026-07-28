@@ -9,7 +9,7 @@
   read the file system at build time) — see
   `_data/themes.js` in the catalog parent docs.
 #}
-{% from "../theme-chooser.njk" import themeChooser %}
+{% from "../theme-picker.njk" import themePicker %}
 
 {% set lilyThemes = [
     "abyss", "acid", "aqua", "autumn", "black", "bumblebee", "business",
@@ -30,7 +30,7 @@
     "united-states-web-design-system",
 ] %}
 
-{{ themeChooser({
+{{ themePicker({
     label: "Lily theme",
     themesUrl: "/assets/themes/",
     themes: lilyThemes,
@@ -38,6 +38,6 @@
 }) }}
 
 <script type="module">
-    import { autoInit } from "../theme-chooser.client.js";
+    import { autoInit } from "../theme-picker.client.js";
     autoInit();
 </script>

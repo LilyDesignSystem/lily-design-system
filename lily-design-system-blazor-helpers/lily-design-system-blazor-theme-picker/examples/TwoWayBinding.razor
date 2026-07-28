@@ -6,11 +6,11 @@
     the server, or notifying a sibling component.
 *@
 
-@page "/examples/theme-chooser/two-way-binding"
+@page "/examples/theme-picker/two-way-binding"
 @rendermode InteractiveServer
 @using LilyDesignSystem.Blazor.Helpers
 
-<ThemeChooser
+<ThemePicker
     Label="Theme"
     ThemesUrl="/assets/themes/"
     Themes="@(new[] { "light", "dark", "abyss" })"

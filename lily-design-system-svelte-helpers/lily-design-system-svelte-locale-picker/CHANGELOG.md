@@ -1,4 +1,4 @@
-# Changelog — LocaleChooser (Svelte)
+# Changelog — LocalePicker (Svelte)
 
 All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
@@ -9,13 +9,13 @@ and the project follows [Semantic Versioning](https://semver.org/).
 ### Changed (BREAKING)
 
 - Renamed from `lily-design-system-svelte-locale-select`. Directory,
-  component (`LocaleChooser.svelte`), exported symbols (`LocaleChooser`,
-  `nextLocaleChooserId`) and class hooks (`locale-chooser`,
-  `locale-chooser-button`, `locale-chooser-icon`, `locale-chooser-list`,
-  `locale-chooser-option`, `locale-chooser-option-label`,
-  `locale-chooser-placeholder`, `locale-chooser-status`,
-  `locale-chooser-text`) all carry the new name.
-- A headless Svelte 5 locale chooser: an icon button that opens a
+  component (`LocalePicker.svelte`), exported symbols (`LocalePicker`,
+  `nextLocalePickerId`) and class hooks (`locale-picker`,
+  `locale-picker-button`, `locale-picker-icon`, `locale-picker-list`,
+  `locale-picker-option`, `locale-picker-option-label`,
+  `locale-picker-placeholder`, `locale-picker-status`,
+  `locale-picker-text`) all carry the new name.
+- A headless Svelte 5 locale picker: an icon button that opens a
   WAI-ARIA APG listbox and applies the chosen locale to the document
   root via `lang` (BCP 47, hyphenated) and `dir` (auto-detected per
   script). Optional `localStorage` persistence and `navigator.languages`
@@ -42,10 +42,10 @@ reads coherently; the events they describe are unchanged.
 
 - **The control is no longer a native `<select>`.** It is now an icon
   button that opens a WAI-ARIA APG listbox. The root is a `<div
-class="locale-chooser">` containing a hidden input, a `<button
-class="locale-chooser-button">` showing a globe glyph, and a `<ul
-class="locale-chooser-list" role="listbox">` of `<li
-class="locale-chooser-option" role="option">` children.
+class="locale-picker">` containing a hidden input, a `<button
+class="locale-picker-button">` showing a globe glyph, and a `<ul
+class="locale-picker-list" role="listbox">` of `<li
+class="locale-picker-option" role="option">` children.
 - **`placeholder` prop removed.** It existed in 0.3.0 to name the
   pinned option of the native `<select>`. There is no `<select>` and no
   pinned option, so the prop is gone; passing it now falls through
@@ -64,10 +64,10 @@ class="locale-chooser-option" role="option">` children.
   are no longer possible. Consumers wanting those read `value` and
   drive their own controls.
 
-- **Class hooks changed.** `locale-chooser` now names the root `<div>`,
-  not a `<select>`. Added: `locale-chooser-button`,
-  `locale-chooser-icon`, `locale-chooser-list`. Removed:
-  `locale-chooser-placeholder`. `locale-chooser-option` survives but now
+- **Class hooks changed.** `locale-picker` now names the root `<div>`,
+  not a `<select>`. Added: `locale-picker-button`,
+  `locale-picker-icon`, `locale-picker-list`. Removed:
+  `locale-picker-placeholder`. `locale-picker-option` survives but now
   names an `<li>`, not an `<option>`.
 - **Keyboard interaction is implemented by the component**, not
   inherited from the platform. See `spec/index.md` §6.2 — button keys
@@ -77,7 +77,7 @@ class="locale-chooser-option" role="option">` children.
   changing, `Tab` closes without stealing focus, 500 ms typeahead over
   the labels).
 - **Consumers must now ship positioning CSS** for
-  `.locale-chooser-list`, including a `[hidden] { display: none }`
+  `.locale-picker-list`, including a `[hidden] { display: none }`
   reset, and it must use **logical properties** — this control flips
   the page to RTL, so a popup pinned with `left: 0` lands on the wrong
   edge exactly when the feature is exercised. See `docs/styling.md`.
@@ -90,7 +90,7 @@ class="locale-chooser-option" role="option">` children.
   `GLOBE_WITH_MERIDIANS` is now `"\u{1F310}︎"`, not
   `"\u{1F310}"`. VS15 requests text presentation; without it browsers
   pick the colour-emoji font and the globe renders blue, which does not
-  match `theme-chooser`'s monochrome `◑` when the two sit together in a
+  match `theme-picker`'s monochrome `◑` when the two sit together in a
   page header. Verified in Chromium. Tests assert the full
   two-codepoint sequence.
 
@@ -99,25 +99,25 @@ class="locale-chooser-option" role="option">` children.
 - A hidden `<input type="hidden" name="{name}">` preserving form
   participation now that there is no native form control. It carries
   the consumer-form code, not the BCP 47 tag.
-- `GLOBE_WITH_MERIDIANS` glyph constant and `nextLocaleChooserId()` (an
+- `GLOBE_WITH_MERIDIANS` glyph constant and `nextLocalePickerId()` (an
   SSR-safe incrementing id generator) on the module script.
 
 #### Added (docs and examples)
 
 - Five shared topic guides, so this package offers the same doc set as
-  `theme-chooser` rather than a subset: `docs/props-reference.md`,
+  `theme-picker` rather than a subset: `docs/props-reference.md`,
   `docs/styling.md`, `docs/custom-rendering.md`, `docs/recipes.md`,
-  `docs/troubleshooting.md`. Each is written for locale-chooser — RTL-safe
+  `docs/troubleshooting.md`. Each is written for locale-picker — RTL-safe
   CSS, endonyms, BCP 47 round-tripping, the typeahead-matches-labels
-  trap — rather than adapted from the theme-chooser copy. The
+  trap — rather than adapted from the theme-picker copy. The
   locale-specific guides (`bcp47`, `concepts`, `i18n-integration`,
-  `rtl`) are unchanged in scope; `theme-chooser`'s `preloading.md` has
+  `rtl`) are unchanged in scope; `theme-picker`'s `preloading.md` has
   no counterpart here and none was invented.
 - **Examples renamed off the radio-group era.** `01-radios`,
   `02-select`, and `03-buttons` had not rendered radios, a `<select>`,
   or a button group for some time; the numeric prefixes had stopped
   describing anything. They now use descriptive names matching
-  `theme-chooser`'s convention:
+  `theme-picker`'s convention:
 
   | Old                          | New                       |
   | ---------------------------- | ------------------------- |
@@ -156,7 +156,7 @@ class="locale-chooser-option" role="option">` children.
   hand-written one is about fifteen lines; (c) the glyph is a
   font-dependent character that may render in colour despite VS15,
   substitute, or not render at all.
-- The `.locale-chooser-status` live region is still recommended, but for
+- The `.locale-picker-status` live region is still recommended, but for
   a different reason: it no longer compensates for missing semantics,
   it compensates for the _closed_ control showing only a glyph — which
   matters more here than for a theme select, because the active locale
@@ -183,7 +183,7 @@ class="locale-chooser-option" role="option">` children.
 - The closed `<select>` now always displays a placeholder word ("Locale")
   instead of the active locale name, so the control is only ever as wide
   as that word rather than as wide as the longest locale name. A leading
-  `<option class="locale-chooser-option locale-chooser-placeholder" value="">`
+  `<option class="locale-picker-option locale-picker-placeholder" value="">`
   is always rendered, and the element's own selection snaps back to it
   after every change.
 - DOM contract changes accordingly: the option count is now
@@ -215,7 +215,7 @@ class="locale-chooser-option" role="option">` children.
 
 - The compensating status region is now the **default pattern**, not a
   suggestion: the entry-point example and the `index.md` quick-start both
-  ship a visible `<p class="locale-chooser-status" aria-live="polite">`
+  ship a visible `<p class="locale-picker-status" aria-live="polite">`
   showing the active locale via the exported `localeName`.
   `aria-live="polite"` announces mutations only, so it stays silent on
   first paint and speaks on each change. `docs/accessibility.md`
@@ -229,12 +229,12 @@ class="locale-chooser-option" role="option">` children.
 
 - Migrated from the radio-group "picker" rendering to a native
   `<select>` (landed in-tree 2026-06-17): the root element is now
-  `<select class="locale-chooser">` with one `<option class="locale-chooser-option">`
+  `<select class="locale-picker">` with one `<option class="locale-picker-option">`
   per choice, replacing the former `<fieldset role="radiogroup">` with
   `<input type="radio">` children. The package was renamed from the
   `*-picker` name to `*-select` accordingly.
-- Class-hook contract changed: `locale-chooser` now names the `<select>` root
-  and `locale-chooser-option` is the only sub-class; the radio/label sub-class
+- Class-hook contract changed: `locale-picker` now names the `<select>` root
+  and `locale-picker-option` is the only sub-class; the radio/label sub-class
   hooks are gone.
 - Keyboard interaction is the native `<select>` contract (Arrow keys,
   Home / End, first-letter typeahead) instead of radio-group cycling.
@@ -255,7 +255,7 @@ and HTML ports port from this contract clause-for-clause.
 
 #### Added
 
-- `LocaleChooser.svelte` — Svelte 5 component using runes throughout
+- `LocalePicker.svelte` — Svelte 5 component using runes throughout
   (`$props`, `$bindable`, `$effect`). Implements:
   - Renders `<select aria-label="…" name="…">` with one
     `<option lang="{tagFor(locale)}">` per locale code per WCAG 3.1.2
@@ -275,12 +275,12 @@ and HTML ports port from this contract clause-for-clause.
 - `locales.ts` — 436-row built-in locale-code → English-name table
   plus RTL language and script subtag sets.
 - `locales.tsv` — canonical source for `locales.ts`.
-- `index.ts` barrel re-exporting `default`, `LocaleChooser`,
+- `index.ts` barrel re-exporting `default`, `LocalePicker`,
   `bcp47LocaleTag`, `isRtlLocale`, `localeName`,
   `matchNavigatorLanguage`, `defaultLocaleLabels`,
   `RTL_LANGUAGE_TAGS`, `RTL_SCRIPT_SUBTAGS`, and the `Props` +
   `ChildArgs` types.
-- `LocaleChooser.test.ts` — vitest suite asserting every numbered
+- `LocalePicker.test.ts` — vitest suite asserting every numbered
   acceptance criterion in `spec/index.md` §7 (23 items). The markup-contract
   tests assert a `<select>` with `<option>` children.
 - `spec/index.md` — spec-driven contract, version 0.1.0.
@@ -305,7 +305,7 @@ and HTML ports port from this contract clause-for-clause.
   exported from a `<script lang="ts" module>` block.
 - **Zero runtime dependencies** beyond `svelte`.
 - **SSR-safe** — all DOM writes inside `$effect`.
-- **No `<style>` block** — consumer styles the `locale-chooser`
+- **No `<style>` block** — consumer styles the `locale-picker`
   class hook.
 - **Tested** under vitest + jsdom + `@testing-library/svelte`.
 

@@ -1,7 +1,7 @@
 # SSR and the first paint
 
 Nunjucks **is** the server side. The macro produces a static HTML string
-at render time; the browser parses and paints it; `share-chooser.client.js`
+at render time; the browser parses and paints it; `share-picker.client.js`
 then takes over for the interaction. This file explains what the server
 markup does and does not do on its own, and how to wire the macro into
 different Nunjucks hosts.
@@ -14,7 +14,7 @@ exactly, because the two halves land very differently.
 
 ### What works
 
-**The destination links work.** Every `<a class="share-chooser-target">`
+**The destination links work.** Every `<a class="share-picker-target">`
 is a real anchor carrying its final `href`, rendered server-side. With
 JavaScript disabled or broken they still:
 
@@ -39,7 +39,7 @@ API would have.
   `<button>` has no handler: clicking it, or pressing `Enter` / `Space`
   / `ArrowDown` on it, does nothing at all. So although the links are
   live, **the user cannot reach them through the control.**
-- **Copy does not function.** `<button class="share-chooser-copy">` is a
+- **Copy does not function.** `<button class="share-picker-copy">` is a
   bare button with no handler and no form action. It is visible in the
   markup but inert — the worst of the three states, because it looks
   operable.
@@ -52,25 +52,25 @@ API would have.
 
 Better, and worth being precise about rather than waving at.
 
-`theme-chooser`, `locale-chooser` and `text-size-chooser` each render a
+`theme-picker`, `locale-picker` and `text-size-picker` each render a
 glyph button plus a `hidden` listbox. Without JavaScript those controls
 are **totally inert**: no preference can be chosen by any means, and the
 only no-JS affordance is a hidden `<input>` that lets a surrounding form
 submit the value the server already picked. There is no path from the
 markup to the user's intent.
 
-Here, the *content* of the control — the destinations — survives
+Here, the _content_ of the control — the destinations — survives
 intact in the DOM, and each one is independently usable. What is lost is
-the *disclosure*: the packaging, not the payload. A user with no
+the _disclosure_: the packaging, not the payload. A user with no
 JavaScript who can see the markup can still follow every link.
 
 That is a real difference in kind, not degree, and it comes from a real
-architectural difference: those helpers apply a *preference* to the
+architectural difference: those helpers apply a _preference_ to the
 document, which is inherently a runtime act, while this helper's primary
-affordance is *navigation*, which HTML has always done on its own.
+affordance is _navigation_, which HTML has always done on its own.
 
 It is still a degradation. Do not read the above as "this works without
-JavaScript". It does not, as a *control*.
+JavaScript". It does not, as a _control_.
 
 ### If you need it to work with no JavaScript at all
 
@@ -83,11 +83,11 @@ copy button is rendered:
 
 ```njk
 {% macro alwaysOpenShare(opts) %}
-  {{ shareChooser(opts) | replace(' hidden data-lily-share-chooser-list', ' data-lily-share-chooser-list') | safe }}
+  {{ sharePicker(opts) | replace(' hidden data-lily-share-picker-list', ' data-lily-share-picker-list') | safe }}
 {% endmacro %}
 ```
 
-Then do not call `initShareChooser` on it. You lose the native sheet and
+Then do not call `initSharePicker` on it. You lose the native sheet and
 copy; you keep working destinations and no misleading affordances.
 
 ## What the macro does on the server
@@ -113,8 +113,8 @@ There are two different URLs in play and it pays to keep them apart.
 1. **The destination hrefs**, baked into the anchors at render time from
    whatever `url` the consumer used when building them.
 2. **The share URL**, used by the native sheet, by copy-to-clipboard,
-   and passed to `onShare` — resolved *lazily on the client* as
-   `opts.url` (init) → `data-lily-share-chooser-url` (macro) → `location.href`.
+   and passed to `onShare` — resolved _lazily on the client_ as
+   `opts.url` (init) → `data-lily-share-picker-url` (macro) → `location.href`.
 
 When you pass `opts.url`, both agree and there is nothing to think
 about. When you omit it, the anchors carry whatever you built them with
@@ -128,17 +128,17 @@ anchors:
 
 ```html
 <script type="module">
-    import { autoInit } from "/js/share-chooser.client.js";
-    autoInit({
-        targets: [
-            {
-                id: "mastodon",
-                href: (url, title) =>
-                    `https://mastodon.example/share?url=${encodeURIComponent(url)}` +
-                    `&text=${encodeURIComponent(title)}`,
-            },
-        ],
-    });
+  import { autoInit } from "/js/share-picker.client.js";
+  autoInit({
+    targets: [
+      {
+        id: "mastodon",
+        href: (url, title) =>
+          `https://mastodon.example/share?url=${encodeURIComponent(url)}` +
+          `&text=${encodeURIComponent(title)}`,
+      },
+    ],
+  });
 </script>
 ```
 
@@ -155,8 +155,8 @@ can mix the two freely.
 <html lang="en">
     <head><title>{{ title }}</title></head>
     <body>
-        {% from "share-chooser.njk" import shareChooser %}
-        {{ shareChooser({
+        {% from "share-picker.njk" import sharePicker %}
+        {{ sharePicker({
             label: "Share this page",
             url: site.url + page.url,
             title: title,
@@ -181,7 +181,7 @@ can mix the two freely.
         }) }}
 
         <script type="module">
-            import { autoInit } from "/js/share-chooser.client.js";
+            import { autoInit } from "/js/share-picker.client.js";
             autoInit();
         </script>
     </body>
@@ -199,24 +199,24 @@ A shortcode keeps the URL-building in one place:
 ```js
 // .eleventy.js
 module.exports = function (eleventyConfig) {
-    eleventyConfig.addFilter("shareTargets", (url, title) => [
-        {
-            id: "mastodon",
-            label: "Mastodon",
-            href: `https://mastodon.example/share?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`,
-        },
-        {
-            id: "email",
-            label: "Email",
-            newTab: false,
-            href: `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(url)}`,
-        },
-    ]);
+  eleventyConfig.addFilter("shareTargets", (url, title) => [
+    {
+      id: "mastodon",
+      label: "Mastodon",
+      href: `https://mastodon.example/share?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`,
+    },
+    {
+      id: "email",
+      label: "Email",
+      newTab: false,
+      href: `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(url)}`,
+    },
+  ]);
 };
 ```
 
 ```njk
-{{ shareChooser({
+{{ sharePicker({
     label: "Share this page",
     url: absoluteUrl,
     targets: absoluteUrl | shareTargets(title),
@@ -225,7 +225,7 @@ module.exports = function (eleventyConfig) {
 ```
 
 This is also the escape hatch for anyone who wants the canonical
-function-`href` ergonomics on the server: a registered filter *is* a
+function-`href` ergonomics on the server: a registered filter _is_ a
 function the template may call. The macro cannot call an arbitrary
 function out of `opts`, but your environment's own filters are fair
 game.
@@ -240,24 +240,24 @@ const app = express();
 nunjucks.configure("views", { express: app, autoescape: true });
 
 app.get("/article/:slug", (req, res) => {
-    const url = `${req.protocol}://${req.get("host")}${req.originalUrl}`;
-    const title = "Article title";
-    res.render("article.njk", {
-        url,
-        title,
-        shareTargets: [
-            {
-                id: "mastodon",
-                label: "Mastodon",
-                href: `https://mastodon.example/share?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`,
-            },
-        ],
-    });
+  const url = `${req.protocol}://${req.get("host")}${req.originalUrl}`;
+  const title = "Article title";
+  res.render("article.njk", {
+    url,
+    title,
+    shareTargets: [
+      {
+        id: "mastodon",
+        label: "Mastodon",
+        href: `https://mastodon.example/share?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`,
+      },
+    ],
+  });
 });
 ```
 
 ```njk
-{{ shareChooser({
+{{ sharePicker({
     label: "Share this article",
     url: url,
     title: title,
@@ -279,22 +279,22 @@ import templates from "./templates.json";
 const env = new nunjucks.Environment(new nunjucks.PrecompiledLoader(templates));
 
 export default {
-    async fetch(request) {
-        const url = request.url;
-        const html = env.render("page.njk", {
-            url,
-            shareTargets: [
-                {
-                    id: "mastodon",
-                    label: "Mastodon",
-                    href: `https://mastodon.example/share?url=${encodeURIComponent(url)}`,
-                },
-            ],
-        });
-        return new Response(html, {
-            headers: { "content-type": "text/html; charset=utf-8" },
-        });
-    },
+  async fetch(request) {
+    const url = request.url;
+    const html = env.render("page.njk", {
+      url,
+      shareTargets: [
+        {
+          id: "mastodon",
+          label: "Mastodon",
+          href: `https://mastodon.example/share?url=${encodeURIComponent(url)}`,
+        },
+      ],
+    });
+    return new Response(html, {
+      headers: { "content-type": "text/html; charset=utf-8" },
+    });
+  },
 };
 ```
 
@@ -317,8 +317,8 @@ with default opts render duplicate ids. Give the second one an explicit
 `id` — or a distinct `name`:
 
 ```njk
-{{ shareChooser({label: "Share", targets: t, name: "header"}) }}
-{{ shareChooser({label: "Share", targets: t, name: "footer"}) }}
+{{ sharePicker({label: "Share", targets: t, name: "header"}) }}
+{{ sharePicker({label: "Share", targets: t, name: "footer"}) }}
 ```
 
 `autoInit()` wires both.
@@ -327,7 +327,7 @@ with default opts render duplicate ids. Give the second one an explicit
 
 There is no virtual-DOM hydration mismatch in this catalog, because the
 macro emits one-shot HTML rather than a diff. The client only ever
-*adds* behaviour to markup that is already correct: it removes `hidden`
+_adds_ behaviour to markup that is already correct: it removes `hidden`
 on open, flips `aria-expanded`, writes into the status region, and — if
 you passed function-`href` targets — rewrites anchor hrefs. Nothing it
 does contradicts what the server rendered.

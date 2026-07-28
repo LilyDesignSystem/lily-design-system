@@ -1,4 +1,4 @@
-# Accessibility — LocaleChooser (Blazor)
+# Accessibility — LocalePicker (Blazor)
 
 The select targets WCAG 2.2 AAA. It is an icon button that opens a
 dropdown listbox following the WAI-ARIA APG listbox pattern — not a
@@ -13,7 +13,7 @@ native `<select>`. The canonical contract is in
 | `<button>`                 | `aria-expanded="true\|false"`            | Component          |
 | `<button>`                 | `aria-controls="{listId}"`               | Component          |
 | `<button>`                 | `aria-label="@Label"`                    | Consumer parameter |
-| `<span class="locale-chooser-icon">` | `aria-hidden="true"`            | Component          |
+| `<span class="locale-picker-icon">` | `aria-hidden="true"`            | Component          |
 | `<ul>`                     | `role="listbox"`                         | Component          |
 | `<ul>`                     | `tabindex="-1"`                          | Component          |
 | `<ul>`                     | `aria-label="@Label"`                    | Consumer parameter |
@@ -103,7 +103,7 @@ discussed in [`../docs/accessibility.md`](../docs/accessibility.md).
 
 ## Per-option `lang` is important
 
-Each `<li class="locale-chooser-option">` carries `lang="…"`.
+Each `<li class="locale-picker-option">` carries `lang="…"`.
 This satisfies WCAG 3.1.2 (Language of Parts): when a screen reader
 encounters the option "Français" inside an English page, the
 `lang` attribute makes the reader switch to a French voice for the
@@ -117,7 +117,7 @@ The attribute is emitted unconditionally by the component, in BCP 47
 hyphen form via `TagFor`:
 
 ```html
-<li class="locale-chooser-option" role="option"
+<li class="locale-picker-option" role="option"
     aria-selected="false" lang="fr-CA">Français (Canada)</li>
 ```
 

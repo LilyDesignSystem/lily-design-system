@@ -1,7 +1,7 @@
 # Examples
 
 Self-contained Blazor `.razor` examples for
-`lily-design-system-blazor-locale-chooser`. Each file is a runnable
+`lily-design-system-blazor-locale-picker`. Each file is a runnable
 page that can be dropped into any Blazor 10 host (Blazor Web App,
 Blazor Server, Blazor WebAssembly).
 
@@ -13,25 +13,25 @@ Every example assumes:
 - A `_Imports.razor` that declares
   `@using LilyDesignSystem.Blazor.Helpers`.
 - No CSS dependency — the select is headless. Consumers style
-  the `locale-chooser`, `locale-chooser-button`,
-  `locale-chooser-icon`, `locale-chooser-list`, and
-  `locale-chooser-option` class hooks — plus the `[data-active]` and
+  the `locale-picker`, `locale-picker-button`,
+  `locale-picker-icon`, `locale-picker-list`, and
+  `locale-picker-option` class hooks — plus the `[data-active]` and
   `[aria-selected]` attributes on the active / selected option, and
-  `locale-chooser-status` for the consumer-rendered status region
+  `locale-picker-status` for the consumer-rendered status region
   (see Example 1).
 
-| #  | File                                                  | Demonstrates                                                       |
-|----|-------------------------------------------------------|--------------------------------------------------------------------|
-| 1  | [`Basic.razor`](./Basic.razor)                        | Default rendering — plain parameters plus a `locale-chooser-status` live region. |
-| 2  | [`CustomRendering.razor`](./CustomRendering.razor)    | Custom button glyph via `ChildContent` (inline SVG, state-aware caret). |
-| 3  | [`ExternalButtons.razor`](./ExternalButtons.razor)    | External toggle-button group driving `SetLocaleAsync` via `@ref`.  |
-| 4  | [`RtlDemo.razor`](./RtlDemo.razor)                    | Live RTL preview — Arabic, Hebrew, Persian, Urdu, Pashto.          |
-| 5  | [`NhsStyle.razor`](./NhsStyle.razor)                  | NHS UK-style endonym banner driving `SetLocaleAsync` via `@ref`.   |
-| 6  | [`WithIStringLocalizer.razor`](./WithIStringLocalizer.razor) | Binding to `IStringLocalizer<T>` shared resources.           |
-| 7  | [`WithResX.razor`](./WithResX.razor)                  | Per-component `.resx` driving labels.                              |
-| 8  | [`SsrCookie.razor`](./SsrCookie.razor)                | Cookie + `IHttpContextAccessor` for flicker-free SSR.              |
-| 9  | [`ScopedTarget.razor`](./ScopedTarget.razor)          | Multiple per-region selects, each scoped to its own panel.         |
-| 10 | [`Combobox.razor`](./Combobox.razor)                  | External `<datalist>` type-ahead over all built-in locales, driving `SetLocaleAsync`. |
+| #   | File                                                         | Demonstrates                                                                          |
+| --- | ------------------------------------------------------------ | ------------------------------------------------------------------------------------- |
+| 1   | [`Basic.razor`](./Basic.razor)                               | Default rendering — plain parameters plus a `locale-picker-status` live region.      |
+| 2   | [`CustomRendering.razor`](./CustomRendering.razor)           | Custom button glyph via `ChildContent` (inline SVG, state-aware caret).               |
+| 3   | [`ExternalButtons.razor`](./ExternalButtons.razor)           | External toggle-button group driving `SetLocaleAsync` via `@ref`.                     |
+| 4   | [`RtlDemo.razor`](./RtlDemo.razor)                           | Live RTL preview — Arabic, Hebrew, Persian, Urdu, Pashto.                             |
+| 5   | [`NhsStyle.razor`](./NhsStyle.razor)                         | NHS UK-style endonym banner driving `SetLocaleAsync` via `@ref`.                      |
+| 6   | [`WithIStringLocalizer.razor`](./WithIStringLocalizer.razor) | Binding to `IStringLocalizer<T>` shared resources.                                    |
+| 7   | [`WithResX.razor`](./WithResX.razor)                         | Per-component `.resx` driving labels.                                                 |
+| 8   | [`SsrCookie.razor`](./SsrCookie.razor)                       | Cookie + `IHttpContextAccessor` for flicker-free SSR.                                 |
+| 9   | [`ScopedTarget.razor`](./ScopedTarget.razor)                 | Multiple per-region selects, each scoped to its own panel.                            |
+| 10  | [`Combobox.razor`](./Combobox.razor)                         | External `<datalist>` type-ahead over all built-in locales, driving `SetLocaleAsync`. |
 
 ## Running the examples
 
@@ -73,7 +73,7 @@ WAI-ARIA APG listbox. Examples that use it destructure the context
 via `Context="ctx"`:
 
 ```csharp
-public sealed class LocaleChooserContext
+public sealed class LocalePickerContext
 {
     public string Value { get; init; }              // active locale code
     public bool Open { get; init; }                 // is the listbox open?
@@ -91,10 +91,10 @@ For a button group, combobox, or any other external affordance, keep
 a `@ref` to the component and call the public method:
 
 ```razor
-<LocaleChooser @ref="localeSelect" Label="Language" Locales="@codes" @bind-Value="locale" />
+<LocalePicker @ref="localeSelect" Label="Language" Locales="@codes" @bind-Value="locale" />
 
 @code {
-    private LocaleChooser? localeSelect;
+    private LocalePicker? localeSelect;
     private async Task Apply(string code) => await localeSelect!.SetLocaleAsync(code);
 }
 ```

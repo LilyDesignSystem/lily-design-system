@@ -31,7 +31,7 @@
 */
 
 import { useEffect } from "react";
-import { ThemeChooser } from "../ThemeChooser";
+import { ThemePicker } from "../ThemePicker";
 
 const PRELOAD = [
     "/assets/themes/light.css",
@@ -55,7 +55,7 @@ export function PreloadedExample() {
     }, []);
 
     return (
-        <ThemeChooser
+        <ThemePicker
             label="Theme"
             themesUrl="/assets/themes/"
             themes={["light", "dark", "abyss"]}

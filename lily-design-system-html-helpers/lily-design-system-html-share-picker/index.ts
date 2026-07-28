@@ -1,35 +1,35 @@
 /**
- * Barrel re-export for `<share-chooser>`.
+ * Barrel re-export for `<share-picker>`.
  *
  * Importing this module registers the custom element under the tag
- * name `"share-chooser"`. Registration is idempotent — re-imports do
+ * name `"share-picker"`. Registration is idempotent — re-imports do
  * not throw. Consumers who want a different tag name can import the
- * class directly from `./share-chooser` and call
+ * class directly from `./share-picker` and call
  * `customElements.define(...)` themselves.
  */
 
 import {
-    ShareChooser,
+    SharePicker,
     canShareNatively,
     canCopy,
-    nextShareChooserId,
+    nextSharePickerId,
     BLACK_RIGHTWARDS_ARROWHEAD,
-} from "./share-chooser.js";
+} from "./share-picker.js";
 export {
-    ShareChooser,
+    SharePicker,
     canShareNatively,
     canCopy,
-    nextShareChooserId,
+    nextSharePickerId,
     BLACK_RIGHTWARDS_ARROWHEAD,
 };
 export type {
-    ShareChooserProps,
-    ShareChooserShareDetail,
-    ShareChooserUrlDetail,
+    SharePickerProps,
+    SharePickerShareDetail,
+    SharePickerUrlDetail,
     ShareTarget,
     ShareStrategy,
-} from "./share-chooser.js";
+} from "./share-picker.js";
 
-if (typeof customElements !== "undefined" && !customElements.get("share-chooser")) {
-    customElements.define("share-chooser", ShareChooser);
+if (typeof customElements !== "undefined" && !customElements.get("share-picker")) {
+    customElements.define("share-picker", SharePicker);
 }

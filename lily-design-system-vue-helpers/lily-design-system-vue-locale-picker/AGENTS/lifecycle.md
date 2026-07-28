@@ -1,6 +1,6 @@
-# Lifecycle — LocaleChooser (Vue)
+# Lifecycle — LocalePicker (Vue)
 
-The Vue-flavoured walk-through of the chooser's lifecycle. The
+The Vue-flavoured walk-through of the picker's lifecycle. The
 canonical contract is in [`../spec/index.md`](../spec/index.md) §5; this file
 maps the Svelte canonical's `$effect` lifecycle to Vue's
 `onMounted` + `watch`.
@@ -50,7 +50,7 @@ Escape and Tab take the `closeList` branch without ever calling
 ## Why `onMounted` + `watch`, not `watchEffect`
 
 `watchEffect` would auto-track every prop it reads. We don't want
-the chooser to re-apply when `target` or `applyDir` change without a
+the picker to re-apply when `target` or `applyDir` change without a
 corresponding `value` change. An explicit
 `watch(() => props.value, …)` keeps the dependency graph small and
 predictable.
@@ -169,7 +169,7 @@ watch(target, () => {
 During server rendering, `onMounted` and `watch` are no-ops. The
 template renders the button and the (hidden) listbox using whatever
 `value` was passed; the `lang` and `dir` attributes are not written to
-`<html>` (no DOM). Element ids come from the `nextLocaleChooserId()`
+`<html>` (no DOM). Element ids come from the `nextLocalePickerId()`
 module counter rather than `Math.random()` / `Date.now()`, so the
 server and client markup agree.
 
@@ -185,7 +185,7 @@ clears the pending typeahead timer. Both are the component's own
 resources, so both go.
 
 The component does **not** clean up `lang` / `dir` on unmount. That's
-intentional: the chooser may be unmounted because the consumer
+intentional: the picker may be unmounted because the consumer
 navigated away from a settings page; the locale should stay
 applied.
 
@@ -195,7 +195,7 @@ If a consumer wants to fully reset, they can do it in
 ## Watch vs the navigator-detection helper
 
 `matchNavigatorLanguage` is only called inside `onMounted`. The
-chooser never re-runs detection mid-session — the user's choice
+picker never re-runs detection mid-session — the user's choice
 should win over `navigator.languages` once expressed. If a consumer
 wants to re-detect (e.g. on a settings reset), they can call the
 exported helper manually and write the result to the bound `value`.

@@ -16,10 +16,10 @@
 -->
 <script setup lang="ts">
 import { ref, computed, type Ref } from "vue";
-import LocaleChooser, {
+import LocalePicker, {
     isRtlLocale,
     bcp47LocaleTag,
-} from "../LocaleChooser.vue";
+} from "../LocalePicker.vue";
 
 // In real Nuxt 3 code, useCookie and useHead are auto-imported and
 // useCookie<T>() returns a Ref<T> that round-trips between server
@@ -62,7 +62,7 @@ if (typeof useHead === "function") {
 </script>
 
 <template>
-    <LocaleChooser
+    <LocalePicker
         label="Language"
         :locales="['en', 'fr', 'ar']"
         v-model:value="locale"

@@ -18,9 +18,9 @@ convention plus a Cloudflare Pages Functions middleware.
 Required setup in your project:
 
 1. Have theme CSS files at `assets/themes/<slug>.css`.
-2. Drop the select's `theme-chooser.njk` + `theme-chooser.client.js`
+2. Drop the select's `theme-picker.njk` + `theme-picker.client.js`
    somewhere Eleventy can reach (e.g.
-   `_includes/lily/theme-chooser.njk`).
+   `_includes/lily/theme-picker.njk`).
 3. Wire `eleventyConfig.addPassthroughCopy` for both the themes
    directory and the client.js.
 

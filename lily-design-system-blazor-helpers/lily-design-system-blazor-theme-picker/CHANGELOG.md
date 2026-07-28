@@ -1,4 +1,4 @@
-# Changelog — ThemeChooser (Blazor)
+# Changelog — ThemePicker (Blazor)
 
 All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
@@ -7,8 +7,8 @@ and the project follows [Semantic Versioning](https://semver.org/).
 ## 0.1.0 — 2026-07-21
 
 Renamed from `lily-design-system-blazor-theme-select` to
-`lily-design-system-blazor-theme-chooser`. The NuGet package is now
-`LilyDesignSystem.Blazor.ThemeChooser`.
+`lily-design-system-blazor-theme-picker`. The NuGet package is now
+`LilyDesignSystem.Blazor.ThemePicker`.
 
 The rename is the whole change: no behaviour, no API semantics and no
 DOM structure moved. This release ships the code exactly as it stood
@@ -17,16 +17,16 @@ Unreleased there.
 
 Renamed in this package:
 
-- Component and context: `ThemeChooser` -> `ThemeChooser`,
-  `ThemeSelectContext` -> `ThemeChooserContext`.
-- Class hooks: `.theme-chooser`, `-button`, `-icon`, `-list`, `-option`
-  -> `.theme-chooser`, `-button`, `-icon`, `-list`, `-option`.
+- Component and context: `ThemePicker` -> `ThemePicker`,
+  `ThemeSelectContext` -> `ThemePickerContext`.
+- Class hooks: `.theme-picker`, `-button`, `-icon`, `-list`, `-option`
+  -> `.theme-picker`, `-button`, `-icon`, `-list`, `-option`.
 - The managed `<link>` discriminator: `data-lily-theme-select` ->
-  `data-lily-theme-chooser`.
-- Generated element ids: `theme-chooser-{n}` -> `theme-chooser-{n}`.
-- Files: `ThemeChooser.razor{,.cs}` -> `ThemeChooser.razor{,.cs}`,
-  `ThemeSelectTests.cs` -> `ThemeChooserTests.cs`,
-  `examples/MultipleSelects.razor` -> `examples/MultipleChoosers.razor`.
+  `data-lily-theme-picker`.
+- Generated element ids: `theme-picker-{n}` -> `theme-picker-{n}`.
+- Files: `ThemePicker.razor{,.cs}` -> `ThemePicker.razor{,.cs}`,
+  `ThemeSelectTests.cs` -> `ThemePickerTests.cs`,
+  `examples/MultipleSelects.razor` -> `examples/MultiplePickers.razor`.
 
 `ThemeName`, `ThemesUrl`, `MatchSystemTheme` and every parameter name
 are unchanged — they never said "select".
@@ -47,17 +47,17 @@ selectors. Nothing else moves.
 
 ##### Added
 
-- **`ThemeChooser.ThemeName(string slug)` — public static.** The single
+- **`ThemePicker.ThemeName(string slug)` — public static.** The single
   implementation of the default label rule (`"high-contrast"` ->
   `"High Contrast"`). The private instance `LabelFor` now delegates to
   it, so there is exactly one copy of the rule; `ThemeLabels` still
   overrides. Previously the rule lived only in a private method, which
   forced every example across the seven catalogs to hand-duplicate the
-  title-casing. Mirrors `Locales.LocaleName` on LocaleChooser.
+  title-casing. Mirrors `Locales.LocaleName` on LocalePicker.
 - **`DetectFromSystem` parameter (`bool`, default `false`).** Opt in to
   resolving `prefers-color-scheme` on first visit. Slots into the
   resolution order in the position navigator detection occupies for
-  LocaleChooser:
+  LocalePicker:
 
   ```
   Value > StorageKey > DetectFromSystem > DefaultValue > "light" > Themes[0]
@@ -66,7 +66,8 @@ selectors. Nothing else moves.
   A returning visitor's stored choice therefore always beats the OS
   preference; detection only ever decides the first visit. Off by
   default, so no existing behaviour changes.
-- **`ThemeChooser.MatchSystemTheme(bool? prefersDark, themes)` — public
+
+- **`ThemePicker.MatchSystemTheme(bool? prefersDark, themes)` — public
   static.** The pure decision behind `DetectFromSystem`: maps an OS
   colour-scheme preference onto a supported slug, returning `""` when
   the slug is not offered **or when `prefersDark` is null**, which is
@@ -85,7 +86,7 @@ selectors. Nothing else moves.
   the result as `DefaultValue`. The old approach still works but gets
   the precedence subtly wrong.
 - `spec/index.md` §8 no longer lists "a `prefers-color-scheme`
-  integration" as out of scope. A *live* subscription remains out of
+  integration" as out of scope. A _live_ subscription remains out of
   scope: re-theming a page when the OS flips while the tab is open
   would fight a selection the user made by hand.
 
@@ -96,22 +97,42 @@ selectors. Nothing else moves.
   listbox pattern. The root element changes from `<select>` to `<div>`:
 
   ```html
-  <div class="theme-chooser {CssClass}">
+  <div class="theme-picker {CssClass}">
     <input type="hidden" name="{Name}" value="{Value}" />
-    <button type="button" class="theme-chooser-button" aria-label="{Label}"
-            aria-haspopup="listbox" aria-expanded="false" aria-controls="{listId}">
-      <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
+    <button
+      type="button"
+      class="theme-picker-button"
+      aria-label="{Label}"
+      aria-haspopup="listbox"
+      aria-expanded="false"
+      aria-controls="{listId}"
+    >
+      <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
     </button>
-    <ul class="theme-chooser-list" id="{listId}" role="listbox" aria-label="{Label}"
-        tabindex="-1" hidden aria-activedescendant="{active option id, open only}">
-      <li class="theme-chooser-option" id="{optionId}" role="option"
-          aria-selected="true|false" data-active>{LabelFor(slug)}</li>
+    <ul
+      class="theme-picker-list"
+      id="{listId}"
+      role="listbox"
+      aria-label="{Label}"
+      tabindex="-1"
+      hidden
+      aria-activedescendant="{active option id, open only}"
+    >
+      <li
+        class="theme-picker-option"
+        id="{optionId}"
+        role="option"
+        aria-selected="true|false"
+        data-active
+      >
+        {LabelFor(slug)}
+      </li>
     </ul>
   </div>
   ```
 
   Consumers must update: any CSS or test selector targeting
-  `select.theme-chooser` or `option.theme-chooser-option`;
+  `select.theme-picker` or `option.theme-picker-option`;
   `AdditionalAttributes` and `CssClass` now land on the root `<div>`,
   not on a form control.
 
@@ -126,7 +147,7 @@ selectors. Nothing else moves.
   longer calls `Object.assign(el, { value: "" })` through `IJSRuntime`
   after a change. There is no `<select>` DOM value to reset.
 
-- **`ThemeChooserContext` is narrowed, and `ChildContent` changes
+- **`ThemePickerContext` is narrowed, and `ChildContent` changes
   meaning.** The fragment now **replaces the glyph inside the button**
   rather than rendering the options; options are always
   component-owned, so the listbox semantics cannot be broken by a
@@ -135,9 +156,9 @@ selectors. Nothing else moves.
   Svelte `ChildArgs`. To drive selection imperatively, call the public
   `SetThemeAsync(string)` on a `@ref` to the component.
 
-- **The `.theme-chooser-placeholder` CSS hook is gone.** The hooks are
-  now `.theme-chooser`, `.theme-chooser-button`, `.theme-chooser-icon`,
-  `.theme-chooser-list`, `.theme-chooser-option`, plus the
+- **The `.theme-picker-placeholder` CSS hook is gone.** The hooks are
+  now `.theme-picker`, `.theme-picker-button`, `.theme-picker-icon`,
+  `.theme-picker-list`, `.theme-picker-option`, plus the
   `[data-active]` and `[aria-selected]` state selectors.
 
 ##### Added
@@ -152,13 +173,13 @@ selectors. Nothing else moves.
   leaving the root closes the listbox.
 - Focus management via `ElementReference.FocusAsync()` — opening moves
   focus to the `<ul>`, selecting or escaping returns it to the button.
-- `ThemeChooser.CircleWithRightHalfBlack` — the default glyph constant,
+- `ThemePicker.CircleWithRightHalfBlack` — the default glyph constant,
   `"◑"` (U+25D1).
 - A hidden `<input>` carrying `Name` / `Value` so the control still
   participates in form submission. `Name` continues to discriminate the
-  managed `<link data-lily-theme-chooser="{Name}">`.
+  managed `<link data-lily-theme-picker="{Name}">`.
 - Stable, SSR-safe element ids from a monotonic process-wide counter
-  (`theme-chooser-{n}-list`, `theme-chooser-{n}-option-{i}`) — no
+  (`theme-picker-{n}-list`, `theme-picker-{n}-option-{i}`) — no
   randomness and no clock reads.
 
 ##### Unchanged
@@ -187,8 +208,8 @@ exactly as before.
   the active theme name, so the control stays narrow regardless of how
   long theme names are. Two parts of the DOM contract change:
   - **Option count and ordering.** A component-owned placeholder
-    `<option class="theme-chooser-option theme-chooser-placeholder"
-    value="" selected>` is now the FIRST child of the `<select>`, in
+    `<option class="theme-picker-option theme-picker-placeholder"
+value="" selected>` is now the FIRST child of the `<select>`, in
     both the default and the `ChildContent` code paths. Consumers and
     tests that count options or index into them must account for it
     (`Themes.Count + 1`; real slugs start at index 1).
@@ -209,7 +230,7 @@ exactly as before.
   of the always-displayed placeholder option. Like every other
   user-facing string in this package it is consumer-supplied, so no
   hardcoded English is emitted.
-- New `.theme-chooser-placeholder` class hook, and a width recipe
+- New `.theme-picker-placeholder` class hook, and a width recipe
   (`field-sizing: content` with a `max-width` fallback) in
   [`docs/styling.md`](docs/styling.md).
 
@@ -225,10 +246,10 @@ exactly as before.
 
 - The compensating status region is now the **default pattern**, not a
   suggestion: the basic example and the `index.md` quick-start both ship
-  a visible `<p class="theme-chooser-status" aria-live="polite">` showing
+  a visible `<p class="theme-picker-status" aria-live="polite">` showing
   the active theme. `aria-live="polite"` announces mutations only, so it
   stays silent on first paint and speaks on each change.
-  `docs/accessibility.md` reframes opting *out* as the deliberate choice
+  `docs/accessibility.md` reframes opting _out_ as the deliberate choice
   and keeps an explicit "what this does and does not fix" note — the
   region announces transitions, it does not restore combobox value
   semantics.
@@ -239,12 +260,12 @@ exactly as before.
 
 - Migrated from the radio-group "picker" rendering to a native
   `<select>` (landed in-tree 2026-06-17): the root element is now
-  `<select class="theme-chooser">` with one `<option class="theme-chooser-option">`
+  `<select class="theme-picker">` with one `<option class="theme-picker-option">`
   per choice, replacing the former `<fieldset role="radiogroup">` with
   `<input type="radio">` children. The package was renamed from the
   `*-picker` name to `*-select` accordingly.
-- Class-hook contract changed: `theme-chooser` now names the `<select>` root
-  and `theme-chooser-option` is the only sub-class; the radio/label sub-class
+- Class-hook contract changed: `theme-picker` now names the `<select>` root
+  and `theme-picker-option` is the only sub-class; the radio/label sub-class
   hooks are gone.
 - Keyboard interaction is the native `<select>` contract (Arrow keys,
   Home / End, first-letter typeahead) instead of radio-group cycling.
@@ -263,13 +284,13 @@ Initial release.
 
 ##### Added
 
-- `ThemeChooser.razor` + `ThemeChooser.razor.cs` — partial-class Blazor
+- `ThemePicker.razor` + `ThemePicker.razor.cs` — partial-class Blazor
   component in namespace `LilyDesignSystem.Blazor.Helpers`. Implements
   the full Svelte canonical contract:
   - Renders `<select aria-label="…" name="…">` with one `<option>`
     per theme slug.
   - Manages a single
-    `<link rel="stylesheet" data-lily-theme-chooser="{Name}">` in
+    `<link rel="stylesheet" data-lily-theme-picker="{Name}">` in
     `document.head` and swaps its `href` on each apply via
     `IJSRuntime.InvokeVoidAsync("eval", …)`.
   - Sets `data-theme="{slug}"` on `document.documentElement`.
@@ -277,14 +298,14 @@ Initial release.
     private-mode-safe try/catch.
   - Two-way binding via `@bind-Value`.
   - `OnChange` `EventCallback<string>` for post-apply side effects.
-  - `RenderFragment<ThemeChooserContext>` for custom rendering with
+  - `RenderFragment<ThemePickerContext>` for custom rendering with
     `{ Themes, Value, SetTheme, Name, LabelFor }`.
   - `[Parameter(CaptureUnmatchedValues = true)] AdditionalAttributes`
     for attribute spread (`@attributes="AdditionalAttributes"`).
-- `ThemeChooser.NormaliseThemesUrl`, `ThemeChooser.ThemeHref` — public
+- `ThemePicker.NormaliseThemesUrl`, `ThemePicker.ThemeHref` — public
   static helpers for URL construction.
-- `ThemeChooser.BuildApplyScript` — `internal static` for tests.
-- `ThemeChooserTests.cs` — bUnit + xUnit suite asserting every
+- `ThemePicker.BuildApplyScript` — `internal static` for tests.
+- `ThemePickerTests.cs` — bUnit + xUnit suite asserting every
   numbered acceptance criterion in `spec/index.md` §7 (13 items).
 - `spec/index.md` — spec-driven contract, version 0.1.0.
 - `AGENTS/` subdirectory with `api.md`, `lifecycle.md`,
@@ -314,7 +335,7 @@ Initial release.
 ##### Parity
 
 This is a direct port of the Svelte canonical
-`lily-design-system-svelte-theme-chooser` v0.1.0. The DOM contract,
+`lily-design-system-svelte-theme-picker` v0.1.0. The DOM contract,
 managed-link discriminator, initial-value resolution, and apply
 order match clause-for-clause.
 
@@ -324,7 +345,7 @@ order match clause-for-clause.
   `OnChange` Blazor `EventCallback<string>`. Use
   `OnChange="HandlerMethod"` in markup.
 - The `children` snippet from Svelte maps to the
-  `ChildContent` `RenderFragment<ThemeChooserContext>` in Blazor.
+  `ChildContent` `RenderFragment<ThemePickerContext>` in Blazor.
   Use `<ChildContent Context="ctx">` in consumer markup.
 - The bindable model name is `Value`, accessed via `@bind-Value`.
 - The select requires an interactive render mode

@@ -1,4 +1,4 @@
-# API — `<share-chooser>` (HTML helper)
+# API — `<share-picker>` (HTML helper)
 
 Canonical table: [`../spec/index.md` §4](../spec/index.md#4-public-api).
 This file is the agent-facing summary, with emphasis on the two places
@@ -62,14 +62,14 @@ deliberately refuses to own (`spec/index.md` §2, §8).
 ## Events are the primary contract
 
 Every callback is paired with a bubbling, composed `CustomEvent`,
-matching `theme-chooser`'s `themechange` and `locale-chooser`'s
+matching `theme-picker`'s `themechange` and `locale-picker`'s
 `localechange`:
 
 | Event | Detail | Callback |
 | ----- | ------ | -------- |
-| `share` | `ShareChooserShareDetail` = `{ targetId, url }` | `onShare(targetId, url)` |
-| `copy` | `ShareChooserUrlDetail` = `{ url }` | `onCopy(url)` |
-| `nativeshare` | `ShareChooserUrlDetail` = `{ url }` | `onNativeShare(url)` |
+| `share` | `SharePickerShareDetail` = `{ targetId, url }` | `onShare(targetId, url)` |
+| `copy` | `SharePickerUrlDetail` = `{ url }` | `onCopy(url)` |
+| `nativeshare` | `SharePickerUrlDetail` = `{ url }` | `onNativeShare(url)` |
 
 Ordering: callback first, then `dispatchEvent`. Both always fire — the
 callback is a convenience, not an alternative.
@@ -91,20 +91,20 @@ an error.
 | ------ | ----- |
 | `openList(focusLast = false)` | No-op when `items()` is empty — a list with no targets and no copy item has nothing to show. |
 | `closeList(refocus = true)` | No-op when already closed. |
-| `items()` | `.share-chooser-target, .share-chooser-copy` in DOM order. |
+| `items()` | `.share-picker-target, .share-picker-copy` in DOM order. |
 | `currentUrl()` | `url` attribute, else `location.href`. Lazy — never evaluated at import. |
 | `renderButtonContent()` | Overridable. See [`../docs/custom-rendering.md`](../docs/custom-rendering.md). |
 
 ## Module exports
 
-From `share-chooser.ts` and re-exported by `index.ts`:
+From `share-picker.ts` and re-exported by `index.ts`:
 
-- `ShareChooser` (class)
+- `SharePicker` (class)
 - `canShareNatively()`, `canCopy()` — SSR-safe capability probes
-- `nextShareChooserId()` — module-counter id minter
+- `nextSharePickerId()` — module-counter id minter
 - `BLACK_RIGHTWARDS_ARROWHEAD` — the `"➤"` glyph constant
-- types `ShareChooserProps`, `ShareChooserShareDetail`,
-  `ShareChooserUrlDetail`, `ShareTarget`, `ShareStrategy`
+- types `SharePickerProps`, `SharePickerShareDetail`,
+  `SharePickerUrlDetail`, `ShareTarget`, `ShareStrategy`
 
-`index.ts` additionally registers `<share-chooser>` as a side effect,
+`index.ts` additionally registers `<share-picker>` as a side effect,
 guarded by a `customElements.get` check so re-imports do not throw.

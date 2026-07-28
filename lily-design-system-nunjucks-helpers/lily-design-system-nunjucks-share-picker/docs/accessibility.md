@@ -50,7 +50,7 @@ Consequences to weigh before shipping:
   the glyph via a `{% call %}` body:
 
   ```njk
-  {% call shareChooser({label: "Share this article", targets: t}) %}
+  {% call sharePicker({label: "Share this article", targets: t}) %}
     <span aria-hidden="true">&#10148;</span> Share
   {% endcall %}
   ```
@@ -164,14 +164,14 @@ tabbing past the control does not trap or rewind.
 
 ## The live region
 
-`<p class="share-chooser-status" aria-live="polite">` is empty on load
+`<p class="share-picker-status" aria-live="polite">` is empty on load
 and only ever holds a copy outcome. Polite, so it waits for a pause
 rather than interrupting. Empty at render, so it announces nothing on
 page load — a live region with initial content is a classic source of
 spurious announcements.
 
 It is a `<p>` in the flow, not visually hidden. Style it as you like,
-including `.share-chooser-status:empty { display: none }` — do **not**
+including `.share-picker-status:empty { display: none }` — do **not**
 give it `display: none` unconditionally, or `hidden`, since that stops
 some screen readers announcing changes to it.
 

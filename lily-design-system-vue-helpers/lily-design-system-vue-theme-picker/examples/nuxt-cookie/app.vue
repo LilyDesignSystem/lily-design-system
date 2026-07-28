@@ -7,7 +7,7 @@
 -->
 <script setup lang="ts">
 import { ref } from "vue";
-import ThemeChooser from "../../ThemeChooser.vue";
+import ThemePicker from "../../ThemePicker.vue";
 
 // `useNuxtApp` and `useHead` are auto-imported in Nuxt 3.
 // In a non-Nuxt context, replace with your own state and head plumbing.
@@ -28,7 +28,7 @@ async function persistThemeCookie(slug: string) {
 <template>
     <div>
         <header>
-            <ThemeChooser
+            <ThemePicker
                 label="Theme"
                 themes-url="/assets/themes/"
                 :themes="['light', 'dark', 'abyss']"

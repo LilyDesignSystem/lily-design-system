@@ -4,7 +4,7 @@ Symptoms, root causes, and fixes for the most common problems.
 
 ## "Clicking the button does nothing"
 
-**Likely cause.** `locale-chooser.client.js` has not run. The control is
+**Likely cause.** `locale-picker.client.js` has not run. The control is
 an icon button plus a listbox, and every interactive behaviour — open,
 close, focus movement, arrow keys, typeahead, selection — lives in that
 module. The server-rendered markup is inert. This is a genuine no-JS
@@ -14,7 +14,7 @@ is no fallback to fall back to.
 **Fixes.**
 
 - Confirm a `<script type="module">` on the page imports the client and
-  calls `autoInit()` (or `initLocaleChooser(root)`).
+  calls `autoInit()` (or `initLocalePicker(root)`).
 - Check the Console for a module-resolution error and the Network panel
   for a 404 on the client.js path.
 - Check the CSP `script-src` directive allows the module's origin.
@@ -27,7 +27,7 @@ is no fallback to fall back to.
 
 ## "Cannot find module './locales.js'"
 
-**Likely cause.** `locale-chooser.client.js` imports `./locales.js` for
+**Likely cause.** `locale-picker.client.js` imports `./locales.js` for
 the built-in label table and the RTL sets, but the source in this
 package is `locales.ts`. Vitest and Vite resolve that at test and build
 time; a browser loading the raw module does not.
@@ -116,7 +116,7 @@ moves.
 Nunjucks host can compute it at render time:
 
 ```js
-import { isRtlLocale } from "./locale-chooser.client.js";
+import { isRtlLocale } from "./locale-picker.client.js";
 // <html lang="{{ locale }}" dir="{{ dir }}">
 const dir = isRtlLocale(locale) ? "rtl" : "ltr";
 ```
@@ -137,7 +137,7 @@ input report your original form. See [bcp47.md](./bcp47.md).
 ## "Two controls on the page interfere with each other"
 
 **Likely cause.** They share a `name`, so they share the default id
-prefix `locale-chooser-{name}` — duplicate listbox and option ids, and
+prefix `locale-picker-{name}` — duplicate listbox and option ids, and
 `aria-controls` / `aria-activedescendant` resolving to whichever element
 the browser finds first.
 
@@ -158,7 +158,7 @@ Arabic, Devanagari, or CJK, often at a different optical size and
 baseline.
 
 **Fix.** Set a font stack with coverage for your locale list on
-`.locale-chooser-option`, and avoid a fixed `line-height` that clips
+`.locale-picker-option`, and avoid a fixed `line-height` that clips
 tall scripts. Do not "fix" it by removing `lang` — that is the WCAG
 3.1.2 conformance.
 
@@ -194,7 +194,7 @@ re-read attributes, and adding or removing `<li>`s afterwards is
 invisible to the runtime.
 
 **Fix.** Call `controller.destroy()`, update the DOM, then
-`initLocaleChooser(root)` again.
+`initLocalePicker(root)` again.
 
 ## See also
 

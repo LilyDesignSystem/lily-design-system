@@ -187,7 +187,7 @@ test_implementation_nunjucks_example() {
 }
 
 ##
-# Helper chooser glyphs must not appear as bare non-ASCII characters in the
+# Helper picker glyphs must not appear as bare non-ASCII characters in the
 # places that RENDER them: the exported constant, and the icon markup. A
 # bare glyph is near-invisible in an editor and a variation selector
 # (U+FE0E) has no visual form at all — one was nearly lost to a careless
@@ -203,7 +203,7 @@ test_implementation_nunjucks_example() {
 test_helper_glyphs_are_escaped() (
     # NOTE: this script runs under `set -euf`; -f disables globbing, so
     # file lists come from find, as everywhere else here.
-    find "$top" -type d -name 'lily-design-system-*-chooser' -not -path '*/node_modules/*' \
+    find "$top" -type d -name 'lily-design-system-*-picker' -not -path '*/node_modules/*' \
     | while IFS= read -r pkg; do
         find "$pkg" -maxdepth 1 -type f \
             \( -name '*.ts' -o -name '*.tsx' -o -name '*.vue' -o -name '*.svelte' \
@@ -213,14 +213,15 @@ test_helper_glyphs_are_escaped() (
 
             # The exported glyph constant, in any framework's spelling.
             if grep -e 'CIRCLE_WITH_RIGHT_HALF_BLACK *=' -e 'GLOBE_WITH_MERIDIANS *=' \
-                    -e 'BLACK_RIGHTWARDS_ARROWHEAD *=' -e 'CircleWithRightHalfBlack *=' \
-                    -e 'GlobeWithMeridians *=' -e 'BlackRightwardsArrowhead *=' "$file" \
-               | grep -q -e '◑' -e '➤' -e '🌐' -e '︎'; then
+                    -e 'BLACK_RIGHTWARDS_ARROWHEAD *=' -e 'CALENDAR *=' \
+                    -e 'CircleWithRightHalfBlack *=' -e 'GlobeWithMeridians *=' \
+                    -e 'BlackRightwardsArrowhead *=' -e 'Calendar *=' "$file" \
+               | grep -q -e '◑' -e '➤' -e '🌐' -e '📅' -e '︎'; then
                 err "glyph constant holds a bare character; use an escape such as \\u27A4: $file"
             fi
 
             # The icon markup that emits the glyph.
-            if grep -- '-chooser-icon' "$file" | grep -q -e '◑' -e '➤' -e '🌐' -e '︎'; then
+            if grep -- '-picker-icon' "$file" | grep -q -e '◑' -e '➤' -e '🌐' -e '📅' -e '︎'; then
                 err "icon markup holds a bare character; use an entity such as &#10148;: $file"
             fi
         done

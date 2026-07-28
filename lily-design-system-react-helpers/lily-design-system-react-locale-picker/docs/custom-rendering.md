@@ -19,9 +19,9 @@ type ChildArgs = {
 ```
 
 Whatever you return is rendered inside
-`<button class="locale-chooser-button">` in place of the default
-`<span class="locale-chooser-icon">`. Note the consequence: when you pass
-`children`, the `.locale-chooser-icon` hook is **not** in the DOM. Every
+`<button class="locale-picker-button">` in place of the default
+`<span class="locale-picker-icon">`. Note the consequence: when you pass
+`children`, the `.locale-picker-icon` hook is **not** in the DOM. Every
 other class hook still is.
 
 ## Why it is glyph-only
@@ -46,14 +46,14 @@ language" but not "you are reading French" — pairing it with the
 endonym says both:
 
 ```tsx
-<LocaleChooser label="Language" locales={locales} localeLabels={endonyms}>
+<LocalePicker label="Language" locales={locales} localeLabels={endonyms}>
     {({ value, labelFor }) => (
         <>
             <span aria-hidden="true">{GLOBE_WITH_MERIDIANS}</span>
             <span aria-hidden="true">{labelFor(value)}</span>
         </>
     )}
-</LocaleChooser>
+</LocalePicker>
 ```
 
 `GLOBE_WITH_MERIDIANS` is exported so you can re-use the exact glyph —
@@ -64,11 +64,11 @@ emoji.
 ## Recipe: short code for narrow layouts
 
 ```tsx
-<LocaleChooser label="Language" locales={["en", "fr", "de", "ja"]}>
+<LocalePicker label="Language" locales={["en", "fr", "de", "ja"]}>
     {({ value }) => (
         <span aria-hidden="true">{value.split(/[-_]/)[0].toUpperCase()}</span>
     )}
-</LocaleChooser>
+</LocalePicker>
 ```
 
 Two-letter codes are compact but not universally legible — "JA" reads
@@ -82,18 +82,18 @@ readers already get it from `aria-expanded` on the button, so the
 caret must stay hidden:
 
 ```tsx
-<LocaleChooser label="Language" locales={locales}>
+<LocalePicker label="Language" locales={locales}>
     {({ value, open, labelFor }) => (
         <>
             <span aria-hidden="true">{labelFor(value)}</span>
             <span aria-hidden="true">{open ? "▲" : "▼"}</span>
         </>
     )}
-</LocaleChooser>
+</LocalePicker>
 ```
 
 You can equally do this in pure CSS via
-`.locale-chooser-button[aria-expanded="true"]` and skip the render prop
+`.locale-picker-button[aria-expanded="true"]` and skip the render prop
 entirely — see [styling.md](./styling.md#attribute-hooks).
 
 ## Rules for custom glyph content
@@ -136,8 +136,8 @@ active locale:
 
 ```tsx
 <>
-    <LocaleChooser value={locale} onChange={setLocale} label="Language" locales={locales} />
-    <p className="locale-chooser-status">
+    <LocalePicker value={locale} onChange={setLocale} label="Language" locales={locales} />
+    <p className="locale-picker-status">
         Language: <span lang={bcp47LocaleTag(locale)}>{localeName(locale)}</span>
     </p>
 </>

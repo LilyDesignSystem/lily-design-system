@@ -1,24 +1,24 @@
 # Examples
 
 Self-contained HTML examples for
-`lily-design-system-html-share-chooser`. Each file is a runnable page
+`lily-design-system-html-share-picker`. Each file is a runnable page
 that can be opened in any browser after building the custom-element
 module.
 
 Every example assumes a built copy of the module served at
-`/dist/share-chooser.js`. The catalog build (`npm run build` from
+`/dist/share-picker.js`. The catalog build (`npm run build` from
 `lily-design-system-html-helpers/`) emits it as `dist/index.js`, so
 either adjust the `<script type="module" src=…>` in each example or
 serve that file at the nominal path. The path is a convention, not a
 requirement.
 
-| #  | File                                                       | Demonstrates                                                    |
-|----|------------------------------------------------------------|-----------------------------------------------------------------|
-| 1  | [`01-basic.html`](./01-basic.html)                         | Two destinations plus a copy action.                            |
-| 2  | [`02-copy-only.html`](./02-copy-only.html)                 | No targets at all — copy the page URL and nothing else.         |
-| 3  | [`03-strategies.html`](./03-strategies.html)               | `auto` vs `native` vs `list` side by side.                      |
-| 4  | [`04-events.html`](./04-events.html)                       | `share` / `copy` / `nativeshare` events and their callbacks.    |
-| 5  | [`05-custom-rendering.html`](./05-custom-rendering.html)   | `renderButtonContent()`: inline SVG, and glyph + visible label. |
+| #   | File                                                     | Demonstrates                                                    |
+| --- | -------------------------------------------------------- | --------------------------------------------------------------- |
+| 1   | [`01-basic.html`](./01-basic.html)                       | Two destinations plus a copy action.                            |
+| 2   | [`02-copy-only.html`](./02-copy-only.html)               | No targets at all — copy the page URL and nothing else.         |
+| 3   | [`03-strategies.html`](./03-strategies.html)             | `auto` vs `native` vs `list` side by side.                      |
+| 4   | [`04-events.html`](./04-events.html)                     | `share` / `copy` / `nativeshare` events and their callbacks.    |
+| 5   | [`05-custom-rendering.html`](./05-custom-rendering.html) | `renderButtonContent()`: inline SVG, and glyph + visible label. |
 
 ## No social networks ship with this package
 
@@ -39,7 +39,7 @@ attribute could carry it. See
 ## The examples ship their own CSS — deliberately
 
 The package ships no CSS at all, and that includes the dropdown's
-positioning: the `<ul class="share-chooser-list">` renders in normal flow
+positioning: the `<ul class="share-picker-list">` renders in normal flow
 until you give the root `position: relative` and the list
 `position: absolute`. Each example carries a `<style>` block with the
 minimum needed.
@@ -47,7 +47,9 @@ minimum needed.
 The rule people forget is in there too:
 
 ```css
-.share-chooser-list[hidden] { display: none; }
+.share-picker-list[hidden] {
+  display: none;
+}
 ```
 
 `hidden` is only `display: none` at the UA-stylesheet level, so the

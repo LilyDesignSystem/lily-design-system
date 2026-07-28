@@ -9,11 +9,11 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
-## Chooser glyphs escaped in source — 2026-07-21
+## Picker glyphs escaped in source — 2026-07-21
 
 ### Changed
 
-- The four chooser glyphs no longer appear as bare characters in the
+- The four picker glyphs no longer appear as bare characters in the
   source that renders them. **Code contexts use an escape** —
   `"\u25D1"`, `"\u{1F310}\uFE0E"`, `"\u27A4"` — and **markup contexts
   use an HTML entity**: `&#9681;`, `&#127760;&#65038;`, `&#10148;`.
@@ -29,7 +29,7 @@ highlights.
 ### Added
 
 - `bin/test` now enforces it, checking the glyph constants and the icon
-  markup in every chooser package. Verified by planting a regression of
+  markup in every picker package. Verified by planting a regression of
   each kind and confirming both fail.
 - Prose is deliberately **not** checked: a changelog explaining that the
   glyph moved from one character to another has to show them, and tests
@@ -42,19 +42,19 @@ highlights.
   never expanded — which is why every other check in that script uses
   `find`. Worth knowing before adding another one.
 
-## share-chooser glyph — 2026-07-21
+## share-picker glyph — 2026-07-21
 
 ### Changed
 
-- The `share-chooser` button glyph moves from **↪ U+21AA RIGHTWARDS
+- The `share-picker` button glyph moves from **↪ U+21AA RIGHTWARDS
   ARROW WITH HOOK** to **➤ U+27A4 BLACK RIGHTWARDS ARROWHEAD**, and the
   exported constant renames with it: `RIGHTWARDS_ARROW_WITH_HOOK` →
   `BLACK_RIGHTWARDS_ARROWHEAD` (`RightwardsArrowWithHook` →
-  `BlackRightwardsArrowhead` in Blazor). ➤ reads as *send* rather than
-  *go back*, and is likewise an in-font monochrome character rather than
+  `BlackRightwardsArrowhead` in Blazor). ➤ reads as _send_ rather than
+  _go back_, and is likewise an in-font monochrome character rather than
   a pictograph.
 - Optical scale retuned: ➤ inks 0.613 of its em box against ◑'s 0.777,
-  so `--lily-chooser-icon-scale` for the share icon goes 1.331 → 1.268
+  so `--lily-picker-icon-scale` for the share icon goes 1.331 → 1.268
   across the 45 `themes/*.css`. Verified in a browser against the real
   components: all four glyphs now render within 0.52px of each other in
   identical 40×40 buttons.
@@ -68,30 +68,30 @@ highlights.
   `&#10148;`. Worth remembering if the glyph ever changes again — a
   grep for the character alone will miss them.
 
-## Helpers renamed to `*-chooser` — 2026-07-21
+## Helpers renamed to `*-picker` — 2026-07-21
 
 ### Changed (BREAKING — all helper packages)
 
 - Every helper in all seven catalogs is renamed:
 
-  | Was | Now |
-  | --- | --- |
-  | `lily-design-system-{fw}-theme-select` | `lily-design-system-{fw}-theme-chooser` |
-  | `lily-design-system-{fw}-locale-select` | `lily-design-system-{fw}-locale-chooser` |
-  | `lily-design-system-{fw}-text-size-select` | `lily-design-system-{fw}-text-size-chooser` |
-  | `lily-design-system-{fw}-share-button` | `lily-design-system-{fw}-share-chooser` |
+  | Was                                        | Now                                        |
+  | ------------------------------------------ | ------------------------------------------ |
+  | `lily-design-system-{fw}-theme-select`     | `lily-design-system-{fw}-theme-picker`     |
+  | `lily-design-system-{fw}-locale-select`    | `lily-design-system-{fw}-locale-picker`    |
+  | `lily-design-system-{fw}-text-size-select` | `lily-design-system-{fw}-text-size-picker` |
+  | `lily-design-system-{fw}-share-button`     | `lily-design-system-{fw}-share-picker`     |
 
 - Full depth: directories, npm / NuGet package ids, exported symbols
-  (`ThemeSelect` → `ThemeChooser`, `nextShareButtonId` →
-  `nextShareChooserId`, …), CSS class hooks and every derivative,
-  `data-lily-*-select` → `data-lily-*-chooser`, Angular selectors, HTML
+  (`ThemeSelect` → `ThemePicker`, `nextShareButtonId` →
+  `nextSharePickerId`, …), CSS class hooks and every derivative,
+  `data-lily-*-select` → `data-lily-*-picker`, Angular selectors, HTML
   custom-element tags, and the `--lily-select-icon-scale` custom
-  property → `--lily-chooser-icon-scale`.
+  property → `--lily-picker-icon-scale`.
 - `themeName` / `localeName` / `sizeName` and the DOM events
   (`themechange`, `share`, `copy`, …) are unchanged — none said "select".
-- **`share-chooser` loses its naming exception.** Its trigger hook was
+- **`share-picker` loses its naming exception.** Its trigger hook was
   `share-button-trigger` because `.share-button-button` read badly; the
-  new name removes the problem, so it is plain `.share-chooser-button`.
+  new name removes the problem, so it is plain `.share-picker-button`.
 
 ### NOT renamed
 
@@ -122,8 +122,8 @@ highlights.
 
 - **`el?.scrollIntoView(...)` guarded the element but not the method.**
   jsdom implements no `scrollIntoView`, so the call threw inside the
-  keydown handler of the canonical theme-chooser and locale-chooser —
-  *after* `activeIndex` was assigned, so 45 unhandled exceptions went by
+  keydown handler of the canonical theme-picker and locale-picker —
+  _after_ `activeIndex` was assigned, so 45 unhandled exceptions went by
   with the suite still green and that code path never running. Now
   `el?.scrollIntoView?.(...)`. Same shape as the earlier `CSS.escape`
   bug; the other six catalogs had each independently added the guard.
@@ -151,7 +151,7 @@ highlights.
   helpers, so all three now share one shape. Button glyph is `"A"`
   (U+0041): the obvious candidate U+1F5DB has no real glyph in common
   font stacks and falls back to a crude bitmap shape, and it means
-  *decrease* rather than *size*.
+  _decrease_ rather than _size_.
 - `sizeName` exported to mirror `themeName` / `localeName`. No
   first-visit detection prop — unlike `prefers-color-scheme` and
   `navigator.languages`, the platform exposes no preferred text size.
@@ -186,7 +186,7 @@ highlights.
 
 - **`CSS.escape` threw under jsdom in all three `*-select` helpers.**
   jsdom has no `CSS` object at all, so the call raised inside the keydown
-  handler — *after* `activeIndex` had been assigned, so every suite
+  handler — _after_ `activeIndex` had been assigned, so every suite
   stayed green while that code path never ran. Replaced with
   `document.getElementById`, which needs no escaping for these generated
   ids.
@@ -204,7 +204,7 @@ highlights.
   glyph's optical correction. The four glyphs ink materially different
   fractions of their em box — ◑ 0.842, 🌐 0.996, `"A"` 0.673, ➤ 0.613 —
   so each has its own `--lily-select-icon-scale` (1, 0.845, 1.25,
-  1.331). Measured against each icon's *computed* `font-family` and
+  1.331). Measured against each icon's _computed_ `font-family` and
   verified in a browser: 0.02px spread across all four.
 
 ## Helpers 0.4.0 — 2026-07-20

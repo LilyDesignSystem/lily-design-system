@@ -1,4 +1,4 @@
-# AGENTS — ThemeChooser (Svelte helper)
+# AGENTS — ThemePicker (Svelte helper)
 
 Single source of truth: [spec/index.md](./spec/index.md). Read it first; everything
 below is a fast index.
@@ -8,7 +8,7 @@ below is a fast index.
 A reusable Svelte 5 headless theme select — an **icon button that opens
 a WAI-ARIA APG listbox** — that **loads theme CSS files dynamically at
 runtime** from a developer-supplied directory URL. Ships no CSS;
-consumer styles the `theme-chooser` class hooks (and must supply the
+consumer styles the `theme-picker` class hooks (and must supply the
 listbox's positioning CSS).
 
 ## Files
@@ -16,8 +16,8 @@ listbox's positioning CSS).
 | File                   | Purpose                                              |
 | ---------------------- | ---------------------------------------------------- |
 | `spec/index.md`        | Specification-driven contract (canonical).           |
-| `ThemeChooser.svelte`  | Implementation. TypeScript + Svelte 5 runes.         |
-| `ThemeChooser.test.ts` | Vitest spec, one assertion per §7 acceptance.        |
+| `ThemePicker.svelte`  | Implementation. TypeScript + Svelte 5 runes.         |
+| `ThemePicker.test.ts` | Vitest spec, one assertion per §7 acceptance.        |
 | `index.ts`             | Barrel re-export.                                    |
 | `index.md`             | Comprehensive user guide.                            |
 | `docs/`                | Topic guides: props, a11y, SSR, preloading, recipes. |
@@ -25,12 +25,12 @@ listbox's positioning CSS).
 
 ## Public surface
 
-- Default export: `ThemeChooser` component.
+- Default export: `ThemePicker` component.
 - Module-script exports: `normaliseThemesUrl`, `themeHref`,
-  `themeName`, `matchSystemTheme`, `nextThemeChooserId`,
+  `themeName`, `matchSystemTheme`, `nextThemePickerId`,
   `CIRCLE_WITH_RIGHT_HALF_BLACK`.
 - Barrel (`index.ts`) currently re-exports only `default`,
-  `ThemeChooser`, `normaliseThemesUrl`, `themeHref`, and the types —
+  `ThemePicker`, `normaliseThemesUrl`, `themeHref`, and the types —
   see [spec/index.md §4.3](./spec/index.md#43-re-exports).
 - Type exports: `Props`, `ChildArgs`.
 
@@ -55,20 +55,20 @@ calls `onChange(slug)`. SSR-safe — all DOM writes happen inside
 ## HTML
 
 ```html
-<div class="theme-chooser {class}" ...restProps>
+<div class="theme-picker {class}" ...restProps>
   <input type="hidden" name="{name}" value="{value}" />
   <button
     type="button"
-    class="theme-chooser-button"
+    class="theme-picker-button"
     aria-label="{label}"
     aria-haspopup="listbox"
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
+    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
   </button>
   <ul
-    class="theme-chooser-list"
+    class="theme-picker-list"
     id="{listId}"
     role="listbox"
     aria-label="{label}"
@@ -77,7 +77,7 @@ calls `onChange(slug)`. SSR-safe — all DOM writes happen inside
     aria-activedescendant="{active optionId while open}"
   >
     <li
-      class="theme-chooser-option"
+      class="theme-picker-option"
       id="{optionId}"
       role="option"
       aria-selected="true|false"

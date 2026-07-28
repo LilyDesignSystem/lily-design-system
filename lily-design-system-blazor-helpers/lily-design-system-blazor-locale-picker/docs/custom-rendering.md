@@ -13,10 +13,10 @@ If you need a different *affordance* rather than a different glyph, skip
 `ChildContent` and drive the component from your own UI — see
 [Building a fully custom control](#building-a-fully-custom-control-instead).
 
-## The LocaleChooserContext contract
+## The LocalePickerContext contract
 
 ```csharp
-public sealed class LocaleChooserContext
+public sealed class LocalePickerContext
 {
     /// Currently selected locale code (consumer form, not BCP 47).
     public required string Value { get; init; }
@@ -53,7 +53,7 @@ The most common reason to use `ChildContent`: the default glyph is a
 font character, and you want a real asset you control.
 
 ```razor
-<LocaleChooser Label="Language" Locales="@codes" @bind-Value="locale">
+<LocalePicker Label="Language" Locales="@codes" @bind-Value="locale">
     <ChildContent Context="ctx">
         <svg class="my-globe" aria-hidden="true" focusable="false"
              width="20" height="20" viewBox="0 0 24 24">
@@ -62,7 +62,7 @@ font character, and you want a real asset you control.
                   fill="none" stroke="currentColor" stroke-width="2" />
         </svg>
     </ChildContent>
-</LocaleChooser>
+</LocalePicker>
 ```
 
 `aria-hidden="true"` and `focusable="false"` are both required:
@@ -79,14 +79,14 @@ An icon-only button is compact but opaque. Adding the active code makes
 the control self-describing without much width:
 
 ```razor
-<LocaleChooser Label="Language" Locales="@codes" @bind-Value="locale">
+<LocalePicker Label="Language" Locales="@codes" @bind-Value="locale">
     <ChildContent Context="ctx">
         <span aria-hidden="true">
-            @LocaleChooser.GlobeWithMeridians
+            @LocalePicker.GlobeWithMeridians
             <span class="my-code">@ctx.Value.Split('_', '-')[0].ToUpperInvariant()</span>
         </span>
     </ChildContent>
-</LocaleChooser>
+</LocalePicker>
 ```
 
 Everything here stays `aria-hidden="true"`. The visible "FR" is a
@@ -103,14 +103,14 @@ announceable via `aria-live` and does not stretch the button.
 `Open` lets the face respond to the listbox:
 
 ```razor
-<LocaleChooser Label="Language" Locales="@codes" @bind-Value="locale">
+<LocalePicker Label="Language" Locales="@codes" @bind-Value="locale">
     <ChildContent Context="ctx">
         <span aria-hidden="true" class="my-face">
-            @LocaleChooser.GlobeWithMeridians
+            @LocalePicker.GlobeWithMeridians
             <span class="my-caret">@(ctx.Open ? "▴" : "▾")</span>
         </span>
     </ChildContent>
-</LocaleChooser>
+</LocalePicker>
 ```
 
 Do not add `aria-expanded` yourself — the component already puts it on
@@ -119,13 +119,13 @@ the button, and a second one inside would be both redundant and wrong.
 ### Showing the active language in its own script
 
 ```razor
-<LocaleChooser Label="Language" Locales="@codes" LocaleLabels="@endonyms" @bind-Value="locale">
+<LocalePicker Label="Language" Locales="@codes" LocaleLabels="@endonyms" @bind-Value="locale">
     <ChildContent Context="ctx">
         <span aria-hidden="true" lang="@Locales.Bcp47LocaleTag(ctx.Value)">
             @ctx.LabelFor(ctx.Value)
         </span>
     </ChildContent>
-</LocaleChooser>
+</LocalePicker>
 ```
 
 The `lang` here is for the *renderer*, not for assistive technology —
@@ -145,7 +145,7 @@ Recommended. The component keeps owning the lifecycle — `lang`, `dir`,
 storage, `OnChange`, `Value` — while your UI supplies the presentation.
 
 ```razor
-<LocaleChooser @ref="localeSelect"
+<LocalePicker @ref="localeSelect"
               Label="Language"
               Locales="@codes"
               @bind-Value="locale"
@@ -165,7 +165,7 @@ storage, `OnChange`, `Value` — while your UI supplies the presentation.
 </div>
 
 @code {
-    private LocaleChooser? localeSelect;
+    private LocalePicker? localeSelect;
     private string locale = "";
     private readonly string[] codes = { "en", "fr", "ar" };
 
@@ -178,7 +178,7 @@ Two things to get right:
 - **Hide the component's own button visually, not with
   `display: none`.** A `display: none` subtree can break `FocusAsync`
   and removes the control from the accessibility tree. Use a
-  visually-hidden class on `.locale-chooser-button`. See
+  visually-hidden class on `.locale-picker-button`. See
   [`styling.md`](styling.md#donts).
 - **Give each of your buttons its own `lang`.** Endonyms need it for
   both pronunciation and font selection — WCAG 3.1.2 Language of Parts.
@@ -221,7 +221,7 @@ specific reason.
 
 ## Why `RenderFragment<TContext>` and not a separate component
 
-A `LocaleChooserButton` child component would need to reach the parent's
+A `LocalePickerButton` child component would need to reach the parent's
 open state, active index, and label resolver — either through a
 cascading value or a bespoke interface, both of which are more surface
 area than a three-member context object. `RenderFragment<TContext>` is
@@ -234,7 +234,7 @@ need", and it maps cleanly onto the canonical Svelte snippet.
 face and nothing more:
 
 ```razor
-<LocaleChooser Label="@Localizer["language"]"
+<LocalePicker Label="@Localizer["language"]"
               Locales="@codes"
               LocaleLabels="@endonyms"
               StorageKey="lily-locale"
@@ -245,7 +245,7 @@ face and nothing more:
     <ChildContent Context="ctx">
         <svg class="my-globe" aria-hidden="true" focusable="false">...</svg>
     </ChildContent>
-</LocaleChooser>
+</LocalePicker>
 ```
 
 ## See also

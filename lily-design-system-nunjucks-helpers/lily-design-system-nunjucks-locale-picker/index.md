@@ -1,6 +1,6 @@
-# LocaleChooser (Nunjucks helper)
+# LocalePicker (Nunjucks helper)
 
-A reusable, headless Nunjucks 3 + vanilla-JS locale chooser — an
+A reusable, headless Nunjucks 3 + vanilla-JS locale picker — an
 icon button that opens a listbox of locales — that applies the
 chosen locale to the document root via `lang` and `dir`, with
 optional `localStorage` persistence and `navigator.languages`
@@ -34,7 +34,7 @@ the comprehensive user guide. For topic deep-dives see
 
 ## Why this exists
 
-Most locale choosers couple selection, persistence, and string
+Most locale pickers couple selection, persistence, and string
 translation into one opinionated widget. This one splits the
 contract cleanly:
 
@@ -45,7 +45,7 @@ contract cleanly:
   etc.) owns the actual string translation. It picks up the
   `lang` attribute or the `onChange` callback.
 - **Consumers** own the visual style of the control via the
-  `locale-chooser` class hook.
+  `locale-picker` class hook.
 
 The result is a small reusable widget that works in any Nunjucks
 host (Eleventy, Express, Cloudflare Workers, plain
@@ -53,7 +53,7 @@ host (Eleventy, Express, Cloudflare Workers, plain
 set or the built-in 436-row BCP 47 table.
 
 The helper is a direct port of the Svelte canonical
-`lily-design-system-svelte-locale-chooser`. The DOM contract and
+`lily-design-system-svelte-locale-picker`. The DOM contract and
 behaviour match clause-for-clause; only the framework idioms
 differ.
 
@@ -61,13 +61,13 @@ differ.
 
 The helper is a **macro + client.js** pair:
 
-- The macro (`locale-chooser.njk`) renders the button + listbox
+- The macro (`locale-picker.njk`) renders the button + listbox
   markup server-side or at static-site build time, including each
   option's `lang="…"` attribute (BCP 47 hyphen form) and a hidden
   input pre-filled with the server-resolved locale.
-- The client (`locale-chooser.client.js`) is an ES module the
+- The client (`locale-picker.client.js`) is an ES module the
   consumer loads once per page. It picks up the markup via
-  `data-lily-locale-chooser-*` hooks and owns both the listbox
+  `data-lily-locale-picker-*` hooks and owns both the listbox
   interaction (open / close, focus, the APG keyboard contract,
   typeahead) and the browser-side lifecycle (storage, navigator
   detection, `lang` / `dir` apply, change callbacks).
@@ -75,18 +75,18 @@ The helper is a **macro + client.js** pair:
 ```
 Nunjucks render time                 │  Browser runtime
                                       │
-{{ localeChooser({…}) }}               │  import { autoInit } from
-   │                                  │    "./locale-chooser.client.js";
+{{ localePicker({…}) }}               │  import { autoInit } from
+   │                                  │    "./locale-picker.client.js";
    ▼                                  │  autoInit();
-<div class="locale-chooser"            │     │
-  data-lily-locale-chooser-root        │     ▼
-  data-lily-locale-chooser-*>          │  finds [data-lily-locale-chooser-root]
+<div class="locale-picker"            │     │
+  data-lily-locale-picker-root        │     ▼
+  data-lily-locale-picker-*>          │  finds [data-lily-locale-picker-root]
   <input type="hidden" name="locale"  │     │
     value="en">                       │     ▼
-  <button class="locale-chooser-button"│  wires button + listbox events
+  <button class="locale-picker-button"│  wires button + listbox events
     aria-haspopup="listbox"           │     │
     aria-expanded="false">🌐</button> │     ▼
-  <ul class="locale-chooser-list"      │  resolves initial code
+  <ul class="locale-picker-list"      │  resolves initial code
     role="listbox" hidden>            │     │
     <li role="option" data-value="en" │     ▼
       lang="en">English</li>          │  applyLocale(code):
@@ -106,12 +106,12 @@ The button does **nothing** until the client module runs. See
 The directory ships as a folder-style import. Copy the four core
 files into your project or wire as a workspace dependency:
 
-| File                       | Purpose                                          |
-| -------------------------- | ------------------------------------------------ |
-| `locale-chooser.njk`        | The Nunjucks macro.                              |
-| `locale-chooser.client.js`  | The ES-module runtime.                           |
-| `locales.ts` / `locales.js`| Built-in 436-row label table + RTL sets.         |
-| `locales.tsv`              | Canonical source for `locales.ts`.               |
+| File                        | Purpose                                  |
+| --------------------------- | ---------------------------------------- |
+| `locale-picker.njk`        | The Nunjucks macro.                      |
+| `locale-picker.client.js`  | The ES-module runtime.                   |
+| `locales.ts` / `locales.js` | Built-in 436-row label table + RTL sets. |
+| `locales.tsv`               | Canonical source for `locales.ts`.       |
 
 Runtime dependencies: `nunjucks` ≥ 3 server-side and standard DOM
 APIs client-side. The `locales.ts` file is TypeScript; bundlers
@@ -123,9 +123,9 @@ resolve it at test time, browsers consume the compiled
 1. Render the macro in your Nunjucks template:
 
 ```njk
-{% from "./lily-design-system-nunjucks-locale-chooser/locale-chooser.njk" import localeChooser %}
+{% from "./lily-design-system-nunjucks-locale-picker/locale-picker.njk" import localePicker %}
 
-{{ localeChooser({
+{{ localePicker({
     label: "Language",
     locales: ["en", "en_US", "fr", "fr_CA", "ar", "he"],
     storageKey: "lily-locale",
@@ -136,7 +136,7 @@ resolve it at test time, browsers consume the compiled
    a globe glyph, never the active locale, so the active locale is
    surfaced here instead — visibly, for sighted and screen-reader
    users alike. See docs/accessibility.md. #}
-<p class="locale-chooser-status" aria-live="polite"></p>
+<p class="locale-picker-status" aria-live="polite"></p>
 ```
 
 2. Load the client.js once per page and keep the status region in
@@ -144,20 +144,17 @@ resolve it at test time, browsers consume the compiled
 
 ```html
 <script type="module">
-    import {
-        autoInit,
-        localeName,
-    } from "/path/to/locale-chooser.client.js";
+  import { autoInit, localeName } from "/path/to/locale-picker.client.js";
 
-    const status = document.querySelector(".locale-chooser-status");
+  const status = document.querySelector(".locale-picker-status");
 
-    autoInit({
-        onChange(code) {
-            // aria-live="polite" announces mutations only, so this is
-            // silent on first paint and speaks on each later change.
-            status.textContent = `Active language: ${localeName(code)}`;
-        },
-    });
+  autoInit({
+    onChange(code) {
+      // aria-live="polite" announces mutations only, so this is
+      // silent on first paint and speaks on each later change.
+      status.textContent = `Active language: ${localeName(code)}`;
+    },
+  });
 </script>
 ```
 
@@ -187,7 +184,7 @@ i18n library's job. Wire `onChange` (or `MutationObserver` on
 On every locale change the client.js performs six steps:
 
 1. **Resolve target** — defaults to `document.documentElement`;
-   overridable via `initLocaleChooser(root, { target })`.
+   overridable via `initLocalePicker(root, { target })`.
 2. **Set `target.lang`** to the BCP 47 hyphen form of the code
    (`en_US` → `en-US`).
 3. **Set `target.dir`** to `"rtl"` or `"ltr"` based on
@@ -205,20 +202,50 @@ The macro renders a `<div>` root holding three things: a hidden
 input, an icon-only trigger button, and a listbox of options.
 
 ```html
-<div class="locale-chooser" data-lily-locale-chooser-root …>
-  <input type="hidden" name="locale" value="en" data-lily-locale-chooser-input>
-  <button type="button" class="locale-chooser-button" aria-label="Locale"
-          aria-haspopup="listbox" aria-expanded="false"
-          aria-controls="locale-chooser-locale-list"
-          data-lily-locale-chooser-button>
-    <span class="locale-chooser-icon" aria-hidden="true">&#127760;&#65038;</span>
+<div class="locale-picker" data-lily-locale-picker-root …>
+  <input type="hidden" name="locale" value="en" data-lily-locale-picker-input />
+  <button
+    type="button"
+    class="locale-picker-button"
+    aria-label="Locale"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="locale-picker-locale-list"
+    data-lily-locale-picker-button
+  >
+    <span class="locale-picker-icon" aria-hidden="true"
+      >&#127760;&#65038;</span
+    >
   </button>
-  <ul class="locale-chooser-list" id="locale-chooser-locale-list" role="listbox"
-      aria-label="Locale" tabindex="-1" hidden data-lily-locale-chooser-list>
-    <li class="locale-chooser-option" id="locale-chooser-locale-option-0"
-        role="option" aria-selected="true" data-value="en" lang="en">English</li>
-    <li class="locale-chooser-option" id="locale-chooser-locale-option-1"
-        role="option" aria-selected="false" data-value="ar" lang="ar">العربية</li>
+  <ul
+    class="locale-picker-list"
+    id="locale-picker-locale-list"
+    role="listbox"
+    aria-label="Locale"
+    tabindex="-1"
+    hidden
+    data-lily-locale-picker-list
+  >
+    <li
+      class="locale-picker-option"
+      id="locale-picker-locale-option-0"
+      role="option"
+      aria-selected="true"
+      data-value="en"
+      lang="en"
+    >
+      English
+    </li>
+    <li
+      class="locale-picker-option"
+      id="locale-picker-locale-option-1"
+      role="option"
+      aria-selected="false"
+      data-value="ar"
+      lang="ar"
+    >
+      العربية
+    </li>
   </ul>
 </div>
 ```
@@ -249,16 +276,16 @@ normalisation](#bcp-47-normalisation).
 
 ## Initial locale
 
-The initial code on `initLocaleChooser(root)` resolves to the first
+The initial code on `initLocalePicker(root)` resolves to the first
 non-empty value of:
 
-1. The root's `data-lily-locale-chooser-value` (i.e. `opts.value`).
+1. The root's `data-lily-locale-picker-value` (i.e. `opts.value`).
    This attribute is the only channel by which `opts.value` reaches
    the client — see [docs/ssr.md](./docs/ssr.md).
 2. `localStorage.getItem(storageKey)` (when set and readable).
 3. `matchNavigatorLanguage(navigator.languages, locales)` (when
    `detectFromNavigator=true`).
-4. The root's `data-lily-locale-chooser-default-value`
+4. The root's `data-lily-locale-picker-default-value`
    (i.e. `opts.defaultValue`).
 5. `"en"` if present among the rendered option values.
 6. The first option value, or `""` if none.
@@ -267,20 +294,20 @@ non-empty value of:
 
 Full table in [spec/index.md §4.1](./spec/index.md#41-macro-parameters).
 
-| Key                   | Type                    | Required | Default                    |
-| --------------------- | ----------------------- | -------- | -------------------------- |
-| `label`               | `string`                | yes      | —                          |
-| `locales`             | `array<string>`         | yes      | —                          |
-| `value`               | `string`                | no       | `""`                       |
-| `defaultValue`        | `string`                | no       | `""`                       |
-| `storageKey`          | `string`                | no       | `""`                       |
-| `detectFromNavigator` | `boolean`               | no       | `false`                    |
-| `name`                | `string`                | no       | `"locale"`                 |
-| `applyDir`            | `boolean`               | no       | `true`                     |
-| `localeLabels`        | `object<string,string>` | no       | `{}`                       |
-| `id`                  | `string`                | no       | `"locale-chooser-{name}"`   |
-| `classes`             | `string`                | no       | `""`                       |
-| `attributes`          | `object`                | no       | `{}`                       |
+| Key                   | Type                    | Required | Default                   |
+| --------------------- | ----------------------- | -------- | ------------------------- |
+| `label`               | `string`                | yes      | —                         |
+| `locales`             | `array<string>`         | yes      | —                         |
+| `value`               | `string`                | no       | `""`                      |
+| `defaultValue`        | `string`                | no       | `""`                      |
+| `storageKey`          | `string`                | no       | `""`                      |
+| `detectFromNavigator` | `boolean`               | no       | `false`                   |
+| `name`                | `string`                | no       | `"locale"`                |
+| `applyDir`            | `boolean`               | no       | `true`                    |
+| `localeLabels`        | `object<string,string>` | no       | `{}`                      |
+| `id`                  | `string`                | no       | `"locale-picker-{name}"` |
+| `classes`             | `string`                | no       | `""`                      |
+| `attributes`          | `object`                | no       | `{}`                      |
 
 `label` is the `aria-label` on both the button and the listbox; the
 button is icon-only, so this is its only accessible name. `name` is
@@ -299,22 +326,22 @@ and the catalog-wide reference.
 
 ```js
 import {
-    initLocaleChooser,
-    autoInit,
-    bcp47LocaleTag,
-    isRtlLocale,
-    localeName,
-    matchNavigatorLanguage,
-    defaultLocaleLabels,
-    GLOBE_WITH_MERIDIANS,
-    RTL_LANGUAGE_TAGS,
-    RTL_SCRIPT_SUBTAGS,
-} from "./locale-chooser.client.js";
+  initLocalePicker,
+  autoInit,
+  bcp47LocaleTag,
+  isRtlLocale,
+  localeName,
+  matchNavigatorLanguage,
+  defaultLocaleLabels,
+  GLOBE_WITH_MERIDIANS,
+  RTL_LANGUAGE_TAGS,
+  RTL_SCRIPT_SUBTAGS,
+} from "./locale-picker.client.js";
 ```
 
 - `autoInit(opts?)` — find every
-  `[data-lily-locale-chooser-root]` and wire it.
-- `initLocaleChooser(root, opts?)` — wire a single root `<div>`;
+  `[data-lily-locale-picker-root]` and wire it.
+- `initLocalePicker(root, opts?)` — wire a single root `<div>`;
   returns `{setLocale, destroy}`.
 - Pure helpers: `bcp47LocaleTag`, `isRtlLocale`, `localeName`,
   `matchNavigatorLanguage`.
@@ -338,12 +365,12 @@ file:
 
 ```js
 // _data/localeLabels.js
-import { defaultLocaleLabels } from "../lily-design-system-nunjucks-locale-chooser/locale-chooser.client.js";
+import { defaultLocaleLabels } from "../lily-design-system-nunjucks-locale-picker/locale-picker.client.js";
 export default defaultLocaleLabels;
 ```
 
 ```njk
-{{ localeChooser({
+{{ localePicker({
     label: "Language",
     locales: ["en", "fr", "ar"],
     localeLabels: localeLabels
@@ -359,9 +386,9 @@ underscores (`en_US`). The select accepts either form in
 DOM. `onChange` receives the consumer-form code.
 
 ```js
-bcp47LocaleTag("en_US");      // "en-US"
+bcp47LocaleTag("en_US"); // "en-US"
 bcp47LocaleTag("zh_Hant_TW"); // "zh-Hant-TW"
-bcp47LocaleTag("en");         // "en"
+bcp47LocaleTag("en"); // "en"
 ```
 
 See [docs/bcp47.md](./docs/bcp47.md) for the full primer.
@@ -387,7 +414,7 @@ of "children" is a `{% call %}` block, and its body replaces that
 glyph **inside the button**:
 
 ```njk
-{% call localeChooser({
+{% call localePicker({
     label: "Language",
     locales: ["en", "fr", "ar"]
 }) %}
@@ -403,9 +430,9 @@ button's accessible name is its `aria-label`, and visible glyph text
 would compete with it.
 
 If you need a control the macro cannot render at all, write the DOM
-by hand with the same `data-lily-locale-chooser-*` hooks
+by hand with the same `data-lily-locale-picker-*` hooks
 (`-root`, `-button`, `-list`, `-input`) plus `role="option"` +
-`data-value` on each choice; `initLocaleChooser(root)` works against
+`data-value` on each choice; `initLocalePicker(root)` works against
 any conforming DOM.
 
 See [docs/concepts.md](./docs/concepts.md#custom-rendering) and
@@ -430,7 +457,7 @@ the [examples/](./examples/) directory.
 - **Tradeoff, and the default answer to it**: because the closed
   control shows only a glyph, a screen-reader user hears the label
   but not the active locale. The examples and the quick start
-  therefore ship a visible `.locale-chooser-status` region with
+  therefore ship a visible `.locale-picker-status` region with
   `aria-live="polite"` next to the control. Treat that region as
   part of the pattern; omitting it is the deliberate choice.
 
@@ -438,39 +465,48 @@ Topic guide: [`docs/accessibility.md`](./docs/accessibility.md).
 
 ## Keyboard
 
-Every key below is implemented in `locale-chooser.client.js`; none of
+Every key below is implemented in `locale-picker.client.js`; none of
 it works before that module loads.
 
-| Key                      | Where       | Action                                                            |
-| ------------------------ | ----------- | ----------------------------------------------------------------- |
-| Enter / Space / ArrowDown| Button      | Open, with the selected option active (or the first).             |
-| ArrowUp                  | Button      | Open, with the **last** option active.                            |
-| ArrowDown / ArrowUp      | Listbox     | Move the active option. Clamps at the ends; does not wrap.        |
-| Home / End               | Listbox     | Jump to the first / last option.                                  |
-| Enter / Space            | Listbox     | Select the active option, apply it, close, refocus the button.    |
-| Escape                   | Listbox     | Close and refocus the button **without** changing the locale.     |
-| Tab                      | Listbox     | Close without stealing focus back.                                |
-| Printable characters     | Listbox     | Typeahead over option labels; the buffer resets after 500 ms.     |
+| Key                       | Where   | Action                                                         |
+| ------------------------- | ------- | -------------------------------------------------------------- |
+| Enter / Space / ArrowDown | Button  | Open, with the selected option active (or the first).          |
+| ArrowUp                   | Button  | Open, with the **last** option active.                         |
+| ArrowDown / ArrowUp       | Listbox | Move the active option. Clamps at the ends; does not wrap.     |
+| Home / End                | Listbox | Jump to the first / last option.                               |
+| Enter / Space             | Listbox | Select the active option, apply it, close, refocus the button. |
+| Escape                    | Listbox | Close and refocus the button **without** changing the locale.  |
+| Tab                       | Listbox | Close without stealing focus back.                             |
+| Printable characters      | Listbox | Typeahead over option labels; the buffer resets after 500 ms.  |
 
 Opening moves focus to the `<ul>`. Clicking an option selects it;
 clicking outside, or focus leaving the root, closes the listbox.
 
 ## Styling
 
-The control ships no CSS. Class hooks: `.locale-chooser` on the root
-`<div>`, `.locale-chooser-button` on the trigger,
-`.locale-chooser-icon` on the default glyph span,
-`.locale-chooser-list` on the `<ul role="listbox">`, and
-`.locale-chooser-option` on each `<li>`. Style open / closed state
+The control ships no CSS. Class hooks: `.locale-picker` on the root
+`<div>`, `.locale-picker-button` on the trigger,
+`.locale-picker-icon` on the default glyph span,
+`.locale-picker-list` on the `<ul role="listbox">`, and
+`.locale-picker-option` on each `<li>`. Style open / closed state
 from `[aria-expanded]` on the button and `[hidden]` on the list; the
 client marks the active option with `data-active` and the applied one
 with `aria-selected="true"`.
 
 ```css
-.locale-chooser { position: relative; display: inline-block; }
-.locale-chooser-list[hidden] { display: none; }
-.locale-chooser-option[data-active] { outline: 2px solid currentColor; }
-.locale-chooser-option[aria-selected="true"] { font-weight: 700; }
+.locale-picker {
+  position: relative;
+  display: inline-block;
+}
+.locale-picker-list[hidden] {
+  display: none;
+}
+.locale-picker-option[data-active] {
+  outline: 2px solid currentColor;
+}
+.locale-picker-option[aria-selected="true"] {
+  font-weight: 700;
+}
 ```
 
 Topic guide: [`docs/styling.md`](./docs/styling.md).
@@ -486,7 +522,7 @@ Express middleware, Cloudflare Workers handler) and pass it as
 **The server-rendered markup is not fully usable before the client
 JS loads.** The button will not open the listbox without JS, because
 every open / close / keyboard / typeahead behaviour lives in
-`locale-chooser.client.js`. This is a real regression from the earlier
+`locale-picker.client.js`. This is a real regression from the earlier
 native `<select>`, which worked unenhanced. The one no-JS affordance
 that survives is the hidden input: it is pre-filled server-side with
 the resolved locale, so a form submitted without JS still carries a
@@ -522,37 +558,37 @@ acceptance criterion in
 
 ## Topic guides
 
-| Guide | Covers |
-| ----- | ------ |
-| [`docs/macro-opts-reference.md`](./docs/macro-opts-reference.md) | Every `localeChooser(opts)` key, field by field. |
-| [`docs/concepts.md`](./docs/concepts.md) | The macro / client.js split, lifecycle, persistence. |
-| [`docs/bcp47.md`](./docs/bcp47.md) | Tag composition, normalisation, `Intl.*` compatibility. |
-| [`docs/rtl.md`](./docs/rtl.md) | RTL detection, `dir`, logical properties. |
-| [`docs/i18n-integration.md`](./docs/i18n-integration.md) | Eleventy i18n, `Intl.*`, i18next, ICU MessageFormat. |
-| [`docs/ssr.md`](./docs/ssr.md) | Render-time vs runtime; cookie-resolved `value`. |
-| [`docs/accessibility.md`](./docs/accessibility.md) | WCAG 2.2 AAA, the APG listbox contract, the tradeoffs. |
-| [`docs/styling.md`](./docs/styling.md) | Class hooks and state selectors. |
-| [`docs/custom-rendering.md`](./docs/custom-rendering.md) | Glyph override, CSS-only styling, hand-written DOM. |
-| [`docs/recipes.md`](./docs/recipes.md) | Task-shaped solutions: status region, cookies, `Intl`, scoped targets. |
-| [`docs/troubleshooting.md`](./docs/troubleshooting.md) | Symptoms, causes, fixes. |
+| Guide                                                            | Covers                                                                 |
+| ---------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| [`docs/macro-opts-reference.md`](./docs/macro-opts-reference.md) | Every `localePicker(opts)` key, field by field.                       |
+| [`docs/concepts.md`](./docs/concepts.md)                         | The macro / client.js split, lifecycle, persistence.                   |
+| [`docs/bcp47.md`](./docs/bcp47.md)                               | Tag composition, normalisation, `Intl.*` compatibility.                |
+| [`docs/rtl.md`](./docs/rtl.md)                                   | RTL detection, `dir`, logical properties.                              |
+| [`docs/i18n-integration.md`](./docs/i18n-integration.md)         | Eleventy i18n, `Intl.*`, i18next, ICU MessageFormat.                   |
+| [`docs/ssr.md`](./docs/ssr.md)                                   | Render-time vs runtime; cookie-resolved `value`.                       |
+| [`docs/accessibility.md`](./docs/accessibility.md)               | WCAG 2.2 AAA, the APG listbox contract, the tradeoffs.                 |
+| [`docs/styling.md`](./docs/styling.md)                           | Class hooks and state selectors.                                       |
+| [`docs/custom-rendering.md`](./docs/custom-rendering.md)         | Glyph override, CSS-only styling, hand-written DOM.                    |
+| [`docs/recipes.md`](./docs/recipes.md)                           | Task-shaped solutions: status region, cookies, `Intl`, scoped targets. |
+| [`docs/troubleshooting.md`](./docs/troubleshooting.md)           | Symptoms, causes, fixes.                                               |
 
 ## Files in this directory
 
-| File                       | Purpose                                          |
-| -------------------------- | ------------------------------------------------ |
-| `spec/index.md`                  | Single source of truth — API, behaviour, tests.  |
-| `AGENTS.md`                | Fast-index pointer; loads the AGENTS bundle.     |
-| `AGENTS/`                  | Topic-by-topic agent files.                      |
-| `CLAUDE.md`                | `@AGENTS.md`.                                    |
-| `locale-chooser.njk`        | The macro.                                       |
-| `locale-chooser.client.js`  | The ES-module runtime.                           |
-| `locale-chooser.test.ts`    | vitest suite covering every spec §7 item.        |
-| `locales.ts`               | Built-in code → English-name map + RTL sets.     |
-| `locales.tsv`              | Canonical 436-row source.                        |
-| `index.md`                 | This file.                                       |
-| `docs/`                    | Deep-dive topic guides.                          |
-| `examples/`                | Runnable Nunjucks templates.                     |
-| `CHANGELOG.md`             | Version history.                                 |
+| File                       | Purpose                                         |
+| -------------------------- | ----------------------------------------------- |
+| `spec/index.md`            | Single source of truth — API, behaviour, tests. |
+| `AGENTS.md`                | Fast-index pointer; loads the AGENTS bundle.    |
+| `AGENTS/`                  | Topic-by-topic agent files.                     |
+| `CLAUDE.md`                | `@AGENTS.md`.                                   |
+| `locale-picker.njk`       | The macro.                                      |
+| `locale-picker.client.js` | The ES-module runtime.                          |
+| `locale-picker.test.ts`   | vitest suite covering every spec §7 item.       |
+| `locales.ts`               | Built-in code → English-name map + RTL sets.    |
+| `locales.tsv`              | Canonical 436-row source.                       |
+| `index.md`                 | This file.                                      |
+| `docs/`                    | Deep-dive topic guides.                         |
+| `examples/`                | Runnable Nunjucks templates.                    |
+| `CHANGELOG.md`             | Version history.                                |
 
 ## License
 

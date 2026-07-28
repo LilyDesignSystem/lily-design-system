@@ -1,7 +1,7 @@
 export {
     default,
-    default as TextSizeChooser,
+    default as TextSizePicker,
     sizeName,
     LATIN_CAPITAL_LETTER_A,
-} from "./TextSizeChooser.svelte";
-export type { Props, ChildArgs } from "./TextSizeChooser.svelte";
+} from "./TextSizePicker.svelte";
+export type { Props, ChildArgs } from "./TextSizePicker.svelte";

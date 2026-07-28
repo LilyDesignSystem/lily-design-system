@@ -17,12 +17,12 @@ much you take on:
 Nunjucks templates are strings and cannot pass first-class functions,
 so `{% call %}` is the language's equivalent of "children". The macro
 checks `caller` and, when present, renders the block body **inside the
-button** in place of the default `<span class="locale-chooser-icon">`:
+button** in place of the default `<span class="locale-picker-icon">`:
 
 ```njk
-{% from "../locale-chooser.njk" import localeChooser %}
+{% from "../locale-picker.njk" import localePicker %}
 
-{% call localeChooser({
+{% call localePicker({
     label: "Language",
     locales: ["en", "fr", "ar"],
     localeLabels: { en: "English", fr: "Français", ar: "العربية" },
@@ -66,7 +66,7 @@ native-`<select>` behaviour; a `{% call %}` body emitting `<option>`
 elements now produces invalid markup inside a `<button>` and no
 working choices.
 
-[`../examples/localeChooserCustom.njk`](../examples/localeChooserCustom.njk)
+[`../examples/localePickerCustom.njk`](../examples/localePickerCustom.njk)
 packages the pattern as a reusable wrapper macro with an inline SVG
 globe, so one branded trigger can be shared project-wide;
 [`../examples/03-custom-rendering.njk`](../examples/03-custom-rendering.njk)
@@ -77,30 +77,39 @@ uses it.
 Most "custom rendering" requests are really styling requests, and the
 class hooks cover them without forking anything:
 
-| Hook                       | Element                           |
-| -------------------------- | --------------------------------- |
-| `.locale-chooser`           | Root `<div>`                      |
-| `.locale-chooser-button`    | The trigger                       |
-| `.locale-chooser-icon`      | The default glyph `<span>`        |
-| `.locale-chooser-list`      | The `<ul role="listbox">`         |
-| `.locale-chooser-option`    | Each `<li role="option">`         |
-| `[aria-expanded="true"]`   | Open state, on the button         |
-| `[data-active]`            | The keyboard cursor, on an option |
-| `[aria-selected="true"]`   | The applied locale, on an option  |
+| Hook                     | Element                           |
+| ------------------------ | --------------------------------- |
+| `.locale-picker`        | Root `<div>`                      |
+| `.locale-picker-button` | The trigger                       |
+| `.locale-picker-icon`   | The default glyph `<span>`        |
+| `.locale-picker-list`   | The `<ul role="listbox">`         |
+| `.locale-picker-option` | Each `<li role="option">`         |
+| `[aria-expanded="true"]` | Open state, on the button         |
+| `[data-active]`          | The keyboard cursor, on an option |
+| `[aria-selected="true"]` | The applied locale, on an option  |
 
 ```css
-.locale-chooser { position: relative; display: inline-block; }
-.locale-chooser-list {
-    position: absolute;
-    inset-inline-start: 0;
-    z-index: 1;
-    margin: 0;
-    padding: 0;
-    list-style: none;
+.locale-picker {
+  position: relative;
+  display: inline-block;
 }
-.locale-chooser-list[hidden] { display: none; }
-.locale-chooser-option[data-active] { background: Highlight; }
-.locale-chooser-option[aria-selected="true"]::after { content: "\2713"; }
+.locale-picker-list {
+  position: absolute;
+  inset-inline-start: 0;
+  z-index: 1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.locale-picker-list[hidden] {
+  display: none;
+}
+.locale-picker-option[data-active] {
+  background: Highlight;
+}
+.locale-picker-option[aria-selected="true"]::after {
+  content: "\2713";
+}
 ```
 
 Use logical properties (`inset-inline-start`, not `left`) throughout.
@@ -113,7 +122,7 @@ One locale-specific trap: options carry `lang`, and `lang` participates
 in font selection. A stack that renders Latin text well may fall back
 to a system font for `العربية` or `日本語` at a noticeably different
 optical size, which shows up as a ragged list. Set a font stack with
-usable coverage on `.locale-chooser-option`, or accept the variation
+usable coverage on `.locale-picker-option`, or accept the variation
 rather than clamping line-height and clipping tall scripts.
 
 The client toggles the `hidden` attribute on the list, so let
@@ -122,20 +131,20 @@ from a class of your own.
 
 ## Pattern 3: hand-written markup
 
-`initLocaleChooser(root)` works against any DOM that satisfies the
+`initLocalePicker(root)` works against any DOM that satisfies the
 contract, so you can skip the macro entirely. You must emit:
 
-- a root carrying `data-lily-locale-chooser-root` plus the
-  `data-lily-locale-chooser-*` opt attributes you want honoured;
-- `data-lily-locale-chooser-button` on the trigger, with
+- a root carrying `data-lily-locale-picker-root` plus the
+  `data-lily-locale-picker-*` opt attributes you want honoured;
+- `data-lily-locale-picker-button` on the trigger, with
   `aria-haspopup="listbox"`, `aria-expanded="false"`, and
   `aria-controls`;
-- `data-lily-locale-chooser-list` on a `<ul role="listbox">` with
+- `data-lily-locale-picker-list` on a `<ul role="listbox">` with
   `tabindex="-1"` and `hidden`;
 - one `role="option"` per choice, each with a unique `id`, a
   `data-value`, and — do not skip this — a `lang` in BCP 47 hyphen
   form;
-- optionally `data-lily-locale-chooser-input` on a hidden input for form
+- optionally `data-lily-locale-picker-input` on a hidden input for form
   participation.
 
 The client returns an inert controller when the button or list is

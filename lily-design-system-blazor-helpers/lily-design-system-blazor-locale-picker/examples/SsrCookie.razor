@@ -15,12 +15,12 @@
     the same tick.
 *@
 
-@page "/examples/locale-chooser/ssr-cookie"
+@page "/examples/locale-picker/ssr-cookie"
 @rendermode InteractiveServer
 @using LilyDesignSystem.Blazor.Helpers
 @inject HttpClient Http
 
-<LocaleChooser
+<LocalePicker
     Label="Language"
     Locales="@(new[] { "en", "fr", "ar" })"
     @bind-Value="locale"

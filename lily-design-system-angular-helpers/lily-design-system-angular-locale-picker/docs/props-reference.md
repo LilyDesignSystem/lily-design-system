@@ -21,7 +21,7 @@ Applied as `aria-label` to **both** the trigger button and the
 listbox. Always supplied, always translatable.
 
 ```html
-<lily-locale-chooser label="Language" [locales]="locales" />
+<lily-locale-picker label="Language" [locales]="locales" />
 ```
 
 The input is marked `input.required<string>()`, so the TypeScript
@@ -45,10 +45,10 @@ identity of the selection and the value written (in BCP 47 hyphen
 form) to the `lang` attribute.
 
 ```html
-<lily-locale-chooser
-    label="Language"
-    [locales]="['en', 'en_US', 'fr', 'fr_CA', 'ar', 'he']"
-    [(value)]="locale"
+<lily-locale-picker
+  label="Language"
+  [locales]="['en', 'en_US', 'fr', 'fr_CA', 'ar', 'he']"
+  [(value)]="locale"
 />
 ```
 
@@ -68,7 +68,7 @@ The active locale code, in your form. Two-way bindable with
 `[(value)]` so the surrounding code can read and write the selection.
 
 ```html
-<lily-locale-chooser [(value)]="locale" ... />
+<lily-locale-picker [(value)]="locale" ... />
 ```
 
 ```ts
@@ -92,7 +92,7 @@ match. If `defaultValue` is itself empty, the resolver falls back to
 `"en"` (when present in `locales`) and then to `locales[0]`.
 
 ```html
-<lily-locale-chooser defaultValue="fr" ... />
+<lily-locale-picker defaultValue="fr" ... />
 ```
 
 ## `storageKey` — optional, string — defaults to `""`
@@ -109,7 +109,7 @@ swallowed on both read and write — the select continues to work
 in-memory.
 
 ```html
-<lily-locale-chooser storageKey="lily-locale" ... />
+<lily-locale-picker storageKey="lily-locale" ... />
 ```
 
 The stored string is the consumer-form code, not the normalised tag,
@@ -126,7 +126,7 @@ exact-first, then language-only, so a browser preferring `fr-CH`
 lands on `fr` if `fr-CH` is not offered.
 
 ```html
-<lily-locale-chooser [detectFromNavigator]="true" ... />
+<lily-locale-picker [detectFromNavigator]="true" ... />
 ```
 
 Off by default, deliberately. Browser language preferences are often
@@ -147,11 +147,11 @@ reaches a form submission.
 
 ```html
 <form>
-    <lily-locale-chooser name="ui-locale" ... />
+  <lily-locale-picker name="ui-locale" ... />
 </form>
 ```
 
-Unlike theme-chooser's `name`, this one has no second job: locale-chooser
+Unlike theme-picker's `name`, this one has no second job: locale-picker
 manages no `<link>` element, so multiple selects on a page do not
 collide. Give them distinct `name` values anyway if they submit into
 the same form.
@@ -169,25 +169,25 @@ plus a `viewChild()` query:
 
 ```ts
 import { Component, ElementRef, signal, viewChild } from "@angular/core";
-import { LocaleChooser } from "./locale-chooser.component";
+import { LocalePicker } from "./locale-picker.component";
 
 @Component({
-    standalone: true,
-    imports: [LocaleChooser],
-    template: `
-        <section #region>
-            <lily-locale-chooser
-                label="Panel language"
-                [locales]="['en', 'fr', 'ar']"
-                [target]="region.nativeElement"
-                [(value)]="panelLocale"
-            />
-        </section>
-    `,
+  standalone: true,
+  imports: [LocalePicker],
+  template: `
+    <section #region>
+      <lily-locale-picker
+        label="Panel language"
+        [locales]="['en', 'fr', 'ar']"
+        [target]="region.nativeElement"
+        [(value)]="panelLocale"
+      />
+    </section>
+  `,
 })
 export class Panel {
-    region = viewChild<ElementRef<HTMLElement>>("region");
-    panelLocale = signal("fr");
+  region = viewChild<ElementRef<HTMLElement>>("region");
+  panelLocale = signal("fr");
 }
 ```
 
@@ -208,7 +208,7 @@ yourself — for instance when a framework, a server-rendered shell, or
 a CMS already owns the attribute and a second writer would fight it.
 
 ```html
-<lily-locale-chooser [applyDir]="false" ... />
+<lily-locale-picker [applyDir]="false" ... />
 ```
 
 Turning it off does not disable RTL detection generally: `isRtlLocale`
@@ -231,15 +231,15 @@ the English defaults.
 
 ```ts
 const labels = {
-    en: "English",
-    fr: "Français",
-    ar: "العربية",
-    he: "עברית",
+  en: "English",
+  fr: "Français",
+  ar: "العربية",
+  he: "עברית",
 };
 ```
 
 ```html
-<lily-locale-chooser [localeLabels]="labels" ... />
+<lily-locale-picker [localeLabels]="labels" ... />
 ```
 
 These labels are also what the listbox typeahead matches against, so
@@ -252,16 +252,16 @@ for the switcher.
 ## `className` — optional, string — defaults to `""`
 
 Extra CSS class hook on the root `<div>`. Always emitted after
-`"locale-chooser"`, so consumer styles can use either selector.
+`"locale-picker"`, so consumer styles can use either selector.
 
 ```html
-<lily-locale-chooser className="my-extra" ... />
+<lily-locale-picker className="my-extra" ... />
 ```
 
 Renders:
 
 ```html
-<div class="locale-chooser my-extra">
+<div class="locale-picker my-extra"></div>
 ```
 
 The `className` input is Angular's equivalent of Vue's
@@ -277,7 +277,7 @@ Emits the new code after every successful apply — that is, after
 a cookie write.
 
 ```html
-<lily-locale-chooser (localeChange)="onLocaleChange($event)" ... />
+<lily-locale-picker (localeChange)="onLocaleChange($event)" ... />
 ```
 
 ```ts
@@ -300,14 +300,10 @@ to that output automatically. You rarely need to subscribe directly:
 
 ```html
 <!-- Two-way binding (recommended) -->
-<lily-locale-chooser [(value)]="locale" ... />
+<lily-locale-picker [(value)]="locale" ... />
 
 <!-- Equivalent explicit form -->
-<lily-locale-chooser
-    [value]="locale()"
-    (valueChange)="locale.set($event)"
-    ...
-/>
+<lily-locale-picker [value]="locale()" (valueChange)="locale.set($event)" ... />
 ```
 
 `valueChange` fires when the selection changes; `localeChange` fires
@@ -320,14 +316,14 @@ effects, `[(value)]` for state.
 Every input that can supply a starting locale is consulted once, on
 the first effect run, in this order. The first non-empty result wins:
 
-| # | Source                                    | Condition                          |
-| - | ----------------------------------------- | ---------------------------------- |
-| 1 | `value()`                                 | Non-empty string supplied.          |
-| 2 | `localStorage.getItem(storageKey)`        | `storageKey` set, read did not throw. |
-| 3 | `matchNavigatorLanguage(navLangs, locales)` | `detectFromNavigator` is `true`.  |
-| 4 | `defaultValue()`                          | Non-empty string supplied.          |
-| 5 | `"en"`                                    | Present in `locales`.               |
-| 6 | `locales[0]`                              | Array is non-empty.                 |
+| #   | Source                                      | Condition                             |
+| --- | ------------------------------------------- | ------------------------------------- |
+| 1   | `value()`                                   | Non-empty string supplied.            |
+| 2   | `localStorage.getItem(storageKey)`          | `storageKey` set, read did not throw. |
+| 3   | `matchNavigatorLanguage(navLangs, locales)` | `detectFromNavigator` is `true`.      |
+| 4   | `defaultValue()`                            | Non-empty string supplied.            |
+| 5   | `"en"`                                      | Present in `locales`.                 |
+| 6   | `locales[0]`                                | Array is non-empty.                   |
 
 If all six come back empty — an empty `locales` array with nothing
 else set — no apply happens and no attribute is written.
@@ -343,9 +339,9 @@ to use outside the component.
 normalisation is applied — `en_us` becomes `en-us`, not `en-US`.
 
 ```ts
-bcp47LocaleTag("en_US");      // "en-US"
+bcp47LocaleTag("en_US"); // "en-US"
 bcp47LocaleTag("zh_Hant_TW"); // "zh-Hant-TW"
-bcp47LocaleTag("en");         // "en"
+bcp47LocaleTag("en"); // "en"
 ```
 
 ### `isRtlLocale`
@@ -356,11 +352,11 @@ script subtag (`Arab`, `Hebr`, `Mong`, `Nkoo`, `Syrc`, `Thaa`,
 when its leading language subtag is one of the 16 RTL languages.
 
 ```ts
-isRtlLocale("ar");         // true
-isRtlLocale("he_IL");      // true
+isRtlLocale("ar"); // true
+isRtlLocale("he_IL"); // true
 isRtlLocale("uz_Arab_AF"); // true — script subtag
-isRtlLocale("en");         // false
-isRtlLocale("");           // false
+isRtlLocale("en"); // false
+isRtlLocale(""); // false
 ```
 
 Exported so you can reuse the same decision in your own `dir` logic
@@ -376,7 +372,7 @@ label resolution, it does not consult `localeLabels` or
 
 ```ts
 localeName("en_US"); // "English (United States)"
-localeName("xx");    // "xx"
+localeName("xx"); // "xx"
 ```
 
 Useful for a status region that names the active locale in text.
@@ -391,7 +387,7 @@ language-only match on the leading subtag. Returns the matching entry
 
 ```ts
 matchNavigatorLanguage(["fr-CH", "en"], ["en", "fr", "de"]); // "fr"
-matchNavigatorLanguage(["ja"], ["en", "fr"]);               // ""
+matchNavigatorLanguage(["ja"], ["en", "fr"]); // ""
 ```
 
 This is the function `detectFromNavigator` calls. Exported so you can
@@ -426,9 +422,9 @@ case-insensitively by `isRtlLocale`, so the set stores lowercase keys.
 ### `GLOBE_WITH_MERIDIANS`
 
 `string`. The default button glyph: U+1F310 GLOBE WITH MERIDIANS
-followed by U+FE0E VARIATION SELECTOR-15. VS15 requests *text*
+followed by U+FE0E VARIATION SELECTOR-15. VS15 requests _text_
 presentation — without it the browser picks the colour-emoji font and
-the globe renders blue, which would not match theme-chooser's
+the globe renders blue, which would not match theme-picker's
 monochrome glyph when the two controls sit side by side in a page
 header.
 
@@ -438,31 +434,31 @@ GLOBE_WITH_MERIDIANS; // "\u{1F310}︎"
 
 Exported so you can reuse the exact glyph in a custom icon template.
 
-### `nextLocaleChooserId`
+### `nextLocalePickerId`
 
 `() => string`. Increments a module-scoped counter and returns
-`locale-chooser-{n}`. The component calls it once per instance to build
-its base id; the list becomes `{base}-list` and option *i* becomes
+`locale-picker-{n}`. The component calls it once per instance to build
+its base id; the list becomes `{base}-list` and option _i_ becomes
 `{base}-option-{i}`.
 
 It is deliberately **not** `Math.random()` or `Date.now()`: server and
 client must produce the same ids or hydration mismatches. Details:
 [`ssr.md`](./ssr.md).
 
-### `LocaleChooserIcon`
+### `LocalePickerIcon`
 
 Optional standalone marker directive, selector
-`ng-template[lilyLocaleChooserIcon]`. It exists only to give consumers
+`ng-template[lilyLocalePickerIcon]`. It exists only to give consumers
 typed `let-` variables under `strictTemplates` — the component queries
-*any* projected `<ng-template>` via `contentChild(TemplateRef)`, so
+_any_ projected `<ng-template>` via `contentChild(TemplateRef)`, so
 the marker is never required for matching.
 
 ```html
-<lily-locale-chooser label="Language" [locales]="locales" [(value)]="locale">
-    <ng-template lilyLocaleChooserIcon let-args>
-        <span [attr.data-open]="args.open">{{ args.value }}</span>
-    </ng-template>
-</lily-locale-chooser>
+<lily-locale-picker label="Language" [locales]="locales" [(value)]="locale">
+  <ng-template lilyLocalePickerIcon let-args>
+    <span [attr.data-open]="args.open">{{ args.value }}</span>
+  </ng-template>
+</lily-locale-picker>
 ```
 
 ### `ChildArgs`
@@ -470,11 +466,11 @@ the marker is never required for matching.
 Type-only export. The context object passed to a projected icon
 `<ng-template>`, supplied both as `$implicit` and as named properties.
 
-| Key        | Type                         | Meaning                                        |
-| ---------- | ---------------------------- | ---------------------------------------------- |
-| `value`    | `string`                     | Selected locale code, consumer form.            |
-| `open`     | `boolean`                    | Is the listbox open?                            |
-| `labelFor` | `(locale: string) => string` | Resolve a code to its display label.            |
+| Key        | Type                         | Meaning                              |
+| ---------- | ---------------------------- | ------------------------------------ |
+| `value`    | `string`                     | Selected locale code, consumer form. |
+| `open`     | `boolean`                    | Is the listbox open?                 |
+| `labelFor` | `(locale: string) => string` | Resolve a code to its display label. |
 
 ## Content projection — the icon `<ng-template>`
 
@@ -483,14 +479,14 @@ Not an input, but part of the public surface. A projected
 button:
 
 ```html
-<lily-locale-chooser label="Language" [locales]="locales">
-    <ng-template let-args>{{ args.labelFor(args.value) }}</ng-template>
-</lily-locale-chooser>
+<lily-locale-picker label="Language" [locales]="locales">
+  <ng-template let-args>{{ args.labelFor(args.value) }}</ng-template>
+</lily-locale-picker>
 ```
 
 The template replaces the **glyph only**; it does not render options,
 and the listbox stays component-owned. When it is supplied, the
-`.locale-chooser-icon` span is absent from the DOM entirely.
+`.locale-picker-icon` span is absent from the DOM entirely.
 
 ## Related
 

@@ -11,19 +11,36 @@ callback fires and the select does not touch the DOM. The rendered
 HTML looks like:
 
 ```html
-<div class="theme-chooser">
-    <input type="hidden" name="theme" value="light" />
-    <button type="button" class="theme-chooser-button" aria-label="Theme"
-            aria-haspopup="listbox" aria-expanded="false"
-            aria-controls="theme-chooser-1-list">
-        <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
-    </button>
-    <ul class="theme-chooser-list" id="theme-chooser-1-list" role="listbox"
-        aria-label="Theme" tabindex="-1" hidden>
-        <li class="theme-chooser-option" id="theme-chooser-1-option-0"
-            role="option" aria-selected="true">Light</li>
-        …
-    </ul>
+<div class="theme-picker">
+  <input type="hidden" name="theme" value="light" />
+  <button
+    type="button"
+    class="theme-picker-button"
+    aria-label="Theme"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="theme-picker-1-list"
+  >
+    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
+  </button>
+  <ul
+    class="theme-picker-list"
+    id="theme-picker-1-list"
+    role="listbox"
+    aria-label="Theme"
+    tabindex="-1"
+    hidden
+  >
+    <li
+      class="theme-picker-option"
+      id="theme-picker-1-option-0"
+      role="option"
+      aria-selected="true"
+    >
+      Light
+    </li>
+    …
+  </ul>
 </div>
 ```
 
@@ -108,19 +125,19 @@ cookie. Use an inline `<script>` in `wwwroot/index.html`:
 
 ```html
 <head>
-    <script>
-        (function() {
-            try {
-                var stored = localStorage.getItem("lily-theme") || "light";
-                document.documentElement.setAttribute("data-theme", stored);
-                var link = document.createElement("link");
-                link.rel = "stylesheet";
-                link.href = "/assets/themes/" + stored + ".css";
-                link.setAttribute("data-lily-theme-chooser", "theme");
-                document.head.appendChild(link);
-            } catch (e) {}
-        })();
-    </script>
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem("lily-theme") || "light";
+        document.documentElement.setAttribute("data-theme", stored);
+        var link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = "/assets/themes/" + stored + ".css";
+        link.setAttribute("data-lily-theme-picker", "theme");
+        document.head.appendChild(link);
+      } catch (e) {}
+    })();
+  </script>
 </head>
 ```
 
@@ -167,7 +184,7 @@ Blazor's interactive hydration is forgiving — there's no Vue-style
 warning about DOM mismatch. The select stays consistent because:
 
 - Its markup is a pure function of parameters.
-- DOM mutations only happen *after* hydration, so they don't
+- DOM mutations only happen _after_ hydration, so they don't
   conflict with the prerender DOM.
 
 The two cases that produce noticeable behaviour drift:
@@ -204,7 +221,7 @@ The bUnit suite runs in a synthetic interactive context, so it
 doesn't directly exercise the static-SSR path. To test:
 
 - **Markup determinism**: assert that
-  `RenderComponent<ThemeChooser>(...)` produces the expected button
+  `RenderComponent<ThemePicker>(...)` produces the expected button
   and closed listbox for a given `Value` parameter. The same markup
   is what static SSR would emit.
 - **No-throw on first render**: catch any exception during the
@@ -213,7 +230,7 @@ doesn't directly exercise the static-SSR path. To test:
   `OnAfterRenderAsync(true)`.
 - **Integration tests**: run a real Blazor Web App with the select
   on a static-render page and check the HTTP response body for the
-  expected `<div class="theme-chooser">` markup.
+  expected `<div class="theme-picker">` markup.
 
 ---
 

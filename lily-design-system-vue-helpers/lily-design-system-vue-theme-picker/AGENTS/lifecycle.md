@@ -1,6 +1,6 @@
-# Lifecycle — ThemeChooser (Vue)
+# Lifecycle — ThemePicker (Vue)
 
-The Vue-flavoured walk-through of the chooser's lifecycle. The
+The Vue-flavoured walk-through of the picker's lifecycle. The
 canonical contract is in [`../spec/index.md`](../spec/index.md) §5; this file
 maps the Svelte canonical's `$effect` lifecycle to Vue's
 `onMounted` + `watch`.
@@ -48,7 +48,7 @@ closeList() ─► open = false; activeIndex = -1; await nextTick(); button.focu
 onBeforeUnmount ─► removeEventListener("click", …); clearTimeout(typeaheadTimer)
 ```
 
-Note what is *not* in that diagram: opening the listbox, arrowing
+Note what is _not_ in that diagram: opening the listbox, arrowing
 around, `Home` / `End`, and typeahead all move `activeIndex` only. No
 theme is applied until `choose()` runs, which is why `Escape` can close
 without changing anything.
@@ -62,14 +62,14 @@ and mirrors `props.value` into it:
 const current = ref(props.value ?? "");
 
 watch(
-    () => props.value,
-    (next) => {
-        if (next !== undefined && next !== current.value) current.value = next;
-    },
+  () => props.value,
+  (next) => {
+    if (next !== undefined && next !== current.value) current.value = next;
+  },
 );
 
 watch(current, (next, prev) => {
-    if (next && next !== prev) applyTheme(next);
+  if (next && next !== prev) applyTheme(next);
 });
 ```
 
@@ -82,7 +82,7 @@ would ever write it back.
 ## Why `onMounted` + `watch`, not `watchEffect`
 
 `watchEffect` would auto-track every prop it reads. We don't want
-the chooser to re-apply when `themesUrl` or `extension` changes
+the picker to re-apply when `themesUrl` or `extension` changes
 without a corresponding value change — that would re-fetch the
 stylesheet for no user-visible reason. Explicit `watch` calls keep the
 dependency graph small and predictable.
@@ -93,28 +93,28 @@ Inside `onMounted`:
 
 ```ts
 onMounted(() => {
-    document.addEventListener("click", onDocumentClick);
+  document.addEventListener("click", onDocumentClick);
 
-    let initial = current.value;
-    if (!initial && props.storageKey) {
-        try {
-            initial = localStorage.getItem(props.storageKey) ?? "";
-        } catch {
-            // ignore privacy errors
-        }
+  let initial = current.value;
+  if (!initial && props.storageKey) {
+    try {
+      initial = localStorage.getItem(props.storageKey) ?? "";
+    } catch {
+      // ignore privacy errors
     }
-    if (!initial) {
-        initial =
-            props.defaultValue ??
-            (props.themes.includes("light") ? "light" : props.themes[0]) ??
-            "";
-    }
-    if (initial && initial !== current.value) {
-        current.value = initial;
-        emit("update:value", initial);
-        return;
-    }
-    if (initial) applyTheme(initial);
+  }
+  if (!initial) {
+    initial =
+      props.defaultValue ??
+      (props.themes.includes("light") ? "light" : props.themes[0]) ??
+      "";
+  }
+  if (initial && initial !== current.value) {
+    current.value = initial;
+    emit("update:value", initial);
+    return;
+  }
+  if (initial) applyTheme(initial);
 });
 ```
 
@@ -156,13 +156,17 @@ Note the asymmetry with arrow keys: typeahead **wraps**, arrow keys
 
 ```ts
 function applyTheme(slug: string): void {
-    if (typeof document === "undefined" || !slug) return;
-    getManagedLink().href = themeHref(props.themesUrl, slug, props.extension);
-    (props.target ?? document.documentElement).setAttribute("data-theme", slug);
-    if (props.storageKey) {
-        try { localStorage.setItem(props.storageKey, slug); } catch { /* ignore */ }
+  if (typeof document === "undefined" || !slug) return;
+  getManagedLink().href = themeHref(props.themesUrl, slug, props.extension);
+  (props.target ?? document.documentElement).setAttribute("data-theme", slug);
+  if (props.storageKey) {
+    try {
+      localStorage.setItem(props.storageKey, slug);
+    } catch {
+      /* ignore */
     }
-    emit("change", slug);
+  }
+  emit("change", slug);
 }
 ```
 
@@ -188,9 +192,9 @@ const theme = ref("light");
 const themesUrl = ref("/assets/themes/");
 
 watch(themesUrl, () => {
-    const current = theme.value;
-    theme.value = "";
-    theme.value = current;
+  const current = theme.value;
+  theme.value = "";
+  theme.value = current;
 });
 </script>
 ```
@@ -208,7 +212,7 @@ its glyph, and the `<ul hidden>` with its options, using whatever
 The listbox always renders — closed, via the `hidden` attribute, not
 via conditional rendering — so the server and client markup match
 structurally regardless of interaction state. Option ids come from
-`nextThemeChooserId()`, a module counter, which is why they are stable
+`nextThemePickerId()`, a module counter, which is why they are stable
 across the SSR/hydration boundary in a way `Math.random()` would not
 be.
 
@@ -226,10 +230,10 @@ outlive the component.
 It deliberately does **not** clean up the managed `<link>` or the
 `data-theme` attribute:
 
-- The chooser may be unmounted because the consumer navigated away
+- The picker may be unmounted because the consumer navigated away
   from the settings page; the theme should stay applied.
 - The next select mount reuses the same managed `<link>` (located
-  by `data-lily-theme-chooser="{name}"`).
+  by `data-lily-theme-picker="{name}"`).
 
 If a consumer wants to fully tear down the theme on unmount, they
 can do it in `onBeforeUnmount` themselves:
@@ -239,10 +243,10 @@ can do it in `onBeforeUnmount` themselves:
 import { onBeforeUnmount } from "vue";
 
 onBeforeUnmount(() => {
-    document.head.querySelector('[data-lily-theme-chooser="theme"]')?.remove();
-    document.documentElement.removeAttribute("data-theme");
+  document.head.querySelector('[data-lily-theme-picker="theme"]')?.remove();
+  document.documentElement.removeAttribute("data-theme");
 });
 </script>
 ```
 
-This is rare. Most apps want the theme to outlive the chooser.
+This is rare. Most apps want the theme to outlive the picker.

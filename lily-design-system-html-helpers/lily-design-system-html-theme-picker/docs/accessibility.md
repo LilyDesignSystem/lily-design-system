@@ -10,22 +10,22 @@ in JavaScript, and documented in full below.
 
 | Element                                | Role / Property                                | Source        |
 | -------------------------------------- | ---------------------------------------------- | ------------- |
-| `<theme-chooser>` (host)                | none (transparent)                             | —             |
-| `<div class="theme-chooser">`           | none (styling root)                            | Element       |
-| `<button class="theme-chooser-button">` | implicit `role="button"`                       | Browser       |
+| `<theme-picker>` (host)                | none (transparent)                             | —             |
+| `<div class="theme-picker">`           | none (styling root)                            | Element       |
+| `<button class="theme-picker-button">` | implicit `role="button"`                       | Browser       |
 | `<button>`                             | `aria-label={label}`                           | Consumer attr |
 | `<button>`                             | `aria-haspopup="listbox"`                      | Element       |
 | `<button>`                             | `aria-expanded="true" \| "false"`              | Element       |
 | `<button>`                             | `aria-controls={listId}`                       | Element       |
-| `<span class="theme-chooser-icon">`     | `aria-hidden="true"`                           | Element       |
-| `<ul class="theme-chooser-list">`       | `role="listbox"`, `aria-label={label}`         | Element       |
+| `<span class="theme-picker-icon">`     | `aria-hidden="true"`                           | Element       |
+| `<ul class="theme-picker-list">`       | `role="listbox"`, `aria-label={label}`         | Element       |
 | `<ul>`                                 | `tabindex="-1"`; `hidden` while closed         | Element       |
 | `<ul>`                                 | `aria-activedescendant={optionId}` while open  | Element       |
-| `<li class="theme-chooser-option">`     | `role="option"`, unique `id`, `aria-selected`  | Element       |
+| `<li class="theme-picker-option">`     | `role="option"`, unique `id`, `aria-selected`  | Element       |
 | `<li>`                                 | `data-active` when keyboard-highlighted        | Element       |
 | `<input type="hidden">`                | none — form participation only                 | Element       |
 
-The host `<theme-chooser>` element has no implicit ARIA role. It is
+The host `<theme-picker>` element has no implicit ARIA role. It is
 a lifecycle container that holds the rendered control.
 
 ### `data-active` is not `aria-selected`
@@ -51,9 +51,9 @@ listbox with a roving active descendant.
 
 Two consequences for consumer CSS:
 
-- Style `.theme-chooser-list:focus-visible`, not just the button —
+- Style `.theme-picker-list:focus-visible`, not just the button —
   that is where the focus ring belongs while the list is open.
-- Give `.theme-chooser-option[data-active]` a clearly visible
+- Give `.theme-picker-option[data-active]` a clearly visible
   highlight. Without it, a keyboard user gets no visual feedback at
   all as they arrow through the list, because focus is not moving.
 
@@ -184,15 +184,15 @@ has it. Leaving it out is the deliberate choice — a decision to make
 knowingly, with a reason — not something to opt into later:
 
 ```html
-<theme-chooser label="Theme" themes-url="/t/" themes="light,dark"></theme-chooser>
+<theme-picker label="Theme" themes-url="/t/" themes="light,dark"></theme-picker>
 
-<p class="theme-chooser-status" aria-live="polite">Active theme: Light</p>
+<p class="theme-picker-status" aria-live="polite">Active theme: Light</p>
 
 <script type="module">
-    await customElements.whenDefined("theme-chooser");
+    await customElements.whenDefined("theme-picker");
 
-    const select = document.querySelector("theme-chooser");
-    const status = document.querySelector(".theme-chooser-status");
+    const select = document.querySelector("theme-picker");
+    const status = document.querySelector(".theme-picker-status");
 
     select.addEventListener("themechange", (e) => {
         status.textContent = `Active theme: ${select.labelFor(e.detail.theme)}`;
@@ -242,7 +242,7 @@ current value, add visible button text via
 - **Styling `[data-active]` and `[aria-selected]` identically.**
   They mean different things, and a keyboard user needs to see the
   difference.
-- **Forgetting `.theme-chooser-list:focus-visible`.** While the list
+- **Forgetting `.theme-picker-list:focus-visible`.** While the list
   is open the `<ul>` holds focus; if you only styled the button's
   focus ring, the focus indicator vanishes on open.
 - **Hiding options with `display: none`.** That removes them from
@@ -283,7 +283,7 @@ on the `data-theme` swap.
 
 ## When subclassing
 
-If you subclass `ThemeChooser`, which tier you pick decides who owns
+If you subclass `ThemePicker`, which tier you pick decides who owns
 accessibility:
 
 - **Overriding `renderButtonContent()` keeps the whole contract.**

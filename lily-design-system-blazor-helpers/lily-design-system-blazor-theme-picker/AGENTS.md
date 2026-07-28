@@ -1,4 +1,4 @@
-# AGENTS — ThemeChooser (Blazor helper)
+# AGENTS — ThemePicker (Blazor helper)
 
 Single source of truth: [spec/index.md](./spec/index.md). Read it first; everything
 below is a fast index.
@@ -8,33 +8,33 @@ below is a fast index.
 A reusable Blazor headless theme select that **loads theme CSS files
 dynamically at runtime** from a developer-supplied directory URL. It
 renders an icon button (`◑`) that opens a dropdown listbox. Ships no
-CSS; consumer styles the `theme-chooser`, `theme-chooser-button`,
-`theme-chooser-icon`, `theme-chooser-list`, and `theme-chooser-option`
+CSS; consumer styles the `theme-picker`, `theme-picker-button`,
+`theme-picker-icon`, `theme-picker-list`, and `theme-picker-option`
 class hooks — see `docs/styling.md`.
 
 ## Files
 
-| File                       | Purpose                                          |
-| -------------------------- | ------------------------------------------------ |
-| `spec/index.md`                  | Specification-driven contract (canonical).       |
-| `ThemeChooser.razor`        | Razor markup.                                    |
-| `ThemeChooser.razor.cs`     | C# code-behind (partial class).                  |
-| `ThemeChooserTests.cs`      | bUnit + xUnit spec, one `[Fact]` per §7 item.    |
-| `index.md`                 | User guide.                                      |
+| File                    | Purpose                                       |
+| ----------------------- | --------------------------------------------- |
+| `spec/index.md`         | Specification-driven contract (canonical).    |
+| `ThemePicker.razor`    | Razor markup.                                 |
+| `ThemePicker.razor.cs` | C# code-behind (partial class).               |
+| `ThemePickerTests.cs`  | bUnit + xUnit spec, one `[Fact]` per §7 item. |
+| `index.md`              | User guide.                                   |
 
 ## Public surface
 
-- Component: `ThemeChooser` in namespace `LilyDesignSystem.Blazor.Helpers`.
-- Context: `ThemeChooserContext` (`Value`, `Open`, `LabelFor`) for a
+- Component: `ThemePicker` in namespace `LilyDesignSystem.Blazor.Helpers`.
+- Context: `ThemePickerContext` (`Value`, `Open`, `LabelFor`) for a
   custom `ChildContent` glyph.
-- Constant: `ThemeChooser.CircleWithRightHalfBlack` — the default glyph
+- Constant: `ThemePicker.CircleWithRightHalfBlack` — the default glyph
   `"◑"` (U+25D1).
 - Statics: `NormaliseThemesUrl`, `ThemeHref`, `ThemeName`,
   `MatchSystemTheme`.
   - `ThemeName(slug)` — the ONE title-casing rule
     (`"high-contrast"` -> `"High Contrast"`); the private instance
     `LabelFor` delegates to it, so consumers rendering their own UI
-    never duplicate it. Mirrors `Locales.LocaleName` on LocaleChooser.
+    never duplicate it. Mirrors `Locales.LocaleName` on LocalePicker.
   - `MatchSystemTheme(bool? prefersDark, themes)` — pure mapping of an
     OS colour-scheme preference onto a supported slug; returns `""`
     when unsupported or when `prefersDark` is null (matchMedia
@@ -48,7 +48,7 @@ class hooks — see `docs/styling.md`.
 ## Behaviour contract (one paragraph)
 
 On every theme change the select (1) sets the `href` of one managed
-`<link rel="stylesheet" data-lily-theme-chooser="{Name}">` in
+`<link rel="stylesheet" data-lily-theme-picker="{Name}">` in
 `document.head` to `{ThemesUrl}{slug}{Extension}`, (2) sets
 `data-theme="{slug}"` on `document.documentElement`, (3) optionally
 writes the slug to `localStorage[StorageKey]`, and (4) invokes
@@ -66,23 +66,43 @@ lives in `Value` and rides a hidden input for form participation.
 ## HTML
 
 ```html
-<div class="theme-chooser @CssClass" ...AdditionalAttributes>
+<div class="theme-picker @CssClass" ...AdditionalAttributes>
   <input type="hidden" name="@Name" value="@Value" />
-  <button type="button" class="theme-chooser-button" aria-label="@Label"
-          aria-haspopup="listbox" aria-expanded="false" aria-controls="{listId}">
-    <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
+  <button
+    type="button"
+    class="theme-picker-button"
+    aria-label="@Label"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="{listId}"
+  >
+    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
   </button>
-  <ul class="theme-chooser-list" id="{listId}" role="listbox" aria-label="@Label"
-      tabindex="-1" hidden aria-activedescendant="{active option id, open only}">
-    <li class="theme-chooser-option" id="{optionId}" role="option"
-        aria-selected="true|false" data-active>{LabelFor(slug)}</li>
+  <ul
+    class="theme-picker-list"
+    id="{listId}"
+    role="listbox"
+    aria-label="@Label"
+    tabindex="-1"
+    hidden
+    aria-activedescendant="{active option id, open only}"
+  >
+    <li
+      class="theme-picker-option"
+      id="{optionId}"
+      role="option"
+      aria-selected="true|false"
+      data-active
+    >
+      {LabelFor(slug)}
+    </li>
   </ul>
 </div>
 ```
 
 `ChildContent` **replaces the glyph inside the button**; it no longer
 renders options. Ids come from a monotonic process-wide counter
-(`theme-chooser-{n}`) so they are stable and SSR-safe.
+(`theme-picker-{n}`) so they are stable and SSR-safe.
 
 ## Keyboard
 

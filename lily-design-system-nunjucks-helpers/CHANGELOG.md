@@ -9,37 +9,37 @@ and the project follows
 
 ## Unreleased
 
-### Changed (BREAKING — every package renamed to `*-chooser`)
+### Changed (BREAKING — every package renamed to `*-picker`)
 
 - **All four helpers are renamed** and their versions **reset to
   `0.1.0`**, because nothing has ever been published under the new
   names and carrying the old numbers forward would imply releases that
   never existed:
 
-  | Was | Becomes | Old version |
-  | --- | ------- | ----------- |
-  | `lily-design-system-nunjucks-theme-select` | `lily-design-system-nunjucks-theme-chooser` | 0.4.0 |
-  | `lily-design-system-nunjucks-locale-select` | `lily-design-system-nunjucks-locale-chooser` | 0.4.0 |
-  | `lily-design-system-nunjucks-text-size-select` | `lily-design-system-nunjucks-text-size-chooser` | 0.2.0 |
-  | `lily-design-system-nunjucks-share-button` | `lily-design-system-nunjucks-share-chooser` | 0.1.0 (unpublished) |
+  | Was                                            | Becomes                                        | Old version         |
+  | ---------------------------------------------- | ---------------------------------------------- | ------------------- |
+  | `lily-design-system-nunjucks-theme-select`     | `lily-design-system-nunjucks-theme-picker`     | 0.4.0               |
+  | `lily-design-system-nunjucks-locale-select`    | `lily-design-system-nunjucks-locale-picker`    | 0.4.0               |
+  | `lily-design-system-nunjucks-text-size-select` | `lily-design-system-nunjucks-text-size-picker` | 0.2.0               |
+  | `lily-design-system-nunjucks-share-button`     | `lily-design-system-nunjucks-share-picker`     | 0.1.0 (unpublished) |
 
-- **The motivating collision.** `theme-chooser` is also the slug of a
+- **The motivating collision.** `theme-picker` is also the slug of a
   catalog component in `components.tsv`, and the helper shared its
-  `.theme-chooser` class hook while being an entirely different control.
+  `.theme-picker` class hook while being an entirely different control.
   The catalog component is untouched by this rename; only the helpers
   move.
 - **Renamed throughout**: directories, `*.njk` / `*.client.js` /
-  `*.test.ts` filenames, macro names (`themeSelect` → `themeChooser`,
-  `shareButton` → `shareChooser`, and likewise for locale and
-  text-size), exported symbols (`initThemeSelect` → `initThemeChooser`,
-  `nextShareChooserId` → `nextShareChooserId`, …), CSS class hooks
-  (`.theme-chooser` → `.theme-chooser` and every `-button` / `-icon` /
+  `*.test.ts` filenames, macro names (`themeSelect` → `themePicker`,
+  `shareButton` → `sharePicker`, and likewise for locale and
+  text-size), exported symbols (`initThemeSelect` → `initThemePicker`,
+  `nextSharePickerId` → `nextSharePickerId`, …), CSS class hooks
+  (`.theme-picker` → `.theme-picker` and every `-button` / `-icon` /
   `-list` / `-option` / `-list-item` / `-target` / `-copy` / `-status`
-  derivative), `data-lily-*-select-*` → `data-lily-*-chooser-*`
+  derivative), `data-lily-*-select-*` → `data-lily-*-picker-*`
   attributes, and the id-prefix defaults derived from the helper name
-  (`theme-select-{name}` → `theme-chooser-{name}`).
-- **`share-chooser` loses its trigger-class exception.** The button is
-  now `.share-chooser-button` with a `data-lily-share-chooser-button`
+  (`theme-select-{name}` → `theme-picker-{name}`).
+- **`share-picker` loses its trigger-class exception.** The button is
+  now `.share-picker-button` with a `data-lily-share-picker-button`
   hook, matching the other three; the `share-button-trigger` /
   `data-lily-share-button-trigger` pair is gone, along with the
   exception's documentation in `spec/index.md`, `AGENTS.md`, `index.md`
@@ -62,7 +62,7 @@ and the project follows
 
 ### Added
 
-- **`lily-design-system-nunjucks-share-chooser` 0.1.0** — a new helper,
+- **`lily-design-system-nunjucks-share-picker` 0.1.0** — a new helper,
   ported from the canonical Svelte one. A glyph-only button (➤, U+27A4)
   that opens the **native share sheet** where the browser provides one,
   and otherwise a disclosure list of consumer-supplied destinations
@@ -72,7 +72,7 @@ and the project follows
   Three things about it are new to this catalog:
 
   1. **It owns an action, not a preference.** Every other helper here
-     owns *selection + DOM application + optional persistence*. This
+     owns _selection + DOM application + optional persistence_. This
      one applies nothing to the document and persists nothing: no
      `localStorage`, no `data-*` on the document root.
   2. **It is a disclosure of real links, not a listbox.** Destinations
@@ -80,7 +80,7 @@ and the project follows
      `role="menuitem"` would strip middle-click, open-in-new-tab and
      copy-link-address — the affordances a share list exists to offer.
      Copy is a real `<button>`. The trigger's class is
-     `share-chooser-button`, not `share-chooser-button`, the one
+     `share-picker-button`, not `share-picker-button`, the one
      deliberate bend in the catalog's `{helper}-button` convention.
   3. **It degrades partially without JavaScript, where the `*-select`
      helpers do not at all.** Its destination links are real anchors
@@ -99,7 +99,7 @@ and the project follows
   rendering server-side and already holds the url/title/text, so this
   costs one line, and it is what makes the anchors complete enough for
   the no-JS story above. The function form survives on the client
-  (`initShareChooser(root, {targets})` rewrites anchors from function
+  (`initSharePicker(root, {targets})` rewrites anchors from function
   hrefs, matched by `data-target-id`) and in any filter the consumer
   registers. `shareTargetHref()` accepts both forms. Full rationale in
   the package's `spec/index.md` §3.3 and `CHANGELOG.md`.
@@ -114,13 +114,13 @@ and the project follows
   for theme, U+1F310 for locale, U+0041 "A" for text size), and a
   `<ul role="listbox" hidden>` of `<li role="option">`. The client
   modules gained the full WAI-ARIA APG listbox keyboard contract.
-- `theme-chooser` and `locale-chooser` converted first; `text-size-chooser`
+- `theme-picker` and `locale-picker` converted first; `text-size-picker`
   joins them here, so the catalog is once again internally consistent.
-- This **supersedes the 0.3.0 placeholder-pinning work** in theme-chooser
-  and locale-chooser: with no `<select>` there is nothing to pin, so the
+- This **supersedes the 0.3.0 placeholder-pinning work** in theme-picker
+  and locale-picker: with no `<select>` there is nothing to pin, so the
   `placeholder` opt and the `{helper}-placeholder` class hook are
-  removed from both. `text-size-chooser` never had a `placeholder` opt.
-- `text-size-chooser` gains a hidden `<input name="{name}">` for form
+  removed from both. `text-size-picker` never had a `placeholder` opt.
+- `text-size-picker` gains a hidden `<input name="{name}">` for form
   participation. The `name` opt now names that input rather than the
   `<select>`; its default is still `"text-size"`.
 
@@ -129,12 +129,12 @@ and the project follows
 The button glyph is `"A"` (U+0041 LATIN CAPITAL LETTER A), not a
 pictograph. U+1F5DB DECREASE FONT SIZE SYMBOL was the first choice but
 has no real glyph in common font stacks — it degrades to a crude bitmap
-shape — and it means *decrease* rather than *size*. "A" renders in the
-page's own font everywhere, stays monochrome like theme-chooser's ◑, and
+shape — and it means _decrease_ rather than _size_. "A" renders in the
+page's own font everywhere, stays monochrome like theme-picker's ◑, and
 is the conventional text-size affordance. It is materially safer than a
 pictograph against the "glyph may not render" tradeoff.
 
-`text-size-chooser` deliberately gains **no** detection prop. Unlike
+`text-size-picker` deliberately gains **no** detection prop. Unlike
 `prefers-color-scheme` (theme) and `navigator.languages` (locale), the
 web platform exposes no OS "preferred text size" signal.
 
@@ -153,15 +153,15 @@ web platform exposes no OS "preferred text size" signal.
 - The `{% call %}` block on all three helpers now overrides the
   button's glyph — the Nunjucks equivalent of the canonical helper's
   `children`.
-- `text-size-chooser.client.js` exports `sizeName(slug)` and
-  `LATIN_CAPITAL_LETTER_A`, mirroring theme-chooser's `themeName` /
-  `CIRCLE_WITH_RIGHT_HALF_BLACK` and locale-chooser's `localeName`.
+- `text-size-picker.client.js` exports `sizeName(slug)` and
+  `LATIN_CAPITAL_LETTER_A`, mirroring theme-picker's `themeName` /
+  `CIRCLE_WITH_RIGHT_HALF_BLACK` and locale-picker's `localeName`.
   `sizeName` title-cases hyphen-separated words (`"x-large"` →
   `"X Large"`). As with the other two helpers, the macro cannot call
   into the client module — delegating would force every consumer to
   register a custom Nunjucks filter — so the macro restates the rule in
   template syntax and a test holds the two in agreement.
-- `text-size-chooser` now emits `data-lily-text-size-chooser-value` for
+- `text-size-picker` now emits `data-lily-text-size-picker-value` for
   `opts.value`, the same out-of-band mechanism the other two use to
   avoid a pre-hydration flash.
 
@@ -175,7 +175,7 @@ web platform exposes no OS "preferred text size" signal.
   working but is not a choice path. Each package's `docs/ssr.md` states
   this plainly and points at the alternative.
 - This regression is worth weighing especially carefully for
-  `text-size-chooser`, whose entire purpose is WCAG 1.4.4 (Resize Text)
+  `text-size-picker`, whose entire purpose is WCAG 1.4.4 (Resize Text)
   — the users most likely to need it overlap with users on constrained
   or assistive setups. `docs/accessibility.md` says so directly.
 
@@ -188,17 +188,17 @@ web platform exposes no OS "preferred text size" signal.
   `lang` / `dir`, RTL detection, `data-text-size` application,
   `localStorage` persistence, navigator detection, `onChange`,
   initial-value resolution, SSR safety, and every exported pure helper.
-- `text-size-chooser`'s initial-value order is unchanged
+- `text-size-picker`'s initial-value order is unchanged
   (`value > storage > defaultValue > "medium" > sizes[0]`). Unlike
-  theme-chooser, `value` already beat storage here, so there is no
+  theme-picker, `value` already beat storage here, so there is no
   precedence reversal and no migration warning.
 
 ## 0.3.0 — 2026-07-20
 
 ### Changed (BREAKING)
 
-- `theme-chooser` and `locale-chooser` bumped to **0.3.0**: both are now
-  *placeholder-pinned*. The closed `<select>` always displays a short
+- `theme-picker` and `locale-picker` bumped to **0.3.0**: both are now
+  _placeholder-pinned_. The closed `<select>` always displays a short
   placeholder word ("Theme", "Locale") instead of the active value, so
   the control is only ever as wide as that word rather than as wide as
   the longest option. Each renders a leading placeholder `<option>` with
@@ -210,7 +210,7 @@ web platform exposes no OS "preferred text size" signal.
   value is `""`, and the element's own `value` no longer tracks the
   selection. Behaviour contracts (DOM application, persistence, SSR
   safety, i18n) are otherwise unchanged.
-- `text-size-chooser` is untouched and stays at **0.1.0**.
+- `text-size-picker` is untouched and stays at **0.1.0**.
 
 ### Added
 
@@ -234,7 +234,7 @@ web platform exposes no OS "preferred text size" signal.
 
 ### Changed (BREAKING)
 
-- `theme-chooser` and `locale-chooser` bumped to **0.2.0**: migrated from
+- `theme-picker` and `locale-picker` bumped to **0.2.0**: migrated from
   the radio-group "picker" rendering to a native `<select>` with
   `<option>` children (landed in-tree 2026-06-17), with renamed packages
   (`*-picker` → `*-select`), changed class hooks, and native `<select>`
@@ -243,7 +243,7 @@ web platform exposes no OS "preferred text size" signal.
 
 ### Added
 
-- `text-size-chooser` **0.1.0** — native-`<select>` text-size helper that
+- `text-size-picker` **0.1.0** — native-`<select>` text-size helper that
   sets `data-text-size` on the document root, with optional
   `localStorage` persistence (added 2026-06-17; born select-based, so it
   carries no picker migration).
@@ -256,17 +256,17 @@ client-side ES module.
 
 ### Added
 
-- `lily-design-system-nunjucks-theme-chooser` v0.1.0 — runtime-loading
-  theme chooser. The `themeChooser(opts)` macro emits a native
-  `<select class="theme-chooser">` with `data-lily-theme-chooser-*`
-  hooks; the companion `theme-chooser.client.js` injects a managed
+- `lily-design-system-nunjucks-theme-picker` v0.1.0 — runtime-loading
+  theme picker. The `themePicker(opts)` macro emits a native
+  `<select class="theme-picker">` with `data-lily-theme-picker-*`
+  hooks; the companion `theme-picker.client.js` injects a managed
   `<link rel="stylesheet">` in `<head>`, sets `data-theme="{slug}"`
   on the document root, optionally persists to `localStorage`, and
   mirrors the active slug onto the `<select>` value. 13 acceptance
   criteria covered.
-- `lily-design-system-nunjucks-locale-chooser` v0.1.0 — BCP 47 locale
-  select. The `localeChooser(opts)` macro emits a native
-  `<select class="locale-chooser">` whose `<option>`s carry per-option
+- `lily-design-system-nunjucks-locale-picker` v0.1.0 — BCP 47 locale
+  select. The `localePicker(opts)` macro emits a native
+  `<select class="locale-picker">` whose `<option>`s carry per-option
   `lang="{tag}"` attributes; the client.js writes `lang` and
   `dir` on the document root, with optional `localStorage`
   persistence and `navigator.languages` detection. Built-in 436-row
@@ -297,17 +297,17 @@ client-side ES module.
 
 ### Differences from sibling catalogs
 
-| Concept                 | Svelte canonical                       | Nunjucks port                          |
-| ----------------------- | -------------------------------------- | -------------------------------------- |
-| Single file             | `.svelte` SFC                          | `.njk` macro + `.client.js` ES module  |
-| Two-way binding         | `bind:value` / `$bindable()`           | `opts.value` + `onChange` callback     |
-| Reactive state          | `$state`                               | DOM mutation in client.js              |
-| Reactive side-effects   | `$effect`                              | `change` event listener + `setTheme()` |
-| Render props / slots    | Snippet (`{#snippet children(...)}`)   | `{% call %}` caller block              |
-| Stylesheet head         | `<svelte:head>`                        | `document.head.appendChild` in client.js |
-| Cookie / SSR            | `hooks.server.ts` + `transformPageChunk` | Eleventy edge function or Express middleware |
-| Storybook integration   | `*.stories.svelte`                     | n/a — Nunjucks doesn't have Storybook  |
-| Component test runner   | vitest + svelte-testing-library        | vitest + jsdom + `nunjucks.renderString` |
+| Concept               | Svelte canonical                         | Nunjucks port                                |
+| --------------------- | ---------------------------------------- | -------------------------------------------- |
+| Single file           | `.svelte` SFC                            | `.njk` macro + `.client.js` ES module        |
+| Two-way binding       | `bind:value` / `$bindable()`             | `opts.value` + `onChange` callback           |
+| Reactive state        | `$state`                                 | DOM mutation in client.js                    |
+| Reactive side-effects | `$effect`                                | `change` event listener + `setTheme()`       |
+| Render props / slots  | Snippet (`{#snippet children(...)}`)     | `{% call %}` caller block                    |
+| Stylesheet head       | `<svelte:head>`                          | `document.head.appendChild` in client.js     |
+| Cookie / SSR          | `hooks.server.ts` + `transformPageChunk` | Eleventy edge function or Express middleware |
+| Storybook integration | `*.stories.svelte`                       | n/a — Nunjucks doesn't have Storybook        |
+| Component test runner | vitest + svelte-testing-library          | vitest + jsdom + `nunjucks.renderString`     |
 
 The DOM contract and behaviour are otherwise identical; the tests
 match clause-for-clause against the Svelte canonical's `spec/index.md`

@@ -16,36 +16,35 @@
 */
 
 import { useState } from "react";
-import { LocaleChooser } from "../LocaleChooser";
+import { LocalePicker } from "../LocalePicker";
 
 export function LocaleClient({
-    initialLocale,
-    children,
+  initialLocale,
+  children,
 }: {
-    initialLocale: string;
-    children?: React.ReactNode;
+  initialLocale: string;
+  children?: React.ReactNode;
 }) {
-    const [locale, setLocale] = useState(initialLocale);
+  const [locale, setLocale] = useState(initialLocale);
 
-    function writeCookie(code: string) {
-        document.cookie =
-            `locale=${code}; path=/; max-age=31536000; SameSite=Lax`;
-    }
+  function writeCookie(code: string) {
+    document.cookie = `locale=${code}; path=/; max-age=31536000; SameSite=Lax`;
+  }
 
-    return (
-        <>
-            <LocaleChooser
-                label="Language"
-                locales={["en", "fr", "ar", "he"]}
-                value={locale}
-                onChange={(code) => {
-                    setLocale(code);
-                    writeCookie(code);
-                }}
-            />
-            {children}
-        </>
-    );
+  return (
+    <>
+      <LocalePicker
+        label="Language"
+        locales={["en", "fr", "ar", "he"]}
+        value={locale}
+        onChange={(code) => {
+          setLocale(code);
+          writeCookie(code);
+        }}
+      />
+      {children}
+    </>
+  );
 }
 
 export default LocaleClient;
@@ -58,7 +57,7 @@ export default LocaleClient;
     import {
         isRtlLocale,
         bcp47LocaleTag,
-    } from "lily-design-system-react-locale-chooser";
+    } from "lily-design-system-react-locale-picker";
     import { LocaleClient } from "./locale-client";
 
     const KNOWN = new Set(["en", "fr", "ar", "he"]);
@@ -90,7 +89,7 @@ export default LocaleClient;
     Notes:
         - `cookies()` is async in Next 15 / React 19.
         - Import ONLY the pure helpers from a server component; do not
-          import LocaleChooser itself there (it carries "use client").
+          import LocalePicker itself there (it carries "use client").
         - The cookie value flows: server cookie → initialLocale prop →
           useState initial → value prop → selected option + lang/dir
           attributes. Server and client agree, no hydration mismatch.

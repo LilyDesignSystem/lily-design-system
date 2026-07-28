@@ -20,7 +20,7 @@
 */
 
 import { useState } from "react";
-import { LocaleChooser, defaultLocaleLabels } from "../LocaleChooser";
+import { LocalePicker, defaultLocaleLabels } from "../LocalePicker";
 
 // All 436 locale codes from the built-in table.
 const ALL_LOCALES = Object.keys(defaultLocaleLabels);
@@ -30,7 +30,7 @@ export function ComboboxExample() {
 
     return (
         <>
-            <LocaleChooser
+            <LocalePicker
                 label="Language"
                 locales={ALL_LOCALES}
                 value={locale}
@@ -43,7 +43,7 @@ export function ComboboxExample() {
                         <span aria-hidden="true">{open ? "▴" : "▾"}</span>
                     </>
                 )}
-            </LocaleChooser>
+            </LocalePicker>
 
             <p>
                 Selected locale: <code>{locale}</code> ({defaultLocaleLabels[locale]})

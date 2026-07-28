@@ -22,11 +22,11 @@
     swatch become the name.
 */
 
-import { ThemeChooser } from "../ThemeChooser";
+import { ThemePicker } from "../ThemePicker";
 
 export function CustomRenderingExample() {
     return (
-        <ThemeChooser
+        <ThemePicker
             label="Theme"
             themesUrl="/assets/themes/"
             themes={["light", "dark", "abyss", "cupcake", "dracula"]}
@@ -34,7 +34,7 @@ export function CustomRenderingExample() {
             {({ value, open, labelFor }) => (
                 <>
                     <span
-                        className="theme-chooser-swatch"
+                        className="theme-picker-swatch"
                         data-theme={value}
                         aria-hidden="true"
                     />
@@ -42,7 +42,7 @@ export function CustomRenderingExample() {
                     <span aria-hidden="true">{open ? "▴" : "▾"}</span>
                 </>
             )}
-        </ThemeChooser>
+        </ThemePicker>
     );
 }
 

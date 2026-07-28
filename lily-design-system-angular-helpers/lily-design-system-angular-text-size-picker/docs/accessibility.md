@@ -13,12 +13,12 @@ below.
 ## Why this component exists: WCAG 1.4.4
 
 This helper has a more direct accessibility purpose than its siblings.
-Where `theme-chooser` and `locale-chooser` serve preference, this one
+Where `theme-picker` and `locale-picker` serve preference, this one
 serves a specific success criterion.
 
 - **1.4.4 Resize Text (AA)** requires text to be resizable to 200%
   without loss of content or functionality. Browser zoom satisfies
-  the letter of it, but an in-page control that *remembers* the
+  the letter of it, but an in-page control that _remembers_ the
   choice serves low-vision users far better than expecting them to
   re-zoom every site they visit.
 - **1.4.12 Text Spacing (AA)** is adjacent: consumer CSS keyed on
@@ -35,35 +35,43 @@ scale with `rem` units off the root, and verify the largest step is a
 real 200% rather than a token bump.
 
 ```css
-:root[data-text-size="small"]   { font-size: 87.5%; }
-:root[data-text-size="medium"]  { font-size: 100%; }
-:root[data-text-size="large"]   { font-size: 150%; }
-:root[data-text-size="x-large"] { font-size: 200%; }
+:root[data-text-size="small"] {
+  font-size: 87.5%;
+}
+:root[data-text-size="medium"] {
+  font-size: 100%;
+}
+:root[data-text-size="large"] {
+  font-size: 150%;
+}
+:root[data-text-size="x-large"] {
+  font-size: 200%;
+}
 ```
 
 ## Roles and properties
 
-| Element                  | Role / Property                                       | Source         |
-| ------------------------ | ----------------------------------------------------- | -------------- |
-| root `<div>`             | none — a container, not a control                     | —              |
-| `<input type="hidden">`  | `name`, `value` (form participation)                  | Component      |
-| `<button>`               | implicit `role="button"`                              | Browser        |
-| `<button>`               | `aria-label={label}` — its **entire** accessible name | Consumer input |
-| `<button>`               | `aria-haspopup="listbox"`                             | Component      |
-| `<button>`               | `aria-expanded="true|false"`                          | Component      |
-| `<button>`               | `aria-controls={listId}`                              | Component      |
-| `.text-size-chooser-icon` | `aria-hidden="true"`                                  | Component      |
-| `<ul>`                   | `role="listbox"`, `aria-label={label}`, `tabindex="-1"` | Component    |
-| `<ul>` (open only)       | `aria-activedescendant={active option id}`            | Component      |
-| `<li>`                   | `role="option"`, `aria-selected="true|false"`         | Component      |
-| `<li>`                   | `data-active` — styling hook, **not** ARIA            | Component      |
+| Element                   | Role / Property                                         | Source         |
+| ------------------------- | ------------------------------------------------------- | -------------- |
+| root `<div>`              | none — a container, not a control                       | —              |
+| `<input type="hidden">`   | `name`, `value` (form participation)                    | Component      |
+| `<button>`                | implicit `role="button"`                                | Browser        |
+| `<button>`                | `aria-label={label}` — its **entire** accessible name   | Consumer input |
+| `<button>`                | `aria-haspopup="listbox"`                               | Component      |
+| `<button>`                | `aria-expanded="true                                    | false"`        | Component |
+| `<button>`                | `aria-controls={listId}`                                | Component      |
+| `.text-size-picker-icon` | `aria-hidden="true"`                                    | Component      |
+| `<ul>`                    | `role="listbox"`, `aria-label={label}`, `tabindex="-1"` | Component      |
+| `<ul>` (open only)        | `aria-activedescendant={active option id}`              | Component      |
+| `<li>`                    | `role="option"`, `aria-selected="true                   | false"`        | Component |
+| `<li>`                    | `data-active` — styling hook, **not** ARIA              | Component      |
 
 `data-active` and `aria-selected` mean different things and are
 usually on different options. `data-active` marks where the keyboard
 is pointing right now; `aria-selected` marks the size actually in
 effect. Style both, and don't style them the same.
 
-Element ids come from `nextTextSizeChooserId()`, an incrementing module
+Element ids come from `nextTextSizePickerId()`, an incrementing module
 counter — deterministic, unique per instance, and identical across
 server and client renders, so the `aria-controls` and
 `aria-activedescendant` wiring survives hydration intact.
@@ -87,8 +95,8 @@ conveyed by `aria-activedescendant`; focus never lands on an `<li>`.
 
 On the **listbox**:
 
-| Key               | Action                                                                |
-| ----------------- | --------------------------------------------------------------------- |
+| Key               | Action                                                                 |
+| ----------------- | ---------------------------------------------------------------------- |
 | `Arrow Down`      | Active option down one. **Clamps** at the last option — no wrap.       |
 | `Arrow Up`        | Active option up one. **Clamps** at the first option — no wrap.        |
 | `Home`            | First option becomes active.                                           |
@@ -127,7 +135,7 @@ knowingly.
 
 The glyph is `aria-hidden="true"`, which means the button has no text
 content whatsoever. `aria-label` is not a supplement to a visible
-name — it is the *only* name the control has, in the accessibility
+name — it is the _only_ name the control has, in the accessibility
 tree and in voice-control software alike.
 
 The consequences of a weak label are concrete:
@@ -140,7 +148,7 @@ The consequences of a weak label are concrete:
   person would naturally call the control, they cannot reach it by
   voice at all.
 - No automated check catches this. axe will confirm an accessible
-  name *exists*; it cannot tell you the name is useless.
+  name _exists_; it cannot tell you the name is useless.
 
 `label` is `input.required<string>()` precisely because there is no
 safe default. Name the setting — "Text size", "Font size", "Reading
@@ -169,7 +177,7 @@ In practice that means:
   `<select>` semantics. Announcements vary between VoiceOver, NVDA,
   and JAWS, and between browsers within each.
 - **Mobile loses the native picker.** On iOS and Android a
-  `<select>` opens the platform's own optimised, familiar chooser.
+  `<select>` opens the platform's own optimised, familiar picker.
   This control renders an ordinary list instead.
 - **Behaviours have to be re-earned.** Clamping vs. wrapping,
   typeahead timing, what `Escape` does — each is a decision this
@@ -193,7 +201,7 @@ accessibility-superior.
 
 There is also a bootstrapping wrinkle specific to this helper: the
 control that fixes small text is itself rendered at the current text
-size. Give `.text-size-chooser-button` a generous minimum target size
+size. Give `.text-size-picker-button` a generous minimum target size
 (WCAG 2.5.8 asks for 24×24 CSS px; AAA 2.5.5 asks for 44×44) that
 does not shrink with the smallest slug.
 
@@ -205,14 +213,14 @@ The default glyph is `"A"` — U+0041 LATIN CAPITAL LETTER A. This is
 The obvious candidate was U+1F5DB DECREASE FONT SIZE SYMBOL. It was
 rejected on two counts: it has no real glyph in common font stacks
 and falls back to a crude bitmap shape or tofu, and it means
-*decrease* rather than *size*, which is the wrong idea for a control
+_decrease_ rather than _size_, which is the wrong idea for a control
 that also increases. A plain Latin capital A is covered by every font
 that can render the surrounding page, arrives in the page's own
 typeface at the page's own weight, stays monochrome, and is the
 conventional text-size affordance across operating systems and
 browsers.
 
-So the failure modes that afflict theme-chooser's `◑` largely do not
+So the failure modes that afflict theme-picker's `◑` largely do not
 apply here. What remains:
 
 - Under **forced-colours mode** or with **user font overrides** the
@@ -220,7 +228,7 @@ apply here. What remains:
   behaviour, not a defect, but it may not match your design.
 - With a decorative or icon-only `font-family` on the button, "A"
   could render as something unexpected. Don't set one.
-- The letter carries no *scale* information on its own. Many
+- The letter carries no _scale_ information on its own. Many
   implementations pair a small A with a large A, or add a visible
   text label, to communicate "size" rather than "letter". Consider
   whether the glyph alone reads as the right affordance in your UI.
@@ -238,11 +246,11 @@ Two mitigations, both consumer-side:
   label.
 
 ```html
-<lily-text-size-chooser label="Text size" [sizes]="sizes">
-    <ng-template lilyTextSizeChooserIcon>
-        <svg width="16" height="16" aria-hidden="true" focusable="false">…</svg>
-    </ng-template>
-</lily-text-size-chooser>
+<lily-text-size-picker label="Text size" [sizes]="sizes">
+  <ng-template lilyTextSizePickerIcon>
+    <svg width="16" height="16" aria-hidden="true" focusable="false">…</svg>
+  </ng-template>
+</lily-text-size-picker>
 ```
 
 ## The status region is part of the pattern
@@ -261,11 +269,15 @@ The pattern: bind `[(value)]` and render a visible status line beside
 the control.
 
 ```html
-<lily-text-size-chooser #sizeSelect label="Text size"
-                       [sizes]="sizes" [(value)]="size" />
+<lily-text-size-picker
+  #sizeSelect
+  label="Text size"
+  [sizes]="sizes"
+  [(value)]="size"
+/>
 
-<p class="text-size-chooser-status" aria-live="polite">
-    Text size: {{ sizeSelect.labelFor(size()) }}
+<p class="text-size-picker-status" aria-live="polite">
+  Text size: {{ sizeSelect.labelFor(size()) }}
 </p>
 ```
 
@@ -285,12 +297,12 @@ Why each part is the way it is:
   through the `#sizeSelect` template reference, so the status text
   shows the same human label as the option ("X Large", not
   `x-large`).
-- **`text-size-chooser-status`** is the class hook, kebab-case like the
+- **`text-size-picker-status`** is the class hook, kebab-case like the
   rest of the system.
 
 ### What this does and does not fix
 
-Honest accounting. The status region gives the user a way to *learn*
+Honest accounting. The status region gives the user a way to _learn_
 the active size, announced on every change. It does not repair the
 tradeoffs above: the button still has no name beyond `aria-label`,
 and the listbox is still a custom widget with the support caveats in
@@ -313,12 +325,12 @@ documents them rather than declaring them solved.
 
 The component does not suppress `:focus` or `:focus-visible` styling.
 Two elements take focus and both need a visible ring: the
-`.text-size-chooser-button`, and the `.text-size-chooser-list` while
+`.text-size-picker-button`, and the `.text-size-picker-list` while
 open. Because the `<ul>` holds focus for the whole open interaction, a
 listbox with no focus indicator leaves a keyboard user with nothing on
 screen tying the highlighted option to their keystrokes. Style
-`.text-size-chooser-list:focus-visible` and
-`.text-size-chooser-option[data-active]` together.
+`.text-size-picker-list:focus-visible` and
+`.text-size-picker-option[data-active]` together.
 
 ## Reduced motion
 
@@ -340,7 +352,7 @@ a strong motion trigger for some users, so prefer an instant swap.
   users actually use rather than assuming parity with a native
   `<select>`.
 - After closing, the control announces nothing about the new size.
-  The `text-size-chooser-status` live region described above is what
+  The `text-size-picker-status` live region described above is what
   announces it — which is why that region is part of the default
   pattern.
 
@@ -379,8 +391,8 @@ from a wrapper by overriding `aria-label="something"` statically.
 Angular forwards `class`, `style`, and `(event)` bindings declared
 on the host element to the host node, not to the inner root `<div>`.
 That means a consumer who writes
-`<lily-text-size-chooser class="my-extra">` ends up with `my-extra` on
-the *host* node. To get a class hook on the root `<div>` itself, use
+`<lily-text-size-picker class="my-extra">` ends up with `my-extra` on
+the _host_ node. To get a class hook on the root `<div>` itself, use
 the `className` input.
 
 ### The projected template cannot change the ARIA contract
@@ -397,8 +409,8 @@ with what is on screen (WCAG 2.5.3 Label in Name).
 
 ```ts
 const fixture = mount({ label: "Text size", sizes: ["small", "medium"] });
-const button = fixture.nativeElement.querySelector(".text-size-chooser-button");
-const list = fixture.nativeElement.querySelector(".text-size-chooser-list");
+const button = fixture.nativeElement.querySelector(".text-size-picker-button");
+const list = fixture.nativeElement.querySelector(".text-size-picker-list");
 
 expect(button.getAttribute("aria-label")).toBe("Text size");
 expect(button.getAttribute("aria-haspopup")).toBe("listbox");
@@ -406,13 +418,15 @@ expect(button.getAttribute("aria-expanded")).toBe("false");
 expect(button.getAttribute("aria-controls")).toBe(list.id);
 expect(list.getAttribute("role")).toBe("listbox");
 expect(list.hasAttribute("hidden")).toBe(true);
-expect(fixture.nativeElement.querySelectorAll('[role="option"]').length).toBe(2);
+expect(fixture.nativeElement.querySelectorAll('[role="option"]').length).toBe(
+  2,
+);
 ```
 
 For broader a11y testing run axe-core in a real Angular host. The
 catalog has no built-in axe runner because the helpers ship no CSS
 — a meaningful audit must run against the consumer's styled markup.
-Remember that axe cannot evaluate whether your `label` is a *good*
+Remember that axe cannot evaluate whether your `label` is a _good_
 name, whether your size scale actually reaches 200%, nor how a given
 screen reader handles `aria-activedescendant`; all three need manual
 testing.

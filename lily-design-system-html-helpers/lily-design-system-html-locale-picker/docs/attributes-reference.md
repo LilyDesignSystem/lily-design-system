@@ -9,7 +9,7 @@ rationale and common usage.
 `aria-label` on **both** the rendered `<button>` and the rendered
 `<ul role="listbox">`. Always supplied, always translatable.
 
-The control is icon-only, so this is the *entire* accessible name —
+The control is icon-only, so this is the _entire_ accessible name —
 there is no visible text to fall back on. A vague `label` leaves the
 control unusable to screen-reader users, and the absence of a visible
 label means the control fails WCAG 2.5.3 Label in Name unless you add
@@ -17,7 +17,7 @@ one yourself. See
 [accessibility.md](./accessibility.md).
 
 One subtlety specific to this control: `label` should be written in
-the language the user is *currently* reading, not in the language they
+the language the user is _currently_ reading, not in the language they
 might switch to. "Choose language" localised into the active locale is
 right; "Sprache wählen" hardcoded is not. Because the element applies
 `lang` to the document root, your i18n layer usually already has the
@@ -41,7 +41,7 @@ comparisons harder.
 The matching JS property `el.locales` accepts a native `string[]`:
 
 ```ts
-(select as LocaleChooser).locales = ["en", "fr", "ar"];
+(select as LocalePicker).locales = ["en", "fr", "ar"];
 // equivalent to: select.setAttribute("locales", "en,fr,ar")
 ```
 
@@ -55,9 +55,9 @@ The active locale code, in whatever form you supplied it in `locales`.
 Read and write via attribute or property:
 
 ```ts
-select.setAttribute("value", "fr");   // → applies "fr"
-select.value = "ar";                  // → applies "ar", flips dir to rtl
-select.getAttribute("value");         // → "ar"
+select.setAttribute("value", "fr"); // → applies "fr"
+select.value = "ar"; // → applies "ar", flips dir to rtl
+select.getAttribute("value"); // → "ar"
 ```
 
 Writing `value` is the supported way to change the locale
@@ -106,7 +106,11 @@ stored code, resolve `navigator.languages` against `locales` and use
 the best match.
 
 ```html
-<locale-chooser label="Language" locales="en,fr,de" detect-from-navigator></locale-chooser>
+<locale-picker
+  label="Language"
+  locales="en,fr,de"
+  detect-from-navigator
+></locale-picker>
 ```
 
 Matching is two-pass, implemented by the exported
@@ -126,11 +130,11 @@ The helper is exported so you can reuse the same matching rule
 server-side against an `Accept-Language` header:
 
 ```ts
-import { matchNavigatorLanguage } from "lily-design-system-html-locale-chooser";
+import { matchNavigatorLanguage } from "lily-design-system-html-locale-picker";
 const locale = matchNavigatorLanguage(parseAcceptLanguage(header), SUPPORTED);
 ```
 
-## `apply-dir` — optional, boolean attribute — defaults to *on*
+## `apply-dir` — optional, boolean attribute — defaults to _on_
 
 Controls whether the element writes `dir` in addition to `lang`.
 Inverted relative to the other boolean attributes: **absent means
@@ -138,10 +142,14 @@ true**. Only the explicit string `"false"` turns it off.
 
 ```html
 <!-- writes lang and dir (the default) -->
-<locale-chooser label="Language" locales="en,ar"></locale-chooser>
+<locale-picker label="Language" locales="en,ar"></locale-picker>
 
 <!-- writes lang only; you own dir -->
-<locale-chooser label="Language" locales="en,ar" apply-dir="false"></locale-chooser>
+<locale-picker
+  label="Language"
+  locales="en,ar"
+  apply-dir="false"
+></locale-picker>
 ```
 
 The direction is derived from the code by the exported `isRtlLocale`,
@@ -157,15 +165,19 @@ participates in normal form submission:
 
 ```html
 <form method="post">
-  <locale-chooser label="Language" locales="en,fr" name="ui_locale"></locale-chooser>
+  <locale-picker
+    label="Language"
+    locales="en,fr"
+    name="ui_locale"
+  ></locale-picker>
   <button type="submit">Save</button>
 </form>
 <!-- posts ui_locale=fr -->
 ```
 
 Change it to match whatever your backend expects. Unlike
-theme-chooser's `name`, this value is *not* used to discriminate any
-shared document-level resource — locale-chooser manages no `<link>` —
+theme-picker's `name`, this value is _not_ used to discriminate any
+shared document-level resource — locale-picker manages no `<link>` —
 so it is purely a form-field name.
 
 ## `locale-labels` — optional, string (JSON)
@@ -173,18 +185,18 @@ so it is purely a form-field name.
 A JSON-encoded object overriding the display label for specific codes.
 
 ```html
-<locale-chooser
+<locale-picker
   label="Language"
   locales="en,fr,pt_BR"
   locale-labels='{"pt_BR":"Português (Brasil)","en":"English (UK)"}'
-></locale-chooser>
+></locale-picker>
 ```
 
 The matching JS property accepts a native object, which is easier than
 escaping JSON in an attribute:
 
 ```ts
-(select as LocaleChooser).localeLabels = { pt_BR: "Português (Brasil)" };
+(select as LocalePicker).localeLabels = { pt_BR: "Português (Brasil)" };
 ```
 
 Label resolution is a four-step fall-through, in order: `localeLabels`
@@ -199,8 +211,8 @@ Malformed JSON is swallowed and treated as `{}` rather than throwing.
 
 ## `class` — optional, string
 
-Extra CSS class appended to the rendered `<div class="locale-chooser">`
-root. It does **not** land on the `<locale-chooser>` host element — see
+Extra CSS class appended to the rendered `<div class="locale-picker">`
+root. It does **not** land on the `<locale-picker>` host element — see
 [styling.md](./styling.md#targeting-the-host-vs-the-rendered-root) for
 why that distinction matters and when to target which.
 
@@ -211,13 +223,13 @@ Which element receives `lang` (and `dir`). Defaults to
 references are not serialisable into strings.
 
 ```ts
-(select as LocaleChooser).target = document.querySelector("#preview")!;
+(select as LocalePicker).target = document.querySelector("#preview")!;
 ```
 
 Scoping the target to a subtree is how you preview a locale — including
 its direction — inside one region while the rest of the page stays put.
 Note that `lang` on a subtree is legitimate and useful (WCAG 3.1.2
-Language of Parts), but the *document* language (WCAG 3.1.1) is the
+Language of Parts), but the _document_ language (WCAG 3.1.1) is the
 root's, so a scoped select should not be your only locale control.
 
 ## Attribute / property mirroring
@@ -225,12 +237,12 @@ root's, so a scoped select should not be your only locale control.
 Every attribute has a camelCase property mirror. Two conversion rules
 apply, matching the rest of the catalog:
 
-| Attribute form | Property form | Conversion |
-| -------------- | ------------- | ---------- |
-| `locales="en,fr"` | `el.locales = ["en","fr"]` | CSV ⇄ `string[]` |
-| `locale-labels='{"en":"English"}'` | `el.localeLabels = {en:"English"}` | JSON ⇄ object |
-| `detect-from-navigator` | `el.detectFromNavigator = true` | presence ⇄ boolean |
-| `apply-dir="false"` | `el.applyDir = false` | **inverted**: absent = true |
+| Attribute form                     | Property form                      | Conversion                  |
+| ---------------------------------- | ---------------------------------- | --------------------------- |
+| `locales="en,fr"`                  | `el.locales = ["en","fr"]`         | CSV ⇄ `string[]`            |
+| `locale-labels='{"en":"English"}'` | `el.localeLabels = {en:"English"}` | JSON ⇄ object               |
+| `detect-from-navigator`            | `el.detectFromNavigator = true`    | presence ⇄ boolean          |
+| `apply-dir="false"`                | `el.applyDir = false`              | **inverted**: absent = true |
 
 Setting a property writes the attribute, and the attribute change
 drives the re-render — one code path, no drift. Reading a property
@@ -239,7 +251,7 @@ truth.
 
 Two boolean conventions coexist deliberately.
 `detect-from-navigator` is a conventional boolean attribute
-(absent = false); `apply-dir` defaults to *on*, so it is the one
+(absent = false); `apply-dir` defaults to _on_, so it is the one
 attribute whose absence means true. That asymmetry is deliberate:
 writing `dir` is the safe default for a locale control, and opting
 out should be explicit.
@@ -260,6 +272,6 @@ overridable member — see
 ## Fall-through attributes
 
 Any attribute not in the observed list is left on the
-`<locale-chooser>` host untouched. `id`, `data-*`, `hidden`, and event
+`<locale-picker>` host untouched. `id`, `data-*`, `hidden`, and event
 handlers all behave normally; the element neither copies them onto the
 rendered root nor strips them.

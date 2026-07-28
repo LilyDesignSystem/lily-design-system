@@ -1,10 +1,10 @@
 /*
     Example 3 — Replacing the ➤ glyph.
 
-    Project an <ng-template> into <lily-share-chooser> to replace the
+    Project an <ng-template> into <lily-share-picker> to replace the
     default glyph. It receives the ChildArgs context — { open, url } —
     available both as $implicit and as named properties, and can be
-    typed with the optional ShareChooserIcon marker directive.
+    typed with the optional SharePickerIcon marker directive.
 
     The template replaces the GLYPH ONLY. It never renders the list;
     that stays component-owned.
@@ -27,46 +27,46 @@
 */
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import {
-    ShareChooser,
-    ShareChooserIcon,
-    type ShareTarget,
-} from "../share-chooser.component";
+  SharePicker,
+  SharePickerIcon,
+  type ShareTarget,
+} from "../share-picker.component";
 
 @Component({
-    selector: "example-custom-glyph",
-    standalone: true,
-    imports: [ShareChooser, ShareChooserIcon],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
-        <!-- Visible text instead of a glyph. -->
-        <lily-share-chooser
-            label="Share this page"
-            [targets]="targets"
-            copyLabel="Copy link"
-            copiedLabel="Link copied"
-            copyFailedLabel="Could not copy — copy it from the address bar"
-        >
-            <ng-template lilyShareChooserIcon let-args>
-                {{ args.open ? "Close" : "Share" }}
-            </ng-template>
-        </lily-share-chooser>
+  selector: "example-custom-glyph",
+  standalone: true,
+  imports: [SharePicker, SharePickerIcon],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <!-- Visible text instead of a glyph. -->
+    <lily-share-picker
+      label="Share this page"
+      [targets]="targets"
+      copyLabel="Copy link"
+      copiedLabel="Link copied"
+      copyFailedLabel="Could not copy — copy it from the address bar"
+    >
+      <ng-template lilySharePickerIcon let-args>
+        {{ args.open ? "Close" : "Share" }}
+      </ng-template>
+    </lily-share-picker>
 
-        <!-- A different glyph, still hidden from assistive tech: the
+    <!-- A different glyph, still hidden from assistive tech: the
              accessible name comes from aria-label either way. -->
-        <lily-share-chooser label="Share this page" [targets]="targets">
-            <ng-template lilyShareChooserIcon>
-                <span aria-hidden="true">⤴</span>
-            </ng-template>
-        </lily-share-chooser>
-    `,
+    <lily-share-picker label="Share this page" [targets]="targets">
+      <ng-template lilySharePickerIcon>
+        <span aria-hidden="true">⤴</span>
+      </ng-template>
+    </lily-share-picker>
+  `,
 })
 export class CustomGlyphExample {
-    readonly targets: ShareTarget[] = [
-        {
-            id: "mastodon",
-            label: "Mastodon",
-            href: (url) =>
-                `https://mastodon.social/share?text=${encodeURIComponent(url)}`,
-        },
-    ];
+  readonly targets: ShareTarget[] = [
+    {
+      id: "mastodon",
+      label: "Mastodon",
+      href: (url) =>
+        `https://mastodon.social/share?text=${encodeURIComponent(url)}`,
+    },
+  ];
 }

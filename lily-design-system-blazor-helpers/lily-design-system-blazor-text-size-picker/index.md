@@ -1,4 +1,4 @@
-# TextSizeChooser (Blazor helper)
+# TextSizePicker (Blazor helper)
 
 A reusable, headless Blazor text-size select. Renders an **icon button
 that opens a dropdown listbox** of size slugs and applies the chosen
@@ -11,21 +11,21 @@ Single source of truth: [spec/index.md](./spec/index.md).
 ## Install
 
 Add a project reference to
-`LilyDesignSystem.Blazor.TextSizeChooser.csproj`, or the published
-`LilyDesignSystem.Blazor.TextSizeChooser` NuGet package.
+`LilyDesignSystem.Blazor.TextSizePicker.csproj`, or the published
+`LilyDesignSystem.Blazor.TextSizePicker` NuGet package.
 
 ## Quick start
 
 ```razor
 @using LilyDesignSystem.Blazor.Helpers
 
-<TextSizeChooser Label="Text size"
+<TextSizePicker Label="Text size"
                 Sizes='new[] { "small", "medium", "large", "x-large" }'
                 StorageKey="lily-text-size"
                 @bind-Value="size" />
 
-<p class="text-size-chooser-status" aria-live="polite">
-    Text size: @TextSizeChooser.SizeName(size)
+<p class="text-size-picker-status" aria-live="polite">
+    Text size: @TextSizePicker.SizeName(size)
 </p>
 
 @code {
@@ -49,18 +49,18 @@ Then style the slugs in your own CSS:
 ## Rendered HTML
 
 ```html
-<div class="text-size-chooser">
+<div class="text-size-picker">
   <input type="hidden" name="text-size" value="medium" />
-  <button type="button" class="text-size-chooser-button" aria-label="Text size"
-          aria-haspopup="listbox" aria-expanded="false" aria-controls="text-size-chooser-1-list">
-    <span class="text-size-chooser-icon" aria-hidden="true">A</span>
+  <button type="button" class="text-size-picker-button" aria-label="Text size"
+          aria-haspopup="listbox" aria-expanded="false" aria-controls="text-size-picker-1-list">
+    <span class="text-size-picker-icon" aria-hidden="true">A</span>
   </button>
-  <ul class="text-size-chooser-list" id="text-size-chooser-1-list" role="listbox"
+  <ul class="text-size-picker-list" id="text-size-picker-1-list" role="listbox"
       aria-label="Text size" tabindex="-1" hidden>
-    <li class="text-size-chooser-option" role="option" aria-selected="false">Small</li>
-    <li class="text-size-chooser-option" role="option" aria-selected="true" data-active>Medium</li>
-    <li class="text-size-chooser-option" role="option" aria-selected="false">Large</li>
-    <li class="text-size-chooser-option" role="option" aria-selected="false">X Large</li>
+    <li class="text-size-picker-option" role="option" aria-selected="false">Small</li>
+    <li class="text-size-picker-option" role="option" aria-selected="true" data-active>Medium</li>
+    <li class="text-size-picker-option" role="option" aria-selected="false">Large</li>
+    <li class="text-size-picker-option" role="option" aria-selected="false">X Large</li>
   </ul>
 </div>
 ```
@@ -81,7 +81,7 @@ See [docs/styling.md](./docs/styling.md).
 | `StorageKey`          | `string?`                                | no       | `null`                                 |
 | `Name`                | `string`                                 | no       | `"text-size"`                          |
 | `SizeLabels`          | `IReadOnlyDictionary<string,string>`     | no       | empty                                  |
-| `ChildContent`        | `RenderFragment<TextSizeChooserContext>?` | no       | the `"A"` glyph                        |
+| `ChildContent`        | `RenderFragment<TextSizePickerContext>?` | no       | the `"A"` glyph                        |
 | `OnChange`            | `EventCallback<string>`                  | no       | —                                      |
 | `CssClass`            | `string`                                 | no       | `""`                                   |
 | `AdditionalAttributes`| `Dictionary<string,object>?`             | no       | —                                      |
@@ -95,11 +95,11 @@ signal to detect.
 
 ## Statics
 
-- `TextSizeChooser.LatinCapitalLetterA` — the default glyph `"A"`
+- `TextSizePicker.LatinCapitalLetterA` — the default glyph `"A"`
   (U+0041 LATIN CAPITAL LETTER A).
-- `TextSizeChooser.SizeName(slug)` — the shared title-casing rule
+- `TextSizePicker.SizeName(slug)` — the shared title-casing rule
   (`"x-large"` → `"X Large"`). Use it when you render your own labels
-  so they match the listbox exactly. Mirrors `ThemeChooser.ThemeName`
+  so they match the listbox exactly. Mirrors `ThemePicker.ThemeName`
   and `Locales.LocaleName`.
 - `SetSizeAsync(slug)` — apply a size imperatively via a `@ref`.
 
@@ -110,14 +110,14 @@ render options — those are component-owned so the listbox semantics
 cannot be broken by an override.
 
 ```razor
-<TextSizeChooser Label="Text size" Sizes="sizes" @bind-Value="size">
+<TextSizePicker Label="Text size" Sizes="sizes" @bind-Value="size">
     <ChildContent Context="ctx">
         <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
             <path d="M4 20 L10 4 L16 20 M6.5 14 H13.5" fill="none"
                   stroke="currentColor" stroke-width="2" />
         </svg>
     </ChildContent>
-</TextSizeChooser>
+</TextSizePicker>
 ```
 
 The context carries `Value`, `Open`, and `LabelFor`. The accessible

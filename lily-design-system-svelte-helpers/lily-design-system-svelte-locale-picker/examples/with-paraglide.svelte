@@ -15,7 +15,7 @@
     message calls.
 -->
 <script lang="ts">
-    import LocaleChooser from "../LocaleChooser.svelte";
+    import LocalePicker from "../LocalePicker.svelte";
     // import { setLocale, getLocale, type Locale } from "$lib/paraglide/runtime.js";
     // import * as m from "$lib/paraglide/messages.js";
 
@@ -32,7 +32,7 @@
     let current = $state<string>(getLocale());
 </script>
 
-<LocaleChooser
+<LocalePicker
     label="Language"
     locales={["en", "fr", "ar"]}
     bind:value={current}

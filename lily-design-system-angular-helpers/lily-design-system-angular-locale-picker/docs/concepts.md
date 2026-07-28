@@ -1,17 +1,17 @@
 # Concepts
 
-How `LocaleChooser` thinks about locale, where it sits in your
+How `LocalePicker` thinks about locale, where it sits in your
 stack, and what it deliberately leaves to you.
 
 ## Three orthogonal concerns
 
 A web app changes language across three independent axes:
 
-| Axis                       | What changes                                                            | Owner                                                              |
-| -------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| **Document language**      | The `lang` attribute on `<html>`. Screen readers, search engines, hyphenation, font selection. | `LocaleChooser` (this helper).                                      |
-| **Writing direction**      | The `dir` attribute on `<html>`. Bidi text, scrollbar position, flex/grid mirror. | `LocaleChooser` (auto-detected from the locale; opt out with `[applyDir]="false"`). |
-| **Translated strings**     | The actual visible words on the page.                                   | Your i18n library (`@angular/localize`, Transloco, ngx-translate, raw `Intl`). |
+| Axis                   | What changes                                                                                   | Owner                                                                               |
+| ---------------------- | ---------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| **Document language**  | The `lang` attribute on `<html>`. Screen readers, search engines, hyphenation, font selection. | `LocalePicker` (this helper).                                                      |
+| **Writing direction**  | The `dir` attribute on `<html>`. Bidi text, scrollbar position, flex/grid mirror.              | `LocalePicker` (auto-detected from the locale; opt out with `[applyDir]="false"`). |
+| **Translated strings** | The actual visible words on the page.                                                          | Your i18n library (`@angular/localize`, Transloco, ngx-translate, raw `Intl`).      |
 
 The helper owns the first two and signals the third via a bindable
 `value` (via `[(value)]`), a `localeChange` output, and the `lang`
@@ -30,9 +30,9 @@ The select:
 - Renders semantic HTML (`<button>` + `<ul>` + `<li>`) wired up as a
   WAI-ARIA APG listbox: roles, `aria-expanded`, `aria-selected`,
   `aria-activedescendant`, and the full keyboard contract.
-- Carries stable kebab-case class hooks (`locale-chooser` on the root
-  `<div>`, plus `locale-chooser-button`, `locale-chooser-icon`,
-  `locale-chooser-list`, `locale-chooser-option`) so your CSS can target
+- Carries stable kebab-case class hooks (`locale-picker` on the root
+  `<div>`, plus `locale-picker-button`, `locale-picker-icon`,
+  `locale-picker-list`, `locale-picker-option`) so your CSS can target
   it without prefixes or specificity tricks.
 - Ships **no** colour, spacing, typography, font, icon, or
   animation decisions. You supply all of that — including the
@@ -80,7 +80,7 @@ Three reasons:
    whatever the locale list contains, and every part of the open list
    is a plain element you can style. A native `<select>` is neither —
    its width follows its content and its popup is the platform's.
-2. **Symmetry with `ThemeChooser`**. The sibling helper in this
+2. **Symmetry with `ThemePicker`**. The sibling helper in this
    directory uses the same shape, so the two compose visually and
    semantically without surprises.
 3. **Escape hatch is one signal away**. The bindable `value`
@@ -159,7 +159,7 @@ Three layers, mirroring the lifecycle:
    via `componentRef.setInput("value", ...)` and assert the same
    DOM observations; assert that `localeChange` was emitted.
 
-See [../locale-chooser.component.spec.ts](../locale-chooser.component.spec.ts)
+See [../locale-picker.component.spec.ts](../locale-picker.component.spec.ts)
 for the reference suite that covers every `spec/index.md` §7 acceptance
 item.
 
@@ -189,8 +189,8 @@ writes, i18n library calls).
 ### Why no `@HostBinding('attr.lang')`
 
 A future variant could write `lang` via a host binding so the
-attribute lives on the `<lily-locale-chooser>` element rather than
-on `document.documentElement`. The current `LocaleChooser` writes
+attribute lives on the `<lily-locale-picker>` element rather than
+on `document.documentElement`. The current `LocalePicker` writes
 to the document root because:
 
 - `<html lang>` is what every search-engine, screen-reader, and

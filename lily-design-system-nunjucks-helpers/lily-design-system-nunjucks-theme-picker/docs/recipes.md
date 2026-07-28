@@ -13,21 +13,20 @@ Read the `Sec-CH-Prefers-Color-Scheme` client hint server-side
 ```js
 // Express middleware
 app.use((req, res, next) => {
-    res.set("Accept-CH", "Sec-CH-Prefers-Color-Scheme");
-    res.set("Critical-CH", "Sec-CH-Prefers-Color-Scheme");
-    next();
+  res.set("Accept-CH", "Sec-CH-Prefers-Color-Scheme");
+  res.set("Critical-CH", "Sec-CH-Prefers-Color-Scheme");
+  next();
 });
 
 app.get("/", (req, res) => {
-    const prefersDark =
-        req.headers["sec-ch-prefers-color-scheme"] === "dark";
-    const theme = req.cookies.theme ?? (prefersDark ? "dark" : "light");
-    res.render("index.njk", { theme });
+  const prefersDark = req.headers["sec-ch-prefers-color-scheme"] === "dark";
+  const theme = req.cookies.theme ?? (prefersDark ? "dark" : "light");
+  res.render("index.njk", { theme });
 });
 ```
 
 ```njk
-{{ themeChooser({
+{{ themePicker({
     label: "Theme",
     themesUrl: "/assets/themes/",
     themes: ["light", "dark"],
@@ -39,7 +38,7 @@ app.get("/", (req, res) => {
 Note the division of labour once both are set. `value` outranks
 storage, so the cookie the server resolved is what applies — which is
 what you want here, because the `onChange` handler writes the user's
-explicit choice *into* that cookie, so the server's answer already is
+explicit choice _into_ that cookie, so the server's answer already is
 the user's latest choice, and it follows them across devices.
 `storageKey` is then a same-device cache for the case where the cookie
 is missing or expired.
@@ -55,16 +54,13 @@ theme via the controller:
 
 ```html
 <script type="module">
-    import {
-        autoInit,
-        initThemeChooser,
-    } from "/path/to/theme-chooser.client.js";
+  import { autoInit, initThemePicker } from "/path/to/theme-picker.client.js";
 
-    const [controller] = autoInit();
-    const mql = window.matchMedia("(prefers-color-scheme: dark)");
-    mql.addEventListener("change", (e) => {
-        controller.setTheme(e.matches ? "dark" : "light");
-    });
+  const [controller] = autoInit();
+  const mql = window.matchMedia("(prefers-color-scheme: dark)");
+  mql.addEventListener("change", (e) => {
+    controller.setTheme(e.matches ? "dark" : "light");
+  });
 </script>
 ```
 
@@ -78,7 +74,7 @@ for the full recipe.
 1. Keep `storageKey` for now so existing users don't lose their
    preference.
 2. In the `onChange` handler, also `fetch("/api/theme", { method:
-   "POST", body: JSON.stringify({ theme: slug }) })` to write the
+"POST", body: JSON.stringify({ theme: slug }) })` to write the
    cookie.
 3. On the server, prefer the cookie and pass it as `opts.value`. The
    client then prefers it automatically: `value` is the first input in
@@ -95,7 +91,7 @@ The control is already a button-triggered dropdown. The one piece
 of markup it hands over is the glyph, via a `{% call %}` block:
 
 ```njk
-{% call themeChooser({
+{% call themePicker({
     label: "Theme",
     themesUrl: "/assets/themes/",
     themes: ["light", "dark"]
@@ -119,16 +115,27 @@ the option under the keyboard cursor, so positioning and highlight
 are pure CSS:
 
 ```css
-.theme-chooser { position: relative; display: inline-block; }
-.theme-chooser-list { position: absolute; inset-inline-start: 0; z-index: 1; }
-.theme-chooser-option[data-active] { background: Highlight; }
-.theme-chooser-option[aria-selected="true"]::after { content: "\2713"; }
+.theme-picker {
+  position: relative;
+  display: inline-block;
+}
+.theme-picker-list {
+  position: absolute;
+  inset-inline-start: 0;
+  z-index: 1;
+}
+.theme-picker-option[data-active] {
+  background: Highlight;
+}
+.theme-picker-option[aria-selected="true"]::after {
+  content: "\2713";
+}
 ```
 
 ## Serve themes from a CDN
 
 ```njk
-{{ themeChooser({
+{{ themePicker({
     label: "Theme",
     themesUrl: "https://cdn.example.com/lily-themes/",
     themes: ["light", "dark", "abyss"]
@@ -143,7 +150,7 @@ served from a different origin does not need CORS, but a
 ## Cache-bust a theme
 
 ```njk
-{{ themeChooser({
+{{ themePicker({
     label: "Theme",
     themesUrl: "/assets/themes/",
     themes: ["light", "dark"],
@@ -161,39 +168,39 @@ Each select gets a distinct `name` (so the selects and managed
 `<link>`s don't collide) and a distinct `target` (so `data-theme`
 goes on the section root rather than `<html>`).
 
-The `target` is set at `initThemeChooser` time, not via macro opts:
+The `target` is set at `initThemePicker` time, not via macro opts:
 
 ```html
 <script type="module">
-    import { initThemeChooser } from "/path/to/theme-chooser.client.js";
-    initThemeChooser(
-        document.querySelector("[data-lily-theme-chooser-name='region-a']"),
-        { target: document.querySelector("section.region-a") },
-    );
-    initThemeChooser(
-        document.querySelector("[data-lily-theme-chooser-name='region-b']"),
-        { target: document.querySelector("section.region-b") },
-    );
+  import { initThemePicker } from "/path/to/theme-picker.client.js";
+  initThemePicker(
+    document.querySelector("[data-lily-theme-picker-name='region-a']"),
+    { target: document.querySelector("section.region-a") },
+  );
+  initThemePicker(
+    document.querySelector("[data-lily-theme-picker-name='region-b']"),
+    { target: document.querySelector("section.region-b") },
+  );
 </script>
 ```
 
 ## Programmatically switch themes from a sibling component
 
-The controller returned by `initThemeChooser` exposes `setTheme`.
+The controller returned by `initThemePicker` exposes `setTheme`.
 Hoist it to a shared module:
 
 ```html
 <script type="module">
-    import { autoInit } from "/path/to/theme-chooser.client.js";
-    const controllers = autoInit();
-    window.__themeController = controllers[0]; // singleton select
+  import { autoInit } from "/path/to/theme-picker.client.js";
+  const controllers = autoInit();
+  window.__themeController = controllers[0]; // singleton select
 </script>
 
 <script type="module">
-    // elsewhere
-    document.getElementById("go-dark").addEventListener("click", () => {
-        window.__themeController.setTheme("dark");
-    });
+  // elsewhere
+  document.getElementById("go-dark").addEventListener("click", () => {
+    window.__themeController.setTheme("dark");
+  });
 </script>
 ```
 
@@ -203,13 +210,13 @@ Hoist it to a shared module:
 
 ```html
 <script type="module">
-    import { autoInit } from "/path/to/theme-chooser.client.js";
-    const controllers = autoInit();
-    window.addEventListener("storage", (e) => {
-        if (e.key === "my-app:theme" && e.newValue) {
-            controllers.forEach((c) => c.setTheme(e.newValue));
-        }
-    });
+  import { autoInit } from "/path/to/theme-picker.client.js";
+  const controllers = autoInit();
+  window.addEventListener("storage", (e) => {
+    if (e.key === "my-app:theme" && e.newValue) {
+      controllers.forEach((c) => c.setTheme(e.newValue));
+    }
+  });
 </script>
 ```
 
@@ -220,19 +227,17 @@ the client.js import inside an `IntersectionObserver`:
 
 ```html
 <script type="module">
-    const observer = new IntersectionObserver(async (entries) => {
-        for (const e of entries) {
-            if (!e.isIntersecting) continue;
-            const { autoInit } = await import(
-                "/path/to/theme-chooser.client.js"
-            );
-            autoInit();
-            observer.disconnect();
-        }
-    });
-    document
-        .querySelectorAll("[data-lily-theme-chooser-root]")
-        .forEach((root) => observer.observe(root));
+  const observer = new IntersectionObserver(async (entries) => {
+    for (const e of entries) {
+      if (!e.isIntersecting) continue;
+      const { autoInit } = await import("/path/to/theme-picker.client.js");
+      autoInit();
+      observer.disconnect();
+    }
+  });
+  document
+    .querySelectorAll("[data-lily-theme-picker-root]")
+    .forEach((root) => observer.observe(root));
 </script>
 ```
 

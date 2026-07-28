@@ -8,10 +8,11 @@ follows the file shape in [index.md § Conventions](./index.md#conventions).
 
 ## Helpers currently in the catalog
 
-- [`lily-design-system-vue-theme-chooser`](./lily-design-system-vue-theme-chooser/) — dynamic theme CSS loader.
-- [`lily-design-system-vue-locale-chooser`](./lily-design-system-vue-locale-chooser/) — `lang` + `dir` locale chooser.
-- [`lily-design-system-vue-text-size-chooser`](./lily-design-system-vue-text-size-chooser/) — `data-text-size` text-size chooser.
-- [`lily-design-system-vue-share-chooser`](./lily-design-system-vue-share-chooser/) — native share sheet / destination disclosure + copy URL.
+- [`lily-design-system-vue-theme-picker`](./lily-design-system-vue-theme-picker/) — dynamic theme CSS loader.
+- [`lily-design-system-vue-locale-picker`](./lily-design-system-vue-locale-picker/) — `lang` + `dir` locale picker.
+- [`lily-design-system-vue-text-size-picker`](./lily-design-system-vue-text-size-picker/) — `data-text-size` text-size picker.
+- [`lily-design-system-vue-share-picker`](./lily-design-system-vue-share-picker/) — native share sheet / destination disclosure + copy URL.
+- [`lily-design-system-vue-date-time-picker`](./lily-design-system-vue-date-time-picker/) — date / time / datetime form control with an APG date-picker dialog.
 
 ## Working rules
 

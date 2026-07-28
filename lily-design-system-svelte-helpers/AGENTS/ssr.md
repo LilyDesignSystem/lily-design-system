@@ -83,8 +83,8 @@ export const load: LayoutServerLoad = ({ locals }) => ({
 
 ```svelte
 <script lang="ts">
-    import { ThemeChooser } from "lily-design-system-svelte-theme-picker";
-    import { LocaleChooser } from "lily-design-system-svelte-locale-picker";
+    import { ThemePicker } from "lily-design-system-svelte-theme-picker";
+    import { LocalePicker } from "lily-design-system-svelte-locale-picker";
 
     let { data, children } = $props();
     let theme = $state(data.theme);
@@ -99,7 +99,7 @@ export const load: LayoutServerLoad = ({ locals }) => ({
     }
 </script>
 
-<ThemeChooser
+<ThemePicker
     label="Theme"
     themesUrl="/assets/themes/"
     themes={["light", "dark", "abyss"]}
@@ -107,7 +107,7 @@ export const load: LayoutServerLoad = ({ locals }) => ({
     onChange={persistTheme}
 />
 
-<LocaleChooser
+<LocalePicker
     label="Language"
     locales={["en", "fr", "ar"]}
     bind:value={locale}
@@ -149,9 +149,9 @@ preference store.
 
 ```ts
 import { render } from "svelte/server";
-import ThemeChooser from "./ThemeChooser.svelte";
+import ThemePicker from "./ThemePicker.svelte";
 
-const { html } = render(ThemeChooser, {
+const { html } = render(ThemePicker, {
   props: {
     label: "Theme",
     themesUrl: "/themes/",
@@ -179,7 +179,7 @@ const theme = Astro.cookies.get("theme")?.value ?? "light";
         <link rel="stylesheet" href={`/assets/themes/${theme}.css`} />
     </head>
     <body>
-        <ThemeChooser
+        <ThemePicker
             client:load
             label="Theme"
             themesUrl="/assets/themes/"

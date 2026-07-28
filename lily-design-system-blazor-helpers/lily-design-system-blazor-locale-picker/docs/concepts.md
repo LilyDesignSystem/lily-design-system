@@ -1,6 +1,6 @@
 # Concepts
 
-How `LocaleChooser` thinks about locale, where it sits in your
+How `LocalePicker` thinks about locale, where it sits in your
 stack, and what it deliberately leaves to you.
 
 ## Three orthogonal concerns
@@ -9,8 +9,8 @@ A web app changes language across three independent axes:
 
 | Axis                       | What changes                                               | Owner                                  |
 | -------------------------- | ---------------------------------------------------------- | -------------------------------------- |
-| **Document language**      | The `lang` attribute on `<html>`. Screen readers, search engines, hyphenation, font selection. | `LocaleChooser` (this helper).        |
-| **Writing direction**      | The `dir` attribute on `<html>`. Bidi text, scrollbar position, flexbox/grid mirror. | `LocaleChooser` (auto-detected from the locale; opt out with `ApplyDir="false"`). |
+| **Document language**      | The `lang` attribute on `<html>`. Screen readers, search engines, hyphenation, font selection. | `LocalePicker` (this helper).        |
+| **Writing direction**      | The `dir` attribute on `<html>`. Bidi text, scrollbar position, flexbox/grid mirror. | `LocalePicker` (auto-detected from the locale; opt out with `ApplyDir="false"`). |
 | **Translated strings**     | The actual visible words on the page.                      | Your i18n library (`IStringLocalizer<T>`, ResX, custom `CultureInfo` switching, third-party). |
 
 The helper owns the first two and signals the third via a bindable
@@ -31,9 +31,9 @@ The select:
   `<ul role="listbox">` of `<li role="option">` entries, following
   the WAI-ARIA APG listbox pattern, with a hidden `<input>` for
   form participation.
-- Carries a stable kebab-case class hook (`locale-chooser`,
-  `locale-chooser-button`, `locale-chooser-icon`,
-  `locale-chooser-list`, `locale-chooser-option`) on every element so
+- Carries a stable kebab-case class hook (`locale-picker`,
+  `locale-picker-button`, `locale-picker-icon`,
+  `locale-picker-list`, `locale-picker-option`) on every element so
   your CSS can target it without prefixes or specificity tricks.
 - Ships **no** colour, spacing, typography, font, icon, or
   animation decisions. You supply all of that.
@@ -75,7 +75,7 @@ Three reasons:
    regardless of how many locales you support, where a radio group
    grows linearly and dominates the layout past a handful of
    options.
-2. **Symmetry with `ThemeChooser`**. The sibling helper in this
+2. **Symmetry with `ThemePicker`**. The sibling helper in this
    catalog uses the same shape, so the two compose visually and
    semantically without surprises.
 3. **Real DOM options**. Each `<li role="option">` is an ordinary
@@ -144,7 +144,7 @@ Three layers, mirroring the lifecycle:
    and assert the same DOM observations; assert that `OnChange`
    was invoked.
 
-See [../LocaleChooserTests.cs](../LocaleChooserTests.cs) for the
+See [../LocalePickerTests.cs](../LocalePickerTests.cs) for the
 reference suite that covers every `spec/index.md` §7 acceptance item.
 
 ## Blazor-specific notes
@@ -160,7 +160,7 @@ The select exposes its bindable on `Value`. Always use
 The `<TContext>` parameter is the Blazor pattern for "render-prop"
 or "scoped slot". It gives the consumer:
 
-- A strongly-typed context (`LocaleChooserContext` with `Value`,
+- A strongly-typed context (`LocalePickerContext` with `Value`,
   `Open`, `LabelFor`).
 - A single render-tree node owned by the select.
 - Predictable lifetime — the fragment renders when the select

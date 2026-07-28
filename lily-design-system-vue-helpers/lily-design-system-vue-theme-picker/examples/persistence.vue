@@ -7,11 +7,11 @@
     silently swallowed.
 -->
 <script setup lang="ts">
-import ThemeChooser from "../ThemeChooser.vue";
+import ThemePicker from "../ThemePicker.vue";
 </script>
 
 <template>
-    <ThemeChooser
+    <ThemePicker
         label="Theme"
         themes-url="/assets/themes/"
         :themes="['light', 'dark', 'abyss']"

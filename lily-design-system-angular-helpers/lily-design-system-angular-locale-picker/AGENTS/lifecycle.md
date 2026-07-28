@@ -1,4 +1,4 @@
-# Lifecycle — LocaleChooser (Angular)
+# Lifecycle — LocalePicker (Angular)
 
 The Angular-flavoured walk-through of the select's lifecycle. The
 canonical contract is in [`../spec/index.md`](../spec/index.md) §5; this file
@@ -217,7 +217,7 @@ During server rendering, the `effect()` callback may run but the
 `typeof document` guard prevents DOM mutation. The template renders
 the button and the closed (`hidden`) listbox; `lang` and `dir`
 attributes are not written to `<html>` server-side. Per-instance ids
-come from the `nextLocaleChooserId()` module counter rather than
+come from the `nextLocalePickerId()` module counter rather than
 `Math.random()` / `Date.now()`, so the server and client agree on
 `aria-controls`, the list `id`, and every option `id`.
 

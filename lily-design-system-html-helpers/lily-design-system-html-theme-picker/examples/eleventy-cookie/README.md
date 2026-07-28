@@ -26,15 +26,15 @@ Required setup in your project:
 1. Have theme CSS files at `public/assets/themes/<slug>.css` (or
    wherever Eleventy serves static assets — typically `passthrough`
    copy from `assets/themes/`).
-2. Build a copy of the theme-chooser module at `/dist/theme-chooser.js`.
+2. Build a copy of the theme-picker module at `/dist/theme-picker.js`.
 
 ## Flow
 
 ```
 build:  Eleventy reads _data/theme.js → renders layout with theme.defaultTheme
         page.html arrives with <html data-theme="light"> and matching <link>
-        <theme-chooser value="light"> rendered with the resolved attribute
-visit:  browser parses HTML, applies <link>, loads /dist/theme-chooser.js
+        <theme-picker value="light"> rendered with the resolved attribute
+visit:  browser parses HTML, applies <link>, loads /dist/theme-picker.js
         select upgrades, reads localStorage["lily-theme"]
           - if stored = "light": no change, no flash
           - if stored = "dark":  one frame of light, then dark

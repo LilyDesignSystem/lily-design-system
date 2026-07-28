@@ -1,4 +1,4 @@
-# API — LocaleChooser (Svelte)
+# API — LocalePicker (Svelte)
 
 Authoritative API surface lives in [`../spec/index.md`](../spec/index.md) §4.
 This file documents the Svelte 5-flavoured shape of the contract.
@@ -10,7 +10,7 @@ The barrel (`index.ts`) re-exports:
 ```ts
 export {
   default,
-  default as LocaleChooser,
+  default as LocalePicker,
   bcp47LocaleTag,
   isRtlLocale,
   localeName,
@@ -18,14 +18,14 @@ export {
   defaultLocaleLabels,
   RTL_LANGUAGE_TAGS,
   RTL_SCRIPT_SUBTAGS,
-} from "./LocaleChooser.svelte";
-export type { Props, ChildArgs } from "./LocaleChooser.svelte";
+} from "./LocalePicker.svelte";
+export type { Props, ChildArgs } from "./LocalePicker.svelte";
 ```
 
 A consumer can import either the component or the pure helpers:
 
 ```ts
-import LocaleChooser, {
+import LocalePicker, {
   bcp47LocaleTag,
   isRtlLocale,
   matchNavigatorLanguage,
@@ -112,23 +112,23 @@ the locale programmatically, write to the bindable `value`.
 Consumers consume it via a `{#snippet}` block:
 
 ```svelte
-<LocaleChooser
+<LocalePicker
     label="Language"
     locales={["en", "fr", "ar"]}
     localeLabels={{ en: "English", fr: "Français", ar: "العربية" }}
 >
     {#snippet children({ value, open, labelFor })}
         <span aria-hidden="true">🌐︎</span>
-        <span class="locale-chooser-text" lang={bcp47LocaleTag(value)}>
+        <span class="locale-picker-text" lang={bcp47LocaleTag(value)}>
             {labelFor(value)}
         </span>
         <span aria-hidden="true">{open ? "▴" : "▾"}</span>
     {/snippet}
-</LocaleChooser>
+</LocalePicker>
 ```
 
 When no snippet is supplied, the button renders
-`<span class="locale-chooser-icon" aria-hidden="true">🌐︎</span>`. When
+`<span class="locale-picker-icon" aria-hidden="true">🌐︎</span>`. When
 one is supplied, that span is not emitted.
 
 The snippet's output lives inside a `<button>`, so it must not contain
@@ -146,7 +146,7 @@ export function matchNavigatorLanguage(
   navLangs: readonly string[],
   locales: readonly string[],
 ): string | "";
-export function nextLocaleChooserId(): string;
+export function nextLocalePickerId(): string;
 // + the constants:
 export const GLOBE_WITH_MERIDIANS: string; // "\u{1F310}︎"
 export const defaultLocaleLabels: Record<string, string>;
@@ -154,17 +154,17 @@ export const RTL_LANGUAGE_TAGS: ReadonlySet<string>;
 export const RTL_SCRIPT_SUBTAGS: ReadonlySet<string>;
 ```
 
-`GLOBE_WITH_MERIDIANS` and `nextLocaleChooserId` are **not** in the
-`index.ts` barrel; import them from `../LocaleChooser.svelte` directly.
+`GLOBE_WITH_MERIDIANS` and `nextLocalePickerId` are **not** in the
+`index.ts` barrel; import them from `../LocalePicker.svelte` directly.
 
-`nextLocaleChooserId()` increments a module counter to produce stable,
+`nextLocalePickerId()` increments a module counter to produce stable,
 unique, SSR-safe id prefixes. Never replace it with `Math.random()` or
 `Date.now()`.
 
 `GLOBE_WITH_MERIDIANS` is U+1F310 **plus U+FE0E VARIATION
 SELECTOR-15**. VS15 forces text presentation; without it browsers pick
 the colour-emoji font and the globe renders blue, mismatching
-`theme-chooser`'s monochrome `◑`. Do not drop it. Note it is three code
+`theme-picker`'s monochrome `◑`. Do not drop it. Note it is three code
 units (a surrogate pair plus the selector), so anything measuring or
 truncating it by `.length` will get it wrong.
 
@@ -185,21 +185,21 @@ without instantiating the select.
 ## DOM contract
 
 ```html
-<div class="locale-chooser {class}" ...restProps>
+<div class="locale-picker {class}" ...restProps>
   <input type="hidden" name="{name}" value="{value}" />
   <button
     type="button"
-    class="locale-chooser-button"
+    class="locale-picker-button"
     aria-label="{label}"
     aria-haspopup="listbox"
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="locale-chooser-icon" aria-hidden="true">🌐︎</span>
+    <span class="locale-picker-icon" aria-hidden="true">🌐︎</span>
     <!-- or the children snippet output -->
   </button>
   <ul
-    class="locale-chooser-list"
+    class="locale-picker-list"
     id="{listId}"
     role="listbox"
     aria-label="{label}"
@@ -208,7 +208,7 @@ without instantiating the select.
     aria-activedescendant="{active optionId while open}"
   >
     <li
-      class="locale-chooser-option"
+      class="locale-picker-option"
       id="{optionId}"
       role="option"
       aria-selected="true|false"

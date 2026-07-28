@@ -11,7 +11,7 @@ and the project follows
 
 ### Changed (BREAKING)
 
-- **All four helpers renamed to `*-chooser`**, each reset to `0.1.0`:
+- **All four helpers renamed to `*-picker`**, each reset to `0.1.0`:
 
   | Was                                          | Now                                          |
   | -------------------------------------------- | -------------------------------------------- |
@@ -21,13 +21,13 @@ and the project follows
   | `lily-design-system-svelte-share-button`     | `lily-design-system-svelte-share-picker`     |
 
   A full-depth rename: directories, component and test file names,
-  package names, exported symbols (`ThemeChooser`, `nextThemeChooserId`,
+  package names, exported symbols (`ThemePicker`, `nextThemePickerId`,
   …), CSS class hooks and their derivatives, and the
-  `data-lily-{helper}-chooser` attributes.
+  `data-lily-{helper}-picker` attributes.
 
-  Two motivations. First, `theme-chooser` collided with the catalog
+  Two motivations. First, `theme-picker` collided with the catalog
   component of the same name in `components.tsv`, which shares the hook
-  `.theme-chooser`; the helpers no longer contend for it. Second, none of
+  `.theme-picker`; the helpers no longer contend for it. Second, none of
   these controls is a native `<select>` any more — all four are icon
   buttons opening WAI-ARIA APG listboxes — so "select" had stopped
   describing them.
@@ -36,9 +36,9 @@ and the project follows
   new names; carrying the old numbers forward would imply releases that
   never existed.
 
-- **`share-chooser` loses its class-hook exception.** The trigger was
+- **`share-picker` loses its class-hook exception.** The trigger was
   `share-button-trigger` because `.share-button-button` read badly. Under
-  the new name it is **`share-chooser-button`**, matching the other three
+  the new name it is **`share-picker-button`**, matching the other three
   helpers. The documented exception is removed from its spec, `AGENTS.md`
   and changelog.
 
@@ -55,8 +55,8 @@ and the project follows
 
 ### Changed (BREAKING)
 
-- **`text-size-chooser` is now an icon button + APG listbox**, matching
-  `theme-chooser` and `locale-chooser`. It was the last native `<select>`
+- **`text-size-picker` is now an icon button + APG listbox**, matching
+  `theme-picker` and `locale-picker`. It was the last native `<select>`
   among the helpers. Button glyph is `"A"` (U+0041): the obvious
   candidate U+1F5DB has no real glyph in common font stacks and falls
   back to a crude bitmap shape, and means _decrease_ rather than _size_.
@@ -76,7 +76,7 @@ and the project follows
 
 ### Changed (BREAKING)
 
-- `theme-chooser` and `locale-chooser` bumped to **0.3.0**: both are now
+- `theme-picker` and `locale-picker` bumped to **0.3.0**: both are now
   _placeholder-pinned_. The closed `<select>` always displays a short
   placeholder word ("Theme", "Locale") instead of the active value, so
   the control is only ever as wide as that word rather than as wide as
@@ -90,7 +90,7 @@ and the project follows
   selection. The bindable `value` prop is the single source of truth.
   Behaviour contracts (DOM application, persistence, SSR safety, i18n)
   are otherwise unchanged.
-- `text-size-chooser` is untouched and stays at **0.1.0**.
+- `text-size-picker` is untouched and stays at **0.1.0**.
 
 ### Added
 
@@ -105,7 +105,7 @@ and the project follows
 
 ### Changed (BREAKING)
 
-- `theme-chooser` and `locale-chooser` bumped to **0.2.0**: migrated from
+- `theme-picker` and `locale-picker` bumped to **0.2.0**: migrated from
   the radio-group "picker" rendering to a native `<select>` with
   `<option>` children (landed in-tree 2026-06-17), with renamed packages
   (`*-picker` → `*-select`), changed class hooks, and native `<select>`
@@ -114,7 +114,7 @@ and the project follows
 
 ### Added
 
-- `text-size-chooser` **0.1.0** — native-`<select>` text-size helper that
+- `text-size-picker` **0.1.0** — native-`<select>` text-size helper that
   sets `data-text-size` on the document root, with optional
   `localStorage` persistence (added 2026-06-17; born select-based, so it
   carries no picker migration).

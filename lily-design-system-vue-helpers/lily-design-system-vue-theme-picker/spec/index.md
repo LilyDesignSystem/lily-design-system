@@ -1,6 +1,6 @@
-# ThemeChooser — Specification
+# ThemePicker — Specification
 
-Single source of truth for the `lily-design-system-vue-theme-chooser`
+Single source of truth for the `lily-design-system-vue-theme-picker`
 Vue 3 helper. This file drives implementation, testing, and
 documentation in the spec-driven-development style: anything not in
 this spec is out of scope; anything in this spec must be exercised by
@@ -8,19 +8,19 @@ a test.
 
 Sibling files in this directory:
 
-- `ThemeChooser.vue` — the implementation
-- `ThemeChooser.test.ts` — vitest spec exercising every clause in §4–§7
+- `ThemePicker.vue` — the implementation
+- `ThemePicker.test.ts` — vitest spec exercising every clause in §4–§7
 - `index.ts` — re-export barrel
 - `index.md` — user-facing readme
 
 The canonical reference for this helper is the Svelte sibling at
-`../../lily-design-system-svelte-helpers/lily-design-system-svelte-theme-chooser/`.
+`../../lily-design-system-svelte-helpers/lily-design-system-svelte-theme-picker/`.
 This Vue port mirrors the contract and behaviour, swapping in Vue 3
 idioms (Composition API, `defineProps`, `defineModel`, `ref`, `watch`,
 `onMounted`, slots).
 
 The companion headless catalog entry
-(`lily-design-system-vue-headless/components/ThemeChooser/`) is a pure
+(`lily-design-system-vue-headless/components/ThemePicker/`) is a pure
 container — a native `<select>` + slot. This helper is the
 opinionated, reusable counterpart that owns the dynamic loading
 lifecycle.
@@ -38,7 +38,7 @@ lifecycle.
 
 ## 1. Goal
 
-Give a Vue 3 application a drop-in, headless theme chooser that:
+Give a Vue 3 application a drop-in, headless theme picker that:
 
 1. Renders an accessible icon button that opens a listbox of available
    themes.
@@ -50,7 +50,7 @@ Give a Vue 3 application a drop-in, headless theme chooser that:
 4. Optionally persists the chosen theme to `localStorage` so the
    choice survives reload.
 5. Ships zero CSS — the consumer styles every visual aspect via the
-   `theme-chooser` class hook.
+   `theme-picker` class hook.
 
 ## 2. Non-goals
 
@@ -71,15 +71,15 @@ Give a Vue 3 application a drop-in, headless theme chooser that:
 
 - **One `<link>` per select name.** Switching themes mutates `href`
   on a single `<link rel="stylesheet"
-  data-lily-theme-chooser="{name}">`. Only the active theme is
+data-lily-theme-picker="{name}">`. Only the active theme is
   fetched; previously-active CSS is unloaded when the href changes.
-  Multiple choosers can coexist by passing distinct `name` props.
+  Multiple pickers can coexist by passing distinct `name` props.
 - **`data-theme` attribute is the activation switch.** Theme CSS
   files scope their `:root[data-theme="slug"]` rules so authors can
   preload multiple themes (one `<link>` per theme) and switch with
   only the attribute change.
 - **TypeScript everywhere.** Public surface is fully typed via a
-  `Props` type exported from `ThemeChooser.vue` and re-exported from
+  `Props` type exported from `ThemePicker.vue` and re-exported from
   `index.ts`.
 - **SSR-safe.** All DOM mutations happen inside `onMounted` /
   `watch`, which only run in the browser. The component renders
@@ -95,27 +95,27 @@ Give a Vue 3 application a drop-in, headless theme chooser that:
 
 ### 4.1 Props
 
-| Prop            | Type                                      | Required | Default                  | Purpose |
-| --------------- | ----------------------------------------- | -------- | ------------------------ | ------- |
-| `label`         | `string`                                  | yes      | —                        | Accessible name for **both** the button and the listbox. The button is icon-only, so this is its only name. |
-| `themesUrl`     | `string`                                  | yes      | —                        | Base URL of the themes directory. Trailing `/` is auto-normalised. |
-| `themes`        | `string[]`                                | yes      | —                        | Available theme slugs. |
-| `value`         | `string` (`v-model:value`)                | no       | `""`                     | Currently selected theme slug. |
-| `defaultValue`  | `string`                                  | no       | `"light"` if present in `themes`, else first item | Initial theme. |
-| `storageKey`    | `string`                                  | no       | `undefined`              | If set, persist the selection to `localStorage` under this key. |
-| `detectFromSystem` | `boolean`                              | no       | `false`                  | Resolve `prefers-color-scheme` to a supported theme on first visit. Mirrors `detectFromNavigator` on locale-chooser. |
-| `name`          | `string`                                  | no       | `"theme"`                | `name` of the hidden input that carries the value in a form. **Also** discriminates the managed `<link data-lily-theme-chooser="{name}">`. |
-| `extension`     | `string`                                  | no       | `".css"`                 | File extension appended to each slug when constructing the URL. |
-| `target`        | `HTMLElement \| null`                     | no       | `document.documentElement` | Element that receives `data-theme`. |
-| `themeLabels`   | `Record<string, string>`                  | no       | `{}`                     | Optional pretty labels per slug. |
-| `class`         | `string`                                  | no       | `""`                     | Extra CSS class on the root `<div>`. |
+| Prop               | Type                       | Required | Default                                           | Purpose                                                                                                                                   |
+| ------------------ | -------------------------- | -------- | ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `label`            | `string`                   | yes      | —                                                 | Accessible name for **both** the button and the listbox. The button is icon-only, so this is its only name.                               |
+| `themesUrl`        | `string`                   | yes      | —                                                 | Base URL of the themes directory. Trailing `/` is auto-normalised.                                                                        |
+| `themes`           | `string[]`                 | yes      | —                                                 | Available theme slugs.                                                                                                                    |
+| `value`            | `string` (`v-model:value`) | no       | `""`                                              | Currently selected theme slug.                                                                                                            |
+| `defaultValue`     | `string`                   | no       | `"light"` if present in `themes`, else first item | Initial theme.                                                                                                                            |
+| `storageKey`       | `string`                   | no       | `undefined`                                       | If set, persist the selection to `localStorage` under this key.                                                                           |
+| `detectFromSystem` | `boolean`                  | no       | `false`                                           | Resolve `prefers-color-scheme` to a supported theme on first visit. Mirrors `detectFromNavigator` on locale-picker.                      |
+| `name`             | `string`                   | no       | `"theme"`                                         | `name` of the hidden input that carries the value in a form. **Also** discriminates the managed `<link data-lily-theme-picker="{name}">`. |
+| `extension`        | `string`                   | no       | `".css"`                                          | File extension appended to each slug when constructing the URL.                                                                           |
+| `target`           | `HTMLElement \| null`      | no       | `document.documentElement`                        | Element that receives `data-theme`.                                                                                                       |
+| `themeLabels`      | `Record<string, string>`   | no       | `{}`                                              | Optional pretty labels per slug.                                                                                                          |
+| `class`            | `string`                   | no       | `""`                                              | Extra CSS class on the root `<div>`.                                                                                                      |
 
 ### 4.2 Events
 
-| Event           | Payload          | Purpose                                                |
-| --------------- | ---------------- | ------------------------------------------------------ |
-| `update:value`  | `string`         | Emitted on selection (drives `v-model:value`).         |
-| `change`        | `string`         | Emitted after the chooser applies a new theme.          |
+| Event          | Payload  | Purpose                                        |
+| -------------- | -------- | ---------------------------------------------- |
+| `update:value` | `string` | Emitted on selection (drives `v-model:value`). |
+| `change`       | `string` | Emitted after the picker applies a new theme. |
 
 ### 4.3 Slots
 
@@ -146,23 +146,41 @@ name.
 ### 4.4 DOM contract
 
 ```html
-<div class="theme-chooser {class}" ...$attrs>
+<div class="theme-picker {class}" ...$attrs>
   <input type="hidden" name="{name}" value="{value}" />
-  <button type="button" class="theme-chooser-button"
-          aria-label="{label}" aria-haspopup="listbox"
-          aria-expanded="false" aria-controls="{listId}">
-    <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
+  <button
+    type="button"
+    class="theme-picker-button"
+    aria-label="{label}"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="{listId}"
+  >
+    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
   </button>
-  <ul class="theme-chooser-list" id="{listId}" role="listbox"
-      aria-label="{label}" tabindex="-1" hidden
-      aria-activedescendant="{optionId of active, only while open}">
-    <li class="theme-chooser-option" id="{optionId}" role="option"
-        aria-selected="true|false" data-active>{labelFor(slug)}</li>
+  <ul
+    class="theme-picker-list"
+    id="{listId}"
+    role="listbox"
+    aria-label="{label}"
+    tabindex="-1"
+    hidden
+    aria-activedescendant="{optionId of active, only while open}"
+  >
+    <li
+      class="theme-picker-option"
+      id="{optionId}"
+      role="option"
+      aria-selected="true|false"
+      data-active
+    >
+      {labelFor(slug)}
+    </li>
   </ul>
 </div>
 ```
 
-- Root element: a `<div class="theme-chooser {class}">`. `$attrs`
+- Root element: a `<div class="theme-picker {class}">`. `$attrs`
   falls through to it via the default Vue `inheritAttrs` behaviour.
 - The button is icon-only. The glyph is `◑` (U+25D1 CIRCLE WITH RIGHT
   HALF BLACK, `&#9681;`), exported as
@@ -174,19 +192,19 @@ name.
 - The listbox carries `hidden` while closed, `tabindex="-1"` so it can
   receive focus on open, and `aria-activedescendant` **only while
   open** — it is removed on close.
-- One `<li class="theme-chooser-option" role="option">` per slug, with
+- One `<li class="theme-picker-option" role="option">` per slug, with
   a stable per-instance `id`, `aria-selected` reflecting the active
   slug, and `data-active` on the keyboard-active option.
 - Option ids come from an incrementing module counter
-  (`nextThemeChooserId()`), so they are stable and SSR-safe — never
+  (`nextThemePickerId()`), so they are stable and SSR-safe — never
   `Math.random()` or `Date.now()`.
 - The selection lives in `value` / `v-model:value`, in the hidden
   input, and in `data-theme` on the target.
 - `labelFor(slug)` returns `themeLabels[slug]` when supplied;
-  otherwise the slug with its first character upper-cased. The chooser
+  otherwise the slug with its first character upper-cased. The picker
   never emits the word "default".
 - A single managed `<link rel="stylesheet"
-  data-lily-theme-chooser="{name}">` in `document.head`. Created on
+data-lily-theme-picker="{name}">` in `document.head`. Created on
   first apply, reused thereafter.
 - `data-theme="{slug}"` is set on the `target` element on every apply.
 
@@ -195,10 +213,10 @@ name.
 `index.ts` exports:
 
 - `default` (the component)
-- `ThemeChooser` (named alias of the default export)
+- `ThemePicker` (named alias of the default export)
 - `normaliseThemesUrl`, `themeHref`, `themeName`, `matchSystemTheme`
   (pure helpers)
-- `nextThemeChooserId` (per-instance id generator)
+- `nextThemePickerId` (per-instance id generator)
 - `CIRCLE_WITH_RIGHT_HALF_BLACK` (the default button glyph)
 - `type Props`, `type SlotArgs`, `type ChildArgs`
 
@@ -228,7 +246,7 @@ non-empty value of:
 7. `""` (no apply happens — select waits for user interaction).
 
 Step 3 occupies the same position navigator detection occupies in
-locale-chooser, so the two helpers resolve symmetrically:
+locale-picker, so the two helpers resolve symmetrically:
 
 ```
 value > storage > DETECTION > defaultValue > "light" / "en" > first
@@ -242,7 +260,7 @@ Resolution emits `update:value` so consumers binding via
 Applying a theme `slug` performs, in order:
 
 1. Locate or create the managed `<link>` (matched by
-   `data-lily-theme-chooser="{name}"`).
+   `data-lily-theme-picker="{name}"`).
 2. Set `link.href = normalise(themesUrl) + slug + extension`.
 3. Set `data-theme="{slug}"` on the resolved target element. If
    `target` is `null` or `undefined`, use `document.documentElement`.
@@ -286,24 +304,24 @@ on commit or cancel.
 
 On the **button**:
 
-| Key                  | Action                                                        |
-| -------------------- | ------------------------------------------------------------- |
-| `ArrowDown`          | Open, active option = the selected one (or index 0).          |
-| `Enter` / `Space`    | Open, active option = the selected one (or index 0).          |
-| `ArrowUp`            | Open, active option = the **last** option.                    |
-| `Tab` / `Shift+Tab`  | Move focus away (native).                                     |
+| Key                 | Action                                               |
+| ------------------- | ---------------------------------------------------- |
+| `ArrowDown`         | Open, active option = the selected one (or index 0). |
+| `Enter` / `Space`   | Open, active option = the selected one (or index 0). |
+| `ArrowUp`           | Open, active option = the **last** option.           |
+| `Tab` / `Shift+Tab` | Move focus away (native).                            |
 
 On the **listbox**:
 
-| Key                  | Action                                                        |
-| -------------------- | ------------------------------------------------------------- |
-| `ArrowDown`          | Move the active option down one. **Clamps** — no wrapping.    |
-| `ArrowUp`            | Move the active option up one. **Clamps** — no wrapping.      |
-| `Home` / `End`       | Jump to the first / last option.                              |
-| `Enter` / `Space`    | Select the active option, apply it, close, refocus the button.|
-| `Escape`             | Close and refocus the button **without** changing the value.  |
-| `Tab`                | Close without stealing focus back.                            |
-| Printable characters | Typeahead over the option **labels**, 500 ms buffer reset.    |
+| Key                  | Action                                                         |
+| -------------------- | -------------------------------------------------------------- |
+| `ArrowDown`          | Move the active option down one. **Clamps** — no wrapping.     |
+| `ArrowUp`            | Move the active option up one. **Clamps** — no wrapping.       |
+| `Home` / `End`       | Jump to the first / last option.                               |
+| `Enter` / `Space`    | Select the active option, apply it, close, refocus the button. |
+| `Escape`             | Close and refocus the button **without** changing the value.   |
+| `Tab`                | Close without stealing focus back.                             |
+| Printable characters | Typeahead over the option **labels**, 500 ms buffer reset.     |
 
 Pointer and focus behaviour: clicking an option selects it; clicking
 outside the root closes the listbox; focus leaving the root closes it.
@@ -316,18 +334,18 @@ outside the root closes the listbox; focus leaving the root closes it.
 
 ## 7. Testing acceptance criteria
 
-`ThemeChooser.test.ts` must assert every numbered item below. Tests
+`ThemePicker.test.ts` must assert every numbered item below. Tests
 run under vitest + jsdom + `@vue/test-utils`.
 
 1. Renders a `<button type="button">` with `aria-haspopup="listbox"`,
    `aria-expanded="false"`, and an `aria-controls` pointing at an
    element with `role="listbox"`. The root is a `<div>` carrying the
-   `theme-chooser` class hook plus the consumer's `class`. The button
+   `theme-picker` class hook plus the consumer's `class`. The button
    renders `◑` (U+25D1) inside
-   `<span class="theme-chooser-icon" aria-hidden="true">`.
+   `<span class="theme-picker-icon" aria-hidden="true">`.
 2. `aria-label` is the supplied `label` on **both** the button and the
    listbox.
-3. Renders one `<li class="theme-chooser-option">` per entry in
+3. Renders one `<li class="theme-picker-option">` per entry in
    `themes`, and a hidden input carrying the supplied `name` and the
    resolved value.
 4. The listbox carries `hidden` until the button is activated; then
@@ -340,7 +358,7 @@ run under vitest + jsdom + `@vue/test-utils`.
    otherwise `themes[0]`. It is written to
    `document.documentElement.dataset.theme`.
 7. After mount, a `<link rel="stylesheet"
-   data-lily-theme-chooser="{name}">` exists in `document.head` and
+data-lily-theme-picker="{name}">` exists in `document.head` and
    its `href` equals
    `${normalise(themesUrl)}${initial}${extension}`.
 8. Clicking a different option updates the link `href`,
@@ -353,12 +371,12 @@ run under vitest + jsdom + `@vue/test-utils`.
     value.
 11. When `themesUrl` does not end with `/`, the constructed URL still
     has exactly one `/` between the directory and the slug. The
-    managed `<link>` is discriminated by `name`, so two choosers with
+    managed `<link>` is discriminated by `name`, so two pickers with
     different names never share a `<link>`.
 12. Extra attributes spread through onto the root `<div>` (e.g.
     `data-testid`).
 13. A custom default slot replaces the button glyph — the
-    `.theme-chooser-icon` span is absent — and receives the `SlotArgs`
+    `.theme-picker-icon` span is absent — and receives the `SlotArgs`
     contract (`value`, `open`, `labelFor`). Its `open` flag tracks the
     listbox state.
 14. `ArrowDown`, `Enter` and `Space` on the button all open the
@@ -389,7 +407,7 @@ run under vitest + jsdom + `@vue/test-utils`.
 ## 8. Out-of-scope (future, not implemented here)
 
 - A complementary `ThemeView` helper that displays the active theme.
-- *Tracking* `prefers-color-scheme` changes after first paint. The
+- _Tracking_ `prefers-color-scheme` changes after first paint. The
   `detectFromSystem` prop resolves the initial value only; consumers
   who want live tracking add a `matchMedia` `change` listener and
   write to the bound ref (see `examples/system-preference.vue`).
@@ -400,7 +418,7 @@ run under vitest + jsdom + `@vue/test-utils`.
 ## 9. Tracking
 
 - Package directory:
-  `lily-design-system-vue-helpers/lily-design-system-vue-theme-chooser/`
+  `lily-design-system-vue-helpers/lily-design-system-vue-theme-picker/`
 - Spec version: 0.3.0
 - Created: 2026-06-05
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause

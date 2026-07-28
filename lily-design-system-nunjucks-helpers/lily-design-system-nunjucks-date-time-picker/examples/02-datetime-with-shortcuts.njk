@@ -1,0 +1,70 @@
+{# A richer example: "datetime" mode (grid + time selects), shortcut
+   buttons, a disabled-dates list (the isDateDisabled substitute -- see
+   ../spec/index.md §3.4.1), week numbers, and the client-side callbacks
+   / real predicate that only initDateTimePicker can supply.
+
+   Shortcuts are plain data, so the macro renders them directly -- no
+   deviation needed there, unlike disabledDates / hour12 / formatValue.
+#}
+{% from "date-time-picker.njk" import dateTimePicker %}
+
+{{ dateTimePicker({
+    label: "Clinic slot",
+    labels: {
+        previousYear: "Previous year",
+        previousMonth: "Previous month",
+        nextMonth: "Next month",
+        nextYear: "Next year",
+        confirm: "Book this slot",
+        cancel: "Cancel",
+        clear: "Clear",
+        hour: "Hour",
+        minute: "Minute",
+        meridiem: "Time of day",
+        week: "Wk"
+    },
+    mode: "datetime",
+    value: booking.slot,
+    name: "clinic-slot",
+    minuteStep: 15,
+    showWeekNumbers: true,
+    confirmOnSelect: false,
+    disabledDates: closedDates,
+    shortcuts: [
+        { id: "next-available", label: "Next available", days: 1 },
+        { id: "in-a-week", label: "In a week", days: 7 },
+        { id: "in-a-month", label: "In a month", months: 1 }
+    ]
+}) }}
+
+<script type="module">
+    import { autoInit } from "/js/date-time-picker.client.js";
+
+    autoInit({
+        locale: document.documentElement.lang || "en-GB",
+
+        // A real predicate, layered on top of (and here, replacing) the
+        // server-rendered `disabledDates` baseline: no weekend slots,
+        // regardless of what closedDates enumerated.
+        isDateDisabled(isoDate) {
+            const day = new Date(`${isoDate}T00:00:00Z`).getUTCDay();
+            return day === 0 || day === 6;
+        },
+
+        onChange(value) {
+            document.querySelector("#slot-summary").textContent = value
+                ? `Booking ${value}`
+                : "No slot chosen";
+        },
+
+        onShortcut(id, isoDate) {
+            console.log("shortcut", id, "moved the pending date to", isoDate);
+        },
+
+        onInvalidInput(text) {
+            console.warn("could not parse", text);
+        },
+    });
+</script>
+
+<p id="slot-summary" aria-live="polite"></p>

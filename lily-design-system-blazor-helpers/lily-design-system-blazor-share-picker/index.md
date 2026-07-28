@@ -1,4 +1,4 @@
-# ShareChooser (Blazor helper)
+# SharePicker (Blazor helper)
 
 A headless Blazor 10 share control: a single-glyph button (➤) that opens
 the **native share sheet** where the browser has one, and otherwise shows
@@ -12,11 +12,11 @@ is the human-readable guide.
 ## Install
 
 Add a project reference to
-`LilyDesignSystem.Blazor.ShareChooser.csproj`, or the published
-`LilyDesignSystem.Blazor.ShareChooser` NuGet package.
+`LilyDesignSystem.Blazor.SharePicker.csproj`, or the published
+`LilyDesignSystem.Blazor.SharePicker` NuGet package.
 
 ```xml
-<ProjectReference Include="path/to/LilyDesignSystem.Blazor.ShareChooser.csproj" />
+<ProjectReference Include="path/to/LilyDesignSystem.Blazor.SharePicker.csproj" />
 ```
 
 ## Quick start
@@ -24,7 +24,7 @@ Add a project reference to
 ```razor
 @using LilyDesignSystem.Blazor.Helpers
 
-<ShareChooser Label="Share this page"
+<SharePicker Label="Share this page"
              Title="An article worth reading"
              Targets="@Targets"
              CopyLabel="Copy link"
@@ -125,23 +125,23 @@ it is a `<button>`.
 so a `@ref` lets you trigger the control from elsewhere:
 
 ```razor
-<ShareChooser @ref="share" Label="Share" Targets="@Targets" />
+<SharePicker @ref="share" Label="Share" Targets="@Targets" />
 <button type="button" @onclick="() => share!.ActivateAsync()">Share</button>
 
 @code {
-    private ShareChooser? share;
+    private SharePicker? share;
 }
 ```
 
 ## Custom glyph
 
 `ChildContent` replaces the glyph inside the button and receives a
-`ShareChooserContext` of `{ Open, Url }`:
+`SharePickerContext` of `{ Open, Url }`:
 
 ```razor
-<ShareChooser Label="Share" Targets="@Targets">
+<SharePicker Label="Share" Targets="@Targets">
     <span class="my-icon" aria-hidden="true">@(context.Open ? "▲" : "➤")</span>
-</ShareChooser>
+</SharePicker>
 ```
 
 It replaces the glyph only — it does not render list items.
@@ -155,10 +155,10 @@ Required: `Label`. Everything else is optional.
 
 | Member | Purpose |
 | ------ | ------- |
-| `ShareChooser.BlackRightwardsArrowhead` | The default glyph, `"➤"` (U+27A4). |
-| `ShareChooser.NextShareChooserId()` | Mint a stable, prerender-safe id prefix. |
-| `ShareChooser.CanShareNativelyAsync(js)` | Does this browser have a share sheet? |
-| `ShareChooser.CanCopyAsync(js)` | Does this browser have an async clipboard? |
+| `SharePicker.BlackRightwardsArrowhead` | The default glyph, `"➤"` (U+27A4). |
+| `SharePicker.NextSharePickerId()` | Mint a stable, prerender-safe id prefix. |
+| `SharePicker.CanShareNativelyAsync(js)` | Does this browser have a share sheet? |
+| `SharePicker.CanCopyAsync(js)` | Does this browser have an async clipboard? |
 
 Both probes are async — the browser is only reachable over JS interop —
 and both return `false` during prerender rather than throwing.
@@ -175,9 +175,9 @@ and both return `false` during prerender rather than throwing.
 
 ## Styling
 
-Class hooks: `.share-chooser` (root), `.share-chooser-button`,
-`.share-chooser-icon`, `.share-chooser-list`, `.share-chooser-list-item`,
-`.share-chooser-target`, `.share-chooser-copy`, `.share-chooser-status`.
+Class hooks: `.share-picker` (root), `.share-picker-button`,
+`.share-picker-icon`, `.share-picker-list`, `.share-picker-list-item`,
+`.share-picker-target`, `.share-picker-copy`, `.share-picker-status`.
 
 The package ships no CSS. The root [`themes/`](../../themes/)
 stylesheets style the button and popup, including the optical glyph

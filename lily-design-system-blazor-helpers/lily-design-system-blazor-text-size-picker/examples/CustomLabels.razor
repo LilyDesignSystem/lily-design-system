@@ -2,7 +2,7 @@
     Example 3 — Custom labels for i18n / display names.
 
     By default the control title-cases each slug via
-    TextSizeChooser.SizeName ("x-large" -> "X Large"). SizeLabels
+    TextSizePicker.SizeName ("x-large" -> "X Large"). SizeLabels
     overrides that per slug, which is how you localise the option text.
 
     The component ships no natural-language strings of its own, so every
@@ -17,17 +17,17 @@
     language; an empty one leaves it announced as just "button".
 *@
 
-@page "/examples/text-size-chooser/custom-labels"
+@page "/examples/text-size-picker/custom-labels"
 @rendermode InteractiveServer
 @using LilyDesignSystem.Blazor.Helpers
 
-<TextSizeChooser
+<TextSizePicker
     Label="Taille du texte"
     Sizes="@Sizes"
     SizeLabels="@SizeLabels"
     @bind-Value="size" />
 
-<p class="text-size-chooser-status" aria-live="polite">
+<p class="text-size-picker-status" aria-live="polite">
     Taille du texte : @SizeLabel(size)
 </p>
 
@@ -50,5 +50,5 @@
     private static string SizeLabel(string slug) =>
         string.IsNullOrEmpty(slug) ? "aucune"
             : SizeLabels.TryGetValue(slug, out var pretty) ? pretty
-            : TextSizeChooser.SizeName(slug);
+            : TextSizePicker.SizeName(slug);
 }

@@ -4,7 +4,7 @@ Symptoms, root causes, and fixes for the most common problems.
 
 ## "Clicking the button does nothing"
 
-**Likely cause.** `theme-chooser.client.js` has not run. The control
+**Likely cause.** `theme-picker.client.js` has not run. The control
 is an icon button plus a listbox, and every interactive behaviour —
 open, close, focus movement, arrow keys, typeahead, selection — is
 implemented in that module. The server-rendered markup is inert.
@@ -14,7 +14,7 @@ macro used to render; there is no fallback to fall back to.
 **Fixes.**
 
 - Confirm a `<script type="module">` on the page imports the client
-  and calls `autoInit()` (or `initThemeChooser(root)`).
+  and calls `autoInit()` (or `initThemePicker(root)`).
 - Check the Console for a module-resolution error and the Network
   panel for a 404 on the client.js path.
 - Check the CSP `script-src` directive allows the module's origin.
@@ -38,7 +38,7 @@ check that no consumer script or CSS is moving focus away on open.
 ## "Two controls on the page interfere with each other"
 
 **Likely cause.** They share a `name`, so they also share the
-default id prefix `theme-chooser-{name}` — which means duplicate
+default id prefix `theme-picker-{name}` — which means duplicate
 listbox and option ids, and `aria-controls` /
 `aria-activedescendant` resolving to whichever element the browser
 finds first.
@@ -85,7 +85,7 @@ to a real file. Check that:
 ## "Flash of unstyled theme on first paint"
 
 **Likely cause.** The macro rendered with no `opts.value`, so the
-root carries no `data-lily-theme-chooser-value` at first paint.
+root carries no `data-lily-theme-picker-value` at first paint.
 The client.js reads
 `localStorage["my-app:theme"]` and applies the stored theme on
 hydration; users see a frame of default-styled content first.
@@ -169,14 +169,12 @@ have the others apply their themes to a wrapping element.
 
 ```html
 <script type="module">
-    import { initThemeChooser } from "/path/to/theme-chooser.client.js";
-    document
-        .querySelectorAll("[data-lily-theme-chooser-root]")
-        .forEach((root) => {
-            const targetId = root.dataset.regionTarget;
-            const target = targetId ? document.getElementById(targetId) : null;
-            initThemeChooser(root, { target });
-        });
+  import { initThemePicker } from "/path/to/theme-picker.client.js";
+  document.querySelectorAll("[data-lily-theme-picker-root]").forEach((root) => {
+    const targetId = root.dataset.regionTarget;
+    const target = targetId ? document.getElementById(targetId) : null;
+    initThemePicker(root, { target });
+  });
 </script>
 ```
 
@@ -190,12 +188,12 @@ idempotent. If you observe re-fetches:
 - Confirm the consumer isn't manually removing the managed `<link>`
   before the next apply.
 - Check the cache headers on the theme CSS files; a `Cache-Control:
-  no-store` response forces a refetch every time.
+no-store` response forces a refetch every time.
 
 ## "autoInit() doesn't find my select"
 
 **Likely cause.** The macro hasn't rendered the
-`data-lily-theme-chooser-root` attribute, or the client.js runs
+`data-lily-theme-picker-root` attribute, or the client.js runs
 before the select is in the DOM.
 
 **Fixes.**
@@ -204,7 +202,7 @@ before the select is in the DOM.
   `<script type="module">` runs deferred by default, so this is
   usually correct.
 - If you mount the select dynamically (after page load), call
-  `initThemeChooser(root)` on the new root directly instead of
+  `initThemePicker(root)` on the new root directly instead of
   relying on `autoInit()`.
 
 ## "Theme switch works locally but not in production"
@@ -228,7 +226,7 @@ not `localStorage`. Either run only in a browser context, or
 override `Storage.prototype.getItem` for the duration of the test
 environment. See the test file for the safe-storage pattern.
 
-## "Eleventy build fails: `themeChooser is not a function`"
+## "Eleventy build fails: `themePicker is not a function`"
 
 **Likely cause.** The macro file path in the `{% from %}`
 statement is wrong, or the macro file uses an old syntax.
@@ -236,8 +234,8 @@ statement is wrong, or the macro file uses an old syntax.
 **Fixes.**
 
 - Verify the path is relative to the importing template (e.g.
-  `{% from "../helpers/theme-chooser.njk" import themeChooser %}`).
-- Confirm the macro is named `themeChooser` (camelCase) inside the
+  `{% from "../helpers/theme-picker.njk" import themePicker %}`).
+- Confirm the macro is named `themePicker` (camelCase) inside the
   file — Nunjucks identifiers cannot contain hyphens.
 
 ## "CSP error: Refused to load stylesheet"
@@ -255,7 +253,7 @@ Content-Security-Policy:
     font-src 'self' https://cdn.example.com;
 ```
 
-## "TypeScript: cannot find module './theme-chooser.client.js'"
+## "TypeScript: cannot find module './theme-picker.client.js'"
 
 The client.js is a `.js` file (not `.ts`). TypeScript projects
 need either a `.d.ts` ambient module declaration or
@@ -264,28 +262,29 @@ need either a `.d.ts` ambient module declaration or
 ```jsonc
 // tsconfig.json
 {
-    "compilerOptions": {
-        "allowJs": true,
-        "checkJs": false,
-        // …
-    }
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": false,
+    // …
+  },
 }
 ```
 
-Alternatively, ship your own `theme-chooser.client.d.ts`:
+Alternatively, ship your own `theme-picker.client.d.ts`:
 
 ```ts
-// theme-chooser.client.d.ts
+// theme-picker.client.d.ts
 export const CIRCLE_WITH_RIGHT_HALF_BLACK: string;
 export function normaliseThemesUrl(url: string): string;
 export function themeHref(url: string, slug: string, extension: string): string;
-export function initThemeChooser(
-    root: HTMLElement,
-    opts?: { onChange?: (slug: string) => void; target?: HTMLElement | null },
+export function initThemePicker(
+  root: HTMLElement,
+  opts?: { onChange?: (slug: string) => void; target?: HTMLElement | null },
 ): { setTheme: (slug: string) => void; destroy: () => void };
-export function autoInit(
-    opts?: { onChange?: (slug: string) => void; target?: HTMLElement | null },
-): Array<{ setTheme: (slug: string) => void; destroy: () => void }>;
+export function autoInit(opts?: {
+  onChange?: (slug: string) => void;
+  target?: HTMLElement | null;
+}): Array<{ setTheme: (slug: string) => void; destroy: () => void }>;
 ```
 
 ---

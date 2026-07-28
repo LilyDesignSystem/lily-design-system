@@ -1,7 +1,7 @@
 {
-  "name": "lily-design-system-html-theme-chooser",
+  "name": "lily-design-system-html-theme-picker",
   "version": "0.1.0",
-  "description": "Lily Design System - HTML custom element theme chooser",
+  "description": "Lily Design System - HTML custom element theme picker",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -26,7 +26,7 @@
     "system",
     "html",
     "theme",
-    "chooser"
+    "picker"
   ],
   "author": "joel@joelparkerhenderson.com",
   "license": "MIT"

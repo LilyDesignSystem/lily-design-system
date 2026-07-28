@@ -10,8 +10,8 @@ Every example assumes:
 
 - Svelte 5 with runes (`$state`, `$props`, `$bindable`, `$effect`).
 - No CSS dependency — the select is headless. Consumers style the
-  `locale-chooser`, `locale-chooser-button`, `locale-chooser-icon`,
-  `locale-chooser-list`, and `locale-chooser-option` class hooks.
+  `locale-picker`, `locale-picker-button`, `locale-picker-icon`,
+  `locale-picker-list`, and `locale-picker-option` class hooks.
 - **You supply the listbox's positioning CSS.** The package ships
   none, so an unstyled listbox renders in normal document flow and
   pushes the page down when it opens. Use logical properties
@@ -21,7 +21,7 @@ Every example assumes:
 
 | File                                                   | Demonstrates                                                                                     |
 | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
-| [`basic.svelte`](./basic.svelte)                       | The default rendering, plus the `.locale-chooser-status` live region every consumer should ship. |
+| [`basic.svelte`](./basic.svelte)                       | The default rendering, plus the `.locale-picker-status` live region every consumer should ship. |
 | [`custom-rendering.svelte`](./custom-rendering.svelte) | `children` snippet — globe + the active locale's endonym + caret, inside the button.             |
 | [`many-locales.svelte`](./many-locales.svelte)         | A 23-locale list in a one-glyph control; typeahead, `Home` / `End`, scroll container.            |
 | [`persistence.svelte`](./persistence.svelte)           | `storageKey` survival across reloads plus `detectFromNavigator` on first visit.                  |
@@ -37,7 +37,7 @@ Every example assumes:
 These files were numbered and named for a rendering the package no
 longer has — `01-radios`, `02-select`, `03-buttons` had not rendered
 radios, a `<select>`, or a button group for some time. They now carry
-descriptive names matching `theme-chooser`'s convention:
+descriptive names matching `theme-picker`'s convention:
 
 | Old                          | New                       | Note                                                                |
 | ---------------------------- | ------------------------- | ------------------------------------------------------------------- |
@@ -59,7 +59,7 @@ one is:
 
 1. Inside any Vite + Svelte 5 project (or SvelteKit), drop the
    example into a route component or a Storybook story.
-2. Import the `LocaleChooser.svelte` from this directory (or the
+2. Import the `LocalePicker.svelte` from this directory (or the
    `index.ts` barrel).
 3. Add the positioning CSS from
    [`../docs/styling.md`](../docs/styling.md#positioning-the-listbox),

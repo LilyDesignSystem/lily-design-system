@@ -13,29 +13,29 @@
     document <html lang> but the bindable value round-trips
     whichever form the consumer wrote into locales=.
 
-    Note: locale-chooser.ts may need compilation to .js — adjust the
+    Note: locale-picker.ts may need compilation to .js — adjust the
     <script src=…> per your build output.
 -->
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>locale-chooser — Intl</title>
-    <script type="module" src="../../locale-chooser.js"></script>
+    <title>locale-picker — Intl</title>
+    <script type="module" src="../../locale-picker.js"></script>
     <style>
         body { font-family: system-ui, sans-serif; padding: 2rem; max-inline-size: 50rem; }
         /* Required: the package ships no CSS, so the dropdown has no
            positioning of its own and would otherwise render in flow. */
-        .locale-chooser { position: relative; display: inline-block; }
-        .locale-chooser-button {
+        .locale-picker { position: relative; display: inline-block; }
+        .locale-picker-button {
             font: inherit; line-height: 1; padding: 0.5rem;
             background: #ffffff; border: 1px solid #4c6272;
             border-radius: 4px; cursor: pointer;
         }
-        .locale-chooser-button:focus-visible,
-        .locale-chooser-list:focus-visible {
+        .locale-picker-button:focus-visible,
+        .locale-picker-list:focus-visible {
             outline: 3px solid #003087; outline-offset: 2px;
         }
-        .locale-chooser-list {
+        .locale-picker-list {
             position: absolute; inset-inline-start: 0;
             inset-block-start: calc(100% + 0.25rem); z-index: 10;
             margin: 0; padding: 0.25rem 0; list-style: none;
@@ -43,26 +43,26 @@
             background: #ffffff; border: 1px solid #4c6272; border-radius: 4px;
         }
         /* The element toggles `hidden`; never override it away. */
-        .locale-chooser-list[hidden] { display: none; }
-        .locale-chooser-option { font: inherit; padding: 0.375rem 0.75rem; cursor: pointer; }
+        .locale-picker-list[hidden] { display: none; }
+        .locale-picker-option { font: inherit; padding: 0.375rem 0.75rem; cursor: pointer; }
         /* Keyboard-highlighted vs applied — different things. */
-        .locale-chooser-option[data-active] { background: #f0f4f5; }
-        .locale-chooser-option[aria-selected="true"] { font-weight: 700; }
-        .locale-chooser-option[aria-selected="true"]::after { content: " ✓"; }
+        .locale-picker-option[data-active] { background: #f0f4f5; }
+        .locale-picker-option[aria-selected="true"] { font-weight: 700; }
+        .locale-picker-option[aria-selected="true"]::after { content: " ✓"; }
         dl { display: grid; grid-template-columns: max-content 1fr; gap: 0.5rem 1.5rem; }
         dt { font-weight: 600; }
         dd { margin: 0; font-variant-numeric: tabular-nums; }
     </style>
 </head>
 <body>
-    <h1>Locale chooser — Intl.* formatters</h1>
+    <h1>Locale picker — Intl.* formatters</h1>
 
-    <locale-chooser
+    <locale-picker
         id="select"
         label="Locale"
         locales="en,en-US,en-GB,fr,fr-CA,de,de-AT,ar,ja,zh-Hans"
         storage-key="intl-demo-locale"
-    ></locale-chooser>
+    ></locale-picker>
 
     <dl>
         <dt>Date (long):</dt>
@@ -88,7 +88,7 @@
     </dl>
 
     <script type="module">
-        await customElements.whenDefined("locale-chooser");
+        await customElements.whenDefined("locale-picker");
         const select = document.querySelector("#select");
 
         function refresh() {

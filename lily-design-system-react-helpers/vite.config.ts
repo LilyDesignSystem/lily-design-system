@@ -2,7 +2,7 @@ import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
 
 // Standalone test harness for the React helpers catalog. Each helper
-// subproject (e.g. lily-design-system-react-theme-chooser) keeps its
+// subproject (e.g. lily-design-system-react-theme-picker) keeps its
 // own `*.test.tsx` next to its component; vitest discovers them all.
 export default defineConfig({
   plugins: [react()],

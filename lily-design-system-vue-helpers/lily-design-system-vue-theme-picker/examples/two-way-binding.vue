@@ -7,7 +7,7 @@
 -->
 <script setup lang="ts">
 import { ref } from "vue";
-import ThemeChooser from "../ThemeChooser.vue";
+import ThemePicker from "../ThemePicker.vue";
 
 const theme = ref("");
 
@@ -18,7 +18,7 @@ function trackThemeChange(slug: string) {
 </script>
 
 <template>
-    <ThemeChooser
+    <ThemePicker
         label="Theme"
         themes-url="/assets/themes/"
         :themes="['light', 'dark', 'abyss']"

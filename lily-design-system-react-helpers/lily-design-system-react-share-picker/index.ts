@@ -1,14 +1,14 @@
 export {
     default,
-    ShareChooser,
+    SharePicker,
     canShareNatively,
     canCopy,
-    nextShareChooserId,
+    nextSharePickerId,
     BLACK_RIGHTWARDS_ARROWHEAD,
-} from "./ShareChooser";
+} from "./SharePicker";
 export type {
     Props,
     ChildArgs,
     ShareTarget,
     ShareStrategy,
-} from "./ShareChooser";
+} from "./SharePicker";

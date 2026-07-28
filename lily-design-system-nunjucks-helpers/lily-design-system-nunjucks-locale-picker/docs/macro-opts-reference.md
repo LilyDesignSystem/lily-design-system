@@ -1,6 +1,6 @@
 # Macro opts reference
 
-Field-by-field reference for every key the `localeChooser(opts)` macro
+Field-by-field reference for every key the `localePicker(opts)` macro
 understands. The contract is owned by
 [`../spec/index.md`](../spec/index.md) §4; this file expands the
 rationale and the common usage.
@@ -14,10 +14,10 @@ The button is icon-only — its globe glyph is `aria-hidden="true"` — so
 `label` is the only accessible name it has, and the collapsed button
 never announces the active locale. See
 [accessibility.md](./accessibility.md) for that tradeoff and the
-`.locale-chooser-status` region that compensates for it.
+`.locale-picker-status` region that compensates for it.
 
-`label` carries a wrinkle the theme chooser does not have. It should
-normally be written in the *current* document language, because that is
+`label` carries a wrinkle the theme picker does not have. It should
+normally be written in the _current_ document language, because that is
 what the current reader reads — but a user who cannot read the current
 language is exactly the user most likely to be hunting for this
 control. Two mitigations, neither exclusive: keep the globe glyph,
@@ -27,7 +27,7 @@ pairing the control with a visible text label rather than relying on
 
 There is no `placeholder` opt. It belonged to the native `<select>`
 this macro used to render, and went away with it — along with the
-`.locale-chooser-placeholder` CSS hook.
+`.locale-picker-placeholder` CSS hook.
 
 ## `locales` — required, array of strings
 
@@ -51,7 +51,7 @@ resolves to nothing rather than to an unlisted locale.
 ## `value` — optional, string
 
 The currently-active locale code. The macro serialises it as
-`data-lily-locale-chooser-value` on the root `<div>`, and omits the
+`data-lily-locale-picker-value` on the root `<div>`, and omits the
 attribute entirely when `value` is empty. That attribute remains the
 only channel by which `value` reaches the client.
 
@@ -84,7 +84,7 @@ Namespace it per application (`"my-app:locale"`), because
 Storage is consulted **after** `value` and **before** navigator
 detection. A returning visitor with a saved choice and no
 server-resolved locale therefore lands on their saved choice; a
-visitor whose request *did* resolve a locale server-side gets that.
+visitor whose request _did_ resolve a locale server-side gets that.
 
 All storage access is wrapped in try/catch, so Safari private mode,
 a disabled-storage policy, or a full quota degrades to "no
@@ -127,7 +127,7 @@ wherever you actually want it. See [rtl.md](./rtl.md).
 ## `name` — optional, string, default `"locale"`
 
 The hidden input's `name`, which is what an enclosing form submits. It
-is also the default id prefix (`locale-chooser-{name}`), which is why two
+is also the default id prefix (`locale-picker-{name}`), which is why two
 instances that share a `name` need an explicit `id`.
 
 ## `localeLabels` — optional, object
@@ -138,7 +138,7 @@ Without an entry, an option renders its raw code.
 Endonyms — each language's name in itself — are the usual right answer
 here, since the reader of the "Français" option is by definition someone
 looking for French. `localeName(code)` from the client module resolves
-*English* names from the built-in table, which is the wrong register for
+_English_ names from the built-in table, which is the wrong register for
 option text but the right one for a status region in an
 English-language page.
 
@@ -146,7 +146,7 @@ These labels are also what the typeahead matches on, so supplying them
 changes what users can type to jump: with `{fr: "Français"}`, `f` finds
 it; without, they must type the code.
 
-## `id` — optional, string, default `"locale-chooser-{name}"`
+## `id` — optional, string, default `"locale-picker-{name}"`
 
 Id prefix for the listbox (`{id}-list`) and each option
 (`{id}-option-{i}`). Ids are deterministic — no `Math.random`, no
@@ -161,7 +161,7 @@ distinct `id`s.
 
 ## `classes` — optional, string
 
-Extra classes appended to the root `<div>` after the `locale-chooser`
+Extra classes appended to the root `<div>` after the `locale-picker`
 hook. The hook itself is never removed or renamed. See
 [styling.md](./styling.md).
 

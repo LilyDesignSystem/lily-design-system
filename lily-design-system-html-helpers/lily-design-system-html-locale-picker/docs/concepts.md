@@ -1,6 +1,6 @@
 # Concepts
 
-How `<locale-chooser>` thinks about locale, where it sits in your
+How `<locale-picker>` thinks about locale, where it sits in your
 stack, and what it deliberately leaves to you.
 
 ## Three orthogonal concerns
@@ -9,8 +9,8 @@ A web app changes language across three independent axes:
 
 | Axis                       | What changes                                               | Owner                                  |
 | -------------------------- | ---------------------------------------------------------- | -------------------------------------- |
-| **Document language**      | The `lang` attribute on `<html>`. Screen readers, search engines, hyphenation, font selection. | `<locale-chooser>` (this helper).     |
-| **Writing direction**      | The `dir` attribute on `<html>`. Bidi text, scrollbar position, flexbox/grid mirror. | `<locale-chooser>` (auto-detected from the locale; opt out with `apply-dir="false"`). |
+| **Document language**      | The `lang` attribute on `<html>`. Screen readers, search engines, hyphenation, font selection. | `<locale-picker>` (this helper).     |
+| **Writing direction**      | The `dir` attribute on `<html>`. Bidi text, scrollbar position, flexbox/grid mirror. | `<locale-picker>` (auto-detected from the locale; opt out with `apply-dir="false"`). |
 | **Translated strings**     | The actual visible words on the page.                      | Your i18n library (FormatJS, i18next, raw `Intl.*`, Polyglot, etc.). |
 
 The helper owns the first two and signals the third via a
@@ -30,9 +30,9 @@ The select:
 - Renders semantic HTML — a `<button>` and a `<ul role="listbox">`
   of `<li role="option">` items — wired up per the WAI-ARIA APG
   listbox pattern.
-- Carries a stable kebab-case class hook (`locale-chooser`,
-  `locale-chooser-button`, `locale-chooser-icon`, `locale-chooser-list`,
-  `locale-chooser-option`) on every element so your CSS can target it
+- Carries a stable kebab-case class hook (`locale-picker`,
+  `locale-picker-button`, `locale-picker-icon`, `locale-picker-list`,
+  `locale-picker-option`) on every element so your CSS can target it
   without prefixes or specificity tricks.
 - Ships **no** colour, spacing, typography, font, icon, or
   animation decisions. You supply all of that — including, notably,
@@ -92,7 +92,7 @@ that opens a `role="listbox"` dropdown. Two reasons:
 
 1. **Compactness at any locale count.** A glyph-sized trigger stays
    the same width whether you ship 2 locales or 400, and it composes
-   into a dense utility bar next to the sibling `<theme-chooser>`,
+   into a dense utility bar next to the sibling `<theme-picker>`,
    which uses the identical shape.
 2. **Full control of the option list's presentation.** A native
    `<select>`'s popup is drawn by the OS and cannot be styled,
@@ -177,7 +177,7 @@ Three layers, mirroring the lifecycle:
    and assert the same DOM observations; capture the
    `localechange` CustomEvent's detail.
 
-See `../locale-chooser.test.ts` for the reference suite that covers
+See `../locale-picker.test.ts` for the reference suite that covers
 every `spec/index.md` §7 acceptance item.
 
 ## Custom-element-specific notes
@@ -195,8 +195,8 @@ When you want to interact with the select from a script that loads
 before the select's module:
 
 ```ts
-await customElements.whenDefined("locale-chooser");
-const select = document.querySelector("locale-chooser") as LocaleChooser;
+await customElements.whenDefined("locale-picker");
+const select = document.querySelector("locale-picker") as LocalePicker;
 select.value = "fr";
 ```
 
@@ -216,7 +216,7 @@ reactivity.
 The DOM has a `change` event already; emitting `change` from a
 custom element would compete with native control events. The
 namespaced `localechange` is unambiguous, and parallels the
-`themechange` event from `<theme-chooser>`.
+`themechange` event from `<theme-picker>`.
 
 ---
 

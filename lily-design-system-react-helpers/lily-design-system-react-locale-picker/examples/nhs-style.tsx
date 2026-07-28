@@ -4,7 +4,7 @@
     NHS UK-style language banner.
 
     Mirrors the NHS UK Design System's pattern of placing a language
-    chooser in a top utility banner. The control keeps its own icon
+    picker in a top utility banner. The control keeps its own icon
     button + listbox markup; the banner just supplies the `className`
     hook so consumer CSS can position it.
 
@@ -19,7 +19,7 @@
 */
 
 import { useState } from "react";
-import { LocaleChooser, GLOBE_WITH_MERIDIANS } from "../LocaleChooser";
+import { LocalePicker, GLOBE_WITH_MERIDIANS } from "../LocalePicker";
 
 // Endonyms — each language in its own script.
 const NATIVE: Record<string, string> = {
@@ -42,7 +42,7 @@ export function NhsStyleExample() {
             <header className="utility-banner" aria-label="Site utilities">
                 <span>NHS</span>
 
-                <LocaleChooser
+                <LocalePicker
                     label="Language"
                     locales={[
                         "en", "cy", "gd", "ga", "fr",
@@ -61,7 +61,7 @@ export function NhsStyleExample() {
                             {GLOBE_WITH_MERIDIANS} {labelFor(value)}
                         </span>
                     )}
-                </LocaleChooser>
+                </LocalePicker>
             </header>
 
             <main lang={locale.replace(/_/g, "-")}>

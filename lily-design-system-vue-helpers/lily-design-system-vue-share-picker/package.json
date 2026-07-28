@@ -1,7 +1,7 @@
 {
-  "name": "lily-design-system-vue-share-chooser",
+  "name": "lily-design-system-vue-share-picker",
   "version": "0.1.0",
-  "description": "Lily Design System - Vue 3 share chooser",
+  "description": "Lily Design System - Vue 3 share picker",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -29,7 +29,7 @@
     "system",
     "vue",
     "share",
-    "chooser",
+    "picker",
     "clipboard",
     "web-share"
   ],

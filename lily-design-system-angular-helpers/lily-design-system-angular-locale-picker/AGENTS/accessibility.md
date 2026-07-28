@@ -1,4 +1,4 @@
-# Accessibility — LocaleChooser (Angular)
+# Accessibility — LocalePicker (Angular)
 
 The select targets WCAG 2.2 AAA. It is an icon button that opens a
 custom [APG listbox](https://www.w3.org/WAI/ARIA/apg/patterns/listbox/),

@@ -6,7 +6,7 @@ This page explains what gets detected, what doesn't, and what
 `dir="rtl"` actually changes in the browser.
 
 The detection logic lives in `isRtlLocale(code)` exported from
-`locale-chooser.client.js` (and re-exports `RTL_LANGUAGE_TAGS` and
+`locale-picker.client.js` (and re-exports `RTL_LANGUAGE_TAGS` and
 `RTL_SCRIPT_SUBTAGS` for consumer-side inspection).
 
 ## What's detected
@@ -87,7 +87,7 @@ from writing `dir`. The macro still writes the data hook for
 inspection, but the runtime apply loop skips the `dir` line:
 
 ```njk
-{{ localeChooser({
+{{ localePicker({
     label: "Language",
     locales: ["en", "ar"],
     applyDir: false
@@ -178,14 +178,14 @@ Because the listbox is ordinary DOM (not an OS-drawn `<select>`
 popup), your CSS controls all of this directly:
 
 ```css
-.locale-chooser {
+.locale-picker {
     position: relative;
     display: inline-block;
     /* No padding/margin physical-side specifics — let logical
        properties drive direction. */
 }
 
-.locale-chooser-list {
+.locale-picker-list {
     position: absolute;
     /* inset-inline-start, not `left`: the popup anchors to the
        reading-start edge in both directions. */
@@ -196,11 +196,11 @@ popup), your CSS controls all of this directly:
     list-style: none;
 }
 
-.locale-chooser-list[hidden] {
+.locale-picker-list[hidden] {
     display: none;
 }
 
-.locale-chooser-option {
+.locale-picker-option {
     display: flex;
     align-items: center;
     gap: 0.25em;

@@ -15,13 +15,13 @@
     /api/locale and updates the DOM in the same tick.
 */
 import {
-    ChangeDetectionStrategy,
-    Component,
-    InjectionToken,
-    inject,
-    signal,
+  ChangeDetectionStrategy,
+  Component,
+  InjectionToken,
+  inject,
+  signal,
 } from "@angular/core";
-import { LocaleChooser } from "../locale-chooser.component";
+import { LocalePicker } from "../locale-picker.component";
 
 // In a real Analog project, REQUEST is imported from
 // "@analogjs/router/tokens". We declare a local stand-in here so
@@ -29,35 +29,37 @@ import { LocaleChooser } from "../locale-chooser.component";
 const REQUEST = new InjectionToken<unknown>("REQUEST");
 
 const INITIAL_LOCALE = new InjectionToken<string>("INITIAL_LOCALE", {
-    providedIn: "root",
-    factory: () => {
-        const req = inject(REQUEST, { optional: true });
-        if (!req) {
-            if (typeof document === "undefined") return "en";
-            const match = document.cookie.match(/(?:^|; )locale=([^;]*)/);
-            return match ? decodeURIComponent(match[1]) : "en";
-        }
-        const ctx = (req as { context?: { locale?: string } }).context;
-        return ctx?.locale ?? "en";
-    },
+  providedIn: "root",
+  factory: () => {
+    const req = inject(REQUEST, { optional: true });
+    if (!req) {
+      if (typeof document === "undefined") return "en";
+      const match = document.cookie.match(/(?:^|; )locale=([^;]*)/);
+      return match ? decodeURIComponent(match[1]) : "en";
+    }
+    const ctx = (req as { context?: { locale?: string } }).context;
+    return ctx?.locale ?? "en";
+  },
 });
 
 @Component({
-    selector: "example-analog-cookie",
-    standalone: true,
-    imports: [LocaleChooser],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
-        <lily-locale-chooser
-            label="Language"
-            [locales]="['en', 'fr', 'ar']"
-            [(value)]="locale"
-            (localeChange)="persistLocaleCookie($event)"
-        />
+  selector: "example-analog-cookie",
+  standalone: true,
+  imports: [LocalePicker],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <lily-locale-picker
+      label="Language"
+      [locales]="['en', 'fr', 'ar']"
+      [(value)]="locale"
+      (localeChange)="persistLocaleCookie($event)"
+    />
 
-        <p>Selected locale: <code>{{ locale() }}</code></p>
+    <p>
+      Selected locale: <code>{{ locale() }}</code>
+    </p>
 
-        <!--
+    <!--
             Companion files (place in your Analog project):
 
             src/server/middleware/locale.ts ────────────────────────
@@ -108,7 +110,7 @@ const INITIAL_LOCALE = new InjectionToken<string>("INITIAL_LOCALE", {
             } from "@angular/core";
             import { appConfig } from "./app.config";
             import { INITIAL_LOCALE } from "./tokens/initial-locale";
-            import { bcp47LocaleTag, isRtlLocale } from "../locale-chooser.component";
+            import { bcp47LocaleTag, isRtlLocale } from "../locale-picker.component";
 
             export const config = mergeApplicationConfig(appConfig, {
                 providers: [
@@ -124,17 +126,17 @@ const INITIAL_LOCALE = new InjectionToken<string>("INITIAL_LOCALE", {
                 ],
             });
         -->
-    `,
+  `,
 })
 export class AnalogCookieExample {
-    locale = signal(inject(INITIAL_LOCALE));
+  locale = signal(inject(INITIAL_LOCALE));
 
-    async persistLocaleCookie(code: string): Promise<void> {
-        if (typeof fetch === "undefined") return;
-        await fetch("/api/locale", {
-            method: "POST",
-            headers: { "content-type": "application/json" },
-            body: JSON.stringify({ locale: code }),
-        });
-    }
+  async persistLocaleCookie(code: string): Promise<void> {
+    if (typeof fetch === "undefined") return;
+    await fetch("/api/locale", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ locale: code }),
+    });
+  }
 }

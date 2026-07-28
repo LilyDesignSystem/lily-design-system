@@ -10,7 +10,7 @@
     their own select.
 -->
 <script lang="ts">
-    import LocaleChooser from "../LocaleChooser.svelte";
+    import LocalePicker from "../LocalePicker.svelte";
 
     let panelA: HTMLElement | null = $state(null);
     let panelB: HTMLElement | null = $state(null);
@@ -24,7 +24,7 @@
 
     <section bind:this={panelA} class="panel">
         <h2>Panel A</h2>
-        <LocaleChooser
+        <LocalePicker
             label="Panel A language"
             locales={["en", "fr", "ar"]}
             target={panelA}
@@ -35,7 +35,7 @@
 
     <section bind:this={panelB} class="panel">
         <h2>Panel B</h2>
-        <LocaleChooser
+        <LocalePicker
             label="Panel B language"
             locales={["en", "fr", "ar"]}
             target={panelB}

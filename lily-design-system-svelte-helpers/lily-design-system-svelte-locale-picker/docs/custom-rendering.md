@@ -33,7 +33,7 @@ programmatically, write to the bindable `value` prop.
 exported as pure helpers — import them directly:
 
 ```ts
-import { bcp47LocaleTag, isRtlLocale, localeName } from "../LocaleChooser.svelte";
+import { bcp47LocaleTag, isRtlLocale, localeName } from "../LocalePicker.svelte";
 ```
 
 ## Patterns
@@ -50,7 +50,7 @@ exactly the person who needs it:
 
 ```svelte
 <script lang="ts">
-  import LocaleChooser, { bcp47LocaleTag } from "../LocaleChooser.svelte";
+  import LocalePicker, { bcp47LocaleTag } from "../LocalePicker.svelte";
 
   let locale = $state("en");
 
@@ -62,7 +62,7 @@ exactly the person who needs it:
   };
 </script>
 
-<LocaleChooser
+<LocalePicker
   label="Language"
   locales={["en", "fr", "ar", "cy"]}
   localeLabels={ENDONYMS}
@@ -70,11 +70,11 @@ exactly the person who needs it:
 >
   {#snippet children({ value, labelFor })}
     <span aria-hidden="true">🌐︎</span>
-    <span class="locale-chooser-text" lang={bcp47LocaleTag(value)}>
+    <span class="locale-picker-text" lang={bcp47LocaleTag(value)}>
       {labelFor(value)}
     </span>
   {/snippet}
-</LocaleChooser>
+</LocalePicker>
 ```
 
 Note the `lang` on the span: it carries WCAG 3.1.2 (Language of Parts)
@@ -96,7 +96,7 @@ When space is tight but you still want text rather than a bare glyph:
 ```svelte
 {#snippet children({ value })}
   <span aria-hidden="true">🌐︎</span>
-  <span class="locale-chooser-text">{value.split(/[-_]/)[0].toUpperCase()}</span>
+  <span class="locale-picker-text">{value.split(/[-_]/)[0].toUpperCase()}</span>
 {/snippet}
 ```
 
@@ -128,7 +128,7 @@ accessible name must stay on the button.
 
 `open` is in `ChildArgs` precisely so the trigger can show its state
 without a CSS-only workaround. (`[aria-expanded="true"]` on
-`.locale-chooser-button` also works, and is usually simpler.)
+`.locale-picker-button` also works, and is usually simpler.)
 
 ```svelte
 {#snippet children({ open })}
@@ -147,12 +147,12 @@ locale will do to the page:
 
 ```svelte
 <script lang="ts">
-  import LocaleChooser, { isRtlLocale } from "../LocaleChooser.svelte";
+  import LocalePicker, { isRtlLocale } from "../LocalePicker.svelte";
 </script>
 
 {#snippet children({ value, labelFor })}
   <span aria-hidden="true">🌐︎</span>
-  <span class="locale-chooser-text" dir={isRtlLocale(value) ? "rtl" : "ltr"}>
+  <span class="locale-picker-text" dir={isRtlLocale(value) ? "rtl" : "ltr"}>
     {labelFor(value)}
   </span>
 {/snippet}

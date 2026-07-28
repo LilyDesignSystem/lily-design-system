@@ -12,18 +12,18 @@ remains the consumer's responsibility.
 
 ## Built-in
 
-| WCAG / APG item | How the select satisfies it |
-| --------------- | --------------------------- |
-| WCAG 3.1.1 Language of Page | Writes `lang` to the document root on every locale change. |
-| WCAG 3.1.2 Language of Parts | Each `<li role="option">` carries its own `lang` attribute so option text is announced in the right language. |
-| WCAG 1.4.10 Reflow (RTL bidi) | Writes `dir="rtl"` for RTL locales so layout, scrollbar, and text inversion are correct. |
-| WCAG 4.1.2 Name, Role, Value | The button carries `aria-label`, `aria-haspopup="listbox"`, and `aria-expanded`; the `<ul>` carries `role="listbox"` and `aria-label`; each `<li>` carries `role="option"` and `aria-selected`. |
-| WCAG 2.1.1 Keyboard | Full APG listbox keyboard contract, implemented in JS — see below. |
-| WCAG 2.1.2 No Keyboard Trap | `Escape` and `Tab` both close the list; `Tab` deliberately does not pull focus back to the button. |
-| WCAG 2.4.3 Focus Order | Opening moves focus to the list; selecting or cancelling returns it to the button. The button is the control's only tab stop. |
-| WCAG 2.4.7 Focus Visible | The browser's default focus ring is preserved; the element never sets `outline: none`. |
-| WCAG 1.4.1 Use of Color | Selection is exposed via `aria-selected` and the hidden input's value, and the active option via `data-active` — never colour alone. Consumer CSS must also give both a non-colour signal. |
-| APG Listbox pattern | `aria-activedescendant` on the list, `role="option"` + `aria-selected` on each item, focus on the list container. |
+| WCAG / APG item               | How the select satisfies it                                                                                                                                                                     |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| WCAG 3.1.1 Language of Page   | Writes `lang` to the document root on every locale change.                                                                                                                                      |
+| WCAG 3.1.2 Language of Parts  | Each `<li role="option">` carries its own `lang` attribute so option text is announced in the right language.                                                                                   |
+| WCAG 1.4.10 Reflow (RTL bidi) | Writes `dir="rtl"` for RTL locales so layout, scrollbar, and text inversion are correct.                                                                                                        |
+| WCAG 4.1.2 Name, Role, Value  | The button carries `aria-label`, `aria-haspopup="listbox"`, and `aria-expanded`; the `<ul>` carries `role="listbox"` and `aria-label`; each `<li>` carries `role="option"` and `aria-selected`. |
+| WCAG 2.1.1 Keyboard           | Full APG listbox keyboard contract, implemented in JS — see below.                                                                                                                              |
+| WCAG 2.1.2 No Keyboard Trap   | `Escape` and `Tab` both close the list; `Tab` deliberately does not pull focus back to the button.                                                                                              |
+| WCAG 2.4.3 Focus Order        | Opening moves focus to the list; selecting or cancelling returns it to the button. The button is the control's only tab stop.                                                                   |
+| WCAG 2.4.7 Focus Visible      | The browser's default focus ring is preserved; the element never sets `outline: none`.                                                                                                          |
+| WCAG 1.4.1 Use of Color       | Selection is exposed via `aria-selected` and the hidden input's value, and the active option via `data-active` — never colour alone. Consumer CSS must also give both a non-colour signal.      |
+| APG Listbox pattern           | `aria-activedescendant` on the list, `role="option"` + `aria-selected` on each item, focus on the list container.                                                                               |
 
 ## The focus model: `aria-activedescendant`
 
@@ -35,12 +35,39 @@ Which option is "current" is communicated purely by
 `aria-activedescendant` on the `<ul>`, pointing at that option's `id`:
 
 ```html
-<ul class="locale-chooser-list" id="locale-chooser-1-list" role="listbox"
-    aria-label="Language" tabindex="-1"
-    aria-activedescendant="locale-chooser-1-option-2">
-    <li id="locale-chooser-1-option-0" role="option" aria-selected="true" lang="en">English</li>
-    <li id="locale-chooser-1-option-1" role="option" aria-selected="false" lang="fr">Français</li>
-    <li id="locale-chooser-1-option-2" role="option" aria-selected="false" data-active lang="ar">العربية</li>
+<ul
+  class="locale-picker-list"
+  id="locale-picker-1-list"
+  role="listbox"
+  aria-label="Language"
+  tabindex="-1"
+  aria-activedescendant="locale-picker-1-option-2"
+>
+  <li
+    id="locale-picker-1-option-0"
+    role="option"
+    aria-selected="true"
+    lang="en"
+  >
+    English
+  </li>
+  <li
+    id="locale-picker-1-option-1"
+    role="option"
+    aria-selected="false"
+    lang="fr"
+  >
+    Français
+  </li>
+  <li
+    id="locale-picker-1-option-2"
+    role="option"
+    aria-selected="false"
+    data-active
+    lang="ar"
+  >
+    العربية
+  </li>
 </ul>
 ```
 
@@ -49,10 +76,10 @@ closing removes it entirely.
 
 Two attributes, two meanings — do not conflate them:
 
-| Attribute                 | Means                                                        |
-| ------------------------- | ------------------------------------------------------------ |
-| `aria-selected="true"`    | This is the **applied** locale. Survives closing the list.    |
-| `data-active`             | This is the **keyboard-highlighted** option. Follows the arrow keys; gone when closed. |
+| Attribute              | Means                                                                                  |
+| ---------------------- | -------------------------------------------------------------------------------------- |
+| `aria-selected="true"` | This is the **applied** locale. Survives closing the list.                             |
+| `data-active`          | This is the **keyboard-highlighted** option. Follows the arrow keys; gone when closed. |
 
 A user arrowing down through the list moves `data-active` and
 `aria-activedescendant`, and changes nothing else. Only `Enter`,
@@ -64,24 +91,24 @@ Implemented in JavaScript. The platform provides none of it.
 
 On the **button**:
 
-| Key                              | Action                                                                   |
-| -------------------------------- | ------------------------------------------------------------------------ |
-| Tab / Shift+Tab                  | Move focus into / out of the control. The button is the only tab stop.   |
-| ArrowDown / Enter / Space        | Open the list with the selected option active (or the first when none).  |
-| ArrowUp                          | Open the list with the **last** option active.                           |
+| Key                       | Action                                                                  |
+| ------------------------- | ----------------------------------------------------------------------- |
+| Tab / Shift+Tab           | Move focus into / out of the control. The button is the only tab stop.  |
+| ArrowDown / Enter / Space | Open the list with the selected option active (or the first when none). |
+| ArrowUp                   | Open the list with the **last** option active.                          |
 
 Opening moves focus to the `<ul>`.
 
 On the **listbox**:
 
-| Key                  | Action                                                                     |
-| -------------------- | -------------------------------------------------------------------------- |
-| ArrowDown / ArrowUp  | Move the active option one step. **Clamps** at both ends — no wrapping.     |
-| Home / End           | Jump to the first / last option.                                            |
-| Enter / Space        | Select the active option, apply it, close, return focus to the button.      |
-| Escape               | Close and return focus to the button **without** changing the locale.       |
-| Tab                  | Close without stealing focus back, so focus lands where the user was going. |
-| printable character  | Typeahead over the option **labels**; the buffer resets after 500 ms. Search runs forward from the active option and wraps once. |
+| Key                 | Action                                                                                                                           |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| ArrowDown / ArrowUp | Move the active option one step. **Clamps** at both ends — no wrapping.                                                          |
+| Home / End          | Jump to the first / last option.                                                                                                 |
+| Enter / Space       | Select the active option, apply it, close, return focus to the button.                                                           |
+| Escape              | Close and return focus to the button **without** changing the locale.                                                            |
+| Tab                 | Close without stealing focus back, so focus lands where the user was going.                                                      |
+| printable character | Typeahead over the option **labels**; the buffer resets after 500 ms. Search runs forward from the active option and wraps once. |
 
 Pointer and focus behaviour: clicking an option selects and applies
 it; clicking the button toggles the list; clicking outside the
@@ -102,9 +129,15 @@ Without it, "Français" gets pronounced "Franc-ess" in an English
 voice — comprehensible but ugly. With it, the reader says "Fran-SAY".
 
 ```html
-<li class="locale-chooser-option" role="option" aria-selected="true" lang="en">English</li>
-<li class="locale-chooser-option" role="option" aria-selected="false" lang="fr">Français</li>
-<li class="locale-chooser-option" role="option" aria-selected="false" lang="ar">العربية</li>
+<li class="locale-picker-option" role="option" aria-selected="true" lang="en">
+  English
+</li>
+<li class="locale-picker-option" role="option" aria-selected="false" lang="fr">
+  Français
+</li>
+<li class="locale-picker-option" role="option" aria-selected="false" lang="ar">
+  العربية
+</li>
 ```
 
 The button and the `<ul>` carry **no `lang`**. They are chrome, not
@@ -176,11 +209,11 @@ installed fonts. The globe in particular varies a lot: different
 platforms show different continents, different sizes, and some Linux
 font stacks show nothing at all.
 
-VS15 requests the *text* presentation, which is what keeps the glyph
-monochrome and consistent with theme-chooser's ◑ (U+25D1 is not an
+VS15 requests the _text_ presentation, which is what keeps the glyph
+monochrome and consistent with theme-picker's ◑ (U+25D1 is not an
 emoji codepoint and needs no selector). Some platforms ignore the
 request and render the colour-emoji globe anyway; `font-variant-emoji:
-text` on `.locale-chooser-icon` forces it where supported.
+text` on `.locale-picker-icon` forces it where supported.
 
 If you need a guaranteed appearance, override `renderButtonContent()`
 with your own inline SVG — see
@@ -202,34 +235,35 @@ already has it. Leaving it out is the deliberate choice — a decision
 to make knowingly, with a reason — not something to opt into later.
 
 ```html
-<locale-chooser label="Language" locales="en,fr,ar"></locale-chooser>
+<locale-picker label="Language" locales="en,fr,ar"></locale-picker>
 
-<p class="locale-chooser-status" aria-live="polite">Active language: English</p>
+<p class="locale-picker-status" aria-live="polite">Active language: English</p>
 
 <script type="module">
-    import { localeName } from "/dist/locale-chooser.js";
+  import { localeName } from "/dist/locale-picker.js";
 
-    await customElements.whenDefined("locale-chooser");
+  await customElements.whenDefined("locale-picker");
 
-    const status = document.querySelector(".locale-chooser-status");
+  const status = document.querySelector(".locale-picker-status");
 
-    document.querySelector("locale-chooser")
-        .addEventListener("localechange", (e) => {
-            status.textContent = `Active language: ${localeName(e.detail.locale)}`;
-        });
+  document
+    .querySelector("locale-picker")
+    .addEventListener("localechange", (e) => {
+      status.textContent = `Active language: ${localeName(e.detail.locale)}`;
+    });
 </script>
 ```
 
 Why it is shaped this way:
 
 - **Visible, not `sr-only`.** The gap is not screen-reader-only:
-  nothing in the control indicates the active locale to *anyone*. A
+  nothing in the control indicates the active locale to _anyone_. A
   visible line answers "which language am I on?" for sighted users
   and helps cognitive accessibility, which is what AAA favours. It
   also doubles as the visible label that WCAG 2.5.3 wants (see
   tradeoff 1). For designs that genuinely cannot spare the space, use
   a visually-hidden variant (`position: absolute; width: 1px;
-  height: 1px; overflow: hidden; clip-path: inset(50%)`) — keep the
+height: 1px; overflow: hidden; clip-path: inset(50%)`) — keep the
   element in the accessibility tree; never `display: none`.
 - **`aria-live="polite"` announces mutations only**, so the region is
   silent on first paint and speaks once per change. No interruption,
@@ -247,7 +281,7 @@ Why it is shaped this way:
 
 ### What this does and does not fix
 
-It restores the *information*, not the *semantics*. A screen-reader
+It restores the _information_, not the _semantics_. A screen-reader
 user tabbing onto the button still hears only the label and the
 collapsed state — they must read on, or open the list and hear
 `aria-selected`, to learn the active value. That is a genuine
@@ -263,7 +297,7 @@ Changing the locale does not move focus anywhere on the page — that
 is the WCAG 3.2.2 (On Input) contract: changing a setting must not
 cause a focus or context change.
 
-The element does move focus *within* the control, which the APG
+The element does move focus _within_ the control, which the APG
 listbox pattern requires: opening moves focus to the `<ul>`, and
 selecting or cancelling returns it to the button. `Tab` is the
 exception and closes without pulling focus back, so it lands wherever
@@ -275,13 +309,13 @@ so the user can keep choosing.
 
 ## Screen-reader behaviour matrix
 
-| Reader     | OS       | Browser   | What's announced when the user lands on the closed button |
-| ---------- | -------- | --------- | ---------------------------------------------------------- |
-| VoiceOver  | macOS 14 | Safari 17 | "Language, pop-up button, collapsed". Opening announces "Language, list box"; arrowing announces each option with its `lang`-correct pronunciation. |
-| NVDA       | Windows  | Firefox   | "Language button collapsed". Opening announces "Language list box"; arrowing announces "Français" in a French voice if a French voice is installed. |
-| JAWS       | Windows  | Chrome    | "Language button collapsed". Opening enters the list; arrow keys announce each option and its selected state. |
-| VoiceOver  | iOS      | Safari    | "Language, button". Swipe navigation reaches the options individually once open; `aria-activedescendant` is not used by touch navigation, so the highlighted option and the swiped-to element can diverge. |
-| TalkBack   | Android  | Chrome    | "Language, button, collapsed, double-tap to activate". Same divergence caveat as iOS. |
+| Reader    | OS       | Browser   | What's announced when the user lands on the closed button                                                                                                                                                  |
+| --------- | -------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| VoiceOver | macOS 14 | Safari 17 | "Language, pop-up button, collapsed". Opening announces "Language, list box"; arrowing announces each option with its `lang`-correct pronunciation.                                                        |
+| NVDA      | Windows  | Firefox   | "Language button collapsed". Opening announces "Language list box"; arrowing announces "Français" in a French voice if a French voice is installed.                                                        |
+| JAWS      | Windows  | Chrome    | "Language button collapsed". Opening enters the list; arrow keys announce each option and its selected state.                                                                                              |
+| VoiceOver | iOS      | Safari    | "Language, button". Swipe navigation reaches the options individually once open; `aria-activedescendant` is not used by touch navigation, so the highlighted option and the swiped-to element can diverge. |
+| TalkBack  | Android  | Chrome    | "Language, button, collapsed, double-tap to activate". Same divergence caveat as iOS.                                                                                                                      |
 
 The mobile rows are the concrete form of tradeoff 2. Verify on real
 devices before shipping to a mobile-first audience.
@@ -299,15 +333,18 @@ incorrect: the visible text is English even though the attribute says
 French. In that case, drop the attribute by subclassing:
 
 ```ts
-class ViewerLanguageLocaleChooser extends LocaleChooser {
-    connectedCallback() {
-        super.connectedCallback();
-        for (const option of this.querySelectorAll(".locale-chooser-option")) {
-            option.removeAttribute("lang");
-        }
+class ViewerLanguageLocalePicker extends LocalePicker {
+  connectedCallback() {
+    super.connectedCallback();
+    for (const option of this.querySelectorAll(".locale-picker-option")) {
+      option.removeAttribute("lang");
     }
+  }
 }
-customElements.define("viewer-language-locale-chooser", ViewerLanguageLocaleChooser);
+customElements.define(
+  "viewer-language-locale-picker",
+  ViewerLanguageLocalePicker,
+);
 ```
 
 The default rendering's assumption is that labels show **in their own
@@ -325,9 +362,9 @@ The package ships no CSS, which makes several things your job:
   reflow that is disorienting and can break WCAG 1.4.13
   (Content on Hover or Focus) expectations.
 - **Respect `hidden`.** The element toggles the `hidden` attribute on
-  the `<ul>`. Any rule that sets `display` on `.locale-chooser-list`
-  will defeat it; guard with `.locale-chooser-list[hidden] { display:
-  none; }`.
+  the `<ul>`. Any rule that sets `display` on `.locale-picker-list`
+  will defeat it; guard with `.locale-picker-list[hidden] { display:
+none; }`.
 - **Distinguish `[data-active]` from `[aria-selected="true"]`
   without relying on colour alone.** They mean different things (see
   the focus-model section) and WCAG 1.4.1 applies to both. A
@@ -342,11 +379,11 @@ The select ships no colour. WCAG 1.4.3 contrast (4.5:1 normal, 3:1
 large, 7:1 AAA) is your CSS's responsibility.
 
 ```css
-.locale-chooser-button:focus-visible,
-.locale-chooser-list:focus-visible {
-    /* WCAG AAA-grade contrast against white */
-    outline: 3px solid #003087; /* NHS blue */
-    outline-offset: 2px;
+.locale-picker-button:focus-visible,
+.locale-picker-list:focus-visible {
+  /* WCAG AAA-grade contrast against white */
+  outline: 3px solid #003087; /* NHS blue */
+  outline-offset: 2px;
 }
 ```
 

@@ -3,7 +3,7 @@
 /*
     Next.js App Router — `app/page.tsx` (CLIENT component).
 
-    Renders the ThemeChooser. The initial theme comes from a parent
+    Renders the ThemePicker. The initial theme comes from a parent
     server component (see layout.tsx) via the `data-initial-theme`
     attribute on a wrapping div, read here through `document.querySelector`.
     Alternative patterns: read from a context provider, from a server-
@@ -14,7 +14,7 @@
 */
 
 import { useEffect, useState } from "react";
-import { ThemeChooser } from "../../ThemeChooser";
+import { ThemePicker } from "../../ThemePicker";
 
 function readInitialThemeFromDom(): string {
     if (typeof document === "undefined") return "";
@@ -29,7 +29,7 @@ function writeThemeCookie(slug: string) {
         `theme=${slug}; path=/; max-age=31536000; SameSite=Lax`;
 }
 
-export default function ThemeChooserPage() {
+export default function ThemePickerPage() {
     const [theme, setTheme] = useState("");
 
     // Pull initial value out of the server-rendered DOM on mount so the
@@ -43,7 +43,7 @@ export default function ThemeChooserPage() {
         <>
             <h1>Next.js cookie theme demo</h1>
 
-            <ThemeChooser
+            <ThemePicker
                 label="Theme"
                 themesUrl="/assets/themes/"
                 themes={["light", "dark", "abyss"]}

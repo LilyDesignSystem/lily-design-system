@@ -1,20 +1,20 @@
-# ShareChooser — Specification
+# SharePicker — Specification
 
-Single source of truth for the `lily-design-system-react-share-chooser`
+Single source of truth for the `lily-design-system-react-share-picker`
 React helper. This file drives implementation, testing, and documentation:
 anything not in this spec is out of scope; anything in this spec must be
 exercised by a test.
 
 The canonical cross-framework contract is the Svelte helper's
-[`spec/index.md`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-chooser/spec/index.md).
+[`spec/index.md`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-picker/spec/index.md).
 Per `AGENTS/helpers.md`, Svelte wins where the catalogs disagree; this
 file mirrors its §-numbering exactly so the two test suites line up
 clause for clause.
 
 Sibling files:
 
-- `ShareChooser.tsx` — the implementation
-- `ShareChooser.test.tsx` — vitest spec exercising every clause in §7
+- `SharePicker.tsx` — the implementation
+- `SharePicker.test.tsx` — vitest spec exercising every clause in §7
 - `index.ts` — re-export barrel
 - `index.md` — user-facing guide
 
@@ -41,14 +41,14 @@ Give a React 19 application a drop-in, headless share control that:
   assets; destination labels are text supplied by the consumer.
 - **Share counts, analytics, or tracking.** The component reports what
   the user chose via `onShare`; what you do with that is yours.
-- **Persistence.** Unlike the `*-chooser` helpers, this control has no
+- **Persistence.** Unlike the `*-picker` helpers, this control has no
   state to remember. Nothing is written to `localStorage`.
 
 ## 3. Architectural decisions
 
 - **A helper, but not a preference lifecycle.** The other helpers own
-  *selection + DOM application + optional persistence*. This one owns an
-  *action*: it applies nothing to the document and persists nothing. It
+  _selection + DOM application + optional persistence_. This one owns an
+  _action_: it applies nothing to the document and persists nothing. It
   is a helper because it owns a complete interaction end to end and ships
   the same headless contract. See `AGENTS/helpers.md`.
 - **Disclosure + real links, not a menu.** Share destinations are
@@ -67,9 +67,9 @@ Give a React 19 application a drop-in, headless share control that:
   rejects when the user dismisses the sheet. Falling back to the list
   there would resurrect UI the user just dismissed, so a rejection ends
   the interaction.
-- **Real focus, not `aria-activedescendant`.** The sibling `*-chooser`
+- **Real focus, not `aria-activedescendant`.** The sibling `*-picker`
   helpers track an active option with `aria-activedescendant`, because a
-  listbox's options are not focusable. Here the items *are* focusable
+  listbox's options are not focusable. Here the items _are_ focusable
   elements — links and a button — so focus moves for real. This is a
   deliberate divergence from the catalog's other helpers, and it follows
   from the disclosure-of-links pattern rather than contradicting it.
@@ -78,30 +78,30 @@ Give a React 19 application a drop-in, headless share control that:
 
 ### 4.1 Props
 
-| Prop | Type | Required | Default | Purpose |
-| ---- | ---- | -------- | ------- | ------- |
-| `label` | `string` | yes | — | Accessible name for the button and the list. |
-| `targets` | `ShareTarget[]` | no | `[]` | Destinations to offer. Empty is valid when `copyLabel` is set. |
-| `url` | `string` | no | current page URL | URL to share. Resolved lazily, so the default is SSR-safe. |
-| `title` | `string` | no | `""` | Passed to `href(...)` and the native sheet. |
-| `text` | `string` | no | `""` | Passed to `href(...)` and the native sheet. |
-| `copyLabel` | `string` | no | `undefined` | Label for the copy item. Omit it and no copy item renders. |
-| `copiedLabel` | `string` | no | `undefined` | Announced in the status region after a successful copy. |
-| `copyFailedLabel` | `string` | no | `undefined` | Announced when the clipboard write fails. |
-| `strategy` | `"auto" \| "native" \| "list"` | no | `"auto"` | Whether to prefer the native sheet. |
-| `children` | `(args: ChildArgs) => React.ReactNode` | no | the ➤ glyph | Replaces the button glyph. |
-| `onShare` | `(id, url) => void` | no | — | Fires when a destination is chosen. |
-| `onCopy` | `(url) => void` | no | — | Fires after a successful copy. |
-| `onNativeShare` | `(url) => void` | no | — | Fires when the native sheet was used instead of the list. |
-| `className` | `string` | no | `""` | Extra class on the root. |
-| `...restProps` | any HTML attributes | no | — | Spread onto the root `<div>`. |
+| Prop              | Type                                   | Required | Default          | Purpose                                                        |
+| ----------------- | -------------------------------------- | -------- | ---------------- | -------------------------------------------------------------- |
+| `label`           | `string`                               | yes      | —                | Accessible name for the button and the list.                   |
+| `targets`         | `ShareTarget[]`                        | no       | `[]`             | Destinations to offer. Empty is valid when `copyLabel` is set. |
+| `url`             | `string`                               | no       | current page URL | URL to share. Resolved lazily, so the default is SSR-safe.     |
+| `title`           | `string`                               | no       | `""`             | Passed to `href(...)` and the native sheet.                    |
+| `text`            | `string`                               | no       | `""`             | Passed to `href(...)` and the native sheet.                    |
+| `copyLabel`       | `string`                               | no       | `undefined`      | Label for the copy item. Omit it and no copy item renders.     |
+| `copiedLabel`     | `string`                               | no       | `undefined`      | Announced in the status region after a successful copy.        |
+| `copyFailedLabel` | `string`                               | no       | `undefined`      | Announced when the clipboard write fails.                      |
+| `strategy`        | `"auto" \| "native" \| "list"`         | no       | `"auto"`         | Whether to prefer the native sheet.                            |
+| `children`        | `(args: ChildArgs) => React.ReactNode` | no       | the ➤ glyph      | Replaces the button glyph.                                     |
+| `onShare`         | `(id, url) => void`                    | no       | —                | Fires when a destination is chosen.                            |
+| `onCopy`          | `(url) => void`                        | no       | —                | Fires after a successful copy.                                 |
+| `onNativeShare`   | `(url) => void`                        | no       | —                | Fires when the native sheet was used instead of the list.      |
+| `className`       | `string`                               | no       | `""`             | Extra class on the root.                                       |
+| `...restProps`    | any HTML attributes                    | no       | —                | Spread onto the root `<div>`.                                  |
 
 ```ts
 type ShareTarget = {
   id: string;
   label: string;
   href: (url: string, title: string, text: string) => string;
-  newTab?: boolean;   // default true
+  newTab?: boolean; // default true
 };
 
 type ChildArgs = { open: boolean; url: string };
@@ -116,25 +116,36 @@ clipboard write rather than being the DOM's `ClipboardEvent` handler.
 ### 4.2 DOM contract
 
 ```html
-<div class="share-chooser {className}" ...restProps>
-  <button type="button" class="share-chooser-button"
-          aria-label="{label}" aria-expanded aria-controls="{listId}">
-    <span class="share-chooser-icon" aria-hidden="true">&#10148;</span>
+<div class="share-picker {className}" ...restProps>
+  <button
+    type="button"
+    class="share-picker-button"
+    aria-label="{label}"
+    aria-expanded
+    aria-controls="{listId}"
+  >
+    <span class="share-picker-icon" aria-hidden="true">&#10148;</span>
   </button>
-  <ul class="share-chooser-list" id="{listId}" hidden>
-    <li class="share-chooser-list-item">
-      <a class="share-chooser-target" data-target-id="{id}" href="{href(...)}"
-         target="_blank" rel="noopener noreferrer">{label}</a>
+  <ul class="share-picker-list" id="{listId}" hidden>
+    <li class="share-picker-list-item">
+      <a
+        class="share-picker-target"
+        data-target-id="{id}"
+        href="{href(...)}"
+        target="_blank"
+        rel="noopener noreferrer"
+        >{label}</a
+      >
     </li>
-    <li class="share-chooser-list-item">
-      <button type="button" class="share-chooser-copy">{copyLabel}</button>
+    <li class="share-picker-list-item">
+      <button type="button" class="share-picker-copy">{copyLabel}</button>
     </li>
   </ul>
-  <p class="share-chooser-status" aria-live="polite"></p>
+  <p class="share-picker-status" aria-live="polite"></p>
 </div>
 ```
 
-The trigger's class is `share-chooser-button`, matching the
+The trigger's class is `share-picker-button`, matching the
 `{helper}-button` convention the sibling helpers use.
 
 The list id comes from React's `useId`, matching the sibling helpers, so
@@ -142,11 +153,11 @@ it is stable across server and client render and survives hydration.
 
 ### 4.3 Re-exports
 
-`index.ts` exports `default`, `ShareChooser`, `canShareNatively`,
-`canCopy`, `nextShareChooserId`, `BLACK_RIGHTWARDS_ARROWHEAD`, and the
+`index.ts` exports `default`, `SharePicker`, `canShareNatively`,
+`canCopy`, `nextSharePickerId`, `BLACK_RIGHTWARDS_ARROWHEAD`, and the
 types `Props`, `ChildArgs`, `ShareTarget`, `ShareStrategy`.
 
-`nextShareChooserId()` is exported for parity with the canonical Svelte
+`nextSharePickerId()` is exported for parity with the canonical Svelte
 helper and for consumers labelling a control from outside the component
 tree. The component itself uses `useId`, which is hydration-safe in a way
 a module-level counter is not.
@@ -169,14 +180,14 @@ Either way the list closes.
 
 ### 5.3 Keyboard
 
-| Key | On the button | In the list |
-| --- | ------------- | ----------- |
-| `Enter` / `Space` | Activates (native browser behaviour) | Activates the focused item |
-| `ArrowDown` | Opens, focuses the first item | Moves focus down, clamping |
-| `ArrowUp` | Opens, focuses the last item | Moves focus up, clamping |
-| `Home` / `End` | — | First / last item |
-| `Escape` | — | Closes and returns focus to the button |
-| `Tab` | Moves on | Closes, focus goes where the browser sends it |
+| Key               | On the button                        | In the list                                   |
+| ----------------- | ------------------------------------ | --------------------------------------------- |
+| `Enter` / `Space` | Activates (native browser behaviour) | Activates the focused item                    |
+| `ArrowDown`       | Opens, focuses the first item        | Moves focus down, clamping                    |
+| `ArrowUp`         | Opens, focuses the last item         | Moves focus up, clamping                      |
+| `Home` / `End`    | —                                    | First / last item                             |
+| `Escape`          | —                                    | Closes and returns focus to the button        |
+| `Tab`             | Moves on                             | Closes, focus goes where the browser sends it |
 
 Items are real focusable elements, so focus moves for real rather than
 via `aria-activedescendant`. Clicking outside, or focus leaving the root,
@@ -213,7 +224,7 @@ sees on a phone is not what they see on a desktop. Full treatment in
 
 ## 7. Testing acceptance criteria
 
-`ShareChooser.test.tsx` asserts every clause below.
+`SharePicker.test.tsx` asserts every clause below.
 
 1. Renders a disclosure `<button>` with `aria-expanded` controlling a `<ul>`.
 2. The list is hidden until the button is activated.
@@ -240,7 +251,7 @@ sees on a phone is not what they see on a desktop. Full treatment in
 
 ## 8. Tracking
 
-- Package: lily-design-system-react-share-chooser
+- Package: lily-design-system-react-share-picker
 - Version: 0.1.0
 - License: MIT
 

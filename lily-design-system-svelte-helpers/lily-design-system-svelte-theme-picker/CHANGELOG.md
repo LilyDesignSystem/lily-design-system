@@ -1,4 +1,4 @@
-# Changelog — ThemeChooser (Svelte)
+# Changelog — ThemePicker (Svelte)
 
 All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
@@ -9,16 +9,16 @@ and the project follows [Semantic Versioning](https://semver.org/).
 ### Changed (BREAKING)
 
 - Renamed from `lily-design-system-svelte-theme-select`. Directory,
-  component (`ThemeChooser.svelte`), exported symbols (`ThemeChooser`,
-  `nextThemeChooserId`), class hooks (`theme-chooser`,
-  `theme-chooser-button`, `theme-chooser-icon`, `theme-chooser-list`,
-  `theme-chooser-option`, `theme-chooser-option-label`,
-  `theme-chooser-placeholder`, `theme-chooser-status`,
-  `theme-chooser-swatch`, `theme-chooser-text`) and the managed-link
+  component (`ThemePicker.svelte`), exported symbols (`ThemePicker`,
+  `nextThemePickerId`), class hooks (`theme-picker`,
+  `theme-picker-button`, `theme-picker-icon`, `theme-picker-list`,
+  `theme-picker-option`, `theme-picker-option-label`,
+  `theme-picker-placeholder`, `theme-picker-status`,
+  `theme-picker-swatch`, `theme-picker-text`) and the managed-link
   data attribute (`data-lily-theme-picker`, `data-lily-theme-picker-value`)
-  all carry the new name. The old `theme-chooser` hook collided with the
+  all carry the new name. The old `theme-picker` hook collided with the
   catalog component of the same name; that collision is now gone.
-- A headless Svelte 5 theme chooser: an icon button (`◑`) that opens a
+- A headless Svelte 5 theme picker: an icon button (`◑`) that opens a
   WAI-ARIA APG listbox, loads theme stylesheets at runtime from a
   developer-specified directory by swapping a managed
   `<link data-lily-theme-picker>`, and sets `data-theme` on the
@@ -46,10 +46,10 @@ reads coherently; the events they describe are unchanged.
 
 - **The control is no longer a native `<select>`.** It is now an icon
   button that opens a WAI-ARIA APG listbox. The root is a `<div
-class="theme-chooser">` containing a hidden input, a `<button
-class="theme-chooser-button">` showing the glyph `◑` (U+25D1 CIRCLE
-  WITH RIGHT HALF BLACK, `&#9681;`), and a `<ul class="theme-chooser-list"
-role="listbox">` of `<li class="theme-chooser-option" role="option">`
+class="theme-picker">` containing a hidden input, a `<button
+class="theme-picker-button">` showing the glyph `◑` (U+25D1 CIRCLE
+  WITH RIGHT HALF BLACK, `&#9681;`), and a `<ul class="theme-picker-list"
+role="listbox">` of `<li class="theme-picker-option" role="option">`
   children.
 - **`placeholder` prop removed.** It existed in 0.3.0 to name the
   pinned option of the native `<select>`. There is no `<select>` and no
@@ -62,10 +62,10 @@ role="listbox">` of `<li class="theme-chooser-option" role="option">`
   glyph inside the trigger button**. The listbox and its options are
   component-owned. Any consumer snippet rendering options must be
   rewritten.
-- **Class hooks changed.** `theme-chooser` now names the root `<div>`,
-  not a `<select>`. Added: `theme-chooser-button`, `theme-chooser-icon`,
-  `theme-chooser-list`. Removed: `theme-chooser-placeholder`.
-  `theme-chooser-option` survives but now names an `<li>`, not an
+- **Class hooks changed.** `theme-picker` now names the root `<div>`,
+  not a `<select>`. Added: `theme-picker-button`, `theme-picker-icon`,
+  `theme-picker-list`. Removed: `theme-picker-placeholder`.
+  `theme-picker-option` survives but now names an `<li>`, not an
   `<option>`.
 - **Keyboard interaction is implemented by the component**, not
   inherited from the platform. See `spec/index.md` §6.2 — button keys
@@ -75,7 +75,7 @@ role="listbox">` of `<li class="theme-chooser-option" role="option">`
   changing, `Tab` closes without stealing focus, 500 ms typeahead over
   the labels).
 - **Consumers must now ship positioning CSS** for
-  `.theme-chooser-list`, including a `[hidden] { display: none }`
+  `.theme-picker-list`, including a `[hidden] { display: none }`
   reset. The package still ships zero CSS, so an unstyled listbox
   renders in normal flow and shifts the page when it opens. See
   `docs/styling.md`.
@@ -88,18 +88,18 @@ role="listbox">` of `<li class="theme-chooser-option" role="option">`
   `prefers-color-scheme` to a supported theme on first visit. It sits
   below storage in the resolution order (`value > storage >
 detectFromSystem > defaultValue > "light" > themes[0]`), matching the
-  slot `detectFromNavigator` occupies in `locale-chooser`.
+  slot `detectFromNavigator` occupies in `locale-picker`.
 - `matchSystemTheme(themes)` exported pure helper. Returns `"dark"` /
   `"light"` when that slug is in `themes`, and `""` when it is not or
   when `matchMedia` is unavailable (SSR, jsdom). Mirrors
-  `matchNavigatorLanguage` in `locale-chooser`.
+  `matchNavigatorLanguage` in `locale-picker`.
 - `themeName(theme)` exported pure helper — title-cases each
   hyphen-separated word (`"high-contrast"` → `"High Contrast"`). The
   internal `labelFor` delegates to it, so there is exactly one
   implementation, and examples no longer hand-duplicate the rule.
-  Mirrors `localeName` in `locale-chooser`.
+  Mirrors `localeName` in `locale-picker`.
 - `CIRCLE_WITH_RIGHT_HALF_BLACK` glyph constant and
-  `nextThemeChooserId()` (an SSR-safe incrementing id generator).
+  `nextThemePickerId()` (an SSR-safe incrementing id generator).
 - A hidden `<input type="hidden" name="{name}">` preserving form
   participation now that there is no native form control.
 
@@ -114,11 +114,11 @@ detectFromSystem > defaultValue > "light" > themes[0]`), matching the
   rests entirely on `aria-label`, with no visible-text fallback;
   (b) a hand-rolled listbox has weaker assistive-technology and mobile
   support than a native `<select>` — **for some audiences a native
-  `<select>` is the better choice**, and the headless `ThemeChooser`
+  `<select>` is the better choice**, and the headless `ThemePicker`
   container upstream is one; (c) the glyph is a font-dependent
   character that may substitute, render as "tofu", or not render at
   all.
-- The `.theme-chooser-status` live region is still recommended, but for
+- The `.theme-picker-status` live region is still recommended, but for
   a different reason: it no longer compensates for missing semantics,
   it compensates for the _closed_ control showing only a glyph.
 
@@ -134,8 +134,8 @@ detectFromSystem > defaultValue > "light" > themes[0]`), matching the
 
 - `index.ts` does not yet re-export `themeName`, `matchSystemTheme`, or
   `CIRCLE_WITH_RIGHT_HALF_BLACK`; import them from
-  `./ThemeChooser.svelte` directly. Widening the barrel to match
-  `locale-chooser`'s is a pending follow-up.
+  `./ThemePicker.svelte` directly. Widening the barrel to match
+  `locale-picker`'s is a pending follow-up.
 
 ### 0.3.0 — 2026-07-20
 
@@ -144,7 +144,7 @@ detectFromSystem > defaultValue > "light" > themes[0]`), matching the
 - The closed `<select>` now always displays a placeholder word ("Theme")
   instead of the active theme name, so the control is only ever as wide
   as that word rather than as wide as the longest theme name. A leading
-  `<option class="theme-chooser-option theme-chooser-placeholder" value="">`
+  `<option class="theme-picker-option theme-picker-placeholder" value="">`
   is always rendered, and the element's own selection snaps back to it
   after every change.
 - DOM contract changes accordingly: the option count is now
@@ -174,7 +174,7 @@ detectFromSystem > defaultValue > "light" > themes[0]`), matching the
 
 - The compensating status region is now the **default pattern**, not a
   suggestion: the basic example and the `index.md` quick-start both ship
-  a visible `<p class="theme-chooser-status" aria-live="polite">` showing
+  a visible `<p class="theme-picker-status" aria-live="polite">` showing
   the active theme. `aria-live="polite"` announces mutations only, so it
   stays silent on first paint and speaks on each change.
   `docs/accessibility.md` reframes opting _out_ as the deliberate choice
@@ -188,12 +188,12 @@ detectFromSystem > defaultValue > "light" > themes[0]`), matching the
 
 - Migrated from the radio-group "picker" rendering to a native
   `<select>` (landed in-tree 2026-06-17): the root element is now
-  `<select class="theme-chooser">` with one `<option class="theme-chooser-option">`
+  `<select class="theme-picker">` with one `<option class="theme-picker-option">`
   per choice, replacing the former `<fieldset role="radiogroup">` with
   `<input type="radio">` children. The package was renamed from the
   `*-picker` name to `*-select` accordingly.
-- Class-hook contract changed: `theme-chooser` now names the `<select>` root
-  and `theme-chooser-option` is the only sub-class; the radio/label sub-class
+- Class-hook contract changed: `theme-picker` now names the `<select>` root
+  and `theme-picker-option` is the only sub-class; the radio/label sub-class
   hooks are gone.
 - Keyboard interaction is the native `<select>` contract (Arrow keys,
   Home / End, first-letter typeahead) instead of radio-group cycling.
@@ -214,7 +214,7 @@ and HTML ports port from this contract clause-for-clause.
 
 #### Added
 
-- `ThemeChooser.svelte` — Svelte 5 component using runes throughout
+- `ThemePicker.svelte` — Svelte 5 component using runes throughout
   (`$props`, `$bindable`, `$effect`). Implements:
   - Renders a native `<select aria-label="…" name="…">` with one
     `<option>` per theme slug.
@@ -228,12 +228,12 @@ and HTML ports port from this contract clause-for-clause.
   - `onChange` callback for post-apply side effects.
   - `children` snippet for custom rendering with
     `{ themes, value, setTheme, name, labelFor }`.
-- `index.ts` barrel re-exporting `default`, `ThemeChooser`,
+- `index.ts` barrel re-exporting `default`, `ThemePicker`,
   `normaliseThemesUrl`, `themeHref`, and the `Props` + `ChildArgs`
   types.
-- `ThemeChooser.test.ts` — vitest suite asserting every numbered
+- `ThemePicker.test.ts` — vitest suite asserting every numbered
   acceptance criterion in `spec/index.md` §7 (13 items + extras).
-- `ThemeChooser.stories.svelte` — Storybook story for the select.
+- `ThemePicker.stories.svelte` — Storybook story for the select.
 - `spec/index.md` — spec-driven contract, version 0.1.0.
 - `AGENTS.md` — fast-index pointer for AI agents.
 - `AGENTS/` subdirectory with `api.md`, `lifecycle.md`,
@@ -257,7 +257,7 @@ and HTML ports port from this contract clause-for-clause.
   exported from a `<script lang="ts" module>` block.
 - **Zero runtime dependencies** beyond `svelte`.
 - **SSR-safe** — all DOM writes inside `$effect`.
-- **No `<style>` block** — consumer styles the `theme-chooser` class
+- **No `<style>` block** — consumer styles the `theme-picker` class
   hook.
 - **Tested** under vitest + jsdom + `@testing-library/svelte`.
 

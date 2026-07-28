@@ -1,4 +1,4 @@
-# API — LocaleChooser (Blazor)
+# API — LocalePicker (Blazor)
 
 Authoritative API surface lives in [`../spec/index.md`](../spec/index.md) §4.
 This file documents the Blazor-flavoured shape of the contract.
@@ -11,9 +11,9 @@ namespace:
 ```csharp
 namespace LilyDesignSystem.Blazor.Helpers;
 
-public sealed class LocaleChooserContext { /* … */ }
+public sealed class LocalePickerContext { /* … */ }
 
-public partial class LocaleChooser : ComponentBase
+public partial class LocalePicker : ComponentBase
 {
     /// U+1F310 GLOBE WITH MERIDIANS — the default button glyph.
     public const string GlobeWithMeridians = "\U0001F310";
@@ -42,7 +42,7 @@ A consumer adds the namespace import once:
 @using LilyDesignSystem.Blazor.Helpers
 ```
 
-…and uses `<LocaleChooser …>` and the `Locales.*` helpers.
+…and uses `<LocalePicker …>` and the `Locales.*` helpers.
 
 ## Parameters
 
@@ -59,7 +59,7 @@ A consumer adds the namespace import once:
 | `ApplyDir`            | `bool`                                | no       | `true`                                             |
 | `LocaleLabels`        | `IReadOnlyDictionary<string,string>`  | no       | empty `Dictionary<string, string>()`               |
 | `OnChange`            | `EventCallback<string>`               | no       | —                                                  |
-| `ChildContent`        | `RenderFragment<LocaleChooserContext>?`| no       | `null` (the default globe glyph)                   |
+| `ChildContent`        | `RenderFragment<LocalePickerContext>?`| no       | `null` (the default globe glyph)                   |
 | `CssClass`            | `string`                              | no       | `""`                                               |
 | `AdditionalAttributes`| `Dictionary<string, object>?`         | no       | `null`                                             |
 
@@ -93,10 +93,10 @@ normalised tag).
 `ChildContent` **replaces the glyph inside the button**. It does not
 render options — the listbox is always owned by the component.
 
-`LocaleChooserContext` shape:
+`LocalePickerContext` shape:
 
 ```csharp
-public sealed class LocaleChooserContext
+public sealed class LocalePickerContext
 {
     /// Currently selected locale code (consumer form, not BCP 47).
     public required string Value { get; init; }
@@ -115,11 +115,11 @@ component.
 Consumers use it via `<ChildContent Context="ctx">`:
 
 ```razor
-<LocaleChooser Label="…" Locales="@(…)">
+<LocalePicker Label="…" Locales="@(…)">
     <ChildContent Context="ctx">
         <span class="my-flag" data-open="@ctx.Open">@ctx.LabelFor(ctx.Value)</span>
     </ChildContent>
-</LocaleChooser>
+</LocalePicker>
 ```
 
 ## Pure helpers (`Locales` static class)
@@ -151,26 +151,26 @@ so the test suite can assert against its output.
 An icon button plus a dropdown listbox:
 
 ```html
-<div class="locale-chooser {CssClass}" ...AdditionalAttributes>
+<div class="locale-picker {CssClass}" ...AdditionalAttributes>
   <input type="hidden" name="{Name}" value="{Value}" />
-  <button type="button" class="locale-chooser-button"
+  <button type="button" class="locale-picker-button"
           aria-label="{Label}" aria-haspopup="listbox"
           aria-expanded="false" aria-controls="{listId}">
-    <span class="locale-chooser-icon" aria-hidden="true">&#127760;</span>
+    <span class="locale-picker-icon" aria-hidden="true">&#127760;</span>
   </button>
-  <ul class="locale-chooser-list" id="{listId}" role="listbox"
+  <ul class="locale-picker-list" id="{listId}" role="listbox"
       aria-label="{Label}" tabindex="-1" hidden
       aria-activedescendant="{optionId of active, only while open}">
-    <li class="locale-chooser-option" id="{optionId}" role="option"
+    <li class="locale-picker-option" id="{optionId}" role="option"
         aria-selected="true|false" data-active
         lang="{TagFor(locale)}">{LabelFor(locale)}</li>
   </ul>
 </div>
 ```
 
-`ChildContent` replaces the `<span class="locale-chooser-icon">` only.
+`ChildContent` replaces the `<span class="locale-picker-icon">` only.
 Option ids are `{instance}-option-{index}` and the list id is
-`{instance}-list`, where `{instance}` is `locale-chooser-{n}` from a
+`{instance}-list`, where `{instance}` is `locale-picker-{n}` from a
 monotonic process-wide counter — stable and SSR-safe.
 
 The hidden input preserves form participation and the `Name`

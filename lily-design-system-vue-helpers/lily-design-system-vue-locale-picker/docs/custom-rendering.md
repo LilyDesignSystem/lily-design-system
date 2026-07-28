@@ -12,36 +12,38 @@ detection — are not delegable without re-opening every bug the
 component exists to close.
 
 ```vue
-<LocaleChooser label="Language" :locales="locales" v-model:value="locale">
+<LocalePicker label="Language" :locales="locales" v-model:value="locale">
     <template #default="{ value, open, labelFor }">
         <!-- replaces the 🌐 span -->
     </template>
-</LocaleChooser>
+</LocalePicker>
 ```
 
 ## The SlotArgs contract
 
 ```ts
 type SlotArgs = {
-    /** Currently selected locale code, in consumer form (`en_US`, not `en-US`). */
-    value: string;
-    /** Is the listbox open? */
-    open: boolean;
-    /** Resolve a code to its display label, honouring `localeLabels`. */
-    labelFor: (locale: string) => string;
+  /** Currently selected locale code, in consumer form (`en_US`, not `en-US`). */
+  value: string;
+  /** Is the listbox open? */
+  open: boolean;
+  /** Resolve a code to its display label, honouring `localeLabels`. */
+  labelFor: (locale: string) => string;
 };
 ```
 
 `ChildArgs` is exported as an alias, matching the canonical Svelte
 helper's type name.
 
-Note what `value` is *not*: it is not BCP 47-normalised. If you render
+Note what `value` is _not_: it is not BCP 47-normalised. If you render
 it as a `lang` attribute, run it through the exported
 `bcp47LocaleTag()` first — see [bcp47.md](./bcp47.md).
 
 ```vue
 <script setup lang="ts">
-import LocaleChooser, { bcp47LocaleTag } from "lily-design-system-vue-locale-chooser";
+import LocalePicker, {
+  bcp47LocaleTag,
+} from "lily-design-system-vue-locale-picker";
 </script>
 ```
 
@@ -61,7 +63,7 @@ screen. That is the failure mode this rule prevents.
 
 ```vue
 <template #default="{ value }">
-    <span aria-hidden="true">{{ value.slice(0, 2).toUpperCase() }}</span>
+  <span aria-hidden="true">{{ value.slice(0, 2).toUpperCase() }}</span>
 </template>
 ```
 
@@ -75,7 +77,7 @@ narrow header.
 
 ```vue
 <template #default="{ value }">
-    <span aria-hidden="true">{{ value.split(/[-_]/)[0].toUpperCase() }}</span>
+  <span aria-hidden="true">{{ value.split(/[-_]/)[0].toUpperCase() }}</span>
 </template>
 ```
 
@@ -90,27 +92,28 @@ the slot args at all.
 
 ```vue
 <script setup lang="ts">
-import LocaleChooser, {
-    bcp47LocaleTag,
-    isRtlLocale,
-} from "lily-design-system-vue-locale-chooser";
+import LocalePicker, {
+  bcp47LocaleTag,
+  isRtlLocale,
+} from "lily-design-system-vue-locale-picker";
 </script>
 
 <template>
-    <LocaleChooser label="Language" :locales="locales" :locale-labels="endonyms">
-        <template #default="{ value, labelFor }">
-            <span
-                aria-hidden="true"
-                :lang="bcp47LocaleTag(value)"
-                :dir="isRtlLocale(value) ? 'rtl' : 'ltr'"
-            >{{ labelFor(value) }}</span>
-        </template>
-    </LocaleChooser>
+  <LocalePicker label="Language" :locales="locales" :locale-labels="endonyms">
+    <template #default="{ value, labelFor }">
+      <span
+        aria-hidden="true"
+        :lang="bcp47LocaleTag(value)"
+        :dir="isRtlLocale(value) ? 'rtl' : 'ltr'"
+        >{{ labelFor(value) }}</span
+      >
+    </template>
+  </LocalePicker>
 </template>
 ```
 
 The `lang` on the span is not for the accessibility tree here — the
-span is `aria-hidden` — it is for the *font stack*, so the browser
+span is `aria-hidden` — it is for the _font stack_, so the browser
 picks a face that can render the script.
 
 See [`../examples/script-aware-glyph.vue`](../examples/script-aware-glyph.vue).
@@ -123,19 +126,19 @@ with a fixed icon set.
 
 ```vue
 <template #default>
-    <svg
-        aria-hidden="true"
-        focusable="false"
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-    >
-        <circle cx="12" cy="12" r="10" />
-        <path d="M2 12h20M12 2a15 15 0 0 1 0 20a15 15 0 0 1 0-20" />
-    </svg>
+  <svg
+    aria-hidden="true"
+    focusable="false"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+  >
+    <circle cx="12" cy="12" r="10" />
+    <path d="M2 12h20M12 2a15 15 0 0 1 0 20a15 15 0 0 1 0-20" />
+  </svg>
 </template>
 ```
 
@@ -148,10 +151,10 @@ in the tab order.
 
 ```vue
 <template #default="{ value, open }">
-    <span aria-hidden="true">
-        {{ value.split(/[-_]/)[0].toUpperCase() }}
-        <span :class="open ? 'caret caret-up' : 'caret caret-down'" />
-    </span>
+  <span aria-hidden="true">
+    {{ value.split(/[-_]/)[0].toUpperCase() }}
+    <span :class="open ? 'caret caret-up' : 'caret caret-down'" />
+  </span>
 </template>
 ```
 
@@ -159,15 +162,17 @@ You rarely need this — `aria-expanded` is already on the button, so
 CSS can do the whole job:
 
 ```css
-.locale-chooser-button[aria-expanded="true"] .caret { transform: rotate(180deg); }
+.locale-picker-button[aria-expanded="true"] .caret {
+  transform: rotate(180deg);
+}
 ```
 
 Prefer the CSS route; it keeps the state in one place.
 
-## What the slot should *not* do
+## What the slot should _not_ do
 
 - **Render the option list.** It cannot — the slot sits inside the
-  `<button>`. Style `.locale-chooser-option` instead.
+  `<button>`. Style `.locale-picker-option` instead.
 - **Carry the accessible name.** That is `label`.
 - **Own an interactive element.** A `<button>` or `<a>` inside the
   trigger `<button>` is invalid HTML and breaks keyboard behaviour.
@@ -180,7 +185,7 @@ Prefer the CSS route; it keeps the state in one place.
 
 The slot is for the glyph. If you want a segmented control, a
 flag grid, a dialog picker, or a `<datalist>` combobox, do not fight
-the slot — render your own UI and bind it to the same ref the chooser
+the slot — render your own UI and bind it to the same ref the picker
 binds to:
 
 ```vue
@@ -189,19 +194,19 @@ const locale = ref("en");
 </script>
 
 <template>
-    <LocaleChooser label="Language" :locales="locales" v-model:value="locale" />
-    <MyOwnPicker v-model="locale" />
+  <LocalePicker label="Language" :locales="locales" v-model:value="locale" />
+  <MyOwnPicker v-model="locale" />
 </template>
 ```
 
-Both stay in sync, the chooser keeps owning the `lang` / `dir` /
+Both stay in sync, the picker keeps owning the `lang` / `dir` /
 storage lifecycle, and your UI owns presentation.
 [`../examples/combobox.vue`](../examples/combobox.vue) does exactly
 this.
 
 ## Why Vue slot props arrive camelCase
 
-Props on the *template* side are kebab-case (`:locale-labels`), but
+Props on the _template_ side are kebab-case (`:locale-labels`), but
 slot props are plain JavaScript object keys, so they stay camelCase
 (`labelFor`, not `label-for`). This trips people who have just written
 a kebab-case prop list one line above.

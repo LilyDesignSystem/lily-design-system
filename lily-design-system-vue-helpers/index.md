@@ -8,12 +8,20 @@ DOM application) for one small, common job.
 
 ## Catalog
 
-| Helper                                                                            | Purpose                                                        |
-| --------------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| [`lily-design-system-vue-theme-chooser`](./lily-design-system-vue-theme-chooser/)   | Pick a visual theme; dynamic CSS load + `data-theme` swap.     |
-| [`lily-design-system-vue-locale-chooser`](./lily-design-system-vue-locale-chooser/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
-| [`lily-design-system-vue-text-size-chooser`](./lily-design-system-vue-text-size-chooser/) | Pick a text size; sets `data-text-size` on the document root. |
-| [`lily-design-system-vue-share-chooser`](./lily-design-system-vue-share-chooser/) | Share the page: native share sheet where available, else a destination list + copy the URL. |
+| Helper                                                                                  | Purpose                                                                                     |
+| --------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| [`lily-design-system-vue-theme-picker`](./lily-design-system-vue-theme-picker/)         | Pick a visual theme; dynamic CSS load + `data-theme` swap.                                  |
+| [`lily-design-system-vue-locale-picker`](./lily-design-system-vue-locale-picker/)       | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.                             |
+| [`lily-design-system-vue-text-size-picker`](./lily-design-system-vue-text-size-picker/) | Pick a text size; sets `data-text-size` on the document root.                               |
+| [`lily-design-system-vue-share-picker`](./lily-design-system-vue-share-picker/)         | Share the page: native share sheet where available, else a destination list + copy the URL. |
+
+`date-time-picker` is a fifth helper, listed separately because it does
+not fit the table above: it is a form control, not a page-header
+preference or action control.
+
+| Helper                                                                                          | Purpose                                                                            |
+| ------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| [`lily-design-system-vue-date-time-picker`](./lily-design-system-vue-date-time-picker/)         | Collect a date, a time, or both, via a text field + APG date-picker dialog.        |
 
 ## Conventions
 
@@ -55,10 +63,14 @@ Shared design decisions across the catalog:
 - **i18n-clean**: every user-facing string comes from a prop.
 - **One job per helper**: each helper owns one complete interaction
   end to end and composes cleanly with the others. For the three
-  `*-chooser` preference helpers that job is a user-preference
+  `*-picker` preference helpers that job is a user-preference
   lifecycle (selection + DOM application + optional persistence); for
-  `share-chooser` it is an **action** — it applies nothing to the
-  document and persists nothing.
+  `share-picker` it is an **action** — it applies nothing to the
+  document and persists nothing; for `date-time-picker` it is a **form
+  value** — like `share-picker` it applies nothing to the document and
+  persists nothing, but unlike any of the other three it is bindable via
+  `v-model:value` because the whole point is to hand the value back to a
+  form.
 - **Spec-driven**: every helper has a `spec/index.md` numbered with §
   references; tests assert against those numbers; docs link back.
 
@@ -66,7 +78,7 @@ Shared design decisions across the catalog:
 
 The headless library mirrors the canonical 490-component catalog.
 Each component is a pure container with no lifecycle. A consumer
-typing on top of `ThemeChooser` from `lily-design-system-vue-headless`
+typing on top of `ThemePicker` from `lily-design-system-vue-headless`
 writes their own option markup, their own persistence, and their own
 loading.
 
@@ -108,7 +120,7 @@ Each helper ships a vitest suite that runs under jsdom +
 item, named with the section number for fast cross-referencing.
 
 ```bash
-cd lily-design-system-vue-theme-chooser
+cd lily-design-system-vue-theme-picker
 pnpm test
 ```
 

@@ -1,4 +1,4 @@
-# API — ThemeChooser (Blazor)
+# API — ThemePicker (Blazor)
 
 Authoritative API surface lives in [`../spec/index.md`](../spec/index.md) §4.
 This file documents the Blazor-flavoured shape of the contract.
@@ -11,8 +11,8 @@ and are public:
 ```csharp
 namespace LilyDesignSystem.Blazor.Helpers;
 
-public sealed class ThemeChooserContext { /* … */ }
-public partial class ThemeChooser : ComponentBase { /* … */ }
+public sealed class ThemePickerContext { /* … */ }
+public partial class ThemePicker : ComponentBase { /* … */ }
 ```
 
 The static helpers, the default-glyph constant, and the imperative
@@ -31,27 +31,27 @@ A consumer adds the namespace import once:
 @using LilyDesignSystem.Blazor.Helpers
 ```
 
-…then uses `<ThemeChooser …>` and (rarely)
-`ThemeChooser.NormaliseThemesUrl(…)`.
+…then uses `<ThemePicker …>` and (rarely)
+`ThemePicker.NormaliseThemesUrl(…)`.
 
 ## Parameters
 
-| Parameter            | Type                                | Required | Default                                          |
-| -------------------- | ----------------------------------- | -------- | ------------------------------------------------ |
-| `Label`              | `string`                            | yes      | `""`                                             |
-| `ThemesUrl`          | `string`                            | yes      | `""`                                             |
-| `Themes`             | `IReadOnlyList<string>`             | yes      | `Array.Empty<string>()`                          |
-| `Value`              | `string`                            | no       | `""`                                             |
-| `ValueChanged`       | `EventCallback<string>`             | no       | —                                                |
-| `DefaultValue`       | `string?`                           | no       | `null` (resolves to `"light"` or `Themes[0]`)    |
-| `StorageKey`         | `string?`                           | no       | `null`                                           |
-| `Name`               | `string`                            | no       | `"theme"`                                        |
-| `Extension`          | `string`                            | no       | `".css"`                                         |
-| `ThemeLabels`        | `IReadOnlyDictionary<string,string>`| no       | empty `Dictionary<string, string>()`             |
-| `OnChange`           | `EventCallback<string>`             | no       | —                                                |
-| `ChildContent`       | `RenderFragment<ThemeChooserContext>?`| no      | `null` (the default glyph)                       |
-| `CssClass`           | `string`                            | no       | `""`                                             |
-| `AdditionalAttributes` | `Dictionary<string, object>?`     | no       | `null`                                           |
+| Parameter              | Type                                   | Required | Default                                       |
+| ---------------------- | -------------------------------------- | -------- | --------------------------------------------- |
+| `Label`                | `string`                               | yes      | `""`                                          |
+| `ThemesUrl`            | `string`                               | yes      | `""`                                          |
+| `Themes`               | `IReadOnlyList<string>`                | yes      | `Array.Empty<string>()`                       |
+| `Value`                | `string`                               | no       | `""`                                          |
+| `ValueChanged`         | `EventCallback<string>`                | no       | —                                             |
+| `DefaultValue`         | `string?`                              | no       | `null` (resolves to `"light"` or `Themes[0]`) |
+| `StorageKey`           | `string?`                              | no       | `null`                                        |
+| `Name`                 | `string`                               | no       | `"theme"`                                     |
+| `Extension`            | `string`                               | no       | `".css"`                                      |
+| `ThemeLabels`          | `IReadOnlyDictionary<string,string>`   | no       | empty `Dictionary<string, string>()`          |
+| `OnChange`             | `EventCallback<string>`                | no       | —                                             |
+| `ChildContent`         | `RenderFragment<ThemePickerContext>?` | no       | `null` (the default glyph)                    |
+| `CssClass`             | `string`                               | no       | `""`                                          |
+| `AdditionalAttributes` | `Dictionary<string, object>?`          | no       | `null`                                        |
 
 There is **no `Placeholder` parameter**. It existed only to pin a
 native `<select>`'s closed display; there is no `<select>` any more.
@@ -85,10 +85,10 @@ theme. Use it for analytics, server sync, or cookie writes.
 render options — the `<li role="option">` elements are always
 component-owned.
 
-`ThemeChooserContext` shape:
+`ThemePickerContext` shape:
 
 ```csharp
-public sealed class ThemeChooserContext
+public sealed class ThemePickerContext
 {
     /// Currently selected theme slug.
     public required string Value { get; init; }
@@ -102,11 +102,11 @@ public sealed class ThemeChooserContext
 Consumers use it via `<ChildContent Context="ctx">`:
 
 ```razor
-<ThemeChooser Label="Theme" ThemesUrl="/t/" Themes="@(new[]{ "light", "dark" })">
+<ThemePicker Label="Theme" ThemesUrl="/t/" Themes="@(new[]{ "light", "dark" })">
     <ChildContent Context="ctx">
         <span aria-hidden="true">@(ctx.Open ? "▲" : "▼")</span>
     </ChildContent>
-</ThemeChooser>
+</ThemePicker>
 ```
 
 When no `ChildContent` is supplied, the button renders the default
@@ -118,7 +118,7 @@ To drive the control from your own UI instead, call the public
 ## Pure helpers
 
 Two pure helpers are exported as `public static` methods on the
-`ThemeChooser` class:
+`ThemePicker` class:
 
 ```csharp
 public static string NormaliseThemesUrl(string themesUrl);
@@ -143,18 +143,36 @@ exposing the implementation to consumers.
 An icon button plus a dropdown listbox (`spec/index.md §4.2`):
 
 ```html
-<div class="theme-chooser {CssClass}" ...AdditionalAttributes>
+<div class="theme-picker {CssClass}" ...AdditionalAttributes>
   <input type="hidden" name="{Name}" value="{Value}" />
-  <button type="button" class="theme-chooser-button"
-          aria-label="{Label}" aria-haspopup="listbox"
-          aria-expanded="false" aria-controls="{listId}">
-    <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
+  <button
+    type="button"
+    class="theme-picker-button"
+    aria-label="{Label}"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="{listId}"
+  >
+    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
   </button>
-  <ul class="theme-chooser-list" id="{listId}" role="listbox"
-      aria-label="{Label}" tabindex="-1" hidden
-      aria-activedescendant="{optionId of active, only while open}">
-    <li class="theme-chooser-option" id="{optionId}" role="option"
-        aria-selected="true|false" data-active>{LabelFor(slug)}</li>
+  <ul
+    class="theme-picker-list"
+    id="{listId}"
+    role="listbox"
+    aria-label="{Label}"
+    tabindex="-1"
+    hidden
+    aria-activedescendant="{optionId of active, only while open}"
+  >
+    <li
+      class="theme-picker-option"
+      id="{optionId}"
+      role="option"
+      aria-selected="true|false"
+      data-active
+    >
+      {LabelFor(slug)}
+    </li>
   </ul>
 </div>
 ```
@@ -165,7 +183,7 @@ name comes only from `aria-label`. The hidden input preserves form
 participation; `Name` also discriminates the managed `<link>`.
 `hidden` on the `<ul>` and `aria-expanded` on the button track the
 same open state. Ids are `{instance}-list` and
-`{instance}-option-{index}`, where `{instance}` is `theme-chooser-{n}`
+`{instance}-option-{index}`, where `{instance}` is `theme-picker-{n}`
 from a monotonic process-wide counter — stable and SSR-safe.
 
 There is no `<select>`, no placeholder option, and no snap-back
@@ -176,13 +194,17 @@ Document mutations (only inside `OnAfterRenderAsync(true)` and
 subsequent `SetThemeAsync` calls):
 
 ```html
-<link rel="stylesheet" data-lily-theme-chooser="{Name}" href="{ThemesUrl}{slug}{Extension}">
+<link
+  rel="stylesheet"
+  data-lily-theme-picker="{Name}"
+  href="{ThemesUrl}{slug}{Extension}"
+/>
 ```
 
 And on the document root:
 
 ```html
-<html data-theme="{slug}">
+<html data-theme="{slug}"></html>
 ```
 
 ## Type re-exports
@@ -190,7 +212,7 @@ And on the document root:
 There's no barrel-file mechanism in Blazor analogous to a TypeScript
 `index.ts`. The `LilyDesignSystem.Blazor.Helpers` namespace plays
 the role of the barrel: any consumer who adds the namespace import
-can reach `ThemeChooser`, `ThemeChooserContext`, and the static
+can reach `ThemePicker`, `ThemePickerContext`, and the static
 helpers without further plumbing.
 
 ## Versioning

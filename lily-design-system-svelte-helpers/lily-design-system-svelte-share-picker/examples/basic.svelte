@@ -10,7 +10,7 @@
   list everywhere.
 -->
 <script lang="ts">
-  import ShareChooser, { type ShareTarget } from "../ShareChooser.svelte";
+  import SharePicker, { type ShareTarget } from "../SharePicker.svelte";
 
   const targets: ShareTarget[] = [
     {
@@ -29,7 +29,7 @@
   ];
 </script>
 
-<ShareChooser
+<SharePicker
   label="Share this page"
   title="An article worth reading"
   {targets}

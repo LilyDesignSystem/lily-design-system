@@ -1,4 +1,4 @@
-# LocaleChooser (Blazor helper)
+# LocalePicker (Blazor helper)
 
 A reusable, headless Blazor locale select that applies the chosen
 locale to the document root via `lang` and `dir`, with optional
@@ -39,8 +39,8 @@ namespace import to your `_Imports.razor`:
 
 The only runtime dependency is
 `Microsoft.AspNetCore.Components.Web` 10.0. There is no extra NuGet
-package; the helper is four source files (`LocaleChooser.razor` +
-`LocaleChooser.razor.cs` + `Locales.cs` + `locales.tsv`).
+package; the helper is four source files (`LocalePicker.razor` +
+`LocalePicker.razor.cs` + `Locales.cs` + `locales.tsv`).
 
 ## Quick start
 
@@ -52,14 +52,14 @@ CSS (`html[dir="rtl"]`), and assistive technology all see the change.
 ```razor
 @using LilyDesignSystem.Blazor.Helpers
 
-<LocaleChooser
+<LocalePicker
     Label="Language"
     Locales="@(new []{ "en", "en_US", "fr", "fr_CA", "ar", "he" })"
     @bind-Value="locale"
     StorageKey="lily-locale"
     DetectFromNavigator="true" />
 
-<p class="locale-chooser-status" aria-live="polite">
+<p class="locale-picker-status" aria-live="polite">
     Active language:
     <span lang="@Locales.Bcp47LocaleTag(locale)">@Locales.LocaleName(locale)</span>
 </p>
@@ -135,7 +135,7 @@ Pass `ApplyDir="false"` if you want full control of `dir` yourself.
 ### Default rendering
 
 ```razor
-<LocaleChooser
+<LocalePicker
     Label="Language"
     Locales="@(new[] { "en", "cy" })"
     @bind-Value="locale" />
@@ -144,19 +144,19 @@ Pass `ApplyDir="false"` if you want full control of `dir` yourself.
 Renders (ids abbreviated; the listbox is shown open):
 
 ```html
-<div class="locale-chooser">
+<div class="locale-picker">
     <input type="hidden" name="locale" value="en" />
-    <button type="button" class="locale-chooser-button"
+    <button type="button" class="locale-picker-button"
             aria-label="Language" aria-haspopup="listbox"
-            aria-expanded="true" aria-controls="locale-chooser-1-list">
-        <span class="locale-chooser-icon" aria-hidden="true">&#127760;</span>
+            aria-expanded="true" aria-controls="locale-picker-1-list">
+        <span class="locale-picker-icon" aria-hidden="true">&#127760;</span>
     </button>
-    <ul class="locale-chooser-list" id="locale-chooser-1-list" role="listbox"
+    <ul class="locale-picker-list" id="locale-picker-1-list" role="listbox"
         aria-label="Language" tabindex="-1"
-        aria-activedescendant="locale-chooser-1-option-0">
-        <li class="locale-chooser-option" id="locale-chooser-1-option-0"
+        aria-activedescendant="locale-picker-1-option-0">
+        <li class="locale-picker-option" id="locale-picker-1-option-0"
             role="option" aria-selected="true" data-active lang="en">English</li>
-        <li class="locale-chooser-option" id="locale-chooser-1-option-1"
+        <li class="locale-picker-option" id="locale-picker-1-option-1"
             role="option" aria-selected="false" lang="cy">Welsh</li>
     </ul>
 </div>
@@ -164,7 +164,7 @@ Renders (ids abbreviated; the listbox is shown open):
 
 Reading that markup:
 
-- The **root `<div>`** carries the `locale-chooser` class hook plus
+- The **root `<div>`** carries the `locale-picker` class hook plus
   `CssClass`, and everything captured by `AdditionalAttributes` spreads
   onto it.
 - The **hidden input** carries `Name` and `Value` so the control still
@@ -181,9 +181,9 @@ Reading that markup:
   is the **open** state — while closed the `<ul>` carries `hidden`, and
   neither `aria-activedescendant` nor `data-active` is emitted at all.
 
-Class hooks: `.locale-chooser` on the root, `.locale-chooser-button` on
-the trigger, `.locale-chooser-icon` on the glyph, `.locale-chooser-list`
-on the `<ul>`, and `.locale-chooser-option` on every `<li>`. The active
+Class hooks: `.locale-picker` on the root, `.locale-picker-button` on
+the trigger, `.locale-picker-icon` on the glyph, `.locale-picker-list`
+on the `<ul>`, and `.locale-picker-option` on every `<li>`. The active
 option additionally carries `[data-active]`, and the selected option
 `[aria-selected="true"]`.
 
@@ -194,17 +194,17 @@ flow and shoves the rest of the page around. Positioning it is your
 job:
 
 ```css
-.locale-chooser { position: relative; }
+.locale-picker { position: relative; }
 
-.locale-chooser-list {
+.locale-picker-list {
     position: absolute;
     inset-block-start: 100%;
     inset-inline-start: 0;   /* logical, not `left` */
     min-inline-size: 12ch;
 }
 
-.locale-chooser-option[data-active] { outline: 2px solid currentColor; }
-.locale-chooser-option[aria-selected="true"] { font-weight: 600; }
+.locale-picker-option[data-active] { outline: 2px solid currentColor; }
+.locale-picker-option[aria-selected="true"] { font-weight: 600; }
 ```
 
 Use **logical properties** (`inset-inline-start`, `min-inline-size`)
@@ -220,7 +220,7 @@ By default the select uses the English names from `locales.tsv`
 `LocaleLabels`:
 
 ```razor
-<LocaleChooser
+<LocalePicker
     Label="Langue"
     Locales="@(new[] { "en", "fr", "ar" })"
     LocaleLabels="@(new Dictionary<string, string>
@@ -234,13 +234,13 @@ By default the select uses the English names from `locales.tsv`
 
 ### Replacing the glyph
 
-`ChildContent` is a `RenderFragment<LocaleChooserContext>` that
+`ChildContent` is a `RenderFragment<LocalePickerContext>` that
 **replaces the glyph inside the button**. It does not render options —
 the component always owns the listbox. The context gives you `Value`,
 `Open`, and `LabelFor`:
 
 ```razor
-<LocaleChooser
+<LocalePicker
     Label="Language"
     Locales="@(new[] { "en", "fr", "es", "de", "ar" })"
     @bind-Value="locale"
@@ -248,15 +248,15 @@ the component always owns the listbox. The context gives you `Value`,
     <ChildContent Context="ctx">
         @* Inline SVG is the robust choice: no font-coverage risk.
            Keep it aria-hidden — the name still comes from Label. *@
-        <svg class="locale-chooser-icon" aria-hidden="true" focusable="false"
+        <svg class="locale-picker-icon" aria-hidden="true" focusable="false"
              width="20" height="20" viewBox="0 0 20 20">
             <circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" />
             <ellipse cx="10" cy="10" rx="3.5" ry="8" fill="none" stroke="currentColor" />
             <path d="M2 10h16" fill="none" stroke="currentColor" />
         </svg>
-        <span class="locale-chooser-code">@ctx.LabelFor(ctx.Value)</span>
+        <span class="locale-picker-code">@ctx.LabelFor(ctx.Value)</span>
     </ChildContent>
-</LocaleChooser>
+</LocalePicker>
 ```
 
 Set `Label` even when the fragment renders visible text: the
@@ -270,7 +270,7 @@ third-party picker — build it yourself and drive this helper's
 lifecycle through a `@ref` and the static `Locales.*` helpers:
 
 ```razor
-<LocaleChooser @ref="localeSelect"
+<LocalePicker @ref="localeSelect"
               Label="Language"
               Locales="@codes"
               @bind-Value="locale"
@@ -293,7 +293,7 @@ lifecycle through a `@ref` and the static `Locales.*` helpers:
 </ul>
 
 @code {
-    private LocaleChooser? localeSelect;
+    private LocalePicker? localeSelect;
     private string[] codes = { "en", "fr", "ar" };
     private string locale = "";
 }
@@ -308,7 +308,7 @@ the helper still owns the whole apply lifecycle.
 ```razor
 @inject IStringLocalizer<SharedResources> Localizer
 
-<LocaleChooser
+<LocalePicker
     Label="@Localizer["chooseLanguage"]"
     Locales="@(new[] { "en", "fr", "ar" })"
     @bind-Value="locale"
@@ -341,7 +341,7 @@ For flicker-free first paint, resolve the locale on the server
         .Request.Cookies["locale"] ?? "en";
 }
 
-<LocaleChooser
+<LocalePicker
     Label="Language"
     Locales="@(new[] { "en", "fr", "ar" })"
     Value="@cookieLocale"
@@ -492,9 +492,9 @@ paint, resolve the locale on the server (cookie /
 | `AGENTS.md`                   | Fast-index pointer; loads the AGENTS bundle.     |
 | `AGENTS/`                     | Topic-by-topic agent files.                      |
 | `CLAUDE.md`                   | `@AGENTS.md`.                                    |
-| `LocaleChooser.razor`          | Razor markup.                                    |
-| `LocaleChooser.razor.cs`       | C# code-behind (partial class).                  |
-| `LocaleChooserTests.cs`        | bUnit + xUnit spec covering every spec §7 item.  |
+| `LocalePicker.razor`          | Razor markup.                                    |
+| `LocalePicker.razor.cs`       | C# code-behind (partial class).                  |
+| `LocalePickerTests.cs`        | bUnit + xUnit spec covering every spec §7 item.  |
 | `Locales.cs`                  | Built-in code → English-name map and RTL sets.   |
 | `locales.tsv`                 | Canonical 436-row source for `Locales.cs`.       |
 | `index.md`                    | This file.                                       |

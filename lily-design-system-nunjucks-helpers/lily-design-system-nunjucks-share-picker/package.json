@@ -1,7 +1,7 @@
 {
-  "name": "lily-design-system-nunjucks-share-chooser",
+  "name": "lily-design-system-nunjucks-share-picker",
   "version": "0.1.0",
-  "description": "Lily Design System - Nunjucks 3 share chooser",
+  "description": "Lily Design System - Nunjucks 3 share picker",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -11,7 +11,7 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./template": "./dist/share-chooser.njk"
+    "./template": "./dist/share-picker.njk"
   },
   "files": [
     "dist",
@@ -27,7 +27,7 @@
     "system",
     "nunjucks",
     "share",
-    "chooser"
+    "picker"
   ],
   "author": "joel@joelparkerhenderson.com",
   "license": "MIT"

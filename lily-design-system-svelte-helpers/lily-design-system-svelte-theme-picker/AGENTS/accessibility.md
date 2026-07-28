@@ -1,4 +1,4 @@
-# Accessibility — ThemeChooser (Svelte)
+# Accessibility — ThemePicker (Svelte)
 
 The select targets WCAG 2.2 AAA. It is an **icon button that opens a
 listbox**, built to the WAI-ARIA APG **Listbox** pattern — not a
@@ -64,7 +64,7 @@ Do not paper over these when editing docs; state them:
    the control's entire accessible name, with no visible-text fallback.
 2. **Hand-rolled listbox.** Weaker assistive-technology and mobile
    support than a native `<select>`. For some audiences a native
-   `<select>` — i.e. the headless `ThemeChooser` container upstream — is
+   `<select>` — i.e. the headless `ThemePicker` container upstream — is
    the better choice.
 3. **Font-dependent glyph.** U+25D1 may substitute, render as tofu, or
    be missing entirely, depending on the device's installed fonts.
@@ -111,7 +111,7 @@ evidence:
   component-owned.
 - **Rendering interactive content in the snippet.** Its output lives
   inside a `<button>`; nested interactive elements are invalid HTML.
-- **Shipping no positioning CSS for `.theme-chooser-list`.** It renders
+- **Shipping no positioning CSS for `.theme-picker-list`.** It renders
   in normal flow and shifts the page on open.
 - **Styling `[aria-selected]` but not `[data-active]`.** Keyboard users
   then have no visible cursor.
@@ -136,13 +136,13 @@ evidence:
   to announce "Theme changed to Dark", they write the live region
   themselves — see the status-region section in
   [`../docs/accessibility.md`](../docs/accessibility.md).
-- Option ids come from the module-level `nextThemeChooserId()` counter,
+- Option ids come from the module-level `nextThemePickerId()` counter,
   which is SSR-safe. Never swap it for `Math.random()` / `Date.now()`.
 
 ## Testing for a11y
 
 ```ts
-render(ThemeChooser, {
+render(ThemePicker, {
     props: { label: "Theme", themesUrl: "/t/", themes: ["light", "dark"] },
 });
 const button = screen.getByRole("button");

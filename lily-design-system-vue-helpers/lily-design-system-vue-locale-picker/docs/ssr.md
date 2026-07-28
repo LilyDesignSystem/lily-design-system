@@ -1,6 +1,6 @@
 # SSR — Server-side rendering, cookies, and Accept-Language
 
-The chooser compiles cleanly under Vue 3 SSR (Nuxt 3, plain
+The picker compiles cleanly under Vue 3 SSR (Nuxt 3, plain
 `vue/server-renderer`, Astro Vue islands, Vite + Vue with a custom
 SSR setup) but renders nothing locale-specific on the server unless
 the consumer pre-resolves the locale. This page covers the four
@@ -28,12 +28,12 @@ with `lang="en"` and the client picks `ar`, the page jumps:
 
 1. Browser parses `<html lang="en">` → default LTR layout.
 2. Browser fetches CSS, paints English page (FOUC-style flash).
-3. JS hydrates, `LocaleChooser` runs its `onMounted` hook, reads
+3. JS hydrates, `LocalePicker` runs its `onMounted` hook, reads
    `localStorage["app-locale"] === "ar"`, writes
    `<html lang="ar" dir="rtl">`.
 4. Browser repaints in RTL → layout shift.
 
-Steps 2–4 cause a visible flash. The chooser can't avoid it on its
+Steps 2–4 cause a visible flash. The picker can't avoid it on its
 own because `localStorage` and `navigator.languages` aren't
 accessible server-side. The consumer fixes it by pre-resolving the
 locale on the server and seeding `value`.
@@ -51,10 +51,10 @@ SSR and writes to `document.cookie` on the client. Combined with
 ```vue
 <script setup lang="ts">
 import { computed } from "vue";
-import LocaleChooser, {
+import LocalePicker, {
     isRtlLocale,
     bcp47LocaleTag,
-} from "@/lib/LocaleChooser.vue";
+} from "@/lib/LocalePicker.vue";
 
 // useCookie() is auto-imported in Nuxt 3. Reads the server-side
 // cookie on the first request; survives reloads.
@@ -77,7 +77,7 @@ useHead({
 </script>
 
 <template>
-    <LocaleChooser
+    <LocalePicker
         label="Language"
         :locales="['en', 'fr', 'ar']"
         v-model:value="locale"
@@ -93,7 +93,7 @@ Result:
 - Select mounts already showing the right option selected because
   `locale.value` was hydrated from the cookie.
 - User picks `ar`. `useCookie()` writes `document.cookie` and the
-  chooser writes `<html lang="ar" dir="rtl">`. Next request re-paints
+  picker writes `<html lang="ar" dir="rtl">`. Next request re-paints
   the page in Arabic from the very first byte.
 
 ### Why `useCookie()` is the cleanest answer
@@ -155,10 +155,10 @@ export default defineNuxtPlugin(() => {
 ```vue
 <script setup lang="ts">
 import { computed } from "vue";
-import LocaleChooser, {
+import LocalePicker, {
     isRtlLocale,
     bcp47LocaleTag,
-} from "@/lib/LocaleChooser.vue";
+} from "@/lib/LocalePicker.vue";
 
 const { $initialLocale } = useNuxtApp() as unknown as {
     $initialLocale: string;
@@ -183,7 +183,7 @@ async function persistLocaleCookie(code: string) {
 </script>
 
 <template>
-    <LocaleChooser
+    <LocalePicker
         label="Language"
         :locales="['en', 'fr', 'ar']"
         v-model:value="locale"
@@ -216,7 +216,7 @@ pages/
 <!-- layouts/default.vue -->
 <script setup lang="ts">
 import { computed } from "vue";
-import LocaleChooser from "@/lib/LocaleChooser.vue";
+import LocalePicker from "@/lib/LocalePicker.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -233,7 +233,7 @@ function navigate(next: string) {
 </script>
 
 <template>
-    <LocaleChooser
+    <LocalePicker
         label="Language"
         :locales="['en', 'fr', 'ar']"
         :value="current"
@@ -251,12 +251,12 @@ request URL).
 
 ## Strategy 4: client-only (`localStorage` / navigator)
 
-The fallback when there is no server. The chooser flickers (default
+The fallback when there is no server. The picker flickers (default
 paints first, then the resolved locale takes over) but everything
 else works.
 
 ```vue
-<LocaleChooser
+<LocalePicker
     label="Language"
     :locales="['en', 'fr', 'ar']"
     v-model:value="locale"
@@ -276,7 +276,7 @@ Acceptable for:
 ## Hydration considerations
 
 Vue's hydration matcher compares the SSR DOM to the client virtual
-DOM and warns on any mismatch. The chooser is safe by default
+DOM and warns on any mismatch. The picker is safe by default
 because:
 
 - `onMounted` never fires during SSR, so no DOM writes happen
@@ -286,7 +286,7 @@ because:
   consumer controls and which is identical on both sides as long as
   it's seeded from the same source (cookie / route param /
   server-resolved state).
-- Element ids come from the `nextLocaleChooserId()` module counter,
+- Element ids come from the `nextLocalePickerId()` module counter,
   not `Math.random()` or `Date.now()`, so the `id` /
   `aria-controls` / `aria-activedescendant` wiring matches across the
   boundary.
@@ -309,9 +309,9 @@ The two cases that produce hydration warnings:
 ```ts
 import { createSSRApp } from "vue";
 import { renderToString } from "vue/server-renderer";
-import LocaleChooser from "./LocaleChooser.vue";
+import LocalePicker from "./LocalePicker.vue";
 
-const app = createSSRApp(LocaleChooser, {
+const app = createSSRApp(LocalePicker, {
     label: "Language",
     locales: ["en", "fr", "ar"],
     value: "fr",
@@ -334,7 +334,7 @@ const RTL = /^(ar|he|fa|ur|ps)/.test(locale);
 ---
 <html lang={locale} dir={RTL ? "rtl" : "ltr"}>
     <body>
-        <LocaleChooser
+        <LocalePicker
             client:load
             label="Language"
             :locales={["en", "fr", "ar"]}
@@ -345,7 +345,7 @@ const RTL = /^(ar|he|fa|ur|ps)/.test(locale);
 </html>
 ```
 
-`client:load` mounts the chooser on the client. Because the
+`client:load` mounts the picker on the client. Because the
 surrounding `<html>` already has the right `lang`/`dir`, there's no
 flash.
 
@@ -353,7 +353,7 @@ flash.
 
 ## Tests for SSR
 
-The chooser's vitest suite runs in jsdom (client-side). For full SSR
+The picker's vitest suite runs in jsdom (client-side). For full SSR
 tests:
 
 - **Compile check** — `vue-tsc` will catch invalid SSR usage
@@ -365,7 +365,7 @@ tests:
   `vue/server-renderer` for each locale, snapshot the first 200
   bytes.
 
-The chooser itself has no SSR-specific code path to test beyond "the
+The picker itself has no SSR-specific code path to test beyond "the
 component compiles in SSR mode and renders the selected option for
 the seeded `value`". The reference test suite covers that under
 jsdom by asserting that `value` controls which option is selected on

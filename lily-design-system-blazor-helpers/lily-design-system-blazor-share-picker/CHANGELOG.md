@@ -1,4 +1,4 @@
-# Changelog — ShareChooser (Blazor)
+# Changelog — SharePicker (Blazor)
 
 All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
@@ -7,42 +7,53 @@ and the project follows [Semantic Versioning](https://semver.org/).
 ## 0.1.0 — 2026-07-21
 
 Initial release. A Blazor 10 port of the canonical Svelte helper
-[`lily-design-system-svelte-share-chooser`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-chooser/).
+[`lily-design-system-svelte-share-picker`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-picker/).
 
 Developed in-tree as `lily-design-system-blazor-share-button` and
-renamed to `lily-design-system-blazor-share-chooser` before its first
+renamed to `lily-design-system-blazor-share-picker` before its first
 release, so this 0.1.0 is the only version that has ever existed. The
-NuGet package is `LilyDesignSystem.Blazor.ShareChooser`.
+NuGet package is `LilyDesignSystem.Blazor.SharePicker`.
 
 ### Added
 
-- **`ShareChooser`** — a headless share control. A single-glyph button
+- **`SharePicker`** — a headless share control. A single-glyph button
   (➤, U+27A4) that opens the **native share sheet** where the browser
   provides one, and otherwise a **disclosure list** of consumer-supplied
   destinations plus a built-in **copy the page URL** action.
 
   ```html
-  <div class="share-chooser {CssClass}">
-    <button type="button" class="share-chooser-button" aria-label="{Label}"
-            aria-expanded="false" aria-controls="{listId}">
-      <span class="share-chooser-icon" aria-hidden="true">&#10148;</span>
+  <div class="share-picker {CssClass}">
+    <button
+      type="button"
+      class="share-picker-button"
+      aria-label="{Label}"
+      aria-expanded="false"
+      aria-controls="{listId}"
+    >
+      <span class="share-picker-icon" aria-hidden="true">&#10148;</span>
     </button>
-    <ul class="share-chooser-list" id="{listId}" hidden>
-      <li class="share-chooser-list-item">
-        <a class="share-chooser-target" data-target-id="{Id}" href="{Href(...)}"
-           target="_blank" rel="noopener noreferrer">{Label}</a>
+    <ul class="share-picker-list" id="{listId}" hidden>
+      <li class="share-picker-list-item">
+        <a
+          class="share-picker-target"
+          data-target-id="{Id}"
+          href="{Href(...)}"
+          target="_blank"
+          rel="noopener noreferrer"
+          >{Label}</a
+        >
       </li>
-      <li class="share-chooser-list-item">
-        <button type="button" class="share-chooser-copy">{CopyLabel}</button>
+      <li class="share-picker-list-item">
+        <button type="button" class="share-picker-copy">{CopyLabel}</button>
       </li>
     </ul>
-    <p class="share-chooser-status" aria-live="polite"></p>
+    <p class="share-picker-status" aria-live="polite"></p>
   </div>
   ```
 
 - **The first helper that owns an action, not a preference.** The three
-  `*-select` helpers own *selection + DOM application + optional
-  persistence*. This one applies nothing to the document and persists
+  `*-select` helpers own _selection + DOM application + optional
+  persistence_. This one applies nothing to the document and persists
   nothing: no `localStorage`, no `data-*` on the document root, no
   `StorageKey` parameter.
 
@@ -53,7 +64,7 @@ NuGet package is `LilyDesignSystem.Blazor.ShareChooser`.
   suggests a disclosure when the items are links. Copy is a genuine
   action, so it is a `<button>`.
 
-- **The trigger class is `share-chooser-button`**, following the
+- **The trigger class is `share-picker-button`**, following the
   `{helper}-button` convention the sibling helpers use.
 
 - **`ShareTarget`** — `{ Id, Label, Href, NewTab = true }`, where `Href`
@@ -97,7 +108,7 @@ NuGet package is `LilyDesignSystem.Blazor.ShareChooser`.
   `ShareNativelyAsync()`, so consumers can drive the control from their
   own UI via a `@ref`.
 
-- **Static helpers** `BlackRightwardsArrowhead`, `NextShareChooserId()`,
+- **Static helpers** `BlackRightwardsArrowhead`, `NextSharePickerId()`,
   `CanShareNativelyAsync(IJSRuntime)`, `CanCopyAsync(IJSRuntime)` — the
   C# equivalents of the Svelte package's module re-exports. The two
   capability probes are async because the browser is only reachable over
@@ -135,7 +146,7 @@ Each is forced by the framework, not chosen. Full list in
   suppress-next-click flag stops the arrow keys' synthesised click from
   toggling the list twice.
 - **`class` is `CssClass`** (C# keyword); **`children` is
-  `ChildContent`**, typed `RenderFragment<ShareChooserContext>`;
+  `ChildContent`**, typed `RenderFragment<SharePickerContext>`;
   **`OnShare` carries a `ShareEventArgs`** rather than two positional
   arguments, because `EventCallback<T>` is single-argument.
 

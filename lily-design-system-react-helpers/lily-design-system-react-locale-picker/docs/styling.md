@@ -7,18 +7,18 @@ to the consumer. This guide lists the hooks it exposes.
 
 | Selector                           | Element                                  |
 | ---------------------------------- | ---------------------------------------- |
-| `.locale-chooser`                   | The root `<div>`.                        |
-| `.locale-chooser.{consumerClass}`   | Both classes when `className` is passed. |
-| `.locale-chooser-button`            | The trigger `<button>`.                  |
-| `.locale-chooser-icon`              | The `<span>` holding the default globe glyph. Absent when you pass `children`. |
-| `.locale-chooser-list`              | The `<ul role="listbox">` dropdown.      |
-| `.locale-chooser-option`            | Each `<li role="option">`.               |
-| `.locale-chooser-status`            | The consumer-rendered status line naming the active locale. Not emitted by the component — you render it, and the examples always do. |
+| `.locale-picker`                   | The root `<div>`.                        |
+| `.locale-picker.{consumerClass}`   | Both classes when `className` is passed. |
+| `.locale-picker-button`            | The trigger `<button>`.                  |
+| `.locale-picker-icon`              | The `<span>` holding the default globe glyph. Absent when you pass `children`. |
+| `.locale-picker-list`              | The `<ul role="listbox">` dropdown.      |
+| `.locale-picker-option`            | Each `<li role="option">`.               |
+| `.locale-picker-status`            | The consumer-rendered status line naming the active locale. Not emitted by the component — you render it, and the examples always do. |
 
 A `children` render prop replaces the contents of the button only, so
-every hook above except `.locale-chooser-icon` is still guaranteed.
+every hook above except `.locale-picker-icon` is still guaranteed.
 
-### `.locale-chooser-status`
+### `.locale-picker-status`
 
 The status line is part of the default pattern, not decoration: the
 closed control is an icon button, so this element is the only place the
@@ -26,7 +26,7 @@ active locale is stated in visible text. See
 [accessibility.md](./accessibility.md). Style it as ordinary body copy:
 
 ```css
-.locale-chooser-status {
+.locale-picker-status {
     margin-block-start: 0.5rem;
     font-size: 0.875rem;
     color: var(--theme-color-base-content, currentColor);
@@ -37,11 +37,11 @@ active locale is stated in visible text. See
 
 | Attribute                     | On                          | Purpose                          |
 | ----------------------------- | --------------------------- | -------------------------------- |
-| `aria-expanded="true\|false"` | `.locale-chooser-button`     | Open state — style the trigger, e.g. rotate a caret. |
-| `hidden`                      | `.locale-chooser-list`       | Present while closed. This is what opens and closes the dropdown. |
-| `aria-selected="true\|false"` | `.locale-chooser-option`     | The locale currently in effect.  |
-| `data-active`                 | `.locale-chooser-option`     | The keyboard-active option (present on exactly one, only while open). |
-| `lang="<bcp47>"`              | `.locale-chooser-option`     | Each option's own language. Also a styling hook — see below. |
+| `aria-expanded="true\|false"` | `.locale-picker-button`     | Open state — style the trigger, e.g. rotate a caret. |
+| `hidden`                      | `.locale-picker-list`       | Present while closed. This is what opens and closes the dropdown. |
+| `aria-selected="true\|false"` | `.locale-picker-option`     | The locale currently in effect.  |
+| `data-active`                 | `.locale-picker-option`     | The keyboard-active option (present on exactly one, only while open). |
+| `lang="<bcp47>"`              | `.locale-picker-option`     | Each option's own language. Also a styling hook — see below. |
 | `lang` / `dir`                | `target` (default `<html>`) | Written by the control on every change. |
 
 `aria-selected` and `data-active` are different things and both need a
@@ -52,8 +52,8 @@ style: `aria-selected` is *the locale in effect*, `data-active` is
 only hook for the moving highlight.
 
 ```css
-.locale-chooser-option[aria-selected="true"] { font-weight: 600; }
-.locale-chooser-option[data-active] { background: Highlight; color: HighlightText; }
+.locale-picker-option[aria-selected="true"] { font-weight: 600; }
+.locale-picker-option[data-active] { background: Highlight; color: HighlightText; }
 ```
 
 ## Styling per language with `lang`
@@ -63,15 +63,15 @@ directly — useful when one script needs a different face or size to
 stay legible next to Latin text:
 
 ```css
-.locale-chooser-option:lang(ar),
-.locale-chooser-option:lang(fa),
-.locale-chooser-option:lang(ur) {
+.locale-picker-option:lang(ar),
+.locale-picker-option:lang(fa),
+.locale-picker-option:lang(ur) {
     font-family: "Noto Naskh Arabic", serif;
     font-size: 1.0625em;
 }
 
-.locale-chooser-option:lang(ja),
-.locale-chooser-option:lang(zh) {
+.locale-picker-option:lang(ja),
+.locale-picker-option:lang(zh) {
     font-family: "Noto Sans CJK", sans-serif;
 }
 ```
@@ -88,7 +88,7 @@ at the edges can land on the surprising side. If you mix scripts in one
 list, isolate each label:
 
 ```css
-.locale-chooser-option {
+.locale-picker-option {
     unicode-bidi: isolate;
 }
 ```
@@ -102,12 +102,12 @@ unstyled, the `<ul>` renders as a block in normal flow and pushes the
 page around when it opens. The minimum to make it a dropdown:
 
 ```css
-.locale-chooser {
+.locale-picker {
     position: relative;
     display: inline-block;
 }
 
-.locale-chooser-list {
+.locale-picker-list {
     position: absolute;
     inset-block-start: 100%;
     inset-inline-start: 0;
@@ -135,22 +135,22 @@ actually scrollable.
 ## Keep `hidden` working
 
 The component opens and closes the list by toggling the `hidden`
-attribute. Any `display` you set on `.locale-chooser-list` overrides the
+attribute. Any `display` you set on `.locale-picker-list` overrides the
 UA stylesheet's `[hidden] { display: none }` and the list will never
 close. If you need `display: flex` or `display: grid`, re-assert the
 rule:
 
 ```css
-.locale-chooser-list { display: grid; }
-.locale-chooser-list[hidden] { display: none; }
+.locale-picker-list { display: grid; }
+.locale-picker-list[hidden] { display: none; }
 ```
 
 ## A minimal complete example
 
 ```css
-.locale-chooser { position: relative; display: inline-block; }
+.locale-picker { position: relative; display: inline-block; }
 
-.locale-chooser-button {
+.locale-picker-button {
     display: inline-flex;
     align-items: center;
     gap: 0.375rem;
@@ -162,14 +162,14 @@ rule:
     font: inherit;
 }
 
-.locale-chooser-button:focus-visible {
+.locale-picker-button:focus-visible {
     outline: 3px solid var(--theme-color-focus, #ffeb3b);
     outline-offset: 2px;
 }
 
-.locale-chooser-icon { font-size: 1.25em; line-height: 1; }
+.locale-picker-icon { font-size: 1.25em; line-height: 1; }
 
-.locale-chooser-list {
+.locale-picker-list {
     position: absolute;
     inset-block-start: 100%;
     inset-inline-start: 0;
@@ -185,16 +185,16 @@ rule:
     border-radius: 0.25rem;
 }
 
-.locale-chooser-list[hidden] { display: none; }
+.locale-picker-list[hidden] { display: none; }
 
-.locale-chooser-option {
+.locale-picker-option {
     padding: 0.375rem 0.75rem;
     cursor: pointer;
     unicode-bidi: isolate;
 }
 
-.locale-chooser-option[aria-selected="true"] { font-weight: 600; }
-.locale-chooser-option[data-active] { background: Highlight; color: HighlightText; }
+.locale-picker-option[aria-selected="true"] { font-weight: 600; }
+.locale-picker-option[data-active] { background: Highlight; color: HighlightText; }
 ```
 
 Note the focus style on the button: the package never suppresses focus

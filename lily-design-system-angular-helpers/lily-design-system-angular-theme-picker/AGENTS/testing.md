@@ -1,7 +1,7 @@
-# Testing — ThemeChooser (Angular)
+# Testing — ThemePicker (Angular)
 
 The select's test suite lives in
-[`../theme-chooser.component.spec.ts`](../theme-chooser.component.spec.ts)
+[`../theme-picker.component.spec.ts`](../theme-picker.component.spec.ts)
 and asserts every numbered acceptance criterion in `spec/index.md` §7.
 This file documents the test harness and the conventions specific
 to this helper. For the catalog-wide test rules see
@@ -13,43 +13,43 @@ to this helper. For the catalog-wide test rules see
 import { describe, test, expect, beforeEach, afterEach, vi } from "vitest";
 import { TestBed, type ComponentFixture } from "@angular/core/testing";
 import {
-    ThemeChooser,
-    CIRCLE_WITH_RIGHT_HALF_BLACK,
-    themeHref,
-    normaliseThemesUrl,
-} from "./theme-chooser.component";
+  ThemePicker,
+  CIRCLE_WITH_RIGHT_HALF_BLACK,
+  themeHref,
+  normaliseThemesUrl,
+} from "./theme-picker.component";
 
 let fixtures: ComponentFixture<unknown>[] = [];
 
 beforeEach(() => {
-    // Reset shared state between tests.
-    document.documentElement.removeAttribute("data-theme");
-    document.head
-        .querySelectorAll("link[data-lily-theme-chooser]")
-        .forEach((n) => n.remove());
-    localStorage.clear();
+  // Reset shared state between tests.
+  document.documentElement.removeAttribute("data-theme");
+  document.head
+    .querySelectorAll("link[data-lily-theme-picker]")
+    .forEach((n) => n.remove());
+  localStorage.clear();
 });
 
 afterEach(() => {
-    // Destroy fixtures so the (document:click) host binding unwinds.
-    for (const fixture of fixtures) fixture.destroy();
-    fixtures = [];
-    document.documentElement.removeAttribute("data-theme");
+  // Destroy fixtures so the (document:click) host binding unwinds.
+  for (const fixture of fixtures) fixture.destroy();
+  fixtures = [];
+  document.documentElement.removeAttribute("data-theme");
 });
 
 function mount(
-    inputs: Record<string, unknown> = {},
-): ComponentFixture<ThemeChooser> {
-    const fixture = TestBed.createComponent(ThemeChooser);
-    fixture.componentRef.setInput("label", "Theme");
-    fixture.componentRef.setInput("themesUrl", "/assets/themes/");
-    fixture.componentRef.setInput("themes", ["light", "dark", "abyss"]);
-    for (const [key, value] of Object.entries(inputs)) {
-        fixture.componentRef.setInput(key, value);
-    }
-    fixture.detectChanges();
-    fixtures.push(fixture);
-    return fixture;
+  inputs: Record<string, unknown> = {},
+): ComponentFixture<ThemePicker> {
+  const fixture = TestBed.createComponent(ThemePicker);
+  fixture.componentRef.setInput("label", "Theme");
+  fixture.componentRef.setInput("themesUrl", "/assets/themes/");
+  fixture.componentRef.setInput("themes", ["light", "dark", "abyss"]);
+  for (const [key, value] of Object.entries(inputs)) {
+    fixture.componentRef.setInput(key, value);
+  }
+  fixture.detectChanges();
+  fixtures.push(fixture);
+  return fixture;
 }
 ```
 
@@ -61,10 +61,10 @@ Query helpers worth having, since every assertion reaches for the
 same three elements:
 
 ```ts
-const button = (f) => f.nativeElement.querySelector(".theme-chooser-button");
-const list   = (f) => f.nativeElement.querySelector(".theme-chooser-list");
+const button = (f) => f.nativeElement.querySelector(".theme-picker-button");
+const list = (f) => f.nativeElement.querySelector(".theme-picker-list");
 const options = (f) =>
-    Array.from(f.nativeElement.querySelectorAll(".theme-chooser-option"));
+  Array.from(f.nativeElement.querySelectorAll(".theme-picker-option"));
 ```
 
 ## Async waits
@@ -97,8 +97,8 @@ const fixture = mount();
 const emissions: string[] = [];
 fixture.componentInstance.value.subscribe((v) => emissions.push(v));
 
-click(fixture, button(fixture));       // open
-click(fixture, options(fixture)[1]);   // choose "dark"
+click(fixture, button(fixture)); // open
+click(fixture, options(fixture)[1]); // choose "dark"
 await flush();
 fixture.detectChanges();
 
@@ -114,17 +114,17 @@ Clicks and keydowns must bubble, and every one needs a re-render:
 
 ```ts
 function click(fixture: ComponentFixture<unknown>, target: HTMLElement): void {
-    target.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-    fixture.detectChanges();
+  target.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+  fixture.detectChanges();
 }
 
 function press(
-    fixture: ComponentFixture<unknown>,
-    target: HTMLElement,
-    key: string,
+  fixture: ComponentFixture<unknown>,
+  target: HTMLElement,
+  key: string,
 ): void {
-    target.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true }));
-    fixture.detectChanges();
+  target.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true }));
+  fixture.detectChanges();
 }
 ```
 
@@ -141,11 +141,11 @@ Keyboard equivalents target the button to open and the `<ul>`
 afterwards — never an `<li>`, which never receives focus:
 
 ```ts
-press(fixture, button(fixture), "ArrowDown");  // opens, focuses the <ul>
+press(fixture, button(fixture), "ArrowDown"); // opens, focuses the <ul>
 await flush();
 fixture.detectChanges();
-press(fixture, list(fixture), "ArrowDown");    // moves the active option
-press(fixture, list(fixture), "Enter");        // selects and closes
+press(fixture, list(fixture), "ArrowDown"); // moves the active option
+press(fixture, list(fixture), "Enter"); // selects and closes
 ```
 
 ## Asserting open state and the active option
@@ -155,18 +155,20 @@ Open state lives on two attributes; the active option on a third:
 ```ts
 expect(list(fixture).hasAttribute("hidden")).toBe(false);
 expect(button(fixture).getAttribute("aria-expanded")).toBe("true");
-expect(list(fixture).getAttribute("aria-activedescendant"))
-    .toBe(list(fixture).children[1].id);
+expect(list(fixture).getAttribute("aria-activedescendant")).toBe(
+  list(fixture).children[1].id,
+);
 ```
 
 Assert against `children[i].id` rather than a hardcoded id string —
-`nextThemeChooserId()` increments across the whole test file, so the
+`nextThemePickerId()` increments across the whole test file, so the
 absolute numbers depend on how many components mounted before.
 
 For uniqueness, mount two and compare the id sets:
 
 ```ts
-const a = mount(), b = mount();
+const a = mount(),
+  b = mount();
 const idsA = options(a).map((o) => o.id);
 const idsB = options(b).map((o) => o.id);
 expect(new Set([...idsA, ...idsB]).size).toBe(idsA.length + idsB.length);
@@ -179,16 +181,16 @@ The 500 ms reset needs fake timers:
 ```ts
 vi.useFakeTimers();
 try {
-    const fixture = mount();
-    press(fixture, button(fixture), "ArrowDown");
-    const ul = list(fixture);
-    press(fixture, ul, "d");
-    vi.advanceTimersByTime(600);
-    // The buffer is empty again, so "a" alone matches "Abyss".
-    press(fixture, ul, "a");
-    expect(ul.getAttribute("aria-activedescendant")).toBe(ul.children[2].id);
+  const fixture = mount();
+  press(fixture, button(fixture), "ArrowDown");
+  const ul = list(fixture);
+  press(fixture, ul, "d");
+  vi.advanceTimersByTime(600);
+  // The buffer is empty again, so "a" alone matches "Abyss".
+  press(fixture, ul, "a");
+  expect(ul.getAttribute("aria-activedescendant")).toBe(ul.children[2].id);
 } finally {
-    vi.useRealTimers();
+  vi.useRealTimers();
 }
 ```
 
@@ -202,19 +204,19 @@ component in a host:
 
 ```ts
 @Component({
-    standalone: true,
-    imports: [ThemeChooser],
-    template: `
-        <lily-theme-chooser label="Theme" [themesUrl]="url" [themes]="themes">
-            <ng-template let-args>
-                <span data-testid="custom" [attr.data-value]="args.value">…</span>
-            </ng-template>
-        </lily-theme-chooser>
-    `,
+  standalone: true,
+  imports: [ThemePicker],
+  template: `
+    <lily-theme-picker label="Theme" [themesUrl]="url" [themes]="themes">
+      <ng-template let-args>
+        <span data-testid="custom" [attr.data-value]="args.value">…</span>
+      </ng-template>
+    </lily-theme-picker>
+  `,
 })
 class IconTemplateHost {
-    readonly url = "/assets/themes/";
-    readonly themes = ["light", "dark", "abyss"];
+  readonly url = "/assets/themes/";
+  readonly themes = ["light", "dark", "abyss"];
 }
 ```
 
@@ -223,8 +225,8 @@ glyph is gone:
 
 ```ts
 const custom = fixture.nativeElement.querySelector('[data-testid="custom"]');
-expect(custom.closest("button")?.className).toContain("theme-chooser-button");
-expect(fixture.nativeElement.querySelector(".theme-chooser-icon")).toBeNull();
+expect(custom.closest("button")?.className).toContain("theme-picker-button");
+expect(fixture.nativeElement.querySelector(".theme-picker-icon")).toBeNull();
 ```
 
 ## jsdom gaps
@@ -237,7 +239,7 @@ don't assert on scrolling.
 
 ```ts
 const link = document.head.querySelector<HTMLLinkElement>(
-    'link[data-lily-theme-chooser="theme"]',
+  'link[data-lily-theme-picker="theme"]',
 );
 expect(link).not.toBeNull();
 expect(link!.href).toMatch(/\/t\/light\.css$/);
@@ -269,12 +271,12 @@ needed:
 
 ```ts
 test("§7.19 normaliseThemesUrl appends a slash", () => {
-    expect(normaliseThemesUrl("/x")).toBe("/x/");
-    expect(normaliseThemesUrl("/x/")).toBe("/x/");
+  expect(normaliseThemesUrl("/x")).toBe("/x/");
+  expect(normaliseThemesUrl("/x/")).toBe("/x/");
 });
 
 test("§7.19 themeHref builds the full URL", () => {
-    expect(themeHref("/x/", "dark", ".css")).toBe("/x/dark.css");
+  expect(themeHref("/x/", "dark", ".css")).toBe("/x/dark.css");
 });
 ```
 
@@ -302,8 +304,8 @@ without touching `document`":
 
 ```ts
 it("imports cleanly without DOM access", async () => {
-    const mod = await import("./theme-chooser.component");
-    expect(mod.ThemeChooser).toBeDefined();
+  const mod = await import("./theme-picker.component");
+  expect(mod.ThemePicker).toBeDefined();
 });
 ```
 

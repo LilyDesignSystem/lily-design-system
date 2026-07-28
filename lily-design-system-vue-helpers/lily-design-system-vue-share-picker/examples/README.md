@@ -1,4 +1,4 @@
-# Examples — ShareChooser
+# Examples — SharePicker
 
 | File | Shows |
 | ---- | ----- |

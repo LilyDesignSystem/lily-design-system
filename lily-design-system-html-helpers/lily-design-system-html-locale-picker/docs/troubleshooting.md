@@ -4,7 +4,7 @@ Symptom-first. Each entry names the cause and the fix.
 
 ## "Nothing on the page is translated"
 
-Working as designed. `<locale-chooser>` applies `lang` and `dir` and
+Working as designed. `<locale-picker>` applies `lang` and `dir` and
 tells you the choice — it does **not** translate. There are no
 message catalogs in the package and no network calls.
 
@@ -13,18 +13,18 @@ locale-prefixed URL. See
 [i18n-integration.md](./i18n-integration.md) and
 [recipes.md](./recipes.md#drive-a-client-side-i18n-library).
 
-## "`<locale-chooser>` stays empty — the element never upgrades"
+## "`<locale-picker>` stays empty — the element never upgrades"
 
 The module never ran, or ran before the element was in the DOM in a
 way that left it unregistered.
 
-1. Confirm registration: `customElements.get("locale-chooser")` should
+1. Confirm registration: `customElements.get("locale-picker")` should
    be a function in the console.
-2. Confirm the import has a side effect. Importing *only* types is
+2. Confirm the import has a side effect. Importing _only_ types is
    elided by the compiler:
    ```ts
-   import "lily-design-system-html-locale-chooser";              // registers
-   import type { LocaleChooser } from "…";                        // does NOT
+   import "lily-design-system-html-locale-picker"; // registers
+   import type { LocalePicker } from "…"; // does NOT
    ```
 3. Check for a 404 or a MIME error on the module script in the
    network tab. A module that fails to load fails silently in the
@@ -38,8 +38,15 @@ You have not positioned the list. The package ships no CSS, so the
 `<ul>` starts life as a normal block.
 
 ```css
-.locale-chooser { position: relative; }
-.locale-chooser-list { position: absolute; top: 100%; inset-inline-start: 0; z-index: 10; }
+.locale-picker {
+  position: relative;
+}
+.locale-picker-list {
+  position: absolute;
+  top: 100%;
+  inset-inline-start: 0;
+  z-index: 10;
+}
 ```
 
 Use `inset-inline-start`, not `left` — see the next entry.
@@ -61,8 +68,12 @@ A `display` declaration is overriding the `hidden` attribute, which is
 only a UA-stylesheet `display: none`:
 
 ```css
-.locale-chooser-list { display: block; }   /* breaks hidden */
-.locale-chooser-list[hidden] { display: none; }   /* add this */
+.locale-picker-list {
+  display: block;
+} /* breaks hidden */
+.locale-picker-list[hidden] {
+  display: none;
+} /* add this */
 ```
 
 Same trap with `display: flex` and `display: grid`.
@@ -72,13 +83,13 @@ Same trap with `display: flex` and `display: grid`.
 Two possible causes:
 
 1. You styled `[aria-selected="true"]` but not `[data-active]`. The
-   arrow keys move `data-active`; `aria-selected` marks the *applied*
+   arrow keys move `data-active`; `aria-selected` marks the _applied_
    locale and does not move until you commit.
 2. You removed the focus outline from the `<ul>`. Focus sits on the
    list while it is open, never on an `<li>`.
 
 Style both states distinctly, and never `outline: none` on
-`.locale-chooser-list`.
+`.locale-picker-list`.
 
 ## "The globe shows as a box, a question mark, or a blue emoji"
 
@@ -92,7 +103,9 @@ The package bundles no icon font and no SVG.
 - **Blue colour-emoji globe**: VS15 requests the text presentation,
   but some platforms ignore it. Force it in CSS:
   ```css
-  .locale-chooser-icon { font-variant-emoji: text; }
+  .locale-picker-icon {
+    font-variant-emoji: text;
+  }
   ```
   Where `font-variant-emoji` is unsupported, put a text-presentation
   font first in the stack for that span.
@@ -109,7 +122,7 @@ Check, in order:
    degrade silently to "no persistence" rather than throwing.
 3. Nothing else is clearing that key — a logout handler calling
    `localStorage.clear()` is a common culprit.
-4. You are not *also* rendering a `value` attribute. `value` wins over
+4. You are not _also_ rendering a `value` attribute. `value` wins over
    storage on first connect, so a stale server-rendered `value` will
    look like "persistence is broken" on every load.
 
@@ -136,7 +149,7 @@ navigator language matches your list, and resolution falls through to
 `default-value`. Test the rule directly:
 
 ```ts
-import { matchNavigatorLanguage } from "lily-design-system-html-locale-chooser";
+import { matchNavigatorLanguage } from "lily-design-system-html-locale-picker";
 matchNavigatorLanguage([...navigator.languages], ["en", "fr"]);
 ```
 
@@ -145,10 +158,14 @@ matchNavigatorLanguage([...navigator.languages], ["en", "fr"]);
 If two writers own `dir`, turn the element's half off:
 
 ```html
-<locale-chooser label="Language" locales="en,ar" apply-dir="false"></locale-chooser>
+<locale-picker
+  label="Language"
+  locales="en,ar"
+  apply-dir="false"
+></locale-picker>
 ```
 
-Remember `apply-dir` is **inverted** — absent means *on*. Only the
+Remember `apply-dir` is **inverted** — absent means _on_. Only the
 literal string `"false"` disables it.
 
 If `dir` is simply wrong for a specific locale, check the code you are
@@ -160,7 +177,7 @@ subtag when it is what disambiguates.
 
 It should not be — the element converts to hyphen form when writing
 `lang`. If you are seeing the underscore, you are probably reading
-`el.value` (which preserves *your* form, by design) rather than the
+`el.value` (which preserves _your_ form, by design) rather than the
 attribute. Use `el.tagFor(code)` or the exported `bcp47LocaleTag(code)`
 for the BCP 47 form. See [bcp47.md](./bcp47.md).
 
@@ -186,9 +203,9 @@ inside, so the attribute needs single quotes outside:
 
 ```html
 <!-- wrong -->
-<locale-chooser locale-labels="{"fr":"Français"}"></locale-chooser>
+<locale-picker locale-labels="{"fr":"Français"}"></locale-picker>
 <!-- right -->
-<locale-chooser locale-labels='{"fr":"Français"}'></locale-chooser>
+<locale-picker locale-labels='{"fr":"Français"}'></locale-picker>
 ```
 
 Setting the JS property avoids the escaping problem entirely:
@@ -203,8 +220,8 @@ The element had not upgraded yet, so you set a plain expando property
 on an unupgraded element and the real setter never ran:
 
 ```ts
-await customElements.whenDefined("locale-chooser");
-(document.querySelector("locale-chooser") as LocaleChooser).locales = LOCALES;
+await customElements.whenDefined("locale-picker");
+(document.querySelector("locale-picker") as LocalePicker).locales = LOCALES;
 ```
 
 ## "The list closes as soon as I click inside it"
@@ -213,7 +230,7 @@ Something is moving focus out of the root, or a wrapper is
 re-rendering the element mid-click. The element closes on `focusout`
 when focus leaves the root, and on a document click outside the root.
 
-If a framework wrapper re-creates the `<locale-chooser>` on every
+If a framework wrapper re-creates the `<locale-picker>` on every
 render, the rendered DOM is rebuilt underneath the click. Give the
 element a stable key / identity so it is not recreated.
 
@@ -235,7 +252,7 @@ If your handler navigates or reloads, guard it or you will loop — see
 
 ## "`localechange` never fires"
 
-Check that you are listening on the `<locale-chooser>` host or an
+Check that you are listening on the `<locale-picker>` host or an
 ancestor, not on the rendered inner `<div>` (which may be replaced).
 The event is `bubbles: true` and `composed: true`, so `document` works
 as a delegation root.
@@ -243,10 +260,10 @@ as a delegation root.
 Also confirm the value is actually changing. Re-selecting the
 already-active locale is a no-op.
 
-## "Two locale choosers fight over `<html lang>`"
+## "Two locale pickers fight over `<html lang>`"
 
 Last write wins, and neither knows about the other. Unlike
-theme-chooser there is no `name`-discriminated shared resource here —
+theme-picker there is no `name`-discriminated shared resource here —
 `name` is only a form-field name.
 
 Have one authoritative select write to the document root and point any
@@ -275,18 +292,18 @@ const locale = el.value as AppLocale;
 Or type the whole element:
 
 ```ts
-const el = document.querySelector<LocaleChooser>("locale-chooser")!;
+const el = document.querySelector<LocalePicker>("locale-picker")!;
 ```
 
 ## "`customElements.define` throws: tag already defined"
 
 The barrel registers on import and guards with a
-`customElements.get(...)` check, so this comes from a *second*
+`customElements.get(...)` check, so this comes from a _second_
 registration — usually your own `define` call, or two copies of the
 package in the bundle.
 
 Deduplicate the dependency, or import the class directly from
-`./locale-chooser.js` (no side effect) and register it yourself under
+`./locale-picker.js` (no side effect) and register it yourself under
 your own tag name.
 
 ## "Hydration mismatch inside a framework"
@@ -294,7 +311,7 @@ your own tag name.
 The element renders its own light-DOM children on connect, which a
 virtual DOM will see as unexpected content it did not create.
 
-Render `<locale-chooser>` as a leaf with no framework-managed children,
+Render `<locale-picker>` as a leaf with no framework-managed children,
 and let the element own everything inside it. In React, that means no
 children and no `dangerouslySetInnerHTML`. See [ssr.md](./ssr.md).
 

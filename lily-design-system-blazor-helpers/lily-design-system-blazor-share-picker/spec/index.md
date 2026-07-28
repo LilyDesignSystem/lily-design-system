@@ -1,12 +1,12 @@
-# ShareChooser — Specification
+# SharePicker — Specification
 
-Single source of truth for the `lily-design-system-blazor-share-chooser`
+Single source of truth for the `lily-design-system-blazor-share-picker`
 Blazor helper. This file drives implementation, testing, and
 documentation: anything not in this spec is out of scope; anything in
 this spec must be exercised by a test.
 
 This package is a port of the canonical Svelte helper
-[`lily-design-system-svelte-share-chooser`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-chooser/spec/index.md).
+[`lily-design-system-svelte-share-picker`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-picker/spec/index.md).
 Per [`AGENTS/helpers.md`](../../../AGENTS/helpers.md), Svelte is
 canonical: the behaviour contract below is the Svelte contract, and the
 §7 clause numbering is deliberately identical so the two suites can be
@@ -15,9 +15,9 @@ read side by side. Where Blazor forces a difference it is called out in
 
 Sibling files:
 
-- `ShareChooser.razor` — Razor markup
-- `ShareChooser.razor.cs` — C# code-behind (partial class)
-- `ShareChooserTests.cs` — bUnit + xUnit spec exercising every clause in §7
+- `SharePicker.razor` — Razor markup
+- `SharePicker.razor.cs` — C# code-behind (partial class)
+- `SharePickerTests.cs` — bUnit + xUnit spec exercising every clause in §7
 - `index.md` — user-facing guide
 - `docs/accessibility.md` — tradeoffs, stated plainly
 
@@ -54,8 +54,8 @@ Give a Blazor 10 application a drop-in, headless share control that:
 ## 3. Architectural decisions
 
 - **A helper, but not a preference lifecycle.** The other helpers own
-  *selection + DOM application + optional persistence*. This one owns an
-  *action*: it applies nothing to the document and persists nothing. It
+  _selection + DOM application + optional persistence_. This one owns an
+  _action_: it applies nothing to the document and persists nothing. It
   is a helper because it owns a complete interaction end to end and
   ships the same headless contract. See `AGENTS/helpers.md`.
 - **Disclosure + real links, not a menu.** Share destinations are
@@ -88,23 +88,23 @@ Give a Blazor 10 application a drop-in, headless share control that:
 
 ### 4.1 Parameters
 
-| Parameter | Type | Required | Default | Purpose |
-| --------- | ---- | -------- | ------- | ------- |
-| `Label` | `string` | yes | — | Accessible name for the button. |
-| `Targets` | `IReadOnlyList<ShareTarget>` | no | empty | Destinations to offer. Empty is valid when `CopyLabel` is set. |
-| `Url` | `string?` | no | current page URL | URL to share. Resolved lazily from `NavigationManager`, so the default is prerender-safe. |
-| `Title` | `string` | no | `""` | Passed to `Href(...)` and the native sheet. |
-| `Text` | `string` | no | `""` | Passed to `Href(...)` and the native sheet. |
-| `CopyLabel` | `string?` | no | `null` | Label for the copy item. Omit it and no copy item renders. |
-| `CopiedLabel` | `string?` | no | `null` | Announced in the status region after a successful copy. |
-| `CopyFailedLabel` | `string?` | no | `null` | Announced when the clipboard write fails. |
-| `Strategy` | `ShareStrategy` | no | `Auto` | Whether to prefer the native sheet. |
-| `ChildContent` | `RenderFragment<ShareChooserContext>?` | no | the ➤ glyph | Replaces the button glyph. |
-| `OnShare` | `EventCallback<ShareEventArgs>` | no | — | Fires when a destination is chosen. |
-| `OnCopy` | `EventCallback<string>` | no | — | Fires after a successful copy, with the URL. |
-| `OnNativeShare` | `EventCallback<string>` | no | — | Fires when the native sheet was used instead of the list. |
-| `CssClass` | `string` | no | `""` | Extra class on the root. |
-| `AdditionalAttributes` | unmatched attributes | no | — | Spread onto the root `<div>`. |
+| Parameter              | Type                                   | Required | Default          | Purpose                                                                                   |
+| ---------------------- | -------------------------------------- | -------- | ---------------- | ----------------------------------------------------------------------------------------- |
+| `Label`                | `string`                               | yes      | —                | Accessible name for the button.                                                           |
+| `Targets`              | `IReadOnlyList<ShareTarget>`           | no       | empty            | Destinations to offer. Empty is valid when `CopyLabel` is set.                            |
+| `Url`                  | `string?`                              | no       | current page URL | URL to share. Resolved lazily from `NavigationManager`, so the default is prerender-safe. |
+| `Title`                | `string`                               | no       | `""`             | Passed to `Href(...)` and the native sheet.                                               |
+| `Text`                 | `string`                               | no       | `""`             | Passed to `Href(...)` and the native sheet.                                               |
+| `CopyLabel`            | `string?`                              | no       | `null`           | Label for the copy item. Omit it and no copy item renders.                                |
+| `CopiedLabel`          | `string?`                              | no       | `null`           | Announced in the status region after a successful copy.                                   |
+| `CopyFailedLabel`      | `string?`                              | no       | `null`           | Announced when the clipboard write fails.                                                 |
+| `Strategy`             | `ShareStrategy`                        | no       | `Auto`           | Whether to prefer the native sheet.                                                       |
+| `ChildContent`         | `RenderFragment<SharePickerContext>?` | no       | the ➤ glyph      | Replaces the button glyph.                                                                |
+| `OnShare`              | `EventCallback<ShareEventArgs>`        | no       | —                | Fires when a destination is chosen.                                                       |
+| `OnCopy`               | `EventCallback<string>`                | no       | —                | Fires after a successful copy, with the URL.                                              |
+| `OnNativeShare`        | `EventCallback<string>`                | no       | —                | Fires when the native sheet was used instead of the list.                                 |
+| `CssClass`             | `string`                               | no       | `""`             | Extra class on the root.                                                                  |
+| `AdditionalAttributes` | unmatched attributes                   | no       | —                | Spread onto the root `<div>`.                                                             |
 
 ```csharp
 public sealed class ShareTarget
@@ -117,7 +117,7 @@ public sealed class ShareTarget
 
 public enum ShareStrategy { Auto, Native, List }
 
-public sealed class ShareChooserContext
+public sealed class SharePickerContext
 {
     public required bool Open { get; init; }
     public required string Url { get; init; }
@@ -133,46 +133,57 @@ public sealed class ShareEventArgs
 ### 4.2 DOM contract
 
 ```html
-<div class="share-chooser {CssClass}" ...AdditionalAttributes>
-  <button type="button" class="share-chooser-button"
-          aria-label="{Label}" aria-expanded aria-controls="{listId}">
-    <span class="share-chooser-icon" aria-hidden="true">&#10148;</span>
+<div class="share-picker {CssClass}" ...AdditionalAttributes>
+  <button
+    type="button"
+    class="share-picker-button"
+    aria-label="{Label}"
+    aria-expanded
+    aria-controls="{listId}"
+  >
+    <span class="share-picker-icon" aria-hidden="true">&#10148;</span>
   </button>
-  <ul class="share-chooser-list" id="{listId}" hidden>
-    <li class="share-chooser-list-item">
-      <a class="share-chooser-target" data-target-id="{Id}" href="{Href(...)}"
-         target="_blank" rel="noopener noreferrer">{Label}</a>
+  <ul class="share-picker-list" id="{listId}" hidden>
+    <li class="share-picker-list-item">
+      <a
+        class="share-picker-target"
+        data-target-id="{Id}"
+        href="{Href(...)}"
+        target="_blank"
+        rel="noopener noreferrer"
+        >{Label}</a
+      >
     </li>
-    <li class="share-chooser-list-item">
-      <button type="button" class="share-chooser-copy">{CopyLabel}</button>
+    <li class="share-picker-list-item">
+      <button type="button" class="share-picker-copy">{CopyLabel}</button>
     </li>
   </ul>
-  <p class="share-chooser-status" aria-live="polite"></p>
+  <p class="share-picker-status" aria-live="polite"></p>
 </div>
 ```
 
-The trigger's class is `share-chooser-button`, following the
+The trigger's class is `share-picker-button`, following the
 `{helper}-button` convention the sibling helpers use.
 
 `target="_blank"` is omitted for a destination with `NewTab = false`.
 Ids come from a monotonic process-wide counter
-(`share-chooser-{n}-list`), so they are stable and prerender-safe.
+(`share-picker-{n}-list`), so they are stable and prerender-safe.
 
 ### 4.3 Public surface
 
-Component `ShareChooser` in namespace `LilyDesignSystem.Blazor.Helpers`,
-plus the types `ShareTarget`, `ShareStrategy`, `ShareChooserContext`,
+Component `SharePicker` in namespace `LilyDesignSystem.Blazor.Helpers`,
+plus the types `ShareTarget`, `ShareStrategy`, `SharePickerContext`,
 `ShareEventArgs`, `NativeShareOutcome`.
 
 Blazor has no module barrel, so the Svelte package's re-exports become
 `public static` members — the C# equivalent named in the port contract:
 
-| Svelte export | Blazor equivalent |
-| ------------- | ----------------- |
-| `BLACK_RIGHTWARDS_ARROWHEAD` | `ShareChooser.BlackRightwardsArrowhead` |
-| `nextShareChooserId()` | `ShareChooser.NextShareChooserId()` |
-| `canShareNatively()` | `ShareChooser.CanShareNativelyAsync(IJSRuntime)` |
-| `canCopy()` | `ShareChooser.CanCopyAsync(IJSRuntime)` |
+| Svelte export                | Blazor equivalent                                |
+| ---------------------------- | ------------------------------------------------ |
+| `BLACK_RIGHTWARDS_ARROWHEAD` | `SharePicker.BlackRightwardsArrowhead`          |
+| `nextSharePickerId()`       | `SharePicker.NextSharePickerId()`              |
+| `canShareNatively()`         | `SharePicker.CanShareNativelyAsync(IJSRuntime)` |
+| `canCopy()`                  | `SharePicker.CanCopyAsync(IJSRuntime)`          |
 
 The two capability probes are **async** because the browser is only
 reachable over JS interop; both return `false` during prerender rather
@@ -197,11 +208,11 @@ and never even asks. When the sheet is used the list does not open.
 
 The injected script resolves one of three sentinels:
 
-| Sentinel | Meaning | Result |
-| -------- | ------- | ------ |
-| `"shared"` | The user completed the share. | `OnNativeShare` fires; the list stays closed. |
-| `"dismissed"` | The user dismissed the sheet. | The interaction ends; the list stays closed. |
-| `"unsupported"` | No `navigator.share`. | Fall back to the list. |
+| Sentinel        | Meaning                       | Result                                        |
+| --------------- | ----------------------------- | --------------------------------------------- |
+| `"shared"`      | The user completed the share. | `OnNativeShare` fires; the list stays closed. |
+| `"dismissed"`   | The user dismissed the sheet. | The interaction ends; the list stays closed.  |
+| `"unsupported"` | No `navigator.share`.         | Fall back to the list.                        |
 
 A failure of the interop call itself — prerender, JS disabled — is
 treated as `"unsupported"`, so the list still works.
@@ -215,14 +226,14 @@ Either way the list closes.
 
 ### 5.3 Keyboard
 
-| Key | On the button | In the list |
-| --- | ------------- | ----------- |
-| `Enter` / `Space` | Activates (native browser behaviour) | Activates the focused item |
-| `ArrowDown` | Opens, focuses the first item | Moves focus down, clamping |
-| `ArrowUp` | Opens, focuses the last item | Moves focus up, clamping |
-| `Home` / `End` | — | First / last item |
-| `Escape` | — | Closes and returns focus to the button |
-| `Tab` | Moves on | Closes, focus goes where the browser sends it |
+| Key               | On the button                        | In the list                                   |
+| ----------------- | ------------------------------------ | --------------------------------------------- |
+| `Enter` / `Space` | Activates (native browser behaviour) | Activates the focused item                    |
+| `ArrowDown`       | Opens, focuses the first item        | Moves focus down, clamping                    |
+| `ArrowUp`         | Opens, focuses the last item         | Moves focus up, clamping                      |
+| `Home` / `End`    | —                                    | First / last item                             |
+| `Escape`          | —                                    | Closes and returns focus to the button        |
+| `Tab`             | Moves on                             | Closes, focus goes where the browser sends it |
 
 Items are real focusable elements, so focus moves for real rather than
 via `aria-activedescendant`. Focus moves are deferred to
@@ -248,7 +259,7 @@ sees on a phone is not what they see on a desktop. Full treatment in
 
 ## 7. Testing acceptance criteria
 
-`ShareChooserTests.cs` asserts every clause below. Clause numbering
+`SharePickerTests.cs` asserts every clause below. Clause numbering
 matches the canonical Svelte spec one-for-one.
 
 1. Renders a disclosure `<button>` with `aria-expanded` controlling a `<ul>`.
@@ -272,7 +283,7 @@ matches the canonical Svelte spec one-for-one.
 19. Focus leaving the root closes the list.
 20. An explicit `Url` parameter wins.
 21. With no `Url`, the current page URL is used.
-22. `ChildContent` replaces the glyph and receives `ShareChooserContext`.
+22. `ChildContent` replaces the glyph and receives `SharePickerContext`.
 
 ### 7.1 How focus is asserted
 
@@ -313,7 +324,7 @@ Each of these is forced by the framework, not chosen.
 - **No document-level click listener.** The Svelte version closes on an
   outside click via `<svelte:document onclick>`. This package ships no
   JS and adds no document listener, so the root's `focusout` closes the
-  list instead — the same deviation `TextSizeChooser` documents. Clause
+  list instead — the same deviation `TextSizePicker` documents. Clause
   19 is therefore stated as "focus leaving the root closes the list"
   rather than "clicking outside closes the list". Pointer dismissal
   still works, because clicking away moves focus away.
@@ -332,14 +343,14 @@ Each of these is forced by the framework, not chosen.
   reachable over interop.
 - **`class` is `CssClass`.** `class` is a C# keyword.
 - **`children` is `ChildContent`**, typed
-  `RenderFragment<ShareChooserContext>` rather than a Svelte snippet.
+  `RenderFragment<SharePickerContext>` rather than a Svelte snippet.
 - **`OnShare` carries a `ShareEventArgs`** rather than two positional
   arguments, because `EventCallback<T>` is single-argument.
 
 ## 10. Tracking
 
-- Package: lily-design-system-blazor-share-chooser
-- Assembly / NuGet id: LilyDesignSystem.Blazor.ShareChooser
+- Package: lily-design-system-blazor-share-picker
+- Assembly / NuGet id: LilyDesignSystem.Blazor.SharePicker
 - Version: 0.1.0
 - License: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 

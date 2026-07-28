@@ -132,7 +132,7 @@ The fix is to change the labels, not the markup: prefer endonyms, so
 the attribute stays truthful.
 
 ```tsx
-<LocaleChooser
+<LocalePicker
     label="Language"
     locales={["en", "fr", "ar"]}
     localeLabels={{ en: "English", fr: "Français", ar: "العربية" }}
@@ -222,7 +222,7 @@ serving people from elsewhere. Some users read a globe as "region",
 If you need certainty, supply your own glyph through `children`:
 
 ```tsx
-<LocaleChooser label="Language" locales={LOCALES} value={locale} onChange={setLocale}>
+<LocalePicker label="Language" locales={LOCALES} value={locale} onChange={setLocale}>
     {({ value, labelFor }) => (
         <span aria-hidden="true">
             <svg width="20" height="20" viewBox="0 0 20 20" focusable="false">
@@ -231,7 +231,7 @@ If you need certainty, supply your own glyph through `children`:
             {labelFor(value)}
         </span>
     )}
-</LocaleChooser>
+</LocalePicker>
 ```
 
 An inline SVG renders identically everywhere, and pairing it with the
@@ -253,13 +253,13 @@ and the quick start in `index.md`, pairs it with a visible status line:
 ```tsx
 const [locale, setLocale] = useState("en");
 
-<LocaleChooser
+<LocalePicker
     label="Language"
     locales={LOCALES}
     value={locale}
     onChange={setLocale}
 />
-<p className="locale-chooser-status" aria-live="polite">
+<p className="locale-picker-status" aria-live="polite">
     Active language: {localeName(locale)}
 </p>
 ```
@@ -338,12 +338,12 @@ large, 7:1 AAA) is your CSS's responsibility. Style both state hooks,
 and do not use colour alone for either:
 
 ```css
-.locale-chooser-option[aria-selected="true"] {
+.locale-picker-option[aria-selected="true"] {
     color: #003087; /* NHS blue, AAA on white */
     font-weight: 600;
 }
 
-.locale-chooser-option[data-active] {
+.locale-picker-option[data-active] {
     outline: 2px solid currentColor;
     outline-offset: -2px;
 }

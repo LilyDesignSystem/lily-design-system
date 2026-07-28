@@ -1,8 +1,8 @@
 export {
-  TextSizeChooser,
-  TextSizeChooserIcon,
+  TextSizePicker,
+  TextSizePickerIcon,
   LATIN_CAPITAL_LETTER_A,
-  nextTextSizeChooserId,
+  nextTextSizePickerId,
   sizeName,
-} from "./text-size-chooser.component";
-export type { ChildArgs } from "./text-size-chooser.component";
+} from "./text-size-picker.component";
+export type { ChildArgs } from "./text-size-picker.component";

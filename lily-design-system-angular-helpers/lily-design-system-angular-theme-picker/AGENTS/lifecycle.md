@@ -1,4 +1,4 @@
-# Lifecycle — ThemeChooser (Angular)
+# Lifecycle — ThemePicker (Angular)
 
 The Angular-flavoured walk-through of the select's lifecycle. The
 canonical contract is in [`../spec/index.md`](../spec/index.md) §5; this file
@@ -181,12 +181,12 @@ scheduler doesn't tick server-side.
 ```ts
 private getManagedLink(): HTMLLinkElement | null {
     if (typeof document === "undefined") return null;
-    const selector = `link[data-lily-theme-chooser="${this.name()}"]`;
+    const selector = `link[data-lily-theme-picker="${this.name()}"]`;
     let link = document.head.querySelector<HTMLLinkElement>(selector);
     if (!link) {
         link = document.createElement("link");
         link.rel = "stylesheet";
-        link.setAttribute("data-lily-theme-chooser", this.name());
+        link.setAttribute("data-lily-theme-picker", this.name());
         document.head.appendChild(link);
     }
     return link;
@@ -210,26 +210,26 @@ mid-session, they can write back to `value`:
 
 ```ts
 @Component({
-    template: `
-        <lily-theme-chooser
-            [themesUrl]="themesUrl()"
-            [themes]="themes"
-            [(value)]="theme"
-            label="Theme"
-        />
-    `,
+  template: `
+    <lily-theme-picker
+      [themesUrl]="themesUrl()"
+      [themes]="themes"
+      [(value)]="theme"
+      label="Theme"
+    />
+  `,
 })
 export class Settings {
-    themes = ["light", "dark"];
-    theme = signal("");
-    themesUrl = signal("/assets/themes/");
+  themes = ["light", "dark"];
+  theme = signal("");
+  themesUrl = signal("/assets/themes/");
 
-    onUrlChange(next: string) {
-        this.themesUrl.set(next);
-        const current = this.theme();
-        this.theme.set("");
-        this.theme.set(current);  // forces the effect to fire
-    }
+  onUrlChange(next: string) {
+    this.themesUrl.set(next);
+    const current = this.theme();
+    this.theme.set("");
+    this.theme.set(current); // forces the effect to fire
+  }
 }
 ```
 
@@ -240,7 +240,7 @@ During server rendering, the `effect()` callback may run but the
 the root `<div>`, the hidden input, the button, and the closed
 (`hidden`) listbox using whatever `value` was passed; the managed
 `<link>` is not created (no DOM); `data-theme` is not written. Ids
-come from the `nextThemeChooserId()` counter, so they match between
+come from the `nextThemePickerId()` counter, so they match between
 the server and client renders and hydration does not complain.
 
 That's the recipe for flicker-free SSR: pre-resolve the theme on
@@ -261,7 +261,7 @@ The component does **not** clean up the managed `<link>` or the
 - The select may be destroyed because the consumer navigated away
   from the settings page; the theme should stay applied.
 - The next select mount reuses the same managed `<link>` (located
-  by `data-lily-theme-chooser="{name}"`).
+  by `data-lily-theme-picker="{name}"`).
 
 If a consumer wants to fully tear down the theme on destroy, they
 can do it via `DestroyRef`:
@@ -269,18 +269,16 @@ can do it via `DestroyRef`:
 ```ts
 import { Component, DestroyRef, inject } from "@angular/core";
 
-@Component({ /* … */ })
+@Component({/* … */})
 export class Settings {
-    private destroyRef = inject(DestroyRef);
+  private destroyRef = inject(DestroyRef);
 
-    constructor() {
-        this.destroyRef.onDestroy(() => {
-            document.head
-                .querySelector('[data-lily-theme-chooser="theme"]')
-                ?.remove();
-            document.documentElement.removeAttribute("data-theme");
-        });
-    }
+  constructor() {
+    this.destroyRef.onDestroy(() => {
+      document.head.querySelector('[data-lily-theme-picker="theme"]')?.remove();
+      document.documentElement.removeAttribute("data-theme");
+    });
+  }
 }
 ```
 
@@ -288,22 +286,22 @@ This is rare. Most apps want the theme to outlive the select.
 
 ## Watch graph
 
-| Signal           | Read where                       | Effect on change                                   |
-| ---------------- | -------------------------------- | -------------------------------------------------- |
-| `value()`        | top of the effect                | re-runs the whole effect                           |
-| `themes()`       | initial-value resolution         | only affects the first run                         |
-| `storageKey()`   | initial-value resolution + apply | next value change re-reads / re-writes             |
-| `defaultValue()` | initial-value resolution         | only affects the first run                         |
-| `themesUrl()`    | apply                            | next value change rewrites the `<link>` href       |
-| `extension()`    | apply                            | next value change rewrites the `<link>` href       |
+| Signal           | Read where                       | Effect on change                                        |
+| ---------------- | -------------------------------- | ------------------------------------------------------- |
+| `value()`        | top of the effect                | re-runs the whole effect                                |
+| `themes()`       | initial-value resolution         | only affects the first run                              |
+| `storageKey()`   | initial-value resolution + apply | next value change re-reads / re-writes                  |
+| `defaultValue()` | initial-value resolution         | only affects the first run                              |
+| `themesUrl()`    | apply                            | next value change rewrites the `<link>` href            |
+| `extension()`    | apply                            | next value change rewrites the `<link>` href            |
 | `target()`       | apply                            | next value change writes `data-theme` on the new target |
-| `name()`         | apply                            | next value change creates / locates a new managed link |
-| `themeLabels()`  | template (via `labelFor`)        | re-renders template; also changes typeahead matching |
-| `className()`    | template                         | re-renders template                                |
-| `open()`         | template + `activeDescendant()`  | shows / hides the listbox, flips `aria-expanded`   |
-| `activeIndex()`  | template + `activeDescendant()`  | moves `data-active` and `aria-activedescendant`    |
+| `name()`         | apply                            | next value change creates / locates a new managed link  |
+| `themeLabels()`  | template (via `labelFor`)        | re-renders template; also changes typeahead matching    |
+| `className()`    | template                         | re-renders template                                     |
+| `open()`         | template + `activeDescendant()`  | shows / hides the listbox, flips `aria-expanded`        |
+| `activeIndex()`  | template + `activeDescendant()`  | moves `data-active` and `aria-activedescendant`         |
 
 The minimal effect signature (only `value()` re-runs it) keeps the
 work bounded — no unnecessary stylesheet loads when peripheral
-inputs change. `open()` and `activeIndex()` are deliberately *outside*
+inputs change. `open()` and `activeIndex()` are deliberately _outside_
 that effect: opening a listbox must never re-fetch a stylesheet.

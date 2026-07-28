@@ -9,7 +9,7 @@ flicker-free first paint.
 ## Read this first: the control does not work without JavaScript
 
 The server-rendered markup paints correctly, but it is **not
-operable** until `text-size-chooser.client.js` runs. Specifically:
+operable** until `text-size-picker.client.js` runs. Specifically:
 
 - The button has no handler. Clicking it, or pressing `Enter` /
   `Space` / `ArrowDown` on it, does nothing.
@@ -56,8 +56,8 @@ What still works with no JS:
 
 If no-JS operability is a hard requirement, render a plain
 `<select>` of the same slugs yourself and wire it to
-`initTextSizeChooser`'s `setSize`, or use the headless catalog's plain
-`<select>` container pattern that `theme-chooser` points at for the
+`initTextSizePicker`'s `setSize`, or use the headless catalog's plain
+`<select>` container pattern that `theme-picker` points at for the
 same reason.
 
 ## What the macro does on the server
@@ -71,7 +71,7 @@ The macro is pure: same `opts` → same string. It does **not** touch:
 - environment variables
 
 If the consumer passes `opts.value="large"`, the root `<div>` gets
-`data-lily-text-size-chooser-value="large"` rendered server-side, the
+`data-lily-text-size-picker-value="large"` rendered server-side, the
 matching `<li>` gets `aria-selected="true"`, and the hidden input is
 pre-filled with `large`.
 
@@ -84,7 +84,7 @@ If `<html>` arrives with no `data-text-size` and your CSS sizes
 typography with `[data-text-size="large"] { … }`, the first paint uses
 your unqualified base type scale, then on hydration the client.js sets
 `data-text-size="large"` and the page reflows. That reflow is more
-visible than theme-chooser's colour swap, because changing the type
+visible than theme-picker's colour swap, because changing the type
 scale moves every line of text on the page.
 
 The fix is to **resolve the size on the server** and write
@@ -97,37 +97,81 @@ common case.
 
 ```css
 :root,
-[data-text-size="medium"] { --text-scale: 1; }
-[data-text-size="small"]  { --text-scale: 0.875; }
-[data-text-size="large"]  { --text-scale: 1.25; }
-[data-text-size="x-large"]{ --text-scale: 1.5; }
+[data-text-size="medium"] {
+  --text-scale: 1;
+}
+[data-text-size="small"] {
+  --text-scale: 0.875;
+}
+[data-text-size="large"] {
+  --text-scale: 1.25;
+}
+[data-text-size="x-large"] {
+  --text-scale: 1.5;
+}
 ```
 
 ### The `opts.value` control flash — fixed by the data attribute
 
 **There is no pre-hydration flash of the control when you pass
-`opts.value`.** The `data-lily-text-size-chooser-value` attribute is how
+`opts.value`.** The `data-lily-text-size-picker-value` attribute is how
 `opts.value` reaches the client, and the macro communicates the value
 out-of-band rather than baking it into control state the browser would
 paint before the client could correct it.
 
 ```html
-<div class="text-size-chooser" … data-lily-text-size-chooser-value="large">
-  <input type="hidden" name="text-size" value="large"
-         data-lily-text-size-chooser-input>
-  <button type="button" class="text-size-chooser-button" aria-label="Text size"
-          aria-haspopup="listbox" aria-expanded="false"
-          aria-controls="text-size-chooser-text-size-list">
-    <span class="text-size-chooser-icon" aria-hidden="true">A</span>
+<div class="text-size-picker" … data-lily-text-size-picker-value="large">
+  <input
+    type="hidden"
+    name="text-size"
+    value="large"
+    data-lily-text-size-picker-input
+  />
+  <button
+    type="button"
+    class="text-size-picker-button"
+    aria-label="Text size"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="text-size-picker-text-size-list"
+  >
+    <span class="text-size-picker-icon" aria-hidden="true">A</span>
   </button>
-  <ul class="text-size-chooser-list" id="text-size-chooser-text-size-list"
-      role="listbox" aria-label="Text size" tabindex="-1" hidden>
-    <li class="text-size-chooser-option" id="text-size-chooser-text-size-option-0"
-        role="option" aria-selected="false" data-value="small">Small</li>
-    <li class="text-size-chooser-option" id="text-size-chooser-text-size-option-1"
-        role="option" aria-selected="false" data-value="medium">Medium</li>
-    <li class="text-size-chooser-option" id="text-size-chooser-text-size-option-2"
-        role="option" aria-selected="true" data-value="large">Large</li>
+  <ul
+    class="text-size-picker-list"
+    id="text-size-picker-text-size-list"
+    role="listbox"
+    aria-label="Text size"
+    tabindex="-1"
+    hidden
+  >
+    <li
+      class="text-size-picker-option"
+      id="text-size-picker-text-size-option-0"
+      role="option"
+      aria-selected="false"
+      data-value="small"
+    >
+      Small
+    </li>
+    <li
+      class="text-size-picker-option"
+      id="text-size-picker-text-size-option-1"
+      role="option"
+      aria-selected="false"
+      data-value="medium"
+    >
+      Medium
+    </li>
+    <li
+      class="text-size-picker-option"
+      id="text-size-picker-text-size-option-2"
+      role="option"
+      aria-selected="true"
+      data-value="large"
+    >
+      Large
+    </li>
   </ul>
 </div>
 ```
@@ -138,13 +182,13 @@ listbox is `hidden`, so its `aria-selected` state is not painted at
 all. What the server markup guarantees is **consistency**: exactly one
 option carries `aria-selected="true"`, and the hidden input agrees with
 it, so the DOM is never internally contradictory even for the frames
-before `initTextSizeChooser(root)` runs.
+before `initTextSizePicker(root)` runs.
 
-The page *content* can still reflow, though — that is the
+The page _content_ can still reflow, though — that is the
 `data-text-size` concern above, and it is fixed in your shell, not
 here.
 
-`initTextSizeChooser(root)` reads the attribute during initial-value
+`initTextSizePicker(root)` reads the attribute during initial-value
 resolution (step 1 of the order in spec §5.1) and applies the size —
 mutating `data-text-size`, the hidden input, and the options'
 `aria-selected`.
@@ -161,7 +205,7 @@ while the listbox is still closed, so no one sees the correction.
 **`opts.value` is not one of the things the client overrides.** It is
 the first input in the runtime resolution order, ahead of storage, so a
 size you resolved server-side survives hydration intact. Unlike
-`theme-chooser`, this was always true here — there is no precedence
+`theme-picker`, this was always true here — there is no precedence
 reversal to migrate across.
 
 ## Eleventy (build time)
@@ -179,7 +223,7 @@ For sites where the default size is acceptable on first paint:
     <body>
         {% block content %}{% endblock %}
         <script type="module">
-            import { autoInit } from "/lily-design-system-nunjucks-text-size-chooser/text-size-chooser.client.js";
+            import { autoInit } from "/lily-design-system-nunjucks-text-size-picker/text-size-picker.client.js";
             autoInit();
         </script>
     </body>
@@ -198,16 +242,18 @@ For per-request resolution:
 ```js
 // functions/_middleware.js
 export async function onRequest(context) {
-    const cookie = context.request.headers.get("cookie") ?? "";
-    const size = /(?:^|; )text-size=([^;]+)/.exec(cookie)?.[1] ?? "medium";
-    const response = await context.next();
-    if (!response.headers.get("content-type")?.startsWith("text/html")) {
-        return response;
-    }
-    const html = await response.text();
-    const out = html.replace('data-text-size="PLACEHOLDER"',
-                             `data-text-size="${size}"`);
-    return new Response(out, response);
+  const cookie = context.request.headers.get("cookie") ?? "";
+  const size = /(?:^|; )text-size=([^;]+)/.exec(cookie)?.[1] ?? "medium";
+  const response = await context.next();
+  if (!response.headers.get("content-type")?.startsWith("text/html")) {
+    return response;
+  }
+  const html = await response.text();
+  const out = html.replace(
+    'data-text-size="PLACEHOLDER"',
+    `data-text-size="${size}"`,
+  );
+  return new Response(out, response);
 }
 ```
 
@@ -231,27 +277,27 @@ nunjucks.configure("views", { express: app, autoescape: true });
 const SUPPORTED = new Set(["small", "medium", "large", "x-large"]);
 
 app.get("/", (req, res) => {
-    const cookie = req.cookies["text-size"];
-    const textSize = cookie && SUPPORTED.has(cookie) ? cookie : "medium";
-    res.render("index.njk", { textSize });
+  const cookie = req.cookies["text-size"];
+  const textSize = cookie && SUPPORTED.has(cookie) ? cookie : "medium";
+  res.render("index.njk", { textSize });
 });
 
 app.post("/api/text-size", express.json(), (req, res) => {
-    const size = String(req.body?.size ?? "");
-    if (!SUPPORTED.has(size)) return res.status(400).end();
-    res.cookie("text-size", size, {
-        path: "/",
-        sameSite: "lax",
-        maxAge: 60 * 60 * 24 * 365 * 1000,
-    });
-    res.status(204).end();
+  const size = String(req.body?.size ?? "");
+  if (!SUPPORTED.has(size)) return res.status(400).end();
+  res.cookie("text-size", size, {
+    path: "/",
+    sameSite: "lax",
+    maxAge: 60 * 60 * 24 * 365 * 1000,
+  });
+  res.status(204).end();
 });
 ```
 
 ```njk
 <html lang="en" data-text-size="{{ textSize }}">
     <body>
-        {{ textSizeChooser({
+        {{ textSizePicker({
             label: "Text size",
             sizes: ["small", "medium", "large", "x-large"],
             value: textSize,
@@ -259,7 +305,7 @@ app.post("/api/text-size", express.json(), (req, res) => {
         }) }}
 
         <script type="module">
-            import { autoInit } from "/path/to/text-size-chooser.client.js";
+            import { autoInit } from "/path/to/text-size-picker.client.js";
             autoInit({
                 onChange(size) {
                     fetch("/api/text-size", {
@@ -283,20 +329,17 @@ loader:
 import nunjucks from "nunjucks";
 import templates from "./templates.json";
 
-const env = new nunjucks.Environment(
-    new nunjucks.PrecompiledLoader(templates),
-);
+const env = new nunjucks.Environment(new nunjucks.PrecompiledLoader(templates));
 
 export default {
-    async fetch(request) {
-        const cookie = request.headers.get("cookie") ?? "";
-        const textSize =
-            /(?:^|; )text-size=([^;]+)/.exec(cookie)?.[1] ?? "medium";
-        const html = env.render("index.njk", { textSize });
-        return new Response(html, {
-            headers: { "content-type": "text/html; charset=utf-8" },
-        });
-    },
+  async fetch(request) {
+    const cookie = request.headers.get("cookie") ?? "";
+    const textSize = /(?:^|; )text-size=([^;]+)/.exec(cookie)?.[1] ?? "medium";
+    const html = env.render("index.njk", { textSize });
+    return new Response(html, {
+      headers: { "content-type": "text/html; charset=utf-8" },
+    });
+  },
 };
 ```
 
@@ -315,7 +358,7 @@ transport-agnostic and lets the consumer wire the integration via
 There is no virtual-DOM hydration mismatch in this catalog because the
 macro is one-shot HTML, not a diff. The only cross-render gotcha is:
 
-- The server renders no `data-lily-text-size-chooser-value`, but the
+- The server renders no `data-lily-text-size-picker-value`, but the
   client picks a non-empty value from `localStorage`. The page
   therefore paints at the base type scale for one frame before
   `data-text-size` lands, and every line of text reflows. The control

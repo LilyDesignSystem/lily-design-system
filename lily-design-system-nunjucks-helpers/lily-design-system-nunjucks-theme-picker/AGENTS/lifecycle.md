@@ -1,4 +1,4 @@
-# Lifecycle — ThemeChooser (Nunjucks)
+# Lifecycle — ThemePicker (Nunjucks)
 
 The Nunjucks-flavoured walk-through of the select's lifecycle. The
 canonical contract is in [`../spec/index.md`](../spec/index.md) §5; this file
@@ -11,11 +11,11 @@ macro + client.js split.
 Nunjucks render time
   │
   ▼
-themeChooser(opts) macro
-  │  emits <div data-lily-theme-chooser-root …> containing
+themePicker(opts) macro
+  │  emits <div data-lily-theme-picker-root …> containing
   │   a hidden input, an icon <button aria-expanded="false">,
   │   and a <ul role="listbox" hidden>.
-  │  data-lily-theme-chooser-value = opts.value (if non-empty).
+  │  data-lily-theme-picker-value = opts.value (if non-empty).
   │  A server-side selected slug is resolved as
   │   value or defaultValue or ("light" if present else themes[0]);
   │   exactly one <li> gets aria-selected="true" and the hidden
@@ -30,13 +30,13 @@ Browser parses HTML, paints the collapsed button (no JS yet).
   until the client.js runs. See ssr.md.
   │
   ▼
-<script type="module"> imports theme-chooser.client.js
+<script type="module"> imports theme-picker.client.js
   │
   ▼
-autoInit() finds [data-lily-theme-chooser-root] in DOM
+autoInit() finds [data-lily-theme-picker-root] in DOM
   │
   ▼
-For each root, initThemeChooser(root) runs:
+For each root, initThemePicker(root) runs:
   1. Read data-lily-* attrs, the options, their data-values and labels
   2. Attach listeners: button click + keydown, list keydown + click,
      root focusout, document click
@@ -87,18 +87,18 @@ They only converge once the user confirms.
 
 ## Why a separate "init" and "apply"
 
-`initThemeChooser` runs once per root; `applyTheme` runs every time a
+`initThemePicker` runs once per root; `applyTheme` runs every time a
 theme is chosen. The split lets the controller's `setTheme(slug)`
 reuse the same code path as a listbox selection — both flow through
 `applyTheme`, and neither touches the open/closed state.
 
 ## Initial-value resolution
 
-Inside `initThemeChooser(root)`:
+Inside `initThemePicker(root)`:
 
 ```js
 // `values` are the options' data-value attributes, in document order.
-const valueAttr = root.getAttribute("data-lily-theme-chooser-value") || "";
+const valueAttr = root.getAttribute("data-lily-theme-picker-value") || "";
 let initial = "";
 initial = valueAttr;
 if (!initial && storageKey) initial = safeStorageGet(storageKey) || "";
@@ -117,7 +117,7 @@ The resolution order is documented in
 storage first, on the argument that "a user who picked dark two weeks
 ago should land on dark today". That argument is right about the case
 it describes and wrong about which input should win, because it
-assumed `opts.value` only ever carries a *default* the consumer
+assumed `opts.value` only ever carries a _default_ the consumer
 guessed. It does not. In a Nunjucks app, `opts.value` is how a theme
 that was **already resolved on the server** — from a cookie, a
 session, a signed-in user's stored preference — reaches the page. That
@@ -129,13 +129,13 @@ changed their theme on another device, or whose account preference was
 updated server-side, got the stale local value with nothing to explain
 it — and the consumer had no way to override short of clearing storage
 themselves. Value-first fixes that, and matches every other Lily
-helper, including the canonical Svelte one and every locale-chooser.
+helper, including the canonical Svelte one and every locale-picker.
 
 The two-weeks-ago user is not harmed by the change: when the consumer
 passes no `opts.value`, storage is still the next thing consulted, so
 a returning visitor with a saved choice and no server-side theme lands
 exactly where they did before. What changed is only which side wins a
-genuine *conflict*, and there the explicit server-resolved value
+genuine _conflict_, and there the explicit server-resolved value
 should.
 
 A consumer who really wants storage to outrank a server value can
@@ -143,9 +143,9 @@ express it directly — read `localStorage` in their own page script and
 pass the result as `opts.value` — which has the merit of being visible
 in the calling code rather than buried in a resolution order.
 
-`opts.value` is read from the `data-lily-theme-chooser-value`
+`opts.value` is read from the `data-lily-theme-picker-value`
 attribute, and that is still its only channel to the client. The
-macro's own server-side selected option is a *separate*, narrower
+macro's own server-side selected option is a _separate_, narrower
 resolution — `value or defaultValue or ("light" if present else
 themes[0])` — because storage and `matchMedia` do not exist at render
 time. When they disagree, the client wins: it runs `applyTheme` on
@@ -155,7 +155,7 @@ init and rewrites `aria-selected` and the hidden input.
 
 `detectFromSystem` slots into the chain between storage and
 `defaultValue` — the same position `detectFromNavigator` occupies in
-locale-chooser. It resolves through `matchSystemTheme(values)`, which
+locale-picker. It resolves through `matchSystemTheme(values)`, which
 reads `matchMedia("(prefers-color-scheme: dark)")` and returns `""` if
 the resulting slug is not among the rendered options, or if
 `matchMedia` is not available at all.
@@ -163,7 +163,7 @@ the resulting slug is not among the rendered options, or if
 That guard is load-bearing rather than defensive: there is no
 `matchMedia` in a Nunjucks render process, and none in jsdom either.
 So the macro never resolves the system preference — it only emits
-`data-lily-theme-chooser-detect-from-system` for the client to act on,
+`data-lily-theme-picker-detect-from-system` for the client to act on,
 and its server-rendered `aria-selected` stays on the narrower
 `value or defaultValue or fallback` chain described above. With
 `detectFromSystem` on and no `opts.value`, expect the server markup to
@@ -176,17 +176,17 @@ must resolve the theme server-side and pass it as `opts.value`.
 
 ```js
 function applyTheme(slug) {
-    if (!slug) return;
-    current = slug;
-    getManagedLink(name).href = themeHref(themesUrl, slug, extension);
-    const target = opts.target || document.documentElement;
-    target.setAttribute("data-theme", slug);
-    if (storageKey) safeStorageSet(storageKey, slug);
-    if (input) input.value = slug;
-    options.forEach((o, i) =>
-        o.setAttribute("aria-selected", values[i] === slug ? "true" : "false"),
-    );
-    if (typeof opts.onChange === "function") opts.onChange(slug);
+  if (!slug) return;
+  current = slug;
+  getManagedLink(name).href = themeHref(themesUrl, slug, extension);
+  const target = opts.target || document.documentElement;
+  target.setAttribute("data-theme", slug);
+  if (storageKey) safeStorageSet(storageKey, slug);
+  if (input) input.value = slug;
+  options.forEach((o, i) =>
+    o.setAttribute("aria-selected", values[i] === slug ? "true" : "false"),
+  );
+  if (typeof opts.onChange === "function") opts.onChange(slug);
 }
 ```
 
@@ -201,7 +201,7 @@ no globals. The macro output goes straight into the HTML response.
 
 If the consumer pre-resolves the theme on the server (cookie,
 header, session store) and passes it as `opts.value`, the macro emits
-`data-lily-theme-chooser-value="{value}"` on the root, marks that
+`data-lily-theme-picker-value="{value}"` on the root, marks that
 theme's `<li>` `aria-selected="true"`, and pre-fills the hidden
 input with it. The client.js reads the attribute on init and runs
 `applyTheme(value)` once to inject the `<link>` and set
@@ -232,7 +232,7 @@ mutates a `data-lily-*` attribute after init, the client.js does
 **not** re-read it. The option list is likewise snapshotted at init:
 adding or removing `<li>`s afterwards is invisible to the runtime.
 To change `themesUrl`, `extension`, or the option set at runtime, the
-consumer must `destroy()` and `initThemeChooser(root)` again.
+consumer must `destroy()` and `initThemePicker(root)` again.
 
 ## Unmount / cleanup
 
@@ -251,7 +251,7 @@ applied.
 If a consumer wants to fully tear down, they do it themselves:
 
 ```js
-document.head.querySelector('[data-lily-theme-chooser="theme"]')?.remove();
+document.head.querySelector('[data-lily-theme-picker="theme"]')?.remove();
 document.documentElement.removeAttribute("data-theme");
 localStorage.removeItem("my-app:theme");
 ```

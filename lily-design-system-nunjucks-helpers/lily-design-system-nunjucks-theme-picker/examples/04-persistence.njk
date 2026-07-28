@@ -6,9 +6,9 @@
   stored slug as the first step of initial-value resolution.
   Quota / private-mode errors are silently swallowed.
 #}
-{% from "../theme-chooser.njk" import themeChooser %}
+{% from "../theme-picker.njk" import themePicker %}
 
-{{ themeChooser({
+{{ themePicker({
     label: "Theme",
     themesUrl: "/assets/themes/",
     themes: ["light", "dark", "abyss"],
@@ -16,6 +16,6 @@
 }) }}
 
 <script type="module">
-    import { autoInit } from "../theme-chooser.client.js";
+    import { autoInit } from "../theme-picker.client.js";
     autoInit();
 </script>

@@ -1,6 +1,6 @@
-# Accessibility — ThemeChooser (Vue)
+# Accessibility — ThemePicker (Vue)
 
-The chooser targets WCAG 2.2 AAA. It is an icon button that opens a
+The picker targets WCAG 2.2 AAA. It is an icon button that opens a
 WAI-ARIA APG listbox — the roles, properties, focus management, and
 keyboard contract are all implemented by the component, not inherited
 from a native `<select>`. This file is the Vue-flavoured view; the
@@ -19,7 +19,7 @@ the consumer-facing tradeoff discussion is in
 | `<button>`               | `aria-haspopup="listbox"`                     | Component     |
 | `<button>`               | `aria-expanded` — `"true"` / `"false"`        | Component     |
 | `<button>`               | `aria-controls={listId}`                      | Component     |
-| `.theme-chooser-icon`     | `aria-hidden="true"`                          | Component     |
+| `.theme-picker-icon`     | `aria-hidden="true"`                          | Component     |
 | `<ul>`                   | `role="listbox"`, `aria-label={label}`        | Component     |
 | `<ul>`                   | `tabindex="-1"`, `hidden` while closed        | Component     |
 | `<ul>`                   | `aria-activedescendant` — only while open     | Component     |
@@ -76,7 +76,7 @@ colour-only meaning is required:
 
 The closed control is **not** one of them: it is icon-only, so it shows
 and announces nothing about the active theme. That is the reason the
-documented pattern pairs the chooser with a `.theme-chooser-status` live
+documented pattern pairs the picker with a `.theme-picker-status` live
 region — see [`../docs/accessibility.md`](../docs/accessibility.md).
 
 ## The three tradeoffs
@@ -109,7 +109,7 @@ Summarised here; argued in full in
 ## Visible focus
 
 The component suppresses no focus styling. Two elements take focus and
-both need an indicator: `.theme-chooser-button`, and `.theme-chooser-list`
+both need an indicator: `.theme-picker-button`, and `.theme-picker-list`
 while open. Style the active option from `[data-active]` — with focus
 on the `<ul>`, that is the only cue a sighted keyboard user gets.
 
@@ -165,15 +165,15 @@ Required, not optional — this is a scripted widget:
 ## Testing for a11y
 
 ```ts
-const wrapper = mount(ThemeChooser, {
+const wrapper = mount(ThemePicker, {
     props: { label: "Theme", themesUrl: "/t/", themes: ["light", "dark"] },
 });
-const button = wrapper.find("button.theme-chooser-button");
+const button = wrapper.find("button.theme-picker-button");
 expect(button.attributes("aria-label")).toBe("Theme");
 expect(button.attributes("aria-haspopup")).toBe("listbox");
 expect(button.attributes("aria-expanded")).toBe("false");
-expect(wrapper.find("ul.theme-chooser-list").attributes("aria-label")).toBe("Theme");
-expect(wrapper.findAll("li.theme-chooser-option")).toHaveLength(2);
+expect(wrapper.find("ul.theme-picker-list").attributes("aria-label")).toBe("Theme");
+expect(wrapper.findAll("li.theme-picker-option")).toHaveLength(2);
 ```
 
 For broader a11y testing run axe-core in a real Vue host. See

@@ -1,22 +1,22 @@
-# AGENTS — LocaleChooser (Vue helper)
+# AGENTS — LocalePicker (Vue helper)
 
 Single source of truth: [spec/index.md](./spec/index.md). Read it first; everything
 below is a fast index.
 
 ## What this package is
 
-A reusable Vue 3 headless locale chooser that applies the chosen
+A reusable Vue 3 headless locale picker that applies the chosen
 locale to the document root via `lang` and `dir`, with optional
 `localStorage` persistence and `navigator.languages` detection. Ships
-no CSS; consumer styles the `locale-chooser` class hook.
+no CSS; consumer styles the `locale-picker` class hook.
 
 ## Files
 
 | File                       | Purpose                                          |
 | -------------------------- | ------------------------------------------------ |
 | `spec/index.md`                  | Specification-driven contract (canonical).       |
-| `LocaleChooser.vue`         | Implementation. `<script setup lang="ts">`.      |
-| `LocaleChooser.test.ts`     | Vitest spec, one assertion per §7 acceptance.    |
+| `LocalePicker.vue`         | Implementation. `<script setup lang="ts">`.      |
+| `LocalePicker.test.ts`     | Vitest spec, one assertion per §7 acceptance.    |
 | `locales.ts`               | Built-in code → English-name map and RTL sets.   |
 | `locales.tsv`              | Canonical 436-row source for `locales.ts`.       |
 | `index.ts`                 | Barrel re-export.                                |
@@ -26,9 +26,9 @@ no CSS; consumer styles the `locale-chooser` class hook.
 
 ## Public surface
 
-- Default export: `LocaleChooser` component.
-- Named exports: `LocaleChooser`, `bcp47LocaleTag`, `isRtlLocale`,
-  `localeName`, `matchNavigatorLanguage`, `nextLocaleChooserId`,
+- Default export: `LocalePicker` component.
+- Named exports: `LocalePicker`, `bcp47LocaleTag`, `isRtlLocale`,
+  `localeName`, `matchNavigatorLanguage`, `nextLocalePickerId`,
   `GLOBE_WITH_MERIDIANS`, `defaultLocaleLabels`, `RTL_LANGUAGE_TAGS`,
   `RTL_SCRIPT_SUBTAGS`.
 - Type exports: `Props`, `SlotArgs`, `ChildArgs` (alias of `SlotArgs`).
@@ -39,7 +39,7 @@ Required props: `label`, `locales`. Full table in
 
 ## Behaviour contract (one paragraph)
 
-On every locale change the chooser (1) sets `target.lang` to the
+On every locale change the picker (1) sets `target.lang` to the
 BCP 47 hyphen form of the code, (2) sets `target.dir` to `"rtl"` /
 `"ltr"` (skipped if `applyDir=false`), (3) optionally writes to
 `localStorage[storageKey]`, and (4) emits the `change` event with the
@@ -52,15 +52,15 @@ hidden input, and in `lang` / `dir` on the target.
 
 ## HTML
 
-A root `<div class="locale-chooser {class}">` (`$attrs` falls through
+A root `<div class="locale-picker {class}">` (`$attrs` falls through
 to it) containing three things: a hidden `<input type="hidden"
 name="{name}" value="{value}">` for form participation; a
-`<button type="button" class="locale-chooser-button" aria-label="{label}"
+`<button type="button" class="locale-picker-button" aria-label="{label}"
 aria-haspopup="listbox" aria-expanded aria-controls="{listId}">`
-wrapping `<span class="locale-chooser-icon" aria-hidden="true">🌐</span>`;
-and a `<ul class="locale-chooser-list" role="listbox" aria-label="{label}"
+wrapping `<span class="locale-picker-icon" aria-hidden="true">🌐</span>`;
+and a `<ul class="locale-picker-list" role="listbox" aria-label="{label}"
 tabindex="-1" hidden aria-activedescendant>` of
-`<li class="locale-chooser-option" role="option" aria-selected
+`<li class="locale-picker-option" role="option" aria-selected
 data-active lang="{tagFor(locale)}">`. The glyph is U+1F310 GLOBE WITH
 MERIDIANS, exported as `GLOBE_WITH_MERIDIANS`. Each option keeps its
 own `lang` so its name is pronounced in its own language; the button
@@ -81,7 +81,7 @@ and the list carry none. The default scoped slot replaces the
   name; the glyph is `aria-hidden="true"`. The same `label` also names
   the listbox.
 - Because the closed control shows only a glyph, the documented pattern
-  pairs the chooser with a consumer-rendered `.locale-chooser-status`
+  pairs the picker with a consumer-rendered `.locale-picker-status`
   live region. See [docs/accessibility.md](./docs/accessibility.md).
 
 ## Conventions this package follows

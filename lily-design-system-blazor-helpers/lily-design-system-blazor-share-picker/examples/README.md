@@ -1,7 +1,7 @@
 # Examples
 
 Self-contained Blazor `.razor` examples for
-`lily-design-system-blazor-share-chooser`. Each file is a runnable
+`lily-design-system-blazor-share-picker`. Each file is a runnable
 component that can be dropped into any Blazor 10 host (Blazor Web App,
 Blazor Server, Blazor WebAssembly).
 
@@ -13,12 +13,12 @@ Every example assumes:
 - The example's `@page` route is mounted in the host's `App.razor` with
   an **interactive** render mode.
 
-| # | File | Demonstrates |
-|---|------|--------------|
-| 1 | [`Basic.razor`](./Basic.razor) | Minimal destinations list plus the copy item and its announcements. |
-| 2 | [`Strategies.razor`](./Strategies.razor) | `ShareStrategy.Auto` vs `.List`; `OnShare` / `OnNativeShare`. |
-| 3 | [`CustomGlyph.razor`](./CustomGlyph.razor) | `RenderFragment<ShareChooserContext>` — custom button face, state-aware. |
-| 4 | [`ExternalActivation.razor`](./ExternalActivation.razor) | Driving the control from your own UI via `ActivateAsync` / `CopyAsync` and a `@ref`. |
+| #   | File                                                     | Demonstrates                                                                         |
+| --- | -------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| 1   | [`Basic.razor`](./Basic.razor)                           | Minimal destinations list plus the copy item and its announcements.                  |
+| 2   | [`Strategies.razor`](./Strategies.razor)                 | `ShareStrategy.Auto` vs `.List`; `OnShare` / `OnNativeShare`.                        |
+| 3   | [`CustomGlyph.razor`](./CustomGlyph.razor)               | `RenderFragment<SharePickerContext>` — custom button face, state-aware.             |
+| 4   | [`ExternalActivation.razor`](./ExternalActivation.razor) | Driving the control from your own UI via `ActivateAsync` / `CopyAsync` and a `@ref`. |
 
 ## Running the examples
 
@@ -28,7 +28,7 @@ is:
 1. Inside any Blazor Web App or Blazor Server project, drop the `.razor`
    file into your `Components/Pages/` directory.
 2. Add a project reference to
-   `LilyDesignSystem.Blazor.ShareChooser.csproj`.
+   `LilyDesignSystem.Blazor.SharePicker.csproj`.
 3. `dotnet run` and visit the `@page` route declared at the top of the
    file.
 
@@ -51,7 +51,7 @@ render mode.
 No social-network URLs ship with this package, so every example declares
 its own `Targets`. That is deliberate: which networks belong in a product
 is an editorial and privacy decision, the endpoints change, and networks
-die. The URLs in these examples are illustrations of the *shape*, not
+die. The URLs in these examples are illustrations of the _shape_, not
 endorsements or a maintained list — check any of them against the
 network's current documentation before shipping.
 

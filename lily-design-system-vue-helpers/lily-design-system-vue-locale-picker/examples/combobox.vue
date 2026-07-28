@@ -12,7 +12,7 @@
     2. The default slot replaces the button glyph only, so you can no
        longer swap the control for an <input list>. If you genuinely
        need free-text filtering, render your own combobox NEXT TO the
-       component and bind both to the same ref: LocaleChooser keeps
+       component and bind both to the same ref: LocalePicker keeps
        owning the apply lifecycle (lang/dir/storage/change), and your
        input is simply a second way to write the bound value.
 
@@ -26,10 +26,10 @@
 -->
 <script setup lang="ts">
 import { ref } from "vue";
-import LocaleChooser, {
+import LocalePicker, {
     defaultLocaleLabels,
     localeName,
-} from "../LocaleChooser.vue";
+} from "../LocalePicker.vue";
 
 // All 436 locale codes from the built-in table.
 const ALL_LOCALES = Object.keys(defaultLocaleLabels);
@@ -51,7 +51,7 @@ function commit(event: Event): void {
 </script>
 
 <template>
-    <LocaleChooser
+    <LocalePicker
         label="Language"
         :locales="ALL_LOCALES"
         v-model:value="locale"
@@ -79,7 +79,7 @@ function commit(event: Event): void {
         </option>
     </datalist>
 
-    <p class="locale-chooser-status" aria-live="polite">
+    <p class="locale-picker-status" aria-live="polite">
         Current language: {{ localeName(locale) }}
     </p>
 

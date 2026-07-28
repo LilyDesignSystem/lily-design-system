@@ -1,7 +1,7 @@
-# Testing — ThemeChooser (Blazor)
+# Testing — ThemePicker (Blazor)
 
 The select's test suite lives in
-[`../ThemeChooserTests.cs`](../ThemeChooserTests.cs) and asserts every
+[`../ThemePickerTests.cs`](../ThemePickerTests.cs) and asserts every
 numbered acceptance criterion in `spec/index.md` §7. This file documents
 the test harness and the conventions specific to this helper. For
 the catalog-wide test rules see
@@ -19,13 +19,13 @@ using Xunit;
 
 namespace LilyDesignSystem.Blazor.Helpers.Tests;
 
-public class ThemeChooserTests : TestContext
+public class ThemePickerTests : TestContext
 {
     private static readonly string[] Themes = { "light", "dark", "abyss" };
     private const string UrlTrailing = "/assets/themes/";
     private const string UrlNoTrailing = "/assets/themes";
 
-    public ThemeChooserTests()
+    public ThemePickerTests()
     {
         JSInterop.Mode = JSRuntimeMode.Loose;
         JSInterop.SetupVoid("eval", _ => true).SetVoidResult();
@@ -45,18 +45,18 @@ covers the `FocusAsync` interop the open / close lifecycle issues.
 [Fact]
 public void Section_7_1_Renders_Button_Controlling_A_Listbox()
 {
-    var cut = RenderComponent<ThemeChooser>(p => p
+    var cut = RenderComponent<ThemePicker>(p => p
         .Add(x => x.Label, "Theme")
         .Add(x => x.ThemesUrl, UrlTrailing)
         .Add(x => x.Themes, Themes));
 
-    var root = cut.Find("div.theme-chooser");
+    var root = cut.Find("div.theme-picker");
     Assert.Empty(cut.FindAll("select"));
 
-    var button = cut.Find("button.theme-chooser-button");
+    var button = cut.Find("button.theme-picker-button");
     Assert.Equal("listbox", button.GetAttribute("aria-haspopup"));
 
-    var list = cut.Find("ul.theme-chooser-list");
+    var list = cut.Find("ul.theme-picker-list");
     Assert.Equal(button.GetAttribute("aria-controls"), list.GetAttribute("id"));
 }
 ```
@@ -71,7 +71,7 @@ continuations may still be pending after `RenderComponent` returns.
 [Fact]
 public async Task Section_7_19_Interop_Fires_With_Constructed_Href()
 {
-    var cut = RenderComponent<ThemeChooser>(p => p
+    var cut = RenderComponent<ThemePicker>(p => p
         .Add(x => x.Label, "Theme")
         .Add(x => x.ThemesUrl, UrlTrailing)
         .Add(x => x.Themes, Themes));
@@ -92,7 +92,7 @@ callback explicitly:
 
 ```csharp
 var captured = "";
-var cut = RenderComponent<ThemeChooser>(p => p
+var cut = RenderComponent<ThemePicker>(p => p
     .Add(x => x.Label, "Theme")
     .Add(x => x.ThemesUrl, UrlTrailing)
     .Add(x => x.Themes, Themes)
@@ -108,7 +108,7 @@ Pointer path — click the button, then click an `<li>`:
 
 ```csharp
 cut.Find("button").Click();
-cut.FindAll("li.theme-chooser-option")[2].Click();
+cut.FindAll("li.theme-picker-option")[2].Click();
 
 Assert.True(cut.Find("ul").HasAttribute("hidden"));
 Assert.Equal("abyss", cut.Find("input[type='hidden']").GetAttribute("value"));
@@ -125,7 +125,7 @@ The suite wraps that in a helper, because every keyboard test needs
 both the button and the listbox target:
 
 ```csharp
-private static void Key(IRenderedComponent<ThemeChooser> cut, string selector, string key)
+private static void Key(IRenderedComponent<ThemePicker> cut, string selector, string key)
     => cut.Find(selector).KeyDown(new KeyboardEventArgs { Key = key });
 
 Key(cut, "button", "ArrowDown");   // open on the selected option
@@ -146,8 +146,8 @@ the first one (its own button → listbox move), so a test that wants a
 real departure dispatches two:
 
 ```csharp
-cut.Find("div.theme-chooser").FocusOut();
-cut.Find("div.theme-chooser").FocusOut();
+cut.Find("div.theme-picker").FocusOut();
+cut.Find("div.theme-picker").FocusOut();
 ```
 
 ## Asserting interop calls
@@ -180,10 +180,10 @@ needed:
 [Fact]
 public void Section_7_22_Url_Normalisation()
 {
-    Assert.Equal("/assets/themes/", ThemeChooser.NormaliseThemesUrl(UrlTrailing));
-    Assert.Equal("/assets/themes/", ThemeChooser.NormaliseThemesUrl(UrlNoTrailing));
-    Assert.Equal("/a/light.css", ThemeChooser.ThemeHref("/a", "light", ".css"));
-    Assert.Equal("/a/light.css", ThemeChooser.ThemeHref("/a/", "light", ".css"));
+    Assert.Equal("/assets/themes/", ThemePicker.NormaliseThemesUrl(UrlTrailing));
+    Assert.Equal("/assets/themes/", ThemePicker.NormaliseThemesUrl(UrlNoTrailing));
+    Assert.Equal("/a/light.css", ThemePicker.ThemeHref("/a", "light", ".css"));
+    Assert.Equal("/a/light.css", ThemePicker.ThemeHref("/a/", "light", ".css"));
 }
 ```
 
@@ -193,7 +193,7 @@ on the implementation assembly. This lets tests assert against the
 emitted JS string without an integration test:
 
 ```csharp
-var script = ThemeChooser.BuildApplyScript("theme", "/t/dark.css", "dark", "lily-theme");
+var script = ThemePicker.BuildApplyScript("theme", "/t/dark.css", "dark", "lily-theme");
 Assert.Contains("localStorage.setItem(\"lily-theme\"", script);
 Assert.Contains("\"dark\"", script);
 ```
@@ -201,14 +201,14 @@ Assert.Contains("\"dark\"", script);
 ## ChildContent tests
 
 `ChildContent` replaces the glyph inside the button, so the test
-asserts both that the default `.theme-chooser-icon` is gone and that
+asserts both that the default `.theme-picker-icon` is gone and that
 the fragment received `Value`, `Open`, and `LabelFor`:
 
 ```csharp
 [Fact]
 public async Task Section_7_24_ChildContent_Replaces_The_Glyph_And_Receives_Context()
 {
-    RenderFragment<ThemeChooserContext> custom = ctx => builder =>
+    RenderFragment<ThemePickerContext> custom = ctx => builder =>
     {
         builder.OpenElement(0, "span");
         builder.AddAttribute(1, "data-testid", "custom");
@@ -218,17 +218,17 @@ public async Task Section_7_24_ChildContent_Replaces_The_Glyph_And_Receives_Cont
         builder.CloseElement();
     };
 
-    var cut = RenderComponent<ThemeChooser>(p => p
+    var cut = RenderComponent<ThemePicker>(p => p
         .Add(x => x.Label, "Theme")
         .Add(x => x.ThemesUrl, UrlTrailing)
         .Add(x => x.Themes, Themes)
         .Add(x => x.ChildContent, custom));
     await Task.Yield();
 
-    Assert.Empty(cut.FindAll(".theme-chooser-icon"));
+    Assert.Empty(cut.FindAll(".theme-picker-icon"));
 
     var custom_ = cut.Find("[data-testid='custom']");
-    Assert.Contains("theme-chooser-button",
+    Assert.Contains("theme-picker-button",
         custom_.ParentElement?.GetAttribute("class") ?? "");
     Assert.Equal("Light", custom_.GetAttribute("data-label"));
 
@@ -246,13 +246,13 @@ without an extra .razor file.
 [Fact]
 public void Section_7_23_AdditionalAttributes_Spread_Onto_The_Root()
 {
-    var cut = RenderComponent<ThemeChooser>(p => p
+    var cut = RenderComponent<ThemePicker>(p => p
         .Add(x => x.Label, "Theme")
         .Add(x => x.ThemesUrl, UrlTrailing)
         .Add(x => x.Themes, Themes)
         .AddUnmatched("data-testid", "ts"));
 
-    Assert.Equal("ts", cut.Find("div.theme-chooser").GetAttribute("data-testid"));
+    Assert.Equal("ts", cut.Find("div.theme-picker").GetAttribute("data-testid"));
 }
 ```
 
@@ -278,13 +278,13 @@ Section map:
 | ---------------- | ----------------------------------------------------------------- |
 | **Markup contract** |                                                                |
 | 7.1 structure    | Root `<div>`, button with `aria-haspopup`/`aria-expanded`/`aria-controls`, `<ul role="listbox" tabindex="-1">`, no `<select>` |
-| 7.2 glyph        | `.theme-chooser-icon` renders `◑`, `aria-hidden="true"`, matches `CircleWithRightHalfBlack` |
+| 7.2 glyph        | `.theme-picker-icon` renders `◑`, `aria-hidden="true"`, matches `CircleWithRightHalfBlack` |
 | 7.3 naming       | `aria-label` on BOTH the button and the listbox                   |
-| 7.4 options      | One `li.theme-chooser-option` per theme; hidden input carries `Name` + resolved `Value` |
+| 7.4 options      | One `li.theme-picker-option` per theme; hidden input carries `Name` + resolved `Value` |
 | 7.5 open state   | `hidden` until activated; activating toggles `hidden` + `aria-expanded` |
 | 7.6 selection    | Exactly one `aria-selected="true"`; no `aria-activedescendant` while closed; opening points it at the active option, which also carries `data-active` |
 | 7.7 labels       | Title-cased slugs, `ThemeLabels` override, "default" never emitted |
-| 7.8 ids          | List / option ids stable across re-render, unique across instances, `theme-chooser-` prefixed |
+| 7.8 ids          | List / option ids stable across re-render, unique across instances, `theme-picker-` prefixed |
 | **Keyboard contract (WAI-ARIA APG listbox)** |                                       |
 | 7.9 open         | `ArrowDown` / `Enter` / `Space` on the button open on the selected option |
 | 7.10 open-last   | `ArrowUp` on the button opens with the last option active         |

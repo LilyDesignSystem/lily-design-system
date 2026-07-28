@@ -14,10 +14,10 @@
   Note that the listbox itself mirrors under `dir="rtl"` too, so this
   is also a check on your own CSS: use logical properties
   (`inset-inline-start`, `text-align: start`) on
-  `.locale-chooser-list` and `.locale-chooser-option` or the popup will
+  `.locale-picker-list` and `.locale-picker-option` or the popup will
   anchor to the wrong edge. See ../docs/rtl.md.
 #}
-{% from "../locale-chooser.njk" import localeChooser %}
+{% from "../locale-picker.njk" import localePicker %}
 
 {# Endonyms: each language in its own script. #}
 {% set NATIVE = {
@@ -29,7 +29,7 @@
     ps: "پښتو"
 } %}
 
-{{ localeChooser({
+{{ localePicker({
     label: "Direction demo",
     locales: ["en", "ar", "he", "fa", "ur", "ps"],
     localeLabels: NATIVE,
@@ -54,7 +54,7 @@
         autoInit,
         bcp47LocaleTag,
         isRtlLocale,
-    } from "../locale-chooser.client.js";
+    } from "../locale-picker.client.js";
 
     const NATIVE = {
         en: "English",

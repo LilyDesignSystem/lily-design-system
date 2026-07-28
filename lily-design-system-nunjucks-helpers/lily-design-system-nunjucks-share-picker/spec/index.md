@@ -1,20 +1,20 @@
-# ShareChooser (Nunjucks) — Specification
+# SharePicker (Nunjucks) — Specification
 
-Single source of truth for the `lily-design-system-nunjucks-share-chooser`
+Single source of truth for the `lily-design-system-nunjucks-share-picker`
 helper. This file drives implementation, testing, and documentation:
 anything not in this spec is out of scope; anything in this spec must be
 exercised by a test.
 
 The canonical helper is the Svelte one
-([`../../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-chooser/spec/index.md`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-chooser/spec/index.md)).
+([`../../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-picker/spec/index.md`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-picker/spec/index.md)).
 Per `AGENTS/helpers.md`, Svelte wins where the catalogs disagree; §3.3
 below records the one place this port could not follow it, and why.
 
 Sibling files:
 
-- `share-chooser.njk` — the macro (server-rendered markup)
-- `share-chooser.client.js` — the runtime (interaction, native sheet, clipboard)
-- `share-chooser.test.ts` — vitest spec exercising every clause in §7
+- `share-picker.njk` — the macro (server-rendered markup)
+- `share-picker.client.js` — the runtime (interaction, native sheet, clipboard)
+- `share-picker.test.ts` — vitest spec exercising every clause in §7
 - `index.md` — user-facing guide
 
 ---
@@ -48,8 +48,8 @@ Give a Nunjucks application a drop-in, headless share control that:
 ### 3.1 Inherited from the canonical helper
 
 - **A helper, but not a preference lifecycle.** The other helpers own
-  *selection + DOM application + optional persistence*. This one owns an
-  *action*.
+  _selection + DOM application + optional persistence_. This one owns an
+  _action_.
 - **Disclosure + real links, not a menu.** Share destinations are
   navigation, so they render as real `<a>` elements with **no `role`
   override**. `role="menuitem"` would strip middle-click,
@@ -64,14 +64,14 @@ Give a Nunjucks application a drop-in, headless share control that:
   rejects when the user dismisses the sheet. Falling back to the list
   there would resurrect UI the user just dismissed, so a rejection ends
   the interaction.
-- **The trigger class is `share-chooser-button`**, following the
+- **The trigger class is `share-picker-button`**, following the
   `{helper}-button` convention the sibling helpers use, with no
   exception.
 
 ### 3.2 The macro / client.js split
 
 As with every helper in this catalog, the macro renders markup carrying
-`data-lily-share-chooser-*` hooks and the client module wires behaviour.
+`data-lily-share-picker-*` hooks and the client module wires behaviour.
 The split here falls in an unusually good place: the macro emits the
 destination anchors **fully formed**, so they are useful before — and
 without — the client. See §6 and `docs/ssr.md`.
@@ -111,11 +111,11 @@ in `CHANGELOG.md` and `index.md`. Three things make it the right trade:
 2. The rendered anchors carry real, final hrefs, which is exactly what
    makes the no-JS story work (§6). A function-based macro API could
    not have produced them at all.
-3. Nothing about the *contract* changes: the consumer still owns the
+3. Nothing about the _contract_ changes: the consumer still owns the
    whole URL, and still no endpoint convention ships.
 
 **The function form survives on the client**, where functions are
-callable. `initShareChooser(root, {targets})` accepts targets whose
+callable. `initSharePicker(root, {targets})` accepts targets whose
 `href` is a function, matches them to the rendered anchors by
 `data-target-id`, and rewrites each `href` from the live URL — at init
 and again on every open. `shareTargetHref(target, url, title, text)` is
@@ -126,71 +126,97 @@ exported as the pure resolver and accepts **both** forms, so one
 
 ### 4.1 Macro parameters
 
-`{% from "./share-chooser.njk" import shareChooser %}` →
-`{{ shareChooser(opts) }}`
+`{% from "./share-picker.njk" import sharePicker %}` →
+`{{ sharePicker(opts) }}`
 
-| Key | Type | Required | Default | Purpose |
-| --- | ---- | -------- | ------- | ------- |
-| `label` | string | yes | — | Accessible name for the trigger. Glyph-only button, so this is its **only** name. |
-| `targets` | array | no | `[]` | Destinations. Empty is valid when `copyLabel` is set. |
-| `url` | string | no | — | URL to share. Emitted as a data attribute; the client falls back to `location.href`. |
-| `title` | string | no | `""` | Passed to the native sheet. |
-| `text` | string | no | `""` | Passed to the native sheet. |
-| `copyLabel` | string | no | — | Label for the copy item. Omit it and no copy item renders. |
-| `copiedLabel` | string | no | — | Announced after a successful copy. |
-| `copyFailedLabel` | string | no | — | Announced when the clipboard write fails. |
-| `strategy` | `"auto"｜"native"｜"list"` | no | `"auto"` | Whether to prefer the native sheet. |
-| `name` | string | no | `"share"` | Discriminator used to derive ids. |
-| `id` | string | no | `share-chooser-{name}` | Id prefix for the list and items. |
-| `classes` | string | no | — | Extra classes on the root. |
-| `attributes` | object | no | — | Extra HTML attributes spread onto the root. |
-| `{% call %}` body | — | no | the ➤ glyph | Replaces the glyph inside the button. |
+| Key               | Type                       | Required | Default                | Purpose                                                                              |
+| ----------------- | -------------------------- | -------- | ---------------------- | ------------------------------------------------------------------------------------ |
+| `label`           | string                     | yes      | —                      | Accessible name for the trigger. Glyph-only button, so this is its **only** name.    |
+| `targets`         | array                      | no       | `[]`                   | Destinations. Empty is valid when `copyLabel` is set.                                |
+| `url`             | string                     | no       | —                      | URL to share. Emitted as a data attribute; the client falls back to `location.href`. |
+| `title`           | string                     | no       | `""`                   | Passed to the native sheet.                                                          |
+| `text`            | string                     | no       | `""`                   | Passed to the native sheet.                                                          |
+| `copyLabel`       | string                     | no       | —                      | Label for the copy item. Omit it and no copy item renders.                           |
+| `copiedLabel`     | string                     | no       | —                      | Announced after a successful copy.                                                   |
+| `copyFailedLabel` | string                     | no       | —                      | Announced when the clipboard write fails.                                            |
+| `strategy`        | `"auto"｜"native"｜"list"` | no       | `"auto"`               | Whether to prefer the native sheet.                                                  |
+| `name`            | string                     | no       | `"share"`              | Discriminator used to derive ids.                                                    |
+| `id`              | string                     | no       | `share-picker-{name}` | Id prefix for the list and items.                                                    |
+| `classes`         | string                     | no       | —                      | Extra classes on the root.                                                           |
+| `attributes`      | object                     | no       | —                      | Extra HTML attributes spread onto the root.                                          |
+| `{% call %}` body | —                          | no       | the ➤ glyph            | Replaces the glyph inside the button.                                                |
 
 Each entry in `targets`:
 
-| Key | Type | Required | Default | Purpose |
-| --- | ---- | -------- | ------- | ------- |
-| `id` | string | yes | — | Stable identifier, passed back to `onShare`. |
-| `label` | string | yes | — | Visible link text. |
-| `href` | string | yes | — | The full destination URL. **See §3.3.** |
-| `newTab` | boolean | no | `true` | `false` renders the link without `target="_blank"`. |
+| Key      | Type    | Required | Default | Purpose                                             |
+| -------- | ------- | -------- | ------- | --------------------------------------------------- |
+| `id`     | string  | yes      | —       | Stable identifier, passed back to `onShare`.        |
+| `label`  | string  | yes      | —       | Visible link text.                                  |
+| `href`   | string  | yes      | —       | The full destination URL. **See §3.3.**             |
+| `newTab` | boolean | no       | `true`  | `false` renders the link without `target="_blank"`. |
 
 ### 4.2 DOM contract
 
 ```html
-<div class="share-chooser {classes}" data-lily-share-chooser-root …>
-  <button type="button" class="share-chooser-button" aria-label="{label}"
-          aria-expanded="false" aria-controls="{id}-list"
-          data-lily-share-chooser-button>
-    <span class="share-chooser-icon" aria-hidden="true">&#10148;</span>
+<div class="share-picker {classes}" data-lily-share-picker-root …>
+  <button
+    type="button"
+    class="share-picker-button"
+    aria-label="{label}"
+    aria-expanded="false"
+    aria-controls="{id}-list"
+    data-lily-share-picker-button
+  >
+    <span class="share-picker-icon" aria-hidden="true">&#10148;</span>
   </button>
-  <ul class="share-chooser-list" id="{id}-list" hidden data-lily-share-chooser-list>
-    <li class="share-chooser-list-item">
-      <a class="share-chooser-target" id="{id}-target-{i}" data-target-id="{id}"
-         href="{href}" target="_blank" rel="noopener noreferrer">{label}</a>
+  <ul
+    class="share-picker-list"
+    id="{id}-list"
+    hidden
+    data-lily-share-picker-list
+  >
+    <li class="share-picker-list-item">
+      <a
+        class="share-picker-target"
+        id="{id}-target-{i}"
+        data-target-id="{id}"
+        href="{href}"
+        target="_blank"
+        rel="noopener noreferrer"
+        >{label}</a
+      >
     </li>
-    <li class="share-chooser-list-item">
-      <button type="button" class="share-chooser-copy" id="{id}-copy"
-              data-lily-share-chooser-copy>{copyLabel}</button>
+    <li class="share-picker-list-item">
+      <button
+        type="button"
+        class="share-picker-copy"
+        id="{id}-copy"
+        data-lily-share-picker-copy
+      >
+        {copyLabel}
+      </button>
     </li>
   </ul>
-  <p class="share-chooser-status" aria-live="polite"
-     data-lily-share-chooser-status></p>
+  <p
+    class="share-picker-status"
+    aria-live="polite"
+    data-lily-share-picker-status
+  ></p>
 </div>
 ```
 
 Ids are deterministic and SSR-safe: `{id}-list`, `{id}-target-{i}`,
-`{id}-copy`, where `id` defaults to `share-chooser-{name}`. Two instances
+`{id}-copy`, where `id` defaults to `share-picker-{name}`. Two instances
 sharing a `name` need an explicit distinct `id`.
 
 The list is rendered `hidden`; nothing server-side removes it.
 
 ### 4.3 client.js exports
 
-`initShareChooser`, `autoInit`, `canShareNatively`, `canCopy`,
-`nextShareChooserId`, `shareTargetHref`, `BLACK_RIGHTWARDS_ARROWHEAD`.
+`initSharePicker`, `autoInit`, `canShareNatively`, `canCopy`,
+`nextSharePickerId`, `shareTargetHref`, `BLACK_RIGHTWARDS_ARROWHEAD`.
 
-`initShareChooser(root, opts?)` opts: `url`, `title`, `text`, `strategy`,
+`initSharePicker(root, opts?)` opts: `url`, `title`, `text`, `strategy`,
 `targets`, `copiedLabel`, `copyFailedLabel`, `onShare(id, url)`,
 `onCopy(url)`, `onNativeShare(url)`. Init opts win over the rendered
 attributes. Returns `{open, close, copy, refreshHrefs, destroy}`.
@@ -213,14 +239,14 @@ Either way the list closes.
 
 ### 5.3 Keyboard
 
-| Key | On the trigger | In the list |
-| --- | -------------- | ----------- |
-| `Enter` / `Space` | Activates (native browser behaviour) | Activates the focused item |
-| `ArrowDown` | Opens, focuses the first item | Moves focus down, clamping |
-| `ArrowUp` | Opens, focuses the last item | Moves focus up, clamping |
-| `Home` / `End` | — | First / last item |
-| `Escape` | — | Closes and returns focus to the trigger |
-| `Tab` | Moves on | Closes, focus goes where the browser sends it |
+| Key               | On the trigger                       | In the list                                   |
+| ----------------- | ------------------------------------ | --------------------------------------------- |
+| `Enter` / `Space` | Activates (native browser behaviour) | Activates the focused item                    |
+| `ArrowDown`       | Opens, focuses the first item        | Moves focus down, clamping                    |
+| `ArrowUp`         | Opens, focuses the last item         | Moves focus up, clamping                      |
+| `Home` / `End`    | —                                    | First / last item                             |
+| `Escape`          | —                                    | Closes and returns focus to the trigger       |
+| `Tab`             | Moves on                             | Closes, focus goes where the browser sends it |
 
 Items are real focusable elements, so focus moves for real rather than
 via `aria-activedescendant`. Clicking outside, or focus leaving the root,
@@ -245,7 +271,7 @@ Stated plainly in `docs/ssr.md`.
 
 ## 7. Testing acceptance criteria
 
-`share-chooser.test.ts` asserts every clause below. Clauses 1–22 map 1:1
+`share-picker.test.ts` asserts every clause below. Clauses 1–22 map 1:1
 onto the canonical Svelte spec's §7; 23–26 cover the Nunjucks-specific
 surface.
 
@@ -278,7 +304,7 @@ surface.
 
 ## 8. Tracking
 
-- Package: lily-design-system-nunjucks-share-chooser
+- Package: lily-design-system-nunjucks-share-picker
 - Version: 0.1.0
 - License: MIT
 

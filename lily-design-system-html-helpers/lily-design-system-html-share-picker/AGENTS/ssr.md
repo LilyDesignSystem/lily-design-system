@@ -1,15 +1,15 @@
-# SSR — `<share-chooser>` (HTML helper)
+# SSR — `<share-picker>` (HTML helper)
 
 Catalog-wide rules: [`../../AGENTS/ssr.md`](../../AGENTS/ssr.md).
 
 ## This helper is the easy one
 
-`theme-chooser` has a genuine SSR problem: the theme must be applied
+`theme-picker` has a genuine SSR problem: the theme must be applied
 before first paint or the user sees a flash of the wrong theme, which is
-why it ships a cookie + inline-script recipe. `locale-chooser` and
-`text-size-chooser` have smaller versions of the same problem.
+why it ships a cookie + inline-script recipe. `locale-picker` and
+`text-size-picker` have smaller versions of the same problem.
 
-`<share-chooser>` has **none of it**. It is an action, not a preference:
+`<share-picker>` has **none of it**. It is an action, not a preference:
 
 - nothing is persisted, so there is nothing to restore,
 - nothing is applied to the document root, so there is no flash,
@@ -28,11 +28,15 @@ building hrefs — never at import. Both capability probes guard:
 
 ```ts
 export function canShareNatively(): boolean {
-    return typeof navigator !== "undefined" && typeof navigator.share === "function";
+  return (
+    typeof navigator !== "undefined" && typeof navigator.share === "function"
+  );
 }
 export function canCopy(): boolean {
-    return typeof navigator !== "undefined" &&
-        typeof navigator.clipboard?.writeText === "function";
+  return (
+    typeof navigator !== "undefined" &&
+    typeof navigator.clipboard?.writeText === "function"
+  );
 }
 ```
 
@@ -40,7 +44,7 @@ export function canCopy(): boolean {
 so importing the barrel in a Node render pass is safe and a test asserts
 it.
 
-`nextShareChooserId()` uses a module counter, not `Math.random()` or
+`nextSharePickerId()` uses a module counter, not `Math.random()` or
 `Date.now()`, so ids are deterministic — the usual hydration-mismatch
 trap, avoided.
 
@@ -49,14 +53,14 @@ trap, avoided.
 Emit the tag with its attributes and let it upgrade:
 
 ```html
-<share-chooser
+<share-picker
   label="Share this page"
   url="https://example.com/article"
   share-title="The article title"
   copy-label="Copy link"
   copied-label="Link copied"
   copy-failed-label="Could not copy — press Ctrl+C to copy the address bar"
-></share-chooser>
+></share-picker>
 ```
 
 `targets` cannot be prerendered as an attribute (its `href` is a
@@ -64,8 +68,8 @@ function), so wire it in the client module:
 
 ```html
 <script type="module">
-  import "lily-design-system-html-share-chooser";
-  for (const el of document.querySelectorAll("share-chooser")) {
+  import "lily-design-system-html-share-picker";
+  for (const el of document.querySelectorAll("share-picker")) {
     el.targets = SHARE_TARGETS;
   }
 </script>
@@ -82,7 +86,11 @@ trigger sits inline with other controls, give it a reserved size in CSS
 to avoid a small reflow:
 
 ```css
-share-chooser { display: inline-block; min-inline-size: 2.5rem; min-block-size: 2.5rem; }
+share-picker {
+  display: inline-block;
+  min-inline-size: 2.5rem;
+  min-block-size: 2.5rem;
+}
 ```
 
 ## No-JS

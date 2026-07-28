@@ -1,4 +1,4 @@
-# SSR — LocaleChooser (Svelte)
+# SSR — LocalePicker (Svelte)
 
 The select runs cleanly under Svelte 5 SSR (SvelteKit, plain Vite +
 Svelte, Astro Svelte islands). This page lists the SvelteKit-specific
@@ -15,31 +15,31 @@ the in-file comments show the matching `hooks.server.ts`,
 Under SSR, `$effect` is a no-op. The select renders:
 
 ```html
-<div class="locale-chooser">
+<div class="locale-picker">
   <input type="hidden" name="locale" value="" />
   <button
     type="button"
-    class="locale-chooser-button"
+    class="locale-picker-button"
     aria-label="Language"
     aria-haspopup="listbox"
     aria-expanded="false"
-    aria-controls="locale-chooser-1-list"
+    aria-controls="locale-picker-1-list"
   >
-    <span class="locale-chooser-icon" aria-hidden="true"
+    <span class="locale-picker-icon" aria-hidden="true"
       >&#127760;&#65038;</span
     >
   </button>
   <ul
-    class="locale-chooser-list"
-    id="locale-chooser-1-list"
+    class="locale-picker-list"
+    id="locale-picker-1-list"
     role="listbox"
     aria-label="Language"
     tabindex="-1"
     hidden
   >
     <li
-      class="locale-chooser-option"
-      id="locale-chooser-1-option-0"
+      class="locale-picker-option"
+      id="locale-picker-1-option-0"
       role="option"
       aria-selected="false"
       lang="en"
@@ -55,7 +55,7 @@ If the consumer passes `value="ar"`, the corresponding option gets
 `aria-selected="true"` and the hidden input gets `value="ar"`
 server-side.
 
-Option ids come from the module-level `nextLocaleChooserId()` counter,
+Option ids come from the module-level `nextLocalePickerId()` counter,
 not from `Math.random()` / `Date.now()`, so server and client agree and
 hydration matches.
 
@@ -131,7 +131,7 @@ export const load: LayoutServerLoad = ({ locals }) => ({
 
 ```svelte
 <script lang="ts">
-    import { LocaleChooser } from "lily-design-system-svelte-locale-picker";
+    import { LocalePicker } from "lily-design-system-svelte-locale-picker";
 
     let { data, children } = $props();
     let locale = $state(data.locale);
@@ -145,7 +145,7 @@ export const load: LayoutServerLoad = ({ locals }) => ({
     }
 </script>
 
-<LocaleChooser
+<LocalePicker
     label="Language"
     locales={["en", "fr", "ar"]}
     bind:value={locale}
@@ -192,7 +192,7 @@ validate in middleware, and drive the select from
 ```svelte
 <script lang="ts">
     import { page, goto } from "$app/stores";
-    import { LocaleChooser } from "lily-design-system-svelte-locale-picker";
+    import { LocalePicker } from "lily-design-system-svelte-locale-picker";
 
     let current = $derived(String($page.params.locale ?? "en"));
 
@@ -202,7 +202,7 @@ validate in middleware, and drive the select from
     }
 </script>
 
-<LocaleChooser
+<LocalePicker
     label="Language"
     locales={["en", "fr", "ar"]}
     value={current}
@@ -252,7 +252,7 @@ const isRtl = /^(ar|he|fa|ur)/.test(locale);
 ---
 <html lang={locale} dir={isRtl ? "rtl" : "ltr"}>
     <body>
-        <LocaleChooser
+        <LocalePicker
             client:load
             label="Language"
             locales={["en", "fr", "ar"]}
@@ -277,9 +277,9 @@ common cause is:
 
 ```ts
 import { render } from "svelte/server";
-import LocaleChooser from "./LocaleChooser.svelte";
+import LocalePicker from "./LocalePicker.svelte";
 
-const { html } = render(LocaleChooser, {
+const { html } = render(LocalePicker, {
   props: {
     label: "Language",
     locales: ["en", "fr", "ar"],

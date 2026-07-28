@@ -1,6 +1,6 @@
 # i18n integration
 
-`<locale-chooser>` is intentionally not an i18n library. It changes
+`<locale-picker>` is intentionally not an i18n library. It changes
 the document language and tells you when the user changed it; the
 actual string substitution is your i18n library's job.
 
@@ -29,19 +29,19 @@ time you format something. The select still owns the `lang` / `dir`
 lifecycle:
 
 ```html
-<locale-chooser
+<locale-picker
     label="Language"
     locales="en,en-US,fr,fr-CA,ar"
     storage-key="app-locale"
-></locale-chooser>
+></locale-picker>
 
 <p>Today: <span id="today">—</span></p>
 <p>Balance: <span id="balance">—</span></p>
 <p>Population: <span id="population">—</span></p>
 
 <script type="module">
-    await customElements.whenDefined("locale-chooser");
-    const select = document.querySelector("locale-chooser");
+    await customElements.whenDefined("locale-picker");
+    const select = document.querySelector("locale-picker");
 
     function format(locale) {
         const dateFmt = new Intl.DateTimeFormat(locale, { dateStyle: "long" });
@@ -75,7 +75,7 @@ and feed it the current locale on every `localechange`:
 ```html
 <script type="module">
     import IntlMessageFormat from "https://cdn.jsdelivr.net/npm/intl-messageformat@10/+esm";
-    await customElements.whenDefined("locale-chooser");
+    await customElements.whenDefined("locale-picker");
 
     const messages = {
         en: { greeting: "Hello, {name}! You have {count, plural, one {# message} other {# messages}}." },
@@ -92,7 +92,7 @@ and feed it the current locale on every `localechange`:
             fmt.format({ name: "Alex", count: 3 });
     }
 
-    const select = document.querySelector("locale-chooser");
+    const select = document.querySelector("locale-picker");
     render(select.value);
     select.addEventListener("localechange", (e) => render(e.detail.locale));
 </script>
@@ -118,7 +118,7 @@ The same wiring pattern fits every JS i18n library:
 ```html
 <script type="module">
     import i18next from "https://cdn.jsdelivr.net/npm/i18next@23/+esm";
-    await customElements.whenDefined("locale-chooser");
+    await customElements.whenDefined("locale-picker");
 
     await i18next.init({
         lng: "en",
@@ -137,7 +137,7 @@ The same wiring pattern fits every JS i18n library:
     refresh();
 
     document
-        .querySelector("locale-chooser")
+        .querySelector("locale-picker")
         .addEventListener("localechange", async (e) => {
             await i18next.changeLanguage(e.detail.locale);
             refresh();
@@ -152,7 +152,7 @@ The same wiring pattern fits every JS i18n library:
 ```html
 <script type="module">
     import Polyglot from "https://cdn.jsdelivr.net/npm/node-polyglot@2/+esm";
-    await customElements.whenDefined("locale-chooser");
+    await customElements.whenDefined("locale-picker");
 
     const phrases = {
         en: { welcome: "Welcome" },
@@ -162,7 +162,7 @@ The same wiring pattern fits every JS i18n library:
     let polyglot = new Polyglot({ phrases: phrases.en });
 
     document
-        .querySelector("locale-chooser")
+        .querySelector("locale-picker")
         .addEventListener("localechange", (e) => {
             polyglot = new Polyglot({ phrases: phrases[e.detail.locale] ?? phrases.en });
             document.querySelector("#welcome").textContent = polyglot.t("welcome");
@@ -185,7 +185,7 @@ them client-side.
 ```html
 <script type="module">
     import i18n from "https://cdn.jsdelivr.net/npm/gettext.js@2/+esm";
-    await customElements.whenDefined("locale-chooser");
+    await customElements.whenDefined("locale-picker");
 
     const catalogs = {
         en: { messages: { "": {}, "Welcome": ["Welcome"] } },
@@ -196,7 +196,7 @@ them client-side.
     gt.loadJSON(catalogs.en, "messages");
 
     document
-        .querySelector("locale-chooser")
+        .querySelector("locale-picker")
         .addEventListener("localechange", (e) => {
             gt.setLocale(e.detail.locale);
             gt.loadJSON(catalogs[e.detail.locale] ?? catalogs.en, "messages");
@@ -222,7 +222,7 @@ module or a `window` property and re-render manually. The select's
 
 ```html
 <script type="module">
-    await customElements.whenDefined("locale-chooser");
+    await customElements.whenDefined("locale-picker");
 
     const strings = {
         en: { welcome: "Welcome", goodbye: "Goodbye" },
@@ -237,7 +237,7 @@ module or a `window` property and re-render manually. The select's
         });
     }
 
-    const select = document.querySelector("locale-chooser");
+    const select = document.querySelector("locale-picker");
     render(select.value);
     select.addEventListener("localechange", (e) => render(e.detail.locale));
 </script>
@@ -274,7 +274,7 @@ notifies listeners on the light-DOM document.
 The custom element exposes every attribute as a JS property:
 
 ```js
-const select = document.querySelector("locale-chooser");
+const select = document.querySelector("locale-picker");
 select.value;            // "en"
 select.value = "fr";     // triggers apply + dispatches localechange
 select.locales;          // ["en", "fr", "ar"]
@@ -305,18 +305,18 @@ Prefer a cookie when you have a server in the loop:
 <html lang="fr" dir="ltr">
     <head>
         <meta charset="utf-8">
-        <script type="module" src="/dist/locale-chooser.js"></script>
+        <script type="module" src="/dist/locale-picker.js"></script>
     </head>
     <body>
-        <locale-chooser
+        <locale-picker
             label="Language"
             locales="en,fr,ar"
             value="fr"
-        ></locale-chooser>
+        ></locale-picker>
 
         <script type="module">
-            await customElements.whenDefined("locale-chooser");
-            document.querySelector("locale-chooser")
+            await customElements.whenDefined("locale-picker");
+            document.querySelector("locale-picker")
                 .addEventListener("localechange", (e) => {
                     document.cookie =
                         `locale=${e.detail.locale}; path=/; max-age=31536000; SameSite=Lax`;

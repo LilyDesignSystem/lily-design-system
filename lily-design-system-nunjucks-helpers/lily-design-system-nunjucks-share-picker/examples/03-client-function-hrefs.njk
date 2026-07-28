@@ -10,9 +10,9 @@
    Anchors you do not name keep their server-rendered href, so mixing
    the two is fine.
 #}
-{% from "share-chooser.njk" import shareChooser %}
+{% from "share-picker.njk" import sharePicker %}
 
-{{ shareChooser({
+{{ sharePicker({
     label: "Share this page",
     targets: [
         {
@@ -32,7 +32,7 @@
 }) }}
 
 <script type="module">
-    import { autoInit } from "/js/share-chooser.client.js";
+    import { autoInit } from "/js/share-picker.client.js";
 
     autoInit({
         // No `url` here either: it falls back to location.href, resolved

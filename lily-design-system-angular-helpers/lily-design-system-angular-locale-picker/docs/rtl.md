@@ -148,11 +148,11 @@ it with logical properties so it follows the `dir` this very component
 sets:
 
 ```css
-.locale-chooser {
+.locale-picker {
     position: relative;
 }
 
-.locale-chooser-list {
+.locale-picker-list {
     position: absolute;
     top: 100%;
     inset-inline-start: 0; /* not `left: 0` */

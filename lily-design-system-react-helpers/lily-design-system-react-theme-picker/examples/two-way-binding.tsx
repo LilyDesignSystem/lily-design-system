@@ -10,7 +10,7 @@
 */
 
 import { useState } from "react";
-import { ThemeChooser } from "../ThemeChooser";
+import { ThemePicker } from "../ThemePicker";
 
 function trackThemeChange(slug: string) {
     // e.g. fetch("/api/preferences", { method: "POST", body: JSON.stringify({ theme: slug }) });
@@ -22,7 +22,7 @@ export function TwoWayBindingExample() {
 
     return (
         <>
-            <ThemeChooser
+            <ThemePicker
                 label="Theme"
                 themesUrl="/assets/themes/"
                 themes={["light", "dark", "abyss"]}

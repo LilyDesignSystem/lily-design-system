@@ -1,19 +1,19 @@
-# ShareChooser — Specification
+# SharePicker — Specification
 
-Single source of truth for the `lily-design-system-angular-share-chooser`
+Single source of truth for the `lily-design-system-angular-share-picker`
 Angular helper. This file drives implementation, testing, and
 documentation: anything not in this spec is out of scope; anything in
 this spec must be exercised by a test.
 
 The canonical cross-framework contract is the Svelte helper's
-[spec](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-chooser/spec/index.md);
+[spec](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-picker/spec/index.md);
 per `AGENTS/helpers.md`, Svelte wins where the catalogs disagree. This
 file states the same contract in Angular 20 idiom.
 
 Sibling files:
 
-- `share-chooser.component.ts` — the implementation
-- `share-chooser.component.spec.ts` — vitest spec exercising every clause in §7
+- `share-picker.component.ts` — the implementation
+- `share-picker.component.spec.ts` — vitest spec exercising every clause in §7
 - `index.ts` — re-export barrel
 - `index.md` — user-facing guide
 - `docs/accessibility.md` — tradeoffs, stated plainly
@@ -49,8 +49,8 @@ Give an Angular 20 application a drop-in, headless share control that:
 ## 3. Architectural decisions
 
 - **A helper, but not a preference lifecycle.** The other helpers own
-  *selection + DOM application + optional persistence*. This one owns an
-  *action*: it applies nothing to the document and persists nothing. It
+  _selection + DOM application + optional persistence_. This one owns an
+  _action_: it applies nothing to the document and persists nothing. It
   is a helper because it owns a complete interaction end to end and
   ships the same headless contract. See `AGENTS/helpers.md`.
 - **Disclosure + real links, not a menu.** Share destinations are
@@ -87,30 +87,30 @@ Give an Angular 20 application a drop-in, headless share control that:
 
 ### 4.1 Inputs / outputs
 
-| Input | Type | Required | Default | Purpose |
-| ----- | ---- | -------- | ------- | ------- |
-| `label` | `string` | yes | — | Accessible name for the button. |
-| `targets` | `ShareTarget[]` | no | `[]` | Destinations to offer. Empty is valid when `copyLabel` is set. |
-| `url` | `string` | no | current page URL | URL to share. Resolved lazily, so the default is SSR-safe. |
-| `title` | `string` | no | `""` | Passed to `href(...)` and the native sheet. |
-| `text` | `string` | no | `""` | Passed to `href(...)` and the native sheet. |
-| `copyLabel` | `string` | no | `""` | Label for the copy item. Omit it and no copy item renders. |
-| `copiedLabel` | `string` | no | `""` | Announced in the status region after a successful copy. |
-| `copyFailedLabel` | `string` | no | `""` | Announced when the clipboard write fails. |
-| `strategy` | `"auto" \| "native" \| "list"` | no | `"auto"` | Whether to prefer the native sheet. |
-| `className` | `string` | no | `""` | Extra class on the root `<div>`. |
+| Input             | Type                           | Required | Default          | Purpose                                                        |
+| ----------------- | ------------------------------ | -------- | ---------------- | -------------------------------------------------------------- |
+| `label`           | `string`                       | yes      | —                | Accessible name for the button.                                |
+| `targets`         | `ShareTarget[]`                | no       | `[]`             | Destinations to offer. Empty is valid when `copyLabel` is set. |
+| `url`             | `string`                       | no       | current page URL | URL to share. Resolved lazily, so the default is SSR-safe.     |
+| `title`           | `string`                       | no       | `""`             | Passed to `href(...)` and the native sheet.                    |
+| `text`            | `string`                       | no       | `""`             | Passed to `href(...)` and the native sheet.                    |
+| `copyLabel`       | `string`                       | no       | `""`             | Label for the copy item. Omit it and no copy item renders.     |
+| `copiedLabel`     | `string`                       | no       | `""`             | Announced in the status region after a successful copy.        |
+| `copyFailedLabel` | `string`                       | no       | `""`             | Announced when the clipboard write fails.                      |
+| `strategy`        | `"auto" \| "native" \| "list"` | no       | `"auto"`         | Whether to prefer the native sheet.                            |
+| `className`       | `string`                       | no       | `""`             | Extra class on the root `<div>`.                               |
 
-| Output | Payload | Fires |
-| ------ | ------- | ----- |
-| `share` | `ShareEvent` (`{ targetId, url }`) | A destination was chosen. |
-| `copy` | `string` (the URL) | The URL was copied successfully. |
-| `nativeShare` | `string` (the URL) | The native sheet was used instead of the list. |
+| Output        | Payload                            | Fires                                          |
+| ------------- | ---------------------------------- | ---------------------------------------------- |
+| `share`       | `ShareEvent` (`{ targetId, url }`) | A destination was chosen.                      |
+| `copy`        | `string` (the URL)                 | The URL was copied successfully.               |
+| `nativeShare` | `string` (the URL)                 | The native sheet was used instead of the list. |
 
 Content projection: a single `<ng-template>` (queried via
 `contentChild(TemplateRef)`) replaces the ➤ glyph inside the trigger and
 receives `ChildArgs` as both `$implicit` and named properties. The
-optional `ShareChooserIcon` marker directive
-(`ng-template[lilyShareChooserIcon]`) types the `let-` variables. The
+optional `SharePickerIcon` marker directive
+(`ng-template[lilySharePickerIcon]`) types the `let-` variables. The
 template replaces the **glyph only** — it never renders the list.
 
 ```ts
@@ -118,7 +118,7 @@ type ShareTarget = {
   id: string;
   label: string;
   href: (url: string, title: string, text: string) => string;
-  newTab?: boolean;   // default true
+  newTab?: boolean; // default true
 };
 
 type ChildArgs = { open: boolean; url: string };
@@ -129,25 +129,36 @@ type ShareEvent = { targetId: string; url: string };
 ### 4.2 DOM contract
 
 ```html
-<div class="share-chooser {className}">
-  <button type="button" class="share-chooser-button"
-          aria-label="{label}" aria-expanded aria-controls="{listId}">
-    <span class="share-chooser-icon" aria-hidden="true">&#10148;</span>
+<div class="share-picker {className}">
+  <button
+    type="button"
+    class="share-picker-button"
+    aria-label="{label}"
+    aria-expanded
+    aria-controls="{listId}"
+  >
+    <span class="share-picker-icon" aria-hidden="true">&#10148;</span>
   </button>
-  <ul class="share-chooser-list" id="{listId}" hidden>
-    <li class="share-chooser-list-item">
-      <a class="share-chooser-target" data-target-id="{id}" href="{href(...)}"
-         target="_blank" rel="noopener noreferrer">{label}</a>
+  <ul class="share-picker-list" id="{listId}" hidden>
+    <li class="share-picker-list-item">
+      <a
+        class="share-picker-target"
+        data-target-id="{id}"
+        href="{href(...)}"
+        target="_blank"
+        rel="noopener noreferrer"
+        >{label}</a
+      >
     </li>
-    <li class="share-chooser-list-item">
-      <button type="button" class="share-chooser-copy">{copyLabel}</button>
+    <li class="share-picker-list-item">
+      <button type="button" class="share-picker-copy">{copyLabel}</button>
     </li>
   </ul>
-  <p class="share-chooser-status" aria-live="polite"></p>
+  <p class="share-picker-status" aria-live="polite"></p>
 </div>
 ```
 
-The trigger's class is `share-chooser-button`, following the sibling
+The trigger's class is `share-picker-button`, following the sibling
 helpers' `{helper}-button` convention exactly. (Under the package's
 former name this hook had to be `share-button-trigger`, because
 `.share-button-button` read badly; the July 2026 rename removed the
@@ -158,13 +169,13 @@ is dropped for a destination whose `newTab` is `false`.
 
 ### 4.3 Re-exports
 
-`index.ts` exports `ShareChooser`, `ShareChooserIcon`, `canShareNatively`,
-`canCopy`, `nextShareChooserId`, `BLACK_RIGHTWARDS_ARROWHEAD`, and the
+`index.ts` exports `SharePicker`, `SharePickerIcon`, `canShareNatively`,
+`canCopy`, `nextSharePickerId`, `BLACK_RIGHTWARDS_ARROWHEAD`, and the
 types `ChildArgs`, `ShareTarget`, `ShareStrategy`, `ShareEvent`.
 
-`nextShareChooserId()` is an incrementing module counter — stable, unique
+`nextSharePickerId()` is an incrementing module counter — stable, unique
 per instance, and SSR-safe (no `Math.random`, no `Date.now`). It mints
-`share-chooser-{n}`; the list id is that plus `-list`.
+`share-picker-{n}`; the list id is that plus `-list`.
 
 ## 5. Behaviour
 
@@ -218,14 +229,14 @@ link semantics.
 
 ### 6.1 Keyboard contract
 
-| Key | On the button | In the list |
-| --- | ------------- | ----------- |
-| `Enter` / `Space` | Activates (native browser behaviour) | Activates the focused item |
-| `ArrowDown` | Opens, focuses the first item | Moves focus down, clamping |
-| `ArrowUp` | Opens, focuses the last item | Moves focus up, clamping |
-| `Home` / `End` | — | First / last item |
-| `Escape` | — | Closes and returns focus to the button |
-| `Tab` | Moves on | Closes, focus goes where the browser sends it |
+| Key               | On the button                        | In the list                                   |
+| ----------------- | ------------------------------------ | --------------------------------------------- |
+| `Enter` / `Space` | Activates (native browser behaviour) | Activates the focused item                    |
+| `ArrowDown`       | Opens, focuses the first item        | Moves focus down, clamping                    |
+| `ArrowUp`         | Opens, focuses the last item         | Moves focus up, clamping                      |
+| `Home` / `End`    | —                                    | First / last item                             |
+| `Escape`          | —                                    | Closes and returns focus to the button        |
+| `Tab`             | Moves on                             | Closes, focus goes where the browser sends it |
 
 Items are real focusable elements, so focus moves for real rather than
 via `aria-activedescendant`. Clicking outside, or focus leaving the
@@ -239,143 +250,143 @@ sees on a phone is not what they see on a desktop. Full treatment in
 
 ## 7. Testing acceptance criteria
 
-`share-chooser.component.spec.ts` asserts every clause below. Each clause
+`share-picker.component.spec.ts` asserts every clause below. Each clause
 lists the test titles that carry it — the mapping is 1:1 by clause
 number, and no clause is unexercised.
 
 ### 7.1 Renders a disclosure button controlling a list
 
-- *renders a disclosure button controlling a list* — `<button type="button">`
+- _renders a disclosure button controlling a list_ — `<button type="button">`
   with `aria-label`, `aria-expanded="false"`, and `aria-controls` pointing
   at the `<ul>`'s id.
-- *the button renders ➤, hidden from assistive tech* — the icon span's
+- _the button renders ➤, hidden from assistive tech_ — the icon span's
   text is U+27A4, matches `BLACK_RIGHTWARDS_ARROWHEAD`, and is
   `aria-hidden="true"`.
 
 ### 7.2 The list is hidden until the button is activated
 
-- *the list is hidden until the button is activated* — `hidden` present
+- _the list is hidden until the button is activated_ — `hidden` present
   on load, gone after activation, with `aria-expanded` flipping to
   `"true"`.
 
 ### 7.3 Destinations are real links
 
-- *destinations are real links, not role=menuitem* — `<a>` elements with
+- _destinations are real links, not role=menuitem_ — `<a>` elements with
   no `role`, `target="_blank"`, `rel="noopener noreferrer"`.
-- *newTab:false drops target=_blank for that destination*.
-- *destinations sit in .share-chooser-list-item children* — one `<li>` per
+- _newTab:false drops target=\_blank for that destination_.
+- _destinations sit in .share-picker-list-item children_ — one `<li>` per
   destination.
 
 ### 7.4 Each destination's href comes from its own `href()`
 
-- *each destination's href comes from its own href()* — with `title`
+- _each destination's href comes from its own href()_ — with `title`
   threaded through.
-- *href() also receives text*.
+- _href() also receives text_.
 
 ### 7.5 The copy item renders only when `copyLabel` is supplied
 
-- *no copy item renders when copyLabel is absent*.
-- *the copy item renders when copyLabel is supplied* — a real
+- _no copy item renders when copyLabel is absent_.
+- _the copy item renders when copyLabel is supplied_ — a real
   `<button type="button">` carrying the supplied label.
 
 ### 7.6 The status region is present, polite, and silent on load
 
-- *the status region is present, polite, and silent on load* — a `<p>`
+- _the status region is present, polite, and silent on load_ — a `<p>`
   with `aria-live="polite"` and empty text.
 
 ### 7.7 Copying writes the URL and emits `copy`
 
-- *copying writes the URL and emits copy*.
+- _copying writes the URL and emits copy_.
 
 ### 7.8 A successful copy announces `copiedLabel` and closes the list
 
-- *a successful copy announces copiedLabel and closes the list*.
+- _a successful copy announces copiedLabel and closes the list_.
 
 ### 7.9 A failed copy announces `copyFailedLabel` and does not throw
 
-- *a failed copy announces copyFailedLabel and does not throw*.
-- *a failed copy does not emit copy, and still closes the list*.
+- _a failed copy announces copyFailedLabel and does not throw_.
+- _a failed copy does not emit copy, and still closes the list_.
 
 ### 7.10 An absent clipboard API is a failure, not a crash
 
-- *an absent clipboard API is treated as a failure, not a crash*.
-- *canCopy reflects navigator.clipboard.writeText*.
+- _an absent clipboard API is treated as a failure, not a crash_.
+- _canCopy reflects navigator.clipboard.writeText_.
 
 ### 7.11 `canShareNatively()` reflects `navigator.share`
 
-- *canShareNatively reflects navigator.share*.
+- _canShareNatively reflects navigator.share_.
 
 ### 7.12 `strategy: "auto"` uses the sheet when available and does not open the list
 
-- *strategy=auto uses the sheet when available, and skips the list* —
+- _strategy=auto uses the sheet when available, and skips the list_ —
   `navigator.share` receives `{ url, title, text }`, `nativeShare` emits,
   and the list stays `hidden`.
-- *strategy=native attempts the sheet*.
+- _strategy=native attempts the sheet_.
 
 ### 7.13 Fallback and opt-out
 
-- *strategy=auto falls back to the list with no native sheet*.
-- *strategy=list ignores an available native sheet*.
+- _strategy=auto falls back to the list with no native sheet_.
+- _strategy=list ignores an available native sheet_.
 
 ### 7.14 A dismissed sheet does not fall through to the list
 
-- *a dismissed share sheet does not fall through to the list*.
-- *a dismissed share sheet does not emit nativeShare*.
+- _a dismissed share sheet does not fall through to the list_.
+- _a dismissed share sheet does not emit nativeShare_.
 
 ### 7.15 Opening moves focus to an item
 
-- *opening moves focus to the first item*.
-- *ArrowDown on the closed button opens and focuses the first item*.
-- *ArrowUp on the closed button opens and focuses the last item*.
+- _opening moves focus to the first item_.
+- _ArrowDown on the closed button opens and focuses the first item_.
+- _ArrowUp on the closed button opens and focuses the last item_.
 
 ### 7.16 Arrows move focus and clamp; `Home` / `End` jump
 
-- *ArrowDown moves focus down the list*.
-- *ArrowUp moves focus up the list*.
-- *ArrowUp clamps at the first item rather than wrapping*.
-- *ArrowDown clamps at the last item rather than wrapping*.
-- *Home and End jump to the first and last item*.
+- _ArrowDown moves focus down the list_.
+- _ArrowUp moves focus up the list_.
+- _ArrowUp clamps at the first item rather than wrapping_.
+- _ArrowDown clamps at the last item rather than wrapping_.
+- _Home and End jump to the first and last item_.
 
 ### 7.17 `Escape` closes and returns focus; `Tab` closes and moves on
 
-- *Escape closes and returns focus to the button*.
-- *Tab closes without stealing focus back to the button*.
+- _Escape closes and returns focus to the button_.
+- _Tab closes without stealing focus back to the button_.
 
 ### 7.18 Choosing a destination emits `share` and closes the list
 
-- *choosing a destination emits share with its id and closes* — the
+- _choosing a destination emits share with its id and closes_ — the
   payload is `{ targetId, url }`.
 
 ### 7.19 Dismissal
 
-- *clicking outside closes the list*.
-- *clicking the trigger again closes the list*.
-- *focus leaving the root closes the list*.
-- *focus moving within the root keeps the list open*.
+- _clicking outside closes the list_.
+- _clicking the trigger again closes the list_.
+- _focus leaving the root closes the list_.
+- _focus moving within the root keeps the list open_.
 
 ### 7.20 An explicit `url` input wins
 
-- *an explicit url input wins*.
+- _an explicit url input wins_.
 
 ### 7.21 With no `url`, the current page URL is used
 
-- *with no url input it falls back to the current page URL*.
-- *the resolved url is what share reports*.
+- _with no url input it falls back to the current page URL_.
+- _the resolved url is what share reports_.
 
 ### 7.22 A projected template replaces the glyph and receives `ChildArgs`
 
-- *a projected ng-template replaces the glyph and receives ChildArgs* —
-  the custom node sits inside `.share-chooser-button`, the default
-  `.share-chooser-icon` is gone, and the context carries `open` and `url`.
-- *the ChildArgs open flag tracks the list state*.
+- _a projected ng-template replaces the glyph and receives ChildArgs_ —
+  the custom node sits inside `.share-picker-button`, the default
+  `.share-picker-icon` is gone, and the context carries `open` and `url`.
+- _the ChildArgs open flag tracks the list state_.
 
 ### 7.23 Framework-contract clauses (mirroring §4.2 and §4.3)
 
 Three tests carry §4 rather than §7, and are named for it:
 
-- *§4.2 the trigger's class hook is share-chooser-button*.
-- *§4.2 the root carries the base class plus the consumer's class*.
-- *§4.3 nextShareChooserId mints unique, stable ids*.
+- _§4.2 the trigger's class hook is share-picker-button_.
+- _§4.2 the root carries the base class plus the consumer's class_.
+- _§4.3 nextSharePickerId mints unique, stable ids_.
 
 Total: **47 cases**, all green.
 
@@ -388,7 +399,7 @@ Total: **47 cases**, all green.
 
 ## 9. Tracking
 
-- Package: lily-design-system-angular-share-chooser
+- Package: lily-design-system-angular-share-picker
 - Version: 0.1.0
 - License: MIT
 

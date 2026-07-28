@@ -8,12 +8,12 @@ custom glyph cannot break the pattern.
 By default the button holds:
 
 ```html
-<span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
+<span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
 ```
 
 that is U+25D1 CIRCLE WITH RIGHT HALF BLACK (`&#9681;`), exported from
-`ThemeChooser.tsx` as `CIRCLE_WITH_RIGHT_HALF_BLACK`. Passing `children`
-replaces that span entirely — the `.theme-chooser-icon` hook disappears
+`ThemePicker.tsx` as `CIRCLE_WITH_RIGHT_HALF_BLACK`. Passing `children`
+replaces that span entirely — the `.theme-picker-icon` hook disappears
 unless you re-render it yourself.
 
 ## The ChildArgs contract
@@ -56,7 +56,7 @@ glyph content, or make `label` start with the visible text.
 ### A live swatch of the active theme
 
 ```tsx
-<ThemeChooser
+<ThemePicker
     label="Theme"
     themesUrl="/assets/themes/"
     themes={["light", "dark", "abyss"]}
@@ -64,7 +64,7 @@ glyph content, or make `label` start with the visible text.
     {({ value, open, labelFor }) => (
         <>
             <span
-                className="theme-chooser-swatch"
+                className="theme-picker-swatch"
                 data-theme={value}
                 aria-hidden="true"
             />
@@ -72,7 +72,7 @@ glyph content, or make `label` start with the visible text.
             <span aria-hidden="true">{open ? "▴" : "▾"}</span>
         </>
     )}
-</ThemeChooser>
+</ThemePicker>
 ```
 
 The `data-theme` on the swatch lets your CSS preview the theme's colours
@@ -88,10 +88,10 @@ weight, fall back to a box, or be missing. When the visual must be
 certain, ship your own vector:
 
 ```tsx
-<ThemeChooser label="Theme" themesUrl="/assets/themes/" themes={themes}>
+<ThemePicker label="Theme" themesUrl="/assets/themes/" themes={themes}>
     {() => (
         <svg
-            className="theme-chooser-icon"
+            className="theme-picker-icon"
             viewBox="0 0 16 16"
             width="16"
             height="16"
@@ -102,7 +102,7 @@ certain, ship your own vector:
             <path d="M8 1a7 7 0 0 1 0 14Z" fill="currentColor" />
         </svg>
     )}
-</ThemeChooser>
+</ThemePicker>
 ```
 
 `focusable="false"` keeps legacy Internet Explorer / Edge from putting
@@ -115,7 +115,7 @@ icon, render the label and extend `label` so the accessible name still
 contains the visible text:
 
 ```tsx
-<ThemeChooser
+<ThemePicker
     label={`Theme: ${labelFor(theme)}`}
     themesUrl="/assets/themes/"
     themes={themes}
@@ -125,7 +125,7 @@ contains the visible text:
     {({ value, labelFor }) => (
         <span aria-hidden="true">{labelFor(value)}</span>
     )}
-</ThemeChooser>
+</ThemePicker>
 ```
 
 This also removes the reason to ship the separate status region
@@ -157,7 +157,7 @@ function ThemeSwatches({
                 <button
                     key={t}
                     type="button"
-                    className="theme-chooser-swatch"
+                    className="theme-picker-swatch"
                     data-theme={t}
                     aria-pressed={value === t}
                     onClick={() => setTheme(t)}
@@ -170,7 +170,7 @@ function ThemeSwatches({
 }
 ```
 
-Render it alongside a controlled `<ThemeChooser value={theme}
+Render it alongside a controlled `<ThemePicker value={theme}
 onChange={setTheme} />` — writing `value` is what applies the theme, so
 your buttons and the select stay in step. You own the keyboard contract
 of whatever pattern you build: a button group gets `aria-pressed` and

@@ -19,7 +19,7 @@
     in plain Vite + Vue use index.html.
 -->
 <script setup lang="ts">
-import ThemeChooser from "../ThemeChooser.vue";
+import ThemePicker from "../ThemePicker.vue";
 
 // Nuxt-only auto-import; in plain Vue replace with index.html links.
 // useHead({
@@ -32,7 +32,7 @@ import ThemeChooser from "../ThemeChooser.vue";
 </script>
 
 <template>
-    <ThemeChooser
+    <ThemePicker
         label="Theme"
         themes-url="/assets/themes/"
         :themes="['light', 'dark', 'abyss']"

@@ -1,4 +1,4 @@
-# Changelog — ThemeChooser (Nunjucks)
+# Changelog — ThemePicker (Nunjucks)
 
 All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
@@ -6,36 +6,36 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 ## 0.1.0 — 2026-07-21
 
-First release under the name `lily-design-system-nunjucks-theme-chooser`.
+First release under the name `lily-design-system-nunjucks-theme-picker`.
 The package was renamed from `lily-design-system-nunjucks-theme-select`;
 because no release has ever been published under the new name, the
 version restarts at 0.1.0 rather than continuing the old 0.4.0 line.
 
-The rename also retires a real collision: `theme-chooser` is the slug of
+The rename also retires a real collision: `theme-picker` is the slug of
 a catalog component in `components.tsv`, and the helper shared its
-`.theme-chooser` class hook while being a completely different control.
-`theme-chooser` is unambiguous.
+`.theme-picker` class hook while being a completely different control.
+`theme-picker` is unambiguous.
 
 ### The package as it stands
 
-- **`theme-chooser.njk`** — the `themeChooser(opts)` macro. Renders a
-  `<div class="theme-chooser">` root containing a hidden `<input>`, a
-  glyph-only `<button class="theme-chooser-button">` (U+25D1), and a
-  `<ul class="theme-chooser-list" role="listbox" hidden>` of
-  `<li class="theme-chooser-option" role="option">`. Ids default to
-  `theme-chooser-{name}`; every server-rendered instance marks exactly
+- **`theme-picker.njk`** — the `themePicker(opts)` macro. Renders a
+  `<div class="theme-picker">` root containing a hidden `<input>`, a
+  glyph-only `<button class="theme-picker-button">` (U+25D1), and a
+  `<ul class="theme-picker-list" role="listbox" hidden>` of
+  `<li class="theme-picker-option" role="option">`. Ids default to
+  `theme-picker-{name}`; every server-rendered instance marks exactly
   one option `aria-selected="true"`.
-- **`theme-chooser.client.js`** — the runtime. Owns open/close, focus,
+- **`theme-picker.client.js`** — the runtime. Owns open/close, focus,
   the keyboard contract, `localStorage` persistence, system
   colour-scheme detection, and swapping the managed
-  `<link data-lily-theme-chooser="{name}">`. Exports
-  `initThemeChooser`, `autoInit`, `themeName`, `matchSystemTheme`,
+  `<link data-lily-theme-picker="{name}">`. Exports
+  `initThemePicker`, `autoInit`, `themeName`, `matchSystemTheme`,
   `normaliseThemesUrl`, `themeHref`, and
   `CIRCLE_WITH_RIGHT_HALF_BLACK`.
-- **DOM hooks** — `data-lily-theme-chooser-root`, `-name`, `-themes-url`,
+- **DOM hooks** — `data-lily-theme-picker-root`, `-name`, `-themes-url`,
   `-extension`, `-storage-key`, `-default-value`, `-detect-from-system`,
   `-value`, `-input`, `-button`, `-list`.
-- **`theme-chooser.test.ts`** — 61 vitest cases mapped onto the clauses
+- **`theme-picker.test.ts`** — 61 vitest cases mapped onto the clauses
   of `spec/index.md`.
 
 ---
@@ -44,7 +44,7 @@ a catalog component in `components.tsv`, and the helper shared its
 
 The entries below record this package's development under its
 former name. Nothing was ever published under the
-`lily-design-system-nunjucks-theme-chooser` name before 0.1.0 above,
+`lily-design-system-nunjucks-theme-picker` name before 0.1.0 above,
 so these version numbers do not describe releases of the current
 package. They are kept because the DOM contract, keyboard
 behaviour and breaking changes they describe are still the ones
@@ -76,7 +76,7 @@ in force.
   value > storage > system detection > defaultValue > "light" > first
   ```
 
-  **Who is affected.** Any consumer that passes `opts.value` *and*
+  **Who is affected.** Any consumer that passes `opts.value` _and_
   sets `storageKey`. If you set only one of the two, nothing changes
   for you.
 
@@ -88,8 +88,8 @@ in force.
   their theme on another device, or whose account preference was
   updated server-side, got the stale local value and the consumer had
   no way to win short of clearing storage themselves. Every other Lily
-  helper — the canonical Svelte one, and every locale-chooser in every
-  catalog — already resolved value-first; nunjucks-theme-chooser was
+  helper — the canonical Svelte one, and every locale-picker in every
+  catalog — already resolved value-first; nunjucks-theme-picker was
   the lone outlier.
 
   **Migration.** If you relied on storage outranking a passed value,
@@ -109,43 +109,43 @@ in force.
 - **The control is no longer a native `<select>`.** It is now an icon
   `<button>` that opens a `<ul role="listbox">`. The root element
   changes from a `<select>` to a
-  `<div>`, both carrying the `theme-chooser` hook. Every consumer selector, test, and
+  `<div>`, both carrying the `theme-picker` hook. Every consumer selector, test, and
   stylesheet that assumed a `<select>` / `<option>` DOM must be
   updated.
 - **`placeholder` opt removed.** This supersedes the 0.3.0
   placeholder-pinning work: there is no `<select>` left to pin, and
   the closed control now shows a glyph rather than a word. The
-  `.theme-chooser-placeholder` class hook is removed with it.
+  `.theme-picker-placeholder` class hook is removed with it.
 - The `name` opt now names a hidden `<input>` inside the root rather
   than the `<select>` itself. It still discriminates the managed
-  `<link data-lily-theme-chooser="{name}">`, and it is now also the
+  `<link data-lily-theme-picker="{name}">`, and it is now also the
   default id prefix.
 - The `{% call %}` block body now replaces the button's **glyph**
   rather than the control's options.
 
 #### Added
 
-- `themeName(slug)` export on `theme-chooser.client.js`:
-  `"high-contrast"` → `"High Contrast"`. Mirrors locale-chooser's
+- `themeName(slug)` export on `theme-picker.client.js`:
+  `"high-contrast"` → `"High Contrast"`. Mirrors locale-picker's
   `localeName(code)`, and replaces the title-casing rule that examples
   across the catalogs had been hand-duplicating. The macro applies the
   same rule in template syntax — a Nunjucks macro cannot call into the
   client module — and a test asserts the two agree for every slug.
 - `detectFromSystem` opt (boolean, default `false`) plus the
-  `matchSystemTheme(themes)` export. Mirrors locale-chooser's
+  `matchSystemTheme(themes)` export. Mirrors locale-picker's
   `detectFromNavigator` / `matchNavigatorLanguage`. Reads
   `matchMedia("(prefers-color-scheme: dark)")`, maps to `"dark"` /
   `"light"`, and returns `""` when that slug is not among the rendered
   options or when `matchMedia` is unavailable. It resolves in the
   client only — there is no `matchMedia` at Nunjucks render time — so
-  the macro emits `data-lily-theme-chooser-detect-from-system` and its
+  the macro emits `data-lily-theme-picker-detect-from-system` and its
   server-rendered `aria-selected` continues to resolve from
   `value or defaultValue or "light" or themes[0]`. See spec §5.8.
 - Icon button rendering U+25D1 CIRCLE WITH RIGHT HALF BLACK
   (`&#9681;`) inside an `aria-hidden="true"` span, named solely by
   `aria-label`.
 - Full WAI-ARIA APG listbox keyboard contract in
-  `theme-chooser.client.js`: `ArrowDown` / `Enter` / `Space` open (
+  `theme-picker.client.js`: `ArrowDown` / `Enter` / `Space` open (
   `ArrowUp` opens on the last option); arrows move the active option
   and clamp without wrapping; `Home` / `End` jump; `Enter` / `Space`
   select, apply, close, and return focus; `Escape` closes without
@@ -157,18 +157,18 @@ in force.
   server-side, preserving form participation.
 - `id` opt (optional, string): id prefix for the listbox
   (`{id}-list`) and its options (`{id}-option-{i}`). Defaults to
-  `theme-chooser-{name}`. Ids are deterministic and SSR-safe — no
+  `theme-picker-{name}`. Ids are deterministic and SSR-safe — no
   `Math.random`, no `Date.now`. Pass an explicit `id` when two
   instances share a `name`.
 - `CIRCLE_WITH_RIGHT_HALF_BLACK` export from the client module.
-- New class hooks: `.theme-chooser-button`, `.theme-chooser-icon`,
-  `.theme-chooser-list`, `.theme-chooser-option`, plus the
+- New class hooks: `.theme-picker-button`, `.theme-picker-icon`,
+  `.theme-picker-list`, `.theme-picker-option`, plus the
   `[data-active]` and `[aria-selected]` state hooks. Positioning CSS
   for the listbox is the consumer's job; the package ships none. See
   [docs/styling.md](./docs/styling.md).
 - Server-side selected resolution: the macro marks exactly one option
   `aria-selected="true"` (`value or defaultValue or "light" or
-  themes[0]`) and pre-fills the hidden input to match.
+themes[0]`) and pre-fills the hidden input to match.
 
 #### Regression (documented, not fixed)
 
@@ -179,17 +179,17 @@ in force.
   the pre-filled hidden input, which lets a form submit carry a theme.
   Stated plainly in [docs/ssr.md](./docs/ssr.md); consumers who need
   no-JS operability should use the headless catalog's plain
-  `theme-chooser` `<select>` container instead.
+  `theme-picker` `<select>` container instead.
 
 #### Unchanged
 
-- `data-lily-theme-chooser-value` remains the sole channel by which
+- `data-lily-theme-picker-value` remains the sole channel by which
   `opts.value` reaches the client, and still prevents a pre-hydration
   flash.
 - `data-theme` application, the managed `<link>` swap, `localStorage`
   persistence, `onChange`, initial-value resolution order, SSR safety,
   and the exported pure helpers `normaliseThemesUrl` / `themeHref`.
-- `initThemeChooser(root, opts?)` and `autoInit(opts?)` keep their
+- `initThemePicker(root, opts?)` and `autoInit(opts?)` keep their
   signatures and still return `{setTheme, destroy}`. `destroy()` now
   also detaches the `document` click listener.
 
@@ -212,8 +212,8 @@ in force.
   ("Theme") instead of the active theme's name. This keeps the
   control's width constant regardless of theme-name length.
 - The macro renders a new leading
-  `<option class="theme-chooser-option theme-chooser-placeholder"
-  value="" selected>` as the FIRST child of the `<select>`. **Option
+  `<option class="theme-picker-option theme-picker-placeholder"
+value="" selected>` as the FIRST child of the `<select>`. **Option
   count is now `themes.length + 1`** and the first option value is
   `""`. Consumers asserting on option count or index will need to
   account for it.
@@ -229,7 +229,7 @@ in force.
   option. Defaults to `label`, so no hardcoded user-facing string is
   ever emitted. Supply it when you want a long descriptive
   `aria-label` but a short visible word.
-- `.theme-chooser-placeholder` class hook, plus a width recipe
+- `.theme-picker-placeholder` class hook, plus a width recipe
   (`field-sizing: content` / `max-width`) in
   [docs/styling.md](./docs/styling.md).
 
@@ -251,9 +251,9 @@ in force.
 
 - The compensating status region is now the **default pattern**, not a
   suggestion: the basic example and the `index.md` quick-start both ship
-  a visible `<p class="theme-chooser-status" aria-live="polite">` wired
+  a visible `<p class="theme-picker-status" aria-live="polite">` wired
   through the existing `autoInit({ onChange })` callback.
-  `docs/accessibility.md` reframes opting *out* as the deliberate choice
+  `docs/accessibility.md` reframes opting _out_ as the deliberate choice
   and keeps an explicit note that focusing the closed control still
   announces only the placeholder.
 
@@ -263,7 +263,7 @@ in force.
   server-rendering `selected` on the matching real option; the browser
   honoured that over the placeholder, so the real theme name flashed
   before the client snapped it back. The initial value now travels as a
-  `data-lily-theme-chooser-value` attribute on the `<select>` root
+  `data-lily-theme-picker-value` attribute on the `<select>` root
   (emitted only when `opts.value` is set), and the placeholder is the
   only `selected` option in the server-rendered HTML. Initial-value
   resolution order is unchanged.
@@ -274,12 +274,12 @@ in force.
 
 - Migrated from the radio-group "picker" rendering to a native
   `<select>` (landed in-tree 2026-06-17): the root element is now
-  `<select class="theme-chooser">` with one `<option class="theme-chooser-option">`
+  `<select class="theme-picker">` with one `<option class="theme-picker-option">`
   per choice, replacing the former `<fieldset role="radiogroup">` with
   `<input type="radio">` children. The package was renamed from the
   `*-picker` name to `*-select` accordingly.
-- Class-hook contract changed: `theme-chooser` now names the `<select>` root
-  and `theme-chooser-option` is the only sub-class; the radio/label sub-class
+- Class-hook contract changed: `theme-picker` now names the `<select>` root
+  and `theme-picker-option` is the only sub-class; the radio/label sub-class
   hooks are gone.
 - Keyboard interaction is the native `<select>` contract (Arrow keys,
   Home / End, first-letter typeahead) instead of radio-group cycling.
@@ -298,29 +298,29 @@ Initial release.
 
 #### Added
 
-- `theme-chooser.njk` — Nunjucks 3 macro emitting a native
-  `<select class="theme-chooser">` with one
-  `<option class="theme-chooser-option">` per theme slug. Single
+- `theme-picker.njk` — Nunjucks 3 macro emitting a native
+  `<select class="theme-picker">` with one
+  `<option class="theme-picker-option">` per theme slug. Single
   `opts` parameter; required keys are `label`, `themesUrl`, `themes`.
-  Renders deterministic markup with `data-lily-theme-chooser-*`
+  Renders deterministic markup with `data-lily-theme-picker-*`
   configuration attributes for the client.js to read.
-- `theme-chooser.client.js` — vanilla ES module owning the runtime
+- `theme-picker.client.js` — vanilla ES module owning the runtime
   lifecycle:
-  - `initThemeChooser(root, opts)` — wires one `<select>`; returns a
+  - `initThemePicker(root, opts)` — wires one `<select>`; returns a
     `{setTheme, destroy}` controller.
   - `autoInit(opts)` — finds every
-    `[data-lily-theme-chooser-root]` on the page and wires it.
+    `[data-lily-theme-picker-root]` on the page and wires it.
   - `normaliseThemesUrl(url)` and
     `themeHref(url, slug, extension)` — pure URL helpers.
   - Manages a single
-    `<link rel="stylesheet" data-lily-theme-chooser="{name}">` in
+    `<link rel="stylesheet" data-lily-theme-picker="{name}">` in
     `document.head` and swaps its `href` on each apply.
   - Sets `data-theme="{slug}"` on the resolved target element
     (defaults to `document.documentElement`).
   - Optional `storageKey` persistence to `localStorage` with
     private-mode-safe try/catch.
   - `onChange(slug)` callback for post-apply side effects.
-- `theme-chooser.test.ts` — vitest suite asserting every numbered
+- `theme-picker.test.ts` — vitest suite asserting every numbered
   acceptance criterion in `spec/index.md` §7 (13 items + extras).
 - `spec/index.md` — spec-driven contract, version 0.1.0.
 - `AGENTS/` subdirectory with `api.md`, `lifecycle.md`,
@@ -344,7 +344,7 @@ Initial release.
   - `07-two-way-binding.njk`
   - `08-lily-themes.njk`
   - `09-custom-rendering.njk` (with companion
-    `themeChooserCustom.njk`)
+    `themePickerCustom.njk`)
   - `eleventy-cookie/` end-to-end recipe with
     `_includes/base.njk`, `_data/site.js`, `index.njk`,
     `functions/_middleware.js`, `functions/api/theme.js`.
@@ -352,8 +352,8 @@ Initial release.
 #### Conventions
 
 - Nunjucks 3 macro syntax with a single `opts` parameter object.
-- camelCase macro name (`themeChooser`); kebab-case file path
-  (`theme-chooser.njk`) and CSS class (`theme-chooser`).
+- camelCase macro name (`themePicker`); kebab-case file path
+  (`theme-picker.njk`) and CSS class (`theme-picker`).
 - Companion ES-module runtime, framework-agnostic.
 - Zero runtime dependencies beyond `nunjucks` server-side and DOM
   APIs client-side.
@@ -365,8 +365,8 @@ Initial release.
 #### Parity
 
 This is a direct port of the Svelte canonical
-`lily-design-system-svelte-theme-chooser` v0.1.0 and the Vue port
-`lily-design-system-vue-theme-chooser` v0.1.0. The DOM contract,
+`lily-design-system-svelte-theme-picker` v0.1.0 and the Vue port
+`lily-design-system-vue-theme-picker` v0.1.0. The DOM contract,
 managed-link discriminator, initial-value resolution, and apply
 order match clause-for-clause.
 

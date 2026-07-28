@@ -1,4 +1,4 @@
-# SSR — LocaleChooser (Nunjucks)
+# SSR — LocalePicker (Nunjucks)
 
 Nunjucks is the server side: the macro **is** the SSR render.
 This file lists the Nunjucks-host-specific recipes; the
@@ -10,7 +10,7 @@ catalog-wide rules live in
 The macro is pure: same `opts` in, same HTML out. It does not
 touch `localStorage`, `navigator`, `document.documentElement`,
 or any DOM API. If the consumer passes `opts.value="fr"`, the root
-`<div>` gets `data-lily-locale-chooser-value="fr"` rendered
+`<div>` gets `data-lily-locale-picker-value="fr"` rendered
 server-side, the `<li lang="fr">` option is marked
 `aria-selected="true"`, and the hidden input is pre-filled with
 `fr`.
@@ -30,7 +30,7 @@ substituting from a cookie / header / session value.
 
 The server-rendered markup is not a working control. The button
 carries `aria-expanded="false"` and the listbox is `hidden`, and
-nothing changes that until `locale-chooser.client.js` loads and runs:
+nothing changes that until `locale-picker.client.js` loads and runs:
 open / close, focus movement, the keyboard contract, and typeahead
 all live in the client module. The earlier native `<select>` worked
 with script disabled; this one does not. Do not describe the output
@@ -50,7 +50,7 @@ the page jumps:
 1. Browser parses `<html lang="en">` → default LTR layout.
 2. Browser fetches CSS, paints the page in English / LTR.
 3. JS hydrates, select's client.js reads `localStorage["app-locale"]
-   === "ar"`, writes `<html lang="ar" dir="rtl">`.
+=== "ar"`, writes `<html lang="ar" dir="rtl">`.
 4. Browser repaints in RTL → layout shift.
 
 Steps 2–4 cause a visible flash. Fix by pre-resolving the locale
@@ -66,9 +66,9 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
 export default function (eleventyConfig) {
-    eleventyConfig.addPassthroughCopy("src/lily/locale-chooser.client.js");
-    eleventyConfig.addPassthroughCopy("src/lily/locale-chooser.njk");
-    eleventyConfig.addGlobalData("supportedLocales", ["en", "fr", "ar"]);
+  eleventyConfig.addPassthroughCopy("src/lily/locale-picker.client.js");
+  eleventyConfig.addPassthroughCopy("src/lily/locale-picker.njk");
+  eleventyConfig.addGlobalData("supportedLocales", ["en", "fr", "ar"]);
 }
 ```
 
@@ -81,8 +81,8 @@ export default function (eleventyConfig) {
         <title>{{ title }}</title>
     </head>
     <body>
-        {% from "lily/locale-chooser.njk" import localeChooser %}
-        {{ localeChooser({
+        {% from "lily/locale-picker.njk" import localePicker %}
+        {{ localePicker({
             label: "Language",
             locales: supportedLocales,
             value: "__LANG__",
@@ -92,7 +92,7 @@ export default function (eleventyConfig) {
         {{ content | safe }}
 
         <script type="module">
-            import { autoInit } from "/lily/locale-chooser.client.js";
+            import { autoInit } from "/lily/locale-picker.client.js";
             autoInit({
                 onChange(code) {
                     fetch("/api/locale", {
@@ -112,18 +112,18 @@ export default function (eleventyConfig) {
 const RTL = /^(ar|he|fa|ur|ps|yi|iw|ji|ckb|ku|dv|sd|ug|mzn|ks)/;
 
 export async function onRequest(context) {
-    const response = await context.next();
-    if (!response.headers.get("content-type")?.startsWith("text/html")) {
-        return response;
-    }
-    const cookie = context.request.headers.get("cookie") ?? "";
-    const lang = /(?:^|; )locale=([^;]+)/.exec(cookie)?.[1] ?? "en";
-    const dir = RTL.test(lang) ? "rtl" : "ltr";
-    const html = await response.text();
-    return new Response(
-        html.replaceAll("__LANG__", lang).replaceAll("__DIR__", dir),
-        response,
-    );
+  const response = await context.next();
+  if (!response.headers.get("content-type")?.startsWith("text/html")) {
+    return response;
+  }
+  const cookie = context.request.headers.get("cookie") ?? "";
+  const lang = /(?:^|; )locale=([^;]+)/.exec(cookie)?.[1] ?? "en";
+  const dir = RTL.test(lang) ? "rtl" : "ltr";
+  const html = await response.text();
+  return new Response(
+    html.replaceAll("__LANG__", lang).replaceAll("__DIR__", dir),
+    response,
+  );
 }
 ```
 
@@ -132,15 +132,15 @@ export async function onRequest(context) {
 const SUPPORTED = new Set(["en", "fr", "ar"]);
 
 export async function onRequestPost({ request }) {
-    const body = await request.json().catch(() => ({}));
-    const code = String(body?.locale ?? "");
-    if (!SUPPORTED.has(code)) return new Response("Bad code", { status: 400 });
-    return new Response(null, {
-        status: 204,
-        headers: {
-            "set-cookie": `locale=${code}; Path=/; Max-Age=31536000; SameSite=Lax`,
-        },
-    });
+  const body = await request.json().catch(() => ({}));
+  const code = String(body?.locale ?? "");
+  if (!SUPPORTED.has(code)) return new Response("Bad code", { status: 400 });
+  return new Response(null, {
+    status: 204,
+    headers: {
+      "set-cookie": `locale=${code}; Path=/; Max-Age=31536000; SameSite=Lax`,
+    },
+  });
 }
 ```
 
@@ -153,10 +153,7 @@ select hydrates without writing anything visible.
 import express from "express";
 import nunjucks from "nunjucks";
 import cookieParser from "cookie-parser";
-import {
-    bcp47LocaleTag,
-    isRtlLocale,
-} from "./locale-chooser.client.js";
+import { bcp47LocaleTag, isRtlLocale } from "./locale-picker.client.js";
 
 const app = express();
 app.use(cookieParser());
@@ -165,29 +162,31 @@ nunjucks.configure("views", { express: app, autoescape: true });
 const SUPPORTED = new Set(["en", "fr", "ar"]);
 
 app.get("/", (req, res) => {
-    const cookie = req.cookies.locale;
-    const locale = cookie && SUPPORTED.has(cookie) ? cookie : "en";
-    res.render("index.njk", {
-        locale,
-        lang: bcp47LocaleTag(locale),
-        dir: isRtlLocale(locale) ? "rtl" : "ltr",
-    });
+  const cookie = req.cookies.locale;
+  const locale = cookie && SUPPORTED.has(cookie) ? cookie : "en";
+  res.render("index.njk", {
+    locale,
+    lang: bcp47LocaleTag(locale),
+    dir: isRtlLocale(locale) ? "rtl" : "ltr",
+  });
 });
 
 app.post("/api/locale", express.json(), (req, res) => {
-    const code = String(req.body?.locale ?? "");
-    if (!SUPPORTED.has(code)) return res.status(400).end();
-    res.cookie("locale", code, {
-        path: "/", sameSite: "lax", maxAge: 60 * 60 * 24 * 365 * 1000,
-    });
-    res.status(204).end();
+  const code = String(req.body?.locale ?? "");
+  if (!SUPPORTED.has(code)) return res.status(400).end();
+  res.cookie("locale", code, {
+    path: "/",
+    sameSite: "lax",
+    maxAge: 60 * 60 * 24 * 365 * 1000,
+  });
+  res.status(204).end();
 });
 ```
 
 ```njk
 <html lang="{{ lang }}" dir="{{ dir }}">
     <body>
-        {{ localeChooser({
+        {{ localePicker({
             label: "Language",
             locales: ["en", "fr", "ar"],
             value: locale,
@@ -202,13 +201,13 @@ app.post("/api/locale", express.json(), (req, res) => {
 
 ```js
 app.get("/:lang/*", (req, res) => {
-    const lang = req.params.lang;
-    if (!SUPPORTED.has(lang)) return res.status(404).end();
-    res.render(req.params[0] || "index.njk", {
-        locale: lang,
-        lang: bcp47LocaleTag(lang),
-        dir: isRtlLocale(lang) ? "rtl" : "ltr",
-    });
+  const lang = req.params.lang;
+  if (!SUPPORTED.has(lang)) return res.status(404).end();
+  res.render(req.params[0] || "index.njk", {
+    locale: lang,
+    lang: bcp47LocaleTag(lang),
+    dir: isRtlLocale(lang) ? "rtl" : "ltr",
+  });
 });
 ```
 
@@ -216,13 +215,13 @@ The select's `onChange` handler navigates:
 
 ```html
 <script type="module">
-    import { autoInit } from "/lily/locale-chooser.client.js";
-    autoInit({
-        onChange(code) {
-            const path = location.pathname.replace(/^\/[^/]+/, `/${code}`);
-            location.assign(path);
-        },
-    });
+  import { autoInit } from "/lily/locale-picker.client.js";
+  autoInit({
+    onChange(code) {
+      const path = location.pathname.replace(/^\/[^/]+/, `/${code}`);
+      location.assign(path);
+    },
+  });
 </script>
 ```
 
@@ -233,21 +232,21 @@ When no cookie is set, fall back to the request's
 
 ```js
 function pickFromAcceptLanguage(header, supported) {
-    if (!header) return supported[0];
-    for (const item of header.split(",")) {
-        const tag = item.split(";")[0].trim().toLowerCase();
-        if (supported.includes(tag)) return tag;
-        const base = tag.split("-")[0];
-        if (supported.includes(base)) return base;
-    }
-    return supported[0];
+  if (!header) return supported[0];
+  for (const item of header.split(",")) {
+    const tag = item.split(";")[0].trim().toLowerCase();
+    if (supported.includes(tag)) return tag;
+    const base = tag.split("-")[0];
+    if (supported.includes(base)) return base;
+  }
+  return supported[0];
 }
 
 app.get("/", (req, res) => {
-    const cookie = req.cookies.locale;
-    const accept = req.headers["accept-language"];
-    const locale = cookie || pickFromAcceptLanguage(accept, ["en", "fr", "ar"]);
-    res.render("index.njk", { locale });
+  const cookie = req.cookies.locale;
+  const accept = req.headers["accept-language"];
+  const locale = cookie || pickFromAcceptLanguage(accept, ["en", "fr", "ar"]);
+  res.render("index.njk", { locale });
 });
 ```
 
@@ -260,14 +259,14 @@ import templates from "./templates.json";
 const env = new nunjucks.Environment(new nunjucks.PrecompiledLoader(templates));
 
 export default {
-    async fetch(request) {
-        const cookie = request.headers.get("cookie") ?? "";
-        const locale = /(?:^|; )locale=([^;]+)/.exec(cookie)?.[1] ?? "en";
-        const html = env.render("index.njk", { locale });
-        return new Response(html, {
-            headers: { "content-type": "text/html; charset=utf-8" },
-        });
-    },
+  async fetch(request) {
+    const cookie = request.headers.get("cookie") ?? "";
+    const locale = /(?:^|; )locale=([^;]+)/.exec(cookie)?.[1] ?? "en";
+    const html = env.render("index.njk", { locale });
+    return new Response(html, {
+      headers: { "content-type": "text/html; charset=utf-8" },
+    });
+  },
 };
 ```
 
@@ -280,7 +279,7 @@ const html = nunjucks.render("page.njk", { locale: "fr" });
 ```
 
 The macro outputs a complete button + listbox carrying
-`data-lily-locale-chooser-value="fr"`; no DOM touched, no errors
+`data-lily-locale-picker-value="fr"`; no DOM touched, no errors
 thrown.
 
 ## Why the macro doesn't auto-resolve cookies
@@ -297,7 +296,7 @@ There is no virtual-DOM hydration mismatch in this catalog
 because the macro is one-shot HTML, not a diff. The only
 cross-render gotcha is:
 
-- The server renders no `data-lily-locale-chooser-value` (because
+- The server renders no `data-lily-locale-picker-value` (because
   `opts.value=""`), but the client picks a non-empty value from
   `localStorage`. The page paints with the layout's `lang` / `dir` for
   one frame before the client rewrites them.
@@ -305,7 +304,7 @@ cross-render gotcha is:
   `opts.value`.
 
 One more render-time gotcha: option and listbox ids are derived from
-`opts.id`, which defaults to `"locale-chooser-{name}"`. A layout that
+`opts.id`, which defaults to `"locale-picker-{name}"`. A layout that
 renders the control twice (say, in the header and the footer) with
 the same `name` emits duplicate ids and a broken `aria-controls` /
 `aria-activedescendant` pair. Pass an explicit `id` to at least one

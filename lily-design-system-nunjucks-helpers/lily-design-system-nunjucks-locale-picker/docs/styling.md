@@ -14,27 +14,27 @@ popover.
 
 ## Class hooks
 
-| Selector                       | Element                                  |
-| ------------------------------ | ---------------------------------------- |
-| `.locale-chooser`               | The root `<div>`.                        |
-| `.locale-chooser.{classes}`     | Both classes when `opts.classes` is set. |
-| `.locale-chooser-button`        | The icon `<button>` that opens the listbox. |
-| `.locale-chooser-icon`          | The `<span>` wrapping the default globe glyph. Absent when a `{% call %}` block overrides it. |
-| `.locale-chooser-list`          | The `<ul role="listbox">`.               |
-| `.locale-chooser-option`        | Each `<li role="option">`.               |
-| `.locale-chooser-status`        | The consumer-rendered status region announcing the active locale (see [accessibility.md](./accessibility.md)). Ships in the examples; not emitted by the macro. |
+| Selector                    | Element                                                                                                                                                         |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `.locale-picker`           | The root `<div>`.                                                                                                                                               |
+| `.locale-picker.{classes}` | Both classes when `opts.classes` is set.                                                                                                                        |
+| `.locale-picker-button`    | The icon `<button>` that opens the listbox.                                                                                                                     |
+| `.locale-picker-icon`      | The `<span>` wrapping the default globe glyph. Absent when a `{% call %}` block overrides it.                                                                   |
+| `.locale-picker-list`      | The `<ul role="listbox">`.                                                                                                                                      |
+| `.locale-picker-option`    | Each `<li role="option">`.                                                                                                                                      |
+| `.locale-picker-status`    | The consumer-rendered status region announcing the active locale (see [accessibility.md](./accessibility.md)). Ships in the examples; not emitted by the macro. |
 
-The `.locale-chooser-placeholder` hook is **gone**. There is no
+The `.locale-picker-placeholder` hook is **gone**. There is no
 placeholder option any more.
 
 ### State hooks
 
-| Selector                                     | Meaning                                   |
-| -------------------------------------------- | ----------------------------------------- |
-| `.locale-chooser-list:not([hidden])`          | The listbox is open.                      |
-| `.locale-chooser-button[aria-expanded="true"]`| The button while its listbox is open.     |
-| `.locale-chooser-option[aria-selected="true"]`| The applied locale.                       |
-| `.locale-chooser-option[data-active]`         | The keyboard-active option (roving highlight). Distinct from selected. |
+| Selector                                       | Meaning                                                                |
+| ---------------------------------------------- | ---------------------------------------------------------------------- |
+| `.locale-picker-list:not([hidden])`           | The listbox is open.                                                   |
+| `.locale-picker-button[aria-expanded="true"]` | The button while its listbox is open.                                  |
+| `.locale-picker-option[aria-selected="true"]` | The applied locale.                                                    |
+| `.locale-picker-option[data-active]`          | The keyboard-active option (roving highlight). Distinct from selected. |
 
 Style `[data-active]` and `[aria-selected]` differently: the first is
 "where the keyboard cursor is", the second is "what is in effect". A
@@ -47,10 +47,10 @@ visible `aria-live="polite"` status line. Style it as ordinary body
 text next to the control:
 
 ```css
-.locale-chooser-status {
-    margin: 0;
-    font-size: 0.875rem;
-    color: var(--theme-color-text-muted, #4b5563);
+.locale-picker-status {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--theme-color-text-muted, #4b5563);
 }
 ```
 
@@ -61,16 +61,16 @@ screen-reader users still get the announcement:
 
 ```css
 /* Visually hidden, still announced. Prefer the visible variant. */
-.locale-chooser-status {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    padding: 0;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-    border: 0;
+.locale-picker-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }
 ```
 
@@ -81,23 +81,27 @@ selected language, set the element's own `lang` alongside its
 
 ## Attribute hooks
 
-| Attribute                          | On                          | Purpose                                |
-| ---------------------------------- | --------------------------- | -------------------------------------- |
-| `lang="<bcp47>"`                   | `target` (default `<html>`) | Active locale, BCP 47 hyphen form.     |
-| `dir="ltr\|rtl"`                   | `target` (default `<html>`) | Script direction; skipped when `applyDir` is false. |
-| `lang="<bcp47>"`                   | each `<li role="option">`   | WCAG 3.1.2 Language of Parts.          |
-| `data-lily-locale-chooser-root`     | the root `<div>`            | `autoInit()` selector.                 |
-| `data-lily-locale-chooser-button`   | the `<button>`              | Client lookup hook.                    |
-| `data-lily-locale-chooser-list`     | the `<ul>`                  | Client lookup hook.                    |
-| `data-lily-locale-chooser-input`    | the hidden `<input>`        | Client lookup hook.                    |
-| `data-active`                      | the active `<li>`           | Roving keyboard highlight.             |
+| Attribute                        | On                          | Purpose                                             |
+| -------------------------------- | --------------------------- | --------------------------------------------------- |
+| `lang="<bcp47>"`                 | `target` (default `<html>`) | Active locale, BCP 47 hyphen form.                  |
+| `dir="ltr\|rtl"`                 | `target` (default `<html>`) | Script direction; skipped when `applyDir` is false. |
+| `lang="<bcp47>"`                 | each `<li role="option">`   | WCAG 3.1.2 Language of Parts.                       |
+| `data-lily-locale-picker-root`   | the root `<div>`            | `autoInit()` selector.                              |
+| `data-lily-locale-picker-button` | the `<button>`              | Client lookup hook.                                 |
+| `data-lily-locale-picker-list`   | the `<ul>`                  | Client lookup hook.                                 |
+| `data-lily-locale-picker-input`  | the hidden `<input>`        | Client lookup hook.                                 |
+| `data-active`                    | the active `<li>`           | Roving keyboard highlight.                          |
 
 Per-option `lang` is also a styling hook: `:lang()` lets you set a
 script-appropriate font per option.
 
 ```css
-.locale-chooser-option:lang(ar) { font-family: var(--font-arabic, serif); }
-.locale-chooser-option:lang(ja) { font-family: var(--font-japanese, sans-serif); }
+.locale-picker-option:lang(ar) {
+  font-family: var(--font-arabic, serif);
+}
+.locale-picker-option:lang(ja) {
+  font-family: var(--font-japanese, sans-serif);
+}
 ```
 
 ## Positioning the listbox
@@ -106,22 +110,22 @@ The macro emits no positioning. The minimum viable pattern is an
 absolutely-positioned list inside a relatively-positioned root:
 
 ```css
-.locale-chooser {
-    position: relative;
-    display: inline-block;
+.locale-picker {
+  position: relative;
+  display: inline-block;
 }
 
-.locale-chooser-list {
-    position: absolute;
-    inset-inline-start: 0;
-    top: 100%;
-    z-index: 10;
-    min-width: max-content;
-    margin: 0;
-    padding: 0.25rem 0;
-    list-style: none;
-    max-height: 60vh;
-    overflow-y: auto;
+.locale-picker-list {
+  position: absolute;
+  inset-inline-start: 0;
+  top: 100%;
+  z-index: 10;
+  min-width: max-content;
+  margin: 0;
+  padding: 0.25rem 0;
+  list-style: none;
+  max-height: 60vh;
+  overflow-y: auto;
 }
 ```
 
@@ -144,64 +148,64 @@ Drop into the consumer's app stylesheet, after the positioning rules
 above:
 
 ```css
-.locale-chooser-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    /* Icon-only: keep the hit target at least 44x44 (WCAG 2.5.8 AAA). */
-    min-width: 2.75rem;
-    min-height: 2.75rem;
-    padding: 0.25rem;
-    border: 1px solid var(--theme-color-base-300, currentColor);
-    border-radius: var(--theme-radius-selector, 0.25rem);
-    background: var(--theme-color-base-background, white);
-    color: var(--theme-color-base-content, currentColor);
-    cursor: pointer;
-    line-height: 1;
+.locale-picker-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* Icon-only: keep the hit target at least 44x44 (WCAG 2.5.8 AAA). */
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  padding: 0.25rem;
+  border: 1px solid var(--theme-color-base-300, currentColor);
+  border-radius: var(--theme-radius-selector, 0.25rem);
+  background: var(--theme-color-base-background, white);
+  color: var(--theme-color-base-content, currentColor);
+  cursor: pointer;
+  line-height: 1;
 }
 
-.locale-chooser-icon {
-    font-size: 1.25rem;
+.locale-picker-icon {
+  font-size: 1.25rem;
 }
 
 /* The list takes DOM focus while open, so give it a visible ring too. */
-.locale-chooser-button:focus-visible,
-.locale-chooser-list:focus-visible {
-    outline: 2px solid var(--theme-color-primary, currentColor);
-    outline-offset: 2px;
+.locale-picker-button:focus-visible,
+.locale-picker-list:focus-visible {
+  outline: 2px solid var(--theme-color-primary, currentColor);
+  outline-offset: 2px;
 }
 
-.locale-chooser-list {
-    border: 1px solid var(--theme-color-base-300, currentColor);
-    border-radius: var(--theme-radius-selector, 0.25rem);
-    background: var(--theme-color-base-background, white);
-    color: var(--theme-color-base-content, currentColor);
+.locale-picker-list {
+  border: 1px solid var(--theme-color-base-300, currentColor);
+  border-radius: var(--theme-radius-selector, 0.25rem);
+  background: var(--theme-color-base-background, white);
+  color: var(--theme-color-base-content, currentColor);
 }
 
-.locale-chooser-option {
-    padding: 0.375rem 0.75rem;
-    cursor: pointer;
-    white-space: nowrap;
-    /* Locale names are content, not chrome: let bidi resolve per option. */
-    unicode-bidi: isolate;
+.locale-picker-option {
+  padding: 0.375rem 0.75rem;
+  cursor: pointer;
+  white-space: nowrap;
+  /* Locale names are content, not chrome: let bidi resolve per option. */
+  unicode-bidi: isolate;
 }
 
 /* Where the keyboard cursor is. */
-.locale-chooser-option[data-active] {
-    background: var(--theme-color-base-200, #e5e7eb);
+.locale-picker-option[data-active] {
+  background: var(--theme-color-base-200, #e5e7eb);
 }
 
 /* What is actually applied. Not colour-only: add a mark. */
-.locale-chooser-option[aria-selected="true"] {
-    font-weight: 600;
+.locale-picker-option[aria-selected="true"] {
+  font-weight: 600;
 }
 
-.locale-chooser-option[aria-selected="true"]::before {
-    content: "\2713\00a0"; /* check mark + nbsp */
+.locale-picker-option[aria-selected="true"]::before {
+  content: "\2713\00a0"; /* check mark + nbsp */
 }
 
-.locale-chooser-option:not([aria-selected="true"])::before {
-    content: "\00a0\00a0"; /* keep the labels aligned */
+.locale-picker-option:not([aria-selected="true"])::before {
+  content: "\00a0\00a0"; /* keep the labels aligned */
 }
 ```
 
@@ -221,10 +225,10 @@ names are not truncated while it is open.
 ## Don'ts
 
 - **Don't override `hidden` with a `display` rule.** A bare
-  `.locale-chooser-list { display: block }` beats the `hidden`
+  `.locale-picker-list { display: block }` beats the `hidden`
   attribute and pins the list permanently open, out of sync with
   `aria-expanded`. Scope open-state styling to
-  `.locale-chooser-list:not([hidden])`.
+  `.locale-picker-list:not([hidden])`.
 - Don't position the list with `left` / `right`; use
   `inset-inline-start` / `inset-inline-end` so it survives an RTL
   locale change.

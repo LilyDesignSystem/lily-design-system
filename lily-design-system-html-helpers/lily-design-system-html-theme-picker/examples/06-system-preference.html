@@ -17,32 +17,32 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>theme-chooser — system preference</title>
-    <script type="module" src="/dist/theme-chooser.js"></script>
+    <title>theme-picker — system preference</title>
+    <script type="module" src="/dist/theme-picker.js"></script>
 </head>
 <body>
-    <h1>Theme chooser — system preference</h1>
+    <h1>Theme picker — system preference</h1>
 
-    <theme-chooser
+    <theme-picker
         label="Theme"
         themes-url="/assets/themes/"
         themes="light,dark"
         storage-key="my-app:theme"
-    ></theme-chooser>
+    ></theme-picker>
 
     <script>
         // Runs before the module script (no `type="module"`), so
         // the attribute is set before the custom element upgrades.
         const prefersDark =
             window.matchMedia?.("(prefers-color-scheme: dark)").matches;
-        const select = document.querySelector("theme-chooser");
+        const select = document.querySelector("theme-picker");
         select.setAttribute("default-value", prefersDark ? "dark" : "light");
     </script>
 
     <script type="module">
         // Track OS preference changes live (optional).
-        await customElements.whenDefined("theme-chooser");
-        const select = document.querySelector("theme-chooser");
+        await customElements.whenDefined("theme-picker");
+        const select = document.querySelector("theme-picker");
         window.matchMedia("(prefers-color-scheme: dark)")
             .addEventListener("change", (e) => {
                 select.value = e.matches ? "dark" : "light";

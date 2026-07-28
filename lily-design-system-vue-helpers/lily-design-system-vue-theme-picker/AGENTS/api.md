@@ -1,4 +1,4 @@
-# API — ThemeChooser (Vue)
+# API — ThemePicker (Vue)
 
 Authoritative API surface lives in [`../spec/index.md`](../spec/index.md) §4.
 This file documents the Vue-flavoured shape of the contract.
@@ -9,28 +9,28 @@ The barrel (`index.ts`) re-exports:
 
 ```ts
 export {
-    default,
-    default as ThemeChooser,
-    normaliseThemesUrl,
-    themeHref,
-    nextThemeChooserId,
-    CIRCLE_WITH_RIGHT_HALF_BLACK,
-} from "./ThemeChooser.vue";
-export type { Props, SlotArgs, ChildArgs } from "./ThemeChooser.vue";
+  default,
+  default as ThemePicker,
+  normaliseThemesUrl,
+  themeHref,
+  nextThemePickerId,
+  CIRCLE_WITH_RIGHT_HALF_BLACK,
+} from "./ThemePicker.vue";
+export type { Props, SlotArgs, ChildArgs } from "./ThemePicker.vue";
 ```
 
 A consumer can import either the component or the helpers:
 
 ```ts
-import ThemeChooser, {
-    normaliseThemesUrl,
-    themeHref,
-    nextThemeChooserId,
-    CIRCLE_WITH_RIGHT_HALF_BLACK,
-    type Props,
-    type SlotArgs,
-    type ChildArgs,
-} from "./lily-design-system-vue-theme-chooser";
+import ThemePicker, {
+  normaliseThemesUrl,
+  themeHref,
+  nextThemePickerId,
+  CIRCLE_WITH_RIGHT_HALF_BLACK,
+  type Props,
+  type SlotArgs,
+  type ChildArgs,
+} from "./lily-design-system-vue-theme-picker";
 ```
 
 `CIRCLE_WITH_RIGHT_HALF_BLACK` is the default button glyph — `"◑"`,
@@ -39,19 +39,19 @@ Svelte helper's type name.
 
 ## Props
 
-| Prop           | Type                     | Required | Default                                          |
-| -------------- | ------------------------ | -------- | ------------------------------------------------ |
-| `label`        | `string`                 | yes      | —                                                |
-| `themesUrl`    | `string`                 | yes      | —                                                |
-| `themes`       | `string[]`               | yes      | —                                                |
-| `value`        | `string`                 | no       | `""`                                             |
-| `defaultValue` | `string`                 | no       | `undefined` (resolves to `"light"` or `themes[0]`) |
-| `storageKey`   | `string`                 | no       | `undefined`                                      |
-| `name`         | `string`                 | no       | `"theme"`                                        |
-| `extension`    | `string`                 | no       | `".css"`                                         |
+| Prop           | Type                     | Required | Default                                              |
+| -------------- | ------------------------ | -------- | ---------------------------------------------------- |
+| `label`        | `string`                 | yes      | —                                                    |
+| `themesUrl`    | `string`                 | yes      | —                                                    |
+| `themes`       | `string[]`               | yes      | —                                                    |
+| `value`        | `string`                 | no       | `""`                                                 |
+| `defaultValue` | `string`                 | no       | `undefined` (resolves to `"light"` or `themes[0]`)   |
+| `storageKey`   | `string`                 | no       | `undefined`                                          |
+| `name`         | `string`                 | no       | `"theme"`                                            |
+| `extension`    | `string`                 | no       | `".css"`                                             |
 | `target`       | `HTMLElement \| null`    | no       | `undefined` (resolves to `document.documentElement`) |
-| `themeLabels`  | `Record<string, string>` | no       | `{}`                                             |
-| `class`        | `string`                 | no       | `""`                                             |
+| `themeLabels`  | `Record<string, string>` | no       | `{}`                                                 |
+| `class`        | `string`                 | no       | `""`                                                 |
 
 There is no `placeholder` prop — it was removed with the `<select>`.
 
@@ -65,8 +65,8 @@ the `label` prop.
 
 ```ts
 defineEmits<{
-    (event: "update:value", value: string): void;
-    (event: "change", value: string): void;
+  (event: "update:value", value: string): void;
+  (event: "change", value: string): void;
 }>();
 ```
 
@@ -78,7 +78,7 @@ component back to the parent. It fires:
 - once on `onMounted` if the resolved initial value differs from
   the supplied `value` prop.
 
-`change` fires every time the chooser successfully applies a theme.
+`change` fires every time the picker successfully applies a theme.
 Use it for analytics, server sync, or cookie writes.
 
 ## Default scoped slot
@@ -89,9 +89,9 @@ the apply lifecycle are all component-owned.
 
 ```ts
 export type SlotArgs = {
-    value: string;                       // the active slug
-    open: boolean;                       // is the listbox open?
-    labelFor: (theme: string) => string; // resolved display label
+  value: string; // the active slug
+  open: boolean; // is the listbox open?
+  labelFor: (theme: string) => string; // resolved display label
 };
 export type ChildArgs = SlotArgs;
 ```
@@ -99,11 +99,11 @@ export type ChildArgs = SlotArgs;
 Consumers consume it via `<template #default="{ … }">`:
 
 ```vue
-<ThemeChooser label="…" themes-url="/…" :themes="[…]">
+<ThemePicker label="…" themes-url="/…" :themes="[…]">
     <template #default="{ value, open, labelFor }">
         <!-- decorative markup only; keep it aria-hidden or text-free -->
     </template>
-</ThemeChooser>
+</ThemePicker>
 ```
 
 Slot content sits inside the `<button>`, so it must not contain
@@ -111,7 +111,7 @@ interactive elements, and it must not introduce a competing accessible
 name — `aria-label` from `label` is the button's name.
 
 When no slot is supplied, the button renders
-`<span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>`, as
+`<span class="theme-picker-icon" aria-hidden="true">&#9681;</span>`, as
 documented in `spec/index.md §4.4`.
 
 ## Pure helpers
@@ -120,8 +120,12 @@ Exported from the SFC's first `<script>` block:
 
 ```ts
 export function normaliseThemesUrl(themesUrl: string): string;
-export function themeHref(themesUrl: string, slug: string, extension: string): string;
-export function nextThemeChooserId(): string;
+export function themeHref(
+  themesUrl: string,
+  slug: string,
+  extension: string,
+): string;
+export function nextThemePickerId(): string;
 export const CIRCLE_WITH_RIGHT_HALF_BLACK: string;
 ```
 
@@ -129,10 +133,10 @@ export const CIRCLE_WITH_RIGHT_HALF_BLACK: string;
 `themeHref(url, slug, ext)` concatenates the three to build the
 final stylesheet href. Both are pure and side-effect-free; consumers
 can call them from tests, server code, or other components without
-instantiating the chooser.
+instantiating the picker.
 
-`nextThemeChooserId()` increments a module-level counter and returns
-`"theme-chooser-{n}"`. It is impure by design (each call returns a new
+`nextThemePickerId()` increments a module-level counter and returns
+`"theme-picker-{n}"`. It is impure by design (each call returns a new
 id) but SSR-safe: no `Math.random()`, no `Date.now()`, so server and
 client agree. The component calls it once per instance to build the
 listbox and option ids.
@@ -140,33 +144,55 @@ listbox and option ids.
 ## DOM contract
 
 ```html
-<div class="theme-chooser {class}" ...$attrs>
-    <input type="hidden" name="{name}" value="{value}" />
-    <button type="button" class="theme-chooser-button"
-            aria-label="{label}" aria-haspopup="listbox"
-            aria-expanded="false" aria-controls="{listId}">
-        <!-- default slot output, or: -->
-        <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
-    </button>
-    <ul class="theme-chooser-list" id="{listId}" role="listbox"
-        aria-label="{label}" tabindex="-1" hidden
-        aria-activedescendant="{optionId, only while open}">
-        <li class="theme-chooser-option" id="{optionId}" role="option"
-            aria-selected="true|false" data-active>{labelFor(slug)}</li>
-    </ul>
+<div class="theme-picker {class}" ...$attrs>
+  <input type="hidden" name="{name}" value="{value}" />
+  <button
+    type="button"
+    class="theme-picker-button"
+    aria-label="{label}"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="{listId}"
+  >
+    <!-- default slot output, or: -->
+    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
+  </button>
+  <ul
+    class="theme-picker-list"
+    id="{listId}"
+    role="listbox"
+    aria-label="{label}"
+    tabindex="-1"
+    hidden
+    aria-activedescendant="{optionId, only while open}"
+  >
+    <li
+      class="theme-picker-option"
+      id="{optionId}"
+      role="option"
+      aria-selected="true|false"
+      data-active
+    >
+      {labelFor(slug)}
+    </li>
+  </ul>
 </div>
 ```
 
 Document mutations (only inside `onMounted` / `watch`):
 
 ```html
-<link rel="stylesheet" data-lily-theme-chooser="{name}" href="{themesUrl}{slug}{extension}" />
+<link
+  rel="stylesheet"
+  data-lily-theme-picker="{name}"
+  href="{themesUrl}{slug}{extension}"
+/>
 ```
 
 And on the resolved target:
 
 ```html
-<html data-theme="{slug}">
+<html data-theme="{slug}"></html>
 ```
 
 ## Type re-exports
@@ -175,12 +201,12 @@ And on the resolved target:
 so consumers can type their wrapping code:
 
 ```ts
-import type { Props, SlotArgs } from "./lily-design-system-vue-theme-chooser";
+import type { Props, SlotArgs } from "./lily-design-system-vue-theme-picker";
 
 const config: Pick<Props, "themesUrl" | "themes" | "storageKey"> = {
-    themesUrl: "/assets/themes/",
-    themes: ["light", "dark"],
-    storageKey: "my-app:theme",
+  themesUrl: "/assets/themes/",
+  themes: ["light", "dark"],
+  storageKey: "my-app:theme",
 };
 ```
 

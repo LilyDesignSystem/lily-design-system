@@ -39,12 +39,12 @@ new
 Consumer CSS reads `var(--theme-color-primary)`,
 `var(--theme-space-md)`, etc.
 
-## How the Blazor theme-chooser fits in
+## How the Blazor theme-picker fits in
 
-The Blazor `ThemeChooser` helper writes two signals via a single
+The Blazor `ThemePicker` helper writes two signals via a single
 `IJSRuntime` call:
 
-1. A managed `<link rel="stylesheet" data-lily-theme-chooser="{Name}">`
+1. A managed `<link rel="stylesheet" data-lily-theme-picker="{Name}">`
    in `document.head` whose `href` swaps on every change.
 2. A `data-theme="<slug>"` attribute on the document root.
 
@@ -53,9 +53,9 @@ the select's attribute mutation is enough to switch the live theme.
 
 ```css
 :root[data-theme="dark"] {
-    --theme-color-primary: #60a5fa;
-    --theme-color-base-background: #0b1220;
-    --theme-color-base-content: #f9fafb;
+  --theme-color-primary: #60a5fa;
+  --theme-color-base-background: #0b1220;
+  --theme-color-base-content: #f9fafb;
 }
 ```
 
@@ -88,7 +88,7 @@ sent by the client, or client-side via JS interop):
 ```
 
 Pass `defaultTheme` as `DefaultValue`. See
-`lily-design-system-blazor-theme-chooser/examples/SystemPreference.razor`.
+`lily-design-system-blazor-theme-picker/examples/SystemPreference.razor`.
 
 ## Forbidden in the headless layer
 
@@ -133,7 +133,7 @@ choice.
 ### Why imperative DOM mutation vs `<HeadContent>`
 
 Blazor 10 ships `<HeadContent>` and `<PageTitle>` components for
-declarative `<head>` manipulation. The catalog's `ThemeChooser` uses
+declarative `<head>` manipulation. The catalog's `ThemePicker` uses
 imperative DOM mutation via `IJSRuntime` because:
 
 - The managed `<link>` is a single element managed across the

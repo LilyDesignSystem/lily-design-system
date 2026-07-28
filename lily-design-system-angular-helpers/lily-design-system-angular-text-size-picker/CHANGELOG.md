@@ -1,4 +1,4 @@
-# Changelog — TextSizeChooser (Angular)
+# Changelog — TextSizePicker (Angular)
 
 All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
@@ -8,18 +8,18 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 ### Added
 
-- Initial release under this name. `TextSizeChooser` is an Angular 20
+- Initial release under this name. `TextSizePicker` is an Angular 20
   headless text-size control: a single-glyph button ("A", U+0041) that
   opens a WAI-ARIA APG listbox of sizes and sets `data-text-size` on the
   document root or a consumer-supplied `target`; consumer CSS maps the
   values to actual sizing. Standalone, signal-based, `OnPush`, `@for`
   control flow, zero CSS.
 - Optional `localStorage` persistence via `storageKey`.
-- Public surface: `TextSizeChooser` (selector
-  `lily-text-size-chooser`), `TextSizeChooserIcon`
-  (`ng-template[lilyTextSizeChooserIcon]`), `nextTextSizeChooserId`,
+- Public surface: `TextSizePicker` (selector
+  `lily-text-size-picker`), `TextSizePickerIcon`
+  (`ng-template[lilyTextSizePickerIcon]`), `nextTextSizePickerId`,
   `sizeName`, `LATIN_CAPITAL_LETTER_A`, and the `ChildArgs` type.
-- Class hooks: `.text-size-chooser`, `-button`, `-icon`, `-list`,
+- Class hooks: `.text-size-picker`, `-button`, `-icon`, `-list`,
   `-option`. Every user-facing string is an input; the glyph is
   `aria-hidden` and the accessible name comes from `label`.
 
@@ -46,13 +46,13 @@ version numbers were never published under the current name.
 #### Changed (BREAKING)
 
 - **No longer a native `<select>`.** This helper is now an icon button
-  that opens a WAI-ARIA APG listbox, matching `theme-chooser` and
-  `locale-chooser`; it was the last native `<select>` among the helpers.
-  Root is `<div class="text-size-chooser">` wrapping a hidden input
+  that opens a WAI-ARIA APG listbox, matching `theme-picker` and
+  `locale-picker`; it was the last native `<select>` among the helpers.
+  Root is `<div class="text-size-picker">` wrapping a hidden input
   (form participation, carries `name`), a
-  `<button class="text-size-chooser-button">` whose only content is an
+  `<button class="text-size-picker-button">` whose only content is an
   `aria-hidden` glyph span, and a
-  `<ul class="text-size-chooser-list" role="listbox" hidden>` of
+  `<ul class="text-size-picker-list" role="listbox" hidden>` of
   `<li role="option">`.
 - Option count, option elements, and any assertion against a `<select>`
   or `<option>` all change. The `children` slot now overrides the
@@ -68,8 +68,8 @@ version numbers were never published under the current name.
 
 - Button glyph `"A"` (U+0041). The obvious candidate, U+1F5DB DECREASE
   FONT SIZE SYMBOL, has no real glyph in common font stacks and falls
-  back to a crude bitmap shape — and it means *decrease* rather than
-  *size*. A plain in-font letter renders everywhere and stays
+  back to a crude bitmap shape — and it means _decrease_ rather than
+  _size_. A plain in-font letter renders everywhere and stays
   monochrome alongside the sibling glyphs.
 - `sizeName` exported, mirroring `themeName` / `localeName`; the
   internal `labelFor` delegates to it.

@@ -7,14 +7,14 @@ files contain one numbered test per acceptance criterion in
 
 ## Stack
 
-| Layer                  | Tool                                             |
-| ---------------------- | ------------------------------------------------ |
-| Test runner            | `vitest`                                         |
-| DOM                    | `jsdom` via `vitest --environment jsdom`         |
-| React rendering        | `@testing-library/react`                         |
-| User interaction       | `@testing-library/user-event`                    |
-| Assertions             | vitest's `expect` + `@testing-library/jest-dom`  |
-| Type-checking          | `tsc --noEmit` against `tsconfig.json`           |
+| Layer            | Tool                                            |
+| ---------------- | ----------------------------------------------- |
+| Test runner      | `vitest`                                        |
+| DOM              | `jsdom` via `vitest --environment jsdom`        |
+| React rendering  | `@testing-library/react`                        |
+| User interaction | `@testing-library/user-event`                   |
+| Assertions       | vitest's `expect` + `@testing-library/jest-dom` |
+| Type-checking    | `tsc --noEmit` against `tsconfig.json`          |
 
 ## Configuring vitest
 
@@ -24,11 +24,11 @@ import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
 
 export default defineConfig({
-    plugins: [react()],
-    test: {
-        environment: "jsdom",
-        setupFiles: ["./test-setup.ts"],
-    },
+  plugins: [react()],
+  test: {
+    environment: "jsdom",
+    setupFiles: ["./test-setup.ts"],
+  },
 });
 ```
 
@@ -39,12 +39,12 @@ import { afterEach } from "vitest";
 import { cleanup } from "@testing-library/react";
 
 afterEach(() => {
-    cleanup();
+  cleanup();
 });
 ```
 
 `cleanup()` is critical for the helpers because they write to
-`document.head` (the managed `<link>` for ThemeChooser) and to
+`document.head` (the managed `<link>` for ThemePicker) and to
 `document.documentElement` (the `lang`/`dir`/`data-theme`
 attributes). Each test resets the document between cases.
 
@@ -55,18 +55,18 @@ Both helpers mutate global state (`document.head`,
 
 ```ts
 beforeEach(() => {
-    // Reset document.head — remove managed <link> from previous tests.
-    document.head
-        .querySelectorAll("link[data-lily-theme-chooser]")
-        .forEach((el) => el.remove());
+  // Reset document.head — remove managed <link> from previous tests.
+  document.head
+    .querySelectorAll("link[data-lily-theme-picker]")
+    .forEach((el) => el.remove());
 
-    // Reset document.documentElement.
-    document.documentElement.removeAttribute("data-theme");
-    document.documentElement.removeAttribute("lang");
-    document.documentElement.removeAttribute("dir");
+  // Reset document.documentElement.
+  document.documentElement.removeAttribute("data-theme");
+  document.documentElement.removeAttribute("lang");
+  document.documentElement.removeAttribute("dir");
 
-    // Reset localStorage.
-    localStorage.clear();
+  // Reset localStorage.
+  localStorage.clear();
 });
 ```
 
@@ -75,15 +75,15 @@ beforeEach(() => {
 Tests are numbered to match `spec/index.md §7`. The shape is:
 
 ```ts
-describe("ThemeChooser — §7 acceptance", () => {
+describe("ThemePicker — §7 acceptance", () => {
     test("7.1 — renders a select with the base class", () => {
-        render(<ThemeChooser label="Theme" themesUrl="/t/" themes={["light", "dark"]} />);
+        render(<ThemePicker label="Theme" themesUrl="/t/" themes={["light", "dark"]} />);
         const select = screen.getByRole("combobox", { name: "Theme" });
         expect(select.tagName).toBe("SELECT");
     });
 
     test("7.6 — initial value resolves to light when present", async () => {
-        render(<ThemeChooser label="Theme" themesUrl="/t/" themes={["light", "dark"]} />);
+        render(<ThemePicker label="Theme" themesUrl="/t/" themes={["light", "dark"]} />);
         await waitFor(() => {
             expect(document.documentElement.dataset.theme).toBe("light");
         });
@@ -106,7 +106,7 @@ test("7.8 — choosing an option updates link and data-theme", async () => {
     const user = userEvent.setup();
     const onChange = vi.fn();
     render(
-        <ThemeChooser
+        <ThemePicker
             label="Theme"
             themesUrl="/t/"
             themes={["light", "dark"]}
@@ -142,7 +142,7 @@ Test both modes:
 test("controlled — value prop wins over storage", () => {
     localStorage.setItem("k", "dark");
     render(
-        <ThemeChooser
+        <ThemePicker
             label="t" themesUrl="/t/" themes={["light", "dark"]}
             value="light" storageKey="k"
         />
@@ -153,7 +153,7 @@ test("controlled — value prop wins over storage", () => {
 test("uncontrolled — storage wins over default", () => {
     localStorage.setItem("k", "dark");
     render(
-        <ThemeChooser
+        <ThemePicker
             label="t" themesUrl="/t/" themes={["light", "dark"]}
             storageKey="k"
         />
@@ -172,7 +172,7 @@ expect(document.documentElement.dataset.theme).toBe("dark");
 
 // 2. Managed <link> in head.
 const link = document.head.querySelector<HTMLLinkElement>(
-    'link[data-lily-theme-chooser="theme"]'
+  'link[data-lily-theme-picker="theme"]',
 );
 expect(link?.href).toContain("/t/dark.css");
 
@@ -182,21 +182,21 @@ expect(onChange).toHaveBeenCalledWith("dark");
 
 ## Mocking navigator.languages
 
-For `LocaleChooser.detectFromNavigator` tests:
+For `LocalePicker.detectFromNavigator` tests:
 
 ```ts
 beforeEach(() => {
-    Object.defineProperty(navigator, "languages", {
-        configurable: true,
-        get: () => ["fr-CA", "en"],
-    });
+  Object.defineProperty(navigator, "languages", {
+    configurable: true,
+    get: () => ["fr-CA", "en"],
+  });
 });
 
 afterEach(() => {
-    Object.defineProperty(navigator, "languages", {
-        configurable: true,
-        get: () => [], // restore
-    });
+  Object.defineProperty(navigator, "languages", {
+    configurable: true,
+    get: () => [], // restore
+  });
 });
 ```
 
@@ -208,9 +208,9 @@ twice. The component's `initialisedRef` guards against this:
 ```tsx
 const initialisedRef = React.useRef(false);
 React.useEffect(() => {
-    if (initialisedRef.current) return;
-    initialisedRef.current = true;
-    // …
+  if (initialisedRef.current) return;
+  initialisedRef.current = true;
+  // …
 }, []);
 ```
 
@@ -218,9 +218,9 @@ Test under StrictMode to catch double-mount bugs:
 
 ```tsx
 render(
-    <React.StrictMode>
-        <ThemeChooser {...props} />
-    </React.StrictMode>
+  <React.StrictMode>
+    <ThemePicker {...props} />
+  </React.StrictMode>,
 );
 ```
 
@@ -232,15 +232,15 @@ reuse them. They get their own test cases:
 
 ```ts
 test("bcp47LocaleTag converts underscore to hyphen", () => {
-    expect(bcp47LocaleTag("en_US")).toBe("en-US");
-    expect(bcp47LocaleTag("zh_Hant_TW")).toBe("zh-Hant-TW");
+  expect(bcp47LocaleTag("en_US")).toBe("en-US");
+  expect(bcp47LocaleTag("zh_Hant_TW")).toBe("zh-Hant-TW");
 });
 
 test("isRtlLocale detects RTL languages", () => {
-    expect(isRtlLocale("ar")).toBe(true);
-    expect(isRtlLocale("he_IL")).toBe(true);
-    expect(isRtlLocale("uz_Arab_AF")).toBe(true);
-    expect(isRtlLocale("en")).toBe(false);
+  expect(isRtlLocale("ar")).toBe(true);
+  expect(isRtlLocale("he_IL")).toBe(true);
+  expect(isRtlLocale("uz_Arab_AF")).toBe(true);
+  expect(isRtlLocale("en")).toBe(false);
 });
 ```
 

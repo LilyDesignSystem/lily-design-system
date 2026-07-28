@@ -1,6 +1,6 @@
-# LocaleChooser — Specification
+# LocalePicker — Specification
 
-Single source of truth for the `lily-design-system-react-locale-chooser`
+Single source of truth for the `lily-design-system-react-locale-picker`
 React helper. This file drives implementation, testing, and
 documentation in the spec-driven-development style: anything not in
 this spec is out of scope; anything in this spec must be exercised by a
@@ -8,8 +8,8 @@ test.
 
 Sibling files in this directory:
 
-- `LocaleChooser.tsx` — the implementation
-- `LocaleChooser.test.tsx` — vitest spec exercising every clause in §4–§7
+- `LocalePicker.tsx` — the implementation
+- `LocalePicker.test.tsx` — vitest spec exercising every clause in §4–§7
 - `locales.ts` — built-in locale-code → English-name table and RTL set,
   derived from `locales.tsv`
 - `locales.tsv` — canonical 436-row list of locale codes and English names
@@ -17,7 +17,7 @@ Sibling files in this directory:
 - `index.md` — user-facing readme
 
 The headless `lily-design-system-react-headless` library does not (yet)
-include a canonical `LocaleChooser`; this helper is the opinionated,
+include a canonical `LocalePicker`; this helper is the opinionated,
 reusable counterpart that owns the locale-application lifecycle (the
 `lang` and `dir` attributes on the document root) and the persistence
 choice.
@@ -26,7 +26,7 @@ choice.
 
 ## 1. Goal
 
-Give a React 19 application a drop-in, headless locale chooser that:
+Give a React 19 application a drop-in, headless locale picker that:
 
 1. Renders an accessible icon button that opens a dropdown listbox of
    the available locales (WAI-ARIA APG Listbox pattern).
@@ -39,7 +39,7 @@ Give a React 19 application a drop-in, headless locale chooser that:
 5. Optionally falls back to `navigator.language` on first visit when no
    value, storage entry, or default is supplied.
 6. Ships zero CSS — the consumer styles every visual aspect via the
-   `locale-chooser` class hooks and the `lang` / `dir` attributes.
+   `locale-picker` class hooks and the `lang` / `dir` attributes.
    Positioning the listbox is the consumer's job.
 7. Provides BCP 47-compliant tag output. Underscores in locale codes
    (e.g. `en_US`) are converted to hyphens (`en-US`) when written to the
@@ -95,7 +95,7 @@ Give a React 19 application a drop-in, headless locale chooser that:
   BCP 47 hyphen form (`en-US`). The controlled `value` mirrors back the
   original consumer form, so round-trips are lossless.
 - **TypeScript everywhere**. Public surface is fully typed via a `Props`
-  type exported from `LocaleChooser.tsx` and re-exported from
+  type exported from `LocalePicker.tsx` and re-exported from
   `index.ts`.
 - **SSR-safe**. The component compiles cleanly under Next.js / Remix
   SSR. All DOM mutations happen inside `useEffect`, which only runs on
@@ -117,22 +117,22 @@ Give a React 19 application a drop-in, headless locale chooser that:
 
 ### 4.1 Props
 
-| Prop                  | Type                                    | Required | Default                                | Purpose |
-| --------------------- | --------------------------------------- | -------- | -------------------------------------- | ------- |
-| `label`               | `string`                                | yes      | —                                      | Accessible name (`aria-label`) for both the button and the listbox. |
-| `locales`             | `string[]`                              | yes      | —                                      | Available locale codes (e.g. `["en", "en_US", "fr", "ar"]`). |
-| `value`               | `string`                                | no       | `undefined` (uncontrolled)             | Currently selected locale code. When supplied, the component is controlled. |
-| `defaultValue`        | `string`                                | no       | `"en"` if present in `locales`, else first item | Initial locale when nothing else is supplied. |
-| `storageKey`          | `string`                                | no       | `undefined`                            | If set, persist the selection to `localStorage` under this key. |
-| `detectFromNavigator` | `boolean`                               | no       | `false`                                | If true and no value/storage entry exists, resolve `navigator.language` to a supported locale. |
-| `name`                | `string`                                | no       | `"locale"`                             | `name` attribute on the hidden input that carries the value in a form. |
-| `target`              | `HTMLElement \| null`                   | no       | `document.documentElement`             | Element that receives `lang` and `dir`. |
-| `applyDir`            | `boolean`                               | no       | `true`                                 | If false, the select only writes `lang` and never touches `dir`. |
-| `localeLabels`        | `Record<string, string>`                | no       | `{}`                                   | Optional pretty labels per locale code. |
-| `children`            | `(args: ChildArgs) => React.ReactNode`  | no       | `<span class="locale-chooser-icon">🌐</span>` | Render prop that **replaces the glyph inside the button**. It does not render options — the component owns those. |
-| `onChange`            | `(locale: string) => void`              | no       | `undefined`                            | Fires after the select applies a new locale. |
-| `className`           | `string`                                | no       | `""`                                   | Extra CSS class on the root `<div>`. |
-| `...restProps`        | any HTML `<div>` attributes             | no       | —                                      | Spread onto the root `<div>`. |
+| Prop                  | Type                                   | Required | Default                                         | Purpose                                                                                                           |
+| --------------------- | -------------------------------------- | -------- | ----------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `label`               | `string`                               | yes      | —                                               | Accessible name (`aria-label`) for both the button and the listbox.                                               |
+| `locales`             | `string[]`                             | yes      | —                                               | Available locale codes (e.g. `["en", "en_US", "fr", "ar"]`).                                                      |
+| `value`               | `string`                               | no       | `undefined` (uncontrolled)                      | Currently selected locale code. When supplied, the component is controlled.                                       |
+| `defaultValue`        | `string`                               | no       | `"en"` if present in `locales`, else first item | Initial locale when nothing else is supplied.                                                                     |
+| `storageKey`          | `string`                               | no       | `undefined`                                     | If set, persist the selection to `localStorage` under this key.                                                   |
+| `detectFromNavigator` | `boolean`                              | no       | `false`                                         | If true and no value/storage entry exists, resolve `navigator.language` to a supported locale.                    |
+| `name`                | `string`                               | no       | `"locale"`                                      | `name` attribute on the hidden input that carries the value in a form.                                            |
+| `target`              | `HTMLElement \| null`                  | no       | `document.documentElement`                      | Element that receives `lang` and `dir`.                                                                           |
+| `applyDir`            | `boolean`                              | no       | `true`                                          | If false, the select only writes `lang` and never touches `dir`.                                                  |
+| `localeLabels`        | `Record<string, string>`               | no       | `{}`                                            | Optional pretty labels per locale code.                                                                           |
+| `children`            | `(args: ChildArgs) => React.ReactNode` | no       | `<span class="locale-picker-icon">🌐</span>`   | Render prop that **replaces the glyph inside the button**. It does not render options — the component owns those. |
+| `onChange`            | `(locale: string) => void`             | no       | `undefined`                                     | Fires after the select applies a new locale.                                                                      |
+| `className`           | `string`                               | no       | `""`                                            | Extra CSS class on the root `<div>`.                                                                              |
+| `...restProps`        | any HTML `<div>` attributes            | no       | —                                               | Spread onto the root `<div>`.                                                                                     |
 
 ### 4.2 `ChildArgs`
 
@@ -150,8 +150,8 @@ type ChildArgs = {
 };
 ```
 
-The returned nodes are rendered inside `<button class="locale-chooser-button">`
-in place of the default `<span class="locale-chooser-icon">`. Because the
+The returned nodes are rendered inside `<button class="locale-picker-button">`
+in place of the default `<span class="locale-picker-icon">`. Because the
 button's accessible name comes from `aria-label={label}`, custom glyph
 content should carry `aria-hidden="true"` so it is not announced twice.
 
@@ -161,44 +161,63 @@ The component renders a root `<div>` containing a hidden input, an icon
 button, and a listbox:
 
 ```html
-<div class="locale-chooser {className}" ...restProps>
+<div class="locale-picker {className}" ...restProps>
   <input type="hidden" name="{name}" value="{value}" />
-  <button type="button" class="locale-chooser-button"
-          aria-label="{label}" aria-haspopup="listbox"
-          aria-expanded="false" aria-controls="{listId}">
-    <span class="locale-chooser-icon" aria-hidden="true">🌐</span>
+  <button
+    type="button"
+    class="locale-picker-button"
+    aria-label="{label}"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="{listId}"
+  >
+    <span class="locale-picker-icon" aria-hidden="true">🌐</span>
   </button>
-  <ul class="locale-chooser-list" id="{listId}" role="listbox"
-      aria-label="{label}" tabindex="-1" hidden
-      aria-activedescendant="{optionId of active, only while open}">
-    <li class="locale-chooser-option" id="{optionId}" role="option"
-        aria-selected="true|false" data-active lang="en-US">English (United States)</li>
+  <ul
+    class="locale-picker-list"
+    id="{listId}"
+    role="listbox"
+    aria-label="{label}"
+    tabindex="-1"
+    hidden
+    aria-activedescendant="{optionId of active, only while open}"
+  >
+    <li
+      class="locale-picker-option"
+      id="{optionId}"
+      role="option"
+      aria-selected="true|false"
+      data-active
+      lang="en-US"
+    >
+      English (United States)
+    </li>
   </ul>
 </div>
 ```
 
-- **Root.** `<div className="locale-chooser {className}">`. All rest
+- **Root.** `<div className="locale-picker {className}">`. All rest
   props spread onto this element.
 - **Hidden input.** `<input type="hidden" name="{name}"
-  value="{value}">` so the active locale submits with a surrounding
+value="{value}">` so the active locale submits with a surrounding
   form.
-- **Button.** `type="button"`, class hook `locale-chooser-button`,
+- **Button.** `type="button"`, class hook `locale-picker-button`,
   named by `aria-label={label}`, with `aria-haspopup="listbox"`,
   `aria-expanded` tracking open state, and `aria-controls` pointing at
   the list's id.
-- **Glyph.** By default `<span class="locale-chooser-icon"
-  aria-hidden="true">` holding U+1F310 GLOBE WITH MERIDIANS followed
+- **Glyph.** By default `<span class="locale-picker-icon"
+aria-hidden="true">` holding U+1F310 GLOBE WITH MERIDIANS followed
   by U+FE0E VARIATION SELECTOR-15 (`\u{1F310}\uFE0E`), exported as
   `GLOBE_WITH_MERIDIANS`. VS15 requests text presentation so the globe
   renders monochrome rather than as a colour emoji, matching
-  theme-chooser's `\u25D1`. It is hidden from
+  theme-picker's `\u25D1`. It is hidden from
   assistive technology; the accessible name comes from the button's
   `aria-label`. A `children` render prop replaces this span entirely.
-- **Listbox.** `<ul class="locale-chooser-list" role="listbox"
-  aria-label="{label}" tabindex="-1">`, carrying the `hidden` attribute
+- **Listbox.** `<ul class="locale-picker-list" role="listbox"
+aria-label="{label}" tabindex="-1">`, carrying the `hidden` attribute
   while closed. Open/close is `hidden` only — the package ships no CSS,
   so positioning the list is the consumer's job.
-- **Options.** One `<li class="locale-chooser-option" role="option">`
+- **Options.** One `<li class="locale-picker-option" role="option">`
   per locale code, in `locales` order, with visible text
   `labelFor(locale)`.
   - `aria-selected` is `true` on the active locale and `false` on the rest.
@@ -220,7 +239,7 @@ button, and a listbox:
 
 `index.ts` exports:
 
-- `LocaleChooser` (the component, both default and named export)
+- `LocalePicker` (the component, both default and named export)
 - `bcp47LocaleTag`, `isRtlLocale`, `localeName`,
   `matchNavigatorLanguage`, `defaultLocaleLabels` (pure helpers)
 - `RTL_LANGUAGE_TAGS`, `RTL_SCRIPT_SUBTAGS` (constants)
@@ -296,7 +315,7 @@ Applying a locale `code` performs, in order:
    use `document.documentElement`.
 2. Set `target.lang = bcp47LocaleTag(code)`.
 3. If `applyDir` is true, set `target.dir = isRtlLocale(code) ?
-   "rtl" : "ltr"`.
+"rtl" : "ltr"`.
 4. If `storageKey` is set, write `code` to `localStorage` inside a
    try/catch (so private-mode / quota errors are silently swallowed).
 5. Call `onChange(code)` if supplied. The argument is the original
@@ -346,7 +365,7 @@ Opening:
 2. `open` becomes true, which drops the `hidden` attribute on the list
    and flips `aria-expanded` to `"true"`.
 3. Focus moves to the `<ul>` (which is `tabindex="-1"`). The list keeps
-   DOM focus while the user navigates; the *active option* is conveyed
+   DOM focus while the user navigates; the _active option_ is conveyed
    with `aria-activedescendant`, not with focus.
 
 Closing happens on selection, `Escape`, `Tab`, a click outside the
@@ -400,22 +419,22 @@ pattern. Nothing here comes from the platform.
 
 On the **button**:
 
-| Key                       | Action                                                        |
-| ------------------------- | ------------------------------------------------------------- |
-| `Tab` / `Shift+Tab`       | Move focus to / from the button (the only tab stop when closed). |
+| Key                             | Action                                                                                                                  |
+| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `Tab` / `Shift+Tab`             | Move focus to / from the button (the only tab stop when closed).                                                        |
 | `ArrowDown` / `Enter` / `Space` | Open the listbox with the currently-selected option active (index 0 when nothing is selected). Focus moves to the list. |
-| `ArrowUp`                 | Open the listbox with the **last** option active. Focus moves to the list. |
+| `ArrowUp`                       | Open the listbox with the **last** option active. Focus moves to the list.                                              |
 
 On the **listbox** (while open):
 
-| Key                       | Action                                                        |
-| ------------------------- | ------------------------------------------------------------- |
-| `ArrowDown` / `ArrowUp`   | Move the active option down / up. **Clamps** at the ends — it does not wrap. |
-| `Home` / `End`            | Jump to the first / last option.                              |
-| `Enter` / `Space`         | Select the active option, apply it (§5.5), close, and return focus to the button. |
-| `Escape`                  | Close and return focus to the button **without** changing the value. |
-| `Tab`                     | Close without stealing focus back, so focus continues to the next element. |
-| Printable character       | Typeahead over the option labels (§5.10).                     |
+| Key                     | Action                                                                            |
+| ----------------------- | --------------------------------------------------------------------------------- |
+| `ArrowDown` / `ArrowUp` | Move the active option down / up. **Clamps** at the ends — it does not wrap.      |
+| `Home` / `End`          | Jump to the first / last option.                                                  |
+| `Enter` / `Space`       | Select the active option, apply it (§5.5), close, and return focus to the button. |
+| `Escape`                | Close and return focus to the button **without** changing the value.              |
+| `Tab`                   | Close without stealing focus back, so focus continues to the next element.        |
+| Printable character     | Typeahead over the option labels (§5.10).                                         |
 
 Pointer equivalents: clicking an option selects it, clicking the button
 toggles the list, and clicking outside the root — or moving focus out
@@ -463,7 +482,7 @@ References this helper relies on:
 
 ## 7. Testing acceptance criteria
 
-`LocaleChooser.test.tsx` must assert every numbered item below. Tests
+`LocalePicker.test.tsx` must assert every numbered item below. Tests
 run under vitest + jsdom + `@testing-library/react`.
 
 ### 7.1 Markup contract (mirrors §4.3)
@@ -472,8 +491,8 @@ run under vitest + jsdom + `@testing-library/react`.
    `aria-expanded="false"`, and an `aria-controls` id resolving to an
    element with `role="listbox"`. The button holds the globe glyph
    (U+1F310 followed by U+FE0E VARIATION SELECTOR-15) inside
-   `.locale-chooser-icon`, marked `aria-hidden="true"`.
-   The root is a `<div>` whose class is `locale-chooser {className}`.
+   `.locale-picker-icon`, marked `aria-hidden="true"`.
+   The root is a `<div>` whose class is `locale-picker {className}`.
 2. `aria-label` is the supplied `label`, on both the button and the
    listbox.
 3. Renders one `<li role="option">` per entry in `locales` (the count
@@ -486,7 +505,7 @@ run under vitest + jsdom + `@testing-library/react`.
 5. Each option carries `lang="{tagFor(locale)}"` (BCP 47 hyphen form).
    Neither the button nor the list carries a `lang` of its own.
 6. The default rendering shows `localeLabels[code]
-   ?? defaultLocaleLabels[code] ?? code` as the visible option text.
+?? defaultLocaleLabels[code] ?? code` as the visible option text.
 
 ### 7.2 Pure helpers (mirrors §5.1, §5.6)
 
@@ -529,7 +548,7 @@ run under vitest + jsdom + `@testing-library/react`.
 22. Extra attributes spread through onto the root `<div>` (e.g.
     `data-testid`).
 23. A custom `children` render prop replaces the default glyph inside
-    `.locale-chooser-button` (no `.locale-chooser-icon` is rendered) and
+    `.locale-picker-button` (no `.locale-picker-icon` is rendered) and
     receives `ChildArgs` — `value` in consumer form, `labelFor`, and
     `open`, which is `false` while closed and `true` once the listbox
     is expanded.
@@ -565,7 +584,7 @@ run under vitest + jsdom + `@testing-library/react`.
 ## 9. Tracking
 
 - Package directory:
-  `lily-design-system-react-helpers/lily-design-system-react-locale-chooser/`
+  `lily-design-system-react-helpers/lily-design-system-react-locale-picker/`
 - Spec version: 0.1.0
 - Created: 2026-06-05
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause (or

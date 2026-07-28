@@ -11,18 +11,18 @@ Always supplied, always translatable. Screen readers announce it as the
 control's name.
 
 ```razor
-<ThemeChooser Label="Theme" ... />
+<ThemePicker Label="Theme" ... />
 ```
 
 In an i18n setup with `IStringLocalizer<T>`:
 
 ```razor
-<ThemeChooser Label="@Localizer["chooseTheme"]" ... />
+<ThemePicker Label="@Localizer["chooseTheme"]" ... />
 ```
 
 This one carries more weight than a typical label. The button renders
 only a glyph, and the glyph is `aria-hidden="true"` — so `Label` is the
-control's *entire* accessible name, with no visible-text fallback. An
+control's _entire_ accessible name, with no visible-text fallback. An
 empty or untranslated `Label` leaves the control announcing as a bare
 "button". See [`accessibility.md`](accessibility.md#1-the-accessible-name-rests-entirely-on-aria-label).
 
@@ -35,7 +35,7 @@ more. Passing it is a compile error.
 The closed control now shows a glyph, so if you want the active theme
 visible, render a status region next to the control — see
 [`accessibility.md`](accessibility.md#the-status-region-is-still-the-recommended-pattern)
-and the `.theme-chooser-status` hook in
+and the `.theme-picker-status` hook in
 [`styling.md`](styling.md#the-status-region).
 
 ## `ThemesUrl` — required, `string`
@@ -77,7 +77,7 @@ authoritative initial value — `StorageKey` and `DefaultValue` are
 both skipped on first interactive render.
 
 ```razor
-<ThemeChooser @bind-Value="theme" ... />
+<ThemePicker @bind-Value="theme" ... />
 
 @code { private string theme = ""; }
 ```
@@ -96,7 +96,7 @@ resolver falls back to `"light"` (when present in `Themes`) and
 then to `Themes[0]`.
 
 ```razor
-<ThemeChooser DefaultValue="dark" ... />
+<ThemePicker DefaultValue="dark" ... />
 ```
 
 ## `StorageKey` — optional, `string?`
@@ -110,7 +110,7 @@ Errors (private mode, quota, disabled storage) are silently
 swallowed — the select continues to work in-memory.
 
 ```razor
-<ThemeChooser StorageKey="lily-theme" ... />
+<ThemePicker StorageKey="lily-theme" ... />
 ```
 
 ## `DetectFromSystem` — optional, `bool` — defaults to `false`
@@ -118,7 +118,7 @@ swallowed — the select continues to work in-memory.
 Opt in to resolving the OS colour scheme on first visit. The component
 probes `matchMedia("(prefers-color-scheme: dark)")` once, during initial
 value resolution, and maps the answer onto a supported slug via the
-public `ThemeChooser.MatchSystemTheme` helper.
+public `ThemePicker.MatchSystemTheme` helper.
 
 Detection sits in the middle of the resolution order:
 
@@ -130,7 +130,7 @@ so a returning visitor's stored choice always beats the OS preference —
 detection only ever decides the first visit.
 
 ```razor
-<ThemeChooser DetectFromSystem="true" StorageKey="lily-theme" ... />
+<ThemePicker DetectFromSystem="true" StorageKey="lily-theme" ... />
 ```
 
 If the OS prefers a scheme this control does not offer (`dark` with no
@@ -144,7 +144,7 @@ made by hand. To follow OS changes live, add your own listener and call
 `SetThemeAsync`; see
 [recipes.md](recipes.md#track-os-colour-scheme-changes-live).
 
-The counterpart on LocaleChooser is `DetectFromNavigator`, which reads
+The counterpart on LocalePicker is `DetectFromNavigator`, which reads
 `navigator.languages` in the same slot.
 
 ## `Name` — optional, `string` — defaults to `"theme"`
@@ -152,11 +152,11 @@ The counterpart on LocaleChooser is `DetectFromNavigator`, which reads
 The `name` attribute on the hidden input that carries `Value` for form
 participation. It also serves as the
 discriminator on the managed `<link>` element
-(`data-lily-theme-chooser="{Name}"`), so multiple selects can
+(`data-lily-theme-picker="{Name}"`), so multiple selects can
 coexist by giving each a distinct `Name`.
 
 ```razor
-<ThemeChooser Name="appearance" ... />
+<ThemePicker Name="appearance" ... />
 ```
 
 ## `Extension` — optional, `string` — defaults to `".css"`
@@ -166,7 +166,7 @@ Pass `".css?v=2"` to bust a cached version, or `".module.css"` to
 point at CSS-module-style files.
 
 ```razor
-<ThemeChooser Extension=".css?v=2026-06-05" ... />
+<ThemePicker Extension=".css?v=2026-06-05" ... />
 ```
 
 ## `ThemeLabels` — optional, `IReadOnlyDictionary<string, string>`
@@ -192,7 +192,7 @@ for analytics, server cookie writes, or notifying a sibling
 component.
 
 ```razor
-<ThemeChooser OnChange="OnThemeChange" ... />
+<ThemePicker OnChange="OnThemeChange" ... />
 
 @code {
     private async Task OnThemeChange(string slug)
@@ -202,37 +202,37 @@ component.
 }
 ```
 
-## `ChildContent` — optional, `RenderFragment<ThemeChooserContext>?`
+## `ChildContent` — optional, `RenderFragment<ThemePickerContext>?`
 
-**Replaces the glyph inside the button.** It does *not* render the
+**Replaces the glyph inside the button.** It does _not_ render the
 options — those are always component-owned, so the listbox semantics
 cannot be broken by a consumer override. The fragment receives a
-`ThemeChooserContext`. See
+`ThemePickerContext`. See
 [custom-rendering.md](./custom-rendering.md) for patterns.
 
 ```razor
-<ThemeChooser ...>
+<ThemePicker ...>
     <ChildContent Context="ctx">
         <svg class="my-icon" aria-hidden="true" ...>...</svg>
     </ChildContent>
-</ThemeChooser>
+</ThemePicker>
 ```
 
-Supplying `ChildContent` removes the default `.theme-chooser-icon`
+Supplying `ChildContent` removes the default `.theme-picker-icon`
 span. Keep whatever you render `aria-hidden="true"` — the accessible
 name must keep coming from the button's `aria-label` (i.e. `Label`).
 
 ## `CssClass` — optional, `string`
 
 Extra CSS class hook on the root `<div>`. Always emitted after
-`"theme-chooser"`, so consumer styles can use either selector.
+`"theme-picker"`, so consumer styles can use either selector.
 
 ```razor
-<ThemeChooser CssClass="my-theme-chooser" ... />
+<ThemePicker CssClass="my-theme-picker" ... />
 ```
 
 The root element ends up as
-`<div class="theme-chooser my-theme-chooser" …>`.
+`<div class="theme-picker my-theme-picker" …>`.
 
 ## `AdditionalAttributes` — optional, `Dictionary<string, object>?`
 
@@ -242,16 +242,16 @@ root `<div>`. Use this to attach test IDs, analytics handlers,
 and overrides without forking the component:
 
 ```razor
-<ThemeChooser
+<ThemePicker
     Label="Theme"
     ThemesUrl="/t/"
     Themes="@(new[] { "light" })"
-    data-testid="theme-chooser"
+    data-testid="theme-picker"
     id="appearance-select" />
 ```
 
 Both `data-testid` and `id` land on the root `<div>` — not on the
-button. To target the button, use the `.theme-chooser-button` class hook
+button. To target the button, use the `.theme-picker-button` class hook
 or a descendant selector.
 
 ## Static helpers
@@ -259,11 +259,11 @@ or a descendant selector.
 Pure and side-effect free, so they are usable without rendering the
 component at all:
 
-| Member | Purpose |
-| ------ | ------- |
-| `NormaliseThemesUrl(string)` | Ensure the themes URL ends with exactly one `/`. |
-| `ThemeHref(themesUrl, slug, extension)` | Construct a theme stylesheet href. |
-| `ThemeName(string)` | Slug → title-cased display label. |
+| Member                                           | Purpose                                                |
+| ------------------------------------------------ | ------------------------------------------------------ |
+| `NormaliseThemesUrl(string)`                     | Ensure the themes URL ends with exactly one `/`.       |
+| `ThemeHref(themesUrl, slug, extension)`          | Construct a theme stylesheet href.                     |
+| `ThemeName(string)`                              | Slug → title-cased display label.                      |
 | `MatchSystemTheme(bool?, IReadOnlyList<string>)` | OS colour-scheme preference → supported slug, or `""`. |
 
 ### `ThemeName(string slug)`
@@ -272,8 +272,8 @@ The single public implementation of the default label rule — each
 hyphen-separated word title-cased:
 
 ```csharp
-ThemeChooser.ThemeName("high-contrast");   // "High Contrast"
-ThemeChooser.ThemeName("light");           // "Light"
+ThemePicker.ThemeName("high-contrast");   // "High Contrast"
+ThemePicker.ThemeName("light");           // "Light"
 ```
 
 The component's own option labels come from this exact function (after
@@ -282,7 +282,7 @@ checking `ThemeLabels`), so an external control driving the select via
 Before it was public, every example in the catalog hand-rolled its own
 copy of the title-casing.
 
-It mirrors `Locales.LocaleName` on LocaleChooser.
+It mirrors `Locales.LocaleName` on LocalePicker.
 
 ### `MatchSystemTheme(bool? prefersDark, IReadOnlyList<string> themes)`
 
@@ -291,10 +291,10 @@ in the component's interop probe; this function is the separately
 testable mapping:
 
 ```csharp
-ThemeChooser.MatchSystemTheme(true,  new[] { "light", "dark" });  // "dark"
-ThemeChooser.MatchSystemTheme(false, new[] { "light", "dark" });  // "light"
-ThemeChooser.MatchSystemTheme(true,  new[] { "light", "sepia" }); // ""  (unsupported)
-ThemeChooser.MatchSystemTheme(null,  new[] { "light", "dark" });  // ""  (matchMedia absent)
+ThemePicker.MatchSystemTheme(true,  new[] { "light", "dark" });  // "dark"
+ThemePicker.MatchSystemTheme(false, new[] { "light", "dark" });  // "light"
+ThemePicker.MatchSystemTheme(true,  new[] { "light", "sepia" }); // ""  (unsupported)
+ThemePicker.MatchSystemTheme(null,  new[] { "light", "dark" });  // ""  (matchMedia absent)
 ```
 
 `prefersDark` is the result of
@@ -303,15 +303,15 @@ ThemeChooser.MatchSystemTheme(null,  new[] { "light", "dark" });  // ""  (matchM
 the API. **Null always yields `""`**, which is what keeps detection
 SSR-safe.
 
-It mirrors `Locales.MatchNavigatorLanguage` on LocaleChooser, which takes
+It mirrors `Locales.MatchNavigatorLanguage` on LocalePicker, which takes
 the navigator list the same way.
 
 ## Render fragment context
 
-`ThemeChooserContext` — mirrors the canonical Svelte `ChildArgs`:
+`ThemePickerContext` — mirrors the canonical Svelte `ChildArgs`:
 
 ```csharp
-public sealed class ThemeChooserContext
+public sealed class ThemePickerContext
 {
     /// Currently selected theme slug.
     public required string Value { get; init; }
@@ -334,16 +334,16 @@ See [custom-rendering.md](./custom-rendering.md) for usage.
 
 ```razor
 <!-- One-way (Value only) — read but not write -->
-<ThemeChooser Value="@theme" ... />
+<ThemePicker Value="@theme" ... />
 
 <!-- Two-way bind — read and write -->
-<ThemeChooser @bind-Value="theme" ... />
+<ThemePicker @bind-Value="theme" ... />
 
 <!-- Two-way bind + side-effect callback -->
-<ThemeChooser @bind-Value="theme" OnChange="OnChange" ... />
+<ThemePicker @bind-Value="theme" OnChange="OnChange" ... />
 
 <!-- Two-way bind + explicit ValueChanged (rarely needed) -->
-<ThemeChooser Value="@theme" ValueChanged="@(v => theme = v)" ... />
+<ThemePicker Value="@theme" ValueChanged="@(v => theme = v)" ... />
 ```
 
 ---

@@ -1,0 +1,35 @@
+{
+  "name": "lily-design-system-nunjucks-date-time-picker",
+  "version": "0.1.0",
+  "description": "Lily Design System - Nunjucks 3 date/time picker",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./template": "./dist/date-time-picker.njk"
+  },
+  "files": [
+    "dist",
+    "index.md",
+    "README.md"
+  ],
+  "scripts": {
+    "prepublishOnly": "cd .. && npm run build"
+  },
+  "keywords": [
+    "lily",
+    "design",
+    "system",
+    "nunjucks",
+    "date",
+    "time",
+    "picker"
+  ],
+  "author": "joel@joelparkerhenderson.com",
+  "license": "MIT"
+}

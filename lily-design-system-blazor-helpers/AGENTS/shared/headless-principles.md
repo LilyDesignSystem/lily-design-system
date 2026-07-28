@@ -19,8 +19,8 @@ decision.
   consumer CSS can target any helper with one selector. No
   additional component-defined classes appear on the root unless
   the spec calls them out.
-- Inner sub-classes (e.g. `theme-chooser-option`,
-  `locale-chooser-option`) are kebab-case derivatives of the
+- Inner sub-classes (e.g. `theme-picker-option`,
+  `locale-picker-option`) are kebab-case derivatives of the
   base class. Sub-classes are stable contracts: consumers can rely
   on them, so don't rename or remove them between versions.
 - `@attributes="AdditionalAttributes"` is bound on the root element
@@ -77,7 +77,7 @@ decision.
 - `data-*` attributes are used for state that the consumer's CSS or
   JS may want to observe — e.g. `data-visible`, `data-active`,
   `data-step-index`, `data-currency-code`, `data-width`,
-  `data-remaining-seconds`, `data-theme`, `data-lily-theme-chooser`.
+  `data-remaining-seconds`, `data-theme`, `data-lily-theme-picker`.
   Use `data-*` rather than inventing new ARIA attributes when a
   state is for the consumer, not assistive technology.
 
@@ -92,7 +92,7 @@ decision.
 - `[Parameter, EditorRequired]` is the contract for required
   parameters.
 - `[Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>?
-  AdditionalAttributes` is the contract for attribute spread.
+AdditionalAttributes` is the contract for attribute spread.
 - `EventCallback<T>` is the contract for events; the
   `{Name}` + `{Name}Changed` parameter pair drives `@bind-{Name}`.
 - `RenderFragment<TContext>` is the contract for custom rendering;

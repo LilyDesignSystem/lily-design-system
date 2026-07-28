@@ -1,6 +1,6 @@
 # Concepts
 
-How `LocaleChooser` thinks about locale, where it sits in your stack,
+How `LocalePicker` thinks about locale, where it sits in your stack,
 and what it deliberately leaves to you.
 
 ## Three orthogonal concerns
@@ -9,8 +9,8 @@ A web app changes language across three independent axes:
 
 | Axis                       | What changes                                               | Owner                                  |
 | -------------------------- | ---------------------------------------------------------- | -------------------------------------- |
-| **Document language**      | The `lang` attribute on `<html>`. Screen readers, search engines, hyphenation, font selection. | `LocaleChooser` (this helper).        |
-| **Writing direction**      | The `dir` attribute on `<html>`. Bidi text, scrollbar position, flexbox/grid mirror. | `LocaleChooser` (auto-detected from the locale; opt out with `applyDir={false}`). |
+| **Document language**      | The `lang` attribute on `<html>`. Screen readers, search engines, hyphenation, font selection. | `LocalePicker` (this helper).        |
+| **Writing direction**      | The `dir` attribute on `<html>`. Bidi text, scrollbar position, flexbox/grid mirror. | `LocalePicker` (auto-detected from the locale; opt out with `applyDir={false}`). |
 | **Translated strings**     | The actual visible words on the page.                      | Your i18n library (react-intl, react-i18next, lingui, FormatJS, raw `Intl`). |
 
 The helper owns the first two and signals the third via the controlled
@@ -28,9 +28,9 @@ The select:
 - Renders semantic HTML with explicit ARIA — a `<button>` that opens a
   `<ul role="listbox">` of `<li role="option">` children, following the
   WAI-ARIA APG Listbox pattern.
-- Carries stable kebab-case class hooks — `locale-chooser` on the root
-  `<div>`, plus `locale-chooser-button`, `locale-chooser-icon`,
-  `locale-chooser-list`, and `locale-chooser-option` — so your CSS can
+- Carries stable kebab-case class hooks — `locale-picker` on the root
+  `<div>`, plus `locale-picker-button`, `locale-picker-icon`,
+  `locale-picker-list`, and `locale-picker-option` — so your CSS can
   target any part without prefixes or specificity tricks. State rides
   on `aria-selected` and `data-active`.
 - Ships **no** colour, spacing, typography, font, icon, or animation
@@ -190,22 +190,22 @@ Three layers, mirroring the lifecycle:
    code, so it needs its own tests: open keys, arrow clamping, Home /
    End, select, `Escape`, `Tab`, focus transfer, and typeahead.
 
-See [../LocaleChooser.test.tsx](../LocaleChooser.test.tsx) for the
+See [../LocalePicker.test.tsx](../LocalePicker.test.tsx) for the
 reference suite that covers every `spec/index.md` §7 acceptance item.
 
 ## Where this helper sits in Lily™
 
-`LocaleChooser` is **not** part of the headless component catalog yet.
+`LocalePicker` is **not** part of the headless component catalog yet.
 It lives in `lily-design-system-react-helpers/` as a sibling to
-`ThemeChooser`. The two compose:
+`ThemePicker`. The two compose:
 
-- `ThemeChooser` writes `data-theme` and a managed `<link>`.
-- `LocaleChooser` writes `lang` and `dir`.
+- `ThemePicker` writes `data-theme` and a managed `<link>`.
+- `LocalePicker` writes `lang` and `dir`.
 
 Both share the same icon-button-plus-listbox shape, the same
 glyph-override `children` contract, the same `storageKey` /
 controlled-value pattern, and the same no-hardcoded-strings rule — only
-the glyph differs (`ThemeChooser` uses U+25D1 CIRCLE WITH RIGHT HALF
+the glyph differs (`ThemePicker` uses U+25D1 CIRCLE WITH RIGHT HALF
 BLACK, `◑`). So they compose visually and semantically without
 surprises, and one set of CSS rules styles both. Drop both at the top
 of your layout and the two together cover the entire "visual

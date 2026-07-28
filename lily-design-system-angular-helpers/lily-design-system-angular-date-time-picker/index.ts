@@ -1,0 +1,40 @@
+export {
+  DateTimePicker,
+  DateTimePickerIcon,
+  CALENDAR,
+  // Civil-date arithmetic. Exported because a consumer wiring `min`,
+  // `max`, `shortcuts` or `isDateDisabled` is doing date maths too, and
+  // the alternative is that they reach for a `Date` and reintroduce the
+  // local-midnight bug this module exists to avoid.
+  pad,
+  daysInMonth,
+  formatIsoDate,
+  parseIsoDate,
+  toEpochDay,
+  fromEpochDay,
+  addDays,
+  addMonths,
+  weekdayOf,
+  isoWeek,
+  formatIsoTime,
+  parseIsoTime,
+  splitValue,
+  joinValue,
+  withinRange,
+  monthMatrix,
+  firstDayOfWeekFor,
+  monthNames,
+  numericFieldOrder,
+  parseDateInput,
+  parseTimeInput,
+  nextDateTimePickerId,
+} from "./date-time-picker.component";
+export type {
+  CivilDate,
+  CivilTime,
+  DateTimeMode,
+  DateTimeShortcut,
+  DateTimePickerLabels,
+  ChildArgs,
+  ShortcutEvent,
+} from "./date-time-picker.component";

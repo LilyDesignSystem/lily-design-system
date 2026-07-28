@@ -14,7 +14,7 @@
     visually or in the accessibility tree, since its accessible name is
     the static aria-label. So a user returning to the page has no way
     to learn which theme is in effect without opening the list. The
-    <p class="theme-chooser-status"> below compensates: it names the
+    <p class="theme-picker-status"> below compensates: it names the
     active theme in text, for everyone.
 
     Two deliberate choices:
@@ -32,37 +32,37 @@
        confirmation on every switch.
 
     labelFor() is the component's own label resolver, reached through
-    the #themeChooser template reference, so the status line shows the
+    the #themePicker template reference, so the status line shows the
     same human label as the option ("Abyss", not "abyss").
 
     One more thing this example does NOT ship, because the package
     ships zero CSS: positioning for the listbox. Without
-    `position: relative` on .theme-chooser and `position: absolute` on
-    .theme-chooser-list, the open list pushes page content around. See
+    `position: relative` on .theme-picker and `position: absolute` on
+    .theme-picker-list, the open list pushes page content around. See
     docs/styling.md.
 */
 import { ChangeDetectionStrategy, Component, signal } from "@angular/core";
-import { ThemeChooser } from "../theme-chooser.component";
+import { ThemePicker } from "../theme-picker.component";
 
 @Component({
-    selector: "example-basic",
-    standalone: true,
-    imports: [ThemeChooser],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
-        <lily-theme-chooser
-            #themeChooser
-            label="Theme"
-            themesUrl="/assets/themes/"
-            [themes]="['light', 'dark', 'abyss']"
-            [(value)]="theme"
-        />
+  selector: "example-basic",
+  standalone: true,
+  imports: [ThemePicker],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <lily-theme-picker
+      #themePicker
+      label="Theme"
+      themesUrl="/assets/themes/"
+      [themes]="['light', 'dark', 'abyss']"
+      [(value)]="theme"
+    />
 
-        <p class="theme-chooser-status" aria-live="polite">
-            Active theme: {{ themeChooser.labelFor(theme()) }}
-        </p>
-    `,
+    <p class="theme-picker-status" aria-live="polite">
+      Active theme: {{ themePicker.labelFor(theme()) }}
+    </p>
+  `,
 })
 export class BasicExample {
-    theme = signal("");
+  theme = signal("");
 }

@@ -6,7 +6,7 @@
   that don't gracefully title-case (e.g. country-prefixed Lily theme
   slugs).
 #}
-{% from "../theme-chooser.njk" import themeChooser %}
+{% from "../theme-picker.njk" import themePicker %}
 
 {% set labels = {
     "light": "Clair",
@@ -15,7 +15,7 @@
     "united-kingdom-national-health-service-england-for-practitioners": "NHS England (practitioners)"
 } %}
 
-{{ themeChooser({
+{{ themePicker({
     label: "Thème",
     themesUrl: "/assets/themes/",
     themes: [
@@ -28,6 +28,6 @@
 }) }}
 
 <script type="module">
-    import { autoInit } from "../theme-chooser.client.js";
+    import { autoInit } from "../theme-picker.client.js";
     autoInit();
 </script>

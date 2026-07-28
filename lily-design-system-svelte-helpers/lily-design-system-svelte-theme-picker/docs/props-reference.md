@@ -90,9 +90,9 @@ value > storage > detectFromSystem > defaultValue > "light" > themes[0]
 Returns nothing useful during SSR (and under jsdom), where `matchMedia`
 is unavailable — resolution simply falls through to the next step.
 
-This mirrors `detectFromNavigator` in `locale-chooser`. The underlying
+This mirrors `detectFromNavigator` in `locale-picker`. The underlying
 `matchSystemTheme(themes)` helper is exported from
-`ThemeChooser.svelte` if you want to call it yourself.
+`ThemePicker.svelte` if you want to call it yourself.
 
 To _track_ the OS preference for the whole session rather than only
 resolving it once, see [recipes.md](./recipes.md).
@@ -152,13 +152,13 @@ type ChildArgs = {
 };
 ```
 
-When supplied, no `.theme-chooser-icon` span is emitted. See
+When supplied, no `.theme-picker-icon` span is emitted. See
 [custom-rendering.md](./custom-rendering.md) for patterns.
 
 ## `class` — optional, string
 
 Extra CSS class hook on the root `<div>`. Always emitted after
-`"theme-chooser"`, so consumer styles can use either selector.
+`"theme-picker"`, so consumer styles can use either selector.
 
 ## `...restProps` — any HTML attributes
 

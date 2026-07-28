@@ -1,6 +1,6 @@
 # Styling
 
-`<locale-chooser>` ships **no CSS at all**. Everything visual is yours,
+`<locale-picker>` ships **no CSS at all**. Everything visual is yours,
 applied to the class hooks the element emits into the light DOM. There
 is no Shadow DOM, so ordinary page CSS reaches every part with no
 piercing selectors and no custom-property plumbing.
@@ -8,19 +8,19 @@ piercing selectors and no custom-property plumbing.
 ## The list has no positioning until you give it some
 
 This is the first thing to get right, and the most common omission.
-The rendered `<ul class="locale-chooser-list">` is a normal block
+The rendered `<ul class="locale-picker-list">` is a normal block
 element. Without positioning it sits in the document flow and shoves
 the rest of the page down every time the list opens.
 
 The minimum that makes it a dropdown:
 
 ```css
-.locale-chooser {
+.locale-picker {
   position: relative;
   display: inline-block;
 }
 
-.locale-chooser-list {
+.locale-picker-list {
   position: absolute;
   z-index: 10;
   inset-inline-start: 0;  /* not `left` — see below */
@@ -47,11 +47,11 @@ Five hooks, all kebab-case, all stable contracts:
 
 | Hook | Element | Notes |
 | ---- | ------- | ----- |
-| `.locale-chooser` | the `<div>` root | Also carries whatever you passed in `class`. |
-| `.locale-chooser-button` | the trigger `<button type="button">` | Carries `aria-label`, `aria-haspopup`, `aria-expanded`, `aria-controls`. |
-| `.locale-chooser-icon` | the glyph `<span>` | `aria-hidden="true"`. Absent if you override `renderButtonContent()`. |
-| `.locale-chooser-list` | the `<ul role="listbox">` | `hidden` when closed. |
-| `.locale-chooser-option` | each `<li role="option">` | Carries its own `lang` attribute. |
+| `.locale-picker` | the `<div>` root | Also carries whatever you passed in `class`. |
+| `.locale-picker-button` | the trigger `<button type="button">` | Carries `aria-label`, `aria-haspopup`, `aria-expanded`, `aria-controls`. |
+| `.locale-picker-icon` | the glyph `<span>` | `aria-hidden="true"`. Absent if you override `renderButtonContent()`. |
+| `.locale-picker-list` | the `<ul role="listbox">` | `hidden` when closed. |
+| `.locale-picker-option` | each `<li role="option">` | Carries its own `lang` attribute. |
 
 There is also a hidden `<input type="hidden">` for form participation.
 It is not stylable and does not need to be.
@@ -71,17 +71,17 @@ Give each its own signal, and do not rely on colour alone (WCAG
 something non-chromatic:
 
 ```css
-.locale-chooser-option[data-active] {
+.locale-picker-option[data-active] {
   background: var(--surface-accent, #eef);
   outline: 2px solid currentColor;
   outline-offset: -2px;
 }
 
-.locale-chooser-option[aria-selected="true"] {
+.locale-picker-option[aria-selected="true"] {
   font-weight: 700;
 }
 
-.locale-chooser-option[aria-selected="true"]::before {
+.locale-picker-option[aria-selected="true"]::before {
   content: "✓ ";
 }
 ```
@@ -96,7 +96,7 @@ so it does not inherit the option's language and get mispronounced.
 styling — no extra class needed:
 
 ```css
-.locale-chooser-button[aria-expanded="true"] {
+.locale-picker-button[aria-expanded="true"] {
   background: var(--surface-raised, #f4f4f4);
 }
 ```
@@ -111,16 +111,16 @@ fall back to a system default mid-list.
 
 ```css
 /* Per-script font tuning, keyed off the lang the element already writes. */
-.locale-chooser-option:lang(ar),
-.locale-chooser-option:lang(fa),
-.locale-chooser-option:lang(he) {
+.locale-picker-option:lang(ar),
+.locale-picker-option:lang(fa),
+.locale-picker-option:lang(he) {
   font-size: 1.08em;   /* Arabic/Hebrew x-heights run small at the same px */
   line-height: 1.8;
 }
 
-.locale-chooser-option:lang(ja),
-.locale-chooser-option:lang(ko),
-.locale-chooser-option:lang(zh) {
+.locale-picker-option:lang(ja),
+.locale-picker-option:lang(ko),
+.locale-picker-option:lang(zh) {
   font-family: var(--font-cjk, system-ui);
 }
 ```
@@ -142,13 +142,13 @@ A complete, self-contained set that positions the list, styles both
 state hooks distinctly, respects RTL, and keeps focus visible:
 
 ```css
-.locale-chooser {
+.locale-picker {
   position: relative;
   display: inline-block;
   font-family: system-ui, sans-serif;
 }
 
-.locale-chooser-button {
+.locale-picker-button {
   display: inline-flex;
   align-items: center;
   gap: 0.5ch;
@@ -160,17 +160,17 @@ state hooks distinctly, respects RTL, and keeps focus visible:
   line-height: 1;
 }
 
-.locale-chooser-button:focus-visible {
+.locale-picker-button:focus-visible {
   outline: 3px solid #ffdd00;
   outline-offset: 0;
   box-shadow: 0 0 0 5px #0b0c0c;
 }
 
-.locale-chooser-icon {
+.locale-picker-icon {
   font-size: 1.15em;
 }
 
-.locale-chooser-list {
+.locale-picker-list {
   position: absolute;
   top: calc(100% + 4px);
   inset-inline-start: 0;
@@ -187,27 +187,27 @@ state hooks distinctly, respects RTL, and keeps focus visible:
   box-shadow: 0 2px 8px rgb(0 0 0 / 0.18);
 }
 
-.locale-chooser-list:focus-visible {
+.locale-picker-list:focus-visible {
   outline: 3px solid #ffdd00;
 }
 
-.locale-chooser-option {
+.locale-picker-option {
   padding: 0.4rem 2rem 0.4rem 0.75rem;
   line-height: 1.6;
   cursor: pointer;
   white-space: nowrap;
 }
 
-.locale-chooser-option[data-active] {
+.locale-picker-option[data-active] {
   background: #1d70b8;
   color: #fff;
 }
 
-.locale-chooser-option[aria-selected="true"] {
+.locale-picker-option[aria-selected="true"] {
   font-weight: 700;
 }
 
-.locale-chooser-option[aria-selected="true"]::after {
+.locale-picker-option[aria-selected="true"]::after {
   content: "✓";
   margin-inline-start: 0.75rem;
   float: inline-end;
@@ -222,15 +222,15 @@ it, because `hidden` is only a UA-stylesheet `display: none`:
 
 ```css
 /* WRONG — the list is now permanently visible. */
-.locale-chooser-list { display: block; }
+.locale-picker-list { display: block; }
 
 /* Right — re-assert hidden, or scope the display rule. */
-.locale-chooser-list { display: block; }
-.locale-chooser-list[hidden] { display: none; }
+.locale-picker-list { display: block; }
+.locale-picker-list[hidden] { display: none; }
 ```
 
 The same trap catches `display: flex` and `display: grid`. If you set
-any `display` on `.locale-chooser-list`, add the `[hidden]` guard on
+any `display` on `.locale-picker-list`, add the `[hidden]` guard on
 the next line as a reflex.
 
 ## Targeting the host vs the rendered root
@@ -238,18 +238,18 @@ the next line as a reflex.
 Two different elements, and the distinction is load-bearing:
 
 ```
-<locale-chooser label="…" locales="…">   ← the host (your attributes live here)
-  <div class="locale-chooser">           ← the rendered root (class hook lives here)
+<locale-picker label="…" locales="…">   ← the host (your attributes live here)
+  <div class="locale-picker">           ← the rendered root (class hook lives here)
 ```
 
 The `class` attribute you pass lands on the **rendered root**, not the
-host. Style `.locale-chooser` for anything visual. Target the host
+host. Style `.locale-picker` for anything visual. Target the host
 element itself only for layout concerns that must apply before
 upgrade:
 
 ```css
 /* Reserve space so the page doesn't reflow when the element upgrades. */
-locale-chooser {
+locale-picker {
   display: inline-block;
   min-height: 2.25rem;
   min-width: 2.5rem;
@@ -268,13 +268,13 @@ element you render and update yourself:
 
 ```html
 <div class="locale-status">
-  <locale-chooser id="ls" label="Choose language" locales="en,fr,ar"></locale-chooser>
+  <locale-picker id="ls" label="Choose language" locales="en,fr,ar"></locale-picker>
   <span id="locale-name" aria-live="polite"></span>
 </div>
 ```
 
 ```ts
-const el = document.querySelector("#ls") as LocaleChooser;
+const el = document.querySelector("#ls") as LocalePicker;
 const out = document.querySelector("#locale-name")!;
 const paint = () => {
   out.textContent = el.labelFor(el.value);
@@ -317,7 +317,7 @@ let it scroll — the element already calls `scrollIntoView({ block:
 navigation stays in view automatically:
 
 ```css
-.locale-chooser-list {
+.locale-picker-list {
   max-height: 60vh;
   overflow-y: auto;
   overscroll-behavior: contain;  /* don't scroll the page at the ends */
@@ -335,7 +335,7 @@ auto-animate; any motion here is yours to make optional:
 
 ```css
 @media (prefers-reduced-motion: no-preference) {
-  .locale-chooser-list { transition: opacity 120ms ease; }
+  .locale-picker-list { transition: opacity 120ms ease; }
 }
 ```
 
@@ -358,7 +358,7 @@ auto-animate; any motion here is yours to make optional:
 
 ## Custom-element vs class specificity
 
-`locale-chooser` (element selector) and `.locale-chooser` (class
+`locale-picker` (element selector) and `.locale-picker` (class
 selector) have different specificity — 0-0-1 vs 0-1-0. When a rule on
 the host and a rule on the root both apply to the same visual concern,
 the class wins. Keep host rules to layout (`display`, sizing) and root

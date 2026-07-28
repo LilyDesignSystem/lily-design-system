@@ -8,7 +8,7 @@ more error handling.
 
 ```vue
 <script setup lang="ts">
-import ThemeChooser from "../ThemeChooser.vue";
+import ThemePicker from "../ThemePicker.vue";
 
 const prefersDark =
     typeof window !== "undefined" &&
@@ -16,7 +16,7 @@ const prefersDark =
 </script>
 
 <template>
-    <ThemeChooser
+    <ThemePicker
         label="Theme"
         themes-url="/assets/themes/"
         :themes="['light', 'dark']"
@@ -33,7 +33,7 @@ The user's explicit choice (via `storageKey`) wins on later visits.
 ```vue
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from "vue";
-import ThemeChooser from "../ThemeChooser.vue";
+import ThemePicker from "../ThemePicker.vue";
 
 const theme = ref("");
 
@@ -53,7 +53,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-    <ThemeChooser
+    <ThemePicker
         label="Theme"
         themes-url="/assets/themes/"
         :themes="['light', 'dark']"
@@ -84,7 +84,7 @@ inconsistently or be missing altogether. The default slot replaces it —
 and only it; the listbox stays component-owned:
 
 ```vue
-<ThemeChooser
+<ThemePicker
     label="Theme"
     themes-url="/assets/themes/"
     :themes="['light', 'dark']"
@@ -92,13 +92,13 @@ and only it; the listbox stays component-owned:
 >
     <template #default="{ value, labelFor }">
         <span
-            class="theme-chooser-swatch"
+            class="theme-picker-swatch"
             :data-theme="value"
             :title="labelFor(value)"
             aria-hidden="true"
         />
     </template>
-</ThemeChooser>
+</ThemePicker>
 ```
 
 Keep slot content `aria-hidden="true"` or text-free — the button's
@@ -115,7 +115,7 @@ binding:
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import ThemeChooser from "../ThemeChooser.vue";
+import ThemePicker from "../ThemePicker.vue";
 
 const theme = ref("");
 const themes = ["light", "dark", "abyss"];
@@ -124,12 +124,12 @@ const themes = ["light", "dark", "abyss"];
 <template>
     <!--
         Hidden from sight and from assistive technology: your own group
-        below is the real control. The chooser keeps owning the apply
+        below is the real control. The picker keeps owning the apply
         lifecycle (link swap, data-theme, persistence), which is
         script-only and unaffected by being hidden.
     -->
-    <ThemeChooser
-        class="theme-chooser-headless"
+    <ThemePicker
+        class="theme-picker-headless"
         label="Theme"
         themes-url="/assets/themes/"
         :themes="themes"
@@ -156,7 +156,7 @@ const themes = ["light", "dark", "abyss"];
 
 `aria-hidden` and `inert` both fall through to the root `<div>`, which
 is what makes this safe: without them you ship two controls that both
-announce as "Theme" and both change the theme. `.theme-chooser-headless`
+announce as "Theme" and both change the theme. `.theme-picker-headless`
 is your own hook — `display: none` is fine here precisely *because* the
 control is no longer meant to be reachable.
 
@@ -167,7 +167,7 @@ the trigger button, not inside the listbox.
 ## Serve themes from a CDN
 
 ```vue
-<ThemeChooser
+<ThemePicker
     themes-url="https://cdn.example.com/lily-themes/"
     :themes="['light', 'dark', 'abyss']"
     label="Theme"
@@ -182,7 +182,7 @@ crossorigin="…">` attribute is needed if you also need
 ## Cache-bust a theme
 
 ```vue
-<ThemeChooser
+<ThemePicker
     themes-url="/assets/themes/"
     :themes="['light', 'dark']"
     extension=".css?v=2025-06-05"
@@ -195,8 +195,8 @@ after the slug works.
 
 ## Multiple regions with independent themes
 
-See [`../examples/multiple-choosers.vue`](../examples/multiple-choosers.vue).
-Each chooser gets a distinct `name` (so the hidden inputs and the managed
+See [`../examples/multiple-pickers.vue`](../examples/multiple-pickers.vue).
+Each picker gets a distinct `name` (so the hidden inputs and the managed
 `<link>`s don't collide) and a distinct `target` (so `data-theme`
 goes on the section root rather than `<html>`). Give each a distinct
 `label` too — with icon-only triggers, two buttons both named "Theme"
@@ -215,7 +215,7 @@ const themeRef = inject<Ref<string>>("theme");
 function goNight() { themeRef!.value = "dark"; }
 ```
 
-The chooser reacts via its `watch` on `props.value`.
+The picker reacts via its `watch` on `props.value`.
 
 ## Sync theme across multiple tabs
 
@@ -224,7 +224,7 @@ The chooser reacts via its `watch` on `props.value`.
 ```vue
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import ThemeChooser from "../ThemeChooser.vue";
+import ThemePicker from "../ThemePicker.vue";
 
 const theme = ref("");
 
@@ -236,7 +236,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <ThemeChooser
+    <ThemePicker
         label="Theme"
         themes-url="/assets/themes/"
         :themes="['light', 'dark']"

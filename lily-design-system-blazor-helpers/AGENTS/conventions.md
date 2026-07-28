@@ -43,7 +43,7 @@ namespace LilyDesignSystem.Blazor.Helpers;
 
 No exceptions. A consumer adds one `@using LilyDesignSystem.Blazor.Helpers`
 to a `_Imports.razor` and all helpers are reachable as
-`<ThemeChooser …>` / `<LocaleChooser …>`.
+`<ThemePicker …>` / `<LocalePicker …>`.
 
 ## Partial class shape
 
@@ -162,7 +162,7 @@ Inside the component, write to `Value` and then fire
 `await ValueChanged.InvokeAsync(Value)`. Consumers write:
 
 ```razor
-<ThemeChooser @bind-Value="theme" … />
+<ThemePicker @bind-Value="theme" … />
 ```
 
 ## EventCallback vs Action
@@ -215,22 +215,22 @@ The `*Context` record is a `sealed class` with `required init` fields,
 typed for clarity.
 
 What the fragment substitutes for differs by control shape. For the
-listbox helpers (`ThemeChooser`, `LocaleChooser`) it replaces the **glyph
+listbox helpers (`ThemePicker`, `LocalePicker`) it replaces the **glyph
 inside the trigger button** — never the options, which stay
 component-owned so the listbox semantics cannot be broken from outside.
 The context is correspondingly small (`Value`, `Open`, `LabelFor`):
 
 ```razor
-<ThemeChooser Label="Theme" ThemesUrl="/t/" Themes="…">
+<ThemePicker Label="Theme" ThemesUrl="/t/" Themes="…">
     <ChildContent Context="ctx">
         @* Replaces the ◑ glyph. Keep it aria-hidden: the accessible
            name still comes from the button's aria-label (Label). *@
         <svg class="my-icon" aria-hidden="true" viewBox="0 0 16 16">…</svg>
     </ChildContent>
-</ThemeChooser>
+</ThemePicker>
 ```
 
-`LocaleChooser` and `TextSizeChooser` work identically; only the default
+`LocalePicker` and `TextSizePicker` work identically; only the default
 glyph differs (`🌐` and `A`).
 
 To drive a helper from your own UI, take a `@ref` and call the public
@@ -310,9 +310,9 @@ Everything visual and locale-specific is the consumer's. See
 ## Naming
 
 - Class hooks are kebab-case derivatives of the file name:
-  `theme-chooser`, `theme-chooser-option`.
+  `theme-picker`, `theme-picker-option`.
 - Data attributes the consumer / CSS may want to observe use
-  `data-*` (e.g. `data-theme`, `data-lily-theme-chooser`).
+  `data-*` (e.g. `data-theme`, `data-lily-theme-picker`).
 - Don't introduce new ARIA attributes — use the platform's.
 - C# names are PascalCase; field names are `_camelCase`.
 

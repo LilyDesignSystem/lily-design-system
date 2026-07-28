@@ -8,17 +8,17 @@
     "light" is in the list), sets data-theme="light" on <html>, and
     injects a <link rel="stylesheet"> pointing at /assets/themes/light.css.
 
-    The default markup is a <div class="theme-chooser"> holding an icon
+    The default markup is a <div class="theme-picker"> holding an icon
     button (the half-circle glyph, U+25D1) that opens a
-    <ul class="theme-chooser-list" role="listbox"> with one
-    <li class="theme-chooser-option" role="option"> per slug.
+    <ul class="theme-picker-list" role="listbox"> with one
+    <li class="theme-picker-option" role="option"> per slug.
 
     The status line is part of the basic pattern, not an add-on.
     ------------------------------------------------------------------
     The closed control shows only a glyph: it never reads "Dark". That
     keeps the control one icon wide, but it means neither a sighted user
     nor a screen-reader user learns the active theme without opening the
-    listbox. The <p className="theme-chooser-status"> below is the
+    listbox. The <p className="theme-picker-status"> below is the
     compensating channel, and it is the default pattern this package
     ships — see ../docs/accessibility.md.
 
@@ -40,10 +40,10 @@
 */
 
 import { useState } from "react";
-import { ThemeChooser, themeName } from "../ThemeChooser";
+import { ThemePicker, themeName } from "../ThemePicker";
 
 /*
- * ThemeChooser keeps its own labelFor() internal and exposes it only
+ * ThemePicker keeps its own labelFor() internal and exposes it only
  * through the `children` render prop. The default rendering here does
  * not use that render prop, so use the exported `themeName` — the same
  * title-casing rule the component applies internally — rather than
@@ -56,7 +56,7 @@ export function BasicExample() {
 
     return (
         <>
-            <ThemeChooser
+            <ThemePicker
                 label="Theme"
                 themesUrl="/assets/themes/"
                 themes={["light", "dark", "abyss"]}
@@ -64,7 +64,7 @@ export function BasicExample() {
                 onChange={setTheme}
             />
 
-            <p className="theme-chooser-status" aria-live="polite">
+            <p className="theme-picker-status" aria-live="polite">
                 Active theme: {themeName(theme)}
             </p>
         </>

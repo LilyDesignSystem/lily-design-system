@@ -1,6 +1,6 @@
 # i18n integration
 
-`LocaleChooser` is intentionally not an i18n library. It changes the
+`LocalePicker` is intentionally not an i18n library. It changes the
 document language and tells you when the user changed it; the actual
 string substitution is your i18n library's job.
 
@@ -23,7 +23,7 @@ writable `locale` store. The select writes to it via `bind:value`.
 
 ```svelte
 <script lang="ts">
-    import LocaleChooser from "$lib/LocaleChooser.svelte";
+    import LocalePicker from "$lib/LocalePicker.svelte";
     import { locale as i18nLocale, addMessages, init } from "svelte-i18n";
     import en from "$lib/messages/en.json";
     import fr from "$lib/messages/fr.json";
@@ -35,7 +35,7 @@ writable `locale` store. The select writes to it via `bind:value`.
     init({ fallbackLocale: "en", initialLocale: "en" });
 </script>
 
-<LocaleChooser
+<LocalePicker
     label="Language"
     locales={["en", "fr", "ar"]}
     bind:value={$i18nLocale}
@@ -52,7 +52,7 @@ If you need to react to the change yourself (e.g. to refetch a
 locale-dependent API response), add `onChange`:
 
 ```svelte
-<LocaleChooser
+<LocalePicker
     label="Language"
     locales={["en", "fr", "ar"]}
     bind:value={$i18nLocale}
@@ -70,13 +70,13 @@ language via `setLocale()` / `getLocale()`.
 
 ```svelte
 <script lang="ts">
-    import LocaleChooser from "$lib/LocaleChooser.svelte";
+    import LocalePicker from "$lib/LocalePicker.svelte";
     import { setLocale, getLocale, type Locale } from "$lib/paraglide/runtime.js";
 
     let current = $state<string>(getLocale());
 </script>
 
-<LocaleChooser
+<LocalePicker
     label="Language"
     locales={["en", "fr", "ar"]}
     bind:value={current}
@@ -110,14 +110,14 @@ instead of `setLocale`.
 
 ```svelte
 <script lang="ts">
-    import LocaleChooser from "$lib/LocaleChooser.svelte";
+    import LocalePicker from "$lib/LocalePicker.svelte";
     import { getTolgeeContext } from "@tolgee/svelte";
 
     const { tolgee } = getTolgeeContext();
     let current = $state(tolgee.getLanguage() ?? "en");
 </script>
 
-<LocaleChooser
+<LocalePicker
     label="Language"
     locales={["en", "fr", "ar"]}
     bind:value={current}
@@ -139,7 +139,7 @@ directly. The select still owns the `lang` / `dir` lifecycle:
 
 ```svelte
 <script lang="ts">
-    import LocaleChooser from "$lib/LocaleChooser.svelte";
+    import LocalePicker from "$lib/LocalePicker.svelte";
 
     let locale = $state("en");
 
@@ -153,7 +153,7 @@ directly. The select still owns the `lang` / `dir` lifecycle:
     const balance = 1234.56;
 </script>
 
-<LocaleChooser
+<LocalePicker
     label="Language"
     locales={["en", "en-US", "fr", "fr-CA", "ar"]}
     bind:value={locale}
@@ -179,7 +179,7 @@ select's `onChange` calls `goto`:
 <script lang="ts">
     import { goto } from "$app/navigation";
     import { page } from "$app/state";
-    import LocaleChooser from "$lib/LocaleChooser.svelte";
+    import LocalePicker from "$lib/LocalePicker.svelte";
 
     let current = $derived(page.params.locale ?? "en");
 
@@ -189,7 +189,7 @@ select's `onChange` calls `goto`:
     }
 </script>
 
-<LocaleChooser
+<LocalePicker
     label="Language"
     locales={["en", "fr", "ar"]}
     value={current}
@@ -243,7 +243,7 @@ export const handle: Handle = async ({ event, resolve }) => {
     let locale = $state(data.locale);
 </script>
 
-<LocaleChooser
+<LocalePicker
     label="Language"
     locales={["en", "fr", "ar"]}
     value={locale}

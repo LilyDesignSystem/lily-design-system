@@ -1,7 +1,7 @@
 # Examples
 
 Self-contained Blazor `.razor` examples for
-`lily-design-system-blazor-text-size-chooser`. Each file is a runnable
+`lily-design-system-blazor-text-size-picker`. Each file is a runnable
 component that can be dropped into any Blazor 10 host (Blazor Web App,
 Blazor Server, Blazor WebAssembly).
 
@@ -17,13 +17,13 @@ Every example assumes:
 - The example's `@page` route is mounted in the host's `App.razor`
   with the relevant interactive render mode.
 
-| # | File                                               | Demonstrates                                    |
-|---|----------------------------------------------------|-------------------------------------------------|
-| 1 | [`Basic.razor`](./Basic.razor)                     | Minimal four-size select plus the status region. |
-| 2 | [`Persistence.razor`](./Persistence.razor)         | `localStorage` survival across reloads; `OnChange`. |
-| 3 | [`CustomLabels.razor`](./CustomLabels.razor)       | `SizeLabels` for i18n / display names.          |
-| 4 | [`CustomRendering.razor`](./CustomRendering.razor) | `RenderFragment<TextSizeChooserContext>` — custom button face (inline SVG, state-aware). |
-| 5 | [`ExternalButtons.razor`](./ExternalButtons.razor) | Driving the control from your own UI via `SetSizeAsync` and a `@ref`. |
+| #   | File                                               | Demonstrates                                                                             |
+| --- | -------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| 1   | [`Basic.razor`](./Basic.razor)                     | Minimal four-size select plus the status region.                                         |
+| 2   | [`Persistence.razor`](./Persistence.razor)         | `localStorage` survival across reloads; `OnChange`.                                      |
+| 3   | [`CustomLabels.razor`](./CustomLabels.razor)       | `SizeLabels` for i18n / display names.                                                   |
+| 4   | [`CustomRendering.razor`](./CustomRendering.razor) | `RenderFragment<TextSizePickerContext>` — custom button face (inline SVG, state-aware). |
+| 5   | [`ExternalButtons.razor`](./ExternalButtons.razor) | Driving the control from your own UI via `SetSizeAsync` and a `@ref`.                    |
 
 ## Running the examples
 
@@ -52,8 +52,8 @@ strategy if you need the size to survive the first paint.
 
 ## What is deliberately missing
 
-There is no `SystemPreference.razor` here, unlike the theme-chooser and
-locale-chooser example sets. Browsers expose no "preferred text size"
+There is no `SystemPreference.razor` here, unlike the theme-picker and
+locale-picker example sets. Browsers expose no "preferred text size"
 signal — there is no media query equivalent to `prefers-color-scheme`
 and no `navigator.languages` analogue — so the component ships no
 `DetectFromSystem` parameter to demonstrate. Users who scale text at the

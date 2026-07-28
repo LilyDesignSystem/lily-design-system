@@ -6,7 +6,7 @@
   don't gracefully title-case (e.g. country-prefixed Lily theme slugs).
 -->
 <script lang="ts">
-  import ThemeChooser from "../ThemeChooser.svelte";
+  import ThemePicker from "../ThemePicker.svelte";
 
   const labels = {
     light: "Clair",
@@ -16,7 +16,7 @@
   };
 </script>
 
-<ThemeChooser
+<ThemePicker
   label="Thème"
   themesUrl="/assets/themes/"
   themes={[

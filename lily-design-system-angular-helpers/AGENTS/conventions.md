@@ -42,7 +42,9 @@ import {
 } from "@angular/core";
 
 /** Pure helpers exported for consumer reuse. */
-export function helperName() { /* … */ }
+export function helperName() {
+  /* … */
+}
 
 @Component({
   selector: "lily-{kebab-name}",
@@ -96,15 +98,15 @@ Notes on the template:
 
 ## Signal inputs
 
-| Type                                           | Use                                                      |
-| ---------------------------------------------- | -------------------------------------------------------- |
-| `input.required<T>()`                          | Required input. TypeScript compiler enforces it.         |
-| `input<T>(defaultValue)`                       | Optional input with a default.                           |
-| `input<T>()`                                   | Optional input; the signal returns `undefined` if unset. |
-| `model<T>(defaultValue)`                       | Two-way bindable. Consumer uses `[(value)]="x"`.         |
-| `output<T>()`                                  | Typed event emitter; consumer uses `(name)="…"`.         |
+| Type                     | Use                                                      |
+| ------------------------ | -------------------------------------------------------- |
+| `input.required<T>()`    | Required input. TypeScript compiler enforces it.         |
+| `input<T>(defaultValue)` | Optional input with a default.                           |
+| `input<T>()`             | Optional input; the signal returns `undefined` if unset. |
+| `model<T>(defaultValue)` | Two-way bindable. Consumer uses `[(value)]="x"`.         |
+| `output<T>()`            | Typed event emitter; consumer uses `(name)="…"`.         |
 
-Signals are read by *calling* them — `label()` not `label.value` —
+Signals are read by _calling_ them — `label()` not `label.value` —
 because Angular signals are functions. This is the only API you
 need; manual `markForCheck()`, `ChangeDetectorRef`, or `NgZone`
 calls never appear in helpers.
@@ -117,7 +119,7 @@ selection. The custom-named model (`value` rather than the default
 `bind:value`:
 
 ```html
-<lily-theme-chooser [(value)]="theme" ... />
+<lily-theme-picker [(value)]="theme" ... />
 ```
 
 The component reads via `this.value()` and writes via
@@ -136,11 +138,9 @@ a native input's value.
 When reading the changed-input value inside a template event binding:
 
 ```html
-<select
-  (change)="onInputChange($any($event.target).value)"
->
+<select (change)="onInputChange($any($event.target).value)">
   @for (item of items(); track item) {
-    <option [value]="item">{{ labelFor(item) }}</option>
+  <option [value]="item">{{ labelFor(item) }}</option>
   }
 </select>
 ```
@@ -167,8 +167,8 @@ Consumers wanting to forward additional `data-*` attributes or event
 handlers attach them directly on the host:
 
 ```html
-<lily-theme-chooser
-  data-testid="theme-chooser"
+<lily-theme-picker
+  data-testid="theme-picker"
   (click)="trackClick($event)"
   ...
 />
@@ -176,8 +176,8 @@ handlers attach them directly on the host:
 
 Angular forwards host bindings to the component's root element via
 the host element itself; the consumer's bindings sit on the
-`<lily-theme-chooser>` host tag, not on the inner `<select>`. CSS
-selectors that target the helper's class hook (`.theme-chooser`) still
+`<lily-theme-picker>` host tag, not on the inner `<select>`. CSS
+selectors that target the helper's class hook (`.theme-picker`) still
 work because the inner root has that class.
 
 ## SSR
@@ -206,15 +206,15 @@ Everything visual and locale-specific is the consumer's. See
 
 ## Naming
 
-- **Selector**: `lily-{kebab-name}` — e.g. `lily-theme-chooser`,
-  `lily-locale-chooser`. The `lily-` prefix avoids collisions with
+- **Selector**: `lily-{kebab-name}` — e.g. `lily-theme-picker`,
+  `lily-locale-picker`. The `lily-` prefix avoids collisions with
   consumer components.
 - **Class hooks** on the inner root are kebab-case derivatives of
-  the file name: `theme-chooser`, `theme-chooser-option`,
-  `locale-chooser`, `locale-chooser-option` (locale options also carry
+  the file name: `theme-picker`, `theme-picker-option`,
+  `locale-picker`, `locale-picker-option` (locale options also carry
   a `lang` attribute).
 - **Data attributes** the consumer / CSS may want to observe use
-  `data-*` (e.g. `data-theme`, `data-lily-theme-chooser`).
+  `data-*` (e.g. `data-theme`, `data-lily-theme-picker`).
 - **Don't introduce new ARIA attributes** — use the platform's.
 
 ## What we don't use

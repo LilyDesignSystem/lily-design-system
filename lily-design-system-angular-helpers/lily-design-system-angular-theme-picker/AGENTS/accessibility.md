@@ -1,4 +1,4 @@
-# Accessibility — ThemeChooser (Angular)
+# Accessibility — ThemePicker (Angular)
 
 The select targets WCAG 2.2 AAA. It is an icon button that opens a
 custom [WAI-ARIA APG listbox](https://www.w3.org/WAI/ARIA/apg/patterns/listbox/),
@@ -19,7 +19,7 @@ accounting is in [`../docs/accessibility.md`](../docs/accessibility.md).
 | `<button>`              | `aria-haspopup="listbox"`                             | Component      |
 | `<button>`              | `aria-expanded="true|false"`                          | Component      |
 | `<button>`              | `aria-controls={listId}`                              | Component      |
-| `.theme-chooser-icon`    | `aria-hidden="true"`                                  | Component      |
+| `.theme-picker-icon`    | `aria-hidden="true"`                                  | Component      |
 | `<ul>`                  | `role="listbox"`, `aria-label={label}`, `tabindex="-1"` | Component    |
 | `<ul>` (open only)      | `aria-activedescendant={active option id}`            | Component      |
 | `<li>`                  | `role="option"`, `aria-selected="true|false"`         | Component      |
@@ -140,7 +140,7 @@ transitions on the `data-theme` swap.
 ## Angular-specific notes
 
 - The select is a standalone component; consumers add it via the
-  `imports: [ThemeChooser]` array on their own standalone component
+  `imports: [ThemePicker]` array on their own standalone component
   rather than declaring it in an `NgModule`.
 - `OnPush` change detection is in effect. Signal changes (input
   signals, model signals, the internal `effect()`) drive view
@@ -156,8 +156,8 @@ transitions on the `data-theme` swap.
 
 ```ts
 const fixture = mount({ label: "Theme", themesUrl: "/t/", themes: ["light", "dark"] });
-const button = fixture.nativeElement.querySelector(".theme-chooser-button");
-const list = fixture.nativeElement.querySelector(".theme-chooser-list");
+const button = fixture.nativeElement.querySelector(".theme-picker-button");
+const list = fixture.nativeElement.querySelector(".theme-picker-list");
 
 expect(button.getAttribute("aria-label")).toBe("Theme");
 expect(button.getAttribute("aria-haspopup")).toBe("listbox");

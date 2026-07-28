@@ -7,14 +7,14 @@
    A DISMISSED sheet ends the interaction. It does not fall through to
    the list, because that would resurrect UI the user just dismissed.
 #}
-{% from "share-chooser.njk" import shareChooser %}
+{% from "share-picker.njk" import sharePicker %}
 
 {% set targets = [
     {id: "mastodon", label: "Mastodon", href: "https://mastodon.example/share?url=https%3A%2F%2Fexample.test"}
 ] %}
 
 {# Predictable everywhere: one behaviour you can test and style. #}
-{{ shareChooser({
+{{ sharePicker({
     label: "Share (list only)",
     name: "list-only",
     strategy: "list",
@@ -27,7 +27,7 @@
 {# Platform-native where available. Note the cost: behaviour differs by
    device, and the OS sheet is a surface you cannot test from your own
    code. See ../docs/accessibility.md. #}
-{{ shareChooser({
+{{ sharePicker({
     label: "Share (native when available)",
     name: "auto",
     strategy: "auto",
@@ -36,7 +36,7 @@
 }) }}
 
 <script type="module">
-    import { autoInit } from "/js/share-chooser.client.js";
+    import { autoInit } from "/js/share-picker.client.js";
 
     autoInit({
         onShare(id, url) {

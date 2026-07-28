@@ -4,7 +4,7 @@
     `DetectFromSystem` makes the FIRST-VISIT default follow the OS colour
     scheme. The component probes `matchMedia("(prefers-color-scheme: dark)")`
     once, during initial value resolution, and maps the answer onto a
-    supported slug via the public `ThemeChooser.MatchSystemTheme` helper.
+    supported slug via the public `ThemePicker.MatchSystemTheme` helper.
 
     Detection sits in the middle of the resolution order:
 
@@ -19,14 +19,14 @@
     Detection is opt-in: without `DetectFromSystem` the media query is
     never probed.
 
-    This mirrors `DetectFromNavigator` on LocaleChooser.
+    This mirrors `DetectFromNavigator` on LocalePicker.
 *@
 
-@page "/examples/theme-chooser/system-preference"
+@page "/examples/theme-picker/system-preference"
 @rendermode InteractiveServer
 @using LilyDesignSystem.Blazor.Helpers
 
-<ThemeChooser
+<ThemePicker
     Label="Theme"
     ThemesUrl="/assets/themes/"
     Themes="@(new[] { "light", "dark" })"
@@ -41,10 +41,10 @@
     To follow OS changes live, add your own `matchMedia` listener and
     call `SetThemeAsync` from it:
 
-        <ThemeChooser @ref="themeSelect" ... />
+        <ThemePicker @ref="themeSelect" ... />
 
         @code {
-            private ThemeChooser? themeSelect;
+            private ThemePicker? themeSelect;
             // ... wire a change listener, then:
             // await themeSelect!.SetThemeAsync(dark ? "dark" : "light");
         }

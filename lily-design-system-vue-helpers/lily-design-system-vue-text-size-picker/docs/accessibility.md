@@ -1,6 +1,6 @@
 # Accessibility
 
-The chooser targets WCAG 2.2 AAA. It is an icon button that opens a
+The picker targets WCAG 2.2 AAA. It is an icon button that opens a
 WAI-ARIA APG listbox: the roles, the properties, the focus management,
 and the whole keyboard contract are implemented by the component rather
 than inherited from a native `<select>`.
@@ -55,7 +55,7 @@ Two obligations come with shipping it:
 | `<button>`                 | `aria-haspopup="listbox"`                    | Component     |
 | `<button>`                 | `aria-expanded` — `"true"` / `"false"`       | Component     |
 | `<button>`                 | `aria-controls={listId}`                     | Component     |
-| `<span class="text-size-chooser-icon">` | `aria-hidden="true"`             | Component     |
+| `<span class="text-size-picker-icon">` | `aria-hidden="true"`             | Component     |
 | `<ul>`                     | `role="listbox"`, `aria-label={label}`       | Component     |
 | `<ul>`                     | `tabindex="-1"`, `hidden` while closed       | Component     |
 | `<ul>`                     | `aria-activedescendant` — **only while open** | Component     |
@@ -153,7 +153,7 @@ likely to need a text-size control are the users least well served by
 a small icon-only target. Give the button a generous hit area (at
 least 44×44 CSS px, WCAG 2.5.5 Target Size AAA) and consider the
 visible-text variant here more seriously than you would on
-`theme-chooser`.
+`theme-picker`.
 
 ## Tradeoff 2: a custom listbox is less robust than a native `<select>`
 
@@ -197,7 +197,7 @@ maximal AT robustness over visual control, a native `<select>` remains
 the more conservative choice** — and that goes double for a text-size
 control, whose audience skews toward assistive-technology users by
 definition. The headless catalog entry
-(`lily-design-system-vue-headless/components/TextSizeChooser/`) is still
+(`lily-design-system-vue-headless/components/TextSizePicker/`) is still
 a plain `<select>` container if you want it.
 
 Test the real thing. See the screen-reader smoke test below.
@@ -217,7 +217,7 @@ means *decrease* rather than *size*, which is the wrong affordance for
 a control that also makes text bigger. `A` is present in every font
 that can render your page at all — if it were missing, your body copy
 would be broken too — it renders in the page's own face rather than a
-fallback, it stays monochrome like `theme-chooser`'s `◑`, and it is the
+fallback, it stays monochrome like `theme-picker`'s `◑`, and it is the
 conventional text-size affordance across operating systems.
 
 Residual risks are cosmetic rather than structural:
@@ -236,14 +236,14 @@ through the default slot.** An inline SVG renders identically
 everywhere and can inherit `currentColor`:
 
 ```vue
-<TextSizeChooser
+<TextSizePicker
     label="Text size"
     :sizes="['small', 'medium', 'large', 'x-large']"
     v-model:value="size"
 >
     <template #default="{ open }">
         <svg
-            class="text-size-chooser-icon"
+            class="text-size-picker-icon"
             width="16"
             height="16"
             viewBox="0 0 16 16"
@@ -255,7 +255,7 @@ everywhere and can inherit `currentColor`:
             <text x="7" y="13" font-size="13" fill="currentColor">A</text>
         </svg>
     </template>
-</TextSizeChooser>
+</TextSizePicker>
 ```
 
 Keep `aria-hidden="true"` and `focusable="false"` on the SVG: the
@@ -264,7 +264,7 @@ Internet Explorer / Edge behaviour from making it a tab stop.
 
 ## The status region is the default pattern
 
-Pair the chooser with a status region. **Shipping it is the default;
+Pair the picker with a status region. **Shipping it is the default;
 removing it is the deliberate choice** you make with your
 accessibility reviewer — not something you opt into later.
 
@@ -278,21 +278,21 @@ one.
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import TextSizeChooser from "../TextSizeChooser.vue";
+import TextSizePicker from "../TextSizePicker.vue";
 
 const size = ref("");
 const sizeLabels = { small: "Small", medium: "Medium", large: "Large", "x-large": "X Large" };
 </script>
 
 <template>
-    <TextSizeChooser
+    <TextSizePicker
         v-model:value="size"
         label="Text size"
         :sizes="['small', 'medium', 'large', 'x-large']"
         storage-key="lily-text-size"
     />
 
-    <p class="text-size-chooser-status" aria-live="polite">
+    <p class="text-size-picker-status" aria-live="polite">
         Text size: {{ sizeLabels[size] ?? size }}
     </p>
 </template>
@@ -328,7 +328,7 @@ to the root `<div>`, not to the button, so the button keeps the name
 built from `label`. Bind the prop instead:
 
 ```vue
-<TextSizeChooser
+<TextSizePicker
     v-model:value="size"
     :label="`Text size: ${sizeLabels[size] ?? size}`"
     :sizes="['small', 'medium', 'large', 'x-large']"
@@ -339,7 +339,7 @@ That restores the value to the accessible name at the cost of a name
 that changes as the user uses the control — which some AT will
 re-announce on focus. Pick one; do not do both silently.
 
-Use the `.text-size-chooser-status` class hook for the element.
+Use the `.text-size-picker-status` class hook for the element.
 
 ## Internationalisation
 
@@ -355,9 +355,9 @@ Use the `.text-size-chooser-status` class hook for the element.
 
 ## Visible focus
 
-The chooser does not suppress `:focus` or `:focus-visible` styling. Two
+The picker does not suppress `:focus` or `:focus-visible` styling. Two
 elements take focus and both need a visible indicator: the
-`.text-size-chooser-button`, and the `.text-size-chooser-list` itself
+`.text-size-picker-button`, and the `.text-size-picker-list` itself
 while it is open. Style the active option from `[data-active]` — it is
 the only signal a sighted keyboard user has, because focus is on the
 `<ul>`, not on the option. Forgetting that rule produces a listbox
@@ -365,7 +365,7 @@ where arrowing appears to do nothing.
 
 ## Reduced motion
 
-The chooser performs no animation. If your CSS transitions `font-size`
+The picker performs no animation. If your CSS transitions `font-size`
 on the `data-text-size` swap, respect `prefers-reduced-motion` — an
 animated text-size change is exactly the kind of motion that triggers
 vestibular symptoms, and it delays the reading the user asked for. The
@@ -388,7 +388,7 @@ list is a **required** check before shipping, not a nicety:
 - Mobile (VoiceOver on iOS, TalkBack on Android) — there is no native
   picker here, so confirm the options are reachable by swipe and
   activatable by double-tap.
-- The `.text-size-chooser-status` live region should fire once per
+- The `.text-size-picker-status` live region should fire once per
   change and stay silent on page load.
 - **Test at the largest size and at 200% browser zoom together**, and
   confirm the listbox itself stays usable — it grows with the setting
@@ -422,7 +422,7 @@ list is a **required** check before shipping, not a nicety:
 - **Setting `inheritAttrs: false` on a wrapping component.** Don't
   break the attribute fall-through; consumers rely on it for
   `data-testid`, `id`, and event handlers.
-- **Dropping the `.text-size-chooser-status` region to save space.**
+- **Dropping the `.text-size-picker-status` region to save space.**
   With an icon-only control it is the only channel that surfaces the
   active size.
 - **Upgrading the status region to `role="alert"` or

@@ -1,4 +1,4 @@
-# Lily Design System — Nunjucks ShareChooser
+# Lily Design System — Nunjucks SharePicker
 
 A headless share control for Nunjucks 3: a single-glyph button (➤) that
 opens the **native share sheet** where the browser provides one, and
@@ -16,7 +16,7 @@ supply the destinations.
 ## Install
 
 ```sh
-npm install lily-design-system-nunjucks-share-chooser
+npm install lily-design-system-nunjucks-share-picker
 ```
 
 ## Use
@@ -26,9 +26,9 @@ catalog. The macro renders the markup; the client module wires the
 behaviour.
 
 ```njk
-{% from "share-chooser.njk" import shareChooser %}
+{% from "share-picker.njk" import sharePicker %}
 
-{{ shareChooser({
+{{ sharePicker({
     label: "Share this article",
     url: absoluteUrl,
     title: title,
@@ -53,8 +53,8 @@ behaviour.
 
 ```html
 <script type="module">
-    import { autoInit } from "/js/share-chooser.client.js";
-    autoInit();
+  import { autoInit } from "/js/share-picker.client.js";
+  autoInit();
 </script>
 ```
 
@@ -82,26 +82,26 @@ endpoint convention ships. Full rationale:
 Two places the function form survives:
 
 **On the client**, where functions are callable. Pass function-`href`
-targets to `initShareChooser` / `autoInit` and every anchor is rebuilt
+targets to `initSharePicker` / `autoInit` and every anchor is rebuilt
 from the live URL, at init and on every open:
 
 ```js
 autoInit({
-    targets: [
-        {
-            id: "mastodon",
-            href: (url, title) =>
-                `https://mastodon.example/share?url=${encodeURIComponent(url)}` +
-                `&text=${encodeURIComponent(title)}`,
-        },
-    ],
+  targets: [
+    {
+      id: "mastodon",
+      href: (url, title) =>
+        `https://mastodon.example/share?url=${encodeURIComponent(url)}` +
+        `&text=${encodeURIComponent(title)}`,
+    },
+  ],
 });
 ```
 
 Targets are matched to anchors by `data-target-id`; anchors you do not
 name keep their server-rendered href.
 
-**In a filter**, which *is* a function the template may call. Register
+**In a filter**, which _is_ a function the template may call. Register
 one and build the whole `targets` array server-side — see
 [docs/ssr.md](./docs/ssr.md#building-hrefs-in-eleventy-without-repeating-yourself).
 
@@ -115,21 +115,21 @@ supplies the control.
 
 ## Macro parameters
 
-| Key | Type | Required | Default | Purpose |
-| --- | ---- | -------- | ------- | ------- |
-| `label` | string | yes | — | Accessible name for the trigger. It is glyph-only, so this is its **only** name. |
-| `targets` | array | no | `[]` | Destinations. Empty is valid when `copyLabel` is set. |
-| `url` | string | no | — | URL to share. The client falls back to `location.href`. |
-| `title` | string | no | `""` | Passed to the native sheet. |
-| `text` | string | no | `""` | Passed to the native sheet. |
-| `copyLabel` | string | no | — | Label for the copy item. **Omit it and no copy item renders.** |
-| `copiedLabel` | string | no | — | Announced after a successful copy. |
-| `copyFailedLabel` | string | no | — | Announced when the clipboard write fails. |
-| `strategy` | `"auto"` \| `"native"` \| `"list"` | no | `"auto"` | Whether to prefer the native sheet. |
-| `name` | string | no | `"share"` | Discriminator used to derive ids. |
-| `id` | string | no | `share-chooser-{name}` | Id prefix. Needed when two instances share a `name`. |
-| `classes` | string | no | — | Extra classes on the root. |
-| `attributes` | object | no | — | Extra HTML attributes on the root. |
+| Key               | Type                               | Required | Default                | Purpose                                                                          |
+| ----------------- | ---------------------------------- | -------- | ---------------------- | -------------------------------------------------------------------------------- |
+| `label`           | string                             | yes      | —                      | Accessible name for the trigger. It is glyph-only, so this is its **only** name. |
+| `targets`         | array                              | no       | `[]`                   | Destinations. Empty is valid when `copyLabel` is set.                            |
+| `url`             | string                             | no       | —                      | URL to share. The client falls back to `location.href`.                          |
+| `title`           | string                             | no       | `""`                   | Passed to the native sheet.                                                      |
+| `text`            | string                             | no       | `""`                   | Passed to the native sheet.                                                      |
+| `copyLabel`       | string                             | no       | —                      | Label for the copy item. **Omit it and no copy item renders.**                   |
+| `copiedLabel`     | string                             | no       | —                      | Announced after a successful copy.                                               |
+| `copyFailedLabel` | string                             | no       | —                      | Announced when the clipboard write fails.                                        |
+| `strategy`        | `"auto"` \| `"native"` \| `"list"` | no       | `"auto"`               | Whether to prefer the native sheet.                                              |
+| `name`            | string                             | no       | `"share"`              | Discriminator used to derive ids.                                                |
+| `id`              | string                             | no       | `share-picker-{name}` | Id prefix. Needed when two instances share a `name`.                             |
+| `classes`         | string                             | no       | —                      | Extra classes on the root.                                                       |
+| `attributes`      | object                             | no       | —                      | Extra HTML attributes on the root.                                               |
 
 Each target: `id` (required), `label` (required), `href` (required
 string), `newTab` (default `true`).
@@ -141,17 +141,17 @@ because a default would be a hardcoded English string.
 
 ```js
 import {
-    initShareChooser,
-    autoInit,
-    canShareNatively,
-    canCopy,
-    nextShareChooserId,
-    shareTargetHref,
-    BLACK_RIGHTWARDS_ARROWHEAD,
-} from "lily-design-system-nunjucks-share-chooser";
+  initSharePicker,
+  autoInit,
+  canShareNatively,
+  canCopy,
+  nextSharePickerId,
+  shareTargetHref,
+  BLACK_RIGHTWARDS_ARROWHEAD,
+} from "lily-design-system-nunjucks-share-picker";
 ```
 
-`initShareChooser(root, opts?)` accepts `url`, `title`, `text`,
+`initSharePicker(root, opts?)` accepts `url`, `title`, `text`,
 `strategy`, `targets`, `copiedLabel`, `copyFailedLabel`,
 `onShare(id, url)`, `onCopy(url)`, `onNativeShare(url)`. Init opts win
 over the rendered attributes. It returns
@@ -177,7 +177,7 @@ dismissed.
 A `{% call %}` block body replaces the glyph inside the button:
 
 ```njk
-{% call shareChooser({label: "Share this article", targets: targets}) %}
+{% call sharePicker({label: "Share this article", targets: targets}) %}
   <svg class="icon" aria-hidden="true" width="16" height="16">…</svg>
 {% endcall %}
 ```
@@ -189,16 +189,16 @@ comes from `label`.
 
 No CSS ships. The hooks:
 
-| Class | Element |
-| ----- | ------- |
-| `.share-chooser` | root `<div>` |
-| `.share-chooser-button` | the `<button>` trigger |
-| `.share-chooser-icon` | the glyph `<span>` |
-| `.share-chooser-list` | the `<ul>`, `hidden` when closed |
-| `.share-chooser-list-item` | each `<li>` |
-| `.share-chooser-target` | each destination `<a>` |
-| `.share-chooser-copy` | the copy `<button>` |
-| `.share-chooser-status` | the polite live region `<p>` |
+| Class                      | Element                          |
+| -------------------------- | -------------------------------- |
+| `.share-picker`           | root `<div>`                     |
+| `.share-picker-button`    | the `<button>` trigger           |
+| `.share-picker-icon`      | the glyph `<span>`               |
+| `.share-picker-list`      | the `<ul>`, `hidden` when closed |
+| `.share-picker-list-item` | each `<li>`                      |
+| `.share-picker-target`    | each destination `<a>`           |
+| `.share-picker-copy`      | the copy `<button>`              |
+| `.share-picker-status`    | the polite live region `<p>`     |
 
 The root `themes/` stylesheets already style these, including the
 glyph's optical scale.

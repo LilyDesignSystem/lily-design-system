@@ -1,4 +1,4 @@
-# Lifecycle — `<share-chooser>` (HTML helper)
+# Lifecycle — `<share-picker>` (HTML helper)
 
 ## `connectedCallback`
 
@@ -38,7 +38,7 @@ Assigning the `targets` property also triggers `#render()`.
 
 Removes the document click listener. Nothing else to clean up — no
 timers (there is no typeahead here), and no managed `<link>` to
-garbage-collect the way `theme-chooser` has.
+garbage-collect the way `theme-picker` has.
 
 ## `#render()` vs `#syncState()`
 
@@ -51,8 +51,8 @@ destroys focus inside an open list.
 - **Closes the list first** (`#open = false`, `#status = ""`) — a
   structural rebuild cannot preserve focus, so pretending otherwise
   would strand the user's focus on a detached node.
-- Builds `div.share-chooser` → trigger → `ul.share-chooser-list` (with one
-  `li` per target, plus the optional copy `li`) → `p.share-chooser-status`.
+- Builds `div.share-picker` → trigger → `ul.share-picker-list` (with one
+  `li` per target, plus the optional copy `li`) → `p.share-picker-status`.
 - Caches element references, then `this.replaceChildren(root)`.
 
 ### `#syncState()`
@@ -114,7 +114,7 @@ Two guards, and both are needed:
    moving into it. Re-reading `document.activeElement` a microtask later
    sees the settled state.
 
-This is the same shape `theme-chooser` uses. A test asserts both
+This is the same shape `theme-picker` uses. A test asserts both
 directions: focus genuinely leaving closes the list, and a `focusout`
 whose focus never actually left does not.
 

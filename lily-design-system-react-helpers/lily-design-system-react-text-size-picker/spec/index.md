@@ -1,9 +1,9 @@
-# TextSizeChooser — Specification (React helper)
+# TextSizePicker — Specification (React helper)
 
 Port of the canonical Svelte contract
-([`../lily-design-system-svelte-helpers/lily-design-system-svelte-text-size-chooser/spec/index.md`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-text-size-chooser/spec/index.md)).
+([`../lily-design-system-svelte-helpers/lily-design-system-svelte-text-size-picker/spec/index.md`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-text-size-picker/spec/index.md)).
 The §7 numbering matches the Svelte spec so cross-framework tests line up,
-and it matches the sibling `theme-chooser` / `locale-chooser` specs so all
+and it matches the sibling `theme-picker` / `locale-picker` specs so all
 three helpers can be read side by side.
 
 ## 1. Purpose
@@ -24,8 +24,8 @@ default sizes, or any visual styling — including positioning the
 listbox. There is no themesUrl/extension, no managed `<link>`, and no
 locale/lang/dir logic — this helper sets one data attribute only.
 
-There is deliberately **no detection prop**. Unlike `theme-chooser`
-(`prefers-color-scheme`) and `locale-chooser` (`navigator.languages`),
+There is deliberately **no detection prop**. Unlike `theme-picker`
+(`prefers-color-scheme`) and `locale-picker` (`navigator.languages`),
 the platform exposes no "preferred text size" signal a component could
 read, so first-visit resolution falls straight through to
 `defaultValue` / `"medium"`.
@@ -36,17 +36,17 @@ read, so first-visit resolution falls straight through to
   button (`aria-haspopup="listbox"`) that toggles a `<ul role="listbox">`,
   following the WAI-ARIA APG listbox pattern. The component therefore
   owns the keyboard contract itself (§6.2) rather than inheriting it
-  from the platform. This is the same shape `theme-chooser` and
-  `locale-chooser` use, so a row of Lily preference controls in one
+  from the platform. This is the same shape `theme-picker` and
+  `locale-picker` use, so a row of Lily preference controls in one
   banner is visually and semantically uniform. A hidden
   `<input type="hidden" name="{name}">` carries the active slug so the
   control still participates in ordinary form submission.
 - **The glyph is `"A"` (U+0041 LATIN CAPITAL LETTER A).** A plain
   letter, not a pictograph, deliberately. U+1F5DB DECREASE FONT SIZE
   SYMBOL has no real glyph in common font stacks — it falls back to a
-  crude bitmap shape — and it means *decrease* rather than *size*. "A"
+  crude bitmap shape — and it means _decrease_ rather than _size_. "A"
   renders in the page's own font everywhere, stays monochrome like
-  theme-chooser's ◑, and is the conventional text-size affordance.
+  theme-picker's ◑, and is the conventional text-size affordance.
 - **Ids come from `useId`.** The listbox id and every option id derive
   from React's `useId`, so they are stable across server and client
   render and survive hydration. No `Math.random`, no `Date.now`.
@@ -59,20 +59,20 @@ read, so first-visit resolution falls straight through to
 
 ### 4.1 Props
 
-| Prop           | Type                                   | Required | Default                    | Purpose |
-| -------------- | -------------------------------------- | -------- | -------------------------- | ------- |
-| `label`        | `string`                               | yes      | —                          | Accessible name for the button and the listbox. |
-| `sizes`        | `string[]`                             | yes      | —                          | Available size slugs (e.g. `["small","medium","large","x-large"]`). |
-| `value`        | `string`                               | no       | `undefined` (uncontrolled) | Currently selected size slug. When supplied, the component is controlled. |
-| `defaultValue` | `string`                               | no       | `"medium"` if present in `sizes`, else first item | Initial size when nothing else is supplied. |
-| `storageKey`   | `string`                               | no       | `undefined`                | If set, persist the selection to `localStorage` under this key. |
-| `name`         | `string`                               | no       | `"text-size"`              | `name` of the hidden input that carries the value in a form. |
-| `target`       | `HTMLElement \| null`                  | no       | `document.documentElement` | Element that receives `data-text-size`. |
-| `sizeLabels`   | `Record<string, string>`               | no       | `{}`                       | Optional pretty labels per slug. |
-| `children`     | `(args: ChildArgs) => React.ReactNode` | no       | the `"A"` glyph            | Replaces the glyph **inside the button**. It does not render the options — the component owns those. |
-| `onChange`     | `(size: string) => void`               | no       | `undefined`                | Fires after the control applies a new size. |
-| `className`    | `string`                               | no       | `""`                       | Extra CSS class on the root `<div>`. |
-| `...restProps` | any HTML `<div>` attributes            | no       | —                          | Spread onto the root `<div>`. |
+| Prop           | Type                                   | Required | Default                                           | Purpose                                                                                              |
+| -------------- | -------------------------------------- | -------- | ------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `label`        | `string`                               | yes      | —                                                 | Accessible name for the button and the listbox.                                                      |
+| `sizes`        | `string[]`                             | yes      | —                                                 | Available size slugs (e.g. `["small","medium","large","x-large"]`).                                  |
+| `value`        | `string`                               | no       | `undefined` (uncontrolled)                        | Currently selected size slug. When supplied, the component is controlled.                            |
+| `defaultValue` | `string`                               | no       | `"medium"` if present in `sizes`, else first item | Initial size when nothing else is supplied.                                                          |
+| `storageKey`   | `string`                               | no       | `undefined`                                       | If set, persist the selection to `localStorage` under this key.                                      |
+| `name`         | `string`                               | no       | `"text-size"`                                     | `name` of the hidden input that carries the value in a form.                                         |
+| `target`       | `HTMLElement \| null`                  | no       | `document.documentElement`                        | Element that receives `data-text-size`.                                                              |
+| `sizeLabels`   | `Record<string, string>`               | no       | `{}`                                              | Optional pretty labels per slug.                                                                     |
+| `children`     | `(args: ChildArgs) => React.ReactNode` | no       | the `"A"` glyph                                   | Replaces the glyph **inside the button**. It does not render the options — the component owns those. |
+| `onChange`     | `(size: string) => void`               | no       | `undefined`                                       | Fires after the control applies a new size.                                                          |
+| `className`    | `string`                               | no       | `""`                                              | Extra CSS class on the root `<div>`.                                                                 |
+| `...restProps` | any HTML `<div>` attributes            | no       | —                                                 | Spread onto the root `<div>`.                                                                        |
 
 ### 4.2 ChildArgs
 
@@ -88,7 +88,7 @@ type ChildArgs = {
 ```
 
 The render output replaces the default
-`<span class="text-size-chooser-icon" aria-hidden="true">A</span>`. It
+`<span class="text-size-picker-icon" aria-hidden="true">A</span>`. It
 sits inside the button, whose accessible name always comes from `label`
 via `aria-label` — so custom glyph content should be `aria-hidden` and
 must never be relied on for naming.
@@ -96,37 +96,55 @@ must never be relied on for naming.
 ### 4.3 DOM contract
 
 ```html
-<div class="text-size-chooser {className}" ...restProps>
+<div class="text-size-picker {className}" ...restProps>
   <input type="hidden" name="{name}" value="{value}" />
-  <button type="button" class="text-size-chooser-button"
-          aria-label="{label}" aria-haspopup="listbox"
-          aria-expanded="false" aria-controls="{listId}">
-    <span class="text-size-chooser-icon" aria-hidden="true">A</span>
+  <button
+    type="button"
+    class="text-size-picker-button"
+    aria-label="{label}"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="{listId}"
+  >
+    <span class="text-size-picker-icon" aria-hidden="true">A</span>
   </button>
-  <ul class="text-size-chooser-list" id="{listId}" role="listbox"
-      aria-label="{label}" tabindex="-1" hidden
-      aria-activedescendant="{optionId of active, only while open}">
-    <li class="text-size-chooser-option" id="{optionId}" role="option"
-        aria-selected="true|false" data-active>Medium</li>
+  <ul
+    class="text-size-picker-list"
+    id="{listId}"
+    role="listbox"
+    aria-label="{label}"
+    tabindex="-1"
+    hidden
+    aria-activedescendant="{optionId of active, only while open}"
+  >
+    <li
+      class="text-size-picker-option"
+      id="{optionId}"
+      role="option"
+      aria-selected="true|false"
+      data-active
+    >
+      Medium
+    </li>
   </ul>
 </div>
 ```
 
-- **Root element:** `<div className="text-size-chooser {className}">`.
+- **Root element:** `<div className="text-size-picker {className}">`.
   Rest props spread onto this `<div>`.
 - **Hidden input** carries the active slug so the control participates
   in ordinary form submission.
-- **Button.** `type="button"`, class hook `text-size-chooser-button`,
+- **Button.** `type="button"`, class hook `text-size-picker-button`,
   `aria-label="{label}"`, `aria-haspopup="listbox"`, `aria-expanded`
   tracking open state, `aria-controls` pointing at the listbox id.
-- **Glyph.** `<span class="text-size-chooser-icon" aria-hidden="true">A</span>`
+- **Glyph.** `<span class="text-size-picker-icon" aria-hidden="true">A</span>`
   — U+0041, exported as `LATIN_CAPITAL_LETTER_A`. It is `aria-hidden`,
   so the button's accessible name comes solely from `label`. Supplying
   `children` replaces the glyph.
-- **Listbox.** `<ul class="text-size-chooser-list" role="listbox"
-  aria-label="{label}" tabindex="-1">`, `hidden` while closed. While
+- **Listbox.** `<ul class="text-size-picker-list" role="listbox"
+aria-label="{label}" tabindex="-1">`, `hidden` while closed. While
   open it carries `aria-activedescendant` set to the active option's id.
-- **Options.** One `<li class="text-size-chooser-option" role="option">`
+- **Options.** One `<li class="text-size-picker-option" role="option">`
   per size slug, each with a `useId`-derived `id`, `aria-selected` set to
   whether it is the active size, and `data-active` present on the
   keyboard-active option only.
@@ -140,10 +158,10 @@ must never be relied on for naming.
 
 `index.ts` exports:
 
-- `TextSizeChooser` (the component, both default and named export)
+- `TextSizePicker` (the component, both default and named export)
 - `sizeName` (the pure helper; the single implementation of the
-  title-casing label rule, mirroring `themeName` in theme-chooser and
-  `localeName` in locale-chooser)
+  title-casing label rule, mirroring `themeName` in theme-picker and
+  `localeName` in locale-picker)
 - `LATIN_CAPITAL_LETTER_A` (the default glyph constant)
 - `type Props`, `type ChildArgs`
 
@@ -188,7 +206,7 @@ Applying a size `slug` performs, in order:
 - Selecting applies the size through §5.2. `Escape`, an outside click,
   and focus loss all close without changing the value.
 - The active option is kept in view with `scrollIntoView({ block:
-  "nearest" })` as it moves.
+"nearest" })` as it moves.
 
 ### 5.4 Labels
 
@@ -208,12 +226,12 @@ internal `useState`.
 
 ### 6.1 Roles and properties
 
-| Element                | Role / property                                                   |
-| ---------------------- | ----------------------------------------------------------------- |
-| `<button>`             | `aria-label={label}`, `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls` |
-| glyph `<span>`         | `aria-hidden="true"` — never part of the accessible name.          |
-| `<ul>`                 | `role="listbox"`, `aria-label={label}`, `tabindex="-1"`, `hidden` while closed, `aria-activedescendant` while open |
-| `<li>`                 | `role="option"`, `aria-selected`, `data-active` on the keyboard-active option |
+| Element        | Role / property                                                                                                    |
+| -------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `<button>`     | `aria-label={label}`, `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls`                                  |
+| glyph `<span>` | `aria-hidden="true"` — never part of the accessible name.                                                          |
+| `<ul>`         | `role="listbox"`, `aria-label={label}`, `tabindex="-1"`, `hidden` while closed, `aria-activedescendant` while open |
+| `<li>`         | `role="option"`, `aria-selected`, `data-active` on the keyboard-active option                                      |
 
 WCAG 2.2 AAA target. This helper is the one that most directly serves
 **1.4.4 (Resize Text)** and **1.4.12 (Text Spacing)**: it exists so a
@@ -230,21 +248,21 @@ The component implements this itself; nothing is inherited from a native
 
 On the **button**:
 
-| Key                             | Action                                                  |
-| ------------------------------- | ------------------------------------------------------- |
-| `Tab` / `Shift+Tab`             | Move focus to / from the button (one tab stop).         |
+| Key                             | Action                                                                                      |
+| ------------------------------- | ------------------------------------------------------------------------------------------- |
+| `Tab` / `Shift+Tab`             | Move focus to / from the button (one tab stop).                                             |
 | `ArrowDown` / `Enter` / `Space` | Open, with the currently-selected option active (else index 0). Focus moves to the listbox. |
-| `ArrowUp`                       | Open with the **last** option active. Focus moves to the listbox. |
+| `ArrowUp`                       | Open with the **last** option active. Focus moves to the listbox.                           |
 
 On the **listbox**:
 
-| Key                     | Action                                                         |
-| ----------------------- | -------------------------------------------------------------- |
-| `ArrowDown` / `ArrowUp` | Move the active option. Clamps at the ends — it does not wrap.  |
-| `Home` / `End`          | Jump to the first / last option.                                |
-| `Enter` / `Space`       | Select the active option, apply it, close, and return focus to the button. |
-| `Escape`                | Close and return focus to the button **without** changing the value. |
-| `Tab`                   | Close without stealing focus back, letting focus move on.       |
+| Key                     | Action                                                                                              |
+| ----------------------- | --------------------------------------------------------------------------------------------------- |
+| `ArrowDown` / `ArrowUp` | Move the active option. Clamps at the ends — it does not wrap.                                      |
+| `Home` / `End`          | Jump to the first / last option.                                                                    |
+| `Enter` / `Space`       | Select the active option, apply it, close, and return focus to the button.                          |
+| `Escape`                | Close and return focus to the button **without** changing the value.                                |
+| `Tab`                   | Close without stealing focus back, letting focus move on.                                           |
 | Printable character     | Typeahead over the option **labels**; the buffer accumulates and resets after 500 ms of inactivity. |
 
 Pointer behaviour: clicking an option selects it; clicking the button
@@ -260,21 +278,21 @@ value.
 
 ## 7. Testing acceptance criteria
 
-`TextSizeChooser.test.tsx` must assert every numbered item below. Tests
+`TextSizePicker.test.tsx` must assert every numbered item below. Tests
 run under vitest + jsdom + `@testing-library/react`.
 
 1. Markup shape:
    1. Renders a `<button type="button">` with `aria-haspopup="listbox"`,
       `aria-expanded="false"`, and an `aria-controls` that resolves to an
       element with `role="listbox"`.
-   2. The button holds `<span class="text-size-chooser-icon"
-      aria-hidden="true">A</span>` (U+0041), equal to the exported
+   2. The button holds `<span class="text-size-picker-icon"
+aria-hidden="true">A</span>` (U+0041), equal to the exported
       `LATIN_CAPITAL_LETTER_A`.
-   3. The root is a `<div>` whose class is `text-size-chooser` plus the
+   3. The root is a `<div>` whose class is `text-size-picker` plus the
       consumer's `className`.
 2. `aria-label` is the supplied `label` on **both** the button and the
    listbox.
-3. Renders exactly one `.text-size-chooser-option` per entry in `sizes`,
+3. Renders exactly one `.text-size-picker-option` per entry in `sizes`,
    and the hidden input carries the supplied `name` (default
    `"text-size"`) and the resolved slug as its `value`.
 4. Open state:
@@ -296,13 +314,13 @@ run under vitest + jsdom + `@testing-library/react`.
    `localStorage` and read back on a fresh mount.
 10. When `value` is supplied as a prop, the initial-value resolution
     skips storage and defaults and uses the supplied value.
-11. *(reserved — no URL construction in this helper; the clause number
-    is kept so the numbering aligns with theme-chooser.)*
+11. _(reserved — no URL construction in this helper; the clause number
+    is kept so the numbering aligns with theme-picker.)_
 12. Extra attributes spread through onto the root `<div>` (e.g.
     `data-testid`).
 13. A custom `children` render prop:
     1. Replaces the default glyph inside the button (the
-       `.text-size-chooser-icon` span is absent) and receives `ChildArgs`
+       `.text-size-picker-icon` span is absent) and receives `ChildArgs`
        — `value`, `open`, `labelFor`.
     2. Sees `open === true` once the listbox is expanded.
 14. Opening from the button:
@@ -347,7 +365,7 @@ plus a test that the component's default option text equals it.
 
 ## 9. Tracking
 
-- Package directory: `lily-design-system-react-helpers/lily-design-system-react-text-size-chooser/`
+- Package directory: `lily-design-system-react-helpers/lily-design-system-react-text-size-picker/`
 - Created: 2026-06-05
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause (or
   contact for other terms)

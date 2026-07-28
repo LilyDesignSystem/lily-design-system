@@ -16,24 +16,24 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>theme-chooser — Lily themes</title>
-    <script type="module" src="/dist/theme-chooser.js"></script>
+    <title>theme-picker — Lily themes</title>
+    <script type="module" src="/dist/theme-picker.js"></script>
 </head>
 <body>
-    <h1>Theme chooser — Lily themes</h1>
+    <h1>Theme picker — Lily themes</h1>
 
-    <theme-chooser
-        id="theme-chooser"
+    <theme-picker
+        id="theme-picker"
         label="Lily theme"
         themes-url="/assets/themes/"
         themes="light"
         storage-key="lily:theme"
-    ></theme-chooser>
+    ></theme-picker>
 
     <script type="module">
-        await customElements.whenDefined("theme-chooser");
+        await customElements.whenDefined("theme-picker");
 
-        document.querySelector("#theme-chooser").themes = [
+        document.querySelector("#theme-picker").themes = [
             "abyss", "acid", "aqua", "autumn", "black", "bumblebee",
             "business", "caramellatte", "cmyk", "coffee", "corporate",
             "cupcake", "cyberpunk", "dark", "dim", "dracula", "emerald",

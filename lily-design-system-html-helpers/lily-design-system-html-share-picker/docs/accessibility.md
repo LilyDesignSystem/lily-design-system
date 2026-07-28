@@ -1,4 +1,4 @@
-# Accessibility — `<share-chooser>` (HTML helper)
+# Accessibility — `<share-picker>` (HTML helper)
 
 WCAG 2.2 AAA is the target. What follows is what the control does, and
 then the four places it will cost you something. The costs are real;
@@ -20,7 +20,7 @@ none of them are hypothetical.
 - **Focus is never destroyed by a state change.** Opening, closing,
   announcing, and any `url` / `share-title` / `text` change all update
   attributes in place rather than rebuilding the DOM.
-- **The glyph is hidden.** `<span class="share-chooser-icon"
+- **The glyph is hidden.** `<span class="share-picker-icon"
   aria-hidden="true">` keeps the arrow out of the accessible name.
 - **The status region is polite and silent on load.** It is empty until
   a copy succeeds or fails, so it announces the outcome and nothing

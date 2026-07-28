@@ -1,4 +1,4 @@
-# AGENTS — `<share-chooser>` (HTML helper)
+# AGENTS — `<share-picker>` (HTML helper)
 
 Single source of truth: [spec/index.md](./spec/index.md). Read it first;
 everything below is a fast index.
@@ -6,35 +6,35 @@ everything below is a fast index.
 ## What this package is
 
 A reusable vanilla HTML/JS headless share control, packaged as the
-`<share-chooser>` custom element. A single-glyph button (➤, U+27A4) that
+`<share-picker>` custom element. A single-glyph button (➤, U+27A4) that
 uses the **native share sheet** when the browser has one, and otherwise
 opens a **disclosure list** of consumer-supplied destinations plus a
 built-in copy-the-URL action. Ships no CSS, no icons, and no third-party
 endpoints.
 
 Ported from the canonical Svelte helper
-[`lily-design-system-svelte-share-chooser`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-chooser/).
+[`lily-design-system-svelte-share-picker`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-picker/).
 Svelte wins on behaviour; this package supplies the custom-element idiom.
 
 ## Files
 
-| File | Purpose |
-| ---- | ------- |
-| `spec/index.md` | Specification-driven contract (canonical). |
-| `share-chooser.ts` | Implementation (TypeScript custom-element class). |
-| `share-chooser.test.ts` | Vitest + jsdom spec, mapped to the §7 clauses. |
-| `index.ts` | Barrel re-export + side-effectful registration. |
-| `index.md` | Human-readable guide. |
-| `docs/accessibility.md` | Tradeoffs, stated plainly. |
+| File                    | Purpose                                           |
+| ----------------------- | ------------------------------------------------- |
+| `spec/index.md`         | Specification-driven contract (canonical).        |
+| `share-picker.ts`      | Implementation (TypeScript custom-element class). |
+| `share-picker.test.ts` | Vitest + jsdom spec, mapped to the §7 clauses.    |
+| `index.ts`              | Barrel re-export + side-effectful registration.   |
+| `index.md`              | Human-readable guide.                             |
+| `docs/accessibility.md` | Tradeoffs, stated plainly.                        |
 
 ## Public surface
 
-- Class `ShareChooser extends HTMLElement` (registered as
-  `<share-chooser>` on import of `index.ts`).
-- Named exports: `ShareChooser`, `canShareNatively`, `canCopy`,
-  `nextShareChooserId`, `BLACK_RIGHTWARDS_ARROWHEAD`.
-- Type exports: `ShareChooserProps`, `ShareChooserShareDetail`,
-  `ShareChooserUrlDetail`, `ShareTarget`, `ShareStrategy`.
+- Class `SharePicker extends HTMLElement` (registered as
+  `<share-picker>` on import of `index.ts`).
+- Named exports: `SharePicker`, `canShareNatively`, `canCopy`,
+  `nextSharePickerId`, `BLACK_RIGHTWARDS_ARROWHEAD`.
+- Type exports: `SharePickerProps`, `SharePickerShareDetail`,
+  `SharePickerUrlDetail`, `ShareTarget`, `ShareStrategy`.
 - Instance members beyond the attribute mirrors: `open`, `status`,
   `listId` (getters), `openList(focusLast?)`, `closeList(refocus?)`,
   `items()`, `currentUrl()`, and `renderButtonContent()` — the
@@ -49,11 +49,11 @@ Required attribute: `label`.
    over the whole control and shadow a platform member. Property is
    `shareTitle`. This is the only renamed prop.
 2. **`targets` and the three callbacks are property-only.**
-   `ShareTarget.href` is a *function*, so no attribute can carry it, and
+   `ShareTarget.href` is a _function_, so no attribute can carry it, and
    a string-template form would bake in the URL convention this package
    refuses to own. Each callback is paired with a bubbling `CustomEvent`
    — `share`, `copy`, `nativeshare` — which is the primary contract,
-   matching how `theme-chooser` exposes `themechange`. Callback fires
+   matching how `theme-picker` exposes `themechange`. Callback fires
    first, then the event.
 
 ## Behaviour contract (one paragraph)
@@ -72,17 +72,17 @@ owns an action, not a preference.
 
 ## HTML
 
-`<share-chooser>` contains one rendered
-`<div class="share-chooser {class}">` holding, in order: a
-`<button type="button" class="share-chooser-button" aria-label="{label}"
+`<share-picker>` contains one rendered
+`<div class="share-picker {class}">` holding, in order: a
+`<button type="button" class="share-picker-button" aria-label="{label}"
 aria-expanded aria-controls="{listId}">` whose content defaults to
-`<span class="share-chooser-icon" aria-hidden="true">&#10148;</span>`; a
-`<ul class="share-chooser-list" id="{listId}" hidden>` of
-`<li class="share-chooser-list-item">` containing
-`<a class="share-chooser-target" data-target-id target="_blank"
+`<span class="share-picker-icon" aria-hidden="true">&#10148;</span>`; a
+`<ul class="share-picker-list" id="{listId}" hidden>` of
+`<li class="share-picker-list-item">` containing
+`<a class="share-picker-target" data-target-id target="_blank"
 rel="noopener noreferrer">` and an optional
-`<button class="share-chooser-copy">`; and a
-`<p class="share-chooser-status" aria-live="polite">`.
+`<button class="share-picker-copy">`; and a
+`<p class="share-picker-status" aria-live="polite">`.
 
 **Not a menu, and not this catalog's listbox.** The three preference
 helpers render `role="listbox"` with `aria-activedescendant`. This one
@@ -92,7 +92,7 @@ deliberately does not: destinations are navigation, so they are real
 copy-link-address. Focus moves for real. There is also no hidden
 `<input>`: this control carries no value.
 
-The trigger class is `share-chooser-button`, following the catalog's
+The trigger class is `share-picker-button`, following the catalog's
 `{helper}-button` convention. (Under the old `share-button` name it was
 `share-button-trigger`, because `.share-button-button` read badly; the
 rename removed the need for that exception.)

@@ -1,7 +1,7 @@
 {
-  "name": "lily-design-system-react-locale-chooser",
+  "name": "lily-design-system-react-locale-picker",
   "version": "0.1.0",
-  "description": "Lily Design System - React 19 locale chooser",
+  "description": "Lily Design System - React 19 locale picker",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -30,7 +30,7 @@
     "system",
     "react",
     "locale",
-    "chooser"
+    "picker"
   ],
   "author": "joel@joelparkerhenderson.com",
   "license": "MIT"

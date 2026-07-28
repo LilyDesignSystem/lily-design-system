@@ -3,7 +3,7 @@
   back to a cookie so the next SSR pass sees it.
 -->
 <script lang="ts">
-  import ThemeChooser from "../../ThemeChooser.svelte";
+  import ThemePicker from "../../ThemePicker.svelte";
   import type { Snippet } from "svelte";
 
   let {
@@ -26,7 +26,7 @@
 </script>
 
 <header>
-  <ThemeChooser
+  <ThemePicker
     label="Theme"
     themesUrl="/assets/themes/"
     themes={["light", "dark", "abyss"]}

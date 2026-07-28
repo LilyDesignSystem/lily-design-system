@@ -65,7 +65,7 @@ option. Arrowing through the list changes `aria-activedescendant` and
 
 ## Keyboard contract
 
-Owned entirely by `text-size-chooser.client.js`. Nothing below works
+Owned entirely by `text-size-picker.client.js`. Nothing below works
 before that module runs — see [`./ssr.md`](./ssr.md).
 
 On the **button**:
@@ -147,7 +147,7 @@ and deliberately so. The glyph is `"A"` (U+0041 LATIN CAPITAL LETTER
 A) — a plain Latin capital letter present in every font that can render
 the page's own text. If "A" fails to render, the page has no readable
 text at all and the button is the least of the problems. Contrast
-`theme-chooser`'s ◑ and `locale-chooser`'s 🌐, which are genuinely
+`theme-picker`'s ◑ and `locale-picker`'s 🌐, which are genuinely
 absent from some stacks.
 
 The obvious pictographic candidate, U+1F5DB DECREASE FONT SIZE SYMBOL,
@@ -192,22 +192,22 @@ from the closed control by anyone.
 
 That cost is real and this page does not claim it away. What it does
 claim is where the compensation belongs: **in the pattern, by
-default.** Lily targets WCAG 2.2 AAA, so the text-size chooser ships
+default.** Lily targets WCAG 2.2 AAA, so the text-size picker ships
 alongside a status region in the quick start and in
 [`../examples/01-basic.njk`](../examples/01-basic.njk). Pair the
 control with the region; **opting out is the deliberate choice, not
 opting in.**
 
 ```njk
-{{ textSizeChooser({
+{{ textSizePicker({
   label: "Text size",
   sizes: ["small", "medium", "large", "x-large"]
 }) }}
-<p class="text-size-chooser-status" aria-live="polite"></p>
+<p class="text-size-picker-status" aria-live="polite"></p>
 ```
 
 ```js
-const status = document.querySelector(".text-size-chooser-status");
+const status = document.querySelector(".text-size-picker-status");
 
 autoInit({
     onChange(slug) {
@@ -228,7 +228,7 @@ Why this shape:
 - **The announcement text is consumer-supplied and translatable**, so
   this stays i18n-clean. Show the human label
   (`opts.sizeLabels[slug]`), not the raw slug.
-- **`.text-size-chooser-status`** is the class hook, kebab-case like the
+- **`.text-size-picker-status`** is the class hook, kebab-case like the
   rest of the system.
 
 There is a bonus here the sibling helpers do not get: because the
@@ -295,10 +295,10 @@ the whole page's type scale is a strong vestibular trigger.
   accessibility tree. Use a visually-hidden pattern
   (`clip-path: inset(50%)`) instead.
 - **Styling the list open by default.** The `hidden` attribute is the
-  open-state contract; a CSS rule like `.text-size-chooser-list {
+  open-state contract; a CSS rule like `.text-size-picker-list {
   display: block }` overrides `hidden` and leaves the list permanently
   visible and out of sync with `aria-expanded`. Use
-  `.text-size-chooser-list:not([hidden])` for open-state styling.
+  `.text-size-picker-list:not([hidden])` for open-state styling.
 - **Treating this control as your 1.4.4 compliance story.** It helps;
   it is not sufficient on its own, and it does not work without JS.
 - **Emitting `<script>` from the macro.** Forbidden. CSP `script-src`

@@ -1,37 +1,37 @@
-# AGENTS — TextSizeChooser (Angular helper)
+# AGENTS — TextSizePicker (Angular helper)
 
 Single source of truth: [spec/index.md](./spec/index.md). Read it first; everything
 below is a fast index.
 
 ## What this package is
 
-A reusable Angular 20 headless text-size chooser. The control is an
+A reusable Angular 20 headless text-size picker. The control is an
 icon button that opens a WAI-ARIA APG listbox — not a native
 `<select>` — so the component owns the roles, focus moves, and the
 whole keyboard contract itself. It applies the chosen size to the
 document root via `data-text-size`, with optional `localStorage`
-persistence. Ships no CSS; consumer styles the `text-size-chooser`
+persistence. Ships no CSS; consumer styles the `text-size-picker`
 class hooks, supplies the listbox positioning, and maps each
 `[data-text-size="…"]` slug to real typography.
 
 ## Files
 
-| File                                   | Purpose                                          |
-| -------------------------------------- | ------------------------------------------------ |
-| `spec/index.md`                        | Specification-driven contract (canonical).       |
-| `text-size-chooser.component.ts`        | Implementation. Standalone, signal-based, OnPush.|
-| `text-size-chooser.component.spec.ts`   | Vitest spec, one assertion per §7 acceptance.    |
-| `docs/accessibility.md`                | Roles, keyboard contract, and the tradeoffs.     |
-| `index.ts`                             | Barrel re-export.                                |
-| `index.md`                             | User guide.                                      |
+| File                                  | Purpose                                           |
+| ------------------------------------- | ------------------------------------------------- |
+| `spec/index.md`                       | Specification-driven contract (canonical).        |
+| `text-size-picker.component.ts`      | Implementation. Standalone, signal-based, OnPush. |
+| `text-size-picker.component.spec.ts` | Vitest spec, one assertion per §7 acceptance.     |
+| `docs/accessibility.md`               | Roles, keyboard contract, and the tradeoffs.      |
+| `index.ts`                            | Barrel re-export.                                 |
+| `index.md`                            | User guide.                                       |
 
 ## Public surface
 
-- `TextSizeChooser` (component class, selector `lily-text-size-chooser`).
-- `TextSizeChooserIcon` (optional marker directive,
-  `ng-template[lilyTextSizeChooserIcon]`, for typed `let-` variables).
+- `TextSizePicker` (component class, selector `lily-text-size-picker`).
+- `TextSizePickerIcon` (optional marker directive,
+  `ng-template[lilyTextSizePickerIcon]`, for typed `let-` variables).
 - `LATIN_CAPITAL_LETTER_A` (the default glyph, `"A"` U+0041).
-- `nextTextSizeChooserId` (per-instance id generator).
+- `nextTextSizePickerId` (per-instance id generator).
 - `sizeName` (pure label resolver).
 - `ChildArgs` (type).
 
@@ -48,27 +48,47 @@ On every size change the control (1) sets
 from `value` > storage > `defaultValue` > `"medium"` (if present) >
 `sizes[0]`. `value` is the single source of truth; the hidden input
 mirrors it for form participation. There is deliberately **no**
-`detectFromSystem` counterpart to theme-chooser's — no OS "preferred
+`detectFromSystem` counterpart to theme-picker's — no OS "preferred
 text size" media query exists.
 
 ## HTML
 
 ```html
-<div class="text-size-chooser {className}">
+<div class="text-size-picker {className}">
   <input type="hidden" name="{name}" value="{value}" />
-  <button type="button" class="text-size-chooser-button" aria-label="{label}"
-          aria-haspopup="listbox" aria-expanded="false" aria-controls="{listId}">
-    <span class="text-size-chooser-icon" aria-hidden="true">A</span>
+  <button
+    type="button"
+    class="text-size-picker-button"
+    aria-label="{label}"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="{listId}"
+  >
+    <span class="text-size-picker-icon" aria-hidden="true">A</span>
   </button>
-  <ul class="text-size-chooser-list" id="{listId}" role="listbox" aria-label="{label}"
-      tabindex="-1" hidden aria-activedescendant="{optionId, only while open}">
-    <li class="text-size-chooser-option" id="{optionId}" role="option"
-        aria-selected="true|false" data-active>Medium</li>
+  <ul
+    class="text-size-picker-list"
+    id="{listId}"
+    role="listbox"
+    aria-label="{label}"
+    tabindex="-1"
+    hidden
+    aria-activedescendant="{optionId, only while open}"
+  >
+    <li
+      class="text-size-picker-option"
+      id="{optionId}"
+      role="option"
+      aria-selected="true|false"
+      data-active
+    >
+      Medium
+    </li>
   </ul>
 </div>
 ```
 
-`@for` is used (not `*ngFor`). Ids come from `nextTextSizeChooserId()`,
+`@for` is used (not `*ngFor`). Ids come from `nextTextSizePickerId()`,
 an incrementing module counter — stable, unique per instance,
 SSR-safe. A projected `<ng-template>` (queried via
 `contentChild(TemplateRef)`) replaces the glyph inside the button and
@@ -77,7 +97,7 @@ receives `ChildArgs` (`{ $implicit, value, open, labelFor }`); it does
 
 The glyph is `"A"` (U+0041), not a pictograph: U+1F5DB DECREASE FONT
 SIZE SYMBOL has no real glyph in common font stacks and means
-*decrease* rather than *size*.
+_decrease_ rather than _size_.
 
 ## Accessibility
 

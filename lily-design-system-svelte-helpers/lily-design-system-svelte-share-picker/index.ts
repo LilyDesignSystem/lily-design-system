@@ -1,9 +1,9 @@
 export {
     default,
-    default as ShareChooser,
+    default as SharePicker,
     canShareNatively,
     canCopy,
-    nextShareChooserId,
+    nextSharePickerId,
     BLACK_RIGHTWARDS_ARROWHEAD,
-} from "./ShareChooser.svelte";
-export type { Props, ChildArgs, ShareTarget, ShareStrategy } from "./ShareChooser.svelte";
+} from "./SharePicker.svelte";
+export type { Props, ChildArgs, ShareTarget, ShareStrategy } from "./SharePicker.svelte";

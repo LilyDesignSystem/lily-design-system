@@ -1,7 +1,7 @@
-# Testing — LocaleChooser (Angular)
+# Testing — LocalePicker (Angular)
 
 The select's test suite lives in
-[`../locale-chooser.component.spec.ts`](../locale-chooser.component.spec.ts)
+[`../locale-picker.component.spec.ts`](../locale-picker.component.spec.ts)
 and asserts every numbered acceptance criterion in `spec/index.md` §7.
 This file documents the test harness and the conventions specific
 to this helper. For the catalog-wide test rules see
@@ -13,35 +13,35 @@ to this helper. For the catalog-wide test rules see
 import { describe, test, expect, beforeEach, afterEach, vi } from "vitest";
 import { TestBed, type ComponentFixture } from "@angular/core/testing";
 import {
-    LocaleChooser,
-    GLOBE_WITH_MERIDIANS,
-    bcp47LocaleTag,
-    isRtlLocale,
-    localeName,
-    matchNavigatorLanguage,
-} from "./locale-chooser.component";
+  LocalePicker,
+  GLOBE_WITH_MERIDIANS,
+  bcp47LocaleTag,
+  isRtlLocale,
+  localeName,
+  matchNavigatorLanguage,
+} from "./locale-picker.component";
 
 const LOCALES = ["en", "en_US", "fr", "fr_CA", "ar"];
 
 beforeEach(() => {
-    // Reset shared state between tests.
-    document.documentElement.removeAttribute("lang");
-    document.documentElement.removeAttribute("dir");
-    localStorage.clear();
+  // Reset shared state between tests.
+  document.documentElement.removeAttribute("lang");
+  document.documentElement.removeAttribute("dir");
+  localStorage.clear();
 });
 
 function mount(
-    inputs: Record<string, unknown> = {},
-): ComponentFixture<LocaleChooser> {
-    const fixture = TestBed.createComponent(LocaleChooser);
-    fixture.componentRef.setInput("label", "Language");
-    fixture.componentRef.setInput("locales", LOCALES);
-    for (const [key, value] of Object.entries(inputs)) {
-        fixture.componentRef.setInput(key, value);
-    }
-    fixture.detectChanges();
-    fixtures.push(fixture);
-    return fixture;
+  inputs: Record<string, unknown> = {},
+): ComponentFixture<LocalePicker> {
+  const fixture = TestBed.createComponent(LocalePicker);
+  fixture.componentRef.setInput("label", "Language");
+  fixture.componentRef.setInput("locales", LOCALES);
+  for (const [key, value] of Object.entries(inputs)) {
+    fixture.componentRef.setInput(key, value);
+  }
+  fixture.detectChanges();
+  fixtures.push(fixture);
+  return fixture;
 }
 ```
 
@@ -55,8 +55,8 @@ Collect fixtures and destroy them in `afterEach`:
 let fixtures: ComponentFixture<unknown>[] = [];
 
 afterEach(() => {
-    for (const fixture of fixtures) fixture.destroy();
-    fixtures = [];
+  for (const fixture of fixtures) fixture.destroy();
+  fixtures = [];
 });
 ```
 
@@ -70,12 +70,12 @@ locale must let the microtask queue drain first:
 const flush = () => new Promise<void>((r) => setTimeout(r, 0));
 
 async function mountSettled(
-    inputs: Record<string, unknown> = {},
-): Promise<ComponentFixture<LocaleChooser>> {
-    const fixture = mount(inputs);
-    await flush();
-    fixture.detectChanges();
-    return fixture;
+  inputs: Record<string, unknown> = {},
+): Promise<ComponentFixture<LocalePicker>> {
+  const fixture = mount(inputs);
+  await flush();
+  fixture.detectChanges();
+  return fixture;
 }
 ```
 
@@ -90,11 +90,11 @@ asserting on `document.activeElement`.
 
 ```ts
 test("§7.7 bcp47LocaleTag(en_US) === en-US", () => {
-    expect(bcp47LocaleTag("en_US")).toBe("en-US");
+  expect(bcp47LocaleTag("en_US")).toBe("en-US");
 });
 
 test("§7.10 isRtlLocale handles script subtags", () => {
-    expect(isRtlLocale("uz_Arab_AF")).toBe(true);
+  expect(isRtlLocale("uz_Arab_AF")).toBe(true);
 });
 ```
 
@@ -104,28 +104,28 @@ Three selectors cover almost every assertion:
 
 ```ts
 const button = (f: ComponentFixture<unknown>) =>
-    f.nativeElement.querySelector(".locale-chooser-button") as HTMLButtonElement;
+  f.nativeElement.querySelector(".locale-picker-button") as HTMLButtonElement;
 
 const list = (f: ComponentFixture<unknown>) =>
-    f.nativeElement.querySelector(".locale-chooser-list") as HTMLUListElement;
+  f.nativeElement.querySelector(".locale-picker-list") as HTMLUListElement;
 
 const options = (f: ComponentFixture<unknown>) =>
-    Array.from(
-        f.nativeElement.querySelectorAll(".locale-chooser-option"),
-    ) as HTMLLIElement[];
+  Array.from(
+    f.nativeElement.querySelectorAll(".locale-picker-option"),
+  ) as HTMLLIElement[];
 ```
 
 ## Standard mount
 
 ```ts
 test("§7.1 renders a button that controls a listbox", () => {
-    const fixture = mount();
-    const btn = button(fixture);
-    expect(btn.getAttribute("type")).toBe("button");
-    expect(btn.getAttribute("aria-haspopup")).toBe("listbox");
-    expect(btn.getAttribute("aria-expanded")).toBe("false");
-    expect(list(fixture).id).toBe(btn.getAttribute("aria-controls"));
-    expect(list(fixture).getAttribute("role")).toBe("listbox");
+  const fixture = mount();
+  const btn = button(fixture);
+  expect(btn.getAttribute("type")).toBe("button");
+  expect(btn.getAttribute("aria-haspopup")).toBe("listbox");
+  expect(btn.getAttribute("aria-expanded")).toBe("false");
+  expect(list(fixture).id).toBe(btn.getAttribute("aria-controls"));
+  expect(list(fixture).getAttribute("role")).toBe("listbox");
 });
 ```
 
@@ -155,19 +155,19 @@ they originate inside the root.
 
 ```ts
 function click(f: ComponentFixture<unknown>, target: HTMLElement): void {
-    target.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-    f.detectChanges();
+  target.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+  f.detectChanges();
 }
 
 async function pick(
-    f: ComponentFixture<unknown>,
-    code: string,
-    locales: string[] = LOCALES,
+  f: ComponentFixture<unknown>,
+  code: string,
+  locales: string[] = LOCALES,
 ): Promise<void> {
-    click(f, button(f));
-    click(f, options(f)[locales.indexOf(code)]);
-    await flush();
-    f.detectChanges();
+  click(f, button(f));
+  click(f, options(f)[locales.indexOf(code)]);
+  await flush();
+  f.detectChanges();
 }
 
 const fixture = await mountSettled();
@@ -182,12 +182,12 @@ Keydowns must bubble — the handlers are bound on the button and the
 
 ```ts
 function press(
-    f: ComponentFixture<unknown>,
-    target: HTMLElement,
-    key: string,
+  f: ComponentFixture<unknown>,
+  target: HTMLElement,
+  key: string,
 ): void {
-    target.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true }));
-    f.detectChanges();
+  target.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true }));
+  f.detectChanges();
 }
 
 const fixture = await mountSettled();
@@ -214,15 +214,15 @@ The 500 ms buffer needs fake timers:
 ```ts
 vi.useFakeTimers();
 try {
-    const fixture = mount({ value: "en" });
-    press(fixture, button(fixture), "ArrowDown");
-    const ul = list(fixture);
-    press(fixture, ul, "a");           // "Arabic"
-    vi.advanceTimersByTime(600);       // buffer clears
-    press(fixture, ul, "f");           // "French", not "af"
-    expect(ul.getAttribute("aria-activedescendant")).toBe(ul.children[2].id);
+  const fixture = mount({ value: "en" });
+  press(fixture, button(fixture), "ArrowDown");
+  const ul = list(fixture);
+  press(fixture, ul, "a"); // "Arabic"
+  vi.advanceTimersByTime(600); // buffer clears
+  press(fixture, ul, "f"); // "French", not "af"
+  expect(ul.getAttribute("aria-activedescendant")).toBe(ul.children[2].id);
 } finally {
-    vi.useRealTimers();
+  vi.useRealTimers();
 }
 ```
 
@@ -247,44 +247,44 @@ project content:
 
 ```ts
 @Component({
-    standalone: true,
-    imports: [LocaleChooser],
-    template: `
-        <lily-locale-chooser label="Language" [locales]="locales" [value]="'fr'">
-            <ng-template let-args>
-                <span data-testid="custom" [attr.data-value]="args.value"></span>
-            </ng-template>
-        </lily-locale-chooser>
-    `,
+  standalone: true,
+  imports: [LocalePicker],
+  template: `
+    <lily-locale-picker label="Language" [locales]="locales" [value]="'fr'">
+      <ng-template let-args>
+        <span data-testid="custom" [attr.data-value]="args.value"></span>
+      </ng-template>
+    </lily-locale-picker>
+  `,
 })
 class IconTemplateHost {
-    readonly locales = LOCALES;
+  readonly locales = LOCALES;
 }
 
 const fixture = TestBed.createComponent(IconTemplateHost);
 fixture.detectChanges();
 
 const custom = fixture.nativeElement.querySelector('[data-testid="custom"]');
-expect(custom.closest("button")?.className).toContain("locale-chooser-button");
+expect(custom.closest("button")?.className).toContain("locale-picker-button");
 // The default glyph is replaced, not supplemented.
-expect(fixture.nativeElement.querySelector(".locale-chooser-icon")).toBeNull();
+expect(fixture.nativeElement.querySelector(".locale-picker-icon")).toBeNull();
 ```
 
 ## Mocking `navigator.languages`
 
 ```ts
 it("§7.20 detectFromNavigator picks an exact match", () => {
-    Object.defineProperty(navigator, "languages", {
-        configurable: true,
-        get: () => ["fr-FR", "en"],
-    });
-    const fixture = mount({
-        label: "L",
-        locales: ["en", "fr_FR", "ar"],
-        detectFromNavigator: true,
-    });
-    fixture.detectChanges();
-    expect(document.documentElement.lang).toBe("fr-FR");
+  Object.defineProperty(navigator, "languages", {
+    configurable: true,
+    get: () => ["fr-FR", "en"],
+  });
+  const fixture = mount({
+    label: "L",
+    locales: ["en", "fr_FR", "ar"],
+    detectFromNavigator: true,
+  });
+  fixture.detectChanges();
+  expect(document.documentElement.lang).toBe("fr-FR");
 });
 ```
 
@@ -299,7 +299,9 @@ tests. To simulate a thrown read:
 
 ```ts
 const original = Storage.prototype.getItem;
-Storage.prototype.getItem = () => { throw new Error("private mode"); };
+Storage.prototype.getItem = () => {
+  throw new Error("private mode");
+};
 // … run test …
 Storage.prototype.getItem = original;
 ```
@@ -314,7 +316,7 @@ Two-way binding via `[(value)]` desugars to `[value]="x"` plus
 ```ts
 const fixture = mount({ label: "L", locales: ["en", "fr"], value: "en" });
 fixture.componentRef.instance.value.subscribe((next) => {
-    fixture.componentRef.setInput("value", next);
+  fixture.componentRef.setInput("value", next);
 });
 ```
 
@@ -322,8 +324,8 @@ fixture.componentRef.instance.value.subscribe((next) => {
 
 ```ts
 test("§7.18 storageKey writes the active code to localStorage", async () => {
-    await mountSettled({ locales: ["en", "fr"], storageKey: "x" });
-    expect(localStorage.getItem("x")).toBe("en");
+  await mountSettled({ locales: ["en", "fr"], storageKey: "x" });
+  expect(localStorage.getItem("x")).toBe("en");
 });
 ```
 
@@ -347,8 +349,8 @@ without touching `document`":
 
 ```ts
 it("imports cleanly without DOM access", async () => {
-    const mod = await import("./locale-chooser.component");
-    expect(mod.LocaleChooser).toBeDefined();
+  const mod = await import("./locale-picker.component");
+  expect(mod.LocalePicker).toBeDefined();
 });
 ```
 
@@ -370,11 +372,11 @@ test must name a clause.
 
 Section map:
 
-| §7 group          | Clauses | Test focus                                              |
-| ----------------- | ------- | ------------------------------------------------------- |
-| 7.1 markup        | 1–6     | button + listbox DOM contract, glyph, ids, `lang`, labels |
-| 7.2 pure helpers  | 7–12    | bcp47LocaleTag, isRtlLocale, localeName                  |
-| 7.3 application   | 13–17   | target.lang, target.dir, applyDir, `localeChange`, hidden input |
-| 7.4 init value    | 18–21   | storage / value / navigator / defaultValue ordering      |
-| 7.5 class + icon  | 22–23   | className on the root div; projected `<ng-template>`     |
-| 7.6 keyboard      | 24–28   | open keys, move + clamp, commit, cancel, typeahead, pointer |
+| §7 group         | Clauses | Test focus                                                      |
+| ---------------- | ------- | --------------------------------------------------------------- |
+| 7.1 markup       | 1–6     | button + listbox DOM contract, glyph, ids, `lang`, labels       |
+| 7.2 pure helpers | 7–12    | bcp47LocaleTag, isRtlLocale, localeName                         |
+| 7.3 application  | 13–17   | target.lang, target.dir, applyDir, `localeChange`, hidden input |
+| 7.4 init value   | 18–21   | storage / value / navigator / defaultValue ordering             |
+| 7.5 class + icon | 22–23   | className on the root div; projected `<ng-template>`            |
+| 7.6 keyboard     | 24–28   | open keys, move + clamp, commit, cancel, typeahead, pointer     |

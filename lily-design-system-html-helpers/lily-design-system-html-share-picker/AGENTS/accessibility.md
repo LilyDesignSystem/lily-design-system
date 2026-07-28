@@ -1,4 +1,4 @@
-# Accessibility — `<share-chooser>` (HTML helper)
+# Accessibility — `<share-picker>` (HTML helper)
 
 User-facing version, with the costs stated at length:
 [`../docs/accessibility.md`](../docs/accessibility.md). This file is the
@@ -8,10 +8,10 @@ agent-facing summary. Catalog-wide rules:
 ## This helper breaks the catalog's one-rendering-shape rule — on purpose
 
 The catalog AGENTS file says all helpers render an icon button opening a
-`role="listbox"` dropdown with `aria-activedescendant`. `<share-chooser>`
+`role="listbox"` dropdown with `aria-activedescendant`. `<share-picker>`
 does **not**, and this is the correct exception:
 
-| | preference helpers | `<share-chooser>` |
+| | preference helpers | `<share-picker>` |
 | --- | --- | --- |
 | Pattern | Listbox (APG) | Disclosure (APG) |
 | Items | `<li role="option">` | `<a>` (no role) + `<button>` |
@@ -83,7 +83,7 @@ do not soften them:
 
 ## Review checklist
 
-- No `role` on any `.share-chooser-target`.
+- No `role` on any `.share-picker-target`.
 - `rel="noopener noreferrer"` present regardless of `newTab`.
 - Arrows clamp.
 - `Escape` returns focus to the trigger; `Tab` does not.

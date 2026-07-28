@@ -38,9 +38,9 @@
   Spec: spec/index.md §5.2 (resolution order), §5.8 (why detection is
   client-only).
 #}
-{% from "../theme-chooser.njk" import themeChooser %}
+{% from "../theme-picker.njk" import themePicker %}
 
-{{ themeChooser({
+{{ themePicker({
     label: "Theme",
     themesUrl: "/assets/themes/",
     themes: ["light", "dark"],
@@ -50,7 +50,7 @@
 }) }}
 
 <script type="module">
-    import { autoInit, matchSystemTheme } from "../theme-chooser.client.js";
+    import { autoInit, matchSystemTheme } from "../theme-picker.client.js";
     const [controller] = autoInit();
 
     // `matchSystemTheme` is exported so you can reuse the exact

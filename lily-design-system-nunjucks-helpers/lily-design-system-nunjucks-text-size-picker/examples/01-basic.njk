@@ -18,9 +18,9 @@
   listbox. The status line is part of the default pattern — see
   ../docs/accessibility.md. Omitting it is the deliberate choice.
 #}
-{% from "../text-size-chooser.njk" import textSizeChooser %}
+{% from "../text-size-picker.njk" import textSizePicker %}
 
-{{ textSizeChooser({
+{{ textSizePicker({
     label: "Text size",
     sizes: ["small", "medium", "large", "x-large"],
     storageKey: "lily-text-size"
@@ -37,7 +37,7 @@
   the user picks a new slug — immediate confirmation that the CSS
   below is actually wired up.
 #}
-<p class="text-size-chooser-status" aria-live="polite"></p>
+<p class="text-size-picker-status" aria-live="polite"></p>
 
 {#
   The helper signals the choice; it defines no typography. THIS is the
@@ -59,7 +59,7 @@
 </style>
 
 <script type="module">
-    import { autoInit } from "../text-size-chooser.client.js";
+    import { autoInit } from "../text-size-picker.client.js";
 
     // Show the human label, not the raw slug. These strings are
     // consumer-supplied and translatable — the helper never hardcodes
@@ -70,7 +70,7 @@
         large: "Large",
         "x-large": "Extra large",
     };
-    const status = document.querySelector(".text-size-chooser-status");
+    const status = document.querySelector(".text-size-picker-status");
 
     autoInit({
         onChange(slug) {

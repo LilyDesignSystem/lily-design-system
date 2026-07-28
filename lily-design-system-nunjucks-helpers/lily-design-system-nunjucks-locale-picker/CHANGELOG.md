@@ -1,4 +1,4 @@
-# Changelog — LocaleChooser (Nunjucks)
+# Changelog — LocalePicker (Nunjucks)
 
 All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
@@ -6,31 +6,31 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 ## 0.1.0 — 2026-07-21
 
-First release under the name `lily-design-system-nunjucks-locale-chooser`.
+First release under the name `lily-design-system-nunjucks-locale-picker`.
 The package was renamed from `lily-design-system-nunjucks-locale-select`;
 because no release has ever been published under the new name, the
 version restarts at 0.1.0 rather than continuing the old 0.4.0 line. The
 rename brings the helper into line with its three siblings, all now
-`*-chooser`.
+`*-picker`.
 
 ### The package as it stands
 
-- **`locale-chooser.njk`** — the `localeChooser(opts)` macro. Renders a
-  `<div class="locale-chooser">` root containing a hidden `<input>`, a
-  glyph-only `<button class="locale-chooser-button">` (U+1F310), and a
-  `<ul class="locale-chooser-list" role="listbox" hidden>` of
-  `<li class="locale-chooser-option" role="option">`. Ids default to
-  `locale-chooser-{name}`.
-- **`locale-chooser.client.js`** — the runtime. Owns open/close, focus,
+- **`locale-picker.njk`** — the `localePicker(opts)` macro. Renders a
+  `<div class="locale-picker">` root containing a hidden `<input>`, a
+  glyph-only `<button class="locale-picker-button">` (U+1F310), and a
+  `<ul class="locale-picker-list" role="listbox" hidden>` of
+  `<li class="locale-picker-option" role="option">`. Ids default to
+  `locale-picker-{name}`.
+- **`locale-picker.client.js`** — the runtime. Owns open/close, focus,
   the keyboard contract, `localStorage` persistence, the optional
   `navigator.language` first-visit fallback, and applying `lang` and
-  `dir` to the document root. Exports `initLocaleChooser`, `autoInit`,
+  `dir` to the document root. Exports `initLocalePicker`, `autoInit`,
   `localeName`, `bcp47LocaleTag`, `isRtlLocale`,
   `matchNavigatorLanguage`, and `GLOBE_WITH_MERIDIANS`.
-- **DOM hooks** — `data-lily-locale-chooser-root`, `-name`,
+- **DOM hooks** — `data-lily-locale-picker-root`, `-name`,
   `-storage-key`, `-default-value`, `-detect-from-navigator`, `-value`,
   `-target`, `-input`, `-button`, `-list`.
-- **`locale-chooser.test.ts`** — 53 vitest cases mapped onto the clauses
+- **`locale-picker.test.ts`** — 53 vitest cases mapped onto the clauses
   of `spec/index.md`.
 
 ---
@@ -39,7 +39,7 @@ rename brings the helper into line with its three siblings, all now
 
 The entries below record this package's development under its
 former name. Nothing was ever published under the
-`lily-design-system-nunjucks-locale-chooser` name before 0.1.0 above,
+`lily-design-system-nunjucks-locale-picker` name before 0.1.0 above,
 so these version numbers do not describe releases of the current
 package. They are kept because the DOM contract, keyboard
 behaviour and breaking changes they describe are still the ones
@@ -50,7 +50,7 @@ in force.
 #### Changed
 
 - Examples renamed from their radio-group-era filenames to descriptive
-  ones matching the theme-chooser convention. None of them had rendered
+  ones matching the theme-picker convention. None of them had rendered
   the thing its name claimed for some time:
   - `01-radios.njk` → `01-basic.njk`
   - `02-select.njk` → `02-custom-labels.njk`
@@ -66,13 +66,13 @@ in force.
 - **The control is no longer a native `<select>`.** It is now an icon
   `<button>` that opens a `<ul role="listbox">`. The root element
   changes from a `<select>` to a
-  `<div>`, both carrying the `locale-chooser` hook. Every consumer selector, test, and
+  `<div>`, both carrying the `locale-picker` hook. Every consumer selector, test, and
   stylesheet that assumed a `<select>` / `<option>` DOM must be
   updated.
 - **`placeholder` opt removed.** This supersedes the 0.3.0
   placeholder-pinning work: there is no `<select>` left to pin, and
   the closed control now shows a glyph rather than a word. The
-  `.locale-chooser-placeholder` class hook is removed with it.
+  `.locale-picker-placeholder` class hook is removed with it.
 - The `name` opt now names a hidden `<input>` inside the root rather
   than the `<select>` itself, and is now also the default id prefix.
 - The `{% call %}` block body now replaces the button's **glyph**
@@ -80,10 +80,10 @@ in force.
 
 #### Added
 
-- Four topic guides, bringing the docs set level with theme-chooser's:
+- Four topic guides, bringing the docs set level with theme-picker's:
   `docs/macro-opts-reference.md`, `docs/custom-rendering.md`,
   `docs/recipes.md`, and `docs/troubleshooting.md`. Written for
-  locale-chooser rather than adapted from the theme-chooser originals.
+  locale-picker rather than adapted from the theme-picker originals.
   The locale-specific guides (`bcp47`, `rtl`, `i18n-integration`,
   `concepts`) are unchanged; `preloading` is theme-only and has no
   locale counterpart.
@@ -92,10 +92,10 @@ in force.
   inside an `aria-hidden="true"` span, named solely by `aria-label`.
   VS15 requests the text presentation: without it browsers reach for
   the colour-emoji font and the globe renders blue, which does not
-  match theme-chooser's monochrome ◑ (U+25D1 is not an emoji codepoint
+  match theme-picker's monochrome ◑ (U+25D1 is not an emoji codepoint
   and needs no selector). Verified in Chromium.
 - Full WAI-ARIA APG listbox keyboard contract in
-  `locale-chooser.client.js`: `ArrowDown` / `Enter` / `Space` open
+  `locale-picker.client.js`: `ArrowDown` / `Enter` / `Space` open
   (`ArrowUp` opens on the last option); arrows move the active option
   and clamp without wrapping; `Home` / `End` jump; `Enter` / `Space`
   select, apply, close, and return focus; `Escape` closes without
@@ -108,18 +108,18 @@ in force.
   participation.
 - `id` opt (optional, string): id prefix for the listbox
   (`{id}-list`) and its options (`{id}-option-{i}`). Defaults to
-  `locale-chooser-{name}`. Ids are deterministic and SSR-safe — no
+  `locale-picker-{name}`. Ids are deterministic and SSR-safe — no
   `Math.random`, no `Date.now`. Pass an explicit `id` when two
   instances share a `name`.
 - `GLOBE_WITH_MERIDIANS` export from the client module.
-- New class hooks: `.locale-chooser-button`, `.locale-chooser-icon`,
-  `.locale-chooser-list`, `.locale-chooser-option`, plus the
+- New class hooks: `.locale-picker-button`, `.locale-picker-icon`,
+  `.locale-picker-list`, `.locale-picker-option`, plus the
   `[data-active]` and `[aria-selected]` state hooks. Positioning CSS
   for the listbox is the consumer's job; the package ships none. See
   [docs/styling.md](./docs/styling.md).
 - Server-side selected resolution: the macro marks exactly one option
   `aria-selected="true"` (`value or defaultValue or "en" or
-  locales[0]`) and pre-fills the hidden input to match.
+locales[0]`) and pre-fills the hidden input to match.
 
 #### Regression (documented, not fixed)
 
@@ -138,7 +138,7 @@ in force.
 
 - Options keep `lang="{tagFor(code)}"` for WCAG 3.1.2 (Language of
   Parts); the button and the listbox deliberately do not.
-- `data-lily-locale-chooser-value` remains the sole channel by which
+- `data-lily-locale-picker-value` remains the sole channel by which
   `opts.value` reaches the client, and still prevents a pre-hydration
   flash.
 - `lang` / `dir` application, RTL detection, `localStorage`
@@ -148,7 +148,7 @@ in force.
   (`bcp47LocaleTag`, `isRtlLocale`, `localeName`,
   `matchNavigatorLanguage`, `defaultLocaleLabels`,
   `RTL_LANGUAGE_TAGS`, `RTL_SCRIPT_SUBTAGS`).
-- `initLocaleChooser(root, opts?)` and `autoInit(opts?)` keep their
+- `initLocalePicker(root, opts?)` and `autoInit(opts?)` keep their
   signatures and still return `{setLocale, destroy}`. `destroy()` now
   also detaches the `document` click listener.
 
@@ -173,8 +173,8 @@ in force.
   ("Locale") instead of the active locale's name. This keeps the
   control's width constant regardless of locale-name length.
 - The macro renders a new leading
-  `<option class="locale-chooser-option locale-chooser-placeholder"
-  value="" selected>` as the FIRST child of the `<select>`. **Option
+  `<option class="locale-picker-option locale-picker-placeholder"
+value="" selected>` as the FIRST child of the `<select>`. **Option
   count is now `locales.length + 1`**, the first option value is `""`,
   and per-option `lang` assertions shift by one index (the
   placeholder carries no `lang` — it is not a locale). Consumers
@@ -191,7 +191,7 @@ in force.
   option. Defaults to `label`, so no hardcoded user-facing string is
   ever emitted. Supply it when you want a long descriptive
   `aria-label` but a short visible word.
-- `.locale-chooser-placeholder` class hook, plus a new
+- `.locale-picker-placeholder` class hook, plus a new
   [docs/styling.md](./docs/styling.md) with the class/attribute hook
   tables and a width recipe (`field-sizing: content` / `max-width`).
 
@@ -214,10 +214,10 @@ in force.
 
 - The compensating status region is now the **default pattern**, not a
   suggestion: the entry-point example and the `index.md` quick-start
-  both ship a visible `<p class="locale-chooser-status" aria-live="polite">`
+  both ship a visible `<p class="locale-picker-status" aria-live="polite">`
   using the exported `localeName()`, wired through the existing
   `autoInit({ onChange })` callback. `docs/accessibility.md` reframes
-  opting *out* as the deliberate choice and keeps an explicit note that
+  opting _out_ as the deliberate choice and keeps an explicit note that
   focusing the closed control still announces only the placeholder.
 
 #### Fixed
@@ -226,7 +226,7 @@ in force.
   server-rendering `selected` on the matching real option; the browser
   honoured that over the placeholder, so the real locale name flashed
   before the client snapped it back. The initial value now travels as a
-  `data-lily-locale-chooser-value` attribute on the `<select>` root
+  `data-lily-locale-picker-value` attribute on the `<select>` root
   (emitted only when `opts.value` is set), and the placeholder is the
   only `selected` option in the server-rendered HTML. Initial-value
   resolution order is unchanged.
@@ -237,12 +237,12 @@ in force.
 
 - Migrated from the radio-group "picker" rendering to a native
   `<select>` (landed in-tree 2026-06-17): the root element is now
-  `<select class="locale-chooser">` with one `<option class="locale-chooser-option">`
+  `<select class="locale-picker">` with one `<option class="locale-picker-option">`
   per choice, replacing the former `<fieldset role="radiogroup">` with
   `<input type="radio">` children. The package was renamed from the
   `*-picker` name to `*-select` accordingly.
-- Class-hook contract changed: `locale-chooser` now names the `<select>` root
-  and `locale-chooser-option` is the only sub-class; the radio/label sub-class
+- Class-hook contract changed: `locale-picker` now names the `<select>` root
+  and `locale-picker-option` is the only sub-class; the radio/label sub-class
   hooks are gone.
 - Keyboard interaction is the native `<select>` contract (Arrow keys,
   Home / End, first-letter typeahead) instead of radio-group cycling.
@@ -262,7 +262,7 @@ in force.
 - Default rendering changed from a single-selection group of native
   toggle controls to a native `<select>` with one
   `<option lang="{tag}">` per locale code. The `<select>` carries
-  `name`, `aria-label`, and the `data-lily-locale-chooser-*` hooks;
+  `name`, `aria-label`, and the `data-lily-locale-picker-*` hooks;
   each `<option>` keeps its per-option `lang` for WCAG 3.1.2
   (Language of Parts). Keyboard interaction is now provided entirely
   by the native `<select>` (Arrow / Home / End / typeahead); the
@@ -277,19 +277,19 @@ Initial release.
 
 #### Added
 
-- `locale-chooser.njk` — Nunjucks 3 macro emitting a native
+- `locale-picker.njk` — Nunjucks 3 macro emitting a native
   `<select>` with one `<option>` per locale code. Single `opts`
   parameter; required keys are `label` and `locales`. Renders
-  deterministic markup with `data-lily-locale-chooser-*`
+  deterministic markup with `data-lily-locale-picker-*`
   configuration attributes for the client.js to read. Each
   `<option>` carries `lang="{tag}"` for WCAG 3.1.2 (Language of
   Parts).
-- `locale-chooser.client.js` — vanilla ES module owning the runtime
+- `locale-picker.client.js` — vanilla ES module owning the runtime
   lifecycle:
-  - `initLocaleChooser(root, opts)` — wires one `<select>`; returns a
+  - `initLocalePicker(root, opts)` — wires one `<select>`; returns a
     `{setLocale, destroy}` controller.
   - `autoInit(opts)` — finds every
-    `[data-lily-locale-chooser-root]` on the page and wires it.
+    `[data-lily-locale-picker-root]` on the page and wires it.
   - `bcp47LocaleTag(code)` — pure helper, normalises `_` → `-`.
   - `isRtlLocale(code)` — pure helper, RTL script + language
     detection.
@@ -304,7 +304,7 @@ Initial release.
   - Optional `detectFromNavigator` falls back to
     `navigator.languages` on a fresh mount with no stored value.
   - `onChange(code)` callback for post-apply side effects.
-- `locale-chooser.test.ts` — vitest suite asserting every numbered
+- `locale-picker.test.ts` — vitest suite asserting every numbered
   acceptance criterion in `spec/index.md` §7.
 - `spec/index.md` — spec-driven contract, version 0.1.0.
 - `locales.ts` / `locales.tsv` — built-in locale code → English-name
@@ -330,7 +330,7 @@ Initial release.
   - `08-ssr-cookie.njk`
   - `09-scoped-target.njk`
   - `10-combobox.njk`
-  - `localeChooserCustom.njk` — helper fork that delegates the
+  - `localePickerCustom.njk` — helper fork that delegates the
     per-option body to a `{% call %}` block, used by examples
     02, 03, 05, and 10.
   - `README.md` — examples index.
@@ -338,8 +338,8 @@ Initial release.
 #### Conventions
 
 - Nunjucks 3 macro syntax with a single `opts` parameter object.
-- camelCase macro name (`localeChooser`); kebab-case file path
-  (`locale-chooser.njk`) and CSS class (`locale-chooser`).
+- camelCase macro name (`localePicker`); kebab-case file path
+  (`locale-picker.njk`) and CSS class (`locale-picker`).
 - Companion ES-module runtime, framework-agnostic.
 - Zero runtime dependencies beyond `nunjucks` server-side and DOM
   APIs client-side.
@@ -351,7 +351,7 @@ Initial release.
 #### Parity
 
 This is a direct port of the Svelte canonical
-`lily-design-system-svelte-locale-chooser` v0.1.0. The DOM
+`lily-design-system-svelte-locale-picker` v0.1.0. The DOM
 contract, initial-value resolution, BCP 47 normalisation, RTL
 detection, navigator matching, and apply order match clause-for-
 clause.
@@ -363,7 +363,7 @@ clause.
 - The Svelte canonical's `children` snippet (and the Vue port's
   default scoped slot) maps to the Nunjucks `{% call %}` caller
   block. The shipped macro does not currently inspect `caller`;
-  see [`examples/localeChooserCustom.njk`](./examples/localeChooserCustom.njk)
+  see [`examples/localePickerCustom.njk`](./examples/localePickerCustom.njk)
   for the fork pattern.
 - The 436-row `locales.tsv` is the canonical source. The
   `locales.ts` file is generated from it; both are kept in lock-

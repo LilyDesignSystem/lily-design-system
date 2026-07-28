@@ -1,5 +1,5 @@
 {#
-  base.njk — Eleventy layout with the theme chooser.
+  base.njk — Eleventy layout with the theme picker.
 
   Uses __THEME__ as a placeholder the edge middleware substitutes
   with the cookie value. At static-build time (no edge function),
@@ -9,7 +9,7 @@
   Note what SSR does and does not buy here. It gets the first PAINT
   right — <html data-theme> and the theme <link> are correct before
   any script runs. It does not make the control usable: the button
-  only opens its listbox once theme-chooser.client.js has loaded.
+  only opens its listbox once theme-picker.client.js has loaded.
   See ../../../docs/ssr.md.
 #}
 <!doctype html>
@@ -22,8 +22,8 @@
     </head>
     <body>
         <header>
-            {% from "lily/theme-chooser.njk" import themeChooser %}
-            {{ themeChooser({
+            {% from "lily/theme-picker.njk" import themePicker %}
+            {{ themePicker({
                 label: "Theme",
                 themesUrl: "/assets/themes/",
                 themes: site.supportedThemes,
@@ -37,7 +37,7 @@
         </main>
 
         <script type="module">
-            import { autoInit } from "/lily/theme-chooser.client.js";
+            import { autoInit } from "/lily/theme-picker.client.js";
             autoInit({
                 onChange(slug) {
                     fetch("/api/theme", {

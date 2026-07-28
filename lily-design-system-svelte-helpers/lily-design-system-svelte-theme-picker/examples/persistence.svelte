@@ -7,10 +7,10 @@
   silently swallowed.
 -->
 <script lang="ts">
-  import ThemeChooser from "../ThemeChooser.svelte";
+  import ThemePicker from "../ThemePicker.svelte";
 </script>
 
-<ThemeChooser
+<ThemePicker
   label="Theme"
   themesUrl="/assets/themes/"
   themes={["light", "dark", "abyss"]}

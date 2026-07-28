@@ -1,20 +1,20 @@
-# AGENTS — `<text-size-chooser>` (HTML helper)
+# AGENTS — `<text-size-picker>` (HTML helper)
 
 Single source of truth: [spec/index.md](./spec/index.md). Read it first; everything
 below is a fast index.
 
 ## What this package is
 
-A reusable vanilla HTML/JS headless text-size chooser, packaged as the
-`<text-size-chooser>` custom element. The control is an **icon button
+A reusable vanilla HTML/JS headless text-size picker, packaged as the
+`<text-size-picker>` custom element. The control is an **icon button
 that opens a dropdown listbox** (WAI-ARIA APG listbox pattern) — not a
 native `<select>`. On change it applies the chosen slug to the document
 root via `data-text-size`, with optional `localStorage` persistence.
-Ships no CSS; the consumer styles the `text-size-chooser` class hooks on
+Ships no CSS; the consumer styles the `text-size-picker` class hooks on
 the rendered children, maps each `[data-text-size="…"]` slug to real
 typography, and must supply the list's positioning.
 
-Structurally identical to its `theme-chooser` and `locale-chooser`
+Structurally identical to its `theme-picker` and `locale-picker`
 siblings in this catalog — all three helpers are the same shape.
 
 ## Files
@@ -22,20 +22,20 @@ siblings in this catalog — all three helpers are the same shape.
 | File                        | Purpose                                          |
 | --------------------------- | ------------------------------------------------ |
 | `spec/index.md`             | Specification-driven contract (canonical).       |
-| `text-size-chooser.ts`       | Implementation (TypeScript class).               |
-| `text-size-chooser.test.ts`  | Vitest + jsdom spec, one assertion per §7 item.  |
+| `text-size-picker.ts`       | Implementation (TypeScript class).               |
+| `text-size-picker.test.ts`  | Vitest + jsdom spec, one assertion per §7 item.  |
 | `index.ts`                  | Barrel re-export + side-effectful registration.  |
 | `index.md`                  | Human-readable guide.                            |
 | `docs/accessibility.md`     | Roles, keyboard contract, known tradeoffs.       |
 
 ## Public surface
 
-- Class `TextSizeChooser extends HTMLElement` (registered as
-  `<text-size-chooser>` on import of `index.ts`).
-- Named exports: `TextSizeChooser`, `sizeName`, `nextTextSizeChooserId`,
-  `LATIN_CAPITAL_LETTER_A`. `sizeName` is the mirror of theme-chooser's
-  `themeName` and locale-chooser's `localeName`.
-- Type exports: `TextSizeChooserProps`, `TextSizeChooserChangeDetail`.
+- Class `TextSizePicker extends HTMLElement` (registered as
+  `<text-size-picker>` on import of `index.ts`).
+- Named exports: `TextSizePicker`, `sizeName`, `nextTextSizePickerId`,
+  `LATIN_CAPITAL_LETTER_A`. `sizeName` is the mirror of theme-picker's
+  `themeName` and locale-picker's `localeName`.
+- Type exports: `TextSizePickerProps`, `TextSizePickerChangeDetail`.
 - Instance members beyond the attribute mirrors: `open` (getter),
   `listId` (getter), `optionId(index)`, `openList(startIndex?)`,
   `closeList(refocus = true)`, `labelFor(slug)`, and
@@ -46,8 +46,8 @@ Required attributes: `label`, `sizes`. Full table in
 
 There is deliberately **no detection attribute**: the platform exposes
 no preferred-text-size signal equivalent to `prefers-color-scheme` or
-`navigator.languages`, so there is no counterpart to theme-chooser's
-`detect-from-system` or locale-chooser's `detect-from-navigator`.
+`navigator.languages`, so there is no counterpart to theme-picker's
+`detect-from-system` or locale-picker's `detect-from-navigator`.
 
 ## Behaviour contract (one paragraph)
 
@@ -67,17 +67,17 @@ focus and the active descendant.
 
 ## HTML
 
-`<text-size-chooser>` contains one rendered
-`<div class="text-size-chooser {class}">` holding, in order: a hidden
+`<text-size-picker>` contains one rendered
+`<div class="text-size-picker {class}">` holding, in order: a hidden
 `<input name="{name}">` for form participation; a
-`<button type="button" class="text-size-chooser-button" aria-label="{label}"
+`<button type="button" class="text-size-picker-button" aria-label="{label}"
 aria-haspopup="listbox" aria-expanded aria-controls="{listId}">`
 whose content defaults to
-`<span class="text-size-chooser-icon" aria-hidden="true">A</span>`
+`<span class="text-size-picker-icon" aria-hidden="true">A</span>`
 (U+0041, exported as `LATIN_CAPITAL_LETTER_A`); and a
-`<ul class="text-size-chooser-list" id="{listId}" role="listbox"
+`<ul class="text-size-picker-list" id="{listId}" role="listbox"
 aria-label="{label}" tabindex="-1" hidden>` with one
-`<li class="text-size-chooser-option" role="option" aria-selected>` per
+`<li class="text-size-picker-option" role="option" aria-selected>` per
 slug. `aria-activedescendant` sits on the `<ul>` only while open;
 `data-active` marks the keyboard-highlighted option, which is a
 different thing from `aria-selected`. Full markup:

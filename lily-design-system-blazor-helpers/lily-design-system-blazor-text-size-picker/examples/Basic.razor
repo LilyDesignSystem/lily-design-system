@@ -27,16 +27,16 @@
     inherits, or the user's choice is silently ignored (WCAG 1.4.4).
 *@
 
-@page "/examples/text-size-chooser/basic"
+@page "/examples/text-size-picker/basic"
 @rendermode InteractiveServer
 @using LilyDesignSystem.Blazor.Helpers
 
-<TextSizeChooser
+<TextSizePicker
     Label="Text size"
     Sizes="@Sizes"
     @bind-Value="size" />
 
-<p class="text-size-chooser-status" aria-live="polite">
+<p class="text-size-picker-status" aria-live="polite">
     Text size: @SizeLabel(size)
 </p>
 
@@ -51,5 +51,5 @@
     // from the option labels. If you pass a SizeLabels dictionary to the
     // select, look the label up in that same dictionary instead.
     private static string SizeLabel(string slug) =>
-        string.IsNullOrEmpty(slug) ? "none" : TextSizeChooser.SizeName(slug);
+        string.IsNullOrEmpty(slug) ? "none" : TextSizePicker.SizeName(slug);
 }

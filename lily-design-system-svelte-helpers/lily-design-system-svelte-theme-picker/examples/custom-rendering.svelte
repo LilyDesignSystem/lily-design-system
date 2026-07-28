@@ -39,12 +39,12 @@
   invalid HTML and breaks keyboard behaviour.
 -->
 <script lang="ts">
-  import ThemeChooser from "../ThemeChooser.svelte";
+  import ThemePicker from "../ThemePicker.svelte";
 
   let theme = $state("");
 </script>
 
-<ThemeChooser
+<ThemePicker
   label="Theme"
   themesUrl="/assets/themes/"
   themes={["light", "dark", "abyss", "cupcake", "dracula"]}
@@ -52,7 +52,7 @@
 >
   {#snippet children({ value, open, labelFor })}
     <span aria-hidden="true">&#9681;</span>
-    <span class="theme-chooser-text">{labelFor(value)}</span>
+    <span class="theme-picker-text">{labelFor(value)}</span>
     <span aria-hidden="true">{open ? "▴" : "▾"}</span>
   {/snippet}
-</ThemeChooser>
+</ThemePicker>

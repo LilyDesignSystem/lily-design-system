@@ -1,4 +1,4 @@
-# ShareChooser (Vue helper)
+# SharePicker (Vue helper)
 
 A headless Vue 3 share control: a single-glyph button (➤) that opens the
 **native share sheet** where the browser has one, and otherwise shows a
@@ -10,18 +10,22 @@ is the human-readable guide.
 ## Install
 
 ```ts
-import ShareChooser from "./lily-design-system-vue-share-chooser/ShareChooser.vue";
+import SharePicker from "./lily-design-system-vue-share-picker/SharePicker.vue";
 // or via the barrel:
-import { ShareChooser, canShareNatively, type ShareTarget }
-  from "./lily-design-system-vue-share-chooser";
+import {
+  SharePicker,
+  canShareNatively,
+  type ShareTarget,
+} from "./lily-design-system-vue-share-picker";
 ```
 
 ## Quick start
 
 ```vue
 <script setup lang="ts">
-import ShareChooser, { type ShareTarget }
-  from "./lily-design-system-vue-share-chooser/ShareChooser.vue";
+import SharePicker, {
+  type ShareTarget,
+} from "./lily-design-system-vue-share-picker/SharePicker.vue";
 
 const targets: ShareTarget[] = [
   {
@@ -41,7 +45,7 @@ const targets: ShareTarget[] = [
 </script>
 
 <template>
-  <ShareChooser
+  <SharePicker
     label="Share this page"
     title="An article worth reading"
     :targets="targets"
@@ -72,11 +76,11 @@ baked into a design system.
 
 ## Events
 
-| Event | Payload | Fires when |
-| ----- | ------- | ---------- |
-| `@share` | `(targetId, url)` | A destination is chosen. |
-| `@copy` | `(url)` | The URL was copied successfully. |
-| `@native-share` | `(url)` | The native sheet was used instead of the list. |
+| Event           | Payload           | Fires when                                     |
+| --------------- | ----------------- | ---------------------------------------------- |
+| `@share`        | `(targetId, url)` | A destination is chosen.                       |
+| `@copy`         | `(url)`           | The URL was copied successfully.               |
+| `@native-share` | `(url)`           | The native sheet was used instead of the list. |
 
 There is no `v-model`: this helper owns an action, not a value.
 
@@ -113,8 +117,8 @@ menuitem role strips middle-click, open-in-new-tab, and copy-link-address
 suggests a disclosure when the items are links. Copy is a real action, so
 it is a `<button>`.
 
-This also makes ShareChooser the one helper in this catalog that is **not**
-an APG listbox: `theme-chooser`, `locale-chooser` and `text-size-chooser` use
+This also makes SharePicker the one helper in this catalog that is **not**
+an APG listbox: `theme-picker`, `locale-picker` and `text-size-picker` use
 `aria-activedescendant` over virtual options, while here focus moves for
 real between real elements.
 
@@ -124,11 +128,11 @@ The default scoped slot replaces the button glyph and receives
 `{ open, url }`:
 
 ```vue
-<ShareChooser label="Share this page" :targets="targets">
+<SharePicker label="Share this page" :targets="targets">
   <template #default="{ open }">
     <span aria-hidden="true">{{ open ? "×" : "➤" }}</span>
   </template>
-</ShareChooser>
+</SharePicker>
 ```
 
 Slot content renders inside the `<button>`, so keep it non-interactive;
@@ -151,9 +155,9 @@ Full table in [spec/index.md §4.1](./spec/index.md#41-props). Required:
 
 ## Styling
 
-Class hooks: `.share-chooser` (root), `.share-chooser-button`,
-`.share-chooser-icon`, `.share-chooser-list`, `.share-chooser-list-item`,
-`.share-chooser-target`, `.share-chooser-copy`, `.share-chooser-status`.
+Class hooks: `.share-picker` (root), `.share-picker-button`,
+`.share-picker-icon`, `.share-picker-list`, `.share-picker-list-item`,
+`.share-picker-target`, `.share-picker-copy`, `.share-picker-status`.
 
 The package ships no CSS. The root `themes/` stylesheets style the button
 and popup, including the optical glyph sizing that keeps ➤ visually the
@@ -161,7 +165,7 @@ same size as the other helpers' glyphs.
 
 ## Tests
 
-`npx vitest run lily-design-system-vue-share-chooser` from the catalog
+`npx vitest run lily-design-system-vue-share-picker` from the catalog
 root — 35 cases, one or more per §7 clause.
 
 ---

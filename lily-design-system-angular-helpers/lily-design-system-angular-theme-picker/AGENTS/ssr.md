@@ -1,4 +1,4 @@
-# SSR — ThemeChooser (Angular)
+# SSR — ThemePicker (Angular)
 
 The select runs cleanly under Angular SSR (Analog v1 + Nitro,
 `@angular/ssr`, Angular Universal). This page lists the
@@ -11,19 +11,36 @@ Under SSR, the `effect()` callback's `typeof document` guard
 prevents any DOM mutation. The select renders:
 
 ```html
-<div class="theme-chooser ">
-    <input type="hidden" name="theme" value="light" />
-    <button type="button" class="theme-chooser-button" aria-label="Theme"
-            aria-haspopup="listbox" aria-expanded="false"
-            aria-controls="theme-chooser-1-list">
-        <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
-    </button>
-    <ul class="theme-chooser-list" id="theme-chooser-1-list" role="listbox"
-        aria-label="Theme" tabindex="-1" hidden>
-        <li class="theme-chooser-option" id="theme-chooser-1-option-0"
-            role="option" aria-selected="true">Light</li>
-        …
-    </ul>
+<div class="theme-picker ">
+  <input type="hidden" name="theme" value="light" />
+  <button
+    type="button"
+    class="theme-picker-button"
+    aria-label="Theme"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="theme-picker-1-list"
+  >
+    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
+  </button>
+  <ul
+    class="theme-picker-list"
+    id="theme-picker-1-list"
+    role="listbox"
+    aria-label="Theme"
+    tabindex="-1"
+    hidden
+  >
+    <li
+      class="theme-picker-option"
+      id="theme-picker-1-option-0"
+      role="option"
+      aria-selected="true"
+    >
+      Light
+    </li>
+    …
+  </ul>
 </div>
 ```
 
@@ -31,14 +48,14 @@ The listbox is always closed on the server, so `aria-expanded` is
 `false`, `hidden` is present, and `aria-activedescendant` is absent —
 open state is user interaction, and there is none yet.
 
-Ids come from `nextThemeChooserId()`, an incrementing module counter,
+Ids come from `nextThemePickerId()`, an incrementing module counter,
 so they are deterministic on both sides. This is the reason the
 component does not use `Math.random()` or `Date.now()`: those would
 produce different `id` / `aria-controls` / `aria-activedescendant`
 values on the server and the client, and hydration would flag the
 mismatch (and, worse, silently break the ARIA wiring if it didn't).
 
-The one thing that *can* differ across the boundary is `value`, which
+The one thing that _can_ differ across the boundary is `value`, which
 the hidden input mirrors and which decides which `<li>` gets
 `aria-selected="true"`. If the server renders with an empty `value`
 and the client resolves one from `localStorage`, those attributes
@@ -84,19 +101,19 @@ import { InjectionToken, inject } from "@angular/core";
 import { REQUEST } from "@analogjs/router/tokens";
 
 export const INITIAL_THEME = new InjectionToken<string>("INITIAL_THEME", {
-    providedIn: "root",
-    factory: () => {
-        const req = inject(REQUEST, { optional: true });
-        if (!req) {
-            // Client side — read the cookie directly.
-            if (typeof document === "undefined") return "light";
-            const match = document.cookie.match(/(?:^|; )theme=([^;]*)/);
-            return match ? decodeURIComponent(match[1]) : "light";
-        }
-        // Server side — read what the middleware stashed.
-        const ctx = (req as { context?: { theme?: string } }).context;
-        return ctx?.theme ?? "light";
-    },
+  providedIn: "root",
+  factory: () => {
+    const req = inject(REQUEST, { optional: true });
+    if (!req) {
+      // Client side — read the cookie directly.
+      if (typeof document === "undefined") return "light";
+      const match = document.cookie.match(/(?:^|; )theme=([^;]*)/);
+      return match ? decodeURIComponent(match[1]) : "light";
+    }
+    // Server side — read what the middleware stashed.
+    const ctx = (req as { context?: { theme?: string } }).context;
+    return ctx?.theme ?? "light";
+  },
 });
 ```
 
@@ -104,32 +121,31 @@ export const INITIAL_THEME = new InjectionToken<string>("INITIAL_THEME", {
 
 ```ts
 import { Component, inject, signal } from "@angular/core";
-import { ThemeChooser } from "../theme-chooser.component";
+import { ThemePicker } from "../theme-picker.component";
 import { INITIAL_THEME } from "./tokens/initial-theme";
 
 @Component({
-    selector: "app-root",
-    standalone: true,
-    imports: [ThemeChooser],
-    template: `
-        <lily-theme-chooser
-            label="Theme"
-            themesUrl="/assets/themes/"
-            [themes]="themes"
-            [(value)]="theme"
-            (themeChange)="persistCookie($event)"
-        />
-    `,
+  selector: "app-root",
+  standalone: true,
+  imports: [ThemePicker],
+  template: `
+    <lily-theme-picker
+      label="Theme"
+      themesUrl="/assets/themes/"
+      [themes]="themes"
+      [(value)]="theme"
+      (themeChange)="persistCookie($event)"
+    />
+  `,
 })
 export class App {
-    readonly themes = ["light", "dark", "abyss"];
-    theme = signal(inject(INITIAL_THEME));
+  readonly themes = ["light", "dark", "abyss"];
+  theme = signal(inject(INITIAL_THEME));
 
-    persistCookie(slug: string): void {
-        if (typeof document === "undefined") return;
-        document.cookie =
-            `theme=${slug}; path=/; max-age=31536000; SameSite=Lax`;
-    }
+  persistCookie(slug: string): void {
+    if (typeof document === "undefined") return;
+    document.cookie = `theme=${slug}; path=/; max-age=31536000; SameSite=Lax`;
+  }
 }
 ```
 
@@ -141,19 +157,24 @@ and set the attribute:
 
 ```ts
 // src/app/app.config.server.ts
-import { ApplicationConfig, inject, provideEnvironmentInitializer, mergeApplicationConfig } from "@angular/core";
+import {
+  ApplicationConfig,
+  inject,
+  provideEnvironmentInitializer,
+  mergeApplicationConfig,
+} from "@angular/core";
 import { DOCUMENT } from "@angular/common";
 import { appConfig } from "./app.config";
 import { INITIAL_THEME } from "./tokens/initial-theme";
 
 const serverConfig: ApplicationConfig = {
-    providers: [
-        provideEnvironmentInitializer(() => {
-            const doc = inject(DOCUMENT);
-            const slug = inject(INITIAL_THEME);
-            doc.documentElement.setAttribute("data-theme", slug);
-        }),
-    ],
+  providers: [
+    provideEnvironmentInitializer(() => {
+      const doc = inject(DOCUMENT);
+      const slug = inject(INITIAL_THEME);
+      doc.documentElement.setAttribute("data-theme", slug);
+    }),
+  ],
 };
 
 export const config = mergeApplicationConfig(appConfig, serverConfig);
@@ -180,7 +201,7 @@ const theme = Astro.cookies.get("theme")?.value ?? "light";
         <link rel="stylesheet" href={`/assets/themes/${theme}.css`} />
     </head>
     <body>
-        <lily-theme-chooser
+        <lily-theme-picker
             client:load
             label="Theme"
             themesUrl="/assets/themes/"
@@ -197,7 +218,7 @@ const theme = Astro.cookies.get("theme")?.value ?? "light";
 If you see an Angular warning like "NG0500: Hydration: node
 mismatch", the most common cause is:
 
-- **Not the ids** — `nextThemeChooserId()` is deterministic, so
+- **Not the ids** — `nextThemePickerId()` is deterministic, so
   `id`, `aria-controls`, and the option ids agree on both sides.
 - **Possibly the value-derived attributes.** The hidden input's
   `value` and the `aria-selected` flags follow the resolved theme. If

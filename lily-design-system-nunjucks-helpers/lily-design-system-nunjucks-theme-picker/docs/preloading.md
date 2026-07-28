@@ -88,7 +88,7 @@ client then doesn't need to swap stylesheets at all — only
     {# The client still manages a <link>; you can point it at a
        no-op file, or ignore it entirely by reading onChange and
        setting data-theme yourself. #}
-    {{ themeChooser({
+    {{ themePicker({
         label: "Theme",
         themesUrl: "/assets/themes/",
         themes: ["light", "dark", "abyss"],

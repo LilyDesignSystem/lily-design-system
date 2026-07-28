@@ -1,0 +1,230 @@
+{#
+  DateTimePicker macro — text field + icon button opening a WAI-ARIA APG
+  Date Picker Dialog (month grid, optional time selects).
+
+  HTML tag: <div> (root), <input>+<button> (field), <div role="dialog"> (popup)
+  CSS class: date-time-picker
+  Companion runtime: date-time-picker.client.js
+
+  This is the FIFTH helper in the catalog and the hardest port: unlike the
+  three *-select helpers (a static option list) and share-picker (real,
+  final <a href> links), a calendar's grid, weekday headers, period
+  heading and hour/minute option lists cannot be produced by a template
+  at all — they need Intl.DateTimeFormat and civil-date arithmetic that
+  Nunjucks has no access to. So this macro renders every piece of markup
+  whose text is FIXED at render time (the trigger, the header nav
+  buttons, the footer, any shortcut buttons, the hour/minute <label>s)
+  and leaves the Intl-dependent interior — the weekday <th> row, the
+  <tbody> of day cells, the period heading text, the hour/minute
+  <option> lists, and the meridiem select itself — for
+  date-time-picker.client.js to build the first time it runs. See
+  spec/index.md §3.4 for the full account, and §4.3 for exactly what
+  each side owns.
+
+  ---------------------------------------------------------------------
+  NUNJUCKS DEVIATIONS from the canonical Svelte props
+  ---------------------------------------------------------------------
+
+  1. isDateDisabled: (isoDate) => boolean  in Svelte.
+     A macro cannot evaluate a predicate, and the calendar it would
+     gate is not rendered here at all (see above) — so there is
+     nothing to apply it to at render time. The macro instead accepts
+     `disabledDates`, an array of ISO date strings, emitted as a JSON
+     data attribute. date-time-picker.client.js reads it as the
+     baseline disabled set on every root — including one hydrated with
+     no custom JavaScript at all — and a real `isDateDisabled` function
+     passed to `initDateTimePicker` layers on top of it (or replaces it)
+     for rules a finite list cannot express, e.g. "no weekends".
+     See spec/index.md §3.4.
+
+  2. formatValue / parseInput / onChange / onShortcut / onInvalidInput:
+     all functions in Svelte. These have no template equivalent to
+     deviate INTO — they are client-only concerns and pass straight
+     through as `initDateTimePicker(root, {formatValue, parseInput,
+     onChange, onShortcut, onInvalidInput})` options with no macro-side
+     substitute needed at all.
+
+  3. hour12: in Svelte this resolves from `locale` via Intl when unset.
+     A macro cannot call Intl, so it cannot decide whether the
+     meridiem select should exist. The macro therefore never renders
+     it; date-time-picker.client.js resolves `hour12` (from the opt,
+     the data attribute, or the locale) and creates the meridiem
+     <label>+<select> itself, only when the clock turns out to be
+     12-hour. Its label comes from `labels.meridiem`, forwarded as a
+     data attribute since the element it names does not exist yet.
+
+  4. shortcuts: plain data (id/label/days/months/date, no functions),
+     so — unlike 1–3 — there is NO deviation here. The macro renders
+     each shortcut as a real button up front, exactly as it would any
+     other static list. A consumer building a root with no macro may
+     still pass `shortcuts` to `initDateTimePicker`, which then owns
+     the container instead of the pre-rendered buttons (client wins,
+     matching share-picker's function-href precedent).
+
+  Params (single `opts` object):
+    label          — string, required. Names the trigger AND the dialog.
+    labels         — object, required. previousYear/previousMonth/
+                     nextMonth/nextYear/confirm/cancel are required;
+                     hour/minute are required when mode includes a time;
+                     meridiem is required when a 12-hour clock is used;
+                     week is required when showWeekNumbers; clear is
+                     optional and gates the clear button.
+    mode           — "date" | "time" | "datetime", default "date".
+    value          — string. Initial ISO value (YYYY-MM-DD / HH:MM /
+                     YYYY-MM-DDTHH:MM per mode). Shown RAW in the text
+                     field until the client reformats it — the macro
+                     cannot call Intl. See spec/index.md §5.7.
+    locale         — string. BCP 47 tag. Forwarded as a data attribute;
+                     init opts win.
+    min / max      — string. Inclusive ISO date bounds.
+    disabledDates  — array of ISO date strings. See deviation 1 above.
+    firstDayOfWeek — number, 0 = Sunday … 6 = Saturday.
+    minuteStep     — number, default 1.
+    hour12         — boolean. See deviation 3 above.
+    showWeekNumbers— boolean.
+    shortcuts      — array of {id, label, days?, months?, date?}. See 4.
+    confirmOnSelect— boolean. Default (mode === "date") is resolved on
+                     the client, since the macro has no other default
+                     mechanism worth adding for one boolean.
+    name           — string, default "date-time". Discriminator for ids.
+    id             — string, default "date-time-picker-{name}".
+    inputId        — string. Overrides the text field's id.
+    describedBy    — string. Forwarded as aria-describedby.
+    placeholder    — string.
+    disabled / readonly / required — boolean.
+    classes        — string. Extra CSS classes on the root.
+    attributes     — object. Extra HTML attributes spread onto the root.
+
+    {% call %} body replaces the default calendar glyph inside the
+    button, exactly like share-picker's glyph override.
+
+  Usage:
+    {% from "./date-time-picker.njk" import dateTimePicker %}
+    {{ dateTimePicker({
+      label: "Appointment date",
+      labels: {
+        previousYear: "Previous year", previousMonth: "Previous month",
+        nextMonth: "Next month", nextYear: "Next year",
+        confirm: "Confirm", cancel: "Cancel", clear: "Clear"
+      },
+      mode: "date",
+      value: appointment.date,
+      min: "2026-01-01"
+    }) }}
+
+  Then load date-time-picker.client.js once and call autoInit().
+
+  Spec: spec/index.md §4.1 (macro parameters), §4.3 (DOM contract).
+#}
+{%- macro dateTimePicker(opts) -%}
+{%- set name = opts.name | default("date-time") -%}
+{%- set id = opts.id | default("date-time-picker-" + name) -%}
+{%- set dialogId = id + "-dialog" -%}
+{%- set periodId = id + "-period" -%}
+{%- set fieldId = opts.inputId | default(id + "-input") -%}
+{%- set hourId = id + "-hour" -%}
+{%- set minuteId = id + "-minute" -%}
+{%- set mode = opts.mode | default("date") -%}
+{%- set labels = opts.labels | default({}) -%}
+{%- set usesDate = mode !== "time" -%}
+{%- set usesTime = mode !== "date" -%}
+{%- set showWeekNumbers = opts.showWeekNumbers | default(false) -%}
+{%- set shortcuts = opts.shortcuts | default([]) -%}
+<div
+  class="date-time-picker{% if opts.classes %} {{ opts.classes }}{% endif %}"
+  data-lily-date-time-picker-root
+  data-mode="{{ mode }}"
+  data-lily-date-time-picker-name="{{ name }}"
+  {%- if opts.locale %} data-lily-date-time-picker-locale="{{ opts.locale }}"{% endif %}
+  {%- if opts.min %} data-lily-date-time-picker-min="{{ opts.min }}"{% endif %}
+  {%- if opts.max %} data-lily-date-time-picker-max="{{ opts.max }}"{% endif %}
+  {%- if opts.disabledDates %} data-lily-date-time-picker-disabled-dates="{{ opts.disabledDates | dump }}"{% endif %}
+  {%- if opts.firstDayOfWeek is defined %} data-lily-date-time-picker-first-day-of-week="{{ opts.firstDayOfWeek }}"{% endif %}
+  {%- if opts.minuteStep is defined %} data-lily-date-time-picker-minute-step="{{ opts.minuteStep }}"{% endif %}
+  {%- if opts.hour12 is defined %} data-lily-date-time-picker-hour12="{{ opts.hour12 }}"{% endif %}
+  {%- if showWeekNumbers %} data-lily-date-time-picker-show-week-numbers="true"{% endif %}
+  {%- if opts.confirmOnSelect is defined %} data-lily-date-time-picker-confirm-on-select="{{ opts.confirmOnSelect }}"{% endif %}
+  {%- if labels.meridiem %} data-lily-date-time-picker-meridiem-label="{{ labels.meridiem }}"{% endif %}
+  {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+<input type="hidden" name="{{ name }}" value="{{ opts.value | default('') }}" data-lily-date-time-picker-hidden-input>
+
+<div class="date-time-picker-field">
+  <input
+    class="date-time-picker-input"
+    id="{{ fieldId }}"
+    type="text"
+    autocomplete="off"
+    value="{{ opts.value | default('') }}"
+    {%- if opts.placeholder %} placeholder="{{ opts.placeholder }}"{% endif %}
+    {%- if opts.disabled %} disabled{% endif %}
+    {%- if opts.readonly %} readonly{% endif %}
+    {%- if opts.required %} required{% endif %}
+    {%- if opts.describedBy %} aria-describedby="{{ opts.describedBy }}"{% endif %}
+    data-lily-date-time-picker-input
+  >
+  <button
+    type="button"
+    class="date-time-picker-button"
+    aria-label="{{ opts.label }}"
+    aria-haspopup="dialog"
+    aria-expanded="false"
+    aria-controls="{{ dialogId }}"
+    {%- if opts.disabled or opts.readonly %} disabled{% endif %}
+    data-lily-date-time-picker-button
+  >
+{%- if caller %}{{ caller() }}{% else %}<span class="date-time-picker-icon" aria-hidden="true">&#128197;&#65038;</span>{% endif -%}
+  </button>
+</div>
+
+<div
+  class="date-time-picker-dialog"
+  id="{{ dialogId }}"
+  role="dialog"
+  aria-modal="true"
+  aria-label="{{ opts.label }}"
+  tabindex="-1"
+  hidden
+  data-lily-date-time-picker-dialog
+>
+{%- if usesDate %}
+  <div class="date-time-picker-header">
+    <button type="button" class="date-time-picker-previous-year" aria-label="{{ labels.previousYear }}" data-lily-date-time-picker-previous-year><span aria-hidden="true">&#171;</span></button>
+    <button type="button" class="date-time-picker-previous-month" aria-label="{{ labels.previousMonth }}" data-lily-date-time-picker-previous-month><span aria-hidden="true">&#8249;</span></button>
+    <span class="date-time-picker-period" id="{{ periodId }}" aria-live="polite" data-lily-date-time-picker-period></span>
+    <button type="button" class="date-time-picker-next-month" aria-label="{{ labels.nextMonth }}" data-lily-date-time-picker-next-month><span aria-hidden="true">&#8250;</span></button>
+    <button type="button" class="date-time-picker-next-year" aria-label="{{ labels.nextYear }}" data-lily-date-time-picker-next-year><span aria-hidden="true">&#187;</span></button>
+  </div>
+  <table class="date-time-picker-calendar" role="grid" aria-labelledby="{{ periodId }}" data-lily-date-time-picker-calendar>
+    <thead><tr data-lily-date-time-picker-weekdays>
+{%- if showWeekNumbers %}<th class="date-time-picker-week-heading" scope="col" abbr="{{ labels.week }}">{{ labels.week }}</th>{% endif -%}
+    </tr></thead>
+    <tbody data-lily-date-time-picker-grid></tbody>
+  </table>
+{%- endif %}
+
+{%- if usesTime %}
+  <div class="date-time-picker-time" data-lily-date-time-picker-time>
+    <label class="date-time-picker-time-label" for="{{ hourId }}">{{ labels.hour }}</label>
+    <select class="date-time-picker-hour" id="{{ hourId }}" data-lily-date-time-picker-hour></select>
+    <label class="date-time-picker-time-label" for="{{ minuteId }}">{{ labels.minute }}</label>
+    <select class="date-time-picker-minute" id="{{ minuteId }}" data-lily-date-time-picker-minute></select>
+  </div>
+{%- endif %}
+
+  <div class="date-time-picker-shortcuts" data-lily-date-time-picker-shortcuts>
+{%- for shortcut in shortcuts %}
+    <button type="button" class="date-time-picker-shortcut" data-shortcut-id="{{ shortcut.id }}"{% if shortcut.days is defined %} data-days="{{ shortcut.days }}"{% endif %}{% if shortcut.months is defined %} data-months="{{ shortcut.months }}"{% endif %}{% if shortcut.date %} data-date="{{ shortcut.date }}"{% endif %}>{{ shortcut.label }}</button>
+{%- endfor %}
+  </div>
+
+  <div class="date-time-picker-footer">
+{%- if labels.clear %}
+    <button type="button" class="date-time-picker-clear" data-lily-date-time-picker-clear>{{ labels.clear }}</button>
+{%- endif %}
+    <button type="button" class="date-time-picker-cancel" data-lily-date-time-picker-cancel>{{ labels.cancel }}</button>
+    <button type="button" class="date-time-picker-confirm" data-lily-date-time-picker-confirm>{{ labels.confirm }}</button>
+  </div>
+</div>
+</div>
+{%- endmacro -%}

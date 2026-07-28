@@ -1,25 +1,25 @@
 # SSR and hydration
 
-The chooser is SSR-safe out of the box but does not, on its own,
+The picker is SSR-safe out of the box but does not, on its own,
 deliver a flicker-free first paint. This guide explains why and how
 to close the gap.
 
-## What the chooser does on the server
+## What the picker does on the server
 
-Under SSR, no `onMounted` callback fires and the chooser does not
+Under SSR, no `onMounted` callback fires and the picker does not
 touch the DOM. The rendered HTML looks like:
 
 ```html
-<div class="theme-chooser">
+<div class="theme-picker">
     <input type="hidden" name="theme" value="light" />
-    <button type="button" class="theme-chooser-button" aria-label="Theme"
+    <button type="button" class="theme-picker-button" aria-label="Theme"
             aria-haspopup="listbox" aria-expanded="false"
-            aria-controls="theme-chooser-1-list">
-        <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
+            aria-controls="theme-picker-1-list">
+        <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
     </button>
-    <ul class="theme-chooser-list" id="theme-chooser-1-list" role="listbox"
+    <ul class="theme-picker-list" id="theme-picker-1-list" role="listbox"
         aria-label="Theme" tabindex="-1" hidden>
-        <li class="theme-chooser-option" id="theme-chooser-1-option-0"
+        <li class="theme-picker-option" id="theme-picker-1-option-0"
             role="option" aria-selected="true">Light</li>
         …
     </ul>
@@ -33,7 +33,7 @@ input is empty, unless the consumer supplied a non-empty `value`.
 
 ## What happens on hydration
 
-On the client the chooser's `onMounted` callback runs once after mount:
+On the client the picker's `onMounted` callback runs once after mount:
 
 1. Resolves the initial slug per
    [spec/index.md §5.2](../spec/index.md#52-initial-value-resolution).
@@ -54,7 +54,7 @@ The fix is to **resolve the theme on the server** and inline both:
 - `<html data-theme="<slug>">` in the document shell, and
 - the `<link rel="stylesheet" href="/assets/themes/<slug>.css">`
 
-so that CSS is in place before any pixel is painted. The chooser can
+so that CSS is in place before any pixel is painted. The picker can
 then hydrate without changing anything visible.
 
 ### Nuxt 3 recipe
@@ -68,8 +68,8 @@ End-to-end code lives in
    `useNuxtApp().$initialTheme`.
 3. The layout/`app.vue` uses `useHead({ htmlAttrs: { "data-theme": theme }})`
    so `<html data-theme="…">` arrives in the response.
-4. The chooser is mounted with `v-model:value="theme"` plus `:value="theme"`.
-5. The chooser's `change` event posts to a small endpoint (or writes
+4. The picker is mounted with `v-model:value="theme"` plus `:value="theme"`.
+5. The picker's `change` event posts to a small endpoint (or writes
    `document.cookie` directly) that writes the cookie.
 
 ### Astro recipe
@@ -85,7 +85,7 @@ const theme = Astro.cookies.get("theme")?.value ?? "light";
         <link rel="stylesheet" href={`/assets/themes/${theme}.css`} />
     </head>
     <body>
-        <ThemeChooser
+        <ThemePicker
             client:load
             label="Theme"
             themes-url="/assets/themes/"
@@ -100,18 +100,18 @@ const theme = Astro.cookies.get("theme")?.value ?? "light";
 ### Plain Vite + Vue recipe
 
 Without SSR, there is no first-paint problem worth solving — the
-chooser hydrates from `localStorage` before content renders if you
+picker hydrates from `localStorage` before content renders if you
 mount it at the top of `<body>`. Avoid styles depending on
 `data-theme` for the first paint, or hard-code the default theme's
 `<link>` in `index.html`.
 
 ## Why we don't auto-resolve from the cookie
 
-The chooser has no opinion about transport (cookie? header?
+The picker has no opinion about transport (cookie? header?
 IndexedDB? URL parameter?). Cookies are the right answer for Nuxt
 3, but not for Cloudflare-Workers-based hosts, embedded contexts,
 or apps that already have a server-side preference store. The
-chooser stays transport-agnostic and lets the consumer wire the
+picker stays transport-agnostic and lets the consumer wire the
 integration.
 
 ## Nuxt-specific tips
@@ -121,10 +121,10 @@ integration.
   directly in a `<script setup>` top-level — that bypasses SSR.
 - `useState` keys are global across the app instance; perfect for
   hoisting the theme ref above a deep tree.
-- Prefer `definePageMeta` for per-page theme overrides; the chooser
+- Prefer `definePageMeta` for per-page theme overrides; the picker
   picks them up via the bound `value`.
 - For static-site generation (`nuxi generate`), there's no request
-  context — the chooser falls back to `localStorage` like a SPA.
+  context — the picker falls back to `localStorage` like a SPA.
 
 ---
 

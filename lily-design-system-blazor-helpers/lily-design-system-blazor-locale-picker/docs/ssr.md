@@ -27,7 +27,7 @@ before any client-side code runs. If your `<html>` arrives with
 
 1. Browser parses `<html lang="en">` → default LTR layout.
 2. Browser fetches CSS, paints English page (FOUC-style flash).
-3. Hydration runs, `LocaleChooser`'s `OnAfterRenderAsync` reads
+3. Hydration runs, `LocalePicker`'s `OnAfterRenderAsync` reads
    `localStorage["app-locale"] === "ar"`, writes
    `<html lang="ar" dir="rtl">`.
 4. Browser repaints in RTL → layout shift.
@@ -113,7 +113,7 @@ record LocaleBody(string Locale);
 @using LilyDesignSystem.Blazor.Helpers
 @inject HttpClient Http
 
-<LocaleChooser
+<LocalePicker
     Label="Language"
     Locales="@(new[] { "en", "fr", "ar" })"
     @bind-Value="locale"
@@ -195,7 +195,7 @@ engines and shareable as locale-specific links. Define
 @inject NavigationManager Nav
 @using LilyDesignSystem.Blazor.Helpers
 
-<LocaleChooser
+<LocalePicker
     Label="Language"
     Locales="@(new[] { "en", "fr", "ar" })"
     Value="@Locale"
@@ -229,7 +229,7 @@ WebAssembly). The select flickers (default paints first, then the
 resolved locale takes over) but everything else works.
 
 ```razor
-<LocaleChooser
+<LocalePicker
     Label="Language"
     Locales="@(new[] { "en", "fr", "ar" })"
     @bind-Value="locale"
@@ -316,7 +316,7 @@ SSR coverage:
   inspects the raw HTML response (no JS), and checks
   `<html lang="fr" dir="ltr">` appears before `Routes` activates.
 - **Snapshot** — capture the rendered HTML from
-  `RenderComponent<LocaleChooser>` and assert that the listbox is
+  `RenderComponent<LocalePicker>` and assert that the listbox is
   `hidden`, that one `<li role="option">` per locale is present with
   its own `lang`, and that exactly one carries
   `aria-selected="true"`.

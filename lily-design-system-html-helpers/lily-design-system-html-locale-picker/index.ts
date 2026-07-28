@@ -1,15 +1,15 @@
 /**
- * Barrel re-export for `<locale-chooser>`.
+ * Barrel re-export for `<locale-picker>`.
  *
  * Importing this module registers the custom element under the tag
- * name `"locale-chooser"`. Registration is idempotent — re-imports do
+ * name `"locale-picker"`. Registration is idempotent — re-imports do
  * not throw. Consumers who want a different tag name can import the
- * class directly from `./locale-chooser` and call
+ * class directly from `./locale-picker` and call
  * `customElements.define(...)` themselves.
  */
 
 import {
-    LocaleChooser,
+    LocalePicker,
     bcp47LocaleTag,
     isRtlLocale,
     localeName,
@@ -17,12 +17,12 @@ import {
     defaultLocaleLabels,
     RTL_LANGUAGE_TAGS,
     RTL_SCRIPT_SUBTAGS,
-    nextLocaleChooserId,
+    nextLocalePickerId,
     GLOBE_WITH_MERIDIANS,
-} from "./locale-chooser.js";
+} from "./locale-picker.js";
 
 export {
-    LocaleChooser,
+    LocalePicker,
     bcp47LocaleTag,
     isRtlLocale,
     localeName,
@@ -30,11 +30,11 @@ export {
     defaultLocaleLabels,
     RTL_LANGUAGE_TAGS,
     RTL_SCRIPT_SUBTAGS,
-    nextLocaleChooserId,
+    nextLocalePickerId,
     GLOBE_WITH_MERIDIANS,
 };
-export type { LocaleChooserProps, LocaleChooserChangeDetail } from "./locale-chooser.js";
+export type { LocalePickerProps, LocalePickerChangeDetail } from "./locale-picker.js";
 
-if (typeof customElements !== "undefined" && !customElements.get("locale-chooser")) {
-    customElements.define("locale-chooser", LocaleChooser);
+if (typeof customElements !== "undefined" && !customElements.get("locale-picker")) {
+    customElements.define("locale-picker", LocalePicker);
 }

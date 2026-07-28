@@ -16,7 +16,7 @@
 */
 
 import { useState } from "react";
-import { LocaleChooser } from "../LocaleChooser";
+import { LocalePicker } from "../LocalePicker";
 
 // Demo-only stand-ins so this file compiles without react-intl installed.
 // In your real app, import from "react-intl":
@@ -64,7 +64,7 @@ export function WithReactIntlExample() {
             messages={MESSAGES[locale] ?? MESSAGES.en}
             defaultLocale="en"
         >
-            <LocaleChooser
+            <LocalePicker
                 label="Language"
                 locales={["en", "fr", "ar"]}
                 localeLabels={{ en: "English", fr: "Français", ar: "العربية" }}

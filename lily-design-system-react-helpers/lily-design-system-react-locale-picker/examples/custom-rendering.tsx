@@ -21,7 +21,7 @@
 */
 
 import { useState } from "react";
-import { LocaleChooser } from "../LocaleChooser";
+import { LocalePicker } from "../LocalePicker";
 
 const LONG_LIST = [
     "en", "en_US", "en_GB",
@@ -41,7 +41,7 @@ export function SelectExample() {
 
     return (
         <>
-            <LocaleChooser
+            <LocalePicker
                 label="Language"
                 locales={LONG_LIST}
                 value={locale}
@@ -62,7 +62,7 @@ export function SelectExample() {
                         <span aria-hidden="true">{open ? "▴" : "▾"}</span>
                     </>
                 )}
-            </LocaleChooser>
+            </LocalePicker>
 
             <p>
                 Selected locale: <code>{locale}</code>

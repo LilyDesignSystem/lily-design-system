@@ -1,4 +1,4 @@
-# AGENTS — ShareChooser (Svelte helper)
+# AGENTS — SharePicker (Svelte helper)
 
 Single source of truth: [spec/index.md](./spec/index.md). Read it first;
 everything below is a fast index.
@@ -16,16 +16,16 @@ third-party endpoints.
 | File | Purpose |
 | ---- | ------- |
 | `spec/index.md` | Specification-driven contract (canonical). |
-| `ShareChooser.svelte` | Implementation. Svelte 5 runes + TypeScript. |
-| `ShareChooser.test.ts` | Vitest spec, mapped to the §7 clauses. |
+| `SharePicker.svelte` | Implementation. Svelte 5 runes + TypeScript. |
+| `SharePicker.test.ts` | Vitest spec, mapped to the §7 clauses. |
 | `index.ts` | Barrel re-export. |
 | `index.md` | User guide. |
 | `docs/accessibility.md` | Tradeoffs, stated plainly. |
 
 ## Public surface
 
-Default export `ShareChooser`; named `ShareChooser`, `canShareNatively`,
-`canCopy`, `nextShareChooserId`, `BLACK_RIGHTWARDS_ARROWHEAD`; types
+Default export `SharePicker`; named `SharePicker`, `canShareNatively`,
+`canCopy`, `nextSharePickerId`, `BLACK_RIGHTWARDS_ARROWHEAD`; types
 `Props`, `ChildArgs`, `ShareTarget`, `ShareStrategy`.
 
 Required prop: `label`.
@@ -38,20 +38,20 @@ list. Destinations are real links built by each target's `href(url,
 title, text)`. The copy item writes `url` to the clipboard, fires
 `onCopy`, and announces `copiedLabel` / `copyFailedLabel` in a polite
 live region. Nothing is applied to the document and nothing is
-persisted — unlike the `*-chooser` helpers, this owns an action, not a
+persisted — unlike the `*-picker` helpers, this owns an action, not a
 preference.
 
 ## HTML
 
-`<div class="share-chooser">` → `<button class="share-chooser-button">`
-with an `aria-hidden` glyph span → `<ul class="share-chooser-list" hidden>`
-of `<li>` containing `<a class="share-chooser-target">` and an optional
-`<button class="share-chooser-copy">` → `<p class="share-chooser-status"
+`<div class="share-picker">` → `<button class="share-picker-button">`
+with an `aria-hidden` glyph span → `<ul class="share-picker-list" hidden>`
+of `<li>` containing `<a class="share-picker-target">` and an optional
+`<button class="share-picker-copy">` → `<p class="share-picker-status"
 aria-live="polite">`.
 
 **Not a menu.** Destinations are real `<a>` elements; `role="menuitem"`
 would strip middle-click, open-in-new-tab and copy-link-address. The
-trigger class is `share-chooser-button`, matching the `{helper}-button`
+trigger class is `share-picker-button`, matching the `{helper}-button`
 convention the sibling helpers use.
 
 ## Conventions this package follows

@@ -3,7 +3,7 @@
 
     The control is an icon button that opens a listbox. By default the
     button shows a globe glyph (U+1F310) inside
-    <span class="locale-chooser-icon" aria-hidden="true">. The default
+    <span class="locale-picker-icon" aria-hidden="true">. The default
     slot REPLACES that glyph — as of the icon-button rewrite it no
     longer renders the options, so the listbox, the option markup, the
     keyboard contract, and the apply lifecycle (lang/dir/storage/change)
@@ -22,11 +22,11 @@
     accessible name comes from `label` via aria-label, so the glyph is
     marked aria-hidden="true" to avoid a competing name. Sighted users
     read the current locale off the code; screen-reader users get it
-    from the .locale-chooser-status live region (see basic.vue).
+    from the .locale-picker-status live region (see basic.vue).
 -->
 <script setup lang="ts">
 import { ref } from "vue";
-import LocaleChooser, { localeName } from "../LocaleChooser.vue";
+import LocalePicker, { localeName } from "../LocalePicker.vue";
 
 const locale = ref("en");
 
@@ -37,7 +37,7 @@ function shortCode(code: string): string {
 </script>
 
 <template>
-    <LocaleChooser
+    <LocalePicker
         label="Language"
         :locales="[
             'en', 'en_US', 'en_GB',
@@ -57,18 +57,18 @@ function shortCode(code: string): string {
     >
         <template #default="{ value, open, labelFor }">
             <span
-                class="locale-chooser-code"
+                class="locale-picker-code"
                 :title="labelFor(value)"
                 aria-hidden="true"
                 >{{ shortCode(value) }}</span
             >
-            <span class="locale-chooser-caret" aria-hidden="true">{{
+            <span class="locale-picker-caret" aria-hidden="true">{{
                 open ? "▴" : "▾"
             }}</span>
         </template>
-    </LocaleChooser>
+    </LocalePicker>
 
-    <p class="locale-chooser-status" aria-live="polite">
+    <p class="locale-picker-status" aria-live="polite">
         Current language: {{ localeName(locale) }}
     </p>
 

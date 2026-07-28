@@ -26,7 +26,7 @@
   Eleventy serves the new locale's HTML, and the i18n filter
   resolves messages from the loaded message bundle.
 #}
-{% from "../locale-chooser.njk" import localeChooser %}
+{% from "../locale-picker.njk" import localePicker %}
 
 {# Demo: `page.lang` is set by Eleventy. Fall back to "en" so this
    example renders in a vanilla Nunjucks host too. #}
@@ -40,7 +40,7 @@
     </head>
     <body>
         <header>
-            {{ localeChooser({
+            {{ localePicker({
                 label: "Language",
                 locales: ["en", "fr", "ar"],
                 localeLabels: {
@@ -62,7 +62,7 @@
         </main>
 
         <script type="module">
-            import { autoInit } from "../locale-chooser.client.js";
+            import { autoInit } from "../locale-picker.client.js";
             autoInit({
                 onChange(code) {
                     // Navigate to the locale-prefixed URL. Eleventy

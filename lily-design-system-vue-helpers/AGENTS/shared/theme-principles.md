@@ -38,29 +38,29 @@ The theme is exposed as a flat object whose keys flatten into
 Consumer CSS reads `var(--theme-color-primary)`,
 `var(--theme-space-md)`, etc.
 
-## How the Vue theme-chooser fits in
+## How the Vue theme-picker fits in
 
-The Vue `ThemeChooser` helper writes one extra signal to the document
+The Vue `ThemePicker` helper writes one extra signal to the document
 root: a `data-theme="<slug>"` attribute. Theme CSS files scope their
-rules to `:root[data-theme="<slug>"]` so the chooser's attribute
+rules to `:root[data-theme="<slug>"]` so the picker's attribute
 mutation is enough to switch the live theme.
 
 ```css
 :root[data-theme="dark"] {
-    --theme-color-primary: #60a5fa;
-    --theme-color-base-background: #0b1220;
-    --theme-color-base-content: #f9fafb;
+  --theme-color-primary: #60a5fa;
+  --theme-color-base-background: #0b1220;
+  --theme-color-base-content: #f9fafb;
 }
 ```
 
-The chooser does not write CSS custom properties directly. Theme
-authors do, via the `<link>` the chooser swaps into `<head>`.
+The picker does not write CSS custom properties directly. Theme
+authors do, via the `<link>` the picker swaps into `<head>`.
 
 ## Light / dark / high-contrast
 
-The chooser's `value` is just a string. Convention says `light`,
+The picker's `value` is just a string. Convention says `light`,
 `dark`, and `high-contrast` slugs map to those three modes, but the
-chooser doesn't enforce that — any slug is valid.
+picker doesn't enforce that — any slug is valid.
 
 A `prefers-color-scheme: dark` integration is one-line in the
 consumer:
@@ -71,7 +71,7 @@ const initial = prefersDark ? "dark" : "light";
 ```
 
 Pass `initial` as `defaultValue`. See
-`lily-design-system-vue-theme-chooser/examples/system-preference.vue`.
+`lily-design-system-vue-theme-picker/examples/system-preference.vue`.
 
 ## Forbidden in the headless layer
 
@@ -109,9 +109,9 @@ the common case; a reactive token store is the consumer's choice.
 
 ### `<Teleport to="head">`
 
-Vue's `<Teleport to="head">` is an alternative to the chooser's
+Vue's `<Teleport to="head">` is an alternative to the picker's
 `document.head.appendChild` for the managed `<link>`. The catalog's
-`ThemeChooser` uses imperative DOM mutation because:
+`ThemePicker` uses imperative DOM mutation because:
 
 - It works during SSR (`<Teleport>` requires a hydrated DOM).
 - It's a single element managed across the component's lifetime, not

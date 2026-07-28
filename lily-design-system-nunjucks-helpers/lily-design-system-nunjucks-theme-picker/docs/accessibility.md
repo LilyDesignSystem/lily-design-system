@@ -37,7 +37,7 @@ option. Arrowing through the list changes `aria-activedescendant` and
 
 ## Keyboard contract
 
-Owned entirely by `theme-chooser.client.js`. Nothing below works before
+Owned entirely by `theme-picker.client.js`. Nothing below works before
 that module runs — see [`./ssr.md`](./ssr.md).
 
 On the **button**:
@@ -96,7 +96,7 @@ all documented in the wild.
 If your audience is broad or the theme choice is load-bearing, test
 with the assistive technology your users actually run. If no-JS or
 maximal AT compatibility is a hard requirement, prefer the headless
-catalog's plain `theme-chooser` `<select>` container over this helper.
+catalog's plain `theme-picker` `<select>` container over this helper.
 
 ### 3. The glyph may not render
 
@@ -133,23 +133,23 @@ from the closed control by anyone.
 
 That cost is real and this page does not claim it away. What it does
 claim is where the compensation belongs: **in the pattern, by
-default.** Lily targets WCAG 2.2 AAA, so the theme chooser ships
+default.** Lily targets WCAG 2.2 AAA, so the theme picker ships
 alongside a status region in the quick start and in
 [`../examples/01-basic.njk`](../examples/01-basic.njk). Pair the
 control with the region; **opting out is the deliberate choice, not
 opting in.**
 
 ```njk
-{{ themeChooser({
+{{ themePicker({
   label: "Theme",
   themesUrl: "/assets/themes/",
   themes: ["light", "dark", "abyss"]
 }) }}
-<p class="theme-chooser-status" aria-live="polite"></p>
+<p class="theme-picker-status" aria-live="polite"></p>
 ```
 
 ```js
-const status = document.querySelector(".theme-chooser-status");
+const status = document.querySelector(".theme-picker-status");
 
 autoInit({
     onChange(slug) {
@@ -172,7 +172,7 @@ Why this shape:
 - **The announcement text is consumer-supplied and translatable**, so
   this stays i18n-clean. Show the human label
   (`opts.themeLabels[slug]`), not the raw slug.
-- **`.theme-chooser-status`** is the class hook, kebab-case like the
+- **`.theme-picker-status`** is the class hook, kebab-case like the
   rest of the system. See [`./styling.md`](./styling.md).
 
 What this does *not* fix: focusing the closed button still announces
@@ -230,10 +230,10 @@ CSS files that transition on the `data-theme` swap.
   accessibility tree. Use a visually-hidden pattern
   (`clip-path: inset(50%)` or the `.sr-only` recipe) instead.
 - **Styling the list open by default.** The `hidden` attribute is the
-  open-state contract; a CSS rule like `.theme-chooser-list { display:
+  open-state contract; a CSS rule like `.theme-picker-list { display:
   block }` overrides `hidden` and leaves the list permanently visible
   and out of sync with `aria-expanded`. Use
-  `.theme-chooser-list:not([hidden])` for open-state styling.
+  `.theme-picker-list:not([hidden])` for open-state styling.
 - **Forgetting to translate `opts.themeLabels`.** The macro only
   knows what the consumer tells it; locale-aware copy is the
   consumer's responsibility.

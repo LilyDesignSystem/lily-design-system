@@ -24,8 +24,8 @@ provides the Analog-flavoured wiring recipes.
    input with that value on the server, then hydrates without any DOM
    swap.
 5. **Element ids are deterministic.** Each helper's id generator
-   (`nextThemeChooserId`, `nextLocaleChooserId`,
-   `nextTextSizeChooserId`) is an incrementing module counter, never
+   (`nextThemePickerId`, `nextLocalePickerId`,
+   `nextTextSizePickerId`) is an incrementing module counter, never
    `Math.random` / `Date.now`, so the `aria-controls` and
    `aria-activedescendant` wiring matches across server and client.
 
@@ -43,8 +43,8 @@ middleware.
 import { defineEventHandler, getCookie } from "h3";
 
 export default defineEventHandler((event) => {
-    const cookie = getCookie(event, "locale") ?? "en";
-    event.context.locale = cookie;
+  const cookie = getCookie(event, "locale") ?? "en";
+  event.context.locale = cookie;
 });
 ```
 
@@ -52,23 +52,27 @@ export default defineEventHandler((event) => {
 
 ```ts
 // src/app/tokens/initial-locale.ts
-import { InjectionToken, inject, makeEnvironmentProviders } from "@angular/core";
+import {
+  InjectionToken,
+  inject,
+  makeEnvironmentProviders,
+} from "@angular/core";
 import { REQUEST } from "@analogjs/router/tokens";
 
 export const INITIAL_LOCALE = new InjectionToken<string>("INITIAL_LOCALE", {
-    providedIn: "root",
-    factory: () => {
-        const req = inject(REQUEST, { optional: true });
-        // On the client, REQUEST is null; fall back to the cookie via document.
-        if (!req) {
-            if (typeof document === "undefined") return "en";
-            const match = document.cookie.match(/(?:^|; )locale=([^;]*)/);
-            return match ? decodeURIComponent(match[1]) : "en";
-        }
-        // On the server, read from event.context.
-        const ctx = (req as { context?: { locale?: string } }).context;
-        return ctx?.locale ?? "en";
-    },
+  providedIn: "root",
+  factory: () => {
+    const req = inject(REQUEST, { optional: true });
+    // On the client, REQUEST is null; fall back to the cookie via document.
+    if (!req) {
+      if (typeof document === "undefined") return "en";
+      const match = document.cookie.match(/(?:^|; )locale=([^;]*)/);
+      return match ? decodeURIComponent(match[1]) : "en";
+    }
+    // On the server, read from event.context.
+    const ctx = (req as { context?: { locale?: string } }).context;
+    return ctx?.locale ?? "en";
+  },
 });
 ```
 
@@ -76,30 +80,29 @@ export const INITIAL_LOCALE = new InjectionToken<string>("INITIAL_LOCALE", {
 
 ```ts
 import { Component, inject, signal } from "@angular/core";
-import { LocaleChooser } from "@/locale-chooser.component";
+import { LocalePicker } from "@/locale-picker.component";
 import { INITIAL_LOCALE } from "./tokens/initial-locale";
 
 @Component({
-    selector: "app-root",
-    standalone: true,
-    imports: [LocaleChooser],
-    template: `
-        <lily-locale-chooser
-            label="Language"
-            [locales]="['en', 'fr', 'ar']"
-            [(value)]="locale"
-            (localeChange)="persistCookie($event)"
-        />
-    `,
+  selector: "app-root",
+  standalone: true,
+  imports: [LocalePicker],
+  template: `
+    <lily-locale-picker
+      label="Language"
+      [locales]="['en', 'fr', 'ar']"
+      [(value)]="locale"
+      (localeChange)="persistCookie($event)"
+    />
+  `,
 })
 export class App {
-    locale = signal(inject(INITIAL_LOCALE));
+  locale = signal(inject(INITIAL_LOCALE));
 
-    persistCookie(code: string): void {
-        if (typeof document === "undefined") return;
-        document.cookie =
-            `locale=${code}; path=/; max-age=31536000; SameSite=Lax`;
-    }
+  persistCookie(code: string): void {
+    if (typeof document === "undefined") return;
+    document.cookie = `locale=${code}; path=/; max-age=31536000; SameSite=Lax`;
+  }
 }
 ```
 
@@ -124,18 +127,18 @@ import { appConfig } from "./app.config";
 import { INITIAL_LOCALE } from "./tokens/initial-locale";
 
 export default mergeApplicationConfig(appConfig, {
-    providers: [
-        provideServerRendering(),
-        {
-            provide: "SET_HTML_ATTRS",
-            useFactory: () => {
-                const doc = inject(DOCUMENT);
-                const code = inject(INITIAL_LOCALE);
-                doc.documentElement.setAttribute("lang", code);
-            },
-            multi: true,
-        },
-    ],
+  providers: [
+    provideServerRendering(),
+    {
+      provide: "SET_HTML_ATTRS",
+      useFactory: () => {
+        const doc = inject(DOCUMENT);
+        const code = inject(INITIAL_LOCALE);
+        doc.documentElement.setAttribute("lang", code);
+      },
+      multi: true,
+    },
+  ],
 });
 ```
 
@@ -172,7 +175,7 @@ const theme = Astro.cookies.get("theme")?.value ?? "light";
         <link rel="stylesheet" href={`/assets/themes/${theme}.css`} />
     </head>
     <body>
-        <lily-theme-chooser
+        <lily-theme-picker
             client:load
             label="Theme"
             themesUrl="/assets/themes/"
@@ -210,7 +213,7 @@ consumer wire the integration.
 
 - **`afterNextRender` / `afterRender`.** These hooks fire only on
   the browser side, which sounds ideal for DOM writes — but they
-  fire after the *first* tick, not on every signal change. `effect()`
+  fire after the _first_ tick, not on every signal change. `effect()`
   with a `typeof document` guard is the cleaner primitive because
   it reacts to value changes naturally.
 - **`@HostBinding('attr.lang')`.** Host bindings update on every

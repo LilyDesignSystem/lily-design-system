@@ -1,11 +1,11 @@
 export {
     default,
-    default as ThemeChooser,
+    default as ThemePicker,
     normaliseThemesUrl,
     themeHref,
     themeName,
     matchSystemTheme,
-    nextThemeChooserId,
+    nextThemePickerId,
     CIRCLE_WITH_RIGHT_HALF_BLACK,
-} from "./ThemeChooser.vue";
-export type { Props, SlotArgs, ChildArgs } from "./ThemeChooser.vue";
+} from "./ThemePicker.vue";
+export type { Props, SlotArgs, ChildArgs } from "./ThemePicker.vue";

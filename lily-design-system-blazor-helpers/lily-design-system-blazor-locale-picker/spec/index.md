@@ -1,22 +1,22 @@
-# LocaleChooser — Specification (Blazor)
+# LocalePicker — Specification (Blazor)
 
 Single source of truth for the
-`lily-design-system-blazor-locale-chooser` Blazor helper. This file
+`lily-design-system-blazor-locale-picker` Blazor helper. This file
 drives implementation, testing, and documentation in the
 spec-driven-development style: anything not in this spec is out of
 scope; anything in this spec must be exercised by a test.
 
 Sibling files in this directory:
 
-- `LocaleChooser.razor` — Razor markup
-- `LocaleChooser.razor.cs` — C# code-behind (partial class)
-- `LocaleChooserTests.cs` — bUnit + xUnit spec exercising every clause in §4–§7
+- `LocalePicker.razor` — Razor markup
+- `LocalePicker.razor.cs` — C# code-behind (partial class)
+- `LocalePickerTests.cs` — bUnit + xUnit spec exercising every clause in §4–§7
 - `Locales.cs` — built-in locale-code → English-name table, RTL sets, and pure helpers (port of `locales.ts`)
 - `locales.tsv` — canonical 436-row list of locale codes and English names (verbatim copy of the Svelte canonical)
 - `index.md` — user-facing readme
 
 The Blazor headless library does not (yet) include a canonical
-`LocaleChooser`; this helper is the opinionated, reusable counterpart
+`LocalePicker`; this helper is the opinionated, reusable counterpart
 that owns the locale-application lifecycle (the `lang` and `dir`
 attributes on the document root) and the persistence choice.
 
@@ -38,7 +38,7 @@ Give a Blazor application a drop-in, headless locale select that:
 5. Optionally falls back to `navigator.language` on first visit when
    no value, storage entry, or default is supplied.
 6. Ships zero CSS — the consumer styles every visual aspect via the
-   `locale-chooser` class hook and the `lang` / `dir` attributes.
+   `locale-picker` class hook and the `lang` / `dir` attributes.
 7. Provides BCP 47-compliant tag output. Underscores in locale codes
    (e.g. `en_US`) are converted to hyphens (`en-US`) when written to
    the `lang` attribute, per RFC 5646.
@@ -59,7 +59,7 @@ Give a Blazor application a drop-in, headless locale select that:
 - **Bundling translation files**. No JSON / RESX assets ship with
   this helper.
 - **A radio-group default rendering**. The default is an icon button
-  plus a listbox, for symmetry with `ThemeChooser`.
+  plus a listbox, for symmetry with `ThemePicker`.
 
 ## 3. Architectural decisions
 
@@ -85,32 +85,32 @@ Give a Blazor application a drop-in, headless locale select that:
 
 ### 4.1 Parameters
 
-| Parameter             | Type                                  | Required | Default                       | Purpose |
-| --------------------- | ------------------------------------- | -------- | ----------------------------- | ------- |
-| `Label`               | `string`                              | yes      | —                             | Accessible name for the button AND the listbox. The button is icon-only, so this is its entire accessible name. |
-| `Locales`             | `IReadOnlyList<string>`               | yes      | —                             | Available locale codes. |
-| `Value`               | `string`                              | no       | `""`                          | Currently selected locale code. Two-way bindable via `@bind-Value`. |
-| `ValueChanged`        | `EventCallback<string>`               | no       | —                             | Two-way binding callback. |
-| `DefaultValue`        | `string?`                             | no       | `"en"` if present, else `Locales[0]` | Initial locale when nothing else is supplied. |
-| `StorageKey`          | `string?`                             | no       | `null`                        | If set, persist selection to `localStorage`. |
-| `DetectFromNavigator` | `bool`                                | no       | `false`                       | If true and no value/storage entry exists, resolve `navigator.language`. |
-| `Name`                | `string`                              | no       | `"locale"`                    | `name` set on the hidden input. |
-| `ApplyDir`            | `bool`                                | no       | `true`                        | If false, the control only writes `lang` and never touches `dir`. |
-| `LocaleLabels`        | `IReadOnlyDictionary<string,string>`  | no       | empty                         | Optional pretty labels per locale code. |
-| `ChildContent`        | `RenderFragment<LocaleChooserContext>?`| no       | the default glyph             | **Replaces the glyph inside the button.** It does not render options. |
-| `OnChange`            | `EventCallback<string>`               | no       | —                             | Fires after the control applies a new locale. |
-| `CssClass`            | `string`                              | no       | `""`                          | Extra CSS class merged into the root `<div>`. |
-| `AdditionalAttributes`| `Dictionary<string,object>?`          | no       | —                             | Captures unmatched attributes; spread onto the root `<div>`. |
+| Parameter              | Type                                    | Required | Default                              | Purpose                                                                                                         |
+| ---------------------- | --------------------------------------- | -------- | ------------------------------------ | --------------------------------------------------------------------------------------------------------------- |
+| `Label`                | `string`                                | yes      | —                                    | Accessible name for the button AND the listbox. The button is icon-only, so this is its entire accessible name. |
+| `Locales`              | `IReadOnlyList<string>`                 | yes      | —                                    | Available locale codes.                                                                                         |
+| `Value`                | `string`                                | no       | `""`                                 | Currently selected locale code. Two-way bindable via `@bind-Value`.                                             |
+| `ValueChanged`         | `EventCallback<string>`                 | no       | —                                    | Two-way binding callback.                                                                                       |
+| `DefaultValue`         | `string?`                               | no       | `"en"` if present, else `Locales[0]` | Initial locale when nothing else is supplied.                                                                   |
+| `StorageKey`           | `string?`                               | no       | `null`                               | If set, persist selection to `localStorage`.                                                                    |
+| `DetectFromNavigator`  | `bool`                                  | no       | `false`                              | If true and no value/storage entry exists, resolve `navigator.language`.                                        |
+| `Name`                 | `string`                                | no       | `"locale"`                           | `name` set on the hidden input.                                                                                 |
+| `ApplyDir`             | `bool`                                  | no       | `true`                               | If false, the control only writes `lang` and never touches `dir`.                                               |
+| `LocaleLabels`         | `IReadOnlyDictionary<string,string>`    | no       | empty                                | Optional pretty labels per locale code.                                                                         |
+| `ChildContent`         | `RenderFragment<LocalePickerContext>?` | no       | the default glyph                    | **Replaces the glyph inside the button.** It does not render options.                                           |
+| `OnChange`             | `EventCallback<string>`                 | no       | —                                    | Fires after the control applies a new locale.                                                                   |
+| `CssClass`             | `string`                                | no       | `""`                                 | Extra CSS class merged into the root `<div>`.                                                                   |
+| `AdditionalAttributes` | `Dictionary<string,object>?`            | no       | —                                    | Captures unmatched attributes; spread onto the root `<div>`.                                                    |
 
 There is **no `Placeholder` parameter**. It existed only to pin a native
 `<select>`'s closed display; there is no `<select>` any more.
 
-### 4.2 `LocaleChooserContext`
+### 4.2 `LocalePickerContext`
 
 Mirrors the canonical Svelte `ChildArgs`:
 
 ```csharp
-public sealed class LocaleChooserContext
+public sealed class LocalePickerContext
 {
     /// Currently selected locale code (consumer form, not BCP 47).
     public required string Value { get; init; }
@@ -121,10 +121,10 @@ public sealed class LocaleChooserContext
 }
 ```
 
-Public constant: `LocaleChooser.GlobeWithMeridians` — the default glyph,
+Public constant: `LocalePicker.GlobeWithMeridians` — the default glyph,
 `"🌐︎"` (U+1F310 `&#127760;` followed by U+FE0E VARIATION SELECTOR-15
 `&#65038;`). VS15 selects the text presentation so the globe renders
-monochrome, matching ThemeChooser's U+25D1 `◑`.
+monochrome, matching ThemePicker's U+25D1 `◑`.
 
 Public method: `Task SetLocaleAsync(string code)` — apply a locale
 imperatively, for consumers driving the control from their own UI.
@@ -138,24 +138,42 @@ The pure helpers `Bcp47LocaleTag`, `IsRtlLocale`, `LocaleName`,
 The control is an icon button plus a dropdown listbox:
 
 ```html
-<div class="locale-chooser {CssClass}" ...AdditionalAttributes>
+<div class="locale-picker {CssClass}" ...AdditionalAttributes>
   <input type="hidden" name="{Name}" value="{Value}" />
-  <button type="button" class="locale-chooser-button"
-          aria-label="{Label}" aria-haspopup="listbox"
-          aria-expanded="false" aria-controls="{listId}">
-    <span class="locale-chooser-icon" aria-hidden="true">&#127760;</span>
+  <button
+    type="button"
+    class="locale-picker-button"
+    aria-label="{Label}"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="{listId}"
+  >
+    <span class="locale-picker-icon" aria-hidden="true">&#127760;</span>
   </button>
-  <ul class="locale-chooser-list" id="{listId}" role="listbox"
-      aria-label="{Label}" tabindex="-1" hidden
-      aria-activedescendant="{optionId of active, only while open}">
-    <li class="locale-chooser-option" id="{optionId}" role="option"
-        aria-selected="true|false" data-active
-        lang="{TagFor(locale)}">{LabelFor(locale)}</li>
+  <ul
+    class="locale-picker-list"
+    id="{listId}"
+    role="listbox"
+    aria-label="{Label}"
+    tabindex="-1"
+    hidden
+    aria-activedescendant="{optionId of active, only while open}"
+  >
+    <li
+      class="locale-picker-option"
+      id="{optionId}"
+      role="option"
+      aria-selected="true|false"
+      data-active
+      lang="{TagFor(locale)}"
+    >
+      {LabelFor(locale)}
+    </li>
   </ul>
 </div>
 ```
 
-- The root is a `<div>` carrying the `locale-chooser` class hook plus
+- The root is a `<div>` carrying the `locale-picker` class hook plus
   `CssClass`; `AdditionalAttributes` spread onto it.
 - The glyph is `🌐︎` (U+1F310 GLOBE WITH MERIDIANS `&#127760;` plus
   U+FE0E VARIATION SELECTOR-15 `&#65038;`), wrapped in
@@ -174,7 +192,7 @@ The control is an icon button plus a dropdown listbox:
   points at a real option. The active option additionally carries a
   `data-active` attribute as a styling hook.
 - Option ids are `{instance}-option-{index}` and the list id is
-  `{instance}-list`, where `{instance}` is `locale-chooser-{n}` from a
+  `{instance}-list`, where `{instance}` is `locale-picker-{n}` from a
   monotonic process-wide counter. Stable and SSR-safe — never `Random`
   or a clock read.
 - There is no `<select>`, no placeholder option, and no snap-back
@@ -288,27 +306,27 @@ pattern.
 
 On the **button**:
 
-| Key                        | Action                                                   |
-| -------------------------- | -------------------------------------------------------- |
-| `Tab` / `Shift+Tab`        | Move focus to / away from the button (one stop).         |
-| `Arrow Down`               | Open, active option = the selected one (else index 0).   |
-| `Enter` / `Space`          | Open, active option = the selected one (else index 0).   |
-| `Arrow Up`                 | Open with the **last** option active.                    |
+| Key                 | Action                                                 |
+| ------------------- | ------------------------------------------------------ |
+| `Tab` / `Shift+Tab` | Move focus to / away from the button (one stop).       |
+| `Arrow Down`        | Open, active option = the selected one (else index 0). |
+| `Enter` / `Space`   | Open, active option = the selected one (else index 0). |
+| `Arrow Up`          | Open with the **last** option active.                  |
 
 Opening moves focus to the `<ul>`.
 
 On the **listbox**:
 
-| Key             | Action                                                              |
-| --------------- | ------------------------------------------------------------------- |
-| `Arrow Down`    | Move the active option down one; **clamps** at the last (no wrap).  |
-| `Arrow Up`      | Move the active option up one; **clamps** at the first (no wrap).   |
-| `Home`          | Jump to the first option.                                           |
-| `End`           | Jump to the last option.                                            |
+| Key               | Action                                                                 |
+| ----------------- | ---------------------------------------------------------------------- |
+| `Arrow Down`      | Move the active option down one; **clamps** at the last (no wrap).     |
+| `Arrow Up`        | Move the active option up one; **clamps** at the first (no wrap).      |
+| `Home`            | Jump to the first option.                                              |
+| `End`             | Jump to the last option.                                               |
 | `Enter` / `Space` | Select the active option, apply it, close, return focus to the button. |
-| `Escape`        | Close and return focus **without** changing the value.              |
-| `Tab`           | Close **without** stealing focus back.                              |
-| Printable chars | Typeahead over the option *labels*, 500 ms buffer reset.            |
+| `Escape`          | Close and return focus **without** changing the value.                 |
+| `Tab`             | Close **without** stealing focus back.                                 |
+| Printable chars   | Typeahead over the option _labels_, 500 ms buffer reset.               |
 
 Pointer and focus:
 
@@ -369,22 +387,22 @@ References this helper relies on:
 
 ## 7. Testing acceptance criteria
 
-`LocaleChooserTests.cs` must assert every numbered item below. Tests
+`LocalePickerTests.cs` must assert every numbered item below. Tests
 run under bUnit + xUnit.
 
 ### 7.1 Markup contract (mirrors §4.3)
 
-1. The root is a `<div class="locale-chooser">` containing a
-   `<button type="button" class="locale-chooser-button">` with
+1. The root is a `<div class="locale-picker">` containing a
+   `<button type="button" class="locale-picker-button">` with
    `aria-haspopup="listbox"`, `aria-expanded="false"`, and
    `aria-controls` pointing at a `<ul role="listbox" tabindex="-1">`.
    No `<select>` is rendered.
-2. The button renders `<span class="locale-chooser-icon"
-   aria-hidden="true">🌐︎</span>` (U+1F310 + U+FE0E), matching the
-   public `LocaleChooser.GlobeWithMeridians` constant.
+2. The button renders `<span class="locale-picker-icon"
+aria-hidden="true">🌐︎</span>` (U+1F310 + U+FE0E), matching the
+   public `LocalePicker.GlobeWithMeridians` constant.
 3. `aria-label` is the supplied `Label` on BOTH the button and the
    listbox.
-4. One `<li class="locale-chooser-option" role="option">` per entry in
+4. One `<li class="locale-picker-option" role="option">` per entry in
    `Locales`; the hidden input carries the supplied `Name` and the
    resolved `Value`.
 5. Each option carries `lang="{TagFor(locale)}"` (BCP 47 hyphen form);
@@ -395,9 +413,9 @@ run under bUnit + xUnit.
    While closed there is no `aria-activedescendant`; opening points it
    at the active option, which also carries `data-active`.
 8. The default rendering shows `LocaleLabels[code] ??
-   DefaultLocaleLabels[code] ?? code` as the visible option text.
+DefaultLocaleLabels[code] ?? code` as the visible option text.
 9. List and option ids are stable across re-render and unique across
-   instances, prefixed `locale-chooser-`.
+   instances, prefixed `locale-picker-`.
 
 ### 7.2 Keyboard contract (mirrors §6.2)
 
@@ -447,19 +465,19 @@ run under bUnit + xUnit.
 28. Extra attributes captured by `AdditionalAttributes` spread through
     onto the root `<div>` (e.g. `data-testid`).
 29. A custom `ChildContent` render fragment **replaces** the glyph
-    inside the button (the default `.locale-chooser-icon` is absent) and
+    inside the button (the default `.locale-picker-icon` is absent) and
     receives `Value`, `Open`, and `LabelFor`.
 
 ## 8. Out-of-scope (future, not implemented here)
 
 - A complementary `LocaleView` helper.
-- A `LocaleChooser` sibling defaulting to radio-group markup.
+- A `LocalePicker` sibling defaulting to radio-group markup.
 - A built-in `Accept-Language`-header server helper for SSR.
 
 ## 9. Tracking
 
 - Package directory:
-  `lily-design-system-blazor-helpers/lily-design-system-blazor-locale-chooser/`
+  `lily-design-system-blazor-helpers/lily-design-system-blazor-locale-picker/`
 - Spec version: 0.1.0
 - Created: 2026-06-05
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause (or

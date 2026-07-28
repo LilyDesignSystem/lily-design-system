@@ -11,7 +11,7 @@
 -->
 <script setup lang="ts">
 import { ref } from "vue";
-import LocaleChooser from "../LocaleChooser.vue";
+import LocalePicker from "../LocalePicker.vue";
 
 const panelA = ref<HTMLElement | null>(null);
 const panelB = ref<HTMLElement | null>(null);
@@ -26,7 +26,7 @@ const bLocale = ref("fr");
 
         <section ref="panelA" class="panel">
             <h2>Panel A</h2>
-            <LocaleChooser
+            <LocalePicker
                 label="Panel A language"
                 :locales="['en', 'fr', 'ar']"
                 :target="panelA"
@@ -37,7 +37,7 @@ const bLocale = ref("fr");
 
         <section ref="panelB" class="panel">
             <h2>Panel B</h2>
-            <LocaleChooser
+            <LocalePicker
                 label="Panel B language"
                 :locales="['en', 'fr', 'ar']"
                 :target="panelB"

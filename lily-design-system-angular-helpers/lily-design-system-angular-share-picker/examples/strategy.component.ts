@@ -28,73 +28,72 @@
 */
 import { ChangeDetectionStrategy, Component, signal } from "@angular/core";
 import {
-    ShareChooser,
-    canShareNatively,
-    type ShareStrategy,
-    type ShareTarget,
-} from "../share-chooser.component";
+  SharePicker,
+  canShareNatively,
+  type ShareStrategy,
+  type ShareTarget,
+} from "../share-picker.component";
 
 @Component({
-    selector: "example-strategy",
-    standalone: true,
-    imports: [ShareChooser],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
-        <fieldset>
-            <legend>Strategy</legend>
-            @for (option of options; track option) {
-                <label>
-                    <input
-                        type="radio"
-                        name="strategy"
-                        [value]="option"
-                        [checked]="strategy() === option"
-                        (change)="strategy.set(option)"
-                    />
-                    {{ option }}
-                </label>
-            }
-        </fieldset>
+  selector: "example-strategy",
+  standalone: true,
+  imports: [SharePicker],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <fieldset>
+      <legend>Strategy</legend>
+      @for (option of options; track option) {
+        <label>
+          <input
+            type="radio"
+            name="strategy"
+            [value]="option"
+            [checked]="strategy() === option"
+            (change)="strategy.set(option)"
+          />
+          {{ option }}
+        </label>
+      }
+    </fieldset>
 
-        <lily-share-chooser
-            label="Share this page"
-            [strategy]="strategy()"
-            [targets]="targets"
-            copyLabel="Copy link"
-            copiedLabel="Link copied"
-            copyFailedLabel="Could not copy — copy it from the address bar"
-            (nativeShare)="lastNative.set($event)"
-        />
+    <lily-share-picker
+      label="Share this page"
+      [strategy]="strategy()"
+      [targets]="targets"
+      copyLabel="Copy link"
+      copiedLabel="Link copied"
+      copyFailedLabel="Could not copy — copy it from the address bar"
+      (nativeShare)="lastNative.set($event)"
+    />
 
-        <p class="share-chooser-status" aria-live="polite">
-            @if (lastNative()) {
-                Handed off to the system share sheet.
-            }
-        </p>
+    <p class="share-picker-status" aria-live="polite">
+      @if (lastNative()) {
+        Handed off to the system share sheet.
+      }
+    </p>
 
-        <p>
-            This browser
-            {{ hasNativeSheet ? "has" : "does not have" }} a native share
-            sheet, so "auto" behaves like
-            {{ hasNativeSheet ? '"native"' : '"list"' }} here.
-        </p>
-    `,
+    <p>
+      This browser
+      {{ hasNativeSheet ? "has" : "does not have" }} a native share sheet, so
+      "auto" behaves like {{ hasNativeSheet ? '"native"' : '"list"' }} here.
+    </p>
+  `,
 })
 export class StrategyExample {
-    readonly options: ShareStrategy[] = ["auto", "native", "list"];
-    readonly strategy = signal<ShareStrategy>("auto");
-    readonly lastNative = signal("");
+  readonly options: ShareStrategy[] = ["auto", "native", "list"];
+  readonly strategy = signal<ShareStrategy>("auto");
+  readonly lastNative = signal("");
 
-    // Read once at construction: capability, not state. Safe under SSR
-    // because canShareNatively() guards on `typeof navigator`.
-    readonly hasNativeSheet = canShareNatively();
+  // Read once at construction: capability, not state. Safe under SSR
+  // because canShareNatively() guards on `typeof navigator`.
+  readonly hasNativeSheet = canShareNatively();
 
-    readonly targets: ShareTarget[] = [
-        {
-            id: "mastodon",
-            label: "Mastodon",
-            href: (url) =>
-                `https://mastodon.social/share?text=${encodeURIComponent(url)}`,
-        },
-    ];
+  readonly targets: ShareTarget[] = [
+    {
+      id: "mastodon",
+      label: "Mastodon",
+      href: (url) =>
+        `https://mastodon.social/share?text=${encodeURIComponent(url)}`,
+    },
+  ];
 }

@@ -1,4 +1,4 @@
-# SSR — ThemeChooser (Nunjucks)
+# SSR — ThemePicker (Nunjucks)
 
 Nunjucks is the server side: the macro **is** the SSR render. This
 file lists the Nunjucks-host-specific recipes; the catalog-wide
@@ -12,12 +12,12 @@ API.
 
 What it does emit server-side:
 
-- The root `<div>` with every `data-lily-theme-chooser-*` config
+- The root `<div>` with every `data-lily-theme-picker-*` config
   attribute. If the consumer passes `opts.value="dark"`, the root
-  gets `data-lily-theme-chooser-value="dark"`; the attribute is
+  gets `data-lily-theme-picker-value="dark"`; the attribute is
   omitted entirely when `value` is empty.
 - A collapsed `<button aria-expanded="false">` and a `<ul
-  role="listbox" hidden>`.
+role="listbox" hidden>`.
 - A server-resolved selected option:
   `value or defaultValue or ("light" if present else themes[0])`.
   Exactly one `<li>` carries `aria-selected="true"`.
@@ -39,7 +39,7 @@ The macro used to render a native `<select>`, which worked without
 JavaScript. It no longer does. The control is an icon button plus a
 listbox, and **every** interactive behaviour — opening, closing,
 focus movement, arrow keys, typeahead, selection — lives in
-`theme-chooser.client.js`. Server-rendered markup alone gives the
+`theme-picker.client.js`. Server-rendered markup alone gives the
 user a button that does nothing.
 
 The single no-JS affordance that survives is the hidden input: it is
@@ -53,7 +53,7 @@ Consequences worth stating plainly to consumers:
 - If a working no-JS theme switcher is a hard requirement, render a
   form of links or submit buttons instead of this helper, and let
   the server set the cookie.
-- The zero-flicker recipes below are about the *first paint*, not
+- The zero-flicker recipes below are about the _first paint_, not
   about no-JS operation. They make the page look right before
   hydration; they do not make the button work before hydration.
 
@@ -96,7 +96,7 @@ The build-time pattern:
     <body>
         {% block content %}{% endblock %}
         <script type="module">
-            import { autoInit } from "/lily-design-system-nunjucks-theme-chooser/theme-chooser.client.js";
+            import { autoInit } from "/lily-design-system-nunjucks-theme-picker/theme-picker.client.js";
             autoInit();
         </script>
     </body>
@@ -112,12 +112,12 @@ with Cloudflare Pages Functions or Netlify Edge Functions:
 ```js
 // functions/_middleware.js (Cloudflare Pages)
 export async function onRequest(context) {
-    const cookie = context.request.headers.get("cookie") ?? "";
-    const theme = /(?:^|; )theme=([^;]+)/.exec(cookie)?.[1] ?? "light";
-    const response = await context.next();
-    const html = await response.text();
-    // Substitute the placeholder in the layout:
-    return new Response(html.replace("__THEME__", theme), response);
+  const cookie = context.request.headers.get("cookie") ?? "";
+  const theme = /(?:^|; )theme=([^;]+)/.exec(cookie)?.[1] ?? "light";
+  const response = await context.next();
+  const html = await response.text();
+  // Substitute the placeholder in the layout:
+  return new Response(html.replace("__THEME__", theme), response);
 }
 ```
 
@@ -137,27 +137,27 @@ app.use(cookieParser());
 nunjucks.configure("views", { express: app, autoescape: true });
 
 app.get("/", (req, res) => {
-    const theme = req.cookies.theme ?? "light";
-    res.render("index.njk", { theme });
+  const theme = req.cookies.theme ?? "light";
+  res.render("index.njk", { theme });
 });
 
 app.post("/api/theme", express.json(), (req, res) => {
-    const theme = String(req.body?.theme ?? "");
-    if (!["light", "dark", "abyss"].includes(theme)) return res.status(400).end();
-    res.cookie("theme", theme, {
-        path: "/",
-        httpOnly: false,
-        sameSite: "lax",
-        maxAge: 60 * 60 * 24 * 365 * 1000,
-    });
-    res.status(204).end();
+  const theme = String(req.body?.theme ?? "");
+  if (!["light", "dark", "abyss"].includes(theme)) return res.status(400).end();
+  res.cookie("theme", theme, {
+    path: "/",
+    httpOnly: false,
+    sameSite: "lax",
+    maxAge: 60 * 60 * 24 * 365 * 1000,
+  });
+  res.status(204).end();
 });
 ```
 
 The template passes `theme` into the macro as `opts.value`:
 
 ```njk
-{{ themeChooser({
+{{ themePicker({
     label: "Theme",
     themesUrl: "/assets/themes/",
     themes: ["light", "dark", "abyss"],
@@ -179,19 +179,17 @@ Workers via a precompiled-loader setup:
 import nunjucks from "nunjucks";
 import templates from "./templates.json"; // pre-bundled at build time
 
-const env = new nunjucks.Environment(
-    new nunjucks.PrecompiledLoader(templates),
-);
+const env = new nunjucks.Environment(new nunjucks.PrecompiledLoader(templates));
 
 export default {
-    async fetch(request) {
-        const cookie = request.headers.get("cookie") ?? "";
-        const theme = /(?:^|; )theme=([^;]+)/.exec(cookie)?.[1] ?? "light";
-        const html = env.render("index.njk", { theme });
-        return new Response(html, {
-            headers: { "content-type": "text/html; charset=utf-8" },
-        });
-    },
+  async fetch(request) {
+    const cookie = request.headers.get("cookie") ?? "";
+    const theme = /(?:^|; )theme=([^;]+)/.exec(cookie)?.[1] ?? "light";
+    const html = env.render("index.njk", { theme });
+    return new Response(html, {
+      headers: { "content-type": "text/html; charset=utf-8" },
+    });
+  },
 };
 ```
 
@@ -207,13 +205,13 @@ import nunjucks from "nunjucks";
 
 nunjucks.configure("templates", { autoescape: true });
 const html = nunjucks.render("page.njk", {
-    theme: "dark",
+  theme: "dark",
 });
 require("node:fs").writeFileSync("dist/index.html", html);
 ```
 
 The macro outputs the complete root `<div>` — hidden input, button,
-listbox — carrying `data-lily-theme-chooser-value="dark"`; no DOM
+listbox — carrying `data-lily-theme-picker-value="dark"`; no DOM
 touched, no errors thrown. The written file needs the client.js
 loaded alongside it to be interactive.
 
@@ -231,8 +229,8 @@ Put a single `<script type="module">` near the bottom of `<body>`:
 
 ```html
 <script type="module">
-    import { autoInit } from "/lily-design-system-nunjucks-theme-chooser/theme-chooser.client.js";
-    autoInit();
+  import { autoInit } from "/lily-design-system-nunjucks-theme-picker/theme-picker.client.js";
+  autoInit();
 </script>
 ```
 
@@ -243,12 +241,15 @@ To run a custom `onChange` callback across all selects:
 
 ```html
 <script type="module">
-    import { autoInit } from "/lily-design-system-nunjucks-theme-chooser/theme-chooser.client.js";
-    autoInit({
-        onChange(slug) {
-            // analytics, server sync, etc.
-            navigator.sendBeacon?.("/api/theme", new Blob([JSON.stringify({ theme: slug })]));
-        },
-    });
+  import { autoInit } from "/lily-design-system-nunjucks-theme-picker/theme-picker.client.js";
+  autoInit({
+    onChange(slug) {
+      // analytics, server sync, etc.
+      navigator.sendBeacon?.(
+        "/api/theme",
+        new Blob([JSON.stringify({ theme: slug })]),
+      );
+    },
+  });
 </script>
 ```

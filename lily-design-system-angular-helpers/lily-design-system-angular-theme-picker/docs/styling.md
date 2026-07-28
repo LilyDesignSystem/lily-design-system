@@ -12,24 +12,24 @@ before shipping.
 
 ## Class hooks
 
-| Selector                                             | Element                                  |
-| ---------------------------------------------------- | ---------------------------------------- |
-| `.theme-chooser`                                      | The root `<div>`.                        |
-| `.theme-chooser.{consumerClass}`                      | Both classes when `className` is passed. |
-| `.theme-chooser-button`                               | The trigger `<button>`.                  |
-| `.theme-chooser-icon`                                 | The `<span>` holding the default glyph. Absent when a custom `<ng-template>` is projected. |
-| `.theme-chooser-list`                                 | The `<ul role="listbox">`. Carries `hidden` while closed. |
-| `.theme-chooser-option`                               | Each `<li role="option">`.               |
-| `.theme-chooser-status`                               | The consumer-rendered status line naming the active theme. Not emitted by the component — you render it, per the default pattern in [accessibility.md](./accessibility.md#the-status-region-is-part-of-the-pattern). |
+| Selector                         | Element                                                                                                                                                                                                              |
+| -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `.theme-picker`                 | The root `<div>`.                                                                                                                                                                                                    |
+| `.theme-picker.{consumerClass}` | Both classes when `className` is passed.                                                                                                                                                                             |
+| `.theme-picker-button`          | The trigger `<button>`.                                                                                                                                                                                              |
+| `.theme-picker-icon`            | The `<span>` holding the default glyph. Absent when a custom `<ng-template>` is projected.                                                                                                                           |
+| `.theme-picker-list`            | The `<ul role="listbox">`. Carries `hidden` while closed.                                                                                                                                                            |
+| `.theme-picker-option`          | Each `<li role="option">`.                                                                                                                                                                                           |
+| `.theme-picker-status`          | The consumer-rendered status line naming the active theme. Not emitted by the component — you render it, per the default pattern in [accessibility.md](./accessibility.md#the-status-region-is-part-of-the-pattern). |
 
 ## State selectors
 
-| Selector                                    | Meaning                                                     |
-| ------------------------------------------- | ----------------------------------------------------------- |
-| `.theme-chooser-option[data-active]`         | The option the **keyboard** is currently pointing at.        |
-| `.theme-chooser-option[aria-selected="true"]`| The theme currently **in effect**.                           |
-| `.theme-chooser-button[aria-expanded="true"]`| The listbox is open.                                         |
-| `.theme-chooser-list[hidden]`                | The listbox is closed (the browser hides it; don't override).|
+| Selector                                      | Meaning                                                       |
+| --------------------------------------------- | ------------------------------------------------------------- |
+| `.theme-picker-option[data-active]`          | The option the **keyboard** is currently pointing at.         |
+| `.theme-picker-option[aria-selected="true"]` | The theme currently **in effect**.                            |
+| `.theme-picker-button[aria-expanded="true"]` | The listbox is open.                                          |
+| `.theme-picker-list[hidden]`                 | The listbox is closed (the browser hides it; don't override). |
 
 `data-active` and `aria-selected` are different states and are
 usually on different options while the user arrows around. Give them
@@ -37,10 +37,10 @@ distinct treatments — a highlight for `data-active`, a checkmark or
 weight change for `aria-selected`. Styling them identically makes the
 list unreadable during keyboard navigation.
 
-Do **not** write `.theme-chooser-list { display: block }` or similar
+Do **not** write `.theme-picker-list { display: block }` or similar
 unconditionally: that defeats the `hidden` attribute and the list
 never closes. If you need a display mode other than the default, scope
-it: `.theme-chooser-list:not([hidden]) { display: grid }`.
+it: `.theme-picker-list:not([hidden]) { display: grid }`.
 
 The `className` input is the Angular equivalent of Vue's
 `inheritAttrs`-driven `class` fall-through. Angular has no
@@ -48,10 +48,10 @@ implicit attribute spread; the helper exposes an explicit input.
 
 ## Attribute hooks
 
-| Attribute                          | On                          | Purpose                          |
-| ---------------------------------- | --------------------------- | -------------------------------- |
-| `data-theme="<slug>"`              | `target` (default `<html>`) | Active theme indicator for theme CSS files. |
-| `data-lily-theme-chooser="<name>"`  | the managed `<link>`        | Discriminator for multiple selects. |
+| Attribute                         | On                          | Purpose                                     |
+| --------------------------------- | --------------------------- | ------------------------------------------- |
+| `data-theme="<slug>"`             | `target` (default `<html>`) | Active theme indicator for theme CSS files. |
+| `data-lily-theme-picker="<name>"` | the managed `<link>`        | Discriminator for multiple selects.         |
 
 ## Positioning the list
 
@@ -64,22 +64,22 @@ The minimum: make the root a positioning context and take the list out
 of flow.
 
 ```css
-.theme-chooser {
-    position: relative;
-    display: inline-block;
+.theme-picker {
+  position: relative;
+  display: inline-block;
 }
 
-.theme-chooser-list {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    z-index: 10;
-    min-width: 100%;
-    max-height: 20rem;
-    overflow-y: auto;
-    margin: 0;
-    padding: 0;
-    list-style: none;
+.theme-picker-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 10;
+  min-width: 100%;
+  max-height: 20rem;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 ```
 
@@ -99,58 +99,59 @@ Drop into the consumer's app stylesheet, on top of the positioning
 rules above:
 
 ```css
-.theme-chooser-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    /* Keep a usable target even if the glyph fails to render. */
-    min-width: 2.25rem;
-    min-height: 2.25rem;
-    padding: 0.25rem 0.5rem;
-    border: 1px solid var(--color-base-300, currentColor);
-    border-radius: var(--radius-selector, 0.25rem);
-    background: var(--color-base-100, transparent);
-    color: inherit;
-    cursor: pointer;
+.theme-picker-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* Keep a usable target even if the glyph fails to render. */
+  min-width: 2.25rem;
+  min-height: 2.25rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--color-base-300, currentColor);
+  border-radius: var(--radius-selector, 0.25rem);
+  background: var(--color-base-100, transparent);
+  color: inherit;
+  cursor: pointer;
 }
 
-.theme-chooser-icon {
-    /* The default glyph is U+25D1; name fonts you know cover it so it
+.theme-picker-icon {
+  /* The default glyph is U+25D1; name fonts you know cover it so it
        doesn't arrive from an arbitrary fallback at the wrong weight. */
-    font-family: "Segoe UI Symbol", "Apple Symbols", "Noto Sans Symbols 2", sans-serif;
-    font-size: 1.125em;
-    line-height: 1;
+  font-family:
+    "Segoe UI Symbol", "Apple Symbols", "Noto Sans Symbols 2", sans-serif;
+  font-size: 1.125em;
+  line-height: 1;
 }
 
-.theme-chooser-button:focus-visible,
-.theme-chooser-list:focus-visible {
-    outline: 2px solid var(--color-primary, currentColor);
-    outline-offset: 2px;
+.theme-picker-button:focus-visible,
+.theme-picker-list:focus-visible {
+  outline: 2px solid var(--color-primary, currentColor);
+  outline-offset: 2px;
 }
 
-.theme-chooser-list {
-    border: 1px solid var(--color-base-300, currentColor);
-    border-radius: var(--radius-selector, 0.25rem);
-    background: var(--color-base-100, canvas);
+.theme-picker-list {
+  border: 1px solid var(--color-base-300, currentColor);
+  border-radius: var(--radius-selector, 0.25rem);
+  background: var(--color-base-100, canvas);
 }
 
-.theme-chooser-option {
-    padding: 0.25rem 0.75rem;
-    cursor: pointer;
+.theme-picker-option {
+  padding: 0.25rem 0.75rem;
+  cursor: pointer;
 }
 
 /* Keyboard highlight — where the arrows are pointing. */
-.theme-chooser-option[data-active] {
-    background: var(--color-base-200, highlight);
+.theme-picker-option[data-active] {
+  background: var(--color-base-200, highlight);
 }
 
 /* The theme actually in effect. */
-.theme-chooser-option[aria-selected="true"] {
-    font-weight: 600;
+.theme-picker-option[aria-selected="true"] {
+  font-weight: 600;
 }
 ```
 
-The `.theme-chooser-list:focus-visible` rule is not optional
+The `.theme-picker-list:focus-visible` rule is not optional
 decoration: the `<ul>` holds focus for the entire open interaction, so
 without it a keyboard user has no on-screen indication that their
 keystrokes are going anywhere. See
@@ -167,8 +168,8 @@ The default pattern renders the active theme as **visible** text (see
 [accessibility.md](./accessibility.md#the-status-region-is-part-of-the-pattern)):
 
 ```html
-<p class="theme-chooser-status" aria-live="polite">
-    Active theme: {{ themeChooser.labelFor(theme()) }}
+<p class="theme-picker-status" aria-live="polite">
+  Active theme: {{ themePicker.labelFor(theme()) }}
 </p>
 ```
 
@@ -178,16 +179,16 @@ layout genuinely cannot spare the space, hide it **visually** while
 keeping it in the accessibility tree:
 
 ```css
-.theme-chooser-status {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    padding: 0;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-    border: 0;
+.theme-picker-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }
 ```
 
@@ -201,12 +202,12 @@ element entirely is worse still — prefer this recipe over deleting it.
 - Don't hide the root with `display: none`. It removes the whole
   control from the accessibility tree. Use `clip-path` or a
   `.sr-only` recipe if you need to visually hide it.
-- Don't force `.theme-chooser-list` visible with an unconditional
+- Don't force `.theme-picker-list` visible with an unconditional
   `display` rule — it overrides the `hidden` attribute and the list
   never closes. Scope it with `:not([hidden])`.
 - Don't style `[data-active]` and `[aria-selected="true"]` the same.
   They are different states on usually-different options.
-- Don't remove the focus ring from `.theme-chooser-list`. It holds
+- Don't remove the focus ring from `.theme-picker-list`. It holds
   focus while the list is open.
 - Don't add `styles` / `styleUrls` to a wrapping component that
   imports the select if the goal is to style the select — Angular
@@ -224,27 +225,29 @@ reach child components by default.
 
 The select is a standalone component with no `styles`, so emulation
 doesn't bite the helper itself. But a consumer wrapping the select
-in another component must publish their theme-chooser-targeting styles
+in another component must publish their theme-picker-targeting styles
 either globally or with `ViewEncapsulation.None`:
 
 ```ts
 import { Component, ViewEncapsulation } from "@angular/core";
 
 @Component({
-    selector: "my-settings",
-    standalone: true,
-    imports: [ThemeChooser],
-    encapsulation: ViewEncapsulation.None,  // styles reach .theme-chooser
-    template: `
-        <lily-theme-chooser label="Theme" themesUrl="/t/" [themes]="themes" />
-    `,
-    styles: `
-        .theme-chooser {
-            border: 1px solid var(--brand);
-        }
-    `,
+  selector: "my-settings",
+  standalone: true,
+  imports: [ThemePicker],
+  encapsulation: ViewEncapsulation.None, // styles reach .theme-picker
+  template: `
+    <lily-theme-picker label="Theme" themesUrl="/t/" [themes]="themes" />
+  `,
+  styles: `
+    .theme-picker {
+      border: 1px solid var(--brand);
+    }
+  `,
 })
-export class MySettings { /* … */ }
+export class MySettings {
+  /* … */
+}
 ```
 
 Or, more idiomatically, put the select CSS in a global stylesheet
@@ -258,19 +261,19 @@ the host:
 
 ```css
 :host {
-    display: block;
-    padding: 1rem;
+  display: block;
+  padding: 1rem;
 }
 ```
 
 This styles the wrapping `<my-settings>`, not the inner
-`.theme-chooser` div.
+`.theme-picker` div.
 
-Note also that `<lily-theme-chooser>` itself is an element in the DOM,
-sitting between your wrapper and `.theme-chooser`. If your positioning
+Note also that `<lily-theme-picker>` itself is an element in the DOM,
+sitting between your wrapper and `.theme-picker`. If your positioning
 context needs to be that element rather than the root div, style
-`lily-theme-chooser { position: relative }` instead — but prefer
-`.theme-chooser`, which is the documented hook.
+`lily-theme-picker { position: relative }` instead — but prefer
+`.theme-picker`, which is the documented hook.
 
 ## `::ng-deep` (deprecated but useful)
 
@@ -279,8 +282,8 @@ styles, `::ng-deep` still works (despite being deprecated). It's
 brittle — prefer global stylesheets. If you must use it:
 
 ```css
-::ng-deep .theme-chooser-option {
-    /* applies to descendants regardless of scope */
+::ng-deep .theme-picker-option {
+  /* applies to descendants regardless of scope */
 }
 ```
 

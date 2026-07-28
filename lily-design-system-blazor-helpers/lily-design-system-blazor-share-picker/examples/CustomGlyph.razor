@@ -3,7 +3,7 @@
 
     ChildContent REPLACES THE GLYPH INSIDE THE BUTTON. It does not render
     the list items — those come from Targets. The fragment receives a
-    ShareChooserContext of { Open, Url }, so the face can react to the
+    SharePickerContext of { Open, Url }, so the face can react to the
     open state and can show what will be shared.
 
     Two rules survive the override:
@@ -24,11 +24,11 @@
     pictograph on some platforms and a monochrome glyph on others.
 *@
 
-@page "/examples/share-chooser/custom-glyph"
+@page "/examples/share-picker/custom-glyph"
 @rendermode InteractiveServer
 @using LilyDesignSystem.Blazor.Helpers
 
-<ShareChooser Label="Share this page" Targets="@Targets" CopyLabel="Copy link"
+<SharePicker Label="Share this page" Targets="@Targets" CopyLabel="Copy link"
              CopiedLabel="Link copied"
              CopyFailedLabel="Could not copy — copy it from the address bar">
     @* An inline SVG: no bundled icon asset, and it inherits currentColor. *@
@@ -38,7 +38,7 @@
         <path fill="currentColor"
               d="M9 1v3C4 4 1 7 1 12c1.5-2.5 4-3.5 8-3.5V12l6-5.5L9 1z" />
     </svg>
-</ShareChooser>
+</SharePicker>
 
 @code {
     private static readonly ShareTarget[] Targets =

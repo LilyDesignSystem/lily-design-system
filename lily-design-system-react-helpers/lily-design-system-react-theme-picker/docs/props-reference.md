@@ -11,9 +11,9 @@ role="listbox">`. Always supplied, always translatable. Screen readers
 announce it as the control's name.
 
 ```tsx
-<ThemeChooser label="Theme" {...required} />
-<ThemeChooser label="Thème" {...required} />
-<ThemeChooser label="主题" {...required} />
+<ThemePicker label="Theme" {...required} />
+<ThemePicker label="Thème" {...required} />
+<ThemePicker label="主题" {...required} />
 ```
 
 This prop carries more weight than it did with a native `<select>`: the
@@ -54,10 +54,10 @@ seeds from `defaultValue` / `storageKey` / `"light"` / `themes[0]`.
 ```tsx
 // Controlled
 const [theme, setTheme] = useState("");
-<ThemeChooser value={theme} onChange={setTheme} {...required} />
+<ThemePicker value={theme} onChange={setTheme} {...required} />
 
 // Uncontrolled
-<ThemeChooser defaultValue="dark" {...required} />
+<ThemePicker defaultValue="dark" {...required} />
 ```
 
 ## `defaultValue` — optional, string
@@ -78,7 +78,7 @@ Errors (private mode, quota, disabled storage) are silently swallowed
 — the select continues to work in-memory.
 
 ```tsx
-<ThemeChooser storageKey="lily-theme" {...required} />
+<ThemePicker storageKey="lily-theme" {...required} />
 ```
 
 ## `detectFromSystem` — optional, boolean — defaults to `false`
@@ -88,7 +88,7 @@ colour-scheme preference and use it if the resulting slug is one you
 offer.
 
 ```tsx
-<ThemeChooser detectFromSystem storageKey="lily-theme" {...required} />
+<ThemePicker detectFromSystem storageKey="lily-theme" {...required} />
 ```
 
 The resolution reads `matchMedia("(prefers-color-scheme: dark)")` and
@@ -99,7 +99,7 @@ nothing and resolution falls through to `defaultValue`.
 Storage **beats** detection: an explicit past choice outranks an OS
 preference. `value` beats both. The full order is
 `value` > storage > detection > `defaultValue` > `"light"` > `themes[0]`,
-mirroring `detectFromNavigator` in locale-chooser.
+mirroring `detectFromNavigator` in locale-picker.
 
 This resolves the preference **once**, at mount. To keep tracking the
 OS as it changes, add a `matchMedia` change listener and write to a
@@ -114,7 +114,7 @@ have already themed the rest of your app another way.
 Two jobs. It is the `name` of the hidden
 `<input type="hidden">` that carries the active slug — so the control
 still submits with a surrounding form — and it is the discriminator on
-the managed `<link>` element (`data-lily-theme-chooser="{name}"`), so
+the managed `<link>` element (`data-lily-theme-picker="{name}"`), so
 multiple selects can coexist by giving each a distinct `name`.
 
 ## `extension` — optional, string — defaults to `".css"`
@@ -133,8 +133,8 @@ whole document.
 ```tsx
 const ref = useRef<HTMLDivElement>(null);
 <div ref={ref}>
-    <ThemeChooser target={ref.current} {...required} />
-</div>
+  <ThemePicker target={ref.current} {...required} />
+</div>;
 ```
 
 Note: in React, `ref.current` is null on first render and populated
@@ -158,12 +158,12 @@ Called synchronously after every successful apply. Good place for
 analytics, server sync, or notifying sibling components.
 
 ```tsx
-<ThemeChooser
-    onChange={(slug) => {
-        analytics.track("theme_changed", { slug });
-        document.cookie = `theme=${slug}; path=/`;
-    }}
-    {...required}
+<ThemePicker
+  onChange={(slug) => {
+    analytics.track("theme_changed", { slug });
+    document.cookie = `theme=${slug}; path=/`;
+  }}
+  {...required}
 />
 ```
 
@@ -174,9 +174,9 @@ the options — the component owns those. The render prop receives:
 
 ```ts
 type ChildArgs = {
-    value: string;                       // the active slug
-    open: boolean;                       // is the listbox expanded?
-    labelFor: (theme: string) => string; // resolved display label
+  value: string; // the active slug
+  open: boolean; // is the listbox expanded?
+  labelFor: (theme: string) => string; // resolved display label
 };
 ```
 
@@ -187,12 +187,12 @@ name comes from `label`. See
 ## `className` — optional, string
 
 Extra CSS class hook on the root `<div>`. Always emitted after
-`"theme-chooser"`, so consumer styles can use either selector.
+`"theme-picker"`, so consumer styles can use either selector.
 
 ```tsx
-<ThemeChooser className="my-custom-class" {...required} />
+<ThemePicker className="my-custom-class" {...required} />
 // Renders:
-// <div class="theme-chooser my-custom-class" ...>
+// <div class="theme-picker my-custom-class" ...>
 ```
 
 It reaches only the root. The button, list, and options carry their own
@@ -204,11 +204,7 @@ Spread onto the root `<div>`. Use to attach `data-*`, `id`, event
 handlers, and ARIA overrides.
 
 ```tsx
-<ThemeChooser
-    id="theme-chooser-1"
-    data-testid="theme-chooser"
-    {...required}
-/>
+<ThemePicker id="theme-picker-1" data-testid="theme-picker" {...required} />
 ```
 
 The TypeScript surface accepts any

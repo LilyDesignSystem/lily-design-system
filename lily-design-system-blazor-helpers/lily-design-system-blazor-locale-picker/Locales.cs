@@ -1,8 +1,8 @@
-// Auto-generated companion data for LocaleChooser.
+// Auto-generated companion data for LocalePicker.
 //
 // `DefaultLocaleLabels` is a code → English-name map derived from
 // `locales.tsv` (436 entries) — verbatim port of the canonical
-// `locales.ts` shipped alongside the Svelte LocaleChooser helper.
+// `locales.ts` shipped alongside the Svelte LocalePicker helper.
 //
 // `RtlLanguageTags` lists base language subtags whose default
 // writing direction is right-to-left.
@@ -21,7 +21,7 @@ using System.Collections.Generic;
 namespace LilyDesignSystem.Blazor.Helpers;
 
 /// <summary>
-/// Static helpers and data tables for <see cref="LocaleChooser"/>.
+/// Static helpers and data tables for <see cref="LocalePicker"/>.
 /// Mirrors the Svelte helper's <c>locales.ts</c> module.
 /// </summary>
 public static class Locales

@@ -1,6 +1,6 @@
-# LocaleChooser — Specification (Nunjucks)
+# LocalePicker — Specification (Nunjucks)
 
-Single source of truth for the `lily-design-system-nunjucks-locale-chooser`
+Single source of truth for the `lily-design-system-nunjucks-locale-picker`
 Nunjucks helper. This file drives implementation, testing, and
 documentation in the spec-driven-development style: anything not in
 this spec is out of scope; anything in this spec must be exercised by
@@ -8,9 +8,9 @@ a test.
 
 Sibling files in this directory:
 
-- `locale-chooser.njk` — the macro implementation
-- `locale-chooser.client.js` — runtime JS that owns the lifecycle
-- `locale-chooser.test.ts` — vitest spec exercising every clause in §4–§7
+- `locale-picker.njk` — the macro implementation
+- `locale-picker.client.js` — runtime JS that owns the lifecycle
+- `locale-picker.test.ts` — vitest spec exercising every clause in §4–§7
 - `locales.ts` — built-in locale-code → English-name table and RTL set,
   derived from `locales.tsv` (verbatim copy of the Svelte canonical)
 - `locales.tsv` — canonical 436-row list of locale codes and English
@@ -18,7 +18,7 @@ Sibling files in this directory:
 - `index.md` — user-facing readme
 
 The headless `lily-design-system-nunjucks-headless` library does not
-(yet) include a canonical `LocaleChooser`; this helper is the
+(yet) include a canonical `LocalePicker`; this helper is the
 opinionated, reusable counterpart split into a Nunjucks macro and a
 client-side JS module.
 
@@ -41,7 +41,7 @@ select that:
 5. Optionally falls back to `navigator.language` on first visit when
    no value or storage entry is supplied.
 6. Ships zero CSS — the consumer styles every visual aspect via the
-   `locale-chooser` class hook and the `lang` / `dir` attributes.
+   `locale-picker` class hook and the `lang` / `dir` attributes.
 7. Provides BCP 47-compliant tag output. Underscores in locale codes
    (e.g. `en_US`) are converted to hyphens (`en-US`) when written to
    the `lang` attribute, per RFC 5646.
@@ -75,7 +75,7 @@ select that:
   list, at the cost of the native control's free keyboard semantics and
   its no-JS operability (see §5.8 and §6).
 - **Split between macro and client.js.** The macro renders static
-  HTML with `data-lily-locale-chooser-*` hooks; the client.js owns both
+  HTML with `data-lily-locale-picker-*` hooks; the client.js owns both
   the listbox interaction (open/close, focus, keyboard, typeahead) and
   the apply lifecycle (lang, dir, storage, navigator, change events).
 - **Ids come from a macro parameter, not a counter.** A Nunjucks macro
@@ -94,7 +94,7 @@ select that:
 - **Single `opts` object on the macro** — matches the Lily Nunjucks
   convention.
 - **Vanilla ES module client.js** — no framework dependency. Exports
-  `initLocaleChooser(root, opts?)` and `autoInit(opts?)` plus pure
+  `initLocalePicker(root, opts?)` and `autoInit(opts?)` plus pure
   helpers (`bcp47LocaleTag`, `isRtlLocale`, `localeName`,
   `matchNavigatorLanguage`, `defaultLocaleLabels`,
   `RTL_LANGUAGE_TAGS`, `RTL_SCRIPT_SUBTAGS`).
@@ -105,23 +105,23 @@ select that:
 
 ### 4.1 Macro parameters
 
-`{% from "./locale-chooser.njk" import localeChooser %}` then
-`{{ localeChooser(opts) }}`.
+`{% from "./locale-picker.njk" import localePicker %}` then
+`{{ localePicker(opts) }}`.
 
-| Key                  | Type                       | Required | Default                  | Purpose |
-| -------------------- | -------------------------- | -------- | ------------------------ | ------- |
-| `label`              | `string`                   | yes      | —                        | Accessible name for BOTH the button and the listbox (`aria-label`). The button is icon-only, so this is the only accessible name it has. |
-| `locales`            | `array<string>`            | yes      | —                        | Available locale codes (e.g. `["en", "en_US", "fr", "ar"]`). |
-| `value`              | `string`                   | no       | `""`                     | Initial locale. Emitted as `data-lily-locale-chooser-value` for the client to read (see §4.2). |
-| `defaultValue`       | `string`                   | no       | `""`                     | Initial locale when nothing else is supplied at runtime. |
-| `storageKey`         | `string`                   | no       | `""`                     | If non-empty, the client.js persists to `localStorage`. |
-| `detectFromNavigator`| `boolean`                  | no       | `false`                  | If true, the client.js resolves `navigator.languages` on first init. |
-| `name`               | `string`                   | no       | `"locale"`               | Hidden-input `name`, AND the default id prefix. |
-| `applyDir`           | `boolean`                  | no       | `true`                   | If false, the client.js never writes `dir`. |
-| `localeLabels`       | `object<string,string>`    | no       | `{}`                     | Optional pretty labels per locale code. |
-| `id`                 | `string`                   | no       | `"locale-chooser-{name}"` | Id prefix for the listbox (`{id}-list`) and its options (`{id}-option-{i}`). Pass an explicit value when two instances share a `name`. |
-| `classes`            | `string`                   | no       | `""`                     | Extra CSS classes on the root `<div>`. |
-| `attributes`         | `object`                   | no       | —                        | Extra HTML attributes spread onto the root. |
+| Key                   | Type                    | Required | Default                   | Purpose                                                                                                                                  |
+| --------------------- | ----------------------- | -------- | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `label`               | `string`                | yes      | —                         | Accessible name for BOTH the button and the listbox (`aria-label`). The button is icon-only, so this is the only accessible name it has. |
+| `locales`             | `array<string>`         | yes      | —                         | Available locale codes (e.g. `["en", "en_US", "fr", "ar"]`).                                                                             |
+| `value`               | `string`                | no       | `""`                      | Initial locale. Emitted as `data-lily-locale-picker-value` for the client to read (see §4.2).                                            |
+| `defaultValue`        | `string`                | no       | `""`                      | Initial locale when nothing else is supplied at runtime.                                                                                 |
+| `storageKey`          | `string`                | no       | `""`                      | If non-empty, the client.js persists to `localStorage`.                                                                                  |
+| `detectFromNavigator` | `boolean`               | no       | `false`                   | If true, the client.js resolves `navigator.languages` on first init.                                                                     |
+| `name`                | `string`                | no       | `"locale"`                | Hidden-input `name`, AND the default id prefix.                                                                                          |
+| `applyDir`            | `boolean`               | no       | `true`                    | If false, the client.js never writes `dir`.                                                                                              |
+| `localeLabels`        | `object<string,string>` | no       | `{}`                      | Optional pretty labels per locale code.                                                                                                  |
+| `id`                  | `string`                | no       | `"locale-picker-{name}"` | Id prefix for the listbox (`{id}-list`) and its options (`{id}-option-{i}`). Pass an explicit value when two instances share a `name`.   |
+| `classes`             | `string`                | no       | `""`                      | Extra CSS classes on the root `<div>`.                                                                                                   |
+| `attributes`          | `object`                | no       | —                         | Extra HTML attributes spread onto the root.                                                                                              |
 
 The `placeholder` parameter was **removed** in the icon-button release.
 There is no `<select>` left to pin a placeholder onto, and the closed
@@ -131,7 +131,7 @@ A `{% call %}` block body replaces the default glyph inside the button
 — the Nunjucks equivalent of the canonical helper's `children`:
 
 ```njk
-{% call localeChooser({label: "Language", locales: locales}) %}
+{% call localePicker({label: "Language", locales: locales}) %}
   <svg class="my-icon" aria-hidden="true" viewBox="0 0 16 16">…</svg>
 {% endcall %}
 ```
@@ -142,47 +142,73 @@ must not supply the accessible name — that stays on `aria-label`.
 ### 4.2 DOM contract (macro output)
 
 ```html
-<div class="locale-chooser {classes}"
-     data-lily-locale-chooser-root
-     data-lily-locale-chooser-name="{name}"
-     data-lily-locale-chooser-storage-key="{storageKey}"
-     data-lily-locale-chooser-default-value="{defaultValue}"
-     data-lily-locale-chooser-detect-from-navigator="{true|false}"
-     data-lily-locale-chooser-apply-dir="{true|false}"
-     data-lily-locale-chooser-value="{value}"
-     {…attributes}>
-  <input type="hidden" name="{name}" value="{selected}"
-         data-lily-locale-chooser-input>
-  <button type="button" class="locale-chooser-button"
-          aria-label="{label}" aria-haspopup="listbox"
-          aria-expanded="false" aria-controls="{id}-list"
-          data-lily-locale-chooser-button>
-    <span class="locale-chooser-icon" aria-hidden="true">&#127760;&#65038;</span>
+<div
+  class="locale-picker {classes}"
+  data-lily-locale-picker-root
+  data-lily-locale-picker-name="{name}"
+  data-lily-locale-picker-storage-key="{storageKey}"
+  data-lily-locale-picker-default-value="{defaultValue}"
+  data-lily-locale-picker-detect-from-navigator="{true|false}"
+  data-lily-locale-picker-apply-dir="{true|false}"
+  data-lily-locale-picker-value="{value}"
+  {…attributes}
+>
+  <input
+    type="hidden"
+    name="{name}"
+    value="{selected}"
+    data-lily-locale-picker-input
+  />
+  <button
+    type="button"
+    class="locale-picker-button"
+    aria-label="{label}"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="{id}-list"
+    data-lily-locale-picker-button
+  >
+    <span class="locale-picker-icon" aria-hidden="true"
+      >&#127760;&#65038;</span
+    >
   </button>
-  <ul class="locale-chooser-list" id="{id}-list" role="listbox"
-      aria-label="{label}" tabindex="-1" hidden
-      data-lily-locale-chooser-list>
-    <li class="locale-chooser-option" id="{id}-option-{i}" role="option"
-        aria-selected="true|false" data-value="{locale}"
-        lang="{tagFor(locale)}">{labelFor(locale)}</li>
+  <ul
+    class="locale-picker-list"
+    id="{id}-list"
+    role="listbox"
+    aria-label="{label}"
+    tabindex="-1"
+    hidden
+    data-lily-locale-picker-list
+  >
+    <li
+      class="locale-picker-option"
+      id="{id}-option-{i}"
+      role="option"
+      aria-selected="true|false"
+      data-value="{locale}"
+      lang="{tagFor(locale)}"
+    >
+      {labelFor(locale)}
+    </li>
   </ul>
 </div>
 ```
 
-- The root is a `<div>` carrying the `locale-chooser` class hook plus the
+- The root is a `<div>` carrying the `locale-picker` class hook plus the
   consumer's `classes`; `attributes` spread onto it.
 - The button glyph is U+1F310 GLOBE WITH MERIDIANS followed by U+FE0E VARIATION SELECTOR-15 (`&#127760;&#65038;`),
   wrapped in `aria-hidden="true"`. The accessible name comes from
   `aria-label` alone — the glyph is never the name. VS15 requests the
   TEXT presentation: without it browsers pick the colour-emoji font and
-  the globe renders blue, which does not match theme-chooser's
+  the globe renders blue, which does not match theme-picker's
   monochrome ◑ (U+25D1 is not an emoji codepoint, so it needs no
   selector). Verified in Chromium.
 - Each option carries `lang="{tagFor(locale)}"` (BCP 47 hyphen form)
   for WCAG 3.1.2 (Language of Parts), so assistive technology
   pronounces each locale's name in its own language. The button and
   the `<ul>` carry NO `lang` — they are chrome, not content.
-- `data-lily-locale-chooser-value` is emitted **only when `opts.value`
+- `data-lily-locale-picker-value` is emitted **only when `opts.value`
   is non-empty**; it remains the sole channel by which the consumer's
   `value` prop reaches the client. It is a data attribute rather than
   baked-in control state precisely so the browser paints nothing the
@@ -199,7 +225,7 @@ must not supply the accessible name — that stays on `aria-label`.
   list carries no `aria-activedescendant`. Those are all client-owned,
   open-state concerns.
 - Option ids are deterministic: `{id}-option-{index}`, where `id`
-  defaults to `locale-chooser-{name}`. No `Math.random`, no `Date.now`,
+  defaults to `locale-picker-{name}`. No `Math.random`, no `Date.now`,
   so server and client markup always agree.
 - The hidden `<input>` preserves form participation and the `name`
   prop. It is pre-filled server-side with the consumer-form code (not
@@ -209,20 +235,20 @@ must not supply the accessible name — that stays on `aria-label`.
 
 ### 4.3 Client.js exports
 
-`locale-chooser.client.js` is an ES module exporting:
+`locale-picker.client.js` is an ES module exporting:
 
-| Export                    | Type                                            | Purpose |
-| ------------------------- | ----------------------------------------------- | ------- |
-| `bcp47LocaleTag(locale)`  | `(string) => string`                            | `en_US` → `en-US`. |
-| `isRtlLocale(locale)`     | `(string) => boolean`                           | See §5.6. |
-| `localeName(locale)`      | `(string) => string`                            | Lookup in built-in table. |
-| `matchNavigatorLanguage(navLangs, locales)` | `(string[], string[]) => string` | First match, "" if none. |
-| `defaultLocaleLabels`     | `Record<string, string>`                        | Built-in 436-row table. |
-| `RTL_LANGUAGE_TAGS`       | `Set<string>`                                   | Base subtag RTL set. |
-| `RTL_SCRIPT_SUBTAGS`      | `Set<string>`                                   | Script subtag RTL set. |
-| `GLOBE_WITH_MERIDIANS`    | `string`                                        | The default button glyph, U+1F310. |
-| `initLocaleChooser(root, opts?)` | `(HTMLElement, object?) => {setLocale, destroy}` | Wire one rendered root. |
-| `autoInit(opts?)`         | `(object?) => Array<{setLocale, destroy}>`      | Wire every root on the page. |
+| Export                                      | Type                                             | Purpose                            |
+| ------------------------------------------- | ------------------------------------------------ | ---------------------------------- |
+| `bcp47LocaleTag(locale)`                    | `(string) => string`                             | `en_US` → `en-US`.                 |
+| `isRtlLocale(locale)`                       | `(string) => boolean`                            | See §5.6.                          |
+| `localeName(locale)`                        | `(string) => string`                             | Lookup in built-in table.          |
+| `matchNavigatorLanguage(navLangs, locales)` | `(string[], string[]) => string`                 | First match, "" if none.           |
+| `defaultLocaleLabels`                       | `Record<string, string>`                         | Built-in 436-row table.            |
+| `RTL_LANGUAGE_TAGS`                         | `Set<string>`                                    | Base subtag RTL set.               |
+| `RTL_SCRIPT_SUBTAGS`                        | `Set<string>`                                    | Script subtag RTL set.             |
+| `GLOBE_WITH_MERIDIANS`                      | `string`                                         | The default button glyph, U+1F310. |
+| `initLocalePicker(root, opts?)`            | `(HTMLElement, object?) => {setLocale, destroy}` | Wire one rendered root.            |
+| `autoInit(opts?)`                           | `(object?) => Array<{setLocale, destroy}>`       | Wire every root on the page.       |
 
 Optional `opts`:
 
@@ -231,7 +257,7 @@ Optional `opts`:
 - `target` — element receiving `lang` and `dir` (defaults to
   `document.documentElement`).
 
-`initLocaleChooser` returns a controller with `setLocale(code)` and
+`initLocalePicker` returns a controller with `setLocale(code)` and
 `destroy()`. `destroy()` removes every event listener the module
 attached, including the one on `document`; the applied DOM is left
 as-is. The function returns an inert controller (both methods no-ops)
@@ -245,11 +271,11 @@ expected button / listbox children are missing.
 `bcp47LocaleTag(locale)` replaces every `_` with `-`. No case
 normalisation is applied.
 
-### 5.2 Initial value resolution (client-side, on `initLocaleChooser`)
+### 5.2 Initial value resolution (client-side, on `initLocalePicker`)
 
 The initial locale is the first non-empty value of:
 
-1. The root's `data-lily-locale-chooser-value` attribute (i.e.
+1. The root's `data-lily-locale-picker-value` attribute (i.e.
    the consumer's `value` prop). The macro omits the attribute
    entirely when `opts.value` is unset, so an absent attribute reads
    as `""` and falls through.
@@ -257,7 +283,7 @@ The initial locale is the first non-empty value of:
    and the read does not throw).
 3. `matchNavigatorLanguage(navigator.languages, locales)` (only if
    `detectFromNavigator` is true).
-4. The root's `data-lily-locale-chooser-default-value`.
+4. The root's `data-lily-locale-picker-default-value`.
 5. `"en"` if present among the rendered option values.
 6. The first option's `data-value`, or `""` if none.
 
@@ -293,7 +319,7 @@ Applying a locale `code` performs, in order:
 1. Resolve the target element (defaults to `document.documentElement`).
 2. Set `target.lang = bcp47LocaleTag(code)`.
 3. If `applyDir` is true, set `target.dir = isRtlLocale(code)
-   ? "rtl" : "ltr"`.
+? "rtl" : "ltr"`.
 4. If `storageKey` is non-empty, write `code` to `localStorage`.
 5. Mirror `code` (consumer form) into the hidden input's `value`, and
    re-derive every option's `aria-selected` so exactly one reads
@@ -325,21 +351,21 @@ returns focus to the button.
 
 On the **button**:
 
-| Key | Action |
-| --- | ------ |
+| Key                           | Action                                               |
+| ----------------------------- | ---------------------------------------------------- |
 | `ArrowDown`, `Enter`, `Space` | Open, active option = the selected one (or index 0). |
-| `ArrowUp` | Open, active option = the LAST option. |
+| `ArrowUp`                     | Open, active option = the LAST option.               |
 
 On the **listbox**:
 
-| Key | Action |
-| --- | ------ |
-| `ArrowDown` / `ArrowUp` | Move the active option. Clamps at the ends; does NOT wrap. |
-| `Home` / `End` | Jump to the first / last option. |
-| `Enter` / `Space` | Select the active option, apply it, close, return focus to the button. |
-| `Escape` | Close and return focus, leaving the value unchanged. |
-| `Tab` | Close without stealing focus back, so the browser's own Tab handling proceeds. |
-| Printable character | Typeahead over the option labels; the buffer accumulates and resets 500 ms after the last keystroke. Chords with Ctrl / Meta / Alt are ignored. |
+| Key                     | Action                                                                                                                                          |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ArrowDown` / `ArrowUp` | Move the active option. Clamps at the ends; does NOT wrap.                                                                                      |
+| `Home` / `End`          | Jump to the first / last option.                                                                                                                |
+| `Enter` / `Space`       | Select the active option, apply it, close, return focus to the button.                                                                          |
+| `Escape`                | Close and return focus, leaving the value unchanged.                                                                                            |
+| `Tab`                   | Close without stealing focus back, so the browser's own Tab handling proceeds.                                                                  |
+| Printable character     | Typeahead over the option labels; the buffer accumulates and resets 500 ms after the last keystroke. Chords with Ctrl / Meta / Alt are ignored. |
 
 Pointer behaviour: clicking an option selects it; clicking the button
 toggles; clicking outside the root closes; focus leaving the root
@@ -359,7 +385,7 @@ closes.
 ### 5.7 SSR
 
 Macro renders deterministic markup; no DOM access at template time.
-Client.js touches `document` only after `initLocaleChooser(root)` is
+Client.js touches `document` only after `initLocalePicker(root)` is
 called.
 
 ### 5.8 The no-JS story
@@ -398,7 +424,7 @@ the exported pure helpers. See [docs/ssr.md](../docs/ssr.md).
 
 ## 7. Testing acceptance criteria
 
-`locale-chooser.test.ts` must assert every numbered item below.
+`locale-picker.test.ts` must assert every numbered item below.
 Tests run under vitest + jsdom. Items 1–6 exercise the macro via
 `nunjucks.renderString`; items 7–12 exercise the pure helpers;
 items 13–27 exercise the client.js lifecycle and the listbox
@@ -408,7 +434,7 @@ contract.
 
 ### 7.1 Markup contract (macro)
 
-1. Macro renders a `<div class="locale-chooser">` root containing a
+1. Macro renders a `<div class="locale-picker">` root containing a
    `<button type="button">` with `aria-haspopup="listbox"`,
    `aria-expanded="false"`, and `aria-controls` pointing at a
    `<ul role="listbox" tabindex="-1">`. The button renders the U+1F310
@@ -439,7 +465,7 @@ contract.
 
 ### 7.3 Client.js locale application
 
-13. After `initLocaleChooser(root)`, `target.lang` (defaulting to
+13. After `initLocalePicker(root)`, `target.lang` (defaulting to
     `document.documentElement`) is the BCP 47 form of the resolved
     initial locale.
 14. After init, `target.dir` is `"rtl"` for an RTL initial locale.
@@ -455,7 +481,7 @@ contract.
 18. When `storageKey` is set, the active code is written to
     `localStorage` and read back on a fresh init.
 19. When the macro renders `value` as a non-empty prop, the root
-    carries `data-lily-locale-chooser-value="{value}"` and the
+    carries `data-lily-locale-picker-value="{value}"` and the
     initial-value resolution uses the supplied value (skipping
     storage, navigator, and defaults).
 20. When `detectFromNavigator` is true and `navigator.languages`
@@ -468,7 +494,7 @@ contract.
 ### 7.5 Spread, caller, autoInit
 
 22. Extra attributes spread through onto the root `<div>`.
-23. `autoInit()` wires every `[data-lily-locale-chooser-root]` on
+23. `autoInit()` wires every `[data-lily-locale-picker-root]` on
     the page, and distinct `name`s yield distinct id namespaces.
 24. A `{% call %}` block body replaces the default glyph inside the
     button; `aria-label` still carries the accessible name.
@@ -481,11 +507,11 @@ placeholder and no `<select>` to pin, so the meaningful pre-hydration
 invariants are that the listbox is closed and that exactly one option
 is marked selected.
 
-26. `data-lily-locale-chooser-value` carries `opts.value` and is the
+26. `data-lily-locale-picker-value` carries `opts.value` and is the
     sole channel by which it reaches the client;
-    `initLocaleChooser(root)` resolves the initial locale from it.
+    `initLocalePicker(root)` resolves the initial locale from it.
 27. When `opts.value` is unset, the root carries no
-    `data-lily-locale-chooser-value` attribute at all.
+    `data-lily-locale-picker-value` attribute at all.
 28. In the server markup, before any JS runs, the listbox is `hidden`,
     the button is `aria-expanded="false"`, no option carries
     `data-active`, and the list carries no `aria-activedescendant`.
@@ -525,7 +551,7 @@ is marked selected.
 ## 9. Tracking
 
 - Package directory:
-  `lily-design-system-nunjucks-helpers/lily-design-system-nunjucks-locale-chooser/`
+  `lily-design-system-nunjucks-helpers/lily-design-system-nunjucks-locale-picker/`
 - Spec version: 0.1.0
 - Created: 2026-06-05
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause

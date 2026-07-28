@@ -1,6 +1,6 @@
 # i18n integration
 
-`LocaleChooser` is intentionally not an i18n library. It changes
+`LocalePicker` is intentionally not an i18n library. It changes
 the document language and tells you when the user changed it; the
 actual string substitution is your i18n library's job.
 
@@ -36,32 +36,32 @@ navigation:
 ```ts
 import { Component, inject, signal } from "@angular/core";
 import { LOCALE_ID } from "@angular/core";
-import { LocaleChooser } from "../locale-chooser.component";
+import { LocalePicker } from "../locale-picker.component";
 
 @Component({
-    selector: "app-language",
-    standalone: true,
-    imports: [LocaleChooser],
-    template: `
-        <lily-locale-chooser
-            label="Language"
-            [locales]="['en', 'fr', 'ar']"
-            [(value)]="current"
-            (localeChange)="navigate($event)"
-        />
-    `,
+  selector: "app-language",
+  standalone: true,
+  imports: [LocalePicker],
+  template: `
+    <lily-locale-picker
+      label="Language"
+      [locales]="['en', 'fr', 'ar']"
+      [(value)]="current"
+      (localeChange)="navigate($event)"
+    />
+  `,
 })
 export class LanguageMenu {
-    private readonly currentLocale = inject(LOCALE_ID);
-    current = signal<string>(this.currentLocale);
+  private readonly currentLocale = inject(LOCALE_ID);
+  current = signal<string>(this.currentLocale);
 
-    navigate(next: string): void {
-        // Each locale ships at its own subpath (`/en/…`, `/fr/…`).
-        // Trigger a full navigation so the bundled locale loads.
-        if (typeof window !== "undefined") {
-            window.location.href = `/${next}${window.location.pathname.replace(/^\/(en|fr|ar)/, "")}`;
-        }
+  navigate(next: string): void {
+    // Each locale ships at its own subpath (`/en/…`, `/fr/…`).
+    // Trigger a full navigation so the bundled locale loads.
+    if (typeof window !== "undefined") {
+      window.location.href = `/${next}${window.location.pathname.replace(/^\/(en|fr|ar)/, "")}`;
     }
+  }
 }
 ```
 
@@ -80,33 +80,33 @@ an `activeLang$` observable and a `setActiveLang()` method.
 import { Component, inject, signal } from "@angular/core";
 import { TranslocoService, TranslocoModule } from "@jsverse/transloco";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { LocaleChooser } from "../locale-chooser.component";
+import { LocalePicker } from "../locale-picker.component";
 
 @Component({
-    selector: "app-language",
-    standalone: true,
-    imports: [LocaleChooser, TranslocoModule],
-    template: `
-        <lily-locale-chooser
-            label="Language"
-            [locales]="['en', 'fr', 'ar']"
-            [(value)]="current"
-            storageKey="app-locale"
-            [detectFromNavigator]="true"
-            (localeChange)="onLocaleChange($event)"
-        />
+  selector: "app-language",
+  standalone: true,
+  imports: [LocalePicker, TranslocoModule],
+  template: `
+    <lily-locale-picker
+      label="Language"
+      [locales]="['en', 'fr', 'ar']"
+      [(value)]="current"
+      storageKey="app-locale"
+      [detectFromNavigator]="true"
+      (localeChange)="onLocaleChange($event)"
+    />
 
-        <h1>{{ 'home.heading' | transloco }}</h1>
-        <p>{{ 'home.body' | transloco }}</p>
-    `,
+    <h1>{{ "home.heading" | transloco }}</h1>
+    <p>{{ "home.body" | transloco }}</p>
+  `,
 })
 export class LanguageMenu {
-    private transloco = inject(TranslocoService);
-    current = signal<string>(this.transloco.getActiveLang());
+  private transloco = inject(TranslocoService);
+  current = signal<string>(this.transloco.getActiveLang());
 
-    onLocaleChange(code: string): void {
-        this.transloco.setActiveLang(code);
-    }
+  onLocaleChange(code: string): void {
+    this.transloco.setActiveLang(code);
+  }
 }
 ```
 
@@ -133,32 +133,32 @@ Transloco and is still maintained. `TranslateService` exposes
 ```ts
 import { Component, inject, signal } from "@angular/core";
 import { TranslateService, TranslateModule } from "@ngx-translate/core";
-import { LocaleChooser } from "../locale-chooser.component";
+import { LocalePicker } from "../locale-picker.component";
 
 @Component({
-    selector: "app-language",
-    standalone: true,
-    imports: [LocaleChooser, TranslateModule],
-    template: `
-        <lily-locale-chooser
-            label="Language"
-            [locales]="['en', 'fr', 'ar']"
-            [(value)]="current"
-            storageKey="app-locale"
-            (localeChange)="onLocaleChange($event)"
-        />
+  selector: "app-language",
+  standalone: true,
+  imports: [LocalePicker, TranslateModule],
+  template: `
+    <lily-locale-picker
+      label="Language"
+      [locales]="['en', 'fr', 'ar']"
+      [(value)]="current"
+      storageKey="app-locale"
+      (localeChange)="onLocaleChange($event)"
+    />
 
-        <h1>{{ 'home.heading' | translate }}</h1>
-        <p>{{ 'home.body' | translate }}</p>
-    `,
+    <h1>{{ "home.heading" | translate }}</h1>
+    <p>{{ "home.body" | translate }}</p>
+  `,
 })
 export class LanguageMenu {
-    private translate = inject(TranslateService);
-    current = signal<string>(this.translate.currentLang ?? "en");
+  private translate = inject(TranslateService);
+  current = signal<string>(this.translate.currentLang ?? "en");
 
-    onLocaleChange(code: string): void {
-        this.translate.use(code);
-    }
+  onLocaleChange(code: string): void {
+    this.translate.use(code);
+  }
 }
 ```
 
@@ -175,41 +175,42 @@ directly. The select still owns the `lang` / `dir` lifecycle:
 
 ```ts
 import { Component, computed, signal } from "@angular/core";
-import { LocaleChooser } from "../locale-chooser.component";
+import { LocalePicker } from "../locale-picker.component";
 
 @Component({
-    selector: "app-language",
-    standalone: true,
-    imports: [LocaleChooser],
-    template: `
-        <lily-locale-chooser
-            label="Language"
-            [locales]="['en', 'en-US', 'fr', 'fr-CA', 'ar']"
-            [(value)]="locale"
-            storageKey="app-locale"
-        />
+  selector: "app-language",
+  standalone: true,
+  imports: [LocalePicker],
+  template: `
+    <lily-locale-picker
+      label="Language"
+      [locales]="['en', 'en-US', 'fr', 'fr-CA', 'ar']"
+      [(value)]="locale"
+      storageKey="app-locale"
+    />
 
-        <p>Today: {{ dateFmt().format(today) }}</p>
-        <p>Balance: {{ currencyFmt().format(balance) }}</p>
-        <p>Population: {{ numFmt().format(67330000) }}</p>
-    `,
+    <p>Today: {{ dateFmt().format(today) }}</p>
+    <p>Balance: {{ currencyFmt().format(balance) }}</p>
+    <p>Population: {{ numFmt().format(67330000) }}</p>
+  `,
 })
 export class LanguageMenu {
-    locale = signal("en");
+  locale = signal("en");
 
-    dateFmt = computed(() =>
-        new Intl.DateTimeFormat(this.locale(), { dateStyle: "long" }),
-    );
-    numFmt = computed(() => new Intl.NumberFormat(this.locale()));
-    currencyFmt = computed(() =>
-        new Intl.NumberFormat(this.locale(), {
-            style: "currency",
-            currency: "GBP",
-        }),
-    );
+  dateFmt = computed(
+    () => new Intl.DateTimeFormat(this.locale(), { dateStyle: "long" }),
+  );
+  numFmt = computed(() => new Intl.NumberFormat(this.locale()));
+  currencyFmt = computed(
+    () =>
+      new Intl.NumberFormat(this.locale(), {
+        style: "currency",
+        currency: "GBP",
+      }),
+  );
 
-    readonly today = new Date();
-    readonly balance = 1234.56;
+  readonly today = new Date();
+  readonly balance = 1234.56;
 }
 ```
 
@@ -227,33 +228,31 @@ an Angular dynamic route segment.
 ```ts
 import { Component, computed, inject, signal } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { LocaleChooser } from "../locale-chooser.component";
+import { LocalePicker } from "../locale-picker.component";
 
 @Component({
-    selector: "app-language",
-    standalone: true,
-    imports: [LocaleChooser],
-    template: `
-        <lily-locale-chooser
-            label="Language"
-            [locales]="['en', 'fr', 'ar']"
-            [value]="current()"
-            (localeChange)="navigate($event)"
-        />
-    `,
+  selector: "app-language",
+  standalone: true,
+  imports: [LocalePicker],
+  template: `
+    <lily-locale-picker
+      label="Language"
+      [locales]="['en', 'fr', 'ar']"
+      [value]="current()"
+      (localeChange)="navigate($event)"
+    />
+  `,
 })
 export class LanguageMenu {
-    private route = inject(ActivatedRoute);
-    private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
-    current = signal<string>(
-        this.route.snapshot.paramMap.get("locale") ?? "en",
-    );
+  current = signal<string>(this.route.snapshot.paramMap.get("locale") ?? "en");
 
-    navigate(next: string): void {
-        const path = this.router.url.replace(/^\/(en|fr|ar)/, `/${next}`);
-        this.router.navigateByUrl(path);
-    }
+  navigate(next: string): void {
+    const path = this.router.url.replace(/^\/(en|fr|ar)/, `/${next}`);
+    this.router.navigateByUrl(path);
+  }
 }
 ```
 
@@ -273,8 +272,8 @@ storage. Prefer a cookie when you have an Analog server:
 import { defineEventHandler, getCookie } from "h3";
 
 export default defineEventHandler((event) => {
-    const cookie = getCookie(event, "locale") ?? "en";
-    event.context.locale = cookie;
+  const cookie = getCookie(event, "locale") ?? "en";
+  event.context.locale = cookie;
 });
 ```
 
@@ -289,14 +288,14 @@ The page arrives with the correct `lang` and `dir` already on
 
 ## Picking the right strategy
 
-| Need                                              | Strategy                |
-| ------------------------------------------------- | ----------------------- |
-| One small SPA, English + French only              | Raw `Intl.*`            |
-| Build-time per-locale bundles, SEO URLs           | `@angular/localize`     |
-| Runtime locale switch, tree-shaken bundles        | Transloco               |
-| Runtime locale switch, legacy app                 | ngx-translate           |
-| SEO-friendly URLs per locale                      | URL-prefix routing      |
-| No FOUC, cookie-backed, server-rendered           | Cookie + injection token |
+| Need                                       | Strategy                 |
+| ------------------------------------------ | ------------------------ |
+| One small SPA, English + French only       | Raw `Intl.*`             |
+| Build-time per-locale bundles, SEO URLs    | `@angular/localize`      |
+| Runtime locale switch, tree-shaken bundles | Transloco                |
+| Runtime locale switch, legacy app          | ngx-translate            |
+| SEO-friendly URLs per locale               | URL-prefix routing       |
+| No FOUC, cookie-backed, server-rendered    | Cookie + injection token |
 
 The select is the same in every case. Only the
 `[(value)]` target and the `(localeChange)` body change.

@@ -1,4 +1,4 @@
-# Lifecycle — ThemeChooser (Svelte)
+# Lifecycle — ThemePicker (Svelte)
 
 The Svelte 5 walk-through of the select's lifecycle. The canonical
 contract is in [`../spec/index.md`](../spec/index.md) §5; this file expands the
@@ -128,7 +128,7 @@ normal path, instead of double-applying.
 `matchSystemTheme` sits below storage on purpose: a user who explicitly
 picked a theme keeps it when they later flip their OS setting. It slots
 into exactly the position `matchNavigatorLanguage` occupies in
-`locale-chooser`, which is what makes the two helpers' resolution orders
+`locale-picker`, which is what makes the two helpers' resolution orders
 readable side by side. It returns `""` — never throws — when
 `matchMedia` is unavailable, so SSR and jsdom fall through cleanly to
 the next step.

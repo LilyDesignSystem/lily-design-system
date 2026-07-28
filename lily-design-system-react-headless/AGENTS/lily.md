@@ -28,7 +28,7 @@ Canonical component list: [components.tsv](../components.tsv) — 491 components
 
 ## Subprojects for framework helpers
 
-Each catalog ships four `*-chooser` helpers — theme-chooser, locale-chooser, text-size-chooser, share-chooser. Each is an icon button that opens a popup; none is a native `<select>` any more. Svelte is the canonical reference; the other six are idiom ports.
+Each catalog ships four `*-picker` helpers — theme-picker, locale-picker, text-size-picker, share-picker. Each is an icon button that opens a popup; none is a native `<select>` any more. Svelte is the canonical reference; the other six are idiom ports.
 
 - [Lily Design System: HTML helpers](../lily-design-system-html-helpers)
 - [Lily Design System: Svelte helpers](../lily-design-system-svelte-helpers)
@@ -40,7 +40,7 @@ Each catalog ships four `*-chooser` helpers — theme-chooser, locale-chooser, t
 
 ## Reference themes
 
-The [themes/](../themes) directory ships 45 standalone theme stylesheets (NHS England/Scotland/Wales patient + practitioner variants, GOV.UK GDS, USWDS, Adobe Spectrum, Mozilla Protocol, and general-purpose themes) that target the Lily class hooks; the theme-chooser helper loads them at runtime.
+The [themes/](../themes) directory ships 45 standalone theme stylesheets (NHS England/Scotland/Wales patient + practitioner variants, GOV.UK GDS, USWDS, Adobe Spectrum, Mozilla Protocol, and general-purpose themes) that target the Lily class hooks; the theme-picker helper loads them at runtime.
 
 ## Tools
 

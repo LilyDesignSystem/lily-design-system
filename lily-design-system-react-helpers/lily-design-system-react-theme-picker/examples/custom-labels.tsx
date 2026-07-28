@@ -8,7 +8,7 @@
     don't gracefully title-case (e.g. country-prefixed Lily theme slugs).
 */
 
-import { ThemeChooser } from "../ThemeChooser";
+import { ThemePicker } from "../ThemePicker";
 
 const labels: Record<string, string> = {
     light: "Clair",
@@ -21,7 +21,7 @@ const labels: Record<string, string> = {
 
 export function CustomLabelsExample() {
     return (
-        <ThemeChooser
+        <ThemePicker
             label="Thème"
             themesUrl="/assets/themes/"
             themes={[

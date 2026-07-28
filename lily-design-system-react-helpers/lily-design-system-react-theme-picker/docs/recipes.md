@@ -10,25 +10,25 @@ error handling.
 "use client";
 
 import { useState } from "react";
-import { ThemeChooser } from "./lily-design-system-react-theme-chooser";
+import { ThemePicker } from "./lily-design-system-react-theme-picker";
 
-export function ThemeChooser() {
-    const [defaultTheme] = useState(() => {
-        if (typeof window === "undefined") return "light";
-        return window.matchMedia("(prefers-color-scheme: dark)").matches
-            ? "dark"
-            : "light";
-    });
+export function ThemePicker() {
+  const [defaultTheme] = useState(() => {
+    if (typeof window === "undefined") return "light";
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  });
 
-    return (
-        <ThemeChooser
-            label="Theme"
-            themesUrl="/assets/themes/"
-            themes={["light", "dark"]}
-            defaultValue={defaultTheme}
-            storageKey="my-app:theme"
-        />
-    );
+  return (
+    <ThemePicker
+      label="Theme"
+      themesUrl="/assets/themes/"
+      themes={["light", "dark"]}
+      defaultValue={defaultTheme}
+      storageKey="my-app:theme"
+    />
+  );
 }
 ```
 
@@ -40,29 +40,29 @@ The user's explicit choice (via `storageKey`) wins on later visits.
 "use client";
 
 import { useEffect, useState } from "react";
-import { ThemeChooser } from "./lily-design-system-react-theme-chooser";
+import { ThemePicker } from "./lily-design-system-react-theme-picker";
 
-export function ThemeChooser() {
-    const [theme, setTheme] = useState("");
+export function ThemePicker() {
+  const [theme, setTheme] = useState("");
 
-    useEffect(() => {
-        const mql = window.matchMedia("(prefers-color-scheme: dark)");
-        const handler = (e: MediaQueryListEvent) => {
-            setTheme(e.matches ? "dark" : "light");
-        };
-        mql.addEventListener("change", handler);
-        return () => mql.removeEventListener("change", handler);
-    }, []);
+  useEffect(() => {
+    const mql = window.matchMedia("(prefers-color-scheme: dark)");
+    const handler = (e: MediaQueryListEvent) => {
+      setTheme(e.matches ? "dark" : "light");
+    };
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
+  }, []);
 
-    return (
-        <ThemeChooser
-            label="Theme"
-            themesUrl="/assets/themes/"
-            themes={["light", "dark"]}
-            value={theme}
-            onChange={setTheme}
-        />
-    );
+  return (
+    <ThemePicker
+      label="Theme"
+      themesUrl="/assets/themes/"
+      themes={["light", "dark"]}
+      value={theme}
+      onChange={setTheme}
+    />
+  );
 }
 ```
 
@@ -88,24 +88,24 @@ full recipe.
 
 ## Position the dropdown listbox
 
-The control already *is* a flyout — a button that opens a listbox — but
+The control already _is_ a flyout — a button that opens a listbox — but
 the package ships no CSS, so the list renders in normal flow until you
 position it:
 
 ```css
-.theme-chooser {
-    position: relative;
-    display: inline-block;
+.theme-picker {
+  position: relative;
+  display: inline-block;
 }
 
-.theme-chooser-list {
-    position: absolute;
-    inset-block-start: 100%;
-    inset-inline-start: 0;
-    z-index: 1;
-    margin: 0;
-    padding: 0;
-    list-style: none;
+.theme-picker-list {
+  position: absolute;
+  inset-block-start: 100%;
+  inset-inline-start: 0;
+  z-index: 1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 ```
 
@@ -119,20 +119,20 @@ effect. Pass `children` to render the label alongside the glyph, and
 extend `label` so the accessible name matches the visible text:
 
 ```tsx
-<ThemeChooser
-    label={`Theme: ${labelFor(theme)}`}
-    themesUrl="/t/"
-    themes={["light", "dark"]}
-    value={theme}
-    onChange={setTheme}
+<ThemePicker
+  label={`Theme: ${labelFor(theme)}`}
+  themesUrl="/t/"
+  themes={["light", "dark"]}
+  value={theme}
+  onChange={setTheme}
 >
-    {({ value, open, labelFor }) => (
-        <>
-            <span aria-hidden="true">{labelFor(value)}</span>
-            <span aria-hidden="true">{open ? "▴" : "▾"}</span>
-        </>
-    )}
-</ThemeChooser>
+  {({ value, open, labelFor }) => (
+    <>
+      <span aria-hidden="true">{labelFor(value)}</span>
+      <span aria-hidden="true">{open ? "▴" : "▾"}</span>
+    </>
+  )}
+</ThemePicker>
 ```
 
 Otherwise keep the status-region pattern from
@@ -141,10 +141,10 @@ Otherwise keep the status-region pattern from
 ## Serve themes from a CDN
 
 ```tsx
-<ThemeChooser
-    themesUrl="https://cdn.example.com/lily-themes/"
-    themes={["light", "dark", "abyss"]}
-    label="Theme"
+<ThemePicker
+  themesUrl="https://cdn.example.com/lily-themes/"
+  themes={["light", "dark", "abyss"]}
+  label="Theme"
 />
 ```
 
@@ -156,11 +156,11 @@ crossorigin="…">` attribute is needed if you also need
 ## Cache-bust a theme
 
 ```tsx
-<ThemeChooser
-    themesUrl="/assets/themes/"
-    themes={["light", "dark"]}
-    extension=".css?v=2026-06-05"
-    label="Theme"
+<ThemePicker
+  themesUrl="/assets/themes/"
+  themes={["light", "dark"]}
+  extension=".css?v=2026-06-05"
+  label="Theme"
 />
 ```
 
@@ -169,7 +169,7 @@ the slug works.
 
 ## Multiple regions with independent themes
 
-See [`../examples/multiple-choosers.tsx`](../examples/multiple-choosers.tsx).
+See [`../examples/multiple-pickers.tsx`](../examples/multiple-pickers.tsx).
 Each select gets a distinct `name` (so the managed `<link>`s don't
 collide) and a distinct `target` (so `data-theme` goes on the section
 root rather than `<html>`).
@@ -180,31 +180,31 @@ root rather than `<html>`).
 "use client";
 
 import { useEffect, useState } from "react";
-import { ThemeChooser } from "./lily-design-system-react-theme-chooser";
+import { ThemePicker } from "./lily-design-system-react-theme-picker";
 
-export function ThemeChooser() {
-    const [theme, setTheme] = useState("");
+export function ThemePicker() {
+  const [theme, setTheme] = useState("");
 
-    useEffect(() => {
-        const onStorage = (e: StorageEvent) => {
-            if (e.key === "my-app:theme" && e.newValue) {
-                setTheme(e.newValue);
-            }
-        };
-        window.addEventListener("storage", onStorage);
-        return () => window.removeEventListener("storage", onStorage);
-    }, []);
+  useEffect(() => {
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === "my-app:theme" && e.newValue) {
+        setTheme(e.newValue);
+      }
+    };
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, []);
 
-    return (
-        <ThemeChooser
-            label="Theme"
-            themesUrl="/assets/themes/"
-            themes={["light", "dark"]}
-            value={theme}
-            onChange={setTheme}
-            storageKey="my-app:theme"
-        />
-    );
+  return (
+    <ThemePicker
+      label="Theme"
+      themesUrl="/assets/themes/"
+      themes={["light", "dark"]}
+      value={theme}
+      onChange={setTheme}
+      storageKey="my-app:theme"
+    />
+  );
 }
 ```
 
@@ -220,21 +220,21 @@ writing tab), so this propagates choices cross-tab.
 import { cookies } from "next/headers";
 
 export async function setThemeCookie(slug: string) {
-    (await cookies()).set("theme", slug, {
-        path: "/",
-        maxAge: 60 * 60 * 24 * 365,
-        sameSite: "lax",
-    });
+  (await cookies()).set("theme", slug, {
+    path: "/",
+    maxAge: 60 * 60 * 24 * 365,
+    sameSite: "lax",
+  });
 }
 ```
 
 ```tsx
-<ThemeChooser
-    onChange={(slug) => {
-        setTheme(slug);
-        setThemeCookie(slug);
-    }}
-    {...required}
+<ThemePicker
+  onChange={(slug) => {
+    setTheme(slug);
+    setThemeCookie(slug);
+  }}
+  {...required}
 />
 ```
 

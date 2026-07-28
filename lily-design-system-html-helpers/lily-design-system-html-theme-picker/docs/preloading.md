@@ -23,7 +23,7 @@ In an SSG template (`_includes/layout.njk` for Eleventy,
     <link rel="stylesheet" href="/assets/themes/light.css">
     <link rel="stylesheet" href="/assets/themes/dark.css">
     <link rel="stylesheet" href="/assets/themes/abyss.css">
-    <script type="module" src="/dist/theme-chooser.js"></script>
+    <script type="module" src="/dist/theme-picker.js"></script>
 </head>
 ```
 
@@ -53,7 +53,7 @@ pay the cost up front for every other theme:
     <link rel="stylesheet" href="/assets/themes/light.css">
     <link rel="preload" as="style" href="/assets/themes/dark.css">
     <link rel="preload" as="style" href="/assets/themes/abyss.css">
-    <script type="module" src="/dist/theme-chooser.js"></script>
+    <script type="module" src="/dist/theme-picker.js"></script>
 </head>
 ```
 
@@ -79,18 +79,18 @@ select then doesn't need to swap stylesheets at all — only
 ```html
 <head>
     <link rel="stylesheet" href="/assets/themes/all.css">
-    <script type="module" src="/dist/theme-chooser.js"></script>
+    <script type="module" src="/dist/theme-picker.js"></script>
 </head>
 
 <!-- The select still emits a managed <link>; you can point it at a
      no-op file, or leave it: themes-url + slug + .css 404s, but
      data-theme still switches because every theme's rules are
      already in all.css. -->
-<theme-chooser
+<theme-picker
     label="Theme"
     themes-url="/assets/themes/"
     themes="light,dark,abyss"
-></theme-chooser>
+></theme-picker>
 ```
 
 Pros:

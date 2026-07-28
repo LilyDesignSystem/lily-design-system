@@ -1,6 +1,6 @@
-# LocaleChooser (Svelte helper)
+# LocalePicker (Svelte helper)
 
-A reusable, headless Svelte 5 locale chooser — an **icon button that
+A reusable, headless Svelte 5 locale picker — an **icon button that
 opens a WAI-ARIA APG listbox** — that applies the chosen locale to the
 document root via `lang` and `dir`, with optional `localStorage`
 persistence and `navigator.languages` detection.
@@ -15,13 +15,13 @@ copy it into their project or wire it as a workspace dependency. The
 only runtime dependency is `svelte` ≥ 5.
 
 ```ts
-import LocaleChooser from "./lily-design-system-svelte-locale-picker/LocaleChooser.svelte";
+import LocalePicker from "./lily-design-system-svelte-locale-picker/LocalePicker.svelte";
 ```
 
 Or via the barrel (recommended; gives you the typed helpers too):
 
 ```ts
-import LocaleChooser, {
+import LocalePicker, {
   bcp47LocaleTag,
   isRtlLocale,
   localeName,
@@ -39,15 +39,15 @@ all see the change.
 
 ```svelte
 <script lang="ts">
-    import LocaleChooser, {
+    import LocalePicker, {
         bcp47LocaleTag,
         localeName,
-    } from "./lily-design-system-svelte-locale-picker/LocaleChooser.svelte";
+    } from "./lily-design-system-svelte-locale-picker/LocalePicker.svelte";
 
     let locale = $state("");
 </script>
 
-<LocaleChooser
+<LocalePicker
     label="Language"
     locales={["en", "en_US", "fr", "fr_CA", "ar", "he"]}
     bind:value={locale}
@@ -55,7 +55,7 @@ all see the change.
     detectFromNavigator
 />
 
-<p class="locale-chooser-status" aria-live="polite">
+<p class="locale-picker-status" aria-live="polite">
     Active language:
     <span lang={bcp47LocaleTag(locale)}>{localeName(locale)}</span>
 </p>
@@ -140,39 +140,39 @@ Pass `applyDir={false}` if you want full control of `dir` yourself.
 
 ```svelte
 <script lang="ts">
-    import LocaleChooser from "./lily-design-system-svelte-locale-picker/LocaleChooser.svelte";
+    import LocalePicker from "./lily-design-system-svelte-locale-picker/LocalePicker.svelte";
     let locale = $state("en");
 </script>
 
-<LocaleChooser label="Language" locales={["en", "cy"]} bind:value={locale} />
+<LocalePicker label="Language" locales={["en", "cy"]} bind:value={locale} />
 ```
 
 Renders:
 
 ```html
-<div class="locale-chooser">
+<div class="locale-picker">
   <input type="hidden" name="locale" value="en" />
   <button
     type="button"
-    class="locale-chooser-button"
+    class="locale-picker-button"
     aria-label="Language"
     aria-haspopup="listbox"
     aria-expanded="false"
-    aria-controls="locale-chooser-1-list"
+    aria-controls="locale-picker-1-list"
   >
-    <span class="locale-chooser-icon" aria-hidden="true">🌐︎</span>
+    <span class="locale-picker-icon" aria-hidden="true">🌐︎</span>
   </button>
   <ul
-    class="locale-chooser-list"
-    id="locale-chooser-1-list"
+    class="locale-picker-list"
+    id="locale-picker-1-list"
     role="listbox"
     aria-label="Language"
     tabindex="-1"
     hidden
   >
     <li
-      class="locale-chooser-option"
-      id="locale-chooser-1-option-0"
+      class="locale-picker-option"
+      id="locale-picker-1-option-0"
       role="option"
       aria-selected="true"
       lang="en"
@@ -180,8 +180,8 @@ Renders:
       English
     </li>
     <li
-      class="locale-chooser-option"
-      id="locale-chooser-1-option-1"
+      class="locale-picker-option"
+      id="locale-picker-1-option-1"
       role="option"
       aria-selected="false"
       lang="cy"
@@ -199,7 +199,7 @@ language you wrote `label` in.
 
 The glyph is U+1F310 GLOBE WITH MERIDIANS followed by **U+FE0E
 VARIATION SELECTOR-15**, which forces monochrome text presentation so
-the control matches `theme-chooser`'s `◑` instead of rendering as a blue
+the control matches `theme-picker`'s `◑` instead of rendering as a blue
 colour emoji. It is `aria-hidden`; the accessible name comes from
 `label`.
 
@@ -263,7 +263,7 @@ falls back to `Intl.DisplayNames` if available, then to the raw code).
 Override per-code with `localeLabels`:
 
 ```svelte
-<LocaleChooser
+<LocalePicker
     label="Langue"
     locales={["en", "fr", "ar"]}
     localeLabels={{ en: "English", fr: "Français", ar: "العربية" }}
@@ -286,15 +286,15 @@ mitigation for the icon-only naming tradeoff:
 
 ```svelte
 <script lang="ts">
-    import LocaleChooser, {
+    import LocalePicker, {
         bcp47LocaleTag,
         isRtlLocale,
-    } from "./lily-design-system-svelte-locale-picker/LocaleChooser.svelte";
+    } from "./lily-design-system-svelte-locale-picker/LocalePicker.svelte";
 
     let locale = $state("en");
 </script>
 
-<LocaleChooser
+<LocalePicker
     label="Language"
     locales={["en", "fr", "ar"]}
     localeLabels={{ en: "English", fr: "Français", ar: "العربية" }}
@@ -303,7 +303,7 @@ mitigation for the icon-only naming tradeoff:
     {#snippet children({ value, open, labelFor })}
         <span aria-hidden="true">🌐︎</span>
         <span
-            class="locale-chooser-text"
+            class="locale-picker-text"
             lang={bcp47LocaleTag(value)}
             dir={isRtlLocale(value) ? "rtl" : "ltr"}
         >
@@ -311,7 +311,7 @@ mitigation for the icon-only naming tradeoff:
         </span>
         <span aria-hidden="true">{open ? "▴" : "▾"}</span>
     {/snippet}
-</LocaleChooser>
+</LocalePicker>
 ```
 
 The `lang` on the span is only correct because the labels are endonyms;
@@ -328,13 +328,13 @@ your own controls instead. See
 
 ```svelte
 <script lang="ts">
-    import LocaleChooser from "./lily-design-system-svelte-locale-picker/LocaleChooser.svelte";
+    import LocalePicker from "./lily-design-system-svelte-locale-picker/LocalePicker.svelte";
     import { locale as i18nLocale } from "svelte-i18n"; // or Paraglide, Inlang, …
 
     let current = $state("");
 </script>
 
-<LocaleChooser
+<LocalePicker
     label="Language"
     locales={["en", "fr", "ar"]}
     bind:value={current}
@@ -355,7 +355,7 @@ cookie or `Accept-Language`) and pass it as `value`:
     let locale = $state(initialLocale);
 </script>
 
-<LocaleChooser
+<LocalePicker
     label="Language"
     locales={["en", "fr", "ar"]}
     value={locale}
@@ -377,14 +377,14 @@ region (e.g. a multilingual side panel):
 
 ```svelte
 <script lang="ts">
-    import LocaleChooser from "./lily-design-system-svelte-locale-picker/LocaleChooser.svelte";
+    import LocalePicker from "./lily-design-system-svelte-locale-picker/LocalePicker.svelte";
     let region: HTMLElement | null = $state(null);
     let panelLocale = $state("fr");
 </script>
 
 <section bind:this={region}>
     <p>This panel switches language independently of the page.</p>
-    <LocaleChooser
+    <LocalePicker
         label="Panel language"
         locales={["en", "fr", "ar"]}
         target={region}
@@ -430,13 +430,13 @@ native `<select>` it belonged to. Field-by-field reference:
 
 ## Class hooks
 
-`.locale-chooser` (root `<div>`), `.locale-chooser-button` (the trigger),
-`.locale-chooser-icon` (the glyph span), `.locale-chooser-list` (the
-`<ul role="listbox">`), `.locale-chooser-option` (each
+`.locale-picker` (root `<div>`), `.locale-picker-button` (the trigger),
+`.locale-picker-icon` (the glyph span), `.locale-picker-list` (the
+`<ul role="listbox">`), `.locale-picker-option` (each
 `<li role="option">`). Plus `[data-active]` for the keyboard cursor and
 `[aria-selected]` for the applied locale — style both.
 
-The `.locale-chooser-placeholder` hook is gone with the placeholder
+The `.locale-picker-placeholder` hook is gone with the placeholder
 option.
 
 The package ships zero CSS, so **you must position the listbox**, using
@@ -500,8 +500,8 @@ case-insensitive RTL detection and the navigator matcher.
 | File                    | Purpose                                                           |
 | ----------------------- | ----------------------------------------------------------------- |
 | `spec/index.md`         | Single source of truth — API, behaviour, tests.                   |
-| `LocaleChooser.svelte`  | The component implementation.                                     |
-| `LocaleChooser.test.ts` | vitest suite covering every spec §7 item.                         |
+| `LocalePicker.svelte`  | The component implementation.                                     |
+| `LocalePicker.test.ts` | vitest suite covering every spec §7 item.                         |
 | `locales.ts`            | Built-in code → English-name map and RTL sets.                    |
 | `locales.tsv`           | Canonical 436-row source for `locales.ts`.                        |
 | `index.ts`              | Re-export barrel.                                                 |
@@ -511,7 +511,7 @@ case-insensitive RTL detection and the navigator matcher.
 
 ## Documentation
 
-Shared with `theme-chooser` (same topics, written for this helper):
+Shared with `theme-picker` (same topics, written for this helper):
 
 | Guide                                                  | Covers                                                              |
 | ------------------------------------------------------ | ------------------------------------------------------------------- |
@@ -523,7 +523,7 @@ Shared with `theme-chooser` (same topics, written for this helper):
 | [docs/accessibility.md](./docs/accessibility.md)       | APG listbox contract, the three tradeoffs, screen-reader matrix.    |
 | [docs/ssr.md](./docs/ssr.md)                           | Cookie, URL-prefix, Accept-Language, streaming SSR, FOUC avoidance. |
 
-Specific to locale-chooser (no `theme-chooser` counterpart):
+Specific to locale-picker (no `theme-picker` counterpart):
 
 | Guide                                                  | Covers                                                                         |
 | ------------------------------------------------------ | ------------------------------------------------------------------------------ |
@@ -532,7 +532,7 @@ Specific to locale-chooser (no `theme-chooser` counterpart):
 | [docs/rtl.md](./docs/rtl.md)                           | What's auto-detected, what `dir="rtl"` actually changes, CSS tips.             |
 | [docs/i18n-integration.md](./docs/i18n-integration.md) | Wiring svelte-i18n, Paraglide, Tolgee, raw `Intl.*`, SvelteKit URL strategies. |
 
-`theme-chooser`'s `preloading.md` has no counterpart here — it is about
+`theme-picker`'s `preloading.md` has no counterpart here — it is about
 stylesheet preloading, which this helper does not do.
 
 ## Examples
@@ -542,7 +542,7 @@ you can copy into your project.
 
 | Example                                                       | Demonstrates                                                          |
 | ------------------------------------------------------------- | --------------------------------------------------------------------- |
-| [basic.svelte](./examples/basic.svelte)                       | The default rendering, plus the `.locale-chooser-status` live region. |
+| [basic.svelte](./examples/basic.svelte)                       | The default rendering, plus the `.locale-picker-status` live region. |
 | [custom-rendering.svelte](./examples/custom-rendering.svelte) | `children` snippet — globe + the active locale's endonym + caret.     |
 | [many-locales.svelte](./examples/many-locales.svelte)         | A 23-locale list in a one-glyph control; typeahead and scrolling.     |
 | [persistence.svelte](./examples/persistence.svelte)           | `storageKey` plus `detectFromNavigator` on first visit.               |

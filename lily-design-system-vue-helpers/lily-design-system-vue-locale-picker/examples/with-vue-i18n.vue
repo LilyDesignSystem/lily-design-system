@@ -29,7 +29,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 // import { useI18n } from "vue-i18n";
-import LocaleChooser from "../LocaleChooser.vue";
+import LocalePicker from "../LocalePicker.vue";
 
 // Demo-only stand-ins so this file compiles without vue-i18n installed.
 const _locale = ref("en");
@@ -53,7 +53,7 @@ function onLocaleChange(code: string) {
 </script>
 
 <template>
-    <LocaleChooser
+    <LocalePicker
         label="Language"
         :locales="['en', 'fr', 'ar']"
         :locale-labels="{ en: 'English', fr: 'Français', ar: 'العربية' }"

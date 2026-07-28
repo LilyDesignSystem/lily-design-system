@@ -10,39 +10,39 @@ and the project follows
 
 ## Unreleased
 
-### Changed (BREAKING) — every helper renamed to `*-chooser`
+### Changed (BREAKING) — every helper renamed to `*-picker`
 
 - **All four helpers are renamed**, directory, package name, component
   class, Angular selector, marker directive, class hooks and data
   attributes alike:
 
-  | Was | Now |
-  | --- | --- |
-  | `lily-design-system-angular-theme-select` | `lily-design-system-angular-theme-chooser` |
-  | `lily-design-system-angular-locale-select` | `lily-design-system-angular-locale-chooser` |
-  | `lily-design-system-angular-text-size-select` | `lily-design-system-angular-text-size-chooser` |
-  | `lily-design-system-angular-share-button` | `lily-design-system-angular-share-chooser` |
+  | Was                                           | Now                                           |
+  | --------------------------------------------- | --------------------------------------------- |
+  | `lily-design-system-angular-theme-select`     | `lily-design-system-angular-theme-picker`     |
+  | `lily-design-system-angular-locale-select`    | `lily-design-system-angular-locale-picker`    |
+  | `lily-design-system-angular-text-size-select` | `lily-design-system-angular-text-size-picker` |
+  | `lily-design-system-angular-share-button`     | `lily-design-system-angular-share-picker`     |
 
-- Selectors: `lily-theme-select` → `lily-theme-chooser`, and likewise
-  for locale, text-size and share. Component classes: `ThemeChooser` →
-  `ThemeChooser`, `LocaleChooser` → `LocaleChooser`, `TextSizeChooser` →
-  `TextSizeChooser`, `ShareChooser` → `ShareChooser`. Marker directives
-  and id generators follow (`ThemeSelectIcon` → `ThemeChooserIcon`,
-  `nextThemeSelectId` → `nextThemeChooserId`, …).
-- Class hooks: `.theme-chooser*` → `.theme-chooser*` and the same for
+- Selectors: `lily-theme-select` → `lily-theme-picker`, and likewise
+  for locale, text-size and share. Component classes: `ThemePicker` →
+  `ThemePicker`, `LocalePicker` → `LocalePicker`, `TextSizePicker` →
+  `TextSizePicker`, `SharePicker` → `SharePicker`. Marker directives
+  and id generators follow (`ThemeSelectIcon` → `ThemePickerIcon`,
+  `nextThemeSelectId` → `nextThemePickerId`, …).
+- Class hooks: `.theme-picker*` → `.theme-picker*` and the same for
   the other three. Data attributes: `data-lily-theme-select` →
-  `data-lily-theme-chooser`, etc.
-- **`share-chooser` loses its naming exception.** Its trigger hook was
+  `data-lily-theme-picker`, etc.
+- **`share-picker` loses its naming exception.** Its trigger hook was
   `share-button-trigger` because `.share-button-button` read badly;
   under the new name the problem is gone, so the trigger is plain
-  `share-chooser-button`, matching the other three helpers.
+  `share-picker-button`, matching the other three helpers.
 - **All four versions reset to `0.1.0`.** A renamed npm package has no
   history under its new name, and nothing has been published.
 - `themeName` / `localeName` / `sizeName` are unchanged — they never
   said "select". The HTML-catalog-style event names
   (`themechange`, `localechange`, `textsizechange`, `share`, `copy`,
   `nativeshare`) contain no "select" and are likewise unchanged.
-- The catalog component `theme-chooser` in the root `components.tsv` is
+- The catalog component `theme-picker` in the root `components.tsv` is
   a **different thing** and is untouched. The duplicate class hook
   between it and this helper is exactly what this rename removes.
 - The catalog `build` script now discovers packages by globbing for
@@ -51,16 +51,16 @@ and the project follows
 
 ### Changed (BREAKING)
 
-- **`text-size-chooser` becomes an icon button + APG listbox.** It was
-  deliberately left as a native `<select>` when `theme-chooser` and
-  `locale-chooser` moved to the icon-button shape; it now joins them, so
+- **`text-size-picker` becomes an icon button + APG listbox.** It was
+  deliberately left as a native `<select>` when `theme-picker` and
+  `locale-picker` moved to the icon-button shape; it now joins them, so
   all three helpers in the catalog are structurally identical.
-- DOM contract replaced. The root is a `<div class="text-size-chooser">`
+- DOM contract replaced. The root is a `<div class="text-size-picker">`
   containing a hidden input (preserving `name` and form participation),
-  a `<button class="text-size-chooser-button">` carrying `aria-label`,
+  a `<button class="text-size-picker-button">` carrying `aria-label`,
   `aria-haspopup="listbox"`, `aria-expanded`, and `aria-controls`, and a
-  `<ul class="text-size-chooser-list" role="listbox">` of
-  `<li class="text-size-chooser-option" role="option">` children. The old
+  `<ul class="text-size-picker-list" role="listbox">` of
+  `<li class="text-size-picker-option" role="option">` children. The old
   `<select>` / `<option>` markup and its class hooks are gone — consumer
   CSS targeting them must be rewritten, and the consumer now supplies
   the listbox positioning.
@@ -82,16 +82,16 @@ and the project follows
 - **Default button glyph `"A"`** (U+0041 LATIN CAPITAL LETTER A),
   exported as `LATIN_CAPITAL_LETTER_A`. A plain letter rather than a
   pictograph: U+1F5DB DECREASE FONT SIZE SYMBOL was the first choice
-  but has no real glyph in common font stacks and means *decrease*
-  rather than *size*. "A" renders in the page's own font everywhere and
-  stays monochrome like theme-chooser's `◑`.
+  but has no real glyph in common font stacks and means _decrease_
+  rather than _size_. "A" renders in the page's own font everywhere and
+  stays monochrome like theme-picker's `◑`.
 - **`sizeName(slug)` is exported**, mirroring `themeName` /
   `localeName`. `sizeName("x-large")` returns `"X Large"`, and the
   component's `labelFor` delegates to it so there is one
   implementation. `sizeLabels` entries still override it.
-- **`TextSizeChooserIcon`** marker directive
-  (`ng-template[lilyTextSizeChooserIcon]`) for typed `let-` variables on
-  the projected glyph template, and **`nextTextSizeChooserId`**, the
+- **`TextSizePickerIcon`** marker directive
+  (`ng-template[lilyTextSizePickerIcon]`) for typed `let-` variables on
+  the projected glyph template, and **`nextTextSizePickerId`**, the
   SSR-safe module-counter id generator.
 - **`docs/accessibility.md`** — roles, the full keyboard contract, and
   the same three tradeoffs the sibling helpers document: the
@@ -118,8 +118,8 @@ and the project follows
 
 ### Changed (BREAKING)
 
-- `theme-chooser` and `locale-chooser` bumped to **0.3.0**: both are now
-  *placeholder-pinned*. The closed `<select>` always displays a short
+- `theme-picker` and `locale-picker` bumped to **0.3.0**: both are now
+  _placeholder-pinned_. The closed `<select>` always displays a short
   placeholder word ("Theme", "Locale") instead of the active value, so
   the control is only ever as wide as that word rather than as wide as
   the longest option. Each renders a leading placeholder `<option>` with
@@ -132,7 +132,7 @@ and the project follows
   selection. The bindable `value` prop is the single source of truth.
   Behaviour contracts (DOM application, persistence, SSR safety, i18n)
   are otherwise unchanged.
-- `text-size-chooser` is untouched and stays at **0.1.0**.
+- `text-size-picker` is untouched and stays at **0.1.0**.
 
 ### Added
 
@@ -147,7 +147,7 @@ and the project follows
 
 ### Changed (BREAKING)
 
-- `theme-chooser` and `locale-chooser` bumped to **0.2.0**: migrated from
+- `theme-picker` and `locale-picker` bumped to **0.2.0**: migrated from
   the radio-group "picker" rendering to a native `<select>` with
   `<option>` children (landed in-tree 2026-06-17), with renamed packages
   (`*-picker` → `*-select`), changed class hooks, and native `<select>`
@@ -156,7 +156,7 @@ and the project follows
 
 ### Added
 
-- `text-size-chooser` **0.1.0** — native-`<select>` text-size helper that
+- `text-size-picker` **0.1.0** — native-`<select>` text-size helper that
   sets `data-text-size` on the document root, with optional
   `localStorage` persistence (added 2026-06-17; born select-based, so it
   carries no picker migration).
@@ -168,12 +168,12 @@ catalog with the Vue helpers as the stylistic mirror:
 
 ### Added
 
-- `lily-design-system-angular-theme-chooser` v0.1.0 — runtime-loading
+- `lily-design-system-angular-theme-picker` v0.1.0 — runtime-loading
   theme select with `data-theme` swap, `<link>`-based stylesheet
   injection, `localStorage` persistence, and a `className` input
   for the consumer's CSS hook. Fully mirrors the Svelte canonical
   contract; 13 acceptance criteria covered.
-- `lily-design-system-angular-locale-chooser` v0.1.0 — BCP 47 locale
+- `lily-design-system-angular-locale-picker` v0.1.0 — BCP 47 locale
   select that writes `lang` and `dir` on the document root, with
   optional `localStorage` persistence and `navigator.languages`
   detection. Built-in 436-row locale-name table and RTL detection.
@@ -204,34 +204,34 @@ catalog with the Vue helpers as the stylistic mirror:
 
 ### Differences from the Svelte canonical
 
-| Concept                 | Svelte canonical                       | Angular port                            |
-| ----------------------- | -------------------------------------- | --------------------------------------- |
-| Two-way binding         | `bind:value`                           | `[(value)]`                             |
-| Reactive state          | `$state`, `$bindable`                  | `signal()`, `model()`                   |
-| Reactive side-effects   | `$effect`                              | `effect()`                              |
-| Custom rendering        | Snippet (`{#snippet children(...)}`)   | `ng-content` (future); `className` for class extension only today |
-| Stylesheet head         | `<svelte:head>`                        | Imperative `document.head.appendChild` inside `effect()` |
-| Cookie / SSR            | `hooks.server.ts` + `transformPageChunk` | Analog server middleware + injection token |
-| Storybook integration   | `*.stories.svelte`                     | `*.stories.ts` (`@storybook/angular`)   |
-| File ext for components | `.svelte`                              | `.component.ts`                         |
-| Control flow            | `{#each}` / `{#if}`                    | `@for` / `@if`                          |
-| Event reading           | `event.target.value` (TS)              | `$any($event.target).value` (template)  |
+| Concept                 | Svelte canonical                         | Angular port                                                      |
+| ----------------------- | ---------------------------------------- | ----------------------------------------------------------------- |
+| Two-way binding         | `bind:value`                             | `[(value)]`                                                       |
+| Reactive state          | `$state`, `$bindable`                    | `signal()`, `model()`                                             |
+| Reactive side-effects   | `$effect`                                | `effect()`                                                        |
+| Custom rendering        | Snippet (`{#snippet children(...)}`)     | `ng-content` (future); `className` for class extension only today |
+| Stylesheet head         | `<svelte:head>`                          | Imperative `document.head.appendChild` inside `effect()`          |
+| Cookie / SSR            | `hooks.server.ts` + `transformPageChunk` | Analog server middleware + injection token                        |
+| Storybook integration   | `*.stories.svelte`                       | `*.stories.ts` (`@storybook/angular`)                             |
+| File ext for components | `.svelte`                                | `.component.ts`                                                   |
+| Control flow            | `{#each}` / `{#if}`                      | `@for` / `@if`                                                    |
+| Event reading           | `event.target.value` (TS)                | `$any($event.target).value` (template)                            |
 
 The DOM contract and behaviour are otherwise identical; the tests
 match clause-for-clause.
 
 ### Differences from the Vue port
 
-| Concept                  | Vue port                          | Angular port                            |
-| ------------------------ | --------------------------------- | --------------------------------------- |
-| Two-way binding          | `v-model:value`                   | `[(value)]`                             |
-| Reactive primitives      | `ref()`, `defineModel()`          | `signal()`, `model()`                   |
-| Side-effect scheduling   | `onMounted` + `watch`             | `effect()` (single primitive)           |
-| Render-prop equivalent   | Default scoped slot               | `className` + `ng-content` projection (slots planned) |
-| Class-hook plumbing      | Vue `inheritAttrs: true`          | Explicit `className` input              |
-| Stylesheet head          | Imperative `document.head` writes | Same imperative pattern                 |
-| Test framework           | `@vue/test-utils`                 | `@angular/core/testing` `TestBed`       |
-| SSR engine               | Nuxt 3 / `vue/server-renderer`    | Analog v1 + Nitro / `@angular/ssr`      |
+| Concept                | Vue port                          | Angular port                                          |
+| ---------------------- | --------------------------------- | ----------------------------------------------------- |
+| Two-way binding        | `v-model:value`                   | `[(value)]`                                           |
+| Reactive primitives    | `ref()`, `defineModel()`          | `signal()`, `model()`                                 |
+| Side-effect scheduling | `onMounted` + `watch`             | `effect()` (single primitive)                         |
+| Render-prop equivalent | Default scoped slot               | `className` + `ng-content` projection (slots planned) |
+| Class-hook plumbing    | Vue `inheritAttrs: true`          | Explicit `className` input                            |
+| Stylesheet head        | Imperative `document.head` writes | Same imperative pattern                               |
+| Test framework         | `@vue/test-utils`                 | `@angular/core/testing` `TestBed`                     |
+| SSR engine             | Nuxt 3 / `vue/server-renderer`    | Analog v1 + Nitro / `@angular/ssr`                    |
 
 Behaviour stays identical; only the framework idioms differ.
 

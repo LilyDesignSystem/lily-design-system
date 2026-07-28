@@ -15,29 +15,29 @@ has to survive that switch. Use logical properties throughout — see
 
 | Selector                   | Element                                                    |
 | -------------------------- | ---------------------------------------------------------- |
-| `.locale-chooser`           | The root `<div>`.                                          |
-| `.locale-chooser.{consumerClass}` | Both classes when `class` is passed.                 |
-| `.locale-chooser-button`    | The trigger `<button type="button">`.                      |
-| `.locale-chooser-icon`      | The `<span>` wrapping the globe glyph. Absent when a `children` snippet replaces the glyph. |
-| `.locale-chooser-list`      | The popup `<ul role="listbox">`.                           |
-| `.locale-chooser-option`    | Each `<li role="option">`.                                 |
-| `.locale-chooser-status`    | The status line stating the active locale. Rendered by the consumer *next to* the select, not by the component — see [The status line](#the-status-line). |
+| `.locale-picker`           | The root `<div>`.                                          |
+| `.locale-picker.{consumerClass}` | Both classes when `class` is passed.                 |
+| `.locale-picker-button`    | The trigger `<button type="button">`.                      |
+| `.locale-picker-icon`      | The `<span>` wrapping the globe glyph. Absent when a `children` snippet replaces the glyph. |
+| `.locale-picker-list`      | The popup `<ul role="listbox">`.                           |
+| `.locale-picker-option`    | Each `<li role="option">`.                                 |
+| `.locale-picker-status`    | The status line stating the active locale. Rendered by the consumer *next to* the select, not by the component — see [The status line](#the-status-line). |
 
-The `locale-chooser-placeholder` hook from 0.3.0 **no longer exists.**
+The `locale-picker-placeholder` hook from 0.3.0 **no longer exists.**
 There is no placeholder option, because there is no `<select>`.
 
 If you pass a `children` snippet it replaces the glyph inside the
-button, so `.locale-chooser-icon` disappears but every other hook stays.
+button, so `.locale-picker-icon` disappears but every other hook stays.
 
 ## Attribute hooks
 
 | Attribute                | On                       | Purpose                                     |
 | ------------------------ | ------------------------ | ------------------------------------------- |
-| `[aria-expanded="true"]` | `.locale-chooser-button`  | The listbox is open. Style the trigger's open state. |
-| `[hidden]`               | `.locale-chooser-list`    | The listbox is closed.                      |
-| `[aria-selected="true"]` | `.locale-chooser-option`  | The **applied** locale.                     |
-| `[data-active]`          | `.locale-chooser-option`  | The **keyboard-active** option. Bare attribute, present on at most one option, only while open. |
-| `[lang]`                 | `.locale-chooser-option`  | The option's BCP 47 tag. Usable with `:lang()` for per-script typography. |
+| `[aria-expanded="true"]` | `.locale-picker-button`  | The listbox is open. Style the trigger's open state. |
+| `[hidden]`               | `.locale-picker-list`    | The listbox is closed.                      |
+| `[aria-selected="true"]` | `.locale-picker-option`  | The **applied** locale.                     |
+| `[data-active]`          | `.locale-picker-option`  | The **keyboard-active** option. Bare attribute, present on at most one option, only while open. |
+| `[lang]`                 | `.locale-picker-option`  | The option's BCP 47 tag. Usable with `:lang()` for per-script typography. |
 | `lang` / `dir`           | `target` (default `<html>`) | The applied locale and direction. Your page-level RTL hook. |
 
 `[aria-selected]` and `[data-active]` are different things and both
@@ -51,12 +51,12 @@ arrows.
 The minimum that makes the control behave like a popup:
 
 ```css
-.locale-chooser {
+.locale-picker {
   position: relative;
   display: inline-block;
 }
 
-.locale-chooser-list {
+.locale-picker-list {
   position: absolute;
   z-index: 10;
   inset-block-start: 100%;
@@ -68,7 +68,7 @@ The minimum that makes the control behave like a popup:
   overflow-y: auto;
 }
 
-.locale-chooser-list[hidden] {
+.locale-picker-list[hidden] {
   display: none;
 }
 ```
@@ -110,7 +110,7 @@ See [rtl.md](./rtl.md) for what `dir="rtl"` changes beyond CSS.
 ## Suggested baseline CSS
 
 ```css
-.locale-chooser-button {
+.locale-picker-button {
   padding-block: 0.25rem;
   padding-inline: 0.5rem;
   border: 1px solid var(--color-base-300, currentColor);
@@ -121,12 +121,12 @@ See [rtl.md](./rtl.md) for what `dir="rtl"` changes beyond CSS.
   line-height: 1;
 }
 
-.locale-chooser-button:focus-visible {
+.locale-picker-button:focus-visible {
   outline: 2px solid var(--color-primary, currentColor);
   outline-offset: 2px;
 }
 
-.locale-chooser-option {
+.locale-picker-option {
   padding-block: 0.25rem;
   padding-inline: 0.75rem;
   cursor: pointer;
@@ -134,12 +134,12 @@ See [rtl.md](./rtl.md) for what `dir="rtl"` changes beyond CSS.
 }
 
 /* Where the keyboard cursor is. */
-.locale-chooser-option[data-active] {
+.locale-picker-option[data-active] {
   background: var(--color-base-200, #eee);
 }
 
 /* Which locale is actually applied. */
-.locale-chooser-option[aria-selected="true"] {
+.locale-picker-option[aria-selected="true"] {
   font-weight: 600;
 }
 ```
@@ -154,15 +154,15 @@ size it needs. Arabic and Devanagari in particular often need a larger
 size than Latin at the same nominal `font-size`:
 
 ```css
-.locale-chooser-option:lang(ar),
-.locale-chooser-option:lang(fa),
-.locale-chooser-option:lang(ur) {
+.locale-picker-option:lang(ar),
+.locale-picker-option:lang(fa),
+.locale-picker-option:lang(ur) {
   font-family: "Noto Naskh Arabic", system-ui, sans-serif;
   font-size: 1.1em;
 }
 
-.locale-chooser-option:lang(hi),
-.locale-chooser-option:lang(bn) {
+.locale-picker-option:lang(hi),
+.locale-picker-option:lang(bn) {
   font-family: "Noto Sans Devanagari", system-ui, sans-serif;
 }
 ```
@@ -176,7 +176,7 @@ browser's bidi handling, which is usually correct for a bare name.
 
 ## The glyph
 
-`.locale-chooser-icon` holds a bare Unicode sequence: U+1F310 plus
+`.locale-picker-icon` holds a bare Unicode sequence: U+1F310 plus
 U+FE0E. Its rendering depends on the fonts installed on the user's
 device, and VS15's request for monochrome presentation is a request,
 not a guarantee — see
@@ -186,7 +186,7 @@ Pin a font stack you have verified, putting a text-presentation font
 ahead of any emoji font:
 
 ```css
-.locale-chooser-icon {
+.locale-picker-icon {
   font-family: "Segoe UI Symbol", "Apple Symbols", system-ui, sans-serif;
   font-size: 1.125em;
 }
@@ -207,7 +207,7 @@ positioned and will otherwise shrink-wrap to its content — which for a
 list mixing "Welsh" and "English (United States)" is jumpy:
 
 ```css
-.locale-chooser-list {
+.locale-picker-list {
   min-inline-size: 14rem;
 }
 ```
@@ -219,10 +219,10 @@ written anywhere visible on the page unless you write it. The
 recommended pattern pairs the select with a polite live region — see
 [accessibility.md § The status region](./accessibility.md#the-status-region).
 The component does not render it; you do, with the
-`.locale-chooser-status` hook:
+`.locale-picker-status` hook:
 
 ```svelte
-<p class="locale-chooser-status" aria-live="polite">
+<p class="locale-picker-status" aria-live="polite">
     Active language:
     <span lang={bcp47LocaleTag(locale)}>{localeName(locale)}</span>
 </p>
@@ -233,7 +233,7 @@ it, and it matters more here than for a theme select, because the
 active locale is only self-evident to someone who can read the page:
 
 ```css
-.locale-chooser-status {
+.locale-picker-status {
   margin-block-start: 0.5rem;
   font-size: 0.875rem;
   color: var(--color-base-content, inherit);
@@ -245,7 +245,7 @@ If a design genuinely cannot spare the space, hide it **visually only**
 announces:
 
 ```css
-.locale-chooser-status {
+.locale-picker-status {
   position: absolute;
   inline-size: 1px;
   block-size: 1px;
@@ -267,7 +267,7 @@ and defeats the point.
 - Don't hide the button with `display: none`. It is the accessibility
   tree's anchor point. Use `clip-path` or a `.sr-only` recipe if you
   need to visually replace it.
-- Don't forget `.locale-chooser-list[hidden] { display: none; }`.
+- Don't forget `.locale-picker-list[hidden] { display: none; }`.
 - Don't use physical properties. This control flips `dir`.
 - Don't style only `[aria-selected]` and skip `[data-active]`, or
   keyboard users lose their cursor.

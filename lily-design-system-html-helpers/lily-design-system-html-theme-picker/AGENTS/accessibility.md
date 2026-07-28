@@ -1,4 +1,4 @@
-# Accessibility — `<theme-chooser>` (HTML helper)
+# Accessibility — `<theme-picker>` (HTML helper)
 
 The control targets WCAG 2.2 AAA and implements the WAI-ARIA APG
 listbox pattern: an icon button that opens a dropdown
@@ -11,21 +11,21 @@ custom-element-flavoured view; the canonical contract is in
 
 | Element                              | Role / Property                                | Source        |
 | ------------------------------------ | ---------------------------------------------- | ------------- |
-| `<theme-chooser>` (host)              | none (silent container)                        | —             |
-| `<div class="theme-chooser">`         | none (styling root)                            | Element       |
-| `<button class="theme-chooser-button">` | implicit `role="button"`                     | Browser       |
+| `<theme-picker>` (host)              | none (silent container)                        | —             |
+| `<div class="theme-picker">`         | none (styling root)                            | Element       |
+| `<button class="theme-picker-button">` | implicit `role="button"`                     | Browser       |
 | `<button>`                           | `aria-label={label}`                           | Consumer attr |
 | `<button>`                           | `aria-haspopup="listbox"`                      | Element       |
 | `<button>`                           | `aria-expanded` (synced open/closed)           | Element       |
 | `<button>`                           | `aria-controls={listId}`                       | Element       |
-| `<span class="theme-chooser-icon">`   | `aria-hidden="true"`                           | Element       |
-| `<ul class="theme-chooser-list">`      | `role="listbox"`, `aria-label={label}`, `tabindex="-1"` | Element |
+| `<span class="theme-picker-icon">`   | `aria-hidden="true"`                           | Element       |
+| `<ul class="theme-picker-list">`      | `role="listbox"`, `aria-label={label}`, `tabindex="-1"` | Element |
 | `<ul>`                               | `hidden` while closed; `aria-activedescendant` only while open | Element |
-| `<li class="theme-chooser-option">`   | `role="option"`, unique `id`, `aria-selected`  | Element       |
+| `<li class="theme-picker-option">`   | `role="option"`, unique `id`, `aria-selected`  | Element       |
 | `<li>`                               | `data-active` when keyboard-highlighted        | Element       |
 | `<input type="hidden">`              | none — form participation only                 | Element       |
 
-The host `<theme-chooser>` element has no implicit ARIA role. It is
+The host `<theme-picker>` element has no implicit ARIA role. It is
 a lifecycle container; the rendered button and listbox are what
 assistive technology announces.
 
@@ -75,7 +75,7 @@ colour-only meaning is required:
 
 1. `aria-selected="true"` on one `<li role="option">`.
 2. `data-theme="<slug>"` on the target element (default `<html>`).
-3. The `value` attribute on the `<theme-chooser>` host.
+3. The `value` attribute on the `<theme-picker>` host.
 4. The hidden `<input>`'s `value` (for form submission).
 
 Note that the **closed** button exposes none of them visibly — it
@@ -114,7 +114,7 @@ element and write into it from your `themechange` listener:
 
 ```ts
 const status = document.querySelector("#theme-status")!;
-document.querySelector("theme-chooser")!.addEventListener("themechange", (e) => {
+document.querySelector("theme-picker")!.addEventListener("themechange", (e) => {
     status.textContent = `Theme changed to ${(e as CustomEvent).detail.theme}`;
 });
 ```
@@ -134,8 +134,8 @@ visible focus ring. NHS-UK and Lily themes ship a high-contrast
 focus outline that meets AAA.
 
 Note that while the list is open, focus is on the `<ul>` — style
-`.theme-chooser-list:focus-visible` as well as the button, and give
-`.theme-chooser-option[data-active]` a visible highlight, or keyboard
+`.theme-picker-list:focus-visible` as well as the button, and give
+`.theme-picker-option[data-active]` a visible highlight, or keyboard
 users cannot see where they are.
 
 ## Reduced motion
@@ -187,18 +187,18 @@ transitions on the `data-theme` swap.
   `renderButtonContent()` keep the whole contract intact.
 - `inheritAttrs`-style fall-through is moot — the host element
   *is* the attribute collector. Consumer-passed `id`, `data-*`,
-  event handlers all live on `<theme-chooser>` itself.
+  event handlers all live on `<theme-picker>` itself.
 
 ## Testing for a11y
 
 ```ts
-const el = document.createElement("theme-chooser");
+const el = document.createElement("theme-picker");
 el.setAttribute("label", "Theme");
 el.setAttribute("themes-url", "/t/");
 el.setAttribute("themes", "light,dark");
 document.body.appendChild(el);
 
-const button = el.querySelector<HTMLButtonElement>(".theme-chooser-button")!;
+const button = el.querySelector<HTMLButtonElement>(".theme-picker-button")!;
 expect(button.getAttribute("aria-label")).toBe("Theme");
 expect(button.getAttribute("aria-haspopup")).toBe("listbox");
 expect(button.getAttribute("aria-expanded")).toBe("false");

@@ -10,21 +10,21 @@ rationale and common usage.
 Always supplied, always translatable.
 
 ```razor
-<LocaleChooser Label="Language" ... />
+<LocalePicker Label="Language" ... />
 ```
 
 With `IStringLocalizer<T>`:
 
 ```razor
-<LocaleChooser Label="@Localizer["chooseLanguage"]" ... />
+<LocalePicker Label="@Localizer["chooseLanguage"]" ... />
 ```
 
 This one carries more weight than a typical label. The button renders
 only a glyph, and the glyph is `aria-hidden="true"` — so `Label` is the
-control's *entire* accessible name, with no visible-text fallback. See
+control's _entire_ accessible name, with no visible-text fallback. See
 [`accessibility.md`](accessibility.md#1-the-accessible-name-rests-entirely-on-aria-label).
 
-A language chooser has a particular i18n trap: a user who cannot read
+A language picker has a particular i18n trap: a user who cannot read
 the current interface language still has to find this control. Consider
 keeping `Label` in a widely-recognised form, or pairing it with the
 endonym pattern in [`recipes.md`](recipes.md#show-each-language-in-its-own-language-endonyms).
@@ -67,7 +67,7 @@ both skipped on first interactive render. This is what makes the
 server-resolved cookie pattern work: see [`ssr.md`](ssr.md).
 
 ```razor
-<LocaleChooser @bind-Value="locale" ... />
+<LocalePicker @bind-Value="locale" ... />
 
 @code { private string locale = ""; }
 ```
@@ -85,7 +85,7 @@ itself empty / null, the resolver falls back to `"en"` (when present in
 `Locales`) and then to `Locales[0]`.
 
 ```razor
-<LocaleChooser DefaultValue="fr" ... />
+<LocalePicker DefaultValue="fr" ... />
 ```
 
 ## `StorageKey` — optional, `string?`
@@ -99,7 +99,7 @@ Errors (private mode, quota, disabled storage) are silently swallowed —
 the select continues to work in-memory.
 
 ```razor
-<LocaleChooser StorageKey="lily-locale" ... />
+<LocalePicker StorageKey="lily-locale" ... />
 ```
 
 Note that `localStorage` is client-only, so it cannot prevent a
@@ -124,7 +124,7 @@ so a returning visitor's stored choice always beats the browser's
 preference — detection only ever decides the first visit.
 
 ```razor
-<LocaleChooser DetectFromNavigator="true" StorageKey="lily-locale" ... />
+<LocalePicker DetectFromNavigator="true" StorageKey="lily-locale" ... />
 ```
 
 It is off by default because it is a real trade-off, not a free win:
@@ -134,7 +134,7 @@ language can strand a user in a locale they cannot read. If you enable
 it, make the control easy to find and pair it with `StorageKey` so one
 correction sticks.
 
-The counterpart on ThemeChooser is `DetectFromSystem`, which reads
+The counterpart on ThemePicker is `DetectFromSystem`, which reads
 `prefers-color-scheme` in the same slot.
 
 ## `Name` — optional, `string` — defaults to `"locale"`
@@ -144,10 +144,10 @@ participation. Give each select a distinct `Name` if more than one
 appears inside the same form.
 
 ```razor
-<LocaleChooser Name="ui-language" ... />
+<LocalePicker Name="ui-language" ... />
 ```
 
-Unlike ThemeChooser's `Name`, this one is *only* about form
+Unlike ThemePicker's `Name`, this one is _only_ about form
 participation — there is no managed `<link>` element to discriminate,
 because a locale change writes attributes rather than swapping a
 stylesheet.
@@ -159,7 +159,7 @@ root alongside `lang`, using `Locales.IsRtlLocale` to decide. Set it to
 false when something else already owns `dir`:
 
 ```razor
-<LocaleChooser ApplyDir="false" ... />
+<LocalePicker ApplyDir="false" ... />
 ```
 
 Reasons to turn it off: your layout is deliberately direction-fixed;
@@ -185,7 +185,7 @@ LocaleLabels="@(new Dictionary<string, string>
 })"
 ```
 
-Endonyms are usually the right choice for a language chooser: a user
+Endonyms are usually the right choice for a language picker: a user
 looking for Welsh scans for "Cymraeg", not "Welsh". Each option already
 carries its own `lang` attribute, so screen readers pronounce endonyms
 correctly. See [`accessibility.md`](accessibility.md#per-option-lang-is-important).
@@ -194,10 +194,10 @@ correctly. See [`accessibility.md`](accessibility.md#per-option-lang-is-importan
 
 Fires every time the select successfully applies a locale, with the
 consumer-form code. Use it for the work the component deliberately does
-*not* do — it applies `lang` and `dir`, and nothing else:
+_not_ do — it applies `lang` and `dir`, and nothing else:
 
 ```razor
-<LocaleChooser OnChange="OnLocaleChange" ... />
+<LocalePicker OnChange="OnLocaleChange" ... />
 
 @code {
     private async Task OnLocaleChange(string code)
@@ -216,35 +216,35 @@ consumer-form code. Use it for the work the component deliberately does
 Translation is emphatically the consumer's job. See
 [`i18n-integration.md`](i18n-integration.md).
 
-## `ChildContent` — optional, `RenderFragment<LocaleChooserContext>?`
+## `ChildContent` — optional, `RenderFragment<LocalePickerContext>?`
 
-**Replaces the glyph inside the button.** It does *not* render the
+**Replaces the glyph inside the button.** It does _not_ render the
 options — those are always component-owned, so the listbox semantics
 cannot be broken by a consumer override. See
 [`custom-rendering.md`](custom-rendering.md).
 
 ```razor
-<LocaleChooser ...>
+<LocalePicker ...>
     <ChildContent Context="ctx">
         <svg class="my-icon" aria-hidden="true" ...>...</svg>
     </ChildContent>
-</LocaleChooser>
+</LocalePicker>
 ```
 
-Supplying `ChildContent` removes the default `.locale-chooser-icon`
+Supplying `ChildContent` removes the default `.locale-picker-icon`
 span. Keep whatever you render `aria-hidden="true"` — the accessible
 name must keep coming from `Label`.
 
 ## `CssClass` — optional, `string`
 
 Extra CSS class hook on the root `<div>`, always emitted after
-`"locale-chooser"`.
+`"locale-picker"`.
 
 ```razor
-<LocaleChooser CssClass="my-locale-chooser" ... />
+<LocalePicker CssClass="my-locale-picker" ... />
 ```
 
-The root ends up as `<div class="locale-chooser my-locale-chooser" …>`.
+The root ends up as `<div class="locale-picker my-locale-picker" …>`.
 
 ## `AdditionalAttributes` — optional, `Dictionary<string, object>?`
 
@@ -252,15 +252,15 @@ Captured by `[Parameter(CaptureUnmatchedValues = true)]`. Any attribute
 not bound to a parameter falls through to the root `<div>`:
 
 ```razor
-<LocaleChooser
+<LocalePicker
     Label="Language"
     Locales="@(new[] { "en", "fr" })"
-    data-testid="locale-chooser"
+    data-testid="locale-picker"
     id="ui-language" />
 ```
 
 Both land on the root `<div>`, not the button. To target the button use
-the `.locale-chooser-button` hook.
+the `.locale-picker-button` hook.
 
 ## Public method
 
@@ -270,10 +270,10 @@ Applies a locale imperatively — the same lifecycle a click runs. Reach
 it via `@ref` when an external affordance drives the selection:
 
 ```razor
-<LocaleChooser @ref="localeSelect" Label="Language" Locales="@codes" @bind-Value="locale" />
+<LocalePicker @ref="localeSelect" Label="Language" Locales="@codes" @bind-Value="locale" />
 
 @code {
-    private LocaleChooser? localeSelect;
+    private LocalePicker? localeSelect;
     private async Task Apply(string code) => await localeSelect!.SetLocaleAsync(code);
 }
 ```
@@ -283,24 +283,24 @@ it via `@ref` when an external affordance drives the selection:
 Pure and side-effect free, on the `Locales` static class — usable
 without rendering the component at all:
 
-| Member | Purpose |
-| ------ | ------- |
-| `Bcp47LocaleTag(string)` | Consumer form → hyphenated BCP 47 tag. |
-| `IsRtlLocale(string?)` | True when the code's script or base language is RTL. |
-| `LocaleName(string)` | Code → English name from the built-in table. |
+| Member                                                                 | Purpose                                                 |
+| ---------------------------------------------------------------------- | ------------------------------------------------------- |
+| `Bcp47LocaleTag(string)`                                               | Consumer form → hyphenated BCP 47 tag.                  |
+| `IsRtlLocale(string?)`                                                 | True when the code's script or base language is RTL.    |
+| `LocaleName(string)`                                                   | Code → English name from the built-in table.            |
 | `MatchNavigatorLanguage(IReadOnlyList<string>, IReadOnlyList<string>)` | Browser preference list → best supported code, or `""`. |
-| `DefaultLocaleLabels` | The 436-entry code → English-name table. |
-| `RtlLanguageTags` | Base language subtags that are RTL. |
-| `RtlScriptSubtags` | Script subtags that are RTL. |
+| `DefaultLocaleLabels`                                                  | The 436-entry code → English-name table.                |
+| `RtlLanguageTags`                                                      | Base language subtags that are RTL.                     |
+| `RtlScriptSubtags`                                                     | Script subtags that are RTL.                            |
 
-`LocaleName` is the label-resolution counterpart of ThemeChooser's
+`LocaleName` is the label-resolution counterpart of ThemePicker's
 `ThemeName`: one public implementation of the rule, so external controls
 render labels identically without duplicating it.
 
 ## Render fragment context
 
 ```csharp
-public sealed class LocaleChooserContext
+public sealed class LocalePickerContext
 {
     /// Currently selected locale code (consumer form, not BCP 47).
     public required string Value { get; init; }
@@ -311,7 +311,7 @@ public sealed class LocaleChooserContext
 }
 ```
 
-Note `LabelFor` here is the *instance* resolver: it honours whatever
+Note `LabelFor` here is the _instance_ resolver: it honours whatever
 `LocaleLabels` overrides you passed, then falls back to the built-in
 table. `Locales.LocaleName` is the static, override-free version.
 
@@ -319,16 +319,16 @@ table. `Locales.LocaleName` is the static, override-free version.
 
 ```razor
 <!-- One-way (Value only) — read but not write -->
-<LocaleChooser Value="@locale" ... />
+<LocalePicker Value="@locale" ... />
 
 <!-- Two-way bind — read and write -->
-<LocaleChooser @bind-Value="locale" ... />
+<LocalePicker @bind-Value="locale" ... />
 
 <!-- Two-way bind + side-effect callback -->
-<LocaleChooser @bind-Value="locale" OnChange="OnChange" ... />
+<LocalePicker @bind-Value="locale" OnChange="OnChange" ... />
 
 <!-- Two-way bind + explicit ValueChanged (rarely needed) -->
-<LocaleChooser Value="@locale" ValueChanged="@(v => locale = v)" ... />
+<LocalePicker Value="@locale" ValueChanged="@(v => locale = v)" ... />
 ```
 
 ---

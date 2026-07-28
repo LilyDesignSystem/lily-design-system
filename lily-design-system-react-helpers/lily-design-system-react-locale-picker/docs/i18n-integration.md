@@ -1,6 +1,6 @@
 # i18n integration
 
-`LocaleChooser` is intentionally not an i18n library. It changes the
+`LocalePicker` is intentionally not an i18n library. It changes the
 document language and tells you when the user changed it; the actual
 string substitution is your i18n library's job.
 
@@ -29,37 +29,41 @@ through context. Drive the provider's `locale` prop from the select.
 
 import * as React from "react";
 import { IntlProvider, FormattedMessage } from "react-intl";
-import { LocaleChooser } from "lily-design-system-react-locale-chooser";
+import { LocalePicker } from "lily-design-system-react-locale-picker";
 
 import enMessages from "./messages/en.json";
 import frMessages from "./messages/fr.json";
 import arMessages from "./messages/ar.json";
 
 const MESSAGES: Record<string, Record<string, string>> = {
-    en: enMessages,
-    fr: frMessages,
-    ar: arMessages,
+  en: enMessages,
+  fr: frMessages,
+  ar: arMessages,
 };
 
 export function App() {
-    const [locale, setLocale] = React.useState("en");
+  const [locale, setLocale] = React.useState("en");
 
-    return (
-        <IntlProvider locale={locale} messages={MESSAGES[locale]} defaultLocale="en">
-            <LocaleChooser
-                label="Language"
-                locales={["en", "fr", "ar"]}
-                value={locale}
-                onChange={setLocale}
-                storageKey="app-locale"
-                detectFromNavigator
-            />
+  return (
+    <IntlProvider
+      locale={locale}
+      messages={MESSAGES[locale]}
+      defaultLocale="en"
+    >
+      <LocalePicker
+        label="Language"
+        locales={["en", "fr", "ar"]}
+        value={locale}
+        onChange={setLocale}
+        storageKey="app-locale"
+        detectFromNavigator
+      />
 
-            <h1>
-                <FormattedMessage id="home.heading" defaultMessage="Welcome" />
-            </h1>
-        </IntlProvider>
-    );
+      <h1>
+        <FormattedMessage id="home.heading" defaultMessage="Welcome" />
+      </h1>
+    </IntlProvider>
+  );
 }
 ```
 
@@ -89,24 +93,24 @@ runtime control. Use `i18n.changeLanguage(code)` from `onChange`.
 
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { LocaleChooser } from "lily-design-system-react-locale-chooser";
+import { LocalePicker } from "lily-design-system-react-locale-picker";
 
 export function App() {
-    const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
 
-    return (
-        <>
-            <LocaleChooser
-                label="Language"
-                locales={["en", "fr", "ar"]}
-                value={i18n.resolvedLanguage}
-                onChange={(code) => i18n.changeLanguage(code)}
-                storageKey="i18next-locale"
-            />
-            <h1>{t("home.heading")}</h1>
-            <p>{t("home.body")}</p>
-        </>
-    );
+  return (
+    <>
+      <LocalePicker
+        label="Language"
+        locales={["en", "fr", "ar"]}
+        value={i18n.resolvedLanguage}
+        onChange={(code) => i18n.changeLanguage(code)}
+        storageKey="i18next-locale"
+      />
+      <h1>{t("home.heading")}</h1>
+      <p>{t("home.body")}</p>
+    </>
+  );
 }
 ```
 
@@ -116,18 +120,16 @@ The setup that goes once in `i18n.ts` looks like:
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
-i18n
-    .use(initReactI18next)
-    .init({
-        resources: {
-            en: { translation: { /* … */ } },
-            fr: { translation: { /* … */ } },
-            ar: { translation: { /* … */ } },
-        },
-        lng: "en",
-        fallbackLng: "en",
-        interpolation: { escapeValue: false },
-    });
+i18n.use(initReactI18next).init({
+  resources: {
+    en: { translation: {/* … */} },
+    fr: { translation: {/* … */} },
+    ar: { translation: {/* … */} },
+  },
+  lng: "en",
+  fallbackLng: "en",
+  interpolation: { escapeValue: false },
+});
 ```
 
 `react-i18next` re-renders subscribed components automatically on
@@ -147,7 +149,7 @@ the locale.
 import * as React from "react";
 import { i18n } from "@lingui/core";
 import { I18nProvider, Trans } from "@lingui/react";
-import { LocaleChooser } from "lily-design-system-react-locale-chooser";
+import { LocalePicker } from "lily-design-system-react-locale-picker";
 
 import { messages as enMessages } from "./locales/en/messages";
 import { messages as frMessages } from "./locales/fr/messages";
@@ -157,28 +159,28 @@ i18n.load("fr", frMessages);
 i18n.activate("en");
 
 export function App() {
-    const [locale, setLocale] = React.useState("en");
+  const [locale, setLocale] = React.useState("en");
 
-    function activate(code: string) {
-        setLocale(code);
-        i18n.activate(code);
-    }
+  function activate(code: string) {
+    setLocale(code);
+    i18n.activate(code);
+  }
 
-    return (
-        <I18nProvider i18n={i18n}>
-            <LocaleChooser
-                label="Language"
-                locales={["en", "fr"]}
-                value={locale}
-                onChange={activate}
-                storageKey="lingui-locale"
-            />
+  return (
+    <I18nProvider i18n={i18n}>
+      <LocalePicker
+        label="Language"
+        locales={["en", "fr"]}
+        value={locale}
+        onChange={activate}
+        storageKey="lingui-locale"
+      />
 
-            <h1>
-                <Trans>Welcome</Trans>
-            </h1>
-        </I18nProvider>
-    );
+      <h1>
+        <Trans>Welcome</Trans>
+      </h1>
+    </I18nProvider>
+  );
 }
 ```
 
@@ -191,10 +193,10 @@ in an async function and await the catalog before flipping locale:
 
 ```tsx
 async function activate(code: string) {
-    const { messages } = await import(`./locales/${code}/messages`);
-    i18n.load(code, messages);
-    i18n.activate(code);
-    setLocale(code);
+  const { messages } = await import(`./locales/${code}/messages`);
+  i18n.load(code, messages);
+  i18n.activate(code);
+  setLocale(code);
 }
 ```
 
@@ -210,34 +212,34 @@ select still owns the `lang` / `dir` lifecycle:
 "use client";
 
 import * as React from "react";
-import { LocaleChooser } from "lily-design-system-react-locale-chooser";
+import { LocalePicker } from "lily-design-system-react-locale-picker";
 
 export function App() {
-    const [locale, setLocale] = React.useState("en");
+  const [locale, setLocale] = React.useState("en");
 
-    const dateFmt = React.useMemo(
-        () => new Intl.DateTimeFormat(locale, { dateStyle: "long" }),
-        [locale],
-    );
-    const currencyFmt = React.useMemo(
-        () => new Intl.NumberFormat(locale, { style: "currency", currency: "GBP" }),
-        [locale],
-    );
+  const dateFmt = React.useMemo(
+    () => new Intl.DateTimeFormat(locale, { dateStyle: "long" }),
+    [locale],
+  );
+  const currencyFmt = React.useMemo(
+    () => new Intl.NumberFormat(locale, { style: "currency", currency: "GBP" }),
+    [locale],
+  );
 
-    return (
-        <>
-            <LocaleChooser
-                label="Language"
-                locales={["en", "en-US", "fr", "fr-CA", "ar"]}
-                value={locale}
-                onChange={setLocale}
-                storageKey="app-locale"
-            />
+  return (
+    <>
+      <LocalePicker
+        label="Language"
+        locales={["en", "en-US", "fr", "fr-CA", "ar"]}
+        value={locale}
+        onChange={setLocale}
+        storageKey="app-locale"
+      />
 
-            <p>Today: {dateFmt.format(new Date())}</p>
-            <p>Balance: {currencyFmt.format(1234.56)}</p>
-        </>
-    );
+      <p>Today: {dateFmt.format(new Date())}</p>
+      <p>Balance: {currencyFmt.format(1234.56)}</p>
+    </>
+  );
 }
 ```
 
@@ -256,27 +258,27 @@ the select from `useParams()` and `onChange` calls `router.push()`:
 
 import * as React from "react";
 import { useParams, usePathname, useRouter } from "next/navigation";
-import { LocaleChooser } from "lily-design-system-react-locale-chooser";
+import { LocalePicker } from "lily-design-system-react-locale-picker";
 
 export function LocaleSwitcher() {
-    const params = useParams<{ locale: string }>();
-    const pathname = usePathname();
-    const router = useRouter();
+  const params = useParams<{ locale: string }>();
+  const pathname = usePathname();
+  const router = useRouter();
 
-    function navigateToLocale(next: string) {
-        const newPath = pathname.replace(/^\/(en|fr|ar)/, `/${next}`);
-        router.push(newPath);
-        router.refresh();
-    }
+  function navigateToLocale(next: string) {
+    const newPath = pathname.replace(/^\/(en|fr|ar)/, `/${next}`);
+    router.push(newPath);
+    router.refresh();
+  }
 
-    return (
-        <LocaleChooser
-            label="Language"
-            locales={["en", "fr", "ar"]}
-            value={params.locale}
-            onChange={navigateToLocale}
-        />
-    );
+  return (
+    <LocalePicker
+      label="Language"
+      locales={["en", "fr", "ar"]}
+      value={params.locale}
+      onChange={navigateToLocale}
+    />
+  );
 }
 ```
 
@@ -293,15 +295,14 @@ cookie when you have a Next.js / Remix server. See [./ssr.md](./ssr.md)
 for the full recipe. The select portion is:
 
 ```tsx
-<LocaleChooser
-    label="Language"
-    locales={["en", "fr", "ar"]}
-    value={locale}
-    onChange={(code) => {
-        setLocale(code);
-        document.cookie =
-            `locale=${code}; path=/; max-age=31536000; SameSite=Lax`;
-    }}
+<LocalePicker
+  label="Language"
+  locales={["en", "fr", "ar"]}
+  value={locale}
+  onChange={(code) => {
+    setLocale(code);
+    document.cookie = `locale=${code}; path=/; max-age=31536000; SameSite=Lax`;
+  }}
 />
 ```
 
@@ -312,27 +313,27 @@ no flash.
 
 ## Picking the right strategy
 
-| Need                                       | Strategy                  |
-| ------------------------------------------ | ------------------------- |
-| One small SPA, English + French only       | Raw `Intl.*`              |
-| ICU MessageFormat, plurals, gender         | react-intl                |
-| Largest ecosystem, plugin-heavy            | react-i18next             |
-| Compile-time message extraction, tiny bundle | Lingui                   |
-| SEO-friendly URLs per locale, Next.js      | URL prefix + App Router   |
-| No FOUC, cookie-backed, server-rendered    | Cookie + server component |
+| Need                                         | Strategy                  |
+| -------------------------------------------- | ------------------------- |
+| One small SPA, English + French only         | Raw `Intl.*`              |
+| ICU MessageFormat, plurals, gender           | react-intl                |
+| Largest ecosystem, plugin-heavy              | react-i18next             |
+| Compile-time message extraction, tiny bundle | Lingui                    |
+| SEO-friendly URLs per locale, Next.js        | URL prefix + App Router   |
+| No FOUC, cookie-backed, server-rendered      | Cookie + server component |
 
 The select is the same in every case. Only the `value` / `onChange`
 target and the body of `onChange` change.
 
 ## Multiple instances
 
-A page can host several `LocaleChooser` instances (e.g. one global, one
+A page can host several `LocalePicker` instances (e.g. one global, one
 scoped to a panel). Give each a different `name` prop so the
 form-control identities don't collide:
 
 ```tsx
-<LocaleChooser label="Page" name="page-locale" {...} />
-<LocaleChooser label="Panel" name="panel-locale" target={panelRef.current} {...} />
+<LocalePicker label="Page" name="page-locale" {...} />
+<LocalePicker label="Panel" name="panel-locale" target={panelRef.current} {...} />
 ```
 
 See [examples/scoped-target.tsx](../examples/scoped-target.tsx)

@@ -1,6 +1,6 @@
 # Concepts
 
-How `LocaleChooser` thinks about locale, where it sits in your
+How `LocalePicker` thinks about locale, where it sits in your
 stack, and what it deliberately leaves to you.
 
 ## Three orthogonal concerns
@@ -9,8 +9,8 @@ A web app changes language across three independent axes:
 
 | Axis                       | What changes                                               | Owner                                  |
 | -------------------------- | ---------------------------------------------------------- | -------------------------------------- |
-| **Document language**      | The `lang` attribute on `<html>`. Screen readers, search engines, hyphenation, font selection. | `LocaleChooser` (this helper).        |
-| **Writing direction**      | The `dir` attribute on `<html>`. Bidi text, scrollbar position, flexbox/grid mirror. | `LocaleChooser` (auto-detected from the locale; opt out with `:apply-dir="false"`). |
+| **Document language**      | The `lang` attribute on `<html>`. Screen readers, search engines, hyphenation, font selection. | `LocalePicker` (this helper).        |
+| **Writing direction**      | The `dir` attribute on `<html>`. Bidi text, scrollbar position, flexbox/grid mirror. | `LocalePicker` (auto-detected from the locale; opt out with `:apply-dir="false"`). |
 | **Translated strings**     | The actual visible words on the page.                      | Your i18n library (`vue-i18n`, `@intlify`, Tolgee, Paraglide, raw `Intl`). |
 
 The helper owns the first two and signals the third via a bindable
@@ -19,20 +19,20 @@ attribute (which most i18n libraries don't read directly — they
 react to the bindable).
 
 The split matters because it lets you swap your i18n library
-without rewriting the chooser, and it lets the chooser stay
+without rewriting the picker, and it lets the picker stay
 headless: zero CSS, zero string tables, zero dependencies beyond
 Vue.
 
 ## What "headless" means here
 
-The chooser:
+The picker:
 
 - Renders semantic HTML — a `<button>` and a `<ul>` of `<li>` — with
   the WAI-ARIA APG listbox roles and states layered on top, and
   implements the pattern's keyboard contract itself.
-- Carries a stable kebab-case class hook (`locale-chooser`,
-  `locale-chooser-button`, `locale-chooser-icon`, `locale-chooser-list`,
-  `locale-chooser-option`) on every element so your CSS can target it
+- Carries a stable kebab-case class hook (`locale-picker`,
+  `locale-picker-button`, `locale-picker-icon`, `locale-picker-list`,
+  `locale-picker-option`) on every element so your CSS can target it
   without prefixes or specificity tricks. `data-active` marks the
   keyboard-active option for styling.
 - Ships **no** colour, spacing, typography, font, icon, or
@@ -76,7 +76,7 @@ any more:
    The built-in locale table has 436 entries, several of them long
    enough to blow out a utility bar on their own. An icon button
    costs one glyph regardless of list length.
-2. **Symmetry with `ThemeChooser`**. The sibling helper in this
+2. **Symmetry with `ThemePicker`**. The sibling helper in this
    directory made the same move, so the two compose visually and
    semantically without surprises.
 3. **Full styleability**. A native option list is drawn by the OS and
@@ -94,7 +94,7 @@ The default scoped slot replaces the **button glyph** only — see
 [examples/custom-rendering.vue](../examples/custom-rendering.vue) and
 [examples/script-aware-glyph.vue](../examples/script-aware-glyph.vue). If you need a
 different control shape entirely, render it yourself next to the
-component and bind both to the same ref; `LocaleChooser` keeps owning
+component and bind both to the same ref; `LocalePicker` keeps owning
 the apply lifecycle. See
 [examples/combobox.vue](../examples/combobox.vue).
 
@@ -122,7 +122,7 @@ Keeping them separate means:
 - On a fresh mount with no `value` prop, the stored value is read
   back.
 - Storage errors (private mode, quota) are swallowed silently;
-  the chooser degrades to the default.
+  the picker degrades to the default.
 
 If you have a server (Nuxt 3, Astro SSR, etc.), prefer a cookie
 instead — it survives the round-trip and avoids a flash of default
@@ -156,14 +156,14 @@ Four layers, mirroring the lifecycle:
    and assert the same DOM observations; assert that `change` was
    emitted.
 
-See [../LocaleChooser.test.ts](../LocaleChooser.test.ts) for the
+See [../LocalePicker.test.ts](../LocalePicker.test.ts) for the
 reference suite that covers every `spec/index.md` §7 acceptance item.
 
 ## Vue-specific notes
 
 ### `defineModel` vs explicit `update:value`
 
-The chooser uses `defineProps` + `defineEmits` rather than
+The picker uses `defineProps` + `defineEmits` rather than
 `defineModel` so it can suppress the bind-back during initial-value
 resolution (when the resolved value matches the supplied value).
 `defineModel` would write back unconditionally on every internal
@@ -182,7 +182,7 @@ so the type name matches the Svelte canonical.
 
 ### `v-model:value` vs `v-model`
 
-The chooser exposes its bindable on `value`, not the default
+The picker exposes its bindable on `value`, not the default
 `modelValue`. Always use `v-model:value="locale"`. This matches
 the Svelte canonical's `bind:value` semantics and keeps the
 API symmetric across frameworks.

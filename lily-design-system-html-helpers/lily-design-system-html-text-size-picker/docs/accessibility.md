@@ -14,22 +14,22 @@ This helper also has a specific WCAG success criterion of its own —
 
 | Element                                    | Role / Property                               | Source        |
 | ------------------------------------------ | --------------------------------------------- | ------------- |
-| `<text-size-chooser>` (host)                | none (transparent)                            | —             |
-| `<div class="text-size-chooser">`           | none (styling root)                           | Element       |
-| `<button class="text-size-chooser-button">` | implicit `role="button"`                      | Browser       |
+| `<text-size-picker>` (host)                | none (transparent)                            | —             |
+| `<div class="text-size-picker">`           | none (styling root)                           | Element       |
+| `<button class="text-size-picker-button">` | implicit `role="button"`                      | Browser       |
 | `<button>`                                 | `aria-label={label}`                          | Consumer attr |
 | `<button>`                                 | `aria-haspopup="listbox"`                     | Element       |
 | `<button>`                                 | `aria-expanded="true" \| "false"`             | Element       |
 | `<button>`                                 | `aria-controls={listId}`                      | Element       |
-| `<span class="text-size-chooser-icon">`     | `aria-hidden="true"`                          | Element       |
-| `<ul class="text-size-chooser-list">`       | `role="listbox"`, `aria-label={label}`        | Element       |
+| `<span class="text-size-picker-icon">`     | `aria-hidden="true"`                          | Element       |
+| `<ul class="text-size-picker-list">`       | `role="listbox"`, `aria-label={label}`        | Element       |
 | `<ul>`                                     | `tabindex="-1"`; `hidden` while closed        | Element       |
 | `<ul>`                                     | `aria-activedescendant={optionId}` while open | Element       |
-| `<li class="text-size-chooser-option">`     | `role="option"`, unique `id`, `aria-selected` | Element       |
+| `<li class="text-size-picker-option">`     | `role="option"`, unique `id`, `aria-selected` | Element       |
 | `<li>`                                     | `data-active` when keyboard-highlighted       | Element       |
 | `<input type="hidden">`                    | none — form participation only                | Element       |
 
-The host `<text-size-chooser>` element has no implicit ARIA role. It is
+The host `<text-size-picker>` element has no implicit ARIA role. It is
 a lifecycle container that holds the rendered control.
 
 ### `data-active` is not `aria-selected`
@@ -55,9 +55,9 @@ listbox with a roving active descendant.
 
 Two consequences for consumer CSS:
 
-- Style `.text-size-chooser-list:focus-visible`, not just the button —
+- Style `.text-size-picker-list:focus-visible`, not just the button —
   that is where the focus ring belongs while the list is open.
-- Give `.text-size-chooser-option[data-active]` a clearly visible
+- Give `.text-size-picker-option[data-active]` a clearly visible
   highlight. Without it, a keyboard user gets no visual feedback at
   all as they arrow through the list, because focus is not moving.
 
@@ -160,7 +160,7 @@ CSS.** To actually get there:
 
 The icon-button-plus-listbox design buys a compact, fully-styleable
 control — and makes this helper structurally identical to its
-`theme-chooser` and `locale-chooser` siblings. It costs three things,
+`theme-picker` and `locale-picker` siblings. It costs three things,
 and they are real. All three are the consumer's to mitigate.
 
 ### 1. It is an icon-only control
@@ -219,7 +219,7 @@ it exists in every font ever shipped, it inherits the page's own
 typeface, and it stays monochrome. It cannot render as tofu, and it
 cannot turn into an unexpected colour emoji the way U+1F5DB DECREASE
 FONT SIZE SYMBOL (which has no real glyph in common font stacks, and
-means *decrease* rather than *size*) or theme-chooser's ◑ can.
+means *decrease* rather than *size*) or theme-picker's ◑ can.
 
 The residual risk is stylistic, not legibility: "A" picks up whatever
 typeface the button inherits, so it will look different across themes.
@@ -237,15 +237,15 @@ has it. Leaving it out is the deliberate choice — a decision to make
 knowingly, with a reason — not something to opt into later:
 
 ```html
-<text-size-chooser label="Text size" sizes="small,medium,large,x-large"></text-size-chooser>
+<text-size-picker label="Text size" sizes="small,medium,large,x-large"></text-size-picker>
 
-<p class="text-size-chooser-status" aria-live="polite">Text size: Medium</p>
+<p class="text-size-picker-status" aria-live="polite">Text size: Medium</p>
 
 <script type="module">
-    await customElements.whenDefined("text-size-chooser");
+    await customElements.whenDefined("text-size-picker");
 
-    const select = document.querySelector("text-size-chooser");
-    const status = document.querySelector(".text-size-chooser-status");
+    const select = document.querySelector("text-size-picker");
+    const status = document.querySelector(".text-size-picker-status");
 
     select.addEventListener("textsizechange", (e) => {
         status.textContent = `Text size: ${select.labelFor(e.detail.size)}`;
@@ -291,7 +291,7 @@ value back in the control.
 - **Styling `[data-active]` and `[aria-selected]` identically.** They
   mean different things, and a keyboard user needs to see the
   difference.
-- **Forgetting `.text-size-chooser-list:focus-visible`.** While the
+- **Forgetting `.text-size-picker-list:focus-visible`.** While the
   list is open the `<ul>` holds focus; if you only styled the button's
   focus ring, the focus indicator vanishes on open.
 - **Hiding options with `display: none`.** That removes them from the
@@ -332,7 +332,7 @@ triggers vestibular symptoms.
 
 ## When subclassing
 
-If you subclass `TextSizeChooser`, which tier you pick decides who owns
+If you subclass `TextSizePicker`, which tier you pick decides who owns
 accessibility:
 
 - **Overriding `renderButtonContent()` keeps the whole contract.** The

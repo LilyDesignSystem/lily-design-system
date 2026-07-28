@@ -1,8 +1,8 @@
 export {
     default,
-    default as TextSizeChooser,
+    default as TextSizePicker,
     sizeName,
-    nextTextSizeChooserId,
+    nextTextSizePickerId,
     LATIN_CAPITAL_LETTER_A,
-} from "./TextSizeChooser.vue";
-export type { Props, SlotArgs, ChildArgs } from "./TextSizeChooser.vue";
+} from "./TextSizePicker.vue";
+export type { Props, SlotArgs, ChildArgs } from "./TextSizePicker.vue";

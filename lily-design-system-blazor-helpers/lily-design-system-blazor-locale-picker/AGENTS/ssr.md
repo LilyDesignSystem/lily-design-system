@@ -1,4 +1,4 @@
-# SSR — LocaleChooser (Blazor)
+# SSR — LocalePicker (Blazor)
 
 The select runs cleanly under every Blazor 10 hosting model.
 This page lists the Blazor-specific recipes; the canonical rules
@@ -11,16 +11,16 @@ fires and the select does not touch the DOM. The rendered HTML
 looks like:
 
 ```html
-<div class="locale-chooser">
+<div class="locale-picker">
     <input type="hidden" name="locale" value="en" />
-    <button type="button" class="locale-chooser-button" aria-label="Language"
+    <button type="button" class="locale-picker-button" aria-label="Language"
             aria-haspopup="listbox" aria-expanded="false"
-            aria-controls="locale-chooser-1-list">
-        <span class="locale-chooser-icon" aria-hidden="true">&#127760;</span>
+            aria-controls="locale-picker-1-list">
+        <span class="locale-picker-icon" aria-hidden="true">&#127760;</span>
     </button>
-    <ul class="locale-chooser-list" id="locale-chooser-1-list" role="listbox"
+    <ul class="locale-picker-list" id="locale-picker-1-list" role="listbox"
         aria-label="Language" tabindex="-1" hidden>
-        <li class="locale-chooser-option" id="locale-chooser-1-option-0"
+        <li class="locale-picker-option" id="locale-picker-1-option-0"
             role="option" aria-selected="true" lang="en">English</li>
         …
     </ul>
@@ -126,7 +126,7 @@ record LocaleBody(string Locale);
 ```razor
 @inject HttpClient Http
 
-<LocaleChooser
+<LocalePicker
     Label="Language"
     Locales="@(new[] { "en", "fr", "ar" })"
     @bind-Value="locale"
@@ -182,7 +182,7 @@ For URLs like `/en/about`, `/fr/about`, use a route segment:
 @page "/{Locale}/{*Rest}"
 @inject NavigationManager Nav
 
-<LocaleChooser
+<LocalePicker
     Label="Language"
     Locales="@(new[] { "en", "fr", "ar" })"
     Value="@Locale"

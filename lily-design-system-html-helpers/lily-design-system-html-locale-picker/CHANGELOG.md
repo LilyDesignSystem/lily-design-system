@@ -1,17 +1,17 @@
-# Changelog — `<locale-chooser>` (HTML helper)
+# Changelog — `<locale-picker>` (HTML helper)
 
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
 ## 0.1.0 — 2026-07-21
 
-First release under the name `lily-design-system-html-locale-chooser`.
+First release under the name `lily-design-system-html-locale-picker`.
 The version resets to 0.1.0 because this package name has never been
 published; a renamed package carries no release history.
 
 ### Added
 
-- `<locale-chooser>` custom element: a headless BCP 47 locale control.
+- `<locale-picker>` custom element: a headless BCP 47 locale control.
   It renders an icon button (🌐, U+1F310 GLOBE WITH MERIDIANS) that
   opens a WAI-ARIA APG listbox of locales. Light DOM only; ships no CSS.
 - On each applied locale it sets `lang` (hyphenated BCP 47) and `dir`
@@ -19,19 +19,19 @@ published; a renamed package carries no release history.
   `document.documentElement`), optionally persists to
   `localStorage[storageKey]`, and dispatches a `localechange`
   `CustomEvent`. It performs no translation.
-- Class hooks `locale-chooser`, `locale-chooser-button`,
-  `locale-chooser-icon`, `locale-chooser-list`,
-  `locale-chooser-option`.
-- Named exports including `LocaleChooser`, `localeName`,
-  `matchNavigatorLanguage`, `nextLocaleChooserId`; types
-  `LocaleChooserProps`, `LocaleChooserChangeDetail`.
+- Class hooks `locale-picker`, `locale-picker-button`,
+  `locale-picker-icon`, `locale-picker-list`,
+  `locale-picker-option`.
+- Named exports including `LocalePicker`, `localeName`,
+  `matchNavigatorLanguage`, `nextLocalePickerId`; types
+  `LocalePickerProps`, `LocalePickerChangeDetail`.
 
 ### Changed
 
 - Renamed from `lily-design-system-html-locale-select`. The custom
-  element is `<locale-chooser>` (was `<locale-chooser>`), the class is
-  `LocaleChooser` (was `LocaleChooser`), and the class hooks are
-  `locale-chooser*` (were `locale-chooser*`). Behaviour is unchanged.
+  element is `<locale-picker>` (was `<locale-picker>`), the class is
+  `LocalePicker` (was `LocalePicker`), and the class hooks are
+  `locale-picker*` (were `locale-picker*`). Behaviour is unchanged.
 
 Previously released in-tree as `lily-design-system-html-locale-select`;
 that history is preserved below and did not ship under the current
@@ -48,22 +48,22 @@ package name.
 - **The control is no longer a native `<select>`.** It is now an
   **icon button that opens a dropdown listbox**, implementing the
   WAI-ARIA APG listbox pattern. The rendered root is a
-  `<div class="locale-chooser {class}">` containing a hidden
-  `<input>`, a `<button class="locale-chooser-button">` whose content
-  defaults to `<span class="locale-chooser-icon" aria-hidden="true">`
+  `<div class="locale-picker {class}">` containing a hidden
+  `<input>`, a `<button class="locale-picker-button">` whose content
+  defaults to `<span class="locale-picker-icon" aria-hidden="true">`
   carrying U+1F310 GLOBE WITH MERIDIANS, and a
-  `<ul class="locale-chooser-list" role="listbox" tabindex="-1"
-  hidden>` with one `<li class="locale-chooser-option" role="option"
-  aria-selected lang="{tag}">` per locale.
+  `<ul class="locale-picker-list" role="listbox" tabindex="-1"
+hidden>` with one `<li class="locale-picker-option" role="option"
+aria-selected lang="{tag}">` per locale.
 - **`placeholder` is REMOVED** — attribute, property, and the
-  `locale-chooser-placeholder` class hook. It was a 0.3.0 mechanism
+  `locale-picker-placeholder` class hook. It was a 0.3.0 mechanism
   for pinning a native `<select>`'s displayed text; there is no
   `<select>` left to pin. The "closed control always reads the
   placeholder word" tradeoff is gone with it.
-- **Class hooks changed.** Added: `locale-chooser-button`,
-  `locale-chooser-icon`, `locale-chooser-list`. Removed:
-  `locale-chooser-placeholder`. `locale-chooser` now names the `<div>`
-  root (was the `<select>`); `locale-chooser-option` now names an
+- **Class hooks changed.** Added: `locale-picker-button`,
+  `locale-picker-icon`, `locale-picker-list`. Removed:
+  `locale-picker-placeholder`. `locale-picker` now names the `<div>`
+  root (was the `<select>`); `locale-picker-option` now names an
   `<li>` (was an `<option>`).
 - **Consumers must now supply positioning CSS.** The package ships
   no CSS, so the `<ul>` renders in normal flow until the root gets
@@ -102,9 +102,9 @@ package name.
 
 - **The default glyph gains U+FE0E VARIATION SELECTOR-15.**
   `GLOBE_WITH_MERIDIANS` is now `"\u{1F310}\uFE0E"` (two codepoints,
-  was one). VS15 requests the *text* presentation; without it
+  was one). VS15 requests the _text_ presentation; without it
   browsers select the colour-emoji font and the globe renders blue,
-  which did not match theme-chooser's monochrome ◑. Verified in
+  which did not match theme-picker's monochrome ◑. Verified in
   Chromium. Consumers comparing against the constant are unaffected;
   consumers hardcoding `"\u{1F310}"` in an equality check should
   import the constant instead.
@@ -113,7 +113,7 @@ package name.
   prop / `ChildContent` the other Lily helpers accept. Whatever it
   returns replaces the default glyph inside the button; `this.value`,
   `this.open`, and `this.labelFor(...)` stand in for `ChildArgs`, and
-  the hook re-runs on every structural rebuild *and* every state sync
+  the hook re-runs on every structural rebuild _and_ every state sync
   (a `value` change, each open and close) so derived content tracks
   state the same way a reactive snippet would. The
   base class keeps the aria wiring and the whole keyboard contract,
@@ -125,7 +125,7 @@ package name.
   `closeList(refocus = true)`, plus `labelFor(code)` and
   `tagFor(locale)` promoted from private.
 - New exports from `index.ts`: `GLOBE_WITH_MERIDIANS` (the default
-  button glyph) and `nextLocaleChooserId()` (the module-level id
+  button glyph) and `nextLocalePickerId()` (the module-level id
   counter behind `listId` / `optionId`, deterministic and SSR-safe —
   no `Math.random()` or `Date.now()`).
 - `data-active` on the keyboard-highlighted option, distinct from
@@ -143,7 +143,7 @@ package name.
 
 - Every attribute except `placeholder`; the `localechange`
   `CustomEvent` (same `{ locale }` detail, still `bubbles: true,
-  composed: true`); `lang` / `dir` application; BCP 47 normalisation;
+composed: true`); `lang` / `dir` application; BCP 47 normalisation;
   RTL detection; `localStorage` persistence; navigator detection;
   initial-value resolution; the exported pure helpers; per-option
   `lang` for WCAG 3.1.2; and SSR safety.
@@ -151,7 +151,7 @@ package name.
 #### Renamed (examples)
 
 - `examples/01-default.html` → `examples/01-basic.html`, matching
-  theme-chooser's `01-basic.html` so the two helpers offer the same
+  theme-picker's `01-basic.html` so the two helpers offer the same
   entry-point example under the same name. Inbound links in
   `examples/README.md` and `docs/accessibility.md` updated.
 - `examples/01-radios.html` → `examples/01-default.html`.
@@ -163,8 +163,8 @@ really does render a button group.)
 
 #### Added (docs)
 
-Docs brought to parity with theme-chooser, so the two helpers offer
-the same file shape. Written for locale-chooser rather than
+Docs brought to parity with theme-picker, so the two helpers offer
+the same file shape. Written for locale-picker rather than
 copy-pasted:
 
 - `docs/attributes-reference.md` — field-by-field reference for every
@@ -182,8 +182,8 @@ copy-pasted:
 - `docs/troubleshooting.md` — symptom-first fixes, including the
   RTL-positioning failure unique to this control.
 
-theme-chooser's topic-specific docs (`preloading.md`) have no locale
-counterpart and were not invented; locale-chooser's
+theme-picker's topic-specific docs (`preloading.md`) have no locale
+counterpart and were not invented; locale-picker's
 (`bcp47.md`, `rtl.md`, `concepts.md`, `i18n-integration.md`) stay.
 
 ### 0.3.0 — 2026-07-20
@@ -193,7 +193,7 @@ counterpart and were not invented; locale-chooser's
 - The closed `<select>` now always reads a placeholder word instead
   of the active locale name, so the control stays as narrow as that
   word. The element renders a component-owned placeholder
-  `<option class="locale-chooser-option locale-chooser-placeholder" value="" selected>`
+  `<option class="locale-picker-option locale-picker-placeholder" value="" selected>`
   as the first child of the `<select>`, before the real options and
   before any consumer-supplied custom option rendering. The
   placeholder carries no `lang` — it is not a locale.
@@ -220,7 +220,7 @@ counterpart and were not invented; locale-chooser's
   placeholder option; defaults to `label`, keeping the package free
   of hardcoded user-facing strings. Observed, so changing it
   re-renders.
-- `index.md` documents the `.locale-chooser-placeholder` class hook
+- `index.md` documents the `.locale-picker-placeholder` class hook
   and a `field-sizing: content` / `max-width` width recipe.
 
 #### Unchanged
@@ -234,11 +234,11 @@ counterpart and were not invented; locale-chooser's
 
 - The compensating status region is now the **default pattern**, not a
   suggestion: the entry-point example and the `index.md` quick-start both
-  ship a visible `<p class="locale-chooser-status" aria-live="polite">`
+  ship a visible `<p class="locale-picker-status" aria-live="polite">`
   showing the active locale via the exported `localeName`.
   `aria-live="polite"` announces mutations only, so it stays silent on
   first paint and speaks on each change. `docs/accessibility.md`
-  reframes opting *out* as the deliberate choice and keeps an explicit
+  reframes opting _out_ as the deliberate choice and keeps an explicit
   "what this does and does not fix" note — the region announces
   transitions, it does not restore combobox value semantics.
 
@@ -248,12 +248,12 @@ counterpart and were not invented; locale-chooser's
 
 - Migrated from the radio-group "picker" rendering to a native
   `<select>` (landed in-tree 2026-06-17): the root element is now
-  `<select class="locale-chooser">` with one `<option class="locale-chooser-option">`
+  `<select class="locale-picker">` with one `<option class="locale-picker-option">`
   per choice, replacing the former `<fieldset role="radiogroup">` with
   `<input type="radio">` children. The package was renamed from the
   `*-picker` name to `*-select` accordingly.
-- Class-hook contract changed: `locale-chooser` now names the `<select>` root
-  and `locale-chooser-option` is the only sub-class; the radio/label sub-class
+- Class-hook contract changed: `locale-picker` now names the `<select>` root
+  and `locale-picker-option` is the only sub-class; the radio/label sub-class
   hooks are gone.
 - Keyboard interaction is the native `<select>` contract (Arrow keys,
   Home / End, first-letter typeahead) instead of radio-group cycling.
@@ -269,15 +269,15 @@ counterpart and were not invented; locale-chooser's
 ### 0.1.0 — 2026-06-05
 
 Initial release. Ported from the Svelte canonical
-`lily-design-system-svelte-locale-chooser`. The DOM contract,
+`lily-design-system-svelte-locale-picker`. The DOM contract,
 behaviour, and acceptance criteria match the canonical clause-for-
 clause.
 
 #### Added
 
-- `<locale-chooser>` custom element extending `HTMLElement`.
+- `<locale-picker>` custom element extending `HTMLElement`.
 - Side-effectful registration in `index.ts`, guarded by
-  `customElements.get("locale-chooser")` for idempotence.
+  `customElements.get("locale-picker")` for idempotence.
 - Required attributes: `label`, `locales` (CSV).
 - Optional attributes: `value`, `default-value`, `storage-key`,
   `detect-from-navigator`, `name`, `apply-dir`, `locale-labels`
@@ -294,11 +294,11 @@ clause.
   `matchNavigatorLanguage`.
 - Reference exports: `defaultLocaleLabels`, `RTL_LANGUAGE_TAGS`,
   `RTL_SCRIPT_SUBTAGS`.
-- Type exports: `LocaleChooserProps`, `LocaleChooserChangeDetail`.
+- Type exports: `LocalePickerProps`, `LocalePickerChangeDetail`.
 - Built-in 436-row English-name table (`locales.ts`, sourced from
   `locales.tsv`).
 - Acceptance criteria in `spec/index.md` §7; one vitest test per clause
-  in `locale-chooser.test.ts`.
+  in `locale-picker.test.ts`.
 - Documentation: `docs/concepts.md`, `docs/accessibility.md`,
   `docs/bcp47.md`, `docs/rtl.md`, `docs/ssr.md`,
   `docs/i18n-integration.md`.
@@ -310,8 +310,8 @@ clause.
 #### Conventions
 
 - Light DOM rendering — no Shadow DOM.
-- One rendered `<select class="locale-chooser {class}"
-  aria-label="{label}" name="{name}">` per select.
+- One rendered `<select class="locale-picker {class}"
+aria-label="{label}" name="{name}">` per select.
 - Each `<option>` carries its own `lang` for WCAG 3.1.2 (Language of
   Parts) pronunciation hints.
 - `<html lang="{tag}">` (BCP 47 hyphen form) on
@@ -325,7 +325,7 @@ clause.
   exact-then-language match, not RFC 4647 best-fit.
 - Initial value resolves from
   `value > localStorage > navigator > default-value > "en" >
-  locales[0]`.
+locales[0]`.
 
 #### Spelling note
 
@@ -337,7 +337,7 @@ one. Other helper names mirror the Svelte canonical exactly:
 
 #### Subclassing for custom rendering
 
-Custom rendering happens by extending the `LocaleChooser` class and
+Custom rendering happens by extending the `LocalePicker` class and
 overriding `connectedCallback` / `attributeChangedCallback`
 (private methods cannot be overridden). The base class keeps
 owning the lifecycle (`lang` / `dir` writes, `localStorage`,

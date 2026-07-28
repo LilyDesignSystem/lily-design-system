@@ -61,7 +61,7 @@ Every helper subproject follows the same shape:
 
 ## 6. Acceptance criteria
 
-- [x] Catalog ships `theme-chooser` and `locale-chooser` helper subprojects.
+- [x] Catalog ships `theme-picker` and `locale-picker` helper subprojects.
 - [x] Each helper has its component source, tests, `spec/index.md`, and package.json.
 - [x] Each helper is headless (no bundled CSS/fonts/icons) and i18n-clean.
 - [x] Catalog dir has `index.md`, `README.md` symlink, `AGENTS.md`,

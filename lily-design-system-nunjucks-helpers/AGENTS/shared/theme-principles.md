@@ -39,10 +39,10 @@ The theme is exposed as a flat object whose keys flatten into
 Consumer CSS reads `var(--theme-color-primary)`,
 `var(--theme-space-md)`, etc.
 
-## How the Nunjucks theme-chooser fits in
+## How the Nunjucks theme-picker fits in
 
-The Nunjucks `themeChooser` macro emits a native `<select>`; the companion
-`theme-chooser.client.js` writes one signal to the document root: a
+The Nunjucks `themePicker` macro emits a native `<select>`; the companion
+`theme-picker.client.js` writes one signal to the document root: a
 `data-theme="<slug>"` attribute. Theme CSS files scope their rules
 to `:root[data-theme="<slug>"]` so the select's attribute mutation
 is enough to switch the live theme.
@@ -73,7 +73,7 @@ const prefersDark = req.headers["sec-ch-prefers-color-scheme"] === "dark";
 const initial = prefersDark ? "dark" : "light";
 ```
 
-Pass `initial` as `opts.defaultValue`. See the theme chooser's
+Pass `initial` as `opts.defaultValue`. See the theme picker's
 `examples/06-system-preference.njk`.
 
 ## Forbidden in the headless layer
@@ -116,7 +116,7 @@ export default readdirSync(dir)
 ```
 
 ```njk
-{{ themeChooser({
+{{ themePicker({
     label: "Theme",
     themesUrl: "/assets/themes/",
     themes: themes
@@ -142,5 +142,5 @@ round-trip, they preload all theme CSS files in the document head:
 ```
 
 The select still swaps its managed `<link>` href; the browser
-serves the preloaded response from cache. See the theme chooser's
+serves the preloaded response from cache. See the theme picker's
 `docs/preloading.md`.

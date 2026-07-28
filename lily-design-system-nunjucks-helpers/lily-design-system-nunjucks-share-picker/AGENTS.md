@@ -1,4 +1,4 @@
-# AGENTS — ShareChooser (Nunjucks helper)
+# AGENTS — SharePicker (Nunjucks helper)
 
 Single source of truth: [spec/index.md](./spec/index.md). Read it first;
 everything below is a fast index.
@@ -20,29 +20,29 @@ The helper is a **macro + client.js pair**:
 
 ## Files
 
-| File | Purpose |
-| ---- | ------- |
-| `spec/index.md` | Specification-driven contract (canonical). |
-| `share-chooser.njk` | Nunjucks macro (`shareChooser(opts)`). |
-| `share-chooser.client.js` | ES module — `initShareChooser`, `autoInit`, helpers. |
-| `share-chooser.test.ts` | Vitest spec, mapped to the §7 clauses. |
-| `index.md` | User guide. |
-| `docs/accessibility.md` | Tradeoffs, stated plainly. |
-| `docs/ssr.md` | Server rendering and the partial no-JS story. |
+| File                      | Purpose                                              |
+| ------------------------- | ---------------------------------------------------- |
+| `spec/index.md`           | Specification-driven contract (canonical).           |
+| `share-picker.njk`       | Nunjucks macro (`sharePicker(opts)`).               |
+| `share-picker.client.js` | ES module — `initSharePicker`, `autoInit`, helpers. |
+| `share-picker.test.ts`   | Vitest spec, mapped to the §7 clauses.               |
+| `index.md`                | User guide.                                          |
+| `docs/accessibility.md`   | Tradeoffs, stated plainly.                           |
+| `docs/ssr.md`             | Server rendering and the partial no-JS story.        |
 
 ## Public surface
 
 ### Macro
 
-- Import: `{% from "./share-chooser.njk" import shareChooser %}`
-- Call: `{{ shareChooser({label, targets, …}) }}`
+- Import: `{% from "./share-picker.njk" import sharePicker %}`
+- Call: `{{ sharePicker({label, targets, …}) }}`
 - Required `opts` key: `label`.
 - Full table in [spec/index.md §4.1](./spec/index.md).
 
 ### Client.js
 
-`initShareChooser`, `autoInit`, `canShareNatively`, `canCopy`,
-`nextShareChooserId`, `shareTargetHref`, `BLACK_RIGHTWARDS_ARROWHEAD`.
+`initSharePicker`, `autoInit`, `canShareNatively`, `canCopy`,
+`nextSharePickerId`, `shareTargetHref`, `BLACK_RIGHTWARDS_ARROWHEAD`.
 
 ## THE DEVIATION — `href` is a string in the macro
 
@@ -58,10 +58,10 @@ three reasons it is the right trade: [spec/index.md §3.3](./spec/index.md).
 
 The function form survives in two places:
 
-1. **On the client.** `initShareChooser(root, {targets})` accepts
+1. **On the client.** `initSharePicker(root, {targets})` accepts
    function `href`s, matches them to anchors by `data-target-id`, and
    rewrites each href at init and on every open.
-2. **In a filter**, which *is* callable from a template.
+2. **In a filter**, which _is_ callable from a template.
 
 `shareTargetHref(target, url, title, text)` accepts both forms.
 
@@ -78,19 +78,19 @@ through to the list. Destinations are real links; choosing one fires
 `onShare(id, url)` and closes. The copy item writes the URL to the
 clipboard, fires `onCopy`, and announces `copiedLabel` /
 `copyFailedLabel` in a polite live region, never throwing. The share
-URL is resolved lazily: init opt → `data-lily-share-chooser-url` →
+URL is resolved lazily: init opt → `data-lily-share-picker-url` →
 `location.href`. Nothing is applied to the document and nothing is
 persisted — unlike the `*-select` helpers, this owns an action, not a
 preference.
 
 ## HTML
 
-`<div class="share-chooser" data-lily-share-chooser-root>` →
-`<button class="share-chooser-button">` with an `aria-hidden` glyph span
-→ `<ul class="share-chooser-list" hidden>` of `<li>` containing
-`<a class="share-chooser-target">` and an optional
-`<button class="share-chooser-copy">` →
-`<p class="share-chooser-status" aria-live="polite">`.
+`<div class="share-picker" data-lily-share-picker-root>` →
+`<button class="share-picker-button">` with an `aria-hidden` glyph span
+→ `<ul class="share-picker-list" hidden>` of `<li>` containing
+`<a class="share-picker-target">` and an optional
+`<button class="share-picker-copy">` →
+`<p class="share-picker-status" aria-live="polite">`.
 
 **Not a menu.** Destinations are real `<a>` elements with **no `role`
 override**; `role="menuitem"` would strip middle-click, open-in-new-tab
@@ -98,7 +98,7 @@ and copy-link-address. `target="_blank" rel="noopener noreferrer"`
 unless `newTab: false` (which drops `target`, keeps `rel`).
 
 Ids are deterministic: `{id}-list`, `{id}-target-{i}`, `{id}-copy`,
-where `id` defaults to `share-chooser-{name}` and `name` defaults to
+where `id` defaults to `share-picker-{name}` and `name` defaults to
 `"share"`. Two instances sharing a `name` need an explicit distinct
 `id`.
 

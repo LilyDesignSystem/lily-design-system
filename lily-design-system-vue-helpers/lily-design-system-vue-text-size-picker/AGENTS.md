@@ -1,18 +1,18 @@
-# AGENTS — TextSizeChooser (Vue helper)
+# AGENTS — TextSizePicker (Vue helper)
 
 Single source of truth: [spec/index.md](./spec/index.md). Read it first; everything
 below is a fast index.
 
 ## What this package is
 
-A reusable Vue 3 headless text-size chooser. Renders an icon button
+A reusable Vue 3 headless text-size picker. Renders an icon button
 that opens a WAI-ARIA APG listbox of size slugs, and applies the
 chosen slug to the document root via `data-text-size`, with optional
 `localStorage` persistence. Ships no CSS; consumer styles the
-`text-size-chooser` class hook and maps each `[data-text-size="…"]`
+`text-size-picker` class hook and maps each `[data-text-size="…"]`
 slug to real typography.
 
-Same shape as `theme-chooser` and `locale-chooser` — all three helpers
+Same shape as `theme-picker` and `locale-picker` — all three helpers
 are icon button + listbox.
 
 ## Files
@@ -20,8 +20,8 @@ are icon button + listbox.
 | File                       | Purpose                                          |
 | -------------------------- | ------------------------------------------------ |
 | `spec/index.md`            | Specification-driven contract (canonical).       |
-| `TextSizeChooser.vue`       | Implementation. `<script setup lang="ts">`.      |
-| `TextSizeChooser.test.ts`   | Vitest spec, one assertion per §7 acceptance.    |
+| `TextSizePicker.vue`       | Implementation. `<script setup lang="ts">`.      |
+| `TextSizePicker.test.ts`   | Vitest spec, one assertion per §7 acceptance.    |
 | `index.ts`                 | Barrel re-export.                                |
 | `index.md`                 | Human-readable guide.                            |
 | `docs/accessibility.md`    | Accessibility rationale and the three tradeoffs. |
@@ -29,9 +29,9 @@ are icon button + listbox.
 
 ## Public surface
 
-- Default export: `TextSizeChooser` component.
-- Named exports: `TextSizeChooser`, `sizeName`,
-  `nextTextSizeChooserId`, `LATIN_CAPITAL_LETTER_A`.
+- Default export: `TextSizePicker` component.
+- Named exports: `TextSizePicker`, `sizeName`,
+  `nextTextSizePickerId`, `LATIN_CAPITAL_LETTER_A`.
 - Type exports: `Props`, `SlotArgs`, `ChildArgs` (alias of `SlotArgs`).
 
 Required props: `label`, `sizes`. Full table in
@@ -42,7 +42,7 @@ equivalent to `prefers-color-scheme`.
 
 ## Behaviour contract (one paragraph)
 
-On every size change the chooser (1) sets `data-text-size="{slug}"` on
+On every size change the picker (1) sets `data-text-size="{slug}"` on
 `target` (defaults to `document.documentElement`), (2) optionally
 writes the slug to `localStorage[storageKey]`, and (3) emits the
 `change` event with the slug. SSR-safe — all DOM writes happen inside
@@ -55,16 +55,16 @@ and in `data-text-size` on the target.
 
 ## HTML
 
-A root `<div class="text-size-chooser {class}">` (`$attrs` falls
+A root `<div class="text-size-picker {class}">` (`$attrs` falls
 through to it) containing three things: a hidden `<input type="hidden"
 name="{name}" value="{value}">` for form participation; a
-`<button type="button" class="text-size-chooser-button"
+`<button type="button" class="text-size-picker-button"
 aria-label="{label}" aria-haspopup="listbox" aria-expanded
 aria-controls="{listId}">` wrapping
-`<span class="text-size-chooser-icon" aria-hidden="true">A</span>`; and
-a `<ul class="text-size-chooser-list" role="listbox"
+`<span class="text-size-picker-icon" aria-hidden="true">A</span>`; and
+a `<ul class="text-size-picker-list" role="listbox"
 aria-label="{label}" tabindex="-1" hidden aria-activedescendant>` of
-`<li class="text-size-chooser-option" role="option" aria-selected
+`<li class="text-size-picker-option" role="option" aria-selected
 data-active>`. The glyph is U+0041 LATIN CAPITAL LETTER A, exported as
 `LATIN_CAPITAL_LETTER_A` — a plain letter rather than a pictograph,
 because U+1F5DB DECREASE FONT SIZE SYMBOL has no real glyph in common
@@ -86,8 +86,8 @@ receives `{ value, open, labelFor }`.
 - Option labels default to title-cased slugs; the word "default" is
   never emitted.
 - Because the closed control shows only a glyph, the documented pattern
-  pairs the chooser with a consumer-rendered
-  `.text-size-chooser-status` live region. See
+  pairs the picker with a consumer-rendered
+  `.text-size-picker-status` live region. See
   [docs/accessibility.md](./docs/accessibility.md).
 
 ## Conventions this package follows

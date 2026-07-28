@@ -1,4 +1,4 @@
-# Lifecycle — LocaleChooser (Svelte)
+# Lifecycle — LocalePicker (Svelte)
 
 The Svelte 5 walk-through of the select's lifecycle. The canonical
 contract is in [`../spec/index.md`](../spec/index.md) §5; this file expands the
@@ -170,7 +170,7 @@ whatever `value` was passed — which decides `aria-selected` and the
 hidden input — while the `lang` and `dir` attributes are not written
 to `<html>` (no DOM).
 
-Option ids come from the module-level `nextLocaleChooserId()` counter,
+Option ids come from the module-level `nextLocalePickerId()` counter,
 so server and client generate identical ids in the same mount order
 and hydration matches.
 

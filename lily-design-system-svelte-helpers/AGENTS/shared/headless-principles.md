@@ -19,8 +19,8 @@ decision.
   CSS can target any helper with one selector. No additional
   component-defined classes appear on the root unless the spec calls
   them out.
-- Inner sub-classes (e.g. `theme-chooser-option`,
-  `locale-chooser-option-label`) are kebab-case derivatives of the
+- Inner sub-classes (e.g. `theme-picker-option`,
+  `locale-picker-option-label`) are kebab-case derivatives of the
   base class. Sub-classes are stable contracts: consumers can rely
   on them, so don't rename or remove them between versions.
 - The `...restProps` spread on the root element forwards arbitrary

@@ -1,30 +1,30 @@
-# AGENTS — ThemeChooser (Vue helper)
+# AGENTS — ThemePicker (Vue helper)
 
 Single source of truth: [spec/index.md](./spec/index.md). Read it first; everything
 below is a fast index.
 
 ## What this package is
 
-A reusable Vue 3 headless theme chooser that **loads theme CSS files
+A reusable Vue 3 headless theme picker that **loads theme CSS files
 dynamically at runtime** from a developer-supplied directory URL.
-Ships no CSS; consumer styles the `theme-chooser` class hook.
+Ships no CSS; consumer styles the `theme-picker` class hook.
 
 ## Files
 
-| File                       | Purpose                                          |
-| -------------------------- | ------------------------------------------------ |
-| `spec/index.md`                  | Specification-driven contract (canonical).       |
-| `ThemeChooser.vue`          | Implementation. `<script setup lang="ts">`.      |
-| `ThemeChooser.test.ts`      | Vitest spec, one assertion per §7 acceptance.    |
-| `index.ts`                 | Barrel re-export.                                |
-| `index.md`                 | Human-readable guide.                            |
+| File                   | Purpose                                       |
+| ---------------------- | --------------------------------------------- |
+| `spec/index.md`        | Specification-driven contract (canonical).    |
+| `ThemePicker.vue`     | Implementation. `<script setup lang="ts">`.   |
+| `ThemePicker.test.ts` | Vitest spec, one assertion per §7 acceptance. |
+| `index.ts`             | Barrel re-export.                             |
+| `index.md`             | Human-readable guide.                         |
 
 ## Public surface
 
-- Default export: `ThemeChooser` component.
-- Named exports: `ThemeChooser`, `normaliseThemesUrl`, `themeHref`,
+- Default export: `ThemePicker` component.
+- Named exports: `ThemePicker`, `normaliseThemesUrl`, `themeHref`,
   `themeName`, `matchSystemTheme`,
-  `nextThemeChooserId`, `CIRCLE_WITH_RIGHT_HALF_BLACK`.
+  `nextThemePickerId`, `CIRCLE_WITH_RIGHT_HALF_BLACK`.
 - Type exports: `Props`, `SlotArgs`, `ChildArgs` (alias of `SlotArgs`).
 
 Required props: `label`, `themesUrl`, `themes`. Full table in
@@ -33,8 +33,8 @@ Required props: `label`, `themesUrl`, `themes`. Full table in
 
 ## Behaviour contract (one paragraph)
 
-On every theme change the chooser (1) sets the `href` of one managed
-`<link rel="stylesheet" data-lily-theme-chooser="{name}">` in
+On every theme change the picker (1) sets the `href` of one managed
+`<link rel="stylesheet" data-lily-theme-picker="{name}">` in
 `document.head` to `${themesUrl}${slug}${extension}`, (2) sets
 `data-theme="{slug}"` on `target` (defaults to
 `document.documentElement`), (3) optionally writes the slug to
@@ -48,15 +48,15 @@ hidden input, and in `data-theme` on the target.
 
 ## HTML
 
-A root `<div class="theme-chooser {class}">` (`$attrs` falls through to
+A root `<div class="theme-picker {class}">` (`$attrs` falls through to
 it) containing three things: a hidden `<input type="hidden"
 name="{name}" value="{value}">` for form participation; a
-`<button type="button" class="theme-chooser-button" aria-label="{label}"
+`<button type="button" class="theme-picker-button" aria-label="{label}"
 aria-haspopup="listbox" aria-expanded aria-controls="{listId}">`
-wrapping `<span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>`;
-and a `<ul class="theme-chooser-list" role="listbox" aria-label="{label}"
+wrapping `<span class="theme-picker-icon" aria-hidden="true">&#9681;</span>`;
+and a `<ul class="theme-picker-list" role="listbox" aria-label="{label}"
 tabindex="-1" hidden aria-activedescendant>` of
-`<li class="theme-chooser-option" role="option" aria-selected
+`<li class="theme-picker-option" role="option" aria-selected
 data-active>`. The glyph is U+25D1 CIRCLE WITH RIGHT HALF BLACK,
 exported as `CIRCLE_WITH_RIGHT_HALF_BLACK`. The default scoped slot
 replaces the **button glyph** — not the options — and receives
@@ -75,8 +75,8 @@ replaces the **button glyph** — not the options — and receives
 - Option labels default to title-cased slugs; the word "default" is
   never emitted.
 - Because the closed control shows only a glyph, the documented pattern
-  pairs the chooser with a consumer-rendered
-  `.theme-chooser-status` live region. See
+  pairs the picker with a consumer-rendered
+  `.theme-picker-status` live region. See
   [docs/accessibility.md](./docs/accessibility.md).
 
 ## Conventions this package follows

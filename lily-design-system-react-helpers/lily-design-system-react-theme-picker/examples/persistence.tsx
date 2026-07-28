@@ -9,11 +9,11 @@
     silently swallowed.
 */
 
-import { ThemeChooser } from "../ThemeChooser";
+import { ThemePicker } from "../ThemePicker";
 
 export function PersistenceExample() {
     return (
-        <ThemeChooser
+        <ThemePicker
             label="Theme"
             themesUrl="/assets/themes/"
             themes={["light", "dark", "abyss"]}

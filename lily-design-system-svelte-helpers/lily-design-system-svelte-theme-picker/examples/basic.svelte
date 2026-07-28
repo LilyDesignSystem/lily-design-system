@@ -13,7 +13,7 @@
   Two things this example does NOT ship, because the package is
   headless, and which you must supply yourself:
 
-  1. Positioning CSS for .theme-chooser-list. Without it the listbox
+  1. Positioning CSS for .theme-picker-list. Without it the listbox
      renders in normal document flow and shoves the page down when it
      opens. See ../docs/styling.md § Positioning the listbox.
   2. An active-option indicator. Style both [data-active] (where the
@@ -38,18 +38,18 @@
   and the control cannot drift apart.
 -->
 <script lang="ts">
-  import ThemeChooser, { themeName } from "../ThemeChooser.svelte";
+  import ThemePicker, { themeName } from "../ThemePicker.svelte";
 
   let theme = $state("");
 </script>
 
-<ThemeChooser
+<ThemePicker
   label="Theme"
   themesUrl="/assets/themes/"
   themes={["light", "dark", "abyss"]}
   bind:value={theme}
 />
 
-<p class="theme-chooser-status" aria-live="polite">
+<p class="theme-picker-status" aria-live="polite">
   Active theme: {themeName(theme)}
 </p>

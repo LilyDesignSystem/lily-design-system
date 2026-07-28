@@ -1,31 +1,31 @@
 # Examples
 
 Self-contained Vue 3 examples for
-`lily-design-system-vue-locale-chooser`. Each file is a runnable
+`lily-design-system-vue-locale-picker`. Each file is a runnable
 component that can be dropped into any Vue 3 host (Nuxt 3 page,
 Vite + Vue route, Astro `.vue` island, Storybook story).
 
 Every example assumes:
 
 - Vue 3 with `<script setup lang="ts">`.
-- No CSS dependency — the chooser is headless. Consumers style the
-  `locale-chooser` (root `<div>`), `locale-chooser-button`,
-  `locale-chooser-icon`, `locale-chooser-list` (the
-  `<ul role="listbox">`), and `locale-chooser-option` (each
+- No CSS dependency — the picker is headless. Consumers style the
+  `locale-picker` (root `<div>`), `locale-picker-button`,
+  `locale-picker-icon`, `locale-picker-list` (the
+  `<ul role="listbox">`), and `locale-picker-option` (each
   `<li role="option">`) class hooks.
 
-| File                                                 | Demonstrates                                                       |
-|------------------------------------------------------|--------------------------------------------------------------------|
-| [`basic.vue`](./basic.vue)                           | The default rendering, plus the `.locale-chooser-status` live region every consumer should ship. |
-| [`custom-rendering.vue`](./custom-rendering.vue)     | Custom button glyph via the default scoped slot — the active locale's short code plus a caret. |
-| [`script-aware-glyph.vue`](./script-aware-glyph.vue) | Script-aware button glyph: the active locale rendered in its own script and direction. |
-| [`rtl-demo.vue`](./rtl-demo.vue)                     | Live RTL preview — Arabic, Hebrew, Persian, Urdu, Pashto.          |
-| [`nhs-style.vue`](./nhs-style.vue)                   | NHS UK-style utility banner with endonyms, a `class` hook, and a status line. |
-| [`with-vue-i18n.vue`](./with-vue-i18n.vue)           | Binding to vue-i18n's `locale` ref.                                |
-| [`with-paraglide.vue`](./with-paraglide.vue)         | Driving Paraglide JS's `setLocale()` from `@change`.               |
-| [`ssr-cookie.vue`](./ssr-cookie.vue)                 | Nuxt 3 `useCookie()` + `useHead()` for flicker-free SSR.           |
-| [`scoped-target.vue`](./scoped-target.vue)           | Multiple per-region choosers, each scoped to its own panel.         |
-| [`combobox.vue`](./combobox.vue)                     | Built-in typeahead over all 436 built-in locales, plus a side-by-side `<datalist>` combobox. |
+| File                                                 | Demonstrates                                                                                     |
+| ---------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| [`basic.vue`](./basic.vue)                           | The default rendering, plus the `.locale-picker-status` live region every consumer should ship. |
+| [`custom-rendering.vue`](./custom-rendering.vue)     | Custom button glyph via the default scoped slot — the active locale's short code plus a caret.   |
+| [`script-aware-glyph.vue`](./script-aware-glyph.vue) | Script-aware button glyph: the active locale rendered in its own script and direction.           |
+| [`rtl-demo.vue`](./rtl-demo.vue)                     | Live RTL preview — Arabic, Hebrew, Persian, Urdu, Pashto.                                        |
+| [`nhs-style.vue`](./nhs-style.vue)                   | NHS UK-style utility banner with endonyms, a `class` hook, and a status line.                    |
+| [`with-vue-i18n.vue`](./with-vue-i18n.vue)           | Binding to vue-i18n's `locale` ref.                                                              |
+| [`with-paraglide.vue`](./with-paraglide.vue)         | Driving Paraglide JS's `setLocale()` from `@change`.                                             |
+| [`ssr-cookie.vue`](./ssr-cookie.vue)                 | Nuxt 3 `useCookie()` + `useHead()` for flicker-free SSR.                                         |
+| [`scoped-target.vue`](./scoped-target.vue)           | Multiple per-region pickers, each scoped to its own panel.                                      |
+| [`combobox.vue`](./combobox.vue)                     | Built-in typeahead over all 436 built-in locales, plus a side-by-side `<datalist>` combobox.     |
 
 ## Running the examples
 
@@ -34,13 +34,13 @@ one is:
 
 1. Inside any Vite + Vue 3 project (or Nuxt 3), drop the example
    into a route component or a Storybook story.
-2. Import the `LocaleChooser.vue` from this directory (or the
+2. Import the `LocalePicker.vue` from this directory (or the
    `index.ts` barrel).
 3. `pnpm dev` and visit the route.
 
 ## v-model conventions
 
-The chooser exposes its bindable on `value` (not the default
+The picker exposes its bindable on `value` (not the default
 `modelValue`). Always use `v-model:value="locale"` in templates,
 and pair with `@change` for one-shot side effects (cookie writes,
 imperative i18n-library calls, analytics).
@@ -50,15 +50,15 @@ imperative i18n-library calls, analytics).
 Vue templates use kebab-case for props: `storage-key`,
 `detect-from-navigator`, `locale-labels`, `apply-dir`. In
 `<script setup>` we use camelCase to match the TypeScript types
-exported from `LocaleChooser.vue` (`Props`, `SlotArgs`).
+exported from `LocalePicker.vue` (`Props`, `SlotArgs`).
 
 ## The control the examples render
 
 Every example renders the same control: an icon button
-(`<button class="locale-chooser-button" aria-label="…"
+(`<button class="locale-picker-button" aria-label="…"
 aria-haspopup="listbox">`, showing 🌐 U+1F310 by default) that opens a
-`<ul class="locale-chooser-list" role="listbox">` of
-`<li class="locale-chooser-option" role="option" lang="…">`. The
+`<ul class="locale-picker-list" role="listbox">` of
+`<li class="locale-picker-option" role="option" lang="…">`. The
 component implements the WAI-ARIA APG listbox keyboard contract
 itself — arrows (clamping, no wrap), `Home` / `End`, `Enter` /
 `Space` to commit, `Escape` to cancel, `Tab` to close, and
@@ -69,7 +69,7 @@ Two consequences worth remembering while reading the examples:
 
 - Because the button is icon-only, `label` is its **entire**
   accessible name. Several examples pair the control with a
-  `.locale-chooser-status` live region so the active locale appears
+  `.locale-picker-status` live region so the active locale appears
   somewhere; see [`../docs/accessibility.md`](../docs/accessibility.md)
   for why that is the default pattern rather than an add-on.
 - `name` is the name of the **hidden input**, not of a `<select>`, so
@@ -84,9 +84,9 @@ lifecycle (lang / dir / storage / change) all stay component-owned.
 
 ```ts
 type SlotArgs = {
-    value: string;    // Currently selected code (consumer form).
-    open: boolean;    // Is the listbox open?
-    labelFor: (code: string) => string; // Display label.
+  value: string; // Currently selected code (consumer form).
+  open: boolean; // Is the listbox open?
+  labelFor: (code: string) => string; // Display label.
 };
 ```
 

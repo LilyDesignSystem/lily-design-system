@@ -19,7 +19,7 @@ well and what it costs — the costs are real and are not talked around.
   move on. Items are real focusable elements, so focus moves for real
   rather than via `aria-activedescendant` — which also means this helper
   avoids the uneven real-world `aria-activedescendant` support that
-  `theme-chooser`, `locale-chooser` and `text-size-chooser` document as a
+  `theme-picker`, `locale-picker` and `text-size-picker` document as a
   cost of their listbox pattern.
 - Copying is otherwise silent, so its outcome is announced in an
   `aria-live="polite"` region that is empty on load.

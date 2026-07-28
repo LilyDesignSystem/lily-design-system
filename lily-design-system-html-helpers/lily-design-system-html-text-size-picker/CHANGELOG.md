@@ -1,4 +1,4 @@
-# Changelog — TextSizeChooser (HTML)
+# Changelog — TextSizePicker (HTML)
 
 All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
@@ -7,32 +7,32 @@ and the project follows [Semantic Versioning](https://semver.org/).
 ## 0.1.0 — 2026-07-21
 
 First release under the name
-`lily-design-system-html-text-size-chooser`. The version resets to
+`lily-design-system-html-text-size-picker`. The version resets to
 0.1.0 because this package name has never been published; a renamed
 package carries no release history.
 
 ### Added
 
-- `<text-size-chooser>` custom element: a headless text-size control.
+- `<text-size-picker>` custom element: a headless text-size control.
   It renders an icon button (the letter "A", U+0041) that opens a
   WAI-ARIA APG listbox of sizes. Light DOM only; ships no CSS.
 - On each applied size it sets `data-text-size` on `target` (default
   `document.documentElement`), optionally persists to
   `localStorage[storageKey]`, and dispatches a `textsizechange`
   `CustomEvent`. Consumer CSS maps the values to actual sizing.
-- Class hooks `text-size-chooser`, `text-size-chooser-button`,
-  `text-size-chooser-icon`, `text-size-chooser-list`,
-  `text-size-chooser-option`.
-- Named exports including `TextSizeChooser`, `sizeName`,
-  `nextTextSizeChooserId`; types `TextSizeChooserProps`,
-  `TextSizeChooserChangeDetail`.
+- Class hooks `text-size-picker`, `text-size-picker-button`,
+  `text-size-picker-icon`, `text-size-picker-list`,
+  `text-size-picker-option`.
+- Named exports including `TextSizePicker`, `sizeName`,
+  `nextTextSizePickerId`; types `TextSizePickerProps`,
+  `TextSizePickerChangeDetail`.
 
 ### Changed
 
 - Renamed from `lily-design-system-html-text-size-select`. The custom
-  element is `<text-size-chooser>` (was `<text-size-chooser>`), the
-  class is `TextSizeChooser` (was `TextSizeChooser`), and the class
-  hooks are `text-size-chooser*` (were `text-size-chooser*`). Behaviour
+  element is `<text-size-picker>` (was `<text-size-picker>`), the
+  class is `TextSizePicker` (was `TextSizePicker`), and the class
+  hooks are `text-size-picker*` (were `text-size-picker*`). Behaviour
   is unchanged.
 
 Previously released in-tree as
@@ -48,13 +48,13 @@ below and did not ship under the current package name.
 #### Changed (BREAKING)
 
 - **No longer a native `<select>`.** This helper is now an icon button
-  that opens a WAI-ARIA APG listbox, matching `theme-chooser` and
-  `locale-chooser`; it was the last native `<select>` among the helpers.
-  Root is `<div class="text-size-chooser">` wrapping a hidden input
+  that opens a WAI-ARIA APG listbox, matching `theme-picker` and
+  `locale-picker`; it was the last native `<select>` among the helpers.
+  Root is `<div class="text-size-picker">` wrapping a hidden input
   (form participation, carries `name`), a
-  `<button class="text-size-chooser-button">` whose only content is an
+  `<button class="text-size-picker-button">` whose only content is an
   `aria-hidden` glyph span, and a
-  `<ul class="text-size-chooser-list" role="listbox" hidden>` of
+  `<ul class="text-size-picker-list" role="listbox" hidden>` of
   `<li role="option">`.
 - Option count, option elements, and any assertion against a `<select>`
   or `<option>` all change. The `children` slot now overrides the
@@ -70,8 +70,8 @@ below and did not ship under the current package name.
 
 - Button glyph `"A"` (U+0041). The obvious candidate, U+1F5DB DECREASE
   FONT SIZE SYMBOL, has no real glyph in common font stacks and falls
-  back to a crude bitmap shape — and it means *decrease* rather than
-  *size*. A plain in-font letter renders everywhere and stays
+  back to a crude bitmap shape — and it means _decrease_ rather than
+  _size_. A plain in-font letter renders everywhere and stays
   monochrome alongside the sibling glyphs.
 - `sizeName` exported, mirroring `themeName` / `localeName`; the
   internal `labelFor` delegates to it.

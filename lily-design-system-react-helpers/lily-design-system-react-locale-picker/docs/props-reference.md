@@ -10,9 +10,9 @@ rationale and common usage.
 role="listbox">`. Always supplied, always translatable.
 
 ```tsx
-<LocaleChooser label="Language" locales={locales} />
-<LocaleChooser label="Langue" locales={locales} />
-<LocaleChooser label="اللغة" locales={locales} />
+<LocalePicker label="Language" locales={locales} />
+<LocalePicker label="Langue" locales={locales} />
+<LocalePicker label="اللغة" locales={locales} />
 ```
 
 This prop carries the whole accessible name: the button holds only an
@@ -63,10 +63,10 @@ from `storageKey` / `detectFromNavigator` / `defaultValue` / `"en"` /
 ```tsx
 // Controlled — required if anything else in your app reads the locale.
 const [locale, setLocale] = useState("");
-<LocaleChooser value={locale} onChange={setLocale} label="Language" locales={locales} />
+<LocalePicker value={locale} onChange={setLocale} label="Language" locales={locales} />
 
 // Uncontrolled — fine when the DOM `lang`/`dir` is the only consumer.
-<LocaleChooser defaultValue="fr" label="Language" locales={locales} />
+<LocalePicker defaultValue="fr" label="Language" locales={locales} />
 ```
 
 Controlled is the common case here, because a locale change usually has
@@ -91,7 +91,7 @@ When set, the selection is written to `localStorage[storageKey]` on
 every change and read back on first mount.
 
 ```tsx
-<LocaleChooser storageKey="my-app:locale" label="Language" locales={locales} />
+<LocalePicker storageKey="my-app:locale" label="Language" locales={locales} />
 ```
 
 Namespace the key (`app:locale`) so two apps on the same origin do not
@@ -108,7 +108,7 @@ On first visit only — no `value`, nothing in storage — resolve
 `navigator.languages` against `locales` and use the best match.
 
 ```tsx
-<LocaleChooser
+<LocalePicker
     detectFromNavigator
     storageKey="my-app:locale"
     label="Language"
@@ -149,7 +149,7 @@ multilingual card, a preview pane, a comment thread:
 ```tsx
 const panelRef = useRef<HTMLDivElement>(null);
 <div ref={panelRef}>
-    <LocaleChooser target={panelRef.current} label="Language" locales={locales} />
+    <LocalePicker target={panelRef.current} label="Language" locales={locales} />
 </div>
 ```
 
@@ -166,7 +166,7 @@ when a framework router already writes `dir`, or when you deliberately
 keep an LTR chrome around RTL content:
 
 ```tsx
-<LocaleChooser applyDir={false} label="Language" locales={locales} />
+<LocalePicker applyDir={false} label="Language" locales={locales} />
 ```
 
 `lang` is still written. See [rtl.md](./rtl.md) for what flips and what
@@ -179,7 +179,7 @@ this order: `localeLabels` → the built-in 436-row table from
 `locales.tsv` → `Intl.DisplayNames` → the raw code.
 
 ```tsx
-<LocaleChooser
+<LocalePicker
     localeLabels={{ en: "English", fr: "Français", "pt_BR": "Português (Brasil)" }}
     label="Language"
     locales={["en", "fr", "pt_BR"]}
@@ -197,11 +197,11 @@ not render the options — the component owns those, along with the whole
 keyboard contract.
 
 ```tsx
-<LocaleChooser label="Language" locales={locales}>
+<LocalePicker label="Language" locales={locales}>
     {({ value, open, labelFor }) => (
         <span aria-hidden="true">{labelFor(value)} {open ? "▲" : "▼"}</span>
     )}
-</LocaleChooser>
+</LocalePicker>
 ```
 
 See [custom-rendering.md](./custom-rendering.md) for the full contract.
@@ -214,7 +214,7 @@ BCP 47 tag — if you passed `en_US`, you get `en_US` back. Use the
 exported `bcp47LocaleTag` when you need the hyphen form.
 
 ```tsx
-<LocaleChooser
+<LocalePicker
     onChange={(code) => i18n.changeLanguage(bcp47LocaleTag(code))}
     label="Language"
     locales={locales}
@@ -227,8 +227,8 @@ paint.
 
 ## `className` — optional, string, default `""`
 
-Appended to the root's `locale-chooser` class hook, giving
-`class="locale-chooser your-class"`. The base hook is never replaced.
+Appended to the root's `locale-picker` class hook, giving
+`class="locale-picker your-class"`. The base hook is never replaced.
 See [styling.md](./styling.md).
 
 ## `...restProps`
@@ -237,7 +237,7 @@ Every other prop spreads onto the root `<div>` — `id`, `data-*`,
 `style`, event handlers, `aria-*` overrides. Nothing is filtered.
 
 ```tsx
-<LocaleChooser
+<LocalePicker
     id="site-locale"
     data-testid="locale"
     label="Language"

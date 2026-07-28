@@ -8,10 +8,11 @@ follows the file shape in [index.md § Conventions](./index.md#conventions).
 
 ## Helpers currently in the catalog
 
-- [`lily-design-system-react-theme-chooser`](./lily-design-system-react-theme-chooser/) — dynamic theme CSS loader.
-- [`lily-design-system-react-locale-chooser`](./lily-design-system-react-locale-chooser/) — `lang` + `dir` locale chooser.
-- [`lily-design-system-react-text-size-chooser`](./lily-design-system-react-text-size-chooser/) — `data-text-size` text-size chooser.
-- [`lily-design-system-react-share-chooser`](./lily-design-system-react-share-chooser/) — native share sheet, or a disclosure list of destinations plus copy-the-URL.
+- [`lily-design-system-react-theme-picker`](./lily-design-system-react-theme-picker/) — dynamic theme CSS loader.
+- [`lily-design-system-react-locale-picker`](./lily-design-system-react-locale-picker/) — `lang` + `dir` locale picker.
+- [`lily-design-system-react-text-size-picker`](./lily-design-system-react-text-size-picker/) — `data-text-size` text-size picker.
+- [`lily-design-system-react-share-picker`](./lily-design-system-react-share-picker/) — native share sheet, or a disclosure list of destinations plus copy-the-URL.
+- [`lily-design-system-react-date-time-picker`](./lily-design-system-react-date-time-picker/) — form control for a date, a time, or both: a typeable field plus an APG Date Picker Dialog.
 
 ## Working rules
 

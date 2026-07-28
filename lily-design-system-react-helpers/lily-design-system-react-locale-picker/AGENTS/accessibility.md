@@ -1,6 +1,6 @@
-# AGENTS / accessibility — LocaleChooser
+# AGENTS / accessibility — LocalePicker
 
-Accessibility contract specific to `LocaleChooser`. Read
+Accessibility contract specific to `LocalePicker`. Read
 [`../docs/accessibility.md`](../docs/accessibility.md) for the
 consumer-facing guide; this file is the AI-coding contract.
 
@@ -22,17 +22,17 @@ consumer-facing guide; this file is the AI-coding contract.
 
 | Element                      | Attribute                                  | Source            |
 | ---------------------------- | ------------------------------------------ | ----------------- |
-| root `<div class="locale-chooser">` | rest props                           | Consumer          |
+| root `<div class="locale-picker">` | rest props                           | Consumer          |
 | `<input type="hidden">`      | `name`, `value`                            | Component         |
-| `<button class="locale-chooser-button">` | `type="button"`                 | Component         |
+| `<button class="locale-picker-button">` | `type="button"`                 | Component         |
 | same                         | `aria-label={label}`                       | Consumer prop     |
 | same                         | `aria-haspopup="listbox"`                  | Component         |
 | same                         | `aria-expanded`                            | Component state   |
 | same                         | `aria-controls={listId}`                   | Component (`useId`) |
-| `<span class="locale-chooser-icon">` | `aria-hidden="true"`                | Component         |
-| `<ul class="locale-chooser-list">` | `role="listbox"`, `aria-label={label}`, `tabindex="-1"`, `hidden` | Component |
+| `<span class="locale-picker-icon">` | `aria-hidden="true"`                | Component         |
+| `<ul class="locale-picker-list">` | `role="listbox"`, `aria-label={label}`, `tabindex="-1"`, `hidden` | Component |
 | same                         | `aria-activedescendant` (only while open)  | Component state   |
-| `<li class="locale-chooser-option">` | `role="option"`, `id`               | Component         |
+| `<li class="locale-picker-option">` | `role="option"`, `id`               | Component         |
 | same                         | `aria-selected`                            | Component state   |
 | same                         | `data-active` (consumer CSS hook)          | Component state   |
 | same                         | `lang={tagFor(locale)}`                    | Component         |
@@ -130,7 +130,7 @@ control is the recommended pairing — see
 const [announce, setAnnounce] = useState("");
 return (
     <>
-        <LocaleChooser
+        <LocalePicker
             onChange={(code) => setAnnounce(`Language changed to ${labelFor(code)}`)}
             {...rest}
         />
@@ -145,8 +145,8 @@ The select does not suppress `:focus` or `:focus-visible`. Consumer CSS
 supplies the focus ring. A safe AAA-grade default:
 
 ```css
-.locale-chooser-button:focus-visible,
-.locale-chooser-list:focus-visible {
+.locale-picker-button:focus-visible,
+.locale-picker-list:focus-visible {
     outline: 2px solid var(--theme-color-primary, currentColor);
     outline-offset: 2px;
 }
@@ -157,7 +157,7 @@ option a non-colour-only treatment so sighted keyboard users can track
 the cursor:
 
 ```css
-.locale-chooser-option[data-active] {
+.locale-picker-option[data-active] {
     outline: 2px solid currentColor;
     outline-offset: -2px;
 }

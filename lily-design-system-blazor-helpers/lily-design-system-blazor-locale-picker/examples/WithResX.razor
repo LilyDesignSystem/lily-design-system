@@ -15,7 +15,7 @@
     re-resolve against this component's own resource files.
 *@
 
-@page "/examples/locale-chooser/with-resx"
+@page "/examples/locale-picker/with-resx"
 @rendermode InteractiveServer
 @using System.Globalization
 @using LilyDesignSystem.Blazor.Helpers
@@ -23,7 +23,7 @@
 
 @inject IStringLocalizer<WithResXDemo> Loc
 
-<LocaleChooser
+<LocalePicker
     Label="@Loc["language"]"
     Locales="@(new[] { "en", "fr", "ar" })"
     @bind-Value="locale"

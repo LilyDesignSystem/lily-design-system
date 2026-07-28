@@ -1,14 +1,14 @@
 export {
     default,
-    default as LocaleChooser,
+    default as LocalePicker,
     bcp47LocaleTag,
     isRtlLocale,
     localeName,
     matchNavigatorLanguage,
-    nextLocaleChooserId,
+    nextLocalePickerId,
     GLOBE_WITH_MERIDIANS,
     defaultLocaleLabels,
     RTL_LANGUAGE_TAGS,
     RTL_SCRIPT_SUBTAGS,
-} from "./LocaleChooser.vue";
-export type { Props, SlotArgs, ChildArgs } from "./LocaleChooser.vue";
+} from "./LocalePicker.vue";
+export type { Props, SlotArgs, ChildArgs } from "./LocalePicker.vue";

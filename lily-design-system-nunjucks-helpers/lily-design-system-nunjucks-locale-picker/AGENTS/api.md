@@ -1,4 +1,4 @@
-# API — LocaleChooser (Nunjucks)
+# API — LocalePicker (Nunjucks)
 
 Authoritative API surface lives in [`../spec/index.md`](../spec/index.md) §4.
 This file documents the Nunjucks-flavoured shape of the contract,
@@ -9,8 +9,8 @@ split between the macro (server-side) and the client.js (browser).
 Import and invoke:
 
 ```njk
-{% from "./locale-chooser.njk" import localeChooser %}
-{{ localeChooser({
+{% from "./locale-picker.njk" import localePicker %}
+{{ localePicker({
     label: "Language",
     locales: ["en", "fr", "ar"]
 }) }}
@@ -18,20 +18,20 @@ Import and invoke:
 
 ### `opts` keys
 
-| Key                  | Type                     | Required | Default                                          |
-| -------------------- | ------------------------ | -------- | ------------------------------------------------ |
-| `label`              | `string`                 | yes      | —                                                |
-| `locales`            | `string[]`               | yes      | —                                                |
-| `value`              | `string`                 | no       | `""`                                             |
-| `defaultValue`       | `string`                 | no       | `""`                                             |
-| `storageKey`         | `string`                 | no       | `""`                                             |
-| `detectFromNavigator`| `boolean`                | no       | `false`                                          |
-| `name`               | `string`                 | no       | `"locale"`                                       |
-| `applyDir`           | `boolean`                | no       | `true`                                           |
-| `localeLabels`       | `Record<string,string>`  | no       | `{}`                                             |
-| `id`                 | `string`                 | no       | `"locale-chooser-{name}"`                         |
-| `classes`            | `string`                 | no       | `""`                                             |
-| `attributes`         | `Record<string,string>`  | no       | `{}`                                             |
+| Key                   | Type                    | Required | Default                   |
+| --------------------- | ----------------------- | -------- | ------------------------- |
+| `label`               | `string`                | yes      | —                         |
+| `locales`             | `string[]`              | yes      | —                         |
+| `value`               | `string`                | no       | `""`                      |
+| `defaultValue`        | `string`                | no       | `""`                      |
+| `storageKey`          | `string`                | no       | `""`                      |
+| `detectFromNavigator` | `boolean`               | no       | `false`                   |
+| `name`                | `string`                | no       | `"locale"`                |
+| `applyDir`            | `boolean`               | no       | `true`                    |
+| `localeLabels`        | `Record<string,string>` | no       | `{}`                      |
+| `id`                  | `string`                | no       | `"locale-picker-{name}"` |
+| `classes`             | `string`                | no       | `""`                      |
+| `attributes`          | `Record<string,string>` | no       | `{}`                      |
 
 `label` becomes the `aria-label` on both the trigger button and the
 listbox; the button is icon-only, so it is the only accessible name
@@ -44,7 +44,7 @@ counter, so this parameter is the framework's stable-id mechanism:
 two instances that share a `name` and take the default `id` will
 collide, so pass an explicit `id` to at least one of them.
 
-The macro emits the `data-lily-locale-chooser-*` configuration
+The macro emits the `data-lily-locale-picker-*` configuration
 attributes the client.js reads on init. `opts.attributes` is
 spread onto the root after those so consumers can override `id`,
 `data-testid`, etc.
@@ -56,7 +56,7 @@ Invoking the macro with `{% call %}` replaces the default glyph
 equivalent of "children":
 
 ```njk
-{% call localeChooser({label: "Language", locales: ["en", "fr"]}) %}
+{% call localePicker({label: "Language", locales: ["en", "fr"]}) %}
     <svg aria-hidden="true" focusable="false" viewBox="0 0 16 16">…</svg>
 {% endcall %}
 ```
@@ -66,7 +66,7 @@ from `opts.locales`.
 
 ## Client.js exports
 
-`locale-chooser.client.js` is an ES module:
+`locale-picker.client.js` is an ES module:
 
 ```js
 // Pure helpers
@@ -85,7 +85,7 @@ export const RTL_SCRIPT_SUBTAGS: ReadonlySet<string>;
 export const GLOBE_WITH_MERIDIANS: string; // "\u{1F310}", the default glyph
 
 // Init / wiring
-export function initLocaleChooser(
+export function initLocalePicker(
     root: HTMLElement,
     opts?: {
         onChange?: (code: string) => void;
@@ -101,7 +101,7 @@ export function autoInit(
 ): Array<{ setLocale: (code: string) => void; destroy: () => void }>;
 ```
 
-`autoInit()` is the common entry point; `initLocaleChooser(root)`
+`autoInit()` is the common entry point; `initLocalePicker(root)`
 is useful when the consumer already has a reference to a single
 root `<div>`. Both bail out to an inert `{setLocale, destroy}` pair
 when the root is missing its button or its listbox.
@@ -109,20 +109,20 @@ when the root is missing its button or its listbox.
 ### Pure helpers
 
 ```js
-bcp47LocaleTag("en_US");      // "en-US"
+bcp47LocaleTag("en_US"); // "en-US"
 bcp47LocaleTag("zh_Hant_TW"); // "zh-Hant-TW"
-bcp47LocaleTag("en");         // "en"
+bcp47LocaleTag("en"); // "en"
 
-isRtlLocale("ar");            // true
-isRtlLocale("uz_Arab_AF");    // true (Arab script subtag)
-isRtlLocale("en");            // false
+isRtlLocale("ar"); // true
+isRtlLocale("uz_Arab_AF"); // true (Arab script subtag)
+isRtlLocale("en"); // false
 
-localeName("en_US");          // "English (United States)"
-localeName("xx");             // "xx" (fallback when not in table)
+localeName("en_US"); // "English (United States)"
+localeName("xx"); // "xx" (fallback when not in table)
 
 matchNavigatorLanguage(["fr-FR", "en"], ["en", "fr_FR", "ar"]); // "fr_FR"
-matchNavigatorLanguage(["pt-BR"], ["en", "pt"]);                 // "pt"
-matchNavigatorLanguage(["es"], ["en", "fr"]);                    // ""
+matchNavigatorLanguage(["pt-BR"], ["en", "pt"]); // "pt"
+matchNavigatorLanguage(["es"], ["en", "fr"]); // ""
 ```
 
 All pure functions are side-effect-free; consumers can call them
@@ -131,12 +131,12 @@ the select.
 
 ### Controller
 
-`initLocaleChooser(root)` returns:
+`initLocalePicker(root)` returns:
 
-| Property    | Type                       | Notes                                              |
-| ----------- | -------------------------- | -------------------------------------------------- |
-| `setLocale` | `(code: string) => void`   | Apply a locale imperatively; same code path as choosing an option. |
-| `destroy`   | `() => void`               | Remove every listener (button, listbox, root `focusout`, document `click`) and clear the typeahead timer; keeps applied DOM. |
+| Property    | Type                     | Notes                                                                                                                        |
+| ----------- | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
+| `setLocale` | `(code: string) => void` | Apply a locale imperatively; same code path as choosing an option.                                                           |
+| `destroy`   | `() => void`             | Remove every listener (button, listbox, root `focusout`, document `click`) and clear the typeahead timer; keeps applied DOM. |
 
 `destroy()` does **not** restore the previous `lang` / `dir` or
 remove the `localStorage` entry.
@@ -145,8 +145,8 @@ remove the `localStorage` entry.
 
 ```ts
 type ClientOpts = {
-    onChange?: (code: string) => void;
-    target?: HTMLElement | null;
+  onChange?: (code: string) => void;
+  target?: HTMLElement | null;
 };
 ```
 
@@ -162,14 +162,14 @@ Root element (macro output):
 
 ```html
 <div
-    class="locale-chooser {classes}"
-    data-lily-locale-chooser-root
-    data-lily-locale-chooser-name="{name}"
-    data-lily-locale-chooser-storage-key="{storageKey}"
-    data-lily-locale-chooser-default-value="{defaultValue}"
-    data-lily-locale-chooser-detect-from-navigator="{true|false}"
-    data-lily-locale-chooser-apply-dir="{true|false}"
-    data-lily-locale-chooser-value="{value}"   <!-- only when opts.value is set -->
+    class="locale-picker {classes}"
+    data-lily-locale-picker-root
+    data-lily-locale-picker-name="{name}"
+    data-lily-locale-picker-storage-key="{storageKey}"
+    data-lily-locale-picker-default-value="{defaultValue}"
+    data-lily-locale-picker-detect-from-navigator="{true|false}"
+    data-lily-locale-picker-apply-dir="{true|false}"
+    data-lily-locale-picker-value="{value}"   <!-- only when opts.value is set -->
 >
     <!-- hidden input, trigger button, listbox -->
 </div>
@@ -178,24 +178,50 @@ Root element (macro output):
 Its three children, in source order:
 
 ```html
-<input type="hidden" name="{name}" value="{selected}" data-lily-locale-chooser-input>
+<input
+  type="hidden"
+  name="{name}"
+  value="{selected}"
+  data-lily-locale-picker-input
+/>
 
-<button type="button" class="locale-chooser-button" aria-label="{label}"
-        aria-haspopup="listbox" aria-expanded="false" aria-controls="{id}-list"
-        data-lily-locale-chooser-button>
-    <span class="locale-chooser-icon" aria-hidden="true">&#127760;&#65038;</span>
+<button
+  type="button"
+  class="locale-picker-button"
+  aria-label="{label}"
+  aria-haspopup="listbox"
+  aria-expanded="false"
+  aria-controls="{id}-list"
+  data-lily-locale-picker-button
+>
+  <span class="locale-picker-icon" aria-hidden="true">&#127760;&#65038;</span>
 </button>
 
-<ul class="locale-chooser-list" id="{id}-list" role="listbox" aria-label="{label}"
-    tabindex="-1" hidden data-lily-locale-chooser-list>
-    <li class="locale-chooser-option" id="{id}-option-{index}" role="option"
-        aria-selected="{true|false}" data-value="{locale}" lang="{tagFor(locale)}">{labelFor(locale)}</li>
+<ul
+  class="locale-picker-list"
+  id="{id}-list"
+  role="listbox"
+  aria-label="{label}"
+  tabindex="-1"
+  hidden
+  data-lily-locale-picker-list
+>
+  <li
+    class="locale-picker-option"
+    id="{id}-option-{index}"
+    role="option"
+    aria-selected="{true|false}"
+    data-value="{locale}"
+    lang="{tagFor(locale)}"
+  >
+    {labelFor(locale)}
+  </li>
 </ul>
 ```
 
 - The button glyph is U+1F310 GLOBE WITH MERIDIANS, wrapped in
   `aria-hidden="true"`. A `{% call %}` block replaces the whole
-  `<span class="locale-chooser-icon">` with the block body.
+  `<span class="locale-picker-icon">` with the block body.
 - Each option carries `lang` (BCP 47 hyphen form) for WCAG 3.1.2.
   The button and the `<ul>` do not: they are chrome, not content.
 - `{selected}` is resolved server-side as
@@ -204,7 +230,7 @@ Its three children, in source order:
   correct that after hydration, since storage and `navigator` are
   client-only.
 - `opts.value` still reaches the client **only** through the
-  `data-lily-locale-chooser-value` attribute, which the macro omits
+  `data-lily-locale-picker-value` attribute, which the macro omits
   entirely when `opts.value` is empty.
 
 Read the active locale from `lang` on the target, from the hidden
@@ -212,21 +238,21 @@ input's value, or from the `onChange(code)` argument.
 
 Client-side mutations inside the root:
 
-| Attribute                       | Where             | Meaning                              |
-| ------------------------------- | ----------------- | ------------------------------------ |
-| `aria-expanded`                 | button            | Listbox open state.                  |
-| `hidden`                        | `<ul>`            | Removed while open.                  |
-| `aria-activedescendant`         | `<ul>`            | Id of the active option while open.  |
-| `data-active`                   | `<li>`            | Active (roved-to) option.            |
-| `aria-selected`                 | `<li>`            | The applied locale.                  |
-| `value`                         | hidden input      | The applied locale, consumer form.   |
+| Attribute               | Where        | Meaning                             |
+| ----------------------- | ------------ | ----------------------------------- |
+| `aria-expanded`         | button       | Listbox open state.                 |
+| `hidden`                | `<ul>`       | Removed while open.                 |
+| `aria-activedescendant` | `<ul>`       | Id of the active option while open. |
+| `data-active`           | `<li>`       | Active (roved-to) option.           |
+| `aria-selected`         | `<li>`       | The applied locale.                 |
+| `value`                 | hidden input | The applied locale, consumer form.  |
 
-Document mutations (only inside `initLocaleChooser` and
+Document mutations (only inside `initLocalePicker` and
 subsequent events):
 
 ```html
 <!-- on the resolved target (default <html>) -->
-<html lang="{tagFor(code)}" dir="rtl|ltr">
+<html lang="{tagFor(code)}" dir="rtl|ltr"></html>
 ```
 
 `dir` is only written when `applyDir` is `true` (the default).

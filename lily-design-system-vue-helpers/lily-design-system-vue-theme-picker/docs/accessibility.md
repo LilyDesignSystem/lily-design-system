@@ -1,6 +1,6 @@
 # Accessibility
 
-The chooser targets WCAG 2.2 AAA. It is an icon button that opens a
+The picker targets WCAG 2.2 AAA. It is an icon button that opens a
 WAI-ARIA APG listbox: the roles, the properties, the focus management,
 and the whole keyboard contract are implemented by the component rather
 than inherited from a native `<select>`.
@@ -20,7 +20,7 @@ compensates.
 | `<button>`                 | `aria-haspopup="listbox"`                    | Component     |
 | `<button>`                 | `aria-expanded` — `"true"` / `"false"`       | Component     |
 | `<button>`                 | `aria-controls={listId}`                     | Component     |
-| `<span class="theme-chooser-icon">` | `aria-hidden="true"`                 | Component     |
+| `<span class="theme-picker-icon">` | `aria-hidden="true"`                 | Component     |
 | `<ul>`                     | `role="listbox"`, `aria-label={label}`       | Component     |
 | `<ul>`                     | `tabindex="-1"`, `hidden` while closed       | Component     |
 | `<ul>`                     | `aria-activedescendant` — **only while open** | Component     |
@@ -148,7 +148,7 @@ accessibility reviewer, not a foregone conclusion. If your product's
 priority is maximal AT robustness over visual control, a native
 `<select>` remains the more conservative choice, and the headless
 catalog entry
-(`lily-design-system-vue-headless/components/ThemeChooser/`) is still a
+(`lily-design-system-vue-headless/components/ThemePicker/`) is still a
 plain `<select>` container.
 
 Test the real thing. See the screen-reader smoke test below.
@@ -178,7 +178,7 @@ default slot.** An inline SVG renders identically everywhere and can
 inherit `currentColor`:
 
 ```vue
-<ThemeChooser
+<ThemePicker
     label="Theme"
     themes-url="/assets/themes/"
     :themes="['light', 'dark', 'abyss']"
@@ -186,7 +186,7 @@ inherit `currentColor`:
 >
     <template #default="{ open }">
         <svg
-            class="theme-chooser-icon"
+            class="theme-picker-icon"
             width="16"
             height="16"
             viewBox="0 0 16 16"
@@ -198,7 +198,7 @@ inherit `currentColor`:
             <path d="M8 1a7 7 0 0 1 0 14Z" fill="currentColor" />
         </svg>
     </template>
-</ThemeChooser>
+</ThemePicker>
 ```
 
 Keep `aria-hidden="true"` and `focusable="false"` on the SVG: the
@@ -207,7 +207,7 @@ Internet Explorer / Edge behaviour from making it a tab stop.
 
 ## The status region is the default pattern
 
-Every example in this package pairs the chooser with a status region,
+Every example in this package pairs the picker with a status region,
 and so does the quick start in [`index.md`](../index.md). **Shipping it
 is the default; removing it is the deliberate choice** you make with
 your accessibility reviewer — not something you opt into later.
@@ -224,21 +224,21 @@ one.
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import ThemeChooser from "../ThemeChooser.vue";
+import ThemePicker from "../ThemePicker.vue";
 
 const theme = ref("");
 const themeLabels = { light: "Light", dark: "Dark", abyss: "Abyss" };
 </script>
 
 <template>
-    <ThemeChooser
+    <ThemePicker
         v-model:value="theme"
         label="Theme"
         themes-url="/assets/themes/"
         :themes="['light', 'dark', 'abyss']"
     />
 
-    <p class="theme-chooser-status" aria-live="polite">
+    <p class="theme-picker-status" aria-live="polite">
         Active theme: {{ themeLabels[theme] ?? theme }}
     </p>
 </template>
@@ -274,7 +274,7 @@ to the root `<div>`, not to the button, so the button keeps the name
 built from `label`. Bind the prop instead:
 
 ```vue
-<ThemeChooser
+<ThemePicker
     v-model:value="theme"
     :label="`Theme: ${themeLabels[theme] ?? theme}`"
     themes-url="/assets/themes/"
@@ -286,7 +286,7 @@ That restores the value to the accessible name at the cost of a name
 that changes as the user uses the control — which some AT will
 re-announce on focus. Pick one; do not do both silently.
 
-Use the `.theme-chooser-status` class hook for the element — it is the
+Use the `.theme-picker-status` class hook for the element — it is the
 documented hook, listed in [`styling.md`](./styling.md).
 
 ## Internationalisation
@@ -303,9 +303,9 @@ documented hook, listed in [`styling.md`](./styling.md).
 
 ## Visible focus
 
-The chooser does not suppress `:focus` or `:focus-visible` styling. Two
+The picker does not suppress `:focus` or `:focus-visible` styling. Two
 elements take focus and both need a visible indicator: the
-`.theme-chooser-button`, and the `.theme-chooser-list` itself while it is
+`.theme-picker-button`, and the `.theme-picker-list` itself while it is
 open. Style the active option from `[data-active]` — it is the only
 signal a sighted keyboard user has, because focus is on the `<ul>`, not
 on the option. Forgetting that rule produces a listbox where arrowing
@@ -313,7 +313,7 @@ appears to do nothing.
 
 ## Reduced motion
 
-The chooser performs no animation. Theme CSS files are responsible for
+The picker performs no animation. Theme CSS files are responsible for
 respecting `prefers-reduced-motion` if they introduce transitions on
 the `data-theme` swap. If you animate the listbox open / closed from
 consumer CSS, respect it there too.
@@ -335,7 +335,7 @@ list is a **required** check before shipping, not a nicety:
 - Mobile (VoiceOver on iOS, TalkBack on Android) — there is no native
   picker here, so confirm the options are reachable by swipe and
   activatable by double-tap.
-- The `.theme-chooser-status` live region should fire once per change
+- The `.theme-picker-status` live region should fire once per change
   and stay silent on page load.
 
 ## Common mistakes to avoid
@@ -355,13 +355,13 @@ list is a **required** check before shipping, not a nicety:
 - **Adding `tabindex` to the `<li>` options.** They are
   `aria-activedescendant` targets, not tab stops; making them focusable
   breaks the pattern and adds N tab stops to the page.
-- **Forgetting to translate `themeLabels`.** The chooser only knows what
+- **Forgetting to translate `themeLabels`.** The picker only knows what
   the consumer tells it; locale-aware copy is the consumer's
   responsibility.
 - **Setting `inheritAttrs: false` on a wrapping component.** Don't
   break the attribute fall-through; consumers rely on it for
   `data-testid`, `id`, and event handlers.
-- **Dropping the `.theme-chooser-status` region to save space.** With an
+- **Dropping the `.theme-picker-status` region to save space.** With an
   icon-only control it is the only channel that surfaces the active
   theme. If space is the problem, hide it visually with the recipe in
   [`styling.md`](./styling.md) — that keeps the announcement.

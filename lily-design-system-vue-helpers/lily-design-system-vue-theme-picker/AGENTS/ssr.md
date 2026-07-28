@@ -1,25 +1,25 @@
-# SSR — ThemeChooser (Vue)
+# SSR — ThemePicker (Vue)
 
-The chooser runs cleanly under Vue 3 SSR (Nuxt, plain
+The picker runs cleanly under Vue 3 SSR (Nuxt, plain
 `vue/server-renderer`, Astro Vue islands). This page lists the
 Vue-specific recipes; the canonical rules live in
 [`../../AGENTS/ssr.md`](../../AGENTS/ssr.md).
 
-## What the chooser does on the server
+## What the picker does on the server
 
-Under SSR, `onMounted` and `watch` are no-ops. The chooser renders the
+Under SSR, `onMounted` and `watch` are no-ops. The picker renders the
 full closed control:
 
 ```html
-<div class="theme-chooser">
+<div class="theme-picker">
     <input type="hidden" name="theme" value="light" />
-    <button type="button" class="theme-chooser-button" aria-label="Theme"
-            aria-haspopup="listbox" aria-expanded="false" aria-controls="theme-chooser-1-list">
-        <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
+    <button type="button" class="theme-picker-button" aria-label="Theme"
+            aria-haspopup="listbox" aria-expanded="false" aria-controls="theme-picker-1-list">
+        <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
     </button>
-    <ul class="theme-chooser-list" id="theme-chooser-1-list" role="listbox"
+    <ul class="theme-picker-list" id="theme-picker-1-list" role="listbox"
         aria-label="Theme" tabindex="-1" hidden>
-        <li class="theme-chooser-option" id="theme-chooser-1-option-0"
+        <li class="theme-picker-option" id="theme-picker-1-option-0"
             role="option" aria-selected="true">Light</li>
         …
     </ul>
@@ -32,7 +32,7 @@ slug server-side.
 
 Note that the listbox is always rendered, closed via the `hidden`
 attribute rather than by conditional rendering, so server and client
-markup match structurally. Option ids come from `nextThemeChooserId()`
+markup match structurally. Option ids come from `nextThemePickerId()`
 — a module-level counter, deliberately not `Math.random()` or
 `Date.now()` — so they are stable across the hydration boundary.
 
@@ -44,7 +44,7 @@ hydration.
 
 If `<html>` arrives with no `data-theme` and the theme CSS
 references `:root[data-theme="dark"] { … }`, the first paint shows
-the default browser styles, then on hydration the chooser sets
+the default browser styles, then on hydration the picker sets
 `data-theme="dark"` and the page repaints. That's the flash of
 unstyled theme (FOUT).
 
@@ -61,9 +61,9 @@ End-to-end code lives in
    `event.context.theme`.
 2. `app.vue` (or a layout) calls `useHead({ htmlAttrs: { "data-theme": theme }})`
    so `<html data-theme="…">` arrives in the response.
-3. The chooser is mounted with `value="…"` (forwarded from the
+3. The picker is mounted with `value="…"` (forwarded from the
    middleware via a plugin or `useState`).
-4. When the user changes themes, the chooser's `change` event writes
+4. When the user changes themes, the picker's `change` event writes
    a cookie via `document.cookie = …`.
 
 ### Plugin to forward the cookie
@@ -81,7 +81,7 @@ export default defineNuxtPlugin(() => {
 
 ```vue
 <script setup lang="ts">
-import ThemeChooser from "@/components/ThemeChooser.vue";
+import ThemePicker from "@/components/ThemePicker.vue";
 
 const { $initialTheme } = useNuxtApp();
 const theme = ref<string>($initialTheme);
@@ -94,7 +94,7 @@ function persistCookie(slug: string) {
 </script>
 
 <template>
-    <ThemeChooser
+    <ThemePicker
         label="Theme"
         themes-url="/assets/themes/"
         :themes="['light', 'dark', 'abyss']"
@@ -119,7 +119,7 @@ const theme = Astro.cookies.get("theme")?.value ?? "light";
         <link rel="stylesheet" href={`/assets/themes/${theme}.css`} />
     </head>
     <body>
-        <ThemeChooser
+        <ThemePicker
             client:load
             label="Theme"
             themes-url="/assets/themes/"
@@ -136,11 +136,11 @@ const theme = Astro.cookies.get("theme")?.value ?? "light";
 ```ts
 import { createSSRApp } from "vue";
 import { renderToString } from "vue/server-renderer";
-import ThemeChooser from "./ThemeChooser.vue";
+import ThemePicker from "./ThemePicker.vue";
 
 export async function render(req) {
     const cookieTheme = parseCookie(req.headers.cookie, "theme") ?? "light";
-    const app = createSSRApp(ThemeChooser, {
+    const app = createSSRApp(ThemePicker, {
         label: "Theme",
         themesUrl: "/assets/themes/",
         themes: ["light", "dark", "abyss"],
@@ -173,8 +173,8 @@ all. Only use `<ClientOnly>` if you accept the FOUC.
 
 ## Why not auto-resolve from the cookie?
 
-The chooser has no opinion about transport (cookie? header? IndexedDB?
+The picker has no opinion about transport (cookie? header? IndexedDB?
 URL parameter?). Cookies are the right answer for Nuxt, but not for
 Cloudflare-Workers-based hosts, embedded contexts, or apps that
-already have a server-side preference store. The chooser stays
+already have a server-side preference store. The picker stays
 transport-agnostic and lets the consumer wire the integration.

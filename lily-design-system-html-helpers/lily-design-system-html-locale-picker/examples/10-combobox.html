@@ -18,7 +18,7 @@
     THIS IS TIER 2, so it takes over the accessibility and keyboard
     contracts from the base class. It gets away with it because a
     native <input list> is itself an accessible, keyboard-operable
-    combobox. It appends into the base <div class="locale-chooser">
+    combobox. It appends into the base <div class="locale-picker">
     root, keeping the class hook and the hidden <input name=…> for
     form participation, and it writes only `this.value` — the base
     class still owns lang / dir / storage / localechange.
@@ -28,129 +28,152 @@
     semantics, build a custom one or use Lily's headless Combobox
     primitive.
 
-    Note: locale-chooser.ts may need compilation to .js — adjust the
+    Note: locale-picker.ts may need compilation to .js — adjust the
     <script src=…> per your build output.
 -->
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>locale-chooser — combobox</title>
-    <script type="module" src="../../locale-chooser.js"></script>
-    <style>
-        body { font-family: system-ui, sans-serif; padding: 2rem; max-inline-size: 40rem; }
-        .locale-chooser { border: 0; padding: 0; }
-        .locale-chooser-combobox label {
-            display: flex; flex-direction: column; gap: 0.25rem;
-        }
-        .locale-chooser-combobox input {
-            font: inherit; padding: 0.5rem 0.75rem;
-            border: 1px solid #4c6272; border-radius: 4px;
-            min-inline-size: 20rem;
-        }
-        .meta { margin-block-start: 1rem; font-family: ui-monospace, monospace; }
-    </style>
-</head>
-<body>
-    <h1>Locale chooser — combobox</h1>
-
-    <combobox-locale-chooser
-        id="select"
-        label="Language"
-        storage-key="combobox-locale"
-    ></combobox-locale-chooser>
-
-    <p class="meta">
-        Selected: <code id="out">en</code> ·
-        BCP 47: <code id="tag">en</code>
-    </p>
-
-    <script type="module">
-        import {
-            LocaleChooser,
-            defaultLocaleLabels,
-            bcp47LocaleTag,
-        } from "../../locale-chooser.js";
-
-        // All 436 locale codes from the built-in table.
-        const ALL_LOCALES = Object.keys(defaultLocaleLabels);
-
-        class ComboboxLocaleChooser extends LocaleChooser {
-            constructor() {
-                super();
-                // Seed locales from the built-in table.
-                this.locales = ALL_LOCALES;
+    <head>
+        <meta charset="utf-8" />
+        <title>locale-picker — combobox</title>
+        <script type="module" src="../../locale-picker.js"></script>
+        <style>
+            body {
+                font-family: system-ui, sans-serif;
+                padding: 2rem;
+                max-inline-size: 40rem;
             }
-            connectedCallback() {
-                super.connectedCallback();
-                this._rerender();
+            .locale-picker {
+                border: 0;
+                padding: 0;
             }
-            attributeChangedCallback(name, oldVal, newVal) {
-                super.attributeChangedCallback(name, oldVal, newVal);
-                if (name === "value" || name === "locales") this._rerender();
+            .locale-picker-combobox label {
+                display: flex;
+                flex-direction: column;
+                gap: 0.25rem;
             }
-            _rerender() {
-                // The base root is a <div class="locale-chooser">
-                // holding the hidden input, the button, and the <ul>.
-                const root = this.querySelector("div.locale-chooser");
-                if (!root) return;
+            .locale-picker-combobox input {
+                font: inherit;
+                padding: 0.5rem 0.75rem;
+                border: 1px solid #4c6272;
+                border-radius: 4px;
+                min-inline-size: 20rem;
+            }
+            .meta {
+                margin-block-start: 1rem;
+                font-family: ui-monospace, monospace;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Locale picker — combobox</h1>
 
-                // Hide the base icon button; keep the root (class hook)
-                // and the hidden input (form participation).
-                const trigger = root.querySelector(".locale-chooser-button");
-                if (trigger) trigger.hidden = true;
-                root.querySelector(".locale-chooser-combobox")?.remove();
+        <combobox-locale-picker
+            id="select"
+            label="Language"
+            storage-key="combobox-locale"
+        ></combobox-locale-picker>
 
-                const wrapper = document.createElement("div");
-                wrapper.className = "locale-chooser-combobox";
+        <p class="meta">
+            Selected: <code id="out">en</code> · BCP 47:
+            <code id="tag">en</code>
+        </p>
 
-                const label = document.createElement("label");
-                const labelText = document.createElement("span");
-                labelText.textContent = this.label;
-                label.appendChild(labelText);
+        <script type="module">
+            import {
+                LocalePicker,
+                defaultLocaleLabels,
+                bcp47LocaleTag,
+            } from "../../locale-picker.js";
 
-                const input = document.createElement("input");
-                input.type = "text";
-                input.setAttribute("list", "locale-options");
-                input.setAttribute("autocomplete", "off");
-                input.setAttribute("aria-label", this.label);
-                input.placeholder = "Start typing a language…";
-                input.value = defaultLocaleLabels[this.value] ?? this.value;
-                label.appendChild(input);
+            // All 436 locale codes from the built-in table.
+            const ALL_LOCALES = Object.keys(defaultLocaleLabels);
 
-                const datalist = document.createElement("datalist");
-                datalist.id = "locale-options";
-                for (const locale of this.locales) {
-                    const opt = document.createElement("option");
-                    opt.value = defaultLocaleLabels[locale] ?? locale;
-                    opt.setAttribute("lang", bcp47LocaleTag(locale));
-                    opt.textContent = locale;
-                    datalist.appendChild(opt);
+            class ComboboxLocalePicker extends LocalePicker {
+                constructor() {
+                    super();
+                    // Seed locales from the built-in table.
+                    this.locales = ALL_LOCALES;
                 }
+                connectedCallback() {
+                    super.connectedCallback();
+                    this._rerender();
+                }
+                attributeChangedCallback(name, oldVal, newVal) {
+                    super.attributeChangedCallback(name, oldVal, newVal);
+                    if (name === "value" || name === "locales")
+                        this._rerender();
+                }
+                _rerender() {
+                    // The base root is a <div class="locale-picker">
+                    // holding the hidden input, the button, and the <ul>.
+                    const root = this.querySelector("div.locale-picker");
+                    if (!root) return;
 
-                input.addEventListener("change", () => {
-                    const typed = input.value.toLowerCase();
-                    const match = this.locales.find((l) => {
-                        const lbl = (defaultLocaleLabels[l] ?? l).toLowerCase();
-                        return lbl === typed || l.toLowerCase() === typed;
+                    // Hide the base icon button; keep the root (class hook)
+                    // and the hidden input (form participation).
+                    const trigger = root.querySelector(
+                        ".locale-picker-button",
+                    );
+                    if (trigger) trigger.hidden = true;
+                    root.querySelector(".locale-picker-combobox")?.remove();
+
+                    const wrapper = document.createElement("div");
+                    wrapper.className = "locale-picker-combobox";
+
+                    const label = document.createElement("label");
+                    const labelText = document.createElement("span");
+                    labelText.textContent = this.label;
+                    label.appendChild(labelText);
+
+                    const input = document.createElement("input");
+                    input.type = "text";
+                    input.setAttribute("list", "locale-options");
+                    input.setAttribute("autocomplete", "off");
+                    input.setAttribute("aria-label", this.label);
+                    input.placeholder = "Start typing a language…";
+                    input.value = defaultLocaleLabels[this.value] ?? this.value;
+                    label.appendChild(input);
+
+                    const datalist = document.createElement("datalist");
+                    datalist.id = "locale-options";
+                    for (const locale of this.locales) {
+                        const opt = document.createElement("option");
+                        opt.value = defaultLocaleLabels[locale] ?? locale;
+                        opt.setAttribute("lang", bcp47LocaleTag(locale));
+                        opt.textContent = locale;
+                        datalist.appendChild(opt);
+                    }
+
+                    input.addEventListener("change", () => {
+                        const typed = input.value.toLowerCase();
+                        const match = this.locales.find((l) => {
+                            const lbl = (
+                                defaultLocaleLabels[l] ?? l
+                            ).toLowerCase();
+                            return lbl === typed || l.toLowerCase() === typed;
+                        });
+                        if (match) this.value = match;
                     });
-                    if (match) this.value = match;
-                });
 
-                wrapper.appendChild(label);
-                wrapper.appendChild(datalist);
-                root.appendChild(wrapper);
+                    wrapper.appendChild(label);
+                    wrapper.appendChild(datalist);
+                    root.appendChild(wrapper);
+                }
             }
-        }
-        customElements.define("combobox-locale-chooser", ComboboxLocaleChooser);
+            customElements.define(
+                "combobox-locale-picker",
+                ComboboxLocalePicker,
+            );
 
-        await customElements.whenDefined("combobox-locale-chooser");
-        document
-            .querySelector("#select")
-            .addEventListener("localechange", (e) => {
-                document.querySelector("#out").textContent = e.detail.locale;
-                document.querySelector("#tag").textContent =
-                    e.detail.locale.replace(/_/g, "-");
-            });
-    </script>
-</body>
+            await customElements.whenDefined("combobox-locale-picker");
+            document
+                .querySelector("#select")
+                .addEventListener("localechange", (e) => {
+                    document.querySelector("#out").textContent =
+                        e.detail.locale;
+                    document.querySelector("#tag").textContent =
+                        e.detail.locale.replace(/_/g, "-");
+                });
+        </script>
+    </body>
 </html>

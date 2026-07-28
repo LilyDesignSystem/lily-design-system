@@ -219,7 +219,7 @@ export default Object.fromEntries(codes.map((c) => [c, dn.of(c) ?? c]));
 ```
 
 ```njk
-{{ localeChooser({
+{{ localePicker({
     label: "Language",
     locales: codes,
     localeLabels: localeLabels

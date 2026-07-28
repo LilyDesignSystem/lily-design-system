@@ -1,0 +1,29 @@
+{# Minimal DateTimePicker: a label, the six always-required labels, and
+   an initial value. `mode` defaults to "date".
+
+   Note the field shows `value` RAW (unformatted) until the client runs
+   -- the macro cannot call Intl to format it locale-correctly. See
+   ../spec/index.md §3.4 and §5.7.
+#}
+{% from "date-time-picker.njk" import dateTimePicker %}
+
+{{ dateTimePicker({
+    label: "Appointment date",
+    labels: {
+        previousYear: "Previous year",
+        previousMonth: "Previous month",
+        nextMonth: "Next month",
+        nextYear: "Next year",
+        confirm: "Confirm",
+        cancel: "Cancel",
+        clear: "Clear"
+    },
+    value: "2026-08-15",
+    min: "2026-01-01",
+    name: "appointment"
+}) }}
+
+<script type="module">
+    import { autoInit } from "/js/date-time-picker.client.js";
+    autoInit();
+</script>

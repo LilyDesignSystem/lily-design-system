@@ -1,7 +1,7 @@
 {
-  "name": "lily-design-system-react-text-size-chooser",
+  "name": "lily-design-system-react-text-size-picker",
   "version": "0.1.0",
-  "description": "Lily Design System - React 19 text-size chooser",
+  "description": "Lily Design System - React 19 text-size picker",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -30,7 +30,7 @@
     "system",
     "react",
     "text-size",
-    "chooser"
+    "picker"
   ],
   "author": "joel@joelparkerhenderson.com",
   "license": "MIT"

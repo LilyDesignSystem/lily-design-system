@@ -8,7 +8,7 @@ browser, and how to author CSS that survives both directions.
 ## What's detected
 
 Two signals trigger RTL. The implementation lives in
-[`isRtlLocale`](../locale-chooser.ts) and consults the sets in
+[`isRtlLocale`](../locale-picker.ts) and consults the sets in
 [`locales.ts`](../locales.ts).
 
 ### 1. RTL script subtag
@@ -85,17 +85,17 @@ By default `apply-dir` is "absent or true" — the select writes both
 but suppresses `dir`:
 
 ```html
-<locale-chooser
+<locale-picker
     label="Language"
     locales="en,ar,he"
     apply-dir="false"
-></locale-chooser>
+></locale-picker>
 ```
 
 Equivalent in JS:
 
 ```js
-const select = document.querySelector("locale-chooser");
+const select = document.querySelector("locale-picker");
 select.applyDir = false;  // setAttribute("apply-dir", "false")
 ```
 
@@ -201,8 +201,8 @@ Position the dropdown with logical properties so it flips with the
 document direction rather than staying pinned to the left:
 
 ```css
-.locale-chooser { position: relative; display: inline-block; }
-.locale-chooser-list {
+.locale-picker { position: relative; display: inline-block; }
+.locale-picker-list {
     position: absolute;
     inset-inline-start: 0;   /* not `left: 0` */
     inset-block-start: calc(100% + 0.25rem);
@@ -260,7 +260,7 @@ import "./index.js";
 describe("apply-dir", () => {
     it("writes rtl on <html> for ar", () => {
         document.body.innerHTML = `
-            <locale-chooser label="L" locales="en,ar" value="ar"></locale-chooser>
+            <locale-picker label="L" locales="en,ar" value="ar"></locale-picker>
         `;
         expect(document.documentElement.getAttribute("dir")).toBe("rtl");
     });

@@ -1,7 +1,7 @@
 # Examples
 
 Self-contained Angular 20 examples for
-`lily-design-system-angular-locale-chooser`. Each file is a runnable
+`lily-design-system-angular-locale-picker`. Each file is a runnable
 standalone component that can be dropped into any Angular 20 host
 (Analog page, Angular CLI route, Storybook story).
 
@@ -9,35 +9,35 @@ Every example assumes:
 
 - Angular 20 with standalone components and signal inputs.
 - No CSS dependency — the select is headless. Consumers style the
-  `locale-chooser` (root), `locale-chooser-button`, `locale-chooser-icon`,
-  `locale-chooser-list`, and `locale-chooser-option` hooks the component
-  emits, plus the example-only `locale-chooser-status`,
-  `locale-chooser-hidden`, `locale-button-group`,
-  `locale-chooser-select`, and `locale-chooser-combobox-label` hooks.
+  `locale-picker` (root), `locale-picker-button`, `locale-picker-icon`,
+  `locale-picker-list`, and `locale-picker-option` hooks the component
+  emits, plus the example-only `locale-picker-status`,
+  `locale-picker-hidden`, `locale-button-group`,
+  `locale-picker-select`, and `locale-picker-combobox-label` hooks.
 - **The listbox needs positioning CSS and this package ships none.**
-  The `<ul class="locale-chooser-list">` sits in normal document flow,
+  The `<ul class="locale-picker-list">` sits in normal document flow,
   so it pushes content down when opened unless you give it
   `position: absolute` inside a `position: relative` root. Use
   `inset-inline-start`, not `left`, so it follows `dir="rtl"`.
-- `locale-chooser-hidden` (the `sibling-select`, `sibling-buttons`,
+- `locale-picker-hidden` (the `sibling-select`, `sibling-buttons`,
   `nhs-style`, and `combobox` examples) must resolve to
   `display: none`, **not** an `.sr-only` clip-path recipe. Those
   examples replace the helper's UI with their own affordance; leaving
   the helper's globe button exposed to assistive technology would give
   screen-reader and keyboard users a duplicate language control.
 
-| #  | File                                                                   | Demonstrates                                                                          |
-|----|------------------------------------------------------------------------|---------------------------------------------------------------------------------------|
-| 1  | [`basic.component.ts`](./basic.component.ts)                           | Default icon-button + APG listbox rendering, with the status region.                  |
-| 2  | [`sibling-select.component.ts`](./sibling-select.component.ts)         | Sibling native `<select>` bound to the same `[(value)]` signal for long locale lists. |
-| 3  | [`sibling-buttons.component.ts`](./sibling-buttons.component.ts)       | Toggle-button group with short codes / glyphs and `aria-pressed`.                     |
-| 4  | [`rtl-demo.component.ts`](./rtl-demo.component.ts)                     | Live RTL preview — Arabic, Hebrew, Persian, Urdu, Pashto.                             |
-| 5  | [`nhs-style.component.ts`](./nhs-style.component.ts)                   | NHS UK-style language banner with endonyms and a `className` hook.                    |
-| 6  | [`with-transloco.component.ts`](./with-transloco.component.ts)         | Binding to Transloco's `setActiveLang()`.                                             |
-| 7  | [`with-ngx-translate.component.ts`](./with-ngx-translate.component.ts) | Driving `TranslateService.use()` from `(localeChange)`.                               |
-| 8  | [`analog-cookie.component.ts`](./analog-cookie.component.ts)           | Analog v1 cookie-based SSR — no flash of default locale.                              |
-| 9  | [`scoped-target.component.ts`](./scoped-target.component.ts)           | Multiple per-region selects, each scoped to its own panel.                            |
-| 10 | [`combobox.component.ts`](./combobox.component.ts)                     | Native `<datalist>` type-ahead for all 436 built-in locales.                          |
+| #   | File                                                                   | Demonstrates                                                                          |
+| --- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| 1   | [`basic.component.ts`](./basic.component.ts)                           | Default icon-button + APG listbox rendering, with the status region.                  |
+| 2   | [`sibling-select.component.ts`](./sibling-select.component.ts)         | Sibling native `<select>` bound to the same `[(value)]` signal for long locale lists. |
+| 3   | [`sibling-buttons.component.ts`](./sibling-buttons.component.ts)       | Toggle-button group with short codes / glyphs and `aria-pressed`.                     |
+| 4   | [`rtl-demo.component.ts`](./rtl-demo.component.ts)                     | Live RTL preview — Arabic, Hebrew, Persian, Urdu, Pashto.                             |
+| 5   | [`nhs-style.component.ts`](./nhs-style.component.ts)                   | NHS UK-style language banner with endonyms and a `className` hook.                    |
+| 6   | [`with-transloco.component.ts`](./with-transloco.component.ts)         | Binding to Transloco's `setActiveLang()`.                                             |
+| 7   | [`with-ngx-translate.component.ts`](./with-ngx-translate.component.ts) | Driving `TranslateService.use()` from `(localeChange)`.                               |
+| 8   | [`analog-cookie.component.ts`](./analog-cookie.component.ts)           | Analog v1 cookie-based SSR — no flash of default locale.                              |
+| 9   | [`scoped-target.component.ts`](./scoped-target.component.ts)           | Multiple per-region selects, each scoped to its own panel.                            |
+| 10  | [`combobox.component.ts`](./combobox.component.ts)                     | Native `<datalist>` type-ahead for all 436 built-in locales.                          |
 
 ## Running the examples
 
@@ -46,7 +46,7 @@ one is:
 
 1. Inside any Angular CLI project (or Analog), drop the example
    into a route component or a Storybook story.
-2. Import the `LocaleChooser` from this directory (or via the
+2. Import the `LocalePicker` from this directory (or via the
    `index.ts` barrel).
 3. `ng serve` (or `pnpm dev`) and visit the route.
 
@@ -77,17 +77,17 @@ the angular-headless library.
 
 ## Replacing the button glyph
 
-Project an `<ng-template>` into `<lily-locale-chooser>` to replace the
+Project an `<ng-template>` into `<lily-locale-picker>` to replace the
 default globe glyph. It receives the `ChildArgs` context —
 `{ $implicit, value, open, labelFor }` — and can be typed with the
-optional `LocaleChooserIcon` marker directive:
+optional `LocalePickerIcon` marker directive:
 
 ```html
-<lily-locale-chooser label="Language" [locales]="locales" [(value)]="locale">
-    <ng-template lilyLocaleChooserIcon let-args>
-        {{ args.labelFor(args.value) }}
-    </ng-template>
-</lily-locale-chooser>
+<lily-locale-picker label="Language" [locales]="locales" [(value)]="locale">
+  <ng-template lilyLocalePickerIcon let-args>
+    {{ args.labelFor(args.value) }}
+  </ng-template>
+</lily-locale-picker>
 ```
 
 The template replaces the **glyph only**. It never renders options —

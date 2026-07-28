@@ -25,7 +25,7 @@ browser → server: GET /  (Cookie: theme=dark)
                  layout.tsx renders <html data-theme="dark"> with
                    <link rel="stylesheet" href="/assets/themes/dark.css">
                  page.tsx (client) mounts with initialTheme="dark"
-                 ThemeChooser mounts with value="dark" — no flicker
+                 ThemePicker mounts with value="dark" — no flicker
 ```
 
 When the user changes themes:
@@ -33,7 +33,7 @@ When the user changes themes:
 - `page.tsx` calls `setTheme(slug)` to update local state.
 - `page.tsx` writes `document.cookie = "theme=..."` so the next SSR
   request sees it.
-- ThemeChooser swaps the managed `<link>` href and `data-theme`.
+- ThemePicker swaps the managed `<link>` href and `data-theme`.
 
 For an alternative cookie-write path using a server action, see
 [`../../docs/recipes.md`](../../docs/recipes.md) § "Server action for

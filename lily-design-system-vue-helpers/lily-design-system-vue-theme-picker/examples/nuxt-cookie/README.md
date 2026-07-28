@@ -11,7 +11,7 @@ Drop them under the corresponding paths in a Nuxt 3 project.
 | ------------------------------- | --------------------------------------------------------- |
 | `server/middleware/theme.ts`    | Reads the `theme` cookie into `event.context.theme`.      |
 | `plugins/theme.ts`              | Exposes the resolved theme to the client via `useNuxtApp`. |
-| `app.vue`                       | Renders the chooser; calls `useHead` to inline `data-theme`. |
+| `app.vue`                       | Renders the picker; calls `useHead` to inline `data-theme`. |
 | `server/api/theme.post.ts`      | Tiny endpoint that writes the cookie on change.           |
 
 Required setup in your project:
@@ -26,10 +26,10 @@ browser → server: GET /  (Cookie: theme=dark)
                  server/middleware/theme.ts reads cookie → event.context.theme = "dark"
                  plugins/theme.ts forwards the value to useNuxtApp
                  app.vue useHead writes <html data-theme="dark">
-                 the chooser mounts with value="dark" — no flicker
+                 the picker mounts with value="dark" — no flicker
 ```
 
-When the user changes themes, the chooser's `@change` calls
+When the user changes themes, the picker's `@change` calls
 `fetch("/api/theme", { method: "POST", body: { theme } })` so the
 next SSR request sees the new cookie.
 

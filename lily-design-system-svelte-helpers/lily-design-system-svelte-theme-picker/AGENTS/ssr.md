@@ -1,4 +1,4 @@
-# SSR — ThemeChooser (Svelte)
+# SSR — ThemePicker (Svelte)
 
 The select runs cleanly under Svelte 5 SSR (SvelteKit, plain Vite +
 Svelte, Astro Svelte islands). This page lists the SvelteKit-specific
@@ -16,29 +16,29 @@ for the form-action cookie write.
 Under SSR, `$effect` is a no-op. The select renders:
 
 ```html
-<div class="theme-chooser">
+<div class="theme-picker">
   <input type="hidden" name="theme" value="" />
   <button
     type="button"
-    class="theme-chooser-button"
+    class="theme-picker-button"
     aria-label="Theme"
     aria-haspopup="listbox"
     aria-expanded="false"
-    aria-controls="theme-chooser-1-list"
+    aria-controls="theme-picker-1-list"
   >
-    <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
+    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
   </button>
   <ul
-    class="theme-chooser-list"
-    id="theme-chooser-1-list"
+    class="theme-picker-list"
+    id="theme-picker-1-list"
     role="listbox"
     aria-label="Theme"
     tabindex="-1"
     hidden
   >
     <li
-      class="theme-chooser-option"
-      id="theme-chooser-1-option-0"
+      class="theme-picker-option"
+      id="theme-picker-1-option-0"
       role="option"
       aria-selected="false"
     >
@@ -53,7 +53,7 @@ If the consumer passes `value="light"`, the corresponding option gets
 `aria-selected="true"` and the hidden input gets `value="light"`
 server-side.
 
-Option ids come from the module-level `nextThemeChooserId()` counter, so
+Option ids come from the module-level `nextThemePickerId()` counter, so
 server and client generate identical ids in the same mount order and
 hydration matches. Do not swap it for `Math.random()` / `Date.now()`.
 
@@ -124,7 +124,7 @@ export const load: LayoutServerLoad = ({ locals }) => ({
 
 ```svelte
 <script lang="ts">
-    import { ThemeChooser } from "lily-design-system-svelte-theme-picker";
+    import { ThemePicker } from "lily-design-system-svelte-theme-picker";
 
     let { data, children } = $props();
     let theme = $state(data.theme);
@@ -134,7 +134,7 @@ export const load: LayoutServerLoad = ({ locals }) => ({
     }
 </script>
 
-<ThemeChooser
+<ThemePicker
     label="Theme"
     themesUrl="/assets/themes/"
     themes={["light", "dark", "abyss"]}
@@ -190,7 +190,7 @@ const theme = Astro.cookies.get("theme")?.value ?? "light";
         <link rel="stylesheet" href={`/assets/themes/${theme}.css`} />
     </head>
     <body>
-        <ThemeChooser
+        <ThemePicker
             client:load
             label="Theme"
             themesUrl="/assets/themes/"
@@ -206,11 +206,11 @@ const theme = Astro.cookies.get("theme")?.value ?? "light";
 
 ```ts
 import { render } from "svelte/server";
-import ThemeChooser from "./ThemeChooser.svelte";
+import ThemePicker from "./ThemePicker.svelte";
 
 export function renderApp(req) {
   const cookieTheme = parseCookie(req.headers.cookie, "theme") ?? "light";
-  const { html, head } = render(ThemeChooser, {
+  const { html, head } = render(ThemePicker, {
     props: {
       label: "Theme",
       themesUrl: "/assets/themes/",

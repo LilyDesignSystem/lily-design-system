@@ -1,4 +1,4 @@
-# AGENTS — ShareChooser (Angular helper)
+# AGENTS — SharePicker (Angular helper)
 
 Single source of truth: [spec/index.md](./spec/index.md). Read it first;
 everything below is a fast index.
@@ -11,30 +11,30 @@ one, and otherwise opens a disclosure list of consumer-supplied
 destinations plus a built-in copy-the-URL action. Ships no CSS, no
 icons, and no third-party endpoints.
 
-Unlike the three preference helpers, this owns an *action*, not a preference:
+Unlike the three preference helpers, this owns an _action_, not a preference:
 it applies nothing to the document root and persists nothing. No
 `localStorage`, no `data-*` on `<html>`.
 
 ## Files
 
-| File                                | Purpose                                           |
-| ----------------------------------- | ------------------------------------------------- |
-| `spec/index.md`                     | Specification-driven contract (canonical).        |
-| `share-chooser.component.ts`         | Implementation. Standalone, signal-based, OnPush. |
-| `share-chooser.component.spec.ts`    | Vitest spec, mapped to the §7 clauses (47 cases). |
-| `docs/accessibility.md`             | Tradeoffs, stated plainly.                        |
-| `examples/`                         | Runnable standalone example components.           |
-| `index.ts`                          | Barrel re-export.                                 |
-| `index.md`                          | User guide.                                       |
+| File                              | Purpose                                           |
+| --------------------------------- | ------------------------------------------------- |
+| `spec/index.md`                   | Specification-driven contract (canonical).        |
+| `share-picker.component.ts`      | Implementation. Standalone, signal-based, OnPush. |
+| `share-picker.component.spec.ts` | Vitest spec, mapped to the §7 clauses (47 cases). |
+| `docs/accessibility.md`           | Tradeoffs, stated plainly.                        |
+| `examples/`                       | Runnable standalone example components.           |
+| `index.ts`                        | Barrel re-export.                                 |
+| `index.md`                        | User guide.                                       |
 
 ## Public surface
 
-- `ShareChooser` (component class, selector `lily-share-chooser`).
-- `ShareChooserIcon` (optional marker directive,
-  `ng-template[lilyShareChooserIcon]`, for typed `let-` variables).
+- `SharePicker` (component class, selector `lily-share-picker`).
+- `SharePickerIcon` (optional marker directive,
+  `ng-template[lilySharePickerIcon]`, for typed `let-` variables).
 - `BLACK_RIGHTWARDS_ARROWHEAD` (the default glyph, `"➤"` U+27A4).
 - `canShareNatively`, `canCopy` (pure, SSR-safe capability probes).
-- `nextShareChooserId` (per-instance id generator).
+- `nextSharePickerId` (per-instance id generator).
 - Types `ChildArgs`, `ShareTarget`, `ShareStrategy`, `ShareEvent`.
 
 Required input: `label`. Full table in
@@ -55,32 +55,43 @@ clipboard API is a failure, never a crash. The URL is resolved lazily
 ## HTML
 
 ```html
-<div class="share-chooser {className}">
-  <button type="button" class="share-chooser-button" aria-label="{label}"
-          aria-expanded="false" aria-controls="{listId}">
-    <span class="share-chooser-icon" aria-hidden="true">&#10148;</span>
+<div class="share-picker {className}">
+  <button
+    type="button"
+    class="share-picker-button"
+    aria-label="{label}"
+    aria-expanded="false"
+    aria-controls="{listId}"
+  >
+    <span class="share-picker-icon" aria-hidden="true">&#10148;</span>
   </button>
-  <ul class="share-chooser-list" id="{listId}" hidden>
-    <li class="share-chooser-list-item">
-      <a class="share-chooser-target" data-target-id="{id}" href="{href(...)}"
-         target="_blank" rel="noopener noreferrer">{label}</a>
+  <ul class="share-picker-list" id="{listId}" hidden>
+    <li class="share-picker-list-item">
+      <a
+        class="share-picker-target"
+        data-target-id="{id}"
+        href="{href(...)}"
+        target="_blank"
+        rel="noopener noreferrer"
+        >{label}</a
+      >
     </li>
-    <li class="share-chooser-list-item">
-      <button type="button" class="share-chooser-copy">{copyLabel}</button>
+    <li class="share-picker-list-item">
+      <button type="button" class="share-picker-copy">{copyLabel}</button>
     </li>
   </ul>
-  <p class="share-chooser-status" aria-live="polite"></p>
+  <p class="share-picker-status" aria-live="polite"></p>
 </div>
 ```
 
 **Not a menu.** Destinations are real `<a>` elements with no `role`
 override; `role="menuitem"` would strip middle-click, open-in-new-tab
-and copy-link-address. The trigger class is `share-chooser-button`,
+and copy-link-address. The trigger class is `share-picker-button`,
 following the `{helper}-button` convention exactly as the three
 preference helpers do.
 
 `@for` is used (not `*ngFor`), tracked by `target.id`. Ids come from
-`nextShareChooserId()`, an incrementing module counter — stable, unique
+`nextSharePickerId()`, an incrementing module counter — stable, unique
 per instance, SSR-safe. A projected `<ng-template>` (queried via
 `contentChild(TemplateRef)`) replaces the glyph inside the button and
 receives `ChildArgs` (`{ $implicit, open, url }`); it does **not**

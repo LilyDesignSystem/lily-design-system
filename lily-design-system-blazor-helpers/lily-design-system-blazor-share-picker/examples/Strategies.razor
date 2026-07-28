@@ -22,12 +22,12 @@
     it does not fire on dismissal, since nothing was shared.
 *@
 
-@page "/examples/share-chooser/strategies"
+@page "/examples/share-picker/strategies"
 @rendermode InteractiveServer
 @using LilyDesignSystem.Blazor.Helpers
 
 <h2>Auto — native sheet where available</h2>
-<ShareChooser Label="Share (auto)"
+<SharePicker Label="Share (auto)"
              Targets="@Targets"
              Strategy="ShareStrategy.Auto"
              CopyLabel="Copy link"
@@ -36,7 +36,7 @@
              OnNativeShare="@(url => Log($"native sheet used for {url}"))" />
 
 <h2>List — always the in-page list</h2>
-<ShareChooser Label="Share (list)"
+<SharePicker Label="Share (list)"
              Targets="@Targets"
              Strategy="ShareStrategy.List"
              CopyLabel="Copy link"

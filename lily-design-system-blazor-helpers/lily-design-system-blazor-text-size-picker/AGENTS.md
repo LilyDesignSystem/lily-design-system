@@ -1,4 +1,4 @@
-# AGENTS — TextSizeChooser (Blazor helper)
+# AGENTS — TextSizePicker (Blazor helper)
 
 Single source of truth: [spec/index.md](./spec/index.md). Read it first; everything
 below is a fast index.
@@ -9,8 +9,8 @@ A reusable Blazor headless text-size select that applies the chosen
 size slug to the document root via `data-text-size`, with optional
 `localStorage` persistence. It renders an icon button (`A`) that opens
 a dropdown listbox. Ships no CSS; consumer styles the
-`text-size-chooser`, `text-size-chooser-button`, `text-size-chooser-icon`,
-`text-size-chooser-list`, and `text-size-chooser-option` class hooks —
+`text-size-picker`, `text-size-picker-button`, `text-size-picker-icon`,
+`text-size-picker-list`, and `text-size-picker-option` class hooks —
 see `docs/styling.md` — and maps each `[data-text-size="…"]` slug to
 real typography.
 
@@ -19,32 +19,32 @@ real typography.
 | File                       | Purpose                                          |
 | -------------------------- | ------------------------------------------------ |
 | `spec/index.md`            | Specification-driven contract (canonical).       |
-| `TextSizeChooser.razor`     | Razor markup.                                    |
-| `TextSizeChooser.razor.cs`  | C# code-behind (partial class).                  |
-| `TextSizeChooserTests.cs`   | bUnit + xUnit spec, one `[Fact]` per §7 item.    |
+| `TextSizePicker.razor`     | Razor markup.                                    |
+| `TextSizePicker.razor.cs`  | C# code-behind (partial class).                  |
+| `TextSizePickerTests.cs`   | bUnit + xUnit spec, one `[Fact]` per §7 item.    |
 | `index.md`                 | User guide.                                      |
 | `docs/`                    | Accessibility and styling guides.                |
 | `examples/`                | Copy-pasteable Razor snippets.                   |
 
 ## Public surface
 
-- Component: `TextSizeChooser` in namespace
+- Component: `TextSizePicker` in namespace
   `LilyDesignSystem.Blazor.Helpers`.
-- Context: `TextSizeChooserContext` (`Value`, `Open`, `LabelFor`) for a
+- Context: `TextSizePickerContext` (`Value`, `Open`, `LabelFor`) for a
   custom `ChildContent` glyph.
-- Constant: `TextSizeChooser.LatinCapitalLetterA` — the default glyph
+- Constant: `TextSizePicker.LatinCapitalLetterA` — the default glyph
   `"A"` (U+0041).
 - Statics: `SizeName`.
   - `SizeName(slug)` — the ONE title-casing rule (`"x-large"` ->
     `"X Large"`); the private instance `LabelFor` delegates to it, so
     consumers rendering their own UI never duplicate it. Mirrors
-    `ThemeChooser.ThemeName` and `Locales.LocaleName`.
+    `ThemePicker.ThemeName` and `Locales.LocaleName`.
 - Method: `SetSizeAsync(string slug)`.
 - Required parameters: `Label`, `Sizes`.
 - Two-way binding: `@bind-Value` (string slug).
 - Internal statics (visible to the test project):
   `BuildApplyScript(string, string?)`.
-- **No `DetectFromSystem`.** Unlike ThemeChooser and LocaleChooser, there
+- **No `DetectFromSystem`.** Unlike ThemePicker and LocalePicker, there
   is no OS "preferred text size" signal to detect — no media query
   equivalent to `prefers-color-scheme` / `navigator.languages` exists.
 
@@ -66,15 +66,15 @@ lives in `Value` and rides a hidden input for form participation.
 ## HTML
 
 ```html
-<div class="text-size-chooser @CssClass" ...AdditionalAttributes>
+<div class="text-size-picker @CssClass" ...AdditionalAttributes>
   <input type="hidden" name="@Name" value="@Value" />
-  <button type="button" class="text-size-chooser-button" aria-label="@Label"
+  <button type="button" class="text-size-picker-button" aria-label="@Label"
           aria-haspopup="listbox" aria-expanded="false" aria-controls="{listId}">
-    <span class="text-size-chooser-icon" aria-hidden="true">A</span>
+    <span class="text-size-picker-icon" aria-hidden="true">A</span>
   </button>
-  <ul class="text-size-chooser-list" id="{listId}" role="listbox" aria-label="@Label"
+  <ul class="text-size-picker-list" id="{listId}" role="listbox" aria-label="@Label"
       tabindex="-1" hidden aria-activedescendant="{active option id, open only}">
-    <li class="text-size-chooser-option" id="{optionId}" role="option"
+    <li class="text-size-picker-option" id="{optionId}" role="option"
         aria-selected="true|false" data-active>{LabelFor(slug)}</li>
   </ul>
 </div>
@@ -82,7 +82,7 @@ lives in `Value` and rides a hidden input for form participation.
 
 `ChildContent` **replaces the glyph inside the button**; it no longer
 renders options. Ids come from a monotonic process-wide counter
-(`text-size-chooser-{n}`) so they are stable and SSR-safe.
+(`text-size-picker-{n}`) so they are stable and SSR-safe.
 
 ## Keyboard
 

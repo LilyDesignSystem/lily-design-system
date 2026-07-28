@@ -1,31 +1,31 @@
 # Examples
 
 Self-contained HTML examples for
-`lily-design-system-html-locale-chooser`. Each file is a runnable
+`lily-design-system-html-locale-picker`. Each file is a runnable
 page that can be opened in any browser after building the
 custom-element module.
 
 Every example assumes:
 
-- A built copy of the `locale-chooser` ES module at
-  `../../locale-chooser.js` (relative to the example). Consumers may
-  need to compile `locale-chooser.ts` → `.js` first (any TS toolchain
+- A built copy of the `locale-picker` ES module at
+  `../../locale-picker.js` (relative to the example). Consumers may
+  need to compile `locale-picker.ts` → `.js` first (any TS toolchain
   works: `tsc`, `esbuild`, `vite`, `bun build`, …).
 - A modern browser supporting custom elements, ES modules, and (for
   some examples) dynamic imports from CDN.
 
-| #  | File                                          | Demonstrates                                |
-| -- | --------------------------------------------- | ------------------------------------------- |
-| 1  | [`01-basic.html`](./01-basic.html)            | Basic usage: icon button + listbox.         |
-| 2  | [`02-styling.html`](./02-styling.html)        | Styling the default rendering; the five class hooks and both state selectors. |
-| 3  | [`03-buttons.html`](./03-buttons.html)        | Toggle buttons with `aria-pressed` (tier-2 subclass). |
-| 4  | [`04-rtl-demo.html`](./04-rtl-demo.html)      | Auto-detected RTL flipping for Arabic etc.  |
-| 5  | [`05-nhs-style.html`](./05-nhs-style.html)    | NHS UK-style language banner (tier-2 subclass). |
-| 6  | [`06-with-formatjs.html`](./06-with-formatjs.html) | FormatJS IntlMessageFormat from CDN.   |
-| 7  | [`07-with-intl.html`](./07-with-intl.html)    | Native `Intl.*` formatters on `localechange`. |
-| 8  | [`08-ssr-cookie.html`](./08-ssr-cookie.html)  | SSG / SSR cookie pre-seed flow.             |
-| 9  | [`09-scoped-target.html`](./09-scoped-target.html) | `target` property — panel-only lang/dir. |
-| 10 | [`10-combobox.html`](./10-combobox.html)      | `<datalist>` filter-as-you-type combobox for long locale lists (tier-2 subclass). |
+| #   | File                                               | Demonstrates                                                                      |
+| --- | -------------------------------------------------- | --------------------------------------------------------------------------------- |
+| 1   | [`01-basic.html`](./01-basic.html)                 | Basic usage: icon button + listbox.                                               |
+| 2   | [`02-styling.html`](./02-styling.html)             | Styling the default rendering; the five class hooks and both state selectors.     |
+| 3   | [`03-buttons.html`](./03-buttons.html)             | Toggle buttons with `aria-pressed` (tier-2 subclass).                             |
+| 4   | [`04-rtl-demo.html`](./04-rtl-demo.html)           | Auto-detected RTL flipping for Arabic etc.                                        |
+| 5   | [`05-nhs-style.html`](./05-nhs-style.html)         | NHS UK-style language banner (tier-2 subclass).                                   |
+| 6   | [`06-with-formatjs.html`](./06-with-formatjs.html) | FormatJS IntlMessageFormat from CDN.                                              |
+| 7   | [`07-with-intl.html`](./07-with-intl.html)         | Native `Intl.*` formatters on `localechange`.                                     |
+| 8   | [`08-ssr-cookie.html`](./08-ssr-cookie.html)       | SSG / SSR cookie pre-seed flow.                                                   |
+| 9   | [`09-scoped-target.html`](./09-scoped-target.html) | `target` property — panel-only lang/dir.                                          |
+| 10  | [`10-combobox.html`](./10-combobox.html)           | `<datalist>` filter-as-you-type combobox for long locale lists (tier-2 subclass). |
 
 Examples 1 and 2 were previously named `01-radios.html` and
 `02-select.html`, after rendering models the element no longer uses.
@@ -44,8 +44,8 @@ first if you are writing your own.
 These files are illustrations, not a hosted build. The fastest way
 to try one:
 
-1. Compile `locale-chooser.ts` → `locale-chooser.js` at the project
-   root (the path `../../locale-chooser.js` is relative to each
+1. Compile `locale-picker.ts` → `locale-picker.js` at the project
+   root (the path `../../locale-picker.js` is relative to each
    example file).
 2. Serve the directory with any static HTTP server (e.g.
    `python3 -m http.server`, `npx http-server`, Vite, …).
@@ -60,17 +60,17 @@ match.
 The custom-element attributes are kebab-case:
 
 ```html
-<locale-chooser
-    label="Language"
-    locales="en,fr,ar"
-    value="en"
-    default-value="en"
-    storage-key="app-locale"
-    name="locale"
-    apply-dir="false"
-    detect-from-navigator
-    locale-labels='{"en":"English","fr":"Français","ar":"العربية"}'
-></locale-chooser>
+<locale-picker
+  label="Language"
+  locales="en,fr,ar"
+  value="en"
+  default-value="en"
+  storage-key="app-locale"
+  name="locale"
+  apply-dir="false"
+  detect-from-navigator
+  locale-labels='{"en":"English","fr":"Français","ar":"العربية"}'
+></locale-picker>
 ```
 
 There is no `placeholder` attribute; it was removed along with the
@@ -80,20 +80,20 @@ The matching JS properties are camelCase. Array / object properties
 accept the native form:
 
 ```js
-const select = document.querySelector("locale-chooser");
+const select = document.querySelector("locale-picker");
 select.locales = ["en", "fr", "ar"];
 select.localeLabels = { en: "English", fr: "Français" };
-select.target = document.querySelector("#widget");   // no attribute form
+select.target = document.querySelector("#widget"); // no attribute form
 ```
 
 The listbox itself is drivable from script:
 
 ```js
-select.open;              // boolean
-select.openList();        // open with the selected option active
-select.closeList();       // close and refocus the button
-select.labelFor("fr");    // "French"
-select.tagFor("fr_CA");   // "fr-CA"
+select.open; // boolean
+select.openList(); // open with the selected option active
+select.closeList(); // close and refocus the button
+select.labelFor("fr"); // "French"
+select.tagFor("fr_CA"); // "fr-CA"
 ```
 
 ## Keyboard
@@ -118,7 +118,7 @@ Every example that needs to react to a locale change uses:
 
 ```js
 select.addEventListener("localechange", (e) => {
-    const code = e.detail.locale;
+  const code = e.detail.locale;
 });
 ```
 
@@ -137,11 +137,11 @@ in two tiers:
   the direct analogue of the other frameworks' `children` prop and
   the path to prefer.
 - **Tier 2** — post-process the rendered children after
-  `super.connectedCallback()`. You then own the accessibility *and*
+  `super.connectedCallback()`. You then own the accessibility _and_
   keyboard contracts, because the base class's handlers are bound to
   the DOM it built. Examples [3](./03-buttons.html),
   [5](./05-nhs-style.html), and [10](./10-combobox.html) are tier 2;
-  each keeps the `.locale-chooser` root, the hidden `<input>`, and the
+  each keeps the `.locale-picker` root, the hidden `<input>`, and the
   base apply lifecycle (write `this.value`, never touch `lang` /
   `dir` / `localStorage` yourself).
 

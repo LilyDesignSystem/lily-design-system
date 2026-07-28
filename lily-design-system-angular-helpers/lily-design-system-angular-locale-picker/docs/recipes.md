@@ -12,22 +12,22 @@ For the mental model behind these, see
 
 ```ts
 import { Component, signal } from "@angular/core";
-import { LocaleChooser } from "../locale-chooser.component";
+import { LocalePicker } from "../locale-picker.component";
 
 @Component({
-    standalone: true,
-    imports: [LocaleChooser],
-    template: `
-        <lily-locale-chooser
-            label="Language"
-            [locales]="locales"
-            [(value)]="locale"
-        />
-    `,
+  standalone: true,
+  imports: [LocalePicker],
+  template: `
+    <lily-locale-picker
+      label="Language"
+      [locales]="locales"
+      [(value)]="locale"
+    />
+  `,
 })
 export class Settings {
-    locales = ["en", "cy", "fr", "ar"];
-    locale = signal("");
+  locales = ["en", "cy", "fr", "ar"];
+  locale = signal("");
 }
 ```
 
@@ -40,11 +40,11 @@ for the same thing with the status region attached.
 ## Remember the choice across visits
 
 ```html
-<lily-locale-chooser
-    label="Language"
-    [locales]="['en', 'fr', 'ar']"
-    [(value)]="locale"
-    storageKey="my-app:locale"
+<lily-locale-picker
+  label="Language"
+  [locales]="['en', 'fr', 'ar']"
+  [(value)]="locale"
+  storageKey="my-app:locale"
 />
 ```
 
@@ -56,12 +56,12 @@ rather than throwing.
 ## Guess the locale on the first visit
 
 ```html
-<lily-locale-chooser
-    label="Language"
-    [locales]="['en', 'fr', 'ar']"
-    [(value)]="locale"
-    storageKey="my-app:locale"
-    [detectFromNavigator]="true"
+<lily-locale-picker
+  label="Language"
+  [locales]="['en', 'fr', 'ar']"
+  [(value)]="locale"
+  storageKey="my-app:locale"
+  [detectFromNavigator]="true"
 />
 ```
 
@@ -77,31 +77,31 @@ not chosen yet.
 
 ```ts
 import { Component, signal } from "@angular/core";
-import { LocaleChooser } from "../locale-chooser.component";
+import { LocalePicker } from "../locale-picker.component";
 
 @Component({
-    standalone: true,
-    imports: [LocaleChooser],
-    template: `
-        <lily-locale-chooser
-            label="Language"
-            [locales]="['en', 'fr', 'ar']"
-            [(value)]="locale"
-            (localeChange)="onLocaleChange($event)"
-        />
-    `,
+  standalone: true,
+  imports: [LocalePicker],
+  template: `
+    <lily-locale-picker
+      label="Language"
+      [locales]="['en', 'fr', 'ar']"
+      [(value)]="locale"
+      (localeChange)="onLocaleChange($event)"
+    />
+  `,
 })
 export class Settings {
-    locale = signal("");
+  locale = signal("");
 
-    onLocaleChange(code: string) {
-        document.cookie = `locale=${encodeURIComponent(code)}; path=/; max-age=31536000; samesite=lax`;
-        analytics.track("locale_changed", { locale: code });
-    }
+  onLocaleChange(code: string) {
+    document.cookie = `locale=${encodeURIComponent(code)}; path=/; max-age=31536000; samesite=lax`;
+    analytics.track("locale_changed", { locale: code });
+  }
 }
 ```
 
-`(localeChange)` fires *after* the select has written `lang` / `dir`
+`(localeChange)` fires _after_ the select has written `lang` / `dir`
 and persisted, and carries the code in your original form (`en_US`
 stays `en_US`). Use it for one-shot side effects; use `[(value)]` when
 you want state.
@@ -109,21 +109,21 @@ you want state.
 ## Show each locale in its own language
 
 ```html
-<lily-locale-chooser
-    label="Language"
-    [locales]="['en', 'fr', 'de', 'ar', 'cy']"
-    [localeLabels]="endonyms"
-    [(value)]="locale"
+<lily-locale-picker
+  label="Language"
+  [locales]="['en', 'fr', 'de', 'ar', 'cy']"
+  [localeLabels]="endonyms"
+  [(value)]="locale"
 />
 ```
 
 ```ts
 endonyms: Record<string, string> = {
-    en: "English",
-    fr: "Français",
-    de: "Deutsch",
-    ar: "العربية",
-    cy: "Cymraeg",
+  en: "English",
+  fr: "Français",
+  de: "Deutsch",
+  ar: "العربية",
+  cy: "Cymraeg",
 };
 ```
 
@@ -141,27 +141,27 @@ shows this in a language banner; the reasoning is in
 
 ```ts
 @Component({
-    standalone: true,
-    imports: [LocaleChooser],
-    template: `
-        <section #panel>
-            <lily-locale-chooser
-                label="Panel language"
-                [locales]="['en', 'fr', 'ar']"
-                [target]="panel"
-                [(value)]="panelLocale"
-            />
-        </section>
-    `,
+  standalone: true,
+  imports: [LocalePicker],
+  template: `
+    <section #panel>
+      <lily-locale-picker
+        label="Panel language"
+        [locales]="['en', 'fr', 'ar']"
+        [target]="panel"
+        [(value)]="panelLocale"
+      />
+    </section>
+  `,
 })
 export class Panel {
-    panelLocale = signal("fr");
+  panelLocale = signal("fr");
 }
 ```
 
 `target` redirects the `lang` / `dir` writes from
 `document.documentElement` to any element you hand it — the template
-reference variable on a plain `<section>` *is* the `HTMLElement`, so
+reference variable on a plain `<section>` _is_ the `HTMLElement`, so
 no `viewChild` is needed. Give each select a distinct `name` if more
 than one appears in the same form. See
 [`../examples/scoped-target.component.ts`](../examples/scoped-target.component.ts).
@@ -169,11 +169,11 @@ than one appears in the same form. See
 ## Keep control of `dir` yourself
 
 ```html
-<lily-locale-chooser
-    label="Language"
-    [locales]="['en', 'ar']"
-    [(value)]="locale"
-    [applyDir]="false"
+<lily-locale-picker
+  label="Language"
+  [locales]="['en', 'ar']"
+  [(value)]="locale"
+  [applyDir]="false"
 />
 ```
 
@@ -190,28 +190,28 @@ Urdu readers. What `dir="rtl"` actually changes:
 ```ts
 import { Component, inject, signal } from "@angular/core";
 import { Router } from "@angular/router";
-import { LocaleChooser } from "../locale-chooser.component";
+import { LocalePicker } from "../locale-picker.component";
 
 @Component({
-    standalone: true,
-    imports: [LocaleChooser],
-    template: `
-        <lily-locale-chooser
-            label="Language"
-            [locales]="['en', 'fr', 'ar']"
-            [value]="current()"
-            (localeChange)="navigate($event)"
-        />
-    `,
+  standalone: true,
+  imports: [LocalePicker],
+  template: `
+    <lily-locale-picker
+      label="Language"
+      [locales]="['en', 'fr', 'ar']"
+      [value]="current()"
+      (localeChange)="navigate($event)"
+    />
+  `,
 })
 export class LanguageMenu {
-    private router = inject(Router);
-    current = signal("en");
+  private router = inject(Router);
+  current = signal("en");
 
-    navigate(next: string) {
-        const path = this.router.url.replace(/^\/(en|fr|ar)/, `/${next}`);
-        this.router.navigateByUrl(path);
-    }
+  navigate(next: string) {
+    const path = this.router.url.replace(/^\/(en|fr|ar)/, `/${next}`);
+    this.router.navigateByUrl(path);
+  }
 }
 ```
 
@@ -225,13 +225,13 @@ the server middleware that sets `lang` on the first byte:
 
 ```html
 <form method="post" action="/preferences">
-    <lily-locale-chooser
-        label="Language"
-        [locales]="['en', 'fr', 'ar']"
-        [(value)]="locale"
-        name="preferred_locale"
-    />
-    <button type="submit">Save</button>
+  <lily-locale-picker
+    label="Language"
+    [locales]="['en', 'fr', 'ar']"
+    [(value)]="locale"
+    name="preferred_locale"
+  />
+  <button type="submit">Save</button>
 </form>
 ```
 
@@ -244,15 +244,15 @@ make it unique if several selects share one form.
 
 ```ts
 export class Settings {
-    locale = signal("");
+  locale = signal("");
 
-    save() {
-        void fetch("/api/preferences", {
-            method: "POST",
-            headers: { "content-type": "application/json" },
-            body: JSON.stringify({ locale: this.locale() }),
-        });
-    }
+  save() {
+    void fetch("/api/preferences", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ locale: this.locale() }),
+    });
+  }
 }
 ```
 
@@ -265,21 +265,24 @@ is far away in the tree.
 ## Pick the initial locale on the server
 
 ```ts
-import { matchNavigatorLanguage, isRtlLocale, bcp47LocaleTag }
-    from "../locale-chooser.component";
+import {
+  matchNavigatorLanguage,
+  isRtlLocale,
+  bcp47LocaleTag,
+} from "../locale-picker.component";
 
 const SUPPORTED = ["en", "fr", "ar"];
 
 export function resolveLocale(acceptLanguage: string): {
-    lang: string;
-    dir: "ltr" | "rtl";
+  lang: string;
+  dir: "ltr" | "rtl";
 } {
-    const requested = acceptLanguage
-        .split(",")
-        .map((part) => part.split(";")[0].trim())
-        .filter(Boolean);
-    const code = matchNavigatorLanguage(requested, SUPPORTED) || "en";
-    return { lang: bcp47LocaleTag(code), dir: isRtlLocale(code) ? "rtl" : "ltr" };
+  const requested = acceptLanguage
+    .split(",")
+    .map((part) => part.split(";")[0].trim())
+    .filter(Boolean);
+  const code = matchNavigatorLanguage(requested, SUPPORTED) || "en";
+  return { lang: bcp47LocaleTag(code), dir: isRtlLocale(code) ? "rtl" : "ltr" };
 }
 ```
 
@@ -324,10 +327,10 @@ to style any of these are in [styling.md](./styling.md).
 ## Preview RTL without shipping a translation
 
 ```html
-<lily-locale-chooser
-    label="Language"
-    [locales]="['en', 'ar', 'he', 'fa', 'ur', 'ps']"
-    [(value)]="locale"
+<lily-locale-picker
+  label="Language"
+  [locales]="['en', 'ar', 'he', 'fa', 'ur', 'ps']"
+  [(value)]="locale"
 />
 ```
 

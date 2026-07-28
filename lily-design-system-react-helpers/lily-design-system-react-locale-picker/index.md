@@ -1,6 +1,6 @@
-# LocaleChooser (React helper)
+# LocalePicker (React helper)
 
-A reusable, headless React 19 locale chooser — an icon button that opens
+A reusable, headless React 19 locale picker — an icon button that opens
 a dropdown listbox (WAI-ARIA APG Listbox pattern) — that applies the
 chosen locale to the document root via `lang` and `dir`, with optional
 `localStorage` persistence and `navigator.languages` detection.
@@ -16,13 +16,13 @@ only runtime dependency is `react` ≥ 19.
 
 ```ts
 import {
-    LocaleChooser,
-    bcp47LocaleTag,
-    isRtlLocale,
-    localeName,
-    type Props,
-    type ChildArgs,
-} from "./lily-design-system-react-locale-chooser";
+  LocalePicker,
+  bcp47LocaleTag,
+  isRtlLocale,
+  localeName,
+  type Props,
+  type ChildArgs,
+} from "./lily-design-system-react-locale-picker";
 ```
 
 ## Quick start
@@ -41,28 +41,28 @@ change.
 
 import { useState } from "react";
 import {
-    LocaleChooser,
-    localeName,
-} from "./lily-design-system-react-locale-chooser";
+  LocalePicker,
+  localeName,
+} from "./lily-design-system-react-locale-picker";
 
-export function LanguageChooser() {
-    const [locale, setLocale] = useState("");
-    return (
-        <>
-            <LocaleChooser
-                label="Language"
-                locales={["en", "en_US", "fr", "fr_CA", "ar", "he"]}
-                value={locale}
-                onChange={setLocale}
-                storageKey="lily-locale"
-                detectFromNavigator
-            />
+export function LanguagePicker() {
+  const [locale, setLocale] = useState("");
+  return (
+    <>
+      <LocalePicker
+        label="Language"
+        locales={["en", "en_US", "fr", "fr_CA", "ar", "he"]}
+        value={locale}
+        onChange={setLocale}
+        storageKey="lily-locale"
+        detectFromNavigator
+      />
 
-            <p className="locale-chooser-status" aria-live="polite">
-                Active language: {localeName(locale)}
-            </p>
-        </>
-    );
+      <p className="locale-picker-status" aria-live="polite">
+        Active language: {localeName(locale)}
+      </p>
+    </>
+  );
 }
 ```
 
@@ -100,9 +100,9 @@ to the hyphen form when writing to the DOM. The controlled `value`
 preserves your original form, so round-trips are lossless.
 
 ```ts
-bcp47LocaleTag("en_US");      // "en-US"
+bcp47LocaleTag("en_US"); // "en-US"
 bcp47LocaleTag("zh_Hant_TW"); // "zh-Hant-TW"
-bcp47LocaleTag("en");         // "en"
+bcp47LocaleTag("en"); // "en"
 ```
 
 References:
@@ -120,10 +120,10 @@ subtag is one of `Arab`, `Hebr`, `Thaa`, `Syrc`, `Nkoo`, `Mong`,
 `Adlm`.
 
 ```ts
-isRtlLocale("ar");         // true
-isRtlLocale("he_IL");      // true
+isRtlLocale("ar"); // true
+isRtlLocale("he_IL"); // true
 isRtlLocale("uz_Arab_AF"); // true (script subtag)
-isRtlLocale("en");         // false
+isRtlLocale("en"); // false
 ```
 
 Pass `applyDir={false}` if you want full control of `dir` yourself.
@@ -136,32 +136,32 @@ Pass `applyDir={false}` if you want full control of `dir` yourself.
 "use client";
 
 import { useState } from "react";
-import { LocaleChooser } from "./lily-design-system-react-locale-chooser";
+import { LocalePicker } from "./lily-design-system-react-locale-picker";
 
 export function NhsBanner() {
-    const [locale, setLocale] = useState("en");
-    return (
-        <LocaleChooser
-            label="Language"
-            locales={["en", "cy"]}
-            value={locale}
-            onChange={setLocale}
-        />
-    );
+  const [locale, setLocale] = useState("en");
+  return (
+    <LocalePicker
+      label="Language"
+      locales={["en", "cy"]}
+      value={locale}
+      onChange={setLocale}
+    />
+  );
 }
 
 // Renders:
-// <div class="locale-chooser">
+// <div class="locale-picker">
 //     <input type="hidden" name="locale" value="en" />
-//     <button type="button" class="locale-chooser-button" aria-label="Language"
+//     <button type="button" class="locale-picker-button" aria-label="Language"
 //             aria-haspopup="listbox" aria-expanded="false" aria-controls="…-list">
-//         <span class="locale-chooser-icon" aria-hidden="true">🌐</span>
+//         <span class="locale-picker-icon" aria-hidden="true">🌐</span>
 //     </button>
-//     <ul class="locale-chooser-list" id="…-list" role="listbox"
+//     <ul class="locale-picker-list" id="…-list" role="listbox"
 //         aria-label="Language" tabindex="-1" hidden>
-//         <li class="locale-chooser-option" id="…-option-0" role="option"
+//         <li class="locale-picker-option" id="…-option-0" role="option"
 //             aria-selected="true" data-active lang="en">English</li>
-//         <li class="locale-chooser-option" id="…-option-1" role="option"
+//         <li class="locale-picker-option" id="…-option-1" role="option"
 //             aria-selected="false" lang="cy">Welsh</li>
 //     </ul>
 // </div>
@@ -186,21 +186,21 @@ itself — none of it comes from the platform.
 
 On the button:
 
-| Key                             | Action                                              |
-| ------------------------------- | --------------------------------------------------- |
+| Key                             | Action                                                        |
+| ------------------------------- | ------------------------------------------------------------- |
 | `ArrowDown` / `Enter` / `Space` | Open with the current locale active; focus moves to the list. |
-| `ArrowUp`                       | Open with the **last** option active.               |
+| `ArrowUp`                       | Open with the **last** option active.                         |
 
 On the open listbox:
 
-| Key                     | Action                                                    |
-| ----------------------- | --------------------------------------------------------- |
-| `ArrowDown` / `ArrowUp` | Move the active option; clamps at the ends, no wrapping.  |
-| `Home` / `End`          | Jump to the first / last option.                          |
-| `Enter` / `Space`       | Select, apply, close, and return focus to the button.     |
-| `Escape`                | Close and return focus, leaving the locale unchanged.     |
-| `Tab`                   | Close and let focus move on.                              |
-| Any printable character | Typeahead over the option labels (500 ms buffer).         |
+| Key                     | Action                                                   |
+| ----------------------- | -------------------------------------------------------- |
+| `ArrowDown` / `ArrowUp` | Move the active option; clamps at the ends, no wrapping. |
+| `Home` / `End`          | Jump to the first / last option.                         |
+| `Enter` / `Space`       | Select, apply, close, and return focus to the button.    |
+| `Escape`                | Close and return focus, leaving the locale unchanged.    |
+| `Tab`                   | Close and let focus move on.                             |
+| Any printable character | Typeahead over the option labels (500 ms buffer).        |
 
 Clicking an option selects it; clicking outside, or moving focus out of
 the control, closes the list without changing the locale.
@@ -210,14 +210,14 @@ the control, closes the list without changing the locale.
 This package ships no CSS. Full guide in
 [docs/styling.md](./docs/styling.md); the class hooks are:
 
-| Hook                         | Element                                     |
-| ---------------------------- | ------------------------------------------- |
-| `.locale-chooser`             | Root `<div>`.                               |
-| `.locale-chooser-button`      | The trigger `<button>`.                     |
-| `.locale-chooser-icon`        | The default glyph `<span>` (absent when you pass `children`). |
-| `.locale-chooser-list`        | The `<ul role="listbox">`.                  |
-| `.locale-chooser-option`      | Each `<li role="option">`.                  |
-| `.locale-chooser-status`      | The consumer-rendered status line — you render it, and the examples always do. |
+| Hook                     | Element                                                                        |
+| ------------------------ | ------------------------------------------------------------------------------ |
+| `.locale-picker`        | Root `<div>`.                                                                  |
+| `.locale-picker-button` | The trigger `<button>`.                                                        |
+| `.locale-picker-icon`   | The default glyph `<span>` (absent when you pass `children`).                  |
+| `.locale-picker-list`   | The `<ul role="listbox">`.                                                     |
+| `.locale-picker-option` | Each `<li role="option">`.                                                     |
+| `.locale-picker-status` | The consumer-rendered status line — you render it, and the examples always do. |
 
 Two attribute hooks go with them: `[aria-selected="true"]` marks the
 active locale, and `[data-active]` marks the option under the keyboard
@@ -229,30 +229,30 @@ package ships no positioning, so give the list a stacking context of
 your own:
 
 ```css
-.locale-chooser {
-    position: relative;
+.locale-picker {
+  position: relative;
 }
 
-.locale-chooser-list {
-    position: absolute;
-    inset-inline-start: 0;
-    z-index: 1;
-    margin: 0;
-    padding: 0;
-    list-style: none;
+.locale-picker-list {
+  position: absolute;
+  inset-inline-start: 0;
+  z-index: 1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.locale-chooser-option[aria-selected="true"] {
-    font-weight: 600;
+.locale-picker-option[aria-selected="true"] {
+  font-weight: 600;
 }
 
-.locale-chooser-option[data-active] {
-    outline: 2px solid currentColor;
-    outline-offset: -2px;
+.locale-picker-option[data-active] {
+  outline: 2px solid currentColor;
+  outline-offset: -2px;
 }
 ```
 
-Do not override `.locale-chooser-list[hidden]` with a `display` value —
+Do not override `.locale-picker-list[hidden]` with a `display` value —
 that would leave the list visible when it is meant to be closed.
 
 ### Styling the status line
@@ -260,9 +260,9 @@ that would leave the list visible when it is meant to be closed.
 Style the status line as ordinary body copy:
 
 ```css
-.locale-chooser-status {
-    margin-block-start: 0.5rem;
-    font-size: 0.875rem;
+.locale-picker-status {
+  margin-block-start: 0.5rem;
+  font-size: 0.875rem;
 }
 ```
 
@@ -271,16 +271,16 @@ Prefer it visible. When a design genuinely cannot spare the space,
 announces:
 
 ```css
-.locale-chooser-status {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    padding: 0;
-    border: 0;
-    overflow: hidden;
-    white-space: nowrap;
-    clip-path: inset(50%);
+.locale-picker-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  clip-path: inset(50%);
 }
 ```
 
@@ -295,12 +295,12 @@ falls back to `Intl.DisplayNames` if available, then to the raw code).
 Override per-code with `localeLabels`:
 
 ```tsx
-<LocaleChooser
-    label="Langue"
-    locales={["en", "fr", "ar"]}
-    localeLabels={{ en: "English", fr: "Français", ar: "العربية" }}
-    value={locale}
-    onChange={setLocale}
+<LocalePicker
+  label="Langue"
+  locales={["en", "fr", "ar"]}
+  localeLabels={{ en: "English", fr: "Français", ar: "العربية" }}
+  value={locale}
+  onChange={setLocale}
 />
 ```
 
@@ -315,19 +315,19 @@ options, and the whole keyboard contract. It receives
 `{ value, open, labelFor }`:
 
 ```tsx
-<LocaleChooser
-    label="Language"
-    locales={["en", "fr", "es", "de", "ar"]}
-    value={locale}
-    onChange={setLocale}
-    storageKey="lily-locale"
+<LocalePicker
+  label="Language"
+  locales={["en", "fr", "es", "de", "ar"]}
+  value={locale}
+  onChange={setLocale}
+  storageKey="lily-locale"
 >
-    {({ value, open, labelFor }) => (
-        <span aria-hidden="true" title={labelFor(value)}>
-            {value.split("_")[0].toUpperCase()} {open ? "▴" : "▾"}
-        </span>
-    )}
-</LocaleChooser>
+  {({ value, open, labelFor }) => (
+    <span aria-hidden="true" title={labelFor(value)}>
+      {value.split("_")[0].toUpperCase()} {open ? "▴" : "▾"}
+    </span>
+  )}
+</LocalePicker>
 ```
 
 Mark your glyph `aria-hidden="true"`: the button already has its
@@ -339,15 +339,23 @@ control, which is that the active locale is otherwise invisible while
 the list is closed:
 
 ```tsx
-import { LocaleChooser, GLOBE_WITH_MERIDIANS } from "./lily-design-system-react-locale-chooser";
+import {
+  LocalePicker,
+  GLOBE_WITH_MERIDIANS,
+} from "./lily-design-system-react-locale-picker";
 
-<LocaleChooser label="Language" locales={["en", "cy"]} value={locale} onChange={setLocale}>
-    {({ value, labelFor }) => (
-        <span aria-hidden="true">
-            {GLOBE_WITH_MERIDIANS} {labelFor(value)}
-        </span>
-    )}
-</LocaleChooser>
+<LocalePicker
+  label="Language"
+  locales={["en", "cy"]}
+  value={locale}
+  onChange={setLocale}
+>
+  {({ value, labelFor }) => (
+    <span aria-hidden="true">
+      {GLOBE_WITH_MERIDIANS} {labelFor(value)}
+    </span>
+  )}
+</LocalePicker>;
 ```
 
 ### Wiring an i18n library
@@ -357,23 +365,27 @@ import { LocaleChooser, GLOBE_WITH_MERIDIANS } from "./lily-design-system-react-
 
 import { useState } from "react";
 import { useIntl } from "react-intl";
-import { LocaleChooser } from "./lily-design-system-react-locale-chooser";
+import { LocalePicker } from "./lily-design-system-react-locale-picker";
 
-export function LanguageChooser({ onLocaleChange }: { onLocaleChange: (code: string) => void }) {
-    const [current, setCurrent] = useState("");
-    return (
-        <LocaleChooser
-            label="Language"
-            locales={["en", "fr", "ar"]}
-            value={current}
-            onChange={(code) => {
-                setCurrent(code);
-                onLocaleChange(code);     // propagate to react-intl / i18next / …
-            }}
-            detectFromNavigator
-            storageKey="app-locale"
-        />
-    );
+export function LanguagePicker({
+  onLocaleChange,
+}: {
+  onLocaleChange: (code: string) => void;
+}) {
+  const [current, setCurrent] = useState("");
+  return (
+    <LocalePicker
+      label="Language"
+      locales={["en", "fr", "ar"]}
+      value={current}
+      onChange={(code) => {
+        setCurrent(code);
+        onLocaleChange(code); // propagate to react-intl / i18next / …
+      }}
+      detectFromNavigator
+      storageKey="app-locale"
+    />
+  );
 }
 ```
 
@@ -386,18 +398,18 @@ a cookie or `Accept-Language`) and pass it as `value`:
 "use client";
 
 import { useState } from "react";
-import { LocaleChooser } from "./lily-design-system-react-locale-chooser";
+import { LocalePicker } from "./lily-design-system-react-locale-picker";
 
 export function LocaleClient({ initialLocale }: { initialLocale: string }) {
-    const [locale, setLocale] = useState(initialLocale);
-    return (
-        <LocaleChooser
-            label="Language"
-            locales={["en", "fr", "ar"]}
-            value={locale}
-            onChange={setLocale}
-        />
-    );
+  const [locale, setLocale] = useState(initialLocale);
+  return (
+    <LocalePicker
+      label="Language"
+      locales={["en", "fr", "ar"]}
+      value={locale}
+      onChange={setLocale}
+    />
+  );
 }
 ```
 
@@ -413,28 +425,28 @@ a region (e.g. a multilingual side panel):
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { LocaleChooser } from "./lily-design-system-react-locale-chooser";
+import { LocalePicker } from "./lily-design-system-react-locale-picker";
 
 export function MultilingualPanel() {
-    const ref = useRef<HTMLElement | null>(null);
-    const [panelLocale, setPanelLocale] = useState("fr");
-    const [, setReady] = useState(false);
+  const ref = useRef<HTMLElement | null>(null);
+  const [panelLocale, setPanelLocale] = useState("fr");
+  const [, setReady] = useState(false);
 
-    // Force re-render after refs resolve.
-    useEffect(() => setReady(true), []);
+  // Force re-render after refs resolve.
+  useEffect(() => setReady(true), []);
 
-    return (
-        <section ref={ref}>
-            <p>This panel switches language independently of the page.</p>
-            <LocaleChooser
-                label="Panel language"
-                locales={["en", "fr", "ar"]}
-                target={ref.current}
-                value={panelLocale}
-                onChange={setPanelLocale}
-            />
-        </section>
-    );
+  return (
+    <section ref={ref}>
+      <p>This panel switches language independently of the page.</p>
+      <LocalePicker
+        label="Panel language"
+        locales={["en", "fr", "ar"]}
+        target={ref.current}
+        value={panelLocale}
+        onChange={setPanelLocale}
+      />
+    </section>
+  );
 }
 ```
 
@@ -450,13 +462,13 @@ the data directly:
 
 ```ts
 import {
-    defaultLocaleLabels,
-    RTL_LANGUAGE_TAGS,
-    RTL_SCRIPT_SUBTAGS,
-} from "./lily-design-system-react-locale-chooser";
+  defaultLocaleLabels,
+  RTL_LANGUAGE_TAGS,
+  RTL_SCRIPT_SUBTAGS,
+} from "./lily-design-system-react-locale-picker";
 
 console.log(defaultLocaleLabels["en_US"]); // "English (United States)"
-console.log(RTL_LANGUAGE_TAGS.has("ar"));  // true
+console.log(RTL_LANGUAGE_TAGS.has("ar")); // true
 ```
 
 ## Props
@@ -490,7 +502,7 @@ Common optional props: `value` (controlled), `defaultValue`,
   for its name; a custom listbox has weaker assistive-technology
   support than a native `<select>`; and the globe glyph is
   font-dependent and culturally loaded. The default pattern compensates
-  with a visible `.locale-chooser-status` live region beside the control
+  with a visible `.locale-picker-status` live region beside the control
   — see [docs/accessibility.md](./docs/accessibility.md) for the full
   discussion.
 
@@ -504,55 +516,55 @@ navigator-matcher helper.
 
 ## Files in this directory
 
-| File                          | Purpose                                          |
-| ----------------------------- | ------------------------------------------------ |
-| `spec/index.md`                     | Single source of truth — API, behaviour, tests.  |
-| `LocaleChooser.tsx`            | The component implementation.                    |
-| `LocaleChooser.test.tsx`       | vitest suite covering every spec §7 item.        |
-| `locales.ts`                  | Built-in code → English-name map and RTL sets.   |
-| `locales.tsv`                 | Canonical 436-row source for `locales.ts`.       |
-| `index.ts`                    | Re-export barrel.                                |
-| `index.md`                    | This file — quick start + worked examples.       |
-| `CHANGELOG.md`                | Per-version history.                             |
-| `AGENTS.md`                   | AI-agent metadata pointer.                       |
-| `AGENTS/`                     | Per-topic AI-agent guides.                       |
-| `CLAUDE.md`                   | Loads `AGENTS.md`.                               |
-| `docs/`                       | Deep-dive guides — see [Documentation](#documentation). |
-| `examples/`                   | Runnable React 19 example components — see [Examples](#examples). |
+| File                     | Purpose                                                           |
+| ------------------------ | ----------------------------------------------------------------- |
+| `spec/index.md`          | Single source of truth — API, behaviour, tests.                   |
+| `LocalePicker.tsx`      | The component implementation.                                     |
+| `LocalePicker.test.tsx` | vitest suite covering every spec §7 item.                         |
+| `locales.ts`             | Built-in code → English-name map and RTL sets.                    |
+| `locales.tsv`            | Canonical 436-row source for `locales.ts`.                        |
+| `index.ts`               | Re-export barrel.                                                 |
+| `index.md`               | This file — quick start + worked examples.                        |
+| `CHANGELOG.md`           | Per-version history.                                              |
+| `AGENTS.md`              | AI-agent metadata pointer.                                        |
+| `AGENTS/`                | Per-topic AI-agent guides.                                        |
+| `CLAUDE.md`              | Loads `AGENTS.md`.                                                |
+| `docs/`                  | Deep-dive guides — see [Documentation](#documentation).           |
+| `examples/`              | Runnable React 19 example components — see [Examples](#examples). |
 
 ## Documentation
 
-| Guide                                                | Covers                                                              |
-| ---------------------------------------------------- | ------------------------------------------------------------------- |
-| [docs/props-reference.md](./docs/props-reference.md) | Field-by-field reference for every prop.                            |
-| [docs/concepts.md](./docs/concepts.md)               | Mental model, lifecycle diagram, why the defaults are what they are. |
-| [docs/bcp47.md](./docs/bcp47.md)                     | Language-tag syntax (RFC 5646), IANA registry, subtag composition.   |
-| [docs/rtl.md](./docs/rtl.md)                         | What's auto-detected, what `dir="rtl"` actually changes, CSS tips.   |
-| [docs/i18n-integration.md](./docs/i18n-integration.md) | Wiring react-intl, react-i18next, Paraglide, Tolgee, raw `Intl.*`. |
-| [docs/ssr.md](./docs/ssr.md)                         | Cookie, URL-prefix, Accept-Language, streaming SSR, FOUC avoidance.  |
-| [docs/accessibility.md](./docs/accessibility.md)     | WCAG 2.2 AAA mapping, keyboard contract, screen-reader matrix.       |
-| [docs/styling.md](./docs/styling.md)                 | Class hooks, attribute hooks, positioning, baseline CSS.            |
-| [docs/custom-rendering.md](./docs/custom-rendering.md) | Replacing the button glyph via the `children` render prop.        |
-| [docs/recipes.md](./docs/recipes.md)                 | Cookbook of adjacent problems.                                      |
-| [docs/troubleshooting.md](./docs/troubleshooting.md) | Symptoms, root causes, fixes.                                       |
+| Guide                                                  | Covers                                                               |
+| ------------------------------------------------------ | -------------------------------------------------------------------- |
+| [docs/props-reference.md](./docs/props-reference.md)   | Field-by-field reference for every prop.                             |
+| [docs/concepts.md](./docs/concepts.md)                 | Mental model, lifecycle diagram, why the defaults are what they are. |
+| [docs/bcp47.md](./docs/bcp47.md)                       | Language-tag syntax (RFC 5646), IANA registry, subtag composition.   |
+| [docs/rtl.md](./docs/rtl.md)                           | What's auto-detected, what `dir="rtl"` actually changes, CSS tips.   |
+| [docs/i18n-integration.md](./docs/i18n-integration.md) | Wiring react-intl, react-i18next, Paraglide, Tolgee, raw `Intl.*`.   |
+| [docs/ssr.md](./docs/ssr.md)                           | Cookie, URL-prefix, Accept-Language, streaming SSR, FOUC avoidance.  |
+| [docs/accessibility.md](./docs/accessibility.md)       | WCAG 2.2 AAA mapping, keyboard contract, screen-reader matrix.       |
+| [docs/styling.md](./docs/styling.md)                   | Class hooks, attribute hooks, positioning, baseline CSS.             |
+| [docs/custom-rendering.md](./docs/custom-rendering.md) | Replacing the button glyph via the `children` render prop.           |
+| [docs/recipes.md](./docs/recipes.md)                   | Cookbook of adjacent problems.                                       |
+| [docs/troubleshooting.md](./docs/troubleshooting.md)   | Symptoms, root causes, fixes.                                        |
 
 ## Examples
 
 Each file in `examples/` is a complete, runnable React 19 component
 you can copy into your project.
 
-| Example                                                                                 | Demonstrates                                                       |
-| --------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| [basic.tsx](./examples/basic.tsx)                                               | The default globe-button rendering + the default status line.      |
-| [custom-rendering.tsx](./examples/custom-rendering.tsx)                                               | `children` glyph override showing the active short code + chevron. |
-| [compact-glyph.tsx](./examples/compact-glyph.tsx)                                             | Compact glyph button with short codes / script characters.         |
-| [rtl-demo.tsx](./examples/rtl-demo.tsx)                                           | Live RTL preview — Arabic, Hebrew, Persian, Urdu, Pashto.          |
-| [nhs-style.tsx](./examples/nhs-style.tsx)                                         | NHS UK-style language banner: globe + endonym in the button.       |
-| [with-react-intl.tsx](./examples/with-react-intl.tsx)                             | Binding to react-intl's `locale` prop.                             |
-| [with-react-i18next.tsx](./examples/with-react-i18next.tsx)                       | Driving react-i18next's `changeLanguage()` from `onChange`.        |
-| [ssr-cookie.tsx](./examples/ssr-cookie.tsx)                                       | Next.js App Router cookie-based SSR — no flash of default locale.  |
-| [scoped-target.tsx](./examples/scoped-target.tsx)                                 | Multiple per-region selects, each scoped to its own panel.         |
-| [all-locales.tsx](./examples/all-locales.tsx)                                           | All 436 locales, navigated with the built-in listbox typeahead.    |
+| Example                                                     | Demonstrates                                                       |
+| ----------------------------------------------------------- | ------------------------------------------------------------------ |
+| [basic.tsx](./examples/basic.tsx)                           | The default globe-button rendering + the default status line.      |
+| [custom-rendering.tsx](./examples/custom-rendering.tsx)     | `children` glyph override showing the active short code + chevron. |
+| [compact-glyph.tsx](./examples/compact-glyph.tsx)           | Compact glyph button with short codes / script characters.         |
+| [rtl-demo.tsx](./examples/rtl-demo.tsx)                     | Live RTL preview — Arabic, Hebrew, Persian, Urdu, Pashto.          |
+| [nhs-style.tsx](./examples/nhs-style.tsx)                   | NHS UK-style language banner: globe + endonym in the button.       |
+| [with-react-intl.tsx](./examples/with-react-intl.tsx)       | Binding to react-intl's `locale` prop.                             |
+| [with-react-i18next.tsx](./examples/with-react-i18next.tsx) | Driving react-i18next's `changeLanguage()` from `onChange`.        |
+| [ssr-cookie.tsx](./examples/ssr-cookie.tsx)                 | Next.js App Router cookie-based SSR — no flash of default locale.  |
+| [scoped-target.tsx](./examples/scoped-target.tsx)           | Multiple per-region selects, each scoped to its own panel.         |
+| [all-locales.tsx](./examples/all-locales.tsx)               | All 436 locales, navigated with the built-in listbox typeahead.    |
 
 ---
 

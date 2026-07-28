@@ -1,4 +1,4 @@
-# AGENTS / lifecycle — ThemeChooser
+# AGENTS / lifecycle — ThemePicker
 
 Implementation lifecycle. Read [`../spec/index.md §5`](../spec/index.md#5-behaviour)
 for the formal contract; this file documents the React 19 mechanics.
@@ -31,27 +31,27 @@ selection was made (click, `Enter`, or `Space`).
 ```tsx
 const initialisedRef = React.useRef(false);
 React.useEffect(() => {
-    if (initialisedRef.current) return;
-    initialisedRef.current = true;
+  if (initialisedRef.current) return;
+  initialisedRef.current = true;
 
-    const initial = resolveInitialTheme(
-        currentValue || undefined,
-        storageKey,
-        defaultValue,
-        themes,
-    );
-    if (!initial) return;
+  const initial = resolveInitialTheme(
+    currentValue || undefined,
+    storageKey,
+    defaultValue,
+    themes,
+  );
+  if (!initial) return;
 
-    if (isControlled) {
-        applyTheme(initial);
+  if (isControlled) {
+    applyTheme(initial);
+  } else {
+    if (initial !== internalValue) {
+      setInternalValue(initial);
     } else {
-        if (initial !== internalValue) {
-            setInternalValue(initial);
-        } else {
-            applyTheme(initial);
-        }
+      applyTheme(initial);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
 }, []);
 ```
 
@@ -68,10 +68,10 @@ Properties:
 
 ```tsx
 React.useEffect(() => {
-    if (!initialisedRef.current) return;
-    if (!currentValue) return;
-    applyTheme(currentValue);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  if (!initialisedRef.current) return;
+  if (!currentValue) return;
+  applyTheme(currentValue);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [currentValue]);
 ```
 
@@ -88,12 +88,12 @@ Properties:
 
 These run alongside the value lifecycle and never apply a theme.
 
-| Effect | Deps | What it does |
-| ------ | ---- | ------------ |
-| Focus transfer | `[open]` | On open, `listRef.current?.focus()`. On close, focus the button — but only when `refocusRef.current` was set, i.e. the close came from a selection or `Escape`, not from `Tab` / outside click / focus loss. |
-| Scroll into view | `[open, activeIndex]` | `scrollIntoView({ block: "nearest" })` on the active option. jsdom does not implement it, hence the optional call. |
-| Outside click | `[open]` | While open, a `document` `click` listener closes the list when the target is outside `rootRef`. Removed on close / unmount. |
-| Typeahead cleanup | `[]` | Clears any pending buffer-reset timer on unmount. |
+| Effect            | Deps                  | What it does                                                                                                                                                                                                 |
+| ----------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Focus transfer    | `[open]`              | On open, `listRef.current?.focus()`. On close, focus the button — but only when `refocusRef.current` was set, i.e. the close came from a selection or `Escape`, not from `Tab` / outside click / focus loss. |
+| Scroll into view  | `[open, activeIndex]` | `scrollIntoView({ block: "nearest" })` on the active option. jsdom does not implement it, hence the optional call.                                                                                           |
+| Outside click     | `[open]`              | While open, a `document` `click` listener closes the list when the target is outside `rootRef`. Removed on close / unmount.                                                                                  |
+| Typeahead cleanup | `[]`                  | Clears any pending buffer-reset timer on unmount.                                                                                                                                                            |
 
 Focus moves in an effect rather than in the handler because the target
 element's `hidden` attribute is only removed after the commit — focusing
@@ -108,23 +108,23 @@ so the root sees focus leaving any descendant. It closes with
 
 ```tsx
 function resolveInitialTheme(
-    value: string | undefined,
-    storageKey: string | undefined,
-    defaultValue: string | undefined,
-    themes: string[],
+  value: string | undefined,
+  storageKey: string | undefined,
+  defaultValue: string | undefined,
+  themes: string[],
 ): string {
-    if (value) return value;
-    if (storageKey) {
-        try {
-            const stored = localStorage.getItem(storageKey);
-            if (stored) return stored;
-        } catch {
-            // ignore privacy errors
-        }
+  if (value) return value;
+  if (storageKey) {
+    try {
+      const stored = localStorage.getItem(storageKey);
+      if (stored) return stored;
+    } catch {
+      // ignore privacy errors
     }
-    if (defaultValue) return defaultValue;
-    if (themes.includes("light")) return "light";
-    return themes[0] ?? "";
+  }
+  if (defaultValue) return defaultValue;
+  if (themes.includes("light")) return "light";
+  return themes[0] ?? "";
 }
 ```
 
@@ -141,17 +141,17 @@ Order matches [`spec/index.md §5.2`](../spec/index.md#52-initial-value-resoluti
 
 ```tsx
 function applyTheme(slug: string): void {
-    if (typeof document === "undefined" || !slug) return;
-    getManagedLink().href = themeHref(themesUrl, slug, extension);
-    (target ?? document.documentElement).setAttribute("data-theme", slug);
-    if (storageKey) {
-        try {
-            localStorage.setItem(storageKey, slug);
-        } catch {
-            // ignore quota / privacy errors
-        }
+  if (typeof document === "undefined" || !slug) return;
+  getManagedLink().href = themeHref(themesUrl, slug, extension);
+  (target ?? document.documentElement).setAttribute("data-theme", slug);
+  if (storageKey) {
+    try {
+      localStorage.setItem(storageKey, slug);
+    } catch {
+      // ignore quota / privacy errors
     }
-    onChange?.(slug);
+  }
+  onChange?.(slug);
 }
 ```
 
@@ -170,15 +170,15 @@ useEffect anyway).
 
 ```tsx
 function getManagedLink(): HTMLLinkElement {
-    const selector = `link[data-lily-theme-chooser="${name}"]`;
-    let link = document.head.querySelector<HTMLLinkElement>(selector);
-    if (!link) {
-        link = document.createElement("link");
-        link.rel = "stylesheet";
-        link.setAttribute("data-lily-theme-chooser", name);
-        document.head.appendChild(link);
-    }
-    return link;
+  const selector = `link[data-lily-theme-picker="${name}"]`;
+  let link = document.head.querySelector<HTMLLinkElement>(selector);
+  if (!link) {
+    link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.setAttribute("data-lily-theme-picker", name);
+    document.head.appendChild(link);
+  }
+  return link;
 }
 ```
 
@@ -191,11 +191,11 @@ managed link.
 
 ```tsx
 function setTheme(slug: string): void {
-    if (isControlled) {
-        applyTheme(slug);
-    } else {
-        setInternalValue(slug);
-    }
+  if (isControlled) {
+    applyTheme(slug);
+  } else {
+    setInternalValue(slug);
+  }
 }
 ```
 
@@ -212,9 +212,9 @@ written, and the value-change effect performs the apply — so
 
 ```tsx
 function choose(index: number): void {
-    const slug = themes[index];
-    if (slug) setTheme(slug);
-    closeList();
+  const slug = themes[index];
+  if (slug) setTheme(slug);
+  closeList();
 }
 ```
 
@@ -260,11 +260,14 @@ If a consumer needs to clean up (e.g. when fully removing the select
 from the app), they remove the `<link>` themselves:
 
 ```tsx
-useEffect(() => () => {
+useEffect(
+  () => () => {
     document.head
-        .querySelectorAll('link[data-lily-theme-chooser]')
-        .forEach(el => el.remove());
-}, []);
+      .querySelectorAll("link[data-lily-theme-picker]")
+      .forEach((el) => el.remove());
+  },
+  [],
+);
 ```
 
 ## Re-render frequency

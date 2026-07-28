@@ -1,4 +1,4 @@
-# Changelog — ShareChooser (Svelte)
+# Changelog — SharePicker (Svelte)
 
 All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
@@ -9,13 +9,13 @@ and the project follows [Semantic Versioning](https://semver.org/).
 ### Changed (BREAKING)
 
 - Renamed from `lily-design-system-svelte-share-button`. Directory,
-  component (`ShareChooser.svelte`), exported symbols (`ShareChooser`,
-  `nextShareChooserId`) and class hooks (`share-chooser`,
-  `share-chooser-button`, `share-chooser-icon`, `share-chooser-list`,
-  `share-chooser-list-item`, `share-chooser-target`,
-  `share-chooser-copy`, `share-chooser-status`) all carry the new name.
-- **The trigger's class hook is now `share-chooser-button`**, replacing
-  `share-chooser-trigger`. That exception existed only because
+  component (`SharePicker.svelte`), exported symbols (`SharePicker`,
+  `nextSharePickerId`) and class hooks (`share-picker`,
+  `share-picker-button`, `share-picker-icon`, `share-picker-list`,
+  `share-picker-list-item`, `share-picker-target`,
+  `share-picker-copy`, `share-picker-status`) all carry the new name.
+- **The trigger's class hook is now `share-picker-button`**, replacing
+  `share-picker-trigger`. That exception existed only because
   `.share-button-button` read badly; under the new name the problem
   disappears, so this helper follows the same `{helper}-button`
   convention as its siblings. The documented exception is removed.
@@ -61,16 +61,16 @@ title, text)` function. **No social-network endpoints ship with this
   hardcoded English string.
 - Keyboard: arrows move between items and clamp, Home/End jump, Escape
   closes and returns focus to the trigger, Tab closes and moves on.
-- Exports `canShareNatively`, `canCopy`, `nextShareChooserId`,
+- Exports `canShareNatively`, `canCopy`, `nextSharePickerId`,
   `BLACK_RIGHTWARDS_ARROWHEAD`.
 
 #### Notes
 
 - Unlike the `*-select` helpers, this owns an _action_, not a preference:
   it applies nothing to the document and persists nothing.
-- The trigger's class hook is `share-chooser-button`, not
-  `share-chooser-button` — the one deliberate bend in the
-  `{helper}-button` convention, since `.share-chooser-button` reads badly.
+- The trigger's class hook is `share-picker-button`, not
+  `share-picker-button` — the one deliberate bend in the
+  `{helper}-button` convention, since `.share-picker-button` reads badly.
 - Behaviour differs by platform when `strategy="auto"`: a phone gets the
   OS sheet, a desktop gets the list. Documented in
   `docs/accessibility.md` rather than glossed.

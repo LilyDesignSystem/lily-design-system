@@ -1,4 +1,4 @@
-# Changelog — LocaleChooser (Blazor)
+# Changelog — LocalePicker (Blazor)
 
 All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
@@ -7,8 +7,8 @@ and the project follows [Semantic Versioning](https://semver.org/).
 ## 0.1.0 — 2026-07-21
 
 Renamed from `lily-design-system-blazor-locale-select` to
-`lily-design-system-blazor-locale-chooser`. The NuGet package is now
-`LilyDesignSystem.Blazor.LocaleChooser`.
+`lily-design-system-blazor-locale-picker`. The NuGet package is now
+`LilyDesignSystem.Blazor.LocalePicker`.
 
 The rename is the whole change: no behaviour, no API semantics and no
 DOM structure moved. This release ships the code exactly as it stood
@@ -17,14 +17,14 @@ Unreleased there.
 
 Renamed in this package:
 
-- Component and context: `LocaleChooser` -> `LocaleChooser`,
-  `LocaleSelectContext` -> `LocaleChooserContext`.
-- Class hooks: `.locale-chooser*` -> `.locale-chooser*`, including the
-  `--locale-chooser-{bg,fg,border}` custom properties documented in
+- Component and context: `LocalePicker` -> `LocalePicker`,
+  `LocaleSelectContext` -> `LocalePickerContext`.
+- Class hooks: `.locale-picker*` -> `.locale-picker*`, including the
+  `--locale-picker-{bg,fg,border}` custom properties documented in
   `docs/styling.md`.
-- Generated element ids: `locale-chooser-{n}` -> `locale-chooser-{n}`.
-- Files: `LocaleChooser.razor{,.cs}` -> `LocaleChooser.razor{,.cs}`,
-  `LocaleSelectTests.cs` -> `LocaleChooserTests.cs`.
+- Generated element ids: `locale-picker-{n}` -> `locale-picker-{n}`.
+- Files: `LocalePicker.razor{,.cs}` -> `LocalePicker.razor{,.cs}`,
+  `LocaleSelectTests.cs` -> `LocalePickerTests.cs`.
 
 `Locales.LocaleName`, `MatchNavigatorLanguage` and every parameter name
 are unchanged — they never said "select".
@@ -46,15 +46,15 @@ selectors. Nothing else moves.
 ##### Changed
 
 - **The default glyph gains U+FE0E VARIATION SELECTOR-15.**
-  `LocaleChooser.GlobeWithMeridians` is now the two-codepoint sequence
-  `"\U0001F310\uFE0E"` (was `"\U0001F310"`). VS15 requests the *text*
+  `LocalePicker.GlobeWithMeridians` is now the two-codepoint sequence
+  `"\U0001F310\uFE0E"` (was `"\U0001F310"`). VS15 requests the _text_
   presentation, so the globe renders monochrome in the current text
-  colour instead of as a blue colour-emoji — matching ThemeChooser's
+  colour instead of as a blue colour-emoji — matching ThemePicker's
   `◑` (U+25D1), which is not an emoji codepoint and already rendered as
   text. Verified in Chromium.
 
   Consumers asserting on the exact glyph string must update to the
-  two-codepoint sequence. VS15 is a *request*: platforms that ignore it
+  two-codepoint sequence. VS15 is a _request_: platforms that ignore it
   still paint a colour globe, so `docs/styling.md` documents a
   font-stack fallback and `ChildContent` remains the guaranteed route
   to a monochrome mark.
@@ -62,31 +62,31 @@ selectors. Nothing else moves.
 ##### Added
 
 - **Five shared topic docs**, bringing the doc set level with
-  theme-chooser's: `docs/parameters-reference.md`, `docs/styling.md`,
+  theme-picker's: `docs/parameters-reference.md`, `docs/styling.md`,
   `docs/custom-rendering.md`, `docs/recipes.md`, and
-  `docs/troubleshooting.md`. Written for locale-chooser rather than
-  adapted from the theme-chooser copies. The locale-specific docs
+  `docs/troubleshooting.md`. Written for locale-picker rather than
+  adapted from the theme-picker copies. The locale-specific docs
   (`bcp47`, `rtl`, `i18n-integration`, `concepts`) are unchanged;
   `preloading` stays theme-only, since it is about stylesheet
   preloading and has no locale counterpart.
 
-- **Examples renamed to descriptive names**, matching theme-chooser's
+- **Examples renamed to descriptive names**, matching theme-picker's
   convention and dropping the numeric prefixes left over from the
   radio-group era. None of these files has rendered radios, a
   `<select>`, or a button group since the icon-button/listbox port:
 
-  | Was | Now |
-  | --- | --- |
-  | `01_Radios.razor` | `Basic.razor` |
-  | `02_Select.razor` | `CustomRendering.razor` |
-  | `03_Buttons.razor` | `ExternalButtons.razor` |
-  | `04_RtlDemo.razor` | `RtlDemo.razor` |
-  | `05_NhsStyle.razor` | `NhsStyle.razor` |
+  | Was                             | Now                          |
+  | ------------------------------- | ---------------------------- |
+  | `01_Radios.razor`               | `Basic.razor`                |
+  | `02_Select.razor`               | `CustomRendering.razor`      |
+  | `03_Buttons.razor`              | `ExternalButtons.razor`      |
+  | `04_RtlDemo.razor`              | `RtlDemo.razor`              |
+  | `05_NhsStyle.razor`             | `NhsStyle.razor`             |
   | `06_WithIStringLocalizer.razor` | `WithIStringLocalizer.razor` |
-  | `07_WithResX.razor` | `WithResX.razor` |
-  | `08_SsrCookie.razor` | `SsrCookie.razor` |
-  | `09_ScopedTarget.razor` | `ScopedTarget.razor` |
-  | `10_Combobox.razor` | `Combobox.razor` |
+  | `07_WithResX.razor`             | `WithResX.razor`             |
+  | `08_SsrCookie.razor`            | `SsrCookie.razor`            |
+  | `09_ScopedTarget.razor`         | `ScopedTarget.razor`         |
+  | `10_Combobox.razor`             | `Combobox.razor`             |
 
   All inbound links updated (`examples/README.md`, `index.md`,
   `AGENTS/ssr.md`, and the ResX layout comment inside `WithResX.razor`).
@@ -105,23 +105,43 @@ selectors. Nothing else moves.
   listbox pattern. The root element changes from `<select>` to `<div>`:
 
   ```html
-  <div class="locale-chooser {CssClass}">
+  <div class="locale-picker {CssClass}">
     <input type="hidden" name="{Name}" value="{Value}" />
-    <button type="button" class="locale-chooser-button" aria-label="{Label}"
-            aria-haspopup="listbox" aria-expanded="false" aria-controls="{listId}">
-      <span class="locale-chooser-icon" aria-hidden="true">&#127760;</span>
+    <button
+      type="button"
+      class="locale-picker-button"
+      aria-label="{Label}"
+      aria-haspopup="listbox"
+      aria-expanded="false"
+      aria-controls="{listId}"
+    >
+      <span class="locale-picker-icon" aria-hidden="true">&#127760;</span>
     </button>
-    <ul class="locale-chooser-list" id="{listId}" role="listbox" aria-label="{Label}"
-        tabindex="-1" hidden aria-activedescendant="{active option id, open only}">
-      <li class="locale-chooser-option" id="{optionId}" role="option"
-          aria-selected="true|false" data-active
-          lang="{TagFor(code)}">{LabelFor(code)}</li>
+    <ul
+      class="locale-picker-list"
+      id="{listId}"
+      role="listbox"
+      aria-label="{Label}"
+      tabindex="-1"
+      hidden
+      aria-activedescendant="{active option id, open only}"
+    >
+      <li
+        class="locale-picker-option"
+        id="{optionId}"
+        role="option"
+        aria-selected="true|false"
+        data-active
+        lang="{TagFor(code)}"
+      >
+        {LabelFor(code)}
+      </li>
     </ul>
   </div>
   ```
 
   Consumers must update: any CSS or test selector targeting
-  `select.locale-chooser` or `option.locale-chooser-option`;
+  `select.locale-picker` or `option.locale-picker-option`;
   `AdditionalAttributes` and `CssClass` now land on the root `<div>`,
   not on a form control. Per-option `lang` is preserved — and is now
   honoured more reliably, since the options are real DOM nodes rather
@@ -138,7 +158,7 @@ selectors. Nothing else moves.
   longer calls `Object.assign(el, { value: "" })` through `IJSRuntime`.
   There is no `<select>` DOM value to reset.
 
-- **`LocaleChooserContext` is narrowed, and `ChildContent` changes
+- **`LocalePickerContext` is narrowed, and `ChildContent` changes
   meaning.** The fragment now **replaces the glyph inside the button**
   rather than rendering the options; options are always
   component-owned, so neither the listbox semantics nor the per-option
@@ -149,9 +169,9 @@ selectors. Nothing else moves.
   `Locales` class; to drive selection imperatively, call the public
   `SetLocaleAsync(string)` on a `@ref` to the component.
 
-- **The `.locale-chooser-placeholder` CSS hook is gone.** The hooks are
-  now `.locale-chooser`, `.locale-chooser-button`, `.locale-chooser-icon`,
-  `.locale-chooser-list`, `.locale-chooser-option`, plus the
+- **The `.locale-picker-placeholder` CSS hook is gone.** The hooks are
+  now `.locale-picker`, `.locale-picker-button`, `.locale-picker-icon`,
+  `.locale-picker-list`, `.locale-picker-option`, plus the
   `[data-active]` and `[aria-selected]` state selectors.
 
 ##### Added
@@ -166,12 +186,12 @@ selectors. Nothing else moves.
   leaving the root closes the listbox.
 - Focus management via `ElementReference.FocusAsync()` — opening moves
   focus to the `<ul>`, selecting or escaping returns it to the button.
-- `LocaleChooser.GlobeWithMeridians` — the default glyph constant,
+- `LocalePicker.GlobeWithMeridians` — the default glyph constant,
   `"🌐"` (U+1F310).
 - A hidden `<input>` carrying `Name` / `Value` so the control still
   participates in form submission.
 - Stable, SSR-safe element ids from a monotonic process-wide counter
-  (`locale-chooser-{n}-list`, `locale-chooser-{n}-option-{i}`) — no
+  (`locale-picker-{n}-list`, `locale-picker-{n}-option-{i}`) — no
   randomness and no clock reads.
 
 ##### Unchanged
@@ -202,8 +222,8 @@ class (`Bcp47LocaleTag`, `IsRtlLocale`, `LocaleName`,
   the active locale name, so the control stays narrow regardless of how
   long locale names are. Two parts of the DOM contract change:
   - **Option count and ordering.** A component-owned placeholder
-    `<option class="locale-chooser-option locale-chooser-placeholder"
-    value="" selected>` is now the FIRST child of the `<select>`, in
+    `<option class="locale-picker-option locale-picker-placeholder"
+value="" selected>` is now the FIRST child of the `<select>`, in
     both the default and the `ChildContent` code paths. It carries no
     `lang`, since it is not a locale. Consumers and tests that count
     options or index into them must account for it (`Locales.Count + 1`;
@@ -225,7 +245,7 @@ class (`Bcp47LocaleTag`, `IsRtlLocale`, `LocaleName`,
   of the always-displayed placeholder option. Like every other
   user-facing string in this package it is consumer-supplied, so no
   hardcoded English is emitted.
-- New `.locale-chooser-placeholder` class hook, and a width recipe
+- New `.locale-picker-placeholder` class hook, and a width recipe
   (`field-sizing: content` with a `max-width` fallback) in
   [`index.md`](index.md).
 
@@ -242,11 +262,11 @@ class (`Bcp47LocaleTag`, `IsRtlLocale`, `LocaleName`,
 
 - The compensating status region is now the **default pattern**, not a
   suggestion: the entry-point example and the `index.md` quick-start both
-  ship a visible `<p class="locale-chooser-status" aria-live="polite">`
+  ship a visible `<p class="locale-picker-status" aria-live="polite">`
   showing the active locale via the exported `localeName`.
   `aria-live="polite"` announces mutations only, so it stays silent on
   first paint and speaks on each change. `docs/accessibility.md`
-  reframes opting *out* as the deliberate choice and keeps an explicit
+  reframes opting _out_ as the deliberate choice and keeps an explicit
   "what this does and does not fix" note — the region announces
   transitions, it does not restore combobox value semantics.
 
@@ -256,12 +276,12 @@ class (`Bcp47LocaleTag`, `IsRtlLocale`, `LocaleName`,
 
 - Migrated from the radio-group "picker" rendering to a native
   `<select>` (landed in-tree 2026-06-17): the root element is now
-  `<select class="locale-chooser">` with one `<option class="locale-chooser-option">`
+  `<select class="locale-picker">` with one `<option class="locale-picker-option">`
   per choice, replacing the former `<fieldset role="radiogroup">` with
   `<input type="radio">` children. The package was renamed from the
   `*-picker` name to `*-select` accordingly.
-- Class-hook contract changed: `locale-chooser` now names the `<select>` root
-  and `locale-chooser-option` is the only sub-class; the radio/label sub-class
+- Class-hook contract changed: `locale-picker` now names the `<select>` root
+  and `locale-picker-option` is the only sub-class; the radio/label sub-class
   hooks are gone.
 - Keyboard interaction is the native `<select>` contract (Arrow keys,
   Home / End, first-letter typeahead) instead of radio-group cycling.
@@ -280,7 +300,7 @@ Initial release.
 
 ##### Added
 
-- `LocaleChooser.razor` + `LocaleChooser.razor.cs` — partial-class
+- `LocalePicker.razor` + `LocalePicker.razor.cs` — partial-class
   Blazor component in namespace `LilyDesignSystem.Blazor.Helpers`.
   Implements the full Svelte canonical contract:
   - Renders `<select aria-label="…" name="…">` with one
@@ -298,9 +318,9 @@ Initial release.
   - Two-way binding via `@bind-Value`.
   - `OnChange` `EventCallback<string>` for post-apply side effects
     (consumer-form code, not BCP 47 normalised).
-  - `RenderFragment<LocaleChooserContext>` for custom rendering
+  - `RenderFragment<LocalePickerContext>` for custom rendering
     with `{ Locales, Value, SetLocale, Name, LabelFor, TagFor,
-    IsRtl }`.
+IsRtl }`.
   - `[Parameter(CaptureUnmatchedValues = true)] AdditionalAttributes`
     for attribute spread.
 - `Locales` static class with 436-row built-in locale-code →
@@ -311,7 +331,7 @@ Initial release.
 - `locales.tsv` — canonical 436-row source for `Locales.cs`.
   Byte-identical to the Svelte canonical helper's
   `locales.tsv`.
-- `LocaleChooserTests.cs` — bUnit + xUnit suite asserting every
+- `LocalePickerTests.cs` — bUnit + xUnit suite asserting every
   numbered acceptance criterion in `spec/index.md` §7 (23 items).
 - `spec/index.md` — spec-driven contract, version 0.1.0.
 - `AGENTS/` subdirectory with `api.md`, `lifecycle.md`,
@@ -333,7 +353,7 @@ Initial release.
 - `[Parameter, EditorRequired]` for required parameters.
 - `EventCallback<T>` for events; `{Name}` + `{Name}Changed` for
   `@bind-{Name}`.
-- `RenderFragment<LocaleChooserContext>` for custom rendering.
+- `RenderFragment<LocalePickerContext>` for custom rendering.
 - All DOM writes go through `IJSRuntime` inside
   `OnAfterRenderAsync` so the component is SSR / prerender safe.
 - Tested under bUnit + xUnit.
@@ -341,7 +361,7 @@ Initial release.
 ##### Parity
 
 This is a direct port of the Svelte canonical
-`lily-design-system-svelte-locale-chooser` v0.1.0. The DOM contract,
+`lily-design-system-svelte-locale-picker` v0.1.0. The DOM contract,
 BCP 47 normalisation rules, RTL detection sets, initial-value
 resolution order, and apply order match clause-for-clause.
 
@@ -351,7 +371,7 @@ resolution order, and apply order match clause-for-clause.
   the `OnChange` Blazor `EventCallback<string>`. Use
   `OnChange="HandlerMethod"` in markup.
 - The `children` snippet from Svelte maps to the `ChildContent`
-  `RenderFragment<LocaleChooserContext>` in Blazor. Use
+  `RenderFragment<LocalePickerContext>` in Blazor. Use
   `<ChildContent Context="ctx">` in consumer markup.
 - The bindable model name is `Value`, accessed via `@bind-Value`.
 - The pure helpers from the Svelte canonical (`bcp47LocaleTag`,

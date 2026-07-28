@@ -47,19 +47,19 @@ The pattern for edge-rendered Eleventy:
 import { Eleventy } from "@11ty/eleventy";
 
 export async function onRequest(context) {
-    const cookie = context.request.headers.get("cookie") ?? "";
-    const theme = /(?:^|; )theme=([^;]+)/.exec(cookie)?.[1] ?? "light";
-    const html = await renderEleventyTemplate({ theme });
-    return new Response(html, {
-        headers: { "content-type": "text/html; charset=utf-8" },
-    });
+  const cookie = context.request.headers.get("cookie") ?? "";
+  const theme = /(?:^|; )theme=([^;]+)/.exec(cookie)?.[1] ?? "light";
+  const html = await renderEleventyTemplate({ theme });
+  return new Response(html, {
+    headers: { "content-type": "text/html; charset=utf-8" },
+  });
 }
 ```
 
 ```njk
 {# index.njk #}
-{% from "./theme-chooser.njk" import themeChooser %}
-{{ themeChooser({
+{% from "./theme-picker.njk" import themePicker %}
+{{ themePicker({
   label: "Theme",
   themesUrl: "/assets/themes/",
   themes: ["light", "dark", "abyss"],
@@ -79,12 +79,12 @@ locale labels in `_data/`:
 
 ```js
 // _data/localeLabels.js
-import { defaultLocaleLabels } from "../../lily-design-system-nunjucks-locale-chooser/locale-chooser.client.js";
+import { defaultLocaleLabels } from "../../lily-design-system-nunjucks-locale-picker/locale-picker.client.js";
 export default defaultLocaleLabels;
 ```
 
 ```njk
-{{ localeChooser({
+{{ localePicker({
   label: "Language",
   locales: ["en", "fr", "ar"],
   localeLabels: localeLabels
@@ -98,7 +98,7 @@ Eleventy passthrough copies the client.js to the output:
 ```js
 // .eleventy.js
 eleventyConfig.addPassthroughCopy(
-    "lily-design-system-nunjucks-theme-chooser/theme-chooser.client.js",
+  "lily-design-system-nunjucks-theme-picker/theme-picker.client.js",
 );
 ```
 
@@ -106,12 +106,12 @@ Then in your base layout:
 
 ```njk
 <script type="module">
-  import { autoInit } from "/lily-design-system-nunjucks-theme-chooser/theme-chooser.client.js";
+  import { autoInit } from "/lily-design-system-nunjucks-theme-picker/theme-picker.client.js";
   autoInit();
 </script>
 ```
 
-`autoInit()` wires every `[data-lily-theme-chooser-root]` it finds on
+`autoInit()` wires every `[data-lily-theme-picker-root]` it finds on
 the page.
 
 ## Express + nunjucks
@@ -126,8 +126,8 @@ app.use(cookieParser());
 nunjucks.configure("views", { express: app, autoescape: true });
 
 app.get("/", (req, res) => {
-    const theme = req.cookies.theme ?? "light";
-    res.render("index.njk", { theme });
+  const theme = req.cookies.theme ?? "light";
+  res.render("index.njk", { theme });
 });
 ```
 
@@ -144,19 +144,17 @@ Workers as long as you bundle a pre-loaded environment:
 import nunjucks from "nunjucks";
 import templates from "./templates.json"; // pre-bundled at build time
 
-const env = new nunjucks.Environment(
-    new nunjucks.PrecompiledLoader(templates),
-);
+const env = new nunjucks.Environment(new nunjucks.PrecompiledLoader(templates));
 
 export default {
-    async fetch(request) {
-        const cookie = request.headers.get("cookie") ?? "";
-        const theme = /(?:^|; )theme=([^;]+)/.exec(cookie)?.[1] ?? "light";
-        const html = env.render("index.njk", { theme });
-        return new Response(html, {
-            headers: { "content-type": "text/html; charset=utf-8" },
-        });
-    },
+  async fetch(request) {
+    const cookie = request.headers.get("cookie") ?? "";
+    const theme = /(?:^|; )theme=([^;]+)/.exec(cookie)?.[1] ?? "light";
+    const html = env.render("index.njk", { theme });
+    return new Response(html, {
+      headers: { "content-type": "text/html; charset=utf-8" },
+    });
+  },
 };
 ```
 
@@ -192,13 +190,13 @@ gotcha is:
 
 ## Server vs static-site rendering
 
-| Host                          | Where the macro runs           | Recipe                                   |
-| ----------------------------- | ------------------------------ | ---------------------------------------- |
-| Eleventy (default)            | Build time                     | Pass `opts.value` from a data file or `storageKey`. |
-| Eleventy + edge functions     | Per-request edge               | Read cookie/header, pass as `opts.value`. |
-| Express + nunjucks            | Per-request server             | Read `req.cookies`, pass as `opts.value`. |
-| Cloudflare Workers            | Per-request V8 isolate         | Same as Express, bundle templates.        |
-| `nunjucks.render` in CLI tool | One-shot                       | Static config; no cookie story.           |
+| Host                          | Where the macro runs   | Recipe                                              |
+| ----------------------------- | ---------------------- | --------------------------------------------------- |
+| Eleventy (default)            | Build time             | Pass `opts.value` from a data file or `storageKey`. |
+| Eleventy + edge functions     | Per-request edge       | Read cookie/header, pass as `opts.value`.           |
+| Express + nunjucks            | Per-request server     | Read `req.cookies`, pass as `opts.value`.           |
+| Cloudflare Workers            | Per-request V8 isolate | Same as Express, bundle templates.                  |
+| `nunjucks.render` in CLI tool | One-shot               | Static config; no cookie story.                     |
 
 ## Why we don't ship a cookie helper
 

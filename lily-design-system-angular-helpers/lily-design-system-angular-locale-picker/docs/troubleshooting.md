@@ -4,26 +4,26 @@ Symptoms, root causes, and fixes for the most common problems.
 
 ## "Opening the list pushes the rest of the page down"
 
-**Cause.** The package ships zero CSS, and the `<ul class="locale-chooser-list">`
+**Cause.** The package ships zero CSS, and the `<ul class="locale-picker-list">`
 is an ordinary block element in normal document flow until you take it out.
 
-**Fix.** `position: relative` on `.locale-chooser`, `position: absolute` on
-`.locale-chooser-list`. Full recipe in [styling.md](./styling.md).
+**Fix.** `position: relative` on `.locale-picker`, `position: absolute` on
+`.locale-picker-list`. Full recipe in [styling.md](./styling.md).
 
 ## "The list never closes"
 
 **Cause.** An unconditional `display` rule —
-`.locale-chooser-list { display: block }` — overrides the `hidden` attribute
+`.locale-picker-list { display: block }` — overrides the `hidden` attribute
 the component toggles.
 
-**Fix.** Scope it: `.locale-chooser-list:not([hidden]) { display: block }`.
+**Fix.** Scope it: `.locale-picker-list:not([hidden]) { display: block }`.
 
 ## "Nothing on the page is translated when I change the locale"
 
 Working as specified, and the single most common misunderstanding about this
 helper.
 
-**Cause.** `LocaleChooser` is not a translation library. `applyLocale` writes
+**Cause.** `LocalePicker` is not a translation library. `applyLocale` writes
 exactly two attributes — `lang` (always) and `dir` (unless `applyDir` is
 `false`) — persists the code, and emits `localeChange`. It never touches your
 copy, because it has no message catalogue and no opinion about which one you
@@ -36,8 +36,8 @@ examples in [with-transloco.component.ts](../examples/with-transloco.component.t
 and [with-ngx-translate.component.ts](../examples/with-ngx-translate.component.ts).
 
 The division of labour is the subject of
-[concepts.md](./concepts.md#three-orthogonal-concerns): *selection* (this
-helper), *application* (`lang` / `dir`, also this helper), and *translation*
+[concepts.md](./concepts.md#three-orthogonal-concerns): _selection_ (this
+helper), _application_ (`lang` / `dir`, also this helper), and _translation_
 (yours).
 
 ## "`[(value)]` errors, or never updates"
@@ -53,11 +53,11 @@ locale = signal<string>("");
 ```
 
 ```html
-<lily-locale-chooser label="Language" [locales]="locales" [(value)]="locale" />
+<lily-locale-picker label="Language" [locales]="locales" [(value)]="locale" />
 ```
 
 **Cause 2.** The wrong name. The bindable is `value`, not `locale` or
-`modelValue`. `(localeChange)` is a separate *notification* output that fires
+`modelValue`. `(localeChange)` is a separate _notification_ output that fires
 after the DOM has been written — it is not half of the two-way binding, and
 binding to it instead of `[(value)]` gives you a read-only view.
 
@@ -79,7 +79,7 @@ have pinned the locale and disabled every step below it.
 **Fix.** Leave `value` empty and use `defaultValue` for the fallback:
 
 ```html
-<lily-locale-chooser
+<lily-locale-picker
   label="Language"
   [locales]="locales"
   defaultValue="en"
@@ -93,7 +93,7 @@ locale — see the SSR entry below.
 ## "`detectFromNavigator` does nothing"
 
 **Cause.** It sits at step 3 of the list above, so it only runs when there is
-no explicit `value` *and* nothing in storage. Once a visitor has picked a
+no explicit `value` _and_ nothing in storage. Once a visitor has picked a
 locale even once, the stored value shadows the browser preference forever —
 which is the point: an explicit choice outranks a guess.
 
@@ -114,7 +114,7 @@ localStorage.removeItem("lily-locale");
 **Cause 1.** `applyDir` is `false`, so the component wrote `lang` and left
 `dir` alone deliberately.
 
-**Cause 2 (far more likely).** `dir="rtl"` *is* on the element, but your CSS
+**Cause 2 (far more likely).** `dir="rtl"` _is_ on the element, but your CSS
 uses physical properties. `margin-left`, `padding-right`, `left`, and
 `text-align: left` mean the same thing in both directions; the browser cannot
 mirror them for you.
@@ -144,7 +144,7 @@ Reaching step 4 means all three lookups missed.
 **Most common reason: underscore vs hyphen.** The built-in table is keyed in
 the underscore form (`pt_BR`, `zh_Hans`, `en_GB`). Passing `"pt-BR"` in
 `locales` misses step 2 entirely and lands on `Intl.DisplayNames`, which
-answers in the *user's* language, not English — so the label silently changes
+answers in the _user's_ language, not English — so the label silently changes
 identity depending on who is looking.
 
 **Fix.** Either use the underscore form in `locales`, or state the label
@@ -179,10 +179,10 @@ recommended Analog v1 version.
 
 ## "Hydration mismatch (NG0500)"
 
-**Probably not the ids.** `nextLocaleChooserId()` is a module-scoped counter,
+**Probably not the ids.** `nextLocalePickerId()` is a module-scoped counter,
 not `Math.random()` or `Date.now()`, so `id`, `aria-controls`, and every
-option id match across server and client — *provided both instantiate the same
-components in the same order*. A component that renders only on the client, or
+option id match across server and client — _provided both instantiate the same
+components in the same order_. A component that renders only on the client, or
 only on the server, shifts the counter and desynchronises every id after it.
 
 **More likely, the value-derived attributes.** The hidden input's `value`, the
@@ -221,8 +221,8 @@ disables persistence entirely; there is no implicit key.
 ## "The globe renders blue, as a colour emoji"
 
 **Cause.** `GLOBE_WITH_MERIDIANS` is two code points: U+1F310 GLOBE WITH
-MERIDIANS followed by U+FE0E VARIATION SELECTOR-15, which requests *text*
-presentation so the glyph stays monochrome next to theme-chooser's `◑`. The
+MERIDIANS followed by U+FE0E VARIATION SELECTOR-15, which requests _text_
+presentation so the glyph stays monochrome next to theme-picker's `◑`. The
 colour emoji comes back when the variation selector stops having an effect —
 usually because a build step, sanitiser, or copy-paste through a tool that
 normalises Unicode has stripped it, or because the consumer font stack has no
@@ -231,7 +231,7 @@ emoji font.
 
 **Fix.** Confirm the character survived — `GLOBE_WITH_MERIDIANS.length` is `3`
 (the astral glyph is a surrogate pair, plus VS15); a length of `2` means the
-selector is gone. Then set a font stack on `.locale-chooser-icon` that includes
+selector is gone. Then set a font stack on `.locale-picker-icon` that includes
 a text-presentation face, or sidestep the question entirely with an inline SVG
 via a projected `<ng-template>`. Both are covered in
 [styling.md](./styling.md) and
@@ -240,7 +240,7 @@ via a projected `<ng-template>`. Both are covered in
 ## "The button renders an empty box, or a □"
 
 Same root cause as above, opposite failure: the device has no glyph for
-U+1F310 at all. Give `.locale-chooser-button` a `min-width` and `min-height` so
+U+1F310 at all. Give `.locale-picker-button` a `min-width` and `min-height` so
 it stays a hittable target regardless, and consider replacing the glyph.
 
 The accessible name is unaffected either way — the span is `aria-hidden` and
@@ -250,7 +250,7 @@ the button is named by `aria-label`.
 
 **Cause.** A second, visually hidden language widget is still in the
 accessibility tree. `.sr-only` clip recipes — `position: absolute; clip-path:
-inset(50%)` and friends — deliberately keep their content *available* to
+inset(50%)` and friends — deliberately keep their content _available_ to
 assistive technology; that is what they are for. Hiding a duplicate that way
 hides it from sighted users only.
 
@@ -264,7 +264,7 @@ is the canonical legitimate use.
 
 By design. The closed button is icon-only and its glyph is `aria-hidden`, so
 `aria-label` is its entire accessible name and it is deliberately constant —
-a label that changed with the selection would make the control's *purpose*
+a label that changed with the selection would make the control's _purpose_
 unannounceable.
 
 **Fix.** Pair the select with a polite live region driven by
@@ -305,7 +305,7 @@ Element.prototype.scrollIntoView = () => {};
 
 ## "Tests fail: `matchMedia is not defined`"
 
-`LocaleChooser` never calls `matchMedia` — it has no media-query behaviour of
+`LocalePicker` never calls `matchMedia` — it has no media-query behaviour of
 any kind. The call is coming from something else in the test (a sibling
 helper, a CDK layout service, or app code). Stub it in setup:
 
@@ -327,7 +327,7 @@ Signal inputs are read-only references, so plain assignment does not work. Go
 through the `ComponentRef`, and flush change detection afterwards:
 
 ```ts
-const fixture = TestBed.createComponent(LocaleChooser);
+const fixture = TestBed.createComponent(LocalePicker);
 fixture.componentRef.setInput("label", "Language");
 fixture.componentRef.setInput("locales", ["en", "fr", "ar"]);
 fixture.detectChanges(); // required under OnPush
@@ -351,11 +351,13 @@ beforeEach(() => {
 
 ## "`let-args` is `any` in my icon template"
 
-Add the exported `LocaleChooserIcon` marker directive to the `<ng-template>`
+Add the exported `LocalePickerIcon` marker directive to the `<ng-template>`
 and to your component's `imports`:
 
 ```html
-<ng-template lilyLocaleChooserIcon let-args>{{ args.labelFor(args.value) }}</ng-template>
+<ng-template lilyLocalePickerIcon let-args
+  >{{ args.labelFor(args.value) }}</ng-template
+>
 ```
 
 Its `ngTemplateContextGuard` types the context as `ChildArgs` under
@@ -365,13 +367,13 @@ projected `<ng-template>` via `contentChild(TemplateRef)`.
 ## "Arrow keys stop at the ends instead of wrapping"
 
 Working as specified. The APG listbox pattern clamps rather than wraps; `Home`
-and `End` are the fast paths to the ends. Note that the *typeahead* does wrap —
+and `End` are the fast paths to the ends. Note that the _typeahead_ does wrap —
 it searches forward from the active option and continues past the end — which
 is the same asymmetry the APG describes.
 
 ## "Changing `locales` or `localeLabels` doesn't re-apply the locale"
 
-By design. The apply effect reads `value()`; other inputs are read *inside*
+By design. The apply effect reads `value()`; other inputs are read _inside_
 `applyLocale` but do not trigger it. Since neither input changes what `lang`
 or `dir` should be for an unchanged `value`, there is nothing to re-apply —
 the option labels re-render on their own through normal change detection.
@@ -389,13 +391,13 @@ change or checkmark for `[aria-selected="true"]`. See
 
 ## "Keyboard users can't see where they are in the list"
 
-**Cause.** No focus ring on `.locale-chooser-list`. The `<ul>` — not the
+**Cause.** No focus ring on `.locale-picker-list`. The `<ul>` — not the
 options — holds DOM focus for the whole open interaction, and the highlight
 moves via `aria-activedescendant`. Without a visible indicator on the list
 itself, nothing on screen ties the highlight to the user's keystrokes.
 
-**Fix.** Style `.locale-chooser-list:focus-visible` alongside
-`.locale-chooser-button:focus-visible`. See
+**Fix.** Style `.locale-picker-list:focus-visible` alongside
+`.locale-picker-button:focus-visible`. See
 [accessibility.md](./accessibility.md#keyboard-contract).
 
 ---

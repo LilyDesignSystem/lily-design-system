@@ -1,15 +1,15 @@
-# AGENTS — LocaleChooser (React helper)
+# AGENTS — LocalePicker (React helper)
 
 Single source of truth: [spec/index.md](./spec/index.md). Read it first; everything
 below is a fast index.
 
 ## What this package is
 
-A reusable React 19 headless locale chooser — an icon button that opens
+A reusable React 19 headless locale picker — an icon button that opens
 a dropdown listbox (WAI-ARIA APG Listbox pattern) — that applies the
 chosen locale to the document root via `lang` and `dir`, with optional
 `localStorage` persistence and `navigator.languages` detection. Ships
-no CSS; consumer styles the `locale-chooser` class hooks and positions
+no CSS; consumer styles the `locale-picker` class hooks and positions
 the list.
 
 ## Files
@@ -17,8 +17,8 @@ the list.
 | File                       | Purpose                                          |
 | -------------------------- | ------------------------------------------------ |
 | `spec/index.md`                  | Specification-driven contract (canonical).       |
-| `LocaleChooser.tsx`         | Implementation. TypeScript + React 19 hooks.    |
-| `LocaleChooser.test.tsx`    | Vitest spec, one assertion per §7 acceptance.    |
+| `LocalePicker.tsx`         | Implementation. TypeScript + React 19 hooks.    |
+| `LocalePicker.test.tsx`    | Vitest spec, one assertion per §7 acceptance.    |
 | `locales.ts`               | Built-in locale-code → English-name table.       |
 | `locales.tsv`              | Canonical 436-row locale list.                   |
 | `index.ts`                 | Barrel re-export.                                |
@@ -28,8 +28,8 @@ the list.
 
 ## Public surface
 
-- Default export: `LocaleChooser` component.
-- Named exports: `LocaleChooser`, `bcp47LocaleTag`, `isRtlLocale`,
+- Default export: `LocalePicker` component.
+- Named exports: `LocalePicker`, `bcp47LocaleTag`, `isRtlLocale`,
   `localeName`, `matchNavigatorLanguage`, `defaultLocaleLabels`,
   `RTL_LANGUAGE_TAGS`, `RTL_SCRIPT_SUBTAGS`, `GLOBE_WITH_MERIDIANS`.
 - Type exports: `Props`, `ChildArgs`.
@@ -55,17 +55,17 @@ button.
 ## HTML
 
 ```html
-<div class="locale-chooser {className}" ...restProps>
+<div class="locale-picker {className}" ...restProps>
   <input type="hidden" name="{name}" value="{value}" />
-  <button type="button" class="locale-chooser-button"
+  <button type="button" class="locale-picker-button"
           aria-label="{label}" aria-haspopup="listbox"
           aria-expanded="false" aria-controls="{listId}">
-    <span class="locale-chooser-icon" aria-hidden="true">🌐</span>
+    <span class="locale-picker-icon" aria-hidden="true">🌐</span>
   </button>
-  <ul class="locale-chooser-list" id="{listId}" role="listbox"
+  <ul class="locale-picker-list" id="{listId}" role="listbox"
       aria-label="{label}" tabindex="-1" hidden
       aria-activedescendant="{optionId of active, only while open}">
-    <li class="locale-chooser-option" id="{optionId}" role="option"
+    <li class="locale-picker-option" id="{optionId}" role="option"
         aria-selected="true|false" data-active lang="en-US">English (United States)</li>
   </ul>
 </div>

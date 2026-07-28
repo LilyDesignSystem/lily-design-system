@@ -133,16 +133,16 @@ for the next open. Anchor it with logical properties:
 
 ```css
 /* Bad — the list stays on the physical left after switching to RTL */
-.locale-chooser-list {
+.locale-picker-list {
     position: absolute;
     left: 0;
 }
 
 /* Good — the list follows the writing direction */
-.locale-chooser {
+.locale-picker {
     position: relative;
 }
-.locale-chooser-list {
+.locale-picker-list {
     position: absolute;
     z-index: 10;
     inset-block-start: 100%;

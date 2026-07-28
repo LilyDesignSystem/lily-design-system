@@ -1,7 +1,7 @@
-# Testing — LocaleChooser (Vue)
+# Testing — LocalePicker (Vue)
 
-The chooser's test suite lives in
-[`../LocaleChooser.test.ts`](../LocaleChooser.test.ts) and asserts
+The picker's test suite lives in
+[`../LocalePicker.test.ts`](../LocalePicker.test.ts) and asserts
 every numbered acceptance criterion in `spec/index.md` §7. This file
 documents the test harness and the conventions specific to this
 helper. For the catalog-wide test rules see
@@ -12,12 +12,12 @@ helper. For the catalog-wide test rules see
 ```ts
 import { describe, it, expect, beforeEach } from "vitest";
 import { mount } from "@vue/test-utils";
-import LocaleChooser, {
+import LocalePicker, {
     bcp47LocaleTag,
     isRtlLocale,
     localeName,
     matchNavigatorLanguage,
-} from "./LocaleChooser.vue";
+} from "./LocalePicker.vue";
 
 beforeEach(() => {
     // Reset shared state between tests.
@@ -50,16 +50,16 @@ keyboard behaviour.
 
 ```ts
 it("§7.1 renders a button that controls a listbox", async () => {
-    const wrapper = mount(LocaleChooser, {
+    const wrapper = mount(LocalePicker, {
         props: { label: "Language", locales: ["en", "fr"] },
         attachTo: document.body,
     });
     await wrapper.vm.$nextTick();
-    const button = wrapper.find("button.locale-chooser-button");
+    const button = wrapper.find("button.locale-picker-button");
     expect(button.attributes("aria-label")).toBe("Language");
     expect(button.attributes("aria-haspopup")).toBe("listbox");
     expect(button.attributes("aria-expanded")).toBe("false");
-    expect(wrapper.findAll("li.locale-chooser-option")).toHaveLength(2);
+    expect(wrapper.findAll("li.locale-picker-option")).toHaveLength(2);
 });
 ```
 
@@ -73,7 +73,7 @@ expect(document.documentElement.dir).toBe("rtl");
 ## Asserting per-option `lang`
 
 ```ts
-const options = wrapper.findAll("li.locale-chooser-option");
+const options = wrapper.findAll("li.locale-picker-option");
 expect(options[0].attributes("lang")).toBe("en");
 expect(options[1].attributes("lang")).toBe("fr-CA");
 ```
@@ -84,9 +84,9 @@ Open the listbox first — the options are inside a `hidden` `<ul>`
 until then, and clicking one is what commits it:
 
 ```ts
-const button = wrapper.find("button.locale-chooser-button");
+const button = wrapper.find("button.locale-picker-button");
 await button.trigger("click");
-await wrapper.findAll("li.locale-chooser-option")[1].trigger("click");
+await wrapper.findAll("li.locale-picker-option")[1].trigger("click");
 expect(wrapper.emitted("update:value")?.at(-1)).toEqual(["fr"]);
 expect(wrapper.emitted("change")?.at(-1)).toEqual(["fr"]);
 ```
@@ -100,7 +100,7 @@ the scheduler before asserting focus:
 ```ts
 await button.trigger("keydown", { key: "ArrowDown" });
 await flush();
-const list = wrapper.find("ul.locale-chooser-list");
+const list = wrapper.find("ul.locale-picker-list");
 expect(document.activeElement).toBe(list.element);
 
 await list.trigger("keydown", { key: "ArrowDown" });
@@ -136,7 +136,7 @@ it("§7.20 detectFromNavigator picks an exact match", async () => {
         configurable: true,
         get: () => ["fr-FR", "en"],
     });
-    const wrapper = mount(LocaleChooser, {
+    const wrapper = mount(LocalePicker, {
         props: {
             label: "L",
             locales: ["en", "fr_FR", "ar"],
@@ -164,7 +164,7 @@ Storage.prototype.getItem = () => { throw new Error("private mode"); };
 Storage.prototype.getItem = original;
 ```
 
-The chooser swallows the error inside try/catch.
+The picker swallows the error inside try/catch.
 
 ## v-model emulation
 
@@ -173,7 +173,7 @@ it manually:
 
 ```ts
 let currentValue = "en";
-const wrapper = mount(LocaleChooser, {
+const wrapper = mount(LocalePicker, {
     props: {
         label: "L",
         locales: ["en", "fr", "ar"],
@@ -190,11 +190,11 @@ const wrapper = mount(LocaleChooser, {
 
 The default slot replaces the button glyph, so assert both that the
 custom content rendered inside the button and that the built-in
-`.locale-chooser-icon` span is gone:
+`.locale-picker-icon` span is gone:
 
 ```ts
 let captured: any = null;
-const wrapper = mount(LocaleChooser, {
+const wrapper = mount(LocalePicker, {
     props: { label: "L", locales: ["en", "fr"], value: "fr" },
     slots: {
         default: (args: any) => {
@@ -204,10 +204,10 @@ const wrapper = mount(LocaleChooser, {
     },
 });
 await wrapper.vm.$nextTick();
-expect(wrapper.find("button.locale-chooser-button").text()).toContain(
+expect(wrapper.find("button.locale-picker-button").text()).toContain(
     "custom glyph",
 );
-expect(wrapper.find(".locale-chooser-icon").exists()).toBe(false);
+expect(wrapper.find(".locale-picker-icon").exists()).toBe(false);
 expect(captured.value).toBe("fr");
 expect(captured.open).toBe(false);
 expect(captured.labelFor("en_US")).toBe("English (United States)");
@@ -225,7 +225,7 @@ import { createSSRApp } from "vue";
 
 it("renders cleanly under SSR", async () => {
     const html = await renderToString(
-        createSSRApp(LocaleChooser, {
+        createSSRApp(LocalePicker, {
             label: "Language",
             locales: ["en", "fr"],
             value: "fr",

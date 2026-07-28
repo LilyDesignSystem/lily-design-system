@@ -1,13 +1,13 @@
-# TextSizeChooser — Specification (Vue 3 helper)
+# TextSizePicker — Specification (Vue 3 helper)
 
-Single source of truth for the `lily-design-system-vue-text-size-chooser`
+Single source of truth for the `lily-design-system-vue-text-size-picker`
 Vue 3 helper. This file drives implementation, testing, and
 documentation in the spec-driven-development style: anything not in
 this spec is out of scope; anything in this spec must be exercised by
 a test.
 
 The canonical reference for this helper is the Svelte sibling at
-`../../lily-design-system-svelte-helpers/lily-design-system-svelte-text-size-chooser/`.
+`../../lily-design-system-svelte-helpers/lily-design-system-svelte-text-size-picker/`.
 This Vue port mirrors the contract and behaviour one-to-one, swapping
 in Vue 3 idioms (Composition API, `defineProps`, `withDefaults`,
 `defineEmits`, `ref`, `watch`, `onMounted`, scoped slot). When the
@@ -15,16 +15,16 @@ Vue port and the Svelte canonical disagree, the Svelte side wins.
 
 Sibling files in this directory:
 
-- `TextSizeChooser.vue` — the implementation
-- `TextSizeChooser.test.ts` — vitest spec exercising every §7 clause
+- `TextSizePicker.vue` — the implementation
+- `TextSizePicker.test.ts` — vitest spec exercising every §7 clause
 - `index.ts` — re-export barrel
 - `index.md` — user-facing readme
 - `docs/accessibility.md` — the accessibility rationale and tradeoffs
 
 > **Breaking change (unreleased).** The control is no longer a native
 > `<select>`. It is now an icon button (`A`, U+0041 LATIN CAPITAL
-> LETTER A) that opens a WAI-ARIA APG listbox, matching `theme-chooser`
-> and `locale-chooser` — all three helpers are now the same shape. The
+> LETTER A) that opens a WAI-ARIA APG listbox, matching `theme-picker`
+> and `locale-picker` — all three helpers are now the same shape. The
 > default slot now replaces the **button glyph** rather than the
 > options, and its scoped props change from
 > `{ sizes, value, setSize, name, labelFor }` to
@@ -56,7 +56,7 @@ helper deliberately ships no `detectFrom*` prop.
 ## 3. Architectural decisions
 
 - **Icon button + listbox, not a native `<select>`.** Harmonised with
-  `theme-chooser` and `locale-chooser` so a consumer wires all three
+  `theme-picker` and `locale-picker` so a consumer wires all three
   identically. The cost of leaving the native control is documented
   in [`docs/accessibility.md`](../docs/accessibility.md).
 - **`data-text-size` on the target is the activation switch.** The
@@ -65,7 +65,7 @@ helper deliberately ships no `detectFrom*` prop.
 - **A hidden input preserves form participation.** With the `<select>`
   gone, `name` moves onto `<input type="hidden">`.
 - **Stable, SSR-safe ids.** Option ids come from an incrementing
-  module counter (`nextTextSizeChooserId()`) — never `Math.random()` or
+  module counter (`nextTextSizePickerId()`) — never `Math.random()` or
   `Date.now()`.
 - **SSR-safe.** All DOM mutations happen inside `onMounted` / `watch`,
   which only run in the browser.
@@ -75,17 +75,17 @@ helper deliberately ships no `detectFrom*` prop.
 
 ### 4.1 Props
 
-| Prop           | Type                       | Required | Default                    | Purpose |
-| -------------- | -------------------------- | -------- | -------------------------- | ------- |
-| `label`        | `string`                   | yes      | —                          | Accessible name for **both** the button and the listbox. The button is icon-only, so this is its only name. |
-| `sizes`        | `string[]`                 | yes      | —                          | Available size slugs, e.g. `["small","medium","large","x-large"]`. |
-| `value`        | `string` (`v-model:value`) | no       | `""`                       | Currently selected size slug. |
-| `defaultValue` | `string`                   | no       | `"medium"` if present in `sizes`, else `sizes[0]` | Initial size. |
-| `storageKey`   | `string`                   | no       | `undefined`                | If set, persist the selection to `localStorage` under this key. |
-| `name`         | `string`                   | no       | `"text-size"`              | `name` of the hidden input that carries the value in a form. |
-| `target`       | `HTMLElement \| null`      | no       | `document.documentElement` | Element that receives `data-text-size`. |
-| `sizeLabels`   | `Record<string, string>`   | no       | `{}`                       | Optional pretty labels per slug. |
-| `class`        | `string`                   | no       | `""`                       | Extra CSS class on the root `<div>`. |
+| Prop           | Type                       | Required | Default                                           | Purpose                                                                                                     |
+| -------------- | -------------------------- | -------- | ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `label`        | `string`                   | yes      | —                                                 | Accessible name for **both** the button and the listbox. The button is icon-only, so this is its only name. |
+| `sizes`        | `string[]`                 | yes      | —                                                 | Available size slugs, e.g. `["small","medium","large","x-large"]`.                                          |
+| `value`        | `string` (`v-model:value`) | no       | `""`                                              | Currently selected size slug.                                                                               |
+| `defaultValue` | `string`                   | no       | `"medium"` if present in `sizes`, else `sizes[0]` | Initial size.                                                                                               |
+| `storageKey`   | `string`                   | no       | `undefined`                                       | If set, persist the selection to `localStorage` under this key.                                             |
+| `name`         | `string`                   | no       | `"text-size"`                                     | `name` of the hidden input that carries the value in a form.                                                |
+| `target`       | `HTMLElement \| null`      | no       | `document.documentElement`                        | Element that receives `data-text-size`.                                                                     |
+| `sizeLabels`   | `Record<string, string>`   | no       | `{}`                                              | Optional pretty labels per slug.                                                                            |
+| `class`        | `string`                   | no       | `""`                                              | Extra CSS class on the root `<div>`.                                                                        |
 
 There is no `placeholder` prop — it was removed with the `<select>` —
 and no detection prop, per §2.
@@ -95,7 +95,7 @@ and no detection prop, per §2.
 | Event          | Payload  | Purpose                                        |
 | -------------- | -------- | ---------------------------------------------- |
 | `update:value` | `string` | Emitted on selection (drives `v-model:value`). |
-| `change`       | `string` | Emitted after the chooser applies a new size.   |
+| `change`       | `string` | Emitted after the picker applies a new size.  |
 
 ### 4.3 Slots
 
@@ -126,37 +126,55 @@ name.
 ### 4.4 DOM contract
 
 ```html
-<div class="text-size-chooser {class}" ...$attrs>
+<div class="text-size-picker {class}" ...$attrs>
   <input type="hidden" name="{name}" value="{value}" />
-  <button type="button" class="text-size-chooser-button"
-          aria-label="{label}" aria-haspopup="listbox"
-          aria-expanded="false" aria-controls="{listId}">
-    <span class="text-size-chooser-icon" aria-hidden="true">A</span>
+  <button
+    type="button"
+    class="text-size-picker-button"
+    aria-label="{label}"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="{listId}"
+  >
+    <span class="text-size-picker-icon" aria-hidden="true">A</span>
   </button>
-  <ul class="text-size-chooser-list" id="{listId}" role="listbox"
-      aria-label="{label}" tabindex="-1" hidden
-      aria-activedescendant="{optionId of active, only while open}">
-    <li class="text-size-chooser-option" id="{optionId}" role="option"
-        aria-selected="true|false" data-active>{labelFor(slug)}</li>
+  <ul
+    class="text-size-picker-list"
+    id="{listId}"
+    role="listbox"
+    aria-label="{label}"
+    tabindex="-1"
+    hidden
+    aria-activedescendant="{optionId of active, only while open}"
+  >
+    <li
+      class="text-size-picker-option"
+      id="{optionId}"
+      role="option"
+      aria-selected="true|false"
+      data-active
+    >
+      {labelFor(slug)}
+    </li>
   </ul>
 </div>
 ```
 
-- Root element: a `<div class="text-size-chooser {class}">`. `$attrs`
+- Root element: a `<div class="text-size-picker {class}">`. `$attrs`
   falls through to it via the default Vue `inheritAttrs` behaviour.
 - The button is icon-only. The glyph is `A` (U+0041 LATIN CAPITAL
   LETTER A), exported as `LATIN_CAPITAL_LETTER_A`, wrapped in
   `aria-hidden="true"` so it can never become the accessible name.
   A plain letter is deliberate: U+1F5DB DECREASE FONT SIZE SYMBOL has
-  no real glyph in common font stacks and means *decrease* rather than
-  *size*.
+  no real glyph in common font stacks and means _decrease_ rather than
+  _size_.
 - The hidden input preserves form participation and carries `name`.
 - `aria-expanded` tracks the open state; `aria-controls` points at the
   listbox id.
 - The listbox carries `hidden` while closed, `tabindex="-1"` so it can
   receive focus on open, and `aria-activedescendant` **only while
   open** — it is removed on close.
-- One `<li class="text-size-chooser-option" role="option">` per slug,
+- One `<li class="text-size-picker-option" role="option">` per slug,
   with a stable per-instance `id`, `aria-selected` reflecting the
   committed slug, and `data-active` on the keyboard-active option.
 - The selection lives in `value` / `v-model:value`, in the hidden
@@ -167,9 +185,9 @@ name.
 `index.ts` exports:
 
 - `default` (the component)
-- `TextSizeChooser` (named alias of the default export)
+- `TextSizePicker` (named alias of the default export)
 - `sizeName` (pure label resolver)
-- `nextTextSizeChooserId` (per-instance id generator)
+- `nextTextSizePickerId` (per-instance id generator)
 - `LATIN_CAPITAL_LETTER_A` (the default button glyph)
 - `type Props`, `type SlotArgs`, `type ChildArgs`
 
@@ -185,9 +203,9 @@ value of:
 3. `defaultValue`.
 4. `"medium"` (if `"medium"` is in `sizes`).
 5. `sizes[0]`.
-6. `""` (no apply happens — the chooser waits for user interaction).
+6. `""` (no apply happens — the picker waits for user interaction).
 
-There is no detection step, so the chain is the `theme-chooser` chain
+There is no detection step, so the chain is the `theme-picker` chain
 minus its step 3:
 
 ```
@@ -209,9 +227,9 @@ Applying a size `slug` performs, in order:
 
 ### 5.3 Reactivity
 
-An internal `current` ref is the source of truth so the chooser works
+An internal `current` ref is the source of truth so the picker works
 both controlled (consumer drives `v-model:value`) and uncontrolled
-(no binding — the chooser resolves and applies a default itself). A
+(no binding — the picker resolves and applies a default itself). A
 `watch(() => props.value, …)` mirrors external changes into `current`;
 a `watch(current, …)` applies.
 
@@ -220,8 +238,8 @@ a `watch(current, …)` applies.
 `labelFor(slug)` returns `sizeLabels[slug]` if present, else
 `sizeName(slug)` — the slug title-cased per hyphen-word (`x-large` →
 `X Large`). `sizeName` is exported so there is exactly one
-implementation of the rule, mirroring `themeName` in theme-chooser and
-`localeName` in locale-chooser. The word "default" is never emitted.
+implementation of the rule, mirroring `themeName` in theme-picker and
+`localeName` in locale-picker. The word "default" is never emitted.
 
 ### 5.5 SSR
 
@@ -287,18 +305,18 @@ it; focus leaving the root closes it.
 
 ## 7. Testing acceptance criteria
 
-`TextSizeChooser.test.ts` must assert every numbered item below. Tests
+`TextSizePicker.test.ts` must assert every numbered item below. Tests
 run under vitest + jsdom + `@vue/test-utils`.
 
 1. Renders a `<button type="button">` with `aria-haspopup="listbox"`,
    `aria-expanded="false"`, and an `aria-controls` pointing at an
    element with `role="listbox"`. The root is a `<div>` carrying the
-   `text-size-chooser` class hook plus the consumer's `class`. The
+   `text-size-picker` class hook plus the consumer's `class`. The
    button renders `A` (U+0041) inside
-   `<span class="text-size-chooser-icon" aria-hidden="true">`.
+   `<span class="text-size-picker-icon" aria-hidden="true">`.
 2. `aria-label` is the supplied `label` on **both** the button and the
    listbox.
-3. Renders one `<li class="text-size-chooser-option">` per entry in
+3. Renders one `<li class="text-size-picker-option">` per entry in
    `sizes`, and a hidden input carrying the supplied `name` (default
    `"text-size"`) and the resolved value.
 4. The listbox carries `hidden` until the button is activated; then
@@ -318,12 +336,12 @@ run under vitest + jsdom + `@vue/test-utils`.
 10. When `value` is supplied as a non-empty prop, the initial-value
     resolution skips storage and defaults and uses the supplied
     value. The hidden input mirrors the resolved value.
-11. *(Reserved — the theme-chooser URL-construction clause has no
-    text-size equivalent.)*
+11. _(Reserved — the theme-picker URL-construction clause has no
+    text-size equivalent.)_
 12. Extra attributes spread through onto the root `<div>` (e.g.
     `data-testid`).
 13. A custom default slot replaces the button glyph — the
-    `.text-size-chooser-icon` span is absent — and receives the
+    `.text-size-picker-icon` span is absent — and receives the
     `SlotArgs` contract (`value`, `open`, `labelFor`). Its `open` flag
     tracks the listbox state, and its `labelFor` respects
     `sizeLabels`.
@@ -359,7 +377,7 @@ run under vitest + jsdom + `@vue/test-utils`.
 ## 9. Tracking
 
 - Package directory:
-  `lily-design-system-vue-helpers/lily-design-system-vue-text-size-chooser/`
+  `lily-design-system-vue-helpers/lily-design-system-vue-text-size-picker/`
 - Spec version: 0.2.0
 - Created: 2026-06-05
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause

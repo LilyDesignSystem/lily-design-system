@@ -1,4 +1,4 @@
-# Accessibility — LocaleChooser (Svelte)
+# Accessibility — LocalePicker (Svelte)
 
 The select targets WCAG 2.2 AAA. It is an **icon button that opens a
 listbox**, built to the WAI-ARIA APG **Listbox** pattern — not a native
@@ -70,7 +70,7 @@ Do not paper over these when editing docs; state them:
 
 1. **Icon-only naming.** The glyph is `aria-hidden`, so `aria-label` is
    the control's entire accessible name, with no visible-text fallback.
-   This bites harder here than for `theme-chooser`: `aria-label` is
+   This bites harder here than for `theme-picker`: `aria-label` is
    written in *one* language, and this is the control a user reaches
    for precisely when they cannot read the page. Pairing the glyph with
    the active locale's endonym via `children` is the strongest
@@ -168,7 +168,7 @@ the correct edge once this control flips the page to RTL. See
   consumer passes `target={cardEl}`, only that card switches; the
   surrounding page keeps its document language. Do not let that be used
   to skip setting the document language — WCAG 3.1.1 still applies.
-- Option ids come from the module-level `nextLocaleChooserId()` counter,
+- Option ids come from the module-level `nextLocalePickerId()` counter,
   which is SSR-safe. Never swap it for `Math.random()` / `Date.now()`.
 
 ## References

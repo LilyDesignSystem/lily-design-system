@@ -8,7 +8,7 @@
     Outcome: live preview pane reflects current lang and dir.
 -->
 <script lang="ts">
-    import LocaleChooser, { isRtlLocale, bcp47LocaleTag } from "../LocaleChooser.svelte";
+    import LocalePicker, { isRtlLocale, bcp47LocaleTag } from "../LocalePicker.svelte";
 
     let locale = $state("en");
 
@@ -32,7 +32,7 @@
     };
 </script>
 
-<LocaleChooser
+<LocalePicker
     label="Direction demo"
     locales={["en", "ar", "he", "fa", "ur", "ps"]}
     localeLabels={NATIVE}

@@ -1,9 +1,9 @@
 # SSR — Server-side rendering and static-site generation
 
-`<locale-chooser>` is a custom element. The class only runs in the
+`<locale-picker>` is a custom element. The class only runs in the
 browser; there is no "select on the server". The static-site
 generator (or server-rendered HTML pipeline) emits the literal
-`<locale-chooser>` tag with attributes; the browser constructs the
+`<locale-picker>` tag with attributes; the browser constructs the
 element and runs `connectedCallback` after parsing the HTML.
 
 That means the SSG / server is **always** the right place to
@@ -34,11 +34,11 @@ The rendered HTML before JS upgrade is exactly what the consumer
 wrote, plus any pre-resolved attributes:
 
 ```html
-<locale-chooser
+<locale-picker
     label="Language"
     locales="en,fr,ar"
     value="fr"
-></locale-chooser>
+></locale-picker>
 ```
 
 No button, no listbox, no `lang` / `dir` writes — those all appear on
@@ -69,7 +69,7 @@ locale".
 Resolve the locale **on the server / at build time** and inline:
 
 - `<html lang="{tag}" dir="{ltr|rtl}">` in the document shell, and
-- `value="{code}"` on the `<locale-chooser>` host.
+- `value="{code}"` on the `<locale-picker>` host.
 
 Pass the resolved value as the `value` attribute so the select
 doesn't re-resolve from storage and clobber the inlined attribute.
@@ -92,7 +92,7 @@ src/
 │   └── layout.njk            ← inlines <html lang> + select value
 ├── index.md                  ← per-page front matter
 └── _config/
-    └── locale-chooser.js      ← writes the helper to /dist/
+    └── locale-picker.js      ← writes the helper to /dist/
 ```
 
 ### Front matter
@@ -129,15 +129,15 @@ export default {
     <head>
         <meta charset="utf-8">
         <title>{{ title }}</title>
-        <script type="module" src="/dist/locale-chooser.js"></script>
+        <script type="module" src="/dist/locale-picker.js"></script>
     </head>
     <body>
-        <locale-chooser
+        <locale-picker
             label="Language"
             locales="{{ site.locales | join(',') }}"
             value="{{ locale }}"
             storage-key="locale"
-        ></locale-chooser>
+        ></locale-picker>
 
         {{ content | safe }}
     </body>
@@ -185,19 +185,19 @@ const dir = /^(ar|he|fa|ur|ps)/.test(locale) ? "rtl" : "ltr";
 <html lang={locale} dir={dir}>
     <head>
         <meta charset="utf-8">
-        <script type="module" src="/scripts/locale-chooser.js"></script>
+        <script type="module" src="/scripts/locale-picker.js"></script>
     </head>
     <body>
-        <locale-chooser
+        <locale-picker
             label="Language"
             locales={supported.join(",")}
             value={locale}
             storage-key="locale"
-        ></locale-chooser>
+        ></locale-picker>
 
         <script>
             document
-                .querySelector("locale-chooser")
+                .querySelector("locale-picker")
                 .addEventListener("localechange", (e) => {
                     document.cookie =
                         `locale=${e.detail.locale}; path=/; max-age=31536000; SameSite=Lax`;
@@ -233,15 +233,15 @@ visitor on a given build:
     <head>
         <meta charset="utf-8">
         <title>{{ .Title }}</title>
-        <script type="module" src="/dist/locale-chooser.js"></script>
+        <script type="module" src="/dist/locale-picker.js"></script>
     </head>
     <body>
-        <locale-chooser
+        <locale-picker
             label="Language"
             locales="en,fr,ar"
             value="{{ $locale }}"
             storage-key="locale"
-        ></locale-chooser>
+        ></locale-picker>
 
         {{ block "main" . }}{{ end }}
     </body>
@@ -277,14 +277,14 @@ storage and sets `<html lang>` before the select mounts:
                 }
             } catch { /* ignore */ }
         </script>
-        <script type="module" src="/dist/locale-chooser.js"></script>
+        <script type="module" src="/dist/locale-picker.js"></script>
     </head>
     <body>
-        <locale-chooser
+        <locale-picker
             label="Language"
             locales="en,fr,ar"
             storage-key="locale"
-        ></locale-chooser>
+        ></locale-picker>
     </body>
 </html>
 ```
@@ -316,9 +316,9 @@ prefix:
 
 ```html
 <script type="module">
-    await customElements.whenDefined("locale-chooser");
+    await customElements.whenDefined("locale-picker");
     document
-        .querySelector("locale-chooser")
+        .querySelector("locale-picker")
         .addEventListener("localechange", (e) => {
             const next = e.detail.locale;
             const newPath = location.pathname.replace(/^\/[a-z-]+/, `/${next}`);
@@ -337,7 +337,7 @@ The "cookie-resolved attribute" is just the `value=` on the select
 plus the matching `lang=` on `<html>`. The browser:
 
 1. Receives `<html lang="fr" dir="ltr">` — first paint is correct.
-2. Parses `<locale-chooser value="fr">` — the select constructor
+2. Parses `<locale-picker value="fr">` — the select constructor
    runs, sees the inlined `value`, skips storage / navigator.
 3. Writes `lang="fr"` again (idempotent — same value).
 4. Dispatches `localechange` with `{ locale: "fr" }`.
@@ -353,7 +353,7 @@ rendering) listens to the event and refreshes strings. No flash.
 | -------- | ---------------------------------------------------------- |
 | 0 ms     | HTML parse begins. `<html lang="fr">` already correct.     |
 | ~20 ms   | First Contentful Paint. CSS applied with French typography. |
-| ~50 ms   | `<locale-chooser>` tag parsed. Element is "stub" HTMLElement. |
+| ~50 ms   | `<locale-picker>` tag parsed. Element is "stub" HTMLElement. |
 | ~80 ms   | JS bundle finishes loading. `customElements.define` runs.   |
 | ~80 ms   | `connectedCallback` runs. Children render. `lang` rewritten (idempotent). |
 | ~85 ms   | `localechange` event dispatches. App listeners refresh i18n. |

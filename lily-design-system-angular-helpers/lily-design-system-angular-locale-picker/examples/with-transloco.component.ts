@@ -28,55 +28,59 @@
     re-render.
 */
 import {
-    ChangeDetectionStrategy,
-    Component,
-    inject,
-    signal,
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
 } from "@angular/core";
 // In a real app these come from @jsverse/transloco.
 // import { TranslocoModule, TranslocoService } from "@jsverse/transloco";
-import { LocaleChooser } from "../locale-chooser.component";
+import { LocalePicker } from "../locale-picker.component";
 
 // Demo-only stand-ins so this file compiles without Transloco installed.
 class TranslocoService {
-    private current = "en";
-    getActiveLang() { return this.current; }
-    setActiveLang(lang: string) { this.current = lang; }
+  private current = "en";
+  getActiveLang() {
+    return this.current;
+  }
+  setActiveLang(lang: string) {
+    this.current = lang;
+  }
 }
 
 @Component({
-    selector: "example-with-transloco",
-    standalone: true,
-    imports: [LocaleChooser],
-    providers: [TranslocoService],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
-        <lily-locale-chooser
-            label="Language"
-            [locales]="['en', 'fr', 'ar']"
-            [localeLabels]="{
-                en: 'English',
-                fr: 'Français',
-                ar: 'العربية'
-            }"
-            [(value)]="current"
-            storageKey="app-locale"
-            [detectFromNavigator]="true"
-            (localeChange)="onLocaleChange($event)"
-        />
+  selector: "example-with-transloco",
+  standalone: true,
+  imports: [LocalePicker],
+  providers: [TranslocoService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <lily-locale-picker
+      label="Language"
+      [locales]="['en', 'fr', 'ar']"
+      [localeLabels]="{
+        en: 'English',
+        fr: 'Français',
+        ar: 'العربية',
+      }"
+      [(value)]="current"
+      storageKey="app-locale"
+      [detectFromNavigator]="true"
+      (localeChange)="onLocaleChange($event)"
+    />
 
-        <h1>Hello, {{ current() }}</h1>
-        <p>
-            In a real Transloco app, replace this with
-            <code>{{ '{{ "home.body" | transloco }}' }}</code>.
-        </p>
-    `,
+    <h1>Hello, {{ current() }}</h1>
+    <p>
+      In a real Transloco app, replace this with
+      <code>{{ '{{ "home.body" | transloco }}' }}</code>.
+    </p>
+  `,
 })
 export class WithTranslocoExample {
-    private transloco = inject(TranslocoService);
-    current = signal<string>(this.transloco.getActiveLang());
+  private transloco = inject(TranslocoService);
+  current = signal<string>(this.transloco.getActiveLang());
 
-    onLocaleChange(code: string): void {
-        this.transloco.setActiveLang(code);
-    }
+  onLocaleChange(code: string): void {
+    this.transloco.setActiveLang(code);
+  }
 }

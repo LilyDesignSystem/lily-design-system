@@ -11,7 +11,7 @@ Set `DetectFromSystem`. The component probes
 resolution and maps the answer onto a supported slug:
 
 ```razor
-<ThemeChooser
+<ThemePicker
     Label="Theme"
     ThemesUrl="/assets/themes/"
     Themes="@(new[] { "light", "dark" })"
@@ -33,7 +33,7 @@ and resolution falls through to `DefaultValue`. To check that mapping
 without rendering, call the pure helper directly:
 
 ```csharp
-ThemeChooser.MatchSystemTheme(true, new[] { "light", "sepia" });  // ""
+ThemePicker.MatchSystemTheme(true, new[] { "light", "sepia" });  // ""
 ```
 
 Earlier versions of this recipe resolved the media query by hand in
@@ -45,7 +45,7 @@ works, but `DetectFromSystem` gets the precedence right for you.
 ```razor
 @inject IJSRuntime JS
 
-<ThemeChooser
+<ThemePicker
     Label="Theme"
     ThemesUrl="/assets/themes/"
     Themes="@(new[] { "light", "dark" })"
@@ -90,7 +90,7 @@ for the full recipe.
 2. In the `OnChange` handler, also POST to a server endpoint that
    writes the cookie:
    ```razor
-   <ThemeChooser
+   <ThemePicker
        ...
        StorageKey="lily-theme"
        OnChange="OnThemeChange" />
@@ -118,7 +118,7 @@ positions the open list — see
 ## Serve themes from a CDN
 
 ```razor
-<ThemeChooser
+<ThemePicker
     ThemesUrl="https://cdn.example.com/lily-themes/"
     Themes="@(new[] { "light", "dark", "abyss" })"
     Label="Theme" />
@@ -132,7 +132,7 @@ crossorigin="…">` attribute is needed if you also need
 ## Cache-bust a theme
 
 ```razor
-<ThemeChooser
+<ThemePicker
     ThemesUrl="/assets/themes/"
     Themes="@(new[] { "light", "dark" })"
     Extension=".css?v=2026-06-05"
@@ -150,7 +150,7 @@ out of the box (the helper writes to `document.documentElement`); for
 per-region scoping use a wrapping `data-theme="…"` attribute that
 your CSS selectors target, applied via a custom `OnChange` handler.
 
-See [`../examples/MultipleChoosers.razor`](../examples/MultipleChoosers.razor).
+See [`../examples/MultiplePickers.razor`](../examples/MultiplePickers.razor).
 
 ## Programmatically switch themes from a sibling component
 
@@ -170,7 +170,7 @@ public class ThemeState
 ```razor
 @inject ThemeState State
 
-<ThemeChooser
+<ThemePicker
     Label="Theme"
     ThemesUrl="/assets/themes/"
     Themes="@(new[] { "light", "dark" })"
@@ -188,7 +188,7 @@ up via `IJSRuntime`:
 ```razor
 @inject IJSRuntime JS
 
-<ThemeChooser
+<ThemePicker
     Label="Theme"
     ThemesUrl="/assets/themes/"
     Themes="@(new[] { "light", "dark" })"
@@ -225,17 +225,17 @@ up via `IJSRuntime`:
 
 ## Switch theme on culture change
 
-Wire `LocaleChooser`'s `OnChange` to set both `CultureInfo` and pick
+Wire `LocalePicker`'s `OnChange` to set both `CultureInfo` and pick
 a theme appropriate to the locale (e.g. brand colours per locale):
 
 ```razor
-<LocaleChooser
+<LocalePicker
     Label="Language"
     Locales="@(new[] { "en", "fr", "ar" })"
     @bind-Value="locale"
     OnChange="OnLocaleChange" />
 
-<ThemeChooser
+<ThemePicker
     Label="Theme"
     ThemesUrl="/assets/themes/"
     Themes="@(new[] { "light", "dark", "high-contrast" })"

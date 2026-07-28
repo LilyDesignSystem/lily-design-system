@@ -1,7 +1,7 @@
-# Testing — ThemeChooser (Vue)
+# Testing — ThemePicker (Vue)
 
-The chooser's test suite lives in
-[`../ThemeChooser.test.ts`](../ThemeChooser.test.ts) and asserts every
+The picker's test suite lives in
+[`../ThemePicker.test.ts`](../ThemePicker.test.ts) and asserts every
 numbered acceptance criterion in `spec/index.md` §7. This file documents
 the test harness and the conventions specific to this helper. For
 the catalog-wide test rules see
@@ -12,18 +12,21 @@ the catalog-wide test rules see
 ```ts
 import { describe, it, expect, beforeEach } from "vitest";
 import { mount } from "@vue/test-utils";
-import ThemeChooser, { themeHref, normaliseThemesUrl } from "./ThemeChooser.vue";
+import ThemePicker, {
+  themeHref,
+  normaliseThemesUrl,
+} from "./ThemePicker.vue";
 
 beforeEach(() => {
-    // Reset shared state between tests.
-    document.head.innerHTML = "";
-    document.documentElement.removeAttribute("data-theme");
-    localStorage.clear();
+  // Reset shared state between tests.
+  document.head.innerHTML = "";
+  document.documentElement.removeAttribute("data-theme");
+  localStorage.clear();
 });
 ```
 
 Each test re-runs the whole `onMounted` lifecycle by calling
-`mount(ThemeChooser, { props: ... })`.
+`mount(ThemePicker, { props: ... })`.
 
 Mount with `attachTo: document.body`. The component moves focus (to the
 `<ul>` on open, back to the button on commit) and listens for document
@@ -34,19 +37,19 @@ silently pass-or-fail wrongly without it. Unmount every wrapper in
 Locating the parts:
 
 ```ts
-const button = wrapper.find("button.theme-chooser-button");
-const list = wrapper.find("ul.theme-chooser-list");
-const options = wrapper.findAll("li.theme-chooser-option");
+const button = wrapper.find("button.theme-picker-button");
+const list = wrapper.find("ul.theme-picker-list");
+const options = wrapper.findAll("li.theme-picker-option");
 ```
 
 ## Async waits
 
-The chooser's `onMounted` and `watch` callbacks fire across one or
+The picker's `onMounted` and `watch` callbacks fire across one or
 two micro-task ticks. Use `await wrapper.vm.$nextTick()` after
 mount and after any `setProps` to settle the DOM:
 
 ```ts
-const wrapper = mount(ThemeChooser, { props: { /* … */ } });
+const wrapper = mount(ThemePicker, { props: {/* … */} });
 await wrapper.vm.$nextTick();
 // initial-value resolution may have emitted update:value which
 // re-renders; a second tick guarantees the watch has fired.
@@ -54,13 +57,13 @@ await wrapper.vm.$nextTick();
 ```
 
 When the watch chain is longer (e.g. a `update:value` triggers a
-parent prop change which feeds back into the chooser), add
+parent prop change which feeds back into the picker), add
 `await flushPromises()`:
 
 ```ts
 import { flushPromises } from "@vue/test-utils";
 
-const wrapper = mount(ThemeChooser, { /* … */ });
+const wrapper = mount(ThemePicker, {/* … */});
 await flushPromises();
 ```
 
@@ -71,17 +74,17 @@ manually:
 
 ```ts
 let currentValue = "";
-const wrapper = mount(ThemeChooser, {
-    props: {
-        label: "Theme",
-        themesUrl: "/t/",
-        themes: ["light", "dark"],
-        value: currentValue,
-        "onUpdate:value": (next: string) => {
-            currentValue = next;
-            wrapper.setProps({ value: next });
-        },
+const wrapper = mount(ThemePicker, {
+  props: {
+    label: "Theme",
+    themesUrl: "/t/",
+    themes: ["light", "dark"],
+    value: currentValue,
+    "onUpdate:value": (next: string) => {
+      currentValue = next;
+      wrapper.setProps({ value: next });
     },
+  },
 });
 ```
 
@@ -90,8 +93,8 @@ const wrapper = mount(ThemeChooser, {
 Open the listbox, then click the option:
 
 ```ts
-await wrapper.find("button.theme-chooser-button").trigger("click");
-await wrapper.findAll("li.theme-chooser-option")[1].trigger("click");
+await wrapper.find("button.theme-picker-button").trigger("click");
+await wrapper.findAll("li.theme-picker-option")[1].trigger("click");
 await flush();
 ```
 
@@ -99,13 +102,13 @@ Or drive it from the keyboard, which is the path the APG contract
 cares about:
 
 ```ts
-const button = wrapper.find("button.theme-chooser-button");
-const list = wrapper.find("ul.theme-chooser-list");
+const button = wrapper.find("button.theme-picker-button");
+const list = wrapper.find("ul.theme-picker-list");
 
 await button.trigger("keydown", { key: "ArrowDown" }); // opens, index 0 active
 await flush();
-await list.trigger("keydown", { key: "ArrowDown" });   // index 1 active
-await list.trigger("keydown", { key: "Enter" });       // commit + close
+await list.trigger("keydown", { key: "ArrowDown" }); // index 1 active
+await list.trigger("keydown", { key: "Enter" }); // commit + close
 await flush();
 ```
 
@@ -121,9 +124,9 @@ macro-task queue drain too:
 
 ```ts
 async function flush(): Promise<void> {
-    await nextTick();
-    await new Promise((r) => setTimeout(r, 0));
-    await nextTick();
+  await nextTick();
+  await new Promise((r) => setTimeout(r, 0));
+  await nextTick();
 }
 ```
 
@@ -131,7 +134,7 @@ async function flush(): Promise<void> {
 
 ```ts
 const el = list.element as HTMLElement;
-expect(el.hasAttribute("hidden")).toBe(true);            // closed
+expect(el.hasAttribute("hidden")).toBe(true); // closed
 expect(button.attributes("aria-expanded")).toBe("false");
 ```
 
@@ -146,7 +149,7 @@ expect(el.hasAttribute("aria-activedescendant")).toBe(false);
 
 Compare `aria-activedescendant` against the option's id rather than
 hard-coding an id string — ids come from the module counter
-`nextThemeChooserId()` and differ per mount:
+`nextThemePickerId()` and differ per mount:
 
 ```ts
 expect(el.getAttribute("aria-activedescendant")).toBe(el.children[1].id);
@@ -167,11 +170,11 @@ regression in either.
 ## Asserting focus movement
 
 ```ts
-expect(document.activeElement).toBe(list.element);   // after open
+expect(document.activeElement).toBe(list.element); // after open
 expect(document.activeElement).toBe(button.element); // after Enter / Escape
 ```
 
-For `Tab` and outside-click, the contract is that focus is *not* pulled
+For `Tab` and outside-click, the contract is that focus is _not_ pulled
 back:
 
 ```ts
@@ -203,7 +206,7 @@ document.body.dispatchEvent(new MouseEvent("click", { bubbles: true }));
 
 ```ts
 const link = document.head.querySelector<HTMLLinkElement>(
-    'link[data-lily-theme-chooser="theme"]',
+  'link[data-lily-theme-picker="theme"]',
 );
 expect(link).not.toBeNull();
 expect(link!.href).toMatch(/\/t\/light\.css$/);
@@ -231,24 +234,31 @@ Run `localStorage.clear()` in `beforeEach` to keep tests isolated.
 ## Scoped-slot tests
 
 The default slot replaces the **button glyph**, so assert both that the
-custom content is inside the button and that `.theme-chooser-icon` is
+custom content is inside the button and that `.theme-picker-icon` is
 gone:
 
 ```ts
 let captured: any = null;
-const wrapper = mount(ThemeChooser, {
-    props: { label: "T", themesUrl: "/t/", themes: ["light", "dark"], value: "dark" },
-    attachTo: document.body,
-    slots: {
-        default: (args: any) => {
-            captured = args;
-            return "custom glyph";
-        },
+const wrapper = mount(ThemePicker, {
+  props: {
+    label: "T",
+    themesUrl: "/t/",
+    themes: ["light", "dark"],
+    value: "dark",
+  },
+  attachTo: document.body,
+  slots: {
+    default: (args: any) => {
+      captured = args;
+      return "custom glyph";
     },
+  },
 });
 await flush();
-expect(wrapper.find("button.theme-chooser-button").text()).toContain("custom glyph");
-expect(wrapper.find(".theme-chooser-icon").exists()).toBe(false);
+expect(wrapper.find("button.theme-picker-button").text()).toContain(
+  "custom glyph",
+);
+expect(wrapper.find(".theme-picker-icon").exists()).toBe(false);
 expect(captured.value).toBe("dark");
 expect(captured.open).toBe(false);
 expect(typeof captured.labelFor).toBe("function");
@@ -274,12 +284,12 @@ asserting those is testing the pre-rewrite contract.
 
 ```ts
 it("normaliseThemesUrl appends a slash", () => {
-    expect(normaliseThemesUrl("/x")).toBe("/x/");
-    expect(normaliseThemesUrl("/x/")).toBe("/x/");
+  expect(normaliseThemesUrl("/x")).toBe("/x/");
+  expect(normaliseThemesUrl("/x/")).toBe("/x/");
 });
 
 it("themeHref builds the full URL", () => {
-    expect(themeHref("/x/", "dark", ".css")).toBe("/x/dark.css");
+  expect(themeHref("/x/", "dark", ".css")).toBe("/x/dark.css");
 });
 ```
 
@@ -290,19 +300,19 @@ import { renderToString } from "vue/server-renderer";
 import { createSSRApp } from "vue";
 
 it("renders cleanly under SSR", async () => {
-    const html = await renderToString(
-        createSSRApp(ThemeChooser, {
-            label: "Theme",
-            themesUrl: "/t/",
-            themes: ["light", "dark"],
-            value: "light",
-        }),
-    );
-    expect(html).toContain('class="theme-chooser"');
-    expect(html).toContain('aria-haspopup="listbox"');
-    expect(html).toContain('aria-label="Theme"');
-    expect(html).toContain('role="listbox"');
-    expect(html).toContain('value="light"');
+  const html = await renderToString(
+    createSSRApp(ThemePicker, {
+      label: "Theme",
+      themesUrl: "/t/",
+      themes: ["light", "dark"],
+      value: "light",
+    }),
+  );
+  expect(html).toContain('class="theme-picker"');
+  expect(html).toContain('aria-haspopup="listbox"');
+  expect(html).toContain('aria-label="Theme"');
+  expect(html).toContain('role="listbox"');
+  expect(html).toContain('value="light"');
 });
 ```
 

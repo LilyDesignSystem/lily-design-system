@@ -1,4 +1,4 @@
-# TextSizeChooser (Nunjucks helper)
+# TextSizePicker (Nunjucks helper)
 
 A reusable, headless Nunjucks 3 + vanilla-JS text-size control that
 applies the chosen size to the document root via `data-text-size`,
@@ -9,8 +9,8 @@ user guide.
 
 > **BREAKING (Unreleased).** This helper no longer renders a native
 > `<select>`. It renders an icon button that opens a listbox, matching
-> `theme-chooser` and `locale-chooser`. Consumers must now load
-> `text-size-chooser.client.js` — without it the button is inert. See
+> `theme-picker` and `locale-picker`. Consumers must now load
+> `text-size-picker.client.js` — without it the button is inert. See
 > [CHANGELOG.md](./CHANGELOG.md) for the migration, and
 > [docs/ssr.md](./docs/ssr.md) for the no-JS consequences.
 
@@ -26,21 +26,21 @@ contract cleanly:
 - **Your CSS** owns the actual typography, keyed on
   `[data-text-size="{slug}"]`.
 - **Consumers** own the visual style of the control via the
-  `text-size-chooser` class hooks.
+  `text-size-picker` class hooks.
 
 The helper is a direct port of the Svelte canonical
-`lily-design-system-svelte-text-size-chooser`. The DOM contract and
+`lily-design-system-svelte-text-size-picker`. The DOM contract and
 behaviour match clause-for-clause; only the framework idioms differ.
 
 ## How the pieces fit
 
 The helper is a **macro + client.js** pair:
 
-- The macro (`text-size-chooser.njk`) renders the markup server-side or
+- The macro (`text-size-picker.njk`) renders the markup server-side or
   at static-site build time.
-- The client (`text-size-chooser.client.js`) is an ES module the
+- The client (`text-size-picker.client.js`) is an ES module the
   consumer loads once per page. It picks up the markup via
-  `data-lily-text-size-chooser-*` hooks and owns **both** the
+  `data-lily-text-size-picker-*` hooks and owns **both** the
   browser-side lifecycle (storage, `data-text-size` apply, change
   events) **and** the whole listbox interaction (open/close, focus,
   keyboard, typeahead).
@@ -48,12 +48,12 @@ The helper is a **macro + client.js** pair:
 ```
 Nunjucks render time                 │  Browser runtime
                                       │
-{{ textSizeChooser({…}) }}            │  import { autoInit } from
-   │                                  │    "./text-size-chooser.client.js";
+{{ textSizePicker({…}) }}            │  import { autoInit } from
+   │                                  │    "./text-size-picker.client.js";
    ▼                                  │  autoInit();
-<div class="text-size-chooser"         │     │
-  data-lily-text-size-chooser-root     │     ▼
-  data-lily-text-size-chooser-*>       │  finds [data-lily-text-size-chooser-root]
+<div class="text-size-picker"         │     │
+  data-lily-text-size-picker-root     │     ▼
+  data-lily-text-size-picker-*>       │  finds [data-lily-text-size-picker-root]
   <input type="hidden">               │     │
   <button aria-haspopup="listbox">    │     ▼
     <span aria-hidden="true">A</span> │  resolves initial slug
@@ -72,10 +72,10 @@ Nunjucks render time                 │  Browser runtime
 Copy the core files into your project or wire as a workspace
 dependency:
 
-| File                          | Purpose                  |
-| ----------------------------- | ------------------------ |
-| `text-size-chooser.njk`        | The Nunjucks macro.      |
-| `text-size-chooser.client.js`  | The ES-module runtime.   |
+| File                          | Purpose                |
+| ----------------------------- | ---------------------- |
+| `text-size-picker.njk`       | The Nunjucks macro.    |
+| `text-size-picker.client.js` | The ES-module runtime. |
 
 Runtime dependencies: `nunjucks` ≥ 3 server-side and standard DOM
 APIs client-side.
@@ -85,9 +85,9 @@ APIs client-side.
 1. Render the macro in your Nunjucks template:
 
 ```njk
-{% from "./lily-design-system-nunjucks-text-size-chooser/text-size-chooser.njk" import textSizeChooser %}
+{% from "./lily-design-system-nunjucks-text-size-picker/text-size-picker.njk" import textSizePicker %}
 
-{{ textSizeChooser({
+{{ textSizePicker({
     label: "Text size",
     sizes: ["small", "medium", "large", "x-large"],
     storageKey: "lily-text-size"
@@ -95,7 +95,7 @@ APIs client-side.
 
 {# The control is icon-only, so it never shows the active size.
    Pair it with a status region — see docs/accessibility.md. #}
-<p class="text-size-chooser-status" aria-live="polite"></p>
+<p class="text-size-picker-status" aria-live="polite"></p>
 ```
 
 2. Load the client.js once per page. **This is not optional** — the
@@ -103,13 +103,13 @@ APIs client-side.
 
 ```html
 <script type="module">
-    import { autoInit } from "/path/to/text-size-chooser.client.js";
-    const status = document.querySelector(".text-size-chooser-status");
-    autoInit({
-        onChange(slug) {
-            status.textContent = `Text size: ${slug}`;
-        },
-    });
+  import { autoInit } from "/path/to/text-size-picker.client.js";
+  const status = document.querySelector(".text-size-picker-status");
+  autoInit({
+    onChange(slug) {
+      status.textContent = `Text size: ${slug}`;
+    },
+  });
 </script>
 ```
 
@@ -117,10 +117,18 @@ APIs client-side.
    satisfies WCAG 1.4.4** — the helper only signals the choice:
 
 ```css
-[data-text-size="small"]   { font-size: 0.875rem; }
-[data-text-size="medium"]  { font-size: 1rem; }
-[data-text-size="large"]   { font-size: 1.25rem; }
-[data-text-size="x-large"] { font-size: 1.5rem; }
+[data-text-size="small"] {
+  font-size: 0.875rem;
+}
+[data-text-size="medium"] {
+  font-size: 1rem;
+}
+[data-text-size="large"] {
+  font-size: 1.25rem;
+}
+[data-text-size="x-large"] {
+  font-size: 1.5rem;
+}
 ```
 
 Use relative units throughout. Absolute `px` defeats both this control
@@ -140,24 +148,41 @@ A worked end-to-end example, including the type scale, is in
 ## Markup
 
 ```html
-<div class="text-size-chooser" data-lily-text-size-chooser-root …>
-  <input type="hidden" name="text-size" value="medium">
-  <button type="button" class="text-size-chooser-button"
-          aria-label="Text size" aria-haspopup="listbox"
-          aria-expanded="false" aria-controls="text-size-chooser-text-size-list">
-    <span class="text-size-chooser-icon" aria-hidden="true">A</span>
+<div class="text-size-picker" data-lily-text-size-picker-root …>
+  <input type="hidden" name="text-size" value="medium" />
+  <button
+    type="button"
+    class="text-size-picker-button"
+    aria-label="Text size"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="text-size-picker-text-size-list"
+  >
+    <span class="text-size-picker-icon" aria-hidden="true">A</span>
   </button>
-  <ul class="text-size-chooser-list" id="text-size-chooser-text-size-list"
-      role="listbox" aria-label="Text size" tabindex="-1" hidden>
-    <li class="text-size-chooser-option" role="option"
-        aria-selected="true" data-value="medium">Medium</li>
+  <ul
+    class="text-size-picker-list"
+    id="text-size-picker-text-size-list"
+    role="listbox"
+    aria-label="Text size"
+    tabindex="-1"
+    hidden
+  >
+    <li
+      class="text-size-picker-option"
+      role="option"
+      aria-selected="true"
+      data-value="medium"
+    >
+      Medium
+    </li>
     …
   </ul>
 </div>
 ```
 
 The package ships **no CSS at all**, including none for positioning the
-open listbox. Style it with `.text-size-chooser-list:not([hidden])` —
+open listbox. Style it with `.text-size-picker-list:not([hidden])` —
 never `display: block`, which would override the `hidden` attribute
 that is the open-state contract.
 
@@ -165,14 +190,14 @@ that is the open-state contract.
 
 A plain Latin capital letter, not a pictograph. U+1F5DB DECREASE FONT
 SIZE SYMBOL has no real glyph in common font stacks — it degrades to a
-crude bitmap shape — and it means *decrease* rather than *size*. "A"
+crude bitmap shape — and it means _decrease_ rather than _size_. "A"
 renders in the page's own font everywhere and is the conventional
 text-size affordance.
 
 Override it with a `{% call %}` block:
 
 ```njk
-{% call textSizeChooser({label: "Text size", sizes: ["small", "large"]}) %}
+{% call textSizePicker({label: "Text size", sizes: ["small", "large"]}) %}
     <span aria-hidden="true">Aa</span>
 {% endcall %}
 ```
@@ -183,12 +208,12 @@ accessible name must stay on `aria-label`.
 
 ## Initial size
 
-The initial slug on `initTextSizeChooser(root)` resolves to the first
+The initial slug on `initTextSizePicker(root)` resolves to the first
 non-empty value of:
 
-1. `data-lily-text-size-chooser-value` (i.e. `opts.value`).
+1. `data-lily-text-size-picker-value` (i.e. `opts.value`).
 2. `localStorage.getItem(storageKey)` (when set and readable).
-3. `data-lily-text-size-chooser-default-value` (i.e. `opts.defaultValue`).
+3. `data-lily-text-size-picker-default-value` (i.e. `opts.defaultValue`).
 4. `"medium"` if present among the option values.
 5. The first option value, or `""` if none.
 
@@ -197,7 +222,7 @@ non-empty value of:
 Full table in [spec/index.md §4.1](./spec/index.md#41-macro-parameters).
 Required: `label`, `sizes`. Optional: `value`, `defaultValue`,
 `storageKey`, `name` (default `"text-size"`), `sizeLabels`, `id`
-(default `"text-size-chooser-{name}"`), `classes`, `attributes`.
+(default `"text-size-picker-{name}"`), `classes`, `attributes`.
 
 `label` is the accessible name for **both** the button and the
 listbox. The button is icon-only, so this is the only accessible name
@@ -215,16 +240,16 @@ exposes no OS "preferred text size" signal.
 
 ```js
 import {
-    initTextSizeChooser,
-    autoInit,
-    sizeName,
-    LATIN_CAPITAL_LETTER_A,
-} from "./text-size-chooser.client.js";
+  initTextSizePicker,
+  autoInit,
+  sizeName,
+  LATIN_CAPITAL_LETTER_A,
+} from "./text-size-picker.client.js";
 ```
 
 - `autoInit(opts?)` — find every
-  `[data-lily-text-size-chooser-root]` and wire it.
-- `initTextSizeChooser(root, opts?)` — wire a single root; returns
+  `[data-lily-text-size-picker-root]` and wire it.
+- `initTextSizePicker(root, opts?)` — wire a single root; returns
   `{setSize, destroy}`.
 - `sizeName(slug)` — `"x-large"` → `"X Large"`. The JS statement of
   the label rule the macro applies in template syntax.

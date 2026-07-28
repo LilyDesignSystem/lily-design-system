@@ -1,4 +1,4 @@
-# ShareChooser — Specification
+# SharePicker — Specification
 
 Single source of truth for the `lily-design-system-svelte-share-picker`
 Svelte helper. This file drives implementation, testing, and documentation:
@@ -7,8 +7,8 @@ exercised by a test.
 
 Sibling files:
 
-- `ShareChooser.svelte` — the implementation
-- `ShareChooser.test.ts` — vitest spec exercising every clause in §7
+- `SharePicker.svelte` — the implementation
+- `SharePicker.test.ts` — vitest spec exercising every clause in §7
 - `index.ts` — re-export barrel
 - `index.md` — user-facing guide
 
@@ -35,7 +35,7 @@ Give a Svelte 5 application a drop-in, headless share control that:
   assets; destination labels are text supplied by the consumer.
 - **Share counts, analytics, or tracking.** The component reports what
   the user chose via `onShare`; what you do with that is yours.
-- **Persistence.** Unlike the `*-chooser` helpers, this control has no
+- **Persistence.** Unlike the `*-picker` helpers, this control has no
   state to remember. Nothing is written to `localStorage`.
 
 ## 3. Architectural decisions
@@ -98,20 +98,20 @@ type ChildArgs = { open: boolean; url: string };
 ### 4.2 DOM contract
 
 ```html
-<div class="share-chooser {class}">
+<div class="share-picker {class}">
   <button
     type="button"
-    class="share-chooser-button"
+    class="share-picker-button"
     aria-label="{label}"
     aria-expanded
     aria-controls="{listId}"
   >
-    <span class="share-chooser-icon" aria-hidden="true">&#10148;</span>
+    <span class="share-picker-icon" aria-hidden="true">&#10148;</span>
   </button>
-  <ul class="share-chooser-list" id="{listId}" hidden>
-    <li class="share-chooser-list-item">
+  <ul class="share-picker-list" id="{listId}" hidden>
+    <li class="share-picker-list-item">
       <a
-        class="share-chooser-target"
+        class="share-picker-target"
         data-target-id="{id}"
         href="{href(...)}"
         target="_blank"
@@ -119,21 +119,21 @@ type ChildArgs = { open: boolean; url: string };
         >{label}</a
       >
     </li>
-    <li class="share-chooser-list-item">
-      <button type="button" class="share-chooser-copy">{copyLabel}</button>
+    <li class="share-picker-list-item">
+      <button type="button" class="share-picker-copy">{copyLabel}</button>
     </li>
   </ul>
-  <p class="share-chooser-status" aria-live="polite"></p>
+  <p class="share-picker-status" aria-live="polite"></p>
 </div>
 ```
 
-The trigger's class is `share-chooser-button`, matching the
+The trigger's class is `share-picker-button`, matching the
 `{helper}-button` convention the sibling helpers use.
 
 ### 4.3 Re-exports
 
-`index.ts` exports `default`, `ShareChooser`, `canShareNatively`,
-`canCopy`, `nextShareChooserId`, `BLACK_RIGHTWARDS_ARROWHEAD`, and the
+`index.ts` exports `default`, `SharePicker`, `canShareNatively`,
+`canCopy`, `nextSharePickerId`, `BLACK_RIGHTWARDS_ARROWHEAD`, and the
 types `Props`, `ChildArgs`, `ShareTarget`, `ShareStrategy`.
 
 ## 5. Behaviour
@@ -182,7 +182,7 @@ sees on a phone is not what they see on a desktop.
 
 ## 7. Testing acceptance criteria
 
-`ShareChooser.test.ts` asserts every clause below.
+`SharePicker.test.ts` asserts every clause below.
 
 1. Renders a disclosure `<button>` with `aria-expanded` controlling a `<ul>`.
 2. The list is hidden until the button is activated.

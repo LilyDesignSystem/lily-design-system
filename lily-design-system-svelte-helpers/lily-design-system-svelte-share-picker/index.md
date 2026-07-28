@@ -1,4 +1,4 @@
-# ShareChooser (Svelte helper)
+# SharePicker (Svelte helper)
 
 A headless Svelte 5 share control: a single-glyph button (➤) that opens
 the **native share sheet** where the browser has one, and otherwise shows
@@ -10,10 +10,10 @@ is the human-readable guide.
 ## Install
 
 ```ts
-import ShareChooser from "./lily-design-system-svelte-share-picker/ShareChooser.svelte";
+import SharePicker from "./lily-design-system-svelte-share-picker/SharePicker.svelte";
 // or via the barrel:
 import {
-  ShareChooser,
+  SharePicker,
   canShareNatively,
   type ShareTarget,
 } from "./lily-design-system-svelte-share-picker";
@@ -23,8 +23,8 @@ import {
 
 ```svelte
 <script lang="ts">
-  import ShareChooser, { type ShareTarget }
-    from "./lily-design-system-svelte-share-picker/ShareChooser.svelte";
+  import SharePicker, { type ShareTarget }
+    from "./lily-design-system-svelte-share-picker/SharePicker.svelte";
 
   const targets: ShareTarget[] = [
     {
@@ -43,7 +43,7 @@ import {
   ];
 </script>
 
-<ShareChooser
+<SharePicker
   label="Share this page"
   title="An article worth reading"
   {targets}
@@ -120,9 +120,9 @@ Full table in [spec/index.md §4.1](./spec/index.md#41-props). Required:
 
 ## Styling
 
-Class hooks: `.share-chooser` (root), `.share-chooser-button`,
-`.share-chooser-icon`, `.share-chooser-list`, `.share-chooser-list-item`,
-`.share-chooser-target`, `.share-chooser-copy`, `.share-chooser-status`.
+Class hooks: `.share-picker` (root), `.share-picker-button`,
+`.share-picker-icon`, `.share-picker-list`, `.share-picker-list-item`,
+`.share-picker-target`, `.share-picker-copy`, `.share-picker-status`.
 
 The package ships no CSS. The root `themes/` stylesheets style the button
 and popup, including the optical glyph sizing that keeps ➤ visually the

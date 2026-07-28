@@ -1,4 +1,4 @@
-# SSR — `<theme-chooser>` (HTML helper)
+# SSR — `<theme-picker>` (HTML helper)
 
 The select runs cleanly under any static-site generator (Eleventy,
 Astro, Hugo, Jekyll, Nunjucks + Eleventy) and under server-rendered
@@ -10,11 +10,11 @@ live in [`../../AGENTS/ssr.md`](../../AGENTS/ssr.md).
 
 There is no "select on the server" — `customElements` only exists
 in browsers. The SSG / server emits the literal
-`<theme-chooser>` tag with attributes; the browser runtime
+`<theme-picker>` tag with attributes; the browser runtime
 constructs the element and runs `connectedCallback` after parsing
 the HTML.
 
-If the consumer pre-renders `<theme-chooser value="dark">`, the
+If the consumer pre-renders `<theme-picker value="dark">`, the
 select's first `connectedCallback` sees `value="dark"` and skips
 the storage / default fallbacks — it immediately applies `dark`.
 
@@ -32,7 +32,7 @@ time for dynamic SSR) and inline both:
 - the matching `<link rel="stylesheet" href="/assets/themes/<slug>.css">`
 
 so that CSS is in place before any pixel is painted. Pre-render the
-`value` attribute on the `<theme-chooser>` host so the select doesn't
+`value` attribute on the `<theme-picker>` host so the select doesn't
 re-resolve from storage and clobber the inlined `data-theme`.
 
 ## Eleventy recipe
@@ -48,8 +48,8 @@ shape:
 // on the client via localStorage; the build-time default is what
 // arrives in the first paint.
 module.exports = {
-    defaultTheme: "light",
-    available: ["light", "dark", "abyss"],
+  defaultTheme: "light",
+  available: ["light", "dark", "abyss"],
 };
 ```
 
@@ -60,17 +60,17 @@ module.exports = {
 <html lang="en" data-theme="{{ theme.defaultTheme }}">
     <head>
         <link rel="stylesheet" href="/assets/themes/{{ theme.defaultTheme }}.css">
-        <script type="module" src="/dist/lily-design-system-html-theme-chooser.js"></script>
+        <script type="module" src="/dist/lily-design-system-html-theme-picker.js"></script>
     </head>
     <body>
         {{ content | safe }}
-        <theme-chooser
+        <theme-picker
             label="Theme"
             themes-url="/assets/themes/"
             themes="{{ theme.available | join(',') }}"
             value="{{ theme.defaultTheme }}"
             storage-key="lily-theme"
-        ></theme-chooser>
+        ></theme-picker>
     </body>
 </html>
 ```
@@ -91,16 +91,16 @@ const theme = Astro.cookies.get("theme")?.value ?? "light";
 <html lang="en" data-theme={theme}>
     <head>
         <link rel="stylesheet" href={`/assets/themes/${theme}.css`} />
-        <script type="module" src="/scripts/theme-chooser.js"></script>
+        <script type="module" src="/scripts/theme-picker.js"></script>
     </head>
     <body>
-        <theme-chooser
+        <theme-picker
             label="Theme"
             themes-url="/assets/themes/"
             themes="light,dark,abyss"
             value={theme}
             storage-key="lily-theme"
-        ></theme-chooser>
+        ></theme-picker>
         <slot />
     </body>
 </html>
@@ -116,15 +116,15 @@ upgrades without any visual change.
 <html lang="en" data-theme="{{ .Site.Params.defaultTheme | default "light" }}">
     <head>
         <link rel="stylesheet" href="/assets/themes/{{ .Site.Params.defaultTheme | default "light" }}.css">
-        <script type="module" src="/dist/theme-chooser.js"></script>
+        <script type="module" src="/dist/theme-picker.js"></script>
     </head>
     <body>
-        <theme-chooser
+        <theme-picker
             label="Theme"
             themes-url="/assets/themes/"
             themes="light,dark,abyss"
             value="{{ .Site.Params.defaultTheme | default "light" }}"
-        ></theme-chooser>
+        ></theme-picker>
     </body>
 </html>
 ```
@@ -136,17 +136,17 @@ Just drop the script tag and host element into any HTML file:
 ```html
 <!doctype html>
 <html lang="en" data-theme="light">
-    <head>
-        <link rel="stylesheet" href="/assets/themes/light.css">
-        <script type="module" src="/dist/theme-chooser.js"></script>
-    </head>
-    <body>
-        <theme-chooser
-            label="Theme"
-            themes-url="/assets/themes/"
-            themes="light,dark,abyss"
-        ></theme-chooser>
-    </body>
+  <head>
+    <link rel="stylesheet" href="/assets/themes/light.css" />
+    <script type="module" src="/dist/theme-picker.js"></script>
+  </head>
+  <body>
+    <theme-picker
+      label="Theme"
+      themes-url="/assets/themes/"
+      themes="light,dark,abyss"
+    ></theme-picker>
+  </body>
 </html>
 ```
 
@@ -157,17 +157,17 @@ shadow DOM). The HTML helpers use light DOM by contract; the
 pre-rendering happens through the host attributes, not the rendered
 children. The children are recreated on every `connectedCallback`.
 
-This is *fine*: the first paint shows the consumer's CSS applied to
-the un-upgraded `<theme-chooser>` host (empty), then the element
+This is _fine_: the first paint shows the consumer's CSS applied to
+the un-upgraded `<theme-picker>` host (empty), then the element
 upgrades and the rendered button appears. The visible change is the
 appearance of one icon button, not a re-paint of the rest of the
 page — because the inlined `<html data-theme>` is unchanged. It is
 also a small change: reserve space for the button in your CSS
-(`theme-chooser { display: inline-block; min-inline-size: … }`) to
+(`theme-picker { display: inline-block; min-inline-size: … }`) to
 avoid a layout shift when it appears.
 
 Element ids are generated from a module-level counter
-(`nextThemeChooserId()`), never from `Math.random()` or `Date.now()`,
+(`nextThemePickerId()`), never from `Math.random()` or `Date.now()`,
 so nothing in the rendered markup differs between runs or between
 server and client.
 

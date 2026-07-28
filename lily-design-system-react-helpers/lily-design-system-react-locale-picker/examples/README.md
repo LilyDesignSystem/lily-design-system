@@ -1,7 +1,7 @@
 # Examples
 
 Self-contained React 19 examples for
-`lily-design-system-react-locale-chooser`. Each file is a runnable
+`lily-design-system-react-locale-picker`. Each file is a runnable
 component that can be dropped into any React 19 host (Next.js App
 Router page, Vite + React route, Remix route, Astro `.tsx` island,
 Storybook story).
@@ -16,18 +16,18 @@ Every example assumes:
 
 ## Index
 
-| File                                                   | Demonstrates                                                          |
-| ------------------------------------------------------ | --------------------------------------------------------------------- |
-| [`basic.tsx`](./basic.tsx)                             | Default globe-button rendering with controlled `value` + `onChange`, plus the default status line. |
-| [`custom-rendering.tsx`](./custom-rendering.tsx)       | `children` glyph override: active short code + open/closed chevron.   |
-| [`compact-glyph.tsx`](./compact-glyph.tsx)             | `children` glyph override: compact short codes / script characters.   |
-| [`rtl-demo.tsx`](./rtl-demo.tsx)                       | RTL locales (ar, he, fa, ur, ps) showing `dir` flipping.               |
-| [`nhs-style.tsx`](./nhs-style.tsx)                     | NHS-style banner; `children` pairs the globe with the active endonym.  |
-| [`with-react-intl.tsx`](./with-react-intl.tsx)         | Wired through `react-intl`'s `IntlProvider`.                          |
-| [`with-react-i18next.tsx`](./with-react-i18next.tsx)   | Wired through `react-i18next`'s `useTranslation` hook.                |
-| [`ssr-cookie.tsx`](./ssr-cookie.tsx)                   | Next.js App Router pattern with cookie-resolved initial locale.       |
-| [`scoped-target.tsx`](./scoped-target.tsx)             | `target` prop pointing at a panel ref instead of `<html>`.            |
-| [`all-locales.tsx`](./all-locales.tsx)                 | All 436 locales, navigated with the built-in listbox typeahead.       |
+| File                                                 | Demonstrates                                                                                       |
+| ---------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| [`basic.tsx`](./basic.tsx)                           | Default globe-button rendering with controlled `value` + `onChange`, plus the default status line. |
+| [`custom-rendering.tsx`](./custom-rendering.tsx)     | `children` glyph override: active short code + open/closed chevron.                                |
+| [`compact-glyph.tsx`](./compact-glyph.tsx)           | `children` glyph override: compact short codes / script characters.                                |
+| [`rtl-demo.tsx`](./rtl-demo.tsx)                     | RTL locales (ar, he, fa, ur, ps) showing `dir` flipping.                                           |
+| [`nhs-style.tsx`](./nhs-style.tsx)                   | NHS-style banner; `children` pairs the globe with the active endonym.                              |
+| [`with-react-intl.tsx`](./with-react-intl.tsx)       | Wired through `react-intl`'s `IntlProvider`.                                                       |
+| [`with-react-i18next.tsx`](./with-react-i18next.tsx) | Wired through `react-i18next`'s `useTranslation` hook.                                             |
+| [`ssr-cookie.tsx`](./ssr-cookie.tsx)                 | Next.js App Router pattern with cookie-resolved initial locale.                                    |
+| [`scoped-target.tsx`](./scoped-target.tsx)           | `target` prop pointing at a panel ref instead of `<html>`.                                         |
+| [`all-locales.tsx`](./all-locales.tsx)               | All 436 locales, navigated with the built-in listbox typeahead.                                    |
 
 `custom-rendering`, `compact-glyph`, `nhs-style`, and `all-locales` are
 built around the `children` glyph override. In every one, `children`

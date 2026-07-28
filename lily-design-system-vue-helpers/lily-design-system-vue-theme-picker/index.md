@@ -1,6 +1,6 @@
-# ThemeChooser (Vue helper)
+# ThemePicker (Vue helper)
 
-A reusable, headless Vue 3 theme chooser that **loads themes
+A reusable, headless Vue 3 theme picker that **loads themes
 dynamically at runtime** from a developer-specified directory.
 
 The single source of truth is [spec/index.md](./spec/index.md). This file is the
@@ -21,22 +21,22 @@ comprehensive user guide. For topic deep-dives see
 - [Accessibility](#accessibility)
 - [SSR and hydration](#ssr-and-hydration)
 - [Preloading for zero-flicker switching](#preloading-for-zero-flicker-switching)
-- [Multiple choosers in one app](#multiple-choosers-in-one-app)
+- [Multiple pickers in one app](#multiple-pickers-in-one-app)
 - [Recipes](#recipes)
 - [Troubleshooting](#troubleshooting)
 - [Testing](#testing)
 
 ## Why this exists
 
-Most theme choosers couple selection, persistence, and styling into one
+Most theme pickers couple selection, persistence, and styling into one
 opinionated widget. This one splits the contract cleanly:
 
 - **Authors** drop theme CSS files (e.g. `light.css`, `dark.css`) into
   a directory served by the app.
 - **This component** owns selection, dynamic loading, persistence, and
   accessibility.
-- **Consumers** own the visual style of the chooser via the
-  `theme-chooser` class hook.
+- **Consumers** own the visual style of the picker via the
+  `theme-picker` class hook.
 
 The result is a small reusable widget that works in any Vue 3 host
 (Nuxt 3, plain Vite + Vue, Astro Vue islands, Storybook) and against
@@ -44,7 +44,7 @@ any theme catalog — Lily™'s 45 ready-to-use themes, NHS-aligned
 themes, or your own bespoke set.
 
 The component is a direct port of the Svelte canonical
-`lily-design-system-svelte-theme-chooser`. APIs and behaviour match;
+`lily-design-system-svelte-theme-picker`. APIs and behaviour match;
 only the framework idioms differ.
 
 ## Install
@@ -54,14 +54,14 @@ copy it into their project or wire it as a workspace dependency. The
 only runtime dependency is `vue` ≥ 3.
 
 ```ts
-import ThemeChooser from "./lily-design-system-vue-theme-chooser/ThemeChooser.vue";
+import ThemePicker from "./lily-design-system-vue-theme-picker/ThemePicker.vue";
 // or via the barrel:
-import { ThemeChooser } from "./lily-design-system-vue-theme-chooser";
-import type { Props, SlotArgs } from "./lily-design-system-vue-theme-chooser";
+import { ThemePicker } from "./lily-design-system-vue-theme-picker";
+import type { Props, SlotArgs } from "./lily-design-system-vue-theme-picker";
 ```
 
 The barrel also exports the pure helpers `normaliseThemesUrl`,
-`themeHref`, and `nextThemeChooserId`, the default glyph constant
+`themeHref`, and `nextThemePickerId`, the default glyph constant
 `CIRCLE_WITH_RIGHT_HALF_BLACK`, and the `ChildArgs` type (an alias of
 `SlotArgs`).
 
@@ -72,33 +72,33 @@ The barrel also exports the pure helpers `normaliseThemesUrl`,
    `public/assets/themes/dark.css`. Each theme scopes its tokens to
    `:root[data-theme="<slug>"]` (the convention every Lily theme
    uses).
-2. Render the chooser, pointing it at the directory and listing the
+2. Render the picker, pointing it at the directory and listing the
    available slugs.
 
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import ThemeChooser from "./lily-design-system-vue-theme-chooser/ThemeChooser.vue";
+import ThemePicker from "./lily-design-system-vue-theme-picker/ThemePicker.vue";
 
 const theme = ref("");
 
 function labelFor(slug: string): string {
-    return slug.charAt(0).toUpperCase() + slug.slice(1);
+  return slug.charAt(0).toUpperCase() + slug.slice(1);
 }
 </script>
 
 <template>
-    <ThemeChooser
-        label="Theme"
-        themes-url="/assets/themes/"
-        :themes="['light', 'dark', 'abyss']"
-        v-model:value="theme"
-        storage-key="lily-theme"
-    />
+  <ThemePicker
+    label="Theme"
+    themes-url="/assets/themes/"
+    :themes="['light', 'dark', 'abyss']"
+    v-model:value="theme"
+    storage-key="lily-theme"
+  />
 
-    <p class="theme-chooser-status" aria-live="polite">
-        Active theme: {{ labelFor(theme) }}
-    </p>
+  <p class="theme-picker-status" aria-live="polite">
+    Active theme: {{ labelFor(theme) }}
+  </p>
 </template>
 ```
 
@@ -133,22 +133,51 @@ When the user picks `dark`, the component:
 The control is a button that opens a WAI-ARIA APG listbox:
 
 ```html
-<div class="theme-chooser">
-    <input type="hidden" name="theme" value="dark" />
-    <button type="button" class="theme-chooser-button" aria-label="Theme"
-            aria-haspopup="listbox" aria-expanded="false"
-            aria-controls="theme-chooser-1-list">
-        <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
-    </button>
-    <ul class="theme-chooser-list" id="theme-chooser-1-list" role="listbox"
-        aria-label="Theme" tabindex="-1" hidden>
-        <li class="theme-chooser-option" id="theme-chooser-1-option-0"
-            role="option" aria-selected="false">Light</li>
-        <li class="theme-chooser-option" id="theme-chooser-1-option-1"
-            role="option" aria-selected="true">Dark</li>
-        <li class="theme-chooser-option" id="theme-chooser-1-option-2"
-            role="option" aria-selected="false">Abyss</li>
-    </ul>
+<div class="theme-picker">
+  <input type="hidden" name="theme" value="dark" />
+  <button
+    type="button"
+    class="theme-picker-button"
+    aria-label="Theme"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="theme-picker-1-list"
+  >
+    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
+  </button>
+  <ul
+    class="theme-picker-list"
+    id="theme-picker-1-list"
+    role="listbox"
+    aria-label="Theme"
+    tabindex="-1"
+    hidden
+  >
+    <li
+      class="theme-picker-option"
+      id="theme-picker-1-option-0"
+      role="option"
+      aria-selected="false"
+    >
+      Light
+    </li>
+    <li
+      class="theme-picker-option"
+      id="theme-picker-1-option-1"
+      role="option"
+      aria-selected="true"
+    >
+      Dark
+    </li>
+    <li
+      class="theme-picker-option"
+      id="theme-picker-1-option-2"
+      role="option"
+      aria-selected="false"
+    >
+      Abyss
+    </li>
+  </ul>
 </div>
 ```
 
@@ -173,16 +202,16 @@ No user-facing string is hardcoded: labels come from `label` and
 `themeLabels`.
 
 > **Upgrading from 0.3.0?** The `placeholder` prop is removed, the
-> `.theme-chooser-placeholder` class hook is gone, and the default slot
+> `.theme-picker-placeholder` class hook is gone, and the default slot
 > now replaces the button glyph rather than the options. See
 > [`CHANGELOG.md`](./CHANGELOG.md).
 
 ## How it works
 
-On every theme change the chooser performs four steps, in order:
+On every theme change the picker performs four steps, in order:
 
 1. **Locate or create** a managed
-   `<link rel="stylesheet" data-lily-theme-chooser="{name}">` in
+   `<link rel="stylesheet" data-lily-theme-picker="{name}">` in
    `document.head`.
 2. **Swap the href** to `${themesUrl}${slug}${extension}` so the new
    theme's CSS is fetched and applied. The previous theme's CSS is
@@ -207,9 +236,9 @@ The default theme is `"light"` whenever `"light"` appears in your
 3. `defaultValue` prop
 4. `"light"` (if present in `themes`)
 5. `themes[0]`
-6. `""` — nothing is applied; the chooser waits for user interaction
+6. `""` — nothing is applied; the picker waits for user interaction
 
-The chooser never displays the word `"default"`. Option labels default
+The picker never displays the word `"default"`. Option labels default
 to the slug with its first letter upper-cased
 (e.g. `"light"` → `"Light"`); override with `themeLabels`.
 
@@ -217,19 +246,19 @@ to the slug with its first letter upper-cased
 
 The complete table is in [spec/index.md §4.1](./spec/index.md#41-props). Highlights:
 
-| Prop           | Type                     | Required | Notes                                      |
-| -------------- | ------------------------ | -------- | ------------------------------------------ |
+| Prop           | Type                     | Required | Notes                                                                                               |
+| -------------- | ------------------------ | -------- | --------------------------------------------------------------------------------------------------- |
 | `label`        | `string`                 | yes      | `aria-label` on both the button and the listbox. The button is icon-only, so this is its only name. |
-| `themesUrl`    | `string`                 | yes      | Trailing `/` is auto-added.                |
-| `themes`       | `string[]`               | yes      | Available slugs, in keyboard order.        |
-| `value`        | `string` (`v-model`)     | no       | Two-way bind for the current slug.         |
-| `defaultValue` | `string`                 | no       | Initial when nothing else applies.         |
-| `storageKey`   | `string`                 | no       | `localStorage` persistence.                |
-| `name`         | `string`                 | no       | Hidden input `name` + managed `<link>` discriminator; defaults to `"theme"`. |
-| `extension`    | `string`                 | no       | Defaults to `".css"`.                      |
-| `target`       | `HTMLElement \| null`    | no       | `data-theme` target; defaults to `<html>`. |
-| `themeLabels`  | `Record<string, string>` | no       | Per-slug display label override.           |
-| `class`        | `string`                 | no       | Extra class on the root `<div>`.           |
+| `themesUrl`    | `string`                 | yes      | Trailing `/` is auto-added.                                                                         |
+| `themes`       | `string[]`               | yes      | Available slugs, in keyboard order.                                                                 |
+| `value`        | `string` (`v-model`)     | no       | Two-way bind for the current slug.                                                                  |
+| `defaultValue` | `string`                 | no       | Initial when nothing else applies.                                                                  |
+| `storageKey`   | `string`                 | no       | `localStorage` persistence.                                                                         |
+| `name`         | `string`                 | no       | Hidden input `name` + managed `<link>` discriminator; defaults to `"theme"`.                        |
+| `extension`    | `string`                 | no       | Defaults to `".css"`.                                                                               |
+| `target`       | `HTMLElement \| null`    | no       | `data-theme` target; defaults to `<html>`.                                                          |
+| `themeLabels`  | `Record<string, string>` | no       | Per-slug display label override.                                                                    |
+| `class`        | `string`                 | no       | Extra class on the root `<div>`.                                                                    |
 
 There is no `placeholder` prop — it was removed with the `<select>`.
 
@@ -238,10 +267,10 @@ field-by-field reference.
 
 ## Events
 
-| Event           | Payload  | When                                                  |
-| --------------- | -------- | ----------------------------------------------------- |
-| `update:value`  | `string` | After selection, drives `v-model:value`.              |
-| `change`        | `string` | After the chooser applies a new theme (post-DOM-write). |
+| Event          | Payload  | When                                                    |
+| -------------- | -------- | ------------------------------------------------------- |
+| `update:value` | `string` | After selection, drives `v-model:value`.                |
+| `change`       | `string` | After the picker applies a new theme (post-DOM-write). |
 
 ## Custom button glyph
 
@@ -249,22 +278,22 @@ Pass a default slot to replace the `◑` glyph inside the trigger
 button. The slot receives `{ value, open, labelFor }`:
 
 ```vue
-<ThemeChooser
-    label="Theme"
-    themes-url="/assets/themes/"
-    :themes="['light', 'dark', 'abyss']"
-    v-model:value="theme"
+<ThemePicker
+  label="Theme"
+  themes-url="/assets/themes/"
+  :themes="['light', 'dark', 'abyss']"
+  v-model:value="theme"
 >
     <template #default="{ value, open, labelFor }">
         <span
-            class="theme-chooser-swatch"
+            class="theme-picker-swatch"
             :data-theme="value"
             :title="labelFor(value)"
             aria-hidden="true"
         />
-        <span class="theme-chooser-caret" aria-hidden="true">{{ open ? "▴" : "▾" }}</span>
+        <span class="theme-picker-caret" aria-hidden="true">{{ open ? "▴" : "▾" }}</span>
     </template>
-</ThemeChooser>
+</ThemePicker>
 ```
 
 The slot replaces the **glyph only** — not the options. The listbox,
@@ -283,11 +312,11 @@ Topic guide: [`docs/custom-rendering.md`](./docs/custom-rendering.md).
 ## Persistence
 
 Pass a `storageKey` to persist the active slug to `localStorage`. On
-a fresh mount the chooser reads back the stored slug as part of the
+a fresh mount the picker reads back the stored slug as part of the
 initial-value resolution (§ Default theme).
 
 Errors writing to or reading from `localStorage` (private mode,
-quota, disabled storage) are silently swallowed — the chooser
+quota, disabled storage) are silently swallowed — the picker
 continues to work in-memory.
 
 If you need cookie-based persistence (so SSR can read the theme
@@ -297,8 +326,8 @@ before first paint), see [`docs/ssr.md`](./docs/ssr.md) and the
 ## Accessibility
 
 - The trigger is a `<button aria-haspopup="listbox" aria-expanded
-  aria-controls>` whose accessible name is `aria-label={label}`. It is
-  icon-only, so `label` is its *only* name — the glyph is
+aria-controls>` whose accessible name is `aria-label={label}`. It is
+  icon-only, so `label` is its _only_ name — the glyph is
   `aria-hidden`.
 - The popup is a `<ul role="listbox" aria-label={label}>` of
   `<li role="option" aria-selected>`. Focus moves to the `<ul>` on
@@ -306,10 +335,10 @@ before first paint), see [`docs/ssr.md`](./docs/ssr.md) and the
   `aria-activedescendant`, per the WAI-ARIA APG listbox pattern.
 - The component implements the whole keyboard contract itself:
 
-  | Where    | Keys                                                             |
-  | -------- | ---------------------------------------------------------------- |
-  | Button   | `ArrowDown` / `Enter` / `Space` open; `ArrowUp` opens on the last option |
-  | Listbox  | `ArrowUp` / `ArrowDown` (clamping), `Home` / `End`, `Enter` / `Space` to commit, `Escape` to cancel, `Tab` to close, printable-character typeahead |
+  | Where   | Keys                                                                                                                                               |
+  | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+  | Button  | `ArrowDown` / `Enter` / `Space` open; `ArrowUp` opens on the last option                                                                           |
+  | Listbox | `ArrowUp` / `ArrowDown` (clamping), `Home` / `End`, `Enter` / `Space` to commit, `Escape` to cancel, `Tab` to close, printable-character typeahead |
 
 - The active state is exposed in three independent channels:
   `data-theme` on the target, the `value` binding, and the hidden
@@ -334,7 +363,7 @@ before first paint), see [`docs/ssr.md`](./docs/ssr.md) and the
    substituted, or missing entirely. Ship your own SVG via the slot if
    that matters.
 
-The compensating pattern is the visible `.theme-chooser-status` region
+The compensating pattern is the visible `.theme-picker-status` region
 with `aria-live="polite"` — shipped in the quick start and in
 [`examples/basic.vue`](./examples/basic.vue). Removing it is the
 deliberate choice.
@@ -343,7 +372,7 @@ Topic guide: [`docs/accessibility.md`](./docs/accessibility.md).
 
 ## SSR and hydration
 
-The chooser compiles cleanly under Vue 3 SSR (Nuxt, plain
+The picker compiles cleanly under Vue 3 SSR (Nuxt, plain
 `vue/server-renderer`, Astro Vue islands). On the server no
 lifecycle hook runs and no DOM is touched, so the markup renders
 using whatever `value` (or empty string) the consumer supplies.
@@ -355,33 +384,33 @@ cookie) and pass it as `value`. See
 
 ## Preloading for zero-flicker switching
 
-By default the chooser swaps one `<link>` href, so the active theme
+By default the picker swaps one `<link>` href, so the active theme
 is fetched on demand. To switch instantly between themes, preload
 them all yourself:
 
 ```html
-<link rel="stylesheet" href="/assets/themes/light.css">
-<link rel="stylesheet" href="/assets/themes/dark.css">
-<link rel="stylesheet" href="/assets/themes/abyss.css">
+<link rel="stylesheet" href="/assets/themes/light.css" />
+<link rel="stylesheet" href="/assets/themes/dark.css" />
+<link rel="stylesheet" href="/assets/themes/abyss.css" />
 ```
 
-The chooser still mutates `data-theme`, and since every theme's CSS
+The picker still mutates `data-theme`, and since every theme's CSS
 is scoped to `:root[data-theme="…"]`, the active rules switch
 instantly with the attribute change — no network round-trip.
 
 Topic guide: [`docs/preloading.md`](./docs/preloading.md). Working
 example: [`examples/preloaded.vue`](./examples/preloaded.vue).
 
-## Multiple choosers in one app
+## Multiple pickers in one app
 
-Pass a distinct `name` prop to each chooser. The `name` is used as
+Pass a distinct `name` prop to each picker. The `name` is used as
 both the hidden input's `name` (so form submissions stay distinct) and
 the discriminator on the managed `<link>` element
-(`data-lily-theme-chooser="{name}"`). Give each a distinct `label` too:
+(`data-lily-theme-picker="{name}"`). Give each a distinct `label` too:
 with icon-only triggers, two buttons both named "Theme" are
 indistinguishable to a screen-reader user.
 
-Example: [`examples/multiple-choosers.vue`](./examples/multiple-choosers.vue).
+Example: [`examples/multiple-pickers.vue`](./examples/multiple-pickers.vue).
 
 ## Recipes
 
@@ -402,9 +431,9 @@ pitfalls:
 
 - **The listbox shoves the page down when it opens.** The package
   ships no CSS, including no positioning. Add `position: relative` to
-  `.theme-chooser` and `position: absolute` to `.theme-chooser-list`.
+  `.theme-picker` and `position: absolute` to `.theme-picker-list`.
 - **Arrowing looks like it does nothing.** Style
-  `.theme-chooser-option[data-active]` — focus is on the `<ul>`, not on
+  `.theme-picker-option[data-active]` — focus is on the `<ul>`, not on
   the options.
 - **CSS does not switch.** Check that each theme file scopes its
   rules to `:root[data-theme="<slug>"]` (not `:root` alone).
@@ -425,19 +454,19 @@ exercises every numbered acceptance criterion in
 
 ## Files in this directory
 
-| File                  | Purpose                                          |
-| --------------------- | ------------------------------------------------ |
-| `spec/index.md`             | Single source of truth — API, behaviour, tests.  |
-| `AGENTS.md`           | Fast-index pointer; loads the AGENTS bundle.     |
-| `AGENTS/`             | Topic-by-topic agent files.                      |
-| `CLAUDE.md`           | `@AGENTS.md`.                                    |
-| `ThemeChooser.vue`     | The component implementation.                    |
-| `ThemeChooser.test.ts` | vitest suite covering every spec §7 item.        |
-| `index.ts`            | Re-export barrel.                                |
-| `index.md`            | This file.                                       |
-| `docs/`               | Deep-dive topic guides.                          |
-| `examples/`           | Runnable Vue 3 SFCs.                             |
-| `CHANGELOG.md`        | Version history.                                 |
+| File                   | Purpose                                         |
+| ---------------------- | ----------------------------------------------- |
+| `spec/index.md`        | Single source of truth — API, behaviour, tests. |
+| `AGENTS.md`            | Fast-index pointer; loads the AGENTS bundle.    |
+| `AGENTS/`              | Topic-by-topic agent files.                     |
+| `CLAUDE.md`            | `@AGENTS.md`.                                   |
+| `ThemePicker.vue`     | The component implementation.                   |
+| `ThemePicker.test.ts` | vitest suite covering every spec §7 item.       |
+| `index.ts`             | Re-export barrel.                               |
+| `index.md`             | This file.                                      |
+| `docs/`                | Deep-dive topic guides.                         |
+| `examples/`            | Runnable Vue 3 SFCs.                            |
+| `CHANGELOG.md`         | Version history.                                |
 
 ## License
 

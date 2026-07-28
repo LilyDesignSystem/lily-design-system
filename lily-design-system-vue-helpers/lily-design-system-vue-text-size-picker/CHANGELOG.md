@@ -1,4 +1,4 @@
-# Changelog — TextSizeChooser (Vue)
+# Changelog — TextSizePicker (Vue)
 
 All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
@@ -12,27 +12,27 @@ the version resets to 0.1.0 rather than continuing the in-tree 0.2.0.
 
 The rename is full-depth:
 
-- Component and default export: `TextSizeChooser` -> `TextSizeChooser`.
-- Class hooks: `.text-size-chooser*` -> `.text-size-chooser`,
-  `.text-size-chooser-button`, `.text-size-chooser-icon`,
-  `.text-size-chooser-list`, `.text-size-chooser-option`.
+- Component and default export: `TextSizePicker` -> `TextSizePicker`.
+- Class hooks: `.text-size-picker*` -> `.text-size-picker`,
+  `.text-size-picker-button`, `.text-size-picker-icon`,
+  `.text-size-picker-list`, `.text-size-picker-option`.
 - Data attributes: `data-lily-text-size-select*` ->
-  `data-lily-text-size-chooser*`. The applied `data-text-size` attribute
+  `data-lily-text-size-picker*`. The applied `data-text-size` attribute
   is unchanged -- it names the preference, not the helper.
-- Id helper: `nextTextSizeSelectId` -> `nextTextSizeChooserId`.
+- Id helper: `nextTextSizeSelectId` -> `nextTextSizePickerId`.
 
 `sizeName` keeps its name -- it never said "select".
 
 ### The package as it stands
 
-- Headless Vue 3 text-size chooser: an icon button (U+0041 LATIN CAPITAL
+- Headless Vue 3 text-size picker: an icon button (U+0041 LATIN CAPITAL
   LETTER A) that opens a WAI-ARIA APG listbox of text-size slugs.
 - Sets `data-text-size="{slug}"` on the target element (default
   `document.documentElement`); the consumer's CSS maps each slug to real
   typography. Supports WCAG 2.2 1.4.4 (Resize Text) and 1.4.12 (Text
   Spacing).
 - Optional `localStorage` persistence.
-- Exports `TextSizeChooser`, `sizeName`, `nextTextSizeChooserId`,
+- Exports `TextSizePicker`, `sizeName`, `nextTextSizePickerId`,
   `LATIN_CAPITAL_LETTER_A`, and the `Props` / `SlotArgs` / `ChildArgs`
   types.
 - Ships no CSS, fonts, icons, or images. SSR-safe.
@@ -48,23 +48,23 @@ the record stays accurate. None of it was published to npm.
 ##### Changed (BREAKING)
 
 - **The control is no longer a native `<select>`.** It is now an icon
-  button that opens a WAI-ARIA APG listbox, matching `theme-chooser`
-  and `locale-chooser` — all three helpers are now the same shape. The
+  button that opens a WAI-ARIA APG listbox, matching `theme-picker`
+  and `locale-picker` — all three helpers are now the same shape. The
   root element changes from a `<select>` to a
-  `<div>`, both carrying the `text-size-chooser` hook, containing three children:
+  `<div>`, both carrying the `text-size-picker` hook, containing three children:
   - a hidden `<input type="hidden" name="{name}" value="{value}">`,
     which preserves form participation;
-  - a `<button type="button" class="text-size-chooser-button"
-    aria-label="{label}" aria-haspopup="listbox" aria-expanded
-    aria-controls="{listId}">` wrapping
-    `<span class="text-size-chooser-icon" aria-hidden="true">A</span>`;
-  - a `<ul class="text-size-chooser-list" role="listbox"
-    aria-label="{label}" tabindex="-1" hidden aria-activedescendant>`
-    of `<li class="text-size-chooser-option" role="option" aria-selected
-    data-active>`.
+  - a `<button type="button" class="text-size-picker-button"
+aria-label="{label}" aria-haspopup="listbox" aria-expanded
+aria-controls="{listId}">` wrapping
+    `<span class="text-size-picker-icon" aria-hidden="true">A</span>`;
+  - a `<ul class="text-size-picker-list" role="listbox"
+aria-label="{label}" tabindex="-1" hidden aria-activedescendant>`
+    of `<li class="text-size-picker-option" role="option" aria-selected
+data-active>`.
 
-  Consumers selecting `select.text-size-chooser`, reading
-  `selectEl.value`, or styling `option.text-size-chooser-option` must
+  Consumers selecting `select.text-size-picker`, reading
+  `selectEl.value`, or styling `option.text-size-picker-option` must
   migrate. The active size is read from the `v-model:value` binding,
   from `data-text-size` on the target, or from the hidden input.
 
@@ -95,8 +95,8 @@ the record stays accurate. None of it was published to npm.
 
 - `sizeName(slug)` — exported label resolver that title-cases each
   hyphen-separated word (`"x-large"` → `"X Large"`). Mirrors
-  `themeName(slug)` on theme-chooser and `localeName(code)` on
-  locale-chooser. The internal `labelFor` now delegates to it, so the
+  `themeName(slug)` on theme-picker and `localeName(code)` on
+  locale-picker. The internal `labelFor` now delegates to it, so the
   title-casing rule has exactly one implementation.
 - `nextTextSizeSelectId()` — SSR-safe per-instance id generator backed
   by a module counter (never `Math.random()` / `Date.now()`), used for
@@ -104,7 +104,7 @@ the record stays accurate. None of it was published to npm.
 - `LATIN_CAPITAL_LETTER_A` — the default button glyph, `"A"` (U+0041).
   A plain letter rather than a pictograph, deliberately: U+1F5DB
   DECREASE FONT SIZE SYMBOL has no real glyph in common font stacks
-  and means *decrease* rather than *size*.
+  and means _decrease_ rather than _size_.
 - `type ChildArgs` — alias of `SlotArgs`, matching the canonical
   Svelte helper's type name.
 - All of the above are re-exported from the `index.ts` barrel.
@@ -128,18 +128,18 @@ the record stays accurate. None of it was published to npm.
 
 ##### Not added, deliberately
 
-- **No detection prop.** `theme-chooser` gained `detectFromSystem` and
-  `locale-chooser` has `detectFromNavigator`, but there is no OS
+- **No detection prop.** `theme-picker` gained `detectFromSystem` and
+  `locale-picker` has `detectFromNavigator`, but there is no OS
   "preferred text size" signal exposed to the web — no media query
   equivalent to `prefers-color-scheme`, no `navigator` field. The
-  resolution chain is therefore the theme-chooser chain minus its
+  resolution chain is therefore the theme-picker chain minus its
   detection step. Recorded in `spec/index.md` §2 and §8 so it is not
   re-proposed as an oversight.
 
 ##### Accessibility
 
 `docs/accessibility.md` is new and is built around the same three
-tradeoffs documented for `theme-chooser` and `locale-chooser`:
+tradeoffs documented for `theme-picker` and `locale-picker`:
 
 1. **Icon-only control.** `aria-label` from `label` is the button's
    entire accessible name; a wrong or untranslated `label` leaves it
@@ -164,11 +164,11 @@ tradeoffs documented for `theme-chooser` and `locale-chooser`:
 The page also keeps this helper's specific WCAG concern, **1.4.4
 (Resize Text)**, with the two obligations that come with it: size
 typography in relative units or the control does nothing, and test the
-layout at the largest size *combined with* 200% browser zoom. It states
+layout at the largest size _combined with_ 200% browser zoom. It states
 that the helper complements browser zoom rather than replacing it, and
 that zoom must never be disabled on the strength of shipping it.
 
-A `.text-size-chooser-status` live-region pattern is documented as the
+A `.text-size-picker-status` live-region pattern is documented as the
 default, as on the other two helpers: the closed button shows only a
 glyph, so the active size has no on-screen and no announced
 representation unless the consumer renders one. It has a bonus unique
@@ -181,7 +181,7 @@ Initial release.
 
 ##### Added
 
-- `TextSizeChooser.vue` — Vue 3 SFC with `<script setup lang="ts">`.
+- `TextSizePicker.vue` — Vue 3 SFC with `<script setup lang="ts">`.
   Rendered `<select aria-label="…" name="…">` with one `<option>` per
   size slug, set `data-text-size="{slug}"` on the resolved target
   element (defaulting to `document.documentElement`), optional
@@ -189,9 +189,9 @@ Initial release.
   try/catch, two-way binding via `v-model:value`, a `change` event for
   post-apply side effects, and a default scoped slot for custom
   rendering with `{ sizes, value, setSize, name, labelFor }`.
-- `index.ts` barrel re-exporting `default`, `TextSizeChooser`, and the
+- `index.ts` barrel re-exporting `default`, `TextSizePicker`, and the
   `Props` + `SlotArgs` types.
-- `TextSizeChooser.test.ts` — vitest suite asserting every numbered
+- `TextSizePicker.test.ts` — vitest suite asserting every numbered
   acceptance criterion in `spec/index.md` §7.
 - `spec/index.md` — spec-driven contract, version 0.1.0.
 

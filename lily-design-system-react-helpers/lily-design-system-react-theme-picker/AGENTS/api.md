@@ -1,4 +1,4 @@
-# AGENTS / api — ThemeChooser
+# AGENTS / api — ThemePicker
 
 API surface contract. The canonical contract is in
 [`../spec/index.md §4`](../spec/index.md#4-public-api); this file is a fast index
@@ -8,46 +8,46 @@ plus React-specific application notes.
 
 ```tsx
 import {
-    ThemeChooser,
-    normalizeThemesUrl,
-    themeHref,
-    type Props,
-    type ChildArgs,
-} from "./lily-design-system-react-theme-chooser";
+  ThemePicker,
+  normalizeThemesUrl,
+  themeHref,
+  type Props,
+  type ChildArgs,
+} from "./lily-design-system-react-theme-picker";
 ```
 
-The default export is `ThemeChooser` for consumers who prefer
-`import ThemeChooser from "./lily-design-system-react-theme-chooser"`.
+The default export is `ThemePicker` for consumers who prefer
+`import ThemePicker from "./lily-design-system-react-theme-picker"`.
 
 The default glyph constant `CIRCLE_WITH_RIGHT_HALF_BLACK` is exported
-from `ThemeChooser.tsx` but is not re-exported by the barrel; import it
-from `./ThemeChooser` directly if needed.
+from `ThemePicker.tsx` but is not re-exported by the barrel; import it
+from `./ThemePicker` directly if needed.
 
 ## Required props
 
-| Prop        | Type     | Notes                                                  |
-| ----------- | -------- | ------------------------------------------------------ |
-| `label`     | `string` | Accessible name (`aria-label`) on the button and the listbox. |
-| `themesUrl` | `string` | Base URL of the themes directory. Trailing `/` optional. |
-| `themes`    | `string[]` | Available theme slugs.                               |
+| Prop        | Type       | Notes                                                         |
+| ----------- | ---------- | ------------------------------------------------------------- |
+| `label`     | `string`   | Accessible name (`aria-label`) on the button and the listbox. |
+| `themesUrl` | `string`   | Base URL of the themes directory. Trailing `/` optional.      |
+| `themes`    | `string[]` | Available theme slugs.                                        |
 
 Omit any required prop and TypeScript errors at the call site.
 
 ## Optional props
 
-| Prop           | Type                                     | Default                                          |
-| -------------- | ---------------------------------------- | ------------------------------------------------ |
-| `value`        | `string`                                 | `undefined` (uncontrolled)                       |
-| `defaultValue` | `string`                                 | `"light"` if in themes, else first item          |
-| `storageKey`   | `string`                                 | `undefined` (no persistence)                     |
-| `name`         | `string`                                 | `"theme"` (managed `<link>` discriminator + hidden input name) |
-| `extension`    | `string`                                 | `".css"`                                         |
-| `target`       | `HTMLElement \| null`                    | `document.documentElement`                       |
-| `themeLabels`  | `Record<string, string>`                 | `{}`                                             |
-| `onChange`     | `(slug: string) => void`                 | `undefined`                                      |
-| `children`     | `(args: ChildArgs) => React.ReactNode`   | the half-circle glyph inside the button          |
-| `className`    | `string`                                 | `""`                                             |
-| `...restProps` | `HTMLAttributes<HTMLDivElement>` minus the above | spread onto the root `<div>`             |
+| Prop           | Type                                             | Default                                                        |
+| -------------- | ------------------------------------------------ | -------------------------------------------------------------- |
+| `value`        | `string`                                         | `undefined` (uncontrolled)                                     |
+| `defaultValue` | `string`                                         | `"light"` if in themes, else first item                        |
+| `storageKey`   | `string`                                         | `undefined` (no persistence)                                   |
+| `name`         | `string`                                         | `"theme"` (managed `<link>` discriminator + hidden input name) |
+| `extension`    | `string`                                         | `".css"`                                                       |
+| `target`       | `HTMLElement \| null`                            | `document.documentElement`                                     |
+| `themeLabels`  | `Record<string, string>`                         | `{}`                                                           |
+| `onChange`     | `(slug: string) => void`                         | `undefined`                                                    |
+| `children`     | `(args: ChildArgs) => React.ReactNode`           | the half-circle glyph inside the button                        |
+| `className`    | `string`                                         | `""`                                                           |
+| `...restProps` | `HTMLAttributes<HTMLDivElement>` minus the above | spread onto the root `<div>`                                   |
 
 ## Controlled vs uncontrolled
 
@@ -56,14 +56,14 @@ authoritative; consumer is responsible for updating it from `onChange`.
 
 ```tsx
 const [theme, setTheme] = useState("");
-<ThemeChooser value={theme} onChange={setTheme} {...required} />
+<ThemePicker value={theme} onChange={setTheme} {...required} />;
 ```
 
 **Uncontrolled.** Consumer omits `value`. The select manages internal
 state. Use `defaultValue` to seed.
 
 ```tsx
-<ThemeChooser defaultValue="dark" {...required} />
+<ThemePicker defaultValue="dark" {...required} />
 ```
 
 The select decides at first render based on whether `value !==
@@ -78,9 +78,9 @@ state, and the keyboard contract.
 
 ```ts
 type ChildArgs = {
-    value: string;
-    open: boolean;
-    labelFor: (theme: string) => string;
+  value: string;
+  open: boolean;
+  labelFor: (theme: string) => string;
 };
 ```
 
@@ -100,10 +100,10 @@ control use the controlled `value` + `onChange` pair instead.
 Exported for consumer use without instantiating the component:
 
 ```ts
-normalizeThemesUrl("/t/")   // "/t/"
-normalizeThemesUrl("/t")    // "/t/"
-themeHref("/t/", "dark", ".css") // "/t/dark.css"
-themeHref("/t",  "dark", ".css") // "/t/dark.css"
+normalizeThemesUrl("/t/"); // "/t/"
+normalizeThemesUrl("/t"); // "/t/"
+themeHref("/t/", "dark", ".css"); // "/t/dark.css"
+themeHref("/t", "dark", ".css"); // "/t/dark.css"
 ```
 
 These functions are pure, server-safe, and have no React dependency.
@@ -114,30 +114,48 @@ Rendered tree (full contract in
 [`../spec/index.md §4.2`](../spec/index.md#42-dom-contract)):
 
 ```html
-<div class="theme-chooser {className}" ...restProps>
+<div class="theme-picker {className}" ...restProps>
   <input type="hidden" name="{name}" value="{value}" />
-  <button type="button" class="theme-chooser-button"
-          aria-label="{label}" aria-haspopup="listbox"
-          aria-expanded="false" aria-controls="{listId}">
-    <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
+  <button
+    type="button"
+    class="theme-picker-button"
+    aria-label="{label}"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="{listId}"
+  >
+    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
   </button>
-  <ul class="theme-chooser-list" id="{listId}" role="listbox"
-      aria-label="{label}" tabindex="-1" hidden
-      aria-activedescendant="{optionId of active, only while open}">
-    <li class="theme-chooser-option" id="{optionId}" role="option"
-        aria-selected="true|false" data-active>Light</li>
+  <ul
+    class="theme-picker-list"
+    id="{listId}"
+    role="listbox"
+    aria-label="{label}"
+    tabindex="-1"
+    hidden
+    aria-activedescendant="{optionId of active, only while open}"
+  >
+    <li
+      class="theme-picker-option"
+      id="{optionId}"
+      role="option"
+      aria-selected="true|false"
+      data-active
+    >
+      Light
+    </li>
   </ul>
 </div>
 ```
 
 After mount and on every theme change:
 
-| Side effect            | Element                                                 |
-| ---------------------- | ------------------------------------------------------- |
-| Set `data-theme=…`     | `target` (default `document.documentElement`)           |
-| Set / create `<link>`  | `document.head` (`link[data-lily-theme-chooser="<name>"]`) |
-| Write `localStorage`   | (only if `storageKey` set)                              |
-| Call `onChange(slug)`  | (only if `onChange` set)                                |
+| Side effect           | Element                                                   |
+| --------------------- | --------------------------------------------------------- |
+| Set `data-theme=…`    | `target` (default `document.documentElement`)             |
+| Set / create `<link>` | `document.head` (`link[data-lily-theme-picker="<name>"]`) |
+| Write `localStorage`  | (only if `storageKey` set)                                |
+| Call `onChange(slug)` | (only if `onChange` set)                                  |
 
 ## Type-level invariants
 

@@ -16,7 +16,7 @@
 */
 
 import { useEffect, useState } from "react";
-import { ThemeChooser } from "../ThemeChooser";
+import { ThemePicker } from "../ThemePicker";
 
 export function SystemPreferenceExample() {
     const [theme, setTheme] = useState("");
@@ -39,7 +39,7 @@ export function SystemPreferenceExample() {
     });
 
     return (
-        <ThemeChooser
+        <ThemePicker
             label="Theme"
             themesUrl="/assets/themes/"
             themes={["light", "dark"]}

@@ -1,9 +1,9 @@
-# Accessibility — LocaleChooser (Nunjucks)
+# Accessibility — LocalePicker (Nunjucks)
 
 The select targets WCAG 2.2 AAA. It is an icon button that opens a
 listbox, following the WAI-ARIA APG listbox pattern; the roles,
 states, and the whole keyboard contract are supplied by the macro and
-`locale-chooser.client.js` rather than by the platform. The canonical
+`locale-picker.client.js` rather than by the platform. The canonical
 contract is in [`../spec/index.md`](../spec/index.md) §6.
 
 ## Roles and properties
@@ -16,7 +16,7 @@ contract is in [`../spec/index.md`](../spec/index.md) §6.
 | `<button>`                    | `aria-haspopup="listbox"`              | Macro         |
 | `<button>`                    | `aria-expanded="true|false"`            | Macro + client |
 | `<button>`                    | `aria-controls="{id}-list"`            | Macro         |
-| `<span class="locale-chooser-icon">` | `aria-hidden="true"`             | Macro         |
+| `<span class="locale-picker-icon">` | `aria-hidden="true"`             | Macro         |
 | `<ul>`                        | `role="listbox"`, `tabindex="-1"`      | Macro         |
 | `<ul>`                        | `aria-label="{label}"`                 | `opts.label`  |
 | `<ul>`                        | `aria-activedescendant="{option id}"`  | Client (open only) |
@@ -34,7 +34,7 @@ not content.
 
 ## Keyboard contract
 
-Implemented in `locale-chooser.client.js`. None of it exists before
+Implemented in `locale-picker.client.js`. None of it exists before
 that module runs.
 
 | Key                       | Focus       | Action                                                          |
@@ -73,7 +73,7 @@ The **closed** control is deliberately not a channel: it shows a
 globe glyph, never the active locale name, so the control's width
 does not depend on the length of your locale labels. A screen-reader
 user hears the button's label but not the active locale until the
-listbox is opened. The compensating `.locale-chooser-status` region
+listbox is opened. The compensating `.locale-picker-status` region
 (`aria-live="polite"`, fed from `onChange`) is part of the default
 pattern and ships in the examples — see
 [`../docs/accessibility.md`](../docs/accessibility.md).
@@ -133,7 +133,7 @@ attributes (see [`../docs/concepts.md`](../docs/concepts.md)).
 ## Progressive enhancement: the honest position
 
 The macro's output is **not** an operable control on its own. The
-button opens nothing until `locale-chooser.client.js` runs, because
+button opens nothing until `locale-picker.client.js` runs, because
 open / close, focus movement, the keyboard contract, and typeahead
 all live in that module. This is a real accessibility and resilience
 regression against the earlier native `<select>`, which the browser

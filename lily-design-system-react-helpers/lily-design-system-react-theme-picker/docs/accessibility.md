@@ -11,7 +11,7 @@ responsibility, not the browser's.
 | ------------------------- | -------------------------------------------------------- | ------------- |
 | `<button>`                | `aria-label={label}`                                      | Consumer prop |
 | `<button>`                | `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls` | Component  |
-| `<span class="theme-chooser-icon">` | `aria-hidden="true"`                             | Component     |
+| `<span class="theme-picker-icon">` | `aria-hidden="true"`                             | Component     |
 | `<ul>`                    | `role="listbox"`, `aria-label={label}`, `tabindex="-1"`, `hidden` | Component |
 | `<ul>`                    | `aria-activedescendant` (only while open)                 | Component     |
 | `<li>`                    | `role="option"`, `aria-selected`                          | Component     |
@@ -121,8 +121,8 @@ visible status line:
 ```tsx
 const [theme, setTheme] = useState("");
 
-<ThemeChooser label="Theme" value={theme} onChange={setTheme} {...required} />
-<p className="theme-chooser-status" aria-live="polite">
+<ThemePicker label="Theme" value={theme} onChange={setTheme} {...required} />
+<p className="theme-picker-status" aria-live="polite">
     Active theme: {labelFor(theme)}
 </p>
 ```
@@ -177,8 +177,8 @@ The select does not suppress `:focus` or `:focus-visible` styling. The
 consumer's CSS is responsible for the visible focus ring. NHS-UK and
 Lily™ themes ship a high-contrast focus outline that meets AAA.
 
-Two elements take focus, so style both: the `.theme-chooser-button` and
-the `.theme-chooser-list` (which receives focus while open). Style
+Two elements take focus, so style both: the `.theme-picker-button` and
+the `.theme-picker-list` (which receives focus while open). Style
 `[data-active]` on the options too — with `aria-activedescendant` the
 options never receive real DOM focus, so `:focus-visible` will never
 match them and the user would otherwise have no visual cue for what
@@ -204,7 +204,7 @@ tradeoff 2 above. Check, at minimum:
   likely thing to be weak or silent on a given reader.
 - `Escape` returns you to the button and re-announces it.
 - Selection changes are **not** announced by the control itself. Verify
-  the `.theme-chooser-status` region instead — it should speak once per
+  the `.theme-picker-status` region instead — it should speak once per
   change and stay silent on load.
 
 Cover VoiceOver + Safari, NVDA + Firefox, and JAWS + Chrome. If a

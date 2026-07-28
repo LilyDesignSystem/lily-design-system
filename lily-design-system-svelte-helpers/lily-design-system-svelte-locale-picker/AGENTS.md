@@ -1,4 +1,4 @@
-# AGENTS — LocaleChooser (Svelte helper)
+# AGENTS — LocalePicker (Svelte helper)
 
 Single source of truth: [spec/index.md](./spec/index.md). Read it first; everything
 below is a fast index.
@@ -9,7 +9,7 @@ A reusable Svelte 5 headless locale select — an **icon button that
 opens a WAI-ARIA APG listbox** — that applies the chosen locale to the
 document root via `lang` and `dir`, with optional `localStorage`
 persistence and `navigator.languages` detection. Ships no CSS; consumer
-styles the `locale-chooser` class hooks (and must supply the listbox's
+styles the `locale-picker` class hooks (and must supply the listbox's
 positioning CSS).
 
 ## Files
@@ -17,8 +17,8 @@ positioning CSS).
 | File                       | Purpose                                          |
 | -------------------------- | ------------------------------------------------ |
 | `spec/index.md`                  | Specification-driven contract (canonical).       |
-| `LocaleChooser.svelte`      | Implementation. Svelte 5 runes + TypeScript.     |
-| `LocaleChooser.test.ts`     | Vitest spec, one assertion per §7 acceptance.    |
+| `LocalePicker.svelte`      | Implementation. Svelte 5 runes + TypeScript.     |
+| `LocalePicker.test.ts`     | Vitest spec, one assertion per §7 acceptance.    |
 | `locales.ts`               | Built-in code → English-name map and RTL sets.   |
 | `locales.tsv`              | Canonical 436-row source for `locales.ts`.       |
 | `index.ts`                 | Barrel re-export.                                |
@@ -28,12 +28,12 @@ positioning CSS).
 
 ## Public surface
 
-- Default export: `LocaleChooser` component.
-- Named exports: `LocaleChooser`, `bcp47LocaleTag`, `isRtlLocale`,
+- Default export: `LocalePicker` component.
+- Named exports: `LocalePicker`, `bcp47LocaleTag`, `isRtlLocale`,
   `localeName`, `matchNavigatorLanguage`, `defaultLocaleLabels`,
   `RTL_LANGUAGE_TAGS`, `RTL_SCRIPT_SUBTAGS`.
 - Also on the module script (not in the barrel):
-  `GLOBE_WITH_MERIDIANS`, `nextLocaleChooserId`.
+  `GLOBE_WITH_MERIDIANS`, `nextLocalePickerId`.
 - Type exports: `Props`, `ChildArgs`.
 
 Required props: `label`, `locales`. Full table in
@@ -56,15 +56,15 @@ detection (if enabled) > `defaultValue` > `"en"` (if present) >
 ## HTML
 
 ```html
-<div class="locale-chooser {class}" ...restProps>
+<div class="locale-picker {class}" ...restProps>
   <input type="hidden" name="{name}" value="{value}" />
-  <button type="button" class="locale-chooser-button" aria-label="{label}"
+  <button type="button" class="locale-picker-button" aria-label="{label}"
           aria-haspopup="listbox" aria-expanded="false" aria-controls="{listId}">
-    <span class="locale-chooser-icon" aria-hidden="true">🌐︎</span>
+    <span class="locale-picker-icon" aria-hidden="true">🌐︎</span>
   </button>
-  <ul class="locale-chooser-list" id="{listId}" role="listbox" aria-label="{label}"
+  <ul class="locale-picker-list" id="{listId}" role="listbox" aria-label="{label}"
       tabindex="-1" hidden aria-activedescendant="{active optionId while open}">
-    <li class="locale-chooser-option" id="{optionId}" role="option"
+    <li class="locale-picker-option" id="{optionId}" role="option"
         aria-selected="true|false" data-active lang="en-US">English (United States)</li>
   </ul>
 </div>
@@ -73,7 +73,7 @@ detection (if enabled) > `defaultValue` > `"en"` (if present) >
 The glyph is `GLOBE_WITH_MERIDIANS` = `"\u{1F310}︎"` — U+1F310
 GLOBE WITH MERIDIANS plus **U+FE0E VARIATION SELECTOR-15**. VS15 forces
 text presentation; without it browsers pick the colour-emoji font and
-the globe renders blue, mismatching `theme-chooser`'s monochrome `◑`.
+the globe renders blue, mismatching `theme-picker`'s monochrome `◑`.
 Do not drop it.
 
 Each locale option keeps `lang="{tagFor(…)}"` so its name is pronounced
@@ -110,7 +110,7 @@ focus leaving the root closes.
 - Three honest tradeoffs — icon-only naming, hand-rolled listbox
   support, and font-dependent glyph rendering — are documented in
   `docs/accessibility.md`. The first bites harder here than for
-  `theme-chooser`: `aria-label` is written in *some* language, and a
+  `theme-picker`: `aria-label` is written in *some* language, and a
   user who cannot read the page needs this control most. A native
   `<select>` remains the better choice for some audiences.
 

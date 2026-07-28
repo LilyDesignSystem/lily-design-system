@@ -10,15 +10,15 @@ Under SSR, no `$effect` runs and the select does not touch the DOM.
 The rendered HTML looks like:
 
 ```html
-<div class="theme-chooser">
+<div class="theme-picker">
   <input type="hidden" name="theme" value="" />
-  <button type="button" class="theme-chooser-button" aria-label="Theme"
-          aria-haspopup="listbox" aria-expanded="false" aria-controls="theme-chooser-1-list">
-    <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
+  <button type="button" class="theme-picker-button" aria-label="Theme"
+          aria-haspopup="listbox" aria-expanded="false" aria-controls="theme-picker-1-list">
+    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
   </button>
-  <ul class="theme-chooser-list" id="theme-chooser-1-list" role="listbox"
+  <ul class="theme-picker-list" id="theme-picker-1-list" role="listbox"
       aria-label="Theme" tabindex="-1" hidden>
-    <li class="theme-chooser-option" id="theme-chooser-1-option-0"
+    <li class="theme-picker-option" id="theme-picker-1-option-0"
         role="option" aria-selected="false">Light</li>
     …
   </ul>
@@ -29,7 +29,7 @@ No option is `aria-selected` and the hidden input is empty unless the
 consumer supplied a non-empty `value`.
 
 Option ids come from an incrementing module counter
-(`nextThemeChooserId`), not from `Math.random()` or `Date.now()`, so the
+(`nextThemePickerId`), not from `Math.random()` or `Date.now()`, so the
 server and the client generate the same ids in the same mount order and
 hydration matches.
 
@@ -86,7 +86,7 @@ const theme = Astro.cookies.get("theme")?.value ?? "light";
     <link rel="stylesheet" href={`/assets/themes/${theme}.css`} />
   </head>
   <body>
-    <ThemeChooser value={theme} ... />
+    <ThemePicker value={theme} ... />
     <slot />
   </body>
 </html>

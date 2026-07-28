@@ -1,6 +1,6 @@
-# `<locale-chooser>` (HTML helper)
+# `<locale-picker>` (HTML helper)
 
-A reusable, headless vanilla HTML/JS locale chooser that applies the
+A reusable, headless vanilla HTML/JS locale picker that applies the
 chosen locale to the document root via `lang` and `dir`, with
 optional `localStorage` persistence and `navigator.languages`
 detection. Packaged as a **web component (custom element)**.
@@ -39,11 +39,11 @@ and for working code see [examples/](./examples/).
 
 A web app changes language across three independent axes:
 
-| Axis                  | What changes                                       | Owner                                                 |
-| --------------------- | -------------------------------------------------- | ----------------------------------------------------- |
-| **Document language** | The `lang` attribute on `<html>`.                  | `<locale-chooser>` (this helper).                      |
-| **Writing direction** | The `dir` attribute on `<html>`.                   | `<locale-chooser>` (auto-detected; opt out via `apply-dir="false"`). |
-| **Translated strings**| The actual visible words on the page.              | Your i18n library (FormatJS, i18next, raw `Intl.*`).  |
+| Axis                   | What changes                          | Owner                                                                |
+| ---------------------- | ------------------------------------- | -------------------------------------------------------------------- |
+| **Document language**  | The `lang` attribute on `<html>`.     | `<locale-picker>` (this helper).                                    |
+| **Writing direction**  | The `dir` attribute on `<html>`.      | `<locale-picker>` (auto-detected; opt out via `apply-dir="false"`). |
+| **Translated strings** | The actual visible words on the page. | Your i18n library (FormatJS, i18next, raw `Intl.*`).                 |
 
 The helper owns the first two and signals the third via a
 `localechange` `CustomEvent` and the `lang` attribute (which most
@@ -56,80 +56,90 @@ zero CSS, zero string tables (except the built-in
 English-name fallback table), zero dependencies.
 
 The element is a direct port of the Svelte canonical
-`lily-design-system-svelte-locale-chooser`. APIs and behaviour match;
+`lily-design-system-svelte-locale-picker`. APIs and behaviour match;
 only the framework idioms differ.
 
 ## Install
 
 ```ts
-// One side-effect import registers <locale-chooser> globally:
-import "./lily-design-system-html-locale-chooser";
+// One side-effect import registers <locale-picker> globally:
+import "./lily-design-system-html-locale-picker";
 
 // Or grab the class + helpers + types:
 import {
-    LocaleChooser,
-    bcp47LocaleTag,
-    isRtlLocale,
-    localeName,
-    matchNavigatorLanguage,
-    defaultLocaleLabels,
-    RTL_LANGUAGE_TAGS,
-    GLOBE_WITH_MERIDIANS,
-    nextLocaleChooserId,
-    type LocaleChooserProps,
-    type LocaleChooserChangeDetail,
-} from "./lily-design-system-html-locale-chooser";
+  LocalePicker,
+  bcp47LocaleTag,
+  isRtlLocale,
+  localeName,
+  matchNavigatorLanguage,
+  defaultLocaleLabels,
+  RTL_LANGUAGE_TAGS,
+  GLOBE_WITH_MERIDIANS,
+  nextLocalePickerId,
+  type LocalePickerProps,
+  type LocalePickerChangeDetail,
+} from "./lily-design-system-html-locale-picker";
 ```
 
 The barrel guards registration with
-`customElements.get("locale-chooser")` so re-imports and SSR contexts
+`customElements.get("locale-picker")` so re-imports and SSR contexts
 don't throw.
 
 ## Quick start
 
 ```html
-<script type="module" src="/dist/locale-chooser.js"></script>
+<script type="module" src="/dist/locale-picker.js"></script>
 
 <style>
-    /* The package ships no CSS. Without at least this much, the
+  /* The package ships no CSS. Without at least this much, the
        dropdown renders in normal flow and pushes the page around. */
-    .locale-chooser { position: relative; display: inline-block; }
-    .locale-chooser-list {
-        position: absolute;
-        inset-inline-start: 0;
-        inset-block-start: calc(100% + 0.25rem);
-        z-index: 10;
-        margin: 0;
-        padding: 0.25rem 0;
-        list-style: none;
-        background: #ffffff;
-        border: 1px solid #4c6272;
-    }
-    .locale-chooser-list[hidden] { display: none; }
-    .locale-chooser-option[data-active] { background: #f0f4f5; }
-    .locale-chooser-option[aria-selected="true"]::after { content: " ✓"; }
+  .locale-picker {
+    position: relative;
+    display: inline-block;
+  }
+  .locale-picker-list {
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block-start: calc(100% + 0.25rem);
+    z-index: 10;
+    margin: 0;
+    padding: 0.25rem 0;
+    list-style: none;
+    background: #ffffff;
+    border: 1px solid #4c6272;
+  }
+  .locale-picker-list[hidden] {
+    display: none;
+  }
+  .locale-picker-option[data-active] {
+    background: #f0f4f5;
+  }
+  .locale-picker-option[aria-selected="true"]::after {
+    content: " ✓";
+  }
 </style>
 
-<locale-chooser
-    label="Language"
-    locales="en,en_US,fr,fr_CA,ar,he"
-    storage-key="lily-locale"
-    detect-from-navigator
-></locale-chooser>
+<locale-picker
+  label="Language"
+  locales="en,en_US,fr,fr_CA,ar,he"
+  storage-key="lily-locale"
+  detect-from-navigator
+></locale-picker>
 
-<p class="locale-chooser-status" aria-live="polite">Active language: English</p>
+<p class="locale-picker-status" aria-live="polite">Active language: English</p>
 
 <script type="module">
-    import { localeName } from "/dist/locale-chooser.js";
+  import { localeName } from "/dist/locale-picker.js";
 
-    await customElements.whenDefined("locale-chooser");
+  await customElements.whenDefined("locale-picker");
 
-    const status = document.querySelector(".locale-chooser-status");
+  const status = document.querySelector(".locale-picker-status");
 
-    document.querySelector("locale-chooser")
-        .addEventListener("localechange", (e) => {
-            status.textContent = `Active language: ${localeName(e.detail.locale)}`;
-        });
+  document
+    .querySelector("locale-picker")
+    .addEventListener("localechange", (e) => {
+      status.textContent = `Active language: ${localeName(e.detail.locale)}`;
+    });
 </script>
 ```
 
@@ -163,10 +173,10 @@ i18n library. Wire `localechange` (or read `el.value`) to drive
 your library:
 
 ```ts
-const select = document.querySelector("locale-chooser")!;
+const select = document.querySelector("locale-picker")!;
 select.addEventListener("localechange", (e) => {
-    const { locale } = (e as CustomEvent<{ locale: string }>).detail;
-    // i18n.setLocale(locale);
+  const { locale } = (e as CustomEvent<{ locale: string }>).detail;
+  // i18n.setLocale(locale);
 });
 ```
 
@@ -175,32 +185,67 @@ select.addEventListener("localechange", (e) => {
 The element renders this into its light DOM:
 
 ```html
-<locale-chooser label="Locale" locales="en,fr,ar">
-    <div class="locale-chooser">
-        <input type="hidden" name="locale" value="en" />
-        <button type="button" class="locale-chooser-button"
-                aria-label="Locale" aria-haspopup="listbox"
-                aria-expanded="false" aria-controls="locale-chooser-1-list">
-            <span class="locale-chooser-icon" aria-hidden="true">&#127760;&#65038;</span>
-        </button>
-        <ul class="locale-chooser-list" id="locale-chooser-1-list" role="listbox"
-            aria-label="Locale" tabindex="-1" hidden>
-            <li class="locale-chooser-option" id="locale-chooser-1-option-0"
-                role="option" aria-selected="true" data-active lang="en">English</li>
-            <li class="locale-chooser-option" id="locale-chooser-1-option-1"
-                role="option" aria-selected="false" lang="fr">French</li>
-            <li class="locale-chooser-option" id="locale-chooser-1-option-2"
-                role="option" aria-selected="false" lang="ar">Arabic</li>
-        </ul>
-    </div>
-</locale-chooser>
+<locale-picker label="Locale" locales="en,fr,ar">
+  <div class="locale-picker">
+    <input type="hidden" name="locale" value="en" />
+    <button
+      type="button"
+      class="locale-picker-button"
+      aria-label="Locale"
+      aria-haspopup="listbox"
+      aria-expanded="false"
+      aria-controls="locale-picker-1-list"
+    >
+      <span class="locale-picker-icon" aria-hidden="true"
+        >&#127760;&#65038;</span
+      >
+    </button>
+    <ul
+      class="locale-picker-list"
+      id="locale-picker-1-list"
+      role="listbox"
+      aria-label="Locale"
+      tabindex="-1"
+      hidden
+    >
+      <li
+        class="locale-picker-option"
+        id="locale-picker-1-option-0"
+        role="option"
+        aria-selected="true"
+        data-active
+        lang="en"
+      >
+        English
+      </li>
+      <li
+        class="locale-picker-option"
+        id="locale-picker-1-option-1"
+        role="option"
+        aria-selected="false"
+        lang="fr"
+      >
+        French
+      </li>
+      <li
+        class="locale-picker-option"
+        id="locale-picker-1-option-2"
+        role="option"
+        aria-selected="false"
+        lang="ar"
+      >
+        Arabic
+      </li>
+    </ul>
+  </div>
+</locale-picker>
 ```
 
 Points worth internalising:
 
 - The default glyph is **U+1F310 GLOBE WITH MERIDIANS** followed by
   **U+FE0E VARIATION SELECTOR-15** (which requests the monochrome
-  text presentation, matching theme-chooser's ◑), exported as
+  text presentation, matching theme-picker's ◑), exported as
   `GLOBE_WITH_MERIDIANS`. It is `aria-hidden="true"`; the accessible
   name comes from the button's `aria-label` alone.
 - `aria-activedescendant` appears on the `<ul>` **only while open**.
@@ -211,7 +256,7 @@ Points worth internalising:
 - The hidden `<input>` preserves form participation and the `name`
   attribute.
 - List and option ids come from an incrementing module counter
-  (`nextLocaleChooserId()`), so multiple instances never collide and
+  (`nextLocalePickerId()`), so multiple instances never collide and
   ids are stable under SSR.
 
 ## Styling (required reading)
@@ -222,59 +267,71 @@ flow and shoves the rest of the page down when it opens.
 
 Class hooks:
 
-| Hook                      | Element                    |
-| ------------------------- | -------------------------- |
-| `.locale-chooser`          | The rendered `<div>` root. |
-| `.locale-chooser-button`   | The trigger `<button>`.    |
-| `.locale-chooser-icon`     | The default glyph `<span>`.|
-| `.locale-chooser-list`     | The `<ul role="listbox">`. |
-| `.locale-chooser-option`   | Each `<li role="option">`. |
+| Hook                     | Element                     |
+| ------------------------ | --------------------------- |
+| `.locale-picker`        | The rendered `<div>` root.  |
+| `.locale-picker-button` | The trigger `<button>`.     |
+| `.locale-picker-icon`   | The default glyph `<span>`. |
+| `.locale-picker-list`   | The `<ul role="listbox">`.  |
+| `.locale-picker-option` | Each `<li role="option">`.  |
 
 Plus the state selectors `[data-active]` and `[aria-selected="true"]`.
 
 A minimal working stylesheet:
 
 ```css
-.locale-chooser { position: relative; display: inline-block; }
-
-.locale-chooser-button {
-    font: inherit;
-    line-height: 1;
-    padding: 0.5rem;
-    background: #ffffff;
-    border: 1px solid #4c6272;
-    border-radius: 4px;
-    cursor: pointer;
+.locale-picker {
+  position: relative;
+  display: inline-block;
 }
 
-.locale-chooser-list {
-    position: absolute;
-    inset-inline-start: 0;
-    inset-block-start: calc(100% + 0.25rem);
-    z-index: 10;
-    margin: 0;
-    padding: 0.25rem 0;
-    list-style: none;
-    min-inline-size: 12rem;
-    max-block-size: 16rem;
-    overflow-y: auto;
-    background: #ffffff;
-    border: 1px solid #4c6272;
-    border-radius: 4px;
+.locale-picker-button {
+  font: inherit;
+  line-height: 1;
+  padding: 0.5rem;
+  background: #ffffff;
+  border: 1px solid #4c6272;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.locale-picker-list {
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: calc(100% + 0.25rem);
+  z-index: 10;
+  margin: 0;
+  padding: 0.25rem 0;
+  list-style: none;
+  min-inline-size: 12rem;
+  max-block-size: 16rem;
+  overflow-y: auto;
+  background: #ffffff;
+  border: 1px solid #4c6272;
+  border-radius: 4px;
 }
 
 /* The element toggles the `hidden` attribute; never override it away. */
-.locale-chooser-list[hidden] { display: none; }
+.locale-picker-list[hidden] {
+  display: none;
+}
 
-.locale-chooser-option { padding: 0.375rem 0.75rem; cursor: pointer; }
-.locale-chooser-option[data-active] { background: #f0f4f5; }
-.locale-chooser-option[aria-selected="true"]::after { content: " ✓"; }
+.locale-picker-option {
+  padding: 0.375rem 0.75rem;
+  cursor: pointer;
+}
+.locale-picker-option[data-active] {
+  background: #f0f4f5;
+}
+.locale-picker-option[aria-selected="true"]::after {
+  content: " ✓";
+}
 ```
 
 Use logical properties (`inset-inline-start`, not `left`) so the
 dropdown flips correctly when the user picks an RTL locale.
 
-There is no `.locale-chooser-placeholder` hook. It belonged to the
+There is no `.locale-picker-placeholder` hook. It belonged to the
 0.3.0 native-`<select>` rendering and was removed with it.
 
 ## Keyboard
@@ -338,18 +395,18 @@ The default locale is `"en"` whenever `"en"` appears in your
 The complete table is in [spec/index.md §4.1](./spec/index.md#41-observed-attributes).
 Highlights:
 
-| Attribute                | Type           | Required | Notes                                |
-| ------------------------ | -------------- | -------- | ------------------------------------ |
-| `label`                  | string         | yes      | `aria-label` on **both** the button and the listbox. |
-| `locales`                | string (CSV)   | yes      | Available codes.                     |
-| `value`                  | string         | no       | Current code (consumer form).        |
-| `default-value`          | string         | no       | Initial when nothing else applies.   |
-| `storage-key`            | string         | no       | `localStorage` persistence.          |
-| `detect-from-navigator`  | boolean attr   | no       | Match `navigator.languages`.         |
-| `name`                   | string         | no       | On the hidden `<input>`; defaults to `"locale"`. |
-| `apply-dir`              | boolean attr   | no       | `"false"` suppresses `dir` writes.   |
-| `locale-labels`          | string (JSON)  | no       | Per-code label overrides.            |
-| `class`                  | string         | no       | Extra class on the `<div>` root.     |
+| Attribute               | Type          | Required | Notes                                                |
+| ----------------------- | ------------- | -------- | ---------------------------------------------------- |
+| `label`                 | string        | yes      | `aria-label` on **both** the button and the listbox. |
+| `locales`               | string (CSV)  | yes      | Available codes.                                     |
+| `value`                 | string        | no       | Current code (consumer form).                        |
+| `default-value`         | string        | no       | Initial when nothing else applies.                   |
+| `storage-key`           | string        | no       | `localStorage` persistence.                          |
+| `detect-from-navigator` | boolean attr  | no       | Match `navigator.languages`.                         |
+| `name`                  | string        | no       | On the hidden `<input>`; defaults to `"locale"`.     |
+| `apply-dir`             | boolean attr  | no       | `"false"` suppresses `dir` writes.                   |
+| `locale-labels`         | string (JSON) | no       | Per-code label overrides.                            |
+| `class`                 | string        | no       | Extra class on the `<div>` root.                     |
 
 There is no `placeholder` attribute; it was removed along with the
 native `<select>` it existed to pin.
@@ -360,12 +417,12 @@ Every observed attribute mirrors a JS property of the same name in
 camelCase. Notable shapes:
 
 ```ts
-const select = document.querySelector("locale-chooser") as LocaleChooser;
+const select = document.querySelector("locale-picker") as LocalePicker;
 
-select.locales = ["en", "fr", "ar"];               // CSV-encoded in attribute
+select.locales = ["en", "fr", "ar"]; // CSV-encoded in attribute
 select.localeLabels = { en: "English", fr: "Français", ar: "العربية" };
-select.detectFromNavigator = true;                 // mirrors boolean attribute
-select.applyDir = false;                           // → apply-dir="false"
+select.detectFromNavigator = true; // mirrors boolean attribute
+select.applyDir = false; // → apply-dir="false"
 select.target = document.querySelector("section.panel") as HTMLElement;
 ```
 
@@ -375,15 +432,15 @@ select.target = document.querySelector("section.panel") as HTMLElement;
 The listbox surface is public too:
 
 ```ts
-select.open;                 // boolean — is the list open?
-select.listId;               // "locale-chooser-1-list"
-select.optionId(2);          // "locale-chooser-1-option-2"
-select.openList();           // open with the selected option active
-select.openList(0);          // open with a specific option active
-select.closeList();          // close and refocus the button
-select.closeList(false);     // close without refocusing
-select.labelFor("fr");       // "French"
-select.tagFor("fr_CA");      // "fr-CA"
+select.open; // boolean — is the list open?
+select.listId; // "locale-picker-1-list"
+select.optionId(2); // "locale-picker-1-option-2"
+select.openList(); // open with the selected option active
+select.openList(0); // open with a specific option active
+select.closeList(); // close and refocus the button
+select.closeList(false); // close without refocusing
+select.labelFor("fr"); // "French"
+select.tagFor("fr_CA"); // "fr-CA"
 ```
 
 `renderButtonContent(): Node` is the overridable rendering hook — see
@@ -391,9 +448,9 @@ select.tagFor("fr_CA");      // "fr-CA"
 
 ## Events
 
-| Event           | Detail                | Bubbles | Composed |
-| --------------- | --------------------- | ------- | -------- |
-| `localechange`  | `{ locale: string }`  | yes     | yes      |
+| Event          | Detail               | Bubbles | Composed |
+| -------------- | -------------------- | ------- | -------- |
+| `localechange` | `{ locale: string }` | yes     | yes      |
 
 The detail carries the **consumer-form** code (`en_US` if the
 consumer used `en_US`). The `<html lang>` attribute uses the BCP 47
@@ -401,8 +458,8 @@ hyphen form (`en-US`).
 
 ```ts
 select.addEventListener("localechange", (e) => {
-    const { locale } = (e as CustomEvent<{ locale: string }>).detail;
-    console.log("locale is now", locale);
+  const { locale } = (e as CustomEvent<{ locale: string }>).detail;
+  console.log("locale is now", locale);
 });
 ```
 
@@ -417,7 +474,7 @@ form when writing to the DOM. The `value` attribute / property
 preserves your original form so round-trips are lossless.
 
 ```ts
-bcp47LocaleTag("en_US");      // "en-US"
+bcp47LocaleTag("en_US"); // "en-US"
 bcp47LocaleTag("zh_Hant_TW"); // "zh-Hant-TW"
 ```
 
@@ -443,12 +500,12 @@ names; `el.labelFor(code)` falls back to this table when
 
 ```ts
 import {
-    defaultLocaleLabels,
-    RTL_LANGUAGE_TAGS,
-} from "./lily-design-system-html-locale-chooser";
+  defaultLocaleLabels,
+  RTL_LANGUAGE_TAGS,
+} from "./lily-design-system-html-locale-picker";
 
 console.log(defaultLocaleLabels["en_US"]); // "English (United States)"
-console.log(RTL_LANGUAGE_TAGS.has("ar"));  // true
+console.log(RTL_LANGUAGE_TAGS.has("ar")); // true
 ```
 
 ## Custom rendering
@@ -463,21 +520,21 @@ class still builds the button and the listbox, so the aria wiring and
 the whole keyboard contract keep working.
 
 ```ts
-import { LocaleChooser } from "./lily-design-system-html-locale-chooser";
+import { LocalePicker } from "./lily-design-system-html-locale-picker";
 
-class FlagLocaleChooser extends LocaleChooser {
-    renderButtonContent(): Node {
-        const span = document.createElement("span");
-        span.textContent = this.labelFor(this.value);
-        span.dataset.open = String(this.open);
-        return span;
-    }
+class FlagLocalePicker extends LocalePicker {
+  renderButtonContent(): Node {
+    const span = document.createElement("span");
+    span.textContent = this.labelFor(this.value);
+    span.dataset.open = String(this.open);
+    return span;
+  }
 }
 
-customElements.define("flag-locale-chooser", FlagLocaleChooser);
+customElements.define("flag-locale-picker", FlagLocalePicker);
 ```
 
-The hook re-runs on structural rebuilds *and* on every state sync (a
+The hook re-runs on structural rebuilds _and_ on every state sync (a
 `value` change, each open and close), so button content that depends
 on `this.value` or `this.open` — like the example above — stays
 current on its own. See
@@ -539,12 +596,12 @@ Topic guide: [`docs/accessibility.md`](./docs/accessibility.md).
 
 The element compiles cleanly under static-site generators. On the
 server no lifecycle hook runs; the SSG emits the literal
-`<locale-chooser>` tag, and the browser upgrades it after the JS
+`<locale-picker>` tag, and the browser upgrades it after the JS
 loads.
 
 For zero-flicker static rendering, resolve the locale at build time
 or via cookie (dynamic SSR) and pre-render `<html lang dir>` plus
-the matching `<locale-chooser value="…">` host. The select reads the
+the matching `<locale-picker value="…">` host. The select reads the
 inlined `value` and applies the same locale without re-resolving.
 
 See [`docs/ssr.md`](./docs/ssr.md) and
@@ -570,21 +627,21 @@ Exercises every numbered acceptance criterion in
 
 ## Files in this directory
 
-| File                    | Purpose                                          |
-| ----------------------- | ------------------------------------------------ |
-| `spec/index.md`               | Single source of truth.                          |
-| `AGENTS.md`             | Fast-index pointer; loads the AGENTS bundle.     |
-| `AGENTS/`               | Topic-by-topic agent files.                      |
-| `CLAUDE.md`             | `@AGENTS.md`.                                    |
-| `locale-chooser.ts`      | The custom-element class.                        |
-| `locale-chooser.test.ts` | vitest suite.                                    |
-| `locales.ts`            | Built-in 436-row code → English name table.      |
-| `locales.tsv`           | Canonical source for `locales.ts`.               |
-| `index.ts`              | Barrel + side-effectful `customElements.define`. |
-| `index.md`              | This file.                                       |
-| `docs/`                 | Deep-dive topic guides.                          |
-| `examples/`             | Runnable `.html` files.                          |
-| `CHANGELOG.md`          | Version history.                                 |
+| File                     | Purpose                                          |
+| ------------------------ | ------------------------------------------------ |
+| `spec/index.md`          | Single source of truth.                          |
+| `AGENTS.md`              | Fast-index pointer; loads the AGENTS bundle.     |
+| `AGENTS/`                | Topic-by-topic agent files.                      |
+| `CLAUDE.md`              | `@AGENTS.md`.                                    |
+| `locale-picker.ts`      | The custom-element class.                        |
+| `locale-picker.test.ts` | vitest suite.                                    |
+| `locales.ts`             | Built-in 436-row code → English name table.      |
+| `locales.tsv`            | Canonical source for `locales.ts`.               |
+| `index.ts`               | Barrel + side-effectful `customElements.define`. |
+| `index.md`               | This file.                                       |
+| `docs/`                  | Deep-dive topic guides.                          |
+| `examples/`              | Runnable `.html` files.                          |
+| `CHANGELOG.md`           | Version history.                                 |
 
 ## License
 

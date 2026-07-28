@@ -1,4 +1,4 @@
-# TextSizeChooser — Specification (Svelte helper)
+# TextSizePicker — Specification (Svelte helper)
 
 Canonical contract for `lily-design-system-svelte-text-size-picker`.
 The other framework catalogs (react, vue, angular, blazor, html,
@@ -20,8 +20,8 @@ default sizes, or any visual styling.
 
 ## 3. HTML
 
-`<select class="text-size-chooser {class}" aria-label="{label}"
-name="{name}">` containing one `<option class="text-size-chooser-option"
+`<select class="text-size-picker {class}" aria-label="{label}"
+name="{name}">` containing one `<option class="text-size-picker-option"
 value="{slug}">{label}</option>` per slug. A `children` snippet may
 replace the default option rendering.
 

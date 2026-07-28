@@ -13,15 +13,15 @@
 
     Note: this package ships zero CSS, so the <ul> sits in normal flow
     and pushes content down when open. Overlay it in your own stylesheet
-    with `position: absolute` on .locale-chooser-list plus
-    `position: relative` on .locale-chooser — see index.md.
+    with `position: absolute` on .locale-picker-list plus
+    `position: relative` on .locale-picker — see index.md.
 
     The status line is part of the basic pattern, not an add-on.
 
     The closed control shows only the globe glyph — never the active
     locale name. So neither a sighted user nor a screen-reader user
     can tell which locale is in effect without opening the list. The
-    <p class="locale-chooser-status"> below compensates: it names the
+    <p class="locale-picker-status"> below compensates: it names the
     active locale in text, for everyone.
 
     Three deliberate choices:
@@ -52,27 +52,27 @@
     not "fr").
 */
 import { ChangeDetectionStrategy, Component, signal } from "@angular/core";
-import { LocaleChooser, localeName } from "../locale-chooser.component";
+import { LocalePicker, localeName } from "../locale-picker.component";
 
 @Component({
-    selector: "example-basic",
-    standalone: true,
-    imports: [LocaleChooser],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
-        <lily-locale-chooser
-            label="Choose your language"
-            [locales]="['en', 'fr', 'ar']"
-            [(value)]="locale"
-        />
+  selector: "example-basic",
+  standalone: true,
+  imports: [LocalePicker],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <lily-locale-picker
+      label="Choose your language"
+      [locales]="['en', 'fr', 'ar']"
+      [(value)]="locale"
+    />
 
-        <p class="locale-chooser-status" aria-live="polite">
-            Active language: {{ nameFor(locale()) }}
-        </p>
-    `,
+    <p class="locale-picker-status" aria-live="polite">
+      Active language: {{ nameFor(locale()) }}
+    </p>
+  `,
 })
 export class BasicExample {
-    locale = signal("en");
+  locale = signal("en");
 
-    nameFor = localeName;
+  nameFor = localeName;
 }

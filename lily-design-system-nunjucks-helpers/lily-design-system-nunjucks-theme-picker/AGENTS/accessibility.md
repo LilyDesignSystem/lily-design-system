@@ -1,4 +1,4 @@
-# Accessibility — ThemeChooser (Nunjucks)
+# Accessibility — ThemePicker (Nunjucks)
 
 The control targets WCAG 2.2 AAA using an icon button that opens a
 listbox, following the WAI-ARIA APG listbox pattern. This file is the
@@ -7,21 +7,21 @@ Nunjucks-flavoured view; the canonical contract is in
 
 ## Roles and properties
 
-| Element                    | Role / Property                     | Source              |
-| -------------------------- | ----------------------------------- | ------------------- |
-| `<button type="button">`   | implicit `role="button"`            | Browser             |
-| `<button>`                 | `aria-label="{label}"`              | `opts.label`        |
-| `<button>`                 | `aria-haspopup="listbox"`           | Macro               |
-| `<button>`                 | `aria-expanded="true|false"`        | Macro, then client  |
-| `<button>`                 | `aria-controls="{id}-list"`         | Macro               |
-| `<span class="…-icon">`    | `aria-hidden="true"`                | Macro               |
-| `<ul>`                     | `role="listbox"`                    | Macro               |
-| `<ul>`                     | `aria-label="{label}"`              | `opts.label`        |
-| `<ul>`                     | `tabindex="-1"`                     | Macro               |
-| `<ul>`                     | `aria-activedescendant="{option id}"` | Client (while open) |
-| `<li>`                     | `role="option"`                     | Macro               |
-| `<li>`                     | `aria-selected="true|false"`        | Macro, then client  |
-| `<input type="hidden">`    | `name` + `value`                    | Macro, then client  |
+| Element                  | Role / Property                       | Source              |
+| ------------------------ | ------------------------------------- | ------------------- |
+| `<button type="button">` | implicit `role="button"`              | Browser             |
+| `<button>`               | `aria-label="{label}"`                | `opts.label`        |
+| `<button>`               | `aria-haspopup="listbox"`             | Macro               |
+| `<button>`               | `aria-expanded="true                  | false"`             | Macro, then client |
+| `<button>`               | `aria-controls="{id}-list"`           | Macro               |
+| `<span class="…-icon">`  | `aria-hidden="true"`                  | Macro               |
+| `<ul>`                   | `role="listbox"`                      | Macro               |
+| `<ul>`                   | `aria-label="{label}"`                | `opts.label`        |
+| `<ul>`                   | `tabindex="-1"`                       | Macro               |
+| `<ul>`                   | `aria-activedescendant="{option id}"` | Client (while open) |
+| `<li>`                   | `role="option"`                       | Macro               |
+| `<li>`                   | `aria-selected="true                  | false"`             | Macro, then client |
+| `<input type="hidden">`  | `name` + `value`                      | Macro, then client  |
 
 The button is icon-only, so `aria-label` is its **only** accessible
 name. The glyph (U+25D1 CIRCLE WITH RIGHT HALF BLACK) is wrapped in
@@ -40,18 +40,18 @@ Implemented by the client.js, following the APG listbox pattern.
 None of it works before the script loads — see
 [`./ssr.md`](./ssr.md).
 
-| Key                  | Focus     | Action                                                            |
-| -------------------- | --------- | ----------------------------------------------------------------- |
-| `Tab` / `Shift+Tab`  | Button    | Move focus to / away from the button (one stop).                  |
-| `Arrow Down`         | Button    | Open; active option = the selected one, else the first.           |
-| `Enter` / `Space`    | Button    | Same as `Arrow Down`.                                             |
-| `Arrow Up`           | Button    | Open with the **last** option active.                             |
-| `Arrow Down` / `Up`  | Listbox   | Move the active option; clamps at the ends rather than wrapping.  |
-| `Home` / `End`       | Listbox   | Jump to the first / last option.                                  |
-| `Enter` / `Space`    | Listbox   | Select the active option, apply it, close, refocus the button.    |
-| `Escape`             | Listbox   | Close and refocus the button; the theme is unchanged.             |
-| `Tab`                | Listbox   | Close without stealing focus back, so Tab proceeds normally.      |
-| Printable characters | Listbox   | Typeahead over the option labels; buffer resets after 500 ms.     |
+| Key                  | Focus   | Action                                                           |
+| -------------------- | ------- | ---------------------------------------------------------------- |
+| `Tab` / `Shift+Tab`  | Button  | Move focus to / away from the button (one stop).                 |
+| `Arrow Down`         | Button  | Open; active option = the selected one, else the first.          |
+| `Enter` / `Space`    | Button  | Same as `Arrow Down`.                                            |
+| `Arrow Up`           | Button  | Open with the **last** option active.                            |
+| `Arrow Down` / `Up`  | Listbox | Move the active option; clamps at the ends rather than wrapping. |
+| `Home` / `End`       | Listbox | Jump to the first / last option.                                 |
+| `Enter` / `Space`    | Listbox | Select the active option, apply it, close, refocus the button.   |
+| `Escape`             | Listbox | Close and refocus the button; the theme is unchanged.            |
+| `Tab`                | Listbox | Close without stealing focus back, so Tab proceeds normally.     |
+| Printable characters | Listbox | Typeahead over the option labels; buffer resets after 500 ms.    |
 
 Opening moves DOM focus to the `<ul>`; the active option is conveyed
 via `aria-activedescendant` rather than by moving focus onto the
@@ -67,14 +67,14 @@ The active state is exposed in four independent channels — no
 colour-only meaning is required:
 
 1. `data-theme="<slug>"` on the target element (default `<html>`).
-2. The managed `<link rel="stylesheet" data-lily-theme-chooser="…">`
+2. The managed `<link rel="stylesheet" data-lily-theme-picker="…">`
    in `document.head`.
 3. `aria-selected="true"` on exactly one `<li role="option">`.
 4. The hidden input's `value`.
 
 Channel 3 is only audible once the user opens the listbox: the
 collapsed button announces its label, not the active theme. The
-compensating `.theme-chooser-status` region (`aria-live="polite"`,
+compensating `.theme-picker-status` region (`aria-live="polite"`,
 fed from `onChange`) is part of the default pattern and ships in the
 examples — see
 [`../docs/accessibility.md`](../docs/accessibility.md).
@@ -108,13 +108,13 @@ transitions on the `data-theme` swap.
 - NVDA announces "{label} button, collapsed", then reads the listbox
   and its active option after opening.
 - The collapsed control does **not** announce the active theme.
-  That is what the `.theme-chooser-status` live region compensates
+  That is what the `.theme-picker-status` live region compensates
   for.
 
 ## Common mistakes to avoid
 
 - **Putting the label text in the caller block.** The `{% call %}`
-  body replaces the glyph *inside* the button and should be
+  body replaces the glyph _inside_ the button and should be
   `aria-hidden="true"`. The accessible name must keep coming from
   `aria-label`.
 - **Rendering `<option>` elements from the caller block.** Stale
@@ -122,7 +122,7 @@ transitions on the `data-theme` swap.
   renders options at all.
 - **Reusing a `name` across two instances without distinct `id`s.**
   The listbox and option ids are derived from `id`, which defaults to
-  `"theme-chooser-{name}"`. Duplicate ids break `aria-controls` and
+  `"theme-picker-{name}"`. Duplicate ids break `aria-controls` and
   `aria-activedescendant`.
 - **Hiding the button with `display: none`.** That removes it from
   the accessibility tree. Use a visually-hidden pattern
@@ -167,19 +167,20 @@ nested interactive element inside the button. See
 
 ```ts
 const root = mountIntoBody(
-    renderMacro({ label: "Theme", themesUrl: "/t/", themes: ["light", "dark"] }),
+  renderMacro({ label: "Theme", themesUrl: "/t/", themes: ["light", "dark"] }),
 );
-const button = root.querySelector(".theme-chooser-button")!;
-const list = root.querySelector(".theme-chooser-list")!;
+const button = root.querySelector(".theme-picker-button")!;
+const list = root.querySelector(".theme-picker-list")!;
 
-expect(root.classList.contains("theme-chooser")).toBe(true);
+expect(root.classList.contains("theme-picker")).toBe(true);
 expect(button.getAttribute("aria-label")).toBe("Theme");
 expect(button.getAttribute("aria-haspopup")).toBe("listbox");
 expect(button.getAttribute("aria-expanded")).toBe("false");
 expect(button.getAttribute("aria-controls")).toBe(list.id);
 expect(list.getAttribute("role")).toBe("listbox");
-expect(root.querySelector(".theme-chooser-icon")!.getAttribute("aria-hidden"))
-    .toBe("true");
+expect(
+  root.querySelector(".theme-picker-icon")!.getAttribute("aria-hidden"),
+).toBe("true");
 ```
 
 For broader a11y testing run axe-core against a real Nunjucks host

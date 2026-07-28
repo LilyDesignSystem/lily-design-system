@@ -1,4 +1,4 @@
-# Changelog — ShareChooser (Angular)
+# Changelog — SharePicker (Angular)
 
 All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
@@ -11,15 +11,15 @@ and the project follows [Semantic Versioning](https://semver.org/).
 - **Previously carried in-tree as
   `lily-design-system-angular-share-button`**, at 0.1.0 and never
   published. The package name, directory, component class, selector
-  (`lily-share-chooser`), marker directive and class hooks all changed
-  with it, bringing this helper in line with its three `*-chooser`
+  (`lily-share-picker`), marker directive and class hooks all changed
+  with it, bringing this helper in line with its three `*-picker`
   siblings. The trigger hook `share-button-trigger` became plain
-  `share-chooser-button` — see the note below.
+  `share-picker-button` — see the note below.
 
 ### Added
 
 - Initial release. An Angular 20 port of the canonical Svelte
-  `share-chooser` helper: a headless share control whose single-glyph
+  `share-picker` helper: a headless share control whose single-glyph
   button (➤, U+27A4) opens the **native share sheet** via
   `navigator.share` where the browser provides one, and otherwise a
   disclosure list of consumer-supplied destinations plus a built-in
@@ -43,19 +43,19 @@ and the project follows [Semantic Versioning](https://semver.org/).
 - Clicking outside the root, or focus leaving it, closes the list
   without stealing focus back.
 - A projected `<ng-template>` replaces the glyph and receives
-  `ChildArgs` (`{ open, url }`); the optional `ShareChooserIcon` marker
+  `ChildArgs` (`{ open, url }`); the optional `SharePickerIcon` marker
   directive types the `let-` variables.
-- Exports `canShareNatively`, `canCopy`, `nextShareChooserId`,
+- Exports `canShareNatively`, `canCopy`, `nextSharePickerId`,
   `BLACK_RIGHTWARDS_ARROWHEAD`, and the types `ChildArgs`,
   `ShareTarget`, `ShareStrategy`, `ShareEvent`.
 - 47 vitest cases mapped onto the `spec/index.md` §7 clauses.
 
 ### Notes
 
-- Unlike the three preference helpers, this owns an *action*, not a
+- Unlike the three preference helpers, this owns an _action_, not a
   preference: it applies nothing to the document and persists nothing.
   No `localStorage`, no `data-*` on the document root.
-- The trigger's class hook is `share-chooser-button`, following the
+- The trigger's class hook is `share-picker-button`, following the
   `{helper}-button` convention exactly. Under the package's former name
   it had to be `share-button-trigger`, because `.share-button-button`
   read badly; the rename removed the need for that exception.

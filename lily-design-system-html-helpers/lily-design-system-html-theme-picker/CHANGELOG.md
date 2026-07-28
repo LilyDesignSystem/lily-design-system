@@ -1,22 +1,22 @@
-# Changelog — `<theme-chooser>` (HTML helper)
+# Changelog — `<theme-picker>` (HTML helper)
 
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
 ## 0.1.0 — 2026-07-21
 
-First release under the name `lily-design-system-html-theme-chooser`.
+First release under the name `lily-design-system-html-theme-picker`.
 The version resets to 0.1.0 because this package name has never been
 published; a renamed package carries no release history.
 
 ### Added
 
-- `<theme-chooser>` custom element: a headless, runtime theme-CSS
+- `<theme-picker>` custom element: a headless, runtime theme-CSS
   loader. It renders an icon button (◑, U+25D1, exported as
   `CIRCLE_WITH_RIGHT_HALF_BLACK`) that opens a WAI-ARIA APG listbox of
   themes. Light DOM only; ships no CSS.
 - On each applied theme it sets the `href` of one managed
-  `<link rel="stylesheet" data-lily-theme-chooser="{name}">` in
+  `<link rel="stylesheet" data-lily-theme-picker="{name}">` in
   `document.head`, sets `data-theme` on `target` (default
   `document.documentElement`), optionally persists to
   `localStorage[storageKey]`, and dispatches a `themechange`
@@ -24,20 +24,20 @@ published; a renamed package carries no release history.
 - Observed attributes `label`, `themes-url`, `themes`, `value`,
   `default-value`, `storage-key`, `detect-from-system`, `name`,
   `extension`, `theme-labels`, `class`, each with a mirrored property.
-- Class hooks `theme-chooser`, `theme-chooser-button`,
-  `theme-chooser-icon`, `theme-chooser-list`, `theme-chooser-option`.
-- Named exports `ThemeChooser`, `themeName`, `matchSystemTheme`,
-  `normalizeThemesUrl`, `themeHref`, `nextThemeChooserId`,
-  `CIRCLE_WITH_RIGHT_HALF_BLACK`; types `ThemeChooserProps`,
-  `ThemeChooserChangeDetail`.
+- Class hooks `theme-picker`, `theme-picker-button`,
+  `theme-picker-icon`, `theme-picker-list`, `theme-picker-option`.
+- Named exports `ThemePicker`, `themeName`, `matchSystemTheme`,
+  `normalizeThemesUrl`, `themeHref`, `nextThemePickerId`,
+  `CIRCLE_WITH_RIGHT_HALF_BLACK`; types `ThemePickerProps`,
+  `ThemePickerChangeDetail`.
 
 ### Changed
 
 - Renamed from `lily-design-system-html-theme-select`. The custom
-  element is `<theme-chooser>` (was `<theme-chooser>`), the class is
-  `ThemeChooser` (was `ThemeChooser`), the class hooks are
-  `theme-chooser*` (were `theme-chooser*`), and the managed link's
-  attribute is `data-lily-theme-chooser` (was
+  element is `<theme-picker>` (was `<theme-picker>`), the class is
+  `ThemePicker` (was `ThemePicker`), the class hooks are
+  `theme-picker*` (were `theme-picker*`), and the managed link's
+  attribute is `data-lily-theme-picker` (was
   `data-lily-theme-select`). The rename removes the collision with the
   Lily catalog component of the same old name. Behaviour is unchanged.
 
@@ -53,24 +53,24 @@ package name.
 
 #### Changed (BREAKING)
 
-- **`<theme-chooser>` is no longer a native `<select>`.** It now
+- **`<theme-picker>` is no longer a native `<select>`.** It now
   renders an **icon button that opens a dropdown listbox**, following
   the WAI-ARIA APG listbox pattern. The rendered root is a
-  `<div class="theme-chooser {class}">` containing a hidden
-  `<input>`, a `<button class="theme-chooser-button">` with
+  `<div class="theme-picker {class}">` containing a hidden
+  `<input>`, a `<button class="theme-picker-button">` with
   `aria-haspopup="listbox"` / `aria-expanded` / `aria-controls`, and a
-  `<ul class="theme-chooser-list" role="listbox">` with one
-  `<li class="theme-chooser-option" role="option">` per theme. Light
+  `<ul class="theme-picker-list" role="listbox">` with one
+  `<li class="theme-picker-option" role="option">` per theme. Light
   DOM as before.
 - **The `placeholder` attribute / property is REMOVED.** It existed
   in 0.3.0 only to pin the displayed text of the native `<select>`;
   there is no `<select>` left to pin. The
-  `theme-chooser-placeholder` class hook is removed with it, as is
+  `theme-picker-placeholder` class hook is removed with it, as is
   the "closed control always reads the placeholder word" tradeoff.
-- **Class-hook contract changed.** `theme-chooser` now names the root
-  `<div>`. Added: `theme-chooser-button`, `theme-chooser-icon`,
-  `theme-chooser-list`. Kept: `theme-chooser-option` (now on an
-  `<li>`, not an `<option>`). Removed: `theme-chooser-placeholder`.
+- **Class-hook contract changed.** `theme-picker` now names the root
+  `<div>`. Added: `theme-picker-button`, `theme-picker-icon`,
+  `theme-picker-list`. Kept: `theme-picker-option` (now on an
+  `<li>`, not an `<option>`). Removed: `theme-picker-placeholder`.
   New state selectors: `[data-active]` for the
   keyboard-highlighted option and `[aria-selected]` for the chosen
   one — they are different things and should be styled differently.
@@ -78,7 +78,7 @@ package name.
   ships no CSS, and that now includes the dropdown: the `<ul>`
   renders in normal flow and pushes content down until the consumer
   gives the root `position: relative` and the list
-  `position: absolute`. A `display` rule on `.theme-chooser-list`
+  `position: absolute`. A `display` rule on `.theme-picker-list`
   also overrides the UA `[hidden] { display: none }`, so it must be
   re-asserted or scoped with `:not([hidden])`. Worked example in
   `docs/styling.md`.
@@ -95,12 +95,12 @@ package name.
 - **Focus model changed.** Focus sits on the `<ul>` while open, never
   on an `<li>`; the highlighted option is conveyed by
   `aria-activedescendant`, present only while open. Consumer CSS
-  must style `.theme-chooser-option[data-active]` — `:focus` never
-  matches an option — and `.theme-chooser-list:focus-visible`.
+  must style `.theme-picker-option[data-active]` — `:focus` never
+  matches an option — and `.theme-picker-list:focus-visible`.
 - **Form participation moved to a hidden `<input>`.** A listbox is
   not a form control, so `name` now lands on
   `<input type="hidden">`. It still doubles as the managed
-  `<link data-lily-theme-chooser="{name}">` discriminator.
+  `<link data-lily-theme-picker="{name}">` discriminator.
 - **Accessibility tradeoffs changed.** The old placeholder tradeoff
   is gone. Three new ones replace it, documented in
   `spec/index.md` §6.5 and `docs/accessibility.md`: the control is
@@ -115,14 +115,14 @@ package name.
 
 - **`themeName(theme)` — exported label resolver.** Title-cases each
   hyphen-separated word of a slug (`"high-contrast"` →
-  `"High Contrast"`). This is the mirror of locale-chooser's
+  `"High Contrast"`). This is the mirror of locale-picker's
   `localeName(code)`; examples across the catalogs had been
   hand-duplicating the rule. `labelFor()` now delegates to it, so
   there is exactly one implementation. Exported from
-  `theme-chooser.ts` and the `index.ts` barrel.
+  `theme-picker.ts` and the `index.ts` barrel.
 - **`detect-from-system` — system colour-scheme detection.** New
   boolean observed attribute with a mirrored `el.detectFromSystem`
-  property, following the same convention as locale-chooser's
+  property, following the same convention as locale-picker's
   `detect-from-navigator` (absent → false; present → true;
   `="false"` → false). When set, and only when `value` is empty and
   storage is empty, the initial theme is resolved from
@@ -136,7 +136,7 @@ package name.
 - Initial-value resolution now reads
   `value > storage > detection > default-value > "light" > themes[0]`,
   placing detection in the same slot navigator detection occupies for
-  locale-chooser. An explicit `value` and a stored past choice both
+  locale-picker. An explicit `value` and a stored past choice both
   still outrank the OS preference.
 - `renderButtonContent(): Node` — the overridable rendering hook,
   and this framework's stand-in for the `children` snippet / render
@@ -144,7 +144,7 @@ package name.
   `Node` it returns replaces the default glyph inside the button;
   `this.value`, `this.open`, and `this.labelFor(...)` stand in for
   the `ChildArgs` the other frameworks pass, and the hook re-runs on
-  every structural rebuild *and* every state sync (a `value` change,
+  every structural rebuild _and_ every state sync (a `value` change,
   each open and close) so derived content tracks state the same way
   a reactive snippet would. The base class keeps
   building the button and listbox, so all the aria wiring and the
@@ -157,8 +157,8 @@ package name.
   status regions and subclasses can resolve a slug to its display
   label with `theme-labels` applied.
 - `CIRCLE_WITH_RIGHT_HALF_BLACK` — the default button glyph, U+25D1
-  (`&#9681;`), exported from `theme-chooser.ts` and `index.ts`.
-- `nextThemeChooserId()` — the module-level id counter behind
+  (`&#9681;`), exported from `theme-picker.ts` and `index.ts`.
+- `nextThemePickerId()` — the module-level id counter behind
   `listId` / `optionId`, exported. Ids are stable and SSR-safe: no
   `Math.random()`, no `Date.now()`.
 - `docs/styling.md` documents the new hooks, the `[data-active]` vs
@@ -179,7 +179,7 @@ package name.
   persistence, initial-value resolution, SSR safety, the
   no-hardcoded-strings i18n rule, and the pure helpers
   `normalizeThemesUrl` / `themeHref`.
-- The sibling `<text-size-chooser>` keeps its native `<select>` and
+- The sibling `<text-size-picker>` keeps its native `<select>` and
   is unaffected by this change.
 
 ### 0.3.0 — 2026-07-20
@@ -189,7 +189,7 @@ package name.
 - The closed `<select>` now always reads a placeholder word instead
   of the active theme name, so the control stays as narrow as that
   word. The element renders a component-owned placeholder
-  `<option class="theme-chooser-option theme-chooser-placeholder" value="" selected>`
+  `<option class="theme-picker-option theme-picker-placeholder" value="" selected>`
   as the first child of the `<select>`, before the real options and
   before any consumer-supplied custom option rendering.
 - **DOM contract change**: the `<select>` now has
@@ -212,7 +212,7 @@ package name.
   placeholder option; defaults to `label`, keeping the package free
   of hardcoded user-facing strings. Observed, so changing it
   re-renders.
-- `docs/styling.md` documents the `.theme-chooser-placeholder` class
+- `docs/styling.md` documents the `.theme-picker-placeholder` class
   hook and a `field-sizing: content` / `max-width` width recipe.
 
 #### Unchanged
@@ -226,10 +226,10 @@ package name.
 
 - The compensating status region is now the **default pattern**, not a
   suggestion: the basic example and the `index.md` quick-start both ship
-  a visible `<p class="theme-chooser-status" aria-live="polite">` showing
+  a visible `<p class="theme-picker-status" aria-live="polite">` showing
   the active theme. `aria-live="polite"` announces mutations only, so it
   stays silent on first paint and speaks on each change.
-  `docs/accessibility.md` reframes opting *out* as the deliberate choice
+  `docs/accessibility.md` reframes opting _out_ as the deliberate choice
   and keeps an explicit "what this does and does not fix" note — the
   region announces transitions, it does not restore combobox value
   semantics.
@@ -240,12 +240,12 @@ package name.
 
 - Migrated from the radio-group "picker" rendering to a native
   `<select>` (landed in-tree 2026-06-17): the root element is now
-  `<select class="theme-chooser">` with one `<option class="theme-chooser-option">`
+  `<select class="theme-picker">` with one `<option class="theme-picker-option">`
   per choice, replacing the former `<fieldset role="radiogroup">` with
   `<input type="radio">` children. The package was renamed from the
   `*-picker` name to `*-select` accordingly.
-- Class-hook contract changed: `theme-chooser` now names the `<select>` root
-  and `theme-chooser-option` is the only sub-class; the radio/label sub-class
+- Class-hook contract changed: `theme-picker` now names the `<select>` root
+  and `theme-picker-option` is the only sub-class; the radio/label sub-class
   hooks are gone.
 - Keyboard interaction is the native `<select>` contract (Arrow keys,
   Home / End, first-letter typeahead) instead of radio-group cycling.
@@ -261,15 +261,15 @@ package name.
 ### 0.1.0 — 2026-06-05
 
 Initial release. Ported from the Svelte canonical
-`lily-design-system-svelte-theme-chooser`. The DOM contract,
+`lily-design-system-svelte-theme-picker`. The DOM contract,
 behaviour, and acceptance criteria match the canonical clause-for-
 clause.
 
 #### Added
 
-- `<theme-chooser>` custom element extending `HTMLElement`.
+- `<theme-picker>` custom element extending `HTMLElement`.
 - Side-effectful registration in `index.ts`, guarded by
-  `customElements.get("theme-chooser")` for idempotence.
+  `customElements.get("theme-picker")` for idempotence.
 - Required attributes: `label`, `themes-url`, `themes` (CSV).
 - Optional attributes: `value`, `default-value`, `storage-key`,
   `name`, `extension`, `theme-labels` (JSON), `class`.
@@ -282,14 +282,14 @@ clause.
 - `themechange` `CustomEvent` (`bubbles: true, composed: true`)
   with `detail: { theme: string }`.
 - Pure exports: `normalizeThemesUrl`, `themeHref`.
-- Type exports: `ThemeChooserProps`, `ThemeChooserChangeDetail`.
+- Type exports: `ThemePickerProps`, `ThemePickerChangeDetail`.
 - 13 acceptance criteria in `spec/index.md` §7; one vitest test per
-  clause in `theme-chooser.test.ts`.
+  clause in `theme-picker.test.ts`.
 
 #### Conventions
 
 - Light DOM rendering — no Shadow DOM.
-- One managed `<link rel="stylesheet" data-lily-theme-chooser="{name}">`
+- One managed `<link rel="stylesheet" data-lily-theme-picker="{name}">`
   per select; reused across theme changes, garbage-collected when
   no select with the same `name` remains in the document.
 - `data-theme="{slug}"` on `el.target ?? document.documentElement`
@@ -308,7 +308,7 @@ import.
 
 #### Subclassing for custom rendering
 
-Custom rendering happens by extending the `ThemeChooser` class and
+Custom rendering happens by extending the `ThemePicker` class and
 overriding `connectedCallback` / `attributeChangedCallback` (private
 methods cannot be overridden). The base class keeps owning the
 lifecycle (managed `<link>`, `data-theme` write, `themechange`

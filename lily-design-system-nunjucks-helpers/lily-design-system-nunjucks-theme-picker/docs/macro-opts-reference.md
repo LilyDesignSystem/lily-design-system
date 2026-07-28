@@ -1,6 +1,6 @@
 # Macro opts reference
 
-Field-by-field reference for every key the `themeChooser(opts)`
+Field-by-field reference for every key the `themePicker(opts)`
 macro understands. The contract is owned by
 [`../spec/index.md`](../spec/index.md) §4; this file expands the rationale and
 common usage.
@@ -14,12 +14,12 @@ The button is icon-only — its glyph is `aria-hidden="true"` — so
 `label` is the only accessible name it has. Screen readers announce
 it as the control's name; the collapsed button never announces the
 active theme. See [accessibility.md](./accessibility.md) for the
-tradeoff and the `.theme-chooser-status` region that compensates for
+tradeoff and the `.theme-picker-status` region that compensates for
 it.
 
 There is no `placeholder` opt. It belonged to the native `<select>`
 this macro used to render, and went away with it — along with the
-`theme-chooser-placeholder` CSS hook.
+`theme-picker-placeholder` CSS hook.
 
 ## `themesUrl` — required, string
 
@@ -49,7 +49,7 @@ The array order is the listbox order, which is also the order
 ## `value` — optional, string
 
 The currently-active slug. The macro serialises it as
-`data-lily-theme-chooser-value` on the root `<div>`, and omits the
+`data-lily-theme-picker-value` on the root `<div>`, and omits the
 attribute entirely when `value` is empty. That attribute remains the
 only channel by which `value` reaches the client.
 
@@ -84,7 +84,7 @@ It is also the second term in the macro's server-side selected
 resolution, so it decides which option is `aria-selected` in the
 rendered HTML when `value` is absent.
 
-The macro serialises this as `data-lily-theme-chooser-default-value`
+The macro serialises this as `data-lily-theme-picker-default-value`
 on the root.
 
 ## `storageKey` — optional, string
@@ -103,7 +103,7 @@ therefore lands on their saved choice, exactly as before; what changed
 is only that an explicit `value` now wins a genuine conflict.
 
 The macro serialises this as
-`data-lily-theme-chooser-storage-key` on the root.
+`data-lily-theme-picker-storage-key` on the root.
 
 ## `detectFromSystem` — optional, boolean — defaults to `false`
 
@@ -113,12 +113,12 @@ client resolves `matchMedia("(prefers-color-scheme: dark)")` to
 not, detection contributes nothing and resolution falls through to
 `defaultValue`.
 
-Mirrors `detectFromNavigator` in the locale-chooser helper, and occupies
+Mirrors `detectFromNavigator` in the locale-picker helper, and occupies
 the same position in the chain.
 
 Detection is **client-only**. There is no `matchMedia` at Nunjucks
 render time, so the macro emits
-`data-lily-theme-chooser-detect-from-system` and nothing more; its
+`data-lily-theme-picker-detect-from-system` and nothing more; its
 server-rendered `aria-selected` continues to resolve from
 `value or defaultValue or ("light" if present else themes[0])`. With
 detection on and no `value`, expect the server markup to name one theme
@@ -140,9 +140,9 @@ enclosing form submits the active theme under this key. It also
 serves as:
 
 - the discriminator on the managed `<link>` element
-  (`data-lily-theme-chooser="{name}"`), so multiple controls can
+  (`data-lily-theme-picker="{name}"`), so multiple controls can
   coexist without swapping each other's stylesheet; and
-- the default id prefix (`"theme-chooser-{name}"`), so distinct
+- the default id prefix (`"theme-picker-{name}"`), so distinct
   names also produce distinct listbox and option ids.
 
 ## `extension` — optional, string — defaults to `".css"`
@@ -152,7 +152,7 @@ Pass `".css?v=2"` to bust a cached version, or `".module.css"` to
 point at CSS-module-style files.
 
 The macro serialises this as
-`data-lily-theme-chooser-extension` on the root.
+`data-lily-theme-picker-extension` on the root.
 
 ## `themeLabels` — optional, object<string, string>
 
@@ -168,13 +168,13 @@ labels — not the slugs — are what a user types against.
 
 The default title-casing rule is also exported from the client module
 as `themeName(slug)` (`"high-contrast"` → `"High Contrast"`), mirroring
-`localeName(code)` in locale-chooser. Use it wherever you need to render
+`localeName(code)` in locale-picker. Use it wherever you need to render
 a theme's display name outside the control — a status region, a
 settings summary — instead of re-deriving the rule. A Nunjucks macro
 cannot call into the client module, so the macro applies the same rule
 in template syntax and a test holds the two in agreement.
 
-## `id` — optional, string — defaults to `"theme-chooser-{name}"`
+## `id` — optional, string — defaults to `"theme-picker-{name}"`
 
 Id prefix for the listbox and its options:
 
@@ -194,14 +194,14 @@ distinct `id`s**, or their ids collide and `aria-controls` /
 `aria-activedescendant` resolve to the wrong element:
 
 ```njk
-{{ themeChooser({
+{{ themePicker({
     label: "Theme",
     id: "header-theme",
     themesUrl: "/assets/themes/",
     themes: ["light", "dark"]
 }) }}
 
-{{ themeChooser({
+{{ themePicker({
     label: "Theme",
     id: "footer-theme",
     themesUrl: "/assets/themes/",
@@ -216,7 +216,7 @@ is usually what you want anyway — see
 ## `classes` — optional, string
 
 Extra CSS class hook on the root `<div>`. Always emitted after
-`"theme-chooser"`, so consumer styles can use either selector.
+`"theme-picker"`, so consumer styles can use either selector.
 
 ## `attributes` — optional, object<string, string>
 
@@ -229,11 +229,11 @@ nothing to do with the `id` opt, which is the listbox/option id
 prefix.
 
 ```njk
-{{ themeChooser({
+{{ themePicker({
     label: "Theme",
     themesUrl: "/assets/themes/",
     themes: ["light", "dark"],
-    attributes: { "id": "theme-chooser", "data-testid": "tp" }
+    attributes: { "id": "theme-picker", "data-testid": "tp" }
 }) }}
 ```
 
@@ -248,14 +248,14 @@ glyph — see [`./custom-rendering.md`](./custom-rendering.md).
 The macro emits the following attributes on the root `<div>`, in
 order:
 
-1. `class="theme-chooser {classes}"`
-2. `data-lily-theme-chooser-root`
-3. `data-lily-theme-chooser-name="{name}"`
-4. `data-lily-theme-chooser-themes-url="{themesUrl}"`
-5. `data-lily-theme-chooser-extension="{extension}"`
-6. `data-lily-theme-chooser-storage-key="{storageKey}"`
-7. `data-lily-theme-chooser-default-value="{defaultValue}"`
-8. `data-lily-theme-chooser-value="{value}"` — only when `value` is
+1. `class="theme-picker {classes}"`
+2. `data-lily-theme-picker-root`
+3. `data-lily-theme-picker-name="{name}"`
+4. `data-lily-theme-picker-themes-url="{themesUrl}"`
+5. `data-lily-theme-picker-extension="{extension}"`
+6. `data-lily-theme-picker-storage-key="{storageKey}"`
+7. `data-lily-theme-picker-default-value="{defaultValue}"`
+8. `data-lily-theme-picker-value="{value}"` — only when `value` is
    non-empty.
 9. Each `{key}="{value}"` from `opts.attributes`.
 

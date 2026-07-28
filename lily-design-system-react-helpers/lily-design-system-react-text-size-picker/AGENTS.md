@@ -1,14 +1,14 @@
-# AGENTS — TextSizeChooser (React helper)
+# AGENTS — TextSizePicker (React helper)
 
 Single source of truth: [spec/index.md](./spec/index.md). Read it first; everything
 below is a fast index.
 
 ## What this package is
 
-A reusable React 19 headless text-size chooser. Renders an icon button
+A reusable React 19 headless text-size picker. Renders an icon button
 that opens a dropdown listbox of size slugs and applies the chosen slug
 to the document root via `data-text-size`, with optional `localStorage`
-persistence. Ships no CSS; consumer styles the `text-size-chooser` class
+persistence. Ships no CSS; consumer styles the `text-size-picker` class
 hook and maps each `[data-text-size="…"]` slug to real typography.
 
 ## Files
@@ -16,21 +16,21 @@ hook and maps each `[data-text-size="…"]` slug to real typography.
 | File                       | Purpose                                          |
 | -------------------------- | ------------------------------------------------ |
 | `spec/index.md`            | Specification-driven contract (canonical).       |
-| `TextSizeChooser.tsx`       | Implementation. TypeScript + React 19 hooks.     |
-| `TextSizeChooser.test.tsx`  | Vitest spec, one assertion per §7 acceptance.    |
+| `TextSizePicker.tsx`       | Implementation. TypeScript + React 19 hooks.     |
+| `TextSizePicker.test.tsx`  | Vitest spec, one assertion per §7 acceptance.    |
 | `index.ts`                 | Barrel re-export.                                |
 | `index.md`                 | User guide.                                      |
 | `docs/accessibility.md`    | Roles, keyboard contract, and the tradeoffs.     |
 
 ## Public surface
 
-- Default export: `TextSizeChooser` component.
-- Named exports: `TextSizeChooser`, `sizeName`, `LATIN_CAPITAL_LETTER_A`.
+- Default export: `TextSizePicker` component.
+- Named exports: `TextSizePicker`, `sizeName`, `LATIN_CAPITAL_LETTER_A`.
 - Type exports: `Props`, `ChildArgs`.
 - `sizeName(slug)` is the single implementation of the title-casing
   label rule (`"x-large"` → `"X Large"`); the internal `labelFor`
-  delegates to it, and it mirrors `themeName` in theme-chooser and
-  `localeName` in locale-chooser. Consumers should use it instead of
+  delegates to it, and it mirrors `themeName` in theme-picker and
+  `localeName` in locale-picker. Consumers should use it instead of
   re-deriving labels. It replaced the old `titleCaseSize` export.
 - `LATIN_CAPITAL_LETTER_A` is the default glyph (U+0041).
 
@@ -59,17 +59,17 @@ focus to the button when a selection or `Escape` closes the list.
 ## HTML
 
 ```html
-<div class="text-size-chooser {className}" ...restProps>
+<div class="text-size-picker {className}" ...restProps>
   <input type="hidden" name="{name}" value="{value}" />
-  <button type="button" class="text-size-chooser-button"
+  <button type="button" class="text-size-picker-button"
           aria-label="{label}" aria-haspopup="listbox"
           aria-expanded="false" aria-controls="{listId}">
-    <span class="text-size-chooser-icon" aria-hidden="true">A</span>
+    <span class="text-size-picker-icon" aria-hidden="true">A</span>
   </button>
-  <ul class="text-size-chooser-list" id="{listId}" role="listbox"
+  <ul class="text-size-picker-list" id="{listId}" role="listbox"
       aria-label="{label}" tabindex="-1" hidden
       aria-activedescendant="{optionId of active, only while open}">
-    <li class="text-size-chooser-option" id="{optionId}" role="option"
+    <li class="text-size-picker-option" id="{optionId}" role="option"
         aria-selected="true|false" data-active>Medium</li>
   </ul>
 </div>

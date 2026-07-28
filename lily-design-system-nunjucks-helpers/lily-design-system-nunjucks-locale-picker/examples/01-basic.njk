@@ -20,15 +20,15 @@
   status line is part of the default pattern — see
   ../docs/accessibility.md. Omitting it is the deliberate choice.
 
-  Note also that none of this works before locale-chooser.client.js
+  Note also that none of this works before locale-picker.client.js
   loads: the button opens nothing without JS. The hidden input is
   pre-filled server-side, so a no-JS form submit still carries a
   locale, but that is the only unenhanced affordance. See
   ../docs/ssr.md.
 #}
-{% from "../locale-chooser.njk" import localeChooser %}
+{% from "../locale-picker.njk" import localePicker %}
 
-{{ localeChooser({
+{{ localePicker({
     label: "Choose your language",
     locales: ["en", "fr", "ar"],
     localeLabels: { en: "English", fr: "Français", ar: "العربية" },
@@ -45,12 +45,12 @@
   silent on first paint and speaks on each subsequent change. That is
   the intended behaviour.
 #}
-<p class="locale-chooser-status" aria-live="polite"></p>
+<p class="locale-picker-status" aria-live="polite"></p>
 
 <script type="module">
-    import { autoInit, localeName } from "../locale-chooser.client.js";
+    import { autoInit, localeName } from "../locale-picker.client.js";
 
-    const status = document.querySelector(".locale-chooser-status");
+    const status = document.querySelector(".locale-picker-status");
 
     autoInit({
         onChange(code) {

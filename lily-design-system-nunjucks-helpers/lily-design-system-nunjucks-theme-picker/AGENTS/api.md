@@ -1,4 +1,4 @@
-# API — ThemeChooser (Nunjucks)
+# API — ThemePicker (Nunjucks)
 
 Authoritative API surface lives in [`../spec/index.md`](../spec/index.md) §4.
 This file documents the Nunjucks-flavoured shape of the contract,
@@ -9,8 +9,8 @@ split between the macro (server-side) and the client.js (browser).
 Import and invoke:
 
 ```njk
-{% from "./theme-chooser.njk" import themeChooser %}
-{{ themeChooser({
+{% from "./theme-picker.njk" import themePicker %}
+{{ themePicker({
     label: "Theme",
     themesUrl: "/assets/themes/",
     themes: ["light", "dark", "abyss"]
@@ -19,23 +19,23 @@ Import and invoke:
 
 ### `opts` keys
 
-| Key            | Type                     | Required | Default                                          |
-| -------------- | ------------------------ | -------- | ------------------------------------------------ |
-| `label`        | `string`                 | yes      | —                                                |
-| `themesUrl`    | `string`                 | yes      | —                                                |
-| `themes`       | `string[]`               | yes      | —                                                |
-| `value`        | `string`                 | no       | `""`                                             |
-| `defaultValue` | `string`                 | no       | `""`                                             |
-| `storageKey`   | `string`                 | no       | `""`                                             |
-| `name`         | `string`                 | no       | `"theme"`                                        |
-| `extension`    | `string`                 | no       | `".css"`                                         |
-| `themeLabels`  | `Record<string,string>`  | no       | `{}`                                             |
-| `id`           | `string`                 | no       | `"theme-chooser-{name}"`                          |
-| `classes`      | `string`                 | no       | `""`                                             |
-| `attributes`   | `Record<string,string>`  | no       | `{}`                                             |
+| Key            | Type                    | Required | Default                  |
+| -------------- | ----------------------- | -------- | ------------------------ |
+| `label`        | `string`                | yes      | —                        |
+| `themesUrl`    | `string`                | yes      | —                        |
+| `themes`       | `string[]`              | yes      | —                        |
+| `value`        | `string`                | no       | `""`                     |
+| `defaultValue` | `string`                | no       | `""`                     |
+| `storageKey`   | `string`                | no       | `""`                     |
+| `name`         | `string`                | no       | `"theme"`                |
+| `extension`    | `string`                | no       | `".css"`                 |
+| `themeLabels`  | `Record<string,string>` | no       | `{}`                     |
+| `id`           | `string`                | no       | `"theme-picker-{name}"` |
+| `classes`      | `string`                | no       | `""`                     |
+| `attributes`   | `Record<string,string>` | no       | `{}`                     |
 
 The macro emits a `<div>` root carrying the
-`data-lily-theme-chooser-*` configuration attributes the client.js
+`data-lily-theme-picker-*` configuration attributes the client.js
 reads on init; the `name` rides on the hidden input inside it.
 `opts.attributes` is spread onto the root after those so consumers
 can override `id`, `data-testid`, etc.
@@ -52,14 +52,14 @@ A `{% call %}` block body replaces the default glyph **inside the
 button**. It does not render options.
 
 ```njk
-{% call themeChooser({label: "Theme", themesUrl: "/t/", themes: ["light", "dark"]}) %}
+{% call themePicker({label: "Theme", themesUrl: "/t/", themes: ["light", "dark"]}) %}
     <svg aria-hidden="true" focusable="false">…</svg>
 {% endcall %}
 ```
 
 ## Client.js exports
 
-`theme-chooser.client.js` is an ES module:
+`theme-picker.client.js` is an ES module:
 
 ```js
 export const CIRCLE_WITH_RIGHT_HALF_BLACK: string; // "◑" (U+25D1)
@@ -69,7 +69,7 @@ export function themeHref(
     slug: string,
     extension: string,
 ): string;
-export function initThemeChooser(
+export function initThemePicker(
     root: HTMLElement,
     opts?: {
         onChange?: (slug: string) => void;
@@ -84,7 +84,7 @@ export function autoInit(
 ): Array<{ setTheme: (slug: string) => void; destroy: () => void }>;
 ```
 
-`autoInit()` is the common entry point; `initThemeChooser(root)` is
+`autoInit()` is the common entry point; `initThemePicker(root)` is
 useful when the consumer already has a reference to a single root
 `<div>` (e.g. inside another component's lifecycle).
 
@@ -95,10 +95,10 @@ renderings can reference it without re-typing it.
 ### Pure helpers
 
 ```js
-normaliseThemesUrl("/x");      // "/x/"
-normaliseThemesUrl("/x/");     // "/x/"
+normaliseThemesUrl("/x"); // "/x/"
+normaliseThemesUrl("/x/"); // "/x/"
 themeHref("/x/", "dark", ".css"); // "/x/dark.css"
-themeHref("/x",  "dark", ".css"); // "/x/dark.css"  (normaliseThemesUrl applied internally)
+themeHref("/x", "dark", ".css"); // "/x/dark.css"  (normaliseThemesUrl applied internally)
 ```
 
 Both are side-effect-free; consumers can call them from tests,
@@ -106,12 +106,12 @@ server code, or other modules without instantiating the select.
 
 ### Controller
 
-`initThemeChooser(root)` returns:
+`initThemePicker(root)` returns:
 
-| Property    | Type                       | Notes                                              |
-| ----------- | -------------------------- | -------------------------------------------------- |
-| `setTheme`  | `(slug: string) => void`   | Apply a theme imperatively; same code path as choosing an option (link swap, `data-theme`, storage, hidden input, `aria-selected`, `onChange`). |
-| `destroy`   | `() => void`               | Remove every listener (button, listbox, root `focusout`, document `click`) and clear the typeahead timer; keeps applied DOM. |
+| Property   | Type                     | Notes                                                                                                                                           |
+| ---------- | ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `setTheme` | `(slug: string) => void` | Apply a theme imperatively; same code path as choosing an option (link swap, `data-theme`, storage, hidden input, `aria-selected`, `onChange`). |
+| `destroy`  | `() => void`             | Remove every listener (button, listbox, root `focusout`, document `click`) and clear the typeahead timer; keeps applied DOM.                    |
 
 `destroy()` does **not** restore the previous theme or remove the
 managed `<link>`. The intent is that a select can be unmounted
@@ -122,8 +122,8 @@ visually reverting the theme.
 
 ```ts
 type ClientOpts = {
-    onChange?: (slug: string) => void;
-    target?: HTMLElement | null;
+  onChange?: (slug: string) => void;
+  target?: HTMLElement | null;
 };
 ```
 
@@ -142,24 +142,24 @@ Macro output:
 
 ```html
 <div
-    class="theme-chooser {classes}"
-    data-lily-theme-chooser-root
-    data-lily-theme-chooser-name="{name}"
-    data-lily-theme-chooser-themes-url="{themesUrl}"
-    data-lily-theme-chooser-extension="{extension}"
-    data-lily-theme-chooser-storage-key="{storageKey}"
-    data-lily-theme-chooser-default-value="{defaultValue}"
-    data-lily-theme-chooser-value="{value}"   <!-- only when opts.value is set -->
+    class="theme-picker {classes}"
+    data-lily-theme-picker-root
+    data-lily-theme-picker-name="{name}"
+    data-lily-theme-picker-themes-url="{themesUrl}"
+    data-lily-theme-picker-extension="{extension}"
+    data-lily-theme-picker-storage-key="{storageKey}"
+    data-lily-theme-picker-default-value="{defaultValue}"
+    data-lily-theme-picker-value="{value}"   <!-- only when opts.value is set -->
 >
-    <input type="hidden" name="{name}" value="{selected}" data-lily-theme-chooser-input>
-    <button type="button" class="theme-chooser-button" aria-label="{label}"
+    <input type="hidden" name="{name}" value="{selected}" data-lily-theme-picker-input>
+    <button type="button" class="theme-picker-button" aria-label="{label}"
             aria-haspopup="listbox" aria-expanded="false" aria-controls="{id}-list"
-            data-lily-theme-chooser-button>
-        <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
+            data-lily-theme-picker-button>
+        <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
     </button>
-    <ul class="theme-chooser-list" id="{id}-list" role="listbox" aria-label="{label}"
-        tabindex="-1" hidden data-lily-theme-chooser-list>
-        <li class="theme-chooser-option" id="{id}-option-{index}" role="option"
+    <ul class="theme-picker-list" id="{id}-list" role="listbox" aria-label="{label}"
+        tabindex="-1" hidden data-lily-theme-picker-list>
+        <li class="theme-picker-option" id="{id}-option-{index}" role="option"
             aria-selected="true|false" data-value="{slug}">{labelFor(slug)}</li>
         <!-- one <li> per themes entry -->
     </ul>
@@ -169,7 +169,7 @@ Macro output:
 The glyph is U+25D1 CIRCLE WITH RIGHT HALF BLACK, wrapped in
 `aria-hidden="true"`. The button is icon-only, so `aria-label` is its
 **only** accessible name. A `{% call %}` block body replaces the
-`<span class="theme-chooser-icon">` and nothing else.
+`<span class="theme-picker-icon">` and nothing else.
 
 `{selected}` is the server-side resolution
 `value or defaultValue or ("light" if present else themes[0])`.
@@ -178,7 +178,7 @@ carries `"false"` explicitly. The hidden input is pre-filled with the
 same slug, so a no-JS form submit still carries a theme.
 
 `opts.value` reaches the client through the
-`data-lily-theme-chooser-value` attribute, and that remains the only
+`data-lily-theme-picker-value` attribute, and that remains the only
 channel for it. The attribute is omitted entirely when `opts.value`
 is empty.
 
@@ -197,7 +197,7 @@ substitutes for them. State this plainly wherever progressive
 enhancement comes up; it is a real regression from the native
 `<select>` the macro used to render.
 
-Client mutations on the root (only inside `initThemeChooser` and
+Client mutations on the root (only inside `initThemePicker` and
 subsequent events):
 
 - `button[aria-expanded]` toggles `"true"` / `"false"`.
@@ -214,12 +214,16 @@ Document mutations (likewise client-only):
 
 ```html
 <!-- in document.head -->
-<link rel="stylesheet" data-lily-theme-chooser="{name}" href="{themesUrl}{slug}{extension}" />
+<link
+  rel="stylesheet"
+  data-lily-theme-picker="{name}"
+  href="{themesUrl}{slug}{extension}"
+/>
 ```
 
 ```html
 <!-- on the resolved target (default <html>) -->
-<html data-theme="{slug}">
+<html data-theme="{slug}"></html>
 ```
 
 ## Versioning

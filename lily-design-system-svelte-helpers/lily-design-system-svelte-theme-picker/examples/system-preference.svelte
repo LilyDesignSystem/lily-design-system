@@ -3,7 +3,7 @@
 
   Pass `detectFromSystem`. You no longer need to resolve the media
   query yourself and feed it in as `defaultValue` — the select owns
-  this now, mirroring `detectFromNavigator` on locale-chooser.
+  this now, mirroring `detectFromNavigator` on locale-picker.
 
   Resolution order:
 
@@ -34,17 +34,17 @@
 
   The underlying helper is exported if you want to call it directly:
 
-      import { matchSystemTheme } from "../ThemeChooser.svelte";
+      import { matchSystemTheme } from "../ThemePicker.svelte";
       matchSystemTheme(["light", "dark"]);  // "dark" | "light"
       matchSystemTheme(["solarized"]);      // ""
 -->
 <script lang="ts">
-  import ThemeChooser from "../ThemeChooser.svelte";
+  import ThemePicker from "../ThemePicker.svelte";
 
   let theme = $state("");
 </script>
 
-<ThemeChooser
+<ThemePicker
   label="Theme"
   themesUrl="/assets/themes/"
   themes={["light", "dark"]}

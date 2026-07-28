@@ -1,6 +1,6 @@
-# ThemeChooser — Specification (Blazor)
+# ThemePicker — Specification (Blazor)
 
-Single source of truth for the `lily-design-system-blazor-theme-chooser`
+Single source of truth for the `lily-design-system-blazor-theme-picker`
 Blazor helper. This file drives implementation, testing, and
 documentation in the spec-driven-development style: anything not in
 this spec is out of scope; anything in this spec must be exercised by
@@ -8,18 +8,18 @@ a test.
 
 Sibling files in this directory:
 
-- `ThemeChooser.razor` — Razor markup
-- `ThemeChooser.razor.cs` — C# code-behind (partial class)
-- `ThemeChooserTests.cs` — bUnit + xUnit spec exercising every clause in §4–§7
+- `ThemePicker.razor` — Razor markup
+- `ThemePicker.razor.cs` — C# code-behind (partial class)
+- `ThemePickerTests.cs` — bUnit + xUnit spec exercising every clause in §4–§7
 - `index.md` — user-facing readme
 
 The companion headless catalog entry
-(`lily-design-system-blazor-headless/.../ThemeChooser.razor`) is a pure
+(`lily-design-system-blazor-headless/.../ThemePicker.razor`) is a pure
 container. This helper is the opinionated, reusable counterpart that
 owns the dynamic loading lifecycle.
 
 The canonical cross-framework reference is
-`lily-design-system-svelte-helpers/lily-design-system-svelte-theme-chooser`;
+`lily-design-system-svelte-helpers/lily-design-system-svelte-theme-picker`;
 where the two disagree, the Svelte side wins.
 
 ---
@@ -38,7 +38,7 @@ Give a Blazor application a drop-in, headless theme select that:
 4. Optionally persists the chosen theme to `localStorage` so the choice
    survives reload.
 5. Ships zero CSS — the consumer styles every visual aspect via the
-   `theme-chooser` class hook.
+   `theme-picker` class hook.
 
 ## 2. Non-goals
 
@@ -57,7 +57,7 @@ Give a Blazor application a drop-in, headless theme select that:
 ## 3. Architectural decisions
 
 - **One `<link>` per select name.** Switching themes mutates `href` on
-  a single `<link rel="stylesheet" data-lily-theme-chooser="{Name}">`.
+  a single `<link rel="stylesheet" data-lily-theme-picker="{Name}">`.
   Only the active theme is fetched; previously-active CSS is unloaded
   when the href changes. Multiple selects can coexist by passing
   distinct `Name` parameters.
@@ -80,31 +80,31 @@ Give a Blazor application a drop-in, headless theme select that:
 
 ### 4.1 Parameters
 
-| Parameter      | Type                                | Required | Default                       | Purpose |
-| -------------- | ----------------------------------- | -------- | ----------------------------- | ------- |
-| `Label`        | `string`                            | yes      | —                             | Accessible name for the button AND the listbox. The button is icon-only, so this is its entire accessible name. |
-| `ThemesUrl`    | `string`                            | yes      | —                             | Base URL of the themes directory. Trailing `/` is auto-normalised. |
-| `Themes`       | `IReadOnlyList<string>`             | yes      | —                             | Available theme slugs. |
-| `Value`        | `string`                            | no       | `""`                          | Currently selected theme slug. Two-way bindable via `@bind-Value`. |
-| `ValueChanged` | `EventCallback<string>`             | no       | —                             | Fires when the selected slug changes. |
-| `DefaultValue` | `string?`                           | no       | `"light"` if present, else `Themes[0]` | Initial theme when nothing else is supplied. |
-| `StorageKey`   | `string?`                           | no       | `null`                        | If set, persist selection to `localStorage` under this key. |
-| `DetectFromSystem` | `bool`                          | no       | `false`                       | Resolve `prefers-color-scheme` to a supported theme on first visit. Mirrors `DetectFromNavigator` on LocaleChooser. |
-| `Name`         | `string`                            | no       | `"theme"`                     | `name` on the hidden input AND the `data-lily-theme-chooser` discriminator on the managed `<link>`. |
-| `Extension`    | `string`                            | no       | `".css"`                      | File extension appended to each slug when constructing the URL. |
-| `ThemeLabels`  | `IReadOnlyDictionary<string,string>`| no       | empty                         | Optional pretty labels per slug. |
-| `ChildContent` | `RenderFragment<ThemeChooserContext>?`| no      | the default glyph             | **Replaces the glyph inside the button.** It does not render options. |
-| `OnChange`     | `EventCallback<string>`             | no       | —                             | Fires after the control applies a new theme. Mirrors `ValueChanged`. |
-| `CssClass`     | `string`                            | no       | `""`                          | Extra CSS class merged into the root `<div>`. |
-| `AdditionalAttributes` | `Dictionary<string,object>?`| no       | —                             | Captures all unmatched attributes; spread onto the root `<div>`. |
+| Parameter              | Type                                   | Required | Default                                | Purpose                                                                                                             |
+| ---------------------- | -------------------------------------- | -------- | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `Label`                | `string`                               | yes      | —                                      | Accessible name for the button AND the listbox. The button is icon-only, so this is its entire accessible name.     |
+| `ThemesUrl`            | `string`                               | yes      | —                                      | Base URL of the themes directory. Trailing `/` is auto-normalised.                                                  |
+| `Themes`               | `IReadOnlyList<string>`                | yes      | —                                      | Available theme slugs.                                                                                              |
+| `Value`                | `string`                               | no       | `""`                                   | Currently selected theme slug. Two-way bindable via `@bind-Value`.                                                  |
+| `ValueChanged`         | `EventCallback<string>`                | no       | —                                      | Fires when the selected slug changes.                                                                               |
+| `DefaultValue`         | `string?`                              | no       | `"light"` if present, else `Themes[0]` | Initial theme when nothing else is supplied.                                                                        |
+| `StorageKey`           | `string?`                              | no       | `null`                                 | If set, persist selection to `localStorage` under this key.                                                         |
+| `DetectFromSystem`     | `bool`                                 | no       | `false`                                | Resolve `prefers-color-scheme` to a supported theme on first visit. Mirrors `DetectFromNavigator` on LocalePicker. |
+| `Name`                 | `string`                               | no       | `"theme"`                              | `name` on the hidden input AND the `data-lily-theme-picker` discriminator on the managed `<link>`.                  |
+| `Extension`            | `string`                               | no       | `".css"`                               | File extension appended to each slug when constructing the URL.                                                     |
+| `ThemeLabels`          | `IReadOnlyDictionary<string,string>`   | no       | empty                                  | Optional pretty labels per slug.                                                                                    |
+| `ChildContent`         | `RenderFragment<ThemePickerContext>?` | no       | the default glyph                      | **Replaces the glyph inside the button.** It does not render options.                                               |
+| `OnChange`             | `EventCallback<string>`                | no       | —                                      | Fires after the control applies a new theme. Mirrors `ValueChanged`.                                                |
+| `CssClass`             | `string`                               | no       | `""`                                   | Extra CSS class merged into the root `<div>`.                                                                       |
+| `AdditionalAttributes` | `Dictionary<string,object>?`           | no       | —                                      | Captures all unmatched attributes; spread onto the root `<div>`.                                                    |
 
 There is **no `Placeholder` parameter**. It existed only to pin a native
 `<select>`'s closed display; there is no `<select>` any more.
 
-`ThemeChooserContext` shape — mirrors the canonical Svelte `ChildArgs`:
+`ThemePickerContext` shape — mirrors the canonical Svelte `ChildArgs`:
 
 ```csharp
-public sealed class ThemeChooserContext
+public sealed class ThemePickerContext
 {
     /// Currently selected theme slug.
     public required string Value { get; init; }
@@ -115,7 +115,7 @@ public sealed class ThemeChooserContext
 }
 ```
 
-Public constant: `ThemeChooser.CircleWithRightHalfBlack` — the default
+Public constant: `ThemePicker.CircleWithRightHalfBlack` — the default
 glyph, `"◑"` (U+25D1, `&#9681;`).
 
 Public method: `Task SetThemeAsync(string slug)` — apply a theme
@@ -126,23 +126,41 @@ imperatively, for consumers driving the control from their own UI.
 The control is an icon button plus a dropdown listbox:
 
 ```html
-<div class="theme-chooser {CssClass}" ...AdditionalAttributes>
+<div class="theme-picker {CssClass}" ...AdditionalAttributes>
   <input type="hidden" name="{Name}" value="{Value}" />
-  <button type="button" class="theme-chooser-button"
-          aria-label="{Label}" aria-haspopup="listbox"
-          aria-expanded="false" aria-controls="{listId}">
-    <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
+  <button
+    type="button"
+    class="theme-picker-button"
+    aria-label="{Label}"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="{listId}"
+  >
+    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
   </button>
-  <ul class="theme-chooser-list" id="{listId}" role="listbox"
-      aria-label="{Label}" tabindex="-1" hidden
-      aria-activedescendant="{optionId of active, only while open}">
-    <li class="theme-chooser-option" id="{optionId}" role="option"
-        aria-selected="true|false" data-active>{LabelFor(slug)}</li>
+  <ul
+    class="theme-picker-list"
+    id="{listId}"
+    role="listbox"
+    aria-label="{Label}"
+    tabindex="-1"
+    hidden
+    aria-activedescendant="{optionId of active, only while open}"
+  >
+    <li
+      class="theme-picker-option"
+      id="{optionId}"
+      role="option"
+      aria-selected="true|false"
+      data-active
+    >
+      {LabelFor(slug)}
+    </li>
   </ul>
 </div>
 ```
 
-- The root is a `<div>` carrying the `theme-chooser` class hook plus
+- The root is a `<div>` carrying the `theme-picker` class hook plus
   `CssClass`; `AdditionalAttributes` spread onto it.
 - The glyph is `◑` (U+25D1 CIRCLE WITH RIGHT HALF BLACK, `&#9681;`),
   wrapped in `aria-hidden="true"`. The accessible name comes from the
@@ -151,14 +169,14 @@ The control is an icon button plus a dropdown listbox:
   `{ Value, Open, LabelFor }`. It no longer renders options.
 - The hidden input preserves form participation and the `Name`
   parameter. `Name` ALSO still discriminates the managed
-  `<link data-lily-theme-chooser="{Name}">`.
+  `<link data-lily-theme-picker="{Name}">`.
 - `hidden` is present on the `<ul>` while closed and absent while open;
   `aria-expanded` on the button tracks the same state.
 - `aria-activedescendant` is emitted only while open and only when it
   points at a real option. The active option additionally carries a
   `data-active` attribute as a styling hook.
 - Option ids are `{instance}-option-{index}` and the list id is
-  `{instance}-list`, where `{instance}` is `theme-chooser-{n}` from a
+  `{instance}-list`, where `{instance}` is `theme-picker-{n}` from a
   monotonic process-wide counter. Stable and SSR-safe — never
   `Random` or a clock read.
 - `LabelFor(slug)` returns `ThemeLabels[slug]` when supplied; otherwise
@@ -168,7 +186,7 @@ The control is an icon button plus a dropdown listbox:
   interop write. The real selection lives in `Value`, which remains
   two-way bindable.
 - A single managed
-  `<link rel="stylesheet" data-lily-theme-chooser="{Name}">` in
+  `<link rel="stylesheet" data-lily-theme-picker="{Name}">` in
   `document.head`. Created on first apply, reused thereafter.
 - `data-theme="{slug}"` is set on `document.documentElement` on every
   apply.
@@ -207,7 +225,7 @@ consumers `@bind-Value`-ing the variable see the resolved value.
 Applying a theme `slug` performs, in order:
 
 1. Locate or create the managed `<link>` (matched by
-   `data-lily-theme-chooser="{Name}"`).
+   `data-lily-theme-picker="{Name}"`).
 2. Set `link.href = Normalise(ThemesUrl) + slug + Extension`.
 3. Set `data-theme="{slug}"` on `document.documentElement`.
 4. If `StorageKey` is set, write the slug to `localStorage` inside a
@@ -256,27 +274,27 @@ pattern.
 
 On the **button**:
 
-| Key                        | Action                                                   |
-| -------------------------- | -------------------------------------------------------- |
-| `Tab` / `Shift+Tab`        | Move focus to / away from the button (one stop).         |
-| `Arrow Down`               | Open, active option = the selected one (else index 0).   |
-| `Enter` / `Space`          | Open, active option = the selected one (else index 0).   |
-| `Arrow Up`                 | Open with the **last** option active.                    |
+| Key                 | Action                                                 |
+| ------------------- | ------------------------------------------------------ |
+| `Tab` / `Shift+Tab` | Move focus to / away from the button (one stop).       |
+| `Arrow Down`        | Open, active option = the selected one (else index 0). |
+| `Enter` / `Space`   | Open, active option = the selected one (else index 0). |
+| `Arrow Up`          | Open with the **last** option active.                  |
 
 Opening moves focus to the `<ul>`.
 
 On the **listbox**:
 
-| Key             | Action                                                              |
-| --------------- | ------------------------------------------------------------------- |
-| `Arrow Down`    | Move the active option down one; **clamps** at the last (no wrap).  |
-| `Arrow Up`      | Move the active option up one; **clamps** at the first (no wrap).   |
-| `Home`          | Jump to the first option.                                           |
-| `End`           | Jump to the last option.                                            |
+| Key               | Action                                                                 |
+| ----------------- | ---------------------------------------------------------------------- |
+| `Arrow Down`      | Move the active option down one; **clamps** at the last (no wrap).     |
+| `Arrow Up`        | Move the active option up one; **clamps** at the first (no wrap).      |
+| `Home`            | Jump to the first option.                                              |
+| `End`             | Jump to the last option.                                               |
 | `Enter` / `Space` | Select the active option, apply it, close, return focus to the button. |
-| `Escape`        | Close and return focus **without** changing the value.              |
-| `Tab`           | Close **without** stealing focus back.                              |
-| Printable chars | Typeahead over the option *labels*, 500 ms buffer reset.            |
+| `Escape`          | Close and return focus **without** changing the value.                 |
+| `Tab`             | Close **without** stealing focus back.                                 |
+| Printable chars   | Typeahead over the option _labels_, 500 ms buffer reset.               |
 
 Pointer and focus:
 
@@ -315,22 +333,22 @@ blurring the listbox before the click handler runs.
 
 ## 7. Testing acceptance criteria
 
-`ThemeChooserTests.cs` must assert every numbered item below. Tests
+`ThemePickerTests.cs` must assert every numbered item below. Tests
 run under bUnit + xUnit.
 
 **Markup contract**
 
-1. The root is a `<div class="theme-chooser">` containing a
-   `<button type="button" class="theme-chooser-button">` with
+1. The root is a `<div class="theme-picker">` containing a
+   `<button type="button" class="theme-picker-button">` with
    `aria-haspopup="listbox"`, `aria-expanded="false"`, and
    `aria-controls` pointing at a `<ul role="listbox" tabindex="-1">`.
    No `<select>` is rendered.
-2. The button renders `<span class="theme-chooser-icon"
-   aria-hidden="true">&#9681;</span>` (U+25D1), matching the public
-   `ThemeChooser.CircleWithRightHalfBlack` constant.
+2. The button renders `<span class="theme-picker-icon"
+aria-hidden="true">&#9681;</span>` (U+25D1), matching the public
+   `ThemePicker.CircleWithRightHalfBlack` constant.
 3. `aria-label` is the supplied `Label` on BOTH the button and the
    listbox.
-4. One `<li class="theme-chooser-option" role="option">` per entry in
+4. One `<li class="theme-picker-option" role="option">` per entry in
    `Themes`; the hidden input carries the supplied `Name` and the
    resolved `Value`.
 5. The listbox carries `hidden` until the button is activated;
@@ -342,7 +360,7 @@ run under bUnit + xUnit.
    each hyphen-separated word title-cased otherwise (`"light"` →
    `"Light"`). The word `"default"` never appears in an option label.
 8. List and option ids are stable across re-render and unique across
-   instances, prefixed `theme-chooser-`.
+   instances, prefixed `theme-picker-`.
 
 **Keyboard contract (WAI-ARIA APG listbox)**
 
@@ -386,7 +404,7 @@ run under bUnit + xUnit.
 23. Extra attributes captured by `AdditionalAttributes` spread through
     onto the root `<div>` (e.g. `data-testid`).
 24. A custom `ChildContent` render fragment **replaces** the glyph
-    inside the button (the default `.theme-chooser-icon` is absent) and
+    inside the button (the default `.theme-picker-icon` is absent) and
     receives `Value`, `Open`, and `LabelFor`.
 
 **System-preference detection**
@@ -406,7 +424,7 @@ run under bUnit + xUnit.
 - A complementary `ThemeView` helper that displays the active theme.
 - A live `prefers-color-scheme` subscription. First-visit detection
   shipped as `DetectFromSystem` (§4, §7.25); re-theming a page when the
-  OS flips *while the tab is open* is deliberately not implemented,
+  OS flips _while the tab is open_ is deliberately not implemented,
   because it would fight a selection the user made by hand. Consumers
   who want it can add a listener and call `SetThemeAsync`.
 - A non-`<link>` loader that injects a `<style>` block.
@@ -416,7 +434,7 @@ run under bUnit + xUnit.
 ## 9. Tracking
 
 - Package directory:
-  `lily-design-system-blazor-helpers/lily-design-system-blazor-theme-chooser/`
+  `lily-design-system-blazor-helpers/lily-design-system-blazor-theme-picker/`
 - Spec version: 0.1.0
 - Created: 2026-06-05
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause (or

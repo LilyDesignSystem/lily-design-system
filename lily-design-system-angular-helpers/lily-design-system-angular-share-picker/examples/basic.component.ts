@@ -1,7 +1,7 @@
 /*
     Example 1 — Basic usage.
 
-    The minimum viable share chooser: a label, a couple of destinations,
+    The minimum viable share picker: a label, a couple of destinations,
     and the built-in copy item.
 
     Three things worth noticing.
@@ -30,54 +30,54 @@
 
     One thing this example does NOT ship, because the package ships zero
     CSS: positioning for the list. Without `position: relative` on
-    .share-chooser and `position: absolute` on .share-chooser-list, the
+    .share-picker and `position: absolute` on .share-picker-list, the
     open list pushes page content around.
 */
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { ShareChooser, type ShareTarget } from "../share-chooser.component";
+import { SharePicker, type ShareTarget } from "../share-picker.component";
 
 @Component({
-    selector: "example-basic",
-    standalone: true,
-    imports: [ShareChooser],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
-        <lily-share-chooser
-            label="Share this page"
-            title="Understanding your test results"
-            [targets]="targets"
-            copyLabel="Copy link"
-            copiedLabel="Link copied"
-            copyFailedLabel="Could not copy — copy it from the address bar"
-            (share)="onShare($event)"
-            (copy)="onCopy($event)"
-        />
-    `,
+  selector: "example-basic",
+  standalone: true,
+  imports: [SharePicker],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <lily-share-picker
+      label="Share this page"
+      title="Understanding your test results"
+      [targets]="targets"
+      copyLabel="Copy link"
+      copiedLabel="Link copied"
+      copyFailedLabel="Could not copy — copy it from the address bar"
+      (share)="onShare($event)"
+      (copy)="onCopy($event)"
+    />
+  `,
 })
 export class BasicExample {
-    readonly targets: ShareTarget[] = [
-        {
-            id: "mastodon",
-            label: "Mastodon",
-            href: (url, title) =>
-                `https://mastodon.social/share?text=${encodeURIComponent(title)}%20${encodeURIComponent(url)}`,
-        },
-        {
-            id: "email",
-            label: "Email",
-            href: (url, title) =>
-                `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(url)}`,
-            // mailto: hands off to the mail client; a new tab would be
-            // left behind blank.
-            newTab: false,
-        },
-    ];
+  readonly targets: ShareTarget[] = [
+    {
+      id: "mastodon",
+      label: "Mastodon",
+      href: (url, title) =>
+        `https://mastodon.social/share?text=${encodeURIComponent(title)}%20${encodeURIComponent(url)}`,
+    },
+    {
+      id: "email",
+      label: "Email",
+      href: (url, title) =>
+        `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(url)}`,
+      // mailto: hands off to the mail client; a new tab would be
+      // left behind blank.
+      newTab: false,
+    },
+  ];
 
-    onShare(event: { targetId: string; url: string }): void {
-        console.log("shared to", event.targetId, event.url);
-    }
+  onShare(event: { targetId: string; url: string }): void {
+    console.log("shared to", event.targetId, event.url);
+  }
 
-    onCopy(url: string): void {
-        console.log("copied", url);
-    }
+  onCopy(url: string): void {
+    console.log("copied", url);
+  }
 }

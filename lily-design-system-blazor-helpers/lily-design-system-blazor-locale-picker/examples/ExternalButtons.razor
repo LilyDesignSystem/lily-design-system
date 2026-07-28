@@ -15,9 +15,9 @@
     screens, or when you want to render flags / abbreviations.
 
     Note: the component still renders its own icon button and listbox. If
-    you want ONLY the button group, visually hide `.locale-chooser-button`
+    you want ONLY the button group, visually hide `.locale-picker-button`
     (a visually-hidden / clip-rect class) — never `display: none` on the
-    whole `.locale-chooser` control, because a display:none subtree can stop
+    whole `.locale-picker` control, because a display:none subtree can stop
     the component's render and focus lifecycle from behaving normally. If
     you want no component at all, skip it and call the `Locales` statics
     from your own code, writing `lang` / `dir` yourself.
@@ -26,11 +26,11 @@
     applies the locale exactly as picking it from the listbox would.
 *@
 
-@page "/examples/locale-chooser/buttons"
+@page "/examples/locale-picker/buttons"
 @rendermode InteractiveServer
 @using LilyDesignSystem.Blazor.Helpers
 
-<LocaleChooser
+<LocalePicker
     @ref="localeSelect"
     Label="Language"
     Locales="@Codes"
@@ -53,7 +53,7 @@
     }
 </ul>
 
-<p class="locale-chooser-status" aria-live="polite">
+<p class="locale-picker-status" aria-live="polite">
     Selected: <code>@locale</code>
 </p>
 
@@ -61,7 +61,7 @@
     private static readonly string[] Codes =
         new[] { "en", "fr", "es", "de", "ar", "he" };
 
-    private LocaleChooser? localeSelect;
+    private LocalePicker? localeSelect;
 
     private string locale = "en";
 

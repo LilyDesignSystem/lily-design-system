@@ -1,25 +1,25 @@
-# Examples — ShareChooser
+# Examples — SharePicker
 
 Self-contained Angular 20 examples for
-`lily-design-system-angular-share-chooser`. Each file is a runnable
+`lily-design-system-angular-share-picker`. Each file is a runnable
 standalone component that can be dropped into any Angular 20 host
 (Analog page, Angular CLI route, Storybook story).
 
-| # | File | Demonstrates |
-|---|------|--------------|
-| 1 | [`basic.component.ts`](./basic.component.ts) | Consumer-supplied destinations, the built-in copy item, and the announced copy outcome. |
-| 2 | [`strategy.component.ts`](./strategy.component.ts) | `auto` / `native` / `list`, and what a dismissed native sheet does. |
-| 3 | [`custom-glyph.component.ts`](./custom-glyph.component.ts) | Projecting an `<ng-template>` to replace the ➤ glyph — including with visible text. |
+| #   | File                                                       | Demonstrates                                                                            |
+| --- | ---------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| 1   | [`basic.component.ts`](./basic.component.ts)               | Consumer-supplied destinations, the built-in copy item, and the announced copy outcome. |
+| 2   | [`strategy.component.ts`](./strategy.component.ts)         | `auto` / `native` / `list`, and what a dismissed native sheet does.                     |
+| 3   | [`custom-glyph.component.ts`](./custom-glyph.component.ts) | Projecting an `<ng-template>` to replace the ➤ glyph — including with visible text.     |
 
 Every example assumes:
 
 - Angular 20 with standalone components and signal inputs.
 - No CSS dependency — the control is headless. Consumers style the
-  `share-chooser` (root), `share-chooser-button`, `share-chooser-icon`,
-  `share-chooser-list`, `share-chooser-list-item`, `share-chooser-target`,
-  `share-chooser-copy`, and `share-chooser-status` hooks.
+  `share-picker` (root), `share-picker-button`, `share-picker-icon`,
+  `share-picker-list`, `share-picker-list-item`, `share-picker-target`,
+  `share-picker-copy`, and `share-picker-status` hooks.
 - **The list needs positioning CSS and this package ships none.** The
-  `<ul class="share-chooser-list">` sits in normal document flow, so it
+  `<ul class="share-picker-list">` sits in normal document flow, so it
   pushes content down when opened unless you give it
   `position: absolute` inside a `position: relative` root. Use
   `inset-inline-start`, not `left`, so it follows `dir="rtl"`.
@@ -53,7 +53,7 @@ is:
 
 1. Inside any Angular CLI project (or Analog), drop the example into a
    route component or a Storybook story.
-2. Import `ShareChooser` from this directory (or via the `index.ts`
+2. Import `SharePicker` from this directory (or via the `index.ts`
    barrel).
 3. `ng serve` (or `pnpm dev`) and visit the route.
 

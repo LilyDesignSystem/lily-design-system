@@ -8,10 +8,11 @@ follows the file shape in [index.md § Conventions](./index.md#conventions).
 
 ## Helpers currently in the catalog
 
-- [`lily-design-system-nunjucks-theme-chooser`](./lily-design-system-nunjucks-theme-chooser/) — dynamic theme CSS loader.
-- [`lily-design-system-nunjucks-locale-chooser`](./lily-design-system-nunjucks-locale-chooser/) — `lang` + `dir` locale chooser.
-- [`lily-design-system-nunjucks-text-size-chooser`](./lily-design-system-nunjucks-text-size-chooser/) — `data-text-size` text-size chooser.
-- [`lily-design-system-nunjucks-share-chooser`](./lily-design-system-nunjucks-share-chooser/) — native share sheet / destination list + copy. Owns an **action**, not a preference: applies nothing to the document, persists nothing. Note the documented `href`-is-a-string deviation in its `spec/index.md` §3.3 — a Nunjucks macro cannot call an arbitrary JS function.
+- [`lily-design-system-nunjucks-theme-picker`](./lily-design-system-nunjucks-theme-picker/) — dynamic theme CSS loader.
+- [`lily-design-system-nunjucks-locale-picker`](./lily-design-system-nunjucks-locale-picker/) — `lang` + `dir` locale picker.
+- [`lily-design-system-nunjucks-text-size-picker`](./lily-design-system-nunjucks-text-size-picker/) — `data-text-size` text-size picker.
+- [`lily-design-system-nunjucks-share-picker`](./lily-design-system-nunjucks-share-picker/) — native share sheet / destination list + copy. Owns an **action**, not a preference: applies nothing to the document, persists nothing. Note the documented `href`-is-a-string deviation in its `spec/index.md` §3.3 — a Nunjucks macro cannot call an arbitrary JS function.
+- [`lily-design-system-nunjucks-date-time-picker`](./lily-design-system-nunjucks-date-time-picker/) — text field + icon button opening a WAI-ARIA APG Date Picker Dialog (month grid, optional time selects). Owns a **form value**, not a preference: applies nothing to the document, persists nothing. The hardest port in the catalog — the macro cannot render the calendar interior at all (no `Intl` in templates), so `date-time-picker.client.js` builds the grid, weekday header, period heading, and time-select options itself. Three documented deviations in `spec/index.md` §3.4: `isDateDisabled` becomes a macro-side `disabledDates` list, `hour12` is resolved and the meridiem select built entirely on the client, and `formatValue`/`parseInput` are client-only options with no macro equivalent.
 
 ## Working rules
 

@@ -1,4 +1,4 @@
-# ShareChooser (Angular helper)
+# SharePicker (Angular helper)
 
 A headless Angular 20 share control: a single-glyph button (➤) that opens
 the **native share sheet** where the browser has one, and otherwise shows
@@ -11,29 +11,32 @@ is the human-readable guide.
 
 ```ts
 import {
-  ShareChooser,
-  ShareChooserIcon,
+  SharePicker,
+  SharePickerIcon,
   canShareNatively,
   type ShareTarget,
-} from "./lily-design-system-angular-share-chooser";
+} from "./lily-design-system-angular-share-picker";
 ```
 
-`ShareChooser` is a standalone component — add it to a component's
+`SharePicker` is a standalone component — add it to a component's
 `imports`, not to an NgModule.
 
 ## Quick start
 
 ```ts
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { ShareChooser, type ShareTarget } from "../lily-design-system-angular-share-chooser";
+import {
+  SharePicker,
+  type ShareTarget,
+} from "../lily-design-system-angular-share-picker";
 
 @Component({
   selector: "app-article",
   standalone: true,
-  imports: [ShareChooser],
+  imports: [SharePicker],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <lily-share-chooser
+    <lily-share-picker
       label="Share this page"
       title="An article worth reading"
       [targets]="targets"
@@ -120,15 +123,15 @@ it is a `<button>`.
 ## Custom glyph
 
 Project an `<ng-template>` to replace the ➤ glyph inside the trigger. The
-optional `ShareChooserIcon` marker directive gives the `let-` variable a
+optional `SharePickerIcon` marker directive gives the `let-` variable a
 type:
 
 ```html
-<lily-share-chooser label="Share" [targets]="targets">
-  <ng-template lilyShareChooserIcon let-args>
+<lily-share-picker label="Share" [targets]="targets">
+  <ng-template lilySharePickerIcon let-args>
     {{ args.open ? "Close" : "Share" }}
   </ng-template>
-</lily-share-chooser>
+</lily-share-picker>
 ```
 
 The context is `ChildArgs` — `{ open, url }` — available both as
@@ -155,9 +158,9 @@ Outputs are Angular `output()`s rather than callback inputs:
 
 ## Styling
 
-Class hooks: `.share-chooser` (root), `.share-chooser-button`,
-`.share-chooser-icon`, `.share-chooser-list`, `.share-chooser-list-item`,
-`.share-chooser-target`, `.share-chooser-copy`, `.share-chooser-status`.
+Class hooks: `.share-picker` (root), `.share-picker-button`,
+`.share-picker-icon`, `.share-picker-list`, `.share-picker-list-item`,
+`.share-picker-target`, `.share-picker-copy`, `.share-picker-status`.
 
 The package ships no CSS. The root `themes/` stylesheets style the button
 and popup, including the optical glyph sizing that keeps ➤ visually the
@@ -165,7 +168,7 @@ same size as the other helpers' glyphs.
 
 ## Tests
 
-`npx vitest run lily-design-system-angular-share-chooser` from the catalog
+`npx vitest run lily-design-system-angular-share-picker` from the catalog
 root — 47 cases, one or more per §7 clause.
 
 ## See also

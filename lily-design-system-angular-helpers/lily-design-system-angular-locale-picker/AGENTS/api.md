@@ -1,4 +1,4 @@
-# API — LocaleChooser (Angular)
+# API — LocalePicker (Angular)
 
 Authoritative API surface lives in [`../spec/index.md`](../spec/index.md) §4.
 This file documents the Angular-flavoured shape of the contract.
@@ -9,20 +9,20 @@ The barrel (`index.ts`) re-exports:
 
 ```ts
 export {
-    LocaleChooser,
-    LocaleChooserIcon,
-    GLOBE_WITH_MERIDIANS,
-    nextLocaleChooserId,
-    bcp47LocaleTag,
-    isRtlLocale,
-    localeName,
-    matchNavigatorLanguage,
-} from "./locale-chooser.component";
-export type { ChildArgs } from "./locale-chooser.component";
+  LocalePicker,
+  LocalePickerIcon,
+  GLOBE_WITH_MERIDIANS,
+  nextLocalePickerId,
+  bcp47LocaleTag,
+  isRtlLocale,
+  localeName,
+  matchNavigatorLanguage,
+} from "./locale-picker.component";
+export type { ChildArgs } from "./locale-picker.component";
 export {
-    defaultLocaleLabels,
-    RTL_LANGUAGE_TAGS,
-    RTL_SCRIPT_SUBTAGS,
+  defaultLocaleLabels,
+  RTL_LANGUAGE_TAGS,
+  RTL_SCRIPT_SUBTAGS,
 } from "./locales";
 ```
 
@@ -30,12 +30,12 @@ A consumer can import either the component or the pure helpers:
 
 ```ts
 import {
-    LocaleChooser,
-    LocaleChooserIcon,
-    bcp47LocaleTag,
-    isRtlLocale,
-    matchNavigatorLanguage,
-} from "./lily-design-system-angular-locale-chooser";
+  LocalePicker,
+  LocalePickerIcon,
+  bcp47LocaleTag,
+  isRtlLocale,
+  matchNavigatorLanguage,
+} from "./lily-design-system-angular-locale-picker";
 ```
 
 The component's TypeScript types (the public field shapes) are
@@ -46,19 +46,19 @@ template.
 
 ## Inputs
 
-| Input                  | Type                          | Required | Default                                              |
-| ---------------------- | ----------------------------- | -------- | ---------------------------------------------------- |
-| `label`                | `string`                      | yes      | —                                                    |
-| `locales`              | `string[]`                    | yes      | —                                                    |
-| `value`                | `string` (model)              | no       | `""`                                                 |
-| `defaultValue`         | `string`                      | no       | `""`                                                 |
-| `storageKey`           | `string`                      | no       | `""`                                                 |
-| `detectFromNavigator`  | `boolean`                     | no       | `false`                                              |
-| `name`                 | `string`                      | no       | `"locale"`                                           |
-| `target`               | `HTMLElement \| null`         | no       | `null` (resolves to `document.documentElement`)      |
-| `applyDir`             | `boolean`                     | no       | `true`                                               |
-| `localeLabels`         | `Record<string, string>`      | no       | `{}`                                                 |
-| `className`            | `string`                      | no       | `""`                                                 |
+| Input                 | Type                     | Required | Default                                         |
+| --------------------- | ------------------------ | -------- | ----------------------------------------------- |
+| `label`               | `string`                 | yes      | —                                               |
+| `locales`             | `string[]`               | yes      | —                                               |
+| `value`               | `string` (model)         | no       | `""`                                            |
+| `defaultValue`        | `string`                 | no       | `""`                                            |
+| `storageKey`          | `string`                 | no       | `""`                                            |
+| `detectFromNavigator` | `boolean`                | no       | `false`                                         |
+| `name`                | `string`                 | no       | `"locale"`                                      |
+| `target`              | `HTMLElement \| null`    | no       | `null` (resolves to `document.documentElement`) |
+| `applyDir`            | `boolean`                | no       | `true`                                          |
+| `localeLabels`        | `Record<string, string>` | no       | `{}`                                            |
+| `className`           | `string`                 | no       | `""`                                            |
 
 `label` names both the button and the listbox; because the button is
 icon-only it is the entire accessible name. `name` lands on the
@@ -67,7 +67,7 @@ the root `<div>`.
 
 `value` is two-way bindable via `[(value)]="locale"` in the
 consumer's template. Other attributes (`id`, `data-*`, event
-handlers) live on the host element (`<lily-locale-chooser>`), not on
+handlers) live on the host element (`<lily-locale-picker>`), not on
 the inner root `<div>`.
 
 ## Content projection
@@ -76,36 +76,36 @@ A projected `<ng-template>` replaces the default globe glyph inside
 the button. It does **not** render options.
 
 ```html
-<lily-locale-chooser label="Language" [locales]="locales">
-    <ng-template let-args>{{ args.labelFor(args.value) }}</ng-template>
-</lily-locale-chooser>
+<lily-locale-picker label="Language" [locales]="locales">
+  <ng-template let-args>{{ args.labelFor(args.value) }}</ng-template>
+</lily-locale-picker>
 ```
 
 The context type:
 
 ```ts
 export type ChildArgs = {
-    value: string;
-    open: boolean;
-    labelFor: (locale: string) => string;
+  value: string;
+  open: boolean;
+  labelFor: (locale: string) => string;
 };
 ```
 
 It is passed both as `$implicit` (so `let-args` works) and spread as
 named properties (so `let-value`, `let-open`, `let-labelFor` work).
 
-`LocaleChooserIcon` is an optional marker directive
-(`ng-template[lilyLocaleChooserIcon]`) whose only job is the
+`LocalePickerIcon` is an optional marker directive
+(`ng-template[lilyLocalePickerIcon]`) whose only job is the
 `ngTemplateContextGuard` that types the `let-` variables. The
 component queries with `contentChild(TemplateRef)`, so the marker is
 never required for matching:
 
 ```html
-<lily-locale-chooser label="Language" [locales]="locales">
-    <ng-template lilyLocaleChooserIcon let-args>
-        {{ args.labelFor(args.value) }}
-    </ng-template>
-</lily-locale-chooser>
+<lily-locale-picker label="Language" [locales]="locales">
+  <ng-template lilyLocalePickerIcon let-args>
+    {{ args.labelFor(args.value) }}
+  </ng-template>
+</lily-locale-picker>
 ```
 
 ## Outputs
@@ -135,16 +135,16 @@ export function bcp47LocaleTag(locale: string): string;
 export function isRtlLocale(locale: string): boolean;
 export function localeName(locale: string): string;
 export function matchNavigatorLanguage(
-    navLangs: readonly string[],
-    locales: readonly string[],
+  navLangs: readonly string[],
+  locales: readonly string[],
 ): string;
 ```
 
-`nextLocaleChooserId()` is exported too, but it is *not* pure — it
+`nextLocalePickerId()` is exported too, but it is _not_ pure — it
 increments a module-scoped counter:
 
 ```ts
-export function nextLocaleChooserId(): string; // "locale-chooser-1", "locale-chooser-2", …
+export function nextLocalePickerId(): string; // "locale-picker-1", "locale-picker-2", …
 ```
 
 It exists so ids are stable and collision-free without
@@ -167,40 +167,42 @@ the select.
 ## DOM contract
 
 ```html
-<div class="locale-chooser {className}">
-    <input type="hidden" [name]="name()" [value]="value()" />
+<div class="locale-picker {className}">
+  <input type="hidden" [name]="name()" [value]="value()" />
 
-    <button
-        type="button"
-        class="locale-chooser-button"
-        [attr.aria-label]="label() || null"
-        aria-haspopup="listbox"
-        [attr.aria-expanded]="open()"
-        [attr.aria-controls]="listId"
-    >
-        <span class="locale-chooser-icon" aria-hidden="true">&#127760;</span>
-    </button>
+  <button
+    type="button"
+    class="locale-picker-button"
+    [attr.aria-label]="label() || null"
+    aria-haspopup="listbox"
+    [attr.aria-expanded]="open()"
+    [attr.aria-controls]="listId"
+  >
+    <span class="locale-picker-icon" aria-hidden="true">&#127760;</span>
+  </button>
 
-    <ul
-        class="locale-chooser-list"
-        [id]="listId"
-        role="listbox"
-        [attr.aria-label]="label() || null"
-        [attr.aria-activedescendant]="activeDescendant()"
-        tabindex="-1"
-        [attr.hidden]="open() ? null : ''"
+  <ul
+    class="locale-picker-list"
+    [id]="listId"
+    role="listbox"
+    [attr.aria-label]="label() || null"
+    [attr.aria-activedescendant]="activeDescendant()"
+    tabindex="-1"
+    [attr.hidden]="open() ? null : ''"
+  >
+    @for (locale of locales(); track locale; let i = $index) {
+    <li
+      class="locale-picker-option"
+      [id]="optionId(i)"
+      role="option"
+      [attr.aria-selected]="locale === value()"
+      [attr.data-active]="i === activeIndex() ? '' : null"
+      [attr.lang]="tagFor(locale)"
     >
-        @for (locale of locales(); track locale; let i = $index) {
-            <li
-                class="locale-chooser-option"
-                [id]="optionId(i)"
-                role="option"
-                [attr.aria-selected]="locale === value()"
-                [attr.data-active]="i === activeIndex() ? '' : null"
-                [attr.lang]="tagFor(locale)"
-            >{{ labelFor(locale) }}</li>
-        }
-    </ul>
+      {{ labelFor(locale) }}
+    </li>
+    }
+  </ul>
 </div>
 ```
 
@@ -212,7 +214,7 @@ Document mutations (only inside the `effect()` callback, guarded
 by `typeof document !== "undefined"`):
 
 ```html
-<html lang="{tagFor(locale)}" dir="rtl|ltr">
+<html lang="{tagFor(locale)}" dir="rtl|ltr"></html>
 ```
 
 `dir` is only written when `applyDir` is `true` (the default).
@@ -241,32 +243,32 @@ tagFor(locale: string): string {
 
 ```ts
 @Component({
-    selector: "lily-locale-chooser",
-    standalone: true,
-    imports: [NgTemplateOutlet],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    host: {
-        "(document:click)": "onDocumentClick($event)",
-    },
-    template: `…`,
+  selector: "lily-locale-picker",
+  standalone: true,
+  imports: [NgTemplateOutlet],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "(document:click)": "onDocumentClick($event)",
+  },
+  template: `…`,
 })
-export class LocaleChooser {
-    readonly label = input.required<string>();
-    readonly locales = input.required<string[]>();
-    readonly value = model<string>("");
-    readonly defaultValue = input<string>("");
-    readonly storageKey = input<string>("");
-    readonly detectFromNavigator = input<boolean>(false);
-    readonly name = input<string>("locale");
-    readonly target = input<HTMLElement | null>(null);
-    readonly applyDir = input<boolean>(true);
-    readonly localeLabels = input<Record<string, string>>({});
-    readonly className = input<string>("");
-    readonly localeChange = output<string>();
+export class LocalePicker {
+  readonly label = input.required<string>();
+  readonly locales = input.required<string[]>();
+  readonly value = model<string>("");
+  readonly defaultValue = input<string>("");
+  readonly storageKey = input<string>("");
+  readonly detectFromNavigator = input<boolean>(false);
+  readonly name = input<string>("locale");
+  readonly target = input<HTMLElement | null>(null);
+  readonly applyDir = input<boolean>(true);
+  readonly localeLabels = input<Record<string, string>>({});
+  readonly className = input<string>("");
+  readonly localeChange = output<string>();
 
-    /** Projected icon template; replaces the default glyph when supplied. */
-    protected readonly iconTemplate = contentChild(TemplateRef);
-    // …
+  /** Projected icon template; replaces the default glyph when supplied. */
+  protected readonly iconTemplate = contentChild(TemplateRef);
+  // …
 }
 ```
 
@@ -276,7 +278,7 @@ a manual `addEventListener`, and focus-out closing rides on a
 Angular when the component is destroyed; the only manual cleanup is
 the typeahead timer, cleared via `inject(DestroyRef).onDestroy(…)`.
 
-`readonly` denotes that the *reference* (the signal itself) is
+`readonly` denotes that the _reference_ (the signal itself) is
 constant; the signal's underlying value still changes reactively.
 
 ## Versioning

@@ -1,7 +1,7 @@
 # Examples
 
 Self-contained Vue 3 examples for
-`lily-design-system-vue-theme-chooser`. Each file is a runnable
+`lily-design-system-vue-theme-picker`. Each file is a runnable
 component that can be dropped into any Vue 3 host (Nuxt 3 page,
 Vite + Vue route, Astro `.vue` island, Storybook story).
 
@@ -15,18 +15,18 @@ Every example assumes:
 - Each theme CSS file scopes its tokens with
   `:root[data-theme="<slug>"]`.
 
-| # | File                                          | Demonstrates                              |
-|---|-----------------------------------------------|-------------------------------------------|
-| 1 | [`basic.vue`](./basic.vue)                    | Minimal three-theme chooser, plus the `.theme-chooser-status` live region every consumer should ship. |
-| 2 | [`two-way-binding.vue`](./two-way-binding.vue)| `v-model:value` and `@change`.            |
-| 3 | [`persistence.vue`](./persistence.vue)        | `localStorage` survival across reloads.   |
-| 4 | [`custom-labels.vue`](./custom-labels.vue)    | `themeLabels` for i18n / display names.   |
-| 5 | [`custom-rendering.vue`](./custom-rendering.vue) | Custom button glyph via the default scoped slot. |
-| 6 | [`preloaded.vue`](./preloaded.vue)            | Zero-flicker switching via preloading.    |
-| 7 | [`multiple-choosers.vue`](./multiple-choosers.vue) | Two choosers in one page via `name`.    |
-| 8 | [`system-preference.vue`](./system-preference.vue) | Follow `prefers-color-scheme`.      |
-| 9 | [`lily-themes.vue`](./lily-themes.vue)        | All 45 Lily themes at once.     |
-| 10 | [`nuxt-cookie/`](./nuxt-cookie/)             | SSR-resolved theme via a cookie (Nuxt 3). |
+| #   | File                                               | Demonstrates                                                                                          |
+| --- | -------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| 1   | [`basic.vue`](./basic.vue)                         | Minimal three-theme picker, plus the `.theme-picker-status` live region every consumer should ship. |
+| 2   | [`two-way-binding.vue`](./two-way-binding.vue)     | `v-model:value` and `@change`.                                                                        |
+| 3   | [`persistence.vue`](./persistence.vue)             | `localStorage` survival across reloads.                                                               |
+| 4   | [`custom-labels.vue`](./custom-labels.vue)         | `themeLabels` for i18n / display names.                                                               |
+| 5   | [`custom-rendering.vue`](./custom-rendering.vue)   | Custom button glyph via the default scoped slot.                                                      |
+| 6   | [`preloaded.vue`](./preloaded.vue)                 | Zero-flicker switching via preloading.                                                                |
+| 7   | [`multiple-pickers.vue`](./multiple-pickers.vue) | Two pickers in one page via `name`.                                                                  |
+| 8   | [`system-preference.vue`](./system-preference.vue) | Follow `prefers-color-scheme`.                                                                        |
+| 9   | [`lily-themes.vue`](./lily-themes.vue)             | All 45 Lily themes at once.                                                                           |
+| 10  | [`nuxt-cookie/`](./nuxt-cookie/)                   | SSR-resolved theme via a cookie (Nuxt 3).                                                             |
 
 ## Running the examples
 
@@ -45,28 +45,57 @@ one is:
 By default the component renders an icon button that opens a listbox:
 
 ```html
-<div class="theme-chooser">
+<div class="theme-picker">
   <input type="hidden" name="theme" value="light" />
-  <button type="button" class="theme-chooser-button" aria-label="Theme"
-          aria-haspopup="listbox" aria-expanded="false"
-          aria-controls="theme-chooser-1-list">
-    <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
+  <button
+    type="button"
+    class="theme-picker-button"
+    aria-label="Theme"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="theme-picker-1-list"
+  >
+    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
   </button>
-  <ul class="theme-chooser-list" id="theme-chooser-1-list" role="listbox"
-      aria-label="Theme" tabindex="-1" hidden>
-    <li class="theme-chooser-option" id="theme-chooser-1-option-0"
-        role="option" aria-selected="true">Light</li>
-    <li class="theme-chooser-option" id="theme-chooser-1-option-1"
-        role="option" aria-selected="false">Dark</li>
-    <li class="theme-chooser-option" id="theme-chooser-1-option-2"
-        role="option" aria-selected="false">Abyss</li>
+  <ul
+    class="theme-picker-list"
+    id="theme-picker-1-list"
+    role="listbox"
+    aria-label="Theme"
+    tabindex="-1"
+    hidden
+  >
+    <li
+      class="theme-picker-option"
+      id="theme-picker-1-option-0"
+      role="option"
+      aria-selected="true"
+    >
+      Light
+    </li>
+    <li
+      class="theme-picker-option"
+      id="theme-picker-1-option-1"
+      role="option"
+      aria-selected="false"
+    >
+      Dark
+    </li>
+    <li
+      class="theme-picker-option"
+      id="theme-picker-1-option-2"
+      role="option"
+      aria-selected="false"
+    >
+      Abyss
+    </li>
   </ul>
 </div>
 ```
 
-Style hooks: `theme-chooser` on the root `<div>`, `theme-chooser-button`
-on the trigger, `theme-chooser-icon` on the glyph span,
-`theme-chooser-list` on the `<ul>`, `theme-chooser-option` on each
+Style hooks: `theme-picker` on the root `<div>`, `theme-picker-button`
+on the trigger, `theme-picker-icon` on the glyph span,
+`theme-picker-list` on the `<ul>`, `theme-picker-option` on each
 `<li>`. Plus two attribute hooks on the options: `[aria-selected]` for
 the committed theme, `[data-active]` for the keyboard-active one.
 
@@ -100,9 +129,9 @@ are all component-owned.
 
 ```ts
 type SlotArgs = {
-    value: string;                       // the active slug
-    open: boolean;                       // is the listbox open?
-    labelFor: (theme: string) => string; // resolved display label
+  value: string; // the active slug
+  open: boolean; // is the listbox open?
+  labelFor: (theme: string) => string; // resolved display label
 };
 ```
 
@@ -117,7 +146,7 @@ inside the `<button>`. See
 
 ## v-model conventions
 
-The chooser exposes its bindable on `value` (not the default
+The picker exposes its bindable on `value` (not the default
 `modelValue`). Always use `v-model:value="theme"` in templates, and
 pair with `@change` for one-shot side effects.
 

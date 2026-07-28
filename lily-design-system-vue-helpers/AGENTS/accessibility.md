@@ -22,7 +22,7 @@ fall-through-attrs behaviour so consumers can pass `id`,
 `data-testid`, event handlers, and ARIA overrides without the
 component blocking them. Setting `inheritAttrs: false` removes the
 guarantee and silently breaks tests that rely on
-`<ThemeChooser data-testid="x">`.
+`<ThemePicker data-testid="x">`.
 
 ### `v-bind="$attrs"`
 
@@ -44,17 +44,17 @@ All three helpers share one markup model:
 
 | Helper             | Control                                       |
 | ------------------ | --------------------------------------------- |
-| `theme-chooser`     | Icon button (◑) + `role="listbox"` popup.     |
-| `locale-chooser`    | Icon button (🌐) + `role="listbox"` popup.    |
-| `text-size-chooser` | Icon button (A) + `role="listbox"` popup.     |
+| `theme-picker`     | Icon button (◑) + `role="listbox"` popup.     |
+| `locale-picker`    | Icon button (🌐) + `role="listbox"` popup.    |
+| `text-size-picker` | Icon button (A) + `role="listbox"` popup.     |
 
 All three were converted from native `<select>` elements to
-icon-button-plus-listbox widgets — `theme-chooser` and `locale-chooser`
-first, `text-size-chooser` after. Their root is a `<div>`, the trigger
+icon-button-plus-listbox widgets — `theme-picker` and `locale-picker`
+first, `text-size-picker` after. Their root is a `<div>`, the trigger
 is a `<button aria-haspopup="listbox">`, and the popup is a
 `<ul role="listbox">` of `<li role="option">`.
 
-`text-size-chooser`'s glyph is the letter `A` (U+0041), not a
+`text-size-picker`'s glyph is the letter `A` (U+0041), not a
 pictograph: U+1F5DB DECREASE FONT SIZE SYMBOL has no real glyph in
 common font stacks and means *decrease* rather than *size*. A plain
 letter renders in the page's own font everywhere and stays monochrome
@@ -112,7 +112,7 @@ wait for Vue to flush the DOM — `await nextTick()` before `.focus()`.
 A `hidden` element cannot take focus, so focusing the `<ul>` in the
 same tick that sets `open` silently fails.
 
-## Screen-reader pronunciation (locale chooser)
+## Screen-reader pronunciation (locale picker)
 
 Each `<li role="option">` carries `lang="…"` so screen readers switch
 pronunciation per option (WCAG 3.1.2, Language of Parts). The button

@@ -1,20 +1,20 @@
 # Changelog
 
-All notable changes to `lily-design-system-html-share-chooser` are
+All notable changes to `lily-design-system-html-share-picker` are
 documented here. The format follows [Keep a Changelog](https://keepachangelog.com/),
 and this package uses [semantic versioning](https://semver.org/).
 
 ## 0.1.0 — 2026-07-21
 
-First release under the name `lily-design-system-html-share-chooser`.
+First release under the name `lily-design-system-html-share-picker`.
 The version resets to 0.1.0 because this package name has never been
 published; a renamed package carries no release history. Port of the
-canonical Svelte helper `lily-design-system-svelte-share-chooser` to a
+canonical Svelte helper `lily-design-system-svelte-share-picker` to a
 vanilla custom element.
 
 ### Added
 
-- `<share-chooser>` custom element: a single-glyph trigger (➤, U+27A4)
+- `<share-picker>` custom element: a single-glyph trigger (➤, U+27A4)
   that opens the native share sheet where the browser provides one, and
   otherwise a disclosure list of consumer-supplied destinations plus an
   optional copy-the-URL action.
@@ -27,7 +27,7 @@ vanilla custom element.
 - Public methods `openList`, `closeList`, `items`, `currentUrl`, and the
   overridable `renderButtonContent()` hook standing in for the slot the
   other frameworks expose.
-- Pure helpers `canShareNatively()`, `canCopy()`, `nextShareChooserId()`,
+- Pure helpers `canShareNatively()`, `canCopy()`, `nextSharePickerId()`,
   and the `BLACK_RIGHTWARDS_ARROWHEAD` glyph constant, exported from
   both the module and the barrel.
 - 52 vitest + jsdom cases mapped onto the §7 acceptance clauses, plus
@@ -38,12 +38,12 @@ vanilla custom element.
 ### Changed
 
 - Renamed from `lily-design-system-html-share-button`. The custom
-  element is `<share-chooser>` (was `<share-chooser>`), the class is
-  `ShareChooser` (was `ShareChooser`), and the class hooks are
-  `share-chooser*` (were `share-chooser*`).
-- **The trigger's class is now `share-chooser-button`**, matching the
+  element is `<share-picker>` (was `<share-picker>`), the class is
+  `SharePicker` (was `SharePicker`), and the class hooks are
+  `share-picker*` (were `share-picker*`).
+- **The trigger's class is now `share-picker-button`**, matching the
   `{helper}-button` convention the sibling helpers use. Under the old
-  name it was `share-chooser-trigger`, a documented exception made
+  name it was `share-picker-trigger`, a documented exception made
   because `.share-button-button` read badly; the rename removes the
   reason for the exception, and the exception is removed with it.
 - The `share-title` attribute keeps its name. `title` is a global HTML

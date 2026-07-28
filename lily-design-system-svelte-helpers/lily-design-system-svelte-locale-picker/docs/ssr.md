@@ -26,7 +26,7 @@ arrives with `lang="en"` and the client picks `ar`, the page jumps:
 
 1. Browser parses `<html lang="en">` → default LTR layout.
 2. Browser fetches CSS, paints English page (FOUC-style flash).
-3. JS hydrates, `LocaleChooser` runs its $effect, reads
+3. JS hydrates, `LocalePicker` runs its $effect, reads
    `localStorage["app-locale"] === "ar"`, writes
    `<html lang="ar" dir="rtl">`.
 4. Browser repaints in RTL → layout shift.
@@ -103,13 +103,13 @@ change:
 ```svelte
 <!-- src/routes/+layout.svelte -->
 <script lang="ts">
-    import LocaleChooser from "$lib/LocaleChooser.svelte";
+    import LocalePicker from "$lib/LocalePicker.svelte";
 
     let { data, children } = $props();
     let locale = $state(data.locale);
 </script>
 
-<LocaleChooser
+<LocalePicker
     label="Language"
     locales={["en", "fr", "ar"]}
     value={locale}
@@ -168,7 +168,7 @@ export const load = async ({ params }) => ({
 <script lang="ts">
     import { goto } from "$app/navigation";
     import { page } from "$app/state";
-    import LocaleChooser from "$lib/LocaleChooser.svelte";
+    import LocalePicker from "$lib/LocalePicker.svelte";
 
     let { data, children } = $props();
     let locale = $state(data.locale);
@@ -179,7 +179,7 @@ export const load = async ({ params }) => ({
     }
 </script>
 
-<LocaleChooser
+<LocalePicker
     label="Language"
     locales={["en", "fr", "ar"]}
     value={locale}
@@ -242,7 +242,7 @@ paints first, then the resolved locale takes over) but everything
 else works.
 
 ```svelte
-<LocaleChooser
+<LocalePicker
     label="Language"
     locales={["en", "fr", "ar"]}
     bind:value={locale}

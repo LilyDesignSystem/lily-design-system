@@ -1,4 +1,4 @@
-# Lifecycle — `<locale-chooser>` (HTML helper)
+# Lifecycle — `<locale-picker>` (HTML helper)
 
 The custom-element-flavoured walk-through of the select's
 lifecycle. The canonical contract is in [`../spec/index.md`](../spec/index.md)
@@ -8,11 +8,11 @@ the custom-element callbacks.
 ## Lifecycle diagram
 
 ```
-parser sees <locale-chooser label="…" locales="…">
+parser sees <locale-picker label="…" locales="…">
   │
   ▼
 constructor
-  ↳ #baseId = nextLocaleChooserId()   // "locale-chooser-{n}"
+  ↳ #baseId = nextLocalePickerId()   // "locale-picker-{n}"
   │
   ▼  (per observed attribute)
 attributeChangedCallback("locales" | "label" | …, null, "…")
@@ -110,7 +110,7 @@ element is in a document tree, so it is the canonical place to:
 - Mutate `document.documentElement.lang` / `dir`.
 
 The constructor does one thing: claim an id prefix via
-`nextLocaleChooserId()`. That is pure bookkeeping, not DOM access, so
+`nextLocalePickerId()`. That is pure bookkeeping, not DOM access, so
 it is legal there — and doing it once per instance is what keeps
 `listId` / `optionId(i)` stable across rebuilds.
 
@@ -169,7 +169,7 @@ re-entrant call is idempotent.
         try { localStorage.setItem(this.storageKey, code); } catch { /* ignore */ }
     }
     this.dispatchEvent(
-        new CustomEvent<LocaleChooserChangeDetail>("localechange", {
+        new CustomEvent<LocalePickerChangeDetail>("localechange", {
             detail: { locale: code },
             bubbles: true,
             composed: true,
@@ -239,7 +239,7 @@ deterministic rather than random — a server render and a client
 upgrade produce the same sequence.
 
 The static-site-generator recipe for flicker-free first paint is:
-pre-render `<html lang="…" dir="…">` and the matching `<locale-chooser
+pre-render `<html lang="…" dir="…">` and the matching `<locale-picker
 value="…">` host. The select upgrades without changing anything
 visible. See [`./ssr.md`](./ssr.md).
 
@@ -255,7 +255,7 @@ If a consumer wants to fully reset on unmount, they can do it
 themselves:
 
 ```ts
-const select = document.querySelector("locale-chooser")!;
+const select = document.querySelector("locale-picker")!;
 document.documentElement.removeAttribute("lang");
 document.documentElement.removeAttribute("dir");
 select.remove();

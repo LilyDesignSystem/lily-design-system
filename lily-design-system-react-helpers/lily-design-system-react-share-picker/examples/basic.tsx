@@ -9,7 +9,7 @@
  * opens that instead of this list — pass strategy="list" to force the
  * list everywhere.
  */
-import ShareChooser, { type ShareTarget } from "../ShareChooser";
+import SharePicker, { type ShareTarget } from "../SharePicker";
 
 const targets: ShareTarget[] = [
     {
@@ -27,9 +27,9 @@ const targets: ShareTarget[] = [
     },
 ];
 
-export default function BasicShareChooser() {
+export default function BasicSharePicker() {
     return (
-        <ShareChooser
+        <SharePicker
             label="Share this page"
             title="An article worth reading"
             targets={targets}

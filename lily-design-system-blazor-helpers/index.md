@@ -8,12 +8,13 @@ DOM application) for one small, common job.
 
 ## Catalog
 
-| Helper                                                                                  | Purpose                                                        |
-| --------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| [`lily-design-system-blazor-theme-chooser`](./lily-design-system-blazor-theme-chooser/)   | Pick a visual theme; dynamic CSS load + `data-theme` swap.     |
-| [`lily-design-system-blazor-locale-chooser`](./lily-design-system-blazor-locale-chooser/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
-| [`lily-design-system-blazor-text-size-chooser`](./lily-design-system-blazor-text-size-chooser/) | Pick a text size; sets `data-text-size` on the document root. |
-| [`lily-design-system-blazor-share-chooser`](./lily-design-system-blazor-share-chooser/) | Share the page: native share sheet, else a list of destinations + copy the URL. |
+| Helper                                                                                        | Purpose                                                                         |
+| --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| [`lily-design-system-blazor-theme-picker`](./lily-design-system-blazor-theme-picker/)         | Pick a visual theme; dynamic CSS load + `data-theme` swap.                      |
+| [`lily-design-system-blazor-locale-picker`](./lily-design-system-blazor-locale-picker/)       | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.                 |
+| [`lily-design-system-blazor-text-size-picker`](./lily-design-system-blazor-text-size-picker/) | Pick a text size; sets `data-text-size` on the document root.                   |
+| [`lily-design-system-blazor-share-picker`](./lily-design-system-blazor-share-picker/)         | Share the page: native share sheet, else a list of destinations + copy the URL. |
+| [`lily-design-system-blazor-date-time-picker`](./lily-design-system-blazor-date-time-picker/) | Pick a date, a time, or both: a text field + button opening a WAI-ARIA APG Date Picker Dialog. |
 
 ## Conventions
 
@@ -65,11 +66,12 @@ Shared design decisions across the catalog:
 - **One job per helper**: each helper owns one complete interaction
   end to end and composes cleanly with the others. For the three
   selects that job is a user-preference dimension (theme, language,
-  text size). `share-chooser` is the exception that proves the shape:
-  it owns an *action* rather than a preference, so it applies nothing
-  to the document and persists nothing — but it ships the same
-  headless contract, the same class-hook convention, and the same
-  spec-driven tests.
+  text size). `share-picker` and `date-time-picker` are the exceptions
+  that prove the shape: `share-picker` owns an _action_ rather than a
+  preference, and `date-time-picker` owns a _form value_ rather than
+  either — so neither applies anything to the document or persists
+  anything — but both ship the same headless contract, the same
+  class-hook convention, and the same spec-driven tests.
 - **Spec-driven**: every helper has a `spec/index.md` numbered with §
   references; tests assert against those numbers; docs link back.
 
@@ -77,7 +79,7 @@ Shared design decisions across the catalog:
 
 The headless library mirrors the canonical 490-component catalog.
 Each component is a pure container with no lifecycle — a consumer
-typing on top of `ThemeChooser` from `lily-design-system-blazor-headless`
+typing on top of `ThemePicker` from `lily-design-system-blazor-headless`
 writes their own option markup, their own persistence, and their own
 loading.
 
@@ -95,7 +97,7 @@ The helpers commit to a small set of Blazor / .NET 10 features:
 - `[Parameter, EditorRequired]` for required parameters; the IDE
   flags missing ones at compile time.
 - `[Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>?
-  AdditionalAttributes` for HTML attribute spread.
+AdditionalAttributes` for HTML attribute spread.
 - `EventCallback<T>` and `EventCallback.Factory.Create` for typed,
   cross-renderer event flow. Two-way binding via the
   `{Name}` + `{Name}Changed` parameter convention drives
@@ -119,12 +121,12 @@ and tests stay in lock-step across frameworks.
 All helpers compile and run cleanly under all four Blazor 10 hosting
 models:
 
-| Model                              | DOM access            | Initial render | Helper behaviour                               |
-| ---------------------------------- | --------------------- | -------------- | ---------------------------------------------- |
-| **Blazor Server**                  | via SignalR + JS      | server         | Markup renders server-side. `OnAfterRenderAsync(true)` fires once the circuit is established; JS interop runs and the DOM mutations land. |
-| **Blazor WebAssembly**             | direct, after WASM    | client         | Markup renders client-side after the WASM module loads. `OnAfterRenderAsync(true)` fires; JS interop runs synchronously. |
-| **Blazor Web App (static SSR)**    | none (prerender only) | server         | Markup renders during prerender. No JS interop. The select waits for interactivity. |
-| **Blazor Web App (interactive)**   | via SignalR / WASM    | server, then hydrates | Prerender renders the markup; hydration fires `OnAfterRenderAsync(true)`; interop lands. |
+| Model                            | DOM access            | Initial render        | Helper behaviour                                                                                                                          |
+| -------------------------------- | --------------------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| **Blazor Server**                | via SignalR + JS      | server                | Markup renders server-side. `OnAfterRenderAsync(true)` fires once the circuit is established; JS interop runs and the DOM mutations land. |
+| **Blazor WebAssembly**           | direct, after WASM    | client                | Markup renders client-side after the WASM module loads. `OnAfterRenderAsync(true)` fires; JS interop runs synchronously.                  |
+| **Blazor Web App (static SSR)**  | none (prerender only) | server                | Markup renders during prerender. No JS interop. The select waits for interactivity.                                                       |
+| **Blazor Web App (interactive)** | via SignalR / WASM    | server, then hydrates | Prerender renders the markup; hydration fires `OnAfterRenderAsync(true)`; interop lands.                                                  |
 
 See [`AGENTS/ssr.md`](./AGENTS/ssr.md) for the strategy each helper
 uses to stay safe under static SSR.
@@ -132,11 +134,15 @@ uses to stay safe under static SSR.
 **Static SSR is safe for every helper, but sufficient only for the three
 selects.** They render correct markup and apply the preference once
 interactivity arrives, so a static-SSR page degrades gracefully.
-`share-chooser` does not: it owns an action, and an action needs a client.
-Under static SSR its trigger renders but can never open the share sheet,
-write the clipboard, or move focus — a button advertising an affordance
-it cannot honour. Give pages that use it an interactive render mode. See
-[`lily-design-system-blazor-share-chooser/docs/accessibility.md`](./lily-design-system-blazor-share-chooser/docs/accessibility.md).
+`share-picker` and `date-time-picker` do not: the former owns an action
+and the latter owns a form value's whole interaction, and both need a
+client. Under static SSR their triggers render — `date-time-picker`'s
+text field even shows the committed value, correctly formatted for its
+locale — but neither can open (no `@onclick` fires without an
+interactive circuit), and `date-time-picker`'s dialog additionally
+cannot trap focus or move the roving tabindex. Give pages that use
+either an interactive render mode. See
+[`lily-design-system-blazor-share-picker/docs/accessibility.md`](./lily-design-system-blazor-share-picker/docs/accessibility.md).
 
 ## Sibling helper catalogs
 
@@ -155,7 +161,7 @@ per numbered item, named with the section number for fast
 cross-referencing.
 
 ```bash
-cd lily-design-system-blazor-theme-chooser
+cd lily-design-system-blazor-theme-picker
 dotnet test
 ```
 

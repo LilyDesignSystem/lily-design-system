@@ -1,38 +1,38 @@
-# AGENTS — `<theme-chooser>` (HTML helper)
+# AGENTS — `<theme-picker>` (HTML helper)
 
 Single source of truth: [spec/index.md](./spec/index.md). Read it first; everything
 below is a fast index.
 
 ## What this package is
 
-A reusable vanilla HTML/JS headless theme chooser, packaged as the
-`<theme-chooser>` custom element. **Loads theme CSS files dynamically
+A reusable vanilla HTML/JS headless theme picker, packaged as the
+`<theme-picker>` custom element. **Loads theme CSS files dynamically
 at runtime** from a developer-supplied directory URL. The control is
 an **icon button that opens a dropdown listbox** (WAI-ARIA APG
 listbox pattern) — not a native `<select>`. Ships no CSS; the
-consumer styles the `theme-chooser` class hooks on the rendered
+consumer styles the `theme-picker` class hooks on the rendered
 children, and must supply the list's positioning.
 
 ## Files
 
-| File                       | Purpose                                          |
-| -------------------------- | ------------------------------------------------ |
-| `spec/index.md`                  | Specification-driven contract (canonical).       |
-| `theme-chooser.ts`          | Implementation (TypeScript class).               |
-| `theme-chooser.test.ts`     | Vitest + jsdom spec, one assertion per §7 item.  |
-| `index.ts`                 | Barrel re-export + side-effectful registration.  |
-| `index.md`                 | Human-readable guide.                            |
+| File                    | Purpose                                         |
+| ----------------------- | ----------------------------------------------- |
+| `spec/index.md`         | Specification-driven contract (canonical).      |
+| `theme-picker.ts`      | Implementation (TypeScript class).              |
+| `theme-picker.test.ts` | Vitest + jsdom spec, one assertion per §7 item. |
+| `index.ts`              | Barrel re-export + side-effectful registration. |
+| `index.md`              | Human-readable guide.                           |
 
 ## Public surface
 
-- Class `ThemeChooser extends HTMLElement` (registered as
-  `<theme-chooser>` on import of `index.ts`).
-- Named exports: `ThemeChooser`, `themeName`, `matchSystemTheme`,
-  `normalizeThemesUrl`, `themeHref`, `nextThemeChooserId`,
+- Class `ThemePicker extends HTMLElement` (registered as
+  `<theme-picker>` on import of `index.ts`).
+- Named exports: `ThemePicker`, `themeName`, `matchSystemTheme`,
+  `normalizeThemesUrl`, `themeHref`, `nextThemePickerId`,
   `CIRCLE_WITH_RIGHT_HALF_BLACK`. `themeName` and `matchSystemTheme`
-  are the mirrors of locale-chooser's `localeName` and
+  are the mirrors of locale-picker's `localeName` and
   `matchNavigatorLanguage`.
-- Type exports: `ThemeChooserProps`, `ThemeChooserChangeDetail`.
+- Type exports: `ThemePickerProps`, `ThemePickerChangeDetail`.
 - Instance members beyond the attribute mirrors: `open` (getter),
   `listId` (getter), `optionId(index)`, `openList(startIndex?)`,
   `closeList(refocus = true)`, `labelFor(slug)`, and
@@ -46,14 +46,14 @@ There is no `placeholder` attribute; it was removed with the native
 ## Behaviour contract (one paragraph)
 
 On every theme change the element (1) sets the `href` of one managed
-`<link rel="stylesheet" data-lily-theme-chooser="{name}">` in
+`<link rel="stylesheet" data-lily-theme-picker="{name}">` in
 `document.head` to `${themesUrl}${slug}${extension}`, (2) sets
 `data-theme="{slug}"` on `target` (defaults to
 `document.documentElement`), (3) optionally writes the slug to
 `localStorage[storageKey]`, and (4) dispatches a `themechange`
 `CustomEvent`. Initial value resolves from `value` > storage >
 system detection (if `detect-from-system` is set) > `default-value` >
-`"light"` (if present) > `themes[0]` — the same shape locale-chooser
+`"light"` (if present) > `themes[0]` — the same shape locale-picker
 uses, with `detect-from-navigator` in the detection slot.
 
 The real selection lives on `this.value` (attribute + property);
@@ -64,17 +64,17 @@ would destroy focus and the active descendant.
 
 ## HTML
 
-`<theme-chooser>` contains one rendered
-`<div class="theme-chooser {class}">` holding, in order: a hidden
+`<theme-picker>` contains one rendered
+`<div class="theme-picker {class}">` holding, in order: a hidden
 `<input name="{name}">` for form participation; a
-`<button type="button" class="theme-chooser-button" aria-label="{label}"
+`<button type="button" class="theme-picker-button" aria-label="{label}"
 aria-haspopup="listbox" aria-expanded aria-controls="{listId}">`
 whose content defaults to
-`<span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>`
+`<span class="theme-picker-icon" aria-hidden="true">&#9681;</span>`
 (U+25D1, exported as `CIRCLE_WITH_RIGHT_HALF_BLACK`); and a
-`<ul class="theme-chooser-list" id="{listId}" role="listbox"
+`<ul class="theme-picker-list" id="{listId}" role="listbox"
 aria-label="{label}" tabindex="-1" hidden>` with one
-`<li class="theme-chooser-option" role="option" aria-selected>` per
+`<li class="theme-picker-option" role="option" aria-selected>` per
 slug. `aria-activedescendant` sits on the `<ul>` only while open;
 `data-active` marks the keyboard-highlighted option, which is a
 different thing from `aria-selected`. Full markup:

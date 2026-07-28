@@ -11,35 +11,35 @@ and the project follows
 
 ### Changed (BREAKING)
 
-- **All four helpers renamed to `*-chooser`, and all four reset to
+- **All four helpers renamed to `*-picker`, and all four reset to
   0.1.0.** The packages are now
-  `lily-design-system-html-theme-chooser`,
-  `lily-design-system-html-locale-chooser`,
-  `lily-design-system-html-text-size-chooser`, and
-  `lily-design-system-html-share-chooser`. Nothing had been published
+  `lily-design-system-html-theme-picker`,
+  `lily-design-system-html-locale-picker`,
+  `lily-design-system-html-text-size-picker`, and
+  `lily-design-system-html-share-picker`. Nothing had been published
   under the new names, so each version resets to 0.1.0 rather than
   implying releases that never existed. The rename also clears the
-  collision between the old `theme-chooser` helper and the Lily catalog
+  collision between the old `theme-picker` helper and the Lily catalog
   component of the same name.
-- Custom element tags: `<theme-chooser>` → `<theme-chooser>`,
-  `<locale-chooser>` → `<locale-chooser>`, `<text-size-chooser>` →
-  `<text-size-chooser>`, `<share-chooser>` → `<share-chooser>`, along
+- Custom element tags: `<theme-picker>` → `<theme-picker>`,
+  `<locale-picker>` → `<locale-picker>`, `<text-size-picker>` →
+  `<text-size-picker>`, `<share-picker>` → `<share-picker>`, along
   with their `customElements.define(...)` calls.
-- Classes: `ThemeChooser` → `ThemeChooser`, `LocaleChooser` →
-  `LocaleChooser`, `TextSizeChooser` → `TextSizeChooser`, `ShareChooser`
-  → `ShareChooser`, plus derived exports such as `nextThemeSelectId` →
-  `nextThemeChooserId`.
-- CSS class hooks: every `.theme-chooser*` / `.locale-chooser*` /
-  `.text-size-chooser*` / `.share-chooser*` hook becomes `.*-chooser*`.
+- Classes: `ThemePicker` → `ThemePicker`, `LocalePicker` →
+  `LocalePicker`, `TextSizePicker` → `TextSizePicker`, `SharePicker`
+  → `SharePicker`, plus derived exports such as `nextThemeSelectId` →
+  `nextThemePickerId`.
+- CSS class hooks: every `.theme-picker*` / `.locale-picker*` /
+  `.text-size-picker*` / `.share-picker*` hook becomes `.*-picker*`.
 - Data attributes: `data-lily-theme-select` →
-  `data-lily-theme-chooser`, and the same shape for the siblings.
-- **`share-chooser` loses its trigger-class exception.** The trigger is
-  now `.share-chooser-button`, matching the other three helpers; it was
+  `data-lily-theme-picker`, and the same shape for the siblings.
+- **`share-picker` loses its trigger-class exception.** The trigger is
+  now `.share-picker-button`, matching the other three helpers; it was
   `.share-button-trigger` only because `.share-button-button` read
   badly.
 - Event names are unchanged — `themechange`, `localechange`,
   `textsizechange`, `share`, `copy`, `nativeshare` — as is
-  `share-chooser`'s `share-title` attribute, which avoids shadowing the
+  `share-picker`'s `share-title` attribute, which avoids shadowing the
   global `title`.
 - The catalog `build` script now **discovers** helper packages by
   globbing `lily-design-system-html-*/index.ts` instead of carrying a
@@ -47,8 +47,8 @@ and the project follows
 
 ### Added
 
-- **`share-chooser` 0.1.0** — a new helper, ported from the canonical
-  `lily-design-system-svelte-share-chooser`. A single-glyph trigger (➤,
+- **`share-picker` 0.1.0** — a new helper, ported from the canonical
+  `lily-design-system-svelte-share-picker`. A single-glyph trigger (➤,
   U+27A4) that opens the **native share sheet** where the browser
   provides one, and otherwise a **disclosure list** of consumer-supplied
   destinations plus an optional copy-the-URL action. Ships no CSS, no
@@ -77,21 +77,21 @@ and the project follows
 
 ### Changed (BREAKING)
 
-- `text-size-chooser` is now an **icon button that opens a WAI-ARIA APG
-  listbox**, matching `theme-chooser` and `locale-chooser`. It was
+- `text-size-picker` is now an **icon button that opens a WAI-ARIA APG
+  listbox**, matching `theme-picker` and `locale-picker`. It was
   deliberately left as a native `<select>` when those two converted;
   it now joins them, so all three helpers in this catalog are the same
   shape and share one keyboard implementation.
 - DOM contract replaced. The rendered root is a
-  `<div class="text-size-chooser {class}">` holding a hidden
+  `<div class="text-size-picker {class}">` holding a hidden
   `<input name="{name}">`, a
-  `<button class="text-size-chooser-button" aria-haspopup="listbox"
-  aria-expanded aria-controls>` whose content defaults to
-  `<span class="text-size-chooser-icon" aria-hidden="true">A</span>`,
-  and a `<ul class="text-size-chooser-list" role="listbox" tabindex="-1"
-  hidden>` of `<li class="text-size-chooser-option" role="option">`.
+  `<button class="text-size-picker-button" aria-haspopup="listbox"
+aria-expanded aria-controls>` whose content defaults to
+  `<span class="text-size-picker-icon" aria-hidden="true">A</span>`,
+  and a `<ul class="text-size-picker-list" role="listbox" tabindex="-1"
+hidden>` of `<li class="text-size-picker-option" role="option">`.
   The `<select>` and its `<option>` children are gone. Consumer CSS
-  targeting `select.text-size-chooser` or `option.text-size-chooser-option`
+  targeting `select.text-size-picker` or `option.text-size-picker-option`
   must be rewritten, and the list needs positioning
   (`position: absolute`) or it renders in normal flow.
 - The keyboard contract is now implemented in JS rather than inherited
@@ -111,10 +111,10 @@ and the project follows
   `localeName`. The internal `labelFor` delegates to it, so there is
   exactly one implementation of the title-casing rule.
 - `LATIN_CAPITAL_LETTER_A` exported glyph constant, and
-  `nextTextSizeChooserId()` for the SSR-safe module-counter ids.
+  `nextTextSizePickerId()` for the SSR-safe module-counter ids.
 - `renderButtonContent()` — the overridable rendering hook standing in
   for the `children` snippet the Svelte/React/Vue siblings take. It
-  re-runs on every structural rebuild *and* every state sync, so
+  re-runs on every structural rebuild _and_ every state sync, so
   derived content never goes stale.
 - Public `open` / `listId` getters, `optionId(index)`,
   `openList(startIndex?)`, `closeList(refocus?)`, and `labelFor(slug)`.
@@ -129,7 +129,7 @@ and the project follows
 
 - The glyph is `"A"` (U+0041), not a pictograph. U+1F5DB DECREASE FONT
   SIZE SYMBOL has no real glyph in common font stacks and means
-  *decrease* rather than *size*; "A" renders in the page's own font
+  _decrease_ rather than _size_; "A" renders in the page's own font
   everywhere and is materially safer than any pictograph on the
   font-dependence tradeoff.
 - No detection prop was added: there is no OS "preferred text size"
@@ -144,8 +144,8 @@ and the project follows
 
 ### Changed (BREAKING)
 
-- `theme-chooser` and `locale-chooser` bumped to **0.3.0**: both are now
-  *placeholder-pinned*. The closed `<select>` always displays a short
+- `theme-picker` and `locale-picker` bumped to **0.3.0**: both are now
+  _placeholder-pinned_. The closed `<select>` always displays a short
   placeholder word ("Theme", "Locale") instead of the active value, so
   the control is only ever as wide as that word rather than as wide as
   the longest option. Each renders a leading placeholder `<option>` with
@@ -158,7 +158,7 @@ and the project follows
   selection. The bindable `value` prop is the single source of truth.
   Behaviour contracts (DOM application, persistence, SSR safety, i18n)
   are otherwise unchanged.
-- `text-size-chooser` is untouched and stays at **0.1.0**.
+- `text-size-picker` is untouched and stays at **0.1.0**.
 
 ### Added
 
@@ -173,7 +173,7 @@ and the project follows
 
 ### Changed (BREAKING)
 
-- `theme-chooser` and `locale-chooser` bumped to **0.2.0**: migrated from
+- `theme-picker` and `locale-picker` bumped to **0.2.0**: migrated from
   the radio-group "picker" rendering to a native `<select>` with
   `<option>` children (landed in-tree 2026-06-17), with renamed packages
   (`*-picker` → `*-select`), changed class hooks, and native `<select>`
@@ -182,7 +182,7 @@ and the project follows
 
 ### Added
 
-- `text-size-chooser` **0.1.0** — native-`<select>` text-size helper that
+- `text-size-picker` **0.1.0** — native-`<select>` text-size helper that
   sets `data-text-size` on the document root, with optional
   `localStorage` persistence (added 2026-06-17; born select-based, so it
   carries no picker migration).
@@ -194,14 +194,14 @@ catalog to vanilla web-component (custom-element) idioms:
 
 ### Added
 
-- `lily-design-system-html-theme-chooser` v0.1.0 — `<theme-chooser>`
-  runtime-loading theme chooser. Imperatively swaps a managed
-  `<link rel="stylesheet" data-lily-theme-chooser="{name}">` in
+- `lily-design-system-html-theme-picker` v0.1.0 — `<theme-picker>`
+  runtime-loading theme picker. Imperatively swaps a managed
+  `<link rel="stylesheet" data-lily-theme-picker="{name}">` in
   `<head>`, writes `data-theme` to `<html>`, optionally persists to
   `localStorage`, dispatches a `themechange` `CustomEvent`. 13
   acceptance criteria covered.
-- `lily-design-system-html-locale-chooser` v0.1.0 — `<locale-chooser>`
-  BCP 47 locale chooser that writes `lang` and `dir` on the document
+- `lily-design-system-html-locale-picker` v0.1.0 — `<locale-picker>`
+  BCP 47 locale picker that writes `lang` and `dir` on the document
   root, with optional `localStorage` persistence and
   `navigator.languages` detection. Built-in 436-row locale-name
   table and RTL detection. Dispatches a `localechange`
@@ -236,17 +236,17 @@ catalog to vanilla web-component (custom-element) idioms:
 
 ### Differences from the Svelte canonical
 
-| Concept              | Svelte canonical                       | HTML port (custom element)                                  |
-| -------------------- | -------------------------------------- | ----------------------------------------------------------- |
-| Two-way binding      | `bind:value`                           | Read/write `el.value` / `el.setAttribute("value", …)`       |
-| Reactive state       | `$state`, `$bindable`                  | Internal `#private` fields + `attributeChangedCallback`     |
-| Reactive side-effects | `$effect`                              | `connectedCallback` + `attributeChangedCallback`            |
-| Render props / slots | Snippet (`{#snippet children(...)}`)   | Subclass the class, override `#render()`                    |
-| Stylesheet head      | `<svelte:head>`                        | Imperative `document.head.appendChild(...)`                 |
-| Change notification  | `onchange` prop callback               | `CustomEvent("themechange" / "localechange")`               |
-| SSR                  | `hooks.server.ts` + `transformPageChunk` | Static-site generator renders attributes; client upgrades   |
-| Storybook            | `*.stories.svelte`                     | Static `.html` files in `examples/`                         |
-| File ext             | `.svelte`                              | `.ts` (class) + `.html` (examples)                          |
+| Concept               | Svelte canonical                         | HTML port (custom element)                                |
+| --------------------- | ---------------------------------------- | --------------------------------------------------------- |
+| Two-way binding       | `bind:value`                             | Read/write `el.value` / `el.setAttribute("value", …)`     |
+| Reactive state        | `$state`, `$bindable`                    | Internal `#private` fields + `attributeChangedCallback`   |
+| Reactive side-effects | `$effect`                                | `connectedCallback` + `attributeChangedCallback`          |
+| Render props / slots  | Snippet (`{#snippet children(...)}`)     | Subclass the class, override `#render()`                  |
+| Stylesheet head       | `<svelte:head>`                          | Imperative `document.head.appendChild(...)`               |
+| Change notification   | `onchange` prop callback                 | `CustomEvent("themechange" / "localechange")`             |
+| SSR                   | `hooks.server.ts` + `transformPageChunk` | Static-site generator renders attributes; client upgrades |
+| Storybook             | `*.stories.svelte`                       | Static `.html` files in `examples/`                       |
+| File ext              | `.svelte`                                | `.ts` (class) + `.html` (examples)                        |
 
 The DOM contract and behaviour are otherwise identical; the tests
 match clause-for-clause.

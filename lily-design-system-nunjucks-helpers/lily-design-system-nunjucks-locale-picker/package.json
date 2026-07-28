@@ -1,7 +1,7 @@
 {
-  "name": "lily-design-system-nunjucks-locale-chooser",
+  "name": "lily-design-system-nunjucks-locale-picker",
   "version": "0.1.0",
-  "description": "Lily Design System - Nunjucks 3 locale chooser",
+  "description": "Lily Design System - Nunjucks 3 locale picker",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -11,7 +11,7 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./template": "./dist/locale-chooser.njk"
+    "./template": "./dist/locale-picker.njk"
   },
   "files": [
     "dist",
@@ -27,7 +27,7 @@
     "system",
     "nunjucks",
     "locale",
-    "chooser"
+    "picker"
   ],
   "author": "joel@joelparkerhenderson.com",
   "license": "MIT"

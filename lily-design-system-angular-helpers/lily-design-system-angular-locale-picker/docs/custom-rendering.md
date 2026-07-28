@@ -1,6 +1,6 @@
 # Custom rendering
 
-`LocaleChooser` exposes exactly one rendering escape hatch: a projected
+`LocalePicker` exposes exactly one rendering escape hatch: a projected
 `<ng-template>` that **replaces the glyph inside the trigger button**.
 
 That is the whole surface, and the narrowness is deliberate. The
@@ -16,17 +16,17 @@ So: the glyph is yours, the listbox is the component's.
 ## The basic form
 
 Project an `<ng-template>` as the component's content. It replaces the
-default `<span class="locale-chooser-icon" aria-hidden="true">🌎︎</span>`
+default `<span class="locale-picker-icon" aria-hidden="true">🌎︎</span>`
 inside the button.
 
 ```html
-<lily-locale-chooser label="Language" [locales]="locales" [(value)]="locale">
-    <ng-template let-args>{{ args.labelFor(args.value) }}</ng-template>
-</lily-locale-chooser>
+<lily-locale-picker label="Language" [locales]="locales" [(value)]="locale">
+  <ng-template let-args>{{ args.labelFor(args.value) }}</ng-template>
+</lily-locale-picker>
 ```
 
 The component queries the template with `contentChild(TemplateRef)` and
-renders it through `NgTemplateOutlet`, so *any* projected
+renders it through `NgTemplateOutlet`, so _any_ projected
 `<ng-template>` matches — no structural directive or template
 reference name is required.
 
@@ -36,12 +36,12 @@ The context is the exported `ChildArgs` type:
 
 ```ts
 export type ChildArgs = {
-    /** Currently selected locale code (consumer form, not BCP 47-normalised). */
-    value: string;
-    /** Is the listbox open? */
-    open: boolean;
-    /** Resolve a locale code to its display label. */
-    labelFor: (locale: string) => string;
+  /** Currently selected locale code (consumer form, not BCP 47-normalised). */
+  value: string;
+  /** Is the listbox open? */
+  open: boolean;
+  /** Resolve a locale code to its display label. */
+  labelFor: (locale: string) => string;
 };
 ```
 
@@ -54,7 +54,7 @@ binding styles work:
 
 <!-- Individual named properties -->
 <ng-template let-value="value" let-open="open" let-labelFor="labelFor">
-    {{ labelFor(value) }}{{ open ? " ▴" : " ▾" }}
+  {{ labelFor(value) }}{{ open ? " ▴" : " ▾" }}
 </ng-template>
 ```
 
@@ -64,47 +64,43 @@ the per-option `lang` attribute go through `bcp47LocaleTag()`. If your
 glyph displays a raw code rather than a label, decide deliberately
 which form you want; see [bcp47.md](./bcp47.md#underscore-vs-hyphen).
 
-Note also what is *not* in the context: no `locales`, no `setLocale`,
+Note also what is _not_ in the context: no `locales`, no `setLocale`,
 no `dir`. The template renders the button's inside, not a list of
 choices, so it has nothing to iterate and nothing to select. To read or
 write the selection from outside, use `[(value)]` and `(localeChange)`.
 
-## Typed `let-` variables with `LocaleChooserIcon`
+## Typed `let-` variables with `LocalePickerIcon`
 
 By default `let-args` is implicitly `any`. Add the exported
-`LocaleChooserIcon` marker directive to get `ChildArgs` typed under
+`LocalePickerIcon` marker directive to get `ChildArgs` typed under
 `strictTemplates`:
 
 ```ts
 import {
-    LocaleChooser,
-    LocaleChooserIcon,
-} from "./lily-design-system-angular-locale-chooser";
+  LocalePicker,
+  LocalePickerIcon,
+} from "./lily-design-system-angular-locale-picker";
 
 @Component({
-    selector: "app-language",
-    standalone: true,
-    imports: [LocaleChooser, LocaleChooserIcon],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
-        <lily-locale-chooser
-            label="Language"
-            [locales]="locales"
-            [(value)]="locale"
-        >
-            <ng-template lilyLocaleChooserIcon let-args>
-                {{ args.labelFor(args.value) }}
-            </ng-template>
-        </lily-locale-chooser>
-    `,
+  selector: "app-language",
+  standalone: true,
+  imports: [LocalePicker, LocalePickerIcon],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <lily-locale-picker label="Language" [locales]="locales" [(value)]="locale">
+      <ng-template lilyLocalePickerIcon let-args>
+        {{ args.labelFor(args.value) }}
+      </ng-template>
+    </lily-locale-picker>
+  `,
 })
 export class LanguagePicker {
-    readonly locales = ["en", "fr", "ar", "he"];
-    locale = signal("");
+  readonly locales = ["en", "fr", "ar", "he"];
+  locale = signal("");
 }
 ```
 
-The directive's selector is `ng-template[lilyLocaleChooserIcon]` and its
+The directive's selector is `ng-template[lilyLocalePickerIcon]` and its
 only member is an `ngTemplateContextGuard`. It exists for type-checking
 and readability — the component's `contentChild(TemplateRef)` query
 does not look for it, so a plain `<ng-template>` behaves identically at
@@ -113,14 +109,14 @@ runtime.
 ## Recipe: showing the active locale's label
 
 The default globe says "this is a language control" but never says
-*which* language is active — see
+_which_ language is active — see
 [accessibility.md](./accessibility.md#the-status-region-is-part-of-the-pattern).
 One way to address that is to put the label in the button itself:
 
 ```html
-<lily-locale-chooser label="Language" [locales]="locales" [(value)]="locale">
-    <ng-template let-args>{{ args.labelFor(args.value) }}</ng-template>
-</lily-locale-chooser>
+<lily-locale-picker label="Language" [locales]="locales" [(value)]="locale">
+  <ng-template let-args>{{ args.labelFor(args.value) }}</ng-template>
+</lily-locale-picker>
 ```
 
 Two things follow, and both matter:
@@ -129,7 +125,7 @@ Two things follow, and both matter:
    longest label it displays. "English (United States)" and
    "Português (Brasil)" are not narrow. Budget layout space, or use the
    short-code recipe below.
-2. The button now has visible text *and* an `aria-label`. In the
+2. The button now has visible text _and_ an `aria-label`. In the
    accessibility tree `aria-label` wins, so a voice-control user
    speaking the visible words may fail to activate it. WCAG 2.5.3
    (Label in Name) wants the accessible name to contain the visible
@@ -145,14 +141,16 @@ A two-letter code is the common compromise — narrower than a label,
 more informative than a globe:
 
 ```html
-<lily-locale-chooser label="Language" [locales]="locales" [(value)]="locale">
-    <ng-template let-value="value">
-        <span class="locale-chooser-code">{{ value.slice(0, 2).toUpperCase() }}</span>
-    </ng-template>
-</lily-locale-chooser>
+<lily-locale-picker label="Language" [locales]="locales" [(value)]="locale">
+  <ng-template let-value="value">
+    <span class="locale-picker-code"
+      >{{ value.slice(0, 2).toUpperCase() }}</span
+    >
+  </ng-template>
+</lily-locale-picker>
 ```
 
-Two cautions. First, an uppercased base subtag is a *mnemonic*, not a
+Two cautions. First, an uppercased base subtag is a _mnemonic_, not a
 language name: "EN" does not distinguish `en-GB` from `en-US`, and for
 some locales the code is opaque to the very users who need it (`he` for
 Hebrew readers, `fa` for Persian readers). Endonyms — `עברית`, `فارسی` —
@@ -169,23 +167,27 @@ on the button — projected content is yours to annotate.
 `open` lets the glyph respond to the listbox:
 
 ```html
-<lily-locale-chooser label="Language" [locales]="locales" [(value)]="locale">
-    <ng-template let-args>
-        <span class="locale-chooser-caret" [class.is-open]="args.open" aria-hidden="true">
-            {{ args.open ? "▴" : "▾" }}
-        </span>
-    </ng-template>
-</lily-locale-chooser>
+<lily-locale-picker label="Language" [locales]="locales" [(value)]="locale">
+  <ng-template let-args>
+    <span
+      class="locale-picker-caret"
+      [class.is-open]="args.open"
+      aria-hidden="true"
+    >
+      {{ args.open ? "▴" : "▾" }}
+    </span>
+  </ng-template>
+</lily-locale-picker>
 ```
 
 For CSS-only cases you don't need the template at all — the button
 already carries `aria-expanded`, so
-`.locale-chooser-button[aria-expanded="true"]` is available as a
+`.locale-picker-button[aria-expanded="true"]` is available as a
 selector, and a rotation reads better than a glyph swap:
 
 ```css
-.locale-chooser-button[aria-expanded="true"] .locale-chooser-caret {
-    transform: rotate(180deg);
+.locale-picker-button[aria-expanded="true"] .locale-picker-caret {
+  transform: rotate(180deg);
 }
 ```
 
@@ -203,14 +205,14 @@ built-in `defaultLocaleLabels` table, then an opportunistic
 `Intl.DisplayNames` lookup, then the raw code as a last resort:
 
 ```html
-<lily-locale-chooser
-    label="Language"
-    [locales]="locales"
-    [localeLabels]="{ en: 'English', cy: 'Cymraeg', ar: 'العربية' }"
-    [(value)]="locale"
+<lily-locale-picker
+  label="Language"
+  [locales]="locales"
+  [localeLabels]="{ en: 'English', cy: 'Cymraeg', ar: 'العربية' }"
+  [(value)]="locale"
 >
-    <ng-template let-args>{{ args.labelFor(args.value) }}</ng-template>
-</lily-locale-chooser>
+  <ng-template let-args>{{ args.labelFor(args.value) }}</ng-template>
+</lily-locale-picker>
 ```
 
 Reaching past `labelFor` to `localeName()` or a private map is the
@@ -237,7 +239,7 @@ automatically.
 - **Never put interactive content inside the template.** The trigger is
   already a `<button>`; a nested button or link is invalid HTML and
   breaks both the click target and the keyboard contract.
-- **`.locale-chooser-icon` is not rendered when a template is
+- **`.locale-picker-icon` is not rendered when a template is
   projected.** Any CSS written against that hook stops applying. Style
   your own element, or add the class yourself.
 
@@ -264,65 +266,71 @@ screen-reader behaviour matrix live in
 If the icon-button-plus-listbox shape is wrong for your design — you
 want a native `<select>`, a toggle-button group of flags or endonyms, a
 filtering combobox over hundreds of locales — do not fight the
-template. Keep `LocaleChooser` mounted so it owns the behaviour, hide
+template. Keep `LocalePicker` mounted so it owns the behaviour, hide
 it, and bind your own widget to the same `[(value)]` signal.
 
 The division of labour:
 
-| The helper still owns | The sibling widget owns |
-| --- | --- |
-| `lang` / `dir` writes to `target` | The custom markup |
-| `localStorage` persistence (`storageKey`) | The click / change → `signal.set(...)` plumbing |
-| `navigator.languages` detection (`detectFromNavigator`) | Its own accessible name and keyboard behaviour |
-| Initial-value resolution and `localeChange` emission | Its own labels, ordering, and filtering |
+| The helper still owns                                   | The sibling widget owns                         |
+| ------------------------------------------------------- | ----------------------------------------------- |
+| `lang` / `dir` writes to `target`                       | The custom markup                               |
+| `localStorage` persistence (`storageKey`)               | The click / change → `signal.set(...)` plumbing |
+| `navigator.languages` detection (`detectFromNavigator`) | Its own accessible name and keyboard behaviour  |
+| Initial-value resolution and `localeChange` emission    | Its own labels, ordering, and filtering         |
 
 ```ts
 @Component({
-    selector: "app-language-buttons",
-    standalone: true,
-    imports: [LocaleChooser],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
-        <lily-locale-chooser
-            label="Language"
-            [locales]="locales"
-            [(value)]="locale"
-            storageKey="lily-locale"
-            className="locale-chooser-hidden"
-        />
+  selector: "app-language-buttons",
+  standalone: true,
+  imports: [LocalePicker],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <lily-locale-picker
+      label="Language"
+      [locales]="locales"
+      [(value)]="locale"
+      storageKey="lily-locale"
+      className="locale-picker-hidden"
+    />
 
-        <div class="locale-button-group" role="group" [attr.aria-label]="groupLabel">
-            @for (code of locales; track code) {
-                <button
-                    type="button"
-                    [attr.lang]="code"
-                    [attr.aria-pressed]="locale() === code"
-                    (click)="locale.set(code)"
-                >{{ code.toUpperCase() }}</button>
-            }
-        </div>
-    `,
+    <div
+      class="locale-button-group"
+      role="group"
+      [attr.aria-label]="groupLabel"
+    >
+      @for (code of locales; track code) {
+        <button
+          type="button"
+          [attr.lang]="code"
+          [attr.aria-pressed]="locale() === code"
+          (click)="locale.set(code)"
+        >
+          {{ code.toUpperCase() }}
+        </button>
+      }
+    </div>
+  `,
 })
 export class LanguageButtons {
-    readonly locales = ["en", "cy", "ar"];
-    readonly groupLabel = "Language";
-    locale = signal("");
+  readonly locales = ["en", "cy", "ar"];
+  readonly groupLabel = "Language";
+  locale = signal("");
 }
 ```
 
-**The hiding rule is the part people get wrong.** `locale-chooser-hidden`
+**The hiding rule is the part people get wrong.** `locale-picker-hidden`
 must resolve to `display: none`:
 
 ```css
-.locale-chooser-hidden {
-    display: none;
+.locale-picker-hidden {
+  display: none;
 }
 ```
 
 It must **not** be an `.sr-only` clip-path recipe. `.sr-only` keeps the
 element in the accessibility tree and in the tab order by design — that
 is its entire purpose. Apply it here and screen-reader and keyboard
-users get *two* language controls: your visible one, plus the helper's
+users get _two_ language controls: your visible one, plus the helper's
 globe button announced as a second listbox that changes the same
 setting. `display: none` removes the helper's UI from both trees while
 its `effect()` keeps running, which is exactly the split this contract
@@ -356,26 +364,26 @@ service:
 ```ts
 @Injectable({ providedIn: "root" })
 export class LocaleStore {
-    readonly current = signal<string>("");
+  readonly current = signal<string>("");
 }
 ```
 
 ```ts
 @Component({
-    standalone: true,
-    imports: [LocaleChooser],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
-        <lily-locale-chooser
-            label="Language"
-            [locales]="locales"
-            [(value)]="store.current"
-        />
-    `,
+  standalone: true,
+  imports: [LocalePicker],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <lily-locale-picker
+      label="Language"
+      [locales]="locales"
+      [(value)]="store.current"
+    />
+  `,
 })
 export class Header {
-    readonly locales = ["en", "fr", "ar"];
-    constructor(public store: LocaleStore) {}
+  readonly locales = ["en", "fr", "ar"];
+  constructor(public store: LocaleStore) {}
 }
 ```
 

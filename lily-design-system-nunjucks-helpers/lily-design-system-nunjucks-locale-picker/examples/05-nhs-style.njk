@@ -2,8 +2,8 @@
   Example 05 — NHS UK-style language banner.
 
   Mirrors the NHS UK Design System's pattern of placing a language
-  chooser in a top utility banner. The control keeps the
-  `locale-chooser` class hook so consumer CSS can target it without
+  picker in a top utility banner. The control keeps the
+  `locale-picker` class hook so consumer CSS can target it without
   duplication, plus a `classes` opt for the banner-specific styling.
 
   Each option is an endonym — the language's own name in its own
@@ -16,7 +16,7 @@
 
   Caveat worth stating plainly in a public-sector context: this
   control does not work with JavaScript disabled. The button opens
-  nothing until locale-chooser.client.js runs. If your service must
+  nothing until locale-picker.client.js runs. If your service must
   switch language unenhanced, render a plain <form> of links or
   submit buttons instead of (or beside) this helper. See
   ../docs/ssr.md.
@@ -24,7 +24,7 @@
   Outcome: a <header> banner with a compact language trigger.
   Opening it lists nine languages, each in its own script.
 #}
-{% from "../locale-chooser.njk" import localeChooser %}
+{% from "../locale-picker.njk" import localePicker %}
 
 {% set LOCALES = ["en", "cy", "gd", "ga", "fr", "pl", "ur", "bn", "zh_Hant"] %}
 {% set NATIVE = {
@@ -42,7 +42,7 @@
 <header class="utility-banner" aria-label="Site utilities">
     <span class="brand">NHS</span>
 
-    {{ localeChooser({
+    {{ localePicker({
         label: "Language",
         locales: LOCALES,
         localeLabels: NATIVE,
@@ -56,7 +56,7 @@
       The closed trigger shows only a glyph, so the active language is
       surfaced here. Visible by default — see ../docs/accessibility.md.
     #}
-    <p class="locale-chooser-status" aria-live="polite"></p>
+    <p class="locale-picker-status" aria-live="polite"></p>
 </header>
 
 <main>
@@ -65,9 +65,9 @@
 </main>
 
 <script type="module">
-    import { autoInit, localeName } from "../locale-chooser.client.js";
+    import { autoInit, localeName } from "../locale-picker.client.js";
 
-    const status = document.querySelector(".locale-chooser-status");
+    const status = document.querySelector(".locale-picker-status");
 
     autoInit({
         onChange(code) {

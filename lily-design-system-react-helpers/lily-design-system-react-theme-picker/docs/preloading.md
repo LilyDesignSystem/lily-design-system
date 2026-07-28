@@ -107,7 +107,7 @@ changes.
 {/* The select still emits a managed <link>; you can point it at a
     no-op file, or ignore it entirely by reading `value` and setting
     data-theme yourself. */}
-<ThemeChooser
+<ThemePicker
     label="Theme"
     themesUrl="/assets/themes/"
     themes={["light", "dark", "abyss"]}

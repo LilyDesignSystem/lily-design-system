@@ -1,4 +1,4 @@
-# Accessibility — ThemeChooser (Blazor)
+# Accessibility — ThemePicker (Blazor)
 
 The select targets WCAG 2.2 AAA. It is an icon button that opens a
 dropdown listbox, following the WAI-ARIA APG listbox pattern — not a
@@ -14,7 +14,7 @@ contract; the canonical contract is in
 | `<button>`                 | `aria-expanded="true\|false"`          | Component          |
 | `<button>`                 | `aria-controls="{listId}"`            | Component          |
 | `<button>`                 | `aria-label="@Label"`                 | Consumer parameter |
-| `<span class="theme-chooser-icon">` | `aria-hidden="true"`          | Component          |
+| `<span class="theme-picker-icon">` | `aria-hidden="true"`          | Component          |
 | `<ul>`                     | `role="listbox"`                      | Component          |
 | `<ul>`                     | `tabindex="-1"`                       | Component          |
 | `<ul>`                     | `aria-label="@Label"`                 | Consumer parameter |
@@ -172,7 +172,7 @@ transitions on the `data-theme` swap.
 [Fact]
 public void Section_7_3_AriaLabel_Names_Button_And_Listbox()
 {
-    var cut = RenderComponent<ThemeChooser>(p => p
+    var cut = RenderComponent<ThemePicker>(p => p
         .Add(x => x.Label, "Theme")
         .Add(x => x.ThemesUrl, "/t/")
         .Add(x => x.Themes, new[] { "light", "dark" }));

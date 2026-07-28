@@ -31,10 +31,10 @@ Out of scope:
 
 ## 3. Catalog
 
-| Helper | Purpose |
-| ------ | ------- |
-| [`lily-design-system-nunjucks-theme-chooser`](../lily-design-system-nunjucks-theme-chooser/) | Pick a visual theme; dynamic CSS load + `data-theme` swap, optional persistence. |
-| [`lily-design-system-nunjucks-locale-chooser`](../lily-design-system-nunjucks-locale-chooser/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
+| Helper                                                                                       | Purpose                                                                          |
+| -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| [`lily-design-system-nunjucks-theme-picker`](../lily-design-system-nunjucks-theme-picker/)   | Pick a visual theme; dynamic CSS load + `data-theme` swap, optional persistence. |
+| [`lily-design-system-nunjucks-locale-picker`](../lily-design-system-nunjucks-locale-picker/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.                  |
 
 ## 4. Conventions
 
@@ -61,7 +61,7 @@ Every helper subproject follows the same shape:
 
 ## 6. Acceptance criteria
 
-- [x] Catalog ships `theme-chooser` and `locale-chooser` helper subprojects.
+- [x] Catalog ships `theme-picker` and `locale-picker` helper subprojects.
 - [x] Each helper has its component source, tests, `spec/index.md`, and package.json.
 - [x] Each helper is headless (no bundled CSS/fonts/icons) and i18n-clean.
 - [x] Catalog dir has `index.md`, `README.md` symlink, `AGENTS.md`,

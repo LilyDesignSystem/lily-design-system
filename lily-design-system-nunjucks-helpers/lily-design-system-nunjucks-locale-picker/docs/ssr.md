@@ -12,15 +12,15 @@ covers the spec-level rules.
 
 ## TL;DR
 
-| Strategy                       | Flash of default locale?    | Survives reload?     | SEO-friendly? |
-| ------------------------------ | --------------------------- | -------------------- | ------------- |
-| client-only `localStorage`     | yes (until client mounts)   | only with storageKey | no            |
-| `detectFromNavigator`          | yes (until client mounts)   | only with storageKey | no            |
-| Cookie (Express / Eleventy)    | **no**                      | yes                  | no            |
-| URL prefix (Eleventy i18n)     | **no**                      | yes                  | **yes**       |
+| Strategy                    | Flash of default locale?  | Survives reload?     | SEO-friendly? |
+| --------------------------- | ------------------------- | -------------------- | ------------- |
+| client-only `localStorage`  | yes (until client mounts) | only with storageKey | no            |
+| `detectFromNavigator`       | yes (until client mounts) | only with storageKey | no            |
+| Cookie (Express / Eleventy) | **no**                    | yes                  | no            |
+| URL prefix (Eleventy i18n)  | **no**                    | yes                  | **yes**       |
 
 **Every strategy above still requires JavaScript for the user to
-*change* the locale.** The strategies differ only in whether the
+_change_ the locale.** The strategies differ only in whether the
 correct locale is painted on first byte. See
 [Client.js is NOT progressive enhancement any more](#clientjs-is-not-progressive-enhancement-any-more).
 
@@ -34,41 +34,70 @@ The macro is pure:
 ```js
 import nunjucks from "nunjucks";
 const html = nunjucks.render("page.njk", {
-    locale: "fr",
-    supported: ["en", "fr", "ar"],
+  locale: "fr",
+  supported: ["en", "fr", "ar"],
 });
 ```
 
 Same `opts` in, same HTML out. It does not touch `localStorage`,
 `navigator`, `document.documentElement`, or any DOM API. If the
 consumer passes `opts.value="fr"`, the root `<div>` gets
-`data-lily-locale-chooser-value="fr"` rendered server-side, the matching
+`data-lily-locale-picker-value="fr"` rendered server-side, the matching
 `<li>` gets `aria-selected="true"`, and the hidden input is pre-filled
 with `fr` — see the next section.
 
 ### The `opts.value` control flash — still fixed, by the same mechanism
 
 **There is no pre-hydration flash when you pass `opts.value`.** The
-`data-lily-locale-chooser-value` attribute introduced to fix that flash
+`data-lily-locale-picker-value` attribute introduced to fix that flash
 is still exactly how `opts.value` reaches the client, and it is still
 carrying its weight for the same reason: the macro communicates the
 value out-of-band rather than baking it into control state the browser
 would paint before the client could correct it.
 
 ```html
-<div class="locale-chooser" … data-lily-locale-chooser-value="fr">
-  <input type="hidden" name="locale" value="fr" data-lily-locale-chooser-input>
-  <button type="button" class="locale-chooser-button" aria-label="Language"
-          aria-haspopup="listbox" aria-expanded="false"
-          aria-controls="locale-chooser-locale-list">
-    <span class="locale-chooser-icon" aria-hidden="true">&#127760;&#65038;</span>
+<div class="locale-picker" … data-lily-locale-picker-value="fr">
+  <input type="hidden" name="locale" value="fr" data-lily-locale-picker-input />
+  <button
+    type="button"
+    class="locale-picker-button"
+    aria-label="Language"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="locale-picker-locale-list"
+  >
+    <span class="locale-picker-icon" aria-hidden="true"
+      >&#127760;&#65038;</span
+    >
   </button>
-  <ul class="locale-chooser-list" id="locale-chooser-locale-list" role="listbox"
-      aria-label="Language" tabindex="-1" hidden>
-    <li class="locale-chooser-option" id="locale-chooser-locale-option-0"
-        role="option" aria-selected="false" data-value="en" lang="en">English</li>
-    <li class="locale-chooser-option" id="locale-chooser-locale-option-1"
-        role="option" aria-selected="true" data-value="fr" lang="fr">Français</li>
+  <ul
+    class="locale-picker-list"
+    id="locale-picker-locale-list"
+    role="listbox"
+    aria-label="Language"
+    tabindex="-1"
+    hidden
+  >
+    <li
+      class="locale-picker-option"
+      id="locale-picker-locale-option-0"
+      role="option"
+      aria-selected="false"
+      data-value="en"
+      lang="en"
+    >
+      English
+    </li>
+    <li
+      class="locale-picker-option"
+      id="locale-picker-locale-option-1"
+      role="option"
+      aria-selected="true"
+      data-value="fr"
+      lang="fr"
+    >
+      Français
+    </li>
   </ul>
 </div>
 ```
@@ -79,9 +108,9 @@ looks identical whatever the value is; the listbox is `hidden`, so its
 does guarantee is **consistency**: exactly one option carries
 `aria-selected="true"`, and the hidden input agrees with it, so the DOM
 is never internally contradictory even for the frames before
-`initLocaleChooser(root)` runs.
+`initLocalePicker(root)` runs.
 
-`initLocaleChooser(root)` reads `data-lily-locale-chooser-value` during
+`initLocalePicker(root)` reads `data-lily-locale-picker-value` during
 initial-value resolution (step 1 of the order in §5.2) and applies the
 locale — mutating `lang` / `dir`, the hidden input, and the options'
 `aria-selected`.
@@ -114,10 +143,7 @@ resolves the same locale without a round-trip.
 import express from "express";
 import nunjucks from "nunjucks";
 import cookieParser from "cookie-parser";
-import {
-    bcp47LocaleTag,
-    isRtlLocale,
-} from "./locale-chooser.client.js";
+import { bcp47LocaleTag, isRtlLocale } from "./locale-picker.client.js";
 
 const app = express();
 app.use(cookieParser());
@@ -126,35 +152,35 @@ nunjucks.configure("views", { express: app, autoescape: true });
 const SUPPORTED = ["en", "fr", "ar"];
 
 app.get("/", (req, res) => {
-    const cookie = req.cookies.locale;
-    const locale = cookie && SUPPORTED.includes(cookie) ? cookie : "en";
-    res.render("index.njk", {
-        locale,
-        supported: SUPPORTED,
-        lang: bcp47LocaleTag(locale),
-        dir: isRtlLocale(locale) ? "rtl" : "ltr",
-    });
+  const cookie = req.cookies.locale;
+  const locale = cookie && SUPPORTED.includes(cookie) ? cookie : "en";
+  res.render("index.njk", {
+    locale,
+    supported: SUPPORTED,
+    lang: bcp47LocaleTag(locale),
+    dir: isRtlLocale(locale) ? "rtl" : "ltr",
+  });
 });
 
 app.post("/api/locale", express.json(), (req, res) => {
-    const code = String(req.body?.locale ?? "");
-    if (!SUPPORTED.includes(code)) return res.status(400).end();
-    res.cookie("locale", code, {
-        path: "/",
-        sameSite: "lax",
-        maxAge: 60 * 60 * 24 * 365 * 1000,
-    });
-    res.status(204).end();
+  const code = String(req.body?.locale ?? "");
+  if (!SUPPORTED.includes(code)) return res.status(400).end();
+  res.cookie("locale", code, {
+    path: "/",
+    sameSite: "lax",
+    maxAge: 60 * 60 * 24 * 365 * 1000,
+  });
+  res.status(204).end();
 });
 ```
 
 ```njk
 {# views/index.njk #}
-{% from "lily/locale-chooser.njk" import localeChooser %}
+{% from "lily/locale-picker.njk" import localePicker %}
 <!doctype html>
 <html lang="{{ lang }}" dir="{{ dir }}">
     <body>
-        {{ localeChooser({
+        {{ localePicker({
             label: "Language",
             locales: supported,
             value: locale,
@@ -162,7 +188,7 @@ app.post("/api/locale", express.json(), (req, res) => {
         }) }}
 
         <script type="module">
-            import { autoInit } from "/lily/locale-chooser.client.js";
+            import { autoInit } from "/lily/locale-picker.client.js";
             autoInit({
                 onChange(code) {
                     fetch("/api/locale", {
@@ -252,7 +278,7 @@ client module's pure helpers still do the useful work:
 
 ```js
 // Server side: reuse the helper's exported pure functions.
-import { bcp47LocaleTag, isRtlLocale } from "./locale-chooser.client.js";
+import { bcp47LocaleTag, isRtlLocale } from "./locale-picker.client.js";
 
 const lang = bcp47LocaleTag(code);
 const dir = isRtlLocale(code) ? "rtl" : "ltr";
@@ -275,7 +301,7 @@ There is no virtual-DOM hydration mismatch in this catalog
 because the macro is one-shot HTML, not a diff. The only
 cross-render gotcha is:
 
-- The server renders no `data-lily-locale-chooser-value` (because
+- The server renders no `data-lily-locale-picker-value` (because
   `opts.value=""`), but the client picks a non-empty value from
   `localStorage`. The page therefore paints with the layout's `lang` /
   `dir` for one frame before the client rewrites them. The control
@@ -292,23 +318,24 @@ If you don't have a cookie yet (first visit), use the request's
 
 ```js
 function pickFromAcceptLanguage(header, supported) {
-    if (!header) return supported[0];
-    for (const item of header.split(",")) {
-        const tag = item.split(";")[0].trim().toLowerCase();
-        if (supported.includes(tag)) return tag;
-        const base = tag.split("-")[0];
-        if (supported.includes(base)) return base;
-    }
-    return supported[0];
+  if (!header) return supported[0];
+  for (const item of header.split(",")) {
+    const tag = item.split(";")[0].trim().toLowerCase();
+    if (supported.includes(tag)) return tag;
+    const base = tag.split("-")[0];
+    if (supported.includes(base)) return base;
+  }
+  return supported[0];
 }
 
 app.get("/", (req, res) => {
-    const cookie = req.cookies.locale;
-    const accept = req.headers["accept-language"];
-    const locale = (cookie && SUPPORTED.includes(cookie))
-        ? cookie
-        : pickFromAcceptLanguage(accept, SUPPORTED);
-    res.render("index.njk", { locale, /* … */ });
+  const cookie = req.cookies.locale;
+  const accept = req.headers["accept-language"];
+  const locale =
+    cookie && SUPPORTED.includes(cookie)
+      ? cookie
+      : pickFromAcceptLanguage(accept, SUPPORTED);
+  res.render("index.njk", { locale /* … */ });
 });
 ```
 

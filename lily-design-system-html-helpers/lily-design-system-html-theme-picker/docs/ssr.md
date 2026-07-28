@@ -8,19 +8,19 @@ to close the gap.
 
 There is no "select on the server" — `customElements` only exists
 in browsers. The static-site generator (or server-rendered HTML
-pipeline) emits the literal `<theme-chooser>` tag with attributes;
+pipeline) emits the literal `<theme-picker>` tag with attributes;
 the browser constructs the element and runs `connectedCallback`
 after parsing the HTML.
 
 The rendered HTML before JS upgrade looks like:
 
 ```html
-<theme-chooser
+<theme-picker
     label="Theme"
     themes-url="/assets/themes/"
     themes="light,dark,abyss"
     value="dark"
-></theme-chooser>
+></theme-picker>
 ```
 
 No button, no listbox, no `<link>` in `<head>` — those all appear on
@@ -40,7 +40,7 @@ HTML parser hits the closing tag:
 4. Sets `data-theme` on the target.
 
 Element ids come from a module-level counter
-(`nextThemeChooserId()`), never from `Math.random()` or `Date.now()`,
+(`nextThemePickerId()`), never from `Math.random()` or `Date.now()`,
 so the rendered markup is deterministic across runs.
 
 If the resolved slug differs from the one the consumer pre-rendered
@@ -69,7 +69,7 @@ shape:
 1. `_data/theme.js` exposes the build-time default theme.
 2. `_includes/layout.njk` inlines `<html data-theme>` and the
    matching `<link>`.
-3. The `<theme-chooser>` host is rendered with
+3. The `<theme-picker>` host is rendered with
    `value="{{ theme.defaultTheme }}"`.
 4. On the client, the select reads `localStorage` and may apply a
    different theme — but only if the user has previously chosen
@@ -86,16 +86,16 @@ const theme = Astro.cookies.get("theme")?.value ?? "light";
 <html lang="en" data-theme={theme}>
     <head>
         <link rel="stylesheet" href={`/assets/themes/${theme}.css`} />
-        <script type="module" src="/scripts/theme-chooser.js"></script>
+        <script type="module" src="/scripts/theme-picker.js"></script>
     </head>
     <body>
-        <theme-chooser
+        <theme-picker
             label="Theme"
             themes-url="/assets/themes/"
             themes="light,dark,abyss"
             value={theme}
             storage-key="lily-theme"
-        ></theme-chooser>
+        ></theme-picker>
         <slot />
     </body>
 </html>
@@ -111,15 +111,15 @@ visitor on a given build:
 <html lang="en" data-theme="{{ .Site.Params.defaultTheme | default "light" }}">
     <head>
         <link rel="stylesheet" href="/assets/themes/{{ .Site.Params.defaultTheme | default "light" }}.css">
-        <script type="module" src="/dist/theme-chooser.js"></script>
+        <script type="module" src="/dist/theme-picker.js"></script>
     </head>
     <body>
-        <theme-chooser
+        <theme-picker
             label="Theme"
             themes-url="/assets/themes/"
             themes="light,dark,abyss"
             value="{{ .Site.Params.defaultTheme | default "light" }}"
-        ></theme-chooser>
+        ></theme-picker>
     </body>
 </html>
 ```
@@ -144,15 +144,15 @@ early-running script that reads `localStorage` and sets
             document.documentElement.dataset.theme = t;
             document.write(`<link rel="stylesheet" href="/assets/themes/${t}.css">`);
         </script>
-        <script type="module" src="/dist/theme-chooser.js"></script>
+        <script type="module" src="/dist/theme-picker.js"></script>
     </head>
     <body>
-        <theme-chooser
+        <theme-picker
             label="Theme"
             themes-url="/assets/themes/"
             themes="light,dark,abyss"
             storage-key="lily-theme"
-        ></theme-chooser>
+        ></theme-picker>
     </body>
 </html>
 ```
@@ -196,7 +196,7 @@ integration.
 ## Hydration mismatch (not really)
 
 Custom elements don't "hydrate" in the React / Vue sense. The
-`<theme-chooser>` host arrives as a plain tag; the browser invokes
+`<theme-picker>` host arrives as a plain tag; the browser invokes
 its constructor and `connectedCallback` after parsing. There is no
 virtual-DOM diff, no warning system, no mismatch concept.
 
@@ -222,7 +222,7 @@ button appears mid-paint and can shift surrounding content. Give the
 host an intrinsic size in your CSS so the space is already there:
 
 ```css
-theme-chooser {
+theme-picker {
     display: inline-block;
     min-inline-size: 2.5rem;
     min-block-size: 2.25rem;

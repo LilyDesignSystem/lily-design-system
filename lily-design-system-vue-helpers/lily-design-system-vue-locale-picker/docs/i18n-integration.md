@@ -1,10 +1,10 @@
 # i18n integration
 
-`LocaleChooser` is intentionally not an i18n library. It changes the
+`LocalePicker` is intentionally not an i18n library. It changes the
 document language and tells you when the user changed it; the
 actual string substitution is your i18n library's job.
 
-This page shows how to wire the chooser to the four most common
+This page shows how to wire the picker to the four most common
 Vue 3 i18n stacks: **vue-i18n** (Intlify), **@nuxtjs/i18n**,
 **Paraglide JS** (Inlang), and **raw `Intl.*`**.
 
@@ -20,13 +20,13 @@ The wiring pattern is always the same:
 ## vue-i18n (Intlify)
 
 [vue-i18n](https://vue-i18n.intlify.dev/) exposes a `locale` ref via
-`useI18n()`. The chooser writes to it via `v-model:value`.
+`useI18n()`. The picker writes to it via `v-model:value`.
 
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
-import LocaleChooser from "@/lib/LocaleChooser.vue";
+import LocalePicker from "@/lib/LocalePicker.vue";
 
 const { locale } = useI18n();
 const current = ref<string>(locale.value);
@@ -37,7 +37,7 @@ function onChange(code: string) {
 </script>
 
 <template>
-    <LocaleChooser
+    <LocalePicker
         label="Language"
         :locales="['en', 'fr', 'ar']"
         v-model:value="current"
@@ -48,14 +48,14 @@ function onChange(code: string) {
 </template>
 ```
 
-The chooser writes to `current`, and the `@change` handler mirrors
+The picker writes to `current`, and the `@change` handler mirrors
 the value into `vue-i18n`'s locale ref so every `t("…")` call in
 your templates re-evaluates against the new locale.
 
 You can also bind `vue-i18n`'s `locale` ref directly:
 
 ```vue
-<LocaleChooser
+<LocalePicker
     label="Language"
     :locales="['en', 'fr', 'ar']"
     v-model:value="locale"
@@ -75,14 +75,14 @@ locale strategies.
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import LocaleChooser from "@/components/LocaleChooser.vue";
+import LocalePicker from "@/components/LocalePicker.vue";
 
 const { locale, setLocale } = useI18n();
 const current = ref<string>(locale.value);
 </script>
 
 <template>
-    <LocaleChooser
+    <LocalePicker
         label="Language"
         :locales="['en', 'fr', 'ar']"
         v-model:value="current"
@@ -115,14 +115,14 @@ language via `setLocale()` / `getLocale()`.
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import LocaleChooser from "@/lib/LocaleChooser.vue";
+import LocalePicker from "@/lib/LocalePicker.vue";
 import { setLocale, getLocale, type Locale } from "@/paraglide/runtime.js";
 
 const current = ref<string>(getLocale());
 </script>
 
 <template>
-    <LocaleChooser
+    <LocalePicker
         label="Language"
         :locales="['en', 'fr', 'ar']"
         v-model:value="current"
@@ -143,12 +143,12 @@ node when the locale changes.
 
 For apps with a handful of strings and no formal i18n library,
 store the locale in a `ref` and pass it to `Intl` formatters
-directly. The chooser still owns the `lang` / `dir` lifecycle:
+directly. The picker still owns the `lang` / `dir` lifecycle:
 
 ```vue
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import LocaleChooser from "@/lib/LocaleChooser.vue";
+import LocalePicker from "@/lib/LocalePicker.vue";
 
 const locale = ref("en");
 
@@ -165,7 +165,7 @@ const balance = 1234.56;
 </script>
 
 <template>
-    <LocaleChooser
+    <LocalePicker
         label="Language"
         :locales="['en', 'en-US', 'fr', 'fr-CA', 'ar']"
         v-model:value="locale"
@@ -186,12 +186,12 @@ normalise internally. The bindable `value` works either way.
 ## Nuxt 3 URL-prefix strategies
 
 If your app uses URL-prefixed locales (`/en/about`,
-`/fr/about`), the chooser's `@change` calls `router.push`:
+`/fr/about`), the picker's `@change` calls `router.push`:
 
 ```vue
 <script setup lang="ts">
 import { computed } from "vue";
-import LocaleChooser from "@/lib/LocaleChooser.vue";
+import LocalePicker from "@/lib/LocalePicker.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -205,7 +205,7 @@ function navigateToLocale(next: string) {
 </script>
 
 <template>
-    <LocaleChooser
+    <LocalePicker
         label="Language"
         :locales="['en', 'fr', 'ar']"
         :value="current"
@@ -216,7 +216,7 @@ function navigateToLocale(next: string) {
 ```
 
 `:value="current"` (one-way) + `v-model:value="current"`
-(two-way) means the chooser reflects the URL on every navigation
+(two-way) means the picker reflects the URL on every navigation
 but also writes back when the user picks a new locale. The
 `router.push` invalidates loaders so the new locale's data fetches
 re-run.
@@ -243,7 +243,7 @@ export default defineEventHandler((event) => {
 <!-- app.vue -->
 <script setup lang="ts">
 import { ref } from "vue";
-import LocaleChooser, { isRtlLocale, bcp47LocaleTag } from "@/lib/LocaleChooser.vue";
+import LocalePicker, { isRtlLocale, bcp47LocaleTag } from "@/lib/LocalePicker.vue";
 
 const { $initialLocale } = useNuxtApp() as unknown as { $initialLocale: string };
 const locale = ref<string>($initialLocale);
@@ -261,7 +261,7 @@ function persist(code: string) {
 </script>
 
 <template>
-    <LocaleChooser
+    <LocalePicker
         label="Language"
         :locales="['en', 'fr', 'ar']"
         v-model:value="locale"
@@ -287,7 +287,7 @@ The page arrives with the correct `lang` and `dir` already on
 | SEO-friendly URLs per locale               | @nuxtjs/i18n              |
 | No FOUC, cookie-backed, server-rendered    | Cookie + middleware       |
 
-The chooser is the same in every case. Only the `v-model:value`
+The picker is the same in every case. Only the `v-model:value`
 target and the `@change` body change.
 
 ---

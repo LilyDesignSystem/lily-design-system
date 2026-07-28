@@ -1,4 +1,4 @@
-# ShareChooser (React helper)
+# SharePicker (React helper)
 
 A headless React 19 share control: a single-glyph button (➤) that opens
 the **native share sheet** where the browser has one, and otherwise shows
@@ -10,17 +10,21 @@ is the human-readable guide.
 ## Install
 
 ```tsx
-import ShareChooser from "./lily-design-system-react-share-chooser/ShareChooser";
+import SharePicker from "./lily-design-system-react-share-picker/SharePicker";
 // or via the barrel:
-import { ShareChooser, canShareNatively, type ShareTarget }
-  from "./lily-design-system-react-share-chooser";
+import {
+  SharePicker,
+  canShareNatively,
+  type ShareTarget,
+} from "./lily-design-system-react-share-picker";
 ```
 
 ## Quick start
 
 ```tsx
-import ShareChooser, { type ShareTarget }
-  from "./lily-design-system-react-share-chooser/ShareChooser";
+import SharePicker, {
+  type ShareTarget,
+} from "./lily-design-system-react-share-picker/SharePicker";
 
 const targets: ShareTarget[] = [
   {
@@ -40,7 +44,7 @@ const targets: ShareTarget[] = [
 
 export function ArticleShare() {
   return (
-    <ShareChooser
+    <SharePicker
       label="Share this page"
       title="An article worth reading"
       targets={targets}
@@ -108,9 +112,9 @@ it is a `<button>`.
 button and receives `{ open, url }`:
 
 ```tsx
-<ShareChooser label="Share" targets={targets}>
+<SharePicker label="Share" targets={targets}>
   {({ open }) => <MyIcon rotated={open} />}
-</ShareChooser>
+</SharePicker>
 ```
 
 ## Props
@@ -137,9 +141,9 @@ an effect. Under the Next.js App Router mark the importing module
 
 ## Styling
 
-Class hooks: `.share-chooser` (root), `.share-chooser-button`,
-`.share-chooser-icon`, `.share-chooser-list`, `.share-chooser-list-item`,
-`.share-chooser-target`, `.share-chooser-copy`, `.share-chooser-status`.
+Class hooks: `.share-picker` (root), `.share-picker-button`,
+`.share-picker-icon`, `.share-picker-list`, `.share-picker-list-item`,
+`.share-picker-target`, `.share-picker-copy`, `.share-picker-status`.
 
 The package ships no CSS. The root `themes/` stylesheets style the button
 and popup, including the optical glyph sizing that keeps ➤ visually the
@@ -147,7 +151,7 @@ same size as the other helpers' glyphs.
 
 ## Tests
 
-`npx vitest run lily-design-system-react-share-chooser` from the catalog
+`npx vitest run lily-design-system-react-share-picker` from the catalog
 root — 34 cases, one or more per §7 clause.
 
 ---

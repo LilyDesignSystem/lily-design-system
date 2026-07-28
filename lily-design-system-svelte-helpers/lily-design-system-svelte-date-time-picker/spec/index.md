@@ -1,0 +1,588 @@
+# DateTimePicker — Specification
+
+Single source of truth for the `lily-design-system-svelte-date-time-picker`
+Svelte helper. This file drives implementation, testing, and documentation
+in the spec-driven-development style: anything not in this spec is out of
+scope; anything in this spec must be exercised by a test.
+
+Sibling files in this directory's parent:
+
+- `DateTimePicker.svelte` — the implementation
+- `DateTimePicker.test.ts` — vitest spec exercising every clause in §4–§7
+- `index.ts` — re-export barrel
+- `index.md` — user-facing readme
+
+---
+
+## 1. Goal
+
+Give a Svelte 5 application a drop-in, headless control for collecting a
+**date**, a **time**, or **both**, that:
+
+1. Renders a text field plus an icon button that opens a WAI-ARIA APG
+   **Date Picker Dialog**: a month grid with a full keyboard contract.
+2. Is **locale-correct by construction** — month names, weekday names,
+   first day of week, numeric field order, 12- vs 24-hour clock and
+   day-period names all come from `Intl`, never from a baked-in table.
+3. Accepts **typed input** as well as pointer and keyboard selection.
+4. Constrains selection with `min`, `max`, and an arbitrary
+   `isDateDisabled` predicate.
+5. Ships zero CSS — the consumer styles every visual aspect via the
+   `date-time-picker` class hooks.
+
+### 1.1 Relationship to the DHCW date picker
+
+This helper implements everything in the Digital Health and Care Wales
+`nhsw-date-picker` (see
+[the NHSW component library](https://github.com/dhcw-digital-health-and-care-wales/nhsw-component-library)),
+which is the closest published prior art in the NHS space and the reason
+this package exists. Feature parity is in §8; the deliberate departures,
+each of which fixes a defect rather than adding taste, are in §9.
+
+## 2. Non-goals
+
+- **Time zones.** The value is a civil date and/or wall-clock time with no
+  zone attached. A zone-aware control needs a zone picker, a DST-gap
+  policy, and an instant type; that is a different component, and pretending
+  otherwise produces values that are wrong by an hour twice a year.
+- **Seconds, or sub-minute precision.** No user has ever wanted to pick a
+  second from a dropdown. Consumers needing it should use `parseInput` /
+  `formatValue` and a text field.
+- **Ranges.** A start/end pair is two of these bound together plus a
+  cross-field validity rule, and the catalog already has
+  `calendar-range-picker` as the headless container for that shape.
+- **Recurrence.** "Every second Tuesday" is a different problem entirely.
+- **Persistence.** Unlike the four preference helpers, this does not write
+  to `localStorage`: a date in a form is *data*, not a preference, and
+  restoring a stale appointment date on a later visit would be a defect.
+- **Relative-date parsing** ("tomorrow", "next Friday"). Locale-dependent,
+  ambiguous, and better served by `shortcuts`.
+- **Shipped positioning CSS** for the dialog. The package stays headless.
+
+## 3. Architectural decisions
+
+- **Civil dates, never local-midnight `Date`.** `new Date(2026, 2, 1)` is
+  an *instant* at local midnight; in a zone whose DST transition falls at
+  midnight it can resolve to the previous day. All arithmetic goes through
+  UTC epoch days. This is the single most important decision in the file
+  and the one most likely to be undone by a well-meaning refactor.
+- **ISO 8601 is the value contract.** `YYYY-MM-DD`, `HH:MM`, or
+  `YYYY-MM-DDTHH:MM`. Sortable as a string, unambiguous across locales, and
+  identical to what `<input type="date">` posts — so a consumer can swap
+  the native control in or out without touching their backend.
+- **Pending state is separate from `value`.** Selection inside the dialog
+  writes to `pendingDate` / `pendingTime`; only Confirm (or a day click in
+  `confirmOnSelect` mode) writes to `value`. Without this split, Cancel and
+  Escape have nothing to revert to.
+- **A real focus trap, because `aria-modal="true"` is a promise.** The
+  browser does not enforce it. An untrapped `aria-modal` dialog tells a
+  screen reader the rest of the page is inert while Tab walks into it.
+- **Labels arrive as one object.** Ten user-facing strings as ten flat
+  props is a call site nobody can read, and one object maps directly onto a
+  translation bundle. This is a deliberate divergence from the four
+  sibling helpers, which need two or three strings each.
+- **Fixed six-row grid.** A grid sized to its month is four to six rows, so
+  the footer moves as the user pages. Constant height costs at most one
+  trailing week and keeps the confirm button where the pointer left it.
+- **No dependencies beyond `svelte`.** No date library. `Intl` and epoch-day
+  arithmetic cover everything in scope.
+
+## 4. Public API
+
+### 4.1 Props
+
+| Prop | Type | Required | Default | Purpose |
+| ---- | ---- | -------- | ------- | ------- |
+| `label` | `string` | yes | — | Accessible name for **both** the trigger button and the dialog. |
+| `labels` | `DateTimePickerLabels` | yes | — | Every other user-facing string. See §4.2. |
+| `mode` | `"date" \| "time" \| "datetime"` | no | `"date"` | What to collect. |
+| `value` | `string` (bindable) | no | `""` | ISO value. |
+| `locale` | `string` | no | runtime default | BCP 47 tag driving all formatting. |
+| `min` | `string` | no | — | Earliest selectable date, ISO. |
+| `max` | `string` | no | — | Latest selectable date, ISO. |
+| `isDateDisabled` | `(isoDate: string) => boolean` | no | — | Veto individual dates. |
+| `firstDayOfWeek` | `number` | no | from `locale` | 0 = Sunday … 6 = Saturday. |
+| `minuteStep` | `number` | no | `1` | Granularity of the minute select. |
+| `hour12` | `boolean` | no | from `locale` | 12-hour clock. |
+| `showWeekNumbers` | `boolean` | no | `false` | Render an ISO-8601 week column. |
+| `shortcuts` | `DateTimeShortcut[]` | no | `[]` | Quick-pick buttons. |
+| `confirmOnSelect` | `boolean` | no | `mode === "date"` | Commit and close on day click. |
+| `name` | `string` | no | `"date-time"` | `name` of the hidden input. |
+| `inputId` | `string` | no | generated | `id` of the text field, for a consumer `<label for>`. |
+| `describedBy` | `string` | no | — | Forwarded as `aria-describedby`. |
+| `placeholder` | `string` | no | — | Placeholder for the text field. |
+| `disabled` | `boolean` | no | `false` | Disable the whole control. |
+| `readonly` | `boolean` | no | `false` | Show the value, refuse edits. |
+| `required` | `boolean` | no | `false` | Mark the field required. |
+| `formatValue` | `(value: string) => string` | no | Intl | Override field rendering. |
+| `parseInput` | `(text: string) => string \| null` | no | §5.4 | Override typed-text parsing. |
+| `children` | `Snippet<[ChildArgs]>` | no | the calendar glyph | **Replaces the glyph inside the button.** |
+| `onChange` | `(value: string) => void` | no | — | Fires after a value is committed. |
+| `onShortcut` | `(id, isoDate) => void` | no | — | Fires when a shortcut is used. |
+| `onInvalidInput` | `(text: string) => void` | no | — | Fires when typed text will not parse. |
+| `class` | `string` | no | `""` | Extra CSS class on the root `<div>`. |
+| `...restProps` | any HTML attributes | no | — | Spread onto the root `<div>`. |
+
+### 4.2 `DateTimePickerLabels`
+
+```ts
+type DateTimePickerLabels = {
+  previousYear: string;   // required — names an always-rendered button
+  previousMonth: string;  // required
+  nextMonth: string;      // required
+  nextYear: string;       // required
+  confirm: string;        // required
+  cancel: string;         // required
+  hour?: string;          // required when mode includes a time
+  minute?: string;        // required when mode includes a time
+  meridiem?: string;      // required when hour12 resolves true
+  week?: string;          // required when showWeekNumbers
+  clear?: string;         // the clear button renders only when supplied
+};
+```
+
+The optional entries gate optional UI, exactly as `share-picker`'s
+`copyLabel` gates its copy item: a control whose accessible name we
+invented in English is the defect this package exists to avoid, so the
+component would rather not render a control than name it for you.
+
+### 4.3 DOM contract
+
+```html
+<div class="date-time-picker {class}" data-mode="date" ...restProps>
+  <input type="hidden" name="{name}" value="{value}" />
+
+  <div class="date-time-picker-field">
+    <input class="date-time-picker-input" id="{fieldId}" type="text"
+           autocomplete="off" value="{display}" aria-invalid="true|absent" />
+    <button type="button" class="date-time-picker-button" aria-label="{label}"
+            aria-haspopup="dialog" aria-expanded="false"
+            aria-controls="{dialogId}">
+      <span class="date-time-picker-icon" aria-hidden="true">&#128197;&#65038;</span>
+    </button>
+  </div>
+
+  <div class="date-time-picker-dialog" id="{dialogId}" role="dialog"
+       aria-modal="true" aria-label="{label}" tabindex="-1" hidden>
+    <div class="date-time-picker-header">
+      <button class="date-time-picker-previous-year"  aria-label="…">…</button>
+      <button class="date-time-picker-previous-month" aria-label="…">…</button>
+      <span   class="date-time-picker-period" id="{periodId}" aria-live="polite">March 2026</span>
+      <button class="date-time-picker-next-month"     aria-label="…">…</button>
+      <button class="date-time-picker-next-year"      aria-label="…">…</button>
+    </div>
+
+    <table class="date-time-picker-calendar" role="grid" aria-labelledby="{periodId}">
+      <thead><tr>
+        <th class="date-time-picker-week-heading" scope="col" abbr="…">…</th>
+        <th class="date-time-picker-weekday" scope="col" abbr="Monday">Mo</th>
+      </tr></thead>
+      <tbody><tr>
+        <th class="date-time-picker-week" scope="row">10</th>
+        <td role="gridcell" aria-selected="true|false">
+          <button class="date-time-picker-day" data-date="2026-03-01"
+                  data-outside data-today data-selected
+                  tabindex="0|-1" aria-label="Sunday 1 March 2026"
+                  aria-current="date">1</button>
+        </td>
+      </tr></tbody>
+    </table>
+
+    <div class="date-time-picker-time">
+      <label class="date-time-picker-time-label" for="…">…</label>
+      <select class="date-time-picker-hour">…</select>
+      <select class="date-time-picker-minute">…</select>
+      <select class="date-time-picker-meridiem">…</select>
+    </div>
+
+    <div class="date-time-picker-shortcuts">
+      <button class="date-time-picker-shortcut" data-shortcut-id="today">…</button>
+    </div>
+
+    <div class="date-time-picker-footer">
+      <button class="date-time-picker-clear">…</button>
+      <button class="date-time-picker-cancel">…</button>
+      <button class="date-time-picker-confirm">…</button>
+    </div>
+  </div>
+</div>
+```
+
+- **Root** is a `<div>` carrying `date-time-picker` plus the consumer's
+  `class`, and `data-mode` so CSS can branch without a second hook.
+  Rest-props spread onto it.
+- **Hidden input** preserves form participation and carries `name`. The
+  visible text field deliberately has no `name`: posting a localised
+  display string alongside the ISO value is how a backend ends up parsing
+  `"01/03/2026"` and guessing.
+- **`data-*` on days** (`data-outside`, `data-today`, `data-selected`) is
+  for consumer CSS; the ARIA equivalent (`aria-current`, `aria-selected`
+  on the cell, `disabled`) is what assistive technology reads. Both are
+  present because they address different audiences — per the Lily headless
+  rule on `data-*` vs ARIA.
+- **`abbr` on weekday headers** carries the full weekday name, so a screen
+  reader announcing a column says "Monday" where the eye reads "Mo".
+- **The glyph** is U+1F4C5 CALENDAR + U+FE0E, exported as `CALENDAR`, and
+  is `aria-hidden`. `children` replaces the glyph, not the dialog.
+- The package ships zero CSS. **The dialog needs positioning CSS from the
+  consumer** — without it, it renders in normal flow rather than as an
+  overlay.
+
+### 4.4 Re-exports
+
+`index.ts` re-exports the component, all civil-date helpers
+(`addDays`, `addMonths`, `parseIsoDate`, `formatIsoDate`, `toEpochDay`,
+`fromEpochDay`, `weekdayOf`, `isoWeek`, `daysInMonth`, `parseIsoTime`,
+`formatIsoTime`, `splitValue`, `joinValue`, `withinRange`, `monthMatrix`,
+`firstDayOfWeekFor`, `monthNames`, `numericFieldOrder`, `parseDateInput`,
+`parseTimeInput`, `nextDateTimePickerId`), the `CALENDAR` constant, and
+every public type.
+
+The arithmetic is exported deliberately: a consumer wiring `min`, `max`,
+`shortcuts` or `isDateDisabled` is doing date maths too, and the
+alternative is that they reach for a `Date` and reintroduce the
+local-midnight bug §3 exists to prevent.
+
+## 5. Behaviour
+
+### 5.1 Value
+
+`value` is ISO and mode-shaped: `YYYY-MM-DD` for `"date"`, `HH:MM` for
+`"time"`, `YYYY-MM-DDTHH:MM` for `"datetime"`. A malformed or
+mode-mismatched value is treated as empty rather than repaired.
+
+An incomplete `"datetime"` — a date with no time, or the reverse — is
+never committed. Half a timestamp is not a smaller truth; it is a
+different one.
+
+### 5.2 Opening
+
+On open the component samples today, seeds `pendingDate` from the
+committed value (or the nearest selectable day to today), seeds
+`pendingTime` from the committed time (or now, snapped down to
+`minuteStep`), points the view at that month, and moves focus to the grid
+cursor — or, in `"time"` mode, to the first control in the dialog.
+
+### 5.3 Committing and discarding
+
+| Action | Effect |
+| ------ | ------ |
+| Click a day, `confirmOnSelect` true | Commit and close. |
+| Click a day, `confirmOnSelect` false | Update the pending selection only. |
+| Confirm button | Commit the pending selection and close. |
+| Cancel button | Close. `value` untouched. |
+| `Escape` | Close. `value` untouched. |
+| Clear button (when `labels.clear` is set) | Set `value` to `""`, fire `onChange("")`, close. |
+| Click outside | Close without committing. |
+
+`onChange` fires only when the committed value actually differs from the
+previous one.
+
+### 5.4 Typed input
+
+Typed text is held as pending display text and resolved on blur or
+`Enter`. Resolution tries, in order:
+
+1. `parseInput(text)` if the consumer supplied one — their parser wins
+   outright.
+2. ISO `YYYY-MM-DD`.
+3. A numeric form whose field order follows the locale, so `03/04/2026` is
+   3 April in `en-GB` and 4 March in `en-US` — which is what each user
+   means. Separators may be `/`, `.`, `-`, or whitespace.
+4. A form containing a written month, matched case- and
+   diacritic-insensitively against the locale's own long and short month
+   names, with a three-character prefix match. This is what lets DHCW's
+   `27-Jun-2025` round-trip.
+
+Two-digit years pivot at 70 (`69` → 2069, `70` → 1970).
+
+Text that will not parse, **or that parses to a date outside `min`/`max`
+or vetoed by `isDateDisabled`**, leaves the text in place, sets
+`aria-invalid="true"`, and fires `onInvalidInput`. It is never silently
+snapped to a nearby legal date the user did not type.
+
+Clearing the field to empty commits `""`.
+
+`"time"` mode accepts `9:30`, `09:30`, `0930`, `9.30`, and a trailing
+`am`/`pm`.
+
+### 5.5 Range and vetoes
+
+`min` / `max` are inclusive. A day outside them, or vetoed by
+`isDateDisabled`, renders `disabled`. The keyboard cursor may still land
+on a vetoed day inside the range — so arrowing across a blocked week
+works — but may not leave the `min`/`max` window at all, because there is
+nothing out there to navigate to.
+
+A shortcut resolving to a blocked date does nothing, rather than landing
+near it: a "+4 weeks" that quietly means "+27 days" is a booking error.
+
+### 5.6 Locale resolution
+
+| Thing | Source |
+| ----- | ------ |
+| Month and weekday names | `Intl.DateTimeFormat` |
+| First day of week | `Intl.Locale.prototype.getWeekInfo`, else a region table, else Monday |
+| Numeric field order | `Intl.DateTimeFormat.formatToParts` |
+| 12- vs 24-hour clock | presence of a `dayPeriod` part |
+| AM / PM names | the `dayPeriod` part's value |
+
+Every one of these is overridable by prop. The region-table fallback
+exists because `getWeekInfo` is recent enough to be missing from some SSR
+runtimes; it defaults to Monday, which is both the ISO-8601 rule and the
+majority convention.
+
+### 5.7 SSR
+
+No effects run and no DOM is touched during server rendering. The markup
+renders with the consumer-supplied `value`, the dialog `hidden`. `Intl` is
+used during render and is present in every supported server runtime.
+
+Instance ids come from an incrementing module counter — never
+`Math.random()` or `Date.now()`, which would differ between the server and
+client renders and break hydration.
+
+## 6. Accessibility
+
+### 6.1 Roles and properties
+
+| Element | Role / property | Source |
+| ------- | --------------- | ------ |
+| trigger `<button>` | `aria-label`, `aria-haspopup="dialog"`, `aria-expanded`, `aria-controls` | Component |
+| glyph `<span>` | `aria-hidden="true"` | Component |
+| dialog `<div>` | `role="dialog"`, `aria-modal="true"`, `aria-label` | Component |
+| period `<span>` | `aria-live="polite"` | Component |
+| `<table>` | `role="grid"`, `aria-labelledby` → the period | Component |
+| `<th scope="col">` | `abbr` = full weekday name | Intl |
+| `<td>` | `role="gridcell"`, `aria-selected` | Component |
+| day `<button>` | `aria-label` = full date, `aria-current="date"` on today, `disabled` | Component + Intl |
+| text `<input>` | `aria-invalid`, `aria-describedby` | Component + consumer |
+
+Follows the **WAI-ARIA APG Date Picker Dialog** pattern.
+
+### 6.2 Keyboard contract
+
+On the **text field**:
+
+| Key | Action |
+| --- | ------ |
+| `Enter` | Resolve the typed text. |
+| `Alt` + `Arrow Down` | Open the dialog — the platform convention, matching `<input type="date">`. |
+
+On the **grid**:
+
+| Key | Action |
+| --- | ------ |
+| `Arrow Left` / `Right` | ∓ / ± one day. |
+| `Arrow Up` / `Down` | ∓ / ± one week. |
+| `Home` / `End` | First / last day of the current week, respecting `firstDayOfWeek`. |
+| `Page Up` / `Page Down` | ∓ / ± one month. |
+| `Shift` + `Page Up` / `Page Down` | ∓ / ± one year. |
+| `Enter` / `Space` | Select the cursor's day. |
+
+Anywhere in the **dialog**:
+
+| Key | Action |
+| --- | ------ |
+| `Escape` | Close without committing. |
+| `Tab` / `Shift+Tab` | Cycle within the dialog — the focus trap. |
+
+The grid uses a roving `tabindex`: exactly one day is tabbable. Paging the
+view carries the cursor with it, clamped into the new month, rather than
+leaving focus on an unrendered cell — which would drop focus to `<body>`
+and lose the user's place.
+
+### 6.3 Internationalisation
+
+`label` and every entry of `labels` pass through verbatim. No user-facing
+string is hardcoded — including AM/PM, which comes from the locale's own
+`dayPeriod` names. `dir` inherits from the document.
+
+### 6.4 Accessibility tradeoffs
+
+Stated plainly in [`../docs/accessibility.md`](../docs/accessibility.md):
+
+1. A hand-rolled grid has weaker assistive-technology support than
+   `<input type="date">`, which is the right default for many services.
+2. The trigger is icon-only, so its accessible name rests entirely on
+   `aria-label`.
+3. The glyph is a font-dependent character that may substitute.
+4. Date entry is hard for users with cognitive disabilities regardless of
+   implementation; the typed field exists partly so the calendar is never
+   the only route.
+
+## 7. Testing acceptance criteria
+
+`DateTimePicker.test.ts` asserts every clause below; each `test(...)` title
+carries its clause number.
+
+### Pure arithmetic (mirrors §3, §4.4)
+
+| Clause | Test asserts |
+| ------ | ------------ |
+| §7.1 | `parseIsoDate` rejects impossible dates (`2026-02-31`) and accepts real ones. |
+| §7.1 | `daysInMonth` handles leap years (2024-02 → 29, 2100-02 → 28). |
+| §7.2 | `addDays` crosses month and year boundaries, forwards and backwards. |
+| §7.2 | `addMonths` clamps rather than rolling over (2026-01-31 + 1 → 2026-02-28). |
+| §7.2 | `addMonths` with a negative delta crosses the year boundary correctly. |
+| §7.3 | `weekdayOf` returns 0 for Sunday. |
+| §7.3 | `isoWeek` matches the ISO-8601 definition on the known-hard cases (2026-01-01, 2021-01-03). |
+| §7.4 | `toEpochDay` / `fromEpochDay` round-trip. |
+| §7.5 | `splitValue` / `joinValue` round-trip per mode, and refuse a half datetime. |
+| §7.6 | `monthMatrix` always returns 6 × 7 and starts on `firstDayOfWeek`. |
+| §7.7 | `firstDayOfWeekFor` gives Monday for en-GB, Sunday for en-US, Monday for an unknown tag. |
+| §7.8 | `parseDateInput` reads ISO, locale-ordered numerics (en-GB vs en-US differ), and written months. |
+| §7.8 | `parseDateInput` returns null for junk and for impossible dates. |
+| §7.9 | `parseTimeInput` reads `9:30`, `0930`, `9.30`, `1:30pm`, and rejects `25:00`. |
+
+### Markup contract (mirrors §4.3)
+
+| Clause | Test asserts |
+| ------ | ------------ |
+| §7.10 | Renders the trigger with `aria-haspopup="dialog"`, `aria-expanded="false"`, and `aria-controls` pointing at the `role="dialog"` element. |
+| §7.10 | The glyph renders inside `.date-time-picker-icon` with `aria-hidden="true"`. |
+| §7.11 | `aria-label` names **both** the trigger and the dialog. |
+| §7.12 | The hidden input carries `name` and the ISO value; the visible field carries the formatted display. |
+| §7.13 | The dialog is `hidden` until the trigger is activated. |
+| §7.14 | The grid renders 6 rows × 7 day cells, with `data-outside` on adjacent-month days. |
+| §7.15 | Exactly one day carries `tabindex="0"`. |
+| §7.16 | Extra attributes spread onto the root; `data-mode` reflects `mode`. |
+| §7.17 | A `children` snippet replaces the glyph and receives `ChildArgs`. |
+
+### Selection and commit (mirrors §5.3)
+
+| Clause | Test asserts |
+| ------ | ------------ |
+| §7.18 | Clicking a day in `"date"` mode commits, fires `onChange`, and closes. |
+| §7.19 | With `confirmOnSelect={false}`, clicking a day does **not** commit; Confirm does. |
+| §7.20 | Cancel closes without changing `value`. |
+| §7.21 | `Escape` closes without changing `value`. |
+| §7.22 | The clear button renders only when `labels.clear` is set, and commits `""`. |
+| §7.23 | `onChange` does not fire when the committed value is unchanged. |
+
+### Keyboard (mirrors §6.2)
+
+| Clause | Test asserts |
+| ------ | ------------ |
+| §7.24 | Arrow keys move the cursor by a day and by a week. |
+| §7.25 | `Home` / `End` reach the ends of the week, respecting `firstDayOfWeek`. |
+| §7.26 | `Page Up` / `Page Down` page the month; `Shift` pages the year. |
+| §7.27 | `Enter` on the grid selects the cursor's day. |
+| §7.28 | `Alt` + `Arrow Down` on the field opens the dialog. |
+
+### Range, vetoes, shortcuts (mirrors §5.5)
+
+| Clause | Test asserts |
+| ------ | ------------ |
+| §7.29 | Days outside `min`/`max` render `disabled`. |
+| §7.30 | `isDateDisabled` disables individual days. |
+| §7.31 | Clicking a disabled day does not commit. |
+| §7.32 | A shortcut moves the pending selection and fires `onShortcut`. |
+| §7.33 | A shortcut resolving to a blocked date does nothing. |
+
+### Typed input (mirrors §5.4)
+
+| Clause | Test asserts |
+| ------ | ------------ |
+| §7.34 | Typing an ISO date and blurring commits it. |
+| §7.35 | Typing a locale-ordered numeric date commits the right day. |
+| §7.36 | Unparseable text sets `aria-invalid` and fires `onInvalidInput` without changing `value`. |
+| §7.37 | Text parsing to an out-of-range date is rejected the same way. |
+| §7.38 | Clearing the field commits `""`. |
+| §7.39 | A `parseInput` prop overrides the built-in parser. |
+
+### Time and datetime (mirrors §5.1)
+
+| Clause | Test asserts |
+| ------ | ------------ |
+| §7.40 | `"time"` mode renders hour and minute selects and no grid. |
+| §7.41 | `minuteStep` controls the minute options. |
+| §7.42 | `"datetime"` mode renders both the grid and the time selects. |
+| §7.43 | `"datetime"` does not commit a date with no time. |
+| §7.44 | `hour12` renders a meridiem select whose labels come from the locale. |
+
+### Locale (mirrors §5.6)
+
+| Clause | Test asserts |
+| ------ | ------------ |
+| §7.45 | Weekday headings start on Monday for en-GB and Sunday for en-US. |
+| §7.46 | `firstDayOfWeek` overrides the locale. |
+| §7.47 | Month names and day `aria-label`s follow `locale`. |
+| §7.48 | `showWeekNumbers` renders a week column with ISO week numbers. |
+
+## 8. DHCW feature parity
+
+Everything the `nhsw-date-picker` does, and where it lives here.
+
+| DHCW behaviour | Here |
+| -------------- | ---- |
+| Text input + calendar toggle button | §4.3 |
+| Modal dialog with month grid | §4.3 |
+| Previous/next month, previous/next year | §4.3 header |
+| `aria-live` month/year heading | §4.3, `aria-live="polite"` |
+| Weekday headers with `abbr` full names | §4.3 |
+| Day cells with full-date `aria-label` and `aria-selected` | §4.3 |
+| Roving `tabindex` on days | §6.2 |
+| Today / other-month / pending day states | `data-today` / `data-outside` / `data-selected` |
+| Arrow, Home/End, PageUp/Down, Shift+PageUp/Down, Enter, Escape | §6.2 |
+| Shortcut buttons with day and month offsets | `shortcuts`, §5.5 |
+| Cancel / OK footer | `labels.cancel` / `labels.confirm` |
+| Parse the input value on open | §5.2 |
+| Emit a change event on confirm | `onChange` |
+| Pre-populated value | `value` |
+| Disabled state | `disabled` |
+| `aria-describedby` passthrough | `describedBy` |
+| Click-outside closes | §5.3 |
+
+## 9. Deliberate departures from DHCW
+
+Each fixes a defect. None is a matter of taste.
+
+1. **No hardcoded English.** DHCW bakes in `MONTHS`, `SHORT_MONTHS`,
+   `"Today"`, `"+1 week"`, `"Cancel"`, `"OK"`, `"Previous year"`, and
+   `"Open calendar for …"`. Month and weekday names come from `Intl` here;
+   everything else is a prop. This is the Lily i18n rule, and for a Welsh
+   design system specifically it is the difference between a bilingual
+   service and an English one with a Welsh veneer.
+2. **Monday is not assumed.** DHCW hardcodes a Monday-first grid. First
+   day of week comes from the locale here, overridable by prop.
+3. **The focus trap exists.** DHCW declares `aria-modal="true"` and traps
+   nothing.
+4. **Civil dates, not local-midnight `Date`.** See §3.
+5. **`min` / `max` / `isDateDisabled`.** DHCW has no way to constrain
+   selection at all, so a booking picker will happily offer last Tuesday.
+6. **Fixed-height grid.** DHCW's `Math.ceil((firstDay + days) / 7)` gives
+   a dialog that changes height as you page.
+7. **No `innerHTML` string building.** DHCW interpolates `data-value` and
+   the page's label text into an HTML string; a label containing a quote
+   breaks the markup, and the pattern is one refactor away from an
+   injection. This is a Svelte template.
+8. **SSR-safe ids.** DHCW uses `Math.random()`.
+9. **Typed input round-trips.** DHCW parses only its own `DD-MMM-YYYY`
+   output; anything else is silently ignored, leaving the field showing
+   text that does not match the value. Here, unparseable text is *marked*
+   invalid rather than ignored.
+10. **Escape genuinely discards.** DHCW's Escape closes the dialog but the
+    pending date it leaves behind is whatever was last arrowed to.
+11. **Time.** DHCW is date-only.
+12. **Week numbers.** Optional here; absent there.
+
+## 10. Out-of-scope (future, not implemented here)
+
+- A month/year quick-jump (clicking the period heading to get a month
+  grid, then a year grid). Worth adding; needs its own labels and keyboard
+  contract.
+- An inline (non-dialog) variant for pages where the calendar is the
+  primary content.
+- Multi-month display for range selection, once a range helper exists.
+- Ports to the other six catalogs. Svelte is canonical per
+  `AGENTS/helpers.md`; the ports follow.
+
+## 11. Tracking
+
+- Package directory: `lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/`
+- Spec version: 0.1.0
+- Created: 2026-07-27
+- License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause (or
+  contact for other terms)
+- Contact: Joel Parker Henderson &lt;joel@joelparkerhenderson.com&gt;

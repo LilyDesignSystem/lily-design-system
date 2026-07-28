@@ -9,12 +9,18 @@ DOM application) for one small, common job.
 
 ## Catalog
 
-| Helper                                                                                    | Purpose                                                         |
-| ----------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
-| [`lily-design-system-angular-theme-chooser`](./lily-design-system-angular-theme-chooser/)   | Pick a visual theme; dynamic CSS load + `data-theme` swap.      |
-| [`lily-design-system-angular-locale-chooser`](./lily-design-system-angular-locale-chooser/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
-| [`lily-design-system-angular-text-size-chooser`](./lily-design-system-angular-text-size-chooser/) | Pick a text size; sets `data-text-size` on the document root.   |
-| [`lily-design-system-angular-share-chooser`](./lily-design-system-angular-share-chooser/) | Share the page: native share sheet where available, else a list of consumer-supplied destinations plus copy-the-URL. |
+| Helper                                                                                          | Purpose                                                                                                              |
+| ----------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| [`lily-design-system-angular-theme-picker`](./lily-design-system-angular-theme-picker/)         | Pick a visual theme; dynamic CSS load + `data-theme` swap.                                                           |
+| [`lily-design-system-angular-locale-picker`](./lily-design-system-angular-locale-picker/)       | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.                                                      |
+| [`lily-design-system-angular-text-size-picker`](./lily-design-system-angular-text-size-picker/) | Pick a text size; sets `data-text-size` on the document root.                                                        |
+| [`lily-design-system-angular-share-picker`](./lily-design-system-angular-share-picker/)         | Share the page: native share sheet where available, else a list of consumer-supplied destinations plus copy-the-URL. |
+| [`lily-design-system-angular-date-time-picker`](./lily-design-system-angular-date-time-picker/) | Pick a date, a time, or both: a typeable text field plus an icon button opening a WAI-ARIA APG Date Picker Dialog. |
+
+`date-time-picker` is a fifth helper, listed after the other four because
+it does not fit their columns: it is a **form-value control**, not a
+page-header preference control, so it has a text field and applies
+nothing to the document root. See `AGENTS/helpers.md` at the repo root.
 
 ## Conventions
 
@@ -78,7 +84,7 @@ Shared design decisions across the catalog:
 
 The headless library mirrors the canonical 490-component catalog.
 Each component is a pure container with no lifecycle. A consumer
-typing on top of `ThemeChooser` from
+typing on top of `ThemePicker` from
 `lily-design-system-angular-headless` writes their own select markup,
 their own persistence, and their own loading.
 
@@ -92,7 +98,7 @@ in one app; the helpers are not a replacement.
 The helpers commit to a small set of Angular 20 features:
 
 - **Standalone components** — every helper declares `standalone:
-  true` (the Angular 20 default) so consumers add them via the
+true` (the Angular 20 default) so consumers add them via the
   `imports` array on their own standalone component, not via an
   NgModule.
 - **Signal inputs** — `input<T>()` and `input.required<T>()` for
@@ -141,7 +147,7 @@ listed in each `spec/index.md` §7 and the test file matches one
 cross-referencing.
 
 ```bash
-cd lily-design-system-angular-theme-chooser
+cd lily-design-system-angular-theme-picker
 pnpm test
 ```
 

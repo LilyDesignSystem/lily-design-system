@@ -18,7 +18,7 @@
     message bundle and re-render every `$_(...)` placeholder.
 -->
 <script lang="ts">
-    import LocaleChooser from "../LocaleChooser.svelte";
+    import LocalePicker from "../LocalePicker.svelte";
     // import { _, locale as i18nLocale } from "svelte-i18n";
 
     // Demo-only stand-ins so this file compiles without svelte-i18n installed.
@@ -26,7 +26,7 @@
     const _ = (key: string) => key;
 </script>
 
-<LocaleChooser
+<LocalePicker
     label="Language"
     locales={["en", "fr", "ar"]}
     localeLabels={{ en: "English", fr: "Français", ar: "العربية" }}

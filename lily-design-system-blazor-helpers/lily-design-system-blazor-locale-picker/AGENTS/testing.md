@@ -1,7 +1,7 @@
-# Testing — LocaleChooser (Blazor)
+# Testing — LocalePicker (Blazor)
 
 The select's test suite lives in
-[`../LocaleChooserTests.cs`](../LocaleChooserTests.cs) and asserts
+[`../LocalePickerTests.cs`](../LocalePickerTests.cs) and asserts
 every numbered acceptance criterion in `spec/index.md` §7. This file
 documents the test harness and the conventions specific to this
 helper. For the catalog-wide test rules see
@@ -19,9 +19,9 @@ using Xunit;
 
 namespace LilyDesignSystem.Blazor.Helpers.Tests;
 
-public class LocaleChooserTests : TestContext
+public class LocalePickerTests : TestContext
 {
-    public LocaleChooserTests()
+    public LocalePickerTests()
     {
         JSInterop.Mode = JSRuntimeMode.Loose;
         JSInterop.SetupVoid("eval", _ => true).SetVoidResult();
@@ -66,18 +66,18 @@ public void Section_7_21_Rtl_Detection()
 [Fact]
 public void Section_7_1_Renders_Button_Controlling_A_Listbox()
 {
-    var cut = RenderComponent<LocaleChooser>(p => p
+    var cut = RenderComponent<LocalePicker>(p => p
         .Add(x => x.Label, "Language")
         .Add(x => x.Locales, new[] { "en", "fr" }));
 
-    Assert.NotNull(cut.Find("div.locale-chooser"));
+    Assert.NotNull(cut.Find("div.locale-picker"));
     Assert.Empty(cut.FindAll("select"));
 
-    var button = cut.Find("button.locale-chooser-button");
+    var button = cut.Find("button.locale-picker-button");
     Assert.Equal("listbox", button.GetAttribute("aria-haspopup"));
     Assert.Equal("false", button.GetAttribute("aria-expanded"));
 
-    var list = cut.Find("ul.locale-chooser-list");
+    var list = cut.Find("ul.locale-picker-list");
     Assert.Equal(button.GetAttribute("aria-controls"), list.GetAttribute("id"));
     Assert.Equal("listbox", list.GetAttribute("role"));
 }
@@ -95,11 +95,11 @@ placeholder any more — index 0 is the first entry in `Locales`:
 [Fact]
 public void Section_7_5_Option_Lang_Is_Bcp47_Hyphen()
 {
-    var cut = RenderComponent<LocaleChooser>(p => p
+    var cut = RenderComponent<LocalePicker>(p => p
         .Add(x => x.Label, "L")
         .Add(x => x.Locales, new[] { "en", "fr_CA" }));
 
-    var options = cut.FindAll("li.locale-chooser-option");
+    var options = cut.FindAll("li.locale-picker-option");
     Assert.Equal("en", options[0].GetAttribute("lang"));
     Assert.Equal("fr-CA", options[1].GetAttribute("lang"));
 
@@ -122,7 +122,7 @@ cut.Find("ul").KeyDown(new KeyboardEventArgs { Key = "Enter" });
 A small local helper keeps the keyboard facts readable:
 
 ```csharp
-private static void Key(IRenderedComponent<LocaleChooser> cut, string selector, string key)
+private static void Key(IRenderedComponent<LocalePicker> cut, string selector, string key)
     => cut.Find(selector).KeyDown(new KeyboardEventArgs { Key = key });
 ```
 
@@ -131,7 +131,7 @@ active option via `cut.Find("ul").GetAttribute("aria-activedescendant")`
 compared against `cut.FindAll("li")[i].GetAttribute("id")`.
 
 `Space` is the key string `" "`. Focus departure is
-`cut.Find("div.locale-chooser").FocusOut()` — note that the component
+`cut.Find("div.locale-picker").FocusOut()` — note that the component
 swallows the first `focusout` after a focus move it made itself, so a
 test that opens the list must call `FocusOut()` twice to close it.
 
@@ -170,9 +170,9 @@ assembly via `InternalsVisibleTo` and tested in isolation:
 public void Section_7_24_Apply_Script_Dir_Handling()
 {
     Assert.Contains("setAttribute('dir',\"rtl\")",
-        LocaleChooser.BuildApplyScript("ar", applyDir: true, storageKey: null));
+        LocalePicker.BuildApplyScript("ar", applyDir: true, storageKey: null));
 
-    var noDir = LocaleChooser.BuildApplyScript("ar", applyDir: false, storageKey: null);
+    var noDir = LocalePicker.BuildApplyScript("ar", applyDir: false, storageKey: null);
     Assert.DoesNotContain("setAttribute('dir'", noDir);
     Assert.Contains("setAttribute('lang',\"ar\")", noDir);
 }
@@ -181,9 +181,9 @@ public void Section_7_24_Apply_Script_Dir_Handling()
 public void Section_7_25_StorageKey_Embedded_In_Apply_Script()
 {
     Assert.Contains("localStorage.setItem(\"lily-locale\",\"fr\")",
-        LocaleChooser.BuildApplyScript("fr", applyDir: true, storageKey: "lily-locale"));
+        LocalePicker.BuildApplyScript("fr", applyDir: true, storageKey: "lily-locale"));
     Assert.DoesNotContain("localStorage.setItem",
-        LocaleChooser.BuildApplyScript("fr", applyDir: true, storageKey: null));
+        LocalePicker.BuildApplyScript("fr", applyDir: true, storageKey: null));
 }
 ```
 
@@ -191,7 +191,7 @@ public void Section_7_25_StorageKey_Embedded_In_Apply_Script()
 
 ```csharp
 var captured = "";
-var cut = RenderComponent<LocaleChooser>(p => p
+var cut = RenderComponent<LocalePicker>(p => p
     .Add(x => x.Label, "L")
     .Add(x => x.Locales, new[] { "en", "fr", "ar" })
     .Add(x => x.ValueChanged,
@@ -220,7 +220,7 @@ Assert.Equal("fr_CA", cut.Find("input[type='hidden']").GetAttribute("value"));
 carries `Value`, `Open`, and `LabelFor` only:
 
 ```csharp
-RenderFragment<LocaleChooserContext> custom = ctx => builder =>
+RenderFragment<LocalePickerContext> custom = ctx => builder =>
 {
     builder.OpenElement(0, "span");
     builder.AddAttribute(1, "data-testid", "custom");
@@ -230,16 +230,16 @@ RenderFragment<LocaleChooserContext> custom = ctx => builder =>
     builder.CloseElement();
 };
 
-var cut = RenderComponent<LocaleChooser>(p => p
+var cut = RenderComponent<LocalePicker>(p => p
     .Add(x => x.Label, "L")
     .Add(x => x.Locales, new[] { "en", "fr" })
     .Add(x => x.ChildContent, custom));
 
 // Replaced, not supplemented.
-Assert.Empty(cut.FindAll(".locale-chooser-icon"));
+Assert.Empty(cut.FindAll(".locale-picker-icon"));
 
 var fragment = cut.Find("[data-testid='custom']");
-Assert.Contains("locale-chooser-button",
+Assert.Contains("locale-picker-button",
     fragment.ParentElement?.GetAttribute("class") ?? "");
 Assert.Equal("False", fragment.GetAttribute("data-open"));
 
@@ -294,4 +294,4 @@ public void Section_7_19_Bcp47_EnUs() { … }
 - Don't use snapshot tests for HTML; assert specific attributes and
   text.
 - Don't introduce tests that don't map to a §7 clause.
-- Don't query `option.locale-chooser-option` — options are `<li>`.
+- Don't query `option.locale-picker-option` — options are `<li>`.

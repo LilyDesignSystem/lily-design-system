@@ -1,7 +1,7 @@
-# Testing — ThemeChooser (Nunjucks)
+# Testing — ThemePicker (Nunjucks)
 
 The select's test suite lives in
-[`../theme-chooser.test.ts`](../theme-chooser.test.ts) and asserts
+[`../theme-picker.test.ts`](../theme-picker.test.ts) and asserts
 every numbered acceptance criterion in `spec/index.md` §7. This file
 documents the test harness and the conventions specific to this
 helper. For the catalog-wide test rules see
@@ -17,52 +17,52 @@ import * as path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
-    autoInit,
-    CIRCLE_WITH_RIGHT_HALF_BLACK,
-    initThemeChooser,
-    normaliseThemesUrl,
-    themeHref,
-} from "./theme-chooser.client.js";
+  autoInit,
+  CIRCLE_WITH_RIGHT_HALF_BLACK,
+  initThemePicker,
+  normaliseThemesUrl,
+  themeHref,
+} from "./theme-picker.client.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const env = nunjucks.configure(__dirname, {
-    autoescape: true,
-    throwOnUndefined: false,
-    trimBlocks: true,
-    lstripBlocks: true,
+  autoescape: true,
+  throwOnUndefined: false,
+  trimBlocks: true,
+  lstripBlocks: true,
 });
 
 function renderMacro(opts: Record<string, unknown>): string {
-    const src =
-        `{% from "./theme-chooser.njk" import themeChooser %}` +
-        `{{ themeChooser(opts) }}`;
-    return env.renderString(src, { opts });
+  const src =
+    `{% from "./theme-picker.njk" import themePicker %}` +
+    `{{ themePicker(opts) }}`;
+  return env.renderString(src, { opts });
 }
 
 function renderMacroWithCaller(
-    opts: Record<string, unknown>,
-    body: string,
+  opts: Record<string, unknown>,
+  body: string,
 ): string {
-    const src =
-        `{% from "./theme-chooser.njk" import themeChooser %}` +
-        `{% call themeChooser(opts) %}${body}{% endcall %}`;
-    return env.renderString(src, { opts });
+  const src =
+    `{% from "./theme-picker.njk" import themePicker %}` +
+    `{% call themePicker(opts) %}${body}{% endcall %}`;
+  return env.renderString(src, { opts });
 }
 
 function mountIntoBody(html: string): HTMLElement {
-    document.body.innerHTML = html;
-    return document.body.querySelector(
-        "[data-lily-theme-chooser-root]",
-    ) as HTMLElement;
+  document.body.innerHTML = html;
+  return document.body.querySelector(
+    "[data-lily-theme-picker-root]",
+  ) as HTMLElement;
 }
 
 beforeEach(() => {
-    document.documentElement.removeAttribute("data-theme");
-    document.head
-        .querySelectorAll("link[data-lily-theme-chooser]")
-        .forEach((n) => n.remove());
-    document.body.innerHTML = "";
-    localStorage.clear();
+  document.documentElement.removeAttribute("data-theme");
+  document.head
+    .querySelectorAll("link[data-lily-theme-picker]")
+    .forEach((n) => n.remove());
+  document.body.innerHTML = "";
+  localStorage.clear();
 });
 ```
 
@@ -73,17 +73,17 @@ factors out a `partsOf(root)` helper:
 
 ```ts
 function partsOf(root: HTMLElement) {
-    return {
-        root,
-        button: root.querySelector(".theme-chooser-button") as HTMLButtonElement,
-        list: root.querySelector(".theme-chooser-list") as HTMLElement,
-        options: Array.from(
-            root.querySelectorAll<HTMLElement>(".theme-chooser-option"),
-        ),
-        input: root.querySelector(
-            "[data-lily-theme-chooser-input]",
-        ) as HTMLInputElement,
-    };
+  return {
+    root,
+    button: root.querySelector(".theme-picker-button") as HTMLButtonElement,
+    list: root.querySelector(".theme-picker-list") as HTMLElement,
+    options: Array.from(
+      root.querySelectorAll<HTMLElement>(".theme-picker-option"),
+    ),
+    input: root.querySelector(
+      "[data-lily-theme-picker-input]",
+    ) as HTMLInputElement,
+  };
 }
 ```
 
@@ -95,24 +95,24 @@ most tests are three lines.
 A typical test exercises both halves:
 
 ```ts
-test("§7.7 initThemeChooser injects a managed <link>", () => {
-    const html = renderMacro({
-        label: "Theme",
-        themesUrl: "/assets/themes/",
-        themes: ["light", "dark"],
-    });
-    const root = mountIntoBody(html);
-    initThemeChooser(root);
-    const link = document.head.querySelector<HTMLLinkElement>(
-        'link[data-lily-theme-chooser="theme"]',
-    );
-    expect(link).not.toBeNull();
-    expect(link!.href).toMatch(/\/assets\/themes\/light\.css$/);
+test("§7.7 initThemePicker injects a managed <link>", () => {
+  const html = renderMacro({
+    label: "Theme",
+    themesUrl: "/assets/themes/",
+    themes: ["light", "dark"],
+  });
+  const root = mountIntoBody(html);
+  initThemePicker(root);
+  const link = document.head.querySelector<HTMLLinkElement>(
+    'link[data-lily-theme-picker="theme"]',
+  );
+  expect(link).not.toBeNull();
+  expect(link!.href).toMatch(/\/assets\/themes\/light\.css$/);
 });
 ```
 
 The macro-only phase covers the markup contract; the init phase
-(`mountIntoBody` → `initThemeChooser` → DOM asserts) covers the
+(`mountIntoBody` → `initThemePicker` → DOM asserts) covers the
 lifecycle and the keyboard contract.
 
 Assert against the parsed DOM rather than the HTML string. The
@@ -128,13 +128,13 @@ events. Both helpers must bubble:
 
 ```ts
 function key(el: Element, k: string, init: KeyboardEventInit = {}) {
-    el.dispatchEvent(
-        new KeyboardEvent("keydown", { key: k, bubbles: true, ...init }),
-    );
+  el.dispatchEvent(
+    new KeyboardEvent("keydown", { key: k, bubbles: true, ...init }),
+  );
 }
 
 function click(el: Element) {
-    el.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+  el.dispatchEvent(new MouseEvent("click", { bubbles: true }));
 }
 ```
 
@@ -142,9 +142,9 @@ Keyboard path — open, move, confirm:
 
 ```ts
 const { button, list, input } = setup();
-key(button, "ArrowDown");   // open, focus moves to the <ul>
-key(list, "ArrowDown");     // active option = index 1
-key(list, "Enter");         // select + apply + close + refocus button
+key(button, "ArrowDown"); // open, focus moves to the <ul>
+key(list, "ArrowDown"); // active option = index 1
+key(list, "Enter"); // select + apply + close + refocus button
 
 expect(document.documentElement.dataset.theme).toBe("dark");
 expect(input.value).toBe("dark");
@@ -190,16 +190,16 @@ timers when a test spans that window:
 ```ts
 vi.useFakeTimers();
 try {
-    const { button, list, options } = setup();
-    key(button, "ArrowDown");
-    key(list, "d");
-    key(list, "a");                       // "da" → "Dark"
-    expect(list.getAttribute("aria-activedescendant")).toBe(options[1].id);
-    vi.advanceTimersByTime(600);          // buffer expires
-    key(list, "a");                       // fresh search → "Abyss"
-    expect(list.getAttribute("aria-activedescendant")).toBe(options[2].id);
+  const { button, list, options } = setup();
+  key(button, "ArrowDown");
+  key(list, "d");
+  key(list, "a"); // "da" → "Dark"
+  expect(list.getAttribute("aria-activedescendant")).toBe(options[1].id);
+  vi.advanceTimersByTime(600); // buffer expires
+  key(list, "a"); // fresh search → "Abyss"
+  expect(list.getAttribute("aria-activedescendant")).toBe(options[2].id);
 } finally {
-    vi.useRealTimers();
+  vi.useRealTimers();
 }
 ```
 
@@ -212,14 +212,14 @@ leaves the active descendant where it was.
 
 ```ts
 const root = mountIntoBody(
-    renderMacroWithCaller(
-        { label: "Theme", themesUrl: "/t/", themes: ["light", "dark"] },
-        `<span class="my-glyph" aria-hidden="true">T</span>`,
-    ),
+  renderMacroWithCaller(
+    { label: "Theme", themesUrl: "/t/", themes: ["light", "dark"] },
+    `<span class="my-glyph" aria-hidden="true">T</span>`,
+  ),
 );
-const button = root.querySelector(".theme-chooser-button")!;
+const button = root.querySelector(".theme-picker-button")!;
 expect(button.querySelector(".my-glyph")).not.toBeNull();
-expect(button.querySelector(".theme-chooser-icon")).toBeNull();
+expect(button.querySelector(".theme-picker-icon")).toBeNull();
 expect(button.getAttribute("aria-label")).toBe("Theme");
 ```
 
@@ -240,7 +240,7 @@ can compare against it instead of hardcoding `"◑"`.
 
 ```ts
 const link = document.head.querySelector<HTMLLinkElement>(
-    'link[data-lily-theme-chooser="theme"]',
+  'link[data-lily-theme-picker="theme"]',
 );
 expect(link).not.toBeNull();
 expect(link!.href).toMatch(/\/t\/light\.css$/);
@@ -271,12 +271,12 @@ Run `localStorage.clear()` in `beforeEach` to keep tests isolated.
 
 ```ts
 test("§7.12 normaliseThemesUrl appends a slash", () => {
-    expect(normaliseThemesUrl("/x")).toBe("/x/");
-    expect(normaliseThemesUrl("/x/")).toBe("/x/");
+  expect(normaliseThemesUrl("/x")).toBe("/x/");
+  expect(normaliseThemesUrl("/x/")).toBe("/x/");
 });
 
 test("§7.12 themeHref builds the full URL", () => {
-    expect(themeHref("/x/", "dark", ".css")).toBe("/x/dark.css");
+  expect(themeHref("/x/", "dark", ".css")).toBe("/x/dark.css");
 });
 ```
 
@@ -288,23 +288,23 @@ during render:
 
 ```ts
 test("macro renders without touching DOM", () => {
-    // beforeEach reset already cleared document. Render again.
-    const html = renderMacro({
-        label: "Theme",
-        themesUrl: "/t/",
-        themes: ["light", "dark"],
-    });
-    expect(html).toContain('class="theme-chooser');
-    expect(document.head.innerHTML).toBe(""); // no link injected
-    expect(document.documentElement.hasAttribute("data-theme")).toBe(false);
+  // beforeEach reset already cleared document. Render again.
+  const html = renderMacro({
+    label: "Theme",
+    themesUrl: "/t/",
+    themes: ["light", "dark"],
+  });
+  expect(html).toContain('class="theme-picker');
+  expect(document.head.innerHTML).toBe(""); // no link injected
+  expect(document.documentElement.hasAttribute("data-theme")).toBe(false);
 });
 ```
 
 This guarantees no `document.*` access leaked into the render
 path.
 
-The complementary guard is that the *server* markup is inert but
-well-formed: mount without calling `initThemeChooser` and assert the
+The complementary guard is that the _server_ markup is inert but
+well-formed: mount without calling `initThemePicker` and assert the
 listbox is `hidden`, `aria-expanded` is `"false"`, nothing carries
 `data-active` or `aria-activedescendant`, exactly one option is
 `aria-selected="true"`, and the hidden input is pre-filled. That
@@ -315,29 +315,39 @@ is worth its own test.
 
 ```ts
 test("§7.13-ish autoInit wires every root on the page", () => {
-    document.body.innerHTML =
-        renderMacro({ label: "A", themesUrl: "/a/", themes: ["light", "dark"], name: "a" }) +
-        renderMacro({ label: "B", themesUrl: "/b/", themes: ["light", "dark"], name: "b" });
-    const controllers = autoInit();
-    expect(controllers).toHaveLength(2);
-    const linkA = document.head.querySelector('link[data-lily-theme-chooser="a"]');
-    const linkB = document.head.querySelector('link[data-lily-theme-chooser="b"]');
-    expect(linkA).not.toBeNull();
-    expect(linkB).not.toBeNull();
+  document.body.innerHTML =
+    renderMacro({
+      label: "A",
+      themesUrl: "/a/",
+      themes: ["light", "dark"],
+      name: "a",
+    }) +
+    renderMacro({
+      label: "B",
+      themesUrl: "/b/",
+      themes: ["light", "dark"],
+      name: "b",
+    });
+  const controllers = autoInit();
+  expect(controllers).toHaveLength(2);
+  const linkA = document.head.querySelector('link[data-lily-theme-picker="a"]');
+  const linkB = document.head.querySelector('link[data-lily-theme-picker="b"]');
+  expect(linkA).not.toBeNull();
+  expect(linkB).not.toBeNull();
 });
 ```
 
 ## Section map
 
-| §7 group        | Test focus                                            |
-| --------------- | ----------------------------------------------------- |
-| 7.1 — 7.6       | Macro DOM contract: root, button, listbox, glyph, ids, labels |
-| 7.7 — 7.11      | Client.js apply lifecycle (jsdom mutations)           |
-| 7.12            | Pure helpers (normaliseThemesUrl, themeHref)          |
-| 7.13            | Attribute spread, destroy, autoInit                   |
-| 7.14 — 7.16     | Server-rendered state: closed listbox, one selected option, pre-filled hidden input |
-| 7.17 — 7.19     | `data-lily-theme-chooser-value` channel + the `{% call %}` glyph override |
-| 7.20 — 7.24     | Keyboard and pointer contract (APG listbox)           |
+| §7 group    | Test focus                                                                          |
+| ----------- | ----------------------------------------------------------------------------------- |
+| 7.1 — 7.6   | Macro DOM contract: root, button, listbox, glyph, ids, labels                       |
+| 7.7 — 7.11  | Client.js apply lifecycle (jsdom mutations)                                         |
+| 7.12        | Pure helpers (normaliseThemesUrl, themeHref)                                        |
+| 7.13        | Attribute spread, destroy, autoInit                                                 |
+| 7.14 — 7.16 | Server-rendered state: closed listbox, one selected option, pre-filled hidden input |
+| 7.17 — 7.19 | `data-lily-theme-picker-value` channel + the `{% call %}` glyph override            |
+| 7.20 — 7.24 | Keyboard and pointer contract (APG listbox)                                         |
 
 The old "only the placeholder is `selected`" regression guard is
 retired along with the placeholder. Its replacement is §7.14–§7.16:
@@ -347,6 +357,6 @@ closed and that exactly one option is marked selected.
 ## One test per §7 acceptance
 
 Each `test(...)` description starts with the clause number, e.g.
-`test("§7.7 initThemeChooser injects the managed <link>", …)`.
+`test("§7.7 initThemePicker injects the managed <link>", …)`.
 Keep the naming convention so a reviewer can spot a missing
 clause.

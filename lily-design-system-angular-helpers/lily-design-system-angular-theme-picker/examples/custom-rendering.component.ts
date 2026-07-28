@@ -1,7 +1,7 @@
 /*
     Example 5 — Custom rendering: replacing the button glyph.
 
-    ThemeChooser exposes exactly one rendering escape hatch: a projected
+    ThemePicker exposes exactly one rendering escape hatch: a projected
     <ng-template> that replaces the glyph inside the trigger button.
     The listbox — its role, options, aria-selected flags,
     aria-activedescendant wiring, and keyboard contract — stays
@@ -31,60 +31,60 @@
        basic.component.ts, which surfaces the active theme without
        touching the button's name.
 
-    The ThemeChooserIcon marker directive is optional. It gives typed
+    The ThemePickerIcon marker directive is optional. It gives typed
     let- variables under strictTemplates via its ngTemplateContextGuard;
     the component queries any projected <ng-template>, so it changes
     nothing at runtime.
 
-    Note also that .theme-chooser-icon is not rendered when a template
+    Note also that .theme-picker-icon is not rendered when a template
     is projected, so CSS written against that hook no longer applies.
 */
 import { ChangeDetectionStrategy, Component, signal } from "@angular/core";
-import { ThemeChooser, ThemeChooserIcon } from "../theme-chooser.component";
+import { ThemePicker, ThemePickerIcon } from "../theme-picker.component";
 
 @Component({
-    selector: "example-custom-rendering",
-    standalone: true,
-    imports: [ThemeChooser, ThemeChooserIcon],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
-        <!-- 1. Inline SVG replacing the default glyph. -->
-        <lily-theme-chooser
-            label="Theme"
-            themesUrl="/assets/themes/"
-            [themes]="themes"
-            [(value)]="theme"
+  selector: "example-custom-rendering",
+  standalone: true,
+  imports: [ThemePicker, ThemePickerIcon],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <!-- 1. Inline SVG replacing the default glyph. -->
+    <lily-theme-picker
+      label="Theme"
+      themesUrl="/assets/themes/"
+      [themes]="themes"
+      [(value)]="theme"
+    >
+      <ng-template>
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          aria-hidden="true"
+          focusable="false"
         >
-            <ng-template>
-                <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 16 16"
-                    aria-hidden="true"
-                    focusable="false"
-                >
-                    <circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" />
-                    <path d="M8 1a7 7 0 0 1 0 14z" fill="currentColor" />
-                </svg>
-            </ng-template>
-        </lily-theme-chooser>
+          <circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" />
+          <path d="M8 1a7 7 0 0 1 0 14z" fill="currentColor" />
+        </svg>
+      </ng-template>
+    </lily-theme-picker>
 
-        <!-- 2. Text label + caret, driven by the ChildArgs context. -->
-        <lily-theme-chooser
-            label="Theme"
-            name="labelled"
-            themesUrl="/assets/themes/"
-            [themes]="themes"
-            [(value)]="theme"
-        >
-            <ng-template lilyThemeChooserIcon let-args>
-                {{ args.labelFor(args.value) }}
-                <span aria-hidden="true">{{ args.open ? "▴" : "▾" }}</span>
-            </ng-template>
-        </lily-theme-chooser>
-    `,
+    <!-- 2. Text label + caret, driven by the ChildArgs context. -->
+    <lily-theme-picker
+      label="Theme"
+      name="labelled"
+      themesUrl="/assets/themes/"
+      [themes]="themes"
+      [(value)]="theme"
+    >
+      <ng-template lilyThemePickerIcon let-args>
+        {{ args.labelFor(args.value) }}
+        <span aria-hidden="true">{{ args.open ? "▴" : "▾" }}</span>
+      </ng-template>
+    </lily-theme-picker>
+  `,
 })
 export class CustomRenderingExample {
-    readonly themes = ["light", "dark", "abyss", "cupcake", "dracula"];
-    theme = signal("");
+  readonly themes = ["light", "dark", "abyss", "cupcake", "dracula"];
+  theme = signal("");
 }

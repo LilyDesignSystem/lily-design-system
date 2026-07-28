@@ -6,7 +6,7 @@ background lives in [`concepts.md`](concepts.md).
 ## Follow the browser's language on first visit
 
 ```razor
-<LocaleChooser Label="Language"
+<LocalePicker Label="Language"
               Locales="@(new[] { "en", "fr", "de", "ar" })"
               DetectFromNavigator="true"
               StorageKey="lily-locale"
@@ -28,13 +28,13 @@ Detection only ever decides the first visit.
 
 ## Show each language in its own language (endonyms)
 
-The single highest-value change you can make to a language chooser. A
+The single highest-value change you can make to a language picker. A
 user who cannot read the current interface language is exactly the user
 who needs this control, and "Welsh" is useless to someone scanning for
 "Cymraeg".
 
 ```razor
-<LocaleChooser Label="Language"
+<LocalePicker Label="Language"
               Locales="@codes"
               LocaleLabels="@Endonyms"
               @bind-Value="locale" />
@@ -64,7 +64,7 @@ The only way to avoid a first-paint flash of the wrong language, since
 [`ssr.md`](ssr.md); the shape is:
 
 ```razor
-<LocaleChooser Label="Language"
+<LocalePicker Label="Language"
               Locales="@codes"
               Value="@serverResolvedLocale"
               OnChange="PersistLocale"
@@ -80,7 +80,7 @@ The component applies `lang` and `dir`. It does not translate anything —
 that is yours, and `OnChange` is the seam:
 
 ```razor
-<LocaleChooser Label="Language" Locales="@codes"
+<LocalePicker Label="Language" Locales="@codes"
               @bind-Value="locale" OnChange="OnLocaleChange" />
 
 @code {
@@ -102,7 +102,7 @@ your `Locales` list may hold `"pt_BR"`. Full wiring for
 ## Persist to a cookie instead of localStorage
 
 ```razor
-<LocaleChooser Label="Language" Locales="@codes"
+<LocalePicker Label="Language" Locales="@codes"
               Value="@initialLocale"
               OnChange="PersistLocale" />
 
@@ -170,7 +170,7 @@ component imperatively:
     }
 </datalist>
 
-<LocaleChooser @ref="localeSelect" Label="Language" Locales="@codes" @bind-Value="locale" />
+<LocalePicker @ref="localeSelect" Label="Language" Locales="@codes" @bind-Value="locale" />
 ```
 
 Resolve the typed name back to a code and call `SetLocaleAsync`. Full
@@ -185,7 +185,7 @@ Useful when testing a layout. `ApplyDir="false"` leaves `dir` alone
 while still writing `lang`:
 
 ```razor
-<LocaleChooser Label="Language" Locales="@codes" ApplyDir="false" @bind-Value="locale" />
+<LocalePicker Label="Language" Locales="@codes" ApplyDir="false" @bind-Value="locale" />
 ```
 
 Then apply direction to a subtree you control:
@@ -205,11 +205,11 @@ See [`RtlDemo.razor`](../examples/RtlDemo.razor) and
 and drive the component:
 
 ```razor
-<LocaleChooser @ref="localeSelect" Label="Language" Locales="@codes"
+<LocalePicker @ref="localeSelect" Label="Language" Locales="@codes"
               StorageKey="lily-locale" @bind-Value="locale" />
 
 @code {
-    private LocaleChooser? localeSelect;
+    private LocalePicker? localeSelect;
 
     [JSInvokable]
     public async Task OnStorageLocale(string code)
@@ -233,7 +233,7 @@ and drive the component:
 The `storage` event does not fire in the tab that made the change, so
 this cannot loop.
 
-## Put the chooser in a header utility bar
+## Put the picker in a header utility bar
 
 The conventional placement, and the one users look for first:
 
@@ -241,12 +241,12 @@ The conventional placement, and the one users look for first:
 <header class="site-header">
     <a class="site-logo" href="/">…</a>
     <nav class="site-utility" aria-label="Site settings">
-        <LocaleChooser Label="Language" Locales="@codes"
+        <LocalePicker Label="Language" Locales="@codes"
                       LocaleLabels="@Endonyms" StorageKey="lily-locale"
                       @bind-Value="locale" />
-        <span class="locale-chooser-status" aria-live="polite"
+        <span class="locale-picker-status" aria-live="polite"
               lang="@Locales.Bcp47LocaleTag(locale)">@Endonyms[locale]</span>
-        <ThemeChooser Label="Theme" ThemesUrl="/assets/themes/"
+        <ThemePicker Label="Theme" ThemesUrl="/assets/themes/"
                      Themes="@themes" StorageKey="lily-theme" />
     </nav>
 </header>
@@ -264,7 +264,7 @@ call rather than on a real DOM:
 [Fact]
 public async Task Applies_Rtl_For_Arabic()
 {
-    var script = LocaleChooser.BuildApplyScript("ar", applyDir: true, storageKey: null);
+    var script = LocalePicker.BuildApplyScript("ar", applyDir: true, storageKey: null);
     Assert.Contains("setAttribute('lang',\"ar\")", script);
     Assert.Contains("setAttribute('dir',\"rtl\")", script);
 }

@@ -1,7 +1,7 @@
 {
-  "name": "lily-design-system-angular-share-chooser",
+  "name": "lily-design-system-angular-share-picker",
   "version": "0.1.0",
-  "description": "Lily Design System - Angular 20 share chooser",
+  "description": "Lily Design System - Angular 20 share picker",
   "peerDependencies": {
     "@angular/core": ">=20.0.0 <22.0.0",
     "@angular/common": ">=20.0.0 <22.0.0"
@@ -17,7 +17,7 @@
     "system",
     "angular",
     "share",
-    "chooser"
+    "picker"
   ],
   "author": "joel@joelparkerhenderson.com",
   "license": "MIT"

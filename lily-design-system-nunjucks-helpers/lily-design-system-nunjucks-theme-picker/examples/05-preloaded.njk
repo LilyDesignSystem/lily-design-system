@@ -14,7 +14,7 @@
   In production this `<head>` content lives in your layout; the
   block here is illustrative.
 #}
-{% from "../theme-chooser.njk" import themeChooser %}
+{% from "../theme-picker.njk" import themePicker %}
 
 <!--
   Place these in your layout's <head>:
@@ -24,13 +24,13 @@
   <link rel="stylesheet" href="/assets/themes/abyss.css">
 -->
 
-{{ themeChooser({
+{{ themePicker({
     label: "Theme",
     themesUrl: "/assets/themes/",
     themes: ["light", "dark", "abyss"]
 }) }}
 
 <script type="module">
-    import { autoInit } from "../theme-chooser.client.js";
+    import { autoInit } from "../theme-picker.client.js";
     autoInit();
 </script>

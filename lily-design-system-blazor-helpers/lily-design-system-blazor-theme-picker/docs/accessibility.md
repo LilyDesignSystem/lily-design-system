@@ -10,20 +10,20 @@ buried.
 
 | Element                     | Role / Property                                   | Source             |
 | --------------------------- | ------------------------------------------------- | ------------------ |
-| `div.theme-chooser`          | none (plain container)                            | Component          |
+| `div.theme-picker`          | none (plain container)                            | Component          |
 | `input[type=hidden]`        | `name` — form participation only                  | Component          |
-| `button.theme-chooser-button`| implicit `role="button"`                          | Browser            |
-| `button.theme-chooser-button`| `aria-label="@Label"`                             | Consumer parameter |
-| `button.theme-chooser-button`| `aria-haspopup="listbox"`                         | Component          |
-| `button.theme-chooser-button`| `aria-expanded="true\|false"`                     | Component          |
-| `button.theme-chooser-button`| `aria-controls="{list id}"`                       | Component          |
-| `span.theme-chooser-icon`    | `aria-hidden="true"`                              | Component          |
-| `ul.theme-chooser-list`      | `role="listbox"`, `tabindex="-1"`                 | Component          |
-| `ul.theme-chooser-list`      | `aria-label="@Label"`                             | Consumer parameter |
-| `ul.theme-chooser-list`      | `aria-activedescendant` (only while open)         | Component          |
-| `ul.theme-chooser-list`      | `hidden` while closed                             | Component          |
-| `li.theme-chooser-option`    | `role="option"`, `aria-selected="true\|false"`    | Component          |
-| `li.theme-chooser-option`    | `data-active` on the active option (styling hook) | Component          |
+| `button.theme-picker-button`| implicit `role="button"`                          | Browser            |
+| `button.theme-picker-button`| `aria-label="@Label"`                             | Consumer parameter |
+| `button.theme-picker-button`| `aria-haspopup="listbox"`                         | Component          |
+| `button.theme-picker-button`| `aria-expanded="true\|false"`                     | Component          |
+| `button.theme-picker-button`| `aria-controls="{list id}"`                       | Component          |
+| `span.theme-picker-icon`    | `aria-hidden="true"`                              | Component          |
+| `ul.theme-picker-list`      | `role="listbox"`, `tabindex="-1"`                 | Component          |
+| `ul.theme-picker-list`      | `aria-label="@Label"`                             | Consumer parameter |
+| `ul.theme-picker-list`      | `aria-activedescendant` (only while open)         | Component          |
+| `ul.theme-picker-list`      | `hidden` while closed                             | Component          |
+| `li.theme-picker-option`    | `role="option"`, `aria-selected="true\|false"`    | Component          |
+| `li.theme-picker-option`    | `data-active` on the active option (styling hook) | Component          |
 
 Focus stays on the `<ul>` while the listbox is open; the active option
 is conveyed by `aria-activedescendant`, never by moving DOM focus onto
@@ -115,7 +115,7 @@ Because the glyph is `aria-hidden`, a missing glyph is a *visual*
 failure, not a naming failure — the control stays operable and named.
 But it can leave a sighted user with an unlabelled blank button. If
 that matters, supply your own `ChildContent` (an inline SVG is the
-robust choice) and/or give `.theme-chooser-button` a visible
+robust choice) and/or give `.theme-picker-button` a visible
 `min-width` / `min-height` so it stays a clear target either way.
 
 ## The status region is still the recommended pattern
@@ -127,9 +127,9 @@ region echoing the active theme, and that is what
 [quick start](../index.md#quick-start) show.
 
 ```razor
-<ThemeChooser Label="Choose a theme" @bind-Value="theme" ... />
+<ThemePicker Label="Choose a theme" @bind-Value="theme" ... />
 
-<p class="theme-chooser-status" aria-live="polite">
+<p class="theme-picker-status" aria-live="polite">
     @Localizer["currentTheme", ThemeLabel(theme)]
 </p>
 ```
@@ -171,7 +171,7 @@ A `IStringLocalizer<T>` example:
 ```razor
 @inject IStringLocalizer<SharedResources> Localizer
 
-<ThemeChooser
+<ThemePicker
     Label="@Localizer["chooseTheme"]"
     ThemesUrl="/assets/themes/"
     Themes="@(new[]{ "light", "dark", "abyss" })"
@@ -195,14 +195,14 @@ outline that meets AAA.
 A safe default:
 
 ```css
-.theme-chooser-button:focus-visible,
-.theme-chooser-list:focus-visible {
+.theme-picker-button:focus-visible,
+.theme-picker-list:focus-visible {
     outline: 2px solid var(--color-primary, currentColor);
     outline-offset: 2px;
 }
 
 /* The active option is not focused; give it its own visible cue. */
-.theme-chooser-option[data-active] {
+.theme-picker-option[data-active] {
     outline: 2px solid var(--color-primary, currentColor);
     outline-offset: -2px;
 }
@@ -219,7 +219,7 @@ you add a dropdown transition in consumer CSS, gate it:
 
 ```css
 @media (prefers-reduced-motion: reduce) {
-    .theme-chooser-list {
+    .theme-picker-list {
         transition: none;
     }
 }
@@ -253,7 +253,7 @@ as a guarantee.
 - **Hiding the options with `display: none`.** That removes them from
   the accessibility tree. The component's own `hidden` on the `<ul>` is
   the correct mechanism; do not add a second one.
-- **Styling `.theme-chooser-list` without positioning it.** The package
+- **Styling `.theme-picker-list` without positioning it.** The package
   ships no CSS, so an open list participates in normal flow and shoves
   the page around. Give the root `position: relative` and the list
   `position: absolute`. See [styling.md](./styling.md).
@@ -285,23 +285,23 @@ unless you have measured the trade-off.
 [Fact]
 public void Has_Accessible_Name_And_Listbox_Wiring()
 {
-    var cut = RenderComponent<ThemeChooser>(p => p
+    var cut = RenderComponent<ThemePicker>(p => p
         .Add(x => x.Label, "Theme")
         .Add(x => x.ThemesUrl, "/t/")
         .Add(x => x.Themes, new[] { "light", "dark" }));
 
-    var button = cut.Find("button.theme-chooser-button");
+    var button = cut.Find("button.theme-picker-button");
     Assert.Equal("Theme", button.GetAttribute("aria-label"));
     Assert.Equal("listbox", button.GetAttribute("aria-haspopup"));
     Assert.Equal("false", button.GetAttribute("aria-expanded"));
 
-    var list = cut.Find("ul.theme-chooser-list");
+    var list = cut.Find("ul.theme-picker-list");
     Assert.Equal(button.GetAttribute("aria-controls"), list.GetAttribute("id"));
     Assert.Equal("Theme", list.GetAttribute("aria-label"));
     Assert.True(list.HasAttribute("hidden"));
 
     // The glyph must never become the accessible name.
-    Assert.Equal("true", cut.Find(".theme-chooser-icon").GetAttribute("aria-hidden"));
+    Assert.Equal("true", cut.Find(".theme-picker-icon").GetAttribute("aria-hidden"));
 }
 ```
 

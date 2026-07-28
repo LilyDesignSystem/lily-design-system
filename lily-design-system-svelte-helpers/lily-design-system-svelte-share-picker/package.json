@@ -1,7 +1,7 @@
 {
   "name": "lily-design-system-svelte-share-picker",
   "version": "0.1.0",
-  "description": "Lily Design System - Svelte 5 share chooser",
+  "description": "Lily Design System - Svelte 5 share picker",
   "type": "module",
   "svelte": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -31,7 +31,7 @@
     "share",
     "clipboard",
     "web-share",
-    "chooser"
+    "picker"
   ],
   "author": "joel@joelparkerhenderson.com",
   "license": "MIT"

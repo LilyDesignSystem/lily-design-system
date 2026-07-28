@@ -1,15 +1,15 @@
-{# Minimal ShareChooser: a label, two destinations, and copy.
+{# Minimal SharePicker: a label, two destinations, and copy.
 
    Note the shape of `targets`: `href` is a resolved STRING, because a
    Nunjucks macro cannot call a function. You are rendering server-side
    and already hold the URL, so build it here. See ../spec/index.md §3.3.
 #}
-{% from "share-chooser.njk" import shareChooser %}
+{% from "share-picker.njk" import sharePicker %}
 
 {% set pageUrl = "https://example.test/articles/hello" %}
 {% set pageTitle = "Hello, world" %}
 
-{{ shareChooser({
+{{ sharePicker({
     label: "Share this article",
     url: pageUrl,
     title: pageTitle,
@@ -41,6 +41,6 @@
    permission) and the announcement is their only route out. #}
 
 <script type="module">
-    import { autoInit } from "/js/share-chooser.client.js";
+    import { autoInit } from "/js/share-picker.client.js";
     autoInit();
 </script>

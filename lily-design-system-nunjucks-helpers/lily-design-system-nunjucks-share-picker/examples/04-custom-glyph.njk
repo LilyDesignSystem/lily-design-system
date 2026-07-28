@@ -11,13 +11,13 @@
    ("Share this article"). That is WCAG 2.5.3 Label in Name, and it is
    why the label is not something like "Send to a friend".
 #}
-{% from "share-chooser.njk" import shareChooser %}
+{% from "share-picker.njk" import sharePicker %}
 
 {% set targets = [
     {id: "mastodon", label: "Mastodon", href: "https://mastodon.example/share?url=https%3A%2F%2Fexample.test"}
 ] %}
 
-{% call shareChooser({
+{% call sharePicker({
     label: "Share this article",
     targets: targets,
     copyLabel: "Copy link",
@@ -31,6 +31,6 @@
 {% endcall %}
 
 <script type="module">
-    import { autoInit } from "/js/share-chooser.client.js";
+    import { autoInit } from "/js/share-picker.client.js";
     autoInit();
 </script>

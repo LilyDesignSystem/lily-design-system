@@ -1,4 +1,4 @@
-# Lifecycle — `<theme-chooser>` (HTML helper)
+# Lifecycle — `<theme-picker>` (HTML helper)
 
 The custom-element-flavoured walk-through of the select's
 lifecycle. The canonical contract is in [`../spec/index.md`](../spec/index.md)
@@ -9,7 +9,7 @@ the custom-element callbacks (`connectedCallback`,
 ## Lifecycle diagram
 
 ```
-parser sees <theme-chooser label="…" themes-url="…" themes="…">
+parser sees <theme-picker label="…" themes-url="…" themes="…">
   │
   ▼
 element constructor (no-op — DOM access is forbidden in the
@@ -68,8 +68,8 @@ element removed from document
 disconnectedCallback:
   ↳ document.removeEventListener("click", #onDocumentClick)
   ↳ clearTimeout(#typeaheadTimer)
-  ↳ if no other <theme-chooser name="{this.name}"> remains:
-       document.head.querySelector('[data-lily-theme-chooser="{name}"]')?.remove()
+  ↳ if no other <theme-picker name="{this.name}"> remains:
+       document.head.querySelector('[data-lily-theme-picker="{name}"]')?.remove()
 ```
 
 ## Two update paths: `#render()` vs `#syncState()`
@@ -89,7 +89,7 @@ because a rebuild cannot preserve focus inside the list.
 and `data-active` per option; and the hidden input's `value`. It
 runs on every open, close, active-option move, and `value` change.
 
-A `value` change therefore deliberately does *not* re-render. If it
+A `value` change therefore deliberately does _not_ re-render. If it
 did, changing the theme while the list is open would destroy the
 `<ul>` that currently has focus.
 
@@ -98,14 +98,14 @@ did, changing the theme while the list is open would destroy the
 Three paths close the list, and they differ in whether focus
 returns to the button:
 
-| Trigger                        | Call                | Refocus button |
-| ------------------------------ | ------------------- | -------------- |
-| Option chosen (click / Enter / Space) | `closeList()` | yes            |
-| `Escape`                       | `closeList()`       | yes            |
-| `Tab`                          | `closeList(false)`  | no — focus moves on |
-| Click outside the root         | `closeList(false)`  | no             |
-| Focus leaves the root          | `closeList(false)`  | no             |
-| Structural re-render           | (state reset)       | no             |
+| Trigger                               | Call               | Refocus button      |
+| ------------------------------------- | ------------------ | ------------------- |
+| Option chosen (click / Enter / Space) | `closeList()`      | yes                 |
+| `Escape`                              | `closeList()`      | yes                 |
+| `Tab`                                 | `closeList(false)` | no — focus moves on |
+| Click outside the root                | `closeList(false)` | no                  |
+| Focus leaves the root                 | `closeList(false)` | no                  |
+| Structural re-render                  | (state reset)      | no                  |
 
 The focus-out handler defers its check to a microtask: some engines
 (and jsdom) dispatch `focusout` with a null `relatedTarget` before
@@ -184,7 +184,7 @@ re-entrant `attributeChangedCallback` is idempotent.
         try { localStorage.setItem(this.storageKey, slug); } catch { /* ignore */ }
     }
     this.dispatchEvent(
-        new CustomEvent<ThemeChooserChangeDetail>("themechange", {
+        new CustomEvent<ThemePickerChangeDetail>("themechange", {
             detail: { theme: slug },
             bubbles: true,
             composed: true,
@@ -210,7 +210,7 @@ If a consumer wants to re-apply when, e.g., `themes-url` changes
 mid-session, they can write back to `value`:
 
 ```ts
-const select = document.querySelector("theme-chooser")!;
+const select = document.querySelector("theme-picker")!;
 const current = select.getAttribute("value");
 select.setAttribute("themes-url", "/assets/themes-v2/");
 select.removeAttribute("value");
@@ -219,7 +219,7 @@ if (current) select.setAttribute("value", current); // forces re-apply
 
 ## SSR
 
-The class definition file (`theme-chooser.ts`) has no top-level DOM
+The class definition file (`theme-picker.ts`) has no top-level DOM
 access. The barrel (`index.ts`) only calls
 `customElements.define(...)` when `typeof customElements !==
 "undefined"`, so importing the module in Node throws no error.
@@ -230,13 +230,13 @@ tree, which never happens in Node.
 The static-site-generator recipe for flicker-free first paint is:
 inline `<html data-theme="…">` and the matching `<link>` in the
 SSG-emitted HTML, plus pass the resolved `value` attribute on the
-`<theme-chooser>` host. The select upgrades without changing
+`<theme-picker>` host. The select upgrades without changing
 anything visible. See [`./ssr.md`](./ssr.md).
 
 ## Unmount
 
 `disconnectedCallback` removes the managed `<link>` only when no
-other `<theme-chooser>` with the same `name` remains in the
+other `<theme-picker>` with the same `name` remains in the
 document. This lets multiple selects coordinate (paired UI) while
 still cleaning up when both unmount.
 
@@ -244,9 +244,9 @@ If a consumer wants to fully tear down the theme on unmount, they
 can do it themselves before removing the element:
 
 ```ts
-document.head.querySelector('[data-lily-theme-chooser="theme"]')?.remove();
+document.head.querySelector('[data-lily-theme-picker="theme"]')?.remove();
 document.documentElement.removeAttribute("data-theme");
-document.querySelector("theme-chooser")?.remove();
+document.querySelector("theme-picker")?.remove();
 ```
 
 This is rare. Most apps want the theme to outlive the select.

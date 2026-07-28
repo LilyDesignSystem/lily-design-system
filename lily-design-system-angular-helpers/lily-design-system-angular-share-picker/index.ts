@@ -1,14 +1,14 @@
 export {
-  ShareChooser,
-  ShareChooserIcon,
+  SharePicker,
+  SharePickerIcon,
   BLACK_RIGHTWARDS_ARROWHEAD,
   canShareNatively,
   canCopy,
-  nextShareChooserId,
-} from "./share-chooser.component";
+  nextSharePickerId,
+} from "./share-picker.component";
 export type {
   ChildArgs,
   ShareTarget,
   ShareStrategy,
   ShareEvent,
-} from "./share-chooser.component";
+} from "./share-picker.component";

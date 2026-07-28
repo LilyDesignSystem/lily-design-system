@@ -34,15 +34,15 @@ An unstyled `<ul>` is a block element in normal flow.
 
 ## "The dropdown is always open" / "never opens"
 
-**Likely cause.** Your CSS sets `display` on `.theme-chooser-list`,
+**Likely cause.** Your CSS sets `display` on `.theme-picker-list`,
 overriding the UA stylesheet's `[hidden] { display: none }`. The
 component toggles the `hidden` attribute; it does not set `display`.
 
 **Fix.** Re-assert the rule after your own:
 
 ```css
-.theme-chooser-list[hidden] {
-    display: none;
+.theme-picker-list[hidden] {
+  display: none;
 }
 ```
 
@@ -64,8 +64,8 @@ focus and tracks the active option with `aria-activedescendant`.
 **Fix.** Style the `[data-active]` attribute instead:
 
 ```css
-.theme-chooser-option[data-active] {
-    background: var(--theme-color-base-200, highlight);
+.theme-picker-option[data-active] {
+  background: var(--theme-color-base-200, highlight);
 }
 ```
 
@@ -133,7 +133,7 @@ Almost always a caching issue. Either:
 
 - Add a cache-busting suffix via `extension` (e.g. `.css?v=1`), or
 - Configure the static asset server to send `Cache-Control:
-  must-revalidate` for theme CSS files.
+must-revalidate` for theme CSS files.
 
 ## "Error: useState is not a function" / "Cannot read property 'useState' of null"
 
@@ -141,8 +141,8 @@ Almost always a caching issue. Either:
 server component or a non-React context. The select is a client
 component.
 
-**Fix.** Confirm `ThemeChooser.tsx` starts with `"use client"`. The
-consumer file (the one that renders `<ThemeChooser>`) does NOT need
+**Fix.** Confirm `ThemePicker.tsx` starts with `"use client"`. The
+consumer file (the one that renders `<ThemePicker>`) does NOT need
 the directive — Next.js follows the import graph and the select's
 own directive is sufficient.
 
@@ -160,7 +160,7 @@ uncontrolled at first render and assumes the mode is stable.
 undefined initially, coalesce to empty string:
 
 ```tsx
-<ThemeChooser value={theme ?? ""} onChange={setTheme} {...required} />
+<ThemePicker value={theme ?? ""} onChange={setTheme} {...required} />
 ```
 
 ## "Storybook story renders no selected option"
@@ -175,12 +175,12 @@ initial state deterministic:
 
 ```tsx
 export const Default: Story = {
-    args: {
-        label: "Theme",
-        themesUrl: "/t/",
-        themes: ["light", "dark"],
-        defaultValue: "light",
-    },
+  args: {
+    label: "Theme",
+    themesUrl: "/t/",
+    themes: ["light", "dark"],
+    defaultValue: "light",
+  },
 };
 ```
 
@@ -193,11 +193,11 @@ export const Default: Story = {
 
 ```ts
 beforeEach(() => {
-    document.head
-        .querySelectorAll("link[data-lily-theme-chooser]")
-        .forEach((el) => el.remove());
-    document.documentElement.removeAttribute("data-theme");
-    localStorage.clear();
+  document.head
+    .querySelectorAll("link[data-lily-theme-picker]")
+    .forEach((el) => el.remove());
+  document.documentElement.removeAttribute("data-theme");
+  localStorage.clear();
 });
 ```
 

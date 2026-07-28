@@ -1,14 +1,14 @@
-# AGENTS — TextSizeChooser (Nunjucks helper)
+# AGENTS — TextSizePicker (Nunjucks helper)
 
 Single source of truth: [spec/index.md](./spec/index.md). Read it first; everything
 below is a fast index.
 
 ## What this package is
 
-A reusable Nunjucks 3 + vanilla-JS headless text-size chooser that
+A reusable Nunjucks 3 + vanilla-JS headless text-size picker that
 applies the chosen size to the document root via `data-text-size`,
 with optional `localStorage` persistence. Ships no CSS; consumer
-styles the `text-size-chooser` class hooks and maps each
+styles the `text-size-picker` class hooks and maps each
 `[data-text-size="…"]` slug to real typography.
 
 The helper is a **macro + client.js pair**:
@@ -20,50 +20,50 @@ The helper is a **macro + client.js pair**:
 
 **BREAKING (Unreleased):** this helper no longer renders a native
 `<select>`. It renders an icon button (U+0041 LATIN CAPITAL LETTER A)
-that opens a listbox, matching `theme-chooser` and `locale-chooser`.
+that opens a listbox, matching `theme-picker` and `locale-picker`.
 
 ## Files
 
-| File                          | Purpose                                          |
-| ----------------------------- | ------------------------------------------------ |
-| `spec/index.md`               | Specification-driven contract (canonical).       |
-| `text-size-chooser.njk`        | Nunjucks macro (`textSizeChooser(opts)`).         |
-| `text-size-chooser.client.js`  | ES module — `initTextSizeChooser`, `autoInit`, `sizeName`, glyph. |
-| `text-size-chooser.test.ts`    | Vitest spec, one assertion per §7 acceptance.    |
-| `index.md`                    | Concise user guide.                              |
-| `docs/accessibility.md`       | Roles, keyboard contract, and the honest tradeoffs. |
-| `docs/ssr.md`                 | Server rendering, first paint, and the no-JS regression. |
+| File                          | Purpose                                                           |
+| ----------------------------- | ----------------------------------------------------------------- |
+| `spec/index.md`               | Specification-driven contract (canonical).                        |
+| `text-size-picker.njk`       | Nunjucks macro (`textSizePicker(opts)`).                         |
+| `text-size-picker.client.js` | ES module — `initTextSizePicker`, `autoInit`, `sizeName`, glyph. |
+| `text-size-picker.test.ts`   | Vitest spec, one assertion per §7 acceptance.                     |
+| `index.md`                    | Concise user guide.                                               |
+| `docs/accessibility.md`       | Roles, keyboard contract, and the honest tradeoffs.               |
+| `docs/ssr.md`                 | Server rendering, first paint, and the no-JS regression.          |
 
 ## Public surface
 
 ### Macro
 
-- Import: `{% from "./text-size-chooser.njk" import textSizeChooser %}`
-- Call:   `{{ textSizeChooser({label, sizes, …}) }}`
+- Import: `{% from "./text-size-picker.njk" import textSizePicker %}`
+- Call: `{{ textSizePicker({label, sizes, …}) }}`
 - Required `opts` keys: `label`, `sizes`.
 - Full table in [spec/index.md §4.1](./spec/index.md#41-macro-parameters).
 
 ### Client.js
 
-- `import { initTextSizeChooser, autoInit, sizeName, LATIN_CAPITAL_LETTER_A } from "./text-size-chooser.client.js"`
-- `sizeName(slug)` mirrors theme-chooser's `themeName` and
-  locale-chooser's `localeName`: `"x-large"` → `"X Large"`. It is the
+- `import { initTextSizePicker, autoInit, sizeName, LATIN_CAPITAL_LETTER_A } from "./text-size-picker.client.js"`
+- `sizeName(slug)` mirrors theme-picker's `themeName` and
+  locale-picker's `localeName`: `"x-large"` → `"X Large"`. It is the
   single JS statement of the label rule; the macro applies the same
   rule in template syntax (a Nunjucks macro cannot call into the
   module, and delegating would force every consumer to register a
   custom filter), and a test holds the two in agreement.
-- Required call: `initTextSizeChooser(rootElement, opts?)` or
-  `autoInit(opts?)` to wire every `[data-lily-text-size-chooser-root]`
+- Required call: `initTextSizePicker(rootElement, opts?)` or
+  `autoInit(opts?)` to wire every `[data-lily-text-size-picker-root]`
   on the page.
 
 ## Behaviour contract (one paragraph)
 
-The macro emits a `<div class="text-size-chooser">` carrying
-`data-lily-text-size-chooser-*` hooks describing the control's name,
+The macro emits a `<div class="text-size-picker">` carrying
+`data-lily-text-size-picker-*` hooks describing the control's name,
 storage key, default value, and — when `opts.value` is set — the
-consumer's initial value (`data-lily-text-size-chooser-value`). Inside
+consumer's initial value (`data-lily-text-size-picker-value`). Inside
 it are a hidden input, an icon `<button>`, and a
-`<ul role="listbox" hidden>`. On `initTextSizeChooser(root)`, the client
+`<ul role="listbox" hidden>`. On `initTextSizePicker(root)`, the client
 (1) resolves the initial slug from value attribute > storage >
 default-value > `"medium"` > first-option, (2) sets
 `data-text-size="{slug}"` on the resolved target (defaults to
@@ -77,20 +77,42 @@ APG keyboard contract, and typeahead. There is NO managed `<link>`, NO
 ## HTML
 
 ```html
-<div class="text-size-chooser {classes}" data-lily-text-size-chooser-root …>
-  <input type="hidden" name="{name}" value="{selected}"
-         data-lily-text-size-chooser-input>
-  <button type="button" class="text-size-chooser-button"
-          aria-label="{label}" aria-haspopup="listbox"
-          aria-expanded="false" aria-controls="{id}-list"
-          data-lily-text-size-chooser-button>
-    <span class="text-size-chooser-icon" aria-hidden="true">A</span>
+<div class="text-size-picker {classes}" data-lily-text-size-picker-root …>
+  <input
+    type="hidden"
+    name="{name}"
+    value="{selected}"
+    data-lily-text-size-picker-input
+  />
+  <button
+    type="button"
+    class="text-size-picker-button"
+    aria-label="{label}"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="{id}-list"
+    data-lily-text-size-picker-button
+  >
+    <span class="text-size-picker-icon" aria-hidden="true">A</span>
   </button>
-  <ul class="text-size-chooser-list" id="{id}-list" role="listbox"
-      aria-label="{label}" tabindex="-1" hidden
-      data-lily-text-size-chooser-list>
-    <li class="text-size-chooser-option" id="{id}-option-{i}" role="option"
-        aria-selected="true|false" data-value="{slug}">{labelFor(slug)}</li>
+  <ul
+    class="text-size-picker-list"
+    id="{id}-list"
+    role="listbox"
+    aria-label="{label}"
+    tabindex="-1"
+    hidden
+    data-lily-text-size-picker-list
+  >
+    <li
+      class="text-size-picker-option"
+      id="{id}-option-{i}"
+      role="option"
+      aria-selected="true|false"
+      data-value="{slug}"
+    >
+      {labelFor(slug)}
+    </li>
   </ul>
 </div>
 ```
@@ -98,7 +120,7 @@ APG keyboard contract, and typeahead. There is NO managed `<link>`, NO
 The glyph is U+0041 LATIN CAPITAL LETTER A, `aria-hidden`. A plain
 letter rather than a pictograph, deliberately: U+1F5DB DECREASE FONT
 SIZE SYMBOL has no real glyph in common font stacks and means
-*decrease* rather than *size*. A `{% call %}` block body replaces the
+_decrease_ rather than _size_. A `{% call %}` block body replaces the
 glyph inside the button (the Nunjucks equivalent of `children`); it
 does not render options.
 
@@ -107,10 +129,10 @@ resolved as `value or defaultValue or ("medium" if present else
 sizes[0])`, and pre-fills the hidden input with it. The listbox is
 rendered `hidden` with no `aria-activedescendant` and no `data-active`
 — those are client-owned open-state concerns. `opts.value` travels
-ONLY on `data-lily-text-size-chooser-value`.
+ONLY on `data-lily-text-size-picker-value`.
 
 Ids are `{id}-list` / `{id}-option-{i}` where `id` defaults to
-`text-size-chooser-{name}`. Deterministic and SSR-safe; two instances
+`text-size-picker-{name}`. Deterministic and SSR-safe; two instances
 sharing a `name` need an explicit distinct `id`.
 
 There is **no** `detectFromSystem` param — the web platform exposes no

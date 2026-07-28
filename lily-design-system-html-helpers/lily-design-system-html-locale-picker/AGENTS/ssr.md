@@ -1,4 +1,4 @@
-# SSR — `<locale-chooser>` (HTML helper)
+# SSR — `<locale-picker>` (HTML helper)
 
 The select runs cleanly under any static-site generator (Eleventy,
 Astro, Hugo, Jekyll) and under dynamic SSR (Node + Express,
@@ -9,7 +9,7 @@ lists the recipes; the catalog-wide rules live in
 ## What the select does on the server
 
 There is no "select on the server" — `customElements` only exists
-in browsers. The SSG / server emits the literal `<locale-chooser>`
+in browsers. The SSG / server emits the literal `<locale-picker>`
 tag with attributes; the browser constructs the element and runs
 `connectedCallback` after parsing the HTML.
 
@@ -42,15 +42,15 @@ const RTL = /^(ar|he|fa|ur|ps)/.test(locale);
 ---
 <html lang={locale} dir={RTL ? "rtl" : "ltr"}>
     <head>
-        <script type="module" src="/scripts/locale-chooser.js"></script>
+        <script type="module" src="/scripts/locale-picker.js"></script>
     </head>
     <body>
-        <locale-chooser
+        <locale-picker
             label="Language"
             locales="en,fr,ar"
             value={locale}
             storage-key="lily-locale"
-        ></locale-chooser>
+        ></locale-picker>
         <slot />
     </body>
 </html>
@@ -65,7 +65,7 @@ When the user changes locales the select's `localechange` event
 posts to a small endpoint that writes the cookie:
 
 ```ts
-document.querySelector("locale-chooser")?.addEventListener("localechange", async (e) => {
+document.querySelector("locale-picker")?.addEventListener("localechange", async (e) => {
     const { locale } = (e as CustomEvent<{ locale: string }>).detail;
     await fetch("/api/locale", {
         method: "POST",
@@ -87,15 +87,15 @@ build-time default is what arrives in the first paint:
 <!doctype html>
 <html lang="{{ locale.default }}" dir="ltr">
     <head>
-        <script type="module" src="/dist/locale-chooser.js"></script>
+        <script type="module" src="/dist/locale-picker.js"></script>
     </head>
     <body>
-        <locale-chooser
+        <locale-picker
             label="Language"
             locales="{{ locale.available | join(',') }}"
             value="{{ locale.default }}"
             storage-key="lily-locale"
-        ></locale-chooser>
+        ></locale-picker>
     </body>
 </html>
 ```
@@ -112,15 +112,15 @@ Hugo is build-time only:
 <!doctype html>
 <html lang="{{ .Site.Params.defaultLocale | default "en" }}" dir="ltr">
     <head>
-        <script type="module" src="/dist/locale-chooser.js"></script>
+        <script type="module" src="/dist/locale-picker.js"></script>
     </head>
     <body>
-        <locale-chooser
+        <locale-picker
             label="Language"
             locales="en,fr,ar"
             value="{{ .Site.Params.defaultLocale | default "en" }}"
             storage-key="lily-locale"
-        ></locale-chooser>
+        ></locale-picker>
     </body>
 </html>
 ```
@@ -130,12 +130,12 @@ Hugo is build-time only:
 ```njk
 <html lang="{{ locale.tag }}" dir="{{ locale.dir }}">
     <body>
-        <locale-chooser
+        <locale-picker
             label="Language"
             locales="en,fr,ar"
             value="{{ locale.code }}"
             storage-key="lily-locale"
-        ></locale-chooser>
+        ></locale-picker>
     </body>
 </html>
 ```
@@ -149,15 +149,15 @@ For SEO-friendly URLs (`/en/about`, `/fr/about`), drive the select
 from the URL:
 
 ```html
-<locale-chooser
+<locale-picker
     label="Language"
     locales="en,fr,ar"
     value="{{ urlLocale }}"
-></locale-chooser>
+></locale-picker>
 
 <script type="module">
-    await customElements.whenDefined("locale-chooser");
-    document.querySelector("locale-chooser")?.addEventListener("localechange", (e) => {
+    await customElements.whenDefined("locale-picker");
+    document.querySelector("locale-picker")?.addEventListener("localechange", (e) => {
         const { locale } = (e as CustomEvent<{ locale: string }>).detail;
         const newPath = location.pathname.replace(/^\/(en|fr|ar)/, `/${locale}`);
         window.location = newPath;
@@ -185,7 +185,7 @@ function pickFromAcceptLanguage(header) {
 ```
 
 The select stays unchanged; only the value of the inlined
-`<locale-chooser value="…">` attribute differs per request.
+`<locale-picker value="…">` attribute differs per request.
 
 ## Why we don't auto-resolve from the request
 
@@ -198,7 +198,7 @@ lets the consumer wire the integration.
 ## Hydration mismatch (not really)
 
 Custom elements don't "hydrate" in the React / Vue sense. The
-`<locale-chooser>` host arrives as a plain tag; the browser invokes
+`<locale-picker>` host arrives as a plain tag; the browser invokes
 its constructor and `connectedCallback` after parsing. There is no
 virtual-DOM diff, no warning system, no mismatch concept.
 

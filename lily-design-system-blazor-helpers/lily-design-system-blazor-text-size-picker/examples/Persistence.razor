@@ -10,7 +10,7 @@
     so a returning visitor's stored choice always wins over DefaultValue.
 
     Note what is deliberately absent: there is no DetectFromSystem
-    parameter here, unlike ThemeChooser and LocaleChooser. Browsers expose
+    parameter here, unlike ThemePicker and LocalePicker. Browsers expose
     no "preferred text size" signal — there is no media query equivalent
     to prefers-color-scheme, and no navigator.languages analogue. Users
     who scale text at the OS level are served by browser zoom and the
@@ -21,11 +21,11 @@
     read.
 *@
 
-@page "/examples/text-size-chooser/persistence"
+@page "/examples/text-size-picker/persistence"
 @rendermode InteractiveServer
 @using LilyDesignSystem.Blazor.Helpers
 
-<TextSizeChooser
+<TextSizePicker
     Label="Text size"
     Sizes="@Sizes"
     StorageKey="lily-text-size"
@@ -33,8 +33,8 @@
     OnChange="OnSizeChanged"
     @bind-Value="size" />
 
-<p class="text-size-chooser-status" aria-live="polite">
-    Text size: @(string.IsNullOrEmpty(size) ? "none" : TextSizeChooser.SizeName(size))
+<p class="text-size-picker-status" aria-live="polite">
+    Text size: @(string.IsNullOrEmpty(size) ? "none" : TextSizePicker.SizeName(size))
 </p>
 
 <p>Reload the page: the choice survives.</p>

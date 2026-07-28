@@ -1,0 +1,114 @@
+@*
+    Example 2 — NHS-style appointment booking.
+
+    The shape this component was built for: a bilingual NHS Wales
+    appointment booking, with a clinic that is shut at weekends and a
+    booking window that only runs twelve weeks out. Demonstrates Mode
+    ="DateTime", Min/Max, IsDateDisabled, MinuteStep, Shortcuts, and
+    switching Locale + Labels together at runtime.
+
+    A real service would take Labels from its own translation bundle;
+    they are inline here so the example is self-contained.
+*@
+
+@page "/examples/date-time-picker/nhs-booking"
+@rendermode InteractiveServer
+@using LilyDesignSystem.Blazor.Helpers
+
+<h1>@(_welsh ? "Trefnu apwyntiad" : "Book an appointment")</h1>
+
+<button type="button" @onclick="() => _welsh = !_welsh">
+    @(_welsh ? "English" : "Cymraeg")
+</button>
+
+<label for="booking">
+    @(_welsh ? "Dyddiad ac amser yr apwyntiad" : "Appointment date and time")
+</label>
+<div id="booking-hint">
+    @(_welsh
+        ? "Ar gael o ddydd Llun i ddydd Gwener, hyd at 12 wythnos ymlaen llaw."
+        : "Available Monday to Friday, up to 12 weeks ahead.")
+</div>
+
+@* Locale drives the month names, the first day of the week, and the
+   numeric field order — so switching to Welsh switches the calendar
+   itself, not just the buttons around it. *@
+<DateTimePicker Mode="DateTimeMode.DateTime"
+                InputId="booking"
+                DescribedBy="booking-hint"
+                Name="appointment"
+                Label="@(_welsh ? "Dewiswch ddyddiad ac amser" : "Choose a date and time")"
+                Locale="@(_welsh ? "cy-GB" : "en-GB")"
+                Labels="@(_welsh ? CyLabels : EnLabels)"
+                Min="@_min"
+                Max="@_max"
+                IsDateDisabled="@IsClosed"
+                MinuteStep="15"
+                Shortcuts="@(_welsh ? CyShortcuts : EnShortcuts)"
+                @bind-Value="_appointment" />
+
+<p>
+    @(_welsh ? "Gwerth" : "Value"): <code>@(string.IsNullOrEmpty(_appointment) ? "—" : _appointment)</code>
+</p>
+
+@code {
+    private bool _welsh;
+    private string _appointment = "";
+
+    // Resolved once, at component construction, so the booking window does
+    // not shift under the user mid-session.
+    private readonly string _today = DateTimePicker.FormatIsoDate(
+        new CivilDate(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day));
+
+    private string _min => DateTimePicker.AddDays(_today, 1);
+    private string _max => DateTimePicker.AddDays(_today, 7 * 12);
+
+    // Weekends closed. A real service would also fold in bank holidays and
+    // the clinic's own closures — which is exactly why this is a predicate
+    // and not a parameter.
+    private static bool IsClosed(string isoDate)
+    {
+        var weekday = DateTimePicker.WeekdayOf(isoDate);
+        return weekday is 0 or 6;
+    }
+
+    private static readonly DateTimePickerLabels EnLabels = new()
+    {
+        PreviousYear = "Previous year",
+        PreviousMonth = "Previous month",
+        NextMonth = "Next month",
+        NextYear = "Next year",
+        Confirm = "Confirm",
+        Cancel = "Cancel",
+        Hour = "Hour",
+        Minute = "Minute",
+        Clear = "Clear",
+    };
+
+    private static readonly DateTimePickerLabels CyLabels = new()
+    {
+        PreviousYear = "Blwyddyn flaenorol",
+        PreviousMonth = "Mis blaenorol",
+        NextMonth = "Mis nesaf",
+        NextYear = "Blwyddyn nesaf",
+        Confirm = "Cadarnhau",
+        Cancel = "Canslo",
+        Hour = "Awr",
+        Minute = "Munud",
+        Clear = "Clirio",
+    };
+
+    private static readonly DateTimeShortcut[] EnShortcuts =
+    {
+        new() { Id = "1w", Label = "In 1 week", Days = 7 },
+        new() { Id = "2w", Label = "In 2 weeks", Days = 14 },
+        new() { Id = "1m", Label = "In 1 month", Months = 1 },
+    };
+
+    private static readonly DateTimeShortcut[] CyShortcuts =
+    {
+        new() { Id = "1w", Label = "Ymhen wythnos", Days = 7 },
+        new() { Id = "2w", Label = "Ymhen pythefnos", Days = 14 },
+        new() { Id = "1m", Label = "Ymhen mis", Months = 1 },
+    };
+}

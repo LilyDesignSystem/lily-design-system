@@ -1,13 +1,13 @@
-# API — ThemeChooser (Svelte)
+# API — ThemePicker (Svelte)
 
 Authoritative API surface lives in [`../spec/index.md`](../spec/index.md) §4.
 This file documents the Svelte 5-flavoured shape of the contract.
 
 ## Exports
 
-`ThemeChooser.svelte`'s module script exports the component plus the
+`ThemePicker.svelte`'s module script exports the component plus the
 pure helpers `normaliseThemesUrl`, `themeHref`, `themeName`,
-`matchSystemTheme`, `nextThemeChooserId`, and the glyph constant
+`matchSystemTheme`, `nextThemePickerId`, and the glyph constant
 `CIRCLE_WITH_RIGHT_HALF_BLACK`.
 
 The barrel (`index.ts`) currently re-exports a **subset**:
@@ -15,28 +15,28 @@ The barrel (`index.ts`) currently re-exports a **subset**:
 ```ts
 export {
   default,
-  default as ThemeChooser,
+  default as ThemePicker,
   normaliseThemesUrl,
   themeHref,
-} from "./ThemeChooser.svelte";
-export type { Props, ChildArgs } from "./ThemeChooser.svelte";
+} from "./ThemePicker.svelte";
+export type { Props, ChildArgs } from "./ThemePicker.svelte";
 ```
 
 `themeName`, `matchSystemTheme`, and
 `CIRCLE_WITH_RIGHT_HALF_BLACK` must be imported from
-`./ThemeChooser.svelte` directly. Widening the barrel to match
-`locale-chooser`'s — which re-exports all of its pure helpers — is a
+`./ThemePicker.svelte` directly. Widening the barrel to match
+`locale-picker`'s — which re-exports all of its pure helpers — is a
 pending follow-up.
 
 ```ts
-import ThemeChooser, {
+import ThemePicker, {
   normaliseThemesUrl,
   themeHref,
   themeName,
   matchSystemTheme,
   type Props,
   type ChildArgs,
-} from "./ThemeChooser.svelte";
+} from "./ThemePicker.svelte";
 ```
 
 ## Props
@@ -107,21 +107,21 @@ export type ChildArgs = {
 Consumers consume it via a `{#snippet}` block:
 
 ```svelte
-<ThemeChooser
+<ThemePicker
     label="Theme"
     themesUrl="/assets/themes/"
     themes={["light", "dark", "abyss"]}
 >
     {#snippet children({ value, open, labelFor })}
         <span aria-hidden="true">&#9681;</span>
-        <span class="theme-chooser-text">{labelFor(value)}</span>
+        <span class="theme-picker-text">{labelFor(value)}</span>
         <span aria-hidden="true">{open ? "▴" : "▾"}</span>
     {/snippet}
-</ThemeChooser>
+</ThemePicker>
 ```
 
 When no snippet is supplied, the button renders
-`<span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>`. When one
+`<span class="theme-picker-icon" aria-hidden="true">&#9681;</span>`. When one
 is supplied, that span is not emitted.
 
 The snippet's output lives inside a `<button>`, so it must not contain
@@ -140,7 +140,7 @@ export function themeHref(
 ): string;
 export function themeName(theme: string): string;
 export function matchSystemTheme(themes: readonly string[]): string;
-export function nextThemeChooserId(): string;
+export function nextThemePickerId(): string;
 export const CIRCLE_WITH_RIGHT_HALF_BLACK: string; // "◑", U+25D1
 ```
 
@@ -150,17 +150,17 @@ export const CIRCLE_WITH_RIGHT_HALF_BLACK: string; // "◑", U+25D1
 - `themeName(slug)` title-cases each hyphen-separated word
   (`"high-contrast"` → `"High Contrast"`). The internal `labelFor`
   delegates to it, so there is exactly one implementation. Mirrors
-  `localeName` in `locale-chooser`.
+  `localeName` in `locale-picker`.
 - `matchSystemTheme(themes)` reads
   `matchMedia("(prefers-color-scheme: dark)")`, maps to `"dark"` /
   `"light"`, and returns `""` when that slug is absent from `themes`
   **or** when `matchMedia` is unavailable (SSR, jsdom). Mirrors
-  `matchNavigatorLanguage` in `locale-chooser`.
-- `nextThemeChooserId()` increments a module counter to produce stable,
+  `matchNavigatorLanguage` in `locale-picker`.
+- `nextThemePickerId()` increments a module counter to produce stable,
   unique, SSR-safe id prefixes. Never replace with `Math.random()` or
   `Date.now()`.
 
-All except `nextThemeChooserId` (which mutates the counter) are pure
+All except `nextThemePickerId` (which mutates the counter) are pure
 and side-effect-free; consumers can call them from tests, server code
 (`hooks.server.ts`), or other components without instantiating the
 select.
@@ -168,21 +168,21 @@ select.
 ## DOM contract
 
 ```html
-<div class="theme-chooser {class}" ...restProps>
+<div class="theme-picker {class}" ...restProps>
   <input type="hidden" name="{name}" value="{value}" />
   <button
     type="button"
-    class="theme-chooser-button"
+    class="theme-picker-button"
     aria-label="{label}"
     aria-haspopup="listbox"
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
+    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
     <!-- or the children snippet output -->
   </button>
   <ul
-    class="theme-chooser-list"
+    class="theme-picker-list"
     id="{listId}"
     role="listbox"
     aria-label="{label}"
@@ -191,7 +191,7 @@ select.
     aria-activedescendant="{active optionId while open}"
   >
     <li
-      class="theme-chooser-option"
+      class="theme-picker-option"
       id="{optionId}"
       role="option"
       aria-selected="true|false"

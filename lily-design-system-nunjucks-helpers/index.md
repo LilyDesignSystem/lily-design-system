@@ -8,16 +8,22 @@ DOM application) for one small, common job.
 
 ## Catalog
 
-| Helper                                                                                      | Purpose                                                          |
-| ------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
-| [`lily-design-system-nunjucks-theme-chooser`](./lily-design-system-nunjucks-theme-chooser/)   | Pick a visual theme; dynamic CSS load + `data-theme` swap.       |
-| [`lily-design-system-nunjucks-locale-chooser`](./lily-design-system-nunjucks-locale-chooser/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.  |
-| [`lily-design-system-nunjucks-text-size-chooser`](./lily-design-system-nunjucks-text-size-chooser/) | Pick a text size; sets `data-text-size` on the document root.    |
-| [`lily-design-system-nunjucks-share-chooser`](./lily-design-system-nunjucks-share-chooser/) | Share the page: native share sheet, or a list of destinations + copy. |
+| Helper                                                                                            | Purpose                                                               |
+| ------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| [`lily-design-system-nunjucks-theme-picker`](./lily-design-system-nunjucks-theme-picker/)         | Pick a visual theme; dynamic CSS load + `data-theme` swap.            |
+| [`lily-design-system-nunjucks-locale-picker`](./lily-design-system-nunjucks-locale-picker/)       | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.       |
+| [`lily-design-system-nunjucks-text-size-picker`](./lily-design-system-nunjucks-text-size-picker/) | Pick a text size; sets `data-text-size` on the document root.         |
+| [`lily-design-system-nunjucks-share-picker`](./lily-design-system-nunjucks-share-picker/)         | Share the page: native share sheet, or a list of destinations + copy. |
+| [`lily-design-system-nunjucks-date-time-picker`](./lily-design-system-nunjucks-date-time-picker/) | Pick a date, a time, or both, via a text field + WAI-ARIA APG Date Picker Dialog. |
 
 The first three helpers own a **user preference** — selection + DOM
-application + optional persistence. `share-chooser` owns an **action**:
-it applies nothing to the document and persists nothing.
+application + optional persistence. `share-picker` owns an **action**:
+it applies nothing to the document and persists nothing. `date-time-picker`
+owns a **form value**: like `share-picker` it applies nothing to the
+document and persists nothing, but unlike any of the other three it is
+the fifth helper in the wider Lily™ catalog — currently Svelte-only
+elsewhere — and the hardest of the six ports, because its macro cannot
+render the calendar interior at all. See the dedicated section below.
 
 ## The split: macro + client.js
 
@@ -27,10 +33,10 @@ React, Vue, Angular) live as a single component that owns both
 markup and runtime. The Nunjucks port deliberately **splits** that
 into two files:
 
-| File                       | Runs where                | Owns                                                  |
-| -------------------------- | ------------------------- | ----------------------------------------------------- |
-| `{kebab-name}.njk`         | Nunjucks render time      | Markup, ARIA, class hooks, `data-lily-*` hooks.       |
-| `{kebab-name}.client.js`   | Browser (after page load) | Storage, attribute set, dynamic loading, interaction. |
+| File                     | Runs where                | Owns                                                  |
+| ------------------------ | ------------------------- | ----------------------------------------------------- |
+| `{kebab-name}.njk`       | Nunjucks render time      | Markup, ARIA, class hooks, `data-lily-*` hooks.       |
+| `{kebab-name}.client.js` | Browser (after page load) | Storage, attribute set, dynamic loading, interaction. |
 
 The macro emits static markup carrying `data-lily-*` attributes that
 describe the control's configuration; the companion ES module finds
@@ -44,43 +50,59 @@ This split exists because:
 1. Nunjucks renders HTML. It cannot read `localStorage`, mutate
    `document.head`, or hook events; those live in the browser.
 2. Build-time renderers (Eleventy, plain `nunjucks.render`) produce
-   static HTML with no JS bundle required to *paint* correctly.
+   static HTML with no JS bundle required to _paint_ correctly.
 3. The runtime is a tiny ES module with zero framework dependency
    that any consumer can drop into their template.
 
 ### How much survives without JavaScript
 
 Little, and it differs between the preference helpers and
-`share-chooser`. Worth being blunt about both:
+`share-picker`. Worth being blunt about both:
 
-- **The three `*-select` helpers** — `theme-chooser`, `locale-chooser`,
-  and `text-size-chooser` — are icon buttons that open a custom listbox.
+- **The three `*-select` helpers** — `theme-picker`, `locale-picker`,
+  and `text-size-picker` — are icon buttons that open a custom listbox.
   **None of them is operable without JS**: the button has no handler
   and the listbox renders `hidden`. Each macro does emit a
   server-filled hidden `<input>`, so a form submit still carries a
   value, but the user cannot change it.
-- The markup still *paints* correctly server-side, and the chosen
+- The markup still _paints_ correctly server-side, and the chosen
   value is applied on the document root, so a value you resolve on the
-  server survives with no JS. It is the *choosing* that requires the
+  server survives with no JS. It is the _choosing_ that requires the
   client module.
 - This is a deliberate tradeoff taken in the icon-button release: an
   icon-sized control and full styling control over the open list, paid
   for with a native `<select>` that worked everywhere. Each package's
   `docs/ssr.md` documents it and shows the no-JS alternative (the
   headless catalog's plain `<select>` containers).
-- **`share-chooser` degrades better**, and the difference is one of kind
+- **`share-picker` degrades better**, and the difference is one of kind
   rather than degree. Its destination links are real `<a href>`
   elements with final URLs rendered server-side, so with no JS they
   still navigate, middle-click, open in a new tab, and expose "copy
-  link address". What is lost is the *disclosure* — the list cannot be
+  link address". What is lost is the _disclosure_ — the list cannot be
   opened, and copy is inert. The packaging, not the payload. That
   follows from what the helper does: the `*-select` helpers apply a
   preference to the document, which is inherently a runtime act, while
   this one's primary affordance is navigation, which HTML has always
   done unassisted. See
-  [`share-chooser/docs/ssr.md`](./lily-design-system-nunjucks-share-chooser/docs/ssr.md),
+  [`share-picker/docs/ssr.md`](./lily-design-system-nunjucks-share-picker/docs/ssr.md),
   which also shows how to render a permanently-open list when full
   no-JS operation is a hard requirement.
+- **`date-time-picker` degrades worst of the four**, and for a
+  different reason again: it is not a matter of convention or effort,
+  but of what a Nunjucks template can compute. The other three
+  helpers' interiors are static option lists a macro *could* render
+  (and choose not to, for consistency with the icon-button contract);
+  `share-picker`'s destinations are consumer-supplied strings. This
+  control's calendar grid, weekday headers, period heading, and
+  hour/minute option lists are all a function of `Intl.DateTimeFormat`
+  and the current date — computations Nunjucks genuinely cannot
+  perform. So the macro renders only the fixed chrome (trigger, header
+  nav buttons, footer, shortcut buttons) and
+  `date-time-picker.client.js` builds the rest, every time the view
+  changes. With no client script the trigger has no handler, the
+  dialog never gets an interior, and only the hidden input's
+  server-resolved value survives a form post. See
+  [`date-time-picker/docs/accessibility.md`](./lily-design-system-nunjucks-date-time-picker/docs/accessibility.md).
 
 ## Conventions
 
@@ -156,7 +178,7 @@ layers can coexist in one app; the helpers are not a replacement.
 The helpers commit to a small set of Nunjucks 3 conventions:
 
 - A single `{% macro foo(opts) %}` … `{% endmacro %}` per file.
-- camelCase macro names: `themeChooser`, `localeChooser`.
+- camelCase macro names: `themePicker`, `localePicker`.
 - kebab-case file paths and CSS class hooks.
 - All defaults resolved with `{% set x = opts.x | default("…") %}`
   at the top of the macro body.
@@ -201,7 +223,7 @@ the runtime. The acceptance criteria are listed in each `spec/index.md` §7
 and the test file matches one `test(...)` per numbered item.
 
 ```bash
-cd lily-design-system-nunjucks-theme-chooser
+cd lily-design-system-nunjucks-theme-picker
 pnpm test
 ```
 

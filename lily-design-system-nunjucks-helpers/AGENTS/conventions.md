@@ -82,7 +82,9 @@ applied so the output has no spurious leading / trailing whitespace.
 // §5 (behaviour).
 
 /** Pure helpers — exported for consumer reuse and tests. */
-export function pureHelper(arg) { /* … */ }
+export function pureHelper(arg) {
+  /* … */
+}
 
 /**
  * Wire one rendered HelperName select.
@@ -92,19 +94,19 @@ export function pureHelper(arg) { /* … */ }
  * @returns {{setValue: (v:string) => void, destroy: () => void}}
  */
 export function initHelperName(root, opts = {}) {
-    if (typeof document === "undefined" || !root) {
-        return { setValue: () => {}, destroy: () => {} };
-    }
-    // …
+  if (typeof document === "undefined" || !root) {
+    return { setValue: () => {}, destroy: () => {} };
+  }
+  // …
 }
 
 /** Find every [data-lily-kebab-name-root] and wire it. */
 export function autoInit(opts = {}) {
-    if (typeof document === "undefined") return [];
-    const roots = Array.from(
-        document.querySelectorAll("[data-lily-kebab-name-root]"),
-    );
-    return roots.map((root) => initHelperName(root, opts));
+  if (typeof document === "undefined") return [];
+  const roots = Array.from(
+    document.querySelectorAll("[data-lily-kebab-name-root]"),
+  );
+  return roots.map((root) => initHelperName(root, opts));
 }
 ```
 
@@ -123,28 +125,28 @@ and lets consumers compose options via plain JavaScript objects in
 Eleventy data files:
 
 ```js
-// _data/themeChooserOptions.js
+// _data/themePickerOptions.js
 export default {
-    label: "Theme",
-    themesUrl: "/assets/themes/",
-    themes: ["light", "dark", "abyss"],
+  label: "Theme",
+  themesUrl: "/assets/themes/",
+  themes: ["light", "dark", "abyss"],
 };
 ```
 
 ```njk
-{{ themeChooser(themeChooserOptions) }}
+{{ themePicker(themePickerOptions) }}
 ```
 
 ## camelCase macro / kebab-case path / kebab-case class
 
-| Aspect              | Convention                                     | Example                |
-| ------------------- | ---------------------------------------------- | ---------------------- |
-| Macro name          | camelCase (Nunjucks rejects hyphens in idents) | `themeChooser`          |
-| File path           | kebab-case                                     | `theme-chooser.njk`     |
-| Client.js path      | kebab-case + `.client.js`                      | `theme-chooser.client.js` |
-| Root CSS class      | kebab-case                                     | `theme-chooser`         |
-| Sub-element classes | kebab-case derivatives                         | `theme-chooser-option`  |
-| `data-*` hooks      | `data-lily-<kebab>-…`                          | `data-lily-theme-chooser-root` |
+| Aspect              | Convention                                     | Example                       |
+| ------------------- | ---------------------------------------------- | ----------------------------- |
+| Macro name          | camelCase (Nunjucks rejects hyphens in idents) | `themePicker`                |
+| File path           | kebab-case                                     | `theme-picker.njk`           |
+| Client.js path      | kebab-case + `.client.js`                      | `theme-picker.client.js`     |
+| Root CSS class      | kebab-case                                     | `theme-picker`               |
+| Sub-element classes | kebab-case derivatives                         | `theme-picker-option`        |
+| `data-*` hooks      | `data-lily-<kebab>-…`                          | `data-lily-theme-picker-root` |
 
 ## `data-lily-*` hook attributes
 
@@ -155,7 +157,7 @@ companion `*.client.js` reads them on `initHelperName(root)`:
 - `data-lily-{name}-root` — identifies the root for `autoInit()`.
 - `data-lily-{name}-{kebab-cased-opt}="{value}"` — one per non-empty
   configuration option (storage key, default value, etc.).
-- `data-lily-{name}` on the managed `<link>` (theme chooser only)
+- `data-lily-{name}` on the managed `<link>` (theme picker only)
   serves as a discriminator when multiple selects coexist.
 
 Boolean opts are serialised as the strings `"true"` / `"false"`.
@@ -167,17 +169,17 @@ its trailing slash if the consumer supplied one).
 The macro renders the markup; the client.js owns the runtime
 lifecycle. Specifically:
 
-| Concern                       | Macro | client.js |
-| ----------------------------- | ----- | --------- |
-| ARIA, role, class hooks       | ✓     | —         |
-| Initial `checked` from `value`| ✓     | —         |
-| `data-lily-*` configuration   | ✓     | —         |
-| Per-option `lang` (locale)    | ✓     | —         |
-| `localStorage` read / write   | —     | ✓         |
-| `navigator.languages`         | —     | ✓         |
-| `document.head` `<link>` swap | —     | ✓         |
-| `data-theme` / `lang` / `dir` | —     | ✓         |
-| `onChange` callback           | —     | ✓         |
+| Concern                        | Macro | client.js |
+| ------------------------------ | ----- | --------- |
+| ARIA, role, class hooks        | ✓     | —         |
+| Initial `checked` from `value` | ✓     | —         |
+| `data-lily-*` configuration    | ✓     | —         |
+| Per-option `lang` (locale)     | ✓     | —         |
+| `localStorage` read / write    | —     | ✓         |
+| `navigator.languages`          | —     | ✓         |
+| `document.head` `<link>` swap  | —     | ✓         |
+| `data-theme` / `lang` / `dir`  | —     | ✓         |
+| `onChange` callback            | —     | ✓         |
 
 The macro emits zero `<script>` tags; the client.js never emits
 HTML. The contract between them is the `data-lily-*` attributes
@@ -233,7 +235,7 @@ Everything visual and locale-specific is the consumer's. See
 ## Naming
 
 - Class hooks are kebab-case derivatives of the macro name:
-  `theme-chooser`, `theme-chooser-option`.
+  `theme-picker`, `theme-picker-option`.
 - Data attributes the consumer / CSS may want to observe use
-  `data-*` (e.g. `data-theme`, `data-lily-theme-chooser`).
+  `data-*` (e.g. `data-theme`, `data-lily-theme-picker`).
 - Don't introduce new ARIA attributes — use the platform's.

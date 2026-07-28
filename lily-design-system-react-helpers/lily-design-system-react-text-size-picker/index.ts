@@ -1,7 +1,7 @@
 export {
     default,
-    TextSizeChooser,
+    TextSizePicker,
     sizeName,
     LATIN_CAPITAL_LETTER_A,
-} from "./TextSizeChooser";
-export type { Props, ChildArgs } from "./TextSizeChooser";
+} from "./TextSizePicker";
+export type { Props, ChildArgs } from "./TextSizePicker";

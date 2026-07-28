@@ -11,14 +11,14 @@ or not. Pair it with a status region. This is the default pattern, not
 an enhancement; see [accessibility.md](./accessibility.md).
 
 ```njk
-{{ localeChooser({ label: "Language", locales: LOCALES, localeLabels: NATIVE }) }}
-<p class="locale-chooser-status" aria-live="polite"></p>
+{{ localePicker({ label: "Language", locales: LOCALES, localeLabels: NATIVE }) }}
+<p class="locale-picker-status" aria-live="polite"></p>
 ```
 
 ```js
-import { autoInit, localeName } from "./locale-chooser.client.js";
+import { autoInit, localeName } from "./locale-picker.client.js";
 
-const status = document.querySelector(".locale-chooser-status");
+const status = document.querySelector(".locale-picker-status");
 autoInit({
     onChange(code) {
         status.textContent = `Active language: ${localeName(code)}`;
@@ -43,7 +43,7 @@ prefix — is never overridden by a stale local entry, while a visitor
 with no server signal still lands on their saved choice.
 
 ```njk
-{{ localeChooser({
+{{ localePicker({
     label: "Language",
     locales: LOCALES,
     value: serverResolvedLocale,
@@ -88,7 +88,7 @@ The helper applies `lang` and `dir`; it deliberately does not format
 anything. Wire `Intl` yourself in `onChange`.
 
 ```js
-import { autoInit, bcp47LocaleTag } from "./locale-chooser.client.js";
+import { autoInit, bcp47LocaleTag } from "./locale-picker.client.js";
 
 function reformat(code) {
     const tag = bcp47LocaleTag(code); // "en_US" -> "en-US"
@@ -133,14 +133,14 @@ handler that fires on init is a reload loop.
 ## Scope the applied locale to part of the page
 
 By default `lang` and `dir` go on `document.documentElement`. Pass
-`target` to `initLocaleChooser` to scope them to a region instead —
+`target` to `initLocalePicker` to scope them to a region instead —
 useful for a preview pane, or an embedded widget that must not
 relayout its host.
 
 ```js
-import { initLocaleChooser } from "./locale-chooser.client.js";
+import { initLocalePicker } from "./locale-picker.client.js";
 
-initLocaleChooser(document.querySelector("#preview-switcher"), {
+initLocalePicker(document.querySelector("#preview-switcher"), {
     target: document.querySelector("#preview"),
 });
 ```
@@ -159,11 +159,11 @@ direction, set `applyDir: false` so the two do not fight, and apply the
 answer where you want it:
 
 ```njk
-{{ localeChooser({ label: "Language", locales: LOCALES, applyDir: false }) }}
+{{ localePicker({ label: "Language", locales: LOCALES, applyDir: false }) }}
 ```
 
 ```js
-import { autoInit, isRtlLocale } from "./locale-chooser.client.js";
+import { autoInit, isRtlLocale } from "./locale-picker.client.js";
 
 autoInit({
     onChange(code) {
@@ -183,7 +183,7 @@ When you want to act on it without silently switching the page, do not
 enable the opt — surface a dismissible offer instead:
 
 ```js
-import { autoInit, matchNavigatorLanguage, localeName } from "./locale-chooser.client.js";
+import { autoInit, matchNavigatorLanguage, localeName } from "./locale-picker.client.js";
 
 const controllers = autoInit();
 const guess = matchNavigatorLanguage(
@@ -210,8 +210,8 @@ means duplicate ids and broken `aria-controls`. Give them distinct
 names, or distinct explicit ids:
 
 ```njk
-{{ localeChooser({ label: "Language", locales: LOCALES, name: "locale-header" }) }}
-{{ localeChooser({ label: "Language", locales: LOCALES, name: "locale-footer" }) }}
+{{ localePicker({ label: "Language", locales: LOCALES, name: "locale-header" }) }}
+{{ localePicker({ label: "Language", locales: LOCALES, name: "locale-footer" }) }}
 ```
 
 Both will apply to the same target and stay consistent, because each

@@ -23,17 +23,17 @@
     and keep driving SetLocaleAsync the same way.
 
     Note: the component still renders its own icon button and listbox. To
-    show only the combobox, visually hide `.locale-chooser-button` with a
+    show only the combobox, visually hide `.locale-picker-button` with a
     visually-hidden class — never `display: none` on the whole
-    `.locale-chooser` control, which can stop its render and focus
+    `.locale-picker` control, which can stop its render and focus
     lifecycle from behaving normally.
 *@
 
-@page "/examples/locale-chooser/combobox"
+@page "/examples/locale-picker/combobox"
 @rendermode InteractiveServer
 @using LilyDesignSystem.Blazor.Helpers
 
-<LocaleChooser
+<LocalePicker
     @ref="localeSelect"
     Label="Language"
     Locales="@allLocales"
@@ -56,13 +56,13 @@
     }
 </datalist>
 
-<p class="locale-chooser-status" aria-live="polite">
+<p class="locale-picker-status" aria-live="polite">
     Selected locale: <code>@locale</code>
     (@Locales.LocaleName(locale))
 </p>
 
 @code {
-    private LocaleChooser? localeSelect;
+    private LocalePicker? localeSelect;
 
     private string locale = "en";
     private string inputValue = "";

@@ -1,4 +1,4 @@
-# LocaleChooser — Specification
+# LocalePicker — Specification
 
 Single source of truth for the `lily-design-system-svelte-locale-picker`
 Svelte helper. This file drives implementation, testing, and documentation in
@@ -7,8 +7,8 @@ anything in this spec must be exercised by a test.
 
 Sibling files in this directory:
 
-- `LocaleChooser.svelte` — the implementation
-- `LocaleChooser.test.ts` — vitest spec exercising every clause in §4–§7
+- `LocalePicker.svelte` — the implementation
+- `LocalePicker.test.ts` — vitest spec exercising every clause in §4–§7
 - `locales.ts` — built-in locale-code → English-name table and RTL set,
   derived from `locales.tsv`
 - `locales.tsv` — canonical 436-row list of locale codes and English names
@@ -16,7 +16,7 @@ Sibling files in this directory:
 - `index.md` — user-facing readme
 
 The headless `lily-design-system-svelte-headless` library does not (yet)
-include a canonical `LocaleChooser`; this helper is the opinionated,
+include a canonical `LocalePicker`; this helper is the opinionated,
 reusable counterpart that owns the locale-application lifecycle (the
 `lang` and `dir` attributes on the document root) and the persistence
 choice.
@@ -38,7 +38,7 @@ Give a Svelte 5 application a drop-in, headless locale select that:
 5. Optionally falls back to `navigator.language` on first visit when no
    value, storage entry, or default is supplied.
 6. Ships zero CSS — the consumer styles every visual aspect via the
-   `locale-chooser` class hook and the `lang` / `dir` attributes.
+   `locale-picker` class hook and the `lang` / `dir` attributes.
 7. Provides BCP 47-compliant tag output. Underscores in locale codes
    (e.g. `en_US`) are converted to hyphens (`en-US`) when written to the
    `lang` attribute, per RFC 5646.
@@ -75,14 +75,14 @@ Give a Svelte 5 application a drop-in, headless locale select that:
 - **Icon button + listbox, not a native `<select>`.** The closed
   control is a single glyph-width button, so it costs the same page
   space whether the app offers three locales or all 436 in
-  `locales.tsv`. It is also symmetric with `theme-chooser`: the two sit
+  `locales.tsv`. It is also symmetric with `theme-picker`: the two sit
   next to each other in a page header and should read as one set. The
   cost is a hand-rolled listbox; §6 states that tradeoff honestly.
 - **The globe glyph forces text presentation**. The constant is
   `"\u{1F310}︎"` — U+1F310 GLOBE WITH MERIDIANS followed by
   U+FE0E VARIATION SELECTOR-15. Without VS15 browsers pick the
   colour-emoji font and the globe renders blue, which does not match
-  `theme-chooser`'s monochrome `◑`. Verified in Chromium.
+  `theme-picker`'s monochrome `◑`. Verified in Chromium.
 - **The `lang` attribute is the source of truth**. Every Lily helper
   and every i18n library agrees that `document.documentElement.lang`
   is the authoritative signal for current document language (WCAG
@@ -97,7 +97,7 @@ Give a Svelte 5 application a drop-in, headless locale select that:
   BCP 47 hyphen form (`en-US`). The bindable `value` mirrors back the
   original consumer form, so round-trips are lossless.
 - **TypeScript everywhere**. Public surface is fully typed via a `Props`
-  type exported from `LocaleChooser.svelte` and re-exported from
+  type exported from `LocalePicker.svelte` and re-exported from
   `index.ts`.
 - **SSR-safe**. The component compiles cleanly under
   `@sveltejs/vite-plugin-svelte` SSR. All DOM mutations happen inside
@@ -160,20 +160,20 @@ helpers `bcp47LocaleTag` and `isRtlLocale`.
 ### 4.3 DOM contract
 
 ```html
-<div class="locale-chooser {class}" ...restProps>
+<div class="locale-picker {class}" ...restProps>
   <input type="hidden" name="{name}" value="{value}" />
   <button
     type="button"
-    class="locale-chooser-button"
+    class="locale-picker-button"
     aria-label="{label}"
     aria-haspopup="listbox"
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="locale-chooser-icon" aria-hidden="true">🌐︎</span>
+    <span class="locale-picker-icon" aria-hidden="true">🌐︎</span>
   </button>
   <ul
-    class="locale-chooser-list"
+    class="locale-picker-list"
     id="{listId}"
     role="listbox"
     aria-label="{label}"
@@ -182,7 +182,7 @@ helpers `bcp47LocaleTag` and `isRtlLocale`.
     aria-activedescendant="{optionId of the active option, only while open}"
   >
     <li
-      class="locale-chooser-option"
+      class="locale-picker-option"
       id="{optionId}"
       role="option"
       aria-selected="true|false"
@@ -195,19 +195,19 @@ helpers `bcp47LocaleTag` and `isRtlLocale`.
 </div>
 ```
 
-- **Root** is a `<div>` carrying `locale-chooser` plus the consumer's
+- **Root** is a `<div>` carrying `locale-picker` plus the consumer's
   `class`; rest-props spread onto it.
 - **Hidden input** preserves form participation, carrying the
   consumer-form code (not the BCP 47 tag) under the `name` prop.
 - **Button glyph** is `GLOBE_WITH_MERIDIANS` — U+1F310 GLOBE WITH
   MERIDIANS (`&#127760;`) followed by U+FE0E VARIATION SELECTOR-15,
   which forces monochrome text presentation so the glyph matches
-  `theme-chooser`'s `◑` instead of rendering as a blue colour emoji. It
+  `theme-picker`'s `◑` instead of rendering as a blue colour emoji. It
   is wrapped in `aria-hidden="true"`: the accessible name comes from
   the button's `aria-label`, never from the glyph.
 - **`children` replaces the glyph**, not the options. It receives
   `ChildArgs` and renders inside the `<button>`. When it is supplied,
-  no `.locale-chooser-icon` span is emitted.
+  no `.locale-picker-icon` span is emitted.
 - **Listbox** is `hidden` while closed. `aria-activedescendant` is
   present only while open with an active option; focus sits on the
   `<ul>` itself (`tabindex="-1"`), per the APG listbox pattern.
@@ -218,7 +218,7 @@ helpers `bcp47LocaleTag` and `isRtlLocale`.
   language differs (WCAG 3.1.2). Neither the button nor the list
   carries a `lang`.
 - **Option ids** are unique per instance, generated by an incrementing
-  module counter (`nextLocaleChooserId`) — SSR-safe, never
+  module counter (`nextLocalePickerId`) — SSR-safe, never
   `Math.random()` / `Date.now()`.
 - `lang="{bcp47LocaleTag(code)}"` is set on the `target` element on
   every apply.
@@ -233,15 +233,15 @@ helpers `bcp47LocaleTag` and `isRtlLocale`.
 `index.ts` exports:
 
 - `default` (the component)
-- `LocaleChooser` (named alias of the default export)
+- `LocalePicker` (named alias of the default export)
 - `bcp47LocaleTag`, `isRtlLocale`, `localeName`,
   `matchNavigatorLanguage`, `defaultLocaleLabels` (pure helpers)
 - `RTL_LANGUAGE_TAGS`, `RTL_SCRIPT_SUBTAGS` (constants)
 - `type Props`, `type ChildArgs`
 
-`LocaleChooser.svelte`'s module script additionally exports
+`LocalePicker.svelte`'s module script additionally exports
 `GLOBE_WITH_MERIDIANS` (the default glyph constant) and
-`nextLocaleChooserId()`; import those from the component file directly.
+`nextLocalePickerId()`; import those from the component file directly.
 
 ## 5. Behaviour
 
@@ -471,7 +471,7 @@ stated in full, with mitigations, in
 [`docs/accessibility.md`](../docs/accessibility.md):
 
 1. The control is icon-only, so its accessible name rests entirely on
-   `aria-label`. This bites harder here than for `theme-chooser`: a user
+   `aria-label`. This bites harder here than for `theme-picker`: a user
    who has landed on a page in a language they cannot read needs to
    find the language control, and `aria-label` is by definition written
    in _some_ language.
@@ -482,7 +482,7 @@ stated in full, with mitigations, in
 
 ## 7. Testing acceptance criteria
 
-`LocaleChooser.test.ts` asserts every clause below, and each `test(...)`
+`LocalePicker.test.ts` asserts every clause below, and each `test(...)`
 title is prefixed with its clause number so a reviewer can spot a
 missing one. Tests run under vitest + jsdom +
 `@testing-library/svelte`.
@@ -496,9 +496,9 @@ cases (exact match wins, language-only fallback, empty when no match).
 | Clause | Test asserts                                                                                                                                                         |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | §7.1   | Renders a `<button type="button">` with `aria-haspopup="listbox"`, `aria-expanded="false"`, and an `aria-controls` pointing at an element whose `role` is `listbox`. |
-| §7.1   | The button renders the globe glyph inside `.locale-chooser-icon` as the two-codepoint sequence `\u{1F310}︎`, carrying `aria-hidden="true"`.                           |
+| §7.1   | The button renders the globe glyph inside `.locale-picker-icon` as the two-codepoint sequence `\u{1F310}︎`, carrying `aria-hidden="true"`.                           |
 | §7.2   | `aria-label` names **both** the button and the listbox.                                                                                                              |
-| §7.3   | One `.locale-chooser-option` per entry in `locales`; the hidden input carries the supplied `name` and the resolved value.                                            |
+| §7.3   | One `.locale-picker-option` per entry in `locales`; the hidden input carries the supplied `name` and the resolved value.                                            |
 | §7.4   | The listbox is `hidden` until the button is activated; activating it clears `hidden` and sets `aria-expanded="true"`.                                                |
 | §7.4   | Exactly one option has `aria-selected="true"`, and it is the active locale.                                                                                          |
 | §7.5   | Each option carries `lang` in BCP 47 hyphen form (`en`, `en-US`, `zh-Hant-TW`).                                                                                      |
@@ -542,7 +542,7 @@ cases (exact match wins, language-only fallback, empty when no match).
 | Clause | Test asserts                                                                                                                                                                                                           |
 | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | §7.22  | Extra attributes (e.g. `data-testid`) spread onto the root.                                                                                                                                                            |
-| §7.23  | A `children` snippet **replaces the button glyph**: the custom node renders inside `.locale-chooser-button`, no `.locale-chooser-icon` is emitted, and the snippet receives `ChildArgs` (`value`, `open`, `labelFor`). |
+| §7.23  | A `children` snippet **replaces the button glyph**: the custom node renders inside `.locale-picker-button`, no `.locale-picker-icon` is emitted, and the snippet receives `ChildArgs` (`value`, `open`, `labelFor`). |
 
 ### Keyboard contract (mirrors §6.2)
 

@@ -1,6 +1,6 @@
-# TextSizeChooser (Svelte helper)
+# TextSizePicker (Svelte helper)
 
-A reusable Svelte 5 headless **text-size chooser** — an icon button that
+A reusable Svelte 5 headless **text-size picker** — an icon button that
 opens a WAI-ARIA APG listbox of text-size slugs. On every change it sets
 `data-text-size="{slug}"` on a target element (default
 `document.documentElement`), optionally persisting the choice to
@@ -30,11 +30,11 @@ app remembers.
 
 ```svelte
 <script lang="ts">
-  import TextSizeChooser from "lily-design-system-svelte-text-size-picker";
+  import TextSizePicker from "lily-design-system-svelte-text-size-picker";
   let size = $state("");
 </script>
 
-<TextSizeChooser
+<TextSizePicker
   label="Text size"
   sizes={["small", "medium", "large", "x-large"]}
   bind:value={size}

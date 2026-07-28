@@ -20,7 +20,7 @@
   the button and the listbox, not a native <select>. `onChange` is the
   supported hook.
 #}
-{% from "../theme-chooser.njk" import themeChooser %}
+{% from "../theme-picker.njk" import themePicker %}
 
 {#
   Wrapping the control in the <form> is all the "binding" a form
@@ -30,7 +30,7 @@
   runs. No second hidden input required.
 #}
 <form id="prefs">
-    {{ themeChooser({
+    {{ themePicker({
         label: "Theme",
         themesUrl: "/assets/themes/",
         themes: ["light", "dark", "abyss"],
@@ -47,7 +47,7 @@
 </p>
 
 <script type="module">
-    import { autoInit } from "../theme-chooser.client.js";
+    import { autoInit } from "../theme-picker.client.js";
     autoInit({
         onChange(slug) {
             document.getElementById("theme-output").textContent = slug;

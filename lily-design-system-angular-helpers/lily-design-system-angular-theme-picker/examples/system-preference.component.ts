@@ -18,29 +18,25 @@
     `matchMedia.addEventListener("change", …)` listener and write to
     the `[(value)]`-bound signal.
 */
-import {
-    ChangeDetectionStrategy,
-    Component,
-    signal,
-} from "@angular/core";
-import { ThemeChooser } from "../theme-chooser.component";
+import { ChangeDetectionStrategy, Component, signal } from "@angular/core";
+import { ThemePicker } from "../theme-picker.component";
 
 @Component({
-    selector: "example-system-preference",
-    standalone: true,
-    imports: [ThemeChooser],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
-        <lily-theme-chooser
-            label="Theme"
-            themesUrl="/assets/themes/"
-            [themes]="['light', 'dark']"
-            [detectFromSystem]="true"
-            [(value)]="theme"
-            storageKey="my-app:theme"
-        />
-    `,
+  selector: "example-system-preference",
+  standalone: true,
+  imports: [ThemePicker],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <lily-theme-picker
+      label="Theme"
+      themesUrl="/assets/themes/"
+      [themes]="['light', 'dark']"
+      [detectFromSystem]="true"
+      [(value)]="theme"
+      storageKey="my-app:theme"
+    />
+  `,
 })
 export class SystemPreferenceExample {
-    theme = signal("");
+  theme = signal("");
 }

@@ -1,0 +1,214 @@
+@namespace LilyDesignSystem.Blazor.Helpers
+
+@*
+    DateTimePicker — Blazor helper component.
+    Single source of truth: spec/index.md (§1–§9).
+
+    A headless date/time-picking form control: a text field plus an icon
+    button that opens a WAI-ARIA APG Date Picker Dialog with a month grid
+    and a full keyboard contract. Direct port of the canonical Svelte
+    lily-design-system-svelte-date-time-picker.
+
+    Mousedown's default is suppressed on the button-only regions (header
+    nav, grid, shortcuts, footer) so pressing a control does not blur
+    whatever already has focus before the click handler runs — without
+    this, clicking a day while a different day is focused would fire a
+    root focusout (and this package's outside-dismissal, like SharePicker's,
+    is a focusout on the root) before the click's own handler ever runs.
+    It is deliberately NOT applied to the time <select>s: preventing a
+    select's own mousedown default stops it opening by click in most
+    browsers. See spec/index.md §9.
+*@
+
+<div class="@RootClass"
+     id="@RootId"
+     data-mode="@ModeAttribute"
+     @onfocusout="OnRootFocusOut"
+     @attributes="AdditionalAttributes">
+
+    <input type="hidden" name="@Name" value="@SafeValue" />
+
+    <div class="date-time-picker-field">
+        <input class="date-time-picker-input"
+               id="@FieldId"
+               type="text"
+               autocomplete="off"
+               value="@Display"
+               placeholder="@Placeholder"
+               disabled="@Disabled"
+               readonly="@ReadOnly"
+               required="@Required"
+               aria-describedby="@DescribedBy"
+               aria-invalid="@(_invalid ? "true" : null)"
+               @oninput="OnFieldInput"
+               @onblur="ResolveTypedAsync"
+               @onkeydown="OnFieldKeyDownAsync" />
+
+        <button type="button"
+                @ref="_buttonElement"
+                class="date-time-picker-button"
+                aria-label="@Label"
+                aria-haspopup="dialog"
+                aria-expanded="@(_open ? "true" : "false")"
+                aria-controls="@DialogId"
+                disabled="@(Disabled || ReadOnly)"
+                @onclick="OnTriggerClick">
+            @if (ChildContent is not null)
+            {
+                @ChildContent(BuildContext())
+            }
+            else
+            {
+                <span class="date-time-picker-icon" aria-hidden="true">&#128197;&#65038;</span>
+            }
+        </button>
+    </div>
+
+    <div class="date-time-picker-dialog"
+         id="@DialogId"
+         role="dialog"
+         aria-modal="true"
+         aria-label="@Label"
+         tabindex="-1"
+         hidden="@(!_open)"
+         @onkeydown="OnDialogKeyDown">
+
+        @if (UsesDate)
+        {
+            <div class="date-time-picker-header" @onmousedown:preventDefault="true">
+                <button type="button" class="date-time-picker-previous-year"
+                        aria-label="@Labels.PreviousYear" @onclick="() => ShiftYear(-1)">
+                    <span aria-hidden="true">&#171;</span>
+                </button>
+                <button type="button" class="date-time-picker-previous-month"
+                        aria-label="@Labels.PreviousMonth" @onclick="() => ShiftMonth(-1)">
+                    <span aria-hidden="true">&#8249;</span>
+                </button>
+
+                @* Polite, not assertive: paging months is the visible result of
+                   the user's own keypress, so it should reach a screen reader
+                   without interrupting anything. *@
+                <span class="date-time-picker-period" id="@PeriodId" aria-live="polite">@PeriodText</span>
+
+                <button type="button" class="date-time-picker-next-month"
+                        aria-label="@Labels.NextMonth" @onclick="() => ShiftMonth(1)">
+                    <span aria-hidden="true">&#8250;</span>
+                </button>
+                <button type="button" class="date-time-picker-next-year"
+                        aria-label="@Labels.NextYear" @onclick="() => ShiftYear(1)">
+                    <span aria-hidden="true">&#187;</span>
+                </button>
+            </div>
+
+            <table class="date-time-picker-calendar" role="grid" aria-labelledby="@PeriodId"
+                   @onkeydown="OnGridKeyDownAsync" @onmousedown:preventDefault="true">
+                <thead>
+                    <tr>
+                        @if (ShowWeekNumbers)
+                        {
+                            <th class="date-time-picker-week-heading" scope="col" abbr="@Labels.Week">@Labels.Week</th>
+                        }
+                        @foreach (var weekday in Weekdays)
+                        {
+                            @* abbr carries the full weekday name, so a screen
+                               reader announcing the column says "Monday" where
+                               the eye reads "Mo". *@
+                            <th class="date-time-picker-weekday" scope="col" abbr="@weekday.Long">@weekday.Short</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var week in Weeks)
+                    {
+                        <tr>
+                            @if (ShowWeekNumbers)
+                            {
+                                <th class="date-time-picker-week" scope="row">@IsoWeek(week[0])</th>
+                            }
+                            @foreach (var isoDate in week)
+                            {
+                                var parsed = ParseIsoDate(isoDate);
+                                var isToday = isoDate == _today;
+                                var isSelected = isoDate == _pendingDate;
+                                var isCursor = isoDate == _cursor;
+                                <td role="gridcell" aria-selected="@(isSelected ? "true" : "false")">
+                                    <button type="button"
+                                            @ref="_dayElements[isoDate]"
+                                            class="date-time-picker-day"
+                                            data-date="@isoDate"
+                                            data-outside="@(parsed is not null && parsed.Value.Month != _viewMonth ? "" : null)"
+                                            data-today="@(isToday ? "" : null)"
+                                            data-selected="@(isSelected ? "" : null)"
+                                            tabindex="@(isCursor ? "0" : "-1")"
+                                            aria-label="@DayLabel(isoDate)"
+                                            aria-current="@(isToday ? "date" : null)"
+                                            disabled="@DayDisabled(isoDate)"
+                                            @onclick="() => SelectDayAsync(isoDate)">
+                                        @(parsed?.Day.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? "")
+                                    </button>
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+        @if (UsesTime)
+        {
+            <div class="date-time-picker-time">
+                <label class="date-time-picker-time-label" for="@HourId">@Labels.Hour</label>
+                <select class="date-time-picker-hour" id="@HourId" @ref="_hourElement"
+                        value="@PendingHour.ToString(System.Globalization.CultureInfo.InvariantCulture)"
+                        @onchange="OnHourChange">
+                    @foreach (var option in HourOptions)
+                    {
+                        <option value="@option.Value">@option.Label</option>
+                    }
+                </select>
+
+                <label class="date-time-picker-time-label" for="@MinuteId">@Labels.Minute</label>
+                <select class="date-time-picker-minute" id="@MinuteId"
+                        value="@PendingMinute.ToString(System.Globalization.CultureInfo.InvariantCulture)"
+                        @onchange="OnMinuteChange">
+                    @foreach (var minute in MinuteOptions)
+                    {
+                        <option value="@minute">@Pad(minute)</option>
+                    }
+                </select>
+
+                @if (Clock12)
+                {
+                    <label class="date-time-picker-time-label" for="@MeridiemId">@Labels.Meridiem</label>
+                    <select class="date-time-picker-meridiem" id="@MeridiemId"
+                            value="@(PendingHour >= 12 ? "pm" : "am")" @onchange="OnMeridiemChange">
+                        @* Stable values, localised labels: the visible text is
+                           the locale's own day-period name. *@
+                        <option value="am">@DayPeriodName(false)</option>
+                        <option value="pm">@DayPeriodName(true)</option>
+                    </select>
+                }
+            </div>
+        }
+
+        @if (Shortcuts.Count > 0)
+        {
+            <div class="date-time-picker-shortcuts" @onmousedown:preventDefault="true">
+                @foreach (var shortcut in Shortcuts)
+                {
+                    <button type="button" class="date-time-picker-shortcut" data-shortcut-id="@shortcut.Id"
+                            @onclick="() => ApplyShortcutAsync(shortcut)">@shortcut.Label</button>
+                }
+            </div>
+        }
+
+        <div class="date-time-picker-footer" @onmousedown:preventDefault="true">
+            @if (!string.IsNullOrEmpty(Labels.Clear))
+            {
+                <button type="button" class="date-time-picker-clear" @onclick="ClearAsync">@Labels.Clear</button>
+            }
+            <button type="button" class="date-time-picker-cancel" @onclick="() => CloseDialog(true)">@Labels.Cancel</button>
+            <button type="button" class="date-time-picker-confirm" @onclick="CommitAsync">@Labels.Confirm</button>
+        </div>
+    </div>
+</div>

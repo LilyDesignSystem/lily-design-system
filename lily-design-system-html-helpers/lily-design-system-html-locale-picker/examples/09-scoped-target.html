@@ -16,29 +16,29 @@
       - In-page translation widgets
       - Embedded help panels that mirror an external service
 
-    Note: locale-chooser.ts may need compilation to .js — adjust the
+    Note: locale-picker.ts may need compilation to .js — adjust the
     <script src=…> per your build output.
 -->
 <html lang="en" dir="ltr">
 <head>
     <meta charset="utf-8">
-    <title>locale-chooser — scoped target</title>
-    <script type="module" src="../../locale-chooser.js"></script>
+    <title>locale-picker — scoped target</title>
+    <script type="module" src="../../locale-picker.js"></script>
     <style>
         body { font-family: system-ui, sans-serif; padding: 2rem; max-inline-size: 60rem; }
         /* Required: the package ships no CSS, so the dropdown has no
            positioning of its own and would otherwise render in flow. */
-        .locale-chooser { position: relative; display: inline-block; }
-        .locale-chooser-button {
+        .locale-picker { position: relative; display: inline-block; }
+        .locale-picker-button {
             font: inherit; line-height: 1; padding: 0.5rem;
             background: #ffffff; border: 1px solid #4c6272;
             border-radius: 4px; cursor: pointer;
         }
-        .locale-chooser-button:focus-visible,
-        .locale-chooser-list:focus-visible {
+        .locale-picker-button:focus-visible,
+        .locale-picker-list:focus-visible {
             outline: 3px solid #003087; outline-offset: 2px;
         }
-        .locale-chooser-list {
+        .locale-picker-list {
             position: absolute; inset-inline-start: 0;
             inset-block-start: calc(100% + 0.25rem); z-index: 10;
             margin: 0; padding: 0.25rem 0; list-style: none;
@@ -46,12 +46,12 @@
             background: #ffffff; border: 1px solid #4c6272; border-radius: 4px;
         }
         /* The element toggles `hidden`; never override it away. */
-        .locale-chooser-list[hidden] { display: none; }
-        .locale-chooser-option { font: inherit; padding: 0.375rem 0.75rem; cursor: pointer; }
+        .locale-picker-list[hidden] { display: none; }
+        .locale-picker-option { font: inherit; padding: 0.375rem 0.75rem; cursor: pointer; }
         /* Keyboard-highlighted vs applied — different things. */
-        .locale-chooser-option[data-active] { background: #f0f4f5; }
-        .locale-chooser-option[aria-selected="true"] { font-weight: 700; }
-        .locale-chooser-option[aria-selected="true"]::after { content: " ✓"; }
+        .locale-picker-option[data-active] { background: #f0f4f5; }
+        .locale-picker-option[aria-selected="true"] { font-weight: 700; }
+        .locale-picker-option[aria-selected="true"]::after { content: " ✓"; }
         .layout { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-block-start: 1.5rem; }
         .panel {
             border: 2px solid #005eb8; padding: 1rem; border-radius: 4px;
@@ -70,12 +70,12 @@
         <code>&lt;html&gt;</code> stays at <code>lang="en"</code>.
     </p>
 
-    <locale-chooser
+    <locale-picker
         id="select"
         label="Panel language"
         locales="en,fr,ar,he,ja"
         locale-labels='{"en":"English","fr":"Français","ar":"العربية","he":"עברית","ja":"日本語"}'
-    ></locale-chooser>
+    ></locale-picker>
 
     <div class="layout">
         <article>
@@ -96,7 +96,7 @@
     </div>
 
     <script type="module">
-        await customElements.whenDefined("locale-chooser");
+        await customElements.whenDefined("locale-picker");
         const select = document.querySelector("#select");
         const panel = document.querySelector("#panel");
 

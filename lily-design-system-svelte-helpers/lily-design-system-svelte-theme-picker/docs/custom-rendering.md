@@ -36,12 +36,12 @@ The most useful override, and the mitigation for
 give sighted users an on-screen word.
 
 ```svelte
-<ThemeChooser label="Theme" themesUrl="/assets/themes/" themes={["light", "dark"]}>
+<ThemePicker label="Theme" themesUrl="/assets/themes/" themes={["light", "dark"]}>
   {#snippet children({ value, labelFor })}
     <span aria-hidden="true">&#9681;</span>
-    <span class="theme-chooser-text">{labelFor(value)}</span>
+    <span class="theme-picker-text">{labelFor(value)}</span>
   {/snippet}
-</ThemeChooser>
+</ThemePicker>
 ```
 
 The button's `aria-label` still supplies the accessible name and
@@ -58,14 +58,14 @@ Removes the font dependency described in
 This package ships no assets, but nothing stops you supplying one.
 
 ```svelte
-<ThemeChooser label="Theme" themesUrl="/assets/themes/" themes={["light", "dark"]}>
+<ThemePicker label="Theme" themesUrl="/assets/themes/" themes={["light", "dark"]}>
   {#snippet children()}
     <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false">
       <circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" />
       <path d="M8 1a7 7 0 0 1 0 14z" fill="currentColor" />
     </svg>
   {/snippet}
-</ThemeChooser>
+</ThemePicker>
 ```
 
 Keep `aria-hidden="true"` and `focusable="false"` on the SVG: the
@@ -75,7 +75,7 @@ accessible name must stay on the button.
 
 `open` is in `ChildArgs` precisely so the trigger can show its state
 without a CSS-only workaround. (`[aria-expanded="true"]` on
-`.theme-chooser-button` also works, and is usually simpler.)
+`.theme-picker-button` also works, and is usually simpler.)
 
 ```svelte
 {#snippet children({ open })}
@@ -88,7 +88,7 @@ without a CSS-only workaround. (`[aria-expanded="true"]` on
 
 ```svelte
 {#snippet children({ value })}
-  <span class="theme-chooser-swatch" data-theme={value} aria-hidden="true"></span>
+  <span class="theme-picker-swatch" data-theme={value} aria-hidden="true"></span>
 {/snippet}
 ```
 
@@ -108,7 +108,7 @@ Because it is decorative and duplicated by the `aria-label`, keep it
 - **Don't try to render the theme list.** If you want an
   always-visible list of themes rather than a popup, this helper is
   the wrong shape — read `value` and write to it from your own
-  controls, or use the headless `ThemeChooser` container in
+  controls, or use the headless `ThemePicker` container in
   `lily-design-system-svelte-headless`.
 - **Don't mutate `document.head` or `data-theme` directly.** Let the
   component own that lifecycle.

@@ -17,14 +17,14 @@ decision.
 - The first attribute on the **rendered** root child is always the
   kebab-case base class plus the consumer's optional `class`
   attribute, so consumer CSS can target any helper with one
-  selector. The custom-element host itself (`<theme-chooser>`,
-  `<locale-chooser>`) is a transparent container.
-- Inner sub-classes (e.g. `theme-chooser-option`,
-  `locale-chooser-option`) are kebab-case derivatives of the
+  selector. The custom-element host itself (`<theme-picker>`,
+  `<locale-picker>`) is a transparent container.
+- Inner sub-classes (e.g. `theme-picker-option`,
+  `locale-picker-option`) are kebab-case derivatives of the
   base class. Sub-classes are stable contracts: consumers can rely
   on them, so don't rename or remove them between versions.
 - "Rest props" are not a concept in custom elements — every
-  attribute the consumer writes onto `<theme-chooser>` already lives
+  attribute the consumer writes onto `<theme-picker>` already lives
   on the host element. The element does not forward attributes to
   the rendered children; the host element is the attribute
   collector and the children are rendered fresh on every render.
@@ -78,7 +78,7 @@ decision.
 - `data-*` attributes are used for state that the consumer's CSS or
   JS may want to observe — e.g. `data-visible`, `data-active`,
   `data-step-index`, `data-currency-code`, `data-width`,
-  `data-remaining-seconds`, `data-theme`, `data-lily-theme-chooser`.
+  `data-remaining-seconds`, `data-theme`, `data-lily-theme-picker`.
   Use `data-*` rather than inventing new ARIA attributes when a
   state is for the consumer, not assistive technology.
 

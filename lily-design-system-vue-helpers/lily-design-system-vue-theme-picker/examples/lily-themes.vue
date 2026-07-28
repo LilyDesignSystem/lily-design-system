@@ -6,7 +6,7 @@
     "light" remains the default because it is in the list.
 -->
 <script setup lang="ts">
-import ThemeChooser from "../ThemeChooser.vue";
+import ThemePicker from "../ThemePicker.vue";
 
 const themes = [
     "abyss",
@@ -58,7 +58,7 @@ const themes = [
 </script>
 
 <template>
-    <ThemeChooser
+    <ThemePicker
         label="Lily theme"
         themes-url="/assets/themes/"
         :themes="themes"

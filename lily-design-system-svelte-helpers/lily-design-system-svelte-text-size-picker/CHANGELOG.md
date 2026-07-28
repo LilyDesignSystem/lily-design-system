@@ -1,4 +1,4 @@
-# Changelog — TextSizeChooser (Svelte)
+# Changelog — TextSizePicker (Svelte)
 
 All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
@@ -9,12 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 ### Changed (BREAKING)
 
 - Renamed from `lily-design-system-svelte-text-size-select`. Directory,
-  component (`TextSizeChooser.svelte`), exported symbols
-  (`TextSizeChooser`, `nextTextSizeChooserId`) and class hooks
-  (`text-size-chooser`, `text-size-chooser-button`,
-  `text-size-chooser-icon`, `text-size-chooser-list`,
-  `text-size-chooser-option`) all carry the new name.
-- A headless Svelte 5 text-size chooser: an icon button that opens a
+  component (`TextSizePicker.svelte`), exported symbols
+  (`TextSizePicker`, `nextTextSizePickerId`) and class hooks
+  (`text-size-picker`, `text-size-picker-button`,
+  `text-size-picker-icon`, `text-size-picker-list`,
+  `text-size-picker-option`) all carry the new name.
+- A headless Svelte 5 text-size picker: an icon button that opens a
   WAI-ARIA APG listbox of text-size slugs and sets
   `data-text-size="{slug}"` on a target element (default
   `document.documentElement`). Optional `localStorage` persistence.
@@ -40,13 +40,13 @@ reads coherently; the events they describe are unchanged.
 #### Changed (BREAKING)
 
 - **No longer a native `<select>`.** This helper is now an icon button
-  that opens a WAI-ARIA APG listbox, matching `theme-chooser` and
-  `locale-chooser`; it was the last native `<select>` among the helpers.
-  Root is `<div class="text-size-chooser">` wrapping a hidden input
+  that opens a WAI-ARIA APG listbox, matching `theme-picker` and
+  `locale-picker`; it was the last native `<select>` among the helpers.
+  Root is `<div class="text-size-picker">` wrapping a hidden input
   (form participation, carries `name`), a
-  `<button class="text-size-chooser-button">` whose only content is an
+  `<button class="text-size-picker-button">` whose only content is an
   `aria-hidden` glyph span, and a
-  `<ul class="text-size-chooser-list" role="listbox" hidden>` of
+  `<ul class="text-size-picker-list" role="listbox" hidden>` of
   `<li role="option">`.
 - Option count, option elements, and any assertion against a `<select>`
   or `<option>` all change. The `children` slot now overrides the

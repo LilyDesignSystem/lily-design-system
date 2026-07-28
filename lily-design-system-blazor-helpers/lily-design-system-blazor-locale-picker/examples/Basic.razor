@@ -31,16 +31,16 @@
     with a French voice inside this English sentence.
 *@
 
-@page "/examples/locale-chooser/radios"
+@page "/examples/locale-picker/radios"
 @rendermode InteractiveServer
 @using LilyDesignSystem.Blazor.Helpers
 
-<LocaleChooser
+<LocalePicker
     Label="Choose your language"
     Locales="@(new[] { "en", "fr", "ar" })"
     @bind-Value="locale" />
 
-<p class="locale-chooser-status" aria-live="polite">
+<p class="locale-picker-status" aria-live="polite">
     Active language:
     <span lang="@Locales.Bcp47LocaleTag(locale)">@Locales.LocaleName(locale)</span>
 </p>

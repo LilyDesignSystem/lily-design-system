@@ -20,10 +20,10 @@ per-helper acceptance criteria live in the helper's own `spec/index.md`
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
-    test: {
-        environment: "jsdom",
-        globals: false,
-    },
+  test: {
+    environment: "jsdom",
+    globals: false,
+  },
 });
 ```
 
@@ -41,37 +41,37 @@ import nunjucks from "nunjucks";
 import * as path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { autoInit, initThemeChooser } from "./theme-chooser.client.js";
+import { autoInit, initThemePicker } from "./theme-picker.client.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const env = nunjucks.configure(__dirname, {
-    autoescape: true,
-    throwOnUndefined: false,
-    trimBlocks: true,
-    lstripBlocks: true,
+  autoescape: true,
+  throwOnUndefined: false,
+  trimBlocks: true,
+  lstripBlocks: true,
 });
 
 function renderMacro(opts: Record<string, unknown>): string {
-    const src =
-        `{% from "./theme-chooser.njk" import themeChooser %}` +
-        `{{ themeChooser(opts) }}`;
-    return env.renderString(src, { opts });
+  const src =
+    `{% from "./theme-picker.njk" import themePicker %}` +
+    `{{ themePicker(opts) }}`;
+  return env.renderString(src, { opts });
 }
 
 function mountIntoBody(html: string): HTMLElement {
-    document.body.innerHTML = html;
-    return document.body.querySelector(
-        "[data-lily-theme-chooser-root]",
-    ) as HTMLElement;
+  document.body.innerHTML = html;
+  return document.body.querySelector(
+    "[data-lily-theme-picker-root]",
+  ) as HTMLElement;
 }
 
 beforeEach(() => {
-    document.head.innerHTML = "";
-    document.body.innerHTML = "";
-    document.documentElement.removeAttribute("data-theme");
-    document.documentElement.removeAttribute("lang");
-    document.documentElement.removeAttribute("dir");
-    localStorage.clear();
+  document.head.innerHTML = "";
+  document.body.innerHTML = "";
+  document.documentElement.removeAttribute("data-theme");
+  document.documentElement.removeAttribute("lang");
+  document.documentElement.removeAttribute("dir");
+  localStorage.clear();
 });
 ```
 
@@ -92,15 +92,15 @@ that doesn't go through Nunjucks at all.
 
 ## Common assertions
 
-| Goal                                | Pattern                                                              |
-| ----------------------------------- | -------------------------------------------------------------------- |
-| Find the root                       | `document.querySelector("[data-lily-theme-chooser-root]")`            |
-| Find an option by value             | `root.querySelector('option[value="dark"]')`                        |
-| Select an option                    | `root.value = "dark"; root.dispatchEvent(new Event("change", { bubbles: true }));` |
-| Inspect document mutations          | `document.documentElement.dataset.theme`                              |
-| `localStorage` round-trip           | `localStorage.setItem(...); /* re-init */`                            |
-| Assert managed `<link>`             | `document.head.querySelector('link[data-lily-theme-chooser="theme"]')` |
-| Assert spread attribute             | `root.getAttribute("data-testid")`                                    |
+| Goal                       | Pattern                                                                            |
+| -------------------------- | ---------------------------------------------------------------------------------- |
+| Find the root              | `document.querySelector("[data-lily-theme-picker-root]")`                          |
+| Find an option by value    | `root.querySelector('option[value="dark"]')`                                       |
+| Select an option           | `root.value = "dark"; root.dispatchEvent(new Event("change", { bubbles: true }));` |
+| Inspect document mutations | `document.documentElement.dataset.theme`                                           |
+| `localStorage` round-trip  | `localStorage.setItem(...); /* re-init */`                                         |
+| Assert managed `<link>`    | `document.head.querySelector('link[data-lily-theme-picker="theme"]')`              |
+| Assert spread attribute    | `root.getAttribute("data-testid")`                                                 |
 
 ## Driving a selection change
 
@@ -123,7 +123,7 @@ directly:
 
 ```ts
 test("§7.7 bcp47LocaleTag(en_US) === en-US", () => {
-    expect(bcp47LocaleTag("en_US")).toBe("en-US");
+  expect(bcp47LocaleTag("en_US")).toBe("en-US");
 });
 ```
 
@@ -131,14 +131,14 @@ test("§7.7 bcp47LocaleTag(en_US) === en-US", () => {
 
 ```ts
 test("§7.1 macro renders a <select> with aria-label", () => {
-    const html = renderMacro({
-        label: "Theme",
-        themesUrl: "/t/",
-        themes: ["light", "dark"],
-    });
-    expect(html).toContain('<select');
-    expect(html).toContain('aria-label="Theme"');
-    expect(html).toContain('<option');
+  const html = renderMacro({
+    label: "Theme",
+    themesUrl: "/t/",
+    themes: ["light", "dark"],
+  });
+  expect(html).toContain("<select");
+  expect(html).toContain('aria-label="Theme"');
+  expect(html).toContain("<option");
 });
 ```
 
@@ -149,17 +149,17 @@ attribute order independence, mount into jsdom and use the DOM API.
 
 ```ts
 test("§7.20 detectFromNavigator picks exact match", () => {
-    Object.defineProperty(navigator, "languages", {
-        configurable: true,
-        get: () => ["fr-FR", "en"],
-    });
-    document.body.innerHTML = renderMacro({
-        label: "L",
-        locales: ["en", "fr_FR", "ar"],
-        detectFromNavigator: true,
-    });
-    initLocaleChooser(document.querySelector("[data-lily-locale-chooser-root]")!);
-    expect(document.documentElement.lang).toBe("fr-FR");
+  Object.defineProperty(navigator, "languages", {
+    configurable: true,
+    get: () => ["fr-FR", "en"],
+  });
+  document.body.innerHTML = renderMacro({
+    label: "L",
+    locales: ["en", "fr_FR", "ar"],
+    detectFromNavigator: true,
+  });
+  initLocalePicker(document.querySelector("[data-lily-locale-picker-root]")!);
+  expect(document.documentElement.lang).toBe("fr-FR");
 });
 ```
 
@@ -173,9 +173,9 @@ is the sanity check.
 
 ```ts
 test("macro is pure: does not touch DOM during render", () => {
-    // Render outside of jsdom — assert no throw.
-    const html = env.renderString(src, { opts });
-    expect(html).toContain('<select');
+  // Render outside of jsdom — assert no throw.
+  const html = env.renderString(src, { opts });
+  expect(html).toContain("<select");
 });
 ```
 

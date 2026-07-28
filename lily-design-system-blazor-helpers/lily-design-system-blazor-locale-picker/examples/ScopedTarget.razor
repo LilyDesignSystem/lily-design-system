@@ -1,7 +1,7 @@
 @*
     Scoped target — scoped panels — multiple selects, each one applies to <html>.
 
-    Note: unlike the Vue helper, the Blazor LocaleChooser always writes
+    Note: unlike the Vue helper, the Blazor LocalePicker always writes
     lang/dir to <html> (no per-panel `target` parameter). For per-region
     scoping you can use multiple selects with distinct Names, but they
     will fight over <html>. To get true per-region behaviour, wrap each
@@ -13,7 +13,7 @@
     use distinct StorageKey values per panel.
 *@
 
-@page "/examples/locale-chooser/scoped-target"
+@page "/examples/locale-picker/scoped-target"
 @rendermode InteractiveServer
 @using LilyDesignSystem.Blazor.Helpers
 
@@ -22,7 +22,7 @@
 
     <section class="panel">
         <h2>Panel A</h2>
-        <LocaleChooser
+        <LocalePicker
             Label="Panel A language"
             Name="panel-a-locale"
             Locales="@(new[] { "en", "fr", "ar" })"
@@ -33,7 +33,7 @@
 
     <section class="panel">
         <h2>Panel B</h2>
-        <LocaleChooser
+        <LocalePicker
             Label="Panel B language"
             Name="panel-b-locale"
             Locales="@(new[] { "en", "fr", "ar" })"

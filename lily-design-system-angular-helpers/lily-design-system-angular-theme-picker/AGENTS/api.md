@@ -1,4 +1,4 @@
-# API — ThemeChooser (Angular)
+# API — ThemePicker (Angular)
 
 Authoritative API surface lives in [`../spec/index.md`](../spec/index.md) §4.
 This file documents the Angular-flavoured shape of the contract.
@@ -9,16 +9,16 @@ The barrel (`index.ts`) re-exports:
 
 ```ts
 export {
-    ThemeChooser,
-    ThemeChooserIcon,
-    CIRCLE_WITH_RIGHT_HALF_BLACK,
-    nextThemeChooserId,
-    normaliseThemesUrl,
-    themeHref,
-    themeName,
-    matchSystemTheme,
-} from "./theme-chooser.component";
-export type { ChildArgs } from "./theme-chooser.component";
+  ThemePicker,
+  ThemePickerIcon,
+  CIRCLE_WITH_RIGHT_HALF_BLACK,
+  nextThemePickerId,
+  normaliseThemesUrl,
+  themeHref,
+  themeName,
+  matchSystemTheme,
+} from "./theme-picker.component";
+export type { ChildArgs } from "./theme-picker.component";
 ```
 
 A consumer can import the component, the marker directive, the
@@ -26,15 +26,15 @@ constants, or the helpers:
 
 ```ts
 import {
-    ThemeChooser,
-    ThemeChooserIcon,
-    CIRCLE_WITH_RIGHT_HALF_BLACK,
-    normaliseThemesUrl,
-    themeHref,
-    themeName,
-    matchSystemTheme,
-    type ChildArgs,
-} from "./lily-design-system-angular-theme-chooser";
+  ThemePicker,
+  ThemePickerIcon,
+  CIRCLE_WITH_RIGHT_HALF_BLACK,
+  normaliseThemesUrl,
+  themeHref,
+  themeName,
+  matchSystemTheme,
+  type ChildArgs,
+} from "./lily-design-system-angular-theme-picker";
 ```
 
 The component's input/output types are inferred from the
@@ -44,55 +44,55 @@ type, and it describes the custom-glyph template context.
 
 ## Inputs
 
-| Input          | Type                          | Required | Default                                              |
-| -------------- | ----------------------------- | -------- | ---------------------------------------------------- |
-| `label`        | `string`                      | yes      | —                                                    |
-| `themesUrl`    | `string`                      | yes      | —                                                    |
-| `themes`       | `string[]`                    | yes      | —                                                    |
-| `value`        | `string` (model)              | no       | `""`                                                 |
-| `defaultValue` | `string`                      | no       | `""`                                                 |
-| `storageKey`   | `string`                      | no       | `""`                                                 |
-| `detectFromSystem` | `boolean`                 | no       | `false`                                              |
-| `name`         | `string`                      | no       | `"theme"`                                            |
-| `extension`    | `string`                      | no       | `".css"`                                             |
-| `target`       | `HTMLElement \| null`         | no       | `null` (resolves to `document.documentElement`)      |
-| `themeLabels`  | `Record<string, string>`      | no       | `{}`                                                 |
-| `className`    | `string`                      | no       | `""`                                                 |
+| Input              | Type                     | Required | Default                                         |
+| ------------------ | ------------------------ | -------- | ----------------------------------------------- |
+| `label`            | `string`                 | yes      | —                                               |
+| `themesUrl`        | `string`                 | yes      | —                                               |
+| `themes`           | `string[]`               | yes      | —                                               |
+| `value`            | `string` (model)         | no       | `""`                                            |
+| `defaultValue`     | `string`                 | no       | `""`                                            |
+| `storageKey`       | `string`                 | no       | `""`                                            |
+| `detectFromSystem` | `boolean`                | no       | `false`                                         |
+| `name`             | `string`                 | no       | `"theme"`                                       |
+| `extension`        | `string`                 | no       | `".css"`                                        |
+| `target`           | `HTMLElement \| null`    | no       | `null` (resolves to `document.documentElement`) |
+| `themeLabels`      | `Record<string, string>` | no       | `{}`                                            |
+| `className`        | `string`                 | no       | `""`                                            |
 
 `value` is two-way bindable via `[(value)]="theme"` in the
 consumer's template. Other attributes (`id`, `data-*`, event
-handlers) live on the host element (`<lily-theme-chooser>`), not on
+handlers) live on the host element (`<lily-theme-picker>`), not on
 the inner root `<div>` — Angular has no implicit attribute
 fall-through. `className` is the explicit escape hatch for putting a
 class on the root `<div>`.
 
 ## Content projection
 
-An optional `<ng-template>` projected into `<lily-theme-chooser>`
+An optional `<ng-template>` projected into `<lily-theme-picker>`
 replaces the default glyph inside the button:
 
 ```html
-<lily-theme-chooser label="Theme" [themesUrl]="url" [themes]="themes">
-    <ng-template let-args>{{ args.labelFor(args.value) }}</ng-template>
-</lily-theme-chooser>
+<lily-theme-picker label="Theme" [themesUrl]="url" [themes]="themes">
+  <ng-template let-args>{{ args.labelFor(args.value) }}</ng-template>
+</lily-theme-picker>
 ```
 
 The component queries it with `contentChild(TemplateRef)`, so any
-projected `<ng-template>` matches. The exported `ThemeChooserIcon`
-marker directive (`ng-template[lilyThemeChooserIcon]`) is optional;
+projected `<ng-template>` matches. The exported `ThemePickerIcon`
+marker directive (`ng-template[lilyThemePickerIcon]`) is optional;
 adding it gives typed `let-` variables via `ngTemplateContextGuard`:
 
 ```html
-<ng-template lilyThemeChooserIcon let-args>…</ng-template>
+<ng-template lilyThemePickerIcon let-args>…</ng-template>
 ```
 
 The context type is:
 
 ```ts
 export type ChildArgs = {
-    value: string;                        // selected theme slug
-    open: boolean;                        // is the listbox open?
-    labelFor: (theme: string) => string;  // slug → display label
+  value: string; // selected theme slug
+  open: boolean; // is the listbox open?
+  labelFor: (theme: string) => string; // slug → display label
 };
 ```
 
@@ -128,13 +128,17 @@ Two pure helpers are exported alongside the component:
 
 ```ts
 export function normaliseThemesUrl(themesUrl: string): string;
-export function themeHref(themesUrl: string, slug: string, extension: string): string;
+export function themeHref(
+  themesUrl: string,
+  slug: string,
+  extension: string,
+): string;
 export function themeName(theme: string): string;
 export function matchSystemTheme(themes: readonly string[]): string;
 ```
 
 `themeName(slug)` title-cases each hyphen-separated word — it is the
-mirror of locale-chooser's `localeName`, and the one implementation the
+mirror of locale-picker's `localeName`, and the one implementation the
 component's own `labelFor` delegates to, so consumers building a
 sibling affordance never re-derive the rule.
 
@@ -142,7 +146,7 @@ sibling affordance never re-derive the rule.
 `matchMedia("(prefers-color-scheme: dark)")`, maps it to `"dark"` /
 `"light"`, and returns `""` when that slug is not in `themes` **or when
 `matchMedia` is unavailable** — SSR, and jsdom, which does not
-implement it. It is the mirror of locale-chooser's
+implement it. It is the mirror of locale-picker's
 `matchNavigatorLanguage`.
 
 `normaliseThemesUrl(s)` ensures `s` ends with exactly one `/`.
@@ -156,7 +160,7 @@ select.
 ## Id generation
 
 ```ts
-export function nextThemeChooserId(): string;  // "theme-chooser-1", "theme-chooser-2", …
+export function nextThemePickerId(): string; // "theme-picker-1", "theme-picker-2", …
 ```
 
 An incrementing module-level counter — **not** `Math.random()` or
@@ -169,7 +173,7 @@ in a field initialiser and derives `{base}-list` and
 ## Constants
 
 ```ts
-export const CIRCLE_WITH_RIGHT_HALF_BLACK = "\u25D1";  // U+25D1, &#9681;
+export const CIRCLE_WITH_RIGHT_HALF_BLACK = "\u25D1"; // U+25D1, &#9681;
 ```
 
 The default button glyph. Exported so consumers can reuse the same
@@ -179,43 +183,48 @@ code point.
 ## DOM contract
 
 ```html
-<div class="theme-chooser {{ className() }}" (focusout)="onRootFocusOut($event)">
-    <input type="hidden" [name]="name()" [value]="value()" />
+<div
+  class="theme-picker {{ className() }}"
+  (focusout)="onRootFocusOut($event)"
+>
+  <input type="hidden" [name]="name()" [value]="value()" />
 
-    <button
-        type="button"
-        class="theme-chooser-button"
-        [attr.aria-label]="label() || null"
-        aria-haspopup="listbox"
-        [attr.aria-expanded]="open()"
-        [attr.aria-controls]="listId"
-        (click)="toggle()"
-        (keydown)="onButtonKeydown($event)"
-    >
-        <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
-    </button>
+  <button
+    type="button"
+    class="theme-picker-button"
+    [attr.aria-label]="label() || null"
+    aria-haspopup="listbox"
+    [attr.aria-expanded]="open()"
+    [attr.aria-controls]="listId"
+    (click)="toggle()"
+    (keydown)="onButtonKeydown($event)"
+  >
+    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
+  </button>
 
-    <ul
-        class="theme-chooser-list"
-        [id]="listId"
-        role="listbox"
-        [attr.aria-label]="label() || null"
-        [attr.aria-activedescendant]="activeDescendant()"
-        tabindex="-1"
-        [attr.hidden]="open() ? null : ''"
-        (keydown)="onListKeydown($event)"
+  <ul
+    class="theme-picker-list"
+    [id]="listId"
+    role="listbox"
+    [attr.aria-label]="label() || null"
+    [attr.aria-activedescendant]="activeDescendant()"
+    tabindex="-1"
+    [attr.hidden]="open() ? null : ''"
+    (keydown)="onListKeydown($event)"
+  >
+    @for (theme of themes(); track theme; let i = $index) {
+    <li
+      class="theme-picker-option"
+      [id]="optionId(i)"
+      role="option"
+      [attr.aria-selected]="theme === value()"
+      [attr.data-active]="i === activeIndex() ? '' : null"
+      (click)="choose(i)"
     >
-        @for (theme of themes(); track theme; let i = $index) {
-            <li
-                class="theme-chooser-option"
-                [id]="optionId(i)"
-                role="option"
-                [attr.aria-selected]="theme === value()"
-                [attr.data-active]="i === activeIndex() ? '' : null"
-                (click)="choose(i)"
-            >{{ labelFor(theme) }}</li>
-        }
-    </ul>
+      {{ labelFor(theme) }}
+    </li>
+    }
+  </ul>
 </div>
 ```
 
@@ -233,13 +242,17 @@ Document mutations (only inside the `effect()` callback, guarded
 by `typeof document !== "undefined"`):
 
 ```html
-<link rel="stylesheet" data-lily-theme-chooser="{name}" href="{themesUrl}{slug}{extension}" />
+<link
+  rel="stylesheet"
+  data-lily-theme-picker="{name}"
+  href="{themesUrl}{slug}{extension}"
+/>
 ```
 
 And on the resolved target:
 
 ```html
-<html data-theme="{slug}">
+<html data-theme="{slug}"></html>
 ```
 
 ## Internal helpers
@@ -268,33 +281,33 @@ consumer templates and tests): `openList(startIndex?)` and
 
 ```ts
 @Component({
-    selector: "lily-theme-chooser",
-    standalone: true,
-    imports: [NgTemplateOutlet],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    host: { "(document:click)": "onDocumentClick($event)" },
-    template: `…`,
+  selector: "lily-theme-picker",
+  standalone: true,
+  imports: [NgTemplateOutlet],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { "(document:click)": "onDocumentClick($event)" },
+  template: `…`,
 })
-export class ThemeChooser {
-    readonly label = input.required<string>();
-    readonly themesUrl = input.required<string>();
-    readonly themes = input.required<string[]>();
-    readonly value = model<string>("");
-    readonly defaultValue = input<string>("");
-    readonly storageKey = input<string>("");
-    readonly name = input<string>("theme");
-    readonly extension = input<string>(".css");
-    readonly target = input<HTMLElement | null>(null);
-    readonly themeLabels = input<Record<string, string>>({});
-    readonly className = input<string>("");
-    readonly themeChange = output<string>();
+export class ThemePicker {
+  readonly label = input.required<string>();
+  readonly themesUrl = input.required<string>();
+  readonly themes = input.required<string[]>();
+  readonly value = model<string>("");
+  readonly defaultValue = input<string>("");
+  readonly storageKey = input<string>("");
+  readonly name = input<string>("theme");
+  readonly extension = input<string>(".css");
+  readonly target = input<HTMLElement | null>(null);
+  readonly themeLabels = input<Record<string, string>>({});
+  readonly className = input<string>("");
+  readonly themeChange = output<string>();
 
-    protected readonly iconTemplate = contentChild(TemplateRef);
-    // …
+  protected readonly iconTemplate = contentChild(TemplateRef);
+  // …
 }
 ```
 
-`readonly` on each field denotes that the *reference* (the signal
+`readonly` on each field denotes that the _reference_ (the signal
 itself) is constant; the signal's underlying value still changes
 reactively.
 

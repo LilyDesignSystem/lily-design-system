@@ -8,11 +8,11 @@
     Outcome: live preview pane reflects current lang and dir.
 *@
 
-@page "/examples/locale-chooser/rtl-demo"
+@page "/examples/locale-picker/rtl-demo"
 @rendermode InteractiveServer
 @using LilyDesignSystem.Blazor.Helpers
 
-<LocaleChooser
+<LocalePicker
     Label="Direction demo"
     Locales="@(new[] { "en", "ar", "he", "fa", "ur", "ps" })"
     LocaleLabels="@NATIVE"

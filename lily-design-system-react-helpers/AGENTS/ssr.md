@@ -49,19 +49,19 @@ import { cookies } from "next/headers";
 import { LocaleClient } from "./locale-client";
 
 export default async function RootLayout({
-    children,
+  children,
 }: {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-    const locale = (await cookies()).get("locale")?.value ?? "en";
-    const dir = /^(ar|he|fa|ur|ps|sd)/.test(locale) ? "rtl" : "ltr";
-    return (
-        <html lang={locale.replace(/_/g, "-")} dir={dir}>
-            <body>
-                <LocaleClient initialLocale={locale}>{children}</LocaleClient>
-            </body>
-        </html>
-    );
+  const locale = (await cookies()).get("locale")?.value ?? "en";
+  const dir = /^(ar|he|fa|ur|ps|sd)/.test(locale) ? "rtl" : "ltr";
+  return (
+    <html lang={locale.replace(/_/g, "-")} dir={dir}>
+      <body>
+        <LocaleClient initialLocale={locale}>{children}</LocaleClient>
+      </body>
+    </html>
+  );
 }
 ```
 
@@ -75,35 +75,35 @@ The `<html lang dir>` arrives in the HTTP response from byte zero
 "use client";
 
 import * as React from "react";
-import { LocaleChooser } from "../lily-design-system-react-locale-chooser";
+import { LocalePicker } from "../lily-design-system-react-locale-picker";
 
 export function LocaleClient({
-    initialLocale,
-    children,
+  initialLocale,
+  children,
 }: {
-    initialLocale: string;
-    children: React.ReactNode;
+  initialLocale: string;
+  children: React.ReactNode;
 }) {
-    const [locale, setLocale] = React.useState(initialLocale);
+  const [locale, setLocale] = React.useState(initialLocale);
 
-    function writeCookie(code: string) {
-        document.cookie = `locale=${code}; path=/; max-age=31536000; SameSite=Lax`;
-    }
+  function writeCookie(code: string) {
+    document.cookie = `locale=${code}; path=/; max-age=31536000; SameSite=Lax`;
+  }
 
-    return (
-        <>
-            <LocaleChooser
-                label="Language"
-                locales={["en", "fr", "ar"]}
-                value={locale}
-                onChange={(code) => {
-                    setLocale(code);
-                    writeCookie(code);
-                }}
-            />
-            {children}
-        </>
-    );
+  return (
+    <>
+      <LocalePicker
+        label="Language"
+        locales={["en", "fr", "ar"]}
+        value={locale}
+        onChange={(code) => {
+          setLocale(code);
+          writeCookie(code);
+        }}
+      />
+      {children}
+    </>
+  );
 }
 ```
 
@@ -118,22 +118,22 @@ If the consumer prefers a server action over `document.cookie`:
 import { cookies } from "next/headers";
 
 export async function setLocaleCookie(locale: string) {
-    (await cookies()).set("locale", locale, {
-        path: "/",
-        maxAge: 60 * 60 * 24 * 365,
-        sameSite: "lax",
-    });
+  (await cookies()).set("locale", locale, {
+    path: "/",
+    maxAge: 60 * 60 * 24 * 365,
+    sameSite: "lax",
+  });
 }
 ```
 
 And call from `onChange`:
 
 ```tsx
-<LocaleChooser
-    onChange={(code) => {
-        setLocale(code);
-        setLocaleCookie(code); // server action
-    }}
+<LocalePicker
+  onChange={(code) => {
+    setLocale(code);
+    setLocaleCookie(code); // server action
+  }}
 />
 ```
 
@@ -149,21 +149,21 @@ import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json, useLoaderData } from "@remix-run/react";
 
 export async function loader({ request }: LoaderFunctionArgs) {
-    const cookie = request.headers.get("cookie") ?? "";
-    const locale = cookie.match(/locale=([^;]+)/)?.[1] ?? "en";
-    return json({ locale });
+  const cookie = request.headers.get("cookie") ?? "";
+  const locale = cookie.match(/locale=([^;]+)/)?.[1] ?? "en";
+  return json({ locale });
 }
 
 export default function App() {
-    const { locale } = useLoaderData<typeof loader>();
-    const dir = /^(ar|he|fa|ur|ps|sd)/.test(locale) ? "rtl" : "ltr";
-    return (
-        <html lang={locale.replace(/_/g, "-")} dir={dir}>
-            <body>
-                <LocaleClient initialLocale={locale} />
-            </body>
-        </html>
-    );
+  const { locale } = useLoaderData<typeof loader>();
+  const dir = /^(ar|he|fa|ur|ps|sd)/.test(locale) ? "rtl" : "ltr";
+  return (
+    <html lang={locale.replace(/_/g, "-")} dir={dir}>
+      <body>
+        <LocaleClient initialLocale={locale} />
+      </body>
+    </html>
+  );
 }
 ```
 
@@ -233,16 +233,16 @@ before hydration.
 
 ## RSC boundary checklist
 
-| Question                                              | Answer                                  |
-| ----------------------------------------------------- | --------------------------------------- |
-| Does the select run on the server?                    | No — it's a client component.           |
-| Can a server component import the select?             | Yes — the import boundary is implicit.  |
-| Can a server component import pure helpers?           | Yes — `themeHref`, `bcp47LocaleTag`, … |
-| Does `useState`/`useEffect` work?                     | Yes, after hydration.                   |
-| Does `localStorage` work during render?               | No — only inside `useEffect`.           |
-| Does `cookies()` from `next/headers` work in helper?  | No — helper is client.                  |
-| Where do I read cookies?                              | In a server component, pipe to client.  |
-| Where do I write cookies?                             | `document.cookie` (client) or a server action. |
+| Question                                             | Answer                                         |
+| ---------------------------------------------------- | ---------------------------------------------- |
+| Does the select run on the server?                   | No — it's a client component.                  |
+| Can a server component import the select?            | Yes — the import boundary is implicit.         |
+| Can a server component import pure helpers?          | Yes — `themeHref`, `bcp47LocaleTag`, …         |
+| Does `useState`/`useEffect` work?                    | Yes, after hydration.                          |
+| Does `localStorage` work during render?              | No — only inside `useEffect`.                  |
+| Does `cookies()` from `next/headers` work in helper? | No — helper is client.                         |
+| Where do I read cookies?                             | In a server component, pipe to client.         |
+| Where do I write cookies?                            | `document.cookie` (client) or a server action. |
 
 ## References
 

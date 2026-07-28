@@ -1,12 +1,12 @@
-# `<share-chooser>` — Specification
+# `<share-picker>` — Specification
 
-Single source of truth for the `lily-design-system-html-share-chooser`
+Single source of truth for the `lily-design-system-html-share-picker`
 HTML helper. This file drives implementation, testing, and
 documentation: anything not in this spec is out of scope; anything in
 this spec must be exercised by a test.
 
 Ported from the canonical Svelte helper
-[`lily-design-system-svelte-share-chooser`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-chooser/spec/index.md).
+[`lily-design-system-svelte-share-picker`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-picker/spec/index.md).
 Per [`AGENTS/helpers.md`](../../../AGENTS/helpers.md) the Svelte side
 wins on behaviour; this file records the vanilla-custom-element idiom
 and the two places the API shape could not be carried over verbatim
@@ -14,8 +14,8 @@ and the two places the API shape could not be carried over verbatim
 
 Sibling files:
 
-- `share-chooser.ts` — the implementation (custom-element class)
-- `share-chooser.test.ts` — vitest + jsdom spec exercising every clause in §7
+- `share-picker.ts` — the implementation (custom-element class)
+- `share-picker.test.ts` — vitest + jsdom spec exercising every clause in §7
 - `index.ts` — barrel re-export + side-effectful registration
 - `index.md` — user-facing guide
 - `docs/accessibility.md` — tradeoffs, stated plainly
@@ -52,8 +52,8 @@ Give any HTML page a drop-in, headless share control that:
 ## 3. Architectural decisions
 
 - **A helper, but not a preference lifecycle.** The other helpers own
-  *selection + DOM application + optional persistence*. This one owns an
-  *action*: it applies nothing to the document and persists nothing. It
+  _selection + DOM application + optional persistence_. This one owns an
+  _action_: it applies nothing to the document and persists nothing. It
   is a helper because it owns a complete interaction end to end and
   ships the same headless contract. See `AGENTS/helpers.md`.
 - **Disclosure + real links, not a menu, and not the catalog's
@@ -88,17 +88,17 @@ Give any HTML page a drop-in, headless share control that:
 
 ### 4.1 Observed attributes
 
-| Attribute | Type | Required | Default | Purpose |
-| --------- | ---- | -------- | ------- | ------- |
-| `label` | string | yes | `""` | Accessible name for the trigger. |
-| `url` | string | no | current page URL | URL to share. Resolved lazily (§5.1). |
-| `share-title` | string | no | `""` | Passed to `href(...)` and the native sheet. |
-| `text` | string | no | `""` | Passed to `href(...)` and the native sheet. |
-| `copy-label` | string | no | — | Label for the copy item. Omit it and no copy item renders. |
-| `copied-label` | string | no | — | Announced in the status region after a successful copy. |
-| `copy-failed-label` | string | no | — | Announced when the clipboard write fails. |
-| `strategy` | `auto` \| `native` \| `list` | no | `auto` | Whether to prefer the native sheet. An unrecognised value falls back to `auto`. |
-| `class` | string | no | `""` | Extra class on the rendered root `<div>`. |
+| Attribute           | Type                         | Required | Default          | Purpose                                                                         |
+| ------------------- | ---------------------------- | -------- | ---------------- | ------------------------------------------------------------------------------- |
+| `label`             | string                       | yes      | `""`             | Accessible name for the trigger.                                                |
+| `url`               | string                       | no       | current page URL | URL to share. Resolved lazily (§5.1).                                           |
+| `share-title`       | string                       | no       | `""`             | Passed to `href(...)` and the native sheet.                                     |
+| `text`              | string                       | no       | `""`             | Passed to `href(...)` and the native sheet.                                     |
+| `copy-label`        | string                       | no       | —                | Label for the copy item. Omit it and no copy item renders.                      |
+| `copied-label`      | string                       | no       | —                | Announced in the status region after a successful copy.                         |
+| `copy-failed-label` | string                       | no       | —                | Announced when the clipboard write fails.                                       |
+| `strategy`          | `auto` \| `native` \| `list` | no       | `auto`           | Whether to prefer the native sheet. An unrecognised value falls back to `auto`. |
+| `class`             | string                       | no       | `""`             | Extra class on the rendered root `<div>`.                                       |
 
 **`share-title`, not `title` — the one unavoidable rename.** The
 cross-framework prop table calls this `title`. In a custom element that
@@ -124,16 +124,16 @@ text), `listId` (id of the rendered `<ul>`).
 Two parts of the canonical API cannot be attributes, because attributes
 are strings and these carry functions:
 
-| Member | Why it cannot be an attribute | Paired event |
-| ------ | ----------------------------- | ------------ |
-| `targets: ShareTarget[]` | `ShareTarget.href` is a **function**. A JSON attribute could not carry it, and a string-template form would bake in the URL convention this package refuses to own (§2). | — |
-| `onShare(targetId, url)` | Function-valued callback. | `share` |
-| `onCopy(url)` | Function-valued callback. | `copy` |
-| `onNativeShare(url)` | Function-valued callback. | `nativeshare` |
+| Member                   | Why it cannot be an attribute                                                                                                                                            | Paired event  |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------- |
+| `targets: ShareTarget[]` | `ShareTarget.href` is a **function**. A JSON attribute could not carry it, and a string-template form would bake in the URL convention this package refuses to own (§2). | —             |
+| `onShare(targetId, url)` | Function-valued callback.                                                                                                                                                | `share`       |
+| `onCopy(url)`            | Function-valued callback.                                                                                                                                                | `copy`        |
+| `onNativeShare(url)`     | Function-valued callback.                                                                                                                                                | `nativeshare` |
 
 The three callbacks are conveniences; the **events are the primary
-contract**, matching how `theme-chooser` exposes `themechange` and
-`locale-chooser` exposes `localechange`. Consumers who never touch JS
+contract**, matching how `theme-picker` exposes `themechange` and
+`locale-picker` exposes `localechange`. Consumers who never touch JS
 properties can wire everything with `addEventListener`. Consumers who
 hold an element reference may prefer the callback. Both fire, callback
 first.
@@ -143,27 +143,27 @@ type ShareTarget = {
   id: string;
   label: string;
   href: (url: string, title: string, text: string) => string;
-  newTab?: boolean;   // default true
+  newTab?: boolean; // default true
 };
 ```
 
 ### 4.4 Public methods
 
-| Method | Purpose |
-| ------ | ------- |
+| Method                        | Purpose                                                                                |
+| ----------------------------- | -------------------------------------------------------------------------------------- |
 | `openList(focusLast = false)` | Open the list, focusing the first (or last) item. No-op when there is nothing to show. |
-| `closeList(refocus = true)` | Close the list, returning focus to the trigger unless `refocus` is false. |
-| `items()` | Every focusable item in the list, in DOM order. |
-| `currentUrl()` | The URL that would be shared right now (§5.1). |
-| `renderButtonContent()` | Overridable hook building the trigger's content (§4.7). |
+| `closeList(refocus = true)`   | Close the list, returning focus to the trigger unless `refocus` is false.              |
+| `items()`                     | Every focusable item in the list, in DOM order.                                        |
+| `currentUrl()`                | The URL that would be shared right now (§5.1).                                         |
+| `renderButtonContent()`       | Overridable hook building the trigger's content (§4.7).                                |
 
 ### 4.5 Events
 
-| Event | Detail | Fires when |
-| ----- | ------ | ---------- |
-| `share` | `{ targetId, url }` | A destination is chosen. |
-| `copy` | `{ url }` | The URL is successfully copied. |
-| `nativeshare` | `{ url }` | The native sheet handled the share. |
+| Event         | Detail              | Fires when                          |
+| ------------- | ------------------- | ----------------------------------- |
+| `share`       | `{ targetId, url }` | A destination is chosen.            |
+| `copy`        | `{ url }`           | The URL is successfully copied.     |
+| `nativeshare` | `{ url }`           | The native sheet handled the share. |
 
 All three are `CustomEvent`s with `bubbles: true` and `composed: true`,
 per the catalog convention.
@@ -174,31 +174,42 @@ an error (§5.3).
 ### 4.6 DOM contract
 
 ```html
-<share-chooser label="Share" url="…">
-  <div class="share-chooser {class}">
-    <button type="button" class="share-chooser-button"
-            aria-label="{label}" aria-expanded="false" aria-controls="{listId}">
-      <span class="share-chooser-icon" aria-hidden="true">&#10148;</span>
+<share-picker label="Share" url="…">
+  <div class="share-picker {class}">
+    <button
+      type="button"
+      class="share-picker-button"
+      aria-label="{label}"
+      aria-expanded="false"
+      aria-controls="{listId}"
+    >
+      <span class="share-picker-icon" aria-hidden="true">&#10148;</span>
     </button>
-    <ul class="share-chooser-list" id="{listId}" hidden>
-      <li class="share-chooser-list-item">
-        <a class="share-chooser-target" data-target-id="{id}" href="{href(...)}"
-           target="_blank" rel="noopener noreferrer">{label}</a>
+    <ul class="share-picker-list" id="{listId}" hidden>
+      <li class="share-picker-list-item">
+        <a
+          class="share-picker-target"
+          data-target-id="{id}"
+          href="{href(...)}"
+          target="_blank"
+          rel="noopener noreferrer"
+          >{label}</a
+        >
       </li>
-      <li class="share-chooser-list-item">
-        <button type="button" class="share-chooser-copy">{copyLabel}</button>
+      <li class="share-picker-list-item">
+        <button type="button" class="share-picker-copy">{copyLabel}</button>
       </li>
     </ul>
-    <p class="share-chooser-status" aria-live="polite"></p>
+    <p class="share-picker-status" aria-live="polite"></p>
   </div>
-</share-chooser>
+</share-picker>
 ```
 
 Three things that are not negotiable:
 
 1. **Disclosure, not menu or listbox.** Destinations are real `<a>`
    elements with **no `role` override**.
-2. **The trigger class is `share-chooser-button`**, following the
+2. **The trigger class is `share-picker-button`**, following the
    catalog's `{helper}-button` convention with no exception.
 3. **`target="_blank" rel="noopener noreferrer"`** on destinations
    unless the target sets `newTab: false`. `rel` is kept either way.
@@ -219,10 +230,10 @@ current. The trigger's own aria wiring is not the subclass's to change.
 
 ### 4.8 Re-exports
 
-`index.ts` exports `ShareChooser`, `canShareNatively`, `canCopy`,
-`nextShareChooserId`, `BLACK_RIGHTWARDS_ARROWHEAD`, and the types
-`ShareChooserProps`, `ShareChooserShareDetail`, `ShareChooserUrlDetail`,
-`ShareTarget`, `ShareStrategy`. Importing it registers `<share-chooser>`.
+`index.ts` exports `SharePicker`, `canShareNatively`, `canCopy`,
+`nextSharePickerId`, `BLACK_RIGHTWARDS_ARROWHEAD`, and the types
+`SharePickerProps`, `SharePickerShareDetail`, `SharePickerUrlDetail`,
+`ShareTarget`, `ShareStrategy`. Importing it registers `<share-picker>`.
 
 ## 5. Behaviour
 
@@ -273,14 +284,14 @@ This is the load-bearing part of the port.
 
 ### 5.6 Keyboard
 
-| Key | On the trigger | In the list |
-| --- | -------------- | ----------- |
-| `Enter` / `Space` | Activates (native button behaviour) | Activates the focused item (native) |
-| `ArrowDown` | Opens, focuses the first item | Moves focus down, **clamping** |
-| `ArrowUp` | Opens, focuses the last item | Moves focus up, **clamping** |
-| `Home` / `End` | — | First / last item |
-| `Escape` | — | Closes, returns focus to the trigger |
-| `Tab` | Moves on | Closes, focus goes where the browser sends it |
+| Key               | On the trigger                      | In the list                                   |
+| ----------------- | ----------------------------------- | --------------------------------------------- |
+| `Enter` / `Space` | Activates (native button behaviour) | Activates the focused item (native)           |
+| `ArrowDown`       | Opens, focuses the first item       | Moves focus down, **clamping**                |
+| `ArrowUp`         | Opens, focuses the last item        | Moves focus up, **clamping**                  |
+| `Home` / `End`    | —                                   | First / last item                             |
+| `Escape`          | —                                   | Closes, returns focus to the trigger          |
+| `Tab`             | Moves on                            | Closes, focus goes where the browser sends it |
 
 Arrows clamp rather than wrap: the ends of a short disclosure list are a
 real boundary, and wrapping disorients.
@@ -299,7 +310,7 @@ The module has no top-level DOM access and is import-safe without
 renders and nothing breaks; the control appears on upgrade. Because it
 is an action rather than a preference, there is no first-paint flicker
 problem to solve and no cookie/inline-script dance — the notable
-simplification against `theme-chooser`.
+simplification against `theme-picker`.
 
 ## 6. Accessibility
 
@@ -317,7 +328,7 @@ can fail for reasons invisible to the user.
 
 ## 7. Testing acceptance criteria
 
-`share-chooser.test.ts` asserts every clause below. Test names are
+`share-picker.test.ts` asserts every clause below. Test names are
 prefixed with the clause number so a reviewer can spot a gap.
 
 1. Renders a disclosure `<button>` with `aria-expanded` controlling a `<ul>`.
@@ -357,7 +368,7 @@ import safety.
 
 ## 9. Tracking
 
-- Package: lily-design-system-html-share-chooser
+- Package: lily-design-system-html-share-picker
 - Version: 0.1.0
 - License: MIT
 

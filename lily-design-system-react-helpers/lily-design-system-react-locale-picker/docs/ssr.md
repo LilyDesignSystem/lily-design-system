@@ -6,12 +6,12 @@ This page covers the resolution strategies, ordered by quality.
 
 ## TL;DR
 
-| Strategy                | Flash of default locale?  | Survives reload?      | SEO-friendly? |
-| ----------------------- | ------------------------- | --------------------- | ------------- |
-| `detectFromNavigator`   | yes (until client mounts) | only if `storageKey`  | no            |
-| `localStorage`          | yes (until client mounts) | yes                   | no            |
-| Cookie                  | **no**                    | yes                   | no            |
-| URL prefix (`/fr/about`)| **no**                    | yes                   | **yes**       |
+| Strategy                 | Flash of default locale?  | Survives reload?     | SEO-friendly? |
+| ------------------------ | ------------------------- | -------------------- | ------------- |
+| `detectFromNavigator`    | yes (until client mounts) | only if `storageKey` | no            |
+| `localStorage`           | yes (until client mounts) | yes                  | no            |
+| Cookie                   | **no**                    | yes                  | no            |
+| URL prefix (`/fr/about`) | **no**                    | yes                  | **yes**       |
 
 Use the **cookie** strategy unless you need SEO-distinct pages per
 locale; then use **URL prefix**.
@@ -26,7 +26,7 @@ the client picks `ar`, the page jumps:
 
 1. Browser parses `<html lang="en">` → default LTR layout.
 2. Browser fetches CSS, paints English page (FOUC-style flash).
-3. JS hydrates, `LocaleChooser` runs its `useEffect`, reads
+3. JS hydrates, `LocalePicker` runs its `useEffect`, reads
    `localStorage["app-locale"] === "ar"`, writes
    `<html lang="ar" dir="rtl">`.
 4. Browser repaints in RTL → layout shift.
@@ -49,29 +49,32 @@ a client component (the select wrapper).
 ```tsx
 // app/layout.tsx — SERVER component
 import { cookies } from "next/headers";
-import { isRtlLocale, bcp47LocaleTag } from "lily-design-system-react-locale-chooser";
+import {
+  isRtlLocale,
+  bcp47LocaleTag,
+} from "lily-design-system-react-locale-picker";
 import { LocaleClient } from "./locale-client";
 
 const KNOWN = new Set(["en", "fr", "ar", "he"]);
 
 export default async function RootLayout({
-    children,
+  children,
 }: {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-    const cookieStore = await cookies();
-    const cookieLocale = cookieStore.get("locale")?.value;
-    const locale = cookieLocale && KNOWN.has(cookieLocale) ? cookieLocale : "en";
-    const lang = bcp47LocaleTag(locale);
-    const dir = isRtlLocale(locale) ? "rtl" : "ltr";
+  const cookieStore = await cookies();
+  const cookieLocale = cookieStore.get("locale")?.value;
+  const locale = cookieLocale && KNOWN.has(cookieLocale) ? cookieLocale : "en";
+  const lang = bcp47LocaleTag(locale);
+  const dir = isRtlLocale(locale) ? "rtl" : "ltr";
 
-    return (
-        <html lang={lang} dir={dir}>
-            <body>
-                <LocaleClient initialLocale={locale}>{children}</LocaleClient>
-            </body>
-        </html>
-    );
+  return (
+    <html lang={lang} dir={dir}>
+      <body>
+        <LocaleClient initialLocale={locale}>{children}</LocaleClient>
+      </body>
+    </html>
+  );
 }
 ```
 
@@ -86,36 +89,35 @@ component because they have no React or DOM dependency.
 "use client";
 
 import * as React from "react";
-import { LocaleChooser } from "lily-design-system-react-locale-chooser";
+import { LocalePicker } from "lily-design-system-react-locale-picker";
 
 export function LocaleClient({
-    initialLocale,
-    children,
+  initialLocale,
+  children,
 }: {
-    initialLocale: string;
-    children: React.ReactNode;
+  initialLocale: string;
+  children: React.ReactNode;
 }) {
-    const [locale, setLocale] = React.useState(initialLocale);
+  const [locale, setLocale] = React.useState(initialLocale);
 
-    function writeCookie(code: string) {
-        document.cookie =
-            `locale=${code}; path=/; max-age=31536000; SameSite=Lax`;
-    }
+  function writeCookie(code: string) {
+    document.cookie = `locale=${code}; path=/; max-age=31536000; SameSite=Lax`;
+  }
 
-    return (
-        <>
-            <LocaleChooser
-                label="Language"
-                locales={["en", "fr", "ar", "he"]}
-                value={locale}
-                onChange={(code) => {
-                    setLocale(code);
-                    writeCookie(code);
-                }}
-            />
-            {children}
-        </>
-    );
+  return (
+    <>
+      <LocalePicker
+        label="Language"
+        locales={["en", "fr", "ar", "he"]}
+        value={locale}
+        onChange={(code) => {
+          setLocale(code);
+          writeCookie(code);
+        }}
+      />
+      {children}
+    </>
+  );
 }
 ```
 
@@ -145,27 +147,33 @@ app/
 ```tsx
 // app/[locale]/layout.tsx — SERVER component
 import { notFound } from "next/navigation";
-import { isRtlLocale, bcp47LocaleTag } from "lily-design-system-react-locale-chooser";
+import {
+  isRtlLocale,
+  bcp47LocaleTag,
+} from "lily-design-system-react-locale-picker";
 
 const KNOWN = new Set(["en", "fr", "ar"]);
 
 export default function LocaleLayout({
-    children,
-    params,
+  children,
+  params,
 }: {
-    children: React.ReactNode;
-    params: { locale: string };
+  children: React.ReactNode;
+  params: { locale: string };
 }) {
-    if (!KNOWN.has(params.locale)) notFound();
+  if (!KNOWN.has(params.locale)) notFound();
 
-    return (
-        <html lang={bcp47LocaleTag(params.locale)} dir={isRtlLocale(params.locale) ? "rtl" : "ltr"}>
-            <body>
-                <LocaleSwitcher current={params.locale} />
-                {children}
-            </body>
-        </html>
-    );
+  return (
+    <html
+      lang={bcp47LocaleTag(params.locale)}
+      dir={isRtlLocale(params.locale) ? "rtl" : "ltr"}
+    >
+      <body>
+        <LocaleSwitcher current={params.locale} />
+        {children}
+      </body>
+    </html>
+  );
 }
 ```
 
@@ -174,23 +182,23 @@ export default function LocaleLayout({
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { LocaleChooser } from "lily-design-system-react-locale-chooser";
+import { LocalePicker } from "lily-design-system-react-locale-picker";
 
 export function LocaleSwitcher({ current }: { current: string }) {
-    const pathname = usePathname();
-    const router = useRouter();
+  const pathname = usePathname();
+  const router = useRouter();
 
-    return (
-        <LocaleChooser
-            label="Language"
-            locales={["en", "fr", "ar"]}
-            value={current}
-            onChange={(code) => {
-                router.push(pathname.replace(/^\/(en|fr|ar)/, `/${code}`));
-                router.refresh();
-            }}
-        />
-    );
+  return (
+    <LocalePicker
+      label="Language"
+      locales={["en", "fr", "ar"]}
+      value={current}
+      onChange={(code) => {
+        router.push(pathname.replace(/^\/(en|fr|ar)/, `/${code}`));
+        router.refresh();
+      }}
+    />
+  );
 }
 ```
 
@@ -207,37 +215,43 @@ If you don't have a cookie yet (first visit), use the request's
 // app/layout.tsx
 import { cookies, headers } from "next/headers";
 import {
-    matchNavigatorLanguage,
-    isRtlLocale,
-    bcp47LocaleTag,
-} from "lily-design-system-react-locale-chooser";
+  matchNavigatorLanguage,
+  isRtlLocale,
+  bcp47LocaleTag,
+} from "lily-design-system-react-locale-picker";
 
 const SUPPORTED = ["en", "fr", "ar"];
 
 function pickFromAcceptLanguage(header: string | null): string {
-    if (!header) return SUPPORTED[0];
-    const tags = header
-        .split(",")
-        .map((s) => s.split(";")[0].trim());
-    return matchNavigatorLanguage(tags, SUPPORTED) || SUPPORTED[0];
+  if (!header) return SUPPORTED[0];
+  const tags = header.split(",").map((s) => s.split(";")[0].trim());
+  return matchNavigatorLanguage(tags, SUPPORTED) || SUPPORTED[0];
 }
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-    const cookieStore = await cookies();
-    const requestHeaders = await headers();
+export default async function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const cookieStore = await cookies();
+  const requestHeaders = await headers();
 
-    const cookieLocale = cookieStore.get("locale")?.value;
-    const locale = cookieLocale && SUPPORTED.includes(cookieLocale)
-        ? cookieLocale
-        : pickFromAcceptLanguage(requestHeaders.get("accept-language"));
+  const cookieLocale = cookieStore.get("locale")?.value;
+  const locale =
+    cookieLocale && SUPPORTED.includes(cookieLocale)
+      ? cookieLocale
+      : pickFromAcceptLanguage(requestHeaders.get("accept-language"));
 
-    return (
-        <html lang={bcp47LocaleTag(locale)} dir={isRtlLocale(locale) ? "rtl" : "ltr"}>
-            <body>
-                <LocaleClient initialLocale={locale}>{children}</LocaleClient>
-            </body>
-        </html>
-    );
+  return (
+    <html
+      lang={bcp47LocaleTag(locale)}
+      dir={isRtlLocale(locale) ? "rtl" : "ltr"}
+    >
+      <body>
+        <LocaleClient initialLocale={locale}>{children}</LocaleClient>
+      </body>
+    </html>
+  );
 }
 ```
 
@@ -255,17 +269,17 @@ works.
 ```tsx
 "use client";
 
-import { LocaleChooser } from "lily-design-system-react-locale-chooser";
+import { LocalePicker } from "lily-design-system-react-locale-picker";
 
 export default function Page() {
-    return (
-        <LocaleChooser
-            label="Language"
-            locales={["en", "fr", "ar"]}
-            storageKey="app-locale"
-            detectFromNavigator
-        />
-    );
+  return (
+    <LocalePicker
+      label="Language"
+      locales={["en", "fr", "ar"]}
+      storageKey="app-locale"
+      detectFromNavigator
+    />
+  );
 }
 ```
 
@@ -285,29 +299,34 @@ Remix's loader on `root.tsx` plays the role of Next.js's layout.tsx:
 // app/root.tsx
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json, useLoaderData } from "@remix-run/react";
-import { isRtlLocale, bcp47LocaleTag } from "lily-design-system-react-locale-chooser";
+import {
+  isRtlLocale,
+  bcp47LocaleTag,
+} from "lily-design-system-react-locale-picker";
 import { LocaleClient } from "./locale-client";
 
 const SUPPORTED = ["en", "fr", "ar"];
 
 export async function loader({ request }: LoaderFunctionArgs) {
-    const cookie = request.headers.get("cookie") ?? "";
-    const cookieLocale = cookie.match(/locale=([^;]+)/)?.[1];
-    const locale = cookieLocale && SUPPORTED.includes(cookieLocale)
-        ? cookieLocale
-        : "en";
-    return json({ locale });
+  const cookie = request.headers.get("cookie") ?? "";
+  const cookieLocale = cookie.match(/locale=([^;]+)/)?.[1];
+  const locale =
+    cookieLocale && SUPPORTED.includes(cookieLocale) ? cookieLocale : "en";
+  return json({ locale });
 }
 
 export default function App() {
-    const { locale } = useLoaderData<typeof loader>();
-    return (
-        <html lang={bcp47LocaleTag(locale)} dir={isRtlLocale(locale) ? "rtl" : "ltr"}>
-            <body>
-                <LocaleClient initialLocale={locale} />
-            </body>
-        </html>
-    );
+  const { locale } = useLoaderData<typeof loader>();
+  return (
+    <html
+      lang={bcp47LocaleTag(locale)}
+      dir={isRtlLocale(locale) ? "rtl" : "ltr"}
+    >
+      <body>
+        <LocaleClient initialLocale={locale} />
+      </body>
+    </html>
+  );
 }
 ```
 
@@ -372,7 +391,7 @@ error when it points at a missing id.
 
 ## React Server Components: what NOT to do
 
-Don't import `LocaleChooser` (the React component) from a server
+Don't import `LocalePicker` (the React component) from a server
 component. It carries `"use client"` and will pull the React client
 runtime into the server bundle. Import only the pure helpers
 (`bcp47LocaleTag`, `isRtlLocale`, `localeName`, `matchNavigatorLanguage`,
@@ -380,13 +399,13 @@ runtime into the server bundle. Import only the pure helpers
 
 ```tsx
 // ❌ Don't do this in a server component
-import { LocaleChooser } from "lily-design-system-react-locale-chooser";
+import { LocalePicker } from "lily-design-system-react-locale-picker";
 
 // ✅ Do this in a server component
 import {
-    bcp47LocaleTag,
-    isRtlLocale,
-} from "lily-design-system-react-locale-chooser";
+  bcp47LocaleTag,
+  isRtlLocale,
+} from "lily-design-system-react-locale-picker";
 ```
 
 ---

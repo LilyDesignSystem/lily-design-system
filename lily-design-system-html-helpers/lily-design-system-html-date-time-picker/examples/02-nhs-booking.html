@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>date-time-picker — NHS booking</title>
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 2rem; max-width: 32rem; }
+      date-time-picker { display: inline-block; }
+      .date-time-picker { position: relative; display: inline-block; }
+      .date-time-picker-field { display: flex; gap: 0.25rem; }
+      .date-time-picker-input {
+        font: inherit; padding: 0.4rem 0.6rem;
+        border: 1px solid currentColor; border-radius: 0.25rem;
+      }
+      .date-time-picker-input[aria-invalid="true"] { border-color: #b3261e; }
+      .date-time-picker-button {
+        font: inherit; cursor: pointer; padding: 0.4rem 0.6rem;
+        background: none; border: 1px solid currentColor; border-radius: 0.25rem;
+      }
+      .date-time-picker-icon { font-size: 1.1em; line-height: 1; }
+      .date-time-picker-dialog {
+        position: absolute; z-index: 10; inset-block-start: 100%; inset-inline-start: 0;
+        margin-block-start: 0.25rem; padding: 0.75rem; min-inline-size: 20rem;
+        background: #fff; border: 1px solid #d8dde0; border-radius: 0.25rem;
+        box-shadow: 0 2px 8px rgb(0 0 0 / 0.12);
+      }
+      .date-time-picker-dialog[hidden] { display: none; }
+      .date-time-picker-header {
+        display: flex; align-items: center; justify-content: space-between; gap: 0.25rem;
+        margin-block-end: 0.5rem;
+      }
+      .date-time-picker-header button {
+        font: inherit; cursor: pointer; padding: 0.2rem 0.4rem;
+        background: none; border: 1px solid currentColor; border-radius: 0.25rem;
+      }
+      .date-time-picker-period { font-weight: 600; }
+      .date-time-picker-calendar { border-collapse: collapse; inline-size: 100%; }
+      .date-time-picker-calendar th, .date-time-picker-calendar td { text-align: center; padding: 0.1rem; }
+      .date-time-picker-day {
+        font: inherit; cursor: pointer; inline-size: 2rem; block-size: 2rem;
+        background: none; border: 1px solid transparent; border-radius: 0.25rem;
+      }
+      .date-time-picker-day[data-outside] { opacity: 0.4; }
+      .date-time-picker-day[data-today] { font-weight: 700; }
+      .date-time-picker-day[data-selected] { background: #dbe9ff; }
+      .date-time-picker-day:disabled { opacity: 0.3; cursor: not-allowed; }
+      .date-time-picker-time { display: flex; align-items: center; gap: 0.4rem; margin-block-start: 0.5rem; flex-wrap: wrap; }
+      .date-time-picker-shortcuts { display: flex; gap: 0.4rem; margin-block-start: 0.5rem; flex-wrap: wrap; }
+      .date-time-picker-shortcut, .date-time-picker-footer button {
+        font: inherit; cursor: pointer; padding: 0.3rem 0.75rem;
+        border: 1px solid currentColor; border-radius: 0.25rem; background: none;
+      }
+      .date-time-picker-footer { display: flex; justify-content: flex-end; gap: 0.5rem; margin-block-start: 0.5rem; }
+      .date-time-picker-confirm { background: #1d4e89; color: #fff; border-color: #1d4e89; }
+      :focus-visible { outline: 3px solid #ffeb3b; outline-offset: 2px; }
+    </style>
+  </head>
+  <body>
+    <!-- The shape this component was built for: an NHS Wales appointment
+         booking, bilingual, with a clinic that is shut at weekends and a
+         booking window that only runs twelve weeks out. -->
+    <h1 id="title">Book an appointment</h1>
+
+    <button type="button" id="toggle-language">Cymraeg</button>
+
+    <p>
+      <label for="booking" id="booking-label">Appointment date and time</label>
+    </p>
+    <div id="booking-hint">Available Monday to Friday, up to 12 weeks ahead.</div>
+
+    <!-- `locale` drives the month names, the first day of the week and
+         the numeric field order — so switching to Welsh switches the
+         calendar itself, not just the buttons around it. -->
+    <date-time-picker
+      id="booking"
+      mode="datetime"
+      input-id="booking"
+      described-by="booking-hint"
+      name="appointment"
+      label="Choose a date and time"
+      locale="en-GB"
+      minute-step="15"
+    ></date-time-picker>
+
+    <p>Value: <output id="value">&mdash;</output></p>
+
+    <script type="module">
+      import "lily-design-system-html-date-time-picker";
+      import { addDays, weekdayOf } from "/dist/date-time-picker.js";
+
+      const picker = document.getElementById("booking");
+      const output = document.getElementById("value");
+      const toggle = document.getElementById("toggle-language");
+      const title = document.getElementById("title");
+      const bookingLabel = document.getElementById("booking-label");
+      const bookingHint = document.getElementById("booking-hint");
+
+      const EN = {
+        previousYear: "Previous year",
+        previousMonth: "Previous month",
+        nextMonth: "Next month",
+        nextYear: "Next year",
+        confirm: "Confirm",
+        cancel: "Cancel",
+        hour: "Hour",
+        minute: "Minute",
+        clear: "Clear",
+      };
+
+      const CY = {
+        previousYear: "Blwyddyn flaenorol",
+        previousMonth: "Mis blaenorol",
+        nextMonth: "Mis nesaf",
+        nextYear: "Blwyddyn nesaf",
+        confirm: "Cadarnhau",
+        cancel: "Canslo",
+        hour: "Awr",
+        minute: "Munud",
+        clear: "Clirio",
+      };
+
+      // Today is resolved once, at module scope, so the booking window
+      // does not shift under the user mid-session.
+      const now = new Date();
+      const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+
+      // Bookable from tomorrow to twelve weeks out.
+      picker.min = addDays(today, 1);
+      picker.max = addDays(today, 7 * 12);
+
+      // Weekends closed. A real service would also fold in bank holidays
+      // and the clinic's own closures — which is exactly why this is a
+      // predicate and not a list of attributes.
+      picker.isDateDisabled = (iso) => weekdayOf(iso) === 0 || weekdayOf(iso) === 6;
+
+      let welsh = false;
+
+      function applyLanguage() {
+        picker.labels = welsh ? CY : EN;
+        picker.locale = welsh ? "cy-GB" : "en-GB";
+        picker.label = welsh ? "Dewiswch ddyddiad ac amser" : "Choose a date and time";
+        picker.shortcuts = welsh
+          ? [
+              { id: "1w", label: "Ymhen wythnos", days: 7 },
+              { id: "2w", label: "Ymhen pythefnos", days: 14 },
+              { id: "1m", label: "Ymhen mis", months: 1 },
+            ]
+          : [
+              { id: "1w", label: "In 1 week", days: 7 },
+              { id: "2w", label: "In 2 weeks", days: 14 },
+              { id: "1m", label: "In 1 month", months: 1 },
+            ];
+        title.textContent = welsh ? "Trefnu apwyntiad" : "Book an appointment";
+        bookingLabel.textContent = welsh
+          ? "Dyddiad ac amser yr apwyntiad"
+          : "Appointment date and time";
+        bookingHint.textContent = welsh
+          ? "Ar gael o ddydd Llun i ddydd Gwener, hyd at 12 wythnos ymlaen llaw."
+          : "Available Monday to Friday, up to 12 weeks ahead.";
+        toggle.textContent = welsh ? "English" : "Cymraeg";
+      }
+
+      applyLanguage();
+
+      toggle.addEventListener("click", () => {
+        welsh = !welsh;
+        applyLanguage();
+      });
+
+      picker.addEventListener("datetimechange", (event) => {
+        output.textContent = event.detail.value || "—";
+      });
+    </script>
+  </body>
+</html>

@@ -60,10 +60,10 @@
     is invalid HTML and breaks keyboard behaviour.
 -->
 <script lang="ts">
-    import LocaleChooser, {
+    import LocalePicker, {
         bcp47LocaleTag,
         isRtlLocale,
-    } from "../LocaleChooser.svelte";
+    } from "../LocalePicker.svelte";
 
     let locale = $state("en");
 
@@ -78,7 +78,7 @@
     };
 </script>
 
-<LocaleChooser
+<LocalePicker
     label="Language"
     locales={["en", "fr", "es", "de", "ar", "he"]}
     localeLabels={NATIVE}
@@ -87,7 +87,7 @@
     {#snippet children({ value, open, labelFor })}
         <span aria-hidden="true">🌐︎</span>
         <span
-            class="locale-chooser-text"
+            class="locale-picker-text"
             lang={bcp47LocaleTag(value)}
             dir={isRtlLocale(value) ? "rtl" : "ltr"}
         >
@@ -95,4 +95,4 @@
         </span>
         <span aria-hidden="true">{open ? "▴" : "▾"}</span>
     {/snippet}
-</LocaleChooser>
+</LocalePicker>

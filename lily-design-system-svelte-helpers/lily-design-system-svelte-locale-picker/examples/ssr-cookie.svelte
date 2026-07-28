@@ -13,7 +13,7 @@
     the same tick.
 -->
 <script lang="ts">
-    import LocaleChooser from "../LocaleChooser.svelte";
+    import LocalePicker from "../LocalePicker.svelte";
 
     let { data, children } = $props<{
         data: { locale: string };
@@ -28,7 +28,7 @@
     }
 </script>
 
-<LocaleChooser
+<LocalePicker
     label="Language"
     locales={["en", "fr", "ar"]}
     value={locale}

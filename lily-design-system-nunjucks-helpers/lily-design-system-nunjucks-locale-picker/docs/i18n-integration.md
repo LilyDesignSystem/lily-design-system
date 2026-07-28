@@ -1,6 +1,6 @@
 # i18n integration
 
-`LocaleChooser` is intentionally not an i18n library. It changes the
+`LocalePicker` is intentionally not an i18n library. It changes the
 document language and tells you when the user changed it; the actual
 string substitution is your i18n library's job.
 
@@ -12,9 +12,9 @@ generic **ICU MessageFormat APIs**.
 The wiring pattern is always the same:
 
 1. Render the select with `opts.value` set to the server-resolved
-   locale (carried on `data-lily-locale-chooser-value`, so the client
+   locale (carried on `data-lily-locale-picker-value`, so the client
    resolves it on first init).
-2. In `initLocaleChooser(root, { onChange })`, push the chosen code
+2. In `initLocalePicker(root, { onChange })`, push the chosen code
    into your i18n runtime (often via a cookie + reload, sometimes
    via an in-page state update).
 3. Optionally also persist via `opts.storageKey` so client-only
@@ -22,7 +22,7 @@ The wiring pattern is always the same:
 
 Two caveats hold across every stack below. The control is an icon
 button that opens a listbox, and none of it works until
-`locale-chooser.client.js` loads — so a locale switcher that must work
+`locale-picker.client.js` loads — so a locale switcher that must work
 with script off needs a plain `<form>` of links or submit buttons
 instead. And if a layout renders the control more than once (header
 plus footer, or one per panel), give each instance a distinct
@@ -43,11 +43,11 @@ Each page automatically exposes the current `lang` via Eleventy's
 import EleventyI18nPlugin from "@11ty/eleventy-plugin-i18n";
 
 export default function (eleventyConfig) {
-    eleventyConfig.addPlugin(EleventyI18nPlugin, {
-        defaultLanguage: "en",
-        errorMode: "allow-fallback",
-    });
-    eleventyConfig.addPassthroughCopy("src/lily");
+  eleventyConfig.addPlugin(EleventyI18nPlugin, {
+    defaultLanguage: "en",
+    errorMode: "allow-fallback",
+  });
+  eleventyConfig.addPassthroughCopy("src/lily");
 }
 ```
 
@@ -55,12 +55,12 @@ The select drives URL navigation from the `onChange` handler:
 
 ```njk
 {# _includes/base.njk #}
-{% from "lily/locale-chooser.njk" import localeChooser %}
+{% from "lily/locale-picker.njk" import localePicker %}
 
 <!doctype html>
 <html lang="{{ page.lang }}" dir="{{ page.lang | localeDir }}">
     <body>
-        {{ localeChooser({
+        {{ localePicker({
             label: "Language",
             locales: ["en", "fr", "ar"],
             value: page.lang
@@ -69,7 +69,7 @@ The select drives URL navigation from the `onChange` handler:
         {{ content | safe }}
 
         <script type="module">
-            import { autoInit } from "/lily/locale-chooser.client.js";
+            import { autoInit } from "/lily/locale-picker.client.js";
             autoInit({
                 onChange(code) {
                     // Eleventy renders each locale at /<lang>/<rest>/.
@@ -107,9 +107,9 @@ store the locale and pass it to `Intl` formatters directly. The
 select still owns the `lang` / `dir` lifecycle:
 
 ```njk
-{% from "lily/locale-chooser.njk" import localeChooser %}
+{% from "lily/locale-picker.njk" import localePicker %}
 
-{{ localeChooser({
+{{ localePicker({
     label: "Language",
     locales: ["en", "en-US", "en-GB", "fr", "fr-CA", "ar"],
     value: locale,
@@ -121,7 +121,7 @@ select still owns the `lang` / `dir` lifecycle:
 <p>Population: <span id="population"></span></p>
 
 <script type="module">
-    import { autoInit } from "/lily/locale-chooser.client.js";
+    import { autoInit } from "/lily/locale-picker.client.js";
 
     function format(code) {
         const dateFmt = new Intl.DateTimeFormat(
@@ -168,14 +168,14 @@ import middleware from "i18next-http-middleware";
 import cookieParser from "cookie-parser";
 
 await i18next
-    .use(Backend)
-    .use(middleware.LanguageDetector)
-    .init({
-        fallbackLng: "en",
-        preload: ["en", "fr", "ar"],
-        backend: { loadPath: "./locales/{{lng}}/{{ns}}.json" },
-        detection: { order: ["cookie", "header"], lookupCookie: "locale" },
-    });
+  .use(Backend)
+  .use(middleware.LanguageDetector)
+  .init({
+    fallbackLng: "en",
+    preload: ["en", "fr", "ar"],
+    backend: { loadPath: "./locales/{{lng}}/{{ns}}.json" },
+    detection: { order: ["cookie", "header"], lookupCookie: "locale" },
+  });
 
 const app = express();
 app.use(cookieParser());
@@ -183,31 +183,31 @@ app.use(middleware.handle(i18next));
 nunjucks.configure("views", { express: app, autoescape: true });
 
 app.get("/", (req, res) => {
-    res.render("index.njk", {
-        locale: req.language,
-        t: (key, params) => req.t(key, params),
-    });
+  res.render("index.njk", {
+    locale: req.language,
+    t: (key, params) => req.t(key, params),
+  });
 });
 
 app.post("/api/locale", express.json(), (req, res) => {
-    const code = String(req.body?.locale ?? "");
-    if (!["en", "fr", "ar"].includes(code)) {
-        return res.status(400).end();
-    }
-    res.cookie("locale", code, {
-        sameSite: "lax",
-        maxAge: 60 * 60 * 24 * 365 * 1000,
-    });
-    res.status(204).end();
+  const code = String(req.body?.locale ?? "");
+  if (!["en", "fr", "ar"].includes(code)) {
+    return res.status(400).end();
+  }
+  res.cookie("locale", code, {
+    sameSite: "lax",
+    maxAge: 60 * 60 * 24 * 365 * 1000,
+  });
+  res.status(204).end();
 });
 ```
 
 ```njk
 {# views/index.njk #}
-{% from "lily/locale-chooser.njk" import localeChooser %}
+{% from "lily/locale-picker.njk" import localePicker %}
 <html lang="{{ locale }}">
     <body>
-        {{ localeChooser({
+        {{ localePicker({
             label: t("language.label"),
             locales: ["en", "fr", "ar"],
             value: locale,
@@ -222,7 +222,7 @@ app.post("/api/locale", express.json(), (req, res) => {
         <p>{{ t("home.body") }}</p>
 
         <script type="module">
-            import { autoInit } from "/lily/locale-chooser.client.js";
+            import { autoInit } from "/lily/locale-picker.client.js";
             autoInit({
                 onChange(code) {
                     fetch("/api/locale", {
@@ -256,9 +256,9 @@ swap which message function you call:
 
 ```njk
 {# Server-side: pre-resolve and embed the message bundle. #}
-{% from "lily/locale-chooser.njk" import localeChooser %}
+{% from "lily/locale-picker.njk" import localePicker %}
 
-{{ localeChooser({
+{{ localePicker({
     label: "Language",
     locales: ["en", "fr", "ar"],
     value: locale,
@@ -269,7 +269,7 @@ swap which message function you call:
 
 <script type="module">
     import MessageFormat from "@messageformat/core";
-    import { autoInit } from "/lily/locale-chooser.client.js";
+    import { autoInit } from "/lily/locale-picker.client.js";
 
     const messages = {
         en: "{count, plural, one {# item} other {# items}} in cart.",
@@ -295,15 +295,15 @@ both.
 
 ## Picking the right strategy
 
-| Need                                       | Strategy                                |
-| ------------------------------------------ | --------------------------------------- |
-| Static site, English + French + Arabic     | Eleventy + eleventy-i18n + URL prefixes |
-| One page with a few `Intl.*` formatters    | `onChange` + native `Intl.DateTimeFormat` |
-| Existing JSON gettext bundles              | i18next + Express + cookie + reload     |
-| Plurals, gender, ordinal                   | ICU MessageFormat + in-page swap        |
-| Multi-tenant, locale per panel             | Multiple selects with `target` + distinct `id` |
-| SEO-friendly URLs per locale               | Eleventy URL prefix (above)             |
-| No FOUC, cookie-backed, server-rendered    | Cookie + Express / Eleventy edge function (see [./ssr.md](./ssr.md)) |
+| Need                                    | Strategy                                                             |
+| --------------------------------------- | -------------------------------------------------------------------- |
+| Static site, English + French + Arabic  | Eleventy + eleventy-i18n + URL prefixes                              |
+| One page with a few `Intl.*` formatters | `onChange` + native `Intl.DateTimeFormat`                            |
+| Existing JSON gettext bundles           | i18next + Express + cookie + reload                                  |
+| Plurals, gender, ordinal                | ICU MessageFormat + in-page swap                                     |
+| Multi-tenant, locale per panel          | Multiple selects with `target` + distinct `id`                       |
+| SEO-friendly URLs per locale            | Eleventy URL prefix (above)                                          |
+| No FOUC, cookie-backed, server-rendered | Cookie + Express / Eleventy edge function (see [./ssr.md](./ssr.md)) |
 
 The select is the same in every case. Only the `onChange` body and
 the i18n runtime change.

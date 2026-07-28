@@ -8,7 +8,7 @@
     "light" remains the default because it is in the list.
 */
 
-import { ThemeChooser } from "../ThemeChooser";
+import { ThemePicker } from "../ThemePicker";
 
 const themes = [
     "abyss",
@@ -60,7 +60,7 @@ const themes = [
 
 export function LilyThemesExample() {
     return (
-        <ThemeChooser
+        <ThemePicker
             label="Lily theme"
             themesUrl="/assets/themes/"
             themes={themes}

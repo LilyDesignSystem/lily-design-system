@@ -28,18 +28,18 @@ recipes.
 
 ## Blazor hosting models in one table
 
-| Model                              | When `OnAfterRenderAsync(true)` fires      | Notes                                       |
-| ---------------------------------- | ------------------------------------------ | ------------------------------------------- |
-| **Blazor Server**                  | After SignalR circuit established          | Single hop for every JS interop call.       |
-| **Blazor WebAssembly (standalone)**| After WASM module loads                    | Synchronous JS interop available.           |
-| **Blazor WebAssembly (hosted)**    | After WASM module loads                    | Same as standalone for component code.      |
-| **Blazor Web App (interactive Server)** | After interactive render-mode activation | Static prerender first, then circuit.       |
-| **Blazor Web App (interactive WebAssembly)** | After WASM module loads             | Static prerender first, then WASM.          |
-| **Blazor Web App (Auto)**          | After WASM module loads (or circuit if WASM not cached) | Helper code is identical.   |
-| **Blazor Web App (static SSR)**    | **Never** (no interactivity)               | Markup arrives, no DOM mutations happen.    |
+| Model                                        | When `OnAfterRenderAsync(true)` fires                   | Notes                                    |
+| -------------------------------------------- | ------------------------------------------------------- | ---------------------------------------- |
+| **Blazor Server**                            | After SignalR circuit established                       | Single hop for every JS interop call.    |
+| **Blazor WebAssembly (standalone)**          | After WASM module loads                                 | Synchronous JS interop available.        |
+| **Blazor WebAssembly (hosted)**              | After WASM module loads                                 | Same as standalone for component code.   |
+| **Blazor Web App (interactive Server)**      | After interactive render-mode activation                | Static prerender first, then circuit.    |
+| **Blazor Web App (interactive WebAssembly)** | After WASM module loads                                 | Static prerender first, then WASM.       |
+| **Blazor Web App (Auto)**                    | After WASM module loads (or circuit if WASM not cached) | Helper code is identical.                |
+| **Blazor Web App (static SSR)**              | **Never** (no interactivity)                            | Markup arrives, no DOM mutations happen. |
 
 The helpers' markup is identical across all models because the only
-difference is *when* the post-render hook fires.
+difference is _when_ the post-render hook fires.
 
 ## Static SSR (no interactivity)
 
@@ -132,7 +132,7 @@ record ThemeBody(string Theme);
 ```razor
 @inject NavigationManager Nav
 
-<ThemeChooser
+<ThemePicker
     Label="Theme"
     ThemesUrl="/assets/themes/"
     Themes="@(new[]{ "light", "dark", "abyss" })"
@@ -171,7 +171,7 @@ Same shape; substitute `lang` and `dir`:
 @{
     var cookieLocale = HttpContextAccessor.HttpContext?
         .Request.Cookies["locale"] ?? "en";
-    var dir = LocaleChooserDirection(cookieLocale);
+    var dir = LocalePickerDirection(cookieLocale);
 }
 <html lang="@cookieLocale" dir="@dir">
     <head>…</head>
@@ -181,11 +181,11 @@ Same shape; substitute `lang` and `dir`:
 </html>
 ```
 
-Where `LocaleChooserDirection` can call the public helper
-`Locales.IsRtlLocale(code)` from `lily-design-system-blazor-locale-chooser`.
+Where `LocalePickerDirection` can call the public helper
+`Locales.IsRtlLocale(code)` from `lily-design-system-blazor-locale-picker`.
 
 ```csharp
-private static string LocaleChooserDirection(string code) =>
+private static string LocalePickerDirection(string code) =>
     LilyDesignSystem.Blazor.Helpers.Locales.IsRtlLocale(code) ? "rtl" : "ltr";
 ```
 
@@ -197,7 +197,7 @@ the right resource set), wire the select's `OnChange` to set
 `CultureInfo.DefaultThreadCurrentCulture`:
 
 ```razor
-<LocaleChooser
+<LocalePicker
     Label="Language"
     Locales="@(new[]{ "en", "fr", "ar" })"
     @bind-Value="locale"
@@ -231,7 +231,7 @@ consistent because:
 - Parameters that affect markup (`Value`, `Themes`, `Locales`,
   `Label`) are deterministic; they don't depend on `document.*`,
   `window.*`, or `localStorage`.
-- DOM mutations only happen *after* hydration, so they don't
+- DOM mutations only happen _after_ hydration, so they don't
   conflict with the SSR DOM.
 
 ## Static SSR without a cookie
