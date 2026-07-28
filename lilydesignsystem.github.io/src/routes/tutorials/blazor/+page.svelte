@@ -92,7 +92,7 @@ dotnet run --project src/LilyBlazorWebExamples`}</code></pre>
 
   <h2>Next steps</h2>
   <ul>
-    <li><a href="/tutorials/theming/">Theming</a> — runtime switching with the Blazor theme-select helper (a Razor class library on NuGet).</li>
+    <li><a href="/tutorials/theming/">Theming</a> — runtime switching with the Blazor theme-picker helper (a Razor class library on NuGet).</li>
     <li><a href="/tutorials/helpers/">Preference helpers</a> — language and text size.</li>
     <li><a href="/components/">Component catalog</a> — props, ARIA, and keyboard per component.</li>
   </ul>

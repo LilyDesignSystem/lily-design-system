@@ -48,7 +48,7 @@
       locale as a prop, always explicitly.
     </li>
     <li>
-      <strong>One catalog, seven frameworks.</strong> The same 490 components
+      <strong>One catalog, seven frameworks.</strong> The same 491 components
       with the same class hooks and prop conventions in HTML, Svelte, React,
       Vue, Angular, Blazor, and Nunjucks. Your CSS and your team's knowledge
       transfer across stacks.
@@ -101,14 +101,14 @@
     patient-facing and practitioner-facing variants), GOV.UK, USWDS, Adobe
     Spectrum and Mozilla Protocol inspired palettes, and a set of
     general-purpose light and dark themes. Link one stylesheet and a
-    government-grade look is on; the <code>theme-select</code> helper swaps
+    government-grade look is on; the <code>theme-picker</code> helper swaps
     them at runtime.
   </p>
 
   <h2>How Lily compares</h2>
   <p>
     We keep an honest, component-by-component
-    <a href="/comparisons/">comparison against 17 design systems</a> —
+    <a href="/comparisons/">comparison against other design systems</a> —
     styled and headless, commercial and public-sector. Where another library
     is a better fit for you, the comparison will show it; Lily learns from
     all of them and cites its inspirations in the open.

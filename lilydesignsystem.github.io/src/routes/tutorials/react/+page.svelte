@@ -32,7 +32,7 @@
 cd lily-design-system-react-headless
 pnpm install
 pnpm test        # vitest + @testing-library/react
-pnpm run storybook   # browse all 490 components`}</code></pre>
+pnpm run storybook   # browse all 491 components`}</code></pre>
   <p>
     Components are flat files in <code>components/</code> —
     <code>Button.tsx</code>, <code>TextInput.tsx</code> — each with its test,
@@ -105,7 +105,7 @@ pnpm install && pnpm run dev`}</code></pre>
 
   <h2>Next steps</h2>
   <ul>
-    <li><a href="/tutorials/theming/">Theming</a> — runtime switching with the React theme-select helper.</li>
+    <li><a href="/tutorials/theming/">Theming</a> — runtime switching with the React theme-picker helper.</li>
     <li><a href="/tutorials/helpers/">Preference helpers</a> — language and text size.</li>
     <li><a href="/components/">Component catalog</a> — props, ARIA, and keyboard per component.</li>
   </ul>

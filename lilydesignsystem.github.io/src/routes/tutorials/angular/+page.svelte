@@ -30,7 +30,7 @@
   <pre><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-angular-headless
 cd lily-design-system-angular-headless
 pnpm install
-pnpm test        # vitest + TestBed, all 490 components
+pnpm test        # vitest + TestBed, all 491 components
 pnpm run build-storybook`}</code></pre>
   <p>
     Components are flat files in <code>components/</code> —
@@ -117,7 +117,7 @@ pnpm install && pnpm run dev`}</code></pre>
 
   <h2>Next steps</h2>
   <ul>
-    <li><a href="/tutorials/theming/">Theming</a> — runtime switching with the Angular theme-select helper.</li>
+    <li><a href="/tutorials/theming/">Theming</a> — runtime switching with the Angular theme-picker helper.</li>
     <li><a href="/tutorials/helpers/">Preference helpers</a> — language and text size.</li>
     <li><a href="/components/">Component catalog</a> — props, ARIA, and keyboard per component.</li>
   </ul>

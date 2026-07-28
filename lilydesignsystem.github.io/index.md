@@ -52,28 +52,16 @@ After the first `git subtree push` to `LilyDesignSystem/lilydesignsystem.github.
 
 ## Update the component catalog
 
-The catalog data in `src/lib/components.ts` is generated from the canonical [`components.tsv`](https://github.com/LilyDesignSystem/lily-design-system/blob/main/components.tsv) in the main repo. To regenerate:
+The catalog data in `src/lib/components.ts` is generated from the canonical [`components.tsv`](https://github.com/LilyDesignSystem/lily-design-system/blob/main/components.tsv) in the main repo, by the main repo's own registry generator — do not hand-edit `components.ts`. To regenerate every example-app and site registry (including this one) from `components.tsv`:
 
 ```sh
 cd ~/git/lilydesignsystem/lily-design-system
-{
-  echo "// Lily component catalog — generated from components.tsv"
-  echo "// Components across HTML, Svelte, React, Vue, Blazor, Nunjucks headless"
-  echo ""
-  echo "export type LilyComponent = {"
-  echo "  name: string;"
-  echo "  pascal: string;"
-  echo "  description: string;"
-  echo "};"
-  echo ""
-  echo "export const LILY_COMPONENTS: LilyComponent[] = ["
-  awk -F'\t' '{
-    gsub(/"/, "\\\"", $1); gsub(/"/, "\\\"", $2); gsub(/"/, "\\\"", $3);
-    printf "  { name: \"%s\", pascal: \"%s\", description: \"%s\" },\n", $1, $2, $3
-  }' components.tsv
-  echo "];"
-} > ../lilydesignsystem.github.io/src/lib/components.ts
+node bin/generate-registries
 ```
+
+This overwrites `lilydesignsystem.github.io/src/lib/components.ts` in place, along
+with the other framework registries. Run `bash bin/test` afterwards — it asserts
+every registry's entry count matches the catalog.
 
 ## License
 

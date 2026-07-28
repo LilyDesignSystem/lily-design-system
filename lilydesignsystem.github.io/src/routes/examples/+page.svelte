@@ -2,7 +2,7 @@
   <title>Examples — Lily Design System</title>
   <meta
     name="description"
-    content="Worked example apps that show how to style Lily components in HTML, Svelte, React, Vue, Blazor, and Eleventy."
+    content="Worked example apps that show how to style Lily components in HTML, Svelte, React, Vue, Angular, Blazor, and Eleventy."
   />
 </svelte:head>
 
@@ -10,7 +10,7 @@
   <p class="hero-eyebrow">Examples</p>
   <h1>See Lily in real apps</h1>
   <p class="hero-tagline">
-    Six worked example projects show how to take the headless components, layer
+    Seven worked example projects show how to take the headless components, layer
     on styling, and ship a real website. Pick the framework you use.
   </p>
 </section>
@@ -54,6 +54,15 @@
       <p class="card-description">
         Nuxt 3 app. <code>&lt;script setup&gt;</code> and the Composition API
         across every demo route.
+      </p>
+      <p class="card-meta">→ View on GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-angular-examples">
+      <h3 class="card-heading">Angular + Analog</h3>
+      <p class="card-description">
+        Angular 20 + Analog.js app. File-based routing, signals, zoneless
+        change detection, and full SSG prerendering.
       </p>
       <p class="card-meta">→ View on GitHub</p>
     </a>

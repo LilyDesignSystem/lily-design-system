@@ -1,59 +1,54 @@
-# Lily Design System: Components
+# Lily Design System™ — Site: Components Routes
 
-Reference: [../CLAUDE.md](../CLAUDE.md) for the full component list, naming patterns, and composition patterns.
+Reference: [../../../AGENTS.md](../../../AGENTS.md) for this site's overall
+scope, and [../../../spec/index.md](../../../spec/index.md) for the living
+spec.
 
-Reference: [../css-style-sheet-template.css](../css-style-sheet-template.css) for CSS class names.
+Reference: the canonical [`components.tsv`](https://github.com/LilyDesignSystem/lily-design-system/blob/main/components.tsv)
+and per-component docs at [`components/{slug}/index.md`](https://github.com/LilyDesignSystem/lily-design-system/tree/main/components)
+in the main `lily-design-system` repo — this directory presents that content
+as a web page per component, it does not author it.
 
 ## Purpose
 
-This directory contains framework-agnostic component documentation. Each subdirectory represents one component and contains an `index.md` file with a `README.md` symlink.
+One subdirectory per catalog component (`accordion-checkbox/`,
+`accordion-link/`, …), each a route: `/components/<slug>/`. The sibling
+`+page.svelte` (one level up, in `src/routes/components/`) lists the
+components index; each `<slug>/+page.svelte` renders one component's page.
 
-## Documentation Principles
+## Per-component route shape
 
-- Framework-agnostic: documentation describes behavior and semantics, not framework-specific implementation
-- Proper HTML examples using semantic elements
-- ARIA references for accessibility
-- Consistent structure across all components
+Each `<slug>/+page.svelte` embeds string constants in its `<script>` block,
+rendered with `{@html …}`:
 
-## Component index.md Structure
+- `html` — the full component documentation (description, props, usage,
+  keyboard interactions, ARIA, when to use / not to use, styles, testing
+  notes, related components, references), adapted from that component's
+  canonical `index.md` in the main repo.
+- `demoHtml` — a small static markup snippet illustrating the rendered
+  component (inside `BEGIN/END auto-generated component example` markers).
+- `svelteSource` — a short Svelte usage snippet importing from
+  `lily-design-system-svelte-headless`.
 
-Each component `index.md` follows this structure:
+Some `<slug>/spec/index.md` files also exist, mirroring the canonical
+catalog's per-component spec convention; treat them as read-only copies of
+the canonical spec, not this site's own spec-driven-development artefacts.
 
-1. **Heading**: `# Component Name` matching the directory name in Title Case
-2. **Description**: one-sentence summary of what the component is and does
-3. **Use case**: one-sentence description of when to use the component
-4. **Implementation Notes**: bullet list of key implementation details
-5. **Props**: bullet list of all props with types, defaults, and descriptions
-6. **Usage**: HTML code example showing basic usage
-7. **Keyboard Interactions**: keyboard behaviors (or "None" for passive elements)
-8. **ARIA**: accessibility attributes and roles used
-9. **When to Use**: guidance on when this component is appropriate
-10. **Headless**: explanation of headless usage, business logic, and consumer responsibilities
-11. **Styles**: CSS class names and styling guidance for consumers
-12. **Testing**: framework-agnostic test criteria for the component
-13. **Advice**: helpful suggestions for designers and developers
-14. **Domain Knowledge**: relevant domain context (for specialized components)
-15. **References**: links to relevant standards, MDN docs, and design system references
+## Working rules
 
-## Composition Patterns
-
-If the component uses a composition pattern, add a **Composition** section explaining the pattern and relationships among related components.
-
-Examples of composition patterns:
-
-- `*Nav` `*List` `*ListItem` (e.g., AccordionNav, BreadcrumbNav)
-- `*List` `*ListItem` (e.g., CheckList, ContentsList, SummaryList)
-- `*Table` `*TableHead` `*TableBody` `*TableFoot` `*TableTD` `*TableRow` `*TableTD`
-- `*Bar` `*BarButton` (e.g., MenuBar, TabBar, TaskBar, ToolBar)
-- `*Picker` `*PickerButton` (e.g., ColorPicker, FiveStarRatingPicker)
-- `*Menu` `*MenuItem` (e.g., ContextMenu, Menu, TreeMenu)
-- `*Input` `*View` (e.g., PostalCode, Measurement)
-
-## File Structure
-
-```
-components/
-  component-name/
-    index.md     # Main documentation
-    README.md    # Symlink → index.md
-```
+- Do not hand-write new component prose here — port it from the canonical
+  `components/{slug}/index.md`, keeping wording accurate to the current
+  props/behaviour.
+- Keep slugs, class hooks, and import paths current with the canonical
+  catalog (`*-picker`, not the pre-2026-07-28 `*-select`/`*-button`/`*-chooser`
+  helper names — this does not affect the catalog's own `theme-select` /
+  `theme-select-option` components, which keep their names).
+- `bin/test` (repo root) runs `test_lilydesignsystem_github_io`, which
+  requires every catalog component to have a directory here with a
+  non-empty `+page.svelte` — do not remove a component's directory without
+  removing it from `components.tsv` first (that file is out of scope for
+  this site).
+- There is currently no generator script that produces these pages from
+  `components.tsv`; they were authored directly and are kept in sync by
+  hand. Introducing one is a decision for the main repo's `bin/` tooling,
+  not this site.

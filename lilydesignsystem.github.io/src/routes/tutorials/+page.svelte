@@ -132,16 +132,17 @@
       <p class="card-description">
         Link one of 45 ready-made themes — NHS, GOV.UK, USWDS, light, dark,
         and more — override it with your own CSS, and add runtime theme
-        switching with the theme-select helper.
+        switching with the theme-picker helper.
       </p>
       <p class="card-meta">~15 minutes</p>
     </a>
     <a class="card" href="/tutorials/helpers/">
       <h3 class="card-heading">Preference helpers</h3>
       <p class="card-description">
-        Give users control of language and text size with locale-select and
-        text-size-select: native selects with persistence, SSR safety, and
-        automatic RTL detection.
+        Give users control of theme, language, text size, sharing, and
+        date/time entry with theme-picker, locale-picker, text-size-picker,
+        share-picker, and date-time-picker: headless controls with
+        persistence, SSR safety, and automatic RTL detection.
       </p>
       <p class="card-meta">~15 minutes</p>
     </a>
@@ -156,7 +157,7 @@
       component documents its props, ARIA contract, and keyboard behaviour.
     </li>
     <li>
-      Clone an <a href="/examples/">example app</a> to see all 490
+      Clone an <a href="/examples/">example app</a> to see all 491
       components styled and working together — the CSS targets the same
       class hooks you just used, so copy any of it into your project and
       adjust it as you wish.

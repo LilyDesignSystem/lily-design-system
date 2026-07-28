@@ -1,6 +1,6 @@
 <svelte:head>
   <title>Theming tutorial — Lily Design System</title>
-  <meta name="description" content="Theme Lily three ways: link one of 45 ready-made themes, override it with your CSS, and add runtime theme switching with the theme-select helper." />
+  <meta name="description" content="Theme Lily three ways: link one of 45 ready-made themes, override it with your CSS, and add runtime theme switching with the theme-picker helper." />
 </svelte:head>
 
 <section class="hero">
@@ -70,10 +70,10 @@
   border-radius: 9999px;
 }`}</code></pre>
 
-  <h2>Step 3 — Runtime switching with theme-select</h2>
+  <h2>Step 3 — Runtime switching with theme-picker</h2>
   <p>
-    The <code>theme-select</code> helper is a native
-    <code>&lt;select&gt;</code> that owns the whole theme lifecycle: it loads
+    The <code>theme-picker</code> helper is a headless icon-button + listbox
+    that owns the whole theme lifecycle: it loads
     the chosen stylesheet by swapping one managed <code>&lt;link&gt;</code>
     (only the active theme is ever fetched), sets
     <code>data-theme="&#123;slug&#125;"</code> on the document, and optionally
@@ -82,19 +82,19 @@
   </p>
   <!-- `<` + `script>` keeps the literal tag out of the Svelte compiler's view. -->
   <pre><code>{`<` + `script>
-  import ThemeSelect from "lily-design-system-svelte-theme-select";
+  import ThemePicker from "lily-design-system-svelte-theme-picker";
 </` + `script>
 
-<ThemeSelect
+<ThemePicker
   label="Theme"
   themesUrl="/themes/"
   themes={["light", "dark", "nord", "wireframe"]}
   storageKey="my-app-theme"
 />`}</code></pre>
   <p>
-    That's the whole integration. Keyboard behaviour is the native select's;
-    the control itself is headless (class hook
-    <code>.theme-select</code>), so it picks up whatever theme is active.
+    That's the whole integration. Keyboard behaviour follows the WAI-ARIA APG
+    listbox pattern; the control itself is headless (class hook
+    <code>.theme-picker</code>), so it picks up whatever theme is active.
   </p>
 
   <h2>Step 4 — React to the theme in your own CSS</h2>
@@ -116,7 +116,7 @@
 
   <h2>Next steps</h2>
   <ul>
-    <li><a href="/tutorials/helpers/">Preference helpers</a> — the same pattern for language and text size.</li>
+    <li><a href="/tutorials/helpers/">Preference helpers</a> — the same pattern for language, text size, sharing, and date/time entry.</li>
     <li>
       Contribute a theme — each is one standalone stylesheet targeting the
       class hooks; see <a href="/help/#contributing">contributing</a>.

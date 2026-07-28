@@ -185,7 +185,7 @@ pnpm run dev`}</code></pre>
   </ul>
   <p>
     Theme selectors use <code>:where(...)</code>, so your own CSS always wins
-    on specificity. Pair them with the <code>theme-select</code> helper below
+    on specificity. Pair them with the <code>theme-picker</code> helper below
     for runtime switching, or follow the
     <a href="/tutorials/theming/">theming tutorial</a>.
   </p>
@@ -194,25 +194,37 @@ pnpm run dev`}</code></pre>
 <section class="section prose" id="helpers" style="margin: 0 auto;">
   <h2>Preference helpers</h2>
   <p>
-    Each framework has a companion <code>*-helpers</code> catalog with three
-    small packages that each own one user preference end to end — selection,
-    DOM application, and optional <code>localStorage</code> persistence. Each
-    renders a native <code>&lt;select&gt;</code>, is SSR-safe, and ships no CSS:
+    Each framework has a companion <code>*-helpers</code> catalog with five
+    small packages. Each is a headless icon-button + listbox (or, for
+    date-time-picker, a date-picker dialog) — not a native
+    <code>&lt;select&gt;</code> — is SSR-safe, and ships no CSS:
   </p>
   <ul>
     <li>
-      <strong>theme-select</strong> — loads theme stylesheets at runtime by
-      swapping a managed <code>&lt;link&gt;</code>, and sets
-      <code>data-theme</code> on the document.
+      <strong>theme-picker</strong> — loads theme stylesheets at runtime by
+      swapping a managed <code>&lt;link&gt;</code>, sets
+      <code>data-theme</code> on the document, and optionally persists to
+      <code>localStorage</code>.
     </li>
     <li>
-      <strong>locale-select</strong> — sets <code>lang</code> and
+      <strong>locale-picker</strong> — sets <code>lang</code> and
       <code>dir</code> (with automatic RTL detection) so your i18n library
       can follow; performs no translation itself.
     </li>
     <li>
-      <strong>text-size-select</strong> — sets <code>data-text-size</code> on
+      <strong>text-size-picker</strong> — sets <code>data-text-size</code> on
       the document; your CSS maps each value to font sizing.
+    </li>
+    <li>
+      <strong>share-picker</strong> — opens the native share sheet or a
+      consumer-supplied destination list, plus copy-the-URL. Owns an
+      action, not a preference: applies nothing, persists nothing.
+    </li>
+    <li>
+      <strong>date-time-picker</strong> — a text field plus an APG
+      date-picker dialog for a date, a time, or both. Owns a form value,
+      not a preference: the ISO string round-trips to
+      <code>&lt;input type="date"&gt;</code>.
     </li>
   </ul>
   <pre><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-helpers`}</code></pre>
@@ -255,7 +267,7 @@ pnpm run dev`}</code></pre>
     <code>Intl.NumberFormat</code> / your preferred library and pass the result.
   </p>
   <p>
-    The <code>locale-select</code> helper signals the chosen locale to your
+    The <code>locale-picker</code> helper signals the chosen locale to your
     i18n library by setting <code>lang</code> and <code>dir</code> on the
     document root.
   </p>
@@ -325,13 +337,13 @@ pnpm run dev`}</code></pre>
   </details>
 
   <details class="faq-item">
-    <summary>The theme-select helper doesn't switch stylesheets</summary>
+    <summary>The theme-picker helper doesn't switch stylesheets</summary>
     <p>
       Confirm <code>themesUrl</code> points at a directory the browser can
       fetch (serve the <code>themes/</code> files as static assets) and that
       the theme slugs in your <code>themes</code> prop match the file names.
       The helper swaps the <code>href</code> of one managed
-      <code>&lt;link data-lily-theme-select&gt;</code> — inspect it in
+      <code>&lt;link data-lily-theme-picker&gt;</code> — inspect it in
       devtools to see the URL being requested.
     </p>
   </details>

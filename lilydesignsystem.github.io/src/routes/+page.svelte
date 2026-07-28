@@ -279,10 +279,14 @@ pnpm install && pnpm run dev`}</code></pre>
   <h2>What's new</h2>
   <div class="callout">
     <p style="margin: 0;">
-      <strong>Version 0.6.0 — July 2026.</strong> Tooling hardening and
+      <strong>Latest — July 2026.</strong> Tooling hardening and
       release hygiene: catalog cross-checks in <code>bin/test</code>,
-      regenerated example-app registries, link checking, and CI. The
-      theme-select and locale-select helpers reach 0.2.0.
+      regenerated example-app registries, link checking, and CI. Every
+      preference helper renamed from <code>*-select</code> /
+      <code>*-button</code> to <code>*-picker</code>
+      (theme-picker, locale-picker, text-size-picker, share-picker), and
+      a fifth helper — date-time-picker — joins all seven framework
+      catalogs.
       <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md">Read the changelog →</a>
     </p>
   </div>
