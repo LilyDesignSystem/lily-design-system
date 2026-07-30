@@ -1,8 +1,14 @@
 # CHANGELOG — lily-design-system-react-theme-picker
 
-## Unreleased
+## 0.1.0 — 2026-07-30
 
-### Changed
+First published release. Nothing earlier shipped, so the
+accessibility hardening completed after the initial entry below is
+part of 0.1.0 rather than a later version.
+
+### Accessibility hardening (2026-07-29/30)
+
+#### Changed
 
 - **`Tab` from the open list no longer strands keyboard focus.** The
   handler hid the list while it had focus; the browser then moved focus
@@ -16,17 +22,17 @@
   characters refines the match anchored on the active option.
   Previously a character that matched the active option went nowhere.
 
-### Added
+#### Added
 
 - **`PageUp` / `PageDown`** move the active option by ten, clamped —
   an APG-optional key for long lists.
 
-### Fixed
+#### Fixed
 
 - Opening with an empty option list no longer points
   `aria-activedescendant` at an id that does not exist.
 
-## 0.1.0 — 2026-07-21
+### Initial entry — 2026-07-21
 
 Initial release under this name.
 
@@ -43,7 +49,7 @@ Public surface: `ThemePicker` (default and named), `normalizeThemesUrl`,
 `themeHref`, `themeName`, `matchSystemTheme`, plus the `Props` and
 `ChildArgs` types. Required props are `label`, `themesUrl`, `themes`.
 
-### Renamed
+#### Renamed
 
 - Previously released in-tree as `lily-design-system-react-theme-select`.
   The rename to `-theme-picker` also renames the `ThemePicker` symbol to
@@ -55,7 +61,7 @@ Public surface: `ThemePicker` (default and named), `normalizeThemesUrl`,
   the version restarts at `0.1.0` rather than continuing the in-tree
   numbering; the entries below record that earlier history.
 
-### Added (harmonization with locale-picker)
+#### Added (harmonization with locale-picker)
 
 - **`themeName(slug)` export.** The title-casing label rule
   (`"high-contrast"` → `"High Contrast"`) is now a named export from
@@ -79,7 +85,7 @@ Public surface: `ThemePicker` (default and named), `normalizeThemesUrl`,
   `themes[0]`, placing detection where locale-picker places navigator
   detection.
 
-### Changed (BREAKING — DOM contract and public API)
+#### Changed (BREAKING — DOM contract and public API)
 
 - **The control is no longer a native `<select>`.** It is now an icon
   button that opens a dropdown listbox, following the WAI-ARIA APG
@@ -116,7 +122,7 @@ tabindex="-1" hidden>` with one
   `children`, and `defaultValue`. `<select>`-only attributes
   (`required`, `disabled`, `form`, …) are no longer part of the surface.
 
-### Added
+#### Added
 
 - A component-implemented keyboard contract, replacing the platform
   semantics the native `<select>` used to supply. On the button:
@@ -137,7 +143,7 @@ tabindex="-1" hidden>` with one
   `[data-active]` and `[aria-selected]` on the options,
   `[aria-expanded]` on the button, `[hidden]` on the list.
 
-### Unchanged
+#### Unchanged
 
 - The behaviour contract: the managed
   `<link data-lily-theme-picker="{name}">` swap, `data-theme` on the
@@ -149,7 +155,7 @@ tabindex="-1" hidden>` with one
 - The no-hardcoded-strings i18n rule: every user-facing string still
   comes from props.
 
-### Accessibility notes
+#### Accessibility notes
 
 - The glyph is `aria-hidden`, so `label` is now the **only** accessible
   name the control has. It is not optional.
@@ -165,7 +171,7 @@ tabindex="-1" hidden>` with one
   only a glyph and never announces the active theme. See
   `docs/accessibility.md`.
 
-### Styling
+#### Styling
 
 - The package still ships no CSS, which now includes no positioning: the
   listbox renders in normal flow until the consumer supplies the

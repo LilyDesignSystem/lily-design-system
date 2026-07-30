@@ -4,14 +4,20 @@ All notable changes to this package. Format follows
 [Keep a Changelog](https://keepachangelog.com/); versions follow
 [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.1.0 — 2026-07-30
+
+First published release. Nothing earlier shipped, so the
+accessibility hardening completed after the initial entry below is
+part of 0.1.0 rather than a later version.
+
+### Accessibility hardening (2026-07-29/30)
 
 Accessibility hardening: seven changes, each fixing something a screen
 reader or keyboard user would actually hit. Test count 58 → 65 (§7.49–
 §7.55); the §7.29–§7.31 assertions moved from `disabled` to
 `aria-disabled`.
 
-### Changed
+#### Changed
 
 - **Vetoed days render `aria-disabled="true"` + `data-disabled` instead
   of the `disabled` attribute.** A `disabled` button refuses focus, so
@@ -36,7 +42,7 @@ reader or keyboard user would actually hit. Test count 58 → 65 (§7.49–
   staying open while the user edits the field behind it told assistive
   technology one thing and did another.
 
-### Added
+#### Added
 
 - **`labels.invalid`** (optional): a `role="status"` live region — class
   hook `date-time-picker-status`, present-but-empty while valid — that
@@ -53,12 +59,12 @@ reader or keyboard user would actually hit. Test count 58 → 65 (§7.49–
   Escape contract. The keystroke does not propagate; with no pending edit
   the key is untouched.
 
-## 0.1.0 — 2026-07-27
+### Initial entry — 2026-07-27
 
 Initial release. The fifth helper in the Svelte catalog, and the first that
 is a **form control** rather than a page-header preference control.
 
-### Added
+#### Added
 
 - `DateTimePicker.svelte` — a headless date / time / datetime control: a
   typeable text field plus an icon button (📅 U+1F4C5 + U+FE0E) opening a
@@ -81,7 +87,7 @@ is a **form control** rather than a page-header preference control.
   is that they reach for a `Date` and reintroduce the bug below.
 - 58 tests, one per acceptance clause in `spec/index.md` §7.
 
-### Implemented from DHCW
+#### Implemented from DHCW
 
 This package exists because Digital Health and Care Wales publishes a date
 picker in its [NHSW component
@@ -95,7 +101,7 @@ shortcuts, the Cancel/OK footer, parse-on-open, change notification,
 pre-population, `disabled`, `aria-describedby` passthrough, and
 click-outside-to-close. Parity table in `spec/index.md` §8.
 
-### Deliberately different from DHCW
+#### Deliberately different from DHCW
 
 Twelve departures, each fixing a defect rather than expressing a taste.
 Full list in `spec/index.md` §9; the four that matter most:
@@ -124,7 +130,7 @@ building with interpolated attributes; SSR-safe ids instead of
 *marked* invalid rather than silently ignored while the field goes on
 showing something that is not the value.
 
-### Notes
+#### Notes
 
 - **Nothing is persisted.** Unlike the four preference helpers, this writes
   no `localStorage`: a date in a form is data, not a preference, and

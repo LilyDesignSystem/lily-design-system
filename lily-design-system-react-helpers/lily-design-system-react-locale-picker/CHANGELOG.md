@@ -1,8 +1,14 @@
 # CHANGELOG — lily-design-system-react-locale-picker
 
-## Unreleased
+## 0.1.0 — 2026-07-30
 
-### Changed
+First published release. Nothing earlier shipped, so the
+accessibility hardening completed after the initial entry below is
+part of 0.1.0 rather than a later version.
+
+### Accessibility hardening (2026-07-29/30)
+
+#### Changed
 
 - **`Tab` from the open list no longer strands keyboard focus.** The
   handler hid the list while it had focus; the browser then moved focus
@@ -16,17 +22,17 @@
   characters refines the match anchored on the active option.
   Previously a character that matched the active option went nowhere.
 
-### Added
+#### Added
 
 - **`PageUp` / `PageDown`** move the active option by ten, clamped —
   an APG-optional key for long lists.
 
-### Fixed
+#### Fixed
 
 - Opening with an empty option list no longer points
   `aria-activedescendant` at an id that does not exist.
 
-### Changed (labels)
+#### Changed (labels)
 
 - **Default option labels are endonyms** — each language named in
   itself, "Cymraeg" not "Welsh" — via the new exported
@@ -41,7 +47,7 @@
   speech engines to the wrong voice — the English word "Arabic" read
   out by an Arabic synthesizer.
 
-## 0.1.0 — 2026-07-21
+### Initial entry — 2026-07-21
 
 Initial release under this name.
 
@@ -59,7 +65,7 @@ Public surface: `LocalePicker` (default and named), `localeName`,
 the `Props` and `ChildArgs` types. Required props are `label` and
 `locales`.
 
-### Renamed
+#### Renamed
 
 - Previously released in-tree as `lily-design-system-react-locale-select`.
   The rename to `-locale-picker` also renames the `LocalePicker` symbol
@@ -72,7 +78,7 @@ the `Props` and `ChildArgs` types. Required props are `label` and
   continuing the in-tree numbering; the entries below record that earlier
   history.
 
-### Changed (harmonization with theme-picker)
+#### Changed (harmonization with theme-picker)
 
 - **The default globe glyph gains U+FE0E VARIATION SELECTOR-15.**
   `GLOBE_WITH_MERIDIANS` is now `"\u{1F310}\uFE0E"` rather than
@@ -92,7 +98,7 @@ the `Props` and `ChildArgs` types. Required props are `label` and
   `08-ssr-cookie` → `ssr-cookie`, `09-scoped-target` → `scoped-target`,
   `10-combobox` → `all-locales`. All inbound links updated.
 
-### Added (harmonization with theme-picker)
+#### Added (harmonization with theme-picker)
 
 - **`docs/props-reference.md`, `docs/styling.md`,
   `docs/custom-rendering.md`, `docs/recipes.md`,
@@ -103,7 +109,7 @@ the `Props` and `ChildArgs` types. Required props are `label` and
   deliberately absent.
 - `index.md` no longer claims the package ships no `docs/styling.md`.
 
-### Changed (BREAKING — DOM contract and API)
+#### Changed (BREAKING — DOM contract and API)
 
 - **The control is no longer a native `<select>`.** It is now an icon
   button that opens a dropdown listbox, following the WAI-ARIA APG
@@ -137,7 +143,7 @@ the `Props` and `ChildArgs` types. Required props are `label` and
   `locale-picker-list`, and `locale-picker-option`, plus the
   `[data-active]` and `[aria-selected]` attribute hooks.
 
-### Added
+#### Added
 
 - Full APG Listbox keyboard contract, implemented by the component
   (nothing comes from the platform now). Button: `ArrowDown` / `Enter` /
@@ -154,7 +160,7 @@ the `Props` and `ChildArgs` types. Required props are `label` and
 - Option and list ids derive from React's `useId`, so they are stable
   across server and client render and hydration-safe.
 
-### Unchanged
+#### Unchanged
 
 - The behaviour contract: `lang` + `dir` application to the target,
   RTL / bidi detection, `localStorage` persistence,
@@ -168,7 +174,7 @@ the `Props` and `ChildArgs` types. Required props are `label` and
 - Per-option `lang` in BCP 47 hyphen form, for WCAG 3.1.2 (Language of
   Parts). The button and the list carry no `lang` of their own.
 
-### Accessibility note
+#### Accessibility note
 
 - The tradeoffs changed rather than disappeared. An icon-only button
   depends entirely on `aria-label` (the `label` prop) for its

@@ -4,9 +4,15 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.1.0 — 2026-07-30
 
-### Changed
+First published release. Nothing earlier shipped, so the
+accessibility hardening completed after the initial entry below is
+part of 0.1.0 rather than a later version.
+
+### Accessibility hardening (2026-07-29/30)
+
+#### Changed
 
 - **`Tab` from the open list no longer strands keyboard focus.** The
   handler hid the list while it had focus; the browser then moved focus
@@ -20,17 +26,17 @@ and the project follows [Semantic Versioning](https://semver.org/).
   characters refines the match anchored on the active option.
   Previously a character that matched the active option went nowhere.
 
-### Added
+#### Added
 
 - **`PageUp` / `PageDown`** move the active option by ten, clamped —
   an APG-optional key for long lists.
 
-### Fixed
+#### Fixed
 
 - Opening with an empty option list no longer points
   `aria-activedescendant` at an id that does not exist.
 
-### Changed (labels)
+#### Changed (labels)
 
 - **Default option labels are endonyms** — each language named in
   itself, "Cymraeg" not "Welsh" — via the new exported
@@ -45,9 +51,9 @@ and the project follows [Semantic Versioning](https://semver.org/).
   speech engines to the wrong voice — the English word "Arabic" read
   out by an Arabic synthesizer.
 
-## 0.1.0 — 2026-07-21
+### Initial entry — 2026-07-21
 
-### Changed (BREAKING)
+#### Changed (BREAKING)
 
 - Renamed from `lily-design-system-svelte-locale-select`. Directory,
   component (`LocalePicker.svelte`), exported symbols (`LocalePicker`,
@@ -62,7 +68,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
   script). Optional `localStorage` persistence and `navigator.languages`
   detection. Translates nothing; ships no CSS.
 
-### Versioning
+#### Versioning
 
 - Version reset to `0.1.0`. Nothing has been published under the name
   `lily-design-system-svelte-locale-picker`, so continuing the old

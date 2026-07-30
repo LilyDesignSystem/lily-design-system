@@ -4,11 +4,17 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.1.0 — 2026-07-30
+
+First published release. Nothing earlier shipped, so the
+accessibility hardening completed after the initial entry below is
+part of 0.1.0 rather than a later version.
+
+### Accessibility hardening (2026-07-29/30)
 
 Accessibility hardening, ported from the canonical Svelte helper.
 
-### Changed
+#### Changed
 
 - **`Tab` from the open list no longer strands keyboard focus.** The
   handler hid the list while one of its items had focus; the browser
@@ -17,14 +23,14 @@ Accessibility hardening, ported from the canonical Svelte helper.
   without cancelling the key — so the default Tab proceeds from the
   picker's own position.
 
-### Added
+#### Added
 
 - The list carries the picker's accessible name (`aria-label` =
   `label`), matching the sibling pickers' listboxes: a screen reader
   entering the list hears what it is for, not just "list, three
   items".
 
-## 0.1.0 — 2026-07-21
+### Initial entry — 2026-07-21
 
 First release under the name `lily-design-system-nunjucks-share-picker`.
 The package was renamed from `lily-design-system-nunjucks-share-button`
@@ -38,7 +44,7 @@ The rename also retires the trigger-class exception: the button is now
 `text-size-picker`. It was `share-picker-trigger` only because
 `.share-button-button` read badly, and the new name removes the reason.
 
-### The package as it stands
+#### The package as it stands
 
 - **`share-picker.njk`** — the `sharePicker(opts)` macro. Renders a
   `<div class="share-picker">` root containing a glyph-only

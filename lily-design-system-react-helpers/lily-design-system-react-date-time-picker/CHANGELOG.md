@@ -4,14 +4,20 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.1.0 — 2026-07-30
+
+First published release. Nothing earlier shipped, so the
+accessibility hardening completed after the initial entry below is
+part of 0.1.0 rather than a later version.
+
+### Accessibility hardening (2026-07-29/30)
 
 Accessibility hardening, ported from the canonical Svelte helper: seven
 changes, each fixing something a screen reader or keyboard user would
 actually hit. Test count 58 → 65 (§7.49–§7.55); the §7.29–§7.31
 assertions moved from `disabled` to `aria-disabled`.
 
-### Changed
+#### Changed
 
 - **Vetoed days render `aria-disabled="true"` + `data-disabled` instead
   of the `disabled` attribute.** A `disabled` button refuses focus, so
@@ -42,7 +48,7 @@ assertions moved from `disabled` to `aria-disabled`.
   tests containment against the dialog and trigger button rather than
   the component root.)
 
-### Added
+#### Added
 
 - **`labels.invalid`** (optional): a `role="status"` live region — class
   hook `date-time-picker-status`, present-but-empty while valid — that
@@ -59,9 +65,9 @@ assertions moved from `disabled` to `aria-disabled`.
   Escape contract. The keystroke does not propagate; with no pending edit
   the key is untouched.
 
-## 0.1.0 — 2026-07-28
+### Initial entry — 2026-07-28
 
-### Added
+#### Added
 
 - Initial release. The fifth helper ported to the React catalog, and the
   first that is a **form control** rather than a page-header preference
@@ -91,7 +97,7 @@ assertions moved from `disabled` to `aria-disabled`.
   mirroring its spec §-numbering clause for clause. Per `AGENTS/helpers.md`,
   Svelte is canonical; where the two disagree, Svelte wins.
 
-### React-specific notes
+#### React-specific notes
 
 - `value` follows this catalog's controlled-or-uncontrolled convention
   (the same `isControlled` / `internalValue` / `currentValue` shape as

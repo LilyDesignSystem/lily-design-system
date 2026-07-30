@@ -1,8 +1,14 @@
 # CHANGELOG — lily-design-system-react-text-size-picker
 
-## Unreleased
+## 0.1.0 — 2026-07-30
 
-### Changed
+First published release. Nothing earlier shipped, so the
+accessibility hardening completed after the initial entry below is
+part of 0.1.0 rather than a later version.
+
+### Accessibility hardening (2026-07-29/30)
+
+#### Changed
 
 - **`Tab` from the open list no longer strands keyboard focus.** The
   handler hid the list while it had focus; the browser then moved focus
@@ -16,17 +22,17 @@
   characters refines the match anchored on the active option.
   Previously a character that matched the active option went nowhere.
 
-### Added
+#### Added
 
 - **`PageUp` / `PageDown`** move the active option by ten, clamped —
   an APG-optional key for long lists.
 
-### Fixed
+#### Fixed
 
 - Opening with an empty option list no longer points
   `aria-activedescendant` at an id that does not exist.
 
-## 0.1.0 — 2026-07-21
+### Initial entry — 2026-07-21
 
 Initial release under this name.
 
@@ -43,7 +49,7 @@ Public surface: `TextSizePicker` (default and named), `sizeName`,
 `LATIN_CAPITAL_LETTER_A`, plus the `Props` and `ChildArgs` types. Required
 props are `label` and `sizes`.
 
-### Renamed
+#### Renamed
 
 - Previously released in-tree as
   `lily-design-system-react-text-size-select`. The rename to
@@ -57,7 +63,7 @@ props are `label` and `sizes`.
   continuing the in-tree numbering; the entries below record that earlier
   history.
 
-### Changed (BREAKING — DOM contract and public API)
+#### Changed (BREAKING — DOM contract and public API)
 
 - **The control is no longer a native `<select>`.** It is now an icon
   button that opens a dropdown listbox, following the WAI-ARIA APG
@@ -102,7 +108,7 @@ tabindex="-1" hidden>` with one
   `children`, and `defaultValue`. `<select>`-only attributes
   (`required`, `disabled`, `form`, …) are no longer part of the surface.
 
-### Added
+#### Added
 
 - A component-implemented keyboard contract, replacing the platform
   semantics the native `<select>` used to supply. On the button:
@@ -128,7 +134,7 @@ tabindex="-1" hidden>` with one
   control.
 - A keyboard test suite mirroring the canonical Svelte one (§7.14–§7.18).
 
-### Unchanged
+#### Unchanged
 
 - The behaviour contract: `data-text-size` on the target, optional
   `localStorage` persistence, `onChange`, initial-value resolution
@@ -143,7 +149,7 @@ tabindex="-1" hidden>` with one
   no platform signal exposes a preferred text size, so there is nothing
   to detect.
 
-### Accessibility notes
+#### Accessibility notes
 
 - The glyph is `aria-hidden`, so `label` is now the **only** accessible
   name the control has. It is not optional.
@@ -167,7 +173,7 @@ tabindex="-1" hidden>` with one
   consumer's CSS must scale in relative units for the attribute to mean
   anything.
 
-### Styling
+#### Styling
 
 - The package still ships no CSS, which now includes no positioning: the
   listbox renders in normal flow until the consumer supplies the

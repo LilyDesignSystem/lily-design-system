@@ -4,11 +4,17 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.1.0 — 2026-07-30
+
+First published release. Nothing earlier shipped, so the
+accessibility hardening completed after the initial entry below is
+part of 0.1.0 rather than a later version.
+
+### Accessibility hardening (2026-07-29/30)
 
 Accessibility hardening, ported from the canonical Svelte helper.
 
-### Changed
+#### Changed
 
 - **`Tab` from the open list no longer strands keyboard focus.** The
   handler hid the list while it had focus; the browser then moved focus
@@ -22,17 +28,17 @@ Accessibility hardening, ported from the canonical Svelte helper.
   characters refines the match anchored on the active option.
   Previously a character that matched the active option went nowhere.
 
-### Added
+#### Added
 
 - **`PageUp` / `PageDown`** move the active option by ten, clamped —
   an APG-optional key for long lists.
 
-### Fixed
+#### Fixed
 
 - Opening with an empty option list no longer points
   `aria-activedescendant` at an id that does not exist.
 
-## 0.1.0 — 2026-07-21
+### Initial entry — 2026-07-21
 
 First release under the name
 `lily-design-system-nunjucks-text-size-picker`. The package was renamed
@@ -41,7 +47,7 @@ has ever been published under the new name, the version restarts at
 0.1.0 rather than continuing the old 0.2.0 line. The rename brings the
 helper into line with its three siblings, all now `*-picker`.
 
-### The package as it stands
+#### The package as it stands
 
 - **`text-size-picker.njk`** — the `textSizePicker(opts)` macro.
   Renders a `<div class="text-size-picker">` root containing a hidden

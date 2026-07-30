@@ -4,9 +4,15 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.1.0 — 2026-07-30
 
-### Changed
+First published release. Nothing earlier shipped, so the
+accessibility hardening completed after the initial entry below is
+part of 0.1.0 rather than a later version.
+
+### Accessibility hardening (2026-07-29/30)
+
+#### Changed
 
 - **`Tab` from the open list no longer strands keyboard focus.** The
   handler hid the list while it had focus; the browser then moved focus
@@ -20,19 +26,19 @@ and the project follows [Semantic Versioning](https://semver.org/).
   characters refines the match anchored on the active option.
   Previously a character that matched the active option went nowhere.
 
-### Added
+#### Added
 
 - **`PageUp` / `PageDown`** move the active option by ten, clamped —
   an APG-optional key for long lists.
 
-### Fixed
+#### Fixed
 
 - Opening with an empty option list no longer points
   `aria-activedescendant` at an id that does not exist.
 
-## 0.1.0 — 2026-07-21
+### Initial entry — 2026-07-21
 
-### Added
+#### Added
 
 - Initial release under this name. `ThemePicker` is an Angular 20
   headless theme loader: a single-glyph button (◑, U+25D1) that opens a
@@ -54,7 +60,7 @@ defaultValue > "light" > first theme`, with optional `localStorage`
   `-option`. Every user-facing string is an input; the glyph is
   `aria-hidden` and the accessible name comes from `label`.
 
-### Renamed
+#### Renamed
 
 - **Previously released in-tree as
   `lily-design-system-angular-theme-select`** (last in-tree version

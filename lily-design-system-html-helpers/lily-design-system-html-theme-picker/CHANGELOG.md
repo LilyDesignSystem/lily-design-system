@@ -3,9 +3,15 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.1.0 — 2026-07-30
 
-### Changed
+First published release. Nothing earlier shipped, so the
+accessibility hardening completed after the initial entry below is
+part of 0.1.0 rather than a later version.
+
+### Accessibility hardening (2026-07-29/30)
+
+#### Changed
 
 - **`Tab` from the open list no longer strands keyboard focus.** The
   handler hid the list while it had focus; the browser then moved focus
@@ -19,12 +25,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
   characters refines the match anchored on the active option.
   Previously a character that matched the active option went nowhere.
 
-### Added
+#### Added
 
 - **`PageUp` / `PageDown`** move the active option by ten, clamped —
   an APG-optional key for long lists.
 
-### Fixed
+#### Fixed
 
 - Opening with an empty option list no longer points
   `aria-activedescendant` at an id that does not exist. (`openList()`
@@ -32,13 +38,13 @@ and the project follows [Semantic Versioning](https://semver.org/).
   empty listbox with no active descendant, matching the canonical
   Svelte helper.)
 
-## 0.1.0 — 2026-07-21
+### Initial entry — 2026-07-21
 
 First release under the name `lily-design-system-html-theme-picker`.
 The version resets to 0.1.0 because this package name has never been
 published; a renamed package carries no release history.
 
-### Added
+#### Added
 
 - `<theme-picker>` custom element: a headless, runtime theme-CSS
   loader. It renders an icon button (◑, U+25D1, exported as
@@ -60,7 +66,7 @@ published; a renamed package carries no release history.
   `CIRCLE_WITH_RIGHT_HALF_BLACK`; types `ThemePickerProps`,
   `ThemePickerChangeDetail`.
 
-### Changed
+#### Changed
 
 - Renamed from `lily-design-system-html-theme-select`. The custom
   element is `<theme-picker>` (was `<theme-picker>`), the class is

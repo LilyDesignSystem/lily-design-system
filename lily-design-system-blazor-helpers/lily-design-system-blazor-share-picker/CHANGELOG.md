@@ -4,9 +4,15 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.1.0 — 2026-07-30
 
-### Changed
+First published release. Nothing earlier shipped, so the
+accessibility hardening completed after the initial entry below is
+part of 0.1.0 rather than a later version.
+
+### Accessibility hardening (2026-07-29/30)
+
+#### Changed
 
 - **`Tab` from the open list no longer strands keyboard focus.** The
   focused element is a real list item, so the browser's default Tab —
@@ -20,13 +26,13 @@ and the project follows [Semantic Versioning](https://semver.org/).
   children, so the default Tab already exits cleanly; see their
   changelogs.)
 
-### Added
+#### Added
 
 - The list carries the picker's accessible name (`aria-label` =
   `Label`), matching the sibling pickers' listboxes: a screen reader
   entering the list hears what it is for, not just "list, three items".
 
-## 0.1.0 — 2026-07-21
+### Initial entry — 2026-07-21
 
 Initial release. A Blazor 10 port of the canonical Svelte helper
 [`lily-design-system-svelte-share-picker`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-picker/).
@@ -36,7 +42,7 @@ renamed to `lily-design-system-blazor-share-picker` before its first
 release, so this 0.1.0 is the only version that has ever existed. The
 NuGet package is `LilyDesignSystem.Blazor.SharePicker`.
 
-### Added
+#### Added
 
 - **`SharePicker`** — a headless share control. A single-glyph button
   (➤, U+27A4) that opens the **native share sheet** where the browser
@@ -149,7 +155,7 @@ NuGet package is `LilyDesignSystem.Blazor.SharePicker`.
   `AGENTS.md`, `docs/accessibility.md`, and four runnable
   `examples/*.razor`.
 
-### Blazor deviations from the canonical Svelte implementation
+#### Blazor deviations from the canonical Svelte implementation
 
 Each is forced by the framework, not chosen. Full list in
 [`spec/index.md` §9](./spec/index.md#9-blazor-deviations-from-the-canonical-svelte-implementation).

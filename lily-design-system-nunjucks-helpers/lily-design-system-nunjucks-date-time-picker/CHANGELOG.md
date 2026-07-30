@@ -4,7 +4,13 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.1.0 — 2026-07-30
+
+First published release. Nothing earlier shipped, so the
+accessibility hardening completed after the initial entry below is
+part of 0.1.0 rather than a later version.
+
+### Accessibility hardening (2026-07-29/30)
 
 Accessibility hardening, ported from the canonical Svelte helper: seven
 changes, each fixing something a screen reader or keyboard user would
@@ -12,7 +18,7 @@ actually hit. Test count 68 → 76 (§7.49–§7.55, plus one
 Nunjucks-specific clause for init-time-only `labels`); the §7.29–§7.31
 assertions moved from `disabled` to `aria-disabled`.
 
-### Changed
+#### Changed
 
 - **Vetoed days render `aria-disabled="true"` + `data-disabled` instead
   of the `disabled` attribute.** A `disabled` button refuses focus, so
@@ -39,7 +45,7 @@ assertions moved from `disabled` to `aria-disabled`.
   tests against the dialog and the trigger button rather than the whole
   root.)
 
-### Added
+#### Added
 
 - **`labels.invalid`** (optional): a `role="status"` live region — class
   hook `date-time-picker-status`, present-but-empty while valid — that
@@ -61,7 +67,7 @@ assertions moved from `disabled` to `aria-disabled`.
   Escape contract. The keystroke does not propagate; with no pending
   edit the key is untouched.
 
-## 0.1.0 — 2026-07-28
+### Initial entry — 2026-07-28
 
 First release. A port of the canonical
 `lily-design-system-svelte-date-time-picker` helper — itself the fifth
@@ -74,7 +80,7 @@ helpers — cannot even render the calendar's *static* interior, because
 producing it needs `Intl.DateTimeFormat` and civil-date arithmetic that
 Nunjucks has no access to.
 
-### The package as it stands
+#### The package as it stands
 
 - **`date-time-picker.njk`** — the `dateTimePicker(opts)` macro.
   Renders the trigger, the hidden input, the header's four navigation

@@ -4,9 +4,15 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.1.0 — 2026-07-30
 
-### Changed
+First published release. Nothing earlier shipped, so the
+accessibility hardening completed after the initial entry below is
+part of 0.1.0 rather than a later version.
+
+### Accessibility hardening (2026-07-29/30)
+
+#### Changed
 
 - **`Tab` from the open list is documented — and deliberately NOT given
   the canonical Svelte button-refocus.** The canonical fix moves focus
@@ -25,7 +31,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
   active option. Previously a character that matched the active option
   went nowhere.
 
-### Added
+#### Added
 
 - **`PageUp` / `PageDown`** move the active option by ten, clamped —
   an APG-optional key for long lists (canonical §7.16).
@@ -33,21 +39,21 @@ and the project follows [Semantic Versioning](https://semver.org/).
   (InternalsVisibleTo), so the bUnit suite can compare recorded
   `FocusAsync` interop targets the way the DateTimePicker suite does.
 
-### Fixed
+#### Fixed
 
 - Opening with an empty option list no longer refuses to open (and, as
   in the canonical fix, never points `aria-activedescendant` at an id
   that does not exist): the active index is `-1` and the attribute is
   simply absent (canonical §7.17).
 
-### Docs
+#### Docs
 
 - `spec/index.md`, `index.md` and `AGENTS.md` still called the control
   a "text-size select" in a few places — the same native-`<select>`-era
   drift the canonical package fixed; all now say "picker" and document
   the icon-button + APG-listbox contract.
 
-## 0.1.0 — 2026-07-21
+### Initial entry — 2026-07-21
 
 Renamed from `lily-design-system-blazor-text-size-select` to
 `lily-design-system-blazor-text-size-picker`. The NuGet package is now

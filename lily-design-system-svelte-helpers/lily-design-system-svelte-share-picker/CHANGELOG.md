@@ -4,9 +4,15 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.1.0 — 2026-07-30
 
-### Changed
+First published release. Nothing earlier shipped, so the
+accessibility hardening completed after the initial entry below is
+part of 0.1.0 rather than a later version.
+
+### Accessibility hardening (2026-07-29/30)
+
+#### Changed
 
 - **`Tab` from the open list no longer strands keyboard focus.** The
   handler hid the list while it had focus; the browser then moved focus
@@ -15,15 +21,15 @@ and the project follows [Semantic Versioning](https://semver.org/).
   cancelling the key — so the default Tab proceeds from the picker's
   own position.
 
-### Added
+#### Added
 
 - The list carries the picker's accessible name (`aria-label` =
   `label`), matching the sibling pickers' listboxes: a screen reader
   entering the list hears what it is for, not just "list, three items".
 
-## 0.1.0 — 2026-07-21
+### Initial entry — 2026-07-21
 
-### Changed (BREAKING)
+#### Changed (BREAKING)
 
 - Renamed from `lily-design-system-svelte-share-button`. Directory,
   component (`SharePicker.svelte`), exported symbols (`SharePicker`,
@@ -42,7 +48,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
   destinations plus a copy-the-page-URL action. No social-network
   endpoints and no CSS ship with the package.
 
-### Versioning
+#### Versioning
 
 - Version reset to `0.1.0`. Nothing has been published under the name
   `lily-design-system-svelte-share-picker`, so continuing the old

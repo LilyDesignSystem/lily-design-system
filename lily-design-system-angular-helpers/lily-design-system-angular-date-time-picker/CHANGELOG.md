@@ -4,14 +4,20 @@ All notable changes to this package. Format follows
 [Keep a Changelog](https://keepachangelog.com/); versions follow
 [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.1.0 — 2026-07-30
+
+First published release. Nothing earlier shipped, so the
+accessibility hardening completed after the initial entry below is
+part of 0.1.0 rather than a later version.
+
+### Accessibility hardening (2026-07-29/30)
 
 Accessibility hardening, ported from the canonical Svelte helper: seven
 changes, each fixing something a screen reader or keyboard user would
 actually hit. Test count 60 → 67 (§7.49–§7.55); the §7.29–§7.31
 assertions moved from `disabled` to `aria-disabled`.
 
-### Changed
+#### Changed
 
 - **Vetoed days render `aria-disabled="true"` + `data-disabled` instead
   of the `disabled` attribute.** A `disabled` button refuses focus, so
@@ -44,7 +50,7 @@ assertions moved from `disabled` to `aria-disabled`.
   flushes the DOM synchronously, which is what the canonical microtask
   pattern silently relied on. Recorded in spec §3.
 
-### Added
+#### Added
 
 - **`labels.invalid`** (optional): a `role="status"` live region — class
   hook `date-time-picker-status`, present-but-empty while valid — that
@@ -61,13 +67,13 @@ assertions moved from `disabled` to `aria-disabled`.
   Escape contract. The keystroke does not propagate; with no pending edit
   the key is untouched.
 
-## 0.1.0 — 2026-07-28
+### Initial entry — 2026-07-28
 
 Initial release. The Angular port of the fifth Lily helper, and the first
 in this catalog that is a **form control** rather than a page-header
 preference control.
 
-### Added
+#### Added
 
 - `DateTimePicker` — a headless date / time / datetime control: a typeable
   text field plus an icon button (📅 U+1F4C5 + U+FE0E) opening a
@@ -93,7 +99,7 @@ preference control.
   is that they reach for a `Date` and reintroduce the bug below.
 - One test per acceptance clause in `spec/index.md` §7.
 
-### Implemented from DHCW
+#### Implemented from DHCW
 
 This package exists because Digital Health and Care Wales publishes a date
 picker in its [NHSW component
@@ -107,7 +113,7 @@ shortcuts, the Cancel/OK footer, parse-on-open, change notification,
 pre-population, `disabled`, `aria-describedby` passthrough, and
 click-outside-to-close. Parity table in `spec/index.md` §8.
 
-### Deliberately different from DHCW
+#### Deliberately different from DHCW
 
 Twelve departures, ported unchanged from the canonical Svelte helper and
 full list in `spec/index.md` §9; the four that matter most:
@@ -128,7 +134,7 @@ full list in `spec/index.md` §9; the four that matter most:
   to the previous day in zones whose DST transition falls at midnight. All
   arithmetic here goes through UTC epoch days.
 
-### Angular-specific deviations from the Svelte original
+#### Angular-specific deviations from the Svelte original
 
 All noted in `spec/index.md` §3 and this package's `AGENTS.md`:
 
@@ -148,7 +154,7 @@ All noted in `spec/index.md` §3 and this package's `AGENTS.md`:
   than synchronously at construction, because Angular signal inputs are
   not bound yet when the constructor runs.
 
-### Notes
+#### Notes
 
 - **Nothing is persisted.** Unlike the three preference helpers, this
   writes no `localStorage`: a date in a form is data, not a preference,

@@ -4,9 +4,15 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.1.0 — 2026-07-30
 
-### Changed
+First published release. Nothing earlier shipped, so the
+accessibility hardening completed after the initial entry below is
+part of 0.1.0 rather than a later version.
+
+### Accessibility hardening (2026-07-29/30)
+
+#### Changed
 
 - **`Tab` from the open list no longer strands keyboard focus.** The
   handler hid the list while it had focus; the browser then moved focus
@@ -15,13 +21,13 @@ and the project follows [Semantic Versioning](https://semver.org/).
   cancelling the key — so the default Tab proceeds from the picker's
   own position.
 
-### Added
+#### Added
 
 - The list carries the picker's accessible name (`aria-label` =
   `label`), matching the sibling pickers' listboxes: a screen reader
   entering the list hears what it is for, not just "list, three items".
 
-## 0.1.0 — 2026-07-21
+### Initial entry — 2026-07-21
 
 Renamed from `lily-design-system-vue-share-button`, alongside its three
 sibling helpers. Nothing was ever published under the old name, so the
@@ -39,7 +45,7 @@ The rename is full-depth:
 The emitted events -- `share`, `copy`, `nativeShare` -- are unchanged;
 none of them said "button".
 
-### Changed (BREAKING)
+#### Changed (BREAKING)
 
 - **The trigger naming exception is gone.** The trigger was
   `.share-picker-trigger` only because `.share-picker-button` read
@@ -48,7 +54,7 @@ none of them said "button".
   `locale-picker` and `text-size-picker`. The documented exception has
   been removed from `spec/index.md` and `AGENTS.md`.
 
-### The package as it stands
+#### The package as it stands
 
 - Headless Vue 3 share control: a single-glyph button (U+27A4 RIGHTWARDS
   ARROW WITH HOOK) that opens the native share sheet where the browser

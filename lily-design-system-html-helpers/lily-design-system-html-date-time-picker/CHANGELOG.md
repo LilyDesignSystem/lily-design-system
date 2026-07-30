@@ -4,14 +4,20 @@ All notable changes to `lily-design-system-html-date-time-picker` are
 documented here. The format follows [Keep a Changelog](https://keepachangelog.com/),
 and this package uses [semantic versioning](https://semver.org/).
 
-## Unreleased
+## 0.1.0 — 2026-07-30
+
+First published release. Nothing earlier shipped, so the
+accessibility hardening completed after the initial entry below is
+part of 0.1.0 rather than a later version.
+
+### Accessibility hardening (2026-07-29/30)
 
 Accessibility hardening, ported from the canonical Svelte helper's seven
 changes: each fixes something a screen reader or keyboard user would
 actually hit. Test count 74 → 81 (§7.49–§7.55); the §7.29–§7.31
 assertions moved from `disabled` to `aria-disabled`.
 
-### Changed
+#### Changed
 
 - **Vetoed days render `aria-disabled="true"` + `data-disabled` instead
   of the `disabled` attribute.** A `disabled` button refuses focus, so
@@ -37,7 +43,7 @@ assertions moved from `disabled` to `aria-disabled`.
   technology one thing and did another. (Previously only clicks outside
   the whole custom element closed it.)
 
-### Added
+#### Added
 
 - **`labels.invalid`** (optional): a `role="status"` live region — class
   hook `date-time-picker-status`, present-but-empty while valid — that
@@ -55,14 +61,14 @@ assertions moved from `disabled` to `aria-disabled`.
   Escape contract. The keystroke does not propagate; with no pending
   edit the key is untouched.
 
-## 0.1.0 — 2026-07-28
+### Initial entry — 2026-07-28
 
 First release. Port of the canonical Svelte helper
 `lily-design-system-svelte-date-time-picker` to a vanilla custom
 element, following this catalog's established `<share-picker>` /
 `<theme-picker>` idiom.
 
-### Added
+#### Added
 
 - `<date-time-picker>` custom element: a text field plus an icon button
   (📅, U+1F4C5 + U+FE0E) that opens a WAI-ARIA APG Date Picker Dialog —
@@ -102,7 +108,7 @@ element, following this catalog's established `<share-picker>` /
   the render/sync split preserving focus and dialog state, event
   detail shapes, listener cleanup, and SSR import safety).
 
-### Notes
+#### Notes
 
 - No persistence: unlike the three preference helpers, nothing is
   written to `localStorage`. A date in a form is data, not a preference

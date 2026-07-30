@@ -4,9 +4,15 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.1.0 — 2026-07-30
 
-### Changed
+First published release. Nothing earlier shipped, so the
+accessibility hardening completed after the initial entry below is
+part of 0.1.0 rather than a later version.
+
+### Accessibility hardening (2026-07-29/30)
+
+#### Changed
 
 - **`Tab` from the open list no longer strands keyboard focus.** The
   handler hid the list while it had focus; the browser then moved focus
@@ -15,15 +21,15 @@ and the project follows [Semantic Versioning](https://semver.org/).
   cancelling the key — so the default Tab proceeds from the picker's
   own position.
 
-### Added
+#### Added
 
 - The list carries the picker's accessible name (`aria-label` =
   `label`), matching the sibling pickers' listboxes: a screen reader
   entering the list hears what it is for, not just "list, three items".
 
-## 0.1.0 — 2026-07-21
+### Initial entry — 2026-07-21
 
-### Renamed
+#### Renamed
 
 - **Previously carried in-tree as
   `lily-design-system-angular-share-button`**, at 0.1.0 and never
@@ -33,7 +39,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
   siblings. The trigger hook `share-button-trigger` became plain
   `share-picker-button` — see the note below.
 
-### Added
+#### Added
 
 - Initial release. An Angular 20 port of the canonical Svelte
   `share-picker` helper: a headless share control whose single-glyph
@@ -67,7 +73,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
   `ShareTarget`, `ShareStrategy`, `ShareEvent`.
 - 47 vitest cases mapped onto the `spec/index.md` §7 clauses.
 
-### Notes
+#### Notes
 
 - Unlike the three preference helpers, this owns an _action_, not a
   preference: it applies nothing to the document and persists nothing.
@@ -88,7 +94,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
   zone.js a rejection caught only by a native `await` is still reported
   as an unhandled error against the originating click task.
 
-### Accessibility
+#### Accessibility
 
 - The tradeoffs are documented in `docs/accessibility.md` rather than
   glossed: the accessible name rests entirely on `aria-label` with no

@@ -4,9 +4,15 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.1.0 — 2026-07-30
 
-### Changed
+First published release. Nothing earlier shipped, so the
+accessibility hardening completed after the initial entry below is
+part of 0.1.0 rather than a later version.
+
+### Accessibility hardening (2026-07-29/30)
+
+#### Changed
 
 - **`Tab` from the open list no longer strands keyboard focus.** The
   handler hid the list while it had focus; the browser then moved focus
@@ -20,26 +26,26 @@ and the project follows [Semantic Versioning](https://semver.org/).
   characters refines the match anchored on the active option.
   Previously a character that matched the active option went nowhere.
 
-### Added
+#### Added
 
 - **`PageUp` / `PageDown`** move the active option by ten, clamped —
   an APG-optional key for long lists.
 
-### Fixed
+#### Fixed
 
 - Opening with an empty option list no longer points
   `aria-activedescendant` at an id that does not exist.
 
-### Docs
+#### Docs
 
 - `spec/index.md` §7 renumbered so the accessibility-hardening
   clauses land at §7.14–§7.17, matching the canonical Svelte spec;
   the keyboard-contract clauses move to §7.18–§7.22 and the label
   resolver to §7.23.
 
-## 0.1.0 — 2026-07-21
+### Initial entry — 2026-07-21
 
-### Added
+#### Added
 
 - Initial release under this name. `TextSizePicker` is an Angular 20
   headless text-size control: a single-glyph button ("A", U+0041) that
@@ -56,7 +62,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
   `-option`. Every user-facing string is an input; the glyph is
   `aria-hidden` and the accessible name comes from `label`.
 
-### Renamed
+#### Renamed
 
 - **Previously released in-tree as
   `lily-design-system-angular-text-size-select`** (last in-tree version

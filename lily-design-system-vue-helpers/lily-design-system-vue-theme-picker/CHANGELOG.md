@@ -4,9 +4,15 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.1.0 — 2026-07-30
 
-### Changed
+First published release. Nothing earlier shipped, so the
+accessibility hardening completed after the initial entry below is
+part of 0.1.0 rather than a later version.
+
+### Accessibility hardening (2026-07-29/30)
+
+#### Changed
 
 - **`Tab` from the open list no longer strands keyboard focus.** The
   handler hid the list while it had focus; the browser then moved focus
@@ -20,17 +26,17 @@ and the project follows [Semantic Versioning](https://semver.org/).
   characters refines the match anchored on the active option.
   Previously a character that matched the active option went nowhere.
 
-### Added
+#### Added
 
 - **`PageUp` / `PageDown`** move the active option by ten, clamped —
   an APG-optional key for long lists.
 
-### Fixed
+#### Fixed
 
 - Opening with an empty option list no longer points
   `aria-activedescendant` at an id that does not exist.
 
-## 0.1.0 — 2026-07-21
+### Initial entry — 2026-07-21
 
 Renamed from `lily-design-system-vue-theme-select`. The old name
 collided with `theme-picker`, one of the 490 components in the Lily
@@ -49,7 +55,7 @@ The rename is full-depth:
 
 `themeName` keeps its name -- it never said "select".
 
-### The package as it stands
+#### The package as it stands
 
 - Headless Vue 3 theme picker: an icon button (U+25D1 CIRCLE WITH RIGHT
   HALF BLACK) that opens a WAI-ARIA APG listbox of theme slugs.

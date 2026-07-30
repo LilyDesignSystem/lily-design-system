@@ -4,9 +4,15 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.1.0 — 2026-07-30
 
-### Changed
+First published release. Nothing earlier shipped, so the
+accessibility hardening completed after the initial entry below is
+part of 0.1.0 rather than a later version.
+
+### Accessibility hardening (2026-07-29/30)
+
+#### Changed
 
 - **`Tab` from the open list no longer strands keyboard focus.** The
   handler hid the list while it had focus; the browser then moved focus
@@ -15,15 +21,15 @@ and the project follows [Semantic Versioning](https://semver.org/).
   cancelling the key — so the default Tab proceeds from the picker's
   own position.
 
-### Added
+#### Added
 
 - The list carries the picker's accessible name (`aria-label` =
   `label`), matching the sibling pickers' listboxes: a screen reader
   entering the list hears what it is for, not just "list, three items".
 
-## 0.1.0 — 2026-07-21
+### Initial entry — 2026-07-21
 
-### Renamed
+#### Renamed
 
 - Previously developed in-tree as `lily-design-system-react-share-button`.
   The rename to `-share-picker` also renames the `SharePicker` symbol to
@@ -34,7 +40,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
   so it is now plainly `share-picker-button` like every sibling. Nothing
   was ever published under the old name.
 
-### Added
+#### Added
 
 - Initial release. A headless share control: a single-glyph button
   (➤, U+27A4) that opens the **native share sheet** via `navigator.share`
@@ -58,7 +64,7 @@ title, text)` function. **No social-network endpoints ship with this
 - Exports `canShareNatively`, `canCopy`, `nextSharePickerId`,
   `BLACK_RIGHTWARDS_ARROWHEAD`.
 
-### Notes
+#### Notes
 
 - Unlike the `*-picker` helpers, this owns an _action_, not a preference:
   it applies nothing to the document and persists nothing.

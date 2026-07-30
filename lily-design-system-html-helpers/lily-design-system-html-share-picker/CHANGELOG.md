@@ -4,9 +4,15 @@ All notable changes to `lily-design-system-html-share-picker` are
 documented here. The format follows [Keep a Changelog](https://keepachangelog.com/),
 and this package uses [semantic versioning](https://semver.org/).
 
-## Unreleased
+## 0.1.0 — 2026-07-30
 
-### Changed
+First published release. Nothing earlier shipped, so the
+accessibility hardening completed after the initial entry below is
+part of 0.1.0 rather than a later version.
+
+### Accessibility hardening (2026-07-29/30)
+
+#### Changed
 
 - **`Tab` from the open list no longer strands keyboard focus.** The
   handler hid the list while it had focus; the browser then moved focus
@@ -15,13 +21,13 @@ and this package uses [semantic versioning](https://semver.org/).
   cancelling the key — so the default Tab proceeds from the picker's
   own position.
 
-### Added
+#### Added
 
 - The list carries the picker's accessible name (`aria-label` =
   `label`), matching the sibling pickers' listboxes: a screen reader
   entering the list hears what it is for, not just "list, three items".
 
-## 0.1.0 — 2026-07-21
+### Initial entry — 2026-07-21
 
 First release under the name `lily-design-system-html-share-picker`.
 The version resets to 0.1.0 because this package name has never been
@@ -29,7 +35,7 @@ published; a renamed package carries no release history. Port of the
 canonical Svelte helper `lily-design-system-svelte-share-picker` to a
 vanilla custom element.
 
-### Added
+#### Added
 
 - `<share-picker>` custom element: a single-glyph trigger (➤, U+27A4)
   that opens the native share sheet where the browser provides one, and
@@ -52,7 +58,7 @@ vanilla custom element.
   `#render` / `#syncState` split holding focus, listener cleanup, SSR
   import safety).
 
-### Changed
+#### Changed
 
 - Renamed from `lily-design-system-html-share-button`. The custom
   element is `<share-picker>` (was `<share-picker>`), the class is
@@ -72,7 +78,7 @@ vanilla custom element.
 Previously released in-tree as `lily-design-system-html-share-button`
 at 0.1.0; nothing shipped under the current package name.
 
-### Notes
+#### Notes
 
 - No social-network endpoints ship with this package, and there is no
   default copy label — both are deliberate. See `spec/index.md` §2.
