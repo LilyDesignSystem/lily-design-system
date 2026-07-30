@@ -90,8 +90,9 @@ Opening always moves focus to the `<ul>`.
 | `Enter`             | Select the active option, apply it, close, return focus to the button. |
 | `Space`             | Same as `Enter`.                                              |
 | `Escape`            | Close and return focus to the button, **without** changing the size. |
-| `Tab`               | Close without stealing focus back; focus moves on normally.   |
-| printable character | Typeahead over the option *labels*. The buffer resets after 500 ms of no typing; the search starts at the active option and wraps once. |
+| `PageUp` / `PageDown` | Move the active option by ten. Clamps at both ends.         |
+| `Tab`               | Move focus to the button, then close — without cancelling the key, so the default Tab proceeds from the picker's position rather than restarting from `<body>`. |
+| printable character | Typeahead over the option *labels*. The buffer resets after 500 ms of no typing. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match from the active option. Search wraps once. |
 
 Arrow-key movement deliberately clamps rather than wraps. The APG
 permits either; clamping means `End` and repeated `ArrowDown` agree,

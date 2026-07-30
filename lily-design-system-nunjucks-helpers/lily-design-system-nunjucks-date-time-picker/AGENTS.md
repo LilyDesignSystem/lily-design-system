@@ -38,7 +38,7 @@ for what this costs without JavaScript.
 | `spec/index.md`               | Specification-driven contract (canonical).            |
 | `date-time-picker.njk`        | Nunjucks macro (`dateTimePicker(opts)`).             |
 | `date-time-picker.client.js`  | ES module — civil-date arithmetic, Intl formatting, `initDateTimePicker`, `autoInit`. |
-| `date-time-picker.test.ts`    | Vitest spec, mapped to the §7 clauses.               |
+| `date-time-picker.test.ts`    | Vitest spec, mapped to the §7 clauses (76 tests).    |
 | `index.md`                    | User guide.                                           |
 | `docs/accessibility.md`       | Tradeoffs, stated plainly.                            |
 | `examples/`                   | Runnable `.njk` template fragments.                   |
@@ -114,11 +114,17 @@ preference.
 `<div class="date-time-picker {classes}" data-lily-date-time-picker-root>`
 → field (`<input class="date-time-picker-input">` +
 `<button class="date-time-picker-button">` with an `aria-hidden` glyph
-span) → `<div class="date-time-picker-dialog" role="dialog" hidden>`
-containing the header nav buttons, a `<table role="grid">` calendar
-(date modes), a `.date-time-picker-time` block (time modes), a
-`.date-time-picker-shortcuts` container, and a
-`.date-time-picker-footer` with clear/cancel/confirm.
+span) → optional `.date-time-picker-status` `role="status"` live
+region (`labels.invalid` only; empty while valid) →
+`<div class="date-time-picker-dialog" role="dialog" hidden>`
+containing an optional `.date-time-picker-instructions` first child
+(`labels.instructions` only, referenced by the dialog's
+`aria-describedby`), the header nav buttons, a `<table role="grid">`
+calendar (date modes), a `.date-time-picker-time` block (time modes),
+a `.date-time-picker-shortcuts` container, and a
+`.date-time-picker-footer` with clear/cancel/confirm. Vetoed day
+buttons carry `aria-disabled="true"` + `data-disabled`, never the
+`disabled` attribute.
 
 Full DOM contract, including which elements the macro renders versus
 which `date-time-picker.client.js` builds: [spec/index.md §4.3](./spec/index.md).
@@ -127,7 +133,22 @@ which `date-time-picker.client.js` builds: [spec/index.md §4.3](./spec/index.md
 
 - WCAG 2.2 AAA target; WAI-ARIA APG Date Picker Dialog pattern.
 - Real focus movement and a real focus trap in the dialog (no
-  `aria-activedescendant`); roving `tabindex` on the grid.
+  `aria-activedescendant`); roving `tabindex` on the grid — an
+  "exactly one tabbable day" invariant that holds on vetoed days too,
+  because vetoed days are `aria-disabled` (focusable, announced,
+  activation refused), never `disabled`.
+- Closing the dialog returns focus to the element that **opened** it:
+  the text field after `Alt`+`ArrowDown`, the trigger button after a
+  click. Header prev/next paging keeps focus on the header button;
+  grid `PageUp`/`PageDown` carries focus with the cursor.
+- `Escape` in the field discards a pending typed edit (restores the
+  committed display, clears `aria-invalid`); no-op when nothing is
+  pending. Click-outside-closes includes the component's own text
+  field (aria-modal coherence).
+- `labels.invalid` gates a `role="status"` live region wired to the
+  field via `aria-errormessage` + appended `aria-describedby`;
+  `labels.instructions` gates dialog keyboard help referenced by the
+  dialog's `aria-describedby`. Both optional — no English defaults.
 - `label` names both the trigger and the dialog; every entry in
   `labels` is required or optional exactly as the canonical helper
   specifies (`spec/index.md` §4.2) — no English defaults anywhere.

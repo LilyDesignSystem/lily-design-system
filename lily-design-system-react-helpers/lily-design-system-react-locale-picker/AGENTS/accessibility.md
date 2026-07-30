@@ -35,7 +35,7 @@ consumer-facing guide; this file is the AI-coding contract.
 | `<li class="locale-picker-option">` | `role="option"`, `id`               | Component         |
 | same                         | `aria-selected`                            | Component state   |
 | same                         | `data-active` (consumer CSS hook)          | Component state   |
-| same                         | `lang={tagFor(locale)}`                    | Component         |
+| same                         | `lang` (only when the label is the endonym) | Component        |
 | `<html>` (target)            | `lang` (BCP 47)                            | Component effect  |
 | `<html>` (target)            | `dir="rtl"\|"ltr"`                         | Component effect  |
 
@@ -67,7 +67,7 @@ On the **listbox** (while open):
 | `Home` / `End`            | Jump to the first / last option.                             |
 | `Enter` / `Space`         | Select the active option, apply, close, return focus to the button. |
 | `Escape`                  | Close and return focus to the button; value unchanged.       |
-| `Tab`                     | Close without stealing focus back.                           |
+| `Tab`                     | Close; focus lands on the button so the default Tab proceeds from the picker's position. |
 | Printable character       | Typeahead over the option **labels**; 500 ms buffer reset.   |
 
 Pointer: clicking an option selects it; clicking the button toggles;
@@ -79,17 +79,17 @@ In RTL layout the keyboard contract is unchanged — `ArrowDown` and
 
 ## Per-option `lang` attribute
 
-Each `<li role="option" lang={tagFor(locale)}>` satisfies WCAG 3.1.2
-(Language of Parts): when a screen reader encounters the option
-"Français" inside an English page, the `lang` attribute makes the
-reader switch to a French voice for that option.
+An `<li role="option" lang="…">` satisfies WCAG 3.1.2 (Language of
+Parts): when a screen reader encounters the option "Français" inside an
+English page, the `lang` attribute makes the reader switch to a French
+voice for that option.
 
-The component always emits this — there is no render prop that removes
-it, because `children` only replaces the button glyph. If your
-`localeLabels` are all in the viewer's language (e.g. all in English:
-"English", "French", "Arabic"), the per-option `lang` is technically
-incorrect. That is a known limitation of the fixed markup; prefer
-endonym labels (`Français`, `العربية`) so the attribute stays truthful.
+The component emits `lang` only when the option's text is the endonym
+it derived itself (the default labels, via `localeEndonym`). A
+consumer-supplied `localeLabels` entry carries no `lang` — its language
+is unknown, and a false claim would send the speech engine to the wrong
+voice. Prefer endonym labels (`Français`, `العربية`) if you override,
+and note that overridden options then make no language claim.
 
 ## When the consumer overrides children
 

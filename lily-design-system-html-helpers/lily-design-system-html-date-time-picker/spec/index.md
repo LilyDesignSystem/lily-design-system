@@ -178,7 +178,7 @@ Six parts of the canonical API cannot be attributes:
 
 | Member | Type | Why it cannot be an attribute | Paired event |
 | ------ | ---- | ------------------------------ | ------------ |
-| `labels: DateTimePickerLabels` | object, 6 required + 5 optional strings | See below. | — |
+| `labels: DateTimePickerLabels` | object, 6 required + 7 optional strings | See below. | — |
 | `shortcuts: DateTimeShortcut[]` | array of objects | Each entry mixes a string `label` with optional numeric `days`/`months` and an optional ISO `date`; no single attribute encoding covers the shape without ambiguity, and this catalog's usual "comma-separated string" convention only handles a flat array of plain strings. | `shortcut` |
 | `isDateDisabled` | `(isoDate: string) => boolean` | Function. | — |
 | `formatValue` | `(value: string) => string` | Function. | — |
@@ -195,8 +195,8 @@ does not follow that path, for the same reason `share-picker`'s
 above because all of them arrive together, once, as the control's
 setup — not as a value a server-rendered page is expected to encode
 inline — and a JSON-attribute round-trip risks silently dropping an
-optional key (`clear`, `week`, `meridiem`) with no error, which is worse
-than refusing the encoding outright. `labels` also gates real UI
+optional key (`clear`, `week`, `meridiem`, `invalid`, `instructions`)
+with no error, which is worse than refusing the encoding outright. `labels` also gates real UI
 existence (the clear button, the week-number heading, the meridiem
 select's label) exactly the way `share-picker`'s `copy-label` does, so
 it participates in the same `#render()` rebuild path as the function
@@ -228,7 +228,8 @@ shortcut resolves to a blocked date (§5.5) — both match the Svelte
 
     <div class="date-time-picker-field">
       <input class="date-time-picker-input" id="{fieldId}" type="text"
-             autocomplete="off" value="{display}" aria-invalid="true|absent" />
+             autocomplete="off" value="{display}" aria-invalid="true|absent"
+             aria-errormessage="{statusId} while invalid, when labels.invalid" />
       <button type="button" class="date-time-picker-button" aria-label="{label}"
               aria-haspopup="dialog" aria-expanded="false"
               aria-controls="{dialogId}">
@@ -236,8 +237,15 @@ shortcut resolves to a blocked date (§5.5) — both match the Svelte
       </button>
     </div>
 
+    <!-- Only when labels.invalid: always present, empty while valid. -->
+    <span class="date-time-picker-status" id="{statusId}" role="status"></span>
+
     <div class="date-time-picker-dialog" id="{dialogId}" role="dialog"
-         aria-modal="true" aria-label="{label}" tabindex="-1" hidden>
+         aria-modal="true" aria-label="{label}" tabindex="-1" hidden
+         aria-describedby="{instructionsId} when labels.instructions">
+      <!-- Only when labels.instructions: keyboard help, spoken on open. -->
+      <p class="date-time-picker-instructions" id="{instructionsId}">…</p>
+
       <div class="date-time-picker-header">
         <button class="date-time-picker-previous-year"  aria-label="…">«</button>
         <button class="date-time-picker-previous-month" aria-label="…">‹</button>
@@ -255,9 +263,9 @@ shortcut resolves to a blocked date (§5.5) — both match the Svelte
           <th class="date-time-picker-week" scope="row">10</th>
           <td role="gridcell" aria-selected="true|false">
             <button class="date-time-picker-day" data-date="2026-03-01"
-                    data-outside data-today data-selected
+                    data-outside data-today data-selected data-disabled
                     tabindex="0|-1" aria-label="Sunday 1 March 2026"
-                    aria-current="date">1</button>
+                    aria-current="date" aria-disabled="true|absent">1</button>
           </td>
         </tr></tbody>
       </table>
@@ -291,9 +299,24 @@ particular:
 
 - The **hidden input** carries `name`; the visible text field
   deliberately has none, for the same reason as the Svelte original.
-- **`data-*` on days** (`data-outside`, `data-today`, `data-selected`) is
-  for consumer CSS; the ARIA equivalent (`aria-current`, `aria-selected`
-  on the cell, `disabled`) is what assistive technology reads.
+- **`data-*` on days** (`data-outside`, `data-today`, `data-selected`,
+  `data-disabled`) is for consumer CSS; the ARIA equivalent
+  (`aria-current`, `aria-selected` on the cell, `aria-disabled`) is what
+  assistive technology reads.
+- **Vetoed days are `aria-disabled`, never the `disabled` attribute.** A
+  `disabled` button refuses focus, so arrowing across a blocked week
+  goes silent for a screen reader while the visible focus stays behind —
+  and the "exactly one tabbable day" invariant breaks the moment the
+  cursor lands on one. `aria-disabled` keeps the day focusable and
+  announced as unavailable; activation is refused in `#selectDay`. This
+  is the ARIA APG guidance for composite-widget items.
+- **The status region and the instructions paragraph render only when
+  their label is supplied** (`labels.invalid`, `labels.instructions`) —
+  the component never invents English. The status region is present but
+  *empty* while the field is valid, because a live region born with its
+  message is routinely not announced at all; while invalid, the field
+  points at it via `aria-errormessage` and appends its id to
+  `aria-describedby`, after the consumer's `described-by`.
 - **`abbr` on weekday headers** carries the full weekday name.
 - **The glyph** is U+1F4C5 CALENDAR + U+FE0E, exported as `CALENDAR`,
   `aria-hidden`, and rendered by the overridable `renderButtonContent()`
@@ -341,10 +364,12 @@ reintroduce the local-midnight bug §3 exists to prevent.
 ## 5. Behaviour
 
 Everything in the Svelte spec's §5.1 (value shape), §5.4 (typed-input
-parsing cascade), §5.5 (range/veto/shortcut rules), and §5.6 (locale
-resolution table) carries over verbatim — the parsing and formatting
-functions are a line-for-line port, so re-read those sections there
-rather than duplicating them here. What follows is the custom-element
+parsing cascade, the `labels.invalid` announcement wiring, and the
+field-`Escape` discard), §5.5 (range/veto/shortcut rules — vetoed days
+are `aria-disabled` + `data-disabled`, focusable, refusing activation),
+and §5.6 (locale resolution table) carries over verbatim — the parsing
+and formatting functions are a line-for-line port, so re-read those
+sections there rather than duplicating them here. What follows is the custom-element
 idiom for opening/closing/committing (§5.2–§5.3, restated in terms of
 attributes/properties/events) and the SSR/lifecycle/reactivity mechanics
 this port had to add (§5.7–§5.8), which have no Svelte equivalent because
@@ -370,7 +395,12 @@ when open.
 | Cancel button, or `closeDialog()` | Close. `value` untouched. |
 | `Escape` | Close. `value` untouched. |
 | Clear button (renders only when `labels.clear` is set) | Set `value` to `""`, fire `onChange` + `datetimechange`, close. |
-| Click outside | Close without committing. |
+| Click outside the dialog | Close without committing. This includes the component's own text field: the dialog claims `aria-modal="true"`, and a modal that stays open while the user edits behind it is telling assistive technology one thing and doing another. The trigger button is exempt because its own click handler toggles. |
+
+Closing returns focus to whichever element opened the dialog — the
+trigger button after a click, the **text field** after `Alt` + `Arrow
+Down` — per the APG dialog pattern. Click-outside closes without moving
+focus, since the user has already put it somewhere.
 
 `onChange` / `datetimechange` fire only when the committed value actually
 differs from the previous one — identical to the Svelte rule.
@@ -431,8 +461,8 @@ Svelte section to defer to.
   roving-tabindex cursor, selecting a day, and changing the pending
   time. This is what keeps grid paging cheap: the same 42 `<button>`
   elements persist across a `PageDown`, only their `data-date`,
-  `aria-label`, `data-outside`/`data-today`/`data-selected`, `tabindex`,
-  and `disabled` change.
+  `aria-label`, `data-outside`/`data-today`/`data-selected`/
+  `data-disabled`, `tabindex`, and `aria-disabled` change.
 - The text field's value is written defensively:
   `#syncState()` only assigns `field.value` when it actually differs
   from what is already there, because while the user is mid-edit the
@@ -446,11 +476,19 @@ action time.
 
 ## 6. Accessibility
 
-Identical contract to the Svelte spec's §6 — roles/properties table,
-keyboard contract (§6.2, ported verbatim to the grid's own
-`keydown` listener and the dialog's own focus trap), and
-internationalisation rule (§6.3: no user-facing string is hardcoded,
-including AM/PM). See [`docs/accessibility.md`](../docs/accessibility.md)
+Identical contract to the Svelte spec's §6 — roles/properties table
+(including the `aria-disabled` day cells, the `role="status"` invalid
+region, and the instructions paragraph the dialog's `aria-describedby`
+points at), keyboard contract (§6.2, ported verbatim to the grid's own
+`keydown` listener and the dialog's own focus trap — the field's
+`Escape` discard included), and internationalisation rule (§6.3: no
+user-facing string is hardcoded, including AM/PM). The two focus rules
+new to that contract are carried by port-local mechanics: closing
+returns focus to the element that opened the dialog (a private opener
+reference captured in `openDialog()`, falling back to the trigger), and
+month/year paging refocuses the grid cursor only when
+`document.activeElement` was already inside the grid table — header
+prev/next buttons keep focus so they can be activated repeatedly. See [`docs/accessibility.md`](../docs/accessibility.md)
 for the tradeoffs, restated for this port (they are the same four as the
 Svelte original, plus the note that a structural prop change closes the
 dialog — a cost `share-picker` does not have, because none of its
@@ -462,9 +500,9 @@ can here).
 `date-time-picker.test.ts` asserts every clause below; each `test(...)`
 title carries its clause number. The clause numbering and content match
 the Svelte canonical's §7 exactly — the arithmetic, markup, commit,
-keyboard, constraint, typed-input, time/datetime, and locale clauses are
-the same 44 assertions, re-expressed against this package's DOM and
-attribute surface instead of Svelte's component API. Beyond §7, the
+keyboard, constraint, typed-input, time/datetime, locale, and
+assistive-technology clauses (§7.1–§7.55), re-expressed against this
+package's DOM and attribute surface instead of Svelte's component API. Beyond §7, the
 suite also covers this catalog's idiom: attribute/property mirroring,
 tri-state boolean resolution, `labels`/`shortcuts` being property-only
 and returning defensive copies, the `#render()`/`#syncState()` split
@@ -531,9 +569,9 @@ persistence, listener cleanup on disconnect, and SSR import safety.
 
 | Clause | Test asserts |
 | ------ | ------------ |
-| §7.29 | Days outside `min`/`max` render `disabled`. |
-| §7.30 | `isDateDisabled` disables individual days. |
-| §7.31 | Clicking a disabled day does not commit. |
+| §7.29 | Days outside `min`/`max` render `aria-disabled="true"` + `data-disabled` — never the `disabled` attribute. |
+| §7.30 | `isDateDisabled` marks individual days `aria-disabled`. |
+| §7.31 | Clicking a vetoed day does not commit. |
 | §7.32 | A shortcut moves the pending selection and fires `onShortcut`. |
 | §7.33 | A shortcut resolving to a blocked date does nothing. |
 
@@ -566,6 +604,18 @@ persistence, listener cleanup on disconnect, and SSR import safety.
 | §7.46 | `firstDayOfWeek` overrides the locale. |
 | §7.47 | Month names and day `aria-label`s follow `locale`. |
 | §7.48 | `showWeekNumbers` renders a week column with ISO week numbers. |
+
+### Assistive technology (mirrors §4.4, §5.3, §5.4, §6)
+
+| Clause | Test asserts |
+| ------ | ------------ |
+| §7.49 | The cursor lands on a vetoed day with real focus; the day is `aria-disabled`, still tabbable, refuses `Enter`, and the cursor can continue past it. |
+| §7.50 | `Escape` in the field discards the pending edit, restores the committed display, clears `aria-invalid`, and commits nothing. |
+| §7.51 | `labels.invalid` renders an empty `role="status"` region that fills on refusal, wired via `aria-errormessage` and appended to `aria-describedby`; absent without the label. |
+| §7.52 | Closing returns focus to the field when opened by `Alt`+`Arrow Down`, and to the button when opened by click. |
+| §7.53 | Paging from a header button keeps focus on that button while the cursor carries; paging from the grid moves focus with the cursor. |
+| §7.54 | `labels.instructions` renders keyboard help, first in the dialog, referenced by the dialog's `aria-describedby`; absent without the label. |
+| §7.55 | Clicking the text field while the dialog is open closes it without committing. |
 
 ## 8. DHCW feature parity
 

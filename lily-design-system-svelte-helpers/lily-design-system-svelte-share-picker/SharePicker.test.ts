@@ -473,3 +473,39 @@ describe("SharePicker — url resolution and custom glyph (§7.20–§7.22)", ()
         expect(custom.getAttribute("data-url")).toBe(URL_UNDER_TEST);
     });
 });
+
+describe("SharePicker — accessibility hardening (§7.23–§7.24)", () => {
+    async function openHardened() {
+        render(SharePicker, {
+            props: {
+                label: "Share",
+                targets: TARGETS,
+                url: URL_UNDER_TEST,
+                copyLabel: "Copy link",
+            },
+        });
+        const button = screen.getByRole("button", { name: "Share" });
+        await fireEvent.click(button);
+        await flush();
+        return {
+            button,
+            list: document.querySelector(".share-picker-list") as HTMLElement,
+        };
+    }
+
+    test("§7.23 Tab from an open item puts focus on the button before closing", async () => {
+        const { button, list } = await openHardened();
+        expect(document.activeElement?.className).toContain("share-picker-target");
+        await fireEvent.keyDown(list, { key: "Tab" });
+        // Focus sits on the button, so the browser's default Tab proceeds
+        // from the picker's own position — not from <body>, which is where
+        // focus lands when the list is hidden while its item has focus.
+        expect(document.activeElement).toBe(button);
+        expect(list.hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.24 the list carries the picker's accessible name", async () => {
+        const { list } = await openHardened();
+        expect(list.getAttribute("aria-label")).toBe("Share");
+    });
+});

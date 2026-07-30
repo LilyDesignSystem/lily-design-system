@@ -62,15 +62,20 @@ differ.
 The helper is a **macro + client.js** pair:
 
 - The macro (`locale-picker.njk`) renders the button + listbox
-  markup server-side or at static-site build time, including each
-  option's `lang="…"` attribute (BCP 47 hyphen form) and a hidden
-  input pre-filled with the server-resolved locale.
+  markup server-side or at static-site build time, including a hidden
+  input pre-filled with the server-resolved locale. Options without a
+  consumer label render the raw code as a pre-hydration fallback,
+  marked `data-lily-locale-picker-derive`.
 - The client (`locale-picker.client.js`) is an ES module the
   consumer loads once per page. It picks up the markup via
-  `data-lily-locale-picker-*` hooks and owns both the listbox
-  interaction (open / close, focus, the APG keyboard contract,
-  typeahead) and the browser-side lifecycle (storage, navigator
-  detection, `lang` / `dir` apply, change callbacks).
+  `data-lily-locale-picker-*` hooks and owns the listbox interaction
+  (open / close, focus, the APG keyboard contract, typeahead), the
+  browser-side lifecycle (storage, navigator detection, `lang` /
+  `dir` apply, change callbacks), and the label upgrade: each marked
+  option becomes the language's endonym ("Cymraeg", not "Welsh") via
+  `Intl.DisplayNames`, falling back to the built-in English table,
+  then the raw code — and gains `lang="…"` (BCP 47 hyphen form) only
+  when the text really is the endonym.
 
 ```
 Nunjucks render time                 │  Browser runtime
@@ -89,8 +94,10 @@ Nunjucks render time                 │  Browser runtime
   <ul class="locale-picker-list"      │  resolves initial code
     role="listbox" hidden>            │     │
     <li role="option" data-value="en" │     ▼
-      lang="en">English</li>          │  applyLocale(code):
-    …                                 │    - target.lang = bcp47(code)
+      data-lily-locale-picker-derive  │  label upgrade: "en" → "English",
+      >en</li>                        │    lang="en" (endonym only)
+    …                                 │  then applyLocale(code):
+                                      │    - target.lang = bcp47(code)
   </ul>                               │    - target.dir = rtl|ltr
 </div>                                │    - localStorage.setItem(...)
                                       │    - hidden input .value = code
@@ -232,9 +239,9 @@ input, an icon-only trigger button, and a listbox of options.
       role="option"
       aria-selected="true"
       data-value="en"
-      lang="en"
+      data-lily-locale-picker-derive
     >
-      English
+      en
     </li>
     <li
       class="locale-picker-option"
@@ -242,13 +249,25 @@ input, an icon-only trigger button, and a listbox of options.
       role="option"
       aria-selected="false"
       data-value="ar"
-      lang="ar"
+      data-lily-locale-picker-derive
     >
-      العربية
+      ar
     </li>
   </ul>
 </div>
 ```
+
+Options without a `localeLabels` entry render the raw code and are
+marked `data-lily-locale-picker-derive` — a template cannot ask ICU
+for anything. When the client runs, each marked option is upgraded to
+the language's **endonym** ("English", "العربية") via
+`Intl.DisplayNames` asked *in that language*, falling back to the
+built-in English table, then the raw code; and it gains `lang="en"` /
+`lang="ar"` **only when the text really is the endonym**, so a screen
+reader may switch voice for text that genuinely is in that language.
+Consumer-labelled options are rendered verbatim and carry no `lang` —
+their language is unknown, and the English word "Arabic" must never
+be handed to an Arabic speech engine.
 
 The button's glyph is U+1F310 GLOBE WITH MERIDIANS followed by U+FE0E
 VARIATION SELECTOR-15 (the selector requests the monochrome text
@@ -449,9 +468,11 @@ the [examples/](./examples/) directory.
   `tabindex="-1"`, and receives focus while open; the active option
   is conveyed with `aria-activedescendant`, per the WAI-ARIA APG
   listbox pattern. Exactly one option is `aria-selected="true"`.
-- Each locale `<li role="option">` carries `lang="…"` (WCAG 3.1.2,
-  Language of Parts). The button and the `<ul>` do not — they are
-  chrome, not content.
+- A locale `<li role="option">` carries `lang="…"` (WCAG 3.1.2,
+  Language of Parts) **only when its text is the client-derived
+  endonym** — `lang` is a claim about the language of the text, and
+  consumer labels or raw-code fallbacks make no such claim. The
+  button and the `<ul>` never do — they are chrome, not content.
 - The document root carries `lang` and (by default) `dir` (WCAG
   3.1.1, Language of Page, and 1.4.10, Reflow / bidi).
 - **Tradeoff, and the default answer to it**: because the closed
@@ -476,8 +497,9 @@ it works before that module loads.
 | Home / End                | Listbox | Jump to the first / last option.                               |
 | Enter / Space             | Listbox | Select the active option, apply it, close, refocus the button. |
 | Escape                    | Listbox | Close and refocus the button **without** changing the locale.  |
-| Tab                       | Listbox | Close without stealing focus back.                             |
-| Printable characters      | Listbox | Typeahead over option labels; the buffer resets after 500 ms.  |
+| PageUp / PageDown         | Listbox | Move the active option by ten, clamped.                        |
+| Tab                       | Listbox | Close and move on — focus goes to the button first, so the default Tab proceeds from the picker's position. |
+| Printable characters      | Listbox | APG typeahead: one character advances to the next match and repeats cycle; differing characters refine. Buffer resets after 500 ms. |
 
 Opening moves focus to the `<ul>`. Clicking an option selects it;
 clicking outside, or focus leaving the root, closes the listbox.

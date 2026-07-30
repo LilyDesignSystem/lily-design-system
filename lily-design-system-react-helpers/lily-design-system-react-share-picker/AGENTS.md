@@ -51,7 +51,8 @@ preference.
 ## HTML
 
 `<div class="share-picker">` → `<button class="share-picker-button">`
-with an `aria-hidden` glyph span → `<ul class="share-picker-list" hidden>`
+with an `aria-hidden` glyph span → `<ul class="share-picker-list"
+aria-label="{label}" hidden>`
 of `<li>` containing `<a class="share-picker-target">` and an optional
 `<button class="share-picker-copy">` → `<p class="share-picker-status"
 aria-live="polite">`.

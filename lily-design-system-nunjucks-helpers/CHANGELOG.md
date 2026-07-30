@@ -9,6 +9,33 @@ and the project follows
 
 ## Unreleased
 
+### Changed (accessibility hardening across the four sibling pickers, 2026-07-29)
+
+Ported from the canonical Svelte helpers. Each package's own
+CHANGELOG carries the full record.
+
+- **`Tab` from an open list no longer strands keyboard focus** in any
+  of the four pickers. The handlers hid the list while it (or one of
+  its items) had focus; the browser then moved focus to `<body>` and
+  the default Tab restarted from the top of the document. Focus now
+  goes to the trigger button first — without cancelling the key — so
+  the default Tab proceeds from the picker's own position.
+- **The three listbox pickers** (theme, locale, text-size) gain APG
+  single-character typeahead (a repeated character cycles through its
+  matches; only differing characters refine), `PageUp` / `PageDown`
+  (±10, clamped), and an empty-list guard so `aria-activedescendant`
+  never points at a nonexistent id.
+- **`locale-picker` defaults to endonym labels** — each language named
+  in itself, "Cymraeg" not "Welsh" — via the new `localeEndonym()` /
+  `derivedLocaleLabel()` exports. In this catalog the derivation is a
+  client-side upgrade: the macro renders the raw code as a
+  pre-hydration fallback, marked `data-lily-locale-picker-derive`,
+  because a template cannot ask ICU for anything. `lang` on an option
+  is now claimed only when the label really is the endonym; the macro
+  no longer stamps `lang` on every option.
+- **`share-picker`'s list carries the picker's accessible name**
+  (`aria-label` = `label`), matching the sibling pickers' listboxes.
+
 ### Changed (BREAKING — every package renamed to `*-picker`)
 
 - **All four helpers are renamed** and their versions **reset to

@@ -74,7 +74,7 @@ On the **listbox**:
 | `Enter`             | Select the active option, apply it, close, refocus the button.   |
 | `Space`             | Same as `Enter`.                                                 |
 | `Escape`            | Close and refocus the button **without** changing the size.      |
-| `Tab`               | Close without stealing focus back; focus moves on normally.      |
+| `Tab`               | Close — focus lands on the button first (without cancelling the key), so the default Tab proceeds from the picker's position instead of restarting from `<body>`. |
 | Printable character | Typeahead over the option labels, 500 ms buffer, wraps once.     |
 
 Clicking an option selects it. Clicking outside the root, or moving

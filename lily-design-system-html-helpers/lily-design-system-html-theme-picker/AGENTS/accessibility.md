@@ -62,8 +62,9 @@ On the listbox (`<ul>`, which holds focus while open):
 | `Enter`             | Select the active option, apply, close, refocus the button.   |
 | `Space`             | Same as `Enter`.                                              |
 | `Escape`            | Close and refocus the button **without** changing the value.  |
-| `Tab`               | Close without stealing focus back.                            |
-| printable character | Typeahead over option labels; buffer resets after 500 ms.     |
+| `PageUp` / `PageDown` | Move the active option by ten; clamps at both ends.         |
+| `Tab`               | Move focus to the button, then close — the default Tab proceeds from the picker's position. |
+| printable character | Typeahead over option labels; buffer resets after 500 ms. A repeated character cycles through its matches; differing characters refine from the active option. |
 
 Pointer equivalents: the button toggles, an option click selects, a
 click outside the root closes, and focus leaving the root closes.

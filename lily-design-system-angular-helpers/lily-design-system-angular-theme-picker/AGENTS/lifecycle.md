@@ -62,7 +62,7 @@ listbox Home / End                         →  activeIndex = 0 / last
 listbox printable char                     →  runTypeahead(char), 500 ms buffer
 listbox Enter / Space                      →  choose(activeIndex)
 listbox Escape                             →  closeList()        (refocus button)
-listbox Tab                                →  closeList(false)   (leave focus alone)
+listbox Tab                                →  button focus, then closeList(false)
 root focusout to outside                   →  closeList(false)
 document click outside the root            →  closeList(false)
 ```

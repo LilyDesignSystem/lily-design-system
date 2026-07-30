@@ -113,6 +113,23 @@ public sealed record DateTimePickerLabels
 
     /// <summary>Visible text of the clear button. The button renders only when set.</summary>
     public string? Clear { get; init; }
+
+    /// <summary>
+    /// Message announced when typed text will not parse or is out of range.
+    /// When set, a <c>role="status"</c> live region renders after the field
+    /// and is wired to it via <c>aria-errormessage</c> — without it,
+    /// <c>aria-invalid</c> flips silently and a screen-reader user who has
+    /// already left the field never hears that their date was refused.
+    /// </summary>
+    public string? Invalid { get; init; }
+
+    /// <summary>
+    /// Keyboard help for the dialog, e.g. "Use the arrow keys to choose a
+    /// date". When set, it renders inside the dialog and becomes the
+    /// dialog's <c>aria-describedby</c>, so a screen reader speaks it once
+    /// on open — the APG date-picker dialog ships exactly this affordance.
+    /// </summary>
+    public string? Instructions { get; init; }
 }
 
 /// <summary>
@@ -300,14 +317,69 @@ public partial class DateTimePicker : ComponentBase, IAsyncDisposable
 
     private bool _focusCursorAfterRender;
     private bool _focusFirstControlAfterRender;
-    private bool _focusTriggerAfterRender;
+    private bool _focusOpenerAfterRender;
+
+    /// <summary>
+    /// Did the text field open the dialog (Alt+ArrowDown)? Close returns
+    /// focus to whichever element opened it — the APG rule is "focus
+    /// returns to the element that invoked the dialog", which is the
+    /// trigger button on a click but the *text field* after
+    /// Alt+ArrowDown. Always refocusing the button strands a keyboard
+    /// user one Tab stop past where they were. The canonical Svelte
+    /// implementation records <c>document.activeElement</c> at open;
+    /// Blazor cannot read the active element without interop, so the two
+    /// open paths record which one ran instead — same outcome, see §9.
+    /// </summary>
+    private bool _openerIsField;
 
     private ElementReference _buttonElement;
+    private ElementReference _fieldElement;
     private ElementReference _hourElement;
 
-    /// <summary>Day-button element references, keyed by ISO date, so the
-    /// roving tabindex can be given real focus after a render.</summary>
-    private readonly Dictionary<string, ElementReference> _dayElements = new();
+    /// <summary>
+    /// Day-button element references, keyed by grid cell index
+    /// (row × 7 + column) — by POSITION, not by date. Blazor invokes an
+    /// element-reference capture only when the element is first created,
+    /// and the grid reuses its 42 buttons across month paging, so a
+    /// date-keyed map goes stale the first time the view pages and the
+    /// cursor-focus call silently targets nothing. The button at a given
+    /// position is the same DOM element for the life of the dialog, so a
+    /// position-keyed reference stays correct whatever date the cell
+    /// currently shows.
+    /// </summary>
+    private readonly Dictionary<int, ElementReference> _dayElements = new();
+
+    /// <summary>The grid cell index currently showing <paramref name="isoDate"/>, or -1.</summary>
+    private int CellIndexOf(string isoDate)
+    {
+        if (string.IsNullOrEmpty(isoDate)) return -1;
+        var weeks = Weeks;
+        for (var row = 0; row < weeks.Length; row++)
+        {
+            var col = Array.IndexOf(weeks[row], isoDate);
+            if (col >= 0) return row * 7 + col;
+        }
+        return -1;
+    }
+
+    // -------------------------------------------------------------------
+    // Test seams (InternalsVisibleTo). bUnit has no live focus model, so
+    // the suite asserts which element a FocusAsync interop call targeted
+    // by comparing ElementReference ids — these expose the ids the
+    // component holds, playing the role document.activeElement plays in
+    // the canonical Svelte suite.
+    // -------------------------------------------------------------------
+
+    /// <summary>The text field's ElementReference id, once rendered.</summary>
+    internal string? FieldReferenceId => _fieldElement.Id;
+
+    /// <summary>The trigger button's ElementReference id, once rendered.</summary>
+    internal string? TriggerReferenceId => _buttonElement.Id;
+
+    /// <summary>The ElementReference id of the day button currently showing
+    /// <paramref name="isoDate"/>, or null when it is not on screen.</summary>
+    internal string? DayReferenceId(string isoDate)
+        => _dayElements.TryGetValue(CellIndexOf(isoDate), out var dayRef) ? dayRef.Id : null;
 
     // -------------------------------------------------------------------
     // Ids.
@@ -319,6 +391,8 @@ public partial class DateTimePicker : ComponentBase, IAsyncDisposable
     private string HourId => $"{_baseId}-hour";
     private string MinuteId => $"{_baseId}-minute";
     private string MeridiemId => $"{_baseId}-meridiem";
+    private string StatusId => $"{_baseId}-status";
+    private string InstructionsId => $"{_baseId}-instructions";
     private string FieldId => InputId ?? $"{_baseId}-input";
 
     // -------------------------------------------------------------------
@@ -349,6 +423,30 @@ public partial class DateTimePicker : ComponentBase, IAsyncDisposable
     };
 
     private string Display => _typed ?? (FormatValue ?? DefaultFormatValue)(SafeValue);
+
+    private bool HasInvalidLabel => !string.IsNullOrEmpty(Labels.Invalid);
+
+    private bool HasInstructionsLabel => !string.IsNullOrEmpty(Labels.Instructions);
+
+    /// <summary>
+    /// <c>aria-describedby</c> for the field: the consumer's hint, plus —
+    /// while invalid, with <c>Labels.Invalid</c> supplied — the status
+    /// region, for the assistive technologies that read
+    /// <c>aria-describedby</c> but not the newer <c>aria-errormessage</c>.
+    /// The consumer's id comes first, so the hint is spoken before the
+    /// error.
+    /// </summary>
+    private string? FieldDescribedBy
+    {
+        get
+        {
+            var status = _invalid && HasInvalidLabel ? StatusId : null;
+            var joined = string.Join(
+                " ",
+                new[] { DescribedBy, status }.Where(s => !string.IsNullOrEmpty(s)));
+            return joined.Length > 0 ? joined : null;
+        }
+    }
 
     private string[][] Weeks => MonthMatrix(_viewYear, _viewMonth, WeekStart);
 
@@ -482,7 +580,7 @@ public partial class DateTimePicker : ComponentBase, IAsyncDisposable
         if (_focusCursorAfterRender)
         {
             _focusCursorAfterRender = false;
-            if (_dayElements.TryGetValue(_cursor, out var dayRef))
+            if (_dayElements.TryGetValue(CellIndexOf(_cursor), out var dayRef))
             {
                 await TryFocusAsync(dayRef);
             }
@@ -494,10 +592,10 @@ public partial class DateTimePicker : ComponentBase, IAsyncDisposable
             await TryFocusAsync(_hourElement);
         }
 
-        if (_focusTriggerAfterRender)
+        if (_focusOpenerAfterRender)
         {
-            _focusTriggerAfterRender = false;
-            await TryFocusAsync(_buttonElement);
+            _focusOpenerAfterRender = false;
+            await TryFocusAsync(_openerIsField ? _fieldElement : _buttonElement);
         }
     }
 
@@ -586,12 +684,13 @@ public partial class DateTimePicker : ComponentBase, IAsyncDisposable
     private void OnTriggerClick()
     {
         if (_open) CloseDialog();
-        else OpenDialog();
+        else OpenDialog(openedFromField: false);
     }
 
-    private void OpenDialog()
+    private void OpenDialog(bool openedFromField)
     {
         if (Disabled || ReadOnly) return;
+        _openerIsField = openedFromField;
         _today = TodayIso();
         var committed = Committed;
         _pendingDate = !string.IsNullOrEmpty(committed.Date) ? committed.Date : NearestSelectable(_today);
@@ -615,7 +714,12 @@ public partial class DateTimePicker : ComponentBase, IAsyncDisposable
         _open = false;
         if (refocus)
         {
-            _focusTriggerAfterRender = true;
+            // Focus returns to whichever element opened the dialog — the
+            // trigger button after a click, the text field after
+            // Alt+ArrowDown — per the APG dialog pattern. Click-outside
+            // passes refocus: false, since the user has already put focus
+            // somewhere.
+            _focusOpenerAfterRender = true;
             _suppressFocusOut = true;
         }
     }
@@ -657,9 +761,11 @@ public partial class DateTimePicker : ComponentBase, IAsyncDisposable
 
     /// <summary>
     /// Move the cursor, paging the view when the target is off-screen.
-    /// Disabled days are still reachable — the cursor lands on them and the
-    /// button is <c>disabled</c>, so arrowing across a blocked range works.
-    /// What is refused is leaving the min/max window entirely.
+    /// Vetoed days are still reachable — the cursor lands on them with
+    /// real focus, because the button is <c>aria-disabled</c> rather than
+    /// <c>disabled</c>, so arrowing across a blocked range works and the
+    /// day is announced. What is refused is leaving the min/max window
+    /// entirely.
     /// </summary>
     private void MoveCursor(string nextIso)
     {
@@ -685,26 +791,46 @@ public partial class DateTimePicker : ComponentBase, IAsyncDisposable
         else _focusCursorAfterRender = true;
     }
 
-    private void ShiftMonth(int delta)
+    /// <summary>
+    /// Page the view by whole months, carrying the cursor (clamped into
+    /// the new month) so the roving tabindex never sits on an unrendered
+    /// cell.
+    /// </summary>
+    /// <param name="delta">Whole months to move the view by.</param>
+    /// <param name="refocusCursor">
+    /// True only for grid-originated paging (<c>PageUp</c>/<c>PageDown</c>),
+    /// where focus is in the grid and must follow the cursor or die with
+    /// the unrendered cell. The header buttons pass false: their user must
+    /// stay on "next month" and be able to page repeatedly, not be yanked
+    /// into the grid after one activation. The canonical Svelte
+    /// implementation decides this by asking whether
+    /// <c>document.activeElement</c> is inside the grid; Blazor cannot
+    /// read the active element without interop, so the decision rides on
+    /// which code path is paging instead — see spec §9.
+    /// </param>
+    private void ShiftMonth(int delta, bool refocusCursor)
     {
         var anchor = FormatIsoDate(new CivilDate(_viewYear, _viewMonth, 1));
         var next = ParseIsoDate(AddMonths(anchor, delta));
         if (next is not { } n) return;
         _viewYear = n.Year;
         _viewMonth = n.Month;
-        // Carry the cursor into the new month rather than leaving focus on
-        // a cell that is no longer rendered.
+        // Carry the cursor into the new month rather than leaving the
+        // roving tabindex on a cell that is no longer rendered.
         var c = ParseIsoDate(_cursor);
         if (c is { } cur)
         {
             var day = Math.Min(cur.Day, DaysInMonth(n.Year, n.Month));
             _cursor = FormatIsoDate(new CivilDate(n.Year, n.Month, day));
-            _suppressFocusOut = true;
-            _focusCursorAfterRender = true;
+            if (refocusCursor)
+            {
+                _suppressFocusOut = true;
+                _focusCursorAfterRender = true;
+            }
         }
     }
 
-    private void ShiftYear(int delta) => ShiftMonth(delta * 12);
+    private void ShiftYear(int delta, bool refocusCursor) => ShiftMonth(delta * 12, refocusCursor);
 
     private async Task OnGridKeyDownAsync(KeyboardEventArgs args)
     {
@@ -735,10 +861,12 @@ public partial class DateTimePicker : ComponentBase, IAsyncDisposable
                 break;
             }
             case "PageUp":
-                if (args.ShiftKey) ShiftYear(-1); else ShiftMonth(-1);
+                if (args.ShiftKey) ShiftYear(-1, refocusCursor: true);
+                else ShiftMonth(-1, refocusCursor: true);
                 break;
             case "PageDown":
-                if (args.ShiftKey) ShiftYear(1); else ShiftMonth(1);
+                if (args.ShiftKey) ShiftYear(1, refocusCursor: true);
+                else ShiftMonth(1, refocusCursor: true);
                 break;
             case "Enter":
             case " ":
@@ -847,9 +975,34 @@ public partial class DateTimePicker : ComponentBase, IAsyncDisposable
         else if (args.Key == "ArrowDown" && args.AltKey)
         {
             // The platform convention for "open the picker" from a field,
-            // matching <input type="date"> in every major browser.
-            OpenDialog();
+            // matching <input type="date"> in every major browser. Close
+            // will return focus to the field, not the trigger button.
+            OpenDialog(openedFromField: true);
         }
+        else if (args.Key == "Escape" && _typed is not null)
+        {
+            // Discard the pending edit and show the committed value again —
+            // the same contract Escape has inside the dialog. When no edit
+            // is pending the key is left alone. The canonical Svelte
+            // implementation also stops propagation so a surrounding dialog
+            // does not close on a text-editing keystroke; Blazor cannot
+            // stop propagation conditionally per key — see spec §9.
+            _typed = null;
+            _invalid = false;
+        }
+    }
+
+    /// <summary>
+    /// A click on the text field while the dialog is open closes it —
+    /// without committing, and without moving focus (the click has already
+    /// put focus in the field). The dialog claims <c>aria-modal="true"</c>,
+    /// and a modal that stays open while the user edits the field behind it
+    /// is telling assistive technology one thing and doing another. The
+    /// trigger button needs no such handler: its own click handler toggles.
+    /// </summary>
+    private void OnFieldClick()
+    {
+        if (_open) CloseDialog(refocus: false);
     }
 
     // -------------------------------------------------------------------

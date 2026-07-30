@@ -232,8 +232,9 @@ On the **listbox** (focus moves there on open):
 | `Home` / `End`            | Jump to the first / last option.                   |
 | `Enter` / `Space`         | Select, apply, close, refocus the button.          |
 | `Escape`                  | Close and refocus **without** changing the theme.  |
-| `Tab`                     | Close without stealing focus back.                 |
-| Printable character       | Typeahead over the labels; 500 ms buffer.          |
+| `PageUp` / `PageDown`     | Move the active option by ten; clamps.             |
+| `Tab`                     | Close; focus lands on the button so the default Tab proceeds from the picker's position. |
+| Printable character       | Typeahead over the labels; 500 ms buffer. A single character advances to the next match and repeats cycle; differing characters refine. |
 
 Clicking an option selects it; clicking outside or moving focus out of
 the root closes the listbox.

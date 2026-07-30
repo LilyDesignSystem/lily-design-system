@@ -21,7 +21,7 @@ native `<select>`. The canonical contract is in
 | `<li>`                     | `role="option"`                          | Component          |
 | `<li>`                     | `aria-selected="true\|false"`            | Component          |
 | `<li>`                     | `data-active` (styling hook)             | Component          |
-| `<li>`                     | `lang` (per-option, WCAG 3.1.2)          | Component          |
+| `<li>`                     | `lang` (only when the label is the derived endonym, WCAG 3.1.2) | Component          |
 
 The button is icon-only, so `Label` is its **entire** accessible name:
 the glyph is `aria-hidden="true"` and contributes nothing. The same
@@ -29,9 +29,10 @@ the glyph is `aria-hidden="true"` and contributes nothing. The same
 
 Focus stays on the `<ul>` while the list is open; the active option is
 conveyed by `aria-activedescendant`, per the APG listbox pattern. The
-`lang` attribute on each `<li>` satisfies WCAG 3.1.2 (Language of
-Parts) — screen readers switch pronunciation per option. The button
-and the list carry **no** `lang`.
+`lang` attribute on an `<li>` — present only when the label is the
+endonym the component derived — satisfies WCAG 3.1.2 (Language of
+Parts): screen readers switch pronunciation for that option. The
+button and the list carry **no** `lang`.
 
 ## Keyboard contract
 
@@ -56,8 +57,10 @@ On the **listbox**:
 | `End`             | Jump to the last option.                                               |
 | `Enter` / `Space` | Select the active option, apply it, close, return focus to the button. |
 | `Escape`          | Close and return focus **without** changing the value.                 |
-| `Tab`             | Close **without** stealing focus back.                                 |
-| Printable chars   | Typeahead over the option *labels*, 500 ms buffer reset.               |
+| `PageUp`          | Move the active option up ten; clamps at the first.                    |
+| `PageDown`        | Move the active option down ten; clamps at the last.                   |
+| `Tab`             | Close and move on: the browser's default Tab proceeds from the picker's position. |
+| Printable chars   | Typeahead over the option *labels*, 500 ms buffer reset. A single character advances to the **next** match and repeating it cycles onward; differing characters refine the match from the active option. |
 
 Pointer and focus: clicking an option selects, applies, and closes;
 focus leaving the root closes the listbox without changing the value.
@@ -101,20 +104,20 @@ assistive-technology support than a native `<select>`, and the glyph
 rendering differently or not at all in some platform fonts — are
 discussed in [`../docs/accessibility.md`](../docs/accessibility.md).
 
-## Per-option `lang` is important
+## Per-option `lang` is important — when it is true
 
-Each `<li class="locale-picker-option">` carries `lang="…"`.
-This satisfies WCAG 3.1.2 (Language of Parts): when a screen reader
-encounters the option "Français" inside an English page, the
-`lang` attribute makes the reader switch to a French voice for the
-duration of that span.
+An `<li class="locale-picker-option">` carries `lang="…"` when its
+label is the endonym the component derived (`Locales.LocaleEndonym`,
+i.e. `CultureInfo.NativeName`). This satisfies WCAG 3.1.2 (Language of
+Parts): when a screen reader encounters the option "Français" inside
+an English page, the `lang` attribute makes the reader switch to a
+French voice for the duration of that span.
 
 Without the per-option `lang`, "Français" gets pronounced
 "Franc-ess" in an English voice — comprehensible but ugly. With
 it, the reader says "Fran-SAY".
 
-The attribute is emitted unconditionally by the component, in BCP 47
-hyphen form via `TagFor`:
+The attribute is emitted in BCP 47 hyphen form via `TagFor`:
 
 ```html
 <li class="locale-picker-option" role="option"
@@ -154,16 +157,16 @@ and then the active option — "English, 1 of 5" — as
 `aria-activedescendant` moves. The "lang-correct pronunciation"
 depends on the reader having a matching voice package installed.
 
-## When per-option `lang` does NOT help
+## When per-option `lang` would be a lie, it is omitted
 
 If your `LocaleLabels` are all in the **viewer's** language (e.g.
 you show "English", "French", "Arabic" — all in English so the
-user recognises them), the per-option `lang` attribute is
-technically incorrect: the text really is English, not French.
-
-There is no parameter that suppresses it. Weigh this when choosing
-label style: endonyms ("Français", "العربية") are both the friendlier
-choice for a locale picker and the one the markup is correct for.
+user recognises them), a per-option `lang` would be a false claim —
+the text really is English, not French — so the component omits it on
+consumer-labelled options and on English-table fallbacks. Only the
+derived endonym earns the attribute. Endonyms ("Français", "العربية")
+remain the friendlier default for a locale picker, and they are what
+the component now shows when you supply no labels at all.
 
 ## RTL focus order
 

@@ -24,7 +24,7 @@ twelve defects along the way; parity table in spec §8, departures in §9.
 | ---- | ------- |
 | `spec/index.md` | Specification-driven contract (canonical). |
 | `DateTimePicker.vue` | Implementation. `<script setup lang="ts">`. |
-| `DateTimePicker.test.ts` | Vitest spec, mapped to the §7 clauses. |
+| `DateTimePicker.test.ts` | Vitest spec, mapped to the §7 clauses (67 tests). |
 | `index.ts` | Barrel re-export. |
 | `index.md` | User guide. |
 | `docs/accessibility.md` | Tradeoffs, stated plainly. |
@@ -87,6 +87,16 @@ These each encode a bug that was avoided on purpose.
   avoid — most of all in a Welsh-language context.
 - **Fixed six-row grid.** Variable height moves the confirm button as the
   user pages.
+- **Vetoed days are `aria-disabled`, never the `disabled` attribute.** A
+  `disabled` button refuses focus, so arrowing across a blocked week goes
+  silent for a screen reader while visible focus stays behind. Activation
+  is refused in `selectDay` instead.
+- **Focus returns to the element that opened the dialog** — the text
+  field after `Alt`+`Arrow Down`, the button after a click. Hardcoding
+  the button strands keyboard users one Tab stop past where they were.
+- **Header paging never refocuses the grid.** `shiftMonth` moves focus to
+  the cursor only when focus was already inside the grid; otherwise a
+  user activating "next month" is yanked away after one press.
 - **`await nextTick()` before every post-visibility-change `.focus()`
   call.** A `hidden` element cannot take focus until the DOM has flushed.
   No test catches its removal (jsdom does not enforce the restriction) —
@@ -97,10 +107,13 @@ These each encode a bug that was avoided on purpose.
 `<div class="date-time-picker" data-mode>` → hidden input → `<div
 class="date-time-picker-field">` with `<input class="date-time-picker-input">`
 and `<button class="date-time-picker-button" aria-haspopup="dialog">` →
+optional `role="status"` live region (gated on `labels.invalid`) →
 `<div class="date-time-picker-dialog" role="dialog" aria-modal="true"
-tabindex="-1" hidden>` containing the header, a `role="grid"` `<table>` of
-`date-time-picker-day` buttons with roving tabindex, optional time selects,
-optional shortcuts, and the footer.
+tabindex="-1" hidden>` containing optional keyboard help (gated on
+`labels.instructions`, described-by the dialog), the header, a
+`role="grid"` `<table>` of `date-time-picker-day` buttons with roving
+tabindex (vetoed days `aria-disabled`, not `disabled`), optional time
+selects, optional shortcuts, and the footer.
 
 Full contract in spec §4.5.
 

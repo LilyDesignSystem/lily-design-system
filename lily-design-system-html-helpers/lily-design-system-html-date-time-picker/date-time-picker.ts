@@ -88,6 +88,21 @@ export type DateTimePickerLabels = {
     week?: string;
     /** Visible text of the clear button. The button renders only when set. */
     clear?: string;
+    /**
+     * Message announced when typed text will not parse or is out of
+     * range. When set, a `role="status"` live region renders after the
+     * field and is wired to it via `aria-errormessage` — without it,
+     * `aria-invalid` flips silently and a screen-reader user who has
+     * already left the field never hears that their date was refused.
+     */
+    invalid?: string;
+    /**
+     * Keyboard help for the dialog, e.g. "Use the arrow keys to choose
+     * a date". When set, it renders inside the dialog and becomes the
+     * dialog's `aria-describedby`, so a screen reader speaks it once on
+     * open — the APG date-picker dialog ships exactly this affordance.
+     */
+    instructions?: string;
 };
 
 /** Detail dispatched on the `datetimechange` CustomEvent. */
@@ -628,6 +643,7 @@ export class DateTimePicker extends HTMLElement {
     #buttonEl: HTMLButtonElement | null = null;
     #dialogEl: HTMLDivElement | null = null;
     #hiddenEl: HTMLInputElement | null = null;
+    #statusEl: HTMLSpanElement | null = null;
     #periodEl: HTMLSpanElement | null = null;
     #tableEl: HTMLTableElement | null = null;
     #weekdayThs: HTMLTableCellElement[] = [];
@@ -638,10 +654,29 @@ export class DateTimePicker extends HTMLElement {
     #minuteSelect: HTMLSelectElement | null = null;
     #meridiemSelect: HTMLSelectElement | null = null;
 
+    /**
+     * The element that opened the dialog, so close can return focus to
+     * it.
+     *
+     * The APG rule is "focus returns to the element that invoked the
+     * dialog" — which is the trigger button on a click, but the *text
+     * field* when the user pressed Alt+ArrowDown. Always refocusing the
+     * button strands a keyboard user one Tab stop past where they were.
+     */
+    #openerEl: HTMLElement | null = null;
+
     #onDocumentClick = (event: MouseEvent): void => {
         if (!this.#open) return;
         const t = event.target as Node | null;
-        if (t && this.#rootEl && !this.#rootEl.contains(t)) this.#closeDialog(false);
+        if (!t) return;
+        // Anything outside the dialog closes it — including the
+        // component's own text field. The dialog says aria-modal="true",
+        // and a modal that stays open while the user edits the field
+        // behind it is telling assistive technology one thing and doing
+        // another. The trigger button is exempt because its own handler
+        // already toggles.
+        if (this.#dialogEl?.contains(t) || this.#buttonEl?.contains(t)) return;
+        this.#closeDialog(false);
     };
 
     // ---- Property accessors (attribute mirrors) ----
@@ -904,6 +939,12 @@ export class DateTimePicker extends HTMLElement {
     get #meridiemId(): string {
         return `${this.#baseId}-meridiem`;
     }
+    get #statusId(): string {
+        return `${this.#baseId}-status`;
+    }
+    get #instructionsId(): string {
+        return `${this.#baseId}-instructions`;
+    }
 
     // ---- Public, overridable rendering hook ----
 
@@ -979,6 +1020,11 @@ export class DateTimePicker extends HTMLElement {
     /** Open the dialog, seeding pending state from the committed value. */
     openDialog(): void {
         if (this.disabled || this.readonly) return;
+        const active = document.activeElement;
+        this.#openerEl =
+            active instanceof HTMLElement && this.#rootEl?.contains(active)
+                ? active
+                : this.#buttonEl;
         this.#today = todayIso();
         const committed = splitValue(this.value, this.mode);
         this.#pendingDate = committed.date || this.#nearestSelectable(this.#today);
@@ -1003,7 +1049,13 @@ export class DateTimePicker extends HTMLElement {
         if (!this.#open) return;
         this.#open = false;
         this.#syncState();
-        if (refocus) queueMicrotask(() => this.#buttonEl?.focus());
+        if (refocus) {
+            // Back to whichever element opened the dialog — the trigger
+            // button after a click, the text field after Alt+ArrowDown.
+            // Guard the method, not only the element (jsdom precedent).
+            const target = this.#openerEl ?? this.#buttonEl;
+            queueMicrotask(() => target?.focus?.());
+        }
     }
 
     // ---- Selectability ----
@@ -1094,9 +1146,10 @@ export class DateTimePicker extends HTMLElement {
     /**
      * Move the cursor, paging the view when the target is off-screen.
      *
-     * Disabled days are still reachable — the cursor lands on them and
-     * the button is `disabled`, so arrowing across a blocked range
-     * works. What is refused is leaving the min/max window entirely.
+     * Vetoed days are still reachable — the cursor lands on them, the
+     * button is `aria-disabled` rather than `disabled` so it takes real
+     * focus, and arrowing across a blocked range works. What is refused
+     * is leaving the min/max window entirely.
      */
     #moveCursor(nextIso: string): void {
         if (!withinRange(nextIso, this.min, this.max)) return;
@@ -1135,10 +1188,17 @@ export class DateTimePicker extends HTMLElement {
         const anchor = formatIsoDate({ year: this.#viewYear, month: this.#viewMonth, day: 1 });
         const next = parseIsoDate(addMonths(anchor, delta));
         if (!next) return;
+        // Refocus the cursor only when focus is already in the grid:
+        // grid paging (PageUp/PageDown, or a browser that focused
+        // nothing on click) must carry focus, or it dies with the
+        // unrendered cell — but a header button must keep focus, or its
+        // user is yanked into the grid after one activation and cannot
+        // page twice.
+        const hadGridFocus = this.#tableEl?.contains(document.activeElement) === true;
         this.#viewYear = next.year;
         this.#viewMonth = next.month;
-        // Carry the cursor into the new month rather than leaving focus
-        // on a cell that is no longer rendered.
+        // Carry the cursor into the new month rather than leaving the
+        // roving tabindex on a cell that is no longer rendered.
         const c = parseIsoDate(this.#cursor);
         if (c) {
             this.#cursor = formatIsoDate({
@@ -1148,7 +1208,7 @@ export class DateTimePicker extends HTMLElement {
             });
         }
         this.#syncState();
-        queueMicrotask(() => this.#focusCursor());
+        if (c && hadGridFocus) queueMicrotask(() => this.#focusCursor());
     }
 
     #shiftYear(delta: number): void {
@@ -1317,6 +1377,17 @@ export class DateTimePicker extends HTMLElement {
             // browser.
             event.preventDefault();
             this.openDialog();
+        } else if (event.key === "Escape" && this.#typed !== null) {
+            // Discard the pending edit and show the committed value
+            // again — the same contract Escape has inside the dialog.
+            // Stops propagating so a surrounding dialog does not also
+            // close on what was, to the user, a text-editing keystroke.
+            // When no edit is pending the key is left alone.
+            event.preventDefault();
+            event.stopPropagation();
+            this.#typed = null;
+            this.#invalid = false;
+            this.#syncState();
         }
     };
 
@@ -1545,8 +1616,33 @@ export class DateTimePicker extends HTMLElement {
             this.#fieldEl.readOnly = this.readonly;
             this.#fieldEl.required = this.required;
             this.#fieldEl.placeholder = this.placeholder ?? "";
-            if (this.describedBy) this.#fieldEl.setAttribute("aria-describedby", this.describedBy);
+            // aria-describedby: the consumer's hint, plus — while
+            // invalid, with labels.invalid supplied — the status region,
+            // for the assistive technologies that read aria-describedby
+            // but not the newer aria-errormessage.
+            const announceInvalid = this.#invalid && Boolean(this.#labels.invalid);
+            const describedBy = [
+                this.describedBy,
+                announceInvalid ? this.#statusId : undefined,
+            ]
+                .filter(Boolean)
+                .join(" ");
+            if (describedBy) this.#fieldEl.setAttribute("aria-describedby", describedBy);
             else this.#fieldEl.removeAttribute("aria-describedby");
+            if (announceInvalid) {
+                this.#fieldEl.setAttribute("aria-errormessage", this.#statusId);
+            } else {
+                this.#fieldEl.removeAttribute("aria-errormessage");
+            }
+        }
+
+        if (this.#statusEl) {
+            // Empty while valid: the region must exist before it has
+            // content, because a live region born with its message is
+            // routinely not announced at all.
+            this.#statusEl.textContent = this.#invalid
+                ? (this.#labels.invalid ?? "")
+                : "";
         }
 
         if (this.#hiddenEl) {
@@ -1590,7 +1686,21 @@ export class DateTimePicker extends HTMLElement {
                 button.setAttribute("aria-label", this.#dayLabel(isoDate));
                 if (isToday) button.setAttribute("aria-current", "date");
                 else button.removeAttribute("aria-current");
-                button.disabled = isDisabled;
+                // aria-disabled, not `disabled`: a vetoed day must stay
+                // focusable so the roving cursor can land on it and a
+                // screen reader can announce it as unavailable. A
+                // `disabled` button refuses focus, and arrowing across
+                // a blocked week goes silent while the visible focus
+                // stays behind — and the "exactly one tabbable day"
+                // invariant breaks. Activation is refused in
+                // #selectDay instead.
+                if (isDisabled) {
+                    button.setAttribute("aria-disabled", "true");
+                    button.setAttribute("data-disabled", "");
+                } else {
+                    button.removeAttribute("aria-disabled");
+                    button.removeAttribute("data-disabled");
+                }
                 button.textContent = String(parsed?.day ?? "");
 
                 td.setAttribute("aria-selected", String(isSelected));
@@ -1655,6 +1765,8 @@ export class DateTimePicker extends HTMLElement {
         this.#open = false;
         this.#invalid = false;
         this.#typed = null;
+        // A rebuild detaches whatever opened the dialog last time.
+        this.#openerEl = null;
 
         const extraClass = this.getAttribute("class") ?? "";
         const root = document.createElement("div");
@@ -1700,6 +1812,25 @@ export class DateTimePicker extends HTMLElement {
 
         root.appendChild(fieldWrap);
 
+        const usesDate = this.#usesDate();
+        const usesTime = this.#usesTime();
+        const labels = this.#labels;
+
+        let statusEl: HTMLSpanElement | null = null;
+        if (labels.invalid) {
+            // Present in the DOM before it has content: a live region
+            // that appears at the same moment as its message is
+            // routinely not announced at all. Empty while the field is
+            // valid; #syncState() fills it on refusal. Renders only
+            // when the consumer supplied the message — the component
+            // never invents English.
+            statusEl = document.createElement("span");
+            statusEl.className = "date-time-picker-status";
+            statusEl.id = this.#statusId;
+            statusEl.setAttribute("role", "status");
+            root.appendChild(statusEl);
+        }
+
         const dialogEl = document.createElement("div");
         dialogEl.className = "date-time-picker-dialog";
         dialogEl.id = this.dialogId;
@@ -1710,9 +1841,17 @@ export class DateTimePicker extends HTMLElement {
         dialogEl.hidden = true;
         dialogEl.addEventListener("keydown", this.#onDialogKeydown);
 
-        const usesDate = this.#usesDate();
-        const usesTime = this.#usesTime();
-        const labels = this.#labels;
+        if (labels.instructions) {
+            // Spoken once when the dialog takes focus, via the dialog's
+            // aria-describedby. Visible by default; a consumer who
+            // wants it screen-reader-only hides it with their own CSS.
+            dialogEl.setAttribute("aria-describedby", this.#instructionsId);
+            const help = document.createElement("p");
+            help.className = "date-time-picker-instructions";
+            help.id = this.#instructionsId;
+            help.textContent = labels.instructions;
+            dialogEl.appendChild(help);
+        }
 
         let periodEl: HTMLSpanElement | null = null;
         let tableEl: HTMLTableElement | null = null;
@@ -1920,6 +2059,7 @@ export class DateTimePicker extends HTMLElement {
         this.#buttonEl = buttonEl;
         this.#dialogEl = dialogEl;
         this.#hiddenEl = hiddenEl;
+        this.#statusEl = statusEl;
         this.#periodEl = periodEl;
         this.#tableEl = tableEl;
         this.#weekdayThs = weekdayThs;

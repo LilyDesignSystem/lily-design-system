@@ -96,7 +96,7 @@ On the **listbox**:
 | `Home` / `End`       | Jump to the first / last option.                               |
 | `Enter` / `Space`    | Select the active option, apply it, close, refocus the button. |
 | `Escape`             | Close and refocus the button **without** changing the value.   |
-| `Tab`                | Close without stealing focus back; focus moves on normally.    |
+| `Tab`                | Close; focus lands on the button so the default Tab proceeds from the picker's position. |
 | Printable characters | Typeahead over the option **labels**; the buffer resets after 500 ms. |
 
 Clamping rather than wrapping is intentional: it matches the APG

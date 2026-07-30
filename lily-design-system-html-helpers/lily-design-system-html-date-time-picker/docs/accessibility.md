@@ -56,8 +56,34 @@ when the question is "tell us a date you already know".
   This matters most for screen-reader and switch users, for whom a grid
   is 42 stops and a text field is one.
 - **No colour-only meaning.** Today, selected, outside-month, and
-  disabled are each carried by an ARIA property or the `disabled`
-  attribute as well as by a `data-*` hook for your CSS.
+  disabled are each carried by an ARIA property (`aria-current`,
+  `aria-selected`, `aria-disabled`) as well as by a `data-*` hook for
+  your CSS.
+- **Vetoed days stay focusable and announce as unavailable.** They carry
+  `aria-disabled="true"` plus `data-disabled`, never the `disabled`
+  attribute — a `disabled` button refuses focus, so arrowing the roving
+  cursor across a blocked week would go silent for a screen reader while
+  the visible focus stayed behind. Activation is refused in the select
+  handler instead. Style them with `[data-disabled]`; a `:disabled`
+  selector will not match.
+- **Refused input can be announced, not just marked.** Supply
+  `labels.invalid` and a `role="status"` live region — present in the
+  DOM but empty while the field is valid — fills with your message when
+  typed text is rejected, wired to the field via `aria-errormessage` and
+  appended to `aria-describedby`. Without the label the component stays
+  silent rather than inventing English, so supply it.
+- **The dialog can explain its own keyboard.** Supply
+  `labels.instructions` and the dialog renders it first and points
+  `aria-describedby` at it, so a screen reader speaks it once on open —
+  the affordance the APG date-picker example ships.
+- **Closing returns focus to the element that opened the dialog.** The
+  trigger button after a click, the text field after `Alt`+`↓` — per the
+  APG dialog rule. Click-outside closes without moving focus, since the
+  user has already put it somewhere.
+- **Header paging never steals focus.** Activating "next month" leaves
+  focus on "next month", so it can be pressed repeatedly; only grid
+  `Page Up`/`Page Down` carries focus with the cursor, because the cell
+  it sat on is no longer rendered.
 - **Focus is never destroyed by an internal state change.** Opening,
   closing, paging the month, and selecting a day all update the same
   persistent DOM nodes in place (the `#render()` / `#syncState()` split
@@ -139,15 +165,21 @@ open; they are meant to be set once at setup, not toggled live.
 ## Testing checklist
 
 - [ ] Tab to the field, type a date, press Enter. Value commits.
+- [ ] Type junk, press Enter, then `Escape`. The committed value comes
+      back and the invalid state clears — nothing was committed.
 - [ ] `Alt` + `↓` opens the dialog; focus lands on a day.
-- [ ] Arrow around the grid. Focus is always visible.
+- [ ] Arrow around the grid. Focus is always visible — including on a
+      blocked day, which announces as unavailable and refuses Enter.
 - [ ] `Page Down` past the end of the month. Focus follows.
+- [ ] Click "next month" twice. Focus stays on "next month" both times.
 - [ ] `Tab` repeatedly inside the dialog. Focus never leaves it.
-- [ ] `Escape` closes and returns focus to the trigger; the value is
-      unchanged.
+- [ ] `Escape` closes and returns focus to whatever opened the dialog —
+      the field after `Alt` + `↓`, the button after a click; the value
+      is unchanged.
 - [ ] With a screen reader: the day cell announces the full date, the
-      month heading announces on page, disabled days announce as
-      disabled.
+      month heading announces on page, blocked days announce as
+      unavailable, a refused typed date announces `labels.invalid`, and
+      the dialog speaks `labels.instructions` once on open.
 - [ ] At 200% zoom and at 320px width, the dialog is usable.
 - [ ] In forced-colours mode, selected and today are still
       distinguishable.

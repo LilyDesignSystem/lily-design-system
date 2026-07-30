@@ -52,11 +52,17 @@ and persists nothing.
   `MonthMatrix`, `FirstDayOfWeekFor`, `MonthNames`, `NumericFieldOrder`,
   `ParseDateInput`, `ParseTimeInput`, `NextDateTimePickerId`. Backed by
   `DateOnly` / `TimeOnly` internally — see spec §3.
-- Required parameters: `Label`, `Labels`.
+- Required parameters: `Label`, `Labels`. Six `Labels` entries are
+  required; the optional ones gate their own UI, including
+  `Labels.Invalid` (the `role="status"` invalid-input live region) and
+  `Labels.Instructions` (the dialog's keyboard help + `aria-describedby`).
 - `Value` + `ValueChanged` (two-way binding, `@bind-Value`) plus `OnChange`
   (fires alongside, matching the Svelte canonical's `onChange`).
 - Internal, visible to the test project: `NowProvider` (testable-clock
-  seam) and `BuildInstallFocusTrapScript` (the Tab-trap script builder).
+  seam), `BuildInstallFocusTrapScript` (the Tab-trap script builder), and
+  the focus-assertion seams `FieldReferenceId` / `TriggerReferenceId` /
+  `DayReferenceId(iso)` (bUnit has no `document.activeElement`; the suite
+  compares these against the recorded `FocusAsync` interop targets).
 - **No persistence.** Unlike the three `*-select` helpers, this one owns a
   form value, not a preference: nothing is applied to the document and
   nothing is written to `localStorage`.
@@ -67,32 +73,48 @@ The trigger button opens a dialog seeded from the committed `Value` (or
 today, snapped to the nearest selectable day). Selection inside the dialog
 writes to private pending state; only Confirm, or a day click when
 `ConfirmOnSelect` resolves true (the default for `Date` mode), commits it
-to `Value` and fires `OnChange`/`ValueChanged`. Cancel and `Escape` close
-without committing. `Min`/`Max`/`IsDateDisabled` constrain which days can
-be selected; the keyboard cursor may still cross a blocked day but cannot
+to `Value` and fires `OnChange`/`ValueChanged`. Cancel, `Escape`, and a
+click outside the dialog — including on the component's own text field —
+close without committing; closing returns focus to whichever element
+opened the dialog (the trigger after a click, the field after
+`Alt`+`ArrowDown`). `Min`/`Max`/`IsDateDisabled` constrain which days can
+be selected; vetoed days render `aria-disabled="true"` + `data-disabled`
+(never the `disabled` attribute, so they stay focusable and announced)
+and refuse activation, and the keyboard cursor may cross them but cannot
 leave the `Min`/`Max` window. Typed text is parsed on blur or `Enter`
 through a cascade (the caller's own `ParseInput`, then ISO, then a
 locale-ordered numeric form, then a written month); unparseable or
 out-of-range text is marked `aria-invalid` and left in place, never
-silently corrected.
+silently corrected — and announced via the `Labels.Invalid` status
+region when that label is supplied. `Escape` in the field discards a
+pending typed edit and clears the invalid state, committing nothing.
 
 ## HTML
 
 Root `<div class="date-time-picker">` → hidden `<input>` (form
 participation) + `.date-time-picker-field` (visible text `<input>` + the
-`.date-time-picker-button` trigger) → `.date-time-picker-dialog`
-(`role="dialog"`, `aria-modal="true"`) containing the header nav, the
-`role="grid"` calendar table, the time `<select>`s (mode-dependent), the
-shortcut buttons, and the footer (`clear`/`cancel`/`confirm`). Full markup
-in [spec/index.md §4.3](./spec/index.md#43-dom-contract).
+`.date-time-picker-button` trigger) → optional
+`.date-time-picker-status` (`role="status"`, only with `Labels.Invalid`;
+present-but-empty while valid, wired to the field via `aria-errormessage`
++ appended `aria-describedby` while invalid) → `.date-time-picker-dialog`
+(`role="dialog"`, `aria-modal="true"`, `aria-describedby` → the optional
+`.date-time-picker-instructions` first child when `Labels.Instructions`)
+containing the header nav, the `role="grid"` calendar table (vetoed days:
+`aria-disabled="true"` + `data-disabled`, never `disabled`), the time
+`<select>`s (mode-dependent), the shortcut buttons, and the footer
+(`clear`/`cancel`/`confirm`). Full markup in
+[spec/index.md §4.3](./spec/index.md#43-dom-contract).
 
 ## Keyboard
 
 Grid: arrow keys move by day/week, `Home`/`End` reach week ends,
-`PageUp`/`PageDown` page the month, `Shift` pages the year, `Enter`/`Space`
-selects. Field: `Enter` resolves typed text, `Alt`+`ArrowDown` opens the
-dialog. Dialog-wide: `Escape` closes without committing, `Tab` cycles
-within the dialog via a **real** focus trap.
+`PageUp`/`PageDown` page the month (carrying focus with the cursor —
+header-button paging deliberately does not), `Shift` pages the year,
+`Enter`/`Space` selects. Field: `Enter` resolves typed text,
+`Alt`+`ArrowDown` opens the dialog, `Escape` discards a pending typed
+edit (no-op when nothing is pending). Dialog-wide: `Escape` closes
+without committing and returns focus to the opener, `Tab` cycles within
+the dialog via a **real** focus trap.
 
 **The focus trap is genuine JS, not a Razor handler** — see
 [spec/index.md §9](./spec/index.md#9-blazor-deviations-from-the-canonical-svelte-implementation)
@@ -107,10 +129,15 @@ deterministic "today" — set it in a test's constructor and restore it in
 `Dispose`, the same role `vi.useFakeTimers()` plays in the canonical
 Svelte suite. Most assertions read rendered markup directly (`tabindex`,
 `data-*`, `aria-*`) rather than real DOM focus, mirroring how the Svelte
-suite's own `cursorDate()` helper works. The one place real focus IS
-asserted is via `ElementReference.FocusAsync()`'s
-`Blazor._internal.domWrapper.focus` interop call, the same technique
-`SharePickerTests.cs` uses.
+suite's own `cursorDate()` helper works. Where real focus IS asserted
+(§7.49, §7.52, §7.53, §7.55), the tests read
+`ElementReference.FocusAsync()`'s `Blazor._internal.domWrapper.focus`
+interop invocations — SharePicker's technique — but compare the ids
+against the component's internal `FieldReferenceId` /
+`TriggerReferenceId` / `DayReferenceId(iso)` seams rather than against
+markup GUIDs: this component re-renders immediately (today-seeding in
+`OnAfterRenderAsync`), which strips bUnit's first-render
+`blazor:elementReference` GUIDs from the markup.
 
 ## Conventions this package follows
 

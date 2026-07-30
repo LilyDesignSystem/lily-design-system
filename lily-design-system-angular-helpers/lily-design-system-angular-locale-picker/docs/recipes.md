@@ -128,11 +128,15 @@ endonyms: Record<string, string> = {
 ```
 
 Endonyms are the accessible default for a language picker: a user who
-cannot read the current interface language can still find their own.
-Each option already carries its own `lang`, so a screen reader
-pronounces the endonym correctly. `localeLabels` overrides per code;
-anything you omit falls back to the built-in English name, then
-`Intl.DisplayNames`, then the raw code.
+cannot read the current interface language can still find their own —
+and since the endonym change they ARE the default, via the exported
+`localeEndonym` (`Intl.DisplayNames` asked in each language). Reach
+for `localeLabels` only to override a spelling or to pin labels on a
+runtime without the data. An endonym-labelled option carries its own
+`lang`, so a screen reader pronounces it correctly; consumer-labelled
+options carry no `lang`, because their label's language is unknown.
+Anything you omit falls back to the endonym, then the built-in
+English name, then `Intl.DisplayNames`, then the raw code.
 [`../examples/nhs-style.component.ts`](../examples/nhs-style.component.ts)
 shows this in a language banner; the reasoning is in
 [accessibility.md](./accessibility.md).

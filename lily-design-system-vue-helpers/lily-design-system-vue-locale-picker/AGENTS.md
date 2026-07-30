@@ -17,7 +17,7 @@ no CSS; consumer styles the `locale-picker` class hook.
 | `spec/index.md`                  | Specification-driven contract (canonical).       |
 | `LocalePicker.vue`         | Implementation. `<script setup lang="ts">`.      |
 | `LocalePicker.test.ts`     | Vitest spec, one assertion per §7 acceptance.    |
-| `locales.ts`               | Built-in code → English-name map and RTL sets.   |
+| `locales.ts`               | Fallback code → English-name map and RTL sets; default labels are endonyms via `localeEndonym`. |
 | `locales.tsv`              | Canonical 436-row source for `locales.ts`.       |
 | `index.ts`                 | Barrel re-export.                                |
 | `index.md`                 | Human-readable guide.                            |
@@ -61,10 +61,12 @@ wrapping `<span class="locale-picker-icon" aria-hidden="true">🌐</span>`;
 and a `<ul class="locale-picker-list" role="listbox" aria-label="{label}"
 tabindex="-1" hidden aria-activedescendant>` of
 `<li class="locale-picker-option" role="option" aria-selected
-data-active lang="{tagFor(locale)}">`. The glyph is U+1F310 GLOBE WITH
-MERIDIANS, exported as `GLOBE_WITH_MERIDIANS`. Each option keeps its
-own `lang` so its name is pronounced in its own language; the button
-and the list carry none. The default scoped slot replaces the
+data-active lang="{tag, only when the label is the derived endonym}">`.
+The glyph is U+1F310 GLOBE WITH MERIDIANS, exported as
+`GLOBE_WITH_MERIDIANS`. An option carries `lang` only when its label
+is the endonym we derived, so its name is pronounced in its own
+language and an English fallback is never sent to the wrong voice;
+the button and the list carry none. The default scoped slot replaces the
 **button glyph** — not the options — and receives
 `{ value, open, labelFor }`.
 
@@ -73,9 +75,12 @@ and the list carry none. The default scoped slot replaces the
 - WCAG 2.2 AAA target. WCAG 3.1.1 (Language of Page) and 3.1.2
   (Language of Parts).
 - The component implements the WAI-ARIA APG listbox keyboard contract
-  itself: Arrow keys (clamping, no wrap), Home / End, Enter / Space to
-  commit, Escape to cancel, Tab to close, printable-character typeahead
-  with a 500 ms buffer. Focus moves to the `<ul>` on open and returns to
+  itself: Arrow keys (clamping, no wrap), Home / End, PageUp / PageDown
+  (by ten, clamping), Enter / Space to commit, Escape to cancel, Tab to
+  close via the button so the default Tab proceeds from the picker's
+  position, and printable-character typeahead with a 500 ms buffer — a
+  repeated character cycles through its matches; differing characters
+  refine from the active option. Focus moves to the `<ul>` on open and returns to
   the button on commit or cancel.
 - The button is icon-only, so `aria-label` is its **only** accessible
   name; the glyph is `aria-hidden="true"`. The same `label` also names

@@ -37,8 +37,8 @@ closed dialog visible.
 
 Both examples wire `labels` as a **property**, never an attribute:
 `labels` is required and carries several optional keys that gate
-optional UI (`clear`, `week`, `meridiem`), so a default here would be a
-hardcoded English string — see
+optional UI (`clear`, `week`, `meridiem`, `invalid`, `instructions`), so
+a default here would be a hardcoded English string — see
 [`../spec/index.md` §4.3](../spec/index.md#43-property-only-members).
 The second example does the same for `shortcuts` and `isDateDisabled`,
 the latter because a predicate cannot be a string attribute at all.
@@ -50,14 +50,19 @@ the ones [`../docs/accessibility.md`](../docs/accessibility.md)
 describes:
 
 - Tab to the field, type an unparseable string, and blur. The field
-  marks itself invalid and the typed text stays exactly as you left it.
+  marks itself invalid, the typed text stays exactly as you left it, and
+  — because both examples supply `labels.invalid` — the `role="status"`
+  region under the field announces the refusal. Press `Escape` to
+  discard the edit and get the committed value back.
 - Open the dialog, arrow to the end of a month, and keep paging. Focus
   follows the cursor into the new month rather than falling off the end
   of the grid.
 - In `02-nhs-booking.html`, try a shortcut that lands on a weekend (there
   is none, because the shortcuts are all Monday-safe by construction) —
   then try picking a Saturday directly in the grid, and confirm it is
-  `disabled` rather than merely styled to look closed.
+  `aria-disabled` rather than merely styled to look closed: the cursor
+  can land on it and it announces as unavailable, but `Enter` and a
+  click both refuse to select it.
 - Toggle the language in `02-nhs-booking.html` while the dialog is open.
   `locale` is a structural attribute (`spec/index.md` §5.8), so the
   dialog closes — this is a deliberate, documented cost of the vanilla

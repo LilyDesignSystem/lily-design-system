@@ -76,31 +76,53 @@ value — but a hard date is still hard. Where the domain allows it,
 `shortcuts` ("Today", "Next available", "+2 weeks") reduce the load
 more than any amount of dialog polish.
 
-## `min` / `max` / disabled dates need an honest message, not just a disabled button
+## `min` / `max` / disabled dates need an honest message, not just a blocked button
 
-A `<button disabled>` day tells a sighted mouse user "not selectable"
-but tells almost nothing else. There is no `aria-describedby` on
-individual day cells to explain *why* a date is blocked (booked?
-holiday? past?) — only the full-date `aria-label` and the disabled
-state itself. If the reason matters to your users, say it near the
-field via `describedBy`, or in the label copy itself.
+A vetoed day renders `aria-disabled="true"` rather than the `disabled`
+attribute, so the keyboard cursor can land on it and a screen reader
+announces it as unavailable instead of going silent — but nothing on
+the individual cell explains *why* a date is blocked (booked? holiday?
+past?), only the full-date `aria-label` and the unavailable state
+itself. If the reason matters to your users, say it near the field via
+`describedBy`, or in the label copy itself. And supply
+`labels.invalid`: without it, typed text that lands on a blocked date
+flips `aria-invalid` with no announcement at all.
+
+## The two optional announcements are worth supplying
+
+`labels.invalid` renders a `role="status"` live region that fills when
+typed text is refused, wired to the field via `aria-errormessage` and
+an appended `aria-describedby` — without it, a screen-reader user who
+has already tabbed away never learns their date was rejected.
+`labels.instructions` renders keyboard help inside the dialog,
+referenced by the dialog's `aria-describedby`, so the grid's keyboard
+contract is spoken once on open — the APG date-picker example ships
+exactly this affordance. Both are optional because the component never
+invents English; both are strongly recommended.
 
 ## The focus trap and roving tabindex, done for real
 
 Unlike a component library that ships `aria-modal="true"` and calls it
 done, this control implements the trap itself (`spec/index.md` §6.2):
-`Tab` cannot walk out of the open dialog, `Escape` always returns focus
-to the trigger, and exactly one day in the grid is ever `tabindex="0"`
-— paging months carries that cursor with it rather than dropping focus
-to `<body>` when the previously-focused cell stops existing.
+`Tab` cannot walk out of the open dialog, closing returns focus to the
+element that *opened* it — the text field after `Alt`+`ArrowDown`, the
+trigger after a click — and exactly one day in the grid is ever
+`tabindex="0"`, an invariant that holds even when the cursor sits on a
+vetoed (`aria-disabled`) day. Paging months carries that cursor with it
+rather than dropping focus to `<body>` when the previously-focused cell
+stops existing; paging from the header buttons leaves focus on the
+header button so it can be activated repeatedly. And because the dialog
+claims `aria-modal="true"`, clicking anything behind it — including the
+component's own text field — dismisses it rather than leaving the claim
+a lie.
 
 ## Keyboard
 
 Identical to the canonical Svelte helper's contract — see
 `spec/index.md` §6.2 for the full table (field `Enter` /
-`Alt+ArrowDown`; grid arrows / `Home` / `End` / `PageUp` / `PageDown` /
-`Shift+PageUp` / `Shift+PageDown` / `Enter` / `Space`; dialog `Escape` /
-`Tab`).
+`Alt+ArrowDown` / `Escape` to discard a pending typed edit; grid
+arrows / `Home` / `End` / `PageUp` / `PageDown` / `Shift+PageUp` /
+`Shift+PageDown` / `Enter` / `Space`; dialog `Escape` / `Tab`).
 
 ## What consumer CSS still owes
 

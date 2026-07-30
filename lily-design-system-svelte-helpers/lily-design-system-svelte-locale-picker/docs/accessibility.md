@@ -44,7 +44,7 @@ in mind throughout.
 | `<ul>`           | `aria-activedescendant="{optionId}"` while open  | Component     |
 | `<li>`           | `role="option"`                                 | Component     |
 | `<li>`           | `aria-selected="true\|false"`                   | Component     |
-| `<li>`           | `lang="{bcp47LocaleTag(code)}"`                 | Component     |
+| `<li>`           | `lang="{tag}"` — only when the label is the derived endonym | Component     |
 
 Focus sits on the `<ul>` while the listbox is open; the active option is
 conveyed by `aria-activedescendant` rather than by moving DOM focus onto
@@ -113,7 +113,7 @@ On the **listbox**:
 | `Enter`             | Select the active option, apply it, close, refocus the button.   |
 | `Space`             | Same as `Enter`.                                                 |
 | `Escape`            | Close and refocus the button **without** changing the locale.    |
-| `Tab`               | Close without stealing focus back; focus moves on normally.      |
+| `Tab`               | Close — focus lands on the button first (without cancelling the key), so the default Tab proceeds from the picker's position instead of restarting from `<body>`. |
 | Printable character | Typeahead over the option labels, 500 ms buffer, wraps once.     |
 
 Clicking an option selects it. Clicking outside the root, or moving
@@ -351,12 +351,13 @@ Why it is shaped this way:
   "Français" is pronounced in a French voice there too — the same
   courtesy the options get.
 
-  Note the interaction with your label choice: `localeName` returns the
-  **English** name from the built-in table, so wrapping *that* in
-  `lang="fr"` tells the reader to pronounce an English word with a
-  French voice. If you are using the built-in English names, drop the
-  `lang` from the span. If you supply endonyms via `localeLabels`, keep
-  it.
+  Note the interaction with your label choice: the component's own
+  default labels are now **endonyms** (via `localeEndonym`), so its
+  options can carry `lang` truthfully — and it sets `lang` only when
+  the label really is the derived endonym. Apply the same rule to your
+  span: wrap an endonym in `lang`, and drop the `lang` if you show
+  `localeName`'s English name, or the reader is told to pronounce an
+  English word with a French voice.
 - **Use `localeName`, not the raw code.** The package exports it; it
   turns `fr_CA` into a human name rather than showing the
   consumer-form code.

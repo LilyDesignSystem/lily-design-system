@@ -112,9 +112,10 @@ option active; opening moves focus to the `<ul>`. On the listbox,
 `ArrowUp` / `ArrowDown` move the active option and clamp at both ends
 (no wrapping), `Home` / `End` jump to the first / last, `Enter` /
 `Space` commit and return focus to the button, `Escape` cancels without
-changing the value, `Tab` closes without stealing focus back, and
-printable characters run a typeahead over the option labels with a
-500 ms buffer. Clicking an option selects it; clicking outside, or
+changing the value, `Tab` closes via the button so the default Tab proceeds
+from the picker's position, and printable characters run a typeahead
+over the option labels with a 500 ms buffer (a repeated character
+cycles through its matches). Clicking an option selects it; clicking outside, or
 moving focus out of the root, closes the listbox.
 
 Because focus stays on the `<ul>` and the active option is conveyed

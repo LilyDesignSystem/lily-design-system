@@ -27,7 +27,7 @@ data, not a preference.
 | ---- | ------- |
 | `spec/index.md` | Specification-driven contract (canonical). |
 | `date-time-picker.ts` | Implementation (TypeScript custom-element class). |
-| `date-time-picker.test.ts` | Vitest + jsdom spec, mapped to the §7 clauses. |
+| `date-time-picker.test.ts` | Vitest + jsdom spec, mapped to the §7 clauses (81 tests). |
 | `index.ts` | Barrel re-export + side-effectful registration. |
 | `index.md` | Human-readable guide. |
 | `docs/accessibility.md` | Tradeoffs, stated plainly. |
@@ -94,12 +94,18 @@ The value is an ISO string shaped by `mode`: `YYYY-MM-DD`, `HH:MM`, or
 `YYYY-MM-DDTHH:MM`. Selection inside the dialog writes to *pending*
 private state; only Confirm — or a day click when `confirmOnSelect`
 (default: date-only mode) — commits to `value` and fires `onChange` +
-`datetimechange`. Cancel, Escape, and click-outside close without
-committing. Typed text resolves on blur or Enter through ISO → locale-
-ordered numerics → written month names; text that will not parse, or
-that lands outside `min`/`max`/`isDateDisabled`, sets `aria-invalid` and
-fires `onInvalidInput` + `invalidinput` rather than being silently
-snapped to something legal. Nothing is persisted.
+`datetimechange`. Cancel, Escape, and click-outside (which includes the
+component's own text field — aria-modal coherence) close without
+committing; closing returns focus to whichever element opened the
+dialog (button after a click, field after Alt+ArrowDown). Typed text
+resolves on blur or Enter through ISO → locale-ordered numerics →
+written month names; text that will not parse, or that lands outside
+`min`/`max`/`isDateDisabled`, sets `aria-invalid` and fires
+`onInvalidInput` + `invalidinput` rather than being silently snapped to
+something legal — and, when `labels.invalid` is supplied, fills the
+`role="status"` region so the refusal is announced. `Escape` in the
+field discards a pending typed edit without committing. Nothing is
+persisted.
 
 ## HTML
 
@@ -108,12 +114,42 @@ snapped to something legal. Nothing is persisted.
 `<div class="date-time-picker-field">` with
 `<input class="date-time-picker-input">` and
 `<button class="date-time-picker-button" aria-haspopup="dialog">` →
+optional `<span class="date-time-picker-status" role="status">` (only
+when `labels.invalid`; empty while valid) →
 `<div class="date-time-picker-dialog" role="dialog" aria-modal="true"
-tabindex="-1" hidden>` containing the header, a `role="grid"` `<table>`
-of `date-time-picker-day` buttons with roving tabindex, optional time
-selects, optional shortcuts, and the footer.
+tabindex="-1" hidden>` containing an optional
+`<p class="date-time-picker-instructions">` first (only when
+`labels.instructions`; the dialog's `aria-describedby` target), the
+header, a `role="grid"` `<table>` of `date-time-picker-day` buttons with
+roving tabindex (vetoed days are `aria-disabled` + `data-disabled`,
+never `disabled`), optional time selects, optional shortcuts, and the
+footer.
 
 Full contract in `spec/index.md` §4.4.
+
+## Things not to undo
+
+Each of these encodes a bug that was avoided on purpose; the canonical
+Svelte helper carries the same list.
+
+- **Vetoed days are `aria-disabled`, never the `disabled` attribute.** A
+  `disabled` button refuses focus: arrowing across a blocked week goes
+  silent and the "exactly one tabbable day" invariant breaks. Activation
+  is refused in `#selectDay` instead.
+- **The opener reference is load-bearing.** Closing must return focus to
+  whatever opened the dialog — the field after Alt+ArrowDown — not
+  always the trigger button.
+- **`#shiftMonth` checks `#tableEl.contains(document.activeElement)`
+  before refocusing the cursor.** Grid paging must carry focus (the
+  focused cell is unrendered); header prev/next must NOT steal it, or
+  the user cannot page twice.
+- **The status region is present-but-empty while valid.** A live region
+  born together with its message is routinely not announced at all.
+- **The focus trap is load-bearing.** `aria-modal="true"` is a promise
+  the browser does not keep.
+- **`el?.focus?.()` and `el?.scrollIntoView?.()` guard the METHOD.**
+  jsdom implements neither; an unguarded call throws inside a keydown
+  handler where a green suite never sees it.
 
 ## The `#render()` / `#syncState()` split — the biggest engineering surface in this port
 

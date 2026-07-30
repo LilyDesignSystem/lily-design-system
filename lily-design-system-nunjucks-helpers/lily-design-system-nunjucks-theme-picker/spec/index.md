@@ -338,11 +338,15 @@ until the user commits.
 ### 5.5 Open / close
 
 Opening sets `list.hidden = false`, `aria-expanded="true"`, seeds the
-active option, and moves focus to the `<ul>`. Closing sets
+active option, and moves focus to the `<ul>`. Opening an EMPTY list
+seeds the active index at -1, so `aria-activedescendant` is absent
+rather than pointing at an id that does not exist. Closing sets
 `list.hidden = true`, `aria-expanded="false"`, clears `data-active` and
-`aria-activedescendant`, and — except after `Tab` and except when the
-close was caused by a click outside or focus leaving the root — returns
-focus to the button.
+`aria-activedescendant`, and — except when the close was caused by a
+click outside or focus leaving the root — returns focus to the button.
+On `Tab` the focus move to the button happens FIRST, without cancelling
+the key: hiding the focused list would drop focus to `<body>` and the
+browser's default Tab would restart from the top of the document.
 
 ### 5.6 Keyboard contract (WAI-ARIA APG listbox)
 
@@ -361,8 +365,9 @@ On the **listbox**:
 | `Home` / `End`          | Jump to the first / last option.                                                                                                                |
 | `Enter` / `Space`       | Select the active option, apply it, close, return focus to the button.                                                                          |
 | `Escape`                | Close and return focus, leaving the value unchanged.                                                                                            |
-| `Tab`                   | Close without stealing focus back, so the browser's own Tab handling proceeds.                                                                  |
-| Printable character     | Typeahead over the option labels; the buffer accumulates and resets 500 ms after the last keystroke. Chords with Ctrl / Meta / Alt are ignored. |
+| `PageUp` / `PageDown`   | Move the active option by ten, clamped — an APG-optional key that earns its place in a 45-theme list.                                           |
+| `Tab`                   | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position rather than from `<body>`. |
+| Printable character     | APG typeahead over the option labels: a single character advances to the NEXT option starting with it, and repeating that character keeps cycling through its matches; only a buffer of differing characters refines the match, anchored at the active option. The buffer resets 500 ms after the last keystroke. Chords with Ctrl / Meta / Alt are ignored. |
 
 Pointer behaviour: clicking an option selects it; clicking the button
 toggles; clicking outside the root closes; focus leaving the root
@@ -503,8 +508,9 @@ data-lily-theme-picker="{name}">` exists in `document.head` and
 22. `Enter` and `Space` on the listbox select the active option, apply
     it, close the listbox, and return focus to the button.
 23. `Escape` closes and returns focus without changing the theme and
-    without firing `onChange`. `Tab` closes without stealing focus
-    back.
+    without firing `onChange`. `Tab` closes and puts focus on the
+    button, so the browser's default Tab proceeds from the picker's
+    position.
 24. Printable characters run a typeahead over the option labels; the
     buffer accumulates across keystrokes and resets 500 ms after the
     last one; chords with Ctrl / Meta / Alt are ignored. Clicking an
@@ -527,6 +533,19 @@ data-lily-theme-picker="{name}">` exists in `document.head` and
 28. `opts.value` beats a conflicting `localStorage` entry; storage
     still applies when `opts.value` is absent; and the full order runs
     value > storage > detection > `defaultValue` > `"light"` > first.
+
+Accessibility hardening (ported from the canonical Svelte spec's
+§7.21–§7.24):
+
+29. `Tab` from the open list puts focus on the button BEFORE closing,
+    without cancelling the key, so the browser's default Tab proceeds
+    from the picker's position rather than from `<body>`.
+30. A repeated typeahead character cycles through its matches (the
+    search starts at the option after the active one, wrapping once);
+    a buffer of differing characters refines the match anchored at the
+    active option.
+31. `PageUp` / `PageDown` move the cursor by ten, clamped.
+32. An empty list opens without `aria-activedescendant`.
 
 ## 8. Out-of-scope (future)
 

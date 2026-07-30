@@ -76,9 +76,14 @@ clock regardless of locale).
 ```
 
 `Min`/`Max` are inclusive. `IsDateDisabled` vetoes individual dates — here,
-a weekends-closed clinic. The keyboard cursor can still cross a vetoed day
-inside the range (so arrowing across a blocked week works), but it cannot
-leave the `Min`/`Max` window: there is nothing out there to navigate to.
+a weekends-closed clinic. A vetoed day renders `aria-disabled="true"` plus
+`data-disabled` — **not** the `disabled` attribute — so it stays focusable
+and a screen reader announces it as unavailable rather than going silent;
+activation is simply refused. Style vetoed days with `[data-disabled]` or
+`[aria-disabled="true"]`, not `:disabled`. The keyboard cursor can still
+cross a vetoed day inside the range (so arrowing across a blocked week
+works), but it cannot leave the `Min`/`Max` window: there is nothing out
+there to navigate to.
 
 The full civil-date arithmetic (`AddDays`, `AddMonths`, `WeekdayOf`,
 `ParseIsoDate`, …) is `public static` on `DateTimePicker`, exported for
@@ -132,6 +137,17 @@ diacritic-insensitively). Two-digit years pivot at 70.
 Text that will not parse, or that parses to a blocked date, stays exactly
 as typed and sets `aria-invalid="true"`, firing `OnInvalidInput` — it is
 never silently snapped to a nearby legal date the user did not type.
+`Escape` in the field discards a pending typed edit, restoring the
+committed display and clearing the invalid state without committing
+anything; when nothing is pending the key is left alone.
+
+Supply `Labels.Invalid` to have the refusal *announced* as well as
+marked: a `role="status"` live region (class hook
+`date-time-picker-status`, present-but-empty while the field is valid)
+fills with your message and is wired to the field via `aria-errormessage`
+plus an appended `aria-describedby`. Without it, `aria-invalid` flips
+silently and a screen-reader user who has already left the field never
+learns their date was refused.
 
 ```razor
 <DateTimePicker Label="Date of birth" Labels="@Labels"
@@ -157,6 +173,16 @@ never silently snapped to a nearby legal date the user did not type.
 
 The clear button renders only when `Labels.Clear` is supplied — there is
 no default, because a default would be a hardcoded English string.
+
+## Dialog keyboard help
+
+Supply `Labels.Instructions` to render keyboard help inside the dialog
+(class hook `date-time-picker-instructions`, the dialog's first child)
+and have the dialog reference it via `aria-describedby`, so a screen
+reader speaks it once on open — the APG date-picker example ships exactly
+this affordance. It is visible by default; hide it with your own CSS if
+you want it screen-reader-only. Like every other label, it renders
+nothing when not supplied.
 
 ## Custom glyph
 
@@ -193,6 +219,14 @@ Full list in [spec/index.md §4.4](./spec/index.md#44-public-surface).
 - Follows the WAI-ARIA APG **Date Picker Dialog** pattern: `role="dialog"`,
   `aria-modal="true"`, `role="grid"`, roving `tabindex`, full keyboard
   contract, a **real** focus trap.
+- Closing the dialog returns focus to whichever element opened it — the
+  trigger button after a click, the text field after `Alt`+`ArrowDown` —
+  per the APG dialog pattern. Click-outside (which includes the
+  component's own text field, honouring `aria-modal`) closes without
+  moving focus.
+- Vetoed days are `aria-disabled`, never `disabled`, so the roving cursor
+  can land on them with real focus and a screen reader announces them as
+  unavailable instead of going silent.
 - The glyph is `aria-hidden`; the trigger's and dialog's accessible name
   both come from `Label`.
 - **Tradeoff:** a hand-rolled grid has weaker assistive-technology support
@@ -203,7 +237,9 @@ Full list in [spec/index.md §4.4](./spec/index.md#44-public-surface).
 
 Class hooks: `.date-time-picker` (root), `.date-time-picker-field`,
 `.date-time-picker-input`, `.date-time-picker-button`,
-`.date-time-picker-icon`, `.date-time-picker-dialog`,
+`.date-time-picker-icon`, `.date-time-picker-status` (only with
+`Labels.Invalid`), `.date-time-picker-dialog`,
+`.date-time-picker-instructions` (only with `Labels.Instructions`),
 `.date-time-picker-header`, `.date-time-picker-previous-year` /
 `-previous-month` / `-next-month` / `-next-year`, `.date-time-picker-period`,
 `.date-time-picker-calendar`, `.date-time-picker-week-heading`,
@@ -226,7 +262,7 @@ From `../tests/LilyDesignSystem.Blazor.Helpers.Tests`:
 dotnet test
 ```
 
-58 cases for this package, one or more per §7 clause.
+65 cases for this package, one or more per §7 clause.
 
 ---
 

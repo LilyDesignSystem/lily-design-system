@@ -9,6 +9,224 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Sibling-picker accessibility hardening, all seven catalogs — 2026-07-29
+
+An accessibility audit of the four sibling pickers (`theme-picker`,
+`locale-picker`, `text-size-picker`, `share-picker`) found five defects
+and two worthwhile enhancements; all landed canonical-Svelte-first and
+were ported to the six sibling catalogs the same day. Each package's
+CHANGELOG carries the full record under "Unreleased".
+
+### Changed
+
+- **Tab out of an open picker no longer teleports keyboard focus to the
+  top of the page.** The Tab handler hid the list while it (or a share
+  item) had focus; the browser then moved focus to `<body>` and the
+  default Tab restarted from the document's first tab stop. Focus now
+  goes to the trigger button first — without cancelling the key — so
+  the default Tab proceeds from the picker's own position. Exception,
+  found honestly by the port: **Blazor's listbox pickers omit this**,
+  because Blazor's async event handling runs the default Tab before the
+  handler hides the list, so the bug cannot occur and the refocus would
+  yank users backwards; Blazor's share-picker (real link items) does
+  exhibit the bug and takes the fix.
+- **Typeahead follows the APG single-character rule** in the three
+  listbox pickers: one character advances to the next match, repeating
+  it cycles (dark → dim → dracula on "d d d"), a buffer of differing
+  characters refines from the active option.
+- **Locale-picker default labels are endonyms** — each language named
+  in itself, "Cymraeg" not "Welsh" — via a new exported
+  `localeEndonym()` (`Intl.DisplayNames` asked in that language;
+  `CultureInfo.NativeName` in Blazor; a client-side upgrade over a
+  derive-marked fallback in Nunjucks, whose macros cannot reach ICU).
+  The English table becomes a fallback. And an option's `lang` is now
+  set **only** when its label is the derived endonym: previously every
+  option carried `lang` while showing an English label, sending
+  screen-reader speech engines to the wrong voice — the English word
+  "Arabic" read out by an Arabic synthesizer.
+
+### Added
+
+- **`PageUp` / `PageDown`** move the listbox cursor by ten, clamped —
+  an APG-optional key that earns its place in the 45-theme list.
+- **`share-picker`'s list carries the picker's accessible name.**
+
+### Fixed
+
+- Opening an empty listbox no longer points `aria-activedescendant` at
+  a nonexistent id (and the HTML and Blazor ports, whose `openList`
+  refused to open on an empty list, now match canonical behaviour).
+- Long-stale docs: the canonical and Blazor text-size packages still
+  described the pre-0.2.0 native-`<select>` era; the canonical picker
+  docs' Tab rows and the locale docs' "always-on `lang` is a known
+  limitation" caveat described behaviour the fixes removed.
+
+### Notes
+
+- 1835 tests pass across the seven catalogs: svelte 208, react 264,
+  vue 261, html 291, nunjucks 318, angular 290, blazor 203.
+- Port-spec clause numbering follows each port's own §7 sequence where
+  the canonical numbers were already taken; every hardening test cites
+  its canonical clause.
+
+## date-time-picker accessibility hardening, all seven catalogs — 2026-07-29
+
+Seven changes to the `date-time-picker` helper, each fixing something a
+screen-reader or keyboard user would actually hit, landed first in the
+canonical Svelte package and then ported to the six sibling catalogs the
+same day. Each package's own CHANGELOG carries the full record under
+"Unreleased"; the canonical contract is spec §7.49–§7.55.
+
+### Changed
+
+- **Vetoed days render `aria-disabled="true"` + `data-disabled`, never
+  the `disabled` attribute.** A `disabled` button refuses focus, so
+  arrowing the roving cursor across a blocked week went *silent* for a
+  screen reader while the visible focus stayed behind — and the "exactly
+  one tabbable day" invariant broke whenever the cursor sat on a vetoed
+  day. Days now stay focusable and announce as unavailable; activation is
+  still refused in the handler. The 45 `themes/*.css` day-state rules
+  moved from `:disabled` to `[data-disabled]` to match — consumer CSS
+  needs the same migration.
+- **Closing the dialog returns focus to the element that opened it** —
+  the text field after `Alt`+`ArrowDown`, the trigger button after a
+  click — per the APG dialog rule. Previously always the button.
+- **Header month/year paging no longer steals focus into the grid.**
+  Focus follows the carried cursor only when it was already inside the
+  grid (where the focused cell is about to be unrendered); a user on
+  "next month" stays on "next month" and can page repeatedly.
+- **Clicking anything outside the dialog closes it — including the
+  component's own text field.** The dialog claims `aria-modal="true"`;
+  staying open while the user edits behind it told assistive technology
+  one thing and did another. (In the HTML port this was a genuine hole:
+  its old handler exempted the whole custom element.)
+
+### Added
+
+- **`labels.invalid`** (optional): a `role="status"` live region —
+  present-but-empty while valid, so it actually announces — that fills
+  when typed text is refused, wired via `aria-errormessage` and appended
+  to `aria-describedby`. Previously `aria-invalid` flipped with no
+  announcement at all.
+- **`labels.instructions`** (optional): keyboard help rendered inside the
+  dialog and referenced by its `aria-describedby`, spoken once on open —
+  the affordance the APG date-picker example ships.
+- **`Escape` in the text field discards a pending typed edit**, restoring
+  the committed display and clearing the invalid state, mirroring the
+  dialog's Escape contract.
+
+### Fixed
+
+- **Blazor: grid-paging focus silently targeted nothing** outside the
+  opening month — the day-button `ElementReference` map was keyed by ISO
+  date, but Blazor re-runs `@ref` captures only on element creation and
+  the un-keyed grid reuses its 42 buttons. Now keyed by grid position.
+
+### Notes
+
+- 1717 tests pass across the seven catalogs: svelte 192, react 247,
+  vue 248, html 274, nunjucks 297, angular 272, blazor 187 (+50 over
+  2026-07-28, one test per new spec clause per catalog, plus one
+  Nunjucks-only test for its init-time label path).
+- Two documented Blazor divergences (spec §9 there): the opener is
+  tracked by code path because Blazor cannot read
+  `document.activeElement` without interop, and field Escape cannot
+  conditionally stop propagation (`@onkeydown:stopPropagation` is
+  static). One Angular divergence: focus into freshly-paged cells needs
+  a synchronous `detectChanges()` first, because Angular renders after
+  the microtask queue drains — Svelte's synchronous flush is what let
+  the canonical `queueMicrotask` idiom work.
+
+## date-time-picker, and `*-chooser` renamed back to `*-picker` — 2026-07-28
+
+### Added
+
+- **`date-time-picker`, the fifth helper**, in all seven catalogs (35
+  helper packages now, up from 28). A headless date / time / datetime
+  control: a typeable text field plus an icon button (📅 U+1F4C5 + U+FE0E)
+  opening a WAI-ARIA APG **Date Picker Dialog**. Value contract is ISO —
+  `YYYY-MM-DD`, `HH:MM`, `YYYY-MM-DDTHH:MM` — the same shape
+  `<input type="date">` posts. Constraints via `min` / `max` / an arbitrary
+  `isDateDisabled` predicate; consumer-labelled `shortcuts`; optional
+  ISO-8601 week numbers; `minuteStep`; typed input that reads ISO,
+  locale-ordered numerics and written month names.
+
+  It exists because **Digital Health and Care Wales now publishes a design
+  system** (the NHSW component library) containing a date picker, and Lily
+  had no equivalent. Everything DHCW's does is implemented; twelve of its
+  defects are not. The four that matter most:
+
+  - **No hardcoded English.** DHCW bakes in `MONTHS`, `SHORT_MONTHS`,
+    `"Today"`, `"Cancel"`, `"OK"`, `"Previous year"`. Here month and
+    weekday names come from `Intl` and every other string is a prop. For a
+    *Welsh* design system that is the difference between a bilingual
+    service and an English one with a Welsh veneer.
+  - **Monday is not assumed.** First day of week comes from
+    `Intl.Locale.getWeekInfo`, overridable by prop.
+  - **The focus trap exists.** DHCW declares `aria-modal="true"` and traps
+    nothing — worse than not declaring it, because the user is told the
+    rest of the page is inert while Tab walks into it.
+  - **Civil dates, not local-midnight `Date`.** `new Date(y, m, d)` is an
+    *instant* at local midnight and resolves to the previous day in zones
+    whose DST transition falls at midnight. All arithmetic goes through
+    UTC epoch days.
+
+  Two documented divergences from the sibling helpers, both deliberate: it
+  is a **form control**, so it has a text field alongside its trigger and
+  the "one shape: icon button opening a popup" rule applies only to that
+  trigger; and its ten user-facing strings arrive as **one `labels`
+  object** rather than ten flat `*Label` props. Six of those keys are
+  required with no English default.
+
+- **The 45 `themes/*.css` style it**: root positioning, the trigger joining
+  the shared icon-button rule, dialog, header, calendar grid, day states
+  (`data-today` / `data-outside` / `data-selected` / `:disabled`), time
+  selects, shortcuts and footer — all from theme tokens.
+
+### Changed
+
+- **Every helper renamed `*-chooser` → `*-picker`**, reversing the
+  2026-07-21 rename. Full depth: directories, npm / NuGet package ids,
+  source filenames, exported symbols (`ThemeChooser` → `ThemePicker`,
+  `nextShareChooserId` → `nextSharePickerId`), CSS class hooks,
+  `data-lily-theme-picker`, `--lily-picker-icon-scale` across the 45
+  themes, and the glyph-escaping check in `bin/test`.
+
+  All packages stay at **0.1.0**: nothing had been published under either
+  name, so the reset costs nothing, and numbering a first release higher
+  would imply releases that never existed.
+
+- `--lily-picker-icon-scale` for the calendar glyph is **0.845 — the same
+  factor as the globe**, and that is an identity rather than a
+  coincidence: a colour-emoji font paints every one of its glyphs into one
+  identical em square. Measured on the reference stack, globe, calendar,
+  rocket and heart all give an ink box of 1.015 × 1.015 with an advance of
+  1.000. Any future emoji helper icon takes the same factor without
+  re-measuring. (The same measurement confirms U+FE0E is ignored on that
+  platform — the bare and VS-15 forms are metrically identical. It stays
+  in the source as a hint to the platforms that do honour it.)
+
+### Fixed
+
+- **`bin/test`'s glyph check did not know about the new constant.** It
+  greps a hardcoded list of glyph-constant names, so `CALENDAR` and 📅
+  would have escaped enforcement silently. Both added.
+
+### Notes
+
+- 1667 tests pass across the seven catalogs: svelte 185, react 240,
+  vue 241, html 267, nunjucks 289, angular 265, blazor 180.
+- **A rename hazard worth recording**: `perl -pi` over a file list
+  *follows symlinks* and replaces them with regular files. The sweep
+  silently destroyed 70 `README.md` → `index.md` symlinks; only
+  `bin/test`'s symlink check caught it. This is the fourth instance of
+  this repo's recurring failure shape — an operation that reports success
+  while quietly doing the wrong thing.
+- Stale `dist-nuget/*Chooser*.nupkg` artefacts were deleted. Left in
+  place, `bin/publish-helpers` would have pushed them to nuget.org under
+  package names that no longer exist, claiming those names irreversibly —
+  the exact hazard that script's own comments warn about.
+
 ## Picker glyphs escaped in source — 2026-07-21
 
 ### Changed

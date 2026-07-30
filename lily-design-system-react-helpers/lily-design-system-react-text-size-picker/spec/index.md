@@ -262,8 +262,10 @@ On the **listbox**:
 | `Home` / `End`          | Jump to the first / last option.                                                                    |
 | `Enter` / `Space`       | Select the active option, apply it, close, and return focus to the button.                          |
 | `Escape`                | Close and return focus to the button **without** changing the value.                                |
-| `Tab`                   | Close without stealing focus back, letting focus move on.                                           |
-| Printable character     | Typeahead over the option **labels**; the buffer accumulates and resets after 500 ms of inactivity. |
+| `PageUp`                | Move the active option up ten. Clamps at the first.                                                 |
+| `PageDown`              | Move the active option down ten. Clamps at the last.                                                |
+| `Tab`                   | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position. Hiding the focused list first would drop focus to `<body>` and restart Tab from the top of the document. |
+| Printable character     | Typeahead over the option **labels**; the buffer resets after 500 ms of inactivity. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match from the active option. Search wraps once. |
 
 Pointer behaviour: clicking an option selects it; clicking the button
 again closes the listbox; clicking outside the root closes it; focus
@@ -340,12 +342,13 @@ aria-hidden="true">A</span>` (U+0041), equal to the exported
     3. `Space` selects the active option and closes.
     4. `Escape` closes and refocuses the button without changing
        `data-text-size`.
-    5. `Tab` closes the listbox without stealing focus back to the button.
+    5. `Tab` closes the listbox after parking focus on the button, so the
+       browser's default Tab proceeds from the picker's position.
 17. Typeahead:
-    1. A printable character moves `aria-activedescendant` to the first
+    1. A printable character moves `aria-activedescendant` to the next
        option whose label starts with it.
-    2. Characters accumulate within the buffer window, so a longer prefix
-       keeps matching the same option.
+    2. Differing characters accumulate within the buffer window, refining
+       the match anchored on the active option.
     3. The buffer resets after the 500 ms idle window, so the next
        character starts a fresh search.
 18. Pointer interaction:
@@ -355,6 +358,15 @@ aria-hidden="true">A</span>` (U+0041), equal to the exported
 
 The pure helper `sizeName` is additionally covered by a direct unit test,
 plus a test that the component's default option text equals it.
+
+### Accessibility hardening
+
+- §7.14 `Tab` from the open list puts focus on the button before
+  closing, so the default Tab proceeds from the picker's position.
+- §7.15 A repeated typeahead character cycles through its matches;
+  a multi-character buffer refines from the active option.
+- §7.16 `PageUp` / `PageDown` move the cursor by ten, clamped.
+- §7.17 An empty list opens without `aria-activedescendant`.
 
 ## 8. Out-of-scope (future, not implemented here)
 

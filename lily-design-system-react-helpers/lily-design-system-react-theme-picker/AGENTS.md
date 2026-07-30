@@ -104,9 +104,11 @@ the component owns the options.
 - WCAG 2.2 AAA target; WAI-ARIA APG listbox pattern.
 - The component implements the keyboard contract itself: open with
   `ArrowDown` / `Enter` / `Space` (`ArrowUp` opens on the last option),
-  then `ArrowUp` / `ArrowDown` (clamping), `Home` / `End`, `Enter` /
-  `Space` to commit, `Escape` to dismiss, `Tab` to move on, and
-  printable-character typeahead with a 500 ms buffer.
+  then `ArrowUp` / `ArrowDown` (clamping), `Home` / `End`, `PageUp` /
+  `PageDown` (by ten, clamped), `Enter` / `Space` to commit, `Escape`
+  to dismiss, and printable-character typeahead with a 500 ms buffer
+  (a repeated character cycles through its matches). `Tab` closes via
+  the button so the default Tab proceeds from the picker's position.
 - `aria-label` carries the consumer-supplied accessible name on both the
   button and the listbox. The glyph is `aria-hidden`, so `label` is the
   only source of the accessible name.

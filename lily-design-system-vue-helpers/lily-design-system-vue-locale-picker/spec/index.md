@@ -32,9 +32,11 @@ idioms (Composition API, `defineProps`, `defineModel`, `ref`,
 > Everything downstream (`lang` / `dir` application, RTL detection,
 > persistence, navigator detection, `change`, initial-value
 > resolution, SSR safety, the exported pure helpers) is unchanged.
-> The per-option `lang` attribute survives the rewrite: each
-> `<li role="option">` still carries its locale's BCP 47 tag, so
-> endonyms are still pronounced in their own language (WCAG 3.1.2).
+> The per-option `lang` attribute survives the rewrite, but as a
+> conditional claim: an option carries its locale's BCP 47 tag only
+> when its label is the derived endonym, so the endonym is pronounced
+> in its own language (WCAG 3.1.2) and an English fallback label is
+> never handed to the wrong speech engine. See §5.4.
 
 ---
 
@@ -186,7 +188,7 @@ name.
       role="option"
       aria-selected="true|false"
       data-active
-      lang="{tagFor(locale)}"
+      lang="{tag, only when the label is the derived endonym}"
     >
       {labelFor(locale)}
     </li>
@@ -273,14 +275,32 @@ For each navigator entry `nav`:
 2. Language-only match: if `nav` is `xx-YY`, try `xx`. The first
    `locales` entry whose language matches wins.
 
-### 5.4 Default labels
+### 5.4 Default labels and the `lang` attribute
 
-When `localeLabels[code]` is missing, the helper falls back to:
+Default option labels are endonyms — each language named in itself,
+"Cymraeg" not "Welsh" — resolved by `localeEndonym()` via
+`Intl.DisplayNames` asked *in that language*. The user who needs a
+language menu is the one who cannot read the page's language, and the
+exonym means nothing to them. The endonym lookup is deterministic (no
+`navigator` dependency), so server and client render the same label,
+and it returns `""` when the runtime has no data or merely echoes the
+tag back.
 
-1. `defaultLocaleLabels[code]` from the built-in `locales.ts` table.
-2. `Intl.DisplayNames` for the consumer's BCP 47 environment locale,
+When `localeLabels[code]` is missing, the helper resolves, in order:
+
+1. `localeEndonym(code)` — the language's own name for itself.
+2. `defaultLocaleLabels[code]` from the built-in `locales.ts` table
+   (English names, now a fallback).
+3. `Intl.DisplayNames` for the consumer's BCP 47 environment locale,
    if available. (Used opportunistically — never throws.)
-3. The raw `code`.
+4. The raw `code`.
+
+Each option's `lang` attribute is a claim about the language of the
+option's **text**, and is made only when the text is the endonym we
+derived: then a screen reader may correctly switch voice. A consumer
+label's language is unknown, and the English fallback is English, so
+those options carry no `lang` — the English word "Arabic" must never
+be handed to an Arabic speech engine.
 
 ### 5.5 Applying a locale
 
@@ -332,9 +352,13 @@ no DOM is touched.
 - `data-active` mirrors the active option for consumer CSS;
   `aria-selected` mirrors the committed selection for assistive
   technology.
-- Each option carries `lang="{tagFor(locale)}"` so assistive
-  technology can switch pronunciation for the option text. WCAG 3.1.2
-  (Language of Parts). The button and the listbox carry no `lang`.
+- Each option's `lang` attribute is a claim about the language of the
+  option's **text**, and is made only when the text is the endonym we
+  derived (see §5.4): then a screen reader may correctly switch voice
+  — WCAG 3.1.2 (Language of Parts). A consumer label's language is
+  unknown, and the English fallback is English, so those options carry
+  no `lang` — the English word "Arabic" must never be handed to an
+  Arabic speech engine. The button and the listbox carry no `lang`.
 - The document root receives `lang` and (by default) `dir` — WCAG
   3.1.1 (Language of Page) and 1.4.10 (Reflow).
 
@@ -362,8 +386,16 @@ On the **listbox**:
 | `Home` / `End`       | Jump to the first / last option.                               |
 | `Enter` / `Space`    | Select the active option, apply it, close, refocus the button. |
 | `Escape`             | Close and refocus the button **without** changing the value.   |
-| `Tab`                | Close without stealing focus back.                             |
-| Printable characters | Typeahead over the option **labels**, 500 ms buffer reset.     |
+| `PageUp`             | Move the active option up ten. Clamps at the first.            |
+| `PageDown`           | Move the active option down ten. Clamps at the last.           |
+| `Tab`                | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position. Hiding the focused list first would drop focus to `<body>` and restart Tab from the top of the document. |
+| Printable characters | Typeahead over the option **labels**, 500 ms buffer reset. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match from the active option. Search wraps once. |
+
+Typeahead matches the _label_, and default labels are **endonyms**
+(see §5.4), so typing `f` reaches "français"; with
+`localeLabels={{ fr: "French" }}` the consumer's label wins and `f`
+still reaches it. Choose labels with the typeahead in mind for long
+locale lists.
 
 Pointer and focus behaviour: clicking an option selects it; clicking
 outside the root closes the listbox; focus leaving the root closes it.
@@ -398,10 +430,13 @@ run under vitest + jsdom + `@vue/test-utils`.
 4. The listbox carries `hidden` until the button is activated; then
    `hidden` is dropped and `aria-expanded` becomes `"true"`. Exactly
    one option carries `aria-selected="true"` — the active locale.
-5. Each option carries `lang="{tagFor(locale)}"` (BCP 47 hyphen
-   form). The button and the listbox carry no `lang` of their own.
+5. An option whose label is the derived endonym carries `lang` in BCP
+   47 hyphen form; consumer-labelled options carry no `lang`. The
+   button and the listbox carry no `lang` of their own.
 6. The default rendering shows `localeLabels[code]
-?? defaultLocaleLabels[code] ?? code` as the visible option text.
+?? localeEndonym(code) ?? defaultLocaleLabels[code] ?? code` as
+   the visible option text — the endonym ("Cymraeg", "Deutsch"), not
+   the English exonym.
 
 ### 7.2 Pure helpers (mirrors §5.1, §5.6)
 
@@ -459,11 +494,22 @@ run under vitest + jsdom + `@vue/test-utils`.
 26. `Enter` selects the active option, applies it, closes the listbox
     (`hidden` returns, `aria-expanded` becomes `"false"`), and returns
     focus to the button. `Space` selects too. `Escape` closes without
-    changing the locale. `Tab` closes without stealing focus back.
+    changing the locale. `Tab` closes after moving focus to the
+    button, without cancelling the key (see clause 28).
     `aria-activedescendant` is removed once closed.
 27. Printable characters run a typeahead over the option labels.
     Clicking an option selects and applies it. Clicking outside the
     root closes the listbox.
+
+### 7.7 Accessibility hardening
+
+28. `Tab` from the open list puts focus on the button before closing,
+    so the default Tab proceeds from the picker's position.
+29. `lang` is claimed only when the label is the endonym;
+    consumer-labelled options carry no `lang` (§5.4).
+30. A repeated typeahead character cycles through its matches.
+31. `PageUp` / `PageDown` move the cursor by ten, clamped.
+32. An empty list opens without `aria-activedescendant`.
 
 ## 8. Out-of-scope (future, not implemented here)
 

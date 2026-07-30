@@ -4,6 +4,23 @@ All notable changes to `lily-design-system-html-share-picker` are
 documented here. The format follows [Keep a Changelog](https://keepachangelog.com/),
 and this package uses [semantic versioning](https://semver.org/).
 
+## Unreleased
+
+### Changed
+
+- **`Tab` from the open list no longer strands keyboard focus.** The
+  handler hid the list while it had focus; the browser then moved focus
+  to `<body>` and the default Tab restarted from the top of the
+  document. Focus now goes to the trigger button first — without
+  cancelling the key — so the default Tab proceeds from the picker's
+  own position.
+
+### Added
+
+- The list carries the picker's accessible name (`aria-label` =
+  `label`), matching the sibling pickers' listboxes: a screen reader
+  entering the list hears what it is for, not just "list, three items".
+
 ## 0.1.0 — 2026-07-21
 
 First release under the name `lily-design-system-html-share-picker`.

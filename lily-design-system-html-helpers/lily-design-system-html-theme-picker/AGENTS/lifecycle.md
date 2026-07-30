@@ -40,7 +40,8 @@ user opens the list (button click, ArrowDown / ArrowUp / Enter / Space)
   │
   ▼
 openList(startIndex?):
-  ↳ #activeIndex = startIndex ?? indexOf(value) ?? 0
+  ↳ #activeIndex = startIndex ?? indexOf(value) ?? 0   (-1 when the
+      list is empty, so aria-activedescendant stays absent)
   ↳ #open = true
   ↳ #syncState() — aria-expanded, unhide list, aria-activedescendant
   ↳ list.focus()  (focus sits on the <ul>, not on an <li>)
@@ -102,7 +103,7 @@ returns to the button:
 | ------------------------------------- | ------------------ | ------------------- |
 | Option chosen (click / Enter / Space) | `closeList()`      | yes                 |
 | `Escape`                              | `closeList()`      | yes                 |
-| `Tab`                                 | `closeList(false)` | no — focus moves on |
+| `Tab`                                 | `buttonEl?.focus?.()` then `closeList(false)` | yes — focus goes to the button first, so the uncancelled default Tab proceeds from the picker's position |
 | Click outside the root                | `closeList(false)` | no                  |
 | Focus leaves the root                 | `closeList(false)` | no                  |
 | Structural re-render                  | (state reset)      | no                  |

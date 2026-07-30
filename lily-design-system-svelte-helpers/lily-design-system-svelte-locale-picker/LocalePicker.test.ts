@@ -4,6 +4,7 @@ import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import LocalePicker, {
     bcp47LocaleTag,
     isRtlLocale,
+    localeEndonym,
     localeName,
     matchNavigatorLanguage,
 } from "./LocalePicker.svelte";
@@ -172,11 +173,22 @@ describe("LocalePicker — markup contract (§4.3, §7.1)", () => {
         expect(screen.getByText("Français")).toBeTruthy();
     });
 
-    test("§7.6 falls back to defaultLocaleLabels when localeLabels missing", () => {
+    test("§7.6 default option text is the locale's endonym, not the English exonym", () => {
         render(LocalePicker, {
-            props: { label: "Language", locales: ["en_US"] },
+            props: { label: "Language", locales: ["cy", "de"] },
         });
-        expect(screen.getByText("English (United States)")).toBeTruthy();
+        // "Cymraeg", not "Welsh": the user who needs the language menu is
+        // the one who cannot read the page's language, and the exonym
+        // means nothing to them. The English table is now only a fallback
+        // for runtimes without Intl.DisplayNames data.
+        expect(screen.getByText("Cymraeg")).toBeTruthy();
+        expect(screen.queryByText("Welsh")).toBeNull();
+        expect(screen.getByText("Deutsch")).toBeTruthy();
+        // The exported helper backs the rendered text and is
+        // deterministic — no navigator dependency, so SSR and client
+        // agree.
+        expect(localeEndonym("cy")).toBe("Cymraeg");
+        expect(localeEndonym("de")).toBe("Deutsch");
     });
 });
 
@@ -494,6 +506,98 @@ describe("LocalePicker — spread + custom children (§4.1, §7.5)", () => {
         expect(document.querySelector(".locale-picker-icon")).toBeNull();
         expect(node.getAttribute("data-open")).toBe("false");
         expect(node.getAttribute("data-value")).toBe("fr");
-        expect(node.getAttribute("data-label-en-us")).toBe("English (United States)");
+        // labelFor now resolves the endonym; assert against the exported
+        // helper rather than a hardcoded string, so an ICU wording change
+        // cannot break the test without a real behaviour change.
+        expect(node.getAttribute("data-label-en-us")).toBe(
+            localeEndonym("en_US"),
+        );
+    });
+});
+
+describe("LocalePicker — accessibility hardening (§7.28–§7.32)", () => {
+    async function openPicker(
+        locales: string[] = LOCALES,
+        extra: Record<string, unknown> = {},
+    ) {
+        render(LocalePicker, {
+            props: { label: "Language", locales, ...extra },
+        });
+        await flush();
+        await fireEvent.click(screen.getByRole("button"));
+        await flush();
+        return {
+            button: screen.getByRole("button"),
+            list: document.querySelector(".locale-picker-list") as HTMLElement,
+        };
+    }
+
+    const active = (list: HTMLElement) =>
+        list.querySelector("[data-active]")?.textContent?.trim();
+
+    test("§7.28 Tab from the open list puts focus on the button before closing", async () => {
+        const { button, list } = await openPicker();
+        expect(document.activeElement).toBe(list);
+        await fireEvent.keyDown(list, { key: "Tab" });
+        // Focus sits on the button, so the browser's default Tab proceeds
+        // from the picker's own position — not from <body>, which is where
+        // focus lands when the focused list is hidden first.
+        expect(document.activeElement).toBe(button);
+        expect(list.hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.29 lang is claimed only when the label is the endonym", async () => {
+        render(LocalePicker, {
+            props: {
+                label: "Language",
+                locales: ["cy", "ar"],
+                localeLabels: { ar: "Arabic" },
+            },
+        });
+        const opts = document.querySelectorAll(".locale-picker-option");
+        // Endonym label: the text really is Welsh, so lang="cy" is a true
+        // claim and a screen reader may switch voice.
+        expect(opts[0].textContent?.trim()).toBe("Cymraeg");
+        expect(opts[0].getAttribute("lang")).toBe("cy");
+        // Consumer label: its language is unknown, so no claim — the
+        // English word "Arabic" must not be handed to an Arabic voice.
+        expect(opts[1].textContent?.trim()).toBe("Arabic");
+        expect(opts[1].getAttribute("lang")).toBeNull();
+    });
+
+    test("§7.30 a repeated typeahead character cycles through its matches", async () => {
+        const { list } = await openPicker(["l1", "l2", "l3", "l4"], {
+            localeLabels: { l1: "Dark", l2: "Dim", l3: "Dracula", l4: "Light" },
+            defaultValue: "l4",
+        });
+        await fireEvent.keyDown(list, { key: "d" });
+        expect(active(list)).toBe("Dark");
+        await fireEvent.keyDown(list, { key: "d" });
+        expect(active(list)).toBe("Dim");
+        await fireEvent.keyDown(list, { key: "d" });
+        expect(active(list)).toBe("Dracula");
+    });
+
+    test("§7.31 PageUp and PageDown move the cursor by ten, clamped", async () => {
+        const many = Array.from(
+            { length: 25 },
+            (_, i) => `x${String(i).padStart(2, "0")}`,
+        );
+        const labels = Object.fromEntries(many.map((l) => [l, l.toUpperCase()]));
+        const { list } = await openPicker(many, { localeLabels: labels });
+        await fireEvent.keyDown(list, { key: "PageDown" });
+        expect(active(list)).toBe("X10");
+        await fireEvent.keyDown(list, { key: "PageDown" });
+        expect(active(list)).toBe("X20");
+        await fireEvent.keyDown(list, { key: "PageDown" });
+        expect(active(list)).toBe("X24");
+        await fireEvent.keyDown(list, { key: "PageUp" });
+        expect(active(list)).toBe("X14");
+    });
+
+    test("§7.32 an empty list opens without aria-activedescendant", async () => {
+        const { list } = await openPicker([]);
+        expect(list.hasAttribute("hidden")).toBe(false);
+        expect(list.getAttribute("aria-activedescendant")).toBeNull();
     });
 });

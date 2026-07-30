@@ -454,8 +454,16 @@ export class SharePicker extends HTMLElement {
                 this.closeList();
                 break;
             case "Tab":
-                // Tab leaves the control: close, but let focus go where the
-                // browser was sending it.
+                // Tab leaves the control — but focus goes to the button
+                // FIRST, without cancelling the key. Hiding the list while
+                // one of its items has focus drops focus to <body>, and
+                // the browser then computes the default Tab move from the
+                // top of the document, so tabbing out of the open list
+                // teleported the user to the page's first tab stop. From
+                // the button, the default Tab lands exactly where leaving
+                // the picker should. Guard the METHOD: jsdom-shaped
+                // environments may lack it.
+                this.#buttonEl?.focus?.();
                 this.closeList(false);
                 break;
         }
@@ -579,6 +587,10 @@ export class SharePicker extends HTMLElement {
         const list = document.createElement("ul");
         list.className = "share-picker-list";
         list.id = this.listId;
+        // The list carries the picker's accessible name, matching the
+        // sibling pickers' listboxes: a screen reader entering the list
+        // hears what it is for, not just "list, three items".
+        list.setAttribute("aria-label", this.label);
         list.setAttribute("hidden", "");
         list.addEventListener("keydown", this.#onListKeydown);
 

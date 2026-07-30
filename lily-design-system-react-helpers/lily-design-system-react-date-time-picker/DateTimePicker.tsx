@@ -84,6 +84,21 @@ export type DateTimePickerLabels = {
     week?: string;
     /** Visible text of the clear button. The button renders only when set. */
     clear?: string;
+    /**
+     * Message announced when typed text will not parse or is out of
+     * range. When set, a `role="status"` live region renders after the
+     * field and is wired to it via `aria-errormessage` — without it,
+     * `aria-invalid` flips silently and a screen-reader user who has
+     * already left the field never hears that their date was refused.
+     */
+    invalid?: string;
+    /**
+     * Keyboard help for the dialog, e.g. "Use the arrow keys to choose
+     * a date". When set, it renders inside the dialog and becomes the
+     * dialog's `aria-describedby`, so a screen reader speaks it once on
+     * open — the APG date-picker dialog ships exactly this affordance.
+     */
+    instructions?: string;
 };
 
 /** Arguments passed to a custom `children` render prop (the button glyph). */
@@ -584,6 +599,8 @@ export function DateTimePicker({
     const hourId = `${baseId}-hour`;
     const minuteId = `${baseId}-minute`;
     const meridiemId = `${baseId}-meridiem`;
+    const statusId = `${baseId}-status`;
+    const instructionsId = `${baseId}-instructions`;
     const fieldId = inputId ?? `${baseId}-input`;
 
     const [open, setOpen] = React.useState(false);
@@ -647,6 +664,17 @@ export function DateTimePicker({
     const rootRef = React.useRef<HTMLDivElement | null>(null);
     const buttonRef = React.useRef<HTMLButtonElement | null>(null);
     const dialogRef = React.useRef<HTMLDivElement | null>(null);
+    const gridRef = React.useRef<HTMLTableElement | null>(null);
+
+    /**
+     * The element that opened the dialog, so close can return focus to it.
+     *
+     * The APG rule is "focus returns to the element that invoked the
+     * dialog" — which is the trigger button on a click, but the *text
+     * field* when the user pressed Alt+ArrowDown. Always refocusing the
+     * button strands a keyboard user one Tab stop past where they were.
+     */
+    const openerRef = React.useRef<HTMLElement | null>(null);
 
     /**
      * What to focus after the next commit lands, or `null`. Set inside a
@@ -655,7 +683,7 @@ export function DateTimePicker({
      * control may not exist in the DOM yet — it appears only once the
      * state change this handler queued has actually re-rendered.
      */
-    const focusRequestRef = React.useRef<"trigger" | "cursor" | "first" | null>(null);
+    const focusRequestRef = React.useRef<"opener" | "cursor" | "first" | null>(null);
 
     const committed = splitValue(currentValue, mode);
     const weekStart = firstDayOfWeek ?? firstDayOfWeekFor(locale);
@@ -755,6 +783,17 @@ export function DateTimePicker({
 
     /** The text shown in the field. A pending edit wins until resolved. */
     const display = typed !== null ? typed : (formatValue ?? defaultFormat)(currentValue);
+
+    /**
+     * `aria-describedby` for the field: the consumer's hint, plus —
+     * while invalid, with `labels.invalid` supplied — the status region,
+     * for the assistive technologies that read `aria-describedby` but
+     * not the newer `aria-errormessage`.
+     */
+    const fieldDescribedBy =
+        [describedBy, invalid && labels.invalid ? statusId : undefined]
+            .filter(Boolean)
+            .join(" ") || undefined;
 
     /** Accessible name for one day cell, e.g. "Sunday 1 March 2026". */
     function dayLabel(isoDate: string): string {
@@ -856,6 +895,11 @@ export function DateTimePicker({
 
     function openDialog(): void {
         if (disabled || readonly) return;
+        const active = document.activeElement;
+        openerRef.current =
+            active instanceof HTMLElement && rootRef.current?.contains(active)
+                ? active
+                : buttonRef.current;
         const t = todayIso();
         setToday(t);
         const nextPendingDate = committed.date || nearestSelectable(t);
@@ -875,7 +919,7 @@ export function DateTimePicker({
     function closeDialog(refocus = true): void {
         if (!open) return;
         setOpen(false);
-        if (refocus) focusRequestRef.current = "trigger";
+        if (refocus) focusRequestRef.current = "opener";
     }
 
     /**
@@ -915,10 +959,11 @@ export function DateTimePicker({
     /**
      * Move the cursor, paging the view when the target is off-screen.
      *
-     * Disabled days are still reachable — the cursor lands on them and
-     * the button is `disabled`, so arrowing across a blocked range
-     * works. What is refused is leaving the min/max window entirely,
-     * because there is nothing out there to navigate to.
+     * Vetoed days are still reachable — the cursor lands on them and the
+     * button is `aria-disabled` rather than `disabled`, so arrowing
+     * across a blocked range works with real focus and a screen-reader
+     * announcement. What is refused is leaving the min/max window
+     * entirely, because there is nothing out there to navigate to.
      */
     function moveCursor(nextIso: string): void {
         if (!withinRange(nextIso, min, max)) return;
@@ -957,11 +1002,20 @@ export function DateTimePicker({
         const anchor = formatIsoDate({ year: viewYear, month: viewMonth, day: 1 });
         const next = parseIsoDate(addMonths(anchor, delta));
         if (!next) return;
+        // Refocus the cursor only when focus is already in the grid: grid
+        // paging (PageUp/PageDown, or a browser that focused nothing on
+        // click) must carry focus, or it dies with the unrendered cell —
+        // but a header button must keep focus, or its user is yanked into
+        // the grid after one activation and cannot page twice. Read
+        // before the setState calls: the check is about where focus is
+        // *now*, in the render the user acted in.
+        const hadGridFocus = gridRef.current?.contains(document.activeElement) === true;
         setViewYear(next.year);
         setViewMonth(next.month);
-        // Carry the cursor into the new month rather than leaving focus
-        // on a cell that is no longer rendered — which would drop focus
-        // to <body> and lose the keyboard user's place entirely.
+        // Carry the cursor into the new month rather than leaving the
+        // roving tabindex on a cell that is no longer rendered — which
+        // would drop focus to <body> and lose the keyboard user's place
+        // entirely.
         const c = parseIsoDate(cursor);
         if (c) {
             setCursor(
@@ -971,7 +1025,7 @@ export function DateTimePicker({
                     day: Math.min(c.day, daysInMonth(next.year, next.month)),
                 }),
             );
-            focusRequestRef.current = "cursor";
+            if (hadGridFocus) focusRequestRef.current = "cursor";
         }
     }
 
@@ -1140,6 +1194,16 @@ export function DateTimePicker({
             // browser.
             event.preventDefault();
             openDialog();
+        } else if (event.key === "Escape" && typed !== null) {
+            // Discard the pending edit and show the committed value
+            // again — the same contract Escape has inside the dialog.
+            // Stops propagating so a surrounding dialog does not also
+            // close on what was, to the user, a text-editing keystroke.
+            // When no edit is pending the key is left alone.
+            event.preventDefault();
+            event.stopPropagation();
+            setTyped(null);
+            setInvalid(false);
         }
     }
 
@@ -1242,19 +1306,32 @@ export function DateTimePicker({
         const want = focusRequestRef.current;
         if (!want) return;
         focusRequestRef.current = null;
-        if (want === "trigger") buttonRef.current?.focus?.();
+        if (want === "opener") (openerRef.current ?? buttonRef.current)?.focus?.();
         else if (want === "cursor") focusCursor();
         else if (want === "first") focusables()[0]?.focus?.();
     });
 
-    // Clicking outside the root closes the dialog without committing.
+    // Clicking outside the dialog closes it without committing.
     React.useEffect(() => {
         if (!open) return;
         function onDocumentClick(event: MouseEvent): void {
             const target = event.target as Node | null;
-            if (target && rootRef.current && !rootRef.current.contains(target)) {
-                closeDialog(false);
+            if (!target) return;
+            // Anything outside the dialog closes it — including the
+            // component's own text field. The dialog says
+            // aria-modal="true", and a modal that stays open while the
+            // user edits the field behind it is telling assistive
+            // technology one thing and doing another. The trigger button
+            // is exempt because its own handler already toggles. Close
+            // without moving focus: the user has already put it
+            // somewhere.
+            if (
+                dialogRef.current?.contains(target) ||
+                buttonRef.current?.contains(target)
+            ) {
+                return;
             }
+            closeDialog(false);
         }
         document.addEventListener("click", onDocumentClick);
         return () => document.removeEventListener("click", onDocumentClick);
@@ -1281,8 +1358,9 @@ export function DateTimePicker({
                     disabled={disabled}
                     readOnly={readonly}
                     required={required}
-                    aria-describedby={describedBy}
+                    aria-describedby={fieldDescribedBy}
                     aria-invalid={invalid ? "true" : undefined}
+                    aria-errormessage={invalid && labels.invalid ? statusId : undefined}
                     onChange={onFieldChange}
                     onBlur={resolveTyped}
                     onKeyDown={onFieldKeydown}
@@ -1309,6 +1387,16 @@ export function DateTimePicker({
                 </button>
             </div>
 
+            {labels.invalid && (
+                // Present in the DOM before it has content: a live region
+                // that appears at the same moment as its message is
+                // routinely not announced at all. Empty while the field
+                // is valid.
+                <span className="date-time-picker-status" id={statusId} role="status">
+                    {invalid ? labels.invalid : ""}
+                </span>
+            )}
+
             <div
                 ref={dialogRef}
                 className="date-time-picker-dialog"
@@ -1316,10 +1404,20 @@ export function DateTimePicker({
                 role="dialog"
                 aria-modal="true"
                 aria-label={label}
+                aria-describedby={labels.instructions ? instructionsId : undefined}
                 tabIndex={-1}
                 hidden={!open}
                 onKeyDown={onDialogKeydown}
             >
+                {labels.instructions && (
+                    // Spoken once when the dialog takes focus, via the
+                    // dialog's aria-describedby. Visible by default; a
+                    // consumer who wants it screen-reader-only hides it
+                    // with their own CSS.
+                    <p className="date-time-picker-instructions" id={instructionsId}>
+                        {labels.instructions}
+                    </p>
+                )}
                 {usesDate && (
                     <div className="date-time-picker-header">
                         <button
@@ -1371,6 +1469,7 @@ export function DateTimePicker({
                     // the handler sits on the table rather than on each of
                     // 42 cells.
                     <table
+                        ref={gridRef}
                         className="date-time-picker-calendar"
                         role="grid"
                         aria-labelledby={periodId}
@@ -1410,8 +1509,19 @@ export function DateTimePicker({
                                         const parsed = parseIsoDate(isoDate);
                                         const isToday = isoDate === today;
                                         const isSelected = isoDate === pendingDate;
+                                        const isDisabled = dayDisabled(isoDate);
                                         return (
                                             <td key={isoDate} role="gridcell" aria-selected={isSelected}>
+                                                {/* aria-disabled, not `disabled`: a
+                                                    vetoed day must stay focusable so
+                                                    the roving cursor can land on it
+                                                    and a screen reader can announce
+                                                    it as unavailable. A `disabled`
+                                                    button refuses focus, and arrowing
+                                                    across a blocked week goes silent
+                                                    while the visible focus stays
+                                                    behind. Activation is refused in
+                                                    `selectDay` instead. */}
                                                 <button
                                                     type="button"
                                                     className="date-time-picker-day"
@@ -1419,10 +1529,11 @@ export function DateTimePicker({
                                                     data-outside={parsed?.month !== viewMonth ? "" : undefined}
                                                     data-today={isToday ? "" : undefined}
                                                     data-selected={isSelected ? "" : undefined}
+                                                    data-disabled={isDisabled ? "" : undefined}
                                                     tabIndex={isoDate === cursor ? 0 : -1}
                                                     aria-label={dayLabel(isoDate)}
                                                     aria-current={isToday ? "date" : undefined}
-                                                    disabled={dayDisabled(isoDate)}
+                                                    aria-disabled={isDisabled ? "true" : undefined}
                                                     onClick={() => selectDay(isoDate)}
                                                 >
                                                     {parsed?.day ?? ""}

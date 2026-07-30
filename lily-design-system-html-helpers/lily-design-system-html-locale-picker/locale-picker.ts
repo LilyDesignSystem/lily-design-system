@@ -73,6 +73,29 @@ export function localeName(locale: string): string {
     return defaultLocaleLabels[locale] ?? locale;
 }
 
+/**
+ * The language's own name for itself — "de" → "Deutsch", "cy" →
+ * "Cymraeg" — from `Intl.DisplayNames` asked *in that language*.
+ *
+ * Endonyms are the right default for a language menu: the user who
+ * needs it most is the one lost in a UI that is not in their
+ * language, and they recognise "Cymraeg" where "Welsh" means
+ * nothing to them. Deterministic (no `navigator` dependency), so
+ * the server and the client render the same label. Returns "" when
+ * the runtime has no data — some runtimes echo the tag back instead
+ * of failing, and an echo is not a name.
+ */
+export function localeEndonym(locale: string): string {
+    try {
+        const tag = bcp47LocaleTag(locale);
+        const dn = new Intl.DisplayNames([tag], { type: "language" });
+        const found = dn.of(tag) ?? "";
+        return found && found.toLowerCase() !== tag.toLowerCase() ? found : "";
+    } catch {
+        return "";
+    }
+}
+
 /** Opportunistic Intl.DisplayNames lookup; never throws. */
 function intlDisplayName(locale: string): string {
     try {
@@ -301,6 +324,12 @@ export class LocalePicker extends HTMLElement {
     /** Resolve a locale code to its display label. Public for subclasses. */
     labelFor(locale: string): string {
         if (locale in this.#localeLabels) return this.#localeLabels[locale];
+        // Endonym first: a language menu names each language in itself,
+        // because the user who needs the menu is the one who cannot read
+        // the page's language. The English table and the environment
+        // lookup are fallbacks for runtimes without DisplayNames data.
+        const endonym = localeEndonym(locale);
+        if (endonym) return endonym;
         if (locale in defaultLocaleLabels) return defaultLocaleLabels[locale];
         const intl = intlDisplayName(locale);
         if (intl) return intl;
@@ -310,6 +339,20 @@ export class LocalePicker extends HTMLElement {
     /** Resolve a locale code to its BCP 47 tag. Public for subclasses. */
     tagFor(locale: string): string {
         return bcp47LocaleTag(locale);
+    }
+
+    /**
+     * The `lang` attribute for one option — a claim about the language
+     * of the option's TEXT, made only when the text is the endonym we
+     * derived ourselves. A consumer label or the English fallback is in
+     * whatever language the consumer's UI speaks, and claiming otherwise
+     * sends a screen reader's speech engine to the wrong voice: the
+     * English word "Arabic" read out by an Arabic synthesizer. Returns
+     * "" when no claim can be made. Public for subclasses.
+     */
+    optionLang(locale: string): string {
+        if (locale in this.#localeLabels) return "";
+        return localeEndonym(locale) ? bcp47LocaleTag(locale) : "";
     }
 
     // ---- Lifecycle ----
@@ -427,9 +470,14 @@ export class LocalePicker extends HTMLElement {
 
     /** Open the listbox. `startIndex` overrides the active option. */
     openList(startIndex?: number): void {
-        if (this.#locales.length === 0) return;
         const selected = this.#locales.indexOf(this.value);
-        this.#activeIndex = startIndex ?? (selected >= 0 ? selected : 0);
+        // An empty list has no option to activate; -1 keeps
+        // aria-activedescendant off rather than pointing at an id that
+        // does not exist.
+        this.#activeIndex =
+            this.#locales.length === 0
+                ? -1
+                : (startIndex ?? (selected >= 0 ? selected : 0));
         this.#open = true;
         this.#syncState();
         // Focus moves to the listbox; the active option is conveyed via
@@ -476,16 +524,27 @@ export class LocalePicker extends HTMLElement {
     }
 
     #runTypeahead(char: string): void {
-        this.#typeahead += char.toLowerCase();
+        const lower = char.toLowerCase();
+        // APG listbox typeahead: a single character moves to the NEXT
+        // option starting with it, and repeating that character keeps
+        // cycling. Only a buffer of differing characters refines the
+        // match, and that buffer stays anchored on the active option.
+        const sameCharRun =
+            this.#typeahead === "" ||
+            [...this.#typeahead].every((c) => c === lower);
+        this.#typeahead += lower;
         clearTimeout(this.#typeaheadTimer);
         this.#typeaheadTimer = setTimeout(() => {
             this.#typeahead = "";
         }, 500);
-        const from = this.#activeIndex < 0 ? 0 : this.#activeIndex;
-        // Search forward from the active option, wrapping once.
+        const query = sameCharRun ? lower : this.#typeahead;
+        const anchor = this.#activeIndex < 0 ? 0 : this.#activeIndex;
+        const start = sameCharRun ? anchor + 1 : anchor;
+        // Search forward, wrapping once — typeahead wraps even though the
+        // arrows clamp, or options above the cursor would be untypable.
         for (let n = 0; n < this.#locales.length; n++) {
-            const i = (from + n) % this.#locales.length;
-            if (this.labelFor(this.#locales[i]).toLowerCase().startsWith(this.#typeahead)) {
+            const i = (start + n) % this.#locales.length;
+            if (this.labelFor(this.#locales[i]).toLowerCase().startsWith(query)) {
                 this.#setActive(i);
                 return;
             }
@@ -534,8 +593,26 @@ export class LocalePicker extends HTMLElement {
                 event.preventDefault();
                 this.closeList();
                 break;
+            case "PageUp":
+                event.preventDefault();
+                this.#moveActive(-10);
+                break;
+            case "PageDown":
+                // ±10, clamped: an APG-optional key for long locale lists.
+                event.preventDefault();
+                this.#moveActive(10);
+                break;
             case "Tab":
-                // Tab moves on: close without stealing focus back.
+                // Tab moves on — but focus goes to the button FIRST,
+                // without cancelling the key. Hiding the focused list
+                // drops focus to <body>, and the browser then computes
+                // the default Tab move from the top of the document, so
+                // tabbing out of an open picker teleported the user to
+                // the page's first tab stop. From the button, the
+                // default Tab lands exactly where leaving the picker
+                // should. Guard the METHOD: jsdom-shaped environments
+                // may lack it.
+                this.#buttonEl?.focus?.();
                 this.closeList(false);
                 break;
             default:
@@ -657,10 +734,12 @@ export class LocalePicker extends HTMLElement {
             option.id = this.optionId(i);
             option.setAttribute("role", "option");
             option.setAttribute("aria-selected", String(locale === this.value));
-            // Each locale name is pronounced in its own language
-            // (WCAG 3.1.2 Language of Parts). The button and the list
-            // carry no `lang` — they are not locale-specific.
-            option.setAttribute("lang", this.tagFor(locale));
+            // `lang` is set only when the label is the endonym we derived
+            // (WCAG 3.1.2 Language of Parts) — see `optionLang`. The
+            // button and the list carry no `lang`: they are not
+            // locale-specific.
+            const lang = this.optionLang(locale);
+            if (lang) option.setAttribute("lang", lang);
             option.textContent = this.labelFor(locale);
             option.addEventListener("click", () => this.#choose(i));
             list.appendChild(option);

@@ -145,9 +145,13 @@ Full table in [spec/index.md §4.1](./spec/index.md#41-props). Required:
 
 ## Accessibility
 
-- The glyph is `aria-hidden`; the name comes from `aria-label`.
+- The glyph is `aria-hidden`; the name comes from `aria-label`, which
+  also names the list, so a screen reader entering it hears what it
+  is for.
 - `Escape` closes and returns focus to the button; arrows move between
-  items and clamp; `Home` / `End` jump; `Tab` closes and moves on.
+  items and clamp; `Home` / `End` jump; `Tab` closes via the button —
+  without cancelling the key — so the default Tab proceeds from the
+  picker's position.
 - The status region is polite and empty on load.
 - **Tradeoff:** an icon-only control's name rests entirely on
   `aria-label` — there is no visible text fallback. See

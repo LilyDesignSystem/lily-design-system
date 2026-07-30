@@ -15,11 +15,11 @@ remains the consumer's responsibility.
 | WCAG / APG item               | How the select satisfies it                                                                                                                                                                     |
 | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | WCAG 3.1.1 Language of Page   | Writes `lang` to the document root on every locale change.                                                                                                                                      |
-| WCAG 3.1.2 Language of Parts  | Each `<li role="option">` carries its own `lang` attribute so option text is announced in the right language.                                                                                   |
+| WCAG 3.1.2 Language of Parts  | Default option text is the locale's endonym, and an `<li role="option">` carries its own `lang` attribute exactly when its text is that endonym — so option text is announced in the right language, and an English label is never handed to a foreign speech engine.  |
 | WCAG 1.4.10 Reflow (RTL bidi) | Writes `dir="rtl"` for RTL locales so layout, scrollbar, and text inversion are correct.                                                                                                        |
 | WCAG 4.1.2 Name, Role, Value  | The button carries `aria-label`, `aria-haspopup="listbox"`, and `aria-expanded`; the `<ul>` carries `role="listbox"` and `aria-label`; each `<li>` carries `role="option"` and `aria-selected`. |
 | WCAG 2.1.1 Keyboard           | Full APG listbox keyboard contract, implemented in JS — see below.                                                                                                                              |
-| WCAG 2.1.2 No Keyboard Trap   | `Escape` and `Tab` both close the list; `Tab` deliberately does not pull focus back to the button.                                                                                              |
+| WCAG 2.1.2 No Keyboard Trap   | `Escape` and `Tab` both close the list; `Tab` moves focus to the button first — without cancelling the key — so the default Tab proceeds from the picker's position instead of restarting from `<body>`.  |
 | WCAG 2.4.3 Focus Order        | Opening moves focus to the list; selecting or cancelling returns it to the button. The button is the control's only tab stop.                                                                   |
 | WCAG 2.4.7 Focus Visible      | The browser's default focus ring is preserved; the element never sets `outline: none`.                                                                                                          |
 | WCAG 1.4.1 Use of Color       | Selection is exposed via `aria-selected` and the hidden input's value, and the active option via `data-active` — never colour alone. Consumer CSS must also give both a non-colour signal.      |
@@ -107,8 +107,9 @@ On the **listbox**:
 | Home / End          | Jump to the first / last option.                                                                                                 |
 | Enter / Space       | Select the active option, apply it, close, return focus to the button.                                                           |
 | Escape              | Close and return focus to the button **without** changing the locale.                                                            |
-| Tab                 | Close without stealing focus back, so focus lands where the user was going.                                                      |
-| printable character | Typeahead over the option **labels**; the buffer resets after 500 ms. Search runs forward from the active option and wraps once. |
+| PageUp / PageDown   | Move the active option ten steps. Clamps at both ends.                                                                           |
+| Tab                 | Move focus to the button, then close — without cancelling the key, so the default Tab proceeds from the picker's position rather than restarting from `<body>`. |
+| printable character | Typeahead over the option **labels**; the buffer resets after 500 ms. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match from the active option. Search wraps once. |
 
 Pointer and focus behaviour: clicking an option selects and applies
 it; clicking the button toggles the list; clicking outside the
@@ -299,9 +300,10 @@ cause a focus or context change.
 
 The element does move focus _within_ the control, which the APG
 listbox pattern requires: opening moves focus to the `<ul>`, and
-selecting or cancelling returns it to the button. `Tab` is the
-exception and closes without pulling focus back, so it lands wherever
-the user was headed.
+selecting or cancelling returns it to the button. `Tab` also lands on
+the button — deliberately, and without cancelling the key — so the
+browser's default Tab proceeds from the picker's own position instead
+of restarting from `<body>` after the focused list is hidden.
 
 Avoid navigation calls in `localechange` handlers that scroll the
 page; if you must navigate, scroll-restore to the control's position

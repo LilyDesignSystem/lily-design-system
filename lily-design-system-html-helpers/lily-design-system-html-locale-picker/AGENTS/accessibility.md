@@ -66,8 +66,9 @@ On the **listbox**:
 | Home / End            | Jump to the first / last option.                                         |
 | Enter / Space         | Select the active option, apply, close, return focus to the button.      |
 | Escape                | Close and refocus the button **without** changing the value.             |
-| Tab                   | Close without stealing focus back.                                       |
-| printable character   | Typeahead over the option labels; 500 ms buffer reset; wraps once.       |
+| PageUp / PageDown     | Move the active option by ten; clamps at both ends.                      |
+| Tab                   | Move focus to the button, then close — the default Tab proceeds from the picker's position. |
+| printable character   | Typeahead over the option labels; 500 ms buffer reset; wraps once. A repeated character cycles through its matches; differing characters refine from the active option. |
 
 Pointer: clicking an option selects it; clicking the button toggles;
 clicking outside the root closes; focus leaving the root closes.
@@ -105,8 +106,10 @@ gets pronounced "Franc-ess" in an English voice.
 Changing the locale never moves focus elsewhere on the page (WCAG
 3.2.2, On Input). The element does move focus *within* the control,
 as the APG listbox pattern requires: opening moves focus to the
-`<ul>`; selecting or cancelling returns it to the button; `Tab`
-closes without pulling focus back. Avoid navigation calls
+`<ul>`; selecting or cancelling returns it to the button; `Tab` also
+puts focus on the button before closing, without cancelling the key,
+so the default Tab proceeds from the picker's position rather than
+restarting from `<body>`. Avoid navigation calls
 (`window.location = …`) in `localechange` handlers that scroll the
 page; if you must navigate, preserve scroll position and focus.
 

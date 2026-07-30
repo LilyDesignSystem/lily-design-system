@@ -40,10 +40,13 @@ class hooks.
 - Required parameters: `Label`, `Locales`.
 - **Removed:** the `Placeholder` parameter. It only existed to pin a
   native `<select>`'s closed display; there is no `<select>` any more.
-- Static helpers in `Locales` static class (unchanged):
+- Static helpers in `Locales` static class:
   - `Bcp47LocaleTag(string)`
   - `IsRtlLocale(string)`
   - `LocaleName(string)`
+  - `LocaleEndonym(string)` — the language's own name for itself
+    ("Deutsch", "Cymraeg") via `CultureInfo.NativeName`; `""` when the
+    runtime cannot name the culture.
   - `MatchNavigatorLanguage(IReadOnlyList<string>, IReadOnlyList<string>)`
   - `DefaultLocaleLabels` (IReadOnlyDictionary<string,string>)
   - `RtlLanguageTags` (HashSet<string>)
@@ -80,13 +83,16 @@ lives in `Value` and rides a hidden input for form participation.
       tabindex="-1" hidden aria-activedescendant="{active option id, open only}">
     <li class="locale-picker-option" id="{optionId}" role="option"
         aria-selected="true|false" data-active
-        lang="@TagFor(code)">{LabelFor(code)}</li>
+        lang="@OptionLang(code)">{LabelFor(code)}</li>
   </ul>
 </div>
 ```
 
-Options keep their per-locale `lang`; the button and the list carry
-none. `ChildContent` **replaces the glyph inside the button**; it no
+An option carries `lang` only when its label is the derived endonym —
+`lang` is a claim about the text's language, and a consumer label or
+the English-table fallback makes none; the button and the list carry
+none either. Labels resolve `LocaleLabels` → endonym → English table →
+raw code. `ChildContent` **replaces the glyph inside the button**; it no
 longer renders options. Ids come from a monotonic process-wide counter
 (`locale-picker-{n}`) so they are stable and SSR-safe.
 
@@ -94,20 +100,26 @@ longer renders options. Ids come from a monotonic process-wide counter
 
 Button: `ArrowDown` / `Enter` / `Space` open on the selected option;
 `ArrowUp` opens on the last. Opening moves focus to the `<ul>`.
-Listbox: arrows move and **clamp**, `Home` / `End` jump, `Enter` /
-`Space` select-apply-close-and-refocus, `Escape` closes without
-changing the value, `Tab` closes without stealing focus, printable
-characters run a 500 ms typeahead over the labels. Clicking an option
-selects it; focus leaving the root closes.
+Listbox: arrows move and **clamp**, `Home` / `End` jump, `PageUp` /
+`PageDown` move by ten (clamped), `Enter` / `Space`
+select-apply-close-and-refocus, `Escape` closes without changing the
+value, `Tab` closes and lets the browser's default Tab proceed from
+the picker's position (see the deviations below for why this port must
+not refocus the button), printable characters run a 500 ms APG
+typeahead over the labels — a repeated character cycles through its
+matches; differing characters refine from the active option. Clicking
+an option selects it; focus leaving the root closes. An empty list
+opens with no `aria-activedescendant`.
 
 ## Accessibility
 
 - WCAG 2.2 AAA target; WAI-ARIA APG listbox pattern.
 - `aria-label` is the button's ENTIRE accessible name — the button is
   icon-only and the glyph is `aria-hidden="true"`.
-- Each locale option has its own `lang` context — WCAG 3.1.2
-  "Language of Parts" — so screen readers pronounce "Français" with a
-  French voice.
+- A locale option gets a `lang` context — WCAG 3.1.2 "Language of
+  Parts" — only when its label is the derived endonym, so screen
+  readers pronounce "Français" with a French voice but the English
+  word "Arabic" is never handed to an Arabic speech engine.
 - Known tradeoffs (icon-only naming, custom-listbox AT support, glyph
   font coverage) are documented in `docs/accessibility.md`.
 
@@ -119,6 +131,17 @@ selects it; focus leaving the root closes.
 - No document-level click listener (the package ships no JS); the
   root's `focusout` closes the listbox instead. `FocusEventArgs` has no
   `relatedTarget`, so self-made focus moves are flagged and ignored.
+- `Tab` from the open list does NOT refocus the button. The canonical
+  Svelte fix does, because Svelte hides the list synchronously, ahead
+  of the browser's default Tab; Blazor's async handler always runs
+  after the default Tab has already proceeded from the still-visible
+  list, so a button-focus request here would yank the user back to the
+  trigger they just left. Both ports end with focus on the tab stop
+  after the picker.
+- Endonyms come from `CultureInfo.NativeName`, not `Intl.DisplayNames`
+  (which .NET does not have). Formatting can differ slightly between
+  the two ICU surfaces; both are true endonyms and the difference is
+  accepted.
 - `@onmousedown:preventDefault` IS applied to the `<ul>` so clicking an
   option does not blur the listbox first.
 

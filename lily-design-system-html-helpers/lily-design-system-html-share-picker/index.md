@@ -144,7 +144,7 @@ Every attribute also has a mirrored camelCase property, plus read-only
     >
       <span class="share-picker-icon" aria-hidden="true">&#10148;</span>
     </button>
-    <ul class="share-picker-list" id="share-picker-1-list" hidden>
+    <ul class="share-picker-list" id="share-picker-1-list" aria-label="Share" hidden>
       <li class="share-picker-list-item">
         <a
           class="share-picker-target"
@@ -245,7 +245,7 @@ customElements.define("labelled-share-picker", LabelledSharePicker);
 | `ArrowUp`         | Opens, focuses the last item  | Moves up, clamping                   |
 | `Home` / `End`    | —                             | First / last item                    |
 | `Escape`          | —                             | Closes, focus returns to the trigger |
-| `Tab`             | Moves on                      | Closes, focus moves on               |
+| `Tab`             | Moves on                      | Focus moves to the trigger, then the list closes — so the default Tab proceeds from the picker's position |
 
 Items are real focusable elements, so focus moves for real — no
 `aria-activedescendant`.

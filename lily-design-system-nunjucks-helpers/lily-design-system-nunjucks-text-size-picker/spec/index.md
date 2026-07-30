@@ -272,11 +272,15 @@ On the **listbox**:
 | `Home` / `End`          | Jump to the first / last option.                                                                                          |
 | `Enter` / `Space`       | Select the active option, apply it, close, return focus to the button.                                                    |
 | `Escape`                | Close and return focus, leaving the size unchanged.                                                                       |
-| `Tab`                   | Close without stealing focus back.                                                                                        |
-| Printable character     | Typeahead over the option labels; 500 ms buffer reset. Matches the rendered label, so `sizeLabels` overrides participate. |
+| `PageUp` / `PageDown`   | Move the active option by ten, clamped — an APG-optional key for long lists.                                              |
+| `Tab`                   | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position rather than from `<body>`. |
+| Printable character     | APG typeahead over the option labels: a single character advances to the NEXT match, a repeated character keeps cycling, and only a buffer of differing characters refines, anchored at the active option. 500 ms buffer reset. Matches the rendered label, so `sizeLabels` overrides participate. |
 
 Clicking an option selects it. Clicking outside the root, or moving
 focus out of it, closes the listbox without changing the size.
+Opening an EMPTY list seeds the active index at -1, so
+`aria-activedescendant` is absent rather than pointing at an id that
+does not exist.
 
 DOM focus stays on the `<ul>`; the cursor is conveyed by
 `aria-activedescendant` and mirrored onto the active option as
@@ -384,7 +388,8 @@ parallel with `theme-picker`'s spec so the two read side by side.
 22. **§7.22** `Enter` selects the active option, applies it, closes,
     and returns focus to the button; `Space` does the same.
 23. **§7.23** `Escape` closes and returns focus without changing the
-    size; `Tab` closes without stealing focus back.
+    size; `Tab` closes and puts focus on the button, so the browser's
+    default Tab proceeds from the picker's position.
 24. **§7.24** Printable characters run typeahead over the rendered
     labels (so `sizeLabels` overrides participate), the buffer
     accumulates and resets after 500 ms, and modifier chords are
@@ -410,6 +415,20 @@ parallel with `theme-picker`'s spec so the two read side by side.
     beats a conflicting storage entry, and storage still applies when
     `value` is absent.
 
+### 7.8 Accessibility hardening
+
+Ported from the canonical Svelte spec's §7.14–§7.17.
+
+29. **§7.29** `Tab` from the open list puts focus on the button BEFORE
+    closing, without cancelling the key, so the browser's default Tab
+    proceeds from the picker's position rather than from `<body>`.
+30. **§7.30** A repeated typeahead character cycles through its
+    matches (the search starts at the option after the active one,
+    wrapping once); a buffer of differing characters refines the match
+    anchored at the active option.
+31. **§7.31** `PageUp` / `PageDown` move the cursor by ten, clamped.
+32. **§7.32** An empty list opens without `aria-activedescendant`.
+
 ## 8. Out-of-scope (future)
 
 - A complementary `TextSizeView` helper.
@@ -422,7 +441,7 @@ parallel with `theme-picker`'s spec so the two read side by side.
   `lily-design-system-nunjucks-helpers/lily-design-system-nunjucks-text-size-picker/`
 - Spec version: 0.2.0 (unreleased — the icon-button conversion)
 - Created: 2026-06-17
-- Updated: 2026-07-20
+- Updated: 2026-07-29
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause
   (or contact for other terms)
 - Contact: Joel Parker Henderson &lt;joel@joelparkerhenderson.com&gt;

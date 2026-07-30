@@ -12,7 +12,7 @@ responsibility.
 | WCAG / APG item | How the control satisfies it |
 | --------------- | ---------------------------- |
 | WCAG 3.1.1 Language of Page | Writes `lang` to the document root on every locale change. |
-| WCAG 3.1.2 Language of Parts | Each `<li role="option">` carries its own `lang` attribute so option text is announced in the right language. |
+| WCAG 3.1.2 Language of Parts | An option whose label is the derived endonym carries its own `lang` attribute so that text is announced in the right language; options with consumer or English-fallback labels make no claim. |
 | WCAG 1.4.10 Reflow (RTL bidi) | Writes `dir="rtl"` for RTL locales so layout, scrollbar, and text inversion are correct. |
 | WCAG 4.1.2 Name, Role, Value | The button exposes `aria-label` + `aria-haspopup="listbox"` + `aria-expanded`; the `<ul role="listbox">` exposes `aria-activedescendant`; exactly one `<li>` carries `aria-selected="true"`. **The name half rests entirely on `Label` — see tradeoff 1 below.** |
 | WCAG 2.1.1 Keyboard | Full APG listbox keyboard contract, implemented by the component (see below). |
@@ -36,7 +36,7 @@ responsibility.
 | `ul.locale-picker-list`      | `aria-activedescendant` (only while open)         | Component          |
 | `ul.locale-picker-list`      | `hidden` while closed                             | Component          |
 | `li.locale-picker-option`    | `role="option"`, `aria-selected="true\|false"`    | Component          |
-| `li.locale-picker-option`    | `lang` — BCP 47 hyphen form (WCAG 3.1.2)          | Component          |
+| `li.locale-picker-option`    | `lang` — BCP 47 hyphen form, only when the label is the derived endonym (WCAG 3.1.2) | Component          |
 | `li.locale-picker-option`    | `data-active` on the active option (styling hook) | Component          |
 
 Focus stays on the `<ul>` while the listbox is open; the active option
@@ -47,9 +47,10 @@ The button and the list carry **no** `lang` — only the options do. The
 button shows a language-neutral glyph, so tagging it with any one
 locale would be wrong.
 
-## Per-option `lang` is important
+## Per-option `lang` is important — when it is true
 
-Each `<li role="option">` carries `lang="…"`. This satisfies WCAG 3.1.2
+An `<li role="option">` carries `lang="…"` when its label is the
+endonym the component derived itself. This satisfies WCAG 3.1.2
 (Language of Parts): when a screen reader encounters the option
 "Français" inside an English page, the `lang` attribute makes the reader
 switch to a French voice for the duration of that span.
@@ -67,21 +68,22 @@ Note that `ChildContent` no longer renders options — it only replaces
 the button's glyph — so this is now handled entirely by the component
 and cannot be accidentally dropped by a consumer override.
 
-## When per-option `lang` is NOT what you want
+## When per-option `lang` would be a lie, it is omitted
 
-If your `LocaleLabels` are all in the **viewer's** language (e.g. you
-show "English", "French", "Arabic" — all in English so the user
-recognises them), the per-option `lang` attribute is technically
-incorrect: the visible text is English even though the attribute says
-French.
+`lang` is a claim about the language of the option's *text*. The
+component only makes the claim when it derived the text itself — the
+endonym, via `Locales.LocaleEndonym` (`CultureInfo.NativeName`). If you
+supply `LocaleLabels` in the **viewer's** language ("English",
+"French", "Arabic"), or a culture is unknown to the runtime and the
+English table fills in, those options carry **no** `lang`: the English
+word "Arabic" must never be handed to an Arabic speech engine.
 
 The default labels show each locale **in its own language** (English /
-Français / العربية), so the default is correct and helpful. If you
-override `LocaleLabels` to be all in the viewer's language, you are
-trading that correctness away; the component does not currently expose
-a switch to suppress the per-option `lang`, so prefer endonyms in the
-labels — they are also better for users who cannot read the surrounding
-UI language.
+Français / العربية) — endonyms are also better for the user who cannot
+read the surrounding UI language, which is exactly the user a language
+menu exists for — so the default is both correct and claimed. Prefer
+endonyms in any labels you override; consumer-labelled options simply
+lose the voice switch.
 
 ## Keyboard contract
 
@@ -108,8 +110,10 @@ On the **listbox**:
 | `End`             | Jump to the last option.                                               |
 | `Enter` / `Space` | Select the active option, apply it, close, return focus to the button. |
 | `Escape`          | Close and return focus **without** changing the value.                 |
-| `Tab`             | Close **without** stealing focus back.                                 |
-| Printable chars   | Typeahead over the option *labels*, 500 ms buffer reset.               |
+| `PageUp`          | Move the active option up ten; clamps at the first.                    |
+| `PageDown`        | Move the active option down ten; clamps at the last.                   |
+| `Tab`             | Close and move on: the browser's default Tab proceeds from the picker's position. |
+| Printable chars   | Typeahead over the option *labels*, 500 ms buffer reset. A single character advances to the **next** match and repeating it cycles onward; differing characters refine the match from the active option. |
 
 Clicking an option selects it; focus leaving the root closes the
 listbox without changing the value.

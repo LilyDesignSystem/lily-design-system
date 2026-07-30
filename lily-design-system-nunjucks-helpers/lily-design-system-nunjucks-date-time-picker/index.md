@@ -144,8 +144,23 @@ Full rationale: [spec/index.md §3.4](./spec/index.md).
   meridiem:      string  // required when the resolved clock is 12-hour
   week:          string  // required when showWeekNumbers
   clear:         string  // optional -- gates the clear button
+  invalid:       string  // optional -- gates the invalid-input live region
+  instructions:  string  // optional -- gates the dialog keyboard help
 }
 ```
+
+`invalid` and `instructions` gate announcements the same way `clear`
+gates its button: without `invalid`, refused typed text flips
+`aria-invalid` silently; without `instructions`, the dialog carries no
+keyboard help. Supplying both is strongly recommended. When supplied,
+`invalid` renders a `.date-time-picker-status` `role="status"` live
+region after the field — present but empty while the field is valid,
+filled with the message (and wired to the field via `aria-errormessage`
+plus an appended `aria-describedby`) while it is not. `instructions`
+renders a `.date-time-picker-instructions` paragraph as the dialog's
+first child, referenced by the dialog's `aria-describedby` so a screen
+reader speaks it once on open. Either can also arrive at init time via
+`initDateTimePicker(root, { labels: {…} })`.
 
 ### `initDateTimePicker(root, opts?)`
 
@@ -166,6 +181,25 @@ initDateTimePicker(document.querySelector(".date-time-picker"), {
 ```
 
 Returns `{open, close, commit, clear, getValue, destroy}`.
+
+### Behaviour worth knowing
+
+- **Vetoed days are `aria-disabled`, not `disabled`.** Days outside
+  `min`/`max` or vetoed by the disabled rule stay focusable, so the
+  keyboard cursor can land on them and a screen reader announces them
+  as unavailable; activation is simply refused. Style them with
+  `[data-disabled]` or `[aria-disabled="true"]` — `:disabled` selectors
+  on `.date-time-picker-day` will not match.
+- **`Escape` in the field discards a pending typed edit**, restoring
+  the committed display and clearing `aria-invalid`, without
+  committing anything. When nothing is pending the key is untouched.
+- **Closing the dialog returns focus to whatever opened it** — the
+  text field after `Alt`+`ArrowDown`, the trigger button after a
+  click. Clicking anything outside the dialog (including the
+  component's own text field) closes it without moving focus.
+- **Header paging keeps focus on the header button**, so "next month"
+  can be activated repeatedly; grid `PageUp`/`PageDown` carries focus
+  with the cursor.
 
 ### Custom glyph
 

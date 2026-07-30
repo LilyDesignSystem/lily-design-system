@@ -38,7 +38,8 @@ user opens the list (click, ArrowDown, Enter, Space, ArrowUp)
   │
   ▼
 openList(startIndex?):
-  ↳ #activeIndex = startIndex ?? (selected index, else 0)
+  ↳ #activeIndex = startIndex ?? (selected index, else 0; -1 when the
+      list is empty, so aria-activedescendant stays absent)
   ↳ #open = true
   ↳ #syncState()       — aria-expanded, hidden, aria-activedescendant, data-active
   ↳ #listEl.focus()    — focus moves to the <ul>, per the APG listbox pattern
@@ -183,11 +184,13 @@ re-entrant call is idempotent.
 `openList()` and `closeList()` are public, so consumers and
 subclasses can drive the list without re-implementing it.
 
-- `openList(startIndex?)` — no-ops when `locales` is empty. Sets the
-  active index (explicit `startIndex`, else the selected option, else
-  0), flips `#open`, syncs state, moves focus to the `<ul>`, and
-  scrolls the active option into view. (`scrollIntoView` is called
-  optionally — jsdom does not implement it.)
+- `openList(startIndex?)` — sets the active index (explicit
+  `startIndex`, else the selected option, else 0; `-1` when `locales`
+  is empty, so `aria-activedescendant` is absent rather than pointing
+  at a nonexistent id), flips `#open`, syncs state, moves focus to
+  the `<ul>`, and scrolls the active option into view.
+  (`scrollIntoView` is called optionally — jsdom does not implement
+  it.)
 - `closeList(refocus = true)` — no-ops when already closed. Clears
   the active index, syncs state (which removes
   `aria-activedescendant` and re-hides the list), and returns focus

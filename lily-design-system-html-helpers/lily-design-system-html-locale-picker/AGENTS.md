@@ -37,14 +37,25 @@ The control is an **icon button that opens a dropdown listbox**
 - Class `LocalePicker extends HTMLElement` (registered as
   `<locale-picker>` on import of `index.ts`).
 - Named exports: `LocalePicker`, `bcp47LocaleTag`, `isRtlLocale`,
-  `localeName`, `matchNavigatorLanguage`, `defaultLocaleLabels`,
-  `RTL_LANGUAGE_TAGS`, `RTL_SCRIPT_SUBTAGS`, `nextLocalePickerId`,
-  `GLOBE_WITH_MERIDIANS`.
+  `localeName`, `localeEndonym`, `matchNavigatorLanguage`,
+  `defaultLocaleLabels`, `RTL_LANGUAGE_TAGS`, `RTL_SCRIPT_SUBTAGS`,
+  `nextLocalePickerId`, `GLOBE_WITH_MERIDIANS`.
 - Type exports: `LocalePickerProps`, `LocalePickerChangeDetail`.
 - Instance members beyond the attribute mirrors: `open` (getter),
   `listId` (getter), `optionId(index)`, `openList(startIndex?)`,
   `closeList(refocus = true)`, `labelFor(code)`, `tagFor(locale)`,
-  and the overridable `renderButtonContent(): Node`.
+  `optionLang(code)`, and the overridable
+  `renderButtonContent(): Node`.
+
+Default labels are **endonyms** ("Cymraeg", not "Welsh") via
+`localeEndonym()` — `Intl.DisplayNames` asked *in that language*,
+deterministic, no `navigator` dependency. Resolution:
+`localeLabels` → endonym → built-in English table → environment
+`Intl.DisplayNames` → raw code. An option carries `lang` only when
+its label is the derived endonym; a consumer label or English
+fallback carries no `lang`, because `lang` is a claim about the
+text's language and the English word "Arabic" must never be handed
+to an Arabic speech engine.
 
 Required attributes: `label`, `locales`. Full table in
 [spec/index.md §4.1](./spec/index.md#41-observed-attributes). There is
@@ -83,7 +94,8 @@ SELECTOR-15 (VS15 forces the monochrome text presentation); and a
 `<ul class="locale-picker-list" id="{listId}" role="listbox"
 aria-label="{label}" tabindex="-1" hidden>` holding one
 `<li class="locale-picker-option" id="{optionId}" role="option"
-aria-selected lang="{tag}">` per locale.
+aria-selected>` per locale, with `lang="{tag}"` present only when
+the option's label is the derived endonym.
 
 `aria-activedescendant` sits on the `<ul>` only while open.
 `data-active` marks the keyboard-highlighted option; `aria-selected`
@@ -97,11 +109,15 @@ On the button: `ArrowDown` / `Enter` / `Space` open with the selected
 option active (or index 0); `ArrowUp` opens with the last option
 active; opening moves focus to the `<ul>`. On the listbox: arrows
 move the active option and **clamp** (no wrap); `Home` / `End` jump
-to the ends; `Enter` / `Space` select, apply, close, and refocus the
-button; `Escape` closes without changing the value; `Tab` closes
-without stealing focus back; printable characters run a 500 ms
-typeahead over the option labels. Clicking an option selects it;
-clicking outside or focus leaving the root closes the list. Full
+to the ends; `PageUp` / `PageDown` move by ten (clamped); `Enter` /
+`Space` select, apply, close, and refocus the button; `Escape`
+closes without changing the value; `Tab` puts focus on the button
+first and then closes — without cancelling the key, so the default
+Tab proceeds from the picker's position; printable characters run a
+500 ms typeahead over the option labels, where a repeated character
+cycles through its matches and differing characters refine from the
+active option. Clicking an option selects it; clicking outside or
+focus leaving the root closes the list. Full
 table: [spec/index.md §4.7](./spec/index.md#47-keyboard-contract).
 
 ## Accessibility

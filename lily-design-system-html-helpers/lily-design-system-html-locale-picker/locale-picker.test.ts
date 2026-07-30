@@ -5,6 +5,7 @@ import {
   bcp47LocaleTag,
   isRtlLocale,
   localeName,
+  localeEndonym,
   matchNavigatorLanguage,
   GLOBE_WITH_MERIDIANS,
 } from "./locale-picker.js";
@@ -242,11 +243,33 @@ describe("<locale-picker> — markup contract (§7.1)", () => {
     expect(text).toContain("Français");
   });
 
-  test("§7.6 falls back to defaultLocaleLabels when locale-labels missing", async () => {
+  test("§7.6 default option text is the locale's endonym, not the English exonym", async () => {
+    mount({ label: "Language", locales: "cy,de" });
+    await flush();
+    const text = document.body.textContent ?? "";
+    // "Cymraeg", not "Welsh": the user who needs the language menu is
+    // the one who cannot read the page's language, and the exonym
+    // means nothing to them. The English table is now only a fallback
+    // for runtimes without Intl.DisplayNames data.
+    expect(text).toContain("Cymraeg");
+    expect(text).not.toContain("Welsh");
+    expect(text).toContain("Deutsch");
+    // The exported helper backs the rendered text and is
+    // deterministic — no navigator dependency, so SSR and client
+    // agree.
+    expect(localeEndonym("cy")).toBe("Cymraeg");
+    expect(localeEndonym("de")).toBe("Deutsch");
+  });
+
+  test("§7.6 the endonym backs the default label for region-qualified codes", async () => {
     mount({ label: "Language", locales: "en_US" });
     await flush();
     const text = document.body.textContent ?? "";
-    expect(text).toContain("English (United States)");
+    // Assert via the exported helper rather than a hardcoded string,
+    // so an ICU wording change cannot break the test without a real
+    // behaviour change.
+    expect(localeEndonym("en_US")).not.toBe("");
+    expect(text).toContain(localeEndonym("en_US"));
   });
 });
 
@@ -338,18 +361,17 @@ describe("<locale-picker> — keyboard contract (APG listbox, §7.24–§7.28)",
     expect(document.activeElement).toBe(button());
   });
 
-  test("§7.27 Tab closes without stealing focus back to the button", async () => {
+  test("§7.27 Tab closes the list; the hardening contract (§7.30) moves focus to the button first", async () => {
     await openWith("ArrowDown");
     press(list(), "Tab");
     await flush();
     expect(list().hasAttribute("hidden")).toBe(true);
-    expect(document.activeElement).not.toBe(button());
   });
 
   test("§7.28 typeahead moves the active descendant by label prefix", async () => {
     await openWith("ArrowDown");
     press(list(), "f");
-    // "French" is index 2 in LOCALES.
+    // "français" (the endonym for "fr") is index 2 in LOCALES.
     expect(list().getAttribute("aria-activedescendant")).toBe(options()[2].id);
   });
 
@@ -592,7 +614,10 @@ describe("<locale-picker> — custom rendering by subclass (§7.29)", () => {
     expect(el.querySelector(".locale-picker-icon")).toBeNull();
     expect(custom.getAttribute("data-open")).toBe("false");
     expect(custom.getAttribute("data-value")).toBe("fr");
-    expect(custom.getAttribute("data-label-fr")).toBe("French");
+    // labelFor now resolves the endonym; assert against the exported
+    // helper rather than a hardcoded string, so an ICU wording change
+    // cannot break the test without a real behaviour change.
+    expect(custom.getAttribute("data-label-fr")).toBe(localeEndonym("fr"));
 
     const btn = el.querySelector<HTMLButtonElement>(".locale-picker-button")!;
     expect(btn.getAttribute("aria-haspopup")).toBe("listbox");
@@ -642,5 +667,93 @@ describe("<locale-picker> — custom rendering by subclass (§7.29)", () => {
     });
     el.value = "ar";
     expect(detail).toEqual({ locale: "ar" });
+  });
+});
+
+describe("<locale-picker> — accessibility hardening (§7.30–§7.34; canonical Svelte §7.28–§7.32)", () => {
+  async function openPicker(
+    locales: string[] = LOCALES,
+    extra: Record<string, string> = {},
+  ) {
+    mount({ label: "Language", locales: locales.join(","), ...extra });
+    await flush();
+    click(button());
+    await flush();
+    return { button: button(), list: list() };
+  }
+
+  const active = (listEl: HTMLElement) =>
+    listEl.querySelector("[data-active]")?.textContent?.trim();
+
+  test("§7.30 Tab from the open list puts focus on the button before closing", async () => {
+    const { button: btn, list: listEl } = await openPicker();
+    expect(document.activeElement).toBe(listEl);
+    press(listEl, "Tab");
+    // Focus sits on the button, so the browser's default Tab proceeds
+    // from the picker's own position — not from <body>, which is where
+    // focus lands when the focused list is hidden first.
+    expect(document.activeElement).toBe(btn);
+    expect(listEl.hasAttribute("hidden")).toBe(true);
+  });
+
+  test("§7.31 lang is claimed only when the label is the endonym", async () => {
+    mount({
+      label: "Language",
+      locales: "cy,ar",
+      "locale-labels": JSON.stringify({ ar: "Arabic" }),
+    });
+    await flush();
+    const opts = options();
+    // Endonym label: the text really is Welsh, so lang="cy" is a true
+    // claim and a screen reader may switch voice.
+    expect(opts[0].textContent?.trim()).toBe("Cymraeg");
+    expect(opts[0].getAttribute("lang")).toBe("cy");
+    // Consumer label: its language is unknown, so no claim — the
+    // English word "Arabic" must not be handed to an Arabic voice.
+    expect(opts[1].textContent?.trim()).toBe("Arabic");
+    expect(opts[1].getAttribute("lang")).toBeNull();
+  });
+
+  test("§7.32 a repeated typeahead character cycles through its matches", async () => {
+    const { list: listEl } = await openPicker(["l1", "l2", "l3", "l4"], {
+      "locale-labels": JSON.stringify({
+        l1: "Dark",
+        l2: "Dim",
+        l3: "Dracula",
+        l4: "Light",
+      }),
+      "default-value": "l4",
+    });
+    press(listEl, "d");
+    expect(active(listEl)).toBe("Dark");
+    press(listEl, "d");
+    expect(active(listEl)).toBe("Dim");
+    press(listEl, "d");
+    expect(active(listEl)).toBe("Dracula");
+  });
+
+  test("§7.33 PageUp and PageDown move the cursor by ten, clamped", async () => {
+    const many = Array.from(
+      { length: 25 },
+      (_, i) => `x${String(i).padStart(2, "0")}`,
+    );
+    const labels = Object.fromEntries(many.map((l) => [l, l.toUpperCase()]));
+    const { list: listEl } = await openPicker(many, {
+      "locale-labels": JSON.stringify(labels),
+    });
+    press(listEl, "PageDown");
+    expect(active(listEl)).toBe("X10");
+    press(listEl, "PageDown");
+    expect(active(listEl)).toBe("X20");
+    press(listEl, "PageDown");
+    expect(active(listEl)).toBe("X24");
+    press(listEl, "PageUp");
+    expect(active(listEl)).toBe("X14");
+  });
+
+  test("§7.34 an empty list opens without aria-activedescendant", async () => {
+    const { list: listEl } = await openPicker([]);
+    expect(listEl.hasAttribute("hidden")).toBe(false);
+    expect(listEl.getAttribute("aria-activedescendant")).toBeNull();
   });
 });

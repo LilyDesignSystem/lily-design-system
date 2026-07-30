@@ -114,7 +114,8 @@ SVG — see
 
 **Likely cause.** Required attributes (`label`, `themes-url`,
 `themes`) are missing. The control doesn't throw — it just renders
-no options, and `openList()` no-ops when `themes` is empty.
+no options, and `openList()` opens an empty listbox with no
+`aria-activedescendant`.
 
 **Fix.** Confirm the host has all three attributes:
 

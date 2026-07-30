@@ -157,7 +157,7 @@ Renders (ids abbreviated; the listbox is shown open):
         <li class="locale-picker-option" id="locale-picker-1-option-0"
             role="option" aria-selected="true" data-active lang="en">English</li>
         <li class="locale-picker-option" id="locale-picker-1-option-1"
-            role="option" aria-selected="false" lang="cy">Welsh</li>
+            role="option" aria-selected="false" lang="cy">Cymraeg</li>
     </ul>
 </div>
 ```
@@ -173,9 +173,13 @@ Reading that markup:
   VARIATION SELECTOR-15, for the monochrome text presentation) wrapped in
   `aria-hidden="true"`, so the accessible name comes wholly from
   `Label` — never from the character.
-- Each **`<li role="option">`** keeps its own `lang` so screen readers
-  pronounce option text in the correct language (WCAG 3.1.2, Language
-  of Parts). The button and the list carry **no** `lang`.
+- An **`<li role="option">`** carries its own `lang` **only when its
+  label is the derived endonym** — above, "Cymraeg" really is Welsh, so
+  `lang="cy"` is a true claim and screen readers may switch voice
+  (WCAG 3.1.2, Language of Parts). A consumer-supplied label or the
+  English-table fallback makes no claim: the English word "Arabic"
+  must never be handed to an Arabic speech engine. The button and the
+  list carry **no** `lang`.
 - The **listbox carries `hidden`** while closed and drops it while open;
   `aria-expanded` on the button tracks the same state. The sample above
   is the **open** state — while closed the `<ul>` carries `hidden`, and
@@ -215,9 +219,12 @@ off-screen mid-interaction.
 
 ### Pretty labels for option text
 
-By default the select uses the English names from `locales.tsv`
-(and falls back to the raw code). Override per-code with
-`LocaleLabels`:
+By default each option shows the language's **endonym** — its own name
+for itself, "Deutsch" not "German" — via the public
+`Locales.LocaleEndonym(code)` helper (`CultureInfo.NativeName`
+underneath). The English names from `locales.tsv` are the fallback for
+cultures the runtime has no data for, and the raw code is the last
+resort. Override per-code with `LocaleLabels`:
 
 ```razor
 <LocalePicker
@@ -379,8 +386,9 @@ On the **listbox**:
 | `End`             | Jump to the last option.                                               |
 | `Enter` / `Space` | Select the active option, apply it, close, return focus to the button. |
 | `Escape`          | Close and return focus **without** changing the value.                 |
-| `Tab`             | Close **without** stealing focus back.                                 |
-| Printable chars   | Typeahead over the option *labels*, 500 ms buffer reset.               |
+| `PageUp` / `PageDown` | Move the active option by ten; clamps at the ends.                 |
+| `Tab`             | Close and move on; the browser's default Tab proceeds from the picker's position. |
+| Printable chars   | Typeahead over the option *labels*, 500 ms buffer reset. A single character advances to the **next** match and repeating it cycles onward; differing characters refine the match from the active option. |
 
 Pointer and focus:
 
@@ -397,13 +405,15 @@ from the canonical Svelte contract are documented in
 ## Built-in locale data
 
 `Locales.cs` ships a 436-row built-in map from locale codes to
-English names (derived from `locales.tsv`). The select falls
-back to this table when `LocaleLabels` does not have an entry for
-a code. You can also use the data directly:
+English names (derived from `locales.tsv`). The picker falls back to
+this table when `LocaleLabels` has no entry for a code **and** the
+runtime cannot supply an endonym for it. You can also use the data
+directly:
 
 ```csharp
 using LilyDesignSystem.Blazor.Helpers;
 
+var endonym = Locales.LocaleEndonym("de");   // "Deutsch" ("" when unknown)
 var name = Locales.LocaleName("en_US");      // "English (United States)"
 var rtl = Locales.RtlLanguageTags.Contains("ar");  // true
 ```

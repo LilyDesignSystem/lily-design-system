@@ -30,11 +30,20 @@
     classes              — string. Extra CSS classes on the root <div>.
     attributes           — object. Extra HTML attributes spread onto the root.
 
-  Each <li role="option"> carries `lang="{tagFor(code)}"` (BCP 47
-  hyphen form) so assistive technology pronounces the option text in
-  the appropriate language even when the document language differs
-  (WCAG 3.1.2, Language of Parts). The button and the listbox do NOT
-  carry `lang` — they are chrome, not content.
+  Labels and `lang` (spec §5.7): options WITHOUT a consumer label are
+  marked `data-lily-locale-picker-derive` and render the raw code as a
+  pre-hydration fallback — a template cannot ask ICU for anything.
+  locale-picker.client.js upgrades each marked option to the
+  language's endonym ("Cymraeg", not "Welsh") via Intl.DisplayNames,
+  falling back to the built-in English table, then the raw code, and
+  sets `lang="{tagFor(code)}"` (BCP 47 hyphen form) ONLY when the text
+  really is the endonym (WCAG 3.1.2, Language of Parts). `lang` is a
+  claim about the language of the option's TEXT: a consumer label or
+  an English fallback is in whatever language the consumer's UI
+  speaks, so those options carry no `lang` — the English word
+  "Arabic" must never be handed to an Arabic speech engine. The
+  button and the listbox never carry `lang` — they are chrome, not
+  content.
 
   Custom glyph: call the macro with a `{% call %}` block and the block
   body replaces the default globe inside the button.
@@ -76,8 +85,7 @@
 </button>
 <ul class="locale-picker-list" id="{{ listId }}" role="listbox" aria-label="{{ opts.label }}" tabindex="-1" hidden data-lily-locale-picker-list>
 {%- for locale in opts.locales -%}
-  {%- set tag = locale | replace("_", "-") -%}
-  <li class="locale-picker-option" id="{{ id }}-option-{{ loop.index0 }}" role="option" aria-selected="{{ 'true' if locale == selected else 'false' }}" data-value="{{ locale }}" lang="{{ tag }}">
+  <li class="locale-picker-option" id="{{ id }}-option-{{ loop.index0 }}" role="option" aria-selected="{{ 'true' if locale == selected else 'false' }}" data-value="{{ locale }}"{% if not localeLabels[locale] %} data-lily-locale-picker-derive{% endif %}>
     {%- if localeLabels[locale] -%}
       {{ localeLabels[locale] }}
     {%- else -%}

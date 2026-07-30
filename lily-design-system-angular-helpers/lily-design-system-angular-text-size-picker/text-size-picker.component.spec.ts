@@ -239,7 +239,7 @@ describe("TextSizePicker — markup contract (§4.2, §7.1–§7.5)", () => {
   });
 });
 
-describe("TextSizePicker — keyboard contract (APG listbox, §7.14–§7.18)", () => {
+describe("TextSizePicker — keyboard contract (APG listbox, §7.18–§7.22)", () => {
   async function openWith(
     key: string,
   ): Promise<ComponentFixture<TextSizePicker>> {
@@ -250,7 +250,7 @@ describe("TextSizePicker — keyboard contract (APG listbox, §7.14–§7.18)", 
     return fixture;
   }
 
-  test("§7.14 ArrowDown, Enter and Space all open the listbox", async () => {
+  test("§7.18 ArrowDown, Enter and Space all open the listbox", async () => {
     for (const key of ["ArrowDown", "Enter", " "]) {
       const fixture = await openWith(key);
       expect(list(fixture).hasAttribute("hidden")).toBe(false);
@@ -258,7 +258,7 @@ describe("TextSizePicker — keyboard contract (APG listbox, §7.14–§7.18)", 
     }
   });
 
-  test("§7.14 opening puts the active descendant on the selected size", async () => {
+  test("§7.18 opening puts the active descendant on the selected size", async () => {
     const fixture = await openWith("ArrowDown");
     // "medium" resolves as the initial size, so it is index 1.
     expect(list(fixture).getAttribute("aria-activedescendant")).toBe(
@@ -266,19 +266,19 @@ describe("TextSizePicker — keyboard contract (APG listbox, §7.14–§7.18)", 
     );
   });
 
-  test("§7.14 ArrowUp opens with the last option active", async () => {
+  test("§7.18 ArrowUp opens with the last option active", async () => {
     const fixture = await openWith("ArrowUp");
     expect(list(fixture).getAttribute("aria-activedescendant")).toBe(
       list(fixture).children[SIZES.length - 1].id,
     );
   });
 
-  test("§7.14 opening moves focus to the listbox", async () => {
+  test("§7.18 opening moves focus to the listbox", async () => {
     const fixture = await openWith("ArrowDown");
     expect(document.activeElement).toBe(list(fixture));
   });
 
-  test("§7.15 ArrowDown / ArrowUp move the active descendant and clamp", async () => {
+  test("§7.19 ArrowDown / ArrowUp move the active descendant and clamp", async () => {
     const fixture = await openWith("ArrowDown");
     const ul = list(fixture);
     expect(ul.getAttribute("aria-activedescendant")).toBe(ul.children[1].id);
@@ -293,7 +293,7 @@ describe("TextSizePicker — keyboard contract (APG listbox, §7.14–§7.18)", 
     expect(ul.getAttribute("aria-activedescendant")).toBe(ul.children[0].id);
   });
 
-  test("§7.15 ArrowDown clamps at the last option", async () => {
+  test("§7.19 ArrowDown clamps at the last option", async () => {
     const fixture = await openWith("ArrowUp");
     const ul = list(fixture);
     press(fixture, ul, "ArrowDown");
@@ -302,7 +302,7 @@ describe("TextSizePicker — keyboard contract (APG listbox, §7.14–§7.18)", 
     );
   });
 
-  test("§7.15 Home and End jump to the first and last option", async () => {
+  test("§7.19 Home and End jump to the first and last option", async () => {
     const fixture = await openWith("ArrowDown");
     const ul = list(fixture);
     press(fixture, ul, "End");
@@ -313,7 +313,7 @@ describe("TextSizePicker — keyboard contract (APG listbox, §7.14–§7.18)", 
     expect(ul.getAttribute("aria-activedescendant")).toBe(ul.children[0].id);
   });
 
-  test("§7.16 Enter selects the active option, applies it, and closes", async () => {
+  test("§7.20 Enter selects the active option, applies it, and closes", async () => {
     const fixture = await openWith("ArrowDown");
     const ul = list(fixture);
     press(fixture, ul, "ArrowDown");
@@ -325,7 +325,7 @@ describe("TextSizePicker — keyboard contract (APG listbox, §7.14–§7.18)", 
     expect(document.documentElement.dataset["textSize"]).toBe("large");
   });
 
-  test("§7.16 Enter returns focus to the button", async () => {
+  test("§7.20 Enter returns focus to the button", async () => {
     const fixture = await openWith("ArrowDown");
     press(fixture, list(fixture), "Enter");
     await flush();
@@ -333,7 +333,7 @@ describe("TextSizePicker — keyboard contract (APG listbox, §7.14–§7.18)", 
     expect(document.activeElement).toBe(button(fixture));
   });
 
-  test("§7.16 Space selects the active option and closes", async () => {
+  test("§7.20 Space selects the active option and closes", async () => {
     const fixture = await openWith("ArrowDown");
     const ul = list(fixture);
     press(fixture, ul, "End");
@@ -344,7 +344,7 @@ describe("TextSizePicker — keyboard contract (APG listbox, §7.14–§7.18)", 
     expect(document.documentElement.dataset["textSize"]).toBe("x-large");
   });
 
-  test("§7.17 Escape closes without changing the size", async () => {
+  test("§7.21 Escape closes without changing the size", async () => {
     const fixture = await openWith("ArrowDown");
     const ul = list(fixture);
     press(fixture, ul, "End");
@@ -355,7 +355,7 @@ describe("TextSizePicker — keyboard contract (APG listbox, §7.14–§7.18)", 
     expect(document.documentElement.dataset["textSize"]).toBe("medium");
   });
 
-  test("§7.17 Escape returns focus to the button", async () => {
+  test("§7.21 Escape returns focus to the button", async () => {
     const fixture = await openWith("ArrowDown");
     press(fixture, list(fixture), "Escape");
     await flush();
@@ -363,20 +363,20 @@ describe("TextSizePicker — keyboard contract (APG listbox, §7.14–§7.18)", 
     expect(document.activeElement).toBe(button(fixture));
   });
 
-  test("§7.17 Tab closes without stealing focus back to the button", async () => {
+  test("§7.21 Tab closes after handing focus to the button", async () => {
     const fixture = await openWith("ArrowDown");
     const ul = list(fixture);
     press(fixture, ul, "Tab");
     await flush();
     fixture.detectChanges();
     expect(ul.hasAttribute("hidden")).toBe(true);
-    // Focus is left where it was for the browser's own Tab handling to
-    // move it on; the component must not pull it back to the button.
-    expect(document.activeElement).not.toBe(button(fixture));
-    expect(document.activeElement).toBe(ul);
+    // Focus sits on the button — not pulled back after the fact, but
+    // placed there before the list hides, so the browser's default Tab
+    // proceeds from the picker's position (see §7.14).
+    expect(document.activeElement).toBe(button(fixture));
   });
 
-  test("§7.18 typeahead moves the active descendant by label prefix", async () => {
+  test("§7.22 typeahead moves the active descendant by label prefix", async () => {
     const fixture = await openWith("ArrowDown");
     const ul = list(fixture);
     press(fixture, ul, "l");
@@ -384,7 +384,7 @@ describe("TextSizePicker — keyboard contract (APG listbox, §7.14–§7.18)", 
     expect(ul.getAttribute("aria-activedescendant")).toBe(ul.children[2].id);
   });
 
-  test("§7.18 typeahead matches the rendered label, not the slug", async () => {
+  test("§7.22 typeahead matches the rendered label, not the slug", async () => {
     const fixture = await mountSettled({
       sizeLabels: { "x-large": "Huge" },
     });
@@ -396,7 +396,7 @@ describe("TextSizePicker — keyboard contract (APG listbox, §7.14–§7.18)", 
     expect(ul.getAttribute("aria-activedescendant")).toBe(ul.children[3].id);
   });
 
-  test("§7.18 the typeahead buffer resets after the 500 ms pause", async () => {
+  test("§7.22 the typeahead buffer resets after the 500 ms pause", async () => {
     vi.useFakeTimers();
     try {
       const fixture = mount();
@@ -414,14 +414,14 @@ describe("TextSizePicker — keyboard contract (APG listbox, §7.14–§7.18)", 
     }
   });
 
-  test("§7.18 clicking an option selects and applies it", async () => {
+  test("§7.22 clicking an option selects and applies it", async () => {
     const fixture = await mountSettled();
     await pick(fixture, "x-large");
     expect(document.documentElement.dataset["textSize"]).toBe("x-large");
     expect(list(fixture).hasAttribute("hidden")).toBe(true);
   });
 
-  test("§7.18 clicking outside the root closes the listbox", async () => {
+  test("§7.22 clicking outside the root closes the listbox", async () => {
     const fixture = await mountSettled();
     click(fixture, button(fixture));
     expect(list(fixture).hasAttribute("hidden")).toBe(false);
@@ -553,7 +553,86 @@ describe("TextSizePicker — custom icon template (§7.12–§7.13)", () => {
   });
 });
 
-describe("TextSizePicker — sizeName (§7.19)", () => {
+describe("TextSizePicker — accessibility hardening (§7.14–§7.17)", () => {
+  async function openPicker(
+    sizes: string[] = SIZES,
+    extra: Record<string, unknown> = {},
+  ): Promise<ComponentFixture<TextSizePicker>> {
+    const fixture = await mountSettled({ sizes, ...extra });
+    click(fixture, button(fixture));
+    await flush();
+    fixture.detectChanges();
+    return fixture;
+  }
+
+  const active = (fixture: ComponentFixture<unknown>) =>
+    (
+      fixture.nativeElement.querySelector("[data-active]") as HTMLElement | null
+    )?.textContent?.trim();
+
+  test("§7.14 Tab from the open list puts focus on the button before closing", async () => {
+    const fixture = await openPicker();
+    const ul = list(fixture);
+    expect(document.activeElement).toBe(ul);
+    press(fixture, ul, "Tab");
+    // Focus sits on the button, so the browser's default Tab proceeds
+    // from the picker's own position — not from <body>, which is where
+    // focus lands when the focused list is hidden first.
+    expect(document.activeElement).toBe(button(fixture));
+    expect(ul.hasAttribute("hidden")).toBe(true);
+  });
+
+  test("§7.15 a repeated typeahead character cycles through its matches", async () => {
+    const fixture = await openPicker(["d1", "d2", "d3", "m"], {
+      sizeLabels: { d1: "Dark", d2: "Dim", d3: "Dracula", m: "Light" },
+      defaultValue: "m",
+    });
+    const ul = list(fixture);
+    press(fixture, ul, "d");
+    expect(active(fixture)).toBe("Dark");
+    press(fixture, ul, "d");
+    expect(active(fixture)).toBe("Dim");
+    press(fixture, ul, "d");
+    expect(active(fixture)).toBe("Dracula");
+  });
+
+  test("§7.15 a multi-character buffer refines the match from the active option", async () => {
+    const fixture = await openPicker(["d1", "d2", "d3", "m"], {
+      sizeLabels: { d1: "Dark", d2: "Dim", d3: "Dracula", m: "Light" },
+      defaultValue: "m",
+    });
+    const ul = list(fixture);
+    press(fixture, ul, "d");
+    press(fixture, ul, "r");
+    expect(active(fixture)).toBe("Dracula");
+  });
+
+  test("§7.16 PageUp and PageDown move the cursor by ten, clamped", async () => {
+    const many = Array.from(
+      { length: 25 },
+      (_, i) => `s${String(i).padStart(2, "0")}`,
+    );
+    const fixture = await openPicker(many);
+    const ul = list(fixture);
+    press(fixture, ul, "PageDown");
+    expect(active(fixture)).toBe("S10");
+    press(fixture, ul, "PageDown");
+    expect(active(fixture)).toBe("S20");
+    press(fixture, ul, "PageDown");
+    expect(active(fixture)).toBe("S24");
+    press(fixture, ul, "PageUp");
+    expect(active(fixture)).toBe("S14");
+  });
+
+  test("§7.17 an empty list opens without aria-activedescendant", async () => {
+    const fixture = await openPicker([]);
+    const ul = list(fixture);
+    expect(ul.hasAttribute("hidden")).toBe(false);
+    expect(ul.getAttribute("aria-activedescendant")).toBeNull();
+  });
+});
+
+describe("TextSizePicker — sizeName (§7.23)", () => {
   test("sizeName title-cases each hyphen-separated word", () => {
     expect(sizeName("small")).toBe("Small");
     expect(sizeName("x-large")).toBe("X Large");

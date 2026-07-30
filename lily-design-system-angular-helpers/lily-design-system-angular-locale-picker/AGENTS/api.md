@@ -15,6 +15,7 @@ export {
   nextLocalePickerId,
   bcp47LocaleTag,
   isRtlLocale,
+  localeEndonym,
   localeName,
   matchNavigatorLanguage,
 } from "./locale-picker.component";
@@ -133,6 +134,7 @@ not the BCP 47-normalised tag (`"en-US"`).
 ```ts
 export function bcp47LocaleTag(locale: string): string;
 export function isRtlLocale(locale: string): boolean;
+export function localeEndonym(locale: string): string;
 export function localeName(locale: string): string;
 export function matchNavigatorLanguage(
   navLangs: readonly string[],
@@ -228,6 +230,8 @@ string` are exposed on the component instance for test purposes:
 labelFor(locale: string): string {
     const labels = this.localeLabels();
     if (locale in labels) return labels[locale];
+    const endonym = localeEndonym(locale);
+    if (endonym) return endonym;
     if (locale in defaultLocaleLabels) return defaultLocaleLabels[locale];
     const intl = intlDisplayName(locale);
     if (intl) return intl;
@@ -238,6 +242,15 @@ tagFor(locale: string): string {
     return bcp47LocaleTag(locale);
 }
 ```
+
+`optionLang(locale)` backs each option's `lang` attribute: it returns
+the BCP 47 tag only when the label is the derived endonym, and `null`
+for consumer-labelled options.
+
+`localeEndonym(locale)` asks `Intl.DisplayNames` *in that language*
+for the language's own name ("de" → "Deutsch", "cy" → "Cymraeg"),
+returning `""` on missing data or when the runtime echoes the tag
+back. It is deterministic — no `navigator` dependency.
 
 ## Component class shape
 

@@ -111,7 +111,7 @@ Give a React 19 application a drop-in, headless locale picker that:
   uncontrolled.
 - **Pure helper functions are exported** so consumers can reuse them
   outside the component: `bcp47LocaleTag`, `isRtlLocale`,
-  `localeName`, `defaultLocaleLabels`.
+  `localeEndonym`, `localeName`, `defaultLocaleLabels`.
 
 ## 4. Public API
 
@@ -188,9 +188,9 @@ button, and a listbox:
       role="option"
       aria-selected="true|false"
       data-active
-      lang="en-US"
+      lang="{tag, only when the label is the derived endonym}"
     >
-      English (United States)
+      American English
     </li>
   </ul>
 </div>
@@ -223,10 +223,13 @@ aria-label="{label}" tabindex="-1">`, carrying the `hidden` attribute
   - `aria-selected` is `true` on the active locale and `false` on the rest.
   - `data-active` (valueless) marks the option under the keyboard
     cursor while the list is open. At most one option carries it.
-  - `lang="{tagFor(locale)}"` carries the BCP 47 hyphen form so
-    assistive technology pronounces the option text in the appropriate
-    language even when the document language differs (WCAG 3.1.2).
-    Neither the button nor the list carries a `lang` of its own.
+  - `lang` carries the BCP 47 hyphen form **only when the option's text
+    is the derived endonym** (§5.4): then the claim is true and
+    assistive technology may pronounce the text in that language
+    (WCAG 3.1.2). Consumer-labelled options and English-table fallbacks
+    carry no `lang` — their text's language is unknown or English, and
+    a false claim sends a speech engine to the wrong voice. Neither the
+    button nor the list carries a `lang` of its own.
 - **Ids.** The list id and the option ids derive from React's `useId`,
   so they are stable across server and client render and survive
   hydration. `aria-activedescendant` on the list points at the active
@@ -240,7 +243,7 @@ aria-label="{label}" tabindex="-1">`, carrying the `hidden` attribute
 `index.ts` exports:
 
 - `LocalePicker` (the component, both default and named export)
-- `bcp47LocaleTag`, `isRtlLocale`, `localeName`,
+- `bcp47LocaleTag`, `isRtlLocale`, `localeEndonym`, `localeName`,
   `matchNavigatorLanguage`, `defaultLocaleLabels` (pure helpers)
 - `RTL_LANGUAGE_TAGS`, `RTL_SCRIPT_SUBTAGS` (constants)
 - `GLOBE_WITH_MERIDIANS` (the default button glyph, U+1F310 + U+FE0E)
@@ -296,16 +299,35 @@ For each navigator entry `nav`:
 If no navigator entry matches, the resolution falls through to step 4
 of §5.2.
 
-### 5.4 Default labels
+### 5.4 Default labels and the `lang` attribute
 
-When `localeLabels[code]` is missing, the helper falls back to:
+Default option labels are endonyms — each language named in itself,
+"Cymraeg" not "Welsh" — resolved by `localeEndonym()` via
+`Intl.DisplayNames` asked *in that language*. The user who needs a
+language menu is the one who cannot read the page's language, and the
+exonym means nothing to them. The endonym lookup is deterministic (no
+`navigator` dependency), so server and client render the same label.
+`localeEndonym` returns `""` when the runtime has no data — some
+runtimes echo the tag back instead of failing, and an echo is not a
+name.
 
-1. `defaultLocaleLabels[code]` from the built-in `locales.ts` table
-   derived from `locales.tsv`.
-2. `Intl.DisplayNames` for the consumer's BCP 47 environment locale,
+When `localeLabels[code]` is missing, the helper resolves in order:
+
+1. `localeEndonym(code)` — the language's own name for itself.
+2. `defaultLocaleLabels[code]` from the built-in `locales.ts` table
+   derived from `locales.tsv` (English names, now a fallback for
+   runtimes without `Intl.DisplayNames` data).
+3. `Intl.DisplayNames` for the consumer's BCP 47 environment locale,
    if available and if it returns a non-empty string. (Used
    opportunistically — never throws.)
-3. The raw `code`.
+4. The raw `code`.
+
+Each option's `lang` attribute is a claim about the language of the
+option's **text**, and is made only when the text is the endonym we
+derived: then a screen reader may correctly switch voice. A consumer
+label's language is unknown, and the English fallback is English, so
+those options carry no `lang` — the English word "Arabic" must never
+be handed to an Arabic speech engine.
 
 ### 5.5 Applying a locale
 
@@ -384,13 +406,16 @@ The active option is kept in view with `scrollIntoView({ block:
 
 ### 5.10 Typeahead
 
-Printable single characters typed while the listbox is open append to a
-typeahead buffer and move the active option to the first label that
-starts with the buffer, searching forward from the current active
-option and wrapping once. Modifier-held keys (`Ctrl`, `Meta`, `Alt`)
-are ignored. The buffer resets after 500 ms of inactivity, and its
-pending timer is cleared on unmount. Matching is case-insensitive and
-runs against the **labels** (`labelFor`), not the locale codes.
+Printable single characters typed while the listbox is open run the APG
+listbox typeahead: a single character advances to the **next** option
+whose label starts with it, and repeating that character cycles onward
+through the matches; only a buffer of differing characters refines the
+match, anchored on the active option. The search runs forward and wraps
+once. Modifier-held keys (`Ctrl`, `Meta`, `Alt`) are ignored. The
+buffer resets after 500 ms of inactivity, and its pending timer is
+cleared on unmount. Matching is case-insensitive and runs against the
+**labels** (`labelFor`), not the locale codes — and default labels are
+endonyms (§5.4), so typing `f` reaches "français".
 
 ## 6. Accessibility
 
@@ -433,7 +458,8 @@ On the **listbox** (while open):
 | `Home` / `End`          | Jump to the first / last option.                                                  |
 | `Enter` / `Space`       | Select the active option, apply it (§5.5), close, and return focus to the button. |
 | `Escape`                | Close and return focus to the button **without** changing the value.              |
-| `Tab`                   | Close without stealing focus back, so focus continues to the next element.        |
+| `PageUp` / `PageDown`   | Move the active option up / down by ten. Clamps at the ends.                      |
+| `Tab`                   | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position. Hiding the focused list first would drop focus to `<body>` and restart Tab from the top of the document. |
 | Printable character     | Typeahead over the option labels (§5.10).                                         |
 
 Pointer equivalents: clicking an option selects it, clicking the button
@@ -566,12 +592,24 @@ run under vitest + jsdom + `@testing-library/react`.
     `lang`, closes the list (`hidden` returns, `aria-expanded` goes
     back to `"false"`), and returns focus to the button. `Space`
     behaves the same. `Escape` closes and returns focus without
-    changing the locale. `Tab` closes without stealing focus back.
+    changing the locale. `Tab` closes after parking focus on the
+    button, so the browser's default Tab proceeds from the picker's
+    position.
 27. Typing a printable character moves the active descendant to the
-    first matching **label** prefix, and the buffer resets after the
+    next matching **label** prefix, and the buffer resets after the
     500 ms idle window. Clicking an option selects and applies it
     (including `dir`); clicking outside closes the list without
     changing the locale; clicking the button again closes it.
+
+### 7.7 Accessibility hardening
+
+| Clause | Test asserts |
+| ------ | ------------ |
+| §7.28  | `Tab` from the open list puts focus on the button before closing, so the default Tab proceeds from the picker's position. |
+| §7.29  | `lang` is claimed only when the label is the endonym; consumer-labelled options carry no `lang` (§5.4). |
+| §7.30  | A repeated typeahead character cycles through its matches. |
+| §7.31  | `PageUp` / `PageDown` move the cursor by ten, clamped. |
+| §7.32  | An empty list opens without `aria-activedescendant`. |
 
 ## 8. Out-of-scope (future, not implemented here)
 

@@ -141,7 +141,7 @@ type ShareTarget = {
   >
     <span class="share-picker-icon" aria-hidden="true">&#10148;</span>
   </button>
-  <ul class="share-picker-list" id="{listId}" hidden>
+  <ul class="share-picker-list" id="{listId}" aria-label="{label}" hidden>
     <li class="share-picker-list-item">
       <a
         class="share-picker-target"
@@ -198,7 +198,7 @@ Either way the list closes.
 | `ArrowUp`         | Opens, focuses the last item         | Moves focus up, clamping                      |
 | `Home` / `End`    | —                                    | First / last item                             |
 | `Escape`          | —                                    | Closes and returns focus to the button        |
-| `Tab`             | Moves on                             | Closes, focus goes where the browser sends it |
+| `Tab`             | Moves on                             | Closes — focus goes to the button first, without cancelling the key, so the default Tab proceeds from the picker's position |
 
 Items are real focusable elements, so focus moves for real rather than
 via `aria-activedescendant`. Clicking outside, or focus leaving the root,
@@ -253,12 +253,18 @@ sees on a phone is not what they see on a desktop. Full treatment in
 14. A dismissed (rejected) sheet does not fall through to the list, and emits no `nativeShare`.
 15. Opening focuses the first item; `ArrowDown` / `ArrowUp` on the closed button open focused on first / last.
 16. Arrows move focus and clamp; `Home` / `End` jump.
-17. `Escape` closes and returns focus to the button; `Tab` closes without stealing focus back.
+17. `Escape` closes and returns focus to the button; `Tab` closes after moving focus to the button, without cancelling the key (see clause 23).
 18. Choosing a destination emits `share` with its `id` and closes the list.
 19. Clicking outside, re-clicking the trigger, or moving focus out of the root closes the list.
 20. An explicit `url` prop wins.
 21. With no `url`, the current page URL is used — for destinations and for the native sheet.
 22. The default slot replaces the glyph and receives `SlotArgs`, whose `open` tracks the list state.
+23. `Tab` from an open item puts focus on the button before closing, so
+    the default Tab proceeds from the picker's position instead of
+    restarting from `<body>` when the list is hidden while its item has
+    focus.
+24. The list carries the picker's accessible name (`aria-label` =
+    `label`).
 
 In addition, §4.2's root contract (class hook + consumer `class` +
 `$attrs` fall-through) is asserted directly.

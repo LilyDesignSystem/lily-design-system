@@ -782,6 +782,155 @@ public class ThemePickerTests : TestContext
         Assert.Equal("True", cut.Find("[data-testid='custom']").GetAttribute("data-open"));
     }
 
+    // =================================================================
+    // Accessibility hardening — §7.26–§7.29, mirroring the canonical
+    // Svelte clauses §7.21–§7.24 (this port's §7 list was already
+    // numbered through §7.25, so the new clauses continue from §7.26).
+    //
+    // Focus assertions read the FocusAsync interop invocations against
+    // the component's internal reference-id seams (InternalsVisibleTo),
+    // the same technique the DateTimePicker suite uses — bUnit has no
+    // live focus model. bUnit also cannot run the browser's REAL
+    // default-Tab move, so the Tab clause asserts the observable state
+    // and the comment explains the platform difference.
+    // =================================================================
+
+    /// <summary>The interop identifier ElementReference.FocusAsync() uses.</summary>
+    private const string FocusIdentifier = "Blazor._internal.domWrapper.focus";
+
+    /// <summary>The ElementReference ids the component asked the browser to
+    /// focus, oldest first.</summary>
+    private IReadOnlyList<string> FocusedRefIds()
+        => JSInterop.Invocations
+            .Where(i => i.Identifier == FocusIdentifier)
+            .Select(i => ((ElementReference)i.Arguments[0]!).Id)
+            .ToList();
+
+    // -----------------------------------------------------------------
+    // §7.26 — Tab from the open list closes it and leaves focus where
+    //         the browser's default Tab put it (canonical §7.21). The
+    //         canonical Svelte fix refocuses the button BEFORE hiding
+    //         the list because Svelte hides synchronously, ahead of the
+    //         browser's default Tab; Blazor's async handler always runs
+    //         AFTER the default Tab has proceeded from the still-visible
+    //         list — the picker's own position — so the component must
+    //         NOT issue a focus call, which would yank the user back to
+    //         the trigger they just left. Both ports end with focus on
+    //         the tab stop after the picker.
+    // -----------------------------------------------------------------
+    [Fact]
+    public async Task Section_7_26_Tab_Closes_And_Does_Not_Fight_The_Default_Tab()
+    {
+        var cut = RenderDefault();
+        await Task.Yield();
+
+        cut.Find("button").Click();
+        // Opening moved focus to the listbox.
+        Assert.Equal(cut.Instance.ListReferenceId, FocusedRefIds()[^1]);
+        var beforeTab = FocusedRefIds().Count;
+
+        Key(cut, "ul", "Tab");
+
+        Assert.True(cut.Find("ul").HasAttribute("hidden"));
+        Assert.Equal("false", cut.Find("button").GetAttribute("aria-expanded"));
+        // No focus interop was issued on Tab: focus stays where the
+        // browser's uncancelled default Tab moved it.
+        Assert.Equal(beforeTab, FocusedRefIds().Count);
+        Assert.DoesNotContain(cut.Instance.ButtonReferenceId, FocusedRefIds());
+    }
+
+    // -----------------------------------------------------------------
+    // §7.27 — A repeated typeahead character cycles through its matches
+    //         (canonical §7.22): "d" three times walks dark → dim →
+    //         dracula instead of sticking on the first match.
+    // -----------------------------------------------------------------
+    [Fact]
+    public async Task Section_7_27_A_Repeated_Typeahead_Character_Cycles_Through_Its_Matches()
+    {
+        var cut = RenderComponent<ThemePicker>(p => p
+            .Add(x => x.Label, "Theme")
+            .Add(x => x.ThemesUrl, UrlTrailing)
+            .Add(x => x.Themes, new[] { "dark", "dim", "dracula", "light" }));
+        await Task.Yield();
+        cut.Find("button").Click();
+
+        string Active() => cut.Find("[data-active]").TextContent.Trim();
+
+        // The initial value resolves to "light", so the cursor opens there.
+        Key(cut, "ul", "d");
+        Assert.Equal("Dark", Active());
+        Key(cut, "ul", "d");
+        Assert.Equal("Dim", Active());
+        Key(cut, "ul", "d");
+        Assert.Equal("Dracula", Active());
+    }
+
+    // -----------------------------------------------------------------
+    // §7.27 — A multi-character buffer refines the match anchored at the
+    //         active option (canonical §7.22).
+    // -----------------------------------------------------------------
+    [Fact]
+    public async Task Section_7_27_A_MultiCharacter_Buffer_Refines_From_The_Active_Option()
+    {
+        var cut = RenderComponent<ThemePicker>(p => p
+            .Add(x => x.Label, "Theme")
+            .Add(x => x.ThemesUrl, UrlTrailing)
+            .Add(x => x.Themes, new[] { "dark", "dim", "dracula", "light" }));
+        await Task.Yield();
+        cut.Find("button").Click();
+
+        Key(cut, "ul", "d");
+        Key(cut, "ul", "r");
+        Assert.Equal("Dracula", cut.Find("[data-active]").TextContent.Trim());
+    }
+
+    // -----------------------------------------------------------------
+    // §7.28 — PageUp / PageDown move the cursor by ten, clamped
+    //         (canonical §7.23).
+    // -----------------------------------------------------------------
+    [Fact]
+    public async Task Section_7_28_PageUp_And_PageDown_Move_The_Cursor_By_Ten_Clamped()
+    {
+        var many = Enumerable.Range(0, 25).Select(i => $"t{i:D2}").ToArray();
+        var cut = RenderComponent<ThemePicker>(p => p
+            .Add(x => x.Label, "Theme")
+            .Add(x => x.ThemesUrl, UrlTrailing)
+            .Add(x => x.Themes, many));
+        await Task.Yield();
+        cut.Find("button").Click();
+
+        string Active() => cut.Find("[data-active]").TextContent.Trim();
+
+        Key(cut, "ul", "PageDown");
+        Assert.Equal("T10", Active());
+        Key(cut, "ul", "PageDown");
+        Assert.Equal("T20", Active());
+        Key(cut, "ul", "PageDown");
+        Assert.Equal("T24", Active());
+        Key(cut, "ul", "PageUp");
+        Assert.Equal("T14", Active());
+    }
+
+    // -----------------------------------------------------------------
+    // §7.29 — An empty list opens without aria-activedescendant
+    //         (canonical §7.24): -1 keeps the attribute off rather than
+    //         pointing at an id that does not exist.
+    // -----------------------------------------------------------------
+    [Fact]
+    public async Task Section_7_29_An_Empty_List_Opens_Without_AriaActivedescendant()
+    {
+        var cut = RenderComponent<ThemePicker>(p => p
+            .Add(x => x.Label, "Theme")
+            .Add(x => x.ThemesUrl, UrlTrailing)
+            .Add(x => x.Themes, System.Array.Empty<string>()));
+        await Task.Yield();
+
+        cut.Find("button").Click();
+
+        Assert.False(cut.Find("ul").HasAttribute("hidden"));
+        Assert.Null(cut.Find("ul").GetAttribute("aria-activedescendant"));
+    }
+
     /// <summary>True when some eval interop call carried the given substring.</summary>
     private bool SawEvalContaining(string needle)
     {

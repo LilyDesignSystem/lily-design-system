@@ -358,17 +358,17 @@ describe("ThemePicker — keyboard contract (APG listbox, §7.14–§7.18)", () 
     expect(document.activeElement).toBe(button(fixture));
   });
 
-  test("§7.17 Tab closes without stealing focus back to the button", async () => {
+  test("§7.17 Tab closes after handing focus to the button", async () => {
     const fixture = await openWith("ArrowDown");
     const ul = list(fixture);
     press(fixture, ul, "Tab");
     await flush();
     fixture.detectChanges();
     expect(ul.hasAttribute("hidden")).toBe(true);
-    // Focus is left where it was for the browser's own Tab handling to
-    // move it on; the component must not pull it back to the button.
-    expect(document.activeElement).not.toBe(button(fixture));
-    expect(document.activeElement).toBe(ul);
+    // Focus sits on the button — not pulled back after the fact, but
+    // placed there before the list hides, so the browser's default Tab
+    // proceeds from the picker's position (see §7.21).
+    expect(document.activeElement).toBe(button(fixture));
   });
 
   test("§7.18 typeahead moves the active descendant by label prefix", async () => {
@@ -668,5 +668,79 @@ describe("ThemePicker — detectFromSystem (§7.20)", () => {
       defaultValue: "solarized",
     });
     expect(document.documentElement.dataset["theme"]).toBe("solarized");
+  });
+});
+
+describe("ThemePicker — accessibility hardening (§7.21–§7.24)", () => {
+  async function openPicker(
+    themes: string[] = THEMES,
+  ): Promise<ComponentFixture<ThemePicker>> {
+    const fixture = await mountSettled({ themes });
+    click(fixture, button(fixture));
+    await flush();
+    fixture.detectChanges();
+    return fixture;
+  }
+
+  const active = (fixture: ComponentFixture<unknown>) =>
+    (
+      fixture.nativeElement.querySelector("[data-active]") as HTMLElement | null
+    )?.textContent?.trim();
+
+  test("§7.21 Tab from the open list puts focus on the button before closing", async () => {
+    const fixture = await openPicker();
+    const ul = list(fixture);
+    expect(document.activeElement).toBe(ul);
+    press(fixture, ul, "Tab");
+    // Focus sits on the button, so the browser's default Tab proceeds
+    // from the picker's own position — not from <body>, which is where
+    // focus lands when the focused list is hidden first, sending the
+    // next Tab to the top of the document.
+    expect(document.activeElement).toBe(button(fixture));
+    expect(ul.hasAttribute("hidden")).toBe(true);
+  });
+
+  test("§7.22 a repeated typeahead character cycles through its matches", async () => {
+    const fixture = await openPicker(["dark", "dim", "dracula", "light"]);
+    const ul = list(fixture);
+    // The initial value resolves to "light", so the cursor opens there.
+    press(fixture, ul, "d");
+    expect(active(fixture)).toBe("Dark");
+    press(fixture, ul, "d");
+    expect(active(fixture)).toBe("Dim");
+    press(fixture, ul, "d");
+    expect(active(fixture)).toBe("Dracula");
+  });
+
+  test("§7.22 a multi-character buffer refines the match from the active option", async () => {
+    const fixture = await openPicker(["dark", "dim", "dracula", "light"]);
+    const ul = list(fixture);
+    press(fixture, ul, "d");
+    press(fixture, ul, "r");
+    expect(active(fixture)).toBe("Dracula");
+  });
+
+  test("§7.23 PageUp and PageDown move the cursor by ten, clamped", async () => {
+    const many = Array.from(
+      { length: 25 },
+      (_, i) => `t${String(i).padStart(2, "0")}`,
+    );
+    const fixture = await openPicker(many);
+    const ul = list(fixture);
+    press(fixture, ul, "PageDown");
+    expect(active(fixture)).toBe("T10");
+    press(fixture, ul, "PageDown");
+    expect(active(fixture)).toBe("T20");
+    press(fixture, ul, "PageDown");
+    expect(active(fixture)).toBe("T24");
+    press(fixture, ul, "PageUp");
+    expect(active(fixture)).toBe("T14");
+  });
+
+  test("§7.24 an empty list opens without aria-activedescendant", async () => {
+    const fixture = await openPicker([]);
+    const ul = list(fixture);
+    expect(ul.hasAttribute("hidden")).toBe(false);
+    expect(ul.getAttribute("aria-activedescendant")).toBeNull();
   });
 });

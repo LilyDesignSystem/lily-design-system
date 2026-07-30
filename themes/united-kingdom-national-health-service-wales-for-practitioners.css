@@ -3046,7 +3046,8 @@
         .theme-picker,
         .locale-picker,
         .text-size-picker,
-        .share-picker
+        .share-picker,
+        .date-time-picker
     ) {
         position: relative;
         display: inline-block;
@@ -3056,7 +3057,8 @@
         .theme-picker-button,
         .locale-picker-button,
         .text-size-picker-button,
-        .share-picker-button
+        .share-picker-button,
+        .date-time-picker-button
     ) {
         display: inline-flex;
         align-items: center;
@@ -3236,6 +3238,214 @@
     :where(.locale-picker-option) {
         background-color: var(--lily-surface);
         color: var(--lily-text);
+    }
+
+    /* ----------------------------------------------------------------------
+     * date-time-picker
+     *
+     * The one helper that is a form control rather than a page-header
+     * control, so it is the only one with a text field beside its trigger
+     * and a dialog rather than a listbox. The field itself needs no rules
+     * here: `.date-time-picker-input` already matches the generic
+     * [class$="-input"] baseline further up.
+     * -------------------------------------------------------------------- */
+
+    :where(.date-time-picker-field) {
+        display: flex;
+        align-items: center;
+        gap: var(--lily-space-xs);
+    }
+
+    :where(.date-time-picker-dialog) {
+        position: absolute;
+        z-index: 10;
+        inset-inline-start: 0;
+        margin-block-start: var(--lily-space-xs);
+        padding: var(--lily-space-sm);
+        color: var(--lily-text);
+        background-color: var(--lily-surface);
+        border: var(--border) solid var(--lily-border-strong);
+        border-radius: var(--lily-radius-md);
+        box-shadow: var(--lily-shadow-md);
+    }
+
+    /* Explicit, because the rule above would otherwise beat the UA
+       stylesheet's [hidden] { display: none } — the same trap the
+       listbox popups have to step around. */
+    :where(.date-time-picker-dialog)[hidden] {
+        display: none;
+    }
+
+    :where(.date-time-picker-header) {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--lily-space-xs);
+        margin-block-end: var(--lily-space-xs);
+    }
+
+    /* The month/year heading is a live region, so it must keep its box
+       even while empty — never display:none it. */
+    :where(.date-time-picker-period) {
+        flex: 1;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    /* The four navigation buttons and the footer/shortcut buttons do not
+       end in `-button`, so the generic button family never reaches them. */
+    :where(
+        .date-time-picker-previous-year,
+        .date-time-picker-previous-month,
+        .date-time-picker-next-month,
+        .date-time-picker-next-year,
+        .date-time-picker-shortcut,
+        .date-time-picker-clear,
+        .date-time-picker-cancel,
+        .date-time-picker-confirm
+    ) {
+        padding: var(--lily-space-xs) var(--lily-space-sm);
+        font: inherit;
+        color: var(--lily-text);
+        background-color: var(--lily-surface);
+        border: var(--border) solid var(--lily-border-strong);
+        border-radius: var(--lily-radius-sm);
+        cursor: pointer;
+    }
+
+    :where(
+        .date-time-picker-previous-year:hover,
+        .date-time-picker-previous-month:hover,
+        .date-time-picker-next-month:hover,
+        .date-time-picker-next-year:hover,
+        .date-time-picker-shortcut:hover,
+        .date-time-picker-clear:hover,
+        .date-time-picker-cancel:hover,
+        .date-time-picker-confirm:hover
+    ) {
+        background-color: var(--lily-surface-alt);
+    }
+
+    /* The commit action is the primary one on the dialog. */
+    :where(.date-time-picker-confirm) {
+        color: var(--color-primary-content);
+        background-color: var(--color-primary);
+        border-color: var(--color-primary);
+    }
+
+    :where(.date-time-picker-calendar) {
+        border-collapse: collapse;
+        table-layout: fixed;
+    }
+
+    :where(.date-time-picker-weekday, .date-time-picker-week-heading) {
+        padding: var(--lily-space-xs);
+        font-size: 0.8125em;
+        font-weight: 600;
+        color: var(--lily-text-muted);
+    }
+
+    /* Week numbers are reference data, not navigation: muted, and set in
+       tabular figures so the column does not shimmer as months change. */
+    :where(.date-time-picker-week) {
+        padding-inline-end: var(--lily-space-xs);
+        font-size: 0.8125em;
+        font-weight: 400;
+        font-variant-numeric: tabular-nums;
+        color: var(--lily-text-muted);
+        text-align: end;
+    }
+
+    :where(.date-time-picker-day) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /* 2rem is a compromise: WCAG 2.5.8 (AA) wants 24px, 2.5.5 (AAA)
+           wants 44px, and seven 44px columns do not fit a 320px viewport
+           alongside dialog chrome. Consumers targeting AAA should enlarge
+           these and let the dialog go full-width on small screens. */
+        min-width: 2rem;
+        min-height: 2rem;
+        padding: 0;
+        font: inherit;
+        font-variant-numeric: tabular-nums;
+        color: var(--lily-text);
+        background: none;
+        border: var(--border) solid transparent;
+        border-radius: var(--lily-radius-sm);
+        cursor: pointer;
+    }
+
+    :where(.date-time-picker-day:hover:not([data-disabled])) {
+        background-color: var(--lily-surface-alt);
+    }
+
+    /* Adjacent-month days stay legible rather than being hidden: they are
+       real, selectable dates, and blanking them makes the grid harder to
+       scan across a month boundary. */
+    :where(.date-time-picker-day[data-outside]) {
+        color: var(--lily-text-muted);
+    }
+
+    /* Today is marked with a border, the selection with a fill. Two
+       different channels, so a day that is both still reads as both. */
+    :where(.date-time-picker-day[data-today]) {
+        border-color: var(--lily-border-strong);
+        font-weight: 600;
+    }
+
+    :where(.date-time-picker-day[data-selected]) {
+        color: var(--color-primary-content);
+        background-color: var(--color-primary);
+        border-color: var(--color-primary);
+    }
+
+    :where(.date-time-picker-day[data-disabled]) {
+        color: var(--lily-text-muted);
+        cursor: not-allowed;
+        /* Struck through as well as dimmed: "unavailable" must not rest on
+           contrast alone (WCAG 1.4.1). */
+        text-decoration: line-through;
+    }
+
+    :where(.date-time-picker-time) {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: var(--lily-space-xs);
+        margin-block-start: var(--lily-space-sm);
+    }
+
+    :where(.date-time-picker-time-label) {
+        font-size: 0.8125em;
+        color: var(--lily-text-muted);
+    }
+
+    :where(
+        .date-time-picker-hour,
+        .date-time-picker-minute,
+        .date-time-picker-meridiem
+    ) {
+        padding: var(--lily-space-xs);
+        font: inherit;
+        color: var(--lily-text);
+        background-color: var(--lily-surface);
+        border: var(--border) solid var(--lily-border-strong);
+        border-radius: var(--lily-radius-sm);
+    }
+
+    :where(.date-time-picker-shortcuts) {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--lily-space-xs);
+        margin-block-start: var(--lily-space-sm);
+    }
+
+    :where(.date-time-picker-footer) {
+        display: flex;
+        justify-content: flex-end;
+        gap: var(--lily-space-xs);
+        margin-block-start: var(--lily-space-sm);
     }
 
     /* Combobox / listbox / autosuggest — non-native variant of <select>. */

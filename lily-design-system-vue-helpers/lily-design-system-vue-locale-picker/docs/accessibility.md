@@ -80,7 +80,7 @@ On the **listbox**:
 | Home / End             | Jump to the first / last option.                                |
 | Enter / Space          | Select the active option, apply it, close, refocus the button.  |
 | Escape                 | Close and refocus the button **without** changing the locale.   |
-| Tab                    | Close without stealing focus back — Tab moves on as usual.      |
+| Tab                    | Close; focus lands on the button so the default Tab proceeds from the picker's position. |
 | Printable characters   | Typeahead over the option labels; the buffer resets after 500 ms. |
 
 Pointer and focus behaviour: clicking an option commits it; clicking

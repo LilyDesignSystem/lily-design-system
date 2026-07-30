@@ -117,8 +117,9 @@ listbox rendering:
 | `el.optionId(index)`           | method          | `id` of the option at `index`, e.g. `"locale-picker-1-option-2"`.                                             |
 | `el.openList(startIndex?)`     | method          | Open; `startIndex` overrides the active option (default: the selected one, else 0). Moves focus to the `<ul>`. |
 | `el.closeList(refocus = true)` | method          | Close; refocuses the button unless `refocus` is `false`.                                                       |
-| `el.labelFor(code)`            | method          | `localeLabels[code] ?? defaultLocaleLabels[code] ?? Intl.DisplayNames ?? code`.                                |
+| `el.labelFor(code)`            | method          | `localeLabels[code] ?? localeEndonym(code) ?? defaultLocaleLabels[code] ?? Intl.DisplayNames ?? code` — endonyms by default. |
 | `el.tagFor(locale)`            | method          | Instance wrapper around `bcp47LocaleTag`.                                                                      |
+| `el.optionLang(code)`          | method          | The `lang` claim for one option: the BCP 47 tag when the label is the derived endonym, else `""`.              |
 | `el.renderButtonContent()`     | **overridable** | Builds the button's content. See below.                                                                        |
 
 ## Events

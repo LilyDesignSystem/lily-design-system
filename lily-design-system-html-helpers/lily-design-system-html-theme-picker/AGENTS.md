@@ -86,9 +86,13 @@ different thing from `aria-selected`. Full markup:
 - The keyboard contract is implemented in JS, not inherited from
   the platform. Button: `ArrowDown`/`Enter`/`Space` open,
   `ArrowUp` opens on the last option. List: arrows move and clamp,
-  `Home`/`End` jump, `Enter`/`Space` select and refocus the button,
-  `Escape` closes without changing the value, `Tab` closes without
-  stealing focus, printable characters run a 500 ms typeahead.
+  `Home`/`End` jump, `PageUp`/`PageDown` move by ten (clamped),
+  `Enter`/`Space` select and refocus the button, `Escape` closes
+  without changing the value, `Tab` puts focus on the button first
+  and then closes — without cancelling the key, so the default Tab
+  proceeds from the picker's position — and printable characters run
+  a 500 ms typeahead where a repeated character cycles through its
+  matches and differing characters refine from the active option.
   Table: [spec/index.md §6.2](./spec/index.md#62-keyboard-contract).
 - Focus sits on the `<ul>` while open, never on an `<li>`; the
   highlighted option is conveyed by `aria-activedescendant`.

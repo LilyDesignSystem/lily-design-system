@@ -436,8 +436,9 @@ script runs.
 | `Home` / `End`       | Listbox | Jump to the first / last option.                                  |
 | `Enter` / `Space`    | Listbox | Select the active option, apply it, close, refocus the button.    |
 | `Escape`             | Listbox | Close and refocus the button without changing the theme.          |
-| `Tab`                | Listbox | Close without stealing focus back, so Tab proceeds normally.      |
-| Printable characters | Listbox | Typeahead over the option labels; the buffer resets after 500 ms. |
+| `PageUp` / `PageDown` | Listbox | Move the active option by ten, clamped.                          |
+| `Tab`                | Listbox | Close and move on — focus goes to the button first, so the default Tab proceeds from the picker's position. |
+| Printable characters | Listbox | APG typeahead: one character advances to the next match and repeats cycle; differing characters refine. Buffer resets after 500 ms. |
 
 Opening moves focus to the `<ul>`. Clicking an option selects it;
 clicking outside, or focus leaving the root, closes the listbox.

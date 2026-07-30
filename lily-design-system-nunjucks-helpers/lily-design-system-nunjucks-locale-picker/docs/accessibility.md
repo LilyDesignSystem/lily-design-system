@@ -11,7 +11,7 @@ away from a native `<select>` cost.
 | WCAG item | How the control satisfies it |
 | --------------- | --------------------------- |
 | WCAG 3.1.1 Language of Page | The client.js writes `lang` to the document root on every locale change. |
-| WCAG 3.1.2 Language of Parts | The macro emits `lang="{tag}"` on each `<li role="option">`. The button and the `<ul>` carry none — they are chrome, not content. |
+| WCAG 3.1.2 Language of Parts | The client sets `lang="{tag}"` on each `<li role="option">` whose text is the derived endonym — and only on those, because `lang` is a claim about the text's language. The button and the `<ul>` carry none — they are chrome, not content. |
 | WCAG 1.4.10 Reflow (RTL bidi) | The client.js writes `dir="rtl"` for RTL locales. |
 | WCAG 4.1.2 Name, Role, Value | `aria-label` names the button and the listbox; `aria-haspopup` / `aria-expanded` / `aria-controls` expose the relationship; each `<li>` carries `role="option"` and an explicit `aria-selected`. |
 | WCAG 2.1.1 Keyboard | The client.js implements the full APG listbox keyboard contract — see below. Nothing works before it runs. |
@@ -34,7 +34,7 @@ away from a native `<select>` cost.
 | `<ul>`                | `aria-activedescendant="{optionId}"` | Client, while open |
 | `<li>`                | `role="option"`                      | Macro              |
 | `<li>`                | `aria-selected="true|false"`         | Macro + client     |
-| `<li>`                | `lang="{bcp47}"`                     | Macro              |
+| `<li>`                | `lang="{bcp47}"` (endonym-labelled options only) | Client |
 | `<input type=hidden>` | `name`                               | Macro              |
 
 The active option is conveyed with `aria-activedescendant` on the
@@ -179,35 +179,33 @@ does not make the control self-describing. Opening the listbox does
 surface the state — the applied locale is the `aria-selected` option —
 but that requires an interaction.
 
-## Per-option `lang` is important
+## Per-option `lang` is important — and is only claimed when true
 
-Each `<li role="option">` carries a `lang="…"` attribute. This
-satisfies WCAG 3.1.2 (Language of Parts): when a screen reader
-encounters the option "Français" inside an English page, the `lang`
-attribute makes the reader switch to a French voice for the duration
-of that option.
+By default the client labels each option with the language's
+**endonym** — its own name for itself, "Cymraeg" not "Welsh", via
+`Intl.DisplayNames` asked *in that language* — and sets `lang="…"` on
+exactly those options. This satisfies WCAG 3.1.2 (Language of Parts):
+when a screen reader encounters the option "Français" inside an
+English page, the `lang` attribute makes the reader switch to a
+French voice for the duration of that option.
 
 Without the per-option `lang`, "Français" gets pronounced
 "Franc-ess" in an English voice — comprehensible but ugly. With
 it, the reader says "Fran-SAY".
 
+`lang` is a claim about the language of the option's **text**, so it
+is made only when the text is the endonym the client derived. If you
+supply `localeLabels` in the **viewer's** language (e.g. "English",
+"French", "Arabic" — all in English so the user recognises them),
+those options carry no `lang` at all: labelling the English word
+"Arabic" as Arabic would hand it to an Arabic speech engine. The same
+applies to raw-code and English-table fallbacks. Rendering names in
+their own language (the default) is the more usable choice anyway — a
+user looking for their language recognises it in its own script.
+
 The button and the `<ul>` deliberately carry no `lang`: the button has
 no text at all, and the listbox is a container whose own accessible
 name is in the document language.
-
-## When per-option `lang` does NOT help
-
-If your `localeLabels` are all in the **viewer's** language
-(e.g. you show "English", "French", "Arabic" — all in English so
-the user recognises them), the per-option `lang` attribute is
-technically incorrect: you have labelled English text as French.
-
-The macro always emits `lang`, so if you take that approach you have
-two choices: accept the minor incorrectness (most readers will
-mispronounce a handful of words), or strip the attribute in your own
-post-processing. Rendering names in their own language ("Français",
-not "French") is the better fix and the more usable one — a user
-looking for their language recognises it in its own script.
 
 ## Keyboard contract
 
@@ -230,8 +228,9 @@ On the **listbox**:
 | `Home` / `End`     | Jump to the first / last option.                              |
 | `Enter` / `Space`  | Select the active option, apply it, close, return focus.      |
 | `Escape`           | Close and return focus, leaving the locale unchanged.         |
-| `Tab`              | Close without stealing focus back.                            |
-| Printable character| Typeahead over the option labels; 500 ms buffer reset.        |
+| `PageUp` / `PageDown` | Move the active option by ten, clamped. |
+| `Tab`              | Close and move on — focus goes to the button first, so the default Tab proceeds from the picker's position. |
+| Printable character| APG typeahead: one character advances to the next match, a repeated character cycles; differing characters refine. 500 ms buffer reset. |
 
 Clicking an option selects it. Clicking outside the root, or moving
 focus out of it, closes the listbox without changing the locale.

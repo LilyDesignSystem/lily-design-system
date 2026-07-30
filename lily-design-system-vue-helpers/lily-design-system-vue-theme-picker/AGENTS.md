@@ -66,9 +66,12 @@ replaces the **button glyph** — not the options — and receives
 
 - WCAG 2.2 AAA target.
 - The component implements the WAI-ARIA APG listbox keyboard contract
-  itself: Arrow keys (clamping, no wrap), Home / End, Enter / Space to
-  commit, Escape to cancel, Tab to close, printable-character typeahead
-  with a 500 ms buffer. Focus moves to the `<ul>` on open and returns to
+  itself: Arrow keys (clamping, no wrap), Home / End, PageUp / PageDown
+  (by ten, clamping), Enter / Space to commit, Escape to cancel, Tab to
+  close via the button so the default Tab proceeds from the picker's
+  position, and printable-character typeahead with a 500 ms buffer — a
+  repeated character cycles through its matches; differing characters
+  refine from the active option. Focus moves to the `<ul>` on open and returns to
   the button on commit or cancel.
 - The button is icon-only, so `aria-label` is its **only** accessible
   name; the glyph is `aria-hidden="true"`.

@@ -4,6 +4,61 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+Accessibility hardening, ported from the canonical Svelte helper: seven
+changes, each fixing something a screen reader or keyboard user would
+actually hit. Test count 58 → 65 (§7.49–§7.55); the §7.29–§7.31
+assertions moved from `disabled` to `aria-disabled`.
+
+### Changed
+
+- **Vetoed days render `aria-disabled="true"` + `data-disabled` instead
+  of the `disabled` attribute.** A `disabled` button refuses focus, so
+  arrowing the roving cursor across a blocked week went silent for a
+  screen reader while the visible focus stayed behind on the last legal
+  day — and the "exactly one tabbable day" invariant broke whenever the
+  cursor sat on a vetoed day. Days stay focusable and announce as
+  unavailable; activation is still refused in `selectDay`. **CSS note:**
+  `:disabled` selectors on `.date-time-picker-day` stop matching — target
+  `[data-disabled]` or `[aria-disabled="true"]`.
+- **Closing the dialog returns focus to the element that opened it** —
+  the text field after `Alt`+`ArrowDown`, the trigger button after a
+  click. It previously always went to the button, stranding keyboard
+  users one Tab stop past where they were. This is the APG dialog rule.
+  (React shape: `openDialog` captures the opener in an `openerRef`; the
+  focus-request effect's old `"trigger"` target is now `"opener"`.)
+- **Paging from the header buttons no longer steals focus into the
+  grid.** `shiftMonth` refocuses the cursor only when focus was already
+  inside the grid (where the focused cell is about to be unrendered) —
+  checked against `document.activeElement` *before* the state updates
+  are queued; a user activating "next month" now stays on "next month"
+  and can page repeatedly. Grid `PageUp`/`PageDown` behaviour is
+  unchanged.
+- **Clicking anything outside the dialog closes it — including the
+  component's own text field.** The dialog claims `aria-modal="true"`;
+  staying open while the user edits the field behind it told assistive
+  technology one thing and did another. (The document click listener now
+  tests containment against the dialog and trigger button rather than
+  the component root.)
+
+### Added
+
+- **`labels.invalid`** (optional): a `role="status"` live region — class
+  hook `date-time-picker-status`, present-but-empty while valid — that
+  fills with the message when typed text is refused, wired to the field
+  via `aria-errormessage` and appended to `aria-describedby`. Previously
+  `aria-invalid` flipped with no announcement at all, so a user who had
+  already blurred the field never learned their date was rejected.
+- **`labels.instructions`** (optional): keyboard help rendered inside the
+  dialog — class hook `date-time-picker-instructions` — and referenced by
+  the dialog's `aria-describedby`, so screen readers speak it once on
+  open. The APG date-picker example ships exactly this affordance.
+- **`Escape` in the text field discards a pending edit**, restoring the
+  committed display and clearing `aria-invalid`, mirroring the dialog's
+  Escape contract. The keystroke does not propagate; with no pending edit
+  the key is untouched.
+
 ## 0.1.0 — 2026-07-28
 
 ### Added

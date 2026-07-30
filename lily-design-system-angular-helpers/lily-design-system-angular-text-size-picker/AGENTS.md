@@ -110,10 +110,12 @@ _decrease_ rather than _size_.
   [docs/accessibility.md](./docs/accessibility.md).
 - Button keys: `ArrowDown` / `Enter` / `Space` open on the selected
   option; `ArrowUp` opens on the last. Listbox keys: `ArrowDown` /
-  `ArrowUp` (clamped, no wrap), `Home` / `End`, `Enter` / `Space` to
-  select and refocus the button, `Escape` to dismiss unchanged, `Tab`
-  to close without stealing focus, printable chars for a 500 ms
-  typeahead over labels.
+  `ArrowUp` (clamped, no wrap), `Home` / `End`, `PageUp` / `PageDown`
+  (by ten, clamped), `Enter` / `Space` to select and refocus the
+  button, `Escape` to dismiss unchanged, `Tab` to close via the button
+  so the default Tab proceeds from the picker's position, printable
+  chars for a 500 ms typeahead over labels with APG same-character
+  cycling.
 - The button is icon-only, so `aria-label` is its **entire**
   accessible name — a poor label makes the control unusable.
 - Option labels default to title-cased slugs via the exported

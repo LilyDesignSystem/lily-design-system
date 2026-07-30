@@ -143,8 +143,13 @@ OS "preferred text size" signal — and **no** `placeholder` param.
 - WCAG 2.2 AAA target; WAI-ARIA APG listbox pattern.
 - Directly supports WCAG 1.4.4 (Resize Text) — this helper's specific
   concern.
-- The client provides Arrow / Home / End / Enter / Space / Escape /
-  Tab / typeahead semantics; none of it works before the client runs.
+- The client provides Arrow / Home / End / PageUp / PageDown / Enter /
+  Space / Escape / Tab / typeahead semantics; none of it works before
+  the client runs. `Tab` puts focus on the button before closing, so
+  the browser's default Tab proceeds from the picker's position;
+  typeahead follows the APG single-character rule (a repeated
+  character cycles through its matches); an empty list opens without
+  `aria-activedescendant`.
 - `aria-label` is the ONLY accessible name the button has, since the
   glyph is `aria-hidden`.
 - `aria-selected` tracks the applied size; `data-active` tracks the

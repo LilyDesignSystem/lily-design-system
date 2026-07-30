@@ -30,7 +30,7 @@ and persists nothing. No `localStorage`, no `data-*` on `<html>`.
 | ---- | ------- |
 | `spec/index.md` | Specification-driven contract (canonical). |
 | `date-time-picker.component.ts` | Implementation. Standalone, signal-based, OnPush. |
-| `date-time-picker.component.spec.ts` | Vitest spec, mapped to the §7 clauses. |
+| `date-time-picker.component.spec.ts` | Vitest spec, mapped to the §7 clauses (67 tests). |
 | `docs/accessibility.md` | Tradeoffs, stated plainly. |
 | `examples/` | Runnable standalone example components. |
 | `index.ts` | Barrel re-export. |
@@ -92,17 +92,36 @@ These each encode a bug that was avoided on purpose.
   Splitting it, or removing the `initialised` guard, reruns the seed on
   every `value` write and silently repages the calendar out from under an
   open dialog.
+- **Vetoed days are `aria-disabled`, never the `disabled` attribute.** A
+  `disabled` button refuses focus, so arrowing across a blocked week goes
+  silent for a screen reader while visible focus stays behind. Activation
+  is refused in `selectDay` instead.
+- **Focus returns to the element that opened the dialog** — the text
+  field after `Alt`+`Arrow Down`, the button after a click. Hardcoding
+  the button strands keyboard users one Tab stop past where they were.
+- **Header paging never refocuses the grid.** `shiftMonth` moves focus to
+  the cursor only when focus was already inside the grid; otherwise a
+  user activating "next month" is yanked away after one press.
+- **Render-then-focus is synchronous where the target is new.** Angular
+  renders after the microtask queue drains, so a `queueMicrotask`'d focus
+  into a freshly-paged month runs against the old DOM — the component
+  calls `ChangeDetectorRef.detectChanges()` and then focuses. Reverting
+  to `queueMicrotask` there loses focus to `<body>` on every cross-month
+  page. Stable targets (button, field) keep the microtask idiom.
 
 ## HTML
 
 `<lily-date-time-picker>` renders `<div class="date-time-picker"
 data-mode>` → hidden input → `<div class="date-time-picker-field">` with
 `<input class="date-time-picker-input">` and `<button
-class="date-time-picker-button" aria-haspopup="dialog">` → `<div
+class="date-time-picker-button" aria-haspopup="dialog">` → optional
+`role="status"` live region (gated on `labels.invalid`) → `<div
 class="date-time-picker-dialog" role="dialog" aria-modal="true"
-tabindex="-1" hidden>` containing the header, a `role="grid"` `<table>` of
-`date-time-picker-day` buttons with roving tabindex, optional time selects,
-optional shortcuts, and the footer.
+tabindex="-1" hidden>` containing optional keyboard help (gated on
+`labels.instructions`, described-by the dialog), the header, a
+`role="grid"` `<table>` of `date-time-picker-day` buttons with roving
+tabindex (vetoed days `aria-disabled`, not `disabled`), optional time
+selects, optional shortcuts, and the footer.
 
 Full contract in spec §4.3.
 
@@ -132,6 +151,11 @@ Full contract in spec §4.3.
 - **The template-cast pattern is `$any($event.target).value`** — not a
   parenthesised TS cast — used for the text field's `(input)` and the
   hour/minute/meridiem selects' `(change)`.
+- **Focus moves that target freshly-paged cells call
+  `ChangeDetectorRef.detectChanges()` synchronously and then focus.**
+  Svelte flushes the DOM synchronously; Angular renders after the
+  microtask queue drains, so the canonical `queueMicrotask` pattern would
+  focus against the old DOM. See spec §3 and "Things not to undo".
 
 ## Accessibility
 

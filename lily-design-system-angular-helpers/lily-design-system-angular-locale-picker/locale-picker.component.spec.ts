@@ -7,6 +7,7 @@ import {
   GLOBE_WITH_MERIDIANS,
   bcp47LocaleTag,
   isRtlLocale,
+  localeEndonym,
   localeName,
   matchNavigatorLanguage,
 } from "./locale-picker.component";
@@ -268,14 +269,25 @@ describe("LocalePicker — markup contract (§4.3, §7.1–§7.6)", () => {
     expect(text).toMatch(/Français/);
   });
 
-  test("§7.6 falls back to defaultLocaleLabels when localeLabels missing", () => {
-    const fixture = mount({ locales: ["en_US"] });
+  test("§7.6 default option text is the locale's endonym, not the English exonym", () => {
+    const fixture = mount({ locales: ["cy", "de"] });
     const text = (fixture.nativeElement.textContent ?? "") as string;
-    expect(text).toMatch(/English \(United States\)/);
+    // "Cymraeg", not "Welsh": the user who needs the language menu is
+    // the one who cannot read the page's language, and the exonym
+    // means nothing to them. The English table is now only a fallback
+    // for runtimes without Intl.DisplayNames data.
+    expect(text).toMatch(/Cymraeg/);
+    expect(text).not.toMatch(/Welsh/);
+    expect(text).toMatch(/Deutsch/);
+    // The exported helper backs the rendered text and is
+    // deterministic — no navigator dependency, so SSR and client
+    // agree.
+    expect(localeEndonym("cy")).toBe("Cymraeg");
+    expect(localeEndonym("de")).toBe("Deutsch");
   });
 });
 
-describe("LocalePicker — keyboard contract (APG listbox, §7.24–§7.28)", () => {
+describe("LocalePicker — keyboard contract (APG listbox, §7.24–§7.27)", () => {
   async function openWith(
     key: string,
   ): Promise<ComponentFixture<LocalePicker>> {
@@ -396,31 +408,42 @@ describe("LocalePicker — keyboard contract (APG listbox, §7.24–§7.28)", ()
     expect(document.activeElement).toBe(button(fixture));
   });
 
-  test("§7.27 Tab closes without stealing focus back to the button", async () => {
+  test("§7.27 Tab closes after handing focus to the button", async () => {
     const fixture = await openWith("ArrowDown");
     const ul = list(fixture);
     press(fixture, ul, "Tab");
     await flush();
     fixture.detectChanges();
     expect(ul.hasAttribute("hidden")).toBe(true);
-    // Focus is left where it was for the browser's own Tab handling to
-    // move it on; the component must not pull it back to the button.
-    expect(document.activeElement).not.toBe(button(fixture));
-    expect(document.activeElement).toBe(ul);
+    // Focus sits on the button — not pulled back after the fact, but
+    // placed there before the list hides, so the browser's default Tab
+    // proceeds from the picker's position (see §7.28).
+    expect(document.activeElement).toBe(button(fixture));
   });
 
-  test("§7.28 typeahead moves the active descendant by label prefix", async () => {
+  test("§7.27 typeahead moves the active descendant by label prefix", async () => {
     const fixture = await openWith("ArrowDown");
     const ul = list(fixture);
     press(fixture, ul, "F");
-    // "French" is index 2 in LOCALES.
+    // "français" — the endonym for "fr" — is index 2 in LOCALES.
     expect(ul.getAttribute("aria-activedescendant")).toBe(ul.children[2].id);
   });
 
-  test("§7.28 the typeahead buffer resets after the 500 ms pause", async () => {
+  test("§7.27 the typeahead buffer resets after the 500 ms pause", async () => {
     vi.useFakeTimers();
     try {
-      const fixture = mount({ value: "en" });
+      // Consumer labels pin the typeahead targets, so the assertions
+      // do not depend on any runtime's endonym data.
+      const fixture = mount({
+        value: "en",
+        localeLabels: {
+          en: "English",
+          en_US: "English (United States)",
+          fr: "French",
+          fr_CA: "French (Canada)",
+          ar: "Arabic",
+        },
+      });
       press(fixture, button(fixture), "ArrowDown");
       const ul = list(fixture);
       press(fixture, ul, "a");
@@ -436,7 +459,7 @@ describe("LocalePicker — keyboard contract (APG listbox, §7.24–§7.28)", ()
     }
   });
 
-  test("§7.28 clicking an option selects and applies it", async () => {
+  test("§7.27 clicking an option selects and applies it", async () => {
     const fixture = await mountSettled();
     await pick(fixture, "ar");
     expect(document.documentElement.getAttribute("lang")).toBe("ar");
@@ -444,7 +467,7 @@ describe("LocalePicker — keyboard contract (APG listbox, §7.24–§7.28)", ()
     expect(list(fixture).hasAttribute("hidden")).toBe(true);
   });
 
-  test("§7.28 clicking outside the root closes the listbox", async () => {
+  test("§7.27 clicking outside the root closes the listbox", async () => {
     const fixture = await mountSettled();
     click(fixture, button(fixture));
     expect(list(fixture).hasAttribute("hidden")).toBe(false);
@@ -623,8 +646,107 @@ describe("LocalePicker — custom icon template (§7.22–§7.23)", () => {
     ).toBeNull();
     expect(custom.getAttribute("data-open")).toBe("false");
     expect(custom.getAttribute("data-value")).toBe("fr");
+    // labelFor now resolves the endonym; assert against the exported
+    // helper rather than a hardcoded string, so an ICU wording change
+    // cannot break the test without a real behaviour change.
     expect(custom.getAttribute("data-label-en-us")).toBe(
-      "English (United States)",
+      localeEndonym("en_US"),
     );
+  });
+});
+
+describe("LocalePicker — accessibility hardening (§7.28–§7.32)", () => {
+  async function openPicker(
+    locales: string[] = LOCALES,
+    extra: Record<string, unknown> = {},
+  ): Promise<ComponentFixture<LocalePicker>> {
+    const fixture = await mountSettled({ locales, ...extra });
+    click(fixture, button(fixture));
+    await flush();
+    fixture.detectChanges();
+    return fixture;
+  }
+
+  const active = (fixture: ComponentFixture<unknown>) =>
+    (
+      fixture.nativeElement.querySelector("[data-active]") as HTMLElement | null
+    )?.textContent?.trim();
+
+  test("§7.28 Tab from the open list puts focus on the button before closing", async () => {
+    const fixture = await openPicker();
+    const ul = list(fixture);
+    expect(document.activeElement).toBe(ul);
+    press(fixture, ul, "Tab");
+    // Focus sits on the button, so the browser's default Tab proceeds
+    // from the picker's own position — not from <body>, which is where
+    // focus lands when the focused list is hidden first.
+    expect(document.activeElement).toBe(button(fixture));
+    expect(ul.hasAttribute("hidden")).toBe(true);
+  });
+
+  test("§7.29 lang is claimed only when the label is the endonym", async () => {
+    const fixture = mount({
+      locales: ["cy", "ar"],
+      localeLabels: { ar: "Arabic" },
+    });
+    const opts = options(fixture);
+    // Endonym label: the text really is Welsh, so lang="cy" is a true
+    // claim and a screen reader may switch voice.
+    expect(opts[0].textContent?.trim()).toBe("Cymraeg");
+    expect(opts[0].getAttribute("lang")).toBe("cy");
+    // Consumer label: its language is unknown, so no claim — the
+    // English word "Arabic" must not be handed to an Arabic voice.
+    expect(opts[1].textContent?.trim()).toBe("Arabic");
+    expect(opts[1].getAttribute("lang")).toBeNull();
+  });
+
+  test("§7.30 a repeated typeahead character cycles through its matches", async () => {
+    const fixture = await openPicker(["l1", "l2", "l3", "l4"], {
+      localeLabels: { l1: "Dark", l2: "Dim", l3: "Dracula", l4: "Light" },
+      defaultValue: "l4",
+    });
+    const ul = list(fixture);
+    press(fixture, ul, "d");
+    expect(active(fixture)).toBe("Dark");
+    press(fixture, ul, "d");
+    expect(active(fixture)).toBe("Dim");
+    press(fixture, ul, "d");
+    expect(active(fixture)).toBe("Dracula");
+  });
+
+  test("§7.30 a multi-character buffer refines the match from the active option", async () => {
+    const fixture = await openPicker(["l1", "l2", "l3", "l4"], {
+      localeLabels: { l1: "Dark", l2: "Dim", l3: "Dracula", l4: "Light" },
+      defaultValue: "l4",
+    });
+    const ul = list(fixture);
+    press(fixture, ul, "d");
+    press(fixture, ul, "r");
+    expect(active(fixture)).toBe("Dracula");
+  });
+
+  test("§7.31 PageUp and PageDown move the cursor by ten, clamped", async () => {
+    const many = Array.from(
+      { length: 25 },
+      (_, i) => `x${String(i).padStart(2, "0")}`,
+    );
+    const labels = Object.fromEntries(many.map((l) => [l, l.toUpperCase()]));
+    const fixture = await openPicker(many, { localeLabels: labels });
+    const ul = list(fixture);
+    press(fixture, ul, "PageDown");
+    expect(active(fixture)).toBe("X10");
+    press(fixture, ul, "PageDown");
+    expect(active(fixture)).toBe("X20");
+    press(fixture, ul, "PageDown");
+    expect(active(fixture)).toBe("X24");
+    press(fixture, ul, "PageUp");
+    expect(active(fixture)).toBe("X14");
+  });
+
+  test("§7.32 an empty list opens without aria-activedescendant", async () => {
+    const fixture = await openPicker([]);
+    const ul = list(fixture);
+    expect(ul.hasAttribute("hidden")).toBe(false);
+    expect(ul.getAttribute("aria-activedescendant")).toBeNull();
   });
 });

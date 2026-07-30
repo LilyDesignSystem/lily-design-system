@@ -24,7 +24,7 @@ rather than a page-header preference control — see
 | ------------------------- | --------------------------------------------------- |
 | `spec/index.md`           | Specification-driven contract (canonical).         |
 | `DateTimePicker.tsx`      | Implementation. React 19 hooks + TypeScript.        |
-| `DateTimePicker.test.tsx` | Vitest spec, mapped to the §7 clauses (58 tests).   |
+| `DateTimePicker.test.tsx` | Vitest spec, mapped to the §7 clauses (65 tests).   |
 | `index.ts`                | Barrel re-export.                                   |
 | `index.md`                | User guide.                                         |
 | `docs/accessibility.md`   | Tradeoffs, stated plainly.                          |
@@ -70,11 +70,30 @@ original and carried over here.
   the browser does not keep. Removing the trap makes the ARIA a lie.
 - **Pending state is separate from `value`.** Collapsing them removes
   any meaning from Cancel and Escape.
+- **Vetoed days are `aria-disabled` + `data-disabled`, never the
+  `disabled` attribute.** A `disabled` button refuses focus, so arrowing
+  the roving cursor across a blocked week goes silent for a screen
+  reader while the visible focus stays behind — and the "exactly one
+  tabbable day" invariant breaks whenever the cursor sits on a vetoed
+  day. Activation is refused in `selectDay` instead.
+- **Closing returns focus to the opener, not always the button.** The
+  `openerRef` captured in `openDialog` is what makes Escape after
+  `Alt`+`ArrowDown` land back on the text field — the APG dialog rule.
+- **`shiftMonth` refocuses the grid cursor only when focus was already
+  in the grid.** Grid `PageUp`/`PageDown` must carry focus (the focused
+  cell is unrendered); the header prev/next buttons must NOT steal it,
+  or "next month" cannot be activated twice in a row.
 - **The six required label keys stay required.** Inventing an English
   accessible name for a nav button is the defect this package exists to
-  avoid.
+  avoid. `labels.invalid` and `labels.instructions` stay *optional* for
+  the same reason: without them the component announces nothing rather
+  than announcing in a language it invented.
 - **Fixed six-row grid.** Variable height moves the confirm button as
   the user pages.
+- **`el?.focus?.()` and `el?.scrollIntoView?.()` guard the METHOD.**
+  jsdom implements neither; an unguarded call throws inside a handler
+  where a green suite never sees it. This shape has bitten these
+  helpers three times.
 - **`commit()` and `applyShortcut()` take explicit date/time overrides**
   rather than reading `pendingDate` / `pendingTime` state. This is a
   React-specific correction the Svelte port did not need: `setState` does
@@ -89,10 +108,15 @@ original and carried over here.
 `<div class="date-time-picker" data-mode>` → hidden input → `<div
 class="date-time-picker-field">` with `<input class="date-time-picker-input">`
 and `<button class="date-time-picker-button" aria-haspopup="dialog">` →
-`<div class="date-time-picker-dialog" role="dialog" aria-modal="true"
-tabindex="-1" hidden>` containing the header, a `role="grid"` `<table>` of
-`date-time-picker-day` buttons with roving tabindex, optional time
-selects, optional shortcuts, and the footer.
+optional `<span class="date-time-picker-status" role="status">` (only
+with `labels.invalid`; present-but-empty while valid) → `<div
+class="date-time-picker-dialog" role="dialog" aria-modal="true"
+tabindex="-1" hidden>` containing an optional `<p
+class="date-time-picker-instructions">` first (only with
+`labels.instructions`, referenced by the dialog's `aria-describedby`),
+the header, a `role="grid"` `<table>` of `date-time-picker-day` buttons
+with roving tabindex (vetoed days `aria-disabled` + `data-disabled`, not
+`disabled`), optional time selects, optional shortcuts, and the footer.
 
 Full contract in spec §4.3.
 

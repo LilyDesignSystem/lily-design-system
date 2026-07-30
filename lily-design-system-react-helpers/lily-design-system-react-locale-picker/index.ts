@@ -3,6 +3,7 @@ export {
     LocalePicker,
     bcp47LocaleTag,
     isRtlLocale,
+    localeEndonym,
     localeName,
     matchNavigatorLanguage,
     defaultLocaleLabels,

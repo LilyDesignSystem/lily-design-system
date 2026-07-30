@@ -79,8 +79,9 @@ On the **listbox**:
 | `Home` / `End`    | First / last option becomes active.                                    |
 | `Enter` / `Space` | Select the active option, apply it, close, return focus to the button. |
 | `Escape`          | Close and return focus to the button; the value is **not** changed.    |
-| `Tab`             | Close without stealing focus back; the browser moves focus onward.     |
-| Printable chars   | Typeahead over the display **labels**; the buffer resets after 500 ms. |
+| `PageUp` / `PageDown` | Move the active option by ten; clamps.                             |
+| `Tab`             | Close; focus lands on the button so the default Tab proceeds from the picker's position. |
+| Printable chars   | Typeahead over the display **labels**; 500 ms buffer. A single character advances to the next match and repeats cycle; differing characters refine. |
 
 Clicking an option selects it; clicking outside the root, or focus
 leaving the root, closes without changing the value.

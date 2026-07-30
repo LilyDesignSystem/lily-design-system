@@ -659,24 +659,43 @@ public class SharePickerTests : TestContext
     }
 
     // -----------------------------------------------------------------
-    // §7.17 — Tab closes WITHOUT stealing focus back to the button.
+    // §7.23 — Tab from an open item puts focus on the button before
+    //         closing (canonical §7.23). The focused element here is a
+    //         real list item, so the browser's default Tab — which
+    //         Blazor cannot cancel or precede — lands on the NEXT item
+    //         just as the list hides, dropping focus to <body>; parking
+    //         focus on the trigger instead means the user's next Tab
+    //         proceeds from the picker's own position. bUnit cannot run
+    //         that real default-Tab move, so the observable state is
+    //         asserted: the list is hidden and the component recorded a
+    //         focus request for the trigger.
     // -----------------------------------------------------------------
     [Fact]
-    public void Section_7_17_Tab_Closes_Without_Stealing_Focus_Back()
+    public void Section_7_23_Tab_Puts_Focus_On_The_Button_Before_Closing()
     {
         var cut = Render(p => p.Add(x => x.CopyLabel, "Copy link"));
         var refs = MapRefs(cut);
 
         cut.Find("button.share-picker-button").Click();
-        var beforeTab = FocusedRefIds().Count;
 
         Key(cut, "ul.share-picker-list", "Tab");
 
         Assert.True(ListHidden(cut));
-        // Focus goes where the browser was already sending it: the component
-        // must not have issued a focus call of its own.
-        Assert.Equal(beforeTab, FocusedRefIds().Count);
-        Assert.NotEqual(refs.Trigger, LastFocusedRefId());
+        Assert.Equal("false", cut.Find("button.share-picker-button").GetAttribute("aria-expanded"));
+        Assert.Equal(refs.Trigger, LastFocusedRefId());
+    }
+
+    // -----------------------------------------------------------------
+    // §7.24 — The list carries the picker's accessible name (aria-label
+    //         = Label), matching the sibling pickers' listboxes: a
+    //         screen reader entering the list hears what it is for, not
+    //         just "list, three items" (canonical §7.24).
+    // -----------------------------------------------------------------
+    [Fact]
+    public void Section_7_24_The_List_Carries_The_Pickers_Accessible_Name()
+    {
+        var cut = Render();
+        Assert.Equal("Share", cut.Find("ul.share-picker-list").GetAttribute("aria-label"));
     }
 
     // -----------------------------------------------------------------

@@ -20,7 +20,7 @@ supply positioning for the list — see
 | `spec/index.md`                    | Specification-driven contract (canonical).        |
 | `locale-picker.component.ts`      | Implementation. Standalone, signal-based, OnPush. |
 | `locale-picker.component.spec.ts` | Vitest spec, one assertion per §7 acceptance.     |
-| `locales.ts`                       | Code → English-name map and RTL sets.             |
+| `locales.ts`                       | Fallback code → English-name map and RTL sets; default labels are endonyms via `localeEndonym`. |
 | `locales.tsv`                      | Canonical 436-row source for `locales.ts`.        |
 | `index.ts`                         | Barrel re-export.                                 |
 | `index.md`                         | User guide.                                       |
@@ -90,16 +90,19 @@ button — the apply pipeline then runs off the `value` change.
       role="option"
       aria-selected="true|false"
       data-active
-      lang="en-US"
+      lang="{tag, only when the label is the derived endonym}"
     >
-      English (United States)
+      American English
     </li>
   </ul>
 </div>
 ```
 
-Each option carries its own `lang` so its name is pronounced in its
-own language; the button and the list carry none. Ids come from
+Default labels are endonyms via the exported `localeEndonym`
+("Cymraeg", not "Welsh"); the English table and the raw code are
+fallbacks. An option carries `lang` only when its label is the
+derived endonym — a consumer label's language is unknown, so it makes
+no claim; the button and the list carry none. Ids come from
 `nextLocalePickerId()` — a module counter, not `Math.random()` /
 `Date.now()` — so SSR and hydration agree. `@for` is used (not
 `*ngFor`). A projected `<ng-template>` replaces the glyph span only;
@@ -114,15 +117,20 @@ it never renders options, and its context is
   listbox pattern — nothing is inherited from a native `<select>`.
   Button: `ArrowDown` / `Enter` / `Space` open on the selection,
   `ArrowUp` opens on the last option. List: arrows clamp,
-  `Home` / `End` jump, `Enter` / `Space` commit and refocus the
-  button, `Escape` cancels and refocuses, `Tab` closes without
-  stealing focus, printable characters run a 500 ms typeahead over
-  labels. Full table in
+  `Home` / `End` jump, `PageUp` / `PageDown` move by ten (clamped),
+  `Enter` / `Space` commit and refocus the button, `Escape` cancels
+  and refocuses, `Tab` closes via the button so the default Tab
+  proceeds from the picker's position, printable characters run a
+  500 ms typeahead over labels with APG same-character cycling. Full
+  table in
   [spec/index.md §6.2](./spec/index.md#62-keyboard-contract).
 - `aria-label` names both the button and the listbox. The button is
   icon-only and its glyph is `aria-hidden`, so `label` is the whole
   accessible name — a weak `label` breaks the control.
-- Each option carries `lang` so assistive tech switches pronunciation.
+- Each endonym-labelled option carries `lang` so assistive tech
+  switches pronunciation; consumer-labelled options carry no `lang`,
+  because a claim about text in an unknown language would send the
+  speech engine to the wrong voice.
 - The closed button shows only a glyph, never the active locale.
   Tradeoffs and the compensating status-region pattern:
   [docs/accessibility.md](./docs/accessibility.md).

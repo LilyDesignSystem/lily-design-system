@@ -187,9 +187,9 @@ must not supply the accessible name — that stays on `aria-label`.
       role="option"
       aria-selected="true|false"
       data-value="{locale}"
-      lang="{tagFor(locale)}"
+      data-lily-locale-picker-derive   <!-- only when no consumer label -->
     >
-      {labelFor(locale)}
+      {localeLabels[locale] or locale}
     </li>
   </ul>
 </div>
@@ -204,10 +204,16 @@ must not supply the accessible name — that stays on `aria-label`.
   the globe renders blue, which does not match theme-picker's
   monochrome ◑ (U+25D1 is not an emoji codepoint, so it needs no
   selector). Verified in Chromium.
-- Each option carries `lang="{tagFor(locale)}"` (BCP 47 hyphen form)
-  for WCAG 3.1.2 (Language of Parts), so assistive technology
-  pronounces each locale's name in its own language. The button and
-  the `<ul>` carry NO `lang` — they are chrome, not content.
+- Options without a consumer label are marked
+  `data-lily-locale-picker-derive` and render the raw code as a
+  pre-hydration fallback — a template cannot ask ICU for anything. The
+  client upgrades each marked option to the language's endonym
+  (falling back to the built-in English table, then the raw code) and
+  sets `lang="{tagFor(locale)}"` (BCP 47 hyphen form, WCAG 3.1.2,
+  Language of Parts) ONLY when the text really is the endonym — see
+  §5.4. The macro itself emits NO `lang`: a raw code is not text in
+  that language. The button and the `<ul>` never carry `lang` — they
+  are chrome, not content.
 - `data-lily-locale-picker-value` is emitted **only when `opts.value`
   is non-empty**; it remains the sole channel by which the consumer's
   `value` prop reaches the client. It is a data attribute rather than
@@ -242,6 +248,8 @@ must not supply the accessible name — that stays on `aria-label`.
 | `bcp47LocaleTag(locale)`                    | `(string) => string`                             | `en_US` → `en-US`.                 |
 | `isRtlLocale(locale)`                       | `(string) => boolean`                            | See §5.6.                          |
 | `localeName(locale)`                        | `(string) => string`                             | Lookup in built-in table.          |
+| `localeEndonym(locale)`                     | `(string) => string`                             | The language's own name for itself, via `Intl.DisplayNames` asked *in that language*; `""` when the runtime has no data or echoes the tag back. |
+| `derivedLocaleLabel(locale)`                | `(string) => string`                             | endonym → English table → raw code (§5.4). |
 | `matchNavigatorLanguage(navLangs, locales)` | `(string[], string[]) => string`                 | First match, "" if none.           |
 | `defaultLocaleLabels`                       | `Record<string, string>`                         | Built-in 436-row table.            |
 | `RTL_LANGUAGE_TAGS`                         | `Set<string>`                                    | Base subtag RTL set.               |
@@ -300,17 +308,37 @@ each entry:
 
 If no entry matches, falls through to step 4 of §5.2.
 
-### 5.4 Default labels (macro side)
+### 5.4 Labels and the `lang` attribute
 
-When `localeLabels[code]` is missing, the macro falls back to the
-slug verbatim (rendered as the option label text). The client.js
-does NOT overwrite labels at runtime — pretty labels are a macro
-concern.
+Default option labels are endonyms — each language named in itself,
+"Cymraeg" not "Welsh" — resolved by `localeEndonym()` via
+`Intl.DisplayNames` asked *in that language*. The user who needs a
+language menu is the one who cannot read the page's language, and the
+exonym means nothing to them. Resolution order: `localeLabels`
+(consumer) → endonym → built-in English table → the raw code
+(`derivedLocaleLabel` implements the derived tail). The endonym
+lookup is deterministic (no `navigator` dependency), so every runtime
+with the same ICU data renders the same label.
 
-(The Nunjucks helper exposes `defaultLocaleLabels` from
-`locales.ts`; consumers can pass it as `localeLabels` to the macro
-in their template if they want the built-in 436-row table to
-populate labels. See `index.md`.)
+The split between macro and client: the macro renders consumer labels
+verbatim, and for the rest renders the raw code as a pre-hydration
+fallback, marked `data-lily-locale-picker-derive` — a Nunjucks
+template cannot ask ICU for anything. `initLocalePicker` upgrades
+every marked option through `derivedLocaleLabel` before it captures
+the typeahead labels, so typeahead searches what the user sees.
+
+Each option's `lang` attribute is a claim about the language of the
+option's **text**, and is made only when the text is the endonym the
+client derived: then a screen reader may correctly switch voice. A
+consumer label's language is unknown, the English fallback is
+English, and a raw code is not prose at all, so those options carry
+no `lang` — the English word "Arabic" must never be handed to an
+Arabic speech engine.
+
+(The helper still exposes `defaultLocaleLabels` from `locales.ts`;
+consumers can pass entries from it as `localeLabels` when they
+deliberately want exonyms — accepting that consumer-labelled options
+carry no `lang`.)
 
 ### 5.5 Applying a locale
 
@@ -341,11 +369,16 @@ until the user commits.
 ### 5.5.1 Open / close
 
 Opening sets `list.hidden = false`, `aria-expanded="true"`, seeds the
-active option, and moves focus to the `<ul>`. Closing sets
+active option, and moves focus to the `<ul>`. Opening an EMPTY list
+seeds the active index at -1, so `aria-activedescendant` is absent
+rather than pointing at an id that does not exist. Closing sets
 `list.hidden = true`, `aria-expanded="false"`, clears `data-active`
-and `aria-activedescendant`, and — except after `Tab` and except when
-the close was caused by a click outside or focus leaving the root —
-returns focus to the button.
+and `aria-activedescendant`, and — except when the close was caused
+by a click outside or focus leaving the root — returns focus to the
+button. On `Tab` the focus move to the button happens FIRST, without
+cancelling the key: hiding the focused list would drop focus to
+`<body>` and the browser's default Tab would restart from the top of
+the document.
 
 ### 5.5.2 Keyboard contract (WAI-ARIA APG listbox)
 
@@ -364,8 +397,9 @@ On the **listbox**:
 | `Home` / `End`          | Jump to the first / last option.                                                                                                                |
 | `Enter` / `Space`       | Select the active option, apply it, close, return focus to the button.                                                                          |
 | `Escape`                | Close and return focus, leaving the value unchanged.                                                                                            |
-| `Tab`                   | Close without stealing focus back, so the browser's own Tab handling proceeds.                                                                  |
-| Printable character     | Typeahead over the option labels; the buffer accumulates and resets 500 ms after the last keystroke. Chords with Ctrl / Meta / Alt are ignored. |
+| `PageUp` / `PageDown`   | Move the active option by ten, clamped — an APG-optional key for long locale lists.                                                             |
+| `Tab`                   | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position rather than from `<body>`. |
+| Printable character     | APG typeahead over the option labels: a single character advances to the NEXT option starting with it, and repeating that character keeps cycling through its matches; only a buffer of differing characters refines the match, anchored at the active option. The buffer resets 500 ms after the last keystroke. Chords with Ctrl / Meta / Alt are ignored. |
 
 Pointer behaviour: clicking an option selects it; clicking the button
 toggles; clicking outside the root closes; focus leaving the root
@@ -411,9 +445,11 @@ the exported pure helpers. See [docs/ssr.md](../docs/ssr.md).
 - `aria-label` is the ONLY accessible name the button has, because the
   glyph is `aria-hidden`. A missing or vague `label` leaves the
   control effectively unnamed.
-- Each `<li role="option">` carries `lang="{tagFor(locale)}"` (WCAG
-  3.1.2, Language of Parts) so each locale name is pronounced in its
-  own language. The button and the `<ul>` deliberately do not.
+- An option carries `lang="{tagFor(locale)}"` (WCAG 3.1.2, Language of
+  Parts) only when its text is the client-derived endonym, so that
+  name is pronounced in its own language; consumer-labelled options
+  and raw-code fallbacks make no such claim (§5.4). The button and
+  the `<ul>` deliberately never carry `lang`.
 - A custom listbox has weaker and less consistent assistive-technology
   support than a native `<select>`, and the glyph may render
   differently or be absent depending on platform fonts. Both tradeoffs
@@ -430,7 +466,8 @@ Tests run under vitest + jsdom. Items 1–6 exercise the macro via
 items 13–27 exercise the client.js lifecycle and the listbox
 interaction against a jsdom document populated from the macro output;
 items 28–35 cover the server-rendered listbox state and the keyboard
-contract.
+contract; items 36–40 are the accessibility-hardening clauses ported
+from the canonical Svelte spec's §7.28–§7.32.
 
 ### 7.1 Markup contract (macro)
 
@@ -447,10 +484,12 @@ contract.
 4. Each option carries its locale code on `data-value` and a unique,
    deterministic id; re-rendering the same macro call yields the same
    ids. An explicit `id` namespaces `{id}-list` and `{id}-option-{i}`.
-5. Each option carries `lang="{tagFor(locale)}"` (BCP 47 hyphen form);
-   the button and the `<ul>` carry no `lang`.
+5. The macro emits no `lang`; after `initLocalePicker`, options whose
+   text is the derived endonym carry `lang` in BCP 47 hyphen form.
+   The button and the `<ul>` never carry `lang`.
 6. `localeLabels[code]` overrides the default option text; missing
-   entries fall back to the raw code.
+   entries render the raw code server-side as the pre-hydration
+   fallback (the client upgrades them per §5.4).
 
 ### 7.2 Pure helpers
 
@@ -533,14 +572,35 @@ is marked selected.
 33. `Enter` and `Space` on the listbox select the active option, apply
     it, close the listbox, and return focus to the button.
 34. `Escape` closes and returns focus without changing the locale and
-    without firing `onChange`. `Tab` closes without stealing focus
-    back.
+    without firing `onChange`. `Tab` closes and puts focus on the
+    button, so the browser's default Tab proceeds from the picker's
+    position.
 35. Printable characters run a typeahead over the option labels; the
     buffer accumulates across keystrokes and resets 500 ms after the
     last one; chords with Ctrl / Meta / Alt are ignored. Clicking an
     option selects it, clicking the button toggles, clicking outside
     closes, and focus leaving the root closes. `aria-selected` follows
     the applied locale rather than the merely-active option.
+
+### 7.8 Accessibility hardening
+
+Ported from the canonical Svelte spec's §7.28–§7.32.
+
+36. `Tab` from the open list puts focus on the button BEFORE closing,
+    without cancelling the key, so the browser's default Tab proceeds
+    from the picker's position rather than from `<body>`.
+37. `lang` is claimed only when the label is the derived endonym:
+    consumer-labelled options and raw-code fallbacks carry no `lang`;
+    the macro marks only unlabelled options
+    `data-lily-locale-picker-derive`; `localeEndonym` never echoes the
+    tag back; `derivedLocaleLabel` resolves endonym → English table →
+    raw code (§5.4).
+38. A repeated typeahead character cycles through its matches (the
+    search starts at the option after the active one, wrapping once);
+    a buffer of differing characters refines the match anchored at the
+    active option.
+39. `PageUp` / `PageDown` move the cursor by ten, clamped.
+40. An empty list opens without `aria-activedescendant`.
 
 ## 8. Out-of-scope (future)
 

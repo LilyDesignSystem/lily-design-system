@@ -357,8 +357,10 @@ On the **listbox**:
 | `End`             | Make the last option active.                                               |
 | `Enter` / `Space` | Select the active option, apply it, close, and return focus to the button. |
 | `Escape`          | Close and return focus to the button **without** changing the value.       |
-| `Tab`             | Close without stealing focus back; the browser moves focus onward.         |
-| Printable chars   | Typeahead over the display **labels**; the buffer resets after 500 ms.     |
+| `PageUp`          | Move the active option up ten. Clamps at the first.                        |
+| `PageDown`        | Move the active option down ten. Clamps at the last.                       |
+| `Tab`             | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position. Hiding the focused list first would drop focus to `<body>` and restart Tab from the top of the document. |
+| Printable chars   | Typeahead over the display **labels**; the buffer resets after 500 ms. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match from the active option. Search wraps once. |
 
 Pointer and focus behaviour alongside the keyboard:
 
@@ -467,14 +469,16 @@ button.
 
 **7.17 — Dismissing.** `Escape` closes the listbox without changing
 the applied theme and returns focus to the button. `Tab` closes the
-listbox without pulling focus back to the button, leaving the browser
-to move focus onward.
+listbox after handing focus to the button — without cancelling the
+key — so the browser's default Tab proceeds from the picker's
+position (see §7.21).
 
-**7.18 — Typeahead and pointer.** A printable character moves
-`aria-activedescendant` to the first option whose **label** starts
-with the buffer; the buffer resets after a 500 ms pause. Clicking an
-option selects and applies it and closes the listbox. Clicking outside
-the root closes the listbox.
+**7.18 — Typeahead and pointer.** A single printable character moves
+`aria-activedescendant` to the **next** option whose **label** starts
+with it; a buffer of differing characters refines the match anchored
+at the active option; the buffer resets after a 500 ms pause. Clicking
+an option selects and applies it and closes the listbox. Clicking
+outside the root closes the listbox.
 
 **7.19 — Pure helpers.** `normaliseThemesUrl` and `themeHref` are
 exported and behave per §5.1. `themeName` is exported, title-cases
@@ -489,6 +493,25 @@ exported and resolves `matchMedia("(prefers-color-scheme: dark)")` to
 which does not implement it). With `detectFromSystem` set, the
 resolved slug becomes the initial theme; storage and an explicit
 `value` still win, and detection does not run unless opted in.
+
+### Accessibility hardening
+
+**7.21 — Tab hands focus to the button.** `Tab` from the open list
+puts focus on the trigger button **before** closing, without
+cancelling the key, so the browser's default Tab proceeds from the
+picker's position instead of restarting from `<body>` when the
+focused list is hidden first.
+
+**7.22 — APG single-character typeahead.** A repeated typeahead
+character cycles through its matches; a multi-character buffer of
+differing characters refines the match from the active option.
+
+**7.23 — Paging.** `PageUp` / `PageDown` move the cursor by ten,
+clamped at the ends.
+
+**7.24 — Empty list.** Opening with zero options activates no option,
+so `aria-activedescendant` is absent rather than pointing at an id
+that does not exist.
 
 ## 8. Out-of-scope (future, not implemented here)
 

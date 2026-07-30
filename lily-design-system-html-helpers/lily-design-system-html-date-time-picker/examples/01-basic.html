@@ -45,7 +45,10 @@
       .date-time-picker-day[data-outside] { opacity: 0.4; }
       .date-time-picker-day[data-today] { font-weight: 700; }
       .date-time-picker-day[data-selected] { background: #dbe9ff; }
-      .date-time-picker-day:disabled { opacity: 0.3; cursor: not-allowed; }
+      /* aria-disabled, not disabled — a :disabled selector will not match. */
+      .date-time-picker-day[data-disabled] { opacity: 0.3; cursor: not-allowed; }
+      .date-time-picker-status { display: block; color: #b3261e; min-block-size: 1.4em; }
+      .date-time-picker-instructions { margin-block: 0 0.5rem; font-size: 0.875em; }
       .date-time-picker-footer { display: flex; justify-content: flex-end; gap: 0.5rem; margin-block-start: 0.5rem; }
       .date-time-picker-footer button {
         font: inherit; cursor: pointer; padding: 0.3rem 0.75rem;
@@ -88,6 +91,10 @@
         nextYear: "Next year",
         confirm: "OK",
         cancel: "Cancel",
+        // Optional — but without them a refused typed date is silent
+        // and the dialog carries no keyboard help.
+        invalid: "Enter a valid date, for example 21 3 2026",
+        instructions: "Use the arrow keys to choose a day, and Enter to confirm",
       };
 
       picker.addEventListener("datetimechange", (event) => {

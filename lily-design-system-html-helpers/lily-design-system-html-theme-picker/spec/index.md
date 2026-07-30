@@ -488,8 +488,10 @@ On the **listbox** (`<ul>`, which holds focus while open):
 | `Enter`             | Select the active option, apply it, close, return focus to the button.                                                                  |
 | `Space`             | Same as `Enter`.                                                                                                                        |
 | `Escape`            | Close and return focus to the button **without** changing the value.                                                                    |
-| `Tab`               | Close without stealing focus back — focus moves on normally.                                                                            |
-| printable character | Typeahead over the option _labels_; the buffer resets after 500 ms of no typing. The search starts at the active option and wraps once. |
+| `PageUp`            | Move the active option up ten. Clamps at the first.                                                                                     |
+| `PageDown`          | Move the active option down ten. Clamps at the last.                                                                                    |
+| `Tab`               | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position. Hiding the focused list first would drop focus to `<body>` and restart Tab from the top of the document. |
+| printable character | Typeahead over the option _labels_; the buffer resets after 500 ms of no typing. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match from the active option. Search wraps once. |
 
 Pointer equivalents: clicking the button toggles the list, clicking
 an option selects it, clicking outside the root closes it.
@@ -622,8 +624,8 @@ data-lily-theme-picker="{name}">` exists in `document.head` and
     removes `aria-activedescendant`, and returns focus to the
     button. `Space` behaves identically.
 17. `Escape` closes the list and returns focus to the button without
-    changing the theme. `Tab` closes the list without stealing focus
-    back to the button.
+    changing the theme. `Tab` closes the list (its focus contract is
+    §7.21).
 18. A printable character runs typeahead over the option labels and
     moves the active descendant. A click outside the rendered root
     closes the list.
@@ -640,6 +642,25 @@ data-lily-theme-picker="{name}">` exists in `document.head` and
     change, each open and close) so derived content never goes
     stale; and the subclass still fires `themechange` through the
     base lifecycle.
+
+### System detection
+
+20. `detect-from-system` resolves the initial theme from the OS
+    colour-scheme preference; storage still wins over detection; and
+    detection is off unless opted in. (These tests predate the
+    numbering and keep their descriptive titles.)
+
+### Accessibility hardening
+
+Clause numbers mirror the canonical Svelte spec's §7.21–§7.24.
+
+21. `Tab` from the open list puts focus on the button before
+    closing, so the default Tab proceeds from the picker's position.
+22. A repeated typeahead character cycles through its matches; a
+    multi-character buffer of differing characters refines the match
+    from the active option.
+23. `PageUp` / `PageDown` move the cursor by ten, clamped.
+24. An empty list opens without `aria-activedescendant`.
 
 ## 8. Out-of-scope (future, not implemented here)
 

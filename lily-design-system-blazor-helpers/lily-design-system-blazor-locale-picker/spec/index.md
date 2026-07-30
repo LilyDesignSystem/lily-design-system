@@ -165,7 +165,7 @@ The control is an icon button plus a dropdown listbox:
       role="option"
       aria-selected="true|false"
       data-active
-      lang="{TagFor(locale)}"
+      lang="{TagFor(locale), only when the label is the derived endonym}"
     >
       {LabelFor(locale)}
     </li>
@@ -183,9 +183,14 @@ The control is an icon button plus a dropdown listbox:
   `{ Value, Open, LabelFor }`. It no longer renders options.
 - The hidden input preserves form participation and the `Name`
   parameter.
-- Each option carries `lang="{TagFor(locale)}"` so assistive technology
-  pronounces the option text in the appropriate language — WCAG 3.1.2.
-  The button and the list carry **no** `lang`.
+- An option carries `lang="{TagFor(locale)}"` **only when its label is
+  the derived endonym**, so assistive technology pronounces "Français"
+  with a French voice — WCAG 3.1.2 Language of Parts. `lang` is a claim
+  about the language of the option's *text*: a consumer-supplied label
+  or the English-table fallback is in whatever language the consumer's
+  UI speaks, and claiming otherwise sends a screen reader's speech
+  engine to the wrong voice — the English word "Arabic" read out by an
+  Arabic synthesizer. The button and the list carry **no** `lang`.
 - `hidden` is present on the `<ul>` while closed and absent while open;
   `aria-expanded` on the button tracks the same state.
 - `aria-activedescendant` is emitted only while open and only when it
@@ -242,8 +247,21 @@ For each navigator entry:
 
 When `LocaleLabels[code]` is missing, the helper falls back to:
 
-1. `DefaultLocaleLabels[code]` from the built-in `Locales.cs` table.
-2. The raw `code`.
+1. The **endonym** — the language's own name for itself, "Deutsch" not
+   "German" — from the public `Locales.LocaleEndonym(code)` helper.
+   The user who needs a language menu is the one who cannot read the
+   page's language, and the exonym means nothing to them. The helper
+   reads `CultureInfo.NativeName` (the .NET equivalent of the canonical
+   Svelte `Intl.DisplayNames`-in-language lookup; see §6.2.1 for the
+   accepted formatting differences), returning `""` for unknown or
+   unavailable cultures — an echo of the tag is not a name.
+2. `DefaultLocaleLabels[code]` from the built-in `Locales.cs` English
+   table, for cultures the runtime has no data for.
+3. The raw `code`.
+
+Only step 1's text earns the option's `lang` attribute (§4.3): the
+label really is in that language. Steps 2 and 3, and consumer labels,
+make no `lang` claim.
 
 ### 5.5 Applying a locale
 
@@ -325,8 +343,10 @@ On the **listbox**:
 | `End`             | Jump to the last option.                                               |
 | `Enter` / `Space` | Select the active option, apply it, close, return focus to the button. |
 | `Escape`          | Close and return focus **without** changing the value.                 |
-| `Tab`             | Close **without** stealing focus back.                                 |
-| Printable chars   | Typeahead over the option _labels_, 500 ms buffer reset.               |
+| `PageUp`          | Move the active option up ten; clamps at the first.                    |
+| `PageDown`        | Move the active option down ten; clamps at the last.                   |
+| `Tab`             | Close and move on: the browser's default Tab proceeds from the picker's position (see §6.2.1 for why this port must not refocus the button). |
+| Printable chars   | Typeahead over the option _labels_, 500 ms buffer reset. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match anchored on the active option. Search wraps once, even though the arrows clamp. |
 
 Pointer and focus:
 
@@ -352,6 +372,25 @@ bindings; both are behavioural refinements, not contract breaks.
   instead. Because Blazor's `FocusEventArgs` does not expose
   `relatedTarget`, the component flags focus moves it makes itself and
   ignores the matching `focusout`.
+- **`Tab` from the open list does not refocus the button.** The
+  canonical Svelte fix moves focus to the button *before* hiding the
+  list, because there the hide is synchronous and would otherwise
+  precede the browser's default Tab — dropping focus to `<body>` and
+  restarting Tab from the top of the document. Blazor cannot reproduce
+  that bug: the default Tab always runs before the async handler, so it
+  proceeds from the still-visible list (the picker's own position), and
+  focus has already landed on the next tab stop by the time the list
+  hides. Issuing a button-focus request here would run *after* the
+  default Tab and yank the user back to the trigger they just left.
+  Both implementations end with focus on the tab stop after the picker.
+- **Endonyms come from `CultureInfo.NativeName`,** not
+  `Intl.DisplayNames` (which .NET does not have). Both are ICU-backed
+  but draw on different surfaces, so capitalisation and region
+  formatting can differ slightly — "English (United States)" here where
+  ICU's DisplayNames says "American English". Both are true endonyms;
+  the difference is accepted, and tests assert through
+  `Locales.LocaleEndonym` rather than hardcoding strings except for
+  stable well-known cases ("Deutsch", "Cymraeg").
 
 `@onmousedown:preventDefault` **is** applied to the `<ul>`: that one is
 unconditional and correct, and it stops a click on an option from
@@ -405,7 +444,8 @@ aria-hidden="true">🌐︎</span>` (U+1F310 + U+FE0E), matching the
 4. One `<li class="locale-picker-option" role="option">` per entry in
    `Locales`; the hidden input carries the supplied `Name` and the
    resolved `Value`.
-5. Each option carries `lang="{TagFor(locale)}"` (BCP 47 hyphen form);
+5. An option whose label is the derived endonym carries
+   `lang="{TagFor(locale)}"` (BCP 47 hyphen form);
    the button and the listbox carry no `lang`.
 6. The listbox carries `hidden` until the button is activated;
    activating toggles both `hidden` and `aria-expanded`.
@@ -413,7 +453,9 @@ aria-hidden="true">🌐︎</span>` (U+1F310 + U+FE0E), matching the
    While closed there is no `aria-activedescendant`; opening points it
    at the active option, which also carries `data-active`.
 8. The default rendering shows `LocaleLabels[code] ??
-DefaultLocaleLabels[code] ?? code` as the visible option text.
+LocaleEndonym(code) ?? DefaultLocaleLabels[code] ?? code` as the
+visible option text (§5.4): the endonym beats the English table, so
+"de" renders "Deutsch", not "German".
 9. List and option ids are stable across re-render and unique across
    instances, prefixed `locale-picker-`.
 
@@ -467,6 +509,29 @@ DefaultLocaleLabels[code] ?? code` as the visible option text.
 29. A custom `ChildContent` render fragment **replaces** the glyph
     inside the button (the default `.locale-picker-icon` is absent) and
     receives `Value`, `Open`, and `LabelFor`.
+
+### 7.5 Accessibility hardening
+
+Mirrors the canonical Svelte clauses §7.28–§7.32; this port's list was
+already numbered through §7.29, so the new clauses continue from §7.30.
+
+30. `Tab` from the open list closes it and issues **no** focus call:
+    the browser's default Tab — which Blazor can neither cancel nor
+    precede — has already proceeded from the still-visible list, the
+    picker's own position (canonical §7.28; see §6.2.1 for why the
+    canonical button-refocus must not be mirrored here).
+31. `lang` is claimed only when the label is the derived endonym;
+    consumer-labelled options and English-table fallbacks carry no
+    `lang` (canonical §7.29, §5.4, §5.7 in the canonical spec). The
+    public `Locales.LocaleEndonym` helper returns the native name from
+    real culture data and `""` for anything the runtime cannot name.
+32. A repeated typeahead character cycles through its matches; a
+    multi-character buffer of differing characters refines the match
+    anchored at the active option (canonical §7.30).
+33. `PageUp` / `PageDown` move the cursor by ten, clamped
+    (canonical §7.31).
+34. An empty list opens without `aria-activedescendant`
+    (canonical §7.32).
 
 ## 8. Out-of-scope (future, not implemented here)
 

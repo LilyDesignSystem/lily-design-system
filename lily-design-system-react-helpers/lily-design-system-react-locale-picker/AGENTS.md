@@ -19,7 +19,7 @@ the list.
 | `spec/index.md`                  | Specification-driven contract (canonical).       |
 | `LocalePicker.tsx`         | Implementation. TypeScript + React 19 hooks.    |
 | `LocalePicker.test.tsx`    | Vitest spec, one assertion per §7 acceptance.    |
-| `locales.ts`               | Built-in locale-code → English-name table.       |
+| `locales.ts`               | Fallback code → English-name map and RTL sets; default labels are endonyms via `localeEndonym`. |
 | `locales.tsv`              | Canonical 436-row locale list.                   |
 | `index.ts`                 | Barrel re-export.                                |
 | `index.md`                 | User guide.                                      |
@@ -30,8 +30,9 @@ the list.
 
 - Default export: `LocalePicker` component.
 - Named exports: `LocalePicker`, `bcp47LocaleTag`, `isRtlLocale`,
-  `localeName`, `matchNavigatorLanguage`, `defaultLocaleLabels`,
-  `RTL_LANGUAGE_TAGS`, `RTL_SCRIPT_SUBTAGS`, `GLOBE_WITH_MERIDIANS`.
+  `localeEndonym`, `localeName`, `matchNavigatorLanguage`,
+  `defaultLocaleLabels`, `RTL_LANGUAGE_TAGS`, `RTL_SCRIPT_SUBTAGS`,
+  `GLOBE_WITH_MERIDIANS`.
 - Type exports: `Props`, `ChildArgs`.
 
 Required props: `label`, `locales`. `label` is the only source of the
@@ -66,14 +67,17 @@ button.
       aria-label="{label}" tabindex="-1" hidden
       aria-activedescendant="{optionId of active, only while open}">
     <li class="locale-picker-option" id="{optionId}" role="option"
-        aria-selected="true|false" data-active lang="en-US">English (United States)</li>
+        aria-selected="true|false" data-active
+        lang="{tag, only when the label is the derived endonym}">American English</li>
   </ul>
 </div>
 ```
 
 The glyph is U+1F310 GLOBE WITH MERIDIANS + U+FE0E VARIATION SELECTOR-15, exported
-as `GLOBE_WITH_MERIDIANS`. Each option carries `lang="{tagFor(locale)}"`
-for WCAG 3.1.2 (Language of Parts); the button and the list do not. Ids
+as `GLOBE_WITH_MERIDIANS`. An option carries `lang` (BCP 47 hyphen form)
+only when its label is the derived endonym — WCAG 3.1.2 (Language of
+Parts) is a claim about the text, and consumer or English-fallback
+labels make no claim; the button and the list carry no `lang`. Ids
 come from `useId`, so they are stable and hydration-safe. The `children`
 render prop receives `{ value, open, labelFor }` and replaces the glyph
 inside the button — it does not render options.
@@ -84,14 +88,18 @@ inside the button — it does not render options.
 - The component implements the keyboard contract itself — nothing comes
   from the platform. Button: `ArrowDown` / `Enter` / `Space` open,
   `ArrowUp` opens on the last option. List: `ArrowDown` / `ArrowUp`
-  (clamping), `Home` / `End`, `Enter` / `Space` to select, `Escape` to
-  cancel, `Tab` to move on, printable characters for label typeahead
-  (500 ms buffer). See [spec/index.md §6.2](./spec/index.md#62-keyboard-contract).
+  (clamping), `Home` / `End`, `PageUp` / `PageDown` (by ten, clamped),
+  `Enter` / `Space` to select, `Escape` to cancel, printable characters
+  for label typeahead (500 ms buffer; a repeated character cycles
+  through its matches). `Tab` closes via the button so the default Tab
+  proceeds from the picker's position.
+  See [spec/index.md §6.2](./spec/index.md#62-keyboard-contract).
 - `aria-label` carries the consumer-supplied accessible name on both
   the button and the listbox. Because the glyph is `aria-hidden`, it is
   the button's *only* name — never omit it.
-- Each option carries its locale via `lang` so screen readers
-  pronounce option text in the right voice.
+- An option carries its locale via `lang` only when its label is the
+  derived endonym, so screen readers switch voice only when the claim
+  is true.
 - The document root gets `lang` and (by default) `dir`.
 - Tradeoffs of the icon button + custom listbox (name depends wholly on
   `aria-label`; weaker AT support than a native `<select>`; the globe

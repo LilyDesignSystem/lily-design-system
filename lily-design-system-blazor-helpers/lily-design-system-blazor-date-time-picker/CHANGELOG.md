@@ -4,6 +4,66 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+Accessibility hardening, ported from the canonical Svelte helper's own
+unreleased sweep: seven changes, each fixing something a screen reader or
+keyboard user would actually hit. Test count 58 → 65 (§7.49–§7.55); the
+§7.29–§7.31 assertions moved from `disabled` to `aria-disabled`.
+
+### Changed
+
+- **Vetoed days render `aria-disabled="true"` + `data-disabled` instead
+  of the `disabled` attribute.** A `disabled` button refuses focus, so
+  arrowing the roving cursor across a blocked week went silent for a
+  screen reader while the visible focus stayed behind — and the "exactly
+  one tabbable day" invariant broke whenever the cursor sat on a vetoed
+  day. Days stay focusable and announce as unavailable; activation is
+  still refused in `SelectDayAsync`. **CSS note:** `:disabled` selectors
+  on `.date-time-picker-day` stop matching — target `[data-disabled]` or
+  `[aria-disabled="true"]`.
+- **Closing the dialog returns focus to the element that opened it** —
+  the text field after `Alt`+`ArrowDown`, the trigger button after a
+  click. It previously always went to the button, stranding keyboard
+  users one Tab stop past where they were. This is the APG dialog rule.
+  (Blazor cannot read `document.activeElement`, so the opener is tracked
+  by which of the two open paths ran — same outcome, see spec §9.)
+- **Paging from the header buttons no longer steals focus into the
+  grid.** The cursor still carries (clamped into the new month), but only
+  grid-originated `PageUp`/`PageDown` refocuses it — a user activating
+  "next month" now stays on "next month" and can page repeatedly. Along
+  the way this fixed a latent staleness bug: the day-button
+  `ElementReference` map was keyed by date, but Blazor runs a reference
+  capture only when an element is first created and the grid's 42 buttons
+  are reused across paging — so grid-paging focus silently targeted
+  nothing the moment the view left the opening month. The map is now
+  keyed by grid position, which is stable across paging.
+- **Clicking the component's own text field while the dialog is open
+  closes it** — without committing and without moving focus. The dialog
+  claims `aria-modal="true"`; staying open while the user edits the field
+  behind it told assistive technology one thing and did another. (The
+  general click-anywhere-outside dismissal remains the documented
+  root-`focusout` mechanism; the field is inside the root, so it gets an
+  explicit handler.)
+
+### Added
+
+- **`Labels.Invalid`** (optional): a `role="status"` live region — class
+  hook `date-time-picker-status`, present-but-empty while valid — that
+  fills with the message when typed text is refused, wired to the field
+  via `aria-errormessage` and appended to `aria-describedby`. Previously
+  `aria-invalid` flipped with no announcement at all, so a user who had
+  already blurred the field never learned their date was rejected.
+- **`Labels.Instructions`** (optional): keyboard help rendered inside the
+  dialog — class hook `date-time-picker-instructions` — and referenced by
+  the dialog's `aria-describedby`, so screen readers speak it once on
+  open. The APG date-picker example ships exactly this affordance.
+- **`Escape` in the text field discards a pending edit**, restoring the
+  committed display and clearing `aria-invalid`, mirroring the dialog's
+  Escape contract; with no pending edit the key is untouched. (Unlike
+  the canonical Svelte build, the keystroke still propagates — Blazor
+  cannot stop propagation conditionally per key; see spec §9.)
+
 ## 0.1.0 — 2026-07-28
 
 Initial release. A Blazor 10 port of the canonical Svelte helper

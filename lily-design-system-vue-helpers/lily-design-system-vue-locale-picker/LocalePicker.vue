@@ -80,6 +80,31 @@ export function localeName(locale: string): string {
     return defaultLocaleLabels[locale] ?? locale;
 }
 
+/**
+ * The language's own name for itself — "de" → "Deutsch", "cy" →
+ * "Cymraeg" — from `Intl.DisplayNames` asked *in that language*.
+ *
+ * Endonyms are the right default for a language menu: the user who
+ * needs it most is the one lost in a UI that is not in their
+ * language, and they recognise "Cymraeg" where "Welsh" means
+ * nothing to them. Deterministic (no `navigator` dependency), so
+ * the server and the client render the same label. Returns "" when
+ * the runtime has no data — some runtimes echo the tag back instead
+ * of failing, and an echo is not a name.
+ */
+export function localeEndonym(locale: string): string {
+    try {
+        const tag = bcp47LocaleTag(locale);
+        const dn = new Intl.DisplayNames([tag], { type: "language" });
+        const found = dn.of(tag) ?? "";
+        return found && found.toLowerCase() !== tag.toLowerCase()
+            ? found
+            : "";
+    } catch {
+        return "";
+    }
+}
+
 /** Re-export the built-in label table and RTL sets for convenience. */
 export { defaultLocaleLabels, RTL_LANGUAGE_TAGS, RTL_SCRIPT_SUBTAGS };
 
@@ -162,14 +187,30 @@ let typeaheadTimer: ReturnType<typeof setTimeout> | undefined;
 function labelFor(locale: string): string {
     const overrides = props.localeLabels ?? {};
     if (locale in overrides) return overrides[locale];
+    // Endonym first: a language menu names each language in itself,
+    // because the user who needs the menu is the one who cannot read
+    // the page's language. The English table and the environment
+    // lookup are fallbacks for runtimes without DisplayNames data.
+    const endonym = localeEndonym(locale);
+    if (endonym) return endonym;
     if (locale in defaultLocaleLabels) return defaultLocaleLabels[locale];
     const intl = intlDisplayName(locale);
     if (intl) return intl;
     return locale;
 }
 
-function tagFor(locale: string): string {
-    return bcp47LocaleTag(locale);
+/**
+ * The `lang` attribute for one option — a claim about the language
+ * of the option's TEXT, made only when the text is the endonym we
+ * derived ourselves. A consumer label or the English fallback is in
+ * whatever language the consumer's UI speaks, and claiming otherwise
+ * sends a screen reader's speech engine to the wrong voice: the
+ * English word "Arabic" read out by an Arabic synthesizer.
+ */
+function optionLang(locale: string): string | undefined {
+    const overrides = props.localeLabels ?? {};
+    if (locale in overrides) return undefined;
+    return localeEndonym(locale) ? bcp47LocaleTag(locale) : undefined;
 }
 
 function applyLocale(code: string): void {
@@ -218,7 +259,13 @@ watch(current, (next, prev) => {
 
 async function openList(startIndex?: number): Promise<void> {
     const selected = props.locales.indexOf(current.value);
-    activeIndex.value = startIndex ?? (selected >= 0 ? selected : 0);
+    // An empty list has no option to activate; -1 keeps
+    // aria-activedescendant off rather than pointing at an id that
+    // does not exist.
+    activeIndex.value =
+        props.locales.length === 0
+            ? -1
+            : (startIndex ?? (selected >= 0 ? selected : 0));
     open.value = true;
     // Focus moves to the listbox; the active option is conveyed via
     // aria-activedescendant, per the APG listbox pattern. Wait for the
@@ -264,14 +311,24 @@ function moveActive(delta: number): void {
 }
 
 function runTypeahead(char: string): void {
-    typeahead += char.toLowerCase();
+    const lower = char.toLowerCase();
+    // APG listbox typeahead: a single character moves to the NEXT
+    // option starting with it, and repeating that character keeps
+    // cycling. Only a buffer of differing characters refines the
+    // match, and that buffer stays anchored on the active option.
+    const sameCharRun =
+        typeahead === "" || [...typeahead].every((c) => c === lower);
+    typeahead += lower;
     clearTimeout(typeaheadTimer);
     typeaheadTimer = setTimeout(() => (typeahead = ""), 500);
-    const from = activeIndex.value < 0 ? 0 : activeIndex.value;
-    // Search forward from the active option, wrapping once.
+    const query = sameCharRun ? lower : typeahead;
+    const anchor = activeIndex.value < 0 ? 0 : activeIndex.value;
+    const start = sameCharRun ? anchor + 1 : anchor;
+    // Search forward, wrapping once — typeahead wraps even though the
+    // arrows clamp, or options above the cursor would be untypable.
     for (let n = 0; n < props.locales.length; n++) {
-        const i = (from + n) % props.locales.length;
-        if (labelFor(props.locales[i]).toLowerCase().startsWith(typeahead)) {
+        const i = (start + n) % props.locales.length;
+        if (labelFor(props.locales[i]).toLowerCase().startsWith(query)) {
             activeIndex.value = i;
             scrollActiveIntoView();
             return;
@@ -327,8 +384,24 @@ function onListKeydown(event: KeyboardEvent): void {
             event.preventDefault();
             void closeList();
             break;
+        case "PageUp":
+            event.preventDefault();
+            moveActive(-10);
+            break;
+        case "PageDown":
+            // ±10, clamped: an APG-optional key for long locale lists.
+            event.preventDefault();
+            moveActive(10);
+            break;
         case "Tab":
-            // Tab moves on: close without stealing focus back.
+            // Tab moves on — but focus goes to the button FIRST,
+            // without cancelling the key. Hiding the focused list
+            // drops focus to <body>, and the browser then computes
+            // the default Tab move from the top of the document, so
+            // tabbing out of an open picker teleported the user to
+            // the page's first tab stop. From the button, the default
+            // Tab lands exactly where leaving the picker should.
+            buttonEl.value?.focus?.();
             void closeList(false);
             break;
         default:
@@ -450,7 +523,7 @@ onBeforeUnmount(() => {
                 role="option"
                 :aria-selected="locale === current ? 'true' : 'false'"
                 :data-active="i === activeIndex ? '' : undefined"
-                :lang="tagFor(locale)"
+                :lang="optionLang(locale)"
                 @click="choose(i)"
             >{{ labelFor(locale) }}</li>
         </ul>

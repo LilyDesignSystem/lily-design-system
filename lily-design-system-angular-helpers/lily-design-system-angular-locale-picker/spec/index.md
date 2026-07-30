@@ -189,12 +189,16 @@ The rendered tree, with the listbox closed:
       data-active
       lang="en-US"
     >
-      English (United States)
+      American English
     </li>
     …
   </ul>
 </div>
 ```
+
+An option's `lang` attribute is present only when its label is the
+derived endonym (see §5.4); consumer-labelled options and English-table
+fallbacks carry no `lang`.
 
 Element by element:
 
@@ -257,7 +261,7 @@ Further rules:
 - `LocalePickerIcon` (the optional icon-template marker directive)
 - `GLOBE_WITH_MERIDIANS` (the default button glyph)
 - `nextLocalePickerId` (the per-instance id generator)
-- `bcp47LocaleTag`, `isRtlLocale`, `localeName`,
+- `bcp47LocaleTag`, `isRtlLocale`, `localeEndonym`, `localeName`,
   `matchNavigatorLanguage` (pure helpers)
 - `defaultLocaleLabels`, `RTL_LANGUAGE_TAGS`, `RTL_SCRIPT_SUBTAGS`
   (constants from `locales.ts`)
@@ -296,13 +300,30 @@ order:
 
 If nothing matches, returns `""`.
 
-### 5.4 Default labels
+### 5.4 Default labels and the `lang` attribute
+
+Default option labels are **endonyms** — each language named in
+itself, "Cymraeg" not "Welsh" — resolved by the exported
+`localeEndonym()` via `Intl.DisplayNames` asked *in that language*.
+The user who needs a language menu is the one who cannot read the
+page's language, and the exonym means nothing to them. The endonym
+lookup is deterministic (no `navigator` dependency), so server and
+client render the same label; it returns `""` when the runtime has no
+data or merely echoes the tag back.
 
 When `localeLabels[code]` is missing, fall back to:
 
-1. `defaultLocaleLabels[code]` from `locales.ts`.
-2. `Intl.DisplayNames` for the navigator's locale, if available.
-3. The raw `code`.
+1. `localeEndonym(code)`.
+2. `defaultLocaleLabels[code]` from `locales.ts` (English names).
+3. `Intl.DisplayNames` for the navigator's locale, if available.
+4. The raw `code`.
+
+Each option's `lang` attribute is a claim about the language of the
+option's **text**, and is made only when the text is the endonym we
+derived: then a screen reader may correctly switch voice. A consumer
+label's language is unknown, and the English fallback is English, so
+those options carry no `lang` — the English word "Arabic" must never
+be handed to an Arabic speech engine.
 
 ### 5.5 Applying a locale
 
@@ -361,14 +382,21 @@ Two pieces of internal state drive the listbox: `open` (boolean) and
   runs from the `value` change.
 - **Closing** resets `activeIndex` to `-1` and drops
   `aria-activedescendant`. Focus returns to the button except when
-  closing because of `Tab`, an outside click, or focus leaving the
-  root — in those cases focus is left where it is.
-- **Typeahead** appends the typed character to a buffer, searches
-  forward from the active option (wrapping once) for the first
-  **label** with that prefix, and clears the buffer 500 ms after the
-  last keystroke. It matches against `labelFor(locale)`, not the raw
-  code, so typing "f" finds "French". The buffer timer is cleared on
-  destroy.
+  closing because of an outside click or focus leaving the root — in
+  those cases focus is left where it is. `Tab` is its own case: focus
+  goes to the button first, then the list closes, so the browser's
+  default Tab proceeds from the picker's position.
+- **Opening an empty list** activates no option (`activeIndex` stays
+  `-1`), so `aria-activedescendant` is absent rather than pointing at
+  an id that does not exist.
+- **Typeahead** matches option **labels**, not raw codes. A single
+  typed character advances to the **next** option starting with it
+  (search begins at `activeIndex + 1`, wrapping once), and repeating
+  the same character keeps cycling; only a buffer of differing
+  characters refines the match anchored at the active option. The
+  buffer clears 500 ms after the last keystroke, and its timer is
+  cleared on destroy. Because default labels are endonyms, typing "f"
+  finds "français"; a `localeLabels` override wins over the endonym.
 
 ## 6. Accessibility
 
@@ -433,8 +461,9 @@ On the **listbox**:
 | `Home` / `End`            | Jump to the first / last option.                                                     |
 | `Enter` / `Space`         | Select the active option, apply it, close, refocus button.                           |
 | `Escape`                  | Close and refocus the button; the value is unchanged.                                |
-| `Tab`                     | Close **without** stealing focus back; the browser moves on.                         |
-| Printable characters      | Typeahead over the option **labels**; buffer clears 500 ms after the last keystroke. |
+| `PageUp` / `PageDown`     | Move the active option by ten; **clamps** at the ends.                               |
+| `Tab`                     | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position. Hiding the focused list first would drop focus to `<body>` and restart Tab from the top of the document. |
+| Printable characters      | Typeahead over the option **labels**; buffer clears 500 ms after the last keystroke. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match from the active option. Search wraps once. |
 
 Pointer and focus equivalents:
 
@@ -480,10 +509,14 @@ below. Tests run under vitest + jsdom + `@angular/core/testing`
    which `hidden` is gone and `aria-expanded` is `"true"`; exactly
    one option has `aria-selected="true"`; exactly one option carries
    `data-active` while open.
-5. Each option carries `lang="{tagFor(locale)}"` (BCP 47 hyphen
-   form); the button and the list carry no `lang` of their own.
+5. Each endonym-labelled option carries `lang` in BCP 47 hyphen form
+   (`tagFor(locale)`); the button and the list carry no `lang` of
+   their own. Options whose label is a consumer `localeLabels` entry
+   or the English-table fallback carry no `lang` (§5.4, §7.29).
 6. The visible option text is `localeLabels[code]
-?? defaultLocaleLabels[code] ?? Intl.DisplayNames ?? code`.
+?? localeEndonym(code) ?? defaultLocaleLabels[code]
+?? Intl.DisplayNames ?? code` — the default is the endonym,
+   "Cymraeg" not "Welsh".
 
 ### 7.2 Pure helpers (mirrors §5.1, §5.6)
 
@@ -546,13 +579,30 @@ below. Tests run under vitest + jsdom + `@angular/core/testing`
     updates), closes the list, and returns focus to the button;
     `Space` does the same.
 27. `Escape` closes the list without changing the locale and returns
-    focus to the button; `Tab` closes the list **without** pulling
-    focus back to the button.
-28. Printable characters run a typeahead over the option **labels**,
-    moving `aria-activedescendant` to the first match; the buffer
-    clears 500 ms after the last keystroke, so a later character
-    starts a fresh search. Clicking an option selects and applies it
-    and closes the list; clicking outside the root closes the list.
+    focus to the button; `Tab` closes the list after handing focus to
+    the button (see clause 28). Printable characters run a typeahead
+    over the option **labels**, moving `aria-activedescendant` to the
+    next match; the buffer clears 500 ms after the last keystroke, so
+    a later character starts a fresh search. Clicking an option
+    selects and applies it and closes the list; clicking outside the
+    root closes the list.
+
+### 7.7 Accessibility hardening
+
+Clause numbers 28–32 mirror the canonical Svelte spec, so the same
+clause means the same thing in every catalog.
+
+28. `Tab` from the open list puts focus on the button **before**
+    closing, without cancelling the key, so the browser's default Tab
+    proceeds from the picker's position instead of restarting from
+    `<body>` when the focused list is hidden first.
+29. `lang` is claimed only when the label is the endonym;
+    consumer-labelled options carry no `lang` (§5.4).
+30. A repeated typeahead character cycles through its matches; a
+    multi-character buffer of differing characters refines the match
+    from the active option.
+31. `PageUp` / `PageDown` move the cursor by ten, clamped.
+32. An empty list opens without `aria-activedescendant`.
 
 ## 8. Out-of-scope (future, not implemented here)
 

@@ -4,6 +4,49 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+### Changed
+
+- **`Tab` from the open list is documented — and deliberately NOT given
+  the canonical Svelte button-refocus.** The canonical fix moves focus
+  to the trigger before hiding the list, because Svelte hides
+  synchronously, ahead of the browser's default Tab, which otherwise
+  restarts from the top of the document. Blazor cannot reproduce that
+  bug — the default Tab always runs before the async handler, so it
+  proceeds from the still-visible list — and mirroring the refocus
+  would run *after* the default Tab and yank the user back to the
+  trigger they just left. Both implementations end with focus on the
+  tab stop after the picker; the divergence is recorded in spec §5.6.
+- **Typeahead follows the APG single-character rule** (canonical
+  §7.15). A single character advances to the *next* matching option,
+  and repeating that character cycles through the matches; only a
+  buffer of differing characters refines the match anchored on the
+  active option. Previously a character that matched the active option
+  went nowhere.
+
+### Added
+
+- **`PageUp` / `PageDown`** move the active option by ten, clamped —
+  an APG-optional key for long lists (canonical §7.16).
+- Internal `ButtonReferenceId` / `ListReferenceId` test seams
+  (InternalsVisibleTo), so the bUnit suite can compare recorded
+  `FocusAsync` interop targets the way the DateTimePicker suite does.
+
+### Fixed
+
+- Opening with an empty option list no longer refuses to open (and, as
+  in the canonical fix, never points `aria-activedescendant` at an id
+  that does not exist): the active index is `-1` and the attribute is
+  simply absent (canonical §7.17).
+
+### Docs
+
+- `spec/index.md`, `index.md` and `AGENTS.md` still called the control
+  a "text-size select" in a few places — the same native-`<select>`-era
+  drift the canonical package fixed; all now say "picker" and document
+  the icon-button + APG-listbox contract.
+
 ## 0.1.0 — 2026-07-21
 
 Renamed from `lily-design-system-blazor-text-size-select` to

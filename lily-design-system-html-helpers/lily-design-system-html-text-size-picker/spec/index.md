@@ -417,8 +417,10 @@ On the **listbox** (`<ul>`, which holds focus while open):
 | `Enter`             | Select the active option, apply it, close, return focus to the button.                                                                  |
 | `Space`             | Same as `Enter`.                                                                                                                        |
 | `Escape`            | Close and return focus to the button **without** changing the value.                                                                    |
-| `Tab`               | Close without stealing focus back — focus moves on normally.                                                                            |
-| printable character | Typeahead over the option _labels_; the buffer resets after 500 ms of no typing. The search starts at the active option and wraps once. |
+| `PageUp`            | Move the active option up ten. Clamps at the first.                                                                                     |
+| `PageDown`          | Move the active option down ten. Clamps at the last.                                                                                    |
+| `Tab`               | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position. Hiding the focused list first would drop focus to `<body>` and restart Tab from the top of the document. |
+| printable character | Typeahead over the option _labels_; the buffer resets after 500 ms of no typing. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match from the active option. Search wraps once. |
 
 Pointer equivalents: clicking the button toggles the list, clicking an
 option selects it, clicking outside the root closes it.
@@ -557,8 +559,8 @@ and are not numbered here.
     removes `aria-activedescendant`, and returns focus to the button.
     `Space` behaves identically.
 17. `Escape` closes the list and returns focus to the button without
-    changing the size. `Tab` closes the list without stealing focus
-    back to the button.
+    changing the size. `Tab` closes the list (its focus contract is
+    §7.20).
 18. A printable character runs typeahead over the option labels and
     moves the active descendant. A click outside the rendered root
     closes the list.
@@ -574,6 +576,20 @@ and are not numbered here.
     **and** on every state sync (a `value` change, each open and
     close) so derived content never goes stale; and the subclass still
     fires `textsizechange` through the base lifecycle.
+
+### Accessibility hardening
+
+These clauses mirror the canonical Svelte spec's §7.14–§7.17; this
+port's own §7.14–§7.17 were already taken by the keyboard contract
+above, so they continue the local sequence instead.
+
+20. `Tab` from the open list puts focus on the button before closing,
+    so the default Tab proceeds from the picker's position.
+21. A repeated typeahead character cycles through its matches; a
+    multi-character buffer of differing characters refines the match
+    from the active option.
+22. `PageUp` / `PageDown` move the cursor by ten, clamped.
+23. An empty list opens without `aria-activedescendant`.
 
 ## 8. Out-of-scope (future, not implemented here)
 

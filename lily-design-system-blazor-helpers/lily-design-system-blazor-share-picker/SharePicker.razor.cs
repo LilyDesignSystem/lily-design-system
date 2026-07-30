@@ -436,8 +436,18 @@ public partial class SharePicker : ComponentBase
                 CloseList();
                 break;
             case "Tab":
-                // Tab leaves the control: close, but let focus go where the
-                // browser was already sending it.
+                // Tab leaves the control — but focus goes to the button
+                // FIRST, without cancelling the key. The focused element
+                // here is a list item, so the browser's default Tab lands
+                // on the NEXT item; hiding the list then drops focus to
+                // <body>, and the user's following Tab restarts from the
+                // top of the document. Refocusing the button parks focus
+                // at the picker's own position, so Tab proceeds from
+                // there. (Unlike the listbox pickers, whose focused <ul>
+                // has no tabbable children and whose default Tab therefore
+                // already exits the picker cleanly.)
+                _focusTriggerPending = true;
+                _suppressFocusOut = true;
                 CloseList(false);
                 break;
         }

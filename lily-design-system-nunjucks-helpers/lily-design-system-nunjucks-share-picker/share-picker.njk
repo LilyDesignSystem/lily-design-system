@@ -120,7 +120,9 @@
 <button type="button" class="share-picker-button" aria-label="{{ opts.label }}" aria-expanded="false" aria-controls="{{ listId }}" data-lily-share-picker-button>
 {%- if caller %}{{ caller() }}{% else %}<span class="share-picker-icon" aria-hidden="true">&#10148;</span>{% endif -%}
 </button>
-<ul class="share-picker-list" id="{{ listId }}" hidden data-lily-share-picker-list>
+{#- Named like the sibling pickers' listboxes: a screen reader entering
+    the list hears what it is for, not just "list, three items". -#}
+<ul class="share-picker-list" id="{{ listId }}" aria-label="{{ opts.label }}" hidden data-lily-share-picker-list>
 {%- for target in targets -%}
   {#- A real link, not role="menuitem": these ARE navigation, and
       menuitem would strip middle-click, open-in-new-tab and

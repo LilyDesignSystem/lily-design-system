@@ -284,14 +284,6 @@ describe("TextSizePicker — keyboard contract (APG listbox)", () => {
         expect(document.activeElement).toBe(button.element);
     });
 
-    test("§7.16 Tab closes without stealing focus back to the button", async () => {
-        const { button, list, el } = await openWith("ArrowDown");
-        await list.trigger("keydown", { key: "Tab" });
-        await flush();
-        expect(el.hasAttribute("hidden")).toBe(true);
-        expect(document.activeElement).not.toBe(button.element);
-    });
-
     test("§7.16 aria-activedescendant is dropped once the listbox closes", async () => {
         const { list, el } = await openWith("ArrowDown");
         await list.trigger("keydown", { key: "Escape" });
@@ -517,5 +509,79 @@ describe("TextSizePicker — spread + custom slot (§7.12–§7.13)", () => {
         await flush();
         expect(captured.labelFor("x-large")).toBe("Huge");
         expect(captured.labelFor("small")).toBe("Small");
+    });
+});
+
+describe("TextSizePicker — accessibility hardening (§7.19–§7.22)", () => {
+    async function openPicker(
+        sizes: string[] = SIZES,
+        extra: Record<string, unknown> = {},
+    ) {
+        const wrapper = build({ sizes, ...extra });
+        await flush();
+        const { button, list } = parts(wrapper);
+        await button.trigger("click");
+        await flush();
+        return { button, list, el: list.element as HTMLElement };
+    }
+
+    const active = (el: HTMLElement) =>
+        el.querySelector("[data-active]")?.textContent?.trim();
+
+    test("§7.19 Tab from the open list puts focus on the button before closing", async () => {
+        const { button, list, el } = await openPicker();
+        expect(document.activeElement).toBe(el);
+        await list.trigger("keydown", { key: "Tab" });
+        await flush();
+        // Focus sits on the button, so the browser's default Tab proceeds
+        // from the picker's own position — not from <body>, which is where
+        // focus lands when the focused list is hidden first.
+        expect(document.activeElement).toBe(button.element);
+        expect(el.hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.20 a repeated typeahead character cycles through its matches", async () => {
+        const { list, el } = await openPicker(["d1", "d2", "d3", "m"], {
+            sizeLabels: { d1: "Dark", d2: "Dim", d3: "Dracula", m: "Light" },
+            defaultValue: "m",
+        });
+        await list.trigger("keydown", { key: "d" });
+        expect(active(el)).toBe("Dark");
+        await list.trigger("keydown", { key: "d" });
+        expect(active(el)).toBe("Dim");
+        await list.trigger("keydown", { key: "d" });
+        expect(active(el)).toBe("Dracula");
+    });
+
+    test("§7.20 a multi-character buffer refines the match from the active option", async () => {
+        const { list, el } = await openPicker(["d1", "d2", "d3", "m"], {
+            sizeLabels: { d1: "Dark", d2: "Dim", d3: "Dracula", m: "Light" },
+            defaultValue: "m",
+        });
+        await list.trigger("keydown", { key: "d" });
+        await list.trigger("keydown", { key: "r" });
+        expect(active(el)).toBe("Dracula");
+    });
+
+    test("§7.21 PageUp and PageDown move the cursor by ten, clamped", async () => {
+        const many = Array.from(
+            { length: 25 },
+            (_, i) => `s${String(i).padStart(2, "0")}`,
+        );
+        const { list, el } = await openPicker(many);
+        await list.trigger("keydown", { key: "PageDown" });
+        expect(active(el)).toBe("S10");
+        await list.trigger("keydown", { key: "PageDown" });
+        expect(active(el)).toBe("S20");
+        await list.trigger("keydown", { key: "PageDown" });
+        expect(active(el)).toBe("S24");
+        await list.trigger("keydown", { key: "PageUp" });
+        expect(active(el)).toBe("S14");
+    });
+
+    test("§7.22 an empty list opens without aria-activedescendant", async () => {
+        const { el } = await openPicker([]);
+        expect(el.hasAttribute("hidden")).toBe(false);
+        expect(el.getAttribute("aria-activedescendant")).toBeNull();
     });
 });

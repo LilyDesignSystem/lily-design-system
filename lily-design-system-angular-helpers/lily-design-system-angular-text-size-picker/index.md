@@ -137,11 +137,14 @@ size" media query exists.
 
 `ArrowDown` / `Enter` / `Space` open the listbox on the selected
 option; `ArrowUp` opens on the last. Inside the listbox: arrows move
-the cursor and clamp (no wrap), `Home` / `End` jump, printable
-characters typeahead over the labels with a 500 ms buffer, `Enter` /
+the cursor and clamp (no wrap), `Home` / `End` jump, `PageUp` /
+`PageDown` move by ten (clamped), printable characters typeahead over
+the labels with a 500 ms buffer — a single character advances to the
+next match and repeats cycle; differing characters refine — `Enter` /
 `Space` select and return focus to the button, `Escape` closes
-unchanged, `Tab` closes and moves on. Clicking an option selects it;
-clicking outside closes.
+unchanged, `Tab` closes via the button so the default Tab proceeds
+from the picker's position. Clicking an option selects it; clicking
+outside closes.
 
 ## Accessibility
 

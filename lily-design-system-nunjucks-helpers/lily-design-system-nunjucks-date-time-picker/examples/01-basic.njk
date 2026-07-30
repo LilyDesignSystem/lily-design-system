@@ -1,5 +1,8 @@
-{# Minimal DateTimePicker: a label, the six always-required labels, and
-   an initial value. `mode` defaults to "date".
+{# Minimal DateTimePicker: a label, the six always-required labels, an
+   initial value, and the three optional labels worth supplying --
+   clear (gates the clear button), invalid (gates the refused-input
+   live region), instructions (gates the dialog keyboard help).
+   `mode` defaults to "date".
 
    Note the field shows `value` RAW (unformatted) until the client runs
    -- the macro cannot call Intl to format it locale-correctly. See
@@ -16,7 +19,9 @@
         nextYear: "Next year",
         confirm: "Confirm",
         cancel: "Cancel",
-        clear: "Clear"
+        clear: "Clear",
+        invalid: "Enter a valid date, for example 21 3 2026",
+        instructions: "Use the arrow keys to choose a day, and Enter to confirm"
     },
     value: "2026-08-15",
     min: "2026-01-01",

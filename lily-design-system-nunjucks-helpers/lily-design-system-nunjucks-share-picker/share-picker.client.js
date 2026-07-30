@@ -316,8 +316,16 @@ export function initSharePicker(root, opts = {}) {
         closeList();
         break;
       case "Tab":
-        // Tab leaves the control: close, but let focus go where
-        // the browser was sending it.
+        // Tab leaves the control — but focus goes to the button
+        // FIRST, without cancelling the key. Hiding the list while
+        // one of its items has focus drops focus to <body>, and the
+        // browser then computes the default Tab move from the top of
+        // the document, so tabbing out of the open list teleported
+        // the user to the page's first tab stop. From the button, the
+        // default Tab lands exactly where leaving the picker should.
+        // Guard the METHOD, not just the element: this shape has
+        // bitten these helpers before.
+        trigger?.focus?.();
         closeList(false);
         break;
       default:

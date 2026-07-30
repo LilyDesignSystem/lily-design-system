@@ -5,6 +5,7 @@ import { defineComponent, nextTick, ref } from "vue";
 import LocalePicker, {
     bcp47LocaleTag,
     isRtlLocale,
+    localeEndonym,
     localeName,
     matchNavigatorLanguage,
 } from "./LocalePicker.vue";
@@ -206,9 +207,20 @@ describe("LocalePicker — markup contract (§4.3, §7.1)", () => {
         expect(wrapper.text()).toContain("Français");
     });
 
-    test("§7.6 falls back to defaultLocaleLabels when localeLabels missing", () => {
-        const wrapper = build({ locales: ["en_US"] });
-        expect(wrapper.text()).toContain("English (United States)");
+    test("§7.6 default option text is the locale's endonym, not the English exonym", () => {
+        const wrapper = build({ locales: ["cy", "de"] });
+        // "Cymraeg", not "Welsh": the user who needs the language menu is
+        // the one who cannot read the page's language, and the exonym
+        // means nothing to them. The English table is now only a fallback
+        // for runtimes without Intl.DisplayNames data.
+        expect(wrapper.text()).toContain("Cymraeg");
+        expect(wrapper.text()).not.toContain("Welsh");
+        expect(wrapper.text()).toContain("Deutsch");
+        // The exported helper backs the rendered text and is
+        // deterministic — no navigator dependency, so SSR and client
+        // agree.
+        expect(localeEndonym("cy")).toBe("Cymraeg");
+        expect(localeEndonym("de")).toBe("Deutsch");
     });
 });
 
@@ -317,14 +329,6 @@ describe("LocalePicker — keyboard contract (APG listbox, §7.6)", () => {
         await flush();
         expect(el.hasAttribute("hidden")).toBe(true);
         expect(document.documentElement.getAttribute("lang")).toBe("en");
-    });
-
-    test("§7.26 Tab closes without stealing focus back to the button", async () => {
-        const { button, list, el } = await openWith("ArrowDown");
-        await list.trigger("keydown", { key: "Tab" });
-        await flush();
-        expect(el.hasAttribute("hidden")).toBe(true);
-        expect(document.activeElement).not.toBe(button.element);
     });
 
     test("§7.26 aria-activedescendant is dropped once the listbox closes", async () => {
@@ -526,7 +530,10 @@ describe("LocalePicker — spread + custom slot (§4.1, §7.5)", () => {
         expect(wrapper.find(".locale-picker-icon").exists()).toBe(false);
         expect(captured.open).toBe(false);
         expect(captured.value).toBe("fr");
-        expect(captured.labelFor("en_US")).toBe("English (United States)");
+        // labelFor now resolves the endonym; assert against the exported
+        // helper rather than a hardcoded string, so an ICU wording change
+        // cannot break the test without a real behaviour change.
+        expect(captured.labelFor("en_US")).toBe(localeEndonym("en_US"));
     });
 
     test("§7.23 the slot's open flag tracks the listbox state", async () => {
@@ -547,5 +554,86 @@ describe("LocalePicker — spread + custom slot (§4.1, §7.5)", () => {
         await flush();
         expect(seen[0]).toBe(false);
         expect(seen[seen.length - 1]).toBe(true);
+    });
+});
+
+describe("LocalePicker — accessibility hardening (§7.28–§7.32)", () => {
+    async function openPicker(
+        locales: string[] = LOCALES,
+        extra: Record<string, unknown> = {},
+    ) {
+        const wrapper = build({ locales, ...extra });
+        await flush();
+        const { button, list } = parts(wrapper);
+        await button.trigger("click");
+        await flush();
+        return { button, list, el: list.element as HTMLElement };
+    }
+
+    const active = (el: HTMLElement) =>
+        el.querySelector("[data-active]")?.textContent?.trim();
+
+    test("§7.28 Tab from the open list puts focus on the button before closing", async () => {
+        const { button, list, el } = await openPicker();
+        expect(document.activeElement).toBe(el);
+        await list.trigger("keydown", { key: "Tab" });
+        await flush();
+        // Focus sits on the button, so the browser's default Tab proceeds
+        // from the picker's own position — not from <body>, which is where
+        // focus lands when the focused list is hidden first.
+        expect(document.activeElement).toBe(button.element);
+        expect(el.hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.29 lang is claimed only when the label is the endonym", async () => {
+        const wrapper = build({
+            locales: ["cy", "ar"],
+            localeLabels: { ar: "Arabic" },
+        });
+        const opts = wrapper.findAll("li.locale-picker-option");
+        // Endonym label: the text really is Welsh, so lang="cy" is a true
+        // claim and a screen reader may switch voice.
+        expect(opts[0].text().trim()).toBe("Cymraeg");
+        expect(opts[0].attributes("lang")).toBe("cy");
+        // Consumer label: its language is unknown, so no claim — the
+        // English word "Arabic" must not be handed to an Arabic voice.
+        expect(opts[1].text().trim()).toBe("Arabic");
+        expect(opts[1].attributes("lang")).toBeUndefined();
+    });
+
+    test("§7.30 a repeated typeahead character cycles through its matches", async () => {
+        const { list, el } = await openPicker(["l1", "l2", "l3", "l4"], {
+            localeLabels: { l1: "Dark", l2: "Dim", l3: "Dracula", l4: "Light" },
+            defaultValue: "l4",
+        });
+        await list.trigger("keydown", { key: "d" });
+        expect(active(el)).toBe("Dark");
+        await list.trigger("keydown", { key: "d" });
+        expect(active(el)).toBe("Dim");
+        await list.trigger("keydown", { key: "d" });
+        expect(active(el)).toBe("Dracula");
+    });
+
+    test("§7.31 PageUp and PageDown move the cursor by ten, clamped", async () => {
+        const many = Array.from(
+            { length: 25 },
+            (_, i) => `x${String(i).padStart(2, "0")}`,
+        );
+        const labels = Object.fromEntries(many.map((l) => [l, l.toUpperCase()]));
+        const { list, el } = await openPicker(many, { localeLabels: labels });
+        await list.trigger("keydown", { key: "PageDown" });
+        expect(active(el)).toBe("X10");
+        await list.trigger("keydown", { key: "PageDown" });
+        expect(active(el)).toBe("X20");
+        await list.trigger("keydown", { key: "PageDown" });
+        expect(active(el)).toBe("X24");
+        await list.trigger("keydown", { key: "PageUp" });
+        expect(active(el)).toBe("X14");
+    });
+
+    test("§7.32 an empty list opens without aria-activedescendant", async () => {
+        const { el } = await openPicker([]);
+        expect(el.hasAttribute("hidden")).toBe(false);
+        expect(el.getAttribute("aria-activedescendant")).toBeNull();
     });
 });

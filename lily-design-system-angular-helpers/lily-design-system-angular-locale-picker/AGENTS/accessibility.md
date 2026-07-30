@@ -23,7 +23,7 @@ in [`../docs/accessibility.md`](../docs/accessibility.md).
 | `<ul>`                        | `aria-activedescendant` (open only)      | Select         |
 | `<li>`                        | `role="option"`, `aria-selected`         | Select         |
 | `<li>`                        | `data-active` (keyboard-active, open only) | Select       |
-| `<li>`                        | `lang={tagFor(locale)}`                  | Select         |
+| `<li>`                        | `lang={tag}` (endonym-labelled options only) | Select     |
 
 Two things to hold onto:
 
@@ -31,10 +31,12 @@ Two things to hold onto:
   icon-only and the glyph is `aria-hidden`, so there is no fallback
   text. A vague `label` makes the control unusable to screen-reader
   and voice-control users.
-- **`lang` goes on options only.** Each option's `lang` satisfies
-  WCAG 3.1.2 (Language of Parts) — screen readers switch
-  pronunciation per option. The button and the list carry none,
-  because their text is the page's language, not any listed locale's.
+- **`lang` goes on options only, and only when it is true.** An
+  endonym-labelled option's `lang` satisfies WCAG 3.1.2 (Language of
+  Parts) — screen readers switch pronunciation per option. A
+  consumer-labelled option carries none, because its label's language
+  is unknown. The button and the list carry none either, because
+  their text is the page's language, not any listed locale's.
 
 ## Keyboard contract
 
@@ -55,7 +57,7 @@ Opening always moves focus to the `<ul>`. On the **listbox**:
 | Home / End             | Jump to the first / last option.                              |
 | Enter / Space          | Select the active option, apply it, close, refocus the button. |
 | Escape                 | Close and refocus the button; the value is unchanged.         |
-| Tab                    | Close **without** stealing focus back.                        |
+| Tab                    | Close via the button so the default Tab moves on from here.   |
 | Printable characters   | Typeahead over the option **labels**; buffer clears 500 ms after the last keystroke. |
 
 Pointer and focus equivalents: clicking the button toggles; clicking
@@ -119,8 +121,11 @@ the trigger, not somewhere unrelated, and no context change occurs.
 `Escape` does the same without changing the value.
 
 Focus is deliberately *not* pulled back when the list closes because
-of `Tab`, an outside click, or focus leaving the root — in those
-cases the user has already said where focus should go.
+of an outside click or focus leaving the root — in those cases the
+user has already said where focus should go. `Tab` is its own case:
+focus goes to the button first, then the list closes, so the
+browser's default Tab proceeds from the picker's position instead of
+restarting from `<body>`.
 
 Beyond the control, avoid `router.navigate()` calls in
 `(localeChange)` that scroll the page; if you must navigate,
@@ -151,14 +156,15 @@ that as a regression, not a footnote.
 
 If your `localeLabels` are all in the **viewer's** language (e.g.
 you show "English", "French", "Arabic" — all in English so the
-user recognises them), the per-option `lang` attribute is
-technically incorrect. In that case, the select still emits it (it
-honours your stored locale codes faithfully) — consider switching
-the *visible* labels to endonyms.
+user recognises them), a per-option `lang` attribute would be
+technically incorrect. So the component omits it for
+consumer-labelled options: `lang` is claimed only when the label is
+the endonym the component derived itself — the English word "Arabic"
+must never be handed to an Arabic speech engine.
 
-The default rendering's tradeoff is: the labels show **in their
-own language** (English / Français / العربية), so per-option
-`lang` is correct and helpful.
+The default rendering shows the labels **in their own language**
+(English / Français / العربية), so per-option `lang` is correct and
+helpful there.
 
 ## What the custom listbox costs
 

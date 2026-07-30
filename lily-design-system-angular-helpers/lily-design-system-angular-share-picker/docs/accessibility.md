@@ -20,7 +20,7 @@ well and what it costs — the costs are real and are not talked around.
   navigation.
 - Keyboard: `Enter` / `Space` activate, `ArrowDown` / `ArrowUp` open and
   move between items (clamping, not wrapping), `Home` / `End` jump,
-  `Escape` closes and returns focus to the trigger, `Tab` closes and
+  `Escape` closes and returns focus to the trigger, `Tab` closes via the trigger and
   lets focus move on. Items are real focusable elements, so focus moves
   for real rather than via `aria-activedescendant`.
 - Focus leaving the root, or a click outside it, closes the list

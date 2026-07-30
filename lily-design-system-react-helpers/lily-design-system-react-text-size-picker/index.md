@@ -201,8 +201,9 @@ nothing is inherited from a native `<select>`.
 | `Home` / `End`                  | listbox | Jump to the first / last option.                      |
 | `Enter` / `Space`               | listbox | Select, apply, close, refocus the button.             |
 | `Escape`                        | listbox | Close and refocus the button; value unchanged.        |
-| `Tab`                           | listbox | Close and let focus move on.                          |
-| Printable character             | listbox | Typeahead over labels; buffer resets after 500 ms.    |
+| `PageUp` / `PageDown`           | listbox | Move the active option by ten; clamps.                |
+| `Tab`                           | listbox | Close; focus lands on the button so the default Tab proceeds from the picker's position. |
+| Printable character             | listbox | Typeahead over labels; 500 ms buffer. A single character advances to the next match and repeats cycle; differing characters refine. |
 
 Clicking an option selects it; clicking the button again, clicking
 outside, or moving focus out all close without changing the value.

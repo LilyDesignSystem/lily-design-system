@@ -118,6 +118,28 @@ public class DateTimePickerTests : TestContext, IDisposable
     private static string CursorDate(IRenderedComponent<DateTimePicker> cut)
         => Days(cut).FirstOrDefault(d => d.GetAttribute("tabindex") == "0")?.GetAttribute("data-date") ?? "";
 
+    /// <summary>The interop identifier ElementReference.FocusAsync() uses.</summary>
+    private const string FocusIdentifier = "Blazor._internal.domWrapper.focus";
+
+    /// <summary>
+    /// The ElementReference ids the component asked the browser to focus,
+    /// oldest first. bUnit has no live focus model, but real focus moves
+    /// ARE observable: FocusAsync() goes out over JS interop carrying the
+    /// ElementReference of its target — the same technique
+    /// SharePickerTests.cs uses. SharePicker maps ids to elements via the
+    /// blazor:elementReference GUIDs bUnit stamps into the FIRST render's
+    /// markup; this component re-renders immediately (today is seeded in
+    /// OnAfterRenderAsync), which strips those GUIDs from the markup — so
+    /// the ids are read from the component's own internal seams
+    /// (FieldReferenceId / TriggerReferenceId / DayReferenceId, via
+    /// InternalsVisibleTo) instead.
+    /// </summary>
+    private System.Collections.Generic.IReadOnlyList<string> FocusedRefIds()
+        => JSInterop.Invocations
+            .Where(i => i.Identifier == FocusIdentifier)
+            .Select(i => ((ElementReference)i.Arguments[0]!).Id)
+            .ToList();
+
     // =================================================================
     // §7.1–§7.9 — pure arithmetic.
     // =================================================================
@@ -574,30 +596,39 @@ public class DateTimePickerTests : TestContext, IDisposable
     // =================================================================
 
     [Fact]
-    public async Task Section_7_29_Days_Outside_MinMax_Are_Disabled()
+    public async Task Section_7_29_Days_Outside_MinMax_Are_AriaDisabled_Not_Disabled()
     {
         var cut = await OpenAtAsync("2026-03-15", p => p
             .Add(x => x.Min, "2026-03-10")
             .Add(x => x.Max, "2026-03-20"));
-        Assert.True(((IHtmlButtonElement)Day(cut, "2026-03-09")).IsDisabled);
-        Assert.False(((IHtmlButtonElement)Day(cut, "2026-03-10")).IsDisabled);
-        Assert.False(((IHtmlButtonElement)Day(cut, "2026-03-20")).IsDisabled);
-        Assert.True(((IHtmlButtonElement)Day(cut, "2026-03-21")).IsDisabled);
+        Assert.Equal("true", Day(cut, "2026-03-09").GetAttribute("aria-disabled"));
+        Assert.False(Day(cut, "2026-03-10").HasAttribute("aria-disabled"));
+        Assert.False(Day(cut, "2026-03-20").HasAttribute("aria-disabled"));
+        Assert.Equal("true", Day(cut, "2026-03-21").GetAttribute("aria-disabled"));
+        // aria-disabled, not the `disabled` attribute: a vetoed day must
+        // stay focusable so the roving cursor can land on it and a screen
+        // reader can announce it as unavailable.
+        Assert.False(((IHtmlButtonElement)Day(cut, "2026-03-09")).IsDisabled);
+        Assert.False(Day(cut, "2026-03-09").HasAttribute("disabled"));
+        // And the consumer's CSS hook rides along.
+        Assert.True(Day(cut, "2026-03-09").HasAttribute("data-disabled"));
+        Assert.False(Day(cut, "2026-03-10").HasAttribute("data-disabled"));
     }
 
     [Fact]
-    public async Task Section_7_30_IsDateDisabled_Vetoes_Individual_Days()
+    public async Task Section_7_30_IsDateDisabled_Marks_Individual_Days_AriaDisabled()
     {
         // A weekends-closed clinic.
         bool IsClosed(string iso) => DateTimePicker.WeekdayOf(iso) is 0 or 6;
         var cut = await OpenAtAsync("2026-03-16", p => p.Add(x => x.IsDateDisabled, (Func<string, bool>)IsClosed));
-        Assert.True(((IHtmlButtonElement)Day(cut, "2026-03-21")).IsDisabled); // Saturday
-        Assert.True(((IHtmlButtonElement)Day(cut, "2026-03-22")).IsDisabled); // Sunday
-        Assert.False(((IHtmlButtonElement)Day(cut, "2026-03-23")).IsDisabled); // Monday
+        Assert.Equal("true", Day(cut, "2026-03-21").GetAttribute("aria-disabled")); // Saturday
+        Assert.Equal("true", Day(cut, "2026-03-22").GetAttribute("aria-disabled")); // Sunday
+        Assert.False(Day(cut, "2026-03-23").HasAttribute("aria-disabled")); // Monday
+        Assert.False(Day(cut, "2026-03-21").HasAttribute("disabled"));
     }
 
     [Fact]
-    public async Task Section_7_31_Clicking_A_Disabled_Day_Does_Not_Commit()
+    public async Task Section_7_31_Clicking_A_Vetoed_Day_Does_Not_Commit()
     {
         var fired = false;
         var cut = await OpenAtAsync("2026-03-15", p => p
@@ -875,5 +906,164 @@ public class DateTimePickerTests : TestContext, IDisposable
         Assert.Equal(6, weeks.Count);
         // The grid's first row starts 2026-02-23, which is ISO week 9.
         Assert.Equal("9", weeks[0]);
+    }
+
+    // =================================================================
+    // §7.49–§7.55 — assistive technology.
+    //
+    // Focus assertions here read the FocusAsync interop invocations (see
+    // FocusedRefIds above) rather than a live document.activeElement,
+    // which bUnit does not have. Where the canonical Svelte test asserts
+    // "focus did not move", the equivalent here is "no focus interop call
+    // was made" — the component never asked the browser to move focus, so
+    // focus stays where the user left it.
+    // =================================================================
+
+    [Fact]
+    public async Task Section_7_49_The_Cursor_Lands_On_A_Vetoed_Day_Which_Stays_Focusable_And_Refuses_Enter()
+    {
+        var fired = false;
+        bool Veto(string iso) => iso == "2026-03-16";
+        var cut = await OpenAtAsync("2026-03-15", p => p
+            .Add(x => x.IsDateDisabled, (Func<string, bool>)Veto)
+            .Add(x => x.OnChange, _ => fired = true));
+        var grid = cut.Find("table.date-time-picker-calendar");
+        await grid.KeyDownAsync(new KeyboardEventArgs { Key = "ArrowRight" });
+        // The roving tabindex is on the blocked day, and — because it is
+        // aria-disabled rather than `disabled` — the component asked the
+        // browser for real focus on it too, so a screen reader announces
+        // the day instead of going silent.
+        Assert.Equal("2026-03-16", CursorDate(cut));
+        var vetoed = Day(cut, "2026-03-16");
+        Assert.Equal("true", vetoed.GetAttribute("aria-disabled"));
+        Assert.False(vetoed.HasAttribute("disabled"));
+        Assert.Equal("0", vetoed.GetAttribute("tabindex"));
+        Assert.Equal(cut.Instance.DayReferenceId("2026-03-16"), FocusedRefIds().Last());
+        // Enter refuses to select it.
+        await grid.KeyDownAsync(new KeyboardEventArgs { Key = "Enter" });
+        Assert.False(fired);
+        // And the cursor can keep going, out the other side.
+        await grid.KeyDownAsync(new KeyboardEventArgs { Key = "ArrowRight" });
+        Assert.Equal("2026-03-17", CursorDate(cut));
+    }
+
+    [Fact]
+    public async Task Section_7_50_Escape_In_The_Field_Discards_The_Pending_Edit_Without_Committing()
+    {
+        var fired = false;
+        var cut = Render(p => p
+            .Add(x => x.Value, "2026-03-15")
+            .Add(x => x.OnChange, _ => fired = true));
+        // Mark the field invalid first, so the revert has state to clean up.
+        await Field(cut).InputAsync(new ChangeEventArgs { Value = "sometime soon" });
+        await Field(cut).KeyDownAsync(new KeyboardEventArgs { Key = "Enter" });
+        Assert.Equal("true", Field(cut).GetAttribute("aria-invalid"));
+
+        await Field(cut).KeyDownAsync(new KeyboardEventArgs { Key = "Escape" });
+        // The committed value is back on display, the invalid state is
+        // gone, and nothing was committed.
+        Assert.Contains("2026", Field(cut).GetAttribute("value"));
+        Assert.False(Field(cut).HasAttribute("aria-invalid"));
+        Assert.False(fired);
+        Assert.Equal("2026-03-15", Hidden(cut).GetAttribute("value"));
+    }
+
+    [Fact]
+    public async Task Section_7_51_LabelsInvalid_Renders_A_Status_Live_Region_Wired_To_The_Field()
+    {
+        // Without the label, no region renders — the component would rather
+        // stay silent than announce in a language it invented.
+        var without = Render();
+        Assert.Empty(without.FindAll(".date-time-picker-status"));
+
+        var cut = Render(p => p.Add(x => x.DescribedBy, "hint"),
+            labels: Labels with { Invalid = "DimDyddiad" });
+        // The region exists before it has content — a live region born with
+        // its message is routinely not announced at all — and is empty
+        // while the field is valid.
+        var status = cut.Find(".date-time-picker-status");
+        Assert.Equal("status", status.GetAttribute("role"));
+        Assert.Equal("", status.TextContent.Trim());
+        Assert.Equal("hint", Field(cut).GetAttribute("aria-describedby"));
+        Assert.False(Field(cut).HasAttribute("aria-errormessage"));
+
+        await Field(cut).InputAsync(new ChangeEventArgs { Value = "junk" });
+        await Field(cut).BlurAsync(new FocusEventArgs());
+        status = cut.Find(".date-time-picker-status");
+        Assert.Equal("DimDyddiad", status.TextContent.Trim());
+        Assert.Equal(status.GetAttribute("id"), Field(cut).GetAttribute("aria-errormessage"));
+        // Chained after the consumer's hint, for the assistive technologies
+        // that read aria-describedby but not aria-errormessage.
+        Assert.Equal($"hint {status.GetAttribute("id")}", Field(cut).GetAttribute("aria-describedby"));
+    }
+
+    [Fact]
+    public async Task Section_7_52_Focus_Returns_To_Whichever_Element_Opened_The_Dialog()
+    {
+        // Opened from the field with Alt+ArrowDown: Escape must return
+        // focus to the field, not strand the user on the button.
+        var cut = Render(p => p.Add(x => x.Value, "2026-03-15"));
+        await Field(cut).KeyDownAsync(new KeyboardEventArgs { Key = "ArrowDown", AltKey = true });
+        await Dialog(cut).KeyDownAsync(new KeyboardEventArgs { Key = "Escape" });
+        Assert.Equal(cut.Instance.FieldReferenceId, FocusedRefIds().Last());
+
+        // Opened from the button: focus returns to the button.
+        var cut2 = Render(p => p.Add(x => x.Value, "2026-03-15"));
+        await OpenAsync(cut2);
+        await Dialog(cut2).KeyDownAsync(new KeyboardEventArgs { Key = "Escape" });
+        Assert.Equal(cut2.Instance.TriggerReferenceId, FocusedRefIds().Last());
+    }
+
+    [Fact]
+    public async Task Section_7_53_Header_Paging_Keeps_Focus_On_The_Header_Button_Grid_Paging_Follows_The_Cursor()
+    {
+        var cut = await OpenAtAsync("2026-03-15");
+        var focusCallsAfterOpen = FocusedRefIds().Count;
+
+        // Header route: the user activating "next month" stays on "next
+        // month", so they can page again — the cursor carries silently,
+        // and the component makes no focus call at all.
+        await cut.Find("button.date-time-picker-next-month").ClickAsync(new MouseEventArgs());
+        Assert.Equal("2026-04-15", CursorDate(cut));
+        Assert.Equal(focusCallsAfterOpen, FocusedRefIds().Count);
+
+        // Grid route: focus is in the grid, and paging must carry it —
+        // the cell it sat on no longer exists.
+        var grid = cut.Find("table.date-time-picker-calendar");
+        await grid.KeyDownAsync(new KeyboardEventArgs { Key = "PageDown" });
+        Assert.Equal("2026-05-15", CursorDate(cut));
+        Assert.Equal(focusCallsAfterOpen + 1, FocusedRefIds().Count);
+        Assert.Equal(cut.Instance.DayReferenceId("2026-05-15"), FocusedRefIds().Last());
+    }
+
+    [Fact]
+    public void Section_7_54_LabelsInstructions_Renders_Keyboard_Help_Described_By_The_Dialog()
+    {
+        var without = Render();
+        Assert.Empty(without.FindAll(".date-time-picker-instructions"));
+        Assert.False(Dialog(without).HasAttribute("aria-describedby"));
+
+        var cut = Render(labels: Labels with { Instructions = "SaethauSymud" });
+        var help = cut.Find(".date-time-picker-instructions");
+        Assert.Equal("SaethauSymud", help.TextContent.Trim());
+        Assert.Equal(help.GetAttribute("id"), Dialog(cut).GetAttribute("aria-describedby"));
+        // First child of the dialog, so it reads before the calendar.
+        Assert.Equal(help.GetAttribute("id"), Dialog(cut).Children.First().GetAttribute("id"));
+    }
+
+    [Fact]
+    public async Task Section_7_55_Clicking_The_Text_Field_While_The_Dialog_Is_Open_Closes_It()
+    {
+        var cut = await OpenAtAsync("2026-03-15");
+        Assert.False(Dialog(cut).HasAttribute("hidden"));
+        var focusCallsAfterOpen = FocusedRefIds().Count;
+        // The dialog is aria-modal: interacting with anything behind it —
+        // including the component's own field — dismisses it.
+        await Field(cut).ClickAsync(new MouseEventArgs());
+        Assert.True(Dialog(cut).HasAttribute("hidden"));
+        Assert.Equal("2026-03-15", Hidden(cut).GetAttribute("value"));
+        // Closed without moving focus: the click already put focus in the
+        // field, so the component made no focus call of its own.
+        Assert.Equal(focusCallsAfterOpen, FocusedRefIds().Count);
     }
 }

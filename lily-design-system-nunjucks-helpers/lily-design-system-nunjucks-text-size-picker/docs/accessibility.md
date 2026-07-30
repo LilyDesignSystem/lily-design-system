@@ -84,8 +84,9 @@ On the **listbox**:
 | `Home` / `End`     | Jump to the first / last option.                              |
 | `Enter` / `Space`  | Select the active option, apply it, close, return focus.      |
 | `Escape`           | Close and return focus, leaving the size unchanged.           |
-| `Tab`              | Close without stealing focus back.                            |
-| Printable character| Typeahead over the option labels; 500 ms buffer reset.        |
+| `PageUp` / `PageDown` | Move the active option by ten, clamped. |
+| `Tab`              | Close and move on — focus goes to the button first, so the default Tab proceeds from the picker's position. |
+| Printable character| APG typeahead: one character advances to the next match, a repeated character cycles; differing characters refine. 500 ms buffer reset. |
 
 Typeahead matches the **rendered** label, so `opts.sizeLabels`
 overrides participate: if you relabel `x-large` as "Huge", typing `h`

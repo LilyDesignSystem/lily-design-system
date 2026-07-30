@@ -185,7 +185,7 @@ an error (§5.3).
     >
       <span class="share-picker-icon" aria-hidden="true">&#10148;</span>
     </button>
-    <ul class="share-picker-list" id="{listId}" hidden>
+    <ul class="share-picker-list" id="{listId}" aria-label="{label}" hidden>
       <li class="share-picker-list-item">
         <a
           class="share-picker-target"
@@ -291,7 +291,7 @@ This is the load-bearing part of the port.
 | `ArrowUp`         | Opens, focuses the last item        | Moves focus up, **clamping**                  |
 | `Home` / `End`    | —                                   | First / last item                             |
 | `Escape`          | —                                   | Closes, returns focus to the trigger          |
-| `Tab`             | Moves on                            | Closes, focus goes where the browser sends it |
+| `Tab`             | Moves on                            | Closes and moves on — focus goes to the trigger first, without cancelling the key, so the browser's default Tab proceeds from the picker's position rather than restarting from `<body>` |
 
 Arrows clamp rather than wrap: the ends of a short disclosure list are a
 real boundary, and wrapping disorients.
@@ -347,12 +347,18 @@ prefixed with the clause number so a reviewer can spot a gap.
 14. A dismissed (rejected) sheet does not fall through to the list.
 15. Opening focuses the first item; `ArrowDown` / `ArrowUp` on the closed trigger open focused on first / last.
 16. Arrows move focus and clamp; `Home` / `End` jump.
-17. `Escape` closes and returns focus to the trigger; `Tab` closes without stealing it.
+17. `Escape` closes and returns focus to the trigger; `Tab` closes the list (its focus contract is §7.23).
 18. Choosing a destination fires `onShare` with its `id` and closes the list.
 19. Clicking outside, or focus leaving the root, closes the list.
 20. An explicit `url` attribute wins.
 21. With no `url`, the current page URL is used.
 22. `renderButtonContent()` replaces the glyph, sees `open` + `currentUrl()`, and keeps the base aria wiring.
+23. `Tab` from an open item puts focus on the button before closing, so
+    the default Tab proceeds from the picker's position instead of
+    restarting from `<body>` when the list is hidden while its item has
+    focus.
+24. The list carries the picker's accessible name (`aria-label` =
+    `label`).
 
 Beyond the §7 clauses the suite also covers this catalog's idiom:
 attribute/property mirroring, `targets` being property-only, the

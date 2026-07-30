@@ -83,9 +83,11 @@ your own code, deliberately.
 ```
 
 `min` / `max` are inclusive. `isDateDisabled` vetoes anything else — closed
-days, fully-booked slots, bank holidays. Blocked days render `disabled`;
-the keyboard cursor can still cross them, so arrowing over a blocked week
-works.
+days, fully-booked slots, bank holidays. Blocked days render
+`aria-disabled="true"` (plus `data-disabled` for your CSS) rather than the
+`disabled` attribute, so they stay focusable: the keyboard cursor can
+cross them — a screen reader announces each as unavailable instead of
+going silent — but they refuse selection.
 
 ### Quick picks
 
@@ -140,7 +142,32 @@ locale's own field order (`03/04/2026` is 3 April in `en-GB`, 4 March in
 Text that will not parse — or that parses outside `min`/`max` — stays in
 the field, sets `aria-invalid="true"`, and emits `invalid-input`. It is
 never silently snapped to a nearby legal date. Supply `parseInput` to plug
-in your own parser.
+in your own parser. `Escape` discards a pending edit and shows the
+committed value again.
+
+### Announce refusals, and explain the keyboard
+
+Two optional labels make the control markedly better with a screen
+reader; supply both:
+
+```vue
+<DateTimePicker
+  :label="label"
+  :labels="{
+    ...labels,
+    invalid: 'Enter a date like 21 3 2026',
+    instructions: 'Use the arrow keys to choose a date, Enter to select',
+  }"
+/>
+```
+
+`invalid` renders a `role="status"` live region (class hook
+`date-time-picker-status`) that announces when typed text is refused, and
+is wired to the field via `aria-errormessage` and `aria-describedby`.
+Without it, `aria-invalid` flips silently. `instructions` renders keyboard
+help inside the dialog (class hook `date-time-picker-instructions`) that
+the dialog references via `aria-describedby`, so a screen reader speaks it
+once on open — hide it visually with your own CSS if you prefer.
 
 ### Replace the glyph
 
@@ -171,7 +198,8 @@ callback props are emitted events here:
 ## Keyboard
 
 **Field**: `Enter` resolves typed text. `Alt` + `↓` opens the dialog — the
-same shortcut the native `<input type="date">` uses.
+same shortcut the native `<input type="date">` uses. `Escape` discards a
+pending edit.
 
 **Grid**: `←` `→` move a day; `↑` `↓` move a week; `Home` / `End` jump to
 the ends of the week (respecting the locale's first weekday); `Page Up` /
@@ -179,7 +207,8 @@ the ends of the week (respecting the locale's first weekday); `Page Up` /
 select.
 
 **Anywhere in the dialog**: `Escape` closes without committing; `Tab` and
-`Shift+Tab` cycle inside the dialog.
+`Shift+Tab` cycle inside the dialog. Closing returns focus to whichever
+element opened the dialog — the button, or the field after `Alt` + `↓`.
 
 ## You must supply the CSS
 
@@ -197,13 +226,15 @@ your CSS it renders in normal flow rather than as an overlay:
 ```
 
 Class hooks: `date-time-picker`, `-field`, `-input`, `-button`, `-icon`,
-`-dialog`, `-header`, `-previous-year`, `-previous-month`, `-period`,
-`-next-month`, `-next-year`, `-calendar`, `-weekday`, `-week-heading`,
-`-week`, `-day`, `-time`, `-time-label`, `-hour`, `-minute`, `-meridiem`,
-`-shortcuts`, `-shortcut`, `-footer`, `-clear`, `-cancel`, `-confirm`.
+`-status`, `-dialog`, `-instructions`, `-header`, `-previous-year`,
+`-previous-month`, `-period`, `-next-month`, `-next-year`, `-calendar`,
+`-weekday`, `-week-heading`, `-week`, `-day`, `-time`, `-time-label`,
+`-hour`, `-minute`, `-meridiem`, `-shortcuts`, `-shortcut`, `-footer`,
+`-clear`, `-cancel`, `-confirm`.
 
-Day cells carry `data-today`, `data-outside`, `data-selected`, and the root
-carries `data-mode`, so variants need no extra classes.
+Day cells carry `data-today`, `data-outside`, `data-selected`,
+`data-disabled`, and the root carries `data-mode`, so variants need no
+extra classes.
 
 ## Should you use this at all?
 

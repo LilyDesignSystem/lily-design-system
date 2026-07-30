@@ -496,12 +496,14 @@ describe("SharePicker — keyboard and dismissal (§7.15–§7.19)", () => {
         expect(document.activeElement).toBe(button);
     });
 
-    test("§7.17 Tab closes without stealing focus back to the button", async () => {
+    test("§7.17 Tab closes the list and parks focus on the button", async () => {
         const { button, list } = await openList();
         fireEvent.keyDown(list, { key: "Tab" });
         await flush();
         expect(list.hasAttribute("hidden")).toBe(true);
-        expect(document.activeElement).not.toBe(button);
+        // Focus goes to the button first (without cancelling the key), so
+        // the browser's default Tab proceeds from the picker's position.
+        expect(document.activeElement).toBe(button);
     });
 
     test("§7.18 choosing a destination fires onShare with its id and closes", async () => {
@@ -605,5 +607,41 @@ describe("SharePicker — exported helpers (§4.3)", () => {
         const b = nextSharePickerId();
         expect(a).toMatch(/^share-picker-\d+$/);
         expect(b).not.toBe(a);
+    });
+});
+
+describe("SharePicker — accessibility hardening (§7.23–§7.24)", () => {
+    async function openHardened() {
+        render(
+            <SharePicker
+                label="Share"
+                targets={TARGETS}
+                url={URL_UNDER_TEST}
+                copyLabel="Copy link"
+            />,
+        );
+        const button = screen.getByRole("button", { name: "Share" });
+        fireEvent.click(button);
+        await flush();
+        return { button, list: list() };
+    }
+
+    test("§7.23 Tab from an open item puts focus on the button before closing", async () => {
+        const { button, list } = await openHardened();
+        expect(document.activeElement?.className).toContain(
+            "share-picker-target",
+        );
+        fireEvent.keyDown(list, { key: "Tab" });
+        await flush();
+        // Focus sits on the button, so the browser's default Tab proceeds
+        // from the picker's own position — not from <body>, which is where
+        // focus lands when the list is hidden while its item has focus.
+        expect(document.activeElement).toBe(button);
+        expect(list.hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.24 the list carries the picker's accessible name", async () => {
+        const { list } = await openHardened();
+        expect(list.getAttribute("aria-label")).toBe("Share");
     });
 });

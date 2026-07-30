@@ -1,6 +1,7 @@
 import { NgTemplateOutlet } from "@angular/common";
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   Directive,
   ElementRef,
@@ -8,6 +9,7 @@ import {
   computed,
   contentChild,
   effect,
+  inject,
   input,
   model,
   output,
@@ -99,6 +101,21 @@ export type DateTimePickerLabels = {
   week?: string;
   /** Visible text of the clear button. The button renders only when set. */
   clear?: string;
+  /**
+   * Message announced when typed text will not parse or is out of range.
+   * When set, a `role="status"` live region renders after the field and
+   * is wired to it via `aria-errormessage` — without it, `aria-invalid`
+   * flips silently and a screen-reader user who has already left the
+   * field never hears that their date was refused.
+   */
+  invalid?: string;
+  /**
+   * Keyboard help for the dialog, e.g. "Use the arrow keys to choose a
+   * date". When set, it renders inside the dialog and becomes the
+   * dialog's `aria-describedby`, so a screen reader speaks it once on
+   * open — the APG date-picker dialog ships exactly this affordance.
+   */
+  instructions?: string;
 };
 
 /** Context passed to a projected icon `<ng-template>` (the button glyph). */
@@ -610,8 +627,11 @@ export class DateTimePickerIcon {
           [disabled]="disabled()"
           [readOnly]="readOnly()"
           [required]="required()"
-          [attr.aria-describedby]="describedBy() || null"
+          [attr.aria-describedby]="fieldDescribedBy()"
           [attr.aria-invalid]="invalid() ? 'true' : null"
+          [attr.aria-errormessage]="
+            invalid() && labels().invalid ? statusId : null
+          "
           (input)="typed.set($any($event.target).value)"
           (blur)="resolveTyped()"
           (keydown)="onFieldKeydown($event)"
@@ -641,6 +661,15 @@ export class DateTimePickerIcon {
         </button>
       </div>
 
+      @if (labels().invalid) {
+        <!-- Present in the DOM before it has content: a live region that
+             appears at the same moment as its message is routinely not
+             announced at all. Empty while the field is valid. -->
+        <span class="date-time-picker-status" [id]="statusId" role="status">{{
+          invalid() ? labels().invalid : ""
+        }}</span>
+      }
+
       <div
         #dialogEl
         class="date-time-picker-dialog"
@@ -648,10 +677,19 @@ export class DateTimePickerIcon {
         role="dialog"
         aria-modal="true"
         [attr.aria-label]="label()"
+        [attr.aria-describedby]="labels().instructions ? instructionsId : null"
         tabindex="-1"
         [attr.hidden]="open() ? null : ''"
         (keydown)="onDialogKeydown($event)"
       >
+        @if (labels().instructions) {
+          <!-- Spoken once when the dialog takes focus, via the dialog's
+               aria-describedby. Visible by default; a consumer who wants
+               it screen-reader-only hides it with their own CSS. -->
+          <p class="date-time-picker-instructions" [id]="instructionsId">
+            {{ labels().instructions }}
+          </p>
+        }
         @if (usesDate()) {
           <div class="date-time-picker-header">
             <button
@@ -702,6 +740,7 @@ export class DateTimePickerIcon {
           <!-- The grid owns its own keyboard contract, which is why the
                handler sits on the table rather than on each of 42 cells. -->
           <table
+            #gridEl
             class="date-time-picker-calendar"
             role="grid"
             [attr.aria-labelledby]="periodId"
@@ -744,7 +783,16 @@ export class DateTimePickerIcon {
                     @let cell = parseCell(isoDate);
                     @let isToday = isoDate === today();
                     @let isSelected = isoDate === pendingDate();
+                    @let isDisabled = dayDisabled(isoDate);
                     <td role="gridcell" [attr.aria-selected]="isSelected">
+                      <!-- aria-disabled, not the disabled attribute: a
+                           vetoed day must stay focusable so the roving
+                           cursor can land on it and a screen reader can
+                           announce it as unavailable. A disabled button
+                           refuses focus, and arrowing across a blocked
+                           week goes silent while the visible focus stays
+                           behind. Activation is refused in selectDay
+                           instead. -->
                       <button
                         type="button"
                         class="date-time-picker-day"
@@ -752,10 +800,11 @@ export class DateTimePickerIcon {
                         [attr.data-outside]="cell.outside ? '' : null"
                         [attr.data-today]="isToday ? '' : null"
                         [attr.data-selected]="isSelected ? '' : null"
+                        [attr.data-disabled]="isDisabled ? '' : null"
                         [attr.tabindex]="isoDate === cursor() ? 0 : -1"
                         [attr.aria-label]="dayLabel(isoDate)"
                         [attr.aria-current]="isToday ? 'date' : null"
-                        [disabled]="dayDisabled(isoDate)"
+                        [attr.aria-disabled]="isDisabled ? 'true' : null"
                         (click)="selectDay(isoDate)"
                       >
                         {{ cell.day }}
@@ -939,8 +988,25 @@ export class DateTimePicker {
     viewChild.required<ElementRef<HTMLButtonElement>>("buttonEl");
   private readonly dialogRef =
     viewChild.required<ElementRef<HTMLDivElement>>("dialogEl");
+  /** Optional: the grid renders only when `mode` includes a date. */
+  private readonly gridRef =
+    viewChild<ElementRef<HTMLTableElement>>("gridEl");
 
   protected readonly glyph = CALENDAR;
+
+  /**
+   * For rendering the view synchronously before a focus move.
+   *
+   * Svelte updates the DOM synchronously when state changes, so the
+   * canonical helper can focus a freshly-paged month from a microtask.
+   * Angular renders later — after the microtask queue drains, whether the
+   * app is zone-based or zoneless — so a queued focus into a month that
+   * has not rendered yet finds nothing (or, worse, finds and focuses a
+   * cell that the next render destroys, dropping focus to `<body>`).
+   * `cdr.detectChanges()` inside the event handler is the Angular
+   * equivalent of Svelte's synchronous flush.
+   */
+  private readonly cdr = inject(ChangeDetectorRef);
 
   private readonly baseId = nextDateTimePickerId();
   protected readonly dialogId = `${this.baseId}-dialog`;
@@ -948,9 +1014,21 @@ export class DateTimePicker {
   protected readonly hourId = `${this.baseId}-hour`;
   protected readonly minuteId = `${this.baseId}-minute`;
   protected readonly meridiemId = `${this.baseId}-meridiem`;
+  protected readonly statusId = `${this.baseId}-status`;
+  protected readonly instructionsId = `${this.baseId}-instructions`;
 
   protected readonly open = signal(false);
   protected readonly invalid = signal(false);
+
+  /**
+   * The element that opened the dialog, so close can return focus to it.
+   *
+   * The APG rule is "focus returns to the element that invoked the
+   * dialog" — which is the trigger button on a click, but the *text
+   * field* when the user pressed Alt+ArrowDown. Always refocusing the
+   * button strands a keyboard user one Tab stop past where they were.
+   */
+  private openerEl: HTMLElement | null = null;
 
   /**
    * Text the user has typed but not yet resolved.
@@ -1002,6 +1080,22 @@ export class DateTimePicker {
   protected readonly usesTime = computed(() => this.mode() !== "date");
   protected readonly clock12 = computed(
     () => this.hour12() ?? localeUsesHour12(this.locale() || undefined),
+  );
+
+  /**
+   * `aria-describedby` for the field: the consumer's hint, plus — while
+   * invalid, with `labels().invalid` supplied — the status region, for
+   * the assistive technologies that read `aria-describedby` but not the
+   * newer `aria-errormessage`.
+   */
+  protected readonly fieldDescribedBy = computed(
+    () =>
+      [
+        this.describedBy() || undefined,
+        this.invalid() && this.labels().invalid ? this.statusId : undefined,
+      ]
+        .filter(Boolean)
+        .join(" ") || null,
   );
 
   /** The text shown in the field. A pending edit wins until resolved. */
@@ -1256,6 +1350,15 @@ export class DateTimePicker {
 
   protected openDialog(): void {
     if (this.disabled() || this.readOnly()) return;
+    // Remember what opened the dialog — the field on Alt+ArrowDown, the
+    // trigger button on a click — so closeDialog can put focus back
+    // there, per the APG dialog rule.
+    const active = document.activeElement;
+    this.openerEl =
+      active instanceof HTMLElement &&
+      this.rootRef().nativeElement.contains(active)
+        ? active
+        : (this.buttonRef().nativeElement ?? null);
     const today = todayIso();
     this.today.set(today);
     const pendingDate = this.committed().date || this.nearestSelectable(today);
@@ -1268,7 +1371,11 @@ export class DateTimePicker {
       this.viewMonth.set(anchor.month);
     }
     this.open.set(true);
-    queueMicrotask(() => this.focusInitial());
+    // Render first, focus second: until change detection runs, the
+    // dialog still carries `hidden`, and focusing into a hidden subtree
+    // is a no-op in a real browser.
+    this.cdr.detectChanges();
+    this.focusInitial();
   }
 
   /** Where an unset time starts: now, snapped down to the step. */
@@ -1294,7 +1401,10 @@ export class DateTimePicker {
   protected closeDialog(refocus = true): void {
     if (!this.open()) return;
     this.open.set(false);
-    if (refocus) queueMicrotask(() => this.buttonRef().nativeElement.focus?.());
+    if (refocus) {
+      const target = this.openerEl ?? this.buttonRef().nativeElement;
+      queueMicrotask(() => target?.focus?.());
+    }
   }
 
   /** Commit the pending selection to `value` and notify. */
@@ -1330,9 +1440,10 @@ export class DateTimePicker {
    * Move the cursor, paging the view when the target is off-screen.
    *
    * Disabled days are still reachable — the cursor lands on them and the
-   * button is `disabled`, so arrowing across a blocked range works. What
-   * is refused is leaving the min/max window entirely, because there is
-   * nothing out there to navigate to.
+   * button is `aria-disabled` (so it takes real focus and announces), so
+   * arrowing across a blocked range works. What is refused is leaving
+   * the min/max window entirely, because there is nothing out there to
+   * navigate to.
    */
   private moveCursor(nextIso: string): void {
     if (!withinRange(nextIso, this.min() || undefined, this.max() || undefined)) {
@@ -1347,7 +1458,11 @@ export class DateTimePicker {
       this.viewYear.set(parsed.year);
       this.viewMonth.set(parsed.month);
     }
-    queueMicrotask(() => this.focusCursor());
+    // Synchronous render-then-focus: when the cursor crossed into a new
+    // month, the cell it needs does not exist until change detection has
+    // run — see `cdr`.
+    this.cdr.detectChanges();
+    this.focusCursor();
   }
 
   private focusCursor(): void {
@@ -1379,11 +1494,17 @@ export class DateTimePicker {
     });
     const next = parseIsoDate(addMonths(anchor, delta));
     if (!next) return;
+    // Refocus the cursor only when focus is already in the grid: grid
+    // paging (PageUp/PageDown, or a browser that focused nothing on
+    // click) must carry focus, or it dies with the unrendered cell —
+    // but a header button must keep focus, or its user is yanked into
+    // the grid after one activation and cannot page twice.
+    const hadGridFocus =
+      this.gridRef()?.nativeElement.contains(document.activeElement) === true;
     this.viewYear.set(next.year);
     this.viewMonth.set(next.month);
-    // Carry the cursor into the new month rather than leaving focus on a
-    // cell that is no longer rendered — which would drop focus to <body>
-    // and lose the keyboard user's place entirely.
+    // Carry the cursor into the new month rather than leaving the roving
+    // tabindex on a cell that is no longer rendered.
     const c = parseIsoDate(this.cursor());
     if (c) {
       this.cursor.set(
@@ -1393,7 +1514,12 @@ export class DateTimePicker {
           day: Math.min(c.day, daysInMonth(next.year, next.month)),
         }),
       );
-      queueMicrotask(() => this.focusCursor());
+      if (hadGridFocus) {
+        // Render-then-focus, synchronously — the target cell does not
+        // exist until change detection has run. See `cdr`.
+        this.cdr.detectChanges();
+        this.focusCursor();
+      }
     }
   }
 
@@ -1563,6 +1689,16 @@ export class DateTimePicker {
       // matching <input type="date"> in every major browser.
       event.preventDefault();
       this.openDialog();
+    } else if (event.key === "Escape" && this.typed() !== null) {
+      // Discard the pending edit and show the committed value again —
+      // the same contract Escape has inside the dialog. Stops
+      // propagating so a surrounding dialog does not also close on
+      // what was, to the user, a text-editing keystroke. When no edit
+      // is pending the key is left alone.
+      event.preventDefault();
+      event.stopPropagation();
+      this.typed.set(null);
+      this.invalid.set(false);
     }
   }
 
@@ -1608,7 +1744,12 @@ export class DateTimePicker {
     }
     this.shortcut.emit({ id: shortcut.id, isoDate: target });
     if (this.commitOnDay()) this.commit();
-    else queueMicrotask(() => this.focusCursor());
+    else {
+      // Render-then-focus: the shortcut may have paged to a month whose
+      // cells do not exist until change detection has run. See `cdr`.
+      this.cdr.detectChanges();
+      this.focusCursor();
+    }
   }
 
   // ---------------------------------------------------------------
@@ -1618,8 +1759,18 @@ export class DateTimePicker {
   protected onDocumentClick(event: Event): void {
     if (!this.open()) return;
     const target = event.target as Node | null;
-    if (target && !this.rootRef().nativeElement.contains(target)) {
-      this.closeDialog(false);
+    if (!target) return;
+    // Anything outside the dialog closes it — including the component's
+    // own text field. The dialog says aria-modal="true", and a modal
+    // that stays open while the user edits the field behind it is
+    // telling assistive technology one thing and doing another. The
+    // trigger button is exempt because its own handler already toggles.
+    if (
+      this.dialogRef().nativeElement.contains(target) ||
+      this.buttonRef().nativeElement.contains(target)
+    ) {
+      return;
     }
+    this.closeDialog(false);
   }
 }

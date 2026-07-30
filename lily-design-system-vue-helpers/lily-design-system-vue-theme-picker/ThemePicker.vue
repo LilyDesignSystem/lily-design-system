@@ -186,7 +186,13 @@ watch(current, (next, prev) => {
 
 async function openList(startIndex?: number): Promise<void> {
     const selected = props.themes.indexOf(current.value);
-    activeIndex.value = startIndex ?? (selected >= 0 ? selected : 0);
+    // An empty list has no option to activate; -1 keeps
+    // aria-activedescendant off rather than pointing at an id that
+    // does not exist.
+    activeIndex.value =
+        props.themes.length === 0
+            ? -1
+            : (startIndex ?? (selected >= 0 ? selected : 0));
     open.value = true;
     // Focus moves to the listbox; the active option is conveyed via
     // aria-activedescendant, per the APG listbox pattern. Wait for the
@@ -232,14 +238,26 @@ function moveActive(delta: number): void {
 }
 
 function runTypeahead(char: string): void {
-    typeahead += char.toLowerCase();
+    const lower = char.toLowerCase();
+    // APG listbox typeahead: a single character moves to the NEXT
+    // option starting with it, and repeating that character keeps
+    // cycling — which is what makes the dark / dim / dracula run of a
+    // long theme list reachable by pressing "d" three times. Only a
+    // buffer of differing characters refines the match, and that
+    // buffer stays anchored on the active option.
+    const sameCharRun =
+        typeahead === "" || [...typeahead].every((c) => c === lower);
+    typeahead += lower;
     clearTimeout(typeaheadTimer);
     typeaheadTimer = setTimeout(() => (typeahead = ""), 500);
-    const from = activeIndex.value < 0 ? 0 : activeIndex.value;
-    // Search forward from the active option, wrapping once.
+    const query = sameCharRun ? lower : typeahead;
+    const anchor = activeIndex.value < 0 ? 0 : activeIndex.value;
+    const start = sameCharRun ? anchor + 1 : anchor;
+    // Search forward, wrapping once — typeahead wraps even though the
+    // arrows clamp, or options above the cursor would be untypable.
     for (let n = 0; n < props.themes.length; n++) {
-        const i = (from + n) % props.themes.length;
-        if (labelFor(props.themes[i]).toLowerCase().startsWith(typeahead)) {
+        const i = (start + n) % props.themes.length;
+        if (labelFor(props.themes[i]).toLowerCase().startsWith(query)) {
             activeIndex.value = i;
             scrollActiveIntoView();
             return;
@@ -295,8 +313,25 @@ function onListKeydown(event: KeyboardEvent): void {
             event.preventDefault();
             void closeList();
             break;
+        case "PageUp":
+            event.preventDefault();
+            moveActive(-10);
+            break;
+        case "PageDown":
+            // ±10, clamped: an APG-optional key that earns its place
+            // in a 45-theme list.
+            event.preventDefault();
+            moveActive(10);
+            break;
         case "Tab":
-            // Tab moves on: close without stealing focus back.
+            // Tab moves on — but focus goes to the button FIRST,
+            // without cancelling the key. Hiding the focused list
+            // drops focus to <body>, and the browser then computes
+            // the default Tab move from the top of the document, so
+            // tabbing out of an open picker teleported the user to
+            // the page's first tab stop. From the button, the default
+            // Tab lands exactly where leaving the picker should.
+            buttonEl.value?.focus?.();
             void closeList(false);
             break;
         default:

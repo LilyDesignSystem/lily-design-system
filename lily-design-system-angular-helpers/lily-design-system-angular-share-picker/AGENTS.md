@@ -21,7 +21,7 @@ it applies nothing to the document root and persists nothing. No
 | --------------------------------- | ------------------------------------------------- |
 | `spec/index.md`                   | Specification-driven contract (canonical).        |
 | `share-picker.component.ts`      | Implementation. Standalone, signal-based, OnPush. |
-| `share-picker.component.spec.ts` | Vitest spec, mapped to the §7 clauses (47 cases). |
+| `share-picker.component.spec.ts` | Vitest spec, mapped to the §7 clauses (49 cases). |
 | `docs/accessibility.md`           | Tradeoffs, stated plainly.                        |
 | `examples/`                       | Runnable standalone example components.           |
 | `index.ts`                        | Barrel re-export.                                 |
@@ -65,7 +65,7 @@ clipboard API is a failure, never a crash. The URL is resolved lazily
   >
     <span class="share-picker-icon" aria-hidden="true">&#10148;</span>
   </button>
-  <ul class="share-picker-list" id="{listId}" hidden>
+  <ul class="share-picker-list" id="{listId}" aria-label="{label}" hidden>
     <li class="share-picker-list-item">
       <a
         class="share-picker-target"
@@ -115,7 +115,10 @@ render the list.
 - Button keys: `ArrowDown` / `ArrowUp` open the list on the first / last
   item. List keys: arrows move real focus and **clamp** (no wrap),
   `Home` / `End` jump, `Escape` closes and returns focus to the trigger,
-  `Tab` closes without stealing focus back.
+  `Tab` closes via the trigger so the default Tab proceeds from the
+  picker's position.
+- The list carries the picker's accessible name (`aria-label` =
+  `label`), matching the sibling pickers' listboxes.
 - Items are real focusable elements, so focus moves for real — no
   `aria-activedescendant`.
 - The button is icon-only, so `aria-label` is its **entire** accessible

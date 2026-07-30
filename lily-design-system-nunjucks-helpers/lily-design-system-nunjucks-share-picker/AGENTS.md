@@ -87,7 +87,7 @@ preference.
 
 `<div class="share-picker" data-lily-share-picker-root>` →
 `<button class="share-picker-button">` with an `aria-hidden` glyph span
-→ `<ul class="share-picker-list" hidden>` of `<li>` containing
+→ `<ul class="share-picker-list" aria-label="{label}" hidden>` of `<li>` containing
 `<a class="share-picker-target">` and an optional
 `<button class="share-picker-copy">` →
 `<p class="share-picker-status" aria-live="polite">`.
@@ -106,9 +106,12 @@ where `id` defaults to `share-picker-{name}` and `name` defaults to
 
 - WCAG 2.2 AAA target; disclosure pattern, not menu or listbox.
 - Real focus movement (no `aria-activedescendant`); arrows **clamp**,
-  never wrap; `Escape` returns focus to the trigger; `Tab` closes
-  without stealing focus back.
-- `aria-label` is the ONLY accessible name the trigger has.
+  never wrap; `Escape` returns focus to the trigger; `Tab` puts focus
+  on the trigger before closing, so the browser's default Tab
+  proceeds from the picker's position rather than from `<body>`.
+- `aria-label` is the ONLY accessible name the trigger has. The list
+  carries the same `aria-label`, so a screen reader entering it hears
+  what it is for.
 - Known costs, documented honestly in `docs/accessibility.md`: the name
   has no visible fallback; `strategy="auto"` behaves differently per
   platform and the native sheet is untestable from your code; the glyph

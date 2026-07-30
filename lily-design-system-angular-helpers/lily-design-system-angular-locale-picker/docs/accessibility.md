@@ -12,11 +12,11 @@ responsibility.
 | WCAG item                     | How the select satisfies it                                                                                                                                                                  |
 | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | WCAG 3.1.1 Language of Page   | Writes `lang` to the document root on every locale change.                                                                                                                                   |
-| WCAG 3.1.2 Language of Parts  | Each option carries its own `lang` attribute so option text is announced in the right language.                                                                                              |
+| WCAG 3.1.2 Language of Parts  | Each endonym-labelled option carries its own `lang` attribute so option text is announced in the right language; consumer-labelled options make no claim.                                                                                              |
 | WCAG 1.4.10 Reflow (RTL bidi) | Writes `dir="rtl"` for RTL locales so layout, scrollbar, and text inversion are correct.                                                                                                     |
 | WCAG 4.1.2 Name, Role, Value  | `<button aria-label aria-haspopup="listbox" aria-expanded aria-controls>` exposes the trigger; `<ul role="listbox">` and `<li role="option" aria-selected>` expose the list and each choice. |
 | WCAG 2.1.1 Keyboard           | Full APG listbox keyboard contract, implemented in the component — see [Keyboard contract](#keyboard-contract).                                                                              |
-| WCAG 2.4.3 Focus Order        | Opening moves focus to the list; committing or cancelling returns it to the button. `Tab` closes without hijacking focus.                                                                    |
+| WCAG 2.4.3 Focus Order        | Opening moves focus to the list; committing or cancelling returns it to the button. `Tab` closes via the button, so the default Tab proceeds from the picker's position.                                                                    |
 | WCAG 2.4.7 Focus Visible      | The component never sets `outline: none`. Supplying a visible ring on the button **and** the `<ul>` is your CSS's job.                                                                       |
 | WCAG 1.4.1 Use of Color       | Selection is exposed via `aria-selected`, the `lang` attribute, and the `[(value)]` binding — not colour alone.                                                                              |
 | WCAG 3.2.2 On Input           | Choosing a locale changes no context beyond the documented `lang` / `dir` write; focus returns to the trigger.                                                                               |
@@ -199,7 +199,7 @@ On the **list**:
 | Home / End            | Jump to the first / last option.                                                                                                                   |
 | Enter / Space         | Choose the active option, apply it, close, return focus to the button.                                                                             |
 | Escape                | Close and return focus to the button. The locale is unchanged.                                                                                     |
-| Tab                   | Close **without** pulling focus back, so the browser's own Tab handling moves on normally.                                                         |
+| Tab                   | Close — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position.              |
 | Printable characters  | Typeahead over the option **labels** (not the codes), searching forward from the active option. The buffer clears 500 ms after the last keystroke. |
 
 Pointer and focus equivalents:
@@ -271,15 +271,16 @@ readers your users actually run.
 
 If your `localeLabels` are all in the **viewer's** language (e.g.
 you show "English", "French", "Arabic" — all in English so the
-user recognises them), the per-option `lang` attribute is
-technically incorrect (the visible text is English even though
-the attribute says French).
+user recognises them), a per-option `lang` attribute would be a
+false claim: the visible text is English even though the attribute
+would say French.
 
-In that case, the select still emits `lang` faithfully — consider
-switching the visible labels to endonyms instead. The default
-rendering's tradeoff is: the labels show **in their own language**
-(English / Français / العربية), so per-option `lang` is correct
-and helpful.
+So the component makes no such claim: `lang` is set only when the
+label is the endonym the component derived itself. Consumer-labelled
+options carry no `lang` — the English word "Arabic" must never be
+handed to an Arabic speech engine. The default rendering shows the
+labels **in their own language** (English / Français / العربية), so
+per-option `lang` is correct and helpful there.
 
 ## When a native `<select>` is the better choice
 

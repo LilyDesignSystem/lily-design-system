@@ -7,9 +7,11 @@ import { fileURLToPath } from "node:url";
 import {
   autoInit,
   bcp47LocaleTag,
+  derivedLocaleLabel,
   GLOBE_WITH_MERIDIANS,
   initLocalePicker,
   isRtlLocale,
+  localeEndonym,
   localeName,
   matchNavigatorLanguage,
 } from "./locale-picker.client.js";
@@ -204,7 +206,7 @@ describe("LocalePicker — macro markup contract (§7.1–§7.6)", () => {
     expect(options[0].id).toBe("footer-locale-option-0");
   });
 
-  test("§7.5 each option carries lang in BCP 47 hyphen form; the button and list do not", () => {
+  test("§7.5 the macro emits no lang; init claims it, in BCP 47 form, only on endonym-labelled options", () => {
     const root = mountIntoBody(
       renderMacro({
         label: "Language",
@@ -212,6 +214,13 @@ describe("LocalePicker — macro markup contract (§7.1–§7.6)", () => {
       }),
     );
     const { button, list, options } = partsOf(root);
+    // Server-side the option text is the raw-code fallback — a
+    // template cannot ask ICU for an endonym — and a raw code is not
+    // text in that language, so the macro makes no lang claim at all.
+    expect(options.every((o) => !o.hasAttribute("lang"))).toBe(true);
+    initLocalePicker(root);
+    // After init the text IS the endonym, so lang is a true claim,
+    // in BCP 47 hyphen form.
     expect(options[0].getAttribute("lang")).toBe("en");
     expect(options[1].getAttribute("lang")).toBe("en-US");
     expect(options[2].getAttribute("lang")).toBe("zh-Hant-TW");
@@ -387,13 +396,16 @@ describe("LocalePicker — keyboard contract (APG listbox, §7.31–§7.35)", ()
     expect(document.activeElement).toBe(button);
   });
 
-  test("§7.34 Tab closes without stealing focus back to the button", () => {
+  test("§7.34 Tab closes and puts focus on the button so the default Tab proceeds from the picker", () => {
     const { button, list } = setup();
     key(button, "ArrowDown");
     expect(document.activeElement).toBe(list);
     key(list, "Tab");
     expect(list.hasAttribute("hidden")).toBe(true);
-    expect(document.activeElement).not.toBe(button);
+    // Focus sits on the button — not <body>, which is where it lands
+    // when the focused list is hidden first, sending the browser's
+    // default Tab back to the top of the document.
+    expect(document.activeElement).toBe(button);
   });
 
   test("§7.35 typeahead moves the active descendant by label prefix", () => {
@@ -406,12 +418,22 @@ describe("LocalePicker — keyboard contract (APG listbox, §7.31–§7.35)", ()
   test("§7.35 the typeahead buffer accumulates, then resets after 500ms", () => {
     vi.useFakeTimers();
     try {
-      const { button, list, options } = setup();
+      // Labels pinned via localeLabels so the assertions do not depend
+      // on ICU's endonym wording.
+      const { button, list, options } = setup({
+        localeLabels: {
+          en: "English",
+          en_US: "American",
+          fr: "French",
+          fr_CA: "Frisian",
+          ar: "Arabic",
+        },
+      });
       key(button, "ArrowDown");
-      // "fr_" matches only "fr_CA".
+      // "fri" (differing characters) refines to the one "Fri…" label.
       key(list, "f");
       key(list, "r");
-      key(list, "_");
+      key(list, "i");
       expect(list.getAttribute("aria-activedescendant")).toBe(options[3].id);
       // After the reset window, a lone "a" starts a fresh search.
       vi.advanceTimersByTime(600);
@@ -703,5 +725,126 @@ describe("LocalePicker — spread, caller, autoInit (§7.22–§7.25)", () => {
     // Distinct names give distinct id namespaces.
     const lists = document.querySelectorAll(".locale-picker-list");
     expect(lists[0].id).not.toBe(lists[1].id);
+  });
+});
+
+describe("LocalePicker — accessibility hardening (§7.36–§7.40; canonical Svelte §7.28–§7.32)", () => {
+  function openPicker(
+    locales: string[] = LOCALES,
+    extra: Record<string, unknown> = {},
+  ) {
+    const { button, list, options } = setup({ locales, ...extra });
+    click(button);
+    return { button, list, options };
+  }
+
+  const active = (list: HTMLElement) =>
+    list.querySelector("[data-active]")?.textContent?.trim();
+
+  test("§7.36 Tab from the open list puts focus on the button before closing", () => {
+    const { button, list } = openPicker();
+    expect(document.activeElement).toBe(list);
+    key(list, "Tab");
+    // Focus sits on the button, so the browser's default Tab proceeds
+    // from the picker's own position — not from <body>, which is where
+    // focus lands when the focused list is hidden first.
+    expect(document.activeElement).toBe(button);
+    expect(list.hasAttribute("hidden")).toBe(true);
+  });
+
+  test("§7.37 lang is claimed only when the label is the endonym", () => {
+    const { options } = setup({
+      locales: ["cy", "ar"],
+      localeLabels: { ar: "Arabic" },
+    });
+    // Endonym label: the text really is Welsh, so lang="cy" is a true
+    // claim and a screen reader may switch voice.
+    expect(options[0].textContent?.trim()).toBe("Cymraeg");
+    expect(options[0].getAttribute("lang")).toBe("cy");
+    // Consumer label: its language is unknown, so no claim — the
+    // English word "Arabic" must not be handed to an Arabic voice.
+    expect(options[1].textContent?.trim()).toBe("Arabic");
+    expect(options[1].getAttribute("lang")).toBeNull();
+  });
+
+  test("§7.37 the macro marks only unlabelled options for derivation", () => {
+    const root = mountIntoBody(
+      renderMacro({
+        label: "Language",
+        locales: ["cy", "ar"],
+        localeLabels: { ar: "Arabic" },
+      }),
+    );
+    const { options } = partsOf(root);
+    // Pre-hydration the derived option shows the raw code as fallback.
+    expect(options[0].hasAttribute("data-lily-locale-picker-derive")).toBe(
+      true,
+    );
+    expect(options[0].textContent?.trim()).toBe("cy");
+    expect(options[1].hasAttribute("data-lily-locale-picker-derive")).toBe(
+      false,
+    );
+    expect(options[1].textContent?.trim()).toBe("Arabic");
+  });
+
+  test("§7.37 localeEndonym asks the language for its own name, and never echoes the tag", () => {
+    // Assert via the helper where ICU wording could vary; "de" and
+    // "cy" are stable across ICU versions.
+    expect(localeEndonym("de")).toBe("Deutsch");
+    expect(localeEndonym("cy")).toBe("Cymraeg");
+    expect(localeEndonym("en_US")).toBe(
+      new Intl.DisplayNames(["en-US"], { type: "language" }).of("en-US"),
+    );
+    // A tag with no data must yield "", not an echo of the tag.
+    expect(localeEndonym("x-lily")).toBe("");
+    expect(localeEndonym("")).toBe("");
+  });
+
+  test("§7.37 derivedLocaleLabel resolves endonym → English table → raw code", () => {
+    expect(derivedLocaleLabel("cy")).toBe("Cymraeg");
+    // No ICU data and no table entry: the raw code is the last resort.
+    expect(derivedLocaleLabel("x-lily")).toBe("x-lily");
+  });
+
+  test("§7.37 an option resolved from the raw-code fallback carries no lang", () => {
+    const { options } = setup({ locales: ["x-lily", "en"] });
+    expect(options[0].textContent?.trim()).toBe("x-lily");
+    expect(options[0].getAttribute("lang")).toBeNull();
+  });
+
+  test("§7.38 a repeated typeahead character cycles through its matches", () => {
+    const { list } = openPicker(["l1", "l2", "l3", "l4"], {
+      localeLabels: { l1: "Dark", l2: "Dim", l3: "Dracula", l4: "Light" },
+      defaultValue: "l4",
+    });
+    key(list, "d");
+    expect(active(list)).toBe("Dark");
+    key(list, "d");
+    expect(active(list)).toBe("Dim");
+    key(list, "d");
+    expect(active(list)).toBe("Dracula");
+  });
+
+  test("§7.39 PageUp and PageDown move the cursor by ten, clamped", () => {
+    const many = Array.from(
+      { length: 25 },
+      (_, i) => `x${String(i).padStart(2, "0")}`,
+    );
+    const labels = Object.fromEntries(many.map((l) => [l, l.toUpperCase()]));
+    const { list } = openPicker(many, { localeLabels: labels });
+    key(list, "PageDown");
+    expect(active(list)).toBe("X10");
+    key(list, "PageDown");
+    expect(active(list)).toBe("X20");
+    key(list, "PageDown");
+    expect(active(list)).toBe("X24");
+    key(list, "PageUp");
+    expect(active(list)).toBe("X14");
+  });
+
+  test("§7.40 an empty list opens without aria-activedescendant", () => {
+    const { list } = openPicker([]);
+    expect(list.hasAttribute("hidden")).toBe(false);
+    expect(list.getAttribute("aria-activedescendant")).toBeNull();
   });
 });

@@ -30,6 +30,7 @@
 
     <div class="date-time-picker-field">
         <input class="date-time-picker-input"
+               @ref="_fieldElement"
                id="@FieldId"
                type="text"
                autocomplete="off"
@@ -38,11 +39,13 @@
                disabled="@Disabled"
                readonly="@ReadOnly"
                required="@Required"
-               aria-describedby="@DescribedBy"
+               aria-describedby="@FieldDescribedBy"
                aria-invalid="@(_invalid ? "true" : null)"
+               aria-errormessage="@(_invalid && HasInvalidLabel ? StatusId : null)"
                @oninput="OnFieldInput"
                @onblur="ResolveTypedAsync"
-               @onkeydown="OnFieldKeyDownAsync" />
+               @onkeydown="OnFieldKeyDownAsync"
+               @onclick="OnFieldClick" />
 
         <button type="button"
                 @ref="_buttonElement"
@@ -64,24 +67,46 @@
         </button>
     </div>
 
+    @if (HasInvalidLabel)
+    {
+        @* Present in the DOM before it has content: a live region that
+           appears at the same moment as its message is routinely not
+           announced at all. Empty while the field is valid. *@
+        <span class="date-time-picker-status" id="@StatusId" role="status">@(_invalid ? Labels.Invalid : "")</span>
+    }
+
     <div class="date-time-picker-dialog"
          id="@DialogId"
          role="dialog"
          aria-modal="true"
          aria-label="@Label"
+         aria-describedby="@(HasInstructionsLabel ? InstructionsId : null)"
          tabindex="-1"
          hidden="@(!_open)"
          @onkeydown="OnDialogKeyDown">
 
+        @if (HasInstructionsLabel)
+        {
+            @* Spoken once when the dialog takes focus, via the dialog's
+               aria-describedby. Visible by default; a consumer who wants
+               it screen-reader-only hides it with their own CSS. *@
+            <p class="date-time-picker-instructions" id="@InstructionsId">@Labels.Instructions</p>
+        }
+
         @if (UsesDate)
         {
             <div class="date-time-picker-header" @onmousedown:preventDefault="true">
+                @* Header paging passes refocusCursor: false — the user
+                   activating "next month" stays on "next month" and can
+                   page repeatedly, instead of being yanked into the grid
+                   after one activation. Only grid PageUp/PageDown carries
+                   focus, because there the focused cell is unrendered. *@
                 <button type="button" class="date-time-picker-previous-year"
-                        aria-label="@Labels.PreviousYear" @onclick="() => ShiftYear(-1)">
+                        aria-label="@Labels.PreviousYear" @onclick="() => ShiftYear(-1, false)">
                     <span aria-hidden="true">&#171;</span>
                 </button>
                 <button type="button" class="date-time-picker-previous-month"
-                        aria-label="@Labels.PreviousMonth" @onclick="() => ShiftMonth(-1)">
+                        aria-label="@Labels.PreviousMonth" @onclick="() => ShiftMonth(-1, false)">
                     <span aria-hidden="true">&#8249;</span>
                 </button>
 
@@ -91,11 +116,11 @@
                 <span class="date-time-picker-period" id="@PeriodId" aria-live="polite">@PeriodText</span>
 
                 <button type="button" class="date-time-picker-next-month"
-                        aria-label="@Labels.NextMonth" @onclick="() => ShiftMonth(1)">
+                        aria-label="@Labels.NextMonth" @onclick="() => ShiftMonth(1, false)">
                     <span aria-hidden="true">&#8250;</span>
                 </button>
                 <button type="button" class="date-time-picker-next-year"
-                        aria-label="@Labels.NextYear" @onclick="() => ShiftYear(1)">
+                        aria-label="@Labels.NextYear" @onclick="() => ShiftYear(1, false)">
                     <span aria-hidden="true">&#187;</span>
                 </button>
             </div>
@@ -118,31 +143,51 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var week in Weeks)
+                    @{ var weeks = Weeks; }
+                    @for (var row = 0; row < weeks.Length; row++)
                     {
+                        var week = weeks[row];
                         <tr>
                             @if (ShowWeekNumbers)
                             {
                                 <th class="date-time-picker-week" scope="row">@IsoWeek(week[0])</th>
                             }
-                            @foreach (var isoDate in week)
+                            @for (var col = 0; col < week.Length; col++)
                             {
+                                @* The @ref is keyed by grid POSITION, not by
+                                   date: Blazor runs a reference capture only
+                                   when the element is first created, and
+                                   these 42 buttons are reused across month
+                                   paging. See _dayElements. *@
+                                var cellIndex = row * 7 + col;
+                                var isoDate = week[col];
                                 var parsed = ParseIsoDate(isoDate);
                                 var isToday = isoDate == _today;
                                 var isSelected = isoDate == _pendingDate;
                                 var isCursor = isoDate == _cursor;
+                                var isDisabled = DayDisabled(isoDate);
                                 <td role="gridcell" aria-selected="@(isSelected ? "true" : "false")">
+                                    @* aria-disabled, not `disabled`: a vetoed
+                                       day must stay focusable so the roving
+                                       cursor can land on it and a screen
+                                       reader can announce it as unavailable.
+                                       A `disabled` button refuses focus, and
+                                       arrowing across a blocked week goes
+                                       silent while the visible focus stays
+                                       behind. Activation is refused in
+                                       SelectDayAsync instead. *@
                                     <button type="button"
-                                            @ref="_dayElements[isoDate]"
+                                            @ref="_dayElements[cellIndex]"
                                             class="date-time-picker-day"
                                             data-date="@isoDate"
                                             data-outside="@(parsed is not null && parsed.Value.Month != _viewMonth ? "" : null)"
                                             data-today="@(isToday ? "" : null)"
                                             data-selected="@(isSelected ? "" : null)"
+                                            data-disabled="@(isDisabled ? "" : null)"
                                             tabindex="@(isCursor ? "0" : "-1")"
                                             aria-label="@DayLabel(isoDate)"
                                             aria-current="@(isToday ? "date" : null)"
-                                            disabled="@DayDisabled(isoDate)"
+                                            aria-disabled="@(isDisabled ? "true" : null)"
                                             @onclick="() => SelectDayAsync(isoDate)">
                                         @(parsed?.Day.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? "")
                                     </button>

@@ -4,6 +4,38 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+### Changed
+
+- **`Tab` from the open list no longer strands keyboard focus.** The
+  handler hid the list while it had focus; the browser then moved focus
+  to `<body>` and the default Tab restarted from the top of the
+  document. Focus now goes to the trigger button first — without
+  cancelling the key — so the default Tab proceeds from the picker's
+  own position.
+- **Typeahead follows the APG single-character rule.** A single
+  character advances to the *next* matching option, and repeating that
+  character cycles through the matches; only a buffer of differing
+  characters refines the match anchored on the active option.
+  Previously a character that matched the active option went nowhere.
+
+### Added
+
+- **`PageUp` / `PageDown`** move the active option by ten, clamped —
+  an APG-optional key for long lists.
+
+### Fixed
+
+- Opening with an empty option list no longer points
+  `aria-activedescendant` at an id that does not exist.
+
+### Docs
+
+- `spec/index.md` and `index.md` still described the native-`<select>`
+  era; both now document the icon-button + APG-listbox contract the
+  0.2.0 migration actually shipped.
+
 ## 0.1.0 — 2026-07-21
 
 ### Changed (BREAKING)

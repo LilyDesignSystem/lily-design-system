@@ -13,17 +13,23 @@ consumer owns the actual typography via CSS keyed on
 
 ## 2. Scope
 
-In scope: rendering a native `<select>`, resolving the initial value,
-writing `data-text-size` to a target, persistence, change events.
+In scope: rendering an icon button that opens a WAI-ARIA APG listbox,
+resolving the initial value, writing `data-text-size` to a target,
+persistence, change events.
 Out of scope: the CSS that maps a slug to a `font-size`/scale, picking
 default sizes, or any visual styling.
 
 ## 3. HTML
 
-`<select class="text-size-picker {class}" aria-label="{label}"
-name="{name}">` containing one `<option class="text-size-picker-option"
-value="{slug}">{label}</option>` per slug. A `children` snippet may
-replace the default option rendering.
+`<div class="text-size-picker {class}">` containing a hidden input
+(carries `name`), a `<button class="text-size-picker-button"
+aria-label="{label}" aria-haspopup="listbox" aria-expanded
+aria-controls>` whose only content is the `aria-hidden` "A" glyph
+(replaceable via `children`), and a `<ul class="text-size-picker-list"
+role="listbox" aria-label="{label}" tabindex="-1" hidden>` of
+`<li class="text-size-picker-option" role="option" aria-selected>`
+entries, one per slug, with `data-active` mirroring the
+`aria-activedescendant` cursor.
 
 ## 4. Props
 
@@ -51,22 +57,42 @@ write to `localStorage`; call `onChange(slug)`. Initial value resolves
 title-cased per hyphen-word (`x-large` → `X Large`). The word
 "default" is never emitted.
 
+Opening an empty list activates no option, so `aria-activedescendant`
+is absent rather than pointing at an id that does not exist.
+
 ## 6. Accessibility
 
-WCAG 2.2 AAA target; directly supports 1.4.4 (Resize Text). Native
-`<select>` keyboard semantics; `aria-label` from `label`.
+WCAG 2.2 AAA target; directly supports 1.4.4 (Resize Text). WAI-ARIA
+APG listbox pattern: focus moves to the list, the cursor is
+`aria-activedescendant`, arrows clamp, `Home` / `End` jump, `PageUp` /
+`PageDown` move by ten (clamped), printable characters typeahead over
+the labels (a single character advances to the next match and repeats
+cycle; a multi-character buffer refines from the active option),
+`Enter` / `Space` select and return focus to the button, `Escape`
+closes without changing the value. `Tab` closes — after moving focus
+to the button, without cancelling the key, so the browser's default
+Tab proceeds from the picker's position instead of restarting from
+`<body>` when the focused list is hidden.
 
 ## 7. Acceptance criteria
 
-- §7.1 Renders a `<select>` (implicit `combobox`).
-- §7.2 `aria-label` equals `label`.
-- §7.3 One `<option>` per size; `<select>` carries `name`.
-- §7.4 Each option's value is its slug.
+- §7.1 Renders an icon button (`aria-haspopup="listbox"`,
+  `aria-expanded`, `aria-controls`) and a `role="listbox"` list.
+- §7.2 `aria-label` names both the button and the listbox.
+- §7.3 One `role="option"` per size; the hidden input carries `name`.
+- §7.4 The selected option is `aria-selected`; the cursor is
+  `aria-activedescendant`, mirrored to `data-active`.
 - §7.5 Default labels title-case the slug; `sizeLabels` overrides.
 - §7.6 Initial value defaults to `"medium"` if present, else `sizes[0]`.
 - §7.7 Applies `data-text-size` to `document.documentElement`.
 - §7.8 Selecting an option updates `data-text-size` and fires `onChange`.
 - §7.9 Persists to `localStorage` and re-reads on a fresh mount.
 - §7.10 An explicit `value` wins over storage and defaults.
-- §7.12 Extra attributes spread onto the `<select>`.
+- §7.12 Extra attributes spread onto the root.
 - §7.13 Custom `children` rendering receives the size context.
+- §7.14 `Tab` from the open list puts focus on the button before
+  closing, so the default Tab proceeds from the picker's position.
+- §7.15 A repeated typeahead character cycles through its matches;
+  a multi-character buffer refines from the active option.
+- §7.16 `PageUp` / `PageDown` move the cursor by ten, clamped.
+- §7.17 An empty list opens without `aria-activedescendant`.

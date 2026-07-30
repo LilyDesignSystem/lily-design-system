@@ -60,7 +60,7 @@ open    ── ArrowDown / ArrowUp ──────► move active, clamped at
         ── Enter / Space ────────────► choose(active) → value change + close + refocus
         ── click an option ──────────► choose(i)      → value change + close + refocus
         ── Escape ───────────────────► close + refocus, value unchanged
-        ── Tab ──────────────────────► close, focus NOT pulled back
+        ── Tab ──────────────────────► focus the button, then close
         ── click outside root ───────► close, focus NOT pulled back
         ── focusout leaves root ─────► close, focus NOT pulled back
 ```

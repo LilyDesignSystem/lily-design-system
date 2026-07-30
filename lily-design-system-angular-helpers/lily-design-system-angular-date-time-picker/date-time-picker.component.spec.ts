@@ -615,17 +615,36 @@ describe("DateTimePicker — keyboard", () => {
 // =====================================================================
 
 describe("DateTimePicker — constraints and shortcuts", () => {
-  test("§7.29 days outside min/max are disabled", async () => {
+  test("§7.29 days outside min/max are aria-disabled, not disabled", async () => {
     const fixture = mount({
       value: "2026-03-15",
       min: "2026-03-10",
       max: "2026-03-20",
     });
     await open(fixture);
-    expect(day(fixture, "2026-03-09").disabled).toBe(true);
-    expect(day(fixture, "2026-03-10").disabled).toBe(false);
-    expect(day(fixture, "2026-03-20").disabled).toBe(false);
-    expect(day(fixture, "2026-03-21").disabled).toBe(true);
+    expect(day(fixture, "2026-03-09").getAttribute("aria-disabled")).toBe(
+      "true",
+    );
+    expect(day(fixture, "2026-03-10").hasAttribute("aria-disabled")).toBe(
+      false,
+    );
+    expect(day(fixture, "2026-03-20").hasAttribute("aria-disabled")).toBe(
+      false,
+    );
+    expect(day(fixture, "2026-03-21").getAttribute("aria-disabled")).toBe(
+      "true",
+    );
+    // aria-disabled, not the `disabled` attribute: a vetoed day must
+    // stay focusable so the roving cursor can land on it and a screen
+    // reader can announce it as unavailable.
+    expect(day(fixture, "2026-03-09").hasAttribute("disabled")).toBe(false);
+    // And the consumer's CSS hook rides along.
+    expect(day(fixture, "2026-03-09").hasAttribute("data-disabled")).toBe(
+      true,
+    );
+    expect(day(fixture, "2026-03-10").hasAttribute("data-disabled")).toBe(
+      false,
+    );
   });
 
   test("§7.30 isDateDisabled vetoes individual days", async () => {
@@ -634,9 +653,15 @@ describe("DateTimePicker — constraints and shortcuts", () => {
       weekdayOf(iso) === 0 || weekdayOf(iso) === 6;
     const fixture = mount({ value: "2026-03-16", isDateDisabled });
     await open(fixture);
-    expect(day(fixture, "2026-03-21").disabled).toBe(true); // Saturday
-    expect(day(fixture, "2026-03-22").disabled).toBe(true); // Sunday
-    expect(day(fixture, "2026-03-23").disabled).toBe(false); // Monday
+    expect(day(fixture, "2026-03-21").getAttribute("aria-disabled")).toBe(
+      "true",
+    ); // Saturday
+    expect(day(fixture, "2026-03-22").getAttribute("aria-disabled")).toBe(
+      "true",
+    ); // Sunday
+    expect(day(fixture, "2026-03-23").hasAttribute("aria-disabled")).toBe(
+      false,
+    ); // Monday
   });
 
   test("§7.31 clicking a disabled day does not commit", async () => {
@@ -988,5 +1013,153 @@ describe("DateTimePicker — custom glyph template", () => {
         "data-open",
       ),
     ).toBe("true");
+  });
+});
+
+// =====================================================================
+// §7.49–§7.55 — assistive technology
+// =====================================================================
+
+describe("DateTimePicker — assistive technology", () => {
+  /** Discard a fixture mid-test so a second mount starts clean. */
+  function discard(fixture: ComponentFixture<unknown>): void {
+    fixture.destroy();
+    fixtures = fixtures.filter((f) => f !== fixture);
+  }
+
+  test("§7.49 the cursor can land on a vetoed day, which stays focusable and announces", async () => {
+    const isDateDisabled = (iso: string) => iso === "2026-03-16";
+    const fixture = mount({ value: "2026-03-15", isDateDisabled });
+    const changed = vi.fn();
+    fixture.componentInstance.change.subscribe(changed);
+    await open(fixture);
+    await keydownSettled(fixture, grid(fixture), "ArrowRight");
+    // The roving tabindex is on the blocked day, and — because it is
+    // aria-disabled rather than `disabled` — real focus is too, so a
+    // screen reader announces the day instead of going silent.
+    expect(cursorDate(fixture)).toBe("2026-03-16");
+    expect(document.activeElement).toBe(day(fixture, "2026-03-16"));
+    // Enter refuses to select it.
+    await keydownSettled(fixture, grid(fixture), "Enter");
+    expect(changed).not.toHaveBeenCalled();
+    // And the cursor can keep going, out the other side.
+    await keydownSettled(fixture, grid(fixture), "ArrowRight");
+    expect(cursorDate(fixture)).toBe("2026-03-17");
+  });
+
+  test("§7.50 Escape in the field discards the pending edit without committing", async () => {
+    const fixture = mount({ value: "2026-03-15" });
+    const changed = vi.fn();
+    fixture.componentInstance.change.subscribe(changed);
+    // Mark the field invalid first, so the revert has state to clean up.
+    typeInto(fixture, field(fixture), "sometime soon");
+    await keydownSettled(fixture, field(fixture), "Enter");
+    expect(field(fixture).getAttribute("aria-invalid")).toBe("true");
+
+    await keydownSettled(fixture, field(fixture), "Escape");
+    // The committed value is back on display, the invalid state is
+    // gone, and nothing was committed.
+    expect(field(fixture).value).toContain("2026");
+    expect(field(fixture).hasAttribute("aria-invalid")).toBe(false);
+    expect(changed).not.toHaveBeenCalled();
+    expect(hidden(fixture).value).toBe("2026-03-15");
+  });
+
+  test("§7.51 labels.invalid renders a status live region wired to the field", async () => {
+    const bare = mount();
+    // Without the label, no region renders — the component would rather
+    // stay silent than announce in a language it invented.
+    expect(q(bare, ".date-time-picker-status")).toBeNull();
+    discard(bare);
+
+    const fixture = mount({
+      describedBy: "hint",
+      labels: { ...LABELS, invalid: "DimDyddiad" },
+    });
+    const status = q<HTMLElement>(fixture, ".date-time-picker-status");
+    // The region exists before it has content — a live region born with
+    // its message is routinely not announced at all — and is empty
+    // while the field is valid.
+    expect(status.getAttribute("role")).toBe("status");
+    expect(status.textContent?.trim()).toBe("");
+    expect(field(fixture).getAttribute("aria-describedby")).toBe("hint");
+
+    typeInto(fixture, field(fixture), "junk");
+    await blurSettled(fixture, field(fixture));
+    expect(status.textContent?.trim()).toBe("DimDyddiad");
+    expect(field(fixture).getAttribute("aria-errormessage")).toBe(status.id);
+    // Chained after the consumer's hint, for the assistive technologies
+    // that read aria-describedby but not aria-errormessage.
+    expect(field(fixture).getAttribute("aria-describedby")).toBe(
+      `hint ${status.id}`,
+    );
+  });
+
+  test("§7.52 focus returns to whichever element opened the dialog", async () => {
+    const fromField = mount({ value: "2026-03-15" });
+    // Opened from the field with Alt+ArrowDown: Escape must return
+    // focus to the field, not strand the user on the button.
+    field(fromField).focus();
+    await keydownSettled(fromField, field(fromField), "ArrowDown", {
+      altKey: true,
+    });
+    await keydownSettled(fromField, dialog(fromField), "Escape");
+    expect(document.activeElement).toBe(field(fromField));
+    discard(fromField);
+
+    const fromButton = mount({ value: "2026-03-15" });
+    // Opened from the button: focus returns to the button.
+    trigger(fromButton).focus();
+    await open(fromButton);
+    await keydownSettled(fromButton, dialog(fromButton), "Escape");
+    expect(document.activeElement).toBe(trigger(fromButton));
+  });
+
+  test("§7.53 header paging keeps focus on the header button; grid paging follows the cursor", async () => {
+    const fixture = mount({ value: "2026-03-15" });
+    await open(fixture);
+
+    // Header route: the user activating "next month" stays on "next
+    // month", so they can page again — the cursor carries silently.
+    const nextMonth = q<HTMLButtonElement>(
+      fixture,
+      ".date-time-picker-next-month",
+    );
+    nextMonth.focus();
+    await clickSettled(fixture, nextMonth);
+    expect(document.activeElement).toBe(nextMonth);
+    expect(cursorDate(fixture)).toBe("2026-04-15");
+
+    // Grid route: focus is in the grid, and paging must carry it —
+    // the cell it sat on no longer exists.
+    day(fixture, "2026-04-15").focus();
+    await keydownSettled(fixture, grid(fixture), "PageDown");
+    expect(cursorDate(fixture)).toBe("2026-05-15");
+    expect(document.activeElement).toBe(day(fixture, "2026-05-15"));
+  });
+
+  test("§7.54 labels.instructions renders keyboard help described by the dialog", async () => {
+    const bare = mount();
+    expect(q(bare, ".date-time-picker-instructions")).toBeNull();
+    expect(dialog(bare).hasAttribute("aria-describedby")).toBe(false);
+    discard(bare);
+
+    const fixture = mount({
+      labels: { ...LABELS, instructions: "SaethauSymud" },
+    });
+    const help = q<HTMLElement>(fixture, ".date-time-picker-instructions");
+    expect(help.textContent?.trim()).toBe("SaethauSymud");
+    expect(dialog(fixture).getAttribute("aria-describedby")).toBe(help.id);
+  });
+
+  test("§7.55 clicking the text field while the dialog is open closes it", async () => {
+    const fixture = mount({ value: "2026-03-15" });
+    await open(fixture);
+    expect(dialog(fixture).hasAttribute("hidden")).toBe(false);
+    // The dialog is aria-modal: interacting with anything behind it —
+    // including the component's own field — dismisses it.
+    click(fixture, field(fixture));
+    expect(dialog(fixture).hasAttribute("hidden")).toBe(true);
+    expect(hidden(fixture).value).toBe("2026-03-15");
   });
 });

@@ -147,7 +147,7 @@ renders only when you name it.
 | `ArrowUp` | Opens, focuses the last item | Moves focus up, clamping |
 | `Home` / `End` | — | First / last item |
 | `Escape` | — | Closes, returns focus to the trigger |
-| `Tab` | Moves on | Closes; focus goes where the browser was sending it |
+| `Tab` | Moves on | Closes — focus goes to the trigger first, so the default Tab proceeds from the picker's position |
 
 Items are real focusable elements, so focus **actually moves** — no
 `aria-activedescendant`. That means a screen reader announces each item
@@ -159,8 +159,11 @@ put. Wrapping in a short list of links is disorienting when focus is
 real: the user hears the first item again with no event to explain why.
 
 `Escape` returns focus to the trigger, so the user is never dropped at
-the top of the document. `Tab` closes without stealing focus back, so
-tabbing past the control does not trap or rewind.
+the top of the document. `Tab` puts focus on the trigger BEFORE closing,
+without cancelling the key: hiding the list while one of its items has
+focus would drop focus to `<body>` and the browser's default Tab would
+restart from the top of the document. From the trigger, the default Tab
+proceeds from the picker's own position.
 
 ## The live region
 

@@ -160,6 +160,8 @@ public sealed class DateTimePickerLabels
     public string? Meridiem { get; init; }
     public string? Week { get; init; }
     public string? Clear { get; init; }
+    public string? Invalid { get; init; }
+    public string? Instructions { get; init; }
 }
 
 public sealed class DateTimePickerContext
@@ -174,10 +176,16 @@ The optional `DateTimePickerLabels` entries gate optional UI, exactly as
 `SharePicker`'s `CopyLabel` gates its copy item: a control whose accessible
 name was invented in English is the defect this package exists to avoid, so
 the component would rather not render a control than name it for you.
+`Invalid` and `Instructions` follow the same rule for announcements:
+without `Invalid`, refusing typed text flips `aria-invalid` but announces
+nothing; without `Instructions`, the dialog carries no keyboard help.
+Supplying both is strongly recommended.
 
 ### 4.2 `DateTimePickerLabels` — see the class above
 
-Same six required / five optional split as the canonical spec's §4.2 table.
+Same six required / seven optional split as the canonical spec's §4.2
+table, including the `invalid` / `instructions` entries added in the
+canonical accessibility hardening (as `Invalid` / `Instructions` here).
 
 ### 4.3 DOM contract
 
@@ -187,7 +195,8 @@ Same six required / five optional split as the canonical spec's §4.2 table.
 
   <div class="date-time-picker-field">
     <input class="date-time-picker-input" id="{fieldId}" type="text"
-           autocomplete="off" value="{display}" aria-invalid="true|absent" />
+           autocomplete="off" value="{display}" aria-invalid="true|absent"
+           aria-errormessage="{statusId} while invalid, when Labels.Invalid" />
     <button type="button" class="date-time-picker-button" aria-label="{Label}"
             aria-haspopup="dialog" aria-expanded="false"
             aria-controls="{dialogId}">
@@ -195,8 +204,15 @@ Same six required / five optional split as the canonical spec's §4.2 table.
     </button>
   </div>
 
+  <!-- Only when Labels.Invalid: always present, empty while valid. -->
+  <span class="date-time-picker-status" id="{statusId}" role="status"></span>
+
   <div class="date-time-picker-dialog" id="{dialogId}" role="dialog"
-       aria-modal="true" aria-label="{Label}" tabindex="-1" hidden>
+       aria-modal="true" aria-label="{Label}" tabindex="-1" hidden
+       aria-describedby="{instructionsId} when Labels.Instructions">
+    <!-- Only when Labels.Instructions: keyboard help, spoken on open. -->
+    <p class="date-time-picker-instructions" id="{instructionsId}">…</p>
+
     <div class="date-time-picker-header">
       <button class="date-time-picker-previous-year"  aria-label="…">…</button>
       <button class="date-time-picker-previous-month" aria-label="…">…</button>
@@ -214,9 +230,9 @@ Same six required / five optional split as the canonical spec's §4.2 table.
         <th class="date-time-picker-week" scope="row">10</th>
         <td role="gridcell" aria-selected="true|false">
           <button class="date-time-picker-day" data-date="2026-03-01"
-                  data-outside data-today data-selected
+                  data-outside data-today data-selected data-disabled
                   tabindex="0|-1" aria-label="Sunday 1 March 2026"
-                  aria-current="date">1</button>
+                  aria-current="date" aria-disabled="true|absent">1</button>
         </td>
       </tr></tbody>
     </table>
@@ -247,6 +263,26 @@ Blazor-only implementation detail needed for the outside-dismissal
 mechanism (§9) and not part of the class-hook contract consumers style
 against.
 
+- **Vetoed days are `aria-disabled`, never the `disabled` attribute.** A
+  `disabled` button refuses focus, so arrowing across a blocked week goes
+  silent for a screen reader while the visible focus stays behind — and
+  the "exactly one tabbable day" invariant breaks the moment the cursor
+  lands on one. `aria-disabled` keeps the day focusable and announced as
+  unavailable; activation is refused in `SelectDayAsync`. This is the
+  ARIA APG guidance for composite-widget items. **CSS note:** `:disabled`
+  selectors on `.date-time-picker-day` stop matching — target
+  `[data-disabled]` or `[aria-disabled="true"]`.
+- **The status region exists before it has content.** A live region that
+  appears at the same moment as its message is routinely not announced at
+  all, so with `Labels.Invalid` supplied the `role="status"` span is
+  always in the DOM and empty while the field is valid. While invalid,
+  the field points at it via `aria-errormessage` and its id is appended
+  to the field's `aria-describedby` after the consumer's `DescribedBy`.
+- **Instructions are the dialog's first child** and the target of its
+  `aria-describedby`, so a screen reader speaks them once when the dialog
+  takes focus. Visible by default; a consumer wanting them
+  screen-reader-only hides them with their own CSS.
+
 ### 4.4 Public surface
 
 Component `DateTimePicker` in namespace `LilyDesignSystem.Blazor.Helpers`,
@@ -275,8 +311,12 @@ Blazor has no module barrel, so the Svelte package's re-exports become
 | `nextDateTimePickerId` | `DateTimePicker.NextDateTimePickerId` |
 
 Internal, visible to the test project via `InternalsVisibleTo`:
-`NowProvider` (the testable-clock seam, replacing `vi.useFakeTimers()`) and
-`BuildInstallFocusTrapScript` (the Tab-trap script builder).
+`NowProvider` (the testable-clock seam, replacing `vi.useFakeTimers()`),
+`BuildInstallFocusTrapScript` (the Tab-trap script builder), and the
+focus-assertion seams `FieldReferenceId` / `TriggerReferenceId` /
+`DayReferenceId(iso)` — bUnit has no live `document.activeElement`, so
+the §7.49–§7.55 tests compare these ids against the `FocusAsync` interop
+targets bUnit records.
 
 The arithmetic is exported deliberately, for the same reason as the
 canonical spec: a consumer wiring `Min`, `Max`, `Shortcuts` or
@@ -332,15 +372,31 @@ Picker Dialog** pattern.
 
 ### 6.2 Keyboard contract
 
-Identical key table to the canonical spec §6.2, with one implementation
-difference: grid-navigation keys (`Arrow*`, `Home`, `End`, `PageUp`,
-`PageDown`, `Enter`, `Space`) are handled by an ordinary Razor
-`@onkeydown` handler and are **not** `preventDefault`ed, because Blazor
-cannot apply `preventDefault` conditionally per key from a declarative
-attribute. This is the same, already-precedented tradeoff
-`SharePicker`'s `docs/accessibility.md` documents for its own arrow keys:
-the browser's default scroll may also fire alongside the grid's own
-navigation. `Escape` and `Tab` need no such tradeoff — see §9.
+Identical key table to the canonical spec §6.2 — including `Escape` on
+the text field, which discards a pending typed edit (restoring the
+committed display and clearing `aria-invalid`) and is a no-op when
+nothing is pending — with two implementation differences:
+
+- Grid-navigation keys (`Arrow*`, `Home`, `End`, `PageUp`, `PageDown`,
+  `Enter`, `Space`) are handled by an ordinary Razor `@onkeydown` handler
+  and are **not** `preventDefault`ed, because Blazor cannot apply
+  `preventDefault` conditionally per key from a declarative attribute.
+  This is the same, already-precedented tradeoff `SharePicker`'s
+  `docs/accessibility.md` documents for its own arrow keys: the browser's
+  default scroll may also fire alongside the grid's own navigation.
+  `Escape` and `Tab` need no such tradeoff — see §9.
+- The field's `Escape` cannot stop propagation conditionally either
+  (`@onkeydown:stopPropagation` is a static, per-render declaration), so
+  a surrounding consumer dialog may also observe the keystroke — see §9.
+
+Paging the view carries the cursor with it, clamped into the new month;
+*focus* follows the cursor only for grid-originated paging (`PageUp` /
+`PageDown`), because the cell it sat on no longer exists. Paging from
+the header buttons leaves focus on the header button, so "next month"
+can be activated repeatedly without being yanked into the grid. Closing
+the dialog returns focus to the element that opened it — the trigger
+button after a click, the text field after `Alt`+`ArrowDown` — per the
+APG dialog pattern; click-outside closes without moving focus.
 
 ### 6.3 Internationalisation
 
@@ -419,9 +475,9 @@ can be read side by side.
 
 | Clause | Test asserts |
 | --- | --- |
-| §7.29 | Days outside `Min`/`Max` render `disabled`. |
-| §7.30 | `IsDateDisabled` disables individual days. |
-| §7.31 | Clicking a disabled day does not commit. |
+| §7.29 | Days outside `Min`/`Max` render `aria-disabled="true"` + `data-disabled` — never the `disabled` attribute. |
+| §7.30 | `IsDateDisabled` marks individual days `aria-disabled`. |
+| §7.31 | Clicking a vetoed day does not commit. |
 | §7.32 | A shortcut moves the pending selection and fires `OnShortcut`. |
 | §7.33 | A shortcut resolving to a blocked date does nothing. |
 
@@ -454,6 +510,23 @@ can be read side by side.
 | §7.46 | `FirstDayOfWeek` overrides the locale. |
 | §7.47 | Month names and day `aria-label`s follow `Locale`. |
 | §7.48 | `ShowWeekNumbers` renders a week column with ISO week numbers. |
+
+### Assistive technology (mirrors §4.3, §5.3, §5.4, §6.2)
+
+Focus in these clauses is asserted through the `FocusAsync` interop
+invocations bUnit records (which element the component asked the browser
+to focus), because bUnit has no live `document.activeElement` — see the
+harness note at the top of `DateTimePickerTests.cs`.
+
+| Clause | Test asserts |
+| --- | --- |
+| §7.49 | The cursor lands on a vetoed day with a real focus request; the day is `aria-disabled`, still tabbable, refuses `Enter`, and the cursor can continue past it. |
+| §7.50 | `Escape` in the field discards the pending edit, restores the committed display, clears `aria-invalid`, and commits nothing. |
+| §7.51 | `Labels.Invalid` renders an empty `role="status"` region that fills on refusal, wired via `aria-errormessage` and appended to `aria-describedby`; absent without the label. |
+| §7.52 | Closing requests focus on the field when opened by `Alt`+`ArrowDown`, and on the button when opened by click. |
+| §7.53 | Paging from a header button makes no focus request (the user stays on the button) while the cursor carries; paging from the grid requests focus on the carried cursor. |
+| §7.54 | `Labels.Instructions` renders keyboard help referenced by the dialog's `aria-describedby`; absent without the label. |
+| §7.55 | Clicking the text field while the dialog is open closes it without committing and without a focus request. |
 
 ## 8. DHCW feature parity
 
@@ -531,6 +604,47 @@ Each of these is forced by the framework or by .NET, not chosen.
 - **Root gets an extra `id`** not present in the Svelte DOM contract,
   needed only to scope the Tab-trap's `document.getElementById` lookup.
   Not a class-hook consumers style against.
+- **Focus-return tracks the open path, not `document.activeElement`.**
+  The canonical implementation records the active element at open time
+  and refocuses it on close. Blazor cannot read the active element
+  without interop, so the two open paths record which one ran
+  (`_openerIsField`): the trigger's click handler and the field's
+  `Alt`+`ArrowDown` handler are the only two ways in, so the outcome is
+  identical.
+- **Header vs. grid paging is decided by code path, not by focus
+  position.** The canonical `shiftMonth` refocuses the cursor only when
+  `document.activeElement` is inside the grid. For the same no-interop
+  reason, this port refocuses only for grid-originated paging
+  (`PageUp`/`PageDown` in the grid's keydown handler) and never for
+  header-button clicks. One observable difference in a real browser: the
+  header buttons suppress their mousedown default, so when focus is
+  sitting in the grid and the user clicks a header button, focus stays
+  on the (position-reused) grid cell rather than being re-pointed at the
+  carried cursor — the canonical would refocus the cursor there. Focus
+  is never lost either way.
+- **The field's `Escape` cannot stop propagation.** The canonical
+  implementation calls `stopPropagation()` when discarding a pending
+  edit, so a surrounding consumer dialog does not also close on a
+  text-editing keystroke. `@onkeydown:stopPropagation` is a static,
+  per-render declaration that would swallow every key the consumer might
+  legitimately observe, so this port discards the edit but lets the
+  keystroke propagate.
+- **Click-on-the-field dismissal is an explicit field `click` handler,
+  not a document-level click listener.** The general "click anything
+  outside" dismissal is the root-`focusout` deviation above; the
+  component's own text field is *inside* the root, so it gets its own
+  handler to honour the aria-modal contract (§5.3): a click on the field
+  while the dialog is open closes it, committing nothing and moving no
+  focus. The trigger button keeps its exemption — its own handler
+  toggles.
+- **Day-button `ElementReference`s are keyed by grid position, not by
+  date.** Blazor invokes an element-reference capture only when the
+  element is first created, and the grid's 42 buttons are reused across
+  month paging — a date-keyed map would go stale on the first page and
+  the cursor-focus call would silently target nothing. The button at a
+  given position is the same DOM element for the life of the component,
+  so position-keyed references stay correct. Purely an implementation
+  detail; no markup difference.
 
 ## 10. Tracking
 

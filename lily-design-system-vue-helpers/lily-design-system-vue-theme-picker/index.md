@@ -338,7 +338,7 @@ aria-controls>` whose accessible name is `aria-label={label}`. It is
   | Where   | Keys                                                                                                                                               |
   | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
   | Button  | `ArrowDown` / `Enter` / `Space` open; `ArrowUp` opens on the last option                                                                           |
-  | Listbox | `ArrowUp` / `ArrowDown` (clamping), `Home` / `End`, `Enter` / `Space` to commit, `Escape` to cancel, `Tab` to close, printable-character typeahead |
+  | Listbox | `ArrowUp` / `ArrowDown` (clamping), `Home` / `End`, `PageUp` / `PageDown` (by ten, clamping), `Enter` / `Space` to commit, `Escape` to cancel, `Tab` to close via the button so the default Tab proceeds from the picker's position, printable-character typeahead (a repeated character cycles through its matches; differing characters refine) |
 
 - The active state is exposed in three independent channels:
   `data-theme` on the target, the `value` binding, and the hidden

@@ -10,7 +10,7 @@ are, and what remains the consumer's responsibility.
 | WCAG / APG item              | How the select satisfies it |
 | ---------------------------- | --------------------------- |
 | WCAG 3.1.1 Language of Page  | Writes `lang` to the document root on every locale change. |
-| WCAG 3.1.2 Language of Parts | Each `<li role="option">` carries its own `lang` attribute so option text is announced in the right language. |
+| WCAG 3.1.2 Language of Parts | An `<li role="option">` carries a `lang` attribute when its label is the derived endonym, so that text is announced in the right language — and no false claim is made for labels in other languages. |
 | WCAG 1.4.10 Reflow (RTL bidi) | Writes `dir="rtl"` for RTL locales so layout, scrollbar, and text inversion are correct. |
 | WCAG 4.1.2 Name, Role, Value | `<button aria-label aria-haspopup="listbox" aria-expanded aria-controls>` exposes the trigger; `<ul role="listbox">` with `aria-selected` options exposes the choices. |
 | WCAG 2.1.1 Keyboard          | The full APG Listbox contract — open keys, arrows with clamping, Home / End, select, cancel, typeahead — implemented by the component. |
@@ -29,10 +29,14 @@ voice for the duration of that option.
 Without the per-option `lang`, "Français" gets pronounced "Franc-ess"
 in an English voice. With it, the reader says "Fran-SAY".
 
-The component always emits this attribute, on every option, and there
-is no prop that removes it — `children` replaces the button glyph only.
-The button and the list deliberately carry no `lang` of their own,
-because neither is locale-specific.
+The component emits this attribute only when the option's label is the
+endonym it derived itself (the default labels are endonyms via
+`localeEndonym`). A consumer-supplied `localeLabels` entry or the
+English-table fallback carries no `lang`: its language is unknown or
+English, and a false claim sends the speech engine to the wrong voice —
+the English word "Arabic" read by an Arabic synthesizer. The button and
+the list deliberately carry no `lang` of their own, because neither is
+locale-specific.
 
 If you also show the active locale's endonym inside the button (see
 [Replacing the button glyph](../index.md#replacing-the-button-glyph)),
@@ -59,7 +63,7 @@ On the **open listbox**:
 | Home / End              | Jump to the first / last option.                              |
 | Enter / Space           | Select the active option, apply it, close the list, and return focus to the button. |
 | Escape                  | Close and return focus to the button **without** changing the locale. |
-| Tab                     | Close the list and let focus move on to the next element.     |
+| Tab                     | Close; focus lands on the button so the default Tab proceeds from the picker's position. |
 | Any printable character | Typeahead over the option **labels**. The buffer resets after 500 ms of inactivity. |
 
 Pointer equivalents: clicking an option selects it, clicking the button

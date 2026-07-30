@@ -107,10 +107,13 @@ option active; `ArrowUp` opens with the last option active; opening
 moves focus to the `<ul>`.
 
 On the list: `ArrowDown` / `ArrowUp` move the active option and clamp
-(no wrapping); `Home` / `End` jump to the ends; `Enter` / `Space`
-select, apply, close, and refocus the button; `Escape` closes without
-changing the value; `Tab` closes without stealing focus back;
-printable characters run a 500 ms typeahead over the option labels.
+(no wrapping); `Home` / `End` jump to the ends; `PageUp` / `PageDown`
+move by ten (clamped); `Enter` / `Space` select, apply, close, and
+refocus the button; `Escape` closes without changing the value; `Tab`
+puts focus on the button first and then closes, so the default Tab
+proceeds from the picker's position; printable characters run a
+500 ms typeahead over the option labels — a repeated character cycles
+through its matches.
 
 ## CustomEvent listening
 

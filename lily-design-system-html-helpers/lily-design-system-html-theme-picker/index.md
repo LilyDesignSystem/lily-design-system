@@ -318,8 +318,9 @@ Opening moves focus to the `<ul>`. On the list:
 | `Home` / `End`          | Jump to the first / last option.                              |
 | `Enter` / `Space`       | Select the active option, apply, close, refocus the button.   |
 | `Escape`                | Close and refocus the button without changing the theme.      |
-| `Tab`                   | Close without stealing focus back.                            |
-| printable character     | Typeahead over the option labels; buffer resets after 500 ms. |
+| `PageUp` / `PageDown`   | Move the active option by ten; clamps at both ends.           |
+| `Tab`                   | Move focus to the button, then close — so the default Tab proceeds from the picker's position. |
+| printable character     | Typeahead over the option labels; buffer resets after 500 ms. A repeated character cycles through its matches; differing characters refine from the active option. |
 
 Focus sits on the `<ul>` while open, never on an `<li>` — the
 highlighted option is conveyed by `aria-activedescendant`. That is

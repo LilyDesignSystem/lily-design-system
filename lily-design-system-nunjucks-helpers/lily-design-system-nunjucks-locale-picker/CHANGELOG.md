@@ -4,6 +4,55 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+Accessibility hardening, ported from the canonical Svelte helper.
+
+### Changed
+
+- **`Tab` from the open list no longer strands keyboard focus.** The
+  handler hid the list while it had focus; the browser then moved focus
+  to `<body>` and the default Tab restarted from the top of the
+  document. Focus now goes to the trigger button first — without
+  cancelling the key — so the default Tab proceeds from the picker's
+  own position.
+- **Typeahead follows the APG single-character rule.** A single
+  character advances to the *next* matching option, and repeating that
+  character cycles through the matches; only a buffer of differing
+  characters refines the match anchored on the active option.
+  Previously a character that matched the active option went nowhere.
+
+### Added
+
+- **`PageUp` / `PageDown`** move the active option by ten, clamped —
+  an APG-optional key for long lists.
+
+### Fixed
+
+- Opening with an empty option list no longer points
+  `aria-activedescendant` at an id that does not exist.
+
+### Changed (labels)
+
+- **Default option labels are endonyms** — each language named in
+  itself, "Cymraeg" not "Welsh" — via the new exported
+  `localeEndonym()` (`Intl.DisplayNames` asked *in that language*,
+  deterministic, no `navigator` dependency) and `derivedLocaleLabel()`
+  (endonym → built-in English table → raw code). In this catalog the
+  derivation is a **client-side upgrade**: a Nunjucks template cannot
+  ask ICU for anything, so the macro renders the raw code as a
+  pre-hydration fallback and marks those options with the new
+  `data-lily-locale-picker-derive` attribute; `initLocalePicker`
+  rewrites them before capturing the typeahead labels. The user who
+  needs a language menu is the one who cannot read the page's
+  language, and the exonym means nothing to them.
+- **`lang` on an option is now a claim we can stand behind.** The
+  macro no longer stamps `lang` on every option; the client sets it
+  only when the label is the derived endonym. Previously every option
+  carried `lang` while showing a consumer label or a raw code,
+  sending screen-reader speech engines to the wrong voice — the
+  English word "Arabic" read out by an Arabic synthesizer.
+
 ## 0.1.0 — 2026-07-21
 
 First release under the name `lily-design-system-nunjucks-locale-picker`.

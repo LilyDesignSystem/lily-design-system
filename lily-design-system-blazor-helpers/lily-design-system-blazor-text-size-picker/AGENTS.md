@@ -5,7 +5,7 @@ below is a fast index.
 
 ## What this package is
 
-A reusable Blazor headless text-size select that applies the chosen
+A reusable Blazor headless text-size picker that applies the chosen
 size slug to the document root via `data-text-size`, with optional
 `localStorage` persistence. It renders an icon button (`A`) that opens
 a dropdown listbox. Ships no CSS; consumer styles the
@@ -90,8 +90,11 @@ Button: `ArrowDown` / `Enter` / `Space` open on the selected option;
 `ArrowUp` opens on the last. Opening moves focus to the `<ul>`.
 Listbox: arrows move and **clamp**, `Home` / `End` jump, `Enter` /
 `Space` select-apply-close-and-refocus, `Escape` closes without
-changing the value, `Tab` closes without stealing focus, printable
-characters run a 500 ms typeahead over the labels. Clicking an option
+changing the value, `PageUp` / `PageDown` move by ten (clamped), `Tab`
+closes and lets the browser's default Tab proceed from the picker's
+position, printable characters run a 500 ms APG typeahead over the
+labels — a repeated character cycles through its matches; differing
+characters refine from the active option. Clicking an option
 selects it; focus leaving the root closes.
 
 ## Accessibility
@@ -113,6 +116,13 @@ selects it; focus leaving the root closes.
 - No document-level click listener (the package ships no JS); the
   root's `focusout` closes the listbox instead. `FocusEventArgs` has no
   `relatedTarget`, so self-made focus moves are flagged and ignored.
+- `Tab` from the open list does NOT refocus the button. The canonical
+  Svelte fix does, because Svelte hides the list synchronously, ahead
+  of the browser's default Tab; Blazor's async handler always runs
+  after the default Tab has already proceeded from the still-visible
+  list, so a button-focus request here would yank the user back to the
+  trigger they just left. Both ports end with focus on the tab stop
+  after the picker.
 - `@onmousedown:preventDefault` IS applied to the `<ul>` so clicking an
   option does not blur the listbox first.
 

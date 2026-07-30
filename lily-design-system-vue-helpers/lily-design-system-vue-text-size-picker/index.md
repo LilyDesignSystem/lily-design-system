@@ -231,9 +231,12 @@ There is no `placeholder` prop and no detection prop — there is no OS
 
 On the button: `ArrowDown` / `Enter` / `Space` open on the selected
 option; `ArrowUp` opens on the last option. On the listbox: arrows
-move and clamp (no wrap), `Home` / `End` jump, printable characters
-run a typeahead over the labels, `Enter` / `Space` commit and refocus
-the button, `Escape` cancels, `Tab` closes and moves on. Full table in
+move and clamp (no wrap), `Home` / `End` jump, `PageUp` / `PageDown`
+move by ten (clamped), printable characters run a typeahead over the
+labels — a repeated character cycles through its matches — `Enter` /
+`Space` commit and refocus the button, `Escape` cancels, `Tab` closes
+via the button so the default Tab proceeds from the picker's
+position. Full table in
 [spec/index.md §6.2](./spec/index.md#62-keyboard-contract).
 
 ## Accessibility

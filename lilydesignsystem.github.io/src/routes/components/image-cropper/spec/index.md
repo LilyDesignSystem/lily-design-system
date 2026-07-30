@@ -52,4 +52,4 @@ Implement the Image Cropper component: a container for cropping and resizing an 
 
 Added after researching Origin UI Angular (originui-ng.com), whose "Cropper" category
 was the one component not already covered by the Lily catalog. See
-[AGENTS/citations.md](../../../AGENTS/citations.md).
+[AGENTS/citations.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/citations.md).

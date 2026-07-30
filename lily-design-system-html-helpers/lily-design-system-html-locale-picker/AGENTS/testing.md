@@ -299,3 +299,4 @@ Section map:
 | 7.5 property API     | 22–23   | array / object property mirroring, class hook, unique ids                  |
 | 7.6 keyboard         | 24–28   | APG listbox contract, typeahead, outside click                             |
 | 7.7 custom rendering | 29      | `renderButtonContent()` override, base lifecycle intact                    |
+| 7.8 hardening        | 30–34   | Tab-to-button, endonym `lang` claims, typeahead cycling, PageUp/PageDown, empty list |

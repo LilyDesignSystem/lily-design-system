@@ -178,7 +178,14 @@ export function TextSizePicker({
 
     function openList(startIndex?: number): void {
         const selected = sizes.indexOf(currentValue ?? "");
-        setActiveIndex(startIndex ?? (selected >= 0 ? selected : 0));
+        // An empty list has no option to activate; -1 keeps
+        // aria-activedescendant off rather than pointing at an id that
+        // does not exist.
+        setActiveIndex(
+            sizes.length === 0
+                ? -1
+                : (startIndex ?? (selected >= 0 ? selected : 0)),
+        );
         setOpen(true);
     }
 
@@ -211,18 +218,29 @@ export function TextSizePicker({
     }
 
     function runTypeahead(char: string): void {
-        typeaheadRef.current += char.toLowerCase();
+        const lower = char.toLowerCase();
+        // APG listbox typeahead: a single character moves to the NEXT
+        // option starting with it, and repeating that character keeps
+        // cycling. Only a buffer of differing characters refines the
+        // match, and that buffer stays anchored on the active option.
+        const sameCharRun =
+            typeaheadRef.current === "" ||
+            [...typeaheadRef.current].every((c) => c === lower);
+        typeaheadRef.current += lower;
         clearTimeout(typeaheadTimerRef.current);
         typeaheadTimerRef.current = setTimeout(() => {
             typeaheadRef.current = "";
         }, TYPEAHEAD_RESET_MS);
-        const buffer = typeaheadRef.current;
+        const query = sameCharRun ? lower : typeaheadRef.current;
         setActiveIndex((prev) => {
-            const from = prev < 0 ? 0 : prev;
-            // Search forward from the active option, wrapping once.
+            const anchor = prev < 0 ? 0 : prev;
+            const start = sameCharRun ? anchor + 1 : anchor;
+            // Search forward, wrapping once — typeahead wraps even though
+            // the arrows clamp, or options above the cursor would be
+            // untypable.
             for (let n = 0; n < sizes.length; n++) {
-                const i = (from + n) % sizes.length;
-                if (labelFor(sizes[i]).toLowerCase().startsWith(buffer)) {
+                const i = (start + n) % sizes.length;
+                if (labelFor(sizes[i]).toLowerCase().startsWith(query)) {
                     return i;
                 }
             }
@@ -274,8 +292,25 @@ export function TextSizePicker({
                 event.preventDefault();
                 closeList();
                 break;
+            case "PageUp":
+                event.preventDefault();
+                moveActive(-10);
+                break;
+            case "PageDown":
+                // ±10, clamped: an APG-optional key, matching the
+                // sibling pickers.
+                event.preventDefault();
+                moveActive(10);
+                break;
             case "Tab":
-                // Tab moves on: close without stealing focus back.
+                // Tab moves on — but focus goes to the button FIRST,
+                // without cancelling the key. Hiding the focused list
+                // drops focus to <body>, and the browser then computes
+                // the default Tab move from the top of the document, so
+                // tabbing out of an open picker teleported the user to
+                // the page's first tab stop. From the button, the default
+                // Tab lands exactly where leaving the picker should.
+                buttonRef.current?.focus?.();
                 closeList(false);
                 break;
             default:

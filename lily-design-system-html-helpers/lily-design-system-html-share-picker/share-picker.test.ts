@@ -597,12 +597,11 @@ describe("<share-picker> — keyboard and dismissal (§7.15–§7.19)", () => {
     expect(document.activeElement).toBe(trigger());
   });
 
-  test("§7.17 Tab closes the list without stealing focus back", async () => {
+  test("§7.17 Tab closes the list; the hardening contract (§7.23) moves focus to the button first", async () => {
     await openList();
     press(list(), "Tab");
     await flush();
     expect(list().hasAttribute("hidden")).toBe(true);
-    expect(document.activeElement).not.toBe(trigger());
   });
 
   test("§7.18 choosing a destination fires onShare with its id and closes", async () => {
@@ -901,5 +900,35 @@ describe("<share-picker> — HTML custom-element surface", () => {
     } finally {
       (globalThis as any).customElements = original;
     }
+  });
+});
+
+describe("<share-picker> — accessibility hardening (§7.23–§7.24)", () => {
+  async function openHardened(): Promise<SharePicker> {
+    const el = mount({
+      label: "Share",
+      url: URL_UNDER_TEST,
+      "copy-label": "Copy link",
+    });
+    await flush();
+    click(trigger());
+    await flush();
+    return el;
+  }
+
+  test("§7.23 Tab from an open item puts focus on the button before closing", async () => {
+    await openHardened();
+    expect(document.activeElement?.className).toContain("share-picker-target");
+    press(list(), "Tab");
+    // Focus sits on the button, so the browser's default Tab proceeds
+    // from the picker's own position — not from <body>, which is where
+    // focus lands when the list is hidden while its item has focus.
+    expect(document.activeElement).toBe(trigger());
+    expect(list().hasAttribute("hidden")).toBe(true);
+  });
+
+  test("§7.24 the list carries the picker's accessible name", async () => {
+    await openHardened();
+    expect(list().getAttribute("aria-label")).toBe("Share");
   });
 });

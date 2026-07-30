@@ -122,8 +122,10 @@ public class LocalePickerTests : TestContext
     }
 
     // -----------------------------------------------------------------
-    // §7.5 — Each option carries lang in BCP 47 hyphen form; the button
-    //        and the listbox do not.
+    // §7.5 — When an option's label is the derived endonym, its lang is
+    //        the BCP 47 hyphen form; the button and the listbox never
+    //        carry lang. (Options whose label is NOT the endonym make no
+    //        lang claim at all — §7.31.)
     // -----------------------------------------------------------------
     [Fact]
     public void Section_7_5_Option_Lang_Is_Bcp47_Hyphen()
@@ -132,6 +134,8 @@ public class LocalePickerTests : TestContext
             .Add(x => x.Label, "Language")
             .Add(x => x.Locales, new[] { "en", "en_US", "zh_Hant_TW" }));
 
+        // All three cultures have runtime data, so all three labels are
+        // endonyms and all three options claim their language.
         var options = cut.FindAll(".locale-picker-option");
         Assert.Equal("en", options[0].GetAttribute("lang"));
         Assert.Equal("en-US", options[1].GetAttribute("lang"));
@@ -185,12 +189,17 @@ public class LocalePickerTests : TestContext
     }
 
     // -----------------------------------------------------------------
-    // §7.8 — Visible option text uses LocaleLabels override, then
-    //        DefaultLocaleLabels, then the raw code.
+    // §7.8 — Visible option text resolves LocaleLabels override, then
+    //        the derived endonym, then DefaultLocaleLabels, then the
+    //        raw code. Endonym assertions go through the helper —
+    //        CultureInfo.NativeName may format slightly differently
+    //        from ICU's Intl.DisplayNames — except for stable
+    //        well-known spellings.
     // -----------------------------------------------------------------
     [Fact]
     public void Section_7_8_Default_Labels_With_Fallback()
     {
+        // Consumer labels win over everything.
         var cut = RenderComponent<LocalePicker>(p => p
             .Add(x => x.Label, "Language")
             .Add(x => x.Locales, new[] { "en", "fr" })
@@ -203,10 +212,25 @@ public class LocalePickerTests : TestContext
         Assert.Contains("English", cut.Markup);
         Assert.Contains("Français", cut.Markup);
 
+        // Unlabelled: the endonym. For en_US it coincides with the old
+        // English-table entry.
         var cut2 = RenderComponent<LocalePicker>(p => p
             .Add(x => x.Label, "Language")
             .Add(x => x.Locales, new[] { "en_US" }));
+        Assert.Equal(Locales.LocaleEndonym("en_US"),
+            cut2.Find(".locale-picker-option").TextContent.Trim());
         Assert.Contains("English (United States)", cut2.Markup);
+
+        // The endonym BEATS the English table: "de" renders "Deutsch",
+        // not the table's "German" — the user who needs a language menu
+        // is the one who cannot read the page's language.
+        var cut3 = RenderComponent<LocalePicker>(p => p
+            .Add(x => x.Label, "Language")
+            .Add(x => x.Locales, new[] { "de" }));
+        var label = cut3.Find(".locale-picker-option").TextContent.Trim();
+        Assert.Equal(Locales.LocaleEndonym("de"), label);
+        Assert.Equal("Deutsch", label);
+        Assert.NotEqual(Locales.LocaleName("de"), label);
     }
 
     // -----------------------------------------------------------------
@@ -633,6 +657,189 @@ public class LocalePickerTests : TestContext
 
         cut.Find("button").Click();
         Assert.Equal("True", cut.Find("[data-testid='custom']").GetAttribute("data-open"));
+    }
+
+    // =================================================================
+    // Accessibility hardening — §7.30–§7.34, mirroring the canonical
+    // Svelte clauses §7.28–§7.32 (this port's §7 list was already
+    // numbered through §7.29, so the new clauses continue from §7.30).
+    //
+    // Focus assertions read the FocusAsync interop invocations against
+    // the component's internal reference-id seams (InternalsVisibleTo),
+    // the same technique the DateTimePicker suite uses — bUnit has no
+    // live focus model. bUnit also cannot run the browser's REAL
+    // default-Tab move, so the Tab clause asserts the observable state
+    // and the comment explains the platform difference.
+    // =================================================================
+
+    /// <summary>The interop identifier ElementReference.FocusAsync() uses.</summary>
+    private const string FocusIdentifier = "Blazor._internal.domWrapper.focus";
+
+    /// <summary>The ElementReference ids the component asked the browser to
+    /// focus, oldest first.</summary>
+    private IReadOnlyList<string> FocusedRefIds()
+        => JSInterop.Invocations
+            .Where(i => i.Identifier == FocusIdentifier)
+            .Select(i => ((ElementReference)i.Arguments[0]!).Id)
+            .ToList();
+
+    // -----------------------------------------------------------------
+    // §7.30 — Tab from the open list closes it and leaves focus where
+    //         the browser's default Tab put it (canonical §7.28). The
+    //         canonical Svelte fix refocuses the button BEFORE hiding
+    //         the list because Svelte hides synchronously, ahead of the
+    //         browser's default Tab; Blazor's async handler always runs
+    //         AFTER the default Tab has proceeded from the still-visible
+    //         list — the picker's own position — so the component must
+    //         NOT issue a focus call, which would yank the user back to
+    //         the trigger they just left. Both ports end with focus on
+    //         the tab stop after the picker.
+    // -----------------------------------------------------------------
+    [Fact]
+    public async Task Section_7_30_Tab_Closes_And_Does_Not_Fight_The_Default_Tab()
+    {
+        var cut = RenderDefault();
+        await Task.Yield();
+
+        cut.Find("button").Click();
+        // Opening moved focus to the listbox.
+        Assert.Equal(cut.Instance.ListReferenceId, FocusedRefIds()[^1]);
+        var beforeTab = FocusedRefIds().Count;
+
+        Key(cut, "ul", "Tab");
+
+        Assert.True(cut.Find("ul").HasAttribute("hidden"));
+        Assert.Equal("false", cut.Find("button").GetAttribute("aria-expanded"));
+        // No focus interop was issued on Tab: focus stays where the
+        // browser's uncancelled default Tab moved it.
+        Assert.Equal(beforeTab, FocusedRefIds().Count);
+        Assert.DoesNotContain(cut.Instance.ButtonReferenceId, FocusedRefIds());
+    }
+
+    // -----------------------------------------------------------------
+    // §7.31 — lang is claimed only when the label is the endonym
+    //         (canonical §7.29).
+    // -----------------------------------------------------------------
+    [Fact]
+    public void Section_7_31_Lang_Is_Claimed_Only_When_The_Label_Is_The_Endonym()
+    {
+        var cut = RenderComponent<LocalePicker>(p => p
+            .Add(x => x.Label, "Language")
+            .Add(x => x.Locales, new[] { "cy", "ar" })
+            .Add(x => x.LocaleLabels,
+                (IReadOnlyDictionary<string, string>)new Dictionary<string, string>
+                {
+                    ["ar"] = "Arabic",
+                }));
+
+        var opts = cut.FindAll(".locale-picker-option");
+        // Endonym label: the text really is Welsh, so lang="cy" is a true
+        // claim and a screen reader may switch voice.
+        Assert.Equal(Locales.LocaleEndonym("cy"), opts[0].TextContent.Trim());
+        Assert.Equal("Cymraeg", opts[0].TextContent.Trim());
+        Assert.Equal("cy", opts[0].GetAttribute("lang"));
+        // Consumer label: its language is unknown, so no claim — the
+        // English word "Arabic" must not be handed to an Arabic voice.
+        Assert.Equal("Arabic", opts[1].TextContent.Trim());
+        Assert.Null(opts[1].GetAttribute("lang"));
+    }
+
+    // -----------------------------------------------------------------
+    // §7.31 — LocaleEndonym is the public helper behind the claim:
+    //         real culture data yields the native name, anything the
+    //         runtime cannot name yields "" (an echo of the tag is not
+    //         a name).
+    // -----------------------------------------------------------------
+    [Fact]
+    public void Section_7_31_LocaleEndonym_Returns_Native_Name_Or_Empty()
+    {
+        Assert.Equal("Deutsch", Locales.LocaleEndonym("de"));
+        Assert.Equal("Cymraeg", Locales.LocaleEndonym("cy"));
+        // Underscore form normalises before lookup.
+        Assert.Equal(Locales.LocaleEndonym("en-US"), Locales.LocaleEndonym("en_US"));
+        // Unknown / unavailable cultures are "" — never a fabricated name.
+        Assert.Equal("", Locales.LocaleEndonym("xx"));
+        Assert.Equal("", Locales.LocaleEndonym("not a tag"));
+        Assert.Equal("", Locales.LocaleEndonym(""));
+    }
+
+    // -----------------------------------------------------------------
+    // §7.32 — A repeated typeahead character cycles through its matches
+    //         (canonical §7.30).
+    // -----------------------------------------------------------------
+    [Fact]
+    public async Task Section_7_32_A_Repeated_Typeahead_Character_Cycles_Through_Its_Matches()
+    {
+        var cut = RenderComponent<LocalePicker>(p => p
+            .Add(x => x.Label, "Language")
+            .Add(x => x.Locales, new[] { "l1", "l2", "l3", "l4" })
+            .Add(x => x.LocaleLabels,
+                (IReadOnlyDictionary<string, string>)new Dictionary<string, string>
+                {
+                    ["l1"] = "Dark",
+                    ["l2"] = "Dim",
+                    ["l3"] = "Dracula",
+                    ["l4"] = "Light",
+                })
+            .Add(x => x.DefaultValue, "l4"));
+        await Task.Yield();
+        cut.Find("button").Click();
+
+        string Active() => cut.Find("[data-active]").TextContent.Trim();
+
+        Key(cut, "ul", "d");
+        Assert.Equal("Dark", Active());
+        Key(cut, "ul", "d");
+        Assert.Equal("Dim", Active());
+        Key(cut, "ul", "d");
+        Assert.Equal("Dracula", Active());
+    }
+
+    // -----------------------------------------------------------------
+    // §7.33 — PageUp / PageDown move the cursor by ten, clamped
+    //         (canonical §7.31).
+    // -----------------------------------------------------------------
+    [Fact]
+    public async Task Section_7_33_PageUp_And_PageDown_Move_The_Cursor_By_Ten_Clamped()
+    {
+        var many = System.Linq.Enumerable.Range(0, 25)
+            .Select(i => $"x{i:D2}").ToArray();
+        var labels = many.ToDictionary(l => l, l => l.ToUpperInvariant());
+        var cut = RenderComponent<LocalePicker>(p => p
+            .Add(x => x.Label, "Language")
+            .Add(x => x.Locales, many)
+            .Add(x => x.LocaleLabels, (IReadOnlyDictionary<string, string>)labels));
+        await Task.Yield();
+        cut.Find("button").Click();
+
+        string Active() => cut.Find("[data-active]").TextContent.Trim();
+
+        Key(cut, "ul", "PageDown");
+        Assert.Equal("X10", Active());
+        Key(cut, "ul", "PageDown");
+        Assert.Equal("X20", Active());
+        Key(cut, "ul", "PageDown");
+        Assert.Equal("X24", Active());
+        Key(cut, "ul", "PageUp");
+        Assert.Equal("X14", Active());
+    }
+
+    // -----------------------------------------------------------------
+    // §7.34 — An empty list opens without aria-activedescendant
+    //         (canonical §7.32).
+    // -----------------------------------------------------------------
+    [Fact]
+    public async Task Section_7_34_An_Empty_List_Opens_Without_AriaActivedescendant()
+    {
+        var cut = RenderComponent<LocalePicker>(p => p
+            .Add(x => x.Label, "Language")
+            .Add(x => x.Locales, System.Array.Empty<string>()));
+        await Task.Yield();
+
+        cut.Find("button").Click();
+
+        Assert.False(cut.Find("ul").HasAttribute("hidden"));
+        Assert.Null(cut.Find("ul").GetAttribute("aria-activedescendant"));
     }
 
     /// <summary>True when some eval interop call carried the given substring.</summary>

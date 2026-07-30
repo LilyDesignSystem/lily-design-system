@@ -5,9 +5,10 @@ below is a fast index.
 
 ## What this package is
 
-A reusable Svelte 5 headless text-size select. Renders a native
-`<select>` of size slugs and applies the chosen slug to the document
-root via `data-text-size`, with optional `localStorage` persistence.
+A reusable Svelte 5 headless text-size picker. Renders an icon button
+("A") opening a WAI-ARIA APG listbox of size slugs and applies the
+chosen slug to the document root via `data-text-size`, with optional
+`localStorage` persistence.
 Ships no CSS; consumer styles the `text-size-picker` class hook and
 maps each `[data-text-size="…"]` slug to real typography.
 
@@ -48,7 +49,10 @@ per slug. Custom rendering via the `children` snippet receiving
 ## Accessibility
 
 - WCAG 2.2 AAA target; supports 1.4.4 (Resize Text).
-- The native `<select>` provides Arrow / Home / End / typeahead.
+- APG listbox keyboard contract: arrows (clamped), Home / End,
+  PageUp / PageDown (by ten), typeahead with same-character cycling,
+  Escape discards. Tab closes via the button so the default Tab
+  proceeds from the picker's position.
 - `aria-label` carries the consumer-supplied accessible name.
 - Option labels default to title-cased slugs.
 

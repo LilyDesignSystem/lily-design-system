@@ -320,8 +320,10 @@ On the **listbox**:
 | `Home` / `End`       | Jump to the first / last option.                               |
 | `Enter` / `Space`    | Select the active option, apply it, close, refocus the button. |
 | `Escape`             | Close and refocus the button **without** changing the value.   |
-| `Tab`                | Close without stealing focus back.                             |
-| Printable characters | Typeahead over the option **labels**, 500 ms buffer reset.     |
+| `PageUp`             | Move the active option up ten. Clamps at the first.            |
+| `PageDown`           | Move the active option down ten. Clamps at the last.           |
+| `Tab`                | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position. Hiding the focused list first would drop focus to `<body>` and restart Tab from the top of the document. |
+| Printable characters | Typeahead over the option **labels**, 500 ms buffer reset. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match from the active option. Search wraps once. |
 
 Pointer and focus behaviour: clicking an option selects it; clicking
 outside the root closes the listbox; focus leaving the root closes it.
@@ -388,8 +390,9 @@ data-lily-theme-picker="{name}">` exists in `document.head` and
 16. `Enter` selects the active option, applies it, closes the listbox
     (`hidden` returns, `aria-expanded` becomes `"false"`), and returns
     focus to the button. `Escape` closes without changing the value.
-    `Tab` closes without stealing focus back. `aria-activedescendant`
-    is removed once closed.
+    `Tab` closes after moving focus to the button, without cancelling
+    the key (see clause 21). `aria-activedescendant` is removed once
+    closed.
 17. Printable characters run a typeahead over the option labels.
     Clicking an option selects and applies it. Clicking outside the
     root closes the listbox.
@@ -403,6 +406,15 @@ data-lily-theme-picker="{name}">` exists in `document.head` and
 20. With `detectFromSystem`, the initial theme resolves from the OS
     preference; storage and an explicit `value` still outrank it, and
     detection does nothing unless the prop is set.
+
+### Accessibility hardening
+
+21. `Tab` from the open list puts focus on the button before closing,
+    so the default Tab proceeds from the picker's position.
+22. A repeated typeahead character cycles through its matches; a
+    multi-character buffer refines from the active option.
+23. `PageUp` / `PageDown` move the cursor by ten, clamped.
+24. An empty list opens without `aria-activedescendant`.
 
 ## 8. Out-of-scope (future, not implemented here)
 

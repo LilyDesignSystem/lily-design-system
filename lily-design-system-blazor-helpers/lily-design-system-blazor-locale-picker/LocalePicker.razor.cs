@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
@@ -140,8 +141,28 @@ public partial class LocalePicker : ComponentBase
     internal string LabelFor(string locale)
     {
         if (LocaleLabels.TryGetValue(locale, out var pretty)) return pretty;
+        // Endonym first: a language menu names each language in itself,
+        // because the user who needs the menu is the one who cannot read
+        // the page's language. The English table is the fallback for
+        // cultures the runtime has no data for.
+        var endonym = Helpers.Locales.LocaleEndonym(locale);
+        if (endonym.Length > 0) return endonym;
         if (Helpers.Locales.DefaultLocaleLabels.TryGetValue(locale, out var built)) return built;
         return locale;
+    }
+
+    /// <summary>
+    /// The <c>lang</c> attribute for one option — a claim about the language
+    /// of the option's TEXT, made only when the text is the endonym we
+    /// derived ourselves. A consumer label or the English fallback is in
+    /// whatever language the consumer's UI speaks, and claiming otherwise
+    /// sends a screen reader's speech engine to the wrong voice: the
+    /// English word "Arabic" read out by an Arabic synthesizer.
+    /// </summary>
+    internal string? OptionLang(string locale)
+    {
+        if (LocaleLabels.ContainsKey(locale)) return null;
+        return Helpers.Locales.LocaleEndonym(locale).Length > 0 ? TagFor(locale) : null;
     }
 
     internal string TagFor(string locale) => Helpers.Locales.Bcp47LocaleTag(locale);
@@ -252,9 +273,13 @@ public partial class LocalePicker : ComponentBase
     /// one (or the first), unless <paramref name="startIndex"/> overrides it.</summary>
     private void OpenList(int? startIndex = null)
     {
-        if (Locales.Count == 0) return;
         var selected = IndexOfValue();
-        _activeIndex = startIndex ?? (selected >= 0 ? selected : 0);
+        // An empty list has no option to activate; -1 keeps
+        // aria-activedescendant off rather than pointing at an id that
+        // does not exist.
+        _activeIndex = Locales.Count == 0
+            ? -1
+            : startIndex ?? (selected >= 0 ? selected : 0);
         _open = true;
         _focusListPending = true;
         _suppressFocusOut = true;
@@ -310,14 +335,25 @@ public partial class LocalePicker : ComponentBase
         var now = DateTimeOffset.UtcNow;
         if (now - _typeaheadAt > TypeaheadWindow) _typeahead = "";
         _typeaheadAt = now;
-        _typeahead += character.ToLowerInvariant();
 
-        var from = _activeIndex < 0 ? 0 : _activeIndex;
-        // Search forward from the active option, wrapping once.
+        var lower = character.ToLowerInvariant();
+        // APG listbox typeahead: a single character moves to the NEXT
+        // option starting with it, and repeating that character keeps
+        // cycling. Only a buffer of differing characters refines the
+        // match, and that buffer stays anchored on the active option.
+        var sameCharRun = _typeahead.Length == 0
+            || (lower.Length == 1 && _typeahead.All(c => c == lower[0]));
+        _typeahead += lower;
+
+        var query = sameCharRun ? lower : _typeahead;
+        var anchor = _activeIndex < 0 ? 0 : _activeIndex;
+        var start = sameCharRun ? anchor + 1 : anchor;
+        // Search forward, wrapping once — typeahead wraps even though the
+        // arrows clamp, or options above the cursor would be untypable.
         for (var n = 0; n < Locales.Count; n++)
         {
-            var i = (from + n) % Locales.Count;
-            if (LabelFor(Locales[i]).ToLowerInvariant().StartsWith(_typeahead, StringComparison.Ordinal))
+            var i = (start + n) % Locales.Count;
+            if (LabelFor(Locales[i]).ToLowerInvariant().StartsWith(query, StringComparison.Ordinal))
             {
                 _activeIndex = i;
                 return;
@@ -385,8 +421,25 @@ public partial class LocalePicker : ComponentBase
                 // Close and return focus without changing the value.
                 CloseList();
                 break;
+            case "PageUp":
+                MoveActive(-10);
+                break;
+            case "PageDown":
+                // ±10, clamped: an APG-optional key for long locale lists.
+                MoveActive(10);
+                break;
             case "Tab":
-                // Tab moves on: close without stealing focus back.
+                // Tab moves on: close without touching focus. The canonical
+                // Svelte fix moves focus to the button BEFORE hiding the
+                // list, because there the hide is synchronous and would
+                // otherwise precede the browser's default Tab, dropping
+                // focus to <body>. Blazor cannot reproduce that bug: the
+                // default Tab always runs before this async handler, so it
+                // proceeds from the still-visible list — the picker's own
+                // position — and focus has already landed on the next tab
+                // stop by the time the list hides. Requesting button focus
+                // here would run AFTER the default Tab and yank the user
+                // back to the trigger they just left.
                 CloseList(false);
                 break;
             default:
@@ -413,6 +466,19 @@ public partial class LocalePicker : ComponentBase
         CloseList(false);
         return Task.CompletedTask;
     }
+
+    // -------------------------------------------------------------------
+    // Test seams (InternalsVisibleTo). bUnit has no live focus model, so
+    // the suite asserts which element a FocusAsync interop call targeted
+    // by comparing ElementReference ids — the same technique the
+    // DateTimePicker suite uses.
+    // -------------------------------------------------------------------
+
+    /// <summary>The trigger button's ElementReference id, once rendered.</summary>
+    internal string? ButtonReferenceId => _buttonElement.Id;
+
+    /// <summary>The listbox's ElementReference id, once rendered.</summary>
+    internal string? ListReferenceId => _listElement.Id;
 
     // -------------------------------------------------------------------
     // Apply / set.

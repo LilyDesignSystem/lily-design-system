@@ -258,6 +258,8 @@ labels = {
   meridiem:      string  // required when the resolved clock is 12-hour
   week:          string  // required when showWeekNumbers
   clear:         string  // optional — the clear button renders only when supplied
+  invalid:       string  // optional — the invalid-input live region renders only when supplied
+  instructions:  string  // optional — dialog keyboard help, described-by the dialog when supplied
 }
 ```
 
@@ -266,6 +268,18 @@ Identical in shape and requiredness to the canonical helper's
 than in Svelte — the macro cannot know whether the clock is 12-hour
 (§3.4.3), so the gate is applied on the client, at the point the
 meridiem select is actually built.
+
+The optional entries gate optional UI: a control whose accessible name
+we invented in English is the defect this package exists to avoid, so
+the component would rather not render a control than name it for you.
+`invalid` and `instructions` follow the same rule for announcements:
+without `invalid`, refusing typed text flips `aria-invalid` but
+announces nothing; without `instructions`, the dialog carries no
+keyboard help. Supplying both is strongly recommended. Either may be
+supplied at render time (in the macro's `labels`) or at init time (in
+`initDateTimePicker`'s `labels` opt); when only the init opts carry
+one, the client builds the element itself, the same way it builds the
+meridiem select. Init opts win over rendered text.
 
 ### 4.3 DOM contract
 
@@ -286,9 +300,19 @@ What the macro renders (elements present with no JavaScript at all):
     </button>
   </div>
 
+  <!-- labels.invalid only: always present, EMPTY while valid; the
+       message text rides in a root data attribute for client.js. -->
+  <span class="date-time-picker-status" id="{statusId}" role="status"
+        data-lily-date-time-picker-status></span>
+
   <div class="date-time-picker-dialog" id="{dialogId}" role="dialog"
        aria-modal="true" aria-label="{label}" tabindex="-1" hidden
+       aria-describedby="{instructionsId} when labels.instructions"
        data-lily-date-time-picker-dialog>
+    <!-- labels.instructions only: keyboard help, first child, spoken
+         once on open via the dialog's aria-describedby. -->
+    <p class="date-time-picker-instructions" id="{instructionsId}"
+       data-lily-date-time-picker-instructions>…</p>
     <div class="date-time-picker-header"> <!-- date modes only -->
       <button class="date-time-picker-previous-year"  aria-label="…" data-lily-date-time-picker-previous-year>…</button>
       <button class="date-time-picker-previous-month" aria-label="…" data-lily-date-time-picker-previous-month>…</button>
@@ -330,10 +354,21 @@ What the macro renders (elements present with no JavaScript at all):
 What `date-time-picker.client.js` additionally builds, every time the
 view changes: the weekday `<th>` row, every `<tbody>` row's day
 `<button>`s (with `data-date`, `data-outside`, `data-today`,
-`data-selected`, `aria-label`, `aria-current`, `disabled`,
-`tabindex`), the period heading's text, the hour/minute `<option>`
-lists, and — when the resolved clock is 12-hour — the meridiem
-`<label>` + `<select>` themselves.
+`data-selected`, `data-disabled`, `aria-label`, `aria-current`,
+`aria-disabled`, `tabindex`), the period heading's text, the
+hour/minute `<option>` lists, and — when the resolved clock is
+12-hour — the meridiem `<label>` + `<select>` themselves. It also
+builds the status region and the instructions paragraph when the
+corresponding label arrives only at init time (§4.2).
+
+**Vetoed days are `aria-disabled`, never the `disabled` attribute.** A
+`disabled` button refuses focus, so arrowing across a blocked week goes
+silent for a screen reader while the visible focus stays behind — and
+the "exactly one tabbable day" invariant breaks the moment the cursor
+lands on one. `aria-disabled` keeps the day focusable and announced as
+unavailable; activation is refused in the select handler. The
+`data-disabled` attribute rides along for consumer CSS — `:disabled`
+selectors on `.date-time-picker-day` do not match.
 
 CSS class hooks are otherwise identical to the canonical helper's
 `date-time-picker-*` names; a consumer's CSS written against the
@@ -389,7 +424,16 @@ the grid for that month, not merely scrolling to it.
 ### 5.3 Committing and discarding
 
 Identical table to canonical (Confirm / Cancel / Escape / Clear /
-click-outside).
+click-outside). Click-outside includes the component's **own text
+field**: the dialog claims `aria-modal="true"`, and a modal that stays
+open while the user edits behind it is telling assistive technology one
+thing and doing another. The trigger button is exempt because its own
+handler toggles.
+
+Closing returns focus to whichever element opened the dialog — the
+trigger button after a click, the **text field** after `Alt` + `Arrow
+Down` — per the APG dialog pattern. Click-outside closes without moving
+focus, since the user has already put it somewhere.
 
 ### 5.4 Typed input
 
@@ -398,12 +442,31 @@ then locale-ordered numerics, then written months. Unchanged behaviour
 for unparseable or out-of-range text (marked invalid, never silently
 snapped).
 
+When `labels.invalid` is supplied, the refusal is also *announced*: the
+`role="status"` region fills with the message, and the field points at
+it via `aria-errormessage` plus `aria-describedby` (appended after the
+consumer's `describedBy`). Without an announcement, a screen-reader
+user who has already tabbed away never learns their date was refused.
+
+`Escape` in the field discards a pending edit: the committed value
+returns to display and the invalid state clears, without committing
+anything — the same contract Escape has inside the dialog. The
+keystroke does not propagate, so a surrounding dialog stays open. When
+no edit is pending the key is untouched.
+
 ### 5.5 Range and vetoes
 
 `min` / `max` are inclusive, as canonical. Where canonical says
 "vetoed by `isDateDisabled`", read "vetoed by the effective disabled
 rule" here — the client-supplied `isDateDisabled` function when given,
 else the macro's `disabledDates` list. See §3.4.1.
+
+A vetoed day renders `aria-disabled="true"` (plus `data-disabled` for
+CSS) and refuses activation — never the `disabled` attribute, per §4.3.
+The keyboard cursor may still land on a vetoed day inside the range,
+with real focus and a screen-reader announcement — so arrowing across a
+blocked week works — but may not leave the `min`/`max` window at all,
+because there is nothing out there to navigate to.
 
 ### 5.6 Locale resolution
 
@@ -432,14 +495,32 @@ interaction is possible.
 
 Identical table to the canonical helper's §6.1 — every ARIA
 role/property named there is produced here too, whichever side (macro
-or client) produces the element it is on.
+or client) produces the element it is on. That includes the additions:
+`aria-disabled="true"` on vetoed day buttons (focusable, refuses
+activation), the `role="status"` region wired to the field via
+`aria-errormessage` / appended `aria-describedby` while invalid
+(`labels.invalid`), and the instructions paragraph the dialog's
+`aria-describedby` references (`labels.instructions`).
 
 ### 6.2 Keyboard contract
 
-Identical to canonical §6.2 in full: field `Enter` / `Alt+ArrowDown`;
+Identical to canonical §6.2 in full: field `Enter` / `Alt+ArrowDown` /
+`Escape` (discard a pending typed edit; no-op when nothing is pending);
 grid arrows / Home / End / PageUp / PageDown / Shift+PageUp / Shift+PageDown
 / Enter / Space; dialog `Escape` / `Tab` focus trap; roving `tabindex`
 on the grid.
+
+The grid's roving `tabindex` keeps exactly one day tabbable — an
+invariant `aria-disabled` preserves and the `disabled` attribute would
+break. Paging the view carries the cursor with it, clamped into the new
+month; *focus* follows the cursor only when it was already in the grid
+(`Page Up` / `Page Down`), because the cell it sat on no longer exists.
+Paging from the header buttons leaves focus on the header button, so
+"next month" can be activated repeatedly without being yanked into the
+grid.
+
+Closing the dialog returns focus to the element that opened it — button
+or text field — per §5.3.
 
 ### 6.3 Internationalisation
 
@@ -455,7 +536,7 @@ usable no-JS path**, discussed in §3.3 above.
 ## 7. Testing acceptance criteria
 
 `date-time-picker.test.ts` asserts every clause below, mapped 1:1 onto
-the canonical Svelte spec's §7.1–§7.48 (adjusted for the macro/client
+the canonical Svelte spec's §7.1–§7.55 (adjusted for the macro/client
 split where a clause references markup that only exists after
 `initDateTimePicker` runs), plus a final group of Nunjucks-specific
 clauses.
@@ -518,8 +599,8 @@ clauses.
 
 | Clause | Test asserts |
 | ------ | ------------ |
-| §7.29 | Days outside `min`/`max` render `disabled`. |
-| §7.30 | `disabledDates` (the `isDateDisabled` macro substitute, §3.4.1) disables individual days. |
+| §7.29 | Days outside `min`/`max` render `aria-disabled="true"` + `data-disabled` — never the `disabled` attribute. |
+| §7.30 | `disabledDates` (the `isDateDisabled` macro substitute, §3.4.1) marks individual days `aria-disabled`. |
 | §7.30 | A real `isDateDisabled` function at init time **replaces** the `disabledDates` baseline. |
 | §7.31 | Clicking a disabled day does not commit. |
 | §7.32 | A shortcut moves the pending selection and fires `onShortcut`. |
@@ -555,6 +636,18 @@ clauses.
 | §7.47 | Month names and day `aria-label`s follow `locale`. |
 | §7.48 | `showWeekNumbers` renders a week column with ISO week numbers. |
 
+### Assistive technology (mirrors §4.3, §5.3, §5.4, §6.2)
+
+| Clause | Test asserts |
+| ------ | ------------ |
+| §7.49 | The cursor lands on a vetoed day with real focus; the day is `aria-disabled`, still tabbable, refuses `Enter`, and the cursor can continue past it. |
+| §7.50 | `Escape` in the field discards the pending edit, restores the committed display, clears `aria-invalid`, and commits nothing. |
+| §7.51 | `labels.invalid` renders an empty `role="status"` region that fills on refusal, wired via `aria-errormessage` and appended to `aria-describedby`; absent without the label. |
+| §7.52 | Closing returns focus to the field when opened by `Alt`+`Arrow Down`, and to the button when opened by click. |
+| §7.53 | Paging from a header button keeps focus on that button while the cursor carries; paging from the grid moves focus with the cursor. |
+| §7.54 | `labels.instructions` renders keyboard help referenced by the dialog's `aria-describedby`; absent without the label. |
+| §7.55 | Clicking the text field while the dialog is open closes it without committing. |
+
 ### Nunjucks-specific surface
 
 | Test asserts |
@@ -564,6 +657,7 @@ clauses.
 | The macro is pure: renders no Intl-dependent content, touches no ambient document/storage state, and persists nothing. |
 | Shortcuts are rendered as real buttons by the macro with no function involved. |
 | `initDateTimePicker`'s `shortcuts` opt rebuilds the shortcuts container, taking over from the macro-rendered buttons. |
+| Init-time `labels.invalid` / `labels.instructions` build the status region and instructions paragraph the macro did not render, fully wired (§4.2). |
 | `nextDateTimePickerId` mints stable, incrementing, SSR-safe ids for a JS-built root. |
 | `autoInit` wires every root on the page. |
 | `initDateTimePicker` is inert on a missing or foreign root. |

@@ -525,11 +525,14 @@ describe("SharePicker — keyboard and dismissal (§7.15–§7.19)", () => {
     expect(document.activeElement).toBe(trigger);
   });
 
-  test("§7.17 Tab closes without stealing focus back to the trigger", () => {
+  test("§7.17 Tab closes and puts focus on the trigger so the default Tab proceeds from the picker", () => {
     const { trigger, list } = openList();
     keydown(list, "Tab");
     expect(list.hasAttribute("hidden")).toBe(true);
-    expect(document.activeElement).not.toBe(trigger);
+    // Focus sits on the trigger — not <body>, which is where it lands
+    // when the list is hidden while one of its items has focus, sending
+    // the browser's default Tab back to the top of the document.
+    expect(document.activeElement).toBe(trigger);
   });
 
   test("§7.18 choosing a destination fires onShare with its id and closes", () => {
@@ -843,5 +846,31 @@ describe("SharePicker — no-JS degradation (§6)", () => {
     // preference.
     const html = renderMacro({ label: "Share", targets: TARGETS });
     expect(html).not.toMatch(/localStorage|data-theme|data-text-size/);
+  });
+});
+
+describe("SharePicker — accessibility hardening (§7.27–§7.28; canonical Svelte §7.23–§7.24)", () => {
+  function openHardened() {
+    const parts = setup({ url: URL_UNDER_TEST, copyLabel: "Copy link" });
+    click(parts.trigger);
+    return parts;
+  }
+
+  test("§7.27 Tab from an open item puts focus on the button before closing", () => {
+    const { trigger, list } = openHardened();
+    expect(
+      (document.activeElement as HTMLElement | null)?.className || "",
+    ).toContain("share-picker-target");
+    keydown(list, "Tab");
+    // Focus sits on the button, so the browser's default Tab proceeds
+    // from the picker's own position — not from <body>, which is where
+    // focus lands when the list is hidden while its item has focus.
+    expect(document.activeElement).toBe(trigger);
+    expect(list.hasAttribute("hidden")).toBe(true);
+  });
+
+  test("§7.28 the list carries the picker's accessible name", () => {
+    const { list } = openHardened();
+    expect(list.getAttribute("aria-label")).toBe("Share");
   });
 });

@@ -478,12 +478,14 @@ describe("ThemePicker — keyboard contract (APG listbox)", () => {
     expect(document.activeElement).toBe(button);
   });
 
-  test("§7.16 Tab closes the listbox without stealing focus back", async () => {
+  test("§7.16 Tab closes the listbox and parks focus on the button", async () => {
     const { button, list } = openWith("ArrowDown");
     fireEvent.keyDown(list, { key: "Tab" });
     await flush();
     expect(list.hasAttribute("hidden")).toBe(true);
-    expect(document.activeElement).not.toBe(button);
+    // Focus goes to the button first (without cancelling the key), so
+    // the browser's default Tab proceeds from the picker's position.
+    expect(document.activeElement).toBe(button);
   });
 
   test("§7.17 typeahead moves the active descendant by label prefix", () => {
@@ -759,5 +761,76 @@ describe("ThemePicker — spread + custom children (§7.12–§7.13)", () => {
     );
     fireEvent.click(screen.getByRole("button"));
     expect(screen.getByTestId("custom").getAttribute("data-open")).toBe("true");
+  });
+});
+
+describe("ThemePicker — accessibility hardening (§7.21–§7.24)", () => {
+  async function openPicker(themes: string[] = THEMES) {
+    render(
+      <ThemePicker label="Theme" themesUrl={URL_TRAILING} themes={themes} />,
+    );
+    await flush();
+    fireEvent.click(screen.getByRole("button"));
+    await flush();
+    return {
+      button: screen.getByRole("button"),
+      list: document.querySelector(".theme-picker-list") as HTMLElement,
+    };
+  }
+
+  const active = (list: HTMLElement) =>
+    list.querySelector("[data-active]")?.textContent?.trim();
+
+  test("§7.21 Tab from the open list puts focus on the button before closing", async () => {
+    const { button, list } = await openPicker();
+    expect(document.activeElement).toBe(list);
+    fireEvent.keyDown(list, { key: "Tab" });
+    await flush();
+    // Focus sits on the button, so the browser's default Tab proceeds
+    // from the picker's own position — not from <body>, which is where
+    // focus lands when the focused list is hidden first, sending the
+    // next Tab to the top of the document.
+    expect(document.activeElement).toBe(button);
+    expect(list.hasAttribute("hidden")).toBe(true);
+  });
+
+  test("§7.22 a repeated typeahead character cycles through its matches", async () => {
+    const { list } = await openPicker(["dark", "dim", "dracula", "light"]);
+    // The initial value resolves to "light", so the cursor opens there.
+    fireEvent.keyDown(list, { key: "d" });
+    expect(active(list)).toBe("Dark");
+    fireEvent.keyDown(list, { key: "d" });
+    expect(active(list)).toBe("Dim");
+    fireEvent.keyDown(list, { key: "d" });
+    expect(active(list)).toBe("Dracula");
+  });
+
+  test("§7.22 a multi-character buffer refines the match from the active option", async () => {
+    const { list } = await openPicker(["dark", "dim", "dracula", "light"]);
+    fireEvent.keyDown(list, { key: "d" });
+    fireEvent.keyDown(list, { key: "r" });
+    expect(active(list)).toBe("Dracula");
+  });
+
+  test("§7.23 PageUp and PageDown move the cursor by ten, clamped", async () => {
+    const many = Array.from(
+      { length: 25 },
+      (_, i) => `t${String(i).padStart(2, "0")}`,
+    );
+    const { list } = await openPicker(many);
+    fireEvent.keyDown(list, { key: "PageDown" });
+    expect(active(list)).toBe("T10");
+    fireEvent.keyDown(list, { key: "PageDown" });
+    expect(active(list)).toBe("T20");
+    fireEvent.keyDown(list, { key: "PageDown" });
+    expect(active(list)).toBe("T24");
+    fireEvent.keyDown(list, { key: "PageUp" });
+    expect(active(list)).toBe("T14");
+  });
+
+  test("§7.24 an empty list opens without aria-activedescendant", async () => {
+    const { list } = await openPicker([]);
+    expect(list.hasAttribute("hidden")).toBe(false);
+    expect(list.getAttribute("aria-activedescendant")).toBeNull();
   });
 });

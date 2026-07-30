@@ -16,7 +16,9 @@ none of them are hypothetical.
   report the focused link the same way they would anywhere else.
 - **Full keyboard contract.** Arrows (clamping at the ends), `Home` /
   `End`, `Escape` to close and return focus to the trigger, `Tab` to
-  leave without focus being yanked back.
+  leave — focus goes to the trigger first, without cancelling the key,
+  so the browser's default Tab proceeds from the picker's position
+  rather than restarting from `<body>`.
 - **Focus is never destroyed by a state change.** Opening, closing,
   announcing, and any `url` / `share-title` / `text` change all update
   attributes in place rather than rebuilding the DOM.
@@ -115,7 +117,8 @@ failure. Supply both.
 - Open with `ArrowDown` and with `ArrowUp`; confirm first / last item.
 - Arrow past both ends; confirm focus clamps rather than wrapping.
 - `Escape`; confirm the list closes **and** focus returns to the trigger.
-- `Tab` out of an open list; confirm it closes and focus does not jump back.
+- `Tab` out of an open list; confirm it closes and the next Tab stop is
+  the one after the picker, not the top of the document.
 - Copy with a screen reader running; confirm the outcome is announced.
 - Test with the clipboard denied, and over plain HTTP, and confirm the
   failure message tells the user what to do next.

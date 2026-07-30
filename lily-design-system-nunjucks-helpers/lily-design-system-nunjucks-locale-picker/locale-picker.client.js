@@ -74,6 +74,41 @@ export function localeName(locale) {
   return defaultLocaleLabels[locale] || locale;
 }
 
+/**
+ * The language's own name for itself — "de" → "Deutsch", "cy" →
+ * "Cymraeg" — from `Intl.DisplayNames` asked *in that language*.
+ *
+ * Endonyms are the right default for a language menu: the user who
+ * needs it most is the one lost in a UI that is not in their
+ * language, and they recognise "Cymraeg" where "Welsh" means
+ * nothing to them. Deterministic (no `navigator` dependency), so
+ * every runtime with the same ICU data renders the same label.
+ * Returns "" when the runtime has no data — some runtimes echo the
+ * tag back instead of failing, and an echo is not a name.
+ */
+export function localeEndonym(locale) {
+  try {
+    const tag = bcp47LocaleTag(locale);
+    const dn = new Intl.DisplayNames([tag], { type: "language" });
+    const found = dn.of(tag) || "";
+    return found && found.toLowerCase() !== tag.toLowerCase() ? found : "";
+  } catch (_e) {
+    return "";
+  }
+}
+
+/**
+ * Resolve the label the picker should show for one derived (not
+ * consumer-labelled) option: endonym → built-in English table → the
+ * raw code. This is the client half of the label contract in
+ * spec/index.md §5.7 — the macro cannot ask ICU for anything, so it
+ * renders the raw code as a pre-hydration fallback and marks the
+ * option `data-lily-locale-picker-derive`; this function upgrades it.
+ */
+export function derivedLocaleLabel(locale) {
+  return localeEndonym(locale) || defaultLocaleLabels[locale] || locale;
+}
+
 /** Match a navigator preference against a supported-locales list. */
 export function matchNavigatorLanguage(navLangs, locales) {
   const lc = (s) => s.toLowerCase().replace(/_/g, "-");
@@ -144,6 +179,26 @@ export function initLocalePicker(root, opts = {}) {
 
   const options = Array.from(list.querySelectorAll('[role="option"]'));
   const values = options.map((o) => o.getAttribute("data-value") || "");
+
+  // Upgrade the derived option labels (§5.7). The macro renders the
+  // raw code as a pre-hydration fallback — a template cannot ask ICU
+  // for anything — and marks those options with
+  // `data-lily-locale-picker-derive`. Here each becomes its endonym
+  // ("Cymraeg", not "Welsh"), falling back to the English table, then
+  // the raw code. `lang` is set ONLY when the text really is the
+  // endonym: `lang` is a claim about the language of the option's
+  // TEXT, and the English word "Arabic" must never be handed to an
+  // Arabic speech engine. Consumer-labelled options are left alone
+  // and carry no `lang` — their language is unknown.
+  options.forEach((o, i) => {
+    if (!o.hasAttribute("data-lily-locale-picker-derive")) return;
+    const code = values[i];
+    const endonym = localeEndonym(code);
+    o.textContent = endonym || defaultLocaleLabels[code] || code;
+    if (endonym) o.setAttribute("lang", bcp47LocaleTag(code));
+    else o.removeAttribute("lang");
+  });
+
   const labels = options.map((o) => (o.textContent || "").trim());
 
   const storageKey =
@@ -208,12 +263,17 @@ export function initLocalePicker(root, opts = {}) {
 
   function openList(startIndex) {
     const selected = values.indexOf(current);
+    // An empty list has no option to activate; -1 keeps
+    // aria-activedescendant off rather than pointing at an id that
+    // does not exist.
     const start =
-      typeof startIndex === "number"
-        ? startIndex
-        : selected >= 0
-          ? selected
-          : 0;
+      options.length === 0
+        ? -1
+        : typeof startIndex === "number"
+          ? startIndex
+          : selected >= 0
+            ? selected
+            : 0;
     open = true;
     list.hidden = false;
     button.setAttribute("aria-expanded", "true");
@@ -246,16 +306,26 @@ export function initLocalePicker(root, opts = {}) {
   }
 
   function runTypeahead(char) {
-    typeahead += char.toLowerCase();
+    const lower = char.toLowerCase();
+    // APG listbox typeahead: a single character moves to the NEXT
+    // option starting with it, and repeating that character keeps
+    // cycling. Only a buffer of differing characters refines the
+    // match, and that buffer stays anchored on the active option.
+    const sameCharRun =
+      typeahead === "" || Array.from(typeahead).every((c) => c === lower);
+    typeahead += lower;
     clearTimeout(typeaheadTimer);
     typeaheadTimer = setTimeout(() => {
       typeahead = "";
     }, TYPEAHEAD_RESET_MS);
-    const from = activeIndex < 0 ? 0 : activeIndex;
-    // Search forward from the active option, wrapping once.
+    const query = sameCharRun ? lower : typeahead;
+    const anchor = activeIndex < 0 ? 0 : activeIndex;
+    const start = sameCharRun ? anchor + 1 : anchor;
+    // Search forward, wrapping once — typeahead wraps even though the
+    // arrows clamp, or options above the cursor would be untypable.
     for (let n = 0; n < options.length; n++) {
-      const i = (from + n) % options.length;
-      if (labels[i].toLowerCase().startsWith(typeahead)) {
+      const i = (start + n) % options.length;
+      if (labels[i].toLowerCase().startsWith(query)) {
         setActive(i);
         return;
       }
@@ -315,8 +385,25 @@ export function initLocalePicker(root, opts = {}) {
         event.preventDefault();
         closeList();
         break;
+      case "PageUp":
+        event.preventDefault();
+        moveActive(-10);
+        break;
+      case "PageDown":
+        // ±10, clamped: an APG-optional key for long locale lists.
+        event.preventDefault();
+        moveActive(10);
+        break;
       case "Tab":
-        // Tab moves on: close without stealing focus back.
+        // Tab moves on — but focus goes to the button FIRST, without
+        // cancelling the key. Hiding the focused list drops focus to
+        // <body>, and the browser then computes the default Tab move
+        // from the top of the document, so tabbing out of an open
+        // picker teleported the user to the page's first tab stop.
+        // From the button, the default Tab lands exactly where leaving
+        // the picker should. Guard the METHOD, not just the element:
+        // this shape has bitten these helpers before.
+        button?.focus?.();
         closeList(false);
         break;
       default:

@@ -146,6 +146,8 @@ type DateTimePickerLabels = {
   meridiem?: string; // required when hour12 resolves true
   week?: string; // required when showWeekNumbers
   clear?: string; // the clear button renders only when supplied
+  invalid?: string; // the invalid-input live region renders only when supplied
+  instructions?: string; // dialog keyboard help, described-by the dialog when supplied
 };
 
 type DateTimeShortcut = {
@@ -182,8 +184,38 @@ el.isDateDisabled = (iso) => weekdayOf(iso) === 0 || weekdayOf(iso) === 6;
 
 `min` / `max` are inclusive. `isDateDisabled` vetoes anything else —
 closed days, fully-booked slots, bank holidays. Blocked days render
-`disabled`; the keyboard cursor can still cross them, so arrowing over a
-blocked week works.
+`aria-disabled="true"` plus a `data-disabled` hook for your CSS — never
+the `disabled` attribute, so they stay focusable: the keyboard cursor
+can land on them and a screen reader announces them as unavailable,
+while activation is refused. Style them with
+`.date-time-picker-day[data-disabled]` (a `:disabled` selector will not
+match).
+
+## Announce refusals, and explain the keyboard
+
+Two optional labels light up two extra pieces of markup — without them,
+nothing renders, because the component never invents English:
+
+```js
+picker.labels = {
+  ...labels,
+  invalid: "Enter a valid date, for example 21 3 2026",
+  instructions: "Use the arrow keys to choose a day, and Enter to confirm",
+};
+```
+
+- `invalid` renders a `<span class="date-time-picker-status"
+  role="status">` live region straight after the field — present in the
+  DOM whenever the label is supplied, *empty* while the field is valid,
+  filled with the message when typed text is refused. The field points
+  at it via `aria-errormessage` and appends its id to
+  `aria-describedby` (after your own `described-by`). Without it,
+  `aria-invalid` flips silently and a screen-reader user who has already
+  left the field never hears that their date was rejected.
+- `instructions` renders a `<p class="date-time-picker-instructions">`
+  as the first child of the dialog and becomes the dialog's
+  `aria-describedby`, so a screen reader speaks it once on open. Visible
+  by default; hide it visually with your own CSS if you prefer.
 
 ## Quick picks
 
@@ -264,6 +296,10 @@ The package ships no CSS, including dialog positioning:
 .date-time-picker-day[data-selected] {
   outline: 2px solid;
 }
+.date-time-picker-day[data-disabled] {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
 ```
 
 ## Custom glyph
@@ -287,14 +323,20 @@ customElements.define("labelled-date-time-picker", LabelledDateTimePicker);
 ## Keyboard
 
 On the **text field**: `Enter` resolves typed text; `Alt`+`↓` opens the
-dialog (matching `<input type="date">`).
+dialog (matching `<input type="date">`); `Escape` discards a pending
+typed edit — the committed value comes back on display and the invalid
+state clears — and is left alone when nothing is pending.
 
 On the **grid**: arrows move by a day / a week; `Home`/`End` reach the
 week's ends; `Page Up`/`Page Down` page the month, `Shift` pages the
-year; `Enter`/`Space` selects the cursor's day.
+year; `Enter`/`Space` selects the cursor's day. Paging from the header's
+prev/next buttons leaves focus on the button, so it can be activated
+repeatedly.
 
 Anywhere in the **dialog**: `Escape` closes without committing; `Tab` /
-`Shift+Tab` cycle within the dialog (a real focus trap).
+`Shift+Tab` cycle within the dialog (a real focus trap). Closing returns
+focus to whichever element opened the dialog — the trigger button after
+a click, the text field after `Alt`+`↓`.
 
 ## Accessibility
 

@@ -66,7 +66,10 @@ Initial value resolves from `value` > storage > `defaultValue` >
 ## Accessibility
 
 - WCAG 2.2 AAA target.
-- Native `<select>` provides Arrow / Home / End / typeahead semantics.
+- APG listbox keyboard contract: arrows (clamped), `Home` / `End`,
+  `PageUp` / `PageDown` (by ten), typeahead with same-character
+  cycling, `Escape` discards, and `Tab` closes via the button so the
+  default Tab proceeds from the picker's position.
 - `aria-label` carries the consumer-supplied accessible name.
 - Default labels title-case the slug.
 

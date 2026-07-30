@@ -1,6 +1,6 @@
 # TextSizePicker (Blazor helper)
 
-A reusable, headless Blazor text-size select. Renders an **icon button
+A reusable, headless Blazor text-size picker. Renders an **icon button
 that opens a dropdown listbox** of size slugs and applies the chosen
 slug to the document root via `data-text-size`, with optional
 `localStorage` persistence. Ships no CSS — you style the class hooks
@@ -128,9 +128,12 @@ even when supplying your own glyph.
 
 Button: `ArrowDown` / `Enter` / `Space` open on the selected option,
 `ArrowUp` opens on the last. Listbox: arrows move and clamp, `Home` /
-`End` jump, `Enter` / `Space` select and close, `Escape` closes without
-changing the value, `Tab` closes and moves on, printable characters run
-a 500 ms typeahead. Full table:
+`End` jump, `PageUp` / `PageDown` move by ten (clamped), `Enter` /
+`Space` select and close, `Escape` closes without changing the value,
+`Tab` closes and moves on (the browser's default Tab proceeds from the
+picker's position), printable characters run a 500 ms APG typeahead —
+a repeated character cycles through its matches; differing characters
+refine from the active option. Full table:
 [docs/accessibility.md](./docs/accessibility.md#keyboard-contract).
 
 ## Accessibility

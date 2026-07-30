@@ -433,9 +433,14 @@ export class ThemePicker extends HTMLElement {
 
   /** Open the listbox. `startIndex` overrides the active option. */
   openList(startIndex?: number): void {
-    if (this.#themes.length === 0) return;
     const selected = this.#themes.indexOf(this.value);
-    this.#activeIndex = startIndex ?? (selected >= 0 ? selected : 0);
+    // An empty list has no option to activate; -1 keeps
+    // aria-activedescendant off rather than pointing at an id that
+    // does not exist.
+    this.#activeIndex =
+      this.#themes.length === 0
+        ? -1
+        : (startIndex ?? (selected >= 0 ? selected : 0));
     this.#open = true;
     this.#syncState();
     // Focus moves to the listbox; the active option is conveyed via
@@ -482,18 +487,28 @@ export class ThemePicker extends HTMLElement {
   }
 
   #runTypeahead(char: string): void {
-    this.#typeahead += char.toLowerCase();
+    const lower = char.toLowerCase();
+    // APG listbox typeahead: a single character moves to the NEXT
+    // option starting with it, and repeating that character keeps
+    // cycling — which is what makes the dark / dim / dracula run of a
+    // long theme list reachable by pressing "d" three times. Only a
+    // buffer of differing characters refines the match, and that
+    // buffer stays anchored on the active option.
+    const sameCharRun =
+      this.#typeahead === "" || [...this.#typeahead].every((c) => c === lower);
+    this.#typeahead += lower;
     clearTimeout(this.#typeaheadTimer);
     this.#typeaheadTimer = setTimeout(() => {
       this.#typeahead = "";
     }, 500);
-    const from = this.#activeIndex < 0 ? 0 : this.#activeIndex;
-    // Search forward from the active option, wrapping once.
+    const query = sameCharRun ? lower : this.#typeahead;
+    const anchor = this.#activeIndex < 0 ? 0 : this.#activeIndex;
+    const start = sameCharRun ? anchor + 1 : anchor;
+    // Search forward, wrapping once — typeahead wraps even though the
+    // arrows clamp, or options above the cursor would be untypable.
     for (let n = 0; n < this.#themes.length; n++) {
-      const i = (from + n) % this.#themes.length;
-      if (
-        this.labelFor(this.#themes[i]).toLowerCase().startsWith(this.#typeahead)
-      ) {
+      const i = (start + n) % this.#themes.length;
+      if (this.labelFor(this.#themes[i]).toLowerCase().startsWith(query)) {
         this.#setActive(i);
         return;
       }
@@ -542,8 +557,26 @@ export class ThemePicker extends HTMLElement {
         event.preventDefault();
         this.closeList();
         break;
+      case "PageUp":
+        event.preventDefault();
+        this.#moveActive(-10);
+        break;
+      case "PageDown":
+        // ±10, clamped: an APG-optional key that earns its place in a
+        // 45-theme list.
+        event.preventDefault();
+        this.#moveActive(10);
+        break;
       case "Tab":
-        // Tab moves on: close without stealing focus back.
+        // Tab moves on — but focus goes to the button FIRST, without
+        // cancelling the key. Hiding the focused list drops focus to
+        // <body>, and the browser then computes the default Tab move
+        // from the top of the document, so tabbing out of an open
+        // picker teleported the user to the page's first tab stop.
+        // From the button, the default Tab lands exactly where leaving
+        // the picker should. Guard the METHOD: jsdom-shaped
+        // environments may lack it.
+        this.#buttonEl?.focus?.();
         this.closeList(false);
         break;
       default:

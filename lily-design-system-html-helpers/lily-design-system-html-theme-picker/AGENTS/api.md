@@ -97,7 +97,7 @@ object property writes back the JSON-encoded attribute.
 | `el.open`                  | `boolean` | Read-only. Whether the listbox is open.                                                                                                               |
 | `el.listId`                | `string`  | Read-only. id of the rendered `<ul role="listbox">`.                                                                                                  |
 | `el.optionId(index)`       | `string`  | id of the rendered option at `index`.                                                                                                                 |
-| `el.openList(startIndex?)` | `void`    | Open the list; `startIndex` overrides the active option (default: the selected one, else 0). Moves focus to the `<ul>`. No-op when `themes` is empty. |
+| `el.openList(startIndex?)` | `void`    | Open the list; `startIndex` overrides the active option (default: the selected one, else 0; `-1` with an empty `themes`, so `aria-activedescendant` stays absent). Moves focus to the `<ul>`. |
 | `el.closeList(refocus?)`   | `void`    | Close the list. Returns focus to the button unless `refocus` is `false`.                                                                              |
 | `el.labelFor(slug)`        | `string`  | Display label for a slug — `themeLabels[slug]`, else the title-cased slug.                                                                            |
 | `el.renderButtonContent()` | `Node`    | Overridable hook building the button's content. See below.                                                                                            |

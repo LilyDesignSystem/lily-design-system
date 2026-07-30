@@ -266,10 +266,12 @@ Optional `opts`:
 Owned entirely by the client.js; none of it works before that module
 runs. On the button: `ArrowDown` / `Enter` / `Space` open (`ArrowUp`
 opens on the last option). On the list: arrows move and clamp,
-`Home` / `End` jump, `Enter` / `Space` select, `Escape` closes
-unchanged, `Tab` closes and moves on, printable characters run
-typeahead. Full table in
-[docs/accessibility.md](./docs/accessibility.md).
+`Home` / `End` jump, `PageUp` / `PageDown` move by ten (clamped),
+`Enter` / `Space` select, `Escape` closes unchanged, `Tab` closes and
+moves on — focus goes to the button first, so the default Tab proceeds
+from the picker's position — and printable characters run APG
+typeahead (a repeated character cycles through its matches). Full
+table in [docs/accessibility.md](./docs/accessibility.md).
 
 ## Accessibility
 

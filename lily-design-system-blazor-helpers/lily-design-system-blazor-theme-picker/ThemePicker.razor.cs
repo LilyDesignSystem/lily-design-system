@@ -312,9 +312,13 @@ public partial class ThemePicker : ComponentBase
     /// one (or the first), unless <paramref name="startIndex"/> overrides it.</summary>
     private void OpenList(int? startIndex = null)
     {
-        if (Themes.Count == 0) return;
         var selected = IndexOfValue();
-        _activeIndex = startIndex ?? (selected >= 0 ? selected : 0);
+        // An empty list has no option to activate; -1 keeps
+        // aria-activedescendant off rather than pointing at an id that
+        // does not exist.
+        _activeIndex = Themes.Count == 0
+            ? -1
+            : startIndex ?? (selected >= 0 ? selected : 0);
         _open = true;
         _focusListPending = true;
         _suppressFocusOut = true;
@@ -370,14 +374,27 @@ public partial class ThemePicker : ComponentBase
         var now = DateTimeOffset.UtcNow;
         if (now - _typeaheadAt > TypeaheadWindow) _typeahead = "";
         _typeaheadAt = now;
-        _typeahead += character.ToLowerInvariant();
 
-        var from = _activeIndex < 0 ? 0 : _activeIndex;
-        // Search forward from the active option, wrapping once.
+        var lower = character.ToLowerInvariant();
+        // APG listbox typeahead: a single character moves to the NEXT
+        // option starting with it, and repeating that character keeps
+        // cycling — which is what makes the dark / dim / dracula run of a
+        // long theme list reachable by pressing "d" three times. Only a
+        // buffer of differing characters refines the match, and that
+        // buffer stays anchored on the active option.
+        var sameCharRun = _typeahead.Length == 0
+            || (lower.Length == 1 && _typeahead.All(c => c == lower[0]));
+        _typeahead += lower;
+
+        var query = sameCharRun ? lower : _typeahead;
+        var anchor = _activeIndex < 0 ? 0 : _activeIndex;
+        var start = sameCharRun ? anchor + 1 : anchor;
+        // Search forward, wrapping once — typeahead wraps even though the
+        // arrows clamp, or options above the cursor would be untypable.
         for (var n = 0; n < Themes.Count; n++)
         {
-            var i = (from + n) % Themes.Count;
-            if (LabelFor(Themes[i]).ToLowerInvariant().StartsWith(_typeahead, StringComparison.Ordinal))
+            var i = (start + n) % Themes.Count;
+            if (LabelFor(Themes[i]).ToLowerInvariant().StartsWith(query, StringComparison.Ordinal))
             {
                 _activeIndex = i;
                 return;
@@ -445,8 +462,26 @@ public partial class ThemePicker : ComponentBase
                 // Close and return focus without changing the value.
                 CloseList();
                 break;
+            case "PageUp":
+                MoveActive(-10);
+                break;
+            case "PageDown":
+                // ±10, clamped: an APG-optional key that earns its place
+                // in a 45-theme list.
+                MoveActive(10);
+                break;
             case "Tab":
-                // Tab moves on: close without stealing focus back.
+                // Tab moves on: close without touching focus. The canonical
+                // Svelte fix moves focus to the button BEFORE hiding the
+                // list, because there the hide is synchronous and would
+                // otherwise precede the browser's default Tab, dropping
+                // focus to <body>. Blazor cannot reproduce that bug: the
+                // default Tab always runs before this async handler, so it
+                // proceeds from the still-visible list — the picker's own
+                // position — and focus has already landed on the next tab
+                // stop by the time the list hides. Requesting button focus
+                // here would run AFTER the default Tab and yank the user
+                // back to the trigger they just left.
                 CloseList(false);
                 break;
             default:
@@ -473,6 +508,19 @@ public partial class ThemePicker : ComponentBase
         CloseList(false);
         return Task.CompletedTask;
     }
+
+    // -------------------------------------------------------------------
+    // Test seams (InternalsVisibleTo). bUnit has no live focus model, so
+    // the suite asserts which element a FocusAsync interop call targeted
+    // by comparing ElementReference ids — the same technique the
+    // DateTimePicker suite uses.
+    // -------------------------------------------------------------------
+
+    /// <summary>The trigger button's ElementReference id, once rendered.</summary>
+    internal string? ButtonReferenceId => _buttonElement.Id;
+
+    /// <summary>The listbox's ElementReference id, once rendered.</summary>
+    internal string? ListReferenceId => _listElement.Id;
 
     // -------------------------------------------------------------------
     // Apply / set.

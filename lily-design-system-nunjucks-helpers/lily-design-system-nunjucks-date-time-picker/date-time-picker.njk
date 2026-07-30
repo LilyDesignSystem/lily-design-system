@@ -68,7 +68,12 @@
                      hour/minute are required when mode includes a time;
                      meridiem is required when a 12-hour clock is used;
                      week is required when showWeekNumbers; clear is
-                     optional and gates the clear button.
+                     optional and gates the clear button; invalid is
+                     optional and gates the role="status" live region
+                     that announces refused typed input (its message is
+                     forwarded as a data attribute for the client);
+                     instructions is optional and gates the keyboard
+                     help paragraph the dialog is described by.
     mode           — "date" | "time" | "datetime", default "date".
     value          — string. Initial ISO value (YYYY-MM-DD / HH:MM /
                      YYYY-MM-DDTHH:MM per mode). Shown RAW in the text
@@ -121,6 +126,8 @@
 {%- set id = opts.id | default("date-time-picker-" + name) -%}
 {%- set dialogId = id + "-dialog" -%}
 {%- set periodId = id + "-period" -%}
+{%- set statusId = id + "-status" -%}
+{%- set instructionsId = id + "-instructions" -%}
 {%- set fieldId = opts.inputId | default(id + "-input") -%}
 {%- set hourId = id + "-hour" -%}
 {%- set minuteId = id + "-minute" -%}
@@ -145,6 +152,7 @@
   {%- if showWeekNumbers %} data-lily-date-time-picker-show-week-numbers="true"{% endif %}
   {%- if opts.confirmOnSelect is defined %} data-lily-date-time-picker-confirm-on-select="{{ opts.confirmOnSelect }}"{% endif %}
   {%- if labels.meridiem %} data-lily-date-time-picker-meridiem-label="{{ labels.meridiem }}"{% endif %}
+  {%- if labels.invalid %} data-lily-date-time-picker-invalid-label="{{ labels.invalid }}"{% endif %}
   {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
 <input type="hidden" name="{{ name }}" value="{{ opts.value | default('') }}" data-lily-date-time-picker-hidden-input>
@@ -177,16 +185,31 @@
   </button>
 </div>
 
+{%- if labels.invalid %}
+{#- Present in the DOM before it has content: a live region that appears
+    at the same moment as its message is routinely not announced at all.
+    Empty while the field is valid; date-time-picker.client.js fills it
+    (the message text rides in the root data attribute above). -#}
+<span class="date-time-picker-status" id="{{ statusId }}" role="status" data-lily-date-time-picker-status></span>
+{%- endif %}
+
 <div
   class="date-time-picker-dialog"
   id="{{ dialogId }}"
   role="dialog"
   aria-modal="true"
   aria-label="{{ opts.label }}"
+  {%- if labels.instructions %} aria-describedby="{{ instructionsId }}"{% endif %}
   tabindex="-1"
   hidden
   data-lily-date-time-picker-dialog
 >
+{%- if labels.instructions %}
+{#- Spoken once when the dialog takes focus, via the dialog's
+    aria-describedby. Visible by default; a consumer who wants it
+    screen-reader-only hides it with their own CSS. -#}
+  <p class="date-time-picker-instructions" id="{{ instructionsId }}" data-lily-date-time-picker-instructions>{{ labels.instructions }}</p>
+{%- endif %}
 {%- if usesDate %}
   <div class="date-time-picker-header">
     <button type="button" class="date-time-picker-previous-year" aria-label="{{ labels.previousYear }}" data-lily-date-time-picker-previous-year><span aria-hidden="true">&#171;</span></button>

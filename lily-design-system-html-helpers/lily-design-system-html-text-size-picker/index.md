@@ -88,12 +88,12 @@ tells a user which size is active. Wire `textsizechange` (or read
 `el.value`) to keep it current:
 
 ```ts
-const select = document.querySelector("text-size-picker")!;
+const picker = document.querySelector("text-size-picker")!;
 const status = document.querySelector(".text-size-picker-status")!;
 
-select.addEventListener("textsizechange", (e) => {
+picker.addEventListener("textsizechange", (e) => {
   const { size } = (e as CustomEvent<{ size: string }>).detail;
-  status.textContent = `Text size: ${select.labelFor(size)}`;
+  status.textContent = `Text size: ${picker.labelFor(size)}`;
 });
 ```
 
@@ -120,7 +120,7 @@ The default slug is `"medium"` whenever `"medium"` appears in your
 3. `default-value` attribute
 4. `"medium"` (if present in `sizes`)
 5. `sizes[0]`
-6. `""` — nothing is applied; the select waits for user interaction
+6. `""` — nothing is applied; the picker waits for user interaction
 
 ## Attributes
 
@@ -160,11 +160,11 @@ Style `[data-active]` (keyboard-highlighted) differently from
 Every observed attribute mirrors a camelCase JS property:
 
 ```ts
-const select = document.querySelector("text-size-picker") as TextSizePicker;
+const picker = document.querySelector("text-size-picker") as TextSizePicker;
 
-select.sizes = ["small", "medium", "large", "x-large"]; // CSV-encoded in attribute
-select.sizeLabels = { small: "Compact", large: "Comfortable" };
-select.target = document.querySelector("section.panel") as HTMLElement;
+picker.sizes = ["small", "medium", "large", "x-large"]; // CSV-encoded in attribute
+picker.sizeLabels = { small: "Compact", large: "Comfortable" };
+picker.target = document.querySelector("section.panel") as HTMLElement;
 ```
 
 `el.target` accepts `HTMLElement | null` and has no attribute form.
@@ -183,7 +183,7 @@ slug is title-cased per hyphen-word (`x-large` → `X Large`).
 ## Persistence
 
 Pass `storage-key` to persist the active slug to `localStorage`. On a
-fresh mount the select reads back the stored slug as part of the
+fresh mount the picker reads back the stored slug as part of the
 initial-value resolution. Storage errors are silently swallowed.
 
 ## Custom rendering
@@ -214,9 +214,13 @@ and the whole keyboard contract keep working.
   `aria-label={label}` names both.
 - The keyboard contract is implemented in JS, not inherited from the
   platform: `ArrowDown`/`Enter`/`Space` open, `ArrowUp` opens on the
-  last option, arrows clamp, `Home`/`End` jump, `Enter`/`Space`
-  select, `Escape` closes unchanged, `Tab` moves on, printable
-  characters run a 500 ms typeahead.
+  last option, arrows clamp, `Home`/`End` jump, `PageUp`/`PageDown`
+  move by ten (clamped), `Enter`/`Space` select, `Escape` closes
+  unchanged, `Tab` moves focus to the button first and then closes,
+  so the browser's default Tab proceeds from the picker's position.
+  Printable characters run a 500 ms typeahead: a repeated character
+  cycles through its matches, a buffer of differing characters
+  refines the match from the active option.
 - Focus sits on the `<ul>` while open; the highlighted option is
   conveyed by `aria-activedescendant`. Style
   `.text-size-picker-list:focus-visible` and

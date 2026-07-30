@@ -284,12 +284,14 @@ describe("TextSizePicker — keyboard contract (APG listbox)", () => {
         expect(document.activeElement).toBe(button);
     });
 
-    test("§7.16 Tab closes the listbox without stealing focus back", async () => {
+    test("§7.16 Tab closes the listbox and parks focus on the button", async () => {
         const { button, list } = openWith("ArrowDown");
         fireEvent.keyDown(list, { key: "Tab" });
         await flush();
         expect(list.hasAttribute("hidden")).toBe(true);
-        expect(document.activeElement).not.toBe(button);
+        // Focus goes to the button first (without cancelling the key), so
+        // the browser's default Tab proceeds from the picker's position.
+        expect(document.activeElement).toBe(button);
     });
 
     test("§7.17 typeahead moves the active descendant by label prefix", () => {
@@ -551,5 +553,83 @@ describe("TextSizePicker — spread + custom children (§7.12–§7.13)", () => 
         expect(screen.getByTestId("custom").getAttribute("data-open")).toBe(
             "true",
         );
+    });
+});
+
+describe("TextSizePicker — accessibility hardening (§7.14–§7.17)", () => {
+    async function openPicker(
+        sizes: string[] = SIZES,
+        extra: Record<string, unknown> = {},
+    ) {
+        render(<TextSizePicker label="Text size" sizes={sizes} {...extra} />);
+        await flush();
+        fireEvent.click(screen.getByRole("button"));
+        await flush();
+        return {
+            button: screen.getByRole("button"),
+            list: document.querySelector(
+                ".text-size-picker-list",
+            ) as HTMLElement,
+        };
+    }
+
+    const active = (list: HTMLElement) =>
+        list.querySelector("[data-active]")?.textContent?.trim();
+
+    test("§7.14 Tab from the open list puts focus on the button before closing", async () => {
+        const { button, list } = await openPicker();
+        expect(document.activeElement).toBe(list);
+        fireEvent.keyDown(list, { key: "Tab" });
+        await flush();
+        // Focus sits on the button, so the browser's default Tab proceeds
+        // from the picker's own position — not from <body>, which is where
+        // focus lands when the focused list is hidden first.
+        expect(document.activeElement).toBe(button);
+        expect(list.hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.15 a repeated typeahead character cycles through its matches", async () => {
+        const { list } = await openPicker(["d1", "d2", "d3", "m"], {
+            sizeLabels: { d1: "Dark", d2: "Dim", d3: "Dracula", m: "Light" },
+            defaultValue: "m",
+        });
+        fireEvent.keyDown(list, { key: "d" });
+        expect(active(list)).toBe("Dark");
+        fireEvent.keyDown(list, { key: "d" });
+        expect(active(list)).toBe("Dim");
+        fireEvent.keyDown(list, { key: "d" });
+        expect(active(list)).toBe("Dracula");
+    });
+
+    test("§7.15 a multi-character buffer refines the match from the active option", async () => {
+        const { list } = await openPicker(["d1", "d2", "d3", "m"], {
+            sizeLabels: { d1: "Dark", d2: "Dim", d3: "Dracula", m: "Light" },
+            defaultValue: "m",
+        });
+        fireEvent.keyDown(list, { key: "d" });
+        fireEvent.keyDown(list, { key: "r" });
+        expect(active(list)).toBe("Dracula");
+    });
+
+    test("§7.16 PageUp and PageDown move the cursor by ten, clamped", async () => {
+        const many = Array.from(
+            { length: 25 },
+            (_, i) => `s${String(i).padStart(2, "0")}`,
+        );
+        const { list } = await openPicker(many);
+        fireEvent.keyDown(list, { key: "PageDown" });
+        expect(active(list)).toBe("S10");
+        fireEvent.keyDown(list, { key: "PageDown" });
+        expect(active(list)).toBe("S20");
+        fireEvent.keyDown(list, { key: "PageDown" });
+        expect(active(list)).toBe("S24");
+        fireEvent.keyDown(list, { key: "PageUp" });
+        expect(active(list)).toBe("S14");
+    });
+
+    test("§7.17 an empty list opens without aria-activedescendant", async () => {
+        const { list } = await openPicker([]);
+        expect(list.hasAttribute("hidden")).toBe(false);
+        expect(list.getAttribute("aria-activedescendant")).toBeNull();
     });
 });

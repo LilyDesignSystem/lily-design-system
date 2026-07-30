@@ -41,7 +41,7 @@ The helper is a **macro + client.js pair**:
 
 ### Client.js
 
-- `import { initLocalePicker, autoInit, bcp47LocaleTag, isRtlLocale, localeName, matchNavigatorLanguage, defaultLocaleLabels, RTL_LANGUAGE_TAGS, RTL_SCRIPT_SUBTAGS } from "./locale-picker.client.js"`
+- `import { initLocalePicker, autoInit, bcp47LocaleTag, isRtlLocale, localeName, localeEndonym, derivedLocaleLabel, matchNavigatorLanguage, defaultLocaleLabels, RTL_LANGUAGE_TAGS, RTL_SCRIPT_SUBTAGS } from "./locale-picker.client.js"`
 - Required call: `initLocalePicker(rootElement, opts?)` or
   `autoInit(opts?)`.
 
@@ -60,8 +60,13 @@ navigator (when enabled) > default-value > `"en"` > first-option,
 `target.dir = isRtlLocale(code) ? "rtl" : "ltr"`, (4) optionally
 writes to `localStorage`, (5) mirrors the consumer-form code into the
 hidden input and re-derives every option's `aria-selected`, (6) calls
-`onChange(code)`. The client ALSO owns the entire listbox interaction:
-open/close, focus movement, the APG keyboard contract, and typeahead.
+`onChange(code)`. The client ALSO owns the entire listbox interaction
+(open/close, focus movement, the APG keyboard contract, typeahead)
+and the label upgrade: options the macro marked
+`data-lily-locale-picker-derive` become the language's endonym
+("Cymraeg", not "Welsh") via `localeEndonym` — falling back to the
+English table, then the raw code — and gain `lang` ONLY when the text
+really is the endonym.
 
 ## HTML
 
@@ -101,9 +106,9 @@ open/close, focus movement, the APG keyboard contract, and typeahead.
       role="option"
       aria-selected="true|false"
       data-value="{locale}"
-      lang="{tagFor(locale)}"
+      data-lily-locale-picker-derive
     >
-      {labelFor(locale)}
+      {localeLabels[locale] or locale}
     </li>
   </ul>
 </div>
@@ -116,8 +121,13 @@ presentation so the globe stays monochrome and matches theme-picker's
 `{% call %}` block body replaces the glyph inside the button (the
 Nunjucks equivalent of `children`); it does not render options.
 
-Options keep `lang="{tagFor(locale)}"`; the button and the `<ul>`
-deliberately do not.
+The macro emits NO `lang`, and marks options without a consumer label
+`data-lily-locale-picker-derive`, rendering the raw code as the
+pre-hydration fallback. The client upgrades marked options to the
+endonym and sets `lang="{tagFor(locale)}"` ONLY when the text really
+is the endonym — a consumer label or English fallback carries no
+`lang`, because the English word "Arabic" must never be handed to an
+Arabic speech engine. The button and the `<ul>` never carry `lang`.
 
 Server markup marks exactly ONE option `aria-selected="true"`,
 resolved as `value or defaultValue or ("en" if present else
@@ -138,14 +148,20 @@ There is **no** `placeholder` param and **no**
 ## Accessibility
 
 - WCAG 2.2 AAA target; WAI-ARIA APG listbox pattern.
-- The client provides Arrow / Home / End / Enter / Space / Escape /
-  Tab / typeahead semantics; none of it works before the client runs.
+- The client provides Arrow / Home / End / PageUp / PageDown / Enter /
+  Space / Escape / Tab / typeahead semantics; none of it works before
+  the client runs. `Tab` puts focus on the button before closing, so
+  the browser's default Tab proceeds from the picker's position;
+  typeahead follows the APG single-character rule (a repeated
+  character cycles through its matches); an empty list opens without
+  `aria-activedescendant`.
 - `aria-label` is the ONLY accessible name the button has, since the
   glyph is `aria-hidden`.
 - `aria-selected` tracks the applied locale; `data-active` tracks the
   keyboard cursor. They are different things.
-- Each option carries its own `lang` for WCAG 3.1.2 (Language of
-  Parts).
+- An option carries `lang` (WCAG 3.1.2, Language of Parts) only when
+  its text is the client-derived endonym; consumer-labelled options
+  and raw-code fallbacks make no claim.
 - The document root receives `lang` and (by default) `dir` for WCAG
   3.1.1 (Language of Page) and 1.4.10 (Reflow / bidi).
 - Known tradeoffs, documented honestly in `docs/accessibility.md`: an

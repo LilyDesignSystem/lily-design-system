@@ -390,8 +390,9 @@ On the **listbox**:
 | `Home` / `End`    | First / last option becomes active.                                    |
 | `Enter` / `Space` | Select the active option, apply it, close, return focus to the button. |
 | `Escape`          | Close and return focus to the button; the value is **not** changed.    |
-| `Tab`             | Close without stealing focus back; the browser moves focus onward.     |
-| Printable chars   | Typeahead over the display **labels**; the buffer resets after 500 ms. |
+| `PageUp` / `PageDown` | Move the active option by ten; clamps.                             |
+| `Tab`             | Close; focus lands on the button so the default Tab proceeds from the picker's position. |
+| Printable chars   | Typeahead over the display **labels**; 500 ms buffer. A single character advances to the next match and repeats cycle; differing characters refine. |
 
 Pointer and focus: clicking an option selects and applies it; clicking
 outside the root closes the listbox; focus leaving the root closes it.
@@ -479,7 +480,8 @@ pitfalls:
 `pnpm test` under a vitest + jsdom + `@angular/core/testing`
 `TestBed` setup exercises every numbered acceptance criterion in
 [spec/index.md §7](./spec/index.md#7-testing-acceptance-criteria)
-(§7.1–§7.19), including the full APG keyboard contract. Each test
+(§7.1–§7.24), including the full APG keyboard contract and the
+accessibility-hardening clauses. Each test
 name starts with the clause it covers.
 
 ## Files in this directory

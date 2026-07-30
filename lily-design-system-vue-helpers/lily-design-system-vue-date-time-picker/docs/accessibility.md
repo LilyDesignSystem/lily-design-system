@@ -52,13 +52,33 @@ The Lily catalog's `date-input` component is that pattern.
   the new month without interrupting.
 - **The cursor never gets lost.** Paging carries the roving tabindex into
   the new month, clamped to a real day. Without that, focus falls to
-  `<body>` and a keyboard user has to start again.
+  `<body>` and a keyboard user has to start again. Focus follows the
+  cursor only when it was already in the grid: paging from the header
+  buttons keeps focus on the header button, so "next month" can be
+  pressed repeatedly.
+- **Blocked days are `aria-disabled`, not `disabled`.** A `disabled`
+  button refuses focus, so arrowing across a blocked week would go silent
+  while the visible focus stayed behind. `aria-disabled` keeps every day
+  focusable and announced — as unavailable — while activation is refused
+  in the handler. This is the APG guidance for items inside composite
+  widgets.
+- **Closing returns focus to the opener.** The trigger button after a
+  click; the *text field* after `Alt`+`↓`. The APG rule is "the element
+  that invoked the dialog", not "the button".
+- **Refused input can be announced.** Supply `labels.invalid` and a
+  `role="status"` live region fills when typed text is refused, wired to
+  the field via `aria-errormessage` and `aria-describedby`. Without it
+  `aria-invalid` flips silently — set the label.
+- **The dialog can explain its own keyboard.** Supply
+  `labels.instructions` and the dialog's `aria-describedby` points at it,
+  so a screen reader speaks the help once on open — the affordance the
+  APG example ships.
 - **Typed entry always works.** The calendar is never the only route in.
   This matters most for screen-reader and switch users, for whom a grid is
-  42 stops and a text field is one.
+  42 stops and a text field is one. `Escape` discards a pending edit.
 - **No colour-only meaning.** Today, selected, outside-month and disabled
-  are each carried by an ARIA property or the `disabled` attribute as well
-  as by a `data-*` hook for your CSS.
+  are each carried by an ARIA property as well as by a `data-*` hook for
+  your CSS.
 
 ## The costs, stated plainly
 
@@ -94,6 +114,9 @@ entry difficult regardless of the widget. Mitigations that actually help:
 - supply `shortcuts` for the common answers;
 - set `placeholder` to a real example in your format;
 - use `describedBy` to point at a hint that shows the format;
+- set `labels.invalid` so a refused date is announced, and word it as a
+  correction ("Enter a date like 21 3 2026"), not a verdict ("Invalid");
+- set `labels.instructions` so the dialog explains its own keyboard;
 - keep `min`/`max` tight so wrong answers are impossible rather than
   merely discouraged;
 - never make the calendar the only route — the text field is there for a
@@ -122,14 +145,20 @@ on small screens. That is a CSS decision, and it is yours.
 ## Testing checklist
 
 - [ ] Tab to the field, type a date, press Enter. Value commits.
-- [ ] `Alt` + `↓` opens the dialog; focus lands on a day.
-- [ ] Arrow around the grid. Focus is always visible.
+- [ ] Type junk, press Enter. The field marks invalid and — with
+      `labels.invalid` set — the message is announced.
+- [ ] `Escape` in the field restores the committed value.
+- [ ] `Alt` + `↓` opens the dialog; focus lands on a day; `Escape` returns
+      focus to the *field*.
+- [ ] Arrow around the grid, including across disabled days. Focus is
+      always visible, and never skips silently.
 - [ ] `Page Down` past the end of the month. Focus follows.
+- [ ] Click "next month" twice. Focus stays on "next month".
 - [ ] `Tab` repeatedly inside the dialog. Focus never leaves it.
-- [ ] `Escape` closes and returns focus to the trigger; the value is
-      unchanged.
-- [ ] With a screen reader: the day cell announces the full date, the
-      month heading announces on page, disabled days announce as
-      disabled.
+- [ ] Open from the button; `Escape` closes and returns focus to the
+      button; the value is unchanged.
+- [ ] With a screen reader: the day cell announces the full date, the month
+      heading announces on page, disabled days announce as unavailable
+      (dimmed), and the dialog reads `labels.instructions` on open.
 - [ ] At 200% zoom and at 320px width, the dialog is usable.
 - [ ] In forced-colours mode, selected and today are still distinguishable.

@@ -34,7 +34,10 @@
     // The four navigation labels and the two footer labels are required:
     // they name buttons that always render, and a button whose accessible
     // name was invented in English is precisely the defect this package
-    // exists to avoid.
+    // exists to avoid. Invalid and Instructions are optional but strongly
+    // recommended: Invalid makes a refused typed date announced (not just
+    // marked aria-invalid), and Instructions gives the dialog keyboard
+    // help that screen readers speak once on open.
     private static readonly DateTimePickerLabels Labels = new()
     {
         PreviousYear = "Previous year",
@@ -44,5 +47,7 @@
         Confirm = "OK",
         Cancel = "Cancel",
         Clear = "Clear date",
+        Invalid = "Enter a valid date, for example 21 3 2026",
+        Instructions = "Use the arrow keys to choose a day, and Enter to confirm",
     };
 }

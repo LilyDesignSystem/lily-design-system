@@ -128,6 +128,19 @@ each of which fixes a defect rather than adding taste, are in §9.
   by an `initialised` flag, which is this catalog's established seam for
   input-driven side effects (see catalog `AGENTS.md`, "SSR-safe" —
   "all DOM side-effects happen via `effect()`").
+- **Angular-specific: focus moves that target freshly-paged cells render
+  synchronously first.** Svelte flushes the DOM synchronously on state
+  change, so the canonical helper can focus a new month's cursor from a
+  `queueMicrotask`. Angular renders *after* the microtask queue drains
+  (zone-based and zoneless alike), so a queued focus into a month that
+  has not rendered yet finds nothing — or focuses a cell that the next
+  render destroys, dropping focus to `<body>`. Wherever the focus target
+  may not exist until after a view change (opening the dialog, cursor
+  moves, grid paging, shortcuts), this component calls
+  `ChangeDetectorRef.detectChanges()` inside the event handler and then
+  focuses, which is the Angular equivalent of Svelte's synchronous
+  flush. Focus moves to *stable* elements (the trigger, the field) keep
+  the sibling helpers' `queueMicrotask` idiom.
 
 ## 4. Public API
 
@@ -196,6 +209,8 @@ type DateTimePickerLabels = {
   meridiem?: string; // required when hour12 resolves true
   week?: string; // required when showWeekNumbers
   clear?: string; // the clear button renders only when supplied
+  invalid?: string; // the invalid-input live region renders only when supplied
+  instructions?: string; // dialog keyboard help, described-by the dialog when supplied
 };
 ```
 
@@ -203,6 +218,10 @@ The optional entries gate optional UI, exactly as `share-picker`'s
 `copyLabel` gates its copy item: a control whose accessible name we
 invented in English is the defect this package exists to avoid, so the
 component would rather not render a control than name it for you.
+`invalid` and `instructions` follow the same rule for announcements:
+without `invalid`, refusing typed text flips `aria-invalid` but announces
+nothing; without `instructions`, the dialog carries no keyboard help.
+Supplying both is strongly recommended.
 
 ### 4.3 DOM contract
 
@@ -213,7 +232,8 @@ component would rather not render a control than name it for you.
 
     <div class="date-time-picker-field">
       <input class="date-time-picker-input" id="{fieldId}" type="text"
-             autocomplete="off" value="{display}" aria-invalid="true|absent" />
+             autocomplete="off" value="{display}" aria-invalid="true|absent"
+             aria-errormessage="{statusId} while invalid, when labels.invalid" />
       <button type="button" class="date-time-picker-button" aria-label="{label}"
               aria-haspopup="dialog" aria-expanded="false"
               aria-controls="{dialogId}">
@@ -221,8 +241,15 @@ component would rather not render a control than name it for you.
       </button>
     </div>
 
+    <!-- Only when labels.invalid: always present, empty while valid. -->
+    <span class="date-time-picker-status" id="{statusId}" role="status"></span>
+
     <div class="date-time-picker-dialog" id="{dialogId}" role="dialog"
-         aria-modal="true" aria-label="{label}" tabindex="-1" hidden>
+         aria-modal="true" aria-label="{label}" tabindex="-1" hidden
+         aria-describedby="{instructionsId} when labels.instructions">
+      <!-- Only when labels.instructions: keyboard help, spoken on open. -->
+      <p class="date-time-picker-instructions" id="{instructionsId}">…</p>
+
       <div class="date-time-picker-header">
         <button class="date-time-picker-previous-year"  aria-label="…">…</button>
         <button class="date-time-picker-previous-month" aria-label="…">…</button>
@@ -240,9 +267,9 @@ component would rather not render a control than name it for you.
           <th class="date-time-picker-week" scope="row">10</th>
           <td role="gridcell" aria-selected="true|false">
             <button class="date-time-picker-day" data-date="2026-03-01"
-                    data-outside data-today data-selected
+                    data-outside data-today data-selected data-disabled
                     tabindex="0|-1" aria-label="Sunday 1 March 2026"
-                    aria-current="date">1</button>
+                    aria-current="date" aria-disabled="true|absent">1</button>
           </td>
         </tr></tbody>
       </table>
@@ -276,11 +303,18 @@ component would rather not render a control than name it for you.
   visible text field deliberately has no `name`: posting a localised
   display string alongside the ISO value is how a backend ends up parsing
   `"01/03/2026"` and guessing.
-- **`data-*` on days** (`data-outside`, `data-today`, `data-selected`) is
-  for consumer CSS; the ARIA equivalent (`aria-current`, `aria-selected`
-  on the cell, `disabled`) is what assistive technology reads. Both are
-  present because they address different audiences — per the Lily headless
-  rule on `data-*` vs ARIA.
+- **`data-*` on days** (`data-outside`, `data-today`, `data-selected`,
+  `data-disabled`) is for consumer CSS; the ARIA equivalent
+  (`aria-current`, `aria-selected` on the cell, `aria-disabled`) is what
+  assistive technology reads. Both are present because they address
+  different audiences — per the Lily headless rule on `data-*` vs ARIA.
+- **Vetoed days are `aria-disabled`, never the `disabled` attribute.** A
+  `disabled` button refuses focus, so arrowing across a blocked week goes
+  silent for a screen reader while the visible focus stays behind — and
+  the "exactly one tabbable day" invariant breaks the moment the cursor
+  lands on one. `aria-disabled` keeps the day focusable and announced as
+  unavailable; activation is refused in the handler. This is the ARIA APG
+  guidance for composite-widget items.
 - **`abbr` on weekday headers** carries the full weekday name, so a screen
   reader announcing a column says "Monday" where the eye reads "Mo".
 - **The glyph** is U+1F4C5 CALENDAR + U+FE0E, exported as `CALENDAR`, and
@@ -336,7 +370,12 @@ cursor — or, in `"time"` mode, to the first control in the dialog.
 | Cancel button | Close. `value` untouched. |
 | `Escape` | Close. `value` untouched. |
 | Clear button (when `labels.clear` is set) | Set `value` to `""`, fire `change("")`, close. |
-| Click outside | Close without committing. |
+| Click outside the dialog | Close without committing. This includes the component's own text field: the dialog claims `aria-modal="true"`, and a modal that stays open while the user edits behind it is telling assistive technology one thing and doing another. |
+
+Closing returns focus to whichever element opened the dialog — the
+trigger button after a click, the **text field** after `Alt` + `Arrow
+Down` — per the APG dialog pattern. Click-outside closes without moving
+focus, since the user has already put it somewhere.
 
 `change` fires only when the committed value actually differs from the
 previous one.
@@ -362,7 +401,18 @@ Two-digit years pivot at 70 (`69` → 2069, `70` → 1970).
 Text that will not parse, **or that parses to a date outside `min`/`max`
 or vetoed by `isDateDisabled`**, leaves the text in place, sets
 `aria-invalid="true"`, and fires `invalidInput`. It is never silently
-snapped to a nearby legal date the user did not type.
+snapped to a nearby legal date the user did not type. When
+`labels.invalid` is supplied, the refusal is also *announced*: the
+`role="status"` region fills with the message, and the field points at it
+via `aria-errormessage` plus `aria-describedby` (appended after the
+consumer's `describedBy`). Without an announcement, a screen-reader user
+who has already tabbed away never learns their date was refused.
+
+`Escape` in the field discards a pending edit: the committed value
+returns to display and the invalid state clears, without committing
+anything — the same contract Escape has inside the dialog. The keystroke
+does not propagate, so a surrounding dialog stays open. When no edit is
+pending the key is untouched.
 
 Clearing the field to empty commits `""`.
 
@@ -372,10 +422,12 @@ Clearing the field to empty commits `""`.
 ### 5.5 Range and vetoes
 
 `min` / `max` are inclusive. A day outside them, or vetoed by
-`isDateDisabled`, renders `disabled`. The keyboard cursor may still land
-on a vetoed day inside the range — so arrowing across a blocked week
-works — but may not leave the `min`/`max` window at all, because there is
-nothing out there to navigate to.
+`isDateDisabled`, renders `aria-disabled="true"` (plus `data-disabled`
+for CSS) and refuses activation — never the `disabled` attribute, per
+§4.3. The keyboard cursor may still land on a vetoed day inside the
+range, with real focus and a screen-reader announcement — so arrowing
+across a blocked week works — but may not leave the `min`/`max` window at
+all, because there is nothing out there to navigate to.
 
 A shortcut resolving to a blocked date does nothing, rather than landing
 near it: a "+4 weeks" that quietly means "+27 days" is a booking error.
@@ -413,13 +465,15 @@ client renders and break hydration.
 | ------- | --------------- | ------ |
 | trigger `<button>` | `aria-label`, `aria-haspopup="dialog"`, `aria-expanded`, `aria-controls` | Component |
 | glyph `<span>` | `aria-hidden="true"` | Component |
-| dialog `<div>` | `role="dialog"`, `aria-modal="true"`, `aria-label` | Component |
+| dialog `<div>` | `role="dialog"`, `aria-modal="true"`, `aria-label`, `aria-describedby` → instructions when `labels.instructions` | Component |
+| instructions `<p>` | plain text, id target of the dialog's `aria-describedby` | Consumer via `labels.instructions` |
 | period `<span>` | `aria-live="polite"` | Component |
 | `<table>` | `role="grid"`, `aria-labelledby` → the period | Component |
 | `<th scope="col">` | `abbr` = full weekday name | Intl |
 | `<td>` | `role="gridcell"`, `aria-selected` | Component |
-| day `<button>` | `aria-label` = full date, `aria-current="date"` on today, `disabled` | Component + Intl |
-| text `<input>` | `aria-invalid`, `aria-describedby` | Component + consumer |
+| day `<button>` | `aria-label` = full date, `aria-current="date"` on today, `aria-disabled="true"` on vetoed days (focusable, refuses activation) | Component + Intl |
+| text `<input>` | `aria-invalid`, `aria-describedby`, `aria-errormessage` → the status region while invalid | Component + consumer |
+| status `<span>` | `role="status"` live region, filled with `labels.invalid` while invalid | Consumer via `labels.invalid` |
 
 Follows the **WAI-ARIA APG Date Picker Dialog** pattern.
 
@@ -431,6 +485,7 @@ On the **text field**:
 | --- | ------ |
 | `Enter` | Resolve the typed text. |
 | `Alt` + `Arrow Down` | Open the dialog — the platform convention, matching `<input type="date">`. |
+| `Escape` | Discard a pending typed edit and show the committed value; no-op when nothing is pending. |
 
 On the **grid**:
 
@@ -450,10 +505,17 @@ Anywhere in the **dialog**:
 | `Escape` | Close without committing. |
 | `Tab` / `Shift+Tab` | Cycle within the dialog — the focus trap. |
 
-The grid uses a roving `tabindex`: exactly one day is tabbable. Paging the
-view carries the cursor with it, clamped into the new month, rather than
-leaving focus on an unrendered cell — which would drop focus to `<body>`
-and lose the user's place.
+The grid uses a roving `tabindex`: exactly one day is tabbable — an
+invariant `aria-disabled` preserves and the `disabled` attribute would
+break. Paging the view carries the cursor with it, clamped into the new
+month; *focus* follows the cursor only when it was already in the grid
+(`Page Up` / `Page Down`), because the cell it sat on no longer exists.
+Paging from the header buttons leaves focus on the header button, so
+"next month" can be activated repeatedly without being yanked into the
+grid.
+
+Closing the dialog returns focus to the element that opened it — button
+or text field — per §5.3.
 
 ### 6.3 Internationalisation
 
@@ -537,9 +599,9 @@ Stated plainly in [`../docs/accessibility.md`](../docs/accessibility.md):
 
 | Clause | Test asserts |
 | ------ | ------------ |
-| §7.29 | Days outside `min`/`max` render `disabled`. |
-| §7.30 | `isDateDisabled` disables individual days. |
-| §7.31 | Clicking a disabled day does not commit. |
+| §7.29 | Days outside `min`/`max` render `aria-disabled="true"` + `data-disabled` — never the `disabled` attribute. |
+| §7.30 | `isDateDisabled` marks individual days `aria-disabled`. |
+| §7.31 | Clicking a vetoed day does not commit. |
 | §7.32 | A shortcut moves the pending selection and fires `shortcut`. |
 | §7.33 | A shortcut resolving to a blocked date does nothing. |
 
@@ -572,6 +634,18 @@ Stated plainly in [`../docs/accessibility.md`](../docs/accessibility.md):
 | §7.46 | `firstDayOfWeek` overrides the locale. |
 | §7.47 | Month names and day `aria-label`s follow `locale`. |
 | §7.48 | `showWeekNumbers` renders a week column with ISO week numbers. |
+
+### Assistive technology (mirrors §4.3, §5.3, §5.4, §6.2)
+
+| Clause | Test asserts |
+| ------ | ------------ |
+| §7.49 | The cursor lands on a vetoed day with real focus; the day is `aria-disabled`, still tabbable, refuses `Enter`, and the cursor can continue past it. |
+| §7.50 | `Escape` in the field discards the pending edit, restores the committed display, clears `aria-invalid`, and commits nothing. |
+| §7.51 | `labels.invalid` renders an empty `role="status"` region that fills on refusal, wired via `aria-errormessage` and appended to `aria-describedby`; absent without the label. |
+| §7.52 | Closing returns focus to the field when opened by `Alt`+`Arrow Down`, and to the button when opened by click. |
+| §7.53 | Paging from a header button keeps focus on that button while the cursor carries; paging from the grid moves focus with the cursor. |
+| §7.54 | `labels.instructions` renders keyboard help referenced by the dialog's `aria-describedby`; absent without the label. |
+| §7.55 | Clicking the text field while the dialog is open closes it without committing. |
 
 ## 8. DHCW feature parity
 

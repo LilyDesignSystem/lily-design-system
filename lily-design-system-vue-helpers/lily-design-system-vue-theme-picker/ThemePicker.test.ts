@@ -324,14 +324,6 @@ describe("ThemePicker — keyboard contract (APG listbox)", () => {
     expect(document.documentElement.dataset.theme).toBe("light");
   });
 
-  test("§7.16 Tab closes without stealing focus back to the button", async () => {
-    const { button, list, el } = await openWith("ArrowDown");
-    await list.trigger("keydown", { key: "Tab" });
-    await flush();
-    expect(el.hasAttribute("hidden")).toBe(true);
-    expect(document.activeElement).not.toBe(button.element);
-  });
-
   test("§7.16 aria-activedescendant is dropped once the listbox closes", async () => {
     const { list, el } = await openWith("ArrowDown");
     await list.trigger("keydown", { key: "Escape" });
@@ -561,5 +553,72 @@ describe("ThemePicker — spread + custom slot (§7.12–§7.13)", () => {
     await flush();
     expect(seen[0]).toBe(false);
     expect(seen[seen.length - 1]).toBe(true);
+  });
+});
+
+describe("ThemePicker — accessibility hardening (§7.21–§7.24)", () => {
+  async function openPicker(themes: string[] = THEMES) {
+    const wrapper = build({ themes });
+    await flush();
+    const { button, list } = parts(wrapper);
+    await button.trigger("click");
+    await flush();
+    return { button, list, el: list.element as HTMLElement };
+  }
+
+  const active = (el: HTMLElement) =>
+    el.querySelector("[data-active]")?.textContent?.trim();
+
+  test("§7.21 Tab from the open list puts focus on the button before closing", async () => {
+    const { button, list, el } = await openPicker();
+    expect(document.activeElement).toBe(el);
+    await list.trigger("keydown", { key: "Tab" });
+    await flush();
+    // Focus sits on the button, so the browser's default Tab proceeds
+    // from the picker's own position — not from <body>, which is where
+    // focus lands when the focused list is hidden first, sending the
+    // next Tab to the top of the document.
+    expect(document.activeElement).toBe(button.element);
+    expect(el.hasAttribute("hidden")).toBe(true);
+  });
+
+  test("§7.22 a repeated typeahead character cycles through its matches", async () => {
+    const { list, el } = await openPicker(["dark", "dim", "dracula", "light"]);
+    // The initial value resolves to "light", so the cursor opens there.
+    await list.trigger("keydown", { key: "d" });
+    expect(active(el)).toBe("Dark");
+    await list.trigger("keydown", { key: "d" });
+    expect(active(el)).toBe("Dim");
+    await list.trigger("keydown", { key: "d" });
+    expect(active(el)).toBe("Dracula");
+  });
+
+  test("§7.22 a multi-character buffer refines the match from the active option", async () => {
+    const { list, el } = await openPicker(["dark", "dim", "dracula", "light"]);
+    await list.trigger("keydown", { key: "d" });
+    await list.trigger("keydown", { key: "r" });
+    expect(active(el)).toBe("Dracula");
+  });
+
+  test("§7.23 PageUp and PageDown move the cursor by ten, clamped", async () => {
+    const many = Array.from(
+      { length: 25 },
+      (_, i) => `t${String(i).padStart(2, "0")}`,
+    );
+    const { list, el } = await openPicker(many);
+    await list.trigger("keydown", { key: "PageDown" });
+    expect(active(el)).toBe("T10");
+    await list.trigger("keydown", { key: "PageDown" });
+    expect(active(el)).toBe("T20");
+    await list.trigger("keydown", { key: "PageDown" });
+    expect(active(el)).toBe("T24");
+    await list.trigger("keydown", { key: "PageUp" });
+    expect(active(el)).toBe("T14");
+  });
+
+  test("§7.24 an empty list opens without aria-activedescendant", async () => {
+    const { el } = await openPicker([]);
+    expect(el.hasAttribute("hidden")).toBe(false);
+    expect(el.getAttribute("aria-activedescendant")).toBeNull();
   });
 });

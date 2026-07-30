@@ -126,7 +126,7 @@ clipboard write rather than being the DOM's `ClipboardEvent` handler.
   >
     <span class="share-picker-icon" aria-hidden="true">&#10148;</span>
   </button>
-  <ul class="share-picker-list" id="{listId}" hidden>
+  <ul class="share-picker-list" id="{listId}" aria-label="{label}" hidden>
     <li class="share-picker-list-item">
       <a
         class="share-picker-target"
@@ -187,7 +187,7 @@ Either way the list closes.
 | `ArrowUp`         | Opens, focuses the last item         | Moves focus up, clamping                      |
 | `Home` / `End`    | —                                    | First / last item                             |
 | `Escape`          | —                                    | Closes and returns focus to the button        |
-| `Tab`             | Moves on                             | Closes, focus goes where the browser sends it |
+| `Tab`             | Moves on                             | Closes — focus goes to the button first, without cancelling the key, so the default Tab proceeds from the picker's position |
 
 Items are real focusable elements, so focus moves for real rather than
 via `aria-activedescendant`. Clicking outside, or focus leaving the root,
@@ -248,6 +248,12 @@ sees on a phone is not what they see on a desktop. Full treatment in
 20. An explicit `url` prop wins.
 21. With no `url`, the current page URL is used.
 22. `children` replaces the glyph and receives `ChildArgs`.
+23. `Tab` from an open item puts focus on the button before closing, so
+    the default Tab proceeds from the picker's position instead of
+    restarting from `<body>` when the list is hidden while its item has
+    focus.
+24. The list carries the picker's accessible name (`aria-label` =
+    `label`).
 
 ## 8. Tracking
 

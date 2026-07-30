@@ -167,17 +167,22 @@ Points worth knowing:
   support, which is why it replaced the native `<select>`: a select
   grows to fit the longest option, and the built-in table has 436 of
   them.
-- **Each `<li role="option">` keeps its own `lang`**, so a screen
-  reader pronounces "Cymraeg" with a Welsh voice (WCAG 3.1.2,
-  Language of Parts). The button and the list carry no `lang`.
+- **An option carries `lang` only when its label is the derived
+  endonym**, so a screen reader pronounces "Cymraeg" with a Welsh
+  voice (WCAG 3.1.2, Language of Parts) and an English fallback label
+  is never handed to the wrong voice. Consumer-labelled options carry
+  no `lang`; neither do the button and the list.
 - **`name` is the hidden input's name**, so the value still posts
   with a surrounding form.
 - **Element ids come from a module counter** (`nextLocalePickerId()`),
   so they are stable across SSR and hydration.
 - **The keyboard contract is the APG listbox pattern**, implemented
   by the component: arrows (clamping, no wrap), `Home` / `End`,
-  `Enter` / `Space` to commit, `Escape` to cancel, `Tab` to close,
-  and printable-character typeahead over the labels. See
+  `PageUp` / `PageDown` (by ten, clamping), `Enter` / `Space` to
+  commit, `Escape` to cancel, `Tab` to close via the button so the
+  default Tab proceeds from the picker's position, and
+  printable-character typeahead over the labels — a repeated
+  character cycles through its matches. See
   [Accessibility](#accessibility).
 
 Because the closed control shows only a glyph, the active locale has
@@ -254,13 +259,17 @@ const locale = ref("en");
 
 That renders the markup shown under [The control](#the-control): a
 globe button and a hidden listbox with one `<li role="option">` per
-locale, each carrying its own `lang`.
+locale, each carrying its own `lang` when its label is the endonym.
 
 ### Pretty labels for the option text
 
-By default the picker uses the English names from `locales.tsv`
-(and falls back to `Intl.DisplayNames` if available, then to the
-raw code). Override per-code with `localeLabels`:
+By default each option shows the language's **endonym** — its own
+name for itself, "Cymraeg" not "Welsh" — via `Intl.DisplayNames`
+asked in that language (exported as `localeEndonym`). The user who
+needs a language menu is the one who cannot read the page's
+language, and the exonym means nothing to them. The English names
+from `locales.tsv` and the raw code remain as fallbacks for runtimes
+without the data. Override per-code with `localeLabels`:
 
 ```vue
 <LocalePicker
@@ -397,9 +406,10 @@ chosen one.
 ## Built-in locale data
 
 `locales.ts` ships the 436 codes from `locales.tsv` mapped to their
-English names. The component falls back to this table when
-`localeLabels` does not have an entry for a code. You can also
-import the data directly:
+English names. Since the endonym change these are a **fallback** —
+the default label is `localeEndonym(code)`, and the table is
+consulted only when the runtime lacks `Intl.DisplayNames` data for a
+code. You can also import the data directly:
 
 ```ts
 import {
@@ -447,13 +457,18 @@ aria-controls>` paired with a `<ul role="listbox">` of
   button, `ArrowDown` / `Enter` / `Space` open with the selected
   option active and `ArrowUp` opens with the last one active; on the
   listbox, arrows move the active option (clamping, never wrapping),
-  `Home` / `End` jump to the ends, `Enter` / `Space` commit,
-  `Escape` cancels, `Tab` closes, and printable characters run a
-  500 ms typeahead over the labels. Focus moves to the `<ul>` on open
-  and returns to the button on commit or cancel; the active option
-  travels via `aria-activedescendant`.
-- Each locale `<li role="option">` carries `lang="…"` so its name is
-  pronounced in the right language (WCAG 3.1.2, Language of Parts).
+  `Home` / `End` jump to the ends, `PageUp` / `PageDown` move by ten
+  (clamping), `Enter` / `Space` commit, `Escape` cancels, `Tab`
+  closes after moving focus to the button — without cancelling the
+  key — so the default Tab proceeds from the picker's position, and
+  printable characters run a 500 ms typeahead over the labels where a
+  repeated character cycles through its matches. Focus moves to the
+  `<ul>` on open and returns to the button on commit or cancel; the
+  active option travels via `aria-activedescendant`.
+- A locale `<li role="option">` carries `lang="…"` only when its
+  label is the derived endonym, so its name is pronounced in the
+  right language (WCAG 3.1.2, Language of Parts) and an English
+  fallback label is never sent to the wrong speech engine.
 - The document root carries `lang` and (by default) `dir` so the
   page satisfies WCAG 3.1.1 (Language of Page) and bidi
   text/layout inverts correctly for RTL locales.

@@ -243,8 +243,15 @@ function onListKeydown(event: KeyboardEvent): void {
             void closeList();
             break;
         case "Tab":
-            // Tab leaves the control: close, but let focus go where the
-            // browser was sending it.
+            // Tab leaves the control — but focus goes to the button
+            // FIRST, without cancelling the key. Hiding the list while
+            // one of its items has focus drops focus to <body>, and
+            // the browser then computes the default Tab move from the
+            // top of the document, so tabbing out of the open list
+            // teleported the user to the page's first tab stop. From
+            // the button, the default Tab lands exactly where leaving
+            // the picker should.
+            buttonEl.value?.focus?.();
             void closeList(false);
             break;
     }
@@ -312,10 +319,14 @@ onBeforeUnmount(() => {
             </slot>
         </button>
 
+        <!-- Named like the sibling pickers' listboxes: a screen reader
+             entering the list hears what the list is for, not just
+             "list, three items". -->
         <ul
             ref="listEl"
             class="share-picker-list"
             :id="listId"
+            :aria-label="label"
             :hidden="open ? undefined : true"
             @keydown="onListKeydown"
         >

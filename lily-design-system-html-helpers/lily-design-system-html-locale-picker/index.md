@@ -52,8 +52,9 @@ ref or store).
 
 The split matters because it lets you swap your i18n library
 without rewriting the select, and it lets the select stay headless:
-zero CSS, zero string tables (except the built-in
-English-name fallback table), zero dependencies.
+zero CSS, zero string tables (except the built-in English-name
+fallback table behind the `Intl`-derived endonym defaults), zero
+dependencies.
 
 The element is a direct port of the Svelte canonical
 `lily-design-system-svelte-locale-picker`. APIs and behaviour match;
@@ -225,7 +226,7 @@ The element renders this into its light DOM:
         aria-selected="false"
         lang="fr"
       >
-        French
+        français
       </li>
       <li
         class="locale-picker-option"
@@ -234,7 +235,7 @@ The element renders this into its light DOM:
         aria-selected="false"
         lang="ar"
       >
-        Arabic
+        العربية
       </li>
     </ul>
   </div>
@@ -252,7 +253,9 @@ Points worth internalising:
 - `data-active` is the keyboard-highlighted option; `aria-selected`
   is the applied one. They are different things, and consumer CSS
   should style them differently.
-- Each `<li>` carries `lang`; the button and the `<ul>` do not.
+- Default option text is the locale's endonym, and an `<li>` carries
+  `lang` only when its text is that derived endonym; the button and
+  the `<ul>` never carry `lang`.
 - The hidden `<input>` preserves form participation and the `name`
   attribute.
 - List and option ids come from an incrementing module counter
@@ -341,11 +344,14 @@ option active; `ArrowUp` opens with the last option active. Opening
 moves focus to the `<ul>`.
 
 On the listbox: `ArrowDown` / `ArrowUp` move the active option and
-clamp (no wrapping); `Home` / `End` jump to the ends; `Enter` /
-`Space` select, apply, close, and return focus to the button;
-`Escape` closes without changing the value; `Tab` closes without
-stealing focus back; printable characters run a 500 ms typeahead over
-the option labels.
+clamp (no wrapping); `Home` / `End` jump to the ends; `PageUp` /
+`PageDown` move by ten (clamped); `Enter` / `Space` select, apply,
+close, and return focus to the button; `Escape` closes without
+changing the value; `Tab` puts focus on the button first and then
+closes — without cancelling the key, so the default Tab proceeds from
+the picker's position; printable characters run a 500 ms typeahead
+over the option labels, where a repeated character cycles through its
+matches and differing characters refine from the active option.
 
 Full table: [spec/index.md §4.7](./spec/index.md#47-keyboard-contract).
 
@@ -439,8 +445,9 @@ select.openList(); // open with the selected option active
 select.openList(0); // open with a specific option active
 select.closeList(); // close and refocus the button
 select.closeList(false); // close without refocusing
-select.labelFor("fr"); // "French"
+select.labelFor("fr"); // "français" — the endonym, via localeEndonym()
 select.tagFor("fr_CA"); // "fr-CA"
+select.optionLang("fr"); // "fr" when the label is the endonym, else ""
 ```
 
 `renderButtonContent(): Node` is the overridable rendering hook — see
@@ -492,11 +499,27 @@ Pass `apply-dir="false"` if you want full control of `dir` yourself.
 
 Topic guide: [`docs/rtl.md`](./docs/rtl.md).
 
+## Labels: endonyms by default
+
+Default option labels are **endonyms** — each language named in
+itself, "Cymraeg" not "Welsh" — resolved by the exported
+`localeEndonym()` via `Intl.DisplayNames` asked *in that language*.
+The user who needs a language menu is the one who cannot read the
+page's language, and the exonym means nothing to them. Resolution
+order: your `locale-labels` → the endonym → the built-in English
+table → an environment `Intl.DisplayNames` lookup → the raw code.
+
+An option carries a `lang` attribute only when its text is the
+derived endonym: `lang` is a claim about the text's language, and the
+English word "Arabic" must never be handed to an Arabic speech
+engine. Consumer-labelled options carry no `lang`.
+
 ## Built-in locale data
 
 `locales.ts` ships 436 codes from `locales.tsv` mapped to English
 names; `el.labelFor(code)` falls back to this table when
-`locale-labels` does not have an entry.
+`locale-labels` has no entry and the runtime has no
+`Intl.DisplayNames` data for the endonym.
 
 ```ts
 import {

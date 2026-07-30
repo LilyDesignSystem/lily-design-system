@@ -139,7 +139,7 @@ type ShareEvent = { targetId: string; url: string };
   >
     <span class="share-picker-icon" aria-hidden="true">&#10148;</span>
   </button>
-  <ul class="share-picker-list" id="{listId}" hidden>
+  <ul class="share-picker-list" id="{listId}" aria-label="{label}" hidden>
     <li class="share-picker-list-item">
       <a
         class="share-picker-target"
@@ -209,9 +209,11 @@ lazily at share time: an explicit `url` input wins, otherwise
 Opening sets `open` and clears the status region, then moves real focus
 to the first item (or the last, when opened with `ArrowUp`) in a
 `queueMicrotask` so the `hidden` attribute is gone first. Closing
-returns focus to the trigger, except when closing via `Tab`, an outside
-click, or focus leaving the root — those close without stealing focus
-back.
+returns focus to the trigger, except when closing via an outside click
+or focus leaving the root — those close without stealing focus back.
+`Tab` is its own case: focus goes to the button first, then the list
+closes, so the browser's default Tab proceeds from the picker's
+position.
 
 ### 5.5 SSR
 
@@ -236,7 +238,7 @@ link semantics.
 | `ArrowUp`         | Opens, focuses the last item         | Moves focus up, clamping                      |
 | `Home` / `End`    | —                                    | First / last item                             |
 | `Escape`          | —                                    | Closes and returns focus to the button        |
-| `Tab`             | Moves on                             | Closes, focus goes where the browser sends it |
+| `Tab`             | Moves on                             | Closes — focus goes to the button first, without cancelling the key, so the default Tab proceeds from the picker's position |
 
 Items are real focusable elements, so focus moves for real rather than
 via `aria-activedescendant`. Clicking outside, or focus leaving the
@@ -350,7 +352,7 @@ number, and no clause is unexercised.
 ### 7.17 `Escape` closes and returns focus; `Tab` closes and moves on
 
 - _Escape closes and returns focus to the button_.
-- _Tab closes without stealing focus back to the button_.
+- _Tab closes after handing focus to the button_ (see §7.23).
 
 ### 7.18 Choosing a destination emits `share` and closes the list
 
@@ -380,7 +382,24 @@ number, and no clause is unexercised.
   `.share-picker-icon` is gone, and the context carries `open` and `url`.
 - _the ChildArgs open flag tracks the list state_.
 
-### 7.23 Framework-contract clauses (mirroring §4.2 and §4.3)
+### 7.23 `Tab` from an open item puts focus on the button before closing
+
+Clause numbers 23–24 mirror the canonical Svelte spec, so the same
+clause means the same thing in every catalog.
+
+- _Tab from an open item puts focus on the button before closing_ —
+  so the default Tab proceeds from the picker's position instead of
+  restarting from `<body>` when the list is hidden while its item has
+  focus.
+
+### 7.24 The list carries the picker's accessible name
+
+- _the list carries the picker's accessible name_ (`aria-label` =
+  `label`), matching the sibling pickers' listboxes: a screen reader
+  entering the list hears what it is for, not just "list, three
+  items".
+
+### 7.25 Framework-contract clauses (mirroring §4.2 and §4.3)
 
 Three tests carry §4 rather than §7, and are named for it:
 
@@ -388,7 +407,7 @@ Three tests carry §4 rather than §7, and are named for it:
 - _§4.2 the root carries the base class plus the consumer's class_.
 - _§4.3 nextSharePickerId mints unique, stable ids_.
 
-Total: **47 cases**, all green.
+Total: **49 cases**, all green.
 
 ## 8. Out-of-scope (future, not implemented here)
 

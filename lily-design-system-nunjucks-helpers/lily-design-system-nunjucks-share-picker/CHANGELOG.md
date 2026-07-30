@@ -4,6 +4,26 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+Accessibility hardening, ported from the canonical Svelte helper.
+
+### Changed
+
+- **`Tab` from the open list no longer strands keyboard focus.** The
+  handler hid the list while one of its items had focus; the browser
+  then moved focus to `<body>` and the default Tab restarted from the
+  top of the document. Focus now goes to the trigger button first —
+  without cancelling the key — so the default Tab proceeds from the
+  picker's own position.
+
+### Added
+
+- The list carries the picker's accessible name (`aria-label` =
+  `label`), matching the sibling pickers' listboxes: a screen reader
+  entering the list hears what it is for, not just "list, three
+  items".
+
 ## 0.1.0 — 2026-07-21
 
 First release under the name `lily-design-system-nunjucks-share-picker`.

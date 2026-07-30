@@ -172,6 +172,7 @@ Each entry in `targets`:
   <ul
     class="share-picker-list"
     id="{id}-list"
+    aria-label="{label}"
     hidden
     data-lily-share-picker-list
   >
@@ -246,7 +247,7 @@ Either way the list closes.
 | `ArrowUp`         | Opens, focuses the last item         | Moves focus up, clamping                      |
 | `Home` / `End`    | —                                    | First / last item                             |
 | `Escape`          | —                                    | Closes and returns focus to the trigger       |
-| `Tab`             | Moves on                             | Closes, focus goes where the browser sends it |
+| `Tab`             | Moves on                             | Closes — focus goes to the trigger first, without cancelling the key, so the browser's default Tab proceeds from the picker's position rather than from `<body>` |
 
 Items are real focusable elements, so focus moves for real rather than
 via `aria-activedescendant`. Clicking outside, or focus leaving the root,
@@ -301,6 +302,17 @@ surface.
 24. `newTab: false` drops `target="_blank"` and keeps `rel`.
 25. `shareTargetHref` resolves both the function and string forms; a throwing function yields `""`.
 26. Client `targets` with function `href`s re-resolve the rendered anchors; `autoInit` wires every root.
+
+Accessibility hardening (ported from the canonical Svelte spec's
+§7.23–§7.24):
+
+27. `Tab` from an open item puts focus on the trigger BEFORE closing,
+    without cancelling the key, so the browser's default Tab proceeds
+    from the picker's position rather than from `<body>`.
+28. The list carries the picker's accessible name (`aria-label` =
+    `label`), matching the sibling pickers' listboxes: a screen reader
+    entering the list hears what it is for, not just "list, three
+    items".
 
 ## 8. Tracking
 

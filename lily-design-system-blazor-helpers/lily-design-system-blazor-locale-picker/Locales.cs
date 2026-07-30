@@ -54,6 +54,61 @@ public static class Locales
     public static string LocaleName(string locale)
         => DefaultLocaleLabels.TryGetValue(locale, out var n) ? n : locale;
 
+    /// <summary>Memoises <see cref="LocaleEndonym"/>: the lookup runs per
+    /// option per render, and an unknown culture costs a thrown
+    /// <see cref="System.Globalization.CultureNotFoundException"/> every
+    /// time without the cache.</summary>
+    private static readonly System.Collections.Concurrent.ConcurrentDictionary<string, string>
+        EndonymCache = new();
+
+    /// <summary>
+    /// The language's own name for itself — "de" → "Deutsch", "cy" →
+    /// "Cymraeg" — from the culture data, asked <em>in that language</em>.
+    ///
+    /// Endonyms are the right default for a language menu: the user who
+    /// needs it most is the one lost in a UI that is not in their
+    /// language, and they recognise "Cymraeg" where "Welsh" means nothing
+    /// to them. Deterministic (no browser dependency), so server and
+    /// client render the same label. Returns "" when the runtime has no
+    /// data for the culture — an echo of the tag is not a name.
+    ///
+    /// The canonical Svelte helper reads <c>Intl.DisplayNames</c>; the
+    /// .NET equivalent is <see cref="System.Globalization.CultureInfo.NativeName"/>.
+    /// The two draw on different ICU surfaces, so capitalisation and
+    /// region formatting can differ slightly (e.g. "English (United
+    /// States)" here vs "American English" there); both are true endonyms
+    /// and the difference is accepted.
+    /// </summary>
+    public static string LocaleEndonym(string locale)
+    {
+        if (string.IsNullOrEmpty(locale)) return "";
+        return EndonymCache.GetOrAdd(locale, static key =>
+        {
+            var tag = Bcp47LocaleTag(key);
+            try
+            {
+                // predefinedOnly: a fabricated culture would happily echo
+                // its own tag back as a "name"; only real ICU data counts.
+                var culture = System.Globalization.CultureInfo.GetCultureInfo(tag, predefinedOnly: true);
+                var native = culture.NativeName;
+                if (string.IsNullOrEmpty(native)) return "";
+                // Some runtimes still echo the tag, or stamp an "Unknown
+                // Language" marker, instead of failing; neither is a name.
+                if (string.Equals(native, tag, StringComparison.OrdinalIgnoreCase)) return "";
+                if (native.Contains("Unknown", StringComparison.OrdinalIgnoreCase)) return "";
+                return native;
+            }
+            catch (System.Globalization.CultureNotFoundException)
+            {
+                return "";
+            }
+            catch (ArgumentException)
+            {
+                return "";
+            }
+        });
+    }
+
     /// <summary>
     /// Match a navigator preference list against a supported-locales list.
     /// Returns the first hit (exact, then language-only fallback) or empty

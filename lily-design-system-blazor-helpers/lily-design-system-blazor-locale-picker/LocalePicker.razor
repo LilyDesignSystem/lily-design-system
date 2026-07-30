@@ -58,14 +58,17 @@
         {
             var index = i;
             var locale = Locales[index];
-            @* Each option carries its own `lang` — WCAG 3.1.2 Language of
-               Parts — so "Français" is pronounced with a French voice. *@
+            @* `lang` — WCAG 3.1.2 Language of Parts — is claimed only when
+               the option's text is the derived endonym, so "Français" gets
+               a French voice; a consumer label or the English-table
+               fallback makes no claim, because handing the English word
+               "Arabic" to an Arabic speech engine is worse than silence. *@
             <li class="locale-picker-option"
                 id="@OptionId(index)"
                 role="option"
                 aria-selected="@(locale == Value ? "true" : "false")"
                 data-active="@(index == _activeIndex ? "" : null)"
-                lang="@TagFor(locale)"
+                lang="@OptionLang(locale)"
                 @onclick="() => ChooseAsync(index)">@LabelFor(locale)</li>
         }
     </ul>

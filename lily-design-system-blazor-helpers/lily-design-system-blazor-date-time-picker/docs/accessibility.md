@@ -26,11 +26,47 @@ what it costs — the costs are real and are not talked around.
   `@onkeydown` attribute.
 - A roving `tabindex`: exactly one day is tabbable, and paging the month
   carries the cursor with it (clamped to the shorter month), so focus
-  never drops onto an unrendered cell.
+  never drops onto an unrendered cell. Focus follows the cursor only for
+  grid paging (`PageUp`/`PageDown`); paging from the header buttons
+  leaves focus on the header button, so "next month" can be activated
+  repeatedly without the user being yanked into the grid.
+- Vetoed days (outside `Min`/`Max`, or refused by `IsDateDisabled`) are
+  `aria-disabled="true"` — **never** the `disabled` attribute. A
+  `disabled` button refuses focus, so arrowing the roving cursor across a
+  blocked week would go silent for a screen reader while the visible
+  focus stayed behind, and the "exactly one tabbable day" invariant would
+  break. `aria-disabled` keeps the day focusable and announced as
+  unavailable; activation is refused in the handler instead. (`data-disabled`
+  rides along for consumer CSS — style with `[data-disabled]`, not
+  `:disabled`.)
+- Closing the dialog returns focus to whichever element opened it — the
+  trigger button after a click, the **text field** after
+  `Alt`+`ArrowDown` — per the APG dialog pattern. Always refocusing the
+  button would strand a keyboard user one Tab stop past where they were.
+  Click-outside closes without moving focus, since the user has already
+  put it somewhere — and "outside" includes the component's own text
+  field, because a dialog claiming `aria-modal="true"` that stays open
+  while the user edits the field behind it is telling assistive
+  technology one thing and doing another.
 - Typed text is never silently corrected. Unparseable or out-of-range
   input is marked `aria-invalid="true"` and left exactly as typed, so a
   screen reader user gets a clear, honest state rather than a value that
-  quietly changed underneath them.
+  quietly changed underneath them. `Escape` in the field discards a
+  pending edit and clears the invalid state, committing nothing —
+  mirroring the dialog's own Escape contract.
+- Supply `Labels.Invalid` and the refusal is *announced*, not just
+  marked: a `role="status"` live region — present in the DOM before it
+  has content, because a live region born with its message is routinely
+  not announced at all — fills with your message, wired to the field via
+  `aria-errormessage` and appended to `aria-describedby` (after your own
+  `DescribedBy`) for the assistive technologies that read the older
+  attribute only.
+- Supply `Labels.Instructions` and the dialog carries keyboard help as
+  its first child, referenced by the dialog's `aria-describedby`, so a
+  screen reader speaks it once on open — the APG date-picker example
+  ships exactly this affordance. Both labels are optional and render
+  nothing when absent: the component never invents an English
+  announcement.
 - No user-facing string is hardcoded — including AM/PM, which comes from
   `DateTimeFormatInfo.AMDesignator` / `PMDesignator` for the resolved
   locale, not an English default.
@@ -88,6 +124,27 @@ may also scroll the page behind the grid on some browsers. This is the
 same, already-documented tradeoff `SharePicker`'s own arrow-key handling
 accepts.
 
+**Focus decisions ride on code paths, not on `document.activeElement`.**
+Blazor cannot read the active element without a JS round trip, so two
+canonical behaviours are decided differently here with the same outcome:
+close refocuses the field or the trigger according to which of the two
+open paths ran (`Alt`+`ArrowDown` vs. click — the only two ways in), and
+month/year paging refocuses the grid cursor only when the paging
+originated from the grid's own `PageUp`/`PageDown` handling, never from a
+header-button click. One visible difference from the canonical Svelte
+build: if focus is sitting in the grid and the user *clicks* a header
+button (whose mousedown default is suppressed), focus stays on the reused
+grid cell rather than being re-pointed at the carried cursor. Focus is
+never lost either way.
+
+**The field's `Escape` cannot stop propagation.** The canonical
+implementation stops the keystroke when it discards a pending edit, so a
+surrounding consumer dialog does not also close on what was, to the user,
+a text-editing key. `@onkeydown:stopPropagation` is a static, per-render
+declaration that would swallow every key, so this port discards the edit
+but lets the keystroke propagate — a consumer hosting the picker inside
+their own Escape-closable dialog should be aware.
+
 **Outside-dismissal is a root `focusout`, not a document click.** This
 package ships no document-level click listener (the same precedent
 `SharePicker` and `TextSizePicker` set), so the dialog closes when focus
@@ -121,6 +178,13 @@ mode (`InteractiveServer`, `InteractiveWebAssembly`, or `InteractiveAuto`).
 - Every entry `Labels` requires for the chosen `Mode` is supplied and
   translated — `Hour`/`Minute` for any mode with a time, `Meridiem` when a
   12-hour clock will render, `Week` when `ShowWeekNumbers` is set.
+- `Labels.Invalid` and `Labels.Instructions` are supplied (and
+  translated). Both are optional, but without `Invalid` a refused typed
+  date is marked and never announced, and without `Instructions` the
+  dialog opens with no keyboard help.
+- Vetoed-day styling targets `[data-disabled]` or
+  `[aria-disabled="true"]` — a `:disabled` selector no longer matches
+  anything in the grid.
 - The page hosting the control has an interactive render mode.
 - `IsDateDisabled` and `Min`/`Max` genuinely reflect the booking rules —
   a picker that can select an impossible date will fail later, downstream,

@@ -462,14 +462,16 @@ describe("ThemePicker — keyboard contract (APG listbox, §7.20–§7.24)", () 
     expect(document.activeElement).toBe(button);
   });
 
-  test("§7.23 Tab closes without stealing focus back to the button", () => {
+  test("§7.23 Tab closes and puts focus on the button so the default Tab proceeds from the picker", () => {
     const { button, list } = setup();
     key(button, "ArrowDown");
     expect(document.activeElement).toBe(list);
     key(list, "Tab");
     expect(list.hasAttribute("hidden")).toBe(true);
-    // Focus is left alone so the browser's own Tab handling proceeds.
-    expect(document.activeElement).not.toBe(button);
+    // Focus sits on the button — not <body>, which is where it lands
+    // when the focused list is hidden first, sending the browser's
+    // default Tab back to the top of the document.
+    expect(document.activeElement).toBe(button);
   });
 
   test("§7.24 typeahead moves the active descendant by label prefix", () => {
@@ -895,5 +897,68 @@ describe("ThemePicker — client.js lifecycle (§7.7–§7.11, §7.13)", () => {
     // do not collide.
     const lists = document.querySelectorAll(".theme-picker-list");
     expect(lists[0].id).not.toBe(lists[1].id);
+  });
+});
+
+describe("ThemePicker — accessibility hardening (§7.29–§7.32; canonical Svelte §7.21–§7.24)", () => {
+  function openPicker(themes: string[] = THEMES) {
+    const { button, list } = setup({ themes });
+    click(button);
+    return { button, list };
+  }
+
+  const active = (list: HTMLElement) =>
+    list.querySelector("[data-active]")?.textContent?.trim();
+
+  test("§7.29 Tab from the open list puts focus on the button before closing", () => {
+    const { button, list } = openPicker();
+    expect(document.activeElement).toBe(list);
+    key(list, "Tab");
+    // Focus sits on the button, so the browser's default Tab proceeds
+    // from the picker's own position — not from <body>, which is where
+    // focus lands when the focused list is hidden first, sending the
+    // next Tab to the top of the document.
+    expect(document.activeElement).toBe(button);
+    expect(list.hasAttribute("hidden")).toBe(true);
+  });
+
+  test("§7.30 a repeated typeahead character cycles through its matches", () => {
+    const { list } = openPicker(["dark", "dim", "dracula", "light"]);
+    // The initial value resolves to "light", so the cursor opens there.
+    key(list, "d");
+    expect(active(list)).toBe("Dark");
+    key(list, "d");
+    expect(active(list)).toBe("Dim");
+    key(list, "d");
+    expect(active(list)).toBe("Dracula");
+  });
+
+  test("§7.30 a multi-character buffer refines the match from the active option", () => {
+    const { list } = openPicker(["dark", "dim", "dracula", "light"]);
+    key(list, "d");
+    key(list, "r");
+    expect(active(list)).toBe("Dracula");
+  });
+
+  test("§7.31 PageUp and PageDown move the cursor by ten, clamped", () => {
+    const many = Array.from(
+      { length: 25 },
+      (_, i) => `t${String(i).padStart(2, "0")}`,
+    );
+    const { list } = openPicker(many);
+    key(list, "PageDown");
+    expect(active(list)).toBe("T10");
+    key(list, "PageDown");
+    expect(active(list)).toBe("T20");
+    key(list, "PageDown");
+    expect(active(list)).toBe("T24");
+    key(list, "PageUp");
+    expect(active(list)).toBe("T14");
+  });
+
+  test("§7.32 an empty list opens without aria-activedescendant", () => {
+    const { list } = openPicker([]);
+    expect(list.hasAttribute("hidden")).toBe(false);
+    expect(list.getAttribute("aria-activedescendant")).toBeNull();
   });
 });

@@ -19,7 +19,7 @@ positioning CSS).
 | `spec/index.md`                  | Specification-driven contract (canonical).       |
 | `LocalePicker.svelte`      | Implementation. Svelte 5 runes + TypeScript.     |
 | `LocalePicker.test.ts`     | Vitest spec, one assertion per §7 acceptance.    |
-| `locales.ts`               | Built-in code → English-name map and RTL sets.   |
+| `locales.ts`               | Fallback code → English-name map and RTL sets; default labels are endonyms via `localeEndonym`. |
 | `locales.tsv`              | Canonical 436-row source for `locales.ts`.       |
 | `index.ts`                 | Barrel re-export.                                |
 | `index.md`                 | Human-readable guide.                            |
@@ -65,7 +65,8 @@ detection (if enabled) > `defaultValue` > `"en"` (if present) >
   <ul class="locale-picker-list" id="{listId}" role="listbox" aria-label="{label}"
       tabindex="-1" hidden aria-activedescendant="{active optionId while open}">
     <li class="locale-picker-option" id="{optionId}" role="option"
-        aria-selected="true|false" data-active lang="en-US">English (United States)</li>
+        aria-selected="true|false" data-active
+        lang="{tag, only when the label is the derived endonym}">American English</li>
   </ul>
 </div>
 ```

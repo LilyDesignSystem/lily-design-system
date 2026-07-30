@@ -90,7 +90,8 @@ committing.
 - Component documentation per component (`components/{slug}/index.md`,
   `AGENTS.md`, `CLAUDE.md`, `spec/index.md`).
 - Seven framework-helper catalogs (`*-helpers`), each shipping the
-  `theme-picker`, `locale-picker`, and `text-size-picker` helper packages.
+  `theme-picker`, `locale-picker`, `text-size-picker`, `share-picker`, and
+  `date-time-picker` helper packages — 35 packages in all.
 - A `themes/` directory of 45 ready-to-use reference theme stylesheets.
 - Tooling for listing, scaffolding, syncing, and testing components across
   subprojects (`bin/`).
@@ -151,11 +152,14 @@ standalone remote via `bin/git-subtree-push`.
 - **Examples** (7 subprojects) — complete styled reference applications
   demonstrating every component with the NHS UK visual reference.
 - **Helpers** (7 subprojects) — small catalogs of opinionated packages that
-  each own one user-preference lifecycle end to end. Every catalog ships
-  three helpers — `theme-picker`, `locale-picker`, `text-size-picker` —
-  as native `<select>` controls with DOM application (`data-theme`,
-  `lang`/`dir`, `data-text-size`), optional `localStorage` persistence,
-  and SSR safety. The Svelte catalog is the canonical reference; the
+  each own one complete interaction end to end. Every catalog ships five
+  helpers, 35 packages in all. Three own a **user preference** —
+  `theme-picker`, `locale-picker`, `text-size-picker` — as an icon button
+  opening a WAI-ARIA APG listbox, with DOM application (`data-theme`,
+  `lang`/`dir`, `data-text-size`) and optional `localStorage` persistence.
+  `share-picker` owns an **action** and `date-time-picker` owns a **form
+  value**; neither applies anything to the document nor persists anything.
+  All are SSR-safe. The Svelte catalog is the canonical reference; the
   other six are framework-idiom ports. Each helper publishes to npm
   (or NuGet for Blazor) via `bin/publish-helpers` and a per-catalog
   `build.js` dist pipeline. See [spec/helpers/](helpers/index.md).
@@ -350,7 +354,7 @@ Scripts live in `bin/`:
 | `bin/update`                          | Update shared files.                                 |
 | `bin/git-subtree-push`                | Push each subtree to its standalone remote.          |
 | `bin/generate-storybook-stories.mjs`  | Generate Storybook stories.                          |
-| `bin/publish-helpers`                 | Build + publish the 21 helper packages (npm / NuGet).|
+| `bin/publish-helpers`                 | Build + publish the 35 helper packages (npm / NuGet).|
 | `bin/generate-registries`             | Regenerate example-app registries from the catalog.  |
 | `bin/check-links`                     | Verify relative markdown links resolve.              |
 
@@ -431,14 +435,31 @@ checked is considered live work; anything unchecked is queued in §12.
       SSG build is blocked on an upstream Analog issue documented
       in §11.8.
 - [x] All 7 helper subprojects exist (Svelte canonical, plus React, Vue,
-      Angular, HTML, Nunjucks, Blazor ports). Each catalog ships the
-      `theme-picker`, `locale-picker`, and `text-size-picker` helpers as
-      native `<select>` controls (initial release 0.1.0 on 2026-06-05;
-      converted from the earlier radio-group pickers on 2026-06-17 and
-      released as the breaking 0.2.0 for theme-picker and locale-picker
-      on 2026-07-03; text-size-picker stays 0.1.0), with per-package
-      manifests (npm `package.json`, or NuGet `.csproj` for Blazor),
-      dist build pipelines (`build.js`), and CHANGELOGs.
+      Angular, HTML, Nunjucks, Blazor ports). Each catalog ships five
+      helpers — `theme-picker`, `locale-picker`, `text-size-picker`,
+      `share-picker`, `date-time-picker` — for 35 packages, all at 0.1.0
+      after the July 2026 rename reset them, with per-package manifests
+      (npm `package.json`, or NuGet `.csproj` for Blazor), dist build
+      pipelines (`build.js`), and CHANGELOGs. The first three are icon
+      button + APG listbox; `share-picker` is a disclosure of real links;
+      `date-time-picker` is a text field + APG date-picker dialog.
+      Verified 2026-07-29: 1835 tests pass across the seven catalogs
+      (svelte 208, react 264, vue 261, html 291, nunjucks 318,
+      angular 290, blazor 203). The +168 over the 2026-07-28 count is
+      two accessibility-hardening sweeps, each canonical-Svelte-first
+      then ported to the six sibling catalogs, recorded in every
+      package's CHANGELOG under "Unreleased": the date-time-picker
+      sweep (aria-disabled days, focus-return-to-opener, header-vs-grid
+      paging focus, optional `invalid` status live region and
+      `instructions` dialog help, field Escape revert, aria-modal
+      click-outside coherence) and the sibling-picker sweep
+      (Tab-out-via-button focus preservation in all four pickers, APG
+      single-character typeahead cycling, PageUp/PageDown, empty-list
+      aria-activedescendant guard, locale endonym default labels with a
+      truthful conditional `lang`, share-picker list naming). Blazor's
+      listbox pickers deliberately omit the Tab refocus — its async
+      event order means the bug cannot occur there and the refocus
+      would regress; its share-picker does take it.
 - [x] All 21 subprojects have required files (`index.md`, `README.md`
       symlink, `AGENTS.md`, `CLAUDE.md`, `spec/index.md`, `.git-subtree-push`).
       All use the spec-driven `spec/index.md` layout the May 2026 migration
@@ -670,6 +691,36 @@ Long-term:
 
 ### 14.1 Changelog highlights
 
+- **Sibling-picker accessibility hardening (2026-07-29)** — an audit of
+  theme-, locale-, text-size- and share-picker found five defects, fixed
+  canonical-first then ported to all seven catalogs: Tab out of an open
+  picker no longer restarts keyboard focus from the top of the page
+  (focus routes through the trigger button; Blazor's listbox pickers
+  documentedly omit this because their async event order makes the bug
+  impossible); APG single-character typeahead cycling; PageUp/PageDown;
+  an empty-list `aria-activedescendant` guard; locale-picker defaults
+  to **endonym** labels ("Cymraeg" not "Welsh", via the new
+  `localeEndonym()`) with `lang` claimed only when true — ending the
+  wrong-voice defect of English labels marked as foreign text; and the
+  share-picker list gains its accessible name. 1835 tests pass
+  (svelte 208, react 264, vue 261, html 291, nunjucks 318, angular 290,
+  blazor 203). Full record: [CHANGELOG.md](../CHANGELOG.md).
+- **date-time-picker accessibility hardening (2026-07-29)** — seven
+  changes across all seven catalogs, canonical-first: vetoed days become
+  `aria-disabled` + `data-disabled` (focusable and announced, never the
+  `disabled` attribute — the 45 themes' day rules moved to
+  `[data-disabled]` to match); dialog close returns focus to the element
+  that opened it; header paging no longer steals focus into the grid;
+  optional `labels.invalid` adds a `role="status"` live region wired via
+  `aria-errormessage`; optional `labels.instructions` adds dialog
+  keyboard help via `aria-describedby`; field `Escape` discards a
+  pending typed edit; and click-outside now includes the component's own
+  text field, honouring `aria-modal`. Porting surfaced and fixed a
+  latent Blazor bug (day `ElementReference` map keyed by reused-element
+  ISO date) and an Angular render-timing requirement
+  (`detectChanges()` before focusing freshly-paged cells). 1717 tests
+  pass (svelte 192, react 247, vue 248, html 274, nunjucks 297,
+  angular 272, blazor 187). Full record: [CHANGELOG.md](../CHANGELOG.md).
 - **Helpers renamed to `*-picker` (2026-07-21)** — every helper package
   in all seven catalogs is renamed: `theme-select` → `theme-picker`,
   `locale-select` → `locale-picker`, `text-size-select` →

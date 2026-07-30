@@ -231,7 +231,7 @@ Renders (listbox closed):
       aria-selected="false"
       lang="cy"
     >
-      Welsh
+      Cymraeg
     </li>
   </ul>
 </div>
@@ -241,10 +241,13 @@ While open, the button's `aria-expanded` flips to `"true"`, the `<ul>`
 loses `hidden` and gains `aria-activedescendant` pointing at the
 active option's `id`, and `data-active` marks that option.
 
-Each locale option carries its own `lang` attribute so a screen reader
-pronounces "Cymraeg" with a Welsh voice (WCAG 3.1.2, Language of
-Parts). The button and the list carry no `lang` of their own — their
-text is in the page's language, not any listed locale's.
+Default labels are endonyms — "Cymraeg", not "Welsh" — and an
+endonym-labelled option carries its own `lang` attribute so a screen
+reader pronounces "Cymraeg" with a Welsh voice (WCAG 3.1.2, Language
+of Parts). `lang` is claimed **only** when the label is the derived
+endonym: a consumer label's language is unknown, so it gets no claim.
+The button and the list carry no `lang` of their own — their text is
+in the page's language, not any listed locale's.
 
 The hidden input carries the value into an enclosing `<form>`; set
 `name` to control its field name.
@@ -290,9 +293,13 @@ the status-region pattern.
 
 ### Pretty labels for the option text
 
-By default the select uses the English names from `locales.tsv`
-(and falls back to `Intl.DisplayNames` if available, then to the
-raw code). Override per-code with `localeLabels`:
+By default each option shows the language's **endonym** — its own
+name for itself, "Cymraeg" not "Welsh" — via `Intl.DisplayNames`
+asked in that language (exported as `localeEndonym`). The user who
+needs a language menu is the one who cannot read the page's language,
+and the exonym means nothing to them. The English names from
+`locales.tsv` and the raw code remain as fallbacks for runtimes
+without the data. Override per-code with `localeLabels`:
 
 ```html
 <lily-locale-picker
@@ -412,9 +419,10 @@ on different options.
 ## Built-in locale data
 
 `locales.ts` ships the 436 codes from `locales.tsv` mapped to their
-English names. The component falls back to this table when
-`localeLabels` does not have an entry for a code. You can also
-import the data directly:
+English names. Since the endonym change these are a **fallback** —
+the default label is `localeEndonym(code)`, and the table is
+consulted only when the runtime lacks `Intl.DisplayNames` data for a
+code. You can also import the data directly:
 
 ```ts
 import {
@@ -474,8 +482,9 @@ On the **list**:
 | Home / End            | Jump to the first / last option.                                           |
 | Enter / Space         | Choose the active option, apply it, close, focus the button.               |
 | Escape                | Close and focus the button; the locale is unchanged.                       |
-| Tab                   | Close and let focus move on normally.                                      |
-| Any printable key     | Typeahead over the option labels; resets 500 ms after your last keystroke. |
+| PageUp / PageDown     | Move the active option by ten; clamps.                                     |
+| Tab                   | Close; focus lands on the button so the default Tab proceeds from the picker's position. |
+| Any printable key     | Typeahead over the option labels; resets 500 ms after your last keystroke. A single character advances to the next match and repeats cycle; differing characters refine. |
 
 With a mouse: clicking the button toggles the list, clicking an option
 chooses it, and clicking anywhere outside closes the list. Moving
@@ -487,9 +496,11 @@ focus out of the control closes it too.
   `aria-expanded`, and `aria-controls`; the list is a
   `role="listbox"` with `aria-activedescendant` while open; options
   are `role="option"` with `aria-selected`.
-- Each locale option carries `lang="…"` so its name is pronounced in
-  the right language (WCAG 3.1.2, Language of Parts). The button and
-  the list carry none of their own.
+- Each endonym-labelled option carries `lang="…"` so its name is
+  pronounced in the right language (WCAG 3.1.2, Language of Parts);
+  consumer-labelled options make no such claim, because their label's
+  language is unknown. The button and the list carry no `lang` of
+  their own.
 - The document root carries `lang` and (by default) `dir` so the
   page satisfies WCAG 3.1.1 (Language of Page) and bidi
   text/layout inverts correctly for RTL locales.

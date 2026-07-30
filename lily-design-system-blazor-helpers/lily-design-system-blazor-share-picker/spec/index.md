@@ -143,7 +143,7 @@ public sealed class ShareEventArgs
   >
     <span class="share-picker-icon" aria-hidden="true">&#10148;</span>
   </button>
-  <ul class="share-picker-list" id="{listId}" hidden>
+  <ul class="share-picker-list" id="{listId}" aria-label="{Label}" hidden>
     <li class="share-picker-list-item">
       <a
         class="share-picker-target"
@@ -164,6 +164,10 @@ public sealed class ShareEventArgs
 
 The trigger's class is `share-picker-button`, following the
 `{helper}-button` convention the sibling helpers use.
+
+The list carries the picker's accessible name (`aria-label` =
+`Label`), matching the sibling pickers' listboxes: a screen reader
+entering the list hears what it is for, not just "list, three items".
 
 `target="_blank"` is omitted for a destination with `NewTab = false`.
 Ids come from a monotonic process-wide counter
@@ -233,13 +237,23 @@ Either way the list closes.
 | `ArrowUp`         | Opens, focuses the last item         | Moves focus up, clamping                      |
 | `Home` / `End`    | —                                    | First / last item                             |
 | `Escape`          | —                                    | Closes and returns focus to the button        |
-| `Tab`             | Moves on                             | Closes, focus goes where the browser sends it |
+| `Tab`             | Moves on                             | Closes — focus is parked on the button, so the user's next Tab proceeds from the picker's position (see §9) |
 
 Items are real focusable elements, so focus moves for real rather than
 via `aria-activedescendant`. Focus moves are deferred to
 `OnAfterRenderAsync`: an item cannot take focus while the list still
 carries `hidden`, and the trigger cannot be refocused until the close
 has been painted.
+
+The `Tab` refocus matters because the focused element is a list item:
+the browser's default Tab — which Blazor can neither cancel nor
+precede — lands on the *next* item just as the list hides, dropping
+focus to `<body>`, so the user's following Tab would restart from the
+top of the document. Parking focus on the trigger instead means Tab
+proceeds from the picker's own position. (The sibling listbox pickers
+deliberately do NOT refocus: their focused `<ul>` has no tabbable
+children, so the default Tab already exits the picker cleanly and a
+refocus would yank the user back.)
 
 Focus leaving the root closes the list.
 
@@ -284,6 +298,14 @@ matches the canonical Svelte spec one-for-one.
 20. An explicit `Url` parameter wins.
 21. With no `Url`, the current page URL is used.
 22. `ChildContent` replaces the glyph and receives `SharePickerContext`.
+23. `Tab` from an open item puts focus on the button before closing, so
+    the user's next Tab proceeds from the picker's position instead of
+    restarting from `<body>` after the browser's default Tab lands on a
+    just-hidden item. (bUnit cannot run the real default-Tab move, so
+    the test asserts the observable state: list hidden plus a recorded
+    focus request for the trigger.)
+24. The list carries the picker's accessible name (`aria-label` =
+    `Label`).
 
 ### 7.1 How focus is asserted
 

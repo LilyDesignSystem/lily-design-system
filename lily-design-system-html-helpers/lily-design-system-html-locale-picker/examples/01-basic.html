@@ -17,11 +17,13 @@
                       last option active. Opening moves focus to the
                       <ul>.
       On the list:    ArrowDown / ArrowUp move and clamp (no wrap);
-                      Home / End jump to the ends; Enter / Space
-                      select and return focus to the button; Escape
-                      closes without changing the value; Tab closes
-                      without stealing focus back; typing runs a
-                      500 ms typeahead over the option labels.
+                      Home / End jump to the ends; PageUp / PageDown
+                      move by ten (clamped); Enter / Space select and
+                      return focus to the button; Escape closes
+                      without changing the value; Tab puts focus on
+                      the button first, then closes, so the default
+                      Tab proceeds from the picker's position; typing
+                      runs a 500 ms typeahead over the option labels.
 
     THE CSS BELOW IS NOT DECORATION — IT IS REQUIRED. The package
     ships no CSS at all, which means the dropdown has no positioning.

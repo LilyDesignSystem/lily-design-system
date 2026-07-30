@@ -53,7 +53,7 @@ regression. Say no.
 | `ArrowUp` | Open, focus last | Move up, **clamp** |
 | `Home` / `End` | — | First / last |
 | `Escape` | — | Close, refocus trigger |
-| `Tab` | Move on | Close, focus goes where the browser sends it |
+| `Tab` | Move on | Focus moves to the trigger, then the list closes — the default Tab proceeds from the picker's position |
 
 `Enter` / `Space` are deliberately **not** handled on the trigger: they
 are the button's own activation keys and already produce a click.
@@ -86,7 +86,11 @@ do not soften them:
 - No `role` on any `.share-picker-target`.
 - `rel="noopener noreferrer"` present regardless of `newTab`.
 - Arrows clamp.
-- `Escape` returns focus to the trigger; `Tab` does not.
+- `Escape` returns focus to the trigger; `Tab` puts focus on the
+  trigger first and then closes, without cancelling the key, so the
+  default Tab proceeds from the picker's position.
+- The list carries the picker's accessible name (`aria-label` =
+  `label`).
 - Status region is never `display: none` in example CSS — that removes
   it from the accessibility tree and silences the announcement.
 - A dismissed native sheet does not reopen the list.

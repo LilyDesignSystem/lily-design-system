@@ -4,6 +4,64 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+### Changed
+
+- **`Tab` from the open list is documented — and deliberately NOT given
+  the canonical Svelte button-refocus.** The canonical fix moves focus
+  to the trigger before hiding the list, because Svelte hides
+  synchronously, ahead of the browser's default Tab, which otherwise
+  restarts from the top of the document. Blazor cannot reproduce that
+  bug — the default Tab always runs before the async handler, so it
+  proceeds from the still-visible list — and mirroring the refocus
+  would run *after* the default Tab and yank the user back to the
+  trigger they just left. Both implementations end with focus on the
+  tab stop after the picker; the divergence is recorded in spec §6.2.1.
+- **Typeahead follows the APG single-character rule** (canonical
+  §7.30). A single character advances to the *next* matching option,
+  and repeating that character cycles through the matches; only a
+  buffer of differing characters refines the match anchored on the
+  active option. Previously a character that matched the active option
+  went nowhere.
+
+### Changed (labels)
+
+- **Default option labels are endonyms** — each language named in
+  itself, "Cymraeg" not "Welsh" — via the new public
+  `Locales.LocaleEndonym()`. The canonical Svelte helper asks
+  `Intl.DisplayNames` *in that language*; .NET has no `Intl`, so this
+  port reads `CultureInfo.NativeName` (with
+  `GetCultureInfo(tag, predefinedOnly: true)` so a fabricated culture
+  cannot echo its own tag back as a "name", and a memoising cache so
+  unknown codes do not pay a thrown `CultureNotFoundException` per
+  render). The two ICU surfaces can format slightly differently —
+  "English (United States)" here vs "American English" there; both are
+  true endonyms and the divergence is accepted and documented. The
+  English table in `Locales.cs` becomes a fallback for cultures the
+  runtime has no data for. Resolution order: `LocaleLabels` → endonym →
+  English table → raw code.
+- **`lang` on an option is now a claim we can stand behind.** It is set
+  only when the label is the derived endonym. Previously every option
+  carried `lang` while showing an English label, sending screen-reader
+  speech engines to the wrong voice — the English word "Arabic" read
+  out by an Arabic synthesizer.
+
+### Added
+
+- **`PageUp` / `PageDown`** move the active option by ten, clamped —
+  an APG-optional key for long locale lists (canonical §7.31).
+- Internal `ButtonReferenceId` / `ListReferenceId` test seams
+  (InternalsVisibleTo), so the bUnit suite can compare recorded
+  `FocusAsync` interop targets the way the DateTimePicker suite does.
+
+### Fixed
+
+- Opening with an empty option list no longer refuses to open (and, as
+  in the canonical fix, never points `aria-activedescendant` at an id
+  that does not exist): the active index is `-1` and the attribute is
+  simply absent (canonical §7.32).
+
 ## 0.1.0 — 2026-07-21
 
 Renamed from `lily-design-system-blazor-locale-select` to

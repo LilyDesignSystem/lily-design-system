@@ -55,7 +55,7 @@ On the **listbox**:
 | `Home` / `End`          | Jump to the first / last option.                                 |
 | `Enter` / `Space`       | Select the active option, apply, close, return focus to button.  |
 | `Escape`                | Close and return focus to the button; value unchanged.           |
-| `Tab`                   | Close without stealing focus back.                               |
+| `Tab`                   | Close; focus lands on the button so the default Tab proceeds from the picker's position. |
 | Printable character     | Typeahead over the labels; buffer resets after 500 ms idle.      |
 
 Pointer: clicking an option selects it; clicking the button again,

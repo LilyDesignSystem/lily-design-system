@@ -126,11 +126,13 @@ Every attribute in §4.1 mirrors a camelCase JS property, plus:
 | `el.closeList(refocus = true)` | method          | Close the listbox. Returns focus to the button unless `refocus` is `false`.                                          |
 | `el.labelFor(code)`            | method          | Resolve a locale code to its display label (§5.4).                                                                   |
 | `el.tagFor(locale)`            | method          | Resolve a locale code to its BCP 47 tag (§5.1).                                                                      |
+| `el.optionLang(code)`          | method          | The `lang` claim for one option — the BCP 47 tag when the label is the derived endonym, else `""` (§5.4).            |
 | `el.renderButtonContent()`     | **overridable** | Build the button's content. See §4.8.                                                                                |
 
-`labelFor`, `tagFor`, and `renderButtonContent` are public so that
-subclasses can use and override them; the rest of the rendering is
-held in private fields and cannot be overridden (§4.8, tier 2).
+`labelFor`, `tagFor`, `optionLang`, and `renderButtonContent` are
+public so that subclasses can use and override them; the rest of the
+rendering is held in private fields and cannot be overridden (§4.8,
+tier 2).
 
 ### 4.3 Lifecycle callbacks
 
@@ -197,7 +199,7 @@ composed.
         aria-selected="false"
         lang="fr"
       >
-        French
+        français
       </li>
       <li
         class="locale-picker-option"
@@ -206,7 +208,7 @@ composed.
         aria-selected="false"
         lang="ar"
       >
-        Arabic
+        العربية
       </li>
     </ul>
   </div>
@@ -237,10 +239,13 @@ Contract points:
   `aria-selected` marks the chosen one. **They are different
   things** — the active option follows the arrow keys, the selected
   option is the applied locale.
-- Each `<li>` carries `lang="{tagFor(locale)}"` (BCP 47 hyphen form)
-  so assistive technology pronounces the option name in its own
-  language. The button and the `<ul>` carry **no `lang`** — they are
-  not locale-specific.
+- Each option's default text is the locale's **endonym** (§5.4), and
+  an `<li>` carries `lang="{tagFor(locale)}"` (BCP 47 hyphen form)
+  **only when its text is that derived endonym**, so assistive
+  technology pronounces the name in its own language and is never
+  handed a consumer-supplied or English-fallback label under a
+  foreign `lang` claim. The button and the `<ul>` carry **no
+  `lang`** — they are not locale-specific.
 - Option and list ids come from `nextLocalePickerId()`, so multiple
   instances on one page never collide.
 - The hidden `<input>` carries `name` and the current value, so the
@@ -254,7 +259,7 @@ apply.
 `index.ts` exports:
 
 - `LocalePicker` (the class)
-- `bcp47LocaleTag`, `isRtlLocale`, `localeName`,
+- `bcp47LocaleTag`, `isRtlLocale`, `localeName`, `localeEndonym`,
   `matchNavigatorLanguage` (pure helpers)
 - `nextLocalePickerId` (the id counter)
 - `GLOBE_WITH_MERIDIANS` (the default button glyph)
@@ -285,8 +290,9 @@ On the **listbox**:
 | `Home` / `End`          | Jump to the first / last option.                                                                                                              |
 | `Enter` / `Space`       | Select the active option, apply it, close, and return focus to the button.                                                                    |
 | `Escape`                | Close and return focus to the button **without** changing the value.                                                                          |
-| `Tab`                   | Close without stealing focus back, so focus lands where the user was headed.                                                                  |
-| printable character     | Typeahead over the option **labels**; the buffer resets after 500 ms of no typing. Search runs forward from the active option and wraps once. |
+| `PageUp` / `PageDown`   | Move the active option ten steps up / down. Clamps at both ends.                                                                              |
+| `Tab`                   | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position. Hiding the focused list first would drop focus to `<body>` and restart Tab from the top of the document. |
+| printable character     | Typeahead over the option **labels**; the buffer resets after 500 ms of no typing. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match from the active option. Search wraps once. |
 
 Pointer and focus behaviour:
 
@@ -354,18 +360,35 @@ matches each entry against `locales` in order:
 2. Language-only match: if `nav` is `xx-YY`, try the first `locales`
    entry whose language part equals `xx`.
 
-### 5.4 Default labels
+### 5.4 Default labels and the `lang` attribute
 
-When `localeLabels[code]` is missing, `el.labelFor(code)` falls back
-to:
+Default option labels are endonyms — each language named in itself,
+"Cymraeg" not "Welsh" — resolved by the exported `localeEndonym()`
+via `Intl.DisplayNames` asked *in that language*. The user who needs
+a language menu is the one who cannot read the page's language, and
+the exonym means nothing to them. The endonym lookup is deterministic
+(no `navigator` dependency), so server and client render the same
+label; it returns `""` when the runtime has no data or merely echoes
+the tag back.
 
-1. `defaultLocaleLabels[code]` from the built-in `locales.ts` table.
-2. `Intl.DisplayNames` for the consumer's environment locale, if
+When `localeLabels[code]` is missing, `el.labelFor(code)` resolves:
+
+1. `localeEndonym(code)`, if non-empty.
+2. `defaultLocaleLabels[code]` from the built-in English `locales.ts`
+   table — a fallback for runtimes without `Intl.DisplayNames` data.
+3. `Intl.DisplayNames` for the consumer's environment locale, if
    available and non-empty. (Opportunistic; never throws.)
-3. The raw `code`.
+4. The raw `code`.
 
 The resolved label is both the option's visible text and the string
 the typeahead (§4.7) searches.
+
+Each option's `lang` attribute is a claim about the language of the
+option's **text**, and is made only when the text is the endonym we
+derived (`el.optionLang(code)`): then a screen reader may correctly
+switch voice. A consumer label's language is unknown, and the English
+fallback is English, so those options carry no `lang` — the English
+word "Arabic" must never be handed to an Arabic speech engine.
 
 ### 5.5 Applying a locale
 
@@ -471,7 +494,11 @@ optional extra.
 - `label`, `localeLabels`, and the consumer-supplied `locales` list
   are all passed through verbatim.
 - No user-facing strings are hardcoded.
-- Each rendered option name appears in its own `lang` context.
+- Default option names are endonyms, and an option carries its own
+  `lang` context exactly when its text is that endonym (§5.4) — a
+  screen reader announces "Français" with a French voice even when
+  the surrounding page is English, and is never handed an English
+  label under a foreign `lang` claim.
 
 ## 7. Testing acceptance criteria
 
@@ -501,10 +528,13 @@ number. Numbering mirrors the Svelte sibling's §7.
    active locale. Clicking an option selects it, applies it
    (`lang`), closes the list, resets `aria-expanded` to `"false"`,
    and updates the hidden input's value.
-5. Each option carries `lang="{tagFor(locale)}"` (BCP 47 hyphen
-   form); the button and the `<ul>` carry no `lang`.
+5. An option whose label is the derived endonym carries
+   `lang="{tagFor(locale)}"` (BCP 47 hyphen form); the button and the
+   `<ul>` carry no `lang`. (When `lang` may be claimed at all is
+   §7.31.)
 6. The visible option text is `localeLabels[code] ??
-defaultLocaleLabels[code] ?? Intl.DisplayNames ?? code`.
+localeEndonym(code) ?? defaultLocaleLabels[code] ??
+Intl.DisplayNames ?? code` — endonyms by default (§5.4).
 
 ### 7.2 Pure helpers (§5.1, §5.6)
 
@@ -570,8 +600,7 @@ carry no separate clause number.
     returns focus to the button, and removes
     `aria-activedescendant`; `Space` does the same.
 27. `Escape` closes without changing the locale and returns focus to
-    the button; `Tab` closes without stealing focus back to the
-    button.
+    the button; `Tab` closes the list (its focus contract is §7.30).
 28. A printable character runs a typeahead over the option labels
     and moves the active descendant; a click outside the rendered
     root closes the listbox.
@@ -588,6 +617,22 @@ carry no separate clause number.
     sync (a `value` change, each open and close), so derived content
     never goes stale. The subclass still fires `localechange`
     through the base lifecycle.
+
+### 7.8 Accessibility hardening (§5.4, §4.7)
+
+These clauses mirror the canonical Svelte spec's §7.28–§7.32; this
+port's own §7.28–§7.29 were already taken above, so they continue the
+local sequence instead.
+
+30. `Tab` from the open list puts focus on the button before closing,
+    so the default Tab proceeds from the picker's position.
+31. `lang` is claimed only when the label is the endonym;
+    consumer-labelled options carry no `lang` (§5.4).
+32. A repeated typeahead character cycles through its matches; a
+    buffer of differing characters refines the match from the active
+    option.
+33. `PageUp` / `PageDown` move the cursor by ten, clamped.
+34. An empty list opens without `aria-activedescendant`.
 
 ## 8. Out-of-scope (future, not implemented here)
 

@@ -163,7 +163,7 @@ An icon button plus a dropdown listbox:
       aria-activedescendant="{optionId of active, only while open}">
     <li class="locale-picker-option" id="{optionId}" role="option"
         aria-selected="true|false" data-active
-        lang="{TagFor(locale)}">{LabelFor(locale)}</li>
+        lang="{TagFor(locale), only when the label is the derived endonym}">{LabelFor(locale)}</li>
   </ul>
 </div>
 ```

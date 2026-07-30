@@ -64,10 +64,12 @@ Nothing is applied to the document and nothing is persisted.
 ## HTML
 
 `<div class="share-picker">` → `<button class="share-picker-button">`
-with an `aria-hidden` glyph span → `<ul class="share-picker-list" hidden>`
-of `<li>` containing `<a class="share-picker-target">` and an optional
+with an `aria-hidden` glyph span → `<ul class="share-picker-list"
+aria-label="{Label}" hidden>` of `<li>` containing
+`<a class="share-picker-target">` and an optional
 `<button class="share-picker-copy">` → `<p class="share-picker-status"
-aria-live="polite">`.
+aria-live="polite">`. The list carries the picker's accessible name,
+matching the sibling pickers' listboxes.
 
 **Not a menu.** Destinations are real `<a>` elements; `role="menuitem"`
 would strip middle-click, open-in-new-tab and copy-link-address. The
@@ -82,7 +84,10 @@ it sets `NewTab = false`.
 Button: `Enter` / `Space` activate; `ArrowDown` opens focused on the
 first item, `ArrowUp` on the last. List: arrows move focus and **clamp**
 (a disclosure does not wrap), `Home` / `End` jump, `Escape` closes and
-returns focus to the trigger, `Tab` closes without stealing focus back.
+returns focus to the trigger, `Tab` parks focus on the trigger before
+closing — the focused element is a list item, and hiding the list after
+the browser's default Tab lands on the next item would strand focus on
+`<body>` — so the user's next Tab proceeds from the picker's position.
 Items are real focusable elements, so focus moves for real — no
 `aria-activedescendant`. Focus moves are deferred to
 `OnAfterRenderAsync`, since an item cannot take focus while the list

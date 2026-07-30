@@ -77,7 +77,7 @@ owns an action, not a preference.
 `<button type="button" class="share-picker-button" aria-label="{label}"
 aria-expanded aria-controls="{listId}">` whose content defaults to
 `<span class="share-picker-icon" aria-hidden="true">&#10148;</span>`; a
-`<ul class="share-picker-list" id="{listId}" hidden>` of
+`<ul class="share-picker-list" id="{listId}" aria-label="{label}" hidden>` of
 `<li class="share-picker-list-item">` containing
 `<a class="share-picker-target" data-target-id target="_blank"
 rel="noopener noreferrer">` and an optional
@@ -120,7 +120,11 @@ The focus-out handler **defers to a microtask** and re-reads
 - WCAG 2.2 AAA target; disclosure pattern with real links.
 - Keyboard: trigger `ArrowDown`/`ArrowUp` open on first/last; list
   arrows move and **clamp** (no wrap), `Home`/`End` jump, `Escape`
-  closes and refocuses the trigger, `Tab` closes without stealing focus.
+  closes and refocuses the trigger, `Tab` puts focus on the trigger
+  first and then closes — without cancelling the key, so the default
+  Tab proceeds from the picker's position.
+- The list carries the picker's accessible name (`aria-label` =
+  `label`), matching the sibling pickers' listboxes.
 - Four known costs — icon-only naming (and WCAG 2.5.3), platform-split
   behaviour under `strategy="auto"`, font-dependent glyph, and invisible
   copy failures — are recorded in [`docs/accessibility.md`](./docs/accessibility.md).

@@ -629,6 +629,160 @@ public class TextSizePickerTests : TestContext
         Assert.Equal("True", cut.Find("[data-testid='custom']").GetAttribute("data-open"));
     }
 
+    // =================================================================
+    // Accessibility hardening — §7.25–§7.28, mirroring the canonical
+    // Svelte clauses §7.14–§7.17 (this port's §7 list was already
+    // numbered through §7.24, so the new clauses continue from §7.25).
+    //
+    // Focus assertions read the FocusAsync interop invocations against
+    // the component's internal reference-id seams (InternalsVisibleTo),
+    // the same technique the DateTimePicker suite uses — bUnit has no
+    // live focus model. bUnit also cannot run the browser's REAL
+    // default-Tab move, so the Tab clause asserts the observable state
+    // and the comment explains the platform difference.
+    // =================================================================
+
+    /// <summary>The interop identifier ElementReference.FocusAsync() uses.</summary>
+    private const string FocusIdentifier = "Blazor._internal.domWrapper.focus";
+
+    /// <summary>The ElementReference ids the component asked the browser to
+    /// focus, oldest first.</summary>
+    private IReadOnlyList<string> FocusedRefIds()
+        => JSInterop.Invocations
+            .Where(i => i.Identifier == FocusIdentifier)
+            .Select(i => ((ElementReference)i.Arguments[0]!).Id)
+            .ToList();
+
+    // -----------------------------------------------------------------
+    // §7.25 — Tab from the open list closes it and leaves focus where
+    //         the browser's default Tab put it (canonical §7.14). The
+    //         canonical Svelte fix refocuses the button BEFORE hiding
+    //         the list because Svelte hides synchronously, ahead of the
+    //         browser's default Tab; Blazor's async handler always runs
+    //         AFTER the default Tab has proceeded from the still-visible
+    //         list — the picker's own position — so the component must
+    //         NOT issue a focus call, which would yank the user back to
+    //         the trigger they just left. Both ports end with focus on
+    //         the tab stop after the picker.
+    // -----------------------------------------------------------------
+    [Fact]
+    public async Task Section_7_25_Tab_Closes_And_Does_Not_Fight_The_Default_Tab()
+    {
+        var cut = RenderDefault();
+        await Task.Yield();
+
+        cut.Find("button").Click();
+        // Opening moved focus to the listbox.
+        Assert.Equal(cut.Instance.ListReferenceId, FocusedRefIds()[^1]);
+        var beforeTab = FocusedRefIds().Count;
+
+        Key(cut, "ul", "Tab");
+
+        Assert.True(cut.Find("ul").HasAttribute("hidden"));
+        Assert.Equal("false", cut.Find("button").GetAttribute("aria-expanded"));
+        // No focus interop was issued on Tab: focus stays where the
+        // browser's uncancelled default Tab moved it.
+        Assert.Equal(beforeTab, FocusedRefIds().Count);
+        Assert.DoesNotContain(cut.Instance.ButtonReferenceId, FocusedRefIds());
+    }
+
+    // -----------------------------------------------------------------
+    // §7.26 — A repeated typeahead character cycles through its matches
+    //         (canonical §7.15).
+    // -----------------------------------------------------------------
+    [Fact]
+    public async Task Section_7_26_A_Repeated_Typeahead_Character_Cycles_Through_Its_Matches()
+    {
+        var cut = RenderComponent<TextSizePicker>(p => p
+            .Add(x => x.Label, "Text size")
+            .Add(x => x.Sizes, new[] { "d1", "d2", "d3", "m" })
+            .Add(x => x.SizeLabels,
+                (IReadOnlyDictionary<string, string>)new Dictionary<string, string>
+                {
+                    ["d1"] = "Dark",
+                    ["d2"] = "Dim",
+                    ["d3"] = "Dracula",
+                    ["m"] = "Light",
+                })
+            .Add(x => x.DefaultValue, "m"));
+        await Task.Yield();
+        cut.Find("button").Click();
+
+        string Active() => cut.Find("[data-active]").TextContent.Trim();
+
+        // The cursor opens on the selected "m" (label "Light").
+        Key(cut, "ul", "d");
+        Assert.Equal("Dark", Active());
+        Key(cut, "ul", "d");
+        Assert.Equal("Dim", Active());
+        Key(cut, "ul", "d");
+        Assert.Equal("Dracula", Active());
+
+        // And a buffer of DIFFERING characters refines from the active
+        // option instead of cycling (canonical §7.15's second half).
+        var cut2 = RenderComponent<TextSizePicker>(p => p
+            .Add(x => x.Label, "Text size")
+            .Add(x => x.Sizes, new[] { "d1", "d2", "d3", "m" })
+            .Add(x => x.SizeLabels,
+                (IReadOnlyDictionary<string, string>)new Dictionary<string, string>
+                {
+                    ["d1"] = "Dark",
+                    ["d2"] = "Dim",
+                    ["d3"] = "Dracula",
+                    ["m"] = "Light",
+                })
+            .Add(x => x.DefaultValue, "m"));
+        await Task.Yield();
+        cut2.Find("button").Click();
+        Key(cut2, "ul", "d");
+        Key(cut2, "ul", "r");
+        Assert.Equal("Dracula", cut2.Find("[data-active]").TextContent.Trim());
+    }
+
+    // -----------------------------------------------------------------
+    // §7.27 — PageUp / PageDown move the cursor by ten, clamped
+    //         (canonical §7.16).
+    // -----------------------------------------------------------------
+    [Fact]
+    public async Task Section_7_27_PageUp_And_PageDown_Move_The_Cursor_By_Ten_Clamped()
+    {
+        var many = Enumerable.Range(0, 25).Select(i => $"s{i:D2}").ToArray();
+        var cut = RenderComponent<TextSizePicker>(p => p
+            .Add(x => x.Label, "Text size")
+            .Add(x => x.Sizes, many));
+        await Task.Yield();
+        cut.Find("button").Click();
+
+        string Active() => cut.Find("[data-active]").TextContent.Trim();
+
+        Key(cut, "ul", "PageDown");
+        Assert.Equal("S10", Active());
+        Key(cut, "ul", "PageDown");
+        Assert.Equal("S20", Active());
+        Key(cut, "ul", "PageDown");
+        Assert.Equal("S24", Active());
+        Key(cut, "ul", "PageUp");
+        Assert.Equal("S14", Active());
+    }
+
+    // -----------------------------------------------------------------
+    // §7.28 — An empty list opens without aria-activedescendant
+    //         (canonical §7.17).
+    // -----------------------------------------------------------------
+    [Fact]
+    public async Task Section_7_28_An_Empty_List_Opens_Without_AriaActivedescendant()
+    {
+        var cut = RenderComponent<TextSizePicker>(p => p
+            .Add(x => x.Label, "Text size")
+            .Add(x => x.Sizes, System.Array.Empty<string>()));
+        await Task.Yield();
+
+        cut.Find("button").Click();
+
+        Assert.False(cut.Find("ul").HasAttribute("hidden"));
+        Assert.Null(cut.Find("ul").GetAttribute("aria-activedescendant"));
+    }
+
     /// <summary>True when some eval interop call applied the given slug.</summary>
     private bool SawEvalApplying(string slug)
         => SawEvalContaining($"setAttribute('data-text-size',\"{slug}\")");

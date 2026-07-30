@@ -52,8 +52,10 @@ On the **listbox**:
 | `End`             | Jump to the last option.                                            |
 | `Enter` / `Space` | Select the active option, apply it, close, return focus to the button. |
 | `Escape`          | Close and return focus **without** changing the value.              |
-| `Tab`             | Close **without** stealing focus back.                              |
-| Printable chars   | Typeahead over the option *labels*, 500 ms buffer reset.            |
+| `PageUp`          | Move the active option up ten; clamps at the first.                    |
+| `PageDown`        | Move the active option down ten; clamps at the last.                   |
+| `Tab`             | Close and move on: the browser's default Tab proceeds from the picker's position. |
+| Printable chars   | Typeahead over the option *labels*, 500 ms buffer reset. A single character advances to the **next** match and repeating it cycles onward; differing characters refine the match from the active option. |
 
 Pointer and focus: clicking an option selects, applies, and closes;
 focus leaving the root closes the listbox without changing the value.

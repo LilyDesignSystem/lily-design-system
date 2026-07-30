@@ -15,8 +15,9 @@ well and what it costs — the costs are real and are not talked around.
   take all three away.
 - Keyboard: `Enter`/`Space` activate, `ArrowDown`/`ArrowUp` open and move
   between items (clamping, not wrapping), `Home`/`End` jump, `Escape`
-  closes and returns focus to the trigger, `Tab` closes and lets focus
-  move on. Items are real focusable elements, so focus moves for real
+  closes and returns focus to the trigger, `Tab` closes — focus lands
+  on the button first so the default Tab proceeds from the picker's
+  position instead of restarting from `<body>`. Items are real focusable elements, so focus moves for real
   rather than via `aria-activedescendant`.
 - Copying is otherwise silent, so its outcome is announced in an
   `aria-live="polite"` region that is empty on load.

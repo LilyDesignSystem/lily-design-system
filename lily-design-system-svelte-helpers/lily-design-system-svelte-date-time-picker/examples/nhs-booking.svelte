@@ -22,6 +22,11 @@
         hour: "Hour",
         minute: "Minute",
         clear: "Clear",
+        // Announced when typed text is refused. Word it as a correction,
+        // not a verdict.
+        invalid: "Enter a valid date, for example 21 3 2026",
+        // Spoken once when the dialog opens.
+        instructions: "Use the arrow keys to choose a day, and Enter to confirm",
     };
 
     const CY = {
@@ -34,6 +39,8 @@
         hour: "Awr",
         minute: "Munud",
         clear: "Clirio",
+        invalid: "Rhowch ddyddiad dilys, er enghraifft 21 3 2026",
+        instructions: "Defnyddiwch y saethau i ddewis diwrnod, ac Enter i gadarnhau",
     };
 
     // Today is resolved once, at module scope, so the window does not

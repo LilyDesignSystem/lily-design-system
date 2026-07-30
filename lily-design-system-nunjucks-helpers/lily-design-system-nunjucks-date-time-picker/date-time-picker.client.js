@@ -606,12 +606,13 @@ export function initDateTimePicker(root, opts = {}) {
   const cancelButton = root.querySelector("[data-lily-date-time-picker-cancel]");
   const confirmButton = root.querySelector("[data-lily-date-time-picker-confirm]");
 
+  const baseId = dialog.id ? dialog.id.replace(/-dialog$/, "") : nextDateTimePickerId();
+
   // --- The meridiem select (§3.4 deviation 3): the macro cannot decide
   // whether the clock is 12-hour, so it never renders this. Built here,
   // once, only when needed.
   let meridiemSelect = null;
   if (usesTime && hour12 && timeContainer) {
-    const baseId = dialog.id ? dialog.id.replace(/-dialog$/, "") : nextDateTimePickerId();
     const meridiemLabelText =
       (opts.labels && opts.labels.meridiem) || dataAttr("meridiem-label") || "";
     const meridiemLabel = document.createElement("label");
@@ -623,6 +624,52 @@ export function initDateTimePicker(root, opts = {}) {
     meridiemSelect.id = `${baseId}-meridiem`;
     timeContainer.appendChild(meridiemLabel);
     timeContainer.appendChild(meridiemSelect);
+  }
+
+  // --- The invalid-input live region (labels.invalid, optional): a
+  // role="status" span after the field, present-but-EMPTY while the
+  // field is valid — a live region born together with its message is
+  // routinely not announced at all. Without the label, no region and no
+  // announcement: the component never invents English. The macro
+  // renders the span when its render-time labels carried `invalid`
+  // (message text riding in the data attribute); when only the init
+  // opts carry it, it is built here, same as the meridiem select.
+  const invalidLabel =
+    (opts.labels && opts.labels.invalid) || dataAttr("invalid-label") || "";
+  let statusEl = root.querySelector("[data-lily-date-time-picker-status]");
+  if (invalidLabel && !statusEl) {
+    statusEl = document.createElement("span");
+    statusEl.className = "date-time-picker-status";
+    statusEl.id = `${baseId}-status`;
+    statusEl.setAttribute("role", "status");
+    statusEl.setAttribute("data-lily-date-time-picker-status", "");
+    const fieldDiv = root.querySelector(".date-time-picker-field");
+    if (fieldDiv) fieldDiv.after(statusEl);
+    else root.appendChild(statusEl);
+  }
+  // The consumer's own hint, captured before anything is appended to it:
+  // while invalid, the status id is chained AFTER it, for the assistive
+  // technologies that read aria-describedby but not aria-errormessage.
+  const consumerDescribedBy = input.getAttribute("aria-describedby") || "";
+
+  // --- The dialog keyboard help (labels.instructions, optional):
+  // rendered as the dialog's first child and referenced by its
+  // aria-describedby, so a screen reader speaks it once on open — the
+  // APG date-picker dialog ships exactly this affordance. Macro-rendered
+  // when the render-time labels carried it; built here when only the
+  // init opts do. Init opts win over the rendered text.
+  const instructionsLabel = (opts.labels && opts.labels.instructions) || "";
+  let instructionsEl = dialog.querySelector("[data-lily-date-time-picker-instructions]");
+  if (instructionsLabel) {
+    if (!instructionsEl) {
+      instructionsEl = document.createElement("p");
+      instructionsEl.className = "date-time-picker-instructions";
+      instructionsEl.id = `${baseId}-instructions`;
+      instructionsEl.setAttribute("data-lily-date-time-picker-instructions", "");
+      dialog.insertBefore(instructionsEl, dialog.firstChild);
+    }
+    instructionsEl.textContent = instructionsLabel;
+    dialog.setAttribute("aria-describedby", instructionsEl.id);
   }
 
   // --- Init opts win over the rendered labels, matching the sibling
@@ -702,6 +749,27 @@ export function initDateTimePicker(root, opts = {}) {
     input.value = state.typed !== null ? state.typed : formatForDisplay(state.value);
     if (state.invalid) input.setAttribute("aria-invalid", "true");
     else input.removeAttribute("aria-invalid");
+    // The announcement (labels.invalid only): fill the status region
+    // while invalid, wire the field to it via aria-errormessage, and
+    // chain its id after the consumer's own aria-describedby. Empty and
+    // unwired while valid. Without the label there is no region and
+    // aria-invalid flips silently — announcing in a language the
+    // component invented would be worse.
+    if (statusEl && invalidLabel) {
+      if (state.invalid) {
+        statusEl.textContent = invalidLabel;
+        input.setAttribute("aria-errormessage", statusEl.id);
+        input.setAttribute(
+          "aria-describedby",
+          [consumerDescribedBy, statusEl.id].filter(Boolean).join(" "),
+        );
+      } else {
+        statusEl.textContent = "";
+        input.removeAttribute("aria-errormessage");
+        if (consumerDescribedBy) input.setAttribute("aria-describedby", consumerDescribedBy);
+        else input.removeAttribute("aria-describedby");
+      }
+    }
   }
 
   // -------------------------------------------------------------
@@ -779,7 +847,17 @@ export function initDateTimePicker(root, opts = {}) {
         dayButton.setAttribute("tabindex", isoDate === state.cursor ? "0" : "-1");
         dayButton.setAttribute("aria-label", dayLabel(isoDate, locale));
         if (isToday) dayButton.setAttribute("aria-current", "date");
-        if (dayDisabled(isoDate)) dayButton.disabled = true;
+        // aria-disabled, not the `disabled` attribute: a vetoed day must
+        // stay focusable so the roving cursor can land on it and a screen
+        // reader can announce it as unavailable. A `disabled` button
+        // refuses focus, so arrowing across a blocked week goes silent
+        // while the visible focus stays behind — and the "exactly one
+        // tabbable day" invariant breaks whenever the cursor sits on a
+        // vetoed day. Activation is refused in `selectDay` instead.
+        if (dayDisabled(isoDate)) {
+          dayButton.setAttribute("aria-disabled", "true");
+          dayButton.setAttribute("data-disabled", "");
+        }
         dayButton.textContent = parsed ? String(parsed.day) : "";
         dayButton.addEventListener("click", () => selectDay(isoDate));
         td.appendChild(dayButton);
@@ -824,10 +902,18 @@ export function initDateTimePicker(root, opts = {}) {
     const anchor = formatIsoDate({ year: state.viewYear, month: state.viewMonth, day: 1 });
     const next = parseIsoDate(addMonths(anchor, delta));
     if (!next) return;
+    // Refocus the cursor only when focus is already in the grid: grid
+    // paging (PageUp/PageDown) must carry focus, or it dies with the
+    // unrendered cell — but a header button must keep focus, or its
+    // user is yanked into the grid after one activation and cannot
+    // page twice. Sampled BEFORE renderGrid destroys the cells.
+    const hadGridFocus = calendarTable ? calendarTable.contains(document.activeElement) : false;
     state.viewYear = next.year;
     state.viewMonth = next.month;
     const c = parseIsoDate(state.cursor);
     if (c) {
+      // Carry the cursor into the new month rather than leaving the
+      // roving tabindex on a cell that is no longer rendered.
       state.cursor = formatIsoDate({
         year: next.year,
         month: next.month,
@@ -835,7 +921,7 @@ export function initDateTimePicker(root, opts = {}) {
       });
     }
     renderGrid();
-    focusCursor();
+    if (hadGridFocus) focusCursor();
   }
 
   function shiftYear(delta) {
@@ -924,8 +1010,20 @@ export function initDateTimePicker(root, opts = {}) {
     );
   }
 
+  /**
+   * The element that opened the dialog, so close can return focus to it.
+   *
+   * The APG rule is "focus returns to the element that invoked the
+   * dialog" — which is the trigger button on a click, but the *text
+   * field* when the user pressed Alt+ArrowDown. Always refocusing the
+   * button strands a keyboard user one Tab stop past where they were.
+   */
+  let openerEl = null;
+
   function openDialog() {
     if (button.disabled) return;
+    const active = document.activeElement;
+    openerEl = active && root.contains(active) ? active : button;
     state.today = todayIso();
     const c = committed();
     state.pendingDate = c.date || nearestSelectable(state.today);
@@ -953,7 +1051,14 @@ export function initDateTimePicker(root, opts = {}) {
     state.open = false;
     dialog.hidden = true;
     button.setAttribute("aria-expanded", "false");
-    if (refocus) button.focus?.();
+    // Return focus to whichever element opened the dialog — the field
+    // after Alt+ArrowDown, the button after a click. Guard the METHOD,
+    // not just the element: jsdom-shaped environments have bitten these
+    // helpers before with unguarded calls inside key handlers.
+    if (refocus) {
+      const target = openerEl || button;
+      target?.focus?.();
+    }
   }
 
   function commit() {
@@ -1153,6 +1258,17 @@ export function initDateTimePicker(root, opts = {}) {
       event.preventDefault();
       if (state.open) closeDialog();
       else openDialog();
+    } else if (event.key === "Escape" && state.typed !== null) {
+      // Discard the pending edit and show the committed value again —
+      // the same contract Escape has inside the dialog. Stops
+      // propagating so a surrounding dialog does not also close on
+      // what was, to the user, a text-editing keystroke. When no edit
+      // is pending the key is left alone.
+      event.preventDefault();
+      event.stopPropagation();
+      state.typed = null;
+      state.invalid = false;
+      refreshField();
     }
   }
 
@@ -1258,7 +1374,16 @@ export function initDateTimePicker(root, opts = {}) {
   function onDocumentClick(event) {
     if (!state.open) return;
     const target = event.target;
-    if (target && !root.contains(target)) closeDialog(false);
+    if (!target) return;
+    // Anything outside the dialog closes it — including the component's
+    // OWN text field. The dialog says aria-modal="true", and a modal
+    // that stays open while the user edits the field behind it is
+    // telling assistive technology one thing and doing another. The
+    // trigger button is exempt because its own handler already toggles.
+    // (Clicks originating inside the dialog never reach here at all —
+    // see onDialogClick.) Closes without moving focus: the user has
+    // already put it somewhere.
+    if (!dialog.contains(target) && !button.contains(target)) closeDialog(false);
   }
   document.addEventListener("click", onDocumentClick);
 

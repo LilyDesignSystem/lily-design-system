@@ -291,3 +291,70 @@ describe("TextSizePicker — spread + custom children (§7.12–§7.13)", () => 
         expect(custom.getAttribute("data-label-x-large")).toBe("X Large");
     });
 });
+
+describe("TextSizePicker — accessibility hardening (§7.14–§7.17)", () => {
+    async function openPicker(
+        sizes: string[] = SIZES,
+        extra: Record<string, unknown> = {},
+    ) {
+        render(TextSizePicker, {
+            props: { label: "Text size", sizes, ...extra },
+        });
+        await flush();
+        await fireEvent.click(screen.getByRole("button"));
+        await flush();
+        return {
+            button: screen.getByRole("button"),
+            list: document.querySelector(".text-size-picker-list") as HTMLElement,
+        };
+    }
+
+    const active = (list: HTMLElement) =>
+        list.querySelector("[data-active]")?.textContent?.trim();
+
+    test("§7.14 Tab from the open list puts focus on the button before closing", async () => {
+        const { button, list } = await openPicker();
+        expect(document.activeElement).toBe(list);
+        await fireEvent.keyDown(list, { key: "Tab" });
+        // Focus sits on the button, so the browser's default Tab proceeds
+        // from the picker's own position — not from <body>, which is where
+        // focus lands when the focused list is hidden first.
+        expect(document.activeElement).toBe(button);
+        expect(list.hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.15 a repeated typeahead character cycles through its matches", async () => {
+        const { list } = await openPicker(["d1", "d2", "d3", "m"], {
+            sizeLabels: { d1: "Dark", d2: "Dim", d3: "Dracula", m: "Light" },
+            defaultValue: "m",
+        });
+        await fireEvent.keyDown(list, { key: "d" });
+        expect(active(list)).toBe("Dark");
+        await fireEvent.keyDown(list, { key: "d" });
+        expect(active(list)).toBe("Dim");
+        await fireEvent.keyDown(list, { key: "d" });
+        expect(active(list)).toBe("Dracula");
+    });
+
+    test("§7.16 PageUp and PageDown move the cursor by ten, clamped", async () => {
+        const many = Array.from(
+            { length: 25 },
+            (_, i) => `s${String(i).padStart(2, "0")}`,
+        );
+        const { list } = await openPicker(many);
+        await fireEvent.keyDown(list, { key: "PageDown" });
+        expect(active(list)).toBe("S10");
+        await fireEvent.keyDown(list, { key: "PageDown" });
+        expect(active(list)).toBe("S20");
+        await fireEvent.keyDown(list, { key: "PageDown" });
+        expect(active(list)).toBe("S24");
+        await fireEvent.keyDown(list, { key: "PageUp" });
+        expect(active(list)).toBe("S14");
+    });
+
+    test("§7.17 an empty list opens without aria-activedescendant", async () => {
+        const { list } = await openPicker([]);
+        expect(list.hasAttribute("hidden")).toBe(false);
+        expect(list.getAttribute("aria-activedescendant")).toBeNull();
+    });
+});

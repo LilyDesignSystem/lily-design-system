@@ -165,9 +165,12 @@ and both return `false` during prerender rather than throwing.
 
 ## Accessibility
 
-- The glyph is `aria-hidden`; the name comes from `aria-label`.
+- The glyph is `aria-hidden`; the name comes from `aria-label`, and the
+  list repeats it (`aria-label` = `Label`) so a screen reader entering
+  the list hears what it is for.
 - `Escape` closes and returns focus to the button; arrows move between
-  items and clamp; `Home` / `End` jump; `Tab` closes and moves on.
+  items and clamp; `Home` / `End` jump; `Tab` parks focus on the button
+  before closing, so the next Tab proceeds from the picker's position.
 - The status region is polite and empty on load.
 - **Tradeoff:** an icon-only control's name rests entirely on
   `Label` — there is no visible text fallback. See

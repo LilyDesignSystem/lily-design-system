@@ -35,9 +35,19 @@ Headless versions if you want to use components with all your own styles:
 ## Helpers
 
 Per-framework helper catalogs of small, opinionated packages. Each catalog
-ships three native-`<select>` helpers — theme-select, locale-select, and
-text-size-select — that own one user-preference lifecycle end to end
-(selection + DOM application + optional persistence):
+ships five helpers — 35 packages in all — and each owns one complete
+interaction end to end:
+
+- **theme-picker**, **locale-picker**, **text-size-picker** own a user
+  preference: selection, DOM application (`data-theme`, `lang`/`dir`,
+  `data-text-size`), and optional `localStorage` persistence. Each is an
+  icon button opening a WAI-ARIA APG listbox.
+- **share-picker** owns an action: the native share sheet where the
+  platform has one, else a disclosure of consumer-supplied destinations
+  plus copy-the-URL. Applies nothing, persists nothing.
+- **date-time-picker** owns a form value: a typeable text field plus an
+  APG date-picker dialog, locale-correct from `Intl`. Applies nothing,
+  persists nothing — a date in a form is data, not a preference.
 
 - [HTML helpers](lily-design-system-html-helpers)
 - [Svelte helpers](lily-design-system-svelte-helpers) (canonical reference)

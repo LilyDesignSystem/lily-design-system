@@ -194,7 +194,7 @@ No CSS ships. The hooks:
 | `.share-picker`           | root `<div>`                     |
 | `.share-picker-button`    | the `<button>` trigger           |
 | `.share-picker-icon`      | the glyph `<span>`               |
-| `.share-picker-list`      | the `<ul>`, `hidden` when closed |
+| `.share-picker-list`      | the `<ul>`, `hidden` when closed; carries the picker's `aria-label` |
 | `.share-picker-list-item` | each `<li>`                      |
 | `.share-picker-target`    | each destination `<a>`           |
 | `.share-picker-copy`      | the copy `<button>`              |

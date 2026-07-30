@@ -403,13 +403,35 @@ On the **listbox**:
 | `Enter`             | Select the active option, apply it, close, and return focus to the button.                                                                     |
 | `Space`             | Same as `Enter`.                                                                                                                               |
 | `Escape`            | Close and return focus to the button **without** changing the value.                                                                           |
-| `Tab`               | Close without stealing focus back, so focus moves on normally.                                                                                 |
-| Printable character | Typeahead over the option **labels**; the buffer resets after 500 ms of inactivity. Search runs forward from the active option and wraps once. |
+| `PageUp`            | Move the active option up ten. Clamps at the first.                                                                                            |
+| `PageDown`          | Move the active option down ten. Clamps at the last.                                                                                           |
+| `Tab`               | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position. Hiding the focused list first would drop focus to `<body>` and restart Tab from the top of the document. |
+| Printable character | Typeahead over the option **labels**; the buffer resets after 500 ms of inactivity. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match from the active option. Search wraps once. |
 
-Typeahead matches the _label_, so with the built-in English names
-typing `f` reaches "French"; with `localeLabels={{ fr: "Français" }}`
-it still reaches it, but a user typing the English name would not.
-Choose labels with the typeahead in mind for long locale lists.
+Typeahead matches the _label_, and default labels are **endonyms**
+(see §5.7), so typing `f` reaches "Français"; with
+`localeLabels={{ fr: "French" }}` the consumer's label wins and `f`
+still reaches it. Choose labels with the typeahead in mind for long
+locale lists.
+
+### 5.7 Labels and the `lang` attribute
+
+Default option labels are endonyms — each language named in itself,
+"Cymraeg" not "Welsh" — resolved by `localeEndonym()` via
+`Intl.DisplayNames` asked *in that language*. The user who needs a
+language menu is the one who cannot read the page's language, and the
+exonym means nothing to them. Resolution order: `localeLabels`
+(consumer) → endonym → built-in English table → environment
+`Intl.DisplayNames` → the raw code. The endonym lookup is
+deterministic (no `navigator` dependency), so server and client render
+the same label.
+
+Each option's `lang` attribute is a claim about the language of the
+option's **text**, and is made only when the text is the endonym we
+derived: then a screen reader may correctly switch voice. A consumer
+label's language is unknown, and the English fallback is English, so
+those options carry no `lang` — the English word "Arabic" must never
+be handed to an Arabic speech engine.
 
 Pointer behaviour: clicking an option selects and applies it; clicking
 outside the root closes the listbox; focus leaving the root closes it.
@@ -557,6 +579,16 @@ cases (exact match wins, language-only fallback, empty when no match).
 | §7.26  | `Escape` closes without changing the locale.                                                     |
 | §7.27  | A printable character runs typeahead over the labels and moves `aria-activedescendant`.          |
 | §7.27  | Clicking an option selects and applies it, including `dir="rtl"` for an RTL locale.              |
+
+### Accessibility hardening
+
+| Clause | Test asserts |
+| ------ | ------------ |
+| §7.28  | `Tab` from the open list puts focus on the button before closing, so the default Tab proceeds from the picker's position. |
+| §7.29  | `lang` is claimed only when the label is the endonym; consumer-labelled options carry no `lang` (§5.7). |
+| §7.30  | A repeated typeahead character cycles through its matches. |
+| §7.31  | `PageUp` / `PageDown` move the cursor by ten, clamped. |
+| §7.32  | An empty list opens without `aria-activedescendant`. |
 
 ## 8. Out-of-scope (future, not implemented here)
 

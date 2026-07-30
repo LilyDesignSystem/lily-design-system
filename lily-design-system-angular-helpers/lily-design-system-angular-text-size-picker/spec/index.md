@@ -201,8 +201,10 @@ survives hydration.
   focus to the `<ul>`; the active option is conveyed by
   `aria-activedescendant`, so focus never lands on an `<li>`.
 - Closing restores focus to the button, except when the close was
-  caused by `Tab`, a click outside the root, or focus leaving the
-  root — those must not steal focus back.
+  caused by a click outside the root or focus leaving the root —
+  those must not steal focus back. `Tab` is its own case: focus goes
+  to the button first, then the list closes, so the browser's default
+  Tab proceeds from the picker's position.
 - Clicking an option selects it, applies it, and closes.
 
 ## 6. Accessibility
@@ -241,11 +243,16 @@ On the **listbox**:
 | `Home` / `End`    | First / last option becomes active.                                |
 | `Enter` / `Space` | Select the active option, apply it, close, refocus the button.     |
 | `Escape`          | Close and refocus the button; the value is **not** changed.        |
-| `Tab`             | Close without stealing focus back; the browser moves focus onward. |
-| Printable chars   | Typeahead over the display **labels**; buffer resets after 500 ms. |
+| `PageUp`          | Move the active option up ten. Clamps at the first.                |
+| `PageDown`        | Move the active option down ten. Clamps at the last.               |
+| `Tab`             | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position. Hiding the focused list first would drop focus to `<body>` and restart Tab from the top of the document. |
+| Printable chars   | Typeahead over the display **labels**; buffer resets after 500 ms. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match from the active option. Search wraps once. |
 
 The typeahead matches the rendered label, not the slug — with
 `sizeLabels` in play, typing `h` finds "Huge", not `x-large`.
+
+Opening an empty list activates no option, so `aria-activedescendant`
+is absent rather than pointing at an id that does not exist.
 
 ## 7. Testing acceptance criteria
 
@@ -300,25 +307,43 @@ below. Tests run under vitest + jsdom + `@angular/core/testing`
     and receives `ChildArgs` (`value`, `open`, `labelFor`); the
     default `.text-size-picker-icon` is then absent.
 
-### 7.6 Keyboard contract (mirrors §6.2)
+### 7.6 Accessibility hardening
 
-14. `ArrowDown`, `Enter`, and `Space` on the button all open the
+Clause numbers 14–17 mirror the canonical Svelte spec, so the same
+clause means the same thing in every catalog.
+
+14. `Tab` from the open list puts focus on the button **before**
+    closing, without cancelling the key, so the browser's default Tab
+    proceeds from the picker's position instead of restarting from
+    `<body>` when the focused list is hidden first.
+15. A repeated typeahead character cycles through its matches; a
+    multi-character buffer of differing characters refines the match
+    from the active option.
+16. `PageUp` / `PageDown` move the cursor by ten, clamped.
+17. An empty list opens without `aria-activedescendant` — pointing it
+    at an id that does not exist would be worse than omitting it.
+
+### 7.7 Keyboard contract (mirrors §6.2)
+
+18. `ArrowDown`, `Enter`, and `Space` on the button all open the
     listbox with the selected option active; `ArrowUp` opens with the
     last option active; opening moves focus to the listbox.
-15. `ArrowDown` / `ArrowUp` move the active descendant and **clamp**
+19. `ArrowDown` / `ArrowUp` move the active descendant and **clamp**
     at both ends rather than wrapping; `Home` / `End` jump to the
     first / last option.
-16. `Enter` and `Space` select the active option, apply it, close the
+20. `Enter` and `Space` select the active option, apply it, close the
     listbox, and return focus to the button.
-17. `Escape` closes without changing the size and returns focus to
-    the button; `Tab` closes without stealing focus back.
-18. Printable characters run a typeahead over the rendered labels;
-    the buffer resets after 500 ms. Clicking an option selects and
-    applies it; clicking outside the root closes the listbox.
+21. `Escape` closes without changing the size and returns focus to
+    the button; `Tab` closes after handing focus to the button
+    (see clause 14).
+22. A single printable character advances the typeahead to the next
+    matching rendered label; the buffer resets after 500 ms. Clicking
+    an option selects and applies it; clicking outside the root
+    closes the listbox.
 
-### 7.7 Label resolver
+### 7.8 Label resolver
 
-19. `sizeName` title-cases each hyphen-separated word; `labelFor`
+23. `sizeName` title-cases each hyphen-separated word; `labelFor`
     delegates to it so there is one implementation; `sizeLabels`
     still override it.
 

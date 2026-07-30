@@ -5,6 +5,7 @@ export {
   nextLocalePickerId,
   bcp47LocaleTag,
   isRtlLocale,
+  localeEndonym,
   localeName,
   matchNavigatorLanguage,
 } from "./locale-picker.component";

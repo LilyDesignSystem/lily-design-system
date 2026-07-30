@@ -44,8 +44,12 @@
 
     @* mousedown default is suppressed so pressing an item does not blur
        the focused element before the click handler runs. *@
+    @* The list carries the picker's accessible name, matching the sibling
+       pickers' listboxes: a screen reader entering it hears what it is
+       for, not just "list, three items". *@
     <ul class="share-picker-list"
         id="@ListId"
+        aria-label="@Label"
         hidden="@(!_open)"
         @ref="_listElement"
         @onkeydown="OnListKeyDownAsync"

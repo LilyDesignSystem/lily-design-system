@@ -44,7 +44,10 @@
       .date-time-picker-day[data-outside] { opacity: 0.4; }
       .date-time-picker-day[data-today] { font-weight: 700; }
       .date-time-picker-day[data-selected] { background: #dbe9ff; }
-      .date-time-picker-day:disabled { opacity: 0.3; cursor: not-allowed; }
+      /* aria-disabled, not disabled — a :disabled selector will not match. */
+      .date-time-picker-day[data-disabled] { opacity: 0.3; cursor: not-allowed; }
+      .date-time-picker-status { display: block; color: #b3261e; min-block-size: 1.4em; }
+      .date-time-picker-instructions { margin-block: 0 0.5rem; font-size: 0.875em; }
       .date-time-picker-time { display: flex; align-items: center; gap: 0.4rem; margin-block-start: 0.5rem; flex-wrap: wrap; }
       .date-time-picker-shortcuts { display: flex; gap: 0.4rem; margin-block-start: 0.5rem; flex-wrap: wrap; }
       .date-time-picker-shortcut, .date-time-picker-footer button {
@@ -106,6 +109,8 @@
         hour: "Hour",
         minute: "Minute",
         clear: "Clear",
+        invalid: "Enter a valid date, for example 21 3 2026",
+        instructions: "Use the arrow keys to choose a day, and Enter to confirm",
       };
 
       const CY = {
@@ -118,6 +123,8 @@
         hour: "Awr",
         minute: "Munud",
         clear: "Clirio",
+        invalid: "Rhowch ddyddiad dilys, er enghraifft 21 3 2026",
+        instructions: "Defnyddiwch y saethau i ddewis diwrnod, ac Enter i gadarnhau",
       };
 
       // Today is resolved once, at module scope, so the booking window

@@ -4,6 +4,28 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+### Changed
+
+- **`Tab` from the open list no longer strands keyboard focus.** The
+  focused element is a real list item, so the browser's default Tab —
+  which Blazor can neither cancel nor precede — lands on the next item
+  just as the list hides, dropping focus to `<body>` and restarting the
+  user's following Tab from the top of the document. Focus is now
+  parked on the trigger button when the list closes on `Tab`, so the
+  next Tab proceeds from the picker's own position — the same end state
+  as the canonical Svelte fix. (The sibling listbox pickers deliberately
+  do NOT mirror this refocus: their focused `<ul>` has no tabbable
+  children, so the default Tab already exits cleanly; see their
+  changelogs.)
+
+### Added
+
+- The list carries the picker's accessible name (`aria-label` =
+  `Label`), matching the sibling pickers' listboxes: a screen reader
+  entering the list hears what it is for, not just "list, three items".
+
 ## 0.1.0 — 2026-07-21
 
 Initial release. A Blazor 10 port of the canonical Svelte helper

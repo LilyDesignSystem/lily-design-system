@@ -500,27 +500,34 @@ describe("DateTimePicker -- keyboard (§7.24-§7.28)", () => {
 // =====================================================================
 
 describe("DateTimePicker -- range, vetoes, shortcuts (§7.29-§7.33)", () => {
-  test("§7.29 days outside min / max render disabled", () => {
+  test("§7.29 days outside min / max are aria-disabled, not disabled", () => {
     const { button, dialog } = setup({
       value: "2026-03-15",
       min: "2026-03-10",
       max: "2026-03-20",
     });
     click(button);
-    expect(dayButton(dialog, "2026-03-05").disabled).toBe(true);
-    expect(dayButton(dialog, "2026-03-15").disabled).toBe(false);
-    expect(dayButton(dialog, "2026-03-25").disabled).toBe(true);
+    expect(dayButton(dialog, "2026-03-05").getAttribute("aria-disabled")).toBe("true");
+    expect(dayButton(dialog, "2026-03-15").hasAttribute("aria-disabled")).toBe(false);
+    expect(dayButton(dialog, "2026-03-25").getAttribute("aria-disabled")).toBe("true");
+    // aria-disabled, not the `disabled` attribute: a vetoed day must
+    // stay focusable so the roving cursor can land on it and a screen
+    // reader can announce it as unavailable.
+    expect(dayButton(dialog, "2026-03-05").hasAttribute("disabled")).toBe(false);
+    // And the consumer's CSS hook rides along.
+    expect(dayButton(dialog, "2026-03-05").hasAttribute("data-disabled")).toBe(true);
+    expect(dayButton(dialog, "2026-03-15").hasAttribute("data-disabled")).toBe(false);
   });
 
-  test("§7.30 disabledDates (the isDateDisabled macro substitute) disables individual days", () => {
+  test("§7.30 disabledDates (the isDateDisabled macro substitute) marks individual days aria-disabled", () => {
     const { button, dialog } = setup({
       value: "2026-03-15",
       disabledDates: ["2026-03-16", "2026-03-17"],
     });
     click(button);
-    expect(dayButton(dialog, "2026-03-16").disabled).toBe(true);
-    expect(dayButton(dialog, "2026-03-17").disabled).toBe(true);
-    expect(dayButton(dialog, "2026-03-18").disabled).toBe(false);
+    expect(dayButton(dialog, "2026-03-16").getAttribute("aria-disabled")).toBe("true");
+    expect(dayButton(dialog, "2026-03-17").getAttribute("aria-disabled")).toBe("true");
+    expect(dayButton(dialog, "2026-03-18").hasAttribute("aria-disabled")).toBe(false);
   });
 
   test("§7.30 a real isDateDisabled function at init time overrides the disabledDates baseline", () => {
@@ -536,10 +543,10 @@ describe("DateTimePicker -- range, vetoes, shortcuts (§7.29-§7.33)", () => {
     const api = initDateTimePicker(root, { locale: "en-GB", isDateDisabled });
     api.open();
     const dialog = root.querySelector(".date-time-picker-dialog")!;
-    expect(dayButton(dialog, "2026-03-16").disabled).toBe(true);
+    expect(dayButton(dialog, "2026-03-16").getAttribute("aria-disabled")).toBe("true");
     // The function form REPLACES the list-based baseline rather than
     // union-ing with it.
-    expect(dayButton(dialog, "2026-03-20").disabled).toBe(false);
+    expect(dayButton(dialog, "2026-03-20").hasAttribute("aria-disabled")).toBe(false);
   });
 
   test("§7.31 clicking a disabled day does not commit", () => {
@@ -765,6 +772,151 @@ describe("DateTimePicker -- locale (§7.45-§7.48)", () => {
 });
 
 // =====================================================================
+// Assistive technology (mirrors §4.3, §5.3, §5.4, §6.2) -- §7.49-§7.55
+// =====================================================================
+
+describe("DateTimePicker -- assistive technology (§7.49-§7.55)", () => {
+  test("§7.49 the cursor can land on a vetoed day, which stays focusable and announces", () => {
+    const onChange = vi.fn();
+    const { button, dialog } = setup(
+      { value: "2026-03-15", disabledDates: ["2026-03-16"] },
+      { onChange },
+    );
+    click(button);
+    const grid = dialog.querySelector(".date-time-picker-calendar")!;
+    keydown(grid, "ArrowRight");
+    // The roving tabindex is on the blocked day, and -- because it is
+    // aria-disabled rather than `disabled` -- real focus is too, so a
+    // screen reader announces the day instead of going silent.
+    const blocked = dayButton(dialog, "2026-03-16");
+    expect(blocked.getAttribute("tabindex")).toBe("0");
+    expect(blocked.getAttribute("aria-disabled")).toBe("true");
+    expect(document.activeElement).toBe(blocked);
+    // Enter refuses to select it.
+    keydown(grid, "Enter");
+    expect(onChange).not.toHaveBeenCalled();
+    // And the cursor can keep going, out the other side.
+    keydown(grid, "ArrowRight");
+    expect(dayButton(dialog, "2026-03-17").getAttribute("tabindex")).toBe("0");
+  });
+
+  test("§7.50 Escape in the field discards the pending edit without committing", () => {
+    const onChange = vi.fn();
+    const { input, hiddenInput } = setup({ value: "2026-03-15" }, { onChange });
+    // Mark the field invalid first, so the revert has state to clean up.
+    input.value = "sometime soon";
+    input.dispatchEvent(new window.Event("input", { bubbles: true }));
+    keydown(input, "Enter");
+    expect(input.getAttribute("aria-invalid")).toBe("true");
+
+    keydown(input, "Escape");
+    // The committed value is back on display, the invalid state is
+    // gone, and nothing was committed.
+    expect(input.value).toContain("2026");
+    expect(input.hasAttribute("aria-invalid")).toBe(false);
+    expect(onChange).not.toHaveBeenCalled();
+    expect(hiddenInput.value).toBe("2026-03-15");
+  });
+
+  test("§7.51 labels.invalid renders a status live region wired to the field", () => {
+    // Without the label, no region renders -- the component would rather
+    // stay silent than announce in a language it invented.
+    setup();
+    expect(document.querySelector(".date-time-picker-status")).toBeNull();
+
+    const { input } = setup({
+      describedBy: "hint",
+      labels: { ...LABELS, invalid: "DimDyddiad" },
+      name: "with-status",
+    });
+    const status = document.querySelector(".date-time-picker-status") as HTMLElement;
+    // The region exists before it has content -- a live region born with
+    // its message is routinely not announced at all -- and is empty
+    // while the field is valid.
+    expect(status.getAttribute("role")).toBe("status");
+    expect(status.textContent?.trim()).toBe("");
+    expect(input.getAttribute("aria-describedby")).toBe("hint");
+
+    input.value = "junk";
+    input.dispatchEvent(new window.Event("input", { bubbles: true }));
+    input.dispatchEvent(new window.FocusEvent("blur"));
+    expect(status.textContent?.trim()).toBe("DimDyddiad");
+    expect(input.getAttribute("aria-errormessage")).toBe(status.id);
+    // Chained after the consumer's hint, for the assistive technologies
+    // that read aria-describedby but not aria-errormessage.
+    expect(input.getAttribute("aria-describedby")).toBe(`hint ${status.id}`);
+  });
+
+  test("§7.52 focus returns to whichever element opened the dialog", () => {
+    // Opened from the field with Alt+ArrowDown: Escape must return
+    // focus to the field, not strand the user on the button.
+    const fromField = setup({ value: "2026-03-15" });
+    fromField.input.focus();
+    keydown(fromField.input, "ArrowDown", { altKey: true });
+    keydown(fromField.dialog, "Escape");
+    expect(document.activeElement).toBe(fromField.input);
+
+    // Opened from the button: focus returns to the button.
+    const fromButton = setup({ value: "2026-03-15", name: "from-button" });
+    fromButton.button.focus();
+    click(fromButton.button);
+    keydown(fromButton.dialog, "Escape");
+    expect(document.activeElement).toBe(fromButton.button);
+  });
+
+  test("§7.53 header paging keeps focus on the header button; grid paging follows the cursor", () => {
+    const { button, dialog } = setup({ value: "2026-03-15" });
+    click(button);
+
+    // Header route: the user activating "next month" stays on "next
+    // month", so they can page again -- the cursor carries silently.
+    const nextMonth = dialog.querySelector(
+      ".date-time-picker-next-month",
+    ) as HTMLButtonElement;
+    nextMonth.focus();
+    click(nextMonth);
+    expect(document.activeElement).toBe(nextMonth);
+    expect(dayButton(dialog, "2026-04-15").getAttribute("tabindex")).toBe("0");
+
+    // Grid route: focus is in the grid, and paging must carry it --
+    // the cell it sat on no longer exists.
+    dayButton(dialog, "2026-04-15").focus();
+    const grid = dialog.querySelector(".date-time-picker-calendar")!;
+    keydown(grid, "PageDown");
+    expect(dayButton(dialog, "2026-05-15").getAttribute("tabindex")).toBe("0");
+    expect(document.activeElement).toBe(dayButton(dialog, "2026-05-15"));
+  });
+
+  test("§7.54 labels.instructions renders keyboard help described by the dialog", () => {
+    const bare = setup();
+    expect(document.querySelector(".date-time-picker-instructions")).toBeNull();
+    expect(bare.dialog.hasAttribute("aria-describedby")).toBe(false);
+
+    const { dialog } = setup({
+      labels: { ...LABELS, instructions: "SaethauSymud" },
+      name: "with-instructions",
+    });
+    const help = dialog.querySelector(".date-time-picker-instructions") as HTMLElement;
+    expect(help.textContent?.trim()).toBe("SaethauSymud");
+    expect(dialog.getAttribute("aria-describedby")).toBe(help.id);
+    // The macro renders it as the dialog's first child, so it is spoken
+    // before the grid is reached.
+    expect(dialog.firstElementChild).toBe(help);
+  });
+
+  test("§7.55 clicking the text field while the dialog is open closes it", () => {
+    const { button, input, dialog, hiddenInput } = setup({ value: "2026-03-15" });
+    click(button);
+    expect(dialog.hasAttribute("hidden")).toBe(false);
+    // The dialog is aria-modal: interacting with anything behind it --
+    // including the component's own field -- dismisses it.
+    click(input);
+    expect(dialog.hasAttribute("hidden")).toBe(true);
+    expect(hiddenInput.value).toBe("2026-03-15");
+  });
+});
+
+// =====================================================================
 // Nunjucks-specific surface -- deviations, ids, macro purity
 // =====================================================================
 
@@ -847,6 +999,41 @@ describe("DateTimePicker -- Nunjucks surface and deviations", () => {
     const buttons = Array.from(root.querySelectorAll(".date-time-picker-shortcut"));
     expect(buttons.length).toBe(1);
     expect(buttons[0].getAttribute("data-shortcut-id")).toBe("fresh");
+  });
+
+  test("init-time labels.invalid / labels.instructions build the elements the macro did not render", () => {
+    // The macro rendered neither optional element (its labels carried
+    // neither key); the client builds both, the same way it builds the
+    // meridiem select -- so a consumer wiring labels purely in
+    // JavaScript still gets the announcements.
+    const root = mountIntoBody(
+      renderMacro({ label: "Appointment date", labels: LABELS }),
+    );
+    initDateTimePicker(root, {
+      locale: "en-GB",
+      labels: {
+        invalid: "DimDyddiad",
+        instructions: "SaethauSymud",
+      },
+    });
+    const status = root.querySelector(".date-time-picker-status") as HTMLElement;
+    expect(status.getAttribute("role")).toBe("status");
+    expect(status.textContent).toBe("");
+    // Placed after the field div, before the dialog.
+    expect(status.previousElementSibling?.className).toBe("date-time-picker-field");
+    const dialog = root.querySelector(".date-time-picker-dialog")!;
+    const help = dialog.querySelector(".date-time-picker-instructions") as HTMLElement;
+    expect(help.textContent).toBe("SaethauSymud");
+    expect(dialog.firstElementChild).toBe(help);
+    expect(dialog.getAttribute("aria-describedby")).toBe(help.id);
+
+    // And the built region is live-wired: refusing typed text fills it.
+    const input = root.querySelector(".date-time-picker-input") as HTMLInputElement;
+    input.value = "junk";
+    input.dispatchEvent(new window.Event("input", { bubbles: true }));
+    input.dispatchEvent(new window.FocusEvent("blur"));
+    expect(status.textContent).toBe("DimDyddiad");
+    expect(input.getAttribute("aria-errormessage")).toBe(status.id);
   });
 
   test("nextDateTimePickerId mints stable, incrementing, SSR-safe ids", () => {

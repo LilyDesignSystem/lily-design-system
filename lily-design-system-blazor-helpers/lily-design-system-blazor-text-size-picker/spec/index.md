@@ -28,7 +28,7 @@ attribute on the document root) and the persistence choice.
 
 ## 1. Goal
 
-Give a Blazor application a drop-in, headless text-size select that:
+Give a Blazor application a drop-in, headless text-size picker that:
 
 1. Renders an **icon button that opens a dropdown listbox** of the
    available text-size slugs, built to the WAI-ARIA APG listbox
@@ -222,8 +222,10 @@ On the **listbox**:
 | `End`             | Jump to the last option.                                               |
 | `Enter` / `Space` | Select the active option, apply it, close, return focus to the button. |
 | `Escape`          | Close and return focus **without** changing the value.                 |
-| `Tab`             | Close **without** stealing focus back.                                 |
-| Printable chars   | Typeahead over the option _labels_, 500 ms buffer reset.               |
+| `PageUp`          | Move the active option up ten; clamps at the first.                    |
+| `PageDown`        | Move the active option down ten; clamps at the last.                   |
+| `Tab`             | Close and move on: the browser's default Tab proceeds from the picker's position (see §5.6 for why this port must not refocus the button). |
+| Printable chars   | Typeahead over the option _labels_, 500 ms buffer reset. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match anchored on the active option. Search wraps once, even though the arrows clamp. |
 
 Clicking an option selects it; focus leaving the root closes the
 listbox without changing the value.
@@ -251,6 +253,17 @@ identically. Both are shared with `ThemePicker` and `LocalePicker`.
   outside-click listener. Blazor's `FocusEventArgs` has no
   `relatedTarget`, so the component flags focus moves it makes itself
   and ignores the matching `focusout`.
+- **`Tab` from the open list does not refocus the button.** The
+  canonical Svelte fix moves focus to the button *before* hiding the
+  list, because there the hide is synchronous and would otherwise
+  precede the browser's default Tab — dropping focus to `<body>` and
+  restarting Tab from the top of the document. Blazor cannot reproduce
+  that bug: the default Tab always runs before the async handler, so it
+  proceeds from the still-visible list (the picker's own position), and
+  focus has already landed on the next tab stop by the time the list
+  hides. Issuing a button-focus request here would run *after* the
+  default Tab and yank the user back to the trigger they just left.
+  Both implementations end with focus on the tab stop after the picker.
 
 `@onmousedown:preventDefault` **is** applied to the `<ul>`, so clicking
 an option does not blur the listbox before the click handler runs.
@@ -330,6 +343,24 @@ an option does not blur the listbox before the click handler runs.
     onto the root `<div>`.
 24. §7.24 — `ChildContent` **replaces** the glyph inside the button and
     receives `Value`, `Open`, and `LabelFor`.
+
+### Accessibility hardening
+
+Mirrors the canonical Svelte clauses §7.14–§7.17; this port's list was
+already numbered through §7.24, so the new clauses continue from §7.25.
+
+25. §7.25 — `Tab` from the open list closes it and issues **no** focus
+    call: the browser's default Tab — which Blazor can neither cancel
+    nor precede — has already proceeded from the still-visible list,
+    the picker's own position (canonical §7.14; see §5.6 for why the
+    canonical button-refocus must not be mirrored here).
+26. §7.26 — A repeated typeahead character cycles through its matches;
+    a multi-character buffer of differing characters refines the match
+    anchored at the active option (canonical §7.15).
+27. §7.27 — `PageUp` / `PageDown` move the cursor by ten, clamped
+    (canonical §7.16).
+28. §7.28 — An empty list opens without `aria-activedescendant`
+    (canonical §7.17).
 
 ## 8. Out-of-scope (future, not implemented here)
 
