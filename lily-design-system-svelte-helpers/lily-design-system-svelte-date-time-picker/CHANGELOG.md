@@ -41,6 +41,14 @@ reader or keyboard user would actually hit. Test count 58 → 65 (§7.49–
   component's own text field.** The dialog claims `aria-modal="true"`;
   staying open while the user edits the field behind it told assistive
   technology one thing and did another.
+- **`initialAnchor`'s one-shot read of `mode`/`value` is now wrapped in
+  `untrack()`.** It was already documented as a synchronous, non-reactive
+  seed (server-rendered markup needs the anchor month before any effect
+  runs) but read the props directly, which `svelte-check` flags as
+  `state_referenced_locally` — a real footgun in general, since it looks
+  identical to a bug where a later prop change should have re-seeded the
+  anchor and silently doesn't. `untrack()` says so in code, not just in
+  the comment above it, and the compiler warning is gone.
 
 #### Added
 

@@ -582,6 +582,8 @@
 </script>
 
 <script lang="ts">
+    import { untrack } from "svelte";
+
     let {
         class: className = "",
         label,
@@ -670,8 +672,15 @@
      * differ between a server and a client sitting on opposite sides of
      * midnight, which is a hydration mismatch. That one waits for the
      * effect.
+     *
+     * `untrack`ed on purpose: this is a one-shot read at construction, not
+     * a subscription. `mode`/`value` changing later should not silently
+     * re-seed the calendar out from under an open picker — that's what
+     * makes it "initial".
      */
-    const initialAnchor = parseIsoDate(splitValue(value ?? "", mode).date);
+    const initialAnchor = untrack(() =>
+        parseIsoDate(splitValue(value ?? "", mode).date),
+    );
 
     let viewYear = $state(initialAnchor?.year ?? 1970);
     let viewMonth = $state(initialAnchor?.month ?? 1);
