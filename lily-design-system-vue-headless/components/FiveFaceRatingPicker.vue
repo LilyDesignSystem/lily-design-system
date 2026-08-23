@@ -60,7 +60,7 @@
         disabled?: boolean;
     }>(), {
         name: "face-rating",
-        labels: ["Very bad", "Bad", "Okay", "Good", "Very good"],
+        labels: () => ["Very bad", "Bad", "Okay", "Good", "Very good"],
         disabled: false,
     });
 
@@ -83,8 +83,8 @@
                     type="radio"
                     :name="name"
                     :value="face"
-                    :checked="value === face"
-                    @change="value = face"
+                    :checked="modelValue === face"
+                    @change="modelValue = face"
                 />
                 {{ labels[i] }}
             </label>

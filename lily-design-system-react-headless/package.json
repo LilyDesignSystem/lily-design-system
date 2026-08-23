@@ -1,9 +1,11 @@
 {
   "name": "lily-design-system-react-headless",
-  "version": "0.2.0",
-  "description": "A comprehensive headless React component library with 236 accessible, unstyled components for building design systems. WCAG 2.2 AAA compliant.",
-  "main": "index.js",
+  "version": "0.3.0",
+  "description": "A comprehensive headless React component library with 491 accessible, unstyled components for building design systems. WCAG 2.2 AAA compliant.",
+  "main": "./dist/index.js",
   "scripts": {
+    "build": "node build.mjs",
+    "prepublishOnly": "node build.mjs",
     "test": "vitest run",
     "test:ui": "vitest --ui",
     "test:watch": "vitest",
@@ -45,7 +47,8 @@
     "react-dom": "^19.0.0",
     "storybook": "^9.0.0",
     "typescript": "^5.7.0",
-    "vitest": "^4.0.18"
+    "vitest": "^4.0.18",
+    "tsup": "^8.5.1"
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",
@@ -55,5 +58,22 @@
     "onlyBuiltDependencies": [
       "esbuild"
     ]
-  }
+  },
+  "type": "module",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "index.md",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "sideEffects": false
 }

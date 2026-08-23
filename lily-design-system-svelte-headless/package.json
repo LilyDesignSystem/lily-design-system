@@ -1,9 +1,10 @@
 {
   "name": "lily-design-system-svelte-headless",
-  "version": "0.2.0",
-  "description": "Lily Design System - Svelte 5 headless component library",
-  "main": "index.js",
+  "version": "0.3.0",
+  "description": "A comprehensive headless Svelte 5 component library with 491 accessible, unstyled components for building design systems. WCAG 2.2 AAA compliant.",
   "scripts": {
+    "build": "node build.mjs",
+    "prepublishOnly": "node build.mjs",
     "test": "vitest run",
     "test:ui": "vitest --ui",
     "test:watch": "vitest"
@@ -61,5 +62,25 @@
       "undici@>=7.0.0 <7.24.0": ">=7.24.0",
       "undici@>=7.17.0 <7.24.0": ">=7.24.0"
     }
+  },
+  "type": "module",
+  "svelte": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "svelte": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "index.md",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "sideEffects": false,
+  "peerDependencies": {
+    "svelte": "^5.0.0"
   }
 }

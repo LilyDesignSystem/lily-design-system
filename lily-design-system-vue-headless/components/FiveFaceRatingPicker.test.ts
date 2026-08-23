@@ -86,3 +86,26 @@ describe("FiveFaceRatingPicker", () => {
     expect(screen.getByTestId("fr")).toBeTruthy();
   });
 });
+
+// Regression: same undeclared-`value` binding as the sibling pickers, plus
+// an array default passed as a literal where Vue requires a factory.
+describe("FiveFaceRatingPicker model binding", () => {
+  test("reflects the model value as the checked face", () => {
+    render(Subject, { props: { label: "Rating", modelValue: 2 } });
+    const radios = screen.getAllByRole("radio") as HTMLInputElement[];
+    expect(radios[1].checked).toBe(true);
+  });
+
+  test("emits update:modelValue when a face is chosen", async () => {
+    const user: UserEvent = userEvent.setup();
+    const { emitted } = render(Subject, { props: { label: "Rating" } });
+    const radios = screen.getAllByRole("radio") as HTMLInputElement[];
+    await user.click(radios[4]);
+    expect(emitted()["update:modelValue"]).toEqual([[5]]);
+  });
+
+  test("default labels are not shared between instances", () => {
+    const first = render(Subject, { props: { label: "A" } });
+    expect(first.getByRole("radiogroup").textContent).toContain("Very bad");
+  });
+});

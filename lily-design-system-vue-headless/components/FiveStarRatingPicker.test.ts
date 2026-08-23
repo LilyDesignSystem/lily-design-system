@@ -37,3 +37,32 @@ describe("FiveStarRatingPicker", () => {
     expect(screen.getByTestId("r")).toBeTruthy();
   });
 });
+
+// Regression: the template bound `value`, a name the component never
+// declared, so the control rendered unchecked no matter what the model
+// held and choosing a star updated nothing. The pre-existing "clicking a
+// star selects it" test passed anyway, because a native radio checks
+// itself on click regardless of what Vue bound to it.
+describe("FiveStarRatingPicker model binding", () => {
+  test("reflects the model value as the checked star", () => {
+    render(Subject, { props: { label: "Rating", modelValue: 3 } });
+    const radios = screen.getAllByRole("radio") as HTMLInputElement[];
+    expect(radios[2].checked).toBe(true);
+  });
+
+  test("emits update:modelValue when a star is chosen", async () => {
+    const user: UserEvent = userEvent.setup();
+    const { emitted } = render(Subject, { props: { label: "Rating" } });
+    const radios = screen.getAllByRole("radio") as HTMLInputElement[];
+    await user.click(radios[3]);
+    expect(emitted()["update:modelValue"]).toEqual([[4]]);
+  });
+
+  test("renders each star's number alongside its unit", () => {
+    render(Subject, { props: { label: "Rating" } });
+    const group = screen.getByRole("radiogroup");
+    expect(group.textContent).toContain("1");
+    expect(group.textContent).toContain("star");
+    expect(group.textContent).not.toContain(':star="star"');
+  });
+});

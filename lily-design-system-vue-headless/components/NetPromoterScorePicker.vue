@@ -80,13 +80,11 @@
                     type="radio"
                     :name="name"
                     :value="String(score)"
-                    :checked="value === String(score)"
+                    :checked="modelValue === String(score)"
                     :aria-label="String(score)"
-                    @change="() => {{  
-                        value = String(score);
-                      }}"
+                    @change="modelValue = String(score)"
                 />
-                :score="score"
+                {{ score }}
             </label>
     </fieldset>
 </template>

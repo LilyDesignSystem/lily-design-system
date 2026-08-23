@@ -7,7 +7,7 @@ import Subject from "./ProgressCircle.vue";
 describe("ProgressCircle", () => {
   test("renders with Progress role", () => {
     render(Subject, { props: { label: "Loading" } });
-    expect(screen.getByRole("Progress")).toBeTruthy();
+    expect(screen.getByRole("progressbar")).toBeTruthy();
   });
 
   test("has aria-label", () => {
@@ -17,21 +17,21 @@ describe("ProgressCircle", () => {
 
   test("sets aria-valuenow", () => {
     render(Subject, { props: { label: "P", value: 75 } });
-    expect(screen.getByRole("Progress").getAttribute("aria-valuenow")).toBe(
+    expect(screen.getByRole("progressbar").getAttribute("aria-valuenow")).toBe(
       "75",
     );
   });
 
   test("sets aria-valuemin and aria-valuemax", () => {
     render(Subject, { props: { label: "P", min: 0, max: 200 } });
-    const el = screen.getByRole("Progress");
+    const el = screen.getByRole("progressbar");
     expect(el.getAttribute("aria-valuemin")).toBe("0");
     expect(el.getAttribute("aria-valuemax")).toBe("200");
   });
 
   test("renders children", () => {
     render(Subject, { props: { label: "P" }, slots: { default: "75%" } });
-    expect(screen.getByRole("Progress").textContent).toContain("75%");
+    expect(screen.getByRole("progressbar").textContent).toContain("75%");
   });
 
   test("passes through attributes", () => {

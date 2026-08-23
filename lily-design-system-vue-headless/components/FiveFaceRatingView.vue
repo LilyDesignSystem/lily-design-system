@@ -53,7 +53,7 @@
         /** Labels for each face. */
         labels?: string[];
     }>(), {
-        labels: ["Very bad", "Bad", "Okay", "Good", "Very good"],
+        labels: () => ["Very bad", "Bad", "Okay", "Good", "Very good"],
     });
 
     const faceLabel = computed(() =>

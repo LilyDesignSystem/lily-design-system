@@ -63,7 +63,7 @@ export default function TreeList({
   children,
   ...restProps
 }: TreeListProps) {
-  const treeRef = useRef<HTMLElement>(null);
+  const treeRef = useRef<HTMLOListElement>(null);
 
   function handleKeyDown(event: React.KeyboardEvent) {
     if (!treeRef.current) return;

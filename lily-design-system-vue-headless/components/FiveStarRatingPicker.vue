@@ -79,10 +79,10 @@
                     type="radio"
                     :name="name"
                     :value="star"
-                    :checked="value === star"
-                    @change="value = star"
+                    :checked="modelValue === star"
+                    @change="modelValue = star"
                 />
-                :star="star"
+                {{ star }}
                 {{ star === 1 ? "star" : "stars" }}
             </label>
     </fieldset>

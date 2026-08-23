@@ -51,6 +51,10 @@ import React from "react";
 
 export interface EmojiCharacterPickerProps {
     className?: string;
+    /** Accessible label */
+    label?: string;
+    /** The component content */
+    children?: React.ReactNode;
     [key: string]: unknown;
 }
 

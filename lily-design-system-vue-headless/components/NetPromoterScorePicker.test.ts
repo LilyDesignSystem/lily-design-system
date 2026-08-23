@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/vue";
+import { fireEvent, render, screen } from "@testing-library/vue";
 import { describe, expect, test } from "vitest";
 
 import Subject from "./NetPromoterScorePicker.vue";
@@ -68,5 +68,30 @@ describe("NetPromoterScorePicker", () => {
 
     const radios = screen.getAllByRole("radio") as HTMLInputElement[];
     expect(radios[0].name).toBe("score");
+  });
+});
+
+// Regression: the template bound `value` (never declared) and wrapped the
+// change handler in `{{ }}` interpolation inside a directive value, so no
+// score was ever recorded. The pre-existing tests only checked markup.
+describe("NetPromoterScorePicker model binding", () => {
+  test("reflects the model value as the checked score", () => {
+    render(Subject, { props: { label: "NPS", modelValue: "7" } });
+    const radios = screen.getAllByRole("radio") as HTMLInputElement[];
+    expect(radios[7].checked).toBe(true);
+  });
+
+  test("emits update:modelValue when a score is chosen", async () => {
+    const { emitted } = render(Subject, { props: { label: "NPS" } });
+    const radios = screen.getAllByRole("radio") as HTMLInputElement[];
+    await fireEvent.update(radios[9]);
+    expect(emitted()["update:modelValue"]).toEqual([["9"]]);
+  });
+
+  test("renders each score's number as text", () => {
+    render(Subject, { props: { label: "NPS" } });
+    const group = screen.getByRole("radiogroup");
+    expect(group.textContent).not.toContain(':score="score"');
+    expect(group.textContent).toContain("10");
   });
 });

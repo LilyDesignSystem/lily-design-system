@@ -9,6 +9,53 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Headless packages get a real entry point — 2026-08-23
+
+Preparing the first publish of the helper catalogs surfaced that the three
+published headless packages were broken on npm. `lily-design-system-svelte-headless`,
+`-react-headless` and `-vue-headless` each declared `"main": "index.js"`
+and no such file had ever been built or shipped, so every
+`import … from "lily-design-system-<framework>-headless"` failed at
+resolution. 0.2.0 is unusable on the registry for that reason. Nothing
+caught it because nothing in CI ever imported a package the way a
+consumer does — the tests import component files by relative path.
+
+Each package now generates a barrel over all 491 catalog components and
+builds a real `dist/` — tsup for React, Vite library mode + vue-tsc for
+Vue, svelte-package for Svelte — with `main`/`types`/`exports` pointing at
+it and a `files` allowlist. The tarballs shrink accordingly: React 1995
+files / 2.8 MB → 5 files / 572 KB, Vue 1980 / 2.6 MB → 496 / 660 KB,
+Svelte 3968 / 6.8 MB → 987 / 1.36 MB. Each was verified by installing the
+packed tarball into a scratch project and importing it as a consumer
+would; the Svelte one through a real Vite build, since a Svelte library
+ships `.svelte` source that bare Node cannot load.
+
+Emitting declarations for the first time exercised type-checking that had
+never run, and it found real defects. In React, nine: eight components
+destructured `children` and/or `label` without declaring either, so both
+resolved through the `[key: string]: unknown` index signature, and
+`TreeList` held an `<ol>` ref typed as `HTMLElement`. Those were typing
+gaps over correct runtime behaviour. Vue's were not. Three rating pickers
+— `FiveStarRatingPicker`, `FiveFaceRatingPicker`, `NetPromoterScorePicker`
+— bound `:checked` and `@change` to `value`, an identifier none of them
+declares, so the control rendered unchecked whatever the model held and
+choosing an option recorded nothing; two of them also rendered stray
+`:star="star"` / `:score="score"` attribute text as visible labels, and
+`TagInput` called an undeclared `onadd?.()` that threw a `ReferenceError`
+on Enter. Their existing tests passed against all of it, because a native
+radio checks itself on click regardless of what Vue bound to it. Tests
+that assert the emitted `update:modelValue` and `add` events have been
+added, each confirmed to fail before its fix.
+
+Separately, `ProgressCircle`'s tests queried `getByRole("Progress")` — not
+a valid ARIA role, so it never matched — while the component correctly
+renders `role="progressbar"`. Those had been failing: 4 cases in Vue and 8
+in Svelte, which mirrors the file under both `components/` and
+`src/lib/components/`. All three suites are now green: React 2665, Vue
+2655, Svelte 4906.
+
+The 35 helper packages are unaffected by any of this and remain at 0.1.0.
+
 ## Pointer-selection close is now part of the contract — 2026-07-31
 
 A report that a pointer selection might leave the listbox open —

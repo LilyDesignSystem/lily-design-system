@@ -44,6 +44,8 @@ import React from "react";
 
 export interface ContentsListProps {
     className?: string;
+    /** The component content */
+    children?: React.ReactNode;
     [key: string]: unknown;
 }
 

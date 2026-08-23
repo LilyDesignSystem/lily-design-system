@@ -52,6 +52,10 @@ import React from "react";
 
 export interface QrCodeImageProps {
     className?: string;
+    /** Accessible label */
+    label?: string;
+    /** The component content */
+    children?: React.ReactNode;
     [key: string]: unknown;
 }
 

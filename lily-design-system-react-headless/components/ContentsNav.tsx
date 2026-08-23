@@ -50,6 +50,10 @@ import React from "react";
 
 export interface ContentsNavProps {
     className?: string;
+    /** Accessible label */
+    label?: string;
+    /** The component content */
+    children?: React.ReactNode;
     [key: string]: unknown;
 }
 
