@@ -126,8 +126,17 @@ export function initTextSizePicker(root, opts = {}) {
   // Applying a size
   // -----------------------------------------------------------------
 
+  // The size the DOM currently carries. Applying is idempotent: a
+  // size already applied is a no-op, so `onChange` fires once per
+  // changed value. `setSize` on the returned api is this same
+  // function, so without the guard a consumer that mirrors the value
+  // back from `onChange` re-enters it forever.
+  let appliedValue = "";
+
   function applySize(slug) {
     if (!slug) return;
+    if (slug === appliedValue) return;
+    appliedValue = slug;
     current = slug;
     const target = opts.target || document.documentElement;
     target.setAttribute("data-text-size", slug);

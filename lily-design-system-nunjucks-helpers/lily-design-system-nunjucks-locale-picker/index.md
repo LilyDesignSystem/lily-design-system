@@ -370,7 +370,7 @@ import {
 
 Optional `opts`:
 
-- `onChange(code)` — fired after every apply; receives the
+- `onChange(code)` — fired once per applied change; receives the
   consumer-form code.
 - `target` — element receiving `lang` and `dir` (defaults to
   `<html>`).

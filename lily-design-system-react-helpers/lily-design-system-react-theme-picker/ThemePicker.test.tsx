@@ -533,7 +533,7 @@ describe("ThemePicker — keyboard contract (APG listbox)", () => {
     }
   });
 
-  test("§7.18 clicking an option selects and applies it", async () => {
+  test("§7.18 clicking an option selects it, applies it, and closes the listbox", async () => {
     render(
       <ThemePicker label="Theme" themesUrl={URL_TRAILING} themes={THEMES} />,
     );
@@ -541,7 +541,14 @@ describe("ThemePicker — keyboard contract (APG listbox)", () => {
     pick("abyss");
     await flush();
     expect(document.documentElement.dataset.theme).toBe("abyss");
+    // A pointer selection closes, exactly as Enter does. The asymmetry
+    // would be invisible to a consumer reading the DOM: a stale
+    // aria-expanded over a hidden list makes every later click miss the
+    // options.
     expect(getList().hasAttribute("hidden")).toBe(true);
+    expect(screen.getByRole("button").getAttribute("aria-expanded")).toBe(
+      "false",
+    );
   });
 
   test("§7.18 clicking outside closes the listbox without changing the theme", async () => {
@@ -832,5 +839,42 @@ describe("ThemePicker — accessibility hardening (§7.21–§7.24)", () => {
     const { list } = await openPicker([]);
     expect(list.hasAttribute("hidden")).toBe(false);
     expect(list.getAttribute("aria-activedescendant")).toBeNull();
+  });
+});
+
+describe("ThemePicker — idempotent apply (§7.25)", () => {
+  test("§7.25 controlled mode fires onChange once per changed value", async () => {
+    const calls: string[] = [];
+
+    function Host() {
+      const [value, setValue] = React.useState("light");
+      return (
+        <ThemePicker
+          label="Theme"
+          themesUrl={URL_TRAILING}
+          themes={THEMES}
+          value={value}
+          onChange={(theme: string) => {
+            calls.push(theme);
+            // The canonical controlled wiring: the consumer owns `value`
+            // and mirrors every change back. Applying is idempotent, so
+            // the re-render this causes must not re-fire onChange.
+            setValue(theme);
+          }}
+        />
+      );
+    }
+
+    render(<Host />);
+    await flush();
+    expect(calls).toEqual(["light"]);
+
+    pick("abyss");
+    await flush();
+    expect(calls).toEqual(["light", "abyss"]);
+    expect(document.documentElement.dataset.theme).toBe("abyss");
+    expect(screen.getByRole("button").getAttribute("aria-expanded")).toBe(
+      "false",
+    );
   });
 });

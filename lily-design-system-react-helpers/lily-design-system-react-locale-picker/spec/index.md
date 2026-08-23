@@ -343,6 +343,12 @@ Applying a locale `code` performs, in order:
 5. Call `onChange(code)` if supplied. The argument is the original
    consumer-form code, not the BCP 47-normalised tag.
 
+Applying is **idempotent**: a locale already applied is a no-op, so none
+of the steps above repeat and `onChange` does not re-fire. In controlled
+mode `setLocale` applies straight away and the consumer's `onChange`
+writes the value back, which re-runs the apply effect — without the
+guard every selection fired `onChange` (and rewrote storage) twice.
+
 ### 5.6 RTL detection
 
 `isRtlLocale(locale)` returns `true` when:
@@ -462,7 +468,8 @@ On the **listbox** (while open):
 | `Tab`                   | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position. Hiding the focused list first would drop focus to `<body>` and restart Tab from the top of the document. |
 | Printable character     | Typeahead over the option labels (§5.10).                                         |
 
-Pointer equivalents: clicking an option selects it, clicking the button
+Pointer equivalents: clicking an option selects it, applies it, and closes the listbox — the same
+close `Enter` performs — clicking the button
 toggles the list, and clicking outside the root — or moving focus out
 of it — closes the list without changing the value.
 
@@ -610,6 +617,12 @@ run under vitest + jsdom + `@testing-library/react`.
 | §7.30  | A repeated typeahead character cycles through its matches. |
 | §7.31  | `PageUp` / `PageDown` move the cursor by ten, clamped. |
 | §7.32  | An empty list opens without `aria-activedescendant`. |
+
+### Idempotent apply (mirrors §5.5)
+
+| Clause | Test asserts |
+| ------ | ------------ |
+| §7.33  | Controlled mode fires `onChange` once per changed value: the consumer writing the value back does not re-fire it. |
 
 ## 8. Out-of-scope (future, not implemented here)
 

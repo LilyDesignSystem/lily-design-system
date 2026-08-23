@@ -150,7 +150,7 @@ type ClientOpts = {
 };
 ```
 
-- `onChange(code)` — fired after every successful apply. Receives
+- `onChange(code)` — fired once per applied change. Receives
   the **consumer-form** code (not the BCP 47-normalised tag).
 - `target` — element receiving `lang` and `dir`. Defaults to
   `document.documentElement`. Pass a sub-tree root for per-region

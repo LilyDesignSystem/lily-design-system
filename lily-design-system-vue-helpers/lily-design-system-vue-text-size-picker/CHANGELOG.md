@@ -10,6 +10,19 @@ First published release. Nothing earlier shipped, so the
 accessibility hardening completed after the initial entry below is
 part of 0.1.0 rather than a later version.
 
+### Pointer-selection close is now part of the contract (2026-07-31)
+
+#### Changed
+
+- **Clicking an option is specified to close the listbox**, not just to
+  select and apply. The behaviour was already correct — and is now
+  asserted: the pointer test checks `aria-expanded="false"` and the
+  list's `hidden` alongside the applied value. Only `Enter` promised the
+  close before, and an untested asymmetry is one refactor away from
+  becoming real: a selection that leaves `aria-expanded="true"` over a
+  hidden list reports an open popup to assistive technology and makes
+  every later click miss the options.
+
 ### Accessibility hardening (2026-07-29/30)
 
 #### Changed

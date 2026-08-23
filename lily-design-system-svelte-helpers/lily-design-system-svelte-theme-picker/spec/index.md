@@ -290,6 +290,14 @@ Applying a theme `slug` performs, in order:
    try/catch (so private-mode / quota errors are silently swallowed).
 5. Call `onChange(slug)` if supplied.
 
+Applying is **idempotent**: a slug already applied is a no-op, so none
+of the five steps repeat and `onChange` does not re-fire. The effect in
+§5.4 can run for reasons other than a theme change, and a consumer
+whose `onChange` writes reactive state would otherwise re-enter it until
+Svelte abandons updating the component
+(`effect_update_depth_exceeded`), freezing the listbox mid-open with a
+stale `aria-expanded`.
+
 ### 5.4 Reactivity
 
 A single `$effect` re-applies the theme whenever `value` changes
@@ -361,8 +369,11 @@ On the **listbox**:
 | `Tab`               | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position. Hiding the focused list first would drop focus to `<body>` and restart Tab from the top of the document. |
 | Printable character | Typeahead over the option **labels**; the buffer resets after 500 ms of inactivity. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match from the active option. Search wraps once. |
 
-Pointer behaviour: clicking an option selects and applies it; clicking
-outside the root closes the listbox; focus leaving the root closes it.
+Pointer behaviour: clicking an option selects it, applies it, **and
+closes the listbox** — the same close the keyboard's `Enter` performs,
+stated explicitly because a pointer path that selected without closing
+would leave `aria-expanded="true"` over a hidden list; clicking outside
+the root closes the listbox; focus leaving the root closes it.
 
 ### 6.3 Internationalisation
 
@@ -430,7 +441,7 @@ builds the href from both forms.
 | §7.6   | The default initial value is `"light"` when present in `themes`.                                        |
 | §7.6   | It falls back to `themes[0]` when `"light"` is absent.                                                  |
 | §7.7   | A managed `<link rel="stylesheet" data-lily-theme-picker="{name}">` is injected with the resolved href. |
-| §7.8   | Selecting an option updates the link `href` and `data-theme`, and fires `onChange` with the new slug.   |
+| §7.8   | Selecting an option with the pointer updates the link `href` and `data-theme`, fires `onChange` with the new slug, and closes the listbox (`aria-expanded="false"`, list `hidden`).   |
 | §7.9   | With `storageKey` set, the slug is written to `localStorage` and read back on a fresh mount.            |
 | §7.10  | A supplied `value` prop wins over storage and defaults.                                                 |
 | §7.11  | A `themesUrl` with no trailing slash still yields exactly one slash.                                    |
@@ -475,6 +486,12 @@ builds the href from both forms.
 | §7.22  | A repeated typeahead character cycles through its matches; a multi-character buffer refines from the active option. |
 | §7.23  | `PageUp` / `PageDown` move the cursor by ten, clamped. |
 | §7.24  | An empty list opens without `aria-activedescendant`. |
+
+### Idempotent apply (mirrors §5.3)
+
+| Clause | Test asserts |
+| ------ | ------------ |
+| §7.25  | `onChange` fires once per changed value, not once per effect run: a prop change that re-runs the apply effect does not re-fire it. |
 
 ## 8. Out-of-scope (future, not implemented here)
 

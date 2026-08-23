@@ -338,12 +338,19 @@ describe("ThemePicker — keyboard contract (APG listbox)", () => {
     expect(el.getAttribute("aria-activedescendant")).toBe(el.children[2].id);
   });
 
-  test("§7.17 clicking an option selects and applies it", async () => {
+  test("§7.17 clicking an option selects it, applies it, and closes the listbox", async () => {
     const wrapper = build({});
     await flush();
     await pick(wrapper, "abyss");
     await flush();
     expect(document.documentElement.dataset.theme).toBe("abyss");
+    // A pointer selection closes, exactly as Enter does. The asymmetry
+    // would be invisible to a consumer reading the DOM: a stale
+    // aria-expanded over a hidden list makes every later click miss the
+    // options.
+    const { button, list } = parts(wrapper);
+    expect((list.element as HTMLElement).hasAttribute("hidden")).toBe(true);
+    expect(button.attributes("aria-expanded")).toBe("false");
   });
 
   test("§7.17 clicking outside the root closes the listbox", async () => {

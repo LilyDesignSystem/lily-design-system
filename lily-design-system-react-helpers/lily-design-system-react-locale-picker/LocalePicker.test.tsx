@@ -394,14 +394,21 @@ describe("LocalePicker — keyboard contract (APG listbox, §7.6)", () => {
         }
     });
 
-    test("§7.27 clicking an option selects and applies it", async () => {
+    test("§7.27 clicking an option selects it, applies it, and closes the listbox", async () => {
         render(<LocalePicker label="Language" locales={LOCALES} />);
         await flush();
         pick("ar");
         await flush();
         expect(document.documentElement.getAttribute("lang")).toBe("ar");
         expect(document.documentElement.getAttribute("dir")).toBe("rtl");
+        // A pointer selection closes, exactly as Enter does. The
+        // asymmetry would be invisible to a consumer reading the DOM: a
+        // stale aria-expanded over a hidden list makes every later click
+        // miss the options.
         expect(getList().hasAttribute("hidden")).toBe(true);
+        expect(screen.getByRole("button").getAttribute("aria-expanded")).toBe(
+            "false",
+        );
     });
 
     test("§7.27 clicking outside closes the listbox without changing the locale", async () => {
@@ -763,5 +770,42 @@ describe("LocalePicker — accessibility hardening (§7.28–§7.32)", () => {
         const { list } = await openPicker([]);
         expect(list.hasAttribute("hidden")).toBe(false);
         expect(list.getAttribute("aria-activedescendant")).toBeNull();
+    });
+});
+
+describe("LocalePicker — idempotent apply (§7.33)", () => {
+    test("§7.33 controlled mode fires onChange once per changed value", async () => {
+        const calls: string[] = [];
+
+        function Host() {
+            const [value, setValue] = React.useState("en");
+            return (
+                <LocalePicker
+                    label="Language"
+                    locales={LOCALES}
+                    value={value}
+                    onChange={(code: string) => {
+                        calls.push(code);
+                        // The canonical controlled wiring: the consumer owns
+                        // `value` and mirrors every change back. Applying is
+                        // idempotent, so the re-render this causes must not
+                        // re-fire onChange.
+                        setValue(code);
+                    }}
+                />
+            );
+        }
+
+        render(<Host />);
+        await flush();
+        expect(calls).toEqual(["en"]);
+
+        pick("fr");
+        await flush();
+        expect(calls).toEqual(["en", "fr"]);
+        expect(document.documentElement.getAttribute("lang")).toBe("fr");
+        expect(screen.getByRole("button").getAttribute("aria-expanded")).toBe(
+            "false",
+        );
     });
 });

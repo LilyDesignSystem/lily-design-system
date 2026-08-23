@@ -153,8 +153,19 @@
         return link;
     }
 
+    // The slug the DOM currently carries. Applying is idempotent: the
+    // effect below can run for reasons other than a theme change, and
+    // re-applying would re-fire `onChange`. A consumer whose onChange
+    // writes reactive state then re-enters this effect, and Svelte stops
+    // updating the component altogether (effect_update_depth_exceeded) —
+    // the listbox freezes mid-open with a stale aria-expanded. Guarding
+    // here also matches §5.4: other prop changes are not retroactive.
+    let appliedValue = "";
+
     function applyTheme(slug: string): void {
         if (typeof document === "undefined" || !slug) return;
+        if (slug === appliedValue) return;
+        appliedValue = slug;
         getManagedLink().href = themeHref(themesUrl, slug, extension);
         (target ?? document.documentElement).setAttribute("data-theme", slug);
         if (storageKey) {

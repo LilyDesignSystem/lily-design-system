@@ -220,7 +220,7 @@ sizes[0])`, and pre-fills the hidden input with it.
 
 Optional `opts` for `initTextSizePicker` / `autoInit`:
 
-- `onChange(size)` — fired after every apply; receives the slug.
+- `onChange(size)` — fired once per applied change; receives the slug.
 - `target` — element receiving `data-text-size` (defaults to
   `document.documentElement`).
 
@@ -252,6 +252,12 @@ Applying a size `slug` performs, in order:
 5. Re-derive every option's `aria-selected` against `slug`.
 6. Call `opts.onChange?.(slug)` if supplied.
 
+Applying is **idempotent**: a size already applied is a no-op, so none
+of the steps above repeat and `onChange` does not re-fire. `setSize` on
+the returned controller *is* this function, so without the guard a
+consumer that mirrors the value back from `onChange` re-enters it
+forever.
+
 ### 5.3 Listbox interaction (client-owned)
 
 Follows the WAI-ARIA APG listbox pattern, identical to `theme-picker`
@@ -276,7 +282,8 @@ On the **listbox**:
 | `Tab`                   | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position rather than from `<body>`. |
 | Printable character     | APG typeahead over the option labels: a single character advances to the NEXT match, a repeated character keeps cycling, and only a buffer of differing characters refines, anchored at the active option. 500 ms buffer reset. Matches the rendered label, so `sizeLabels` overrides participate. |
 
-Clicking an option selects it. Clicking outside the root, or moving
+Clicking an option selects it, applies it, and closes the listbox —
+the same close `Enter` performs. Clicking outside the root, or moving
 focus out of it, closes the listbox without changing the size.
 Opening an EMPTY list seeds the active index at -1, so
 `aria-activedescendant` is absent rather than pointing at an id that
@@ -428,6 +435,9 @@ Ported from the canonical Svelte spec's §7.14–§7.17.
     anchored at the active option.
 31. **§7.31** `PageUp` / `PageDown` move the cursor by ten, clamped.
 32. **§7.32** An empty list opens without `aria-activedescendant`.
+33. **§7.33** An `onChange` that mirrors the value back through
+    `setSize` does not re-enter apply: it fires once per changed
+    value.
 
 ## 8. Out-of-scope (future)
 

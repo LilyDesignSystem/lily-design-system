@@ -127,7 +127,7 @@ type ClientOpts = {
 };
 ```
 
-- `onChange(slug)` — fired after every successful apply. Use it for
+- `onChange(slug)` — fired once per applied change. Use it for
   analytics, server sync, cookie writes.
 - `target` — element receiving `data-theme`. Defaults to
   `document.documentElement`. Pass a sub-tree root when you want

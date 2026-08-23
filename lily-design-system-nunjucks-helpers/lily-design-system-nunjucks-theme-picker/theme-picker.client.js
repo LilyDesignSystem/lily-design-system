@@ -158,8 +158,17 @@ export function initThemePicker(root, opts = {}) {
   // Applying a theme
   // -----------------------------------------------------------------
 
+  // The theme the DOM currently carries. Applying is idempotent: a
+  // theme already applied is a no-op, so `onChange` fires once per
+  // changed value. `setTheme` on the returned api is this same
+  // function, so without the guard a consumer that mirrors the value
+  // back from `onChange` re-enters it forever.
+  let appliedValue = "";
+
   function applyTheme(slug) {
     if (!slug) return;
+    if (slug === appliedValue) return;
+    appliedValue = slug;
     current = slug;
     getManagedLink(name).href = themeHref(themesUrl, slug, extension);
     const target = opts.target || document.documentElement;

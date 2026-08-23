@@ -251,7 +251,7 @@ button / listbox children are missing.
 
 Optional `opts` for both `initThemePicker` and `autoInit`:
 
-- `onChange(slug)` — callback fired after every apply.
+- `onChange(slug)` — callback fired once per applied change.
 - `target` — `HTMLElement` that receives `data-theme` (defaults to
   `document.documentElement`).
 
@@ -321,6 +321,12 @@ rel="stylesheet" data-lily-theme-picker="{name}">` in
    option's `aria-selected` so exactly one reads `"true"`.
 6. Call `opts.onChange?.(slug)` if supplied.
 
+Applying is **idempotent**: a theme already applied is a no-op, so none
+of the steps above repeat and `onChange` does not re-fire. `setTheme` on
+the returned controller *is* this function, so without the guard a
+consumer that mirrors the value back from `onChange` re-enters it
+forever.
+
 ### 5.4 Reactivity
 
 The client.js attaches listeners for `click` and `keydown` on the
@@ -369,7 +375,8 @@ On the **listbox**:
 | `Tab`                   | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position rather than from `<body>`. |
 | Printable character     | APG typeahead over the option labels: a single character advances to the NEXT option starting with it, and repeating that character keeps cycling through its matches; only a buffer of differing characters refines the match, anchored at the active option. The buffer resets 500 ms after the last keystroke. Chords with Ctrl / Meta / Alt are ignored. |
 
-Pointer behaviour: clicking an option selects it; clicking the button
+Pointer behaviour: clicking an option selects it, applies it, and closes the listbox — the same close
+`Enter` performs; clicking the button
 toggles; clicking outside the root closes; focus leaving the root
 closes.
 
@@ -546,6 +553,8 @@ Accessibility hardening (ported from the canonical Svelte spec's
     active option.
 31. `PageUp` / `PageDown` move the cursor by ten, clamped.
 32. An empty list opens without `aria-activedescendant`.
+33. An `onChange` that mirrors the value back through `setTheme`
+    does not re-enter apply: it fires once per changed value.
 
 ## 8. Out-of-scope (future)
 

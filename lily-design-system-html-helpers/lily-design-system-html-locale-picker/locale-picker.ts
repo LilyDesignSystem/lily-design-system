@@ -406,6 +406,9 @@ export class LocalePicker extends HTMLElement {
     disconnectedCallback(): void {
         document.removeEventListener("click", this.#onDocumentClick);
         clearTimeout(this.#typeaheadTimer);
+        // A re-connected element must apply again: the document root it
+        // returns to need not be the one it left.
+        this.#appliedValue = "";
     }
 
     // ---- Behaviour ----
@@ -443,8 +446,17 @@ export class LocalePicker extends HTMLElement {
         }
     }
 
+    // The locale the DOM currently carries. Applying is idempotent: a
+    // locale already applied is a no-op. `attributeChangedCallback` fires
+    // on every `setAttribute("value", …)`, unchanged value included, so
+    // without this a consumer whose `localechange` listener mirrors the value
+    // back onto the element re-enters apply forever.
+    #appliedValue = "";
+
     #applyLocale(code: string): void {
         if (typeof document === "undefined" || !code) return;
+        if (code === this.#appliedValue) return;
+        this.#appliedValue = code;
         const root = this.#target ?? document.documentElement;
         root.setAttribute("lang", bcp47LocaleTag(code));
         if (this.applyDir) {

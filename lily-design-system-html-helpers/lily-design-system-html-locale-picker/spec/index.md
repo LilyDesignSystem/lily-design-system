@@ -403,6 +403,14 @@ Applying a locale `code` performs, in order:
 5. Dispatch `localechange` `CustomEvent` with
    `detail: { locale: code }` (consumer-form code).
 
+Applying is **idempotent**: a locale already applied is a no-op, so none
+of the steps above repeat and no `localechange` event is dispatched.
+`attributeChangedCallback` fires on every `setAttribute("value", …)`,
+unchanged value included, so without this a consumer whose listener
+mirrors the value back onto the element re-enters apply forever.
+Disconnecting clears the record, so a re-connected element applies
+again.
+
 ### 5.6 RTL detection
 
 `isRtlLocale(locale)` returns `true` when:
@@ -633,6 +641,11 @@ local sequence instead.
     option.
 33. `PageUp` / `PageDown` move the cursor by ten, clamped.
 34. An empty list opens without `aria-activedescendant`.
+
+### 7.9 Idempotent apply (§5.5)
+
+35. A listener that mirrors the value back onto the element does
+    not re-enter apply: the event fires once per changed value.
 
 ## 8. Out-of-scope (future, not implemented here)
 

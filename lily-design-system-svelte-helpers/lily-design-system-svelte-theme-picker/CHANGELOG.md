@@ -10,6 +10,34 @@ First published release. Nothing earlier shipped, so the
 accessibility hardening completed after the initial entry below is
 part of 0.1.0 rather than a later version.
 
+### Pointer-selection close is now part of the contract (2026-07-31)
+
+#### Changed
+
+- **Clicking an option is specified to close the listbox**, not just to
+  select and apply. The behaviour was already correct — and is now
+  asserted: the pointer test checks `aria-expanded="false"` and the
+  list's `hidden` alongside the applied value. Only `Enter` promised the
+  close before, and an untested asymmetry is one refactor away from
+  becoming real: a selection that leaves `aria-expanded="true"` over a
+  hidden list reports an open popup to assistive technology and makes
+  every later click miss the options.
+
+### Idempotent apply (2026-07-31)
+
+#### Fixed
+
+- **Applying the same theme twice is now a no-op**, so `onChange` fires
+  once per changed value rather than once per apply. The apply effect
+  can run for reasons other than a theme change; when it did, it
+  re-invoked `onChange`, and a consumer whose callback writes reactive
+  state re-entered the effect until Svelte abandoned updating the
+  component (`effect_update_depth_exceeded`). The visible symptom was a
+  picker frozen mid-open: internal state kept toggling, but the DOM
+  stopped, so `aria-expanded` stayed `true` over a hidden list and every
+  later click missed. Sibling catalogs (html, nunjucks, react) carried
+  the same defect and take the same guard.
+
 ### Accessibility hardening (2026-07-29/30)
 
 #### Changed

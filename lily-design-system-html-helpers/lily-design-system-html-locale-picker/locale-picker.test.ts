@@ -757,3 +757,36 @@ describe("<locale-picker> — accessibility hardening (§7.30–§7.34; canonica
     expect(listEl.getAttribute("aria-activedescendant")).toBeNull();
   });
 });
+
+describe("LocalePicker — idempotent apply (§7.35)", () => {
+    test("§7.35 a listener that mirrors the value back does not re-enter apply", async () => {
+        // Built by hand, not via mount(): the listener has to be attached
+        // before the element connects, because connecting applies the
+        // initial locale.
+        const el = document.createElement("locale-picker") as LocalePicker;
+        el.setAttribute("label", "Language");
+        el.setAttribute("locales", LOCALES.join(","));
+        let calls = 0;
+        el.addEventListener("localechange", (event) => {
+            calls += 1;
+            if (calls > 50) return; // stop a runaway before the stack blows
+            // The natural consumer reflex: keep app state and the element
+            // in step. `setAttribute` fires attributeChangedCallback even
+            // when the value is unchanged, so without the guard this
+            // recurses forever.
+            el.setAttribute("value", (event as CustomEvent).detail.locale);
+        });
+        document.body.appendChild(el);
+        await flush();
+        expect(calls).toBe(1);
+
+        pick("fr");
+        await flush();
+        expect(calls).toBe(2);
+        expect(el.getAttribute("value")).toBe("fr");
+        expect(button().getAttribute("aria-expanded")).toBe("false");
+        expect(list().hasAttribute("hidden")).toBe(true);
+
+        el.remove();
+    });
+});

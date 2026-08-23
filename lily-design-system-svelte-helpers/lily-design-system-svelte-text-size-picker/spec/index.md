@@ -49,7 +49,13 @@ entries, one per slug, with `data-active` mirroring the
 ## 5. Behaviour
 
 On apply: set `data-text-size="{slug}"` on `target`; if `storageKey`,
-write to `localStorage`; call `onChange(slug)`. Initial value resolves
+write to `localStorage`; call `onChange(slug)`. Applying is
+**idempotent** — a slug already applied is a no-op, so nothing repeats
+and `onChange` does not re-fire; the apply effect can run for reasons
+other than a size change, and a consumer whose `onChange` writes
+reactive state would otherwise re-enter it until Svelte abandons
+updating the component (`effect_update_depth_exceeded`), freezing the
+listbox mid-open with a stale `aria-expanded`. Initial value resolves
 `value` > storage > `defaultValue` > `"medium"` (if present) >
 `sizes[0]`. SSR-safe (DOM writes guarded / inside effects).
 
@@ -85,7 +91,9 @@ Tab proceeds from the picker's position instead of restarting from
 - §7.5 Default labels title-case the slug; `sizeLabels` overrides.
 - §7.6 Initial value defaults to `"medium"` if present, else `sizes[0]`.
 - §7.7 Applies `data-text-size` to `document.documentElement`.
-- §7.8 Selecting an option updates `data-text-size` and fires `onChange`.
+- §7.8 Selecting an option with the pointer updates `data-text-size`,
+  fires `onChange`, and closes the listbox (`aria-expanded="false"`,
+  list `hidden`) — the same close `Enter` performs.
 - §7.9 Persists to `localStorage` and re-reads on a fresh mount.
 - §7.10 An explicit `value` wins over storage and defaults.
 - §7.12 Extra attributes spread onto the root.
@@ -96,3 +104,5 @@ Tab proceeds from the picker's position instead of restarting from
   a multi-character buffer refines from the active option.
 - §7.16 `PageUp` / `PageDown` move the cursor by ten, clamped.
 - §7.17 An empty list opens without `aria-activedescendant`.
+- §7.18 `onChange` fires once per changed value, not once per effect
+  run: a prop change that re-runs the apply effect does not re-fire it.

@@ -691,6 +691,35 @@ Long-term:
 
 ### 14.1 Changelog highlights
 
+- **Pointer-selection close is now part of the contract (2026-07-31)**
+  — a report that a pointer selection might leave the listbox open
+  prompted an audit of all seven catalogs. It does not: clicking an
+  option closes in every catalog, verified in jsdom, bUnit, and a real
+  Chromium. The defect was in the contract — only the keyboard clause
+  promised the close, the pointer clause said "selects and applies", and
+  no catalog except HTML asserted it. The clause now reads "selects it,
+  applies it, and closes the listbox" in all seven, each pointer test
+  asserts `aria-expanded` and `hidden`, and `AGENTS/helpers.md` states
+  the rule. Test counts unchanged — existing tests tightened, not new
+  ones added. Full record: [CHANGELOG.md](../CHANGELOG.md).
+- **Idempotent apply in the preference pickers (2026-07-31)** — the
+  three preference helpers re-ran their apply step whenever the
+  framework re-evaluated it, not only when the value changed, so the
+  consumer's change callback fired on every run. In Svelte that made a
+  callback as ordinary as `count += 1` re-enter the `$effect` until
+  Svelte abandoned updating the component
+  (`effect_update_depth_exceeded`): the picker froze mid-open with a
+  stale `aria-expanded` over a hidden list, so every later click missed.
+  HTML re-entered through `attributeChangedCallback`, which fires on an
+  unchanged `setAttribute` too; nunjucks through its `setX` controller;
+  React merely double-fired. Apply is now a no-op for a value already
+  applied, in svelte, html, nunjucks and react. Angular, Vue and Blazor
+  were verified clean and left unchanged; `share-picker` and
+  `date-time-picker` apply nothing and never had it. 1847 tests pass
+  (svelte 211, react 267, vue 261, html 294, nunjucks 321, angular 290,
+  blazor 203) — the 1835 baseline plus twelve regression tests, each
+  confirmed to fail without the guard. Full record:
+  [CHANGELOG.md](../CHANGELOG.md).
 - **Sibling-picker accessibility hardening (2026-07-29)** — an audit of
   theme-, locale-, text-size- and share-picker found five defects, fixed
   canonical-first then ported to all seven catalogs: Tab out of an open

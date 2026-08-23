@@ -434,6 +434,11 @@ public class TextSizePickerTests : TestContext
         cut.FindAll("li")[3].Click();
 
         Assert.True(cut.Find("ul").HasAttribute("hidden"));
+        // A pointer selection closes, exactly as Enter does. The
+        // asymmetry would be invisible to a consumer reading the DOM: a
+        // stale aria-expanded over a hidden list makes every later click
+        // miss the options.
+        Assert.Equal("false", cut.Find("button").GetAttribute("aria-expanded"));
         Assert.Equal("x-large", valueChanged);
         Assert.True(SawEvalApplying("x-large"), "Expected the clicked size to be applied");
         Assert.Equal("X Large", cut.Find("li[aria-selected='true']").TextContent.Trim());

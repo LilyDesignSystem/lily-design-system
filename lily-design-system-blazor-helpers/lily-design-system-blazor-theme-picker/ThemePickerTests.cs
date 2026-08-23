@@ -440,6 +440,11 @@ public class ThemePickerTests : TestContext
         cut.FindAll("li")[2].Click();
 
         Assert.True(cut.Find("ul").HasAttribute("hidden"));
+        // A pointer selection closes, exactly as Enter does. The
+        // asymmetry would be invisible to a consumer reading the DOM: a
+        // stale aria-expanded over a hidden list makes every later click
+        // miss the options.
+        Assert.Equal("false", cut.Find("button").GetAttribute("aria-expanded"));
         Assert.Equal("abyss", valueChanged);
         Assert.True(SawEvalContaining("/assets/themes/abyss.css"),
             "Expected the clicked theme to be applied");

@@ -258,8 +258,17 @@ export function LocalePicker({
         return localeEndonym(locale) ? bcp47LocaleTag(locale) : undefined;
     }
 
+    // The locale the DOM currently carries. Applying is idempotent: in
+    // controlled mode `setLocale` applies straight away and the consumer's
+    // `onChange` writes the value back, which re-runs the apply effect —
+    // without this, every selection fired `onChange` (and rewrote storage)
+    // twice.
+    const appliedRef = React.useRef("");
+
     function applyLocale(code: string): void {
         if (typeof document === "undefined" || !code) return;
+        if (code === appliedRef.current) return;
+        appliedRef.current = code;
         const root = target ?? document.documentElement;
         root.setAttribute("lang", bcp47LocaleTag(code));
         if (applyDir) {

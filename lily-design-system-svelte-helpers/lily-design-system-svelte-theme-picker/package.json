@@ -32,5 +32,8 @@
     "picker"
   ],
   "author": "joel@joelparkerhenderson.com",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@sveltejs/kit": "^2.70.2"
+  }
 }

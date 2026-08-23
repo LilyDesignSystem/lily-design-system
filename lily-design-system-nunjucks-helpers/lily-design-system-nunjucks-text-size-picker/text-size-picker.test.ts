@@ -448,12 +448,17 @@ describe("TextSizePicker — keyboard contract (APG listbox, §7.20–§7.24)", 
     expect(list.getAttribute("aria-activedescendant")).toBe(options[1].id);
   });
 
-  test("§7.24 clicking an option selects and applies it", () => {
+  test("§7.24 clicking an option selects it, applies it, and closes the listbox", () => {
     const { button, list, options } = setup();
     click(button);
     click(options[3]);
     expect(document.documentElement.dataset.textSize).toBe("x-large");
+    // A pointer selection closes, exactly as Enter does. The asymmetry
+    // would be invisible to a consumer reading the DOM: a stale
+    // aria-expanded over a hidden list makes every later click miss the
+    // options.
     expect(list.hasAttribute("hidden")).toBe(true);
+    expect(button.getAttribute("aria-expanded")).toBe("false");
   });
 
   test("§7.24 clicking the button toggles the listbox shut again", () => {
@@ -781,5 +786,32 @@ describe("TextSizePicker — accessibility hardening (§7.29–§7.32; canonical
     const { list } = openPicker([]);
     expect(list.hasAttribute("hidden")).toBe(false);
     expect(list.getAttribute("aria-activedescendant")).toBeNull();
+  });
+});
+
+describe("initTextSizePicker — idempotent apply (§7.33)", () => {
+  test("§7.33 an onChange that mirrors the value back does not re-enter apply", () => {
+    const calls: string[] = [];
+    let controller: { setSize: (slug: string) => void } | undefined;
+    const parts = setup(
+      {},
+      {
+        onChange: (slug: string) => {
+          calls.push(slug);
+          if (calls.length > 50) return; // stop a runaway
+          // `setSize` is `applySize`, so mirroring the value back here
+          // re-enters it; the guard is what terminates that.
+          controller?.setSize(slug);
+        },
+      },
+    );
+    controller = parts.controller;
+    expect(calls).toEqual(["medium"]);
+
+    click(parts.button);
+    click(parts.options[SIZES.indexOf("large")]);
+    expect(calls).toEqual(["medium", "large"]);
+    expect(parts.button.getAttribute("aria-expanded")).toBe("false");
+    expect(parts.list.hasAttribute("hidden")).toBe(true);
   });
 });

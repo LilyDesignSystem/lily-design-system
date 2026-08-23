@@ -281,6 +281,9 @@ export class TextSizePicker extends HTMLElement {
     disconnectedCallback(): void {
         document.removeEventListener("click", this.#onDocumentClick);
         clearTimeout(this.#typeaheadTimer);
+        // A re-connected element must apply again: the document root it
+        // returns to need not be the one it left.
+        this.#appliedValue = "";
     }
 
     // ---- Behaviour ----
@@ -309,8 +312,17 @@ export class TextSizePicker extends HTMLElement {
         }
     }
 
+    // The size the DOM currently carries. Applying is idempotent: a
+    // size already applied is a no-op. `attributeChangedCallback` fires
+    // on every `setAttribute("value", …)`, unchanged value included, so
+    // without this a consumer whose `textsizechange` listener mirrors the value
+    // back onto the element re-enters apply forever.
+    #appliedValue = "";
+
     #applySize(slug: string): void {
         if (typeof document === "undefined" || !slug) return;
+        if (slug === this.#appliedValue) return;
+        this.#appliedValue = slug;
         (this.#target ?? document.documentElement).setAttribute("data-text-size", slug);
         if (this.storageKey) {
             try {

@@ -298,7 +298,8 @@ On the **listbox**:
 | `Tab`                | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position. Hiding the focused list first would drop focus to `<body>` and restart Tab from the top of the document. |
 | Printable characters | Typeahead over the option **labels**, 500 ms buffer reset. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match from the active option. Search wraps once. |
 
-Pointer and focus behaviour: clicking an option selects it; clicking
+Pointer and focus behaviour: clicking an option selects it, applies it, and closes the listbox
+— the same close `Enter` performs; clicking
 the button again closes the listbox; clicking outside the root closes
 it; focus leaving the root closes it.
 

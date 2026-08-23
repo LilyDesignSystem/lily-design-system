@@ -225,8 +225,17 @@ export function initLocalePicker(root, opts = {}) {
   // Applying a locale
   // -----------------------------------------------------------------
 
+  // The locale the DOM currently carries. Applying is idempotent: a
+  // locale already applied is a no-op, so `onChange` fires once per
+  // changed value. `setLocale` on the returned api is this same
+  // function, so without the guard a consumer that mirrors the value
+  // back from `onChange` re-enters it forever.
+  let appliedValue = "";
+
   function applyLocale(code) {
     if (!code) return;
+    if (code === appliedValue) return;
+    appliedValue = code;
     current = code;
     const target = opts.target || document.documentElement;
     target.setAttribute("lang", bcp47LocaleTag(code));

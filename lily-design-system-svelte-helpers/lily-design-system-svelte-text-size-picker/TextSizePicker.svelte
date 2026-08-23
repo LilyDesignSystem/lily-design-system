@@ -106,8 +106,19 @@
         return sizeName(size);
     }
 
+    // The size the DOM currently carries. Applying is idempotent: the
+    // effect below can run for reasons other than a size change, and
+    // re-applying would re-fire `onChange`. A consumer whose onChange
+    // writes reactive state then re-enters this effect, and Svelte stops
+    // updating the component altogether (effect_update_depth_exceeded) —
+    // the listbox freezes mid-open with a stale aria-expanded. Guarding
+    // here also matches the spec: other prop changes are not retroactive.
+    let appliedValue = "";
+
     function applySize(slug: string): void {
         if (typeof document === "undefined" || !slug) return;
+        if (slug === appliedValue) return;
+        appliedValue = slug;
         (target ?? document.documentElement).setAttribute("data-text-size", slug);
         if (storageKey) {
             try {

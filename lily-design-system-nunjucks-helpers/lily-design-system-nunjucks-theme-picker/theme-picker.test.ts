@@ -506,12 +506,17 @@ describe("ThemePicker — keyboard contract (APG listbox, §7.20–§7.24)", () 
     expect(list.getAttribute("aria-activedescendant")).toBe(options[0].id);
   });
 
-  test("§7.24 clicking an option selects and applies it", () => {
+  test("§7.24 clicking an option selects it, applies it, and closes the listbox", () => {
     const { button, list, options } = setup();
     click(button);
     click(options[2]);
     expect(document.documentElement.dataset.theme).toBe("abyss");
+    // A pointer selection closes, exactly as Enter does. The asymmetry
+    // would be invisible to a consumer reading the DOM: a stale
+    // aria-expanded over a hidden list makes every later click miss the
+    // options.
     expect(list.hasAttribute("hidden")).toBe(true);
+    expect(button.getAttribute("aria-expanded")).toBe("false");
   });
 
   test("§7.24 clicking the button toggles the listbox shut again", () => {
@@ -960,5 +965,32 @@ describe("ThemePicker — accessibility hardening (§7.29–§7.32; canonical Sv
     const { list } = openPicker([]);
     expect(list.hasAttribute("hidden")).toBe(false);
     expect(list.getAttribute("aria-activedescendant")).toBeNull();
+  });
+});
+
+describe("initThemePicker — idempotent apply (§7.33)", () => {
+  test("§7.33 an onChange that mirrors the value back does not re-enter apply", () => {
+    const calls: string[] = [];
+    let controller: { setTheme: (slug: string) => void } | undefined;
+    const parts = setup(
+      {},
+      {
+        onChange: (slug: string) => {
+          calls.push(slug);
+          if (calls.length > 50) return; // stop a runaway
+          // `setTheme` is `applyTheme`, so mirroring the value back here
+          // re-enters it; the guard is what terminates that.
+          controller?.setTheme(slug);
+        },
+      },
+    );
+    controller = parts.controller;
+    expect(calls).toEqual(["light"]);
+
+    click(parts.button);
+    click(parts.options[THEMES.indexOf("abyss")]);
+    expect(calls).toEqual(["light", "abyss"]);
+    expect(parts.button.getAttribute("aria-expanded")).toBe("false");
+    expect(parts.list.hasAttribute("hidden")).toBe(true);
   });
 });

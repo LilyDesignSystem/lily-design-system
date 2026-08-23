@@ -9,6 +9,84 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Pointer-selection close is now part of the contract — 2026-07-31
+
+A report that a pointer selection might leave the listbox open —
+`aria-expanded="true"` with the list still visible — prompted an audit of
+all seven catalogs. It does not: clicking an option closes the listbox
+in every catalog, verified in jsdom, in bUnit, and in a real Chromium
+for the canonical Svelte helper. The defect was in the contract, not the
+code. Only the keyboard clause promised the close; the pointer clause
+said "selects and applies", and no catalog except HTML asserted that a
+click closed anything. An untested asymmetry is one refactor from
+becoming real, and the failure it would produce is nasty: a stale
+`aria-expanded="true"` over a hidden list tells assistive technology the
+popup is open while every later click misses the options.
+
+### Changed
+
+- The pointer clause in `theme-picker`, `locale-picker` and
+  `text-size-picker` now reads "clicking an option selects it, applies
+  it, and closes the listbox" in all seven catalogs, matching HTML's
+  wording, which already had it right.
+- Each catalog's pointer-selection test now asserts `aria-expanded` and
+  the list's `hidden` alongside the applied value. Confirmed to bite:
+  deleting the `closeList()` call from `choose()` fails the test in both
+  Svelte and Vue.
+- `AGENTS/helpers.md` states the pointer close in the listbox contract,
+  so a future port cannot read the keyboard rule as the whole story.
+
+Test counts are unchanged (svelte 211, react 267, vue 261, html 294,
+nunjucks 321, angular 290, blazor 203) — existing tests were tightened
+rather than new ones added.
+
+## Idempotent apply in the preference pickers — 2026-07-31
+
+`theme-picker`, `locale-picker` and `text-size-picker` re-ran their
+apply step whenever their framework re-evaluated it, not only when the
+value changed — re-writing the DOM, re-writing `localStorage`, and
+re-firing the consumer's change callback each time. Applying is now a
+no-op for a value already applied, in all four catalogs that reached
+apply more often than the value changed. Diagnosed from a real-browser
+reproduction; each catalog's own tests were confirmed to fail without
+the guard.
+
+### Fixed
+
+- **Svelte (broken).** `applyX()` runs inside `$effect`, so a consumer
+  whose `onChange` writes reactive state re-entered the effect until
+  Svelte abandoned updating the component
+  (`effect_update_depth_exceeded`). The component then froze: internal
+  state kept toggling, the DOM stopped, and `aria-expanded` stayed
+  `true` over a hidden list, so every later click missed the options. A
+  consumer callback as ordinary as `count += 1` was enough.
+- **HTML (broken).** `attributeChangedCallback` fires on every
+  `setAttribute("value", …)`, unchanged value included, so a listener
+  that mirrored the value back onto the element re-entered apply without
+  limit. Disconnecting now clears the record, so a re-connected element
+  applies again.
+- **Nunjucks.** `setTheme` / `setLocale` / `setSize` on the returned
+  controller *are* the apply function, so a consumer mirroring the value
+  back from `onChange` recursed.
+- **React.** Controlled mode applied on selection and again when the
+  consumer wrote the value back: two `onChange` calls, two storage
+  writes and two DOM writes per selection, and the same at mount. It
+  terminated, but did twice the work and broke the documented "once per
+  applied change" contract.
+
+### Verified clean, unchanged
+
+- **Angular** (`effect()` tracks per-signal and the compiler hoists
+  literal array bindings), **Vue** (`watch(current, …)` already carried
+  the change guard) and **Blazor** (apply is imperative, reachable only
+  from `SetXAsync` and first render). `share-picker` and
+  `date-time-picker` apply nothing to the document in any catalog, so
+  neither ever had the defect.
+
+All seven catalogs' suites pass: svelte 211, react 267, vue 261,
+html 294, nunjucks 321, angular 290, blazor 203 — 1847 tests, the
+1835 baseline plus twelve new regression tests, one per fixed package.
+
 ## Sibling-picker accessibility hardening, all seven catalogs — 2026-07-29
 
 An accessibility audit of the four sibling pickers (`theme-picker`,

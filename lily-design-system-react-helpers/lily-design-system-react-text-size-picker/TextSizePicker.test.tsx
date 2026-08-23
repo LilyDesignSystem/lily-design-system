@@ -338,13 +338,20 @@ describe("TextSizePicker — keyboard contract (APG listbox)", () => {
         }
     });
 
-    test("§7.18 clicking an option selects and applies it", async () => {
+    test("§7.18 clicking an option selects it, applies it, and closes the listbox", async () => {
         render(<TextSizePicker label="Text size" sizes={SIZES} />);
         await flush();
         pick("x-large");
         await flush();
         expect(document.documentElement.dataset.textSize).toBe("x-large");
+        // A pointer selection closes, exactly as Enter does. The
+        // asymmetry would be invisible to a consumer reading the DOM: a
+        // stale aria-expanded over a hidden list makes every later click
+        // miss the options.
         expect(getList().hasAttribute("hidden")).toBe(true);
+        expect(screen.getByRole("button").getAttribute("aria-expanded")).toBe(
+            "false",
+        );
     });
 
     test("§7.18 clicking outside closes the listbox without changing the size", async () => {
@@ -631,5 +638,44 @@ describe("TextSizePicker — accessibility hardening (§7.14–§7.17)", () => {
         const { list } = await openPicker([]);
         expect(list.hasAttribute("hidden")).toBe(false);
         expect(list.getAttribute("aria-activedescendant")).toBeNull();
+    });
+});
+
+describe("TextSizePicker — idempotent apply (§7.19)", () => {
+    test("§7.19 controlled mode fires onChange once per changed value", async () => {
+        const calls: string[] = [];
+
+        function Host() {
+            const [value, setValue] = React.useState("medium");
+            return (
+                <TextSizePicker
+                    label="Text size"
+                    sizes={SIZES}
+                    value={value}
+                    onChange={(slug: string) => {
+                        calls.push(slug);
+                        // The canonical controlled wiring: the consumer owns
+                        // `value` and mirrors every change back. Applying is
+                        // idempotent, so the re-render this causes must not
+                        // re-fire onChange.
+                        setValue(slug);
+                    }}
+                />
+            );
+        }
+
+        render(<Host />);
+        await flush();
+        expect(calls).toEqual(["medium"]);
+
+        pick("large");
+        await flush();
+        expect(calls).toEqual(["medium", "large"]);
+        expect(
+            document.documentElement.getAttribute("data-text-size"),
+        ).toBe("large");
+        expect(screen.getByRole("button").getAttribute("aria-expanded")).toBe(
+            "false",
+        );
     });
 });

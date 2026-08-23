@@ -208,7 +208,7 @@ describe("TextSizePicker — application (§7.6–§7.10)", () => {
         expect(document.documentElement.getAttribute("data-text-size")).toBe("medium");
     });
 
-    test("§7.8 selecting an option updates data-text-size and fires onChange", async () => {
+    test("§7.8 selecting an option updates data-text-size, fires onChange, and closes the listbox", async () => {
         const onChange = vi.fn();
         render(TextSizePicker, { props: { label: "Text size", sizes: SIZES, onChange } });
         await flush();
@@ -216,6 +216,18 @@ describe("TextSizePicker — application (§7.6–§7.10)", () => {
         await flush();
         expect(document.documentElement.dataset.textSize).toBe("x-large");
         expect(onChange).toHaveBeenCalledWith("x-large");
+        // A pointer selection closes, exactly as Enter does. The asymmetry
+        // would be invisible to a consumer reading the DOM: a stale
+        // aria-expanded over a hidden list makes every later click miss
+        // the options.
+        expect(screen.getByRole("button").getAttribute("aria-expanded")).toBe(
+            "false",
+        );
+        expect(
+            document
+                .querySelector(".text-size-picker-list")!
+                .hasAttribute("hidden"),
+        ).toBe(true);
     });
 
     test("§7.9 persists to localStorage and reads back on a fresh mount", async () => {
@@ -356,5 +368,31 @@ describe("TextSizePicker — accessibility hardening (§7.14–§7.17)", () => {
         const { list } = await openPicker([]);
         expect(list.hasAttribute("hidden")).toBe(false);
         expect(list.getAttribute("aria-activedescendant")).toBeNull();
+    });
+});
+
+describe("TextSizePicker — idempotent apply (§7.18)", () => {
+    test("§7.18 onChange fires once per changed value, not once per effect run", async () => {
+        const onChange = vi.fn();
+        const { rerender } = render(TextSizePicker, {
+            props: { label: "Text size", sizes: SIZES, onChange },
+        });
+        await flush();
+        expect(onChange).toHaveBeenCalledTimes(1);
+        expect(onChange).toHaveBeenLastCalledWith("medium");
+
+        await pick("large");
+        await flush();
+        expect(onChange).toHaveBeenCalledTimes(2);
+        expect(onChange).toHaveBeenLastCalledWith("large");
+
+        // A prop change re-runs the apply effect. Re-applying the same
+        // size must not re-fire onChange: a consumer callback that writes
+        // reactive state would re-enter the effect until Svelte gives up
+        // updating the component (effect_update_depth_exceeded) and the
+        // listbox freezes.
+        await rerender({ storageKey: "lily-text-size-later" });
+        await flush();
+        expect(onChange).toHaveBeenCalledTimes(2);
     });
 });

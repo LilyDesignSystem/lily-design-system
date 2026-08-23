@@ -403,6 +403,14 @@ Applying a theme `slug` performs, in order:
    try/catch (so private-mode / quota errors are silently swallowed).
 5. Dispatch `themechange` `CustomEvent` with `detail: { theme: slug }`.
 
+Applying is **idempotent**: a theme already applied is a no-op, so none
+of the steps above repeat and no `themechange` event is dispatched.
+`attributeChangedCallback` fires on every `setAttribute("value", …)`,
+unchanged value included, so without this a consumer whose listener
+mirrors the value back onto the element re-enters apply forever.
+Disconnecting clears the record, so a re-connected element applies
+again.
+
 ### 5.4 Reactivity
 
 Setting `el.value`, mutating the `value` attribute, or choosing an
@@ -661,6 +669,11 @@ Clause numbers mirror the canonical Svelte spec's §7.21–§7.24.
     from the active option.
 23. `PageUp` / `PageDown` move the cursor by ten, clamped.
 24. An empty list opens without `aria-activedescendant`.
+
+### Idempotent apply
+
+25. A listener that mirrors the value back onto the element does
+    not re-enter apply: the event fires once per changed value.
 
 ## 8. Out-of-scope (future, not implemented here)
 

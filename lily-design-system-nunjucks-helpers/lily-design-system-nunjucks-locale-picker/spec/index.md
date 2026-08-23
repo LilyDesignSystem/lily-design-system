@@ -260,7 +260,7 @@ must not supply the accessible name — that stays on `aria-label`.
 
 Optional `opts`:
 
-- `onChange(code)` — fired after every apply; receives the
+- `onChange(code)` — fired once per applied change; receives the
   consumer-form code.
 - `target` — element receiving `lang` and `dir` (defaults to
   `document.documentElement`).
@@ -354,6 +354,12 @@ Applying a locale `code` performs, in order:
    `"true"`.
 6. Call `opts.onChange?.(code)` if supplied (consumer-form code).
 
+Applying is **idempotent**: a locale already applied is a no-op, so none
+of the steps above repeat and `onChange` does not re-fire. `setLocale` on
+the returned controller *is* this function, so without the guard a
+consumer that mirrors the value back from `onChange` re-enters it
+forever.
+
 The client.js attaches listeners for `click` and `keydown` on the
 button, `click` and `keydown` on the listbox, `focusout` on the root,
 and `click` on `document` (for click-outside dismissal). Choosing an
@@ -401,7 +407,8 @@ On the **listbox**:
 | `Tab`                   | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position rather than from `<body>`. |
 | Printable character     | APG typeahead over the option labels: a single character advances to the NEXT option starting with it, and repeating that character keeps cycling through its matches; only a buffer of differing characters refines the match, anchored at the active option. The buffer resets 500 ms after the last keystroke. Chords with Ctrl / Meta / Alt are ignored. |
 
-Pointer behaviour: clicking an option selects it; clicking the button
+Pointer behaviour: clicking an option selects it, applies it, and closes the listbox — the same close
+`Enter` performs; clicking the button
 toggles; clicking outside the root closes; focus leaving the root
 closes.
 
@@ -601,6 +608,8 @@ Ported from the canonical Svelte spec's §7.28–§7.32.
     active option.
 39. `PageUp` / `PageDown` move the cursor by ten, clamped.
 40. An empty list opens without `aria-activedescendant`.
+41. An `onChange` that mirrors the value back through `setLocale`
+    does not re-enter apply: it fires once per changed value.
 
 ## 8. Out-of-scope (future)
 

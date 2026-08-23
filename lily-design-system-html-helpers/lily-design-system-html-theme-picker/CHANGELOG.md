@@ -9,6 +9,30 @@ First published release. Nothing earlier shipped, so the
 accessibility hardening completed after the initial entry below is
 part of 0.1.0 rather than a later version.
 
+### Pointer-selection close audited (2026-07-31)
+
+#### Unchanged
+
+- The pointer-selection contract was audited across all seven catalogs
+  after a report that a selection might leave the listbox open. This
+  catalog already specified *and* asserted the close (`§7.4` — "clicking
+  an option selects it, applies it, and closes the listbox", with both
+  `hidden` and `aria-expanded` checked), so it needed no change; the
+  other six were brought up to it.
+
+### Idempotent apply (2026-07-31)
+
+#### Fixed
+
+- **Applying the same theme twice is now a no-op**, so `themechange` fires
+  once per changed value rather than once per apply.
+  `attributeChangedCallback` runs on every `setAttribute("value", …)` —
+  unchanged value included — so a listener that mirrored the value back
+  onto the element re-entered apply without limit, re-writing the DOM and
+  re-dispatching until the stack blew. Disconnecting clears the record,
+  so a re-connected element applies again. Ported from the canonical
+  Svelte helper, which had the same defect through its reactive effect.
+
 ### Accessibility hardening (2026-07-29/30)
 
 #### Changed

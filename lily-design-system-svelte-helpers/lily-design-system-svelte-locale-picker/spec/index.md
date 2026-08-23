@@ -317,6 +317,14 @@ Applying a locale `code` performs, in order:
 5. Call `onChange(code)` if supplied. The argument is the original
    consumer-form code, not the BCP 47-normalised tag.
 
+Applying is **idempotent**: a code already applied is a no-op, so none
+of the five steps repeat and `onChange` does not re-fire. The effect in
+§5.7 can run for reasons other than a locale change, and a consumer
+whose `onChange` writes reactive state would otherwise re-enter it until
+Svelte abandons updating the component
+(`effect_update_depth_exceeded`), freezing the listbox mid-open with a
+stale `aria-expanded`.
+
 ### 5.6 RTL detection
 
 `isRtlLocale(locale)` returns `true` when:
@@ -433,8 +441,11 @@ label's language is unknown, and the English fallback is English, so
 those options carry no `lang` — the English word "Arabic" must never
 be handed to an Arabic speech engine.
 
-Pointer behaviour: clicking an option selects and applies it; clicking
-outside the root closes the listbox; focus leaving the root closes it.
+Pointer behaviour: clicking an option selects it, applies it, **and
+closes the listbox** — the same close the keyboard's `Enter` performs,
+stated explicitly because a pointer path that selected without closing
+would leave `aria-expanded="true"` over a hidden list; clicking outside
+the root closes the listbox; focus leaving the root closes it.
 
 ### 6.3 Internationalisation
 
@@ -578,7 +589,7 @@ cases (exact match wins, language-only fallback, empty when no match).
 | §7.26  | `Enter` selects the active option, applies it, closes the listbox, and clears `aria-expanded`.   |
 | §7.26  | `Escape` closes without changing the locale.                                                     |
 | §7.27  | A printable character runs typeahead over the labels and moves `aria-activedescendant`.          |
-| §7.27  | Clicking an option selects and applies it, including `dir="rtl"` for an RTL locale.              |
+| §7.27  | Clicking an option selects it, applies it (including `dir="rtl"` for an RTL locale), and closes the listbox (`aria-expanded="false"`, list `hidden`).              |
 
 ### Accessibility hardening
 

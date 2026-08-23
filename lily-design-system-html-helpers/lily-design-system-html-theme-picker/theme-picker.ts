@@ -350,6 +350,9 @@ export class ThemePicker extends HTMLElement {
   disconnectedCallback(): void {
     document.removeEventListener("click", this.#onDocumentClick);
     clearTimeout(this.#typeaheadTimer);
+    // Disconnecting can remove the managed <link> below, so forget what
+    // was applied: a re-connected element must apply again.
+    this.#appliedValue = "";
     // If no other <theme-picker> with the same name remains in the
     // document, garbage-collect the managed <link>.
     const sameName = document.querySelectorAll(
@@ -405,8 +408,17 @@ export class ThemePicker extends HTMLElement {
     return link;
   }
 
+  // The theme the DOM currently carries. Applying is idempotent: a
+  // theme already applied is a no-op. `attributeChangedCallback` fires
+  // on every `setAttribute("value", …)`, unchanged value included, so
+  // without this a consumer whose `themechange` listener mirrors the value
+  // back onto the element re-enters apply forever.
+  #appliedValue = "";
+
   #applyTheme(slug: string): void {
     if (typeof document === "undefined" || !slug) return;
+    if (slug === this.#appliedValue) return;
+    this.#appliedValue = slug;
     this.#getManagedLink().href = themeHref(
       this.themesUrl,
       slug,

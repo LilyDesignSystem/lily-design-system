@@ -633,3 +633,36 @@ describe("<text-size-picker> — accessibility hardening (§7.20–§7.23; canon
     expect(listEl.getAttribute("aria-activedescendant")).toBeNull();
   });
 });
+
+describe("TextSizePicker — idempotent apply (§7.24)", () => {
+    test("§7.24 a listener that mirrors the value back does not re-enter apply", async () => {
+        // Built by hand, not via mount(): the listener has to be attached
+        // before the element connects, because connecting applies the
+        // initial size.
+        const el = document.createElement("text-size-picker") as TextSizePicker;
+        el.setAttribute("label", "Text size");
+        el.setAttribute("sizes", SIZES.join(","));
+        let calls = 0;
+        el.addEventListener("textsizechange", (event) => {
+            calls += 1;
+            if (calls > 50) return; // stop a runaway before the stack blows
+            // The natural consumer reflex: keep app state and the element
+            // in step. `setAttribute` fires attributeChangedCallback even
+            // when the value is unchanged, so without the guard this
+            // recurses forever.
+            el.setAttribute("value", (event as CustomEvent).detail.size);
+        });
+        document.body.appendChild(el);
+        await flush();
+        expect(calls).toBe(1);
+
+        pick("large");
+        await flush();
+        expect(calls).toBe(2);
+        expect(el.getAttribute("value")).toBe("large");
+        expect(button().getAttribute("aria-expanded")).toBe("false");
+        expect(list().hasAttribute("hidden")).toBe(true);
+
+        el.remove();
+    });
+});

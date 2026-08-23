@@ -287,7 +287,7 @@ describe("ThemePicker — dynamic loading (§5, §7.6–§7.11)", () => {
     expect(link!.href.endsWith("/assets/themes/light.css")).toBe(true);
   });
 
-  test("§7.8 selecting an option updates href, data-theme, and fires onChange", async () => {
+  test("§7.8 selecting an option updates href, data-theme, fires onChange, and closes the listbox", async () => {
     const onChange = vi.fn();
     render(ThemePicker, {
       props: {
@@ -305,6 +305,16 @@ describe("ThemePicker — dynamic loading (§5, §7.6–§7.11)", () => {
       true,
     );
     expect(onChange).toHaveBeenCalledWith("abyss");
+    // A pointer selection closes, exactly as Enter does (§7.16). The
+    // asymmetry would be invisible to a consumer reading the DOM: a
+    // stale aria-expanded over a hidden list makes every later click
+    // miss the options.
+    expect(screen.getByRole("button").getAttribute("aria-expanded")).toBe(
+      "false",
+    );
+    expect(
+      document.querySelector(".theme-picker-list")!.hasAttribute("hidden"),
+    ).toBe(true);
   });
 
   test("§7.9 persists to localStorage and reads back on fresh mount", async () => {
@@ -582,5 +592,35 @@ describe("ThemePicker — accessibility hardening (§7.21–§7.24)", () => {
     const { list } = await openPicker([]);
     expect(list.hasAttribute("hidden")).toBe(false);
     expect(list.getAttribute("aria-activedescendant")).toBeNull();
+  });
+});
+
+describe("ThemePicker — idempotent apply (§7.25)", () => {
+  test("§7.25 onChange fires once per changed value, not once per effect run", async () => {
+    const onChange = vi.fn();
+    const { rerender } = render(ThemePicker, {
+      props: {
+        label: "Theme",
+        themesUrl: URL_TRAILING,
+        themes: THEMES,
+        onChange,
+      },
+    });
+    await flush();
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenLastCalledWith("light");
+
+    await pick("abyss");
+    await flush();
+    expect(onChange).toHaveBeenCalledTimes(2);
+    expect(onChange).toHaveBeenLastCalledWith("abyss");
+
+    // A prop change re-runs the apply effect. Re-applying the same theme
+    // must not re-fire onChange: a consumer callback that writes reactive
+    // state would re-enter the effect until Svelte gives up updating the
+    // component (effect_update_depth_exceeded) and the listbox freezes.
+    await rerender({ themesUrl: "/other/themes/" });
+    await flush();
+    expect(onChange).toHaveBeenCalledTimes(2);
   });
 });

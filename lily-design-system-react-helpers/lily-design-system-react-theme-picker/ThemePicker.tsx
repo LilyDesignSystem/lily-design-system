@@ -191,8 +191,17 @@ export function ThemePicker({
     return link;
   }
 
+  // The theme the DOM currently carries. Applying is idempotent: in
+  // controlled mode `setTheme` applies straight away and the consumer's
+  // `onChange` writes the value back, which re-runs the apply effect —
+  // without this, every selection fired `onChange` (and rewrote storage)
+  // twice.
+  const appliedRef = React.useRef("");
+
   function applyTheme(slug: string): void {
     if (typeof document === "undefined" || !slug) return;
+    if (slug === appliedRef.current) return;
+    appliedRef.current = slug;
     getManagedLink().href = themeHref(themesUrl, slug, extension);
     (target ?? document.documentElement).setAttribute("data-theme", slug);
     if (storageKey) {

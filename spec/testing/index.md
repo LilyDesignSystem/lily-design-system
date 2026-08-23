@@ -13,6 +13,8 @@ Covers test coverage across all fourteen subprojects: per-framework headless uni
 - **Every component is covered in every subproject.** Each headless library's unit suite and each example app's e2e suite reach all 490 catalog components.
 - **Tests assert semantics, not pixels.** Headless suites check the rendered DOM and ARIA attributes (label, role, `aria-expanded`, `aria-pressed`, `aria-valuenow`, etc.) — never colour or layout, which belong to the [examples](../examples/index.md) layer.
 - **Accessibility is gated, not aspirational.** axe-core runs via Playwright against each example app's full route baseline; the rule set is WCAG 2.0 A+AA, 2.1 A+AA, 2.2 AA. WCAG 2.2 AAA remains the [accessibility](../accessibility/index.md) target.
+- **A green suite is not evidence for the helper pickers.** Two defect classes in the `*-helpers` catalogs were invisible to every unit suite. Re-entrant apply (a consumer's change callback writing reactive state, looping back into the apply effect until Svelte gave up updating the component) needs a real consumer to trigger, so jsdom never saw it; the picker froze mid-open with a stale `aria-expanded` over a hidden list. And an unasserted contract — the pointer selection's close — was correct in all seven catalogs while nothing tested it. When changing a picker, drive it in a real browser and assert the DOM state after the interaction, not just the value it produced.
+- **Assert what the interaction leaves behind, not only what it sets.** A selection test that checks the applied value and stops will pass over a listbox that never closed. Check `aria-expanded`, `hidden`, and where focus went.
 - **Numbers are spec-sourced and evolve.** The counts in the tables below come from `spec/index.md`; verify against the live suites before relying on an exact figure.
 
 ## Per-framework headless unit suites
@@ -86,6 +88,7 @@ The sweep is ported to all six example apps with route paths adjusted per app (e
 - [ ] axe-core runs against every example app and hits its full route baseline clean (29/29, or 17/17 for nunjucks-eleventy).
 - [ ] The responsive viewport sweep runs on all six example apps across the four viewport sizes.
 - [ ] `bin/test` passes for required-file coverage across repo, components, and subprojects.
+- [x] Helper-picker interaction contracts are asserted end-to-end, not implied: every pointer selection test checks `aria-expanded` and the list's `hidden`, and the apply path is asserted to fire its change callback once per applied change.
 
 ## Related topics
 - [accessibility](../accessibility/index.md) — the WCAG 2.2 AAA target and ARIA patterns these suites assert.

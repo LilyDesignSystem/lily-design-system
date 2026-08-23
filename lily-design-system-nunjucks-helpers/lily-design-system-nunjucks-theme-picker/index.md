@@ -338,7 +338,7 @@ import {
 
 Optional `opts`:
 
-- `onChange(slug)` — fired after every apply.
+- `onChange(slug)` — fired once per applied change.
 - `target` — `HTMLElement` receiving `data-theme` (defaults to
   `<html>`).
 

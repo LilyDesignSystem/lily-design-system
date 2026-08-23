@@ -944,3 +944,36 @@ describe("<theme-picker> — accessibility hardening (§7.21–§7.24)", () => {
     expect(listEl.getAttribute("aria-activedescendant")).toBeNull();
   });
 });
+
+describe("ThemePicker — idempotent apply (§7.25)", () => {
+  test("§7.25 a listener that mirrors the value back does not re-enter apply", async () => {
+    // Built by hand, not via mount(): the listener has to be attached
+    // before the element connects, because connecting applies the
+    // initial theme.
+    const el = document.createElement("theme-picker") as ThemePicker;
+    el.setAttribute("label", "Theme");
+    el.setAttribute("themes-url", URL_TRAILING);
+    el.setAttribute("themes", THEMES.join(","));
+    let calls = 0;
+    el.addEventListener("themechange", (event) => {
+      calls += 1;
+      if (calls > 50) return; // stop a runaway before the stack blows
+      // The natural consumer reflex: keep app state and the element in
+      // step. `setAttribute` fires attributeChangedCallback even when the
+      // value is unchanged, so without the guard this recurses forever.
+      el.setAttribute("value", (event as CustomEvent).detail.theme);
+    });
+    document.body.appendChild(el);
+    await flush();
+    expect(calls).toBe(1);
+
+    pick("abyss");
+    await flush();
+    expect(calls).toBe(2);
+    expect(el.getAttribute("value")).toBe("abyss");
+    expect(button().getAttribute("aria-expanded")).toBe("false");
+    expect(list().hasAttribute("hidden")).toBe(true);
+
+    el.remove();
+  });
+});

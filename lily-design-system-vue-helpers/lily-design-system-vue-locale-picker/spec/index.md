@@ -397,7 +397,8 @@ Typeahead matches the _label_, and default labels are **endonyms**
 still reaches it. Choose labels with the typeahead in mind for long
 locale lists.
 
-Pointer and focus behaviour: clicking an option selects it; clicking
+Pointer and focus behaviour: clicking an option selects it, applies it, and closes the listbox
+— the same close `Enter` performs; clicking
 outside the root closes the listbox; focus leaving the root closes it.
 
 ### 6.3 Internationalisation

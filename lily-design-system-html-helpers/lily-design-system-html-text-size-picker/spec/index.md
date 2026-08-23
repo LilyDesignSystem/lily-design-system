@@ -335,6 +335,14 @@ Applying a slug performs, in order:
    try/catch.
 4. Dispatch `textsizechange` `CustomEvent` with `detail: { size: slug }`.
 
+Applying is **idempotent**: a size already applied is a no-op, so none
+of the steps above repeat and no `textsizechange` event is dispatched.
+`attributeChangedCallback` fires on every `setAttribute("value", …)`,
+unchanged value included, so without this a consumer whose listener
+mirrors the value back onto the element re-enters apply forever.
+Disconnecting clears the record, so a re-connected element applies
+again.
+
 ### 5.4 Reactivity
 
 Setting `el.value`, mutating the `value` attribute, or choosing an
@@ -590,6 +598,11 @@ above, so they continue the local sequence instead.
     from the active option.
 22. `PageUp` / `PageDown` move the cursor by ten, clamped.
 23. An empty list opens without `aria-activedescendant`.
+
+### Idempotent apply
+
+24. A listener that mirrors the value back onto the element does
+    not re-enter apply: the event fires once per changed value.
 
 ## 8. Out-of-scope (future, not implemented here)
 

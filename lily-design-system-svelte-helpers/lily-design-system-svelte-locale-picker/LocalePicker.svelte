@@ -218,8 +218,19 @@
         return localeEndonym(locale) ? bcp47LocaleTag(locale) : undefined;
     }
 
+    // The code the DOM currently carries. Applying is idempotent: the
+    // effect below can run for reasons other than a locale change, and
+    // re-applying would re-fire `onChange`. A consumer whose onChange
+    // writes reactive state then re-enters this effect, and Svelte stops
+    // updating the component altogether (effect_update_depth_exceeded) —
+    // the listbox freezes mid-open with a stale aria-expanded. Guarding
+    // here also matches the spec: other prop changes are not retroactive.
+    let appliedValue = "";
+
     function applyLocale(code: string): void {
         if (typeof document === "undefined" || !code) return;
+        if (code === appliedValue) return;
+        appliedValue = code;
         const root = target ?? document.documentElement;
         root.setAttribute("lang", bcp47LocaleTag(code));
         if (applyDir) {

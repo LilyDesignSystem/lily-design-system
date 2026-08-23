@@ -459,12 +459,17 @@ describe("LocalePicker — keyboard contract (APG listbox, §7.24–§7.27)", ()
     }
   });
 
-  test("§7.27 clicking an option selects and applies it", async () => {
+  test("§7.27 clicking an option selects it, applies it, and closes the listbox", async () => {
     const fixture = await mountSettled();
     await pick(fixture, "ar");
     expect(document.documentElement.getAttribute("lang")).toBe("ar");
     expect(document.documentElement.getAttribute("dir")).toBe("rtl");
+    // A pointer selection closes, exactly as Enter does. The asymmetry
+    // would be invisible to a consumer reading the DOM: a stale
+    // aria-expanded over a hidden list makes every later click miss the
+    // options.
     expect(list(fixture).hasAttribute("hidden")).toBe(true);
+    expect(button(fixture).getAttribute("aria-expanded")).toBe("false");
   });
 
   test("§7.27 clicking outside the root closes the listbox", async () => {

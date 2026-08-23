@@ -451,13 +451,18 @@ describe("LocalePicker — keyboard contract (APG listbox, §7.31–§7.35)", ()
     expect(list.getAttribute("aria-activedescendant")).toBe(options[0].id);
   });
 
-  test("§7.35 clicking an option selects and applies it", () => {
+  test("§7.35 clicking an option selects it, applies it, and closes the listbox", () => {
     const { button, list, options } = setup();
     click(button);
     click(options[4]);
     expect(document.documentElement.lang).toBe("ar");
     expect(document.documentElement.dir).toBe("rtl");
+    // A pointer selection closes, exactly as Enter does. The asymmetry
+    // would be invisible to a consumer reading the DOM: a stale
+    // aria-expanded over a hidden list makes every later click miss the
+    // options.
     expect(list.hasAttribute("hidden")).toBe(true);
+    expect(button.getAttribute("aria-expanded")).toBe("false");
   });
 
   test("§7.35 clicking the button toggles the listbox shut again", () => {
@@ -846,5 +851,32 @@ describe("LocalePicker — accessibility hardening (§7.36–§7.40; canonical S
     const { list } = openPicker([]);
     expect(list.hasAttribute("hidden")).toBe(false);
     expect(list.getAttribute("aria-activedescendant")).toBeNull();
+  });
+});
+
+describe("initLocalePicker — idempotent apply (§7.41)", () => {
+  test("§7.41 an onChange that mirrors the value back does not re-enter apply", () => {
+    const calls: string[] = [];
+    let controller: { setLocale: (code: string) => void } | undefined;
+    const parts = setup(
+      {},
+      {
+        onChange: (code: string) => {
+          calls.push(code);
+          if (calls.length > 50) return; // stop a runaway
+          // `setLocale` is `applyLocale`, so mirroring the value back here
+          // re-enters it; the guard is what terminates that.
+          controller?.setLocale(code);
+        },
+      },
+    );
+    controller = parts.controller;
+    expect(calls).toEqual(["en"]);
+
+    click(parts.button);
+    click(parts.options[LOCALES.indexOf("fr")]);
+    expect(calls).toEqual(["en", "fr"]);
+    expect(parts.button.getAttribute("aria-expanded")).toBe("false");
+    expect(parts.list.hasAttribute("hidden")).toBe(true);
   });
 });

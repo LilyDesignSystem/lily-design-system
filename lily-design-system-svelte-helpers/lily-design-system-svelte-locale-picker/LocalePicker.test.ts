@@ -273,7 +273,7 @@ describe("LocalePicker — keyboard contract (APG listbox, §7.6)", () => {
         expect(list.getAttribute("aria-activedescendant")).toBe(list.children[2].id);
     });
 
-    test("§7.27 clicking an option selects and applies it", async () => {
+    test("§7.27 clicking an option selects it, applies it, and closes the listbox", async () => {
         render(LocalePicker, { props: { label: "Language", locales: LOCALES } });
         await flush();
         await fireEvent.click(screen.getByRole("button"));
@@ -282,6 +282,16 @@ describe("LocalePicker — keyboard contract (APG listbox, §7.6)", () => {
         await flush();
         expect(document.documentElement.getAttribute("lang")).toBe("ar");
         expect(document.documentElement.getAttribute("dir")).toBe("rtl");
+        // A pointer selection closes, exactly as Enter does (§7.26). The
+        // asymmetry would be invisible to a consumer reading the DOM: a
+        // stale aria-expanded over a hidden list makes every later click
+        // miss the options.
+        expect(screen.getByRole("button").getAttribute("aria-expanded")).toBe(
+            "false",
+        );
+        expect(
+            document.querySelector(".locale-picker-list")!.hasAttribute("hidden"),
+        ).toBe(true);
     });
 });
 
@@ -599,5 +609,31 @@ describe("LocalePicker — accessibility hardening (§7.28–§7.32)", () => {
         const { list } = await openPicker([]);
         expect(list.hasAttribute("hidden")).toBe(false);
         expect(list.getAttribute("aria-activedescendant")).toBeNull();
+    });
+});
+
+describe("LocalePicker — idempotent apply (§7.33)", () => {
+    test("§7.33 onChange fires once per changed value, not once per effect run", async () => {
+        const onChange = vi.fn();
+        const { rerender } = render(LocalePicker, {
+            props: { label: "Language", locales: LOCALES, onChange },
+        });
+        await flush();
+        expect(onChange).toHaveBeenCalledTimes(1);
+        expect(onChange).toHaveBeenLastCalledWith("en");
+
+        await pick("fr");
+        await flush();
+        expect(onChange).toHaveBeenCalledTimes(2);
+        expect(onChange).toHaveBeenLastCalledWith("fr");
+
+        // A prop change re-runs the apply effect. Re-applying the same
+        // locale must not re-fire onChange: a consumer callback that
+        // writes reactive state would re-enter the effect until Svelte
+        // gives up updating the component
+        // (effect_update_depth_exceeded) and the listbox freezes.
+        await rerender({ storageKey: "lily-locale-later" });
+        await flush();
+        expect(onChange).toHaveBeenCalledTimes(2);
     });
 });

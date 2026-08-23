@@ -414,11 +414,16 @@ describe("TextSizePicker — keyboard contract (APG listbox, §7.18–§7.22)", 
     }
   });
 
-  test("§7.22 clicking an option selects and applies it", async () => {
+  test("§7.22 clicking an option selects it, applies it, and closes the listbox", async () => {
     const fixture = await mountSettled();
     await pick(fixture, "x-large");
     expect(document.documentElement.dataset["textSize"]).toBe("x-large");
+    // A pointer selection closes, exactly as Enter does. The asymmetry
+    // would be invisible to a consumer reading the DOM: a stale
+    // aria-expanded over a hidden list makes every later click miss the
+    // options.
     expect(list(fixture).hasAttribute("hidden")).toBe(true);
+    expect(button(fixture).getAttribute("aria-expanded")).toBe("false");
   });
 
   test("§7.22 clicking outside the root closes the listbox", async () => {

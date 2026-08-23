@@ -192,6 +192,12 @@ Applying a size `slug` performs, in order:
    try/catch (so private-mode / quota errors are silently swallowed).
 3. Call `onChange(slug)` if supplied.
 
+Applying is **idempotent**: a size already applied is a no-op, so none
+of the steps above repeat and `onChange` does not re-fire. In controlled
+mode `setSize` applies straight away and the consumer's `onChange`
+writes the value back, which re-runs the apply effect — without the
+guard every selection fired `onChange` (and rewrote storage) twice.
+
 ### 5.3 Open / close lifecycle
 
 - Opening sets the active option to the currently-selected size, or to
@@ -267,7 +273,8 @@ On the **listbox**:
 | `Tab`                   | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position. Hiding the focused list first would drop focus to `<body>` and restart Tab from the top of the document. |
 | Printable character     | Typeahead over the option **labels**; the buffer resets after 500 ms of inactivity. A single character advances to the **next** match and repeating it cycles onward; a buffer of differing characters refines the match from the active option. Search wraps once. |
 
-Pointer behaviour: clicking an option selects it; clicking the button
+Pointer behaviour: clicking an option selects it, applies it, and closes the listbox — the same close
+`Enter` performs; clicking the button
 again closes the listbox; clicking outside the root closes it; focus
 leaving the root closes it. None of the close-only paths change the
 value.
@@ -367,6 +374,11 @@ plus a test that the component's default option text equals it.
   a multi-character buffer refines from the active option.
 - §7.16 `PageUp` / `PageDown` move the cursor by ten, clamped.
 - §7.17 An empty list opens without `aria-activedescendant`.
+
+### Idempotent apply
+
+- §7.19 Controlled mode fires `onChange` once per changed value:
+  the consumer writing the value back does not re-fire it.
 
 ## 8. Out-of-scope (future, not implemented here)
 

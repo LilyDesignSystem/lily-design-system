@@ -257,7 +257,7 @@ import {
 
 Optional `opts`:
 
-- `onChange(size)` — fired after every apply; receives the slug.
+- `onChange(size)` — fired once per applied change; receives the slug.
 - `target` — element receiving `data-text-size` (defaults to
   `<html>`).
 

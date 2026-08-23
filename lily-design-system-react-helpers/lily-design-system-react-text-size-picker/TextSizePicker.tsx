@@ -144,8 +144,17 @@ export function TextSizePicker({
         return sizeName(size);
     }
 
+    // The size the DOM currently carries. Applying is idempotent: in
+    // controlled mode `setSize` applies straight away and the consumer's
+    // `onChange` writes the value back, which re-runs the apply effect —
+    // without this, every selection fired `onChange` (and rewrote storage)
+    // twice.
+    const appliedRef = React.useRef("");
+
     function applySize(slug: string): void {
         if (typeof document === "undefined" || !slug) return;
+        if (slug === appliedRef.current) return;
+        appliedRef.current = slug;
         (target ?? document.documentElement).setAttribute(
             "data-text-size",
             slug,
