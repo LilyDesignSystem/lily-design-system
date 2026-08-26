@@ -1,3 +1,4 @@
+{% from "lily-design-system-nunjucks-theme-picker/theme-picker.njk" import themePicker %}
 <header class="site-header" role="banner">
   <div class="width-container site-header-inner">
     <a class="site-header-logo" href="/" aria-label="{{ site.name }} home">
@@ -11,5 +12,35 @@
         {% endfor %}
       </ul>
     </nav>
+    {{ themePicker({
+      label: "Choose a theme",
+      themesUrl: "/themes/",
+      themes: [
+        "united-kingdom-national-health-service-england-for-patients",
+        "united-kingdom-national-health-service-england-for-practitioners",
+        "united-kingdom-national-health-service-scotland-for-patients",
+        "united-kingdom-national-health-service-wales-for-patients",
+        "united-kingdom-government-digital-service",
+        "united-states-web-design-system",
+        "adobe-spectrum",
+        "mozilla-protocol",
+        "light",
+        "dark"
+      ],
+      themeLabels: {
+        "united-kingdom-national-health-service-england-for-patients": "NHS England (patients)",
+        "united-kingdom-national-health-service-england-for-practitioners": "NHS England (practitioners)",
+        "united-kingdom-national-health-service-scotland-for-patients": "NHS Scotland (patients)",
+        "united-kingdom-national-health-service-wales-for-patients": "NHS Wales (patients)",
+        "united-kingdom-government-digital-service": "GOV.UK GDS",
+        "united-states-web-design-system": "USWDS",
+        "adobe-spectrum": "Adobe Spectrum",
+        "mozilla-protocol": "Mozilla Protocol",
+        light: "Light",
+        dark: "Dark"
+      },
+      defaultValue: "united-kingdom-national-health-service-england-for-patients",
+      storageKey: "lily-theme"
+    }) }}
   </div>
 </header>

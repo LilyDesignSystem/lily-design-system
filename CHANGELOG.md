@@ -9,6 +9,16 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Themes live in the Eleventy app — 2026-08-26
+
+The cleanest port of the six ([plan.md](plan.md) P3-T2): the nunjucks
+catalog's macro + client-runtime split fits Eleventy natively. The
+helpers catalog joins the nunjucks loader path, the header partial
+calls `themePicker(...)` with the curated list, the client runtime is
+passthrough-copied from the helpers catalog (single source, no vendored
+drift), and the base layout carries the pre-paint script. 60/60 —
+theme switching, axe, and responsive all green on the first run.
+
 ## HTML pickers were pointer-broken; themes live in the HTML app — 2026-08-26
 
 Porting the theme switcher to the vanilla HTML example app

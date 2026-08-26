@@ -8,6 +8,11 @@ const headlessRoot = path.resolve(
   "..",
   "lily-design-system-nunjucks-headless",
 );
+const helpersRoot = path.resolve(
+  projectRoot,
+  "..",
+  "lily-design-system-nunjucks-helpers",
+);
 
 export default function (eleventyConfig) {
   const env = new nunjucks.Environment(
@@ -15,6 +20,7 @@ export default function (eleventyConfig) {
       path.join(projectRoot, "src"),
       path.join(projectRoot, "src", "_includes"),
       headlessRoot,
+      helpersRoot,
     ]),
     {
       autoescape: true,
@@ -27,6 +33,13 @@ export default function (eleventyConfig) {
   eleventyConfig.setLibrary("njk", env);
 
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
+  // The 45 reference themes (synced from the repo root by bin/sync) and
+  // the theme-picker client runtime, vendored from the helpers catalog.
+  eleventyConfig.addPassthroughCopy({ "src/themes": "themes" });
+  eleventyConfig.addPassthroughCopy({
+    "../lily-design-system-nunjucks-helpers/lily-design-system-nunjucks-theme-picker/theme-picker.client.js":
+      "assets/js/theme-picker.client.js",
+  });
 
   eleventyConfig.addFilter("kebabToCamel", (s) =>
     s.replace(/-([a-z0-9])/g, (_, c) => c.toUpperCase()),
