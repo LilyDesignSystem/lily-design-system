@@ -2,7 +2,7 @@
 
 > Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
-**Summary.** Lily™ implements one canonical 490-component catalog across seven framework pairs — a headless library plus a styled example app per framework — so the same semantic, accessible markup is expressed in each framework's native idiom. This topic maps the pairs, their stacks, and their per-framework component file shapes.
+**Summary.** Lily™ implements one canonical 491-component catalog across seven framework pairs — a headless library plus a styled example app per framework — so the same semantic, accessible markup is expressed in each framework's native idiom. This topic maps the pairs, their stacks, and their per-framework component file shapes.
 
 ## Scope
 
@@ -12,7 +12,7 @@ It does **not** cover: the binding markup/ARIA rules every framework obeys (see 
 
 ## Principles and rules
 
-- **One catalog, seven idioms.** Every framework implements the same 490 components with the same kebab-case base classes and the same semantic HTML; only the language and file shape differ.
+- **One catalog, seven idioms.** Every framework implements the same 491 components with the same kebab-case base classes and the same semantic HTML; only the language and file shape differ.
 - **Headless libraries ship components only.** They do not depend on their sibling app framework — e.g. svelte-headless does not depend on SvelteKit; angular-headless ships standalone components, not an Analog app.
 - **Example apps consume by copy.** Each example app copies the headless components into its own source tree rather than taking an npm/NuGet dependency, so the demos always track the in-repo headless source.
 - **Framework idioms, not framework lock-in.** Rest-props spread, two-way binding, and slots/children each use the framework's native mechanism (see [headless](../headless/index.md) for the rest-props table).
@@ -77,7 +77,7 @@ Every library renders the same semantic element with the same kebab-case base cl
 
 ## Acceptance criteria
 
-- [ ] All 7 headless subprojects exist and implement all 490 canonical components (spec §11.2, §11.4).
+- [ ] All 7 headless subprojects exist and implement all 491 canonical components (spec §11.2, §11.4).
 - [ ] All 7 example subprojects exist and consume the headless components via the copy-pattern (spec §11.2).
 - [ ] Each headless library expresses components in its native file shape (`.svelte`, `.tsx`, `.vue`, `.component.ts`, `.razor`, `macro.njk`, web components) with the canonical kebab-case base class.
 - [ ] Each example app ships the three required routes and renders the real copied component on `/components/{slug}` (see [examples](../examples/index.md)).
@@ -88,7 +88,7 @@ Every library renders the same semantic element with the same kebab-case base cl
 ## Related topics
 
 - [headless](../headless/index.md) — the markup/ARIA rules every framework obeys, including the rest-props mechanism table
-- [components](../components/index.md) — the canonical 490-component catalog and suffix-to-element mapping each framework implements
+- [components](../components/index.md) — the canonical 491-component catalog and suffix-to-element mapping each framework implements
 - [examples](../examples/index.md) — the styled reference apps, required routes, and copy-pattern target
 - [testing](../testing/index.md) — per-framework vitest / bUnit / Playwright / Storybook coverage
 - [helpers](../helpers/index.md) — the reusable helper packages shipped per framework alongside the headless libraries

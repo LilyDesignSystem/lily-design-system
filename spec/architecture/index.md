@@ -2,7 +2,7 @@
 
 > Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
-**Summary.** Lily™ is a monorepo holding a canonical 490-component catalog plus 14 implementation subprojects (7 headless libraries + 7 example apps) and 7 per-framework helper catalogs, where every subproject is also a `git subtree` that pushes to its own standalone remote.
+**Summary.** Lily™ is a monorepo holding a canonical 491-component catalog plus 14 implementation subprojects (7 headless libraries + 7 example apps) and 7 per-framework helper catalogs, where every subproject is also a `git subtree` that pushes to its own standalone remote.
 
 ## Scope
 
@@ -23,8 +23,8 @@ It does not cover the vision or scope split (see [overview](../overview/index.md
 ```
 lily-design-system/                              ← canonical catalog + tools
 ├── AGENTS.md, AGENTS/*.md                       ← modular reference docs
-├── components.tsv                               ← canonical 490-component list
-├── components/{slug}/                           ← per-component docs (490 dirs)
+├── components.tsv                               ← canonical 491-component list
+├── components/{slug}/                           ← per-component docs (491 dirs)
 ├── css-style-sheet-template.css                 ← class-hook stylesheet template
 ├── bin/                                         ← scaffolding, listing, sync, test
 ├── spec/index.md, spec/{topic}/index.md               ← spec + modular topic docs
@@ -91,7 +91,7 @@ The same one-fetch / three-push pattern applies to every subproject remote (e.g.
 
 ## Required files per component directory
 
-Every `components/{slug}/` directory (490 of them) carries:
+Every `components/{slug}/` directory (491 of them) carries:
 
 | File | Purpose |
 | --- | --- |
@@ -105,7 +105,7 @@ Every `components/{slug}/` directory (490 of them) carries:
 
 - [ ] All 7 headless and 7 example subprojects exist at the documented paths.
 - [ ] All 7 per-framework helper catalogs exist.
-- [ ] All 490 component directories carry the required component files.
+- [ ] All 491 component directories carry the required component files.
 - [ ] Every subproject carries `index.md`, `README.md` symlink, `AGENTS.md`, `CLAUDE.md`, spec/plan/tasks, and `.git-subtree-push`.
 - [ ] `AGENTS.md` / `AGENTS/*.md` are canonical at the root and rsynced (not symlinked) into subprojects.
 - [ ] Each subproject is a git subtree pushable to its own standalone remote via `bin/git-subtree-push`.

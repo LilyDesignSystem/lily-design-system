@@ -34,7 +34,7 @@ Every example subproject ships these three routes.
 | Route                | Purpose                                                                                  |
 | -------------------- | ---------------------------------------------------------------------------------------- |
 | `/`                  | Home page welcoming the visitor, explaining the project, linking to the index and demos. |
-| `/components`        | Components index listing all 490 catalog entries; searchable / filterable; links to each detail page. |
+| `/components`        | Components index listing all 491 catalog entries; searchable / filterable; links to each detail page. |
 | `/components/{slug}` | One detail page per component: renders a single component (not a grid), shows a usable demo, and surfaces canonical metadata (description, props, ARIA, keyboard, references). |
 
 ## Composed-page demos
@@ -76,7 +76,7 @@ Demo HTML is generated from the component's suffix pattern (`*-input` → labele
 - [ ] CSS targets kebab-case Lily class names directly; no `nhsuk-` or other prefixes appear in markup.
 - [ ] Design tokens are expressed as CSS custom properties.
 - [ ] Every app serves `/`, `/components`, and `/components/{slug}`.
-- [ ] `/components` lists all 490 catalog entries and is searchable / filterable.
+- [ ] `/components` lists all 491 catalog entries and is searchable / filterable.
 - [ ] Each `/components/{slug}` renders a live demo plus canonical metadata.
 - [ ] Each app renders demos via its framework's documented mechanism (innerHTML / `{@html}` / `dangerouslySetInnerHTML` / `v-html` / `MarkupString` / `safe`).
 - [ ] Every page has a skip-link first, standard landmarks, visible focus, and keyboard-only completion.

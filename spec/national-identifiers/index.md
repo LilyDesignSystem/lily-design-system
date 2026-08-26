@@ -12,7 +12,7 @@ It does **not** cover: the general suffix-to-element mapping and naming patterns
 
 ## Principles and rules
 
-- Each identifier type ships exactly two components: a `{slug}-input` for data entry and a `{slug}-view` for read-only display. 40 types × 2 = 80 components, part of the 490-component canonical catalog.
+- Each identifier type ships exactly two components: a `{slug}-input` for data entry and a `{slug}-view` for read-only display. 40 types × 2 = 80 components, part of the 491-component canonical catalog.
 - The `-input` variant renders `<input type="text" autocomplete="off">`. Identifiers are sensitive and format-specific, so autofill is suppressed and the type stays `text` (not a numeric or specialized type) to preserve leading zeros, spaces, and check characters.
 - The `-view` variant renders `<span aria-label="…">` so assistive technology announces the identifier's meaning, not just its digits.
 - Components are headless: they carry no locale default, no embedded validation UI, and no hardcoded user-facing strings. The consumer supplies labels and decides whether to run the documented validation.
@@ -91,7 +91,7 @@ These files are committed at the repo root and propagated to all subprojects by 
 
 ## Related topics
 
-- [components](../components/index.md) — the canonical 490-component catalog these 80 belong to, and the suffix mapping
+- [components](../components/index.md) — the canonical 491-component catalog these 80 belong to, and the suffix mapping
 - [headless](../headless/index.md) — the markup and behaviour contract `-input`/`-view` components follow
 - [frameworks](../frameworks/index.md) — the seven libraries that implement each component
 - [accessibility](../accessibility/index.md) — the accessible-name requirement the `-view` `aria-label` meets

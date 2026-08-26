@@ -8,7 +8,7 @@
 
 This topic covers the seven `*-helpers` catalogs (angular, blazor, html, nunjucks, react, svelte, vue), the five helpers each one now contains (theme-picker, locale-picker, text-size-picker, share-picker, date-time-picker), their behaviour contracts, how helpers differ from the headless layer, the canonical-reference role of the svelte-helpers catalog, the per-package manifest convention (npm `package.json` vs. NuGet `.csproj` for Blazor), the dist/publish pipeline (`build.js`, `bin/publish-helpers`), and the per-helper subtree/remote layout.
 
-It does **not** cover: the headless 490-component catalog and its rules (see [headless](../headless/index.md) and [components](../components/index.md)), the seven framework pairs and their stacks (see [frameworks](../frameworks/index.md)), theme-CSS tokens and `data-theme` semantics (see [theme](../theme/index.md)), or the `lang`/`dir` internationalisation contract (see [internationalization](../internationalization/index.md)).
+It does **not** cover: the headless 491-component catalog and its rules (see [headless](../headless/index.md) and [components](../components/index.md)), the seven framework pairs and their stacks (see [frameworks](../frameworks/index.md)), theme-CSS tokens and `data-theme` semantics (see [theme](../theme/index.md)), or the `lang`/`dir` internationalisation contract (see [internationalization](../internationalization/index.md)).
 
 ## Principles and rules
 
@@ -148,7 +148,7 @@ all seven catalogs, added 2026-07-28. Full contract:
 
 | Headless component                                 | Helper                                                              |
 | -------------------------------------------------- | ------------------------------------------------------------------- |
-| Mirrors the canonical 490-component catalog.       | Small catalog of opinionated packages (currently 5).                |
+| Mirrors the canonical 491-component catalog.       | Small catalog of opinionated packages (currently 5).                |
 | Pure container, no lifecycle.                      | Owns the full lifecycle of one preference dimension.                |
 | Consumer writes their own persistence and loading. | Persistence and dynamic loading/attribute application are built in. |
 | Larger, generic API.                               | Smaller, more opinionated API.                                      |

@@ -2,7 +2,7 @@
 
 > Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
-**Summary.** Every headless library has a per-framework unit suite asserting DOM and ARIA output, every example app has Playwright e2e plus an axe-core accessibility baseline and a responsive viewport sweep, and six of seven headless libraries ship 490/490 Storybook stories.
+**Summary.** Every headless library has a per-framework unit suite asserting DOM and ARIA output, every example app has Playwright e2e plus an axe-core accessibility baseline and a responsive viewport sweep, and six of seven headless libraries ship 491/491 Storybook stories.
 
 ## Scope
 
@@ -10,7 +10,7 @@ Covers test coverage across all fourteen subprojects: per-framework headless uni
 
 ## Principles and rules
 
-- **Every component is covered in every subproject.** Each headless library's unit suite and each example app's e2e suite reach all 490 catalog components.
+- **Every component is covered in every subproject.** Each headless library's unit suite and each example app's e2e suite reach all 491 catalog components.
 - **Tests assert semantics, not pixels.** Headless suites check the rendered DOM and ARIA attributes (label, role, `aria-expanded`, `aria-pressed`, `aria-valuenow`, etc.) — never colour or layout, which belong to the [examples](../examples/index.md) layer.
 - **Accessibility is gated, not aspirational.** axe-core runs via Playwright against each example app's full route baseline; the rule set is WCAG 2.0 A+AA, 2.1 A+AA, 2.2 AA. WCAG 2.2 AAA remains the [accessibility](../accessibility/index.md) target.
 - **A green suite is not evidence for the helper pickers.** Two defect classes in the `*-helpers` catalogs were invisible to every unit suite. Re-entrant apply (a consumer's change callback writing reactive state, looping back into the apply effect until Svelte gave up updating the component) needs a real consumer to trigger, so jsdom never saw it; the picker froze mid-open with a stale `aria-expanded` over a hidden list. And an unasserted contract — the pointer selection's close — was correct in all seven catalogs while nothing tested it. When changing a picker, drive it in a real browser and assert the DOM state after the interaction, not just the value it produced.
@@ -21,13 +21,13 @@ Covers test coverage across all fourteen subprojects: per-framework headless uni
 
 | Library            | Runner       | Count (spec/index.md §11.4)                          |
 | ------------------ | ------------ | ---------------------------------------------- |
-| svelte-headless    | vitest       | 4,016 cases (407 dual-mirror specs)            |
-| react-headless     | vitest       | 2,205 cases                                    |
-| vue-headless       | vitest       | 2,187 cases                                    |
-| angular-headless   | vitest       | 974 cases across 490 / 490 spec files          |
-| blazor-headless    | bUnit        | 1,245 cases                                    |
-| nunjucks-headless  | vitest       | 2,393 cases                                    |
-| html-headless      | WebdriverIO  | 407 spec files                                 |
+| svelte-headless    | vitest       | 4,906 cases across 983 dual-mirror spec files  |
+| react-headless     | vitest       | 2,665 cases across 491 spec files              |
+| vue-headless       | vitest       | 2,655 cases across 491 spec files              |
+| angular-headless   | vitest       | 985 cases across 491 spec files                |
+| blazor-headless    | bUnit        | 1,502 cases                                    |
+| nunjucks-headless  | vitest       | 2,844 cases across 491 spec files              |
+| html-headless      | WebdriverIO  | 491 spec files (browser run not re-executed)   |
 
 ## Storybook coverage
 
@@ -35,12 +35,12 @@ Six of seven headless libraries ship Storybook; Blazor deliberately does not (no
 
 | Library            | Storybook     | Stories     |
 | ------------------ | ------------- | ----------- |
-| html-headless      | yes (vite)    | 490 / 490   |
-| svelte-headless    | yes (vite)    | 490 / 490   |
-| react-headless     | yes (vite)    | 490 / 490   |
-| vue-headless       | yes (vite)    | 490 / 490   |
-| nunjucks-headless  | yes (vite)    | 490 / 490   |
-| angular-headless   | yes (webpack) | 490 / 490   |
+| html-headless      | yes (vite)    | 491 / 491   |
+| svelte-headless    | yes (vite)    | 491 / 491   |
+| react-headless     | yes (vite)    | 491 / 491   |
+| vue-headless       | yes (vite)    | 491 / 491   |
+| nunjucks-headless  | yes (vite)    | 491 / 491   |
+| angular-headless   | yes (webpack) | 491 / 491   |
 | blazor-headless    | no            | not planned |
 
 ## Playwright e2e on example apps
@@ -81,9 +81,9 @@ A responsive smoke check (spec/index.md §11.6) runs ~10 representative routes p
 The sweep is ported to all six example apps with route paths adjusted per app (e.g. nunjucks-eleventy uses trailing-slash `/components/{slug}/` and skips composed-page routes, which it does not build).
 
 ## Acceptance criteria
-- [ ] Each headless library's unit suite covers all 490 components with its framework runner (vitest / bUnit / WebdriverIO).
+- [ ] Each headless library's unit suite covers all 491 components with its framework runner (vitest / bUnit / WebdriverIO).
 - [ ] Headless tests assert DOM + ARIA output, not visual styling.
-- [ ] Six headless libraries ship 490/490 Storybook stories; Blazor is intentionally excluded.
+- [ ] Six headless libraries ship 491/491 Storybook stories; Blazor is intentionally excluded.
 - [ ] Each example app has a Playwright e2e suite covering the catalog.
 - [ ] axe-core runs against every example app and hits its full route baseline clean (29/29, or 17/17 for nunjucks-eleventy).
 - [ ] The responsive viewport sweep runs on all six example apps across the four viewport sizes.
