@@ -1,239 +1,327 @@
 # Lily Design System™ — Improvement Tasks
 
-Checklist companion to [plan.md](plan.md). Task IDs are `P{phase}-T{n}`.
+Checklist companion to [plan.md](plan.md), revision 2026-08-26. Task
+IDs are `P{phase}-T{n}` and restart from this revision; the 2026-07-11
+task list is superseded (its completed items are recorded in plan.md
+§"Completed since the 2026-07-11 plan").
+
 Rules for the executing agent:
 
 - Do a task's **Verify** step before checking its box; `bin/test` must
   also exit 0 at the end of every session.
 - Follow `AGENTS/*.md` binding rules. Svelte subprojects are canonical;
   implement there first, then port to the other frameworks.
-- Reference completed task IDs in commit messages.
-- When a task changes something the spec claims, update
-  `spec/index.md` (and the relevant `spec/{topic}/index.md`) in the
-  same commit.
+- The helpers are the five `*-picker` packages; `*-select` naming is
+  obsolete.
+- Run `bin/sync-special-files` after touching any root special file.
+- Reference completed task IDs in commit messages. When a task changes
+  something the spec claims, update `spec/index.md` (and the relevant
+  `spec/{topic}/index.md`) in the same commit.
 
-## Phase 1 — Truth and closure
+## Phase 1 — Truth, hygiene, and registry cleanup
 
-- [ ] **P1-T1 Reconcile catalog counts (490 vs 491).**
-  `components.tsv` has 491 rows; `spec/index.md` §11.4/§14 say 490,
-  §5 says 491; `AGENTS/lily.md` and `AGENTS/components.md` say 491.
-  Diff the catalog against the last 0.6.0 state to identify the
-  addition; confirm it exists in all 14 implementation subprojects,
-  registries, demo maps, github.io, and `css-style-sheet-template.css`;
-  fix every stale count.
-  Verify: `wc -l components.tsv` matches every count mentioned in
-  `spec/index.md`, `AGENTS/*.md`, `README.md`; `bin/test` passes.
+- [x] **P1-T1 Reconcile catalog counts (490 vs 491).**
+  `components.tsv` has 491 rows; `spec/index.md` §14 says 490 rows and
+  §11.4's header says "catalog counts updated to 490". Identify the
+  491st component (diff against the 0.6.0 state), confirm it exists in
+  all 14 implementation subprojects, registries, demo maps, github.io,
+  and `css-style-sheet-template.css`; fix every present-tense stale
+  count (dated snapshot records may stand, restamped by P1-T6).
+  Verify: `wc -l < components.tsv` matches every live count in
+  `spec/index.md`, `AGENTS/*.md`, root docs; `bin/test` passes.
 
-- [ ] **P1-T2 Angular examples Playwright e2e.**
-  Add a Playwright suite to `lily-design-system-angular-examples`
-  mirroring the SvelteKit app's suite (home, catalog, per-slug detail
-  pages, composed pages). Update spec §11.4 with the spec count.
-  Verify: `npx playwright test` in the subproject passes.
+- [x] **P1-T2 Deprecate the broken 0.2.0 headless packages on npm.**
+  `npm deprecate lily-design-system-{svelte,react,vue}-headless@0.2.0`
+  with a message naming the cause (declared `main` never built) and
+  the fix (`>=0.3.0`).
+  Verify: registry metadata for each 0.2.0 shows the deprecation
+  string (`npm view <pkg>@0.2.0 deprecated`).
 
-- [ ] **P1-T3 Angular headless e2e/story smoke via Playwright (if the
-  suite shape applies) or record the deliberate exclusion in spec
-  §11.8 with rationale.**
-  Verify: spec §11.8 no longer lists Angular e2e as open.
+- [x] **P1-T3 Patch-release svelte/react/vue headless (0.3.1).**
+  Ships the corrected in-tree metadata to the registry: SPDX license
+  menu, `LilyDesignSystem` repository URLs (react/vue currently point
+  at `github.com/lily`, an unrelated account), "Targets WCAG 2.2 AAA"
+  description. No code change; CHANGELOG entries say so.
+  Verify: `npm view <pkg> repository.url license description` shows
+  the corrected values for all three.
 
-- [ ] **P1-T4 File the Analog SSG upstream issue.**
-  Source: `lily-design-system-angular-examples/docs/analog-ssg-issue.md`.
-  File against analogjs/analog; link the issue URL from
-  `analog-ssg-notes.md` and spec §11.8.
-  Verify: issue URL recorded in both files.
+- [x] **P1-T4 Angular examples Playwright e2e.**
+  Mirror the SvelteKit suite (home, catalog, per-slug detail, composed
+  pages) in `lily-design-system-angular-examples`; update spec §11.4.
+  Verify: `npx playwright test` passes in the subproject.
 
-- [ ] **P1-T5 Prototype `@angular/build:application` prerender fallback.**
-  Attempt full-content static HTML for the angular-examples app. If it
-  works, adopt it and close spec §11.8; if not, document findings in
-  `analog-ssg-notes.md`.
-  Verify: either prerendered route HTML contains full page content
-  (grep a known component name in `dist/` output), or notes updated.
+- [x] **P1-T5 Analog SSG: file upstream + prototype fallback.**
+  File `docs/analog-ssg-issue.md` against analogjs/analog and record
+  the URL in `analog-ssg-notes.md` + spec §11.8; prototype
+  `@angular/build:application` prerender. Adopt whichever yields
+  full-content static HTML, or document why neither does.
+  Verify: issue URL recorded; either `grep` of a known component name
+  in prerendered `dist/` HTML succeeds, or notes updated with
+  findings.
 
-- [ ] **P1-T6 Svelte dual-mirror specs for 80 national identifiers.**
-  Generate per-component dual-mirror vitest specs in
-  `lily-design-system-svelte-headless` for the 80 national-identifier
-  components, matching the existing 407-spec shape (target 487 spec
-  files + the 4 remaining catalog components if applicable — reconcile
-  with P1-T1's count).
+- [ ] **P1-T6 Fresh verification sweep.**
+  Re-run every suite in spec §11.4–§11.7 (unit, Storybook, Playwright,
+  axe, responsive); restamp tables with 2026-08/09 dates and current
+  counts.
+  Verify: no §11.4–§11.7 table carries a pre-2026-08 date without a
+  "historical" label.
+
+- [x] **P1-T7 Svelte dual-mirror specs for the 80 national
+  identifiers**, matching the existing 407-spec shape; reconcile the
+  target count with P1-T1.
   Verify: `vitest run` passes; spec-file count equals catalog count.
 
-- [ ] **P1-T7 Fresh verification sweep.**
-  Re-run every suite in spec §11.4–§11.7 (unit suites, Storybook
-  builds, Playwright, axe, responsive); update the snapshot tables and
-  dates.
-  Verify: tables show 2026-07 dates and current counts.
+- [x] **P1-T8 GitHub topics + descriptions on all 23 repos.**
+  4–6 topics each covering language, framework, domain, artifact type
+  (`design-system`, `accessibility`, `headless-ui`, framework,
+  `wcag`); one-line description matching the repo's INSTALL.md
+  opening.
+  Verify: `gh repo view LilyDesignSystem/<repo> --json
+  repositoryTopics,description` non-empty for all 23.
 
-## Phase 2 — Theme system goes live
+- [x] **P1-T9 Root README screenshots.**
+  Two images in `assets/images/`: a styled example-app page, and the
+  same markup unstyled — embedded near the top of `index.md`.
+  Verify: images exist, referenced from `index.md`, `bin/check-links`
+  passes.
 
-- [ ] **P2-T1 Theme switcher in the SvelteKit example app (canonical).**
-  Mount `theme-select` in the app shell with a curated list (NHS
-  England patient default, NHS Scotland/Wales, GOV.UK GDS, USWDS,
-  Adobe Spectrum, Mozilla Protocol, general light/dark), localStorage
-  persistence, managed `<link>` + `data-theme` per `AGENTS/helpers.md`.
-  Verify: Playwright test switches theme and asserts `data-theme` +
-  swapped stylesheet href persist across reload.
+- [x] **P1-T10 Confirm/enable the SECURITY.md posture table.**
+  Secret scanning, push protection, private vulnerability reporting,
+  Dependabot security updates, branch protection on `main` — enable
+  where possible, then update SECURITY.md's NOTE block to state what
+  is actually on (and sync).
+  Verify: `gh api repos/LilyDesignSystem/lily-design-system --jq
+  '.security_and_analysis'` matches the table; SECURITY.md NOTE
+  updated; `bin/sync-special-files --check` passes.
 
-- [ ] **P2-T2 Port the theme switcher to the other 6 example apps.**
-  Same curated list and behaviour; framework-idiom ports.
-  Verify: each app's e2e suite gains and passes the switch test.
+## Phase 2 — Release engineering
 
-- [ ] **P2-T3 Mount `locale-select` and `text-size-select` in all 7
-  example app shells** alongside theme-select.
+- [ ] **P2-T1 Publish html, angular, nunjucks headless to npm.**
+  Same discipline as 0.3.0: real `dist/`, barrel, types,
+  `sideEffects: false`, `files` allowlist, tarball installed into a
+  scratch consumer before publish. Update INSTALL.md's publication
+  table (root + synced).
+  Verify: `npm view lily-design-system-{html,angular,nunjucks}-headless
+  version` succeeds; scratch-consumer smoke renders 3 components each.
+
+- [ ] **P2-T2 Publish blazor headless + the 5 blazor helper packages
+  to NuGet.** The helper `.nupkg` files already exist in `dist-nuget/`.
+  Verify: `dotnet add package LilyDesignSystem.Blazor.ThemePicker`
+  succeeds in a scratch project; NuGet pages show README + license.
+
+- [ ] **P2-T3 `bin/publish-headless`** (or extend `bin/publish-helpers`)
+  with dry-run default; document in spec/tooling + AGENTS/lily.md.
+  Verify: dry-run succeeds for all 7 packages; docs linked.
+
+- [ ] **P2-T4 Tags + GitHub Releases.**
+  Annotated tag per release with notes from the CHANGELOG section;
+  retroactive tags for 0.2.0–0.6.0 where the commit is identifiable;
+  release process added to `docs/releasing.md` (P2-T6).
+  Verify: `git tag` lists them; `gh release list` shows notes.
+
+- [ ] **P2-T5 Publish provenance + CI publish workflow.**
+  Tag-gated workflow, dry-run by default, `npm publish --provenance`
+  from CI, 2FA confirmed on the npm account. Optional: Zenodo DOI
+  added to CITATION.cff.
+  Verify: workflow runs green in dry-run on a test tag; a subsequent
+  real publish shows the provenance badge on npm.
+
+- [ ] **P2-T6 `docs/releasing.md`**: semver rules, the two stable
+  contracts (class hooks, keyboard/ARIA), per-subproject CHANGELOGs,
+  subtree-vs-package consumption, deprecation policy (0.2.0 as the
+  worked example).
+  Verify: `bin/check-links` passes; linked from CONTRIBUTING.md.
+
+- [ ] **P2-T7 Consumer smoke tests in CI.**
+  Per published package: install the packed tarball into a scratch
+  project, import the barrel, render 3 components. This is the check
+  that would have caught 0.2.0.
+  Verify: CI job green; seeded fault (break an exports map on a
+  branch) is caught.
+
+## Phase 3 — Themes live + tokens
+
+- [ ] **P3-T1 Theme-picker in the SvelteKit example shell (canonical).**
+  Curated list (NHS England patient default; NHS Scotland/Wales; GOV.UK
+  GDS; USWDS; Spectrum; Protocol; general light/dark), localStorage,
+  managed `<link>` + `data-theme` per `AGENTS/helpers.md`.
+  Verify: Playwright switches theme, asserts `data-theme` + swapped
+  href persist across reload.
+
+- [ ] **P3-T2 Port the theme switcher to the other 6 example apps.**
+  Verify: each app's e2e gains and passes the switch test.
+
+- [ ] **P3-T3 Mount locale-picker + text-size-picker in all 7 shells**;
+  evaluate share-picker on component-detail pages (adopt or record
+  the decision).
   Verify: e2e asserts `lang`/`dir` and `data-text-size` application.
 
-- [ ] **P2-T4 `prefers-color-scheme` first-visit default for
-  theme-select** (opt-in prop; Svelte canonical then 6 ports; minor
-  version bump; CHANGELOG entries).
-  Verify: helper unit tests cover both schemes and the localStorage
-  override; `bin/publish-helpers --dry-run` (or equivalent) succeeds.
+- [ ] **P3-T4 `prefers-color-scheme` first-visit default** (opt-in
+  prop; Svelte canonical then 6 ports; minor bumps; CHANGELOGs).
+  Verify: unit tests cover both schemes + storage override;
+  `bin/publish-helpers` dry-run green.
 
-- [ ] **P2-T5 `bin/check-theme` conformance script.**
-  Assert each `themes/*.css`: selectors are `:where(...)`-wrapped Lily
-  class hooks present in `css-style-sheet-template.css`; core
-  `--theme-*` tokens declared; no consumer-hostile specificity.
-  Verify: script exits 0 on all 45 themes; wired into `bin/test`.
+- [ ] **P3-T5 `bin/check-theme` conformance script.**
+  Each `themes/*.css`: `:where(...)`-wrapped hooks that exist in
+  `css-style-sheet-template.css`; core `--theme-*` tokens declared.
+  Verify: exits 0 on all 45 themes; wired into `bin/test`.
 
-- [ ] **P2-T6 Dark/high-contrast variant audit** across theme families;
-  document coverage matrix in `spec/theme/index.md`; backfill gaps or
-  record deliberate exclusions.
-  Verify: matrix in spec matches `ls themes/`.
+- [ ] **P3-T6 DTCG token source.**
+  `themes/tokens/*.json` in Design Tokens 2025.10 format for the core
+  `--theme-*` set; generator emits the custom-property blocks; drift
+  fails `bin/test`; RFC.md §RFC 6 updated with the outcome.
+  Verify: generator run twice → no diff; a hand-edit to generated CSS
+  fails the gate; tokens validate against the DTCG schema.
 
-## Phase 3 — Publishable headless libraries
+- [ ] **P3-T7 Theme provenance + GDS/NHS refresh.**
+  Header comment per reference theme naming the upstream system and
+  version tracked (GOV.UK Frontend v6.x, NHS.UK frontend v9/v10,
+  USWDS, Spectrum, Protocol); refresh the GDS theme against v6's
+  updated type scale/colours; record deltas in `spec/theme/index.md`.
+  Verify: every `themes/*.css` carries a provenance header;
+  `bin/check-theme` passes; spec matrix updated.
 
-- [ ] **P3-T1 Package the Svelte headless library (canonical).**
-  package.json exports map, svelte-kit package / dist pipeline, types,
-  sideEffects flag, package README, LICENSE.
-  Verify: `npm pack` tarball installs into a temp project and 3
-  components render in a smoke test.
+- [ ] **P3-T8 Dark/high-contrast variant audit** across families;
+  coverage matrix in `spec/theme/index.md`; backfill or record
+  deliberate exclusions.
+  Verify: matrix matches `ls themes/`.
 
-- [ ] **P3-T2 Package React, Vue, Angular (ng-packagr APF), HTML,
-  Nunjucks headless libraries** the same way; Blazor as NuGet.
-  Verify: per-package pack + temp-project smoke test.
+## Phase 4 — Accessibility assurance
 
-- [ ] **P3-T3 `bin/publish-headless`** (or extend `bin/publish-helpers`)
-  with dry-run default; document in spec/tooling and AGENTS/lily.md
-  tool list.
-  Verify: dry-run succeeds for all 7 packages.
+- [ ] **P4-T1 Full-catalog axe sweep** on all 491 `/components/{slug}`
+  routes in the SvelteKit app; fix findings; baseline in spec §11.5.
+  Verify: sweep exits clean; baseline table updated.
 
-- [ ] **P3-T4 Versioning & release policy doc** (`docs/releasing.md`):
-  semver rules, per-subproject CHANGELOGs, subtree-vs-package
-  consumption.
-  Verify: `bin/check-links` passes; linked from CONTRIBUTING.md
-  (P4-T1).
+- [ ] **P4-T2 Accessibility statement + WCAG mapping**
+  (`docs/accessibility-statement.md`, surfaced on the site): what is
+  tested by what, what is not, known gaps, audit intention. "Targets"
+  wording throughout; no "compliant" claim.
+  Verify: `bin/check-links` passes; linked from README, site, and
+  SECURITY.md's closing section.
 
-- [ ] **P3-T5 CI publish workflow**, tag-gated, dry-run by default.
-  Verify: CI config lints/runs in dry-run mode.
+- [ ] **P4-T3 Component maturity labels.**
+  `status` field (`experimental`/`beta`/`stable`) added to catalog
+  metadata (`components/{slug}/AGENTS.md` + a rubric doc); surfaced in
+  per-component docs and the site catalog; initial assignment
+  documented (test depth, screen-reader evidence, production use).
+  Verify: all 491 components carry a status; `bin/test` gains a check
+  that none is missing; rubric linked from spec/components.
 
-## Phase 4 — Documentation
+- [ ] **P4-T4 Screen-reader testing matrix.**
+  VoiceOver + NVDA (JAWS as funded) × ~20 representative interactive
+  components; per-component results recorded; CONTRIBUTING's ask
+  becomes a structured intake template (issue form).
+  Verify: matrix doc exists with ≥20 rows of real results; issue
+  template live.
 
-- [ ] **P4-T1 `CONTRIBUTING.md`** at repo root: dev setup, monorepo +
-  subtree model, the copy-pattern, add-a-component walkthrough (all 14
-  subprojects + docs + registries + CSS hook), `bin/` tool guide, PR
-  expectations.
-  Verify: a dry-run of the add-a-component steps on a scratch slug
-  works, then is reverted; `bin/check-links` passes.
+- [ ] **P4-T5 External audit readiness pack**
+  (`docs/audit-readiness.md`): scope, environments, component list,
+  known-issues register — so funding converts to an audit without
+  delay.
+  Verify: doc exists, linked from CONTRIBUTING's money section.
 
-- [ ] **P4-T2 Getting-started guides**, `docs/getting-started/` — one
-  per framework (svelte, react, vue, angular, html, blazor, nunjucks):
-  install/copy, first component, theme stylesheet, a11y check.
-  Verify: each guide's code snippets exist verbatim in a fixture or
-  example app; links check.
+## Phase 5 — Documentation and site surfaces
 
-- [ ] **P4-T3 Theming guide** `docs/theming.md`: full `--theme-*` token
-  table, writing a theme from the CSS template, `data-theme` variants,
-  worked brand-theme example validated by `bin/check-theme`.
-  Verify: worked example passes `bin/check-theme`.
+- [ ] **P5-T1 News + roadmap routes on the site.**
+  `/news` fed from NEWS.md; `/roadmap` fed from plan.md's phases
+  (GOV.UK pattern). Closes the outreach plan's blog-route gate.
+  Verify: both routes build and render current content; site nav
+  links them.
 
-- [ ] **P4-T4 Helpers guide** `docs/helpers.md`: contracts, SSR notes,
-  per-framework mounting snippets for all three helpers.
-  Verify: snippets match the shipped helper APIs; links check.
+- [ ] **P5-T2 Developer on-ramp in CONTRIBUTING.**
+  Dev setup, monorepo + subtree model, the copy-pattern, full
+  add-a-component walkthrough (14 subprojects + docs + registries +
+  CSS hook), `bin/` tool guide.
+  Verify: walkthrough dry-run on a scratch slug passes `bin/test`,
+  then reverts cleanly.
 
-- [ ] **P4-T5 `bin/generate-api-docs`**: emit per-component reference
-  pages from `components/{slug}/AGENTS.md` into the github.io site;
-  regeneration is idempotent; drift fails `bin/test`.
-  Verify: run twice → no diff; site builds.
+- [ ] **P5-T3 `bin/generate-api-docs`**: per-component reference from
+  `components/{slug}/AGENTS.md` into the site; idempotent; drift
+  fails `bin/test`.
+  Verify: run twice → no diff; site builds; a seeded metadata edit is
+  caught.
 
-- [ ] **P4-T6 Migration guides** `docs/migrating/nhs-uk.md` and
-  `docs/migrating/govuk.md`: component → Lily slug mapping tables,
+- [ ] **P5-T4 Migration guides**: `docs/migrating/nhs-uk.md` (v9/v10)
+  and `docs/migrating/govuk.md` (v6) — component → Lily slug tables,
   gaps noted.
-  Verify: every referenced slug exists in `components.tsv`; links
-  check.
+  Verify: every referenced slug exists in `components.tsv`;
+  `bin/check-links` passes.
 
-- [ ] **P4-T7 Doc quality gates in CI**: `bin/check-links` + cspell
-  over `docs/` in the CI workflow.
-  Verify: CI run green.
+- [ ] **P5-T5 `lily-figma` decision.**
+  Either seed a community Figma library from P3-T6 tokens and document
+  it, or replace the placeholder with an honest not-planned page
+  linking RFC.md §RFC 6. No "coming soon" remains.
+  Verify: the route renders real content either way.
 
-## Phase 5 — Tutorials
+- [ ] **P5-T6 Tutorials gain runnable end states.**
+  Each site tutorial's finished code exists in-repo (fixture or
+  example-app route) and is referenced from the tutorial; verified by
+  build/test.
+  Verify: per-tutorial verify commands documented and green.
 
-All under `docs/tutorials/{name}/index.md`; each ends at runnable
-in-repo code (fixture or example-app route) referenced from the
-tutorial.
-
-- [ ] **P5-T1 Build-your-first-page (form pattern)** — Svelte version.
-  Verify: finished code builds and its e2e/unit check passes.
-- [ ] **P5-T2 Port P5-T1 to react, vue, angular, html, blazor,
-  nunjucks.**
-  Verify: same per framework.
-- [ ] **P5-T3 Create-your-own-theme tutorial**, using `bin/check-theme`.
-  Verify: tutorial's finished theme passes the checker.
-- [ ] **P5-T4 Accessibility walkthrough** (keyboard + VoiceOver + local
-  axe run on a composed page).
-  Verify: referenced routes exist; axe run instructions reproduce.
-- [ ] **P5-T5 Internationalisation tutorial** (locale-select, string
-  externalisation, RTL with an Arabic locale, `Intl.*`).
-  Verify: finished code builds; RTL route renders `dir="rtl"`.
-- [ ] **P5-T6 National-identifiers tutorial** (registration form with
-  `*-input`/`*-view`, normalization + validation).
-  Verify: finished code builds and tests pass.
-- [ ] **P5-T7 Compose-a-dashboard tutorial** ending at a composed route
-  in the SvelteKit app.
-  Verify: route builds; Playwright covers it.
+- [ ] **P5-T7 Spell-check gate in CI** over root docs + site content
+  (cspell with a project dictionary).
+  Verify: CI green; a seeded typo on a branch is caught.
 
 ## Phase 6 — Examples deepening
 
-- [ ] **P6-T1 Composed-page parity matrix** for the 12 routes in
-  `AGENTS/examples.md` × 7 apps; record in `spec/examples/index.md`.
-  Verify: matrix matches reality (scripted check or manual sweep
-  documented).
-- [ ] **P6-T2 Backfill composed-page gaps**, including first composed
-  pages for nunjucks-eleventy; extend its responsive sweep to stop
-  skipping composed routes.
-  Verify: per-app e2e passes on new routes.
-- [ ] **P6-T3 Flagship "book an appointment" scenario route** —
-  SvelteKit first (multi-step form, validation, error summary, summary
-  list, confirmation; ~30 components), with Playwright + axe.
-  Verify: e2e + axe clean on the new route.
-- [ ] **P6-T4 Port the flagship scenario to the other 6 apps.**
+- [ ] **P6-T1 Composed-page parity matrix** (12 routes × 7 apps) in
+  `spec/examples/index.md`; backfill gaps, including first composed
+  pages for nunjucks-eleventy; un-skip its responsive sweep.
+  Verify: matrix matches reality; per-app e2e passes on new routes.
+
+- [ ] **P6-T2 Flagship "book an appointment" scenario — SvelteKit.**
+  Multi-step form, validation, error summary, summary list,
+  confirmation; ~30 components; Playwright + axe; written up as
+  Lily's first pattern doc (`docs/patterns/book-an-appointment.md`).
+  Verify: e2e + axe clean; pattern doc link-checked.
+
+- [ ] **P6-T3 Port the flagship scenario to the other 6 apps.**
   Verify: same per app.
-- [ ] **P6-T5 RTL demo route** in each app.
+
+- [ ] **P6-T4 RTL demo route** in each app.
   Verify: e2e asserts `dir="rtl"` and no horizontal overflow.
-- [ ] **P6-T6 `/components` search upgrade**: filter by category and
-  suffix pattern; SvelteKit first, then ports.
+
+- [ ] **P6-T5 `/components` search upgrade**: category + suffix-pattern
+  filters; SvelteKit first, then ports.
   Verify: e2e covers filter behaviour.
-- [ ] **P6-T7 Full-catalog axe sweep** on all 491 `/components/{slug}`
-  routes in the SvelteKit app; fix findings; record baseline in spec
-  §11.5.
-  Verify: sweep exits clean.
 
-## Phase 7 — Tooling, CI, stretch
+## Phase 7 — Tooling, CI, and stretch
 
-- [ ] **P7-T1 `bin/new-component` end-to-end generator** (catalog row,
-  docs dir, CSS hook, 7 headless implementations + tests + stories,
-  demos, registries).
-  Verify: run on a scratch slug → `bin/test` passes → revert cleanly.
-- [ ] **P7-T2 `bin/check-coverage` drift matrix** (catalog ↔
+- [ ] **P7-T1 CI completeness.**
+  Add: 7 headless unit suites, blazor helpers `dotnet test`, one
+  example-app Playwright smoke, and P2-T7's consumer smoke — matrixed
+  with caching.
+  Verify: all jobs green on main; total wall-clock recorded.
+
+- [ ] **P7-T2 `bin/test` profiling.**
+  ~63 s today; profile, batch the per-component filesystem checks,
+  target < 20 s with zero checks weakened.
+  Verify: `time bin/test` < 20 s; same error output on a seeded
+  missing-file fault as before.
+
+- [ ] **P7-T3 `bin/new-component` end-to-end generator** (catalog row,
+  docs dir, CSS hook, 7 implementations + tests + stories, demos,
+  registries).
+  Verify: scratch slug → `bin/test` passes → clean revert.
+
+- [ ] **P7-T4 `bin/check-coverage` drift matrix** (catalog ↔
   implementations ↔ tests ↔ stories ↔ demos ↔ CSS hooks), non-zero on
-  drift, wired into CI.
-  Verify: exits 0 now; seeded fault detected in a dry test.
-- [ ] **P7-T3 (stretch) Visual regression baseline**: ~30 components ×
+  drift, in CI.
+  Verify: exits 0 now; seeded fault detected.
+
+- [ ] **P7-T5 (stretch) Visual regression baseline**: ~30 components ×
   3 themes × light/dark, Playwright screenshots, SvelteKit app.
-  Verify: baseline commit + a re-run with zero diffs.
-- [ ] **P7-T4 (stretch) Web Components headless subproject** — 8th
+  Verify: baseline commit + zero-diff re-run.
+
+- [ ] **P7-T6 (stretch) Web Components headless subproject** — 8th
   headless library as custom elements; full catalog; required files;
   tests; Storybook.
-  Verify: `bin/test` recognises the new subproject; suite passes.
-- [ ] **P7-T5 (stretch) `motion-select` helper** (`data-motion`,
-  reduced-motion default) — Svelte canonical, then 6 ports, published
-  alongside the existing helpers.
+  Verify: `bin/test` recognises it; suite passes.
+
+- [ ] **P7-T7 (stretch) `motion-picker` helper** (`data-motion`,
+  reduced-motion default) — Svelte canonical, then 6 ports, following
+  the five-helper contract in `AGENTS/helpers.md`.
   Verify: per-catalog tests pass; `bin/publish-helpers` dry-run
   includes it.
 
