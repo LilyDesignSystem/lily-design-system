@@ -19,4 +19,14 @@ describe("DateInput", () => {
     expect(el).toBeTruthy();
     expect(el.classList.contains("extra")).toBe(true);
   });
+
+  // Guards the canonical type from components/{slug}/AGENTS.md — every
+  // typed input in this library once rendered type="text" (fixed
+  // 2026-08-26), and nothing asserted otherwise.
+  test('renders the canonical input type "date"', () => {
+    const fixture = TestBed.createComponent(DateInput);
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector("input.date-input");
+    expect(el.getAttribute("type")).toBe("date");
+  });
 });

@@ -4,6 +4,18 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.1.1 — 2026-08-26
+
+Fixed: under zoneless change detection, opening the listbox focused a
+still-hidden list — the signal write that removes `hidden` had not
+reached the DOM when the focus microtask ran — so focus stayed on the
+button and Escape (handled by the list, not the button) could not close
+the picker. `ChangeDetectorRef.detectChanges()` now flushes before the
+focus, the same fix the date-time-picker port recorded for paging
+focus. Invisible to the TestBed suite (whose helpers flush detection);
+caught by, and regression-guarded with, the example app's real-browser
+Playwright theme-switching spec.
+
 ## 0.1.0 — 2026-07-30
 
 First published release. Nothing earlier shipped, so the

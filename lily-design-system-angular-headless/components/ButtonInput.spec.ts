@@ -19,4 +19,14 @@ describe("ButtonInput", () => {
     expect(el).toBeTruthy();
     expect(el.classList.contains("extra")).toBe(true);
   });
+
+  // Guards the canonical type from components/{slug}/AGENTS.md — every
+  // typed input in this library once rendered type="text" (fixed
+  // 2026-08-26), and nothing asserted otherwise.
+  test('renders the canonical input type "button"', () => {
+    const fixture = TestBed.createComponent(ButtonInput);
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector("input.button-input");
+    expect(el.getAttribute("type")).toBe("button");
+  });
 });

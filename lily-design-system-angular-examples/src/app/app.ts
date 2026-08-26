@@ -1,17 +1,26 @@
 import { Component, ChangeDetectionStrategy } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
+import { ThemePicker } from "lily-design-system-angular-theme-picker";
+import { themes, themeLabels, defaultTheme } from "./theme-config";
 
 @Component({
   selector: "lily-app",
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, ThemePicker],
   template: `
     <a class="skip-link" href="#main-content">Skip to main content</a>
 
     <header class="header" aria-label="Site header">
-      <div class="page-wrapper">
-        <strong>Lily</strong>
-        <span>Angular example</span>
+      <div class="page-wrapper site-header">
+        <span><strong>Lily</strong> <span>Angular example</span></span>
+        <lily-theme-picker
+          label="Choose a theme"
+          themesUrl="/themes/"
+          [themes]="themes"
+          [themeLabels]="themeLabels"
+          [defaultValue]="defaultTheme"
+          storageKey="lily-theme"
+        />
       </div>
     </header>
 
@@ -29,4 +38,7 @@ import { RouterOutlet } from "@angular/router";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class App {
+  protected readonly themes = themes;
+  protected readonly themeLabels = themeLabels;
+  protected readonly defaultTheme = defaultTheme;
 }

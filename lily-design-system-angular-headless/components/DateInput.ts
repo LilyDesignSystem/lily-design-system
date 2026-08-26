@@ -12,7 +12,7 @@ import { ChangeDetectionStrategy, Component, input, model } from "@angular/core"
   standalone: true,
   template: `<input
       class="date-input {{ className() }}"
-      type="text"
+      type="date"
       [attr.aria-label]="label() || null"
       autocomplete="off"
       [value]="value()"

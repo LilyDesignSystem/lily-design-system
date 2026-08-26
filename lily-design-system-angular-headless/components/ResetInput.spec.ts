@@ -19,4 +19,14 @@ describe("ResetInput", () => {
     expect(el).toBeTruthy();
     expect(el.classList.contains("extra")).toBe(true);
   });
+
+  // Guards the canonical type from components/{slug}/AGENTS.md — every
+  // typed input in this library once rendered type="text" (fixed
+  // 2026-08-26), and nothing asserted otherwise.
+  test('renders the canonical input type "reset"', () => {
+    const fixture = TestBed.createComponent(ResetInput);
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector("input.reset-input");
+    expect(el.getAttribute("type")).toBe("reset");
+  });
 });

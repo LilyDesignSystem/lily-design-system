@@ -12,7 +12,7 @@ import { ChangeDetectionStrategy, Component, input, model } from "@angular/core"
   standalone: true,
   template: `<input
       class="angle-slider-range-input {{ className() }}"
-      type="text"
+      type="range"
       [attr.aria-label]="label() || null"
       autocomplete="off"
       [value]="value()"

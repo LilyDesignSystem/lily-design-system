@@ -9,6 +9,35 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Angular themes live — and two real defects under them — 2026-08-26
+
+Porting the theme switcher to the Angular example app ([plan.md](plan.md)
+P3-T2) surfaced two defects that jsdom suites had never seen:
+
+- **The Angular listbox pickers could not be closed with Escape in a
+  real zoneless app.** Opening focused the list in a microtask that ran
+  before zoneless change detection removed `hidden`, so focus silently
+  stayed on the button — whose keydown handler does not handle Escape.
+  Invisible to the TestBed suites, whose helpers flush detection; caught
+  by the example app's real-browser theme-switching spec. Fixed with a
+  `detectChanges()` flush before the focus (the fix the date-time-picker
+  port already recorded for paging), in theme-, locale-, and
+  text-size-picker; **published as 0.1.1** of all three.
+- **Every typed input in angular-headless rendered `type="text"`** —
+  all 25 (radio, checkbox, date, email, file, password, range, …), a
+  generator artifact nothing asserted against. Radio buttons were text
+  boxes to the browser and to assistive technology. Found via an axe
+  `target-size` finding on the settings page whose "radios" were
+  undersized text inputs. All 25 fixed in the library and the example
+  app's copies, each spec now asserts its canonical type
+  (seeded-fault-checked; suite 985 → 1,010), **published as
+  angular-headless 0.1.1**.
+
+The app itself follows the established recipe: helper from npm (0.1.1),
+curated list, NHS England patients default, app-shell extraction,
+pre-paint script creating the managed link. Full suite: 1,545 / 1,545,
+including axe with the theme layer and the new switching spec.
+
 ## Themes go live in the SvelteKit example app — 2026-08-26
 
 [plan.md](plan.md) P3-T1, the canonical wiring. The app's component

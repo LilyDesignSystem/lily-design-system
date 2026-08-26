@@ -148,8 +148,10 @@ Rules for the executing agent:
   Verify: Playwright switches theme, asserts `data-theme` + swapped
   href persist across reload.
 
-- [ ] **P3-T2 Port the theme switcher to the other 6 example apps.**
+- [/] **P3-T2 Port the theme switcher to the other 6 example apps.**
   Verify: each app's e2e gains and passes the switch test.
+  Done 2026-08-26: react-next (71/71), vue-nuxt (68/68), angular
+  (1,545/1,545). Remaining: blazor-web, html-css-js, nunjucks-eleventy.
 
 - [ ] **P3-T3 Mount locale-picker + text-size-picker in all 7 shells**;
   evaluate share-picker on component-detail pages (adopt or record

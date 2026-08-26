@@ -1,6 +1,7 @@
 import { NgTemplateOutlet } from "@angular/common";
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   DestroyRef,
   Directive,
@@ -264,6 +265,13 @@ export class TextSizePicker {
   // Open / close
   // ---------------------------------------------------------------
 
+  /** Under zoneless change detection the signal write that un-hides the
+   * list has not reached the DOM when a microtask runs, so focusing the
+   * still-hidden list fails silently and Escape lands on the button.
+   * Flushing detection first is the Angular equivalent of Svelte's
+   * synchronous update (same fix the date-time-picker port recorded). */
+  private readonly cdr = inject(ChangeDetectorRef);
+
   protected toggle(): void {
     if (this.open()) this.closeList();
     else this.openList();
@@ -283,6 +291,7 @@ export class TextSizePicker {
     this.open.set(true);
     // Focus moves to the listbox; the active option is conveyed via
     // aria-activedescendant, per the APG listbox pattern.
+    this.cdr.detectChanges();
     queueMicrotask(() => {
       this.listRef().nativeElement.focus();
       this.scrollActiveIntoView();

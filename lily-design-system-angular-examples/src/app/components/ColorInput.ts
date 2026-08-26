@@ -12,7 +12,7 @@ import { ChangeDetectionStrategy, Component, input, model } from "@angular/core"
   standalone: true,
   template: `<input
       class="color-input {{ className() }}"
-      type="text"
+      type="color"
       [attr.aria-label]="label() || null"
       autocomplete="off"
       [value]="value()"

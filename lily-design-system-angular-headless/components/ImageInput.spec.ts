@@ -19,4 +19,14 @@ describe("ImageInput", () => {
     expect(el).toBeTruthy();
     expect(el.classList.contains("extra")).toBe(true);
   });
+
+  // Guards the canonical type from components/{slug}/AGENTS.md — every
+  // typed input in this library once rendered type="text" (fixed
+  // 2026-08-26), and nothing asserted otherwise.
+  test('renders the canonical input type "image"', () => {
+    const fixture = TestBed.createComponent(ImageInput);
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector("input.image-input");
+    expect(el.getAttribute("type")).toBe("image");
+  });
 });
