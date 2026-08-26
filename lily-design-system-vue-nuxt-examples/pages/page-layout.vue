@@ -3,7 +3,6 @@
 
 <template>
     <div>
-        <SkipLink href="#main-content" label="Skip to main content" />
 
         <Header label="Site header">
             <h1>My Application</h1>

@@ -3102,3 +3102,31 @@
 :where(.tag-input, input:where(.text-input, .search-input)) {
     min-block-size: 24px;
 }
+
+/* ============================================================================
+ * Overflow guards — narrow-viewport safety, shared verbatim by all themes.
+ *
+ * Content that is intrinsically wider than the viewport scrolls or wraps
+ * within its own box instead of pushing the page wider. Deliberately NOT
+ * `display: block` on <table> — that strips implicit table semantics for
+ * assistive technology; capping width and letting cell content wrap keeps
+ * both the layout and the roles. Proven in the example apps' own
+ * stylesheets before the theme layer took over component styling.
+ * ========================================================================= */
+
+:where(pre) {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+:where(table) {
+    max-width: 100%;
+}
+
+:where(th, td) {
+    overflow-wrap: anywhere;
+}
+
+:where(a, code) {
+    overflow-wrap: anywhere;
+}

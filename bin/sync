@@ -16,5 +16,15 @@ done
 # serve them as static assets so the theme-picker helper can swap the
 # managed <link> href at runtime (spec/theme, plan P3). rsync, not
 # symlinks, for the same subtree reason as AGENTS/.
-mkdir -p "$top/lily-design-system-svelte-sveltekit-examples/static/themes"
-rsync -a --delete "$top/themes/" "$top/lily-design-system-svelte-sveltekit-examples/static/themes/"
+for themes_dest in \
+    "$top/lily-design-system-svelte-sveltekit-examples/static/themes" \
+    "$top/lily-design-system-react-next-examples/public/themes" \
+    "$top/lily-design-system-vue-nuxt-examples/public/themes" \
+    "$top/lily-design-system-angular-examples/public/themes" \
+    "$top/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/wwwroot/themes" \
+    "$top/lily-design-system-html-css-js-examples/themes" \
+    "$top/lily-design-system-nunjucks-eleventy-examples/src/themes"
+do
+    mkdir -p "$themes_dest"
+    rsync -a --delete "$top/themes/" "$themes_dest/"
+done

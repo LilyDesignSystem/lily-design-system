@@ -1,6 +1,5 @@
 "use client";
 
-import SkipLink from "@pgds/SkipLink";
 import Header from "@pgds/Header";
 import Footer from "@pgds/Footer";
 import NavigationMenu from "@pgds/NavigationMenu";
@@ -12,7 +11,6 @@ import Sidebar from "@pgds/Sidebar";
 export default function PageLayoutPage() {
     return (
         <div>
-            <SkipLink href="#main-content" label="Skip to main content" />
 
             <Header label="Site header">
                 <h1>My Application</h1>

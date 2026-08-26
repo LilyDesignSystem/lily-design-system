@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      lily-design-system-react-theme-picker:
+        specifier: 0.1.0
+        version: 0.1.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       next:
         specifier: ^15.2.0
         version: 15.5.12(@babel/core@7.29.0)(@playwright/test@1.60.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -1446,6 +1449,12 @@ packages:
     resolution: {integrity: sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==}
     engines: {node: '>=6'}
     hasBin: true
+
+  lily-design-system-react-theme-picker@0.1.0:
+    resolution: {integrity: sha512-3+wp41/xYOfoG5fuhSAPIavWB4FC0OYAzvoaTszsM/ICYcrncrvwTvUSmwFmELRG6LSrj6KUscdVOtIXE/5Ocg==}
+    peerDependencies:
+      react: '>=18'
+      react-dom: '>=18'
 
   locate-path@7.2.0:
     resolution: {integrity: sha512-gvVijfZvn7R+2qyPX8mAuKcFGDf6Nc61GdvGafQsHL0sBIxfKzA+usWn4GFC/bk+QdwPUD4kWFJLhElipq+0VA==}
@@ -3157,6 +3166,11 @@ snapshots:
   jsesc@3.1.0: {}
 
   json5@2.2.3: {}
+
+  lily-design-system-react-theme-picker@0.1.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
+    dependencies:
+      react: 19.2.4
+      react-dom: 19.2.4(react@19.2.4)
 
   locate-path@7.2.0:
     dependencies:

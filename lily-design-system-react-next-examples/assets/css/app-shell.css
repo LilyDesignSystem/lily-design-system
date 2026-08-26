@@ -1,0 +1,73 @@
+/* App-shell chrome. Everything Lily-component-shaped comes from the
+ * runtime theme stylesheet (the managed <link data-lily-theme-picker>,
+ * default: NHS England for patients, swapped among /themes/ by the
+ * theme-picker helper). This file keeps only app-owned chrome.
+ */
+
+body {
+  margin: 0;
+  font-family: var(--nhs-font-family);
+  font-size: var(--nhs-font-size-19);
+  line-height: var(--nhs-line-height-normal);
+  color: var(--nhs-black);
+  background-color: var(--nhs-white);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* (pre not present in source nhs.css) */
+
+.page-wrapper {
+  max-width: var(--nhs-max-width);
+  margin: 0 auto;
+  padding: 0 var(--nhs-space-4);
+}
+
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  padding: var(--nhs-space-2) var(--nhs-space-3);
+  background-color: var(--nhs-focus-color);
+  color: var(--nhs-focus-text-color);
+  font-weight: 700;
+  text-decoration: none;
+  z-index: 10000;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+.site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.5rem 1rem;
+}
+
+.site-footer {
+    padding: 1rem;
+    text-align: center;
+}
+
+.theme-picker {
+    position: relative;
+}
+
+.theme-picker-list {
+    position: absolute;
+    z-index: 10;
+    margin: 0;
+    padding: 0.25rem;
+    list-style: none;
+    max-height: 60vh;
+    overflow: auto;
+}
+
+/* WCAG 2.2 target-size floor for app-authored content links. */
+main :where(li > a), #content :where(li > a) {
+    display: inline-block;
+    min-block-size: 24px;
+}
