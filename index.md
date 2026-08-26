@@ -6,6 +6,14 @@ This is brand new work and we welcome collaboration, guidance, and feedback.
 
 Contact <joel@joelparkerhenderson.com>
 
+Lily is headless: the components ship semantic HTML, ARIA, and keyboard
+behaviour, and you ship every visual decision. The same markup, styled by an
+example app's stylesheet and bare:
+
+![A component-detail page from the SvelteKit example app, styled with the NHS UK visual reference](assets/images/example-styled.png)
+
+![The same breadcrumb markup with no stylesheet: a browser-default ordered list](assets/images/example-unstyled.png)
+
 The living specification is [spec/index.md](spec/index.md). The modular reference docs are in
 [AGENTS.md](AGENTS.md) and [AGENTS/](AGENTS/). For a topic-by-topic walkthrough,
 see the modular specification docs under [spec/](spec/index.md).

@@ -50,6 +50,20 @@ Covers the `bin/` toolchain: catalog listers, directory scaffolders, the verific
 
 ## Sync model
 
+### bin/sync-special-files
+
+Every subproject is a `git subtree` pushed to its own standalone **public**
+repository, so each needs the top-level files a public repository is expected to
+carry. `bin/sync-special-files` propagates them from the canonical root into all
+22 published repositories, rewriting relative links so each copy is correct where
+it lands, and generating `CITATION.cff` and `INSTALL.md` per subproject. It is
+idempotent, and `--check` makes it a gate (`bin/test` calls it that way).
+
+The full file set and the copy-versus-generate rule are in
+[special-files-for-public-repos](../special-files-for-public-repos/index.md).
+
+### bin/sync
+
 `bin/sync` copies the canonical root `AGENTS/` into every implementation subproject:
 
 ```sh
@@ -81,6 +95,8 @@ Each subproject is a `git subtree`. `bin/git-subtree-push` publishes each one to
 - [x] `create-component-directory` and `create-implementation-directory` scaffold the standard file set (`index.md`, `README.md` symlink, `AGENTS.md`, `CLAUDE.md` loading `@AGENTS.md`, `spec/index.md`).
 - [ ] `bin/test` passes against repo + all components + github.io + all subprojects.
 - [ ] `bin/sync` rsyncs root `AGENTS/` into every subproject (copies, not symlinks).
+- [x] `bin/sync-special-files` propagates the top-level special files into all 22
+      public repos, is idempotent, and gates via `--check` from `bin/test`.
 - [ ] `bin/git-subtree-push` pushes each subtree to its `LilyDesignSystem/{impl}` remote.
 - [ ] `generate-storybook-stories.mjs` produces stories for the headless libraries.
 

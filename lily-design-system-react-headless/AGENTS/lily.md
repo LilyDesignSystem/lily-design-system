@@ -51,6 +51,7 @@ The [themes/](../themes) directory ships 45 standalone theme stylesheets (NHS En
 - [create-implementation-directory](../bin/create-implementation-directory): Scaffold one implementation directory
 - [test](../bin/test): Run all tests
 - [sync](../bin/sync): Sync files across subprojects
+- [sync-special-files](../bin/sync-special-files): Sync the top-level special files (LICENSE, CONTRIBUTING, SECURITY, GOVERNANCE, …) into every public subtree repo
 - [update](../bin/update): Update shared files
 - [generate-storybook-stories.mjs](../bin/generate-storybook-stories.mjs): Generate Storybook stories
 - [publish-helpers](../bin/publish-helpers): Build and publish the 35 helper packages (npm / NuGet)

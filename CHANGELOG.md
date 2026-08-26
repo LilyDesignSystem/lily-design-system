@@ -9,6 +9,68 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Improvement plan Phase 1 — registry hygiene, catalog truth, Angular closure — 2026-08-26
+
+Executing [plan.md](plan.md) Phase 1 ("truth, hygiene, and registry
+cleanup"), plus the day's research-driven groundwork:
+
+- **Catalog reconciled at 491** (P1-T1). The 491st component is
+  `image-cropper` (added 2026-07-07). Every live 490 claim in
+  `spec/index.md` and nine `spec/{topic}/` docs now says 491; dated
+  snapshot records keep their historical numbers. The audit found one
+  real propagation gap: **nunjucks-headless had no Storybook story for
+  image-cropper** (490/491) — added, all six Storybook libraries now
+  carry 491.
+- **npm registry hygiene** (P1-T2, P1-T3). The three broken 0.2.0
+  headless packages are **deprecated on npm** with an upgrade message.
+  svelte/react/vue headless **0.3.1 published**: metadata-only patches
+  shipping the SPDX license menu, the corrected LilyDesignSystem
+  repository URLs (react and vue pointed at `github.com/lily`, an
+  unrelated account), and "Targets WCAG 2.2 AAA" wording. Each tarball
+  was verified by installing into a scratch consumer and rendering
+  components (React/Vue SSR render, Svelte via a real Vite build).
+- **Angular examples: SSG closed, e2e suite landed** (P1-T4, P1-T5).
+  The upstream Analog route-injection defect was filed as
+  [analogjs/analog#2498](https://github.com/analogjs/analog/issues/2498),
+  and the fallback fixed the app outright: routes moved to an explicit
+  table over plain `src/app/views/*.ts` components, off the `.page.ts`
+  convention entirely — which had regressed to a silently empty router
+  in every mode, and swallowed even self-owned glob imports (empty
+  modules, `loadComponent: undefined`, navigation "completing" with a
+  dead outlet). Static SSG now emits full page content. The detail page
+  gained the canonical shape (PascalCase H1 from a new generated
+  `components-data.ts` registry — wired into `bin/generate-registries`
+  and counted by `bin/test` — description, "Back to components" link),
+  and a 491-file per-component Playwright suite was generated to mirror
+  the SvelteKit app's.
+- **Fresh verification sweep, unit suites** (P1-T6 partial, P1-T7).
+  All headless suites re-run and green with grown counts: svelte 4,906
+  cases / 983 dual-mirror files (the "80 national identifiers lack
+  dual-mirror specs" note was stale — they exist and pass), react
+  2,665, vue 2,655, nunjucks 2,844, angular 985, blazor 1,502; helper
+  catalogs 1,847. html-headless spec files counted at 491 (browser run
+  not re-executed). §11.4 restamped.
+- **Angular e2e green end to end: 1,542 / 1,542** (P1-T4 completed).
+  The first-ever axe run against the Angular app caught 7 real
+  violations across three composed pages — the element-selector wrapper
+  hosts break required `ol > li` DOM structure, and empty
+  `date-range` / `review-date` carried `aria-label` on a generic
+  element against their canonical `<span>` contract. The pages now use
+  direct class-hook markup (the headless contract), the mobile overflow
+  on `/page-layout` is fixed with a wrap-capable flex sidebar, and the
+  library-level idiom defect is logged in spec §11.8 as a deliberate
+  breaking change to plan. Suite runtime fell from 57 minutes (timing
+  out against dead routes) to 2 minutes.
+- **Repo presentation and security** (P1-T8–T10). All 23 GitHub repos:
+  descriptions + 5 topics; secret scanning, push protection, private
+  vulnerability reporting, and Dependabot security updates enabled
+  (verified via API; two UI-only secret-scanning toggles remain and are
+  recorded in SECURITY.md). Root README gained styled-vs-unstyled
+  screenshots. A latent build break was fixed on the way: the SvelteKit
+  example app **did not build** (duplicate `ThemeSelect` import in
+  `settings-page`, residue of the July theme-select merge) — proof the
+  app hadn't been production-built since; fixed.
+
 ## Headless packages get a real entry point — 2026-08-23
 
 Preparing the first publish of the helper catalogs surfaced that the three

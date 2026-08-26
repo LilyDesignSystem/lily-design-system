@@ -43,6 +43,7 @@ coding agents.
 | [frameworks](frameworks/index.md) | The seven framework pairs, per-framework file shapes and idioms, the copy-pattern. |
 | [helpers](helpers/index.md) | The `*-helpers` catalogs — theme-picker, locale-picker, text-size-picker — their `<select>` contracts, manifests, and publish pipeline. |
 | [national-identifiers](national-identifiers/index.md) | The 80 national personal identifier components, normalization, validation algorithms. |
+| [special-files-for-public-repos](special-files-for-public-repos/index.md) | The top-level files every published subtree repo carries, copy-vs-generate, the sync tooling. |
 | [citations](citations/index.md) | Design systems Lily learns from, the NHS UK reference, Reuters Graphics influence. |
 | [trademarks](trademarks.md) | The Lily™ / Lily Design System™ marks, the first-occurrence ™ convention, the standard footer. |
 
@@ -351,6 +352,7 @@ Scripts live in `bin/`:
 | `bin/create-implementation-directory` | Scaffold one implementation directory.               |
 | `bin/test`                            | Verify required files across repo + all subprojects. |
 | `bin/sync`                            | Sync shared files across subprojects (rsync).        |
+| `bin/sync-special-files`              | Propagate the top-level special files into all 22 public repos. |
 | `bin/update`                          | Update shared files.                                 |
 | `bin/git-subtree-push`                | Push each subtree to its standalone remote.          |
 | `bin/generate-storybook-stories.mjs`  | Generate Storybook stories.                          |
@@ -358,7 +360,12 @@ Scripts live in `bin/`:
 | `bin/generate-registries`             | Regenerate example-app registries from the catalog.  |
 | `bin/check-links`                     | Verify relative markdown links resolve.              |
 
-Note on syncing: AGENTS files at the repo root are canonical; `bin/sync` copies
+Note on syncing: two syncs run from the canonical root. `bin/sync-special-files`
+propagates the top-level special files (LICENSE, CONTRIBUTING, SECURITY,
+GOVERNANCE, and the rest) into all 22 published subtree repositories, because a
+public repository without a LICENSE is "all rights reserved" whatever the
+monorepo says — see [special-files-for-public-repos](special-files-for-public-repos/index.md).
+For AGENTS: files at the repo root are canonical; `bin/sync` copies
 them into subprojects with `rsync` (not symlinks, because `git subtree push`
 does not follow symlinks across project boundaries).
 
@@ -482,7 +489,7 @@ checked is considered live work; anything unchecked is queued in §12.
 - [x] `bin/sync` keeps shared files in sync (rsync, not symlink).
 - [x] `bin/git-subtree-push` pushes each subtree to its remote.
 
-### 11.4 Verified (snapshot as of 2026-05-30; catalog counts updated to 490 on 2026-07-03)
+### 11.4 Verified (snapshot as of 2026-05-30; catalog counts updated to 490 on 2026-07-03; the catalog grew to 491 on 2026-07-07 with `image-cropper` — the snapshot numbers below predate it)
 
 > The exact case counts in §11.4–§11.7 are point-in-time verification
 > records, not live claims; re-run the suites for current numbers.
@@ -507,22 +514,28 @@ checked is considered live work; anything unchecked is queued in §12.
       `src/app/components/`.
 - [x] Cross-subproject name consistency: TabGroup removed,
       `medical-record-red-box` renamed; no orphans remain.
-- [x] Per-framework test suites cover every component in every subproject:
-      - svelte-headless: 4,016 vitest cases (407 dual-mirror specs;
-        sample-tests for the 80 May 2026 national-identifier
-        components landed alongside but the per-component dual-mirror
-        spec generation is a separate sweep).
-      - react-headless: 2,205 vitest cases.
-      - vue-headless: 2,187 vitest cases.
-      - angular-headless: 974 vitest cases across 490 / 490 spec files.
-      - blazor-headless: 1,245 bUnit cases.
-      - nunjucks-headless: 2,393 vitest cases.
-      - html-headless: 407 WebDriverIO spec files.
+- [x] Per-framework test suites cover every component in every subproject
+      (re-verified 2026-08-26, all passing):
+      - svelte-headless: 4,906 vitest cases across 983 dual-mirror spec
+        files — every one of the 491 components is specced in both
+        mirror trees, the 80 national identifiers included (the July
+        2026 "separate sweep" note is closed).
+      - react-headless: 2,665 vitest cases across 491 spec files.
+      - vue-headless: 2,655 vitest cases across 491 spec files.
+      - angular-headless: 985 vitest cases across 491 spec files.
+      - blazor-headless: 1,502 bUnit cases.
+      - nunjucks-headless: 2,844 vitest cases across 491 spec files.
+      - html-headless: 491 WebDriverIO spec files (file count verified;
+        the WDIO browser run was not re-executed in this sweep).
+      - helper catalogs: 1,847 (svelte 211, react 267, vue 261,
+        html 294, nunjucks 321, angular 290, blazor 203).
 - [x] Per-framework CSS class-name audit: 490 / 490 components in every
       headless subproject reference their canonical kebab-case base class.
-- [x] Storybook story coverage across headless: 490 / 490 in
-      svelte, react, vue, html, nunjucks, angular (6 frameworks with
-      Storybook; blazor does not — see §11.7).
+- [x] Storybook story coverage across headless: 491 / 491 story files
+      in svelte, react, vue, html, nunjucks, angular (6 frameworks with
+      Storybook; blazor does not — see §11.7). Re-counted 2026-08-26;
+      the nunjucks `image-cropper` story, the one file missing, was
+      added the same day.
 - [x] Playwright e2e coverage on all 5 browser-runnable example apps:
       - svelte-sveltekit-examples: 1,221 specs.
       - react-next-examples: 1,221 specs.
@@ -530,6 +543,9 @@ checked is considered live work; anything unchecked is queued in §12.
       - blazor-web-examples: 1,221 specs.
       - html-css-js-examples: 814 specs.
       - nunjucks-eleventy-examples: 612 specs.
+      - angular-examples: 1,542 specs — landed and green 2026-08-26
+        (491 per-component pages × 3 assertions, axe on every
+        top-level and composed route, responsive sweep).
 
 ### 11.5 Accessibility audit (axe-core via Playwright; snapshot as of 2026-05-30)
 
@@ -544,6 +560,7 @@ Per-app baseline (axe-clean routes / total checked):
 | blazor-web-examples            | 29/29 | ✅ full pass                          |
 | html-css-js-examples           | 29/29 | ✅ full pass                          |
 | nunjucks-eleventy-examples     | 17/17 | ✅ full pass                          |
+| angular-examples               | 30/30 | ✅ full pass (2026-08-26); axe found 7 real violations on first run — wrapper-host list structure, prohibited aria-label — fixed same day |
 
 axe rule set: WCAG 2.0 A+AA, 2.1 A+AA, 2.2 AA.
 
@@ -603,21 +620,37 @@ overhead that the project hasn't chosen to pay.
 Completed items are recorded in [CHANGELOG.md](../CHANGELOG.md) and §12;
 this list holds only what is genuinely open.
 
-- [/] Angular subprojects end-to-end verification — mostly done.
-      angular-headless is fully verified (§11.2). The angular-examples
-      app builds, prerenders 506/506 routes, and works as a
-      client-rendered SPA, but static SSG output is shell-only: Analog's
-      `analog-glob-routes` plugin injects routes via a brittle string
-      replace that other transforms can break, so the prerendered HTML
-      hydrates to full content on the client instead of shipping it.
-      Root cause, fixes tried, and the dependency history are logged in
-      [lily-design-system-angular-examples/docs/analog-ssg-notes.md](../lily-design-system-angular-examples/docs/analog-ssg-notes.md);
-      the distilled upstream report is
-      [analog-ssg-issue.md](../lily-design-system-angular-examples/docs/analog-ssg-issue.md).
-      Next step: file that issue upstream, or move the SSG step onto
-      `@angular/build:application`'s prerenderer.
-- [ ] Playwright e2e suites not yet exercised against the two Angular
-      subprojects.
+- [x] Angular subprojects end-to-end verification — closed 2026-08-26.
+      angular-headless was already fully verified (§11.2). The
+      angular-examples app now emits **full-content static SSG HTML**:
+      the route layer was moved off Analog's file-route convention onto
+      an explicit 15-route table with plain lazy imports
+      (`src/app/views/`, `app.routes.ts`), because the upstream
+      injection defect — filed as
+      [analogjs/analog#2498](https://github.com/analogjs/analog/issues/2498) —
+      had regressed to an empty router in every mode, and even a
+      self-owned `import.meta.glob` received empty modules for
+      `.page.ts` files. Full record:
+      [analog-ssg-notes.md](../lily-design-system-angular-examples/docs/analog-ssg-notes.md).
+      The app also gained the canonical detail-page shape (PascalCase
+      H1, description, back link) backed by a generated
+      `components-data.ts` registry.
+- [x] Playwright e2e against angular-examples: landed 2026-08-26,
+      1,542 specs green (see §11.4). angular-headless remains covered
+      by its vitest + Storybook layers, matching the other headless
+      libraries — none of which has a Playwright layer.
+- [ ] **Angular headless wrapper-host semantics.** First-ever axe run
+      against the Angular app showed that element-selector components
+      break DOM structures with required parent-child semantics: the
+      `<ol>` rendered by `lily-breadcrumb-list` contains
+      `<lily-breadcrumb-list-item>` hosts, not `<li>` (axe `list` /
+      `listitem`, serious), and empty `date-range`/`review-date`
+      render `aria-label` on a generic element (`aria-prohibited-attr`)
+      while the canonical tag is `<span>`. The example pages now use
+      direct class-hook markup for those structures; the library-level
+      fix (attribute selectors — `li[lily-breadcrumb-list-item]` — for
+      the list/table families, per Angular Material's idiom) is a
+      breaking change to plan deliberately.
 
 ## 12. Implementation status
 
@@ -627,7 +660,7 @@ The full release-by-release record lives in
 [CHANGELOG.md](../CHANGELOG.md) (and §14.1 highlights). Summary of the
 completed epochs:
 
-- **Catalog & infrastructure** — canonical list (now 490), CSS
+- **Catalog & infrastructure** — canonical list (now 491), CSS
   class-hook template, `bin/` toolchain, modular AGENTS docs, all 7
   headless + 7 example + 7 helper subprojects.
 - **Per-component docs** — all components carry `index.md` with
@@ -654,7 +687,7 @@ section), not into a separate `tasks.md`.
 Near-term focus:
 
 1. Catalog and css-template audit — close §11.4 items.
-2. Cross-subproject component coverage audit — ensure all 490 components are
+2. Cross-subproject component coverage audit — ensure all 491 components are
    implemented in every headless and example subproject.
 3. Test-coverage audit — vitest, bUnit, Playwright e2e cover every component.
 
@@ -679,11 +712,13 @@ Long-term:
 - Package: lily
 - Version: 0.6.0
 - Created: 2025-08-09
-- Updated: 2026-07-21
-- License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause (or contact
-  for other terms)
+- Updated: 2026-08-26
+- License: `MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause`
+  (SPDX expression; or contact for other terms). See
+  [LICENSE.md](../LICENSE.md) — it is the single source of truth, and every
+  package manifest carries the same expression.
 - Contact: Joel Parker Henderson <joel@joelparkerhenderson.com>
-- Canonical catalog: [components.tsv](../components.tsv) (490 rows, tab-separated:
+- Canonical catalog: [components.tsv](../components.tsv) (491 rows, tab-separated:
   slug, name, description)
 - Companion docs: [AGENTS.md](../AGENTS.md), [AGENTS/*.md](../AGENTS/),
   [index.md](../index.md), [CHANGELOG.md](../CHANGELOG.md)
