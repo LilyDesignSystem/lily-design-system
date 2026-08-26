@@ -1,7 +1,7 @@
 {
   "name": "lily-design-system-nunjucks-share-picker",
   "version": "0.1.0",
-  "description": "Lily Design System - Nunjucks 3 share picker",
+  "description": "Lily Design System Nunjucks share picker: an icon button opening the native share sheet, or a disclosure of consumer-supplied links plus copy-to-clipboard. Headless, SSR-safe, no CSS.",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -29,6 +29,15 @@
     "share",
     "picker"
   ],
-  "author": "joel@joelparkerhenderson.com",
-  "license": "MIT"
+  "author": "Joel Parker Henderson <joel@joelparkerhenderson.com>",
+  "license": "MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LilyDesignSystem/lily-design-system-nunjucks-helpers.git",
+    "directory": "lily-design-system-nunjucks-share-picker"
+  },
+  "homepage": "https://lilydesignsystem.github.io/",
+  "bugs": {
+    "url": "https://github.com/LilyDesignSystem/lily-design-system/issues"
+  }
 }

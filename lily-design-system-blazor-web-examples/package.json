@@ -9,5 +9,15 @@
   "devDependencies": {
     "@axe-core/playwright": "^4.11.3",
     "@playwright/test": "^1.49.0"
+  },
+  "license": "MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause",
+  "author": "Joel Parker Henderson <joel@joelparkerhenderson.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LilyDesignSystem/lily-design-system-blazor-web-examples.git"
+  },
+  "homepage": "https://lilydesignsystem.github.io/",
+  "bugs": {
+    "url": "https://github.com/LilyDesignSystem/lily-design-system/issues"
   }
 }

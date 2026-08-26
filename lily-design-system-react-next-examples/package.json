@@ -40,5 +40,15 @@
       "undici@>=7.0.0 <7.24.0": ">=7.24.0",
       "undici@>=7.17.0 <7.24.0": ">=7.24.0"
     }
+  },
+  "license": "MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause",
+  "author": "Joel Parker Henderson <joel@joelparkerhenderson.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LilyDesignSystem/lily-design-system-react-next-examples.git"
+  },
+  "homepage": "https://lilydesignsystem.github.io/",
+  "bugs": {
+    "url": "https://github.com/LilyDesignSystem/lily-design-system/issues"
   }
 }

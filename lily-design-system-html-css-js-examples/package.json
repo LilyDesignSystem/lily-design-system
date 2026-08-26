@@ -19,5 +19,14 @@
     "chromedriver": "^131.0.0",
     "http-server": "^14.1.1",
     "wdio-chromedriver-service": "^8.0.0"
+  },
+  "author": "Joel Parker Henderson <joel@joelparkerhenderson.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LilyDesignSystem/lily-design-system-html-css-js-examples.git"
+  },
+  "homepage": "https://lilydesignsystem.github.io/",
+  "bugs": {
+    "url": "https://github.com/LilyDesignSystem/lily-design-system/issues"
   }
 }

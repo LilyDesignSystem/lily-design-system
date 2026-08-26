@@ -21,7 +21,21 @@
     "vite": "^6.2.0"
   },
   "pnpm": {
-    "ignoredBuiltDependencies": ["esbuild"],
-    "onlyBuiltDependencies": ["esbuild"]
+    "ignoredBuiltDependencies": [
+      "esbuild"
+    ],
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  },
+  "license": "MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause",
+  "author": "Joel Parker Henderson <joel@joelparkerhenderson.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LilyDesignSystem/lilydesignsystem.github.io.git"
+  },
+  "homepage": "https://lilydesignsystem.github.io/",
+  "bugs": {
+    "url": "https://github.com/LilyDesignSystem/lily-design-system/issues"
   }
 }
