@@ -1,7 +1,7 @@
 {
   "name": "lily-design-system-react-headless",
-  "version": "0.3.0",
-  "description": "A comprehensive headless React component library with 491 accessible, unstyled components for building design systems. WCAG 2.2 AAA compliant.",
+  "version": "0.3.1",
+  "description": "A comprehensive headless React component library with 491 accessible, unstyled components for building design systems. Targets WCAG 2.2 AAA.",
   "main": "./dist/index.js",
   "scripts": {
     "build": "node build.mjs",
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lily/lily-design-system-react-headless.git"
+    "url": "git+https://github.com/LilyDesignSystem/lily-design-system-react-headless.git"
   },
   "keywords": [
     "react",
@@ -28,12 +28,12 @@
     "unstyled",
     "typescript"
   ],
-  "author": "joel@joelparkerhenderson.com",
-  "license": "ISC",
+  "author": "Joel Parker Henderson <joel@joelparkerhenderson.com>",
+  "license": "MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause",
   "bugs": {
-    "url": "https://github.com/lily/lily-design-system-react-headless/issues"
+    "url": "https://github.com/LilyDesignSystem/lily-design-system/issues"
   },
-  "homepage": "https://github.com/lily/lily-design-system-react-headless#readme",
+  "homepage": "https://lilydesignsystem.github.io/",
   "devDependencies": {
     "@storybook/react-vite": "^9.0.0",
     "@testing-library/react": "^16.1.0",
