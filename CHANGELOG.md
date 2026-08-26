@@ -9,6 +9,18 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## 21 helper packages 0.1.1 — registry metadata catch-up — 2026-08-26
+
+The svelte, react, vue, and nunjucks helper catalogs (and the html
+date-time-picker) were published at 0.1.0 before the day's metadata
+sweep, so the registry still served the single-license field, the old
+URLs, and — for the svelte theme-picker — the phantom `@sveltejs/kit`
+runtime dependency. All 21 republished as 0.1.1: SPDX menu, corrected
+repository/homepage/bugs, named author, real descriptions; the svelte
+theme-picker's framework dependency moves to devDependencies. No
+behaviour change; the angular (0.2.0) and remaining html (0.1.1)
+helpers already carried current metadata.
+
 ## Locale and text-size pickers join every app shell — 2026-08-26
 
 [plan.md](plan.md) P3-T3. All seven example apps now carry the three

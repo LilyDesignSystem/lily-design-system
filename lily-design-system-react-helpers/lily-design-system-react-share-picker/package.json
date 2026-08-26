@@ -1,6 +1,6 @@
 {
   "name": "lily-design-system-react-share-picker",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Lily Design System React share picker: an icon button opening the native share sheet, or a disclosure of consumer-supplied links plus copy-to-clipboard. Headless, SSR-safe, no CSS.",
   "type": "module",
   "main": "./dist/index.js",

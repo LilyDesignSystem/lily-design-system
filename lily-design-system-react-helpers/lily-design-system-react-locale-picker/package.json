@@ -1,6 +1,6 @@
 {
   "name": "lily-design-system-react-locale-picker",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Lily Design System React locale picker: an icon button opening an APG listbox that sets lang and dir on the document. Headless, SSR-safe, no CSS.",
   "type": "module",
   "main": "./dist/index.js",

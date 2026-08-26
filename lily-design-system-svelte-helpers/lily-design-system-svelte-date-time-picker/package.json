@@ -1,6 +1,6 @@
 {
   "name": "lily-design-system-svelte-date-time-picker",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Lily Design System - Svelte 5 date and time picker",
   "type": "module",
   "svelte": "./dist/index.js",

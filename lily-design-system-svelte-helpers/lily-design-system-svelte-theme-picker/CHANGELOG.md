@@ -4,6 +4,20 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.1.1 — 2026-08-26
+
+Metadata-only patch; no behaviour change. Ships the corrected package
+metadata to the registry: the project SPDX license menu (`MIT OR
+Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause`) replacing
+the single-license field that contradicted the repository's
+LICENSE.md, `repository`/`homepage`/`bugs` URLs, a named author, and a
+description that says what the package does.
+
+Also fixed: `@sveltejs/kit` was declared as a runtime dependency,
+pulling a framework into every consumer's install tree — nothing
+shipped imports it (only a type-only import in an example excluded
+from the package). It is now a devDependency.
+
 ## 0.1.0 — 2026-07-30
 
 First published release. Nothing earlier shipped, so the
