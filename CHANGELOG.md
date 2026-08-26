@@ -9,6 +9,21 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Themes live in all seven example apps — 2026-08-26
+
+The Blazor port closes [plan.md](plan.md) P3-T2. The helper comes in as
+a local `ProjectReference` (its NuGet package is packed, push pending
+credentials), the layout carries the curated list, and App.razor gets
+the pre-paint script. One honest adaptation in its e2e: Blazor's
+server-rendered button is inert until the SignalR circuit is
+interactive and no DOM signal marks that moment, so the spec's open
+step retries until `aria-expanded` actually flips. Full suite 72/72 —
+including the five checks that failed on the pre-theme tree (overflow
+went with the shared theme guards; the document-title cases were
+circuit-timing flakes). Also: the Blazor app's tracked `bin/`+`obj/`
+build artifacts (52 files) are untracked, gitignored, and the CI junk
+guard now catches .NET build output too.
+
 ## Every framework stack updated to current — 2026-08-26
 
 The whole matrix moves to today's releases, per stack, each verified

@@ -10,4 +10,10 @@
     <ProjectReference Include="../../../lily-design-system-blazor-headless/src/LilyBlazorHeadless/LilyBlazorHeadless.csproj" />
   </ItemGroup>
 
+  <!-- Theme-picker helper: local subtree reference until the NuGet
+       packages are pushed (they are packed in ../../dist-nuget). -->
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\lily-design-system-blazor-helpers\lily-design-system-blazor-theme-picker\LilyDesignSystem.Blazor.ThemePicker.csproj" />
+  </ItemGroup>
+
 </Project>

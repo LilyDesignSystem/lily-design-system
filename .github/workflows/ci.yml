@@ -15,7 +15,7 @@ jobs:
 
       - name: No tracked node_modules or dist
         run: |
-          junk="$(git ls-files | grep -E '(^|/)(node_modules|dist)/' || true)"
+          junk="$(git ls-files | grep -E '(^|/)(node_modules|dist)/|/(obj|bin)/(Debug|Release|.*\.nuget\.)' || true)"
           if [ -n "$junk" ]; then
             echo "Tracked build/dependency artifacts found:" >&2
             echo "$junk" | head -20 >&2

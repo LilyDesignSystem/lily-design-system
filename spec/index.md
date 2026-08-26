@@ -645,11 +645,12 @@ this list holds only what is genuinely open.
       1,542 specs green (see §11.4). angular-headless remains covered
       by its vitest + Storybook layers, matching the other headless
       libraries — none of which has a Playwright layer.
-- [ ] **Blazor example app: 5 axe/responsive failures.** Measured
-      2026-08-26 on the pre-upgrade tree (document-title missing on
-      some component-detail pages; mobile overflow on /components
-      routes). Same class of drift as the HTML app's; needs its own
-      pass.
+- [x] Blazor example app axe/responsive failures: resolved 2026-08-26.
+      The 5 checks measured failing on the pre-theme tree pass under
+      the theme-layer app (72/72 including theme switching) — the
+      overflow went with the shared theme guards, and the
+      document-title cases were circuit-timing flakes the reworked
+      run no longer hits.
 - [ ] **HTML example app: axe + responsive suites failing.** Measured
       2026-08-26 on the pre-theme-wiring tree: 48 of 69 checks fail —
       composed-page trailing-slash routes 404 under the `http-server`
@@ -712,10 +713,10 @@ Near-term focus:
 Medium-term:
 
 - Wire the `themes/` reference stylesheets into the example subprojects
-  as switchable alternatives via the `theme-picker` helper. **Done for
-  the canonical SvelteKit app 2026-08-26** (runtime theme layer, curated
-  ten-theme list, NHS England patients default, persistence, e2e); the
-  six sibling apps are the remaining ports (plan P3-T2).
+  as switchable alternatives via the `theme-picker` helper. **Done in
+  all seven example apps 2026-08-26** (runtime theme layer, curated
+  ten-theme list, NHS England patients default, persistence, e2e in
+  every app — plan P3-T1/T2).
 - Expand composed-page demos beyond the required routes.
 
 Long-term:
