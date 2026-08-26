@@ -24,9 +24,14 @@ files = subprocess.run(
 # AGENTS/ (see bin/sync), and the github.io components-route AGENTS.md is
 # a copy of components/AGENTS.md; their relative links are written for
 # the repo root and are expected not to resolve from the copy location.
+# spec/special-files-for-public-repos/AI_STATEMENT.md is a project-agnostic
+# TEMPLATE: its relative links (SECURITY.md, GOVERNANCE.md, ...) are written
+# for the root of whatever repository it is installed into, so they are not
+# expected to resolve from the spec directory that stores it.
 SYNCED = re.compile(
     r"^lily[^/]*/AGENTS/"
     r"|^lilydesignsystem\.github\.io/src/routes/components/AGENTS\.md$"
+    r"|^spec/special-files-for-public-repos/AI_STATEMENT\.md$"
 )
 files = [f for f in files if not SYNCED.match(f)]
 

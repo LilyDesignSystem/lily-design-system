@@ -28,6 +28,23 @@ repo_setup_exists_or_err() (
     file_size_or_err "$1/LICENSE.md"
 )
 
+# Every subproject is a git subtree pushed to its own standalone PUBLIC
+# repository, so each one needs the top-level files a public repo is
+# expected to carry -- above all LICENSE.md, because a repository without
+# one is "all rights reserved" by default whatever the monorepo says.
+# The root is canonical and bin/sync-special-files propagates the set.
+# Spec: spec/special-files-for-public-repos/index.md
+special_files_exist_or_err() (
+    # dir="$1"
+    for f in \
+        LICENSE.md CITATION.cff NEWS.md COMPARISONS.md BENCHMARKS.md \
+        INSTALL.md CONTRIBUTING.md CODEOWNERS MAINTAINERS.md CHANGELOG.md \
+        AI_STATEMENT.md GOVERNANCE.md SECURITY.md CODE_OF_CONDUCT.md RFC.md
+    do
+        file_size_or_err "$1/$f"
+    done
+)
+
 ai_exists_or_err() (
     # dir="$1" — the spec-driven-development convention is a spec/
     # directory of specification files per directory, entered via
@@ -56,6 +73,7 @@ repo_root_ai_exists_or_err() (
 test_repository() {
     repo_setup_exists_or_err "$top"
     repo_root_ai_exists_or_err "$top"
+    special_files_exist_or_err "$top"
 }
 
 # The canonical catalog must be internally consistent, and every
@@ -96,6 +114,7 @@ test_catalog_consistency() {
     registry_count_or_err "$top/lily-design-system-svelte-sveltekit-examples/src/lib/data/components.ts" 'slug: "'
     registry_count_or_err "$top/lily-design-system-react-next-examples/app/data/components.ts" 'slug: "'
     registry_count_or_err "$top/lily-design-system-vue-nuxt-examples/data/components.ts" 'slug: "'
+    registry_count_or_err "$top/lily-design-system-angular-examples/src/app/components-data.ts" 'slug: "'
     registry_count_or_err "$top/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Data/ComponentData.cs" '^        new("'
     registry_count_or_err "$top/lily-design-system-html-css-js-examples/pages/components/index.html" 'slug: "'
     registry_count_or_err "$top/lily-design-system-html-css-js-examples/pages/components/component.html" 'slug: "'
@@ -115,6 +134,7 @@ test_components() {
 }
 
 test_lilydesignsystem_github_io() {
+    special_files_exist_or_err "$top/lilydesignsystem.github.io"
     "$top/bin/list-components-as-kebab-case" |
     while read -r component; do
         dir="$top/lilydesignsystem.github.io/src/routes/components/$component"
@@ -128,6 +148,7 @@ test_implementations() {
     while read -r implementation; do
         dir="$top/$implementation"
         ai_exists_or_err "$dir"
+        special_files_exist_or_err "$dir"
         file_exists_or_err "$dir/.git-subtree-push"
     done
 }
@@ -238,6 +259,8 @@ test_implementations_with_svelte
 test_implementation_nunjucks_headless
 test_implementation_nunjucks_example
 test_helper_glyphs_are_escaped
+"$top/bin/sync-special-files" --check >/dev/null 2>&1 \
+    || err "special files are out of sync; run bin/sync-special-files"
 
 if test -s "$ERRFLAG"; then
     >&2 printf %s\\n "bin/test: FAILED"
