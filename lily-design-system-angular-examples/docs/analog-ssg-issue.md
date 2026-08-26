@@ -1,9 +1,9 @@
 # Upstream issue draft — Analog route injection breaks under transform reordering
 
-Ready-to-file issue for [analogjs/analog](https://github.com/analogjs/analog).
+**Filed 2026-08-26 as [analogjs/analog#2498](https://github.com/analogjs/analog/issues/2498).**
 Distilled from the engineering log in
-[analog-ssg-notes.md](analog-ssg-notes.md); update version numbers before
-filing if the dependency line has moved.
+[analog-ssg-notes.md](analog-ssg-notes.md); the text below is the draft as
+filed (versions: 1.22.5 / Angular 20.x / Vite 6.4.3).
 
 ---
 

@@ -96,6 +96,20 @@ ${tsEntries(2)}
 );
 
 write(
+  "lily-design-system-angular-examples/src/app/components-data.ts",
+  `export interface ComponentMeta {
+  slug: string;
+  name: string;
+  description: string;
+}
+
+export const components: ComponentMeta[] = [
+${tsEntries(2)}
+];
+`
+);
+
+write(
   "lily-design-system-vue-nuxt-examples/data/components.ts",
   `export interface ComponentMeta {
   slug: string;

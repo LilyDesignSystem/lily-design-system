@@ -123,6 +123,45 @@ issue draft.
         SSG step onto `@angular/build:application`'s prerenderer.
       - Playwright e2e suites not yet exercised against either app.
 
+
+## Upstream issue
+
+Filed 2026-08-26: [analogjs/analog#2498](https://github.com/analogjs/analog/issues/2498) — the distilled report in
+[analog-ssg-issue.md](analog-ssg-issue.md).
+
+
+## Resolution (2026-08-26): explicit routes close the SSG gap
+
+The fallback prototyped under the improvement plan's P1-T5 fixed it
+outright — and turned up a second, independent failure on the way:
+
+1. **The documented injection failure regressed further.** By
+   2026-08-26 the `optimizeDeps.exclude` workaround no longer kept the
+   client route set alive: dev, client build, and prerender all served
+   an empty router with no error ([#2498](https://github.com/analogjs/analog/issues/2498)).
+2. **A self-owned `import.meta.glob` was not an escape.** Building our
+   own route table over `pages/**/*.page.ts` still failed: each lazy
+   module resolved with **zero exports** in the production build — the
+   Analog plugin claims `.page.ts` modules regardless of who imports
+   them. Instrumented: `loadComponent` received `undefined`, and the
+   router completed navigation without activating anything (a third
+   silent failure).
+
+The fix that holds: route components moved to `src/app/views/*.ts`
+(ordinary standalone components, no `.page.ts` suffix, no `pages/`
+directory), a hand-written 15-route table in `app.routes.ts` with plain
+`import()` calls, and `provideRouter(routes)` in place of
+`provideFileRouter()`. `injectParams` was replaced with the native
+`ActivatedRoute` param map.
+
+Result: the build emits **full-content prerendered HTML** for every
+route (`<h1>AccordionCheckbox</h1>` in the static file, not the shell),
+proper per-view code splitting (23 chunks), and working client
+navigation. The §11.8 "SSG output is shell-only" defect is closed. The
+app no longer depends on Analog's route injection at all; the upstream
+issue remains filed because the silent-empty-router failure mode will
+bite anyone still on the convention.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.
