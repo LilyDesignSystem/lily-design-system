@@ -1,12 +1,12 @@
 "use client";
 
-import Header from "@pgds/Header";
-import Footer from "@pgds/Footer";
-import NavigationMenu from "@pgds/NavigationMenu";
-import BreadcrumbNav from "@pgds/BreadcrumbNav";
-import BreadcrumbList from "@pgds/BreadcrumbList";
-import BreadcrumbListItem from "@pgds/BreadcrumbListItem";
-import Sidebar from "@pgds/Sidebar";
+import Header from "@lily/Header";
+import Footer from "@lily/Footer";
+import NavigationMenu from "@lily/NavigationMenu";
+import BreadcrumbNav from "@lily/BreadcrumbNav";
+import BreadcrumbList from "@lily/BreadcrumbList";
+import BreadcrumbListItem from "@lily/BreadcrumbListItem";
+import Sidebar from "@lily/Sidebar";
 
 export default function PageLayoutPage() {
     return (

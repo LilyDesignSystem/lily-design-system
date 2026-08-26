@@ -1,2 +1,86 @@
-export { default } from "@pgds/RedAmberGreenPickerButton";
-export type * from "@pgds/RedAmberGreenPickerButton";
+// RedAmberGreenPickerButton component
+//
+// A headless button representing one Red/Amber/Green status choice within a
+// RAG status picker. Renders a <button> with aria-pressed to indicate the
+// selected state and data-value for consumer CSS targeting. Commonly used in
+// project dashboards, risk registers, and reporting tools where clicking a
+// status button selects that status level.
+//
+// Props:
+//   value — string, required. The status value (e.g. "red", "amber", "green").
+//   label — string, required. Accessible name for the button via aria-label.
+//   selected — boolean, default false. Whether this status is currently selected.
+//   disabled — boolean, default false. Whether the button is disabled.
+//   onClick — (event: React.MouseEvent) => void, optional. Click handler.
+//   ...restProps — additional HTML attributes spread onto the <button>.
+//
+// Syntax:
+//   <RedAmberGreenPickerButton value="green" label="Green" onClick={handleSelect} />
+//
+// Examples:
+//
+//   <RedAmberGreenPickerButton value="red" label="Red" selected={true} onClick={handleSelect} />
+//   
+//   <RedAmberGreenPickerButton value="amber" label="Amber" disabled={true} />
+//
+// Keyboard:
+//   - Tab: Move focus to the button
+//   - Enter: Activate the button (native button behavior)
+//   - Space: Activate the button (native button behavior)
+//
+// Accessibility:
+//   - aria-label provides an accessible name for the button
+//   - aria-pressed indicates whether the status is currently selected
+//   - data-value exposes the status value for consumer CSS selectors
+//
+// Internationalization:
+//   - The label prop provides the accessible name; no hardcoded strings
+//
+// Claude rules:
+//   - Headless: no CSS, no styles — consumer provides all styling
+//   - Compound component: used as a child within RedAmberGreenPicker
+//   - Consumer can use [data-value] CSS selectors for status-based styling
+//
+// References:
+//   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
+//   - Traffic Light Rating System: https://en.wikipedia.org/wiki/Traffic_light_rating_system
+
+import React from "react";
+
+export interface RedAmberGreenPickerButtonProps {
+    className?: string;
+    /** The status value (e.g. "red", "amber", "green"). */
+    value: string;
+    /** Accessible name for the button. */
+    label: string;
+    /** Whether this status is currently selected. */
+    selected?: boolean;
+    /** Whether the button is disabled. */
+    disabled?: boolean;
+    /** Click handler. */
+    onClick?: (event: React.MouseEvent) => void;
+    [key: string]: unknown;
+}
+
+export default function RedAmberGreenPickerButton({
+    className = "",
+    value,
+    label,
+    selected = false,
+    disabled = false,
+    onClick = undefined,
+    ...restProps
+}: RedAmberGreenPickerButtonProps) {
+    return (
+        <button
+        className={`red-amber-green-picker-button ${className}`}
+        type="button"
+        aria-label={label}
+        aria-pressed={selected}
+        disabled={disabled}
+        data-value={value}
+        onClick={onClick}
+        {...restProps}
+        >{label}</button>
+    );
+}

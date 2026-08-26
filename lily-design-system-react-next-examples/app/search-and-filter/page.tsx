@@ -1,17 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import Combobox from "@pgds/Combobox";
-import SearchInput from "@pgds/SearchInput";
-import TagGroup from "@pgds/TagGroup";
-import Tag from "@pgds/Tag";
-import TagInput from "@pgds/TagInput";
-import DataTable from "@pgds/DataTable";
-import DataTableHead from "@pgds/DataTableHead";
-import DataTableBody from "@pgds/DataTableBody";
-import DataTableRow from "@pgds/DataTableRow";
-import DataTableTD from "@pgds/DataTableTD";
-import Badge from "@pgds/Badge";
+import Combobox from "@lily/Combobox";
+import SearchInput from "@lily/SearchInput";
+import TagGroup from "@lily/TagGroup";
+import Tag from "@lily/Tag";
+import TagInput from "@lily/TagInput";
+import DataTable from "@lily/DataTable";
+import DataTableHead from "@lily/DataTableHead";
+import DataTableBody from "@lily/DataTableBody";
+import DataTableRow from "@lily/DataTableRow";
+import DataTableTD from "@lily/DataTableTD";
+import Badge from "@lily/Badge";
 
 interface Product {
     id: number;

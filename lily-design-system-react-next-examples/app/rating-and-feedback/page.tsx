@@ -1,15 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import FiveStarRatingPicker from "@pgds/FiveStarRatingPicker";
-import FiveStarRatingView from "@pgds/FiveStarRatingView";
-import FiveFaceRatingPicker from "@pgds/FiveFaceRatingPicker";
-import NetPromoterScorePicker from "@pgds/NetPromoterScorePicker";
-import TextAreaInput from "@pgds/TextAreaInput";
-import Button from "@pgds/Button";
-import Alert from "@pgds/Alert";
-import Form from "@pgds/Form";
-import Separator from "@pgds/Separator";
+import FiveStarRatingPicker from "@lily/FiveStarRatingPicker";
+import FiveStarRatingView from "@lily/FiveStarRatingView";
+import FiveFaceRatingPicker from "@lily/FiveFaceRatingPicker";
+import NetPromoterScorePicker from "@lily/NetPromoterScorePicker";
+import TextAreaInput from "@lily/TextAreaInput";
+import Button from "@lily/Button";
+import Alert from "@lily/Alert";
+import Form from "@lily/Form";
+import Separator from "@lily/Separator";
 
 export default function RatingAndFeedbackPage() {
     const [stars, setStars] = useState(0);

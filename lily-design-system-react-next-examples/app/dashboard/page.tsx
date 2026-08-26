@@ -1,16 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import Card from "@pgds/Card";
-import Progress from "@pgds/Progress";
-import ProgressCircle from "@pgds/ProgressCircle";
-import Badge from "@pgds/Badge";
-import Banner from "@pgds/Banner";
-import DataTable from "@pgds/DataTable";
-import DataTableHead from "@pgds/DataTableHead";
-import DataTableBody from "@pgds/DataTableBody";
-import DataTableRow from "@pgds/DataTableRow";
-import DataTableTD from "@pgds/DataTableTD";
+import Card from "@lily/Card";
+import Progress from "@lily/Progress";
+import ProgressCircle from "@lily/ProgressCircle";
+import Badge from "@lily/Badge";
+import Banner from "@lily/Banner";
+import DataTable from "@lily/DataTable";
+import DataTableHead from "@lily/DataTableHead";
+import DataTableBody from "@lily/DataTableBody";
+import DataTableRow from "@lily/DataTableRow";
+import DataTableTD from "@lily/DataTableTD";
 
 interface Task {
     id: number;

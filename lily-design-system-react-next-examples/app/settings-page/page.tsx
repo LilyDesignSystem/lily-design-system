@@ -1,15 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import SwitchButton from "@pgds/SwitchButton";
-import RadioGroup from "@pgds/RadioGroup";
-import RadioInput from "@pgds/RadioInput";
-import Select from "@pgds/Select";
-import Option from "@pgds/Option";
-import Separator from "@pgds/Separator";
-import Fieldset from "@pgds/Fieldset";
-import Button from "@pgds/Button";
-import Banner from "@pgds/Banner";
+import SwitchButton from "@lily/SwitchButton";
+import RadioGroup from "@lily/RadioGroup";
+import RadioInput from "@lily/RadioInput";
+import Select from "@lily/Select";
+import Option from "@lily/Option";
+import Separator from "@lily/Separator";
+import Fieldset from "@lily/Fieldset";
+import Button from "@lily/Button";
+import Banner from "@lily/Banner";
 
 export default function SettingsPagePage() {
     const [darkMode, setDarkMode] = useState(false);

@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import FileUpload from "@pgds/FileUpload";
-import Progress from "@pgds/Progress";
-import Button from "@pgds/Button";
-import Alert from "@pgds/Alert";
-import Badge from "@pgds/Badge";
-import Form from "@pgds/Form";
-import Field from "@pgds/Field";
+import FileUpload from "@lily/FileUpload";
+import Progress from "@lily/Progress";
+import Button from "@lily/Button";
+import Alert from "@lily/Alert";
+import Badge from "@lily/Badge";
+import Form from "@lily/Form";
+import Field from "@lily/Field";
 
 interface UploadedFile {
     name: string;

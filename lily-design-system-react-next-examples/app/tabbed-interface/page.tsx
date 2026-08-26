@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import TabBar from "@pgds/TabBar";
-import TabBarButton from "@pgds/TabBarButton";
-import AccordionNav from "@pgds/AccordionNav";
-import AccordionList from "@pgds/AccordionList";
-import AccordionListItem from "@pgds/AccordionListItem";
-import Badge from "@pgds/Badge";
+import TabBar from "@lily/TabBar";
+import TabBarButton from "@lily/TabBarButton";
+import AccordionNav from "@lily/AccordionNav";
+import AccordionList from "@lily/AccordionList";
+import AccordionListItem from "@lily/AccordionListItem";
+import Badge from "@lily/Badge";
 
 interface Notification {
     id: number;

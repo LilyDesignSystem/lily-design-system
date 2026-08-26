@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import Dialog from "@pgds/Dialog";
-import AlertDialog from "@pgds/AlertDialog";
-import Drawer from "@pgds/Drawer";
-import Button from "@pgds/Button";
-import Popover from "@pgds/Popover";
-import Tooltip from "@pgds/Tooltip";
+import Dialog from "@lily/Dialog";
+import AlertDialog from "@lily/AlertDialog";
+import Drawer from "@lily/Drawer";
+import Button from "@lily/Button";
+import Popover from "@lily/Popover";
+import Tooltip from "@lily/Tooltip";
 
 export default function DialogFlowPage() {
     const [confirmOpen, setConfirmOpen] = useState(false);

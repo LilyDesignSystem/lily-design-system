@@ -1,2 +1,80 @@
-export { default } from "@pgds/Avatar";
-export type * from "@pgds/Avatar";
+// Avatar component
+//
+// A headless avatar container that displays a user's identity. Renders as
+// a <span role="img"> with an accessible label. The consumer provides
+// AvatarImage and/or AvatarText children to control the
+// avatar content. Commonly used in user profiles, comment threads,
+// contact lists, and messaging interfaces.
+//
+// Props:
+//   className — string, optional. CSS class name.
+//   alt — string, required. Accessible description of the person via aria-label.
+//   children — ReactNode, required. AvatarImage and/or AvatarText elements.
+//   ...restProps — additional HTML attributes spread onto the outer <span>.
+//
+// Syntax:
+//   <Avatar alt="Jane Doe">...</Avatar>
+//
+// Examples:
+//   
+//   <Avatar alt="Jane Doe">
+//     <AvatarImage src="/photos/jane.jpg" alt="Jane Doe" />
+//   </Avatar>
+//
+//   
+//   <Avatar alt="Jane Doe">
+//     <AvatarText>JD</AvatarText>
+//   </Avatar>
+//
+//   
+//   <Avatar alt="Jane Doe">
+//     <AvatarImage src="/photos/jane.jpg" alt="Jane Doe" />
+//     <AvatarText>JD</AvatarText>
+//   </Avatar>
+//
+// Keyboard: None — this is a display-only element, not interactive.
+//
+// Accessibility:
+//   - role="img" on the outer <span> for assistive technologies
+//   - aria-label provides the accessible name (the person's name)
+//
+// Internationalization:
+//   - alt comes through props
+//   - No hardcoded strings
+//
+// Claude rules:
+//   - Compound component — use with AvatarImage and AvatarText
+//   - Headless: no CSS, no styles — consumer provides all styling
+//   - Consumer provides border-radius: 50% for the circular shape
+//
+// References:
+//   - WAI-ARIA img role: https://www.w3.org/TR/wai-aria-1.2/#img
+
+import React from "react";
+
+export interface AvatarProps {
+    className?: string;
+    /** Accessible description of the person. */
+    alt: string;
+    /** AvatarImage and/or AvatarText elements. */
+    children: React.ReactNode;
+    [key: string]: unknown;
+}
+
+export default function Avatar({
+    className = "",
+    alt,
+    children,
+    ...restProps
+}: AvatarProps) {
+    return (
+        <span
+        className={`avatar ${className}`}
+        role="img"
+        aria-label={alt}
+        {...restProps}
+        >
+        {children}
+        </span>
+    );
+}

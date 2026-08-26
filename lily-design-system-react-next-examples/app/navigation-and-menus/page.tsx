@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import NavigationMenu from "@pgds/NavigationMenu";
-import MenuBar from "@pgds/MenuBar";
-import MenuBarButton from "@pgds/MenuBarButton";
-import ToolBar from "@pgds/ToolBar";
-import ToolBarButton from "@pgds/ToolBarButton";
-import HamburgerMenu from "@pgds/HamburgerMenu";
-import DropdownMenu from "@pgds/DropdownMenu";
-import Separator from "@pgds/Separator";
+import NavigationMenu from "@lily/NavigationMenu";
+import MenuBar from "@lily/MenuBar";
+import MenuBarButton from "@lily/MenuBarButton";
+import ToolBar from "@lily/ToolBar";
+import ToolBarButton from "@lily/ToolBarButton";
+import HamburgerMenu from "@lily/HamburgerMenu";
+import DropdownMenu from "@lily/DropdownMenu";
+import Separator from "@lily/Separator";
 
 export default function NavigationAndMenusPage() {
     const [hamburgerOpen, setHamburgerOpen] = useState(false);

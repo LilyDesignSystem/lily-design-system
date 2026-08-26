@@ -1,2 +1,61 @@
-export { default } from "@pgds/DataTableTD";
-export type * from "@pgds/DataTableTD";
+// DataTableTD component
+//
+// A single data cell within a DataTableRow. Renders as a <td> with
+// role="gridcell". Supports an active state for indicating the currently
+// focused or selected cell, communicated via aria-selected for screen
+// readers. Uses a roving tabindex pattern.
+//
+// Props:
+//   className — string, optional. CSS class name.
+//   active — boolean, default false. Whether this cell is active/selected.
+//   children — ReactNode, required. Cell content.
+//   ...restProps — additional HTML attributes spread onto the <td>.
+//
+// Syntax:
+//   <DataTableTD>Alice</DataTableTD>
+//   <DataTableTD active>Bob</DataTableTD>
+//
+// Keyboard:
+//   None built-in — keyboard navigation handled at the DataTable grid level.
+//
+// Accessibility:
+//   - role="gridcell" identifies the cell as part of an interactive grid
+//   - aria-selected set to true when active; omitted otherwise
+//   - Roving tabindex: tabindex="0" when active, "-1" otherwise
+//
+// Claude rules:
+//   - Headless: no CSS, no styles — consumer provides all styling
+//   - Must be used inside a DataTableRow
+//
+// References:
+//   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
+
+import React from "react";
+
+export interface DataTableTDProps {
+    className?: string;
+    /** Whether this cell is active/selected. */
+    active?: boolean;
+    /** Cell content. */
+    children: React.ReactNode;
+    [key: string]: unknown;
+}
+
+export default function DataTableTD({
+    className = "",
+    active = false,
+    children,
+    ...restProps
+}: DataTableTDProps) {
+    return (
+        <td
+        className={`data-table-td ${className}`}
+        role="gridcell"
+        aria-selected={active || undefined}
+        tabIndex={active ? 0 : -1}
+        {...restProps}
+        >
+        {children}
+        </td>
+    );
+}

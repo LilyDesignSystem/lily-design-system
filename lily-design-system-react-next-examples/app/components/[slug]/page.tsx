@@ -41,7 +41,7 @@ export default async function ComponentDetailPage({ params }: Props) {
             <h2>Usage</h2>
             <pre><code>{`<${component.name} />`}</code></pre>
             <h2>Import</h2>
-            <pre><code>{`import ${component.name} from "@pgds/${component.name}";`}</code></pre>
+            <pre><code>{`import ${component.name} from "@lily/${component.name}";`}</code></pre>
         </main>
     );
 }
