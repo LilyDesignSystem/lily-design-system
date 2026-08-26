@@ -3,6 +3,25 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the package follows [Semantic Versioning](https://semver.org/).
 
+## 0.3.1 — 2026-08-26
+
+Metadata-only patch; no code change. Ships the corrected package
+metadata to the registry:
+
+- `license` is the project SPDX menu (`MIT OR Apache-2.0 OR
+  GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause`), replacing the
+  single-license field that contradicted the repository's LICENSE.md.
+- `repository`, `homepage`, and `bugs` point at the LilyDesignSystem
+  organisation and the documentation site.
+  The previous URLs pointed at `github.com/lily/…`, an unrelated
+  account — the repository link on the npm page led to a stranger's 404.
+- `description` says "Targets WCAG 2.2 AAA." — the previous
+  "WCAG 2.2 AAA compliant" claimed a conformance no audit supports.
+- `author` names the maintainer rather than a bare email address.
+
+Also as of this release, 0.2.0 is marked deprecated on npm (it
+declared a `main` that was never built; see 0.3.0's notes).
+
 ## 0.3.0 — 2026-08-23
 
 ### Fixed

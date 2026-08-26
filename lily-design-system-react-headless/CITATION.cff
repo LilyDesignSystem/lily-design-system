@@ -1,0 +1,40 @@
+cff-version: 1.2.0
+title: "Lily Design System: lily-design-system-react-headless"
+message: >-
+  If you use this work and you want to cite it,
+  then you can use the metadata from this file.
+type: software
+authors:
+  - given-names: Joel Parker
+    family-names: Henderson
+    email: joel@joelparkerhenderson.com
+    affiliation: joelparkerhenderson.com
+    orcid: 'https://orcid.org/0009-0000-4681-282X'
+identifiers:
+  - type: url
+    value: 'https://github.com/LilyDesignSystem/lily-design-system-react-headless/'
+    description: lily-design-system-react-headless source repository
+  - type: url
+    value: 'https://github.com/LilyDesignSystem/lily-design-system/'
+    description: Lily Design System canonical monorepo
+repository-code: 'https://github.com/LilyDesignSystem/lily-design-system-react-headless/'
+url: 'https://lilydesignsystem.github.io/'
+abstract: >-
+  This repository is the React headless component library: all 491 catalog components, unstyled and accessible.
+  It is one subproject of Lily Design System, a free open-source headless
+  design system whose canonical catalog of 491 components is implemented
+  across seven frameworks. The canonical monorepo is at
+  https://github.com/LilyDesignSystem/lily-design-system and this repository is
+  published from it as a git subtree.
+keywords:
+  - design system
+  - headless components
+  - accessibility
+  - WCAG
+  - WAI-ARIA
+license:
+  - MIT
+  - Apache-2.0
+  - GPL-2.0-only
+  - GPL-3.0-only
+  - BSD-3-Clause
