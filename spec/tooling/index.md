@@ -13,6 +13,7 @@ Covers the `bin/` toolchain: catalog listers, directory scaffolders, the verific
 - **`components.tsv` is the catalog source of truth.** `list-components-as-kebab-case` and `-as-pascal-case` derive their output from it; nothing maintains a duplicate list.
 - **AGENTS files at the repo root are canonical.** `bin/sync` rsyncs `AGENTS/` into each subproject. It uses rsync (file copies), **not** symlinks, because `git subtree push` does not follow symlinks across project boundaries — a symlinked AGENTS dir would break the standalone subtree repos.
 - **`bin/test` is the single verification gate.** It checks required files across the repository, all components, the github.io site, and all implementation subprojects, and fails on missing or stub ("Not yet implemented.") files.
+- **Lockfiles are always committed.** Every `pnpm-lock.yaml` (and any other package-manager lockfile) that exists in the tree is tracked in git — never gitignored, never left untracked. Reproducible installs are the point: CI, a fresh clone, and each published subtree repo must resolve the same dependency graph the maintainer tested, and a subproject published without its lockfile silently loses that. Lockfiles live where their `pnpm install` runs (a catalog or app root, or a package with its own install), and `bin/test` fails on any lockfile left untracked or ignored.
 - **Scaffolders produce the standard file set.** Both `create-*-directory` scripts emit `index.md`, a `README.md` symlink to it, `AGENTS.md`, a `CLAUDE.md` that loads `@AGENTS.md`, plus `spec/index.md` (the spec-driven plan + tasks file that replaced the older `plan.md` / `tasks.md`).
 
 ## bin/ scripts
@@ -95,6 +96,7 @@ Each subproject is a `git subtree`. `bin/git-subtree-push` publishes each one to
 - [x] `create-component-directory` and `create-implementation-directory` scaffold the standard file set (`index.md`, `README.md` symlink, `AGENTS.md`, `CLAUDE.md` loading `@AGENTS.md`, `spec/index.md`).
 - [ ] `bin/test` passes against repo + all components + github.io + all subprojects.
 - [ ] `bin/sync` rsyncs root `AGENTS/` into every subproject (copies, not symlinks).
+- [x] Every `pnpm-lock.yaml` on disk (outside `node_modules/`) is tracked in git; `bin/test` fails on an untracked or ignored one.
 - [x] `bin/sync-special-files` propagates the top-level special files into all 22
       public repos, is idempotent, and gates via `--check` from `bin/test`.
 - [ ] `bin/git-subtree-push` pushes each subtree to its `LilyDesignSystem/{impl}` remote.

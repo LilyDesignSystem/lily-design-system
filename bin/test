@@ -258,7 +258,17 @@ test_implementations_with_vite
 test_implementations_with_svelte
 test_implementation_nunjucks_headless
 test_implementation_nunjucks_example
+# Lockfiles are always committed (spec/tooling): an untracked or
+# gitignored pnpm-lock.yaml means CI, fresh clones, and the published
+# subtree repos resolve a different dependency graph than was tested.
+test_lockfiles_are_tracked() (
+    untracked="$(cd "$top" && git ls-files --others --exclude-standard '*pnpm-lock.yaml'; \
+                 cd "$top" && git ls-files --others -i --exclude-standard '*pnpm-lock.yaml')"
+    test -z "$untracked" || err "lockfiles must be committed (spec/tooling): $untracked"
+)
+
 test_helper_glyphs_are_escaped
+test_lockfiles_are_tracked
 "$top/bin/sync-special-files" --check >/dev/null 2>&1 \
     || err "special files are out of sync; run bin/sync-special-files"
 
