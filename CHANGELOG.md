@@ -9,6 +9,20 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## bin/git-subtree-push exists now — 2026-08-26
+
+The push to the 22 standalone repositories revealed that the
+documented `bin/git-subtree-push` script had never existed and every
+`.git-subtree-push` file was a 0-byte placeholder (`bin/test` checks
+existence, not content). The script now exists — it iterates the
+configured remotes (each fanning to GitHub, GitLab, and Codeberg),
+honours the per-subproject config file (now populated with each
+remote's name), takes optional subproject arguments, and keeps
+`git subtree push` output deliberately unpiped: `git subtree split`
+dies on SIGPIPE if a downstream filter exits early, which is exactly
+how a broken filter silently killed 21 of 22 pushes on the first
+attempt today.
+
 ## 21 helper packages 0.1.1 — registry metadata catch-up — 2026-08-26
 
 The svelte, react, vue, and nunjucks helper catalogs (and the html
