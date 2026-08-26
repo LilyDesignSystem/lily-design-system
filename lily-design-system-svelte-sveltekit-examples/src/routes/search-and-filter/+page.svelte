@@ -103,7 +103,7 @@
             <Tag label={tag}>
                 <span>{tag}</span>
                 <button
-                    style="background:none;border:none;cursor:pointer;margin-left:4px;color:var(--nhs-dark-grey);"
+                    style="background:none;border:none;cursor:pointer;margin-left:4px;color:var(--nhs-dark-grey);min-width:24px;min-height:24px;"
                     onclick={() => removeTag(i)}
                     aria-label="Remove {tag}">x</button
                 >

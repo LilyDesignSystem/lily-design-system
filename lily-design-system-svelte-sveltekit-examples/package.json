@@ -46,5 +46,8 @@
   "homepage": "https://lilydesignsystem.github.io/",
   "bugs": {
     "url": "https://github.com/LilyDesignSystem/lily-design-system/issues"
+  },
+  "dependencies": {
+    "lily-design-system-svelte-theme-picker": "0.1.0"
   }
 }

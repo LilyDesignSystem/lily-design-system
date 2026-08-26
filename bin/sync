@@ -11,3 +11,10 @@ while read -r implementation; do
     esac
     rsync -av "$top/AGENTS/" "$top/$implementation/AGENTS/"
 done
+
+# The reference themes are canonical at the repo root; the example apps
+# serve them as static assets so the theme-picker helper can swap the
+# managed <link> href at runtime (spec/theme, plan P3). rsync, not
+# symlinks, for the same subtree reason as AGENTS/.
+mkdir -p "$top/lily-design-system-svelte-sveltekit-examples/static/themes"
+rsync -a --delete "$top/themes/" "$top/lily-design-system-svelte-sveltekit-examples/static/themes/"

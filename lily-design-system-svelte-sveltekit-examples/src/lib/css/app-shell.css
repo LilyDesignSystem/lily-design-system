@@ -1,0 +1,85 @@
+/* App-shell chrome for the SvelteKit example app.
+ *
+ * Everything Lily-component-shaped now comes from the runtime theme
+ * stylesheet — the managed <link data-lily-theme-picker> that the
+ * theme-picker helper swaps between the 45 files under /themes/
+ * (default: NHS England for patients). This file keeps only the
+ * app-owned chrome that no theme should style: page scaffolding, the
+ * site header/footer, and overflow guards.
+ */
+
+body {
+    margin: 0;
+    font-family: var(--nhs-font-family);
+    font-size: var(--nhs-font-size-19);
+    line-height: var(--nhs-line-height-normal);
+    color: var(--nhs-black);
+    background-color: var(--nhs-white);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+pre {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.page-wrapper {
+    max-width: var(--nhs-max-width);
+    margin: 0 auto;
+    padding: 0 var(--nhs-space-4);
+}
+
+.skip-link {
+    position: absolute;
+    top: -100px;
+    left: 0;
+    padding: var(--nhs-space-2) var(--nhs-space-3);
+    background-color: var(--nhs-focus-color);
+    color: var(--nhs-focus-text-color);
+    font-weight: 700;
+    text-decoration: none;
+    z-index: 10000;
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
+.site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.5rem 1rem;
+}
+
+.site-footer {
+    padding: 1rem;
+    text-align: center;
+}
+
+/* The theme-picker listbox is headless; give it the minimal chrome the
+ * example app wants (the 45 themes style .theme-picker-* hooks too —
+ * these app rules only ensure the popup is usable if a theme omits them). */
+.theme-picker-list {
+    position: absolute;
+    z-index: 10;
+    margin: 0;
+    padding: 0.25rem;
+    list-style: none;
+    max-height: 60vh;
+    overflow: auto;
+}
+
+.theme-picker {
+    position: relative;
+}
+
+/* WCAG 2.2 target-size floor for the app's own content links — list links
+ * the pages write directly (related-content lists, etc.), which no Lily
+ * hook owns. */
+#content :where(li > a) {
+    display: inline-block;
+    min-block-size: 24px;
+}

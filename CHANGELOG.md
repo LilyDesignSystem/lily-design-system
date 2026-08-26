@@ -9,6 +9,31 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Themes go live in the SvelteKit example app — 2026-08-26
+
+[plan.md](plan.md) P3-T1, the canonical wiring. The app's component
+styling now comes from the runtime theme layer instead of a baked-in
+stylesheet: `theme-picker` (installed from npm — the example app is a
+real consumer of the published helper) sits in a new site header with a
+curated ten-theme list defaulting to NHS England for patients,
+`bin/sync` serves the 45 canonical `themes/*.css` at `/themes/`, and
+`nhs.css` shrinks to an app-shell file (page scaffolding, header,
+footer). A pre-rendered managed `<link>` plus a small pre-paint script
+in `app.html` means no flash of unstyled or wrongly-themed content —
+the helper adopts the link on hydration.
+
+Switching the default surfaced real accessibility findings the old
+stylesheet had been compensating for: **WCAG 2.2 target-size (2.5.8)
+failures** on link-shaped hooks (`.action-link`, `.back-link`,
+breadcrumb and pagination anchors) and small inputs. All 45 themes now
+carry a shared target-size floor section (`:where()`-wrapped, zero
+specificity), the app's own content links get the same floor in
+app-shell.css, and one undersized inline-styled remove button was
+fixed in place. New `e2e/theme-switching.spec.ts` asserts the default
+link, select-apply-persist across reload, the pointer-close contract,
+and Escape; the full run is 72/72 with the axe and responsive suites
+green under the new architecture.
+
 ## Release engineering: tags, releases, smoke gate, publish workflow — 2026-08-26
 
 [plan.md](plan.md) P2-T4–T7. Retroactive annotated tags v0.2.0–v0.6.0

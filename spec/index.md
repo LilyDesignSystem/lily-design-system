@@ -699,10 +699,11 @@ Near-term focus:
 
 Medium-term:
 
-- Wire the `themes/` reference stylesheets (GOV.UK GDS, USWDS, Mozilla
-  Protocol, Adobe Spectrum, NHS variants — shipped June 2026) into the
-  example subprojects as switchable alternatives to the default NHS layer,
-  e.g. via the `theme-picker` helper.
+- Wire the `themes/` reference stylesheets into the example subprojects
+  as switchable alternatives via the `theme-picker` helper. **Done for
+  the canonical SvelteKit app 2026-08-26** (runtime theme layer, curated
+  ten-theme list, NHS England patients default, persistence, e2e); the
+  six sibling apps are the remaining ports (plan P3-T2).
 - Expand composed-page demos beyond the required routes.
 
 Long-term:

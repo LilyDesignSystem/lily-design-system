@@ -141,7 +141,7 @@ Rules for the executing agent:
 
 ## Phase 3 — Themes live + tokens
 
-- [ ] **P3-T1 Theme-picker in the SvelteKit example shell (canonical).**
+- [x] **P3-T1 Theme-picker in the SvelteKit example shell (canonical).**
   Curated list (NHS England patient default; NHS Scotland/Wales; GOV.UK
   GDS; USWDS; Spectrum; Protocol; general light/dark), localStorage,
   managed `<link>` + `data-theme` per `AGENTS/helpers.md`.

@@ -5,6 +5,32 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="data:," />
         <title>Lily Design System — Svelte SvelteKit Examples</title>
+        <!-- The theme-picker helper adopts this link (matching
+             data-lily-theme-picker name) and swaps its href at runtime.
+             Rendering it here, with the pre-paint script below, means the
+             page never flashes unstyled or wrongly-themed content. -->
+        <link
+            rel="stylesheet"
+            data-lily-theme-picker="theme"
+            href="/themes/united-kingdom-national-health-service-england-for-patients.css"
+        />
+        <script>
+            // Apply a persisted theme before first paint. Mirrors what the
+            // theme-picker helper does on mount; this only closes the gap
+            // between HTML arriving and the helper hydrating.
+            (function () {
+                try {
+                    var slug = localStorage.getItem("lily-theme");
+                    if (slug && /^[a-z0-9-]+$/.test(slug)) {
+                        var link = document.querySelector('link[data-lily-theme-picker="theme"]');
+                        if (link) link.setAttribute("href", "/themes/" + slug + ".css");
+                        document.documentElement.setAttribute("data-theme", slug);
+                    }
+                } catch (e) {
+                    /* private mode etc. — the helper applies after mount */
+                }
+            })();
+        </script>
         %sveltekit.head%
     </head>
     <body data-sveltekit-preload-data="hover">
