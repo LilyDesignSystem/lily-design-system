@@ -9,6 +9,23 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Release engineering: tags, releases, smoke gate, publish workflow — 2026-08-26
+
+[plan.md](plan.md) P2-T4–T7. Retroactive annotated tags v0.2.0–v0.6.0
+created against the identified release commits and pushed to all three
+forges; five GitHub Releases carry the CHANGELOG sections as notes —
+the project's first tags ever. New `bin/smoke-packages` packs every
+npm headless library and imports it from a scratch consumer (React and
+Vue SSR renders, an html snippet read, a real nunjucks macro render, an
+Angular JIT import, and a genuine Svelte Vite build) — the gate that
+would have caught 0.2.0 — and runs in CI as the `consumer-smoke` job.
+A tag-gated `publish` workflow runs both publish scripts dry-run by
+default with npm provenance enabled; publishing for real requires an
+explicit manual dispatch. `docs/releasing.md` records the version
+lines, the first-release-is-0.1.0 principle, the two stable contracts
+that drive breaking bumps, the deprecate-never-unpublish policy with
+0.2.0 as the worked example, and the credential inventory.
+
 ## Phase 2 begins: six of seven headless libraries on npm — 2026-08-26
 
 [plan.md](plan.md) P2-T1/T3: `lily-design-system-html-headless`,

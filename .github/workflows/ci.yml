@@ -64,3 +64,26 @@ jobs:
       - name: Test
         working-directory: ${{ matrix.catalog }}
         run: pnpm exec vitest run
+
+  consumer-smoke:
+    name: consumer smoke (packed tarballs import as a consumer would)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Build angular dist (ng-packagr)
+        working-directory: lily-design-system-angular-headless
+        run: npm install --no-audit --no-fund && npm run build
+      - name: Build svelte dist
+        working-directory: lily-design-system-svelte-headless
+        run: npm install --no-audit --no-fund && npm run build
+      - name: Build react dist
+        working-directory: lily-design-system-react-headless
+        run: npm install --no-audit --no-fund && npm run build
+      - name: Build vue dist
+        working-directory: lily-design-system-vue-headless
+        run: npm install --no-audit --no-fund && npm run build
+      - name: Smoke every package as a consumer
+        run: bin/smoke-packages

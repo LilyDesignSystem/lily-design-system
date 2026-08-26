@@ -113,26 +113,26 @@ Rules for the executing agent:
   with dry-run default; document in spec/tooling + AGENTS/lily.md.
   Verify: dry-run succeeds for all 7 packages; docs linked.
 
-- [ ] **P2-T4 Tags + GitHub Releases.**
+- [x] **P2-T4 Tags + GitHub Releases.**
   Annotated tag per release with notes from the CHANGELOG section;
   retroactive tags for 0.2.0–0.6.0 where the commit is identifiable;
   release process added to `docs/releasing.md` (P2-T6).
   Verify: `git tag` lists them; `gh release list` shows notes.
 
-- [ ] **P2-T5 Publish provenance + CI publish workflow.**
+- [x] **P2-T5 Publish provenance + CI publish workflow.**
   Tag-gated workflow, dry-run by default, `npm publish --provenance`
   from CI, 2FA confirmed on the npm account. Optional: Zenodo DOI
   added to CITATION.cff.
   Verify: workflow runs green in dry-run on a test tag; a subsequent
   real publish shows the provenance badge on npm.
 
-- [ ] **P2-T6 `docs/releasing.md`**: semver rules, the two stable
+- [x] **P2-T6 `docs/releasing.md`**: semver rules, the two stable
   contracts (class hooks, keyboard/ARIA), per-subproject CHANGELOGs,
   subtree-vs-package consumption, deprecation policy (0.2.0 as the
   worked example).
   Verify: `bin/check-links` passes; linked from CONTRIBUTING.md.
 
-- [ ] **P2-T7 Consumer smoke tests in CI.**
+- [x] **P2-T7 Consumer smoke tests in CI.**
   Per published package: install the packed tarball into a scratch
   project, import the barrel, render 3 components. This is the check
   that would have caught 0.2.0.

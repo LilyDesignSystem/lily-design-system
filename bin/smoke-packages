@@ -1,0 +1,108 @@
+#!/bin/sh
+# Consumer smoke test for the published npm packages.
+#
+# Packs each headless library, installs the tarballs into a scratch
+# consumer project, and imports/renders components the way a consumer
+# would. This is the check that would have caught the 0.2.0 breakage,
+# where every package declared a `main` that was never built and no
+# test imported the package as a package.
+#
+# Usage: bin/smoke-packages [scratch-dir]
+# Exits non-zero on any failure. Requires node + npm; the angular
+# check needs the package's dist/ to exist (run its ng-packagr build
+# first — bin/publish-headless does).
+set -eu
+
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+S="${1:-$(mktemp -d)}"
+mkdir -p "$S/consumer"
+echo "scratch: $S"
+
+echo "== pack =="
+for d in svelte react vue html nunjucks; do
+  ( cd "$ROOT/lily-design-system-$d-headless" && npm pack --pack-destination "$S" ) > /dev/null
+done
+if [ -d "$ROOT/lily-design-system-angular-headless/dist" ]; then
+  ( cd "$ROOT/lily-design-system-angular-headless/dist" && npm pack --pack-destination "$S" ) > /dev/null
+else
+  echo "angular: dist/ missing — run ng-packagr first" >&2; exit 1
+fi
+
+cd "$S/consumer"
+printf '{ "name": "lily-smoke", "private": true, "type": "module" }\n' > package.json
+# shellcheck disable=SC2046
+npm install --no-audit --no-fund $(ls ../*.tgz) \
+  react react-dom vue nunjucks svelte \
+  @sveltejs/vite-plugin-svelte vite \
+  @angular/core @angular/common @angular/compiler rxjs > /dev/null
+
+echo "== react =="
+node --input-type=module -e '
+import { renderToStaticMarkup } from "react-dom/server";
+import React from "react";
+import { Button, BreadcrumbNav, TextInput } from "lily-design-system-react-headless";
+const html = renderToStaticMarkup(React.createElement(Button, {}, "Go"));
+if (!html.includes(String.raw`class="button`)) throw new Error("react render: " + html);
+if (![BreadcrumbNav, TextInput].every(Boolean)) throw new Error("react exports missing");
+console.log("react OK");'
+
+echo "== vue =="
+node --input-type=module -e '
+import { createSSRApp, h } from "vue";
+import { renderToString } from "vue/server-renderer";
+import { Button, BreadcrumbNav, TextInput } from "lily-design-system-vue-headless";
+const html = await renderToString(createSSRApp({ render: () => h(Button, {}, () => "Go") }));
+if (!html.includes(String.raw`class="button`)) throw new Error("vue render: " + html);
+if (![BreadcrumbNav, TextInput].every(Boolean)) throw new Error("vue exports missing");
+console.log("vue OK");'
+
+echo "== html =="
+node -e '
+const lib = require("lily-design-system-html-headless");
+const n = lib.listComponents().length;
+if (n !== 491) throw new Error("html: expected 491 components, got " + n);
+if (!lib.readComponent("button").includes(String.raw`class="button"`)) throw new Error("html: bad snippet");
+console.log("html OK");'
+
+echo "== nunjucks =="
+node -e '
+const lily = require("lily-design-system-nunjucks-headless");
+const nunjucks = require("nunjucks");
+if (lily.listComponents().length !== 491) throw new Error("nunjucks: expected 491");
+const env = new nunjucks.Environment(new nunjucks.FileSystemLoader(lily.templatesDir));
+const out = env.renderString(`{% import "` + lily.macroPath("breadcrumb-nav") + `" as c %}{{ c.breadcrumbNav({ label: "Breadcrumb" }) }}`);
+if (!out.includes(String.raw`class="breadcrumb-nav"`)) throw new Error("nunjucks render: " + out);
+console.log("nunjucks OK");'
+
+echo "== angular (JIT smoke; consumers link via the Angular CLI) =="
+node --input-type=module -e '
+import "@angular/compiler";
+import * as lib from "lily-design-system-angular-headless";
+for (const n of ["Button", "BreadcrumbNav", "TextInput", "ImageCropper"])
+  if (typeof lib[n] !== "function") throw new Error("angular missing export: " + n);
+if (Object.keys(lib).length < 491) throw new Error("angular: expected >=491 exports");
+console.log("angular OK");'
+
+echo "== svelte (real consumer Vite build) =="
+mkdir -p src
+cat > vite.config.js <<'EOF'
+import { svelte } from "@sveltejs/vite-plugin-svelte";
+export default { plugins: [svelte()], build: { ssr: "src/entry.js", outDir: "out" } };
+EOF
+cat > src/App.svelte <<'EOF'
+<script>
+  import { Button, BreadcrumbNav, TextInput } from "lily-design-system-svelte-headless";
+</script>
+<Button>Go</Button>
+EOF
+cat > src/entry.js <<'EOF'
+import { render } from "svelte/server";
+import App from "./App.svelte";
+const { body } = render(App);
+if (!body.includes('class="button')) throw new Error("svelte render: " + body);
+console.log("svelte OK");
+EOF
+npx vite build > /dev/null 2>&1
+node out/entry.js
+
+echo "all packages OK"

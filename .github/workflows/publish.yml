@@ -1,0 +1,71 @@
+name: Publish
+
+# Tag-gated, dry-run by default. A v* tag (or a manual dispatch) runs
+# the publish scripts in --dry-run mode; publishing for real requires
+# the explicit `real` input on a manual dispatch — a tag alone never
+# ships bytes. npm publishes carry provenance (id-token: write).
+#
+# Secrets required for a real run:
+#   NPM_TOKEN       npm automation token for the lily-design-system-* names
+#   NUGET_API_KEY   nuget.org push key for the LilyDesignSystem.Blazor.* names
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      real:
+        description: "Actually publish (default: dry run)"
+        type: boolean
+        default: false
+      target:
+        description: "What to publish"
+        type: choice
+        options: [headless, helpers, both]
+        default: both
+
+permissions:
+  contents: read
+  id-token: write # npm --provenance
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: "https://registry.npmjs.org"
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Decide mode
+        id: mode
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.real }}" = "true" ]; then
+            echo "flag=" >> "$GITHUB_OUTPUT"; echo "mode=REAL" >> "$GITHUB_OUTPUT"
+          else
+            echo "flag=--dry-run" >> "$GITHUB_OUTPUT"; echo "mode=dry-run" >> "$GITHUB_OUTPUT"
+          fi
+          echo "publish mode: $(cat "$GITHUB_OUTPUT")"
+
+      - name: Publish headless libraries
+        if: github.event_name != 'workflow_dispatch' || inputs.target != 'helpers'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: "true"
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: bin/publish-headless ${{ steps.mode.outputs.flag }}
+
+      - name: Publish helper packages
+        if: github.event_name != 'workflow_dispatch' || inputs.target != 'headless'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: "true"
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: bin/publish-helpers ${{ steps.mode.outputs.flag }}

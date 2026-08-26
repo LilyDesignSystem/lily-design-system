@@ -137,6 +137,12 @@ missing.
   tested, and honest. A contribution its author cannot explain is not accepted,
   whoever or whatever wrote it.
 
+## Releases
+
+Maintainer-only, but documented so the process is checkable:
+[docs/releasing.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/releasing.md) — version lines, the two stable
+contracts, dry-run and consumer-smoke gates, deprecation policy.
+
 ## Licensing your contribution
 
 By contributing, you agree your work is offered under the same terms as the rest of
