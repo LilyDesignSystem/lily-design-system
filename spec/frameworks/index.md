@@ -6,7 +6,7 @@
 
 ## Scope
 
-This topic covers the seven headless + seven example subprojects (spec §3), the stack each one targets, the file shape each headless library uses to express a catalog component, the copy-pattern by which example apps consume the headless components, the framework-specific conventions for Svelte/SvelteKit and Nunjucks, and the known Angular + Analog.js SSR build blocker (spec §11.8).
+This topic covers the seven headless + seven example subprojects (spec §3), the stack each one targets, the file shape each headless library uses to express a catalog component, the copy-pattern by which example apps consume the headless components, and the framework-specific conventions for Svelte/SvelteKit and Nunjucks. (The one-time Angular + Analog SSR blocker is resolved — see below.)
 
 It does **not** cover: the binding markup/ARIA rules every framework obeys (see [headless](../headless/index.md)), the canonical catalog and naming/suffix mappings (see [components](../components/index.md)), example-app routes and styling (see [examples](../examples/index.md)), the test suites per framework (see [testing](../testing/index.md)), or the reusable helper packages that sit alongside the headless libraries (see [helpers](../helpers/index.md)).
 
@@ -26,7 +26,7 @@ It does **not** cover: the binding markup/ARIA rules every framework obeys (see 
 | Svelte | `lily-design-system-svelte-headless` | `lily-design-system-svelte-sveltekit-examples` | Svelte 5 (runes) + SvelteKit 2, Vite, pnpm, TypeScript | `{Pascal}.svelte` |
 | React | `lily-design-system-react-headless` | `lily-design-system-react-next-examples` | React 19 + Next.js, TypeScript | `{Pascal}.tsx` |
 | Vue | `lily-design-system-vue-headless` | `lily-design-system-vue-nuxt-examples` | Vue 3 + Nuxt.js, TypeScript | `{Pascal}.vue` |
-| Angular | `lily-design-system-angular-headless` | `lily-design-system-angular-examples` | Angular 20 (signals, OnPush, standalone) + Analog.js v1, Vite | `{slug}.component.ts` |
+| Angular | `lily-design-system-angular-headless` | `lily-design-system-angular-examples` | Angular 22 (signals, OnPush, standalone) + Analog.js v2, Vite 7 | `{slug}.component.ts` |
 | Blazor | `lily-design-system-blazor-headless` | `lily-design-system-blazor-web-examples` | Blazor 10 / .NET, bUnit | `{Pascal}.razor` (+ `.razor.cs`) |
 | Nunjucks | `lily-design-system-nunjucks-headless` | `lily-design-system-nunjucks-eleventy-examples` | Nunjucks 3 + Eleventy | `components/{slug}/macro.njk` |
 
@@ -73,7 +73,7 @@ Every library renders the same semantic element with the same kebab-case base cl
 ## Angular + Analog.js status (spec §11.2, §11.8)
 
 - **angular-headless** is verified end-to-end: `pnpm install` resolves with `@analogjs/vite-plugin-angular` pinned to `1.19.4` and `@angular/build` as a direct devDep; `vitest run` passes 974 / 974 across 490 / 490 spec files; `ng-packagr` emits a clean APF bundle; `@storybook/angular` 9.1 builds 490 / 490 stories. Source fix: `($event.target as HTMLInputElement).value` rewritten to `$any($event.target).value` because Angular template parsing rejects parenthesised TS casts inside method calls.
-- **angular-examples** installs and builds the client bundle cleanly (with `@analogjs/{platform,router,vite-plugin-angular}` pinned to `1.19.4` via `pnpm-workspace.yaml` overrides), but the **SSR/SSG build is blocked**: the Analog vite-plugin-angular transform consumes `src/main.server.ts` and emits a 1-byte bundle. Confirmed in isolation — a plain `vite build --ssr` without the Analog plugin produces a working 2 KB bundle. Likely cause: the plugin's `fileEmitter(id)` returns no compiled content for the SSR entry. Remaining work: file an Analog upstream issue or switch the example app to a vanilla Angular + Vite + esbuild + prerender pipeline. Playwright e2e suites are not yet exercised against either Angular app.
+- **angular-examples** builds full-content static SSG on Angular 22.1 + Analog 2.7 + Vite 7 + TypeScript 6. The route layer uses an explicit 15-route table over plain `src/app/views/*.ts` components rather than Analog's file-route convention, whose injection failed silently in every mode (upstream: [analogjs/analog#2498](https://github.com/analogjs/analog/issues/2498)); the full history is in [analog-ssg-notes.md](../../lily-design-system-angular-examples/docs/analog-ssg-notes.md). Playwright covers the app end to end: 1,545 specs (491 component pages, axe, responsive, theme switching).
 
 ## Acceptance criteria
 
@@ -82,7 +82,7 @@ Every library renders the same semantic element with the same kebab-case base cl
 - [ ] Each headless library expresses components in its native file shape (`.svelte`, `.tsx`, `.vue`, `.component.ts`, `.razor`, `macro.njk`, web components) with the canonical kebab-case base class.
 - [ ] Each example app ships the three required routes and renders the real copied component on `/components/{slug}` (see [examples](../examples/index.md)).
 - [ ] Svelte headless ships no `<style>` blocks; Nunjucks macros use camelCase names with kebab-case classes.
-- [ ] angular-headless passes 974 / 974 vitest cases and builds via ng-packagr; the angular-examples SSR/SSG blocker is tracked until an Analog fix or pipeline switch lands (spec §11.8).
+- [x] angular-headless passes its vitest suite (1,010 cases as of 2026-08-26) and builds via ng-packagr 22; angular-examples builds full-content SSG on Analog 2.7 with the explicit route table (the one-time blocker is closed).
 - [ ] All 14 subprojects are git subtrees with a `.git-subtree-push` remote.
 
 ## Related topics

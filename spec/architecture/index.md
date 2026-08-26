@@ -32,14 +32,14 @@ lily-design-system/                              ← canonical catalog + tools
 ├── lily-design-system-svelte-headless/          ← headless: Svelte 5
 ├── lily-design-system-react-headless/           ← headless: React
 ├── lily-design-system-vue-headless/             ← headless: Vue 3
-├── lily-design-system-angular-headless/         ← headless: Angular 20
+├── lily-design-system-angular-headless/         ← headless: Angular 22
 ├── lily-design-system-blazor-headless/          ← headless: Blazor
 ├── lily-design-system-nunjucks-headless/        ← headless: Nunjucks
 ├── lily-design-system-html-css-js-examples/     ← examples: vanilla HTML+CSS+JS
 ├── lily-design-system-svelte-sveltekit-examples/ ← examples: SvelteKit 2
 ├── lily-design-system-react-next-examples/      ← examples: Next.js
 ├── lily-design-system-vue-nuxt-examples/        ← examples: Nuxt.js
-├── lily-design-system-angular-examples/         ← examples: Angular 20 + Analog.js
+├── lily-design-system-angular-examples/         ← examples: Angular 22 + Analog.js
 ├── lily-design-system-blazor-web-examples/      ← examples: Blazor Web
 ├── lily-design-system-nunjucks-eleventy-examples/ ← examples: Nunjucks + Eleventy
 └── lily-design-system-{framework}-helpers/      ← 7 per-framework helper catalogs

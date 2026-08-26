@@ -4,6 +4,12 @@ All notable changes to this package. Format follows
 [Keep a Changelog](https://keepachangelog.com/); versions follow
 [Semantic Versioning](https://semver.org/).
 
+## 0.2.0 — 2026-08-26
+
+Angular 22 support: peer range widens to `>=20.0.0 <23.0.0`; built and
+tested on Angular 22.1 (ng-packagr 22.1, TypeScript 6.0, vitest 4).
+No behaviour change beyond 0.1.1.
+
 ## 0.1.0 — 2026-07-30
 
 First published release. Nothing earlier shipped, so the

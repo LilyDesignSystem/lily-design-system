@@ -20,7 +20,7 @@ identifiers:
 repository-code: 'https://github.com/LilyDesignSystem/lily-design-system-angular-helpers/'
 url: 'https://lilydesignsystem.github.io/'
 abstract: >-
-  This repository is the Angular 20 helpers catalog: five opinionated packages that each own one complete interaction.
+  This repository is the Angular 22 helpers catalog: five opinionated packages that each own one complete interaction.
   It is one subproject of Lily Design System, a free open-source headless
   design system whose canonical catalog of 491 components is implemented
   across seven frameworks. The canonical monorepo is at

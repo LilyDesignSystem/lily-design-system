@@ -1,10 +1,10 @@
 {
   "name": "lily-design-system-angular-text-size-picker",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Lily Design System Angular 20 text size picker: an icon button opening an APG listbox that sets data-text-size on the document. Headless, SSR-safe, no CSS.",
   "peerDependencies": {
-    "@angular/core": ">=20.0.0 <22.0.0",
-    "@angular/common": ">=20.0.0 <22.0.0"
+    "@angular/core": ">=20.0.0 <23.0.0",
+    "@angular/common": ">=20.0.0 <23.0.0"
   },
   "sideEffects": false,
   "scripts": {

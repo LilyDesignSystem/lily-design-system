@@ -1,6 +1,6 @@
 # Install
 
-This repository is the Angular 20 headless component library: all 491 catalog components, unstyled and accessible.
+This repository is the Angular 22 headless component library: all 491 catalog components, unstyled and accessible.
 
 It is published as a `git subtree` from the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.

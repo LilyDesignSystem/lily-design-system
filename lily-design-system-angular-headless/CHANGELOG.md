@@ -5,6 +5,14 @@ and the package follows [Semantic Versioning](https://semver.org/).
 The canonical monorepo history is in the root
 [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md).
 
+## 0.2.0 — 2026-08-26
+
+Angular 22 support. Built and verified on Angular 22.1 (ng-packagr
+22.1, TypeScript 6.0, vitest 4, jsdom 30, Storybook 10); the peer
+range widens to `>=20.0.0 <23.0.0`, so Angular 20 and 21 consumers are
+unaffected. All 1,010 spec cases and the 491-story Storybook build
+pass on the new toolchain. No component behaviour change.
+
 ## 0.1.1 — 2026-08-26
 
 Fixed: **every typed input component rendered `type="text"`** — all 25

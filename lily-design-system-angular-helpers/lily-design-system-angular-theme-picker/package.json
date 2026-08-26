@@ -1,10 +1,10 @@
 {
   "name": "lily-design-system-angular-theme-picker",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Lily Design System Angular 20 theme picker: an icon button opening an APG listbox that swaps a theme stylesheet and sets data-theme. Headless, SSR-safe, no CSS.",
   "peerDependencies": {
-    "@angular/core": ">=20.0.0 <22.0.0",
-    "@angular/common": ">=20.0.0 <22.0.0"
+    "@angular/core": ">=20.0.0 <23.0.0",
+    "@angular/common": ">=20.0.0 <23.0.0"
   },
   "sideEffects": false,
   "scripts": {

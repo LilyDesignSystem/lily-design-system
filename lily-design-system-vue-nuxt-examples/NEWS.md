@@ -91,7 +91,7 @@ sadly, and `bin/check-links` fixed 89 broken markdown links.
 
 ### 2026-05-30 — The seventh framework: Angular (0.3.0)
 
-Angular 20 headless (signal-based, OnPush, standalone, zero-CSS) and an Angular +
+Angular 22 headless (signal-based, OnPush, standalone, zero-CSS) and an Angular +
 Analog.js example app. The headless library is fully verified: 974 vitest cases
 across 490 spec files, a clean `ng-packagr` build, and 490 Storybook stories. The
 example app's static SSG output remains blocked on an upstream Analog issue.

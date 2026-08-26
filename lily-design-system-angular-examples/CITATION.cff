@@ -20,7 +20,7 @@ identifiers:
 repository-code: 'https://github.com/LilyDesignSystem/lily-design-system-angular-examples/'
 url: 'https://lilydesignsystem.github.io/'
 abstract: >-
-  This repository is the Angular 20 example application: a fully styled reference app demonstrating every catalog component.
+  This repository is the Angular 22 example application: a fully styled reference app demonstrating every catalog component.
   It is one subproject of Lily Design System, a free open-source headless
   design system whose canonical catalog of 491 components is implemented
   across seven frameworks. The canonical monorepo is at

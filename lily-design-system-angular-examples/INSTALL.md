@@ -1,6 +1,6 @@
 # Install
 
-This repository is the Angular 20 example application: a fully styled reference app demonstrating every catalog component.
+This repository is the Angular 22 example application: a fully styled reference app demonstrating every catalog component.
 
 It is published as a `git subtree` from the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.

@@ -20,7 +20,7 @@ identifiers:
 repository-code: 'https://github.com/LilyDesignSystem/lily-design-system-angular-headless/'
 url: 'https://lilydesignsystem.github.io/'
 abstract: >-
-  This repository is the Angular 20 headless component library: all 491 catalog components, unstyled and accessible.
+  This repository is the Angular 22 headless component library: all 491 catalog components, unstyled and accessible.
   It is one subproject of Lily Design System, a free open-source headless
   design system whose canonical catalog of 491 components is implemented
   across seven frameworks. The canonical monorepo is at

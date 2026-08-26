@@ -1,6 +1,6 @@
 # Install
 
-This repository is the Angular 20 helpers catalog: five opinionated packages that each own one complete interaction.
+This repository is the Angular 22 helpers catalog: five opinionated packages that each own one complete interaction.
 
 It is published as a `git subtree` from the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.

@@ -44,7 +44,7 @@ BANNER = (
 
 FRAMEWORK = {
     "html": "HTML", "svelte": "Svelte 5", "react": "React", "vue": "Vue 3",
-    "angular": "Angular 20", "blazor": "Blazor", "nunjucks": "Nunjucks",
+    "angular": "Angular 22", "blazor": "Blazor", "nunjucks": "Nunjucks",
 }
 
 LINK = re.compile(r"\[([^\]]*)\]\(([^)\s]+)(\s+\"[^\"]*\")?\)")

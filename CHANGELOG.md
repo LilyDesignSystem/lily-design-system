@@ -9,6 +9,22 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Angular stack on 22.1 + Analog 2.7 — 2026-08-26
+
+All three Angular subprojects move to the current stack: Angular
+22.1.x, Analog 2.7, Vite 7, TypeScript 6.0, vitest 4, jsdom 30,
+ng-packagr 22.1, Storybook 10. The 1.22.5 `pnpm-workspace.yaml`
+overrides that pinned the old Analog are gone, `zone.js` is dropped
+from the (zoneless) examples app, TS6's stricter side-effect-import
+checking gets a `*.css` module declaration, and the deprecated
+`baseUrl` leaves the tsconfigs. Everything re-verified on the new
+toolchain: examples 1,545/1,545 Playwright specs with full-content
+SSG; headless 1,010 vitest cases + 491 Storybook 10 stories —
+**published as angular-headless 0.2.0** (peers widen to
+`>=20 <23`); helpers 290 vitest cases — **published as 0.2.0 of all
+five** with the same widened peers, and the examples app re-verified
+against the published packages.
+
 ## Themes live in the Eleventy app — 2026-08-26
 
 The cleanest port of the six ([plan.md](plan.md) P3-T2): the nunjucks

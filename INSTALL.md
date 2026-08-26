@@ -147,7 +147,7 @@ The payload is 491 annotated semantic-HTML snippet files under
 (`componentsDir`, `readComponent(slug)`, `listComponents()`) locates them from
 build tooling.
 
-### Angular 20
+### Angular 22
 
 ```sh
 npm install lily-design-system-angular-headless
