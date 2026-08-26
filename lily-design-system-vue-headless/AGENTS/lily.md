@@ -55,6 +55,7 @@ The [themes/](../themes) directory ships 45 standalone theme stylesheets (NHS En
 - [update](../bin/update): Update shared files
 - [generate-storybook-stories.mjs](../bin/generate-storybook-stories.mjs): Generate Storybook stories
 - [publish-helpers](../bin/publish-helpers): Build and publish the 35 helper packages (npm / NuGet)
+- [publish-headless](../bin/publish-headless): Build and publish the 7 headless libraries (npm / NuGet)
 - [generate-registries](../bin/generate-registries): Regenerate example-app catalog registries from components.tsv
 - [check-links](../bin/check-links): Verify relative markdown links resolve
 

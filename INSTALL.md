@@ -31,18 +31,19 @@ frameworks, but not all seven are on a registry yet.
 
 | Package family | Registry | Status |
 | --- | --- | --- |
-| `lily-design-system-svelte-headless` | npm | **0.3.0** |
-| `lily-design-system-react-headless` | npm | **0.3.0** |
-| `lily-design-system-vue-headless` | npm | **0.3.0** |
-| `lily-design-system-html-headless` | npm | not yet published — use path 1, or the repository |
-| `lily-design-system-angular-headless` | npm | not yet published — use path 1, or the repository |
-| `lily-design-system-nunjucks-headless` | npm | not yet published — use path 1, or the repository |
-| `lily-design-system-blazor-headless` | NuGet | not yet published — use path 1, or the repository |
+| `lily-design-system-svelte-headless` | npm | **0.3.1** |
+| `lily-design-system-react-headless` | npm | **0.3.1** |
+| `lily-design-system-vue-headless` | npm | **0.3.1** |
+| `lily-design-system-html-headless` | npm | **0.1.0** |
+| `lily-design-system-angular-headless` | npm | **0.1.0** |
+| `lily-design-system-nunjucks-headless` | npm | **0.1.0** |
+| `LilyDesignSystem.Blazor.Headless` | NuGet | packed in `dist-nuget/`, push pending credentials |
 | All 30 JavaScript helper packages (6 frameworks × 5 helpers) | npm | **0.1.0** |
-| The 5 Blazor helper packages | NuGet | built in `dist-nuget/`, not yet published |
+| The 5 Blazor helper packages | NuGet | packed in `dist-nuget/`, push pending credentials |
 
-If the framework you want is not published, path 1 works today and path 2 works
-from a git checkout. Nothing about Lily requires the registry.
+Six of the seven headless libraries are installable from npm; Blazor's NuGet
+push is the one remaining step. Path 1 always works regardless — nothing about
+Lily requires the registry.
 
 ## Path 1 — Copy the markup (zero install)
 
@@ -135,17 +136,40 @@ import { BreadcrumbNav, BreadcrumbList, BreadcrumbListItem } from "lily-design-s
 </template>
 ```
 
-### HTML, Angular, Blazor, Nunjucks
-
-Not on a registry yet. Until they are, clone the repository and copy the component
-files you need — which is how the example applications themselves consume the
-headless libraries:
+### HTML (framework-free)
 
 ```sh
-git clone https://github.com/LilyDesignSystem/lily-design-system.git
+npm install lily-design-system-html-headless
 ```
 
-The implementations live in `lily-design-system-{framework}-headless/`.
+The payload is 491 annotated semantic-HTML snippet files under
+`components/*.html` — copy them or template them; a small node helper
+(`componentsDir`, `readComponent(slug)`, `listComponents()`) locates them from
+build tooling.
+
+### Angular 20
+
+```sh
+npm install lily-design-system-angular-headless
+```
+
+An ng-packagr APF bundle: standalone, signal-based, OnPush components,
+compiled by your Angular CLI build via the Angular Linker.
+
+### Nunjucks
+
+```sh
+npm install lily-design-system-nunjucks-headless
+```
+
+Add the exported `templatesDir` to your nunjucks `FileSystemLoader` search
+path, then `{% import "breadcrumb-nav/macro.njk" as c %}` inside templates.
+
+### Blazor
+
+`LilyDesignSystem.Blazor.Headless` is packed but not yet on NuGet. Until it
+is, clone the repository and reference
+`lily-design-system-blazor-headless/src/LilyBlazorHeadless/LilyBlazorHeadless.csproj`.
 
 ## Path 3 — Install a helper package
 

@@ -6,10 +6,14 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>LilyBlazorHeadless</RootNamespace>
     <AssemblyName>LilyBlazorHeadless</AssemblyName>
-    <PackageId>LilyBlazorHeadless</PackageId>
-    <Version>0.2.0</Version>
+    <PackageId>LilyDesignSystem.Blazor.Headless</PackageId>
+    <Version>0.1.0</Version>
     <Authors>Joel Parker Henderson</Authors>
-    <Description>Lily Design System: Blazor Headless component library</Description>
+    <Description>Lily Design System Blazor headless component library: all 491 catalog components as Razor components. Unstyled, accessible, zero CSS. Targets WCAG 2.2 AAA.</Description>
+    <PackageProjectUrl>https://lilydesignsystem.github.io/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/LilyDesignSystem/lily-design-system-blazor-headless</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>lily;design-system;blazor;headless;accessibility;wcag;aria;a11y</PackageTags>
     <PackageLicenseExpression>MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause</PackageLicenseExpression>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>CS1591</NoWarn>

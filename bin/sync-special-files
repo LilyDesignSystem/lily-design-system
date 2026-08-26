@@ -119,7 +119,8 @@ def describe(name):
 
 PUBLISHED_NPM = {
     "lily-design-system-svelte-headless", "lily-design-system-react-headless",
-    "lily-design-system-vue-headless",
+    "lily-design-system-vue-headless", "lily-design-system-html-headless",
+    "lily-design-system-angular-headless", "lily-design-system-nunjucks-headless",
 }
 
 

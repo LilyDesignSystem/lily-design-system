@@ -1,0 +1,64 @@
+#!/bin/sh
+# Publish the seven Lily Design System headless component libraries.
+#
+#   - npm: svelte / react / vue (built dist via each package's
+#     prepublishOnly), html and nunjucks (file payloads: annotated
+#     .html snippets and .njk macros plus a small node helper),
+#     angular (ng-packagr writes the publishable package.json INTO
+#     dist/, so it builds first and publishes from dist/).
+#   - NuGet: the Blazor headless Razor class library
+#     (LilyDesignSystem.Blazor.Headless).
+#
+# Usage:
+#   bin/publish-headless --dry-run    # validate builds/tarballs, publish nothing
+#   bin/publish-headless              # publish for real
+#
+# Requirements for a real publish:
+#   - npm:   `npm login` (or NPM_TOKEN in ~/.npmrc) with rights to the
+#            `lily-design-system-*` package names.
+#   - NuGet: NUGET_API_KEY env var with push rights to nuget.org.
+#
+# Versioning note: svelte/react/vue share a 0.3.x line; html, angular,
+# nunjucks, and Blazor first published at 0.1.0 (a first release
+# numbered higher would imply registry history that never existed —
+# the helper packages' July 2026 reasoning). Bump each package.json /
+# .csproj before running; this script never edits versions.
+set -eu
+
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+DRY=""
+if [ "${1:-}" = "--dry-run" ]; then DRY="--dry-run"; fi
+
+echo "== npm headless packages =="
+for d in "$ROOT"/lily-design-system-svelte-headless \
+         "$ROOT"/lily-design-system-react-headless \
+         "$ROOT"/lily-design-system-vue-headless \
+         "$ROOT"/lily-design-system-html-headless \
+         "$ROOT"/lily-design-system-nunjucks-headless; do
+  [ -f "$d/package.json" ] || continue
+  echo "--> $(basename "$d")"
+  ( cd "$d" && npm publish --access public $DRY )
+done
+
+echo "--> building angular dist (ng-packagr)"
+( cd "$ROOT/lily-design-system-angular-headless" && npm run build )
+echo "--> lily-design-system-angular-headless (from dist/)"
+( cd "$ROOT/lily-design-system-angular-headless/dist" && npm publish --access public $DRY )
+
+echo "== Blazor NuGet package =="
+NUPKG_OUT="$ROOT/dist-nuget"
+mkdir -p "$NUPKG_OUT"
+proj="$ROOT/lily-design-system-blazor-headless/src/LilyBlazorHeadless/LilyBlazorHeadless.csproj"
+echo "--> pack $(basename "$proj")"
+dotnet pack "$proj" -c Release -o "$NUPKG_OUT"
+if [ -z "$DRY" ]; then
+  : "${NUGET_API_KEY:?set NUGET_API_KEY to push to nuget.org}"
+  for pkg in "$NUPKG_OUT"/LilyDesignSystem.Blazor.Headless.*.nupkg; do
+    echo "--> push $(basename "$pkg")"
+    dotnet nuget push "$pkg" --source https://api.nuget.org/v3/index.json --api-key "$NUGET_API_KEY" --skip-duplicate
+  done
+else
+  echo "(dry run: NuGet pack validated, nothing pushed)"
+fi
+
+echo "done"

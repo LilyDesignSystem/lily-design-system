@@ -9,19 +9,15 @@ Full documentation and the searchable component catalog: <https://lilydesignsyst
 
 ## Install
 
-**This package is not yet published to npm.** Until it is, use either:
-
-**Copy the markup.** Lily is headless — a component is its semantic HTML, its
-ARIA, and its class hook. Take it from the catalog at <https://lilydesignsystem.github.io/> and paste it
-anywhere. No dependency, no build step.
-
-**Or clone and copy the component files:**
-
 ```sh
-git clone https://github.com/LilyDesignSystem/lily-design-system-nunjucks-headless.git
+npm install lily-design-system-nunjucks-headless
 ```
 
-The components ship no CSS. Style them through the kebab-case class hook on each
+Import any of the 491 catalog components from the package root; the barrel is
+tree-shakeable (`sideEffects: false`), so your bundler drops what you do not use.
+
+The components ship semantic HTML, ARIA, focus management, and keyboard
+behaviour — and **no CSS**. Style them through the kebab-case class hook on each
 root element. See the canonical
 [css-style-sheet-template.css](https://github.com/LilyDesignSystem/lily-design-system/blob/main/css-style-sheet-template.css)
 for a hook per component, and the 45 ready-made stylesheets in

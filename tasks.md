@@ -96,7 +96,7 @@ Rules for the executing agent:
 
 ## Phase 2 — Release engineering
 
-- [ ] **P2-T1 Publish html, angular, nunjucks headless to npm.**
+- [x] **P2-T1 Publish html, angular, nunjucks headless to npm.**
   Same discipline as 0.3.0: real `dist/`, barrel, types,
   `sideEffects: false`, `files` allowlist, tarball installed into a
   scratch consumer before publish. Update INSTALL.md's publication
@@ -109,7 +109,7 @@ Rules for the executing agent:
   Verify: `dotnet add package LilyDesignSystem.Blazor.ThemePicker`
   succeeds in a scratch project; NuGet pages show README + license.
 
-- [ ] **P2-T3 `bin/publish-headless`** (or extend `bin/publish-helpers`)
+- [x] **P2-T3 `bin/publish-headless`** (or extend `bin/publish-helpers`)
   with dry-run default; document in spec/tooling + AGENTS/lily.md.
   Verify: dry-run succeeds for all 7 packages; docs linked.
 

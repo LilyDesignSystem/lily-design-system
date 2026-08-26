@@ -1,8 +1,7 @@
 {
   "name": "lily-design-system-angular-headless",
   "version": "0.1.0",
-  "description": "Lily Design System - Angular 20 headless component library",
-  "private": true,
+  "description": "Lily Design System Angular headless component library: all 491 catalog components as standalone, signal-based, OnPush components. Unstyled, accessible, zero CSS. Targets WCAG 2.2 AAA.",
   "type": "module",
   "scripts": {
     "test": "vitest run",
@@ -57,5 +56,6 @@
   "homepage": "https://lilydesignsystem.github.io/",
   "bugs": {
     "url": "https://github.com/LilyDesignSystem/lily-design-system/issues"
-  }
+  },
+  "sideEffects": false
 }

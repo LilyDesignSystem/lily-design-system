@@ -357,6 +357,7 @@ Scripts live in `bin/`:
 | `bin/git-subtree-push`                | Push each subtree to its standalone remote.          |
 | `bin/generate-storybook-stories.mjs`  | Generate Storybook stories.                          |
 | `bin/publish-helpers`                 | Build + publish the 35 helper packages (npm / NuGet).|
+| `bin/publish-headless`                | Build + publish the 7 headless libraries (npm / NuGet).|
 | `bin/generate-registries`             | Regenerate example-app registries from the catalog.  |
 | `bin/check-links`                     | Verify relative markdown links resolve.              |
 
@@ -426,7 +427,12 @@ checked is considered live work; anything unchecked is queued in §12.
 ### 11.2 Subprojects
 
 - [x] All 7 headless subprojects exist (HTML, Svelte, React, Vue,
-      Angular, Blazor, Nunjucks). The Angular headless library
+      Angular, Blazor, Nunjucks). As of 2026-08-26 six are published
+      to npm (svelte/react/vue at 0.3.1; html/angular/nunjucks first
+      released at 0.1.0, each verified from a packed tarball in a
+      scratch consumer); `LilyDesignSystem.Blazor.Headless` 0.1.0 is
+      packed, with the NuGet push pending credentials
+      (`bin/publish-headless`). The Angular headless library
       (Angular 20, signal-based, OnPush, zero-CSS, standalone
       components) landed on 2026-05-28 and is fully verified as of
       2026-05-30: `pnpm install` resolves with Analog 1.19.4 pinning,

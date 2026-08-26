@@ -1,8 +1,7 @@
 {
   "name": "lily-design-system-html-headless",
-  "version": "0.2.0",
-  "description": "Lily Design System: HTML Headless Components",
-  "private": true,
+  "version": "0.1.0",
+  "description": "Lily Design System HTML headless components: 491 annotated semantic-HTML snippet files with ARIA and class hooks \u2014 copy them, template them, or read them via the tiny node helper. Zero CSS, zero dependencies. Targets WCAG 2.2 AAA.",
   "license": "MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause",
   "scripts": {
     "test": "wdio run wdio.conf.js",
@@ -28,5 +27,17 @@
   "homepage": "https://lilydesignsystem.github.io/",
   "bugs": {
     "url": "https://github.com/LilyDesignSystem/lily-design-system/issues"
-  }
+  },
+  "main": "./index.js",
+  "exports": {
+    ".": "./index.js",
+    "./components/": "./components/",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "components/*.html",
+    "index.md",
+    "README.md"
+  ]
 }

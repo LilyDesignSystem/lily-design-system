@@ -9,6 +9,28 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Phase 2 begins: six of seven headless libraries on npm — 2026-08-26
+
+[plan.md](plan.md) P2-T1/T3: `lily-design-system-html-headless`,
+`-angular-headless`, and `-nunjucks-headless` published, each first
+released at **0.1.0** — a first release numbered higher would imply
+registry history that never existed, the helpers' July 2026 reasoning.
+Each was verified from its packed tarball in a scratch consumer before
+publish: html reads all 491 snippet files through its new node helper
+(`componentsDir` / `readComponent` / `listComponents`), nunjucks
+renders a real macro through the exported `templatesDir` loader path,
+and the Angular APF bundle exposes all 491 component classes (JIT
+smoke; consumers link via the Angular CLI). Along the way: the
+nunjucks manifest's `type: module` was dropped (it wrapped a CommonJS
+payload), and the Blazor headless `PackageId` was corrected from
+`LilyBlazorHeadless` to `LilyDesignSystem.Blazor.Headless` **before**
+anything claimed the wrong name irreversibly on nuget.org — it is now
+packed at 0.1.0 alongside the five helper packages in `dist-nuget/`,
+push pending `NUGET_API_KEY`. New `bin/publish-headless` script
+(dry-run by default) covers all seven; INSTALL.md tables and the
+per-repo generated INSTALL files now state the true publication
+status.
+
 ## Improvement plan Phase 1 — registry hygiene, catalog truth, Angular closure — 2026-08-26
 
 Executing [plan.md](plan.md) Phase 1 ("truth, hygiene, and registry

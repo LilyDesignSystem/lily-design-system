@@ -26,7 +26,7 @@ _Updated 2026-08-26._
 | Frameworks | 7 — HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks |
 | Layers | 7 headless libraries, 7 example applications, 7 helper catalogs (35 packages) |
 | Themes | 45 reference stylesheets |
-| Published | 3 headless packages and 30 helper packages on npm; NuGet pending |
+| Published | 6 of 7 headless libraries and all 30 JS helper packages on npm; the 6 Blazor NuGet packages are packed, push pending credentials |
 | License | MIT, Apache-2.0, GPL-2.0-only, GPL-3.0-only, or BSD-3-Clause, at your option |
 | Maintainers | 1 |
 
