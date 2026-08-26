@@ -9,6 +9,38 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## HTML pickers were pointer-broken; themes live in the HTML app — 2026-08-26
+
+Porting the theme switcher to the vanilla HTML example app
+([plan.md](plan.md) P3-T2) found the worst defect of the sweep: **the
+four HTML popup pickers opened and instantly closed on every pointer
+click** — unusable with a mouse, in all four published 0.1.0 packages.
+A trusted click targets the icon `<span>`; opening runs the state
+sync, whose `replaceChildren()` on the button content detaches that
+span mid-event; when the same click bubbles to the document, the
+outside-click containment check sees a detached target, judges the
+click "outside", and closes the popup it just opened. Synthetic
+`button.click()` targets the button element, which survives the swap —
+so 294 jsdom tests stayed green over a control no mouse user could
+operate. The document handler now judges clicks by their
+`composedPath()` snapshot; four regression tests click the actual icon
+span (the theme-picker one confirmed to fail without the fix);
+**theme-, locale-, text-size-, and share-picker published as 0.1.1**
+(298 tests).
+
+The app wiring follows the recipe, vanilla-style: all 15 pages gain
+the pre-paint boot script and the `<theme-picker>` element in their
+headers (vendored dist via `bin/sync`, declarative CSV/JSON
+attributes), `nhs.css` split into app-shell chrome, themes served from
+`pages/themes/`. Theme-switching spec: 3/3.
+
+Also measured, not caused: the HTML app's axe/responsive suites fail
+**48 of 69** checks on the untouched pre-change tree (composed-page
+trailing-slash routes 404 under `http-server`, `component.html` sample
+pages fail axe) — the May 2026 "29/29 clean" snapshot no longer
+reproduces. Recorded in spec §11.8 as open debt rather than silently
+absorbed here.
+
 ## Angular themes live — and two real defects under them — 2026-08-26
 
 Porting the theme switcher to the Angular example app ([plan.md](plan.md)

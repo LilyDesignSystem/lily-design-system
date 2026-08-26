@@ -932,3 +932,23 @@ describe("<share-picker> — accessibility hardening (§7.23–§7.24)", () => {
     expect(list().getAttribute("aria-label")).toBe("Share");
   });
 });
+
+describe("pointer open survives the button content swap (regression)", () => {
+  // Same defect family as the listbox pickers: opening replaceChildren()s
+  // the button content, detaching the clicked icon span mid-event; the
+  // document click handler must judge by composedPath(), not by
+  // containment of the (now detached) target.
+  test("clicking the icon span opens and STAYS open", async () => {
+    const el = mount({ label: "Share this page", strategy: "list" });
+    try {
+      const icon = el.querySelector(".share-picker-icon") as HTMLElement;
+      icon.dispatchEvent(new MouseEvent("click", { bubbles: true, composed: true }));
+      await Promise.resolve();
+      const button = el.querySelector(".share-picker-button")!;
+      expect(button.getAttribute("aria-expanded")).toBe("true");
+      expect(el.querySelector(".share-picker-list")!.hasAttribute("hidden")).toBe(false);
+    } finally {
+      el.remove();
+    }
+  });
+});

@@ -151,7 +151,9 @@ Rules for the executing agent:
 - [/] **P3-T2 Port the theme switcher to the other 6 example apps.**
   Verify: each app's e2e gains and passes the switch test.
   Done 2026-08-26: react-next (71/71), vue-nuxt (68/68), angular
-  (1,545/1,545). Remaining: blazor-web, html-css-js, nunjucks-eleventy.
+  (1,545/1,545), html-css-js (theme spec 3/3; its axe/responsive debt
+  is pre-existing and logged in spec §11.8). Remaining: blazor-web,
+  nunjucks-eleventy.
 
 - [ ] **P3-T3 Mount locale-picker + text-size-picker in all 7 shells**;
   evaluate share-picker on component-detail pages (adopt or record

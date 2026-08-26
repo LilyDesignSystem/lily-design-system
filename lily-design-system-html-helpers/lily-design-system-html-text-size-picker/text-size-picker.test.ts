@@ -666,3 +666,27 @@ describe("TextSizePicker — idempotent apply (§7.24)", () => {
         el.remove();
     });
 });
+
+
+describe("pointer open survives the button content swap (regression)", () => {
+  // Same defect family as theme-picker: opening replaceChildren()s the
+  // button content, detaching the clicked icon span mid-event; the
+  // document click handler must judge by composedPath(), not by
+  // containment of the (now detached) target.
+  test("clicking the icon span opens and STAYS open", async () => {
+    const el = document.createElement("text-size-picker");
+    el.setAttribute("label", "Text size");
+      el.setAttribute("sizes", "small,medium,large");
+    document.body.appendChild(el);
+    try {
+      const icon = el.querySelector(".text-size-picker-icon") as HTMLElement;
+      icon.dispatchEvent(new MouseEvent("click", { bubbles: true, composed: true }));
+      await Promise.resolve();
+      const button = el.querySelector(".text-size-picker-button")!;
+      expect(button.getAttribute("aria-expanded")).toBe("true");
+      expect(el.querySelector(".text-size-picker-list")!.hasAttribute("hidden")).toBe(false);
+    } finally {
+      el.remove();
+    }
+  });
+});

@@ -977,3 +977,32 @@ describe("ThemePicker — idempotent apply (§7.25)", () => {
     el.remove();
   });
 });
+
+describe("pointer open survives the button content swap (§7.10 regression)", () => {
+  // A real pointer click lands on the icon <span> inside the button.
+  // Opening runs #syncState, which replaceChildren()s the button
+  // content, DETACHING that span mid-event; when the same click then
+  // bubbles to document, a containment check against the detached
+  // target reported "outside" and closed the picker on the very click
+  // that opened it. Synthetic button.click() targets the button
+  // element (which survives), which is why nothing caught it. The
+  // handler must judge the click by its composedPath() snapshot.
+  test("clicking the icon span opens and STAYS open", async () => {
+    const el = document.createElement("theme-picker");
+    el.setAttribute("label", "Choose a theme");
+    el.setAttribute("themes-url", "/themes/");
+    el.setAttribute("themes", "light,dark");
+    document.body.appendChild(el);
+    try {
+      const icon = el.querySelector(".theme-picker-icon") as HTMLElement;
+      icon.dispatchEvent(new MouseEvent("click", { bubbles: true, composed: true }));
+      // let the event finish bubbling to the document listener
+      await Promise.resolve();
+      const button = el.querySelector(".theme-picker-button")!;
+      expect(button.getAttribute("aria-expanded")).toBe("true");
+      expect(el.querySelector(".theme-picker-list")!.hasAttribute("hidden")).toBe(false);
+    } finally {
+      el.remove();
+    }
+  });
+});

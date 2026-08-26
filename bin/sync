@@ -22,9 +22,17 @@ for themes_dest in \
     "$top/lily-design-system-vue-nuxt-examples/public/themes" \
     "$top/lily-design-system-angular-examples/public/themes" \
     "$top/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/wwwroot/themes" \
-    "$top/lily-design-system-html-css-js-examples/themes" \
+    "$top/lily-design-system-html-css-js-examples/pages/themes" \
     "$top/lily-design-system-nunjucks-eleventy-examples/src/themes"
 do
     mkdir -p "$themes_dest"
     rsync -a --delete "$top/themes/" "$themes_dest/"
 done
+
+# The html example app vendors the theme-picker custom element (built
+# dist) the same way it vendors everything else: as a copied file.
+if [ -f "$top/lily-design-system-html-helpers/lily-design-system-html-theme-picker/dist/index.js" ]; then
+    mkdir -p "$top/lily-design-system-html-css-js-examples/pages/assets/js"
+    cp "$top/lily-design-system-html-helpers/lily-design-system-html-theme-picker/dist/index.js" \
+       "$top/lily-design-system-html-css-js-examples/pages/assets/js/theme-picker.js"
+fi

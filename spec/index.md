@@ -645,6 +645,13 @@ this list holds only what is genuinely open.
       1,542 specs green (see §11.4). angular-headless remains covered
       by its vitest + Storybook layers, matching the other headless
       libraries — none of which has a Playwright layer.
+- [ ] **HTML example app: axe + responsive suites failing.** Measured
+      2026-08-26 on the pre-theme-wiring tree: 48 of 69 checks fail —
+      composed-page trailing-slash routes 404 under the `http-server`
+      config the Playwright webServer uses, and the
+      `component.html?slug=` sample pages fail axe. The §11.5 "29/29
+      clean" May snapshot no longer reproduces. Needs its own sweep:
+      route-shape fix (or server config), then per-finding fixes.
 - [ ] **Angular headless wrapper-host semantics.** First-ever axe run
       against the Angular app showed that element-selector components
       break DOM structures with required parent-child semantics: the

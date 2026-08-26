@@ -103,8 +103,14 @@ export class TextSizePicker extends HTMLElement {
 
     #onDocumentClick = (event: MouseEvent): void => {
         if (!this.#open) return;
-        const t = event.target as Node | null;
-        if (t && this.#rootEl && !this.#rootEl.contains(t)) this.closeList(false);
+        // Judge the click by its composedPath() snapshot, not by containment
+        // of event.target: opening replaceChildren()s the button content, so
+        // the clicked icon span is already DETACHED when this bubbles back to
+        // the document — a containment check then closed the picker on the
+        // very pointer click that opened it (trusted clicks target the span;
+        // synthetic button.click() targets the button, which is why no test
+        // saw it).
+        if (!event.composedPath().includes(this)) this.closeList(false);
     };
 
     // ---- Property accessors ----

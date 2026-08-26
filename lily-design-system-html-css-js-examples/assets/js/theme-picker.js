@@ -1,102 +1,28 @@
-/**
- * `<theme-picker>` — Lily Design System HTML helper.
- *
- * See `./spec/index.md` for the canonical contract. This file implements
- * the custom-element class but does NOT register it. The `index.ts`
- * barrel registers it on import.
- *
- * The control is an icon button that opens a dropdown listbox
- * (WAI-ARIA APG listbox pattern). It is not a native `<select>`.
- */
-
-/** Default button glyph: U+25D1 CIRCLE WITH RIGHT HALF BLACK. */
-export const CIRCLE_WITH_RIGHT_HALF_BLACK = "\u25D1";
-
-/** Change-event detail dispatched on every applied theme. */
-export type ThemePickerChangeDetail = {
-  theme: string;
-};
-
-/** Mirrors the observed attributes / properties for typing convenience. */
-export type ThemePickerProps = {
-  label: string;
-  themesUrl: string;
-  themes: string[];
-  value?: string;
-  defaultValue?: string;
-  storageKey?: string;
-  detectFromSystem?: boolean;
-  name?: string;
-  extension?: string;
-  themeLabels?: Record<string, string>;
-  target?: HTMLElement | null;
-  class?: string;
-};
-
-/**
- * Resolve a theme slug to its display label: each hyphen-separated
- * word title-cased, so a slug like
- * "united-kingdom-national-health-service-england-for-patients"
- * renders as "United Kingdom National Health Service England For
- * Patients" rather than a half-capitalised hyphenated string.
- *
- * Mirrors `localeName` in locale-picker. The element's `labelFor`
- * delegates here after consulting `theme-labels`, so there is exactly
- * one implementation of the title-casing rule.
- */
-export function themeName(theme: string): string {
-  return theme
-    .split("-")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
+// lily-design-system-html-theme-picker/theme-picker.ts
+var CIRCLE_WITH_RIGHT_HALF_BLACK = "\u25D1";
+function themeName(theme) {
+  return theme.split("-").map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
 }
-
-/**
- * Resolve the OS colour-scheme preference to a supported theme slug.
- * Mirrors `matchNavigatorLanguage` in locale-picker.
- *
- * Returns `""` when the preferred scheme is not present in `themes`,
- * or when `matchMedia` is unavailable — the SSR case, and also jsdom,
- * which does not implement `matchMedia` either. The guard is required,
- * not optional.
- */
-export function matchSystemTheme(themes: readonly string[]): string {
-  if (
-    typeof window === "undefined" ||
-    typeof window.matchMedia !== "function"
-  ) {
+function matchSystemTheme(themes) {
+  if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
     return "";
   }
-  const wanted = window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? "dark"
-    : "light";
+  const wanted = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
   return themes.includes(wanted) ? wanted : "";
 }
-
-/** Normalise the themes directory URL to end with exactly one `/`. */
-export function normalizeThemesUrl(themesUrl: string): string {
+function normalizeThemesUrl(themesUrl) {
   return themesUrl.endsWith("/") ? themesUrl : themesUrl + "/";
 }
-
-/** Construct the href for a given theme slug. */
-export function themeHref(
-  themesUrl: string,
-  slug: string,
-  extension: string,
-): string {
+function themeHref(themesUrl, slug, extension) {
   return normalizeThemesUrl(themesUrl) + slug + extension;
 }
-
-let uid = 0;
-/** Stable per-instance id prefix; SSR-safe (no Math.random / Date.now). */
-export function nextThemePickerId(): string {
+var uid = 0;
+function nextThemePickerId() {
   uid += 1;
   return `theme-picker-${uid}`;
 }
-
-/** Custom-element class implementing `<theme-picker>`. */
-export class ThemePicker extends HTMLElement {
-  static get observedAttributes(): string[] {
+var ThemePicker = class extends HTMLElement {
+  static get observedAttributes() {
     return [
       "label",
       "themes-url",
@@ -108,136 +34,110 @@ export class ThemePicker extends HTMLElement {
       "name",
       "extension",
       "theme-labels",
-      "class",
+      "class"
     ];
   }
-
   // Backing storage for properties.
-  #themes: string[] = [];
-  #themeLabels: Record<string, string> = {};
-  #target: HTMLElement | null = null;
+  #themes = [];
+  #themeLabels = {};
+  #target = null;
   #initialised = false;
-
   // Rendered-DOM references. Null until #render() has run.
-  #rootEl: HTMLDivElement | null = null;
-  #inputEl: HTMLInputElement | null = null;
-  #buttonEl: HTMLButtonElement | null = null;
-  #listEl: HTMLUListElement | null = null;
-  #optionEls: HTMLLIElement[] = [];
-
+  #rootEl = null;
+  #inputEl = null;
+  #buttonEl = null;
+  #listEl = null;
+  #optionEls = [];
   // Listbox state.
   #open = false;
   #activeIndex = -1;
-
   // Stable ids for the button/listbox aria wiring.
-  readonly #baseId = nextThemePickerId();
-
+  #baseId = nextThemePickerId();
   // Typeahead buffer: APG listbox behaviour. Reset after a pause.
   #typeahead = "";
-  #typeaheadTimer: ReturnType<typeof setTimeout> | undefined;
-
-  #onDocumentClick = (event: MouseEvent): void => {
+  #typeaheadTimer;
+  #onDocumentClick = (event) => {
     if (!this.#open) return;
-    // Judge the click by its composedPath() snapshot, not by containment
-    // of event.target: opening replaceChildren()s the button content, so
-    // the clicked icon span is already DETACHED when this bubbles back to
-    // the document — a containment check then closed the picker on the
-    // very pointer click that opened it (trusted clicks target the span;
-    // synthetic button.click() targets the button, which is why no test
-    // saw it).
     if (!event.composedPath().includes(this)) this.closeList(false);
   };
-
   // ---- Property accessors ----
-
-  get label(): string {
+  get label() {
     return this.getAttribute("label") ?? "";
   }
-  set label(v: string) {
+  set label(v) {
     this.setAttribute("label", v);
   }
-
-  get themesUrl(): string {
+  get themesUrl() {
     return this.getAttribute("themes-url") ?? "";
   }
-  set themesUrl(v: string) {
+  set themesUrl(v) {
     this.setAttribute("themes-url", v);
   }
-
-  get themes(): string[] {
+  get themes() {
     return [...this.#themes];
   }
-  set themes(v: string[]) {
+  set themes(v) {
     this.#themes = Array.isArray(v) ? v.slice() : [];
-    // Keep the attribute in sync (CSV form) without re-entering the
-    // attribute change callback to re-parse.
     const csv = this.#themes.join(",");
     if (this.getAttribute("themes") !== csv) {
       this.setAttribute("themes", csv);
-      return; // attributeChangedCallback will render
+      return;
     }
     this.#render();
   }
-
-  get value(): string {
+  get value() {
     return this.getAttribute("value") ?? "";
   }
-  set value(v: string) {
+  set value(v) {
     if (v) this.setAttribute("value", v);
     else this.removeAttribute("value");
   }
-
-  get defaultValue(): string {
+  get defaultValue() {
     return this.getAttribute("default-value") ?? "";
   }
-  set defaultValue(v: string) {
+  set defaultValue(v) {
     if (v) this.setAttribute("default-value", v);
     else this.removeAttribute("default-value");
   }
-
-  get storageKey(): string {
+  get storageKey() {
     return this.getAttribute("storage-key") ?? "";
   }
-  set storageKey(v: string) {
+  set storageKey(v) {
     if (v) this.setAttribute("storage-key", v);
     else this.removeAttribute("storage-key");
   }
-
   /**
    * Resolve `prefers-color-scheme` to a supported theme on first
    * visit. Mirrors `detectFromNavigator` in locale-picker, including
    * the boolean-attribute convention: absent → false, present →
    * true, present and equal to "false" → false.
    */
-  get detectFromSystem(): boolean {
+  get detectFromSystem() {
     const v = this.getAttribute("detect-from-system");
     return v !== null && v !== "false";
   }
-  set detectFromSystem(v: boolean) {
+  set detectFromSystem(v) {
     if (v) this.setAttribute("detect-from-system", "");
     else this.removeAttribute("detect-from-system");
   }
-
-  get name(): string {
+  get name() {
     return this.getAttribute("name") ?? "theme";
   }
-  set name(v: string) {
+  set name(v) {
     if (v) this.setAttribute("name", v);
     else this.removeAttribute("name");
   }
-
-  get extension(): string {
+  get extension() {
     return this.getAttribute("extension") ?? ".css";
   }
-  set extension(v: string) {
+  set extension(v) {
     if (v) this.setAttribute("extension", v);
     else this.removeAttribute("extension");
   }
-
-  get themeLabels(): Record<string, string> {
+  get themeLabels() {
     return { ...this.#themeLabels };
   }
-  set themeLabels(v: Record<string, string>) {
+  set themeLabels(v) {
     this.#themeLabels = v && typeof v === "object" ? { ...v } : {};
     const json = JSON.stringify(this.#themeLabels);
     if (this.getAttribute("theme-labels") !== json) {
@@ -246,31 +146,25 @@ export class ThemePicker extends HTMLElement {
     }
     this.#render();
   }
-
-  get target(): HTMLElement | null {
+  get target() {
     return this.#target;
   }
-  set target(v: HTMLElement | null) {
+  set target(v) {
     this.#target = v ?? null;
   }
-
   /** Is the listbox open? Read-only; use `openList()` / `closeList()`. */
-  get open(): boolean {
+  get open() {
     return this.#open;
   }
-
   /** id of the rendered `<ul role="listbox">`. */
-  get listId(): string {
+  get listId() {
     return `${this.#baseId}-list`;
   }
-
   /** id of the rendered option at `index`. */
-  optionId(index: number): string {
+  optionId(index) {
     return `${this.#baseId}-option-${index}`;
   }
-
   // ---- Public, overridable rendering hook ----
-
   /**
    * Build the content of the button. The default is the half-circle
    * glyph wrapped in `aria-hidden="true"` so the accessible name comes
@@ -283,25 +177,20 @@ export class ThemePicker extends HTMLElement {
    * the button; the button's own aria wiring is not the subclass's to
    * change. See `docs/custom-rendering.md`.
    */
-  renderButtonContent(): Node {
+  renderButtonContent() {
     const icon = document.createElement("span");
     icon.className = "theme-picker-icon";
     icon.setAttribute("aria-hidden", "true");
     icon.textContent = CIRCLE_WITH_RIGHT_HALF_BLACK;
     return icon;
   }
-
   /** Resolve a slug to its display label. Public for subclasses. */
-  labelFor(theme: string): string {
+  labelFor(theme) {
     if (theme in this.#themeLabels) return this.#themeLabels[theme];
     return themeName(theme);
   }
-
   // ---- Lifecycle ----
-
-  connectedCallback(): void {
-    // Pick up the initial themes / themeLabels from attributes if
-    // they were set via HTML before the JS evaluated.
+  connectedCallback() {
     const themesAttr = this.getAttribute("themes");
     if (themesAttr !== null && this.#themes.length === 0) {
       this.#themes = parseCsv(themesAttr);
@@ -310,7 +199,6 @@ export class ThemePicker extends HTMLElement {
     if (labelsAttr !== null && Object.keys(this.#themeLabels).length === 0) {
       this.#themeLabels = parseJsonObject(labelsAttr);
     }
-
     if (!this.#initialised) {
       this.#initialised = true;
       this.#resolveInitialValue();
@@ -319,12 +207,7 @@ export class ThemePicker extends HTMLElement {
     document.addEventListener("click", this.#onDocumentClick);
     if (this.value) this.#applyTheme(this.value);
   }
-
-  attributeChangedCallback(
-    name: string,
-    _old: string | null,
-    value: string | null,
-  ): void {
+  attributeChangedCallback(name, _old, value) {
     switch (name) {
       case "themes":
         this.#themes = value === null ? [] : parseCsv(value);
@@ -335,9 +218,6 @@ export class ThemePicker extends HTMLElement {
         this.#render();
         break;
       case "value":
-        // A value change never rebuilds the DOM: rebuilding while
-        // the listbox is open would destroy focus and the active
-        // descendant. Only the state-carrying attributes change.
         this.#syncState();
         if (this.isConnected && value) this.#applyTheme(value);
         break;
@@ -352,59 +232,42 @@ export class ThemePicker extends HTMLElement {
         break;
     }
   }
-
-  disconnectedCallback(): void {
+  disconnectedCallback() {
     document.removeEventListener("click", this.#onDocumentClick);
     clearTimeout(this.#typeaheadTimer);
-    // Disconnecting can remove the managed <link> below, so forget what
-    // was applied: a re-connected element must apply again.
     this.#appliedValue = "";
-    // If no other <theme-picker> with the same name remains in the
-    // document, garbage-collect the managed <link>.
     const sameName = document.querySelectorAll(
-      `theme-picker[name="${this.name}"]`,
+      `theme-picker[name="${this.name}"]`
     );
     if (sameName.length === 0) {
       const link = document.head.querySelector(
-        `link[data-lily-theme-picker="${this.name}"]`,
+        `link[data-lily-theme-picker="${this.name}"]`
       );
-      link?.remove();
+      link == null ? void 0 : link.remove();
     }
   }
-
   // ---- Behaviour ----
-
-  #resolveInitialValue(): void {
+  #resolveInitialValue() {
     let initial = this.value;
-
     if (!initial && this.storageKey) {
       try {
         initial = localStorage.getItem(this.storageKey) ?? "";
       } catch {
-        /* ignore */
       }
     }
-
     if (!initial && this.detectFromSystem) {
       initial = matchSystemTheme(this.#themes);
     }
-
     if (!initial) {
-      initial =
-        this.defaultValue ||
-        (this.#themes.includes("light") ? "light" : this.#themes[0]) ||
-        "";
+      initial = this.defaultValue || (this.#themes.includes("light") ? "light" : this.#themes[0]) || "";
     }
-
     if (initial && initial !== this.value) {
-      // Set without triggering re-entry through the change callback.
       this.setAttribute("value", initial);
     }
   }
-
-  #getManagedLink(): HTMLLinkElement {
+  #getManagedLink() {
     const selector = `link[data-lily-theme-picker="${this.name}"]`;
-    let link = document.head.querySelector<HTMLLinkElement>(selector);
+    let link = document.head.querySelector(selector);
     if (!link) {
       link = document.createElement("link");
       link.rel = "stylesheet";
@@ -413,107 +276,83 @@ export class ThemePicker extends HTMLElement {
     }
     return link;
   }
-
   // The theme the DOM currently carries. Applying is idempotent: a
   // theme already applied is a no-op. `attributeChangedCallback` fires
   // on every `setAttribute("value", …)`, unchanged value included, so
   // without this a consumer whose `themechange` listener mirrors the value
   // back onto the element re-enters apply forever.
   #appliedValue = "";
-
-  #applyTheme(slug: string): void {
+  #applyTheme(slug) {
     if (typeof document === "undefined" || !slug) return;
     if (slug === this.#appliedValue) return;
     this.#appliedValue = slug;
     this.#getManagedLink().href = themeHref(
       this.themesUrl,
       slug,
-      this.extension,
+      this.extension
     );
     (this.#target ?? document.documentElement).setAttribute("data-theme", slug);
     if (this.storageKey) {
       try {
         localStorage.setItem(this.storageKey, slug);
       } catch {
-        /* ignore */
       }
     }
     this.dispatchEvent(
-      new CustomEvent<ThemePickerChangeDetail>("themechange", {
+      new CustomEvent("themechange", {
         detail: { theme: slug },
         bubbles: true,
-        composed: true,
-      }),
+        composed: true
+      })
     );
   }
-
   // ---- Open / close ----
-
   /** Open the listbox. `startIndex` overrides the active option. */
-  openList(startIndex?: number): void {
+  openList(startIndex) {
+    var _a;
     const selected = this.#themes.indexOf(this.value);
-    // An empty list has no option to activate; -1 keeps
-    // aria-activedescendant off rather than pointing at an id that
-    // does not exist.
-    this.#activeIndex =
-      this.#themes.length === 0
-        ? -1
-        : (startIndex ?? (selected >= 0 ? selected : 0));
+    this.#activeIndex = this.#themes.length === 0 ? -1 : startIndex ?? (selected >= 0 ? selected : 0);
     this.#open = true;
     this.#syncState();
-    // Focus moves to the listbox; the active option is conveyed via
-    // aria-activedescendant, per the APG listbox pattern.
-    this.#listEl?.focus();
+    (_a = this.#listEl) == null ? void 0 : _a.focus();
     this.#scrollActiveIntoView();
   }
-
   /** Close the listbox. Returns focus to the button unless `refocus` is false. */
-  closeList(refocus = true): void {
+  closeList(refocus = true) {
+    var _a;
     if (!this.#open) return;
     this.#open = false;
     this.#activeIndex = -1;
     this.#syncState();
-    if (refocus) this.#buttonEl?.focus();
+    if (refocus) (_a = this.#buttonEl) == null ? void 0 : _a.focus();
   }
-
-  #choose(index: number): void {
+  #choose(index) {
     const slug = this.#themes[index];
     if (slug) this.value = slug;
     this.closeList();
   }
-
-  #scrollActiveIntoView(): void {
+  #scrollActiveIntoView() {
+    var _a, _b;
     if (this.#activeIndex < 0) return;
-    // jsdom has no scrollIntoView; call it only where it exists.
-    this.#optionEls[this.#activeIndex]?.scrollIntoView?.({ block: "nearest" });
+    (_b = (_a = this.#optionEls[this.#activeIndex]) == null ? void 0 : _a.scrollIntoView) == null ? void 0 : _b.call(_a, { block: "nearest" });
   }
-
-  #moveActive(delta: number): void {
+  #moveActive(delta) {
     if (this.#themes.length === 0) return;
     this.#activeIndex = Math.min(
       Math.max(this.#activeIndex + delta, 0),
-      this.#themes.length - 1,
+      this.#themes.length - 1
     );
     this.#syncState();
     this.#scrollActiveIntoView();
   }
-
-  #setActive(index: number): void {
+  #setActive(index) {
     this.#activeIndex = index;
     this.#syncState();
     this.#scrollActiveIntoView();
   }
-
-  #runTypeahead(char: string): void {
+  #runTypeahead(char) {
     const lower = char.toLowerCase();
-    // APG listbox typeahead: a single character moves to the NEXT
-    // option starting with it, and repeating that character keeps
-    // cycling — which is what makes the dark / dim / dracula run of a
-    // long theme list reachable by pressing "d" three times. Only a
-    // buffer of differing characters refines the match, and that
-    // buffer stays anchored on the active option.
-    const sameCharRun =
-      this.#typeahead === "" || [...this.#typeahead].every((c) => c === lower);
+    const sameCharRun = this.#typeahead === "" || [...this.#typeahead].every((c) => c === lower);
     this.#typeahead += lower;
     clearTimeout(this.#typeaheadTimer);
     this.#typeaheadTimer = setTimeout(() => {
@@ -522,8 +361,6 @@ export class ThemePicker extends HTMLElement {
     const query = sameCharRun ? lower : this.#typeahead;
     const anchor = this.#activeIndex < 0 ? 0 : this.#activeIndex;
     const start = sameCharRun ? anchor + 1 : anchor;
-    // Search forward, wrapping once — typeahead wraps even though the
-    // arrows clamp, or options above the cursor would be untypable.
     for (let n = 0; n < this.#themes.length; n++) {
       const i = (start + n) % this.#themes.length;
       if (this.labelFor(this.#themes[i]).toLowerCase().startsWith(query)) {
@@ -532,8 +369,7 @@ export class ThemePicker extends HTMLElement {
       }
     }
   }
-
-  #onButtonKeydown = (event: KeyboardEvent): void => {
+  #onButtonKeydown = (event) => {
     switch (event.key) {
       case "ArrowDown":
       case "Enter":
@@ -547,8 +383,8 @@ export class ThemePicker extends HTMLElement {
         break;
     }
   };
-
-  #onListKeydown = (event: KeyboardEvent): void => {
+  #onListKeydown = (event) => {
+    var _a, _b;
     switch (event.key) {
       case "ArrowDown":
         event.preventDefault();
@@ -580,111 +416,75 @@ export class ThemePicker extends HTMLElement {
         this.#moveActive(-10);
         break;
       case "PageDown":
-        // ±10, clamped: an APG-optional key that earns its place in a
-        // 45-theme list.
         event.preventDefault();
         this.#moveActive(10);
         break;
       case "Tab":
-        // Tab moves on — but focus goes to the button FIRST, without
-        // cancelling the key. Hiding the focused list drops focus to
-        // <body>, and the browser then computes the default Tab move
-        // from the top of the document, so tabbing out of an open
-        // picker teleported the user to the page's first tab stop.
-        // From the button, the default Tab lands exactly where leaving
-        // the picker should. Guard the METHOD: jsdom-shaped
-        // environments may lack it.
-        this.#buttonEl?.focus?.();
+        (_b = (_a = this.#buttonEl) == null ? void 0 : _a.focus) == null ? void 0 : _b.call(_a);
         this.closeList(false);
         break;
       default:
-        if (
-          event.key.length === 1 &&
-          !event.ctrlKey &&
-          !event.metaKey &&
-          !event.altKey
-        ) {
+        if (event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
           this.#runTypeahead(event.key);
         }
     }
   };
-
-  #onRootFocusOut = (event: FocusEvent): void => {
-    const next = event.relatedTarget as Node | null;
-    if (next && this.#rootEl?.contains(next)) return;
-    // Some engines (and jsdom) dispatch focusout with a null
-    // relatedTarget before the new focus target is committed, so
-    // re-check activeElement on the next microtask before closing.
+  #onRootFocusOut = (event) => {
+    var _a;
+    const next = event.relatedTarget;
+    if (next && ((_a = this.#rootEl) == null ? void 0 : _a.contains(next))) return;
     queueMicrotask(() => {
+      var _a2;
       const active = document.activeElement;
-      if (active && this.#rootEl?.contains(active)) return;
+      if (active && ((_a2 = this.#rootEl) == null ? void 0 : _a2.contains(active))) return;
       this.closeList(false);
     });
   };
-
   // ---- Rendering ----
-
   /**
    * Update every state-carrying attribute without rebuilding the DOM:
    * `aria-expanded`, `hidden`, `aria-activedescendant`, per-option
    * `aria-selected` / `data-active`, and the hidden input's value.
    */
-  #syncState(): void {
+  #syncState() {
     if (!this.#rootEl) return;
     const value = this.value;
-
     if (this.#inputEl) this.#inputEl.value = value;
-
     if (this.#buttonEl) {
       this.#buttonEl.setAttribute("aria-expanded", String(this.#open));
-      // Rebuild the button content so an overridden
-      // renderButtonContent() that reads `value` or `open` stays
-      // current. This is what makes the hook behave like the
-      // reactive `children` snippet in the other frameworks.
       this.#buttonEl.replaceChildren(this.renderButtonContent());
     }
-
     if (this.#listEl) {
       if (this.#open) this.#listEl.removeAttribute("hidden");
       else this.#listEl.setAttribute("hidden", "");
-
       if (this.#open && this.#activeIndex >= 0) {
         this.#listEl.setAttribute(
           "aria-activedescendant",
-          this.optionId(this.#activeIndex),
+          this.optionId(this.#activeIndex)
         );
       } else {
         this.#listEl.removeAttribute("aria-activedescendant");
       }
     }
-
     this.#optionEls.forEach((option, i) => {
       option.setAttribute("aria-selected", String(this.#themes[i] === value));
       if (i === this.#activeIndex) option.setAttribute("data-active", "");
       else option.removeAttribute("data-active");
     });
   }
-
-  #render(): void {
+  #render() {
     if (!this.isConnected) return;
-
-    // A structural rebuild cannot preserve focus inside the listbox,
-    // so it closes first.
     this.#open = false;
     this.#activeIndex = -1;
-
     const extraClass = this.getAttribute("class") ?? "";
     const root = document.createElement("div");
     root.className = `theme-picker ${extraClass}`.trim();
     root.addEventListener("focusout", this.#onRootFocusOut);
-
-    // The hidden input preserves form participation and the `name`.
     const input = document.createElement("input");
     input.type = "hidden";
     input.name = this.name;
     input.value = this.value;
     root.appendChild(input);
-
     const button = document.createElement("button");
     button.type = "button";
     button.className = "theme-picker-button";
@@ -699,7 +499,6 @@ export class ThemePicker extends HTMLElement {
     });
     button.addEventListener("keydown", this.#onButtonKeydown);
     root.appendChild(button);
-
     const list = document.createElement("ul");
     list.className = "theme-picker-list";
     list.id = this.listId;
@@ -708,8 +507,7 @@ export class ThemePicker extends HTMLElement {
     list.setAttribute("tabindex", "-1");
     list.setAttribute("hidden", "");
     list.addEventListener("keydown", this.#onListKeydown);
-
-    const optionEls: HTMLLIElement[] = [];
+    const optionEls = [];
     this.#themes.forEach((theme, i) => {
       const option = document.createElement("li");
       option.className = "theme-picker-option";
@@ -722,34 +520,38 @@ export class ThemePicker extends HTMLElement {
       optionEls.push(option);
     });
     root.appendChild(list);
-
     this.#rootEl = root;
     this.#inputEl = input;
     this.#buttonEl = button;
     this.#listEl = list;
     this.#optionEls = optionEls;
-
     this.replaceChildren(root);
   }
+};
+function parseCsv(s) {
+  return s.split(",").map((p) => p.trim()).filter((p) => p.length > 0);
 }
-
-// ---- Pure helpers (module-local) ----
-
-function parseCsv(s: string): string[] {
-  return s
-    .split(",")
-    .map((p) => p.trim())
-    .filter((p) => p.length > 0);
-}
-
-function parseJsonObject(s: string): Record<string, string> {
+function parseJsonObject(s) {
   try {
     const v = JSON.parse(s);
     if (v && typeof v === "object" && !Array.isArray(v)) {
-      return v as Record<string, string>;
+      return v;
     }
   } catch {
-    /* ignore */
   }
   return {};
 }
+
+// lily-design-system-html-theme-picker/index.ts
+if (typeof customElements !== "undefined" && !customElements.get("theme-picker")) {
+  customElements.define("theme-picker", ThemePicker);
+}
+export {
+  CIRCLE_WITH_RIGHT_HALF_BLACK,
+  ThemePicker,
+  matchSystemTheme,
+  nextThemePickerId,
+  normalizeThemesUrl,
+  themeHref,
+  themeName
+};

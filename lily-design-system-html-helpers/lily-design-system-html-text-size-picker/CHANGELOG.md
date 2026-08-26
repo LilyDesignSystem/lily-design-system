@@ -4,6 +4,21 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.1.1 — 2026-08-26
+
+Fixed: **a pointer click on the button opened and instantly closed the
+popup**, making it unusable with a mouse. A trusted click targets the
+icon `<span>`; opening runs the state sync, whose `replaceChildren()`
+on the button content detaches that span mid-event, so when the same
+click bubbled to the document, the outside-click containment check saw
+a detached target, judged the click "outside", and closed the popup on
+the very click that opened it. Synthetic `button.click()` targets the
+button element, which survives the swap — which is why the whole suite
+stayed green over it. The handler now judges the click by its
+`composedPath()` snapshot, which is immune to mid-event re-renders,
+and a regression test clicks the icon span and asserts the popup
+stays open (confirmed to fail without the fix).
+
 ## 0.1.0 — 2026-07-30
 
 First published release. Nothing earlier shipped, so the

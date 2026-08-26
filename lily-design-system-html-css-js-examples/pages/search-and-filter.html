@@ -4,12 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Search and Filter — Lily Design System</title>
-  <link rel="stylesheet" href="../assets/css/nhs.css">
+  <link rel="stylesheet" href="/assets/css/app-shell.css">
+  <script src="/assets/js/theme-boot.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
 
   <header class="header" aria-label="Site header">
+    <theme-picker
+      label="Choose a theme"
+      themes-url="/themes/"
+      themes="united-kingdom-national-health-service-england-for-patients,united-kingdom-national-health-service-england-for-practitioners,united-kingdom-national-health-service-scotland-for-patients,united-kingdom-national-health-service-wales-for-patients,united-kingdom-government-digital-service,united-states-web-design-system,adobe-spectrum,mozilla-protocol,light,dark"
+      theme-labels="{&quot;united-kingdom-national-health-service-england-for-patients&quot;: &quot;NHS England (patients)&quot;, &quot;united-kingdom-national-health-service-england-for-practitioners&quot;: &quot;NHS England (practitioners)&quot;, &quot;united-kingdom-national-health-service-scotland-for-patients&quot;: &quot;NHS Scotland (patients)&quot;, &quot;united-kingdom-national-health-service-wales-for-patients&quot;: &quot;NHS Wales (patients)&quot;, &quot;united-kingdom-government-digital-service&quot;: &quot;GOV.UK GDS&quot;, &quot;united-states-web-design-system&quot;: &quot;USWDS&quot;, &quot;adobe-spectrum&quot;: &quot;Adobe Spectrum&quot;, &quot;mozilla-protocol&quot;: &quot;Mozilla Protocol&quot;, &quot;light&quot;: &quot;Light&quot;, &quot;dark&quot;: &quot;Dark&quot;}"
+      default-value="united-kingdom-national-health-service-england-for-patients"
+      storage-key="lily-theme"
+    ></theme-picker>
     <h1>Search and Filter</h1>
     <nav class="navigation-menu" aria-label="Main navigation">
       <ul>
@@ -187,5 +196,6 @@
       renderTags();
     })();
   </script>
+  <script type="module" src="/assets/js/theme-picker.js"></script>
 </body>
 </html>

@@ -790,3 +790,27 @@ describe("LocalePicker — idempotent apply (§7.35)", () => {
         el.remove();
     });
 });
+
+
+describe("pointer open survives the button content swap (regression)", () => {
+  // Same defect family as theme-picker: opening replaceChildren()s the
+  // button content, detaching the clicked icon span mid-event; the
+  // document click handler must judge by composedPath(), not by
+  // containment of the (now detached) target.
+  test("clicking the icon span opens and STAYS open", async () => {
+    const el = document.createElement("locale-picker");
+    el.setAttribute("label", "Choose a language");
+      el.setAttribute("locales", "en,cy");
+    document.body.appendChild(el);
+    try {
+      const icon = el.querySelector(".locale-picker-icon") as HTMLElement;
+      icon.dispatchEvent(new MouseEvent("click", { bubbles: true, composed: true }));
+      await Promise.resolve();
+      const button = el.querySelector(".locale-picker-button")!;
+      expect(button.getAttribute("aria-expanded")).toBe("true");
+      expect(el.querySelector(".locale-picker-list")!.hasAttribute("hidden")).toBe(false);
+    } finally {
+      el.remove();
+    }
+  });
+});
