@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-title: Lily Design System
+title: "Lily Design System: headless accessible components for seven frameworks"
 message: >-
   If you use this work and you want to cite it,
   then you can use the metadata from this file.
@@ -12,9 +12,44 @@ authors:
     orcid: 'https://orcid.org/0009-0000-4681-282X'
 identifiers:
   - type: url
-    value: 'https://github.com/LilyDesignSystem/lily/'
-    description: Lily Design System
-repository-code: 'https://github.com/LilyDesignSystem/lily/'
+    value: 'https://github.com/LilyDesignSystem/lily-design-system/'
+    description: Lily Design System source repository
+  - type: url
+    value: 'https://lilydesignsystem.github.io/'
+    description: Lily Design System documentation site
+repository-code: 'https://github.com/LilyDesignSystem/lily-design-system/'
+url: 'https://lilydesignsystem.github.io/'
 abstract: >-
-  Lily Design System
-license: See license file
+  Lily Design System is a free, open-source, headless design system.
+  It defines a canonical catalog of 491 components and implements that
+  same catalog across seven frameworks (HTML, Svelte, React, Vue,
+  Angular, Blazor, Nunjucks) as unstyled, accessible components that
+  ship semantic HTML, ARIA, focus management, and keyboard behaviour
+  with no CSS and no framework dependency. It also ships seven
+  matching helper catalogs of thirty-five opinionated packages, forty-five
+  reference theme stylesheets, and seven fully styled example
+  applications. The system targets WCAG 2.2 AAA and follows the
+  WAI-ARIA Authoring Practices; every user-facing string is supplied
+  by the consumer.
+keywords:
+  - design system
+  - headless components
+  - accessibility
+  - WCAG
+  - WAI-ARIA
+  - internationalization
+  - HTML
+  - Svelte
+  - React
+  - Vue
+  - Angular
+  - Blazor
+  - Nunjucks
+license:
+  - MIT
+  - Apache-2.0
+  - GPL-2.0-only
+  - GPL-3.0-only
+  - BSD-3-Clause
+version: 0.6.0
+date-released: '2026-07-03'

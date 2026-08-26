@@ -1,0 +1,398 @@
+#!/usr/bin/env python3
+"""Propagate the root special files into every public subtree repository.
+
+Every subproject is a `git subtree` pushed to its own standalone public
+repository, so each one needs the top-level files a public repository is
+expected to carry -- above all a LICENSE, since a repository without one is
+"all rights reserved" by default whatever the monorepo says.
+
+The root is canonical. Copied files get an HTML-comment provenance banner and
+have their relative links rewritten: a target that exists in the destination
+stays relative, one that does not becomes an absolute URL on the canonical
+repository. CITATION.cff and INSTALL.md are generated per subproject, because
+a citation must name its own repo and a Blazor install has nothing in common
+with a Nunjucks one.
+
+Idempotent: running it twice produces no diff.
+
+Spec: spec/special-files-for-public-repos/index.md
+"""
+
+import json
+import os
+import re
+import subprocess
+import sys
+
+CANONICAL = "https://github.com/LilyDesignSystem/lily-design-system"
+DOCS = "https://lilydesignsystem.github.io/"
+ORG = "https://github.com/LilyDesignSystem"
+ORCID = "https://orcid.org/0009-0000-4681-282X"
+SPDX = "MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause"
+
+COPY = [
+    "LICENSE.md", "NEWS.md", "COMPARISONS.md", "BENCHMARKS.md",
+    "CONTRIBUTING.md", "CODEOWNERS", "MAINTAINERS.md", "AI_STATEMENT.md",
+    "GOVERNANCE.md", "SECURITY.md", "CODE_OF_CONDUCT.md", "RFC.md",
+]
+
+BANNER = (
+    "<!-- Synced from the canonical repository by bin/sync-special-files.\n"
+    "     Do not edit here; edit the root copy and re-run the script.\n"
+    "     Canonical: {url}/blob/main/{name} -->\n"
+)
+
+FRAMEWORK = {
+    "html": "HTML", "svelte": "Svelte 5", "react": "React", "vue": "Vue 3",
+    "angular": "Angular 20", "blazor": "Blazor", "nunjucks": "Nunjucks",
+}
+
+LINK = re.compile(r"\[([^\]]*)\]\(([^)\s]+)(\s+\"[^\"]*\")?\)")
+
+
+def top():
+    return subprocess.run(["git", "rev-parse", "--show-toplevel"],
+                          capture_output=True, text=True, check=True).stdout.strip()
+
+
+def subprojects(root):
+    out = [d for d in sorted(os.listdir(root))
+           if d.startswith("lily-design-system-") and os.path.isdir(os.path.join(root, d))]
+    gh = "lilydesignsystem.github.io"
+    if os.path.isdir(os.path.join(root, gh)):
+        out.append(gh)
+    return out
+
+
+def rewrite_links(text, root, dest, placed):
+    """Keep a relative link relative when it will resolve in dest; otherwise
+    point it at the canonical repository.
+
+    `placed` is the set of names this sync puts in dest. It must be consulted
+    alongside the filesystem: resolving against the destination's *current*
+    contents alone made the pass non-convergent, because the sync mutates
+    exactly the thing it was testing against.
+    """
+    def sub(m):
+        label, target, title = m.group(1), m.group(2), m.group(3) or ""
+        if re.match(r"^(https?:|mailto:|#)", target):
+            return m.group(0)
+        path, _, anchor = target.partition("#")
+        if not path:
+            return m.group(0)
+        if path in placed or os.path.exists(os.path.join(dest, path)):
+            return m.group(0)
+        clean = path.rstrip("/")
+        kind = "tree" if os.path.isdir(os.path.join(root, clean)) else "blob"
+        url = f"{CANONICAL}/{kind}/main/{clean}" + (f"#{anchor}" if anchor else "")
+        return f"[{label}]({url}{title})"
+    return LINK.sub(sub, text)
+
+
+def parts(name):
+    """(framework, kind) for a subproject directory name."""
+    if name == "lilydesignsystem.github.io":
+        return None, "site"
+    for fw in FRAMEWORK:
+        if name.startswith(f"lily-design-system-{fw}-"):
+            tail = name[len(f"lily-design-system-{fw}-"):]
+            kind = ("helpers" if tail == "helpers"
+                    else "headless" if tail == "headless"
+                    else "examples")
+            return fw, kind
+    return None, "other"
+
+
+def describe(name):
+    fw, kind = parts(name)
+    label = FRAMEWORK.get(fw, "")
+    if kind == "site":
+        return "the Lily Design System documentation website"
+    if kind == "headless":
+        return f"the {label} headless component library: all 491 catalog components, unstyled and accessible"
+    if kind == "helpers":
+        return f"the {label} helpers catalog: five opinionated packages that each own one complete interaction"
+    if kind == "examples":
+        return f"the {label} example application: a fully styled reference app demonstrating every catalog component"
+    return "a Lily Design System subproject"
+
+
+PUBLISHED_NPM = {
+    "lily-design-system-svelte-headless", "lily-design-system-react-headless",
+    "lily-design-system-vue-headless",
+}
+
+
+def citation(name):
+    return f"""cff-version: 1.2.0
+title: "Lily Design System: {name}"
+message: >-
+  If you use this work and you want to cite it,
+  then you can use the metadata from this file.
+type: software
+authors:
+  - given-names: Joel Parker
+    family-names: Henderson
+    email: joel@joelparkerhenderson.com
+    affiliation: joelparkerhenderson.com
+    orcid: '{ORCID}'
+identifiers:
+  - type: url
+    value: '{ORG}/{name}/'
+    description: {name} source repository
+  - type: url
+    value: '{CANONICAL}/'
+    description: Lily Design System canonical monorepo
+repository-code: '{ORG}/{name}/'
+url: '{DOCS}'
+abstract: >-
+  This repository is {describe(name)}.
+  It is one subproject of Lily Design System, a free open-source headless
+  design system whose canonical catalog of 491 components is implemented
+  across seven frameworks. The canonical monorepo is at
+  {CANONICAL} and this repository is
+  published from it as a git subtree.
+keywords:
+  - design system
+  - headless components
+  - accessibility
+  - WCAG
+  - WAI-ARIA
+license:
+  - MIT
+  - Apache-2.0
+  - GPL-2.0-only
+  - GPL-3.0-only
+  - BSD-3-Clause
+"""
+
+
+def install(name):
+    fw, kind = parts(name)
+    label = FRAMEWORK.get(fw, "")
+    head = f"""# Install
+
+This repository is {describe(name)}.
+
+It is published as a `git subtree` from the canonical Lily Design System™
+monorepo at <{CANONICAL}>. Issues and pull requests are handled there.
+
+Full documentation and the searchable component catalog: <{DOCS}>
+"""
+    if kind == "site":
+        body = f"""
+## Run the site locally
+
+```sh
+git clone {ORG}/{name}.git
+cd {name}
+npm install
+npm run dev
+```
+
+This is the source of <{DOCS}>.
+"""
+    elif kind == "headless":
+        if name in PUBLISHED_NPM:
+            body = f"""
+## Install
+
+```sh
+npm install {name}
+```
+
+Import any of the 491 catalog components from the package root; the barrel is
+tree-shakeable (`sideEffects: false`), so your bundler drops what you do not use.
+
+The components ship semantic HTML, ARIA, focus management, and keyboard
+behaviour — and **no CSS**. Style them through the kebab-case class hook on each
+root element. See the canonical
+[css-style-sheet-template.css]({CANONICAL}/blob/main/css-style-sheet-template.css)
+for a hook per component, and the 45 ready-made stylesheets in
+[themes/]({CANONICAL}/tree/main/themes).
+"""
+        else:
+            registry = "NuGet" if fw == "blazor" else "npm"
+            body = f"""
+## Install
+
+**This package is not yet published to {registry}.** Until it is, use either:
+
+**Copy the markup.** Lily is headless — a component is its semantic HTML, its
+ARIA, and its class hook. Take it from the catalog at <{DOCS}> and paste it
+anywhere. No dependency, no build step.
+
+**Or clone and copy the component files:**
+
+```sh
+git clone {ORG}/{name}.git
+```
+
+The components ship no CSS. Style them through the kebab-case class hook on each
+root element. See the canonical
+[css-style-sheet-template.css]({CANONICAL}/blob/main/css-style-sheet-template.css)
+for a hook per component, and the 45 ready-made stylesheets in
+[themes/]({CANONICAL}/tree/main/themes).
+"""
+    elif kind == "helpers":
+        if fw == "blazor":
+            body = f"""
+## Install
+
+This catalog ships five helper packages as Razor class libraries. **They are
+built but not yet published to NuGet**; until they are, clone this repository and
+reference the `.csproj` you need:
+
+| Package | Owns |
+| --- | --- |
+| `LilyDesignSystem.Blazor.ThemePicker` | theme preference |
+| `LilyDesignSystem.Blazor.LocalePicker` | locale preference (`lang` / `dir`) |
+| `LilyDesignSystem.Blazor.TextSizePicker` | text-size preference |
+| `LilyDesignSystem.Blazor.SharePicker` | a share action |
+| `LilyDesignSystem.Blazor.DateTimePicker` | a date-time form value |
+
+```sh
+git clone {ORG}/{name}.git
+```
+"""
+        else:
+            rows = "\n".join(
+                f"| `lily-design-system-{fw}-{h}` | {d} |" for h, d in [
+                    ("theme-picker", "theme preference"),
+                    ("locale-picker", "locale preference (`lang` / `dir`)"),
+                    ("text-size-picker", "text-size preference"),
+                    ("share-picker", "a share action"),
+                    ("date-time-picker", "a date-time form value"),
+                ])
+            body = f"""
+## Install
+
+This catalog ships five helper packages, all published to npm at `0.1.0`.
+Install only what you need:
+
+| Package | Owns |
+| --- | --- |
+{rows}
+
+```sh
+npm install lily-design-system-{fw}-theme-picker
+```
+
+Every user-facing string is a prop — there are no English defaults to override.
+All are SSR-safe and ship no CSS. Contracts:
+[AGENTS/helpers.md]({CANONICAL}/blob/main/AGENTS/helpers.md) and
+[spec/helpers/index.md]({CANONICAL}/blob/main/spec/helpers/index.md).
+"""
+    else:
+        run = "dotnet run" if fw == "blazor" else "npm run dev"
+        inst = "" if fw == "blazor" else "npm install\n"
+        body = f"""
+## Run this example application
+
+```sh
+git clone {ORG}/{name}.git
+cd {name}
+{inst}{run}
+```
+
+It ships three required routes — `/`, `/components` (the full searchable catalog),
+and `/components/{{slug}}` (a live demo per component) — plus composed-page
+demonstrations. The stylesheet targets Lily's kebab-case class names directly, with
+no CSS-framework dependency; the current visual reference is the NHS UK design
+system.
+
+Lily is not affiliated with or endorsed by NHS.
+"""
+    return head + body + f"""
+## License
+
+Free open source, under your choice of MIT, Apache-2.0, GPL-2.0-only,
+GPL-3.0-only, or BSD-3-Clause. See [LICENSE.md](LICENSE.md).
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md). Work happens in the canonical monorepo.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.
+"""
+
+
+def changelog_stub(name):
+    return f"""# Changelog
+
+This repository is published as a `git subtree` from the canonical Lily Design
+System™ monorepo, and does not keep a separate change history.
+
+**The canonical changelog is
+[CHANGELOG.md]({CANONICAL}/blob/main/CHANGELOG.md).** It records every change to
+this subproject, with reasoning, alongside the rest of the system.
+
+Release highlights and project news: [NEWS.md](NEWS.md).
+
+---
+
+Lily™ and Lily Design System™ are trademarks.
+"""
+
+
+def write(path, text, state):
+    old = None
+    if os.path.exists(path):
+        with open(path) as f:
+            old = f.read()
+    if old == text:
+        state["same"] += 1
+        return
+    with open(path, "w") as f:
+        f.write(text)
+    state["wrote"] += 1
+    state["changed"].append(os.path.relpath(path, state["root"]))
+
+
+def main():
+    root = top()
+    state = {"root": root, "wrote": 0, "same": 0, "changed": []}
+    check_only = "--check" in sys.argv
+
+    sources = {}
+    for name in COPY:
+        p = os.path.join(root, name)
+        if not os.path.exists(p):
+            sys.exit(f"Error: canonical file is missing: {name}")
+        with open(p) as f:
+            sources[name] = f.read()
+
+    placed = set(COPY) | {"CITATION.cff", "INSTALL.md", "CHANGELOG.md", "README.md"}
+
+    subs = subprojects(root)
+    for sub in subs:
+        dest = os.path.join(root, sub)
+        for name in COPY:
+            text = sources[name]
+            if name.endswith(".md"):
+                text = BANNER.format(url=CANONICAL, name=name) + "\n" + \
+                       rewrite_links(text, root, dest, placed)
+            else:
+                text = ("# Synced from the canonical repository by "
+                        "bin/sync-special-files. Do not edit here.\n") + text
+            write(os.path.join(dest, name), text, state)
+
+        write(os.path.join(dest, "CITATION.cff"), citation(sub), state)
+        write(os.path.join(dest, "INSTALL.md"), install(sub), state)
+
+        cl = os.path.join(dest, "CHANGELOG.md")
+        if not os.path.exists(cl):
+            write(cl, changelog_stub(sub), state)
+
+    print(f"sync-special-files: {len(subs)} repositories, "
+          f"{state['wrote']} written, {state['same']} unchanged")
+    if check_only and state["wrote"]:
+        for c in state["changed"][:20]:
+            print("  out of date:", c)
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()
