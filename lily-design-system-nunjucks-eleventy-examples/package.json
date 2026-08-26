@@ -12,15 +12,15 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
-    "@11ty/eleventy": "^3.0.0",
+    "@11ty/eleventy": "^3.1.0",
     "nunjucks": "^3.2.4"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.3",
     "@playwright/test": "^1.49.0",
     "http-server": "^14.1.1",
-    "jsdom": "^25.0.1",
-    "vitest": "^2.1.8"
+    "jsdom": "^30.0.0",
+    "vitest": "^4.1.0"
   },
   "author": "Joel Parker Henderson <joel@joelparkerhenderson.com>",
   "repository": {

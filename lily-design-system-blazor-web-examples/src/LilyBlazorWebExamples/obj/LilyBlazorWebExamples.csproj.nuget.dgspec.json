@@ -5,10 +5,10 @@
   },
   "projects": {
     "/Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-blazor-headless/src/LilyBlazorHeadless/LilyBlazorHeadless.csproj": {
-      "version": "0.2.0",
+      "version": "0.1.0",
       "restore": {
         "projectUniqueName": "/Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-blazor-headless/src/LilyBlazorHeadless/LilyBlazorHeadless.csproj",
-        "projectName": "LilyBlazorHeadless",
+        "projectName": "LilyDesignSystem.Blazor.Headless",
         "projectPath": "/Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-blazor-headless/src/LilyBlazorHeadless/LilyBlazorHeadless.csproj",
         "packagesPath": "/Users/jph/.nuget/packages/",
         "outputPath": "/Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-blazor-headless/src/LilyBlazorHeadless/obj/",
@@ -20,11 +20,12 @@
           "net10.0"
         ],
         "sources": {
-          "/opt/homebrew/Cellar/dotnet/10.0.107/libexec/library-packs": {},
+          "/opt/homebrew/Cellar/dotnet/10.0.302/libexec/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net10.0": {
+            "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {}
           }
@@ -39,15 +40,16 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.300"
       },
       "frameworks": {
         "net10.0": {
+          "framework": "net10.0",
           "targetAlias": "net10.0",
           "dependencies": {
             "Microsoft.AspNetCore.Components.Web": {
               "target": "Package",
-              "version": "[10.0.0, )"
+              "version": "[10.0.11, )"
             }
           },
           "imports": [
@@ -66,7 +68,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/opt/homebrew/Cellar/dotnet/10.0.107/libexec/sdk/10.0.107/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "/opt/homebrew/Cellar/dotnet/10.0.302/libexec/sdk/10.0.302/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",
@@ -360,11 +362,12 @@
           "net10.0"
         ],
         "sources": {
-          "/opt/homebrew/Cellar/dotnet/10.0.107/libexec/library-packs": {},
+          "/opt/homebrew/Cellar/dotnet/10.0.302/libexec/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net10.0": {
+            "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
               "/Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-blazor-headless/src/LilyBlazorHeadless/LilyBlazorHeadless.csproj": {
@@ -383,16 +386,17 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.300"
       },
       "frameworks": {
         "net10.0": {
+          "framework": "net10.0",
           "targetAlias": "net10.0",
           "dependencies": {
             "Microsoft.AspNetCore.App.Internal.Assets": {
               "suppressParent": "All",
               "target": "Package",
-              "version": "[10.0.7, )",
+              "version": "[10.0.10, )",
               "autoReferenced": true
             }
           },
@@ -415,7 +419,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/opt/homebrew/Cellar/dotnet/10.0.107/libexec/sdk/10.0.107/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "/opt/homebrew/Cellar/dotnet/10.0.302/libexec/sdk/10.0.302/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

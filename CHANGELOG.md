@@ -9,6 +9,31 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Every framework stack updated to current — 2026-08-26
+
+The whole matrix moves to today's releases, per stack, each verified
+before its commit:
+
+| Stack | Now on | Verified |
+| --- | --- | --- |
+| Svelte | svelte 5.56, Kit 2.70, vite-plugin-svelte 7, Vite 8, vitest 4, TS 6 | 4,906 + 211 cases; app 72/72 |
+| React | React 19.2, Next 16.3 (Turbopack), vitest 4 | 2,665 + 267 cases; app 71/71 |
+| Vue | Vue 3.5.41, Nuxt 4.5, Vite 7, vitest 4 | 2,655 + 261 cases; app 68/68 |
+| Angular | Angular 22.1, Analog 2.7, Vite 7, TS 6, ng-packagr 22, Storybook 10, vitest 4 | 1,010 + 290 cases; 491 stories; app 1,545/1,545; headless + 5 helpers published 0.2.0 |
+| Nunjucks | Eleventy 3.1, nunjucks 3.2, vitest 4 | 2,844 + 321 cases; app 60/60 |
+| Blazor | .NET 10 (already current); AspNetCore packages to 10.0.11 | 1,502 + 203 bUnit cases; app builds |
+
+Real findings along the way: Next 16's Turbopack refused the React
+app's `@pgds/*` alias — which turned out to resolve *outside the app*
+into the sibling headless subproject, with all 411 local component
+"copies" being re-export stubs through it (hollow copy-pattern, broken
+in the standalone subtree repo; now real copies under a `@lily/*`
+alias, with the 80-component NID gap in that copy set logged). The
+Blazor example app's axe/responsive suites carry 5 pre-existing
+failures (measured on the pre-bump tree, like the HTML app's) — logged
+in spec §11.8, not absorbed. TypeScript lands at what each toolchain
+supports: 6.0 for Angular and Svelte-Kit, 5.9 elsewhere.
+
 ## Angular stack on 22.1 + Analog 2.7 — 2026-08-26
 
 All three Angular subprojects move to the current stack: Angular

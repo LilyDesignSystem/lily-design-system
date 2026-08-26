@@ -645,6 +645,11 @@ this list holds only what is genuinely open.
       1,542 specs green (see §11.4). angular-headless remains covered
       by its vitest + Storybook layers, matching the other headless
       libraries — none of which has a Playwright layer.
+- [ ] **Blazor example app: 5 axe/responsive failures.** Measured
+      2026-08-26 on the pre-upgrade tree (document-title missing on
+      some component-detail pages; mobile overflow on /components
+      routes). Same class of drift as the HTML app's; needs its own
+      pass.
 - [ ] **HTML example app: axe + responsive suites failing.** Measured
       2026-08-26 on the pre-theme-wiring tree: 48 of 69 checks fail —
       composed-page trailing-slash routes 404 under the `http-server`
