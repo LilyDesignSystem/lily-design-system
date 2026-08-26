@@ -4,12 +4,24 @@
 
 <div class="site-header">
     <span>Lily Design System — Blazor examples</span>
-    <ThemePicker Label="Choose a theme"
-                 ThemesUrl="/themes/"
-                 Themes="@CuratedThemes"
-                 ThemeLabels="@CuratedLabels"
-                 DefaultValue="united-kingdom-national-health-service-england-for-patients"
-                 StorageKey="lily-theme" />
+    <span class="site-header-pickers">
+        <ThemePicker Label="Choose a theme"
+                     ThemesUrl="/themes/"
+                     Themes="@CuratedThemes"
+                     ThemeLabels="@CuratedLabels"
+                     DefaultValue="united-kingdom-national-health-service-england-for-patients"
+                     StorageKey="lily-theme" />
+        <LocalePicker Label="Choose a language"
+                      Locales="@CuratedLocales"
+                      LocaleLabels="@CuratedLocaleLabels"
+                      DefaultValue="en-GB"
+                      StorageKey="lily-locale" />
+        <TextSizePicker Label="Text size"
+                        Sizes="@CuratedSizes"
+                        SizeLabels="@CuratedSizeLabels"
+                        DefaultValue="medium"
+                        StorageKey="lily-text-size" />
+    </span>
 </div>
 
 <main id="content" class="page-wrapper">
@@ -21,6 +33,21 @@
 </footer>
 
 @code {
+    // Explicit endonym labels: Intl-based endonyms are only as good as
+    // the browser's ICU data (headless Chromium lacks Welsh, e.g.).
+    private static readonly string[] CuratedLocales = { "en-GB", "cy-GB", "fr-FR", "ar" };
+    private static readonly IReadOnlyDictionary<string, string> CuratedLocaleLabels =
+        new Dictionary<string, string>
+        {
+            ["en-GB"] = "English (UK)",
+            ["cy-GB"] = "Cymraeg",
+            ["fr-FR"] = "Français",
+            ["ar"] = "العربية",
+        };
+    private static readonly string[] CuratedSizes = { "small", "medium", "large" };
+    private static readonly IReadOnlyDictionary<string, string> CuratedSizeLabels =
+        new Dictionary<string, string> { ["small"] = "Small", ["medium"] = "Medium", ["large"] = "Large" };
+
     // Curated switchable themes (plan P3): NHS England for patients is the
     // default visual reference; all 45 files under /themes/ work — this
     // list is an editorial choice, not a technical limit.

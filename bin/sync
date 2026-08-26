@@ -29,10 +29,12 @@ do
     rsync -a --delete "$top/themes/" "$themes_dest/"
 done
 
-# The html example app vendors the theme-picker custom element (built
-# dist) the same way it vendors everything else: as a copied file.
-if [ -f "$top/lily-design-system-html-helpers/lily-design-system-html-theme-picker/dist/index.js" ]; then
-    mkdir -p "$top/lily-design-system-html-css-js-examples/pages/assets/js"
-    cp "$top/lily-design-system-html-helpers/lily-design-system-html-theme-picker/dist/index.js" \
-       "$top/lily-design-system-html-css-js-examples/pages/assets/js/theme-picker.js"
-fi
+# The html example app vendors the picker custom elements (built dist)
+# the same way it vendors everything else: as copied files.
+mkdir -p "$top/lily-design-system-html-css-js-examples/pages/assets/js"
+for picker in theme-picker locale-picker text-size-picker; do
+    src="$top/lily-design-system-html-helpers/lily-design-system-html-$picker/dist/index.js"
+    if [ -f "$src" ]; then
+        cp "$src" "$top/lily-design-system-html-css-js-examples/pages/assets/js/$picker.js"
+    fi
+done

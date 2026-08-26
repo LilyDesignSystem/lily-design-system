@@ -2,6 +2,8 @@
     import "$lib/css/app-shell.css";
     import SkipLink from "$lib/components/SkipLink/SkipLink.svelte";
     import { ThemePicker } from "lily-design-system-svelte-theme-picker";
+    import { LocalePicker } from "lily-design-system-svelte-locale-picker";
+    import { TextSizePicker } from "lily-design-system-svelte-text-size-picker";
 
     let { children } = $props();
 
@@ -21,6 +23,23 @@
         "light",
         "dark",
     ];
+    // Locale list is a demo set: it includes Welsh (endonym label comes
+    // from the helper) and Arabic so the dir="rtl" flip is exercised.
+    const locales = ["en-GB", "cy-GB", "fr-FR", "ar"];
+    // Explicit endonym labels: the helper derives endonyms from
+    // Intl.DisplayNames, but that is only as good as the browser's ICU
+    // data (headless Chromium lacks Welsh, for example, and silently
+    // falls back to the English exonym). A consumer that cares about a
+    // specific list should say so.
+    const localeLabels = {
+        "en-GB": "English (UK)",
+        "cy-GB": "Cymraeg",
+        "fr-FR": "Français",
+        ar: "العربية",
+    };
+    const sizes = ["small", "medium", "large"];
+    const sizeLabels = { small: "Small", medium: "Medium", large: "Large" };
+
     const themeLabels = {
         "united-kingdom-national-health-service-england-for-patients": "NHS England (patients)",
         "united-kingdom-national-health-service-england-for-practitioners": "NHS England (practitioners)",
@@ -39,14 +58,30 @@
 
 <div class="site-header">
     <span>Lily Design System — SvelteKit examples</span>
-    <ThemePicker
-        label="Choose a theme"
-        themesUrl="/themes/"
-        {themes}
-        {themeLabels}
-        defaultValue="united-kingdom-national-health-service-england-for-patients"
-        storageKey="lily-theme"
-    />
+    <div class="site-header-pickers">
+        <ThemePicker
+            label="Choose a theme"
+            themesUrl="/themes/"
+            {themes}
+            {themeLabels}
+            defaultValue="united-kingdom-national-health-service-england-for-patients"
+            storageKey="lily-theme"
+        />
+        <LocalePicker
+            label="Choose a language"
+            {locales}
+            {localeLabels}
+            defaultValue="en-GB"
+            storageKey="lily-locale"
+        />
+        <TextSizePicker
+            label="Text size"
+            {sizes}
+            {sizeLabels}
+            defaultValue="medium"
+            storageKey="lily-text-size"
+        />
+    </div>
 </div>
 
 <div id="content">

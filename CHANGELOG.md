@@ -9,6 +9,38 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Locale and text-size pickers join every app shell — 2026-08-26
+
+[plan.md](plan.md) P3-T3. All seven example apps now carry the three
+preference pickers, each with a site-preferences e2e covering `lang`
+application, the Arabic `dir="rtl"` flip, `data-text-size`, and
+persistence across reload. Share-picker was evaluated and deliberately
+not adopted: its targets are an editorial decision the demos should
+not fake.
+
+Three findings from the sweep, each fixed at the honest layer:
+
+- **Headless Chromium lacks Welsh ICU data**, so the locale-picker's
+  `Intl.DisplayNames` endonym silently fell back to the English exonym
+  ("Welsh (United Kingdom)") while French and Arabic resolved fine.
+  The apps now supply explicit `localeLabels` — a consumer that cares
+  about a specific list should say so — and the caveat is worth
+  knowing wherever the endonym default is relied on.
+- **Nuxt's head manager re-asserts declared `htmlAttrs`**, silently
+  clobbering the picker's `lang` write while its undeclared `dir`
+  survived. In the Nuxt app, unhead is now the writer of record:
+  the picker's `v-model` drives a reactive `useHead`, and the static
+  `lang` left the config.
+- **The Blazor app had no per-page `<PageTitle>` anywhere** — the
+  intermittent `document-title` axe failures were real after all,
+  surfacing whenever head management raced the static title. All 15
+  pages now set one. Also: the 45 themes' input target-size floor
+  broadened from three named classes to all text-like inputs, after a
+  combobox input slipped under 24px.
+
+Suites re-verified: sveltekit 29 a11y + 5, react 29 a11y + 5, vue 31,
+angular 5, html 5, eleventy 658 (full), blazor 34.
+
 ## Themes live in all seven example apps — 2026-08-26
 
 The Blazor port closes [plan.md](plan.md) P3-T2. The helper comes in as

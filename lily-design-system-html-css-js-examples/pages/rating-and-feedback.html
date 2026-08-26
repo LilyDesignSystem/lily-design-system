@@ -11,6 +11,7 @@
   <a class="skip-link" href="#main-content">Skip to main content</a>
 
   <header class="header" aria-label="Site header">
+    <span class="site-header-pickers">
     <theme-picker
       label="Choose a theme"
       themes-url="/themes/"
@@ -19,6 +20,21 @@
       default-value="united-kingdom-national-health-service-england-for-patients"
       storage-key="lily-theme"
     ></theme-picker>
+      <locale-picker
+        label="Choose a language"
+        locales="en-GB,cy-GB,fr-FR,ar"
+        locale-labels="{&quot;en-GB&quot;: &quot;English (UK)&quot;, &quot;cy-GB&quot;: &quot;Cymraeg&quot;, &quot;fr-FR&quot;: &quot;Français&quot;, &quot;ar&quot;: &quot;العربية&quot;}"
+        default-value="en-GB"
+        storage-key="lily-locale"
+      ></locale-picker>
+      <text-size-picker
+        label="Text size"
+        sizes="small,medium,large"
+        size-labels="{&quot;small&quot;: &quot;Small&quot;, &quot;medium&quot;: &quot;Medium&quot;, &quot;large&quot;: &quot;Large&quot;}"
+        default-value="medium"
+        storage-key="lily-text-size"
+      ></text-size-picker>
+    </span>
     <h1>Feedback</h1>
     <nav class="navigation-menu" aria-label="Main navigation">
       <ul>
@@ -155,5 +171,7 @@
     })();
   </script>
   <script type="module" src="/assets/js/theme-picker.js"></script>
+  <script type="module" src="/assets/js/locale-picker.js"></script>
+  <script type="module" src="/assets/js/text-size-picker.js"></script>
 </body>
 </html>

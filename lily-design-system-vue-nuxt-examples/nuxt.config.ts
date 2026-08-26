@@ -8,7 +8,6 @@ export default defineNuxtConfig({
   app: {
     head: {
       title: "Lily Design System — Vue Nuxt Examples",
-      htmlAttrs: { lang: "en" },
       script: [
         {
           // Creates the managed theme <link> before first paint

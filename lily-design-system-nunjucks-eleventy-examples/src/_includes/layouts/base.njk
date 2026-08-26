@@ -44,8 +44,12 @@
 
   <script type="module" src="/assets/js/main.js"></script>
   <script type="module">
-    import { autoInit } from "/assets/js/theme-picker.client.js";
-    autoInit();
+    import { autoInit as themeInit } from "/assets/js/theme-picker.client.js";
+    import { autoInit as localeInit } from "/assets/js/locale-picker.client.js";
+    import { autoInit as sizeInit } from "/assets/js/text-size-picker.client.js";
+    themeInit();
+    localeInit();
+    sizeInit();
   </script>
 </body>
 </html>

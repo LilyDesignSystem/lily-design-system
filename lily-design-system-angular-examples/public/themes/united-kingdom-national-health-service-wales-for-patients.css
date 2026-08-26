@@ -4170,7 +4170,7 @@
     text-align: center;
 }
 
-:where(.tag-input, input:where(.text-input, .search-input)) {
+:where(input:not([type="checkbox"]):not([type="radio"]), select, textarea) {
     min-block-size: 24px;
 }
 

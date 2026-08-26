@@ -81,3 +81,29 @@
   margin: 0;
   font-size: var(--nhsuk-font-size-14);
 }
+
+/* Site-preference pickers (theme / locale / text-size) in the header. */
+.site-header-pickers {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.theme-picker,
+.locale-picker,
+.text-size-picker {
+    position: relative;
+}
+
+.theme-picker-list,
+.locale-picker-list,
+.text-size-picker-list {
+    position: absolute;
+    inset-inline-end: 0;
+    z-index: 10;
+    margin: 0;
+    padding: 0.25rem;
+    list-style: none;
+    max-height: 60vh;
+    overflow: auto;
+}

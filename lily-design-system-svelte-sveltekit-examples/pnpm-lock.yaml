@@ -8,6 +8,12 @@ importers:
 
   .:
     dependencies:
+      lily-design-system-svelte-locale-picker:
+        specifier: 0.1.0
+        version: 0.1.0(svelte@5.56.10)
+      lily-design-system-svelte-text-size-picker:
+        specifier: 0.1.0
+        version: 0.1.0(svelte@5.56.10)
       lily-design-system-svelte-theme-picker:
         specifier: 0.1.0
         version: 0.1.0(@sveltejs/vite-plugin-svelte@7.3.0(svelte@5.56.10)(vite@8.2.2))(svelte@5.56.10)(typescript@6.0.3)(vite@8.2.2)
@@ -597,6 +603,16 @@ packages:
   lightningcss@1.33.0:
     resolution: {integrity: sha512-WkUDrojuJs0xkgGf2udWxa3yGBRxPtxUkB79i6aCZLRgc7PM8fZe9TosfPDcvEpQZbuFASnHYmRLBLUbmLOIIA==}
     engines: {node: '>= 12.0.0'}
+
+  lily-design-system-svelte-locale-picker@0.1.0:
+    resolution: {integrity: sha512-+gWNt6HZCNXEKmbFSCme0zwj8czqHf4Wyd1JrlhWBHIwzo2pgmfISZM6gYcjaM6MZj8eEsLoeHGmc4A5X8o67A==}
+    peerDependencies:
+      svelte: ^5.0.0
+
+  lily-design-system-svelte-text-size-picker@0.1.0:
+    resolution: {integrity: sha512-JdAbd1w4hLjJyNW2r+eMToMlz3KpFIae8TRGlMqExtfbJCOg7Dd6WyIil4eHSbay8ZOCOBim0BFaOpE0jTeEyw==}
+    peerDependencies:
+      svelte: ^5.0.0
 
   lily-design-system-svelte-theme-picker@0.1.0:
     resolution: {integrity: sha512-syaBVqQD36jOqJtibZvuy3e26uPST6op2wOJ0xMUadp96HGCknFXGLIVnIuprLfrIlTMgFUyIFcr7xL2qLuhSg==}
@@ -1353,6 +1369,14 @@ snapshots:
       lightningcss-linux-x64-musl: 1.33.0
       lightningcss-win32-arm64-msvc: 1.33.0
       lightningcss-win32-x64-msvc: 1.33.0
+
+  lily-design-system-svelte-locale-picker@0.1.0(svelte@5.56.10):
+    dependencies:
+      svelte: 5.56.10
+
+  lily-design-system-svelte-text-size-picker@0.1.0(svelte@5.56.10):
+    dependencies:
+      svelte: 5.56.10
 
   lily-design-system-svelte-theme-picker@0.1.0(@sveltejs/vite-plugin-svelte@7.3.0(svelte@5.56.10)(vite@8.2.2))(svelte@5.56.10)(typescript@6.0.3)(vite@8.2.2):
     dependencies:

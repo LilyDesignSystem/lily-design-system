@@ -157,10 +157,16 @@ Rules for the executing agent:
   also cleared its 5 previously-failing checks; helper via local
   ProjectReference until the NuGet push unblocks).
 
-- [ ] **P3-T3 Mount locale-picker + text-size-picker in all 7 shells**;
+- [x] **P3-T3 Mount locale-picker + text-size-picker in all 7 shells**;
   evaluate share-picker on component-detail pages (adopt or record
   the decision).
   Verify: e2e asserts `lang`/`dir` and `data-text-size` application.
+  Done 2026-08-26: all seven shells carry theme + locale + text-size,
+  each app with a site-preferences e2e (lang, Arabic dir=rtl flip,
+  data-text-size, persistence). Share-picker: **recorded, not
+  adopted** — its `targets` are an editorial/per-product decision the
+  demo apps should not fake, and the detail pages have no share story
+  to tell; revisit if a real destination list emerges.
 
 - [ ] **P3-T4 `prefers-color-scheme` first-visit default** (opt-in
   prop; Svelte canonical then 6 ports; minor bumps; CHANGELOGs).

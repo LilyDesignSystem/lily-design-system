@@ -48,6 +48,8 @@
     "url": "https://github.com/LilyDesignSystem/lily-design-system/issues"
   },
   "dependencies": {
+    "lily-design-system-svelte-locale-picker": "0.1.0",
+    "lily-design-system-svelte-text-size-picker": "0.1.0",
     "lily-design-system-svelte-theme-picker": "0.1.0"
   }
 }

@@ -39,6 +39,10 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({
     "../lily-design-system-nunjucks-helpers/lily-design-system-nunjucks-theme-picker/theme-picker.client.js":
       "assets/js/theme-picker.client.js",
+    "../lily-design-system-nunjucks-helpers/lily-design-system-nunjucks-locale-picker/dist/index.js":
+      "assets/js/locale-picker.client.js",
+    "../lily-design-system-nunjucks-helpers/lily-design-system-nunjucks-text-size-picker/text-size-picker.client.js":
+      "assets/js/text-size-picker.client.js",
   });
 
   eleventyConfig.addFilter("kebabToCamel", (s) =>

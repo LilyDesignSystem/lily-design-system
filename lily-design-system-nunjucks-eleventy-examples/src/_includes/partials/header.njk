@@ -1,4 +1,6 @@
 {% from "lily-design-system-nunjucks-theme-picker/theme-picker.njk" import themePicker %}
+{% from "lily-design-system-nunjucks-locale-picker/locale-picker.njk" import localePicker %}
+{% from "lily-design-system-nunjucks-text-size-picker/text-size-picker.njk" import textSizePicker %}
 <header class="site-header" role="banner">
   <div class="width-container site-header-inner">
     <a class="site-header-logo" href="/" aria-label="{{ site.name }} home">
@@ -12,6 +14,7 @@
         {% endfor %}
       </ul>
     </nav>
+    <span class="site-header-pickers">
     {{ themePicker({
       label: "Choose a theme",
       themesUrl: "/themes/",
@@ -42,5 +45,25 @@
       defaultValue: "united-kingdom-national-health-service-england-for-patients",
       storageKey: "lily-theme"
     }) }}
+    {{ localePicker({
+      label: "Choose a language",
+      locales: ["en-GB", "cy-GB", "fr-FR", "ar"],
+      localeLabels: {
+        "en-GB": "English (UK)",
+        "cy-GB": "Cymraeg",
+        "fr-FR": "Français",
+        "ar": "العربية"
+      },
+      defaultValue: "en-GB",
+      storageKey: "lily-locale"
+    }) }}
+    {{ textSizePicker({
+      label: "Text size",
+      sizes: ["small", "medium", "large"],
+      sizeLabels: { small: "Small", medium: "Medium", large: "Large" },
+      defaultValue: "medium",
+      storageKey: "lily-text-size"
+    }) }}
+    </span>
   </div>
 </header>

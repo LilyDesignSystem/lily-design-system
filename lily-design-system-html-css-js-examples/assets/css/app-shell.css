@@ -52,12 +52,23 @@ body {
     text-align: center;
 }
 
-.theme-picker {
+.site-header-pickers {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.theme-picker,
+.locale-picker,
+.text-size-picker {
     position: relative;
 }
 
-.theme-picker-list {
+.theme-picker-list,
+.locale-picker-list,
+.text-size-picker-list {
     position: absolute;
+    inset-inline-end: 0;
     z-index: 10;
     margin: 0;
     padding: 0.25rem;

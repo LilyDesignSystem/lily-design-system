@@ -62,18 +62,29 @@ pre {
 /* The theme-picker listbox is headless; give it the minimal chrome the
  * example app wants (the 45 themes style .theme-picker-* hooks too —
  * these app rules only ensure the popup is usable if a theme omits them). */
-.theme-picker-list {
+.site-header-pickers {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.theme-picker,
+.locale-picker,
+.text-size-picker {
+    position: relative;
+}
+
+.theme-picker-list,
+.locale-picker-list,
+.text-size-picker-list {
     position: absolute;
+    inset-inline-end: 0;
     z-index: 10;
     margin: 0;
     padding: 0.25rem;
     list-style: none;
     max-height: 60vh;
     overflow: auto;
-}
-
-.theme-picker {
-    position: relative;
 }
 
 /* WCAG 2.2 target-size floor for the app's own content links — list links
