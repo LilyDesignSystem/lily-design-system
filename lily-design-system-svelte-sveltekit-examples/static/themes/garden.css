@@ -6,6 +6,8 @@
  * only stylesheet required to render a Lily-styled page.
  *
  * Credit for the theme source: DaisyUI (https://daisyui.com/)
+ *
+ * Upstream tracked: DaisyUI v5-era theme palette, adapted to Lily tokens and hooks.
  * ========================================================================= */
 
 /* Theme tokens — the colour, radius, border, and depth variables consumed
@@ -17,87 +19,99 @@
 :where(:root, :root[data-theme="garden"]) {
     color-scheme: light;
 
-    /* Page-level surface (primary canvas). Sits behind body copy and
-       primary content areas. Lightest base shade in light themes,
-       deepest in dark themes. */
-    --color-base-100: oklch(92.951% 0.002 17.197);
-    /* Secondary surface — section panels, card backgrounds, sidebars,
-       table-header fills. One step away from the page surface. */
-    --color-base-200: oklch(86.445% 0.002 17.197);
-    /* Tertiary surface — dividers, sunken wells, hover-row backgrounds.
-       The most muted of the three base shades. */
-    --color-base-300: oklch(79.938% 0.001 17.197);
-    /* Primary text colour. High-contrast against base-100 to meet WCAG
-       contrast ratios for body copy. */
-    --color-base-content: oklch(16.961% 0.001 17.32);
-    /* Primary brand / action colour. Used on primary buttons, active
-       navigation items, selected states, and the focus ring. */
+    /* Page-level surface (primary canvas). Sits behind body copy
+       and primary content areas. Lightest base shade in light
+       themes, deepest in dark themes. */
+    --color-base-100: oklch(92.95% 0.002 17.197);
+    /* Secondary surface — section panels, card backgrounds,
+       sidebars, table-header fills. One step away from the page
+       surface. */
+    --color-base-200: oklch(86.44% 0.002 17.197);
+    /* Tertiary surface — dividers, sunken wells, hover-row
+       backgrounds. The most muted of the three base shades. */
+    --color-base-300: oklch(79.94% 0.001 17.197);
+    /* Primary text colour. High-contrast against base-100 to meet
+       WCAG contrast ratios for body copy. */
+    --color-base-content: oklch(16.96% 0.001 17.32);
+    /* Primary brand / action colour. Used on primary buttons,
+       active navigation items, selected states, and the focus
+       ring. */
     --color-primary: oklch(62.45% 0.278 3.836);
-    /* Foreground colour used over `--color-primary` fills (so primary
-       buttons retain a guaranteed contrast ratio). */
+    /* Foreground colour used over `--color-primary` fills (so
+       primary buttons retain a guaranteed contrast ratio). */
     --color-primary-content: oklch(100% 0 0);
-    /* Secondary brand colour. Pressed/hover state for primary buttons
-       and visited links; also drives the secondary chrome family. */
-    --color-secondary: oklch(48.495% 0.11 355.095);
+    /* Secondary brand colour. Pressed/hover state for primary
+       buttons and visited links; also drives the secondary chrome
+       family. */
+    --color-secondary: oklch(48.49% 0.11 355.095);
     /* Foreground colour used over `--color-secondary` fills. */
-    --color-secondary-content: oklch(89.699% 0.022 355.095);
+    --color-secondary-content: oklch(89.7% 0.022 355.095);
     /* Accent colour — used sparingly for emphasis, the AI label,
        illustrations, and tertiary call-outs. */
-    --color-accent: oklch(56.273% 0.054 154.39);
+    --color-accent: oklch(56.27% 0.054 154.39);
     /* Foreground colour used over `--color-accent` fills. */
     --color-accent-content: oklch(100% 0 0);
-    /* Neutral chrome surface — footer bars, code blocks, tooltips,
-       government-banner strips. Typically the theme's darkest neutral. */
-    --color-neutral: oklch(24.155% 0.049 89.07);
+    /* Neutral chrome surface — footer bars, code blocks,
+       tooltips, government-banner strips. Typically the theme's
+       darkest neutral. */
+    --color-neutral: oklch(24.16% 0.049 89.07);
     /* Foreground colour used over `--color-neutral` fills. */
-    --color-neutral-content: oklch(92.951% 0.002 17.197);
+    --color-neutral-content: oklch(92.95% 0.002 17.197);
     /* Informational status colour — informational banners, links,
        'did-you-know' callouts. */
     --color-info: oklch(72.06% 0.191 231.6);
     /* Foreground colour used over `--color-info` fills. */
     --color-info-content: oklch(0% 0 0);
-    /* Success / confirmation colour — used on success panels, completed
-       step indicators, validation pass states, and the green RAG status. */
+    /* Success / confirmation colour — used on success panels,
+       completed step indicators, validation pass states, and the
+       green RAG status. */
     --color-success: oklch(64.8% 0.15 160);
     /* Foreground colour used over `--color-success` fills. */
     --color-success-content: oklch(0% 0 0);
     /* Warning colour — yellow/amber band; used on phase banners,
-       in-progress states, validation warnings, and the amber RAG status. */
+       in-progress states, validation warnings, and the amber RAG
+       status. */
     --color-warning: oklch(84.71% 0.199 83.87);
-    /* Foreground colour used over `--color-warning` fills. Often dark so
-       text remains legible on a bright yellow background. */
+    /* Foreground colour used over `--color-warning` fills. Often
+       dark so text remains legible on a bright yellow background. */
     --color-warning-content: oklch(0% 0 0);
-    /* Error / destructive colour — used on alert dialogs, error messages,
-       validation failures, urgent care cards, and the red RAG status. */
+    /* Error / destructive colour — used on alert dialogs, error
+       messages, validation failures, urgent care cards, and the
+       red RAG status. */
     --color-error: oklch(71.76% 0.221 22.18);
     /* Foreground colour used over `--color-error` fills. */
     --color-error-content: oklch(0% 0 0);
     /* Smallest corner radius. Applied to chips, badges, switches,
-       and radio/checkbox containers (mapped to `--lily-radius-sm`). */
+       and radio/checkbox containers (mapped to `--lily-radius-
+       sm`). */
     --radius-selector: 1rem;
-    /* Medium corner radius. Applied to inputs, buttons, menu items,
-       tooltips, and most everyday form controls
-       (mapped to `--lily-radius-md`). */
+    /* Medium corner radius. Applied to inputs, buttons, menu
+       items, tooltips, and most everyday form controls (mapped to
+       `--lily-radius-md`). */
     --radius-field: 0.5rem;
-    /* Largest corner radius. Applied to cards, dialogs, drawers, and
-       hero blocks (mapped to `--lily-radius-lg`). */
+    /* Largest corner radius. Applied to cards, dialogs, drawers,
+       and hero blocks (mapped to `--lily-radius-lg`). */
     --radius-box: 1rem;
     /* Base size for selector-style controls (checkbox/radio glyph
        size, switch thumb diameter). Currently unused by Lily's
-       baseline component rules but available for theme extensions. */
+       baseline component rules but available for theme
+       extensions. */
     --size-selector: 0.25rem;
-    /* Base size for field-style controls (input height multiplier).
-       Currently unused by Lily's baseline component rules but
-       available for theme extensions. */
+    /* Base size for field-style controls (input height
+       multiplier). Currently unused by Lily's baseline component
+       rules but available for theme extensions. */
     --size-field: 0.25rem;
-    /* Default border width applied to inputs, buttons, dividers, table
-       cells, etc. Single source of truth for the system's stroke weight. */
+    /* Default border width applied to inputs, buttons, dividers,
+       table cells, etc. Single source of truth for the system's
+       stroke weight. */
     --border: 1px;
-    /* Depth flag (0 or 1). Lily's baseline rules read it implicitly via
-       the shadow tokens; a depth-0 theme effectively renders flat. */
+    /* Depth flag (0 or 1). Lily's baseline rules read it
+       implicitly via the shadow tokens; a depth-0 theme
+       effectively renders flat. */
     --depth: 0;
-    /* Noise flag (0 or 1). Reserved for theme extensions that want to
-       layer a subtle texture; the baseline rules do not consume it. */
+    /* Noise flag (0 or 1). Reserved for theme extensions that
+       want to layer a subtle texture; the baseline rules do not
+       consume it. */
     --noise: 0;
 }
 

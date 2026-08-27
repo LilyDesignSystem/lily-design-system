@@ -271,6 +271,8 @@ test_helper_glyphs_are_escaped
 test_lockfiles_are_tracked
 "$top/bin/check-theme" >/dev/null 2>&1 \
     || err "theme conformance failed; run bin/check-theme"
+"$top/bin/generate-theme-tokens" --check >/dev/null 2>&1 \
+    || err "theme token blocks drift from themes/tokens/*.json; run bin/generate-theme-tokens"
 "$top/bin/sync-special-files" --check >/dev/null 2>&1 \
     || err "special files are out of sync; run bin/sync-special-files"
 

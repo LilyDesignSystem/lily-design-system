@@ -193,25 +193,44 @@ Rules for the executing agent:
   hooks (`.link`, `.scroll-view`, `.tree-view`, one `.submit-button`)
   and six NHS themes whose truncated guards the picker never set.
 
-- [ ] **P3-T6 DTCG token source.**
+- [x] **P3-T6 DTCG token source.**
   `themes/tokens/*.json` in Design Tokens 2025.10 format for the core
   `--theme-*` set; generator emits the custom-property blocks; drift
   fails `bin/test`; RFC.md §RFC 6 updated with the outcome.
   Verify: generator run twice → no diff; a hand-edit to generated CSS
   fails the gate; tokens validate against the DTCG schema.
+  Done 2026-08-27: 45 `themes/tokens/*.json` in DTCG 2025.10 form
+  (structured oklch/srgb color values, dimension objects, token
+  commentary as $description), extracted losslessly (value-diff
+  against the originals: none), canonical generation idempotent,
+  drift check wired into bin/test and bite-proven. Scope: the
+  per-theme primitives only — the derived `--lily-*` layer and
+  component body stay CSS, being shared logic not per-theme data.
+  RFC 6 updated.
 
-- [ ] **P3-T7 Theme provenance + GDS/NHS refresh.**
+- [x] **P3-T7 Theme provenance + GDS/NHS refresh.**
   Header comment per reference theme naming the upstream system and
   version tracked (GOV.UK Frontend v6.x, NHS.UK frontend v9/v10,
   USWDS, Spectrum, Protocol); refresh the GDS theme against v6's
   updated type scale/colours; record deltas in `spec/theme/index.md`.
   Verify: every `themes/*.css` carries a provenance header;
   `bin/check-theme` passes; spec matrix updated.
+  Done 2026-08-27: all 45 carry exactly one "Upstream tracked:" line
+  (now check-theme's sixth assertion); the GDS theme is refreshed to
+  the v6.0.0 web palette (green #0f7a52, red #ca3535; blue/black/
+  focus-yellow unchanged); NHS themes pin v9.x with a re-check note
+  for v10's stable release; Wales pins the DHCW system.
 
-- [ ] **P3-T8 Dark/high-contrast variant audit** across families;
+- [x] **P3-T8 Dark/high-contrast variant audit** across families;
   coverage matrix in `spec/theme/index.md`; backfill or record
   deliberate exclusions.
   Verify: matrix matches `ls themes/`.
+  Done 2026-08-27: 31 light / 14 dark computed from `color-scheme`;
+  reference families are deliberately light-only (their upstreams are
+  light-first; a dark NHS would be speculation presented as
+  reference); no dedicated high-contrast theme ships — recorded as a
+  real gap with WCAG 1.4.6 as the bar for building one, not a
+  relabel of an aesthetic theme.
 
 ## Phase 4 — Accessibility assurance
 

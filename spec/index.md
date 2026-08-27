@@ -361,6 +361,7 @@ Scripts live in `bin/`:
 | `bin/generate-registries`             | Regenerate example-app registries from the catalog.  |
 | `bin/check-links`                     | Verify relative markdown links resolve.              |
 | `bin/check-theme`                     | Conformance checks for the 45 reference themes.      |
+| `bin/generate-theme-tokens`           | DTCG token source: extract / generate / drift-check. |
 
 Note on syncing: two syncs run from the canonical root. `bin/sync-special-files`
 propagates the top-level special files (LICENSE, CONTRIBUTING, SECURITY,

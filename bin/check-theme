@@ -26,6 +26,9 @@ Asserts the contracts a theme stylesheet must honour (plan P3-T5):
      guards) are byte-identical across all themes. The main component
      body is deliberately NOT identical (practitioner density, Wales
      variants), so only these shared sections are pinned.
+  6. Provenance is stated. Every theme's header carries exactly one
+     "Upstream tracked:" line naming the design system and version it
+     follows (plan P3-T7), so a future refresh knows its baseline.
 
 Exits non-zero listing every violation. Wired into bin/test.
 """
@@ -168,6 +171,10 @@ def main() -> int:
         for t in REQUIRED_TOKENS:
             if t not in declared:
                 errors.append(f"{base}: required token {t} not declared")
+
+        # 6. provenance line present (in the raw file — it lives in a comment)
+        if raw.count("Upstream tracked:") != 1:
+            errors.append(f"{base}: expected exactly one 'Upstream tracked:' provenance line")
 
         # 4. data-theme guard names the file
         if f':root[data-theme="{slug}"]' not in css.replace("\n", " ") and \

@@ -1,0 +1,347 @@
+{
+  "$extensions": {
+    "com.lilydesignsystem": {
+      "colorScheme": "dark",
+      "order": [
+        "--color-base-100",
+        "--color-base-200",
+        "--color-base-300",
+        "--color-base-content",
+        "--color-primary",
+        "--color-primary-content",
+        "--color-secondary",
+        "--color-secondary-content",
+        "--color-accent",
+        "--color-accent-content",
+        "--color-neutral",
+        "--color-neutral-content",
+        "--color-info",
+        "--color-info-content",
+        "--color-success",
+        "--color-success-content",
+        "--color-warning",
+        "--color-warning-content",
+        "--color-error",
+        "--color-error-content",
+        "--radius-selector",
+        "--radius-field",
+        "--radius-box",
+        "--size-selector",
+        "--size-field",
+        "--border",
+        "--depth",
+        "--noise"
+      ]
+    }
+  },
+  "color": {
+    "base-100": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.37,
+          0.146,
+          265.522
+        ]
+      },
+      "$description": "Page-level surface (primary canvas). Sits behind body copy and primary content areas. Lightest base shade in light themes, deepest in dark themes."
+    },
+    "base-200": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.28,
+          0.091,
+          267.935
+        ]
+      },
+      "$description": "Secondary surface — section panels, card backgrounds, sidebars, table-header fills. One step away from the page surface."
+    },
+    "base-300": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.22,
+          0.091,
+          267.935
+        ]
+      },
+      "$description": "Tertiary surface — dividers, sunken wells, hover-row backgrounds. The most muted of the three base shades."
+    },
+    "base-content": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.9,
+          0.058,
+          230.902
+        ]
+      },
+      "$description": "Primary text colour. High-contrast against base-100 to meet WCAG contrast ratios for body copy."
+    },
+    "primary": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.8566,
+          0.144,
+          198.645
+        ]
+      },
+      "$description": "Primary brand / action colour. Used on primary buttons, active navigation items, selected states, and the focus ring."
+    },
+    "primary-content": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.4012,
+          0.068,
+          197.603
+        ]
+      },
+      "$description": "Foreground colour used over `--color-primary` fills (so primary buttons retain a guaranteed contrast ratio)."
+    },
+    "secondary": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.6068,
+          0.108,
+          309.782
+        ]
+      },
+      "$description": "Secondary brand colour. Pressed/hover state for primary buttons and visited links; also drives the secondary chrome family."
+    },
+    "secondary-content": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.96,
+          0.016,
+          293.756
+        ]
+      },
+      "$description": "Foreground colour used over `--color-secondary` fills."
+    },
+    "accent": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.9343,
+          0.102,
+          94.555
+        ]
+      },
+      "$description": "Accent colour — used sparingly for emphasis, the AI label, illustrations, and tertiary call-outs."
+    },
+    "accent-content": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.1868,
+          0.02,
+          94.555
+        ]
+      },
+      "$description": "Foreground colour used over `--color-accent` fills."
+    },
+    "neutral": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.27,
+          0.146,
+          265.522
+        ]
+      },
+      "$description": "Neutral chrome surface — footer bars, code blocks, tooltips, government-banner strips. Typically the theme's darkest neutral."
+    },
+    "neutral-content": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.8,
+          0.146,
+          265.522
+        ]
+      },
+      "$description": "Foreground colour used over `--color-neutral` fills."
+    },
+    "info": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.5462,
+          0.215,
+          262.88
+        ]
+      },
+      "$description": "Informational status colour — informational banners, links, 'did-you-know' callouts."
+    },
+    "info-content": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.9092,
+          0.043,
+          262.88
+        ]
+      },
+      "$description": "Foreground colour used over `--color-info` fills."
+    },
+    "success": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.627,
+          0.169,
+          149.213
+        ]
+      },
+      "$description": "Success / confirmation colour — used on success panels, completed step indicators, validation pass states, and the green RAG status."
+    },
+    "success-content": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.1254,
+          0.033,
+          149.213
+        ]
+      },
+      "$description": "Foreground colour used over `--color-success` fills."
+    },
+    "warning": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.6658,
+          0.157,
+          58.318
+        ]
+      },
+      "$description": "Warning colour — yellow/amber band; used on phase banners, in-progress states, validation warnings, and the amber RAG status."
+    },
+    "warning-content": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.27,
+          0.077,
+          45.635
+        ]
+      },
+      "$description": "Foreground colour used over `--color-warning` fills. Often dark so text remains legible on a bright yellow background."
+    },
+    "error": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.7395,
+          0.19,
+          27.33
+        ]
+      },
+      "$description": "Error / destructive colour — used on alert dialogs, error messages, validation failures, urgent care cards, and the red RAG status."
+    },
+    "error-content": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.1479,
+          0.038,
+          27.33
+        ]
+      },
+      "$description": "Foreground colour used over `--color-error` fills."
+    }
+  },
+  "radius": {
+    "selector": {
+      "$type": "dimension",
+      "$value": {
+        "value": 1.0,
+        "unit": "rem"
+      },
+      "$description": "Smallest corner radius. Applied to chips, badges, switches, and radio/checkbox containers (mapped to `--lily-radius-sm`)."
+    },
+    "field": {
+      "$type": "dimension",
+      "$value": {
+        "value": 0.5,
+        "unit": "rem"
+      },
+      "$description": "Medium corner radius. Applied to inputs, buttons, menu items, tooltips, and most everyday form controls (mapped to `--lily-radius-md`)."
+    },
+    "box": {
+      "$type": "dimension",
+      "$value": {
+        "value": 1.0,
+        "unit": "rem"
+      },
+      "$description": "Largest corner radius. Applied to cards, dialogs, drawers, and hero blocks (mapped to `--lily-radius-lg`)."
+    }
+  },
+  "size": {
+    "selector": {
+      "$type": "dimension",
+      "$value": {
+        "value": 0.25,
+        "unit": "rem"
+      },
+      "$description": "Base size for selector-style controls (checkbox/radio glyph size, switch thumb diameter). Currently unused by Lily's baseline component rules but available for theme extensions."
+    },
+    "field": {
+      "$type": "dimension",
+      "$value": {
+        "value": 0.25,
+        "unit": "rem"
+      },
+      "$description": "Base size for field-style controls (input height multiplier). Currently unused by Lily's baseline component rules but available for theme extensions."
+    }
+  },
+  "border": {
+    "border": {
+      "$type": "dimension",
+      "$value": {
+        "value": 1.0,
+        "unit": "px"
+      },
+      "$description": "Default border width applied to inputs, buttons, dividers, table cells, etc. Single source of truth for the system's stroke weight."
+    }
+  },
+  "depth": {
+    "depth": {
+      "$type": "number",
+      "$value": 1.0,
+      "$description": "Depth flag (0 or 1). Lily's baseline rules read it implicitly via the shadow tokens; a depth-0 theme effectively renders flat."
+    }
+  },
+  "noise": {
+    "noise": {
+      "$type": "number",
+      "$value": 0.0,
+      "$description": "Noise flag (0 or 1). Reserved for theme extensions that want to layer a subtle texture; the baseline rules do not consume it."
+    }
+  }
+}

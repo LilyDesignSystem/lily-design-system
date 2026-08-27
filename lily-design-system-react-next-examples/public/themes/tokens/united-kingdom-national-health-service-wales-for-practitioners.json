@@ -1,0 +1,460 @@
+{
+  "$extensions": {
+    "com.lilydesignsystem": {
+      "colorScheme": "light",
+      "order": [
+        "--color-base-100",
+        "--color-base-200",
+        "--color-base-300",
+        "--color-base-content",
+        "--color-primary",
+        "--color-primary-content",
+        "--color-secondary",
+        "--color-secondary-content",
+        "--color-accent",
+        "--color-accent-content",
+        "--color-neutral",
+        "--color-neutral-content",
+        "--color-info",
+        "--color-info-content",
+        "--color-success",
+        "--color-success-content",
+        "--color-warning",
+        "--color-warning-content",
+        "--color-error",
+        "--color-error-content",
+        "--lily-focus-ring",
+        "--lily-focus-text",
+        "--lily-accent-deep",
+        "--lily-accent-soft",
+        "--lily-warning-surface",
+        "--lily-action-green",
+        "--lily-link-visited",
+        "--lily-link-hover",
+        "--lily-support-aqua",
+        "--lily-page-width",
+        "--radius-selector",
+        "--radius-field",
+        "--radius-box",
+        "--size-selector",
+        "--size-field",
+        "--border",
+        "--depth",
+        "--noise"
+      ]
+    }
+  },
+  "color": {
+    "base-100": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      },
+      "$description": "-------------------------------------------------------------------- * Base surfaces * * Taken from the DHCW greys rather than the NHS Identity greys. DHCW * ships `$nhsw-colour-background-grey: #F0F4F5` and * `$nhsw-colour-border-grey: #D8DDE0`, both a shade cooler and lighter * than NHS Pale Grey #E8EDEE. The difference is small in isolation but * visible when a DHCW-styled panel sits next to an England-styled one, * and matching the published value is what makes a Wales service look * like a Wales service. * * These greys carry more weight on a practitioner surface than a * patient one, because they are what separates a zebra-striped worklist * row from its neighbour. #F0F4F5 against #FFFFFF is a deliberately * quiet 1.05:1 — enough to track a row across a wide table, not enough * to read as a state change. Do not darken it to \"make rows clearer\"; * that is what --lily-surface-sunken and a real selected-row treatment * are for. * ------------------------------------------------------------------ */ /* #FFFFFF — pure white, NHS Identity primary surface (`$nhsw-colour-background-white`)"
+    },
+    "base-200": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.96,
+          0.004,
+          214.0
+        ]
+      },
+      "$description": "#F0F4F5 — DHCW background grey (`$nhsw-colour-background-grey`) — card backs, panel fills, alternating table rows"
+    },
+    "base-300": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.89,
+          0.007,
+          234.0
+        ]
+      },
+      "$description": "#D8DDE0 — DHCW border grey (`$nhsw-colour-border-grey`) — borders, dividers, table rules, hover surfaces"
+    },
+    "base-content": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.28,
+          0.019,
+          239.0
+        ]
+      },
+      "$description": "#212B32 — DHCW text primary (`$nhsw-colour-text-primary`). Note this is the NHS service-manual near-black, not NHS Black #231F20: it has a slight blue cast that sits better against the cool greys above. 14.4:1 on white — AAA."
+    },
+    "primary": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.33,
+          0.077,
+          258.0
+        ]
+      },
+      "$description": "-------------------------------------------------------------------- * Primary — DHCW Navy (#1B365D) * * `$nhsw-colour-button-primary` and `$nhsw-colour-text-blue` in the * NHSW component library. This is the colour of the thing you click on * a DHCW page, and it is *not* NHS Blue. * * The choice is defensible on contrast grounds alone. NHS Blue on white * is 6.4:1 — fine for large text, short of AAA for a button label at * body size. Navy is 12.1:1, which clears AAA at any size. NHS England * solved the same problem by going green; DHCW went dark. * * On a practitioner shell the navy also does real work as chrome: a * dark header band separates the application frame from the clinical * content beneath it, which an NHS Blue band does less convincingly. * ------------------------------------------------------------------"
+    },
+    "primary-content": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "secondary": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.49,
+          0.161,
+          255.0
+        ]
+      },
+      "$description": "-------------------------------------------------------------------- * Secondary — NHS Blue (#005EB8 / Pantone 300) * * Demoted from primary, but not diminished. Research cited in the NHS * Identity Guidelines reports that 87% of UK adults spontaneously * associate \"blue and white\" with the NHS, and the GIG Cymru lozenge is * the same NHS Blue as the NHS England lozenge. DHCW keeps it for the * site header band (`$nhsw-colour-site-header-background`) and for * links (`$nhsw-colour-link`). * * Used for: links, brand chrome, hovered primary surfaces. * ------------------------------------------------------------------"
+    },
+    "secondary-content": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "accent": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.64,
+          0.111,
+          85.0
+        ]
+      },
+      "$description": "-------------------------------------------------------------------- * Accent — DHCW Gold (#AA8630) * * `$nhsw-colour-border-gold`. The only hue DHCW introduces that is not * in the NHS Identity palette, which makes it the genuine Wales * signature. In the published library it rails the inset-text component * and tops the mobile bottom-nav bar — both times as a *border*, never * as a fill or a text colour. * * This theme honours that constraint rather than generalising the * colour. Gold is 3.4:1 on white: legal as a non-text graphical * boundary, illegal as body copy. --color-accent-content is set to NHS * Black so that any component which does fill with the accent at least * pairs it with the darkest available text (4.2:1 — AA large only), and * the components that would otherwise put small text on gold are * redirected to --lily-accent-deep below. * ------------------------------------------------------------------"
+    },
+    "accent-content": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.23,
+          0.005,
+          30.0
+        ]
+      }
+    },
+    "neutral": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.48,
+          0.037,
+          240.0
+        ]
+      },
+      "$description": "-------------------------------------------------------------------- * Neutral — DHCW text secondary (#4C6272) * * `$nhsw-colour-text-secondary` and `$nhsw-colour-border-secondary` — * DHCW uses one slate for both muted text and strong borders, which is * why the secondary button in the published library is a white fill * with a #4C6272 border and a #4C6272 shadow. * * Used for: muted UI chrome, secondary nav, breadcrumb separators, * secondary-button borders, input borders, table rules. 6.4:1 on white * — AA body, AAA large. Do not use it for body copy at small sizes, * which on this variant means: do not use it for worklist cell text. * ------------------------------------------------------------------"
+    },
+    "neutral-content": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "info": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.54,
+          0.17,
+          248.0
+        ]
+      },
+      "$description": "-------------------------------------------------------------------- * Info — NHS Bright Blue (#0072CE / Pantone 285) * * Retained from the NHS Identity rather than taken from DHCW, because * DHCW has no distinct info colour: its notification banner reuses the * link blue #005EB8, which this theme has already spent on * --color-secondary. Giving info its own brighter blue keeps an info * banner distinguishable from a link-coloured header band on the same * page — a distinction DHCW's own preview pages struggle to make. * ------------------------------------------------------------------"
+    },
+    "info-content": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "success": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.48,
+          0.121,
+          154.0
+        ]
+      },
+      "$description": "-------------------------------------------------------------------- * Success — DHCW notification success (#00703C) * * `$nhsw-colour-notification-success`. Darker than NHS Green #009639 * (which this theme previously used), and that is the point: NHS Green * with white text is roughly 3.3:1, which fails AA for the banner * labels it was being asked to carry. #00703C is 6.2:1 with white. * * Used for: confirmation banners, saved-record states, in-range * result flags. * ------------------------------------------------------------------"
+    },
+    "success-content": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "warning": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.86,
+          0.173,
+          92.0
+        ]
+      },
+      "$description": "-------------------------------------------------------------------- * Warning — DHCW warning yellow (#FACC15) * * `$nhsw-colour-warning-callout-heading`. A cooler, more lemon yellow * than NHS Warm Yellow #FFB81C, and noticeably brighter. DHCW pairs it * with a very pale #FEF9C3 panel fill rather than tinting the panel * with the heading colour, which is why --lily-warning-surface is * declared separately below instead of being mixed from this token. * * Content colour is DHCW text-primary, never white: yellow this bright * cannot carry white text at any size. * ------------------------------------------------------------------"
+    },
+    "warning-content": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.28,
+          0.019,
+          239.0
+        ]
+      }
+    },
+    "error": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.56,
+          0.209,
+          30.0
+        ]
+      },
+      "$description": "-------------------------------------------------------------------- * Error — DHCW delete red (#D5281B) * * `$nhsw-colour-button-delete`, also the DHCW invalid-input colour. It * sits a half-step darker than NHS Emergency Services Red #DA291C * (Pantone 485), which this theme previously used, and buys a real * accessibility improvement: 5.1:1 with white rather than 4.6:1. * * The Welsh resonance survives the swap. Pantone 485 is the red of Y * Ddraig Goch on the national flag, and #D5281B is within a couple of * ΔE of it — close enough that no one reads the destructive button as * a different red, far enough that the label is legible. * * Used for: error summaries, destructive-action buttons, validation * messages, invalid input borders, out-of-range result flags. * ------------------------------------------------------------------"
+    },
+    "error-content": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      }
+    }
+  },
+  "lily": {
+    "focus-ring": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.93,
+          0.18,
+          102.0
+        ]
+      },
+      "$description": "-------------------------------------------------------------------- * DHCW supporting colours * * Values the published NHSW library needs that have no slot in the * upstream `--color-*` contract. They are declared here rather than * inline in the component rules so a consumer can retheme a DHCW * service by overriding tokens alone. * * Note these are colour tokens only — none of them carries spacing. * The practitioner density scale set further down is untouched by this * block, and the component rules that consume these colours below use * the tight scale, not the patient one. * ------------------------------------------------------------------ */ /* #FFEB3B — `$nhsw-colour-focus`. The GDS-lineage focus block."
+    },
+    "focus-text": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.15,
+          0.002,
+          197.0
+        ]
+      },
+      "$description": "#0B0C0C — `$nhsw-colour-focus-text`. The bar under a focused link, and the text colour inside a focus block. 16.0:1 on the yellow."
+    },
+    "accent-deep": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.39,
+          0.064,
+          86.0
+        ]
+      },
+      "$description": "#554318 — `$nhsw-colour-shadow-exceptional-button`. The dark gold. Stands in for --color-accent anywhere small text must sit on the accent, because bright gold cannot carry text. 9.5:1 with white."
+    },
+    "accent-soft": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.83,
+          0.122,
+          75.0
+        ]
+      },
+      "$description": "#F5BB66 — `$nhsw-colour-button-exceptional-light`. DHCW's \"exceptional\" button: a warm gold fill with dark text, used for the one action on a page that is neither primary nor destructive but still must be found. 8.4:1 with text-primary."
+    },
+    "warning-surface": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.97,
+          0.069,
+          103.0
+        ]
+      },
+      "$description": "#FEF9C3 — `$nhsw-colour-warning-callout-background`. The pale panel behind a warning callout. Kept separate from --color-warning because DHCW does not derive one from the other."
+    },
+    "action-green": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.52,
+          0.141,
+          151.0
+        ]
+      },
+      "$description": "#007F3B — the DHCW action-link green. Not NHS Green: it is a shade darker so the chevron reads at 5.1:1 on white."
+    },
+    "link-visited": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.42,
+          0.126,
+          351.0
+        ]
+      },
+      "$description": "#7C2855 — `$nhsw-colour-link-visited`. NHS Purple. 9.2:1."
+    },
+    "link-hover": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.35,
+          0.153,
+          261.0
+        ]
+      },
+      "$description": "#003087 — `$nhsw-colour-link-hover`, NHS Dark Blue / Pantone 287. No longer the secondary token, but still the hovered link. 11.9:1."
+    },
+    "support-aqua": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.65,
+          0.113,
+          186.0
+        ]
+      },
+      "$description": "#00A499 — NHS Aqua Green / Pantone 3272. Demoted from the accent slot but retained: DHCW ships an `aqua-green` tag tone, and Public Health Wales and the Welsh Ambulance Service both use aqua in print. 3.1:1 on white — decorative fills and chart series only."
+    },
+    "page-width": {
+      "$type": "dimension",
+      "$value": {
+        "value": 60.0,
+        "unit": "rem"
+      },
+      "$description": "960px — `$nhsw-page-width`. Declared for parity with the patient variant and with DHCW, but a practitioner shell is expected to override it: a worklist or results grid wants the full viewport, not a 60rem reading column. Set --lily-page-width: none on those routes. It is a token here precisely so you can."
+    }
+  },
+  "radius": {
+    "selector": {
+      "$type": "dimension",
+      "$value": {
+        "value": 0.125,
+        "unit": "rem"
+      },
+      "$description": "-------------------------------------------------------------------- * Geometry — practitioner variant * * Practitioner workstations favour sharp, \"data-grid\" geometry over * the rounder, friendlier corners on patient-facing surfaces. We * tighten every radius to 0.125rem (2px) so cells, chips, and rows * align in dense tables without the rounded-corner halo that softens * the grid. Borders stay at 1px (the NHS norm), shadows remain at 0 * (practitioner environments are often glare-prone — bedside, * theatre, A&E). * ------------------------------------------------------------------"
+    },
+    "field": {
+      "$type": "dimension",
+      "$value": {
+        "value": 0.125,
+        "unit": "rem"
+      }
+    },
+    "box": {
+      "$type": "dimension",
+      "$value": {
+        "value": 0.125,
+        "unit": "rem"
+      }
+    }
+  },
+  "size": {
+    "selector": {
+      "$type": "dimension",
+      "$value": {
+        "value": 0.125,
+        "unit": "rem"
+      }
+    },
+    "field": {
+      "$type": "dimension",
+      "$value": {
+        "value": 0.125,
+        "unit": "rem"
+      }
+    }
+  },
+  "border": {
+    "border": {
+      "$type": "dimension",
+      "$value": {
+        "value": 1.0,
+        "unit": "px"
+      }
+    }
+  },
+  "depth": {
+    "depth": {
+      "$type": "number",
+      "$value": 0.0
+    }
+  },
+  "noise": {
+    "noise": {
+      "$type": "number",
+      "$value": 0.0
+    }
+  }
+}

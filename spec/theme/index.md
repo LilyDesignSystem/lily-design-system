@@ -83,6 +83,57 @@ The root [`themes/`](../../themes/) directory ships 45 ready-to-use theme styles
 - Selectors use `:where(...)` so consumer overrides always win on specificity.
 - The [`theme-select` helper](../helpers/index.md) loads these at runtime by swapping a managed `<link>` href and setting `data-theme` on the document root.
 
+## Design-token source (DTCG)
+
+Each theme's design primitives — the `--color-*`, `--radius-*`,
+`--size-*`, `--border`, `--depth`, `--noise` block it declares on
+`:root` / `:root[data-theme="{slug}"]` — are sourced from a Design
+Tokens Community Group format file (DTCG 2025.10) under
+[`themes/tokens/{slug}.json`](../../themes/tokens/): structured
+`$type`/`$value` entries (oklch and srgb color objects, dimension
+objects), with each token's documentation carried as `$description`.
+
+[`bin/generate-theme-tokens`](../../bin/generate-theme-tokens) is the
+bridge: it regenerates every theme's token block from its JSON in one
+canonical emission format, and `--check` (run by `bin/test`) fails on
+any drift between the two — the CSS block is generated output, so edit
+the JSON. `--extract` exists for bootstrapping/backfill. Only the
+primitives are token-sourced; the derived `--lily-*` layer
+(`var()`/`color-mix()` over these) and the component body remain CSS,
+because they are shared logic rather than per-theme data. The DTCG
+format is what design tooling (Figma Variables, Style Dictionary,
+Tokens Studio) can consume — the bridge the `lily-figma` decision
+(plan P5-T5) builds on.
+
+## Dark / high-contrast coverage matrix (audited 2026-08-27)
+
+Computed from `color-scheme` declarations across the 45 `themes/*.css`
+(plan P3-T8). `bin/check-theme` guards the structural contracts; this
+matrix records scheme coverage and the deliberate exclusions.
+
+| Family | Light | Dark | High-contrast |
+| --- | --- | --- | --- |
+| General-purpose (34 themes) | 20 | 14 — abyss, aqua, black, business, coffee, dark, dim, dracula, forest, halloween, luxury, night, sunset, synthwave | none |
+| NHS England / Scotland / Wales (6) | 6 | 0 | none |
+| GOV.UK GDS, USWDS, Adobe Spectrum, Mozilla Protocol (4) | 4 | 0 | none |
+| `light` / `dark` canonical pair | 1 | 1 | — |
+
+**Deliberate exclusions.**
+
+- The reference families ship light-only because their upstreams'
+  published visual languages are light-first; inventing a "dark NHS"
+  would be design speculation presented as reference, which is exactly
+  what these themes exist not to do. If an upstream publishes a dark
+  mode, its theme gains one — that is what each theme's
+  `Upstream tracked:` provenance line exists to trigger.
+- **No dedicated high-contrast theme ships yet.** This is a recorded
+  gap, not an oversight: `black` and `wireframe` are the nearest
+  starting points, but a real high-contrast theme should be built
+  against WCAG 1.4.6 (contrast enhanced) deliberately, not relabeled
+  from an aesthetic theme. Candidate future work; consumers needing
+  one today should follow the `ThemeProvider` guidance above (a
+  high-contrast `data-theme` value layered like light/dark).
+
 ## Forbidden in the headless layer
 
 None of the following may appear in headless markup; they live in example CSS and consume the theme custom properties.

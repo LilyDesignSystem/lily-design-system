@@ -1,0 +1,337 @@
+{
+  "$extensions": {
+    "com.lilydesignsystem": {
+      "colorScheme": "light",
+      "order": [
+        "--color-base-100",
+        "--color-base-200",
+        "--color-base-300",
+        "--color-base-content",
+        "--color-primary",
+        "--color-primary-content",
+        "--color-secondary",
+        "--color-secondary-content",
+        "--color-accent",
+        "--color-accent-content",
+        "--color-neutral",
+        "--color-neutral-content",
+        "--color-info",
+        "--color-info-content",
+        "--color-success",
+        "--color-success-content",
+        "--color-warning",
+        "--color-warning-content",
+        "--color-error",
+        "--color-error-content",
+        "--radius-selector",
+        "--radius-field",
+        "--radius-box",
+        "--size-selector",
+        "--size-field",
+        "--border",
+        "--depth",
+        "--noise"
+      ]
+    }
+  },
+  "color": {
+    "base-100": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      },
+      "$description": "---- Surfaces -------------------------------------------------------- */ /* base-100: page background. NHS White #FFFFFF — the canvas behind */ /* body copy, primary content cards, and dialog modals."
+    },
+    "base-200": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.96,
+          0.008,
+          220.0
+        ]
+      },
+      "$description": "base-200: secondary surface. NHS Inform Off-White #F0F4F5 — used */ /* on nhsinform.scot for the page wash behind the main column at */ /* wide breakpoints, and for summary / \"at a glance\" panels."
+    },
+    "base-300": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.92,
+          0.01,
+          220.0
+        ]
+      },
+      "$description": "base-300: tertiary surface. NHS Pale Grey #E8EDEE — divider rows, */ /* table zebra striping, list-row hover, and the \"grey panel\" used */ /* for sectioned navigation in NHS 24 service journeys."
+    },
+    "base-content": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.26,
+          0.015,
+          230.0
+        ]
+      },
+      "$description": "base-content: primary text. NHS Black #212B32 — warm near-black */ /* tuned to reduce on-screen glare for users reading long-form */ /* clinical content (a shared NHS UK / NHS Scotland choice)."
+    },
+    "primary": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.32,
+          0.18,
+          264.0
+        ]
+      },
+      "$description": "---- Primary (NHS Scotland Navy) ------------------------------------ */ /* NHS Scotland Navy #003087 (Pantone 287) — the flagship brand */ /* colour. Darker than NHS England's #005EB8: this is the single */ /* clearest visual signal that a service belongs to NHS Scotland */ /* rather than NHS England. Used on the NHS Scotland logo block, */ /* primary buttons, the global header band on nhsinform.scot, and */ /* the active state of primary nav."
+    },
+    "primary-content": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "secondary": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.52,
+          0.18,
+          248.0
+        ]
+      },
+      "$description": "---- Secondary (NHS Scotland Mid Blue) ------------------------------ */ /* NHS Scotland Mid Blue #0078D4 — the link colour on nhsinform.scot */ /* and the secondary-button fill on NHS 24 journeys. Sits between */ /* the navy primary and the bright accent so layered buttons keep a */ /* clear hierarchy without losing the NHS Scotland identity."
+    },
+    "secondary-content": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "accent": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.62,
+          0.11,
+          192.0
+        ]
+      },
+      "$description": "---- Accent (NHS Aqua / Teal) --------------------------------------- */ /* NHS Aqua / Teal #00A499 — supplementary accent associated with */ /* NHS 24 chrome and used for illustrative chart series. Not for */ /* primary calls to action; reserve for decorative emphasis, */ /* category chips, and data visualisation."
+    },
+    "accent-content": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "neutral": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.26,
+          0.015,
+          230.0
+        ]
+      },
+      "$description": "---- Neutral -------------------------------------------------------- */ /* Neutral chrome (dark footer, NHS 24 dark cards, on-call signage). */ /* Mirrors base-content so dark blocks share the same warm near-black */ /* identity as body text, keeping the page visually coherent."
+    },
+    "neutral-content": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "info": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.54,
+          0.17,
+          247.0
+        ]
+      },
+      "$description": "---- Info (NHS Bright Blue) ----------------------------------------- */ /* NHS Bright Blue #0072CE — informational banners (\"did you know?\", */ /* \"your appointment is at…\"), inline help, and link chips. Distinct */ /* from primary so message banners read as messages, not actions."
+    },
+    "info-content": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "success": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.56,
+          0.16,
+          145.0
+        ]
+      },
+      "$description": "---- Success (NHS Green) -------------------------------------------- */ /* NHS Green #009639 — confirmation panels, completed-step indicators */ /* (\"you have been booked\"), and the success state on form summaries. */ /* Identical role and contrast target as the NHS UK system so shared */ /* components carry the same meaning across the border."
+    },
+    "success-content": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "warning": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.82,
+          0.16,
+          79.0
+        ]
+      },
+      "$description": "---- Warning (NHS Warm Yellow) -------------------------------------- */ /* NHS Warm Yellow #FFB81C — caution banners and the canonical focus */ /* indicator. Yellow swatches are light, so the content colour MUST */ /* stay dark (≈ NHS Black) to clear WCAG AA contrast. Reusing this */ /* hue across NHS England, NHS Scotland, and NHS Wales is deliberate: */ /* keyboard users build muscle memory for \"yellow means focus\"."
+    },
+    "warning-content": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.26,
+          0.015,
+          230.0
+        ]
+      }
+    },
+    "error": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.55,
+          0.22,
+          28.0
+        ]
+      },
+      "$description": "---- Error (NHS Emergency Services Red) ----------------------------- */ /* NHS Emergency Services Red #DA291C — validation errors, */ /* destructive actions, \"phone 999\" badges inside NHS Inform. */ /* Reserved for genuine errors and safety messages: the colour */ /* carries strong NHS meaning across both nations and must not be */ /* used for decorative emphasis."
+    },
+    "error-content": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      }
+    }
+  },
+  "radius": {
+    "selector": {
+      "$type": "dimension",
+      "$value": {
+        "value": 0.0,
+        "unit": "rem"
+      },
+      "$description": "---- Geometry tokens (clinical / high-density) --------------------- */ /* Selectors (checkbox / radio): square per NHS frontend defaults so */ /* the tick / dot stays perfectly centred at every font size. Square */ /* selectors are doubly appropriate for clinical UI where checklist */ /* grids dominate (allergies, observations, problem-list flags)."
+    },
+    "field": {
+      "$type": "dimension",
+      "$value": {
+        "value": 0.125,
+        "unit": "rem"
+      },
+      "$description": "Form fields: 2px corners — sharper than the 4px patient theme. */ /* Clinical instruments traditionally use crisp rectangles; the small */ /* radius keeps a hint of softness so the UI doesn't read as hostile */ /* while still aligning more closely to EPR conventions."
+    },
+    "box": {
+      "$type": "dimension",
+      "$value": {
+        "value": 0.125,
+        "unit": "rem"
+      },
+      "$description": "Card / panel / dialog: 2px corner radius. Tight corners keep */ /* clinical worklists, observation tables, and side-panel cards */ /* visually instrument-like and align edges to a 2px grid."
+    }
+  },
+  "size": {
+    "selector": {
+      "$type": "dimension",
+      "$value": {
+        "value": 0.125,
+        "unit": "rem"
+      },
+      "$description": "Inner padding hints for selectors and fields — compressed so */ /* checklist rows and field grids pack tightly."
+    },
+    "field": {
+      "$type": "dimension",
+      "$value": {
+        "value": 0.125,
+        "unit": "rem"
+      }
+    }
+  },
+  "border": {
+    "border": {
+      "$type": "dimension",
+      "$value": {
+        "value": 1.0,
+        "unit": "px"
+      },
+      "$description": "Border width: 1px hairline, matching `$nhsuk-border-width-form`. */ /* The hairline is the smallest legible border on the LCDs used in */ /* clinical settings; going to 0.5px loses the edge on non-Retina */ /* workstation displays still common in NHS estate."
+    }
+  },
+  "depth": {
+    "depth": {
+      "$type": "number",
+      "$value": 0.0,
+      "$description": "Depth & noise off — NHS Scotland identity guidance, like NHS UK, */ /* avoids shadows, gradients, and textures so the interface looks */ /* clinical, calm, and easy to read on low-end devices common in */ /* community health settings."
+    }
+  },
+  "noise": {
+    "noise": {
+      "$type": "number",
+      "$value": 0.0
+    }
+  }
+}

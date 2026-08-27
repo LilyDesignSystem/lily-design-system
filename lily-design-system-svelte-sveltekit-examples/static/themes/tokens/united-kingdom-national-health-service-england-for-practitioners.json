@@ -1,0 +1,337 @@
+{
+  "$extensions": {
+    "com.lilydesignsystem": {
+      "colorScheme": "light",
+      "order": [
+        "--color-base-100",
+        "--color-base-200",
+        "--color-base-300",
+        "--color-base-content",
+        "--color-primary",
+        "--color-primary-content",
+        "--color-secondary",
+        "--color-secondary-content",
+        "--color-accent",
+        "--color-accent-content",
+        "--color-neutral",
+        "--color-neutral-content",
+        "--color-info",
+        "--color-info-content",
+        "--color-success",
+        "--color-success-content",
+        "--color-warning",
+        "--color-warning-content",
+        "--color-error",
+        "--color-error-content",
+        "--radius-selector",
+        "--radius-field",
+        "--radius-box",
+        "--size-selector",
+        "--size-field",
+        "--border",
+        "--depth",
+        "--noise"
+      ]
+    }
+  },
+  "color": {
+    "base-100": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      },
+      "$description": "---- Surfaces -------------------------------------------------------- */ /* base-100: page background. NHS White #FFFFFF — the default canvas */ /* used behind body copy and primary content areas."
+    },
+    "base-200": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.94,
+          0.005,
+          220.0
+        ]
+      },
+      "$description": "base-200: secondary surface. NHS Pale Grey #E8EDEE — sectioned */ /* backgrounds, sidebars, and the \"grey-panel\" pattern in the manual."
+    },
+    "base-300": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.89,
+          0.007,
+          220.0
+        ]
+      },
+      "$description": "base-300: tertiary surface. Slightly darker pale grey used for */ /* dividers, table zebra-striping and hover backgrounds on list rows."
+    },
+    "base-content": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.28,
+          0.015,
+          230.0
+        ]
+      },
+      "$description": "base-content: primary text. NHS Black #212B32 — the body-copy */ /* colour. Note this is NOT pure black; it warms text slightly to */ /* reduce on-screen glare per NHS readability guidance."
+    },
+    "primary": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.45,
+          0.17,
+          251.0
+        ]
+      },
+      "$description": "---- Primary (NHS Blue) --------------------------------------------- */ /* Primary action colour. NHS Blue #005EB8 — the signature brand */ /* colour used on the NHS logo block, primary buttons, and active nav."
+    },
+    "primary-content": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "secondary": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.33,
+          0.18,
+          264.0
+        ]
+      },
+      "$description": "---- Secondary (NHS Dark Blue) -------------------------------------- */ /* Hover / pressed state for primary, and secondary chrome. */ /* NHS Dark Blue #003087 — also used for visited links by some teams."
+    },
+    "secondary-content": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "accent": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.67,
+          0.13,
+          220.0
+        ]
+      },
+      "$description": "---- Accent (NHS Light Blue) ---------------------------------------- */ /* Illustrative accent. NHS Light Blue #41B6E6 — used in charts, */ /* diagrams, and supplementary UI cues. Not for primary CTAs."
+    },
+    "accent-content": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "neutral": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.28,
+          0.015,
+          230.0
+        ]
+      },
+      "$description": "---- Neutral -------------------------------------------------------- */ /* Neutral chrome (footer, dark cards). Mirrors base-content so that */ /* the page maintains a single neutral identity across both polarities."
+    },
+    "neutral-content": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "info": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.54,
+          0.17,
+          247.0
+        ]
+      },
+      "$description": "---- Info (NHS Bright Blue) ----------------------------------------- */ /* Informational banners, links, and \"did you know?\" callouts. */ /* NHS Bright Blue #0072CE — distinct from primary so banners read as */ /* messages rather than calls to action."
+    },
+    "info-content": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "success": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.56,
+          0.16,
+          145.0
+        ]
+      },
+      "$description": "---- Success (NHS Green) -------------------------------------------- */ /* Confirmation, completed-step, \"you have been booked\" panels. */ /* NHS Green #009639 — meets 4.5:1 against white when paired below."
+    },
+    "success-content": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "warning": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.82,
+          0.16,
+          79.0
+        ]
+      },
+      "$description": "---- Warning (NHS Warm Yellow) -------------------------------------- */ /* Caution banners and the canonical focus indicator. */ /* NHS Warm Yellow #FFB81C — because the swatch is light, content */ /* must be dark (≈ NHS Black) to clear WCAG AA contrast."
+    },
+    "warning-content": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.28,
+          0.015,
+          230.0
+        ]
+      }
+    },
+    "error": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          0.55,
+          0.22,
+          28.0
+        ]
+      },
+      "$description": "---- Error (NHS Emergency Services Red) ----------------------------- */ /* Validation errors, destructive actions, urgent banners. */ /* NHS Emergency Services Red #DA291C — reserved for genuine errors; */ /* do not use for decorative emphasis (it carries strong NHS meaning)."
+    },
+    "error-content": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "oklch",
+        "components": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      }
+    }
+  },
+  "radius": {
+    "selector": {
+      "$type": "dimension",
+      "$value": {
+        "value": 0.0,
+        "unit": "rem"
+      },
+      "$description": "---- Geometry tokens (clinical / high-density) --------------------- */ /* Selectors (checkbox / radio): square per NHS frontend defaults. Doubly appropriate for clinical UI where checklist grids dominate (allergies, observations, problem-list flags, drug interactions)."
+    },
+    "field": {
+      "$type": "dimension",
+      "$value": {
+        "value": 0.125,
+        "unit": "rem"
+      },
+      "$description": "Form fields: 2px corners — sharper than the 4px patient theme. Clinical instruments traditionally use crisp rectangles; the small radius keeps a hint of softness so the UI doesn't read as hostile."
+    },
+    "box": {
+      "$type": "dimension",
+      "$value": {
+        "value": 0.125,
+        "unit": "rem"
+      },
+      "$description": "Card / panel / dialog: 2px corner radius. Tight corners keep clinical worklists, observation tables, and side-panel cards visually instrument-like and align edges to a 2px grid."
+    }
+  },
+  "size": {
+    "selector": {
+      "$type": "dimension",
+      "$value": {
+        "value": 0.125,
+        "unit": "rem"
+      },
+      "$description": "Inner padding hints for selectors and fields — compressed so checklist rows and field grids pack tightly."
+    },
+    "field": {
+      "$type": "dimension",
+      "$value": {
+        "value": 0.125,
+        "unit": "rem"
+      }
+    }
+  },
+  "border": {
+    "border": {
+      "$type": "dimension",
+      "$value": {
+        "value": 1.0,
+        "unit": "px"
+      },
+      "$description": "Border width: 1px hairline, matching `$nhsuk-border-width-form`. The hairline is the smallest legible border on the LCDs used in clinical settings; going to 0.5px loses the edge on non-Retina workstation displays still common in NHS estate."
+    }
+  },
+  "depth": {
+    "depth": {
+      "$type": "number",
+      "$value": 0.0,
+      "$description": "Depth & noise off — NHS guidance avoids shadows and textures so */ /* the interface looks clinical, calm, and easy to read."
+    }
+  },
+  "noise": {
+    "noise": {
+      "$type": "number",
+      "$value": 0.0
+    }
+  }
+}

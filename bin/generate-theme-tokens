@@ -1,0 +1,172 @@
+#!/usr/bin/env python3
+"""bin/generate-theme-tokens — DTCG token source for the 45 themes.
+
+The per-theme design primitives (the token block each theme declares on
+`:root` / `:root[data-theme=...]`) live as Design Tokens Community Group
+format files under themes/tokens/*.json (DTCG 2025.10: $type/$value,
+structured color values, dimension objects, $description carrying the
+token commentary). This script is the bridge (plan P3-T6):
+
+  --extract   bootstrap/backfill: parse each theme's current token block
+              into its tokens JSON (comments become $description).
+  (default)   generate: rewrite each theme's token block from its JSON,
+              in the one canonical emission format.
+  --check     regenerate in memory and fail if any theme's block differs
+              from what its JSON produces (wired into bin/test).
+
+Only the primitives are sourced from JSON. The derived `--lily-*` layer
+(var()/color-mix() over these) and the component body remain CSS — they
+are shared logic, not per-theme data.
+"""
+
+import glob
+import json
+import os
+import re
+import sys
+import textwrap
+
+TOP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+THEMES = os.path.join(TOP, "themes")
+TOKENS = os.path.join(THEMES, "tokens")
+
+GUARD_RE = re.compile(
+    r":where\(\s*:root,\s*:root\[data-theme=\"(?P<slug>[a-z0-9-]+)\"\]\s*\)\s*\{"
+    r"(?P<body>.*?)\n\}",
+    re.S,
+)
+
+DIM_RE = re.compile(r"^([\d.]+)(rem|px|em)$")
+NUM_RE = re.compile(r"^[\d.]+$")
+HEX_RE = re.compile(r"^#[0-9a-fA-F]{6}$")
+OKLCH_RE = re.compile(r"^oklch\(\s*([\d.]+)%\s+([\d.]+)\s+([\d.]+)\s*\)$")
+
+
+def parse_value(v):
+    v = v.strip()
+    m = OKLCH_RE.match(v)
+    if m:
+        L, C, H = (float(x) for x in m.groups())
+        return "color", {"colorSpace": "oklch", "components": [round(L / 100, 4), C, H]}
+    if HEX_RE.match(v):
+        r, g, b = (int(v[i:i + 2], 16) / 255 for i in (1, 3, 5))
+        return "color", {"colorSpace": "srgb",
+                         "components": [round(r, 4), round(g, 4), round(b, 4)],
+                         "hex": v.lower()}
+    m = DIM_RE.match(v)
+    if m:
+        return "dimension", {"value": float(m.group(1)), "unit": m.group(2)}
+    if NUM_RE.match(v):
+        return "number", float(v)
+    raise ValueError(f"unhandled token value: {v!r}")
+
+
+def emit_value(typ, val):
+    if typ == "color":
+        if val.get("colorSpace") == "oklch":
+            L, C, H = val["components"]
+            def n(x):  # trim trailing zeros the way the source wrote them
+                s = f"{x:g}"
+                return s
+            return f"oklch({n(L * 100)}% {n(C)} {n(H)})"
+        if val.get("hex"):
+            return val["hex"]
+        raise ValueError(f"unhandled color: {val}")
+    if typ == "dimension":
+        return f"{val['value']:g}{val['unit']}"
+    if typ == "number":
+        return f"{val:g}"
+    raise ValueError(typ)
+
+
+def group_of(name):
+    # --color-base-100 -> ("color", "base-100"); --radius-box -> ("radius","box")
+    body = name[2:]
+    head = body.split("-", 1)
+    return (head[0], head[1]) if len(head) == 2 else (head[0], head[0])
+
+
+def extract_one(css, slug):
+    m = GUARD_RE.search(css)
+    if not m or m.group("slug") != slug:
+        raise SystemExit(f"{slug}: token guard block not found or slug mismatch")
+    body = m.group("body")
+    scheme = (re.search(r"color-scheme:\s*(\w+)", body) or [None, "light"])[1]
+    doc = {"$extensions": {"com.lilydesignsystem": {"colorScheme": scheme}}}
+    # walk (comment, decl) pairs in order
+    order = []
+    for cm, decl_name, decl_val in re.findall(
+        r"(?:/\*(.*?)\*/\s*)?(--[a-z0-9-]+)\s*:\s*([^;]+);", body, re.S
+    ):
+        typ, val = parse_value(decl_val)
+        g, leaf = group_of(decl_name)
+        tok = {"$type": typ, "$value": val}
+        desc = " ".join(cm.split())
+        if desc:
+            tok["$description"] = desc
+        doc.setdefault(g, {})[leaf] = tok
+        order.append(decl_name)
+    doc["$extensions"]["com.lilydesignsystem"]["order"] = order
+    return doc
+
+
+def generate_block(slug, doc):
+    ext = doc["$extensions"]["com.lilydesignsystem"]
+    lines = [f':where(:root, :root[data-theme="{slug}"]) {{',
+             f"    color-scheme: {ext['colorScheme']};", ""]
+    for name in ext["order"]:
+        g, leaf = group_of(name)
+        tok = doc[g][leaf]
+        desc = tok.get("$description")
+        if desc:
+            for w in textwrap.wrap(desc, 66, initial_indent="    /* ",
+                                   subsequent_indent="       "):
+                lines.append(w)
+            lines[-1] += " */"
+        lines.append(f"    {name}: {emit_value(tok['$type'], tok['$value'])};")
+    lines.append("}")
+    return "\n".join(lines)
+
+
+def main():
+    mode = sys.argv[1] if len(sys.argv) > 1 else "generate"
+    files = sorted(glob.glob(os.path.join(THEMES, "*.css")))
+    changed = drift = 0
+    for f in files:
+        slug = os.path.basename(f)[:-4]
+        css = open(f).read()
+        jpath = os.path.join(TOKENS, slug + ".json")
+        if mode == "--extract":
+            doc = extract_one(css, slug)
+            json.dump(doc, open(jpath, "w"), indent=2, ensure_ascii=False)
+            open(jpath, "a").write("\n")
+            continue
+        doc = json.load(open(jpath))
+        block = generate_block(slug, doc)
+        m = GUARD_RE.search(css)
+        if not m:
+            raise SystemExit(f"{slug}: token guard block not found")
+        new_css = css[:m.start()] + block + css[m.end():]
+        if mode == "--check":
+            if new_css != css:
+                print(f"Error: {slug}.css token block drifts from tokens/{slug}.json",
+                      file=sys.stderr)
+                drift += 1
+        else:
+            if new_css != css:
+                open(f, "w").write(new_css)
+                changed += 1
+    if mode == "--extract":
+        print(f"extracted {len(files)} token files")
+    elif mode == "--check":
+        if drift:
+            print(f"generate-theme-tokens: FAILED ({drift} drifting)", file=sys.stderr)
+            return 1
+        print(f"generate-theme-tokens: OK ({len(files)} themes)")
+    else:
+        print(f"generated: {changed} updated, {len(files) - changed} already canonical")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

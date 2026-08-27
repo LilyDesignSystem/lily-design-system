@@ -144,6 +144,13 @@ library, no Style Dictionary output, nothing a designer can use.
 **Changes my mind:** a designer telling me what they actually need from this layer,
 or an adopter who wanted to extend a theme and could not.
 
+**Movement (2026-08-27):** the per-theme primitives now have a DTCG
+2025.10 source of truth (`themes/tokens/*.json`) that generates each
+theme's CSS token block, drift-checked in `bin/test` — so the themes
+are machine-consumable by token tooling without abandoning the
+ship-complete-stylesheets position. The open half of the question is
+now only the design-tooling side (Figma library or not).
+
 ### RFC 7 — Do 80 national identifier components belong in a general design system?
 
 **Current answer:** yes — they encode real validation knowledge across 30+

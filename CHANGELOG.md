@@ -9,6 +9,42 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## DTCG token source for the 45 themes — 2026-08-27
+
+[plan.md](plan.md) P3-T6 — Phase 3 complete. Each theme's design
+primitives now live in `themes/tokens/{slug}.json` in Design Tokens
+Community Group 2025.10 format: structured color values (oklch
+components; srgb+hex where themes use hex), dimension objects, numbers,
+and every token's documentation carried as `$description`.
+`bin/generate-theme-tokens` regenerates the CSS token blocks from the
+JSON in one canonical emission (Wales's divergent multi-line guard got
+normalised on the way), `--check` runs inside `bin/test`, and the
+extraction was verified lossless — a value-level diff of old vs
+generated blocks shows formatting changes only. Scope is deliberate:
+primitives are per-theme data and are token-sourced; the derived
+`--lily-*` layer and the component body are shared logic and stay CSS.
+This is also the machine-consumable bridge the `lily-figma` decision
+(P5-T5) builds on; RFC 6 records the movement.
+
+## Theme provenance, GDS v6 refresh, coverage matrix — 2026-08-27
+
+[plan.md](plan.md) P3-T7/T8. Every one of the 45 themes now carries
+exactly one "Upstream tracked:" provenance line — enforced as
+`bin/check-theme`'s sixth assertion — so each knows the design-system
+version it follows and when to refresh. The GOV.UK theme is the first
+beneficiary: refreshed to the Frontend v6.0.0 web palette (green
+`#00703c` → `#0f7a52`, red `#d4351c` → `#ca3535`; blue, black, and the
+focus yellow are unchanged in v6). NHS themes pin v9.x with a re-check
+note for v10; Wales pins the DHCW system it actually follows.
+
+The dark/high-contrast audit lands as a computed matrix in
+[spec/theme/](spec/theme/index.md): 31 light / 14 dark; the reference
+families are deliberately light-only (their upstreams are light-first
+— a dark NHS would be speculation presented as reference); and **no
+dedicated high-contrast theme ships**, recorded as a real gap with
+WCAG 1.4.6 as the bar for building one rather than relabeling an
+aesthetic theme.
+
 ## bin/check-theme — and the drift it caught — 2026-08-27
 
 [plan.md](plan.md) P3-T4/T5. P3-T4 was already done: `detectFromSystem`
