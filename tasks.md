@@ -168,15 +168,30 @@ Rules for the executing agent:
   demo apps should not fake, and the detail pages have no share story
   to tell; revisit if a real destination list emerges.
 
-- [ ] **P3-T4 `prefers-color-scheme` first-visit default** (opt-in
+- [x] **P3-T4 `prefers-color-scheme` first-visit default** (opt-in
   prop; Svelte canonical then 6 ports; minor bumps; CHANGELOGs).
   Verify: unit tests cover both schemes + storage override;
   `bin/publish-helpers` dry-run green.
+  Already implemented when audited 2026-08-27: `detectFromSystem`
+  ships in all seven catalogs with §7.20 spec tests (off unless opted
+  in, storage wins, both schemes) — the July task predated the
+  feature landing. Nothing to build.
 
-- [ ] **P3-T5 `bin/check-theme` conformance script.**
+- [x] **P3-T5 `bin/check-theme` conformance script.**
   Each `themes/*.css`: `:where(...)`-wrapped hooks that exist in
   `css-style-sheet-template.css`; core `--theme-*` tokens declared.
   Verify: exits 0 on all 45 themes; wired into `bin/test`.
+  Done 2026-08-27, with contracts corrected to what the themes really
+  promise: hooks resolve against components.tsv (+ sub-classes and
+  helper hooks), the consumer-wins mechanism is `@layer lily` OR
+  top-level `:where()`, the pinned token set is the real `--color-*` /
+  `--lily-*` / `--radius-*` contract (not `--theme-*`), the
+  `data-theme` guard must equal the filename slug, and the shared
+  appended sections are pinned byte-identical (the component body is
+  deliberately per-variant). Four fault classes seeded and bitten.
+  The first run found real drift, all fixed across the 45: invented
+  hooks (`.link`, `.scroll-view`, `.tree-view`, one `.submit-button`)
+  and six NHS themes whose truncated guards the picker never set.
 
 - [ ] **P3-T6 DTCG token source.**
   `themes/tokens/*.json` in Design Tokens 2025.10 format for the core

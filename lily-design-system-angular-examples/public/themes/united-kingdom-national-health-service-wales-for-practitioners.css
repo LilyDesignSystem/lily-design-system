@@ -255,13 +255,13 @@
 /* Theme tokens — the colour, radius, border, and depth variables consumed
  * by every Lily component rule below. The theme applies by default (`:root`)
  * and also when explicitly opted into via
- * `<html data-theme="united-kingdom-national-health-service-wales-practitioners">`,
+ * `<html data-theme="united-kingdom-national-health-service-wales-for-practitioners">`,
  * so multiple themes can coexist in one document and be switched at runtime
  * by updating the `data-theme` attribute. */
 
 :where(
     :root,
-    :root[data-theme="united-kingdom-national-health-service-wales-practitioners"]
+    :root[data-theme="united-kingdom-national-health-service-wales-for-practitioners"]
 ) {
     color-scheme: light;
 
@@ -670,7 +670,6 @@
         .input,
         .select,
         .option,
-        .link,
         .menu-item,
         .tab-bar-button,
         .switch-button,
@@ -713,7 +712,7 @@
        was. The bar is drawn with box-shadow rather than a border so it
        does not shift the line box and reflow the paragraph — which on a
        dense grid would mean the whole table jumping a pixel per Tab press. */
-    :where(a, .link, [class$="-link"]):focus-visible {
+    :where(a, [class$="-link"]):focus-visible {
         outline: none;
         background-color: var(--lily-focus-ring);
         color: var(--lily-focus-text);
@@ -735,7 +734,6 @@
             .button,
             [class$="-button"],
             a,
-            .link,
             [class$="-link"]
         ):focus-visible {
             outline: 3px solid Highlight;
@@ -1008,15 +1006,15 @@
      * pre-formatted data. Every Lily class ending in `-view` is a span/div
      * that renders a value the user shouldn't edit.
      *
-     * The exclusions (`theme-view`, `scroll-view`, `split-view`, `tree-view`)
+     * The exclusions (`theme-view`, `split-view`)
      * are larger containers that don't fit the chip pattern — they're
      * styled separately further down.
      * ====================================================================== */
 
     :where(
-        [class$="-view"]:not(.theme-view):not(.scroll-view):not(
+        [class$="-view"]:not(.theme-view):not(
                 .split-view
-            ):not(.tree-view)
+            )
     ) {
         display: inline-block;
         padding: 0 0.25rem;
@@ -1381,14 +1379,14 @@
        under this palette — not the navy primary. Keeping links blue and
        buttons navy is what lets a reader tell "this navigates" from "this
        acts" without reading either one. */
-    :where([class$="-link"]:not(.skip-link):not(.back-link), .link) {
+    :where([class$="-link"]:not(.skip-link):not(.back-link)) {
         color: var(--color-secondary);
         text-decoration: underline;
         text-underline-offset: 0.12em;
     }
     /* Hover — DHCW drops to NHS Dark Blue #003087 and thickens the rule.
        Both, not either: colour alone is not a state change (WCAG 1.4.1). */
-    :where([class$="-link"], .link):hover {
+    :where([class$="-link"]):hover {
         color: var(--lily-link-hover);
         text-decoration-thickness: max(3px, 0.1875rem);
     }
@@ -1397,7 +1395,7 @@
        marks which patient records this user happened to open, which is
        both clinically meaningless and a small privacy leak to anyone
        shoulder-surfing a shared workstation. Rows stay link-coloured. */
-    :where([class$="-link"], .link):visited {
+    :where([class$="-link"]):visited {
         color: var(--lily-link-visited);
     }
     :where(
@@ -1405,7 +1403,7 @@
         .table,
         .kanban-table,
         .gantt-table
-    ) :where([class$="-link"], .link):visited {
+    ) :where([class$="-link"]):visited {
         color: var(--color-secondary);
     }
 

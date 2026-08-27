@@ -42,11 +42,11 @@
 
 /* Theme tokens — the colour, radius, border, and depth variables consumed
  * by every Lily component rule below. The theme applies by default (`:root`)
- * and also when explicitly opted into via `<html data-theme="united-kingdom-national-health-service-england">`,
+ * and also when explicitly opted into via `<html data-theme="united-kingdom-national-health-service-england-for-patients">`,
  * so multiple themes can coexist in one document and be switched at runtime
  * by updating the `data-theme` attribute. */
 
-:where(:root, :root[data-theme="united-kingdom-national-health-service-england"]) {
+:where(:root, :root[data-theme="united-kingdom-national-health-service-england-for-patients"]) {
     color-scheme: light;
 
     /* ---- Surfaces -------------------------------------------------------- */
@@ -262,7 +262,6 @@
         .input,
         .select,
         .option,
-        .link,
         .menu-item,
         .tab-bar-button,
         .switch-button,
@@ -533,15 +532,15 @@
      * pre-formatted data. Every Lily class ending in `-view` is a span/div
      * that renders a value the user shouldn't edit.
      *
-     * The exclusions (`theme-view`, `scroll-view`, `split-view`, `tree-view`)
+     * The exclusions (`theme-view`, `split-view`)
      * are larger containers that don't fit the chip pattern — they're
      * styled separately further down.
      * ====================================================================== */
 
     :where(
-        [class$="-view"]:not(.theme-view):not(.scroll-view):not(
+        [class$="-view"]:not(.theme-view):not(
                 .split-view
-            ):not(.tree-view)
+            )
     ) {
         display: inline-block;
         padding: 0.125rem 0.5rem;

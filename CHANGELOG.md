@@ -9,6 +9,28 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## bin/check-theme — and the drift it caught — 2026-08-27
+
+[plan.md](plan.md) P3-T4/T5. P3-T4 was already done: `detectFromSystem`
+ships and is spec-tested (§7.20) in all seven catalogs — the July task
+predated the feature. P3-T5's checker exists now, with its contracts
+corrected against reality before being enforced: the themes' component
+body is deliberately per-variant (practitioner "clinical density",
+Wales's own language), so the checker pins what is actually shared —
+catalog-resolvable hooks, the `@layer lily`/top-level-`:where()`
+consumer-wins mechanism, the real token contract
+(`--color-*`/`--lily-*`/`--radius-*`, 25 names pinned), a `data-theme`
+guard equal to the filename slug, and byte-identical shared guard
+sections. Wired into `bin/test`; four seeded fault classes all bite.
+
+Its first run caught real drift, fixed across all 45 themes: rules for
+**invented hooks no component emits** (`.link` in the interactive
+reset group, `:not(.scroll-view)`/`:not(.tree-view)` exclusions, one
+`.submit-button` that meant `.submit-input`), and **six NHS themes
+whose `data-theme` guards used truncated slugs** the theme-picker
+never sets — their guarded variants could never activate alongside
+another theme.
+
 ## bin/git-subtree-push exists now — 2026-08-26
 
 The push to the 22 standalone repositories revealed that the

@@ -1,0 +1,187 @@
+#!/usr/bin/env python3
+"""bin/check-theme — conformance checks for the 45 reference themes.
+
+Asserts the contracts a theme stylesheet must honour (plan P3-T5):
+
+  1. Class hooks are real. Every class used in a selector is a catalog
+     slug from components.tsv, a documented sub-class of one
+     (slug-prefixed), or a helper hook (theme-/locale-/text-size-/
+     share-/date-time-picker). The themes once styled invented hooks
+     (`.link`, `.scroll-view`) that no component emits.
+  2. Consumer-wins cascade. Every style rule either lives inside
+     `@layer lily { ... }` (layered styles lose to any unlayered
+     consumer rule, whatever the specificity) or is a top-level
+     `:where()` / `:root` rule (zero specificity). A bare selector
+     outside both mechanisms would beat consumer CSS and is flagged.
+     Nested preludes inside a rule (native CSS nesting) are the rule's
+     own business and are not walked.
+  3. The shared token contract. Each theme declares the full common
+     token set (computed once and pinned below), including
+     --lily-picker-icon-scale for the helper glyph sizing.
+  4. The data-theme guard names the file. Each theme applies by default
+     (:root) and via `:root[data-theme="{slug}"]` where {slug} is the
+     filename — the exact value theme-picker sets. Six NHS themes once
+     carried truncated guards the picker never matched.
+  5. The shared appended sections (WCAG 2.2 target-size floor, overflow
+     guards) are byte-identical across all themes. The main component
+     body is deliberately NOT identical (practitioner density, Wales
+     variants), so only these shared sections are pinned.
+
+Exits non-zero listing every violation. Wired into bin/test.
+"""
+
+import glob
+import os
+import re
+import sys
+
+TOP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+HELPER_PREFIXES = (
+    "theme-picker", "locale-picker", "text-size-picker",
+    "share-picker", "date-time-picker",
+)
+
+# The token names every theme must declare. Pinned (not recomputed) so a
+# theme silently dropping one fails instead of shrinking the contract.
+REQUIRED_TOKENS = [
+    "--border",
+    "--color-accent", "--color-accent-content",
+    "--color-base-100", "--color-base-200", "--color-base-300",
+    "--color-base-content",
+    "--color-error", "--color-error-content",
+    "--color-info", "--color-info-content",
+    "--color-neutral", "--color-neutral-content",
+    "--color-primary", "--color-primary-content",
+    "--color-secondary", "--color-secondary-content",
+    "--color-success", "--color-success-content",
+    "--color-warning", "--color-warning-content",
+    "--lily-picker-icon-scale",
+    "--radius-box", "--radius-field", "--radius-selector",
+]
+
+SHARED_SECTIONS = ("target-size (minimum) floor", "Overflow guards")
+
+
+def strip_comments(css: str) -> str:
+    return re.sub(r"/\*.*?\*/", "", css, flags=re.S)
+
+
+def selector_classes(css: str):
+    """Class names used in selectors (comment-stripped source)."""
+    out = set()
+    # walk rule preludes: text between '}' (or start) and '{'
+    for m in re.finditer(r"(?:^|})([^{}]*)\{", css, re.S):
+        out.update(re.findall(r"\.([a-z][a-z0-9-]*)", m.group(1)))
+    return out
+
+
+def unwrapped_rules(css: str):
+    """Style-rule preludes that escape both consumer-wins mechanisms.
+
+    Walks the brace tree. A prelude is checked when every ancestor block
+    is an at-rule (@layer/@media/@supports...): at top level it must be
+    :where()/:root; inside `@layer lily` anything goes (the layer itself
+    yields to unlayered consumer CSS). Preludes nested inside a style
+    rule are native CSS nesting and are skipped.
+    """
+    bad = []
+    stack = []  # each entry: "at-layer" | "at" | "rule"
+    prelude = []
+    for ch in css:
+        if ch == "{":
+            sel = "".join(prelude).strip()
+            prelude = []
+            if sel.startswith("@layer"):
+                kind = "at-layer"
+            elif sel.startswith("@"):
+                kind = "at"
+            else:
+                kind = "rule"
+                inside_rule = any(k == "rule" for k in stack)
+                inside_layer = any(k == "at-layer" for k in stack)
+                if sel and not inside_rule and not inside_layer:
+                    ok = sel.startswith(":where(") or sel.startswith(":root")
+                    if not ok:
+                        bad.append(sel.replace("\n", " ")[:60])
+            stack.append(kind)
+        elif ch == "}":
+            if stack:
+                stack.pop()
+            prelude = []
+        else:
+            prelude.append(ch)
+    return bad
+
+
+def main() -> int:
+    slugs = set(
+        line.split("\t")[0]
+        for line in open(os.path.join(TOP, "components.tsv"))
+        if line.strip()
+    )
+    files = sorted(glob.glob(os.path.join(TOP, "themes", "*.css")))
+    errors = []
+
+    # 5. shared sections pinned across all themes
+    sections = {name: {} for name in SHARED_SECTIONS}
+    for f in files:
+        raw = open(f).read()
+        for name in SHARED_SECTIONS:
+            i = raw.find(name)
+            if i < 0:
+                errors.append(f"{os.path.basename(f)}: missing shared section {name!r}")
+                continue
+            # section runs to the next banner or EOF
+            j = raw.find("/* ====", i)
+            sections[name].setdefault(raw[i:j if j > i else len(raw)], []).append(f)
+    for name, variants in sections.items():
+        if len(variants) > 1:
+            counts = sorted((len(v), v[0]) for v in variants.values())
+            errors.append(
+                f"shared section {name!r} diverges: {len(variants)} variants "
+                f"(minority e.g. {os.path.basename(counts[0][1])})"
+            )
+
+    for f in files:
+        base = os.path.basename(f)
+        slug = base[:-4]
+        raw = open(f).read()
+        css = strip_comments(raw)
+
+        # 1. class hooks are real
+        for cls in sorted(selector_classes(css)):
+            if cls in slugs:
+                continue
+            if any(cls == h or cls.startswith(h + "-") for h in HELPER_PREFIXES):
+                continue
+            if any(cls.startswith(sl + "-") for sl in slugs):
+                continue
+            errors.append(f"{base}: selector class .{cls} matches no catalog hook")
+
+        # 2. zero specificity
+        for sel in unwrapped_rules(css):
+            errors.append(f"{base}: rule not :where()-wrapped: {sel!r}")
+
+        # 3. token contract
+        declared = set(re.findall(r"(--[a-z0-9-]+)\s*:", css))
+        for t in REQUIRED_TOKENS:
+            if t not in declared:
+                errors.append(f"{base}: required token {t} not declared")
+
+        # 4. data-theme guard names the file
+        if f':root[data-theme="{slug}"]' not in css.replace("\n", " ") and \
+           f'[data-theme="{slug}"]' not in css:
+            errors.append(f"{base}: no :root[data-theme=\"{slug}\"] guard")
+
+    if errors:
+        for e in errors:
+            print("Error:", e, file=sys.stderr)
+        print(f"check-theme: FAILED ({len(errors)} problems across {len(files)} themes)", file=sys.stderr)
+        return 1
+    print(f"check-theme: OK ({len(files)} themes)")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

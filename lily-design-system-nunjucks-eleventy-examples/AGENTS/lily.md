@@ -58,6 +58,7 @@ The [themes/](../themes) directory ships 45 standalone theme stylesheets (NHS En
 - [publish-headless](../bin/publish-headless): Build and publish the 7 headless libraries (npm / NuGet)
 - [generate-registries](../bin/generate-registries): Regenerate example-app catalog registries from components.tsv
 - [check-links](../bin/check-links): Verify relative markdown links resolve
+- [check-theme](../bin/check-theme): Verify the 45 reference themes honour their conformance contracts
 
 ## Inspirations
 
