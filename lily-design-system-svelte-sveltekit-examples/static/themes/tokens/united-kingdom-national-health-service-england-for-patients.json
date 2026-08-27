@@ -134,12 +134,12 @@
       "$value": {
         "colorSpace": "oklch",
         "components": [
-          0.67,
+          0.52,
           0.13,
           220.0
         ]
       },
-      "$description": "---- Accent (NHS Light Blue) ---------------------------------------- */ /* Illustrative accent. NHS Light Blue #41B6E6 — used in charts, */ /* diagrams, and supplementary UI cues. Not for primary CTAs."
+      "$description": "---- Accent (NHS Light Blue) ---------------------------------------- */ /* Illustrative accent. NHS Light Blue #41B6E6 — used in charts, */ /* diagrams, and supplementary UI cues. Not for primary CTAs. Darkened from L=0.67 on 2026-08-27: white accent-content needs >=4.5:1 for small text (axe color-contrast on ai-label)."
     },
     "accent-content": {
       "$type": "color",

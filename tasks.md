@@ -234,9 +234,18 @@ Rules for the executing agent:
 
 ## Phase 4 — Accessibility assurance
 
-- [ ] **P4-T1 Full-catalog axe sweep** on all 491 `/components/{slug}`
+- [x] **P4-T1 Full-catalog axe sweep** on all 491 `/components/{slug}`
   routes in the SvelteKit app; fix findings; baseline in spec §11.5.
   Verify: sweep exits clean; baseline table updated.
+  Done 2026-08-27: `e2e/axe-catalog.spec.ts` (a test per catalog
+  entry) — first run 467/491, now 491/491. The 24 failures split
+  three ways: 21 demo-map defects (radio roles without aria-checked,
+  orphaned menuitem/tab roles, unlabelled inputs, one corrupted demo
+  string), 2 shared theme-body defects (video-player text-on-black,
+  call-to-action UA-blue links), and 4 NHS themes' accent too light
+  for white content — fixed in the DTCG token source. §11.5a records
+  the details; standard suites re-verified (74/74; angular spot-check
+  29/29 with the propagated demos).
 
 - [ ] **P4-T2 Accessibility statement + WCAG mapping**
   (`docs/accessibility-statement.md`, surfaced on the site): what is

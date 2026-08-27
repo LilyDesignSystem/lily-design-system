@@ -2652,7 +2652,11 @@
         width: 100%;
         max-width: 100%;
         border-radius: var(--lily-radius-md);
+        /* Video chrome is black in every theme; pair the text colour with
+           it here rather than inheriting the theme's (possibly dark)
+           content colour onto a black surface. */
         background-color: black;
+        color: white;
     }
 
     /* ==========================================================================
@@ -2880,6 +2884,11 @@
     :where(.call-to-action) {
         background-color: var(--color-primary);
         color: var(--color-primary-content);
+    }
+    /* Links inside the call-to-action inherit its content colour —
+       otherwise the UA default link blue lands on the primary fill. */
+    :where(.call-to-action) :where(a) {
+        color: inherit;
     }
     /* Expander / collapsible / details — boxed disclosure controls. */
     :where(.expander, .collapsible, .details) {

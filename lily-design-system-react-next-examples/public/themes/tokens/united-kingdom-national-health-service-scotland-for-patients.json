@@ -134,12 +134,12 @@
       "$value": {
         "colorSpace": "oklch",
         "components": [
-          0.62,
+          0.52,
           0.11,
           192.0
         ]
       },
-      "$description": "---- Accent (NHS Aqua / Teal) --------------------------------------- */ /* NHS Aqua / Teal #00A499 — supplementary accent associated with */ /* NHS 24 chrome and used for illustrative chart series. Not for */ /* primary calls to action; reserve for decorative emphasis, */ /* category chips, and data visualisation."
+      "$description": "---- Accent (NHS Aqua / Teal) --------------------------------------- */ /* NHS Aqua / Teal #00A499 — supplementary accent associated with */ /* NHS 24 chrome and used for illustrative chart series. Not for */ /* primary calls to action; reserve for decorative emphasis, */ /* category chips, and data visualisation. Darkened from L=0.62 on 2026-08-27: white accent-content needs >=4.5:1 for small text (axe color-contrast on ai-label)."
     },
     "accent-content": {
       "$type": "color",

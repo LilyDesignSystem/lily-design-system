@@ -9,6 +9,25 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## First full-catalog axe baseline: 491/491 — 2026-08-27
+
+[plan.md](plan.md) P4-T1. A generated Playwright spec runs axe (WCAG
+2.0/2.1 A+AA + 2.2 AA) against every one of the 491 component detail
+pages in the SvelteKit app — the previous baseline sampled ~16. The
+first run failed 24 pages, and every failure was a real defect fixed at
+its own layer: 21 canonical demo-map entries (rating pickers rendered
+`role="radio"` without `aria-checked`; menuitem/tab roles without
+their required parents; unlabelled form/task-list inputs; the
+date-time-now demo was corrupted markup with nested quotes; dt/dd
+inside an ol; a mockup-shell demo whose inline background fought the
+theme), 2 shared theme-body rules across all 45 themes (video-player's
+black chrome now pairs white text; call-to-action links inherit the
+primary-content colour instead of UA blue), and 4 NHS themes whose
+accent was too light for white content at ai-label sizes — darkened to
+L=0.52 in the DTCG token source with the reasoning in $description.
+Fixes propagated by `bin/generate-registries`; sweep now 491/491,
+standard suites 74/74, angular spot-check 29/29.
+
 ## DTCG token source for the 45 themes — 2026-08-27
 
 [plan.md](plan.md) P3-T6 — Phase 3 complete. Each theme's design

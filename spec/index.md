@@ -569,8 +569,32 @@ Per-app baseline (axe-clean routes / total checked):
 | html-css-js-examples           | 29/29 | ✅ full pass                          |
 | nunjucks-eleventy-examples     | 17/17 | ✅ full pass                          |
 | angular-examples               | 30/30 | ✅ full pass (2026-08-26); axe found 7 real violations on first run — wrapper-host list structure, prohibited aria-label — fixed same day |
+| svelte-sveltekit — **full catalog** | 491/491 | ✅ first complete per-component baseline (2026-08-27, `e2e/axe-catalog.spec.ts`); the initial run found 24 failing pages — see §11.5a |
 
 axe rule set: WCAG 2.0 A+AA, 2.1 A+AA, 2.2 AA.
+
+### 11.5a Full-catalog sweep findings (2026-08-27)
+
+The first axe pass over all 491 `/components/{slug}` pages (plan
+P4-T1) found 24 failures in 7 rule families, every one a real defect:
+
+- **Demo-markup defects (21 entries in the canonical demo map, fixed
+  and regenerated into every app):** `role="radio"` without
+  `aria-checked` across the four rating-picker families;
+  `menuitem`/`tab` roles rendered without their required
+  `menu`/`menubar`/`tablist` parents; unlabelled inputs in the form,
+  task-list and date-time-now demos (the last was outright corrupted
+  markup); an unnamed `<select>` and listbox; `<dt>/<dd>` inside an
+  `<ol>` in the summary-list demos; and a mockup-shell demo whose
+  inline light background fought the theme's white text.
+- **Shared theme-body defects (fixed in all 45 themes):** `.video-player`
+  set a black background without pairing a text colour, and
+  `.call-to-action` left inner links on the UA default blue over the
+  primary fill.
+- **Token defects (fixed in the DTCG source):** four NHS themes'
+  accent colour was too light for white accent-content at small sizes
+  (ai-label); darkened to L=0.52 with the reasoning recorded in each
+  token's `$description`.
 
 ### 11.6 Responsive viewport sweep (snapshot as of 2026-05-30)
 
