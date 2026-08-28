@@ -182,7 +182,10 @@ author's ORCID iD.
 
 ## Following along
 
-There is no newsletter or social account yet. Watch the repository on
+This document is rendered on the website at
+<https://lilydesignsystem.github.io/news/> (with the forward plan at
+[/roadmap/](https://lilydesignsystem.github.io/roadmap/)). There is no
+newsletter or social account yet. Watch the repository on
 [GitHub](https://github.com/LilyDesignSystem/lily-design-system/), or the mirrors
 on GitLab and Codeberg. The outreach plan that would change this is written down
 in [help/outreach/index.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/help/outreach/index.md).

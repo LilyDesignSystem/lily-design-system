@@ -9,6 +9,18 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Site gains /news and /roadmap, fed from the canonical files — 2026-08-28
+
+[plan.md](plan.md) P5-T1, and the outreach plan's blog-route gate
+closes with it. `bin/sync` pipes the canonical `NEWS.md` and `plan.md`
+into the site's content directory (the standalone github.io subtree
+must build alone), and the two routes render them at build time —
+marked, with repo-relative links rewritten to canonical GitHub URLs by
+the same rule `bin/sync-special-files` applies to per-repo copies.
+Both prerender with real content and join the main nav. There is no
+hand-maintained copy anywhere in the pipeline: the site cannot drift
+from the files, which is the entire design.
+
 ## Screen-reader matrix structure + intake form — 2026-08-28
 
 [plan.md](plan.md) P4-T4, the half that can be built without an AT

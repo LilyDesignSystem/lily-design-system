@@ -301,11 +301,18 @@ Rules for the executing agent:
 
 ## Phase 5 — Documentation and site surfaces
 
-- [ ] **P5-T1 News + roadmap routes on the site.**
+- [x] **P5-T1 News + roadmap routes on the site.**
   `/news` fed from NEWS.md; `/roadmap` fed from plan.md's phases
   (GOV.UK pattern). Closes the outreach plan's blog-route gate.
   Verify: both routes build and render current content; site nav
   links them.
+  Done 2026-08-28: bin/sync pipes the canonical NEWS.md and plan.md
+  into the site's content dir (so the standalone github.io subtree
+  builds alone); the routes render them at build time via marked with
+  repo-relative links rewritten to canonical GitHub URLs (the
+  sync-special-files rule, applied client-side); both prerender with
+  real content and sit in the main nav. Zero hand-maintained copy —
+  the site cannot drift from the files.
 
 - [ ] **P5-T2 Developer on-ramp in CONTRIBUTING.**
   Dev setup, monorepo + subtree model, the copy-pattern, full

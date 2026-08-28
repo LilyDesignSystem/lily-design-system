@@ -12,6 +12,8 @@
     { href: '/examples/', label: 'Examples' },
     { href: '/help/', label: 'Help' },
     { href: '/accessibility/', label: 'Accessibility' },
+    { href: '/news/', label: 'News' },
+    { href: '/roadmap/', label: 'Roadmap' },
     { href: '/about/', label: 'About' }
   ];
 

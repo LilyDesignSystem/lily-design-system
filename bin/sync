@@ -29,6 +29,13 @@ do
     rsync -a --delete "$top/themes/" "$themes_dest/"
 done
 
+# The site's /news and /roadmap routes render the canonical NEWS.md and
+# plan.md at build time (vite ?raw import + marked). Copy them into the
+# site's content dir so the standalone github.io subtree builds alone.
+mkdir -p "$top/lilydesignsystem.github.io/src/lib/content"
+cp "$top/NEWS.md" "$top/lilydesignsystem.github.io/src/lib/content/NEWS.md"
+cp "$top/plan.md" "$top/lilydesignsystem.github.io/src/lib/content/plan.md"
+
 # The html example app vendors the picker custom elements (built dist)
 # the same way it vendors everything else: as copied files.
 mkdir -p "$top/lily-design-system-html-css-js-examples/pages/assets/js"
