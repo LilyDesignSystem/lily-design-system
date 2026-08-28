@@ -9,6 +9,22 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Trusted Publishing: position stated, not adopted — 2026-08-28
+
+`spec/trusted-publishing/` records the standing position: replace the
+long-lived registry tokens with OIDC Trusted Publishing when it is
+production-ready across every forge this project treats as a peer
+(GitHub, GitLab, Codeberg) and every registry it publishes to (npm,
+NuGet) — a bar not met as of 2026-08 (Codeberg unsupported by both
+registries; NuGet also lacks GitLab). Until then: npm publishes carry
+`--provenance` (which composes with, not substitutes for, Trusted
+Publishing), tokens exist only as named CI secrets, and real publishes
+require explicit manual dispatch. The readiness table and the
+four-step adoption checklist make the switch a same-day edit when a
+provider announcement lands. README, docs/releasing.md, SECURITY.md's
+posture table, and MAINTAINERS.md's credential inventory all state the
+same position.
+
 ## Site gains /news and /roadmap, fed from the canonical files — 2026-08-28
 
 [plan.md](plan.md) P5-T1, and the outreach plan's blog-route gate

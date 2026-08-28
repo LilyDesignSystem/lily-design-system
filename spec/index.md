@@ -43,6 +43,7 @@ coding agents.
 | [frameworks](frameworks/index.md) | The seven framework pairs, per-framework file shapes and idioms, the copy-pattern. |
 | [helpers](helpers/index.md) | The `*-helpers` catalogs — theme-picker, locale-picker, text-size-picker — their `<select>` contracts, manifests, and publish pipeline. |
 | [national-identifiers](national-identifiers/index.md) | The 80 national personal identifier components, normalization, validation algorithms. |
+| [trusted-publishing](trusted-publishing/index.md) | OIDC publishing to npm/NuGet: the adopt-when-all-forges-are-covered position, readiness table, adoption checklist. |
 | [free-open-source-funding](free-open-source-funding/index.md) | Funding channels (GitHub Sponsors live, Open Collective planned), terms, and the files that must agree. |
 | [special-files-for-public-repos](special-files-for-public-repos/index.md) | The top-level files every published subtree repo carries, copy-vs-generate, the sync tooling. |
 | [citations](citations/index.md) | Design systems Lily learns from, the NHS UK reference, Reuters Graphics influence. |

@@ -150,7 +150,8 @@ treat a divergence as a finding.
 | Private vulnerability reporting | enabled | the alternative reporting route named above |
 | Dependabot security updates | enabled | advisory-driven bumps across many package manifests |
 | Branch protection on `main` | active — no force-push, no deletion | |
-| npm publishing | two-factor authentication required | the publishing identity is one account; see [MAINTAINERS.md](MAINTAINERS.md) |
+| npm publishing | two-factor authentication required; publishes carry `--provenance` | the publishing identity is one account; see [MAINTAINERS.md](MAINTAINERS.md) |
+| Registry tokens (`NPM_TOKEN`, `NUGET_API_KEY`) | named CI secrets only, real publishes gated on manual dispatch; slated for OIDC [Trusted Publishing](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/trusted-publishing/index.md) once it covers all three forges and both registries (not met as of 2026-08) | a leaked long-lived token is the classic supply-chain path; the interim mitigations and the adoption trigger are written down |
 
 > [!NOTE]
 > Verified 2026-08-26 across all 23 repositories: secret scanning, push

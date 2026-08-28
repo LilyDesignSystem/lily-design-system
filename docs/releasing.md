@@ -113,6 +113,15 @@ Deprecations, like releases, get a CHANGELOG entry.
 | npm | maintainer login / `NPM_TOKEN` secret | local `npm login`; CI secret for the workflow |
 | NuGet | `NUGET_API_KEY` env var / secret | never committed; see [MAINTAINERS.md](../MAINTAINERS.md) for holder + recovery |
 
+These long-lived tokens are the interim posture. The standing position
+([spec/trusted-publishing/](../spec/trusted-publishing/index.md)) is to
+replace them with OIDC Trusted Publishing when it is production-ready
+across every forge this project publishes from (GitHub, GitLab,
+Codeberg) and every registry it publishes to (npm, NuGet) — a bar not
+met as of 2026-08 (Codeberg is unsupported by both; NuGet also lacks
+GitLab). npm `--provenance` already runs today and composes with, not
+substitutes for, Trusted Publishing.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.

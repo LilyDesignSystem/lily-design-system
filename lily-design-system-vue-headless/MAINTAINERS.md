@@ -54,7 +54,7 @@ inventory nobody can hand over.
 | Identity | What it publishes | Held by | Recovery if the holder is unavailable |
 | --- | --- | --- | --- |
 | GitHub account `joelparkerhenderson` and the `LilyDesignSystem` organisation | every repository, every release, issues, settings, and the `lilydesignsystem.github.io` Pages site | the maintainer | none: GitHub's account-recovery process is the only route, and it is between GitHub and the account holder |
-| npm publish rights | the 3 published headless packages and the 30 published helper packages | the maintainer's npm account | the npm owner list is the recovery surface, and it is that one account |
+| npm publish rights | the published headless and helper packages | the maintainer's npm account (plus `NPM_TOKEN` as a CI secret; slated for OIDC [Trusted Publishing](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/trusted-publishing/index.md) when all forges are covered) | the npm owner list is the recovery surface, and it is that one account |
 | NuGet publish rights | the 5 Blazor helper packages (built in `dist-nuget/`, **not yet published**) | the maintainer's NuGet account | as above |
 | GitLab and Codeberg mirrors | a full push mirror of every subtree | the maintainer | see "If the maintainer is unavailable" — this is the one identity that meaningfully reduces risk |
 | The Lily™ and Lily Design System™ marks | the project name | the maintainer, personally | trademark rights do not transfer with a fork; see [LICENSE.md](LICENSE.md) |

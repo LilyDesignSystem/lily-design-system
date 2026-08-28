@@ -17,6 +17,10 @@ example app's stylesheet and bare:
 Lily targets WCAG 2.2 AAA — and says precisely what that does and does not
 mean in the [accessibility statement](docs/accessibility-statement.md).
 
+Packages publish with npm provenance today; long-lived registry tokens are
+slated for replacement by [Trusted Publishing](spec/trusted-publishing/index.md)
+once it covers every forge and registry this project treats as a peer.
+
 The living specification is [spec/index.md](spec/index.md). The modular reference docs are in
 [AGENTS.md](AGENTS.md) and [AGENTS/](AGENTS/). For a topic-by-topic walkthrough,
 see the modular specification docs under [spec/](spec/index.md).

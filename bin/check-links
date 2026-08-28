@@ -32,6 +32,11 @@ SYNCED = re.compile(
     r"^lily[^/]*/AGENTS/"
     r"|^lilydesignsystem\.github\.io/src/routes/components/AGENTS\.md$"
     r"|^spec/special-files-for-public-repos/AI_STATEMENT\.md$"
+    # The site's content copies (bin/sync) keep repo-root-relative links;
+    # the /news and /roadmap routes rewrite them to canonical GitHub URLs
+    # at render time (src/lib/render-doc.ts), so they are not expected to
+    # resolve from the copy location.
+    r"|^lilydesignsystem\.github\.io/src/lib/content/"
 )
 files = [f for f in files if not SYNCED.match(f)]
 
