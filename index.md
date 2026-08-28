@@ -14,6 +14,9 @@ example app's stylesheet and bare:
 
 ![The same breadcrumb markup with no stylesheet: a browser-default ordered list](assets/images/example-unstyled.png)
 
+Lily targets WCAG 2.2 AAA — and says precisely what that does and does not
+mean in the [accessibility statement](docs/accessibility-statement.md).
+
 The living specification is [spec/index.md](spec/index.md). The modular reference docs are in
 [AGENTS.md](AGENTS.md) and [AGENTS/](AGENTS/). For a topic-by-topic walkthrough,
 see the modular specification docs under [spec/](spec/index.md).

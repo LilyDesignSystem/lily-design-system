@@ -173,8 +173,11 @@ Stated concretely, because "support the project" means nothing:
 1. **An independent accessibility audit.** This is the single highest-value thing
    money could buy here. Lily *targets* WCAG 2.2 AAA and has never been audited by
    anyone; the automated baselines run AA rule sets and cover a minority of success
-   criteria ([AI_STATEMENT.md](AI_STATEMENT.md) §12). An audit by a firm that does
-   this properly would tell the project — and every adopter — what is actually true.
+   criteria ([AI_STATEMENT.md](AI_STATEMENT.md) §12; the precise verified/unverified
+   split is the [accessibility statement](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/accessibility-statement.md)). The
+   scope an auditor needs is prepared in
+   [docs/audit-readiness.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/audit-readiness.md), so funding converts to an
+   audit without a discovery phase.
 2. **Screen-reader and device testing.** JAWS is commercial software. Real testing
    needs Windows hardware, iOS and Android devices, and time on each.
 3. **Maintainer time.** Everything here is unpaid evenings. The most honest thing

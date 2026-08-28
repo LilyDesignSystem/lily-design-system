@@ -167,7 +167,10 @@ Lily is one dependency in your stack. Using it does not make an application
 accessible, and it does not make one secure. In particular: Lily targets WCAG 2.2
 AAA and has never been audited ([AI_STATEMENT.md](AI_STATEMENT.md) §12), so if your
 own compliance obligations require an assurance, that assurance does not currently
-exist and must be commissioned. [CONTRIBUTING.md](CONTRIBUTING.md) names an
+exist and must be commissioned — the [accessibility
+statement](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/accessibility-statement.md) states exactly what is and is not
+verified, and [docs/audit-readiness.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/audit-readiness.md) holds the
+scope an auditor would need. [CONTRIBUTING.md](CONTRIBUTING.md) names an
 independent accessibility audit as the highest-value thing sponsorship could fund.
 
 ---

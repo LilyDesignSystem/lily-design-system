@@ -247,12 +247,16 @@ Rules for the executing agent:
   the details; standard suites re-verified (74/74; angular spot-check
   29/29 with the propagated demos).
 
-- [ ] **P4-T2 Accessibility statement + WCAG mapping**
+- [x] **P4-T2 Accessibility statement + WCAG mapping**
   (`docs/accessibility-statement.md`, surfaced on the site): what is
   tested by what, what is not, known gaps, audit intention. "Targets"
   wording throughout; no "compliant" claim.
   Verify: `bin/check-links` passes; linked from README, site, and
   SECURITY.md's closing section.
+  Done 2026-08-28: docs/accessibility-statement.md (verified-by table,
+  the not-verified-by-anything section, review-with-practice rule) +
+  a site /accessibility route in the main nav; linked from README,
+  SECURITY.md, CONTRIBUTING.md.
 
 - [ ] **P4-T3 Component maturity labels.**
   `status` field (`experimental`/`beta`/`stable`) added to catalog
@@ -269,11 +273,15 @@ Rules for the executing agent:
   Verify: matrix doc exists with ≥20 rows of real results; issue
   template live.
 
-- [ ] **P4-T5 External audit readiness pack**
+- [x] **P4-T5 External audit readiness pack**
   (`docs/audit-readiness.md`): scope, environments, component list,
   known-issues register — so funding converts to an audit without
   delay.
   Verify: doc exists, linked from CONTRIBUTING's money section.
+  Done 2026-08-28: docs/audit-readiness.md — tiered scope (interactive
+  core incl. the five hand-rolled helper patterns first; composed
+  flows; sampled long tail), harness environments, the day-one
+  materials, and the publish-the-report-verbatim ask.
 
 ## Phase 5 — Documentation and site surfaces
 

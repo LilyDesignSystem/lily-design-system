@@ -9,6 +9,22 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Accessibility statement + audit-readiness pack — 2026-08-28
+
+[plan.md](plan.md) P4-T2/T5. `docs/accessibility-statement.md` makes
+"targets WCAG 2.2 AAA" precise: a verified-by table (what each suite
+actually proves, including the new 491/491 catalog baseline), a
+not-verified-by-anything section (no audit ever, AAA criteria as
+intents not properties, screen readers largely untested — with the
+shipped-green-over-real-defects history cited as the reason the
+distinction matters), and a plain reporting path. The same content is
+a site page at `/accessibility`, in the main nav. `docs/audit-
+readiness.md` (P4-T5) prepares the auditor's scope in tiers — the
+hand-rolled helper patterns first as the highest-risk surface — with
+environments, day-one materials, and the publish-the-report-verbatim
+ask, so funding converts to an audit without a discovery phase. Linked
+from README, SECURITY.md, and CONTRIBUTING.md.
+
 ## First full-catalog axe baseline: 491/491 — 2026-08-27
 
 [plan.md](plan.md) P4-T1. A generated Playwright spec runs axe (WCAG
