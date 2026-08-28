@@ -30,3 +30,41 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/calendar-table-td/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: calendar-table-td</li>
+      <li>PascalCase: CalendarTableTD</li>
+      <li>Description: a calendar table interactive grid data cell for managing dates, days, etc. &lt;td&gt;</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;td&gt;</li>
+      <li>CSS class: .calendar-table-td</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="gridcell"</code> -- identifies the cell as part of a grid</li>
+      <li><code>aria-selected</code> -- set to <code>true</code> when the cell is selected; omitted otherwise</li>
+      <li><code>aria-current="date"</code> -- set when the cell represents today's date; omitted otherwise</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Tab: Focus moves to the selected cell (<code>tabindex="0"</code>)</li>
+      <li>Arrow keys: Typically handled by the parent CalendarTable grid navigation</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>selected</code>: boolean (default: false) -- whether this day cell is selected</li>
+      <li><code>today</code>: boolean (default: false) -- whether this day cell represents today's date</li>
+      <li><code>children</code>: slot (required) -- day content, typically the day number</li>
+      <li><code>...restProps</code>: Any additional HTML attributes passed to the <code>&lt;td&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

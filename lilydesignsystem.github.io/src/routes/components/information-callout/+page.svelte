@@ -30,3 +30,38 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/information-callout/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: information-callout</li>
+      <li>PascalCase: InformationCallout</li>
+      <li>Description: a callout box highlighting informational content</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .information-callout</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="note"</code> -- identifies the content as a note or supplementary information</li>
+      <li><code>aria-label=&#123;label&#125;</code> -- provides an accessible name describing the type of callout (e.g., "Note", "Warning", "Tip")</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>No keyboard interactions — this is a passive element</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible name for the callout via <code>aria-label</code></li>
+      <li><code>children</code>: slot (required) -- callout content to display</li>
+      <li><code>...restProps</code>: unknown -- additional attributes spread onto the <code>&lt;aside&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

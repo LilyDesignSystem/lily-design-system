@@ -330,11 +330,19 @@ Rules for the executing agent:
   carries an honesty note naming the frameworks bin/test does not yet
   gate (the check-coverage gap, P7-T4).
 
-- [ ] **P5-T3 `bin/generate-api-docs`**: per-component reference from
+- [x] **P5-T3 `bin/generate-api-docs`**: per-component reference from
   `components/{slug}/AGENTS.md` into the site; idempotent; drift
   fails `bin/test`.
   Verify: run twice → no diff; site builds; a seeded metadata edit is
   caught.
+  Done 2026-08-28: a marked "Canonical contract" region on each of the
+  491 site pages, rendering Metadata/ARIA/Keyboard/Props straight from
+  AGENTS.md (curated page prose untouched — the generator owns only
+  its region, the existing marker-region precedent). Idempotent;
+  --check wired into bin/test; a seeded HTML-tag edit caught; braces
+  emitted as entities because the output lands in Svelte template
+  markup (area-chart's `{ name: string }` prop type broke compilation
+  before that). Site builds with all 491 sections prerendered.
 
 - [ ] **P5-T4 Migration guides**: `docs/migrating/nhs-uk.md` (v9/v10)
   and `docs/migrating/govuk.md` (v6) — component → Lily slug tables,

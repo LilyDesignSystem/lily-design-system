@@ -30,3 +30,42 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/step-list-item/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: step-list-item</li>
+      <li>PascalCase: StepListItem</li>
+      <li>Description: one step in a step list with status of waiting, in progress, finished, or error</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;li&gt;</li>
+      <li>CSS class: .step-list-item</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>&lt;li&gt; provides list-item semantics</li>
+      <li>aria-current="step" when current is true</li>
+      <li>aria-label set when label prop is provided</li>
+      <li>data-status is a CSS hook for status-driven styling</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>None at this level — interactive behavior lives on children</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>status</code>: "waiting" | "in-progress" | "finished" | "error" (default: "waiting")</li>
+      <li><code>current</code>: boolean (default: false)</li>
+      <li><code>label</code>: string (optional)</li>
+      <li><code>children</code>: slot</li>
+      <li><code>...restProps</code>: any additional HTML attributes</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

@@ -30,3 +30,37 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/fieldset/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: fieldset</li>
+      <li>PascalCase: Fieldset</li>
+      <li>Description: a group of related form fields with a legend</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;fieldset&gt;</li>
+      <li>CSS class: .fieldset</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>No custom ARIA attributes required -- native <code>&lt;fieldset&gt;</code> and <code>&lt;legend&gt;</code> elements provide built-in group semantics and labeling for screen readers</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>No keyboard interactions — this is a passive element</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>legend</code>: string (required) -- text for the <code>&lt;legend&gt;</code> element describing the group</li>
+      <li><code>disabled</code>: boolean (default: false) -- whether all controls in the fieldset are disabled</li>
+      <li><code>children</code>: slot (required) -- grouped form controls</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

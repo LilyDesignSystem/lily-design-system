@@ -30,3 +30,48 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/scroll-bar/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: scroll-bar</li>
+      <li>PascalCase: ScrollBar</li>
+      <li>Description: a custom scrollbar element</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .scroll-bar</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="scrollbar"</code> -- identifies the element as a scrollbar control</li>
+      <li><code>aria-label="..."</code> -- provides the accessible name for the scrollbar</li>
+      <li><code>aria-orientation="vertical|horizontal"</code> -- indicates the scrollbar direction</li>
+      <li><code>aria-valuenow="0"</code> -- the current scroll position (consumer should update dynamically)</li>
+      <li><code>aria-valuemin="0"</code> -- the minimum scroll value</li>
+      <li><code>aria-valuemax="100"</code> -- the maximum scroll value</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Arrow Up / Arrow Left: Scroll backward (decrease value) by a small increment</li>
+      <li>Arrow Down / Arrow Right: Scroll forward (increase value) by a small increment</li>
+      <li>Page Up: Scroll backward by a large increment</li>
+      <li>Page Down: Scroll forward by a large increment</li>
+      <li>Home: Scroll to the beginning (minimum value)</li>
+      <li>End: Scroll to the end (maximum value)</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>orientation</code>: "vertical" | "horizontal" (default: "vertical") -- the scrollbar direction, reflected in <code>aria-orientation</code></li>
+      <li><code>label</code>: string (required) -- accessible name for the scrollbar via <code>aria-label</code></li>
+      <li><code>children</code>: slot (required) -- scrollbar content, typically the draggable thumb element</li>
+      <li><code>...restProps</code>: unknown -- additional attributes spread onto the <code>&lt;div&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

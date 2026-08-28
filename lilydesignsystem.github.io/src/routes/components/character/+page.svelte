@@ -30,3 +30,40 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/character/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: character</li>
+      <li>PascalCase: Character</li>
+      <li>Description: a single character display element</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;span&gt;</li>
+      <li>CSS class: .character</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="img"</code> -- applied when the character is meaningful (decorative is false), indicating the span represents an image-like glyph</li>
+      <li><code>role="presentation"</code> -- applied when <code>decorative</code> is true, removing semantic meaning</li>
+      <li><code>aria-label</code> -- provides the accessible name for meaningful characters; omitted when decorative</li>
+      <li><code>aria-hidden="true"</code> -- applied when <code>decorative</code> is true, hiding the element from the accessibility tree</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>No keyboard interactions — this is a passive element</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (optional) -- accessible description of the character for screen readers</li>
+      <li><code>decorative</code>: boolean (default: false) -- when true, hides the character from assistive technology</li>
+      <li><code>children</code>: slot (required) -- the character to display</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

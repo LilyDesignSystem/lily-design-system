@@ -30,3 +30,44 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/timeout-dialog/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: timeout-dialog</li>
+      <li>PascalCase: TimeoutDialog</li>
+      <li>Description: a modal dialog warning users before session timeout</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;dialog&gt;</li>
+      <li>CSS class: .timeout-dialog</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="alertdialog"</code> identifies this as an interruption requiring user attention</li>
+      <li><code>aria-labelledby</code> references the heading element</li>
+      <li><code>aria-describedby</code> references the body content</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Tab / Shift+Tab cycles between focusable elements inside the dialog (focus trap)</li>
+      <li>Escape: triggers <code>cancel</code> (consumer typically wires this to "Sign out" or "Stay signed in")</li>
+      <li>Enter: activates the focused button (native browser behaviour)</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>title</code>: string (required) (default: —) — Dialog heading</li>
+      <li><code>open</code>: boolean (default: false) — Whether the dialog is open; bindable</li>
+      <li><code>remainingSeconds</code>: number (required) (default: —) — Seconds remaining before timeout</li>
+      <li><code>onExtend</code>: callback (default: —) — Fired when the user chooses to stay signed in</li>
+      <li><code>onSignOut</code>: callback (default: —) — Fired when the user chooses to sign out now</li>
+      <li><code>...restProps</code>: HTML attributes (default: —) — Spread onto the root <code>&lt;dialog&gt;</code></li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

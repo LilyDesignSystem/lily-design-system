@@ -30,3 +30,47 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/action-group/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: action-group</li>
+      <li>PascalCase: ActionGroup</li>
+      <li>Description: a group of action buttons that can collapse to an overflow menu when space is constrained</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;div&gt; with role="group"</li>
+      <li>CSS class: .action-group</li>
+      <li>Interactive: yes (when overflow is used)</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="group"</code> on the container</li>
+      <li><code>aria-label</code> is the accessible name (required)</li>
+      <li>Overflow trigger: <code>aria-haspopup="menu"</code>, <code>aria-expanded</code>, optional <code>aria-label</code> via <code>overflowLabel</code></li>
+      <li>Overflow panel uses the <code>hidden</code> attribute when closed</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Tab: Move focus into and out of the group</li>
+      <li>Arrow keys: (Consumer-provided) recommended roving tabindex among buttons</li>
+      <li>Enter / Space: Activate focused button or toggle overflow</li>
+      <li>Escape: (Consumer-provided) close the overflow menu when open</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (REQUIRED) -- aria-label for the group</li>
+      <li><code>overflowOpen</code>: boolean (default false)</li>
+      <li><code>overflowLabel</code>: string (optional)</li>
+      <li><code>onOverflowToggle</code> / <code>onoverflowtoggle</code>: callback (optional)</li>
+      <li><code>children</code>: slot -- visible action buttons</li>
+      <li><code>overflow</code>: slot/snippet/ReactNode (optional) -- overflow menu content</li>
+      <li><code>...restProps</code>: any additional HTML attributes</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

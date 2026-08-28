@@ -60,6 +60,7 @@ The [themes/](../themes) directory ships 45 standalone theme stylesheets (NHS En
 - [check-links](../bin/check-links): Verify relative markdown links resolve
 - [check-theme](../bin/check-theme): Verify the 45 reference themes honour their conformance contracts
 - [generate-theme-tokens](../bin/generate-theme-tokens): DTCG token source under themes/tokens/ — extract, generate, drift-check
+- [generate-api-docs](../bin/generate-api-docs): Canonical-contract sections on the site's component pages, generated from components/*/AGENTS.md — drift-checked
 
 ## Inspirations
 

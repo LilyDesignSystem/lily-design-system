@@ -30,3 +30,39 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/table/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: table</li>
+      <li>PascalCase: Table</li>
+      <li>Description: a table with rows and columns &lt;table&gt;</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;table&gt;</li>
+      <li>CSS class: .table</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>aria-label</code> -- provides the accessible name for the table so screen readers can announce its purpose</li>
+      <li>Semantic <code>&lt;table&gt;</code> element -- conveys tabular data structure to assistive technologies</li>
+      <li>Consumers should use <code>&lt;th scope="col"&gt;</code> for column headers and <code>&lt;th scope="row"&gt;</code> for row headers</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>None directly -- standard table navigation is handled by screen readers and browser built-in behavior</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible label for the table via <code>aria-label</code></li>
+      <li><code>children</code>: slot (required) -- table content including thead, tbody, tfoot, etc.</li>
+      <li><code>...restProps</code>: any -- additional HTML attributes spread onto the <code>&lt;table&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

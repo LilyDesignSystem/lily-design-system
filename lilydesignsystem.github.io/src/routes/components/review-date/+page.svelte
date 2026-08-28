@@ -30,3 +30,39 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/review-date/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: review-date</li>
+      <li>PascalCase: ReviewDate</li>
+      <li>Description: a display of a content review date</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;span&gt;</li>
+      <li>CSS class: .review-date</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>aria-label</code> -- provides screen reader context from the <code>label</code> prop</li>
+      <li><code>datetime</code> -- machine-readable date attribute on the <code>&lt;time&gt;</code> element</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>No keyboard interactions — this is a passive element</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible label for screen readers via <code>aria-label</code></li>
+      <li><code>datetime</code>: string (required) -- ISO 8601 date/time string for machine readability</li>
+      <li><code>children</code>: slot (required) -- human-readable display text for the date</li>
+      <li><code>...restProps</code>: any -- additional HTML attributes spread onto the time element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

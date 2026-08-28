@@ -30,3 +30,36 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/measurement-instance-view/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: measurement-instance-view</li>
+      <li>PascalCase: MeasurementInstanceView</li>
+      <li>Description: a read-only display of a measurement value and unit</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .measurement-instance-view</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>aria-label</code> -- optionally set from the <code>label</code> prop to provide additional context beyond the displayed value</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>No keyboard interactions — this is a passive element</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>value</code>: string (required) -- the measurement instance value to display</li>
+      <li><code>label</code>: string (optional) -- accessible name via aria-label for additional context</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

@@ -30,3 +30,45 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/slider/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: slider</li>
+      <li>PascalCase: Slider</li>
+      <li>Description: a draggable control for selecting a value along a track</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .slider</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>aria-label=&#123;label&#125;</code> -- provides an accessible name for the slider</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Left Arrow / Down Arrow: Decrease value by one step</li>
+      <li>Right Arrow / Up Arrow: Increase value by one step</li>
+      <li>Home: Set to minimum value</li>
+      <li>End: Set to maximum value</li>
+      <li>Page Up: Increase by a larger step (browser-dependent)</li>
+      <li>Page Down: Decrease by a larger step (browser-dependent)</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible name applied via <code>aria-label</code></li>
+      <li><code>value</code>: number (default: 50) -- current slider value; bindable</li>
+      <li><code>min</code>: number (default: 0) -- minimum allowed value</li>
+      <li><code>max</code>: number (default: 100) -- maximum allowed value</li>
+      <li><code>step</code>: number (default: 1) -- increment between allowed values</li>
+      <li><code>disabled</code>: boolean (default: false) -- whether the slider is disabled</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

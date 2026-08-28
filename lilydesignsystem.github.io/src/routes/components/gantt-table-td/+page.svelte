@@ -30,3 +30,37 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/gantt-table-td/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: gantt-table-td</li>
+      <li>PascalCase: GanttTableTD</li>
+      <li>Description: a Gantt chart table interactive grid data cell for planning schedule visualization &lt;td&gt;</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;td&gt;</li>
+      <li>CSS class: .gantt-table-td</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>Implicit <code>gridcell</code> role from the <code>&lt;td&gt;</code> element when inside a <code>role="grid"</code> table</li>
+      <li>Consumer may add <code>aria-label</code> or <code>aria-describedby</code> for cells with visual-only content (e.g., bar segments)</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>No keyboard interactions — this is a passive element</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>children</code>: slot (required) -- cell content such as bar segments, milestone markers, or text</li>
+      <li><code>...restProps</code>: any -- additional HTML attributes spread onto the <code>&lt;td&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

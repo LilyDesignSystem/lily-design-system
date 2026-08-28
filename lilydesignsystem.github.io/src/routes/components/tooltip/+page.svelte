@@ -30,3 +30,40 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tooltip/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: tooltip</li>
+      <li>PascalCase: Tooltip</li>
+      <li>Description: a small popup showing descriptive text on hover or focus</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .tooltip</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="tooltip"</code> -- identifies the element as a tooltip, a popup that displays a description for an element</li>
+      <li><code>id=&#123;id&#125;</code> -- used with <code>aria-describedby</code> on the trigger element to create an accessible association between the trigger and the tooltip</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Escape: The consumer should hide the tooltip when Escape is pressed (not built into the component; must be handled by the consumer)</li>
+      <li>The tooltip itself does not receive focus; it is a supplementary description for another element</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- the tooltip text content</li>
+      <li><code>visible</code>: boolean (default: false) -- bindable boolean controlling whether the tooltip is shown</li>
+      <li><code>id</code>: string (default: undefined) -- optional id for linking to a trigger element via <code>aria-describedby</code></li>
+      <li><code>...restProps</code>: unknown -- additional attributes spread onto the tooltip div</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

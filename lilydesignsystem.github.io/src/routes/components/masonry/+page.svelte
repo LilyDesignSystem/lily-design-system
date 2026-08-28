@@ -30,3 +30,38 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/masonry/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: masonry</li>
+      <li>PascalCase: Masonry</li>
+      <li>Description: a masonry layout container for variable-height items</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .masonry</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>None — purely structural</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>None — focusable children manage their own keyboard behavior</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>columns</code>: number (default: 3) -- number of columns</li>
+      <li><code>gap</code>: string (default: "1rem") -- gap CSS value</li>
+      <li><code>children</code>: slot -- masonry items</li>
+      <li><code>...restProps</code>: any additional HTML attributes</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

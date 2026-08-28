@@ -30,3 +30,40 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/option/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: option</li>
+      <li>PascalCase: Option</li>
+      <li>Description: an option element within a select dropdown</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;option&gt;</li>
+      <li>CSS class: .option</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>Native <code>&lt;option&gt;</code> provides built-in accessibility via the parent <code>&lt;select&gt;</code> element</li>
+      <li>Screen readers announce the option text and selected state automatically</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Native <code>&lt;option&gt;</code> keyboard behavior (managed by parent <code>&lt;select&gt;</code>)</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>value</code>: string (required) -- the option value submitted with the form</li>
+      <li><code>selected</code>: boolean (default: false) -- whether this option is pre-selected</li>
+      <li><code>disabled</code>: boolean (default: false) -- whether this option is disabled</li>
+      <li><code>children</code>: slot (required) -- option label text</li>
+      <li><code>...restProps</code>: Any additional HTML attributes passed to the <code>&lt;option&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

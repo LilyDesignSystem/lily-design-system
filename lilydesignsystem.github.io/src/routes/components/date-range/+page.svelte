@@ -30,3 +30,43 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/date-range/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: date-range</li>
+      <li>PascalCase: DateRange</li>
+      <li>Description: a display of a start and end date range</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;span&gt;</li>
+      <li>CSS class: .date-range</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>aria-label=&#123;label&#125;</code> on <code>&lt;fieldset&gt;</code> -- provides an accessible group name for the date range pair</li>
+      <li><code>aria-label=&#123;startLabel&#125;</code> on the start input -- identifies the start date field</li>
+      <li><code>aria-label=&#123;endLabel&#125;</code> on the end input -- identifies the end date field</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Tab: Move focus between the start and end date inputs</li>
+      <li>Up Arrow / Down Arrow: Increment/decrement the focused date segment</li>
+      <li>Left Arrow / Right Arrow: Move between date segments within an input</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible group label applied to the fieldset via <code>aria-label</code></li>
+      <li><code>startLabel</code>: string (required) -- accessible label for the start date input</li>
+      <li><code>endLabel</code>: string (required) -- accessible label for the end date input</li>
+      <li><code>start</code>: string (default: "") -- start date value in YYYY-MM-DD format; bindable</li>
+      <li><code>end</code>: string (default: "") -- end date value in YYYY-MM-DD format; bindable</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

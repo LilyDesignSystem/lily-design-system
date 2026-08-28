@@ -30,3 +30,37 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/emoji/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: emoji</li>
+      <li>PascalCase: Emoji</li>
+      <li>Description: a single emoji character with accessible name</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;span&gt;</li>
+      <li>CSS class: .emoji</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="img"</code> -- identifies the emoji as an image for assistive technologies</li>
+      <li><code>aria-label</code> -- provides a textual description of the emoji character for screen readers</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>No keyboard interactions — this is a passive element</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>emoji</code>: string (required) -- the emoji character(s) to display</li>
+      <li><code>label</code>: string (required) -- accessible name describing the emoji for screen readers</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

@@ -30,3 +30,42 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/color-picker-button/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: color-picker-button</li>
+      <li>PascalCase: ColorPickerButton</li>
+      <li>Description: a button showing a color swatch in a color picker</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;button&gt;</li>
+      <li>CSS class: .color-picker-button</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>aria-label=&#123;label&#125;</code> -- provides an accessible name for the swatch since it has no visible text content</li>
+      <li><code>aria-pressed=&#123;selected&#125;</code> -- indicates whether the swatch is currently selected in a toggle context</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>**Tab**: Moves focus to the swatch button</li>
+      <li>**Enter / Space**: Activates the button (native button behavior)</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>color</code>: string (required) -- CSS color value applied as background-color and exposed via <code>data-color</code></li>
+      <li><code>label</code>: string (required) -- accessible name announced by screen readers (e.g., "Red", "Ocean Blue")</li>
+      <li><code>selected</code>: boolean (default: <code>false</code>) -- whether the swatch is currently selected, reflected in <code>aria-pressed</code></li>
+      <li><code>disabled</code>: boolean (default: <code>false</code>) -- whether the swatch is disabled</li>
+      <li><code>onclick</code>: <code>(event: MouseEvent) =&gt; void</code> (default: <code>undefined</code>) -- click handler for selection</li>
+      <li><code>...restProps</code>: any additional HTML attributes spread onto the button</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

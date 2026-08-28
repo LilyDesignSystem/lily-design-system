@@ -30,3 +30,39 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/pagination-nav/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: pagination-nav</li>
+      <li>PascalCase: PaginationNav</li>
+      <li>Description: an ordered list of page navigation links</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;nav&gt;</li>
+      <li>CSS class: .pagination-nav</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>&lt;nav aria-label="..."&gt;</code> -- creates a navigation landmark with a descriptive label for the pagination region</li>
+      <li>Consumer applies <code>aria-current="page"</code> on the link representing the current page</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Tab: Moves focus between pagination links within the navigation</li>
+      <li>Enter: Activates the focused link to navigate to that page</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible name for the navigation landmark via <code>aria-label</code></li>
+      <li><code>children</code>: slot (required) -- PaginationList with page navigation items</li>
+      <li><code>...restProps</code>: any -- additional HTML attributes spread onto the <code>&lt;nav&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

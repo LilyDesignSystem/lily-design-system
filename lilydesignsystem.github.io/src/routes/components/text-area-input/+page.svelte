@@ -30,3 +30,42 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/text-area-input/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: text-area-input</li>
+      <li>PascalCase: TextAreaInput</li>
+      <li>Description: a multi-line text input area</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;textarea&gt;</li>
+      <li>CSS class: .text-area-input</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>aria-label=&#123;label&#125;</code> -- provides an accessible name for the text-area-input since there is no visible <code>&lt;label&gt;</code> element</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Tab: Moves focus to and from the text-area-input (native browser behavior)</li>
+      <li>All standard text editing keys function normally within the text-area-input (native browser behavior)</li>
+      <li>Enter: Inserts a new line (does not submit forms, unlike single-line inputs)</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible name applied via <code>aria-label</code></li>
+      <li><code>value</code>: string (default: "") -- bindable text content of the text-area-input</li>
+      <li><code>rows</code>: number (default: undefined) -- number of visible text rows (browser default if unset)</li>
+      <li><code>required</code>: boolean (default: false) -- whether the text-area-input is required for form submission</li>
+      <li><code>disabled</code>: boolean (default: false) -- whether the text-area-input is disabled</li>
+      <li><code>...restProps</code>: unknown -- additional attributes spread onto the text-area-input element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

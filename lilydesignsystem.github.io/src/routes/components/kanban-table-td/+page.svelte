@@ -30,3 +30,38 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/kanban-table-td/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: kanban-table-td</li>
+      <li>PascalCase: KanbanTableTD</li>
+      <li>Description: kanban board table interactive grid data cell for organizing items by status &lt;td&gt;</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;td&gt;</li>
+      <li>CSS class: .kanban-table-td</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="listitem"</code> -- identifies this as an item within a list container (the parent Kanban column with <code>role="list"</code>)</li>
+      <li><code>aria-label</code> -- optional accessible name for the card, set from the <code>label</code> prop, allowing screen readers to identify individual cards</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>None directly -- keyboard interaction depends on interactive elements within the card content provided by the consumer</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (optional) -- accessible label for the card via <code>aria-label</code></li>
+      <li><code>children</code>: slot (required) -- card content (title, assignee, metadata, etc.)</li>
+      <li><code>...restProps</code>: any -- additional HTML attributes spread onto the <code>&lt;div&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

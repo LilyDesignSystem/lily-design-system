@@ -30,3 +30,41 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/slide-out-drawer/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: slide-out-drawer</li>
+      <li>PascalCase: SlideOutDrawer</li>
+      <li>Description: a drawer that slides out from the side of the page</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .slide-out-drawer</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="dialog"</code> for modal dialog semantics</li>
+      <li><code>aria-label</code> from the label prop provides the accessible name</li>
+      <li><code>aria-modal="true"</code> indicates modal behavior (content behind the drawer is inert)</li>
+      <li><code>tabindex="-1"</code> for programmatic focus management</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Escape closes the drawer</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible label for the dialog</li>
+      <li><code>open</code>: boolean (default: false) -- whether the drawer is visible, bindable</li>
+      <li><code>children</code>: slot (required) -- drawer content</li>
+      <li><code>...restProps</code>: Any additional HTML attributes spread onto the <code>&lt;div&gt;</code></li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

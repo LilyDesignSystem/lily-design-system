@@ -30,3 +30,44 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/editable/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: editable</li>
+      <li>PascalCase: Editable</li>
+      <li>Description: an inline-editable text element that toggles between view and edit modes</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .editable</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>aria-label=&#123;label&#125;</code> -- provides an accessible name in both display and edit modes</li>
+      <li><code>role="button"</code> -- on the display span, indicates it is an activatable element</li>
+      <li><code>aria-disabled=&#123;disabled&#125;</code> -- on the display span when disabled, communicates the disabled state</li>
+      <li><code>tabindex="0"</code> / <code>tabindex="-1"</code> -- controls focusability based on disabled state</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Enter: Activate edit mode</li>
+      <li>Space: Activate edit mode</li>
+      <li>Enter: Confirm the edit and return to display mode</li>
+      <li>Escape: Cancel the edit and return to display mode</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>value</code>: string (default: "") -- current text value; bindable</li>
+      <li><code>label</code>: string (required) -- accessible name for the editable control, applied via <code>aria-label</code></li>
+      <li><code>editing</code>: boolean (default: false) -- whether the component is in edit mode; bindable</li>
+      <li><code>disabled</code>: boolean (default: false) -- whether editing is disabled</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

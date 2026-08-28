@@ -279,6 +279,8 @@ test_lockfiles_are_tracked
     || err "theme conformance failed; run bin/check-theme"
 "$top/bin/generate-theme-tokens" --check >/dev/null 2>&1 \
     || err "theme token blocks drift from themes/tokens/*.json; run bin/generate-theme-tokens"
+"$top/bin/generate-api-docs" --check >/dev/null 2>&1 \
+    || err "site contract sections drift from components/*/AGENTS.md; run bin/generate-api-docs"
 "$top/bin/sync-special-files" --check >/dev/null 2>&1 \
     || err "special files are out of sync; run bin/sync-special-files"
 

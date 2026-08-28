@@ -30,3 +30,37 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/do-list-item/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: do-list-item</li>
+      <li>PascalCase: DoListItem</li>
+      <li>Description: an encouraged-practice item in a do-list guideline list</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;li&gt;</li>
+      <li>CSS class: .do-list-item</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>Semantic <code>&lt;li&gt;</code> provides implicit <code>listitem</code> role</li>
+      <li>Inherits list context from the parent DoList <code>&lt;ul&gt;</code></li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>None directly -- standard list item with no interactive behavior</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>children</code>: slot (required) -- list item content describing a recommended action</li>
+      <li><code>...restProps</code>: Any additional HTML attributes spread onto the <code>&lt;li&gt;</code></li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

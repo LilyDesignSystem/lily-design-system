@@ -30,3 +30,40 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/icon/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: icon</li>
+      <li>PascalCase: Icon</li>
+      <li>Description: a container for displaying an icon</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;span&gt;</li>
+      <li>CSS class: .icon</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="img"</code> -- applied to meaningful icons so assistive technology treats the span as an image</li>
+      <li><code>aria-label="..."</code> -- provides the accessible name for meaningful icons</li>
+      <li><code>aria-hidden="true"</code> -- applied when <code>decorative</code> is true, hiding the icon from the accessibility tree</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>No keyboard interactions — this is a passive element</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (optional) -- accessible name announced by screen readers for meaningful icons</li>
+      <li><code>decorative</code>: boolean (default: false) -- when true, hides the icon from assistive technology and removes the img role</li>
+      <li><code>children</code>: slot (required) -- the icon content (text, SVG, or other markup)</li>
+      <li><code>...restProps</code>: unknown -- additional attributes spread onto the <code>&lt;span&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

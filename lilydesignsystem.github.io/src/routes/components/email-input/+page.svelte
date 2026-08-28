@@ -30,3 +30,39 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/email-input/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: email-input</li>
+      <li>PascalCase: EmailInput</li>
+      <li>Description: an input for entering an email address &lt;input type="email"&gt;</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;input&gt;</li>
+      <li>CSS class: .email-input</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>aria-label="..."</code> -- provides an accessible name for the email input since it has no visible <code>&lt;label&gt;</code> element</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>No keyboard interactions — this is a passive element</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible name via <code>aria-label</code></li>
+      <li><code>value</code>: string (default: <code>""</code>) -- current email value, two-way bindable via <code>value</code></li>
+      <li><code>required</code>: boolean (default: <code>false</code>) -- whether the field is required</li>
+      <li><code>disabled</code>: boolean (default: <code>false</code>) -- whether the field is disabled</li>
+      <li><code>...restProps</code>: unknown -- additional attributes spread onto the <code>&lt;input&gt;</code></li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

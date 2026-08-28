@@ -30,3 +30,37 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/red-amber-green-view/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: red-amber-green-view</li>
+      <li>PascalCase: RedAmberGreenView</li>
+      <li>Description: a read-only display of a red/amber/green status</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .red-amber-green-view</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>aria-label=&#123;label&#125;</code> -- provides the accessible name for the status display, allowing screen readers to announce the context of the value</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>No keyboard interactions — this is a passive element</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible label for screen readers via <code>aria-label</code></li>
+      <li><code>value</code>: string (default: <code>""</code>) -- the RAG status to display (e.g., "red", "amber", "green")</li>
+      <li><code>...restProps</code>: any additional HTML attributes spread onto the <code>&lt;span&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

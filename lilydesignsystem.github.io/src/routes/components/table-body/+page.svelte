@@ -30,3 +30,36 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/table-body/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: table-body</li>
+      <li>PascalCase: TableBody</li>
+      <li>Description: a table interactive grid tbody &lt;tbody&gt;</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;tbody&gt;</li>
+      <li>CSS class: .table-body</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>Native <code>&lt;tbody&gt;</code> semantics group the body rows of the table</li>
+      <li>No additional ARIA is needed for this passive structural element</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <p>Standard table keyboard interactions.</p>
+    <h3>Props</h3>
+    <ul>
+      <li><code>className</code>: string (default: <code>""</code>) -- CSS class name for the body group</li>
+      <li><code>children</code>: slot (required) -- data rows, typically TableRow components</li>
+      <li><code>...restProps</code>: unknown -- additional attributes spread onto the <code>&lt;tbody&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

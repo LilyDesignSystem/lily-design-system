@@ -30,3 +30,43 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/password-input-or-text-input-div/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: password-input-or-text-input-div</li>
+      <li>PascalCase: PasswordInputOrTextInputDiv</li>
+      <li>Description: an input for entering a password &lt;input type="password"&gt; or text &lt;input type="text"&gt; with show/hide toggle</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .password-input-or-text-input-div</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>aria-label=&#123;label&#125;</code> -- provides an accessible name for the password input</li>
+      <li><code>aria-label=&#123;toggleLabel&#125;</code> -- provides an accessible name for the toggle button</li>
+      <li><code>aria-pressed=&#123;visible&#125;</code> -- indicates whether the password is currently visible (on the toggle button)</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Enter/Space on the toggle button: Toggles password visibility between masked and plain text</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible name for the password input via <code>aria-label</code></li>
+      <li><code>value</code>: string (default: <code>""</code>) -- current password value; bindable with two-way <code>value</code> binding</li>
+      <li><code>showToggle</code>: boolean (default: <code>true</code>) -- whether to render the show/hide toggle button</li>
+      <li><code>toggleLabel</code>: string (default: <code>"Show password"</code>) -- accessible label for the toggle button</li>
+      <li><code>required</code>: boolean (default: <code>false</code>) -- whether the input is required</li>
+      <li><code>disabled</code>: boolean (default: <code>false</code>) -- whether the input is disabled</li>
+      <li><code>...restProps</code>: unknown -- additional attributes spread onto the wrapper <code>&lt;div&gt;</code></li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

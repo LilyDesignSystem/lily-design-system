@@ -30,3 +30,41 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tool-bar-button/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: tool-bar-button</li>
+      <li>PascalCase: ToolBarButton</li>
+      <li>Description: one action button in a tool bar</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;button&gt;</li>
+      <li>CSS class: .tool-bar-button</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>Implicit <code>button</code> role from the <code>&lt;button&gt;</code> element</li>
+      <li><code>disabled</code> attribute communicates disabled state to assistive technology</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Tab: Focus the button (when not inside a ToolBar managing roving focus)</li>
+      <li>Enter / Space: Activate the button (browser default)</li>
+      <li>Arrow keys: Handled by parent ToolBar for roving focus navigation</li>
+      <li>Button is skipped in tab order when <code>disabled</code> is true</li>
+    </ul>
+    <h3>Props</h3>
+    <p>| Prop           | Type            | Default    | Description                                            |</p>
+    <p>| -------------- | --------------- | ---------- | ------------------------------------------------------ |</p>
+    <p>| <code>disabled</code>     | <code>boolean</code>       | <code>false</code>    | Whether the button is disabled                         |</p>
+    <p>| <code>children</code>     | <code>slot</code>       | (required) | Button content                                         |</p>
+    <p>| <code>...restProps</code> | HTML attributes |            | Additional attributes passed to the <code>&lt;button&gt;</code> element |</p>
+</section>
+<!-- END generated: canonical contract -->

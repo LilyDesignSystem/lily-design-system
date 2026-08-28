@@ -30,3 +30,41 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/breadcrumb-nav/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: breadcrumb-nav</li>
+      <li>PascalCase: BreadcrumbNav</li>
+      <li>Description: a navigation container for breadcrumb trail links</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;nav&gt;</li>
+      <li>CSS class: .breadcrumb-nav</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>&lt;nav&gt;</code> with <code>aria-label</code> creates a navigation landmark for the breadcrumb trail</li>
+      <li><code>&lt;ol&gt;</code> conveys the ordered hierarchical relationship of the trail</li>
+      <li><code>aria-current="page"</code> on the BreadcrumbListItem for the current page</li>
+      <li>Implicit <code>listitem</code> role from semantic <code>&lt;li&gt;</code> elements</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Tab: Focus moves between links in the breadcrumb trail</li>
+      <li>Enter: Activates the focused breadcrumb link</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible name for the navigation landmark</li>
+      <li><code>children</code>: slot (required) -- BreadcrumbListItem components</li>
+      <li><code>...restProps</code>: unknown -- additional attributes spread onto the <code>&lt;nav&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

@@ -30,3 +30,46 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/split-view/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: split-view</li>
+      <li>PascalCase: SplitView</li>
+      <li>Description: a two-panel resizable layout container with a draggable divider between them</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;div&gt; container with two &lt;section&gt; panels and a role="separator" divider</li>
+      <li>CSS class: .split-view</li>
+      <li>Interactive: yes (separator is focusable)</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>Container: aria-label (required)</li>
+      <li>Container: data-orientation, data-split-percent for consumer CSS</li>
+      <li>Default divider: role="separator", aria-orientation, aria-valuenow, aria-valuemin, aria-valuemax, tabindex="0"</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Tab: Focus to and from the divider</li>
+      <li>Arrow keys: (Consumer-provided) move divider position</li>
+      <li>Home / End: (Consumer-provided) snap to min / max</li>
+      <li>Enter / Space: (Consumer-provided) toggle a collapsed panel</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (REQUIRED)</li>
+      <li><code>orientation</code>: "horizontal" | "vertical" (default "horizontal")</li>
+      <li><code>primary</code>: slot/snippet/ReactNode (REQUIRED)</li>
+      <li><code>secondary</code>: slot/snippet/ReactNode (REQUIRED)</li>
+      <li><code>divider</code>: slot/snippet/ReactNode (optional)</li>
+      <li><code>splitPercent</code>: number 0-100 (default 50)</li>
+      <li><code>...restProps</code>: any additional HTML attributes</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

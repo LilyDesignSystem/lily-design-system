@@ -30,3 +30,42 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/overlay-container/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: overlay-container</li>
+      <li>PascalCase: OverlayContainer</li>
+      <li>Description: a full-viewport overlay backdrop for modals and sheets</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .overlay-container</li>
+      <li>Interactive: yes (forwards backdrop-click)</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="presentation"</code></li>
+      <li><code>aria-hidden=&#123;!open&#125;</code></li>
+      <li>Modal child carries role="dialog" / aria-modal — not this container</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>None on backdrop itself</li>
+      <li>Modal child manages focus trap and Escape</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>open</code>: boolean (default: false)</li>
+      <li><code>label</code>: string (optional) -- aria-label</li>
+      <li><code>onclick</code> / <code>onClick</code>: callback (optional)</li>
+      <li><code>children</code>: slot -- overlay content</li>
+      <li><code>...restProps</code>: any additional HTML attributes</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

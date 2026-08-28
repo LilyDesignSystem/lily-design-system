@@ -30,3 +30,38 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/go-to-next-section/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: go-to-next-section</li>
+      <li>PascalCase: GoToNextSection</li>
+      <li>Description: a link that takes users to the next section of the current page</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;a&gt;</li>
+      <li>CSS class: .go-to-next-section</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>Native anchor accessibility — the <code>href</code> provides the destination, the link text provides the accessible name</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Tab: moves focus onto the link</li>
+      <li>Enter: navigates to the linked anchor (native browser behavior)</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>href</code>: string (required) — anchor URL of the next section, typically <code>#section-id</code></li>
+      <li><code>label</code>: string (required) — visible link text</li>
+      <li><code>className</code>: string (optional) — extra CSS classes appended to <code>go-to-next-section</code></li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

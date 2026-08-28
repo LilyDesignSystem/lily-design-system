@@ -30,3 +30,39 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/collection-list/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: collection-list</li>
+      <li>PascalCase: CollectionList</li>
+      <li>Description: a compact list of multiple related items such as articles or events</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;ul&gt;</li>
+      <li>CSS class: .collection-list</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>Implicit <code>list</code> role from the <code>&lt;ul&gt;</code> element</li>
+      <li><code>aria-label</code> is rendered only when <code>label</code> is provided</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Tab: moves focus to interactive descendants of the items</li>
+      <li>The list itself is not interactive</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (optional) -- aria-label for the list</li>
+      <li><code>children</code>: slot -- <code>collection-list-item</code> children</li>
+      <li><code>...restProps</code>: any additional HTML attributes</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

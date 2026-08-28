@@ -30,3 +30,41 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/switch-button/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: switch-button</li>
+      <li>PascalCase: SwitchButton</li>
+      <li>Description: a toggle switch for turning a setting on or off</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;button&gt;</li>
+      <li>CSS class: .switch-button</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="switch"</code> -- identifies the element as a two-state toggle switch</li>
+      <li><code>aria-checked=&#123;checked&#125;</code> -- communicates whether the switch is currently on (<code>true</code>) or off (<code>false</code>)</li>
+      <li><code>aria-label=&#123;label&#125;</code> -- provides the accessible name for the switch control</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Space: toggles the switch between on and off states (custom handler with <code>preventDefault</code>)</li>
+      <li>Enter: activates the button (native button behavior)</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible name applied via <code>aria-label</code></li>
+      <li><code>checked</code>: boolean (default: false) -- whether the switch is on, bindable with two-way <code>checked</code> binding</li>
+      <li><code>disabled</code>: boolean (default: false) -- whether the switch is disabled</li>
+      <li><code>...restProps</code>: spread onto the <code>&lt;button&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

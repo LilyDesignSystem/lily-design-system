@@ -30,3 +30,39 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/details/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: details</li>
+      <li>PascalCase: Details</li>
+      <li>Description: a disclosure widget that shows and hides content</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;details&gt;</li>
+      <li>CSS class: .details</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>Native <code>&lt;details&gt;</code> and <code>&lt;summary&gt;</code> elements provide built-in ARIA semantics</li>
+      <li>The browser automatically exposes the expanded/collapsed state to assistive technology</li>
+      <li>No additional ARIA attributes are needed because the native elements handle accessibility</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Enter or Space: toggles the disclosure open/closed when the <code>&lt;summary&gt;</code> element is focused (native browser behavior)</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>summary</code>: string (required) -- text displayed in the summary toggle</li>
+      <li><code>open</code>: boolean (default: false) -- whether the details section is expanded; bindable</li>
+      <li><code>children</code>: slot (required) -- content revealed when expanded</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

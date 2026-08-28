@@ -30,3 +30,40 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tree-link/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: tree-link</li>
+      <li>PascalCase: TreeLink</li>
+      <li>Description: one link in the tree</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;a&gt;</li>
+      <li>CSS class: .tree-link</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>Implicit <code>link</code> role from the <code>&lt;a&gt;</code> element</li>
+      <li><code>aria-label</code> -- optional override for descriptive screen reader text, set from the <code>label</code> prop</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Tab: Focus the link</li>
+      <li>Enter: Activate the link (browser default)</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>href</code>: string (required) -- the URL to navigate to</li>
+      <li><code>label</code>: string (optional, default: undefined) -- accessible label override via <code>aria-label</code></li>
+      <li><code>children</code>: slot (required) -- the link text/content</li>
+      <li><code>...restProps</code>: Any additional HTML attributes spread onto the <code>&lt;a&gt;</code></li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

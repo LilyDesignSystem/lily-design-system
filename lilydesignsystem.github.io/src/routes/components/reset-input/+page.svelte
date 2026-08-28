@@ -30,3 +30,39 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/reset-input/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: reset-input</li>
+      <li>PascalCase: ResetInput</li>
+      <li>Description: a button input that resets a form to default values &lt;input type="reset"&gt;</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;input&gt;</li>
+      <li>CSS class: .reset-input</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>Native <code>&lt;input type="reset"&gt;</code> exposes itself as a <code>button</code> to assistive technology</li>
+      <li><code>value</code> (or label override) provides the accessible name</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Enter: activates the reset button</li>
+      <li>Space: activates the reset button</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>value</code>: string (default: "Reset") -- the visible button text</li>
+      <li><code>disabled</code>: boolean (default: false) -- whether the button is disabled</li>
+      <li><code>...restProps</code>: spread onto the <code>&lt;input&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

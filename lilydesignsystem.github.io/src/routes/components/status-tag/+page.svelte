@@ -30,3 +30,38 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/status-tag/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: status-tag</li>
+      <li>PascalCase: StatusTag</li>
+      <li>Description: a tag showing the current status of a task</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;span&gt;</li>
+      <li>CSS class: .status-tag</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="status"</code> is NOT applied by default — this component is a static label, not a live region</li>
+      <li>Consumers wanting screen reader announcements when status changes should wrap the tag in a <code>Notification</code> or apply <code>aria-live="polite"</code> themselves</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>No keyboard interactions — this is a passive label</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) (default: —) — Status text shown to users</li>
+      <li><code>tone</code>: "neutral" | "success" | "warning" | "danger" | "info" (default: "neutral") — Tone hint used by consumers to drive styling</li>
+      <li><code>...restProps</code>: HTML attributes (default: —) — Spread onto the root <code>&lt;span&gt;</code></li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

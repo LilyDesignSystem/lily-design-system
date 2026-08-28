@@ -30,3 +30,41 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/net-promoter-score-picker-button/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: net-promoter-score-picker-button</li>
+      <li>PascalCase: NetPromoterScorePickerButton</li>
+      <li>Description: a picker button for selecting a 0-10 Net Promoter Score</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;button&gt;</li>
+      <li>CSS class: .net-promoter-score-picker-button</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>aria-pressed</code> -- indicates whether this button is the currently selected score (<code>true</code> when selected, <code>false</code> otherwise)</li>
+      <li><code>aria-label</code> -- provides the accessible name for the button (e.g., "8")</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Tab: Focus the button</li>
+      <li>Enter / Space: Activate the button to select this score</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>value</code>: string (required) -- the NPS score value this button represents (e.g., "0" through "10")</li>
+      <li><code>selected</code>: boolean (default: false) -- whether this button is currently selected</li>
+      <li><code>label</code>: string (required) -- accessible label for the button (e.g., "0 - Not at all likely", "10 - Extremely likely")</li>
+      <li><code>onclick</code>: callback -- handler called when the button is clicked</li>
+      <li><code>...restProps</code>: any -- additional HTML attributes spread onto the <code>&lt;button&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

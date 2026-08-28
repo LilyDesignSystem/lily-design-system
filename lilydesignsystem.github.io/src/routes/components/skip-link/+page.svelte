@@ -30,3 +30,39 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/skip-link/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: skip-link</li>
+      <li>PascalCase: SkipLink</li>
+      <li>Description: a hidden link for keyboard users to skip to main content</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;a&gt;</li>
+      <li>CSS class: .skip-link</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>No explicit ARIA roles or attributes are needed; the <code>&lt;a&gt;</code> element with an <code>href</code> is natively accessible as a link</li>
+      <li>The link text content (<code>label</code> prop) serves as the accessible name</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Tab: Moves focus to the skip link (should be the first focusable element on the page)</li>
+      <li>Enter: Activates the link, moving focus to the target anchor element</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>href</code>: string (default: <code>"#content"</code>) -- the anchor target that the link navigates to</li>
+      <li><code>label</code>: string (default: <code>"Skip to content"</code>) -- the visible link text</li>
+      <li><code>...restProps</code>: unknown -- additional attributes spread onto the <code>&lt;a&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

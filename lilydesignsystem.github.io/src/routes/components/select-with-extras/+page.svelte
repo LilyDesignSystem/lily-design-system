@@ -30,3 +30,45 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/select-with-extras/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: select-with-extras</li>
+      <li>PascalCase: SelectWithExtras</li>
+      <li>Description: a select dropdown with additional features like search or groups</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .select-with-extras</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>aria-label=&#123;label&#125;</code> -- provides an accessible name for the select element so screen readers announce its purpose</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Tab: Moves focus to the native select element</li>
+      <li>Arrow Up / Arrow Down: Navigates between options (native select behavior)</li>
+      <li>Space / Enter: Opens the select dropdown on some platforms (native select behavior)</li>
+      <li>Escape: Closes the dropdown if open (native select behavior)</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible label for the select element, applied via <code>aria-label</code></li>
+      <li><code>value</code>: string (default: <code>""</code>) -- the currently selected value; two-way bindable via <code>value</code></li>
+      <li><code>required</code>: boolean (default: <code>false</code>) -- whether the select is required for form validation</li>
+      <li><code>disabled</code>: boolean (default: <code>false</code>) -- whether the select is disabled</li>
+      <li><code>children</code>: slot (required) -- <code>&lt;option&gt;</code> elements for the select</li>
+      <li><code>before</code>: slot (optional) -- content rendered before the select element</li>
+      <li><code>after</code>: slot (optional) -- content rendered after the select element</li>
+      <li><code>...restProps</code>: unknown -- additional attributes spread onto the wrapper <code>&lt;div&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

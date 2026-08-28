@@ -30,3 +30,47 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/date-time-now-input/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: date-time-now-input</li>
+      <li>PascalCase: DateTimeNowInput</li>
+      <li>Description: an input for entering a date and time and "now" button &lt;input type="date"&gt;&lt;input type="time"&gt;&lt;button type="button"&gt;</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .date-time-now-input</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>aria-label=&#123;dateLabel&#125;</code> -- provides an accessible name for the date input</li>
+      <li><code>aria-label=&#123;timeLabel&#125;</code> -- provides an accessible name for the time input</li>
+      <li><code>aria-label=&#123;nowLabel&#125;</code> -- provides an accessible name for the "Now" button</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Tab: Moves focus between the date input, time input, and "Now" button</li>
+      <li>Enter/Space on the "Now" button: Sets both inputs to the current date and time</li>
+      <li>Arrow keys: Navigate within the date and time picker fields (native browser behavior)</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible name for the wrapper group via <code>aria-label</code></li>
+      <li><code>dateLabel</code>: string (default: "Date") -- accessible name for the date input via <code>aria-label</code></li>
+      <li><code>timeLabel</code>: string (default: "Time") -- accessible name for the time input via <code>aria-label</code></li>
+      <li><code>nowLabel</code>: string (default: "Now") -- accessible label and text for the "Now" button</li>
+      <li><code>dateValue</code>: string (default: "") -- bindable date string (format: YYYY-MM-DD)</li>
+      <li><code>timeValue</code>: string (default: "") -- bindable time string (format: HH:mm)</li>
+      <li><code>required</code>: boolean (default: false) -- whether the inputs are required for form submission</li>
+      <li><code>disabled</code>: boolean (default: false) -- whether the inputs and button are disabled</li>
+      <li><code>...restProps</code>: unknown -- additional attributes spread onto the wrapper <code>&lt;div&gt;</code></li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

@@ -30,3 +30,49 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/color-picker/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: color-picker</li>
+      <li>PascalCase: ColorPicker</li>
+      <li>Description: a two-dimensional board for picking colors by hue and saturation</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .color-picker</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="slider"</code> -- identifies the element as a slider control</li>
+      <li><code>aria-label="..."</code> -- provides an accessible name for the slider</li>
+      <li><code>aria-valuenow</code> -- current X value (0-100)</li>
+      <li><code>aria-valuemin="0"</code> -- minimum slider value</li>
+      <li><code>aria-valuemax="100"</code> -- maximum slider value</li>
+      <li><code>aria-disabled="true"</code> -- set when the control is disabled</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>ArrowRight: increase X by 1 (Shift: by 10)</li>
+      <li>ArrowLeft: decrease X by 1 (Shift: by 10)</li>
+      <li>ArrowUp: decrease Y by 1 (Shift: by 10)</li>
+      <li>ArrowDown: increase Y by 1 (Shift: by 10)</li>
+      <li>Home: set X to 0</li>
+      <li>End: set X to 100</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>x</code>: number (default: <code>0</code>) -- horizontal position (0-100, saturation), two-way bindable via <code>x</code></li>
+      <li><code>y</code>: number (default: <code>0</code>) -- vertical position (0-100, brightness), two-way bindable via <code>y</code></li>
+      <li><code>label</code>: string (required) -- accessible name via <code>aria-label</code></li>
+      <li><code>disabled</code>: boolean (default: <code>false</code>) -- whether the control is disabled</li>
+      <li><code>...restProps</code>: unknown -- additional attributes spread onto the <code>&lt;div&gt;</code></li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

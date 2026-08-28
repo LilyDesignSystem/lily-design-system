@@ -30,3 +30,39 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/menu-bar-button/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: menu-bar-button</li>
+      <li>PascalCase: MenuBarButton</li>
+      <li>Description: one item in a menu bar</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;button&gt;</li>
+      <li>CSS class: .menu-bar-button</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="menuitem"</code> -- identifies this as an item within a menubar</li>
+      <li><code>tabindex="-1"</code> -- removed from tab order; focus managed by parent MenuBar</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Arrow keys: Focus movement is managed by the parent MenuBar</li>
+      <li>Enter / Space: Activate the menu item (consumer-provided handler)</li>
+      <li><code>tabindex="-1"</code> enables programmatic focus from parent keyboard navigation</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>children</code>: slot (required) -- content of the menu bar item</li>
+      <li><code>...restProps</code>: Any additional HTML attributes passed to the <code>&lt;div&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

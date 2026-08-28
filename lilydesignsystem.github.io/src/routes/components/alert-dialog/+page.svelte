@@ -30,3 +30,43 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/alert-dialog/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: alert-dialog</li>
+      <li>PascalCase: AlertDialog</li>
+      <li>Description: a modal dialog for urgent messages requiring user acknowledgment</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;dialog&gt;</li>
+      <li>CSS class: .alert-dialog</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="alertdialog"</code></li>
+      <li><code>aria-modal="true"</code></li>
+      <li><code>aria-labelledby</code> references the title element</li>
+      <li><code>aria-describedby</code> references the description element (when present)</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Escape: Closes the dialog (consumer must implement via onkeydown)</li>
+      <li>Tab: Focus should be trapped within the dialog (consumer responsibility)</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>open</code>: boolean (default: false, bindable) -- whether the dialog is visible</li>
+      <li><code>title</code>: string (required) -- dialog heading, referenced by aria-labelledby</li>
+      <li><code>description</code>: string (optional) -- dialog message, referenced by aria-describedby</li>
+      <li><code>children</code>: slot -- action buttons and additional content</li>
+      <li><code>...restProps</code>: Any additional HTML attributes</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

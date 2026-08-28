@@ -30,3 +30,38 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/hero/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: hero</li>
+      <li>PascalCase: Hero</li>
+      <li>Description: a large box or image with a title and description</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;section&gt;</li>
+      <li>CSS class: .hero</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>Implicit <code>region</code> role from <code>&lt;section&gt;</code> element with <code>aria-label</code></li>
+      <li><code>aria-label</code> -- describes the hero section for screen readers</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>None at the section level -- interactive children handle their own keyboard interactions</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible label for the hero section</li>
+      <li><code>children</code>: slot (required) -- hero content</li>
+      <li><code>...restProps</code>: Any additional HTML attributes</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

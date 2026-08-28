@@ -364,6 +364,7 @@ Scripts live in `bin/`:
 | `bin/check-links`                     | Verify relative markdown links resolve.              |
 | `bin/check-theme`                     | Conformance checks for the 45 reference themes.      |
 | `bin/generate-theme-tokens`           | DTCG token source: extract / generate / drift-check. |
+| `bin/generate-api-docs`               | Site canonical-contract sections from AGENTS metadata; drift-checked. |
 
 Note on syncing: two syncs run from the canonical root. `bin/sync-special-files`
 propagates the top-level special files (LICENSE, CONTRIBUTING, SECURITY,

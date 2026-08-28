@@ -30,3 +30,43 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/chat-nav/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: chat-nav</li>
+      <li>PascalCase: ChatNav</li>
+      <li>Description: a navigation container for chat information</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;nav&gt;</li>
+      <li>CSS class: .chat-nav</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>&lt;nav&gt;</code> with <code>aria-label</code> creates a navigation landmark for the chat list</li>
+      <li><code>&lt;ol&gt;</code> conveys the ordered relationship of the chat entries</li>
+      <li>Implicit <code>listitem</code> role from semantic <code>&lt;li&gt;</code> elements</li>
+      <li><code>aria-current</code> on the currently selected chat item</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Tab: Focus moves between interactive elements in the chat list</li>
+      <li>Enter: Activates the focused chat list item or link</li>
+      <li>Arrow Down: Move focus to the next chat list item</li>
+      <li>Arrow Up: Move focus to the previous chat list item</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible name for the navigation landmark</li>
+      <li><code>children</code>: slot (required) -- ChatList with ChatListItem components</li>
+      <li><code>...restProps</code>: unknown -- additional attributes spread onto the <code>&lt;nav&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

@@ -30,3 +30,37 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/collapsible/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: collapsible</li>
+      <li>PascalCase: Collapsible</li>
+      <li>Description: a container that can be expanded or collapsed</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .collapsible</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>No custom ARIA attributes required -- native <code>&lt;details&gt;</code>/<code>&lt;summary&gt;</code> elements provide built-in expanded/collapsed state announcements to screen readers</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Enter/Space: Toggle the disclosure open/closed (handled natively by <code>&lt;summary&gt;</code>)</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>summary</code>: string (required) -- the clickable summary text shown as the toggle trigger</li>
+      <li><code>open</code>: boolean (default: false) -- whether the content is expanded; bindable for two-way control</li>
+      <li><code>children</code>: slot (required) -- the collapsible content revealed when expanded</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

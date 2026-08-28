@@ -30,3 +30,42 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/image-input/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: image-input</li>
+      <li>PascalCase: ImageInput</li>
+      <li>Description: a graphical submit button that displays an image &lt;input type="image"&gt;</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;input&gt;</li>
+      <li>CSS class: .image-input</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>Native <code>&lt;input type="image"&gt;</code> exposes itself as a <code>button</code> to assistive technology</li>
+      <li><code>alt</code> (set from <code>label</code>) provides the accessible name — required</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Enter: activates the image button and submits the form</li>
+      <li>Space: activates the image button and submits the form</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>src</code>: string (required) -- URL of the image to display</li>
+      <li><code>alt</code>: string (required) -- alternative text for the image; serves as accessible name</li>
+      <li><code>width</code>: number | undefined (default: <code>undefined</code>) -- width of the image in pixels</li>
+      <li><code>height</code>: number | undefined (default: <code>undefined</code>) -- height of the image in pixels</li>
+      <li><code>disabled</code>: boolean (default: <code>false</code>) -- whether the button is disabled</li>
+      <li><code>...restProps</code>: unknown -- additional attributes spread onto the <code>&lt;input&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

@@ -30,3 +30,44 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/scroller-video/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: scroller-video</li>
+      <li>PascalCase: ScrollerVideo</li>
+      <li>Description: a video-driven scrollytelling component with frame-by-frame scrubbing</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .scroller-video</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>aria-label</code> on container</li>
+      <li><code>role="img"</code> with <code>aria-roledescription="scrollable video"</code> on video area</li>
+      <li><code>alt</code> text for non-visual access</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Standard scroll behavior drives video position</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>src</code>: string (required) -- video source URL</li>
+      <li><code>children</code>: slot (required) -- foreground step content overlaid on video</li>
+      <li><code>offset</code>: number (default: 0.5) -- viewport offset where step triggers</li>
+      <li><code>index</code>: number (bindable, default: 0) -- current active step index</li>
+      <li><code>progress</code>: number (bindable, default: 0) -- overall scroll progress (0-1)</li>
+      <li><code>label</code>: string (required) -- accessible label describing the video story</li>
+      <li><code>alt</code>: string (required) -- text alternative describing the video content</li>
+      <li><code>...restProps</code>: Any additional HTML attributes</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

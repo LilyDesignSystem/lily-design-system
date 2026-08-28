@@ -30,3 +30,45 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tour-list-item/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: tour-list-item</li>
+      <li>PascalCase: TourListItem</li>
+      <li>Description: one step in a tour guide list</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;li&gt;</li>
+      <li>CSS class: .tour-list-item</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="group"</code> -- groups the step content semantically</li>
+      <li><code>aria-roledescription="step"</code> -- identifies the element as a tour step</li>
+      <li><code>aria-label</code> -- provides an accessible name, optionally including "Step N of M"</li>
+      <li><code>aria-current="step"</code> -- indicates the currently active step</li>
+      <li><code>aria-hidden="true"</code> -- hides inactive steps from assistive technology</li>
+      <li><code>hidden</code> -- hides inactive steps from visual rendering</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>None directly -- keyboard interactions are managed by the parent TourGuideList and by interactive elements within step content</li>
+    </ul>
+    <h3>Props</h3>
+    <p>| Prop           | Type            | Default    | Description                                             |</p>
+    <p>| -------------- | --------------- | ---------- | ------------------------------------------------------- |</p>
+    <p>| <code>label</code>        | <code>string</code>        | (required) | Accessible name for this step via <code>aria-label</code>          |</p>
+    <p>| <code>current</code>      | <code>boolean</code>       | <code>false</code>    | Whether this step is the currently visible step         |</p>
+    <p>| <code>stepNumber</code>   | <code>number</code>        | (optional) | 1-based step number (e.g. 1, 2, 3)                      |</p>
+    <p>| <code>totalSteps</code>   | <code>number</code>        | (optional) | Total number of steps in the tour                       |</p>
+    <p>| <code>children</code>     | <code>slot</code>       | (required) | Step content                                            |</p>
+    <p>| <code>...restProps</code> | HTML attributes |            | Additional attributes spread onto the container <code>&lt;div&gt;</code> |</p>
+</section>
+<!-- END generated: canonical contract -->

@@ -30,3 +30,41 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/theme-select/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: theme-select</li>
+      <li>PascalCase: ThemeSelect</li>
+      <li>Description: a select dropdown for choosing a theme</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;select&gt;</li>
+      <li>CSS class: .theme-select</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>aria-label=&#123;label&#125;</code> -- provides an accessible name for the theme select since there is no visible <code>&lt;label&gt;</code> element</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Tab: Moves focus to and from the select element (native browser behavior)</li>
+      <li>Space/Enter: Opens the dropdown list when focused (native browser behavior)</li>
+      <li>Arrow Up/Down: Navigates through theme options (native browser behavior)</li>
+      <li>Escape: Closes the dropdown list (native browser behavior)</li>
+    </ul>
+    <h3>Props</h3>
+    <p>| Prop           | Type            | Default    | Description                                               |</p>
+    <p>| -------------- | --------------- | ---------- | --------------------------------------------------------- |</p>
+    <p>| <code>label</code>        | <code>string</code>        | (required) | Accessible name applied via <code>aria-label</code>                  |</p>
+    <p>| <code>value</code>        | <code>string</code>        | <code>""</code>       | Bindable string representing the currently selected theme |</p>
+    <p>| <code>children</code>     | <code>slot</code>       | (required) | <code>&lt;option&gt;</code> elements representing available themes         |</p>
+    <p>| <code>...restProps</code> | HTML attributes |            | Additional attributes spread onto the <code>&lt;select&gt;</code> element  |</p>
+</section>
+<!-- END generated: canonical contract -->

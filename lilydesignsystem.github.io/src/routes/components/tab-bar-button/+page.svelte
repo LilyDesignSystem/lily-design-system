@@ -30,3 +30,43 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tab-bar-button/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: tab-bar-button</li>
+      <li>PascalCase: TabBarButton</li>
+      <li>Description: one tab button in a tab group</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;button&gt;</li>
+      <li>CSS class: .tab-bar-button</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="tab"</code> identifies this as a tab</li>
+      <li><code>aria-selected</code> communicates selection state</li>
+      <li><code>aria-controls</code> links to the corresponding tabpanel</li>
+      <li>Roving <code>tabindex</code> (0 for selected, -1 for unselected)</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>TabBarButton: moves focus to the selected tab in the tablist</li>
+      <li>ArrowLeft/ArrowRight: moves between tabs (handled by parent tablist)</li>
+      <li>Enter/Space: activates the tab (native button behavior)</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>selected</code>: boolean (default: false) -- whether this tab is active</li>
+      <li><code>controls</code>: string (required) -- id of the associated tabpanel</li>
+      <li><code>children</code>: slot -- tab label content</li>
+      <li><code>...restProps</code>: Any additional HTML attributes</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

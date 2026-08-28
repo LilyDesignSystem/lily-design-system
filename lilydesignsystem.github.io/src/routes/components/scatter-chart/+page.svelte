@@ -30,3 +30,41 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/scatter-chart/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: scatter-chart</li>
+      <li>PascalCase: ScatterChart</li>
+      <li>Description: a scatter chart visualization using dots to display data</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;figure&gt;</li>
+      <li>CSS class: .scatter-chart</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="img"</code> exposes the chart as a single image</li>
+      <li><code>aria-label</code> and <code>aria-describedby</code> provide the accessible name and description</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>No keyboard interactions on the rendered dots</li>
+      <li>Data table (when rendered) follows native table keyboard behaviour</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) (default: —) — Accessible name</li>
+      <li><code>description</code>: string (default: —) — Extended description</li>
+      <li><code>series</code>: array of series (default: []) — Each series is <code>&#123; name: string; points: &#123; x: number; y: number &#125;[] &#125;</code></li>
+      <li><code>dataTable</code>: slot (default: —) — Optional fallback <code>&lt;table&gt;</code></li>
+      <li><code>...restProps</code>: HTML attributes (default: —) — Spread onto the root <code>&lt;figure&gt;</code></li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

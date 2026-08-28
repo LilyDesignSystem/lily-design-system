@@ -30,3 +30,43 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/segment-group-item/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: segment-group-item</li>
+      <li>PascalCase: SegmentGroupItem</li>
+      <li>Description: one selectable segment in a segment group</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .segment-group-item</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="radio"</code> -- identifies this button as a radio-like option within a radiogroup</li>
+      <li><code>aria-checked</code> -- indicates whether this segment is selected (<code>true</code>) or not (<code>false</code>)</li>
+      <li>Roving tabindex -- only the checked item has <code>tabindex="0"</code>, others have <code>tabindex="-1"</code></li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Tab: Focus moves to the checked segment (or first segment if none checked)</li>
+      <li>Arrow Left / Arrow Right: Consumer should implement arrow key navigation on the parent SegmentGroup</li>
+      <li>Space / Enter: Activates the focused segment (native button behavior)</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>checked</code>: boolean (default <code>false</code>) -- whether this segment is currently selected</li>
+      <li><code>value</code>: string (default <code>""</code>) -- value associated with this segment, exposed as <code>data-value</code></li>
+      <li><code>disabled</code>: boolean (default <code>false</code>) -- whether the segment is disabled</li>
+      <li><code>children</code>: slot (required) -- label content to render inside the button</li>
+      <li><code>...restProps</code>: unknown -- additional attributes spread onto the <code>&lt;button&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

@@ -30,3 +30,37 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/qr-code-image/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: qr-code-image</li>
+      <li>PascalCase: QrCodeImage</li>
+      <li>Description: a QR code image generated from text or URL data</li>
+      <li>Status: experimental — recent catalog addition with the least accumulated depth; contract may still move</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .qr-code-image</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="img"</code> -- identifies the container as an image for assistive technologies</li>
+      <li><code>aria-label</code> -- provides an accessible description of the QR code content, ensuring screen reader users know what the code encodes</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>No keyboard interactions — this is a passive element</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible description of the QR code content via <code>aria-label</code></li>
+      <li><code>children</code>: slot (required) -- QR code rendering (SVG, canvas, or other visual output)</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

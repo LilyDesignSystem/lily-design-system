@@ -30,3 +30,42 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/menu-item/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: menu-item</li>
+      <li>PascalCase: MenuItem</li>
+      <li>Description: one item in a menu</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .menu-item</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="menuitem"</code> identifies this as a menu item</li>
+      <li><code>tabindex="-1"</code> for roving focus management</li>
+      <li>Supports <code>aria-disabled</code> for disabled state</li>
+      <li>Supports <code>aria-haspopup</code> for submenu triggers</li>
+      <li>Supports <code>aria-expanded</code> for items with open/closed submenus</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Focus is managed by the parent menu using ArrowUp/ArrowDown</li>
+      <li>Enter or Space activates the menu item (handled by consumer event listeners)</li>
+      <li>Home/End move focus to the first/last item (handled by the parent menu)</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>children</code>: slot -- menu item content</li>
+      <li><code>...restProps</code>: Any additional HTML attributes spread onto the <code>&lt;div&gt;</code></li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

@@ -30,3 +30,39 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/month-input/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: month-input</li>
+      <li>PascalCase: MonthInput</li>
+      <li>Description: an input for selecting a month and year &lt;input type="month"&gt;</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;input&gt;</li>
+      <li>CSS class: .month-input</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>aria-label=&#123;label&#125;</code> -- provides an accessible name describing the purpose of the month input</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>No keyboard interactions — this is a passive element</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible name for the input via <code>aria-label</code></li>
+      <li><code>value</code>: string (default: <code>""</code>) -- current month value in <code>YYYY-MM</code> format; bindable with two-way <code>value</code> binding</li>
+      <li><code>required</code>: boolean (default: <code>false</code>) -- whether the input is required</li>
+      <li><code>disabled</code>: boolean (default: <code>false</code>) -- whether the input is disabled</li>
+      <li><code>...restProps</code>: unknown -- additional attributes spread onto the <code>&lt;input&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

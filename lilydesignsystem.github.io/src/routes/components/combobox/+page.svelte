@@ -30,3 +30,44 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/combobox/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: combobox</li>
+      <li>PascalCase: Combobox</li>
+      <li>Description: a text input combined with a dropdown list for filtering options</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .combobox</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="combobox"</code> -- on the <code>&lt;input&gt;</code>, identifies it as a combobox widget.</li>
+      <li><code>aria-label</code> -- provides an accessible name for both the input and the listbox.</li>
+      <li><code>aria-expanded</code> -- reflects the <code>open</code> state, telling screen readers whether the dropdown is visible.</li>
+      <li><code>aria-controls</code> -- links the input to its associated listbox by ID.</li>
+      <li><code>aria-autocomplete="list"</code> -- indicates the input provides autocomplete suggestions via a list.</li>
+      <li><code>role="listbox"</code> -- on the dropdown container, identifies it as a list of selectable options.</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Escape: Closes the dropdown listbox.</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible name applied via <code>aria-label</code> on both the input and listbox.</li>
+      <li><code>value</code>: string (default: <code>""</code>) -- bindable current text input value.</li>
+      <li><code>open</code>: boolean (default: <code>false</code>) -- bindable dropdown visibility state.</li>
+      <li><code>children</code>: slot (required) -- option elements rendered inside the listbox dropdown.</li>
+      <li><code>...restProps</code>: unknown -- additional attributes spread onto the wrapper <code>&lt;div&gt;</code>.</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

@@ -30,3 +30,45 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/info-state/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: info-state</li>
+      <li>PascalCase: InfoState</li>
+      <li>Description: a composition of illustration, title, description, and action for empty, error, or info states</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;section&gt;</li>
+      <li>CSS class: .info-state</li>
+      <li>Interactive: no (focusable controls inside action slot manage their own behavior)</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="status"</code> on section</li>
+      <li><code>aria-label</code> defaults to title; overridable via label prop</li>
+      <li><code>data-level</code> attribute exposes variant for CSS</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>None on container</li>
+      <li>Focusable children inside the action slot follow their own keyboard behavior</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>level</code>: "info" | "empty" | "error" | "success" (default: "info")</li>
+      <li><code>title</code>: string (required)</li>
+      <li><code>description</code>: string (optional)</li>
+      <li><code>label</code>: string (optional)</li>
+      <li><code>illustration</code>: slot (optional)</li>
+      <li><code>action</code>: slot (optional)</li>
+      <li><code>children</code>: slot (optional) -- replaces structured layout</li>
+      <li><code>...restProps</code>: any additional HTML attributes</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

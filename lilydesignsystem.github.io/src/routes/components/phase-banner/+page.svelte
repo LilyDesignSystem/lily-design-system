@@ -30,3 +30,38 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/phase-banner/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: phase-banner</li>
+      <li>PascalCase: PhaseBanner</li>
+      <li>Description: a banner showing service development phase and inviting feedback</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .phase-banner</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>Native semantics — no special ARIA needed</li>
+      <li>Consumers may add <code>role="region"</code> + <code>aria-label</code> if they treat this banner as a landmark</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Native anchor keyboard behaviour applies for any feedback link inside the banner</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>phase</code>: string (required) (default: —) — Phase label, e.g. "Alpha", "Beta", "Live"</li>
+      <li><code>children</code>: slot (required) (default: —) — Descriptive text and feedback link</li>
+      <li><code>...restProps</code>: HTML attributes (default: —) — Spread onto the root <code>&lt;div&gt;</code></li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

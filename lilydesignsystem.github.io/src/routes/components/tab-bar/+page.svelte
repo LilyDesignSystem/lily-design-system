@@ -30,3 +30,44 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tab-bar/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: tab-bar</li>
+      <li>PascalCase: TabBar</li>
+      <li>Description: a group of tabs for switching between content panels</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .tab-bar</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="tablist"</code> -- identifies the container as a list of tabs</li>
+      <li><code>aria-label=&#123;label&#125;</code> -- provides an accessible name for the tab list so screen readers announce its purpose</li>
+      <li>Child tabs should have <code>role="tab"</code> and <code>aria-selected</code> attributes (managed by consumer)</li>
+      <li>Associated tab panels should have <code>role="tabpanel"</code> with <code>aria-labelledby</code> pointing to the corresponding tab (managed by consumer)</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Arrow Right: Moves focus to the next tab; wraps from the last tab to the first</li>
+      <li>Arrow Left: Moves focus to the previous tab; wraps from the first tab to the last</li>
+      <li>Home: Moves focus to the first tab</li>
+      <li>End: Moves focus to the last tab</li>
+      <li>Tab: Moves focus into and out of the tab list (only one tab in the list is in the tab order at a time)</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible label for the tab list, applied via <code>aria-label</code></li>
+      <li><code>children</code>: slot (required) -- tab button elements to render inside the tablist</li>
+      <li><code>...restProps</code>: unknown -- additional attributes spread onto the <code>&lt;div&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

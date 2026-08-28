@@ -30,3 +30,42 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/listbox/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: listbox</li>
+      <li>PascalCase: Listbox</li>
+      <li>Description: a list of selectable options with keyboard navigation</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .listbox</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="listbox"</code> -- identifies the container as a listbox widget for selecting from a list of options.</li>
+      <li><code>aria-label</code> -- provides an accessible name describing the purpose of the listbox.</li>
+      <li>Child elements should use <code>role="option"</code> and optionally <code>aria-selected</code> to indicate selection state.</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>ArrowDown: Moves focus to the next option, wrapping to the first option from the last.</li>
+      <li>ArrowUp: Moves focus to the previous option, wrapping to the last option from the first.</li>
+      <li>Home: Moves focus to the first option.</li>
+      <li>End: Moves focus to the last option.</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible name applied via <code>aria-label</code>.</li>
+      <li><code>children</code>: slot (required) -- option elements to render inside the listbox (should have <code>role="option"</code> and <code>tabindex="-1"</code>).</li>
+      <li><code>...restProps</code>: unknown -- additional attributes spread onto the container <code>&lt;div&gt;</code>.</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

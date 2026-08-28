@@ -30,3 +30,43 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/address-input/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: address-input</li>
+      <li>PascalCase: AddressInput</li>
+      <li>Description: an input for searching or manually entering an address</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;input&gt;</li>
+      <li>CSS class: .address-input</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>aria-label</code> (set from <code>label</code>) provides the accessible name when no visible <code>&lt;label&gt;</code> element wraps the input</li>
+      <li><code>aria-required="true"</code> is implied when <code>required</code> is set</li>
+      <li><code>aria-invalid</code> and <code>aria-errormessage</code> should be set by the consumer when validation fails</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Native <code>&lt;input&gt;</code> keyboard behaviour applies (typing, selection, clipboard)</li>
+      <li>Tab moves focus into and out of the input</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) (default: —) — Accessible name set on <code>aria-label</code></li>
+      <li><code>value</code>: string (default: "") — Bindable address value</li>
+      <li><code>required</code>: boolean (default: false) — Whether the field is required</li>
+      <li><code>disabled</code>: boolean (default: false) — Whether the field is disabled</li>
+      <li><code>autocomplete</code>: string (default: "street-address") — HTML autocomplete token; useful values include <code>street-address</code>, <code>address-line1</code>, <code>address-line2</code>, <code>postal-code</code></li>
+      <li><code>...restProps</code>: HTML attributes (default: —) — Spread onto the root <code>&lt;input&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

@@ -30,3 +30,42 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/share-page/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: share-page</li>
+      <li>PascalCase: SharePage</li>
+      <li>Description: a component for sharing the page on social media</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .share-page</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>Wrapper has <code>role="group"</code> with <code>aria-label</code> so the share controls are announced as a related set</li>
+      <li>Each share control has its own <code>aria-label</code> (e.g. "Share on email")</li>
+      <li>The copy-link button announces success via a transient <code>aria-live="polite"</code> region</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Tab cycles through each share control</li>
+      <li>Enter or Space activates the focused control (native button behaviour)</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) (default: —) — Accessible label for the share group (e.g. "Share this page")</li>
+      <li><code>url</code>: string (required) (default: —) — URL to share</li>
+      <li><code>title</code>: string (default: —) — Page title shared alongside the URL</li>
+      <li><code>services</code>: array of <code>&#123; id: string; label: string; href?: string; onClick?: () =&gt; void &#125;</code> (default: [email, copy, x, facebook]) — Services to render</li>
+      <li><code>...restProps</code>: HTML attributes (default: —) — Spread onto the root <code>&lt;div&gt;</code></li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

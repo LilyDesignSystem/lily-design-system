@@ -30,3 +30,44 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/feature-card/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: feature-card</li>
+      <li>PascalCase: FeatureCard</li>
+      <li>Description: a large content card with a prominent image positioned alongside or above the text</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;article&gt;</li>
+      <li>CSS class: .feature-card</li>
+      <li>Interactive: no (passive container; interactive children manage their own behavior)</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>Implicit <code>article</code> semantics from the &lt;article&gt; element</li>
+      <li>aria-label provides the accessible name (defaults to heading)</li>
+      <li>Image alt attribute provides its accessible name; decorative images use empty alt</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>None on the card itself (passive container); interactive children manage their own keyboard behavior.</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>heading</code>: string (REQUIRED) -- card heading</li>
+      <li><code>imagePosition</code>: "start" | "end" | "top" (default: "start")</li>
+      <li><code>imageUrl</code>: string (optional)</li>
+      <li><code>imageAlt</code>: string (optional)</li>
+      <li><code>description</code>: string (optional) -- body text</li>
+      <li><code>label</code>: string (optional) -- aria-label override; defaults to heading</li>
+      <li><code>children</code>: slot (optional) -- additional content</li>
+      <li><code>...restProps</code>: any additional HTML attributes</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

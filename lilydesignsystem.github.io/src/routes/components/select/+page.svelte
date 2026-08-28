@@ -30,3 +30,46 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/select/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: select</li>
+      <li>PascalCase: Select</li>
+      <li>Description: a dropdown select element for choosing one option</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;select&gt;</li>
+      <li>CSS class: .select</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>aria-label=&#123;label&#125;</code> -- provides an accessible name for the select element since there is no visible <code>&lt;label&gt;</code> element</li>
+      <li>The <code>&lt;select&gt;</code> element implicitly has <code>role="combobox"</code> or <code>role="listbox"</code> depending on the browser, with built-in accessible semantics</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Tab: Moves focus to and from the select element (native browser behavior)</li>
+      <li>Space/Enter: Opens the dropdown list when focused (native browser behavior)</li>
+      <li>Arrow Up/Down: Navigates through options (native browser behavior)</li>
+      <li>Escape: Closes the dropdown list (native browser behavior)</li>
+      <li>Home/End: Jumps to first/last option (native browser behavior)</li>
+      <li>Type-ahead: Typing characters jumps to matching options (native browser behavior)</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible name applied via <code>aria-label</code></li>
+      <li><code>value</code>: string (default: "") -- bindable string representing the currently selected value</li>
+      <li><code>required</code>: boolean (default: false) -- whether the select is required for form submission</li>
+      <li><code>disabled</code>: boolean (default: false) -- whether the select is disabled</li>
+      <li><code>children</code>: slot (required) -- <code>&lt;option&gt;</code> elements to render inside the select</li>
+      <li><code>...restProps</code>: unknown -- additional attributes spread onto the select element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

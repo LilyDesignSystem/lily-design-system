@@ -30,3 +30,39 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/badge/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: badge</li>
+      <li>PascalCase: Badge</li>
+      <li>Description: a small label for counts, statuses, or categories</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;span&gt;</li>
+      <li>CSS class: .badge</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="status"</code> -- creates an ARIA live region for dynamic content announcements</li>
+      <li><code>aria-label</code> -- optional expanded context for screen readers beyond the visible text</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>None -- badges are informational, not interactive</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>type</code>: "default" | "info" | "success" | "warning" | "error" (default: "default") -- badge variant for semantic meaning</li>
+      <li><code>label</code>: string (optional) -- accessible label for screen readers</li>
+      <li><code>children</code>: slot (required) -- badge content (text, number, etc.)</li>
+      <li><code>...restProps</code>: Any additional HTML attributes passed to the <code>&lt;span&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

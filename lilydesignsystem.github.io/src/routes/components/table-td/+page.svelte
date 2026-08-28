@@ -30,3 +30,36 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/table-td/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: table-td</li>
+      <li>PascalCase: TableTD</li>
+      <li>Description: a table interactive grid data cell &lt;td&gt;</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;td&gt;</li>
+      <li>CSS class: .table-td</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>Native <code>&lt;td&gt;</code> exposes a data cell within the surrounding <code>&lt;table&gt;</code></li>
+      <li>Screen readers announce the cell value alongside the relevant column / row header</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <p>Standard table cell keyboard interactions.</p>
+    <h3>Props</h3>
+    <ul>
+      <li><code>className</code>: string (default: <code>""</code>) -- CSS class name for the cell</li>
+      <li><code>children</code>: slot (required) -- cell content</li>
+      <li><code>...restProps</code>: unknown -- additional attributes spread onto the <code>&lt;td&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

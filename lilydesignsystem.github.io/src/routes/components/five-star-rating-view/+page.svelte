@@ -30,3 +30,39 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/five-star-rating-view/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: five-star-rating-view</li>
+      <li>PascalCase: FiveStarRatingView</li>
+      <li>Description: a read-only display of a five-star rating</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .five-star-rating-view</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="img"</code> -- indicates the span represents a visual/graphic element (the star rating)</li>
+      <li><code>aria-label="..."</code> -- provides the full rating description for screen readers</li>
+      <li><code>aria-hidden="true"</code> -- on each inner star span, prevents screen readers from reading individual star characters</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>No keyboard interactions — this is a passive element</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>value</code>: number (required) -- rating value (0-5) to display</li>
+      <li><code>label</code>: string (required) -- accessible description via <code>aria-label</code> (e.g., "4 out of 5 stars")</li>
+      <li><code>...restProps</code>: unknown -- additional attributes spread onto the outer <code>&lt;span&gt;</code></li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

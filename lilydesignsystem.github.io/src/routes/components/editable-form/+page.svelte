@@ -30,3 +30,40 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/editable-form/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: editable-form</li>
+      <li>PascalCase: EditableForm</li>
+      <li>Description: a form wrapper for inline editing of content</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;form&gt;</li>
+      <li>CSS class: .editable-form</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>aria-label=&#123;label&#125;</code> -- provides an accessible name for the form</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Enter: submits the form (native form behavior), exits edit mode, calls <code>onsubmit</code></li>
+      <li>Escape: cancels editing, exits edit mode, calls <code>oncancel</code></li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible name for the form, applied as <code>aria-label</code></li>
+      <li><code>editing</code>: boolean (default: false) -- whether the form is in edit mode, two-way bindable via <code>editing</code></li>
+      <li><code>onsubmit</code>: (event: SubmitEvent) =&gt; void (default: undefined) -- callback when the form is submitted</li>
+      <li><code>oncancel</code>: () =&gt; void (default: undefined) -- callback when editing is cancelled</li>
+      <li><code>children</code>: slot (required) -- form content (inputs, buttons, etc.)</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

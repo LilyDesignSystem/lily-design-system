@@ -30,3 +30,39 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/loading/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: loading</li>
+      <li>PascalCase: Loading</li>
+      <li>Description: a loading indicator, such as text, or image, or animation</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .loading</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="status"</code> -- creates an ARIA live region for loading announcements</li>
+      <li><code>aria-live="polite"</code> -- announces changes without interrupting current speech</li>
+      <li><code>aria-label</code> -- describes the loading state</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>None -- loading indicators are informational, not interactive</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (default: "Loading") -- accessible label for the loading state</li>
+      <li><code>children</code>: slot (optional) -- loading indicator content</li>
+      <li><code>...restProps</code>: Any additional HTML attributes</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

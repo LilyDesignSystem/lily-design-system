@@ -9,6 +9,20 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Site pages gain generated canonical-contract sections — 2026-08-28
+
+[plan.md](plan.md) P5-T3. Every one of the 491 site component pages
+now carries a "Canonical contract" section — Metadata, ARIA, Keyboard,
+Props — rendered by `bin/generate-api-docs` directly from
+`components/{slug}/AGENTS.md` into a marked region, with `--check`
+wired into `bin/test` so the site reference can never drift from the
+machine-checked source (seeded-edit proven). The curated page prose is
+deliberately untouched: the generator owns only its region, following
+the marker-region precedent already in those files. One Svelte lesson
+en route: generated markup lands in template context, so braces must
+ship as entities — area-chart's `{ name: string }` prop type broke
+compilation until they did.
+
 ## Developer on-ramp, validated by doing it — 2026-08-28
 
 [plan.md](plan.md) P5-T2. `docs/developing.md` documents setup, the

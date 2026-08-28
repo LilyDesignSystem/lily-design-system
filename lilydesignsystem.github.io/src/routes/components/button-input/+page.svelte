@@ -30,3 +30,44 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/button-input/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: button-input</li>
+      <li>PascalCase: ButtonInput</li>
+      <li>Description: an input element of type button for form actions &lt;input type="button"&gt;</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;input&gt;</li>
+      <li>CSS class: .button-input</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>Implicit <code>button</code> role -- provided natively by <code>&lt;input type="button"&gt;</code></li>
+      <li><code>aria-label=&#123;label&#125;</code> -- optional screen reader label override; when provided, screen readers announce this instead of the <code>value</code> text</li>
+      <li><code>aria-disabled</code> -- implicitly managed by the native <code>disabled</code> attribute</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Tab: Focus the button input</li>
+      <li>Enter: Activate the button (native behavior)</li>
+      <li>Space: Activate the button (native behavior)</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>value</code>: string (required) -- the button label text displayed on the input</li>
+      <li><code>disabled</code>: boolean (default: <code>false</code>) -- whether the input is disabled</li>
+      <li><code>name</code>: string (optional) -- form field name for form submission</li>
+      <li><code>label</code>: string (optional) -- accessible label override via <code>aria-label</code> for screen readers</li>
+      <li><code>onclick</code>: <code>(event: MouseEvent) =&gt; void</code> (optional) -- click event handler</li>
+      <li><code>...restProps</code>: any additional HTML attributes spread onto the <code>&lt;input&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

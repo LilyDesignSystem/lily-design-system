@@ -30,3 +30,45 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/announcement-banner/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: announcement-banner</li>
+      <li>PascalCase: AnnouncementBanner</li>
+      <li>Description: a banner highlighting important messages for all users</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .announcement-banner</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="region"</code> makes the banner a labeled landmark</li>
+      <li><code>aria-label</code> (from <code>label</code>) names the region</li>
+      <li><code>aria-live="polite"</code> (when <code>live=true</code>) announces content changes without interrupting the user</li>
+      <li>Dismiss button has <code>aria-label</code> for the close action</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Tab moves focus to the dismiss button when present</li>
+      <li>Enter or Space activates the dismiss button (native browser behaviour)</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) (default: —) — Accessible region label</li>
+      <li><code>live</code>: boolean (default: false) — Whether the region announces dynamic changes via <code>aria-live="polite"</code></li>
+      <li><code>dismissible</code>: boolean (default: false) — Whether to render a dismiss button</li>
+      <li><code>dismissLabel</code>: string (default: "Dismiss") — Accessible label for the dismiss button</li>
+      <li><code>onDismiss</code>: callback (default: —) — Fired when the user dismisses the banner</li>
+      <li><code>children</code>: slot (required) (default: —) — Banner content</li>
+      <li><code>...restProps</code>: HTML attributes (default: —) — Spread onto the root <code>&lt;div&gt;</code></li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

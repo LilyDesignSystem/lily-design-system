@@ -30,3 +30,40 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/error-summary/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: error-summary</li>
+      <li>PascalCase: ErrorSummary</li>
+      <li>Description: a summary of all validation errors on a form</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .error-summary</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="alert"</code> -- creates a live region that announces content to screen readers when the summary appears</li>
+      <li><code>aria-labelledby=&#123;titleId&#125;</code> -- associates the alert region with its heading for context</li>
+      <li><code>tabindex="-1"</code> -- allows the error summary to receive programmatic focus without being in the natural tab order</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>**Tab**: Moves focus through the error links within the summary</li>
+      <li>The container itself can receive programmatic focus via <code>element.focus()</code> due to <code>tabindex="-1"</code></li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>title</code>: string (required) -- heading text for the error summary (e.g., "There is a problem")</li>
+      <li><code>children</code>: slot (required) -- error list content, typically a <code>&lt;ul&gt;</code> with <code>&lt;li&gt;</code> items containing anchor links to error fields</li>
+      <li><code>...restProps</code>: any additional HTML attributes spread onto the outer <code>&lt;div&gt;</code></li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

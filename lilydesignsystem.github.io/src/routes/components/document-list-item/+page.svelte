@@ -30,3 +30,42 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/document-list-item/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: document-list-item</li>
+      <li>PascalCase: DocumentListItem</li>
+      <li>Description: one document entry in a document list</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;li&gt;</li>
+      <li>CSS class: .document-list-item</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>Native anchor and list-item semantics</li>
+      <li>The link's accessible name combines the title and the file type/size when announced by screen readers</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Tab moves focus onto the document link</li>
+      <li>Enter activates the link to download the document (native browser behaviour)</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>title</code>: string (required) (default: —) — Document title (link text)</li>
+      <li><code>href</code>: string (required) (default: —) — Document URL</li>
+      <li><code>type</code>: string (default: —) — File type label, e.g. <code>"PDF"</code>, <code>"DOCX"</code></li>
+      <li><code>size</code>: string (default: —) — File size, e.g. <code>"1.2 MB"</code></li>
+      <li><code>modified</code>: string (default: —) — Last-modified date string</li>
+      <li><code>...restProps</code>: HTML attributes (default: —) — Spread onto the root <code>&lt;li&gt;</code></li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

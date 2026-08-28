@@ -30,3 +30,38 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/medical-banner-box-for-danger/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: medical-banner-box-for-danger</li>
+      <li>PascalCase: MedicalBannerBoxForDanger</li>
+      <li>Description: a medical record banner box for danger information e.g. reactions, warnings, alarms, etc.</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .medical-banner-box-for-danger</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="region"</code> -- establishes the box as a landmark for assistive technology</li>
+      <li><code>aria-label=&#123;label&#125;</code> -- provides an accessible name describing the danger information</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>None (passive layout element)</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible name applied via <code>aria-label</code></li>
+      <li><code>children</code>: slot (required) -- the danger banner box content</li>
+      <li><code>...restProps</code>: unknown -- additional attributes spread onto the <code>&lt;div&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

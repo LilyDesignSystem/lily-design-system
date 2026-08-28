@@ -29,3 +29,38 @@
   </details>
 </section>
 <!-- END auto-generated component example -->
+
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/question/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: question</li>
+      <li>PascalCase: Question</li>
+      <li>Description: a question is anything that asks for information, invites a response, tests knowledge, etc.</li>
+      <li>Status: experimental — recent catalog addition with the least accumulated depth; contract may still move</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .question</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>aria-label</code> -- describes the question for screen readers when no visible heading is present</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>None -- questions are informational, not interactive</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (optional) -- accessible label for the question</li>
+      <li><code>children</code>: slot (required) -- question content</li>
+      <li><code>...restProps</code>: Any additional HTML attributes</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

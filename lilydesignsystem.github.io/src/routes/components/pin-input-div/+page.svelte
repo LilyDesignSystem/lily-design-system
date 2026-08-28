@@ -30,3 +30,45 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/pin-input-div/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: pin-input-div</li>
+      <li>PascalCase: PinInputDiv</li>
+      <li>Description: a series of single-digit inputs for entering a PIN or OTP code</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .pin-input-div</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="group"</code> with <code>aria-label</code> on the container</li>
+      <li>Each input has <code>aria-label="Digit X of Y"</code> for positional context</li>
+      <li><code>inputmode="numeric"</code> for numeric keyboard on mobile</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Digit entry: enters value and auto-focuses next input</li>
+      <li>Backspace: clears current or moves to previous input</li>
+      <li>ArrowLeft: focuses previous input</li>
+      <li>ArrowRight: focuses next input</li>
+      <li>Tab: standard tab navigation in/out of the group</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible label for the group via aria-label</li>
+      <li><code>length</code>: number (default: 4) -- number of digit inputs</li>
+      <li><code>value</code>: string (default: "") -- bindable combined string of all digits</li>
+      <li><code>disabled</code>: boolean (default: false) -- disables all inputs</li>
+      <li><code>...restProps</code>: Any additional HTML attributes on the group div</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

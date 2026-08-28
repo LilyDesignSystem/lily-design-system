@@ -30,3 +30,43 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/field/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: field</li>
+      <li>PascalCase: Field</li>
+      <li>Description: a form field wrapper with label, input, and error message</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .field</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>&lt;label for=&#123;fieldId&#125;&gt;</code> -- links the visible label to the input element</li>
+      <li><code>role="alert"</code> -- on the error paragraph, announces the error message to screen readers</li>
+      <li><code>aria-hidden="true"</code> -- on the required asterisk, prevents screen readers from reading the decorative indicator</li>
+      <li><code>data-required</code> -- data attribute on the wrapper for consumer CSS styling</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>No keyboard interactions — this is a passive element</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- visible label text</li>
+      <li><code>description</code>: string (default: undefined) -- helper text displayed below the label</li>
+      <li><code>error</code>: string (default: undefined) -- error message displayed below the input</li>
+      <li><code>required</code>: boolean (default: false) -- whether the field is required, adds a visual asterisk</li>
+      <li><code>inputId</code>: string (default: undefined) -- ID of the input to link the label to; auto-generated if omitted</li>
+      <li><code>children</code>: slot (required) -- form control (input, select, text-area-input, etc.)</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

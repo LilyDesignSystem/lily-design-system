@@ -1,0 +1,131 @@
+#!/usr/bin/env python3
+"""bin/generate-api-docs — canonical-contract sections for the site.
+
+Each site component page (lilydesignsystem.github.io/src/routes/
+components/{slug}/+page.svelte) carries curated prose. This script adds
+one thing that prose must never be trusted for: the component's
+canonical contract — Metadata, ARIA, Keyboard, Props — rendered
+directly from components/{slug}/AGENTS.md into a marked region of the
+page (plan P5-T3). Regenerate after any AGENTS.md change; `--check`
+(run by bin/test) fails when a page's region drifts from its source, so
+the site reference can never disagree with the canonical metadata.
+
+Only the marked region is generated; the surrounding page is untouched.
+"""
+
+import glob
+import html
+import os
+import re
+import sys
+
+TOP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SITE = os.path.join(TOP, "lilydesignsystem.github.io", "src", "routes", "components")
+BEGIN = "<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->"
+END = "<!-- END generated: canonical contract -->"
+SECTIONS = ["Metadata", "ARIA", "Keyboard", "Props"]
+
+INLINE_CODE = re.compile(r"`([^`]+)`")
+
+
+def inline(text):
+    text = html.escape(text, quote=False)
+    text = INLINE_CODE.sub(lambda m: f"<code>{m.group(1)}</code>", text)
+    # The output lands in Svelte template markup, where bare braces are
+    # parsed as expressions; emit them as entities.
+    return text.replace("{", "&#123;").replace("}", "&#125;")
+
+
+def md_section(md):
+    """Minimal renderer for the AGENTS section shape: bullet lists and
+    plain paragraphs, inline code. Nothing else appears in these
+    sections; anything unexpected renders as a paragraph rather than
+    being silently dropped."""
+    out, in_list = [], False
+    for line in md.strip().splitlines():
+        line = line.rstrip()
+        if line.startswith("- "):
+            if not in_list:
+                out.append("<ul>")
+                in_list = True
+            out.append(f"  <li>{inline(line[2:])}</li>")
+        elif not line.strip():
+            if in_list:
+                out.append("</ul>")
+                in_list = False
+        else:
+            if in_list:
+                out.append("</ul>")
+                in_list = False
+            out.append(f"<p>{inline(line)}</p>")
+    if in_list:
+        out.append("</ul>")
+    return "\n".join(out)
+
+
+def contract_html(slug):
+    src = os.path.join(TOP, "components", slug, "AGENTS.md")
+    text = open(src).read()
+    parts = re.split(r"^## ", text, flags=re.M)
+    sections = {}
+    for p in parts[1:]:
+        name, _, body = p.partition("\n")
+        sections[name.strip()] = body
+    blocks = []
+    for name in SECTIONS:
+        if name in sections and sections[name].strip():
+            blocks.append(f"    <h3>{name}</h3>\n" +
+                          "\n".join("    " + l for l in md_section(sections[name]).splitlines()))
+    inner = "\n".join(blocks)
+    return f"""{BEGIN}
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/{slug}/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+{inner}
+</section>
+{END}"""
+
+
+def main():
+    mode = sys.argv[1] if len(sys.argv) > 1 else "generate"
+    slugs = sorted(
+        line.split("\t")[0]
+        for line in open(os.path.join(TOP, "components.tsv"))
+        if line.strip()
+    )
+    changed = drift = 0
+    for slug in slugs:
+        page = os.path.join(SITE, slug, "+page.svelte")
+        if not os.path.exists(page):
+            print(f"Error: no site page for {slug}", file=sys.stderr)
+            return 1
+        s = open(page).read()
+        block = contract_html(slug)
+        if BEGIN in s:
+            new = re.sub(re.escape(BEGIN) + r".*?" + re.escape(END), lambda _: block, s, flags=re.S)
+        else:
+            new = s.rstrip() + "\n\n" + block + "\n"
+        if new != s:
+            if mode == "--check":
+                print(f"Error: {slug} contract section drifts from components/{slug}/AGENTS.md",
+                      file=sys.stderr)
+                drift += 1
+            else:
+                open(page, "w").write(new)
+                changed += 1
+    if mode == "--check":
+        if drift:
+            print(f"generate-api-docs: FAILED ({drift} drifting)", file=sys.stderr)
+            return 1
+        print(f"generate-api-docs: OK ({len(slugs)} pages)")
+    else:
+        print(f"generate-api-docs: {changed} updated, {len(slugs) - changed} current")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

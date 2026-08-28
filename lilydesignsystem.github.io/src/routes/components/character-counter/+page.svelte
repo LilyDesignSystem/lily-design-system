@@ -30,3 +30,39 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/character-counter/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: character-counter</li>
+      <li>PascalCase: CharacterCounter</li>
+      <li>Description: a counter showing remaining or used characters in a text field</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;span&gt;</li>
+      <li>CSS class: .character-counter</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="status"</code> -- identifies the element as a live region that presents advisory information</li>
+      <li><code>aria-live="polite"</code> -- screen readers announce updates at the next convenient pause, without interrupting the user</li>
+      <li><code>aria-label</code> -- set from the <code>label</code> prop to provide context for what the counter represents</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>No keyboard interactions — this is a passive element</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>count</code>: number (default: 0) -- current character count</li>
+      <li><code>max</code>: number (optional) -- maximum allowed characters; when provided, enables remaining/over-limit tracking</li>
+      <li><code>label</code>: string (optional) -- accessible label for the counter via aria-label</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

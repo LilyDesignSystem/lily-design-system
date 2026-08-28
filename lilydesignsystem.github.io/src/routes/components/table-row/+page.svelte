@@ -30,3 +30,36 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/table-row/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: table-row</li>
+      <li>PascalCase: TableRow</li>
+      <li>Description: a table interactive grid row &lt;tr&gt;</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;tr&gt;</li>
+      <li>CSS class: .table-row</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>Native <code>&lt;tr&gt;</code> semantics announce the row position within the surrounding <code>&lt;table&gt;</code></li>
+      <li>Screen readers expose <code>&lt;tr&gt;</code> as a row in the data grid</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <p>Standard table row keyboard interactions.</p>
+    <h3>Props</h3>
+    <ul>
+      <li><code>className</code>: string (default: <code>""</code>) -- CSS class name for the row</li>
+      <li><code>children</code>: slot (required) -- row cells, typically <code>&lt;th&gt;</code> or TableTD components</li>
+      <li><code>...restProps</code>: unknown -- additional attributes spread onto the <code>&lt;tr&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

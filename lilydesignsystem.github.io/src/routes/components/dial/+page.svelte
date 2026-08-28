@@ -30,3 +30,50 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/dial/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: dial</li>
+      <li>PascalCase: Dial</li>
+      <li>Description: a rotary dial control for selecting a value</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .dial</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="slider"</code> -- indicates a range input control</li>
+      <li><code>aria-label="&#123;label&#125;"</code> -- provides an accessible name for the dial</li>
+      <li><code>aria-valuenow="&#123;value&#125;"</code> -- communicates the current value to assistive technology</li>
+      <li><code>aria-valuemin="&#123;min&#125;"</code> -- communicates the minimum allowed value</li>
+      <li><code>aria-valuemax="&#123;max&#125;"</code> -- communicates the maximum allowed value</li>
+      <li><code>aria-disabled="true"</code> -- present only when the dial is disabled</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>ArrowRight / ArrowUp: increase value by one step</li>
+      <li>ArrowLeft / ArrowDown: decrease value by one step</li>
+      <li>Shift + ArrowRight / ArrowUp: increase value by 10 steps</li>
+      <li>Shift + ArrowLeft / ArrowDown: decrease value by 10 steps</li>
+      <li>Home: set value to minimum</li>
+      <li>End: set value to maximum</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>value</code>: number (default: 0) -- current dial value; bindable</li>
+      <li><code>min</code>: number (default: 0) -- minimum allowed value</li>
+      <li><code>max</code>: number (default: 100) -- maximum allowed value</li>
+      <li><code>step</code>: number (default: 1) -- increment per key press</li>
+      <li><code>label</code>: string (required) -- accessible name for the dial</li>
+      <li><code>disabled</code>: boolean (default: false) -- whether the dial is disabled</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

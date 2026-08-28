@@ -30,3 +30,45 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/government-identifier/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: government-identifier</li>
+      <li>PascalCase: GovernmentIdentifier</li>
+      <li>Description: an identifier section with a parent agency logo, agency name, and required government links</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;section&gt;</li>
+      <li>CSS class: .government-identifier</li>
+      <li>Interactive: no (children may be interactive)</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>&lt;section&gt;</code> with <code>aria-label</code> -- labeled region landmark</li>
+      <li>Inner <code>&lt;nav&gt;</code> with <code>aria-label</code> -- labeled navigation landmark</li>
+      <li>Image <code>alt</code> provides accessible text for the logo</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Tab: moves focus through the agency link and child links</li>
+      <li>All key handling is delegated to native interactive elements</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (REQUIRED) -- aria-label for the section</li>
+      <li><code>agencyName</code>: string (REQUIRED) -- parent agency name</li>
+      <li><code>agencyHref</code>: string (optional) -- agency site link</li>
+      <li><code>logoUrl</code>: string (optional) -- logo src</li>
+      <li><code>logoAlt</code>: string (optional) -- logo alt</li>
+      <li><code>description</code>: string (optional) -- description text</li>
+      <li><code>children</code>: slot -- required-links list content</li>
+      <li><code>...restProps</code>: any additional HTML attributes</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

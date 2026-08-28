@@ -30,3 +30,39 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/text-input/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: text-input</li>
+      <li>PascalCase: TextInput</li>
+      <li>Description: a single-line text input field &lt;input type="text"&gt;</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;input&gt;</li>
+      <li>CSS class: .text-input</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>aria-label=&#123;label&#125;</code> -- provides an accessible name for the input since no visible <code>&lt;label&gt;</code> element is included</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>No keyboard interactions — this is a passive element</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible name via <code>aria-label</code></li>
+      <li><code>value</code>: string (default: <code>""</code>, bindable) -- current text value, supports two-way binding</li>
+      <li><code>required</code>: boolean (default: <code>false</code>) -- whether the field is required</li>
+      <li><code>disabled</code>: boolean (default: <code>false</code>) -- whether the field is disabled</li>
+      <li><code>...restProps</code>: any additional HTML attributes spread onto the input</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

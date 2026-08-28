@@ -30,3 +30,51 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/angle-slider-range-input/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: angle-slider-range-input</li>
+      <li>PascalCase: AngleSliderRangeInput</li>
+      <li>Description: a range input for selecting an angle in degrees</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;input&gt;</li>
+      <li>CSS class: .angle-slider-range-input</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="slider"</code> (implicit from input[type="range"])</li>
+      <li><code>aria-label</code> from label prop</li>
+      <li><code>aria-valuemin</code>, <code>aria-valuemax</code>, <code>aria-valuenow</code></li>
+      <li><code>aria-valuetext</code> for human-readable angle (e.g., "90°")</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Arrow Right/Up: Increase value by step</li>
+      <li>Arrow Left/Down: Decrease value by step</li>
+      <li>Home: Set to minimum</li>
+      <li>End: Set to maximum</li>
+      <li>(All handled natively by input[type="range"])</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>value</code>: number (default: 0, bindable) -- current angle in degrees</li>
+      <li><code>min</code>: number (default: 0) -- minimum angle</li>
+      <li><code>max</code>: number (default: 360) -- maximum angle</li>
+      <li><code>step</code>: number (default: 1) -- step increment</li>
+      <li><code>label</code>: string (required) -- accessible label</li>
+      <li><code>disabled</code>: boolean (default: false)</li>
+      <li><code>name</code>: string (optional) -- form field name</li>
+      <li><code>id</code>: string (optional) -- element ID</li>
+      <li><code>valueTextSuffix</code>: string (default: "°") -- suffix for aria-valuetext</li>
+      <li><code>...restProps</code>: Any additional HTML attributes</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

@@ -30,3 +30,43 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/checkbox-input/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: checkbox-input</li>
+      <li>PascalCase: CheckboxInput</li>
+      <li>Description: a checkbox input for toggling a boolean value &lt;input type="checkbox"&gt;</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;input&gt;</li>
+      <li>CSS class: .checkbox-input</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>aria-label=&#123;label&#125;</code> -- provides an accessible name for the checkbox since there is no visible <code>&lt;label&gt;</code> element</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Space: Toggles the checkbox checked state (native browser behavior)</li>
+      <li>Tab: Moves focus to and from the checkbox (native browser behavior)</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>checked</code>: boolean (default: false) -- bindable boolean indicating whether the checkbox is checked</li>
+      <li><code>label</code>: string (required) -- accessible name applied via <code>aria-label</code></li>
+      <li><code>disabled</code>: boolean (default: false) -- whether the checkbox is disabled</li>
+      <li><code>required</code>: boolean (default: false) -- whether the checkbox is required for form submission</li>
+      <li><code>name</code>: string (default: undefined) -- form field name attribute</li>
+      <li><code>id</code>: string (default: undefined) -- element id attribute</li>
+      <li><code>value</code>: string (default: undefined) -- value attribute for form submission</li>
+      <li><code>...restProps</code>: unknown -- additional attributes spread onto the input element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

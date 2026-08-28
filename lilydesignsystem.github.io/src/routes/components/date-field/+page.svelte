@@ -30,3 +30,45 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/date-field/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: date-field</li>
+      <li>PascalCase: DateField</li>
+      <li>Description: a structured field for entering date components</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .date-field</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>&lt;label for=&#123;inputId&#125;&gt;</code> -- links the visible label to the input</li>
+      <li><code>aria-describedby=&#123;descriptionId&#125;</code> -- links the input to its description text when present</li>
+      <li><code>aria-invalid="true"</code> -- indicates the input contains an invalid value when an error is present</li>
+      <li><code>aria-errormessage=&#123;errorId&#125;</code> -- links the input to its error message when present</li>
+      <li><code>role="alert"</code> -- on the error paragraph, announces the error message to screen readers</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>No keyboard interactions — this is a passive element</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- visible label text for the date field</li>
+      <li><code>value</code>: string (default: "") -- current date value in YYYY-MM-DD format, two-way bindable via <code>value</code></li>
+      <li><code>description</code>: string (default: undefined) -- helper text displayed below the input</li>
+      <li><code>error</code>: string (default: undefined) -- error message displayed when validation fails</li>
+      <li><code>required</code>: boolean (default: false) -- whether the field is required</li>
+      <li><code>disabled</code>: boolean (default: false) -- whether the field is disabled</li>
+      <li><code>id</code>: string (default: undefined) -- custom ID for the input element; auto-generated if omitted</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

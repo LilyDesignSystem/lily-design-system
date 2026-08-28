@@ -30,3 +30,38 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tag/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: tag</li>
+      <li>PascalCase: Tag</li>
+      <li>Description: a keyword label for categorizing content</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;span&gt;</li>
+      <li>CSS class: .tag</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="status"</code> -- identifies this as a live region for screen reader announcements of content changes</li>
+      <li><code>aria-label</code> -- provides an accessible name from the <code>label</code> prop, giving expanded context beyond the visible tag text</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>None -- tags are informational, not interactive</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible label for screen readers via <code>aria-label</code></li>
+      <li><code>children</code>: slot (required) -- the tag's visible content (text, etc.)</li>
+      <li><code>...restProps</code>: any -- additional HTML attributes spread onto the <code>&lt;span&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

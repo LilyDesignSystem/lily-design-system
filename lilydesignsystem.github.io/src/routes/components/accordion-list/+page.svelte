@@ -30,3 +30,37 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/accordion-list/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: accordion-list</li>
+      <li>PascalCase: AccordionList</li>
+      <li>Description: an accordion ordered list of list item components</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;ol&gt;</li>
+      <li>CSS class: .accordion-list</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>Semantic <code>&lt;ol&gt;</code> element provides ordered list semantics for assistive technology</li>
+      <li>List structure conveys that the accordion sections are related and ordered</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>No keyboard interactions — this is a passive element</li>
+    </ul>
+    <h3>Props</h3>
+    <p>| Prop           | Type            | Default    | Description                                          |</p>
+    <p>| -------------- | --------------- | ---------- | ---------------------------------------------------- |</p>
+    <p>| <code>children</code>     | <code>slot</code>          | (required) | AccordionListItem elements to render inside the list |</p>
+    <p>| <code>...restProps</code> | HTML attributes |            | Additional attributes spread onto the <code>&lt;ol&gt;</code> element |</p>
+</section>
+<!-- END generated: canonical contract -->

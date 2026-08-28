@@ -30,3 +30,43 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/transfer-list/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: transfer-list</li>
+      <li>PascalCase: TransferList</li>
+      <li>Description: a dual list box for moving items between two lists</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .transfer-list</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>role="group" on container with aria-label from label prop</li>
+      <li>Each &lt;section&gt; has aria-label from sourceLabel / targetLabel</li>
+      <li>Consumer-supplied listboxes carry their own ARIA roles</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>None at the container level — keyboard behavior lives on consumer-supplied listboxes and action buttons</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (REQUIRED)</li>
+      <li><code>sourceLabel</code>: string (REQUIRED)</li>
+      <li><code>targetLabel</code>: string (REQUIRED)</li>
+      <li><code>source</code>: slot (REQUIRED)</li>
+      <li><code>target</code>: slot (REQUIRED)</li>
+      <li><code>actions</code>: slot (optional)</li>
+      <li><code>...restProps</code>: any additional HTML attributes</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

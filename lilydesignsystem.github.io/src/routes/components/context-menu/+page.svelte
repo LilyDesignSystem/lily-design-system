@@ -30,3 +30,42 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/context-menu/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: context-menu</li>
+      <li>PascalCase: ContextMenu</li>
+      <li>Description: a menu that appears on right-click or long-press</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .context-menu</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="menu"</code> -- identifies the container as a menu widget</li>
+      <li><code>aria-label</code> -- provides an accessible name for the menu</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>ArrowDown: Move focus to the next menu item (wraps to first)</li>
+      <li>ArrowUp: Move focus to the previous menu item (wraps to last)</li>
+      <li>Home: Move focus to the first menu item</li>
+      <li>End: Move focus to the last menu item</li>
+      <li>Escape: Close the menu</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible name for the context menu via <code>aria-label</code></li>
+      <li><code>open</code>: boolean (default: false) -- whether the menu is visible; bindable for two-way control</li>
+      <li><code>children</code>: slot (required) -- menu item content (should include <code>role="menuitem"</code> elements)</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

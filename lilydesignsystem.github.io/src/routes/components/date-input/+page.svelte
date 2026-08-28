@@ -30,3 +30,43 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/date-input/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: date-input</li>
+      <li>PascalCase: DateInput</li>
+      <li>Description: an input for entering a date value &lt;input type="date"&gt;</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;input&gt;</li>
+      <li>CSS class: .date-input</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>aria-label=&#123;label&#125;</code> -- provides an accessible name for the date input since there is no visible <code>&lt;label&gt;</code> element</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Tab: Moves focus to and from the date input (native browser behavior)</li>
+      <li>Arrow keys: Navigate within the date picker fields (native browser behavior)</li>
+      <li>Enter: Opens or confirms the date picker (native browser behavior)</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible name applied via <code>aria-label</code></li>
+      <li><code>value</code>: string (default: "") -- bindable date string in YYYY-MM-DD format</li>
+      <li><code>min</code>: string (default: undefined) -- minimum allowed date in YYYY-MM-DD format</li>
+      <li><code>max</code>: string (default: undefined) -- maximum allowed date in YYYY-MM-DD format</li>
+      <li><code>required</code>: boolean (default: false) -- whether the input is required for form submission</li>
+      <li><code>disabled</code>: boolean (default: false) -- whether the input is disabled</li>
+      <li><code>...restProps</code>: unknown -- additional attributes spread onto the input element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

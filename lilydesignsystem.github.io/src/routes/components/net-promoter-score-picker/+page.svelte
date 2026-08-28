@@ -30,3 +30,42 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/net-promoter-score-picker/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: net-promoter-score-picker</li>
+      <li>PascalCase: NetPromoterScorePicker</li>
+      <li>Description: a picker for selecting a 0-10 Net Promoter Score</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .net-promoter-score-picker</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="radiogroup"</code> on the fieldset</li>
+      <li><code>aria-label</code> on the fieldset from the label prop</li>
+      <li>Each radio has <code>aria-label</code> with its numeric value</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Arrow keys navigate between radio buttons (native radio group behavior)</li>
+      <li>Space selects the focused radio button</li>
+      <li>Tab moves focus into/out of the radio group</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible label for the radiogroup</li>
+      <li><code>value</code>: string (default: "") -- currently selected score, bindable</li>
+      <li><code>name</code>: string (default: "nps") -- name attribute for the radio group</li>
+      <li><code>...restProps</code>: Any additional HTML attributes spread onto the fieldset</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

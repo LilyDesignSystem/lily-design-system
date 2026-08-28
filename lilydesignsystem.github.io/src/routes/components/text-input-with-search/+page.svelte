@@ -30,3 +30,48 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/text-input-with-search/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: text-input-with-search</li>
+      <li>PascalCase: TextInputWithSearch</li>
+      <li>Description: a single-line text input field &lt;input type="text"&gt; with search capability</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .text-input-with-search</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="search"</code> -- on the wrapper <code>&lt;div&gt;</code> to establish a search landmark</li>
+      <li><code>aria-label=&#123;label&#125;</code> -- provides an accessible name for the search region</li>
+      <li><code>aria-label=&#123;inputLabel&#125;</code> -- provides an accessible name for the text input</li>
+      <li><code>aria-label=&#123;searchLabel&#125;</code> -- provides an accessible name for the search button</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Tab: Moves focus between the text input and search button</li>
+      <li>Enter in the text input: Triggers the search callback</li>
+      <li>Enter/Space on the search button: Triggers the search callback</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible name for the search region via <code>aria-label</code></li>
+      <li><code>inputLabel</code>: string (default: "Search") -- accessible name for the text input via <code>aria-label</code></li>
+      <li><code>searchLabel</code>: string (default: "Search") -- accessible label and text for the search button</li>
+      <li><code>value</code>: string (default: "") -- bindable text input value</li>
+      <li><code>placeholder</code>: string (optional) -- placeholder text for the input</li>
+      <li><code>onsearch</code>: <code>(value: string) =&gt; void</code> (optional) -- callback when search is triggered</li>
+      <li><code>required</code>: boolean (default: false) -- whether the input is required</li>
+      <li><code>disabled</code>: boolean (default: false) -- whether the input and button are disabled</li>
+      <li><code>...restProps</code>: unknown -- additional attributes spread onto the wrapper <code>&lt;div&gt;</code></li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

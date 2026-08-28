@@ -30,3 +30,42 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/accordion-checkbox/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: accordion-checkbox</li>
+      <li>PascalCase: AccordionCheckbox</li>
+      <li>Description: a checkbox option that reveals an accordion panel when checked</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .accordion-checkbox</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>aria-controls</code> on <code>&lt;input&gt;</code> references the panel id</li>
+      <li><code>aria-expanded</code> on <code>&lt;input&gt;</code> reflects the checked state ("true" when checked)</li>
+      <li><code>role="region"</code> and <code>aria-labelledby</code> on the panel</li>
+      <li><code>hidden</code> attribute on the panel when unchecked</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Tab: moves focus onto the checkbox</li>
+      <li>Space: toggles the checkbox checked state, revealing or hiding the panel (native checkbox behavior)</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) — the checkbox label text</li>
+      <li><code>checked</code>: boolean (default: false) — whether the checkbox is checked and the panel is revealed; bindable</li>
+      <li><code>id</code>: string (optional) — base id for the checkbox/panel link; auto-generated if not provided</li>
+      <li><code>children</code>: slot (required) — content shown when the checkbox is checked</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

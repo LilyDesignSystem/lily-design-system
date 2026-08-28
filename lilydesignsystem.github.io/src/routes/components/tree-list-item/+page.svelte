@@ -30,3 +30,44 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tree-list-item/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: tree-list-item</li>
+      <li>PascalCase: TreeListItem</li>
+      <li>Description: one item in a tree navigation list</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;li&gt;</li>
+      <li>CSS class: .tree-list-item</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="treeitem"</code> -- identifies the element as an item in a tree widget</li>
+      <li><code>tabindex</code> -- manages focus: <code>0</code> for the active item, <code>-1</code> for others (roving tabindex)</li>
+      <li><code>aria-expanded</code> -- indicates whether an expandable item is open (<code>true</code>) or closed (<code>false</code>); omit for leaf nodes</li>
+      <li><code>aria-selected</code> -- indicates whether the item is selected (optional)</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>ArrowDown: Moves focus to the next visible tree item (managed by parent TreeList)</li>
+      <li>ArrowUp: Moves focus to the previous visible tree item (managed by parent TreeList)</li>
+      <li>ArrowRight: Expands a collapsed item, or moves to first child (when applicable)</li>
+      <li>ArrowLeft: Collapses an expanded item, or moves to parent (when applicable)</li>
+      <li>Home: Moves focus to the first tree item (managed by parent TreeList)</li>
+      <li>End: Moves focus to the last visible tree item (managed by parent TreeList)</li>
+    </ul>
+    <h3>Props</h3>
+    <p>| Prop           | Type            | Default    | Description                                                                                          |</p>
+    <p>| -------------- | --------------- | ---------- | ---------------------------------------------------------------------------------------------------- |</p>
+    <p>| <code>children</code>     | <code>slot</code>       | (required) | Content for the tree item                                                                            |</p>
+    <p>| <code>...restProps</code> | HTML attributes |            | Additional attributes spread onto the <code>&lt;li&gt;</code> element (including <code>role</code>, <code>tabindex</code>, <code>aria-expanded</code>) |</p>
+</section>
+<!-- END generated: canonical contract -->

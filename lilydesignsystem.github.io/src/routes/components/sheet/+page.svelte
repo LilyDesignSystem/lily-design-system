@@ -30,3 +30,42 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/sheet/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: sheet</li>
+      <li>PascalCase: Sheet</li>
+      <li>Description: a panel that slides in from a screen edge as an overlay</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .sheet</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="dialog"</code> -- identifies the sheet as a dialog window</li>
+      <li><code>aria-label=&#123;label&#125;</code> -- provides an accessible name for the dialog</li>
+      <li><code>aria-modal="true"</code> -- indicates the dialog is modal, meaning content behind it is inert</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Escape: Closes the sheet by setting <code>open</code> to <code>false</code></li>
+      <li>Tab: Moves focus between focusable elements within the sheet (consumer should implement focus trapping)</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible label for the sheet dialog, applied via <code>aria-label</code></li>
+      <li><code>open</code>: boolean (default: <code>false</code>) -- whether the sheet is visible; two-way bindable via <code>open</code></li>
+      <li><code>side</code>: <code>"left" | "right" | "top" | "bottom"</code> (default: <code>"right"</code>) -- which edge the sheet appears from</li>
+      <li><code>children</code>: slot (required) -- content to render inside the sheet</li>
+      <li><code>...restProps</code>: unknown -- additional attributes spread onto the <code>&lt;div&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

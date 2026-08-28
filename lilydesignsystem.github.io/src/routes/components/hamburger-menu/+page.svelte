@@ -30,3 +30,44 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/hamburger-menu/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: hamburger-menu</li>
+      <li>PascalCase: HamburgerMenu</li>
+      <li>Description: a toggle button that opens a mobile navigation menu</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;button&gt;</li>
+      <li>CSS class: .hamburger-menu</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>aria-label=&#123;label&#125;</code> -- on the button, provides an accessible name for the toggle control</li>
+      <li><code>aria-expanded=&#123;open&#125;</code> -- on the button, indicates whether the navigation panel is currently visible</li>
+      <li><code>aria-controls=&#123;menuId&#125;</code> -- on the button, references the id of the navigation panel</li>
+      <li><code>role="navigation"</code> -- on the content container, identifies it as a navigation landmark</li>
+      <li><code>aria-label=&#123;label&#125;</code> -- on the navigation container, provides an accessible name for the landmark</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Enter: Toggles the menu open/closed when the button has focus (native button behavior)</li>
+      <li>Space: Toggles the menu open/closed when the button has focus (native button behavior)</li>
+      <li>Tab: Moves focus to/from the toggle button and into the navigation content when open</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (default: "Menu") -- accessible name for the toggle button and the navigation region</li>
+      <li><code>open</code>: boolean (default: false) -- bindable boolean controlling whether the navigation panel is visible</li>
+      <li><code>children</code>: slot (required) -- navigation content rendered when the menu is open</li>
+      <li><code>...restProps</code>: unknown -- additional attributes spread onto the outer <code>&lt;div&gt;</code> wrapper</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

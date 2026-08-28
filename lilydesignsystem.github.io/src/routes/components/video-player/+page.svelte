@@ -30,3 +30,46 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/video-player/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: video-player</li>
+      <li>PascalCase: VideoPlayer</li>
+      <li>Description: a video player with play-in-view behavior, custom controls, and IntersectionObserver support</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;div&gt; containing &lt;video&gt;</li>
+      <li>CSS class: .video-player</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>aria-label</code> on container -- describes the video content for screen readers</li>
+      <li>Native <code>&lt;video&gt;</code> element provides built-in accessibility controls</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li><code>Space</code> -- toggle play/pause when video is focused</li>
+      <li>Native video keyboard controls when using native controls</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>src</code>: string (required) -- video source URL</li>
+      <li><code>label</code>: string (required) -- accessible label for the video</li>
+      <li><code>poster</code>: string (optional) -- poster image URL</li>
+      <li><code>autoplay</code>: boolean (default: false) -- auto-play when scrolled into view</li>
+      <li><code>muted</code>: boolean (default: false) -- muted state</li>
+      <li><code>loop</code>: boolean (default: false) -- loop playback</li>
+      <li><code>controls</code>: boolean (default: true) -- show native controls</li>
+      <li><code>caption</code>: slot (optional) -- video caption</li>
+      <li><code>children</code>: slot (optional) -- custom controls overlay</li>
+      <li><code>...restProps</code>: Any additional HTML attributes</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

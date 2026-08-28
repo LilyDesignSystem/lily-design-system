@@ -30,3 +30,38 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/file-dialog/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: file-dialog</li>
+      <li>PascalCase: FileDialog</li>
+      <li>Description: a dialog for browsing and selecting files</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;dialog&gt;</li>
+      <li>CSS class: .file-dialog</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>aria-label=&#123;label&#125;</code> -- provides an accessible name for the dialog</li>
+      <li>Native <code>&lt;dialog&gt;</code> element -- provides implicit <code>role="dialog"</code> semantics</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Escape: closes the dialog by setting <code>open</code> to <code>false</code></li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible name for the dialog, applied as <code>aria-label</code></li>
+      <li><code>open</code>: boolean (default: false) -- whether the dialog is visible, two-way bindable via <code>open</code></li>
+      <li><code>children</code>: slot (required) -- dialog content</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

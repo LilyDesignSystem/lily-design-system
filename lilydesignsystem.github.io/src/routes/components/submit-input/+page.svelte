@@ -30,3 +30,39 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/submit-input/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: submit-input</li>
+      <li>PascalCase: SubmitInput</li>
+      <li>Description: a button input that submits a form &lt;input type="submit"&gt;</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;input&gt;</li>
+      <li>CSS class: .submit-input</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>Native <code>&lt;input type="submit"&gt;</code> exposes itself as a <code>button</code> and is the form's default submit control</li>
+      <li><code>value</code> (or label override) provides the accessible name</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Enter: activates the submit button</li>
+      <li>Space: activates the submit button</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>value</code>: string (default: "Submit") -- the visible button text</li>
+      <li><code>disabled</code>: boolean (default: false) -- whether the button is disabled</li>
+      <li><code>...restProps</code>: spread onto the <code>&lt;input&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

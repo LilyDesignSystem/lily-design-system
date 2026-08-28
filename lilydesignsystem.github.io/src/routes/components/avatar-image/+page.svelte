@@ -30,3 +30,38 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/avatar-image/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: avatar-image</li>
+      <li>PascalCase: AvatarImage</li>
+      <li>Description: an avatar indicator inside image such as a user photo</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;img&gt;</li>
+      <li>CSS class: .avatar-image</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>Native <code>&lt;img&gt;</code> element with <code>alt</code> text provides accessible image semantics</li>
+      <li>When inside an Avatar, the parent's <code>aria-label</code> provides the primary accessible name</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>None -- this is a decorative/informational element, not interactive</li>
+    </ul>
+    <h3>Props</h3>
+    <p>| Prop           | Type            | Default    | Description                                           |</p>
+    <p>| -------------- | --------------- | ---------- | ----------------------------------------------------- |</p>
+    <p>| <code>src</code>          | <code>string</code>        | (required) | URL of the avatar image                               |</p>
+    <p>| <code>alt</code>          | <code>string</code>        | (required) | Accessible alt text for the image                     |</p>
+    <p>| <code>...restProps</code> | HTML attributes |            | Additional attributes spread onto the <code>&lt;img&gt;</code> element |</p>
+</section>
+<!-- END generated: canonical contract -->

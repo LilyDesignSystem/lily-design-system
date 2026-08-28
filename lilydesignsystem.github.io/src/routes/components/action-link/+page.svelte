@@ -30,3 +30,39 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/action-link/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: action-link</li>
+      <li>PascalCase: ActionLink</li>
+      <li>Description: a hyperlink styled as an action trigger</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;a&gt;</li>
+      <li>CSS class: .action-link</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>Implicit <code>link</code> role from the <code>&lt;a&gt;</code> element</li>
+      <li><code>aria-label</code> -- optional override for screen reader text when the visible link text does not fully convey the action</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Tab: Focus the link (native browser behavior)</li>
+      <li>Enter: Activate the link (native browser behavior)</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>href</code>: string (required) -- the URL the link points to</li>
+      <li><code>label</code>: string (optional) -- accessible label override for screen readers via aria-label</li>
+      <li><code>children</code>: slot (required) -- the link content (text or mixed content)</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

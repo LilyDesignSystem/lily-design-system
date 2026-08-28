@@ -30,3 +30,44 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/product-card/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: product-card</li>
+      <li>PascalCase: ProductCard</li>
+      <li>Description: a specialized card for displaying a product with image, title, price, and actions</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;article&gt;</li>
+      <li>CSS class: .product-card</li>
+      <li>Interactive: no (focusable children manage their own behavior)</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>&lt;article&gt;</code> implicit landmark</li>
+      <li><code>aria-label</code> defaults to name, overridable by label prop</li>
+      <li>Image <code>alt</code> supplied via imageAlt prop</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>None on card</li>
+      <li>Focusable children manage their own keyboard behavior</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>name</code>: string (required)</li>
+      <li><code>price</code>: string (required) -- pre-formatted</li>
+      <li><code>imageUrl</code>: string (optional)</li>
+      <li><code>imageAlt</code>: string (optional)</li>
+      <li><code>label</code>: string (optional) -- aria-label override</li>
+      <li><code>children</code>: slot -- additional content</li>
+      <li><code>...restProps</code>: any additional HTML attributes</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

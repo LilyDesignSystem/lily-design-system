@@ -30,3 +30,42 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/mutually-exclusive/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: mutually-exclusive</li>
+      <li>PascalCase: MutuallyExclusive</li>
+      <li>Description: a container ensuring only one option can be selected from a group</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .mutually-exclusive</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="group"</code> + <code>aria-label</code> identifies the group</li>
+      <li>Each child checkbox retains its own native semantics</li>
+      <li>Consumers may also use <code>aria-describedby</code> to reference an explanation of the constraint</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Tab moves focus through the child controls</li>
+      <li>Space toggles the focused checkbox (native behaviour); the component handler then unchecks any other previously-checked option</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) (default: —) — Accessible label for the group</li>
+      <li><code>value</code>: string | null (default: null) — Currently selected option's value, or null when none is selected; bindable</li>
+      <li><code>onChange</code>: (value: string | null) =&gt; void (default: —) — Fired when the selected value changes</li>
+      <li><code>children</code>: slot (required) (default: —) — The CheckboxInput controls that make up the group</li>
+      <li><code>...restProps</code>: HTML attributes (default: —) — Spread onto the root <code>&lt;div&gt;</code></li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

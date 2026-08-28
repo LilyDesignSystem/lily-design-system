@@ -30,3 +30,47 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/popconfirm-dialog/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: popconfirm-dialog</li>
+      <li>PascalCase: PopconfirmDialog</li>
+      <li>Description: a popover dialog with confirm and cancel buttons</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .popconfirm-dialog</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>role="alertdialog"</li>
+      <li>aria-modal="false"</li>
+      <li>aria-labelledby references title id</li>
+      <li>aria-describedby references description id (only when description present)</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Tab / Shift+Tab: Move focus between buttons</li>
+      <li>Enter / Space: Activate focused button</li>
+      <li>Escape: Consumer closes and triggers cancel</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>open</code>: boolean (default: false)</li>
+      <li><code>title</code>: string (REQUIRED)</li>
+      <li><code>description</code>: string (optional)</li>
+      <li><code>confirmLabel</code>: string (REQUIRED)</li>
+      <li><code>cancelLabel</code>: string (REQUIRED)</li>
+      <li><code>onconfirm</code> / <code>onConfirm</code>: callback (optional)</li>
+      <li><code>oncancel</code> / <code>onCancel</code>: callback (optional)</li>
+      <li><code>...restProps</code>: any additional HTML attributes</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

@@ -30,3 +30,44 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/pictogram/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: pictogram</li>
+      <li>PascalCase: Pictogram</li>
+      <li>Description: an icon-based component pairing an icon with a title and description in a centered or side layout</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;figure&gt;</li>
+      <li>CSS class: .pictogram</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>Implicit <code>figure</code> semantics from &lt;figure&gt;</li>
+      <li>Icon container has aria-hidden="true" (decorative)</li>
+      <li>Accessible name from heading inside &lt;figcaption&gt; or from label</li>
+      <li>data-layout is a non-ARIA styling hook</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>None (passive element); interactive children manage their own keyboard behavior.</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>layout</code>: "centered" | "side" (default: "centered")</li>
+      <li><code>heading</code>: string (optional) -- title text</li>
+      <li><code>description</code>: string (optional) -- body text</li>
+      <li><code>icon</code>: slot/snippet/ReactNode (REQUIRED) -- the icon content</li>
+      <li><code>label</code>: string (optional) -- aria-label override</li>
+      <li><code>children</code>: slot (optional) -- overrides description if provided</li>
+      <li><code>...restProps</code>: any additional HTML attributes</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

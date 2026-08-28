@@ -30,3 +30,40 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/image/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: image</li>
+      <li>PascalCase: Image</li>
+      <li>Description: an image element with alt text</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;img&gt;</li>
+      <li>CSS class: .image</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>alt="..."</code> -- provides the accessible name for the image, required for all non-decorative images</li>
+      <li><code>&lt;figure&gt;</code> and <code>&lt;figcaption&gt;</code> -- when caption is present, these semantic HTML elements associate the caption with the image for assistive technology</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>No keyboard interactions — this is a passive element</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>src</code>: string (required) -- the image source URL</li>
+      <li><code>alt</code>: string (required) -- alternative text describing the image for screen readers and when the image fails to load</li>
+      <li><code>caption</code>: string (optional) -- when provided, wraps the image in a <code>&lt;figure&gt;</code> with a <code>&lt;figcaption&gt;</code></li>
+      <li><code>loading</code>: "lazy" | "eager" (optional) -- controls the native browser loading behavior</li>
+      <li><code>...restProps</code>: unknown -- additional attributes spread onto the root element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

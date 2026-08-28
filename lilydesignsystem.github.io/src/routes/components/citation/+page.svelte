@@ -30,3 +30,37 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/citation/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: citation</li>
+      <li>PascalCase: Citation</li>
+      <li>Description: a citation acknowledges the relevance of a work of another to the topic of discussion</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;cite&gt;</li>
+      <li>CSS class: .citation</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>Implicit semantics from the <code>&lt;cite&gt;</code> element</li>
+      <li>No additional ARIA attributes required for standard usage</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>None (passive inline element)</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>children</code>: slot (required) -- citation text, typically the title of the referenced work</li>
+      <li><code>...restProps</code>: unknown -- additional attributes spread onto the <code>&lt;cite&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

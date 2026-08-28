@@ -30,3 +30,42 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/alert/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: alert</li>
+      <li>PascalCase: Alert</li>
+      <li>Description: a status message for important information or feedback</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .alert</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="alert"</code> or <code>role="status"</code> for live region semantics</li>
+      <li><code>aria-live="assertive"</code> (default for alert role) or <code>aria-live="polite"</code> (default for status role)</li>
+      <li><code>aria-atomic="true"</code> ensures the entire region is re-announced on any change</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>None -- alerts are passive announcements, not interactive elements</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>type</code>: "info" | "success" | "warning" | "error" (default: "info") -- severity type</li>
+      <li><code>heading</code>: string (optional) -- heading text for the alert</li>
+      <li><code>role</code>: "alert" | "status" (default: "alert") -- ARIA role</li>
+      <li><code>live</code>: "assertive" | "polite" | "off" (optional) -- override for aria-live politeness</li>
+      <li><code>children</code>: slot (required) -- the alert content</li>
+      <li><code>...restProps</code>: Any additional HTML attributes spread onto the <code>&lt;div&gt;</code></li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

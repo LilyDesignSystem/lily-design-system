@@ -30,3 +30,42 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/toast/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: toast</li>
+      <li>PascalCase: Toast</li>
+      <li>Description: a brief auto-dismissing notification message</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .toast</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="status"</code> -- (default) identifies a live region with advisory information, announced at the next graceful opportunity</li>
+      <li><code>role="alert"</code> -- (when <code>urgent</code> is true) identifies a live region with important, time-sensitive information, announced immediately</li>
+      <li><code>aria-live="polite"</code> -- (default) screen reader waits for a pause before announcing the content</li>
+      <li><code>aria-live="assertive"</code> -- (when <code>urgent</code> is true) screen reader interrupts current speech to announce the content</li>
+      <li><code>aria-label=&#123;label&#125;</code> -- optional descriptive label for the toast region</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>No keyboard interactions — this is a passive element</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (default: undefined) -- optional accessible label applied via <code>aria-label</code></li>
+      <li><code>urgent</code>: boolean (default: false) -- when true, uses <code>role="alert"</code> and <code>aria-live="assertive"</code> instead of <code>role="status"</code> and <code>aria-live="polite"</code></li>
+      <li><code>children</code>: slot (required) -- the toast message content</li>
+      <li><code>...restProps</code>: spread onto the <code>&lt;div&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

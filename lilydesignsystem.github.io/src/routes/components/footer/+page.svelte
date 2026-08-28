@@ -30,3 +30,37 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/footer/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: footer</li>
+      <li>PascalCase: Footer</li>
+      <li>Description: a page or section footer area</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;footer&gt;</li>
+      <li>CSS class: .footer</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>contentinfo</code> landmark role -- provided natively by the <code>&lt;footer&gt;</code> element, allowing screen reader users to navigate directly to the footer</li>
+      <li><code>aria-label</code> -- optional accessible name to distinguish this footer from others on the page</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>No keyboard interactions — this is a passive element</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (default: undefined) -- optional accessible name via <code>aria-label</code>, useful when multiple footers exist</li>
+      <li><code>children</code>: slot (required) -- footer content</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

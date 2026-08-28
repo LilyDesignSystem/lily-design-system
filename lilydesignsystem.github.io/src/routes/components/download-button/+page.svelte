@@ -30,3 +30,45 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/download-button/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: download-button</li>
+      <li>PascalCase: DownloadButton</li>
+      <li>Description: a download link styled as a button, with optional file size and format metadata</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;a&gt;</li>
+      <li>CSS class: .download-button</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>Implicit <code>link</code> role from &lt;a&gt; element</li>
+      <li>aria-label provides descriptive accessible name (required)</li>
+      <li>data-file-size and data-file-format are non-ARIA styling hooks</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Tab: Focus the link</li>
+      <li>Enter: Activate the link (download or navigate)</li>
+      <li>(All handled natively by &lt;a&gt; element)</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>href</code>: string (REQUIRED) -- file URL</li>
+      <li><code>label</code>: string (REQUIRED) -- aria-label and default visible text</li>
+      <li><code>fileSize</code>: string (optional) -- pre-formatted size text</li>
+      <li><code>fileFormat</code>: string (optional) -- file format text</li>
+      <li><code>download</code>: string | boolean (optional) -- native download attribute</li>
+      <li><code>children</code>: slot (optional) -- defaults to label</li>
+      <li><code>...restProps</code>: any additional HTML attributes</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

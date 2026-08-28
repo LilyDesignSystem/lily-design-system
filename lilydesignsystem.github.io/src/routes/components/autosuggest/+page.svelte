@@ -30,3 +30,49 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/autosuggest/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: autosuggest</li>
+      <li>PascalCase: Autosuggest</li>
+      <li>Description: a text input that proposes matching options as users type</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .autosuggest</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="combobox"</code> on the wrapper, <code>aria-expanded</code> toggled to reflect listbox visibility</li>
+      <li><code>aria-controls</code> on the input references the listbox id</li>
+      <li><code>aria-activedescendant</code> on the input references the currently highlighted option</li>
+      <li><code>role="listbox"</code> on the suggestion list, <code>role="option"</code> on each suggestion</li>
+      <li>Selected option has <code>aria-selected="true"</code></li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Down arrow: open the listbox / move highlight to the next option</li>
+      <li>Up arrow: move highlight to the previous option</li>
+      <li>Enter: select the highlighted option</li>
+      <li>Escape: close the listbox without selecting</li>
+      <li>Home / End: jump to the first / last option (when listbox is open)</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) (default: —) — Accessible name for the input</li>
+      <li><code>value</code>: string (default: "") — Bindable input value</li>
+      <li><code>suggestions</code>: array of <code>&#123; value: string; label: string &#125;</code> (default: []) — Current suggestions to show</li>
+      <li><code>onInput</code>: (query: string) =&gt; void (default: —) — Fired when the typed value changes; consumer recomputes suggestions</li>
+      <li><code>onSelect</code>: (value: string) =&gt; void (default: —) — Fired when the user selects a suggestion</li>
+      <li><code>placeholder</code>: string (default: —) — Placeholder text</li>
+      <li><code>...restProps</code>: HTML attributes (default: —) — Spread onto the wrapper <code>&lt;div&gt;</code></li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

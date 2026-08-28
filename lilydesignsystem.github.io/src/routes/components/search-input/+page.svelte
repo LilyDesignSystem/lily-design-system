@@ -30,3 +30,40 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/search-input/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: search-input</li>
+      <li>PascalCase: SearchInput</li>
+      <li>Description: an input for entering a search query &lt;input type="search"&gt;</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;input&gt;</li>
+      <li>CSS class: .search-input</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>aria-label=&#123;label&#125;</code> -- provides the accessible name for the search field since no visible label element is associated</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Escape: clears the search field (browser-native behavior for search inputs)</li>
+      <li>Enter: submits the containing form (standard input behavior)</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible name applied via <code>aria-label</code></li>
+      <li><code>value</code>: string (default: "") -- current search text, bindable with two-way <code>value</code> binding</li>
+      <li><code>required</code>: boolean (default: false) -- whether the field must be filled before form submission</li>
+      <li><code>disabled</code>: boolean (default: false) -- whether the input is disabled</li>
+      <li><code>...restProps</code>: spread onto the <code>&lt;input&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

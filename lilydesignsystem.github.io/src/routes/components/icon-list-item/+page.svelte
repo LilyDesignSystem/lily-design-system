@@ -30,3 +30,40 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/icon-list-item/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: icon-list-item</li>
+      <li>PascalCase: IconListItem</li>
+      <li>Description: one item in an icon list with a leading icon slot</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;li&gt;</li>
+      <li>CSS class: .icon-list-item</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>Implicit <code>listitem</code> role from the <code>&lt;li&gt;</code> element</li>
+      <li>Icon span has <code>aria-hidden="true"</code> (decorative)</li>
+      <li>Text span carries the accessible content of the item</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Tab: moves focus to interactive descendants of the item</li>
+      <li>The item itself is not interactive</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>icon</code>: slot/snippet/ReactNode (optional) -- leading icon content</li>
+      <li><code>children</code>: slot -- text content</li>
+      <li><code>...restProps</code>: any additional HTML attributes</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

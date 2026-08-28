@@ -30,3 +30,37 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/breadcrumb-list-item/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: breadcrumb-list-item</li>
+      <li>PascalCase: BreadcrumbListItem</li>
+      <li>Description: one breadcrumb list item in the trail</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;li&gt;</li>
+      <li>CSS class: .breadcrumb-list-item</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>Implicit <code>listitem</code> role from the semantic <code>&lt;li&gt;</code> element</li>
+      <li><code>aria-current="page"</code> -- set when <code>current</code> is true, indicating the user's current location in the breadcrumb trail</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>No keyboard interactions — this is a passive element</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>current</code>: boolean (default: false) -- whether this item represents the current page in the breadcrumb trail</li>
+      <li><code>children</code>: slot (required) -- breadcrumb content, typically a link or text</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

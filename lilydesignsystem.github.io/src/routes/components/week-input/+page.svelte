@@ -30,3 +30,41 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/week-input/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: week-input</li>
+      <li>PascalCase: WeekInput</li>
+      <li>Description: an input for selecting a week and year &lt;input type="week"&gt;</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;input&gt;</li>
+      <li>CSS class: .week-input</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>aria-label=&#123;label&#125;</code> -- provides the accessible name for the week input since no visible label element is associated</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Up Arrow / Down Arrow: adjust the focused segment (year or week number)</li>
+      <li>Left Arrow / Right Arrow: move focus between year and week segments</li>
+      <li>Enter: confirm selection / submit form</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible name applied via <code>aria-label</code></li>
+      <li><code>value</code>: string (default: "") -- current week value in YYYY-Www format, bindable with two-way <code>value</code> binding</li>
+      <li><code>required</code>: boolean (default: false) -- whether the field must be filled before form submission</li>
+      <li><code>disabled</code>: boolean (default: false) -- whether the input is disabled</li>
+      <li><code>...restProps</code>: spread onto the <code>&lt;input&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

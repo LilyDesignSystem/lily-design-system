@@ -30,3 +30,41 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/dialog/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: dialog</li>
+      <li>PascalCase: Dialog</li>
+      <li>Description: a modal or non-modal dialog window</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;dialog&gt;</li>
+      <li>CSS class: .dialog</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="dialog"</code> -- provided natively by the <code>&lt;dialog&gt;</code> element</li>
+      <li><code>aria-label="&#123;label&#125;"</code> -- provides an accessible name for the dialog</li>
+      <li><code>aria-modal="true"</code> -- present when the <code>modal</code> prop is true, indicating the dialog traps focus and blocks background interaction</li>
+      <li><code>tabindex="-1"</code> -- allows the dialog element itself to receive focus for keyboard event handling</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Escape: closes the dialog by setting <code>open</code> to false</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>open</code>: boolean (default: false) -- whether the dialog is visible; bindable</li>
+      <li><code>label</code>: string (required) -- accessible name for the dialog</li>
+      <li><code>modal</code>: boolean (default: true) -- whether the dialog behaves as a modal</li>
+      <li><code>children</code>: slot (required) -- dialog body content</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

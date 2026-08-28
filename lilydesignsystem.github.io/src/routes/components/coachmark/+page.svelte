@@ -30,3 +30,47 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/coachmark/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: coachmark</li>
+      <li>PascalCase: Coachmark</li>
+      <li>Description: an anchored popover that spotlights and explains a single feature</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;div&gt; with role="dialog"</li>
+      <li>CSS class: .coachmark</li>
+      <li>Interactive: yes (dismiss button)</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="dialog"</code> on the container</li>
+      <li><code>aria-modal="false"</code> (non-blocking)</li>
+      <li><code>aria-labelledby</code> referencing the title id</li>
+      <li><code>aria-describedby</code> referencing the description id, only when description is provided</li>
+      <li><code>hidden</code> attribute reflects <code>!open</code></li>
+      <li>Dismiss button has <code>aria-label</code> via <code>dismissLabel</code></li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Tab / Shift+Tab: Move focus into and out of the coachmark</li>
+      <li>Enter / Space: Activate the dismiss button when focused</li>
+      <li>Escape: (Consumer-provided) dismiss the coachmark</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>open</code>: boolean (default false)</li>
+      <li><code>title</code>: string (REQUIRED)</li>
+      <li><code>description</code>: string (optional)</li>
+      <li><code>dismissLabel</code>: string (REQUIRED)</li>
+      <li><code>onDismiss</code> / <code>ondismiss</code>: callback (optional)</li>
+      <li><code>...restProps</code>: any additional HTML attributes</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

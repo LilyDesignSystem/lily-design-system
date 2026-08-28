@@ -30,3 +30,37 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/avatar-text/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: avatar-text</li>
+      <li>PascalCase: AvatarText</li>
+      <li>Description: an avatar indicator inner text such as a user name</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;span&gt;</li>
+      <li>CSS class: .avatar-text</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>Typically marked <code>aria-hidden="true"</code> when inside an Avatar, since the parent's <code>aria-label</code> already provides the accessible name</li>
+      <li>When used standalone, ensure the text is accessible or the parent provides an accessible label</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>None -- this is a decorative/informational element, not interactive</li>
+    </ul>
+    <h3>Props</h3>
+    <p>| Prop           | Type            | Default    | Description                                            |</p>
+    <p>| -------------- | --------------- | ---------- | ------------------------------------------------------ |</p>
+    <p>| <code>children</code>     | <code>slot</code>       | (required) | Initials or short text to display                      |</p>
+    <p>| <code>...restProps</code> | HTML attributes |            | Additional attributes spread onto the <code>&lt;span&gt;</code> element |</p>
+</section>
+<!-- END generated: canonical contract -->

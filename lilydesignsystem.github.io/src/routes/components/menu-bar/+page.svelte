@@ -30,3 +30,42 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/menu-bar/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: menu-bar</li>
+      <li>PascalCase: MenuBar</li>
+      <li>Description: a horizontal bar of menu triggers</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .menu-bar</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="menubar"</code> -- identifies the container as a horizontal menu bar widget.</li>
+      <li><code>aria-label</code> -- provides an accessible name describing the purpose of the menu bar.</li>
+      <li>Child elements should use <code>role="menuitem"</code> with <code>tabindex="-1"</code> for focusable menu bar items.</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>ArrowRight: Moves focus to the next menu bar item, wrapping to the first item from the last.</li>
+      <li>ArrowLeft: Moves focus to the previous menu bar item, wrapping to the last item from the first.</li>
+      <li>Home: Moves focus to the first menu bar item.</li>
+      <li>End: Moves focus to the last menu bar item.</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible name applied via <code>aria-label</code>.</li>
+      <li><code>children</code>: slot (required) -- menu bar item elements to render (should have <code>role="menuitem"</code> and <code>tabindex="-1"</code>).</li>
+      <li><code>...restProps</code>: unknown -- additional attributes spread onto the container <code>&lt;div&gt;</code>.</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

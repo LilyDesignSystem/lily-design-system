@@ -30,3 +30,39 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/timer/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: timer</li>
+      <li>PascalCase: Timer</li>
+      <li>Description: a countdown or elapsed time display</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;span&gt;</li>
+      <li>CSS class: .timer</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="timer"</code> indicates countdown or elapsed time</li>
+      <li><code>aria-label</code> from the label prop provides accessible name</li>
+      <li><code>aria-live="polite"</code> for non-intrusive screen reader announcements of updates</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>None -- this is an informational display, not interactive</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible label for screen readers</li>
+      <li><code>children</code>: slot (required) -- formatted timer display content</li>
+      <li><code>...restProps</code>: Any additional HTML attributes spread onto the <code>&lt;time&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

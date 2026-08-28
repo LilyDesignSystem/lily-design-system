@@ -30,3 +30,43 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/expander/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: expander</li>
+      <li>PascalCase: Expander</li>
+      <li>Description: a control that expands to reveal more content</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .expander</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>aria-expanded=&#123;expanded&#125;</code> -- on the button, indicates whether the controlled content is currently visible</li>
+      <li><code>aria-controls=&#123;contentId&#125;</code> -- on the button, references the id of the expandable content region</li>
+      <li><code>role="region"</code> -- on the content container, identifies the expandable area as a landmark region</li>
+      <li><code>aria-label=&#123;label&#125;</code> -- on the content region, provides an accessible name for the region</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Enter: Toggles the expander open/closed when the button has focus (native button behavior)</li>
+      <li>Space: Toggles the expander open/closed when the button has focus (native button behavior)</li>
+      <li>Tab: Moves focus to/from the toggle button</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- button text and accessible name for both the button and the content region</li>
+      <li><code>expanded</code>: boolean (default: false) -- bindable boolean controlling whether the content is visible</li>
+      <li><code>children</code>: slot (required) -- expandable content rendered when expanded is true</li>
+      <li><code>...restProps</code>: unknown -- additional attributes spread onto the outer <code>&lt;div&gt;</code> wrapper</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

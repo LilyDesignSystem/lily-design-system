@@ -30,3 +30,47 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/grail-layout/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: grail-layout</li>
+      <li>PascalCase: GrailLayout</li>
+      <li>Description: a responsive web design structure with header, left aside, center main, right aside, footer</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .grail-layout</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>Renders no implicit landmark — the wrapper is a generic container</li>
+      <li>The contained <code>&lt;header&gt;</code>, <code>&lt;aside&gt;</code>, <code>&lt;main&gt;</code>, and <code>&lt;footer&gt;</code> elements provide page-level landmarks</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>No keyboard interactions — this is a passive element</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>children</code>: slot (required) -- layout section elements to render inside the container</li>
+      <li><code>...restProps</code>: unknown -- additional attributes spread onto the <code>&lt;div&gt;</code> element</li>
+    </ul>
+    <p>### Grail layout pattern: GrailLayout → GrailLayoutTop, GrailLayoutLeft, GrailLayoutCenter, GrailLayoutRight, GrailLayoutBottom</p>
+    <p>```tsx</p>
+    <p>&lt;GrailLayout&gt;</p>
+    <p>  &lt;GrailLayoutTopHeader&gt;…&lt;/GrailLayoutTopHeader&gt;</p>
+    <p>  &lt;GrailLayoutLeftAside&gt;…&lt;/GrailLayoutLeftAside&gt;</p>
+    <p>  &lt;GrailLayoutCenterMain&gt;…&lt;/GrailLayoutCenterMain&gt;</p>
+    <p>  &lt;GrailLayoutRightAside&gt;…&lt;/GrailLayoutRightAside&gt;</p>
+    <p>  &lt;GrailLayoutBottomFooter&gt;…&lt;/GrailLayoutBottomFooter&gt;</p>
+    <p>&lt;/GrailLayout&gt;</p>
+    <p>```</p>
+</section>
+<!-- END generated: canonical contract -->

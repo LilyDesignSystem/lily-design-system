@@ -30,3 +30,41 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/tree-list/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: tree-list</li>
+      <li>PascalCase: TreeList</li>
+      <li>Description: a hierarchical list with nested expandable items</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;ol&gt;</li>
+      <li>CSS class: .tree-list</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="tree"</code> -- identifies the container as a tree widget for hierarchical data</li>
+      <li><code>aria-label=&#123;label&#125;</code> -- provides an accessible name describing the purpose of the tree</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>ArrowDown: Moves focus to the next tree item; wraps to the first item after the last</li>
+      <li>ArrowUp: Moves focus to the previous tree item; wraps to the last item before the first</li>
+      <li>Home: Moves focus to the first tree item</li>
+      <li>End: Moves focus to the last tree item</li>
+    </ul>
+    <h3>Props</h3>
+    <p>| Prop           | Type            | Default    | Description                                                         |</p>
+    <p>| -------------- | --------------- | ---------- | ------------------------------------------------------------------- |</p>
+    <p>| <code>label</code>        | <code>string</code>        | (required) | Accessible name for the tree via <code>aria-label</code>                       |</p>
+    <p>| <code>children</code>     | <code>slot</code>          | (required) | Tree item elements with <code>role="treeitem"</code> to render inside the list |</p>
+    <p>| <code>...restProps</code> | HTML attributes |            | Additional attributes spread onto the <code>&lt;ul&gt;</code> element                |</p>
+</section>
+<!-- END generated: canonical contract -->

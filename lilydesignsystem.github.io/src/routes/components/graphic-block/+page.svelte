@@ -30,3 +30,42 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/graphic-block/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: graphic-block</li>
+      <li>PascalCase: GraphicBlock</li>
+      <li>Description: a wrapper for charts and graphics with title, description, notes, and ARIA description</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;figure&gt;</li>
+      <li>CSS class: .graphic-block</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>Implicit <code>figure</code> role from <code>&lt;figure&gt;</code> element</li>
+      <li><code>aria-label</code> -- provides a full text alternative describing the graphic for screen readers</li>
+      <li><code>&lt;figcaption&gt;</code> -- provides visible caption text</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>None at the figure level -- interactive children handle their own keyboard interactions</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>title</code>: string (optional) -- title displayed above the graphic</li>
+      <li><code>description</code>: string (optional) -- description text below the title</li>
+      <li><code>notes</code>: string (optional) -- notes/source text below the graphic</li>
+      <li><code>label</code>: string (required) -- accessible label describing the graphic for screen readers</li>
+      <li><code>children</code>: slot (required) -- the graphic/chart content</li>
+      <li><code>...restProps</code>: Any additional HTML attributes</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

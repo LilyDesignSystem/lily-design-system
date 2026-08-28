@@ -30,3 +30,39 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/section-nav/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: section-nav</li>
+      <li>PascalCase: SectionNav</li>
+      <li>Description: a navigation container for section navigation links</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;nav&gt;</li>
+      <li>CSS class: .section-nav</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>&lt;nav&gt;</code> element is a navigation landmark</li>
+      <li><code>aria-label</code> (from <code>label</code>) names the landmark</li>
+      <li><code>aria-current="page"</code> should be applied by the consumer to the current <code>SectionLink</code></li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Tab moves focus through the contained links</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) (default: —) — Accessible label for the navigation landmark</li>
+      <li><code>children</code>: slot (required) (default: —) — The <code>SectionList</code> and its children</li>
+      <li><code>...restProps</code>: HTML attributes (default: —) — Spread onto the root <code>&lt;nav&gt;</code></li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

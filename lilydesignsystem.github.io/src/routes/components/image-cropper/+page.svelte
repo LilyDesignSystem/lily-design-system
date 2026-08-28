@@ -29,3 +29,38 @@
   </details>
 </section>
 <!-- END auto-generated component example -->
+
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/image-cropper/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: image-cropper</li>
+      <li>PascalCase: ImageCropper</li>
+      <li>Description: a container for cropping and resizing an image to a selected region</li>
+      <li>Status: experimental — recent catalog addition with the least accumulated depth; contract may still move</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .image-cropper</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="application"</code> -- indicates a complex widget with custom pointer interactions, informing assistive technologies to pass keyboard events through to the application</li>
+      <li><code>aria-label</code> -- provides an accessible description of the image cropper purpose</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>No keyboard interactions are baked in — this is a passive container. Consumers wire pointer and keyboard handling for the crop region and resize handles inside the provided children.</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible description of the image cropper via <code>aria-label</code></li>
+      <li><code>children</code>: slot (required) -- the image and crop overlay surface (image, canvas, SVG, or cropping-library output)</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

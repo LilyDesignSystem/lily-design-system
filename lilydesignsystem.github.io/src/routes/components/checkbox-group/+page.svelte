@@ -30,3 +30,41 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/checkbox-group/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: checkbox-group</li>
+      <li>PascalCase: CheckboxGroup</li>
+      <li>Description: a group component that manages a collection of checkboxes with shared state</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .checkbox-group</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>role="group"</code> -- identifies the fieldset as a group of related checkboxes</li>
+      <li><code>aria-label=&#123;label&#125;</code> -- provides an accessible name for the group so screen readers announce the purpose</li>
+      <li>Native <code>&lt;fieldset&gt;</code> <code>disabled</code> attribute propagates disabled state to all child inputs</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Tab: Moves focus between checkboxes within the group (native browser behavior)</li>
+      <li>Space: Toggles the focused checkbox checked state (native browser behavior)</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) -- accessible label for the checkbox group, applied via <code>aria-label</code></li>
+      <li><code>children</code>: slot (required) -- checkbox elements to render inside the fieldset</li>
+      <li><code>disabled</code>: boolean (default: false) -- disables the entire group via the fieldset <code>disabled</code> attribute</li>
+      <li><code>...restProps</code>: unknown -- additional attributes spread onto the <code>&lt;fieldset&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

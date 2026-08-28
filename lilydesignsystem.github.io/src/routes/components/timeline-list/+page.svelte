@@ -30,3 +30,40 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/timeline-list/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: timeline-list</li>
+      <li>PascalCase: TimelineList</li>
+      <li>Description: an ordered list of chronological events or milestones</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;ol&gt;</li>
+      <li>CSS class: .timeline-list</li>
+      <li>Interactive: no</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li>Semantic <code>&lt;ol&gt;</code> for ordered/chronological content</li>
+      <li><code>aria-label</code> provides accessible name for the list</li>
+      <li>Consumers should use <code>&lt;time&gt;</code> elements with <code>datetime</code> attributes for machine-readable dates within items</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>None directly -- standard list navigation by screen readers</li>
+      <li>Tab moves focus between any interactive elements (links, buttons) within timeline items</li>
+    </ul>
+    <h3>Props</h3>
+    <p>| Prop           | Type            | Default    | Description                                  |</p>
+    <p>| -------------- | --------------- | ---------- | -------------------------------------------- |</p>
+    <p>| <code>label</code>        | <code>string</code>        | (required) | Accessible label via <code>aria-label</code>            |</p>
+    <p>| <code>children</code>     | <code>slot</code>       | (required) | Timeline items (should be <code>&lt;li&gt;</code> elements)   |</p>
+    <p>| <code>...restProps</code> | HTML attributes |            | Additional attributes spread onto the <code>&lt;ol&gt;</code> |</p>
+</section>
+<!-- END generated: canonical contract -->

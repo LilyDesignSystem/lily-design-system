@@ -30,3 +30,39 @@
 </section>
 <!-- END auto-generated component example -->
 
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/breadcrumb-list/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: breadcrumb-list</li>
+      <li>PascalCase: BreadcrumbList</li>
+      <li>Description: an ordered list of breadcrumb list items</li>
+      <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
+      <li>HTML tag: &lt;ol&gt;</li>
+      <li>CSS class: .breadcrumb-list</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>&lt;ol&gt;</code> conveys the ordered hierarchical relationship of the breadcrumb trail</li>
+      <li>Implicit <code>list</code> role from the semantic <code>&lt;ol&gt;</code> element</li>
+      <li>The parent BreadcrumbNav provides the <code>&lt;nav&gt;</code> landmark with <code>aria-label</code></li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Tab: Focus moves between links in the breadcrumb trail</li>
+      <li>Enter: Activates the focused breadcrumb link</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>children</code>: slot (required) -- BreadcrumbListItem components forming the breadcrumb trail</li>
+      <li><code>...restProps</code>: any -- additional HTML attributes spread onto the <code>&lt;ol&gt;</code> element</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->
