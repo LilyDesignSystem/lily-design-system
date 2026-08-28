@@ -52,6 +52,19 @@ jobs:
           - lily-design-system-nunjucks-helpers
     steps:
       - uses: actions/checkout@v4
+      - name: Free preinstalled runner bloat for headroom
+        # The ubuntu runner ships ~30 GB of toolchains this job never
+        # touches (dotnet SDKs, Android, Haskell, CodeQL bundles).
+        # Reclaim them up front; each removal is best-effort so a
+        # runner-image change never breaks the build.
+        run: |
+          df -h / | tail -1
+          sudo rm -rf /usr/share/dotnet \
+                      /usr/local/lib/android \
+                      /opt/ghc /usr/local/.ghcup \
+                      /opt/hostedtoolcache/CodeQL \
+                      /usr/local/share/boost 2>/dev/null || true
+          df -h / | tail -1
       - uses: pnpm/action-setup@v4
         with:
           version: 10
@@ -73,17 +86,47 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Free preinstalled runner bloat for headroom
+        # The ubuntu runner ships ~30 GB of toolchains this job never
+        # touches (dotnet SDKs, Android, Haskell, CodeQL bundles).
+        # Reclaim them up front; each removal is best-effort so a
+        # runner-image change never breaks the build.
+        run: |
+          df -h / | tail -1
+          sudo rm -rf /usr/share/dotnet \
+                      /usr/local/lib/android \
+                      /opt/ghc /usr/local/.ghcup \
+                      /opt/hostedtoolcache/CodeQL \
+                      /usr/local/share/boost 2>/dev/null || true
+          df -h / | tail -1
+      # Each build step cleans its subproject's node_modules once the
+      # dist exists: npm pack needs the dist and the manifest, not the
+      # dependency tree, and four full trees would crowd the runner.
       - name: Build angular dist (ng-packagr)
         working-directory: lily-design-system-angular-headless
-        run: npm install --no-audit --no-fund && npm run build
+        run: |
+          npm install --no-audit --no-fund
+          npm run build
+          rm -rf node_modules
       - name: Build svelte dist
         working-directory: lily-design-system-svelte-headless
-        run: npm install --no-audit --no-fund && npm run build
+        run: |
+          npm install --no-audit --no-fund
+          npm run build
+          rm -rf node_modules
       - name: Build react dist
         working-directory: lily-design-system-react-headless
-        run: npm install --no-audit --no-fund && npm run build
+        run: |
+          npm install --no-audit --no-fund
+          npm run build
+          rm -rf node_modules
       - name: Build vue dist
         working-directory: lily-design-system-vue-headless
-        run: npm install --no-audit --no-fund && npm run build
+        run: |
+          npm install --no-audit --no-fund
+          npm run build
+          rm -rf node_modules
       - name: Smoke every package as a consumer
-        run: bin/smoke-packages
+        run: |
+          bin/smoke-packages
+          df -h / | tail -1
