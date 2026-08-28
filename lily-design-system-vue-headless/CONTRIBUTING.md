@@ -42,7 +42,11 @@ writing code, and the first three are worth more than most patches.
    criteria. VoiceOver, NVDA, or JAWS results on *any* component are genuinely
    scarce here, and a report of the form "component X announces Y, which is wrong
    because Z" is directly actionable. You do not need to be an expert; you need a
-   screen reader and patience.
+   screen reader and patience. There is a structured
+   [screen-reader report form](https://github.com/LilyDesignSystem/lily-design-system/issues/new?template=screen-reader-report.yml)
+   and a [testing matrix](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/screen-reader-matrix.md) of the twenty components
+   whose rows most need filling — every cell in it is empty until a real session
+   fills it.
 3. **Real-world use reports.** You tried Lily and something did not fit — the class
    hooks fought your CSS, a prop was missing, the docs assumed knowledge you did not
    have. Even without a patch, this is worth more than a feature request, because

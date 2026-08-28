@@ -9,6 +9,20 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Screen-reader matrix structure + intake form — 2026-08-28
+
+[plan.md](plan.md) P4-T4, the half that can be built without an AT
+session: `docs/screen-reader-matrix.md` names the twenty components
+whose announcements most need observing (matched to the audit pack's
+tier 1 — the hand-rolled helper patterns first), fixes the result
+vocabulary and per-combination environment format, and requires every
+filled cell to trace to a recorded session. A structured GitHub issue
+form (`screen-reader-report.yml`) turns CONTRIBUTING's "most wanted"
+ask into a two-minute report. **Every result cell ships empty**: the
+matrix's own header says the project does not record announcements
+nobody observed, and the task stays open until real sessions fill
+rows.
+
 ## Maturity labels on all 491 components — 2026-08-28
 
 [plan.md](plan.md) P4-T3, the GOV.UK/USWDS practice adapted to what

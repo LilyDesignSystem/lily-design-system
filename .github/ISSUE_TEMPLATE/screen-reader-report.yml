@@ -1,0 +1,67 @@
+name: Screen-reader report
+description: >-
+  Report what a screen reader actually announced for a Lily component —
+  pass, awkward, or wrong. This is the contribution the project wants
+  most; one component with one screen reader is a complete report.
+title: "[a11y/SR] <component>: <one-line observation>"
+labels: ["accessibility", "screen-reader"]
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        Thank you — the automated suites assert ARIA attributes, not what
+        assistive technology announces, so this report covers ground
+        nothing else does. Results land in
+        [docs/screen-reader-matrix.md](../../blob/main/docs/screen-reader-matrix.md).
+  - type: input
+    id: component
+    attributes:
+      label: Component or helper
+      description: Catalog slug (e.g. `dialog`) or helper name (e.g. `theme-picker`).
+      placeholder: dialog
+    validations:
+      required: true
+  - type: input
+    id: where
+    attributes:
+      label: Where you tested
+      description: URL or app route of the page you exercised.
+      placeholder: /components/dialog in the SvelteKit example app
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Screen reader + version / browser + version / OS + version.
+      placeholder: NVDA 2026.2 / Firefox 143 / Windows 11
+    validations:
+      required: true
+  - type: dropdown
+    id: verdict
+    attributes:
+      label: Verdict
+      options:
+        - "pass — announced role, name, state, and value as intended"
+        - "minor — usable but awkward, duplicated, or over-verbose"
+        - "fail — wrong/missing role, name, or state; unreachable; or a trap"
+    validations:
+      required: true
+  - type: textarea
+    id: observed
+    attributes:
+      label: What was announced / what happened
+      description: >-
+        As close to verbatim as you can. "It announced 'button, AI' with no
+        indication it was pressed" beats a summary.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected (optional)
+      description: >-
+        If you know the intended contract (each component's AGENTS.md
+        documents it), say where reality diverged. Not required.
+    validations:
+      required: false

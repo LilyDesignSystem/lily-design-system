@@ -274,12 +274,20 @@ Rules for the executing agent:
   cannot drift. bin/test asserts exactly one valid Status per
   component (bite-proven).
 
-- [ ] **P4-T4 Screen-reader testing matrix.**
+- [/] **P4-T4 Screen-reader testing matrix.**
   VoiceOver + NVDA (JAWS as funded) × ~20 representative interactive
   components; per-component results recorded; CONTRIBUTING's ask
   becomes a structured intake template (issue form).
   Verify: matrix doc exists with ≥20 rows of real results; issue
   template live.
+  Structure done 2026-08-28: docs/screen-reader-matrix.md (twenty
+  representative components matched to audit tier 1, result
+  vocabulary, per-combination environment format, a sessions ledger
+  every cell must trace to) and the screen-reader-report issue form,
+  linked from CONTRIBUTING. **Every result cell is deliberately
+  empty** — the verify clause wants real results, and this project
+  does not record announcements nobody observed. Open remainder: the
+  human sessions (the maintainer's VoiceOver would be the first).
 
 - [x] **P4-T5 External audit readiness pack**
   (`docs/audit-readiness.md`): scope, environments, component list,
