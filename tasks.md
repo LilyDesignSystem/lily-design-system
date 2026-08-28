@@ -314,12 +314,21 @@ Rules for the executing agent:
   real content and sit in the main nav. Zero hand-maintained copy —
   the site cannot drift from the files.
 
-- [ ] **P5-T2 Developer on-ramp in CONTRIBUTING.**
+- [x] **P5-T2 Developer on-ramp in CONTRIBUTING.**
   Dev setup, monorepo + subtree model, the copy-pattern, full
   add-a-component walkthrough (14 subprojects + docs + registries +
   CSS hook), `bin/` tool guide.
   Verify: walkthrough dry-run on a scratch slug passes `bin/test`,
   then reverts cleanly.
+  Done 2026-08-28: docs/developing.md (linked from CONTRIBUTING's new
+  on-ramp section) — setup, monorepo shape, bin/ tool order, and the
+  seven-step walkthrough derived by actually performing it: a
+  scratch-probe component was added until bin/test passed (which
+  revealed the true gate set: svelte + sveltekit-copy + nunjucks
+  implementations ARE machine-gated; the single-line demo-map format
+  is mandatory) and then reverted to a clean tree. The walkthrough
+  carries an honesty note naming the frameworks bin/test does not yet
+  gate (the check-coverage gap, P7-T4).
 
 - [ ] **P5-T3 `bin/generate-api-docs`**: per-component reference from
   `components/{slug}/AGENTS.md` into the site; idempotent; drift

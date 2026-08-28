@@ -71,6 +71,13 @@ No contribution-size threshold applies. A one-line correction is welcome.
 
 # Contribute code
 
+## Developer on-ramp
+
+Setup, the monorepo's shape (subtrees, the copy-pattern, generated
+registries), the `bin/` tools in the order you meet them, and the
+complete add-a-component walkthrough — validated end to end with a
+scratch component — live in [docs/developing.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/developing.md).
+
 ## Before you open a pull request
 
 Run both:

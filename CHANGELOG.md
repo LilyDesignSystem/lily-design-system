@@ -9,6 +9,20 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Developer on-ramp, validated by doing it — 2026-08-28
+
+[plan.md](plan.md) P5-T2. `docs/developing.md` documents setup, the
+monorepo's shape, the bin/ tool order, and the complete seven-step
+add-a-component walkthrough — written by performing it: a
+scratch-probe component was added until `bin/test` passed and then
+reverted to a clean tree, so every documented step is one the gates
+actually demand. The dry run surfaced two things worth knowing that no
+doc stated: `bin/test` does machine-gate the svelte, sveltekit-copy,
+and nunjucks implementations (not just the catalog layer), and the
+canonical demo map only accepts single-line entries. The walkthrough
+also says plainly which frameworks the gates do not yet cover — the
+check-coverage gap stays honest until P7-T4 closes it.
+
 ## Trusted Publishing: position stated, not adopted — 2026-08-28
 
 `spec/trusted-publishing/` records the standing position: replace the
