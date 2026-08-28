@@ -29,6 +29,7 @@ _Updated 2026-08-26._
 | Published | 6 of 7 headless libraries and all 30 JS helper packages on npm; the 6 Blazor NuGet packages are packed, push pending credentials |
 | License | MIT, Apache-2.0, GPL-2.0-only, GPL-3.0-only, or BSD-3-Clause, at your option |
 | Maintainers | 1 |
+| Funding | [GitHub Sponsors](https://github.com/sponsors/joelparkerhenderson) live; Open Collective planned — see [CONTRIBUTING.md](CONTRIBUTING.md) for what money buys and does not |
 
 ## Recent news
 

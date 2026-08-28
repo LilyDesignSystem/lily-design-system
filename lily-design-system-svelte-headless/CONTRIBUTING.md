@@ -159,7 +159,11 @@ never their source.
 # Contribute money
 
 **[github.com/sponsors/joelparkerhenderson](https://github.com/sponsors/joelparkerhenderson)** —
-recurring or one-time. For anything else, including invoicing an organisation,
+recurring or one-time. An **Open Collective** (public ledger, fiscal host,
+organisation-friendly invoicing) is planned but does not exist yet — it is
+listed here only so nobody wires money to an impostor slug in the meantime;
+[spec/free-open-source-funding/](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/free-open-source-funding/index.md)
+tracks its state. For anything else, including invoicing an organisation,
 email <joel@joelparkerhenderson.com>.
 
 ## What it would actually pay for
@@ -203,8 +207,10 @@ Often worth more, and free to you:
 ## Transparency
 
 There is no legal entity, no foundation, and no treasury. Money goes to an
-individual, via GitHub Sponsors, and is taxed as his income. If sponsorship ever
-reaches a level where that structure stops being appropriate, that change will be
+individual, via GitHub Sponsors, and is taxed as his income. The planned Open
+Collective adds the opposite posture for those who want it — a public ledger
+under a fiscal host, with spending visible to everyone — and when it goes
+live, this section changes in the same commit. Any structural change is
 announced in [NEWS.md](NEWS.md) rather than quietly made.
 
 ---

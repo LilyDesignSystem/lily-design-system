@@ -1,3 +1,7 @@
 # Shows the "Sponsor" button on the repository.
-# See CONTRIBUTING.md for what sponsorship does and does not buy.
+# See CONTRIBUTING.md for what sponsorship does and does not buy, and
+# spec/free-open-source-funding/ for the channel states.
 github: [joelparkerhenderson]
+# Uncomment when the collective exists and is accepted by its fiscal
+# host (maintainer step — see spec/free-open-source-funding/index.md):
+# open_collective: lily-design-system
