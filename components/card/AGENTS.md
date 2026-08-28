@@ -5,6 +5,7 @@
 - Component: card
 - PascalCase: Card
 - Description: a grouped content container with header, body, and footer areas
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .card
 - Interactive: yes

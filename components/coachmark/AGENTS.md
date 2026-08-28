@@ -5,6 +5,7 @@
 - Component: coachmark
 - PascalCase: Coachmark
 - Description: an anchored popover that spotlights and explains a single feature
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div> with role="dialog"
 - CSS class: .coachmark
 - Interactive: yes (dismiss button)

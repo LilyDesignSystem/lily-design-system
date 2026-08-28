@@ -5,6 +5,8 @@ or SVG. Because icon-only buttons have no visible text, this component
 **requires** an accessible label so that screen readers can announce the
 purpose of the action.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it for compact, recognizable actions such as close, delete, edit, share,
 favorite, and toolbar controls where a label would be visually redundant
 once a user understands the icon.

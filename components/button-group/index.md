@@ -4,6 +4,8 @@ A button group is a wrapper element that groups together related buttons,
 typically a primary action with one or more secondary actions, so that
 assistive technology can announce them as a single unit.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it whenever a small set of buttons share a common purpose — Save and
 Cancel, Confirm and Discard, Previous and Next — and should be presented
 to screen readers as one group.

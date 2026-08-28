@@ -2,6 +2,8 @@
 
 A data table data cell represents a single piece of data within a data table row. It holds the value for one field of a record. It is designed to be used inside a DataTableRow or `<tr>` within a DataTable structure.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The component renders a `<td>` element and passes through its children, which are the cell content.
 
 ## Implementation Notes

@@ -5,6 +5,8 @@ It pairs the main heading with an optional eyebrow above and an optional
 subtitle below, while letting the consumer choose the heading level
 (`<h2>`–`<h6>`) to match document hierarchy.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it to introduce sections within a page, articles within a feed, or
 panels within a dashboard.
 

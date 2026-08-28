@@ -2,6 +2,8 @@
 
 A scrollytelling container with step-based foreground and background composition. The background content sticks in the viewport while foreground steps scroll over it, with the current step index driving background content changes.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses a `<div>` element with an optional `aria-label` to create a scrollytelling region with separate background and foreground slots.
 
 ## Implementation Notes

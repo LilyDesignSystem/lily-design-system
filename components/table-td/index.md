@@ -2,6 +2,8 @@
 
 TableTD is a headless component that renders a `<td>` element within a table row. It represents a single data cell.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use this component within TableRow to define individual data cells in a table.
 
 ## Implementation Notes

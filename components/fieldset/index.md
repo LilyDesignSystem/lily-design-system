@@ -2,6 +2,8 @@
 
 A fieldset groups related form elements together using the native `<fieldset>` and `<legend>` HTML elements. This provides both a visual grouping and a semantic association that screen readers announce when users navigate into the group, helping them understand the context of related inputs.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The component supports a `disabled` prop that disables all child form controls at once, making it useful for sections of a form that should be conditionally editable. The legend text describes the purpose of the grouped controls.
 
 ## Implementation Notes

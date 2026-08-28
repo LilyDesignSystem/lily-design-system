@@ -2,6 +2,8 @@
 
 A breadcrumb list item represents a single step in a breadcrumb navigation trail. It renders as a semantic `<li>` element designed to be placed inside a BreadcrumbList component (which provides the parent `<nav>` and `<ol>` structure). The component supports `aria-current="page"` to indicate when the item represents the user's current location in the site hierarchy.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 Typically, each breadcrumb list item contains a link for navigable ancestor pages, while the final item (current page) contains plain text and is marked with the `current` prop.
 
 ## Implementation Notes

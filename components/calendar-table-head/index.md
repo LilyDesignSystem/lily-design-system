@@ -2,6 +2,8 @@
 
 A calendar table head is the header section of a calendar grid, wrapping one or more rows that label the columns of the calendar. Typically contains a single row with day-of-week abbreviations (e.g., Sun, Mon, Tue). It is designed to be used inside a CalendarTable `<table>` structure.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The component renders a `<thead>` element and passes through its children, which are expected to be CalendarTableRow or `<tr>` elements containing `<th>` header cells.
 
 ## Implementation Notes

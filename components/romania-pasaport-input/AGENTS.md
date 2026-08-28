@@ -5,6 +5,7 @@
 - Component: romania-pasaport-input
 - PascalCase: RomaniaPasaportInput
 - Description: an input for entering Romania's Paşaport
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .romania-pasaport-input
 - Interactive: yes

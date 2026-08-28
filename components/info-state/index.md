@@ -4,6 +4,8 @@ An info state is a composition of an optional illustration, a title, an
 optional description, and an optional action area used to communicate empty,
 informational, error, or success conditions in place of normal content.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it whenever a region of the UI cannot show its usual content — empty
 search results, an error fetching data, an onboarding placeholder, or a
 success acknowledgment.

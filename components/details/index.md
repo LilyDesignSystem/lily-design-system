@@ -2,6 +2,8 @@
 
 A disclosure widget that reveals or hides additional content on demand. Built on the native HTML `<details>` and `<summary>` elements, this component provides progressive disclosure -- showing only what is necessary upfront and letting users expand sections for more information. Common use cases include FAQs, collapsible sections, advanced options, and supplementary explanations.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The native `<details>` element provides built-in accessibility support without requiring custom ARIA attributes. Screen readers automatically announce the expanded or collapsed state. The component exposes a bindable `open` prop so parent components can programmatically control or react to the disclosure state.
 
 ## Implementation Notes

@@ -2,6 +2,8 @@
 
 LatvijaPersonasKodsInput is a headless input for entering Latvia's Personas kods, Latvia's national-id identifier. It renders as `<input type="text">` with pattern validation, numeric/letter keyboard hints, and `autocomplete="off"` to protect sensitive identifiers. It is the editable companion to LatvijaPersonasKodsView.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders as `<input type="text">` with pattern validation

@@ -2,6 +2,8 @@
 
 A data table row represents a single row within a data table, typically corresponding to one record. It wraps data cells or header cells in a horizontal sequence. It is designed to be used inside a DataTableHead, DataTableBody, or DataTableFoot section.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The component renders a `<tr>` element and passes through its children, which are expected to be `<td>`, `<th>`, or DataTableTD elements.
 
 ## Implementation Notes

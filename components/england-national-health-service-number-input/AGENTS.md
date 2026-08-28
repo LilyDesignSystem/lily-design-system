@@ -5,6 +5,7 @@
 - Component: england-national-health-service-number-input
 - PascalCase: EnglandNationalHealthServiceNumberInput
 - Description: an input for entering England's National Health Service Number (NHS)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .england-national-health-service-number-input
 - Interactive: yes

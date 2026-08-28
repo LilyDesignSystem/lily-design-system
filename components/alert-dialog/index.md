@@ -6,6 +6,8 @@ alert dialogs demand immediate attention -- they are used for important warnings
 confirmations of destructive actions, or error conditions that must be
 acknowledged before the user can continue.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 Alert dialogs are distinguished from standard dialogs by the `alertdialog` ARIA
 role, which signals to assistive technologies that the content requires the
 user's immediate attention. Common uses include confirming irreversible actions

@@ -2,6 +2,8 @@
 
 A Kanban table foot provides an optional footer area for a Kanban board, typically used for board-level summary information or actions such as "Add column", item counts per column, or aggregate status indicators. It renders as a `<div>` and is designed to be used as a child of a KanbanTable component, appearing below the KanbanTableBody.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders as a `<div>` for the Kanban board footer area

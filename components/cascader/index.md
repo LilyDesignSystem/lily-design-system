@@ -4,6 +4,8 @@ A cascader is a multi-level dropdown for selecting a value from a
 hierarchy. It exposes a trigger button and a panel that holds nested
 option lists.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it for hierarchical pickers such as country → region → city,
 category → subcategory → leaf, or any tree-shaped selection where the
 selected value is a path through the hierarchy.

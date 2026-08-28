@@ -2,6 +2,8 @@
 
 A comment is anything that expresses an opinion, observation, explanation, etc. Examples include user discussion replies, peer review remarks, marginalia, code review notes, and editor annotations.
 
+**Status:** experimental — recent catalog addition with the least accumulated depth; contract may still move.
+
 This headless component renders a `<div>` with class `comment`. The consumer supplies the comment body and any related metadata (author, timestamp, action buttons) as children.
 
 ## Implementation Notes

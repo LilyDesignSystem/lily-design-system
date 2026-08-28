@@ -2,6 +2,8 @@
 
 A separator is a UI/UX component that provides a visual and semantic divider between sections of content. It uses the native HTML `<hr>` element with an explicit `role="separator"` for proper accessibility semantics. An optional label prop can be used to provide additional context about the separation for screen readers.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 Separators help organize content into logical groups and improve visual hierarchy without adding unnecessary complexity. They are commonly used between sections of a page, between groups of menu items, or between distinct areas of a form.
 
 ## Implementation Notes

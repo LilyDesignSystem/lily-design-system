@@ -5,6 +5,7 @@
 - Component: tab-bar-button
 - PascalCase: TabBarButton
 - Description: one tab button in a tab group
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <button>
 - CSS class: .tab-bar-button
 - Interactive: yes

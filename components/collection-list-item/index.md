@@ -4,6 +4,8 @@ A collection list item is one entry in a `collection-list`, presenting a
 required heading plus optional thumbnail image, meta line (date, category),
 and short description.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it inside `CollectionList` to render homogeneous summary cards for
 articles, events, search results, or news entries.
 

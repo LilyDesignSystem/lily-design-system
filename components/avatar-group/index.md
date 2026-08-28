@@ -2,6 +2,8 @@
 
 An avatar group displays a collection of avatar components in a stacked or clustered layout, commonly used to show multiple users, participants, or contributors in a compact space. Avatar groups typically overlap or truncate to indicate the total count.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses a `<div>` element with `role="group"` and an `aria-label` to provide accessible grouping semantics for the contained avatar components.
 
 ## Implementation Notes

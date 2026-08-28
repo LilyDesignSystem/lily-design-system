@@ -5,6 +5,7 @@
 - Component: australia-individual-healthcare-identifier-view
 - PascalCase: AustraliaIndividualHealthcareIdentifierView
 - Description: a read-only display of Australia's Individual Healthcare Identifier (IHI)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .australia-individual-healthcare-identifier-view
 - Interactive: no

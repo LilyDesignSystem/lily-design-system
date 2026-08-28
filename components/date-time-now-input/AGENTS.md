@@ -5,6 +5,7 @@
 - Component: date-time-now-input
 - PascalCase: DateTimeNowInput
 - Description: an input for entering a date and time and "now" button <input type="date"><input type="time"><button type="button">
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .date-time-now-input
 - Interactive: yes

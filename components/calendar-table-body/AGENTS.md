@@ -5,6 +5,7 @@
 - Component: calendar-table-body
 - PascalCase: CalendarTableBody
 - Description: a calendar table interactive grid tbody for managing dates, days, etc. <tbody>
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <tbody>
 - CSS class: .calendar-table-body
 - Interactive: no

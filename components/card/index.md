@@ -2,6 +2,8 @@
 
 A card groups related content and actions into a self-contained semantic container, making it easy to browse and compare items. Cards are commonly used for product listings, user profiles, article previews, media galleries, and dashboard widgets. They present a digestible summary of information that can include headings, text, and interactive elements.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The component renders as an `<article>` element for standalone content grouping. It supports a configurable heading level (h2-h6) for proper document outline, and the heading can optionally be wrapped in a link when an `href` is provided. An optional `aria-label` enables the article to be identified as a named landmark.
 
 ## Implementation Notes

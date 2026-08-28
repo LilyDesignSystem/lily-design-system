@@ -10,6 +10,8 @@ clear progress tracking. Effective task list design includes features like task
 prioritization, due dates, and visual indicators (such as checkboxes or progress
 bars) to enhance user clarity and motivation.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component renders as an unordered list (`<ul>`) with `role="list"` and an
 accessible label. The explicit `role="list"` ensures screen readers announce the
 list semantics even when CSS removes default list styling. The consumer provides

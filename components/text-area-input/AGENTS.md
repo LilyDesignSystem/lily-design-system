@@ -5,6 +5,7 @@
 - Component: text-area-input
 - PascalCase: TextAreaInput
 - Description: a multi-line text input area
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <textarea>
 - CSS class: .text-area-input
 - Interactive: yes

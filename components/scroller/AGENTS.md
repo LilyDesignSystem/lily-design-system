@@ -5,6 +5,7 @@
 - Component: scroller
 - PascalCase: Scroller
 - Description: a scrollytelling container with step-based foreground and background composition
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .scroller
 - Interactive: yes

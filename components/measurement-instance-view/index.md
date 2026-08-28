@@ -2,6 +2,8 @@
 
 A measurement instance view displays a specific measured value in a `<span>` element. A measurement instance is a concrete data point such as "72 kg", "98.6 F", or "120/80 mmHg". This component is part of the Input/View pattern for measurement data, providing a read-only display of measurement values.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The component supports an optional `aria-label` for additional accessible context, which is useful when the displayed value alone may not convey enough meaning to screen reader users (e.g., labeling "72 kg" as "Patient weight").
 
 ## Implementation Notes

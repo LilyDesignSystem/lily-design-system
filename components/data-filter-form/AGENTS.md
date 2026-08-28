@@ -5,6 +5,7 @@
 - Component: data-filter-form
 - PascalCase: DataFilterForm
 - Description: a form for filtering data by criteria
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <form>
 - CSS class: .data-filter-form
 - Interactive: no

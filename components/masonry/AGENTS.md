@@ -5,6 +5,7 @@
 - Component: masonry
 - PascalCase: Masonry
 - Description: a masonry layout container for variable-height items
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .masonry
 - Interactive: no

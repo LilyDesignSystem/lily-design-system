@@ -2,6 +2,8 @@
 
 A hint provides subtle, contextual guidance text associated with a form control. It is typically displayed near an input field to clarify expected formats, explain functionality, or offer examples. The component renders a `<p>` element with an optional `id` for linking to a form control via `aria-describedby`.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component is designed to work alongside form inputs where the consumer links the hint to the input using `aria-describedby` on the input element pointing to the hint's `id`. This ensures screen readers announce the hint text when the user focuses the associated input.
 
 ## Implementation Notes

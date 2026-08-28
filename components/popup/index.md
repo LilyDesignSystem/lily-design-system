@@ -2,6 +2,8 @@
 
 A popup is a UI component that temporarily appears over the main content to convey information, prompt user actions, or display additional options without navigating away from the current screen. The Popup component provides a headless conditional dialog overlay that renders its content only when the `open` state is true, using proper dialog semantics for assistive technology.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The component is similar to Popover but is designed as a general-purpose overlay dialog. It uses two-way binding on the `open` prop, so parent components can control visibility. The consumer provides trigger elements, open/close logic, and all content.
 
 ## Implementation Notes

@@ -5,6 +5,7 @@
 - Component: dialog
 - PascalCase: Dialog
 - Description: a modal or non-modal dialog window
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <dialog>
 - CSS class: .dialog
 - Interactive: yes

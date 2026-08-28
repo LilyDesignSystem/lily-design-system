@@ -5,6 +5,7 @@
 - Component: popover
 - PascalCase: Popover
 - Description: a floating content box anchored to a trigger element
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .popover
 - Interactive: yes

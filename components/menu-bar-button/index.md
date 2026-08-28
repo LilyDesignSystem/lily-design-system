@@ -2,6 +2,8 @@
 
 A menu bar item is a single interactive item within a menu bar, using the ARIA menuitem role for keyboard navigation and screen reader support. It renders as a `<div>` with `role="menuitem"` and is designed to be placed inside a MenuBar container with `role="menubar"`.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 Focus management is delegated to the parent MenuBar, which uses roving tabindex to move focus between items with arrow keys. The item itself uses `tabindex="-1"` so it is not reachable via Tab but can receive focus programmatically.
 
 ## Implementation Notes

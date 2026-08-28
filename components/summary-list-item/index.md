@@ -2,6 +2,8 @@
 
 SummaryListItem is a single key-value row within a SummaryList. It renders a `<div>` wrapper containing a `<dt>` (term) and `<dd>` (description) pair. The HTML specification permits `<div>` as a direct child of `<dl>` for grouping `<dt>`/`<dd>` pairs, which enables per-row styling and attribute targeting.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 Use SummaryListItem inside a SummaryList to present structured key-value information such as order details, account settings, form review data, or any term-description pairs.
 
 ## Implementation Notes

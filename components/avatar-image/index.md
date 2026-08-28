@@ -2,6 +2,8 @@
 
 An avatar image is the `<img>` element rendered inside an Avatar when a valid image source is available. It displays the user's profile photo with proper `alt` text for accessibility and an `onerror` handler to trigger the initials fallback.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 ## Implementation Notes
 
 - Renders a `<img>` element with class `avatar-image`

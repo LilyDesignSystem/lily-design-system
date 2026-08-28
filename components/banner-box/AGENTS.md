@@ -5,6 +5,7 @@
 - Component: banner-box
 - PascalCase: BannerBox
 - Description: a banner box that is inside a banner component, using flexbox horizontal
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .banner-box
 - Interactive: no

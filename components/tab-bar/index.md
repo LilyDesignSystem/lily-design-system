@@ -2,6 +2,8 @@
 
 TabBar is a headless tab list container that provides the ARIA `tablist` role and built-in keyboard navigation for tab interfaces. It manages arrow key navigation between tab elements, allowing users to cycle through tabs with Left/Right arrow keys, and jump to the first or last tab with Home/End keys.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 Use TabBar when building a tabbed interface where users switch between different views or content panels. The component wraps tab buttons in a `<div>` with `role="tablist"` and handles keyboard interactions automatically. Consumer provides tab buttons as children (each with `role="tab"` and `aria-selected`) and is responsible for managing selection state and associating tab panels.
 
 ## Implementation Notes

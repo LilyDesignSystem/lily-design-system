@@ -5,6 +5,7 @@
 - Component: portugal-numero-de-identificacao-fiscal-view
 - PascalCase: PortugalNumeroDeIdentificacaoFiscalView
 - Description: a read-only display of Portugal's Número de Identificação Fiscal (NIF)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .portugal-numero-de-identificacao-fiscal-view
 - Interactive: no

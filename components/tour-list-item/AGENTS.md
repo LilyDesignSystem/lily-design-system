@@ -5,6 +5,7 @@
 - Component: tour-list-item
 - PascalCase: TourListItem
 - Description: one step in a tour guide list
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <li>
 - CSS class: .tour-list-item
 - Interactive: no

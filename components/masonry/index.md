@@ -4,6 +4,8 @@ A masonry container arranges variable-height children in vertical columns
 using CSS multi-column layout, producing a Pinterest-style staggered grid
 without requiring JavaScript-based positioning.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it for image galleries, photo packs, card boards, and any collection of
 items whose heights differ and where you want the layout to fill column gaps
 naturally.

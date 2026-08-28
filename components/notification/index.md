@@ -2,6 +2,8 @@
 
 A notification is a UI component used to deliver timely messages to users about events, updates, or actions within an application. The Notification component provides a headless wrapper with proper ARIA live region semantics, ensuring that screen readers announce notification content when it appears. It supports both polite (non-urgent) and assertive (urgent) announcements.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The component uses `role="status"` with `aria-live="polite"` for standard notifications that wait for the user to finish their current task before being announced, and `role="alert"` with `aria-live="assertive"` for urgent notifications that interrupt the user immediately. This distinction is critical for appropriate screen reader behavior.
 
 ## Implementation Notes

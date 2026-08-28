@@ -2,6 +2,8 @@
 
 A small banner that signals a service is in alpha or beta and points to a feedback link, setting honest expectations for early users that the service is still changing.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The pattern was popularised by GOV.UK to flag that a service is being iterated on, so users know that things may move and that their feedback is wanted. The component is intentionally lightweight: a phase tag rendered as a `<strong>` next to short descriptive text supplied by the consumer (typically containing a feedback link). It has no `role="alert"` semantics — phase status is meta-information about the service, not an interruption — but consumers can promote it to a landmark by adding `role="region"` + `aria-label` if their layout calls for it.
 
 For service-wide announcements that aren't about development phase, use `AnnouncementBanner`. For ad-hoc top-of-page banners, use `Banner`.

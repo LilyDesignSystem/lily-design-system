@@ -2,6 +2,8 @@
 
 A Kanban table head provides a header row for a Kanban board, containing column headings that label each workflow stage (e.g., "To Do", "In Progress", "Done"). It renders as a `<div>` with appropriate ARIA attributes and is designed to be used as a child of a KanbanTable component. The header establishes the visual and semantic structure for the columns below it.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders as a `<div>` for the Kanban board header area

@@ -5,6 +5,7 @@
 - Component: gantt-table-tbody
 - PascalCase: GanttTableTbody
 - Description: a Gantt chart table interactive grid tbody for planning schedule visualization <tbody>
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <tbody>
 - CSS class: .gantt-table-tbody
 - Interactive: no

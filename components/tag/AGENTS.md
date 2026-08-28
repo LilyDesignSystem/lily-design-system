@@ -5,6 +5,7 @@
 - Component: tag
 - PascalCase: Tag
 - Description: a keyword label for categorizing content
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <span>
 - CSS class: .tag
 - Interactive: no

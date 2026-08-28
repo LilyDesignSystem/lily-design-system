@@ -5,6 +5,7 @@
 - Component: date-range
 - PascalCase: DateRange
 - Description: a display of a start and end date range
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <span>
 - CSS class: .date-range
 - Interactive: yes

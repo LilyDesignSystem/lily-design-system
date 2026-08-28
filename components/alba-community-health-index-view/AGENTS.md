@@ -5,6 +5,7 @@
 - Component: alba-community-health-index-view
 - PascalCase: AlbaCommunityHealthIndexView
 - Description: a read-only display of Scotland's Community Health Index (CHI)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .alba-community-health-index-view
 - Interactive: no

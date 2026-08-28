@@ -2,6 +2,8 @@
 
 A sonner is a component that serves as a toast notification region, providing a designated area where brief, non-intrusive messages appear to inform users of events, confirmations, or status updates. Commonly used for success confirmations, error alerts, progress updates, and system messages, the sonner displays transient notifications that appear and automatically dismiss after a short duration without requiring user interaction.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Unlike modal dialogs that interrupt workflow, toast notifications communicate feedback passively while allowing users to continue their current task. This headless component renders a `<div>` with `role="region"`, `aria-live="polite"`, and an accessible label, ensuring that screen readers announce new notifications without interrupting the current output.
 
 ## Implementation Notes

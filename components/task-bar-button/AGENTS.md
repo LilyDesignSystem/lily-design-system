@@ -5,6 +5,7 @@
 - Component: task-bar-button
 - PascalCase: TaskBarButton
 - Description: one item in a task bar
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <button>
 - CSS class: .task-bar-button
 - Interactive: yes

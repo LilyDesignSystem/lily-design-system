@@ -2,6 +2,8 @@
 
 PolskaPeselView is a headless read-only display of Poland's PESEL, Poland's national-id identifier. It renders as a `<span>` with `role="text"` so assistive technology announces the identifier as a single unit. It is the read-only companion to PolskaPeselInput.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders as `<span>` with `role="text"`

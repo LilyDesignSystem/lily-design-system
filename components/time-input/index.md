@@ -2,6 +2,8 @@
 
 A time input provides a field for entering time values using the native HTML `<input type="time">` element. It renders a time picker control appropriate to the user's browser and operating system, allowing users to enter hours and minutes in a localized format.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component is useful for scheduling interfaces, appointment forms, event planners, and any form that requires time-of-day entry. The bindable value uses HH:MM format (24-hour) and supports required and disabled states. It uses `aria-label` for accessibility.
 
 ## Implementation Notes

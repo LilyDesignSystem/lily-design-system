@@ -5,6 +5,7 @@
 - Component: figure
 - PascalCase: Figure
 - Description: a self-contained figure with optional caption
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <figure>
 - CSS class: .figure
 - Interactive: no

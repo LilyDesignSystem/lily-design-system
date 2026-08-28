@@ -2,6 +2,8 @@
 
 An action link is a headless anchor component that visually emphasizes a navigation action, typically appearing as a prominent link that leads the user to a new page or triggers a significant navigation event. Inspired by the NHS England action link pattern, it renders a semantic `<a>` element with optional ARIA label override for screen readers.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 Action links are useful when you want to draw attention to a key navigational step, such as "Continue to next step" or "Find a service near you", distinguishing these from standard inline text links.
 
 ## Implementation Notes

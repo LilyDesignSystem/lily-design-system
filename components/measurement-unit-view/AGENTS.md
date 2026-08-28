@@ -5,6 +5,7 @@
 - Component: measurement-unit-view
 - PascalCase: MeasurementUnitView
 - Description: a read-only display of a measurement unit
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .measurement-unit-view
 - Interactive: no

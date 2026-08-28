@@ -5,6 +5,7 @@
 - Component: ellada-dematerialised-securities-system-input
 - PascalCase: ElladaDematerialisedSecuritiesSystemInput
 - Description: an input for entering Greece's Dematerialised Securities System (DSS)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .ellada-dematerialised-securities-system-input
 - Interactive: yes

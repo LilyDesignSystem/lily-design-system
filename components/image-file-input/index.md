@@ -2,6 +2,8 @@
 
 An image input provides a file upload control that is pre-configured to accept image files. It wraps a native `<input type="file">` element with accessible labeling and sensible defaults for image selection. This component is useful for profile photo uploads, gallery image selection, document scanning, and any form that requires image file input.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The consumer can override the accepted file types, control required/disabled states, and add additional attributes as needed.
 
 ## Implementation Notes

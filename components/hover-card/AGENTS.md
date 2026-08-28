@@ -5,6 +5,7 @@
 - Component: hover-card
 - PascalCase: HoverCard
 - Description: a card that appears on hover over a trigger element
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .hover-card
 - Interactive: no

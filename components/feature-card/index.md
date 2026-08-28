@@ -5,6 +5,8 @@ heading, optional description, and optional calls-to-action. The image can
 be positioned at the start, end, or top of the card to create varied
 editorial layouts.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it for marketing pages, product feature highlights, blog post previews,
 program announcements, and other compositions that benefit from a strong
 visual paired with rich text.

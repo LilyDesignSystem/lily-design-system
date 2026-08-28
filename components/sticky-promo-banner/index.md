@@ -6,6 +6,8 @@ or bottom edge of the viewport with a dismiss button. It uses the
 and it uses inline `position: fixed` styling so consumers can adopt it
 without writing CSS.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it for time-bound announcements, cookie/consent prompts that have been
 explicitly designed as promo banners, marketing campaigns, and feature
 launches.

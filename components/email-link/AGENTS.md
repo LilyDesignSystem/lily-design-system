@@ -5,6 +5,7 @@
 - Component: email-link
 - PascalCase: EmailLink
 - Description: a mailto hyperlink for an email address
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <a>
 - CSS class: .email-link
 - Interactive: no

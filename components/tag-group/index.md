@@ -2,6 +2,8 @@
 
 TagGroup is a headless container for a collection of related tags. It uses the ARIA `group` role with an accessible label to semantically associate tag elements, making the collection understandable to screen readers and other assistive technologies.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component is useful for displaying categories, skills, technologies, or any set of labels that belong together. Consumers provide the individual tag elements as children and bring their own styling.
 
 ## Implementation Notes

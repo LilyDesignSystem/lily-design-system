@@ -2,6 +2,8 @@
 
 A generic block-level content container.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders a `<div>` element with class `container`

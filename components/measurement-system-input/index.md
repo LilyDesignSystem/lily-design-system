@@ -2,6 +2,8 @@
 
 A measurement system input provides a text field for entering a measurement system name, such as "metric", "imperial", or "SI". A measurement system is a collection of units and rules for measuring physical quantities.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The component uses `aria-label` for accessible labeling in a headless context, and the `value` prop is two-way bindable for reactive form integration. It supports `required` and `disabled` states for form validation and conditional interactivity.
 
 ## Implementation Notes

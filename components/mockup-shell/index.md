@@ -2,6 +2,8 @@
 
 A mockup shell is a decorative container that visually resembles a terminal shell or command-line interface, used to frame terminal output, commands, or CLI examples in documentation and tutorials.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses a `<div>` element with `role="img"` and `aria-label` to present the mockup as a decorative image to assistive technologies.
 
 ## Implementation Notes

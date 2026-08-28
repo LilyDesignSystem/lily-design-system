@@ -5,6 +5,7 @@
 - Component: measurement-system-view
 - PascalCase: MeasurementSystemView
 - Description: a read-only display of a measurement system
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .measurement-system-view
 - Interactive: no

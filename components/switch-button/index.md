@@ -2,6 +2,8 @@
 
 A switch input is a UI/UX component that provides a binary toggle control, similar to a physical on/off switch. It uses `role="switch"` with `aria-checked` to communicate the current state to assistive technologies. The component supports both click and keyboard (Space key) activation for accessibility compliance.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 Switch inputs are commonly used for settings, preferences, and feature toggles where users need to enable or disable a single option without submitting a form. Unlike checkboxes, switches provide immediate effect and convey an on/off semantic rather than checked/unchecked.
 
 ## Implementation Notes

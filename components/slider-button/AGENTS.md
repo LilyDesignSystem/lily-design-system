@@ -5,6 +5,7 @@
 - Component: slider-button
 - PascalCase: SliderButton
 - Description: a button with a slider that the user needs to slide to confirm
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <button>
 - CSS class: .slider-button
 - Interactive: yes

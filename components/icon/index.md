@@ -2,6 +2,8 @@
 
 An icon is a compact visual element that represents actions, objects, or concepts using simplified graphical symbols. The Icon component provides a headless wrapper around icon content with proper accessibility semantics, supporting both meaningful icons (with accessible labels) and decorative icons (hidden from assistive technology).
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component is useful in buttons, menus, toolbars, and navigation where visual cues help users quickly identify functions. The consumer provides the actual icon content (text characters, SVG, or any markup), while the component handles the semantic role and ARIA attributes.
 
 ## Implementation Notes

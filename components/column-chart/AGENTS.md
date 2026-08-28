@@ -5,6 +5,7 @@
 - Component: column-chart
 - PascalCase: ColumnChart
 - Description: a vertical column chart visualization for displaying data
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <figure>
 - CSS class: .column-chart
 - Interactive: no

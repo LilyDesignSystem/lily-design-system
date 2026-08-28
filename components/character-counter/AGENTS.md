@@ -5,6 +5,7 @@
 - Component: character-counter
 - PascalCase: CharacterCounter
 - Description: a counter showing remaining or used characters in a text field
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <span>
 - CSS class: .character-counter
 - Interactive: no

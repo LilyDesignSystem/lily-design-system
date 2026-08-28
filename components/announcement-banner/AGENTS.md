@@ -5,6 +5,7 @@
 - Component: announcement-banner
 - PascalCase: AnnouncementBanner
 - Description: a banner highlighting important messages for all users
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .announcement-banner
 - Interactive: no

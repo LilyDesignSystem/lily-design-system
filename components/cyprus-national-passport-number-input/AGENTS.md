@@ -5,6 +5,7 @@
 - Component: cyprus-national-passport-number-input
 - PascalCase: CyprusNationalPassportNumberInput
 - Description: an input for entering Cyprus's National Passport Number
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .cyprus-national-passport-number-input
 - Interactive: yes

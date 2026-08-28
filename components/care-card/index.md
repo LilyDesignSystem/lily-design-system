@@ -2,6 +2,8 @@
 
 A care card is a healthcare-oriented component for displaying medical guidance with varying levels of urgency. Inspired by the NHS England design system, care cards communicate health advice in three tiers: non-urgent (speak to a GP), urgent (visit A&E or call 111), and immediate (call 999).
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 Each care card has a heading that describes the action and a body containing the relevant advice or conditions. The `data-type` attribute allows consumers to apply urgency-appropriate styling (e.g., blue for non-urgent, red for immediate). The card is rendered as a `<section>` landmark with an accessible label derived from the heading.
 
 ## Implementation Notes

@@ -5,6 +5,7 @@
 - Component: splitter
 - PascalCase: Splitter
 - Description: a draggable divider for resizing adjacent panels
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .splitter
 - Interactive: yes

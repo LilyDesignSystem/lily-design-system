@@ -5,6 +5,7 @@
 - Component: go-to-previous-section
 - PascalCase: GoToPreviousSection
 - Description: a link that takes users to the previous section of the current page
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <a>
 - CSS class: .go-to-previous-section
 - Interactive: yes

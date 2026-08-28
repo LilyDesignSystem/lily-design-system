@@ -5,6 +5,7 @@
 - Component: kanban-table-th
 - PascalCase: KanbanTableTH
 - Description: a kanban board table interactive grid header cell for organizing items by status <th>
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <th>
 - CSS class: .kanban-table-th
 - Interactive: no

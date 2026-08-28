@@ -5,6 +5,7 @@
 - Component: action-link
 - PascalCase: ActionLink
 - Description: a hyperlink styled as an action trigger
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <a>
 - CSS class: .action-link
 - Interactive: yes

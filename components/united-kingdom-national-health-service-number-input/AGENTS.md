@@ -5,6 +5,7 @@
 - Component: united-kingdom-national-health-service-number-input
 - PascalCase: UnitedKingdomNationalHealthServiceNumberInput
 - Description: an input for entering a UK NHS number
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .united-kingdom-national-health-service-number-input
 - Interactive: no

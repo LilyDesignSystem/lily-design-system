@@ -5,6 +5,7 @@
 - Component: hrvatska-osobni-identifikacijski-broj-input
 - PascalCase: HrvatskaOsobniIdentifikacijskiBrojInput
 - Description: an input for entering Croatia's Osobni identifikacijski broj (OIB)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .hrvatska-osobni-identifikacijski-broj-input
 - Interactive: yes

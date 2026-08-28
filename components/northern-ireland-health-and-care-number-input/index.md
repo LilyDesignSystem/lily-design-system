@@ -2,6 +2,8 @@
 
 NorthernIrelandHealthAndCareNumberInput is a headless input for entering a Northern Ireland Health and Care (H&C) Number, the unique national healthcare identifier used by HSC Northern Ireland. It renders as `<input type="text">` with a 3-3-4 digit pattern, numeric keyboard hint, and autocomplete disabled. It is the editable companion to NorthernIrelandHealthAndCareNumberView.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders as `<input type="text">` with pattern `[0-9]{3} [0-9]{3} [0-9]{4}`

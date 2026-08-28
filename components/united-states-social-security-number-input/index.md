@@ -5,6 +5,8 @@ for entering a 9-digit SSN issued by the Social Security Administration. The SSN
 is used as a national identifier for taxation, credit reporting, and various
 government and private-sector purposes.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The standard display format is "XXX-XX-XXXX" (three groups of digits separated
 by hyphens: a 3-digit area number, a 2-digit group number, and a 4-digit serial
 number). This input component enforces that pattern, uses a numeric keyboard

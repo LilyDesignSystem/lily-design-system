@@ -5,6 +5,7 @@
 - Component: deutschland-krankenversichertennummer-view
 - PascalCase: DeutschlandKrankenversichertennummerView
 - Description: a read-only display of Germany's Krankenversichertennummer (KVNR)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .deutschland-krankenversichertennummer-view
 - Interactive: no

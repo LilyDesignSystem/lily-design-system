@@ -2,6 +2,8 @@
 
 SegmentGroupItem is a single segment option within a SegmentGroup. It renders as a `<button>` with `role="radio"` and `aria-checked`, following the WAI-ARIA radio group pattern. Each item represents one mutually exclusive option in the segmented control.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 Use SegmentGroupItem inside a SegmentGroup to build custom segmented controls such as view mode toggles (grid/list), filter selections, or display density controls.
 
 ## Implementation Notes

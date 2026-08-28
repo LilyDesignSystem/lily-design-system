@@ -5,6 +5,7 @@
 - Component: lietuva-pasas-input
 - PascalCase: LietuvaPasasInput
 - Description: an input for entering Lithuania's Pasas
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .lietuva-pasas-input
 - Interactive: yes

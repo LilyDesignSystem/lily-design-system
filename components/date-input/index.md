@@ -2,6 +2,8 @@
 
 A date input provides a headless native HTML date input element with accessible labelling via `aria-label`. It is a minimal wrapper for `<input type="date">` that leverages the browser's built-in date picker for date selection.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component is useful in forms where users need to enter a calendar date. The value is stored in ISO 8601 `YYYY-MM-DD` format. It supports min and max constraints to restrict the allowable date range, and integrates with two-way binding for reactive form state.
 
 ## Implementation Notes

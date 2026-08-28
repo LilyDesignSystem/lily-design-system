@@ -2,6 +2,8 @@
 
 A loading indicator communicates that content or an action is being processed, using text, an image, or an animation. Loading indicators help users understand that the system is working and they should wait.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses a `<div>` element with `role="status"` and `aria-live="polite"` to announce loading state changes to screen readers.
 
 ## Implementation Notes

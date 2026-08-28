@@ -5,6 +5,7 @@
 - Component: context-menu
 - PascalCase: ContextMenu
 - Description: a menu that appears on right-click or long-press
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .context-menu
 - Interactive: yes

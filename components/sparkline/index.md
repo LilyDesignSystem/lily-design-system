@@ -2,6 +2,8 @@
 
 A sparkline is a compact, minimalist component used to represent trends or variations in data within a small, simple graph, typically embedded within text or tables. Unlike full-scale charts, sparklines display data as tiny, unadorned line, bar, or win/loss charts, offering a quick at-a-glance view of patterns such as fluctuations in sales, stock prices, or performance over time.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This headless component provides a semantic container with `role="img"` and an accessible label. The consumer is responsible for providing the actual SVG, canvas, or other visualization content as children.
 
 ## Implementation Notes

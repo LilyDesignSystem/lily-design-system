@@ -2,6 +2,8 @@
 
 An event component displays event-related information such as the event title, date, time, location, and description. Events are used in calendars, schedules, timelines, and event listing pages.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses an `<article>` element for self-contained event content semantics, with appropriate ARIA attributes for accessible event identification.
 
 ## Implementation Notes

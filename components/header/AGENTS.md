@@ -5,6 +5,7 @@
 - Component: header
 - PascalCase: Header
 - Description: a page or section header area
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <header>
 - CSS class: .header
 - Interactive: no

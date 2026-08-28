@@ -5,6 +5,7 @@
 - Component: select
 - PascalCase: Select
 - Description: a dropdown select element for choosing one option
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <select>
 - CSS class: .select
 - Interactive: yes

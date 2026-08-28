@@ -5,6 +5,7 @@
 - Component: table-head
 - PascalCase: TableHead
 - Description: a table interactive grid thead <thead>
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <thead>
 - CSS class: .table-head
 - Interactive: no

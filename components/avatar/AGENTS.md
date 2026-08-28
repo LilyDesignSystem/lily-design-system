@@ -5,6 +5,7 @@
 - Component: avatar
 - PascalCase: Avatar
 - Description: an avatar indicator that shows an avatar image or avatar text
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .avatar
 - Interactive: no

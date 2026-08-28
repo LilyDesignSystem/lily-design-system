@@ -5,6 +5,7 @@
 - Component: banner
 - PascalCase: Banner
 - Description: a prominent message bar across the top of a page
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .banner
 - Interactive: yes

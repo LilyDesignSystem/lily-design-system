@@ -4,6 +4,8 @@ An input with mask is a `<div>` wrapper around a text `<input>` and a
 decorative format-mask display (e.g., `(___) ___-____`) that overlays the
 input to show the user where to type each character.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it for structured fields such as phone numbers, dates, or document
 identifiers that have a predictable character pattern.
 

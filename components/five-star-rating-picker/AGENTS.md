@@ -5,6 +5,7 @@
 - Component: five-star-rating-picker
 - PascalCase: FiveStarRatingPicker
 - Description: a picker for selecting a 1-5 star rating using radio buttons
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .five-star-rating-picker
 - Interactive: no

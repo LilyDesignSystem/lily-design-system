@@ -2,6 +2,8 @@
 
 A five-face rating picker button is an individual button within a FiveFaceRatingPicker that represents one satisfaction level on a 1-5 scale. Each button corresponds to a face label such as "Very bad", "Bad", "Okay", "Good", or "Very good". When clicked, it selects that rating value. The component uses `aria-pressed` to indicate the currently selected state, making it accessible to screen readers and keyboard users.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders as a `<button>` element with `aria-pressed` for toggle state

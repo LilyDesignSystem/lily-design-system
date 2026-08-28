@@ -2,6 +2,8 @@
 
 An inset text component is used to distinguish a block of content from the surrounding text, drawing attention to important information that a user needs to know. It is commonly used in government and institutional design systems to highlight supplementary information, processing times, eligibility criteria, or important notices without using an alert or warning pattern.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The component renders its content within a semantic container that screen readers announce as a note, making it clear that the content is supplementary or distinguished from the main flow.
 
 ## Implementation Notes

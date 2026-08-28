@@ -2,6 +2,8 @@
 
 CurrencyInput is a headless locale-aware text input for entering currency values with automatic formatting, currency symbols, thousand separators, and correct decimal places. It supports 40+ world currencies including USD, EUR, GBP, and JPY.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use CurrencyInput for payment forms, price fields, budget inputs, and any form field that accepts monetary values. The component uses `inputmode="decimal"` for appropriate mobile keyboards and formats the display value while maintaining a clean numeric value for form submission.
 
 ## Implementation Notes

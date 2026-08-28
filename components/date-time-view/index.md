@@ -5,6 +5,8 @@ the semantic `<time>` element so that browsers and assistive technology can
 understand the underlying ISO 8601 value while users see a localized
 human-friendly rendering supplied by the consumer.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it whenever you display a timestamp (publish date, last update, event
 start) and want both machine-readable semantics and a presentation string
 that the consumer has formatted in the user's locale.

@@ -4,6 +4,8 @@ An action bar button is a single bulk-action trigger inside an `action-bar`.
 It uses a native `<button>` element and requires an accessible label so the
 action is unambiguously announced to assistive technology.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it for each bulk operation surfaced in the action bar — for example,
 delete, archive, move, share, or export — alongside other action bar
 buttons.

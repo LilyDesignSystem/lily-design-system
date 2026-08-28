@@ -5,6 +5,7 @@
 - Component: timeout-dialog
 - PascalCase: TimeoutDialog
 - Description: a modal dialog warning users before session timeout
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <dialog>
 - CSS class: .timeout-dialog
 - Interactive: yes

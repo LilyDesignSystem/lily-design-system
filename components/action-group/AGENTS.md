@@ -5,6 +5,7 @@
 - Component: action-group
 - PascalCase: ActionGroup
 - Description: a group of action buttons that can collapse to an overflow menu when space is constrained
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div> with role="group"
 - CSS class: .action-group
 - Interactive: yes (when overflow is used)

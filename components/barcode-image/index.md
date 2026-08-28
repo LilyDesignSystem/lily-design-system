@@ -2,6 +2,8 @@
 
 A barcode-image is a visual machine-readable symbolic code image, such as a 1D linear barcode-image (UPC, EAN, Code 128) or a stacked symbology rendered as a flat image and scanned by a hardware or camera-based scanner. Typical uses include retail SKUs, inventory tracking, patient wristbands, shipping labels, ticket scanning, and library catalogs.
 
+**Status:** experimental — recent catalog addition with the least accumulated depth; contract may still move.
+
 This headless component renders a standard `<img>` element with class `barcode-image` whose `src` attribute carries the barcode-image image (commonly a PNG, SVG, or data-URL produced by a barcode-image-generation library). Required `alt` text describes what the barcode-image encodes so screen reader users and users with images disabled understand the code's purpose.
 
 Use `qr-code` for a 2D matrix code that you draw inside a `<div role="img">` container; use `barcode-image` for any image-shaped symbology delivered as an `<img>` `src`.

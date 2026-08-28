@@ -5,6 +5,7 @@
 - Component: scroller-base
 - PascalCase: ScrollerBase
 - Description: a low-level scroll position tracking primitive for scrollytelling
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .scroller-base
 - Interactive: yes

@@ -2,6 +2,8 @@
 
 PasswordInput is a headless component that renders a native `<input type="password">` element with accessible labelling. The input obscures the entered text with dots or asterisks, providing secure password entry.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use this component in login forms, registration forms, account settings, or any interface requiring secure password entry. For a more featured variant with a show/hide toggle, see PasswordInputOrTextInputDiv.
 
 ## Implementation Notes

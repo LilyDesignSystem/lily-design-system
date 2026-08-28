@@ -5,6 +5,7 @@
 - Component: england-national-health-service-number-view
 - PascalCase: EnglandNationalHealthServiceNumberView
 - Description: a read-only display of England's National Health Service Number (NHS)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .england-national-health-service-number-view
 - Interactive: no

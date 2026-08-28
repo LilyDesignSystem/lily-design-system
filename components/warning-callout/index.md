@@ -2,6 +2,8 @@
 
 A warning callout is a component used to draw attention to important alerts or potential issues that require user attention or caution. It highlights warnings, errors, or critical information that could affect the user's experience or actions, and may include additional text or links to help users understand the issue or take corrective actions.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This headless component renders an `<aside>` element with `role="alert"`, which causes screen readers to announce the content immediately when it appears. The consumer provides the warning content as children and is responsible for all visual styling.
 
 ## Implementation Notes

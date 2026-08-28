@@ -2,6 +2,8 @@
 
 A digital object identifier link is a permanent hyperlink for a Digital Object Identifier (DOI) to an electronic source. DOIs provide persistent, actionable identification for content objects in digital environments and are widely used in academic publishing, scientific journals, and digital libraries.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses the native HTML `<a>` element for inherent link semantics. It constructs a DOI resolver URL (e.g., `https://doi.org/10.1234/example`) from the provided DOI string.
 
 ## Implementation Notes

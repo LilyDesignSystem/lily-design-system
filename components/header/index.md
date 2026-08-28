@@ -2,6 +2,8 @@
 
 A header is a headless component that renders a semantic `<header>` element, providing a landmark region for introductory or navigational content. It is typically positioned at the top of a page or section and contains elements like headings, navigation links, branding, search controls, or call-to-action buttons.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The semantic `<header>` element helps assistive technologies identify the header region as a landmark, improving navigation for screen reader users. An optional `aria-label` allows consumers to distinguish between multiple headers on a page.
 
 ## Implementation Notes

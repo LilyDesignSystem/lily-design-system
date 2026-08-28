@@ -5,6 +5,7 @@
 - Component: tool-bar-button
 - PascalCase: ToolBarButton
 - Description: one action button in a tool bar
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <button>
 - CSS class: .tool-bar-button
 - Interactive: yes

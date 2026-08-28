@@ -5,6 +5,7 @@
 - Component: validation-list
 - PascalCase: ValidationList
 - Description: a live-feedback list of input validation rules with pending, passed, and failed states
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <ul>
 - CSS class: .validation-list
 - Interactive: no

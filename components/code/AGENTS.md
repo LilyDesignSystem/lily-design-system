@@ -5,6 +5,7 @@
 - Component: code
 - PascalCase: Code
 - Description: an inline code span for displaying short code snippets within surrounding text
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <code>
 - CSS class: .code
 - Interactive: no

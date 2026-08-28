@@ -2,6 +2,8 @@
 
 A container that resets padding inside fluid-width containers. PaddingReset uses negative margins to counteract parent padding, allowing content to extend edge-to-edge.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses a `<div>` element as a presentational container with no ARIA semantics.
 
 ## Implementation Notes

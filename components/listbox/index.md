@@ -2,6 +2,8 @@
 
 A listbox presents a list of selectable options using the ARIA listbox role, with full keyboard navigation support. It is used when users need to select one or more items from a visible list, as opposed to a dropdown select. Common use cases include settings panels, filter selections, multi-select interfaces, and any scenario where all options should be visible simultaneously.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The component manages focus movement between options via arrow keys, with Home and End keys to jump to the first and last items. The consumer provides option elements as children and handles selection state externally.
 
 ## Implementation Notes

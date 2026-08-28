@@ -5,6 +5,7 @@
 - Component: date-input
 - PascalCase: DateInput
 - Description: an input for entering a date value <input type="date">
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <input>
 - CSS class: .date-input
 - Interactive: yes

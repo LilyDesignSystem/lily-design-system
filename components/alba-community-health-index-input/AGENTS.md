@@ -5,6 +5,7 @@
 - Component: alba-community-health-index-input
 - PascalCase: AlbaCommunityHealthIndexInput
 - Description: an input for entering Scotland's Community Health Index (CHI)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .alba-community-health-index-input
 - Interactive: yes

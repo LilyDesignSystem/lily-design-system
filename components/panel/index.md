@@ -2,6 +2,8 @@
 
 A panel is a UI component that serves as a labeled container for grouping related content, controls, or settings within an interface. The Panel component renders a semantic `<section>` element with an accessible label, creating a named region landmark that assistive technology can identify and navigate to.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 Panels are commonly used in dashboards, settings pages, sidebars, and multi-section layouts to organize information into logical groups. The required label ensures each panel is identifiable, which is especially important when multiple panels appear on the same page.
 
 ## Implementation Notes

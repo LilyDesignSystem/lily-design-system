@@ -5,6 +5,7 @@
 - Component: validation-list-item
 - PascalCase: ValidationListItem
 - Description: one validation rule in a validation list with a status of pending, passed, or failed
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <li>
 - CSS class: .validation-list-item
 - Interactive: no

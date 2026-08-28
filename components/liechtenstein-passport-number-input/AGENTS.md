@@ -5,6 +5,7 @@
 - Component: liechtenstein-passport-number-input
 - PascalCase: LiechtensteinPassportNumberInput
 - Description: an input for entering Liechtenstein's Liechtenstein Passport Number
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .liechtenstein-passport-number-input
 - Interactive: yes

@@ -2,6 +2,8 @@
 
 An editable component allows inline text editing. It displays a value as plain text that can be clicked or activated via keyboard to enter edit mode, where it becomes an input field. Pressing Enter confirms the edit, and pressing Escape cancels it, reverting to the original value.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This headless component toggles between a display state (`<span role="button">`) and an edit state (`<input type="text">`). It maintains a draft value during editing so that cancellation restores the original text. Both the `value` and `editing` state support two-way binding.
 
 ## Implementation Notes

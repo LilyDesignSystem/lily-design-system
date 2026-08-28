@@ -5,6 +5,7 @@
 - Component: chat-list
 - PascalCase: ChatList
 - Description: an ordered list of chat list item components
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <ol>
 - CSS class: .chat-list
 - Interactive: no

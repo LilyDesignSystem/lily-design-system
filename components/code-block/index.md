@@ -2,6 +2,8 @@
 
 A code block displays a block of formatted code with optional line numbers and line highlighting. Code blocks are used for presenting multi-line code examples, configuration files, or terminal output in documentation and tutorials.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses a `<pre>` element to preserve whitespace and formatting, providing a container for structured code display.
 
 ## Implementation Notes

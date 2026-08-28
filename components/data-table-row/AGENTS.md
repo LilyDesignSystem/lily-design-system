@@ -5,6 +5,7 @@
 - Component: data-table-row
 - PascalCase: DataTableRow
 - Description: a data table interactive grid row for displaying and sorting tabular data <tr>
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <tr>
 - CSS class: .data-table-row
 - Interactive: no

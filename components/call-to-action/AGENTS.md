@@ -5,6 +5,7 @@
 - Component: call-to-action
 - PascalCase: CallToAction
 - Description: a prominent prompt encouraging user action
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .call-to-action
 - Interactive: yes

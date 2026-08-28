@@ -5,6 +5,7 @@
 - Component: bulgaria-edinen-grazhdanski-nomer-input
 - PascalCase: BulgariaEdinenGrazhdanskiNomerInput
 - Description: an input for entering Bulgaria's Единен граждански номер / Edinen grazhdanski nomer (EGN)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .bulgaria-edinen-grazhdanski-nomer-input
 - Interactive: yes

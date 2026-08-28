@@ -4,6 +4,8 @@ A validation list is a `<ul>` of `validation-list-item` rules that
 provides live feedback as the user types — typically next to a password
 field, a username field, or any input with multiple rules.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it to give users instant, accessible confirmation as each requirement
 is met (or unmet) without waiting for form submission.
 

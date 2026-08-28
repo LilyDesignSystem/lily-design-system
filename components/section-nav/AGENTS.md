@@ -5,6 +5,7 @@
 - Component: section-nav
 - PascalCase: SectionNav
 - Description: a navigation container for section navigation links
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <nav>
 - CSS class: .section-nav
 - Interactive: no

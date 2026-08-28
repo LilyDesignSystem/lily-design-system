@@ -5,6 +5,8 @@ corner. It uses inline `position: fixed` as the documented headless
 behavior and a required `aria-label` so screen readers announce its
 purpose.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it for primary single-action shortcuts (compose, scroll-to-top,
 new chat, contact support) that should remain reachable regardless of
 scroll position.

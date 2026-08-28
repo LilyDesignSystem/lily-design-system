@@ -2,6 +2,8 @@
 
 A video-driven scrollytelling component with frame-by-frame scrubbing. The video playback position maps to scroll position, allowing the user to scrub through a video by scrolling while foreground step content overlays the video.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses a `<div>` element with an `aria-label` and a muted video element whose playback is driven entirely by scroll position.
 
 ## Implementation Notes

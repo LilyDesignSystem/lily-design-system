@@ -4,6 +4,8 @@ A container with fluid width spans the full width of its parent and applies
 configurable horizontal padding, providing edge spacing for full-bleed
 sections without imposing a maximum width.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it for hero sections, banners, and any layout area that should stretch
 across the viewport while keeping content from sitting flush against the
 screen edge.

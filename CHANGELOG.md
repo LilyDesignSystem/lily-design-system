@@ -9,6 +9,23 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Maturity labels on all 491 components — 2026-08-28
+
+[plan.md](plan.md) P4-T3, the GOV.UK/USWDS practice adapted to what
+this project can honestly claim. The rubric is mechanical and
+evidence-based: **stable** (151) means exercised in composed page
+flows under e2e and axe — computed from the canonical app's actual
+imports, not curated by feel; **beta** (332) is the seven-framework,
+unit-tested, axe-clean default; **experimental** (8) is the newest
+batch whose contracts may still move. Status lives in each component's
+canonical `AGENTS.md` (bin/test asserts exactly one valid bullet,
+bite-proven) and its `index.md`; the site registry generator reads it
+from the canonical metadata and the catalog renders a badge, so the
+site cannot drift from the source. Promotion is by evidence, not time
+served, and the rubric says plainly that screen-reader evidence is not
+yet required for `stable` — that boundary belongs to the
+accessibility statement.
+
 ## Accessibility statement + audit-readiness pack — 2026-08-28
 
 [plan.md](plan.md) P4-T2/T5. `docs/accessibility-statement.md` makes

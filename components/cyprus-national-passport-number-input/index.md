@@ -2,6 +2,8 @@
 
 CyprusNationalPassportNumberInput is a headless input for entering Cyprus's National Passport Number, Cyprus's passport identifier. It renders as `<input type="text">` with pattern validation, numeric/letter keyboard hints, and `autocomplete="off"` to protect sensitive identifiers. It is the editable companion to CyprusNationalPassportNumberView.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders as `<input type="text">` with pattern validation

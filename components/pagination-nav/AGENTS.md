@@ -5,6 +5,7 @@
 - Component: pagination-nav
 - PascalCase: PaginationNav
 - Description: an ordered list of page navigation links
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <nav>
 - CSS class: .pagination-nav
 - Interactive: yes

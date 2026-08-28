@@ -2,6 +2,8 @@
 
 An image cropper provides a headless container for cropping and resizing an image to a selected region, typically using mouse, touch, or stylus input to move and resize a crop rectangle. Commonly used in avatar and profile-photo editors, media upload workflows, document scanning, and content management systems, the image cropper brings the familiar drag-to-frame experience to digital interfaces.
 
+**Status:** experimental — recent catalog addition with the least accumulated depth; contract may still move.
+
 The component serves as a semantic container that consumers populate with their preferred cropping implementation, whether an HTML image with an overlay, a canvas, SVG resize handles, or a third-party cropping library. It uses `role="application"` to support complex pointer interactions, along with an accessible label describing the cropping purpose.
 
 ## Implementation Notes

@@ -2,6 +2,8 @@
 
 A low-level scroll position tracking primitive for scrollytelling. ScrollerBase uses IntersectionObserver to track which step is currently active and exposes bindable index and progress values that consumers use to drive visual changes.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses a `<div>` element with an `aria-label` to create a labeled scrollable region for scrollytelling content.
 
 ## Implementation Notes

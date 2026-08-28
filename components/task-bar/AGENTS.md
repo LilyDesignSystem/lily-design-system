@@ -5,6 +5,7 @@
 - Component: task-bar
 - PascalCase: TaskBar
 - Description: a horizontal bar of task shortcuts or actions
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .task-bar
 - Interactive: yes

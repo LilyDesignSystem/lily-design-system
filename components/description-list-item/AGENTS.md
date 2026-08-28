@@ -5,6 +5,7 @@
 - Component: description-list-item
 - PascalCase: DescriptionListItem
 - Description: one key-value pair in a description list using dt and dd elements
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .description-list-item
 - Interactive: no

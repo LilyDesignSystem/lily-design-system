@@ -5,6 +5,7 @@
 - Component: time-picker-input
 - PascalCase: TimePickerInput
 - Description: an input with a dropdown for picking a time
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .time-picker-input
 - Interactive: yes

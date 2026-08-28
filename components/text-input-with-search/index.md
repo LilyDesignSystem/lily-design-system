@@ -2,6 +2,8 @@
 
 TextInputWithSearch is a headless component that wraps a native `<input type="text">` and a `<button type="button">` inside a `<div role="search">`. The search button triggers a callback with the current input value, and pressing Enter in the input also triggers the search.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This component is useful for search bars, filter inputs, lookup fields, and any interface where users type a query and explicitly trigger a search action.
 
 ## Implementation Notes

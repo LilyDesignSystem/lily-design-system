@@ -5,6 +5,7 @@
 - Component: united-states-social-security-number-view
 - PascalCase: UnitedStatesSocialSecurityNumberView
 - Description: a read-only display of a US Social Security number
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .united-states-social-security-number-view
 - Interactive: no

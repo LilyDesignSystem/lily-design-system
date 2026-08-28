@@ -5,6 +5,7 @@
 - Component: ai-label
 - PascalCase: AiLabel
 - Description: an indicator of AI instances that is a pathway to AI explainability
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .ai-label
 - Interactive: no

@@ -10,6 +10,8 @@ component provides the semantic structure and accessibility features while the
 consumer manages the actual timer logic and provides formatted display content
 through the children slot.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 ## Implementation Notes
 
 - Renders as `<time role="timer" aria-label={label} aria-live="polite">`

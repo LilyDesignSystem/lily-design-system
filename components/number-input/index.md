@@ -2,6 +2,8 @@
 
 NumberInput is a headless component that wraps a native `<input type="number">` element with accessible labelling and optional min, max, and step constraints. It provides a bindable numeric value for two-way data flow.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component is useful for quantity selectors, age inputs, price fields, configuration values, or any form field that accepts numeric input. The native number input provides browser-built-in validation, increment/decrement controls, and appropriate virtual keyboard on mobile devices.
 
 ## Implementation Notes

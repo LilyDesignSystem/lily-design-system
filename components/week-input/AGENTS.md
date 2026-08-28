@@ -5,6 +5,7 @@
 - Component: week-input
 - PascalCase: WeekInput
 - Description: an input for selecting a week and year <input type="week">
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .week-input
 - Interactive: yes

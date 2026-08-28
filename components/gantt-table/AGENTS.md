@@ -5,6 +5,7 @@
 - Component: gantt-table
 - PascalCase: GanttTable
 - Description: a Gantt chart table interactive grid for planning schedule visualization <table>
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <table>
 - CSS class: .gantt-table
 - Interactive: no

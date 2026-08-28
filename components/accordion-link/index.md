@@ -2,6 +2,8 @@
 
 An accordion link is a navigational anchor element representing one link within an accordion navigation structure. It renders as a semantic `<a>` element and is designed to be placed inside an AccordionListItem within an AccordionList and AccordionNav structure.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders as a semantic `<a>` element for accordion navigation

@@ -2,6 +2,8 @@
 
 An organization component displays information about an organization, such as its name, logo, description, and contact details. It is used in directories, profiles, and listings.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses an `<article>` element for self-contained organization content semantics.
 
 ## Implementation Notes

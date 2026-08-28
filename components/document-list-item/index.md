@@ -2,6 +2,8 @@
 
 One document entry in a document list.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders an `<li>` containing the document title (as a link), file type, file size, and optional last-modified date

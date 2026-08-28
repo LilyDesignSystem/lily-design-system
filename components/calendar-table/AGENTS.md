@@ -5,6 +5,7 @@
 - Component: calendar-table
 - PascalCase: CalendarTable
 - Description: a calendar table interactive grid for managing dates, days, etc. <table>
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <table>
 - CSS class: .calendar-table
 - Interactive: no

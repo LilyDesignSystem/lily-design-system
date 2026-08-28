@@ -2,6 +2,8 @@
 
 A screen reader span is a visually hidden span of text intended for screen readers to provide more descriptive labels. It is used to supplement visual elements with additional context that is only announced to assistive technologies.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses a `<span>` element that is visually hidden via CSS but remains accessible to screen readers.
 
 ## Implementation Notes

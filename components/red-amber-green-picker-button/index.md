@@ -2,6 +2,8 @@
 
 A RAG (Red/Amber/Green) picker button is an individual button within a RedAmberGreenPicker that represents one traffic-light status level. When clicked, it selects that RAG status value. The component uses `aria-pressed` to indicate the currently selected state and `data-value` to carry the status value, making it accessible to screen readers and enabling CSS-based styling by status color.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Red indicates a critical problem needing immediate attention, amber signals caution or minor issues, and green means everything is on track.
 
 ## Implementation Notes

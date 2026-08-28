@@ -5,6 +5,7 @@
 - Component: sticky-promo-banner
 - PascalCase: StickyPromoBanner
 - Description: a fixed-position promotional banner with a dismiss button
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <aside>
 - CSS class: .sticky-promo-banner
 - Interactive: yes

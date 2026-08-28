@@ -5,6 +5,7 @@
 - Component: section-list
 - PascalCase: SectionList
 - Description: a list of section navigation items
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <ol>
 - CSS class: .section-list
 - Interactive: no

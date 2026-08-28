@@ -2,6 +2,8 @@
 
 A Gantt table body is the main content section of a Gantt chart grid, wrapping the rows that represent individual tasks and their timeline data. Each row typically contains a task name and cells indicating the task's duration across time periods. It is designed to be used inside a GanttTable `<table>` structure.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The component renders a `<tbody>` element and passes through its children, which are expected to be GanttTableTR or `<tr>` elements containing task and timeline cells.
 
 ## Implementation Notes

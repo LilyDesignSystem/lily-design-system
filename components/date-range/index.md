@@ -2,6 +2,8 @@
 
 A date range is a component that provides paired start and end date inputs, allowing users to specify a span of time. Commonly used in booking forms, search filters, reporting interfaces, and scheduling tools, the date range component groups two date inputs together with a shared label to communicate that they represent a related pair.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This headless component renders a `<fieldset>` containing two native `<input type="date">` elements, each with its own accessible label. Both the start and end values support two-way binding for reactive state management.
 
 ## Implementation Notes

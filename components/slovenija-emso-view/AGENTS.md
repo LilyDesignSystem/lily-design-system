@@ -5,6 +5,7 @@
 - Component: slovenija-emso-view
 - PascalCase: SlovenijaEmsoView
 - Description: a read-only display of Slovenia's Enotna Matična Številka Občana (EMŠO)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .slovenija-emso-view
 - Interactive: no

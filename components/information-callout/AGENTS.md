@@ -5,6 +5,7 @@
 - Component: information-callout
 - PascalCase: InformationCallout
 - Description: a callout box highlighting informational content
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .information-callout
 - Interactive: no

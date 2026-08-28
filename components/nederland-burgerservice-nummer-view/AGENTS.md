@@ -5,6 +5,7 @@
 - Component: nederland-burgerservice-nummer-view
 - PascalCase: NederlandBurgerserviceNummerView
 - Description: a read-only display of Netherlands's Burgerservicenummer (BSN)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .nederland-burgerservice-nummer-view
 - Interactive: no

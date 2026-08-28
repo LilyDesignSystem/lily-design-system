@@ -5,6 +5,7 @@
 - Component: espana-codigo-de-identificacion-fiscal-input
 - PascalCase: EspanaCodigoDeIdentificacionFiscalInput
 - Description: an input for entering Spain's Código de Identificación Fiscal (CIF)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .espana-codigo-de-identificacion-fiscal-input
 - Interactive: yes

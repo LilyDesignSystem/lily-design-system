@@ -5,6 +5,7 @@
 - Component: france-numero-d-identification-au-repertoire-view
 - PascalCase: FranceNumeroDIdentificationAuRepertoireView
 - Description: a read-only display of a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .france-numero-d-identification-au-repertoire-view
 - Interactive: no

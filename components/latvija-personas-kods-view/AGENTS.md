@@ -5,6 +5,7 @@
 - Component: latvija-personas-kods-view
 - PascalCase: LatvijaPersonasKodsView
 - Description: a read-only display of Latvia's Personas kods
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .latvija-personas-kods-view
 - Interactive: no

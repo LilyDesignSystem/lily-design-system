@@ -5,6 +5,7 @@
 - Component: slovensko-pas-view
 - PascalCase: SlovenskoPasView
 - Description: a read-only display of Slovakia's Pas
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .slovensko-pas-view
 - Interactive: no

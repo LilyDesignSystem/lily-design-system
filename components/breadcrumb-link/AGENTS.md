@@ -5,6 +5,7 @@
 - Component: breadcrumb-link
 - PascalCase: BreadcrumbLink
 - Description: one breadcrumb link in the trail
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <a>
 - CSS class: .breadcrumb-link
 - Interactive: yes

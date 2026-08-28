@@ -5,6 +5,7 @@
 - Component: line-chart
 - PascalCase: LineChart
 - Description: a line chart visualization connecting data points to display data
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <figure>
 - CSS class: .line-chart
 - Interactive: no

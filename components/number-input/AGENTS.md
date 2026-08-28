@@ -5,6 +5,7 @@
 - Component: number-input
 - PascalCase: NumberInput
 - Description: an input for entering a numeric value with validation <input type="number">
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <input>
 - CSS class: .number-input
 - Interactive: no

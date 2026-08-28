@@ -2,6 +2,8 @@
 
 NorthernIrelandHealthAndCareNumberView is a read-only display of a Northern Ireland Health and Care (H&C) Number, the unique national healthcare identifier. It renders the value as inline text inside a `<span>` with `aria-label`. It is the display-only companion to NorthernIrelandHealthAndCareNumberInput.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders a `<span>` with `aria-label`

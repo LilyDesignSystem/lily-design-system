@@ -5,6 +5,7 @@
 - Component: scatter-chart
 - PascalCase: ScatterChart
 - Description: a scatter chart visualization using dots to display data
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <figure>
 - CSS class: .scatter-chart
 - Interactive: no

@@ -5,6 +5,7 @@
 - Component: postal-code-input
 - PascalCase: PostalCodeInput
 - Description: an input for entering a postal or ZIP code
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .postal-code-input
 - Interactive: no

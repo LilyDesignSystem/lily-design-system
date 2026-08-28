@@ -5,6 +5,7 @@
 - Component: color-picker-button
 - PascalCase: ColorPickerButton
 - Description: a button showing a color swatch in a color picker
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <button>
 - CSS class: .color-picker-button
 - Interactive: yes

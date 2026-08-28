@@ -5,6 +5,7 @@
 - Component: expander
 - PascalCase: Expander
 - Description: a control that expands to reveal more content
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .expander
 - Interactive: yes

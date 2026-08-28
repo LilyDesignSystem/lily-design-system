@@ -2,6 +2,8 @@
 
 A timeline list item is a single entry within a TimelineList, rendered as a semantic `<li>` element. Each item typically contains a timestamp (via the `<time>` element) and a description of the event or milestone.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 ## Implementation Notes
 
 - Renders a `<li>` element with class `timeline-list-item`

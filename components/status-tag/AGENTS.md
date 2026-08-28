@@ -5,6 +5,7 @@
 - Component: status-tag
 - PascalCase: StatusTag
 - Description: a tag showing the current status of a task
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .status-tag
 - Interactive: no

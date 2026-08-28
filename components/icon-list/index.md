@@ -4,6 +4,8 @@ An icon list is a `<ul>` of items where each item begins with a leading
 icon, suitable for short feature lists, benefit lists, or step-by-step
 summaries.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it when a list of short statements would benefit from a visual marker
 at the start of each line.
 

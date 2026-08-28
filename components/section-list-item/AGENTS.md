@@ -5,6 +5,7 @@
 - Component: section-list-item
 - PascalCase: SectionListItem
 - Description: one section navigation item
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <li>
 - CSS class: .section-list-item
 - Interactive: no

@@ -2,6 +2,8 @@
 
 An addressograph-box is a box that shows a person's identification details, such as name, date of birth, tracking information (e.g., medical record number, patient number), and salient notations (e.g., allergy alerts, fall risk).
 
+**Status:** experimental — recent catalog addition with the least accumulated depth; contract may still move.
+
 This headless component renders a `<div>` with class `addressograph-box`. The consumer supplies the identifying fields, layout, and any salient warning iconography as children. The component intentionally does not pick which identifiers to show — that is a domain concern (healthcare, logistics, mail handling, etc.).
 
 ## Implementation Notes

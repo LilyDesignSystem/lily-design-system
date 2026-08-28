@@ -2,6 +2,8 @@
 
 A link that takes users to the previous section of the current page.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders an `<a>` with class `go-to-previous-section` linking to a section anchor on the same page

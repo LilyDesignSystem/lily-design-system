@@ -2,6 +2,8 @@
 
 An error message component informs users when something has gone wrong, such as incorrect input, failed actions, or system issues. It uses `role="alert"` to ensure screen readers announce the error immediately when it appears, without requiring user focus.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The component renders a `<p>` element with `role="alert"`, making it an assertive live region. This means the error text is announced to assistive technology users as soon as it enters the DOM, which is critical for form validation feedback and system error notifications.
 
 ## Implementation Notes

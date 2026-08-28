@@ -4,6 +4,8 @@ A summary box is an `<aside>` callout that highlights key takeaways or
 next steps from a longer page, with a required heading and any body
 content.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it to surface the most important information from a long article so
 that scanning users can find the essentials without reading every word.
 

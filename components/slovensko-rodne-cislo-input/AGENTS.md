@@ -5,6 +5,7 @@
 - Component: slovensko-rodne-cislo-input
 - PascalCase: SlovenskoRodneCisloInput
 - Description: an input for entering Slovakia's Rodné číslo (RČ)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .slovensko-rodne-cislo-input
 - Interactive: yes

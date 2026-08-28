@@ -2,6 +2,8 @@
 
 AiLabel is a headless inline indicator that communicates the presence of AI-generated content and provides a pathway to AI explainability. It renders as a `<span>` element with appropriate ARIA attributes, serving as a visual marker that content has been generated, modified, or enhanced by artificial intelligence.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use AiLabel wherever AI is generating, modifying, or enhancing content to reinforce AI transparency, accountability, and explainability. The component can be placed inline with text, within form fields, alongside data visualizations, or anywhere users need to identify AI-generated content.
 
 ## Implementation Notes

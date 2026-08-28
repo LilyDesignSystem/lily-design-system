@@ -5,6 +5,7 @@
 - Component: tile
 - PascalCase: Tile
 - Description: a grouping container that presents related content in a structured format, often as a single clickable area
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .tile
 - Interactive: yes

@@ -5,6 +5,7 @@
 - Component: progress-circle
 - PascalCase: ProgressCircle
 - Description: a circular progress indicator
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .progress-circle
 - Interactive: no

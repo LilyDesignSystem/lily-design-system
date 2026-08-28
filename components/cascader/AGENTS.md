@@ -5,6 +5,7 @@
 - Component: cascader
 - PascalCase: Cascader
 - Description: a multi-level dropdown for selecting a value from a hierarchy
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .cascader
 - Interactive: yes

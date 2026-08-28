@@ -2,6 +2,8 @@
 
 A contents link is a single navigation link within a contents list, typically linking to a page or page section. Contents links are used in tables of contents, page outlines, and section navigation.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses an `<a>` element for native link semantics and keyboard navigation, with `aria-current` support for indicating the currently active section.
 
 ## Implementation Notes

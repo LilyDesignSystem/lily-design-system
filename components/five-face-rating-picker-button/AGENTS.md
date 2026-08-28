@@ -5,6 +5,7 @@
 - Component: five-face-rating-picker-button
 - PascalCase: FiveFaceRatingPickerButton
 - Description: a picker button for selecting a 1-5 satisfaction rating using face labels
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <button>
 - CSS class: .five-face-rating-picker-button
 - Interactive: yes

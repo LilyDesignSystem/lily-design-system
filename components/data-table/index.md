@@ -2,6 +2,8 @@
 
 A data table displays structured information in rows and columns, allowing users to scan, compare, and analyze data. It wraps content in a semantic `<table>` element with proper `<caption>` support for accessibility. Consumers provide their own `<thead>`, `<tbody>`, `<tr>`, `<th>`, and `<td>` elements as children.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The component supports two labelling strategies: a visible `<caption>` element for sighted users and screen readers alike, or an `aria-label` for cases where the caption should not be displayed visually. When a `caption` prop is provided, `aria-label` is omitted to avoid redundancy.
 
 ## Implementation Notes

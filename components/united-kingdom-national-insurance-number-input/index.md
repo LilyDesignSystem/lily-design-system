@@ -2,6 +2,8 @@
 
 UnitedKingdomNationalInsuranceNumberInput is a headless input for entering United Kingdom's National Insurance Number (NINO), United Kingdom's tax/welfare identifier. It renders as `<input type="text">` with pattern validation, numeric/letter keyboard hints, and `autocomplete="off"` to protect sensitive identifiers. It is the editable companion to UnitedKingdomNationalInsuranceNumberView.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders as `<input type="text">` with pattern validation

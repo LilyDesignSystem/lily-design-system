@@ -5,6 +5,7 @@
 - Component: romania-cod-numeric-personal-input
 - PascalCase: RomaniaCodNumericPersonalInput
 - Description: an input for entering Romania's Cod Numeric Personal (CNP)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .romania-cod-numeric-personal-input
 - Interactive: yes

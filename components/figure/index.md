@@ -2,6 +2,8 @@
 
 A figure is a component used to visually represent data through graphical formats such as bar figures, line figures, pie figures, area figures, and scatter plots. Commonly used in dashboards, reports, analytics tools, and data-driven applications, figures transform raw numbers into visual patterns that make trends, comparisons, and distributions easier to understand at a glance.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This headless component renders a `<figure>` element with `role="img"` and an accessible label. The consumer provides their preferred visualization content (SVG, canvas, or a figureing library) as children. The figure element provides semantic grouping for the figure content.
 
 ## Implementation Notes

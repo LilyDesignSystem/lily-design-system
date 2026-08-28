@@ -5,6 +5,7 @@
 - Component: collection-list
 - PascalCase: CollectionList
 - Description: a compact list of multiple related items such as articles or events
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <ul>
 - CSS class: .collection-list
 - Interactive: no

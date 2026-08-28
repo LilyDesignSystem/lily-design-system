@@ -5,6 +5,7 @@
 - Component: united-kingdom-national-insurance-number-view
 - PascalCase: UnitedKingdomNationalInsuranceNumberView
 - Description: a read-only display of United Kingdom's National Insurance Number (NINO)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .united-kingdom-national-insurance-number-view
 - Interactive: no

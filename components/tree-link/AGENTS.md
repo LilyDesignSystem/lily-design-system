@@ -5,6 +5,7 @@
 - Component: tree-link
 - PascalCase: TreeLink
 - Description: one link in the tree
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <a>
 - CSS class: .tree-link
 - Interactive: yes

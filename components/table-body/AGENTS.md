@@ -5,6 +5,7 @@
 - Component: table-body
 - PascalCase: TableBody
 - Description: a table interactive grid tbody <tbody>
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <tbody>
 - CSS class: .table-body
 - Interactive: no

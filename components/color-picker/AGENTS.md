@@ -5,6 +5,7 @@
 - Component: color-picker
 - PascalCase: ColorPicker
 - Description: a two-dimensional board for picking colors by hue and saturation
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .color-picker
 - Interactive: yes

@@ -5,6 +5,7 @@
 - Component: question
 - PascalCase: Question
 - Description: a question is anything that asks for information, invites a response, tests knowledge, etc.
+- Status: experimental — recent catalog addition with the least accumulated depth; contract may still move
 - HTML tag: <div>
 - CSS class: .question
 - Interactive: no

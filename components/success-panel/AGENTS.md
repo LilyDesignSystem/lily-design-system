@@ -5,6 +5,7 @@
 - Component: success-panel
 - PascalCase: SuccessPanel
 - Description: a panel confirming a task has been completed
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .success-panel
 - Interactive: no

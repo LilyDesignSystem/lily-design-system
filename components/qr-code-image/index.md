@@ -2,6 +2,8 @@
 
 A QR code component provides a headless container for displaying a two-dimensional barcode encoding data such as URLs, text, contact information, or other machine-readable content. Commonly used for sharing links, mobile payments, event check-ins, product information, and authentication workflows, the QR code provides a quick way to transfer information from a screen to a mobile device camera.
 
+**Status:** experimental — recent catalog addition with the least accumulated depth; contract may still move.
+
 The component serves as a semantic container that consumers populate with their preferred rendering approach, whether SVG paths, canvas drawings, or a third-party QR generation library. It uses `role="img"` with a required `aria-label` so screen reader users understand what the QR code represents and what action scanning it will perform.
 
 ## Implementation Notes

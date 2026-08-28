@@ -2,6 +2,8 @@
 
 A super-banner communicates a high-priority state that affects an entire app, experience, process, or system. It is displayed prominently at the very top of the page, above all other content, to ensure maximum visibility for critical messages.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses a `<div>` element with `role="alert"` for immediate screen reader announcement of high-priority information.
 
 ## Implementation Notes

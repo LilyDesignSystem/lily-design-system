@@ -4,6 +4,8 @@ A collection list is a compact `<ul>` of related items — typically articles,
 events, search results, or news entries — rendered as a vertical stack of
 `collection-list-item` children.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it whenever a page presents many small content cards that share a
 template (heading, optional meta, optional thumbnail) and should be
 announced as a single list to assistive technology.

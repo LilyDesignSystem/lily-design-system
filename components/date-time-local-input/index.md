@@ -2,6 +2,8 @@
 
 A datetime-local input allows users to select both a date and time using the native `<input type="datetime-local">` element. It provides accessible labelling via `aria-label` and a bindable value for reactive form state.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This component is useful for scheduling interfaces, event creation forms, appointment booking, and any scenario where both date and time must be captured in a single field. The value follows the format `YYYY-MM-DDThh:mm`, and the browser provides the native date-time picker UI.
 
 ## Implementation Notes

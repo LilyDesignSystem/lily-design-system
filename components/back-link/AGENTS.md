@@ -5,6 +5,7 @@
 - Component: back-link
 - PascalCase: BackLink
 - Description: a navigation link to return to a previous page
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <a>
 - CSS class: .back-link
 - Interactive: yes

@@ -2,6 +2,8 @@
 
 A 2D area selector for choosing colors by saturation (X axis) and brightness (Y axis). Users navigate the board with keyboard arrow keys, with Shift held for larger steps. The component exposes `data-x` and `data-y` attributes for CSS-based cursor positioning, enabling consumers to render a visual indicator at the selected coordinates.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This component is useful for advanced color pickers where the user needs fine-grained 2D selection of color properties.
 
 ## Implementation Notes

@@ -2,6 +2,8 @@
 
 A hero headline is a full-bleed hero section with headline content overlaid on media. It creates an immersive editorial introduction combining large background imagery or video with prominent text.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses a `<div>` element with an `aria-label` to create a labeled container for the hero content overlaid on background media.
 
 ## Implementation Notes

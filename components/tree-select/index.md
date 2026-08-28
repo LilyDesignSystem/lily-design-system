@@ -4,6 +4,8 @@ A tree select is a select dropdown showing a tree of hierarchical
 options. It exposes a trigger button and a panel that holds tree-shaped
 options.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it for hierarchical selection where the options form a tree (e.g.,
 organizational unit, category, file system path) and the user selects
 one or many leaves or branches.

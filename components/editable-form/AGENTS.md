@@ -5,6 +5,7 @@
 - Component: editable-form
 - PascalCase: EditableForm
 - Description: a form wrapper for inline editing of content
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <form>
 - CSS class: .editable-form
 - Interactive: yes

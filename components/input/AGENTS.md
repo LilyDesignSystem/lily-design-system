@@ -5,6 +5,7 @@
 - Component: input
 - PascalCase: Input
 - Description: a generic HTML input element
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .input
 - Interactive: no

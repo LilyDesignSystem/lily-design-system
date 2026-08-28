@@ -2,6 +2,8 @@
 
 An input provides a headless text input field with accessible labeling and two-way value binding. It serves as the foundational form input component for text entry, supporting various HTML input types such as text, email, password, number, search, and more.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The component supports bindable value state, required and disabled attributes, and spreads additional props for full consumer control over the native `<input>` element.
 
 ## Implementation Notes

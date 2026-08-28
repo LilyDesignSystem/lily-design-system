@@ -5,6 +5,7 @@
 - Component: statistic
 - PascalCase: Statistic
 - Description: a numeric value display with title, prefix, and suffix
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .statistic
 - Interactive: no

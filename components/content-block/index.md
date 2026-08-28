@@ -2,6 +2,8 @@
 
 A content width constraint container with named column widths. ContentBlock constrains child content to a named column width, reading CSS custom properties set by an ArticleLayout parent.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses a `<div>` element as a presentational container with no ARIA semantics.
 
 ## Implementation Notes

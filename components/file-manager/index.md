@@ -2,6 +2,8 @@
 
 A file manager is a component that provides an interface for browsing, organizing, and managing files and directories. Commonly used in content management systems, cloud storage applications, document editors, and admin dashboards, the file manager enables users to navigate folder hierarchies, view file listings, and perform operations such as uploading, downloading, renaming, and deleting files.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component renders a `<div>` with `role="region"` and an accessible label, defining a semantic boundary for the file management area. The consumer provides the file listing, navigation controls, and interaction behavior as children.
 
 ## Implementation Notes

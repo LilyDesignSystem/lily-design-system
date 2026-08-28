@@ -5,6 +5,7 @@
 - Component: contents-nav
 - PascalCase: ContentsNav
 - Description: a contents navigation area
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <nav>
 - CSS class: .contents-nav
 - Interactive: no

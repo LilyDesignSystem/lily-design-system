@@ -5,6 +5,7 @@
 - Component: slovensko-rodne-cislo-view
 - PascalCase: SlovenskoRodneCisloView
 - Description: a read-only display of Slovakia's Rodné číslo (RČ)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .slovensko-rodne-cislo-view
 - Interactive: no

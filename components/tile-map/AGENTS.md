@@ -5,6 +5,7 @@
 - Component: tile-map
 - PascalCase: TileMap
 - Description: a tile cartogram map with configurable layers for geographic data visualization
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .tile-map
 - Interactive: yes

@@ -5,6 +5,7 @@
 - Component: liechtenstein-national-identity-card-number-input
 - PascalCase: LiechtensteinNationalIdentityCardNumberInput
 - Description: an input for entering Liechtenstein's Liechtenstein National Identity Card Number
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .liechtenstein-national-identity-card-number-input
 - Interactive: yes

@@ -2,6 +2,8 @@
 
 A task bar item is a single button within a task bar, rendered as a native `<button>` element for proper keyboard and screen reader support. It is designed to be placed inside a TaskBar container that manages layout and grouping.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The component uses `<button type="button">` to avoid unintended form submissions and supports the `disabled` attribute for disabling interaction. Content is provided through the children slot, allowing full flexibility in button content.
 
 ## Implementation Notes

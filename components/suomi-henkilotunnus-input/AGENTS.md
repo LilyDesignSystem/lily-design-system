@@ -5,6 +5,7 @@
 - Component: suomi-henkilotunnus-input
 - PascalCase: SuomiHenkilotunnusInput
 - Description: an input for entering Finland's Henkilötunnus (HETU)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .suomi-henkilotunnus-input
 - Interactive: yes

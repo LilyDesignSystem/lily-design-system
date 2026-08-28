@@ -5,6 +5,8 @@ name, and price together with optional description, badges, and action
 buttons, presenting one product as a self-contained landmark for catalogs,
 search results, and recommendation strips.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it for e-commerce listings, marketplace browse pages, recommendation
 modules, and any context where products are presented in a uniform card
 layout.

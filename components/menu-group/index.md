@@ -3,6 +3,8 @@
 A menu group is a labeled section of menu items within a menu. It groups
 related actions and presents a visible heading that names the group.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it inside a `Menu`, `DropdownMenu`, or `ContextMenu` to organize items
 into clear sections — for example, "File", "Edit", or "View" — making
 longer menus easier to scan.

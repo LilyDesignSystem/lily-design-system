@@ -2,6 +2,8 @@
 
 A carousel is a region component for cycling through a set of slides or content items, such as image galleries, product showcases, or testimonial rotators. It provides the semantic container with appropriate ARIA roledescription so assistive technologies announce it as a carousel.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The consumer is responsible for providing the slide content as children and implementing navigation controls (previous/next buttons, pagination dots, autoplay logic, etc.). This headless approach gives full control over navigation behavior, animation, and layout while ensuring accessibility compliance.
 
 ## Implementation Notes

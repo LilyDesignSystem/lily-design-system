@@ -5,6 +5,7 @@
 - Component: care-card
 - PascalCase: CareCard
 - Description: a medical care instruction card with urgency levels
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .care-card
 - Interactive: no

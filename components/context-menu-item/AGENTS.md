@@ -5,6 +5,7 @@
 - Component: context-menu-item
 - PascalCase: ContextMenuItem
 - Description: one item in a context menu
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .context-menu-item
 - Interactive: yes

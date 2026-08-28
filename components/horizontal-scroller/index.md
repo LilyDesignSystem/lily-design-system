@@ -2,6 +2,8 @@
 
 A horizontally scrollable content container. HorizontalScroller provides a region that scrolls horizontally with overflow, supporting mouse drag scrolling, touch swipe, and keyboard navigation.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses a `<div>` element with `role="region"` and `aria-label` to create an accessible horizontally scrollable area.
 
 ## Implementation Notes

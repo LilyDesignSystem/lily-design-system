@@ -5,6 +5,7 @@
 - Component: tree-select
 - PascalCase: TreeSelect
 - Description: a select dropdown showing a tree of hierarchical options
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .tree-select
 - Interactive: yes

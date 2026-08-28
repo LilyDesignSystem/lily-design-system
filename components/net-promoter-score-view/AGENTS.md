@@ -5,6 +5,7 @@
 - Component: net-promoter-score-view
 - PascalCase: NetPromoterScoreView
 - Description: a read-only display of a Net Promoter Score
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .net-promoter-score-view
 - Interactive: no

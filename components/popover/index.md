@@ -2,6 +2,8 @@
 
 A popover is a UI component that displays contextual information or actions in an overlay that appears near the element that triggered it. The Popover component provides a headless conditional dialog container that renders its content only when the `open` state is true, with proper dialog semantics for accessibility.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 Unlike tooltips, popovers can contain rich interactive content such as text, forms, buttons, or other controls. The component supports two-way binding on the `open` prop, allowing parent components to control visibility. The consumer is responsible for providing trigger elements and managing open/close logic.
 
 ## Implementation Notes

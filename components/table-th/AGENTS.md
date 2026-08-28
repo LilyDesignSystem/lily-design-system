@@ -5,6 +5,7 @@
 - Component: table-th
 - PascalCase: TableTH
 - Description: a table interactive grid header cell <th>
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <th>
 - CSS class: .table-th
 - Interactive: no

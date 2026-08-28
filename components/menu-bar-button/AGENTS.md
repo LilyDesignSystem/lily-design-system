@@ -5,6 +5,7 @@
 - Component: menu-bar-button
 - PascalCase: MenuBarButton
 - Description: one item in a menu bar
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <button>
 - CSS class: .menu-bar-button
 - Interactive: yes

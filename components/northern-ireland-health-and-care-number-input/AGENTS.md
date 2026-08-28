@@ -5,6 +5,7 @@
 - Component: northern-ireland-health-and-care-number-input
 - PascalCase: NorthernIrelandHealthAndCareNumberInput
 - Description: an input for entering aNorthern Ireland Health and Care (H&C) Number unique national healthcare identifier
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .northern-ireland-health-and-care-number-input
 - Interactive: yes

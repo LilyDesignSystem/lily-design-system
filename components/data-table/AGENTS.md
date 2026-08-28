@@ -5,6 +5,7 @@
 - Component: data-table
 - PascalCase: DataTable
 - Description: a data table interactive grid for displaying and sorting tabular data <table>
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <table>
 - CSS class: .data-table
 - Interactive: no

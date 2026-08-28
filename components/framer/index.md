@@ -2,6 +2,8 @@
 
 A container for framed content display with a decorative border, used to visually frame screenshots, artwork, or embedded content.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses a `<div>` element with an optional `aria-label` for semantic framing of visual content.
 
 ## Implementation Notes

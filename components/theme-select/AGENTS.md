@@ -5,6 +5,7 @@
 - Component: theme-select
 - PascalCase: ThemeSelect
 - Description: a select dropdown for choosing a theme
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <select>
 - CSS class: .theme-select
 - Interactive: yes

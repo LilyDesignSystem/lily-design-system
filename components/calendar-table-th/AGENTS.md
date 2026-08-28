@@ -5,6 +5,7 @@
 - Component: calendar-table-th
 - PascalCase: CalendarTableTH
 - Description: a calendar table interactive grid header cell for managing dates, days, etc. <th>
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <th>
 - CSS class: .calendar-table-th
 - Interactive: no

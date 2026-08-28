@@ -2,6 +2,8 @@
 
 ScrollArea is a headless scrollable container that provides keyboard accessibility for overflowing content. It renders a focusable region so keyboard users can scroll through content using standard scrolling keys without needing a mouse.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use ScrollArea when you have content that may overflow its container, such as long lists, code blocks, chat messages, or data tables. The component provides the semantic structure and keyboard focus needed for accessible scrolling, while the consumer controls all visual styling including overflow behavior, dimensions, and scrollbar appearance.
 
 ## Implementation Notes

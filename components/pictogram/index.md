@@ -4,6 +4,8 @@ A pictogram is a `<figure>` that pairs an icon or illustration with a title
 and description in a centered or side-by-side layout. The icon is the
 required focal element; heading and description provide context.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it for feature lists, value propositions, "how it works" steps,
 benefit grids, and any place a small illustrated unit communicates a
 concept more clearly than text alone.

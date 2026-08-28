@@ -2,6 +2,8 @@
 
 BannerBox is a headless layout component designed to be placed inside a Banner component. It renders a `<div>` that the consumer styles with flexbox horizontal layout (`display: flex; flex-direction: row`) to arrange banner content items side by side, such as a message and action buttons.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This component is useful for structuring banner content into a horizontal row, aligning text, icons, and action buttons within a banner message bar.
 
 ## Implementation Notes

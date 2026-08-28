@@ -2,6 +2,8 @@
 
 An IntersectionObserver wrapper that exposes element visibility state, enabling lazy loading, scroll-triggered animations, and viewport-based analytics.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses a `<div>` element that wraps content and passes a visibility boolean to its children via a render prop or slot.
 
 ## Implementation Notes

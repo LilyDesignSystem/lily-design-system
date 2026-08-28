@@ -5,6 +5,7 @@
 - Component: summary-list
 - PascalCase: SummaryList
 - Description: an ordered list of key-value summary pairs
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <ol>
 - CSS class: .summary-list
 - Interactive: no

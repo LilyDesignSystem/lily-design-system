@@ -5,6 +5,7 @@
 - Component: segment-group
 - PascalCase: SegmentGroup
 - Description: a group of mutually exclusive segment options
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .segment-group
 - Interactive: yes

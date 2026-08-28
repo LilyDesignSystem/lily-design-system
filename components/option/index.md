@@ -2,6 +2,8 @@
 
 An option component wraps the native HTML `<option>` element for use inside `<select>` elements. It accepts a value prop for the form submission value and renders children as the visible option label text.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The component supports `selected` for pre-selecting an option and `disabled` for preventing selection, both using native HTML attributes. All accessibility behavior is provided automatically by the browser's native `<option>` element within the parent `<select>`.
 
 ## Implementation Notes

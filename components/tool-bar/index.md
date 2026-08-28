@@ -2,6 +2,8 @@
 
 A toolbar is a container for action buttons and controls using the ARIA toolbar role. It provides left/right arrow key navigation between items with Home/End keys to jump to first/last items, implementing the roving focus pattern for efficient keyboard interaction.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The component queries focusable children via `button`, `[role='button']`, and `[tabindex]` selectors, enabling arrow key navigation to wrap around from last to first and vice versa. This allows users to Tab into the toolbar once, then use arrow keys to move between items, and Tab out to continue through the page.
 
 ## Implementation Notes

@@ -2,6 +2,8 @@
 
 A postal code view displays a postal or ZIP code as read-only text within a `<span>` element. It is used to present postal code information in address displays, confirmation pages, shipping summaries, or any context where the value is not editable.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This component pairs with PostalCodeInput to form an Input/View pattern: PostalCodeInput handles data entry while PostalCodeView handles display. The simple span-based rendering allows consumers to apply any formatting or styling needed.
 
 ## Implementation Notes

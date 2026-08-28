@@ -2,6 +2,8 @@
 
 A time picker is a component that allows users to select a specific time of day, often used alongside a date picker in forms, scheduling tools, or booking systems. It provides a structured way to enter time values, reducing input mistakes and improving the user experience compared to free-text entry.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component wraps a native `<input type="time">` element with an accessible label and support for two-way binding of the time value. It supports required and disabled states and delegates all visual presentation to the consumer.
 
 ## Implementation Notes

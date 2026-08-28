@@ -2,6 +2,8 @@
 
 A calendar table foot is the footer section of a calendar grid, wrapping one or more rows that provide supplementary information such as week totals, summary data, or navigation controls. It is designed to be used inside a CalendarTable `<table>` structure.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The component renders a `<tfoot>` element and passes through its children, which are expected to be CalendarTableRow or `<tr>` elements.
 
 ## Implementation Notes

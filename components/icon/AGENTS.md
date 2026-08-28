@@ -5,6 +5,7 @@
 - Component: icon
 - PascalCase: Icon
 - Description: a container for displaying an icon
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <span>
 - CSS class: .icon
 - Interactive: no

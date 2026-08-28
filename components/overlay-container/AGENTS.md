@@ -5,6 +5,7 @@
 - Component: overlay-container
 - PascalCase: OverlayContainer
 - Description: a full-viewport overlay backdrop for modals and sheets
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .overlay-container
 - Interactive: yes (forwards backdrop-click)

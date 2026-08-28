@@ -5,6 +5,7 @@
 - Component: kanban-table-td
 - PascalCase: KanbanTableTD
 - Description: kanban board table interactive grid data cell for organizing items by status <td>
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <td>
 - CSS class: .kanban-table-td
 - Interactive: no

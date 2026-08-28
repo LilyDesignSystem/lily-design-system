@@ -2,6 +2,8 @@
 
 A person component displays information about a person, such as their name, avatar, role, and contact details. It is used in team pages, directories, profiles, and user listings.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses an `<article>` element for self-contained person content semantics.
 
 ## Implementation Notes

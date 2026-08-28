@@ -5,6 +5,7 @@
 - Component: related-content
 - PascalCase: RelatedContent
 - Description: a section providing links to related or supporting information
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <aside>
 - CSS class: .related-content
 - Interactive: no

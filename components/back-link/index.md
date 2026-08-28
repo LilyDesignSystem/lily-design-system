@@ -2,6 +2,8 @@
 
 A back link is a navigational component that allows users to return to a previous page or step within an application. It renders as a semantic anchor (`<a>`) element with optional `aria-label` for enhanced screen reader context.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 Back links are especially important in mobile and multi-step interfaces, helping users maintain their sense of orientation and providing a clear, intuitive way to reverse navigation without relying solely on the browser's back button. Consumers add visual indicators (left arrow, chevron) via CSS or children content.
 
 ## Implementation Notes

@@ -4,6 +4,8 @@ A mentions input is a text input with at-mention autocomplete suggestions.
 It pairs a single-line `<input type="text">` with a suggestions panel
 that opens when the user types a configurable trigger character.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it for chat composers, comment fields, or any text entry where the
 user can mention people, tags, or entities by typing `@`, `#`, or
 another trigger.

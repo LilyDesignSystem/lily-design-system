@@ -5,6 +5,7 @@
 - Component: loading
 - PascalCase: Loading
 - Description: a loading indicator, such as text, or image, or animation
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .loading
 - Interactive: no

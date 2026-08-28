@@ -5,6 +5,7 @@
 - Component: summary-box
 - PascalCase: SummaryBox
 - Description: a boxed callout highlighting key takeaways or next steps from a longer page
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <aside>
 - CSS class: .summary-box
 - Interactive: no

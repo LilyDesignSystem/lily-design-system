@@ -5,6 +5,7 @@
 - Component: document-list-item
 - PascalCase: DocumentListItem
 - Description: one document entry in a document list
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <li>
 - CSS class: .document-list-item
 - Interactive: yes

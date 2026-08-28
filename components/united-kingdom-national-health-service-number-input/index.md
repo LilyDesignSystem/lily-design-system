@@ -6,6 +6,8 @@ assigned to every patient registered with the National Health Service in
 England, Wales, and the Isle of Man, and is used to uniquely identify
 individuals across the health system.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The standard display format is "XXX XXX XXXX" (three groups of digits separated
 by spaces). This input component enforces that pattern, uses a numeric keyboard
 hint for mobile devices, and disables autocomplete to protect sensitive health

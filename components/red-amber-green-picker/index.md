@@ -10,6 +10,8 @@ accessibility attributes, providing native keyboard navigation and screen
 reader support. This headless component provides the semantic structure while
 allowing consumers to apply their own visual styling.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 ## Implementation Notes
 
 - Renders as `<select aria-label={label}>` with three options: red, amber, green

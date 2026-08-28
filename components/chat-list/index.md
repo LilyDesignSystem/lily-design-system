@@ -2,6 +2,8 @@
 
 A chat list is an ordered list of chat list item components that displays a sequence of chat conversations. It provides the list structure within a ChatNav navigation container, organizing individual ChatListItem entries in chronological or priority order.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses the native HTML `<ol>` element for inherent ordered list semantics. It is designed to be placed inside a ChatNav component and to contain ChatListItem children.
 
 ## Implementation Notes

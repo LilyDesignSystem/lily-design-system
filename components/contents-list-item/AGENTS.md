@@ -5,6 +5,7 @@
 - Component: contents-list-item
 - PascalCase: ContentsListItem
 - Description: one contents list item
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <li>
 - CSS class: .contents-list-item
 - Interactive: no

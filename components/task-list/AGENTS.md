@@ -5,6 +5,7 @@
 - Component: task-list
 - PascalCase: TaskList
 - Description: an ordered list of task list items
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <ol>
 - CSS class: .task-list
 - Interactive: no

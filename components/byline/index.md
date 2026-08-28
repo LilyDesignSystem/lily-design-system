@@ -2,6 +2,8 @@
 
 A byline is an author attribution with publish and update timestamps. It displays author names or links alongside machine-readable date information for article and editorial content.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses a `<div>` element containing author attribution and optional `<time>` elements for publish and update timestamps.
 
 ## Implementation Notes

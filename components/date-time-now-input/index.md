@@ -2,6 +2,8 @@
 
 DateTimeNowInput is a headless component that wraps a native `<input type="date">`, `<input type="time">`, and a `<button type="button">` inside a `<div>`. The "Now" button sets both inputs to the current local date and time when clicked.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This component is useful for event logging, timestamping, incident reporting, and any scenario where users need to quickly capture the current date and time or manually enter a specific date and time.
 
 ## Implementation Notes

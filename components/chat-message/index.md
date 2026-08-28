@@ -2,6 +2,8 @@
 
 A chat message shows one chat conversation message entry and all its data, including the author avatar, author name, time, and message content. It represents a single message in a chat interface, providing semantic structure for messaging applications, customer support tools, and collaborative platforms.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses the native HTML `<article>` element to represent a self-contained composition of a chat message. It is typically placed inside a ChatListItem component as part of the ChatNav composition pattern.
 
 ## Implementation Notes

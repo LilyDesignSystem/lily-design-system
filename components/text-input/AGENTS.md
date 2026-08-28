@@ -5,6 +5,7 @@
 - Component: text-input
 - PascalCase: TextInput
 - Description: a single-line text input field <input type="text">
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <input>
 - CSS class: .text-input
 - Interactive: no

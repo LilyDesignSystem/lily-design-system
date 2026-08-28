@@ -5,6 +5,7 @@
 - Component: end-notes
 - PascalCase: EndNotes
 - Description: a section of titled endnote items at the end of an article
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <section>
 - CSS class: .end-notes
 - Interactive: no

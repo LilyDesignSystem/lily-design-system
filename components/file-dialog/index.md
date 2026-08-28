@@ -2,6 +2,8 @@
 
 A file dialog provides a modal dialog for file-related operations such as opening, saving, or managing files. It renders a native `<dialog>` element conditionally based on its `open` state, with accessible labelling and keyboard dismissal support.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This component is useful in applications that need custom file operation interfaces, such as file managers, document editors, or content management systems. The consumer provides all dialog content -- file lists, action buttons, and navigation controls -- as children.
 
 ## Implementation Notes

@@ -2,6 +2,8 @@
 
 A floating panel is a container that overlays page content, typically used for tooltips, popovers, dropdown menus, or contextual UI. It renders conditionally based on an `open` prop, making it suitable for toggle-based visibility patterns. The component is headless, so consumers are responsible for positioning the panel relative to a trigger element using their own CSS.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 ## Implementation Notes
 
 - Renders a `<div>` with `role="region"` only when the `open` prop is true

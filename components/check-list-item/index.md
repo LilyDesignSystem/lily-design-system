@@ -2,6 +2,8 @@
 
 A check list item is a single item within a check list that includes a checkbox, allowing users to mark items as complete or incomplete. Check list items are commonly used in task lists, to-do lists, and checklists for tracking progress.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This headless component uses a `<li>` element containing a checkbox input, providing inherent list semantics and accessible state management.
 
 ## Implementation Notes

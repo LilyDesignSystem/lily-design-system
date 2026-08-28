@@ -5,6 +5,7 @@
 - Component: address-input
 - PascalCase: AddressInput
 - Description: an input for searching or manually entering an address
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .address-input
 - Interactive: yes

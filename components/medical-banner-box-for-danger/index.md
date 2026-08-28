@@ -2,6 +2,8 @@
 
 MedicalBannerBoxForDanger is a headless component for displaying critical medical record danger information such as reactions, warnings, alarms, and other danger-level clinical alerts. It renders a `<div>` with `role="region"`, `aria-label`, and `data-type="danger"` for consumer styling.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component is useful in clinical interfaces, electronic health records, and patient summary screens where danger-level information must be prominently displayed and accessible.
 
 ## Implementation Notes

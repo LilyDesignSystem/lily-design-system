@@ -5,6 +5,7 @@
 - Component: avatar-group
 - PascalCase: AvatarGroup
 - Description: a group of avatar components
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .avatar-group
 - Interactive: no

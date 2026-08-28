@@ -5,6 +5,7 @@
 - Component: malta-passport-number-view
 - PascalCase: MaltaPassportNumberView
 - Description: a read-only display of Malta's Malta Passport Number
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .malta-passport-number-view
 - Interactive: no

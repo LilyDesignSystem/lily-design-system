@@ -2,6 +2,8 @@
 
 A five-level color status picker button is an individual button within a RedOrangeYellowGreenBluePicker that represents one of five status levels. When clicked, it selects that status value. The component uses `aria-pressed` to indicate the currently selected state and `data-value` to carry the status value, making it accessible to screen readers and enabling CSS-based styling by status color.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The five levels provide a more granular status scale than the traditional three-level RAG: red indicates critical, orange indicates serious, yellow indicates caution, green indicates good, and blue indicates excellent or informational.
 
 ## Implementation Notes

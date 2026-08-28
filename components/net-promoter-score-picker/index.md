@@ -10,6 +10,8 @@ and Promoters (9-10). This headless component provides the semantic structure
 and accessibility features while allowing consumers to apply their own visual
 styling.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 ## Implementation Notes
 
 - Renders as `<fieldset role="radiogroup">` with 11 radio buttons (0-10)

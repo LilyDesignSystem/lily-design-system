@@ -5,6 +5,7 @@
 - Component: menu-item
 - PascalCase: MenuItem
 - Description: one item in a menu
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .menu-item
 - Interactive: yes

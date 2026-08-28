@@ -2,6 +2,8 @@
 
 A color input wraps the native HTML `<input type="color">` element, providing a browser-native color picker with accessible labeling. The value is always a hex color string (e.g., "#ff0000"). This component is useful in settings panels, theme editors, or any interface where users need to select a color.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 ## Implementation Notes
 
 - Renders a native `<input type="color">` element for browser-native color picking

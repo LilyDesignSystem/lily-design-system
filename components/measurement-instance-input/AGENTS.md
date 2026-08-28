@@ -5,6 +5,7 @@
 - Component: measurement-instance-input
 - PascalCase: MeasurementInstanceInput
 - Description: an input for entering a measurement value and unit
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .measurement-instance-input
 - Interactive: no

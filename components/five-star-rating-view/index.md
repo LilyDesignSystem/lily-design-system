@@ -2,6 +2,8 @@
 
 A read-only five-star rating display that renders filled and empty star characters to visually represent a rating value from 0 to 5. This is the display-only companion to FiveStarRatingInput, used for showing ratings in product listings, review summaries, and user profiles. Screen readers receive the full rating description via `aria-label` rather than reading individual star characters.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 ## Implementation Notes
 
 - Renders a `<span>` with `role="img"` as the outer container for the star display

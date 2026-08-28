@@ -2,6 +2,8 @@
 
 An accordion nav is a navigation container that organizes and displays content in a space-efficient, collapsible format. It consists of vertically stacked sections, each with a clickable header that expands or collapses its associated content. This design helps reduce visual clutter, allowing users to focus on one section at a time while keeping other content hidden until needed. Commonly used in FAQs, filters, or mobile menus, accordions enhance usability by streamlining content access and improving navigation on both desktop and mobile interfaces.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The AccordionNav component serves as the outer wrapper. Place an AccordionList inside it, containing AccordionListItem children for the individual collapsible sections.
 
 ## Implementation Notes

@@ -2,6 +2,8 @@
 
 A clipboard component provides a button that copies specified text to the system clipboard when activated. It uses the ClipboardCopyButton API (`navigator.clipboard.writeText`) and exposes success and error callbacks for consumer-defined feedback.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The component tracks a `copied` state that automatically resets after 2 seconds. This state is exposed via a `data-copied` attribute on the button, allowing consumers to show visual feedback (e.g., a "Copied!" indicator) through CSS selectors like `[data-copied="true"]`.
 
 ## Implementation Notes

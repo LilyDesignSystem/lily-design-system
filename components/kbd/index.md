@@ -2,6 +2,8 @@
 
 Kbd is a headless component that renders a `<kbd>` element to display keyboard shortcuts and key combinations in a styled inline element. It semantically marks up user keyboard input.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use this component to display keyboard shortcuts, key combinations, or individual key references in documentation, tooltips, or help text.
 
 ## Implementation Notes

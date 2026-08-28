@@ -5,6 +5,7 @@
 - Component: floating-panel
 - PascalCase: FloatingPanel
 - Description: a panel that floats above page content
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .floating-panel
 - Interactive: no

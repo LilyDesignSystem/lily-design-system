@@ -2,6 +2,8 @@
 
 One key-value pair in a description list using dt and dd elements.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders a `<div>` wrapping a `<dt>` (term) and a `<dd>` (description) so each item is a single styling unit while preserving native list semantics

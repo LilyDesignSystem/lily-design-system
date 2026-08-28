@@ -5,6 +5,7 @@
 - Component: grail-layout-top-header
 - PascalCase: GrailLayoutTopHeader
 - Description: grail layout top header full width with <header> tag
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <header>
 - CSS class: .grail-layout-top-header
 - Interactive: no

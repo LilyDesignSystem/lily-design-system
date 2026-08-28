@@ -5,6 +5,7 @@
 - Component: tag-input
 - PascalCase: TagInput
 - Description: an input for adding and removing tags
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .tag-input
 - Interactive: yes

@@ -5,6 +5,7 @@
 - Component: island-kennitala-view
 - PascalCase: IslandKennitalaView
 - Description: a read-only display of Iceland's Kennitala
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .island-kennitala-view
 - Interactive: no

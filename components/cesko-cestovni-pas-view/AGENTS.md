@@ -5,6 +5,7 @@
 - Component: cesko-cestovni-pas-view
 - PascalCase: CeskoCestovniPasView
 - Description: a read-only display of Czech Republic's Cestovní pas
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .cesko-cestovni-pas-view
 - Interactive: no

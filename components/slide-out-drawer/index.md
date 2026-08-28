@@ -9,6 +9,8 @@ of screen space by keeping less frequently used options hidden until needed,
 enhancing focus and minimizing clutter in the main interface while maintaining
 easy access to extended functionality.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component renders as a `<div>` with `role="dialog"`, `aria-label`, and
 `aria-modal="true"` when open, and is completely removed from the DOM when
 closed. The `open` prop is two-way binding, and the Escape key

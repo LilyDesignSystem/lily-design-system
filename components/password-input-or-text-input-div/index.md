@@ -2,6 +2,8 @@
 
 PasswordInputOrTextInputDiv is a headless component that wraps a native `<input type="password">` and `<input type="text">` element with accessible labelling and an optional toggle button to show or hide the password text. The input automatically includes `autocomplete="current-password"` for proper browser password manager integration.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This component is useful for login forms, registration forms, account settings, or any interface requiring secure password entry. The show/hide toggle improves usability by letting users verify their input, while the `aria-pressed` attribute on the toggle button communicates the visibility state to assistive technologies.
 
 ## Implementation Notes

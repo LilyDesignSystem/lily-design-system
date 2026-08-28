@@ -5,6 +5,7 @@
 - Component: text-area-input-with-character-counter
 - PascalCase: TextAreaInputWithCharacterCounter
 - Description: a multi-line text area input with a caption below that is a character counter "[number] of [maximum] characters"
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .text-area-input-with-character-counter
 - Interactive: yes

@@ -2,6 +2,8 @@
 
 A character counter displays the number of characters a user has typed into an input field, providing real-time feedback to help users stay within constraints. It is commonly used alongside text inputs with character limits such as tweets, SMS messages, form fields, or bios. The counter shows "count / max" when a maximum is provided, or just the count otherwise.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The component uses `role="status"` with `aria-live="polite"` so screen readers announce updates without interrupting the user, and exposes data attributes for consumer CSS styling based on count state.
 
 ## Implementation Notes

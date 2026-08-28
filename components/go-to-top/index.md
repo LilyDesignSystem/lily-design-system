@@ -2,6 +2,8 @@
 
 A link that returns users to the top of a long page. Typically rendered as a fixed or sticky element near the bottom-right of the viewport on long-scrolling pages.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders an `<a>` linking to an in-page anchor (default `#top`)

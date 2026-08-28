@@ -2,6 +2,8 @@
 
 A menu is a container for a list of actions or options, using the ARIA menu role with full keyboard navigation support. Menus are typically used for context menus, action menus triggered by buttons, and dropdown menus that present a set of commands or functions. Each item in the menu is a discrete action rather than a selectable option (for selection, use Listbox instead).
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The component manages vertical focus movement between menu items via arrow keys, with Home and End keys to jump to the first and last items. The consumer provides menu item elements as children and handles item activation externally.
 
 ## Implementation Notes

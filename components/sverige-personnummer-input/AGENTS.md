@@ -5,6 +5,7 @@
 - Component: sverige-personnummer-input
 - PascalCase: SverigePersonnummerInput
 - Description: an input for entering Sweden's Personnummer
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .sverige-personnummer-input
 - Interactive: yes

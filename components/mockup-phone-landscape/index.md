@@ -2,6 +2,8 @@
 
 A box area that looks like a mobile phone in landscape orientation.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders a `<div>` element with class `mockup-phone-landscape`

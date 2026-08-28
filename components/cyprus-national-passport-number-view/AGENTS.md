@@ -5,6 +5,7 @@
 - Component: cyprus-national-passport-number-view
 - PascalCase: CyprusNationalPassportNumberView
 - Description: a read-only display of Cyprus's National Passport Number
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .cyprus-national-passport-number-view
 - Interactive: no

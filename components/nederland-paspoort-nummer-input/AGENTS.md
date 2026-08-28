@@ -5,6 +5,7 @@
 - Component: nederland-paspoort-nummer-input
 - PascalCase: NederlandPaspoortNummerInput
 - Description: an input for entering Netherlands's Paspoort Nummer
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .nederland-paspoort-nummer-input
 - Interactive: yes

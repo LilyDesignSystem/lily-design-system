@@ -5,6 +5,7 @@
 - Component: image-cropper
 - PascalCase: ImageCropper
 - Description: a container for cropping and resizing an image to a selected region
+- Status: experimental — recent catalog addition with the least accumulated depth; contract may still move
 - HTML tag: <div>
 - CSS class: .image-cropper
 - Interactive: no

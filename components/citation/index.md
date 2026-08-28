@@ -2,6 +2,8 @@
 
 A citation acknowledges the relevance of a work of another to the topic of discussion. It is used to reference books, articles, papers, websites, and other sources in academic, legal, journalistic, and general content contexts.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses the native HTML `<cite>` element for inherent citation semantics. The `<cite>` element represents the title of a creative work and is typically rendered in italics by browsers.
 
 ## Implementation Notes

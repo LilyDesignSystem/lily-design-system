@@ -2,6 +2,8 @@
 
 A list of section navigation items.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders an `<ol>` containing `SectionListItem` children

@@ -5,6 +5,7 @@
 - Component: pagination-link
 - PascalCase: PaginationLink
 - Description: one pagination link in the trail
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <a>
 - CSS class: .pagination-link
 - Interactive: yes

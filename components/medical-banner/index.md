@@ -2,6 +2,8 @@
 
 MedicalBanner is a headless component for displaying prominent medical information messages at the top of a page. It renders as a `<div role="region" aria-live="polite">` with `data-context="medical"` and supports optional dismiss functionality. It follows the same pattern as Banner but is specifically intended for clinical and medical contexts.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This component is useful for patient alerts, clinical notifications, medical record summaries, and health-related announcements in electronic health record systems and clinical interfaces.
 
 ## Implementation Notes

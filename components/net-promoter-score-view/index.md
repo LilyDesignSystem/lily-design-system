@@ -2,6 +2,8 @@
 
 A Net Promoter Score (NPS) view is a display component that presents an NPS score value as read-only text. It is used to show previously captured NPS data in dashboards, reports, or detail views. NPS scores range from 0 to 10, with respondents classified as Detractors (0-6), Passives (7-8), or Promoters (9-10).
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This headless component renders as a `<span>` element with an accessible label, providing the semantic structure and accessibility features while allowing consumers to apply their own visual styling, such as color-coding by score range.
 
 ## Implementation Notes

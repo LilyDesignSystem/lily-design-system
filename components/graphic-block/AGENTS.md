@@ -5,6 +5,7 @@
 - Component: graphic-block
 - PascalCase: GraphicBlock
 - Description: a wrapper for charts and graphics with title, description, notes, and ARIA description
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <figure>
 - CSS class: .graphic-block
 - Interactive: no

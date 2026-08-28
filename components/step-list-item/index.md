@@ -4,6 +4,8 @@ A step list item is one step in a step list with a status of waiting,
 in-progress, finished, or error. It uses a semantic `<li>` element and
 emits `data-status` so consumer CSS can render the visual indicator.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Composition
 
 Step List Item is the child of Step List in the `*List`/`*ListItem`

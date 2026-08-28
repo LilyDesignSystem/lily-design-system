@@ -5,6 +5,7 @@
 - Component: suomi-henkilotunnus-view
 - PascalCase: SuomiHenkilotunnusView
 - Description: a read-only display of Finland's Henkilötunnus (HETU)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .suomi-henkilotunnus-view
 - Interactive: no

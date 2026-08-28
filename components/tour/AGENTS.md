@@ -5,6 +5,7 @@
 - Component: tour
 - PascalCase: Tour
 - Description: a tour guide, such as for sightseeing, or pathways, or demonstrations, etc.
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .tour
 - Interactive: no

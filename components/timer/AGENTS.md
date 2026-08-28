@@ -5,6 +5,7 @@
 - Component: timer
 - PascalCase: Timer
 - Description: a countdown or elapsed time display
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <span>
 - CSS class: .timer
 - Interactive: no

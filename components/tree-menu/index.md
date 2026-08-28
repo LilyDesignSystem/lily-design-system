@@ -2,6 +2,8 @@
 
 A tree menu is a component that displays hierarchical or nested navigation options, often represented with expandable and collapsible nodes resembling the structure of a tree. Each node can contain sub-options or categories, allowing users to drill down into deeper levels of content or functionality. This type of menu is particularly useful for organizing complex or large datasets, file directories, or multi-level categories.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component renders a `<ul>` with `role="tree"` and provides keyboard navigation for tree items. It manages focus movement between `[role="treeitem"]` elements using arrow keys, Home, and End, with wrapping at boundaries.
 
 ## Implementation Notes

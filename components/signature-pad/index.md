@@ -2,6 +2,8 @@
 
 A signature pad provides a headless container for capturing handwritten signatures, typically using mouse, touch, or stylus input. Commonly used in contract signing workflows, consent forms, delivery confirmations, and legal document processing, the signature pad brings the familiar pen-on-paper signing experience to digital interfaces.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The component serves as a semantic container that consumers populate with their preferred drawing implementation, whether HTML canvas, SVG paths, or a third-party signature library. It uses `role="application"` to support complex pointer interactions, along with an accessible label describing the signing purpose.
 
 ## Implementation Notes

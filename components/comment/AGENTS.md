@@ -5,6 +5,7 @@
 - Component: comment
 - PascalCase: Comment
 - Description: a comment is anything that expresses an opinion, observation, explanation, etc.
+- Status: experimental — recent catalog addition with the least accumulated depth; contract may still move
 - HTML tag: <div>
 - CSS class: .comment
 - Interactive: no

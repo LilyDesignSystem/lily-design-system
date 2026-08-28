@@ -4,6 +4,8 @@ An input group wraps a form input together with optional prefix and suffix
 addons (icons, units, currency symbols, action buttons) inside a single
 ARIA group so that they are perceived and announced as one composite control.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it for currency fields with leading symbols, search fields with trailing
 icon buttons, percentage fields with trailing units, and any input where
 contextual addons clarify the value.

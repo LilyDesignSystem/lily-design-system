@@ -5,6 +5,7 @@
 - Component: qr-code-image
 - PascalCase: QrCodeImage
 - Description: a QR code image generated from text or URL data
+- Status: experimental — recent catalog addition with the least accumulated depth; contract may still move
 - HTML tag: <div>
 - CSS class: .qr-code-image
 - Interactive: no

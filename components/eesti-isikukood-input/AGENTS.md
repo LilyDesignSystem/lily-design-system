@@ -5,6 +5,7 @@
 - Component: eesti-isikukood-input
 - PascalCase: EestiIsikukoodInput
 - Description: an input for entering Estonia's Isikukood (IK)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .eesti-isikukood-input
 - Interactive: yes

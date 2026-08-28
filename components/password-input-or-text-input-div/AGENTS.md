@@ -5,6 +5,7 @@
 - Component: password-input-or-text-input-div
 - PascalCase: PasswordInputOrTextInputDiv
 - Description: an input for entering a password <input type="password"> or text <input type="text"> with show/hide toggle
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .password-input-or-text-input-div
 - Interactive: yes

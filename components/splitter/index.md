@@ -2,6 +2,8 @@
 
 Splitter is a headless separator element used between resizable panels. It uses the ARIA `separator` role to indicate a draggable divider, with keyboard focus support and value tracking for reporting the current split position to assistive technologies.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use Splitter between two adjacent panels to provide a visual and interactive handle for resizing. The component renders the necessary ARIA attributes for screen readers to announce the separator's orientation and current position. Consumer is responsible for implementing the actual drag-to-resize behavior, visual styling, and updating the value attributes based on user interaction.
 
 ## Implementation Notes

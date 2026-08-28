@@ -5,6 +5,7 @@
 - Component: romania-cod-numeric-personal-view
 - PascalCase: RomaniaCodNumericPersonalView
 - Description: a read-only display of Romania's Cod Numeric Personal (CNP)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .romania-cod-numeric-personal-view
 - Interactive: no

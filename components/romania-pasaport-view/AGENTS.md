@@ -5,6 +5,7 @@
 - Component: romania-pasaport-view
 - PascalCase: RomaniaPasaportView
 - Description: a read-only display of Romania's Paşaport
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .romania-pasaport-view
 - Interactive: no

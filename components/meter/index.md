@@ -2,6 +2,8 @@
 
 Meter is a headless component that displays a scalar measurement within a known range using the native HTML `<meter>` element. It provides accessible labelling and supports optional threshold indicators for low, high, and optimum values.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component is useful for displaying disk usage, battery level, password strength, performance scores, or any bounded numeric measurement. The native `<meter>` element provides built-in semantics that assistive technologies can interpret, and the text content inside the element serves as a fallback for browsers that do not support the element.
 
 ## Implementation Notes

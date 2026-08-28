@@ -2,6 +2,8 @@
 
 A tile is a grouping container that presents related content in a structured format, often as a single clickable area. Tiles are used in dashboards, grids, and selection interfaces where users choose from a set of options or navigate to related content.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses a `<div>` element with appropriate ARIA attributes for accessible grouping and optional interactive behavior.
 
 ## Implementation Notes

@@ -2,6 +2,8 @@
 
 A phone number view displays a phone number as a clickable `tel:` link, allowing users on mobile devices to initiate a phone call directly by tapping or clicking the number. This is part of the Input/View pattern where TelLink is the read-only display counterpart.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The component is useful for contact pages, business listings, user profiles, customer support sections, and any context where a phone number should be displayed as an actionable link rather than plain text.
 
 ## Implementation Notes

@@ -2,6 +2,8 @@
 
 A chat nav is a navigation container for chat information that provides a landmark for a list of chat conversations. It allows users to browse, select, and navigate between chat conversations in messaging interfaces, customer support tools, and collaborative platforms.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ChatNav is a compound component. It provides the parent container structure (a `<nav>`), while the chat list and individual chat entries are rendered using the ChatList and ChatListItem components. Each ChatListItem typically contains a ChatMessage component showing the conversation preview.
 
 ## Implementation Notes

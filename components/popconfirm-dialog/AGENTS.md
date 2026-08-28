@@ -5,6 +5,7 @@
 - Component: popconfirm-dialog
 - PascalCase: PopconfirmDialog
 - Description: a popover dialog with confirm and cancel buttons
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .popconfirm-dialog
 - Interactive: yes

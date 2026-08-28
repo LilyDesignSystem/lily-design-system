@@ -5,6 +5,7 @@
 - Component: sparkline
 - PascalCase: Sparkline
 - Description: a small inline chart showing a data trend
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <span>
 - CSS class: .sparkline
 - Interactive: no

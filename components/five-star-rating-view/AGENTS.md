@@ -5,6 +5,7 @@
 - Component: five-star-rating-view
 - PascalCase: FiveStarRatingView
 - Description: a read-only display of a five-star rating
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .five-star-rating-view
 - Interactive: no

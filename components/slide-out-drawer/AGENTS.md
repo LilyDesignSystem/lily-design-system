@@ -5,6 +5,7 @@
 - Component: slide-out-drawer
 - PascalCase: SlideOutDrawer
 - Description: a drawer that slides out from the side of the page
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .slide-out-drawer
 - Interactive: yes

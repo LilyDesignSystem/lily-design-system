@@ -5,6 +5,7 @@
 - Component: month-input
 - PascalCase: MonthInput
 - Description: an input for selecting a month and year <input type="month">
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .month-input
 - Interactive: no

@@ -5,6 +5,7 @@
 - Component: dont-list
 - PascalCase: DontList
 - Description: a guideline list of discouraged dont-list-item components
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <ol>
 - CSS class: .dont-list
 - Interactive: no

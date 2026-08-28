@@ -5,6 +5,7 @@
 - Component: popup
 - PascalCase: Popup
 - Description: a temporary overlay that appears above page content
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .popup
 - Interactive: yes

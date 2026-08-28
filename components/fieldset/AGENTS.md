@@ -5,6 +5,7 @@
 - Component: fieldset
 - PascalCase: Fieldset
 - Description: a group of related form fields with a legend
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <fieldset>
 - CSS class: .fieldset
 - Interactive: no

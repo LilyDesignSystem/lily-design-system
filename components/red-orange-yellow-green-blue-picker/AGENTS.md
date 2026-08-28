@@ -5,6 +5,7 @@
 - Component: red-orange-yellow-green-blue-picker
 - PascalCase: RedOrangeYellowGreenBluePicker
 - Description: a picker for selecting a five-level color status
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .red-orange-yellow-green-blue-picker
 - Interactive: yes

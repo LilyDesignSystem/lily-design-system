@@ -2,6 +2,8 @@
 
 A modal or non-modal dialog that overlays the main interface to communicate information or prompt users for input. Dialogs are used for confirmations, alerts, forms, settings, and any interaction that requires focused user attention. Modal dialogs block interaction with the underlying page until dismissed, while non-modal dialogs allow background interaction.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component uses the native `<dialog>` HTML element with conditional rendering. When `open` is false, the dialog is removed from the DOM entirely. The dialog supports keyboard dismissal via the Escape key and exposes a bindable `open` prop for programmatic control of visibility.
 
 ## Implementation Notes

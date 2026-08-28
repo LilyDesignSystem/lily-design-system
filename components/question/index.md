@@ -2,6 +2,8 @@
 
 A question is anything that asks for information, invites a response, tests knowledge, etc. Examples include FAQ entries, quiz prompts, survey questions, forum questions, and interview questions.
 
+**Status:** experimental — recent catalog addition with the least accumulated depth; contract may still move.
+
 This headless component renders a `<div>` with class `question`. The consumer supplies the question text and any related content (answer slot, metadata, action buttons) as children.
 
 ## Implementation Notes

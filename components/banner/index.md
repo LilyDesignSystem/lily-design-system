@@ -2,6 +2,8 @@
 
 A banner is a prominent component used to display important messages, updates, or calls to action at the top or bottom of an interface. Often spanning the full width of the screen, banners are designed to catch the user's attention without fully interrupting their experience. They are commonly used for announcements, cookie consent, warnings, promotions, or system alerts.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 Banners may be persistent or dismissible, depending on the message's importance. This component supports four semantic variants (info, success, warning, error) exposed via a `data-type` attribute, and an optional dismiss button that hides the banner and invokes a callback. The `aria-live="polite"` region ensures screen readers announce banner content without interrupting the user.
 
 ## Implementation Notes

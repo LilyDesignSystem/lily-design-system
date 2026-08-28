@@ -5,6 +5,7 @@
 - Component: alert
 - PascalCase: Alert
 - Description: a status message for important information or feedback
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .alert
 - Interactive: no

@@ -5,6 +5,7 @@
 - Component: scroll-area
 - PascalCase: ScrollArea
 - Description: a scrollable container with custom scrollbar support
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .scroll-area
 - Interactive: yes

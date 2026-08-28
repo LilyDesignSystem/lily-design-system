@@ -5,6 +5,8 @@ address for subscription. It supports four explicit states — idle,
 submitting, success, and error — surfaced as `data-state` and reflected in
 the input/button disabled state and live-region messages.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it in marketing footers, blog sidebars, splash pages, and dedicated
 subscription landing pages.
 

@@ -5,6 +5,7 @@
 - Component: calendar-table-row
 - PascalCase: CalendarTableRow
 - Description: a calendar table interactive grid row for managing dates, days, etc. <tr>
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <tr>
 - CSS class: .calendar-table-row
 - Interactive: no

@@ -5,6 +5,7 @@
 - Component: hero
 - PascalCase: Hero
 - Description: a large box or image with a title and description
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <section>
 - CSS class: .hero
 - Interactive: no

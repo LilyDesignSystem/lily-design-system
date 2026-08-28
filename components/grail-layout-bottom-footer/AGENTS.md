@@ -5,6 +5,7 @@
 - Component: grail-layout-bottom-footer
 - PascalCase: GrailLayoutBottomFooter
 - Description: grail layout bottom footer full width with <footer> tag
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <footer>
 - CSS class: .grail-layout-bottom-footer
 - Interactive: no

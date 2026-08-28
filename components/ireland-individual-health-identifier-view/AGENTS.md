@@ -5,6 +5,7 @@
 - Component: ireland-individual-health-identifier-view
 - PascalCase: IrelandIndividualHealthIdentifierView
 - Description: a read-only display of Ireland Individual Health Identifier (IHI) unique national healthcare identifier
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .ireland-individual-health-identifier-view
 - Interactive: no

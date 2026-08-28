@@ -5,6 +5,7 @@
 - Component: area-chart
 - PascalCase: AreaChart
 - Description: an area chart visualization showing sized components in continuous data
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <figure>
 - CSS class: .area-chart
 - Interactive: no

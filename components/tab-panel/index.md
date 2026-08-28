@@ -3,6 +3,8 @@
 A tab panel is a content panel associated with a tab in a tab bar. It
 shows the content for the currently selected tab.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it as the content companion to a `TabBar` and `TabBarButton`. Each
 panel is labelled by its corresponding tab and is shown only when its tab
 is selected.

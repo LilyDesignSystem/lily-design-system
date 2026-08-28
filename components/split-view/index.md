@@ -3,6 +3,8 @@
 A split view is a two-panel resizable layout container with a draggable
 divider between the panels.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it for layouts that benefit from user-controlled allocation of space —
 file browsers next to a file editor, list/detail views, or master/detail
 panels — where users may want to adjust the relative size of the two

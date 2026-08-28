@@ -2,6 +2,8 @@
 
 A progress bar visually indicates the completion status of a task or process using the native HTML `<progress>` element. It is commonly used for file uploads, form submissions, loading sequences, installation wizards, and any process where users benefit from knowing how much of a task has been completed.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The component supports both determinate progress (with a known value and maximum) and indeterminate progress (when the value is undefined, indicating an ongoing process of unknown duration). The native `<progress>` element provides built-in semantic meaning and accessibility support.
 
 ## Implementation Notes

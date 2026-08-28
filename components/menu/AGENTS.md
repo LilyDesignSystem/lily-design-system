@@ -5,6 +5,7 @@
 - Component: menu
 - PascalCase: Menu
 - Description: a list of actions or options triggered by a button
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .menu
 - Interactive: yes

@@ -5,6 +5,7 @@
 - Component: video-player
 - PascalCase: VideoPlayer
 - Description: a video player with play-in-view behavior, custom controls, and IntersectionObserver support
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div> containing <video>
 - CSS class: .video-player
 - Interactive: yes

@@ -5,6 +5,7 @@
 - Component: byline
 - PascalCase: Byline
 - Description: an author attribution with publish and update timestamps
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .byline
 - Interactive: no

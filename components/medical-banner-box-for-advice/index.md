@@ -2,6 +2,8 @@
 
 MedicalBannerBoxForAdvice is a headless component for displaying routine medical record advice information such as contacts, contexts, care plans, and other advice-level clinical information. It renders a `<div>` with `role="region"`, `aria-label`, and `data-type="advice"` for consumer styling.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This component is useful in clinical interfaces, electronic health records, and patient summary screens where advice-level information should be clearly presented alongside danger-level information.
 
 ## Implementation Notes

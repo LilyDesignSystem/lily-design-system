@@ -5,6 +5,7 @@
 - Component: breadcrumb-list-item
 - PascalCase: BreadcrumbListItem
 - Description: one breadcrumb list item in the trail
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <li>
 - CSS class: .breadcrumb-list-item
 - Interactive: no

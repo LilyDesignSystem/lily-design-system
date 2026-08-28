@@ -5,6 +5,7 @@
 - Component: padding-reset
 - PascalCase: PaddingReset
 - Description: a container that resets padding inside fluid-width containers
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .padding-reset
 - Interactive: no

@@ -5,6 +5,7 @@
 - Component: sidebar
 - PascalCase: Sidebar
 - Description: a side panel for navigation or supplementary content
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <aside>
 - CSS class: .sidebar
 - Interactive: no

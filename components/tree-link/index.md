@@ -2,6 +2,8 @@
 
 A tree link is a navigational anchor element representing one link in a tree navigation structure. It renders as a semantic `<a>` element and is designed to be placed inside a TreeListItem within a TreeList and TreeNav structure.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders as a semantic `<a>` element for tree navigation

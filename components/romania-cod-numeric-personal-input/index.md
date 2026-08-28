@@ -2,6 +2,8 @@
 
 RomaniaCodNumericPersonalInput is a headless input for entering Romania's Cod Numeric Personal (CNP), Romania's national-id identifier. It renders as `<input type="text">` with pattern validation, numeric/letter keyboard hints, and `autocomplete="off"` to protect sensitive identifiers. It is the editable companion to RomaniaCodNumericPersonalView.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders as `<input type="text">` with pattern validation

@@ -5,6 +5,7 @@
 - Component: polska-pesel-view
 - PascalCase: PolskaPeselView
 - Description: a read-only display of Poland's PESEL
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .polska-pesel-view
 - Interactive: no

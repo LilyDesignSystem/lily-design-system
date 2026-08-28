@@ -2,6 +2,8 @@
 
 A slider button is a button with a slider mechanism that the user needs to slide to confirm an action. This pattern prevents accidental activation and is used for destructive or irreversible actions that require deliberate confirmation.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses a `<button>` element with an internal slider track, requiring the user to drag a thumb across the full track to activate the button.
 
 ## Implementation Notes

@@ -2,6 +2,8 @@
 
 A five-star rating input allows users to select a rating from 1 to 5 stars using radio buttons. This is one of the most common rating patterns on the web, used for product reviews, content ratings, and feedback forms. Each radio button is labeled with "N star" or "N stars" for clear screen reader communication. The component uses radio buttons grouped in a fieldset for proper accessibility and keyboard navigation.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 ## Implementation Notes
 
 - Renders a `<fieldset>` with `role="radiogroup"` containing 5 `<label>`/`<input type="radio">` pairs

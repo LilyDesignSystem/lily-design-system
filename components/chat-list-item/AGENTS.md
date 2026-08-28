@@ -5,6 +5,7 @@
 - Component: chat-list-item
 - PascalCase: ChatListItem
 - Description: one chat list item component, typically containing one chat message component
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <li>
 - CSS class: .chat-list-item
 - Interactive: yes

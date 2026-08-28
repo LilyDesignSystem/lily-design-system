@@ -5,6 +5,7 @@
 - Component: content-block
 - PascalCase: ContentBlock
 - Description: a content width constraint container with named column widths
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .content-block
 - Interactive: no

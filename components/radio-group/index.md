@@ -2,6 +2,8 @@
 
 RadioGroup is a headless fieldset container that groups related radio buttons under the ARIA `radiogroup` role. It provides an accessible label for the entire group, enabling screen readers and assistive technologies to communicate the relationship between individual radio buttons.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 Use RadioGroup when you need a set of mutually exclusive options, such as selecting a size, choosing a shipping method, or picking a preference. The component wraps native radio inputs in a `<fieldset>` element, ensuring proper semantic grouping and accessibility without imposing any visual styling.
 
 ## Implementation Notes

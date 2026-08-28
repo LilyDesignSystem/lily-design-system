@@ -5,6 +5,7 @@
 - Component: portugal-passaporte-view
 - PascalCase: PortugalPassaporteView
 - Description: a read-only display of Portugal's Passaporte
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .portugal-passaporte-view
 - Interactive: no

@@ -5,6 +5,7 @@
 - Component: mockup-phone-portrait
 - PascalCase: MockupPhonePortrait
 - Description: a box area that looks like a mobile phone
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .mockup-phone-portrait
 - Interactive: no

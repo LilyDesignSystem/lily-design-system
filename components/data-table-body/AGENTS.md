@@ -5,6 +5,7 @@
 - Component: data-table-body
 - PascalCase: DataTableBody
 - Description: a data table interactive grid tbody for displaying and sorting tabular data <tbody>
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <tbody>
 - CSS class: .data-table-body
 - Interactive: no

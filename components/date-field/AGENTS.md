@@ -5,6 +5,7 @@
 - Component: date-field
 - PascalCase: DateField
 - Description: a structured field for entering date components
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .date-field
 - Interactive: no

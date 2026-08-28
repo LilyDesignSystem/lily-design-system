@@ -5,6 +5,7 @@
 - Component: avatar-text
 - PascalCase: AvatarText
 - Description: an avatar indicator inner text such as a user name
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <span>
 - CSS class: .avatar-text
 - Interactive: no

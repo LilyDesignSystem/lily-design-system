@@ -5,6 +5,8 @@ that identifies the parent agency, links to the agency's site, optionally
 shows the agency logo and description, and exposes a `<nav>` of required
 government links.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it on government and public-sector sites that must comply with parent
 agency identification standards (e.g., 21st Century IDEA Act).
 

@@ -2,6 +2,8 @@
 
 TextAreaInputWithCharacterCounter is a headless component that wraps a native `<textarea>` and a character counter caption inside a `<div>`. The counter displays "[number] of [maximum] characters" below the text-area-input and updates reactively as the user types.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This component is useful for feedback forms, comment fields, bio inputs, and any interface where users need to know how many characters they have used relative to a maximum limit.
 
 ## Implementation Notes

@@ -5,6 +5,7 @@
 - Component: go-to-next-section
 - PascalCase: GoToNextSection
 - Description: a link that takes users to the next section of the current page
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <a>
 - CSS class: .go-to-next-section
 - Interactive: yes

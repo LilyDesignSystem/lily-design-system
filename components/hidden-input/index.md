@@ -2,6 +2,8 @@
 
 HiddenInput is a headless component that renders a native `<input type="hidden">` element for passing data in forms that should not be visible or editable by the user. It provides a simple, type-safe way to include hidden form values such as CSRF tokens, record IDs, or other metadata that must be submitted with a form.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This component is useful whenever a form needs to carry data that the user should not see or modify directly. The hidden input participates in form submission but has no visual presence, no keyboard interaction, and no ARIA requirements since it is not perceivable.
 
 ## Implementation Notes

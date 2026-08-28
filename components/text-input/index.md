@@ -2,6 +2,8 @@
 
 A text input provides a single-line text field for entering short text values such as names, titles, or other brief textual data. It wraps the native HTML `<input type="text">` element with accessible labelling and two-way data binding.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component is suitable for any form field requiring free-text entry. It supports required and disabled states and uses `aria-label` to ensure screen readers announce the field purpose. The bindable `value` prop enables reactive two-way data flow with the parent component.
 
 ## Implementation Notes

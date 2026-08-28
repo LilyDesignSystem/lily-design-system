@@ -5,6 +5,7 @@
 - Component: float-button
 - PascalCase: FloatButton
 - Description: a floating action button anchored to a viewport corner
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <button>
 - CSS class: .float-button
 - Interactive: yes

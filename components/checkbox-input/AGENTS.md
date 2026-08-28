@@ -5,6 +5,7 @@
 - Component: checkbox-input
 - PascalCase: CheckboxInput
 - Description: a checkbox input for toggling a boolean value <input type="checkbox">
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <input>
 - CSS class: .checkbox-input
 - Interactive: yes

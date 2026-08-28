@@ -5,6 +5,7 @@
 - Component: password-input
 - PascalCase: PasswordInput
 - Description: an input for entering a password with obscured text <input type="password">
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .password-input
 - Interactive: no

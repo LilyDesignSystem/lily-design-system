@@ -2,6 +2,8 @@
 
 MedicalBannerBox is a headless layout component designed to be placed inside a MedicalBanner component. It renders a `<div>` with `data-context="medical"` that the consumer styles with flexbox horizontal layout to arrange medical banner content items side by side, such as patient details, identifiers, and action buttons.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This component is useful for structuring medical banner content into a horizontal row, aligning patient information, clinical data, and action buttons within a medical banner message bar.
 
 ## Implementation Notes

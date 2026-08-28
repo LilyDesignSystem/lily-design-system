@@ -5,6 +5,7 @@
 - Component: blockquote
 - PascalCase: Blockquote
 - Description: a block-level quotation with optional source citation
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <blockquote>
 - CSS class: .blockquote
 - Interactive: no

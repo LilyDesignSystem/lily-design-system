@@ -5,6 +5,7 @@
 - Component: answer
 - PascalCase: Answer
 - Description: an answer is anything that responds to a question, request, action, etc.
+- Status: experimental — recent catalog addition with the least accumulated depth; contract may still move
 - HTML tag: <div>
 - CSS class: .answer
 - Interactive: no

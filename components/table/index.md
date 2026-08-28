@@ -2,6 +2,8 @@
 
 A table is a component used to display structured data in rows and columns, making it easy to compare and analyze information at a glance. Commonly used for reports, schedules, product lists, and dashboards, tables organize content into headers and cells to improve data readability and support efficient decision-making.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless table component renders a semantic `<table>` element with an accessible label. The consumer provides all table content (thead, tbody, tfoot, caption, colgroup, etc.) through the children slot, maintaining full control over table structure and styling.
 
 ## Implementation Notes

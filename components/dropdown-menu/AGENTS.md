@@ -5,6 +5,7 @@
 - Component: dropdown-menu
 - PascalCase: DropdownMenu
 - Description: a menu that opens below a trigger button
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .dropdown-menu
 - Interactive: yes

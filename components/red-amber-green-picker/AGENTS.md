@@ -5,6 +5,7 @@
 - Component: red-amber-green-picker
 - PascalCase: RedAmberGreenPicker
 - Description: a picker for selecting a red/amber/green status
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .red-amber-green-picker
 - Interactive: yes

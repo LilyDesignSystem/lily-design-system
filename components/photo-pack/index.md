@@ -2,6 +2,8 @@
 
 A photo pack is a collection of photos displayed together as a group. Use it for editorial photo essays, before/after comparisons, and event coverage galleries where multiple photos share a common theme.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses a `<div>` element with `role="group"` and `aria-label` to create a semantically grouped collection of FeaturePhoto components.
 
 ## Implementation Notes

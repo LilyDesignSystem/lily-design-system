@@ -5,6 +5,7 @@
 - Component: mutually-exclusive
 - PascalCase: MutuallyExclusive
 - Description: a container ensuring only one option can be selected from a group
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .mutually-exclusive
 - Interactive: yes

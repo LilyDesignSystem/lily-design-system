@@ -95,8 +95,30 @@
         <a class="component-list-item-link" href="/components/{component.name}/">
           <span class="component-list-item-name">{component.name}</span>
         </a>
+          <span
+            class="component-status component-status-{component.status}"
+            title="Maturity: {component.status}">{component.status}</span
+          >
           <span class="component-list-item-description">{component.description}</span>
       </li>
     {/each}
   </ul>
 </section>
+
+<style>
+  .component-status {
+    display: inline-block;
+    margin-inline-start: 0.5rem;
+    padding: 0 0.45rem;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    line-height: 1.4;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    vertical-align: middle;
+  }
+  .component-status-stable { color: #0f7a52; }
+  .component-status-beta { color: #4c5b66; }
+  .component-status-experimental { color: #b45309; }
+</style>

@@ -2,6 +2,8 @@
 
 IrelandIndividualHealthIdentifierView is a read-only display of an Ireland Individual Health Identifier (IHI), the unique national healthcare identifier used by the Health Service Executive (HSE) to match patients with their medical records. It renders the value as inline text inside a `<span>` with `aria-label` for accessibility. It is the display-only companion to IrelandIndividualHealthIdentifierInput.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders a `<span>` with `aria-label`

@@ -5,6 +5,7 @@
 - Component: nederland-identiteitskaart-nummer-input
 - PascalCase: NederlandIdentiteitskaartNummerInput
 - Description: an input for entering Netherlands's Identiteitskaart Nummer
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .nederland-identiteitskaart-nummer-input
 - Interactive: yes

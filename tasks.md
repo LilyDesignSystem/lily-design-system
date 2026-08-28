@@ -258,13 +258,21 @@ Rules for the executing agent:
   a site /accessibility route in the main nav; linked from README,
   SECURITY.md, CONTRIBUTING.md.
 
-- [ ] **P4-T3 Component maturity labels.**
+- [x] **P4-T3 Component maturity labels.**
   `status` field (`experimental`/`beta`/`stable`) added to catalog
   metadata (`components/{slug}/AGENTS.md` + a rubric doc); surfaced in
   per-component docs and the site catalog; initial assignment
   documented (test depth, screen-reader evidence, production use).
   Verify: all 491 components carry a status; `bin/test` gains a check
   that none is missing; rubric linked from spec/components.
+  Done 2026-08-28: evidence-based mechanical rubric (stable = exercised
+  in composed flows, 151; beta = the seven-framework default, 332;
+  experimental = the newest batch, 8) recorded in spec/components with
+  promotion rules. Status lives as a bullet in each AGENTS.md and a
+  line in each index.md; the site registry generator reads it from the
+  canonical metadata and the catalog renders a badge, so the site
+  cannot drift. bin/test asserts exactly one valid Status per
+  component (bite-proven).
 
 - [ ] **P4-T4 Screen-reader testing matrix.**
   VoiceOver + NVDA (JAWS as funded) × ~20 representative interactive

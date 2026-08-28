@@ -8,6 +8,8 @@ deletion or notifying of failed actions. They should be clear, concise, and
 appropriately styled (e.g., color-coded for severity by the consumer) to avoid
 confusion or unnecessary disruption.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This component renders as a `<div>` with ARIA live region attributes for
 automatic screen reader announcements. It supports different severity types
 (info, success, warning, error) exposed via a `data-type` attribute that

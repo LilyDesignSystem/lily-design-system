@@ -2,6 +2,8 @@
 
 GrailLayout is a headless container that provides the classic "holy grail" web design structure with five sections: a full-width header, a left aside, a main content area, a right aside, and a full-width footer.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use GrailLayout as the outermost wrapper for pages that need a header, two sidebars flanking the main content, and a footer. The component renders a semantic `<div>` with no layout styles, allowing consumers to apply CSS Grid, Flexbox, or any layout system.
 
 ## Implementation Notes

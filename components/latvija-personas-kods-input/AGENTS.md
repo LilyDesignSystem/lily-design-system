@@ -5,6 +5,7 @@
 - Component: latvija-personas-kods-input
 - PascalCase: LatvijaPersonasKodsInput
 - Description: an input for entering Latvia's Personas kods
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .latvija-personas-kods-input
 - Interactive: yes

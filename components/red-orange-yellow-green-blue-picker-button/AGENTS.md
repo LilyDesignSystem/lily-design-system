@@ -5,6 +5,7 @@
 - Component: red-orange-yellow-green-blue-picker-button
 - PascalCase: RedOrangeYellowGreenBluePickerButton
 - Description: a picker button for selecting a five-level color status
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <button>
 - CSS class: .red-orange-yellow-green-blue-picker-button
 - Interactive: yes

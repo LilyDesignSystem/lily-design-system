@@ -2,6 +2,8 @@
 
 FranceNumeroDIdentificationAuRepertoireInput is a headless input for entering a France numéro d'identification au répertoire (NIR), the unique national healthcare identifier. It renders as `<input type="text">` with pattern validation, numeric keyboard hint, and autocomplete disabled to protect sensitive health data. It is the editable companion to FranceNumeroDIdentificationAuRepertoireView.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The NIR is a 15-digit number printed on the Carte Vitale. The display format is `X XX XX XX XXX XXX XX` (sex, year, month, department, commune, order, control key).
 
 ## Implementation Notes

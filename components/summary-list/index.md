@@ -2,6 +2,8 @@
 
 A summary list is a component that presents a concise overview of key information as key-value pairs, typically in a structured, easy-to-scan format. It is often used to summarize important details such as transaction history, order details, product features, account settings, or form review data in a description list layout.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component renders as a semantic `<dl>` (description list) element with an accessible label. Each item in the summary list consists of a `<dt>` (term) and `<dd>` (description) pair, helping users quickly grasp essential information. A well-designed summary list focuses on clarity, using clear labels, concise text, and consistent formatting to enhance readability.
 
 ## Implementation Notes

@@ -5,6 +5,7 @@
 - Component: document-list
 - PascalCase: DocumentList
 - Description: a list displaying documents with titles and metadata
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <ol>
 - CSS class: .document-list
 - Interactive: no

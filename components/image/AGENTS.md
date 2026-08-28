@@ -5,6 +5,7 @@
 - Component: image
 - PascalCase: Image
 - Description: an image element with alt text
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <img>
 - CSS class: .image
 - Interactive: no

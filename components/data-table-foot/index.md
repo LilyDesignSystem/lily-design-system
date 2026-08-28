@@ -2,6 +2,8 @@
 
 A data table foot is the footer section of a data table, wrapping one or more rows that provide summary information such as totals, averages, or other aggregate data. It is designed to be used inside a DataTable `<table>` structure.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The component renders a `<tfoot>` element and passes through its children, which are expected to be DataTableRow or `<tr>` elements.
 
 ## Implementation Notes

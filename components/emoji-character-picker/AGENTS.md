@@ -5,6 +5,7 @@
 - Component: emoji-character-picker
 - PascalCase: EmojiCharacterPicker
 - Description: a picker for browsing and selecting emoji characters
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .emoji-character-picker
 - Interactive: no

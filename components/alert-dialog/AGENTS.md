@@ -5,6 +5,7 @@
 - Component: alert-dialog
 - PascalCase: AlertDialog
 - Description: a modal dialog for urgent messages requiring user acknowledgment
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <dialog>
 - CSS class: .alert-dialog
 - Interactive: yes

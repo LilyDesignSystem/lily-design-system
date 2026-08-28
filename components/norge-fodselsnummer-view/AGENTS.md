@@ -5,6 +5,7 @@
 - Component: norge-fodselsnummer-view
 - PascalCase: NorgeFodselsnummerView
 - Description: a read-only display of Norway's Fødselsnummer
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .norge-fodselsnummer-view
 - Interactive: no

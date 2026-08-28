@@ -5,6 +5,7 @@
 - Component: tab-panel
 - PascalCase: TabPanel
 - Description: a content panel associated with a tab in a tab bar
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div> with role="tabpanel"
 - CSS class: .tab-panel
 - Interactive: focusable container (tabindex="0")

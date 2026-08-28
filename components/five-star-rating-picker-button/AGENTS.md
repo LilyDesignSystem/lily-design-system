@@ -5,6 +5,7 @@
 - Component: five-star-rating-picker-button
 - PascalCase: FiveStarRatingPickerButton
 - Description: a picker button for selecting a 1-5 star rating using radio buttons
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <button>
 - CSS class: .five-star-rating-picker-button
 - Interactive: yes

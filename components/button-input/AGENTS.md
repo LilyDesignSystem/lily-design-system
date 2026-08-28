@@ -5,6 +5,7 @@
 - Component: button-input
 - PascalCase: ButtonInput
 - Description: an input element of type button for form actions <input type="button">
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .button-input
 - Interactive: yes

@@ -2,6 +2,8 @@
 
 A video player is a video player with play-in-view behavior, custom controls, and IntersectionObserver support. Use it for editorial video content that should play when scrolled into view and pause when scrolled out.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses a `<div>` container with `aria-label` wrapping a `<video>` element, providing optional play-in-view behavior via IntersectionObserver and support for custom control overlays.
 
 ## Implementation Notes

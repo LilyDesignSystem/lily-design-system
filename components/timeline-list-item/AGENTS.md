@@ -5,6 +5,7 @@
 - Component: timeline-list-item
 - PascalCase: TimelineListItem
 - Description: one event in a timeline list
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <li>
 - CSS class: .timeline-list-item
 - Interactive: no

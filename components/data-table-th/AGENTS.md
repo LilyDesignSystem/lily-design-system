@@ -5,6 +5,7 @@
 - Component: data-table-th
 - PascalCase: DataTableTH
 - Description: a data table interactive grid header cell for displaying and sorting tabular data <th>
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <th>
 - CSS class: .data-table-th
 - Interactive: no

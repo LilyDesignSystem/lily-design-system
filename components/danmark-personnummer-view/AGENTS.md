@@ -5,6 +5,7 @@
 - Component: danmark-personnummer-view
 - PascalCase: DanmarkPersonnummerView
 - Description: a read-only display of Denmark's Personnummer (CPR-nummer) (CPR)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .danmark-personnummer-view
 - Interactive: no

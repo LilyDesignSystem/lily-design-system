@@ -5,6 +5,7 @@
 - Component: listbox
 - PascalCase: Listbox
 - Description: a list of selectable options with keyboard navigation
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .listbox
 - Interactive: yes

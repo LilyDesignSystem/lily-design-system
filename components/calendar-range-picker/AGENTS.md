@@ -5,6 +5,7 @@
 - Component: calendar-range-picker
 - PascalCase: CalendarRangePicker
 - Description: a picker for selecting a date range on a calendar
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .calendar-range-picker
 - Interactive: no

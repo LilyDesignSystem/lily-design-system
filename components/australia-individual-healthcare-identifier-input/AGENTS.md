@@ -5,6 +5,7 @@
 - Component: australia-individual-healthcare-identifier-input
 - PascalCase: AustraliaIndividualHealthcareIdentifierInput
 - Description: an input for entering Australia's Individual Healthcare Identifier (IHI)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .australia-individual-healthcare-identifier-input
 - Interactive: yes

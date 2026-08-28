@@ -5,6 +5,8 @@ or column with a consistent gap, exposing flex direction, alignment, and
 justification through props so that the consumer never needs to write
 boilerplate flexbox CSS.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it any time you need to arrange a small set of children with predictable
 spacing — toolbars, button groups, vertical form sections, navigation links.
 

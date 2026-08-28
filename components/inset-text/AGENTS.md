@@ -5,6 +5,7 @@
 - Component: inset-text
 - PascalCase: InsetText
 - Description: indented text to distinguish it from surrounding content
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .inset-text
 - Interactive: no

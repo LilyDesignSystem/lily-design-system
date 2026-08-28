@@ -5,6 +5,7 @@
 - Component: resizable
 - PascalCase: Resizable
 - Description: a container that the user can resize by dragging
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .resizable
 - Interactive: no

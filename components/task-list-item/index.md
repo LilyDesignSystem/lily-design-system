@@ -2,6 +2,8 @@
 
 A single item within a TaskList. Renders a semantic `<li>` element representing one task, action, or to-do. The `completed` prop controls a `data-completed` attribute for consumer styling, communicating task state to visual presentation.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component is designed to be placed inside a TaskList `<ul>`. The consumer provides the task content through the children slot, and optionally marks items as completed for progress tracking.
 
 ## Implementation Notes

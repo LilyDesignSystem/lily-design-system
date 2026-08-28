@@ -2,6 +2,8 @@
 
 A horizontal progress indicator.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders a `<div>` with `role="progressbar"` and ARIA value attributes

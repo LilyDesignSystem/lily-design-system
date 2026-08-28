@@ -5,6 +5,7 @@
 - Component: portugal-numero-de-identificacao-fiscal-input
 - PascalCase: PortugalNumeroDeIdentificacaoFiscalInput
 - Description: an input for entering Portugal's Número de Identificação Fiscal (NIF)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .portugal-numero-de-identificacao-fiscal-input
 - Interactive: yes

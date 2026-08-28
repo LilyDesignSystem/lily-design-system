@@ -5,6 +5,7 @@
 - Component: addressograph-box
 - PascalCase: AddressographBox
 - Description: a box that shows a person's identification details, such as name, tracking information, and salient notations
+- Status: experimental — recent catalog addition with the least accumulated depth; contract may still move
 - HTML tag: <div>
 - CSS class: .addressograph-box
 - Interactive: no

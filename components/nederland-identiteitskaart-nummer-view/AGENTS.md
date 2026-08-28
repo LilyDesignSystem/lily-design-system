@@ -5,6 +5,7 @@
 - Component: nederland-identiteitskaart-nummer-view
 - PascalCase: NederlandIdentiteitskaartNummerView
 - Description: a read-only display of Netherlands's Identiteitskaart Nummer
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .nederland-identiteitskaart-nummer-view
 - Interactive: no

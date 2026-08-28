@@ -5,6 +5,7 @@
 - Component: belgique-numero-de-registre-national-input
 - PascalCase: BelgiqueNumeroDeRegistreNationalInput
 - Description: an input for entering Belgium's Numéro de Registre National / Rijksregisternummer (NRN)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .belgique-numero-de-registre-national-input
 - Interactive: yes

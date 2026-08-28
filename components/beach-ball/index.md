@@ -2,6 +2,8 @@
 
 A beach ball is a loading/waiting indicator component, inspired by the colorful spinning cursor on macOS that appears when the system is busy. It provides a visual cue that a process is in progress and communicates to users that the system is working on a task.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component renders a `<div>` with `role="status"` and `aria-live="polite"` for non-blocking screen reader announcements of loading state changes. The `active` prop controls whether the indicator is currently showing, and an inner `<span>` element serves as the animation target for consumer-applied CSS.
 
 ## Implementation Notes

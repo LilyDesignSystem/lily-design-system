@@ -2,6 +2,8 @@
 
 A compound disclosure widget that pairs a checkbox option with a revealable panel. The user sees a vertical list of checkbox options; checking a box reveals an accordion panel of additional content beneath that option. Common use cases include conditional follow-up questions, opt-in disclosures, and form sections that only apply once selected.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Unlike `Details`, which uses a `<summary>` toggle, this component uses a real form control. The checkbox state is the source of truth — `checked` controls whether the panel is visible. Multiple AccordionCheckbox instances can stack vertically to make a list of independent toggleable options.
 
 ## Implementation Notes

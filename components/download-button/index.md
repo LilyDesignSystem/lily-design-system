@@ -5,6 +5,8 @@ downloadable file. It uses an `<a>` element (not `<button>`) so that users
 can right-click and "Save link as…", and so that the native `download`
 attribute can suggest a filename.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it for prominent download calls-to-action such as installer downloads,
 PDF reports, datasets, exported files, and signed asset bundles.
 

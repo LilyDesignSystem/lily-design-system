@@ -5,6 +5,7 @@
 - Component: event
 - PascalCase: Event
 - Description: an event component that contains other event-related information
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <article>
 - CSS class: .event
 - Interactive: no

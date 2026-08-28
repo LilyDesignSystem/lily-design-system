@@ -2,6 +2,8 @@
 
 SkipLink is a headless navigation link that allows keyboard users to bypass repetitive content (such as navigation menus and headers) and jump directly to the main content area. It is one of the most important accessibility features for keyboard-only users and screen reader users.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 Use SkipLink as the very first focusable element on a page. When a keyboard user tabs into the page, the skip link receives focus first and provides a quick shortcut to the main content. Consumers typically style the link to be visually hidden until focused, then position it prominently on screen when activated. The component renders a simple `<a>` element with configurable href target and label text.
 
 ## Implementation Notes

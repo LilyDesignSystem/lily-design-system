@@ -5,6 +5,7 @@
 - Component: cymru-rhif-y-gwasanaeth-iechyd-gwladol-view
 - PascalCase: CymruRhifYGwasanaethIechydGwladolView
 - Description: a read-only display of Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .cymru-rhif-y-gwasanaeth-iechyd-gwladol-view
 - Interactive: no

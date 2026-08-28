@@ -5,6 +5,7 @@
 - Component: check-list
 - PascalCase: CheckList
 - Description: an ordered list of check list item components
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <ol>
 - CSS class: .check-list
 - Interactive: no

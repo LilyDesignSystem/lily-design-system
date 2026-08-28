@@ -5,6 +5,7 @@
 - Component: espana-codigo-de-identificacion-fiscal-view
 - PascalCase: EspanaCodigoDeIdentificacionFiscalView
 - Description: a read-only display of Spain's Código de Identificación Fiscal (CIF)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .espana-codigo-de-identificacion-fiscal-view
 - Interactive: no

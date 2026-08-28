@@ -2,6 +2,8 @@
 
 A Net Promoter Score picker button is an individual button within a NetPromoterScorePicker that represents one score value on a 0-10 scale. When clicked, it selects that NPS score. The component uses `aria-pressed` to indicate the currently selected state, making it accessible to screen readers and keyboard users. NPS scores are categorized as Detractors (0-6), Passives (7-8), and Promoters (9-10).
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders as a `<button>` element with `aria-pressed` for toggle state

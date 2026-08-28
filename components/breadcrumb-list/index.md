@@ -2,6 +2,8 @@
 
 A breadcrumb nav list is an ordered list of breadcrumb navigation items that form a trail showing the user's current location within a site hierarchy. It renders as an `<ol>` element and is designed to be placed inside a BreadcrumbNav component (which provides the parent `<nav>` landmark). Each item in the list is a BreadcrumbListItem representing one level in the hierarchy.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 Breadcrumb trails help users understand where they are in the site structure and allow quick navigation back to any ancestor page. The ordered list conveys the hierarchical relationship between items, with each item representing a progressively deeper level.
 
 ## Implementation Notes

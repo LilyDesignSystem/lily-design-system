@@ -5,6 +5,7 @@
 - Component: clamp-text
 - PascalCase: ClampText
 - Description: a text container that truncates content to a maximum number of lines
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .clamp-text
 - Interactive: no

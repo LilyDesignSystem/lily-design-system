@@ -5,6 +5,7 @@
 - Component: mockup-browser
 - PascalCase: MockupBrowser
 - Description: a box area that looks like a web browser
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .mockup-browser
 - Interactive: no

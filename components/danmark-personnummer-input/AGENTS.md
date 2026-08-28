@@ -5,6 +5,7 @@
 - Component: danmark-personnummer-input
 - PascalCase: DanmarkPersonnummerInput
 - Description: an input for entering Denmark's Personnummer (CPR-nummer) (CPR)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .danmark-personnummer-input
 - Interactive: yes

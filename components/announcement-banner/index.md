@@ -2,6 +2,8 @@
 
 A persistent, page-level banner for service-wide messages — scheduled maintenance, public-interest news, regulatory notices — that every user should see while the message is active.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The component renders a `<div role="region">` so the banner is a labeled landmark in the page outline, named by the required `label` prop. Two optional behaviours layer on top:
 
 - `dismissible` adds a close `<button>` so users can hide a non-critical banner once they have read it; the consumer decides whether the dismissal is remembered (cookie, local storage, server flag).

@@ -5,6 +5,7 @@
 - Component: accordion-nav
 - PascalCase: AccordionNav
 - Description: an accordion navigation area for collapsible accordion information
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <nav>
 - CSS class: .accordion-nav
 - Interactive: no

@@ -5,6 +5,7 @@
 - Component: malta-passport-number-input
 - PascalCase: MaltaPassportNumberInput
 - Description: an input for entering Malta's Malta Passport Number
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .malta-passport-number-input
 - Interactive: yes

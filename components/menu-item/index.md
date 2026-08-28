@@ -5,6 +5,8 @@ a menu, dropdown menu, or navigation menu. Menus are used throughout
 applications to organize and present actions, settings, and navigation options
 in a structured, discoverable format.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component renders as a `<div>` with `role="menuitem"` and `tabindex="-1"`,
 following the WAI-ARIA menu pattern. The `tabindex="-1"` removes the item from
 the normal tab order so that the parent menu can manage focus

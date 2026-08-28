@@ -5,6 +5,7 @@
 - Component: action-bar
 - PascalCase: ActionBar
 - Description: a contextual action bar that appears when items are selected, showing the selection count and bulk action buttons
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div> with role="toolbar"
 - CSS class: .action-bar
 - Interactive: yes

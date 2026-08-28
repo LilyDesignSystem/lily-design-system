@@ -2,6 +2,8 @@
 
 A continuous-data visualization where the area below a line is filled, emphasising the magnitude of values over time rather than just the shape of the trend. Use it when the cumulative size of the value matters — page views, revenue, energy consumption — particularly when comparing two or three stacked or overlaid series.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The component is a headless wrapper around an inline `<svg>`: it renders a `<figure role="img">` with the chart inside, names the figure via `aria-label` (from `label`), and references an extended `description` and an optional `dataTable` slot via `aria-describedby`. The data table is the canonical accessible alternative — screen readers, users on text-only browsers, and exports all benefit from a real `<table>` rendering of the same numbers, and Lily™ encourages always providing it.
 
 For trends without magnitude emphasis use `LineChart`; for categorical comparisons use `BarChart` or `ColumnChart`; for tiny inline trend marks use `Sparkline`.

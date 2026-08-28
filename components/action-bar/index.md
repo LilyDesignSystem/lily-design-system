@@ -3,6 +3,8 @@
 An action bar is a contextual toolbar that appears when items are selected,
 showing the current selection count alongside bulk action buttons.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it above a list, table, gallery, or canvas where users can multi-select
 items and apply bulk operations such as delete, archive, move, or share. The
 action bar communicates how many items are affected and offers a clear way

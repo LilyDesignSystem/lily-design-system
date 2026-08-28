@@ -5,6 +5,7 @@
 - Component: grail-layout-right-aside
 - PascalCase: GrailLayoutRightAside
 - Description: grail layout right aside sidebar with <aside> tag
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <aside>
 - CSS class: .grail-layout-right-aside
 - Interactive: no

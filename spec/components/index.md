@@ -251,6 +251,32 @@ Each framework injects the generated demo HTML via its native escape hatch: HTML
 - [ ] `bin/test` passes for the catalog, all components, and all subprojects.
 - [ ] Each example app's `/components/{slug}` page renders a suffix-appropriate live demo for every component.
 
+## Maturity
+
+Every catalog entry carries a maturity status — a `- Status:` bullet in
+its `components/{slug}/AGENTS.md` metadata (enforced by `bin/test`),
+surfaced in the component's `index.md` and as a badge on the site
+catalog (the registry generator reads it from the canonical metadata,
+so the site can never drift from it).
+
+The rubric is evidence-based and deliberately mechanical, so the labels
+mean something checkable rather than expressing optimism:
+
+| Status | Meaning | Assignment evidence |
+| --- | --- | --- |
+| `stable` | Exercised in composed page flows under e2e and axe, beyond the generated per-component checks | Used by the canonical app's composed routes (151 components at the 2026-08-28 assignment) |
+| `beta` | Implemented and unit-tested in all seven frameworks, story-covered, axe-clean demo page — but not yet exercised in composed flows | The catalog default (332) |
+| `experimental` | Recent addition with the least accumulated depth; the contract may still move | The 0.4.0 batch (question, answer, comment, addressograph-box, barcode-image, draft, qr-code-image) and image-cropper (8) |
+
+Promotion is by evidence, not time served: a component moves to
+`stable` when a composed flow exercises it, and to `beta` from
+`experimental` once its contract has survived unchanged across a
+release. Screen-reader evidence and production-use reports
+([CONTRIBUTING.md](../../CONTRIBUTING.md)) accelerate promotion;
+neither is currently required for `stable`, and the
+[accessibility statement](../../docs/accessibility-statement.md) is
+explicit about that boundary.
+
 ## Related topics
 
 - [overview](../overview/index.md) — the design system at a glance.

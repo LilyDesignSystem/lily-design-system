@@ -5,6 +5,7 @@
 - Component: pin-input-div
 - PascalCase: PinInputDiv
 - Description: a series of single-digit inputs for entering a PIN or OTP code
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .pin-input-div
 - Interactive: yes

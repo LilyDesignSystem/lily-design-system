@@ -3,6 +3,8 @@
 A status light is a small colored dot status indicator paired with a status
 label.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it to communicate the state of a record, system, user, or process —
 "Active", "Offline", "Error", "Pending" — at a glance, without relying on
 color alone because the label is always present.

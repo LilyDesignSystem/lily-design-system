@@ -2,6 +2,8 @@
 
 A five-star rating picker button is an individual button within a FiveStarRatingPicker that represents one star level on a 1-5 scale. When clicked, it selects that star rating value. The component uses `aria-pressed` to indicate the currently selected state, making it accessible to screen readers and keyboard users.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders as a `<button>` element with `aria-pressed` for toggle state

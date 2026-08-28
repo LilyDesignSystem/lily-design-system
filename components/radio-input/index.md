@@ -2,6 +2,8 @@
 
 A radio input provides a bare `<input type="radio">` element without a wrapping label. It is designed for use in custom radio group layouts where labels are provided separately or by a parent component. The component uses `aria-label` to ensure each radio button has an accessible name.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component is useful in custom-designed radio groups, card selection interfaces, segmented controls, and any layout where the radio button and its label need to be independently positioned or styled. For simple radio groups with adjacent labels, consider wrapping this in a `<label>` element.
 
 ## Implementation Notes

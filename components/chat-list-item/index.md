@@ -2,6 +2,8 @@
 
 A chat list item is one chat list item component, typically containing one chat message component. It represents a single entry in a ChatList, providing the list item semantics for an individual chat conversation preview.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses the native HTML `<li>` element for inherent list item semantics. It is designed to be placed inside a ChatList component and to contain a ChatMessage child.
 
 ## Implementation Notes

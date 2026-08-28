@@ -5,6 +5,7 @@
 - Component: tree-list-item
 - PascalCase: TreeListItem
 - Description: one item in a tree navigation list
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <li>
 - CSS class: .tree-list-item
 - Interactive: yes

@@ -5,6 +5,7 @@
 - Component: cesko-rodne-cislo-input
 - PascalCase: CeskoRodneCisloInput
 - Description: an input for entering Czech Republic's Rodné číslo (RČ)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .cesko-rodne-cislo-input
 - Interactive: yes

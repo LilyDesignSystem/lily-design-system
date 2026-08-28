@@ -5,6 +5,7 @@
 - Component: footer
 - PascalCase: Footer
 - Description: a page or section footer area
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <footer>
 - CSS class: .footer
 - Interactive: no

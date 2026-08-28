@@ -4,6 +4,8 @@ A container with a fixed maximum width centers its children horizontally and
 caps the content area at a configurable breakpoint, giving long-form text and
 page layouts a comfortable reading width on wide displays.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it for the outermost layout wrapper around article body text, marketing
 sections, or any content area that should stop expanding past a chosen
 maximum width.

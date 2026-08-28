@@ -130,6 +130,12 @@ test_components() {
     "$top/bin/list-components-as-kebab-case" |
     while read -r component; do
         ai_exists_or_err "$top/components/$component"
+        # Maturity: exactly one valid Status bullet per component
+        # (spec/components § Maturity). The site registry is generated
+        # from it, so a missing or misspelled one breaks the build there
+        # too — this catches it at the source with a better message.
+        n="$(grep -cE '^- Status: (stable|beta|experimental)( |$)' "$top/components/$component/AGENTS.md" || true)"
+        test "$n" = "1" || err "components/$component/AGENTS.md needs exactly one valid '- Status:' bullet (has $n)"
     done
 }
 

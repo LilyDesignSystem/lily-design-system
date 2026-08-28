@@ -2,6 +2,8 @@
 
 A task bar is a toolbar-style container for task-related action buttons, using the ARIA `toolbar` role with accessible labeling. It renders as a `<div>` with `role="toolbar"` to group related task actions together, making the container semantically meaningful to assistive technologies.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Task bars are commonly used to provide quick access to frequently performed actions such as "New", "Open", "Save", or other task-specific operations. The component works with TaskBarItem child components or plain buttons.
 
 ## Implementation Notes

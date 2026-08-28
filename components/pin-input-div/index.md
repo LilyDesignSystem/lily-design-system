@@ -6,6 +6,8 @@ single-character input fields for entering Personal Identification Numbers
 codes. Each digit occupies its own input field, creating a segmented entry
 experience that clearly communicates the expected code length to the user.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The component automatically advances focus to the next field when a digit is
 entered, supports Backspace to move back to the previous field, and allows Arrow
 key navigation between fields. The combined value of all digit fields is

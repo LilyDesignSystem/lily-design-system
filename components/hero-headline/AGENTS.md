@@ -5,6 +5,7 @@
 - Component: hero-headline
 - PascalCase: HeroHeadline
 - Description: a full-bleed hero section with headline overlaid on media
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .hero-headline
 - Interactive: no

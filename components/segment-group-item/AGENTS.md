@@ -5,6 +5,7 @@
 - Component: segment-group-item
 - PascalCase: SegmentGroupItem
 - Description: one selectable segment in a segment group
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .segment-group-item
 - Interactive: no

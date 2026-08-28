@@ -5,6 +5,7 @@
 - Component: button
 - PascalCase: Button
 - Description: a generic clickable button element
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <button>
 - CSS class: .button
 - Interactive: yes

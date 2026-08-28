@@ -2,6 +2,8 @@
 
 A pagination list is a navigation component that divides content into separate pages, allowing users to navigate through large sets of data or information one section at a time. The PaginationList component provides a headless wrapper using the semantic `<nav>` and `<ul>` elements, with an accessible label to identify the navigation purpose.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component is commonly used in search results, product listings, and data tables where displaying all content at once would be impractical. The consumer provides pagination items (links or buttons) as `<li>` children, and can use `aria-current="page"` to indicate the currently active page.
 
 ## Implementation Notes

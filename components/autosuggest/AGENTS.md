@@ -5,6 +5,7 @@
 - Component: autosuggest
 - PascalCase: Autosuggest
 - Description: a text input that proposes matching options as users type
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .autosuggest
 - Interactive: yes

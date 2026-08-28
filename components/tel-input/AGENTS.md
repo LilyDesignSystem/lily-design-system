@@ -5,6 +5,7 @@
 - Component: tel-input
 - PascalCase: TelInput
 - Description: an input for entering a telephone number <input type="tel">
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <input>
 - CSS class: .tel-input
 - Interactive: no

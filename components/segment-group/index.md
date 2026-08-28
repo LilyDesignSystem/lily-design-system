@@ -2,6 +2,8 @@
 
 SegmentGroup is a headless container for segmented controls that uses the ARIA `radiogroup` role. It groups a set of mutually exclusive options, such as view mode toggles (grid/list), filter selections, or display density controls.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 Use SegmentGroup when you need a set of visually distinct toggle buttons where only one option can be active at a time. Unlike RadioGroup which wraps native radio inputs in a fieldset, SegmentGroup uses a `<div>` with `role="radiogroup"` and expects children to be buttons with `role="radio"` and `aria-checked` attributes. This makes it suitable for custom segmented control UIs that go beyond standard radio button appearance.
 
 ## Implementation Notes

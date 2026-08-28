@@ -6,6 +6,8 @@ page, or opening a menu. Buttons are essential for guiding users through tasks,
 providing clear feedback on actions, and enhancing the overall user experience
 by offering intuitive, actionable controls.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This headless component uses the native HTML `<button>` element for inherent
 accessibility and keyboard support. It supports toggle button semantics via the
 `pressed` prop, accessible label overrides, and all standard button types.

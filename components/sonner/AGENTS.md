@@ -5,6 +5,7 @@
 - Component: sonner
 - PascalCase: Sonner
 - Description: a toast notification manager
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div>
 - CSS class: .sonner
 - Interactive: no

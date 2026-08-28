@@ -2,6 +2,8 @@
 
 A dropdown menu triggered by a button that reveals a list of actions or options. This component combines a toggle button with a menu panel, providing a compact way to present multiple actions or choices without taking up permanent screen space. Common use cases include action menus, settings menus, context-sensitive options, and navigation.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The component manages its own focus lifecycle: when the menu opens, focus moves automatically to the first menu item. Arrow key navigation cycles through items with wrapping, and Escape closes the menu. The trigger button communicates its state to assistive technology via `aria-haspopup` and `aria-expanded`.
 
 ## Implementation Notes

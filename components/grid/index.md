@@ -4,6 +4,8 @@ A grid is a CSS grid layout container with a configurable number of columns
 and gap, allowing consumers to lay out two-dimensional content without
 writing custom grid CSS for every container.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it for card grids, image galleries, dashboard tile layouts, and any
 two-dimensional arrangement of content where you want explicit column control
 and consistent gutters.

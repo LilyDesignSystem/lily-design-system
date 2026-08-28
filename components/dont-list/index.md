@@ -2,6 +2,8 @@
 
 A don't list presents discouraged actions or practices to avoid as a list of items. It is used in design system documentation, guidelines, and instructional content to clearly communicate what users or developers should not do. The list is paired with the DoList component to create do/don't guidance patterns.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component renders a semantically labeled unordered list with `role="list"` to ensure assistive technology announces it as a list even when CSS may remove default list semantics. The default label is "Don't", making it immediately usable without configuration.
 
 ## Implementation Notes

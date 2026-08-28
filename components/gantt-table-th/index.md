@@ -2,6 +2,8 @@
 
 A Gantt table col is a column header cell in a GanttTable. It renders a `<th scope="col">` element and is intended to live inside a GanttTableTR within GanttTableHead, where it labels a time-period column (day, week, month, milestone, etc.).
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders as a `<th>` element with `scope="col"` by default

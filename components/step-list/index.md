@@ -4,6 +4,8 @@ A step list is an ordered list of step items showing progress through a
 multi-step process. It uses a semantic `<ol>` element so screen readers
 announce the count and order of steps.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it for wizards, checkout flows, onboarding tours, or any sequence
 of stages where the user can see their position relative to the whole.
 

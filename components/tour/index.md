@@ -2,6 +2,8 @@
 
 Tour is a headless component that serves as a container for a guided tour experience. It wraps TourList and TourListItem components to provide a step-by-step walkthrough of features, sightseeing pathways, or product demonstrations.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 Use this component as the outer wrapper for guided tours, onboarding flows, feature walkthroughs, or any sequential step-by-step experience.
 
 ## Implementation Notes

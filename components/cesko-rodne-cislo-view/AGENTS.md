@@ -5,6 +5,7 @@
 - Component: cesko-rodne-cislo-view
 - PascalCase: CeskoRodneCisloView
 - Description: a read-only display of Czech Republic's Rodné číslo (RČ)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .cesko-rodne-cislo-view
 - Interactive: no

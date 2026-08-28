@@ -2,6 +2,8 @@
 
 A mockup phone is a box area that looks like a mobile phone. It provides a visual frame that mimics a phone device, allowing designers and developers to showcase mobile content, app screenshots, or responsive designs within a realistic phone-shaped container.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses a `<div>` element as the phone frame container. The consumer provides the phone screen content as children.
 
 ## Implementation Notes

@@ -5,6 +5,7 @@
 - Component: section-link
 - PascalCase: SectionLink
 - Description: one section link in the navigation
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <a>
 - CSS class: .section-link
 - Interactive: yes

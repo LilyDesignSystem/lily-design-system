@@ -2,6 +2,8 @@
 
 A calendar board is a component that presents dates in a structured grid layout, typically organized by weeks and days, allowing users to view and interact with calendar data at a glance. Commonly used in scheduling applications, event planners, and dashboard interfaces, the calendar board renders dates as cells within a table grid, making it easy to scan across days, weeks, or months.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component renders a `<table>` element with `role="grid"` and an accessible label. The consumer provides the table rows and cells as children, along with any header rows for day-of-week labels.
 
 ## Implementation Notes

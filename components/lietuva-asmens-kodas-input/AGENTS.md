@@ -5,6 +5,7 @@
 - Component: lietuva-asmens-kodas-input
 - PascalCase: LietuvaAsmensKodasInput
 - Description: an input for entering Lithuania's Asmens kodas
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .lietuva-asmens-kodas-input
 - Interactive: yes

@@ -2,6 +2,8 @@
 
 A Gantt table (a.k.a. Gannt chart) is a component that displays project tasks and their timelines as horizontal bars along a time axis, providing a visual overview of project schedules, dependencies, and progress. Commonly used in project management tools, resource planning applications, and team collaboration platforms, the Gantt chart helps users understand task durations, overlaps, milestones, and sequencing at a glance.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component renders a `<table>` element with `role="grid"` and an accessible label. The consumer provides the table structure with rows for tasks and columns for time periods, along with any visual bar representations.
 
 ## Implementation Notes

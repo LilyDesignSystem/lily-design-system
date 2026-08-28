@@ -2,6 +2,8 @@
 
 A read-only five-face rating display that shows a text label corresponding to a rating value from 1 to 5. This is the display-only companion to FiveFaceRatingInput, used for showing previously submitted ratings in summaries, review lists, or dashboard displays.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 ## Implementation Notes
 
 - Renders a `<span>` with `role="img"` to indicate it represents a visual rating

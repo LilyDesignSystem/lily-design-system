@@ -5,6 +5,7 @@
 - Component: nederland-paspoort-nummer-view
 - PascalCase: NederlandPaspoortNummerView
 - Description: a read-only display of Netherlands's Paspoort Nummer
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .nederland-paspoort-nummer-view
 - Interactive: no

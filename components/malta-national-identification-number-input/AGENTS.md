@@ -5,6 +5,7 @@
 - Component: malta-national-identification-number-input
 - PascalCase: MaltaNationalIdentificationNumberInput
 - Description: an input for entering Malta's Malta National Identification Number
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .malta-national-identification-number-input
 - Interactive: yes

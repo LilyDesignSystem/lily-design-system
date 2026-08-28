@@ -5,6 +5,7 @@
 - Component: check-list-item
 - PascalCase: CheckListItem
 - Description: one check list item component with a checkbox
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <li>
 - CSS class: .check-list-item
 - Interactive: yes

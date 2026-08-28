@@ -5,6 +5,7 @@
 - Component: badge
 - PascalCase: Badge
 - Description: a small label for counts, statuses, or categories
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <span>
 - CSS class: .badge
 - Interactive: no

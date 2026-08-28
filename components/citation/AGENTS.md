@@ -5,6 +5,7 @@
 - Component: citation
 - PascalCase: Citation
 - Description: a citation acknowledges the relevance of a work of another to the topic of discussion
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <cite>
 - CSS class: .citation
 - Interactive: no

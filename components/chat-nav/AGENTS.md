@@ -5,6 +5,7 @@
 - Component: chat-nav
 - PascalCase: ChatNav
 - Description: a navigation container for chat information
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <nav>
 - CSS class: .chat-nav
 - Interactive: yes

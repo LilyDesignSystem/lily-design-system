@@ -5,6 +5,7 @@
 - Component: norge-fodselsnummer-input
 - PascalCase: NorgeFodselsnummerInput
 - Description: an input for entering Norway's Fødselsnummer
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .norge-fodselsnummer-input
 - Interactive: yes

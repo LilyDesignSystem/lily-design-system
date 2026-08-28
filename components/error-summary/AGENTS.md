@@ -5,6 +5,7 @@
 - Component: error-summary
 - PascalCase: ErrorSummary
 - Description: a summary of all validation errors on a form
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .error-summary
 - Interactive: no

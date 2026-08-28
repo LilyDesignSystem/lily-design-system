@@ -5,6 +5,7 @@
 - Component: menu-group
 - PascalCase: MenuGroup
 - Description: a labeled section of menu items within a menu
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div> with role="group"
 - CSS class: .menu-group
 - Interactive: no (static container; menu interactions are on items)

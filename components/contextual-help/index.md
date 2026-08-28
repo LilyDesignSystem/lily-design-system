@@ -4,6 +4,8 @@ A contextual help is a small help button — often a question-mark glyph —
 that opens a popover with explanatory content for a nearby field, control,
 or concept.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it next to labels and headings where users may need extra explanation
 on demand without cluttering the primary UI. The help content is hidden by
 default and revealed only when the user requests it.

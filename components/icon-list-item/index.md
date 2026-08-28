@@ -3,6 +3,8 @@
 An icon list item is one entry in an `icon-list`, with an optional leading
 icon slot and the item text content.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it inside `IconList` to render a list of statements that each begin
 with a visual marker (check, arrow, dot, etc.).
 

@@ -5,6 +5,8 @@ visible lines, exposing the line count as a data attribute and CSS custom
 property so that consumer stylesheets can apply line-clamp without changing
 the underlying DOM.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it when you need to constrain potentially long text such as product
 descriptions, comments, or card summaries to a predictable height while
 keeping the full content available to assistive technology.

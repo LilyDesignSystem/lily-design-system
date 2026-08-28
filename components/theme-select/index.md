@@ -2,6 +2,8 @@
 
 A theme select is a headless component that allows users to switch between different visual themes or color schemes using a native `<select>` dropdown. It is commonly used to offer light, dark, high-contrast, or other visual modes, enhancing personalization and accessibility by letting users adapt the interface to their preferences or environment.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The consumer provides `<option>` elements as children to define the available themes. The component uses `aria-label` for accessible naming and supports two-way binding on the selected theme.
 
 ## Implementation Notes

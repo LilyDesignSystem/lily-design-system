@@ -2,6 +2,8 @@
 
 A data table col is a column header cell in a DataTable. It renders a `<th scope="col">` element and is intended to live inside a DataTableRow within DataTableHead.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders as a `<th>` element with `scope="col"` by default

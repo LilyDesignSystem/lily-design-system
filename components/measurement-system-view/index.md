@@ -2,6 +2,8 @@
 
 A measurement system view displays a measurement system name in a `<span>` element. A measurement system is a collection of units and rules for measuring, such as "metric", "imperial", or "SI" (International System of Units). This component is part of the Input/View pattern for measurement data, providing a read-only display of measurement system names.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The component supports an optional `aria-label` for additional accessible context, which is useful when the abbreviated system name alone may not convey enough meaning (e.g., labeling "SI" as "International System of Units").
 
 ## Implementation Notes

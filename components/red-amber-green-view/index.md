@@ -2,6 +2,8 @@
 
 A RAG (Red/Amber/Green) view is a component that displays a traffic-light status value as read-only text. It is used to present previously captured RAG status data in dashboards, reports, or detail views. Red indicates a critical problem, amber signals caution or minor issues, and green means everything is on track.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The component renders as a `<span>` element with an accessible label, making the status readable by screen readers and other assistive technologies. This headless component provides the semantic structure and accessibility features while allowing consumers to apply their own visual styling, such as color-coded backgrounds or text colors.
 
 ## Implementation Notes

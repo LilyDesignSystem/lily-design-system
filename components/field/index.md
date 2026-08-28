@@ -2,6 +2,8 @@
 
 A field component wraps a form control with its label, description, and error message, providing proper labelling via `for` attribute linking and accessible error announcements. It serves as a generic form field container that works with any input type -- text inputs, selects, textareas, checkboxes, and more.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The component auto-generates IDs for linking the label to its input and for associating description and error elements via ARIA attributes. A visual required indicator (asterisk) is rendered when `required` is true, hidden from screen readers with `aria-hidden`.
 
 ## Implementation Notes

@@ -5,6 +5,7 @@
 - Component: hint
 - PascalCase: Hint
 - Description: hint text providing guidance for a form field
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <span>
 - CSS class: .hint
 - Interactive: no

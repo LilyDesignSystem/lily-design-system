@@ -2,6 +2,8 @@
 
 A body text is a rendered text block within a content width container. It wraps article body content for consistent typography targeting by the consumer's stylesheet.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses a `<div>` element to wrap body text content such as paragraphs, lists, and other block-level elements.
 
 ## Implementation Notes

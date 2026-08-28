@@ -2,6 +2,8 @@
 
 A checkbox input is a minimal headless wrapper around the native HTML `<input type="checkbox">` element. Unlike a Checkbox component which includes a wrapping `<label>`, CheckboxInput uses `aria-label` for accessibility, giving consumers full control over label placement and visual presentation.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component is ideal when you need a bare checkbox that you will wrap in your own custom layout, such as placing the label to the left, using a custom indicator, or integrating into a complex form where label positioning must be controlled by the consumer.
 
 ## Implementation Notes

@@ -5,6 +5,7 @@
 - Component: go-to-top
 - PascalCase: GoToTop
 - Description: a link that returns users to the top of a long page
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <a>
 - CSS class: .go-to-top
 - Interactive: yes

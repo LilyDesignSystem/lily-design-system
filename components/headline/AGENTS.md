@@ -5,6 +5,7 @@
 - Component: headline
 - PascalCase: Headline
 - Description: a page headline with heading, subtitle, and byline area
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <div> containing <h1>
 - CSS class: .headline
 - Interactive: no

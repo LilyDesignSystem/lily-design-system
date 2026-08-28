@@ -2,6 +2,8 @@
 
 A color picker swatch is a button representing a single predefined color choice within a color picker interface. It allows users to select a color from a set of predefined options by clicking on a visually representative swatch. The component communicates selected state through `aria-pressed` and exposes `data-color` for consumer CSS targeting.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This component is useful in color palette UIs, theme builders, product customization forms, and any interface where users choose from a fixed set of color options. Each swatch is a fully accessible button that screen readers can announce by its label and selection state.
 
 ## Implementation Notes

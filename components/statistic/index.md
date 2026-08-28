@@ -4,6 +4,8 @@ A statistic is a numeric value display with title, optional prefix, and
 optional suffix. It groups the components into a single landmark with
 `role="group"` and a synthesized `aria-label`.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it for dashboards, KPIs, summary cards, and any place a single
 prominent number must be paired with a short label.
 

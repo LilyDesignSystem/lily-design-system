@@ -5,6 +5,7 @@
 - Component: contents-link
 - PascalCase: ContentsLink
 - Description: one table of contents link
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <a>
 - CSS class: .contents-link
 - Interactive: yes

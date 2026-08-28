@@ -2,6 +2,8 @@
 
 A progress spinner indicates an ongoing loading or processing state where the completion time is unknown. Unlike ProgressCircle which shows a specific percentage, a spinner indicates indeterminate loading. It uses `role="status"` and `aria-live="polite"` to announce the loading state to screen readers without interrupting the user. The component is headless, allowing consumers to apply their own spinning animation via CSS.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 ## Implementation Notes
 
 - Renders a `<div>` with `role="status"` for implicit live region semantics

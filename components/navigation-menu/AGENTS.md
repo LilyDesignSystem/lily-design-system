@@ -5,6 +5,7 @@
 - Component: navigation-menu
 - PascalCase: NavigationMenu
 - Description: a site-wide navigation menu with links
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <nav>
 - CSS class: .navigation-menu
 - Interactive: no

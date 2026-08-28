@@ -5,6 +5,7 @@
 - Component: date-time-view
 - PascalCase: DateTimeView
 - Description: a read-only display of a formatted date and time
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <time>
 - CSS class: .date-time-view
 - Interactive: no

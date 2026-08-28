@@ -4,6 +4,8 @@ A popconfirm dialog is a non-modal popover dialog with confirm and
 cancel buttons. It is anchored to a trigger element and uses
 `role="alertdialog"` to announce the urgent confirmation prompt.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it for inline confirmations such as delete-item, discard-changes,
 or remove-permission where a full modal dialog would be too disruptive.
 

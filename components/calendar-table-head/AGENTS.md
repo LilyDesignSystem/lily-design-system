@@ -5,6 +5,7 @@
 - Component: calendar-table-head
 - PascalCase: CalendarTableHead
 - Description: a calendar table interactive grid thead for managing dates, days, etc. <thead>
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <thead>
 - CSS class: .calendar-table-head
 - Interactive: no

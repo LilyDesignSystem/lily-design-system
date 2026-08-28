@@ -2,6 +2,8 @@
 
 A combobox combines a text input with a dropdown listbox of suggestions, providing an autocomplete or type-ahead search experience. Users type into the input to filter suggestions, then select from matching options in the dropdown. This pattern is commonly used for search fields, address inputs, tag selectors, and any scenario where users choose from a large set of options.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 The component manages the input value and dropdown open state as bindable props, so consumers can reactively filter options and control visibility. It supports full ARIA combobox semantics including `aria-expanded`, `aria-controls`, and `aria-autocomplete` for screen reader accessibility.
 
 ## Implementation Notes

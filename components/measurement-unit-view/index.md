@@ -2,6 +2,8 @@
 
 A measurement unit view displays a measurement unit in a `<span>` element. A measurement unit is a standard quantity used to express a measurement, such as "kg", "lb", "cm", or "inch". This component is part of the Input/View pattern for measurement data, providing a read-only display of unit abbreviations or names.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The component supports an optional `aria-label` for additional accessible context, which is useful when abbreviated units may not be clear to screen reader users (e.g., labeling "lb" as "Pounds").
 
 ## Implementation Notes

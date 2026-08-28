@@ -5,6 +5,7 @@
 - Component: medical-banner-box-for-danger
 - PascalCase: MedicalBannerBoxForDanger
 - Description: a medical record banner box for danger information e.g. reactions, warnings, alarms, etc.
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .medical-banner-box-for-danger
 - Interactive: no

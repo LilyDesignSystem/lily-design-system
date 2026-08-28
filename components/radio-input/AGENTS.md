@@ -5,6 +5,7 @@
 - Component: radio-input
 - PascalCase: RadioInput
 - Description: a single radio button input <input type="radio">
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <input>
 - CSS class: .radio-input
 - Interactive: no

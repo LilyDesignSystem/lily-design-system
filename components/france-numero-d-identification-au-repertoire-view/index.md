@@ -2,6 +2,8 @@
 
 FranceNumeroDIdentificationAuRepertoireView is a read-only display of a France numéro d'identification au répertoire (NIR), the unique national healthcare identifier. It renders the value as inline text inside a `<span>` with `aria-label` for accessibility. It is the display-only companion to FranceNumeroDIdentificationAuRepertoireInput.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The NIR (also known as the Social Security number) is a 15-digit number printed on the Carte Vitale. It consists of a 13-digit base (sex, birth year, birth month, department, commune, order number) and a 2-digit control key.
 
 ## Implementation Notes

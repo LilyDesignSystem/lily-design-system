@@ -2,6 +2,8 @@
 
 A Gantt table row represents a single row within a Gantt chart grid, typically corresponding to one task or milestone. It wraps a task-name cell and time-period cells in a horizontal sequence. It is designed to be used inside a GanttTableHead, GanttTableBody, or GanttTableTfoot section.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The component renders a `<tr>` element and passes through its children, which are expected to be `<td>`, `<th>`, or GanttTableTD elements.
 
 ## Implementation Notes

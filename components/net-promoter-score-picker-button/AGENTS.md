@@ -5,6 +5,7 @@
 - Component: net-promoter-score-picker-button
 - PascalCase: NetPromoterScorePickerButton
 - Description: a picker button for selecting a 0-10 Net Promoter Score
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <button>
 - CSS class: .net-promoter-score-picker-button
 - Interactive: yes

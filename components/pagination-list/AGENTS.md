@@ -5,6 +5,7 @@
 - Component: pagination-list
 - PascalCase: PaginationList
 - Description: an ordered list of pagination list items
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <ol>
 - CSS class: .pagination-list
 - Interactive: yes

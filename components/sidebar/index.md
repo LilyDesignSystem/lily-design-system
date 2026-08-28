@@ -2,6 +2,8 @@
 
 Sidebar is a headless complementary region that uses the semantic `<aside>` element. It provides a labeled landmark for content that is tangentially related to the main content, such as navigation menus, filters, related links, or supplementary information.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 Use Sidebar when you need a distinct region alongside main content that assistive technologies can identify and navigate to as a landmark. The `<aside>` element inherently carries the ARIA `complementary` role, so screen readers will announce it as a complementary landmark. The component applies no visual styling, leaving layout, width, positioning, and appearance entirely to the consumer.
 
 ## Implementation Notes

@@ -5,6 +5,7 @@
 - Component: error-message
 - PascalCase: ErrorMessage
 - Description: an error message associated with a form field
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <span>
 - CSS class: .error-message
 - Interactive: no

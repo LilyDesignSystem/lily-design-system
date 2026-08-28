@@ -2,6 +2,8 @@
 
 ImageInput is a headless graphical submit button that renders a native `<input type="image">` element. It displays an image defined by the `src` attribute and submits the form when clicked. The `alt` attribute displays if the image source is missing.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use this component when you need a graphical submit button in forms, such as custom-styled submit buttons, clickable image actions, or branded form submission controls.
 
 ## Implementation Notes

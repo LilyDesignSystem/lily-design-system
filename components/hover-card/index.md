@@ -2,6 +2,8 @@
 
 HoverCard is a headless component that displays supplementary content when triggered, typically by a hover or focus interaction on a trigger element. It conditionally renders a container with `role="tooltip"` and an accessible label when the `open` prop is true.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component is useful for user profile previews, link previews, contextual help, or any popover-style content that should appear on hover or focus. The `open` prop is bindable, allowing the consumer to control visibility from hover/focus event handlers on a trigger element. Consumers provide the card content as children and manage the show/hide logic externally.
 
 ## Implementation Notes

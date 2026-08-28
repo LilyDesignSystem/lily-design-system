@@ -2,6 +2,8 @@
 
 A call to action (CTA) is a component designed to prompt users to take a specific action, such as navigating to a page or triggering an operation. CTAs are typically the most prominent interactive element on a page, driving user engagement toward key goals like "Sign Up", "Learn More", or "Buy Now".
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This component renders as an `<a>` element when an `href` is provided (for navigation CTAs) or as a `<button>` when no href is given (for action CTAs). This dual-mode approach ensures correct semantic HTML is used for each use case, benefiting both accessibility and SEO.
 
 ## Implementation Notes

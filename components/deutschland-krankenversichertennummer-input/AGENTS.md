@@ -5,6 +5,7 @@
 - Component: deutschland-krankenversichertennummer-input
 - PascalCase: DeutschlandKrankenversichertennummerInput
 - Description: an input for entering Germany's Krankenversichertennummer (KVNR)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .deutschland-krankenversichertennummer-input
 - Interactive: yes

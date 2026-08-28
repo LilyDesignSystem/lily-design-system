@@ -5,6 +5,7 @@
 - Component: italia-codice-fiscale-input
 - PascalCase: ItaliaCodiceFiscaleInput
 - Description: an input for entering Italy's Codice fiscale (CF)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .italia-codice-fiscale-input
 - Interactive: yes

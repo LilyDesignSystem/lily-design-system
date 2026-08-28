@@ -125,6 +125,14 @@ ${tsEntries(2)}
 
 // ---------- github.io registry ----------
 
+// Maturity status per component, read from the canonical metadata
+// (components/{slug}/AGENTS.md "- Status:" bullet; spec/components).
+const statusOf = (slug) => {
+  const m = read(`components/${slug}/AGENTS.md`).match(/^- Status: (\w+)/m);
+  if (!m) throw new Error(`components/${slug}/AGENTS.md has no Status bullet`);
+  return m[1];
+};
+
 write(
   "lilydesignsystem.github.io/src/lib/components.ts",
   `// Lily component catalog — generated from components.tsv
@@ -134,13 +142,15 @@ export type LilyComponent = {
   name: string;
   pascal: string;
   description: string;
+  /** Maturity: see the rubric in spec/components. */
+  status: 'stable' | 'beta' | 'experimental';
 };
 
 export const LILY_COMPONENTS: LilyComponent[] = [
 ${components
   .map(
     (c) =>
-      `  { name: ${jsStr(c.slug)}, pascal: ${jsStr(c.name)}, description: ${jsStr(c.description)} },`
+      `  { name: ${jsStr(c.slug)}, pascal: ${jsStr(c.name)}, description: ${jsStr(c.description)}, status: ${jsStr(statusOf(c.slug))} },`
   )
   .join("\n")}
 ];

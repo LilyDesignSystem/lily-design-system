@@ -2,6 +2,8 @@
 
 A file upload component provides a button-triggered file picker for uploading files. It combines a hidden file input with a visible button and a live status region that announces how many files have been selected. This pattern is useful for document uploads, image uploads, or any form that accepts file attachments.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 ## Implementation Notes
 
 - Renders a `<div>` container with a `<button>`, hidden `<input type="file">`, and a status `<span>`

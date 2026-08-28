@@ -5,6 +5,7 @@
 - Component: island-kennitala-input
 - PascalCase: IslandKennitalaInput
 - Description: an input for entering Iceland's Kennitala
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .island-kennitala-input
 - Interactive: yes

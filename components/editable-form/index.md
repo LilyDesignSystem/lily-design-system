@@ -2,6 +2,8 @@
 
 An editable form wraps inline editing functionality in a `<form>` element, providing submit and cancel semantics with keyboard support. It is useful for editing records in place, such as updating a user profile, renaming an item, or modifying settings without navigating to a separate page.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 The form is only rendered when the `editing` prop is true. Submitting the form automatically exits edit mode and calls the `onsubmit` callback. Pressing Escape cancels editing and calls the `oncancel` callback. This pattern gives consumers full control over the edit lifecycle.
 
 ## Implementation Notes

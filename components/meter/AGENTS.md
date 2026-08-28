@@ -5,6 +5,7 @@
 - Component: meter
 - PascalCase: Meter
 - Description: a gauge displaying a scalar value within a known range
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <meter>
 - CSS class: .meter
 - Interactive: no

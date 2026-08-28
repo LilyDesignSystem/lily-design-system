@@ -2,6 +2,8 @@
 
 A Kanban board is a component that organizes work items into columns representing different stages of a workflow, such as "To Do," "In Progress," and "Done." Commonly used in project management tools, agile development platforms, and task tracking applications, the Kanban board provides a visual overview of work status and flow, helping teams identify bottlenecks and prioritize tasks.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component renders a `<div>` with `role="region"` and an accessible label, defining a semantic boundary for the board. The consumer provides the column structure, card content, and any drag-and-drop or keyboard-based item movement as children.
 
 ## Implementation Notes

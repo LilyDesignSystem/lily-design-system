@@ -4,6 +4,8 @@ A validation list item is one rule inside a `validation-list`, with a
 status of `pending`, `passed`, or `failed` exposed via a `data-status`
 attribute for consumer styling.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Use it inside `ValidationList` to represent each individual validation
 rule that the user must satisfy.
 

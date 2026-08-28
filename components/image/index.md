@@ -2,6 +2,8 @@
 
 An image component displays visual content such as photographs, illustrations, or diagrams within an interface. The Image component provides a headless wrapper that ensures proper accessibility through required alt text and optional caption support via the HTML `<figure>` and `<figcaption>` elements.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 When a caption is provided, the component renders a `<figure>` containing the `<img>` and a `<figcaption>`, giving the image semantic association with its description. Without a caption, it renders a plain `<img>` element. The component also supports native lazy loading for performance optimization.
 
 ## Implementation Notes

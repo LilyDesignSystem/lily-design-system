@@ -2,6 +2,8 @@
 
 An answer is anything that responds to a question, request, action, etc. Examples include FAQ replies, quiz answers, survey responses, and forum replies.
 
+**Status:** experimental — recent catalog addition with the least accumulated depth; contract may still move.
+
 This headless component renders a `<div>` with class `answer`. The consumer supplies the answer content as children.
 
 ## Implementation Notes

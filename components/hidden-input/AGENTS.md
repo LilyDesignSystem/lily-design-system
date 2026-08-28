@@ -5,6 +5,7 @@
 - Component: hidden-input
 - PascalCase: HiddenInput
 - Description: a hidden input for including data in form submission <input type="hidden">
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .hidden-input
 - Interactive: no

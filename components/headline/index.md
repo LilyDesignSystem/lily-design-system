@@ -2,6 +2,8 @@
 
 A headline is a page headline with heading, subtitle, and byline area. It provides a structured container for article or editorial page titles with supporting subtitle (dek) and author attribution.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses a `<div>` element containing a semantic heading element (`<h1>`-`<h6>`) at the specified level, with optional subtitle and byline slots.
 
 ## Implementation Notes

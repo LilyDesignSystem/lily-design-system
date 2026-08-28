@@ -2,6 +2,8 @@
 
 A skeleton is a loading placeholder that indicates content is in the process of loading. It shows the approximate layout of content before it loads, reducing perceived loading time and preventing layout shift. The component uses `aria-hidden="true"` to hide the placeholder from screen readers and `aria-busy="true"` to signal that the region is being updated. The component is headless, allowing consumers to style the placeholder shapes with their own CSS.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 ## Implementation Notes
 
 - Renders a `<div>` with `aria-hidden="true"` so screen readers completely skip the placeholder

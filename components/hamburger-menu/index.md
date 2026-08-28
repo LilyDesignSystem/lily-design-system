@@ -2,6 +2,8 @@
 
 A hamburger menu is a headless toggle button that reveals or hides a navigation panel. It is commonly used on mobile layouts and compact interfaces to conserve screen space by hiding the primary navigation behind a toggle control.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 When activated, the button toggles the visibility of a navigation region containing links, menus, or other navigational content provided by the consumer. The component manages ARIA attributes for accessibility, linking the toggle button to the navigation panel via `aria-controls` and communicating the open/closed state via `aria-expanded`.
 
 ## Implementation Notes

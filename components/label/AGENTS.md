@@ -5,6 +5,7 @@
 - Component: label
 - PascalCase: Label
 - Description: a label associated with a form input
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <label>
 - CSS class: .label
 - Interactive: no

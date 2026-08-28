@@ -5,6 +5,7 @@
 - Component: slovenija-emso-input
 - PascalCase: SlovenijaEmsoInput
 - Description: an input for entering Slovenia's Enotna Matična Številka Občana (EMŠO)
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <input>
 - CSS class: .slovenija-emso-input
 - Interactive: yes

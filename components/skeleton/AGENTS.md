@@ -5,6 +5,7 @@
 - Component: skeleton
 - PascalCase: Skeleton
 - Description: a placeholder loading animation for content
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .skeleton
 - Interactive: no

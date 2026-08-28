@@ -2,6 +2,8 @@
 
 A toast is a UI/UX component that provides a brief, transient notification message to the user. It uses `role="status"` with `aria-live="polite"` by default, or `role="alert"` with `aria-live="assertive"` for urgent messages. Toasts are typically displayed temporarily to confirm actions, report errors, or provide status updates without requiring user interaction.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 Toasts are similar to notifications but are generally more ephemeral and less intrusive. They are commonly used for success confirmations ("Item saved"), error messages ("Connection lost"), and informational updates ("New message received").
 
 ## Implementation Notes

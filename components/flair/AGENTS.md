@@ -5,6 +5,7 @@
 - Component: flair
 - PascalCase: Flair
 - Description: a decorative highlight or emphasis element
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <span>
 - CSS class: .flair
 - Interactive: no

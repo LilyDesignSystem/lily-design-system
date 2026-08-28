@@ -5,6 +5,7 @@
 - Component: calendar-table-foot
 - PascalCase: CalendarTableFoot
 - Description: a calendar table interactive grid tfoot for managing dates, days, etc. <tfoot>
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <tfoot>
 - CSS class: .calendar-table-foot
 - Interactive: no

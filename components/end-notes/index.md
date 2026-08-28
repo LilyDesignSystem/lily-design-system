@@ -2,6 +2,8 @@
 
 An end notes section contains titled endnote items at the end of an article. It is used for methodology, sources, credits, corrections, and other supplementary information.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses a `<section>` element with an `aria-label` to create a labeled landmark region for endnote content.
 
 ## Implementation Notes

@@ -2,6 +2,8 @@
 
 A footnote provides supplementary information, citations, or clarifications that support the main content without cluttering it. Footnotes are commonly used in articles, academic writing, legal documents, and documentation to reference sources, define terms, or add context.
 
+**Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
+
 This component renders as a semantic `<aside>` element with `role="note"`, giving screen readers clear indication that the content is supplementary. Each footnote is identified by a unique `id`, allowing in-page links from superscript reference markers in the main text to jump directly to the footnote.
 
 ## Implementation Notes

@@ -5,6 +5,7 @@
 - Component: tag-group
 - PascalCase: TagGroup
 - Description: a group of tag elements
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <div>
 - CSS class: .tag-group
 - Interactive: no

@@ -2,6 +2,8 @@
 
 A container that applies CSS custom properties from a theme object to its children, enabling scoped visual theming without affecting layout.
 
+**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+
 This headless component uses a `<div>` element with `display: contents` that flattens a nested theme object into `--theme-*` CSS custom properties on its style attribute.
 
 ## Implementation Notes

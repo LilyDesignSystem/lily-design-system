@@ -5,6 +5,7 @@
 - Component: lietuva-asmens-kodas-view
 - PascalCase: LietuvaAsmensKodasView
 - Description: a read-only display of Lithuania's Asmens kodas
+- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <span>
 - CSS class: .lietuva-asmens-kodas-view
 - Interactive: no

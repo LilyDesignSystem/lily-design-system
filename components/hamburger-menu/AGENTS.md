@@ -5,6 +5,7 @@
 - Component: hamburger-menu
 - PascalCase: HamburgerMenu
 - Description: a toggle button that opens a mobile navigation menu
+- Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
 - HTML tag: <button>
 - CSS class: .hamburger-menu
 - Interactive: yes
