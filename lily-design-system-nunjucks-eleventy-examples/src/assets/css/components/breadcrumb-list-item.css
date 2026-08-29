@@ -5,7 +5,10 @@
 
 .breadcrumb-list-item + .breadcrumb-list-item::before {
   content: "›";
-  margin-right: var(--nhsuk-spacing-3);
+  /* Plan P6-T4 (RTL demo) fix: was `margin-right`, which kept the gap
+     on the physical right of the separator glyph under dir="rtl"
+     instead of on its trailing (inline-end) side. */
+  margin-inline-end: var(--nhsuk-spacing-3);
   color: var(--nhsuk-mid-grey);
 }
 

@@ -99,6 +99,9 @@ const composedPages = [
   // Plan P6-T3: the "book an appointment" flagship composed-page pattern.
   // See e2e/book-an-appointment.spec.ts for the dedicated per-step sweep.
   'book-an-appointment',
+  // Plan P6-T4: the RTL demo route. See e2e/rtl-demo.spec.ts for the
+  // dedicated dir="rtl" / logical-property sweep.
+  'rtl-demo',
 ];
 
 test.describe('accessibility: composed-page demos', () => {

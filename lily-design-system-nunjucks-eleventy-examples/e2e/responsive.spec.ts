@@ -46,6 +46,8 @@ const routes = [
   '/timeline-and-cards/',
   // Plan P6-T3: the "book an appointment" flagship composed-page pattern.
   '/book-an-appointment/',
+  // Plan P6-T4: the RTL demo route.
+  '/rtl-demo/',
 ];
 
 // See e2e/accessibility.spec.ts for why: base.njk injects the managed

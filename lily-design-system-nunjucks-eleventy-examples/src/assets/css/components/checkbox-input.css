@@ -3,7 +3,8 @@
   transform: scale(1.5);
   transform-origin: center;
   cursor: pointer;
-  margin-right: var(--nhsuk-spacing-2);
+  /* Plan P6-T4 (RTL demo) fix: was `margin-right`. */
+  margin-inline-end: var(--nhsuk-spacing-2);
   vertical-align: middle;
 }
 

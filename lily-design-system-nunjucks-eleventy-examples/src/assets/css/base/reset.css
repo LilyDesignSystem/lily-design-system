@@ -39,9 +39,18 @@ svg {
     font: inherit;
     color: inherit;
   }
-}
 
-ol,
-ul {
-  padding-left: var(--nhsuk-spacing-4);
+  /* Same layering reasoning as above, plus a physical-property bug found
+     while building the RTL demo (plan P6-T4): this rule used
+     `padding-left`, so under `dir="rtl"` the indent gutter stayed on the
+     visual left instead of moving to the start edge, and — being
+     unlayered — it always beat the theme's own zero-padding
+     `:where(.breadcrumb-list, .pagination-list, ...)` rule regardless of
+     specificity. Layering it here restores that theme override, and
+     `padding-inline-start` makes any *other* plain `<ol>`/`<ul>` (one the
+     theme doesn't specifically reset) indent from the correct side. */
+  ol,
+  ul {
+    padding-inline-start: var(--nhsuk-spacing-4);
+  }
 }

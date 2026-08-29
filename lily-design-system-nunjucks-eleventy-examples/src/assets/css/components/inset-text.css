@@ -1,6 +1,9 @@
 .inset-text {
   padding: var(--nhsuk-spacing-3) var(--nhsuk-spacing-4);
-  border-left: 10px solid var(--nhsuk-mid-grey);
+  /* Plan P6-T4 (RTL demo) fix: was `border-left`, so the accent rail
+     stayed on the physical left under dir="rtl" instead of mirroring
+     to the start edge like the root theme's own `.inset-text` rule. */
+  border-inline-start: 10px solid var(--nhsuk-mid-grey);
   margin-bottom: var(--nhsuk-spacing-4);
 }
 

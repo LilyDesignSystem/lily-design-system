@@ -1,0 +1,135 @@
+---
+layout: layouts/page.njk
+title: RTL Demo
+---
+
+{#
+  Plan P6-T4: RTL demo, ported from the canonical Svelte reference
+  (lily-design-system-svelte-sveltekit-examples/src/routes/rtl-demo/+page.svelte).
+  Proves the internationalization design principle in
+  AGENTS/internationalization.md -- "components do not assume LTR layout
+  in their structural HTML" -- with a real page: dir="rtl" plus real
+  Arabic content, using components (breadcrumb, data table, pagination,
+  a form with radios/checkboxes) that are the classic places a design
+  system silently bakes in "left" instead of "start".
+
+  Deliberate deviation from the Svelte reference: the front-matter
+  `title` above stays English ("RTL Demo") because this app's
+  layouts/page.njk always renders <h1>{{ title }}</h1> as the page's
+  one semantic H1, and every other composed page here (Book an
+  Appointment, Page Layout, Dashboard, ...) keeps that title in English
+  for site-chrome/tab-title consistency -- the shared header/footer
+  chrome around this route is the site's own English chrome, not a
+  bespoke Arabic Header/Footer as in the Sveltekit app (which has no
+  such shared per-route chrome to begin with). The actual RTL proof --
+  everything below, wrapped in dir="rtl" lang="ar" -- is the exact
+  Arabic content from the canonical reference, byte-for-byte.
+
+  Unlike the Svelte reference (whose own per-app nhs.css turned out to
+  be dead code, with real styling coming entirely from the runtime
+  theme), THIS app's src/assets/css/ is fully live, and -- being
+  entirely unlayered -- always beats the runtime theme's `@layer lily`
+  rules regardless of specificity (the same mechanism reset.css's own
+  comment already documents for the button/input reset). So the
+  shared theme already using logical properties (text-align: start,
+  border-inline-start, ...) did NOT make this route correct on its
+  own: this app's own component CSS -- data-table(-th/-td), the
+  breadcrumb separator, inset-text's border, and radio/checkbox
+  spacing, plus the ol/ul indent in reset.css -- had real,
+  previously-undiscovered physical-property bugs (text-align: left,
+  padding-left, margin-right, border-left), caught by this route's
+  first live e2e run (a genuine test failure: computed textAlign was
+  "left" instead of "start") and fixed in place. Left deliberately
+  unfixed, matching the reference's own "honest note, not a full
+  audit" restraint: the same pattern elsewhere in files this route
+  doesn't exercise (table-th.css, calendar-/kanban-/gantt-table-*,
+  field.css's invalid-state rule, back-link.css's chevron direction).
+#}
+
+<div dir="rtl" lang="ar">
+  <h2>عرض توضيحي للكتابة من اليمين إلى اليسار</h2>
+
+  <p><a class="back-link" href="/">رجوع إلى الأمثلة</a></p>
+
+  <nav class="breadcrumb-nav" aria-label="مسار التصفح">
+    <ol class="breadcrumb-list">
+      <li class="breadcrumb-list-item"><a class="breadcrumb-link" href="/">الرئيسية</a></li>
+      <li class="breadcrumb-list-item"><a class="breadcrumb-link" href="/components/">الإعدادات</a></li>
+      <li class="breadcrumb-list-item" aria-current="page">الملف الشخصي</li>
+    </ol>
+  </nav>
+
+  <div class="inset-text">
+    هذه صفحة تجريبية لاختبار الاتجاه من اليمين إلى اليسار. جميع
+    المكوّنات هنا بلا تنسيق مسبق؛ التنسيق البصري كله من هذا التطبيق.
+  </div>
+
+  <h3>جدول الموظفين</h3>
+  <table class="data-table" role="grid" aria-label="قائمة الموظفين">
+    <thead class="data-table-head">
+      <tr class="data-table-row">
+        <th class="data-table-th" scope="col">الاسم</th>
+        <th class="data-table-th" scope="col">القسم</th>
+        <th class="data-table-th" scope="col">الحالة</th>
+      </tr>
+    </thead>
+    <tbody class="data-table-body">
+      <tr class="data-table-row">
+        <td class="data-table-td" role="gridcell" tabindex="-1">سارة أحمد</td>
+        <td class="data-table-td" role="gridcell" tabindex="-1">الموارد البشرية</td>
+        <td class="data-table-td" role="gridcell" tabindex="-1">نشط</td>
+      </tr>
+      <tr class="data-table-row">
+        <td class="data-table-td" role="gridcell" tabindex="-1">محمد علي</td>
+        <td class="data-table-td" role="gridcell" tabindex="-1">تقنية المعلومات</td>
+        <td class="data-table-td" role="gridcell" tabindex="-1">نشط</td>
+      </tr>
+      <tr class="data-table-row">
+        <td class="data-table-td" role="gridcell" tabindex="-1">ليلى حسن</td>
+        <td class="data-table-td" role="gridcell" tabindex="-1">المالية</td>
+        <td class="data-table-td" role="gridcell" tabindex="-1">متوقف</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <nav class="pagination-nav" aria-label="ترقيم صفحات النتائج">
+    <ol class="pagination-list" aria-label="قائمة الصفحات">
+      <li class="pagination-list-item"><a href="#page-1">1</a></li>
+      <li class="pagination-list-item"><span aria-current="page">2</span></li>
+      <li class="pagination-list-item"><a href="#page-3">3</a></li>
+      <li class="pagination-list-item"><a href="#page-4">4</a></li>
+      <li class="pagination-list-item"><a href="#page-5">5</a></li>
+    </ol>
+  </nav>
+
+  <h3>نموذج التواصل</h3>
+  <form class="form" aria-label="نموذج التواصل" novalidate>
+    <div class="field" id="rtl-name-field" data-state="valid">
+      <label class="label" for="rtl-name">الاسم الكامل</label>
+      <input class="text-input" type="text" id="rtl-name" name="rtl-name" aria-label="الاسم الكامل">
+    </div>
+
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend">طريقة التواصل المفضلة</legend>
+      <div class="radio-group" role="radiogroup" aria-label="طريقة التواصل المفضلة">
+        <label class="label">
+          <input class="radio-input" type="radio" id="rtl-contact-email" name="rtl-contact-method" value="email" checked aria-label="البريد الإلكتروني">
+          البريد الإلكتروني
+        </label>
+        <label class="label">
+          <input class="radio-input" type="radio" id="rtl-contact-phone" name="rtl-contact-method" value="phone" aria-label="الهاتف">
+          الهاتف
+        </label>
+      </div>
+    </fieldset>
+
+    <p>
+      <label class="label">
+        <input class="checkbox-input" type="checkbox" id="rtl-agree-terms" aria-label="أوافق على الشروط">
+        أوافق على الشروط
+      </label>
+    </p>
+
+    <p><button class="button" type="submit">إرسال</button></p>
+  </form>
+</div>
