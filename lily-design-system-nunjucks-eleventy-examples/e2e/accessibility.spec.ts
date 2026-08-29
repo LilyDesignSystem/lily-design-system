@@ -96,6 +96,9 @@ const composedPages = [
   'tabbed-interface',
   'task-management',
   'timeline-and-cards',
+  // Plan P6-T3: the "book an appointment" flagship composed-page pattern.
+  // See e2e/book-an-appointment.spec.ts for the dedicated per-step sweep.
+  'book-an-appointment',
 ];
 
 test.describe('accessibility: composed-page demos', () => {

@@ -44,6 +44,8 @@ const routes = [
   '/tabbed-interface/',
   '/task-management/',
   '/timeline-and-cards/',
+  // Plan P6-T3: the "book an appointment" flagship composed-page pattern.
+  '/book-an-appointment/',
 ];
 
 // See e2e/accessibility.spec.ts for why: base.njk injects the managed
