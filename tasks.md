@@ -510,9 +510,52 @@ Rules for the executing agent:
   operability), re-run independently for every port; each app's own
   build/check gate green. Full record: [CHANGELOG.md](CHANGELOG.md).
 
-- [ ] **P6-T5 `/components` search upgrade**: category + suffix-pattern
+- [x] **P6-T5 `/components` search upgrade**: category + suffix-pattern
   filters; SvelteKit first, then ports.
   Verify: e2e covers filter behaviour.
+  Done 2026-08-29: two new selects — Category and Suffix pattern — sit
+  alongside the existing free-text search in all 7 example apps, all
+  three combining as an intersection. New root canonical data:
+  `components-categories.tsv` (491 rows: slug, tag, category), built by
+  the new `bin/generate-component-categories` from two sources that
+  were already single-source-of-truth — each component's own "HTML
+  tag" line in `components/{slug}/AGENTS.md`, and
+  `AGENTS/national-person-identifiers.tsv` for the National
+  identifiers bucket. `category` is a best-effort STRUCTURAL grouping
+  (root element + naming-convention suffix family) — documented in the
+  script itself as exactly that, not an editorial content taxonomy.
+  `bin/generate-registries` now joins it into every registry it
+  writes, so 6 of the 7 apps got the `tag`/`category` fields and a
+  shared `CATEGORY_LABEL` map for free; nunjucks-eleventy's own
+  build-time data scan (`src/_data/components.js`) reads the same root
+  TSV directly, since it isn't part of that generator. Suffix pattern
+  needs no generated data at all — it's a pure function of the slug,
+  ported identically into every app's own language: the ordered suffix
+  list mirrors `AGENTS/components.md`'s suffix→element table and
+  compound name-pattern families verbatim, with slugs matching none of
+  them (175/491) honestly bucketed "standalone" rather than force-fit.
+  Built canonical-Svelte-first, then ported to React, Vue, Angular,
+  Blazor, HTML+CSS+JS, and Nunjucks/Eleventy — each independently
+  reviewed and re-verified (not just trusting the port's own report):
+  build/typecheck, the ported suffix-pattern unit tests, and 4-5
+  e2e cases per app asserting against ground truth computed from that
+  app's own data (never hardcoded counts), all run for real against
+  each app's actual built output in a real browser. React's page had
+  no search at all before this — added together with the two filters.
+  Nunjucks/Eleventy's had no client-side search either, and its own
+  "pages work without JS" principle meant building the whole filter
+  panel as a progressive-enhancement injection (the first module in
+  its existing `data-module` bootstrapper) rather than server-rendering
+  controls that would silently do nothing without JavaScript. Real,
+  unrelated bugs fixed along the way: a stale "407 headless components"
+  count in Svelte, React, Vue, and Blazor's pages (the catalog is 491
+  today) — each now reads its own registry's length live. A concurrent-
+  agent hazard surfaced during verification: six ports ran in parallel
+  against the same checkout, and several apps' Playwright configs
+  default to the same ports (3000, 4173) another sibling app's server
+  was using at the same moment — resolved per app by using a distinct
+  scratch port for independent re-verification, not by changing any
+  shipped config. Full record: [CHANGELOG.md](CHANGELOG.md).
 
 ## Phase 7 — Tooling, CI, and stretch
 
@@ -647,6 +690,23 @@ Rules for the executing agent:
   Verify: `getPropertyValue('--nhs-black')` etc. return real values on
   a served page; `.status-tag`/`.panel` render visibly styled in every
   app that uses them.
+
+- [ ] **P7-T11 `lily-design-system-angular-examples` has no working
+  vitest setup — 491 orphaned `src/app/components/*.spec.ts` files
+  can't run.** Found 2026-08-29 while adding P6-T5's suffix-pattern
+  unit tests: this app has copies of all 491 `.spec.ts` files from
+  `lily-design-system-angular-headless` (part of the standard
+  copy-pattern) but never received the matching `vitest.config.ts` /
+  TestBed / jsdom / `@analogjs/vite-plugin-angular` wiring that
+  angular-headless's own config provides — running `vitest` cold fails
+  with `MODULE_NOT_FOUND`. A new `vitest.config.ts` landed in the same
+  commit, but deliberately scoped to `src/app/*.spec.ts` only (the
+  suffix-pattern test, not the component copies), since actually
+  wiring up 491 pre-existing non-functional specs is a separate,
+  larger piece of work than one search filter.
+  Verify: `pnpm test` runs and passes at least a representative sample
+  of `src/app/components/*.spec.ts`, not just the app's own top-level
+  logic tests.
 
 ---
 
