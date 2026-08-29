@@ -1,0 +1,213 @@
+#!/usr/bin/env node
+// bin/check-coverage — plan P7-T4: the coverage drift matrix.
+//
+// bin/test machine-gates required-file *presence* for every subproject
+// (ai_exists_or_err, special_files_exist_or_err) and catalog<->registry
+// *counts*, but only checks individual per-component files for three
+// implementations (svelte-headless, its svelte-sveltekit-examples copy,
+// nunjucks-headless) — see docs/developing.md's "honesty note". The
+// other five headless catalogs (react, vue, angular, html, blazor) are
+// required by the parity contract in AGENTS/components.md but were,
+// until this tool, checked only in review.
+//
+// This is the tool that closes that gap: for every one of the 491
+// catalog rows, verify presence across six dimensions — the catalog
+// row itself, each of the 7 headless implementations, each headless
+// test file, each headless story file (blazor has none: it deliberately
+// skips Storybook, see spec/index.md §11.7), the canonical demo-map
+// entry, and the CSS class hook — and print a drift matrix. Exits
+// non-zero if anything is missing, so it can gate CI the way bin/test
+// does.
+//
+// Deliberately scoped to the 7 HEADLESS catalogs, matching
+// AGENTS/components.md's "7 headless subprojects" framing and the
+// "implementations" language throughout plan.md — NOT the example
+// apps' own copies of components (a separate, adjacent concern; a real
+// gap was found there while building this tool and is logged as its
+// own backlog item, tasks.md P7-T15, rather than folded in here).
+//
+// Usage: bin/check-coverage [--quiet]
+//   (default) prints the full matrix + every gap, exits 1 on any gap
+//   --quiet    prints only a one-line summary per dimension + gaps,
+//              still exits 1 on any gap (for CI logs)
+
+const fs = require("fs");
+const path = require("path");
+
+const top = path.join(__dirname, "..");
+const read = (p) => fs.readFileSync(path.join(top, p), "utf-8");
+const exists = (p) => fs.existsSync(path.join(top, p));
+const quiet = process.argv.includes("--quiet");
+
+const components = read("components.tsv")
+  .split("\n")
+  .filter((l) => l.trim())
+  .map((l) => {
+    const [slug, name] = l.split("\t");
+    return { slug, name };
+  });
+
+// One entry per headless catalog. `story: null` means the catalog has
+// no Storybook wiring at all (Blazor headless — a deliberate,
+// documented choice, not a gap).
+const FRAMEWORKS = [
+  {
+    id: "svelte",
+    label: "Svelte",
+    impl: (c) => `lily-design-system-svelte-headless/src/lib/components/${c.name}/${c.name}.svelte`,
+    test: (c) => `lily-design-system-svelte-headless/src/lib/components/${c.name}/${c.name}.test.ts`,
+    story: (c) => `lily-design-system-svelte-headless/src/lib/components/${c.name}/${c.name}.stories.svelte`,
+  },
+  {
+    id: "react",
+    label: "React",
+    impl: (c) => `lily-design-system-react-headless/components/${c.name}.tsx`,
+    test: (c) => `lily-design-system-react-headless/components/${c.name}.test.tsx`,
+    story: (c) => `lily-design-system-react-headless/components/${c.name}.stories.tsx`,
+  },
+  {
+    id: "vue",
+    label: "Vue",
+    impl: (c) => `lily-design-system-vue-headless/components/${c.name}.vue`,
+    test: (c) => `lily-design-system-vue-headless/components/${c.name}.test.ts`,
+    story: (c) => `lily-design-system-vue-headless/components/${c.name}.stories.ts`,
+  },
+  {
+    id: "angular",
+    label: "Angular",
+    impl: (c) => `lily-design-system-angular-headless/components/${c.name}.ts`,
+    test: (c) => `lily-design-system-angular-headless/components/${c.name}.spec.ts`,
+    story: (c) => `lily-design-system-angular-headless/components/${c.name}.stories.ts`,
+  },
+  {
+    id: "html",
+    label: "HTML",
+    impl: (c) => `lily-design-system-html-headless/components/${c.slug}.html`,
+    test: (c) => `lily-design-system-html-headless/components/${c.slug}.test.js`,
+    story: (c) => `lily-design-system-html-headless/components/${c.slug}.stories.ts`,
+  },
+  {
+    id: "blazor",
+    label: "Blazor",
+    impl: (c) => `lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/${c.name}.razor`,
+    test: (c) => `lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/${c.name}Tests.cs`,
+    story: null,
+  },
+  {
+    id: "nunjucks",
+    label: "Nunjucks",
+    impl: (c) => `lily-design-system-nunjucks-headless/components/${c.slug}/macro.njk`,
+    test: (c) => `lily-design-system-nunjucks-headless/components/${c.slug}/macro.test.js`,
+    story: (c) => `lily-design-system-nunjucks-headless/components/${c.slug}/macro.stories.ts`,
+  },
+];
+
+// ---------- catalog consistency (duplicate check bin/test also does;
+// kept here too so this one tool shows the whole picture on its own) ----------
+
+const gaps = []; // {dimension, slug, detail}
+function gap(dimension, slug, detail) {
+  gaps.push({ dimension, slug, detail });
+}
+
+const slugCounts = new Map();
+for (const c of components) slugCounts.set(c.slug, (slugCounts.get(c.slug) || 0) + 1);
+for (const [slug, n] of slugCounts) {
+  if (n > 1) gap("catalog", slug, `appears ${n} times in components.tsv`);
+}
+
+// ---------- demo map (canonical svelte-sveltekit-examples) ----------
+
+const demosSource = read(
+  "lily-design-system-svelte-sveltekit-examples/src/lib/data/component-demos.ts"
+);
+const demoSlugs = new Set();
+for (const m of demosSource.matchAll(/^ {2}'([^']+)':/gm)) demoSlugs.add(m[1]);
+let demoMissing = 0;
+for (const c of components) {
+  if (!demoSlugs.has(c.slug)) {
+    gap("demo", c.slug, "no entry in component-demos.ts");
+    demoMissing++;
+  }
+}
+
+// ---------- CSS hooks ----------
+
+const css = read("css-style-sheet-template.css");
+let cssMissing = 0;
+let cssDuplicate = 0;
+for (const c of components) {
+  const re = new RegExp(`^\\.${c.slug}\\s*\\{`, "gm");
+  const n = (css.match(re) || []).length;
+  if (n === 0) {
+    gap("css", c.slug, "no .{slug} { } hook in css-style-sheet-template.css");
+    cssMissing++;
+  } else if (n > 1) {
+    gap("css", c.slug, `${n} .{slug} { } hooks (expected exactly 1)`);
+    cssDuplicate++;
+  }
+}
+
+// ---------- 7 headless implementations x {impl, test, story} ----------
+
+const perFrameworkCounts = {};
+for (const fw of FRAMEWORKS) {
+  let implMissing = 0;
+  let testMissing = 0;
+  let storyMissing = 0;
+  for (const c of components) {
+    if (!exists(fw.impl(c))) {
+      gap(`${fw.id}:impl`, c.slug, fw.impl(c));
+      implMissing++;
+    }
+    if (!exists(fw.test(c))) {
+      gap(`${fw.id}:test`, c.slug, fw.test(c));
+      testMissing++;
+    }
+    if (fw.story && !exists(fw.story(c))) {
+      gap(`${fw.id}:story`, c.slug, fw.story(c));
+      storyMissing++;
+    }
+  }
+  perFrameworkCounts[fw.id] = {
+    label: fw.label,
+    implMissing,
+    testMissing,
+    storyMissing: fw.story ? storyMissing : null,
+    total: components.length,
+  };
+}
+
+// ---------- report ----------
+
+const row = (label, implCell, testCell, storyCell) =>
+  `  ${label.padEnd(10)} ${implCell.padStart(12)} ${testCell.padStart(12)} ${storyCell.padStart(12)}`;
+
+console.log(`bin/check-coverage: ${components.length} catalog components\n`);
+console.log("Drift matrix (missing / total):");
+console.log(row("catalog", "impl", "test", "story"));
+for (const fw of FRAMEWORKS) {
+  const r = perFrameworkCounts[fw.id];
+  const storyCell = r.storyMissing === null ? "n/a" : `${r.storyMissing}/${r.total}`;
+  console.log(row(r.label, `${r.implMissing}/${r.total}`, `${r.testMissing}/${r.total}`, storyCell));
+}
+console.log(`  ${"demo map".padEnd(10)} ${`${demoMissing}/${components.length}`.padStart(12)}`);
+console.log(
+  `  ${"css hooks".padEnd(10)} ${`${cssMissing + cssDuplicate}/${components.length}`.padStart(12)}`
+);
+
+if (gaps.length === 0) {
+  console.log("\nbin/check-coverage: OK — no drift across catalog, 7 headless implementations, tests, stories, demos, or CSS hooks.");
+  process.exit(0);
+}
+
+if (!quiet) {
+  console.log(`\n${gaps.length} gap(s):`);
+  for (const g of gaps) {
+    console.log(`  [${g.dimension}] ${g.slug}: ${g.detail}`);
+  }
+} else {
+  console.log(`\n${gaps.length} gap(s) — rerun without --quiet for the full list.`);
+}
+console.log("\nbin/check-coverage: FAILED");
+process.exit(1);

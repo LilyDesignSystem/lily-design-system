@@ -699,10 +699,30 @@ Rules for the executing agent:
   svelte-headless while using its `kbd` component as this tool's
   structural reference.
 
-- [ ] **P7-T4 `bin/check-coverage` drift matrix** (catalog ↔
+- [x] **P7-T4 `bin/check-coverage` drift matrix** (catalog ↔
   implementations ↔ tests ↔ stories ↔ demos ↔ CSS hooks), non-zero on
   drift, in CI.
   Verify: exits 0 now; seeded fault detected.
+  Done 2026-08-29. Node script (fast — ~10,000 `existsSync` checks run
+  in milliseconds, sidestepping P7-T2's bash-3.2-under-`set -e`
+  pathology entirely by not being shell). Prints a matrix (missing /
+  491) for each of the 7 headless catalogs × {impl, test, story} —
+  Blazor's story column reads "n/a", a documented exception
+  (spec/index.md §11.7), not a gap — plus the canonical demo map and
+  the CSS hooks, then lists every gap and exits 1 if any exist.
+  Deliberately scoped to the 7 *headless* implementations, matching
+  `AGENTS/components.md`'s "7 headless subprojects" framing — not the
+  separate, adjacent concern of the example apps' own per-component
+  copies (a real gap surfaced there while building this tool; logged
+  below as P7-T15 rather than folded into this one's scope). Wired into
+  the `verify` CI job right after the registries-freshness check.
+  Verified for real: runs clean on HEAD today (0/491 everywhere, matrix
+  confirms full parity — genuinely true, not just asserted, since the
+  tool checks each dimension file-by-file); seeded three different
+  single-file faults (a missing Vue story, a missing demo-map entry, a
+  missing CSS hook) one at a time and confirmed each is caught with the
+  exact right dimension/slug/path in the gap list, then restored and
+  re-confirmed clean every time.
 
 - [ ] **P7-T5 (stretch) Visual regression baseline**: ~30 components ×
   3 themes × light/dark, Playwright screenshots, SvelteKit app.
@@ -904,6 +924,30 @@ Rules for the executing agent:
   Storybook time (the way P7-T9 confirmed each dead `nhs.css` with a
   live served-page check); if genuinely dead, delete the directory and
   confirm `pnpm test`/`pnpm run build`/Storybook all stay green.
+
+- [ ] **P7-T15 `react-next-examples` and `vue-nuxt-examples` are each
+  missing per-component implementation files for all 80 national
+  personal identifier components.** Found 2026-08-29 building P7-T4's
+  `bin/check-coverage` — these two apps each carry only 411 of 491
+  possible `components/{Pascal}.{tsx,vue}` files (confirmed: the exact
+  same 80 missing names in both, all national-identifier
+  input/view pairs). These files aren't used by the apps'
+  `/components/{slug}` demo pages (those render from the shared
+  `component-demos.ts` registry + `dangerouslySetInnerHTML`/`v-html`,
+  confirmed by reading `app/components/[slug]/page.tsx`), so nothing is
+  currently broken — they exist so a *composed* page can `import` and
+  compose a real interactive component directly, the way
+  `book-an-appointment.tsx`/`.vue` already do for other components. No
+  composed page currently imports any of the 80 missing ones (confirmed
+  by grep), so this is a latent gap, not an active break. Deliberately
+  out of scope for `bin/check-coverage` itself (see P7-T4: that tool is
+  scoped to the 7 headless catalogs, not the examples' own copies) and
+  out of scope to fix here (porting 80 components x 2 frameworks is a
+  substantial task on its own, not a side effect of building a
+  coverage tool).
+  Verify: `find components -maxdepth 1 -iname '*.tsx'` (or `.vue`)
+  count reaches 491 in both apps; `bin/check-coverage` (or a follow-up
+  extension of it covering example-app copies) exits 0 against them.
 
 ---
 

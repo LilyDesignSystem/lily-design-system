@@ -9,6 +9,40 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## `bin/check-coverage`: the coverage drift matrix — 2026-08-29
+
+[plan.md](plan.md) P7-T4. `bin/test` machine-gates required-file
+presence for every subproject and catalog-registry *counts*, but only
+checks individual per-component files for three implementations
+(svelte-headless, its svelte-sveltekit-examples copy, nunjucks-headless)
+— documented as a known gap in `docs/developing.md`'s "honesty note".
+`bin/check-coverage` closes it: for every one of the 491 catalog rows,
+it verifies presence across all 7 headless catalogs × {implementation,
+test, story} (Blazor's story column reads "n/a" — a documented
+exception, not a gap), plus the canonical demo-map entry and the CSS
+class hook, prints a drift matrix, and exits non-zero on any gap. A
+plain Node script — ~10,000 `existsSync` checks run in milliseconds,
+sidestepping P7-T2's bash-3.2-under-`set -e` pathology by not being
+shell at all. Wired into the `verify` CI job.
+
+Verified for real: runs clean on HEAD today (0/491 everywhere — every
+headless catalog genuinely has full parity, not just asserted); seeded
+three different single-file faults (a missing Vue story, a missing
+demo-map entry, a missing CSS hook) one at a time, confirmed each is
+caught with the exact right dimension/slug/path, then restored and
+reconfirmed clean each time.
+
+Scoped deliberately to the 7 headless catalogs (matching
+`AGENTS/components.md`'s framing), not the example apps' own
+per-component copies — but building it surfaced a real gap there
+anyway: `react-next-examples` and `vue-nuxt-examples` are each missing
+the exact same 80 national-identifier components' per-component files
+(411/491). Nothing is broken today (their `/components/{slug}` demo
+pages render from the shared registry + demo HTML, not these files,
+and no composed page currently imports any of the missing 80), but the
+gap is real and latent. Logged as [tasks.md](tasks.md) P7-T15 rather
+than fixed here — porting 80 components × 2 frameworks is its own task.
+
 ## `bin/new-component`: end-to-end scaffolder for a new component — 2026-08-29
 
 [plan.md](plan.md) P7-T3. `bin/new-component <slug> ["description"]`

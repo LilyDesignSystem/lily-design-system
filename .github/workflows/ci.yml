@@ -37,6 +37,9 @@ jobs:
             exit 1
           fi
 
+      - name: bin/check-coverage (7-headless-implementation drift matrix)
+        run: bin/check-coverage --quiet
+
   helpers:
     name: helpers tests (${{ matrix.catalog }})
     runs-on: ubuntu-latest
