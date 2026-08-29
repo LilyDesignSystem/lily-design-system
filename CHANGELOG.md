@@ -9,6 +9,24 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Dependabot — 2026-08-29
+
+[spec/dependabot/index.md](spec/dependabot/index.md), implemented in full.
+Repo-level `vulnerability-alerts` and `automated-security-fixes` enabled on
+`LilyDesignSystem/lily-design-system` via the GitHub API. A new
+`.github/dependabot.yml` adds 31 scheduled-update entries: one
+`github-actions` entry for `.github/workflows/`, 20 `npm` entries (one per
+pnpm-workspace root — each `*-helpers` catalog's `pnpm-workspace.yaml` lets
+one entry cover its five nested helper packages too), and 10 `nuget`
+entries (one per `.csproj` directory, since NuGet has no workspace concept
+to consolidate them the way pnpm does). Every entry runs weekly and groups
+all its updates into a single PR, so this doesn't turn into dozens of
+separate PRs a week across 31 directories for one maintainer to review.
+Scope: the canonical monorepo only — `.github/dependabot.yml` isn't a file
+`git subtree push` carries into the 22 published subtree repos, since
+`.github/` sits outside every subtree's prefix; extending coverage there is
+unscoped future work.
+
 ## Flagship pattern: book an appointment — 2026-08-29
 
 [plan.md](plan.md) P6-T2, Lily's first pattern doc. `/book-an-appointment`

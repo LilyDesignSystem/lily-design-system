@@ -46,6 +46,7 @@ coding agents.
 | [trusted-publishing](trusted-publishing/index.md) | OIDC publishing to npm/NuGet: the adopt-when-all-forges-are-covered position, readiness table, adoption checklist. |
 | [free-open-source-funding](free-open-source-funding/index.md) | Funding channels (GitHub Sponsors live, Open Collective planned), terms, and the files that must agree. |
 | [special-files-for-public-repos](special-files-for-public-repos/index.md) | The top-level files every published subtree repo carries, copy-vs-generate, the sync tooling. |
+| [dependabot](dependabot/index.md) | Repo-level security updates, the grouped-weekly-PR `.github/dependabot.yml`, and its 31 npm/nuget/github-actions entries. |
 | [citations](citations/index.md) | Design systems Lily learns from, the NHS UK reference, Reuters Graphics influence. |
 | [trademarks](trademarks.md) | The Lily™ / Lily Design System™ marks, the first-occurrence ™ convention, the standard footer. |
 

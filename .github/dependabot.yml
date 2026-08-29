@@ -1,0 +1,384 @@
+# Dependabot configuration — Lily Design System™
+#
+# Scheduled dependency-update PRs (spec/dependabot/index.md). This is a large
+# monorepo — 20 npm/pnpm workspaces (each catalog's pnpm-workspace.yaml lets
+# one entry cover its nested helper packages too) and 10 standalone .NET
+# project directories (NuGet has no workspace concept, so each .csproj gets
+# its own entry) — so every directory groups all its updates into a single
+# weekly PR (`groups: lily: patterns: ["*"]`) rather than one PR per package,
+# which would otherwise be dozens of PRs a week for one maintainer to review.
+# See also: repo-level Dependabot security updates, enabled via
+# `gh api` (spec/dependabot/index.md's other half; not a file in this repo).
+
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      actions:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "npm"
+    directory: "/lily-design-system-angular-examples"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      lily:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "npm"
+    directory: "/lily-design-system-angular-headless"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      lily:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "npm"
+    directory: "/lily-design-system-angular-helpers"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      lily:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "npm"
+    directory: "/lily-design-system-blazor-web-examples"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      lily:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "npm"
+    directory: "/lily-design-system-html-css-js-examples"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      lily:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "npm"
+    directory: "/lily-design-system-html-headless"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      lily:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "npm"
+    directory: "/lily-design-system-html-helpers"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      lily:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "npm"
+    directory: "/lily-design-system-nunjucks-eleventy-examples"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      lily:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "npm"
+    directory: "/lily-design-system-nunjucks-headless"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      lily:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "npm"
+    directory: "/lily-design-system-nunjucks-helpers"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      lily:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "npm"
+    directory: "/lily-design-system-react-headless"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      lily:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "npm"
+    directory: "/lily-design-system-react-helpers"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      lily:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "npm"
+    directory: "/lily-design-system-react-next-examples"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      lily:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "npm"
+    directory: "/lily-design-system-svelte-headless"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      lily:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "npm"
+    directory: "/lily-design-system-svelte-helpers"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      lily:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "npm"
+    directory: "/lily-design-system-svelte-sveltekit-examples"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      lily:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "npm"
+    directory: "/lily-design-system-vue-headless"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      lily:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "npm"
+    directory: "/lily-design-system-vue-helpers"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      lily:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "npm"
+    directory: "/lily-design-system-vue-nuxt-examples"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      lily:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "npm"
+    directory: "/lilydesignsystem.github.io"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      lily:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "nuget"
+    directory: "/lily-design-system-blazor-headless/src/LilyBlazorHeadless"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      lily:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "nuget"
+    directory: "/lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      lily:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "nuget"
+    directory: "/lily-design-system-blazor-helpers/lily-design-system-blazor-date-time-picker"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      lily:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "nuget"
+    directory: "/lily-design-system-blazor-helpers/lily-design-system-blazor-locale-picker"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      lily:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "nuget"
+    directory: "/lily-design-system-blazor-helpers/lily-design-system-blazor-share-picker"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      lily:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "nuget"
+    directory: "/lily-design-system-blazor-helpers/lily-design-system-blazor-text-size-picker"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      lily:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "nuget"
+    directory: "/lily-design-system-blazor-helpers/lily-design-system-blazor-theme-picker"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      lily:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "nuget"
+    directory: "/lily-design-system-blazor-helpers/tests/LilyDesignSystem.Blazor.Helpers.Tests"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      lily:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "nuget"
+    directory: "/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      lily:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "nuget"
+    directory: "/lily-design-system-blazor-web-examples/tests/LilyBlazorWebExamples.Tests"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      lily:
+        patterns:
+          - "*"
