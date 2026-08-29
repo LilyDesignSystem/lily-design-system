@@ -28,5 +28,15 @@ window.headlessInterop = {
                 items[next].focus();
             }
         });
+    },
+
+    // Single-page wizard focus management (book-an-appointment, plan
+    // P6-T3). Looks the target up by id at call time rather than caching
+    // an ElementReference, so a step transition that swaps the underlying
+    // DOM node (a new heading, a new error summary) is always focused
+    // correctly instead of risking a stale reference.
+    focusById: function (id) {
+        var el = document.getElementById(id);
+        if (el) el.focus();
     }
 };

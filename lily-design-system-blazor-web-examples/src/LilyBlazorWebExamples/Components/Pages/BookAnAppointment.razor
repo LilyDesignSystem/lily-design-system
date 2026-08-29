@@ -1,0 +1,539 @@
+@page "/book-an-appointment"
+@inject IJSRuntime JS
+
+@*
+    Book an appointment — Lily's flagship composed-page pattern, ported to
+    Blazor (plan P6-T3). A multi-step GP-appointment booking wizard: reason,
+    date and time, your details, check your answers, confirmation. Single
+    route with in-memory @@code state, matching every other composed page in
+    this app (no per-step URLs, no cross-route store — see
+    docs/patterns/book-an-appointment.md for the rationale).
+
+    IMPORTANT: this app's headless components (TextInput, CheckboxInput,
+    RadioInput, DateInput, Select, TextAreaInput, Form, Field, ...) do NOT
+    declare Value/ValueChanged/Checked/CheckedChanged/OnSubmit parameters —
+    they are thin wrappers around the native element with only
+    Label/CssClass/AdditionalAttributes. Several pre-existing pages in this
+    app (ContactForm, SettingsPage, RatingAndFeedback, SearchAndFilter,
+    TaskManagement) pass PascalCase "Value"/"ValueChanged"/"OnSubmit"
+    attributes that these components don't declare; those attributes are
+    captured into AdditionalAttributes and splatted onto the root element
+    verbatim, which does NOT wire real two-way binding or form submission
+    (a capital-letter attribute name is never recognised by the Blazor
+    runtime as an event handler, and "ValueChanged" is not an event at
+    all). This page instead uses the real native idiom that IS wired
+    correctly through attribute splatting: lowercase `value`/`checked`
+    attributes plus `@@onchange`/`@@oninput`/`@@onsubmit` directives (Razor
+    compiles these to the canonical lowercase DOM event name regardless of
+    the component boundary — the same mechanism already used successfully
+    for `@@onclick` on RadioInput in SettingsPage.razor).
+*@
+
+<h1>Book an appointment</h1>
+
+<BackLink Href="/">Back to examples</BackLink>
+
+@if (step >= 1 && step <= 4)
+{
+    <StepList Label="Booking progress">
+        <StepListItem Label="Reason" data-status="@StatusFor(1)" aria-current="@(step == 1 ? "step" : null)">
+            <StatusTag Label="@StatusLabelFor(1)">@StatusLabelFor(1)</StatusTag> Reason
+        </StepListItem>
+        <StepListItem Label="Date and time" data-status="@StatusFor(2)" aria-current="@(step == 2 ? "step" : null)">
+            <StatusTag Label="@StatusLabelFor(2)">@StatusLabelFor(2)</StatusTag> Date and time
+        </StepListItem>
+        <StepListItem Label="Your details" data-status="@StatusFor(3)" aria-current="@(step == 3 ? "step" : null)">
+            <StatusTag Label="@StatusLabelFor(3)">@StatusLabelFor(3)</StatusTag> Your details
+        </StepListItem>
+        <StepListItem Label="Check your answers" data-status="@StatusFor(4)" aria-current="@(step == 4 ? "step" : null)">
+            <StatusTag Label="@StatusLabelFor(4)">@StatusLabelFor(4)</StatusTag> Check your answers
+        </StepListItem>
+    </StepList>
+}
+
+@if (errors.Count > 0)
+{
+    <ErrorSummary Label="There is a problem" id="booking-error-summary" tabindex="-1">
+        <h2>There is a problem</h2>
+        <ul>
+            @if (errors.TryGetValue("reason", out var errReason))
+            {
+                <li><a href="#reason-routine">@errReason</a></li>
+            }
+            @if (errors.TryGetValue("reasonOther", out var errReasonOther))
+            {
+                <li><a href="#reason-other-detail">@errReasonOther</a></li>
+            }
+            @if (errors.TryGetValue("appointmentDate", out var errDate))
+            {
+                <li><a href="#appointment-date">@errDate</a></li>
+            }
+            @if (errors.TryGetValue("appointmentTime", out var errTime))
+            {
+                <li><a href="#appointment-time">@errTime</a></li>
+            }
+            @if (errors.TryGetValue("fullName", out var errName))
+            {
+                <li><a href="#full-name">@errName</a></li>
+            }
+            @if (errors.TryGetValue("email", out var errEmail))
+            {
+                <li><a href="#email">@errEmail</a></li>
+            }
+            @if (errors.TryGetValue("confirmedAccurate", out var errConfirm))
+            {
+                <li><a href="#confirmed-accurate">@errConfirm</a></li>
+            }
+        </ul>
+    </ErrorSummary>
+}
+
+@if (step == 0)
+{
+    <h2 id="step-heading" tabindex="-1">Before you start</h2>
+
+    <WarningCallout Label="Emergency notice">
+        <p>If you have a medical emergency, call 999 or go to your nearest A&amp;E.</p>
+    </WarningCallout>
+
+    <p>Use this service to book a routine appointment with your GP surgery online. It takes about 5 minutes.</p>
+
+    <InsetText>
+        Appointments are available Monday to Friday, 8am to 6pm. Most requests are confirmed within 2 working days.
+    </InsetText>
+
+    <Details Label="What happens at your appointment">
+        <summary>What happens at your appointment</summary>
+        <p>A clinician will review the reason you gave for the appointment and may ask follow-up questions. Bring a list of any medicines you are currently taking.</p>
+    </Details>
+
+    <p><Button @onclick="@(() => GoToStep(1))">Start now</Button></p>
+}
+else if (step == 1)
+{
+    <h2 id="step-heading" tabindex="-1">Reason for your appointment</h2>
+
+    <Form Label="Reason for your appointment" novalidate @onsubmit="@(() => GoNext(ValidateReason, 2))">
+        <RadioGroup Label="Why do you need an appointment?">
+            @foreach (var option in ReasonOptions)
+            {
+                <Label>
+                    <RadioInput id="@($"reason-{option.Value}")" Label="@option.Text" name="reason" value="@option.Value"
+                                checked="@(reason == option.Value)" @onchange="@(() => SetReason(option.Value))" />
+                    @option.Text
+                </Label>
+            }
+        </RadioGroup>
+        @if (errors.TryGetValue("reason", out var reasonFieldError))
+        {
+            <ErrorMessage>@reasonFieldError</ErrorMessage>
+        }
+
+        @if (reason == "other")
+        {
+            <Field Label="Tell us more" data-required="true">
+                <Label For="reason-other-detail">Tell us more about the reason for your appointment</Label>
+                <TextAreaInput id="reason-other-detail" Label="Tell us more about the reason for your appointment"
+                               value="@reasonOther" @oninput="@((ChangeEventArgs e) => reasonOther = e.Value?.ToString() ?? string.Empty)"
+                               rows="4" maxlength="250" required />
+                @if (errors.TryGetValue("reasonOther", out var reasonOtherFieldError))
+                {
+                    <ErrorMessage>@reasonOtherFieldError</ErrorMessage>
+                }
+            </Field>
+            <CharacterCounter Label="Characters used">@reasonOther.Length / 250 characters used</CharacterCounter>
+        }
+
+        <p><Button type="submit">Continue</Button></p>
+    </Form>
+}
+else if (step == 2)
+{
+    <h2 id="step-heading" tabindex="-1">Choose a date and time</h2>
+
+    <InsetText>Appointments are available Monday to Friday, 8am to 6pm.</InsetText>
+
+    <Form Label="Choose a date and time" novalidate @onsubmit="@(() => GoNext(ValidateDateTime, 3))">
+        <Fieldset Label="Preferred date and time">
+            <legend>Preferred date and time</legend>
+
+            <Field Label="Preferred date" data-required="true">
+                <Label For="appointment-date">Preferred date</Label>
+                <Hint id="appointment-date-hint">We will try to match your preference, but availability may vary.</Hint>
+                <DateInput id="appointment-date" Label="Preferred date"
+                           value="@appointmentDate" @onchange="@((ChangeEventArgs e) => appointmentDate = e.Value?.ToString() ?? string.Empty)"
+                           min="@TodayIso()" required aria-describedby="appointment-date-hint" />
+                @if (errors.TryGetValue("appointmentDate", out var dateFieldError))
+                {
+                    <ErrorMessage>@dateFieldError</ErrorMessage>
+                }
+            </Field>
+
+            <Field Label="Preferred time of day" data-required="true">
+                <Label For="appointment-time">Preferred time of day</Label>
+                <Select id="appointment-time" Label="Preferred time of day"
+                        value="@appointmentTime" @onchange="@((ChangeEventArgs e) => appointmentTime = e.Value?.ToString() ?? string.Empty)"
+                        required>
+                    <Option value="">Select a time of day</Option>
+                    @foreach (var option in TimeOptions)
+                    {
+                        <Option value="@option.Value">@option.Text</Option>
+                    }
+                </Select>
+                @if (errors.TryGetValue("appointmentTime", out var timeFieldError))
+                {
+                    <ErrorMessage>@timeFieldError</ErrorMessage>
+                }
+            </Field>
+        </Fieldset>
+
+        <p style="display: flex; gap: var(--nhs-space-3);">
+            <Button type="button" @onclick="@(() => GoBack(1))">Back</Button>
+            <Button type="submit">Continue</Button>
+        </p>
+    </Form>
+}
+else if (step == 3)
+{
+    <h2 id="step-heading" tabindex="-1">Your details</h2>
+
+    <Form Label="Your details" novalidate @onsubmit="@(() => GoNext(ValidateDetails, 4))">
+        <Field Label="Full name" data-required="true">
+            <Label For="full-name">Full name</Label>
+            <TextInput id="full-name" Label="Full name"
+                       value="@fullName" @onchange="@((ChangeEventArgs e) => fullName = e.Value?.ToString() ?? string.Empty)"
+                       required />
+            @if (errors.TryGetValue("fullName", out var nameFieldError))
+            {
+                <ErrorMessage>@nameFieldError</ErrorMessage>
+            }
+        </Field>
+
+        <Field Label="Email address" data-required="true">
+            <Label For="email">Email address</Label>
+            <Hint id="email-hint">We will use this to send your confirmation.</Hint>
+            <EmailInput id="email" Label="Email address"
+                        value="@email" @onchange="@((ChangeEventArgs e) => email = e.Value?.ToString() ?? string.Empty)"
+                        required aria-describedby="email-hint" />
+            @if (errors.TryGetValue("email", out var emailFieldError))
+            {
+                <ErrorMessage>@emailFieldError</ErrorMessage>
+            }
+        </Field>
+
+        <Field Label="Phone number">
+            <Label For="phone">Phone number</Label>
+            <Hint id="phone-hint">Optional — only needed if we must contact you about a change.</Hint>
+            <TelInput id="phone" Label="Phone number"
+                      value="@phone" @onchange="@((ChangeEventArgs e) => phone = e.Value?.ToString() ?? string.Empty)"
+                      aria-describedby="phone-hint" />
+        </Field>
+
+        <p>
+            <Label>
+                <CheckboxInput id="needs-support" Label="I need an interpreter or additional support"
+                               checked="@needsSupport" @onchange="@((ChangeEventArgs e) => needsSupport = (bool)(e.Value ?? false))" />
+                I need an interpreter or additional support
+            </Label>
+        </p>
+
+        <p style="display: flex; gap: var(--nhs-space-3);">
+            <Button type="button" @onclick="@(() => GoBack(2))">Back</Button>
+            <Button type="submit">Continue</Button>
+        </p>
+    </Form>
+}
+else if (step == 4)
+{
+    <h2 id="step-heading" tabindex="-1">Check your answers</h2>
+
+    <SummaryList Label="Your appointment details">
+        <SummaryListItem Label="Reason">
+            <strong>Reason: </strong>
+            @(ReasonLabels.TryGetValue(reason, out var reasonSummaryText) ? reasonSummaryText : "Not answered")
+            @if (reason == "other" && !string.IsNullOrWhiteSpace(reasonOther))
+            {
+                <br /><span>@reasonOther</span>
+            }
+            <a href="#reason" @onclick="@(() => GoToStep(1))" @onclick:preventDefault>Change<span class="visually-hidden"> reason</span></a>
+        </SummaryListItem>
+        <SummaryListItem Label="Date">
+            <strong>Date: </strong>
+            @(string.IsNullOrEmpty(appointmentDate) ? "Not answered" : appointmentDate)
+            <a href="#date" @onclick="@(() => GoToStep(2))" @onclick:preventDefault>Change<span class="visually-hidden"> date</span></a>
+        </SummaryListItem>
+        <SummaryListItem Label="Time of day">
+            <strong>Time of day: </strong>
+            @(TimeLabels.TryGetValue(appointmentTime, out var timeSummaryText) ? timeSummaryText : "Not answered")
+            <a href="#time" @onclick="@(() => GoToStep(2))" @onclick:preventDefault>Change<span class="visually-hidden"> time of day</span></a>
+        </SummaryListItem>
+        <SummaryListItem Label="Full name">
+            <strong>Full name: </strong>
+            @(string.IsNullOrEmpty(fullName) ? "Not answered" : fullName)
+            <a href="#name" @onclick="@(() => GoToStep(3))" @onclick:preventDefault>Change<span class="visually-hidden"> full name</span></a>
+        </SummaryListItem>
+        <SummaryListItem Label="Email address">
+            <strong>Email address: </strong>
+            @(string.IsNullOrEmpty(email) ? "Not answered" : email)
+            <a href="#email-review" @onclick="@(() => GoToStep(3))" @onclick:preventDefault>Change<span class="visually-hidden"> email address</span></a>
+        </SummaryListItem>
+        <SummaryListItem Label="Phone number">
+            <strong>Phone number: </strong>
+            @if (string.IsNullOrEmpty(phone))
+            {
+                <StatusTag Label="Not provided">Not provided</StatusTag>
+            }
+            else
+            {
+                @phone
+            }
+            <a href="#phone-review" @onclick="@(() => GoToStep(3))" @onclick:preventDefault>Change<span class="visually-hidden"> phone number</span></a>
+        </SummaryListItem>
+        <SummaryListItem Label="Interpreter or additional support">
+            <strong>Interpreter or additional support: </strong>
+            @(needsSupport ? "Yes" : "No")
+            <a href="#support-review" @onclick="@(() => GoToStep(3))" @onclick:preventDefault>Change<span class="visually-hidden"> interpreter or additional support</span></a>
+        </SummaryListItem>
+    </SummaryList>
+
+    <Form Label="Confirm and book your appointment" novalidate @onsubmit="SubmitBooking">
+        <p>
+            <Label>
+                <CheckboxInput id="confirmed-accurate" Label="I confirm the information above is correct"
+                               checked="@confirmedAccurate" @onchange="@((ChangeEventArgs e) => confirmedAccurate = (bool)(e.Value ?? false))" />
+                I confirm the information above is correct
+            </Label>
+            @if (errors.TryGetValue("confirmedAccurate", out var confirmFieldError))
+            {
+                <ErrorMessage>@confirmFieldError</ErrorMessage>
+            }
+        </p>
+
+        <p style="display: flex; gap: var(--nhs-space-3);">
+            <Button type="button" @onclick="@(() => GoBack(3))">Back</Button>
+            <Button type="submit">Confirm and book</Button>
+        </p>
+    </Form>
+}
+else if (step == 5)
+{
+    <h2 id="step-heading" tabindex="-1">Booking confirmed</h2>
+
+    <SuccessPanel Label="Booking confirmed">
+        <p>
+            Your appointment reference number is <strong>@referenceNumber</strong>.
+            We have sent a confirmation to @email.
+        </p>
+    </SuccessPanel>
+
+    <StepList Label="Booking progress">
+        <StepListItem Label="Reason"><StatusTag Label="Completed">Completed</StatusTag> Reason</StepListItem>
+        <StepListItem Label="Date and time"><StatusTag Label="Completed">Completed</StatusTag> Date and time</StepListItem>
+        <StepListItem Label="Your details"><StatusTag Label="Completed">Completed</StatusTag> Your details</StepListItem>
+        <StepListItem Label="Check your answers"><StatusTag Label="Completed">Completed</StatusTag> Check your answers</StepListItem>
+    </StepList>
+
+    <Panel Label="What happens next">
+        <p>
+            A member of the practice team will confirm your
+            @(TimeLabels.TryGetValue(appointmentTime, out var confirmedTimeText) ? confirmedTimeText.ToLowerInvariant() : "")
+            appointment on @appointmentDate by email. Keep your reference number in case you need to change or cancel.
+        </p>
+    </Panel>
+
+    <p><Button @onclick="StartOver">Book another appointment</Button></p>
+}
+
+<style>
+    .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+</style>
+
+@code {
+    private int step = 0;
+
+    // Form state.
+    private string reason = "";
+    private string reasonOther = "";
+    private string appointmentDate = "";
+    private string appointmentTime = "";
+    private string fullName = "";
+    private string email = "";
+    private string phone = "";
+    private bool needsSupport;
+    private bool confirmedAccurate;
+    private string referenceNumber = "";
+
+    private Dictionary<string, string> errors = new();
+
+    // Focus management on step change. A single-page wizard has no route
+    // change for the browser or a screen reader to announce on its own, so
+    // after every transition we move focus to the new step's own heading
+    // (or the error summary on a failed validation) — the same outcome
+    // Routes.razor's <FocusOnNavigate Selector="h1"> gives real route
+    // changes elsewhere in this app. Using an id-based JS lookup (not an
+    // ElementReference keyed by a value that can be reused across
+    // re-renders) avoids the stale-reference timing class of bug recorded
+    // in this repo's changelog for the date-time-picker's day-cell map.
+    private string? pendingFocusId;
+
+    private static readonly (string Value, string Text)[] ReasonOptions =
+    {
+        ("routine", "Routine check-up"),
+        ("follow-up", "Follow-up appointment"),
+        ("vaccination", "Vaccination"),
+        ("other", "Something else"),
+    };
+
+    private static readonly (string Value, string Text)[] TimeOptions =
+    {
+        ("morning", "Morning (8am to 12pm)"),
+        ("afternoon", "Afternoon (12pm to 4pm)"),
+        ("evening", "Evening (4pm to 6pm)"),
+    };
+
+    private static readonly Dictionary<string, string> ReasonLabels =
+        ReasonOptions.ToDictionary(o => o.Value, o => o.Text);
+
+    private static readonly Dictionary<string, string> TimeLabels =
+        TimeOptions.ToDictionary(o => o.Value, o => o.Text);
+
+    private static string TodayIso() => DateTime.Today.ToString("yyyy-MM-dd");
+
+    private void SetReason(string value) => reason = value;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (pendingFocusId is { } id)
+        {
+            pendingFocusId = null;
+            await JS.InvokeVoidAsync("headlessInterop.focusById", id);
+        }
+    }
+
+    private bool ValidateReason()
+    {
+        errors = new();
+        if (string.IsNullOrEmpty(reason))
+            errors["reason"] = "Select a reason for your appointment";
+        else if (reason == "other" && string.IsNullOrWhiteSpace(reasonOther))
+            errors["reasonOther"] = "Enter details about your appointment";
+        return errors.Count == 0;
+    }
+
+    private bool ValidateDateTime()
+    {
+        errors = new();
+        if (string.IsNullOrEmpty(appointmentDate))
+            errors["appointmentDate"] = "Enter your preferred date";
+        else if (string.CompareOrdinal(appointmentDate, TodayIso()) < 0)
+            errors["appointmentDate"] = "Enter a date that is today or in the future";
+        if (string.IsNullOrEmpty(appointmentTime))
+            errors["appointmentTime"] = "Select a preferred time of day";
+        return errors.Count == 0;
+    }
+
+    private bool ValidateDetails()
+    {
+        errors = new();
+        if (string.IsNullOrWhiteSpace(fullName))
+            errors["fullName"] = "Enter your full name";
+        if (string.IsNullOrWhiteSpace(email))
+            errors["email"] = "Enter your email address";
+        else if (!email.Contains('@'))
+            errors["email"] = "Enter an email address in the correct format";
+        return errors.Count == 0;
+    }
+
+    private bool ValidateCheckAnswers()
+    {
+        errors = new();
+        if (!confirmedAccurate)
+            errors["confirmedAccurate"] = "Confirm that the information above is correct";
+        return errors.Count == 0;
+    }
+
+    private void GoNext(Func<bool> validate, int next)
+    {
+        if (validate())
+        {
+            errors = new();
+            step = next;
+            pendingFocusId = "step-heading";
+        }
+        else
+        {
+            pendingFocusId = "booking-error-summary";
+        }
+    }
+
+    private void GoBack(int prev)
+    {
+        errors = new();
+        step = prev;
+        pendingFocusId = "step-heading";
+    }
+
+    private void GoToStep(int n)
+    {
+        errors = new();
+        step = n;
+        pendingFocusId = "step-heading";
+    }
+
+    private void SubmitBooking()
+    {
+        if (ValidateCheckAnswers())
+        {
+            errors = new();
+            referenceNumber = $"APT-{Random.Shared.Next(100000, 999999)}";
+            step = 5;
+            pendingFocusId = "step-heading";
+        }
+        else
+        {
+            pendingFocusId = "booking-error-summary";
+        }
+    }
+
+    private void StartOver()
+    {
+        reason = "";
+        reasonOther = "";
+        appointmentDate = "";
+        appointmentTime = "";
+        fullName = "";
+        email = "";
+        phone = "";
+        needsSupport = false;
+        confirmedAccurate = false;
+        referenceNumber = "";
+        errors = new();
+        step = 0;
+        pendingFocusId = "step-heading";
+    }
+
+    private string StatusFor(int n)
+    {
+        if (step >= 5) return "finished";
+        if (n < step) return "finished";
+        if (n == step) return "in-progress";
+        return "waiting";
+    }
+
+    private string StatusLabelFor(int n) => StatusFor(n) switch
+    {
+        "finished" => "Completed",
+        "in-progress" => "In progress",
+        _ => "Not started",
+    };
+}
