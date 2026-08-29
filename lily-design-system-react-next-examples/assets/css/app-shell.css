@@ -82,3 +82,19 @@ main :where(li > a), #content :where(li > a) {
     display: inline-block;
     min-block-size: 24px;
 }
+
+/* Visually hides text while keeping it in the accessibility tree -- used
+ * by the book-an-appointment "Change" links to add row context (e.g.
+ * "Change reason") for screen reader users without repeating it visibly.
+ */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}

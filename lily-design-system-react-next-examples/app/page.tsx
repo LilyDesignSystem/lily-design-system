@@ -2,6 +2,12 @@ import Link from "next/link";
 
 const examples = [
   {
+    href: "/book-an-appointment",
+    title: "Book an Appointment",
+    description:
+      "The flagship composed-page pattern: a 5-step GP-appointment wizard composing ~29 components (StepList, Form, RadioGroup, DateInput, SummaryList, SuccessPanel, and more)",
+  },
+  {
     href: "/contact-form",
     title: "Contact Form",
     description:
