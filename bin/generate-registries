@@ -5,18 +5,27 @@
 // sources, so the hand-copied registries can never drift again:
 //
 //   - components.tsv                                  → slug, name, description
+//   - components-categories.tsv (bin/generate-component-categories)
+//                                                       → slug → tag, category
 //   - lily-design-system-svelte-sveltekit-examples/
 //     src/lib/data/component-demos.ts                 → slug → demo HTML
 //       (the curated demo map; regenerate its baseline with
 //       generate-component-demos.js, then curate in place)
 //
 // Outputs (overwritten in full or region-replaced):
-//   - {svelte-sveltekit,react-next,vue-nuxt} components registry .ts
+//   - {svelte-sveltekit,react-next,vue-nuxt,angular} components registry .ts
+//     (each entry carries tag + category; category id resolves via the
+//     exported CATEGORY_LABEL map, also written into each registry file —
+//     see plan P6-T5, the /components search category + suffix-pattern
+//     filters)
 //   - {react-next,vue-nuxt,angular} component-demos.ts (copies of canonical)
-//   - blazor-web ComponentData.cs (slug/name/description + demo HTML)
+//   - blazor-web ComponentData.cs (slug/name/description/tag/category + demo HTML)
 //   - html-css-js pages/components/{index,component}.html embedded arrays
 //   - lilydesignsystem.github.io/src/lib/components.ts
 //   - root index.md component listing section
+//
+// Run bin/generate-component-categories first if components-categories.tsv
+// is stale (bin/test checks it isn't).
 //
 // Run bin/test afterwards; it asserts every registry matches the catalog.
 
@@ -32,12 +41,25 @@ const write = (p, s) => {
 
 // ---------- canonical sources ----------
 
+const { CATEGORY_LABEL } = require("./generate-component-categories");
+const categoryOf = {};
+const tagOf = {};
+for (const line of read("components-categories.tsv").split("\n")) {
+  if (!line.trim()) continue;
+  const [slug, tag, category] = line.split("\t");
+  tagOf[slug] = tag;
+  categoryOf[slug] = category;
+}
+
 const components = read("components.tsv")
   .split("\n")
   .filter((l) => l.trim())
   .map((l) => {
     const [slug, name, description] = l.split("\t");
-    return { slug, name, description: description || "" };
+    if (!(slug in categoryOf)) {
+      throw new Error(`${slug} missing from components-categories.tsv — run bin/generate-component-categories`);
+    }
+    return { slug, name, description: description || "", tag: tagOf[slug], category: categoryOf[slug] };
   });
 
 const demosSource = read(
@@ -71,14 +93,31 @@ const tsEntry = (c, indent) => {
     `${f}slug: ${jsStr(c.slug)},`,
     `${f}name: ${jsStr(c.name)},`,
     `${f}description: ${jsStr(c.description)},`,
+    `${f}tag: ${jsStr(c.tag)},`,
+    `${f}category: ${jsStr(c.category)},`,
     `${i}},`,
   ].join("\n");
 };
 const tsEntries = (indent) => components.map((c) => tsEntry(c, indent)).join("\n");
 
+// The category id → display label map (plan P6-T5's category filter),
+// as one TS literal shared by every registry below — the single place
+// the labels are spelled out, sourced from generate-component-categories.
+const categoryLabelEntries = (indent) => {
+  const i = " ".repeat(indent);
+  return Object.entries(CATEGORY_LABEL)
+    .map(([id, label]) => `${i}${jsStr(id)}: ${jsStr(label)},`)
+    .join("\n");
+};
+
 write(
   "lily-design-system-svelte-sveltekit-examples/src/lib/data/components.ts",
-  `export const components = [\n${tsEntries(2)}\n];\n`
+  `export const components = [\n${tsEntries(2)}\n];\n
+/** Category id → display label (plan P6-T5's category filter). */
+export const CATEGORY_LABEL: Record<string, string> = {
+${categoryLabelEntries(2)}
+};
+`
 );
 
 write(
@@ -87,11 +126,18 @@ write(
   slug: string;
   name: string;
   description: string;
+  tag: string;
+  category: string;
 }
 
 export const components: Component[] = [
 ${tsEntries(2)}
 ];
+
+/** Category id → display label (plan P6-T5's category filter). */
+export const CATEGORY_LABEL: Record<string, string> = {
+${categoryLabelEntries(2)}
+};
 `
 );
 
@@ -101,11 +147,18 @@ write(
   slug: string;
   name: string;
   description: string;
+  tag: string;
+  category: string;
 }
 
 export const components: ComponentMeta[] = [
 ${tsEntries(2)}
 ];
+
+/** Category id → display label (plan P6-T5's category filter). */
+export const CATEGORY_LABEL: Record<string, string> = {
+${categoryLabelEntries(2)}
+};
 `
 );
 
@@ -115,11 +168,18 @@ write(
   slug: string;
   name: string;
   description: string;
+  tag: string;
+  category: string;
 }
 
 export const components: ComponentMeta[] = [
 ${tsEntries(2)}
 ];
+
+/** Category id → display label (plan P6-T5's category filter). */
+export const CATEGORY_LABEL: Record<string, string> = {
+${categoryLabelEntries(2)}
+};
 `
 );
 
@@ -173,15 +233,23 @@ write(
   "lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Data/ComponentData.cs",
   `namespace LilyBlazorWebExamples.Data;
 
-public record ComponentInfo(string Slug, string Name, string Description, string DemoHtml);
+public record ComponentInfo(string Slug, string Name, string Description, string Tag, string Category, string DemoHtml);
 public static class ComponentData
 {
+    // Category id → display label (plan P6-T5's category filter).
+    public static readonly Dictionary<string, string> CategoryLabel = new()
+    {
+${Object.entries(CATEGORY_LABEL)
+  .map(([id, label]) => `        { ${csStr(id)}, ${csStr(label)} },`)
+  .join("\n")}
+    };
+
     public static readonly List<ComponentInfo> Components = new()
     {
 ${components
   .map(
     (c) =>
-      `        new(${csStr(c.slug)}, ${csStr(c.name)}, ${csStr(c.description)}, ${csStr(unescapeJs(demos[c.slug]))}),`
+      `        new(${csStr(c.slug)}, ${csStr(c.name)}, ${csStr(c.description)}, ${csStr(c.tag)}, ${csStr(c.category)}, ${csStr(unescapeJs(demos[c.slug]))}),`
   )
   .join("\n")}
     };
@@ -208,6 +276,8 @@ const htmlEntry = (c, indent) => {
     `${f}slug: ${jsStr(c.slug)},`,
     `${f}name: ${jsStr(c.name)},`,
     `${f}description: ${jsStr(c.description)},`,
+    `${f}tag: ${jsStr(c.tag)},`,
+    `${f}category: ${jsStr(c.category)},`,
     `${i}},`,
   ].join("\n");
 };

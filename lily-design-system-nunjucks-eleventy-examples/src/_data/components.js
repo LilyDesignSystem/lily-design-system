@@ -1,4 +1,4 @@
-import { readdirSync, existsSync, statSync } from "node:fs";
+import { readdirSync, readFileSync, existsSync, statSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -11,6 +11,22 @@ const headlessComponents = path.resolve(
   "lily-design-system-nunjucks-headless",
   "components",
 );
+const categoriesTsv = path.resolve(here, "..", "..", "..", "components-categories.tsv");
+
+// slug -> { tag, category } from the root canonical
+// components-categories.tsv (bin/generate-component-categories), same
+// source every other example app's registry reads for plan P6-T5's
+// category + suffix-pattern /components search filters.
+function loadCategories() {
+  const map = {};
+  if (!existsSync(categoriesTsv)) return map;
+  for (const line of readFileSync(categoriesTsv, "utf-8").split("\n")) {
+    if (!line.trim()) continue;
+    const [slug, tag, category] = line.split("\t");
+    map[slug] = { tag, category };
+  }
+  return map;
+}
 
 function kebabToTitle(s) {
   return s
@@ -27,6 +43,7 @@ function scan() {
   if (!existsSync(headlessComponents)) {
     return [];
   }
+  const categories = loadCategories();
   return readdirSync(headlessComponents)
     .filter((name) => {
       const p = path.join(headlessComponents, name);
@@ -38,6 +55,8 @@ function scan() {
       kebab: name,
       title: kebabToTitle(name),
       macro: kebabToCamel(name),
+      tag: categories[name]?.tag || "",
+      category: categories[name]?.category || "content",
     }));
 }
 

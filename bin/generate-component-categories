@@ -1,0 +1,148 @@
+#!/usr/bin/env node
+// bin/generate-component-categories
+//
+// Regenerate components-categories.tsv — one row per component in
+// components.tsv, adding two derived columns:
+//
+//   slug	tag	category
+//
+// `tag` is the canonical root HTML element, read verbatim from each
+// component's own components/{slug}/AGENTS.md "HTML tag" line — the
+// single source of truth per AGENTS/headless.md. `category` is a
+// best-effort STRUCTURAL grouping (by root element + naming-convention
+// suffix family, plus national-identifier membership), not an
+// editorial content taxonomy — it exists so the /components search
+// (plan P6-T5) can offer a coarse filter alongside the finer-grained
+// suffix-pattern filter, without asserting anything about a
+// component's subject matter that this script can't actually verify.
+//
+// Run after any change to components.tsv, a component's HTML tag, or
+// AGENTS/national-person-identifiers.tsv. bin/test checks the output
+// isn't stale (row count matches components.tsv, no empty columns).
+
+const fs = require("fs");
+const path = require("path");
+
+const top = path.join(__dirname, "..");
+const read = (p) => fs.readFileSync(path.join(top, p), "utf-8");
+
+const components = read("components.tsv")
+  .split("\n")
+  .filter((l) => l.trim())
+  .map((l) => l.split("\t")[0]);
+
+const nationalBases = new Set(
+  read("AGENTS/national-person-identifiers.tsv")
+    .split("\n")
+    .slice(1)
+    .filter((l) => l.trim())
+    .map((l) => l.split("\t")[0])
+);
+
+function isNational(slug) {
+  for (const suf of ["input", "view"]) {
+    if (slug.endsWith("-" + suf)) {
+      const base = slug.slice(0, -(suf.length + 1));
+      if (nationalBases.has(base)) return true;
+    }
+  }
+  return false;
+}
+
+// Naming-convention suffix families that are more useful bucketed on
+// their own than lumped in with their root element's generic bucket
+// (e.g. a *PickerButton renders <button> but belongs with its picker,
+// not with plain Button). Checked longest-suffix-first.
+const SUFFIX_OVERRIDES = [
+  ["pickers", ["picker-button", "picker"]],
+  ["navigation", ["bar-button", "bar", "menu-item", "menu"]],
+  ["forms", ["group-item", "group"]],
+  ["data-viz", ["chart"]],
+  ["overlays", ["banner"]],
+];
+
+const TAG_BUCKET = {
+  input: "forms", select: "forms", option: "forms", textarea: "forms",
+  fieldset: "forms", label: "forms", form: "forms",
+  meter: "data-viz", progress: "data-viz",
+  button: "buttons",
+  a: "links",
+  ol: "lists", ul: "lists", li: "lists", dl: "lists",
+  table: "tables", thead: "tables", tbody: "tables", tfoot: "tables",
+  tr: "tables", th: "tables", td: "tables", caption: "tables",
+  nav: "navigation", header: "navigation", footer: "navigation",
+  aside: "navigation", main: "navigation", section: "navigation",
+  article: "navigation", hr: "navigation", details: "navigation",
+  dialog: "overlays",
+  figure: "media", img: "media", canvas: "media",
+  span: "content", div: "content", blockquote: "content", cite: "content",
+  code: "content", pre: "content", kbd: "content", time: "content",
+};
+
+const ROLE_BUCKET = {
+  dialog: "overlays", toolbar: "navigation", tabpanel: "overlays",
+  group: "forms", separator: "navigation",
+};
+
+// id → display label, in the order the UI should offer them.
+const CATEGORY_LABEL = {
+  national: "National identifiers",
+  forms: "Form controls",
+  buttons: "Buttons",
+  links: "Links",
+  lists: "Lists",
+  tables: "Tables",
+  navigation: "Navigation & structure",
+  overlays: "Overlays & dialogs",
+  pickers: "Pickers & ratings",
+  media: "Media & figures",
+  "data-viz": "Data visualization",
+  content: "Content & other",
+};
+
+function suffixOverride(slug) {
+  for (const [cat, suffixes] of SUFFIX_OVERRIDES) {
+    for (const suf of suffixes) {
+      if (slug === suf || slug.endsWith("-" + suf)) return cat;
+    }
+  }
+  return null;
+}
+
+function htmlTagOf(slug) {
+  const agents = read(`components/${slug}/AGENTS.md`);
+  const m = agents.match(/^- HTML tag: *(.+)$/m);
+  if (!m) throw new Error(`components/${slug}/AGENTS.md has no "HTML tag" line`);
+  return m[1].trim();
+}
+
+const rows = components.map((slug) => {
+  const rawTag = htmlTagOf(slug);
+  const tagMatch = rawTag.match(/<(\w+)>/);
+  const tag = tagMatch ? tagMatch[1] : "div";
+  const roleMatch = rawTag.match(/role="(\w+)"/);
+  const role = roleMatch ? roleMatch[1] : null;
+
+  let category;
+  if (isNational(slug)) category = "national";
+  else category = suffixOverride(slug) || (role && ROLE_BUCKET[role]) || TAG_BUCKET[tag] || "content";
+
+  if (!CATEGORY_LABEL[category]) throw new Error(`${slug}: unknown category id ${category}`);
+  return { slug, tag, category };
+});
+
+// Exported so bin/generate-registries can emit the same id → label map
+// into every app registry without a second, driftable copy.
+module.exports = { CATEGORY_LABEL, rows };
+
+if (require.main === module) {
+  const out = rows.map((r) => `${r.slug}\t${r.tag}\t${r.category}`).join("\n") + "\n";
+  fs.writeFileSync(path.join(top, "components-categories.tsv"), out);
+  console.log(`wrote components-categories.tsv (${rows.length} rows)`);
+
+  const counts = {};
+  for (const r of rows) counts[r.category] = (counts[r.category] || 0) + 1;
+  for (const [id, label] of Object.entries(CATEGORY_LABEL)) {
+    console.log(`  ${String(counts[id] || 0).padStart(3)}  ${label}`);
+  }
+}
