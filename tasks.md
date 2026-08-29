@@ -708,27 +708,47 @@ Rules for the executing agent:
   of `src/app/components/*.spec.ts`, not just the app's own top-level
   logic tests.
 
-- [ ] **P7-T12 `.github/workflows/publish.yml` pins `pnpm/action-setup`
-  to major version 10, one behind the major version (11) the checked-in
-  `pnpm-lock.yaml` files are actually maintained with.** Found
-  2026-08-29 while building P7-T1's new CI jobs:
-  `lily-design-system-svelte-sveltekit-examples`'s lockfile pins
-  `cookie@0.6.0` (correct for its `@sveltejs/kit@2.70.3`), but
-  installing with pnpm 10 resolves `cookie@2.0.1` instead — a
-  hoisting/dedup difference between the two majors — which breaks the
-  app's build outright (`[MISSING_EXPORT] "parse"/"serialize" is not
-  exported by ".../cookie/dist/index.js"`). `ci.yml`'s four
-  `pnpm/action-setup` steps were bumped to version 11 in the same
-  commit that added the jobs exercising this for the first time;
-  `publish.yml` was deliberately left alone here, since it's the
-  tag-gated real-publish pipeline and this repo has been careful not
-  to touch that without dedicated verification. Any subproject whose
-  publish depends on a similarly hoisting-sensitive package could hit
-  the same failure the next time a tag is pushed.
-  Verify: bump `publish.yml`'s `pnpm/action-setup` to version 11 (or
-  pin an exact version matching the lockfiles' maintainer tooling);
-  dry-run the publish workflow (`workflow_dispatch` without `real`) and
-  confirm every pack step still produces the expected tarball contents.
+- [ ] **P7-T12 pnpm major-version skew across the monorepo: 10 (CI,
+  `publish.yml`) vs 11 (this machine's tooling, which is what actually
+  maintains the checked-in `pnpm-lock.yaml` files) resolves some
+  lockfiles differently, and pnpm 11 alone can't be swapped in blind.**
+  Found and part-fixed 2026-08-29 while building P7-T1's new CI jobs,
+  in two rounds:
+  1. `lily-design-system-svelte-sveltekit-examples`'s lockfile pins
+     `cookie@0.6.0` (correct for its `@sveltejs/kit@2.70.3`), but
+     installing with pnpm 10 resolves `cookie@2.0.1` instead — a
+     hoisting/dedup difference between the majors — breaking the app's
+     build outright (`[MISSING_EXPORT] "parse"/"serialize" is not
+     exported by ".../cookie/dist/index.js"`). Reproduced directly
+     (`pnpm@10 install --no-frozen-lockfile` vs `pnpm@11`, same
+     lockfile, different `cookie`).
+  2. Bumping *every* `pnpm/action-setup` step in `ci.yml` to 11 (the
+     first attempt) broke the six other pnpm-based jobs instead: pnpm
+     11 no longer reads the legacy `pnpm.onlyBuiltDependencies` key
+     from `package.json` (a `[WARN]` says as much) and now hard-fails
+     installs with `[ERR_PNPM_IGNORED_BUILDS]` on any ignored
+     postinstall/build script (`esbuild` in this case) rather than
+     silently skipping it. The fix landed was scoped instead: only
+     `example-smoke`'s `pnpm/action-setup` stays on 11 (the one job
+     that actually needs it); `helpers`, `headless`, and
+     `html-headless` went back to 10, which the first CI run already
+     proved works for all of them.
+  This leaves two real, unresolved risks: (a) `publish.yml` still pins
+  10, so any future subproject whose *publish* build depends on a
+  similarly hoisting-sensitive package could hit round 1's failure the
+  next time a tag is pushed — untouched here since it's the tag-gated
+  real-publish pipeline and deserves its own dedicated verification,
+  not a same-session fix; (b) every subproject's `package.json` still
+  carries the legacy `pnpm.onlyBuiltDependencies`/`pnpm.overrides`
+  fields pnpm 11 ignores — fine while CI stays on 10, but the moment
+  anything else needs 11 (per (a), or a future pnpm-10-only bug), those
+  fields need moving to the pnpm-11 location (`pnpm-workspace.yaml` or
+  `.npmrc`) first, project-wide, not job-by-job.
+  Verify: decide a single pnpm major version for the whole monorepo
+  (CI + publish + local tooling) rather than the current per-job split;
+  migrate every subproject's build-script allowlist to wherever that
+  version reads it; dry-run `publish.yml` and confirm every pack step
+  still produces the expected tarball contents.
 
 ---
 
