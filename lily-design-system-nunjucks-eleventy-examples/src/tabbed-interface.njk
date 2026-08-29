@@ -1,0 +1,154 @@
+---
+layout: layouts/page.njk
+title: Tabbed Interface
+---
+
+<div class="tab-bar" role="tablist" aria-label="Notification filters">
+      <button class="tab-bar-button" role="tab" aria-label="All" aria-selected="true" aria-controls="all-panel" tabindex="0" id="tab-all">
+        All
+      </button>
+      <button class="tab-bar-button" role="tab" aria-label="Unread" aria-selected="false" aria-controls="unread-panel" tabindex="-1" id="tab-unread">
+        Unread <span class="badge" data-type="warning">3</span>
+      </button>
+    </div>
+
+    <div id="all-panel" role="tabpanel" aria-labelledby="tab-all">
+      <nav class="accordion-nav" aria-label="Notification details">
+        <ol class="accordion-list" aria-label="All notifications">
+          <li class="accordion-list-item">
+            <div class="collapsible" aria-label="Welcome notification" data-expanded="false">
+              <button data-trigger aria-expanded="false">
+                <h3>Welcome <span class="badge" data-type="default">info</span></h3>
+              </button>
+              <div data-content aria-hidden="true">
+                <p>Thanks for signing up!</p>
+              </div>
+            </div>
+          </li>
+          <li class="accordion-list-item">
+            <div class="collapsible" aria-label="Update notification" data-expanded="false">
+              <button data-trigger aria-expanded="false">
+                <h3>Update available <span class="badge" data-type="info">New</span> <span class="badge" data-type="default">info</span></h3>
+              </button>
+              <div data-content aria-hidden="true">
+                <p>Version 2.0 is ready.</p>
+              </div>
+            </div>
+          </li>
+          <li class="accordion-list-item">
+            <div class="collapsible" aria-label="Disk space notification" data-expanded="false">
+              <button data-trigger aria-expanded="false">
+                <h3>Disk space low <span class="badge" data-type="info">New</span> <span class="badge" data-type="warning">warning</span></h3>
+              </button>
+              <div data-content aria-hidden="true">
+                <p>Less than 10% remaining.</p>
+              </div>
+            </div>
+          </li>
+          <li class="accordion-list-item">
+            <div class="collapsible" aria-label="Build failed notification" data-expanded="false">
+              <button data-trigger aria-expanded="false">
+                <h3>Build failed <span class="badge" data-type="info">New</span> <span class="badge" data-type="error">error</span></h3>
+              </button>
+              <div data-content aria-hidden="true">
+                <p>CI pipeline error on main.</p>
+              </div>
+            </div>
+          </li>
+        </ol>
+      </nav>
+    </div>
+
+    <div id="unread-panel" role="tabpanel" aria-labelledby="tab-unread" hidden>
+      <nav class="accordion-nav" aria-label="Unread notification details">
+        <ol class="accordion-list" aria-label="Unread notifications">
+          <li class="accordion-list-item">
+            <div class="collapsible" aria-label="Update notification" data-expanded="false">
+              <button data-trigger aria-expanded="false">
+                <h3>Update available <span class="badge" data-type="info">New</span> <span class="badge" data-type="default">info</span></h3>
+              </button>
+              <div data-content aria-hidden="true">
+                <p>Version 2.0 is ready.</p>
+              </div>
+            </div>
+          </li>
+          <li class="accordion-list-item">
+            <div class="collapsible" aria-label="Disk space notification" data-expanded="false">
+              <button data-trigger aria-expanded="false">
+                <h3>Disk space low <span class="badge" data-type="info">New</span> <span class="badge" data-type="warning">warning</span></h3>
+              </button>
+              <div data-content aria-hidden="true">
+                <p>Less than 10% remaining.</p>
+              </div>
+            </div>
+          </li>
+          <li class="accordion-list-item">
+            <div class="collapsible" aria-label="Build failed notification" data-expanded="false">
+              <button data-trigger aria-expanded="false">
+                <h3>Build failed <span class="badge" data-type="info">New</span> <span class="badge" data-type="error">error</span></h3>
+              </button>
+              <div data-content aria-hidden="true">
+                <p>CI pipeline error on main.</p>
+              </div>
+            </div>
+          </li>
+        </ol>
+      </nav>
+    </div>
+
+<script>
+(function() {
+      'use strict';
+
+      // Tab switching
+      var tabs = document.querySelectorAll('[role="tab"]');
+      var panels = document.querySelectorAll('[role="tabpanel"]');
+
+      tabs.forEach(function(tab) {
+        tab.addEventListener('click', function() {
+          tabs.forEach(function(t) {
+            t.setAttribute('aria-selected', 'false');
+            t.setAttribute('tabindex', '-1');
+          });
+          tab.setAttribute('aria-selected', 'true');
+          tab.setAttribute('tabindex', '0');
+
+          panels.forEach(function(p) { p.hidden = true; });
+          var panelId = tab.getAttribute('aria-controls');
+          var panel = document.getElementById(panelId);
+          if (panel) panel.hidden = false;
+        });
+      });
+
+      // Tab keyboard navigation
+      var tabBar = document.querySelector('.tab-bar');
+      if (tabBar) {
+        tabBar.addEventListener('keydown', function(e) {
+          var index = Array.from(tabs).indexOf(document.activeElement);
+          if (index < 0) return;
+          if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            tabs[(index + 1) % tabs.length].focus();
+          } else if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            tabs[(index - 1 + tabs.length) % tabs.length].focus();
+          }
+        });
+      }
+
+      // Collapsible accordion behavior
+      document.querySelectorAll('.collapsible').forEach(function(el) {
+        var trigger = el.querySelector('[data-trigger]');
+        var content = el.querySelector('[data-content]');
+        if (trigger && content) {
+          trigger.addEventListener('click', function() {
+            var expanded = trigger.getAttribute('aria-expanded') === 'true';
+            trigger.setAttribute('aria-expanded', String(!expanded));
+            content.setAttribute('aria-hidden', String(expanded));
+            el.setAttribute('data-expanded', String(!expanded));
+          });
+        }
+      });
+    })();
+</script>
+

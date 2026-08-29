@@ -9,6 +9,65 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Composed-page parity for nunjucks-eleventy, and a real cascade-layer bug it uncovered — 2026-08-29
+
+[plan.md](plan.md) P6-T1. Computed the 12-composed-route × 7-app parity
+matrix: six apps already had all 12; `lily-design-system-nunjucks-eleventy-examples`
+had none. Ported all 12 (`contact-form`, `dashboard`, `dialog-flow`,
+`file-upload-form`, `navigation-and-menus`, `page-layout`,
+`rating-and-feedback`, `search-and-filter`, `settings-page`,
+`tabbed-interface`, `task-management`, `timeline-and-cards`) from the
+html-css-js example app's markup into Nunjucks templates under
+`layouts/page.njk`, and extended `e2e/accessibility.spec.ts` and
+`e2e/responsive.spec.ts` to cover them.
+
+Chasing what looked like flaky axe/overflow failures on the new pages
+surfaced four real, pre-existing defects, none specific to the new
+pages (the worst reproduced on the untouched home page too):
+
+- **A cascade-layer bug in the app's own base reset.** The reference
+  themes wrap every component rule in `@layer lily` specifically so
+  consumer CSS doesn't need to out-specificity them (unlayered rules
+  always win over layered ones regardless of specificity). This app's
+  `reset.css` was never put in a layer, so its
+  `button, input, select, textarea { color: inherit }` — even rewritten
+  with `:where()` for zero specificity — still silently beat the
+  theme's `:where(.locale-picker-button) { color: var(--lily-text) }`
+  on every button-rooted Lily component. The header's locale-picker
+  button inherited the header's white text over its own white surface:
+  invisible, intermittently caught by axe depending on sampling. Fixed
+  by moving the reset into its own `@layer reset`, declared (and thus
+  ordered) before the theme's `@layer lily` is first seen.
+- **Two component CSS files never wired into the build.**
+  `net-promoter-score-picker.css` had no `flex-wrap`/`max-width`, so 11
+  buttons in a row overflowed narrow viewports — moot once discovered
+  it plus its button partner, `five-face-rating-picker(-button)`,
+  `five-face-rating-view`, `net-promoter-score-view`, and `container`
+  were all missing from `main.css`'s `@import` list and had never been
+  styled at all.
+- **A default `<dd>` margin overflowing a grid column.** Bare
+  `<dt>`/`<dd>` inside `.summary-list-item` (rather than the
+  `-key`/`-value` helper classes the CSS anticipated) kept the UA's
+  ~40px `<dd>` inline-start margin, overflowing a `1fr` grid track on
+  mobile and tablet.
+- **A breadcrumb/sidebar link one page had never exercised.**
+  `nhsuk-bright-blue` (#0072ce) on `nhsuk-pale-grey` is 4.41:1, just
+  under WCAG AA's 4.5:1 — already fixed on `.breadcrumb-link` and
+  `.grail-layout-{left,right}-aside a` per existing comments in
+  those files, but `page-layout`'s ported breadcrumb used a bare `<a>`
+  and its sidebar had no equivalent `.sidebar a` rule. Applied the same
+  established fix to both.
+
+`AGENTS/examples.md`'s composed-page table is unchanged (the routes were
+already documented as encouraged); `spec/examples/index.md` gains a
+parity-matrix section. Verified: the four spec files (accessibility,
+responsive, theme-switching, site-preferences — 122 tests) pass 5/5
+consecutive runs with zero flakiness after the fixes, versus a
+reproducible ~15-30% intermittent failure rate before; the full
+per-slug e2e suite (612 specs) still passes. Full record in
+[spec/examples/index.md](spec/examples/index.md) and this app's own
+`spec/index.md`.
+
 ## Spell-check gate in CI — 2026-08-29
 
 [plan.md](plan.md) P5-T7, closing Phase 5. `cspell.config.yaml` runs

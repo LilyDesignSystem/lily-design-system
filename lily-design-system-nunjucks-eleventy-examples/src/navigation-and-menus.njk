@@ -1,0 +1,143 @@
+---
+layout: layouts/page.njk
+title: Navigation and Menus
+---
+
+<nav class="navigation-menu" aria-label="Demo navigation">
+      <a href="#home">Home</a>
+      <a href="#projects">Projects</a>
+      <a href="#team">Team</a>
+      <a href="#reports">Reports</a>
+      <a href="#settings">Settings</a>
+    </nav>
+
+    <hr class="separator" aria-label="Section divider">
+
+    <h2>Application Menu Bar</h2>
+    <div class="menu-bar" role="menubar" aria-label="Application menu">
+      <button class="menu-bar-button" role="menuitem" aria-label="File" id="file-menu-btn" aria-expanded="false" aria-haspopup="true">File</button>
+      <button class="menu-bar-button" role="menuitem" aria-label="Edit" id="edit-menu-btn" aria-expanded="false" aria-haspopup="true">Edit</button>
+      <button class="menu-bar-button" role="menuitem" aria-label="View">View</button>
+      <button class="menu-bar-button" role="menuitem" aria-label="Help">Help</button>
+    </div>
+
+    <div class="dropdown-menu" role="menu" aria-label="File" id="file-menu" hidden>
+      <ul>
+        <li role="menuitem" tabindex="-1">New Document</li>
+        <li role="menuitem" tabindex="-1">Open...</li>
+        <li role="menuitem" tabindex="-1">Save</li>
+        <li role="menuitem" tabindex="-1">Export as PDF</li>
+      </ul>
+    </div>
+
+    <div class="dropdown-menu" role="menu" aria-label="Edit" id="edit-menu" hidden>
+      <ul>
+        <li role="menuitem" tabindex="-1">Undo</li>
+        <li role="menuitem" tabindex="-1">Redo</li>
+        <li role="menuitem" tabindex="-1">Cut</li>
+        <li role="menuitem" tabindex="-1">Copy</li>
+        <li role="menuitem" tabindex="-1">Paste</li>
+      </ul>
+    </div>
+
+    <hr class="separator" aria-label="Section divider">
+
+    <h2>Document Toolbar</h2>
+    <div class="tool-bar" role="toolbar" aria-label="Document formatting">
+      <button class="tool-bar-button" aria-label="Bold">Bold</button>
+      <button class="tool-bar-button" aria-label="Italic">Italic</button>
+      <button class="tool-bar-button" aria-label="Underline">Underline</button>
+      <button class="tool-bar-button" aria-label="Strikethrough" disabled>Strikethrough</button>
+      <button class="tool-bar-button" aria-label="Align Left">Align Left</button>
+      <button class="tool-bar-button" aria-label="Align Center">Align Center</button>
+      <button class="tool-bar-button" aria-label="Align Right">Align Right</button>
+    </div>
+
+    <hr class="separator" aria-label="Section divider">
+
+    <h2>Mobile Navigation</h2>
+    <button class="button" aria-label="Mobile menu" aria-expanded="false" id="hamburger-btn">
+      Menu
+    </button>
+    <nav class="navigation-menu" aria-label="Mobile navigation" id="mobile-nav" hidden>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#team">Team</a></li>
+        <li><a href="#reports">Reports</a></li>
+        <li><a href="#settings">Settings</a></li>
+        <li><a href="#profile">Profile</a></li>
+        <li><a href="#logout">Log Out</a></li>
+      </ul>
+    </nav>
+
+<script>
+(function() {
+      'use strict';
+
+      // Menu bar keyboard navigation
+      var menuBar = document.querySelector('.menu-bar');
+      if (menuBar) {
+        var items = menuBar.querySelectorAll('[role="menuitem"]');
+        menuBar.addEventListener('keydown', function(e) {
+          var index = Array.from(items).indexOf(document.activeElement);
+          if (index < 0) return;
+          if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            items[(index + 1) % items.length].focus();
+          } else if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            items[(index - 1 + items.length) % items.length].focus();
+          }
+        });
+      }
+
+      // Dropdown menus
+      var fileMenuBtn = document.getElementById('file-menu-btn');
+      var editMenuBtn = document.getElementById('edit-menu-btn');
+      var fileMenu = document.getElementById('file-menu');
+      var editMenu = document.getElementById('edit-menu');
+
+      function closeAllMenus() {
+        fileMenu.hidden = true;
+        editMenu.hidden = true;
+        fileMenuBtn.setAttribute('aria-expanded', 'false');
+        editMenuBtn.setAttribute('aria-expanded', 'false');
+      }
+
+      fileMenuBtn.addEventListener('click', function() {
+        var isOpen = !fileMenu.hidden;
+        closeAllMenus();
+        if (!isOpen) {
+          fileMenu.hidden = false;
+          fileMenuBtn.setAttribute('aria-expanded', 'true');
+        }
+      });
+
+      editMenuBtn.addEventListener('click', function() {
+        var isOpen = !editMenu.hidden;
+        closeAllMenus();
+        if (!isOpen) {
+          editMenu.hidden = false;
+          editMenuBtn.setAttribute('aria-expanded', 'true');
+        }
+      });
+
+      // Hamburger menu
+      var hamburgerBtn = document.getElementById('hamburger-btn');
+      var mobileNav = document.getElementById('mobile-nav');
+      hamburgerBtn.addEventListener('click', function() {
+        var expanded = hamburgerBtn.getAttribute('aria-expanded') === 'true';
+        hamburgerBtn.setAttribute('aria-expanded', String(!expanded));
+        mobileNav.hidden = expanded;
+      });
+
+      // Close menus on outside click
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('.menu-bar') && !e.target.closest('.dropdown-menu')) {
+          closeAllMenus();
+        }
+      });
+    })();
+</script>
+

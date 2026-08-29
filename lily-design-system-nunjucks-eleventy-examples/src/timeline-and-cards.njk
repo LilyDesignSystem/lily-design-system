@@ -1,0 +1,125 @@
+---
+layout: layouts/page.njk
+title: Timeline and Cards
+---
+
+<div class="card" role="region" aria-label="Filter by Date Range">
+      <h2>Filter by Date Range</h2>
+      <div class="field" aria-label="From date field">
+        <label class="label" for="filter-start">From</label>
+        <input class="date-input" type="date" id="filter-start" aria-label="Start date" value="2025-01-01">
+      </div>
+      <div class="field" aria-label="To date field">
+        <label class="label" for="filter-end">To</label>
+        <input class="date-input" type="date" id="filter-end" aria-label="End date" value="2025-12-31">
+      </div>
+    </div>
+
+    <p aria-label="Last updated"><em>Last updated: June 20, 2025</em></p>
+
+    <h2>Milestones</h2>
+    <ol class="timeline-list" aria-label="Project milestones" id="timeline-list">
+    </ol>
+
+    <h2>Project Summary</h2>
+    <dl class="summary-list" aria-label="Overall project summary">
+      <div class="summary-list-item">
+        <dt>Total Milestones</dt>
+        <dd id="total-milestones">4</dd>
+      </div>
+      <div class="summary-list-item">
+        <dt>Completed</dt>
+        <dd id="completed-milestones">2</dd>
+      </div>
+      <div class="summary-list-item">
+        <dt>In Progress</dt>
+        <dd id="in-progress-milestones">1</dd>
+      </div>
+      <div class="summary-list-item">
+        <dt>Planned</dt>
+        <dd id="planned-milestones">1</dd>
+      </div>
+    </dl>
+
+<script>
+(function() {
+      'use strict';
+
+      var milestones = [
+        { date: '2025-01-10', heading: 'January 10, 2025', title: 'Project Kickoff', description: 'Initial planning session and team onboarding.', status: 'success', statusLabel: 'Completed' },
+        { date: '2025-03-01', heading: 'March 1, 2025', title: 'Alpha Release', description: 'Core features shipped to internal testers.', status: 'success', statusLabel: 'Completed' },
+        { date: '2025-06-15', heading: 'June 15, 2025', title: 'Beta Launch', description: 'Public beta with feedback collection enabled.', status: 'warning', statusLabel: 'In Progress' },
+        { date: '2025-09-01', heading: 'September 1, 2025', title: 'General Availability', description: 'Production release to all customers.', status: 'default', statusLabel: 'Planned' }
+      ];
+
+      function renderTimeline() {
+        var start = document.getElementById('filter-start').value;
+        var end = document.getElementById('filter-end').value;
+        var filtered = milestones.filter(function(m) {
+          return m.date >= start && m.date <= end;
+        });
+
+        var list = document.getElementById('timeline-list');
+        list.innerHTML = '';
+
+        filtered.forEach(function(m) {
+          var li = document.createElement('li');
+          li.className = 'timeline-list-item';
+          li.setAttribute('data-datetime', m.date);
+
+          var card = document.createElement('div');
+          card.className = 'card';
+          card.setAttribute('role', 'region');
+          card.setAttribute('aria-label', m.title);
+
+          var h3 = document.createElement('h3');
+          h3.textContent = m.title;
+          card.appendChild(h3);
+
+          var badge = document.createElement('span');
+          badge.className = 'badge';
+          badge.setAttribute('data-type', m.status);
+          badge.textContent = m.statusLabel;
+          card.appendChild(badge);
+
+          var p = document.createElement('p');
+          p.textContent = m.description;
+          card.appendChild(p);
+
+          // Use <dl> so the contained <dt>/<dd> pairs have their required
+          // description-list parent. The CSS `.summary-list` class still
+          // applies. Each pair is wrapped in a <div> so the
+          // summary-list-item styling can target the row.
+          var summaryList = document.createElement('dl');
+          summaryList.className = 'summary-list';
+          summaryList.setAttribute('aria-label', m.title + ' details');
+
+          var item1 = document.createElement('div');
+          item1.className = 'summary-list-item';
+          item1.innerHTML = '<dt>Target Date</dt><dd>' + m.heading + '</dd>';
+          summaryList.appendChild(item1);
+
+          var item2 = document.createElement('div');
+          item2.className = 'summary-list-item';
+          item2.innerHTML = '<dt>Status</dt><dd>' + m.statusLabel + '</dd>';
+          summaryList.appendChild(item2);
+
+          card.appendChild(summaryList);
+          li.appendChild(card);
+          list.appendChild(li);
+        });
+
+        // Update summary counts
+        document.getElementById('total-milestones').textContent = milestones.length;
+        document.getElementById('completed-milestones').textContent = milestones.filter(function(m) { return m.status === 'success'; }).length;
+        document.getElementById('in-progress-milestones').textContent = milestones.filter(function(m) { return m.status === 'warning'; }).length;
+        document.getElementById('planned-milestones').textContent = milestones.filter(function(m) { return m.status === 'default'; }).length;
+      }
+
+      document.getElementById('filter-start').addEventListener('change', renderTimeline);
+      document.getElementById('filter-end').addEventListener('change', renderTimeline);
+
+      renderTimeline();
+    })();
+</script>
+

@@ -23,12 +23,22 @@ svg {
   max-width: 100%;
 }
 
-button,
-input,
-select,
-textarea {
-  font: inherit;
-  color: inherit;
+/* Un-layered rules always beat layered ones regardless of specificity, and
+   the reference themes wrap every component rule in `@layer lily` (see
+   themes/*.css) precisely so consumer CSS doesn't have to out-specificity
+   them. This app's own base CSS was never put in a layer, so this
+   form-control reset — even written with :where() for zero specificity —
+   was still winning over the theme's `:where(.foo-button) { color: ... }`
+   rules on every button-rooted Lily component (e.g. the header pickers
+   inheriting the header's white text instead of their themed dark text,
+   invisible against the picker's own near-white surface). Declaring
+   `reset` as a layer here, before the theme stylesheet's `@layer lily` is
+   first seen, gives it lower cascade priority than `lily`. */
+@layer reset {
+  :where(button, input, select, textarea) {
+    font: inherit;
+    color: inherit;
+  }
 }
 
 ol,

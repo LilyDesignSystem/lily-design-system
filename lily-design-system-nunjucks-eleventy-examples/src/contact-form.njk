@@ -1,0 +1,116 @@
+---
+layout: layouts/page.njk
+title: Contact Form
+---
+
+<div id="success-message" role="status" hidden>
+      <p>Thank you, <span id="success-name"></span>! Your message has been sent.</p>
+    </div>
+
+    <div id="form-container">
+      <h1>Contact Us</h1>
+
+      <div id="error-summary" class="error-summary" aria-label="Form errors" hidden>
+        <h2>Please fix the following errors</h2>
+        <ul id="error-list"></ul>
+      </div>
+
+      <form class="form" aria-label="Contact us" novalidate>
+        <div class="field" aria-label="Full name field">
+          <label class="label" for="name">Full name</label>
+          <span class="hint" id="name-hint">Enter your full name</span>
+          <span class="error-message" id="name-error" hidden></span>
+          <input class="text-input" type="text" id="name" aria-label="Full name" aria-describedby="name-hint" required>
+        </div>
+
+        <div class="field" aria-label="Email address field">
+          <label class="label" for="email">Email address</label>
+          <span class="hint" id="email-hint">Enter your email address</span>
+          <span class="error-message" id="email-error" hidden></span>
+          <input class="email-input" type="email" id="email" aria-label="Email address" aria-describedby="email-hint" required>
+        </div>
+
+        <div class="field" aria-label="Subject field">
+          <label class="label" for="subject">Subject</label>
+          <select class="select" id="subject" aria-label="Subject">
+            <option value="general">General inquiry</option>
+            <option value="support">Technical support</option>
+            <option value="billing">Billing question</option>
+            <option value="feedback">Feedback</option>
+          </select>
+        </div>
+
+        <div class="field" aria-label="Message field">
+          <label class="label" for="message">Message</label>
+          <span class="hint" id="message-hint">Enter your message</span>
+          <span class="error-message" id="message-error" hidden></span>
+          <textarea class="text-area-input" id="message" aria-label="Message" aria-describedby="message-hint" rows="5" required></textarea>
+        </div>
+
+        <button class="button" type="submit" aria-label="Send Message">Send Message</button>
+      </form>
+    </div>
+
+<script>
+(function() {
+      'use strict';
+
+      var form = document.querySelector('.form');
+      var errorSummary = document.getElementById('error-summary');
+      var errorList = document.getElementById('error-list');
+
+      function clearErrors() {
+        errorList.innerHTML = '';
+        errorSummary.hidden = true;
+        var msgs = document.querySelectorAll('.error-message');
+        msgs.forEach(function(el) { el.hidden = true; el.textContent = ''; });
+        var inputs = document.querySelectorAll('[aria-invalid]');
+        inputs.forEach(function(el) { el.removeAttribute('aria-invalid'); el.removeAttribute('aria-errormessage'); });
+      }
+
+      function addError(fieldId, message) {
+        var errorEl = document.getElementById(fieldId + '-error');
+        if (errorEl) {
+          errorEl.textContent = message;
+          errorEl.hidden = false;
+        }
+        var input = document.getElementById(fieldId);
+        if (input) {
+          input.setAttribute('aria-invalid', 'true');
+          input.setAttribute('aria-errormessage', fieldId + '-error');
+        }
+        var li = document.createElement('li');
+        var a = document.createElement('a');
+        a.href = '#' + fieldId;
+        a.textContent = message;
+        li.appendChild(a);
+        errorList.appendChild(li);
+      }
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        clearErrors();
+
+        var name = document.getElementById('name').value.trim();
+        var email = document.getElementById('email').value.trim();
+        var message = document.getElementById('message').value.trim();
+        var hasErrors = false;
+
+        if (!name) { addError('name', 'Name is required'); hasErrors = true; }
+        if (!email) { addError('email', 'Email is required'); hasErrors = true; }
+        else if (email.indexOf('@') === -1) { addError('email', 'Enter a valid email address'); hasErrors = true; }
+        if (!message) { addError('message', 'Message is required'); hasErrors = true; }
+
+        if (hasErrors) {
+          errorSummary.hidden = false;
+          errorSummary.focus();
+          return;
+        }
+
+        document.getElementById('form-container').hidden = true;
+        document.getElementById('success-name').textContent = name;
+        document.getElementById('success-message').hidden = false;
+      });
+    })();
+</script>
+

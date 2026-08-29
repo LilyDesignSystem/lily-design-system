@@ -13,6 +13,15 @@
   }
 }
 
+/* The composed timeline-and-cards demo uses bare <dt>/<dd> rather than
+   the -key/-value helper classes below; reset the UA default <dd>
+   inline-start margin (~40px), which otherwise overflows a 1fr grid
+   column on narrow viewports. */
+.summary-list-item dt,
+.summary-list-item dd {
+  margin: 0;
+}
+
 .summary-list-item-key {
   margin: 0;
   font-weight: var(--nhsuk-font-weight-bold);

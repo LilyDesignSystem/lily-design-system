@@ -1,0 +1,98 @@
+---
+layout: layouts/page.njk
+title: Dashboard
+---
+
+<div class="banner" role="banner" aria-label="Sprint status">
+      Sprint 12 ends in 5 days. <span id="remaining-count">3</span> tasks remaining.
+    </div>
+
+    <div class="card-grid">
+      <div class="card" role="region" aria-label="Sprint Progress">
+        <h2>Sprint Progress</h2>
+        <div class="progress-circle" role="progressbar" aria-label="Sprint completion" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
+          <span id="progress-percent">40</span>%
+        </div>
+        <p><span id="completed-count">2</span> of <span id="total-count">5</span> tasks complete</p>
+      </div>
+
+      <div class="card" role="region" aria-label="Build Status">
+        <h2>Build Status</h2>
+        <span class="badge" aria-label="Build passing" data-type="success">Passing</span>
+        <progress class="progress" aria-label="Test coverage" max="100" value="87">87%</progress>
+        <p>87% test coverage</p>
+      </div>
+
+      <div class="card" role="region" aria-label="Team Velocity">
+        <h2>Team Velocity</h2>
+        <p>12 story points completed this week</p>
+        <span class="badge" aria-label="Status on track" data-type="info">On track</span>
+      </div>
+    </div>
+
+    <h2>Task List</h2>
+    <table class="data-table" aria-label="Sprint tasks">
+      <thead>
+        <tr>
+          <th scope="col">Title</th>
+          <th scope="col">Assignee</th>
+          <th scope="col">Status</th>
+          <th scope="col">Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Design landing page</td>
+          <td>Alice</td>
+          <td><span class="badge" data-type="success">done</span></td>
+          <td>high</td>
+        </tr>
+        <tr>
+          <td>Implement auth flow</td>
+          <td>Bob</td>
+          <td><span class="badge" data-type="warning">in-progress</span></td>
+          <td>high</td>
+        </tr>
+        <tr>
+          <td>Write unit tests</td>
+          <td>Carol</td>
+          <td><span class="badge" data-type="warning">in-progress</span></td>
+          <td>medium</td>
+        </tr>
+        <tr>
+          <td>Update documentation</td>
+          <td>Dave</td>
+          <td><span class="badge" data-type="default">todo</span></td>
+          <td>low</td>
+        </tr>
+        <tr>
+          <td>Code review</td>
+          <td>Alice</td>
+          <td><span class="badge" data-type="default">todo</span></td>
+          <td>medium</td>
+        </tr>
+      </tbody>
+    </table>
+
+<script>
+(function() {
+      'use strict';
+      var tasks = [
+        { title: 'Design landing page', status: 'done' },
+        { title: 'Implement auth flow', status: 'in-progress' },
+        { title: 'Write unit tests', status: 'in-progress' },
+        { title: 'Update documentation', status: 'todo' },
+        { title: 'Code review', status: 'todo' }
+      ];
+      var completed = tasks.filter(function(t) { return t.status === 'done'; }).length;
+      var total = tasks.length;
+      var percent = Math.round((completed / total) * 100);
+      document.getElementById('completed-count').textContent = completed;
+      document.getElementById('total-count').textContent = total;
+      document.getElementById('remaining-count').textContent = total - completed;
+      document.getElementById('progress-percent').textContent = percent;
+      var circle = document.querySelector('.progress-circle');
+      if (circle) circle.setAttribute('aria-valuenow', percent);
+    })();
+</script>
+

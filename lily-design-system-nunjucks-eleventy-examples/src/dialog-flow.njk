@@ -1,0 +1,111 @@
+---
+layout: layouts/page.njk
+title: Dialog Flow
+---
+
+<section class="section">
+      <div class="tooltip-wrapper" style="position: relative; display: inline-block;">
+        <button class="button" aria-label="Delete Account" id="delete-btn" aria-describedby="delete-tooltip">
+          Delete Account
+        </button>
+        <div class="tooltip" role="tooltip" id="delete-tooltip" aria-label="Delete tooltip" aria-hidden="true">
+          Opens a confirmation dialog
+        </div>
+      </div>
+
+      <dialog class="dialog" role="dialog" aria-label="Confirm account deletion" aria-modal="true" id="confirm-dialog">
+        <h3>Delete your account?</h3>
+        <p>This action cannot be undone. All your data will be permanently removed.</p>
+        <div>
+          <button class="button" aria-label="Cancel" id="cancel-delete-btn">Cancel</button>
+          <button class="button" aria-label="Delete permanently" id="confirm-delete-btn">Delete permanently</button>
+        </div>
+      </dialog>
+    </section>
+
+    <section class="section">
+      <button class="button" aria-label="Show Session Warning" id="alert-btn">
+        Show Session Warning
+      </button>
+
+      <dialog class="alert-dialog" role="alertdialog" aria-label="Session expiring" aria-modal="true" id="alert-dialog">
+        <p>Your session will expire in 5 minutes. Save your work to avoid losing changes.</p>
+        <button class="button" aria-label="Dismiss" id="dismiss-alert-btn">Dismiss</button>
+      </dialog>
+    </section>
+
+    <section class="section">
+      <button class="button" aria-label="Open Help Panel" id="drawer-btn">
+        Open Help Panel
+      </button>
+
+      <div class="drawer" aria-label="Help panel" data-open="false" id="help-drawer">
+        <h3>Need help?</h3>
+        <ul>
+          <li><a href="#getting-started">Getting Started</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#api">API Reference</a></li>
+        </ul>
+        <button class="button" aria-label="Close" id="close-drawer-btn">Close</button>
+      </div>
+    </section>
+
+    <p id="deleted-status" role="status" hidden>Account has been deleted.</p>
+
+<script>
+(function() {
+      'use strict';
+
+      var confirmDialog = document.getElementById('confirm-dialog');
+      var alertDialog = document.getElementById('alert-dialog');
+      var drawer = document.getElementById('help-drawer');
+      var deleteBtn = document.getElementById('delete-btn');
+
+      // Tooltip hover behavior
+      var tooltipWrapper = document.querySelector('.tooltip-wrapper');
+      var tooltip = document.getElementById('delete-tooltip');
+      if (tooltipWrapper && tooltip) {
+        tooltipWrapper.addEventListener('mouseenter', function() { tooltip.setAttribute('aria-hidden', 'false'); });
+        tooltipWrapper.addEventListener('mouseleave', function() { tooltip.setAttribute('aria-hidden', 'true'); });
+        tooltipWrapper.addEventListener('focusin', function() { tooltip.setAttribute('aria-hidden', 'false'); });
+        tooltipWrapper.addEventListener('focusout', function() { tooltip.setAttribute('aria-hidden', 'true'); });
+      }
+
+      // Confirm dialog
+      deleteBtn.addEventListener('click', function() {
+        confirmDialog.showModal();
+      });
+      document.getElementById('cancel-delete-btn').addEventListener('click', function() {
+        confirmDialog.close();
+      });
+      document.getElementById('confirm-delete-btn').addEventListener('click', function() {
+        confirmDialog.close();
+        deleteBtn.disabled = true;
+        document.getElementById('deleted-status').hidden = false;
+      });
+
+      // Alert dialog
+      document.getElementById('alert-btn').addEventListener('click', function() {
+        alertDialog.showModal();
+      });
+      document.getElementById('dismiss-alert-btn').addEventListener('click', function() {
+        alertDialog.close();
+      });
+
+      // Drawer
+      document.getElementById('drawer-btn').addEventListener('click', function() {
+        drawer.setAttribute('data-open', 'true');
+      });
+      document.getElementById('close-drawer-btn').addEventListener('click', function() {
+        drawer.setAttribute('data-open', 'false');
+      });
+
+      // Escape key for dialogs
+      [confirmDialog, alertDialog].forEach(function(dialog) {
+        dialog.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape') dialog.close();
+        });
+      });
+    })();
+</script>
+

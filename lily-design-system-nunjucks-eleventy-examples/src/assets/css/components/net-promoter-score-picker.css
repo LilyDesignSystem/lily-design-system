@@ -1,4 +1,9 @@
 .net-promoter-score-picker {
   display: inline-flex;
+  flex-wrap: wrap;
+  /* inline-flex sizes to its shrink-to-fit content width regardless of an
+     ancestor's width, so 11 buttons in a row never reach the point of
+     wrapping; cap it to the available width so flex-wrap can act. */
+  max-width: 100%;
   gap: 2px;
 }

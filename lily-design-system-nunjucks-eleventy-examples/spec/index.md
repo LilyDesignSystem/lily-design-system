@@ -99,8 +99,8 @@ lily-design-system-nunjucks-eleventy-examples/
 │   │       ├── page.njk
 │   │       └── component-demo.njk         ← /components/{slug}/ template
 │   ├── components/{kebab-case}.njk        ← one file per canonical slug (490)
-│   ├── contact-form/index.njk             ← composed-page demos (12)
-│   ├── dashboard/index.njk
+│   ├── contact-form.njk                   ← composed-page demos (12), flat
+│   ├── dashboard.njk                      ← files using layouts/page.njk
 │   └── …
 │   └── assets/css/                        ← NHS-aligned stylesheets
 ├── _site/                                 ← Eleventy output (gitignored)
@@ -124,7 +124,17 @@ macro from the sibling headless library and renders the live demo.
 ## 5. Composed-page demos
 
 Twelve composed-page demos exercise multiple components together (matches
-the other example apps).
+the other example apps): `contact-form`, `dashboard`, `dialog-flow`,
+`file-upload-form`, `navigation-and-menus`, `page-layout`,
+`rating-and-feedback`, `search-and-filter`, `settings-page`,
+`tabbed-interface`, `task-management`, `timeline-and-cards`. Each is a flat
+`src/{route}.njk` file (not a `{route}/index.njk` directory as an earlier
+draft of this doc anticipated) using `layout: layouts/page.njk`, ported
+2026-08-29 from the html-css-js example app's markup — see root
+[CHANGELOG.md](../../CHANGELOG.md) for the four pre-existing defects that
+port surfaced and fixed (a cascade-layer bug in `reset.css`, two
+un-imported component CSS files, a `<dd>`-margin overflow, and one
+breadcrumb/sidebar link needing the established AA-contrast fix).
 
 ## 6. Styling
 
@@ -162,7 +172,7 @@ pnpm exec playwright test            # e2e tests
 - [ ] `/components/` lists all 490 canonical components.
 - [ ] `/components/{slug}/` exists for all 490 canonical slugs with a live
       demo.
-- [ ] All 12 composed-page demos exist.
+- [x] All 12 composed-page demos exist.
 
 ### 9.2 Macro coverage
 
@@ -206,13 +216,16 @@ pnpm exec playwright test            # e2e tests
 - [x] `pnpm exec playwright test` passes: **612 / 612 specs**
       (2 specs per `/components/{slug}/` route × 306 component pages
       built; the headless library's 2,393 macro tests cover the
-      remaining slugs).
+      remaining slugs) plus 122 in `accessibility.spec.ts` +
+      `responsive.spec.ts` + `theme-switching.spec.ts` +
+      `site-preferences.spec.ts` (axe-core and a 4-viewport overflow
+      sweep landed in an earlier phase; this doc's backlog below was
+      stale). All 122 verified 5/5 consecutive clean runs as of
+      2026-08-29 after the P6-T1 fixes (see root CHANGELOG.md).
 - [x] Every built page serves an HTTP 200 with a visible H1.
 
 ### 10.3 Open backlog
 
-- [ ] Audit WCAG 2.2 AAA conformance (needs axe / Lighthouse).
-- [ ] Verify responsive design on mobile / desktop / 4K (manual).
 - [ ] Confirm every page works without JavaScript (manual).
 
 ## 11. Prohibited

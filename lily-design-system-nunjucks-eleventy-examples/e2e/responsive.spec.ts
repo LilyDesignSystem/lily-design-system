@@ -4,8 +4,7 @@ import { test, expect } from '@playwright/test';
 // See the SvelteKit examples app's responsive.spec.ts for the rationale
 // — this file mirrors that pattern for the static-site route shape.
 // Routes use trailing slashes (/components/{slug}/). Composed pages are
-// not currently built in this app, so the smoke check focuses on the
-// catalog and component-detail routes that are.
+// now built (plan P6-T1) and included below.
 //
 // Loads a representative set of routes at 4 viewport sizes (mobile,
 // tablet, desktop, 4K) and asserts:
@@ -31,9 +30,41 @@ const routes = [
   '/components/breadcrumb-nav/',
   '/components/header/',
   '/components/footer/',
+  // Plan P6-T1: composed-page parity backfill (12/12, matching the
+  // other six example apps' AGENTS/examples.md route list).
+  '/contact-form/',
+  '/dashboard/',
+  '/dialog-flow/',
+  '/file-upload-form/',
+  '/navigation-and-menus/',
+  '/page-layout/',
+  '/rating-and-feedback/',
+  '/search-and-filter/',
+  '/settings-page/',
+  '/tabbed-interface/',
+  '/task-management/',
+  '/timeline-and-cards/',
 ];
 
+// See e2e/accessibility.spec.ts for why: base.njk injects the managed
+// theme <link> asynchronously, after `page.goto()` resolves, so a layout
+// check racing that load can see pre-theme spacing/width and report a
+// false overflow. Wait for the managed link's sheet before measuring.
+async function waitForTheme(page: import('@playwright/test').Page) {
+  await page.waitForFunction(() => {
+    const link = document.querySelector('link[data-lily-theme-picker]') as HTMLLinkElement | null;
+    if (!link) return false;
+    try {
+      return !!(link.sheet && link.sheet.cssRules && link.sheet.cssRules.length > 0);
+    } catch {
+      return true;
+    }
+  });
+  await page.evaluate(() => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r))));
+}
+
 async function expectNoHorizontalOverflow(page: import('@playwright/test').Page, label: string) {
+  await waitForTheme(page);
   const overflow = await page.evaluate(() => ({
     documentWidth: document.documentElement.scrollWidth,
     viewportWidth: window.innerWidth,

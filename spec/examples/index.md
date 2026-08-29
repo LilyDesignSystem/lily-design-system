@@ -48,6 +48,39 @@ Composed pages exercise multiple components together to validate the system as a
 | `/navigation-and-menus`    | `/rating-and-feedback`     | `/search-and-filter`       |
 | `/settings-page`           | `/tabbed-interface`        | `/task-management`         |
 
+### Composed-page parity matrix
+
+All 7 example apps ship all 12 composed routes as of 2026-08-29 (plan
+P6-T1). `nunjucks-eleventy-examples` had none until then; the other six
+already had full coverage.
+
+| Route                    | html-css-js | svelte-sveltekit | react-next | vue-nuxt | angular | blazor-web | nunjucks-eleventy |
+| ------------------------ | :---------: | :---------------: | :--------: | :------: | :-----: | :--------: | :---------------: |
+| `/contact-form`          | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| `/dashboard`             | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| `/dialog-flow`           | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| `/file-upload-form`      | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| `/navigation-and-menus`  | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| `/page-layout`           | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| `/rating-and-feedback`   | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| `/search-and-filter`     | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| `/settings-page`         | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| `/tabbed-interface`      | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| `/task-management`       | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| `/timeline-and-cards`    | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+
+nunjucks-eleventy's 12 pages were ported from html-css-js's markup
+(the closest architectural match — static markup + inline vanilla
+`<script>`) into `layouts/page.njk` templates. Porting surfaced four
+real, pre-existing defects unrelated to the new pages themselves —
+most notably a cascade-layer bug (the app's unlayered `reset.css` was
+silently beating the reference theme's `@layer lily` component rules
+regardless of specificity, since unlayered rules always win over
+layered ones) that made the header's locale-picker button render
+white text on its own white surface on every page, intermittently
+caught by axe depending on pixel-sampling. Full record: root
+[CHANGELOG.md](../../CHANGELOG.md) and this app's own `spec/index.md`.
+
 ## Per-framework demo render mechanism
 
 Each `/components/{slug}` page renders generated demo HTML for the component. The render mechanism differs by framework (spec/index.md §8.2).

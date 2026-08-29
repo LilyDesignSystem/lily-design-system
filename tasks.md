@@ -415,10 +415,28 @@ Rules for the executing agent:
 
 ## Phase 6 — Examples deepening
 
-- [ ] **P6-T1 Composed-page parity matrix** (12 routes × 7 apps) in
+- [x] **P6-T1 Composed-page parity matrix** (12 routes × 7 apps) in
   `spec/examples/index.md`; backfill gaps, including first composed
   pages for nunjucks-eleventy; un-skip its responsive sweep.
   Verify: matrix matches reality; per-app e2e passes on new routes.
+  Done 2026-08-29: matrix computed — six apps already had all 12,
+  nunjucks-eleventy had none. Ported all 12 from html-css-js into
+  `layouts/page.njk` templates; extended `accessibility.spec.ts` and
+  `responsive.spec.ts`. Chasing apparent flakiness on the new routes
+  surfaced four real, pre-existing defects (none specific to the new
+  pages — the worst reproduced on the untouched home page): a
+  cascade-layer bug where the app's own unlayered `reset.css` was
+  silently beating the theme's `@layer lily` component rules
+  regardless of specificity (header locale-picker: white text on its
+  own white surface); two component CSS files never wired into
+  `main.css`'s `@import` list (net-promoter-score-picker family,
+  five-face-rating family, container); a default `<dd>` UA margin
+  overflowing a grid column; and one breadcrumb/sidebar link combo
+  the established `nhsuk-bright-blue`-fails-AA fix hadn't reached yet.
+  All fixed. Bite-proven: the four top-level spec files (122 tests)
+  pass 5/5 consecutive runs versus a reproducible ~15-30% intermittent
+  failure rate before; full 612-spec per-slug suite still green. Full
+  record: [CHANGELOG.md](CHANGELOG.md).
 
 - [ ] **P6-T2 Flagship "book an appointment" scenario — SvelteKit.**
   Multi-step form, validation, error summary, summary list,

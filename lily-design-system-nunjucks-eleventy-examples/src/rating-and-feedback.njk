@@ -1,0 +1,125 @@
+---
+layout: layouts/page.njk
+title: Rating and Feedback
+---
+
+<div id="success-section" hidden>
+      <div class="alert" role="alert" aria-label="Thank you" data-type="success">
+        <h2>Thank you!</h2>
+        <p>Your feedback has been recorded.</p>
+      </div>
+      <div>
+        <p>Your product rating:</p>
+        <div class="five-star-rating-picker" role="radiogroup" aria-label="Your rating" id="rating-view">
+        </div>
+      </div>
+    </div>
+
+    <div id="form-section">
+      <h1>Feedback</h1>
+      <form class="form" aria-label="Feedback form" id="feedback-form">
+        <h2>We value your feedback</h2>
+
+        <section class="section">
+          <h3>Rate this product</h3>
+          <div class="five-star-rating-picker" role="radiogroup" aria-label="Product rating" id="star-picker">
+            <button class="five-star-rating-picker-button" role="radio" aria-label="1 star" aria-checked="false" data-value="1">&#9733;</button>
+            <button class="five-star-rating-picker-button" role="radio" aria-label="2 stars" aria-checked="false" data-value="2">&#9733;</button>
+            <button class="five-star-rating-picker-button" role="radio" aria-label="3 stars" aria-checked="false" data-value="3">&#9733;</button>
+            <button class="five-star-rating-picker-button" role="radio" aria-label="4 stars" aria-checked="false" data-value="4">&#9733;</button>
+            <button class="five-star-rating-picker-button" role="radio" aria-label="5 stars" aria-checked="false" data-value="5">&#9733;</button>
+          </div>
+        </section>
+
+        <hr class="separator" aria-label="Section divider">
+
+        <section class="section">
+          <h3>How satisfied are you with our service?</h3>
+          <div class="five-face-rating-picker" role="radiogroup" aria-label="Service satisfaction" id="face-picker">
+            <button class="five-face-rating-picker-button" role="radio" aria-label="Very dissatisfied" aria-checked="false" data-value="1">&#128542;</button>
+            <button class="five-face-rating-picker-button" role="radio" aria-label="Dissatisfied" aria-checked="false" data-value="2">&#128577;</button>
+            <button class="five-face-rating-picker-button" role="radio" aria-label="Neutral" aria-checked="false" data-value="3">&#128528;</button>
+            <button class="five-face-rating-picker-button" role="radio" aria-label="Satisfied" aria-checked="false" data-value="4">&#128578;</button>
+            <button class="five-face-rating-picker-button" role="radio" aria-label="Very satisfied" aria-checked="false" data-value="5">&#128515;</button>
+          </div>
+        </section>
+
+        <hr class="separator" aria-label="Section divider">
+
+        <section class="section">
+          <h3>How likely are you to recommend us?</h3>
+          <div class="net-promoter-score-picker" role="radiogroup" aria-label="Recommendation likelihood" id="nps-picker">
+            <button class="net-promoter-score-picker-button" role="radio" aria-label="0 - Not at all likely" aria-checked="false" data-value="0">0</button>
+            <button class="net-promoter-score-picker-button" role="radio" aria-label="1" aria-checked="false" data-value="1">1</button>
+            <button class="net-promoter-score-picker-button" role="radio" aria-label="2" aria-checked="false" data-value="2">2</button>
+            <button class="net-promoter-score-picker-button" role="radio" aria-label="3" aria-checked="false" data-value="3">3</button>
+            <button class="net-promoter-score-picker-button" role="radio" aria-label="4" aria-checked="false" data-value="4">4</button>
+            <button class="net-promoter-score-picker-button" role="radio" aria-label="5" aria-checked="false" data-value="5">5</button>
+            <button class="net-promoter-score-picker-button" role="radio" aria-label="6" aria-checked="false" data-value="6">6</button>
+            <button class="net-promoter-score-picker-button" role="radio" aria-label="7" aria-checked="false" data-value="7">7</button>
+            <button class="net-promoter-score-picker-button" role="radio" aria-label="8" aria-checked="false" data-value="8">8</button>
+            <button class="net-promoter-score-picker-button" role="radio" aria-label="9" aria-checked="false" data-value="9">9</button>
+            <button class="net-promoter-score-picker-button" role="radio" aria-label="10 - Extremely likely" aria-checked="false" data-value="10">10</button>
+          </div>
+        </section>
+
+        <hr class="separator" aria-label="Section divider">
+
+        <section class="section">
+          <h3>Additional comments</h3>
+          <label class="label" for="comments">Comments</label>
+          <textarea class="text-area-input" id="comments" aria-label="Comments" rows="4"></textarea>
+        </section>
+
+        <button class="button" type="submit" aria-label="Submit Feedback">Submit Feedback</button>
+      </form>
+    </div>
+
+<script>
+(function() {
+      'use strict';
+
+      // Radio group picker behavior
+      function setupPicker(containerId) {
+        var container = document.getElementById(containerId);
+        if (!container) return;
+        var buttons = container.querySelectorAll('[role="radio"]');
+        buttons.forEach(function(btn) {
+          btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            buttons.forEach(function(b) { b.setAttribute('aria-checked', 'false'); });
+            btn.setAttribute('aria-checked', 'true');
+          });
+        });
+      }
+
+      setupPicker('star-picker');
+      setupPicker('face-picker');
+      setupPicker('nps-picker');
+
+      // Form submission
+      document.getElementById('feedback-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var starButtons = document.querySelectorAll('#star-picker [role="radio"]');
+        var selectedStar = 0;
+        starButtons.forEach(function(b) {
+          if (b.getAttribute('aria-checked') === 'true') {
+            selectedStar = parseInt(b.getAttribute('data-value'), 10);
+          }
+        });
+
+        // Show success section with rating view
+        var ratingView = document.getElementById('rating-view');
+        ratingView.innerHTML = '';
+        for (var i = 1; i <= 5; i++) {
+          var span = document.createElement('span');
+          span.textContent = i <= selectedStar ? '\u2605' : '\u2606';
+          ratingView.appendChild(span);
+        }
+
+        document.getElementById('form-section').hidden = true;
+        document.getElementById('success-section').hidden = false;
+      });
+    })();
+</script>
+

@@ -1,0 +1,89 @@
+---
+layout: layouts/page.njk
+title: Settings Page
+---
+
+<div id="save-banner" class="banner" role="banner" aria-label="Save confirmation" data-type="success" hidden>
+      Settings saved successfully.
+    </div>
+
+    <fieldset class="fieldset" aria-label="Appearance settings">
+      <legend class="fieldset-legend">Appearance</legend>
+
+      <div class="field" aria-label="Dark mode field">
+        <button class="switch-button" role="switch" aria-label="Dark mode" aria-checked="false" id="dark-mode-switch">
+          Dark mode
+        </button>
+      </div>
+
+      <hr class="separator" aria-label="Section divider">
+
+      <div class="field" aria-label="Language field">
+        <label class="label" for="language">Language</label>
+        <select class="select" id="language" aria-label="Language">
+          <option value="en" selected>English</option>
+          <option value="es">Spanish</option>
+          <option value="fr">French</option>
+          <option value="de">German</option>
+          <option value="ja">Japanese</option>
+        </select>
+      </div>
+
+      <hr class="separator" aria-label="Section divider">
+
+      <div class="radio-group" role="radiogroup" aria-label="Font size">
+        <label class="label">Font size</label>
+        <div>
+          <input class="radio-input" type="radio" name="fontSize" id="font-small" value="small" aria-label="Small">
+          <label for="font-small">Small</label>
+        </div>
+        <div>
+          <input class="radio-input" type="radio" name="fontSize" id="font-medium" value="medium" aria-label="Medium" checked>
+          <label for="font-medium">Medium</label>
+        </div>
+        <div>
+          <input class="radio-input" type="radio" name="fontSize" id="font-large" value="large" aria-label="Large">
+          <label for="font-large">Large</label>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset class="fieldset" aria-label="Notification settings">
+      <legend class="fieldset-legend">Notifications</legend>
+
+      <div class="field" aria-label="Push notifications field">
+        <button class="switch-button" role="switch" aria-label="Push notifications" aria-checked="true" id="notifications-switch">
+          Push notifications
+        </button>
+      </div>
+
+      <hr class="separator" aria-label="Section divider">
+
+      <div class="field" aria-label="Email digest field">
+        <button class="switch-button" role="switch" aria-label="Daily email digest" aria-checked="true" id="email-digest-switch">
+          Daily email digest
+        </button>
+      </div>
+    </fieldset>
+
+    <button class="button" aria-label="Save Settings" id="save-button">Save Settings</button>
+
+<script>
+(function() {
+      'use strict';
+
+      document.querySelectorAll('.switch-button').forEach(function(el) {
+        el.addEventListener('click', function() {
+          var checked = el.getAttribute('aria-checked') === 'true';
+          el.setAttribute('aria-checked', String(!checked));
+        });
+      });
+
+      document.getElementById('save-button').addEventListener('click', function() {
+        var banner = document.getElementById('save-banner');
+        banner.hidden = false;
+        setTimeout(function() { banner.hidden = true; }, 3000);
+      });
+    })();
+</script>
+
