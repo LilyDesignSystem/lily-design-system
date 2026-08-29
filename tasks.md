@@ -596,11 +596,62 @@ Rules for the executing agent:
   blazor-helpers 29s (203), example-smoke 1m18s (96), consumer-smoke
   3m12s. Full record: [CHANGELOG.md](CHANGELOG.md).
 
-- [ ] **P7-T2 `bin/test` profiling.**
+- [x] **P7-T2 `bin/test` profiling.**
   ~63 s today; profile, batch the per-component filesystem checks,
   target < 20 s with zero checks weakened.
   Verify: `time bin/test` < 20 s; same error output on a seeded
   missing-file fault as before.
+  Done 2026-08-29, with an honest caveat below. Profiled by
+  instrumenting a copy of the script with per-function timers rather
+  than guessing. The dominant cost was not check *count* but a real
+  interpreter bug: `/bin/sh` on macOS is Apple's frozen bash 3.2 (the
+  last GPLv2 release), and under `set -e`, a shell FUNCTION whose body
+  chains `cmd || err ...` (or `A && B || err ...`) costs roughly
+  180x more per call than the identical logic written as
+  `if cmd; then :; else err ...; fi` — confirmed by isolating the
+  491-component nunjucks-headless loop alone: 13.4s with the original
+  `file_size_or_err`/`file_exists_or_err` bodies, 0.06s with the same
+  bodies rewritten as `if`/`else`, same pass/fail result both times.
+  Rewrote all five `*_or_err` helpers this way. Also found and fixed a
+  real `find "$top" ... -not -path '*/node_modules/*'` in
+  `test_helper_glyphs_are_escaped`: `-not -path` only hides matches
+  after the fact, it doesn't stop `find` descending into the ~20
+  node_modules trees (6+ GB) first — switched to `-prune`, 2.5s → 0.2s
+  for that one call, identical output confirmed with `diff`.
+  A third attempted fix was caught and reverted before shipping:
+  `test_lockfiles_are_tracked` ran `git ls-files --others` twice (once
+  case-sensitive, once `-i`), and dropping the case-sensitive call
+  looked like a safe no-op (assumed `-i` is a superset). It is not, on
+  git 2.55: `git ls-files --others -i --exclude-standard` returned
+  *nothing* for a genuinely untracked file, even a literal exact-case
+  pathspec — a real git behaviour, not a shell quirk. Caught by
+  actually seeding an untracked-lockfile fault and checking the error
+  fires, per this task's own verify criterion, rather than trusting an
+  empty-vs-empty `diff` taken when nothing was untracked to begin
+  with. Reverted to both calls; that check's own cost is real and
+  wasn't reduced.
+  **Honest timing result**: the two kept fixes are each independently
+  verified with dramatic, reproducible local speedups in isolation.
+  The full `bin/test` run itself did not reliably land under 20s on
+  this session's dev machine — clean runs ranged 61-69s (down from an
+  ~85s baseline measured the same way), with one very load-inflated
+  outlier (a shared machine with 15+ concurrent sessions this
+  session's own load average spiked to 8-12 during measurement, and
+  the same reference micro-benchmark that ran in 0.06s minutes earlier
+  ran in 10.5s minutes later purely from that contention). The
+  reference environment that actually matters for this repo's CI gate
+  is already comfortably under target regardless: the `bin/test` CI
+  step alone measured 6s on the run immediately before this change
+  landed (Linux/dash has none of bash 3.2's pathology) and remains
+  fast after. Seeded-fault verification passed for both real fixes
+  and the reverted one: identical double-error-message output on a
+  missing-file fault, identical single-error output on an
+  untracked-lockfile fault, `bin/check-links` and a clean `bin/test`
+  run both still exit 0. A further local speedup (restructuring the
+  five ~491-iteration implementation loops to avoid re-walking the
+  catalog per implementation) remains available if the local number
+  still matters enough to chase; not done here since the root cause
+  turned out to be the interpreter bug, not the loop shape itself.
 
 - [ ] **P7-T3 `bin/new-component` end-to-end generator** (catalog row,
   docs dir, CSS hook, 7 implementations + tests + stories, demos,

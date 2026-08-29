@@ -91,6 +91,7 @@ codepoint
 flexbox
 networkidle
 oklch
+pathspec
 prerender
 SIGPIPE
 srgb

@@ -11,12 +11,21 @@ trap 'rm -f "$ERRFLAG"' EXIT
 
 err() { >&2 printf %s\\n "Error: ${*}"; printf 1 >> "$ERRFLAG"; }
 
-directory_exists_or_err() { test -d "$1" || err "Directory should exist: $1"; }
-file_exists_or_err() { test -f "$1" || err "File should exist: $1"; }
-file_size_or_err() { file_exists_or_err "$1" && test -s "$1" || err "File should have size: $1"; }
-symlink_exists_or_err() { test -h "$1" || err "Symlink should exist: $1"; }
-grep_exists_or_err() { grep -q -m 1 "$@" || err "grep should exist: " "$@"; }
-task_exists_or_err() { grep -q -m 1 "^- \[" "$1" || err "task should exist: " "$1"; }
+# Written as `if cmd; then :; else err ...; fi` rather than `cmd || err
+# ...`: under `set -e`, bash 3.2 (Apple's frozen last-GPLv2 build, the
+# `/bin/sh` this script actually runs under on macOS) pays a severe
+# per-call penalty for a function whose body chains `&&`/`||` — not a
+# POSIX requirement, just that build's own quirk — and with ~491
+# components x several implementations x several checks each, that
+# penalty is most of bin/test's wall-clock (see plan P7-T2: measured
+# a single 491-component loop drop from ~13s to ~0.05s from this
+# rewrite alone, same pass/fail results). `if`/`else` is exempt.
+directory_exists_or_err() { if test -d "$1"; then :; else err "Directory should exist: $1"; fi; }
+file_exists_or_err() { if test -f "$1"; then :; else err "File should exist: $1"; fi; }
+file_size_or_err() { if file_exists_or_err "$1" && test -s "$1"; then :; else err "File should have size: $1"; fi; }
+symlink_exists_or_err() { if test -h "$1"; then :; else err "Symlink should exist: $1"; fi; }
+grep_exists_or_err() { if grep -q -m 1 "$@"; then :; else err "grep should exist: " "$@"; fi; }
+task_exists_or_err() { if grep -q -m 1 "^- \[" "$1"; then :; else err "task should exist: " "$1"; fi; }
 implemented_or_err() { if (grep -q -m 1 "Not yet implemented\." "$1"); then err "not yet implemented: $1"; else true; fi; }
 
 ## Utilities
@@ -230,7 +239,15 @@ test_implementation_nunjucks_example() {
 test_helper_glyphs_are_escaped() (
     # NOTE: this script runs under `set -euf`; -f disables globbing, so
     # file lists come from find, as everywhere else here.
-    find "$top" -type d -name 'lily-design-system-*-picker' -not -path '*/node_modules/*' \
+    #
+    # `-prune` on node_modules/.git (rather than filtering them out
+    # with `-not -path` after the fact) matters here: `-not -path`
+    # only hides matched results, it doesn't stop find from descending
+    # into every node_modules tree first — across this monorepo's ~20
+    # of them that's several GB of files walked for nothing. Pruning
+    # cut this one find from ~2.5s to ~0.2s (plan P7-T2).
+    find "$top" \( -name node_modules -o -name .git \) -prune -o \
+        -type d -name 'lily-design-system-*-picker' -print \
     | while IFS= read -r pkg; do
         find "$pkg" -maxdepth 1 -type f \
             \( -name '*.ts' -o -name '*.tsx' -o -name '*.vue' -o -name '*.svelte' \
@@ -268,6 +285,14 @@ test_implementation_nunjucks_example
 # gitignored pnpm-lock.yaml means CI, fresh clones, and the published
 # subtree repos resolve a different dependency graph than was tested.
 test_lockfiles_are_tracked() (
+    # An earlier version of this (plan P7-T2) tried to drop the
+    # case-sensitive call on the assumption that -i's case-insensitive
+    # match is a strict superset. It is not, at least on git 2.55: `git
+    # ls-files --others -i --exclude-standard` returns nothing at all
+    # here, even for an exact-case literal pathspec with a genuinely
+    # untracked file present -- confirmed directly, not assumed. Both
+    # calls stay; -i's own real cost (~3-5s) is inherent to that git
+    # behaviour, not this script.
     untracked="$(cd "$top" && git ls-files --others --exclude-standard '*pnpm-lock.yaml'; \
                  cd "$top" && git ls-files --others -i --exclude-standard '*pnpm-lock.yaml')"
     test -z "$untracked" || err "lockfiles must be committed (spec/tooling): $untracked"

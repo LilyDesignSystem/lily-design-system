@@ -9,6 +9,42 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## `bin/test`: fixed a real bash 3.2 perf bug, caught a bad "fix" before shipping it — 2026-08-29
+
+[plan.md](plan.md) P7-T2. Profiled `bin/test` (instrumented per-function
+timers, not guesswork) instead of assuming the ~63s local runtime was
+about check *count*. It wasn't: macOS's `/bin/sh` is Apple's frozen
+bash 3.2, and under `set -e`, a shell function whose body chains
+`cmd || err ...` costs roughly 180x more per call than the identical
+logic as `if cmd; then :; else err ...; fi` — isolated and confirmed
+on the 491-component nunjucks-headless loop alone (13.4s → 0.06s,
+same pass/fail result). Rewrote the five `*_or_err` helpers this way.
+Also fixed a real `find "$top" ... -not -path '*/node_modules/*'`
+that walked all ~20 node_modules trees (6+ GB) before filtering
+results instead of pruning them — switched to `-prune` (2.5s → 0.2s,
+identical output).
+
+A third attempted fix — dropping `test_lockfiles_are_tracked`'s
+redundant-looking case-sensitive `git ls-files` call, since `-i`
+looked like a safe superset — was caught and reverted before
+shipping: on git 2.55, `git ls-files --others -i --exclude-standard`
+returns nothing at all, even for a literal exact-case pathspec with a
+genuinely untracked file present. Caught by actually seeding an
+untracked-lockfile fault and checking the error still fires (this
+task's own verify criterion), not by trusting an empty-vs-empty
+`diff` taken when nothing was untracked to begin with.
+
+Honest result: the two kept fixes are each independently verified
+with dramatic, reproducible speedups in isolation, but the full
+`bin/test` run didn't reliably land under the 20s target on this
+session's shared dev machine — clean runs ranged 61-69s (down from an
+~85s baseline), confounded by real contention (15+ concurrent
+sessions; the same 0.06s micro-benchmark ran 10.5s minutes later
+purely from load). The environment that actually gates this repo, CI,
+was already comfortably under target either way: 6s for the
+`bin/test` step alone on the run immediately before this change,
+unaffected by bash 3.2's pathology since Linux/dash doesn't have it.
+
 ## CI completeness: the 7 headless suites, blazor dotnet test, example-app smoke — 2026-08-29
 
 [plan.md](plan.md) P7-T1. Before this, `.github/workflows/ci.yml` ran
