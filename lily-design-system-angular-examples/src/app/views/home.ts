@@ -29,6 +29,7 @@ import { RouterLink } from "@angular/router";
         <li><a routerLink="/navigation-and-menus">Navigation and menus</a></li>
         <li><a routerLink="/page-layout">Page layout</a></li>
         <li><a routerLink="/rating-and-feedback">Rating and feedback</a></li>
+        <li><a routerLink="/rtl-demo">RTL demo</a></li>
         <li><a routerLink="/search-and-filter">Search and filter</a></li>
         <li><a routerLink="/settings-page">Settings page</a></li>
         <li><a routerLink="/tabbed-interface">Tabbed interface</a></li>

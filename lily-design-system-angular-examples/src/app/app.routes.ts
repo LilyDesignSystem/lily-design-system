@@ -29,6 +29,7 @@ export const routes: Routes = [
   { path: "navigation-and-menus", loadComponent: () => import("./views/navigation-and-menus").then((m) => m.default) },
   { path: "page-layout", loadComponent: () => import("./views/page-layout").then((m) => m.default) },
   { path: "rating-and-feedback", loadComponent: () => import("./views/rating-and-feedback").then((m) => m.default) },
+  { path: "rtl-demo", loadComponent: () => import("./views/rtl-demo").then((m) => m.default) },
   { path: "search-and-filter", loadComponent: () => import("./views/search-and-filter").then((m) => m.default) },
   { path: "settings-page", loadComponent: () => import("./views/settings-page").then((m) => m.default) },
   { path: "tabbed-interface", loadComponent: () => import("./views/tabbed-interface").then((m) => m.default) },

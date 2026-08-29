@@ -21,6 +21,7 @@ const routes = [
   "/contact-form",
   "/dashboard",
   "/page-layout",
+  "/rtl-demo",
   "/task-management",
   "/timeline-and-cards",
 ];
