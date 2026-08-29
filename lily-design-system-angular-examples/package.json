@@ -13,7 +13,7 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
-    "@angular/build": "^22.1.0",
+    "@angular/build": "^22.1.6",
     "@angular/common": "^22.1.0",
     "@angular/compiler": "^22.1.0",
     "@angular/compiler-cli": "^22.1.0",
@@ -33,12 +33,12 @@
     "@analogjs/router": "^2.7.0",
     "@analogjs/vite-plugin-angular": "^2.7.0",
     "@angular/platform-server": "^22.1.0",
-    "@axe-core/playwright": "^4.10.0",
-    "@playwright/test": "^1.49.0",
-    "@types/node": "^22.0.0",
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.62.1",
+    "@types/node": "^26.3.0",
     "http-server": "^14.1.0",
-    "typescript": "~6.0.0",
-    "vite": "^7.0.0",
+    "typescript": "~7.0.2",
+    "vite": "^8.2.2",
     "vitest": "^4.1.11"
   },
   "license": "MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause",
