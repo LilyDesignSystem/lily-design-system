@@ -31,6 +31,98 @@ public class PageTests : TestContext
     }
 
     [Fact]
+    public void Components_category_filter_shows_exactly_the_components_in_that_category()
+    {
+        var cut = RenderComponent<ComponentsPage>();
+        var expected = ComponentData.Components.Count(c => c.Category == "tables");
+
+        cut.Find("#category-filter").Change("tables");
+
+        var links = cut.FindAll("a[href^='/components/']");
+        Assert.Equal(expected, links.Count);
+        Assert.True(links.Count > 0);
+    }
+
+    [Fact]
+    public void Components_suffix_filter_shows_exactly_the_slugs_ending_in_that_suffix()
+    {
+        var cut = RenderComponent<ComponentsPage>();
+        var expected = ComponentData.Components.Count(c => SuffixPattern.Of(c.Slug) == "picker-button");
+
+        cut.Find("#suffix-filter").Change("picker-button");
+
+        var links = cut.FindAll("a[href^='/components/']");
+        Assert.Equal(expected, links.Count);
+        Assert.True(links.Count > 0);
+        foreach (var link in links)
+        {
+            var slug = link.GetAttribute("href")!.Replace("/components/", "");
+            Assert.Equal("picker-button", SuffixPattern.Of(slug));
+        }
+    }
+
+    [Fact]
+    public void Components_category_suffix_and_search_combine_as_an_intersection()
+    {
+        var expectedSlugs = ComponentData.Components
+            .Where(c => c.Category == "pickers"
+                && SuffixPattern.Of(c.Slug) == "picker-button"
+                && c.Name.Contains("star", StringComparison.OrdinalIgnoreCase))
+            .Select(c => c.Slug)
+            .OrderBy(s => s)
+            .ToList();
+
+        // Guard: skip only if a future catalog change removes every
+        // star + picker-button component (mirrors the canonical
+        // Playwright spec's test.skip behaviour).
+        if (expectedSlugs.Count == 0) return;
+
+        var cut = RenderComponent<ComponentsPage>();
+        cut.Find("#category-filter").Change("pickers");
+        cut.Find("#suffix-filter").Change("picker-button");
+        cut.Find("#search").Input("star");
+
+        var actualSlugs = cut.FindAll("a[href^='/components/']")
+            .Select(a => a.GetAttribute("href")!.Replace("/components/", ""))
+            .OrderBy(s => s)
+            .ToList();
+
+        Assert.Equal(expectedSlugs, actualSlugs);
+
+        cut.Find("button.button").Click();
+        Assert.Equal(string.Empty, cut.Find("#category-filter").GetAttribute("value") ?? string.Empty);
+        var links = cut.FindAll("a[href^='/components/']");
+        Assert.Equal(ComponentData.Components.Count, links.Count);
+    }
+
+    [Fact]
+    public void Components_clear_filters_button_only_appears_when_a_filter_is_active()
+    {
+        var cut = RenderComponent<ComponentsPage>();
+        Assert.Empty(cut.FindAll("button.button"));
+
+        cut.Find("#search").Input("breadcrumb");
+        Assert.Single(cut.FindAll("button.button"));
+    }
+
+    [Fact]
+    public void Components_status_region_reports_filtered_and_total_counts()
+    {
+        var cut = RenderComponent<ComponentsPage>();
+        var total = ComponentData.Components.Count;
+        var status = cut.Find("[role='status']");
+        Assert.Equal($"{total} of {total} components", status.TextContent);
+
+        cut.Find("#search").Input("breadcrumb");
+        var filteredCount = ComponentData.Components.Count(c =>
+            c.Name.Contains("breadcrumb", StringComparison.OrdinalIgnoreCase) ||
+            c.Slug.Contains("breadcrumb", StringComparison.OrdinalIgnoreCase) ||
+            c.Description.Contains("breadcrumb", StringComparison.OrdinalIgnoreCase));
+        status = cut.Find("[role='status']");
+        Assert.Equal($"{filteredCount} of {total} components", status.TextContent);
+    }
+
+    [Fact]
     public void ContactForm_renders_h1()
     {
         var cut = RenderComponent<ContactForm>();

@@ -2,30 +2,133 @@
 <PageTitle>Components — Lily Blazor examples</PageTitle>
 @using LilyBlazorWebExamples.Data
 
+@* Plan P6-T5: category + suffix-pattern filters alongside the existing
+   text search. Category comes from each component's own registry entry
+   (ComponentData.Components[].Category, sourced from the canonical HTML
+   tag in components/{slug}/AGENTS.md); suffix pattern is derived
+   client-side from the slug (Data/SuffixPattern.cs). Both dropdowns only
+   ever list ids actually present in the catalog, so "All ..." plus real,
+   populated options -- no dead choices that would always return zero
+   results. Ported from the canonical Svelte reference:
+   lily-design-system-svelte-sveltekit-examples/src/routes/components/+page.svelte *@
+
 <h1>Components</h1>
-<p>407 headless components</p>
+<p>@ComponentData.Components.Count headless components</p>
 
-<label for="search">Filter components</label>
-<input id="search" type="search" class="search-input" placeholder="Search components..." @bind="search" @bind:event="oninput" />
+<div class="field">
+    <label class="label" for="search">Filter components</label>
+    <input id="search" type="search" class="search-input" placeholder="Search components..." @bind="search" @bind:event="oninput" />
+</div>
 
-<p>@filtered.Count() components</p>
+<div class="field">
+    <label class="label" for="category-filter">Category</label>
+    <select id="category-filter" class="select" @bind="categoryFilter">
+        <option value="">All categories (@ComponentData.Components.Count)</option>
+        @foreach (var opt in categoryOptions)
+        {
+            <option value="@opt.Id">@opt.Label (@opt.Count)</option>
+        }
+    </select>
+</div>
 
-<ul style="list-style: none; padding: 0; margin: 0;">
+<div class="field">
+    <label class="label" for="suffix-filter">Suffix pattern</label>
+    <select id="suffix-filter" class="select" @bind="suffixFilter">
+        <option value="">All suffix patterns (@ComponentData.Components.Count)</option>
+        @foreach (var opt in suffixOptions)
+        {
+            <option value="@opt.Id">@opt.Label (@opt.Count)</option>
+        }
+    </select>
+</div>
+
+@if (!string.IsNullOrEmpty(search) || !string.IsNullOrEmpty(categoryFilter) || !string.IsNullOrEmpty(suffixFilter))
+{
+    <p>
+        <button type="button" class="button" @onclick="ClearFilters">Clear filters</button>
+    </p>
+}
+
+<p role="status" aria-live="polite">@filtered.Count() of @ComponentData.Components.Count components</p>
+
+<ul class="component-index-list" style="list-style: none; padding: 0; margin: 0;">
     @foreach (var c in filtered)
     {
-        <li style="border-bottom: 1px solid var(--nhs-color-border, #d8dde0); padding: var(--nhs-space-3) 0;">
+        <li class="component-index-list-item" style="border-bottom: 1px solid var(--nhs-color-border, #d8dde0); padding: var(--nhs-space-3) 0;">
             <a href="/components/@c.Slug" style="font-weight: 700;">@c.Name</a>
-            <span style="color: var(--nhs-color-secondary, #4c6272); margin-left: 0.5rem;">@c.Description</span>
+            <span class="component-index-list-item-description" style="color: var(--nhs-color-secondary, #4c6272); margin-left: 0.5rem;">@c.Description</span>
         </li>
     }
 </ul>
 
 @code {
     private string search = "";
+    private string categoryFilter = "";
+    private string suffixFilter = "";
+
+    private record FilterOption(string Id, string Label, int Count);
+
+    private static readonly List<(string Slug, string Category, string Suffix)> withSuffix =
+        ComponentData.Components
+            .Select(c => (c.Slug, c.Category, Suffix: SuffixPattern.Of(c.Slug)))
+            .ToList();
+
+    private static readonly List<FilterOption> categoryOptions = BuildCategoryOptions();
+    private static readonly List<FilterOption> suffixOptions = BuildSuffixOptions();
+
+    private static List<FilterOption> BuildCategoryOptions()
+    {
+        var counts = withSuffix
+            .GroupBy(c => c.Category)
+            .ToDictionary(g => g.Key, g => g.Count());
+
+        return ComponentData.CategoryLabel
+            .Where(kv => counts.ContainsKey(kv.Key))
+            .Select(kv => new FilterOption(kv.Key, kv.Value, counts[kv.Key]))
+            .OrderByDescending(o => o.Count)
+            .ToList();
+    }
+
+    private static List<FilterOption> BuildSuffixOptions()
+    {
+        var counts = withSuffix
+            .GroupBy(c => c.Suffix)
+            .ToDictionary(g => g.Key, g => g.Count());
+
+        var ordered = SuffixPattern.Label
+            .Where(kv => kv.Key != SuffixPattern.StandaloneId && counts.ContainsKey(kv.Key))
+            .Select(kv => new FilterOption(kv.Key, kv.Value, counts[kv.Key]))
+            .OrderByDescending(o => o.Count)
+            .ToList();
+
+        if (counts.ContainsKey(SuffixPattern.StandaloneId))
+        {
+            ordered.Add(new FilterOption(
+                SuffixPattern.StandaloneId,
+                SuffixPattern.Label[SuffixPattern.StandaloneId],
+                counts[SuffixPattern.StandaloneId]));
+        }
+
+        return ordered;
+    }
 
     private IEnumerable<ComponentInfo> filtered =>
         ComponentData.Components.Where(c =>
-            c.Name.Contains(search, StringComparison.OrdinalIgnoreCase) ||
-            c.Slug.Contains(search, StringComparison.OrdinalIgnoreCase) ||
-            c.Description.Contains(search, StringComparison.OrdinalIgnoreCase));
+        {
+            var suffix = SuffixPattern.Of(c.Slug);
+            var matchesSearch = string.IsNullOrEmpty(search) ||
+                c.Name.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                c.Slug.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                c.Description.Contains(search, StringComparison.OrdinalIgnoreCase);
+            var matchesCategory = string.IsNullOrEmpty(categoryFilter) || c.Category == categoryFilter;
+            var matchesSuffix = string.IsNullOrEmpty(suffixFilter) || suffix == suffixFilter;
+            return matchesSearch && matchesCategory && matchesSuffix;
+        });
+
+    private void ClearFilters()
+    {
+        search = "";
+        categoryFilter = "";
+        suffixFilter = "";
+    }
 }
