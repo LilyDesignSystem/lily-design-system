@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book an Appointment — Lily Design System</title>
+  <link rel="stylesheet" href="/assets/css/app-shell.css">
+  <script src="/assets/js/theme-boot.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="header" aria-label="Site header">
+    <span class="site-header-pickers">
+    <theme-picker
+      label="Choose a theme"
+      themes-url="/themes/"
+      themes="united-kingdom-national-health-service-england-for-patients,united-kingdom-national-health-service-england-for-practitioners,united-kingdom-national-health-service-scotland-for-patients,united-kingdom-national-health-service-wales-for-patients,united-kingdom-government-digital-service,united-states-web-design-system,adobe-spectrum,mozilla-protocol,light,dark"
+      theme-labels="{&quot;united-kingdom-national-health-service-england-for-patients&quot;: &quot;NHS England (patients)&quot;, &quot;united-kingdom-national-health-service-england-for-practitioners&quot;: &quot;NHS England (practitioners)&quot;, &quot;united-kingdom-national-health-service-scotland-for-patients&quot;: &quot;NHS Scotland (patients)&quot;, &quot;united-kingdom-national-health-service-wales-for-patients&quot;: &quot;NHS Wales (patients)&quot;, &quot;united-kingdom-government-digital-service&quot;: &quot;GOV.UK GDS&quot;, &quot;united-states-web-design-system&quot;: &quot;USWDS&quot;, &quot;adobe-spectrum&quot;: &quot;Adobe Spectrum&quot;, &quot;mozilla-protocol&quot;: &quot;Mozilla Protocol&quot;, &quot;light&quot;: &quot;Light&quot;, &quot;dark&quot;: &quot;Dark&quot;}"
+      default-value="united-kingdom-national-health-service-england-for-patients"
+      storage-key="lily-theme"
+    ></theme-picker>
+      <locale-picker
+        label="Choose a language"
+        locales="en-GB,cy-GB,fr-FR,ar"
+        locale-labels="{&quot;en-GB&quot;: &quot;English (UK)&quot;, &quot;cy-GB&quot;: &quot;Cymraeg&quot;, &quot;fr-FR&quot;: &quot;Français&quot;, &quot;ar&quot;: &quot;العربية&quot;}"
+        default-value="en-GB"
+        storage-key="lily-locale"
+      ></locale-picker>
+      <text-size-picker
+        label="Text size"
+        sizes="small,medium,large"
+        size-labels="{&quot;small&quot;: &quot;Small&quot;, &quot;medium&quot;: &quot;Medium&quot;, &quot;large&quot;: &quot;Large&quot;}"
+        default-value="medium"
+        storage-key="lily-text-size"
+      ></text-size-picker>
+    </span>
+    <h1>Book an appointment</h1>
+  </header>
+
+  <main id="main-content" class="page-wrapper">
+    <a class="back-link" href="index.html">Back to examples</a>
+
+    <ol class="step-list" aria-label="Booking progress" id="booking-step-list" hidden>
+      <li class="step-list-item" data-status="in-progress" aria-current="step" id="step-list-item-1">Reason</li>
+      <li class="step-list-item" data-status="waiting" id="step-list-item-2">Date and time</li>
+      <li class="step-list-item" data-status="waiting" id="step-list-item-3">Your details</li>
+      <li class="step-list-item" data-status="waiting" id="step-list-item-4">Check your answers</li>
+    </ol>
+
+    <div class="error-summary" role="alert" aria-labelledby="booking-error-summary-heading" tabindex="-1" id="booking-error-summary" hidden>
+      <h2 id="booking-error-summary-heading">There is a problem</h2>
+      <ul id="booking-error-list"></ul>
+    </div>
+
+    <section data-step="0" id="step-panel-0">
+      <h2 id="step-0-heading" tabindex="-1">Before you start</h2>
+
+      <aside class="warning-callout" role="alert" aria-label="Emergency notice">
+        <p>If you have a medical emergency, call 999 or go to your nearest A&amp;E.</p>
+      </aside>
+
+      <p>Use this service to book a routine appointment with your GP surgery online. It takes about 5 minutes.</p>
+
+      <div class="inset-text" role="note">
+        <p>Appointments are available Monday to Friday, 8am to 6pm. Most requests are confirmed within 2 working days.</p>
+      </div>
+
+      <details class="details">
+        <summary>What happens at your appointment</summary>
+        <p>A clinician will review the reason you gave for the appointment and may ask follow-up questions. Bring a list of any medicines you are currently taking.</p>
+      </details>
+
+      <p><button class="button" type="button" id="start-now-btn">Start now</button></p>
+    </section>
+
+    <section data-step="1" id="step-panel-1" hidden>
+      <h2 id="step-1-heading" tabindex="-1">Reason for your appointment</h2>
+
+      <form class="form" aria-label="Reason for your appointment" novalidate id="reason-form">
+        <fieldset class="radio-group" role="radiogroup" aria-label="Why do you need an appointment?">
+          <label class="label">
+            <input class="radio-input" type="radio" id="reason-routine" name="reason" value="routine" aria-label="Routine check-up">
+            Routine check-up
+          </label>
+          <label class="label">
+            <input class="radio-input" type="radio" id="reason-follow-up" name="reason" value="follow-up" aria-label="Follow-up appointment">
+            Follow-up appointment
+          </label>
+          <label class="label">
+            <input class="radio-input" type="radio" id="reason-vaccination" name="reason" value="vaccination" aria-label="Vaccination">
+            Vaccination
+          </label>
+          <label class="label">
+            <input class="radio-input" type="radio" id="reason-other" name="reason" value="other" aria-label="Something else">
+            Something else
+          </label>
+        </fieldset>
+        <p class="error-message" role="alert" id="reason-error" hidden></p>
+
+        <div id="reason-other-block" hidden>
+          <div class="field" data-required aria-label="Tell us more field">
+            <label class="label" for="reason-other-detail">Tell us more<span aria-hidden="true"> *</span></label>
+            <p class="error-message" role="alert" id="reason-other-error" hidden></p>
+            <textarea class="text-area-input" id="reason-other-detail" aria-label="Tell us more about the reason for your appointment" rows="4" required maxlength="250"></textarea>
+          </div>
+          <span class="character-counter" role="status" aria-live="polite" aria-label="Characters used" id="reason-other-counter" data-count="0" data-max="250">0 / 250</span>
+        </div>
+
+        <p><button class="button" type="submit">Continue</button></p>
+      </form>
+    </section>
+
+    <section data-step="2" id="step-panel-2" hidden>
+      <h2 id="step-2-heading" tabindex="-1">Choose a date and time</h2>
+
+      <div class="inset-text" role="note">
+        <p>Appointments are available Monday to Friday, 8am to 6pm.</p>
+      </div>
+
+      <form class="form" aria-label="Choose a date and time" novalidate id="date-time-form">
+        <fieldset class="fieldset" aria-label="Preferred date and time">
+          <legend>Preferred date and time</legend>
+
+          <div class="field" data-required aria-label="Preferred date field">
+            <label class="label" for="appointment-date">Preferred date<span aria-hidden="true"> *</span></label>
+            <p class="hint" id="appointment-date-hint">We will try to match your preference, but availability may vary.</p>
+            <p class="error-message" role="alert" id="appointment-date-error" hidden></p>
+            <input class="date-input" type="date" id="appointment-date" aria-label="Preferred date" required aria-describedby="appointment-date-hint">
+          </div>
+
+          <div class="field" data-required aria-label="Preferred time of day field">
+            <label class="label" for="appointment-time">Preferred time of day<span aria-hidden="true"> *</span></label>
+            <p class="error-message" role="alert" id="appointment-time-error" hidden></p>
+            <select class="select" id="appointment-time" aria-label="Preferred time of day" required>
+              <option value="">Select a time of day</option>
+              <option value="morning">Morning (8am to 12pm)</option>
+              <option value="afternoon">Afternoon (12pm to 4pm)</option>
+              <option value="evening">Evening (4pm to 6pm)</option>
+            </select>
+          </div>
+        </fieldset>
+
+        <p style="display: flex; gap: var(--nhs-space-3);">
+          <button class="button" type="button" id="date-time-back-btn">Back</button>
+          <button class="button" type="submit">Continue</button>
+        </p>
+      </form>
+    </section>
+
+    <section data-step="3" id="step-panel-3" hidden>
+      <h2 id="step-3-heading" tabindex="-1">Your details</h2>
+
+      <form class="form" aria-label="Your details" novalidate id="details-form">
+        <div class="field" data-required aria-label="Full name field">
+          <label class="label" for="full-name">Full name<span aria-hidden="true"> *</span></label>
+          <p class="error-message" role="alert" id="full-name-error" hidden></p>
+          <input class="text-input" type="text" id="full-name" aria-label="Full name" required>
+        </div>
+
+        <div class="field" data-required aria-label="Email address field">
+          <label class="label" for="email">Email address<span aria-hidden="true"> *</span></label>
+          <p class="hint" id="email-hint">We will use this to send your confirmation.</p>
+          <p class="error-message" role="alert" id="email-error" hidden></p>
+          <input class="email-input" type="email" id="email" aria-label="Email address" required aria-describedby="email-hint">
+        </div>
+
+        <div class="field" aria-label="Phone number field">
+          <label class="label" for="phone">Phone number</label>
+          <p class="hint" id="phone-hint">Optional — only needed if we must contact you about a change.</p>
+          <input class="tel-input" type="tel" id="phone" aria-label="Phone number" aria-describedby="phone-hint">
+        </div>
+
+        <p>
+          <label class="label">
+            <input class="checkbox-input" type="checkbox" id="needs-support" aria-label="I need an interpreter or additional support">
+            I need an interpreter or additional support
+          </label>
+        </p>
+
+        <p style="display: flex; gap: var(--nhs-space-3);">
+          <button class="button" type="button" id="details-back-btn">Back</button>
+          <button class="button" type="submit">Continue</button>
+        </p>
+      </form>
+    </section>
+
+    <section data-step="4" id="step-panel-4" hidden>
+      <h2 id="step-4-heading" tabindex="-1">Check your answers</h2>
+
+      <dl class="summary-list" aria-label="Your appointment details">
+        <div class="summary-list-item">
+          <dt>Reason</dt>
+          <dd>
+            <span id="summary-reason-value">Not answered</span>
+            <span id="summary-reason-other-detail" hidden></span>
+            <a class="summary-change-link" href="#reason" data-goto-step="1">Change<span class="visually-hidden"> reason</span></a>
+          </dd>
+        </div>
+        <div class="summary-list-item">
+          <dt>Date</dt>
+          <dd>
+            <span id="summary-date-value">Not answered</span>
+            <a class="summary-change-link" href="#date" data-goto-step="2">Change<span class="visually-hidden"> date</span></a>
+          </dd>
+        </div>
+        <div class="summary-list-item">
+          <dt>Time of day</dt>
+          <dd>
+            <span id="summary-time-value">Not answered</span>
+            <a class="summary-change-link" href="#time" data-goto-step="2">Change<span class="visually-hidden"> time of day</span></a>
+          </dd>
+        </div>
+        <div class="summary-list-item">
+          <dt>Full name</dt>
+          <dd>
+            <span id="summary-name-value">Not answered</span>
+            <a class="summary-change-link" href="#name" data-goto-step="3">Change<span class="visually-hidden"> full name</span></a>
+          </dd>
+        </div>
+        <div class="summary-list-item">
+          <dt>Email address</dt>
+          <dd>
+            <span id="summary-email-value">Not answered</span>
+            <a class="summary-change-link" href="#email-review" data-goto-step="3">Change<span class="visually-hidden"> email address</span></a>
+          </dd>
+        </div>
+        <div class="summary-list-item">
+          <dt>Phone number</dt>
+          <dd>
+            <span id="summary-phone-value"></span>
+            <a class="summary-change-link" href="#phone-review" data-goto-step="3">Change<span class="visually-hidden"> phone number</span></a>
+          </dd>
+        </div>
+        <div class="summary-list-item">
+          <dt>Interpreter or additional support</dt>
+          <dd>
+            <span id="summary-support-value">No</span>
+            <a class="summary-change-link" href="#support-review" data-goto-step="3">Change<span class="visually-hidden"> interpreter or additional support</span></a>
+          </dd>
+        </div>
+      </dl>
+
+      <form class="form" aria-label="Confirm and book your appointment" novalidate id="confirm-form">
+        <p>
+          <label class="label">
+            <input class="checkbox-input" type="checkbox" id="confirmed-accurate" aria-label="I confirm the information above is correct">
+            I confirm the information above is correct
+          </label>
+        </p>
+        <p class="error-message" role="alert" id="confirmed-accurate-error" hidden></p>
+
+        <p style="display: flex; gap: var(--nhs-space-3);">
+          <button class="button" type="button" id="check-answers-back-btn">Back</button>
+          <button class="button" type="submit">Confirm and book</button>
+        </p>
+      </form>
+    </section>
+
+    <section data-step="5" id="step-panel-5" hidden>
+      <h2 id="step-5-heading" tabindex="-1">Booking confirmed</h2>
+
+      <div class="success-panel" role="status" aria-label="Booking confirmed">
+        <p>
+          Your appointment reference number is
+          <strong id="reference-number"></strong>. We have sent a
+          confirmation to <span id="confirmation-email"></span>.
+        </p>
+      </div>
+
+      <ol class="step-list" aria-label="Booking progress">
+        <li class="step-list-item" data-status="finished">Reason</li>
+        <li class="step-list-item" data-status="finished">Date and time</li>
+        <li class="step-list-item" data-status="finished">Your details</li>
+        <li class="step-list-item" data-status="finished">Check your answers</li>
+      </ol>
+
+      <section class="panel" aria-label="What happens next">
+        <p id="what-happens-next-text"></p>
+      </section>
+
+      <p><button class="button" type="button" id="start-over-btn">Book another appointment</button></p>
+    </section>
+  </main>
+
+  <footer class="footer" aria-label="Site footer">
+    <p class="footer-trademark">Lily™ and Lily Design System™ are trademarks.</p>
+    <p>&copy; 2026 Lily Design System. All rights reserved.</p>
+  </footer>
+
+  <script>
+    (function() {
+      'use strict';
+
+      // Book an appointment — Lily's flagship composed-page pattern,
+      // ported to plain HTML + vanilla JS (plan P6-T3). Full write-up:
+      // docs/patterns/book-an-appointment.md. Canonical reference:
+      // lily-design-system-svelte-sveltekit-examples' /book-an-appointment.
+      //
+      // A single-page wizard: all six step panels live in this document
+      // as <section data-step="N" hidden> blocks; this script toggles
+      // `hidden`, validates each step's form, renders an error summary,
+      // and moves focus -- reproducing by hand what a real route change
+      // (or SvelteKit's navigation) gives other pages for free.
+
+      var REASON_LABELS = {
+        routine: 'Routine check-up',
+        'follow-up': 'Follow-up appointment',
+        vaccination: 'Vaccination',
+        other: 'Something else'
+      };
+
+      var TIME_LABELS = {
+        morning: 'Morning (8am to 12pm)',
+        afternoon: 'Afternoon (12pm to 4pm)',
+        evening: 'Evening (4pm to 6pm)'
+      };
+
+      var errorSummaryEl = document.getElementById('booking-error-summary');
+      var errorListEl = document.getElementById('booking-error-list');
+      var stepListEl = document.getElementById('booking-step-list');
+
+      var reasonForm = document.getElementById('reason-form');
+      var dateTimeForm = document.getElementById('date-time-form');
+      var detailsForm = document.getElementById('details-form');
+      var confirmForm = document.getElementById('confirm-form');
+
+      var reasonOtherBlock = document.getElementById('reason-other-block');
+      var reasonOtherTextarea = document.getElementById('reason-other-detail');
+      var characterCounterEl = document.getElementById('reason-other-counter');
+
+      var appointmentDateInput = document.getElementById('appointment-date');
+
+      // ---- Field readers (DOM is the source of truth; no shadow state) ----
+
+      function getReason() {
+        var checked = document.querySelector('input[name="reason"]:checked');
+        return checked ? checked.value : '';
+      }
+      function getReasonOtherDetail() { return reasonOtherTextarea.value.trim(); }
+      function getAppointmentDate() { return appointmentDateInput.value; }
+      function getAppointmentTime() { return document.getElementById('appointment-time').value; }
+      function getFullName() { return document.getElementById('full-name').value.trim(); }
+      function getEmail() { return document.getElementById('email').value.trim(); }
+      function getPhone() { return document.getElementById('phone').value.trim(); }
+      function getNeedsSupport() { return document.getElementById('needs-support').checked; }
+      function getConfirmedAccurate() { return document.getElementById('confirmed-accurate').checked; }
+
+      function todayIso() {
+        return new Date().toISOString().slice(0, 10);
+      }
+      appointmentDateInput.min = todayIso();
+
+      // ---- Error summary / inline error-message plumbing ----
+
+      function clearErrors() {
+        errorListEl.innerHTML = '';
+        errorSummaryEl.hidden = true;
+        document.querySelectorAll('.error-message').forEach(function(el) {
+          el.hidden = true;
+          el.textContent = '';
+        });
+        document.querySelectorAll('[aria-invalid]').forEach(function(el) {
+          el.removeAttribute('aria-invalid');
+          el.removeAttribute('aria-errormessage');
+        });
+      }
+
+      function addError(fieldId, message, focusId) {
+        focusId = focusId || fieldId;
+        var msgEl = document.getElementById(fieldId + '-error');
+        if (msgEl) {
+          msgEl.textContent = message;
+          msgEl.hidden = false;
+        }
+        var input = document.getElementById(focusId);
+        if (input) {
+          input.setAttribute('aria-invalid', 'true');
+          input.setAttribute('aria-errormessage', fieldId + '-error');
+        }
+        var li = document.createElement('li');
+        var a = document.createElement('a');
+        a.href = '#' + focusId;
+        a.textContent = message;
+        li.appendChild(a);
+        errorListEl.appendChild(li);
+      }
+
+      function showErrorSummaryAndFocus() {
+        errorSummaryEl.hidden = false;
+        errorSummaryEl.focus();
+      }
+
+      // ---- Per-step validation ----
+
+      function validateReason() {
+        clearErrors();
+        var reason = getReason();
+        var ok = true;
+        if (!reason) {
+          addError('reason', 'Select a reason for your appointment', 'reason-routine');
+          ok = false;
+        } else if (reason === 'other' && !getReasonOtherDetail()) {
+          addError('reason-other', 'Enter details about your appointment', 'reason-other-detail');
+          ok = false;
+        }
+        return ok;
+      }
+
+      function validateDateTime() {
+        clearErrors();
+        var ok = true;
+        var date = getAppointmentDate();
+        if (!date) {
+          addError('appointment-date', 'Enter your preferred date');
+          ok = false;
+        } else if (date < todayIso()) {
+          addError('appointment-date', 'Enter a date that is today or in the future');
+          ok = false;
+        }
+        if (!getAppointmentTime()) {
+          addError('appointment-time', 'Select a preferred time of day');
+          ok = false;
+        }
+        return ok;
+      }
+
+      function validateDetails() {
+        clearErrors();
+        var ok = true;
+        if (!getFullName()) {
+          addError('full-name', 'Enter your full name');
+          ok = false;
+        }
+        var email = getEmail();
+        if (!email) {
+          addError('email', 'Enter your email address');
+          ok = false;
+        } else if (email.indexOf('@') === -1) {
+          addError('email', 'Enter an email address in the correct format');
+          ok = false;
+        }
+        return ok;
+      }
+
+      function validateCheckAnswers() {
+        clearErrors();
+        if (!getConfirmedAccurate()) {
+          addError('confirmed-accurate', 'Confirm that the information above is correct');
+          return false;
+        }
+        return true;
+      }
+
+      // ---- Step navigation + focus management ----
+      //
+      // A single-page wizard gets no route change for the browser (or a
+      // screen reader) to announce on its own, so every transition moves
+      // focus to the new step's own <h2 tabindex="-1"> by hand -- the
+      // same outcome a real navigation gives other pages in this app.
+
+      function showStep(n) {
+        for (var i = 0; i <= 5; i++) {
+          var panel = document.getElementById('step-panel-' + i);
+          if (panel) panel.hidden = (i !== n);
+        }
+
+        if (n >= 1 && n <= 4) {
+          stepListEl.hidden = false;
+          updateStepList(n);
+        } else {
+          stepListEl.hidden = true;
+        }
+
+        if (n === 4) renderSummary();
+
+        var heading = document.getElementById('step-' + n + '-heading');
+        if (heading) heading.focus();
+      }
+
+      function updateStepList(n) {
+        for (var i = 1; i <= 4; i++) {
+          var li = document.getElementById('step-list-item-' + i);
+          if (!li) continue;
+          var status = i < n ? 'finished' : (i === n ? 'in-progress' : 'waiting');
+          li.setAttribute('data-status', status);
+          if (i === n) {
+            li.setAttribute('aria-current', 'step');
+          } else {
+            li.removeAttribute('aria-current');
+          }
+        }
+      }
+
+      function goNext(validateFn, next) {
+        if (validateFn()) {
+          showStep(next);
+        } else {
+          showErrorSummaryAndFocus();
+        }
+      }
+
+      function goBack(prev) {
+        clearErrors();
+        showStep(prev);
+      }
+
+      function goToStep(n) {
+        clearErrors();
+        showStep(n);
+      }
+
+      function renderSummary() {
+        var reason = getReason();
+        document.getElementById('summary-reason-value').textContent =
+          reason ? REASON_LABELS[reason] : 'Not answered';
+
+        var otherDetailEl = document.getElementById('summary-reason-other-detail');
+        if (reason === 'other' && getReasonOtherDetail()) {
+          otherDetailEl.hidden = false;
+          otherDetailEl.textContent = getReasonOtherDetail();
+        } else {
+          otherDetailEl.hidden = true;
+          otherDetailEl.textContent = '';
+        }
+
+        document.getElementById('summary-date-value').textContent =
+          getAppointmentDate() || 'Not answered';
+
+        var time = getAppointmentTime();
+        document.getElementById('summary-time-value').textContent =
+          time ? TIME_LABELS[time] : 'Not answered';
+
+        document.getElementById('summary-name-value').textContent =
+          getFullName() || 'Not answered';
+        document.getElementById('summary-email-value').textContent =
+          getEmail() || 'Not answered';
+
+        var phoneValueEl = document.getElementById('summary-phone-value');
+        var phone = getPhone();
+        phoneValueEl.innerHTML = '';
+        if (phone) {
+          phoneValueEl.textContent = phone;
+        } else {
+          var tag = document.createElement('span');
+          tag.className = 'status-tag';
+          tag.setAttribute('role', 'status');
+          tag.setAttribute('data-type', 'info');
+          tag.textContent = 'Not provided';
+          phoneValueEl.appendChild(tag);
+        }
+
+        document.getElementById('summary-support-value').textContent =
+          getNeedsSupport() ? 'Yes' : 'No';
+      }
+
+      function submitBooking() {
+        if (!validateCheckAnswers()) {
+          showErrorSummaryAndFocus();
+          return;
+        }
+        var referenceNumber = 'APT-' + Math.floor(100000 + Math.random() * 900000);
+        document.getElementById('reference-number').textContent = referenceNumber;
+        document.getElementById('confirmation-email').textContent = getEmail();
+
+        var time = getAppointmentTime();
+        var timeLabel = time ? TIME_LABELS[time].toLowerCase() : '';
+        document.getElementById('what-happens-next-text').textContent =
+          'A member of the practice team will confirm your ' + timeLabel +
+          ' appointment on ' + getAppointmentDate() +
+          ' by email. Keep your reference number in case you need to change or cancel.';
+
+        showStep(5);
+      }
+
+      function updateCharacterCounter() {
+        var len = reasonOtherTextarea.value.length;
+        characterCounterEl.setAttribute('data-count', String(len));
+        characterCounterEl.textContent = len + ' / 250';
+      }
+
+      function startOver() {
+        reasonForm.reset();
+        dateTimeForm.reset();
+        detailsForm.reset();
+        confirmForm.reset();
+        reasonOtherBlock.hidden = true;
+        updateCharacterCounter();
+        clearErrors();
+        showStep(0);
+      }
+
+      // ---- Wire it all up ----
+
+      document.getElementById('start-now-btn').addEventListener('click', function() {
+        goToStep(1);
+      });
+
+      document.querySelectorAll('input[name="reason"]').forEach(function(radio) {
+        radio.addEventListener('change', function() {
+          reasonOtherBlock.hidden = (getReason() !== 'other');
+        });
+      });
+
+      reasonOtherTextarea.addEventListener('input', updateCharacterCounter);
+
+      reasonForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        goNext(validateReason, 2);
+      });
+
+      dateTimeForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        goNext(validateDateTime, 3);
+      });
+      document.getElementById('date-time-back-btn').addEventListener('click', function() {
+        goBack(1);
+      });
+
+      detailsForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        goNext(validateDetails, 4);
+      });
+      document.getElementById('details-back-btn').addEventListener('click', function() {
+        goBack(2);
+      });
+
+      document.getElementById('check-answers-back-btn').addEventListener('click', function() {
+        goBack(3);
+      });
+      confirmForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        submitBooking();
+      });
+
+      document.querySelectorAll('.summary-change-link').forEach(function(a) {
+        a.addEventListener('click', function(e) {
+          e.preventDefault();
+          goToStep(parseInt(a.getAttribute('data-goto-step'), 10));
+        });
+      });
+
+      document.getElementById('start-over-btn').addEventListener('click', function() {
+        startOver();
+      });
+    })();
+  </script>
+  <script type="module" src="/assets/js/theme-picker.js"></script>
+  <script type="module" src="/assets/js/locale-picker.js"></script>
+  <script type="module" src="/assets/js/text-size-picker.js"></script>
+</body>
+</html>

@@ -54,6 +54,7 @@ lily-design-system-html-css-js-examples/
 
 | Page         | Key Components                                                     |
 | ------------ | ------------------------------------------------------------------ |
+| Book an Appointment | StepList, RadioGroup, DateInput, Select, SummaryList, ErrorSummary, SuccessPanel — flagship 5-step wizard, see [docs/patterns/book-an-appointment.md](../docs/patterns/book-an-appointment.md) |
 | Contact Form | Form, Field, TextInput, EmailInput, TextAreaInput, Select, Button       |
 | Dashboard    | Card, Progress, ProgressCircle, Badge, Banner, DataTable           |
 | Dialog Flow  | Dialog, AlertDialog, Drawer, Button, Tooltip                       |
