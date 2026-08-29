@@ -9,6 +9,54 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## RTL demo route in all 7 example apps — 2026-08-29
+
+[plan.md](plan.md) P6-T4. `/rtl-demo` — a real `dir="rtl" lang="ar"`
+page (breadcrumb, data table, pagination, a form with radios/checkboxes)
+proving [AGENTS/internationalization.md](AGENTS/internationalization.md)'s
+"components do not assume LTR layout in their structural HTML", not
+just a localized page — now exists in every example app: SvelteKit
+(canonical, built first), React/Next.js, Vue/Nuxt, Angular/Analog,
+Blazor Web, HTML+CSS+JS, and Nunjucks/Eleventy. Every port reuses the
+same reviewed Arabic strings verbatim.
+
+Three real, previously-unknown defects surfaced and were fixed:
+
+- **nunjucks-eleventy's own live CSS had physical-property RTL bugs.**
+  Unlike the other apps (see below), this app's `src/assets/css/` is
+  fully live and, being unlayered, always beats the runtime theme's
+  `@layer lily` rules regardless of specificity. Caught by a genuine
+  test failure — computed `textAlign` was `"left"`, not `"start"` —
+  and fixed across 8 files (`data-table(-th/-td)`, the breadcrumb
+  separator, `inset-text`'s border, radio/checkbox spacing, and the
+  `ol`/`ul` reset).
+- **A double-nested `<fieldset>`** in an early draft of the html-css-js
+  port — the exact anti-pattern
+  [docs/patterns/book-an-appointment.md](docs/patterns/book-an-appointment.md)
+  warns against, since `RadioGroup`'s canonical markup already
+  provides its own accessible grouping.
+- **A real regression in html-css-js's own earlier P6-T3 port**, found
+  while investigating the app further:
+  `book-an-appointment.html` had added ~80 lines of CSS to
+  `assets/css/nhs.css` believing it was live, and used an invented
+  `.visually-hidden` class with no matching CSS anywhere. Both trace
+  to the same root cause as a much bigger, separately-tracked finding
+  (P7-T9, P7-T10 in `tasks.md`): per-app legacy `nhs.css` files are
+  dead code in 6 of the 7 apps (nunjucks-eleventy is the live
+  exception), superseded by the runtime-swapped root `themes/*.css`
+  without anyone removing them — and in html-css-js's case, the
+  *actually-live* `app-shell.css` itself depends on `--nhs-*` custom
+  properties that only ever existed in that now-dead file, so an
+  unknown amount of its own chrome styling is silently a no-op.
+  `.visually-hidden` was swapped for the catalog's real, already-styled
+  `.screen-reader-span`; the token gap and two missing shared-theme
+  rules (`.status-tag`, `.panel` have no base style in any of the 45
+  reference themes) are logged as open backlog, not fixed unilaterally.
+
+Verified per app: 4 dedicated e2e tests (dir/lang + overflow, real
+component mirroring, axe, keyboard operability), re-run independently
+for every port; each app's own build/check gate green.
+
 ## RTL demo route — SvelteKit — 2026-08-29
 
 [plan.md](plan.md) P6-T4. `/rtl-demo` in `lily-design-system-svelte-sveltekit-examples`

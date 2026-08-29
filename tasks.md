@@ -484,8 +484,31 @@ Rules for the executing agent:
   non-functional (logged as its own tracked item, P7-T8, below, rather
   than folded into this one). Full record: [CHANGELOG.md](CHANGELOG.md).
 
-- [ ] **P6-T4 RTL demo route** in each app.
+- [x] **P6-T4 RTL demo route** in each app.
   Verify: e2e asserts `dir="rtl"` and no horizontal overflow.
+  Done 2026-08-29: `/rtl-demo` in all 7 example apps — a real `dir="rtl"
+  lang="ar"` page (breadcrumb, data table, pagination, a form with
+  radios/checkboxes) proving AGENTS/internationalization.md's
+  "components do not assume LTR layout", not just a localized page.
+  Built canonical-Svelte-first, then ported with the same exact
+  reviewed Arabic strings reused verbatim everywhere. Surfaced real,
+  previously-unknown defects in 3 of the 7 apps, each fixed in place:
+  a cascade-layer/physical-property mix in nunjucks-eleventy's own
+  live CSS (caught by a genuine test failure — computed `textAlign`
+  was `"left"`, not `"start"` — then fixed across 8 files); a
+  double-nested `<fieldset>` around the radio group in an early draft
+  of the html-css-js port, the exact anti-pattern
+  `docs/patterns/book-an-appointment.md` warns against; and, while
+  investigating that app further, a real regression in its own earlier
+  P6-T3 port (rules added to a CSS file that turned out to be dead,
+  and an invented `.visually-hidden` class with no matching CSS
+  anywhere) — fixed by swapping to the catalog's real
+  `.screen-reader-span`. Two bigger, unscoped findings from the same
+  investigation are tracked separately as P7-T9 and P7-T10 below.
+  Verified per app: 4 dedicated e2e tests (dir/lang + overflow, real
+  component mirroring — not just text direction, axe, keyboard
+  operability), re-run independently for every port; each app's own
+  build/check gate green. Full record: [CHANGELOG.md](CHANGELOG.md).
 
 - [ ] **P6-T5 `/components` search upgrade**: category + suffix-pattern
   filters; SvelteKit first, then ports.
