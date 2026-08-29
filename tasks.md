@@ -567,19 +567,63 @@ Rules for the executing agent:
   Verify: each fixed page's e2e spec actually types/selects/submits
   and asserts the result, not just page-load + axe.
 
-- [ ] **P7-T9 `lily-design-system-svelte-sveltekit-examples/src/lib/css/nhs.css`
-  is dead code.** Found 2026-08-29 while building P6-T4's RTL demo
-  route. Nothing in `src/` imports it any more; the app's real styling
-  comes entirely from the runtime-swapped root `themes/*.css` loaded
-  by the theme-picker (2026-08-26's "wire themes into example apps"
-  work superseded it). ~2000 lines of plausible-looking, actively
-  misleading CSS that changes nothing a visitor sees — an early draft
-  of the RTL route "fixed" RTL bugs in it before this was caught.
-  Check whether the other 6 example apps have the same orphaned file
-  from the same migration before deciding whether to delete outright
-  or fold anything genuinely still-relevant into the theme files.
-  Verify: `grep -rn "nhs.css" src/` (or each app's equivalent) returns
-  nothing once resolved.
+- [ ] **P7-T9 Per-app legacy `nhs.css`/equivalent is dead code in (at
+  least) 6 of the 7 example apps.** Found 2026-08-29 while building
+  P6-T4's RTL demo route, then independently re-confirmed per-app
+  while porting it to the other five. Nothing imports it any more in
+  `lily-design-system-svelte-sveltekit-examples` (`src/lib/css/nhs.css`),
+  `lily-design-system-react-next-examples` (`assets/css/nhs.css`),
+  `lily-design-system-vue-nuxt-examples` (`assets/css/nhs.css`),
+  `lily-design-system-angular-examples` (`src/styles/nhs.css`), or
+  `lily-design-system-blazor-web-examples` (`wwwroot/css/nhs.css`) —
+  each app's real styling comes entirely from the runtime-swapped root
+  `themes/*.css` the theme-picker loads (2026-08-26's "wire themes
+  into example apps" work superseded these files without removing
+  them). `lily-design-system-html-css-js-examples` has the same dead
+  `assets/css/nhs.css`, but see P7-T10 below — that app's story is
+  worse than "harmless dead file." `lily-design-system-nunjucks-eleventy-examples`
+  is the one confirmed exception: its own `src/assets/css/` is fully
+  live (P6-T1/P6-T4 both found and fixed real bugs in it). ~2000 lines
+  per app of plausible-looking, actively misleading CSS that changes
+  nothing a visitor sees — early drafts of the RTL route "fixed" RTL
+  bugs in the Svelte and html-css-js copies before this was caught
+  both times. Decide whether to delete outright or fold anything
+  genuinely still-relevant into the theme files, for all 6 apps.
+  Verify: `grep -rn "nhs.css"` (or each app's equivalent filename)
+  under each app's own source tree returns nothing once resolved.
+
+- [ ] **P7-T10 `lily-design-system-html-css-js-examples`: `app-shell.css`
+  depends on `--nhs-*` custom properties that only exist in the dead
+  `nhs.css` (P7-T9), so they resolve to nothing wherever they're used.**
+  Found 2026-08-29 while fixing a regression from P6-T3's own
+  `book-an-appointment.html` port (which had added rules to the dead
+  `nhs.css`, believing it was live). Confirmed directly in a live
+  browser: `getComputedStyle(document.documentElement)
+  .getPropertyValue('--nhs-black')` and `--nhs-space-4` both return
+  `""` on a served page. `app-shell.css` — the file that actually is
+  linked and does style the shared chrome (skip-link, page-wrapper,
+  site-header) — uses these tokens throughout
+  (`var(--nhs-black)`, `var(--nhs-space-4)`, `var(--nhs-max-width)`,
+  etc.), so an unknown amount of that chrome styling is silently a
+  no-op on every page in this app, not just the composed ones. Two
+  narrower, related gaps found alongside it: (1) the shared reference
+  theme has no base `:where(.status-tag)` rule (only
+  `[data-status="..."]` variants) and no `:where(.panel)` rule at all,
+  so a bare `.status-tag`/`.panel` — used on `book-an-appointment.html`
+  — renders with zero styling in every one of the 7 apps, not just
+  this one; (2) `book-an-appointment.html` used an invented
+  `.visually-hidden` class with no matching CSS anywhere, instead of
+  the catalog's real `.screen-reader-span` (fixed in the same commit
+  as the RTL demo port, since it's a one-line, obviously-correct
+  swap — the `--nhs-*` token gap and the missing shared-theme rules
+  were left for this backlog item, since the right fix requires a
+  decision this session shouldn't make unilaterally: restore the
+  handful of still-needed `--nhs-*` tokens into `app-shell.css`'s own
+  `:root`, or migrate its rules onto the theme's `--lily-*`/`--color-*`
+  tokens instead).
+  Verify: `getPropertyValue('--nhs-black')` etc. return real values on
+  a served page; `.status-tag`/`.panel` render visibly styled in every
+  app that uses them.
 
 ---
 

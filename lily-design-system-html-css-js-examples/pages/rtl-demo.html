@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RTL Demo — Lily Design System</title>
+  <link rel="stylesheet" href="/assets/css/app-shell.css">
+  <script src="/assets/js/theme-boot.js"></script>
+</head>
+<body>
+  <!--
+    RTL demo (plan P6-T4). Ported from the canonical SvelteKit reference
+    (src/routes/rtl-demo/+page.svelte). Proves the design principle in
+    AGENTS/internationalization.md -- "components do not assume LTR
+    layout in their structural HTML" -- with a real dir="rtl" page using
+    components (breadcrumb, data table, pagination, a form with
+    radios/checkboxes) that are the classic places a design system
+    silently bakes in "left" instead of "start". The Arabic content below
+    is copied verbatim from the reference; it is not re-translated here.
+
+    Only the page's OWN header title, main content, and footer are
+    wrapped in dir="rtl" lang="ar" -- matching the reference's structure,
+    where the SvelteKit app's persistent +layout.svelte chrome
+    (skip-link, theme/locale/text-size pickers) stays outside the
+    wrapper entirely. This app has no separate layout file -- each page
+    copies that same chrome markup into itself -- but it is still the
+    same shared, English-labelled global UI, not part of the RTL demo
+    content, so it is kept here in the site's default direction too (the
+    <header class="header"> below carries only the picker toolbar, with
+    no <h1>, unlike this app's other pages).
+
+    Two real findings from building this route (mirroring the SvelteKit
+    reference's own findings, re-verified independently for this app):
+
+    1. assets/css/nhs.css is dead code in THIS app too. No page --
+       including this one -- links it; grepping the whole app for
+       "nhs.css" or "rel=\"stylesheet\"" turns up only
+       /assets/css/app-shell.css. The real component styling comes
+       entirely from the runtime-swapped root themes/*.css that
+       theme-boot.js + the <theme-picker> element manage via the
+       <link data-lily-theme-picker="theme"> tag. The P6-T3
+       book-an-appointment.html port added rules to nhs.css believing it
+       was live; those rules render nowhere. Left as-is here (same as
+       the Svelte app): removing genuinely-dead per-app CSS is a
+       separate, larger cleanup than this route.
+    2. The real, live file -- the default theme,
+       themes/united-kingdom-national-health-service-england-for-patients.css
+       -- already uses logical properties (text-align: start on table
+       headers, border-inline-start on inset-text, margin-inline-end on
+       the breadcrumb separator) for every component this page touches,
+       verified against real computed styles in a live browser. No theme
+       fix was needed.
+  -->
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="header" aria-label="Site header">
+    <span class="site-header-pickers">
+    <theme-picker
+      label="Choose a theme"
+      themes-url="/themes/"
+      themes="united-kingdom-national-health-service-england-for-patients,united-kingdom-national-health-service-england-for-practitioners,united-kingdom-national-health-service-scotland-for-patients,united-kingdom-national-health-service-wales-for-patients,united-kingdom-government-digital-service,united-states-web-design-system,adobe-spectrum,mozilla-protocol,light,dark"
+      theme-labels="{&quot;united-kingdom-national-health-service-england-for-patients&quot;: &quot;NHS England (patients)&quot;, &quot;united-kingdom-national-health-service-england-for-practitioners&quot;: &quot;NHS England (practitioners)&quot;, &quot;united-kingdom-national-health-service-scotland-for-patients&quot;: &quot;NHS Scotland (patients)&quot;, &quot;united-kingdom-national-health-service-wales-for-patients&quot;: &quot;NHS Wales (patients)&quot;, &quot;united-kingdom-government-digital-service&quot;: &quot;GOV.UK GDS&quot;, &quot;united-states-web-design-system&quot;: &quot;USWDS&quot;, &quot;adobe-spectrum&quot;: &quot;Adobe Spectrum&quot;, &quot;mozilla-protocol&quot;: &quot;Mozilla Protocol&quot;, &quot;light&quot;: &quot;Light&quot;, &quot;dark&quot;: &quot;Dark&quot;}"
+      default-value="united-kingdom-national-health-service-england-for-patients"
+      storage-key="lily-theme"
+    ></theme-picker>
+      <locale-picker
+        label="Choose a language"
+        locales="en-GB,cy-GB,fr-FR,ar"
+        locale-labels="{&quot;en-GB&quot;: &quot;English (UK)&quot;, &quot;cy-GB&quot;: &quot;Cymraeg&quot;, &quot;fr-FR&quot;: &quot;Français&quot;, &quot;ar&quot;: &quot;العربية&quot;}"
+        default-value="en-GB"
+        storage-key="lily-locale"
+      ></locale-picker>
+      <text-size-picker
+        label="Text size"
+        sizes="small,medium,large"
+        size-labels="{&quot;small&quot;: &quot;Small&quot;, &quot;medium&quot;: &quot;Medium&quot;, &quot;large&quot;: &quot;Large&quot;}"
+        default-value="medium"
+        storage-key="lily-text-size"
+      ></text-size-picker>
+    </span>
+  </header>
+
+  <div dir="rtl" lang="ar">
+    <header class="header" aria-label="ترويسة الموقع">
+      <div class="page-wrapper">
+        <h1>عرض توضيحي للكتابة من اليمين إلى اليسار</h1>
+      </div>
+    </header>
+
+    <main id="main-content" class="page-wrapper">
+      <a class="back-link" href="index.html">رجوع إلى الأمثلة</a>
+
+      <nav class="breadcrumb-nav" aria-label="مسار التصفح">
+        <ol class="breadcrumb-list" aria-label="مسار التصفح">
+          <li class="breadcrumb-list-item"><a href="index.html">الرئيسية</a></li>
+          <li class="breadcrumb-list-item"><a href="components/index.html">الإعدادات</a></li>
+          <li class="breadcrumb-list-item" aria-current="page">الملف الشخصي</li>
+        </ol>
+      </nav>
+
+      <div class="inset-text" role="note">
+        <p>هذه صفحة تجريبية لاختبار الاتجاه من اليمين إلى اليسار. جميع
+        المكوّنات هنا بلا تنسيق مسبق؛ التنسيق البصري كله من هذا التطبيق.</p>
+      </div>
+
+      <h2>جدول الموظفين</h2>
+      <table class="data-table" aria-label="قائمة الموظفين">
+        <thead class="data-table-head">
+          <tr class="data-table-row">
+            <th class="data-table-th" scope="col">الاسم</th>
+            <th class="data-table-th" scope="col">القسم</th>
+            <th class="data-table-th" scope="col">الحالة</th>
+          </tr>
+        </thead>
+        <tbody class="data-table-body">
+          <tr class="data-table-row">
+            <td class="data-table-td">سارة أحمد</td>
+            <td class="data-table-td">الموارد البشرية</td>
+            <td class="data-table-td">نشط</td>
+          </tr>
+          <tr class="data-table-row">
+            <td class="data-table-td">محمد علي</td>
+            <td class="data-table-td">تقنية المعلومات</td>
+            <td class="data-table-td">نشط</td>
+          </tr>
+          <tr class="data-table-row">
+            <td class="data-table-td">ليلى حسن</td>
+            <td class="data-table-td">المالية</td>
+            <td class="data-table-td">متوقف</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <nav class="pagination-nav" aria-label="ترقيم صفحات النتائج">
+        <ol class="pagination-list" aria-label="قائمة الصفحات">
+          <li class="pagination-list-item"><a href="#page-1">1</a></li>
+          <li class="pagination-list-item"><span aria-current="page">2</span></li>
+          <li class="pagination-list-item"><a href="#page-3">3</a></li>
+          <li class="pagination-list-item"><a href="#page-4">4</a></li>
+          <li class="pagination-list-item"><a href="#page-5">5</a></li>
+        </ol>
+      </nav>
+
+      <h2>نموذج التواصل</h2>
+      <form class="form" aria-label="نموذج التواصل" novalidate id="rtl-demo-form">
+        <div class="field" aria-label="الاسم الكامل field">
+          <label class="label" for="rtl-full-name">الاسم الكامل</label>
+          <input class="text-input" type="text" id="rtl-full-name" aria-label="الاسم الكامل">
+        </div>
+
+        <!-- RadioGroup's canonical markup (components/radio-group/AGENTS.md)
+             already renders a <fieldset role="radiogroup"> with its own
+             accessible name; wrapping it in a second <fieldset> would
+             announce two redundant grouping regions for no benefit -- the
+             same anti-pattern the book-an-appointment pattern doc warns
+             against (docs/patterns/book-an-appointment.md). -->
+        <fieldset class="radio-group" role="radiogroup" aria-label="طريقة التواصل المفضلة">
+          <label class="label">
+            <input class="radio-input" type="radio" name="rtl-contact-method" id="rtl-contact-email" value="email" aria-label="البريد الإلكتروني" checked>
+            البريد الإلكتروني
+          </label>
+          <label class="label">
+            <input class="radio-input" type="radio" name="rtl-contact-method" id="rtl-contact-phone" value="phone" aria-label="الهاتف">
+            الهاتف
+          </label>
+        </fieldset>
+
+        <p>
+          <label class="label">
+            <input class="checkbox-input" type="checkbox" id="rtl-agree-terms" aria-label="أوافق على الشروط">
+            أوافق على الشروط
+          </label>
+        </p>
+
+        <p><button class="button" type="submit">إرسال</button></p>
+      </form>
+    </main>
+
+    <footer class="footer" aria-label="تذييل الموقع">
+      <div class="page-wrapper">
+        <p>نظام Lily للتصميم — عرض توضيحي للكتابة من اليمين إلى اليسار</p>
+      </div>
+    </footer>
+  </div>
+
+  <script type="module" src="/assets/js/theme-picker.js"></script>
+  <script type="module" src="/assets/js/locale-picker.js"></script>
+  <script type="module" src="/assets/js/text-size-picker.js"></script>
+</body>
+</html>

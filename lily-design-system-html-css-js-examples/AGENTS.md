@@ -62,6 +62,7 @@ lily-design-system-html-css-js-examples/
 | Navigation   | NavigationMenu, MenuBar, ToolBar, HamburgerMenu, DropdownMenu      |
 | Page Layout  | Header, Footer, BreadcrumbNav, Sidebar, NavigationMenu             |
 | Rating       | FiveStarRatingPicker, FiveFaceRatingPicker, NetPromoterScorePicker |
+| RTL Demo     | BreadcrumbNav, DataTable, PaginationNav, Form, RadioGroup, CheckboxInput — dir="rtl" + Arabic content, see [docs/patterns](../docs/patterns) and `e2e/rtl-demo.spec.ts` |
 | Search       | Combobox, SearchInput, TagInput, TagGroup, Tag, DataTable, Badge   |
 | Settings     | SwitchButton, RadioGroup, RadioInput, Select, Fieldset, Banner     |
 | Tabs         | TabBar, TabBarButton, AccordionNav, Badge                          |
