@@ -55,6 +55,7 @@ PESEL
 USWDS
 VPAT
 WCAG
+WDIO
 
 # Tools, platforms, and brand names
 analogjs

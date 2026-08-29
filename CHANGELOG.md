@@ -9,6 +9,42 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## CI completeness: the 7 headless suites, blazor dotnet test, example-app smoke — 2026-08-29
+
+[plan.md](plan.md) P7-T1. Before this, `.github/workflows/ci.yml` ran
+only the 7 helper catalogs' vitest suites (plus `bin/test`, link
+checks, cspell, and the consumer-smoke tarball import) — none of the 7
+headless libraries' own tests ran in CI at all, nor did blazor-helpers'
+dotnet tests or any example app's Playwright e2e. Four new jobs close
+that gap: `headless` (matrix — svelte/react/vue/angular/nunjucks-headless
+via `pnpm exec vitest run`), `html-headless` (its 491 WebDriverIO specs
+in real headless Chrome), `dotnet-tests` (matrix — blazor-headless +
+blazor-helpers via `dotnet test`), and `example-smoke` (SvelteKit, the
+canonical example app, running a fast real slice — accessibility,
+responsive, `/components` search, rtl-demo, book-an-appointment — 96
+cases — rather than the full ~1200-spec suite or the separate
+491-route axe-catalog sweep, both better suited to on-demand/nightly
+runs). Caching landed throughout: pnpm cache on every Node job
+(including the pre-existing `helpers` job, which had none), NuGet
+cache on the two new dotnet jobs, a Playwright-browser cache on
+`example-smoke`, and an npm cache on the existing `consumer-smoke`
+job.
+
+Two real bugs surfaced getting all 18 jobs green, both pnpm
+major-version skew (10 in CI vs. 11, what this repo's `pnpm-lock.yaml`
+files are actually maintained with locally) — full two-round account
+and the remaining project-wide fix in [tasks.md](tasks.md) P7-T12:
+svelte-sveltekit-examples' build broke under pnpm 10 (it hoists a
+different, incompatible `cookie` version than the lockfile pins),
+and the first fix — bumping every job to pnpm 11 — broke the other six
+jobs instead, since pnpm 11 no longer honours the legacy
+`package.json#pnpm.onlyBuiltDependencies` allowlist and hard-fails on
+any ignored build script. Landed scoped to the one job that actually
+needs 11.
+
+First fully-green run: 11m39s total wall-clock (parallel jobs;
+html-headless's WDIO suite is the long pole at 11m34s).
+
 ## `/components` search: category + suffix-pattern filters, all 7 apps — 2026-08-29
 
 [plan.md](plan.md) P6-T5. Two new `<select>`s — Category and Suffix

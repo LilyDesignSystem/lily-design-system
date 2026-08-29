@@ -559,11 +559,42 @@ Rules for the executing agent:
 
 ## Phase 7 — Tooling, CI, and stretch
 
-- [ ] **P7-T1 CI completeness.**
+- [x] **P7-T1 CI completeness.**
   Add: 7 headless unit suites, blazor helpers `dotnet test`, one
   example-app Playwright smoke, and P2-T7's consumer smoke — matrixed
   with caching.
   Verify: all jobs green on main; total wall-clock recorded.
+  Done 2026-08-29: `ci.yml` gained 4 new jobs — `headless` (matrix:
+  svelte/react/vue/angular/nunjucks-headless via `pnpm exec vitest
+  run`), `html-headless` (its 491 WebDriverIO specs, real headless
+  Chrome), `dotnet-tests` (matrix: blazor-headless + blazor-helpers via
+  `dotnet test`, NuGet-cached), and `example-smoke` (SvelteKit — the
+  canonical example app — running a real, fast Playwright slice:
+  accessibility + responsive + `/components` search + rtl-demo +
+  book-an-appointment, 96 cases). Caching added throughout: pnpm cache
+  on every Node job including the pre-existing `helpers` job (had
+  none), NuGet cache on the two dotnet jobs, a Playwright-browser cache
+  on `example-smoke`, and an npm cache on `consumer-smoke` (P2-T7,
+  already existed) keyed off its four subprojects' pnpm-lock.yaml files
+  since it deliberately installs via plain `npm install`.
+  Two real bugs found and fixed getting all 18 jobs green (both are
+  the two-round story in P7-T12, logged as its own backlog item for the
+  larger fix still open): (1) `lily-design-system-svelte-sveltekit-examples`'s
+  build broke under pnpm 10 — its lockfile pins `cookie@0.6.0` but pnpm
+  10 hoists `cookie@2.0.1` into the tree instead, a version-skew bug
+  against the pnpm 11 this repo's lockfiles are actually maintained
+  with locally; (2) bumping *every* job to pnpm 11 to fix that broke
+  the other six instead — pnpm 11 no longer reads the legacy
+  `package.json#pnpm.onlyBuiltDependencies` field and hard-fails on any
+  ignored build script — so the fix landed scoped to `example-smoke`
+  alone, the only job that actually needs 11.
+  Total wall-clock on the first fully-green run: 11m39s (jobs run in
+  parallel; `html-headless`'s WDIO suite is the long pole at 11m34s).
+  Per-job durations: svelte-headless 10m11s (4906 tests), vue-headless
+  5m33s (2655), react-headless 5m6s (2665), nunjucks-headless 3m51s
+  (2844), angular-headless 1m55s (1010), blazor-headless 47s (1502),
+  blazor-helpers 29s (203), example-smoke 1m18s (96), consumer-smoke
+  3m12s. Full record: [CHANGELOG.md](CHANGELOG.md).
 
 - [ ] **P7-T2 `bin/test` profiling.**
   ~63 s today; profile, batch the per-component filesystem checks,
