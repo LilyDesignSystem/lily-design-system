@@ -374,11 +374,27 @@ Rules for the executing agent:
   decision. No "coming soon" remains; the route was an orphan (no
   inbound nav links) and stays one, honestly.
 
-- [ ] **P5-T6 Tutorials gain runnable end states.**
+- [x] **P5-T6 Tutorials gain runnable end states.**
   Each site tutorial's finished code exists in-repo (fixture or
   example-app route) and is referenced from the tutorial; verified by
   build/test.
   Verify: per-tutorial verify commands documented and green.
+  Done 2026-08-29 by compiling every framework tutorial's exact
+  snippet (svelte/server, tsup, vue SSR compile, ng-packagr source,
+  Blazor component source, and a byte-check against html/nunjucks'
+  plain markup) rather than assuming they worked. Found and fixed a
+  real, identical defect in **four of seven** framework tutorials
+  (svelte, react, vue, angular) plus Blazor: the Step-3 form snippet
+  nested a separate `Label` component inside `Field`, which renders
+  TWO labels (one empty, `for` mismatched) because `Field` already
+  renders its own from a `label` prop it has in every framework —
+  confirmed by rendering the broken version and seeing the duplicate
+  `<label>` in the output. All five corrected to the one-label form
+  that matches each example app's real, e2e-and-axe-tested
+  contact-form route, which each tutorial now links. The theming and
+  helpers tutorials' five helper snippets and combined example were
+  compiled individually against the published 0.1.1 packages and held
+  up unchanged — both gain a verified note.
 
 - [ ] **P5-T7 Spell-check gate in CI** over root docs + site content
   (cspell with a project dictionary).

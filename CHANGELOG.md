@@ -9,6 +9,27 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Tutorial snippets verified by compiling them; a real bug in five — 2026-08-29
+
+[plan.md](plan.md) P5-T6. Every framework tutorial's code snippet was
+compiled or rendered for real rather than trusted — `svelte/server`,
+tsup, Vue SSR, ng-packagr source checks, Blazor component source, and
+a plain-markup check for html/nunjucks. That surfaced an identical
+defect in **five of nine** tutorials (svelte, react, vue, angular,
+blazor): the Step-3 composed-form example nested a separate `Label`
+component inside `Field`, producing two `<label>` elements — one
+empty, one with a mismatched `for` — because `Field` already renders
+its own label from a `label`/`Label` prop it carries in every
+framework. Confirmed by rendering the broken snippet and observing the
+duplicate output before fixing it. All five now match the one-label
+pattern each framework's real, e2e-and-axe-tested `contact-form`
+composed route already uses, and each tutorial links that route as its
+runnable end state. The theming and helpers tutorials' snippets
+(theme-, locale-, text-size-, share-, and date-time-picker, plus the
+combined settings panel) were compiled individually against the
+published 0.1.1 packages and needed no changes — both gain a verified
+note recording that.
+
 ## lily-figma: honest not-planned, with a real path — 2026-08-29
 
 [plan.md](plan.md) P5-T5. The site's `/lily-figma` page said "coming

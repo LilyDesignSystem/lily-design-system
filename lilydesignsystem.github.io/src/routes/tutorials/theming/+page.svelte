@@ -96,6 +96,13 @@
     listbox pattern; the control itself is headless (class hook
     <code>.theme-picker</code>), so it picks up whatever theme is active.
   </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Verified 2026-08-29:</strong> this exact snippet was compiled
+      against the published <code>0.1.1</code> package through
+      <code>svelte/server</code>.
+    </p>
+  </div>
 
   <h2>Step 4 — React to the theme in your own CSS</h2>
   <p>

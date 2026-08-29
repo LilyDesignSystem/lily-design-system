@@ -58,29 +58,35 @@ export function SaveBar() {
   <pre><code>{`import { useState } from "react";
 import Form from ".../components/Form";
 import Field from ".../components/Field";
-import Label from ".../components/Label";
 import TextInput from ".../components/TextInput";
 import Button from ".../components/Button";
 
 export function ContactForm() {
   const [name, setName] = useState("");
   return (
-    <Form onSubmit={handleSubmit}>
-      <Field>
-        <Label htmlFor="name">Full name</Label>
+    <Form label="Contact form" onSubmit={handleSubmit}>
+      <Field label="Full name" required>
         <TextInput id="name" label="Full name" value={name} onChange={setName} required />
       </Field>
       <Button type="submit">Save</Button>
     </Form>
   );
 }`}</code></pre>
+  <p>
+    <code>Field</code> takes the visible <code>label</code> as its own prop
+    rather than a nested label component — pass it once, on
+    <code>Field</code>, and <code>TextInput</code>'s matching
+    <code>label</code> supplies the accessible name.
+  </p>
   <div class="callout">
     <p style="margin: 0;">
-      <strong>Check your work:</strong> run the app and the form looks
-      plain — exactly as intended: styling is still ahead. Press
-      <kbd>Tab</kbd>: focus moves through every control, the label is
-      announced, and submit works. The behaviour is done; the look is yours,
-      and it's next.
+      <strong>Verified 2026-08-29:</strong> an earlier draft nested a
+      separate <code>Label</code> inside <code>Field</code>, which renders
+      <em>two</em> labels (one empty) because <code>Field</code> already
+      renders its own from the <code>label</code> prop — caught by
+      compiling the exact snippet. The
+      <a href="https://github.com/LilyDesignSystem/lily-design-system-react-next-examples/blob/main/app/contact-form/page.tsx">contact-form composed route</a>
+      is the same pattern, exercised by real e2e and axe tests.
     </p>
   </div>
 

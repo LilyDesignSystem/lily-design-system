@@ -59,7 +59,6 @@ import Button from "lily-design-system-vue-headless/components/Button.vue";
 import { ref } from "vue";
 import Form from ".../components/Form.vue";
 import Field from ".../components/Field.vue";
-import Label from ".../components/Label.vue";
 import TextInput from ".../components/TextInput.vue";
 import Button from ".../components/Button.vue";
 
@@ -68,13 +67,29 @@ const name = ref("");
 
 <template>
   <Form @submit="handleSubmit">
-    <Field>
-      <Label for="name">Full name</Label>
+    <Field label="Full name" required>
       <TextInput id="name" label="Full name" v-model="name" required />
     </Field>
     <Button type="submit">Save</Button>
   </Form>
 </template>`}</code></pre>
+  <p>
+    <code>Field</code> takes the visible <code>label</code> as its own prop
+    rather than a nested label component — pass it once, on
+    <code>Field</code>, and <code>TextInput</code>'s matching
+    <code>label</code> supplies the accessible name.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Verified 2026-08-29:</strong> an earlier draft nested a
+      separate <code>Label</code> inside <code>Field</code>, which renders
+      <em>two</em> labels (one empty) because <code>Field</code> already
+      renders its own from the <code>label</code> prop — caught by
+      compiling the exact snippet. The
+      <a href="https://github.com/LilyDesignSystem/lily-design-system-vue-nuxt-examples/blob/main/pages/contact-form.vue">contact-form composed route</a>
+      is the same pattern, exercised by real e2e and axe tests.
+    </p>
+  </div>
   <p>
     <code>TextInput</code> uses <code>defineModel</code>, so plain
     <code>v-model</code> works out of the box.

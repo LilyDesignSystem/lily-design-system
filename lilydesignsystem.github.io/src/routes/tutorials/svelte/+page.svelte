@@ -61,25 +61,38 @@ pnpm run storybook   # browse all 491 components`}</code></pre>
   <pre><code>{`<` + `script>
   import Form from "$lib/components/Form/Form.svelte";
   import Field from "$lib/components/Field/Field.svelte";
-  import Label from "$lib/components/Label/Label.svelte";
   import TextInput from "$lib/components/TextInput/TextInput.svelte";
   import Button from "$lib/components/Button/Button.svelte";
 
   let name = $state("");
 </` + `script>
 
-<Form onsubmit={handleSubmit}>
-  <Field>
-    <Label for="name">Full name</Label>
+<Form label="Contact form" onsubmit={handleSubmit}>
+  <Field label="Full name" required>
     <TextInput id="name" label="Full name" bind:value={name} required />
   </Field>
   <Button type="submit">Save</Button>
 </Form>`}</code></pre>
   <p>
-    <code>TextInput</code>'s <code>value</code> is a <code>$bindable</code>
-    rune prop, so <code>bind:value</code> gives you two-way binding straight
-    away.
+    <code>Field</code> takes the visible <code>label</code> as its own prop
+    rather than a nested label component — pass it once, on <code>Field</code>,
+    and <code>TextInput</code>'s matching <code>label</code> supplies the
+    accessible name. <code>TextInput</code>'s <code>value</code> is a
+    <code>$bindable</code> rune prop, so <code>bind:value</code> gives you
+    two-way binding straight away.
   </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Verified 2026-08-29:</strong> this exact snippet was compiled
+      through <code>svelte/server</code> and checked for a single, correctly
+      linked <code>&lt;label for&gt;</code> — an earlier draft nested a
+      separate <code>Label</code> inside <code>Field</code>, which rendered
+      <em>two</em> labels (one empty) because <code>Field</code> already
+      renders its own from the <code>label</code> prop. The
+      <a href="https://github.com/LilyDesignSystem/lily-design-system-svelte-sveltekit-examples/blob/main/src/routes/contact-form/%2Bpage.svelte">contact-form composed route</a>
+      is the same pattern, exercised by real e2e and axe tests.
+    </p>
+  </div>
   <div class="callout">
     <p style="margin: 0;">
       <strong>Check your work:</strong> run the app and the form looks

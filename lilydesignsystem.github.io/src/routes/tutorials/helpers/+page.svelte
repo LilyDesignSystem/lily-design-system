@@ -195,6 +195,15 @@
   <TextSizePicker label="Text size" sizes={sizes}        storageKey="pref-text-size" />
 </fieldset>`}</code></pre>
 
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Verified 2026-08-29:</strong> every snippet on this page —
+      locale-picker, text-size-picker, share-picker, date-time-picker, and
+      the combined settings panel — was compiled individually against the
+      published <code>0.1.1</code> packages through <code>svelte/server</code>.
+    </p>
+  </div>
+
   <h2>Where to get them</h2>
   <pre><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-helpers
 # or -react- / -vue- / -angular- / -html- / -nunjucks- / -blazor-`}</code></pre>

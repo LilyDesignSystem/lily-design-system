@@ -63,16 +63,15 @@ export class SaveBar {
 
   <h2>Step 3 — Compose a small form</h2>
   <pre><code>{`import { Component, signal } from "@angular/core";
-import { Form, Field, Label, TextInput, Button } from "lily-design-system-angular-headless";
+import { Form, Field, TextInput, Button } from "lily-design-system-angular-headless";
 
 @Component({
   selector: "app-contact-form",
   standalone: true,
-  imports: [Form, Field, Label, TextInput, Button],
+  imports: [Form, Field, TextInput, Button],
   template: \`
-    <lily-form (submit)="handleSubmit($event)">
-      <lily-field>
-        <lily-label for="name">Full name</lily-label>
+    <lily-form label="Contact form" (submit)="handleSubmit($event)">
+      <lily-field label="Full name" [required]="true">
         <lily-text-input id="name" label="Full name" [(value)]="name" />
       </lily-field>
       <lily-button type="submit">Save</lily-button>
@@ -83,10 +82,24 @@ export class ContactForm {
   name = signal("");
 }`}</code></pre>
   <p>
-    Input-like components expose <code>model()</code> values, so banana-box
-    <code>[(value)]</code> two-way binding just works — zoneless-compatible
-    throughout.
+    <code>lily-field</code> takes the visible label as its own
+    <code>label</code> input rather than a nested label component — pass it
+    once, on the field, and <code>lily-text-input</code>'s matching
+    <code>label</code> supplies the accessible name. Input-like components
+    expose <code>model()</code> values, so banana-box <code>[(value)]</code>
+    two-way binding just works — zoneless-compatible throughout.
   </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Verified 2026-08-29:</strong> an earlier draft nested a
+      separate <code>Label</code> component inside <code>lily-field</code>,
+      which renders <em>two</em> labels (one empty) because
+      <code>lily-field</code> already renders its own from the
+      <code>label</code> input — caught by checking the component source. The
+      <a href="https://github.com/LilyDesignSystem/lily-design-system-angular-examples/blob/main/src/app/views/contact-form.ts">contact-form composed route</a>
+      is the same pattern, exercised by real e2e and axe tests.
+    </p>
+  </div>
   <div class="callout">
     <p style="margin: 0;">
       <strong>Check your work:</strong> run the app and the form looks

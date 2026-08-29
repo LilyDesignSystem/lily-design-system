@@ -52,8 +52,7 @@ dotnet test      # bUnit — 1,400+ cases across the catalog`}</code></pre>
 
   <h2>Step 3 — Compose a small form</h2>
   <pre><code>{`<Form OnSubmit="HandleSubmit">
-  <Field>
-    <Label For="name">Full name</Label>
+  <Field Label="Full name" Required="true">
     <TextInput Id="name" Label="Full name" @bind-Value="name" Required="true" />
   </Field>
   <Button Type="submit">Save</Button>
@@ -62,6 +61,26 @@ dotnet test      # bUnit — 1,400+ cases across the catalog`}</code></pre>
 @code {
   private string name = "";
 }`}</code></pre>
+  <p>
+    <code>Field</code> takes the visible <code>Label</code> as its own
+    parameter rather than a nested label component — pass it once, on
+    <code>Field</code>, and <code>TextInput</code>'s matching
+    <code>Label</code> supplies the accessible name.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Verified 2026-08-29:</strong> an earlier draft nested a
+      separate <code>Label</code> component inside <code>Field</code>, which
+      renders <em>two</em> labels (one empty) because <code>Field</code>
+      already renders its own from the <code>Label</code> parameter —
+      caught by checking the component source; <code>Form</code> itself has
+      no <code>Label</code> parameter, so the earlier draft's
+      <code>&lt;Form&gt;</code> usage was corrected to omit one rather than
+      invent an attribute that does not exist. The
+      <a href="https://github.com/LilyDesignSystem/lily-design-system-blazor-web-examples/blob/main/src/LilyBlazorWebExamples/Components/Pages/ContactForm.razor">contact-form composed route</a>
+      is the same pattern, exercised by real e2e and axe tests.
+    </p>
+  </div>
   <div class="callout">
     <p style="margin: 0;">
       <strong>Check your work:</strong> run the app and the form looks
