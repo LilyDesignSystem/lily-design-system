@@ -81,6 +81,13 @@ white text on its own white surface on every page, intermittently
 caught by axe depending on pixel-sampling. Full record: root
 [CHANGELOG.md](../../CHANGELOG.md) and this app's own `spec/index.md`.
 
+### Flagship pattern demos
+
+Beyond the 12 composed routes above, `/book-an-appointment` (SvelteKit
+only so far; porting to the other six apps is plan P6-T3) is a longer,
+stateful, multi-step flow written up as Lily's first pattern doc:
+[docs/patterns/book-an-appointment.md](../../docs/patterns/book-an-appointment.md).
+
 ## Per-framework demo render mechanism
 
 Each `/components/{slug}` page renders generated demo HTML for the component. The render mechanism differs by framework (spec/index.md §8.2).

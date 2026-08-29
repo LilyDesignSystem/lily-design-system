@@ -9,6 +9,44 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Flagship pattern: book an appointment — 2026-08-29
+
+[plan.md](plan.md) P6-T2, Lily's first pattern doc. `/book-an-appointment`
+in `lily-design-system-svelte-sveltekit-examples` is a 5-step GP-appointment
+booking wizard (reason, date and time, your details, check your answers,
+confirmation) composing 32 components — the first composed page in the
+repo built specifically to show what a long, stateful, validated flow
+looks like end to end, rather than a single-screen demo. Single-route
+`$state` wizard (matching every other composed page's convention, and
+avoiding the SSR shared-module-state hazard a cross-route store would
+risk); `BackLink` reserved for the one real navigation ("Back to
+examples"), plain `Button` for in-wizard step changes per WAI-ARIA's
+button-vs-link distinction.
+
+Building it surfaced two real defects, fixed and written up in
+[docs/patterns/book-an-appointment.md](docs/patterns/book-an-appointment.md):
+native HTML5 `required` validation was intercepting `Continue` before
+the custom `ErrorSummary` could run — a required `DateInput` with no
+value blocks the `submit` event entirely unless the `<Form>` carries
+`novalidate`, so the custom error copy never rendered and a browser
+validation bubble showed instead; and an early draft double-nested
+`RadioGroup` (which already renders its own `<fieldset
+role="radiogroup">`) inside a second `Fieldset`, announcing two
+redundant grouping regions. The doc also records the GOV.UK/NHS focus-
+management pattern this flow reproduces by hand (a single-page wizard
+gets none of a real route change's automatic focus reset, so every
+step transition moves focus to the new step's heading, and a failed
+validation moves it to the error summary instead) and why `Label`
+wraps `RadioInput`/`CheckboxInput` rather than a raw `<label>`.
+
+Verified: 9 dedicated e2e tests (`e2e/book-an-appointment.spec.ts`) —
+happy path, one per validation rule, Back button, Change link, reset —
+all passing against a production build; axe-core zero violations
+across all 8 distinct UI states; the route added to the app's
+`accessibility.spec.ts` and `responsive.spec.ts` composed-page sweeps
+(74/74 passing); `pnpm run check` clean. Porting to the other six
+example apps is P6-T3, not yet started.
+
 ## Composed-page parity for nunjucks-eleventy, and a real cascade-layer bug it uncovered — 2026-08-29
 
 [plan.md](plan.md) P6-T1. Computed the 12-composed-route × 7-app parity

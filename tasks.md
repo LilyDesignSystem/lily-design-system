@@ -438,11 +438,32 @@ Rules for the executing agent:
   failure rate before; full 612-spec per-slug suite still green. Full
   record: [CHANGELOG.md](CHANGELOG.md).
 
-- [ ] **P6-T2 Flagship "book an appointment" scenario — SvelteKit.**
+- [x] **P6-T2 Flagship "book an appointment" scenario — SvelteKit.**
   Multi-step form, validation, error summary, summary list,
   confirmation; ~30 components; Playwright + axe; written up as
   Lily's first pattern doc (`docs/patterns/book-an-appointment.md`).
   Verify: e2e + axe clean; pattern doc link-checked.
+  Done 2026-08-29: `/book-an-appointment` in
+  lily-design-system-svelte-sveltekit-examples — 5 steps (reason,
+  date and time, your details, check your answers, confirmation)
+  composing 32 components (StepList/StepListItem progress,
+  RadioGroup, Fieldset, Field, DateInput, Select, TextAreaInput +
+  CharacterCounter, SummaryList/SummaryListItem with "Change" links,
+  ErrorSummary/ErrorMessage, SuccessPanel, Panel, WarningCallout,
+  Details, InsetText, and more). Two real defects found and fixed
+  while building it, both documented in the pattern doc: native HTML5
+  `required` validation was intercepting `Continue` before the custom
+  error summary could run (fixed with `novalidate` on every step's
+  `<Form>`); an early draft double-nested `RadioGroup` (which already
+  renders its own fieldset) inside a second `Fieldset`. Verified: 9
+  dedicated e2e tests in `e2e/book-an-appointment.spec.ts` (happy
+  path, one per validation rule, Back button, Change link, reset) all
+  passing against a production build; axe-core zero violations across
+  all 8 distinct UI states (start screen, reason empty/error/expanded,
+  date-time, your-details, check-answers, confirmation); route added
+  to the app's `accessibility.spec.ts` and `responsive.spec.ts`
+  composed-page sweeps (74/74 passing); `pnpm run check` clean on the
+  new file. Full record: [CHANGELOG.md](CHANGELOG.md).
 
 - [ ] **P6-T3 Port the flagship scenario to the other 6 apps.**
   Verify: same per app.

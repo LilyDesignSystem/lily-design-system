@@ -85,6 +85,7 @@ const composedPages = [
   '/tabbed-interface',
   '/task-management',
   '/timeline-and-cards',
+  '/book-an-appointment',
 ];
 
 test.describe('accessibility: composed-page demos', () => {
