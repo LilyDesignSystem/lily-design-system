@@ -11,7 +11,7 @@ jobs:
     name: bin/test + link check + junk guard
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: No tracked node_modules or dist
         run: |
@@ -51,7 +51,7 @@ jobs:
           - lily-design-system-html-helpers
           - lily-design-system-nunjucks-helpers
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Free preinstalled runner bloat for headroom
         # The ubuntu runner ships ~30 GB of toolchains this job never
         # touches (dotnet SDKs, Android, Haskell, CodeQL bundles).
@@ -65,10 +65,10 @@ jobs:
                       /opt/hostedtoolcache/CodeQL \
                       /usr/local/share/boost 2>/dev/null || true
           df -h / | tail -1
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
         with:
           version: 10
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
       - name: Install
@@ -82,8 +82,8 @@ jobs:
     name: consumer smoke (packed tarballs import as a consumer would)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
       - name: Free preinstalled runner bloat for headroom
@@ -135,8 +135,8 @@ jobs:
     name: spell check (root docs + hand-authored site content)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
       - name: cspell
