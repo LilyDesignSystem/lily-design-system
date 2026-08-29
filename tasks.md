@@ -514,6 +514,43 @@ Rules for the executing agent:
   Verify: per-catalog tests pass; `bin/publish-helpers` dry-run
   includes it.
 
+- [ ] **P7-T8 Blazor-web-examples: 5 composed pages pass non-existent
+  component parameters and silently do nothing.** Found 2026-08-29
+  while building P6-T3's Blazor port. `lily-design-system-blazor-headless`
+  was rewritten at some point to a minimal, uniform shape —
+  `TextInput`, `EmailInput`, `TelInput`, `DateInput`, `TextAreaInput`,
+  `Select`, `Option`, `RadioInput`, `CheckboxInput`, `Form`, `Field`,
+  `Fieldset`, `SummaryListItem`, etc. now declare only
+  `Label`/`CssClass`/`AdditionalAttributes` — no `Value`/`ValueChanged`,
+  `Checked`/`CheckedChanged`, `OnSubmit`, `Legend`, `Required`, `Error`,
+  or `Term`. `ContactForm.razor`, `SettingsPage.razor`,
+  `RatingAndFeedback.razor`, `SearchAndFilter.razor`, and
+  `TaskManagement.razor` still pass PascalCase `Value=`/`ValueChanged=`/
+  `OnSubmit=`/`Legend=` as if those parameters existed. They don't
+  error — the attributes land in `AdditionalAttributes` and get
+  splatted onto the root element verbatim, which wires nothing (a
+  capital-letter attribute is never recognised as a DOM event handler,
+  and `ValueChanged` isn't an event at all) — so the pages *render*
+  fine and pass the existing page-load-only accessibility/responsive
+  smoke tests, but no real two-way binding or form submission happens
+  on any of the five. `dotnet build` even hints at it indirectly
+  (`CS0649` on `RatingAndFeedback`'s never-assigned fields). This went
+  undetected because no existing e2e test in this app types into a
+  field or submits a form and checks the result — only
+  `BookAnAppointment.razor` (P6-T3) does that, using the idiom that
+  actually works: lowercase `value`/`checked` attributes plus
+  `@onchange`/`@oninput`/`@onsubmit` directives, which attribute
+  splatting wires correctly regardless of component boundary.
+  Fix requires a deliberate choice: restore the removed parameters to
+  5+ headless components, or rewrite the 5 pages onto the working
+  native-attribute idiom (matching `BookAnAppointment.razor` and the
+  one working precedent already in `SettingsPage.razor`'s `@onclick`
+  on `RadioInput`). Also update this app's own `AGENTS.md`, whose "Key
+  Component APIs" section still documents the old, no-longer-true
+  `Value`/`ValueChanged`/`OnSubmit` contract.
+  Verify: each fixed page's e2e spec actually types/selects/submits
+  and asserts the result, not just page-load + axe.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.
