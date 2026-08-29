@@ -57,6 +57,7 @@ test.describe('accessibility: component-detail samples', () => {
 });
 
 const composedPages = [
+  '/book-an-appointment',
   '/contact-form',
   '/dashboard',
   '/dialog-flow',

@@ -23,6 +23,7 @@ const routes = [
   '/components/button',
   '/components/data-table',
   '/components/grail-layout',
+  '/book-an-appointment',
   '/contact-form',
   '/dashboard',
   '/page-layout',
