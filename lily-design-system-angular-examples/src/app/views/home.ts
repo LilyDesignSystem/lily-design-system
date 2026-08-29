@@ -21,6 +21,7 @@ import { RouterLink } from "@angular/router";
 
       <h2>Composed-page demos</h2>
       <ul>
+        <li><a routerLink="/book-an-appointment">Book an appointment</a></li>
         <li><a routerLink="/contact-form">Contact form</a></li>
         <li><a routerLink="/dashboard">Dashboard</a></li>
         <li><a routerLink="/dialog-flow">Dialog flow</a></li>

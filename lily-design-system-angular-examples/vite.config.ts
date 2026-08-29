@@ -16,6 +16,7 @@ const slugs = readFileSync(TSV, "utf8")
   .filter(Boolean);
 
 const composedPages = [
+  "/book-an-appointment",
   "/contact-form",
   "/dashboard",
   "/dialog-flow",

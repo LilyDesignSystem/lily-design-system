@@ -21,6 +21,7 @@ export const routes: Routes = [
   { path: "", loadComponent: () => import("./views/home").then((m) => m.default) },
   { path: "components", loadComponent: () => import("./views/components-index").then((m) => m.default) },
   { path: "components/:slug", loadComponent: () => import("./views/component-detail").then((m) => m.default) },
+  { path: "book-an-appointment", loadComponent: () => import("./views/book-an-appointment").then((m) => m.default) },
   { path: "contact-form", loadComponent: () => import("./views/contact-form").then((m) => m.default) },
   { path: "dashboard", loadComponent: () => import("./views/dashboard").then((m) => m.default) },
   { path: "dialog-flow", loadComponent: () => import("./views/dialog-flow").then((m) => m.default) },
