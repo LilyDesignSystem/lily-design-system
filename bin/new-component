@@ -1,0 +1,927 @@
+#!/bin/sh
+set -euf
+
+## bin/new-component -- plan P7-T3: end-to-end component scaffolder.
+##
+## Generates a NEW, GENERIC, WORKING placeholder component across every
+## layer bin/test and the registries check: the catalog row, the docs
+## dir, the CSS hook, all 7 headless implementations + tests + stories,
+## the two example apps bin/test verifies per-component
+## (svelte-sveltekit-examples, nunjucks-eleventy-examples), the
+## github.io route, and every generated registry (via
+## bin/generate-component-categories + bin/generate-registries).
+##
+## The generated component is deliberately generic: a <div>-rooted
+## element with a `label` prop (-> aria-label) and a children slot,
+## matching the headless base-class + rest-props contract but no
+## component-specific semantics -- because this script cannot know
+## what real HTML tag, ARIA, or behaviour a not-yet-invented component
+## needs. Status is set to "experimental" precisely so nobody mistakes
+## the scaffold for a finished component. Replace the HTML tag, ARIA,
+## and behaviour in all 7 implementations (and the AGENTS.md "HTML
+## tag" line + the CSS hook comment) once the real design is known.
+##
+## Usage:
+##   bin/new-component <slug> ["description"]
+##   bin/new-component --revert <slug>
+##
+## <slug> is kebab-case (e.g. "example-widget"); the PascalCase name is
+## derived automatically ("ExampleWidget"). description defaults to a
+## generic placeholder if omitted.
+##
+## --revert undoes exactly what a prior run created or modified for
+## <slug>: new files/dirs are removed, the shared registries this
+## script's own generators touch are `git checkout --`'d back to HEAD.
+## Only safe if nothing else has modified those same shared files
+## since the run being reverted -- this is a scratch/testing tool, not
+## a merge-aware undo.
+##
+## Verify (plan P7-T3's own criterion): run this on a scratch slug,
+## run bin/test, confirm it passes, then --revert and confirm
+## `git status` is clean again.
+
+top="$(git rev-parse --show-toplevel)"
+cd "$top"
+
+usage() {
+    sed -n '2,40p' "$0" | sed 's/^## \{0,1\}//'
+}
+
+# ---------- shared registries this script's generators touch ----------
+# (components.tsv, components-categories.tsv, and the css template are
+# edited directly by this script; everything else here is regenerated
+# by bin/generate-component-categories / bin/generate-registries, which
+# this script always calls -- so --revert can restore all of them the
+# same way, with `git checkout --`.)
+SHARED_FILES="
+components.tsv
+components-categories.tsv
+css-style-sheet-template.css
+index.md
+lily-design-system-svelte-sveltekit-examples/src/lib/data/components.ts
+lily-design-system-svelte-sveltekit-examples/src/lib/data/component-demos.ts
+lily-design-system-react-next-examples/app/data/components.ts
+lily-design-system-react-next-examples/app/data/component-demos.ts
+lily-design-system-vue-nuxt-examples/data/components.ts
+lily-design-system-vue-nuxt-examples/data/component-demos.ts
+lily-design-system-angular-examples/src/app/components-data.ts
+lily-design-system-angular-examples/src/app/component-demos.ts
+lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Data/ComponentData.cs
+lily-design-system-html-css-js-examples/pages/components/index.html
+lily-design-system-html-css-js-examples/pages/components/component.html
+lilydesignsystem.github.io/src/lib/components.ts
+"
+
+new_dirs_for() (
+    # slug="$1" pascal="$2"
+    printf '%s\n' \
+        "components/$1" \
+        "lily-design-system-svelte-headless/src/lib/components/$2" \
+        "lily-design-system-svelte-sveltekit-examples/src/lib/components/$2" \
+        "lily-design-system-nunjucks-headless/components/$1" \
+        "lilydesignsystem.github.io/src/routes/components/$1"
+)
+
+new_files_for() (
+    # slug="$1" pascal="$2"
+    printf '%s\n' \
+        "lily-design-system-react-headless/components/$2.tsx" \
+        "lily-design-system-react-headless/components/$2.test.tsx" \
+        "lily-design-system-react-headless/components/$2.stories.tsx" \
+        "lily-design-system-react-headless/components/$2.md" \
+        "lily-design-system-vue-headless/components/$2.vue" \
+        "lily-design-system-vue-headless/components/$2.test.ts" \
+        "lily-design-system-vue-headless/components/$2.stories.ts" \
+        "lily-design-system-vue-headless/components/$2.md" \
+        "lily-design-system-angular-headless/components/$2.ts" \
+        "lily-design-system-angular-headless/components/$2.spec.ts" \
+        "lily-design-system-angular-headless/components/$2.stories.ts" \
+        "lily-design-system-angular-headless/components/$2.md" \
+        "lily-design-system-html-headless/components/$1.html" \
+        "lily-design-system-html-headless/components/$1.test.js" \
+        "lily-design-system-html-headless/components/$1.stories.ts" \
+        "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/$2.razor" \
+        "lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/${2}Tests.cs" \
+        "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/$2.md" \
+        "lily-design-system-nunjucks-eleventy-examples/src/components/$1.njk"
+)
+
+if [ "${1:-}" = "--revert" ]; then
+    slug="${2:-}"
+    test -n "$slug" || { echo "usage: bin/new-component --revert <slug>" >&2; exit 1; }
+    pascal="$(printf '%s' "$slug" | awk -F'-' '{o="";for(i=1;i<=NF;i++){w=$i;o=o toupper(substr(w,1,1)) substr(w,2)}print o}')"
+
+    echo "Reverting scaffold for '$slug' ($pascal)..."
+    new_dirs_for "$slug" "$pascal" | while IFS= read -r d; do
+        test -e "$d" && { echo "  rm -rf $d"; rm -rf "$d"; } || true
+    done
+    new_files_for "$slug" "$pascal" | while IFS= read -r f; do
+        test -e "$f" && { echo "  rm -f $f"; rm -f "$f"; } || true
+    done
+    echo "$SHARED_FILES" | while IFS= read -r f; do
+        test -z "$f" && continue
+        git diff --quiet -- "$f" 2>/dev/null || { echo "  git checkout -- $f"; git checkout -- "$f"; }
+    done
+    echo "Reverted. Run 'git status' to confirm the tree is clean."
+    exit 0
+fi
+
+slug="${1:-}"
+if [ -z "$slug" ]; then
+    usage
+    exit 1
+fi
+case "$slug" in
+    -h|--help) usage; exit 0 ;;
+esac
+description="${2:-a generated placeholder component -- replace this description and implementation}"
+
+case "$slug" in
+    [a-z]*) ;;
+    *) echo "slug must be lowercase kebab-case, starting with a letter: $slug" >&2; exit 1 ;;
+esac
+if printf '%s' "$slug" | grep -qE '[^a-z0-9-]'; then
+    echo "slug must be lowercase kebab-case (a-z, 0-9, hyphen only): $slug" >&2
+    exit 1
+fi
+if grep -q "^$slug	" components.tsv; then
+    echo "slug already exists in components.tsv: $slug" >&2
+    exit 1
+fi
+
+pascal="$(printf '%s' "$slug" | awk -F'-' '{o="";for(i=1;i<=NF;i++){w=$i;o=o toupper(substr(w,1,1)) substr(w,2)}print o}')"
+
+# $description is interpolated directly into UNQUOTED heredocs below
+# (so it can flow through sentences naturally), which means the shell
+# expands `, $(), and bare $ inside it same as any other unquoted
+# string. Reject those rather than silently mis-generating a file or,
+# worse, executing something -- this is a dev tool for a trusted local
+# description, not a sanitizer for untrusted input.
+if printf '%s' "$description" | grep -qE '[`$]'; then
+    echo "description must not contain \` or \$ (it's interpolated into generated source): $description" >&2
+    exit 1
+fi
+
+# JS-string-safe copy of the description, for the single-quoted /
+# double-quoted JS string literal contexts it's substituted into.
+desc_js="$(printf '%s' "$description" | sed -e "s/'/\\\\'/g")"
+
+echo "Scaffolding '$slug' ($pascal): $description"
+
+# ---------- 1. catalog row ----------
+printf '%s\t%s\t%s\n' "$slug" "$pascal" "$description" >> components.tsv
+
+# ---------- 2. docs dir (components/{slug}/) ----------
+mkdir -p "components/$slug/spec"
+ln -sfn index.md "components/$slug/README.md"
+echo "@AGENTS.md" > "components/$slug/CLAUDE.md"
+
+cat > "components/$slug/AGENTS.md" <<AGENTSEOF
+# $pascal
+
+## Metadata
+
+- Component: $slug
+- PascalCase: $pascal
+- Description: $description
+- Status: experimental — generated by bin/new-component; not yet reviewed, styled, or exercised in a composed flow
+- HTML tag: <div>
+- CSS class: .$slug
+- Interactive: no
+
+## Key Behaviors
+
+- Renders a generic \`<div>\` root with the kebab-case base class \`$slug\` plus the consumer's class hook
+- Accepts \`label\` to set \`aria-label\` when the visible content alone isn't a sufficient accessible name
+- Spreads rest props / additional attributes onto the root element
+- Children / default slot renders the component's content
+
+## Keyboard
+
+- None yet — this scaffold has no interactive behavior
+
+## Props
+
+- \`className\`: string (default: \`""\`) -- CSS class name appended to the base class
+- \`label\`: string (optional) -- sets \`aria-label\` on the root
+- \`children\`: slot (required) -- the component's content
+- \`...restProps\`: unknown -- additional attributes spread onto the root element
+
+## ARIA
+
+- \`aria-label\` when \`label\` is provided
+
+## Acceptance Criteria
+
+- [ ] Replace the \`<div>\` root with the correct semantic HTML element for this component
+- [ ] Renders the root element with class="$slug"
+- [ ] WCAG 2.2 AAA compliant
+- [ ] Zero CSS — fully headless
+
+## References
+
+- Documentation: index.md
+- CSS class: .$slug in css-style-sheet-template.css
+AGENTSEOF
+
+cat > "components/$slug/index.md" <<INDEXEOF
+# $pascal
+
+$pascal is a headless placeholder component, generated by \`bin/new-component\` (plan P7-T3). $description
+
+**Status:** experimental — generated by bin/new-component; not yet reviewed, styled, or exercised in a composed flow.
+
+## Implementation Notes
+
+- Renders a generic \`<div>\` root with the kebab-case base class \`$slug\` plus the consumer's class hook
+- Accepts \`label\` to set \`aria-label\`
+- Spreads rest props / additional attributes onto the root element
+- Children / default slot renders the component's content
+
+## Props
+
+- \`className\`: string (default: \`""\`) -- CSS class name appended to the base class
+- \`label\`: string (optional) -- sets \`aria-label\` on the root
+- \`children\`: slot (required) -- the component's content
+- \`...restProps\`: unknown -- additional attributes spread onto the root element
+
+## Usage
+
+\`\`\`html
+<$pascal label="$pascal example">Content</$pascal>
+\`\`\`
+
+## Keyboard Interactions
+
+None yet.
+
+## ARIA
+
+\`aria-label\` when \`label\` is provided.
+
+## When to Use
+
+- This is a generated scaffold — replace this section once the component's real purpose is decided.
+
+## When Not to Use
+
+- This is a generated scaffold — replace this section once the component's real purpose is decided.
+
+## Headless
+
+This headless component renders a generic \`<div>\`. Replace it with the correct semantic element before shipping.
+
+## Styles
+
+The consumer provides all CSS styling via the \`.$slug\` class.
+
+## Testing
+
+- Verify the component renders its root element with class \`$slug\`
+- Verify children content is rendered
+- Verify \`label\` sets \`aria-label\`
+- Verify pass-through attributes are applied
+
+## References
+
+- AGENTS/headless.md
+
+---
+
+Lily™ and Lily Design System™ are trademarks.
+INDEXEOF
+
+cat > "components/$slug/spec/index.md" <<SPECEOF
+# $pascal — spec
+
+Generated by \`bin/new-component\` (plan P7-T3). Not yet implemented for real.
+
+## Plan
+
+- [ ] Decide the real HTML tag, ARIA, and behavior for $pascal.
+- [ ] Update \`AGENTS.md\`'s "HTML tag" line and this component's 7 implementations to match.
+- [ ] Write real "When to Use" / "When Not to Use" guidance in \`index.md\`.
+- [ ] Verify: \`bin/test\` passes; each headless catalog's test suite passes.
+SPECEOF
+
+# ---------- 3. CSS hook ----------
+{
+    printf '\n/* %s: %s */\n' "$slug" "$description"
+    printf '.%s {\n}\n' "$slug"
+} >> css-style-sheet-template.css
+
+# ---------- 4. demo entry (canonical; copies come from bin/generate-registries) ----------
+demo_html="<div class=\"$slug\" aria-label=\"$desc_js\">$pascal</div>"
+awk -v line="  '$slug': '$demo_html'," '
+    /^};$/ && !done { print line; done=1 }
+    { print }
+' "lily-design-system-svelte-sveltekit-examples/src/lib/data/component-demos.ts" \
+    > "lily-design-system-svelte-sveltekit-examples/src/lib/data/component-demos.ts.tmp"
+mv "lily-design-system-svelte-sveltekit-examples/src/lib/data/component-demos.ts.tmp" \
+    "lily-design-system-svelte-sveltekit-examples/src/lib/data/component-demos.ts"
+
+# ---------- 5. seven headless implementations + tests + stories ----------
+
+## svelte-headless (+ its exact copy in svelte-sveltekit-examples, both
+## required by bin/test's test_implementations_with_svelte)
+for svelte_root in \
+    "lily-design-system-svelte-headless/src/lib/components/$pascal" \
+    "lily-design-system-svelte-sveltekit-examples/src/lib/components/$pascal"
+do
+    mkdir -p "$svelte_root"
+    cat > "$svelte_root/$pascal.svelte" <<SVELTEEOF
+<script lang="ts">
+    import type { Snippet } from "svelte";
+    let {
+        class: className = "",
+        label = undefined,
+        children,
+        ...restProps
+    }: {
+        label?: string;
+        children: Snippet;
+        [key: string]: unknown;
+    } = \$props();
+</script>
+
+<!-- $pascal.svelte -- generated by bin/new-component; replace <div> with the real semantic element -->
+<div class={\`$slug \${className}\`} aria-label={label} {...restProps}>
+    {@render children?.()}
+</div>
+SVELTEEOF
+    cat > "$svelte_root/$pascal.test.ts" <<SVELTETESTEOF
+import { render, screen } from "@testing-library/svelte";
+import { describe, expect, test } from "vitest";
+import $pascal from "./$pascal.svelte";
+
+describe("$pascal", () => {
+    test("renders with content", () => {
+        render($pascal, { props: { label: "Test" } });
+        const el = screen.getByLabelText("Test");
+        expect(el).toBeTruthy();
+        expect(el.getAttribute("class")).toContain("$slug");
+    });
+});
+SVELTETESTEOF
+    cat > "$svelte_root/$pascal.stories.svelte" <<SVELTESTORYEOF
+<script module lang="ts">
+    import { defineMeta } from "@storybook/addon-svelte-csf";
+    import $pascal from "./$pascal.svelte";
+    const { Story } = defineMeta({
+        title: "Headless/$pascal",
+        component: $pascal,
+    });
+</script>
+
+<Story name="Default" tags={["autodocs", "!dev"]}>
+    <$pascal label="$pascal example">
+        <span>$pascal example</span>
+    </$pascal>
+</Story>
+SVELTESTORYEOF
+    cp "components/$slug/index.md" "$svelte_root/index.md"
+done
+
+## react-headless
+cat > "lily-design-system-react-headless/components/$pascal.tsx" <<REACTEOF
+// $pascal component -- generated by bin/new-component; replace <div> with
+// the real semantic element once $pascal's actual purpose is decided.
+//
+// Props:
+//   className -- string, optional. CSS class name.
+//   label     -- string, optional. Accessible label via aria-label.
+//   children  -- ReactNode, required. Component content.
+//   ...restProps -- additional HTML attributes spread onto the root.
+
+import React from "react";
+
+export interface ${pascal}Props {
+    className?: string;
+    /** Optional accessible label set on aria-label. */
+    label?: string;
+    /** Component content. */
+    children: React.ReactNode;
+    [key: string]: unknown;
+}
+
+export default function $pascal({
+    className = "",
+    label = undefined,
+    children,
+    ...restProps
+}: ${pascal}Props) {
+    return (
+        <div
+            className={\`$slug \${className}\`}
+            aria-label={label}
+            {...restProps}
+        >
+            {children}
+        </div>
+    );
+}
+REACTEOF
+cat > "lily-design-system-react-headless/components/$pascal.test.tsx" <<REACTTESTEOF
+import { render } from "@testing-library/react";
+import { describe, expect, test } from "vitest";
+
+import Subject from "./$pascal";
+
+describe("$pascal", () => {
+    test("renders the root element with class $slug", () => {
+        const { container } = render(<Subject>content</Subject>);
+        const root = container.querySelector(".$slug");
+        expect(root).toBeTruthy();
+    });
+
+    test("renders children content", () => {
+        const { container } = render(<Subject>content</Subject>);
+        expect(container.textContent).toContain("content");
+    });
+
+    test("applies aria-label when label prop is provided", () => {
+        const { container } = render(<Subject label="Hello">content</Subject>);
+        const root = container.querySelector(".$slug");
+        expect(root?.getAttribute("aria-label")).toBe("Hello");
+    });
+
+    test("passes through additional HTML attributes", () => {
+        const { container } = render(<Subject data-testid="subject">content</Subject>);
+        expect(container.querySelector("[data-testid='subject']")).toBeTruthy();
+    });
+});
+REACTTESTEOF
+cat > "lily-design-system-react-headless/components/$pascal.stories.tsx" <<REACTSTORYEOF
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import $pascal from './$pascal';
+
+const meta = {
+  title: 'Headless/$pascal',
+  component: $pascal,
+  tags: ['autodocs']
+} satisfies Meta<typeof $pascal>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {};
+REACTSTORYEOF
+cat > "lily-design-system-react-headless/components/$pascal.md" <<REACTMDEOF
+# $pascal
+
+$description
+
+## Props
+
+- \`className\`: string (optional) -- CSS class appended to \`$slug\`
+- \`label\`: string (optional) -- accessible label via \`aria-label\`
+- \`children\`: ReactNode (required) -- component content
+- \`...restProps\`: unknown -- additional attributes spread onto the root
+
+## Usage
+
+\`\`\`tsx
+<$pascal>...</$pascal>
+\`\`\`
+REACTMDEOF
+
+## vue-headless
+cat > "lily-design-system-vue-headless/components/$pascal.vue" <<VUEEOF
+<script setup lang="ts">
+    // $pascal component -- generated by bin/new-component; replace <div>
+    // with the real semantic element once $pascal's actual purpose is
+    // decided.
+    //
+    // Props:
+    //   label -- string, optional. Accessible label via aria-label.
+    //   default slot -- component content.
+
+    withDefaults(defineProps<{
+        /** Optional accessible label set on aria-label. */
+        label?: string;
+    }>(), {
+        label: undefined,
+    });
+</script>
+
+<template>
+    <!-- $pascal.vue -->
+    <div
+        class="$slug"
+        :aria-label="label"
+    >
+        <slot />
+    </div>
+</template>
+VUEEOF
+cat > "lily-design-system-vue-headless/components/$pascal.test.ts" <<VUETESTEOF
+import { describe, expect, test } from "vitest";
+import { render } from "@testing-library/vue";
+
+import Subject from "./$pascal.vue";
+
+describe("$pascal", () => {
+    test("renders the root element with class $slug", () => {
+        const { container } = render(Subject, { props: {}, slots: { default: "content" } });
+        const root = container.querySelector(".$slug");
+        expect(root).toBeTruthy();
+    });
+
+    test("renders slot content", () => {
+        const { container } = render(Subject, { props: {}, slots: { default: "hello" } });
+        expect(container.textContent).toContain("hello");
+    });
+
+    test("applies aria-label when label prop is provided", () => {
+        const { container } = render(Subject, { props: { label: "Hello" }, slots: { default: "x" } });
+        const root = container.querySelector(".$slug");
+        expect(root?.getAttribute("aria-label")).toBe("Hello");
+    });
+});
+VUETESTEOF
+cat > "lily-design-system-vue-headless/components/$pascal.stories.ts" <<VUESTORYEOF
+import type { Meta, StoryObj } from '@storybook/vue3-vite';
+import $pascal from './$pascal.vue';
+
+const meta = {
+  title: 'Headless/$pascal',
+  component: $pascal,
+  tags: ['autodocs']
+} satisfies Meta<typeof $pascal>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {};
+VUESTORYEOF
+cat > "lily-design-system-vue-headless/components/$pascal.md" <<VUEMDEOF
+# $pascal
+
+$description
+
+## Props
+
+- \`label\`: string (optional) -- accessible label via \`aria-label\`
+- default slot — component content
+
+## Usage
+
+\`\`\`vue
+<$pascal>...</$pascal>
+\`\`\`
+VUEMDEOF
+
+## angular-headless
+cat > "lily-design-system-angular-headless/components/$pascal.ts" <<NGEOF
+import { ChangeDetectionStrategy, Component, input } from "@angular/core";
+
+/**
+ * $pascal — $description
+ *
+ * Generated by bin/new-component; replace the root element with the
+ * real semantic tag once $pascal's actual purpose is decided.
+ */
+@Component({
+  selector: "lily-${slug}",
+  standalone: true,
+  template: \`<div class="$slug {{ className() }}" [attr.aria-label]="label()"><ng-content /></div>\`,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class $pascal {
+  readonly className = input<string>("");
+  readonly label = input<string | undefined>(undefined);
+}
+NGEOF
+cat > "lily-design-system-angular-headless/components/$pascal.spec.ts" <<NGSPECEOF
+import { describe, expect, test } from "vitest";
+import { TestBed } from "@angular/core/testing";
+
+import { $pascal } from "./$pascal";
+
+describe("$pascal", () => {
+  test("renders the root with the base class", () => {
+    const fixture = TestBed.createComponent($pascal);
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector(".$slug");
+    expect(el).toBeTruthy();
+  });
+
+  test("appends the className input to the root class list", () => {
+    const fixture = TestBed.createComponent($pascal);
+    fixture.componentRef.setInput("className", "extra");
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector(".$slug");
+    expect(el.classList.contains("extra")).toBe(true);
+  });
+
+  test("sets aria-label from the label input", () => {
+    const fixture = TestBed.createComponent($pascal);
+    fixture.componentRef.setInput("label", "Hello");
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector(".$slug");
+    expect(el.getAttribute("aria-label")).toBe("Hello");
+  });
+});
+NGSPECEOF
+cat > "lily-design-system-angular-headless/components/$pascal.stories.ts" <<NGSTORYEOF
+import type { Meta, StoryObj } from "@storybook/angular";
+import { $pascal } from "./$pascal";
+
+const meta: Meta<$pascal> = {
+  title: "Headless/$pascal",
+  component: $pascal,
+  tags: ["autodocs"],
+};
+
+export default meta;
+type Story = StoryObj<$pascal>;
+
+export const Default: Story = {};
+NGSTORYEOF
+cat > "lily-design-system-angular-headless/components/$pascal.md" <<NGMDEOF
+# $pascal
+
+$description
+
+This is the Angular headless implementation. See \`components/$slug/index.md\`
+for the full canonical documentation.
+NGMDEOF
+
+## html-headless
+cat > "lily-design-system-html-headless/components/$slug.html" <<HTMLEOF
+<!-- $slug.html -->
+<!-- $pascal component -- generated by bin/new-component; replace <div>
+     with the real semantic element once $slug's actual purpose is
+     decided. -->
+<!--
+  Description: $description
+  HTML tag: <div>
+  CSS class: $slug
+  Accessibility: aria-label for accessible name
+-->
+
+<div
+  class="$slug"
+  aria-label="Example"
+>
+  <!-- Consumer provides content -->
+</div>
+HTMLEOF
+cat > "lily-design-system-html-headless/components/$slug.test.js" <<HTMLTESTEOF
+// $slug.test.js
+// $pascal component test
+
+const path = require('path');
+
+describe('$pascal', function() {
+  beforeEach(async function() {
+    await browser.url('file://' + path.resolve(__dirname, '$slug.html'));
+  });
+
+  it('should render the root element with correct class', async function() {
+    const el = await \$('.$slug');
+    await expect(el).toExist();
+  });
+
+  it('should have an aria-label attribute', async function() {
+    const el = await \$('.$slug');
+    const label = await el.getAttribute('aria-label');
+    expect(label).not.toBeNull();
+  });
+});
+HTMLTESTEOF
+cat > "lily-design-system-html-headless/components/$slug.stories.ts" <<HTMLSTORYEOF
+import type { Meta, StoryObj } from '@storybook/html-vite';
+
+const html = \`<div
+  class="$slug"
+>
+  <!-- Consumer provides content -->
+</div>\`;
+
+const meta = {
+  title: 'Headless/$pascal',
+  render: () => html,
+  tags: ['autodocs']
+} satisfies Meta;
+
+export default meta;
+type Story = StoryObj;
+
+export const Default: Story = {};
+HTMLSTORYEOF
+
+## blazor-headless
+cat > "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/$pascal.razor" <<BLAZOREOF
+@namespace LilyBlazorHeadless.Components
+
+@*
+    $pascal component -- generated by bin/new-component; replace the
+    root element with the real semantic tag once $pascal's actual
+    purpose is decided.
+    $description
+*@
+
+<div class="@(\$"$slug {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}
+BLAZOREOF
+cat > "lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/${pascal}Tests.cs" <<BLAZORTESTEOF
+using Bunit;
+using LilyBlazorHeadless.Components;
+using Xunit;
+
+namespace LilyBlazorHeadless.Tests.Components;
+
+public class ${pascal}Tests : TestContext
+{
+    [Fact]
+    public void Renders_with_kebab_base_class()
+    {
+        var cut = RenderComponent<$pascal>(p => p
+            .AddChildContent("body"));
+        var root = cut.Find(".$slug");
+        Assert.NotNull(root);
+    }
+
+    [Fact]
+    public void CssClass_is_appended_to_kebab_base_class()
+    {
+        var cut = RenderComponent<$pascal>(p => p
+            .AddChildContent("body")
+            .Add(x => x.CssClass, "extra"));
+        var root = cut.Find(".$slug");
+        Assert.Contains("extra", root.GetAttribute("class"));
+    }
+
+    [Fact]
+    public void AdditionalAttributes_pass_through_to_root()
+    {
+        var cut = RenderComponent<$pascal>(p => p
+            .AddChildContent("body")
+            .AddUnmatched("data-test", "value"));
+        var root = cut.Find(".$slug");
+        Assert.Equal("value", root.GetAttribute("data-test"));
+    }
+}
+BLAZORTESTEOF
+cat > "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/$pascal.md" <<BLAZORMDEOF
+# $pascal
+
+$description
+
+This is the Blazor headless implementation. See \`components/$slug/index.md\`
+for the full canonical documentation.
+BLAZORMDEOF
+
+## nunjucks-headless (+ its exact demo-page companion in
+## nunjucks-eleventy-examples, required by bin/test's
+## test_implementation_nunjucks_headless / _example)
+camel="$(printf '%s' "$pascal" | awk '{print tolower(substr($0,1,1)) substr($0,2)}')"
+mkdir -p "lily-design-system-nunjucks-headless/components/$slug"
+cat > "lily-design-system-nunjucks-headless/components/$slug/macro.njk" <<NJKEOF
+{#
+  $pascal macro -- generated by bin/new-component; replace <div> with
+  the real semantic element once $slug's actual purpose is decided.
+
+  HTML tag: <div>
+  CSS class: $slug
+
+  Params:
+    text        string   Plain text content (escaped).
+    html        string   Raw HTML content (rendered via | safe).
+    label       string   Accessible name (aria-label).
+    id          string
+    classes     string
+    attributes  object
+
+  Usage:
+    {% from "components/$slug/macro.njk" import $camel %}
+    {{ $camel({ text: "Example", label: "Example" }) }}
+#}
+{%- macro $camel(params) -%}
+<div
+  class="$slug{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if params.html -%}{{ params.html | safe }}
+  {%- elif params.text -%}{{ params.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</div>
+{%- endmacro -%}
+NJKEOF
+cat > "lily-design-system-nunjucks-headless/components/$slug/macro.test.js" <<NJKTESTEOF
+import { describe, it, expect } from "vitest";
+import { render } from "../../test/render.js";
+
+describe("$camel", () => {
+  it("renders the root with the base class", () => {
+    const { document } = render("$slug", { text: "Example" });
+    const el = document.querySelector(".$slug");
+    expect(el).toBeTruthy();
+    expect(el.textContent.trim()).toBe("Example");
+  });
+
+  it("sets aria-label when provided", () => {
+    const { document } = render("$slug", { text: "x", label: "Example label" });
+    expect(document.querySelector(".$slug").getAttribute("aria-label"))
+      .toBe("Example label");
+  });
+
+  it("appends params.classes", () => {
+    const { document } = render("$slug", { text: "x", classes: "extra" });
+    expect(document.querySelector(".$slug.extra")).toBeTruthy();
+  });
+
+  it("contains no <style> or <script> tags", () => {
+    const { html } = render("$slug", { text: "x" });
+    expect(html).not.toContain("<style");
+    expect(html).not.toContain("<script");
+  });
+});
+NJKTESTEOF
+cp "components/$slug/index.md" "lily-design-system-nunjucks-headless/components/$slug/index.md"
+cat > "lily-design-system-nunjucks-headless/components/$slug/macro.stories.ts" <<NJKSTORYEOF
+import type { Meta, StoryObj } from '@storybook/html-vite';
+
+const html = \`<div
+  class="$slug"></div>\`;
+
+const meta = {
+  title: 'Headless/$pascal',
+  render: () => html,
+  tags: ['autodocs']
+} satisfies Meta;
+
+export default meta;
+type Story = StoryObj;
+
+export const Default: Story = {};
+NJKSTORYEOF
+
+cat > "lily-design-system-nunjucks-eleventy-examples/src/components/$slug.njk" <<NJKEXEOF
+---
+layout: layouts/component-demo.njk
+title: $pascal
+description: $description
+---
+
+{% from "components/$slug/macro.njk" import $camel %}
+
+<h2>Default</h2>
+<p>{{ $camel({ text: "$pascal example", label: "$pascal example" }) }}</p>
+NJKEXEOF
+
+# ---------- 6. github.io route (required by test_lilydesignsystem_github_io) ----------
+gh_dir="lilydesignsystem.github.io/src/routes/components/$slug"
+mkdir -p "$gh_dir/spec"
+ln -sfn index.md "$gh_dir/README.md"
+echo "@AGENTS.md" > "$gh_dir/CLAUDE.md"
+cp "components/$slug/AGENTS.md" "$gh_dir/AGENTS.md"
+cp "components/$slug/index.md" "$gh_dir/index.md"
+cp "components/$slug/spec/index.md" "$gh_dir/spec/index.md"
+cat > "$gh_dir/+page.svelte" <<PAGEEOF
+<script lang="ts">
+  // Generated by bin/new-component (plan P7-T3). This is a simplified
+  // placeholder route -- the other 490 component pages are rendered
+  // from a fuller markdown-to-HTML pipeline; replace this page's body
+  // with real content once $pascal's real design lands.
+  const demoHtml: string = \`<div class="$slug" aria-label="$desc_js">$pascal</div>\`;
+</script>
+
+<svelte:head>
+  <title>$pascal — Lily Design System</title>
+  <meta name="description" content="$desc_js" />
+</svelte:head>
+
+<nav class="component-page-back" aria-label="Breadcrumb" style="max-width: 64rem; margin: 0 auto; padding: 1.5rem 1rem 0;">
+  <a href="/components/">← All components</a>
+</nav>
+
+<article class="component-page prose" style="max-width: 64rem; margin: 0 auto; padding: 1rem 1rem 2rem;">
+  <h1>$pascal</h1>
+  <p>$desc_js</p>
+  <p><em>Status: experimental — generated by bin/new-component; not yet reviewed.</em></p>
+  <h2>Demo</h2>
+  {@html demoHtml}
+</article>
+PAGEEOF
+
+# ---------- 7. regenerate every derived registry from the sources above ----------
+echo "Regenerating components-categories.tsv..."
+node bin/generate-component-categories > /dev/null
+echo "Regenerating example-app registries..."
+node bin/generate-registries > /dev/null
+echo "Regenerating the site's canonical-contract sections..."
+python3 bin/generate-api-docs > /dev/null
+
+echo
+echo "Done. Run 'bin/test' to verify, and 'bin/new-component --revert $slug' to undo."

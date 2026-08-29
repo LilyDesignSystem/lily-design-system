@@ -653,10 +653,51 @@ Rules for the executing agent:
   still matters enough to chase; not done here since the root cause
   turned out to be the interpreter bug, not the loop shape itself.
 
-- [ ] **P7-T3 `bin/new-component` end-to-end generator** (catalog row,
+- [x] **P7-T3 `bin/new-component` end-to-end generator** (catalog row,
   docs dir, CSS hook, 7 implementations + tests + stories, demos,
   registries).
   Verify: scratch slug → `bin/test` passes → clean revert.
+  Done 2026-08-29. `bin/new-component <slug> ["description"]` generates
+  a new, generic, working `<div>`-rooted placeholder component (Status:
+  experimental — a deliberate choice, since the tool can't know a real
+  future component's actual HTML tag, ARIA, or behavior) across: the
+  catalog row, the docs dir (`components/{slug}/`), the CSS hook, all 7
+  headless implementations + tests + stories (plus their `.md`
+  companions for react/vue/angular/blazor, matching the existing
+  convention), the two example apps `bin/test` checks per-component
+  (`svelte-sveltekit-examples`, `nunjucks-eleventy-examples`), the
+  github.io route, and every generated registry — by adding the one new
+  demo-map entry and AGENTS.md by hand, then calling the *existing*
+  generators (`bin/generate-component-categories`,
+  `bin/generate-registries`, `bin/generate-api-docs`) rather than
+  reimplementing their logic. `bin/new-component --revert <slug>`
+  undoes exactly what a run created (removes new files/dirs,
+  `git checkout --`s the shared registries), tracked via a fixed list
+  of the files those three generators touch — not a session log, so
+  it's only correct if nothing else modified those same files meanwhile
+  (documented as a scratch/testing tool, not a merge-aware undo).
+  Verified thoroughly, not just structurally: scaffolded a real
+  `scratch-widget-p7t3` component, `bin/test` passed clean on the first
+  try after one real bug (a missing `mkdir -p` for the nunjucks-headless
+  per-component dir) and one real gap (forgetting `bin/generate-api-docs`,
+  caught by `bin/test`'s own drift check) were found and fixed;
+  `bin/check-links` clean. Went beyond bin/test's structural checks to
+  actually run each of the 7 headless catalogs' own test suites against
+  the generated component code — not just confirm the files exist:
+  svelte-headless 1/1, react-headless 4/4, vue-headless 3/3,
+  angular-headless 3/3, and blazor-headless 3/3 all passed for real
+  (compiled and asserted correctly, including Blazor's `@($"...")`
+  string-interpolation syntax inside a heredoc-generated `.razor` file);
+  nunjucks-headless 4/4 passed; html-headless's generated `.html`/`.test.js`
+  are well-formed (syntax-checked; the full WDIO suite needs a browser
+  run, already covered by every other component in the P7-T1 `headless`
+  CI job). Reverted three times across the verification pass; `git
+  status` and `bin/test` both came back clean every time.
+  Two small, real, unrelated discoveries logged as new backlog items
+  rather than fixed here (P7-T13, P7-T14) — a doc/implementation
+  mismatch and a likely-dead legacy directory, both found in
+  svelte-headless while using its `kbd` component as this tool's
+  structural reference.
 
 - [ ] **P7-T4 `bin/check-coverage` drift matrix** (catalog ↔
   implementations ↔ tests ↔ stories ↔ demos ↔ CSS hooks), non-zero on
@@ -831,6 +872,38 @@ Rules for the executing agent:
   migrate every subproject's build-script allowlist to wherever that
   version reads it; dry-run `publish.yml` and confirm every pack step
   still produces the expected tarball contents.
+
+- [ ] **P7-T13 `svelte-headless`'s `Kbd` renders `<div>`, not the
+  `<kbd>` its own `components/kbd/AGENTS.md` documents ("HTML tag:
+  `<kbd>`").** Found 2026-08-29 while building P7-T3's
+  `bin/new-component`, using `kbd` as the cross-framework structural
+  reference — every other framework's `Kbd` (react, vue, angular, html,
+  blazor, nunjucks) correctly renders a native `<kbd>`; only
+  `lily-design-system-svelte-headless/src/lib/components/Kbd/Kbd.svelte`
+  (and its exact copy in `svelte-sveltekit-examples`) uses `<div>`
+  instead. Not fixed here — out of scope for a component-scaffolding
+  tool to also patch an unrelated, already-shipped component.
+  Verify: `Kbd.svelte` renders `<kbd>`; its existing test (which
+  currently asserts by `aria-label` and class, not tag name) gains an
+  assertion on the tag itself so this can't silently regress again.
+
+- [ ] **P7-T14 `lily-design-system-svelte-headless` carries a second,
+  likely-dead copy of every component under a root `components/`
+  directory, duplicating `src/lib/components/`.** Found 2026-08-29
+  alongside P7-T13. The two trees are near-identical (e.g. `Kbd`'s only
+  diff is a relative-path depth in a doc comment); neither
+  `vite.config.js`, `package.json`'s `exports`, nor any Storybook config
+  references `components/` at the root, and `bin/new-component`'s own
+  `bin/test` pass didn't need to populate it — same unreferenced-
+  duplicate shape as P7-T9's per-app dead `nhs.css` files. Not confirmed
+  dead with the same rigor P7-T9 used (no direct evidence check here,
+  just absence of any reference found), and not removed here since
+  deleting ~491 component directories deserves its own verification
+  pass, not a side effect of an unrelated tool.
+  Verify: confirm nothing loads `components/` at build, test, or
+  Storybook time (the way P7-T9 confirmed each dead `nhs.css` with a
+  live served-page check); if genuinely dead, delete the directory and
+  confirm `pnpm test`/`pnpm run build`/Storybook all stay green.
 
 ---
 

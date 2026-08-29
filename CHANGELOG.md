@@ -9,6 +9,49 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## `bin/new-component`: end-to-end scaffolder for a new component — 2026-08-29
+
+[plan.md](plan.md) P7-T3. `bin/new-component <slug> ["description"]`
+generates a new, generic, working component across every layer the
+catalog touches: the `components.tsv` row, the docs dir, the CSS hook,
+all 7 headless implementations plus their tests and stories (plus the
+two example apps `bin/test` checks per-component —
+svelte-sveltekit-examples and nunjucks-eleventy-examples), the
+github.io route, and every generated registry. The generated component
+is a deliberately generic `<div>`-rooted placeholder marked
+`Status: experimental` — the tool can't know a not-yet-invented
+component's real HTML tag, ARIA, or behavior, so it gets those
+structurally right (base class, rest-props spread, an accessible
+`label` prop) and leaves the semantics for a human to fill in.
+
+Rather than reimplementing registry logic, the one new demo-map entry
+and the new `AGENTS.md` are written by hand and then the *existing*
+generators do the rest: `bin/generate-component-categories`,
+`bin/generate-registries`, `bin/generate-api-docs`.
+`bin/new-component --revert <slug>` undoes exactly what a run created —
+new files/dirs removed, the shared registries `git checkout --`'d back.
+
+Verified for real, not just structurally: scaffolded a scratch
+component, ran each of the 7 headless catalogs' own test suites against
+the generated code (not just confirmed the files exist) — svelte 1/1,
+react 4/4, vue 3/3, angular 3/3, blazor 3/3, nunjucks 4/4 all passed,
+including Blazor's `@($"...")` interpolation syntax surviving a
+heredoc-generated `.razor` file; html-headless's output is well-formed
+(the full WDIO run is already covered by every other component in
+[plan.md](plan.md) P7-T1's CI job). `bin/test` and `bin/check-links`
+both clean; reverted three times across the pass, `git status` clean
+every time. One real bug (a missing `mkdir -p`) and one real gap
+(forgetting `bin/generate-api-docs`, caught by `bin/test`'s own drift
+check) were found and fixed while building it.
+
+Two small, unrelated discoveries logged as new backlog items rather
+than fixed here, found using `kbd` as the cross-framework structural
+reference ([tasks.md](tasks.md) P7-T13, P7-T14): svelte-headless's
+`Kbd` renders `<div>` instead of the `<kbd>` its own docs promise (every
+other framework gets it right), and svelte-headless carries a second,
+likely-dead copy of every component under a root `components/`
+directory alongside `src/lib/components/`.
+
 ## `bin/test`: fixed a real bash 3.2 perf bug, caught a bad "fix" before shipping it — 2026-08-29
 
 [plan.md](plan.md) P7-T2. Profiled `bin/test` (instrumented per-function
