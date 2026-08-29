@@ -45,6 +45,12 @@ const examples = [
       "FiveStarRatingPicker, FiveFaceRatingPicker, NetPromoterScorePicker",
   },
   {
+    href: "/rtl-demo",
+    title: "RTL Demo",
+    description:
+      'A real dir="rtl" page in Arabic proving components mirror, not just localize',
+  },
+  {
     href: "/search-and-filter",
     title: "Search and Filter",
     description: "Combobox, SearchInput, TagInput, DataTable",
