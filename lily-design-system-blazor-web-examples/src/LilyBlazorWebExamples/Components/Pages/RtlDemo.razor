@@ -1,0 +1,165 @@
+@page "/rtl-demo"
+
+@*
+    RTL demo (plan P6-T4), ported from the canonical SvelteKit reference
+    (lily-design-system-svelte-sveltekit-examples/src/routes/rtl-demo/+page.svelte).
+    Proves the internationalization design principle in
+    AGENTS/internationalization.md -- "components do not assume LTR
+    layout in their structural HTML" -- with a real dir="rtl" page using
+    the classic places a design system bakes in "left" instead of
+    "start": a breadcrumb, a data table, pagination, and a form with a
+    radio group and a checkbox. The Arabic strings are copied verbatim
+    from the Svelte reference (already reviewed) -- not re-translated.
+
+    Re-verified for THIS app rather than assumed from the Svelte port's
+    header comment:
+
+    1. wwwroot/css/nhs.css (2000+ lines) is dead code here too: grepping
+       every .razor/.cs/.csproj/.html file in this app for "nhs.css"
+       finds nothing. The real styling comes entirely from the
+       runtime-swapped managed <link data-lily-theme-picker> that
+       App.razor creates pre-paint and ThemePicker owns once the
+       circuit starts (see MainLayout.razor), pointing at
+       wwwroot/themes/*.css -- confirmed byte-identical (via `diff`) to
+       the shared root themes/*.css.
+    2. The default theme,
+       themes/united-kingdom-national-health-service-england-for-patients.css,
+       already uses logical properties for every component this page
+       touches: margin-inline-end on the breadcrumb separator
+       (:where(.breadcrumb-list-item + .breadcrumb-list-item)::before),
+       text-align: start on .data-table-th, and border-inline-start on
+       .inset-text -- no fix needed. It does have a pre-existing
+       physical .skip-link { left: 0 } (shared app-shell chrome, not
+       this route's own content) -- left as an honest, unfixed note per
+       the reference's own finding, out of this route's scope.
+
+    This app's headless components (TextInput, CheckboxInput,
+    RadioInput, Form, Field, Fieldset, Label, RadioGroup, ...) only
+    declare Label/CssClass/AdditionalAttributes -- see
+    BookAnAppointment.razor's header comment for the full finding. This
+    page uses the same working idiom: lowercase `value`/`checked`
+    attributes plus `@@onchange`/`@@oninput` via attribute splatting.
+    RadioGroup renders a bare `<div role="radiogroup" aria-label="...">`,
+    not a real `<fieldset>` -- already a working group via its own
+    role + aria-label, so (per book-an-appointment.razor's documented
+    finding) this page does NOT nest it inside a second Fieldset, which
+    would double up the announced grouping region for no benefit; each
+    RadioInput is instead wrapped in a real native <Label> for a bigger
+    click target and a visible name that matches the accessible name,
+    the same pattern BookAnAppointment.razor's reason step uses.
+
+    A plain <form>'s default submit is a full browser navigation/reload;
+    Blazor's @@onsubmit directive intercepts that natively (no
+    :preventDefault modifier needed -- confirmed by the working forms in
+    BookAnAppointment.razor), so this page's form uses a no-op handler
+    to keep the interaction on this Interactive Server circuit, matching
+    the Svelte reference's inert submit button.
+*@
+
+<div dir="rtl" lang="ar">
+    <h1>عرض توضيحي للكتابة من اليمين إلى اليسار</h1>
+
+    <BackLink Href="/">رجوع إلى الأمثلة</BackLink>
+
+    <BreadcrumbNav Label="مسار التصفح">
+        <BreadcrumbList>
+            <BreadcrumbListItem><a href="/">الرئيسية</a></BreadcrumbListItem>
+            <BreadcrumbListItem><a href="/components">الإعدادات</a></BreadcrumbListItem>
+            <BreadcrumbListItem aria-current="page">الملف الشخصي</BreadcrumbListItem>
+        </BreadcrumbList>
+    </BreadcrumbNav>
+
+    <InsetText>
+        هذه صفحة تجريبية لاختبار الاتجاه من اليمين إلى اليسار. جميع
+        المكوّنات هنا بلا تنسيق مسبق؛ التنسيق البصري كله من هذا التطبيق.
+    </InsetText>
+
+    <h2>جدول الموظفين</h2>
+    <DataTable Label="قائمة الموظفين">
+        <DataTableHead>
+            <DataTableRow>
+                <DataTableTH>الاسم</DataTableTH>
+                <DataTableTH>القسم</DataTableTH>
+                <DataTableTH>الحالة</DataTableTH>
+            </DataTableRow>
+        </DataTableHead>
+        <DataTableBody>
+            @foreach (var row in Rows)
+            {
+                <DataTableRow>
+                    <DataTableTD>@row.Name</DataTableTD>
+                    <DataTableTD>@row.Department</DataTableTD>
+                    <DataTableTD>@row.Status</DataTableTD>
+                </DataTableRow>
+            }
+        </DataTableBody>
+    </DataTable>
+
+    <PaginationNav Label="ترقيم صفحات النتائج">
+        <PaginationList Label="قائمة الصفحات">
+            @foreach (var pageNumber in PageNumbers)
+            {
+                <PaginationListItem>
+                    @if (pageNumber == CurrentPage)
+                    {
+                        <span aria-current="page">@pageNumber</span>
+                    }
+                    else
+                    {
+                        <a href="@($"#page-{pageNumber}")">@pageNumber</a>
+                    }
+                </PaginationListItem>
+            }
+        </PaginationList>
+    </PaginationNav>
+
+    <h2>نموذج التواصل</h2>
+    <Form Label="نموذج التواصل" @onsubmit="@(() => { })">
+        <Field Label="الاسم الكامل">
+            <Label For="rtl-full-name">الاسم الكامل</Label>
+            <TextInput id="rtl-full-name" Label="الاسم الكامل"
+                       value="@fullName" @onchange="@((ChangeEventArgs e) => fullName = e.Value?.ToString() ?? string.Empty)" />
+        </Field>
+
+        <RadioGroup Label="طريقة التواصل المفضلة">
+            <Label>
+                <RadioInput id="rtl-contact-email" Label="البريد الإلكتروني" name="rtl-contact-method" value="email"
+                            checked="@(contactMethod == "email")" @onchange="@(() => SetContactMethod("email"))" />
+                البريد الإلكتروني
+            </Label>
+            <Label>
+                <RadioInput id="rtl-contact-phone" Label="الهاتف" name="rtl-contact-method" value="phone"
+                            checked="@(contactMethod == "phone")" @onchange="@(() => SetContactMethod("phone"))" />
+                الهاتف
+            </Label>
+        </RadioGroup>
+
+        <p>
+            <Label>
+                <CheckboxInput id="rtl-agree-terms" Label="أوافق على الشروط" checked="@agreeTerms"
+                               @onchange="@((ChangeEventArgs e) => agreeTerms = (bool)(e.Value ?? false))" />
+                أوافق على الشروط
+            </Label>
+        </p>
+
+        <p><Button type="submit">إرسال</Button></p>
+    </Form>
+</div>
+
+@code {
+    private const int CurrentPage = 2;
+    private static readonly int[] PageNumbers = { 1, 2, 3, 4, 5 };
+
+    private static readonly (string Name, string Department, string Status)[] Rows =
+    {
+        ("سارة أحمد", "الموارد البشرية", "نشط"),
+        ("محمد علي", "تقنية المعلومات", "نشط"),
+        ("ليلى حسن", "المالية", "متوقف"),
+    };
+
+    private string fullName = "";
+    private string contactMethod = "email";
+    private bool agreeTerms;
+
+    private void SetContactMethod(string value) => contactMethod = value;
+}
