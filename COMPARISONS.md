@@ -117,6 +117,13 @@ Written for someone deciding, not someone already convinced.
 - You need a support contract, a VPAT, or a vendor.
 - You need Angular, Blazor, HTML, or Nunjucks from a registry today.
 
+## Migrating from a specific system
+
+If you're moving from GOV.UK Frontend or NHS.UK frontend rather than
+comparing in the abstract, the slug-mapping guides are more useful than
+this page: [docs/migrating/govuk.md](docs/migrating/govuk.md) and
+[docs/migrating/nhs-uk.md](docs/migrating/nhs-uk.md).
+
 ## Sources
 
 The full list of systems Lily studies is in

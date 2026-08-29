@@ -9,6 +9,24 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Migration guides: GOV.UK and NHS.UK slug mapping — 2026-08-29
+
+[plan.md](plan.md) P5-T4. `docs/migrating/govuk.md` and
+`docs/migrating/nhs-uk.md` map GOV.UK Frontend's 37 and NHS.UK
+frontend's 38 published components to Lily slugs — fetched from the
+live component indexes rather than assumed, and every mapped slug
+verified against `components.tsv` before publishing. 31/37 and 36/38
+resolve directly. Gaps are typed honestly rather than forced: three of
+GOV.UK's are page-level patterns it documents as components but Lily
+treats as composition (cookie banner, exit-this-page, feedback);
+language navigation is better served by the `locale-picker` helper
+than a component; character count and textarea are genuine catalog
+gaps pointed at [RFC.md](RFC.md) rather than papered over with a wrong
+mapping. One correction caught before publishing: GOV.UK/NHS's
+"Details" disclosure maps to Lily's native-`<details>` `Details`
+component, not `Expander` (a styled non-native disclosure) — an easy
+mix-up the verification step exists to catch.
+
 ## Site pages gain generated canonical-contract sections — 2026-08-28
 
 [plan.md](plan.md) P5-T3. Every one of the 491 site component pages

@@ -344,11 +344,20 @@ Rules for the executing agent:
   markup (area-chart's `{ name: string }` prop type broke compilation
   before that). Site builds with all 491 sections prerendered.
 
-- [ ] **P5-T4 Migration guides**: `docs/migrating/nhs-uk.md` (v9/v10)
+- [x] **P5-T4 Migration guides**: `docs/migrating/nhs-uk.md` (v9/v10)
   and `docs/migrating/govuk.md` (v6) — component → Lily slug tables,
   gaps noted.
   Verify: every referenced slug exists in `components.tsv`;
   `bin/check-links` passes.
+  Done 2026-08-29: mapped against the live GOV.UK (37) and NHS (38)
+  component indexes. 31/37 and 36/38 resolve directly; gaps are
+  honestly typed — page-level patterns GOV.UK documents as components
+  but Lily treats as composition (cookie banner, exit-this-page,
+  feedback), one better served by a helper than a component
+  (language navigation -> locale-picker), and two genuine catalog
+  gaps (character count, textarea) pointed at RFC.md rather than
+  papered over. Every slug reference verified against components.tsv
+  before publishing. Linked from COMPARISONS.md.
 
 - [ ] **P5-T5 `lily-figma` decision.**
   Either seed a community Figma library from P3-T6 tokens and document
