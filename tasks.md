@@ -708,6 +708,28 @@ Rules for the executing agent:
   of `src/app/components/*.spec.ts`, not just the app's own top-level
   logic tests.
 
+- [ ] **P7-T12 `.github/workflows/publish.yml` pins `pnpm/action-setup`
+  to major version 10, one behind the major version (11) the checked-in
+  `pnpm-lock.yaml` files are actually maintained with.** Found
+  2026-08-29 while building P7-T1's new CI jobs:
+  `lily-design-system-svelte-sveltekit-examples`'s lockfile pins
+  `cookie@0.6.0` (correct for its `@sveltejs/kit@2.70.3`), but
+  installing with pnpm 10 resolves `cookie@2.0.1` instead — a
+  hoisting/dedup difference between the two majors — which breaks the
+  app's build outright (`[MISSING_EXPORT] "parse"/"serialize" is not
+  exported by ".../cookie/dist/index.js"`). `ci.yml`'s four
+  `pnpm/action-setup` steps were bumped to version 11 in the same
+  commit that added the jobs exercising this for the first time;
+  `publish.yml` was deliberately left alone here, since it's the
+  tag-gated real-publish pipeline and this repo has been careful not
+  to touch that without dedicated verification. Any subproject whose
+  publish depends on a similarly hoisting-sensitive package could hit
+  the same failure the next time a tag is pushed.
+  Verify: bump `publish.yml`'s `pnpm/action-setup` to version 11 (or
+  pin an exact version matching the lockfiles' maintainer tooling);
+  dry-run the publish workflow (`workflow_dispatch` without `real`) and
+  confirm every pack step still produces the expected tarball contents.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.
