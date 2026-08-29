@@ -359,11 +359,20 @@ Rules for the executing agent:
   papered over. Every slug reference verified against components.tsv
   before publishing. Linked from COMPARISONS.md.
 
-- [ ] **P5-T5 `lily-figma` decision.**
+- [x] **P5-T5 `lily-figma` decision.**
   Either seed a community Figma library from P3-T6 tokens and document
   it, or replace the placeholder with an honest not-planned page
   linking RFC.md §RFC 6. No "coming soon" remains.
   Verify: the route renders real content either way.
+  Decided 2026-08-29: not-planned, with a real self-serve path. A
+  maintained Figma library/plugin is a separate ongoing commitment
+  this project has not taken on. The page instead documents importing
+  a theme's DTCG tokens (themes/tokens/*.json, shipped P3-T6) into
+  Figma via the existing Tokens Studio community plugin — gets you
+  Lily's colours and shape tokens, not Lily's components as Figma
+  components, and says so. Links RFC 6 for what would change the
+  decision. No "coming soon" remains; the route was an orphan (no
+  inbound nav links) and stays one, honestly.
 
 - [ ] **P5-T6 Tutorials gain runnable end states.**
   Each site tutorial's finished code exists in-repo (fixture or

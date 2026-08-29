@@ -9,6 +9,20 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## lily-figma: honest not-planned, with a real path — 2026-08-29
+
+[plan.md](plan.md) P5-T5. The site's `/lily-figma` page said "coming
+soon" with nothing behind it. It now says plainly that no maintained
+Figma library or plugin exists — building one well is a real ongoing
+commitment separate from maintaining code, and this project hasn't
+taken it on — and gives the self-serve path the DTCG tokens (P3-T6)
+make possible today: import any theme's `themes/tokens/{slug}.json`
+into Figma via the existing Tokens Studio community plugin. That gets
+a designer Lily's colours and shape tokens as real Figma variables; it
+does not get Lily's components as Figma components, and the page says
+that too. Links RFC 6 for what would change the decision — a designer
+saying specifically what they need.
+
 ## Migration guides: GOV.UK and NHS.UK slug mapping — 2026-08-29
 
 [plan.md](plan.md) P5-T4. `docs/migrating/govuk.md` and
