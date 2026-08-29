@@ -71,12 +71,129 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: pnpm
+          cache-dependency-path: ${{ matrix.catalog }}/pnpm-lock.yaml
       - name: Install
         working-directory: ${{ matrix.catalog }}
         run: pnpm install --no-frozen-lockfile
       - name: Test
         working-directory: ${{ matrix.catalog }}
         run: pnpm exec vitest run
+
+  headless:
+    name: headless tests (${{ matrix.catalog }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        catalog:
+          - lily-design-system-svelte-headless
+          - lily-design-system-react-headless
+          - lily-design-system-vue-headless
+          - lily-design-system-angular-headless
+          - lily-design-system-nunjucks-headless
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: ${{ matrix.catalog }}/pnpm-lock.yaml
+      - name: Install
+        working-directory: ${{ matrix.catalog }}
+        run: pnpm install --no-frozen-lockfile
+      - name: Test
+        working-directory: ${{ matrix.catalog }}
+        run: pnpm exec vitest run
+
+  html-headless:
+    name: headless tests (lily-design-system-html-headless, WebDriverIO)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: lily-design-system-html-headless/pnpm-lock.yaml
+      - name: Install
+        working-directory: lily-design-system-html-headless
+        run: pnpm install --no-frozen-lockfile
+      - name: Test (491 WebDriverIO specs, headless Chrome)
+        working-directory: lily-design-system-html-headless
+        run: pnpm test
+
+  dotnet-tests:
+    name: dotnet test (${{ matrix.project }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - project: lily-design-system-blazor-headless
+            csproj: tests/LilyBlazorHeadless.Tests/LilyBlazorHeadless.Tests.csproj
+          - project: lily-design-system-blazor-helpers
+            csproj: tests/LilyDesignSystem.Blazor.Helpers.Tests/LilyDesignSystem.Blazor.Helpers.Tests.csproj
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ matrix.project }}-${{ hashFiles(format('{0}/**/*.csproj', matrix.project)) }}
+          restore-keys: nuget-${{ matrix.project }}-
+      - name: Test
+        working-directory: ${{ matrix.project }}
+        run: dotnet test ${{ matrix.csproj }}
+
+  example-smoke:
+    name: example-app Playwright smoke (svelte-sveltekit-examples)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: lily-design-system-svelte-sveltekit-examples/pnpm-lock.yaml
+      - name: Install
+        working-directory: lily-design-system-svelte-sveltekit-examples
+        run: pnpm install --no-frozen-lockfile
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-chromium-${{ hashFiles('lily-design-system-svelte-sveltekit-examples/pnpm-lock.yaml') }}
+      - name: Install Playwright Chromium
+        working-directory: lily-design-system-svelte-sveltekit-examples
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: pnpm exec playwright install --with-deps chromium
+      - name: Install Playwright OS deps only (browser cached)
+        working-directory: lily-design-system-svelte-sveltekit-examples
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: pnpm exec playwright install-deps chromium
+      - name: Test (accessibility, responsive, /components search, rtl-demo, book-an-appointment)
+        working-directory: lily-design-system-svelte-sveltekit-examples
+        run: |
+          pnpm exec playwright test \
+            e2e/accessibility.spec.ts \
+            e2e/responsive.spec.ts \
+            e2e/components-index.spec.ts \
+            e2e/rtl-demo.spec.ts \
+            e2e/book-an-appointment.spec.ts
 
   consumer-smoke:
     name: consumer smoke (packed tarballs import as a consumer would)
@@ -86,6 +203,20 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
+          # These four subprojects are pnpm projects (pnpm-lock.yaml),
+          # but this job intentionally uses plain `npm install` inside
+          # each to simulate a real npm consumer, not the project's own
+          # tooling. There's no package-lock.json for setup-node's npm
+          # cache to key off, so the pnpm lockfiles stand in as the
+          # cache-invalidation signal (~/.npm still gets warmed and
+          # reused across runs; it just busts a little more often than
+          # a matching npm lockfile would).
+          cache-dependency-path: |
+            lily-design-system-angular-headless/pnpm-lock.yaml
+            lily-design-system-svelte-headless/pnpm-lock.yaml
+            lily-design-system-react-headless/pnpm-lock.yaml
+            lily-design-system-vue-headless/pnpm-lock.yaml
       - name: Free preinstalled runner bloat for headroom
         # The ubuntu runner ships ~30 GB of toolchains this job never
         # touches (dotnet SDKs, Android, Haskell, CodeQL bundles).
