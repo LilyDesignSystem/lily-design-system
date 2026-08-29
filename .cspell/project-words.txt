@@ -33,6 +33,7 @@ unasserted
 unfakeable
 unhead
 unimportable
+unlayered
 unpiped
 
 # Acronyms and initialisms
@@ -85,6 +86,7 @@ zeroheight
 # Web/CSS/tooling terms not in the base dictionaries
 codepoint
 flexbox
+networkidle
 oklch
 prerender
 SIGPIPE
