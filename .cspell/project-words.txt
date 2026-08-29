@@ -5,6 +5,7 @@
 # Coined or technical English (not in general dictionaries)
 baselined
 bootcamp
+bootstrapper
 cascader
 coachmark
 deployers
