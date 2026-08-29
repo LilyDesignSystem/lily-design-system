@@ -31,17 +31,17 @@
   },
   "homepage": "https://lilydesignsystem.github.io/",
   "devDependencies": {
-    "@storybook/vue3-vite": "^9.0.0",
+    "@storybook/vue3-vite": "^10.5.10",
     "@testing-library/user-event": "^14.6.1",
     "@testing-library/vue": "^8.1.0",
-    "@vitejs/plugin-vue": "^5.2.3",
+    "@vitejs/plugin-vue": "^6.0.8",
     "@vitest/ui": "^4.0.18",
     "jsdom": "^30.0.0",
-    "storybook": "^9.0.0",
-    "typescript": "^5.9.0",
+    "storybook": "^10.5.10",
+    "typescript": "^7.0.2",
     "vitest": "^4.1.0",
     "vue": "^3.5.41",
-    "vue-tsc": "^2.2.12"
+    "vue-tsc": "^3.3.11"
   },
   "dependencies": {
     "aria-query": "^5.3.1"
