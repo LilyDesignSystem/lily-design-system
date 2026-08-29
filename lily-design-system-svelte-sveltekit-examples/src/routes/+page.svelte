@@ -5,6 +5,11 @@
 
     const examples = [
         {
+            href: "/book-an-appointment",
+            title: "Book an Appointment",
+            description: "Flagship multi-step wizard: reason, date and time, details, review, confirmation",
+        },
+        {
             href: "/contact-form",
             title: "Contact Form",
             description: "Form inputs, validation, and error handling",
@@ -38,6 +43,11 @@
             href: "/rating-and-feedback",
             title: "Rating & Feedback",
             description: "Star ratings, NPS, face ratings, and RAG status",
+        },
+        {
+            href: "/rtl-demo",
+            title: "RTL Demo",
+            description: "A real dir=\"rtl\" page in Arabic proving components mirror, not just localize",
         },
         {
             href: "/search-and-filter",

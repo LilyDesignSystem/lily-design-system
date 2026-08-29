@@ -86,6 +86,7 @@ const composedPages = [
   '/task-management',
   '/timeline-and-cards',
   '/book-an-appointment',
+  '/rtl-demo',
 ];
 
 test.describe('accessibility: composed-page demos', () => {

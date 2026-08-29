@@ -9,6 +9,52 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## RTL demo route — SvelteKit — 2026-08-29
+
+[plan.md](plan.md) P6-T4. `/rtl-demo` in `lily-design-system-svelte-sveltekit-examples`
+proves the internationalization principle in
+[AGENTS/internationalization.md](AGENTS/internationalization.md) —
+"components do not assume LTR layout in their structural HTML" — with
+a real `dir="rtl"` page in Arabic: a breadcrumb, a data table, pagination,
+and a form with radios/checkboxes, the classic places a design system
+bakes in "left" instead of "start".
+
+Two findings, neither where a first look suggested:
+
+- **`src/lib/css/nhs.css` (2000+ lines) is dead code.** Nothing in this
+  app imports it any more — the real styling comes entirely from the
+  runtime-swapped root `themes/*.css` this app's theme-picker loads
+  (2026-08-26's "wire themes into example apps" work superseded it and
+  nobody removed the file). An early draft of this route "fixed" RTL
+  bugs in `nhs.css` that changed nothing a visitor ever sees; caught
+  before committing by checking which stylesheet actually renders.
+  Logged as its own backlog item rather than silently reverted and
+  forgotten — the file is still there, still misleading.
+- **The real file — the default theme,
+  `themes/united-kingdom-national-health-service-england-for-patients.css`
+  — already handles RTL correctly** for every component this route
+  touches (`margin-inline-end`, `padding-inline-start`,
+  `border-inline-start`, `text-align: start`), verified against real
+  computed styles in a live browser. It does have a few genuine,
+  unrelated physical-property bugs elsewhere (`.timeline-list-item`'s
+  `border-left`, `.input-group`'s `margin-left`, `.skip-link`'s
+  `left`) — none used by this route, left as an honest unfixed note
+  rather than scope-creeping into a full theme audit.
+
+Verifying either finding raced the same async theme-stylesheet load
+already documented for nunjucks-eleventy's `base.njk`: a computed-style
+read right after `page.goto()` can catch pre-theme values. The new
+`e2e/rtl-demo.spec.ts` waits for the managed theme link's sheet to
+populate plus two animation frames before asserting anything
+CSS-dependent — confirmed 8/8 stable against that wait during
+development.
+
+Verified: 4 dedicated e2e tests (dir/overflow, real component
+mirroring — not just text direction, axe, keyboard operability); the
+app's `accessibility.spec.ts` and `responsive.spec.ts` both pass with
+the route included (83/83 across 3 consecutive runs); `pnpm run check`
+clean. Porting to the other six example apps is in progress.
+
 ## Flagship pattern ported to all 7 example apps — 2026-08-29
 
 [plan.md](plan.md) P6-T3. `/book-an-appointment` — the flagship 5-step

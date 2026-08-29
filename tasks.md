@@ -567,6 +567,20 @@ Rules for the executing agent:
   Verify: each fixed page's e2e spec actually types/selects/submits
   and asserts the result, not just page-load + axe.
 
+- [ ] **P7-T9 `lily-design-system-svelte-sveltekit-examples/src/lib/css/nhs.css`
+  is dead code.** Found 2026-08-29 while building P6-T4's RTL demo
+  route. Nothing in `src/` imports it any more; the app's real styling
+  comes entirely from the runtime-swapped root `themes/*.css` loaded
+  by the theme-picker (2026-08-26's "wire themes into example apps"
+  work superseded it). ~2000 lines of plausible-looking, actively
+  misleading CSS that changes nothing a visitor sees — an early draft
+  of the RTL route "fixed" RTL bugs in it before this was caught.
+  Check whether the other 6 example apps have the same orphaned file
+  from the same migration before deciding whether to delete outright
+  or fold anything genuinely still-relevant into the theme files.
+  Verify: `grep -rn "nhs.css" src/` (or each app's equivalent) returns
+  nothing once resolved.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.

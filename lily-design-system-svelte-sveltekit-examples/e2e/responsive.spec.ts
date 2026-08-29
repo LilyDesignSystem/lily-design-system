@@ -31,6 +31,7 @@ const routes = [
   '/task-management',
   '/timeline-and-cards',
   '/book-an-appointment',
+  '/rtl-demo',
 ];
 
 async function expectNoHorizontalOverflow(page: import('@playwright/test').Page, label: string) {
