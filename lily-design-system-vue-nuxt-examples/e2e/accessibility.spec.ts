@@ -65,6 +65,7 @@ const composedPages = [
   '/navigation-and-menus',
   '/page-layout',
   '/rating-and-feedback',
+  '/rtl-demo',
   '/search-and-filter',
   '/settings-page',
   '/tabbed-interface',
