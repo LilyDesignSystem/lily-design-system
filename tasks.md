@@ -465,8 +465,24 @@ Rules for the executing agent:
   composed-page sweeps (74/74 passing); `pnpm run check` clean on the
   new file. Full record: [CHANGELOG.md](CHANGELOG.md).
 
-- [ ] **P6-T3 Port the flagship scenario to the other 6 apps.**
+- [x] **P6-T3 Port the flagship scenario to the other 6 apps.**
   Verify: same per app.
+  Done 2026-08-29: `/book-an-appointment` ported to React/Next.js,
+  Vue/Nuxt, Angular/Analog, Blazor Web, HTML+CSS+JS, and
+  Nunjucks/Eleventy — all 7 example apps now carry the flagship
+  pattern. Each port trusted its own app's actual headless component
+  sources rather than assuming the Svelte reference's prop shapes
+  carry over, and each was independently build-verified and e2e
+  tested (9-10 dedicated tests per app, axe-clean across every
+  distinct UI state). Two real, previously-undiscovered defect classes
+  surfaced along the way: Angular's RadioInput/CheckboxInput/StepList/
+  SummaryList wrapper-host components can't do what this flow needs
+  (extends the existing §11.8 wrapper-host finding from lists to form
+  controls; worked around with the same direct-class-hook-markup
+  pattern this app already uses elsewhere), and — more seriously —
+  five pre-existing Blazor composed pages turned out to be silently
+  non-functional (logged as its own tracked item, P7-T8, below, rather
+  than folded into this one). Full record: [CHANGELOG.md](CHANGELOG.md).
 
 - [ ] **P6-T4 RTL demo route** in each app.
   Verify: e2e asserts `dir="rtl"` and no horizontal overflow.

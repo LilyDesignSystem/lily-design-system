@@ -9,6 +9,46 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Flagship pattern ported to all 7 example apps — 2026-08-29
+
+[plan.md](plan.md) P6-T3. `/book-an-appointment` — the flagship 5-step
+GP-appointment booking wizard from P6-T2 — now exists in every example
+app: React/Next.js, Vue/Nuxt, Angular/Analog, Blazor Web, HTML+CSS+JS,
+and Nunjucks/Eleventy (SvelteKit already had it). Each port was built
+by reading that app's own actual headless component sources rather
+than assuming the Svelte reference's prop shapes carry over, and each
+was independently verified: a real build, 9-10 dedicated e2e tests per
+app, and zero axe violations across every distinct UI state (roughly
+70 new e2e tests in total across the six ports).
+
+Two real defect classes surfaced:
+
+- **Angular's wrapper-host components can't run this flow as-is.**
+  `RadioInput`/`CheckboxInput` expose only a string `value`, no
+  `checked` model and no `name`, so they can't form a real mutually
+  exclusive radio group or boolean toggle; `StepList`/`StepListItem`
+  and `SummaryList`/`SummaryListItem` have the same `<ol>`/`<li>`
+  wrapper-host break already documented for `BreadcrumbList` in
+  [spec §11.8](spec/index.md). Worked around with the direct-class-hook
+  -markup pattern this app already uses for the same problem elsewhere
+  (`page-layout.ts`, `timeline-and-cards.ts`, `task-management.ts`).
+- **Five pre-existing Blazor composed pages are silently non-functional**
+  (`ContactForm.razor`, `SettingsPage.razor`, `RatingAndFeedback.razor`,
+  `SearchAndFilter.razor`, `TaskManagement.razor`): they pass PascalCase
+  `Value=`/`ValueChanged=`/`OnSubmit=`/`Legend=` attributes that this
+  app's headless components no longer declare (the library was
+  rewritten to a minimal `Label`/`CssClass`/`AdditionalAttributes`-only
+  shape at some point). The attributes are silently absorbed into
+  `AdditionalAttributes` and splatted as inert markup — the pages
+  render and pass page-load-only smoke tests, but no real two-way
+  binding or form submission happens on any of them. Logged as its own
+  tracked backlog item, P7-T8, rather than fixed here — the fix means
+  either restoring the removed parameters to 5+ headless components or
+  rewriting five example pages, a separate, deliberate piece of work.
+
+Full per-app records: `tasks.md` P6-T3, and each port's own commit
+message.
+
 ## Dependabot — 2026-08-29
 
 [spec/dependabot/index.md](spec/dependabot/index.md), implemented in full.
