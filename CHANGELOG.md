@@ -9,6 +9,24 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Spell-check gate in CI — 2026-08-29
+
+[plan.md](plan.md) P5-T7, closing Phase 5. `cspell.config.yaml` runs
+both `en_US` and `en_GB` (so `behaviour`/`colour`/`organisation` don't
+trip a false positive) plus a categorised project dictionary
+(`.cspell/project-words.txt`, 150 words) built by running cspell over
+the real scope and hand-sorting every genuine finding into acronyms,
+tool/brand names, coined technical terms, and the 30+-country national
+personal identifier names in their native spelling — nothing bulk-
+added unreviewed. Scope is root docs, `docs/`, `help/`, and the site's
+hand-authored routes; the 491 generated `/components/{slug}` pages are
+deliberately excluded — they bake `components/*/index.md` prose,
+much of it non-English identifier terminology, into escaped JS-string
+literals, and checking all 491 is a materially larger undertaking than
+"docs + site content" asked for. A seeded typo in CONTRIBUTING.md was
+caught by the gate, then the file restored byte-identical, before
+wiring it as its own CI job.
+
 ## Tutorial snippets verified by compiling them; a real bug in five — 2026-08-29
 
 [plan.md](plan.md) P5-T6. Every framework tutorial's code snippet was

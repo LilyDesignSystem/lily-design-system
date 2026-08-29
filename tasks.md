@@ -396,9 +396,22 @@ Rules for the executing agent:
   compiled individually against the published 0.1.1 packages and held
   up unchanged — both gain a verified note.
 
-- [ ] **P5-T7 Spell-check gate in CI** over root docs + site content
+- [x] **P5-T7 Spell-check gate in CI** over root docs + site content
   (cspell with a project dictionary).
   Verify: CI green; a seeded typo on a branch is caught.
+  Done 2026-08-29: cspell.config.yaml (en_US + en_GB, so `behaviour`/
+  `colour`/`organisation` don't trip it) + a categorised
+  `.cspell/project-words.txt` (150 words: acronyms, tool/brand names,
+  coined technical terms, and the 30+-country national-identifier
+  names in their native spelling — every one traced to an actual
+  finding, none bulk-added). Scope is root `*.md`, `docs/`, `help/`,
+  and the site's **hand-authored** routes; the 491 generated
+  `/components/{slug}` pages are excluded (they bake `components/*/
+  index.md` prose into giant escaped JS-string literals — checking
+  491 dirs of catalog prose, much of it in 30+ languages, is a
+  separate and much larger undertaking than "docs + site content"
+  asks for). Bite-proven: a seeded typo in CONTRIBUTING.md was caught,
+  then the file was restored byte-identical. Wired as its own CI job.
 
 ## Phase 6 — Examples deepening
 

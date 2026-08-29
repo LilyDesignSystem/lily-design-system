@@ -130,3 +130,18 @@ jobs:
         run: |
           bin/smoke-packages
           df -h / | tail -1
+
+  spell-check:
+    name: spell check (root docs + hand-authored site content)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: cspell
+        run: |
+          npx --yes cspell --no-progress \
+            "*.md" "docs/**/*.md" "help/**/*.md" \
+            "lilydesignsystem.github.io/src/routes/+page.svelte" \
+            "lilydesignsystem.github.io/src/routes/{about,accessibility,comparisons,examples,help,lily-claude-code,lily-claude-design,lily-figma,tutorials,why}/**/*.svelte"

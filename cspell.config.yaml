@@ -1,0 +1,33 @@
+version: "0.2"
+language: en, en-GB
+dictionaries:
+  - en_US
+  - softwareTerms
+  - typescript
+  - node
+  - css
+  - html
+  - fonts
+  - lily-project
+dictionaryDefinitions:
+  - name: lily-project
+    path: ./.cspell/project-words.txt
+    addWords: false
+ignorePaths:
+  - "**/node_modules/**"
+  - "**/dist/**"
+  - "**/build/**"
+  - "**/.svelte-kit/**"
+  - "**/.output/**"
+  - "**/.nuxt/**"
+  - "**/.next/**"
+  - "**/bin/obj/**"
+  - "**/obj/**"
+  - "**/storybook-static/**"
+  - "**/coverage/**"
+  - "**/*.min.js"
+  - "**/pnpm-lock.yaml"
+  - "**/package-lock.json"
+  - "components/**"
+  - "themes/**"
+  - "**/*.tsv"
