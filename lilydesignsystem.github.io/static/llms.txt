@@ -1,0 +1,94 @@
+# Lily Design System™
+
+> Free, open-source, headless design system: a canonical catalog of 491
+> accessible components implemented across seven frameworks (HTML, Svelte,
+> React, Vue, Angular, Blazor, Nunjucks), paired with fully styled example
+> apps that demonstrate the same catalog end to end.
+
+This is the canonical monorepo. The living specification is `spec/`,
+entered via `spec/index.md`; binding design-principle rules for AI coding
+agents live in `AGENTS.md` and `AGENTS/*.md`. Public documentation and the
+searchable component catalog: https://lilydesignsystem.github.io/.
+
+## Start here
+
+- [spec/index.md](spec/index.md): the specification — vision, scope,
+  architecture, naming conventions, composition patterns, acceptance
+  criteria, roadmap. Links out to one `spec/{topic}/index.md` per topic.
+- [AGENTS.md](AGENTS.md): binding design-principle rules; loads every file
+  under `AGENTS/`.
+- [README.md](README.md): human-readable project overview.
+- [components.tsv](components.tsv): the canonical 491-component catalog —
+  one row per component: slug, PascalCase name, description.
+- [CHANGELOG.md](CHANGELOG.md): full change history, with the reasoning
+  behind each change.
+
+## Design-principle rules (AGENTS/)
+
+- [AGENTS/headless.md](AGENTS/headless.md): markup, ARIA, behaviour
+  boundaries, zero-CSS rules every component follows.
+- [AGENTS/accessibility.md](AGENTS/accessibility.md): WCAG 2.2 AAA target,
+  WAI-ARIA APG keyboard/role/state patterns.
+- [AGENTS/internationalization.md](AGENTS/internationalization.md): no
+  hardcoded user-facing strings, stable text-prop names.
+- [AGENTS/theme.md](AGENTS/theme.md): token shape, the headless
+  forbidden-literal list, the 45 reference theme stylesheets.
+- [AGENTS/components.md](AGENTS/components.md): suffix-to-HTML-element
+  mapping, compound name-family patterns, composition templates.
+- [AGENTS/helpers.md](AGENTS/helpers.md): the theme/locale/text-size/
+  share/date-time picker contract.
+- [AGENTS/citations.md](AGENTS/citations.md): design systems and headless
+  libraries Lily learns from.
+- [AGENTS/lily.md](AGENTS/lily.md): the full subproject list (all 7
+  headless, 7 example, 7 helper catalogs) and the `bin/` tool reference.
+
+## Specification topics (spec/)
+
+- [spec/architecture/index.md](spec/architecture/index.md): monorepo
+  layout, the git-subtree model, required files per subproject/component.
+- [spec/components/index.md](spec/components/index.md): the 491-component
+  catalog in depth, per-component documentation requirements.
+- [spec/testing/index.md](spec/testing/index.md): per-framework test
+  suites, Storybook coverage, Playwright e2e, axe, responsive sweep.
+- [spec/national-identifiers/index.md](spec/national-identifiers/index.md):
+  the 80 national personal identifier components, validation algorithms.
+- [spec/helpers/index.md](spec/helpers/index.md): the five `*-picker`
+  helper contracts in full.
+- [spec/frameworks/index.md](spec/frameworks/index.md): the seven
+  framework pairs, per-framework file shapes, the copy-pattern.
+- [spec/agent-skills/index.md](spec/agent-skills/index.md): the
+  `lily-skill` and `lily-design-system-maintainer-skill` Claude Skills.
+
+## Subprojects
+
+- [lily-design-system-svelte-headless](lily-design-system-svelte-headless/index.md):
+  the canonical Svelte 5 headless library — other catalogs port from it.
+- [lily-design-system-svelte-sveltekit-examples](lily-design-system-svelte-sveltekit-examples/index.md):
+  fully styled reference app for the same catalog.
+- [lily-design-system-svelte-helpers](lily-design-system-svelte-helpers/index.md):
+  the canonical theme/locale/text-size/share/date-time picker catalog.
+- The remaining 18 headless/example/helper subprojects (React, Vue,
+  Angular, Blazor, HTML, Nunjucks) follow the same shape — see
+  [AGENTS/lily.md](AGENTS/lily.md) for the full list.
+- [lily-skill](lily-skill/SKILL.md): general-purpose Claude Skill
+  explaining Lily concepts and usage to people building *with* the system.
+- [lily-design-system-maintainer-skill](lily-design-system-maintainer-skill/SKILL.md):
+  technical Claude Skill for maintainers working *on* this monorepo.
+
+## Optional
+
+- [components-categories.tsv](components-categories.tsv): per-component
+  HTML tag and category (content, forms, navigation, tables, …).
+- [css-style-sheet-template.css](css-style-sheet-template.css): one CSS
+  class hook declared per catalog component.
+- [themes/](themes/): 45 ready-to-use reference theme stylesheets (NHS
+  England/Scotland/Wales, GOV.UK, USWDS, Adobe Spectrum, Mozilla Protocol).
+- [bin/](bin/): scaffolding, listing, sync, test, and publish tooling —
+  start with `bin/test` to verify a working tree.
+- [CONTRIBUTING.md](CONTRIBUTING.md): how to propose a change.
+- [LICENSE.md](LICENSE.md): MIT OR Apache-2.0 OR GPL-2.0-only OR
+  GPL-3.0-only OR BSD-3-Clause.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.
