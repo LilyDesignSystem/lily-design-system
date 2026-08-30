@@ -28,6 +28,7 @@
     <li><a href="#a11y">Accessibility</a></li>
     <li><a href="#i18n">Internationalization</a></li>
     <li><a href="#testing">Testing</a></li>
+    <li><a href="#ai-agents">AI agents</a></li>
     <li><a href="#troubleshooting">Troubleshooting</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#community">Community and support</a></li>
@@ -290,6 +291,26 @@ pnpm run dev`}</code></pre>
     <code>jest-dom</code> matchers. This keeps the test suites portable.
     The example apps add Playwright end-to-end suites, axe-core accessibility
     baselines, and a responsive viewport sweep.
+  </p>
+</section>
+
+<section class="section prose" id="ai-agents" style="margin: 0 auto;">
+  <h2>AI agents</h2>
+  <p>
+    This site publishes <a href="/llms.txt">llms.txt</a> and
+    <a href="/llms.json">llms.json</a> at its root — a curated map of its
+    most important pages, for any tool that follows the
+    <a href="https://llmstxt.org">llms.txt convention</a>.
+  </p>
+  <p>
+    The canonical monorepo additionally ships two
+    <a href="https://code.claude.com/docs/en/skills">Claude Skills</a>:
+    <code>lily-skill</code>, a general-purpose skill covering Lily's
+    concepts, terminology, and composition patterns for anyone building
+    with the system, and <code>lily-design-system-maintainer-skill</code>,
+    a technical skill covering the monorepo's required-files layout and
+    tooling for anyone working on it. Both live at the root of the
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">canonical monorepo</a>.
   </p>
 </section>
 
