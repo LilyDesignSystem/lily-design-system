@@ -1,0 +1,69 @@
+{
+  "name": "Lily Design System",
+  "trademark": "Lily™ and Lily Design System™ are trademarks.",
+  "summary": "Free, open-source, headless design system: a canonical catalog of 491 accessible components implemented across seven frameworks (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks), paired with fully styled example apps that demonstrate the same catalog end to end.",
+  "description": "This is the canonical monorepo. The living specification is spec/, entered via spec/index.md; binding design-principle rules for AI coding agents live in AGENTS.md and AGENTS/*.md. Public documentation and the searchable component catalog are published at the documentation_site URL below.",
+  "canonical_repository": "https://github.com/LilyDesignSystem/lily-design-system",
+  "documentation_site": "https://lilydesignsystem.github.io/",
+  "license": "MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause",
+  "component_count": 491,
+  "sections": [
+    {
+      "title": "Start here",
+      "links": [
+        { "title": "spec/index.md", "url": "spec/index.md", "description": "The specification: vision, scope, architecture, naming conventions, composition patterns, acceptance criteria, roadmap. Links to one spec/{topic}/index.md per topic." },
+        { "title": "AGENTS.md", "url": "AGENTS.md", "description": "Binding design-principle rules; loads every file under AGENTS/." },
+        { "title": "README.md", "url": "README.md", "description": "Human-readable project overview." },
+        { "title": "components.tsv", "url": "components.tsv", "description": "The canonical 491-component catalog: one row per component (slug, PascalCase name, description)." },
+        { "title": "CHANGELOG.md", "url": "CHANGELOG.md", "description": "Full change history, with the reasoning behind each change." }
+      ]
+    },
+    {
+      "title": "Design-principle rules (AGENTS/)",
+      "links": [
+        { "title": "AGENTS/headless.md", "url": "AGENTS/headless.md", "description": "Markup, ARIA, behaviour boundaries, and zero-CSS rules every component follows." },
+        { "title": "AGENTS/accessibility.md", "url": "AGENTS/accessibility.md", "description": "WCAG 2.2 AAA target, WAI-ARIA APG keyboard/role/state patterns." },
+        { "title": "AGENTS/internationalization.md", "url": "AGENTS/internationalization.md", "description": "No hardcoded user-facing strings; stable text-prop names." },
+        { "title": "AGENTS/theme.md", "url": "AGENTS/theme.md", "description": "Token shape, the headless forbidden-literal list, the 45 reference theme stylesheets." },
+        { "title": "AGENTS/components.md", "url": "AGENTS/components.md", "description": "Suffix-to-HTML-element mapping, compound name-family patterns, composition templates." },
+        { "title": "AGENTS/helpers.md", "url": "AGENTS/helpers.md", "description": "The theme/locale/text-size/share/date-time picker helper contract." },
+        { "title": "AGENTS/citations.md", "url": "AGENTS/citations.md", "description": "Design systems and headless libraries Lily learns from." },
+        { "title": "AGENTS/lily.md", "url": "AGENTS/lily.md", "description": "The full subproject list (7 headless, 7 example, 7 helper catalogs) and the bin/ tool reference." }
+      ]
+    },
+    {
+      "title": "Specification topics (spec/)",
+      "links": [
+        { "title": "spec/architecture/index.md", "url": "spec/architecture/index.md", "description": "Monorepo layout, the git-subtree model, required files per subproject/component." },
+        { "title": "spec/components/index.md", "url": "spec/components/index.md", "description": "The 491-component catalog in depth; per-component documentation requirements." },
+        { "title": "spec/testing/index.md", "url": "spec/testing/index.md", "description": "Per-framework test suites, Storybook coverage, Playwright e2e, axe, responsive sweep." },
+        { "title": "spec/national-identifiers/index.md", "url": "spec/national-identifiers/index.md", "description": "The 80 national personal identifier components, normalization, validation algorithms." },
+        { "title": "spec/helpers/index.md", "url": "spec/helpers/index.md", "description": "The five *-picker helper contracts in full." },
+        { "title": "spec/frameworks/index.md", "url": "spec/frameworks/index.md", "description": "The seven framework pairs, per-framework file shapes, the copy-pattern." },
+        { "title": "spec/agent-skills/index.md", "url": "spec/agent-skills/index.md", "description": "The lily-skill and lily-design-system-maintainer-skill Claude Skills." }
+      ]
+    },
+    {
+      "title": "Subprojects",
+      "links": [
+        { "title": "lily-design-system-svelte-headless", "url": "lily-design-system-svelte-headless/index.md", "description": "The canonical Svelte 5 headless library; other framework catalogs port from it." },
+        { "title": "lily-design-system-svelte-sveltekit-examples", "url": "lily-design-system-svelte-sveltekit-examples/index.md", "description": "Fully styled reference app demonstrating the same catalog." },
+        { "title": "lily-design-system-svelte-helpers", "url": "lily-design-system-svelte-helpers/index.md", "description": "The canonical theme/locale/text-size/share/date-time picker catalog." },
+        { "title": "lily-skill", "url": "lily-skill/SKILL.md", "description": "General-purpose Claude Skill explaining Lily concepts and usage to people building with the system." },
+        { "title": "lily-design-system-maintainer-skill", "url": "lily-design-system-maintainer-skill/SKILL.md", "description": "Technical Claude Skill for maintainers working on this monorepo." }
+      ],
+      "note": "18 more headless/example/helper subprojects (React, Vue, Angular, Blazor, HTML, Nunjucks) follow the same shape as the Svelte three above; see AGENTS/lily.md for the full list."
+    },
+    {
+      "title": "Optional",
+      "links": [
+        { "title": "components-categories.tsv", "url": "components-categories.tsv", "description": "Per-component HTML tag and category (content, forms, navigation, tables, ...)." },
+        { "title": "css-style-sheet-template.css", "url": "css-style-sheet-template.css", "description": "One CSS class hook declared per catalog component." },
+        { "title": "themes/", "url": "themes/", "description": "45 ready-to-use reference theme stylesheets (NHS England/Scotland/Wales, GOV.UK, USWDS, Adobe Spectrum, Mozilla Protocol)." },
+        { "title": "bin/", "url": "bin/", "description": "Scaffolding, listing, sync, test, and publish tooling; start with bin/test to verify a working tree." },
+        { "title": "CONTRIBUTING.md", "url": "CONTRIBUTING.md", "description": "How to propose a change." },
+        { "title": "LICENSE.md", "url": "LICENSE.md", "description": "MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause." }
+      ]
+    }
+  ]
+}
