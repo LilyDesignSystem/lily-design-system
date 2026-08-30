@@ -1,6 +1,14 @@
 @page "/contact-form"
 <PageTitle>Contact Form — Lily Blazor examples</PageTitle>
 
+@*
+    See BookAnAppointment.razor's header comment for why this page uses
+    lowercase native `value`/`checked` attributes plus `@onchange`/`@oninput`
+    directives rather than PascalCase `Value`/`ValueChanged` — the headless
+    components here only declare Label/CssClass/AdditionalAttributes, so a
+    PascalCase attribute is captured but never wired as real two-way binding.
+*@
+
 <h1>Contact Form</h1>
 
 @if (submitted)
@@ -12,10 +20,11 @@
 }
 else
 {
-    <Form Label="Contact us" OnSubmit="HandleSubmit">
+    <Form Label="Contact us" novalidate @onsubmit="HandleSubmit">
         @if (errors.Count > 0)
         {
-            <ErrorSummary Title="There is a problem">
+            <ErrorSummary Label="There is a problem" id="contact-error-summary" tabindex="-1">
+                <h2>There is a problem</h2>
                 <ul>
                     @foreach (var error in errors)
                     {
@@ -25,35 +34,51 @@ else
             </ErrorSummary>
         }
 
-        <Field Label="Full name" Required="true" Error="@GetError("name")">
-            <TextInput Label="Full name" id="name"
-                       Value="@data.Name" ValueChanged="v => data.Name = v"
-                       Required="true" />
+        <Field Label="Full name" data-required="true">
+            <Label For="name">Full name</Label>
+            <TextInput id="name" Label="Full name"
+                       value="@data.Name" @onchange="@((ChangeEventArgs e) => data.Name = e.Value?.ToString() ?? "")"
+                       required />
+            @if (GetError("name") is { } nameError)
+            {
+                <ErrorMessage>@nameError</ErrorMessage>
+            }
         </Field>
 
-        <Field Label="Email address" Required="true" Error="@GetError("email")">
-            <EmailInput Label="Email address" id="email"
-                        Value="@data.Email" ValueChanged="v => data.Email = v"
-                        Required="true" />
+        <Field Label="Email address" data-required="true">
+            <Label For="email">Email address</Label>
+            <EmailInput id="email" Label="Email address"
+                        value="@data.Email" @onchange="@((ChangeEventArgs e) => data.Email = e.Value?.ToString() ?? "")"
+                        required />
+            @if (GetError("email") is { } emailError)
+            {
+                <ErrorMessage>@emailError</ErrorMessage>
+            }
         </Field>
 
         <Field Label="Subject">
-            <Select Label="Subject"
-                    Value="@data.Subject" ValueChanged="v => data.Subject = v">
-                <Option Value="general">General enquiry</Option>
-                <Option Value="support">Technical support</Option>
-                <Option Value="billing">Billing</Option>
-                <Option Value="feedback">Feedback</Option>
+            <Label For="subject">Subject</Label>
+            <Select id="subject" Label="Subject"
+                    value="@data.Subject" @onchange="@((ChangeEventArgs e) => data.Subject = e.Value?.ToString() ?? "general")">
+                <Option value="general">General enquiry</Option>
+                <Option value="support">Technical support</Option>
+                <Option value="billing">Billing</Option>
+                <Option value="feedback">Feedback</Option>
             </Select>
         </Field>
 
-        <Field Label="Message" Required="true" Error="@GetError("message")">
-            <TextAreaInput Label="Message" id="message"
-                      Value="@data.Message" ValueChanged="v => data.Message = v"
-                      Rows="5" Required="true" />
+        <Field Label="Message" data-required="true">
+            <Label For="message">Message</Label>
+            <TextAreaInput id="message" Label="Message"
+                           value="@data.Message" @oninput="@((ChangeEventArgs e) => data.Message = e.Value?.ToString() ?? "")"
+                           rows="5" required />
+            @if (GetError("message") is { } messageError)
+            {
+                <ErrorMessage>@messageError</ErrorMessage>
+            }
         </Field>
 
-        <Button Type="submit">Send Message</Button>
+        <Button type="submit">Send Message</Button>
     </Form>
 }
 

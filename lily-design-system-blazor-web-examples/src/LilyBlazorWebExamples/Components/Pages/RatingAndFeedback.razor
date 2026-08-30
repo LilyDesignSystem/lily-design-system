@@ -1,49 +1,97 @@
 @page "/rating-and-feedback"
 <PageTitle>Rating And Feedback — Lily Blazor examples</PageTitle>
 
+@*
+    See BookAnAppointment.razor's header comment for the native-attribute
+    idiom this page uses. The three rating pickers here
+    (FiveStarRatingPicker, FiveFaceRatingPicker, NetPromoterScorePicker) are
+    thin `<div role="radiogroup">` wrappers with no Value of their own —
+    same shape as RadioGroup — so, like RadioGroup, the page supplies the
+    actual native RadioInput children.
+*@
+
 <h1>Rating and Feedback</h1>
 
 @if (submitted)
 {
-    <Alert Type="success" Heading="Thank you!">
+    <Alert Label="Thank you!">
+        <h2>Thank you!</h2>
         <p>Your feedback has been submitted.</p>
-        <FiveStarRatingView Label="Your rating" Value="@stars.ToString()" />
+        <FiveStarRatingView Label="Your rating">@stars out of 5 stars</FiveStarRatingView>
     </Alert>
 }
 else
 {
-    <Form Label="Feedback form" OnSubmit="HandleSubmit">
+    <Form Label="Feedback form" novalidate @onsubmit="HandleSubmit">
         <section class="section">
             <h2>Product Rating</h2>
-            <FiveStarRatingPicker Label="Product rating" Value="@stars" ValueChanged="v => stars = v" />
+            <FiveStarRatingPicker Label="Product rating">
+                @for (var i = 1; i <= 5; i++)
+                {
+                    var n = i;
+                    <Label>
+                        <RadioInput id="@($"stars-{n}")" Label="@($"{n} star{(n == 1 ? "" : "s")}")" name="stars" value="@n.ToString()"
+                                    checked="@(stars == n)" @onchange="@(() => stars = n)" />
+                        @n star@(n == 1 ? "" : "s")
+                    </Label>
+                }
+            </FiveStarRatingPicker>
         </section>
 
         <Separator />
 
         <section class="section">
             <h2>Service Satisfaction</h2>
-            <FiveFaceRatingPicker Label="Service satisfaction" Value="@satisfaction" ValueChanged="v => satisfaction = v" />
+            <FiveFaceRatingPicker Label="Service satisfaction">
+                @for (var i = 1; i <= 5; i++)
+                {
+                    var n = i;
+                    <Label>
+                        <RadioInput id="@($"satisfaction-{n}")" Label="@FaceLabels[n - 1]" name="satisfaction" value="@n.ToString()"
+                                    checked="@(satisfaction == n)" @onchange="@(() => satisfaction = n)" />
+                        @FaceLabels[n - 1]
+                    </Label>
+                }
+            </FiveFaceRatingPicker>
         </section>
 
         <Separator />
 
         <section class="section">
             <h2>Recommendation</h2>
-            <NetPromoterScorePicker Label="Recommendation likelihood" Value="@nps" ValueChanged="v => nps = v" />
+            <NetPromoterScorePicker Label="Recommendation likelihood">
+                @for (var i = 0; i <= 10; i++)
+                {
+                    var n = i;
+                    <Label>
+                        <RadioInput id="@($"nps-{n}")" Label="@n.ToString()" name="nps" value="@n.ToString()"
+                                    checked="@(nps == n.ToString())" @onchange="@(() => nps = n.ToString())" />
+                        @n
+                    </Label>
+                }
+            </NetPromoterScorePicker>
         </section>
 
         <Separator />
 
         <section class="section">
             <h2>Additional Comments</h2>
-            <TextAreaInput Label="Comments" Value="@comment" ValueChanged="v => comment = v" Rows="4" />
+            <Field Label="Comments">
+                <Label For="comment">Comments</Label>
+                <TextAreaInput id="comment" Label="Comments"
+                               value="@comment" @oninput="@((ChangeEventArgs e) => comment = e.Value?.ToString() ?? "")"
+                               rows="4" />
+            </Field>
         </section>
 
-        <Button Type="submit">Submit Feedback</Button>
+        <Button type="submit">Submit Feedback</Button>
     </Form>
 }
 
 @code {
+    private static readonly string[] FaceLabels =
+        { "Very unsatisfied", "Unsatisfied", "Neutral", "Satisfied", "Very satisfied" };
+
     private int stars;
     private int satisfaction;
     private string? nps;

@@ -2,16 +2,90 @@
 
 @*
     Combobox component
-    a text input combined with a dropdown list for filtering options
+
+    A headless combobox combining a text input with a dropdown listbox of
+    suggestions for autocomplete or type-ahead search experiences. Users type
+    into the input to filter suggestions, then select from matching options
+    in the dropdown. Commonly used for search fields, address inputs, tag
+    selectors, and choosing from large option sets.
+
+    Parameters:
+        Label — string, required. Accessible name via aria-label on both
+                the input and the listbox.
+        Value — string, default "". Bindable current text input value via
+                @bind-Value.
+        Open — bool, default false. Bindable dropdown visibility state via
+               @bind-Open.
+        ChildContent — RenderFragment, required. Option elements rendered
+                       inside the listbox dropdown.
+        CssClass — string, optional. Extra CSS classes appended to
+                   "combobox".
+        AdditionalAttributes — captures unmatched attributes onto the root
+                               <div>.
+
+    Accessibility:
+        - role="combobox" on the input identifies it as a combobox widget
+        - aria-expanded reflects the open state for screen readers
+        - aria-controls links the input to the associated listbox by id
+        - aria-autocomplete="list" indicates suggestions are provided via a list
+        - role="listbox" on the dropdown identifies selectable options
+
+    Keyboard:
+        - Escape: closes the dropdown listbox
+
+    References:
+        - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
 *@
 
-<div class="@($"combobox {CssClass}".Trim())" role="combobox" aria-label="@Label" aria-expanded="@(Open ? "true" : "false")" aria-haspopup="listbox" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"combobox {CssClass}".Trim())" @attributes="AdditionalAttributes">
+    <input
+        type="text"
+        role="combobox"
+        aria-label="@Label"
+        aria-expanded="@Open.ToString().ToLowerInvariant()"
+        aria-controls="@ListboxId"
+        aria-autocomplete="list"
+        value="@Value"
+        @oninput="HandleInput"
+        @onkeydown="HandleKeyDown"
+    />
+    @if (Open)
+    {
+        <div role="listbox" id="@ListboxId" aria-label="@Label">
+            @ChildContent
+        </div>
+    }
+</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public string Value { get; set; } = "";
+    [Parameter] public EventCallback<string> ValueChanged { get; set; }
     [Parameter] public bool Open { get; set; }
     [Parameter] public EventCallback<bool> OpenChanged { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
-    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string ListboxId { get; } = $"combobox-listbox-{Guid.NewGuid().ToString("N")[..8]}";
+
+    private async Task HandleInput(ChangeEventArgs e)
+    {
+        var next = e.Value?.ToString() ?? "";
+        if (Value != next)
+        {
+            Value = next;
+            await ValueChanged.InvokeAsync(next);
+        }
+    }
+
+    private async Task HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Escape" && Open)
+        {
+            Open = false;
+            await OpenChanged.InvokeAsync(false);
+        }
+    }
 }

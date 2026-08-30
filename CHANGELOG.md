@@ -9,6 +9,70 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## P7-T8: five silently-broken Blazor composed pages, plus the two headless defects behind them — 2026-08-30
+
+[tasks.md](tasks.md) P7-T8. `ContactForm.razor`, `SettingsPage.razor`,
+`RatingAndFeedback.razor`, `SearchAndFilter.razor`, and
+`TaskManagement.razor` in `lily-design-system-blazor-web-examples`
+passed PascalCase `Value=`/`ValueChanged=`/`OnSubmit=`/`Legend=`/
+`Checked=`/`CheckedChanged=`/`Type=` to headless components that
+declare only `Label`/`CssClass`/`ChildContent`/`AdditionalAttributes`.
+The attributes compiled cleanly (captured into `AdditionalAttributes`
+and splatted onto the root element) but wired nothing — none of the
+five pages actually bound a value or submitted a form, and no
+existing test caught it because none of them typed into a field or
+submitted and checked the result. Rewrote all 5 onto the
+native-attribute idiom `BookAnAppointment.razor` (P6-T3) already
+proved: lowercase `value`/`checked`/`name` + `@onchange`/`@oninput`,
+`novalidate @onsubmit` on `Form`, a real `<legend>` inside `Fieldset`.
+The three rating pickers turned out to be bare `role="radiogroup"`
+wrappers with no baked-in radios (same shape as `RadioGroup`), so the
+page now supplies real `RadioInput` children directly.
+
+Fixing `SearchAndFilter.razor` surfaced two further real defects in
+`lily-design-system-blazor-headless` itself:
+
+- **`Combobox` was missing `Value`/`ValueChanged` entirely** and
+  rendered no `<input>` at all — just a bare `<div role="combobox">`
+  — unlike the canonical Svelte and React versions, both of which bake
+  in a real text input with `role="combobox"`, `aria-expanded`,
+  `aria-controls`, `aria-autocomplete="list"`. Fixed to match parity;
+  `ChildContent` is now the listbox's `role="option"` elements only,
+  since `Combobox` renders its own listbox wrapper internally.
+- **`SwitchButton` declared real `Checked`/`CheckedChanged` but never
+  invoked `CheckedChanged` on click** — the parameters looked like a
+  working two-way-bindable toggle but did nothing without the consumer
+  separately wiring an external `@onclick` to flip the value. Caught
+  by a genuine e2e failure (`aria-checked` stayed `"false"` after
+  clicking "Dark mode"), not by inspection. Fixed with an internal
+  `@onclick` handler, matching the canonical Svelte version's
+  self-toggling behaviour.
+
+Root-caused *why* five pages made the same mistake independently: both
+`lily-design-system-blazor-headless/AGENTS.md`'s "State Management"
+section and `lily-design-system-blazor-web-examples/AGENTS.md`'s "Key
+Component APIs" section documented `Value`/`ValueChanged`/
+`Checked`/`CheckedChanged`/`OnSubmit` as the *general* pattern across
+components — exactly the doc an agent or a person would read before
+writing one of these pages. Rewrote both to state the real rule (most
+components are `Label`/`CssClass`/`ChildContent`/`AdditionalAttributes`
+only; the native-attribute idiom is the norm; only `SwitchButton`,
+`Combobox`, and `AccordionCheckbox` genuinely bind) and fixed two
+stale "Known Gotchas" entries (`Alert`/`ErrorSummary` use `Label`, not
+`Heading`/`Title`) found along the way.
+
+New e2e coverage: `e2e/p7-t8-composed-pages.spec.ts`, 7 tests actually
+typing into fields, checking radios/checkboxes, selecting options,
+filtering the combobox, and submitting each of the 5 forms — run
+against the real `dotnet run` dev server. Verified: 1509/1509
+blazor-headless bUnit (was 1502; +7 for the two component fixes),
+1007/1007 blazor-web-examples bUnit, all 7 new e2e specs pass, and the
+app's full existing e2e suite (accessibility, responsive,
+book-an-appointment, components-index, site-preferences,
+theme-switching, rtl-demo — 23 + 79 cases) stays green except one
+unrelated pre-existing failure (`/components/dialog` axe
+color-contrast, logged as P7-T17, not folded into this fix).
+
 ## Caught by CI: `.summary-list` grid overflow at narrow viewports, all 45 themes — 2026-08-30
 
 [tasks.md](tasks.md) P7-T16. The P7-T9/P7-T10 `--nhs-*` token fix went

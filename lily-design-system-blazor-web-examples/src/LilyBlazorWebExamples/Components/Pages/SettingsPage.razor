@@ -1,46 +1,72 @@
 @page "/settings-page"
 <PageTitle>Settings Page — Lily Blazor examples</PageTitle>
 
+@*
+    See BookAnAppointment.razor's header comment for why this page uses
+    lowercase native `value`/`checked`/`name` attributes plus
+    `@onchange` directives, and a real `<legend>` inside Fieldset, rather
+    than the non-existent `Value`/`Legend` parameters this page used to pass.
+    SwitchButton is the exception — it genuinely declares `Checked`/
+    `CheckedChanged`, so @bind-Checked works as written.
+*@
+
 <h1>Settings</h1>
 
 @if (saved)
 {
-    <Banner Type="success" Dismissible="true" CloseLabel="Dismiss">
+    <Banner Label="Settings saved">
         Settings saved successfully.
     </Banner>
 }
 
-<Fieldset Legend="Appearance">
-    <SwitchButton Label="Dark mode" Checked="@darkMode" CheckedChanged="v => darkMode = v" />
+<Fieldset Label="Appearance">
+    <legend>Appearance</legend>
+
+    <SwitchButton Label="Dark mode" @bind-Checked="darkMode" />
 
     <Separator />
 
-    <Select Label="Language" Value="@language" ValueChanged="v => language = v">
-        <Option Value="en">English</Option>
-        <Option Value="es">Espa&#241;ol</Option>
-        <Option Value="fr">Fran&#231;ais</Option>
-        <Option Value="de">Deutsch</Option>
-        <Option Value="ja">&#26085;&#26412;&#35486;</Option>
-    </Select>
+    <Field Label="Language">
+        <Label For="language">Language</Label>
+        <Select id="language" Label="Language"
+                value="@language" @onchange="@((ChangeEventArgs e) => language = e.Value?.ToString() ?? "en")">
+            <Option value="en">English</Option>
+            <Option value="es">Espa&#241;ol</Option>
+            <Option value="fr">Fran&#231;ais</Option>
+            <Option value="de">Deutsch</Option>
+            <Option value="ja">&#26085;&#26412;&#35486;</Option>
+        </Select>
+    </Field>
 
     <Separator />
 
     <RadioGroup Label="Font size">
-        <RadioInput Label="Small" Name="fontSize" Value="small"
-                    Checked="@IsSmallFont" @onclick="SetSmallFont" />
-        <RadioInput Label="Medium" Name="fontSize" Value="medium"
-                    Checked="@IsMediumFont" @onclick="SetMediumFont" />
-        <RadioInput Label="Large" Name="fontSize" Value="large"
-                    Checked="@IsLargeFont" @onclick="SetLargeFont" />
+        <Label>
+            <RadioInput id="font-size-small" Label="Small" name="fontSize" value="small"
+                        checked="@(fontSize == "small")" @onchange="@(() => SetFontSize("small"))" />
+            Small
+        </Label>
+        <Label>
+            <RadioInput id="font-size-medium" Label="Medium" name="fontSize" value="medium"
+                        checked="@(fontSize == "medium")" @onchange="@(() => SetFontSize("medium"))" />
+            Medium
+        </Label>
+        <Label>
+            <RadioInput id="font-size-large" Label="Large" name="fontSize" value="large"
+                        checked="@(fontSize == "large")" @onchange="@(() => SetFontSize("large"))" />
+            Large
+        </Label>
     </RadioGroup>
 </Fieldset>
 
-<Fieldset Legend="Notifications">
-    <SwitchButton Label="Push notifications" Checked="@pushNotifications" CheckedChanged="v => pushNotifications = v" />
+<Fieldset Label="Notifications">
+    <legend>Notifications</legend>
+
+    <SwitchButton Label="Push notifications" @bind-Checked="pushNotifications" />
 
     <Separator />
 
-    <SwitchButton Label="Daily email digest" Checked="@emailDigest" CheckedChanged="v => emailDigest = v" />
+    <SwitchButton Label="Daily email digest" @bind-Checked="emailDigest" />
 </Fieldset>
 
 <Button @onclick="HandleSave">Save Settings</Button>
@@ -53,13 +79,7 @@
     private string fontSize = "medium";
     private bool saved;
 
-    private bool IsSmallFont => fontSize == "small";
-    private bool IsMediumFont => fontSize == "medium";
-    private bool IsLargeFont => fontSize == "large";
-
-    private void SetSmallFont() => fontSize = "small";
-    private void SetMediumFont() => fontSize = "medium";
-    private void SetLargeFont() => fontSize = "large";
+    private void SetFontSize(string value) => fontSize = value;
 
     private async Task HandleSave()
     {

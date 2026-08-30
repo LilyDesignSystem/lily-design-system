@@ -1,27 +1,39 @@
 @page "/search-and-filter"
 <PageTitle>Search And Filter — Lily Blazor examples</PageTitle>
 
+@*
+    See BookAnAppointment.razor's header comment for the native-attribute
+    idiom this page uses. Combobox is the exception among the headless
+    components used here: it genuinely declares Value/ValueChanged and
+    Open/OpenChanged (fixed alongside this page — it was previously missing
+    a real text input and Value entirely, see CHANGELOG), so @bind-Value/
+    @bind-Open work as written, and its ChildContent is just the bare
+    role="option" elements — Combobox renders its own listbox wrapper,
+    so no separate Listbox wrapper goes inside it.
+*@
+
 <h1>Search and Filter</h1>
 
 <section class="section">
-    <SearchInput Label="Search products" Value="@query" ValueChanged="v => query = v" />
+    <SearchInput Label="Search products"
+                 value="@query" @oninput="@((ChangeEventArgs e) => query = e.Value?.ToString() ?? "")" />
 </section>
 
 <section class="section">
-    <Combobox Label="Filter by category" Value="@comboValue" ValueChanged="v => comboValue = v"
-             Open="@comboOpen" OpenChanged="v => comboOpen = v">
-        <Listbox Label="Filter suggestions">
-            @foreach (var cat in ComboSuggestions)
-            {
-                <div role="option" @onclick="() => SelectCategory(cat)">@cat</div>
-            }
-        </Listbox>
+    <Combobox Label="Filter by category" Value="@comboValue" ValueChanged="OnComboValueChanged"
+              Open="@comboOpen" OpenChanged="v => comboOpen = v">
+        @foreach (var cat in ComboSuggestions)
+        {
+            var c = cat;
+            <div role="option" tabindex="-1" @onclick="() => SelectCategory(c)">@c</div>
+        }
     </Combobox>
 </section>
 
 <section class="section">
     <div @onkeydown="HandleTagKeyDown">
-        <TextInput Label="Add filter tag" Value="@tagValue" ValueChanged="v => tagValue = v" />
+        <TextInput Label="Add filter tag"
+                   value="@tagValue" @oninput="@((ChangeEventArgs e) => tagValue = e.Value?.ToString() ?? "")" />
     </div>
 </section>
 
@@ -39,7 +51,8 @@
 }
 
 <section class="section">
-    <DataTable Label="Products" Caption="@($"{Filtered.Count()} products found")">
+    <DataTable Label="Products">
+        <caption>@Filtered.Count() products found</caption>
         <DataTableHead>
             <DataTableRow>
                 <th>Name</th>
@@ -56,7 +69,7 @@
                     <DataTableTD>@product.Category</DataTableTD>
                     <DataTableTD>@product.Price.ToString("C2")</DataTableTD>
                     <DataTableTD>
-                        <Badge Type="@StatusBadgeType(product.Status)">@product.Status</Badge>
+                        <Badge Label="@product.Status" data-status="@StatusBadgeType(product.Status)">@product.Status</Badge>
                     </DataTableTD>
                 </DataTableRow>
             }
@@ -96,6 +109,12 @@
         products.Where(p =>
             (string.IsNullOrEmpty(query) || p.Name.Contains(query, StringComparison.OrdinalIgnoreCase)) &&
             (filterTags.Count == 0 || filterTags.Contains(p.Category)));
+
+    private void OnComboValueChanged(string v)
+    {
+        comboValue = v;
+        comboOpen = true;
+    }
 
     private void SelectCategory(string category)
     {

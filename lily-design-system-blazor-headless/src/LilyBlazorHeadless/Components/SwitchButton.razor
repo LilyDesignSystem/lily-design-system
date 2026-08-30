@@ -2,10 +2,12 @@
 
 @*
     SwitchButton component
-    a toggle switch for turning a setting on or off
+    a toggle switch for turning a setting on or off, bindable via
+    @bind-Checked — clicking (or activating via native Space/Enter button
+    behaviour) flips Checked and invokes CheckedChanged
 *@
 
-<button class="@($"switch-button {CssClass}".Trim())" type="button" role="switch" aria-label="@Label" aria-checked="@(Checked ? "true" : "false")" @attributes="AdditionalAttributes">@ChildContent</button>
+<button class="@($"switch-button {CssClass}".Trim())" type="button" role="switch" aria-label="@Label" aria-checked="@(Checked ? "true" : "false")" @onclick="HandleClick" @attributes="AdditionalAttributes">@ChildContent</button>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
@@ -14,4 +16,10 @@
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private async Task HandleClick()
+    {
+        Checked = !Checked;
+        await CheckedChanged.InvokeAsync(Checked);
+    }
 }

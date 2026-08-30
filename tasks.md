@@ -739,7 +739,7 @@ Rules for the executing agent:
   Verify: per-catalog tests pass; `bin/publish-helpers` dry-run
   includes it.
 
-- [ ] **P7-T8 Blazor-web-examples: 5 composed pages pass non-existent
+- [x] **P7-T8 Blazor-web-examples: 5 composed pages pass non-existent
   component parameters and silently do nothing.** Found 2026-08-29
   while building P6-T3's Blazor port. `lily-design-system-blazor-headless`
   was rewritten at some point to a minimal, uniform shape —
@@ -775,6 +775,68 @@ Rules for the executing agent:
   `Value`/`ValueChanged`/`OnSubmit` contract.
   Verify: each fixed page's e2e spec actually types/selects/submits
   and asserts the result, not just page-load + axe.
+  Done 2026-08-30: chose the rewrite-the-pages option — the headless
+  minimalism looked intentional, and `BookAnAppointment.razor` already
+  proved the idiom works end to end. Rewrote all 5 pages onto the
+  native-attribute idiom (lowercase `value`/`checked`/`name` +
+  `@onchange`/`@oninput`, `novalidate @onsubmit` on `Form`, a real
+  `<legend>` inside `Fieldset` instead of the fictitious `Legend`
+  param). Two rating pickers (`FiveStarRatingPicker`,
+  `FiveFaceRatingPicker`, `NetPromoterScorePicker`) turned out to be
+  thin `role="radiogroup"` wrappers with no baked-in radios (same
+  shape as `RadioGroup`), so the page now supplies real `RadioInput`
+  children directly, matching the `RadioGroup` composition
+  `BookAnAppointment.razor` already established.
+  Investigating `SearchAndFilter.razor` surfaced two further real,
+  independent defects in `lily-design-system-blazor-headless` itself
+  (fixed alongside, with new bUnit coverage — 1509/1509 pass, was
+  1502): `Combobox` was missing `Value`/`ValueChanged` and rendered no
+  `<input>` at all (just a bare `<div role="combobox">`), unlike the
+  canonical Svelte/React versions which both bake in a real text
+  input — fixed to match parity, so the page's `@bind-Value`/
+  `@bind-Open` now work and its `ChildContent` is bare `role="option"`
+  elements (no separate `Listbox` wrapper, since `Combobox` renders
+  its own listbox internally). `SwitchButton` declared real
+  `Checked`/`CheckedChanged` parameters but never actually invoked
+  `CheckedChanged` on click — the parameters looked wired but did
+  nothing without the consumer separately wiring `@onclick` — fixed
+  with an internal `@onclick` handler; caught by a genuine e2e
+  failure (`aria-checked` stayed `"false"` after clicking Dark mode),
+  not by inspection.
+  Root-caused *why* this happened: both
+  `lily-design-system-blazor-headless/AGENTS.md` and this app's own
+  `AGENTS.md` documented the old `Value`/`ValueChanged`/`OnSubmit`
+  contract as the general pattern across "State Management"/"Key
+  Component APIs" — the exact thing an agent (or a person) would
+  read before writing one of these pages. Rewrote both docs to state
+  the real rule (most components are `Label`/`CssClass`/
+  `ChildContent`/`AdditionalAttributes` only; the native-attribute
+  idiom is the norm; only `SwitchButton`, `Combobox`, and
+  `AccordionCheckbox` genuinely bind) and corrected the stale
+  `Alert`/`ErrorSummary` "Known Gotchas" entries found along the way.
+  New e2e coverage: `e2e/p7-t8-composed-pages.spec.ts`, 7 tests
+  actually typing into fields, checking radios/checkboxes, selecting
+  options, filtering the combobox, and submitting each of the 5 forms
+  — all pass against the real `dotnet run` dev server, not just
+  build+bUnit. Full existing suites re-verified green after the
+  change: 1509 blazor-headless bUnit, 1007 blazor-web-examples bUnit,
+  and the app's `accessibility`/`responsive`/`book-an-appointment`/
+  `components-index`/`site-preferences`/`theme-switching`/`rtl-demo`
+  e2e specs (23 + 79 passed) — one unrelated pre-existing failure
+  surfaced (`/components/dialog` axe color-contrast), logged as
+  P7-T17 below rather than folded into this fix. Full record:
+  [CHANGELOG.md](CHANGELOG.md).
+
+- [ ] **P7-T17 `/components/dialog` fails an axe color-contrast check
+  in blazor-web-examples.** Found 2026-08-30 while re-verifying the
+  full accessibility suite after P7-T8. Unrelated to P7-T8's changes
+  (nothing touched Dialog or the theme CSS); reproduces in isolation
+  (`npx playwright test e2e/accessibility.spec.ts -g "components/dialog"`).
+  Not yet root-caused — likely one of the 45 themes' contrast on the
+  Dialog demo's sample content, in the same family as the §11.5a
+  token-contrast fixes.
+  Verify: `expectNoViolations` passes for `/components/dialog` across
+  a full `accessibility.spec.ts` run.
 
 - [x] **P7-T9 Per-app legacy `nhs.css`/equivalent is dead code in (at
   least) 6 of the 7 example apps.** Found 2026-08-29 while building

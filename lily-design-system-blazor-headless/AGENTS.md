@@ -74,18 +74,22 @@ Every component's first HTML element sets a class combining the kebab-case name 
 
 ### State Management
 
-- Two-way binding: `Value`/`ValueChanged` (TextInput, Select), `Checked`/`CheckedChanged` (SwitchButton, CheckboxInput), `Open`/`OpenChanged` (Dialog, Drawer)
-- Events: `OnSubmit` (Form), `EventCallback` for custom events
-- Cascading parameters for shared state
-- Auto-generate IDs with `Guid.NewGuid().ToString("N")[..8]` when not provided
+**Most components do NOT declare `Value`/`ValueChanged`, `Checked`/`CheckedChanged`, or `OnSubmit`.** The form-field primitives (`TextInput`, `EmailInput`, `TextAreaInput`, `Select`, `Option`, `RadioInput`, `CheckboxInput`, `Form`, `Field`, `Fieldset`, `SummaryListItem`, and most others) declare only `Label`/`CssClass`/`ChildContent`/`AdditionalAttributes` — they are thin wrappers around the native element. Passing a PascalCase `Value="..."` or `OnSubmit="..."` to one of these compiles cleanly (it lands in `AdditionalAttributes`) but does **nothing**: it is not wired as a real DOM value or event. This bit five composed pages in `lily-design-system-blazor-web-examples` before being fixed (P7-T8) — see that app's `BookAnAppointment.razor` header comment for the full incident writeup.
+
+The correct idiom for these thin wrappers is the **native-attribute pattern**: lowercase `value="@x"` / `checked="@x"` / `name="@x"` plus a `@onchange`/`@oninput` directive with a `ChangeEventArgs` handler, and `novalidate @onsubmit="Handler"` on `Form`. Razor directive attributes (`@onchange`, `@oninput`, `@onclick`, `@onsubmit`, `@onkeydown`) always compile to their fixed lowercase DOM event name regardless of whether the component declares that parameter, so they splat and wire correctly through `AdditionalAttributes` even on these minimal components. A plain PascalCase attribute name does not get this treatment.
+
+A small number of components genuinely DO declare a real bindable pair, and `@bind-X`/`XChanged` works as expected on them — check the component's own `.razor` source before assuming either way:
+
+- `SwitchButton`: real `Checked`/`CheckedChanged`, invoked on click.
+- `Combobox`: real `Value`/`ValueChanged` and `Open`/`OpenChanged`; it renders its own `<input role="combobox">` internally, so its `ChildContent` is just the listbox's option elements, not another wrapper.
+- `AccordionCheckbox`: real `Checked`/`CheckedChanged`.
+- `Dialog`/`Drawer`-family components: check `Open`/`OpenChanged` individually; do not assume.
+
+Auto-generate IDs with `Guid.NewGuid().ToString("N")[..8]` when a component needs one internally (e.g. `Combobox`'s listbox id, `AccordionCheckbox`'s checkbox/panel ids).
 
 ### Callback Naming Convention
 
-All custom callback parameters use PascalCase EventCallback:
-
-- `ValueChanged`, `CheckedChanged`, `OpenChanged` -- two-way binding callbacks
-- `OnSubmit`, `OnClose`, `OnCancel` -- event callbacks
-- `OnAdd`, `OnInputChange` -- domain-specific callbacks
+Where a component genuinely owns a callback parameter (see the short list above), it uses PascalCase EventCallback: `ValueChanged`, `CheckedChanged`, `OpenChanged` for two-way binding; `OnAdd`, `OnInputChange` for domain-specific events. Do not assume a component has one of these without checking its source — most don't.
 
 ### Input/View Pattern
 
@@ -179,9 +183,11 @@ dotnet test     # Run all tests
 ## Known Gotchas
 
 - `BreadcrumbListItem` has NO `Href` parameter -- wrap links in child `<a>` elements
-- `Alert` uses `Heading` parameter (not `Label` or `Title`)
+- `Alert` uses `Label` parameter (not `Heading` or `Title`) -- put a heading in `ChildContent` if you need one
 - `Dialog` uses `Label` parameter (not `Title`)
-- `ErrorSummary` has `Title` parameter + `ChildContent` (no `Errors` parameter -- render errors as children)
+- `ErrorSummary` uses `Label` parameter (not `Title`) + `ChildContent` (no `Errors` parameter -- render errors as children)
 - `TabBarButton` requires `Controls` parameter (id of the associated panel)
-- `Combobox` has separate `ValueChanged` (value) and `OpenChanged` (open state) callbacks
+- `Combobox` has real `Value`/`ValueChanged` and separate `Open`/`OpenChanged` callbacks; renders its own `<input role="combobox">` internally -- `ChildContent` is the option elements only
+- `TextInput`/`EmailInput`/`TextAreaInput`/`Select`/`Option`/`RadioInput`/`CheckboxInput`/`Form`/`Field`/`Fieldset` have NO `Value`/`ValueChanged`/`Checked`/`CheckedChanged`/`OnSubmit`/`Legend` parameters -- only `Label`/`CssClass`/`ChildContent`/`AdditionalAttributes`. Use the native-attribute idiom (see "State Management" above).
+- `SwitchButton` has real `Checked`/`CheckedChanged`, invoked internally on click -- `@bind-Checked` works
 - Blazor uses `EventCallback` not plain delegates for component callbacks

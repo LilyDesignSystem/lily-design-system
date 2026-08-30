@@ -75,20 +75,22 @@ lily-design-system-blazor-web-examples/
 
 ## Blazor Translation Patterns
 
-| React                 | Blazor                                                 |
-| --------------------- | ------------------------------------------------------ |
-| `useState(val)`       | `private type field = val;`                            |
-| `onChange={fn}`       | `ValueChanged="v => field = v"` or `@bind-Value`       |
-| `onClick={() => ...}` | `@onclick="() => ..."`                                 |
-| `{cond && <X/>}`      | `@if (cond) { <X /> }`                                 |
-| `{items.map(...)}`    | `@foreach (var i in items) { ... }`                    |
-| `setTimeout(fn, ms)`  | `await Task.Delay(ms); StateHasChanged();`             |
-| `setInterval(fn, ms)` | `System.Timers.Timer` + `InvokeAsync(StateHasChanged)` |
+| React                 | Blazor                                                                 |
+| --------------------- | ----------------------------------------------------------------------- |
+| `useState(val)`       | `private type field = val;`                                             |
+| `onChange={fn}`       | `@onchange="@((ChangeEventArgs e) => field = e.Value?.ToString() ?? "")"` (native `value`/`checked` attribute — see below) |
+| `onClick={() => ...}` | `@onclick="() => ..."`                                                  |
+| `{cond && <X/>}`      | `@if (cond) { <X /> }`                                                  |
+| `{items.map(...)}`    | `@foreach (var i in items) { ... }`                                     |
+| `setTimeout(fn, ms)`  | `await Task.Delay(ms); StateHasChanged();`                              |
+| `setInterval(fn, ms)` | `System.Timers.Timer` + `InvokeAsync(StateHasChanged)`                  |
 
 ## Key Component APIs
 
-- **Two-way binding**: `Value`/`ValueChanged` (TextInput, Select), `Checked`/`CheckedChanged` (SwitchButton, CheckboxInput), `Open`/`OpenChanged` (Dialog, Drawer)
-- **Events**: `OnSubmit` (Form), `@onclick` on component passes through `AdditionalAttributes`
+**Most `lily-design-system-blazor-headless` components do NOT declare `Value`/`ValueChanged`, `Checked`/`CheckedChanged`, or `OnSubmit`.** `TextInput`, `EmailInput`, `TelInput`, `DateInput`, `TextAreaInput`, `Select`, `Option`, `RadioInput`, `CheckboxInput`, `Form`, `Field`, `Fieldset`, `SummaryListItem`, and most others declare only `Label`/`CssClass`/`ChildContent`/`AdditionalAttributes` — thin wrappers around the native element. Passing a PascalCase `Value=`/`ValueChanged=`/`OnSubmit=` compiles (it lands in `AdditionalAttributes`) but wires nothing — this silently broke `ContactForm.razor`, `SettingsPage.razor`, `RatingAndFeedback.razor`, `SearchAndFilter.razor`, and `TaskManagement.razor` until P7-T8 fixed them (see `CHANGELOG.md`). Use the **native-attribute idiom** instead — lowercase `value="@x"` / `checked="@x"` / `name="@x"` plus `@onchange`/`@oninput`, and `novalidate @onsubmit="Handler"` on `Form` — because Razor directive attributes always compile to their fixed lowercase DOM event name and splat correctly regardless of the component's declared parameters. `BookAnAppointment.razor` is the canonical reference for this idiom across every field type it uses.
+
+A few components genuinely DO declare a real bindable pair, where `@bind-X`/`XChanged` works as written: `SwitchButton` (`Checked`/`CheckedChanged`, invoked on click), `Combobox` (`Value`/`ValueChanged` and `Open`/`OpenChanged`; its `ChildContent` is the listbox's option elements only — it renders its own `<input role="combobox">`), and `AccordionCheckbox` (`Checked`/`CheckedChanged`). Check `lily-design-system-blazor-headless`'s own `AGENTS.md` before assuming either way for any other component.
+
 - **CSS**: Each component outputs its kebab-case base class (e.g., `"form"`, `"field"`, `"button"`) which NHS CSS targets
 - **Tooltip**: Is a sibling element, not a wrapper. Use `aria-describedby` on trigger, `Visible`/`VisibleChanged` to toggle
 - **AccordionListItem**: Renders `<details>`, requires `<summary>` as first child

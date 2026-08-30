@@ -1,38 +1,55 @@
 @page "/task-management"
 <PageTitle>Task Management — Lily Blazor examples</PageTitle>
 
+@*
+    See BookAnAppointment.razor's header comment for the native-attribute
+    idiom this page uses. TaskListItem is a plain `<li>` wrapper with no
+    Checked of its own, so — like TaskList/RadioGroup elsewhere in this
+    app — the page supplies a real CheckboxInput as its content.
+*@
+
 <h1>Task Management</h1>
 
 <section class="section">
-    <Badge Type="success">@completedCount done</Badge>
-    <Badge Type="default">@(tasks.Count - completedCount) remaining</Badge>
-    <Progress Label="Overall completion" Value="@percent.ToString()" Max="100" />
+    <Badge Label="@($"{completedCount} done")" data-status="success">@completedCount done</Badge>
+    <Badge Label="@($"{tasks.Count - completedCount} remaining")">@(tasks.Count - completedCount) remaining</Badge>
+    <Progress Label="Overall completion" value="@percent" max="100" />
     <p>@percent% complete</p>
 </section>
 
 <section class="section">
-    <TextInput Label="New task" Value="@newTitle" ValueChanged="v => newTitle = v" />
+    <TextInput Label="New task"
+               value="@newTitle" @oninput="@((ChangeEventArgs e) => newTitle = e.Value?.ToString() ?? "")" />
     <Button @onclick="AddTask">Add Task</Button>
 </section>
 
 <section class="section">
-    <CheckboxInput Label="Show completed tasks" Checked="@showCompleted" CheckedChanged="v => showCompleted = v" />
+    <Label>
+        <CheckboxInput id="show-completed" Label="Show completed tasks"
+                       checked="@showCompleted" @onchange="@((ChangeEventArgs e) => showCompleted = (bool)(e.Value ?? false))" />
+        Show completed tasks
+    </Label>
 </section>
 
 <TaskList Label="Project tasks">
     @foreach (var task in VisibleTasks)
     {
         var t = task;
-        <TaskListItem Label="@t.Title" Checked="@t.Done"
-                      CheckedChanged="v => ToggleTask(t.Id, v)" />
+        <TaskListItem Label="@t.Title">
+            <Label>
+                <CheckboxInput id="@($"task-{t.Id}")" Label="@t.Title"
+                               checked="@t.Done" @onchange="@((ChangeEventArgs e) => ToggleTask(t.Id, (bool)(e.Value ?? false)))" />
+                @t.Title
+            </Label>
+        </TaskListItem>
     }
 </TaskList>
 
 <section class="section">
     <h2>Priority Overview</h2>
-    <Badge Type="error">@tasks.Count(t => t.Priority == "high") high</Badge>
-    <Badge Type="warning">@tasks.Count(t => t.Priority == "medium") medium</Badge>
-    <Badge Type="info">@tasks.Count(t => t.Priority == "low") low</Badge>
+    <Badge Label="@($"{tasks.Count(t => t.Priority == "high")} high")" data-status="error">@tasks.Count(t => t.Priority == "high") high</Badge>
+    <Badge Label="@($"{tasks.Count(t => t.Priority == "medium")} medium")" data-status="warning">@tasks.Count(t => t.Priority == "medium") medium</Badge>
+    <Badge Label="@($"{tasks.Count(t => t.Priority == "low")} low")" data-status="info">@tasks.Count(t => t.Priority == "low") low</Badge>
 </section>
 
 @code {
