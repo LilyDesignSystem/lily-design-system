@@ -42,6 +42,17 @@ Each catalog ships five `*-picker` helpers — theme-picker, locale-picker, text
 
 The [themes/](../themes) directory ships 45 standalone theme stylesheets (NHS England/Scotland/Wales patient + practitioner variants, GOV.UK GDS, USWDS, Adobe Spectrum, Mozilla Protocol, and general-purpose themes) that target the Lily class hooks; the theme-picker helper loads them at runtime.
 
+## Agent skills
+
+Two top-level Claude Skill packages, spec: [spec/agent-skills/index.md](../spec/agent-skills/index.md).
+
+- [lily-skill](../lily-skill) — general-purpose: concepts, terminology, naming conventions, composition patterns, for people building *with* Lily. Not a `lily-design-system-*` subproject.
+- [lily-design-system-maintainer-skill](../lily-design-system-maintainer-skill) — technical: required files, `bin/` tooling, the spec-driven workflow, for people working *on* this monorepo. Full subproject treatment.
+
+## AI guidance files
+
+[llms.txt](../llms.txt) and [llms.json](../llms.json) at the repository root, spec: [spec/llms-json-and-llms-txt/index.md](../spec/llms-json-and-llms-txt/index.md). A curated map of the project's most important content for AI tools, following the [llms.txt convention](https://llmstxt.org). The docs site publishes its own pair at `lilydesignsystem.github.io/static/llms.txt` and `llms.json` with site-route links instead of repo-relative ones.
+
 ## Tools
 
 - [list-components-as-kebab-case](../bin/list-components-as-kebab-case): List components as kebab case

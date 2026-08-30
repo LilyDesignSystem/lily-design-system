@@ -80,6 +80,20 @@ and NHS Wales (patient and practitioner variants), GOV.UK GDS, USWDS,
 Adobe Spectrum, Mozilla Protocol, and general-purpose light/dark themes.
 The theme-select helper loads them at runtime.
 
+## AI agent support
+
+Two [Claude Skills](https://code.claude.com/docs/en/skills) give an AI
+coding agent a curated entry point: [lily-skill](lily-skill) for people
+building *with* Lily (concepts, naming, composition patterns), and
+[lily-design-system-maintainer-skill](lily-design-system-maintainer-skill)
+for people working *on* this monorepo (required files, `bin/` tooling,
+the spec-driven workflow). [llms.txt](llms.txt) and [llms.json](llms.json)
+give any LLM tool a curated map of the project's most important content,
+following the [llms.txt convention](https://llmstxt.org); the docs site
+publishes its own pair at its own root with site-appropriate links. See
+[spec/agent-skills/](spec/agent-skills/index.md) and
+[spec/llms-json-and-llms-txt/](spec/llms-json-and-llms-txt/index.md).
+
 ## Components
 
 The canonical catalog is [components.tsv](components.tsv) — 491 components. Each
