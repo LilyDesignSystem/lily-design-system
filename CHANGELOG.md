@@ -9,6 +9,39 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## P7-T17: a flaky "dialog contrast" axe failure was a circuit-timing race, not a theme defect — 2026-08-30
+
+[tasks.md](tasks.md) P7-T17. Re-verifying `accessibility.spec.ts` after
+P7-T8 surfaced an intermittent `color-contrast` violation on
+`/components/dialog`. It was not a theme defect: `App.razor`'s inline
+bootstrap script appends the managed theme `<link>` to `<head>` before
+first paint, but a dynamically-appended stylesheet doesn't block
+painting the way a static one does, so the pre-rendered page can
+briefly paint with zero author styles. Confirmed by instrumenting
+`getComputedStyle` across repeated navigations (always settled on the
+theme's real colours, ~7.3:1 contrast, well over the 4.5:1 AA floor)
+while the flaky axe report showed colours matching none of the 45
+theme files — a mid-repaint artifact. Fixed by waiting for the theme
+stylesheet to actually parse before scanning. That surfaced a second,
+independent race on `/rtl-demo` (a `document-title` violation —
+`<HeadOutlet>` can clear `<title>` a moment after its first non-empty
+read, so polling `document.title !== ''` alone still raced), the same
+flake class the 2026-08-26 sweep (§11.8) already fixed elsewhere in
+this app; fixed the same way, waiting for `window.Blazor` plus a 300ms
+settle matching `book-an-appointment.spec.ts`'s `gotoReady`. Verified
+50/50 clean repeats of both routes and 8/8 clean full-suite runs (was
+6/12 clean before).
+
+A full `e2e/` run along the way also surfaced 7 unrelated,
+pre-existing, deterministic test bugs: `calendar-table-th`,
+`data-table-th`, `kanban-table-th`, `table-th`, `gantt-table-tbody`,
+`gantt-table-thead`, and `gantt-table-tr`'s specs asserted the wrong
+PascalCase component name (a TH/TD swap in four, a dropped "t" or
+wrong case in the three gantt ones). Confirmed via `curl` that the
+live page already rendered the correct canonical name — per
+`components.tsv` — in every case, so these were spec-authoring bugs,
+not component defects; fixed all 7.
+
 ## P7-T8: five silently-broken Blazor composed pages, plus the two headless defects behind them — 2026-08-30
 
 [tasks.md](tasks.md) P7-T8. `ContactForm.razor`, `SettingsPage.razor`,

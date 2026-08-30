@@ -10,7 +10,7 @@ test.describe('component page: kanban-table-th', () => {
   test('renders the H1 with the component name', async ({ page }) => {
     await page.goto('/components/kanban-table-th');
     await expect(
-      page.getByRole('heading', { level: 1, name: new RegExp('^KanbanTableTD$') })
+      page.getByRole('heading', { level: 1, name: new RegExp('^KanbanTableTH$') })
     ).toBeVisible();
   });
 

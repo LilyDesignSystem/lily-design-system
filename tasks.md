@@ -827,7 +827,7 @@ Rules for the executing agent:
   P7-T17 below rather than folded into this fix. Full record:
   [CHANGELOG.md](CHANGELOG.md).
 
-- [ ] **P7-T17 `/components/dialog` fails an axe color-contrast check
+- [x] **P7-T17 `/components/dialog` fails an axe color-contrast check
   in blazor-web-examples.** Found 2026-08-30 while re-verifying the
   full accessibility suite after P7-T8. Unrelated to P7-T8's changes
   (nothing touched Dialog or the theme CSS); reproduces in isolation
@@ -837,6 +837,37 @@ Rules for the executing agent:
   token-contrast fixes.
   Verify: `expectNoViolations` passes for `/components/dialog` across
   a full `accessibility.spec.ts` run.
+  Done 2026-08-30: NOT a theme contrast defect — root-caused as a pure
+  test-timing race. `App.razor`'s inline bootstrap script appends the
+  managed theme `<link>` to `<head>` before first paint, but a
+  dynamically-appended stylesheet link doesn't block painting the way
+  a static one in the original HTML does, so the pre-rendered page can
+  briefly paint with zero author styles. Confirmed by instrumenting
+  `getComputedStyle` on `.button` across repeated navigations (always
+  settled on the theme's real colours, oklch(0.45 0.17 251) bg / white
+  text, ~7.3:1 contrast — comfortably over the 4.5:1 AA floor) while
+  the flaky axe report showed colours (`#116cba`/`#cecece`) matching
+  none of the 45 theme files — a mid-repaint artifact, not a themed
+  state. Fixed by waiting for the managed theme stylesheet to actually
+  parse (`link.sheet !== null`) before scanning. That surfaced a
+  second, independent circuit-timing race on `/rtl-demo`
+  (`document-title` violation — `<HeadOutlet>` can still clear
+  `<title>` a moment after its first non-empty read, so polling
+  `document.title !== ''` alone raced too), the same flake class the
+  2026-08-26 sweep (§11.8) had already fixed elsewhere in this app;
+  fixed the same way, waiting for `window.Blazor` plus a 300ms settle
+  matching `book-an-appointment.spec.ts`'s `gotoReady`. Verified: 50/50
+  clean repeats of the two affected routes, 8/8 clean full-suite runs
+  after the fix (was 6/12 clean before). Along the way, a full `e2e/`
+  run also surfaced 7 unrelated, pre-existing, deterministic (not
+  flaky) test bugs — `calendar-table-th`, `data-table-th`,
+  `kanban-table-th`, `table-th`, `gantt-table-tbody`,
+  `gantt-table-thead`, and `gantt-table-tr`'s specs asserted the wrong
+  PascalCase name (a TH/TD swap in four, a dropped "t" or wrong case in
+  the three gantt ones) — confirmed via `curl` that the live page
+  already rendered the correct canonical name in every case, so these
+  were spec-authoring bugs, not component defects; fixed all 7 to
+  match `components.tsv`. Full record: [CHANGELOG.md](CHANGELOG.md).
 
 - [x] **P7-T9 Per-app legacy `nhs.css`/equivalent is dead code in (at
   least) 6 of the 7 example apps.** Found 2026-08-29 while building

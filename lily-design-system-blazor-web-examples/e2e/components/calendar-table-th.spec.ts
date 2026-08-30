@@ -10,7 +10,7 @@ test.describe('component page: calendar-table-th', () => {
   test('renders the H1 with the component name', async ({ page }) => {
     await page.goto('/components/calendar-table-th');
     await expect(
-      page.getByRole('heading', { level: 1, name: new RegExp('^CalendarTableTD$') })
+      page.getByRole('heading', { level: 1, name: new RegExp('^CalendarTableTH$') })
     ).toBeVisible();
   });
 

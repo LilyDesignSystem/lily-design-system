@@ -10,7 +10,7 @@ test.describe('component page: gantt-table-thead', () => {
   test('renders the H1 with the component name', async ({ page }) => {
     await page.goto('/components/gantt-table-thead');
     await expect(
-      page.getByRole('heading', { level: 1, name: new RegExp('^GanttTableHead$') })
+      page.getByRole('heading', { level: 1, name: new RegExp('^GanttTableThead$') })
     ).toBeVisible();
   });
 

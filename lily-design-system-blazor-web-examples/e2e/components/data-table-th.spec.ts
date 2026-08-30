@@ -10,7 +10,7 @@ test.describe('component page: data-table-th', () => {
   test('renders the H1 with the component name', async ({ page }) => {
     await page.goto('/components/data-table-th');
     await expect(
-      page.getByRole('heading', { level: 1, name: new RegExp('^DataTableTD$') })
+      page.getByRole('heading', { level: 1, name: new RegExp('^DataTableTH$') })
     ).toBeVisible();
   });
 
