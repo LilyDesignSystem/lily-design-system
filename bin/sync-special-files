@@ -100,6 +100,14 @@ def parts(name):
                     else "headless" if tail == "headless"
                     else "examples")
             return fw, kind
+    # A Claude Skill package (spec/agent-skills/index.md), not a
+    # framework implementation: no package.json, nothing to `npm run
+    # dev`, no required-routes contract. Matched by suffix, not the
+    # single "lily-design-system-maintainer-skill" name, so a future
+    # skill package is recognised the same way without another edit
+    # here.
+    if name.endswith("-skill"):
+        return None, "skill"
     return None, "other"
 
 
@@ -114,6 +122,8 @@ def describe(name):
         return f"the {label} helpers catalog: five opinionated packages that each own one complete interaction"
     if kind == "examples":
         return f"the {label} example application: a fully styled reference app demonstrating every catalog component"
+    if kind == "skill":
+        return "a Claude Skill packaging Lily Design System documentation for an AI coding agent"
     return "a Lily Design System subproject"
 
 
@@ -283,6 +293,18 @@ Every user-facing string is a prop — there are no English defaults to override
 All are SSR-safe and ship no CSS. Contracts:
 [AGENTS/helpers.md]({CANONICAL}/blob/main/AGENTS/helpers.md) and
 [spec/helpers/index.md]({CANONICAL}/blob/main/spec/helpers/index.md).
+"""
+    elif kind == "skill":
+        body = f"""
+## Install
+
+This is a [Claude Skill](https://code.claude.com/docs/en/skills), not a
+runnable application — there is no `package.json` and nothing to build.
+Read `SKILL.md` directly, or clone it into an agent's skills directory:
+
+```sh
+git clone {ORG}/{name}.git
+```
 """
     else:
         run = "dotnet run" if fw == "blazor" else "npm run dev"
