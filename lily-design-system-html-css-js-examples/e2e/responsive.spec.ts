@@ -2,9 +2,13 @@ import { test, expect } from '@playwright/test';
 
 // Responsive design smoke check across the HTML + CSS + JS examples app.
 // See the SvelteKit examples app's responsive.spec.ts for the rationale
-// — this file mirrors that pattern for the static-HTML route shape:
-// composed pages are served as /{slug}/ and component-detail pages are
-// served as /components/component.html?slug={slug}.
+// — this file mirrors that pattern for the static-HTML route shape.
+// Static-file paths in this app are flat `.html` files (not directory
+// index files), so composed pages are served as /{slug}.html — a
+// trailing-slash directory URL 404s to an empty document under the
+// `http-server` config the webServer uses (same fix already applied in
+// e2e/accessibility.spec.ts's composedPages list). Component-detail
+// pages are served as /components/component.html?slug={slug}.
 //
 // Loads a representative set of routes at 4 viewport sizes (mobile,
 // tablet, desktop, 4K) and asserts:
@@ -25,11 +29,11 @@ const routes = [
   '/components/component.html?slug=button',
   '/components/component.html?slug=data-table',
   '/components/component.html?slug=grail-layout',
-  '/contact-form/',
-  '/dashboard/',
-  '/page-layout/',
-  '/task-management/',
-  '/timeline-and-cards/',
+  '/contact-form.html',
+  '/dashboard.html',
+  '/page-layout.html',
+  '/task-management.html',
+  '/timeline-and-cards.html',
 ];
 
 async function expectNoHorizontalOverflow(page: import('@playwright/test').Page, label: string) {
