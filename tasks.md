@@ -893,7 +893,7 @@ Rules for the executing agent:
   version reads it; dry-run `publish.yml` and confirm every pack step
   still produces the expected tarball contents.
 
-- [ ] **P7-T13 `svelte-headless`'s `Kbd` renders `<div>`, not the
+- [x] **P7-T13 `svelte-headless`'s `Kbd` renders `<div>`, not the
   `<kbd>` its own `components/kbd/AGENTS.md` documents ("HTML tag:
   `<kbd>`").** Found 2026-08-29 while building P7-T3's
   `bin/new-component`, using `kbd` as the cross-framework structural
@@ -901,29 +901,47 @@ Rules for the executing agent:
   blazor, nunjucks) correctly renders a native `<kbd>`; only
   `lily-design-system-svelte-headless/src/lib/components/Kbd/Kbd.svelte`
   (and its exact copy in `svelte-sveltekit-examples`) uses `<div>`
-  instead. Not fixed here — out of scope for a component-scaffolding
-  tool to also patch an unrelated, already-shipped component.
+  instead.
   Verify: `Kbd.svelte` renders `<kbd>`; its existing test (which
   currently asserts by `aria-label` and class, not tag name) gains an
   assertion on the tag itself so this can't silently regress again.
+  Done 2026-08-30: both `<div>` → `<kbd>` (root `components/Kbd/Kbd.svelte`
+  AND its `src/lib/components/Kbd/Kbd.svelte` mirror — see P7-T14 below
+  for why there are two) plus the sveltekit-examples copy, three files
+  total. The test in all three now asserts `el.tagName === "KBD"`, not
+  just class/aria-label, so this exact regression can't recur silently.
+  The theme CSS already sets `display: inline-block` on `:where(.kbd)`
+  explicitly (confirmed in `themes/adobe-spectrum.css` and every
+  sibling theme), so the tag change carries zero visual/layout risk.
+  Verified for real: `pnpm exec vitest run` on each of the three
+  `Kbd.test.ts` files passes (2 passed in svelte-headless — both
+  mirrors' tests run together via vitest's default glob — plus 1 in
+  svelte-sveltekit-examples).
 
-- [ ] **P7-T14 `lily-design-system-svelte-headless` carries a second,
+- [x] **P7-T14 `lily-design-system-svelte-headless` carries a second,
   likely-dead copy of every component under a root `components/`
   directory, duplicating `src/lib/components/`.** Found 2026-08-29
-  alongside P7-T13. The two trees are near-identical (e.g. `Kbd`'s only
-  diff is a relative-path depth in a doc comment); neither
-  `vite.config.js`, `package.json`'s `exports`, nor any Storybook config
-  references `components/` at the root, and `bin/new-component`'s own
-  `bin/test` pass didn't need to populate it — same unreferenced-
-  duplicate shape as P7-T9's per-app dead `nhs.css` files. Not confirmed
-  dead with the same rigor P7-T9 used (no direct evidence check here,
-  just absence of any reference found), and not removed here since
-  deleting ~491 component directories deserves its own verification
-  pass, not a side effect of an unrelated tool.
+  alongside P7-T13.
   Verify: confirm nothing loads `components/` at build, test, or
   Storybook time (the way P7-T9 confirmed each dead `nhs.css` with a
   live served-page check); if genuinely dead, delete the directory and
   confirm `pnpm test`/`pnpm run build`/Storybook all stay green.
+  Corrected 2026-08-30 — the original finding was backwards. Reading
+  `build.mjs` (not checked before marking this a suspected duplicate)
+  shows the root `components/` directory is the ACTUAL PUBLISHED
+  SOURCE: `componentsDir = path.join(root, "components")`, read
+  directly to generate the package's `index.ts` barrel and its `dist/`
+  build. `src/lib/components/` is the SvelteKit-convention mirror kept
+  for local dev — both are real, both are exercised (vitest's default
+  include glob picks up `**/*.test.ts` project-wide, so both copies'
+  tests already ran in the P7-T1 CI job, matching the historical
+  "4,906 vitest cases across 983 dual-mirror spec files" acceptance
+  note this session had read but not connected to this finding before
+  investigating further). Consequence: P7-T13's initial fix (which only
+  touched `src/lib/components/Kbd/Kbd.svelte`) missed the copy that
+  actually ships to npm consumers — `components/Kbd/Kbd.svelte` was
+  still rendering `<div>`. Fixed in the same pass once caught. No
+  directory was deleted; both are real and load-bearing.
 
 - [ ] **P7-T15 `react-next-examples` and `vue-nuxt-examples` are each
   missing per-component implementation files for all 80 national

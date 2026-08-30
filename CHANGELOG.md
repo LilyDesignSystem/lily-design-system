@@ -9,6 +9,35 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Backlog fixes: svelte-headless's `Kbd` tag, and a real gap in `bin/new-component` — 2026-08-30
+
+[tasks.md](tasks.md) P7-T13, P7-T14. Fixed `Kbd`'s `<div>` →
+`<kbd>` (P7-T13) — but the real story is P7-T14's correction. The
+first pass only fixed `src/lib/components/Kbd/Kbd.svelte`, on the
+assumption that svelte-headless's root `components/` directory was a
+likely-dead duplicate (logged that way in the P7-T4 commit). It isn't:
+reading `build.mjs` (not checked before that assumption) shows
+`components/` is the file this package's actual npm `dist/` build
+reads from — `src/lib/components/` is the SvelteKit-convention mirror
+for local dev, and both are real, both are tested (vitest's default
+include glob already runs both trees' tests, matching the historical
+"4,906 cases across 983 dual-mirror spec files" note). So the first
+fix missed the copy that actually ships. Caught while verifying with
+the real build (`node build.mjs`) rather than trusting the test pass
+alone; fixed in the same pass — `components/Kbd/Kbd.svelte`,
+`src/lib/components/Kbd/Kbd.svelte`, and the
+`svelte-sveltekit-examples` copy all render `<kbd>` now, each test
+gains a `tagName === "KBD"` assertion so this can't silently regress
+again, and the theme CSS already sets `display: inline-block`
+explicitly so the tag change carries zero visual risk.
+
+The same investigation found a real, related gap in P7-T4's own
+`bin/new-component`: it only ever wrote the `src/lib/components/`
+mirror for a newly scaffolded component, never the root `components/`
+tree `build.mjs` actually publishes. Fixed — verified by scaffolding a
+scratch component and confirming `node build.mjs` picks it up (492
+generated, up from 491) before reverting.
+
 ## `bin/check-coverage`: the coverage drift matrix — 2026-08-29
 
 [plan.md](plan.md) P7-T4. `bin/test` machine-gates required-file
