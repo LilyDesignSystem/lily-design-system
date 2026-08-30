@@ -857,6 +857,47 @@ Rules for the executing agent:
   Verify: `pnpm test` runs and passes at least a representative sample
   of `src/app/components/*.spec.ts`, not just the app's own top-level
   logic tests.
+  Investigated further 2026-08-30, still open — the config gap wasn't
+  the real blocker. Wired up the same `@analogjs/vite-plugin-angular` +
+  jsdom + TestBed setup angular-headless's own `vitest.config.ts` uses
+  (this app already depends on both packages for its own Analog build),
+  and initially suspected a zone.js-vs-zoneless TestBed mismatch (this
+  app bootstraps zoneless; angular-headless's setup imports zone.js) —
+  ruled that out directly: switching to the non-deprecated,
+  zoneless-native `BrowserTestingModule`/`platformBrowserTesting()`
+  (no zone.js at all) changed nothing. With either TestBed setup, the
+  491 specs actually RUN (no crash) and roughly half their assertions
+  pass — every "renders the base class" check succeeds — but every
+  assertion that depends on `fixture.componentRef.setInput()` actually
+  reaching a signal `input()` fails: confirmed by instrumenting a
+  component's own `className()` signal after `setInput("className",
+  "extra")` and finding it still reads back the untouched default `""`.
+  `setInput()` is a silent no-op for signal inputs in this app's own
+  Vite/Angular compilation pipeline. Likely cause, not yet confirmed:
+  `pnpm why @angular/core` and the `.pnpm` store both show this app's
+  own dependency tree pulls THREE distinct forked copies of
+  `@angular/core` (`22.1.3` with a `zone.js` peer variant, `22.1.3`
+  without one, and an unrelated `20.3.23` pulled in transitively via
+  `@analogjs/router`/`@analogjs/content`, which in turn resolve an
+  OLDER `@analogjs/vite-plugin-angular@1.22.5` pinned to
+  `@angular/build@20.3.26`) — vs. angular-headless's single, unforked
+  `@angular/core@22.1.3`. A bare `angular()` plugin call in a
+  standalone `vitest.config.ts` (this app's REAL build only works
+  through `vite.config.ts`'s `@analogjs/platform` `analog()` wrapper,
+  which Vitest ignores by design once a sibling `vitest.config.ts`
+  exists) may simply not carry whatever option that wrapper sets to
+  make signal-input compilation land in the same module instance the
+  test's `TestBed` resolves. Reverted all of it (`vitest.config.ts`
+  back to the narrow, working `src/app/*.spec.ts` scope; the
+  zone-vs-zoneless `vitest-setup.ts` experiment removed entirely; the
+  `zone.js` devDependency added then removed, net no diff) rather than
+  ship a widened config whose own tests fail — confirmed the reverted
+  state is byte-identical to before and its one real test still passes
+  5/5.
+  Verify (updated): the same as before, plus — once a fix is found —
+  confirm it via the same instrumented-signal check (`className()`
+  reads back `"extra"` after `setInput`), not just "the test file ran
+  without crashing".
 
 - [ ] **P7-T12 pnpm major-version skew across the monorepo: 10 (CI,
   `publish.yml`) vs 11 (this machine's tooling, which is what actually
@@ -973,6 +1014,36 @@ Rules for the executing agent:
   Verify: `find components -maxdepth 1 -iname '*.tsx'` (or `.vue`)
   count reaches 491 in both apps; `bin/check-coverage` (or a follow-up
   extension of it covering example-app copies) exits 0 against them.
+
+- [x] **P7-T16 `.summary-list`'s CSS Grid track sizing overflows narrow
+  viewports: `grid-template-columns: max-content 1fr auto` forces the
+  first column to its full unwrapped text width, ignoring the
+  container.** Found and fixed 2026-08-30, surfaced by the P7-T9/P7-T10
+  `--nhs-*` fix itself: restoring `.page-wrapper`'s real padding
+  reduced `/dashboard`'s available width just enough to turn an
+  already-marginal `max-content` column into an actual 9px overflow at
+  375px — caught by real CI (`example-smoke`'s `responsive.spec.ts`
+  went red on `mobile /dashboard`), not found in advance. Root-caused
+  directly: instrumented the live page to find every element wider
+  than the viewport, traced it to `SummaryListItem`'s `<dt>`/`<dd>`
+  pair (dashboard's stat labels — "Total admissions", "Emergency
+  cases" — none of which fit on one line at 375px once the column
+  refuses to shrink). All 45 reference themes carried the identical
+  rule. Fixed by changing the first column to
+  `minmax(0, max-content)` in all 45 — strictly more permissive than
+  bare `max-content` (behaves identically once there's room, only
+  differs by allowing the column to shrink and wrap when there isn't),
+  so this can only reduce overflow risk, never introduce new layout
+  behaviour at normal viewport widths. Propagated via `bin/sync` to
+  each of the 7 apps' own served theme copies (the actual regression
+  needed this step too — a themes/ edit alone doesn't reach a served
+  page; each app's `static/`, `public/`, or `wwwroot/themes/`
+  directory is `bin/sync`'s rsync target, not a symlink).
+  Verify: `bin/check-theme` still passes on all 45; the exact failing
+  case (`e2e/responsive.spec.ts`'s mobile `/dashboard` check) passes
+  reliably (ran 1x directly, all 48 responsive cases green, plus the
+  other 4 example-smoke spec files, 96/96); no other viewport/route in
+  that suite regressed.
 
 ---
 

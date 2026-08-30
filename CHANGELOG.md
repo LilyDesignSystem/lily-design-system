@@ -9,6 +9,64 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Caught by CI: `.summary-list` grid overflow at narrow viewports, all 45 themes — 2026-08-30
+
+[tasks.md](tasks.md) P7-T16. The P7-T9/P7-T10 `--nhs-*` token fix went
+out green locally in all 6 apps, then went red for real on CI:
+`example-smoke`'s `responsive.spec.ts` failed on mobile `/dashboard`,
+9px of horizontal overflow. Restoring `.page-wrapper`'s real padding
+(the whole point of that fix) shrank the available content width just
+enough to turn an already-marginal CSS Grid column into an actual
+overflow. Root-caused directly by instrumenting the live page for the
+widest offending element: `SummaryListItem`'s `<dt>`/`<dd>` pair —
+dashboard's stat labels ("Total admissions", "Emergency cases") — sit
+in a `.summary-list` grid whose first column is
+`grid-template-columns: max-content 1fr auto`, which refuses to shrink
+below its label's full unwrapped text width regardless of the
+container. All 45 reference themes carried the identical rule.
+
+Fixed in all 45 by changing the first column to
+`minmax(0, max-content)` — strictly more permissive than bare
+`max-content`, so it can only reduce overflow risk, never change
+layout at normal viewport widths. Propagated to all 7 apps' own served
+theme copies via `bin/sync` (a `themes/` edit alone doesn't reach a
+served page — each app rsyncs its own copy, not a symlink). Verified:
+`bin/check-theme` still passes; the exact failing case now passes
+reliably, along with all 48 responsive cases and the other 96
+example-smoke assertions.
+
+## P7-T11 investigated further, still open: a real `setInput()` no-op, not a missing config — 2026-08-30
+
+[tasks.md](tasks.md) P7-T11. Went back to angular-examples' "491
+orphaned component specs" backlog item to actually wire them up, not
+just leave the config gap noted. It wasn't a missing-config problem:
+wiring the same `@analogjs/vite-plugin-angular` + jsdom + TestBed setup
+angular-headless's own vitest config uses gets all 491 specs running
+(no crash), and every "renders the base class" assertion passes — but
+every assertion depending on `fixture.componentRef.setInput()` reaching
+a signal `input()` fails. Instrumented a component's own signal after
+`setInput()` and confirmed it: still reads back the untouched default,
+not the value just set. `setInput()` is a silent no-op for signal
+inputs in this app's specific Vite/Angular compilation pipeline.
+
+Ruled out a zone.js-vs-zoneless TestBed mismatch directly (switching to
+the zoneless-native `BrowserTestingModule` changed nothing). Likely
+cause, not yet confirmed: `pnpm why @angular/core` shows this app's own
+dependency tree forks into three distinct `@angular/core` copies (two
+`22.1.3` peer variants plus an unrelated `20.3.23` pulled in
+transitively via `@analogjs/router`/`@analogjs/content`'s own pinned,
+older `@analogjs/vite-plugin-angular@1.22.5`), unlike angular-headless's
+single unforked copy — and a bare `angular()` plugin call in a
+standalone `vitest.config.ts` may not replicate whatever this app's
+real `vite.config.ts` (`@analogjs/platform`'s `analog()` wrapper, which
+Vitest ignores once a sibling `vitest.config.ts` exists) sets to keep
+signal-input compilation in the same module instance TestBed resolves.
+
+Reverted rather than ship a widened config whose own tests fail —
+confirmed byte-identical to the prior state, one real test still passes
+5/5. The diagnosis is real progress even though the fix isn't; logged
+in full so the next attempt doesn't have to re-derive it.
+
 ## Deleted 6 dead `nhs.css` files; restored 6 apps' broken `--nhs-*` tokens — 2026-08-30
 
 [tasks.md](tasks.md) P7-T9, P7-T10. Both backlog items closed together

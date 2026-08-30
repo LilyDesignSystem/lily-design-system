@@ -27,6 +27,7 @@ prerendered
 prerendering
 prerenders
 resx
+rsyncs
 scrollytelling
 sockpuppets
 sparkline
