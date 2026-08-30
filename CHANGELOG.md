@@ -9,6 +9,48 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## P7-T15: react-next-examples and vue-nuxt-examples reach 491/491 component files — 2026-08-30
+
+[tasks.md](tasks.md) P7-T15. Both apps carried only 411 of 491 possible
+`components/{Pascal}.{tsx,vue}` files, missing the exact same 80
+national-identifier components in both (found by P7-T4's
+`bin/check-coverage`, which deliberately scopes to the 7 headless
+catalogs rather than the examples' own copies). Confirmed the
+copy-pattern first — diffed several existing shared components; the
+examples' `.tsx`/`.vue` files are byte-identical copies of the
+headless source, and the `.stories.tsx`/`.stories.ts` companions
+differ only by a `title: 'Headless/...'` → `'Examples/...'` rewrite
+plus a Storybook framework import swap for react. Copied all 80 pairs
+into both apps with that exact transform, scripted against the
+confirmed pattern rather than by hand. Both reach 491/491; no
+registry file needed since neither app indexes components and both
+Storybook configs glob `stories.*` automatically.
+
+Verified for real: `next build` (509 static pages) and `nuxt build`
+both succeed; `vitest run` in both apps shows the identical
+pre-existing failure count before and after (confirmed via
+`git stash` round-trips on just the new files); react's
+`storybook build` succeeds with all 491 stories. vue's
+`storybook build` does not — root-caused as pre-existing and unrelated
+(same failure with the 80 new files stashed out, and the one failing
+file isn't among them), logged separately as P7-T18.
+
+## P7-T18: vue-nuxt-examples' Storybook build fails under Rolldown, unrelated to P7-T15 — 2026-08-30
+
+[tasks.md](tasks.md) P7-T18. `storybook build` in
+`lily-design-system-vue-nuxt-examples` fails on `TimelineListItem.vue`
+with `RolldownError: Element is missing end tag` at a line:col past
+the file's actual length. Confirmed the file itself is fine:
+`@vue/compiler-sfc` parses it standalone with zero errors, and
+`lily-design-system-vue-headless`'s own `storybook build` succeeds on
+the byte-identical canonical copy. The difference is the bundler —
+vue-headless resolves `vite@6.4.1` (esbuild); vue-nuxt-examples, via
+Nuxt 4's dependency tree, resolves `vite@8.2.2`'s Rolldown-based
+bundler. Not yet root-caused further; likely an upstream Rolldown /
+`@vitejs/plugin-vue` interop bug given the out-of-range error
+position. Does not affect the real app (`nuxt build` succeeds
+cleanly) and no CI job currently exercises this app's Storybook build.
+
 ## P7-T17: a flaky "dialog contrast" axe failure was a circuit-timing race, not a theme defect — 2026-08-30
 
 [tasks.md](tasks.md) P7-T17. Re-verifying `accessibility.spec.ts` after

@@ -1084,7 +1084,7 @@ Rules for the executing agent:
   still rendering `<div>`. Fixed in the same pass once caught. No
   directory was deleted; both are real and load-bearing.
 
-- [ ] **P7-T15 `react-next-examples` and `vue-nuxt-examples` are each
+- [x] **P7-T15 `react-next-examples` and `vue-nuxt-examples` are each
   missing per-component implementation files for all 80 national
   personal identifier components.** Found 2026-08-29 building P7-T4's
   `bin/check-coverage` — these two apps each carry only 411 of 491
@@ -1107,6 +1107,29 @@ Rules for the executing agent:
   Verify: `find components -maxdepth 1 -iname '*.tsx'` (or `.vue`)
   count reaches 491 in both apps; `bin/check-coverage` (or a follow-up
   extension of it covering example-app copies) exits 0 against them.
+  Done 2026-08-30: confirmed the copy-pattern first (diffed several
+  existing shared components — the examples' `.tsx`/`.vue` files are
+  byte-identical copies of the headless source; the `.stories.tsx`/
+  `.stories.ts` companions differ only by a `title: 'Headless/...'` →
+  `'Examples/...'` rewrite, plus a Storybook framework import swap for
+  react's `.stories.tsx`). Copied all 80 `.tsx`+`.stories.tsx` pairs
+  into react-next-examples and all 80 `.vue`+`.stories.ts` pairs into
+  vue-nuxt-examples with that exact transform, scripted and verified
+  against every existing pair first (no manual one-offs). Both apps
+  reach 491/491. No registry/barrel file needed — neither app has an
+  index of component files, and both `.storybook/main.ts` configs glob
+  `components/**/*.stories.*`, so the new stories are picked up
+  automatically. Verified for real, not assumed: `next build` (509
+  static pages) and `nuxt build` both succeed; `vitest run` in both
+  apps shows the exact same pre-existing failure count before and
+  after (confirmed via `git stash push -- components/` round-trips —
+  12 failed/9 passed in react-next, 1 failed/263 passed in vue-nuxt,
+  identical either way, and none of the failing files are among the 80
+  added); react's `storybook build` succeeds with all 491 stories.
+  vue's `storybook build` does NOT succeed — logged separately as
+  P7-T18 rather than folded in here, since it's pre-existing (fails
+  identically with the 80 new files stashed out) and unrelated (the
+  one failing file, `TimelineListItem.vue`, isn't among the 80).
 
 - [x] **P7-T16 `.summary-list`'s CSS Grid track sizing overflows narrow
   viewports: `grid-template-columns: max-content 1fr auto` forces the
@@ -1137,6 +1160,32 @@ Rules for the executing agent:
   reliably (ran 1x directly, all 48 responsive cases green, plus the
   other 4 example-smoke spec files, 96/96); no other viewport/route in
   that suite regressed.
+
+- [ ] **P7-T18 `vue-nuxt-examples`'s `storybook build` fails on
+  `TimelineListItem.vue` with an out-of-range parser error.** Found
+  2026-08-30 verifying P7-T15. Confirmed pre-existing and unrelated to
+  P7-T15 (fails identically with the 80 newly-added components
+  `git stash`ed out) and confirmed the file itself isn't at fault:
+  `@vue/compiler-sfc` parses it with zero errors when called directly,
+  and `lily-design-system-vue-headless`'s own `storybook build`
+  succeeds on the byte-identical canonical copy of the same file. The
+  difference is the bundler: vue-headless resolves `vite@6.4.1`
+  (esbuild-based); vue-nuxt-examples, via Nuxt 4's own dependency tree,
+  resolves `vite@8.2.2` with the newer Rolldown-based bundler, and it's
+  specifically under Rolldown that `@storybook/builder-vite` reports
+  `RolldownError: Element is missing end tag` at
+  `TimelineListItem.vue:81:183` — a position past the file's actual 80
+  lines, which is itself a symptom worth noting (the real fault may be
+  a different file's template getting misattributed during Rolldown's
+  bundling, not `TimelineListItem.vue` itself). Not yet root-caused
+  past this point; likely an upstream Rolldown / `@vitejs/plugin-vue`
+  interop bug given the out-of-range position, not a Lily authoring
+  defect. Does not affect the real app: `nuxt build` (the app's actual
+  production build) succeeds cleanly; only `storybook build` fails,
+  and no CI job currently runs it for this app.
+  Verify: `npx storybook build` succeeds in
+  `lily-design-system-vue-nuxt-examples` with 491/491 stories (compare
+  `react-next-examples`' equivalent successful build as the pattern).
 
 ---
 
