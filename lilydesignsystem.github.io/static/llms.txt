@@ -5,89 +5,73 @@
 > React, Vue, Angular, Blazor, Nunjucks), paired with fully styled example
 > apps that demonstrate the same catalog end to end.
 
-This is the canonical monorepo. The living specification is `spec/`,
-entered via `spec/index.md`; binding design-principle rules for AI coding
-agents live in `AGENTS.md` and `AGENTS/*.md`. Public documentation and the
-searchable component catalog: https://lilydesignsystem.github.io/.
+This is the public documentation site. Every link below is a page on this
+site (https://lilydesignsystem.github.io/) unless marked otherwise; the
+GitHub-marked links go to the canonical source monorepo, where the
+specification, design-principle rules, and every framework implementation
+actually live.
 
 ## Start here
 
-- [spec/index.md](spec/index.md): the specification — vision, scope,
-  architecture, naming conventions, composition patterns, acceptance
-  criteria, roadmap. Links out to one `spec/{topic}/index.md` per topic.
-- [AGENTS.md](AGENTS.md): binding design-principle rules; loads every file
-  under `AGENTS/`.
-- [README.md](README.md): human-readable project overview.
-- [components.tsv](components.tsv): the canonical 491-component catalog —
-  one row per component: slug, PascalCase name, description.
-- [CHANGELOG.md](CHANGELOG.md): full change history, with the reasoning
-  behind each change.
+- [Home](https://lilydesignsystem.github.io/): what Lily is, in brief, with
+  the current component count and framework list.
+- [Why Lily](https://lilydesignsystem.github.io/why/): the case for
+  Lily — headless components you style yourself, WCAG 2.2 AAA accessibility
+  built in, no hardcoded strings, seven frameworks, one catalog, free
+  forever.
+- [About](https://lilydesignsystem.github.io/about/): what Lily is, the
+  principles behind it, and the design systems it draws inspiration from.
+- [Help](https://lilydesignsystem.github.io/help/): install the headless
+  package for your framework, copy a component, style it, theme it, ship
+  it. Troubleshooting, FAQ, and support.
 
-## Design-principle rules (AGENTS/)
+## Components and examples
 
-- [AGENTS/headless.md](AGENTS/headless.md): markup, ARIA, behaviour
-  boundaries, zero-CSS rules every component follows.
-- [AGENTS/accessibility.md](AGENTS/accessibility.md): WCAG 2.2 AAA target,
-  WAI-ARIA APG keyboard/role/state patterns.
-- [AGENTS/internationalization.md](AGENTS/internationalization.md): no
-  hardcoded user-facing strings, stable text-prop names.
-- [AGENTS/theme.md](AGENTS/theme.md): token shape, the headless
-  forbidden-literal list, the 45 reference theme stylesheets.
-- [AGENTS/components.md](AGENTS/components.md): suffix-to-HTML-element
-  mapping, compound name-family patterns, composition templates.
-- [AGENTS/helpers.md](AGENTS/helpers.md): the theme/locale/text-size/
-  share/date-time picker contract.
-- [AGENTS/citations.md](AGENTS/citations.md): design systems and headless
-  libraries Lily learns from.
-- [AGENTS/lily.md](AGENTS/lily.md): the full subproject list (all 7
-  headless, 7 example, 7 helper catalogs) and the `bin/` tool reference.
+- [Components](https://lilydesignsystem.github.io/components/): the full
+  searchable catalog of all 491 components, each linking to its own
+  `/components/{slug}/` detail page (description, usage, props, ARIA,
+  keyboard, references).
+- [Tutorials](https://lilydesignsystem.github.io/tutorials/): step-by-step
+  guides — your first component, styling, ready-made themes, and
+  preference helpers — for HTML, Svelte, React, Vue, Angular, Blazor, and
+  Nunjucks, each under `/tutorials/{framework}/`.
+- [Examples](https://lilydesignsystem.github.io/examples/): worked example
+  apps showing how to style Lily components in every supported framework.
+- [Comparisons](https://lilydesignsystem.github.io/comparisons/): how Lily
+  compares with other design systems on headlessness, framework coverage,
+  accessibility, and license.
 
-## Specification topics (spec/)
+## Project status and policy
 
-- [spec/architecture/index.md](spec/architecture/index.md): monorepo
-  layout, the git-subtree model, required files per subproject/component.
-- [spec/components/index.md](spec/components/index.md): the 491-component
-  catalog in depth, per-component documentation requirements.
-- [spec/testing/index.md](spec/testing/index.md): per-framework test
-  suites, Storybook coverage, Playwright e2e, axe, responsive sweep.
-- [spec/national-identifiers/index.md](spec/national-identifiers/index.md):
-  the 80 national personal identifier components, validation algorithms.
-- [spec/helpers/index.md](spec/helpers/index.md): the five `*-picker`
-  helper contracts in full.
-- [spec/frameworks/index.md](spec/frameworks/index.md): the seven
-  framework pairs, per-framework file shapes, the copy-pattern.
-- [spec/agent-skills/index.md](spec/agent-skills/index.md): the
-  `lily-skill` and `lily-design-system-maintainer-skill` Claude Skills.
+- [Accessibility statement](https://lilydesignsystem.github.io/accessibility/):
+  what targeting WCAG 2.2 AAA means here — what is verified, by what, what
+  is not verified by anything, and how to report a problem.
+- [News](https://lilydesignsystem.github.io/news/): announcements, release
+  highlights, project status, and press contacts.
+- [Roadmap](https://lilydesignsystem.github.io/roadmap/): what the project
+  is working on and planning next.
+- [Lily + Figma](https://lilydesignsystem.github.io/lily-figma/): there is
+  no maintained Lily Figma library or plugin; the 45 reference themes'
+  design tokens are published in DTCG format and can be imported into
+  Figma today with an existing community plugin.
 
-## Subprojects
+## Source (GitHub)
 
-- [lily-design-system-svelte-headless](lily-design-system-svelte-headless/index.md):
-  the canonical Svelte 5 headless library — other catalogs port from it.
-- [lily-design-system-svelte-sveltekit-examples](lily-design-system-svelte-sveltekit-examples/index.md):
-  fully styled reference app for the same catalog.
-- [lily-design-system-svelte-helpers](lily-design-system-svelte-helpers/index.md):
-  the canonical theme/locale/text-size/share/date-time picker catalog.
-- The remaining 18 headless/example/helper subprojects (React, Vue,
-  Angular, Blazor, HTML, Nunjucks) follow the same shape — see
-  [AGENTS/lily.md](AGENTS/lily.md) for the full list.
-- [lily-skill](lily-skill/SKILL.md): general-purpose Claude Skill
-  explaining Lily concepts and usage to people building *with* the system.
-- [lily-design-system-maintainer-skill](lily-design-system-maintainer-skill/SKILL.md):
-  technical Claude Skill for maintainers working *on* this monorepo.
+- [spec/index.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/index.md):
+  the specification — vision, scope, architecture, naming conventions,
+  composition patterns, acceptance criteria, roadmap.
+- [AGENTS.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS.md):
+  binding design-principle rules for AI coding agents.
+- [components.tsv](https://github.com/LilyDesignSystem/lily-design-system/blob/main/components.tsv):
+  the canonical 491-component catalog (slug, PascalCase name, description).
+- [Canonical monorepo](https://github.com/LilyDesignSystem/lily-design-system):
+  all 21 framework subprojects (7 headless, 7 example, 7 helper catalogs),
+  the `bin/` tooling, and full change history.
 
 ## Optional
 
-- [components-categories.tsv](components-categories.tsv): per-component
-  HTML tag and category (content, forms, navigation, tables, …).
-- [css-style-sheet-template.css](css-style-sheet-template.css): one CSS
-  class hook declared per catalog component.
-- [themes/](themes/): 45 ready-to-use reference theme stylesheets (NHS
-  England/Scotland/Wales, GOV.UK, USWDS, Adobe Spectrum, Mozilla Protocol).
-- [bin/](bin/): scaffolding, listing, sync, test, and publish tooling —
-  start with `bin/test` to verify a working tree.
-- [CONTRIBUTING.md](CONTRIBUTING.md): how to propose a change.
-- [LICENSE.md](LICENSE.md): MIT OR Apache-2.0 OR GPL-2.0-only OR
-  GPL-3.0-only OR BSD-3-Clause.
+- [llms.json](https://lilydesignsystem.github.io/llms.json): this same
+  curated map as structured JSON.
 
 ---
 
