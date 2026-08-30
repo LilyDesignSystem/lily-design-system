@@ -51,7 +51,7 @@ lily-design-system-blazor-web-examples/
 │   │   ├── Layout/MainLayout.razor
 │   │   └── Pages/ (13 page files)
 │   └── wwwroot/
-│       ├── css/nhs.css
+│       ├── css/app-shell.css (component styling comes from the runtime theme)
 │       └── js/headless-interop.js
 ```
 

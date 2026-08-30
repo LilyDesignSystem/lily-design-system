@@ -25,7 +25,7 @@ Vue 3 + Nuxt 3 example application demonstrating the Lily Design System headless
 - **Vue 3** with Composition API and TypeScript (`<script setup lang="ts">`)
 - **Nuxt 3** for file-based routing and component auto-imports
 - **Vitest** + **Vue Testing Library** + **jsdom** for testing
-- **NHS UK CSS** via `assets/css/nhs.css` (CSS custom properties)
+- **Component styling** from the runtime theme stylesheet (a managed `<link data-lily-theme-picker>` the theme-picker helper swaps among `/themes/*.css`, default NHS England for patients); `assets/css/app-shell.css` keeps only the fixed app-shell chrome that no theme should style
 
 ### Scripts
 
@@ -42,7 +42,7 @@ Vue 3 + Nuxt 3 example application demonstrating the Lily Design System headless
 ├── nuxt.config.ts              # Nuxt configuration
 ├── components/                 # 490 headless Vue components
 ├── pages/                      # 13 example pages
-├── assets/css/nhs.css          # NHS UK design tokens & styles
+├── assets/css/app-shell.css    # app-shell chrome (component styling comes from the runtime theme)
 ├── tests/components/           # 490 component test files
 ├── vitest.config.ts            # Vitest configuration
 └── vitest-setup.ts             # Test setup (cleanup)

@@ -24,7 +24,7 @@
 - Standalone components only (no NgModules)
 - Headless components copied into `src/app/components/` (same copy-pattern the other 6 example apps use; no workspace dep)
 - Vite-based dev + build, SSG prerender for every catalog + composed route
-- NHS UK CSS via single global `src/styles/nhs.css`
+- Component styling from the runtime theme stylesheet (a managed `<link data-lily-theme-picker>` the theme-picker helper swaps among `/themes/*.css`, default NHS England for patients); `src/styles/app-shell.css` keeps only the fixed app-shell chrome that no theme should style
 - Playwright + axe-core e2e (same pattern as the other 6 example apps)
 
 ## STRICT prohibitions
@@ -72,7 +72,7 @@ src/
       dashboard.page.ts              — /dashboard
       …                              — (12 composed pages total)
   styles/
-    nhs.css                 — NHS UK token + class styles
+    app-shell.css           — app-shell chrome (component styling comes from the runtime theme)
   main.ts                   — bootstrapApplication
 e2e/
   accessibility.spec.ts     — axe-core sweep across 29 routes

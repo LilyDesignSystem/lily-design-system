@@ -9,6 +9,35 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Deleted 6 dead `nhs.css` files; restored 6 apps' broken `--nhs-*` tokens — 2026-08-30
+
+[tasks.md](tasks.md) P7-T9, P7-T10. Both backlog items closed together
+since fixing one required understanding the other. Confirmed all 6
+apps' `nhs.css`/equivalent (svelte-sveltekit, react-next, vue-nuxt,
+angular, blazor-web, html-css-js) are genuinely dead — a real
+import/link grep across each app's own source found nothing, and each
+app's actual global entry point imports `app-shell.css` instead — then
+deleted all 6 outright (nothing worth folding into the theme files;
+the runtime `themes/*.css` already covers everything they did).
+Fixed the resulting stale `AGENTS.md` mentions in all 6 apps.
+
+P7-T10 turned out to be a bigger, shared bug, not an html-css-js-only
+one: all 6 apps' `app-shell.css` use the exact same 11 `--nhs-*` custom
+properties, every one of them silently resolving to nothing in every
+app (not just html-css-js) once nothing linked `nhs.css` any more.
+Fixed by restoring the 11 real values as a `:root` block in each app's
+own `app-shell.css`, labelled as the app-shell's own fixed brand
+tokens (deliberately not swappable by the theme-picker, which only
+applies to Lily component classes). Verified for real, not assumed:
+built and served all 6 apps and confirmed
+`getComputedStyle(document.documentElement).getPropertyValue('--nhs-black')`
+now returns `#231f20` (previously `""`) in every one, in a real
+browser. Also checked P7-T10's other two claimed gaps directly rather
+than trusting the original finding — `.status-tag` and `.panel` both
+already have real base `:where(...)` rules in all 45 reference themes,
+and `book-an-appointment.html`'s `.visually-hidden` → `.screen-reader-span`
+swap was already done — so neither needed further work.
+
 ## Backlog fixes: svelte-headless's `Kbd` tag, and a real gap in `bin/new-component` — 2026-08-30
 
 [tasks.md](tasks.md) P7-T13, P7-T14. Fixed `Kbd`'s `<div>` →

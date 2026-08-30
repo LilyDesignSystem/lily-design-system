@@ -4,6 +4,27 @@
  * theme-picker helper). This file keeps only app-owned chrome.
  */
 
+/* App-shell's own fixed brand tokens -- NOT swappable by the
+ * theme-picker (that's only for Lily component classes). These
+ * used to live in this app's now-deleted nhs.css, which nothing
+ * had linked since the runtime theme took over per-component
+ * styling -- meaning every var(--nhs-*) below silently resolved
+ * to nothing until this block restored them (plan P7-T9/P7-T10).
+ */
+:root {
+  --nhs-black: #231f20;
+  --nhs-focus-color: #ffeb3b;
+  --nhs-focus-text-color: #231f20;
+  --nhs-font-family: "Frutiger W01", Arial, sans-serif;
+  --nhs-font-size-19: 1.1875rem;
+  --nhs-line-height-normal: 1.5;
+  --nhs-max-width: 960px;
+  --nhs-space-2: 0.5rem;
+  --nhs-space-3: 1rem;
+  --nhs-space-4: 1.5rem;
+  --nhs-white: #ffffff;
+}
+
 body {
   margin: 0;
   font-family: var(--nhs-font-family);

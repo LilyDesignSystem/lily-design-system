@@ -26,7 +26,7 @@ Styled example pages demonstrating headless components with Plain HTML + vanilla
 - No frameworks (no React, no Svelte, no Vue, no Angular, no Blazor)
 - No TypeScript (plain JavaScript only)
 - No build tools required
-- NHS UK CSS via css/nhs.css for styling
+- Component styling from the runtime theme stylesheet (a managed `<link data-lily-theme-picker>` the theme-picker helper swaps among `/themes/*.css`, default NHS England for patients); `assets/css/app-shell.css` keeps only the fixed app-shell chrome that no theme should style
 
 ## Project Structure
 
@@ -46,7 +46,7 @@ lily-design-system-html-css-js-examples/
 │   ├── task-management/
 │   └── timeline-and-cards/
 ├── css/
-│   └── nhs.css
+│   └── app-shell.css (component styling comes from the runtime theme)
 └── package.json
 ```
 

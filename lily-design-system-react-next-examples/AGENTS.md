@@ -26,7 +26,7 @@ React 19 + Next.js 15 example application demonstrating the Lily Design System h
 - All example pages use `"use client"` directive (interactive components need client rendering)
 - Components imported from headless library via `@pgds/*` path alias
 - Wrapper components in `components/` re-export from headless library for local imports
-- NHS styling via `assets/css/nhs.css` (CSS custom properties for colors, typography, spacing)
+- Component styling comes from the runtime theme stylesheet (a managed `<link data-lily-theme-picker>` the theme-picker helper swaps among `/themes/*.css`, default NHS England for patients); `assets/css/app-shell.css` keeps only the fixed app-shell chrome (skip-link, page-wrapper, site-header) that no theme should style
 - `typescript.ignoreBuildErrors: true` in next.config.ts (headless lib `[key: string]: unknown` rest props conflict with Next.js strict ReactNode typing)
 
 ### Path Aliases
