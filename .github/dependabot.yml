@@ -252,6 +252,15 @@ updates:
       lily:
         patterns:
           - "*"
+    ignore:
+      # vue-tsc@2.2.0's declaration-emit step imports typescript's
+      # internal ./lib/tsc subpath directly; TypeScript 7's tightened
+      # package.json "exports" map no longer allows that
+      # (ERR_PACKAGE_PATH_NOT_EXPORTED), breaking `npm run build`
+      # outright. vue-tsc 3.x is a major rewrite that may fix this but
+      # needs its own verification before adopting — revisit then.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "npm"
     directory: "/lily-design-system-vue-nuxt-examples"
