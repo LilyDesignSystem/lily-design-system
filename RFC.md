@@ -147,7 +147,7 @@ are machine-consumable by token tooling without abandoning the
 ship-complete-stylesheets position. The open half of the question is
 now only the design-tooling side (Figma library or not).
 
-### RFC 7 — Do 80 national identifier components belong in a general design system?
+### RFC 7 — Do 92 national identifier components belong in a general design system?
 
 **Current answer:** yes — they encode real validation knowledge across 30+
 countries, and nothing else in the field covers this.

@@ -9,6 +9,51 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## html-css-js-examples axe + responsive suite failures resolved — 2026-08-30
+
+Closes the spec §11.8 open backlog item measured 2026-08-26 (commit
+`760f7e18b`). Two real defects, plus one flaky finding surfaced while
+chasing them:
+
+1. `e2e/responsive.spec.ts`'s composed-page routes (`/contact-form/`,
+   `/dashboard/`, `/page-layout/`, `/task-management/`,
+   `/timeline-and-cards/`) used trailing-slash directory URLs against an
+   app that serves flat `.html` files — 404s under the Playwright
+   `http-server` webServer config. Switched to `/{slug}.html`, matching
+   `e2e/accessibility.spec.ts`'s existing route shape.
+2. `/navigation-and-menus.html`'s two dropdown menus wrapped
+   `role="menuitem"` `<li>` elements in a bare `<ul>` inside
+   `role="menu"` — axe `list` / `aria-required-children` violations.
+   Fixed to the canonical `<div role="menuitem">` contract with no list
+   markup, matching every other menu in the catalog.
+3. Chasing the axe failure also turned up a flaky color-contrast
+   violation on the same page's mobile-menu button: a
+   parser-blocking-vs-dynamically-appended-stylesheet race, the same
+   class of bug already fixed for Blazor's `/components/dialog`
+   (P7-T17). Fixed with a `gotoAndWaitForTheme` helper wrapping every
+   `goto` in `accessibility.spec.ts`.
+
+No `test()` cases were added or removed — same 27 test blocks / 814
+total specs in the app (§11.4). `accessibility.spec.ts` clean 29/29
+across 5 repeats; full `e2e/` suite 903/903.
+
+While auditing this fix, also corrected long-standing drift unrelated
+to the fix itself: the national personal identifier catalog grew from
+its initial 80 components / 40 types (0.2.0, 2026-05-24) to the
+current **92 components / 46 types** when
+`AGENTS/national-person-identifiers.tsv` was committed six days later
+(2026-05-30), but the old 80/40 figures had never been updated in
+prose — `spec/index.md`, `spec/national-identifiers/index.md`,
+`spec/components/index.md`, both Claude Skills, `llms.txt`/`llms.json`,
+and the root special files (`RFC.md`, `COMPARISONS.md`,
+`AI_STATEMENT.md`, `SECURITY.md`, propagated to all 21 subprojects +
+the docs site by `bin/sync-special-files`) all still said 80/40. Also
+fixed: a leftover "theme-select helper" reference in root `index.md`
+from the July 2026 `theme-select` → `theme-picker` rename, and four
+`bin/` scripts (`check-coverage`, `generate-component-categories`,
+`new-component`, `smoke-packages`) missing from the tool listings in
+`spec/index.md` §9, `AGENTS/lily.md`, and the maintainer skill.
+
 ## P7-T15: react-next-examples and vue-nuxt-examples reach 491/491 component files — 2026-08-30
 
 [tasks.md](tasks.md) P7-T15. Both apps carried only 411 of 491 possible

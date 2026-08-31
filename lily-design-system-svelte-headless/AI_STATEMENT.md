@@ -174,7 +174,7 @@ therefore not in any prompt. Demo content in the example applications is invente
 
 Two points a reader should check rather than take on trust:
 
-- The 80 national personal identifier components validate identifier *formats*
+- The 92 national personal identifier components validate identifier *formats*
   (checksums, structure, normalization). The test fixtures are synthetic values
   constructed to satisfy those algorithms, not real identifiers belonging to real
   people. This is a structural property verifiable against the tree.

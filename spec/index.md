@@ -42,12 +42,12 @@ coding agents.
 | [testing](testing/index.md) | Per-framework test suites, Storybook coverage, Playwright e2e, axe, responsive sweep. |
 | [frameworks](frameworks/index.md) | The seven framework pairs, per-framework file shapes and idioms, the copy-pattern. |
 | [helpers](helpers/index.md) | The `*-helpers` catalogs — theme-picker, locale-picker, text-size-picker — their `<select>` contracts, manifests, and publish pipeline. |
-| [national-identifiers](national-identifiers/index.md) | The 80 national personal identifier components, normalization, validation algorithms. |
+| [national-identifiers](national-identifiers/index.md) | The 92 national personal identifier components, normalization, validation algorithms. |
 | [trusted-publishing](trusted-publishing/index.md) | OIDC publishing to npm/NuGet: the adopt-when-all-forges-are-covered position, readiness table, adoption checklist. |
 | [free-open-source-funding](free-open-source-funding/index.md) | Funding channels (GitHub Sponsors live, Open Collective planned), terms, and the files that must agree. |
 | [special-files-for-public-repos](special-files-for-public-repos/index.md) | The top-level files every published subtree repo carries, copy-vs-generate, the sync tooling. |
 | [dependabot](dependabot/index.md) | Repo-level security updates, the grouped-weekly-PR `.github/dependabot.yml`, and its 31 npm/nuget/github-actions entries. |
-| [agent-skills](agent-skills/index.md) | The `lily-skill` (end-user) and `lily-design-system-maintainer-skill` (maintainer) Claude Skills, what each covers, and the naming split that determines full-subproject treatment. |
+| [agent-skills](agent-skills/index.md) | The `lily-design-system-skill` (end-user) and `lily-design-system-maintainer-skill` (maintainer) Claude Skills, what each covers, and the naming-split retirement. |
 | [llms-json-and-llms-txt](llms-json-and-llms-txt/index.md) | The root and docs-site `llms.txt`/`llms.json` AI guidance files, the llms.txt convention, and why the two pairs' links differ. |
 | [citations](citations/index.md) | Design systems Lily learns from, the NHS UK reference, Reuters Graphics influence. |
 | [trademarks](trademarks.md) | The Lily™ / Lily Design System™ marks, the first-occurrence ™ convention, the standard footer. |
@@ -79,7 +79,7 @@ committing.
   patterns.
 - **Internationalisable**: every user-facing string is supplied by the consumer.
 - **Framework-plural**: same catalog implemented across HTML, Svelte, React, Vue,
-  Blazor, and Nunjucks.
+  Angular, Blazor, and Nunjucks.
 - **CSS-strategy-agnostic**: works with semantic CSS, utility CSS (Tailwind), or
   no CSS at all.
 
@@ -115,41 +115,15 @@ committing.
 
 ## 3. Architecture
 
-```
-lily-design-system/                            ← canonical catalog + tools
-├── AGENTS.md, AGENTS/*.md                     ← modular reference docs
-├── components.tsv                             ← canonical 491-component list
-├── components/{slug}/                         ← per-component docs (491 dirs)
-├── css-style-sheet-template.css               ← class-hook stylesheet template
-├── bin/                                       ← scaffolding, listing, sync, test, publish
-├── spec/                                      ← the specification (this file is spec/index.md
-│                                                 + one topic dir per area)
-├── themes/                                    ← 45 reference theme stylesheets (see §4.4)
-├── lily-design-system-html-headless/          ← headless: HTML
-├── lily-design-system-svelte-headless/        ← headless: Svelte 5
-├── lily-design-system-react-headless/         ← headless: React
-├── lily-design-system-vue-headless/           ← headless: Vue 3
-├── lily-design-system-angular-headless/       ← headless: Angular 20
-├── lily-design-system-blazor-headless/        ← headless: Blazor
-├── lily-design-system-nunjucks-headless/      ← headless: Nunjucks
-├── lily-design-system-html-css-js-examples/   ← examples: vanilla HTML+CSS+JS
-├── lily-design-system-svelte-sveltekit-examples/ ← examples: SvelteKit 2
-├── lily-design-system-react-next-examples/    ← examples: Next.js
-├── lily-design-system-vue-nuxt-examples/      ← examples: Nuxt.js
-├── lily-design-system-angular-examples/       ← examples: Angular 20 + Analog.js
-├── lily-design-system-blazor-web-examples/    ← examples: Blazor Web
-├── lily-design-system-nunjucks-eleventy-examples/ ← examples: Nunjucks + Eleventy
-├── lily-design-system-html-helpers/           ← helpers: HTML
-├── lily-design-system-svelte-helpers/         ← helpers: Svelte 5 (canonical reference)
-├── lily-design-system-react-helpers/          ← helpers: React
-├── lily-design-system-vue-helpers/            ← helpers: Vue 3
-├── lily-design-system-angular-helpers/        ← helpers: Angular 20
-├── lily-design-system-blazor-helpers/         ← helpers: Blazor (Razor class libraries)
-└── lily-design-system-nunjucks-helpers/       ← helpers: Nunjucks
-```
-
-Each subproject is also a `git subtree` so it can be pushed to its own
-standalone remote via `bin/git-subtree-push`.
+The repository root holds the canonical catalog and tools
+(`components.tsv`, `css-style-sheet-template.css`, `bin/`, `spec/`,
+`AGENTS/*.md`, `themes/`); 21 implementation subprojects hang off it —
+7 headless libraries, 7 example apps, and 7 helper catalogs, one per
+framework (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks). Each
+subproject is also a `git subtree` pushed to its own standalone remote
+via `bin/git-subtree-push`. Full directory tree, the per-framework
+table, and the git-subtree/multi-forge publishing model:
+[spec/architecture/](architecture/index.md).
 
 ### The three subproject layers
 
@@ -157,40 +131,22 @@ standalone remote via `bin/git-subtree-push`.
   491-component catalog: unstyled, accessible, zero CSS.
 - **Examples** (7 subprojects) — complete styled reference applications
   demonstrating every component with the NHS UK visual reference.
-- **Helpers** (7 subprojects) — small catalogs of opinionated packages that
-  each own one complete interaction end to end. Every catalog ships five
-  helpers, 35 packages in all. Three own a **user preference** —
-  `theme-picker`, `locale-picker`, `text-size-picker` — as an icon button
-  opening a WAI-ARIA APG listbox, with DOM application (`data-theme`,
-  `lang`/`dir`, `data-text-size`) and optional `localStorage` persistence.
-  `share-picker` owns an **action** and `date-time-picker` owns a **form
-  value**; neither applies anything to the document nor persists anything.
-  All are SSR-safe. The Svelte catalog is the canonical reference; the
-  other six are framework-idiom ports. Each helper publishes to npm
-  (or NuGet for Blazor) via `bin/publish-helpers` and a per-catalog
-  `build.js` dist pipeline. See [spec/helpers/](helpers/index.md).
+- **Helpers** (7 subprojects) — small catalogs of opinionated packages,
+  each owning one complete interaction end to end: `theme-picker`,
+  `locale-picker`, `text-size-picker` (icon button + APG listbox,
+  own a user preference), `share-picker` (an action), and
+  `date-time-picker` (a form value) — 35 packages, SSR-safe, Svelte
+  canonical. See [spec/helpers/](helpers/index.md).
 
-### Required files per subproject
+### Required files
 
-- `index.md` — human-readable overview.
-- `README.md` — symlink to `index.md`.
-- `AGENTS.md` — AI coding help; loads modular `AGENTS/*.md`.
-- `CLAUDE.md` — loads `AGENTS.md`.
-- `spec/index.md` — spec-driven plan + tasks (replaces the older split
-  `plan.md` / `tasks.md`).
-- `.git-subtree-push` — subtree remote configuration.
-
-### Required files per component directory
-
-- `index.md` — component documentation (description, usage, props, ARIA,
-  keyboard, references, "When to Use", "When Not to Use", code example).
-- `README.md` — symlink to `index.md`.
-- `AGENTS.md` — canonical metadata (HTML tag, ARIA, keyboard, props).
-- `CLAUDE.md` — loads `AGENTS.md`.
-- `spec/index.md` — spec-driven plan + tasks (replaces the older split
-  `plan.md` / `tasks.md`).
-
-`bin/test` verifies every component and every subproject has the files above.
+Every subproject and every component directory carries the same core
+set — `index.md`, `README.md` (symlink to `index.md`), `AGENTS.md`,
+`CLAUDE.md`, `spec/index.md` — plus `.git-subtree-push` for
+subprojects. Full per-file purpose tables:
+[spec/architecture/](architecture/index.md#required-files-per-subproject).
+`bin/test` verifies every component and every subproject has the
+required files.
 
 ## 4. Design principles
 
@@ -259,8 +215,8 @@ implementations; the example-app registries are regenerated from it by
 
 The catalog spans forms, navigation, tables, layout, editorial /
 scrollytelling, data visualisation, media, overlays, pickers and
-ratings, semantic entities, and 80 national personal identifier
-components (40 identifier types × `-input` + `-view` across 30+
+ratings, semantic entities, and 92 national personal identifier
+components (46 identifier types × `-input` + `-view` across 30+
 countries). The full category walkthrough lives in
 [spec/components/](components/index.md); the national identifiers in
 [spec/national-identifiers/](national-identifiers/index.md).
@@ -368,15 +324,19 @@ Scripts live in `bin/`:
 | `bin/check-theme`                     | Conformance checks for the 45 reference themes.      |
 | `bin/generate-theme-tokens`           | DTCG token source: extract / generate / drift-check. |
 | `bin/generate-api-docs`               | Site canonical-contract sections from AGENTS metadata; drift-checked. |
+| `bin/check-coverage`                  | Coverage drift matrix: per-component file presence across all 7 headless libraries (beyond `bin/test`'s 3). |
+| `bin/generate-component-categories`   | Regenerate `components-categories.tsv` (per-component HTML tag + category) from `components.tsv`. |
+| `bin/new-component`                   | End-to-end scaffolder: one new placeholder component across every layer `bin/test` verifies. |
+| `bin/smoke-packages`                  | Pack + install each published headless tarball into a scratch consumer and render it — catches `main`-never-built breakage. |
 
 Note on syncing: two syncs run from the canonical root. `bin/sync-special-files`
 propagates the top-level special files (LICENSE, CONTRIBUTING, SECURITY,
-GOVERNANCE, and the rest) into all 22 published subtree repositories, because a
-public repository without a LICENSE is "all rights reserved" whatever the
-monorepo says — see [special-files-for-public-repos](special-files-for-public-repos/index.md).
-For AGENTS: files at the repo root are canonical; `bin/sync` copies
-them into subprojects with `rsync` (not symlinks, because `git subtree push`
-does not follow symlinks across project boundaries).
+GOVERNANCE, …) into all 22 published subtree repositories — a public
+repository without a LICENSE is "all rights reserved" whatever the
+monorepo says (see [special-files-for-public-repos](special-files-for-public-repos/index.md)).
+`bin/sync` copies the canonical root `AGENTS.md`/`AGENTS/*.md` into
+subprojects via `rsync`, not symlinks (`git subtree push` doesn't
+follow symlinks across project boundaries).
 
 ## 10. References
 
@@ -397,18 +357,13 @@ Framework-specific notes:
 
 ### 10.1 Reuters Graphics — editorial / scrollytelling influence
 
-The [Reuters Graphics components](https://github.com/reuters-graphics/graphics-components)
-library inspired Lily's editorial, scrollytelling, and layout primitives
-(`article-layout`, `content-block`, `headline`, `byline`, `scroller*`,
-`feature-photo`, `tile-map`, `visible`, `theme-provider`, and more).
-Reuters is Svelte-specific with SCSS; Lily adapts the patterns to its
-headless, framework-plural, zero-CSS approach — SCSS typography becomes
-consumer CSS on class hooks, named block widths become the
-`--content-width-*` custom-property convention set by `article-layout`
-and read by `content-block`, and Reuters-specific branding/integrations
-are excluded. The full source-to-slug mapping, adaptation table, and
-column-width CSS live in [spec/citations/](citations/index.md) and
-[spec/theme/](theme/index.md).
+[Reuters Graphics components](https://github.com/reuters-graphics/graphics-components)
+inspired Lily's editorial/scrollytelling primitives (`article-layout`,
+`content-block`, `headline`, `byline`, `scroller*`, `feature-photo`,
+`tile-map`, `visible`, `theme-provider`). Reuters is Svelte-specific
+with SCSS; Lily adapts the patterns to its headless, zero-CSS approach
+and excludes Reuters-specific branding. Full mapping and adaptation
+table: [spec/citations/](citations/index.md), [spec/theme/](theme/index.md).
 
 ## 11. Acceptance criteria
 
@@ -435,52 +390,15 @@ checked is considered live work; anything unchecked is queued in §12.
 ### 11.2 Subprojects
 
 - [x] All 7 headless subprojects exist (HTML, Svelte, React, Vue,
-      Angular, Blazor, Nunjucks). As of 2026-08-26 six are published
-      to npm (svelte/react/vue at 0.3.1; html/angular/nunjucks first
-      released at 0.1.0, each verified from a packed tarball in a
-      scratch consumer); `LilyDesignSystem.Blazor.Headless` 0.1.0 is
-      packed, with the NuGet push pending credentials
-      (`bin/publish-headless`). The Angular headless library
-      (Angular 20, signal-based, OnPush, zero-CSS, standalone
-      components) landed on 2026-05-28 and is fully verified as of
-      2026-05-30: `pnpm install` resolves with Analog 1.19.4 pinning,
-      `vitest run` passes 974 / 974 cases across 490 / 490 spec
-      files, `ng-packagr` build emits a clean APF bundle, and
-      `@storybook/angular` 9.1 builds 490 / 490 stories.
-- [x] All 7 example subprojects exist (HTML+CSS+JS, SvelteKit,
-      Next.js, Nuxt.js, Angular + Analog.js, Blazor Web, Nunjucks
-      Eleventy). The Angular + Analog.js app (standalone components,
-      zoneless change detection, file-based routing, Vite SSG)
-      landed on 2026-05-28 with the same copy-pattern the other 6
-      apps use (headless components copied into `src/app/components/`).
-      SSG build is blocked on an upstream Analog issue documented
-      in §11.8.
+      Angular, Blazor, Nunjucks), each fully verified. Per-framework
+      npm/NuGet publish status: [CHANGELOG.md](../CHANGELOG.md).
+- [x] All 7 example subprojects exist (HTML+CSS+JS, SvelteKit, Next.js,
+      Nuxt.js, Angular + Analog.js, Blazor Web, Nunjucks Eleventy).
 - [x] All 7 helper subprojects exist (Svelte canonical, plus React, Vue,
-      Angular, HTML, Nunjucks, Blazor ports). Each catalog ships five
-      helpers — `theme-picker`, `locale-picker`, `text-size-picker`,
-      `share-picker`, `date-time-picker` — for 35 packages, all at 0.1.0
-      after the July 2026 rename reset them, with per-package manifests
-      (npm `package.json`, or NuGet `.csproj` for Blazor), dist build
-      pipelines (`build.js`), and CHANGELOGs. The first three are icon
-      button + APG listbox; `share-picker` is a disclosure of real links;
-      `date-time-picker` is a text field + APG date-picker dialog.
-      Verified 2026-07-29: 1835 tests pass across the seven catalogs
-      (svelte 208, react 264, vue 261, html 291, nunjucks 318,
-      angular 290, blazor 203). The +168 over the 2026-07-28 count is
-      two accessibility-hardening sweeps, each canonical-Svelte-first
-      then ported to the six sibling catalogs, recorded in every
-      package's CHANGELOG under "Unreleased": the date-time-picker
-      sweep (aria-disabled days, focus-return-to-opener, header-vs-grid
-      paging focus, optional `invalid` status live region and
-      `instructions` dialog help, field Escape revert, aria-modal
-      click-outside coherence) and the sibling-picker sweep
-      (Tab-out-via-button focus preservation in all four pickers, APG
-      single-character typeahead cycling, PageUp/PageDown, empty-list
-      aria-activedescendant guard, locale endonym default labels with a
-      truthful conditional `lang`, share-picker list naming). Blazor's
-      listbox pickers deliberately omit the Tab refocus — its async
-      event order means the bug cannot occur there and the refocus
-      would regress; its share-picker does take it.
+      Angular, HTML, Nunjucks, Blazor ports), each shipping the five
+      `*-picker` helpers (35 packages). Per-catalog test counts:
+      [spec/testing/](testing/index.md); the accessibility-hardening
+      sweeps that produced the current counts: §14.1.
 - [x] All 21 subprojects have required files (`index.md`, `README.md`
       symlink, `AGENTS.md`, `CLAUDE.md`, `spec/index.md`, `.git-subtree-push`).
       All use the spec-driven `spec/index.md` layout the May 2026 migration
@@ -503,81 +421,46 @@ checked is considered live work; anything unchecked is queued in §12.
 - [x] `bin/sync` keeps shared files in sync (rsync, not symlink).
 - [x] `bin/git-subtree-push` pushes each subtree to its remote.
 
-### 11.4 Verified (snapshot as of 2026-05-30; catalog counts updated to 490 on 2026-07-03; the catalog grew to 491 on 2026-07-07 with `image-cropper` — the snapshot numbers below predate it)
+### 11.4 Verified (point-in-time snapshots; catalog counts updated to 490 on 2026-07-03, then 491 on 2026-07-07 with `image-cropper`)
 
-> The exact case counts in §11.4–§11.7 are point-in-time verification
-> records, not live claims; re-run the suites for current numbers.
+> Full per-framework test counts, Storybook coverage, and Playwright
+> e2e counts live in [spec/testing/index.md](testing/index.md) —
+> kept there rather than duplicated here. This section holds only the
+> catalog-implementation checklist and a one-line pointer per suite;
+> re-run the suites for current numbers.
 
 - [x] `css-style-sheet-template.css` audit: 490 / 490 canonical slugs have
       a class hook; 3 additional documented sub-element hooks
       (`accordion-checkbox-input`, `accordion-checkbox-label`,
       `accordion-checkbox-panel`).
-- [x] All 6 long-standing headless and 6 long-standing example
-      subprojects implement all 490 canonical components. The 80
-      newly-added national personal identifier components (May 2026)
-      shipped per-subproject implementations in Phase 2 (commits
-      50841648..490282db): Svelte, React, Vue, HTML, Blazor, Nunjucks
-      headless libraries plus all 6 example apps. Sample tests pass
-      in every framework that has runnable tests (38 svelte, 19
-      react, 19 vue, 17 nunjucks, 9 blazor sample tests verified).
-      The seventh pair (Angular headless + Angular Analog examples,
-      added 2026-05-28) also implements all 490 components in the
-      same canonical layout; angular-headless ships 490 / 490
-      working .ts + .spec.ts + .stories.ts triplets, and the
-      examples app copies the 490 .ts components into
-      `src/app/components/`.
+- [x] All 7 headless and 7 example subprojects implement all 491
+      canonical components in the same canonical layout, including the
+      national personal identifier components (Phase 2 per-subproject
+      implementation, spec §11.8) and the Angular pair (angular-headless
+      ships 490 / 490 working `.ts` + `.spec.ts` + `.stories.ts` triplets
+      as of its 2026-05-30 verification; catalog counts have grown since).
 - [x] Cross-subproject name consistency: TabGroup removed,
       `medical-record-red-box` renamed; no orphans remain.
-- [x] Per-framework test suites cover every component in every subproject
-      (re-verified 2026-08-26, all passing):
-      - svelte-headless: 4,906 vitest cases across 983 dual-mirror spec
-        files — every one of the 491 components is specced in both
-        mirror trees, the 80 national identifiers included (the July
-        2026 "separate sweep" note is closed).
-      - react-headless: 2,665 vitest cases across 491 spec files.
-      - vue-headless: 2,655 vitest cases across 491 spec files.
-      - angular-headless: 985 vitest cases across 491 spec files.
-      - blazor-headless: 1,502 bUnit cases.
-      - nunjucks-headless: 2,844 vitest cases across 491 spec files.
-      - html-headless: 491 WebDriverIO spec files (file count verified;
-        the WDIO browser run was not re-executed in this sweep).
-      - helper catalogs: 1,847 (svelte 211, react 267, vue 261,
-        html 294, nunjucks 321, angular 290, blazor 203).
+- [x] Per-framework unit test suites cover every component in every
+      headless subproject and helper catalog (re-verified 2026-08-26,
+      all passing) — counts and runners: [spec/testing/index.md](testing/index.md).
 - [x] Per-framework CSS class-name audit: 490 / 490 components in every
       headless subproject reference their canonical kebab-case base class.
-- [x] Storybook story coverage across headless: 491 / 491 story files
-      in svelte, react, vue, html, nunjucks, angular (6 frameworks with
-      Storybook; blazor does not — see §11.7). Re-counted 2026-08-26;
-      the nunjucks `image-cropper` story, the one file missing, was
-      added the same day.
-- [x] Playwright e2e coverage on all 5 browser-runnable example apps:
-      - svelte-sveltekit-examples: 1,221 specs.
-      - react-next-examples: 1,221 specs.
-      - vue-nuxt-examples: 1,221 specs.
-      - blazor-web-examples: 1,221 specs.
-      - html-css-js-examples: 814 specs.
-      - nunjucks-eleventy-examples: 612 specs.
-      - angular-examples: 1,542 specs — landed and green 2026-08-26
-        (491 per-component pages × 3 assertions, axe on every
-        top-level and composed route, responsive sweep).
+- [x] Storybook story coverage: 491 / 491 in svelte, react, vue, html,
+      nunjucks, angular; Blazor deliberately has none — detail:
+      [spec/testing/index.md](testing/index.md).
+- [x] Playwright e2e coverage on all 7 example apps (5,852 specs total
+      as of 2026-08-26) — per-app counts: [spec/testing/index.md](testing/index.md).
 
-### 11.5 Accessibility audit (axe-core via Playwright; snapshot as of 2026-05-30)
+### 11.5 Accessibility audit (axe-core via Playwright)
 
-axe-core / Playwright integration shipped across all 6 example apps.
-Per-app baseline (axe-clean routes / total checked):
-
-| App                            | Clean | Notes                                |
-| ------------------------------ | ----- | ------------------------------------ |
-| svelte-sveltekit-examples      | 29/29 | ✅ full pass                          |
-| react-next-examples            | 29/29 | ✅ full pass                          |
-| vue-nuxt-examples              | 29/29 | ✅ full pass                          |
-| blazor-web-examples            | 29/29 | ✅ full pass                          |
-| html-css-js-examples           | 29/29 | ✅ full pass                          |
-| nunjucks-eleventy-examples     | 17/17 | ✅ full pass                          |
-| angular-examples               | 30/30 | ✅ full pass (2026-08-26); axe found 7 real violations on first run — wrapper-host list structure, prohibited aria-label — fixed same day |
-| svelte-sveltekit — **full catalog** | 491/491 | ✅ first complete per-component baseline (2026-08-27, `e2e/axe-catalog.spec.ts`); the initial run found 24 failing pages — see §11.5a |
-
-axe rule set: WCAG 2.0 A+AA, 2.1 A+AA, 2.2 AA.
+Per-app axe-core baseline and the WCAG rule set live in
+[spec/accessibility/index.md](accessibility/index.md); all 7 example
+apps are clean on their full route baseline as of 2026-08-26. The one
+exception worth calling out here rather than there: svelte-sveltekit's
+first full 491/491 per-component catalog sweep (2026-08-27,
+`e2e/axe-catalog.spec.ts`) found 24 failing pages, every one a real
+defect — see §11.5a.
 
 ### 11.5a Full-catalog sweep findings (2026-08-27)
 
@@ -602,56 +485,21 @@ P4-T1) found 24 failures in 7 rule families, every one a real defect:
   (ai-label); darkened to L=0.52 with the reasoning recorded in each
   token's `$description`.
 
-### 11.6 Responsive viewport sweep (snapshot as of 2026-05-30)
+### 11.6 Responsive viewport sweep
 
-Responsive smoke check across 4 viewport sizes (mobile 375×667,
-tablet 768×1024, desktop 1280×800, 4K 2560×1440) ported to all 6
-example apps. Tests assert: skip-link present, `<main>` and H1
-visible, no horizontal page overflow.
+Ported to all 7 example apps across 4 viewport sizes (mobile, tablet,
+desktop, 4K), asserting skip-link presence, `<main>`/H1 visibility,
+and no horizontal overflow. Per-app route shapes and the exact
+viewport sizes: [spec/testing/index.md](testing/index.md).
 
-Each app loads ~10 representative routes (home, catalog, sample
-component-detail pages, key composed pages) × 4 viewports = ~40
-checks per app. Route paths adjusted per app:
+### 11.7 Storybook coverage
 
-| App                            | Route shape                                          |
-| ------------------------------ | ---------------------------------------------------- |
-| svelte-sveltekit-examples      | `/components/{slug}`, `/page-layout` (no slashes)    |
-| react-next-examples            | `/components/{slug}`, `/page-layout` (no slashes)    |
-| vue-nuxt-examples              | `/components/{slug}`, `/page-layout` (no slashes)    |
-| blazor-web-examples            | `/components/{slug}`, `/page-layout` (no slashes)    |
-| html-css-js-examples           | `/components/component.html?slug={slug}`, trailing slash on composed |
-| nunjucks-eleventy-examples     | `/components/{slug}/` (trailing slash), no composed pages built yet  |
-
-The nunjucks-eleventy app skips composed-page routes (only catalog
-+ component-detail pages are built), and tests skip individually if
-a built route 404s.
-
-### 11.7 Storybook coverage (snapshot as of 2026-05-30)
-
-| Library              | Storybook    | Stories       |
-| -------------------- | ------------ | ------------- |
-| html-headless        | yes (vite)   | 490 / 490     |
-| svelte-headless      | yes (vite)   | 490 / 490     |
-| react-headless       | yes (vite)   | 490 / 490     |
-| vue-headless         | yes (vite)   | 490 / 490     |
-| nunjucks-headless    | yes (vite)   | 490 / 490     |
-| angular-headless     | yes (webpack)| 490 / 490     |
-| blazor-headless      | no           | not planned   |
-
-Angular headless uses `@storybook/angular` 9.1 with the
-`@storybook/angular:build-storybook` Angular builder (webpack-based;
-Storybook 9 does not yet ship a first-class Vite builder for
-Angular). An `angular.json` scaffold declares the `storybook` and
-`build-storybook` architect targets and points them at
-`.storybook/tsconfig.json`. All 490 stories render with the same
-`title: "Headless/{Pascal}"` + single `Default` story shape used by
-the other 5 Storybook-wired libraries.
-
-Blazor headless deliberately skips Storybook: there is no idiomatic
-`@storybook/blazor` framework, and the runtime-rendering pipeline
-(bUnit + `dotnet watch`) covers the same exploration use case. A
-static-HTML pre-render pipeline would be possible but adds tooling
-overhead that the project hasn't chosen to pay.
+491 / 491 stories in svelte, react, vue, html, nunjucks, angular (6
+of 7 headless libraries); Blazor deliberately has none — there is no
+idiomatic `@storybook/blazor`, and bUnit + `dotnet watch` covers the
+same exploration use case. Angular uses the webpack-based
+`@storybook/angular` builder rather than Vite. Full table:
+[spec/testing/index.md](testing/index.md).
 
 ### 11.8 Open backlog
 
@@ -683,13 +531,21 @@ this list holds only what is genuinely open.
       overflow went with the shared theme guards, and the
       document-title cases were circuit-timing flakes the reworked
       run no longer hits.
-- [ ] **HTML example app: axe + responsive suites failing.** Measured
-      2026-08-26 on the pre-theme-wiring tree: 48 of 69 checks fail —
-      composed-page trailing-slash routes 404 under the `http-server`
-      config the Playwright webServer uses, and the
-      `component.html?slug=` sample pages fail axe. The §11.5 "29/29
-      clean" May snapshot no longer reproduces. Needs its own sweep:
-      route-shape fix (or server config), then per-finding fixes.
+- [x] HTML example app axe + responsive suite failures: resolved
+      2026-08-30 (commit `760f7e18b`). Two real defects: `responsive.spec.ts`'s
+      composed-page routes used trailing-slash directory URLs against an
+      app that serves flat `.html` files (404s, 20/40 checks); switched to
+      `/{slug}.html`, matching `accessibility.spec.ts`'s existing shape.
+      `navigation-and-menus.html`'s two dropdown menus wrapped
+      `role="menuitem"` `<li>` in a bare `<ul>` inside `role="menu"` (axe
+      `list`/`aria-required-children`); fixed to the canonical
+      `<div role="menuitem">` contract with no list markup. Chasing the
+      axe failure also found a flaky color-contrast violation on the
+      same page's mobile-menu button — the same parser-blocking-vs-
+      dynamically-appended-stylesheet race already fixed for Blazor's
+      `/components/dialog` (P7-T17) — fixed with the same
+      `gotoAndWaitForTheme` wait. `accessibility.spec.ts` clean 29/29
+      across 5 repeats; full `e2e/` suite 903/903.
 - [ ] **Angular headless wrapper-host semantics.** First-ever axe run
       against the Angular app showed that element-selector components
       break DOM structures with required parent-child semantics: the
@@ -729,42 +585,26 @@ completed epochs:
 
 ### 12.2 Open backlog
 
-Backlog items live in §11.4 and are not duplicated here. New work items added
+Backlog items live in §11.8 and are not duplicated here. New work items added
 during ongoing development should be appended there (or to the appropriate
 section), not into a separate `tasks.md`.
 
 ## 13. Roadmap
 
-Near-term focus:
+Near-term focus: close the remaining §11.8 backlog item (Angular
+headless wrapper-host semantics); expand composed-page demos beyond
+the required routes.
 
-1. Catalog and css-template audit — close §11.4 items.
-2. Cross-subproject component coverage audit — ensure all 491 components are
-   implemented in every headless and example subproject.
-3. Test-coverage audit — vitest, bUnit, Playwright e2e cover every component.
-
-Medium-term:
-
-- Wire the `themes/` reference stylesheets into the example subprojects
-  as switchable alternatives via the `theme-picker` helper. **Done in
-  all seven example apps 2026-08-26** (runtime theme layer, curated
-  ten-theme list, NHS England patients default, persistence, e2e in
-  every app — plan P3-T1/T2).
-- Expand composed-page demos beyond the required routes.
-
-Long-term:
-
-- Versioned releases per subproject npm/NuGet package (started: the 21
-  helper packages publish via `bin/publish-helpers`; theme-picker and
-  locale-picker, text-size-picker and share-picker all at 0.1.0 —
-  the July 2026 rename reset them, see §14.1).
-- Contributor onboarding documentation (currently informal).
+Long-term: versioned releases per subproject npm/NuGet package
+(started — see §14.1); contributor onboarding documentation
+(currently informal).
 
 ## 14. Tracking
 
 - Package: lily
 - Version: 0.6.0
 - Created: 2025-08-09
-- Updated: 2026-08-26
+- Updated: 2026-08-30
 - License: `MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause`
   (SPDX expression; or contact for other terms). See
   [LICENSE.md](../LICENSE.md) — it is the single source of truth, and every
@@ -778,175 +618,92 @@ Long-term:
 
 ### 14.1 Changelog highlights
 
+- **HTML example app axe + responsive suite failures resolved
+  (2026-08-30)** — closed the §11.8 open backlog item measured
+  2026-08-26. Two real defects, plus one flaky one found while chasing
+  them: `responsive.spec.ts` composed-page routes used trailing-slash
+  directory URLs against an app serving flat `.html` files (404s);
+  `navigation-and-menus.html`'s dropdown menus wrapped `role="menuitem"`
+  `<li>` in a bare `<ul>` (axe `list`/`aria-required-children`); and a
+  parser-blocking-stylesheet race gave a flaky color-contrast finding on
+  the same page, fixed with the `gotoAndWaitForTheme` wait already used
+  for the parallel Blazor fix (P7-T17). No test cases added or removed;
+  `accessibility.spec.ts` clean 29/29 across 5 repeats, full `e2e/`
+  903/903. Also corrected long-standing drift: the national personal
+  identifier catalog grew from its initial 80 components / 40 types
+  (0.2.0, 2026-05-24) to the current **92 components / 46 types**
+  (`AGENTS/national-person-identifiers.tsv`, committed 2026-05-30) but
+  the old 80/40 figures had persisted in prose across the spec, both
+  Claude Skills, `llms.txt`/`llms.json`, and the root special files —
+  corrected repo-wide. Full record: [CHANGELOG.md](../CHANGELOG.md).
 - **Pointer-selection close is now part of the contract (2026-07-31)**
-  — a report that a pointer selection might leave the listbox open
-  prompted an audit of all seven catalogs. It does not: clicking an
-  option closes in every catalog, verified in jsdom, bUnit, and a real
-  Chromium. The defect was in the contract — only the keyboard clause
-  promised the close, the pointer clause said "selects and applies", and
-  no catalog except HTML asserted it. The clause now reads "selects it,
-  applies it, and closes the listbox" in all seven, each pointer test
-  asserts `aria-expanded` and `hidden`, and `AGENTS/helpers.md` states
-  the rule. Test counts unchanged — existing tests tightened, not new
-  ones added. Full record: [CHANGELOG.md](../CHANGELOG.md).
+  — clicking an option already closed the listbox in all seven
+  catalogs, but only the keyboard clause said so; the pointer clause
+  just said "selects and applies". The contract now reads "selects it,
+  applies it, and closes the listbox" everywhere, and every pointer
+  test asserts `aria-expanded` + `hidden`. Full record:
+  [CHANGELOG.md](../CHANGELOG.md).
 - **Idempotent apply in the preference pickers (2026-07-31)** — the
-  three preference helpers re-ran their apply step whenever the
-  framework re-evaluated it, not only when the value changed, so the
-  consumer's change callback fired on every run. In Svelte that made a
-  callback as ordinary as `count += 1` re-enter the `$effect` until
-  Svelte abandoned updating the component
-  (`effect_update_depth_exceeded`): the picker froze mid-open with a
-  stale `aria-expanded` over a hidden list, so every later click missed.
-  HTML re-entered through `attributeChangedCallback`, which fires on an
-  unchanged `setAttribute` too; nunjucks through its `setX` controller;
-  React merely double-fired. Apply is now a no-op for a value already
-  applied, in svelte, html, nunjucks and react. Angular, Vue and Blazor
-  were verified clean and left unchanged; `share-picker` and
-  `date-time-picker` apply nothing and never had it. 1847 tests pass
-  (svelte 211, react 267, vue 261, html 294, nunjucks 321, angular 290,
-  blazor 203) — the 1835 baseline plus twelve regression tests, each
-  confirmed to fail without the guard. Full record:
+  three preference helpers re-ran their apply step (and fired the
+  consumer's change callback) on every re-evaluation, not only when
+  the value changed; in Svelte this looped an ordinary `count += 1`
+  callback into `effect_update_depth_exceeded`, freezing the picker
+  mid-open. Apply is now a no-op for an already-applied value in
+  svelte, html, nunjucks, and react (angular/vue/blazor were already
+  clean). 1847 tests pass across the seven catalogs. Full record:
   [CHANGELOG.md](../CHANGELOG.md).
-- **Sibling-picker accessibility hardening (2026-07-29)** — an audit of
-  theme-, locale-, text-size- and share-picker found five defects, fixed
-  canonical-first then ported to all seven catalogs: Tab out of an open
-  picker no longer restarts keyboard focus from the top of the page
-  (focus routes through the trigger button; Blazor's listbox pickers
-  documentedly omit this because their async event order makes the bug
-  impossible); APG single-character typeahead cycling; PageUp/PageDown;
-  an empty-list `aria-activedescendant` guard; locale-picker defaults
-  to **endonym** labels ("Cymraeg" not "Welsh", via the new
-  `localeEndonym()`) with `lang` claimed only when true — ending the
-  wrong-voice defect of English labels marked as foreign text; and the
-  share-picker list gains its accessible name. 1835 tests pass
-  (svelte 208, react 264, vue 261, html 291, nunjucks 318, angular 290,
-  blazor 203). Full record: [CHANGELOG.md](../CHANGELOG.md).
-- **date-time-picker accessibility hardening (2026-07-29)** — seven
-  changes across all seven catalogs, canonical-first: vetoed days become
-  `aria-disabled` + `data-disabled` (focusable and announced, never the
-  `disabled` attribute — the 45 themes' day rules moved to
-  `[data-disabled]` to match); dialog close returns focus to the element
-  that opened it; header paging no longer steals focus into the grid;
-  optional `labels.invalid` adds a `role="status"` live region wired via
-  `aria-errormessage`; optional `labels.instructions` adds dialog
-  keyboard help via `aria-describedby`; field `Escape` discards a
-  pending typed edit; and click-outside now includes the component's own
-  text field, honouring `aria-modal`. Porting surfaced and fixed a
-  latent Blazor bug (day `ElementReference` map keyed by reused-element
-  ISO date) and an Angular render-timing requirement
-  (`detectChanges()` before focusing freshly-paged cells). 1717 tests
-  pass (svelte 192, react 247, vue 248, html 274, nunjucks 297,
-  angular 272, blazor 187). Full record: [CHANGELOG.md](../CHANGELOG.md).
-- **Helpers renamed to `*-picker` (2026-07-21)** — every helper package
-  in all seven catalogs is renamed: `theme-select` → `theme-picker`,
-  `locale-select` → `locale-picker`, `text-size-select` →
-  `text-size-picker`, `share-button` → `share-picker`. Full depth:
-  directories, npm/NuGet package ids, exported symbols, CSS class hooks,
-  `data-lily-*` attributes, framework selectors and element tags. The
-  catalog components `theme-select` / `theme-select-option` — two of the
-  490 in `components.tsv` — are **not** affected and keep their names;
-  they merely used to share the `.theme-select` class hook, which is why
-  the 45 `themes/*.css` needed a `:has(> .theme-select-button)` guard to
-  tell helper from component. The rename dissolves that collision, so
-  the guard is deleted. `share-picker` also loses its
-  `share-button-trigger` naming exception, since `.share-picker-button`
-  no longer reads badly. Every package resets to **0.1.0**: a renamed
-  package has no history under its new name, and nothing had been
-  published, so the reset costs nothing; prior history is preserved in
-  each CHANGELOG under a provenance heading. All 1231 tests pass with
-  **unchanged counts** in every catalog — this was a rename, not a
-  behaviour change. Also fixed along the way: `el?.scrollIntoView(...)`
-  guarded the element but not the method, so it threw under jsdom in the
-  canonical theme- and locale-picker after `activeIndex` was already
-  assigned — 45 silent unhandled exceptions with the suite still green,
-  the same shape as the earlier `CSS.escape` bug. Full record:
-  [CHANGELOG.md](../CHANGELOG.md).
-- **Helpers — text-size-select 0.2.0, share-button 0.1.0 (2026-07-21)** —
-  `text-size-select` drops the native `<select>` for the same icon
-  button + APG listbox as its siblings, so all three preference helpers
-  finally share one shape; its glyph is `"A"` (U+0041), chosen because
-  the obvious U+1F5DB has no real glyph in common font stacks. A new
-  `share-button` helper lands: a ➤ button that opens the native share
-  sheet where the platform has one and otherwise a disclosure list of
-  consumer-supplied destinations plus copy-to-clipboard. It is the first
-  helper that owns an *action* rather than a preference — applying
-  nothing, persisting nothing — so `AGENTS/helpers.md`'s definition is
-  widened. It ships no social-network endpoints, and its destinations are
-  real links rather than `role="menuitem"` so middle-click and
-  open-in-new-tab survive. Two latent bugs fixed: `CSS.escape` was
-  throwing under jsdom in all three `*-select` helpers after
-  `activeIndex` was already set, leaving the suites green while the path
-  never ran; and `bin/publish-helpers` globbed `*-select`, which would
-  have silently skipped `share-button` at release. Full record:
-  [CHANGELOG.md](../CHANGELOG.md).
-@@HIST1@@
-@@HIST2@@
-- **0.6.0 (2026-07-03)** — Tooling hardening and release hygiene.
-  `bin/test` now exits non-zero on failure and cross-checks the catalog
-  against component dirs, CSS hooks, and all twelve example-app
-  registries; `bin/generate-registries` regenerates every registry from
-  `components.tsv` + the canonical demo map; `bin/check-links` verifies
-  markdown links (89 broken links fixed); CI added. theme-picker and
-  locale-picker released as the breaking 0.2.0. This file slimmed from
-  76 KB to under 40 KB; the Analog SSG engineering log relocated to the
-  angular-examples docs with a ready-to-file upstream issue draft. Full
+- **Sibling-picker accessibility hardening (2026-07-29)** — five
+  defects fixed canonical-first then ported to all seven catalogs:
+  Tab-out-of-open-picker focus preservation, APG typeahead cycling,
+  PageUp/PageDown, an empty-list `aria-activedescendant` guard, and
+  locale-picker defaulting to **endonym** labels ("Cymraeg" not
+  "Welsh") with `lang` claimed only when true. 1835 tests pass. Full
   record: [CHANGELOG.md](../CHANGELOG.md).
-- **0.5.0 (2026-07-03)** — Spec-driven development moves from single
-  `spec.md` files to `spec/` directories entered via `spec/index.md`,
-  across the repo root (this file — the former monolith merged with the
-  topic hub), all 21 subprojects, all 490 component directories, the
-  github.io route directories, and the helper packages; `bin/test` and
-  the scaffolders follow. The helpers layer and reference themes land;
-  the theme-picker/theme-select collision is resolved. Seven `*-helpers`
-  subprojects (Svelte canonical + React, Vue, Angular, HTML, Nunjucks,
-  Blazor ports) each ship three native-`<select>` helpers — `theme-select`,
-  `locale-select`, `text-size-select` — at v0.1.0 with npm/NuGet manifests,
-  dist build pipelines, and a `bin/publish-helpers` release script. A root
-  `themes/` directory adds 45 reference theme stylesheets (NHS
-  England/Scotland/Wales patient + practitioner variants, GOV.UK GDS,
-  USWDS, Adobe Spectrum, Mozilla Protocol, and general-purpose themes).
-  The June catalog migration of `theme-picker` → `theme-select` had
-  collided with the pre-existing `theme-select` (duplicate slug, duplicate
-  CSS hooks, duplicated registry/demo entries, orphaned `ThemePicker*`
-  implementation files); the collision is now resolved by merging onto the
-  native-`<select>` `theme-select` and dropping the radio-group picker and
-  its `theme-select-button` companion — the canonical catalog goes from
-  492 to 490 components, and all stale files, exports, demo entries, and
-  stylesheet rules are removed across the 14 implementation subprojects
-  and `lilydesignsystem.github.io`. Example-app catalog registries
-  backfilled to the full 490 (SvelteKit / Next.js / Nuxt / HTML apps were
-  missing the 80 national-identifier entries; github.io was missing the
-  five 0.4.0 additions). Docs harmonised: helpers + themes in the
-  architecture, `bin/publish-helpers` in tooling, spec/ topic docs
-  updated (helpers contracts now document the `<select>` markup), and a
-  root `CHANGELOG.md` added — see it for the full 0.5.0 record.
-- **0.4.0 (2026-05-30)** — Catalog grows from 487 to 492 components
-  across two batches. Batch one adds `question`, `answer` and rewrites
-  `comment` (`<article>` → `<div>`, broader description) as a generic
-  discourse triad. Batch two adds `addressograph-box` (patient/recipient
-  ID box, `<div>`), `barcode-image` (1D scanner symbology, `<img>`),
-  and `draft` (in-progress content wrapper, `<div>` with optional
-  `data-status`). Existing `qr-code` renamed to `qr-code-image` for
-  symmetry with `barcode-image`. All 5 new components propagated across
-  the 14 implementation subprojects + `lilydesignsystem.github.io`
-  (headless implementations, tests, Storybook stories, example-app
-  demo registries, github.io route pages). `AGENTS/components.md`
-  trimmed from 55 KB to 7 KB by replacing the duplicated 492-line
-  catalog listing with a pointer to the canonical `components.tsv`.
-- **0.3.0 (2026-05-30)** — 7th headless + 7th example pair
-  (Angular 20 + Analog.js v1) land. angular-headless verified
-  end-to-end (974/974 vitest, ng-packagr APF build,
-  `@storybook/angular` with 490/490 stories). angular-examples
-  build still blocked on upstream Analog SSR issue (see §11.8).
-  Canonical national-identifier reference files
-  (`AGENTS/{countries.tsv,national-person-identifiers.tsv,
-  national-personal-identifier-normalization.md}`) committed at
-  root and propagated to all 12 subprojects.
-- **0.2.0 (2026-05-24)** — 80 national personal identifier
-  components added across 30+ countries, bumping the canonical
-  count from 407 to 492. axe-core baseline reaches 29/29 on every
-  example app. Responsive viewport sweep ported to all 6 example
-  apps. spec.md replaces the older split plan.md / tasks.md.
+- **date-time-picker accessibility hardening (2026-07-29)** — seven
+  changes across all seven catalogs: vetoed days become `aria-disabled`
+  + `data-disabled` (never plain `disabled`), dialog close returns
+  focus to its opener, header paging no longer steals grid focus,
+  optional `invalid`/`instructions` labels add a status region and
+  keyboard help, field `Escape` reverts a pending edit, and
+  click-outside now honours `aria-modal`. 1717 tests pass. Full
+  record: [CHANGELOG.md](../CHANGELOG.md).
+- **Helpers renamed to `*-picker` (2026-07-21)** — every helper package
+  in all seven catalogs renamed: `theme-select` → `theme-picker`,
+  `locale-select` → `locale-picker`, `text-size-select` →
+  `text-size-picker`, `share-button` → `share-picker` (directories,
+  package ids, exported symbols, CSS hooks, selectors, element tags).
+  The catalog components `theme-select`/`theme-select-option` are
+  **not** affected. Every package resets to **0.1.0** (nothing had
+  been published under the old names). 1231 tests pass, unchanged
+  counts. Full record: [CHANGELOG.md](../CHANGELOG.md).
+- **Helpers — text-size-select 0.2.0, share-button 0.1.0 (2026-07-21)**
+  — `text-size-select` drops the native `<select>` for the same icon
+  button + APG listbox as its siblings (glyph `"A"`, U+0041). A new
+  `share-button` helper lands — the first to own an *action* rather
+  than a preference, applying and persisting nothing, with real `<a>`
+  destinations rather than `role="menuitem"` and no bundled
+  social-network endpoints. Full record: [CHANGELOG.md](../CHANGELOG.md).
+
+Older epochs (full detail in [CHANGELOG.md](../CHANGELOG.md), one entry
+per version):
+
+- **0.6.0 (2026-07-03)** — Tooling hardening: `bin/test` exits non-zero
+  on failure and cross-checks catalog/registries; `bin/generate-registries`
+  and `bin/check-links` land; theme-picker/locale-picker reach 0.2.0.
+- **0.5.0 (2026-07-03)** — Spec-driven development moves to `spec/`
+  directories everywhere; the helpers layer and 45 reference themes
+  land; the theme-picker/theme-select naming collision is resolved
+  (catalog goes from 492 to 490 components).
+- **0.4.0 (2026-05-30)** — Catalog grows from 487 to 492: `question`,
+  `answer`, reworked `comment`, `addressograph-box`, `barcode-image`,
+  `draft`; `qr-code` renamed `qr-code-image`.
+- **0.3.0 (2026-05-30)** — 7th headless + 7th example pair (Angular 20
+  + Analog.js) land, fully verified. Canonical national-identifier
+  reference files committed at root.
+- **0.2.0 (2026-05-24)** — Initial 80 national personal identifier
+  components added (since grown to 92 — see the 2026-08-30 entry
+  above), bumping the canonical count from 407 to 492. axe-core and
+  the responsive sweep land on every example app.
 
 ---
 

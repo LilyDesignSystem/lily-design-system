@@ -1,16 +1,33 @@
 #!/bin/sh
 # Consumer smoke test for the published npm packages.
 #
-# Packs each headless library, installs the tarballs into a scratch
-# consumer project, and imports/renders components the way a consumer
-# would. This is the check that would have caught the 0.2.0 breakage,
-# where every package declared a `main` that was never built and no
-# test imported the package as a package.
+# Packs each headless library plus all five helper pickers
+# (theme-picker, locale-picker, text-size-picker, share-picker,
+# date-time-picker) in each of the six npm-published helper catalogs
+# (svelte, react, vue, angular, html, nunjucks — 30 packages), installs
+# the tarballs into a scratch consumer project, and imports/renders
+# components the way a consumer would, in each framework's own idiom:
+# React/Vue via SSR (renderToStaticMarkup / renderToString), Svelte via
+# a real consumer Vite/SSR build, Angular via the same shallow
+# export-is-a-class check the headless library already gets (a real
+# render needs @angular/platform-server or jsdom+TestBed — more than
+# this script owns today), HTML helpers via jsdom (they're real custom
+# elements, unlike the headless library's string-template snippets),
+# and Nunjucks helpers by rendering the .njk macro directly by path
+# (the packages are ESM-only client-runtime JS with no
+# templatesDir/macroPath() export to import). This is the check that
+# would have caught the 0.2.0 breakage, where every package declared a
+# `main` that was never built and no test imported the package as a
+# package. The Blazor helper catalog is NuGet, not npm, so it isn't
+# covered here — same as Blazor headless.
 #
 # Usage: bin/smoke-packages [scratch-dir]
 # Exits non-zero on any failure. Requires node + npm; the angular
-# check needs the package's dist/ to exist (run its ng-packagr build
-# first — bin/publish-headless does).
+# headless and helper checks need their packages' dist/ to exist (run
+# ng-packagr first — bin/publish-headless / the helpers catalog build
+# does); each helper catalog's 5 picker packages need that catalog's
+# dist/ built (cd lily-design-system-{fw}-helpers && npm run build, or
+# bin/publish-helpers).
 set -eu
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -19,7 +36,12 @@ mkdir -p "$S/consumer"
 echo "scratch: $S"
 
 echo "== pack =="
-for d in svelte react vue html nunjucks; do
+if [ -d "$ROOT/lily-design-system-svelte-headless/dist" ]; then
+  ( cd "$ROOT/lily-design-system-svelte-headless" && npm pack --pack-destination "$S" ) > /dev/null
+else
+  echo "svelte: dist/ missing — run its build first (cd lily-design-system-svelte-headless && node build.mjs)" >&2; exit 1
+fi
+for d in react vue html nunjucks; do
   ( cd "$ROOT/lily-design-system-$d-headless" && npm pack --pack-destination "$S" ) > /dev/null
 done
 if [ -d "$ROOT/lily-design-system-angular-headless/dist" ]; then
@@ -27,12 +49,38 @@ if [ -d "$ROOT/lily-design-system-angular-headless/dist" ]; then
 else
   echo "angular: dist/ missing — run ng-packagr first" >&2; exit 1
 fi
+for p in theme-picker locale-picker text-size-picker share-picker date-time-picker; do
+  d="$ROOT/lily-design-system-svelte-helpers/lily-design-system-svelte-$p"
+  if [ -d "$d/dist" ]; then
+    ( cd "$d" && npm pack --pack-destination "$S" ) > /dev/null
+  else
+    echo "svelte-$p: dist/ missing — build the helpers catalog first (cd lily-design-system-svelte-helpers && npm run build)" >&2; exit 1
+  fi
+done
+for fw in react vue html nunjucks; do
+  for p in theme-picker locale-picker text-size-picker share-picker date-time-picker; do
+    d="$ROOT/lily-design-system-$fw-helpers/lily-design-system-$fw-$p"
+    if [ -d "$d/dist" ]; then
+      ( cd "$d" && npm pack --pack-destination "$S" ) > /dev/null
+    else
+      echo "$fw-$p: dist/ missing — build the helpers catalog first (cd lily-design-system-$fw-helpers && npm run build)" >&2; exit 1
+    fi
+  done
+done
+for p in theme-picker locale-picker text-size-picker share-picker date-time-picker; do
+  d="$ROOT/lily-design-system-angular-helpers/lily-design-system-angular-$p"
+  if [ -d "$d/dist" ]; then
+    ( cd "$d/dist" && npm pack --pack-destination "$S" ) > /dev/null
+  else
+    echo "angular-$p: dist/ missing — build the helpers catalog first (cd lily-design-system-angular-helpers && npm run build)" >&2; exit 1
+  fi
+done
 
 cd "$S/consumer"
 printf '{ "name": "lily-smoke", "private": true, "type": "module" }\n' > package.json
 # shellcheck disable=SC2046
 npm install --no-audit --no-fund $(ls ../*.tgz) \
-  react react-dom vue nunjucks svelte \
+  react react-dom vue nunjucks svelte jsdom \
   @sveltejs/vite-plugin-svelte vite \
   @angular/core @angular/common @angular/compiler rxjs > /dev/null
 
@@ -41,9 +89,30 @@ node --input-type=module -e '
 import { renderToStaticMarkup } from "react-dom/server";
 import React from "react";
 import { Button, BreadcrumbNav, TextInput } from "lily-design-system-react-headless";
+import ThemePicker from "lily-design-system-react-theme-picker";
+import LocalePicker from "lily-design-system-react-locale-picker";
+import TextSizePicker from "lily-design-system-react-text-size-picker";
+import SharePicker from "lily-design-system-react-share-picker";
+import DateTimePicker from "lily-design-system-react-date-time-picker";
 const html = renderToStaticMarkup(React.createElement(Button, {}, "Go"));
 if (!html.includes(String.raw`class="button`)) throw new Error("react render: " + html);
 if (![BreadcrumbNav, TextInput].every(Boolean)) throw new Error("react exports missing");
+const dtLabels = {
+  previousYear: "Previous year", previousMonth: "Previous month",
+  nextMonth: "Next month", nextYear: "Next year",
+  confirm: "Confirm", cancel: "Cancel",
+};
+const pickers = [
+  [ThemePicker, { label: "Theme", themesUrl: "/themes/", themes: ["light", "dark"] }, "theme-picker"],
+  [LocalePicker, { label: "Language", locales: ["en", "cy"] }, "locale-picker"],
+  [TextSizePicker, { label: "Text size", sizes: ["small", "medium", "large"] }, "text-size-picker"],
+  [SharePicker, { label: "Share" }, "share-picker"],
+  [DateTimePicker, { label: "Date", labels: dtLabels }, "date-time-picker"],
+];
+for (const [Component, props, cls] of pickers) {
+  const out = renderToStaticMarkup(React.createElement(Component, props));
+  if (!out.includes(`class="${cls}`)) throw new Error("react " + cls + " render: " + out);
+}
 console.log("react OK");'
 
 echo "== vue =="
@@ -51,9 +120,30 @@ node --input-type=module -e '
 import { createSSRApp, h } from "vue";
 import { renderToString } from "vue/server-renderer";
 import { Button, BreadcrumbNav, TextInput } from "lily-design-system-vue-headless";
+import ThemePicker from "lily-design-system-vue-theme-picker";
+import LocalePicker from "lily-design-system-vue-locale-picker";
+import TextSizePicker from "lily-design-system-vue-text-size-picker";
+import SharePicker from "lily-design-system-vue-share-picker";
+import DateTimePicker from "lily-design-system-vue-date-time-picker";
 const html = await renderToString(createSSRApp({ render: () => h(Button, {}, () => "Go") }));
 if (!html.includes(String.raw`class="button`)) throw new Error("vue render: " + html);
 if (![BreadcrumbNav, TextInput].every(Boolean)) throw new Error("vue exports missing");
+const dtLabels = {
+  previousYear: "Previous year", previousMonth: "Previous month",
+  nextMonth: "Next month", nextYear: "Next year",
+  confirm: "Confirm", cancel: "Cancel",
+};
+const pickers = [
+  [ThemePicker, { label: "Theme", themesUrl: "/themes/", themes: ["light", "dark"] }, "theme-picker"],
+  [LocalePicker, { label: "Language", locales: ["en", "cy"] }, "locale-picker"],
+  [TextSizePicker, { label: "Text size", sizes: ["small", "medium", "large"] }, "text-size-picker"],
+  [SharePicker, { label: "Share" }, "share-picker"],
+  [DateTimePicker, { label: "Date", labels: dtLabels }, "date-time-picker"],
+];
+for (const [Component, props, cls] of pickers) {
+  const out = await renderToString(createSSRApp({ render: () => h(Component, props) }));
+  if (!out.includes(`class="${cls}`)) throw new Error("vue " + cls + " render: " + out);
+}
 console.log("vue OK");'
 
 echo "== html =="
@@ -64,6 +154,41 @@ if (n !== 491) throw new Error("html: expected 491 components, got " + n);
 if (!lib.readComponent("button").includes(String.raw`class="button"`)) throw new Error("html: bad snippet");
 console.log("html OK");'
 
+echo "== html helpers (jsdom; real custom elements need a DOM, unlike the headless snippets above) =="
+node --input-type=module -e '
+import { JSDOM } from "jsdom";
+const dom = new JSDOM("<!doctype html><html><body></body></html>", { url: "https://example.org/" });
+globalThis.window = dom.window;
+globalThis.document = dom.window.document;
+globalThis.HTMLElement = dom.window.HTMLElement;
+globalThis.customElements = dom.window.customElements;
+globalThis.CustomEvent = dom.window.CustomEvent;
+globalThis.Node = dom.window.Node;
+globalThis.localStorage = dom.window.localStorage;
+Object.defineProperty(globalThis, "navigator", { value: dom.window.navigator, configurable: true });
+
+const dtLabels = {
+  previousYear: "Previous year", previousMonth: "Previous month",
+  nextMonth: "Next month", nextYear: "Next year",
+  confirm: "Confirm", cancel: "Cancel",
+};
+const checks = [
+  ["lily-design-system-html-theme-picker", "theme-picker", { label: "Theme", "themes-url": "/themes/", themes: "light,dark" }, {}],
+  ["lily-design-system-html-locale-picker", "locale-picker", { label: "Language", locales: "en,cy" }, {}],
+  ["lily-design-system-html-text-size-picker", "text-size-picker", { label: "Text size", sizes: "small,medium,large" }, {}],
+  ["lily-design-system-html-share-picker", "share-picker", { label: "Share" }, {}],
+  ["lily-design-system-html-date-time-picker", "date-time-picker", { label: "Date" }, { labels: dtLabels }],
+];
+for (const [pkg, tag, attrs, props] of checks) {
+  await import(pkg);
+  const el = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+  for (const [k, v] of Object.entries(props)) el[k] = v;
+  document.body.appendChild(el);
+  if (!el.querySelector(`.${tag}`)) throw new Error(pkg + ": no ." + tag + " element rendered; outerHTML=" + el.outerHTML);
+}
+console.log("html helpers OK");'
+
 echo "== nunjucks =="
 node -e '
 const lily = require("lily-design-system-nunjucks-headless");
@@ -72,6 +197,34 @@ if (lily.listComponents().length !== 491) throw new Error("nunjucks: expected 49
 const env = new nunjucks.Environment(new nunjucks.FileSystemLoader(lily.templatesDir));
 const out = env.renderString(`{% import "` + lily.macroPath("breadcrumb-nav") + `" as c %}{{ c.breadcrumbNav({ label: "Breadcrumb" }) }}`);
 if (!out.includes(String.raw`class="breadcrumb-nav"`)) throw new Error("nunjucks render: " + out);
+
+// The 5 helper picker packages are ESM-only (no "require" export condition)
+// and export client-runtime JS, not templatesDir/macroPath() helpers like
+// nunjucks-headless — so this checks the .njk macro directly by path
+// rather than importing the package'"'"'s JS entry at all.
+const path = require("node:path");
+const pickerDirs = ["theme-picker", "locale-picker", "text-size-picker", "share-picker", "date-time-picker"]
+  .map((p) => path.join(process.cwd(), "node_modules", "lily-design-system-nunjucks-" + p, "dist"));
+const helperEnv = new nunjucks.Environment(new nunjucks.FileSystemLoader(pickerDirs));
+const dtLabels = {
+  previousYear: "Previous year", previousMonth: "Previous month",
+  nextMonth: "Next month", nextYear: "Next year",
+  confirm: "Confirm", cancel: "Cancel",
+};
+const checks = [
+  ["theme-picker.njk", "themePicker", { label: "Theme", themesUrl: "/themes/", themes: ["light", "dark"] }, "theme-picker"],
+  ["locale-picker.njk", "localePicker", { label: "Language", locales: ["en", "cy"] }, "locale-picker"],
+  ["text-size-picker.njk", "textSizePicker", { label: "Text size", sizes: ["small", "medium", "large"] }, "text-size-picker"],
+  ["share-picker.njk", "sharePicker", { label: "Share" }, "share-picker"],
+  ["date-time-picker.njk", "dateTimePicker", { label: "Date", labels: dtLabels }, "date-time-picker"],
+];
+for (const [file, macro, opts, cls] of checks) {
+  const html = helperEnv.renderString(
+    `{% import "` + file + `" as c %}{{ c.` + macro + `(opts) }}`,
+    { opts }
+  );
+  if (!html.includes(`class="${cls}`)) throw new Error("nunjucks " + cls + " render: " + html);
+}
 console.log("nunjucks OK");'
 
 echo "== angular (JIT smoke; consumers link via the Angular CLI) =="
@@ -81,6 +234,17 @@ import * as lib from "lily-design-system-angular-headless";
 for (const n of ["Button", "BreadcrumbNav", "TextInput", "ImageCropper"])
   if (typeof lib[n] !== "function") throw new Error("angular missing export: " + n);
 if (Object.keys(lib).length < 491) throw new Error("angular: expected >=491 exports");
+const helperPackages = [
+  ["lily-design-system-angular-theme-picker", "ThemePicker"],
+  ["lily-design-system-angular-locale-picker", "LocalePicker"],
+  ["lily-design-system-angular-text-size-picker", "TextSizePicker"],
+  ["lily-design-system-angular-share-picker", "SharePicker"],
+  ["lily-design-system-angular-date-time-picker", "DateTimePicker"],
+];
+for (const [pkg, exportName] of helperPackages) {
+  const mod = await import(pkg);
+  if (typeof mod[exportName] !== "function") throw new Error(pkg + ": missing export " + exportName);
+}
 console.log("angular OK");'
 
 echo "== svelte (real consumer Vite build) =="
@@ -92,14 +256,34 @@ EOF
 cat > src/App.svelte <<'EOF'
 <script>
   import { Button, BreadcrumbNav, TextInput } from "lily-design-system-svelte-headless";
+  import ThemePicker from "lily-design-system-svelte-theme-picker";
+  import LocalePicker from "lily-design-system-svelte-locale-picker";
+  import TextSizePicker from "lily-design-system-svelte-text-size-picker";
+  import SharePicker from "lily-design-system-svelte-share-picker";
+  import DateTimePicker from "lily-design-system-svelte-date-time-picker";
+  const dtLabels = {
+    previousYear: "Previous year", previousMonth: "Previous month",
+    nextMonth: "Next month", nextYear: "Next year",
+    confirm: "Confirm", cancel: "Cancel",
+  };
 </script>
 <Button>Go</Button>
+<ThemePicker label="Theme" themesUrl="/themes/" themes={["light", "dark"]} />
+<LocalePicker label="Language" locales={["en", "cy"]} />
+<TextSizePicker label="Text size" sizes={["small", "medium", "large"]} />
+<SharePicker label="Share" />
+<DateTimePicker label="Date" labels={dtLabels} />
 EOF
 cat > src/entry.js <<'EOF'
 import { render } from "svelte/server";
 import App from "./App.svelte";
 const { body } = render(App);
 if (!body.includes('class="button')) throw new Error("svelte render: " + body);
+if (!body.includes('class="theme-picker')) throw new Error("svelte theme-picker render: " + body);
+if (!body.includes('class="locale-picker')) throw new Error("svelte locale-picker render: " + body);
+if (!body.includes('class="text-size-picker')) throw new Error("svelte text-size-picker render: " + body);
+if (!body.includes('class="share-picker')) throw new Error("svelte share-picker render: " + body);
+if (!body.includes('class="date-time-picker')) throw new Error("svelte date-time-picker render: " + body);
 console.log("svelte OK");
 EOF
 npx vite build > /dev/null 2>&1

@@ -53,6 +53,21 @@ Six of seven headless libraries ship Storybook; Blazor deliberately does not (no
 | blazor-web-examples          | 1,221                 |
 | html-css-js-examples         | 814                   |
 | nunjucks-eleventy-examples   | 612                   |
+| angular-examples             | 1,542 (491 per-component pages × 3 assertions, axe on every top-level and composed route, responsive sweep) |
+
+## Helper catalog test counts
+
+Per-catalog counts as of the 2026-07-31 idempotent-apply fix (spec §14.1):
+
+| Catalog  | Tests |
+| -------- | ----- |
+| svelte   | 211   |
+| react    | 267   |
+| vue      | 261   |
+| html     | 294   |
+| nunjucks | 321   |
+| angular  | 290   |
+| blazor   | 203   |
 
 ## axe-core accessibility baseline
 
@@ -78,7 +93,21 @@ A responsive smoke check (spec/index.md §11.6) runs ~10 representative routes p
 | desktop  | 1280 × 800  |
 | 4K       | 2560 × 1440 |
 
-The sweep is ported to all six example apps with route paths adjusted per app (e.g. nunjucks-eleventy uses trailing-slash `/components/{slug}/` and skips composed-page routes, which it does not build).
+Ported to all 7 example apps with route paths adjusted per app:
+
+| App                            | Route shape                                          |
+| ------------------------------ | ---------------------------------------------------- |
+| svelte-sveltekit-examples      | `/components/{slug}`, `/page-layout` (no slashes)    |
+| react-next-examples            | `/components/{slug}`, `/page-layout` (no slashes)    |
+| vue-nuxt-examples              | `/components/{slug}`, `/page-layout` (no slashes)    |
+| blazor-web-examples            | `/components/{slug}`, `/page-layout` (no slashes)    |
+| angular-examples               | `/components/{slug}`, `/page-layout` (no slashes)    |
+| html-css-js-examples           | `/components/component.html?slug={slug}`, `/{slug}.html` on composed |
+| nunjucks-eleventy-examples     | `/components/{slug}/` (trailing slash), no composed pages built yet  |
+
+The nunjucks-eleventy app skips composed-page routes (only catalog +
+component-detail pages are built), and tests skip individually if a
+built route 404s.
 
 ## Acceptance criteria
 - [ ] Each headless library's unit suite covers all 491 components with its framework runner (vitest / bUnit / WebdriverIO).

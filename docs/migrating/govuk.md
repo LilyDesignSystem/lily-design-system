@@ -69,7 +69,7 @@ textarea) are open catalog gaps worth an RFC.
 
 Lily's catalog is 491 components against GOV.UK's 37; most of the
 difference is scope GOV.UK doesn't attempt — editorial/scrollytelling
-primitives, data visualisation, 80 national personal identifier
+primitives, data visualisation, 92 national personal identifier
 components, kanban/gantt table families. See
 [COMPARISONS.md](../../COMPARISONS.md) for the honest positioning
 rather than a component-count boast.

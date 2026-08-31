@@ -53,7 +53,7 @@ contents of the claims being made (see [overview](../../spec/overview/index.md),
   built. "We shipped v0.4" travels nowhere. Lily has several such artifacts sitting
   unpublished inside the repo already (see "Content assets" below).
 - **One audience per asset.** The pitch that works on an NHS delivery lead (public-sector
-  reference themes, 80 national identifier components, no CSS framework dependency) is
+  reference themes, 92 national identifier components, no CSS framework dependency) is
   not the pitch that works on a React developer (headless primitives, rest-props, tree
   shaking). Sending one generic announcement to both wastes both.
 - **No astroturfing, ever.** No sockpuppets, no vote rings, no "found this cool library"

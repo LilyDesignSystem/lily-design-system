@@ -2,23 +2,23 @@
 
 > Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
-**Summary.** Lily™ ships 80 national personal identifier components — 40 identifier types each paired as `-input` and `-view` — spanning 30+ countries and covering healthcare, national-ID, tax, and passport identifiers, rendered through one headless input/view pattern and grounded in canonical reference TSVs.
+**Summary.** Lily™ ships 92 national personal identifier components — 46 identifier types each paired as `-input` and `-view` — spanning 30+ countries and covering healthcare, national-ID, tax, and passport identifiers, rendered through one headless input/view pattern and grounded in canonical reference TSVs.
 
 ## Scope
 
-This topic covers the 80 national personal identifier components added in May 2026 (spec §14.1, version 0.2.0): how they are catalogued, named, normalized, and rendered. It covers the canonical reference files that back them (`AGENTS/countries.tsv`, `AGENTS/national-person-identifiers.tsv`, `AGENTS/national-personal-identifier-normalization.md`), the `-input`/`-view` rendering pattern, the validation algorithms documented per identifier, the country/identifier naming normalization rule, and the Phase 1 (catalog) versus Phase 2 (per-subproject implementation) split.
+This topic covers the national personal identifier components added in May 2026 (spec §14.1, version 0.2.0: an initial 80 components / 40 types) and grown since to the current 92 components / 46 types via `AGENTS/national-person-identifiers.tsv`: how they are catalogued, named, normalized, and rendered. It covers the canonical reference files that back them (`AGENTS/countries.tsv`, `AGENTS/national-person-identifiers.tsv`, `AGENTS/national-personal-identifier-normalization.md`), the `-input`/`-view` rendering pattern, the validation algorithms documented per identifier, the country/identifier naming normalization rule, and the Phase 1 (catalog) versus Phase 2 (per-subproject implementation) split.
 
 It does **not** cover: the general suffix-to-element mapping and naming patterns (see [components](../components/index.md)), the headless markup contract these components follow (see [headless](../headless/index.md)), the per-framework implementations (see [frameworks](../frameworks/index.md)), or the accessible-name requirement the `-view` `aria-label` satisfies (see [accessibility](../accessibility/index.md)).
 
 ## Principles and rules
 
-- Each identifier type ships exactly two components: a `{slug}-input` for data entry and a `{slug}-view` for read-only display. 40 types × 2 = 80 components, part of the 491-component canonical catalog.
+- Each identifier type ships exactly two components: a `{slug}-input` for data entry and a `{slug}-view` for read-only display. 46 types × 2 = 92 components, part of the 491-component canonical catalog.
 - The `-input` variant renders `<input type="text" autocomplete="off">`. Identifiers are sensitive and format-specific, so autofill is suppressed and the type stays `text` (not a numeric or specialized type) to preserve leading zeros, spaces, and check characters.
 - The `-view` variant renders `<span aria-label="…">` so assistive technology announces the identifier's meaning, not just its digits.
 - Components are headless: they carry no locale default, no embedded validation UI, and no hardcoded user-facing strings. The consumer supplies labels and decides whether to run the documented validation.
 - Component slugs and names use the normalized form: country exonym (English, snake/kebab case) + identifier exonym (English, snake/kebab case) — not "country code + abbreviation". See the normalization rule below.
 - Each component's `index.md` documents its country, identifier name, format, validation algorithm (Luhn / Modulus-11 / Modulus-97 / etc.), where a person finds the identifier, and the input/view rendering pattern.
-- These 80 components landed in the catalog (rows, per-component docs, CSS class hooks) in **Phase 1**; per-subproject implementations across the 6 then-existing headless libraries and 6 example apps shipped in **Phase 2** (spec §11.8).
+- These components landed in the catalog (rows, per-component docs, CSS class hooks) in **Phase 1** — the initial 80, later grown to the current 92; per-subproject implementations across the 6 then-existing headless libraries and 6 example apps shipped in **Phase 2** (spec §11.8).
 
 ## Naming normalization
 
@@ -82,7 +82,7 @@ These files are committed at the repo root and propagated to all subprojects by 
 
 ## Acceptance criteria
 
-- [ ] All 80 components (40 types × `-input`/`-view`) exist in `components.tsv` and have a `components/{slug}/` directory with the required docs.
+- [x] All 92 components (46 types × `-input`/`-view`) exist in `components.tsv` and have a `components/{slug}/` directory with the required docs.
 - [ ] Every `-input` renders `<input type="text" autocomplete="off">`; every `-view` renders `<span aria-label="…">`.
 - [ ] Every slug and PascalCase name uses the normalized country-exonym + identifier-exonym form, not the code + abbreviation form.
 - [ ] Each component `index.md` documents country, identifier name, format, validation algorithm, where to find it, and the rendering pattern.
@@ -91,7 +91,7 @@ These files are committed at the repo root and propagated to all subprojects by 
 
 ## Related topics
 
-- [components](../components/index.md) — the canonical 491-component catalog these 80 belong to, and the suffix mapping
+- [components](../components/index.md) — the canonical 491-component catalog these 92 belong to, and the suffix mapping
 - [headless](../headless/index.md) — the markup and behaviour contract `-input`/`-view` components follow
 - [frameworks](../frameworks/index.md) — the seven libraries that implement each component
 - [accessibility](../accessibility/index.md) — the accessible-name requirement the `-view` `aria-label` meets
