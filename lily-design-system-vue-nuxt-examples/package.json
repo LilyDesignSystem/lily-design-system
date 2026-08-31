@@ -15,22 +15,22 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "lily-design-system-vue-locale-picker": "0.1.0",
-    "lily-design-system-vue-text-size-picker": "0.1.0",
-    "lily-design-system-vue-theme-picker": "0.1.0",
+    "lily-design-system-vue-locale-picker": "0.1.1",
+    "lily-design-system-vue-text-size-picker": "0.1.1",
+    "lily-design-system-vue-theme-picker": "0.1.1",
     "nuxt": "^4.5.0",
-    "vue": "^3.5.41"
+    "vue": "^3.5.42"
   },
   "devDependencies": {
-    "@axe-core/playwright": "^4.11.3",
-    "@playwright/test": "^1.49.0",
-    "@storybook/vue3-vite": "^9.0.0",
-    "@testing-library/user-event": "^14.6.1",
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.62.1",
+    "@storybook/vue3-vite": "^10.5.10",
+    "@testing-library/user-event": "^14.6.6",
     "@testing-library/vue": "^8.1.0",
-    "@vitejs/plugin-vue": "^5.2.3",
+    "@vitejs/plugin-vue": "^6.0.8",
     "jsdom": "^30.0.0",
-    "storybook": "^9.0.0",
-    "typescript": "^5.9.0",
+    "storybook": "^10.5.10",
+    "typescript": "^7.0.2",
     "vitest": "^4.1.0",
     "vue-tsc": "^3.3.11"
   },
