@@ -42,6 +42,19 @@ Each catalog ships five `*-picker` helpers — theme-picker, locale-picker, text
 
 The [themes/](../themes) directory ships 45 standalone theme stylesheets (NHS England/Scotland/Wales patient + practitioner variants, GOV.UK GDS, USWDS, Adobe Spectrum, Mozilla Protocol, and general-purpose themes) that target the Lily class hooks; the theme-picker helper loads them at runtime.
 
+## Agent skills
+
+Two top-level Claude Skill packages, spec: [spec/agent-skills/index.md](../spec/agent-skills/index.md).
+
+- [lily-design-system-skill](../lily-design-system-skill) — general-purpose: concepts, terminology, naming conventions, composition patterns, for people building *with* Lily.
+- [lily-design-system-maintainer-skill](../lily-design-system-maintainer-skill) — technical: required files, `bin/` tooling, the spec-driven workflow, for people working *on* this monorepo.
+
+Both follow the `lily-design-system-` prefix and get full subproject treatment (as of 2026-08-31; `lily-design-system-skill` was renamed from `lily-skill`, which deliberately sat outside the prefix — see [spec/agent-skills/index.md](../spec/agent-skills/index.md)).
+
+## AI guidance files
+
+[llms.txt](../llms.txt) and [llms.json](../llms.json) at the repository root, spec: [spec/llms-json-and-llms-txt/index.md](../spec/llms-json-and-llms-txt/index.md). A curated map of the project's most important content for AI tools, following the [llms.txt convention](https://llmstxt.org). The docs site publishes its own pair at `lilydesignsystem.github.io/static/llms.txt` and `llms.json` with site-route links instead of repo-relative ones.
+
 ## Tools
 
 - [list-components-as-kebab-case](../bin/list-components-as-kebab-case): List components as kebab case
@@ -59,8 +72,12 @@ The [themes/](../themes) directory ships 45 standalone theme stylesheets (NHS En
 - [generate-registries](../bin/generate-registries): Regenerate example-app catalog registries from components.tsv
 - [check-links](../bin/check-links): Verify relative markdown links resolve
 - [check-theme](../bin/check-theme): Verify the 45 reference themes honour their conformance contracts
+- [check-coverage](../bin/check-coverage): Coverage drift matrix — per-component file presence across all 7 headless libraries
 - [generate-theme-tokens](../bin/generate-theme-tokens): DTCG token source under themes/tokens/ — extract, generate, drift-check
+- [generate-component-categories](../bin/generate-component-categories): Regenerate components-categories.tsv (per-component HTML tag + category) from components.tsv
 - [generate-api-docs](../bin/generate-api-docs): Canonical-contract sections on the site's component pages, generated from components/*/AGENTS.md — drift-checked
+- [new-component](../bin/new-component): End-to-end scaffolder — one new placeholder component across every layer bin/test verifies
+- [smoke-packages](../bin/smoke-packages): Pack + install each published headless tarball into a scratch consumer and render it
 
 ## Inspirations
 

@@ -51,13 +51,13 @@ searchable component catalog: https://lilydesignsystem.github.io/.
 - [spec/testing/index.md](spec/testing/index.md): per-framework test
   suites, Storybook coverage, Playwright e2e, axe, responsive sweep.
 - [spec/national-identifiers/index.md](spec/national-identifiers/index.md):
-  the 80 national personal identifier components, validation algorithms.
+  the 92 national personal identifier components, validation algorithms.
 - [spec/helpers/index.md](spec/helpers/index.md): the five `*-picker`
   helper contracts in full.
 - [spec/frameworks/index.md](spec/frameworks/index.md): the seven
   framework pairs, per-framework file shapes, the copy-pattern.
 - [spec/agent-skills/index.md](spec/agent-skills/index.md): the
-  `lily-skill` and `lily-design-system-maintainer-skill` Claude Skills.
+  `lily-design-system-skill` and `lily-design-system-maintainer-skill` Claude Skills.
 
 ## Subprojects
 
@@ -70,7 +70,7 @@ searchable component catalog: https://lilydesignsystem.github.io/.
 - The remaining 18 headless/example/helper subprojects (React, Vue,
   Angular, Blazor, HTML, Nunjucks) follow the same shape — see
   [AGENTS/lily.md](AGENTS/lily.md) for the full list.
-- [lily-skill](lily-skill/SKILL.md): general-purpose Claude Skill
+- [lily-design-system-skill](lily-design-system-skill/SKILL.md): general-purpose Claude Skill
   explaining Lily concepts and usage to people building *with* the system.
 - [lily-design-system-maintainer-skill](lily-design-system-maintainer-skill/SKILL.md):
   technical Claude Skill for maintainers working *on* this monorepo.

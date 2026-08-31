@@ -37,10 +37,10 @@
         { "title": "spec/architecture/index.md", "url": "spec/architecture/index.md", "description": "Monorepo layout, the git-subtree model, required files per subproject/component." },
         { "title": "spec/components/index.md", "url": "spec/components/index.md", "description": "The 491-component catalog in depth; per-component documentation requirements." },
         { "title": "spec/testing/index.md", "url": "spec/testing/index.md", "description": "Per-framework test suites, Storybook coverage, Playwright e2e, axe, responsive sweep." },
-        { "title": "spec/national-identifiers/index.md", "url": "spec/national-identifiers/index.md", "description": "The 80 national personal identifier components, normalization, validation algorithms." },
+        { "title": "spec/national-identifiers/index.md", "url": "spec/national-identifiers/index.md", "description": "The 92 national personal identifier components, normalization, validation algorithms." },
         { "title": "spec/helpers/index.md", "url": "spec/helpers/index.md", "description": "The five *-picker helper contracts in full." },
         { "title": "spec/frameworks/index.md", "url": "spec/frameworks/index.md", "description": "The seven framework pairs, per-framework file shapes, the copy-pattern." },
-        { "title": "spec/agent-skills/index.md", "url": "spec/agent-skills/index.md", "description": "The lily-skill and lily-design-system-maintainer-skill Claude Skills." }
+        { "title": "spec/agent-skills/index.md", "url": "spec/agent-skills/index.md", "description": "The lily-design-system-skill and lily-design-system-maintainer-skill Claude Skills." }
       ]
     },
     {
@@ -49,7 +49,7 @@
         { "title": "lily-design-system-svelte-headless", "url": "lily-design-system-svelte-headless/index.md", "description": "The canonical Svelte 5 headless library; other framework catalogs port from it." },
         { "title": "lily-design-system-svelte-sveltekit-examples", "url": "lily-design-system-svelte-sveltekit-examples/index.md", "description": "Fully styled reference app demonstrating the same catalog." },
         { "title": "lily-design-system-svelte-helpers", "url": "lily-design-system-svelte-helpers/index.md", "description": "The canonical theme/locale/text-size/share/date-time picker catalog." },
-        { "title": "lily-skill", "url": "lily-skill/SKILL.md", "description": "General-purpose Claude Skill explaining Lily concepts and usage to people building with the system." },
+        { "title": "lily-design-system-skill", "url": "lily-design-system-skill/SKILL.md", "description": "General-purpose Claude Skill explaining Lily concepts and usage to people building with the system." },
         { "title": "lily-design-system-maintainer-skill", "url": "lily-design-system-maintainer-skill/SKILL.md", "description": "Technical Claude Skill for maintainers working on this monorepo." }
       ],
       "note": "18 more headless/example/helper subprojects (React, Vue, Angular, Blazor, HTML, Nunjucks) follow the same shape as the Svelte three above; see AGENTS/lily.md for the full list."

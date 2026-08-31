@@ -1,5 +1,5 @@
 ---
-name: lily-skill
+name: lily-design-system-skill
 description: Explains Lily Design System™ concepts, terminology, and usage patterns for people building with it — the headless-vs-example layers, the 491-component catalog, naming conventions, composition patterns, theming, and the seven supported frameworks. Use when someone asks what Lily Design System is, what a Lily term means (headless, class hook, slug, helper, theme), how to compose a Lily pattern (a form, a nav, a table, a page shell), or wants a working example in a given framework.
 license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 ---
@@ -64,7 +64,7 @@ several frameworks: [reference/composition-patterns.md](reference/composition-pa
 ## The catalog at a glance
 
 491 components across content (149), national personal identifiers (92,
-40 identifier types × input/view across 30+ countries), forms (55),
+46 identifier types × input/view across 30+ countries), forms (55),
 navigation (53), lists (39), tables (36), links (16), pickers (14),
 overlays (14), media (8), buttons (8), and data visualisation (7). Full
 listing: `components.tsv` in the canonical repo, or browse it at

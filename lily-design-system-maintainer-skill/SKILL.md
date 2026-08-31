@@ -8,7 +8,7 @@ license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 
 Technical reference for working inside the `lily-design-system` monorepo
 itself — not for consumers of a published package (see
-[`lily-skill`](../lily-skill/) for that). Everything here assumes a clone of
+[`lily-design-system-skill`](../lily-design-system-skill/) for that). Everything here assumes a clone of
 the canonical monorepo with `spec/index.md` as the living specification and
 `AGENTS.md` → `AGENTS/*.md` as the binding design-principle rules.
 
@@ -90,12 +90,17 @@ directory.
 | `test` | Verify required files + catalog consistency + per-framework coverage across the whole repo. Exits non-zero on failure. Run this before every commit. |
 | `sync` | rsync shared root files (`AGENTS.md`, `AGENTS/*.md`, …) into every subproject — not symlinks, because `git subtree push` doesn't follow symlinks across project boundaries. |
 | `sync-special-files` | Propagate the 12 copied + 2 generated (`CITATION.cff`, `INSTALL.md`) special files into every `lily-design-system-*` subproject. Idempotent. |
+| `update` | Update shared files. |
 | `generate-registries` | Regenerate every example app's component registry from `components.tsv` + the canonical demo map. |
 | `generate-storybook-stories.mjs` | Generate Storybook stories for a headless library. |
 | `check-links` | Verify relative markdown links resolve. |
 | `check-theme` | Conformance checks for the 45 reference themes. |
+| `check-coverage` | Coverage drift matrix: per-component file presence across all 7 headless libraries (beyond `bin/test`'s 3). |
 | `generate-theme-tokens` | DTCG token source under `themes/tokens/` — extract, generate, drift-check. |
+| `generate-component-categories` | Regenerate `components-categories.tsv` (per-component HTML tag + category) from `components.tsv`. |
 | `generate-api-docs` | Regenerate the site's canonical-contract sections from `components/*/AGENTS.md`; drift-checked. |
+| `new-component` | End-to-end scaffolder: one new placeholder component across every layer `bin/test` verifies. |
+| `smoke-packages` | Pack + install each published headless tarball into a scratch consumer and render it — catches `main`-never-built breakage. |
 | `publish-headless` | Build + publish the 7 headless libraries (npm / NuGet). |
 | `publish-helpers` | Build + publish the 35 helper packages (npm / NuGet). |
 | `git-subtree-push` | Push each subtree to its standalone public remote. |

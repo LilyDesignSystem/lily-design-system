@@ -78,12 +78,12 @@ The [themes/](themes) directory ships 45 standalone reference theme
 stylesheets that target the Lily™ class hooks — NHS England, NHS Scotland,
 and NHS Wales (patient and practitioner variants), GOV.UK GDS, USWDS,
 Adobe Spectrum, Mozilla Protocol, and general-purpose light/dark themes.
-The theme-select helper loads them at runtime.
+The theme-picker helper loads them at runtime.
 
 ## AI agent support
 
 Two [Claude Skills](https://code.claude.com/docs/en/skills) give an AI
-coding agent a curated entry point: [lily-skill](lily-skill) for people
+coding agent a curated entry point: [lily-design-system-skill](lily-design-system-skill) for people
 building *with* Lily (concepts, naming, composition patterns), and
 [lily-design-system-maintainer-skill](lily-design-system-maintainer-skill)
 for people working *on* this monorepo (required files, `bin/` tooling,

@@ -6,13 +6,12 @@ monorepo: the required-files layout for subprojects and components, the
 `bin/` tooling, the spec-driven development workflow, and pointers into the
 binding `AGENTS/*.md` design-principle rules.
 
-It is the maintainer-facing counterpart to [`lily-skill`](../lily-skill/),
+It is the maintainer-facing counterpart to [`lily-design-system-skill`](../lily-design-system-skill/),
 which explains Lily Design System's concepts and usage to people building
-*with* it rather than *on* it. Unlike `lily-skill`, this package's name
-follows the `lily-design-system-` prefix that marks the monorepo's 21
-implementation subprojects, because it is one: fully bound to this
-repository's own tooling and conventions, not a portable general-audience
-reference.
+*with* it rather than *on* it. Both packages follow the `lily-design-system-`
+prefix that marks the monorepo's implementation subprojects, because both
+are: fully bound to this repository's own tooling and conventions, not
+portable general-audience references living outside it.
 
 ## What it's for
 

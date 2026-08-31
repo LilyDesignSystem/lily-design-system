@@ -34,8 +34,9 @@ held to.
   and conventions* — the required-files layout, `bin/`, the spec-driven
   workflow, the add-a-component procedure.
 - **Isn't**: end-user-facing documentation of Lily Design System concepts
-  (that's [`lily-skill`](../lily-skill/)), and isn't itself a framework
-  headless/example/helpers implementation — it ships no components.
+  (that's [`lily-design-system-skill`](../lily-design-system-skill/)), and
+  isn't itself a framework headless/example/helpers implementation — it
+  ships no components.
 
 ## Internationalization
 

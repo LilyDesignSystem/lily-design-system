@@ -15,10 +15,12 @@ spec-driven development workflow, and pointers into the binding
 a component implementation — it ships no headless components, no example
 app, no helper packages.
 
-Its sibling, [`lily-skill`](../../lily-skill/), covers the *consumer*
-side (concepts, terminology, composition patterns) and deliberately sits
-outside the `lily-design-system-` naming convention because it isn't bound
-to this repository's own tooling the way this one is.
+Its sibling, [`lily-design-system-skill`](../../lily-design-system-skill/),
+covers the *consumer* side (concepts, terminology, composition patterns).
+Both packages now follow the `lily-design-system-` naming convention (as
+of 2026-08-31; `lily-design-system-skill` was renamed from `lily-skill`,
+which deliberately sat outside it) and get the same full-subproject
+treatment.
 
 ## 2. Scope
 
@@ -62,7 +64,7 @@ no tests to run beyond `bin/test`'s required-files checks.
 ## 5. Related topics
 
 - [spec/agent-skills/index.md](../../spec/agent-skills/index.md) — the
-  plan this subproject and `lily-skill` both implement.
+  plan this subproject and `lily-design-system-skill` both implement.
 - [spec/architecture/index.md](../../spec/architecture/index.md) — the
   monorepo layout and the required-files convention this subproject
   follows.
