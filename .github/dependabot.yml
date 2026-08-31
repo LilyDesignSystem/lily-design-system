@@ -441,6 +441,16 @@ updates:
       lily:
         patterns:
           - "*"
+    ignore:
+      # bunit 1.x -> 2.x renames TestContext to BunitContext and marks
+      # the RenderComponent<T>(Action<ComponentParameterCollectionBuilder<T>>)
+      # overload obsolete (error CS0619) in favour of .Render(...) --
+      # every test file in this project uses the old overload, so this
+      # major bump breaks the build outright. Migrating is a deliberate,
+      # repo-wide bUnit 2.x adoption project, not a side effect of a
+      # routine dependency bump.
+      - dependency-name: "bunit"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "nuget"
     directory: "/lily-design-system-blazor-helpers/lily-design-system-blazor-date-time-picker"
@@ -513,6 +523,16 @@ updates:
       lily:
         patterns:
           - "*"
+    ignore:
+      # bunit 1.x -> 2.x renames TestContext to BunitContext and marks
+      # the RenderComponent<T>(Action<ComponentParameterCollectionBuilder<T>>)
+      # overload obsolete (error CS0619) in favour of .Render(...) --
+      # every test file in this project uses the old overload, so this
+      # major bump breaks the build outright. Migrating is a deliberate,
+      # repo-wide bUnit 2.x adoption project, not a side effect of a
+      # routine dependency bump.
+      - dependency-name: "bunit"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "nuget"
     directory: "/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples"
@@ -537,3 +557,13 @@ updates:
       lily:
         patterns:
           - "*"
+    ignore:
+      # bunit 1.x -> 2.x renames TestContext to BunitContext and marks
+      # the RenderComponent<T>(Action<ComponentParameterCollectionBuilder<T>>)
+      # overload obsolete (error CS0619) in favour of .Render(...) --
+      # every test file in this project uses the old overload, so this
+      # major bump breaks the build outright. Migrating is a deliberate,
+      # repo-wide bUnit 2.x adoption project, not a side effect of a
+      # routine dependency bump.
+      - dependency-name: "bunit"
+        update-types: ["version-update:semver-major"]
