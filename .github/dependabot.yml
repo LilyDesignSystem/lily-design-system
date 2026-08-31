@@ -34,6 +34,17 @@ updates:
       lily:
         patterns:
           - "*"
+    ignore:
+      # TypeScript 7 is too new for parts of this ecosystem's build
+      # tooling right now -- confirmed breakage in the Angular
+      # directories (@analogjs/vite-plugin-angular's
+      # ts.createPrinter usage) and vue-helpers (vue-tsc's internal
+      # typescript/lib/tsc import), both from the same major bump.
+      # Ignoring here too rather than accepting an unverified major
+      # bump; revisit once this catalog's own TS 7 compatibility is
+      # confirmed.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "npm"
     directory: "/lily-design-system-angular-headless"
@@ -120,6 +131,17 @@ updates:
       lily:
         patterns:
           - "*"
+    ignore:
+      # TypeScript 7 is too new for parts of this ecosystem's build
+      # tooling right now -- confirmed breakage in the Angular
+      # directories (@analogjs/vite-plugin-angular's
+      # ts.createPrinter usage) and vue-helpers (vue-tsc's internal
+      # typescript/lib/tsc import), both from the same major bump.
+      # Ignoring here too rather than accepting an unverified major
+      # bump; revisit once this catalog's own TS 7 compatibility is
+      # confirmed.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "npm"
     directory: "/lily-design-system-nunjucks-eleventy-examples"
@@ -156,6 +178,17 @@ updates:
       lily:
         patterns:
           - "*"
+    ignore:
+      # TypeScript 7 is too new for parts of this ecosystem's build
+      # tooling right now -- confirmed breakage in the Angular
+      # directories (@analogjs/vite-plugin-angular's
+      # ts.createPrinter usage) and vue-helpers (vue-tsc's internal
+      # typescript/lib/tsc import), both from the same major bump.
+      # Ignoring here too rather than accepting an unverified major
+      # bump; revisit once this catalog's own TS 7 compatibility is
+      # confirmed.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "npm"
     directory: "/lily-design-system-react-headless"
@@ -168,6 +201,17 @@ updates:
       lily:
         patterns:
           - "*"
+    ignore:
+      # TypeScript 7 is too new for parts of this ecosystem's build
+      # tooling right now -- confirmed breakage in the Angular
+      # directories (@analogjs/vite-plugin-angular's
+      # ts.createPrinter usage) and vue-helpers (vue-tsc's internal
+      # typescript/lib/tsc import), both from the same major bump.
+      # Ignoring here too rather than accepting an unverified major
+      # bump; revisit once this catalog's own TS 7 compatibility is
+      # confirmed.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "npm"
     directory: "/lily-design-system-react-helpers"
@@ -180,6 +224,17 @@ updates:
       lily:
         patterns:
           - "*"
+    ignore:
+      # TypeScript 7 is too new for parts of this ecosystem's build
+      # tooling right now -- confirmed breakage in the Angular
+      # directories (@analogjs/vite-plugin-angular's
+      # ts.createPrinter usage) and vue-helpers (vue-tsc's internal
+      # typescript/lib/tsc import), both from the same major bump.
+      # Ignoring here too rather than accepting an unverified major
+      # bump; revisit once this catalog's own TS 7 compatibility is
+      # confirmed.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "npm"
     directory: "/lily-design-system-react-next-examples"
@@ -192,6 +247,17 @@ updates:
       lily:
         patterns:
           - "*"
+    ignore:
+      # TypeScript 7 is too new for parts of this ecosystem's build
+      # tooling right now -- confirmed breakage in the Angular
+      # directories (@analogjs/vite-plugin-angular's
+      # ts.createPrinter usage) and vue-helpers (vue-tsc's internal
+      # typescript/lib/tsc import), both from the same major bump.
+      # Ignoring here too rather than accepting an unverified major
+      # bump; revisit once this catalog's own TS 7 compatibility is
+      # confirmed.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "npm"
     directory: "/lily-design-system-svelte-headless"
@@ -204,6 +270,17 @@ updates:
       lily:
         patterns:
           - "*"
+    ignore:
+      # TypeScript 7 is too new for parts of this ecosystem's build
+      # tooling right now -- confirmed breakage in the Angular
+      # directories (@analogjs/vite-plugin-angular's
+      # ts.createPrinter usage) and vue-helpers (vue-tsc's internal
+      # typescript/lib/tsc import), both from the same major bump.
+      # Ignoring here too rather than accepting an unverified major
+      # bump; revisit once this catalog's own TS 7 compatibility is
+      # confirmed.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "npm"
     directory: "/lily-design-system-svelte-helpers"
@@ -216,6 +293,17 @@ updates:
       lily:
         patterns:
           - "*"
+    ignore:
+      # TypeScript 7 is too new for parts of this ecosystem's build
+      # tooling right now -- confirmed breakage in the Angular
+      # directories (@analogjs/vite-plugin-angular's
+      # ts.createPrinter usage) and vue-helpers (vue-tsc's internal
+      # typescript/lib/tsc import), both from the same major bump.
+      # Ignoring here too rather than accepting an unverified major
+      # bump; revisit once this catalog's own TS 7 compatibility is
+      # confirmed.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "npm"
     directory: "/lily-design-system-svelte-sveltekit-examples"
@@ -228,6 +316,17 @@ updates:
       lily:
         patterns:
           - "*"
+    ignore:
+      # TypeScript 7 is too new for parts of this ecosystem's build
+      # tooling right now -- confirmed breakage in the Angular
+      # directories (@analogjs/vite-plugin-angular's
+      # ts.createPrinter usage) and vue-helpers (vue-tsc's internal
+      # typescript/lib/tsc import), both from the same major bump.
+      # Ignoring here too rather than accepting an unverified major
+      # bump; revisit once this catalog's own TS 7 compatibility is
+      # confirmed.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "npm"
     directory: "/lily-design-system-vue-headless"
@@ -240,6 +339,17 @@ updates:
       lily:
         patterns:
           - "*"
+    ignore:
+      # TypeScript 7 is too new for parts of this ecosystem's build
+      # tooling right now -- confirmed breakage in the Angular
+      # directories (@analogjs/vite-plugin-angular's
+      # ts.createPrinter usage) and vue-helpers (vue-tsc's internal
+      # typescript/lib/tsc import), both from the same major bump.
+      # Ignoring here too rather than accepting an unverified major
+      # bump; revisit once this catalog's own TS 7 compatibility is
+      # confirmed.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "npm"
     directory: "/lily-design-system-vue-helpers"
@@ -273,6 +383,17 @@ updates:
       lily:
         patterns:
           - "*"
+    ignore:
+      # TypeScript 7 is too new for parts of this ecosystem's build
+      # tooling right now -- confirmed breakage in the Angular
+      # directories (@analogjs/vite-plugin-angular's
+      # ts.createPrinter usage) and vue-helpers (vue-tsc's internal
+      # typescript/lib/tsc import), both from the same major bump.
+      # Ignoring here too rather than accepting an unverified major
+      # bump; revisit once this catalog's own TS 7 compatibility is
+      # confirmed.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "npm"
     directory: "/lilydesignsystem.github.io"
@@ -285,6 +406,17 @@ updates:
       lily:
         patterns:
           - "*"
+    ignore:
+      # TypeScript 7 is too new for parts of this ecosystem's build
+      # tooling right now -- confirmed breakage in the Angular
+      # directories (@analogjs/vite-plugin-angular's
+      # ts.createPrinter usage) and vue-helpers (vue-tsc's internal
+      # typescript/lib/tsc import), both from the same major bump.
+      # Ignoring here too rather than accepting an unverified major
+      # bump; revisit once this catalog's own TS 7 compatibility is
+      # confirmed.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "nuget"
     directory: "/lily-design-system-blazor-headless/src/LilyBlazorHeadless"
