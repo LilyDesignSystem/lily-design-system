@@ -11,7 +11,7 @@ jobs:
     name: bin/test + link check + junk guard
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: No tracked node_modules or dist
         run: |
@@ -54,7 +54,7 @@ jobs:
           - lily-design-system-html-helpers
           - lily-design-system-nunjucks-helpers
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Free preinstalled runner bloat for headroom
         # The ubuntu runner ships ~30 GB of toolchains this job never
         # touches (dotnet SDKs, Android, Haskell, CodeQL bundles).
@@ -68,10 +68,10 @@ jobs:
                       /opt/hostedtoolcache/CodeQL \
                       /usr/local/share/boost 2>/dev/null || true
           df -h / | tail -1
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
         with:
           version: 10
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: pnpm
@@ -96,11 +96,11 @@ jobs:
           - lily-design-system-angular-headless
           - lily-design-system-nunjucks-headless
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
         with:
           version: 10
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: pnpm
@@ -116,11 +116,11 @@ jobs:
     name: headless tests (lily-design-system-html-headless, WebDriverIO)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
         with:
           version: 10
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: pnpm
@@ -144,12 +144,12 @@ jobs:
           - project: lily-design-system-blazor-helpers
             csproj: tests/LilyDesignSystem.Blazor.Helpers.Tests/LilyDesignSystem.Blazor.Helpers.Tests.csproj
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: "10.0.x"
       - name: Cache NuGet packages
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.nuget/packages
           key: nuget-${{ matrix.project }}-${{ hashFiles(format('{0}/**/*.csproj', matrix.project)) }}
@@ -162,11 +162,11 @@ jobs:
     name: example-app Playwright smoke (svelte-sveltekit-examples)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
         with:
           version: 11
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: pnpm
@@ -175,7 +175,7 @@ jobs:
         working-directory: lily-design-system-svelte-sveltekit-examples
         run: pnpm install --no-frozen-lockfile
       - name: Cache Playwright browsers
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         id: playwright-cache
         with:
           path: ~/.cache/ms-playwright
@@ -202,8 +202,8 @@ jobs:
     name: consumer smoke (packed tarballs import as a consumer would)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
@@ -316,8 +316,8 @@ jobs:
     name: spell check (root docs + hand-authored site content)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
       - name: cspell
