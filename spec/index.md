@@ -39,14 +39,16 @@ coding agents.
 | [components](components/index.md) | The 491-component catalog, suffix→element mapping, name patterns, composition, per-component docs. |
 | [examples](examples/index.md) | Example apps, the three required routes, NHS reference styling, demo render mechanisms. |
 | [tooling](tooling/index.md) | The `bin/` scripts, the rsync sync model, `bin/test` verification, subtree push. |
+| [monorepo-github-pages](monorepo-github-pages/index.md) | Publishing the docs site via git subtree to a read-only sibling export repo. |
 | [testing](testing/index.md) | Per-framework test suites, Storybook coverage, Playwright e2e, axe, responsive sweep. |
 | [frameworks](frameworks/index.md) | The seven framework pairs, per-framework file shapes and idioms, the copy-pattern. |
-| [helpers](helpers/index.md) | The `*-helpers` catalogs — theme-picker, locale-picker, text-size-picker — their `<select>` contracts, manifests, and publish pipeline. |
+| [helpers](helpers/index.md) | The `*-helpers` catalogs: the 5 pickers, their contracts, manifests, and publish pipeline. |
 | [national-identifiers](national-identifiers/index.md) | The 92 national personal identifier components, normalization, validation algorithms. |
-| [trusted-publishing](trusted-publishing/index.md) | OIDC publishing to npm/NuGet: the adopt-when-all-forges-are-covered position, readiness table, adoption checklist. |
+| [trusted-publishing](trusted-publishing/index.md) | OIDC publishing to npm/NuGet: the adoption position, readiness table, checklist. |
 | [free-open-source-funding](free-open-source-funding/index.md) | Funding channels (GitHub Sponsors live, Open Collective planned), terms, and the files that must agree. |
 | [special-files-for-public-repos](special-files-for-public-repos/index.md) | The top-level files every published subtree repo carries, copy-vs-generate, the sync tooling. |
-| [dependabot](dependabot/index.md) | Repo-level security updates, the grouped-weekly-PR `.github/dependabot.yml`, and its 31 npm/nuget/github-actions entries. |
+| [dependabot](dependabot/index.md) | Repo-level security updates: the grouped-weekly-PR `.github/dependabot.yml`, 31 entries. |
+| [node-current-version](node-current-version/index.md) | The Node 26 requirement: `engines.node` across all `package.json` files and `deploy.yml`. |
 | [agent-skills](agent-skills/index.md) | The `lily-design-system-skill` (end-user) and `lily-design-system-maintainer-skill` (maintainer) Claude Skills, what each covers, and the naming-split retirement. |
 | [llms-json-and-llms-txt](llms-json-and-llms-txt/index.md) | The root and docs-site `llms.txt`/`llms.json` AI guidance files, the llms.txt convention, and why the two pairs' links differ. |
 | [citations](citations/index.md) | Design systems Lily learns from, the NHS UK reference, Reuters Graphics influence. |

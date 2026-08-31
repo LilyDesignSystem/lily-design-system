@@ -120,6 +120,8 @@ Every `components/{slug}/` directory (491 of them) carries:
 - [helpers](../helpers/index.md) — per-framework helper catalogs
 - [frameworks](../frameworks/index.md) — per-framework implementation notes
 - [testing](../testing/index.md) — `bin/test` and per-framework test suites
+- [monorepo-github-pages](../monorepo-github-pages/index.md) — the docs
+  site's platform-dictated export name and local sibling clone
 
 ## Sources
 
