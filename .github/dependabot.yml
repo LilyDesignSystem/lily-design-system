@@ -46,6 +46,15 @@ updates:
       lily:
         patterns:
           - "*"
+    ignore:
+      # TypeScript 7.x removed the ts.createPrinter API
+      # @analogjs/vite-plugin-angular's JS emitter depends on, which
+      # breaks `vitest run` outright (TypeError: ts.createPrinter is
+      # not a function). Revisit once @analogjs/vite-plugin-angular
+      # ships TS 7 support — see the closed PR history for the
+      # verification.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "npm"
     directory: "/lily-design-system-angular-helpers"
@@ -58,6 +67,11 @@ updates:
       lily:
         patterns:
           - "*"
+    ignore:
+      # Same TypeScript 7.x / @analogjs/vite-plugin-angular
+      # incompatibility as lily-design-system-angular-headless above.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "npm"
     directory: "/lily-design-system-blazor-web-examples"
