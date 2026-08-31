@@ -59,19 +59,21 @@ subprojects (see [architecture](../architecture/index.md)), or the
   three-forge fan-out (GitHub, Codeberg, GitLab) as every other
   subproject via `bin/git-subtree-push` — see
   [architecture](../architecture/index.md) and
-  [tooling](../tooling/index.md). The root `Makefile`'s `github-pages`
-  target runs the underlying `git subtree push --prefix=lilydesignsystem.github.io
-  github-pages main` directly, against a dedicated `github-pages` git
-  remote (same three push URLs as the `lilydesignsystem.github.io`
-  remote `bin/git-subtree-push` uses — a deliberate second remote alias,
-  not a replacement, kept memorable and consistent with the same
-  `make github-pages` convention used across this maintainer's other
-  repositories). Either path produces an identical subtree split; use
-  whichever is at hand. GitHub Pages' own `deploy.yml` workflow (which
-  lives inside the subtree and only takes effect once it reaches the
-  standalone repo's root, since GitHub Actions reads `.github/workflows/`
-  relative to the repository root it runs in) is what actually builds
-  and deploys once either push lands.
+  [tooling](../tooling/index.md). `make github-pages` is a thin
+  `Makefile` target delegating to the POSIX shell script
+  `bin/make-github-pages`, which runs
+  `git subtree push --prefix=lilydesignsystem.github.io github-pages main`
+  against a dedicated `github-pages` git remote (same three push URLs
+  as the `lilydesignsystem.github.io` remote `bin/git-subtree-push`
+  uses — a deliberate second remote alias, not a replacement, kept
+  memorable and consistent with the same `make github-pages` convention
+  used across this maintainer's other repositories). Either path
+  produces an identical subtree split; use whichever is at hand.
+  GitHub Pages' own `deploy.yml` workflow (which lives inside the
+  subtree and only takes effect once it reaches the standalone repo's
+  root, since GitHub Actions reads `.github/workflows/` relative to
+  the repository root it runs in) is what actually builds and deploys
+  once either push lands.
 - **Refreshing the local sibling is a plain `git pull`.** Because it's an
   ordinary clone of the standalone remote, keeping it current after a
   push is just `git -C ~/git/lilydesignsystem/lilydesignsystem.github.io pull`.
@@ -89,7 +91,7 @@ subprojects (see [architecture](../architecture/index.md)), or the
 | Standalone export (read-only, derived) | `~/git/lilydesignsystem/lilydesignsystem.github.io/` — a **sibling** of the monorepo, not nested inside it |
 | Standalone remote(s) | `git@{github,codeberg,gitlab}.com:LilyDesignSystem/lilydesignsystem.github.io.git`, reachable from the monorepo as either the `lilydesignsystem.github.io` git remote (`bin/git-subtree-push`) or the `github-pages` git remote (`make github-pages`) — same URLs, two names |
 | Live site | <https://lilydesignsystem.github.io/> |
-| Publish shortcut | `make github-pages` (root `Makefile`) |
+| Publish shortcut | `make github-pages` (root `Makefile`) → `bin/make-github-pages` |
 
 ### Publish flow
 
@@ -130,12 +132,13 @@ rediscovering by surprise.
       for a subtree split).
 - [x] This topic is linked from [spec/index.md](../index.md)'s topic
       table.
-- [x] `make github-pages` (root `Makefile`) runs
+- [x] `make github-pages` (root `Makefile`) delegates to the POSIX
+      shell script `bin/make-github-pages`, which runs
       `git subtree push --prefix=lilydesignsystem.github.io github-pages main`
       against a dedicated `github-pages` remote and produces the same
       result as `bin/git-subtree-push` — verified 2026-08-31 (`Everything
-      up-to-date` on all three push URLs, matching the state
-      `bin/git-subtree-push` had just produced).
+      up-to-date` on all three push URLs both times, before and after
+      the delegation was added).
 
 ## Related topics
 
@@ -150,6 +153,7 @@ rediscovering by surprise.
 
 - [lilydesignsystem.github.io/.git-subtree-push](../../lilydesignsystem.github.io/.git-subtree-push)
 - [bin/git-subtree-push](../../bin/git-subtree-push)
+- [bin/make-github-pages](../../bin/make-github-pages)
 - [Makefile](../../Makefile)
 
 ---

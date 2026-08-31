@@ -330,10 +330,10 @@ Scripts live in `bin/`:
 | `bin/generate-component-categories`   | Regenerate `components-categories.tsv` (per-component HTML tag + category) from `components.tsv`. |
 | `bin/new-component`                   | End-to-end scaffolder for one new placeholder component. |
 | `bin/smoke-packages`                  | Pack + install every headless + npm helper tarball into a scratch consumer and render it. |
+| `bin/make-github-pages`               | Push the docs site subtree to its `github-pages` remote; invoked by `make github-pages`. |
 
-A root `Makefile` supplements `bin/`: `make github-pages` is a second,
-memorable entry point for the same push `bin/git-subtree-push
-lilydesignsystem.github.io` does. See
+A root `Makefile`'s `github-pages` target wraps `bin/make-github-pages`
+as a memorable entry point. See
 [monorepo-github-pages](monorepo-github-pages/index.md).
 
 Note on syncing: two syncs run from the canonical root. `bin/sync-special-files`
