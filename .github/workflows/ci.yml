@@ -220,6 +220,12 @@ jobs:
             lily-design-system-svelte-headless/pnpm-lock.yaml
             lily-design-system-react-headless/pnpm-lock.yaml
             lily-design-system-vue-headless/pnpm-lock.yaml
+            lily-design-system-svelte-helpers/pnpm-lock.yaml
+            lily-design-system-react-helpers/pnpm-lock.yaml
+            lily-design-system-vue-helpers/pnpm-lock.yaml
+            lily-design-system-angular-helpers/pnpm-lock.yaml
+            lily-design-system-html-helpers/pnpm-lock.yaml
+            lily-design-system-nunjucks-helpers/pnpm-lock.yaml
       - name: Free preinstalled runner bloat for headroom
         # The ubuntu runner ships ~30 GB of toolchains this job never
         # touches (dotnet SDKs, Android, Haskell, CodeQL bundles).
@@ -235,7 +241,7 @@ jobs:
           df -h / | tail -1
       # Each build step cleans its subproject's node_modules once the
       # dist exists: npm pack needs the dist and the manifest, not the
-      # dependency tree, and four full trees would crowd the runner.
+      # dependency tree, and ten full trees would crowd the runner.
       - name: Build angular dist (ng-packagr)
         working-directory: lily-design-system-angular-headless
         run: |
@@ -256,6 +262,47 @@ jobs:
           rm -rf node_modules
       - name: Build vue dist
         working-directory: lily-design-system-vue-headless
+        run: |
+          npm install --no-audit --no-fund
+          npm run build
+          rm -rf node_modules
+      # bin/smoke-packages also packs the 5 picker helpers in each of
+      # these 6 npm-published helper catalogs (Blazor is NuGet, not
+      # npm, so it's excluded here same as it is from smoke-packages
+      # itself) — each catalog's own `npm run build` builds all 5 of
+      # its nested picker packages in one pass.
+      - name: Build svelte helpers dist
+        working-directory: lily-design-system-svelte-helpers
+        run: |
+          npm install --no-audit --no-fund
+          npm run build
+          rm -rf node_modules
+      - name: Build react helpers dist
+        working-directory: lily-design-system-react-helpers
+        run: |
+          npm install --no-audit --no-fund
+          npm run build
+          rm -rf node_modules
+      - name: Build vue helpers dist
+        working-directory: lily-design-system-vue-helpers
+        run: |
+          npm install --no-audit --no-fund
+          npm run build
+          rm -rf node_modules
+      - name: Build angular helpers dist
+        working-directory: lily-design-system-angular-helpers
+        run: |
+          npm install --no-audit --no-fund
+          npm run build
+          rm -rf node_modules
+      - name: Build html helpers dist
+        working-directory: lily-design-system-html-helpers
+        run: |
+          npm install --no-audit --no-fund
+          npm run build
+          rm -rf node_modules
+      - name: Build nunjucks helpers dist
+        working-directory: lily-design-system-nunjucks-helpers
         run: |
           npm install --no-audit --no-fund
           npm run build

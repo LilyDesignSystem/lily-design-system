@@ -13,7 +13,7 @@
     "test:ui": "vitest --ui"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^5.2.3",
+    "@vitejs/plugin-vue": "^6.0.8",
     "@vue/test-utils": "^2.4.11",
     "@vitest/ui": "^4.0.18",
     "jsdom": "^30.0.0",
