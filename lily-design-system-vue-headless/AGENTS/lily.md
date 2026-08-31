@@ -57,6 +57,7 @@ Both follow the `lily-design-system-` prefix and get full subproject treatment (
 
 ## Tools
 
+- [Makefile](../Makefile): `make github-pages` pushes `lilydesignsystem.github.io/` to its standalone remote via git subtree — same result as `bin/git-subtree-push lilydesignsystem.github.io`, see [spec/monorepo-github-pages/index.md](../spec/monorepo-github-pages/index.md)
 - [list-components-as-kebab-case](../bin/list-components-as-kebab-case): List components as kebab case
 - [list-components-as-pascal-case](../bin/list-components-as-pascal-case): List components as PascalCase
 - [list-implementations](../bin/list-implementations): List implementation directories

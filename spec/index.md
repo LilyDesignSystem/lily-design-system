@@ -326,10 +326,15 @@ Scripts live in `bin/`:
 | `bin/check-theme`                     | Conformance checks for the 45 reference themes.      |
 | `bin/generate-theme-tokens`           | DTCG token source: extract / generate / drift-check. |
 | `bin/generate-api-docs`               | Site canonical-contract sections from AGENTS metadata; drift-checked. |
-| `bin/check-coverage`                  | Coverage drift matrix: per-component file presence across all 7 headless libraries (beyond `bin/test`'s 3). |
+| `bin/check-coverage`                  | Coverage drift matrix: per-component file presence across all 7 headless libraries. |
 | `bin/generate-component-categories`   | Regenerate `components-categories.tsv` (per-component HTML tag + category) from `components.tsv`. |
-| `bin/new-component`                   | End-to-end scaffolder: one new placeholder component across every layer `bin/test` verifies. |
-| `bin/smoke-packages`                  | Pack + install each published headless tarball into a scratch consumer and render it — catches `main`-never-built breakage. |
+| `bin/new-component`                   | End-to-end scaffolder for one new placeholder component. |
+| `bin/smoke-packages`                  | Pack + install every headless + npm helper tarball into a scratch consumer and render it. |
+
+A root `Makefile` supplements `bin/`: `make github-pages` is a second,
+memorable entry point for the same push `bin/git-subtree-push
+lilydesignsystem.github.io` does. See
+[monorepo-github-pages](monorepo-github-pages/index.md).
 
 Note on syncing: two syncs run from the canonical root. `bin/sync-special-files`
 propagates the top-level special files (LICENSE, CONTRIBUTING, SECURITY,
