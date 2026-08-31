@@ -1,6 +1,9 @@
 {
   "name": "lily-design-system-blazor-web-examples",
   "version": "0.1.0",
+  "engines": {
+    "node": "=26"
+  },
   "private": true,
   "description": "Playwright e2e harness for the Blazor Web example app.",
   "scripts": {

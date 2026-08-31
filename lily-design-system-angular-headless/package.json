@@ -1,6 +1,9 @@
 {
   "name": "lily-design-system-angular-headless",
   "version": "0.2.0",
+  "engines": {
+    "node": "=26"
+  },
   "description": "Lily Design System Angular headless component library: all 491 catalog components as standalone, signal-based, OnPush components. Unstyled, accessible, zero CSS. Targets WCAG 2.2 AAA.",
   "type": "module",
   "scripts": {

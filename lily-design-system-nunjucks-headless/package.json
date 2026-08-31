@@ -1,6 +1,9 @@
 {
   "name": "lily-design-system-nunjucks-headless",
   "version": "0.1.0",
+  "engines": {
+    "node": "=26"
+  },
   "description": "Lily Design System Nunjucks headless components: 491 accessible macro templates (macro.njk per component) for the nunjucks loader path. Zero CSS, zero dependencies. Targets WCAG 2.2 AAA.",
   "license": "MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause",
   "scripts": {

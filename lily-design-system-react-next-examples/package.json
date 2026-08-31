@@ -1,6 +1,9 @@
 {
   "name": "lily-design-system-react-next-examples",
   "version": "0.2.0",
+  "engines": {
+    "node": "=26"
+  },
   "private": true,
   "scripts": {
     "dev": "next dev",

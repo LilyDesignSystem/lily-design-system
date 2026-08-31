@@ -1,6 +1,9 @@
 {
   "name": "lily-design-system-svelte-locale-picker",
   "version": "0.1.1",
+  "engines": {
+    "node": "=26"
+  },
   "description": "Lily Design System Svelte 5 locale picker: an icon button opening an APG listbox that sets lang and dir on the document. Headless, SSR-safe, no CSS.",
   "type": "module",
   "svelte": "./dist/index.js",

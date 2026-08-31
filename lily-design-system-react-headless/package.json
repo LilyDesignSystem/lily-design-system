@@ -1,6 +1,9 @@
 {
   "name": "lily-design-system-react-headless",
   "version": "0.3.1",
+  "engines": {
+    "node": "=26"
+  },
   "description": "A comprehensive headless React component library with 491 accessible, unstyled components for building design systems. Targets WCAG 2.2 AAA.",
   "main": "./dist/index.js",
   "scripts": {

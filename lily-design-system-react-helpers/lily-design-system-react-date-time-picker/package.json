@@ -1,6 +1,9 @@
 {
   "name": "lily-design-system-react-date-time-picker",
   "version": "0.1.1",
+  "engines": {
+    "node": "=26"
+  },
   "description": "Lily Design System - React 19 date and time picker",
   "type": "module",
   "main": "./dist/index.js",

@@ -1,6 +1,9 @@
 {
   "name": "lily-design-system-vue-theme-picker",
   "version": "0.1.1",
+  "engines": {
+    "node": "=26"
+  },
   "description": "Lily Design System Vue 3 theme picker: an icon button opening an APG listbox that swaps a theme stylesheet and sets data-theme. Headless, SSR-safe, no CSS.",
   "type": "module",
   "main": "./dist/index.js",

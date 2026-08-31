@@ -1,6 +1,9 @@
 {
   "name": "lily-design-system-react-text-size-picker",
   "version": "0.1.1",
+  "engines": {
+    "node": "=26"
+  },
   "description": "Lily Design System React text size picker: an icon button opening an APG listbox that sets data-text-size on the document. Headless, SSR-safe, no CSS.",
   "type": "module",
   "main": "./dist/index.js",

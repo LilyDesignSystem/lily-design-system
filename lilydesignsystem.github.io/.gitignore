@@ -11,4 +11,3 @@ build/
 !.env.example
 test-results/
 playwright-report/
-pnpm-workspace.yaml

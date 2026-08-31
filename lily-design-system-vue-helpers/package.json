@@ -1,5 +1,8 @@
 {
   "name": "lily-design-system-vue-helpers",
+  "engines": {
+    "node": "=26"
+  },
   "private": true,
   "type": "module",
   "description": "Lily Design System - Vue 3 helpers catalog (dev/test harness)",

@@ -1,6 +1,9 @@
 {
   "name": "lily-design-system-nunjucks-eleventy-examples",
   "version": "0.1.0",
+  "engines": {
+    "node": "=26"
+  },
   "description": "Lily Design System: Nunjucks example site in NHS UK look and feel",
   "private": true,
   "type": "module",

@@ -1,6 +1,9 @@
 {
   "name": "lily-design-system-svelte-share-picker",
   "version": "0.1.1",
+  "engines": {
+    "node": "=26"
+  },
   "description": "Lily Design System Svelte 5 share picker: an icon button opening the native share sheet, or a disclosure of consumer-supplied links plus copy-to-clipboard. Headless, SSR-safe, no CSS.",
   "type": "module",
   "svelte": "./dist/index.js",

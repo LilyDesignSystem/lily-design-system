@@ -1,6 +1,9 @@
 {
   "name": "lily-design-system-angular-date-time-picker",
   "version": "0.2.0",
+  "engines": {
+    "node": "=26"
+  },
   "description": "Lily Design System Angular 20 date and time picker: a typeable text field paired with an APG date-picker dialog. Headless, SSR-safe, no CSS.",
   "peerDependencies": {
     "@angular/core": ">=20.0.0 <23.0.0",

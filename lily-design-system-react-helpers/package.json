@@ -1,5 +1,8 @@
 {
   "name": "lily-design-system-react-helpers",
+  "engines": {
+    "node": "=26"
+  },
   "private": true,
   "type": "module",
   "description": "Lily Design System - React 19 helpers catalog (dev/test harness)",

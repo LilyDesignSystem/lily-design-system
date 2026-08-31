@@ -1,5 +1,8 @@
 {
   "name": "lily-design-system-nunjucks-helpers",
+  "engines": {
+    "node": "=26"
+  },
   "private": true,
   "type": "module",
   "description": "Lily Design System - Nunjucks helpers catalog (dev/test harness)",

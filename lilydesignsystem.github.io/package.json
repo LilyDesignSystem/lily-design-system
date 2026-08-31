@@ -1,6 +1,9 @@
 {
   "name": "lilydesignsystem.github.io",
   "version": "0.1.0",
+  "engines": {
+    "node": "=26"
+  },
   "private": true,
   "type": "module",
   "scripts": {
@@ -22,9 +25,6 @@
     "vite": "^6.2.0"
   },
   "pnpm": {
-    "ignoredBuiltDependencies": [
-      "esbuild"
-    ],
     "onlyBuiltDependencies": [
       "esbuild"
     ]

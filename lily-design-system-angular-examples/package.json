@@ -1,6 +1,9 @@
 {
   "name": "lily-design-system-angular-examples",
   "version": "0.1.0",
+  "engines": {
+    "node": "=26"
+  },
   "description": "Lily Design System - Angular 20 + Analog.js example application",
   "private": true,
   "type": "module",
