@@ -15,12 +15,12 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
-    "@11ty/eleventy": "^3.1.0",
+    "@11ty/eleventy": "^3.1.6",
     "nunjucks": "^3.2.4"
   },
   "devDependencies": {
-    "@axe-core/playwright": "^4.11.3",
-    "@playwright/test": "^1.49.0",
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.62.1",
     "http-server": "^14.1.1",
     "jsdom": "^30.0.0",
     "vitest": "^4.1.0"
