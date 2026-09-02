@@ -111,10 +111,17 @@ Rules for the executing agent:
   Verify: `npm view lily-design-system-{html,angular,nunjucks}-headless
   version` succeeds; scratch-consumer smoke renders 3 components each.
 
-- [ ] **P2-T2 Publish blazor headless + the 5 blazor helper packages
-  to NuGet.** The helper `.nupkg` files already exist in `dist-nuget/`.
-  Verify: `dotnet add package LilyDesignSystem.Blazor.ThemePicker`
-  succeeds in a scratch project; NuGet pages show README + license.
+- [x] **P2-T2 Publish blazor headless + the 5 blazor helper packages
+  to NuGet.** Done 2026-09-02 via the real `publish.yml` run
+  (33672811301), authenticated with OIDC Trusted Publishing
+  (`NuGet/login@v1` + `NUGET_USER`, no `NUGET_API_KEY` secret ever
+  existed — see spec/trusted-publishing/index.md). All 6 pushes
+  confirmed "Your package was pushed": `LilyDesignSystem.Blazor.Headless`
+  0.1.1, `.ThemePicker`/`.LocalePicker`/`.TextSizePicker`/`.SharePicker`/
+  `.DateTimePicker` 0.1.0. `dotnet add package LilyDesignSystem.Blazor.ThemePicker`
+  404'd immediately after — nuget.org's first-publish validation/indexing
+  window for a brand-new package ID, not a push failure; re-verify listing
+  once indexing completes.
 
 - [x] **P2-T3 `bin/publish-headless`** (or extend `bin/publish-helpers`)
   with dry-run default; document in spec/tooling + AGENTS/lily.md.

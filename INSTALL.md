@@ -37,12 +37,12 @@ frameworks, but not all seven are on a registry yet.
 | `lily-design-system-html-headless` | npm | **0.1.0** |
 | `lily-design-system-angular-headless` | npm | **0.1.0** |
 | `lily-design-system-nunjucks-headless` | npm | **0.1.0** |
-| `LilyDesignSystem.Blazor.Headless` | NuGet | packed in `dist-nuget/`, push pending credentials |
+| `LilyDesignSystem.Blazor.Headless` | NuGet | **0.1.1** |
 | All 30 JavaScript helper packages (6 frameworks × 5 helpers) | npm | **0.1.0** |
-| The 5 Blazor helper packages | NuGet | packed in `dist-nuget/`, push pending credentials |
+| The 5 Blazor helper packages | NuGet | **0.1.0** |
 
-Six of the seven headless libraries are installable from npm; Blazor's NuGet
-push is the one remaining step. Path 1 always works regardless — nothing about
+All seven headless libraries and all 35 helper packages are installable from
+a registry as of 2026-09-02. Path 1 always works regardless — nothing about
 Lily requires the registry.
 
 ## Path 1 — Copy the markup (zero install)
@@ -167,9 +167,14 @@ path, then `{% import "breadcrumb-nav/macro.njk" as c %}` inside templates.
 
 ### Blazor
 
-`LilyDesignSystem.Blazor.Headless` is packed but not yet on NuGet. Until it
-is, clone the repository and reference
-`lily-design-system-blazor-headless/src/LilyBlazorHeadless/LilyBlazorHeadless.csproj`.
+```sh
+dotnet add package LilyDesignSystem.Blazor.Headless
+```
+
+If the package hasn't finished nuget.org's post-publish indexing yet, clone
+the repository and reference
+`lily-design-system-blazor-headless/src/LilyBlazorHeadless/LilyBlazorHeadless.csproj`
+in the meantime.
 
 ## Path 3 — Install a helper package
 

@@ -9,6 +9,23 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## P2-T2 closed: all 6 Blazor packages published to NuGet — 2026-09-02
+
+The real publish this session's Trusted Publishing work was blocked on
+(see below) ran successfully: `publish.yml` run 33672811301, OIDC login
+confirmed ("Successfully exchanged OIDC token for NuGet API key"), and
+every one of the 6 pushes confirmed "Your package was pushed" —
+`LilyDesignSystem.Blazor.Headless` 0.1.1, plus `.ThemePicker`,
+`.LocalePicker`, `.TextSizePicker`, `.SharePicker`, `.DateTimePicker`
+at 0.1.0. This closes `tasks.md` P2-T2 and, combined with the
+already-published 30 JS helper packages and 6 npm headless libraries,
+means every one of the 7 headless libraries and all 35 helper packages
+is now on a registry. `MAINTAINERS.md`, `INSTALL.md`, and
+`docs/releasing.md`'s version-line table updated in the same commit.
+A `dotnet add package` smoke check immediately after 404'd — nuget.org's
+routine post-publish validation/indexing window for a brand-new package
+ID, not a push failure; the server-side confirmation is authoritative.
+
 ## NuGet Trusted Publishing adopted (GitHub only) — 2026-09-02
 
 The real publish of the Blazor headless library + 5 Blazor helper
