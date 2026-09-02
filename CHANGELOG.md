@@ -9,6 +9,30 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## P7-T18 closed: vue-nuxt-examples storybook build fixed — 2026-09-03
+
+The `TimelineListItem.vue` "out-of-range parser error" recorded
+2026-08-30 was never a Rolldown/`@vitejs/plugin-vue` interop bug, and
+never that file: this checkout's `node_modules` had drifted out of
+sync with the committed lockfile (`storybook@9.1.20` /
+`@vitejs/plugin-vue@5.2.4` actually installed against a lockfile that
+correctly pinned `10.5.10` / `^6.0.8`). Storybook 9.1.20's
+`@storybook/vue3-vite` only supports `vite@^5||^6||^7`, but this app's
+Nuxt 4 tree resolves `vite@8.2.2` unconditionally — an unsupported
+pairing that produced the misattributed error. `pnpm install
+--frozen-lockfile` alone fixed it, no code change required; confirmed
+by reproducing the exact error on the stale install first, then
+re-testing clean at 491/491 stories after sync. Also confirmed the
+`viteFinal` `@vitejs/plugin-vue` re-add is still genuinely needed
+(removing it breaks every component) and isn't itself duplicated.
+Incidental find while verifying: `ProgressCircle.test.ts` in both
+`vue-nuxt-examples` and `svelte-sveltekit-examples` asserted
+`getByRole("Progress")` (not a real ARIA role) in 4 of 6 tests — a
+copy-paste defect versus the canonical `vue-headless`/`react-headless`
+copies, which correctly assert `"progressbar"`; the components
+themselves were always correct. Fixed both test files; full suites
+green (1377/1377 and 2457/2457). Full record: `tasks.md` P7-T18.
+
 ## P2-T2 closed: all 6 Blazor packages published to NuGet — 2026-09-02
 
 The real publish this session's Trusted Publishing work was blocked on

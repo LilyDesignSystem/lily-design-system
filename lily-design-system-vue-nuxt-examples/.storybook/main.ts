@@ -9,6 +9,8 @@ const config: StorybookConfig = {
     options: {}
   },
   async viteFinal(viteConfig) {
+    // Nuxt's own Vite environment doesn't leave @vitejs/plugin-vue applied
+    // where Storybook's builder can find it, so it's re-added here.
     return mergeConfig(viteConfig, { plugins: [vue()] });
   }
 };

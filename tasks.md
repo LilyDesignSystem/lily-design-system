@@ -1228,31 +1228,40 @@ Rules for the executing agent:
   other 4 example-smoke spec files, 96/96); no other viewport/route in
   that suite regressed.
 
-- [ ] **P7-T18 `vue-nuxt-examples`'s `storybook build` fails on
-  `TimelineListItem.vue` with an out-of-range parser error.** Found
-  2026-08-30 verifying P7-T15. Confirmed pre-existing and unrelated to
-  P7-T15 (fails identically with the 80 newly-added components
-  `git stash`ed out) and confirmed the file itself isn't at fault:
-  `@vue/compiler-sfc` parses it with zero errors when called directly,
-  and `lily-design-system-vue-headless`'s own `storybook build`
-  succeeds on the byte-identical canonical copy of the same file. The
-  difference is the bundler: vue-headless resolves `vite@6.4.1`
-  (esbuild-based); vue-nuxt-examples, via Nuxt 4's own dependency tree,
-  resolves `vite@8.2.2` with the newer Rolldown-based bundler, and it's
-  specifically under Rolldown that `@storybook/builder-vite` reports
-  `RolldownError: Element is missing end tag` at
-  `TimelineListItem.vue:81:183` — a position past the file's actual 80
-  lines, which is itself a symptom worth noting (the real fault may be
-  a different file's template getting misattributed during Rolldown's
-  bundling, not `TimelineListItem.vue` itself). Not yet root-caused
-  past this point; likely an upstream Rolldown / `@vitejs/plugin-vue`
-  interop bug given the out-of-range position, not a Lily authoring
-  defect. Does not affect the real app: `nuxt build` (the app's actual
-  production build) succeeds cleanly; only `storybook build` fails,
-  and no CI job currently runs it for this app.
+- [x] **P7-T18 `vue-nuxt-examples`'s `storybook build` fails on
+  `TimelineListItem.vue` with an out-of-range parser error.** Done
+  2026-09-03. Root cause was never Rolldown/`@vitejs/plugin-vue`
+  interop, and never `TimelineListItem.vue`: this checkout's
+  `node_modules` had silently drifted out of sync with `package.json`/
+  the committed lockfile — `pnpm list` showed `storybook@9.1.20` and
+  `@vitejs/plugin-vue@5.2.4` actually installed while both files
+  correctly pinned `10.5.10` / `^6.0.8`. Storybook 9.1.20's
+  `@storybook/vue3-vite` bundles a peer range of
+  `vite@^5.0.0 || ^6.0.0 || ^7.0.0`, but this app's Nuxt 4 tree
+  resolves `vite@8.2.2` regardless of which Storybook major is
+  installed — an unsupported combination, and that's what produced the
+  misattributed out-of-range error. A plain `pnpm install
+  --frozen-lockfile` (no code change needed) synced `node_modules` to
+  the already-correct lockfile and the build now succeeds cleanly,
+  491/491 stories. Confirmed by first reproducing the exact reported
+  error on the stale install, then re-testing after sync; also
+  confirmed the `viteFinal` re-add of `@vitejs/plugin-vue` genuinely is
+  still required (removing it breaks every component with JSX parse
+  errors — Storybook's own Vue SFC plugin doesn't fully compile
+  `<script setup>` on its own in this Nuxt-hosted setup) and is not
+  itself duplicated (the framework preset registers no `vite:vue`
+  plugin under current Storybook). Incidental find while verifying:
+  `ProgressCircle.test.ts` in this app and in
+  `svelte-sveltekit-examples` asserted `getByRole("Progress")`
+  (capitalized, not a real ARIA role) in 4 of 6 tests, while the
+  canonical `vue-headless`/`react-headless` copies of the same file
+  correctly assert `getByRole("progressbar")` — a copy-paste defect
+  isolated to those two example apps' test files, not the components
+  themselves (`role="progressbar"` was always correct in the rendered
+  markup). Fixed both; full suites green (vue-nuxt-examples 1377/1377,
+  svelte-sveltekit-examples 2457/2457).
   Verify: `npx storybook build` succeeds in
-  `lily-design-system-vue-nuxt-examples` with 491/491 stories (compare
-  `react-next-examples`' equivalent successful build as the pattern).
+  `lily-design-system-vue-nuxt-examples` with 491/491 stories — done.
 
 ---
 

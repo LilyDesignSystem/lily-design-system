@@ -669,6 +669,19 @@ Long-term: versioned releases per subproject npm/NuGet package
 
 ### 14.1 Changelog highlights
 
+- **P7-T18 vue-nuxt-examples storybook build fixed (2026-09-03)** — the
+  "out-of-range parser error" recorded against `TimelineListItem.vue`
+  was neither a Rolldown interop bug nor that file: `node_modules` had
+  drifted out of sync with the committed lockfile (a stale
+  `storybook@9.1.20`/`@vitejs/plugin-vue@5.2.4` installed against a
+  lockfile correctly pinning `10.5.10`/`^6.0.8`), and Storybook 9.1.20's
+  `@storybook/vue3-vite` doesn't support the `vite@8.2.2` this app's
+  Nuxt 4 tree resolves. `pnpm install --frozen-lockfile` alone fixed
+  it — 491/491 stories build clean, no code change needed. Incidental
+  find: `ProgressCircle.test.ts` in this app and
+  `svelte-sveltekit-examples` asserted a non-existent `"Progress"` ARIA
+  role in 4/6 tests versus the canonical `"progressbar"`; fixed both.
+  Full record: [CHANGELOG.md](../CHANGELOG.md).
 - **NuGet Trusted Publishing adopted, GitHub only (2026-09-02)** — the
   real P2-T2 publish attempt failed on a missing `NUGET_API_KEY`
   secret (never configured, not broken). Adopted OIDC
