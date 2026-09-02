@@ -449,25 +449,27 @@ checked is considered live work; anything unchecked is queued in §12.
 - [x] Cross-subproject name consistency: TabGroup removed,
       `medical-record-red-box` renamed; no orphans remain.
 - [x] Per-framework unit test suites cover every component in every
-      headless subproject and helper catalog (re-verified 2026-08-26,
+      headless subproject and helper catalog (re-verified 2026-09-02,
       all passing) — counts and runners: [spec/testing/index.md](testing/index.md).
 - [x] Per-framework CSS class-name audit: 490 / 490 components in every
       headless subproject reference their canonical kebab-case base class.
 - [x] Storybook story coverage: 491 / 491 in svelte, react, vue, html,
       nunjucks, angular; Blazor deliberately has none — detail:
       [spec/testing/index.md](testing/index.md).
-- [x] Playwright e2e coverage on all 7 example apps (5,852 specs total
-      as of 2026-08-26) — per-app counts: [spec/testing/index.md](testing/index.md).
+- [x] Playwright e2e coverage on all 7 example apps (9,007 specs total
+      as of 2026-09-02, up from 5,852 on 2026-08-26 as rtl-demo,
+      theme-switching, site-preferences, and a full 491-page axe-catalog
+      sweep landed) — per-app counts: [spec/testing/index.md](testing/index.md).
+      P1-T6's fresh sweep found and fixed two real, previously-undetected
+      defects rather than just restamping dates — see §14.1.
 
 ### 11.5 Accessibility audit (axe-core via Playwright)
 
 Per-app axe-core baseline and the WCAG rule set live in
 [spec/accessibility/index.md](accessibility/index.md); all 7 example
-apps are clean on their full route baseline as of 2026-08-26. The one
-exception worth calling out here rather than there: svelte-sveltekit's
-first full 491/491 per-component catalog sweep (2026-08-27,
-`e2e/axe-catalog.spec.ts`) found 24 failing pages, every one a real
-defect — see §11.5a.
+apps are clean on their full route baseline as of 2026-09-02 (re-verified,
+plan P1-T6). svelte-sveltekit's full 491/491 per-component catalog sweep
+(`e2e/axe-catalog.spec.ts`) is clean again too — see §11.5a and §11.5b.
 
 ### 11.5a Full-catalog sweep findings (2026-08-27)
 
@@ -492,12 +494,36 @@ P4-T1) found 24 failures in 7 rule families, every one a real defect:
   (ai-label); darkened to L=0.52 with the reasoning recorded in each
   token's `$description`.
 
+### 11.5b Second full-catalog sweep finding (2026-09-02, plan P1-T6)
+
+Re-running `e2e/axe-catalog.spec.ts` (P1-T6's fresh verification sweep)
+found a new, unrelated regression: dozens of `/components/{slug}` pages
+whose Usage/Import code snippet is long enough to overflow — mostly the
+national personal identifier components, whose names are the longest in
+the catalog — failed axe's `scrollable-region-focusable` rule. The
+page's own app-shell CSS makes an overflowing `<pre>` horizontally
+scrollable (`overflow-x: auto`, to stop a long line breaking page
+layout) but the `<pre>` carried no `tabindex`, so keyboard users had no
+way to actually scroll it. Fixed by adding `tabindex="0"` to the two
+Usage/Import `<pre>` elements on the component-detail page — confirmed
+via a full 491/491 re-run, not just the one failing page inspected first.
+The same bare-`<pre>`-with-long-content shape exists in the other six
+example apps' dynamically-generated component-detail pages (none of
+them run an exhaustive per-catalog axe sweep, so none had a failing
+test to catch it — nunjucks-eleventy-examples is the exception, since
+its 491 component pages are hand/generator-authored static files that
+mostly don't embed a code snippet at all), so the same `tabindex="0"`
+was applied to those six as a precaution; only svelte-sveltekit's fix
+is backed by an exhaustive re-run, but each app's own
+`accessibility.spec.ts` sample stayed green after the change. Full
+record: CHANGELOG.md.
+
 ### 11.6 Responsive viewport sweep
 
 Ported to all 7 example apps across 4 viewport sizes (mobile, tablet,
 desktop, 4K), asserting skip-link presence, `<main>`/H1 visibility,
-and no horizontal overflow. Per-app route shapes and the exact
-viewport sizes: [spec/testing/index.md](testing/index.md).
+and no horizontal overflow. Re-verified clean 2026-09-02. Per-app route
+shapes and the exact viewport sizes: [spec/testing/index.md](testing/index.md).
 
 ### 11.7 Storybook coverage
 
@@ -505,7 +531,8 @@ viewport sizes: [spec/testing/index.md](testing/index.md).
 of 7 headless libraries); Blazor deliberately has none — there is no
 idiomatic `@storybook/blazor`, and bUnit + `dotnet watch` covers the
 same exploration use case. Angular uses the webpack-based
-`@storybook/angular` builder rather than Vite. Full table:
+`@storybook/angular` builder rather than Vite. Re-verified clean
+2026-09-02 by story-file presence. Full table:
 [spec/testing/index.md](testing/index.md).
 
 ### 11.8 Open backlog
@@ -553,18 +580,35 @@ this list holds only what is genuinely open.
       `/components/dialog` (P7-T17) — fixed with the same
       `gotoAndWaitForTheme` wait. `accessibility.spec.ts` clean 29/29
       across 5 repeats; full `e2e/` suite 903/903.
-- [ ] **Angular headless wrapper-host semantics.** First-ever axe run
-      against the Angular app showed that element-selector components
-      break DOM structures with required parent-child semantics: the
-      `<ol>` rendered by `lily-breadcrumb-list` contains
-      `<lily-breadcrumb-list-item>` hosts, not `<li>` (axe `list` /
-      `listitem`, serious), and empty `date-range`/`review-date`
-      render `aria-label` on a generic element (`aria-prohibited-attr`)
-      while the canonical tag is `<span>`. The example pages now use
-      direct class-hook markup for those structures; the library-level
-      fix (attribute selectors — `li[lily-breadcrumb-list-item]` — for
-      the list/table families, per Angular Material's idiom) is a
-      breaking change to plan deliberately.
+- [x] **Angular headless wrapper-host semantics.** Closed 2026-09-01
+      (angular-headless 0.3.0, breaking). The first-ever axe run
+      against the Angular app had shown that element-selector
+      components break DOM structures with required parent-child
+      semantics: the `<ol>` rendered by `lily-breadcrumb-list`
+      contained `<lily-breadcrumb-list-item>` hosts, not `<li>` (axe
+      `list` / `listitem`, serious). Fixed at the library level for
+      the 51 affected components (the 20 `*ListItem` families, the 30
+      table sub-elements across `table`/`data-table`/`calendar-table`/
+      `kanban-table`/`gantt-table`, and `Option`): each now uses a
+      combined tag+attribute selector on its native tag
+      (`li[lily-breadcrumb-list-item]`, per Angular Material's own
+      idiom for list/table sub-elements) instead of wrapping it, so
+      there is no host element between a parent and a child with a
+      required content-model relationship. The four composed pages
+      (`page-layout`, `task-management`, `timeline-and-cards`,
+      `book-an-appointment`) and `rtl-demo` that had been carrying a
+      direct-class-hook-markup workaround for this now use the real
+      components again. Verification: angular-headless `vitest run`
+      491/491 files / 1011/1011 tests, `ng-packagr` build clean;
+      angular-examples build + 507-page prerender clean, full
+      Playwright suite 1574/1574 (including axe on every route this
+      touched). Full record: angular-headless's own
+      `spec/index.md`. The empty `date-range`/`review-date`
+      `aria-prohibited-attr` finding from the same axe run is a
+      separate, still-open defect (those components render `<div>`
+      instead of the canonical `<span>`) — not fixed by this change;
+      still worked around with direct class-hook markup in
+      `timeline-and-cards.ts`.
 
 ## 12. Implementation status
 
@@ -611,7 +655,7 @@ Long-term: versioned releases per subproject npm/NuGet package
 - Package: lily
 - Version: 0.6.0
 - Created: 2025-08-09
-- Updated: 2026-08-30
+- Updated: 2026-09-02
 - License: `MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause`
   (SPDX expression; or contact for other terms). See
   [LICENSE.md](../LICENSE.md) — it is the single source of truth, and every
@@ -625,6 +669,86 @@ Long-term: versioned releases per subproject npm/NuGet package
 
 ### 14.1 Changelog highlights
 
+- **P7-T11 angular-examples' 491 component specs fixed (2026-09-02)** —
+  two prior investigations blamed a triplicated `@angular/core`
+  dependency tree for every `setInput()` assertion silently failing;
+  that tree had since converged to one copy via ordinary updates, and
+  the real cause was a missing `tsconfig.spec.json` (the file
+  `@analogjs/vite-plugin-angular` looks for to know which files are in
+  its Angular-compiler program) — angular-headless had one,
+  angular-examples never did. Added it, widened `vitest.config.ts`,
+  added the matching `vitest-setup.ts`; all 492 spec files now pass,
+  990/990 tests, no per-component changes needed. Full record:
+  CHANGELOG.md.
+- **LilyDesignSystem.Blazor.Headless 0.1.1 (2026-09-02)** — fixed a
+  real nuget.org "Readme missing" package-validation warning on the
+  already-published 0.1.0: the 5 Blazor helper packages already
+  embedded their README via the standard `<PackageReadmeFile>` +
+  `<None Include>` pair, but the headless package was missed. Added
+  it; verified the packed `.nupkg` actually contains the readme
+  content and the `.nuspec` references it. Full record: CHANGELOG.md.
+- **P7-T12 pnpm version skew resolved (2026-09-02)** — set out to pick
+  one pnpm major for the whole monorepo (CI mixed 10 and 11; this
+  machine's tooling is 11) and found the version split wasn't the real
+  problem: four `pnpm-workspace.yaml` files carried an unfilled
+  template placeholder instead of `true` for their `allowBuilds`
+  entries, and ten subprojects gitignored that file instead of
+  committing it, so the committed repo state had no build-script
+  allowlist for them at all under pnpm 11
+  (`[ERR_PNPM_IGNORED_BUILDS]`). Fixing both also fully explains and
+  corrects the prior day's note blaming this sandbox's network egress
+  for html-headless's WebdriverIO suite — the real cause was
+  chromedriver's own postinstall script being silently ignored, so it
+  was never cached. Removed the now-redundant legacy
+  `package.json#pnpm.onlyBuiltDependencies` field from all 13
+  subprojects that had it, and moved `ci.yml`/`publish.yml` fully onto
+  pnpm 11. Full record: CHANGELOG.md.
+- **P1-T6 fresh verification sweep (2026-09-02)** — re-ran every suite
+  in §11.4–§11.7 for real (not a restamp) across all 21 subprojects:
+  unit (7 headless + 7 helper catalogs), Storybook coverage (file
+  presence), and Playwright e2e + axe-core + responsive on all 7
+  example apps. Found and fixed three real, previously-undetected
+  defects rather than just refreshing dates: (1) seven table/gantt e2e
+  spec files (`table-th`, `calendar-table-th`, `data-table-th`,
+  `kanban-table-th`, `gantt-table-thead`, `gantt-table-tbody`,
+  `gantt-table-tr`) asserted the wrong PascalCase heading name across
+  all three JS frontend apps (svelte-sveltekit, react-next, vue-nuxt —
+  21 files); (2) a scrollable-but-not-focusable `<pre>` code snippet on
+  long-named component-detail pages (axe `scrollable-region-focusable`)
+  — see §11.5b; (3) vue-nuxt-examples' locale-picker never restored a
+  persisted locale on reload, because its Nuxt `useHead`-driven
+  external ref was seeded with a concrete default value instead of
+  empty, defeating the picker's own value-over-storage priority chain
+  — fixed by seeding it empty, plus a `gotoAndWaitForTheme` hardening
+  for a pre-existing, confirmed-flaky dynamically-appended-stylesheet
+  race in that app's `accessibility.spec.ts` (same class of bug already
+  fixed for Blazor and html-css-js-examples). Total e2e specs 5,852 →
+  9,007, all green; angular-headless's own unit count grew 985 → 1,011
+  and blazor-headless's 1,502 → 1,509 as a side effect of the §11.8
+  attribute-selector migration's added regression tests. html-headless's
+  WebdriverIO run could not be re-executed in this sandbox; at the time
+  this was recorded as a confirmed chromedriver-download network block,
+  but P7-T12 (2026-09-02) found and fixed the real cause — see
+  spec/testing/index.md's html-headless row. Full record: CHANGELOG.md.
+- **Angular headless wrapper-host semantics fixed (2026-09-01,
+  angular-headless 0.3.0, breaking)** — closed the §11.8 open backlog
+  item measured on the Angular app's first axe run. 51 components
+  (the 20 `*ListItem` families, the 30 table sub-elements across
+  `table`/`data-table`/`calendar-table`/`kanban-table`/`gantt-table`,
+  and `Option`) switched from an element selector that wrapped their
+  native tag to a combined tag+attribute selector on the native tag
+  itself (`li[lily-breadcrumb-list-item]`, Angular Material's own
+  idiom for list/table sub-elements), so a required parent-child
+  content-model relationship (`<ol>`+`<li>`, `<table>`+`<thead>`, etc.)
+  no longer has a wrapper element sitting inside it. The four composed
+  pages and `rtl-demo` that had been carrying a direct-class-hook-
+  markup workaround for exactly this now use the real components
+  again. 491/491 vitest files (1011 tests), `ng-packagr` build clean,
+  angular-examples build + 507-page prerender clean, full Playwright
+  suite 1574/1574. `DateRange`/`ReviewDate` rendering `<div>` instead
+  of the canonical `<span>` — a separate finding from the same axe
+  run — remains open. Full record: angular-headless's own
+  `spec/index.md`.
 - **HTML example app axe + responsive suite failures resolved
   (2026-08-30)** — closed the §11.8 open backlog item measured
   2026-08-26. Two real defects, plus one flaky one found while chasing

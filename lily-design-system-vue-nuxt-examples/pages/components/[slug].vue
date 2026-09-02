@@ -35,8 +35,8 @@ const demoHtml = componentDemos[slug];
             <dd>{{ component!.description }}</dd>
         </dl>
         <h2>Usage</h2>
-        <pre><code>&lt;{{ component!.name }} /&gt;</code></pre>
+        <pre tabindex="0"><code>&lt;{{ component!.name }} /&gt;</code></pre>
         <h2>Import</h2>
-        <pre><code>import {{ component!.name }} from "~/components/{{ component!.name }}.vue";</code></pre>
+        <pre tabindex="0"><code>import {{ component!.name }} from "~/components/{{ component!.name }}.vue";</code></pre>
     </main>
 </template>

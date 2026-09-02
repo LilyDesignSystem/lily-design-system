@@ -26,7 +26,7 @@ import { components } from "../components-data";
 
         <details>
           <summary>HTML source</summary>
-          <pre><code>{{ demoSource() }}</code></pre>
+          <pre tabindex="0"><code>{{ demoSource() }}</code></pre>
         </details>
 
         <h2>Details</h2>

@@ -39,9 +39,9 @@ export default async function ComponentDetailPage({ params }: Props) {
                 <dd>{component.description}</dd>
             </dl>
             <h2>Usage</h2>
-            <pre><code>{`<${component.name} />`}</code></pre>
+            <pre tabIndex={0}><code>{`<${component.name} />`}</code></pre>
             <h2>Import</h2>
-            <pre><code>{`import ${component.name} from "@lily/${component.name}";`}</code></pre>
+            <pre tabIndex={0}><code>{`import ${component.name} from "@lily/${component.name}";`}</code></pre>
         </main>
     );
 }

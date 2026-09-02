@@ -43,10 +43,10 @@
         </dl>
 
         <h2>Usage</h2>
-        <pre><code>&lt;{component.name} /&gt;</code></pre>
+        <pre tabindex="0"><code>&lt;{component.name} /&gt;</code></pre>
 
         <h2>Import</h2>
-        <pre><code>import {component.name} from "$lib/components/{component.name}.svelte";</code></pre>
+        <pre tabindex="0"><code>import {component.name} from "$lib/components/{component.name}.svelte";</code></pre>
     {:else}
         <p>Component not found.</p>
     {/if}

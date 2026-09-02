@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 const slug = 'data-table-th';
-const name = 'DataTableTD';
+const name = 'DataTableTH';
 
 test.describe('component page: ' + slug, () => {
   test.beforeEach(async ({ page }) => {
@@ -16,7 +16,7 @@ test.describe('component page: ' + slug, () => {
 
   test('renders the H1 with the component name', async ({ page }) => {
     await expect(
-      page.getByRole('heading', { level: 1, name: new RegExp('^DataTableTD$') })
+      page.getByRole('heading', { level: 1, name: new RegExp('^DataTableTH$') })
     ).toBeVisible();
   });
 

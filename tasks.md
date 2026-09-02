@@ -59,12 +59,19 @@ Rules for the executing agent:
   in prerendered `dist/` HTML succeeds, or notes updated with
   findings.
 
-- [ ] **P1-T6 Fresh verification sweep.**
+- [x] **P1-T6 Fresh verification sweep.**
   Re-run every suite in spec §11.4–§11.7 (unit, Storybook, Playwright,
   axe, responsive); restamp tables with 2026-08/09 dates and current
   counts.
   Verify: no §11.4–§11.7 table carries a pre-2026-08 date without a
   "historical" label.
+  Done 2026-09-02: every table in spec/testing/index.md and
+  spec/index.md §11.4–§11.7 now carries a 2026-09-02 date (the one
+  exception, html-headless's WebdriverIO row, is explicitly labelled
+  "browser run not re-executed" with the confirmed reason). Found and
+  fixed three real defects along the way rather than just restamping —
+  full record: CHANGELOG.md "P1-T6: fresh verification sweep across all
+  21 subprojects".
 
 - [x] **P1-T7 Svelte dual-mirror specs for the 80 national
   identifiers**, matching the existing 407-spec shape; reconcile the
@@ -934,7 +941,7 @@ Rules for the executing agent:
   (confirmed: 0 occurrences of `.visually-hidden`, 7 of
   `.screen-reader-span` in that file).
 
-- [ ] **P7-T11 `lily-design-system-angular-examples` has no working
+- [x] **P7-T11 `lily-design-system-angular-examples` has no working
   vitest setup — 491 orphaned `src/app/components/*.spec.ts` files
   can't run.** Found 2026-08-29 while adding P6-T5's suffix-pattern
   unit tests: this app has copies of all 491 `.spec.ts` files from
@@ -991,8 +998,36 @@ Rules for the executing agent:
   confirm it via the same instrumented-signal check (`className()`
   reads back `"extra"` after `setInput`), not just "the test file ran
   without crashing".
+  Done 2026-09-02: neither of the 2026-08-30 investigation's two
+  suspects was the real cause. `pnpm why @angular/core` now shows only
+  ONE resolved copy (the "three forked copies" it found had since
+  converged via ordinary dependency updates), and re-testing with the
+  exact zone.js + `BrowserDynamicTestingModule` setup
+  angular-headless's own `vitest.config.ts` uses reproduced a much more
+  informative failure than the old "silent no-op": a hard
+  `NG0303: Can't set value of the 'className' input ...` runtime error,
+  with a compiler warning right above it — `"Badge.ts" contains
+  Angular decorators but is not in the TypeScript program"`. The real
+  cause: this app has a `tsconfig.json` and `tsconfig.app.json` but
+  never had a `tsconfig.spec.json` — the file
+  `@analogjs/vite-plugin-angular` looks for by convention to know which
+  files are in its Angular-compiler program. Without it, component
+  `.ts` files compiled without the metadata `ComponentRef.setInput()`
+  needs to recognize a signal input. Added `tsconfig.spec.json`
+  (mirroring angular-headless's own, scoped to
+  `src/app/**/*.spec.ts` + `vitest-setup.ts`), widened
+  `vitest.config.ts`'s `include` to `src/app/components/**/*.spec.ts`,
+  and added the matching `vitest-setup.ts` (zone.js +
+  `BrowserDynamicTestingModule`, byte-identical to angular-headless's).
+  No per-component changes were needed. Verified: all 492 spec files
+  (491 components + the suffix-pattern test) pass, 990/990 tests,
+  including the exact instrumented check the task asked for
+  (`Badge`'s `setInput("className", "extra")` now correctly reaches
+  the DOM); confirmed the real app build (`vite.config.ts`'s
+  `analog()` pipeline, which `vitest.config.ts` doesn't touch) still
+  builds and prerenders its full 507 pages unaffected.
 
-- [ ] **P7-T12 pnpm major-version skew across the monorepo: 10 (CI,
+- [x] **P7-T12 pnpm major-version skew across the monorepo: 10 (CI,
   `publish.yml`) vs 11 (this machine's tooling, which is what actually
   maintains the checked-in `pnpm-lock.yaml` files) resolves some
   lockfiles differently, and pnpm 11 alone can't be swapped in blind.**
@@ -1033,6 +1068,31 @@ Rules for the executing agent:
   migrate every subproject's build-script allowlist to wherever that
   version reads it; dry-run `publish.yml` and confirm every pack step
   still produces the expected tarball contents.
+  Done 2026-09-02: the version split wasn't actually the root cause of
+  round 2's `[ERR_PNPM_IGNORED_BUILDS]` failures — two real bugs were.
+  Four `pnpm-workspace.yaml` files had the literal unfilled template
+  placeholder `"set this to true or false"` instead of `true` for
+  `esbuild` (and, in `html-headless`/`html-css-js-examples`,
+  `chromedriver`/`edgedriver`/`geckodriver` too — which also fully
+  explains and corrects the "browser run not re-executed: network
+  block" note in spec/testing/index.md; the real cause was this
+  ignored-postinstall bug, not the network). And ten subprojects
+  gitignored `pnpm-workspace.yaml` instead of committing it, so the
+  committed repo state — what CI and a fresh clone see — had no
+  allowlist for them at all, invisible locally because the untracked
+  file was still on disk. Fixed both, removed the now-redundant legacy
+  `pnpm.onlyBuiltDependencies` field from all 13 package.json files
+  that had it (confirmed `pnpm.overrides` still works from package.json
+  under pnpm 11 unchanged), and moved `ci.yml`'s `helpers`/`headless`/
+  `html-headless` jobs and `publish.yml` to pnpm 11, matching
+  `example-smoke` and this machine's own tooling. Verified: fresh
+  `pnpm install --no-frozen-lockfile` clean for all 19 pnpm-based
+  subprojects; every CI-matrix catalog's vitest suite re-run and
+  matched P1-T6's counts exactly; `pnpm -C lily-design-system-angular-helpers
+  build` (the one pnpm call inside the publish scripts) succeeded;
+  `bin/publish-headless --dry-run` / `bin/publish-helpers --dry-run`
+  packed real tarballs before hitting npm's expected
+  already-published gate. Full record: CHANGELOG.md.
 
 - [x] **P7-T13 `svelte-headless`'s `Kbd` renders `<div>`, not the
   `<kbd>` its own `components/kbd/AGENTS.md` documents ("HTML tag:

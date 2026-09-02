@@ -23,7 +23,14 @@ const sizeLabels: Record<string, string> = { small: "Small", medium: "Medium", l
 // lang was overwritten while its dir survived, purely because dir wasn't
 // declared). So in Nuxt the picker's value drives useHead, and unhead is
 // the single writer of record for lang + dir.
-const currentLocale = ref("en-GB");
+// Empty, not "en-GB": LocalePicker's onMounted restoration only checks
+// localStorage when its incoming `value` is falsy (value > storage >
+// navigator > defaultValue, per its own contract) -- seeding this ref
+// with the default up front made every restored value from storage
+// (or navigator detection) lose to that "already has a value" check,
+// so a persisted "ar" silently reverted to "en-GB" on every reload.
+// `default-value="en-GB"` below still covers the true first-visit case.
+const currentLocale = ref("");
 useHead({
   htmlAttrs: {
     lang: currentLocale,
