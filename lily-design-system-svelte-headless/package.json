@@ -47,9 +47,6 @@
     "aria-query": "^5.3.1"
   },
   "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild"
-    ],
     "overrides": {
       "cookie@<0.7.0": ">=0.7.0",
       "@sveltejs/kit@>=2.49.0 <=2.52.1": ">=2.52.2",

@@ -3,4 +3,3 @@ _site
 .eleventy-cache
 test-results
 playwright-report
-pnpm-workspace.yaml

@@ -19,9 +19,6 @@ playwright-report/
 # storybook
 storybook-static/
 
-# pnpm
-pnpm-workspace.yaml
-
 # misc
 .DS_Store
 *.pem

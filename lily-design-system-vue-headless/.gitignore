@@ -1,5 +1,4 @@
 node_modules
 storybook-static
-pnpm-workspace.yaml
 test-results
 playwright-report

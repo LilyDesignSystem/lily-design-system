@@ -6,4 +6,3 @@ dist
 storybook-static
 test-results
 playwright-report
-pnpm-workspace.yaml

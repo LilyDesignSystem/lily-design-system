@@ -1,5 +1,12 @@
 name: CI
 
+# pnpm 11 everywhere (plan P7-T12): every pnpm/action-setup step below
+# pins 11, matching this repo's own tooling and publish.yml. Each
+# subproject's build-script allowlist lives in its own
+# pnpm-workspace.yaml (`allowBuilds:`), the pnpm-11 location -- the
+# legacy package.json#pnpm.onlyBuiltDependencies field pnpm 11 ignores
+# has been removed everywhere it's redundant with that file.
+
 on:
   push:
     branches: [main]
@@ -70,7 +77,7 @@ jobs:
           df -h / | tail -1
       - uses: pnpm/action-setup@v4
         with:
-          version: 10
+          version: 11
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -99,7 +106,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
         with:
-          version: 10
+          version: 11
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -119,7 +126,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
         with:
-          version: 10
+          version: 11
       - uses: actions/setup-node@v4
         with:
           node-version: 22
