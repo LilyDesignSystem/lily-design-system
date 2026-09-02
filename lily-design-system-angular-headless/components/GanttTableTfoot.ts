@@ -3,14 +3,22 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 /**
  * GanttTableTfoot — a Gantt chart table interactive grid tfoot for planning schedule visualization <tfoot>
  *
- * Headless Angular component. Renders the semantic HTML root with the
- * kebab-case class hook `gantt-table-tfoot` and the consumer-provided `className`.
- * Ships zero CSS; the consumer styles via the class hook.
+ * Headless Angular component. Attribute selector on the native `<tfoot>` —
+ * the consumer writes `<tfoot lily-gantt-table-tfoot>`, so the host element IS the
+ * `<tfoot>` with no wrapper custom element between it and its parent (a
+ * wrapper broke required parent-child content-model relationships for
+ * assistive technology — see spec/index.md §11.8, Angular Material's own
+ * idiom for list/table sub-elements). Renders the kebab-case class hook
+ * `gantt-table-tfoot` plus the consumer-provided `className` on the host. Ships
+ * zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "lily-gantt-table-tfoot",
+  selector: "tfoot[lily-gantt-table-tfoot]",
   standalone: true,
-  template: `<tfoot class="gantt-table-tfoot {{ className() }}"><ng-content /></tfoot>`,
+  template: `<ng-content />`,
+  host: {
+    "[class]": '"gantt-table-tfoot " + className()',
+  },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GanttTableTfoot {

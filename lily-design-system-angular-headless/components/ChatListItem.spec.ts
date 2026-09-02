@@ -1,22 +1,36 @@
+import { Component } from "@angular/core";
 import { describe, expect, test } from "vitest";
 import { TestBed } from "@angular/core/testing";
 
 import { ChatListItem } from "./ChatListItem";
 
+// ChatListItem is an attribute-selector component (`li[lily-chat-list-item]`): its host is the
+// native <li> the consumer writes, not a wrapper element, so tests mount it via a
+// small host template rather than `TestBed.createComponent(ChatListItem)` directly (the
+// latter has no <li> to attach to and falls back to a bare <div>).
+@Component({
+  standalone: true,
+  imports: [ChatListItem],
+  template: `<li lily-chat-list-item [className]="className"></li>`,
+})
+class TestHost {
+  className = "";
+}
+
 describe("ChatListItem", () => {
-  test("renders the li root with the base class", () => {
-    const fixture = TestBed.createComponent(ChatListItem);
+  test("the host is the li itself — no wrapper element — with the base class", () => {
+    const fixture = TestBed.createComponent(TestHost);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("li.chat-list-item");
-    expect(el).toBeTruthy();
+    const el = fixture.nativeElement.querySelector("li");
+    expect(el.tagName).toBe("LI");
+    expect(el.classList.contains("chat-list-item")).toBe(true);
   });
 
-  test("appends the className input to the root class list", () => {
-    const fixture = TestBed.createComponent(ChatListItem);
-    fixture.componentRef.setInput("className", "extra");
+  test("appends the className input to the host class list", () => {
+    const fixture = TestBed.createComponent(TestHost);
+    fixture.componentInstance.className = "extra";
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("li.chat-list-item");
-    expect(el).toBeTruthy();
+    const el = fixture.nativeElement.querySelector("li");
     expect(el.classList.contains("extra")).toBe(true);
   });
 });

@@ -13,19 +13,19 @@ import { ReviewDate } from "../components/ReviewDate";
     <article class="page-wrapper">
       <h1>Timeline and cards</h1>
 
-      <!-- Direct class-hook markup: Angular's element-selector wrapper
-           hosts break the required ol>li DOM parent-child structure
-           (axe: list / listitem). Lily is headless — the kebab-case
-           class hooks ARE the contract, so plain semantic HTML is the
-           correct consumption here. -->
-      <ol class="timeline-list" aria-label="Project history">
-        <li class="timeline-list-item">Kickoff</li>
-        <li class="timeline-list-item">Design review</li>
-        <li class="timeline-list-item">Launch</li>
-      </ol>
+      <lily-timeline-list label="Project history">
+        <li lily-timeline-list-item>Kickoff</li>
+        <li lily-timeline-list-item>Design review</li>
+        <li lily-timeline-list-item>Launch</li>
+      </lily-timeline-list>
 
       <lily-card>
         <h2>Sample card</h2>
+        <!-- Direct class-hook markup: DateRange/ReviewDate's Angular
+             implementation renders a <div>, not the canonical <span>
+             (components/date-range/AGENTS.md, components/review-date/AGENTS.md)
+             — a separate, pre-existing defect from the list/table wrapper-host
+             issue this page used to work around; not fixed here. -->
         <p><span class="date-range">January – March 2026</span></p>
         <p><span class="review-date">Last reviewed 26 August 2026</span></p>
       </lily-card>

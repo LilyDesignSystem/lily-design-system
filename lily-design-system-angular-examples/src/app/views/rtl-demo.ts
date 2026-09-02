@@ -5,6 +5,18 @@ import { Field } from "../components/Field";
 import { Label } from "../components/Label";
 import { TextInput } from "../components/TextInput";
 import { Button } from "../components/Button";
+import { BreadcrumbNav } from "../components/BreadcrumbNav";
+import { BreadcrumbList } from "../components/BreadcrumbList";
+import { BreadcrumbListItem } from "../components/BreadcrumbListItem";
+import { DataTable } from "../components/DataTable";
+import { DataTableHead } from "../components/DataTableHead";
+import { DataTableBody } from "../components/DataTableBody";
+import { DataTableRow } from "../components/DataTableRow";
+import { DataTableTH } from "../components/DataTableTH";
+import { DataTableTD } from "../components/DataTableTD";
+import { PaginationNav } from "../components/PaginationNav";
+import { PaginationList } from "../components/PaginationList";
+import { PaginationListItem } from "../components/PaginationListItem";
 
 // RTL demo (plan P6-T4), ported from the canonical Svelte reference
 // (lily-design-system-svelte-sveltekit-examples/src/routes/rtl-demo/+page.svelte).
@@ -51,22 +63,21 @@ import { Button } from "../components/Button";
 //    real computed styles (see e2e/rtl-demo.spec.ts). No shared-theme
 //    change was needed.
 //
-// Wrapper-host workarounds (spec/index.md §11.8): this app's element-
-// selector Angular components wrap a native element inside their own
-// host tag, breaking any construct that depends on direct parent-child
-// structure. Breadcrumb, data-table, and pagination all hit this the
-// same way StepList/SummaryList do in book-an-appointment.ts, so all
-// three use direct class-hook markup here instead of their wrapper
-// components:
-//   - BreadcrumbList/BreadcrumbListItem: <lily-breadcrumb-list> would
-//     sit between <ol> and <li>.
-//   - DataTableHead/DataTableBody/DataTableRow: <lily-data-table-row>
-//     would sit between <thead>/<tbody> and <tr>, and there is no
-//     table-model exception for it -- so the table skips ALL of the
-//     DataTable* family, not just the row/head/body layer, and uses a
-//     plain <table class="data-table"> for the same reason.
-//   - PaginationList/PaginationListItem: <lily-pagination-list-item>
-//     would sit between <ol> and <li>.
+// Wrapper-host fix (spec/index.md §11.8): breadcrumb, data-table, and
+// pagination used to hit the same <ol>/<li> and <table>/<thead>/<tr>
+// wrapper-host problem StepList/SummaryList had in book-an-appointment.ts
+// -- an element-selector Angular component wraps its native element
+// inside its own host tag, breaking any construct that depends on
+// direct parent-child structure. All three families now use an
+// attribute selector on the native tag instead (`<li lily-breadcrumb-list-item>`,
+// `<thead lily-data-table-head>`, `<tr lily-data-table-row>`,
+// `<th lily-data-table-th>`, `<li lily-pagination-list-item>`, ...), so
+// this route composes them with the real components below. One caveat
+// worth flagging here since this route is the first place in this app
+// to pass `scope` to a `*TableTH`: it must go through the `[scope]`
+// input binding (`[scope]="'col'"`), never a static `scope="col"`
+// attribute -- the component's host `[attr.scope]` binding owns that
+// attribute and overwrites (here: clears) whatever static value was there.
 // RadioInput/CheckboxInput/RadioGroup have the same missing
 // checked/name model documented in book-an-appointment.ts, so the
 // contact-method radios and the terms checkbox are plain native
@@ -80,22 +91,39 @@ import { Button } from "../components/Button";
 @Component({
   selector: "lily-rtl-demo",
   standalone: true,
-  imports: [BackLink, InsetText, Field, Label, TextInput, Button],
+  imports: [
+    BackLink,
+    InsetText,
+    Field,
+    Label,
+    TextInput,
+    Button,
+    BreadcrumbNav,
+    BreadcrumbList,
+    BreadcrumbListItem,
+    DataTable,
+    DataTableHead,
+    DataTableBody,
+    DataTableRow,
+    DataTableTH,
+    DataTableTD,
+    PaginationNav,
+    PaginationList,
+    PaginationListItem,
+  ],
   template: `
     <article class="page-wrapper" dir="rtl" lang="ar">
       <lily-back-link href="/">رجوع إلى الأمثلة</lily-back-link>
 
       <h1>عرض توضيحي للكتابة من اليمين إلى اليسار</h1>
 
-      <!-- Direct class-hook markup: breadcrumb-list's wrapper-host
-           issue, see file header. -->
-      <nav class="breadcrumb-nav" aria-label="مسار التصفح">
-        <ol class="breadcrumb-list">
-          <li class="breadcrumb-list-item"><a href="/">الرئيسية</a></li>
-          <li class="breadcrumb-list-item"><a href="/components">الإعدادات</a></li>
-          <li class="breadcrumb-list-item" aria-current="page">الملف الشخصي</li>
-        </ol>
-      </nav>
+      <lily-breadcrumb-nav label="مسار التصفح">
+        <lily-breadcrumb-list>
+          <li lily-breadcrumb-list-item><a href="/">الرئيسية</a></li>
+          <li lily-breadcrumb-list-item><a href="/components">الإعدادات</a></li>
+          <li lily-breadcrumb-list-item aria-current="page">الملف الشخصي</li>
+        </lily-breadcrumb-list>
+      </lily-breadcrumb-nav>
 
       <lily-inset-text>
         هذه صفحة تجريبية لاختبار الاتجاه من اليمين إلى اليسار. جميع
@@ -104,35 +132,31 @@ import { Button } from "../components/Button";
 
       <h2>جدول الموظفين</h2>
 
-      <!-- Direct class-hook markup: data-table's wrapper-host issue,
-           see file header. -->
-      <table class="data-table" aria-label="قائمة الموظفين">
-        <thead class="data-table-head">
-          <tr class="data-table-row">
-            <th class="data-table-th" scope="col">الاسم</th>
-            <th class="data-table-th" scope="col">القسم</th>
-            <th class="data-table-th" scope="col">الحالة</th>
+      <lily-data-table label="قائمة الموظفين">
+        <thead lily-data-table-head>
+          <tr lily-data-table-row>
+            <th lily-data-table-th [scope]="'col'">الاسم</th>
+            <th lily-data-table-th [scope]="'col'">القسم</th>
+            <th lily-data-table-th [scope]="'col'">الحالة</th>
           </tr>
         </thead>
-        <tbody class="data-table-body">
+        <tbody lily-data-table-body>
           @for (row of rows; track row.name) {
-            <tr class="data-table-row">
-              <td class="data-table-td">{{ row.name }}</td>
-              <td class="data-table-td">{{ row.department }}</td>
-              <td class="data-table-td">{{ row.status }}</td>
+            <tr lily-data-table-row>
+              <td lily-data-table-td>{{ row.name }}</td>
+              <td lily-data-table-td>{{ row.department }}</td>
+              <td lily-data-table-td>{{ row.status }}</td>
             </tr>
           }
         </tbody>
-      </table>
+      </lily-data-table>
 
-      <!-- Direct class-hook markup: pagination-list's wrapper-host
-           issue, see file header. Plain page numbers, word labels
-           only -- no directional arrow glyphs to sidestep glyph-
-           direction issues entirely. -->
-      <nav class="pagination-nav" aria-label="ترقيم صفحات النتائج">
-        <ol class="pagination-list" aria-label="قائمة الصفحات">
+      <!-- Plain page numbers, word labels only -- no directional arrow
+           glyphs to sidestep glyph-direction issues entirely. -->
+      <lily-pagination-nav label="ترقيم صفحات النتائج">
+        <lily-pagination-list label="قائمة الصفحات">
           @for (page of pages; track page) {
-            <li class="pagination-list-item">
+            <li lily-pagination-list-item>
               @if (page === currentPage) {
                 <span aria-current="page">{{ page }}</span>
               } @else {
@@ -140,8 +164,8 @@ import { Button } from "../components/Button";
               }
             </li>
           }
-        </ol>
-      </nav>
+        </lily-pagination-list>
+      </lily-pagination-nav>
 
       <h2>نموذج التواصل</h2>
 

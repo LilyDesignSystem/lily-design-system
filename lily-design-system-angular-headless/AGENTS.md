@@ -11,7 +11,7 @@
 ## Metadata
 
 - Package: lily-design-system-angular-headless
-- Version: 0.1.0
+- Version: 0.3.0
 - Created: 2026-05-28
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause or contact us for more
 - Contact: Joel Parker Henderson (joel@joelparkerhenderson.com)
@@ -174,3 +174,38 @@ templates use the dashed form. Where the component is just a styled
 wrapper around a native element, the template renders that native
 element with the appropriate class hook; the wrapper `<lily-*>`
 element is invisible (it has no styles, defaults to inline-display).
+
+### Exception: list/table sub-elements use an attribute selector
+
+`*ListItem` and the table sub-elements (`*TableHead`, `*TableBody`,
+`*TableFoot`, `*TableRow`, `*TableTH`, `*TableTD`, and the gantt-table
+`*Thead`/`*Tbody`/`*Tfoot`/`*Tr`/`*TH`/`*TD` variants), plus `Option`,
+break the rule above: an element-selector wrapper here sits between a
+parent and child with a required content-model relationship (`<ol>` +
+`<li>`, `<table>` + `<thead>`/`<tbody>`/`<tfoot>`/`<tr>`, `<tr>` +
+`<th>`/`<td>`, `<select>` + `<option>`) and axe flags the broken
+parent-child structure (`list`/`listitem`, and the equivalent table
+rules) — see spec/index.md §11.8. These components instead declare a
+combined tag+attribute selector on the native element itself, e.g.
+`selector: "li[lily-breadcrumb-list-item]"`, with `template: `<ng-content
+/>`` and the class hook (plus any other input-driven attribute) moved
+into `host: { "[class]": ... }`. The consumer writes the native tag
+directly: `<li lily-breadcrumb-list-item>`, `<tr lily-table-row>`,
+`<th lily-table-th [scope]="'col'">`, `<option lily-option [value]="'x'">`.
+`TestBed.createComponent(Component)` cannot mount these directly (there
+is no `<li>` to attach to — it falls back to a bare `<div>`); tests
+mount a small host component with the real tag in its template instead
+(see any `*ListItem.spec.ts` for the pattern). Two consequences worth
+remembering when writing consumer markup against these components:
+
+- Any attribute the host also binds (`class`, `scope`, `value`) MUST
+  be passed through the component's input, not as a competing static
+  HTML attribute — the host binding re-evaluates every change-detection
+  cycle and overwrites (here: clears, since the unset default is falsy)
+  a static attribute of the same name. `<th lily-table-th scope="col">`
+  silently loses its scope; `<th lily-table-th [scope]="'col'">` is
+  correct.
+- The parent container (`*List`, `*Table`, `*TableHead`/`Body`/`Foot`,
+  `Select`) is unaffected and keeps the plain element selector — only
+  the child that has to be a direct native descendant needed the
+  attribute-selector treatment.

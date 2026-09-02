@@ -34,8 +34,8 @@ import { Banner } from "../components/Banner";
         <lily-field>
           <lily-label>Language</lily-label>
           <lily-select label="Language">
-            <lily-option value="en">English</lily-option>
-            <lily-option value="fr">Français</lily-option>
+            <option lily-option [value]="'en'">English</option>
+            <option lily-option [value]="'fr'">Français</option>
           </lily-select>
         </lily-field>
       </lily-fieldset>

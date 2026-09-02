@@ -3,14 +3,22 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 /**
  * TimelineListItem — one event in a timeline list
  *
- * Headless Angular component. Renders the semantic HTML root with the
- * kebab-case class hook `timeline-list-item` and the consumer-provided `className`.
- * Ships zero CSS; the consumer styles via the class hook.
+ * Headless Angular component. Attribute selector on the native `<li>` —
+ * the consumer writes `<li lily-timeline-list-item>`, so the host element IS the
+ * `<li>` with no wrapper custom element between it and its parent (a
+ * wrapper broke required parent-child content-model relationships for
+ * assistive technology — see spec/index.md §11.8, Angular Material's own
+ * idiom for list/table sub-elements). Renders the kebab-case class hook
+ * `timeline-list-item` plus the consumer-provided `className` on the host. Ships
+ * zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "lily-timeline-list-item",
+  selector: "li[lily-timeline-list-item]",
   standalone: true,
-  template: `<li class="timeline-list-item {{ className() }}"><ng-content /></li>`,
+  template: `<ng-content />`,
+  host: {
+    "[class]": '"timeline-list-item " + className()',
+  },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TimelineListItem {

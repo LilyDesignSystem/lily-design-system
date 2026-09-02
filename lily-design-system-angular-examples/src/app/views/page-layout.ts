@@ -15,14 +15,12 @@ import { Panel } from "../components/Panel";
     <article class="page-wrapper">
       <h1>Page layout</h1>
 
-      <!-- Direct class-hook markup: the element-selector wrapper hosts
-           break the ol>li structure axe requires; see timeline-and-cards. -->
-      <nav class="breadcrumb-nav" aria-label="Breadcrumb">
-        <ol class="breadcrumb-list">
-          <li class="breadcrumb-list-item"><a href="/">Home</a></li>
-          <li class="breadcrumb-list-item" aria-current="page">Page layout</li>
-        </ol>
-      </nav>
+      <lily-breadcrumb-nav label="Breadcrumb">
+        <lily-breadcrumb-list>
+          <li lily-breadcrumb-list-item><a href="/">Home</a></li>
+          <li lily-breadcrumb-list-item aria-current="page">Page layout</li>
+        </lily-breadcrumb-list>
+      </lily-breadcrumb-nav>
 
       <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
         <lily-sidebar label="Page navigation" style="flex: 1 1 240px; min-width: 0;">

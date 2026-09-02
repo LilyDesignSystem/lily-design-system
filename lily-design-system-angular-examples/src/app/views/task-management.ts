@@ -11,13 +11,11 @@ import { Badge } from "../components/Badge";
     <article class="page-wrapper">
       <h1>Task management</h1>
 
-      <!-- Direct class-hook markup: the element-selector wrapper hosts
-           break the ol>li structure axe requires; see timeline-and-cards. -->
-      <ol class="task-list" aria-label="Today">
-        <li class="task-list-item">Write spec <lily-badge>in progress</lily-badge></li>
-        <li class="task-list-item">Review PR <lily-badge>pending</lily-badge></li>
-        <li class="task-list-item">Deploy <lily-badge>done</lily-badge></li>
-      </ol>
+      <lily-task-list label="Today">
+        <li lily-task-list-item>Write spec <lily-badge>in progress</lily-badge></li>
+        <li lily-task-list-item>Review PR <lily-badge>pending</lily-badge></li>
+        <li lily-task-list-item>Deploy <lily-badge>done</lily-badge></li>
+      </lily-task-list>
     </article>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

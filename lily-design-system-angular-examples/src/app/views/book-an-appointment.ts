@@ -27,6 +27,10 @@ import { ErrorMessage } from "../components/ErrorMessage";
 import { StatusTag } from "../components/StatusTag";
 import { SuccessPanel } from "../components/SuccessPanel";
 import { Panel } from "../components/Panel";
+import { StepList } from "../components/StepList";
+import { StepListItem } from "../components/StepListItem";
+import { SummaryList } from "../components/SummaryList";
+import { SummaryListItem } from "../components/SummaryListItem";
 
 // Book an appointment -- Lily's flagship composed-page pattern (plan
 // P6-T2), ported to Angular (plan P6-T3). A multi-step GP-appointment
@@ -39,9 +43,14 @@ import { Panel } from "../components/Panel";
 // rather than assuming the Svelte components' prop shapes carry over.
 // Several of this catalog's components are thin wrapper divs around a
 // native element -- Angular's component-selector host tag wraps the
-// rendered template (the same "wrapper-host" issue documented in
-// spec/index.md §11.8 for list/table components) -- which has real
-// consequences followed throughout this file:
+// rendered template -- which has real consequences followed throughout
+// this file. The list/table families (StepList/StepListItem,
+// SummaryList/SummaryListItem, BreadcrumbList, TimelineList, ...) had
+// this fixed at the library level (spec/index.md §11.8: those
+// components now use an attribute selector on the native tag itself,
+// so there is no wrapper element and no ol>li/tr>td parent-child
+// defect) -- point 3 below is now historical. The remaining
+// consequences (points 1-2) are for components outside that fix:
 //
 //   1. Static/bound attributes this catalog's components don't declare
 //      as @Input()s (id, tabindex, role, aria-live) land on the OUTER
@@ -71,12 +80,13 @@ import { Panel } from "../components/Panel";
 //      renders a decorative <div> with no `for` association) so
 //      clicking the visible text toggles the control, matching the
 //      reference's "Label wraps the control" pattern in spirit.
-//   3. StepList/StepListItem and SummaryList/SummaryListItem have the
-//      same <ol>/<li> wrapper-host problem as BreadcrumbList and
-//      TimelineList (an Angular <lily-step-list-item> host sits
-//      between the rendered <ol> and its rendered <li>, breaking the
-//      list/listitem parent-child structure axe requires), so both
-//      also use direct class-hook markup.
+//   3. (Historical.) StepList/StepListItem and SummaryList/SummaryListItem
+//      used to have the same <ol>/<li> wrapper-host problem as
+//      BreadcrumbList and TimelineList and so used direct class-hook
+//      markup here, matching page-layout.ts / timeline-and-cards.ts /
+//      task-management.ts. All of those now use the real components
+//      (`<li lily-step-list-item>`, `<li lily-summary-list-item>`, ...)
+//      since the library-level attribute-selector fix landed.
 //   4. Button always renders `type="button"` (never `type="submit"`),
 //      so clicking it can never trigger a form's native submit event --
 //      each step's (click) handler calls the validate-and-advance
@@ -163,6 +173,10 @@ function todayIso(): string {
     StatusTag,
     SuccessPanel,
     Panel,
+    StepList,
+    StepListItem,
+    SummaryList,
+    SummaryListItem,
   ],
   template: `
     <article class="page-wrapper">
@@ -171,40 +185,36 @@ function todayIso(): string {
       <h1>Book an appointment</h1>
 
       @if (step() >= 1 && step() <= 4) {
-        <!-- Direct class-hook markup: the element-selector wrapper hosts
-             break the required ol>li structure axe requires; see
-             page-layout.ts / timeline-and-cards.ts for the established
-             workaround this file follows. -->
-        <ol class="step-list" aria-label="Booking progress">
+        <lily-step-list label="Booking progress">
           <li
-            class="step-list-item"
+            lily-step-list-item
             [attr.aria-current]="step() === 1 ? 'step' : null"
             [attr.data-status]="statusFor(1)"
           >
             Reason<span class="visually-hidden"> ({{ statusText(statusFor(1)) }})</span>
           </li>
           <li
-            class="step-list-item"
+            lily-step-list-item
             [attr.aria-current]="step() === 2 ? 'step' : null"
             [attr.data-status]="statusFor(2)"
           >
             Date and time<span class="visually-hidden"> ({{ statusText(statusFor(2)) }})</span>
           </li>
           <li
-            class="step-list-item"
+            lily-step-list-item
             [attr.aria-current]="step() === 3 ? 'step' : null"
             [attr.data-status]="statusFor(3)"
           >
             Your details<span class="visually-hidden"> ({{ statusText(statusFor(3)) }})</span>
           </li>
           <li
-            class="step-list-item"
+            lily-step-list-item
             [attr.aria-current]="step() === 4 ? 'step' : null"
             [attr.data-status]="statusFor(4)"
           >
             Check your answers<span class="visually-hidden"> ({{ statusText(statusFor(4)) }})</span>
           </li>
-        </ol>
+        </lily-step-list>
       }
 
       @if (errorList().length > 0) {
@@ -352,10 +362,10 @@ function todayIso(): string {
                   [value]="appointmentTime()"
                   (valueChange)="appointmentTime.set($any($event))"
                 >
-                  <lily-option value="">Select a time of day</lily-option>
-                  <lily-option value="morning">{{ timeLabels["morning"] }}</lily-option>
-                  <lily-option value="afternoon">{{ timeLabels["afternoon"] }}</lily-option>
-                  <lily-option value="evening">{{ timeLabels["evening"] }}</lily-option>
+                  <option lily-option value="">Select a time of day</option>
+                  <option lily-option [value]="'morning'">{{ timeLabels["morning"] }}</option>
+                  <option lily-option [value]="'afternoon'">{{ timeLabels["afternoon"] }}</option>
+                  <option lily-option [value]="'evening'">{{ timeLabels["evening"] }}</option>
                 </lily-select>
               </lily-field>
               @if (errors()['appointmentTime']) {
@@ -418,10 +428,8 @@ function todayIso(): string {
         @case (4) {
           <h2 id="step-heading" tabindex="-1">Check your answers</h2>
 
-          <!-- Direct class-hook markup: same ol>li wrapper-host issue as
-               the step list above. -->
-          <ol class="summary-list" aria-label="Your appointment details">
-            <li class="summary-list-item">
+          <lily-summary-list label="Your appointment details">
+            <li lily-summary-list-item>
               <span>Reason</span>
               <span>
                 {{ reasonSummary() }}
@@ -431,27 +439,27 @@ function todayIso(): string {
               </span>
               <a href="#reason" (click)="goToStep(1, $event)">Change<span class="visually-hidden"> reason</span></a>
             </li>
-            <li class="summary-list-item">
+            <li lily-summary-list-item>
               <span>Date</span>
               <span>{{ appointmentDate() || "Not answered" }}</span>
               <a href="#date" (click)="goToStep(2, $event)">Change<span class="visually-hidden"> date</span></a>
             </li>
-            <li class="summary-list-item">
+            <li lily-summary-list-item>
               <span>Time of day</span>
               <span>{{ timeSummary() }}</span>
               <a href="#time" (click)="goToStep(2, $event)">Change<span class="visually-hidden"> time of day</span></a>
             </li>
-            <li class="summary-list-item">
+            <li lily-summary-list-item>
               <span>Full name</span>
               <span>{{ fullName() || "Not answered" }}</span>
               <a href="#name" (click)="goToStep(3, $event)">Change<span class="visually-hidden"> full name</span></a>
             </li>
-            <li class="summary-list-item">
+            <li lily-summary-list-item>
               <span>Email address</span>
               <span>{{ email() || "Not answered" }}</span>
               <a href="#email-review" (click)="goToStep(3, $event)">Change<span class="visually-hidden"> email address</span></a>
             </li>
-            <li class="summary-list-item">
+            <li lily-summary-list-item>
               <span>Phone number</span>
               <span>
                 @if (phone()) {
@@ -462,14 +470,14 @@ function todayIso(): string {
               </span>
               <a href="#phone-review" (click)="goToStep(3, $event)">Change<span class="visually-hidden"> phone number</span></a>
             </li>
-            <li class="summary-list-item">
+            <li lily-summary-list-item>
               <span>Interpreter or additional support</span>
               <span>{{ needsSupport() ? "Yes" : "No" }}</span>
               <a href="#support-review" (click)="goToStep(3, $event)"
                 >Change<span class="visually-hidden"> interpreter or additional support</span></a
               >
             </li>
-          </ol>
+          </lily-summary-list>
 
           <form (ngSubmit)="submitBooking($event)" novalidate>
             <p>

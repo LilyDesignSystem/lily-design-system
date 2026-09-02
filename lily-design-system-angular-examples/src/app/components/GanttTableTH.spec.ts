@@ -1,22 +1,37 @@
+import { Component } from "@angular/core";
 import { describe, expect, test } from "vitest";
 import { TestBed } from "@angular/core/testing";
 
 import { GanttTableTH } from "./GanttTableTH";
 
+// GanttTableTH is an attribute-selector component (`th[lily-gantt-table-th]`): its host is the
+// native <th> the consumer writes, not a wrapper element, so tests mount it via a
+// small host template rather than `TestBed.createComponent(GanttTableTH)` directly (the
+// latter has no <th> to attach to and falls back to a bare <div>).
+@Component({
+  standalone: true,
+  imports: [GanttTableTH],
+  template: `<th lily-gantt-table-th [className]="className" [scope]="scope"></th>`,
+})
+class TestHost {
+  className = "";
+  scope = "";
+}
+
 describe("GanttTableTH", () => {
-  test("renders the th root with the base class", () => {
-    const fixture = TestBed.createComponent(GanttTableTH);
+  test("the host is the th itself — no wrapper element — with the base class", () => {
+    const fixture = TestBed.createComponent(TestHost);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("th.gantt-table-th");
-    expect(el).toBeTruthy();
+    const el = fixture.nativeElement.querySelector("th");
+    expect(el.tagName).toBe("TH");
+    expect(el.classList.contains("gantt-table-th")).toBe(true);
   });
 
-  test("appends the className input to the root class list", () => {
-    const fixture = TestBed.createComponent(GanttTableTH);
-    fixture.componentRef.setInput("className", "extra");
+  test("appends the className input to the host class list", () => {
+    const fixture = TestBed.createComponent(TestHost);
+    fixture.componentInstance.className = "extra";
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector("th.gantt-table-th");
-    expect(el).toBeTruthy();
+    const el = fixture.nativeElement.querySelector("th");
     expect(el.classList.contains("extra")).toBe(true);
   });
 });

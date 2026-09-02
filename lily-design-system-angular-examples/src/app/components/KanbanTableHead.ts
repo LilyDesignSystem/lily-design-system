@@ -3,14 +3,22 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 /**
  * KanbanTableHead — a kanban board table interactive grid thead for organizing items by status <thead>
  *
- * Headless Angular component. Renders the semantic HTML root with the
- * kebab-case class hook `kanban-table-head` and the consumer-provided `className`.
- * Ships zero CSS; the consumer styles via the class hook.
+ * Headless Angular component. Attribute selector on the native `<thead>` —
+ * the consumer writes `<thead lily-kanban-table-head>`, so the host element IS the
+ * `<thead>` with no wrapper custom element between it and its parent (a
+ * wrapper broke required parent-child content-model relationships for
+ * assistive technology — see spec/index.md §11.8, Angular Material's own
+ * idiom for list/table sub-elements). Renders the kebab-case class hook
+ * `kanban-table-head` plus the consumer-provided `className` on the host. Ships
+ * zero CSS; the consumer styles via the class hook.
  */
 @Component({
-  selector: "lily-kanban-table-head",
+  selector: "thead[lily-kanban-table-head]",
   standalone: true,
-  template: `<thead class="kanban-table-head {{ className() }}"><ng-content /></thead>`,
+  template: `<ng-content />`,
+  host: {
+    "[class]": '"kanban-table-head " + className()',
+  },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class KanbanTableHead {
