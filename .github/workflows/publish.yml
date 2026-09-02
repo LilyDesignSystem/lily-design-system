@@ -23,6 +23,10 @@ on:
         type: choice
         options: [headless, helpers, both]
         default: both
+      nuget_only:
+        description: "Publish only the NuGet (Blazor) package(s) for the selected target, skip npm"
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -32,15 +36,15 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
         with:
           version: 11 # matches ci.yml and this repo's own tooling (plan P7-T12)
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           registry-url: "https://registry.npmjs.org"
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: "10.0.x"
 
@@ -52,6 +56,11 @@ jobs:
           else
             echo "flag=--dry-run" >> "$GITHUB_OUTPUT"; echo "mode=dry-run" >> "$GITHUB_OUTPUT"
           fi
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.nuget_only }}" = "true" ]; then
+            echo "nuget_only=--nuget-only" >> "$GITHUB_OUTPUT"
+          else
+            echo "nuget_only=" >> "$GITHUB_OUTPUT"
+          fi
           echo "publish mode: $(cat "$GITHUB_OUTPUT")"
 
       - name: Publish headless libraries
@@ -60,7 +69,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: "true"
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-        run: bin/publish-headless ${{ steps.mode.outputs.flag }}
+        run: bin/publish-headless ${{ steps.mode.outputs.flag }} ${{ steps.mode.outputs.nuget_only }}
 
       - name: Publish helper packages
         if: github.event_name != 'workflow_dispatch' || inputs.target != 'headless'
@@ -68,4 +77,4 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: "true"
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-        run: bin/publish-helpers ${{ steps.mode.outputs.flag }}
+        run: bin/publish-helpers ${{ steps.mode.outputs.flag }} ${{ steps.mode.outputs.nuget_only }}
