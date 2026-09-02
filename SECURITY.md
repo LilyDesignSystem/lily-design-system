@@ -147,7 +147,8 @@ treat a divergence as a finding.
 | Dependabot security updates | enabled | advisory-driven bumps across many package manifests |
 | Branch protection on `main` | active — no force-push, no deletion | |
 | npm publishing | two-factor authentication required; publishes carry `--provenance` | the publishing identity is one account; see [MAINTAINERS.md](MAINTAINERS.md) |
-| Registry tokens (`NPM_TOKEN`, `NUGET_API_KEY`) | named CI secrets only, real publishes gated on manual dispatch; slated for OIDC [Trusted Publishing](spec/trusted-publishing/index.md) once it covers all three forges and both registries (not met as of 2026-08) | a leaked long-lived token is the classic supply-chain path; the interim mitigations and the adoption trigger are written down |
+| Registry tokens (`NPM_TOKEN`) | named CI secret only, real publishes gated on manual dispatch; slated for OIDC [Trusted Publishing](spec/trusted-publishing/index.md) once it covers all three forges (not met as of 2026-09 — Codeberg unsupported) | a leaked long-lived token is the classic supply-chain path; the interim mitigation and the adoption trigger are written down |
+| NuGet publishing | OIDC [Trusted Publishing](spec/trusted-publishing/index.md) (adopted 2026-09): a `NUGET_USER` secret names the nuget.org profile, not a credential; the actual push key is a 1-hour token minted per run by `NuGet/login@v1` and never stored | no long-lived NuGet key exists to leak |
 
 > [!NOTE]
 > Verified 2026-08-26 across all 23 repositories: secret scanning, push

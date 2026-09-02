@@ -51,7 +51,7 @@ inventory nobody can hand over.
 | --- | --- | --- | --- |
 | GitHub account `joelparkerhenderson` and the `LilyDesignSystem` organisation | every repository, every release, issues, settings, and the `lilydesignsystem.github.io` Pages site | the maintainer | none: GitHub's account-recovery process is the only route, and it is between GitHub and the account holder |
 | npm publish rights | the published headless and helper packages | the maintainer's npm account (plus `NPM_TOKEN` as a CI secret; slated for OIDC [Trusted Publishing](spec/trusted-publishing/index.md) when all forges are covered) | the npm owner list is the recovery surface, and it is that one account |
-| NuGet publish rights | the 5 Blazor helper packages (built in `dist-nuget/`, **not yet published**) | the maintainer's NuGet account | as above |
+| NuGet publish rights | the Blazor headless library plus the 5 Blazor helper packages (built in `dist-nuget/`, **not yet published**) | OIDC [Trusted Publishing](spec/trusted-publishing/index.md) from GitHub Actions only (a nuget.org policy bound to this repo's `publish.yml`, keyed to the maintainer's nuget.org profile via the `NUGET_USER` CI secret — no long-lived NuGet API key exists) | the nuget.org account holding the trusted-publisher policy is the recovery surface; GitLab and Codeberg still cannot publish to NuGet at all |
 | GitLab and Codeberg mirrors | a full push mirror of every subtree | the maintainer | see "If the maintainer is unavailable" — this is the one identity that meaningfully reduces risk |
 | The Lily™ and Lily Design System™ marks | the project name | the maintainer, personally | trademark rights do not transfer with a fork; see [LICENSE.md](LICENSE.md) |
 

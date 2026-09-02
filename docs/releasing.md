@@ -96,10 +96,13 @@ identified release commits; earlier history has no tags.
    would. This is the gate that would have caught 0.2.0; it also runs
    in CI. Never publish a package whose packed tarball you have not
    imported.
-4. Publish: the scripts directly (npm login / `NUGET_API_KEY`), or the
-   tag-gated [`publish` workflow](../.github/workflows/publish.yml) —
-   dry-run by default, real publishing only via an explicit manual
-   dispatch, npm provenance enabled.
+4. Publish: the scripts directly (npm login; NuGet via
+   [Trusted Publishing](../spec/trusted-publishing/index.md), which
+   only works inside the `publish` workflow's OIDC context — there is
+   no local `NUGET_API_KEY` any more), or the tag-gated
+   [`publish` workflow](../.github/workflows/publish.yml) — dry-run by
+   default, real publishing only via an explicit manual dispatch, npm
+   provenance enabled.
 
 ## Deprecation policy
 
@@ -118,16 +121,17 @@ Deprecations, like releases, get a CHANGELOG entry.
 | Registry | Credential | Where |
 | --- | --- | --- |
 | npm | maintainer login / `NPM_TOKEN` secret | local `npm login`; CI secret for the workflow |
-| NuGet | `NUGET_API_KEY` env var / secret | never committed; see [MAINTAINERS.md](../MAINTAINERS.md) for holder + recovery |
+| NuGet | OIDC [Trusted Publishing](../spec/trusted-publishing/index.md) — a `NUGET_USER` secret (nuget.org profile name) plus a nuget.org policy bound to this repo's `publish.yml`; no API key exists | the `NuGet/login@v1` step in [`publish.yml`](../.github/workflows/publish.yml); see [MAINTAINERS.md](../MAINTAINERS.md) for holder + recovery |
 
-These long-lived tokens are the interim posture. The standing position
+`NPM_TOKEN` is the remaining interim posture. The standing position
 ([spec/trusted-publishing/](../spec/trusted-publishing/index.md)) is to
-replace them with OIDC Trusted Publishing when it is production-ready
-across every forge this project publishes from (GitHub, GitLab,
-Codeberg) and every registry it publishes to (npm, NuGet) — a bar not
-met as of 2026-08 (Codeberg is unsupported by both; NuGet also lacks
-GitLab). npm `--provenance` already runs today and composes with, not
-substitutes for, Trusted Publishing.
+replace it with OIDC Trusted Publishing once npm's fan-out gap closes —
+Codeberg has no supported OIDC provider yet. NuGet already made this
+switch (2026-09): GitLab and Codeberg were never able to publish to
+NuGet in the first place, so adopting Trusted Publishing for GitHub
+alone didn't demote either of them from anything they could do before.
+npm `--provenance` already runs today regardless, and composes with,
+rather than substitutes for, Trusted Publishing.
 
 ---
 

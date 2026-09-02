@@ -9,6 +9,36 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## NuGet Trusted Publishing adopted (GitHub only) — 2026-09-02
+
+The real publish of the Blazor headless library + 5 Blazor helper
+packages (P2-T2) hit `NUGET_API_KEY: set NUGET_API_KEY to push to
+nuget.org` — the repo had zero secrets configured, not a broken one.
+Rather than mint a long-lived key, adopted OIDC
+[Trusted Publishing](spec/trusted-publishing/index.md) for NuGet
+instead: `publish.yml` gained a `NuGet/login@v1` step (real-mode only,
+reusing the job's existing `id-token: write`) that exchanges a
+GitHub-issued OIDC token for a 1-hour nuget.org API key, and both
+publish steps now read `steps.nuget-login.outputs.NUGET_API_KEY`
+instead of a secret. This is a deliberate exception to "adopt when the
+whole fan-out is covered": GitHub was already the only forge that
+could publish to NuGet (GitLab and Codeberg both remain unable to,
+unchanged by this commit), so there was no fan-out to demote. npm
+keeps `NPM_TOKEN` — its Codeberg gap is real and unresolved.
+
+Two things remain on the maintainer's side, outside this repo: register
+the trusted-publisher policy at
+[nuget.org/account/trustedpublishing](https://www.nuget.org/account/trustedpublishing)
+(Repository Owner `LilyDesignSystem`, Repository `lily-design-system`,
+Workflow File `publish.yml`, Environment blank), and add a `NUGET_USER`
+secret holding the nuget.org profile name. `NUGET_API_KEY` can then be
+removed from repository secrets — it was never actually set, so there
+is nothing to revoke at that layer, only at nuget.org if one existed
+there. Updated in the same change: `MAINTAINERS.md`'s publishing-identities
+table, `SECURITY.md`'s posture table, `docs/releasing.md` § Credentials,
+and `spec/trusted-publishing/index.md`'s readiness picture and
+checklist. Full record: [spec/index.md](spec/index.md) §14.1.
+
 ## AI_STATEMENT.md 1.1.0 → 1.2.0, GOVERNANCE.md, CONTRIBUTING.md: AI attribution and publish authority — 2026-09-02
 
 Two deliberate governance reversals, both directed by the maintainer in

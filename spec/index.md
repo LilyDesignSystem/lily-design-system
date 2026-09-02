@@ -669,6 +669,20 @@ Long-term: versioned releases per subproject npm/NuGet package
 
 ### 14.1 Changelog highlights
 
+- **NuGet Trusted Publishing adopted, GitHub only (2026-09-02)** — the
+  real P2-T2 publish attempt failed on a missing `NUGET_API_KEY`
+  secret (never configured, not broken). Adopted OIDC
+  [Trusted Publishing](trusted-publishing/index.md) for NuGet instead
+  of minting a long-lived key: `publish.yml` gained a `NuGet/login@v1`
+  step (real-mode only) exchanging the job's GitHub OIDC token for a
+  1-hour nuget.org key. Deliberate exception to "adopt when the whole
+  fan-out is covered" — GitHub was already the only forge that could
+  publish to NuGet, so nothing was demoted; npm keeps `NPM_TOKEN`
+  pending its real Codeberg gap. `MAINTAINERS.md`, `SECURITY.md`,
+  `docs/releasing.md`, and the trusted-publishing spec updated in the
+  same change. Two steps remain outside this repo: the maintainer
+  registering the nuget.org trusted-publisher policy and adding a
+  `NUGET_USER` secret. Full record: [CHANGELOG.md](../CHANGELOG.md).
 - **AI attribution and publish authority revised (2026-09-02)** —
   two maintainer-directed governance reversals. `AI_STATEMENT.md` §4/§10
   now permit (and CONTRIBUTING.md recommends) a `Co-Authored-By:`

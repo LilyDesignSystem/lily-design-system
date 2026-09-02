@@ -5,9 +5,18 @@ name: Publish
 # the explicit `real` input on a manual dispatch — a tag alone never
 # ships bytes. npm publishes carry provenance (id-token: write).
 #
+# NuGet: OIDC Trusted Publishing (spec/trusted-publishing/index.md), not a
+# long-lived key. The NuGet/login step exchanges this job's GitHub OIDC
+# token (id-token: write, already below) for a 1-hour API key — request
+# it right before publishing, not earlier, since it expires in an hour.
+# Requires a trusted publishing policy on nuget.org matching this repo
+# (owner LilyDesignSystem, repo lily-design-system, workflow publish.yml,
+# no environment) — GitHub only; GitLab and Codeberg aren't covered yet,
+# so those two forges still can't publish to NuGet at all.
+#
 # Secrets required for a real run:
-#   NPM_TOKEN       npm automation token for the lily-design-system-* names
-#   NUGET_API_KEY   nuget.org push key for the LilyDesignSystem.Blazor.* names
+#   NPM_TOKEN    npm automation token for the lily-design-system-* names
+#   NUGET_USER   nuget.org profile name (not email) for the NuGet/login step
 
 on:
   push:
@@ -63,12 +72,22 @@ jobs:
           fi
           echo "publish mode: $(cat "$GITHUB_OUTPUT")"
 
+      - name: Log in to NuGet (Trusted Publishing)
+        # Real runs only: a dry run never pushes, so it never needs a key,
+        # and the token is short-lived (1 hour) — request it right before
+        # the steps that spend it, not any earlier.
+        if: steps.mode.outputs.mode == 'REAL'
+        id: nuget-login
+        uses: NuGet/login@v1
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
       - name: Publish headless libraries
         if: github.event_name != 'workflow_dispatch' || inputs.target != 'helpers'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: "true"
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          NUGET_API_KEY: ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
         run: bin/publish-headless ${{ steps.mode.outputs.flag }} ${{ steps.mode.outputs.nuget_only }}
 
       - name: Publish helper packages
@@ -76,5 +95,5 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: "true"
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          NUGET_API_KEY: ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
         run: bin/publish-helpers ${{ steps.mode.outputs.flag }} ${{ steps.mode.outputs.nuget_only }}
