@@ -9,6 +9,301 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## AI_STATEMENT.md 1.1.0 → 1.2.0, GOVERNANCE.md, CONTRIBUTING.md: AI attribution and publish authority — 2026-09-02
+
+Two deliberate governance reversals, both directed by the maintainer in
+session and both real changes to what the project's own policy
+documents said the practice was — not a drift correction.
+
+**Commit attribution (AI_STATEMENT.md 1.1.0).** §4 previously read "A
+tool shall not be named as an author, co-author, or signer of anything
+here," and §10 told contributors disclosure belongs in the PR
+description, explicitly "not in commit trailers." Both are reversed: a
+commit may now carry a `Co-Authored-By:` trailer naming the tool, kept
+through a squash or rebase rather than dropped. Git's `Author` and
+`Committer` fields are unchanged and still always name the human
+maintainer — the trailer is disclosure of which tool touched a commit,
+never a grant of authorship and never a sign-off. `CONTRIBUTING.md`'s
+"Using AI tools" bullet updated to match.
+
+**AI publish authority (AI_STATEMENT.md 1.2.0, new GOVERNANCE.md § AI
+agent publish authority).** An agentic Claude Code session is now
+authorized to decide that a specific, already-prepared release meets a
+written readiness checklist (merged, tests green, versioned and
+changelogged per `docs/releasing.md`, dry-run and consumer-smoke
+actually run) and to execute the publish for real — `bin/publish-headless`
+/ `bin/publish-helpers` without `--dry-run`, pushing to npm and
+nuget.org — without asking again for that judgement or that action each
+time. This landed in two steps in the same session: the first pass
+authorized execution only and reserved the readiness call for the
+maintainer; the second lifted that reservation too. What a release
+*contains*, and every design-principle, licensing, and trademark
+decision, are unchanged — the maintainer's alone. `AI_STATEMENT.md` §12
+gained a residual-risk bullet naming the real consequence plainly: a
+wrongly-judged "ready" ships before anyone reviews the judgement, not
+after. Cross-referenced from `README.md`, `docs/releasing.md`, and
+`spec/trusted-publishing/index.md`; propagated to all 24 subtree repos
+via `bin/sync-special-files`.
+
+## P7-T11: angular-examples' 491 component specs now actually run — 2026-09-02
+
+[tasks.md](tasks.md) P7-T11. Two prior investigations (2026-08-29,
+2026-08-30) had `lily-design-system-angular-examples`'s copy of
+angular-headless's 491 `.spec.ts` files either failing to run at all
+or running but silently failing every `fixture.componentRef.setInput(...)`
+assertion, and pinned the likely cause on a triplicated `@angular/core`
+dependency tree. Re-investigating: `pnpm why @angular/core` now
+resolves only one copy (ordinary dependency updates since converged
+it), so that theory no longer held — and reproducing the failure with
+angular-headless's own zone.js + `BrowserDynamicTestingModule` test
+setup surfaced a much more direct error than the old "silent no-op":
+`NG0303: Can't set value of the 'className' input on the 'Badge'
+component`, preceded by a compiler warning that `Badge.ts` "contains
+Angular decorators but is not in the TypeScript program." The real
+cause: this app had `tsconfig.json` and `tsconfig.app.json` but no
+`tsconfig.spec.json` — the file `@analogjs/vite-plugin-angular` looks
+for by convention to know which files belong to its Angular-compiler
+program, so component `.ts` files compiled without the metadata
+`ComponentRef.setInput()` needs for a signal input. Added
+`tsconfig.spec.json` (mirroring angular-headless's own), widened
+`vitest.config.ts`'s `include`, and added the matching
+`vitest-setup.ts` — no per-component changes needed. All 492 spec
+files (491 components + the suffix-pattern test) now pass, 990/990
+tests, including the exact instrumented check the task asked for; the
+real app build (a separate pipeline, `vite.config.ts`'s `analog()`
+wrapper) is unaffected and still prerenders its full 507 pages.
+
+## LilyDesignSystem.Blazor.Headless 0.1.1: fix missing NuGet readme — 2026-09-02
+
+nuget.org's package-validation warned that the already-published
+`LilyDesignSystem.Blazor.Headless` 0.1.0 package had no readme: "We
+found the following issue(s) with the package. We recommend that you
+fix these issues and re-upload the package: Readme missing." The
+5 Blazor helper packages (`LilyDesignSystem.Blazor.ThemePicker` and
+its 4 siblings) already carry the standard `<PackageReadmeFile>` +
+`<None Include="README.md" Pack="true" PackagePath="\" />` pair
+pointing at their own `README.md` (a symlink to `index.md`, the
+convention every Lily subproject uses) — `LilyBlazorHeadless.csproj`
+was simply missed when that fix landed for the helpers. Added the
+same pair, pointed at `../../README.md` (the headless package's
+`.csproj` lives two directories below its subproject root, unlike the
+helpers' flatter layout). Verified for real: `dotnet pack` now
+produces a `.nupkg` whose `README.md` entry contains the expected
+~5.3 kB of real content (resolved through the symlink) and whose
+`.nuspec` carries `<readme>README.md</readme>`. Bumped to 0.1.1 since
+NuGet package content is immutable once published — 0.1.0 itself can't
+be edited, so shipping the fix means publishing a new version.
+
+## P7-T12: pnpm major-version skew resolved, plus a real install-breaking bug found along the way — 2026-09-02
+
+[tasks.md](tasks.md) P7-T12. The task set out to decide one pnpm major
+for the whole monorepo (CI had `helpers`/`headless`/`html-headless` on
+10 and `example-smoke` on 11; this machine's own tooling is 11) and
+migrate every subproject's build-script allowlist to wherever that
+version reads it. Investigating turned up a real, install-breaking bug
+that had nothing to do with which version CI happened to be pinned to:
+
+1. **Four `pnpm-workspace.yaml` files carried a literal, unfilled
+   template placeholder.** `lily-design-system-html-headless` and
+   `lily-design-system-html-css-js-examples` had
+   `chromedriver`/`edgedriver`/`geckodriver`/`esbuild` all set to the
+   string `"set this to true or false"`; `lily-design-system-svelte-sveltekit-examples`
+   and `lily-design-system-html-helpers` had the same for `esbuild`
+   alone. Under pnpm 11 (this machine's actual version — not a
+   hypothetical CI-only concern), a non-boolean `allowBuilds` value is
+   silently treated as "don't allow", so every one of those packages'
+   install-time scripts got skipped and `pnpm install` hard-failed with
+   `[ERR_PNPM_IGNORED_BUILDS]`. Fixed by writing the intended `true` in
+   all four files. This also *fully* explains — and corrects — the
+   2026-09-01/02 spec notes blaming this sandbox's network egress for
+   html-headless's WebdriverIO suite never completing: chromedriver's
+   own npm package downloads its binary via a *postinstall* script,
+   which was being silently ignored, so the driver was never cached and
+   `wdio` fell back to its own on-demand fetcher at test-run time
+   instead — the thing that was actually failing. With the fix,
+   `pnpm install` downloads chromedriver cleanly and a real `wdio run`
+   starts; it still can't finish in this one interactive sandbox (an
+   unexplained SIGINT within seconds, reproducible even for a single
+   spec with no concurrent load), but that is now a narrow,
+   sandbox-specific limitation, not a network block or a Lily defect.
+2. **Ten subprojects gitignored `pnpm-workspace.yaml` instead of
+   committing it**, while nine others correctly committed theirs — an
+   inconsistency, not a deliberate split (every `.gitignore` involved
+   was a bare, uncommented `pnpm-workspace.yaml` line with nothing
+   explaining why). That meant the committed repo state — what CI and
+   a fresh clone actually see — had *no* build-script allowlist at all
+   for those ten (`html-headless`, `html-css-js-examples`,
+   `svelte-headless`, `svelte-sveltekit-examples`, `react-headless`,
+   `react-next-examples`, `vue-headless`, `vue-nuxt-examples`,
+   `nunjucks-headless`, `nunjucks-eleventy-examples`) — invisible
+   locally because the untracked file was still sitting on disk.
+   Removed the `pnpm-workspace.yaml` line from each of the ten
+   `.gitignore` files and committed the (now-corrected) file itself;
+   confirmed all ten still install cleanly with it tracked.
+3. **The legacy `package.json#pnpm.onlyBuiltDependencies` /
+   `ignoredBuiltDependencies` fields pnpm 11 ignores were removed from
+   all 13 subprojects that still carried them**, now that every
+   pnpm-based subproject has a correct, tracked `pnpm-workspace.yaml`
+   `allowBuilds:` map as the single source of truth.
+   `pnpm.overrides` (dependency-version security pins) was left in
+   `package.json` untouched — confirmed pnpm 11 still reads it from
+   there (spot-checked `rollup` resolving to the overridden `>=4.59.0`
+   in svelte-headless), so no migration was needed for that field.
+
+With both real bugs fixed, `ci.yml`'s `helpers`, `headless`, and
+`html-headless` jobs and `publish.yml`'s one job all moved from pnpm
+10 to 11, matching `example-smoke` and this machine's own tooling — one
+version for the whole monorepo. Verification: fresh `pnpm install`
+(`--no-frozen-lockfile`, matching CI) succeeded for all 19 pnpm-based
+subprojects; re-ran the full vitest suite after reinstalling for every
+CI `helpers`/`headless` catalog and got the exact same counts P1-T6
+recorded the day before (no regression from the version change);
+`pnpm -C lily-design-system-angular-helpers build` (the one pnpm
+invocation inside the publish scripts) succeeded; `bin/publish-headless
+--dry-run` and `bin/publish-helpers --dry-run` both built and packed a
+real tarball with sane contents before hitting npm's expected
+"cannot publish over the previously published version" gate (the
+scripts never bump versions themselves, so a dry run against an
+unbumped local checkout always ends there — not a version-skew issue).
+`bin/test` clean throughout.
+
+## P1-T6: fresh verification sweep across all 21 subprojects — 2026-09-02
+
+[tasks.md](tasks.md) P1-T6. Re-ran every suite in spec §11.4–§11.7 for
+real — unit tests across all 7 headless libraries and 7 helper
+catalogs, Storybook coverage, and Playwright e2e + axe-core +
+responsive on all 7 example apps — rather than restamping the existing
+tables with a new date. Full current counts: [spec/testing/index.md](spec/testing/index.md).
+
+Three real, previously-undetected defects turned up and were fixed in
+the course of re-running rather than just observing them:
+
+1. **Wrong PascalCase heading assertions in 7 table/gantt e2e spec
+   files, duplicated across 3 apps (21 files).**
+   `e2e/components/{table-th,calendar-table-th,data-table-th,kanban-table-th}.spec.ts`
+   asserted `*TableTD` instead of `*TableTH`, and
+   `gantt-table-{thead,tbody,tr}.spec.ts` asserted
+   `GanttTable{Head,Body,TR}` instead of
+   `GanttTable{Thead,Tbody,Tr}` — in svelte-sveltekit-examples,
+   react-next-examples, and vue-nuxt-examples identically (a shared
+   authoring source, not independent typos). Every one of these 7
+   pages therefore failed its "renders the H1" assertion on every run;
+   fixed by correcting the expected name to match `components.tsv`.
+2. **A scrollable-but-unfocusable `<pre>` code snippet on long-named
+   component-detail pages (axe `scrollable-region-focusable`).**
+   svelte-sveltekit-examples' app-shell CSS makes an overflowing `<pre>`
+   horizontally scrollable (`overflow-x: auto`) to stop a long code
+   line breaking page layout, but the two Usage/Import `<pre>` elements
+   on `/components/{slug}` carried no `tabindex` — invisible for most
+   components, but a real, serious axe violation for the ~90 whose
+   import statement is long enough to actually overflow (mostly the
+   national personal identifier components, whose names are the
+   longest in the catalog). Found via svelte-sveltekit's exhaustive
+   `e2e/axe-catalog.spec.ts` (491/491 pages), which none of the other
+   six example apps run — but the same bare-`<pre>`-with-long-content
+   shape exists in their component-detail pages too, so the same
+   `tabindex="0"` fix was applied to all six as a precaution (angular,
+   react-next, vue-nuxt, blazor-web, html-css-js; nunjucks-eleventy's
+   static per-component pages mostly don't embed a code snippet at
+   all). Confirmed via a full 491/491 re-run for svelte-sveltekit and
+   each app's own `accessibility.spec.ts` sample for the rest.
+3. **vue-nuxt-examples' locale-picker never restored a persisted
+   locale on reload.** `app.vue` seeded the `ref` it binds via
+   `v-model:value` (needed so Nuxt's `useHead` — the only writer Nuxt
+   won't silently overwrite — can drive `lang`/`dir`) with the concrete
+   default `"en-GB"` instead of an empty string. `LocalePicker`'s own
+   `onMounted` restoration only consults `localStorage` when its
+   incoming `value` is falsy (its contract is value > storage >
+   navigator > defaultValue), so a persisted `"ar"` always lost to the
+   already-non-empty incoming value and reverted to `"en-GB"` on every
+   reload. Fixed by seeding the ref empty; `default-value="en-GB"`
+   still covers the true first-visit case. Confirmed failing
+   deterministically 3/3 in isolation before the fix, passing 3/3 after.
+   While re-running the full suite after that fix, also found (and
+   confirmed via `--repeat-each` that it's the pre-existing,
+   already-documented parser-blocking-vs-dynamically-appended-
+   stylesheet race, not a new regression — a different composed page
+   failed color-contrast each run, never the same one twice, and each
+   passed clean on isolated retry) that vue-nuxt-examples'
+   `accessibility.spec.ts` lacked the `gotoAndWaitForTheme` hardening
+   already applied to Blazor (P7-T17) and html-css-js-examples
+   (2026-08-30); ported the same fix.
+
+Net effect: Playwright e2e specs grew from 5,852 (2026-08-26) to 9,007,
+all green, across all 7 apps — real growth from rtl-demo,
+theme-switching, site-preferences, and svelte-sveltekit's full
+axe-catalog sweep landing since the last count, not padding.
+angular-headless's own unit count (985 → 1,011) and blazor-headless's
+(1,502 → 1,509) grew as a side effect of the §11.8 attribute-selector
+migration's added regression tests. html-headless's WebdriverIO suite
+could not be re-executed in this sandbox; this was recorded at the
+time as a confirmed chromedriver-download network block, matching the
+existing "browser run not re-executed" note — P7-T12 (2026-09-02)
+found the real cause and corrected this. Also
+corrected stale doc drift found along the way: nunjucks-eleventy-examples'
+responsive-sweep note said it "skips composed-page routes" — it has
+carried composed pages since plan P6-T1; axe-core's per-app table was
+missing angular-examples (already covered by its own 1,542-spec suite,
+just not listed) and still quoted nunjucks-eleventy-examples' pre-P6-T1
+17/17 axe count instead of its current 31/31.
+
+## angular-headless: wrapper-host attribute-selector migration — 2026-09-01
+
+Closes the spec §11.8 open backlog item ("Angular headless
+wrapper-host semantics"), a breaking change to `lily-design-system-angular-headless`
+(0.2.0 → 0.3.0). The first axe run against the Angular example app had
+shown that an element-selector Angular component wrapping a native
+element breaks any DOM structure that depends on a required direct
+parent-child relationship: `<ol class="breadcrumb-list">` contained
+`<lily-breadcrumb-list-item>` hosts, not `<li>`, directly (axe `list` /
+`listitem`, serious) — and the same defect applied to every
+`*ListItem` family and every table sub-element, since `<table>`,
+`<thead>`/`<tbody>`/`<tfoot>`, and `<tr>` all have the same kind of
+required-child content model.
+
+Fixed for the 51 affected components — the 20 `*ListItem` families,
+the 30 table sub-elements across `table` / `data-table` /
+`calendar-table` / `kanban-table` / `gantt-table`
+(`*Head`/`*Body`/`*Foot`/`*Row`/`*TH`/`*TD`, gantt using
+`*Thead`/`*Tbody`/`*Tfoot`/`*Tr`/`*TH`/`*TD`), and `Option` — by
+switching each from an element selector (`lily-{slug}`, wrapping the
+native tag in its own template) to a combined tag+attribute selector
+on the native tag itself (`{tag}[lily-{slug}]`, e.g.
+`li[lily-breadcrumb-list-item]`), matching Angular Material's own
+idiom for list/table sub-elements. The class hook (and any other
+input-driven attribute, e.g. `TableTH`'s `scope`) moves from the old
+template into `host: { "[class]": ... }`; `template` becomes bare
+`<ng-content />`. Consumers write the native tag directly:
+`<li lily-breadcrumb-list-item>`, `<tr lily-table-row>`,
+`<th lily-table-th [scope]="'col'">`, `<option lily-option [value]="'x'">`.
+Full pattern, the two consumer-facing gotchas (mounting these in tests
+needs a small host component with the real tag, since
+`TestBed.createComponent` has nothing to attach to otherwise; any
+host-bound attribute like `scope`/`value` must go through the
+component's input, never a competing static attribute, or the host
+binding silently clears it every change-detection cycle), and why the
+parent containers (`*List`, `*Table`, `*TableHead`, `Select`) were
+left on the element selector: `lily-design-system-angular-headless/AGENTS.md`
+"Selector convention", and that subproject's own `spec/index.md`.
+
+The four composed pages (`page-layout`, `task-management`,
+`timeline-and-cards`, `book-an-appointment`) and `rtl-demo` in
+`lily-design-system-angular-examples` that had been carrying a
+direct-class-hook-markup workaround for exactly this defect now use
+the real components again.
+
+Verification: `vitest run` 491/491 files, 1011/1011 tests;
+`ng-packagr` build clean; angular-examples builds and prerenders 507
+pages cleanly, and its full Playwright suite passes (1574/1574 specs:
+accessibility/axe, responsive, rtl-demo, theme-switching,
+site-preferences) — including axe on every route this change touched.
+Not in scope: `DateRange`/`ReviewDate` rendering `<div>` instead of
+the canonical `<span>` — a separate, still-open defect from the same
+original axe run, still worked around with direct class-hook markup in
+`timeline-and-cards.ts` — and `RadioGroup`/`RadioInput`/`CheckboxInput`'s
+missing `checked`/`name` model, worked around the same way in
+`book-an-appointment.ts` and `rtl-demo.ts`.
+
 ## html-css-js-examples axe + responsive suite failures resolved — 2026-08-30
 
 Closes the spec §11.8 open backlog item measured 2026-08-26 (commit

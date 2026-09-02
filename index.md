@@ -94,6 +94,12 @@ publishes its own pair at its own root with site-appropriate links. See
 [spec/agent-skills/](spec/agent-skills/index.md) and
 [spec/llms-json-and-llms-txt/](spec/llms-json-and-llms-txt/index.md).
 
+How AI tools are actually used to build this project — disclosure, human
+oversight, quality controls, and the standing authorization for an agentic
+Claude Code session to decide a specific release is ready and publish it for
+real — is [AI_STATEMENT.md](AI_STATEMENT.md) and
+[GOVERNANCE.md](GOVERNANCE.md) § AI agent publish authority, not this section.
+
 ## Components
 
 The canonical catalog is [components.tsv](components.tsv) — 491 components. Each

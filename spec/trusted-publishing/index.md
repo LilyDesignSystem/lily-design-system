@@ -40,6 +40,15 @@ the credential inventory and its single-holder honesty is
   the maintainer's keychain, are named in the credential inventory, and
   publishing for real requires an explicit manual dispatch — a tag
   alone never ships bytes.
+- **Who may decide to publish is a separate question from how the credential
+  works, and it is answered elsewhere.** An agentic Claude Code session is
+  authorized to decide a specific, already-prepared release meets the
+  readiness criteria and to execute the publish for real — see
+  [GOVERNANCE.md](../../GOVERNANCE.md) § AI agent publish authority and
+  [AI_STATEMENT.md](../../AI_STATEMENT.md) §5. That authorization is
+  unaffected by whether authentication is a long-lived token or, once
+  adopted, Trusted Publishing's short-lived OIDC token — both authenticate
+  the same publish step, whoever decided to run it.
 
 ## Readiness picture (as of 2026-08)
 

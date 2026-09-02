@@ -56,6 +56,7 @@ places that cannot drift out of sync with the tree.
 | Why the system is shaped this way | the relevant topic under [spec/](spec/index.md) |
 | Why a change looks the way it does | the pull request description that landed it, and the entry in [CHANGELOG.md](CHANGELOG.md) |
 | What a release contains | [CHANGELOG.md](CHANGELOG.md) and [NEWS.md](NEWS.md) |
+| Who may decide a specific release is ready and execute its publish | this file, § AI agent publish authority |
 | Questions still open | [RFC.md](RFC.md) |
 | What the project will not do | this file, and the "settled" table in [RFC.md](RFC.md) |
 
@@ -85,6 +86,36 @@ without anyone having reviewed, and this project would rather report the truth a
 let an adopter weigh it. What stands in for review is machine enforcement — the
 gates above — and the limits of that substitution are stated in
 [AI_STATEMENT.md](AI_STATEMENT.md) §12 rather than glossed.
+
+## AI agent publish authority
+
+Claude Code is authorized to decide that a specific, already-prepared release is
+ready to ship, and to execute the publish for real, without asking again for that
+judgement or that action each time. This is standing authorization, recorded here
+so it does not have to be re-granted in every session; it holds until this section
+changes. (Revised 2026-09-02: the earlier text here reserved the readiness call
+for the maintainer and authorized only mechanical execution; readiness is
+authorized too now.)
+
+"Ready" is not a free judgement call. It means:
+
+1. The change the release ships is already merged.
+2. `bin/test` and the relevant per-framework/e2e suites are green.
+3. The version follows `docs/releasing.md`'s discipline (semver, the "first
+   release is 0.1.0" rule) and has a written CHANGELOG entry.
+4. The dry-run and consumer-smoke gates in `docs/releasing.md` have actually
+   been run against this release, not assumed to still hold from a prior one.
+5. The publish itself: running `bin/publish-headless` and `bin/publish-helpers`
+   without `--dry-run`, and pushing the resulting packages to npm and to
+   nuget.org — or the equivalent through `publish.yml`, which stays tag-gated
+   and dry-run unless a manual dispatch sets `real: true`.
+
+An agent working in this repository may work through §§1–4 above, decide the
+release meets them, and carry out §5 itself — the maintainer no longer has to
+tick every box personally before the publish runs. This authorizes readiness and
+execution together; it still does not extend to choosing *what* a release
+contains, a design-principle ruling, or a licensing or trademark decision — those
+stay the maintainer's alone, per [AI_STATEMENT.md](AI_STATEMENT.md) §5.
 
 ## Cross-framework decisions
 

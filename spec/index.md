@@ -669,6 +669,16 @@ Long-term: versioned releases per subproject npm/NuGet package
 
 ### 14.1 Changelog highlights
 
+- **AI attribution and publish authority revised (2026-09-02)** —
+  two maintainer-directed governance reversals. `AI_STATEMENT.md` §4/§10
+  now permit (and CONTRIBUTING.md recommends) a `Co-Authored-By:`
+  trailer naming the AI tool on a commit — disclosure, not authorship
+  or a sign-off; git's `Author`/`Committer` fields still always name
+  the human. And a new [GOVERNANCE.md](../GOVERNANCE.md) § AI agent
+  publish authority authorizes an agentic session to decide a specific,
+  already-prepared release meets a written readiness checklist and
+  execute the real publish, without asking each time — what a release
+  *contains* stays the maintainer's alone. Full record: CHANGELOG.md.
 - **P7-T11 angular-examples' 491 component specs fixed (2026-09-02)** —
   two prior investigations blamed a triplicated `@angular/core`
   dependency tree for every `setInput()` assertion silently failing;

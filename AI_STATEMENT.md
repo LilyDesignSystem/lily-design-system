@@ -2,8 +2,8 @@
 
 |                     |                                                              |
 | ------------------- | ------------------------------------------------------------ |
-| Version             | 1.0.0                                                         |
-| Effective date      | 2026-08-26                                                    |
+| Version             | 1.2.0                                                         |
+| Effective date      | 2026-09-02                                                    |
 | Status              | Active                                                        |
 | Author and owner    | Joel Parker Henderson, maintainer                             |
 | Canonical location  | `AI_STATEMENT.md` at the repository root                      |
@@ -69,10 +69,15 @@ human's direction, as opposed to inline completion.
 
 One named human — the maintainer, listed in [MAINTAINERS.md](MAINTAINERS.md) —
 is the author of and accountable for every change in this repository, whatever
-tool produced the bytes. A tool **shall not** be named as an author, co-author,
-or signer of anything here, because a tool cannot be responsible for accuracy,
-integrity, or originality; responsibility that cannot be borne cannot be
-assigned. There is no AI-issued sign-off of any kind.
+tool produced the bytes. Git's `Author` and `Committer` fields **shall** always
+name that human; a tool is never the author, the committer, or a signer of
+anything here, because a tool cannot be responsible for accuracy, integrity, or
+originality, and responsibility that cannot be borne cannot be assigned.
+
+A commit **may** carry a `Co-Authored-By:` trailer naming the tool. That is
+disclosure — which tool touched this commit — sitting alongside the human
+`Author`/`Committer` fields it never replaces; it is not a grant of authorship
+and it assigns no responsibility. There is no AI-issued sign-off of any kind.
 
 ## 5. Where AI is used, and at what level
 
@@ -89,10 +94,19 @@ no defensible method exists for measuring one.
 | Per-component documentation (491 × `index.md`) | ai-generated | to the structure fixed in [spec/index.md](spec/index.md) §8 |
 | The specification under `spec/`, the `AGENTS/` rules, and this statement | ai-generated | held to the repository's own prose rules; the maintainer sets the positions |
 | Catalog decisions — what a component is, what it is named, what element it maps to | ai-assisted | proposed in session, decided by the maintainer, recorded in `components.tsv` and [AGENTS/components.md](AGENTS/components.md) |
-| Design-principle rulings, release decisions, license and trademark decisions | none | the maintainer's alone |
+| Design-principle rulings, license and trademark decisions, and what a release contains | none | the maintainer's alone |
+| Deciding a specific, already-prepared release is ready, and executing its publish (real `npm publish`, NuGet push) | ai-assisted | authorized in an agentic session per [GOVERNANCE.md](GOVERNANCE.md) § AI agent publish authority, against the readiness criteria written there — this is judgement plus execution on a release already scoped by the ordinary contribution process, not a decision about what to build or ship |
 | Contribution and review verdicts on others' work | none | prohibited use; see §11 |
 
-**autonomous** appears in no row, and that is the point of the next section.
+**autonomous** appears in no row above because the vocabulary in §3 is about
+*content* authorship, and none of these rows are unreviewed content. The
+publish-readiness-and-execution row is a different kind of exception worth
+naming plainly: it is the one place in this document where an agentic session
+acts — deciding a specific release is ready, and pushing it to a registry —
+without a human confirming that specific instance first. It is bounded by the
+written criteria in [GOVERNANCE.md](GOVERNANCE.md) § AI agent publish authority
+and by the pipeline's own gates, not by a human in the loop at the moment of
+action; §12 names the residual risk that follows from that.
 
 ## 6. Human oversight
 
@@ -185,10 +199,15 @@ silently.
 
 Contributors **may** use AI tools. A contribution with **ai-generated** content
 per §3 **should** say so in the pull-request description — which tool, and what
-it did. Disclosure lives in the PR description rather than in commit trailers:
-one maintained disclosure beats ten thousand trailer lines, this document is that
-disclosure, and the wider ecosystem has no agreed trailer anyway — the same
-trailers some communities recommend, others forbid.
+it did — and its commits **should** carry a `Co-Authored-By:` trailer naming the
+tool. Keep that trailer through a squash or a rebase rather than letting it drop
+silently: the two disclosures serve different failure modes, the PR description
+is the fuller account, and the trailer is the one built to survive when the PR
+description does not — a mirror that carries only commits, for one. To be clear
+about what the trailer is and is not: it names a tool that touched the commit, not
+a co-author with standing, and it is not a sign-off. Neither the trailer nor the
+PR description substitutes for git's `Author`/`Committer` fields, which are
+always the human's — see §4.
 
 The contributor remains responsible for their submission in full: understood,
 explained on request, tested, and honest. A contribution that its author cannot
@@ -238,6 +257,15 @@ This section exists because a disclosure without one is marketing.
 - **This is a self-declaration.** No third party has audited it. The checkable
   artifacts in §7 are the counterweight: they can disagree with this document, and
   if they do, the document is wrong.
+- **Publish-readiness authority removes a human check at the moment of
+  publishing.** §5's readiness-and-execution row means a real, public,
+  effectively irreversible action (a package landing on npm or nuget.org) can
+  happen without a maintainer confirming that specific instance first. The
+  written readiness criteria and the pipeline's gates (§7) are the control in
+  place of that check, not a claim that they catch everything those gates have
+  ever missed — §12's other bullets, and the CHANGELOG incidents they cite,
+  are the evidence for how much weight to put on automated gates alone. A
+  wrongly-judged "ready" ships before anyone reviews the judgement, not after.
 
 ## 13. Review and change
 
@@ -281,6 +309,8 @@ Authoring Practices Guide 1.2.
 | Version | Date       | Change       |
 | ------- | ---------- | ------------ |
 | 1.0.0   | 2026-08-26 | First issue. |
+| 1.1.0   | 2026-09-02 | §4 reversed: a commit may carry a `Co-Authored-By:` trailer naming the AI tool — disclosure, not authorship or a sign-off; git's `Author`/`Committer` fields still always name the human. §10 updated to match: contributions should carry the trailer alongside the PR-description disclosure, not instead of commit trailers as the prior text required. §5's release-decisions row gained a carve-out: once a release is decided, executing the publish itself (real `npm publish`, NuGet push) is authorized in an agentic session per [GOVERNANCE.md](GOVERNANCE.md) § AI agent publish authority — execution, not the release decision, which stays the maintainer's. |
+| 1.2.0   | 2026-09-02 | §5 revised further, same day: the 1.1.0 carve-out reserving "is this release ready" for the maintainer is lifted. Deciding a specific, already-prepared release is ready — against the written readiness criteria in [GOVERNANCE.md](GOVERNANCE.md) § AI agent publish authority (merged, tests green, versioned and changelogged per `docs/releasing.md`, dry-run and consumer-smoke already run) — and executing its publish are now authorized together in an agentic session. What a release *contains*, and every design-principle, licensing, and trademark decision, are unchanged: the maintainer's alone. |
 
 ## Annex B. Machine-readable summary
 
@@ -289,10 +319,11 @@ authoritative where the two could ever disagree.
 
 ```yaml
 ai-statement:
-  version: 1.0.0
-  last-updated: 2026-08-26
+  version: 1.2.0
+  last-updated: 2026-09-02
   vocabulary: w3c-ai-content-disclosure
   disclosure-default: ai-generated
+  commit-trailer: "Co-Authored-By: <tool> -- disclosure only, not authorship or a sign-off; Author/Committer are always the human"
   tools:
     - name: Claude Code
       provider: Anthropic
@@ -303,7 +334,9 @@ ai-statement:
     documentation: ai-generated
     review: none
     design-principles: none
-    release-decisions: none
+    release-contents: none # what a release contains -- the maintainer's alone
+    release-readiness: authorized # see GOVERNANCE.md § AI agent publish authority, and its written readiness criteria
+    publish-execution: authorized
   ships-ai-system: false
   autonomous-use: none
 ```

@@ -5,6 +5,13 @@ spec context is [spec/tooling/](../spec/tooling/index.md); the scripts
 are [`bin/publish-headless`](../bin/publish-headless) and
 [`bin/publish-helpers`](../bin/publish-helpers).
 
+Who may decide a release is ready and run this procedure — including an
+agentic Claude Code session, per [GOVERNANCE.md](../GOVERNANCE.md) § AI
+agent publish authority — is a separate question from what the procedure
+is. This document is the procedure; it applies the same way regardless of
+who executes it, and the readiness criteria that section sets are exactly
+the steps below actually having been done, not a separate bar.
+
 ## Version lines
 
 There is no lockstep version. Each published package owns its line, and

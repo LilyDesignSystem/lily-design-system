@@ -141,18 +141,27 @@ missing.
   written this way — read a few entries in [CHANGELOG.md](CHANGELOG.md) for the
   expected altitude.
 - If you used an AI tool for anything substantial, say so in the PR description —
-  which tool, and what it did. Not in commit trailers. The reasoning is in
-  [AI_STATEMENT.md](AI_STATEMENT.md) §10, and the project discloses its own use in
-  the same document.
+  which tool, and what it did — and add a `Co-Authored-By:` trailer naming the tool
+  on the commits it touched. Keep that trailer through any squash or rebase rather
+  than letting it get silently dropped — it is the disclosure that survives when
+  the PR description does not. Neither the trailer nor the PR description replaces
+  git's `Author`/`Committer` fields, which are always yours; the trailer names a
+  tool that touched the commit, not a co-author with standing, and it is not a
+  sign-off of any kind. The reasoning is in [AI_STATEMENT.md](AI_STATEMENT.md) §4
+  and §10, and the project discloses its own use in the same document.
 - You remain responsible for what you submit: understood, explained on request,
   tested, and honest. A contribution its author cannot explain is not accepted,
   whoever or whatever wrote it.
 
 ## Releases
 
-Maintainer-only, but documented so the process is checkable:
-[docs/releasing.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/releasing.md) — version lines, the two stable
-contracts, dry-run and consumer-smoke gates, deprecation policy.
+Deciding what a release contains is the maintainer's alone. Deciding a specific,
+already-prepared release is ready, and running the publish, is also authorized
+in an agentic Claude Code session against the written criteria in
+[GOVERNANCE.md](GOVERNANCE.md) § AI agent publish authority — not a contributor
+action either way. The process itself is documented so it is checkable regardless
+of who runs it: [docs/releasing.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/releasing.md) — version lines, the two
+stable contracts, dry-run and consumer-smoke gates, deprecation policy.
 
 ## Licensing your contribution
 
