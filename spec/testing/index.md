@@ -51,7 +51,7 @@ Re-verified 2026-09-02 (plan P1-T6); every app is a fresh full-suite run, not a 
 
 | App                          | Specs (spec/index.md §11.4) |
 | ---------------------------- | --------------------- |
-| svelte-sveltekit-examples    | 1,807                 |
+| svelte-sveltekit-examples    | 1,897 (includes the 90-shot `visual-regression.spec.ts` baseline, plan P7-T5) |
 | react-next-examples          | 1,319                 |
 | vue-nuxt-examples            | 1,319                 |
 | blazor-web-examples          | 1,327                 |

@@ -738,9 +738,27 @@ Rules for the executing agent:
   exact right dimension/slug/path in the gap list, then restored and
   re-confirmed clean every time.
 
-- [ ] **P7-T5 (stretch) Visual regression baseline**: ~30 components ×
-  3 themes × light/dark, Playwright screenshots, SvelteKit app.
-  Verify: baseline commit + zero-diff re-run.
+- [x] **P7-T5 (stretch) Visual regression baseline**: ~30 components ×
+  3 themes × light/dark, Playwright screenshots, SvelteKit app. Done
+  2026-09-03: `e2e/visual-regression.spec.ts` in
+  `svelte-sveltekit-examples`, 30 slugs spanning all 11 categories
+  (content, national, forms, navigation, lists, tables, links,
+  pickers, overlays, media, buttons, data-viz) × 3 themes (the app's
+  default `united-kingdom-national-health-service-england-for-patients`,
+  `united-kingdom-government-digital-service`, and `dark` — chosen so
+  light and dark rendering are both represented, since the 45
+  reference themes are each a single fixed palette rather than a
+  light/dark pair of the same theme; see AGENTS/theme.md) = 90
+  screenshots of the `/components/{slug}` demo region only (`main
+  .card`), not full-page, so header/footer chrome changes don't
+  produce spurious diffs. Snapshot names carry an explicit
+  `process.platform` suffix on top of Playwright's own — baselines are
+  inherently OS-dependent (font rendering), so a Linux CI run will add
+  its own `-linux` baseline alongside this `-darwin` one rather than
+  conflict with it.
+  Verify: baseline committed (90 PNGs, `e2e/visual-regression.spec.ts-snapshots/`,
+  584K); re-run without `--update-snapshots` reports 90/90 passed,
+  confirmed stable across two consecutive runs.
 
 - [ ] **P7-T6 (stretch) Web Components headless subproject** — 8th
   headless library as custom elements; full catalog; required files;

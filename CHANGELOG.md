@@ -9,6 +9,26 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## P7-T5 closed: visual regression baseline — 2026-09-03
+
+New `e2e/visual-regression.spec.ts` in `svelte-sveltekit-examples`: 30
+component slugs spanning all 11 categories in
+`components-categories.tsv` (content, national, forms, navigation,
+lists, tables, links, pickers, overlays, media, buttons, data-viz) ×
+3 themes — the app's default (NHS England for patients), GOV.UK GDS,
+and `dark` (chosen for light/dark coverage, since each of the 45
+reference themes is a single fixed palette rather than a light/dark
+pair of one theme) — 90 screenshots total, scoped to the
+`/components/{slug}` demo region (`main .card`) rather than the full
+page so header/footer chrome changes don't produce spurious diffs.
+Snapshot filenames carry an explicit platform suffix on top of
+Playwright's own, since baselines are inherently OS-dependent (font
+rendering) — a future Linux CI run adds its own baseline alongside
+this `-darwin` one rather than conflicting with it. Baseline committed
+(90 PNGs, 584K); a plain re-run without `--update-snapshots` confirmed
+90/90 zero-diff, stable across two consecutive runs. Full record:
+`tasks.md` P7-T5.
+
 ## P7-T18 closed: vue-nuxt-examples storybook build fixed — 2026-09-03
 
 The `TimelineListItem.vue` "out-of-range parser error" recorded

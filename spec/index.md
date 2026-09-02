@@ -669,6 +669,12 @@ Long-term: versioned releases per subproject npm/NuGet package
 
 ### 14.1 Changelog highlights
 
+- **P7-T5 visual regression baseline landed (2026-09-03)** — new
+  `e2e/visual-regression.spec.ts` in svelte-sveltekit-examples: 30
+  slugs across all 11 catalog categories × 3 themes (the app default,
+  GOV.UK GDS, and `dark` for light/dark coverage) = 90 screenshots of
+  the demo region only. Baseline committed and re-run confirmed
+  zero-diff. Full record: [CHANGELOG.md](../CHANGELOG.md).
 - **P7-T18 vue-nuxt-examples storybook build fixed (2026-09-03)** — the
   "out-of-range parser error" recorded against `TimelineListItem.vue`
   was neither a Rolldown interop bug nor that file: `node_modules` had
