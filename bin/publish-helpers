@@ -9,7 +9,9 @@
 #
 # Usage:
 #   bin/publish-helpers --dry-run     # validate tarballs/packs, publish nothing
-#   bin/publish-helpers               # publish for real
+#   bin/publish-helpers --nuget-only  # publish only the 5 Blazor packages (real)
+#   bin/publish-helpers --nuget-only --dry-run  # same, dry-run
+#   bin/publish-helpers               # publish everything for real
 #
 # Requirements for a real publish:
 #   - npm:   `npm login` (or NPM_TOKEN in ~/.npmrc) with rights to the
@@ -19,34 +21,47 @@
 # Note: the npm helper packages ship their source (`main` -> ./index.ts),
 # matching the catalog convention; consumers compile the source via their
 # own bundler.
+#
+# --nuget-only mirrors bin/publish-headless's flag and exists for the same
+# reason: the npm and NuGet lines don't release together, and `set -eu`
+# means the first already-published npm version would otherwise abort the
+# script before the NuGet section ever runs.
 set -eu
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 DRY=""
-if [ "${1:-}" = "--dry-run" ]; then DRY="--dry-run"; fi
-
-echo "== npm helper packages =="
-# svelte / react / vue / html / nunjucks: each package's `prepublishOnly`
-# runs the catalog's dist build, so publish from the package root.
-for d in "$ROOT"/lily-design-system-svelte-helpers/lily-design-system-* \
-         "$ROOT"/lily-design-system-react-helpers/lily-design-system-* \
-         "$ROOT"/lily-design-system-vue-helpers/lily-design-system-* \
-         "$ROOT"/lily-design-system-html-helpers/lily-design-system-* \
-         "$ROOT"/lily-design-system-nunjucks-helpers/lily-design-system-*; do
-  [ -f "$d/package.json" ] || continue
-  echo "--> $(basename "$d")"
-  ( cd "$d" && npm publish --access public $DRY )
+NUGET_ONLY=""
+for arg in "$@"; do
+  case "$arg" in
+    --dry-run) DRY="--dry-run" ;;
+    --nuget-only) NUGET_ONLY="1" ;;
+  esac
 done
 
-# Angular: ng-packagr writes the publishable package.json INTO dist/, so the
-# catalog must be built first and each package published from its dist/.
-echo "--> building angular dist (ng-packagr)"
-pnpm -C "$ROOT/lily-design-system-angular-helpers" build
-for d in "$ROOT"/lily-design-system-angular-helpers/lily-design-system-*; do
-  [ -d "$d/dist" ] || continue
-  echo "--> $(basename "$d") (from dist/)"
-  ( cd "$d/dist" && npm publish --access public $DRY )
-done
+if [ -z "$NUGET_ONLY" ]; then
+  echo "== npm helper packages =="
+  # svelte / react / vue / html / nunjucks: each package's `prepublishOnly`
+  # runs the catalog's dist build, so publish from the package root.
+  for d in "$ROOT"/lily-design-system-svelte-helpers/lily-design-system-* \
+           "$ROOT"/lily-design-system-react-helpers/lily-design-system-* \
+           "$ROOT"/lily-design-system-vue-helpers/lily-design-system-* \
+           "$ROOT"/lily-design-system-html-helpers/lily-design-system-* \
+           "$ROOT"/lily-design-system-nunjucks-helpers/lily-design-system-*; do
+    [ -f "$d/package.json" ] || continue
+    echo "--> $(basename "$d")"
+    ( cd "$d" && npm publish --access public $DRY )
+  done
+
+  # Angular: ng-packagr writes the publishable package.json INTO dist/, so the
+  # catalog must be built first and each package published from its dist/.
+  echo "--> building angular dist (ng-packagr)"
+  pnpm -C "$ROOT/lily-design-system-angular-helpers" build
+  for d in "$ROOT"/lily-design-system-angular-helpers/lily-design-system-*; do
+    [ -d "$d/dist" ] || continue
+    echo "--> $(basename "$d") (from dist/)"
+    ( cd "$d/dist" && npm publish --access public $DRY )
+  done
+fi
 
 echo "== Blazor NuGet packages =="
 NUPKG_OUT="$ROOT/dist-nuget"

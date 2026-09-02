@@ -10,8 +10,10 @@
 #     (LilyDesignSystem.Blazor.Headless).
 #
 # Usage:
-#   bin/publish-headless --dry-run    # validate builds/tarballs, publish nothing
-#   bin/publish-headless              # publish for real
+#   bin/publish-headless --dry-run     # validate builds/tarballs, publish nothing
+#   bin/publish-headless --nuget-only  # publish only the Blazor/NuGet package (real)
+#   bin/publish-headless --nuget-only --dry-run  # same, dry-run
+#   bin/publish-headless               # publish everything for real
 #
 # Requirements for a real publish:
 #   - npm:   `npm login` (or NPM_TOKEN in ~/.npmrc) with rights to the
@@ -23,27 +25,42 @@
 # numbered higher would imply registry history that never existed —
 # the helper packages' July 2026 reasoning). Bump each package.json /
 # .csproj before running; this script never edits versions.
+#
+# --nuget-only exists because the npm and NuGet packages don't release on
+# the same schedule -- e.g. the Blazor headless package needed a solo
+# 0.1.1 re-publish (a missing-readme fix) with none of the npm packages
+# changed. Without it, `set -eu` means the first already-published npm
+# version aborts the whole script before the NuGet section is ever
+# reached, whether or not that was the intent.
 set -eu
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 DRY=""
-if [ "${1:-}" = "--dry-run" ]; then DRY="--dry-run"; fi
-
-echo "== npm headless packages =="
-for d in "$ROOT"/lily-design-system-svelte-headless \
-         "$ROOT"/lily-design-system-react-headless \
-         "$ROOT"/lily-design-system-vue-headless \
-         "$ROOT"/lily-design-system-html-headless \
-         "$ROOT"/lily-design-system-nunjucks-headless; do
-  [ -f "$d/package.json" ] || continue
-  echo "--> $(basename "$d")"
-  ( cd "$d" && npm publish --access public $DRY )
+NUGET_ONLY=""
+for arg in "$@"; do
+  case "$arg" in
+    --dry-run) DRY="--dry-run" ;;
+    --nuget-only) NUGET_ONLY="1" ;;
+  esac
 done
 
-echo "--> building angular dist (ng-packagr)"
-( cd "$ROOT/lily-design-system-angular-headless" && npm run build )
-echo "--> lily-design-system-angular-headless (from dist/)"
-( cd "$ROOT/lily-design-system-angular-headless/dist" && npm publish --access public $DRY )
+if [ -z "$NUGET_ONLY" ]; then
+  echo "== npm headless packages =="
+  for d in "$ROOT"/lily-design-system-svelte-headless \
+           "$ROOT"/lily-design-system-react-headless \
+           "$ROOT"/lily-design-system-vue-headless \
+           "$ROOT"/lily-design-system-html-headless \
+           "$ROOT"/lily-design-system-nunjucks-headless; do
+    [ -f "$d/package.json" ] || continue
+    echo "--> $(basename "$d")"
+    ( cd "$d" && npm publish --access public $DRY )
+  done
+
+  echo "--> building angular dist (ng-packagr)"
+  ( cd "$ROOT/lily-design-system-angular-headless" && npm run build )
+  echo "--> lily-design-system-angular-headless (from dist/)"
+  ( cd "$ROOT/lily-design-system-angular-headless/dist" && npm publish --access public $DRY )
+fi
 
 echo "== Blazor NuGet package =="
 NUPKG_OUT="$ROOT/dist-nuget"

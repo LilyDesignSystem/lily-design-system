@@ -13,7 +13,7 @@ A headless Blazor component library with accessible, unstyled Razor components. 
 ## Quick Reference
 
 - **Package**: lily-design-system-blazor-headless
-- **Version**: 0.1.0
+- **Version**: 0.1.1
 - **Created**: 2026-03-03
 - **License**: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause or contact us for more
 - **Contact**: Joel Parker Henderson (joel@joelparkerhenderson.com)

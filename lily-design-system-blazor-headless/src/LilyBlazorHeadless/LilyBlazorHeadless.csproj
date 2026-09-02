@@ -7,7 +7,7 @@
     <RootNamespace>LilyBlazorHeadless</RootNamespace>
     <AssemblyName>LilyBlazorHeadless</AssemblyName>
     <PackageId>LilyDesignSystem.Blazor.Headless</PackageId>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Authors>Joel Parker Henderson</Authors>
     <Description>Lily Design System Blazor headless component library: all 491 catalog components as Razor components. Unstyled, accessible, zero CSS. Targets WCAG 2.2 AAA.</Description>
     <PackageProjectUrl>https://lilydesignsystem.github.io/</PackageProjectUrl>
@@ -16,11 +16,23 @@
     <PackageTags>lily;design-system;blazor;headless;accessibility;wcag;aria;a11y</PackageTags>
     <PackageLicenseExpression>MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause</PackageLicenseExpression>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <NoWarn>CS1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
     <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <!-- NuGet renders this on the package page. README.md is a symlink to
+       ../../index.md, matching the convention every Lily subproject uses;
+       PackagePath puts it at the package root, where PackageReadmeFile
+       expects to find it. Matches the pattern already used by the 5
+       Blazor helper packages, which this one was missed when they were
+       fixed: that gap is what nuget.org's "Readme missing"
+       package-validation warning on the already-published 0.1.0 flagged. -->
+  <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup>
