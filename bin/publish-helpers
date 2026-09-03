@@ -48,6 +48,21 @@ done
 # names the Blazor catalog.
 only_matches() { [ -z "$ONLY" ] || [ "$(basename "$1")" = "$ONLY" ]; }
 
+# Every npm helper package's prepublishOnly runs its CATALOG's build
+# (tsup / ng-packagr), which needs that catalog's devDependencies. The
+# publish workflow installs none of them, so on 2026-09-03 a real CI
+# run failed every package with `sh: 1: tsup: not found` — and the
+# status bug above turned that into a green job. Install from the
+# committed lockfile before touching a catalog, here rather than in the
+# workflow, so the local and CI paths cannot drift apart.
+ensure_installed() {
+  catalog="$1"
+  if [ ! -d "$catalog/node_modules" ]; then
+    echo "--> installing $(basename "$catalog") devDependencies (frozen lockfile)"
+    ( cd "$catalog" && pnpm install --frozen-lockfile )
+  fi
+}
+
 # `npm publish` (dry-run or real) contacts the registry and refuses
 # outright ("You cannot publish over the previously published versions")
 # when the local version is already published there. That is the
@@ -63,17 +78,27 @@ only_matches() { [ -z "$ONLY" ] || [ "$(basename "$1")" = "$ONLY" ]; }
 # network error, missing dist, ...) still aborts the script for real.
 publish_npm_package() {
   dir="$1"
+  # `status` MUST be captured inside the failure branch. Captured after
+  # the `if` statement instead, $? is the status of the `if` compound —
+  # which is 0 when the condition fails and no else-branch runs — so
+  # every failure was silently returned as success. That masked a real
+  # CI failure on 2026-09-03: every package's prepublishOnly build
+  # failed, the loop carried on, and the workflow went green while
+  # publishing nothing. Found by verifying against the registry, not
+  # the job status.
   if output="$(cd "$dir" && npm publish --access public $DRY 2>&1)"; then
     printf '%s\n' "$output"
     return 0
+  else
+    status=$?
+    printf '%s\n' "$output"
+    if printf '%s' "$output" | grep -q "You cannot publish over the previously published versions"; then
+      echo "    (already published at this version -- skipped, same as NuGet --skip-duplicate)"
+      return 0
+    fi
+    echo "    publish FAILED (exit $status) -- aborting; this is not the already-published case" >&2
+    return "$status"
   fi
-  status=$?
-  printf '%s\n' "$output"
-  if printf '%s' "$output" | grep -q "You cannot publish over the previously published versions"; then
-    echo "    (already published at this version -- skipped, same as NuGet --skip-duplicate)"
-    return 0
-  fi
-  return "$status"
 }
 
 if [ -z "$NUGET_ONLY" ]; then
@@ -88,6 +113,7 @@ if [ -z "$NUGET_ONLY" ]; then
            "$ROOT"/lily-design-system-web-components-helpers/lily-design-system-*; do
     [ -f "$d/package.json" ] || continue
     only_matches "$(dirname "$d")" || continue
+    ensure_installed "$(dirname "$d")"
     echo "--> $(basename "$d")"
     publish_npm_package "$d"
   done
@@ -95,6 +121,7 @@ if [ -z "$NUGET_ONLY" ]; then
   # Angular: ng-packagr writes the publishable package.json INTO dist/, so the
   # catalog must be built first and each package published from its dist/.
   if only_matches "$ROOT/lily-design-system-angular-helpers"; then
+    ensure_installed "$ROOT/lily-design-system-angular-helpers"
     echo "--> building angular dist (ng-packagr)"
     pnpm -C "$ROOT/lily-design-system-angular-helpers" build
     for d in "$ROOT"/lily-design-system-angular-helpers/lily-design-system-*; do
