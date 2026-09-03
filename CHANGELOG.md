@@ -9,6 +9,37 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## P7-T19 closed: publish scripts' dry-run no longer aborts on an already-published package — 2026-09-03
+
+`bin/publish-helpers --dry-run` and `bin/publish-headless --dry-run`
+were silently broken since the first package was actually published
+(2026-08-26): `npm publish --dry-run` still contacts the real npm
+registry, and refuses outright ("You cannot publish over the
+previously published versions: X.Y.Z") when the local version already
+exists there. Because both scripts loop with `set -eu`, hitting that
+refusal on the FIRST already-published package aborted the whole dry
+run before any later package — including a brand-new, never-published
+one — was ever reached. Found 2026-09-03 verifying P7-T7's
+motion-picker helper, whose dry-run check had to be worked around by
+running `npm publish --dry-run` directly inside its own package
+directory.
+
+Fixed: both scripts gained a `publish_npm_package()` helper that runs
+the publish, captures its output, and treats that specific "already
+published" refusal as non-fatal and expected in dry-run mode only —
+every other failure (bad manifest, network error, missing dist, …)
+still aborts the script for real, and real (non-dry-run) publishing is
+untouched.
+
+Verified end-to-end for real against the live npm registry: a full
+`bin/publish-helpers --dry-run` run now exits 0, correctly tolerates
+30 already-published npm packages across all 6 catalogs' 5
+pre-existing `*-picker` helpers, and the 6 new `motion-picker`
+packages dry-run-succeed normally — then continues through packing all
+6 Blazor `.nupkg`s. `bin/publish-headless --dry-run` likewise exits 0,
+tolerating 5 already-published headless packages. Root `bin/test` and
+`bin/check-links` both still pass.
+
 ## P7-T6 closed: Web Components headless subproject (partial, 30/491) — 2026-09-03
 
 An 8th headless catalog, `lily-design-system-web-components-headless`,

@@ -669,6 +669,18 @@ Long-term: versioned releases per subproject npm/NuGet package
 
 ### 14.1 Changelog highlights
 
+- **P7-T19 publish scripts' dry-run fixed (2026-09-03)** —
+  `bin/publish-helpers --dry-run` / `bin/publish-headless --dry-run`
+  had been silently broken since the first real publish (2026-08-26):
+  `npm publish --dry-run` still contacts the live registry and refuses
+  on any already-published version, and `set -eu` turned that refusal
+  into a hard abort before any later, possibly-unpublished package was
+  ever reached. Fixed with a `publish_npm_package()` helper in both
+  scripts that tolerates that one specific refusal in dry-run mode
+  only, propagating every other failure unchanged. Verified for real
+  against the live npm registry: both scripts now run to completion
+  (exit 0) with a mix of already-published and never-published
+  packages in the loop. Full record: CHANGELOG.md.
 - **P7-T6 Web Components headless subproject, partial (2026-09-03)** —
   an 8th headless catalog, `lily-design-system-web-components-headless`,
   ships 30 of the 491 canonical components as native custom elements

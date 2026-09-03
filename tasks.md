@@ -831,7 +831,7 @@ Rules for the executing agent:
   itself could not be used for this verification — see the new
   backlog item below, a real pre-existing defect this surfaced.
 
-- [ ] **P7-T19 `bin/publish-helpers --dry-run` (and likely
+- [x] **P7-T19 `bin/publish-helpers --dry-run` (and
   `bin/publish-headless --dry-run`) fails on any already-published
   package encountered before an unpublished one in the loop.** Found
   2026-09-03 verifying P7-T7. `npm publish --dry-run` contacts the
@@ -848,17 +848,25 @@ Rules for the executing agent:
   own "dry-run first, always" discipline (`docs/releasing.md`) has
   been silently broken since the first package was actually published
   (2026-08-26), and no prior dry run caught it because dry runs before
-  that date had nothing already published to collide with. Confirmed
-  motion-picker itself packs and publishes cleanly in isolation
-  (`cd` into its own directory and run `npm publish --dry-run`
-  directly) as a workaround for this session's own verification.
-  Verify: `bin/publish-helpers --dry-run` (and
-  `bin/publish-headless --dry-run`) succeed end-to-end with at least
-  one already-published package present in the loop before an
-  unpublished one — likely needs the scripts to treat "You cannot
-  publish over the previously published versions" as a non-fatal,
-  expected outcome specifically in dry-run mode, while still treating
-  every other `npm publish` failure as fatal.
+  that date had nothing already published to collide with.
+  Fixed 2026-09-03: both scripts gained a `publish_npm_package()`
+  helper that runs `npm publish --access public --dry-run`, captures
+  its combined output, and treats "You cannot publish over the
+  previously published versions" as a non-fatal, expected outcome —
+  printing the same output either way — while any other failure (bad
+  manifest, network error, missing dist, …) still propagates and
+  aborts the script exactly as before. Real (non-dry-run) publishing
+  is untouched: the tolerance only applies when `$DRY` is set.
+  Verify: `bin/publish-helpers --dry-run` run for real end-to-end —
+  exits 0, correctly tolerates 30 already-published npm packages
+  (svelte/react/vue/html/nunjucks/angular × the 5 pre-existing
+  `*-picker` helpers) while the 6 new, never-published
+  `motion-picker` packages dry-run-succeed normally (`+
+  lily-design-system-{catalog}-motion-picker@0.1.0`), then continues
+  through and packs all 6 Blazor `.nupkg`s. `bin/publish-headless
+  --dry-run` also run for real: exits 0, tolerates 5 already-published
+  headless packages, packs the Blazor headless `.nupkg`. Root
+  `bin/test` and `bin/check-links` both still pass.
 
 - [x] **P7-T8 Blazor-web-examples: 5 composed pages pass non-existent
   component parameters and silently do nothing.** Found 2026-08-29
