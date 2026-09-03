@@ -11,8 +11,8 @@ Rules for the executing agent:
   also exit 0 at the end of every session.
 - Follow `AGENTS/*.md` binding rules. Svelte subprojects are canonical;
   implement there first, then port to the other frameworks.
-- The helpers are the five `*-picker` packages; `*-select` naming is
-  obsolete.
+- The helpers are the six `*-picker` packages (`motion-picker` joined
+  2026-09-03); `*-select` naming is obsolete.
 - Run `bin/sync-special-files` after touching any root special file.
 - Reference completed task IDs in commit messages. When a task changes
   something the spec claims, update `spec/index.md` (and the relevant
@@ -1401,6 +1401,135 @@ Rules for the executing agent:
   re-run green in all 7 catalogs for the 5 affected pickers (213 svelte,
   263 react, 259 vue, 292 angular, 300 html, 323 nunjucks, 204 blazor
   facts); `npm run build` re-verified for the Svelte helper catalog.
+
+## Phase 8 — Follow-ups surfaced 2026-09-03
+
+Every item here is a real gap observed during the 2026-09-03 sessions
+(web-components-headless, the glyph-convention reversal, and the
+Dependabot remediation), recorded rather than silently fixed or silently
+dropped. None is speculative.
+
+- [ ] **P8-T1 `bin/test`'s glyph check does not cover `motion-picker`.**
+  `test_helper_glyphs_are_bare` greps for the constant names
+  `CIRCLE_WITH_RIGHT_HALF_BLACK`, `GLOBE_WITH_MERIDIANS`,
+  `BLACK_RIGHTWARDS_ARROWHEAD`, `CALENDAR` (and their C# `PascalCase`
+  twins) — but not `PAUSE_SIGN` / `PauseSign`, so `motion-picker`'s
+  glyph constant is the one picker the enforcement never inspects. The
+  2026-09-03 reversal sweep fixed it correctly anyway, but nothing
+  would catch a regression. Add both spellings to the grep list.
+  Verify: temporarily re-escape `PAUSE_SIGN` in one catalog and confirm
+  `bin/test` fails; restore; `bin/test` exits 0.
+
+- [ ] **P8-T2 Register the new root `spec/*-picker/` topics, and add the
+  two missing ones.** `spec/theme-picker/`, `spec/locale-picker/`,
+  `spec/text-size-picker/`, and `spec/share-picker/` were added
+  2026-09-03 as root-level picker contracts (button / list / list-item
+  HTML), but none appears in `spec/index.md`'s Topics table, so they
+  are undiscoverable from the entry point; and `motion-picker` and
+  `date-time-picker` have no counterpart yet. Add the six to the
+  Topics table and write the two missing `index.md` files in the same
+  shape (bare glyph, button, list, list items), consistent with the
+  reversed glyph convention.
+  Verify: `bin/check-links` clean; all six link from `spec/index.md`.
+
+- [ ] **P8-T3 Root spec still frames the catalog as "7 headless /
+  21 subprojects".** `spec/index.md` says so in roughly ten places
+  (§2 scope, §3 architecture, the `bin/publish-headless` and
+  `bin/check-coverage` table rows, §11.2, §11.4, §11.7) and
+  `spec/architecture/index.md` inherits the count. The 8th, partial
+  `lily-design-system-web-components-headless` catalog (30/491) joined
+  2026-09-03 and its own `spec/index.md` explicitly notes the root
+  framing "predates this subproject and is not itself amended here".
+  Decide the framing once — "7 full-catalog + 1 partial" is the honest
+  shape — and apply it consistently; do not restate 491/491 parity for
+  the 8th.
+  Verify: `grep -n "7 headless\|seven headless\|21 subprojects"
+  spec/index.md spec/architecture/index.md` returns only lines that
+  are dated historical records, and `bin/check-links` is clean.
+
+- [ ] **P8-T4 Guard against `package.json` `pnpm.overrides` recurring.**
+  The 2026-09-03 Dependabot pass found five subprojects carrying
+  `"pnpm": { "overrides": {...} }` blocks that had been silent no-ops
+  since the pnpm 10 upgrade (pnpm reads `overrides` from
+  `pnpm-workspace.yaml` now) — one carried 13 historical CVE-fix
+  entries that never applied. All are removed, but nothing stops the
+  pattern coming back via a copied template. Add a `bin/test` check
+  that fails on any `package.json` containing a `pnpm.overrides` key
+  (outside `node_modules`), pointing at `pnpm-workspace.yaml`.
+  Verify: add a throwaway `pnpm.overrides` to one `package.json`,
+  confirm `bin/test` fails with the pointer message; remove; exits 0.
+
+- [ ] **P8-T5 `extract-zip` — the two Dependabot alerts with no upstream
+  fix.** Alerts 183 (`html-headless`) and 130 (`html-css-js-examples`),
+  high, "unvalidated symlink path traversal", `<= 2.0.1`, and the
+  advisory lists **no `first_patched_version`**. Reached only via
+  `@wdio/utils` → `@puppeteer/browsers` (WebdriverIO's browser-binary
+  downloader, dev-only, never shipped). Not fixable by a pin today.
+  Track it: re-check the advisory monthly; if `@puppeteer/browsers`
+  drops or replaces `extract-zip`, bump `@wdio/*` and close; if a
+  patched `extract-zip` appears, add a `pnpm-workspace.yaml` override.
+  Verify: `gh api .../dependabot/alerts --paginate -q '.[] |
+  select(.state=="open")'` returns zero rows.
+
+- [ ] **P8-T6 Web Components headless: give it a standalone remote and
+  publish.** P7-T6 deliberately stopped short of two acceptance items:
+  the git-subtree standalone repos (GitHub / GitLab / Codeberg under
+  `LilyDesignSystem`) do not exist yet, so `bin/git-subtree-push`
+  cannot run for it, and `lily-design-system-web-components-headless`
+  0.1.0 is unpublished on npm. Creating the GitLab and Codeberg repos
+  needs API tokens this environment does not hold (`gh` covers GitHub
+  only) — a maintainer step. Then `bin/git-subtree-push
+  lily-design-system-web-components-headless` and add the package to
+  `bin/publish-headless` (it is not in that script's list either).
+  Verify: `bin/publish-headless --dry-run` reaches the package and
+  reports a clean pack; the three remotes resolve.
+
+- [ ] **P8-T7 Web Components headless: the `*ListItem` / table
+  sub-element gap.** Documented as unsolved in the subproject's own
+  `spec/index.md` §2: autonomous custom elements cannot use the
+  tag+attribute selector form (`li[lily-breadcrumb-list-item]`) that
+  angular-headless 0.3.0 used to avoid a wrapper element between a
+  parent and a child with a required content model (`<ol>`+`<li>`,
+  `<table>`+`<thead>`), and customized built-ins are unavailable in
+  WebKit. Evaluate the realistic options — a `slot`-free "upgrade in
+  place" pattern that moves the host's children into a real `<li>`
+  and removes the host, or an explicit `ElementInternals`-based
+  approach — pick one with an axe `list`/`listitem` test as the gate,
+  and either implement it for one family or record why none is
+  acceptable.
+  Verify: an axe run over a `BreadcrumbNav > BreadcrumbList >
+  BreadcrumbListItem` rendering reports no `list`/`listitem`
+  violation, or the spec records a reasoned "not possible" with the
+  evidence.
+
+- [ ] **P8-T8 `motion-picker`'s icon scale is still a placeholder.**
+  `AGENTS/helpers.md` records `--lily-picker-icon-scale: 1` for ⏸ as
+  "a reasoned placeholder, not a false-precision number" — the other
+  four glyphs were measured (◑ 0.842, 🌐 0.996, "A" 0.673, ➤ 0.613
+  ink-to-em ratios). The 2026-09-03 attempt to reproduce that
+  measurement could not match the documented figures, so no number was
+  invented. Recover or re-document the original measurement method
+  (pixel-count the glyph against its *computed* `font-family`, per the
+  same file), apply it to U+23F8, and update all 45 `themes/*.css`
+  and the helpers doc together.
+  Verify: `bin/check-theme` clean; the five factors in `AGENTS/helpers.md`
+  all cite the same method and the ⏸ note no longer says "placeholder".
+
+- [ ] **P8-T9 About a dozen picker docs show an incomplete globe
+  entity.** Found and deliberately left out of scope during the glyph
+  reversal: several illustrative HTML snippets in angular/blazor/vue's
+  locale-picker `AGENTS.md`, `AGENTS/api.md`, `AGENTS/ssr.md`,
+  `index.md`, and `spec/index.md` render the icon as `&#127760;` alone
+  — U+1F310 without its paired U+FE0E (`&#65038;`), so the snippet as
+  written would show the colour-emoji globe, not the text-presentation
+  one the component actually emits. The runtime constants are correct;
+  only these examples are wrong, and they predate the reversal. Under
+  the reversed rule the fix is the bare `🌐︎` in each. Prose that names
+  the codepoint's decimal value parenthetically is fine and not in
+  scope.
+  Verify: `grep -rn '&#127760;' --include=*.md . | grep -v node_modules
+  | grep -v CHANGELOG` returns only prose mentions, none inside an
+  `aria-hidden="true"` span.
 
 ---
 
