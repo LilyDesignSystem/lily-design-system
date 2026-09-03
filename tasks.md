@@ -1733,7 +1733,10 @@ dropped. None is speculative.
   real `bin/publish-helpers` defects, both fixed and proven in
   `c51f1cb0b` (a `$?`-after-`if` status bug that tolerated every
   failure; no catalog devDependency install anywhere); run
-  33812429654 then failed correctly with `ENEEDAUTH`. Cause: the repo
+  33812429654 then failed correctly with `ENEEDAUTH`. The same two
+  defects were then found and fixed in `bin/publish-headless`
+  (`012a49320`, same proofs; the two scripts' `publish_npm_package`
+  are byte-identical). Cause: the repo
   has exactly one Actions secret (`NUGET_USER`); `NPM_TOKEN` was never
   configured. Maintainer step: create an npm automation token with
   publish rights to the `lily-design-system-*` names, add it as the

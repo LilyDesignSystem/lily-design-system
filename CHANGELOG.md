@@ -46,6 +46,11 @@ reaches all six). The second run then failed *loudly* with
 creating an npm automation token for the `lily-design-system-*` names
 and adding it as `NPM_TOKEN`; then re-dispatch `publish.yml` with
 `real=true target=helpers only=lily-design-system-web-components-helpers`.
+`bin/publish-headless`, built from the same P7-T19 template, carried the
+same two defects (its dry-run branch tolerated every failure; nothing
+installed devDependencies) and got the same fix and proofs
+(`012a49320`); the two scripts' `publish_npm_package` are now
+byte-identical.
 
 **Phase 8 (`tasks.md`) closed the same day, each verified as its task
 specifies:** P8-T1 `bin/test`'s glyph check now covers `PAUSE_SIGN`;

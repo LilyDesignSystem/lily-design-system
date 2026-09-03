@@ -76,16 +76,16 @@ ensure_installed() {
 # a real run of a mixed catalog, so the tolerance applies in both modes
 # since 2026-09-03). Every other failure (bad manifest, auth error,
 # network error, missing dist, ...) still aborts the script for real.
+# `status` MUST be captured inside the failure branch. Captured after
+# the `if` statement instead, $? is the status of the `if` compound —
+# which is 0 when the condition fails and no else-branch runs — so
+# every failure was silently returned as success. That masked a real
+# CI failure on 2026-09-03: every package's prepublishOnly build
+# failed, the loop carried on, and the workflow went green while
+# publishing nothing. Found by verifying against the registry, not
+# the job status.
 publish_npm_package() {
   dir="$1"
-  # `status` MUST be captured inside the failure branch. Captured after
-  # the `if` statement instead, $? is the status of the `if` compound —
-  # which is 0 when the condition fails and no else-branch runs — so
-  # every failure was silently returned as success. That masked a real
-  # CI failure on 2026-09-03: every package's prepublishOnly build
-  # failed, the loop carried on, and the workflow went green while
-  # publishing nothing. Found by verifying against the registry, not
-  # the job status.
   if output="$(cd "$dir" && npm publish --access public $DRY 2>&1)"; then
     printf '%s\n' "$output"
     return 0
