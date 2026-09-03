@@ -31,40 +31,49 @@ set -eu
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 DRY=""
 NUGET_ONLY=""
+ONLY=""
+prev=""
 for arg in "$@"; do
+  case "$prev" in --only) ONLY="$arg"; prev=""; continue ;; esac
   case "$arg" in
     --dry-run) DRY="--dry-run" ;;
     --nuget-only) NUGET_ONLY="1" ;;
+    --only) prev="--only" ;;
   esac
 done
+# --only <catalog-dir> restricts the run to one helper catalog (e.g.
+# --only lily-design-system-web-components-helpers), so a first release
+# of a new catalog does not have to re-run every other catalog. The
+# Blazor/NuGet section runs only when no --only is given, or when it
+# names the Blazor catalog.
+only_matches() { [ -z "$ONLY" ] || [ "$(basename "$1")" = "$ONLY" ]; }
 
-# `npm publish --dry-run` still contacts the real registry, and refuses
+# `npm publish` (dry-run or real) contacts the registry and refuses
 # outright ("You cannot publish over the previously published versions")
-# when the local version is already published there — an expected,
-# non-fatal outcome once any package in the catalog has shipped, not a
-# defect in whatever is about to be published. Left unhandled, `set -eu`
+# when the local version is already published there. That is the
+# expected, non-fatal outcome for every package that has already shipped
+# at its current version — a release run is idempotent, exactly as the
+# NuGet section below is via `--skip-duplicate`. Left unhandled, `set -eu`
 # turns that refusal into a hard abort on the FIRST already-published
 # package the loop reaches, so every later package — including a
-# brand-new, never-published one — is silently never dry-run-checked at
-# all (found 2026-09-03 verifying motion-picker, plan P7-T19). Every
-# other failure (bad manifest, network error, missing dist, ...) still
-# aborts the script for real, exactly as before this function existed.
+# brand-new, never-published one — is never reached at all (found
+# 2026-09-03 in dry-run mode, plan P7-T19; the same abort would have hit
+# a real run of a mixed catalog, so the tolerance applies in both modes
+# since 2026-09-03). Every other failure (bad manifest, auth error,
+# network error, missing dist, ...) still aborts the script for real.
 publish_npm_package() {
   dir="$1"
-  if [ -n "$DRY" ]; then
-    if output="$(cd "$dir" && npm publish --access public $DRY 2>&1)"; then
-      printf '%s\n' "$output"
-      return 0
-    fi
-    status=$?
+  if output="$(cd "$dir" && npm publish --access public $DRY 2>&1)"; then
     printf '%s\n' "$output"
-    if printf '%s' "$output" | grep -q "You cannot publish over the previously published versions"; then
-      echo "    (already published at this version -- expected in dry-run mode, not fatal)"
-      return 0
-    fi
-    return "$status"
+    return 0
   fi
-  ( cd "$dir" && npm publish --access public )
+  status=$?
+  printf '%s\n' "$output"
+  if printf '%s' "$output" | grep -q "You cannot publish over the previously published versions"; then
+    echo "    (already published at this version -- skipped, same as NuGet --skip-duplicate)"
+    return 0
+  fi
+  return "$status"
 }
 
 if [ -z "$NUGET_ONLY" ]; then
@@ -78,21 +87,28 @@ if [ -z "$NUGET_ONLY" ]; then
            "$ROOT"/lily-design-system-nunjucks-helpers/lily-design-system-* \
            "$ROOT"/lily-design-system-web-components-helpers/lily-design-system-*; do
     [ -f "$d/package.json" ] || continue
+    only_matches "$(dirname "$d")" || continue
     echo "--> $(basename "$d")"
     publish_npm_package "$d"
   done
 
   # Angular: ng-packagr writes the publishable package.json INTO dist/, so the
   # catalog must be built first and each package published from its dist/.
-  echo "--> building angular dist (ng-packagr)"
-  pnpm -C "$ROOT/lily-design-system-angular-helpers" build
-  for d in "$ROOT"/lily-design-system-angular-helpers/lily-design-system-*; do
-    [ -d "$d/dist" ] || continue
-    echo "--> $(basename "$d") (from dist/)"
-    publish_npm_package "$d/dist"
-  done
+  if only_matches "$ROOT/lily-design-system-angular-helpers"; then
+    echo "--> building angular dist (ng-packagr)"
+    pnpm -C "$ROOT/lily-design-system-angular-helpers" build
+    for d in "$ROOT"/lily-design-system-angular-helpers/lily-design-system-*; do
+      [ -d "$d/dist" ] || continue
+      echo "--> $(basename "$d") (from dist/)"
+      publish_npm_package "$d/dist"
+    done
+  fi
 fi
 
+if ! only_matches "$ROOT/lily-design-system-blazor-helpers"; then
+  echo "(--only $ONLY: skipping the Blazor NuGet section)"
+  exit 0
+fi
 echo "== Blazor NuGet packages =="
 NUPKG_OUT="$ROOT/dist-nuget"
 # Clean first. The push loop below publishes every .nupkg in this

@@ -58,7 +58,7 @@ for p in theme-picker locale-picker text-size-picker motion-picker share-picker 
     echo "svelte-$p: dist/ missing — build the helpers catalog first (cd lily-design-system-svelte-helpers && npm run build)" >&2; exit 1
   fi
 done
-for fw in react vue html nunjucks; do
+for fw in react vue html nunjucks web-components; do
   for p in theme-picker locale-picker text-size-picker motion-picker share-picker date-time-picker; do
     d="$ROOT/lily-design-system-$fw-helpers/lily-design-system-$fw-$p"
     if [ -d "$d/dist" ]; then
@@ -194,6 +194,45 @@ for (const [pkg, tag, attrs, props] of checks) {
   if (!el.querySelector(`.${tag}`)) throw new Error(pkg + ": no ." + tag + " element rendered; outerHTML=" + el.outerHTML);
 }
 console.log("html helpers OK");'
+
+echo "== web-components helpers (jsdom; the independent copy of the html helpers, registered as <lily-*-picker>) =="
+node --input-type=module -e '
+import { JSDOM } from "jsdom";
+const dom = new JSDOM("<!doctype html><html><body></body></html>", { url: "https://example.org/" });
+globalThis.window = dom.window;
+globalThis.document = dom.window.document;
+globalThis.HTMLElement = dom.window.HTMLElement;
+globalThis.customElements = dom.window.customElements;
+globalThis.CustomEvent = dom.window.CustomEvent;
+globalThis.Node = dom.window.Node;
+globalThis.localStorage = dom.window.localStorage;
+Object.defineProperty(globalThis, "navigator", { value: dom.window.navigator, configurable: true });
+
+const dtLabels = {
+  previousYear: "Previous year", previousMonth: "Previous month",
+  nextMonth: "Next month", nextYear: "Next year",
+  confirm: "Confirm", cancel: "Cancel",
+};
+// [package, tag, class hook, attrs, props] -- the class hook is the
+// theme-facing contract and does NOT carry the lily- tag prefix.
+const checks = [
+  ["lily-design-system-web-components-theme-picker", "lily-theme-picker", "theme-picker", { label: "Theme", "themes-url": "/themes/", themes: "light,dark" }, {}],
+  ["lily-design-system-web-components-locale-picker", "lily-locale-picker", "locale-picker", { label: "Language", locales: "en,cy" }, {}],
+  ["lily-design-system-web-components-text-size-picker", "lily-text-size-picker", "text-size-picker", { label: "Text size", sizes: "small,medium,large" }, {}],
+  ["lily-design-system-web-components-motion-picker", "lily-motion-picker", "motion-picker", { label: "Motion", motions: "no-preference,reduce" }, {}],
+  ["lily-design-system-web-components-share-picker", "lily-share-picker", "share-picker", { label: "Share" }, {}],
+  ["lily-design-system-web-components-date-time-picker", "lily-date-time-picker", "date-time-picker", { label: "Date" }, { labels: dtLabels }],
+];
+for (const [pkg, tag, cls, attrs, props] of checks) {
+  await import(pkg);
+  if (!customElements.get(tag)) throw new Error(pkg + ": importing did not register <" + tag + ">");
+  const el = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+  for (const [k, v] of Object.entries(props)) el[k] = v;
+  document.body.appendChild(el);
+  if (!el.querySelector(`.${cls}`)) throw new Error(pkg + ": no ." + cls + " element rendered; outerHTML=" + el.outerHTML);
+}
+console.log("web-components helpers OK");'
 
 echo "== nunjucks =="
 node -e '

@@ -36,6 +36,10 @@ on:
         description: "Publish only the NuGet (Blazor) package(s) for the selected target, skip npm"
         type: boolean
         default: false
+      only:
+        description: "helpers only: restrict to one helper catalog directory (e.g. lily-design-system-web-components-helpers)"
+        type: string
+        default: ""
 
 permissions:
   contents: read
@@ -70,6 +74,11 @@ jobs:
           else
             echo "nuget_only=" >> "$GITHUB_OUTPUT"
           fi
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${{ inputs.only }}" ]; then
+            echo "only=--only ${{ inputs.only }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "only=" >> "$GITHUB_OUTPUT"
+          fi
           echo "publish mode: $(cat "$GITHUB_OUTPUT")"
 
       - name: Log in to NuGet (Trusted Publishing)
@@ -96,4 +105,4 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: "true"
           NUGET_API_KEY: ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
-        run: bin/publish-helpers ${{ steps.mode.outputs.flag }} ${{ steps.mode.outputs.nuget_only }}
+        run: bin/publish-helpers ${{ steps.mode.outputs.flag }} ${{ steps.mode.outputs.nuget_only }} ${{ steps.mode.outputs.only }}

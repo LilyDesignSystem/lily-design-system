@@ -1,8 +1,19 @@
-# Changelog
+# Changelog — `<lily-share-picker>` (Web Components helper)
 
 All notable changes to `lily-design-system-web-components-share-picker` are
 documented here. The format follows [Keep a Changelog](https://keepachangelog.com/),
 and this package uses [semantic versioning](https://semver.org/).
+
+## 0.1.0 — 2026-09-03
+
+First release under this name. This package is a maintainer-directed
+independent copy of the HTML helper of the same picker
+(`lily-design-system-html-share-picker`), differing only in the tag it
+registers (`<lily-share-picker>` rather than `<share-picker>`) and its package name.
+Any entries below are that package's history, inherited so the
+reasoning behind the code is not lost; none of them was released under
+this name, and a first release is numbered 0.1.0 whatever the tree
+carried (see `docs/releasing.md`).
 
 ## 0.1.1 — 2026-08-26
 

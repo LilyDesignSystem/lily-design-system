@@ -1,6 +1,6 @@
 {
   "name": "lily-design-system-web-components-locale-picker",
-  "version": "0.1.1",
+  "version": "0.1.0",
   "engines": {
     "node": "=26"
   },
