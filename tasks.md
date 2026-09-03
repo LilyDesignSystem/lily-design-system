@@ -1409,7 +1409,16 @@ Every item here is a real gap observed during the 2026-09-03 sessions
 Dependabot remediation), recorded rather than silently fixed or silently
 dropped. None is speculative.
 
-- [ ] **P8-T1 `bin/test`'s glyph check does not cover `motion-picker`.**
+- [x] **P8-T1 `bin/test`'s glyph check does not cover `motion-picker`.**
+  Done 2026-09-03: added `PAUSE_SIGN *=` and `PauseSign *=` to the
+  constant-name grep in `test_helper_glyphs_are_bare` (16 `PAUSE_SIGN`
+  declarations across the six JS/TS catalogs + their tests/examples,
+  1 `PauseSign` in the Blazor `.razor.cs` — both spellings confirmed
+  present before adding them). Verified the way the task asks, not by
+  inspection: temporarily re-escaped `PAUSE_SIGN` to `"\u23F8\uFE0E"`
+  in `MotionPicker.svelte` → `bin/test` reported "glyph constant holds
+  an escape … MotionPicker.svelte" and exited FAILED; restored the
+  file (`git diff --quiet` clean) → `bin/test` exits 0.
   `test_helper_glyphs_are_bare` greps for the constant names
   `CIRCLE_WITH_RIGHT_HALF_BLACK`, `GLOBE_WITH_MERIDIANS`,
   `BLACK_RIGHTWARDS_ARROWHEAD`, `CALENDAR` (and their C# `PascalCase`

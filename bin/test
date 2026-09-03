@@ -258,9 +258,9 @@ test_helper_glyphs_are_bare() (
 
             # The exported glyph constant, in any framework's spelling.
             if grep -e 'CIRCLE_WITH_RIGHT_HALF_BLACK *=' -e 'GLOBE_WITH_MERIDIANS *=' \
-                    -e 'BLACK_RIGHTWARDS_ARROWHEAD *=' -e 'CALENDAR *=' \
+                    -e 'BLACK_RIGHTWARDS_ARROWHEAD *=' -e 'CALENDAR *=' -e 'PAUSE_SIGN *=' \
                     -e 'CircleWithRightHalfBlack *=' -e 'GlobeWithMeridians *=' \
-                    -e 'BlackRightwardsArrowhead *=' -e 'Calendar *=' "$file" \
+                    -e 'BlackRightwardsArrowhead *=' -e 'Calendar *=' -e 'PauseSign *=' "$file" \
                | grep -q -e '\\u'; then
                 err "glyph constant holds an escape; use the bare glyph character directly: $file"
             fi
