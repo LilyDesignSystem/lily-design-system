@@ -44,18 +44,6 @@ for arg in "$@"; do
   esac
 done
 
-# `npm publish --dry-run` still contacts the real registry, and refuses
-# outright ("You cannot publish over the previously published versions")
-# when the local version is already published there — an expected,
-# non-fatal outcome once any package in the catalog has shipped, not a
-# defect in whatever is about to be published. Left unhandled, `set -eu`
-# turns that refusal into a hard abort on the FIRST already-published
-# package the loop reaches, so every later package — including a
-# brand-new, never-published one — is silently never dry-run-checked at
-# all (same defect class found in bin/publish-helpers, plan P7-T19).
-# Every other failure (bad manifest, network error, missing dist, ...)
-# still aborts the script for real, exactly as before this function
-# existed.
 # Every npm headless package's prepublishOnly runs its build, which
 # needs that package's devDependencies; nothing installed them, so a
 # publish could only succeed where node_modules happened to exist (CI
