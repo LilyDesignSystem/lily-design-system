@@ -1746,6 +1746,27 @@ dropped. None is speculative.
   text-size,motion,share,date-time}-picker version` → `0.1.0` for all
   six, and the job log shows six `+ …@0.1.0` lines.
 
+- [ ] **P8-T12 `date-time-picker`: week/day step buttons and a
+  time-zone select.** Spec-first: `spec/date-time-picker/index.md`
+  (2026-09-03) now specifies four pairs of step buttons —
+  previous/next **year** and **month** (already shipped, canonical DOM
+  contract §4.3) plus previous/next **week** and **day** (new) — and a
+  native time-zone `<select>` populated from
+  `Intl.supportedValuesOf("timeZone")` (418 zones on Node 26, never a
+  bundled table), with its own hidden input, `data-time-zone` on the
+  root, optional `timeZones` subset and `timeZoneLabels`, and no
+  guessed default. Value contract unchanged (civil ISO); the zone is
+  metadata. Implement Svelte canonical first (spec §4.3/§5/§6.2 + one
+  test per new acceptance clause: 4 new labels, ±7/±1 civil-day steps
+  that page the grid only when leaving the shown month, zone select
+  contents and form participation), then port to react, vue, angular,
+  html, nunjucks, blazor, web-components; extend `bin/smoke-packages`
+  attrs and the 45 themes' `.date-time-picker-*` hooks for the new
+  classes.
+  Verify: every catalog's date-time-picker suite green with the new
+  clauses; `bin/check-theme` clean; the root spec's Status note
+  updated from "implemented nowhere yet" to shipped.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.
