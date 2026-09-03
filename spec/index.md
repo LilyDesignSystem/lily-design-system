@@ -31,7 +31,7 @@ coding agents.
 | Topic | What it covers |
 | ----- | -------------- |
 | [overview](overview/index.md) | Vision, scope, the headless vs. example layers, key facts. |
-| [architecture](architecture/index.md) | Monorepo layout, the 14 implementation subprojects + 7 helper catalogs, `themes/`, the git-subtree model, required files. |
+| [architecture](architecture/index.md) | Monorepo layout, the 15 implementation subprojects (7 full-catalog headless + 1 partial + 7 examples) + 7 helper catalogs, `themes/`, the git-subtree model, required files. |
 | [headless](headless/index.md) | Headless design rules: semantic markup, class hooks, rest-props, behaviour boundaries, zero CSS. |
 | [accessibility](accessibility/index.md) | WCAG 2.2 AAA target, WAI-ARIA APG patterns, ARIA reference table, axe-core baselines. |
 | [internationalization](internationalization/index.md) | No hardcoded strings, stable text-prop names, locale-aware props, RTL/bidi. |
@@ -41,7 +41,7 @@ coding agents.
 | [tooling](tooling/index.md) | The `bin/` scripts, the rsync sync model, `bin/test` verification, subtree push. |
 | [monorepo-github-pages](monorepo-github-pages/index.md) | Publishing the docs site via git subtree to a read-only sibling export repo. |
 | [testing](testing/index.md) | Per-framework test suites, Storybook coverage, Playwright e2e, axe, responsive sweep. |
-| [frameworks](frameworks/index.md) | The seven framework pairs, per-framework file shapes and idioms, the copy-pattern. |
+| [frameworks](frameworks/index.md) | The seven framework pairs (plus the unpaired, partial Web Components catalog), per-framework file shapes and idioms, the copy-pattern. |
 | [helpers](helpers/index.md) | The `*-helpers` catalogs: the 6 pickers, their contracts, manifests, and publish pipeline. |
 | [theme-picker](theme-picker/index.md) | The theme-picker button / listbox / option HTML contract, one page, bare glyph ◑. |
 | [locale-picker](locale-picker/index.md) | The locale-picker button / listbox / option HTML contract, bare glyph 🌐︎. |
@@ -96,7 +96,7 @@ committing.
 ### In scope
 
 - A canonical catalog of 491 components (`components.tsv`).
-- Seven headless component libraries: HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks.
+- Seven full-catalog headless component libraries: HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks — plus an 8th, **partial** one (Web Components, 30 of 491, added 2026-09-03) that is deliberately not at parity.
 - Seven example applications: HTML+CSS+JS, SvelteKit, Next.js, Nuxt.js,
   Angular Analog, Blazor Web, Nunjucks Eleventy.
 - A CSS style-sheet template (`css-style-sheet-template.css`) declaring every
@@ -125,8 +125,9 @@ committing.
 
 The repository root holds the canonical catalog and tools
 (`components.tsv`, `css-style-sheet-template.css`, `bin/`, `spec/`,
-`AGENTS/*.md`, `themes/`); 21 implementation subprojects hang off it —
-7 headless libraries, 7 example apps, and 7 helper catalogs, one per
+`AGENTS/*.md`, `themes/`); 22 implementation subprojects hang off it —
+7 full-catalog headless libraries, 1 partial headless library (Web
+Components, 30/491), 7 example apps, and 7 helper catalogs, one per
 framework (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks). Each
 subproject is also a `git subtree` pushed to its own standalone remote
 via `bin/git-subtree-push`. Full directory tree, the per-framework
@@ -412,7 +413,7 @@ checked is considered live work; anything unchecked is queued in §12.
       `*-picker` helpers (42 packages, `motion-picker` added 2026-09-03).
       Per-catalog test counts: [spec/testing/](testing/index.md); the
       accessibility-hardening sweeps that produced the current counts: §14.1.
-- [x] All 21 subprojects have required files (`index.md`, `README.md`
+- [x] All 22 subprojects have required files (`index.md`, `README.md`
       symlink, `AGENTS.md`, `CLAUDE.md`, `spec/index.md`, `.git-subtree-push`).
       All use the spec-driven `spec/index.md` layout the May 2026 migration
       standardised on (it replaces the older split plan.md / tasks.md).
@@ -534,7 +535,8 @@ shapes and the exact viewport sizes: [spec/testing/index.md](testing/index.md).
 ### 11.7 Storybook coverage
 
 491 / 491 stories in svelte, react, vue, html, nunjucks, angular (6
-of 7 headless libraries); Blazor deliberately has none — there is no
+of 7 full-catalog headless libraries, and the partial Web Components
+catalog ships 30/30); Blazor deliberately has none — there is no
 idiomatic `@storybook/blazor`, and bUnit + `dotnet watch` covers the
 same exploration use case. Angular uses the webpack-based
 `@storybook/angular` builder rather than Vite. Re-verified clean

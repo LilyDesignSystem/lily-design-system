@@ -1451,8 +1451,31 @@ dropped. None is speculative.
   reversed glyph convention.
   Verify: `bin/check-links` clean; all six link from `spec/index.md`.
 
-- [ ] **P8-T3 Root spec still frames the catalog as "7 headless /
-  21 subprojects".** `spec/index.md` says so in roughly ten places
+- [x] **P8-T3 Root spec still frames the catalog as "7 headless /
+  21 subprojects".** Done 2026-09-03, framing chosen: "7 full-catalog
+  headless libraries + 1 partial (Web Components, 30/491)", never
+  restating parity for the 8th. Amended every present-tense claim:
+  `spec/index.md` (Topics rows for architecture/frameworks/helpers, §2
+  scope, §3's 21→22 subproject count, §11.2's 21→22 required-files
+  count, §11.7's Storybook clause), `spec/architecture/index.md`
+  (summary, scope, the "14 implementation subprojects" heading → 15, a
+  paragraph placing the unpaired partial catalog after the pairs table,
+  a sibling acceptance bullet; also fixed its stale helper list —
+  "theme-select, locale-select, text-size-select" → the six
+  `*-picker`s), `spec/overview/index.md`, `spec/frameworks/index.md`
+  (pairs framing kept — the 8th is genuinely unpaired — with a pointer
+  to architecture), `spec/testing/index.md` (Storybook "six of seven"
+  → six of seven full-catalog + the partial's 30/30), and the
+  subproject's own `spec/index.md` (its "root framing not itself
+  amended here" sentence replaced by the record that it now is).
+  Deliberately left: the `bin/publish-headless` / `bin/check-coverage`
+  table rows (they describe those scripts' actual 7-library lists —
+  P8-T6 tracks adding the 8th), §11.2/§11.4/architecture's checked
+  items scoped to the seven full-catalog libraries (true as written,
+  now with a sibling bullet for the 8th), and the dated 2026-09-02
+  P1-T6 record.
+  Verify: the task's grep returns only those five deliberately-left
+  lines; `bin/check-links` clean; `bin/test` exits 0. `spec/index.md` says so in roughly ten places
   (§2 scope, §3 architecture, the `bin/publish-headless` and
   `bin/check-coverage` table rows, §11.2, §11.4, §11.7) and
   `spec/architecture/index.md` inherits the count. The 8th, partial

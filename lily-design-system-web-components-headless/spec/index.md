@@ -7,9 +7,9 @@ this subproject. For project-wide rules, read the root
 
 This subproject is an **8th headless catalog** alongside the seven listed in
 the root spec (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks) — the
-root spec's repeated "7 frameworks" framing predates this subproject and is
-not itself amended here; this file is the record of the addition until that
-framing is revisited.
+root spec was amended 2026-09-03 (plan P8-T3) to frame the catalog as
+7 full-catalog headless libraries plus this partial one; this file remains
+the authoritative record of the addition.
 
 **This is a deliberately partial implementation: 30 of the canonical 491
 components, not full parity with the other seven catalogs.** Every claim of

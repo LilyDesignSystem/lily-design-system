@@ -2,11 +2,11 @@
 
 > Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
-**Summary.** Lily™ is a monorepo holding a canonical 491-component catalog plus 14 implementation subprojects (7 headless libraries + 7 example apps) and 7 per-framework helper catalogs, where every subproject is also a `git subtree` that pushes to its own standalone remote.
+**Summary.** Lily™ is a monorepo holding a canonical 491-component catalog plus 15 implementation subprojects (7 full-catalog headless libraries + 1 partial headless library + 7 example apps) and 7 per-framework helper catalogs, where every subproject is also a `git subtree` that pushes to its own standalone remote.
 
 ## Scope
 
-This topic covers the monorepo directory layout, the 14 implementation subprojects and 7 helper catalogs, the git-subtree publishing model and multi-forge remote fan-out, and the required files per subproject and per component directory.
+This topic covers the monorepo directory layout, the 15 implementation subprojects and 7 helper catalogs, the git-subtree publishing model and multi-forge remote fan-out, and the required files per subproject and per component directory.
 
 It does not cover the vision or scope split (see [overview](../overview/index.md)), the catalog contents and naming (see [components](../components/index.md)), or the listing/scaffold/sync/test scripts in detail (see [tooling](../tooling/index.md)).
 
@@ -45,7 +45,7 @@ lily-design-system/                              ← canonical catalog + tools
 └── lily-design-system-{framework}-helpers/      ← 7 per-framework helper catalogs
 ```
 
-## The 14 implementation subprojects
+## The 15 implementation subprojects
 
 | Framework | Headless library | Example app |
 | --- | --- | --- |
@@ -59,9 +59,11 @@ lily-design-system/                              ← canonical catalog + tools
 
 Headless libraries ship unstyled, accessible components; example apps demonstrate them with a full stylesheet and the three required routes (see [examples](../examples/index.md)).
 
+An 8th, **partial** headless library sits outside the pairs: `lily-design-system-web-components-headless` (added 2026-09-03) ships 30 of the 491 components as native custom elements with no framework runtime and no example app — a representative slice proving the pattern, not parity. Its own `spec/index.md` records the architecture decisions (autonomous custom elements, light DOM only) and the exact scope.
+
 ## Helper catalogs
 
-Seven per-framework helper subprojects (`lily-design-system-{framework}-helpers`, one each for html, svelte, react, vue, angular, blazor, nunjucks) carry framework-specific helper packages — theme-select, locale-select, and text-size-select. Like the implementation subprojects, each helper catalog is its own git subtree with its own standalone remotes. See [helpers](../helpers/index.md).
+Seven per-framework helper subprojects (`lily-design-system-{framework}-helpers`, one each for html, svelte, react, vue, angular, blazor, nunjucks) carry the six framework-specific `*-picker` helper packages — theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, and date-time-picker. Like the implementation subprojects, each helper catalog is its own git subtree with its own standalone remotes. See [helpers](../helpers/index.md).
 
 The root `themes/` directory ships 45 reference theme stylesheets (NHS England/Scotland/Wales patient and practitioner variants, GOV.UK GDS, USWDS, Adobe Spectrum, Mozilla Protocol, and general-purpose light/dark themes) that target the Lily class hooks and pair with the theme-select helper. See [theme](../theme/index.md).
 
@@ -104,6 +106,7 @@ Every `components/{slug}/` directory (491 of them) carries:
 ## Acceptance criteria
 
 - [ ] All 7 headless and 7 example subprojects exist at the documented paths.
+- [ ] The partial `lily-design-system-web-components-headless` exists at the documented path and its `spec/index.md` states its 30/491 scope.
 - [ ] All 7 per-framework helper catalogs exist.
 - [ ] All 491 component directories carry the required component files.
 - [ ] Every subproject carries `index.md`, `README.md` symlink, `AGENTS.md`, `CLAUDE.md`, spec/plan/tasks, and `.git-subtree-push`.

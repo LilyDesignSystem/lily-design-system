@@ -6,7 +6,7 @@
 
 ## Scope
 
-This topic covers the seven headless + seven example subprojects (spec §3), the stack each one targets, the file shape each headless library uses to express a catalog component, the copy-pattern by which example apps consume the headless components, and the framework-specific conventions for Svelte/SvelteKit and Nunjucks. (The one-time Angular + Analog SSR blocker is resolved — see below.)
+This topic covers the seven headless + seven example subprojects (spec §3) — the partial, unpaired Web Components headless catalog is covered in [architecture](../architecture/index.md), not here — the stack each one targets, the file shape each headless library uses to express a catalog component, the copy-pattern by which example apps consume the headless components, and the framework-specific conventions for Svelte/SvelteKit and Nunjucks. (The one-time Angular + Analog SSR blocker is resolved — see below.)
 
 It does **not** cover: the binding markup/ARIA rules every framework obeys (see [headless](../headless/index.md)), the canonical catalog and naming/suffix mappings (see [components](../components/index.md)), example-app routes and styling (see [examples](../examples/index.md)), the test suites per framework (see [testing](../testing/index.md)), or the reusable helper packages that sit alongside the headless libraries (see [helpers](../helpers/index.md)).
 
