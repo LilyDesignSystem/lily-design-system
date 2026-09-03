@@ -3101,15 +3101,15 @@
         --lily-picker-icon-scale: 1.25;
     }
 
-    /* U+23F8 (pause sign) is a monochrome dingbat in the same visual
-       family as U+25D1 (a simple line/shape glyph, not a cap-height
-       letter or a colour emoji), so it takes the reference scale
-       pending a calibrated measurement against this stack's resolved
-       font — unlike the other four factors here, this one has not yet
-       been measured pixel-for-pixel; it is a reasoned placeholder, not
-       a false-precision number. */
+    /* U+23F8 (pause sign) is a small dingbat: measured 2026-09-03 in a
+       real browser against this icon's computed font (the same method
+       as U+25D1 / U+1F310 / "A", which it reproduced to within 1%), it
+       inks only 0.495 of its em box against U+25D1's 0.850, so it scales
+       up by 0.850/0.495. Like every factor here it is font-stack
+       dependent — override it if your stack resolves U+23F8 to a
+       different face. */
     :where(.motion-picker-icon) {
-        --lily-picker-icon-scale: 1;
+        --lily-picker-icon-scale: 1.72;
     }
 
     /* U+27A4 "➤" inks 0.613 of its em box against U+25D1's 0.777, so it

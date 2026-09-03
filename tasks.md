@@ -1585,7 +1585,30 @@ dropped. None is speculative.
   violation, or the spec records a reasoned "not possible" with the
   evidence.
 
-- [ ] **P8-T8 `motion-picker`'s icon scale is still a placeholder.**
+- [x] **P8-T8 `motion-picker`'s icon scale is still a placeholder.**
+  Done 2026-09-03. Method recovered from the originating commit
+  (`db081e793`): rendered-ink extent over the em box, in a real
+  browser, against the icon's *computed* font — no script was ever
+  committed, which is why the earlier bare-`system-ui` probe did not
+  match. Re-implemented as a one-off Playwright/canvas measurement
+  under `themes/light.css` (headless Chromium, `--lily-font-body`
+  resolving to Arial on this machine). Reproduction gate before
+  trusting the new number: ◑ 0.850 vs documented 0.842, 🌐 1.000 vs
+  0.996, "A" 0.675 vs 0.673 — all within 1%. ⏸ (U+23F8+FE0E) inks
+  0.495 (0.490 wide / 0.495 tall), so its factor is 0.850/0.495 =
+  **1.72**, applied to all 45 `themes/*.css` with the comment rewritten
+  from "reasoned placeholder" to the measurement and its method;
+  `AGENTS/helpers.md` and `spec/helpers/index.md` updated to match.
+  Finding recorded, not silently corrected: ➤ did **not** reproduce
+  (0.850 wide / 0.685 tall vs documented 0.613), and its own theme
+  comment cites ◑'s reference as 0.777 rather than 0.842 — it was
+  measured under a different resolved face. Its shipped 1.268 is left
+  as-is: changing it is a visual decision across 45 themes, not a
+  measurement correction. That discrepancy is now the open item, noted
+  in `AGENTS/helpers.md`.
+  Verify: `bin/check-theme` clean (45 themes); the ⏸ note no longer
+  says "placeholder"; the four reproduced figures and the fifth all
+  cite the same method; `bin/test` exits 0; `bin/check-links` clean.
   `AGENTS/helpers.md` records `--lily-picker-icon-scale: 1` for ⏸ as
   "a reasoned placeholder, not a false-precision number" — the other
   four glyphs were measured (◑ 0.842, 🌐 0.996, "A" 0.673, ➤ 0.613
