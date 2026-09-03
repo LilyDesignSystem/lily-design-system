@@ -14,7 +14,7 @@ import {
  * theme-picker's monochrome ◑ — the two controls sit next to each
  * other in a page header and should read as one set.
  */
-export const GLOBE_WITH_MERIDIANS = "\u{1F310}\uFE0E";
+export const GLOBE_WITH_MERIDIANS = "🌐︎";
 
 /** Arguments passed to the default scoped slot (the button glyph). */
 export type SlotArgs = {

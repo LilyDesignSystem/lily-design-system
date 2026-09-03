@@ -139,7 +139,7 @@ silently:
 
 ```ts
 const icon = document.querySelector(".locale-picker-icon") as HTMLElement;
-expect(icon.textContent).toBe("\u{1F310}\uFE0E");
+expect(icon.textContent).toBe("🌐︎");
 expect(icon.getAttribute("aria-hidden")).toBe("true");
 ```
 

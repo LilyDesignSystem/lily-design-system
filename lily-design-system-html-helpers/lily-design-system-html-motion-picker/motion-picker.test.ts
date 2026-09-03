@@ -147,7 +147,7 @@ describe("<motion-picker> — markup contract (§7.1–§7.5)", () => {
       ".motion-picker-icon",
     )!;
     // U+23F8 PAUSE SIGN + U+FE0E (text presentation).
-    expect(icon.textContent).toBe("\u23F8\uFE0E");
+    expect(icon.textContent).toBe("⏸︎");
     expect(icon.getAttribute("aria-hidden")).toBe("true");
     expect(icon.closest("button")).toBe(button());
   });

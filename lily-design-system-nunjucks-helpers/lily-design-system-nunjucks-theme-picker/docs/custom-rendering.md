@@ -123,7 +123,7 @@ contract. Emit it yourself and `initThemePicker` will wire it:
     aria-controls="my-theme-list"
     data-lily-theme-picker-button
   >
-    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
+    <span class="theme-picker-icon" aria-hidden="true">◑</span>
   </button>
   <ul
     class="theme-picker-list"

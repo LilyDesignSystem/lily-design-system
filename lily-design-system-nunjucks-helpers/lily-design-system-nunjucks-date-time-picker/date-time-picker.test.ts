@@ -1100,7 +1100,7 @@ describe("DateTimePicker -- Nunjucks surface and deviations", () => {
   });
 
   test("glyph escapes: CALENDAR is a unicode escape, never a bare character in source", () => {
-    expect(CALENDAR).toBe("\u{1F4C5}\uFE0E");
+    expect(CALENDAR).toBe("📅︎");
     expect(CALENDAR.length).toBe(3); // surrogate pair + variation selector
   });
 });

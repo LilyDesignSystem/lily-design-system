@@ -60,7 +60,7 @@ is supplied; otherwise uncontrolled with internal `useState`.
   <button type="button" class="motion-picker-button"
           aria-label="{label}" aria-haspopup="listbox"
           aria-expanded="false" aria-controls="{listId}">
-    <span class="motion-picker-icon" aria-hidden="true">&#9208;&#65038;</span>
+    <span class="motion-picker-icon" aria-hidden="true">⏸︎</span>
   </button>
   <ul class="motion-picker-list" id="{listId}" role="listbox"
       aria-label="{label}" tabindex="-1" hidden

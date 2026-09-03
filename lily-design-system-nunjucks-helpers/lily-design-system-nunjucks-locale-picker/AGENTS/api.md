@@ -194,7 +194,7 @@ Its three children, in source order:
   aria-controls="{id}-list"
   data-lily-locale-picker-button
 >
-  <span class="locale-picker-icon" aria-hidden="true">&#127760;&#65038;</span>
+  <span class="locale-picker-icon" aria-hidden="true">🌐︎</span>
 </button>
 
 <ul

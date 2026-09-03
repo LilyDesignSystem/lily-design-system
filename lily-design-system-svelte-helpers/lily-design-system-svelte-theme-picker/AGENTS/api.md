@@ -113,7 +113,7 @@ Consumers consume it via a `{#snippet}` block:
     themes={["light", "dark", "abyss"]}
 >
     {#snippet children({ value, open, labelFor })}
-        <span aria-hidden="true">&#9681;</span>
+        <span aria-hidden="true">◑</span>
         <span class="theme-picker-text">{labelFor(value)}</span>
         <span aria-hidden="true">{open ? "▴" : "▾"}</span>
     {/snippet}
@@ -121,7 +121,7 @@ Consumers consume it via a `{#snippet}` block:
 ```
 
 When no snippet is supplied, the button renders
-`<span class="theme-picker-icon" aria-hidden="true">&#9681;</span>`. When one
+`<span class="theme-picker-icon" aria-hidden="true">◑</span>`. When one
 is supplied, that span is not emitted.
 
 The snippet's output lives inside a `<button>`, so it must not contain
@@ -178,7 +178,7 @@ select.
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
+    <span class="theme-picker-icon" aria-hidden="true">◑</span>
     <!-- or the children snippet output -->
   </button>
   <ul

@@ -59,7 +59,7 @@ describe("MotionPicker — markup contract (§7.1–§7.5)", () => {
         const icon = document.querySelector(".motion-picker-icon") as HTMLElement;
         // U+23F8 PAUSE SIGN + U+FE0E (text presentation) — a real
         // monochrome glyph, not a pictograph that falls back to a bitmap.
-        expect(icon.textContent).toBe("\u23F8\uFE0E");
+        expect(icon.textContent).toBe("⏸︎");
         expect(icon.getAttribute("aria-hidden")).toBe("true");
     });
 

@@ -81,7 +81,7 @@
 >
 <input type="hidden" name="{{ name }}" value="{{ selected }}" data-lily-locale-picker-input>
 <button type="button" class="locale-picker-button" aria-label="{{ opts.label }}" aria-haspopup="listbox" aria-expanded="false" aria-controls="{{ listId }}" data-lily-locale-picker-button>
-{%- if caller %}{{ caller() }}{% else %}<span class="locale-picker-icon" aria-hidden="true">&#127760;&#65038;</span>{% endif -%}
+{%- if caller %}{{ caller() }}{% else %}<span class="locale-picker-icon" aria-hidden="true">🌐︎</span>{% endif -%}
 </button>
 <ul class="locale-picker-list" id="{{ listId }}" role="listbox" aria-label="{{ opts.label }}" tabindex="-1" hidden data-lily-locale-picker-list>
 {%- for locale in opts.locales -%}

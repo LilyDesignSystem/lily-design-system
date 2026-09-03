@@ -151,8 +151,8 @@ describe("<locale-picker> — markup contract (§7.1)", () => {
     // VS15 forces the text presentation so the glyph renders
     // monochrome, matching theme-picker's ◑ rather than the blue
     // colour-emoji globe.
-    expect(icon.textContent).toBe("\u{1F310}\uFE0E");
-    expect(GLOBE_WITH_MERIDIANS).toBe("\u{1F310}\uFE0E");
+    expect(icon.textContent).toBe("🌐︎");
+    expect(GLOBE_WITH_MERIDIANS).toBe("🌐︎");
     expect(Array.from(GLOBE_WITH_MERIDIANS)).toHaveLength(2);
     expect(icon.getAttribute("aria-hidden")).toBe("true");
     expect(icon.closest("button")).toBe(button());

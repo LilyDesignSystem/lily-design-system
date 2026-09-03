@@ -146,7 +146,7 @@ The rendered markup is:
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
+    <span class="theme-picker-icon" aria-hidden="true">◑</span>
   </button>
 
   <ul
@@ -184,7 +184,7 @@ The rendered markup is:
   the listbox `id`. Its accessible name comes entirely from
   `aria-label` — the glyph inside is `aria-hidden`.
 - **Glyph**: `<span class="theme-picker-icon" aria-hidden="true">`
-  containing `◑` — U+25D1 CIRCLE WITH RIGHT HALF BLACK, `&#9681;`,
+  containing `◑` — U+25D1 CIRCLE WITH RIGHT HALF BLACK, `◑`,
   exported as the constant `CIRCLE_WITH_RIGHT_HALF_BLACK`. A projected
   `<ng-template>` replaces the whole span; see below.
 - **Listbox**: `<ul class="theme-picker-list" role="listbox">` with the

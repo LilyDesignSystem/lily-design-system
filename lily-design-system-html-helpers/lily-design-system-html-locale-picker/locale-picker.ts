@@ -26,7 +26,7 @@ export { defaultLocaleLabels, RTL_LANGUAGE_TAGS, RTL_SCRIPT_SUBTAGS };
  * theme-picker's monochrome ◑. (U+25D1 needs no selector — it is not
  * an emoji codepoint and already defaults to text presentation.)
  */
-export const GLOBE_WITH_MERIDIANS = "\u{1F310}\uFE0E";
+export const GLOBE_WITH_MERIDIANS = "🌐︎";
 
 /** Change-event detail dispatched on every applied locale. */
 export type LocalePickerChangeDetail = {

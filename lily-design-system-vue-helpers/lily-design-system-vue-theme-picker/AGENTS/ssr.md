@@ -15,7 +15,7 @@ full closed control:
     <input type="hidden" name="theme" value="light" />
     <button type="button" class="theme-picker-button" aria-label="Theme"
             aria-haspopup="listbox" aria-expanded="false" aria-controls="theme-picker-1-list">
-        <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
+        <span class="theme-picker-icon" aria-hidden="true">◑</span>
     </button>
     <ul class="theme-picker-list" id="theme-picker-1-list" role="listbox"
         aria-label="Theme" tabindex="-1" hidden>

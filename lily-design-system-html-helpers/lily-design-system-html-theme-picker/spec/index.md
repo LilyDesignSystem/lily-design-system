@@ -199,7 +199,7 @@ holding a hidden `<input>`, the icon button, and the listbox:
       aria-expanded="false"
       aria-controls="theme-picker-1-list"
     >
-      <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
+      <span class="theme-picker-icon" aria-hidden="true">◑</span>
     </button>
     <ul
       class="theme-picker-list"
@@ -238,7 +238,7 @@ Binding rules for that markup:
   the base hook.
 - **Glyph.** The default button content is
   `<span class="theme-picker-icon" aria-hidden="true">` containing
-  U+25D1 CIRCLE WITH RIGHT HALF BLACK (`&#9681;`), exported as
+  U+25D1 CIRCLE WITH RIGHT HALF BLACK (`◑`), exported as
   `CIRCLE_WITH_RIGHT_HALF_BLACK`. It is hidden from assistive
   technology, so the accessible name comes from the button's
   `aria-label` alone.

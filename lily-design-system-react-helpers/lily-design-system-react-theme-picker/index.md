@@ -131,7 +131,7 @@ the WAI-ARIA APG listbox pattern:
     aria-expanded="false"
     aria-controls="theme-picker-«r0»-list"
   >
-    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
+    <span class="theme-picker-icon" aria-hidden="true">◑</span>
   </button>
   <ul
     class="theme-picker-list"
@@ -173,7 +173,7 @@ the WAI-ARIA APG listbox pattern:
 Notes:
 
 - The glyph is **U+25D1 CIRCLE WITH RIGHT HALF BLACK** (`◑`,
-  `&#9681;`), exported from `ThemePicker.tsx` as
+  `◑`), exported from `ThemePicker.tsx` as
   `CIRCLE_WITH_RIGHT_HALF_BLACK`. It is `aria-hidden`, so the button's
   accessible name comes entirely from the `label` prop.
 - The hidden `<input>` carries the active slug under the `name` prop, so

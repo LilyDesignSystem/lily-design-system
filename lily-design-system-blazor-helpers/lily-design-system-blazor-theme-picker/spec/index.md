@@ -116,7 +116,7 @@ public sealed class ThemePickerContext
 ```
 
 Public constant: `ThemePicker.CircleWithRightHalfBlack` — the default
-glyph, `"◑"` (U+25D1, `&#9681;`).
+glyph, `"◑"` (U+25D1, `◑`).
 
 Public method: `Task SetThemeAsync(string slug)` — apply a theme
 imperatively, for consumers driving the control from their own UI.
@@ -136,7 +136,7 @@ The control is an icon button plus a dropdown listbox:
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
+    <span class="theme-picker-icon" aria-hidden="true">◑</span>
   </button>
   <ul
     class="theme-picker-list"
@@ -162,7 +162,7 @@ The control is an icon button plus a dropdown listbox:
 
 - The root is a `<div>` carrying the `theme-picker` class hook plus
   `CssClass`; `AdditionalAttributes` spread onto it.
-- The glyph is `◑` (U+25D1 CIRCLE WITH RIGHT HALF BLACK, `&#9681;`),
+- The glyph is `◑` (U+25D1 CIRCLE WITH RIGHT HALF BLACK, `◑`),
   wrapped in `aria-hidden="true"`. The accessible name comes from the
   button's `aria-label` — never from the glyph.
 - `ChildContent` **replaces the glyph inside the button** and receives
@@ -357,7 +357,7 @@ run under bUnit + xUnit.
    `aria-controls` pointing at a `<ul role="listbox" tabindex="-1">`.
    No `<select>` is rendered.
 2. The button renders `<span class="theme-picker-icon"
-aria-hidden="true">&#9681;</span>` (U+25D1), matching the public
+aria-hidden="true">◑</span>` (U+25D1), matching the public
    `ThemePicker.CircleWithRightHalfBlack` constant.
 3. `aria-label` is the supplied `Label` on BOTH the button and the
    listbox.

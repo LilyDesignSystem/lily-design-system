@@ -12,7 +12,7 @@
  * MERIDIANS, text-size's plain "A", share's BLACK RIGHTWARDS
  * ARROWHEAD, date-time's CALENDAR).
  */
-export const PAUSE_SIGN = "\u23F8\uFE0E";
+export const PAUSE_SIGN = "⏸︎";
 
 /** Arguments passed to the default scoped slot (the button glyph). */
 export type SlotArgs = {

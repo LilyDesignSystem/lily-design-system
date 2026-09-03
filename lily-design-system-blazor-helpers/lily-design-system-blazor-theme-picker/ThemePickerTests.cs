@@ -77,10 +77,10 @@ public class ThemePickerTests : TestContext
         var cut = RenderDefault();
 
         var icon = cut.Find(".theme-picker-icon");
-        // U+25D1 CIRCLE WITH RIGHT HALF BLACK, decimal &#9681;
-        Assert.Equal("\u25D1", icon.TextContent.Trim());
+        // U+25D1 CIRCLE WITH RIGHT HALF BLACK, decimal ◑
+        Assert.Equal("◑", icon.TextContent.Trim());
         Assert.Equal("true", icon.GetAttribute("aria-hidden"));
-        Assert.Equal("\u25D1", ThemePicker.CircleWithRightHalfBlack);
+        Assert.Equal("◑", ThemePicker.CircleWithRightHalfBlack);
     }
 
     // -----------------------------------------------------------------

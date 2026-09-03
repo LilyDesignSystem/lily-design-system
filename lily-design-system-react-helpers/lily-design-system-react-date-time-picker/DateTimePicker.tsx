@@ -12,7 +12,7 @@ import * as React from "react";
  * has no visual form at all, so a bare one is invisible in an editor and
  * trivially lost to a careless edit.
  */
-export const CALENDAR = "\u{1F4C5}\uFE0E";
+export const CALENDAR = "📅︎";
 
 /** What the control collects. */
 export type DateTimeMode = "date" | "time" | "datetime";

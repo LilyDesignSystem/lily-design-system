@@ -1160,7 +1160,7 @@ describe("<date-time-picker> — HTML custom-element surface", () => {
     try {
       const mod = await import("./index.js");
       expect(mod.DateTimePicker).toBeDefined();
-      expect(mod.CALENDAR).toBe("\u{1F4C5}\uFE0E");
+      expect(mod.CALENDAR).toBe("📅︎");
     } finally {
       (globalThis as any).customElements = original;
     }

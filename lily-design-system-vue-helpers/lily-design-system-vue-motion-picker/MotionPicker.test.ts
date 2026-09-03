@@ -119,7 +119,7 @@ describe("MotionPicker — markup contract (§4.2, §7.1–§7.5)", () => {
         const wrapper = build();
         const icon = wrapper.find(".motion-picker-icon");
         // U+23F8 PAUSE SIGN + U+FE0E (text presentation).
-        expect(icon.text()).toBe("\u23F8\uFE0E");
+        expect(icon.text()).toBe("⏸︎");
         expect(icon.attributes("aria-hidden")).toBe("true");
     });
 

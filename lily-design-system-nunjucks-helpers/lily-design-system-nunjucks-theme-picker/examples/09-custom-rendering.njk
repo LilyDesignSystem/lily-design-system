@@ -4,7 +4,7 @@
   Nunjucks has no render props, so `{% call %}` is its equivalent of
   "children". The shipped themePicker macro checks `caller` and, when
   present, renders the block body INSIDE the button in place of the
-  default `<span class="theme-picker-icon">&#9681;</span>`.
+  default `<span class="theme-picker-icon">◑</span>`.
 
   That is the whole extension point. The root <div>, the hidden
   input, the button's ARIA attributes, and the <ul role="listbox">
@@ -35,7 +35,7 @@
     themes: ["light", "dark", "abyss", "cupcake", "dracula"],
     storageKey: "lily:theme"
 }) %}
-    <span class="my-glyph" aria-hidden="true">&#9681;</span>
+    <span class="my-glyph" aria-hidden="true">◑</span>
 {% endcall %}
 
 {# B. Same override, factored into a project-local wrapper macro.

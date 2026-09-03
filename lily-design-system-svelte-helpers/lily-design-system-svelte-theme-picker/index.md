@@ -148,7 +148,7 @@ inside a `$effect`, which never runs on the server.
     aria-expanded="false"
     aria-controls="theme-picker-1-list"
   >
-    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
+    <span class="theme-picker-icon" aria-hidden="true">◑</span>
   </button>
   <ul
     class="theme-picker-list"
@@ -193,7 +193,7 @@ holds three themes or forty-five with names like
 `united-kingdom-national-health-service-england-for-patients`. A native
 `<select>` is as wide as its longest option, or truncates it.
 
-The glyph is U+25D1 CIRCLE WITH RIGHT HALF BLACK (`◑`, `&#9681;`),
+The glyph is U+25D1 CIRCLE WITH RIGHT HALF BLACK (`◑`, `◑`),
 exported as `CIRCLE_WITH_RIGHT_HALF_BLACK`. It is `aria-hidden`; the
 accessible name comes from `label`.
 
@@ -318,7 +318,7 @@ render the options; the listbox is component-owned.
   bind:value={theme}
 >
   {#snippet children({ value, open, labelFor })}
-    <span aria-hidden="true">&#9681;</span>
+    <span aria-hidden="true">◑</span>
     <span class="theme-picker-text">{labelFor(value)}</span>
     <span aria-hidden="true">{open ? "▴" : "▾"}</span>
   {/snippet}

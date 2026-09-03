@@ -19,7 +19,7 @@ The static helpers, the default-glyph constant, and the imperative
 setter used by tests and consumers are public:
 
 ```csharp
-public const string CircleWithRightHalfBlack = "\u25D1"; // U+25D1
+public const string CircleWithRightHalfBlack = "◑"; // U+25D1
 public static string NormaliseThemesUrl(string themesUrl);
 public static string ThemeHref(string themesUrl, string slug, string extension);
 public Task SetThemeAsync(string slug);
@@ -153,7 +153,7 @@ An icon button plus a dropdown listbox (`spec/index.md §4.2`):
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
+    <span class="theme-picker-icon" aria-hidden="true">◑</span>
   </button>
   <ul
     class="theme-picker-list"

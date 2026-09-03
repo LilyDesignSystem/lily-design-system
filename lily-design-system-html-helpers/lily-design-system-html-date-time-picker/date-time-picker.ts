@@ -568,7 +568,7 @@ export function nextDateTimePickerId(): string {
  * if it finds one — this constant, and the icon markup that uses it, are
  * both escapes.
  */
-export const CALENDAR = "\u{1F4C5}\uFE0E";
+export const CALENDAR = "📅︎";
 
 const DEFAULT_LABELS: DateTimePickerLabels = {
     previousYear: "",

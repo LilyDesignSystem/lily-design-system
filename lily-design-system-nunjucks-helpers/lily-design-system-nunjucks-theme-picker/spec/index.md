@@ -171,7 +171,7 @@ and otherwise from the slug with its first character upper-cased
     aria-controls="{id}-list"
     data-lily-theme-picker-button
   >
-    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
+    <span class="theme-picker-icon" aria-hidden="true">◑</span>
   </button>
   <ul
     class="theme-picker-list"
@@ -197,7 +197,7 @@ and otherwise from the slug with its first character upper-cased
 
 - The root is a `<div>` carrying the `theme-picker` class hook plus the
   consumer's `classes`; `attributes` spread onto it.
-- The button glyph is U+25D1 CIRCLE WITH RIGHT HALF BLACK (`&#9681;`),
+- The button glyph is U+25D1 CIRCLE WITH RIGHT HALF BLACK (`◑`),
   wrapped in `aria-hidden="true"`. The accessible name comes from
   `aria-label` alone — the glyph is never the name.
 - `data-lily-theme-picker-value` is emitted **only when `opts.value` is

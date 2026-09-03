@@ -212,8 +212,8 @@ describe("SharePicker — markup contract (§4.2, §7.1–§7.6)", () => {
     const fixture = mount();
     const icon = q<HTMLElement>(fixture, ".share-picker-icon");
     // U+27A4 BLACK RIGHTWARDS ARROWHEAD
-    expect(icon.textContent).toBe("\u27A4");
-    expect(BLACK_RIGHTWARDS_ARROWHEAD).toBe("\u27A4");
+    expect(icon.textContent).toBe("➤");
+    expect(BLACK_RIGHTWARDS_ARROWHEAD).toBe("➤");
     expect(icon.getAttribute("aria-hidden")).toBe("true");
   });
 

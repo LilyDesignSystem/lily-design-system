@@ -45,7 +45,7 @@
  * MERIDIANS, text-size's plain "A", share's BLACK RIGHTWARDS
  * ARROWHEAD, date-time's CALENDAR).
  */
-export const PAUSE_SIGN = "\u23F8\uFE0E";
+export const PAUSE_SIGN = "⏸︎";
 
 /** How long the typeahead buffer survives between keystrokes, in ms. */
 const TYPEAHEAD_RESET_MS = 500;

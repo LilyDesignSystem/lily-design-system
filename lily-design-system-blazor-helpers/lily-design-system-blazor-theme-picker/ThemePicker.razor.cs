@@ -31,7 +31,7 @@ public sealed class ThemePickerContext
 public partial class ThemePicker : ComponentBase
 {
     /// <summary>Default button glyph: U+25D1 CIRCLE WITH RIGHT HALF BLACK.</summary>
-    public const string CircleWithRightHalfBlack = "\u25D1";
+    public const string CircleWithRightHalfBlack = "◑";
 
     /// <summary>Typeahead buffer lifetime, per the APG listbox pattern.</summary>
     private static readonly TimeSpan TypeaheadWindow = TimeSpan.FromMilliseconds(500);

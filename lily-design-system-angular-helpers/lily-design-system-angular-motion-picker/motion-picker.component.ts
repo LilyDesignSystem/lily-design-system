@@ -31,7 +31,7 @@ import {
  * MERIDIANS, text-size's plain "A", share's BLACK RIGHTWARDS
  * ARROWHEAD, date-time's CALENDAR).
  */
-export const PAUSE_SIGN = "\u23F8\uFE0E";
+export const PAUSE_SIGN = "⏸︎";
 
 /** Context passed to a custom icon `<ng-template>` (the button glyph). */
 export type ChildArgs = {

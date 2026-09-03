@@ -160,7 +160,7 @@ class TextThemePicker extends ThemePicker {
     const icon = document.createElement("span");
     icon.className = "theme-picker-icon";
     icon.setAttribute("aria-hidden", "true");
-    icon.textContent = "\u25D1";
+    icon.textContent = "◑";
     fragment.appendChild(icon);
 
     const text = document.createElement("span");

@@ -155,7 +155,7 @@ it over this helper is a legitimate decision.
 ### 3. The glyph may not render
 
 The default glyph is `◑` — U+25D1 CIRCLE WITH RIGHT HALF BLACK
-(`&#9681;`). It is a Geometric Shapes character, not an emoji, and
+(`◑`). It is a Geometric Shapes character, not an emoji, and
 its presence depends on the fonts installed on the user's device:
 
 - It may render in a **different weight, size, or vertical

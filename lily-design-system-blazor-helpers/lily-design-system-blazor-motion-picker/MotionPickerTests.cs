@@ -83,9 +83,9 @@ public class MotionPickerTests : TestContext
 
         var icon = cut.Find(".motion-picker-icon");
         // U+23F8 PAUSE SIGN + U+FE0E (text presentation).
-        Assert.Equal("\u23F8\uFE0E", icon.TextContent.Trim());
+        Assert.Equal("⏸︎", icon.TextContent.Trim());
         Assert.Equal("true", icon.GetAttribute("aria-hidden"));
-        Assert.Equal("\u23F8\uFE0E", MotionPicker.PauseSign);
+        Assert.Equal("⏸︎", MotionPicker.PauseSign);
     }
 
     // -----------------------------------------------------------------

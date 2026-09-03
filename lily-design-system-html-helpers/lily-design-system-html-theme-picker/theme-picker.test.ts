@@ -356,9 +356,9 @@ describe("<theme-picker> — markup contract (§7.1–§7.5)", () => {
     const icon = document.body.querySelector<HTMLElement>(
       ".theme-picker-icon",
     )!;
-    // U+25D1 CIRCLE WITH RIGHT HALF BLACK, decimal &#9681;
-    expect(icon.textContent).toBe("\u25D1");
-    expect(CIRCLE_WITH_RIGHT_HALF_BLACK).toBe("\u25D1");
+    // U+25D1 CIRCLE WITH RIGHT HALF BLACK, decimal ◑
+    expect(icon.textContent).toBe("◑");
+    expect(CIRCLE_WITH_RIGHT_HALF_BLACK).toBe("◑");
     expect(icon.getAttribute("aria-hidden")).toBe("true");
     expect(icon.closest("button")).toBe(button());
   });

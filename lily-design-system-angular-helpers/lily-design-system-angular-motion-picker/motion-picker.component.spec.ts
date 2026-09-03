@@ -150,7 +150,7 @@ describe("MotionPicker — markup contract (§4.2, §7.1–§7.5)", () => {
     const fixture = mount();
     const icon = q<HTMLElement>(fixture, ".motion-picker-icon");
     // U+23F8 PAUSE SIGN + U+FE0E (text presentation).
-    expect(icon.textContent).toBe("\u23F8\uFE0E");
+    expect(icon.textContent).toBe("⏸︎");
     expect(icon.getAttribute("aria-hidden")).toBe("true");
   });
 

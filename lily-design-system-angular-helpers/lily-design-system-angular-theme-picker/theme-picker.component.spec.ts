@@ -161,9 +161,9 @@ describe("ThemePicker — markup contract (§4.2, §7.1–§7.5)", () => {
   test("§7.1 the button renders the half-circle glyph, hidden from assistive tech", () => {
     const fixture = mount();
     const icon = q<HTMLElement>(fixture, ".theme-picker-icon");
-    // U+25D1 CIRCLE WITH RIGHT HALF BLACK, decimal &#9681;
-    expect(icon.textContent).toBe("\u25D1");
-    expect(CIRCLE_WITH_RIGHT_HALF_BLACK).toBe("\u25D1");
+    // U+25D1 CIRCLE WITH RIGHT HALF BLACK, decimal ◑
+    expect(icon.textContent).toBe("◑");
+    expect(CIRCLE_WITH_RIGHT_HALF_BLACK).toBe("◑");
     expect(icon.getAttribute("aria-hidden")).toBe("true");
   });
 

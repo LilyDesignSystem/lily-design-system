@@ -207,10 +207,10 @@ value="{value}">` so the active locale submits with a surrounding
   the list's id.
 - **Glyph.** By default `<span class="locale-picker-icon"
 aria-hidden="true">` holding U+1F310 GLOBE WITH MERIDIANS followed
-  by U+FE0E VARIATION SELECTOR-15 (`\u{1F310}\uFE0E`), exported as
+  by U+FE0E VARIATION SELECTOR-15 (`🌐︎`), exported as
   `GLOBE_WITH_MERIDIANS`. VS15 requests text presentation so the globe
   renders monochrome rather than as a colour emoji, matching
-  theme-picker's `\u25D1`. It is hidden from
+  theme-picker's `◑`. It is hidden from
   assistive technology; the accessible name comes from the button's
   `aria-label`. A `children` render prop replaces this span entirely.
 - **Listbox.** `<ul class="locale-picker-list" role="listbox"

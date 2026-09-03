@@ -368,8 +368,8 @@ describe("DateTimePicker — markup", () => {
     expect(icon).toBeTruthy();
     expect(icon.getAttribute("aria-hidden")).toBe("true");
     // U+1F4C5 CALENDAR, with the text-presentation selector.
-    expect(icon.textContent).toBe("\u{1F4C5}\uFE0E");
-    expect(CALENDAR).toBe("\u{1F4C5}\uFE0E");
+    expect(icon.textContent).toBe("📅︎");
+    expect(CALENDAR).toBe("📅︎");
   });
 
   test("§7.11 aria-label names both the trigger and the dialog", () => {

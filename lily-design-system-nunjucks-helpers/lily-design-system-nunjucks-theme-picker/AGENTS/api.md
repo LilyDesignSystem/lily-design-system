@@ -155,7 +155,7 @@ Macro output:
     <button type="button" class="theme-picker-button" aria-label="{label}"
             aria-haspopup="listbox" aria-expanded="false" aria-controls="{id}-list"
             data-lily-theme-picker-button>
-        <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
+        <span class="theme-picker-icon" aria-hidden="true">◑</span>
     </button>
     <ul class="theme-picker-list" id="{id}-list" role="listbox" aria-label="{label}"
         tabindex="-1" hidden data-lily-theme-picker-list>

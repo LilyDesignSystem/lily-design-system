@@ -51,7 +51,7 @@ Consequences to weigh before shipping:
 
   ```njk
   {% call sharePicker({label: "Share this article", targets: t}) %}
-    <span aria-hidden="true">&#10148;</span> Share
+    <span aria-hidden="true">➤</span> Share
   {% endcall %}
   ```
 

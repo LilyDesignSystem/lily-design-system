@@ -261,8 +261,8 @@ describe("ThemePicker — markup contract (§4.2, §7.1–§7.5)", () => {
       <ThemePicker label="Theme" themesUrl={URL_TRAILING} themes={THEMES} />,
     );
     const icon = document.querySelector(".theme-picker-icon") as HTMLElement;
-    // U+25D1 CIRCLE WITH RIGHT HALF BLACK, decimal &#9681;
-    expect(icon.textContent).toBe("\u25D1");
+    // U+25D1 CIRCLE WITH RIGHT HALF BLACK, decimal ◑
+    expect(icon.textContent).toBe("◑");
     expect(icon.getAttribute("aria-hidden")).toBe("true");
   });
 

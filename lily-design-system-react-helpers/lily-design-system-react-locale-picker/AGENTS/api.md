@@ -131,7 +131,7 @@ All pure, server-safe, no React dependency.
 defaultLocaleLabels; // Record<string, string> — 436 codes → English names
 RTL_LANGUAGE_TAGS; // Set<string> — language subtags that imply RTL
 RTL_SCRIPT_SUBTAGS; // Set<string> — script subtags that imply RTL
-GLOBE_WITH_MERIDIANS; // "\u{1F310}\uFE0E" — the default button glyph
+GLOBE_WITH_MERIDIANS; // "🌐︎" — the default button glyph
 // (VS15 forces monochrome text presentation)
 ```
 

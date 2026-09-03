@@ -8,10 +8,10 @@ custom glyph cannot break the pattern.
 By default the button holds:
 
 ```html
-<span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
+<span class="theme-picker-icon" aria-hidden="true">◑</span>
 ```
 
-that is U+25D1 CIRCLE WITH RIGHT HALF BLACK (`&#9681;`), exported from
+that is U+25D1 CIRCLE WITH RIGHT HALF BLACK (`◑`), exported from
 `ThemePicker.tsx` as `CIRCLE_WITH_RIGHT_HALF_BLACK`. Passing `children`
 replaces that span entirely — the `.theme-picker-icon` hook disappears
 unless you re-render it yourself.

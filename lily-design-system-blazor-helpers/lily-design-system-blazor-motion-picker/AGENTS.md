@@ -69,7 +69,7 @@ lives in `Value` and rides a hidden input for form participation.
   <input type="hidden" name="@Name" value="@Value" />
   <button type="button" class="motion-picker-button" aria-label="@Label"
           aria-haspopup="listbox" aria-expanded="false" aria-controls="{listId}">
-    <span class="motion-picker-icon" aria-hidden="true">&#9208;&#65038;</span>
+    <span class="motion-picker-icon" aria-hidden="true">⏸︎</span>
   </button>
   <ul class="motion-picker-list" id="{listId}" role="listbox" aria-label="@Label"
       tabindex="-1" hidden aria-activedescendant="{active option id, open only}">

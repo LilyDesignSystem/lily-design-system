@@ -21,7 +21,7 @@ HTML looks like:
     aria-expanded="false"
     aria-controls="theme-picker-1-list"
   >
-    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
+    <span class="theme-picker-icon" aria-hidden="true">◑</span>
   </button>
   <ul
     class="theme-picker-list"

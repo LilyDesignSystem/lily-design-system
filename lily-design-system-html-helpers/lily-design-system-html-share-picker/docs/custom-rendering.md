@@ -69,7 +69,7 @@ class LabelledSharePicker extends SharePicker {
     const icon = document.createElement("span");
     icon.className = "share-picker-icon";
     icon.setAttribute("aria-hidden", "true");
-    icon.textContent = "\u27A4";
+    icon.textContent = "➤";
     const text = document.createElement("span");
     text.className = "share-picker-text";
     text.textContent = this.label; // reuse the same string

@@ -223,20 +223,21 @@ test_implementation_nunjucks_example() {
 }
 
 ##
-# Helper picker glyphs must not appear as bare non-ASCII characters in the
-# places that RENDER them: the exported constant, and the icon markup. A
-# bare glyph is near-invisible in an editor and a variation selector
-# (U+FE0E) has no visual form at all — one was nearly lost to a careless
-# edit, and a plain sed cannot see a numeric codepoint assertion either.
+# Helper picker glyphs must appear as bare literal characters in the places
+# that RENDER them: the exported constant, and the icon markup. Reversed
+# 2026-09-03 (was: glyphs must be escaped) — the glyph is visual, so a bare
+# character is easy to type and easy to proofread by eye, where an escape
+# has to be mentally decoded to confirm which character it even is.
 #
-# Code contexts must use an escape ("\u27A4"); markup contexts must use an
-# HTML entity (&#10148;). Prose is not checked: a changelog explaining that
-# the glyph moved from one character to another has to show them.
+# Code contexts must hold the glyph directly, not an escape ("\u27A4");
+# markup contexts must hold it directly too, not an HTML entity (&#10148;).
+# Prose is not checked: a changelog explaining that the glyph moved from
+# one character to another has to show both.
 #
-# ASCII "A" (U+0041) is exempt — it cannot be mangled, and escaping it
-# would only make it harder to read.
+# ASCII "A" (U+0041) is exempt either way — it cannot be mangled, so
+# nothing here checks it.
 ##
-test_helper_glyphs_are_escaped() (
+test_helper_glyphs_are_bare() (
     # NOTE: this script runs under `set -euf`; -f disables globbing, so
     # file lists come from find, as everywhere else here.
     #
@@ -260,13 +261,13 @@ test_helper_glyphs_are_escaped() (
                     -e 'BLACK_RIGHTWARDS_ARROWHEAD *=' -e 'CALENDAR *=' \
                     -e 'CircleWithRightHalfBlack *=' -e 'GlobeWithMeridians *=' \
                     -e 'BlackRightwardsArrowhead *=' -e 'Calendar *=' "$file" \
-               | grep -q -e '◑' -e '➤' -e '🌐' -e '📅' -e '︎'; then
-                err "glyph constant holds a bare character; use an escape such as \\u27A4: $file"
+               | grep -q -e '\\u'; then
+                err "glyph constant holds an escape; use the bare glyph character directly: $file"
             fi
 
             # The icon markup that emits the glyph.
-            if grep -- '-picker-icon' "$file" | grep -q -e '◑' -e '➤' -e '🌐' -e '📅' -e '︎'; then
-                err "icon markup holds a bare character; use an entity such as &#10148;: $file"
+            if grep -- '-picker-icon' "$file" | grep -q -e '&#'; then
+                err "icon markup holds an HTML entity; use the bare glyph character directly: $file"
             fi
         done
     done
@@ -298,7 +299,7 @@ test_lockfiles_are_tracked() (
     test -z "$untracked" || err "lockfiles must be committed (spec/tooling): $untracked"
 )
 
-test_helper_glyphs_are_escaped
+test_helper_glyphs_are_bare
 test_lockfiles_are_tracked
 "$top/bin/check-theme" >/dev/null 2>&1 \
     || err "theme conformance failed; run bin/check-theme"

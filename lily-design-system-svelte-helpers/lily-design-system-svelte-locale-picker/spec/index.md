@@ -79,7 +79,7 @@ Give a Svelte 5 application a drop-in, headless locale select that:
   next to each other in a page header and should read as one set. The
   cost is a hand-rolled listbox; §6 states that tradeoff honestly.
 - **The globe glyph forces text presentation**. The constant is
-  `"\u{1F310}︎"` — U+1F310 GLOBE WITH MERIDIANS followed by
+  `"🌐︎"` — U+1F310 GLOBE WITH MERIDIANS followed by
   U+FE0E VARIATION SELECTOR-15. Without VS15 browsers pick the
   colour-emoji font and the globe renders blue, which does not match
   `theme-picker`'s monochrome `◑`. Verified in Chromium.
@@ -529,7 +529,7 @@ cases (exact match wins, language-only fallback, empty when no match).
 | Clause | Test asserts                                                                                                                                                         |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | §7.1   | Renders a `<button type="button">` with `aria-haspopup="listbox"`, `aria-expanded="false"`, and an `aria-controls` pointing at an element whose `role` is `listbox`. |
-| §7.1   | The button renders the globe glyph inside `.locale-picker-icon` as the two-codepoint sequence `\u{1F310}︎`, carrying `aria-hidden="true"`.                           |
+| §7.1   | The button renders the globe glyph inside `.locale-picker-icon` as the two-codepoint sequence `🌐︎`, carrying `aria-hidden="true"`.                           |
 | §7.2   | `aria-label` names **both** the button and the listbox.                                                                                                              |
 | §7.3   | One `.locale-picker-option` per entry in `locales`; the hidden input carries the supplied `name` and the resolved value.                                            |
 | §7.4   | The listbox is `hidden` until the button is activated; activating it clears `hidden` and sets `aria-expanded="true"`.                                                |

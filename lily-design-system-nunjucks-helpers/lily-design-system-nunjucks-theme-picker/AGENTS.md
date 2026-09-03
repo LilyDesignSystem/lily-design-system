@@ -89,7 +89,7 @@ colour-scheme detection (when `detectFromSystem` is on) > default-value
     aria-controls="{id}-list"
     data-lily-theme-picker-button
   >
-    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
+    <span class="theme-picker-icon" aria-hidden="true">◑</span>
   </button>
   <ul
     class="theme-picker-list"

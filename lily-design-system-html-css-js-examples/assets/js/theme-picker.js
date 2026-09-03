@@ -1,5 +1,5 @@
 // lily-design-system-html-theme-picker/theme-picker.ts
-var CIRCLE_WITH_RIGHT_HALF_BLACK = "\u25D1";
+var CIRCLE_WITH_RIGHT_HALF_BLACK = "◑";
 function themeName(theme) {
   return theme.split("-").map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
 }

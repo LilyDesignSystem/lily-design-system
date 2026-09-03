@@ -169,7 +169,7 @@ must not supply the accessible name — that stays on `aria-label`.
     data-lily-locale-picker-button
   >
     <span class="locale-picker-icon" aria-hidden="true"
-      >&#127760;&#65038;</span
+      >🌐︎</span
     >
   </button>
   <ul
@@ -197,7 +197,7 @@ must not supply the accessible name — that stays on `aria-label`.
 
 - The root is a `<div>` carrying the `locale-picker` class hook plus the
   consumer's `classes`; `attributes` spread onto it.
-- The button glyph is U+1F310 GLOBE WITH MERIDIANS followed by U+FE0E VARIATION SELECTOR-15 (`&#127760;&#65038;`),
+- The button glyph is U+1F310 GLOBE WITH MERIDIANS followed by U+FE0E VARIATION SELECTOR-15 (`🌐︎`),
   wrapped in `aria-hidden="true"`. The accessible name comes from
   `aria-label` alone — the glyph is never the name. VS15 requests the
   TEXT presentation: without it browsers pick the colour-emoji font and

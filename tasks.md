@@ -1378,6 +1378,30 @@ Rules for the executing agent:
   Verify: `npx storybook build` succeeds in
   `lily-design-system-vue-nuxt-examples` with 491/491 stories — done.
 
+- [x] **Picker glyph convention reversed: bare literals, not escapes.**
+  Maintainer-directed reversal of the "glyphs never appear as bare
+  characters" rule in `AGENTS/helpers.md`, done 2026-09-03. The five
+  picker glyphs (theme-picker's ◑, locale-picker's 🌐︎, motion-picker's
+  ⏸︎, share-picker's ➤, date-time-picker's 📅︎) now appear as bare
+  literal characters in source — code contexts and markup contexts
+  alike — never a `\u` escape or an HTML numeric entity. Reversed the
+  rule text itself, `bin/test`'s enforcement (now flags an escape/entity
+  as the violation instead of a bare character), the glyph constant and
+  its consuming markup across all 7 catalogs' 5 affected pickers (35
+  packages) including tests and examples, the 2 `html-css-js-examples`
+  copies, and ~90 documentation files. Also fixed, found incidentally:
+  two pre-existing half-escaped assertions in Blazor's
+  `LocalePickerTests.cs` and two in the canonical Svelte `spec/index.md`.
+  Left open, also found incidentally and out of scope for today: roughly
+  a dozen older docs across angular/blazor/vue's locale-picker packages
+  show `&#127760;` alone (missing its `&#65038;` pair) as if it were the
+  complete glyph — a pre-existing documentation-accuracy defect, not
+  introduced by or in scope for this reversal.
+  Verify: `bin/test` and `bin/check-links` pass clean; full unit suites
+  re-run green in all 7 catalogs for the 5 affected pickers (213 svelte,
+  263 react, 259 vue, 292 angular, 300 html, 323 nunjucks, 204 blazor
+  facts); `npm run build` re-verified for the Svelte helper catalog.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.

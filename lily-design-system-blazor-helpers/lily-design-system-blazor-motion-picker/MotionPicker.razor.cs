@@ -42,7 +42,7 @@ public partial class MotionPicker : ComponentBase
     /// MERIDIANS, text-size's plain "A", share's BLACK RIGHTWARDS
     /// ARROWHEAD, date-time's CALENDAR).
     /// </remarks>
-    public const string PauseSign = "\u23F8\uFE0E";
+    public const string PauseSign = "⏸︎";
 
     /// <summary>Typeahead buffer lifetime, per the APG listbox pattern.</summary>
     private static readonly TimeSpan TypeaheadWindow = TimeSpan.FromMilliseconds(500);

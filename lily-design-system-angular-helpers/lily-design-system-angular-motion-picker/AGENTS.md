@@ -65,7 +65,7 @@ participation.
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="motion-picker-icon" aria-hidden="true">&#9208;&#65038;</span>
+    <span class="motion-picker-icon" aria-hidden="true">⏸︎</span>
   </button>
   <ul
     class="motion-picker-list"

@@ -65,7 +65,7 @@ calls `onChange(slug)`. SSR-safe — all DOM writes happen inside
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
+    <span class="theme-picker-icon" aria-hidden="true">◑</span>
   </button>
   <ul
     class="theme-picker-list"
@@ -89,7 +89,7 @@ calls `onChange(slug)`. SSR-safe — all DOM writes happen inside
 </div>
 ```
 
-The glyph is U+25D1 CIRCLE WITH RIGHT HALF BLACK (`&#9681;`). The
+The glyph is U+25D1 CIRCLE WITH RIGHT HALF BLACK (`◑`). The
 `children` snippet **replaces that glyph inside the button** and
 receives `{ value, open, labelFor }` — it no longer renders options.
 The hidden input carries form participation; its `name` also

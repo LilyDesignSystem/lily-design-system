@@ -215,7 +215,7 @@ for form participation, an icon-only button, and a listbox that starts
     aria-controls="theme-picker-theme-list"
     data-lily-theme-picker-button
   >
-    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
+    <span class="theme-picker-icon" aria-hidden="true">◑</span>
   </button>
   <ul
     class="theme-picker-list"
@@ -355,7 +355,7 @@ controller.destroy(); // remove every listener
 The button's glyph is the one part of the markup the macro hands
 over. Nunjucks has no render props, so its equivalent of "children"
 is a `{% call %}` block: the block body replaces the default
-`<span class="theme-picker-icon">&#9681;</span>` **inside** the button.
+`<span class="theme-picker-icon">◑</span>` **inside** the button.
 
 ```njk
 {% call themePicker({

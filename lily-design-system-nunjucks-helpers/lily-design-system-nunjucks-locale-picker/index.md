@@ -221,7 +221,7 @@ input, an icon-only trigger button, and a listbox of options.
     data-lily-locale-picker-button
   >
     <span class="locale-picker-icon" aria-hidden="true"
-      >&#127760;&#65038;</span
+      >🌐︎</span
     >
   </button>
   <ul

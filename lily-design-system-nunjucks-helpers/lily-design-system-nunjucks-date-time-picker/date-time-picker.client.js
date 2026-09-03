@@ -44,7 +44,7 @@
  * all, so a bare one is invisible in an editor and trivially lost to a
  * careless edit.
  */
-export const CALENDAR = "\u{1F4C5}\uFE0E";
+export const CALENDAR = "📅︎";
 
 // ---------------------------------------------------------------------
 // Civil-date arithmetic — pure and total, ported from the canonical

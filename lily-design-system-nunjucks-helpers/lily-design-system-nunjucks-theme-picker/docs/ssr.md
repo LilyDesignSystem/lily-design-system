@@ -98,7 +98,7 @@ would paint before the client could correct it.
     aria-expanded="false"
     aria-controls="theme-picker-theme-list"
   >
-    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
+    <span class="theme-picker-icon" aria-hidden="true">◑</span>
   </button>
   <ul
     class="theme-picker-list"

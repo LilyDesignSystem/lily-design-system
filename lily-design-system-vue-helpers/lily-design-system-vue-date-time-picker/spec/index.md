@@ -225,7 +225,7 @@ canonical's type name and the convention `theme-picker` and
     <button type="button" class="date-time-picker-button" aria-label="{label}"
             aria-haspopup="dialog" aria-expanded="false"
             aria-controls="{dialogId}">
-      <span class="date-time-picker-icon" aria-hidden="true">&#128197;&#65038;</span>
+      <span class="date-time-picker-icon" aria-hidden="true">📅︎</span>
     </button>
   </div>
 

@@ -204,7 +204,7 @@ Required: `Label`, `Labels`.
 
 | Member | Purpose |
 | --- | --- |
-| `DateTimePicker.Calendar` | The default glyph, `"\U0001F4C5\uFE0E"` (U+1F4C5 + U+FE0E). |
+| `DateTimePicker.Calendar` | The default glyph, `"📅︎"` (U+1F4C5 + U+FE0E). |
 | `DateTimePicker.NextDateTimePickerId()` | Mint a stable, prerender-safe id prefix. |
 | `DateTimePicker.ParseIsoDate` / `FormatIsoDate` | ISO date parsing/formatting. |
 | `DateTimePicker.AddDays` / `AddMonths` | Civil-date arithmetic (`AddMonths` clamps the day). |

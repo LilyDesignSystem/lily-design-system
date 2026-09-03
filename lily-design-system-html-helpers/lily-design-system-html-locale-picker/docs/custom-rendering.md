@@ -142,7 +142,7 @@ class TextLocalePicker extends LocalePicker {
     const icon = document.createElement("span");
     icon.className = "locale-picker-icon";
     icon.setAttribute("aria-hidden", "true");
-    icon.textContent = "\u{1F310}\uFE0E"; // globe + VS15
+    icon.textContent = "🌐︎"; // globe + VS15
     fragment.appendChild(icon);
 
     const text = document.createElement("span");

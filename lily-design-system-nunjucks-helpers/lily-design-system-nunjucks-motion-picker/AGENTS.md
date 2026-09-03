@@ -90,7 +90,7 @@ movement, the APG keyboard contract, and typeahead.
     aria-controls="{id}-list"
     data-lily-motion-picker-button
   >
-    <span class="motion-picker-icon" aria-hidden="true">&#9208;&#65038;</span>
+    <span class="motion-picker-icon" aria-hidden="true">⏸︎</span>
   </button>
   <ul
     class="motion-picker-list"
@@ -116,7 +116,7 @@ movement, the APG keyboard contract, and typeahead.
 
 The glyph is U+23F8 PAUSE SIGN + U+FE0E, `aria-hidden`, exported as
 `PAUSE_SIGN` from the client module and written as the HTML entity
-`&#9208;&#65038;` in the macro (per the glyph-escaping rule — no bare
+`⏸︎` in the macro (per the glyph-escaping rule — no bare
 character in source). A `{% call %}` block body replaces the glyph
 inside the button; it does not render options.
 

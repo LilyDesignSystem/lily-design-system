@@ -42,7 +42,7 @@ and persists nothing.
 - Component: `DateTimePicker` in namespace `LilyDesignSystem.Blazor.Helpers`.
 - Types: `DateTimeMode`, `CivilDate`, `CivilTime`, `DateTimeShortcut`,
   `DateTimePickerLabels`, `DateTimePickerContext`.
-- Constant: `DateTimePicker.Calendar` — the default glyph, `"\U0001F4C5\uFE0E"`
+- Constant: `DateTimePicker.Calendar` — the default glyph, `"📅︎"`
   (U+1F4C5 CALENDAR + U+FE0E text-presentation selector), written as an
   escape, never a bare character.
 - Civil-date/time arithmetic, all `public static` on `DateTimePicker`:

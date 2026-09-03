@@ -141,7 +141,7 @@ public sealed class ShareEventArgs
     aria-expanded
     aria-controls="{listId}"
   >
-    <span class="share-picker-icon" aria-hidden="true">&#10148;</span>
+    <span class="share-picker-icon" aria-hidden="true">➤</span>
   </button>
   <ul class="share-picker-list" id="{listId}" aria-label="{Label}" hidden>
     <li class="share-picker-list-item">

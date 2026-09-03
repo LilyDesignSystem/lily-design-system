@@ -669,6 +669,18 @@ Long-term: versioned releases per subproject npm/NuGet package
 
 ### 14.1 Changelog highlights
 
+- **Picker glyph convention reversed (2026-09-03)** —
+  maintainer-directed reversal of the "glyphs never appear as bare
+  characters" rule: the five picker glyphs (◑, 🌐︎, ⏸︎, ➤, 📅︎) now
+  appear as bare literal characters in source, in both code and markup
+  contexts, never a `\u` escape or HTML entity — a bare character is
+  easy to type and proofread by eye, where an escape has to be
+  mentally decoded. Reversed in `AGENTS/helpers.md` (+ 24 synced
+  copies), `bin/test`'s enforcement, all 7 catalogs' 5 affected
+  pickers (35 packages) including tests/examples, and ~90
+  documentation files. Full unit suites re-run green in all 7
+  catalogs (behaviourally unaffected — string equality doesn't care
+  which source form produced the value). Full record: CHANGELOG.md.
 - **P7-T19 publish scripts' dry-run fixed (2026-09-03)** —
   `bin/publish-helpers --dry-run` / `bin/publish-headless --dry-run`
   had been silently broken since the first real publish (2026-08-26):

@@ -76,7 +76,7 @@ owns an action, not a preference.
 `<div class="share-picker {class}">` holding, in order: a
 `<button type="button" class="share-picker-button" aria-label="{label}"
 aria-expanded aria-controls="{listId}">` whose content defaults to
-`<span class="share-picker-icon" aria-hidden="true">&#10148;</span>`; a
+`<span class="share-picker-icon" aria-hidden="true">➤</span>`; a
 `<ul class="share-picker-list" id="{listId}" aria-label="{label}" hidden>` of
 `<li class="share-picker-list-item">` containing
 `<a class="share-picker-target" data-target-id target="_blank"

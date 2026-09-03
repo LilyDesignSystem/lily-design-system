@@ -260,7 +260,7 @@ Full contract: [`spec/index.md` §4.4](./spec/index.md#44-dom-contract).
         aria-haspopup="dialog"
         aria-expanded="false"
       >
-        <span class="date-time-picker-icon" aria-hidden="true">&#128197;&#65038;</span>
+        <span class="date-time-picker-icon" aria-hidden="true">📅︎</span>
       </button>
     </div>
     <div class="date-time-picker-dialog" role="dialog" aria-modal="true" hidden>

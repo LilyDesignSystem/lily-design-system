@@ -106,7 +106,7 @@ describe("LocalePicker — markup contract (§4.3, §7.1)", () => {
         // VARIATION SELECTOR-15, which forces monochrome text presentation
         // so the glyph matches theme-picker's ◑ rather than rendering as a
         // colour emoji.
-        expect(icon.textContent).toBe("\u{1F310}\uFE0E");
+        expect(icon.textContent).toBe("🌐︎");
         expect(icon.getAttribute("aria-hidden")).toBe("true");
     });
 

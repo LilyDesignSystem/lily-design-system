@@ -203,8 +203,8 @@ public class SharePickerTests : TestContext
 
         var icon = cut.Find(".share-picker-icon");
         // U+27A4 BLACK RIGHTWARDS ARROWHEAD.
-        Assert.Equal("\u27A4", icon.TextContent.Trim());
-        Assert.Equal("\u27A4", SharePicker.BlackRightwardsArrowhead);
+        Assert.Equal("➤", icon.TextContent.Trim());
+        Assert.Equal("➤", SharePicker.BlackRightwardsArrowhead);
         // The accessible name is the button's aria-label, never the glyph.
         Assert.Equal("true", icon.GetAttribute("aria-hidden"));
     }

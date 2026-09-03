@@ -9,6 +9,53 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Picker glyph convention reversed: bare literals, not escapes — 2026-09-03
+
+Maintainer-directed reversal of the July/August 2026 "glyphs never
+appear as bare characters" rule (`AGENTS/helpers.md`): the five picker
+glyphs — theme-picker's ◑, locale-picker's 🌐︎, motion-picker's ⏸︎,
+share-picker's ➤, and date-time-picker's 📅︎ — now appear as bare
+literal characters directly in source, in both code contexts (the
+exported constant) and markup contexts (the Nunjucks macro / Blazor
+`.razor` icon span), never as a `\u` escape or an HTML numeric entity.
+Rationale given: the glyph is visual, so a bare character is easy to
+type and easy to proofread by eye, where an escape has to be mentally
+decoded to confirm which character it even is.
+
+Reversed everywhere the escaped/entity form previously appeared: the
+`AGENTS/helpers.md` rule text and its 24 synced copies (`bin/sync`),
+`bin/test`'s enforcement (`test_helper_glyphs_are_escaped` →
+`test_helper_glyphs_are_bare`, now flagging an escape/entity as the
+violation instead of a bare character), the glyph constant and its
+consuming markup in all 7 catalogs' theme-picker, locale-picker,
+motion-picker, share-picker, and date-time-picker (35 packages), their
+test files and examples, the two `html-css-js-examples` copies, and
+~90 documentation files (`spec/index.md`, `AGENTS.md`, `docs/*.md`)
+whose illustrative HTML/code snippets quoted the old escaped form.
+`CHANGELOG.md` entries from before this date are left untouched as an
+accurate record of what the rule was at the time.
+
+Also fixed, found incidentally while sweeping: two Blazor
+`LocalePickerTests.cs` assertions and two `spec/index.md` mentions
+(canonical Svelte) that already held a half-escaped, half-bare form
+(`"\U0001F310︎"`) predating this reversal — normalised to fully bare
+(`"🌐︎"`). Left open, also found incidentally and out of scope for
+today: roughly a dozen older documentation snippets across
+angular/blazor/vue's locale-picker packages show `&#127760;` alone (no
+paired `&#65038;`) as if it were the complete glyph — an incomplete
+illustrative entity that predates this session and is a separate
+documentation-accuracy defect, not something this reversal introduced
+or was asked to fix.
+
+Verified: `bin/test` and `bin/check-links` both pass clean. Full unit
+suites re-run and green in all 7 catalogs for the 5 affected pickers
+(213 svelte, 263 react, 259 vue, 292 angular, 300 html, 323 nunjucks,
+204 blazor xUnit facts) — string equality is unaffected by escaped vs.
+bare source representation, so this is a pure source-readability
+change with no behavioural difference, confirmed by the full green
+re-run rather than assumed. `npm run build` re-verified for the Svelte
+helper catalog; built `dist/` output carries the bare glyphs correctly.
+
 ## P7-T19 closed: publish scripts' dry-run no longer aborts on an already-published package — 2026-09-03
 
 `bin/publish-helpers --dry-run` and `bin/publish-headless --dry-run`

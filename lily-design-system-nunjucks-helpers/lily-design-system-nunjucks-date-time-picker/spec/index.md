@@ -296,7 +296,7 @@ What the macro renders (elements present with no JavaScript at all):
     <button type="button" class="date-time-picker-button" aria-label="{label}"
             aria-haspopup="dialog" aria-expanded="false"
             aria-controls="{dialogId}" data-lily-date-time-picker-button>
-      <span class="date-time-picker-icon" aria-hidden="true">&#128197;&#65038;</span>
+      <span class="date-time-picker-icon" aria-hidden="true">📅︎</span>
     </button>
   </div>
 

@@ -171,7 +171,7 @@ composed.
       aria-controls="locale-picker-1-list"
     >
       <span class="locale-picker-icon" aria-hidden="true"
-        >&#127760;&#65038;</span
+        >🌐︎</span
       >
     </button>
     <ul
@@ -221,7 +221,7 @@ Contract points:
   hook plus the consumer's `class` attribute, mirrored from the host.
 - The default button glyph is **U+1F310 GLOBE WITH MERIDIANS**
   followed by **U+FE0E VARIATION SELECTOR-15**
-  (`&#127760;&#65038;`), exported as `GLOBE_WITH_MERIDIANS`. VS15
+  (`🌐︎`), exported as `GLOBE_WITH_MERIDIANS`. VS15
   requests the text presentation so the glyph renders monochrome
   rather than as a blue colour emoji, matching theme-picker's ◑
   (U+25D1, which needs no selector). It is wrapped in

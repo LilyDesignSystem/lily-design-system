@@ -15,7 +15,7 @@
      * theme-picker's monochrome ◑ — the two controls sit next to each
      * other in a page header and should read as one set.
      */
-    export const GLOBE_WITH_MERIDIANS = "\u{1F310}\uFE0E";
+    export const GLOBE_WITH_MERIDIANS = "🌐︎";
 
     /** Arguments passed to a custom `children` snippet (the button glyph). */
     export type ChildArgs = {

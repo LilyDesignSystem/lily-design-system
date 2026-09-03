@@ -13,7 +13,7 @@
      * variation selector has no visual form at all, so a bare one is
      * invisible in an editor and trivially lost to a careless edit.
      */
-    export const CALENDAR = "\u{1F4C5}\uFE0E";
+    export const CALENDAR = "📅︎";
 
     /** What the control collects. */
     export type DateTimeMode = "date" | "time" | "datetime";
@@ -1373,7 +1373,7 @@
                 {@render children({ value: value ?? "", open, display })}
             {:else}
                 <span class="date-time-picker-icon" aria-hidden="true"
-                    >&#128197;&#65038;</span
+                    >📅︎</span
                 >
             {/if}
         </button>

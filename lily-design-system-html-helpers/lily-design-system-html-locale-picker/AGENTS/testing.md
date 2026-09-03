@@ -102,7 +102,7 @@ expect(document.getElementById(btn.getAttribute("aria-controls")!)).toBe(
 );
 
 const icon = document.body.querySelector<HTMLElement>(".locale-picker-icon")!;
-expect(icon.textContent).toBe("\u{1F310}\uFE0E"); // GLOBE + VS15 (text presentation)
+expect(icon.textContent).toBe("🌐︎"); // GLOBE + VS15 (text presentation)
 expect(icon.getAttribute("aria-hidden")).toBe("true");
 ```
 

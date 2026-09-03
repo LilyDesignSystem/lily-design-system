@@ -26,7 +26,7 @@
  * monochrome alongside theme-picker's ◑, locale-picker's 🌐 and
  * text-size-picker's "A".
  */
-export const BLACK_RIGHTWARDS_ARROWHEAD = "\u27A4";
+export const BLACK_RIGHTWARDS_ARROWHEAD = "➤";
 
 /** Is a native share sheet available? SSR-safe. */
 export function canShareNatively() {

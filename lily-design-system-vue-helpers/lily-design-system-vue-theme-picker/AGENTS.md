@@ -53,7 +53,7 @@ it) containing three things: a hidden `<input type="hidden"
 name="{name}" value="{value}">` for form participation; a
 `<button type="button" class="theme-picker-button" aria-label="{label}"
 aria-haspopup="listbox" aria-expanded aria-controls="{listId}">`
-wrapping `<span class="theme-picker-icon" aria-hidden="true">&#9681;</span>`;
+wrapping `<span class="theme-picker-icon" aria-hidden="true">◑</span>`;
 and a `<ul class="theme-picker-list" role="listbox" aria-label="{label}"
 tabindex="-1" hidden aria-activedescendant>` of
 `<li class="theme-picker-option" role="option" aria-selected

@@ -189,8 +189,8 @@ describe("LocalePicker — markup contract (§4.3, §7.1–§7.6)", () => {
     // U+1F310 GLOBE WITH MERIDIANS + U+FE0E VARIATION SELECTOR-15.
     // VS15 forces text presentation so the globe renders monochrome,
     // matching theme-picker's U+25D1 rather than the colour-emoji font.
-    expect(icon.textContent).toBe("\u{1F310}\uFE0E");
-    expect(GLOBE_WITH_MERIDIANS).toBe("\u{1F310}\uFE0E");
+    expect(icon.textContent).toBe("🌐︎");
+    expect(GLOBE_WITH_MERIDIANS).toBe("🌐︎");
     expect(Array.from(GLOBE_WITH_MERIDIANS)).toEqual(["\u{1F310}", "\uFE0E"]);
     expect(icon.getAttribute("aria-hidden")).toBe("true");
   });

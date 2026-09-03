@@ -140,7 +140,7 @@ type ChildArgs = {
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
+    <span class="theme-picker-icon" aria-hidden="true">◑</span>
   </button>
   <ul
     class="theme-picker-list"
@@ -169,7 +169,7 @@ type ChildArgs = {
 - **Hidden input** preserves form participation. Its `name` is the
   `name` prop, which _also_ discriminates the managed `<link>`.
 - **Button glyph** is U+25D1 CIRCLE WITH RIGHT HALF BLACK (`◑`,
-  `&#9681;`), exported as `CIRCLE_WITH_RIGHT_HALF_BLACK`. It is wrapped
+  `◑`), exported as `CIRCLE_WITH_RIGHT_HALF_BLACK`. It is wrapped
   in `aria-hidden="true"`: the accessible name comes from the button's
   `aria-label`, never from the glyph.
 - **`children` replaces the glyph**, not the options. It receives

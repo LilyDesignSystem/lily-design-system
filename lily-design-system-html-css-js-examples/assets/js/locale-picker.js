@@ -489,7 +489,7 @@ var RTL_SCRIPT_SUBTAGS = /* @__PURE__ */ new Set([
 ]);
 
 // lily-design-system-html-locale-picker/locale-picker.ts
-var GLOBE_WITH_MERIDIANS = "\u{1F310}\uFE0E";
+var GLOBE_WITH_MERIDIANS = "🌐︎";
 function bcp47LocaleTag(locale) {
   return locale.replace(/_/g, "-");
 }

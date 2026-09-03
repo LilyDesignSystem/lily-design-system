@@ -77,9 +77,9 @@ public class LocalePickerTests : TestContext
         // U+1F310 GLOBE WITH MERIDIANS (&#127760;) + U+FE0E VARIATION
         // SELECTOR-15 (&#65038;), which forces the monochrome text
         // presentation so the globe matches ThemePicker's ◑.
-        Assert.Equal("\U0001F310︎", icon.TextContent.Trim());
+        Assert.Equal("🌐︎", icon.TextContent.Trim());
         Assert.Equal("true", icon.GetAttribute("aria-hidden"));
-        Assert.Equal("\U0001F310︎", LocalePicker.GlobeWithMeridians);
+        Assert.Equal("🌐︎", LocalePicker.GlobeWithMeridians);
     }
 
     // -----------------------------------------------------------------

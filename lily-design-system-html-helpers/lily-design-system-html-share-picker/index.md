@@ -142,7 +142,7 @@ Every attribute also has a mirrored camelCase property, plus read-only
       aria-expanded="false"
       aria-controls="share-picker-1-list"
     >
-      <span class="share-picker-icon" aria-hidden="true">&#10148;</span>
+      <span class="share-picker-icon" aria-hidden="true">➤</span>
     </button>
     <ul class="share-picker-list" id="share-picker-1-list" aria-label="Share" hidden>
       <li class="share-picker-list-item">
@@ -226,7 +226,7 @@ class LabelledSharePicker extends SharePicker {
     const icon = document.createElement("span");
     icon.className = "share-picker-icon";
     icon.setAttribute("aria-hidden", "true");
-    icon.textContent = "\u27A4";
+    icon.textContent = "➤";
     const text = document.createElement("span");
     text.textContent = this.open ? "Close" : "Share";
     frag.append(icon, text);

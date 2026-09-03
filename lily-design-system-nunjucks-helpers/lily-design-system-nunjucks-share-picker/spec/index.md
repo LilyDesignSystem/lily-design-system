@@ -167,7 +167,7 @@ Each entry in `targets`:
     aria-controls="{id}-list"
     data-lily-share-picker-button
   >
-    <span class="share-picker-icon" aria-hidden="true">&#10148;</span>
+    <span class="share-picker-icon" aria-hidden="true">➤</span>
   </button>
   <ul
     class="share-picker-list"

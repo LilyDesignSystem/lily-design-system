@@ -160,7 +160,7 @@ public partial class DateTimePicker : ComponentBase, IAsyncDisposable
     /// form at all and a bare one is invisible in an editor and trivially
     /// lost to a careless edit.
     /// </remarks>
-    public const string Calendar = "\U0001F4C5\uFE0E";
+    public const string Calendar = "📅︎";
 
     /// <summary>Monotonic instance counter; SSR-safe (no randomness, no clock).</summary>
     private static int _uid;

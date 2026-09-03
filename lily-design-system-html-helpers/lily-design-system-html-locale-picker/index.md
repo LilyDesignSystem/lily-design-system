@@ -198,7 +198,7 @@ The element renders this into its light DOM:
       aria-controls="locale-picker-1-list"
     >
       <span class="locale-picker-icon" aria-hidden="true"
-        >&#127760;&#65038;</span
+        >🌐︎</span
       >
     </button>
     <ul

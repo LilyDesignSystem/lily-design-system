@@ -98,7 +98,7 @@
 >
 <input type="hidden" name="{{ name }}" value="{{ selected }}" data-lily-motion-picker-input>
 <button type="button" class="motion-picker-button" aria-label="{{ opts.label }}" aria-haspopup="listbox" aria-expanded="false" aria-controls="{{ listId }}" data-lily-motion-picker-button>
-{%- if caller %}{{ caller() }}{% else %}<span class="motion-picker-icon" aria-hidden="true">&#9208;&#65038;</span>{% endif -%}
+{%- if caller %}{{ caller() }}{% else %}<span class="motion-picker-icon" aria-hidden="true">⏸︎</span>{% endif -%}
 </button>
 <ul class="motion-picker-list" id="{{ listId }}" role="listbox" aria-label="{{ opts.label }}" tabindex="-1" hidden data-lily-motion-picker-list>
 {%- for slug in opts.motions -%}

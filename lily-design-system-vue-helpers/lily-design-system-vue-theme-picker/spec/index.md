@@ -156,7 +156,7 @@ name.
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="theme-picker-icon" aria-hidden="true">&#9681;</span>
+    <span class="theme-picker-icon" aria-hidden="true">◑</span>
   </button>
   <ul
     class="theme-picker-list"
@@ -183,7 +183,7 @@ name.
 - Root element: a `<div class="theme-picker {class}">`. `$attrs`
   falls through to it via the default Vue `inheritAttrs` behaviour.
 - The button is icon-only. The glyph is `◑` (U+25D1 CIRCLE WITH RIGHT
-  HALF BLACK, `&#9681;`), exported as
+  HALF BLACK, `◑`), exported as
   `CIRCLE_WITH_RIGHT_HALF_BLACK`, wrapped in `aria-hidden="true"` so
   it can never become the accessible name.
 - The hidden input preserves form participation and carries `name`.

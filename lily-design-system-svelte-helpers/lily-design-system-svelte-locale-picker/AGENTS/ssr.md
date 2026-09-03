@@ -26,7 +26,7 @@ Under SSR, `$effect` is a no-op. The select renders:
     aria-controls="locale-picker-1-list"
   >
     <span class="locale-picker-icon" aria-hidden="true"
-      >&#127760;&#65038;</span
+      >🌐︎</span
     >
   </button>
   <ul

@@ -114,7 +114,7 @@ What to do:
   ```svelte
   <ThemePicker label="Theme" {themesUrl} {themes} bind:value={theme}>
     {#snippet children({ labelFor, value })}
-      <span aria-hidden="true">&#9681;</span>
+      <span aria-hidden="true">◑</span>
       <span class="theme-picker-text">{labelFor(value)}</span>
     {/snippet}
   </ThemePicker>
@@ -166,7 +166,7 @@ either dominate the header or truncate its own option text.
 ## Tradeoff 3 — the glyph is font-dependent
 
 The default glyph is U+25D1 CIRCLE WITH RIGHT HALF BLACK (`◑`,
-`&#9681;`), a Geometric Shapes character. It is not an image, an icon
+`◑`), a Geometric Shapes character. It is not an image, an icon
 font, or an SVG — this package ships no assets, by the headless rule.
 
 Its rendering is therefore entirely at the mercy of the fonts on the

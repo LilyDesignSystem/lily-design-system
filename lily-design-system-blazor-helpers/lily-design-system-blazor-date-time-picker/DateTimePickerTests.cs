@@ -322,8 +322,8 @@ public class DateTimePickerTests : TestContext, IDisposable
         var icon = cut.Find(".date-time-picker-icon");
         Assert.Equal("true", icon.GetAttribute("aria-hidden"));
         // U+1F4C5 CALENDAR, with the text-presentation selector.
-        Assert.Equal("\U0001F4C5\uFE0E", icon.TextContent);
-        Assert.Equal("\U0001F4C5\uFE0E", DateTimePicker.Calendar);
+        Assert.Equal("📅︎", icon.TextContent);
+        Assert.Equal("📅︎", DateTimePicker.Calendar);
     }
 
     [Fact]

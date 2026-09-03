@@ -183,7 +183,7 @@ an error (§5.3).
       aria-expanded="false"
       aria-controls="{listId}"
     >
-      <span class="share-picker-icon" aria-hidden="true">&#10148;</span>
+      <span class="share-picker-icon" aria-hidden="true">➤</span>
     </button>
     <ul class="share-picker-list" id="{listId}" aria-label="{label}" hidden>
       <li class="share-picker-list-item">

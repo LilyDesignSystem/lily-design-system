@@ -90,7 +90,7 @@
 >
 <input type="hidden" name="{{ name }}" value="{{ selected }}" data-lily-theme-picker-input>
 <button type="button" class="theme-picker-button" aria-label="{{ opts.label }}" aria-haspopup="listbox" aria-expanded="false" aria-controls="{{ listId }}" data-lily-theme-picker-button>
-{%- if caller %}{{ caller() }}{% else %}<span class="theme-picker-icon" aria-hidden="true">&#9681;</span>{% endif -%}
+{%- if caller %}{{ caller() }}{% else %}<span class="theme-picker-icon" aria-hidden="true">◑</span>{% endif -%}
 </button>
 <ul class="theme-picker-list" id="{{ listId }}" role="listbox" aria-label="{{ opts.label }}" tabindex="-1" hidden data-lily-theme-picker-list>
 {%- for slug in opts.themes -%}

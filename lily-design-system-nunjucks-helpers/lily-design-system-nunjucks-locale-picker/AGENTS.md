@@ -88,7 +88,7 @@ really is the endonym.
     data-lily-locale-picker-button
   >
     <span class="locale-picker-icon" aria-hidden="true"
-      >&#127760;&#65038;</span
+      >🌐︎</span
     >
   </button>
   <ul
@@ -115,7 +115,7 @@ really is the endonym.
 ```
 
 The glyph is U+1F310 GLOBE WITH MERIDIANS + U+FE0E VARIATION
-SELECTOR-15 (`&#127760;&#65038;`), `aria-hidden`. VS15 forces the text
+SELECTOR-15 (`🌐︎`), `aria-hidden`. VS15 forces the text
 presentation so the globe stays monochrome and matches theme-picker's
 ◑ instead of rendering as a blue colour emoji. A
 `{% call %}` block body replaces the glyph inside the button (the

@@ -41,7 +41,7 @@ and persists nothing. No `localStorage`, no `data-*` on `<html>`.
 - `DateTimePicker` (component class, selector `lily-date-time-picker`).
 - `DateTimePickerIcon` (optional marker directive,
   `ng-template[lilyDateTimePickerIcon]`, for typed `let-` variables).
-- `CALENDAR` (the default glyph, `"\u{1F4C5}\uFE0E"`).
+- `CALENDAR` (the default glyph, `"📅︎"`).
 - The civil-date arithmetic: `pad`, `addDays`, `addMonths`, `parseIsoDate`,
   `formatIsoDate`, `toEpochDay`, `fromEpochDay`, `weekdayOf`, `isoWeek`,
   `daysInMonth`, `parseIsoTime`, `formatIsoTime`, `splitValue`,

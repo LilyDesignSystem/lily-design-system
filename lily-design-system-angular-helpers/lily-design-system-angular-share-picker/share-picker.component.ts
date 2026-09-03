@@ -21,7 +21,7 @@ import {
  * monochrome alongside theme-picker's ◑, locale-picker's 🌐 and
  * text-size-picker's "A".
  */
-export const BLACK_RIGHTWARDS_ARROWHEAD = "\u27A4";
+export const BLACK_RIGHTWARDS_ARROWHEAD = "➤";
 
 /**
  * One destination in the share list.

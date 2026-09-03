@@ -22,7 +22,7 @@
  * MERIDIANS, text-size's plain "A", share's BLACK RIGHTWARDS
  * ARROWHEAD, date-time's CALENDAR).
  */
-export const PAUSE_SIGN = "\u23F8\uFE0E";
+export const PAUSE_SIGN = "⏸︎";
 
 /** Change-event detail dispatched on every applied motion preference. */
 export type MotionPickerChangeDetail = {
