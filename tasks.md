@@ -1521,6 +1521,10 @@ dropped. None is speculative.
   Track it: re-check the advisory monthly; if `@puppeteer/browsers`
   drops or replaces `extract-zip`, bump `@wdio/*` and close; if a
   patched `extract-zip` appears, add a `pnpm-workspace.yaml` override.
+  Checked 2026-09-03 (end of session): still exactly alerts 183 and
+  130, both `extract-zip`, still no `first_patched_version`; the day's
+  dependency changes (new `axe-core` devDependency, the second-wave
+  overrides) opened nothing new. Next check due ~2026-10-03.
   Verify: `gh api .../dependabot/alerts --paginate -q '.[] |
   select(.state=="open")'` returns zero rows.
 
@@ -1646,6 +1650,27 @@ dropped. None is speculative.
   Verify: `grep -rn '&#127760;' --include=*.md . | grep -v node_modules
   | grep -v CHANGELOG` returns only prose mentions, none inside an
   `aria-hidden="true"` span.
+
+- [ ] **P8-T10 `share-picker`'s ➤ scale does not reproduce under the
+  documented method.** Surfaced by P8-T8's reproduction gate
+  (2026-09-03): measuring all five glyphs by the one documented method
+  (real browser, the icon's *computed* font, ink extent over the em
+  box) reproduced ◑, 🌐 and "A" to within 1%, but ➤ came out 0.850 wide
+  / 0.685 tall against the documented 0.613 — and its own theme comment
+  cites ◑'s reference as 0.777 where every other comment says 0.842.
+  The share factor (1.268) was evidently measured in a different
+  session under a different resolved face (commit `9d30263b0`), so the
+  five shipped factors are not actually on one baseline. Decide, then
+  apply consistently across the 45 themes: either re-measure ➤ under
+  the current baseline (which gives ≈1.0–1.24 depending on whether
+  width or max-extent is the metric — pick one and document it for all
+  five) or record the share factor as intentionally taken under a
+  different stack. This is a visual decision, not a measurement
+  correction, which is why P8-T8 did not make it unilaterally.
+  Verify: every `--lily-picker-icon-scale` comment in `themes/*.css`
+  cites the same ◑ reference value and the same metric; a re-run of the
+  P8-T8 measurement reproduces all five within 2%; `bin/check-theme`
+  clean.
 
 ---
 
