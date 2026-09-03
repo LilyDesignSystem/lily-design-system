@@ -857,6 +857,13 @@ Rules for the executing agent:
   manifest, network error, missing dist, …) still propagates and
   aborts the script exactly as before. Real (non-dry-run) publishing
   is untouched: the tolerance only applies when `$DRY` is set.
+  **Correction 2026-09-03 (later the same day):** the "still aborts"
+  claim was false as written — `status=$?` was captured after the
+  `if`, so it was always 0 and every failure was tolerated; the dry-run
+  verification only ever exercised the tolerated path. Fixed and
+  proven under P8-T11 (`c51f1cb0b`), where the tolerance now also
+  applies in real mode, deliberately, as NuGet's `--skip-duplicate`
+  already did.
   Verify: `bin/publish-helpers --dry-run` run for real end-to-end —
   exits 0, correctly tolerates 30 already-published npm packages
   (svelte/react/vue/html/nunjucks/angular × the 5 pre-existing
@@ -1709,11 +1716,32 @@ dropped. None is speculative.
   defaults fixed). Provenance note in the catalog's `index.md`,
   `AGENTS.md`, `spec/index.md`; wired into `bin/publish-helpers`,
   `AGENTS/helpers.md`, `AGENTS/lily.md`, `spec/helpers`, root spec
-  (7 → 8 catalogs, 42 → 48 packages). No standalone remote and no npm
-  publish yet.
+  (7 → 8 catalogs, 42 → 48 packages). No standalone remote. npm publish
+  attempted twice the same day (see P8-T11): blocked on a missing
+  `NPM_TOKEN` secret, not on the packages.
   Verify: 6 files / 346 tests green — exactly the HTML catalog's count
   — under the new tags; all six packages build; `bin/test` exits 0;
   `bin/check-links` clean with the catalog's 74 markdown files linked.
+
+- [ ] **P8-T11 Publish `lily-design-system-web-components-helpers`
+  0.1.0 — blocked on `NPM_TOKEN`.** Release checklist steps 1–3 done
+  2026-09-03 (versions 0.1.0, first-release CHANGELOG entries,
+  scoped dry-run reaching all six, `bin/smoke-packages` "all packages
+  OK"). Step 4 attempted twice via `publish.yml`
+  (`real=true target=helpers only=lily-design-system-web-components-helpers`):
+  run 33811822759 went green while publishing nothing — exposing two
+  real `bin/publish-helpers` defects, both fixed and proven in
+  `c51f1cb0b` (a `$?`-after-`if` status bug that tolerated every
+  failure; no catalog devDependency install anywhere); run
+  33812429654 then failed correctly with `ENEEDAUTH`. Cause: the repo
+  has exactly one Actions secret (`NUGET_USER`); `NPM_TOKEN` was never
+  configured. Maintainer step: create an npm automation token with
+  publish rights to the `lily-design-system-*` names, add it as the
+  `NPM_TOKEN` repository secret, then `gh workflow run publish.yml -f
+  real=true -f target=helpers -f only=lily-design-system-web-components-helpers`.
+  Verify: `npm view lily-design-system-web-components-{theme,locale,
+  text-size,motion,share,date-time}-picker version` → `0.1.0` for all
+  six, and the job log shows six `+ …@0.1.0` lines.
 
 ---
 

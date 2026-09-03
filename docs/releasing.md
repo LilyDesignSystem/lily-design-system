@@ -25,6 +25,7 @@ the monorepo has its own (spec §14, currently 0.6.0, tagged `vX.Y.Z`).
 | Blazor headless | NuGet (`LilyDesignSystem.Blazor.Headless`) | 0.1.1, published 2026-09-02 |
 | The 35 pre-existing helper packages | npm / NuGet, one line each | 0.1.0, all published (the 5 Blazor ones landed on NuGet 2026-09-02) |
 | The 7 `motion-picker` packages (one per catalog, added 2026-09-03) | npm / NuGet | 0.1.0, **not yet published** |
+| The 6 `lily-design-system-web-components-*-picker` packages (added 2026-09-03) | npm | 0.1.0, **not yet published — blocked on a missing `NPM_TOKEN` secret** (tasks.md P8-T11); checklist steps 1–3 done |
 
 **First releases are numbered 0.1.0**, whatever version number the tree
 carried internally. A first release numbered higher implies registry
