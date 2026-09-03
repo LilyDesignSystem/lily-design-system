@@ -2943,18 +2943,25 @@
         line-height: 1;
     }
 
-    /* U+25D1 is the reference: no correction. */
+    /* U+25D1 is the reference: no correction. Baseline for every factor
+       below (re-measured 2026-09-03, plan P8-T10): in a real browser,
+       against each icon's computed font, U+25D1 inks 0.850 of its em box
+       (max ink extent; width and height are equal for this glyph). */
     :where(.theme-picker-icon) {
         --lily-picker-icon-scale: 1;
     }
 
-    /* U+1F310 inks 1.183x the reference, so scale it by 1/1.183. */
+    /* U+1F310 inks 1.000 of its em box (max extent) against U+25D1's
+       0.850, so it scales DOWN: 0.850/1.000 ≈ 0.85 (shipped as 0.845 since
+       the original measurement; the 0.6% difference is invisible). */
     :where(.locale-picker-icon) {
         --lily-picker-icon-scale: 0.845;
     }
 
-    /* U+0041 "A" is a cap-height letter, so it inks only 0.673 of its em
-       box against U+25D1's 0.842 — it needs scaling UP, not down. */
+    /* U+0041 "A" is a cap-height letter: it inks 0.675 of its em box in
+       WIDTH (0.720 in height, the cap height) against U+25D1's 0.850 —
+       its factor is taken on width, 0.850/0.675 ≈ 1.26, shipped as 1.25.
+       The one glyph here whose width and height differ materially. */
     :where(.text-size-picker-icon) {
         --lily-picker-icon-scale: 1.25;
     }
@@ -2970,11 +2977,14 @@
         --lily-picker-icon-scale: 1.72;
     }
 
-    /* U+27A4 "➤" inks 0.613 of its em box against U+25D1's 0.777, so it
-       scales up by 0.777/0.613. (It replaced U+21AA "↪", which inked
-       0.633 and took 1.331.) */
+    /* U+27A4 "➤" inks 0.850 of its em box in width (0.685 in height)
+       against U+25D1's 0.850 — the same max extent, so no correction.
+       Re-baselined 2026-09-03 (plan P8-T10): the earlier 1.268 was
+       measured under a different resolved face (against a U+25D1 of
+       0.777) and was not comparable to the other factors here. (➤
+       replaced U+21AA "↪" in July 2026.) */
     :where(.share-picker-icon) {
-        --lily-picker-icon-scale: 1.268;
+        --lily-picker-icon-scale: 1;
     }
 
     /* U+1F4C5 calendar takes the SAME correction as U+1F310 globe, and

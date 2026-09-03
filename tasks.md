@@ -1606,10 +1606,11 @@ dropped. None is speculative.
   Finding recorded, not silently corrected: ➤ did **not** reproduce
   (0.850 wide / 0.685 tall vs documented 0.613), and its own theme
   comment cites ◑'s reference as 0.777 rather than 0.842 — it was
-  measured under a different resolved face. Its shipped 1.268 is left
-  as-is: changing it is a visual decision across 45 themes, not a
-  measurement correction. That discrepancy is now the open item, noted
-  in `AGENTS/helpers.md`.
+  measured under a different resolved face. Its shipped 1.268 was left
+  as-is by this task because changing it is a visual decision across
+  45 themes, not a measurement correction — filed as P8-T10 and
+  resolved there the same day by maintainer decision (re-baselined to
+  1).
   Verify: `bin/check-theme` clean (45 themes); the ⏸ note no longer
   says "placeholder"; the four reproduced figures and the fifth all
   cite the same method; `bin/test` exits 0; `bin/check-links` clean.
@@ -1651,8 +1652,20 @@ dropped. None is speculative.
   | grep -v CHANGELOG` returns only prose mentions, none inside an
   `aria-hidden="true"` span.
 
-- [ ] **P8-T10 `share-picker`'s ➤ scale does not reproduce under the
-  documented method.** Surfaced by P8-T8's reproduction gate
+- [x] **P8-T10 `share-picker`'s ➤ scale does not reproduce under the
+  documented method.** Done 2026-09-03, maintainer decision: re-baseline.
+  Re-ran the P8-T8 measurement as the gate first — identical to the
+  earlier run (◑ 0.850, 🌐 1.000, "A" 0.675 wide, ⏸ 0.495, ➤ 0.850 wide
+  / 0.685 tall). ➤'s max extent equals ◑'s, so its factor is
+  0.850/0.850 = **1** (was 1.268), applied to all 45 `themes/*.css`.
+  All five icon comments rewritten to cite the one baseline (◑ 0.850,
+  max ink extent; "A" on width, stated) — the other four *factors*
+  (0.845, 1.25, 1.72, and calendar's 0.845) are unchanged, since the
+  maintainer asked only for ➤ and each already reproduces within 1%.
+  `AGENTS/helpers.md` and `spec/helpers/index.md` updated to match.
+  Verify: every `--lily-picker-icon-scale` comment cites ◑ 0.850 and
+  names its metric; the re-run reproduced all five within 2%;
+  `bin/check-theme` clean (45); `bin/test` exits 0. Surfaced by P8-T8's reproduction gate
   (2026-09-03): measuring all five glyphs by the one documented method
   (real browser, the icon's *computed* font, ink extent over the em
   box) reproduced ◑, 🌐 and "A" to within 1%, but ➤ came out 0.850 wide
