@@ -1456,7 +1456,18 @@ dropped. None is speculative.
   spec/index.md spec/architecture/index.md` returns only lines that
   are dated historical records, and `bin/check-links` is clean.
 
-- [ ] **P8-T4 Guard against `package.json` `pnpm.overrides` recurring.**
+- [x] **P8-T4 Guard against `package.json` `pnpm.overrides` recurring.**
+  Done 2026-09-03: new `test_no_package_json_pnpm_overrides` in
+  `bin/test` — a `find` (node_modules/.git pruned, same as the glyph
+  check) over every `package.json`, failing on any file that contains
+  both a `"pnpm"` key and an `"overrides"` key, with the message
+  pointing at `pnpm-workspace.yaml`'s `overrides:`. Verified the way
+  the task asks: injected a throwaway `pnpm.overrides` into
+  `lily-design-system-web-components-headless/package.json` →
+  `bin/test` printed the pointer message naming that file and exited
+  FAILED; restored (`git diff --quiet` clean) → `bin/test` exits 0.
+  Wall-clock unchanged (~90 s, dominated by the pre-existing git
+  lockfile walks); the new find costs nothing measurable.
   The 2026-09-03 Dependabot pass found five subprojects carrying
   `"pnpm": { "overrides": {...} }` blocks that had been silent no-ops
   since the pnpm 10 upgrade (pnpm reads `overrides` from

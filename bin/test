@@ -285,6 +285,25 @@ test_implementation_nunjucks_example
 # Lockfiles are always committed (spec/tooling): an untracked or
 # gitignored pnpm-lock.yaml means CI, fresh clones, and the published
 # subtree repos resolve a different dependency graph than was tested.
+##
+# pnpm 10+ reads `overrides` from pnpm-workspace.yaml, NOT from
+# package.json's "pnpm" key. The 2026-09-03 Dependabot pass (P8-T4)
+# found five subprojects carrying `"pnpm": { "overrides": {...} }`
+# blocks that had been silent no-ops since the pnpm 10 upgrade -- one
+# held 13 accumulated CVE-fix entries that never applied. A block like
+# that reads as a fixed vulnerability while fixing nothing, so fail
+# loudly and point at the file that actually works.
+##
+test_no_package_json_pnpm_overrides() (
+    find "$top" \( -name node_modules -o -name .git \) -prune -o \
+        -type f -name package.json -print \
+    | while IFS= read -r file; do
+        if grep -q '"pnpm"' "$file" && grep -q '"overrides"' "$file"; then
+            err "package.json pnpm.overrides is ignored by pnpm 10+; move it to pnpm-workspace.yaml \`overrides:\`: $file"
+        fi
+    done
+)
+
 test_lockfiles_are_tracked() (
     # An earlier version of this (plan P7-T2) tried to drop the
     # case-sensitive call on the assumption that -i's case-insensitive
@@ -300,6 +319,7 @@ test_lockfiles_are_tracked() (
 )
 
 test_helper_glyphs_are_bare
+test_no_package_json_pnpm_overrides
 test_lockfiles_are_tracked
 "$top/bin/check-theme" >/dev/null 2>&1 \
     || err "theme conformance failed; run bin/check-theme"
