@@ -32,7 +32,20 @@ suite passes at exactly the HTML catalog's count (6 files / 346 tests)
 under the new tags; all six packages build; wired into
 `bin/publish-helpers`, `AGENTS/helpers.md`, `AGENTS/lily.md`,
 `spec/helpers`, and the root spec (7 → 8 helper catalogs, 42 → 48
-packages). Not yet: a standalone remote or an npm publish.
+packages). Not yet: a standalone remote. **npm publish attempted the
+same day and blocked** — the first `publish.yml` run went green while
+publishing nothing, which exposed two real defects in
+`bin/publish-helpers`: `status=$?` captured after an `if` (always 0, so
+every failure was tolerated — P7-T19's "every other failure still
+aborts" had never been true) and no catalog devDependencies installed
+anywhere (`sh: 1: tsup: not found`). Both fixed and proven (injected
+`exit 7` aborts; a cold run installs from the frozen lockfile and
+reaches all six). The second run then failed *loudly* with
+`ENEEDAUTH`: the repository has one Actions secret, `NUGET_USER`, and
+**`NPM_TOKEN` was never configured**. Blocked on the maintainer
+creating an npm automation token for the `lily-design-system-*` names
+and adding it as `NPM_TOKEN`; then re-dispatch `publish.yml` with
+`real=true target=helpers only=lily-design-system-web-components-helpers`.
 
 **Phase 8 (`tasks.md`) closed the same day, each verified as its task
 specifies:** P8-T1 `bin/test`'s glyph check now covers `PAUSE_SIGN`;
