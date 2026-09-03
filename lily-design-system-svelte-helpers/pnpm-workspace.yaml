@@ -1,2 +1,10 @@
 allowBuilds:
   esbuild: true
+# lily-design-system-svelte-theme-picker's own examples/dev setup pulls
+# @sveltejs/kit, which pins cookie@^0.6.0 directly (not yet updated
+# upstream to the 0.7.0 fix for GHSA-pxg6-pf52-xh8x). This file's mere
+# presence makes pnpm treat the whole subtree as one workspace even
+# without a `packages:` glob, so the override applies to the nested
+# sub-package's own install too.
+overrides:
+  cookie: "0.7.2"

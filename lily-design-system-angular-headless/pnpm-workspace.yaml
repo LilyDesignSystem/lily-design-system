@@ -4,3 +4,9 @@ allowBuilds:
   lmdb: true
   msgpackr-extract: true
   nx: true
+# sockjs (via webpack-dev-server, a dev-only Angular CLI dependency)
+# pins uuid@8.3.2, below the 11.1.1 GHSA fix. uuid's v4() export --
+# the only thing sockjs uses -- is stable across the 8-11 line, so
+# overriding straight to the patched major is safe.
+overrides:
+  uuid: "11.1.1"

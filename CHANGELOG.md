@@ -9,6 +9,61 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Dependabot remediation, second wave: 117 → 18 open — 2026-09-03
+
+Follow-up to the same-day 18-subproject `pnpm update` pass: after GitHub
+rescanned the pushed lockfiles, the open count dropped from 117 to 18,
+confirming that pass's fixes landed. The 18 remaining were genuinely
+different failure shapes than a plain `pnpm update` catches:
+
+- **`cookie` in `lily-design-system-svelte-helpers`** — not a live
+  vulnerability at all: `pnpm install` (not just `update`) pruned it
+  as an orphaned lockfile entry no longer reachable from the actual
+  dependency graph.
+- **`cookie` in the nested `lily-design-system-svelte-theme-picker`
+  sub-package** — a genuinely stale lockfile: this subdirectory sits
+  under a parent `pnpm-workspace.yaml` with no `packages:` glob, so
+  pnpm silently treats the whole tree as one workspace and never
+  installs from or regenerates this nested `pnpm-lock.yaml` at all.
+  Hand-patched the file directly (version + integrity hash) since nothing
+  in current tooling does so automatically, and added the same
+  `cookie` override to the parent's `pnpm-workspace.yaml` for when it
+  does get read.
+- **`vite` in `lily-design-system-vue-headless`** (4 alerts, stuck at
+  6.4.1) — `vite` was never a direct dependency here, only pulled in
+  transitively; unlike sibling catalogs it hadn't naturally advanced
+  past 6.4.1 despite `@storybook/vue3-vite`/`@vitejs/plugin-vue` both
+  allowing up to `^8.0.0`. Added an explicit `"vite": "^8.2.2"`
+  devDependency, matching the pattern every sibling catalog already
+  uses, which immediately resolved it to 8.2.2.
+- **`esbuild`** (react-helpers, react-headless, nunjucks-helpers,
+  html-helpers, angular-examples) — the same dual-resolution shape
+  already fixed in `web-components-headless` (vite's optional esbuild
+  peer resolving to the unpatched 0.27.7 alongside an already-patched
+  0.28.2 pulled in elsewhere). Same `pnpm-workspace.yaml` override
+  (`esbuild: "0.28.2"`) applied to all 5.
+- **`serialize-javascript`** (html-headless, html-css-js-examples) —
+  mocha (via `@wdio/mocha-framework`) pins the unpatched `6.0.2`
+  outright; overrode to `7.1.1`, the current release.
+- **`uuid` in `lily-design-system-angular-headless`** — `sockjs` (via
+  `webpack-dev-server`, an Angular CLI dev-server dependency) pins the
+  unpatched `8.3.2`; overrode straight to the patched major `11.1.1`
+  since `v4()` — the only export sockjs uses — is stable across that
+  range.
+- **`extract-zip`** (html-headless, html-css-js-examples) — genuinely
+  left open: its GHSA (unvalidated symlink path traversal) has **no
+  patched version at all** upstream. Comes from `@wdio/utils` →
+  `@puppeteer/browsers`, a WebdriverIO dev-only test-toolchain
+  dependency never shipped to consumers. Not fixable by a version bump;
+  documented rather than silently left unexplained.
+
+Verified per fix: `pnpm why <package>` against the resulting lockfile,
+plus a full test/build re-run for every touched subproject (all green:
+491/1011 angular-headless, 491/2665 react-headless, 491/2655
+vue-headless, 492/990 angular-examples, plus the smaller helper
+catalogs and two Storybook builds). Root `bin/test` and
+`bin/check-links` pass clean.
+
 ## Picker glyph convention reversed: bare literals, not escapes — 2026-09-03
 
 Maintainer-directed reversal of the July/August 2026 "glyphs never

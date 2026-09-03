@@ -3,3 +3,10 @@ allowBuilds:
   edgedriver: true
   esbuild: true
   geckodriver: true
+# mocha (via @wdio/mocha-framework) pins serialize-javascript@6.0.2,
+# below the 7.0.5 GHSA fix; the 7.x line has no breaking API change
+# relevant to mocha's usage, so overriding is safe. extract-zip's own
+# GHSA-symlink-path-traversal alert has no first_patched_version at
+# all -- an unresolved upstream gap, not something a pin can fix.
+overrides:
+  serialize-javascript: "7.1.1"
