@@ -56,22 +56,44 @@ done
 # Every other failure (bad manifest, network error, missing dist, ...)
 # still aborts the script for real, exactly as before this function
 # existed.
+# Every npm headless package's prepublishOnly runs its build, which
+# needs that package's devDependencies; nothing installed them, so a
+# publish could only succeed where node_modules happened to exist (CI
+# never exercised this: headless npm releases were done locally).
+# Install from the committed lockfile first, here rather than in the
+# workflow, so the local and CI paths cannot drift (2026-09-03, same
+# fix as bin/publish-helpers).
+ensure_installed() {
+  pkg="$1"
+  if [ ! -d "$pkg/node_modules" ]; then
+    echo "--> installing $(basename "$pkg") devDependencies (frozen lockfile)"
+    ( cd "$pkg" && pnpm install --frozen-lockfile )
+  fi
+}
+
+# One path for dry-run and real mode. `status` MUST be captured inside
+# the failure branch: captured after the `if`, $? is the status of the
+# `if` compound -- 0 when the condition fails -- so every failure was
+# silently returned as success (the dry-run branch here had exactly
+# that bug; found 2026-09-03 after the same defect let a real helpers
+# run go green while publishing nothing). "Cannot publish over" is
+# tolerated in both modes as an idempotent release, exactly as NuGet's
+# --skip-duplicate below; every other failure aborts.
 publish_npm_package() {
   dir="$1"
-  if [ -n "$DRY" ]; then
-    if output="$(cd "$dir" && npm publish --access public $DRY 2>&1)"; then
-      printf '%s\n' "$output"
-      return 0
-    fi
+  if output="$(cd "$dir" && npm publish --access public $DRY 2>&1)"; then
+    printf '%s\n' "$output"
+    return 0
+  else
     status=$?
     printf '%s\n' "$output"
     if printf '%s' "$output" | grep -q "You cannot publish over the previously published versions"; then
-      echo "    (already published at this version -- expected in dry-run mode, not fatal)"
+      echo "    (already published at this version -- skipped, same as NuGet --skip-duplicate)"
       return 0
     fi
+    echo "    publish FAILED (exit $status) -- aborting; this is not the already-published case" >&2
     return "$status"
   fi
-  ( cd "$dir" && npm publish --access public )
 }
 
 if [ -z "$NUGET_ONLY" ]; then
@@ -86,10 +108,12 @@ if [ -z "$NUGET_ONLY" ]; then
            "$ROOT"/lily-design-system-nunjucks-headless \
            "$ROOT"/lily-design-system-web-components-headless; do
     [ -f "$d/package.json" ] || continue
+    ensure_installed "$d"
     echo "--> $(basename "$d")"
     publish_npm_package "$d"
   done
 
+  ensure_installed "$ROOT/lily-design-system-angular-headless"
   echo "--> building angular dist (ng-packagr)"
   ( cd "$ROOT/lily-design-system-angular-headless" && npm run build )
   echo "--> lily-design-system-angular-headless (from dist/)"
