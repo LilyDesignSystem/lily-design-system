@@ -6,7 +6,7 @@ Full contracts: [spec/helpers/index.md](../spec/helpers/index.md).
 
 ## The helpers
 
-Every catalog (html, svelte, react, vue, angular, blazor, nunjucks) ships all six, as of 2026-09-03:
+Every catalog (html, svelte, react, vue, angular, blazor, nunjucks, and — since 2026-09-03 — web-components) ships all six. `lily-design-system-web-components-helpers` is a maintainer-directed **independent copy** of `lily-design-system-html-helpers` (which is itself already six vanilla custom elements) differing in tag prefix (`<lily-theme-picker>` rather than `<theme-picker>`, matching the Web Components headless catalog) and package naming; the two must be kept in step deliberately, since nothing ports between them automatically. As of 2026-09-03:
 
 `date-time-picker` is listed after the table because it does not fit
 its columns: it is a form control, not a page-header control.

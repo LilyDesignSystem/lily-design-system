@@ -2,7 +2,7 @@
 
 > Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
-**Summary.** Each framework ships a `*-helpers` catalog of small, opinionated, reusable packages that sit alongside the headless library. Most own a **user preference** end to end (selection + DOM application + optional persistence) — `theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`, each rendered as a single-glyph icon button that opens a WAI-ARIA APG listbox. `share-picker` owns an **action** instead, and `date-time-picker` owns a **form value**; neither applies anything to the document nor persists anything. All six helpers ship in all seven catalogs.
+**Summary.** Each framework ships a `*-helpers` catalog of small, opinionated, reusable packages that sit alongside the headless library. Most own a **user preference** end to end (selection + DOM application + optional persistence) — `theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`, each rendered as a single-glyph icon button that opens a WAI-ARIA APG listbox. `share-picker` owns an **action** instead, and `date-time-picker` owns a **form value**; neither applies anything to the document nor persists anything. All six helpers ship in all eight catalogs (the eighth, `lily-design-system-web-components-helpers`, is an independent copy of the HTML catalog with `lily-*` tags — see its provenance note).
 
 ## Scope
 
@@ -33,6 +33,7 @@ It does **not** cover: the headless 491-component catalog and its rules (see [he
 | `lily-design-system-vue-helpers`                          | npm `package.json`                    | theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker |
 | `lily-design-system-angular-helpers`                      | npm `package.json`                    | theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker |
 | `lily-design-system-html-helpers`                         | npm `package.json`                    | theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker |
+| `lily-design-system-web-components-helpers`               | npm `package.json`                    | theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker (`lily-*` tags; copy of the HTML catalog) |
 | `lily-design-system-nunjucks-helpers`                     | npm `package.json`                    | theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker |
 | `lily-design-system-blazor-helpers`                       | NuGet `.csproj` (Razor class library) | theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker |
 
@@ -56,7 +57,7 @@ Each helper subproject follows the same spec-driven shape (Svelte example; other
 | `dist/`                            | Build output (`build.js` per catalog; `files`/`exports` maps, `svelte` condition where relevant).                                                                                      |
 | `docs/`, `examples/`               | Topic guides and runnable examples (optional).                                                                                                                                         |
 
-Each `*-helpers` catalog directory, and each helper inside it, is its own `git subtree` pushed to a standalone remote. All 42 helper packages (7 catalogs × 6 helpers) publish via [`bin/publish-helpers`](../../bin/publish-helpers) (npm registries for the JS frameworks, NuGet for Blazor).
+Each `*-helpers` catalog directory, and each helper inside it, is its own `git subtree` pushed to a standalone remote. All 48 helper packages (8 catalogs × 6 helpers) publish via [`bin/publish-helpers`](../../bin/publish-helpers) (npm registries for the JS frameworks, NuGet for Blazor).
 
 Every package is at **0.1.0**. The July 2026 rename from `*-select` / `*-button` to `*-picker` changed the published package names, and a renamed package has no history under its new name — numbering the first release 0.4.0 would imply three releases that never existed. Nothing had been published, so the reset cost nothing. The in-tree history (radio-group picker → native `<select>` → placeholder-pinned `<select>` → icon button + listbox) is preserved in each package's CHANGELOG under a provenance heading. `motion-picker` (added 2026-09-03) never carried the old names, so it has no provenance heading to preserve.
 

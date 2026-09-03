@@ -46,6 +46,7 @@ Each catalog ships six `*-picker` helpers — theme-picker, locale-picker, text-
 - [Lily Design System: Angular helpers](../lily-design-system-angular-helpers)
 - [Lily Design System: Blazor helpers](../lily-design-system-blazor-helpers)
 - [Lily Design System: Nunjucks helpers](../lily-design-system-nunjucks-helpers)
+- [Lily Design System: Web Components helpers](../lily-design-system-web-components-helpers) — an independent copy of the HTML helpers with `lily-*` tags (2026-09-03); see its provenance note
 
 ## Reference themes
 
@@ -78,7 +79,7 @@ Both follow the `lily-design-system-` prefix and get full subproject treatment (
 - [sync-special-files](../bin/sync-special-files): Sync the top-level special files (LICENSE, CONTRIBUTING, SECURITY, GOVERNANCE, …) into every public subtree repo
 - [update](../bin/update): Update shared files
 - [generate-storybook-stories.mjs](../bin/generate-storybook-stories.mjs): Generate Storybook stories
-- [publish-helpers](../bin/publish-helpers): Build and publish the 42 helper packages (npm / NuGet)
+- [publish-helpers](../bin/publish-helpers): Build and publish the 48 helper packages (npm / NuGet)
 - [publish-headless](../bin/publish-headless): Build and publish the 7 headless libraries (npm / NuGet)
 - [generate-registries](../bin/generate-registries): Regenerate example-app catalog registries from components.tsv
 - [check-links](../bin/check-links): Verify relative markdown links resolve

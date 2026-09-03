@@ -1,0 +1,11 @@
+---
+layout: layout.njk
+title: Home — Lily Theme Picker
+---
+
+<h1>{{ title }}</h1>
+
+<p>Theme picker is mounted in the layout. Build-time default:
+<strong>{{ theme.defaultTheme }}</strong>.</p>
+
+<p>Available themes: <code>{{ theme.available | join(", ") }}</code>.</p>

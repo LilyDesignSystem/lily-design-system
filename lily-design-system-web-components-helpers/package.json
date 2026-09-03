@@ -1,0 +1,32 @@
+{
+  "name": "lily-design-system-web-components-helpers",
+  "engines": {
+    "node": "=26"
+  },
+  "private": true,
+  "type": "module",
+  "description": "Lily Design System - HTML (web component) helpers catalog (dev/test harness)",
+  "scripts": {
+    "build": "found=0; for e in lily-design-system-web-components-*/index.ts; do [ -f \"$e\" ] || continue; found=1; d=$(dirname \"$e\"); echo \"building $d\"; tsup \"$e\" --format esm --dts --out-dir \"$d/dist\" || exit 1; done; [ \"$found\" = 1 ] || { echo 'build: no helper packages discovered' >&2; exit 1; }",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui"
+  },
+  "devDependencies": {
+    "@vitest/ui": "^4.1.11",
+    "jsdom": "^30.0.1",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.11"
+  },
+  "author": "Joel Parker Henderson <joel@joelparkerhenderson.com>",
+  "license": "MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LilyDesignSystem/lily-design-system-web-components-helpers.git"
+  },
+  "homepage": "https://lilydesignsystem.github.io/",
+  "bugs": {
+    "url": "https://github.com/LilyDesignSystem/lily-design-system/issues"
+  }
+}

@@ -1,0 +1,217 @@
+# Lily Design System™ — Web Components Helpers
+
+> **Provenance.** This catalog is a maintainer-directed (2026-09-03) independent copy of
+> [`lily-design-system-html-helpers`](../lily-design-system-html-helpers/), which is itself
+> already six vanilla custom elements. It differs in tag prefix — `<lily-theme-picker>`
+> rather than `<theme-picker>`, matching the Web Components headless catalog — and in
+> package naming. Nothing ports between the two automatically: a change to one must be
+> applied to the other deliberately. The Svelte catalog remains canonical for contracts.
+
+A catalog of opinionated, reusable vanilla HTML + JavaScript helper
+**web components (custom elements)** that sit alongside the headless
+[`lily-design-system-web-components-headless`](../lily-design-system-web-components-headless/)
+library. Where the headless library ships pure HTML snippets,
+these helpers wrap a complete lifecycle (selection + persistence +
+DOM application) for one small, common job — and ship that lifecycle
+as a registered custom element you drop into any page.
+
+Most helpers own a **user preference**. `<lily-share-picker>` owns an
+**action** instead: it applies nothing to the document and persists
+nothing, but it owns its interaction end to end and ships the same
+headless contract. `<lily-date-time-picker>` is a third shape again — a
+**form control**: like `<lily-share-picker>` it persists nothing, but unlike
+every other helper here it collects a value a form submits, via a text
+field plus a WAI-ARIA APG Date Picker Dialog rather than a preference
+listbox.
+
+## Catalog
+
+| Helper                                                                                    | Custom element        | Purpose                                                                                       |
+| ----------------------------------------------------------------------------------------- | --------------------- | --------------------------------------------------------------------------------------------- |
+| [`lily-design-system-web-components-theme-picker`](./lily-design-system-web-components-theme-picker/)         | `<lily-theme-picker>`     | Pick a visual theme; dynamic CSS load + `data-theme` swap.                                    |
+| [`lily-design-system-web-components-locale-picker`](./lily-design-system-web-components-locale-picker/)       | `<lily-locale-picker>`    | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.                               |
+| [`lily-design-system-web-components-text-size-picker`](./lily-design-system-web-components-text-size-picker/) | `<lily-text-size-picker>` | Pick a text size; sets `data-text-size` on the document root.                                 |
+| [`lily-design-system-web-components-motion-picker`](./lily-design-system-web-components-motion-picker/)       | `<lily-motion-picker>`    | Pick a motion (reduced-motion) preference; sets `data-motion` on the document root, defaulting to the OS's own `(prefers-reduced-motion: reduce)` signal. |
+| [`lily-design-system-web-components-share-picker`](./lily-design-system-web-components-share-picker/)         | `<lily-share-picker>`     | Share the page: native share sheet, or a disclosure list of your destinations + copy the URL. |
+| [`lily-design-system-web-components-date-time-picker`](./lily-design-system-web-components-date-time-picker/) | `<lily-date-time-picker>` | Pick a date, a time, or both: a typeable field plus a WAI-ARIA APG Date Picker Dialog. |
+
+## Conventions
+
+Every helper subproject follows the same shape:
+
+```
+lily-design-system-web-components-<name>/
+├── spec/index.md                  ← single source of truth (SDD)
+├── AGENTS.md                ← AI-agent metadata pointer
+├── CLAUDE.md                ← loads AGENTS.md
+├── AGENTS/                  ← topic-by-topic agent files
+│   ├── api.md
+│   ├── lifecycle.md
+│   ├── accessibility.md
+│   ├── testing.md
+│   └── ssr.md
+├── index.md                 ← comprehensive user guide
+├── index.ts                 ← barrel re-export + side-effectful define
+├── <kebab>.ts               ← the custom element class
+├── <kebab>.test.ts          ← vitest + jsdom spec (one test per §7 acceptance)
+├── docs/                    ← human-readable topic guides
+├── examples/                ← runnable .html files (each is self-contained)
+└── CHANGELOG.md
+```
+
+The catalog parent shares its own `AGENTS/` and `AGENTS/shared/`
+directories with conventions, testing, accessibility, and SSR rules,
+plus the Lily™-wide headless / i18n / theme principles ported from
+the root canonical AGENTS files.
+
+Shared design decisions across the catalog:
+
+- **Web components**: each helper is a custom element extending
+  `HTMLElement`, registered via `customElements.define(...)` on
+  module import. Consumers can simply `import` the module; no
+  explicit register call is needed (importing the class without the
+  side-effect from `<kebab>.ts` is also supported).
+- **Light DOM**: the custom element itself uses light DOM (not
+  Shadow DOM), so the consumer's CSS reaches the rendered markup
+  via stable kebab-case class hooks.
+- **One rendering shape per pattern**: the three preference helpers
+  render an icon button that opens a `role="listbox"` dropdown,
+  implementing the WAI-ARIA APG listbox keyboard contract in JS.
+  `<lily-share-picker>` is the deliberate exception — its items are links,
+  so it is a **disclosure** with real `<a>` elements, no `role`
+  override, and real focus movement rather than
+  `aria-activedescendant`. Because light DOM has no `<slot>`, the
+  customisation surface in every helper is subclassing — override
+  `renderButtonContent()` to replace the button glyph without giving
+  up the accessibility contract.
+- **Attribute-driven config**: attributes are kebab-case strings
+  (`themes-url`, `storage-key`, `default-value`, `apply-dir`).
+  Array-valued options (`themes`, `locales`) accept either a
+  comma-separated attribute (`themes="light,dark,abyss"`) or a JS
+  property assignment (`el.themes = ["light", "dark", "abyss"]`) for
+  consumers who need ergonomic native arrays.
+- **CustomEvent for change notifications**: every helper dispatches
+  bubbling, composed `CustomEvent`s (`themechange`, `localechange`,
+  `share` / `copy` / `nativeshare`, and `date-time-picker`'s
+  `datetimechange` / `shortcut` / `invalidinput`) carrying a
+  strongly-typed `detail` object. No `update:value` pattern — the
+  element's attribute / property is the source of truth. Where a member
+  cannot be an attribute because it carries a function — `<lily-share-picker>`'s
+  `targets` and its three callbacks, `<lily-date-time-picker>`'s `labels`,
+  `shortcuts`, `isDateDisabled`, `formatValue`, `parseInput`, and its
+  three callbacks — it is exposed as a JS property and paired with an
+  event where one applies, which is the primary contract.
+- **TypeScript** on the public surface; types exported from
+  `index.ts`.
+- **Headless**: no bundled CSS, fonts, icons, or images. Consumer
+  styles every visual aspect.
+- **i18n-clean**: every user-facing string comes from an attribute
+  or property.
+- **One job per helper**: each helper owns the entire lifecycle of
+  one user-preference dimension (theme, language, etc.) and composes
+  cleanly with the others.
+- **Spec-driven**: every helper has a `spec/index.md` numbered with §
+  references; tests assert against those numbers; docs link back.
+
+## Vanilla web-component idioms used throughout
+
+The helpers commit to a small set of platform features:
+
+- `class extends HTMLElement` for every helper. No
+  `customElements.define("ce", X, { extends: "div" })` "customised
+  built-in" path — that path is Safari-hostile.
+- `static get observedAttributes()` enumerates the watched kebab-case
+  attributes. `attributeChangedCallback(name, old, value)` reacts to
+  every change.
+- `connectedCallback()` resolves the initial value (per spec §5) and
+  renders.
+- `disconnectedCallback()` runs deliberate cleanup (e.g.
+  garbage-collecting the managed `<link>` only when no other select
+  with the same `name` remains in the document).
+- JS-property setters: kebab-case attributes are mirrored by
+  camelCase JS properties (`label`, `themesUrl`, `defaultValue`,
+  `storageKey`). Array / object properties (`themes`,
+  `themeLabels`, `locales`, `localeLabels`) accept native
+  `Array<string>` / `Record<string, string>` and round-trip through
+  the matching string-encoded attribute (CSV for arrays, JSON for
+  objects).
+- `CustomEvent` for change notifications: `bubbles: true`,
+  `composed: true`, `detail` typed via an exported helper type
+  (`ThemePickerChangeDetail`, `LocalePickerChangeDetail`).
+- Imperative DOM mutation in the element body — no template
+  libraries, no Shadow DOM, no string templating helpers.
+
+These choices map 1:1 to the Svelte canonical helpers so behaviour
+and tests stay in lock-step across frameworks.
+
+## Differences from the headless library
+
+The HTML headless library mirrors the canonical 490-component
+catalog. Each entry is a static HTML snippet plus a minimal
+initialisation hook. A consumer typing on top of `theme-picker.html`
+from `lily-design-system-web-components-headless` writes their own radio
+markup, their own persistence, and their own dynamic loading.
+
+The helpers in this directory are higher-level: they own the
+lifecycle, they own the dynamic loading or attribute application,
+and they expose a smaller, more opinionated API surface — one
+custom-element tag per helper. Both layers can coexist in one page;
+the helpers are not a replacement.
+
+## Differences from the Svelte / Vue helpers
+
+The Svelte helpers in
+[`../lily-design-system-svelte-helpers/`](../lily-design-system-svelte-helpers/)
+share the same specification numbering and the same default
+behaviour. The Vue helpers in
+[`../lily-design-system-vue-helpers/`](../lily-design-system-vue-helpers/)
+are a direct port of the Svelte canonical for Vue 3.
+
+The Web Components helpers are the framework-free counterpart: a single import
+registers the custom element, after which the element behaves
+identically — no `bind:value` (Svelte) and no `v-model:value`
+(Vue), just an attribute that mirrors a JS property and a
+`CustomEvent` for change notifications.
+
+Differences between this catalog and the Svelte canonical:
+
+| Concept               | Svelte canonical                         | HTML port (custom element)                                                          |
+| --------------------- | ---------------------------------------- | ----------------------------------------------------------------------------------- |
+| Two-way binding       | `bind:value`                             | Read/write `el.value` / `el.setAttribute("value", …)`                               |
+| Reactive state        | `$state`, `$bindable`                    | Internal `#private` fields + `attributeChangedCallback`                             |
+| Reactive side-effects | `$effect`                                | `connectedCallback` + `attributeChangedCallback`                                    |
+| Render props / slots  | Snippet (`{#snippet children(...)}`)     | Subclass the element class, override `renderButtonContent()`                        |
+| Stylesheet head       | `<svelte:head>`                          | Imperative `document.head.appendChild(...)`                                         |
+| Change notification   | `onchange` prop callback                 | `CustomEvent("themechange" / "localechange")`                                       |
+| SSR                   | `hooks.server.ts` + `transformPageChunk` | Static-site generator (Eleventy / Astro / Hugo) renders attributes, client upgrades |
+| Storybook             | `*.stories.svelte`                       | Static `.html` files in `examples/`                                                 |
+| File ext              | `.svelte`                                | `.ts` (class) + `.html` (examples)                                                  |
+
+The DOM contract and behaviour are otherwise identical; the tests
+match clause-for-clause.
+
+## Testing
+
+Each helper ships a vitest suite that runs under jsdom. The
+acceptance criteria are listed in each `spec/index.md` §7 and the test
+file matches one `it(...)` per numbered item, named with the section
+number for fast cross-referencing.
+
+```bash
+cd lily-design-system-web-components-theme-picker
+pnpm test
+```
+
+The shared rules around test setup (jsdom, mounting custom elements,
+`attributeChangedCallback` timing, `CustomEvent` capture) live in
+[`AGENTS/testing.md`](./AGENTS/testing.md).
+
+## License
+
+Each helper is dual-licensed under MIT or Apache-2.0 or GPL-2.0 or
+GPL-3.0 or BSD-3-Clause. Contact joel@joelparkerhenderson.com for
+other terms.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -103,9 +103,9 @@ committing.
   component class hook.
 - Component documentation per component (`components/{slug}/index.md`,
   `AGENTS.md`, `CLAUDE.md`, `spec/index.md`).
-- Seven framework-helper catalogs (`*-helpers`), each shipping the
+- Eight framework-helper catalogs (`*-helpers`), each shipping the
   `theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`,
-  `share-picker`, and `date-time-picker` helper packages — 42 packages in all.
+  `share-picker`, and `date-time-picker` helper packages — 48 packages in all.
 - A `themes/` directory of 45 ready-to-use reference theme stylesheets.
 - Tooling for listing, scaffolding, syncing, and testing components across
   subprojects (`bin/`).
@@ -677,6 +677,19 @@ Long-term: versioned releases per subproject npm/NuGet package
 
 ### 14.1 Changelog highlights
 
+- **Web Components helpers catalog (2026-09-03)** — an 8th
+  `*-helpers` catalog, `lily-design-system-web-components-helpers`,
+  ships the six pickers as `<lily-*-picker>` custom elements. It is a
+  maintainer-directed **independent copy** of the HTML helpers catalog
+  (which was already six vanilla custom elements), differing only in
+  tag prefix and package naming; both catalogs carry a provenance note
+  and nothing ports between them automatically. Verified at exactly
+  the HTML catalog's test count (6 files / 346 tests) under the new
+  tags. Helper packages 42 → 48. The same day closed Phase 8 of
+  `tasks.md` (glyph-check coverage, picker spec topics, catalog
+  framing, a `pnpm.overrides` guard, the breadcrumb family for the Web
+  Components headless, measured icon scales for ⏸ and ➤, half-glyph
+  doc fixes); full record: CHANGELOG.md.
 - **Picker glyph convention reversed (2026-09-03)** —
   maintainer-directed reversal of the "glyphs never appear as bare
   characters" rule: the five picker glyphs (◑, 🌐︎, ⏸︎, ➤, 📅︎) now

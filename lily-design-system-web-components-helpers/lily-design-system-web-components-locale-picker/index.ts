@@ -1,0 +1,42 @@
+/**
+ * Barrel re-export for `<lily-locale-picker>`.
+ *
+ * Importing this module registers the custom element under the tag
+ * name `"lily-locale-picker"`. Registration is idempotent — re-imports do
+ * not throw. Consumers who want a different tag name can import the
+ * class directly from `./locale-picker` and call
+ * `customElements.define(...)` themselves.
+ */
+
+import {
+    LocalePicker,
+    bcp47LocaleTag,
+    isRtlLocale,
+    localeName,
+    localeEndonym,
+    matchNavigatorLanguage,
+    defaultLocaleLabels,
+    RTL_LANGUAGE_TAGS,
+    RTL_SCRIPT_SUBTAGS,
+    nextLocalePickerId,
+    GLOBE_WITH_MERIDIANS,
+} from "./locale-picker.js";
+
+export {
+    LocalePicker,
+    bcp47LocaleTag,
+    isRtlLocale,
+    localeName,
+    localeEndonym,
+    matchNavigatorLanguage,
+    defaultLocaleLabels,
+    RTL_LANGUAGE_TAGS,
+    RTL_SCRIPT_SUBTAGS,
+    nextLocalePickerId,
+    GLOBE_WITH_MERIDIANS,
+};
+export type { LocalePickerProps, LocalePickerChangeDetail } from "./locale-picker.js";
+
+if (typeof customElements !== "undefined" && !customElements.get("lily-locale-picker")) {
+    customElements.define("lily-locale-picker", LocalePicker);
+}

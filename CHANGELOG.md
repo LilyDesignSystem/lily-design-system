@@ -9,6 +9,48 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Web Components helpers catalog; Phase 8 follow-ups closed — 2026-09-03
+
+**New catalog: `lily-design-system-web-components-helpers`** — the six
+`*-picker` helpers as `<lily-theme-picker>`, `<lily-locale-picker>`,
+`<lily-text-size-picker>`, `<lily-motion-picker>`, `<lily-share-picker>`,
+`<lily-date-time-picker>`, packaged like the other helper catalogs (one
+npm package per helper, catalog-level vitest + tsup). Stated plainly,
+because it matters for maintenance: this is a maintainer-directed
+**independent copy** of `lily-design-system-html-helpers`, which was
+already six vanilla custom elements registered as `<theme-picker>`
+etc. The copy differs only in tag prefix (matching the Web Components
+headless catalog's `lily-` naming) and package naming; the
+alternatives — aliasing `lily-*` tags onto the HTML catalog, or thin
+re-export packages — were put to the maintainer and declined in favour
+of the literal request. Nothing ports between the two automatically;
+each catalog's docs carry a provenance note saying so. Tag rewrites
+were scoped to tag-shaped contexts only (`customElements.define/get`,
+`createElement`, markup), never to the `.x-picker` class hooks the 45
+themes target nor the `data-lily-*` attributes. Verified: the copied
+suite passes at exactly the HTML catalog's count (6 files / 346 tests)
+under the new tags; all six packages build; wired into
+`bin/publish-helpers`, `AGENTS/helpers.md`, `AGENTS/lily.md`,
+`spec/helpers`, and the root spec (7 → 8 helper catalogs, 42 → 48
+packages). Not yet: a standalone remote or an npm publish.
+
+**Phase 8 (`tasks.md`) closed the same day, each verified as its task
+specifies:** P8-T1 `bin/test`'s glyph check now covers `PAUSE_SIGN`;
+P8-T2 all six root `spec/*-picker/` topics exist and are in the Topics
+table; P8-T3 the root spec frames the catalog as 7 full-catalog
+headless + 1 partial; P8-T4 `bin/test` fails on any `package.json`
+`pnpm.overrides` (a silent no-op under pnpm 10+); P8-T7 the Web
+Components headless gained the breadcrumb `*Nav/*List/*ListItem`
+family (30 → 33) via an "upgrade in place" `<li>` that replaces its own
+host, gated by an axe `list`/`listitem` run; P8-T8 `motion-picker`'s
+icon scale measured (1.72) by the recovered real-browser method, which
+also exposed that `share-picker`'s factor sat on a different baseline;
+P8-T10 (maintainer decision) `share-picker` re-baselined to 1 and all
+five icon comments now cite one baseline; P8-T9 ten half-glyph icon
+snippets fixed. Open: P8-T5 (two `extract-zip` alerts with no upstream
+fix; re-check monthly) and P8-T6's remotes/publish, now moot for the
+headless catalog by maintainer decision (it stays monorepo-internal).
+
 ## Dependabot remediation, second wave: 117 → 18 open — 2026-09-03
 
 Follow-up to the same-day 18-subproject `pnpm update` pass: after GitHub

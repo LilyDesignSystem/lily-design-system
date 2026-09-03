@@ -1,0 +1,19 @@
+# Lily helper package — exclude dev/test/doc files from the published
+# tarball. Runtime source (index.ts, date-time-picker.ts) and the user
+# guide (index.md/README.md) still ship.
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.stories.*
+*.tsv
+AGENTS.md
+AGENTS/
+CLAUDE.md
+spec.md
+spec/
+docs/
+examples/
+CHANGELOG.md
+vitest-setup.*
+vite.config.*
+tsconfig*.json

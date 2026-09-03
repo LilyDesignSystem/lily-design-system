@@ -1528,7 +1528,7 @@ dropped. None is speculative.
   Verify: `gh api .../dependabot/alerts --paginate -q '.[] |
   select(.state=="open")'` returns zero rows.
 
-- [ ] **P8-T6 Web Components headless: give it a standalone remote and
+- [x] **P8-T6 Web Components headless: give it a standalone remote and
   publish.** P7-T6 deliberately stopped short of two acceptance items:
   the git-subtree standalone repos (GitHub / GitLab / Codeberg under
   `LilyDesignSystem`) do not exist yet, so `bin/git-subtree-push`
@@ -1550,6 +1550,13 @@ dropped. None is speculative.
   and the real publish.
   Verify: `bin/publish-headless --dry-run` reaches the package and
   reports a clean pack (done); the three remotes resolve (pending).
+  Closed 2026-09-03 by maintainer decision: asked whether to create the
+  GitHub repo and subtree-push, the answer was to keep
+  `lily-design-system-web-components-headless` **inside the monorepo**
+  — no standalone remote and no npm publish for now. The
+  `.git-subtree-push` file and the `bin/publish-headless` wiring stay
+  in place so either can be done later without rework; the package
+  remains unpublished and this is recorded, not glossed.
 
 - [x] **P8-T7 Web Components headless: the `*ListItem` / table
   sub-element gap.** Done 2026-09-03 for one family, as the task
@@ -1684,6 +1691,29 @@ dropped. None is speculative.
   cites the same ◑ reference value and the same metric; a re-run of the
   P8-T8 measurement reproduces all five within 2%; `bin/check-theme`
   clean.
+
+- [x] **Web Components helpers catalog (maintainer-directed, 2026-09-03).**
+  `lily-design-system-web-components-helpers`: the six `*-picker`
+  helpers as `<lily-theme-picker>`, `<lily-locale-picker>`,
+  `<lily-text-size-picker>`, `<lily-motion-picker>`,
+  `<lily-share-picker>`, `<lily-date-time-picker>`. Surfaced before
+  building, not after: `lily-design-system-html-helpers` was already
+  six vanilla custom elements (`<theme-picker>` etc.), so this is an
+  **independent copy** differing only in tag prefix and package
+  naming; the alternatives (alias `lily-*` tags onto the HTML catalog;
+  thin re-export packages) were offered and declined in favour of the
+  literal request. Tag rewrites scoped to tag-shaped contexts only —
+  never the `.x-picker` class hooks the 45 themes target nor
+  `data-lily-*` attributes — with a post-copy report of every
+  remaining bare tag string reviewed by hand (three test-helper
+  defaults fixed). Provenance note in the catalog's `index.md`,
+  `AGENTS.md`, `spec/index.md`; wired into `bin/publish-helpers`,
+  `AGENTS/helpers.md`, `AGENTS/lily.md`, `spec/helpers`, root spec
+  (7 → 8 catalogs, 42 → 48 packages). No standalone remote and no npm
+  publish yet.
+  Verify: 6 files / 346 tests green — exactly the HTML catalog's count
+  — under the new tags; all six packages build; `bin/test` exits 0;
+  `bin/check-links` clean with the catalog's 74 markdown files linked.
 
 ---
 

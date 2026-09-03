@@ -75,7 +75,8 @@ if [ -z "$NUGET_ONLY" ]; then
            "$ROOT"/lily-design-system-react-helpers/lily-design-system-* \
            "$ROOT"/lily-design-system-vue-helpers/lily-design-system-* \
            "$ROOT"/lily-design-system-html-helpers/lily-design-system-* \
-           "$ROOT"/lily-design-system-nunjucks-helpers/lily-design-system-*; do
+           "$ROOT"/lily-design-system-nunjucks-helpers/lily-design-system-* \
+           "$ROOT"/lily-design-system-web-components-helpers/lily-design-system-*; do
     [ -f "$d/package.json" ] || continue
     echo "--> $(basename "$d")"
     publish_npm_package "$d"
