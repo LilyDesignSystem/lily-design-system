@@ -108,6 +108,10 @@ each of which fixes a defect rather than adding taste, are in §9.
 | `shortcuts` | `DateTimeShortcut[]` | no | `[]` | Quick-pick buttons. |
 | `confirmOnSelect` | `boolean` | no | `mode === "date"` | Commit and close on day click. |
 | `name` | `string` | no | `"date-time"` | `name` of the hidden input. |
+| `timeZone` | `string` (bindable) | no | `""` | Selected IANA zone, or `""` for none. Rides `{name}-time-zone` and `data-time-zone`. See §5.9. |
+| `timeZones` | `string[]` | no | `Intl.supportedValuesOf("timeZone")` | Zones offered by the select. |
+| `timeZoneLabels` | `Record<string, string>` | no | `{}` | Display text per zone id; unlisted zones show their id. |
+| `onTimeZoneChange` | `(timeZone: string) => void` | no | — | Fires once per applied zone change. |
 | `inputId` | `string` | no | generated | `id` of the text field, for a consumer `<label for>`. |
 | `describedBy` | `string` | no | — | Forwarded as `aria-describedby`. |
 | `placeholder` | `string` | no | — | Placeholder for the text field. |
@@ -129,6 +133,10 @@ each of which fixes a defect rather than adding taste, are in §9.
 type DateTimePickerLabels = {
   previousYear: string;   // required — names an always-rendered button
   previousMonth: string;  // required
+  previousWeek: string;   // required
+  previousDay: string;    // required
+  nextDay: string;        // required
+  nextWeek: string;       // required
   nextMonth: string;      // required
   nextYear: string;       // required
   confirm: string;        // required
@@ -138,6 +146,7 @@ type DateTimePickerLabels = {
   meridiem?: string;      // required when hour12 resolves true
   week?: string;          // required when showWeekNumbers
   clear?: string;         // the clear button renders only when supplied
+  timeZone?: string;      // the time-zone select renders only when supplied
   invalid?: string;       // the invalid-input live region renders only when supplied
   instructions?: string;  // dialog keyboard help, described-by the dialog when supplied
 };
@@ -157,6 +166,8 @@ Supplying both is strongly recommended.
 ```html
 <div class="date-time-picker {class}" data-mode="date" ...restProps>
   <input type="hidden" name="{name}" value="{value}" />
+  <!-- Only when labels.timeZone: the zone's own form participation. -->
+  <input type="hidden" name="{name}-time-zone" value="{timeZone}" />
 
   <div class="date-time-picker-field">
     <input class="date-time-picker-input" id="{fieldId}" type="text"
@@ -181,9 +192,24 @@ Supplying both is strongly recommended.
     <div class="date-time-picker-header">
       <button class="date-time-picker-previous-year"  aria-label="…">…</button>
       <button class="date-time-picker-previous-month" aria-label="…">…</button>
+      <button class="date-time-picker-previous-week"  aria-label="…">…</button>
+      <button class="date-time-picker-previous-day"   aria-label="…">…</button>
       <span   class="date-time-picker-period" id="{periodId}" aria-live="polite">March 2026</span>
+      <button class="date-time-picker-next-day"       aria-label="…">…</button>
+      <button class="date-time-picker-next-week"      aria-label="…">…</button>
       <button class="date-time-picker-next-month"     aria-label="…">…</button>
       <button class="date-time-picker-next-year"      aria-label="…">…</button>
+    </div>
+
+    <!-- Only when labels.timeZone. Before the grid: the zone is chosen
+         before the instant. The empty first option is the "no zone" state. -->
+    <div class="date-time-picker-time-zone">
+      <label class="date-time-picker-time-zone-label" for="{timeZoneId}">…</label>
+      <select class="date-time-picker-time-zone-select" id="{timeZoneId}">
+        <option value=""></option>
+        <option value="Africa/Abidjan">Africa/Abidjan</option>
+        <!-- … one per zone in `timeZones`, default Intl.supportedValuesOf("timeZone") … -->
+      </select>
     </div>
 
     <table class="date-time-picker-calendar" role="grid" aria-labelledby="{periodId}">
@@ -381,6 +407,53 @@ Instance ids come from an incrementing module counter — never
 `Math.random()` or `Date.now()`, which would differ between the server and
 client renders and break hydration.
 
+### 5.8 Header step buttons
+
+The header carries four **pairs** of step buttons, coarse to fine, with
+the live period label in the middle: year, month, week, day. They are
+two different kinds of control:
+
+- **Year and month move the grid.** Which month is shown changes; the
+  cursor is carried into it, clamped to the new month's length
+  (31 January + 1 month is 28 or 29 February, never 3 March); the pending
+  selection is untouched.
+- **Week and day move the pending day.** The cursor steps ±7 / ±1 civil
+  days (epoch-day arithmetic, never local-midnight `Date`), the pending
+  selection follows it, and the grid pages only when the new day leaves
+  the shown month. A step past `min`/`max` is refused outright — there is
+  nothing out there to land on. A step onto a vetoed day moves the cursor
+  (vetoed days are reachable, as with the arrow keys) but leaves the
+  pending selection where it was. A step never commits, even under
+  `confirmOnSelect`: it is navigation, and a dialog that closed on every
+  "next day" could not be stepped twice.
+
+All eight keep focus on the button that was pressed (§7.53's rule), and
+all eight announce through the single `aria-live="polite"` period label.
+
+### 5.9 Time zone
+
+An opt-in native `<select>` of IANA zones, gated on `labels.timeZone`
+exactly as the clear button is gated on `labels.clear`. It sits before
+the grid so the zone is chosen before the instant.
+
+- The list is `Intl.supportedValuesOf("timeZone")` at render time (418
+  zones on Node 26) — **never a bundled table**, the rule month and
+  weekday names already follow. `timeZones` narrows it; `timeZoneLabels`
+  changes what a zone displays as. The call is guarded, so a runtime
+  without it renders an empty select rather than throwing at mount.
+- The selected zone is the bindable `timeZone` prop. It rides its own
+  hidden input, `{name}-time-zone`, and is reflected as `data-time-zone`
+  on the root (absent while empty). `onTimeZoneChange` fires once per
+  applied change.
+- The picker's **value contract is unchanged** — still a civil
+  `YYYY-MM-DD` / `HH:MM` / `YYYY-MM-DDTHH:MM`. A zone is metadata about
+  *where* the civil time applies, not part of the civil time; converting
+  to an instant is the consumer's job, and `onChange` never fires for a
+  zone change.
+- No zone is selected unless the consumer sets one. The picker never
+  guesses from `Intl.DateTimeFormat().resolvedOptions().timeZone`, for
+  the same reason `locale-picker` never picks a locale.
+
 ## 6. Accessibility
 
 ### 6.1 Roles and properties
@@ -392,6 +465,7 @@ client renders and break hydration.
 | dialog `<div>` | `role="dialog"`, `aria-modal="true"`, `aria-label`, `aria-describedby` → instructions when `labels.instructions` | Component |
 | instructions `<p>` | plain text, id target of the dialog's `aria-describedby` | Consumer via `labels.instructions` |
 | period `<span>` | `aria-live="polite"` | Component |
+| time-zone `<label>` / `<select>` | `for` → the select's id; the label's text is `labels.timeZone` | Component + consumer |
 | `<table>` | `role="grid"`, `aria-labelledby` → the period | Component |
 | `<th scope="col">` | `abbr` = full weekday name | Intl |
 | `<td>` | `role="gridcell"`, `aria-selected` | Component |
@@ -570,6 +644,12 @@ carries its clause number.
 | §7.53 | Paging from a header button keeps focus on that button while the cursor carries; paging from the grid moves focus with the cursor. |
 | §7.54 | `labels.instructions` renders keyboard help referenced by the dialog's `aria-describedby`; absent without the label. |
 | §7.55 | Clicking the text field while the dialog is open closes it without committing. |
+| §7.56 | The header renders eight step buttons in coarse-to-fine order around the period label, each named only by its label. |
+| §7.57 | Day steps move the pending day ±1 civil day, keep the grid on the shown month, keep focus on the button, and commit nothing until Confirm. |
+| §7.58 | Week steps move the pending day ±7 civil days and page the grid only when leaving the shown month. |
+| §7.59 | A step past `min`/`max` is refused; a step onto a vetoed day moves the cursor but not the pending selection. |
+| §7.60 | The time-zone select renders only with `labels.timeZone`, is labelled by it, lists the runtime's zones after an empty option by default, sits before the grid, and starts with no zone. |
+| §7.61 | Choosing a zone updates `{name}-time-zone`, `data-time-zone`, and `onTimeZoneChange` once; `timeZones`/`timeZoneLabels` are honoured; the value and `onChange` are untouched. |
 
 ## 8. DHCW feature parity
 
@@ -579,7 +659,7 @@ Everything the `nhsw-date-picker` does, and where it lives here.
 | -------------- | ---- |
 | Text input + calendar toggle button | §4.3 |
 | Modal dialog with month grid | §4.3 |
-| Previous/next month, previous/next year | §4.3 header |
+| Previous/next month, previous/next year | §4.3 header (plus previous/next week and day, and a time-zone select, beyond DHCW — §5.8, §5.9) |
 | `aria-live` month/year heading | §4.3, `aria-live="polite"` |
 | Weekday headers with `abbr` full names | §4.3 |
 | Day cells with full-date `aria-label` and `aria-selected` | §4.3 |

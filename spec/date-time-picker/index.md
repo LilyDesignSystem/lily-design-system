@@ -84,7 +84,8 @@ placed before the grid so the zone is chosen before the instant:
 ```html
 <div class="date-time-picker-time-zone">
 	<label class="date-time-picker-time-zone-label" for="date-time-picker-time-zone">Time zone</label>
-	<select class="date-time-picker-time-zone-select" id="date-time-picker-time-zone" name="date-time-zone">
+	<select class="date-time-picker-time-zone-select" id="date-time-picker-time-zone">
+		<option value=""></option>
 		<option value="Africa/Abidjan">Africa/Abidjan</option>
 		<!-- … one option per zone from Intl.supportedValuesOf("timeZone") … -->
 		<option value="Europe/London" selected>Europe/London</option>
@@ -98,8 +99,11 @@ placed before the grid so the zone is chosen before the instant:
   applies to month and weekday names. On Node 26 that is 418 zones; the
   consumer may pass a subset (`timeZones`) to narrow it, and may pass
   `timeZoneLabels` to display something other than the raw IANA id.
-- The selected zone rides its own hidden input (`{name}-time-zone`) and
-  is reflected as `data-time-zone` on the root. The picker's value
+- The select renders only when the consumer supplies `labels.timeZone`
+  (the same opt-in gate as `labels.clear`), and its first option is the
+  empty "no zone" state. The selected zone rides its own hidden input
+  (`{name}-time-zone`, not a `name` on the select) and is reflected as
+  `data-time-zone` on the root. The picker's value
   contract is unchanged — a civil `YYYY-MM-DD` / `HH:MM` /
   `YYYY-MM-DDTHH:MM` — because a zone is metadata about *where* the
   civil time applies, not part of the civil time. Converting to an

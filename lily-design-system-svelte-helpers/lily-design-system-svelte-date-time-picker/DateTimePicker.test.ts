@@ -27,6 +27,10 @@ import DateTimePicker, {
 const LABELS = {
     previousYear: "PrevYear",
     previousMonth: "PrevMonth",
+    previousWeek: "PrevWeek",
+    previousDay: "PrevDay",
+    nextDay: "NextDay",
+    nextWeek: "NextWeek",
     nextMonth: "NextMonth",
     nextYear: "NextYear",
     confirm: "Commit",
@@ -61,6 +65,8 @@ const day = (iso: string) =>
     document.querySelector(`[data-date="${iso}"]`) as HTMLButtonElement;
 const cursorDate = () =>
     days().find((d) => d.getAttribute("tabindex") === "0")?.dataset.date ?? "";
+const periodText = () =>
+    (document.querySelector(".date-time-picker-period") as HTMLElement).textContent?.trim() ?? "";
 
 async function open() {
     await fireEvent.click(trigger());
@@ -1039,5 +1045,162 @@ describe("DateTimePicker — assistive technology", () => {
         await fireEvent.click(field());
         expect(dialog().hasAttribute("hidden")).toBe(true);
         expect(hidden().value).toBe("2026-03-15");
+    });
+
+    // --- P8-T12 (2026-09-04): week/day step buttons and the time-zone select.
+
+    test("§7.56 the header renders eight step buttons, coarse to fine, each named only by its label", async () => {
+        render(DateTimePicker, { props: base({ value: "2026-03-15" }) });
+        await open();
+        const header = document.querySelector(".date-time-picker-header") as HTMLElement;
+        const buttons = Array.from(header.querySelectorAll("button"));
+        expect(buttons.map((b) => b.className)).toEqual([
+            "date-time-picker-previous-year",
+            "date-time-picker-previous-month",
+            "date-time-picker-previous-week",
+            "date-time-picker-previous-day",
+            "date-time-picker-next-day",
+            "date-time-picker-next-week",
+            "date-time-picker-next-month",
+            "date-time-picker-next-year",
+        ]);
+        expect(buttons.map((b) => b.getAttribute("aria-label"))).toEqual([
+            "PrevYear", "PrevMonth", "PrevWeek", "PrevDay",
+            "NextDay", "NextWeek", "NextMonth", "NextYear",
+        ]);
+        // The period label sits between the two halves, so a step announces once.
+        const period = header.querySelector(".date-time-picker-period") as HTMLElement;
+        expect(buttons.indexOf(buttons[3]) < Array.from(header.children).indexOf(period)).toBe(true);
+    });
+
+    test("§7.57 day steps move the pending day by ±1 civil day, keep the grid on the shown month, and keep focus on the button", async () => {
+        const onChange = vi.fn();
+        render(DateTimePicker, { props: base({ value: "2026-03-15", onChange }) });
+        await open();
+        await settle();
+        const nextDay = document.querySelector(".date-time-picker-next-day") as HTMLButtonElement;
+        nextDay.focus();
+        await fireEvent.click(nextDay);
+        await fireEvent.click(nextDay);
+        await settle();
+        expect(cursorDate()).toBe("2026-03-17");
+        expect(day("2026-03-17").dataset.selected).toBeDefined();
+        expect(document.activeElement).toBe(nextDay);
+        expect(periodText()).toBe("March 2026");
+        // Navigation, not a commit: the value moves only on confirm.
+        expect(hidden().value).toBe("2026-03-15");
+        expect(onChange).not.toHaveBeenCalled();
+        await fireEvent.click(document.querySelector(".date-time-picker-previous-day") as HTMLButtonElement);
+        await fireEvent.click(screen.getByText("Commit"));
+        expect(hidden().value).toBe("2026-03-16");
+        expect(onChange).toHaveBeenCalledWith("2026-03-16");
+    });
+
+    test("§7.58 week steps move the pending day by ±7 civil days and page the grid only when leaving the shown month", async () => {
+        render(DateTimePicker, { props: base({ value: "2026-03-25" }) });
+        await open();
+        await settle();
+        const nextWeek = document.querySelector(".date-time-picker-next-week") as HTMLButtonElement;
+        await fireEvent.click(nextWeek);
+        await settle();
+        // 25 + 7 = 1 April: the day left March, so the grid followed it.
+        expect(cursorDate()).toBe("2026-04-01");
+        expect(periodText()).toBe("April 2026");
+        await fireEvent.click(document.querySelector(".date-time-picker-previous-week") as HTMLButtonElement);
+        await settle();
+        expect(cursorDate()).toBe("2026-03-25");
+        expect(periodText()).toBe("March 2026");
+        // Within the month: 25 → 18, no paging.
+        await fireEvent.click(document.querySelector(".date-time-picker-previous-week") as HTMLButtonElement);
+        await settle();
+        expect(cursorDate()).toBe("2026-03-18");
+        expect(periodText()).toBe("March 2026");
+    });
+
+    test("§7.59 a step past min/max is refused; a step onto a vetoed day moves the cursor but not the pending selection", async () => {
+        render(DateTimePicker, {
+            props: base({
+                value: "2026-03-15",
+                max: "2026-03-16",
+                isDateDisabled: (iso: string) => iso === "2026-03-16",
+            }),
+        });
+        await open();
+        await settle();
+        const nextDay = document.querySelector(".date-time-picker-next-day") as HTMLButtonElement;
+        await fireEvent.click(nextDay);
+        await settle();
+        expect(cursorDate()).toBe("2026-03-16");
+        expect(day("2026-03-16").getAttribute("aria-disabled")).toBe("true");
+        expect(day("2026-03-15").dataset.selected).toBeDefined();
+        expect(day("2026-03-16").dataset.selected).toBeUndefined();
+        // 17 March is past `max`: nothing out there to land on.
+        await fireEvent.click(nextDay);
+        await settle();
+        expect(cursorDate()).toBe("2026-03-16");
+        await fireEvent.click(document.querySelector(".date-time-picker-next-week") as HTMLButtonElement);
+        await settle();
+        expect(cursorDate()).toBe("2026-03-16");
+    });
+
+    test("§7.60 the time-zone select renders only with labels.timeZone, lists the runtime's zones by default, and honours timeZones/timeZoneLabels", async () => {
+        const { unmount } = render(DateTimePicker, { props: base() });
+        await open();
+        expect(document.querySelector(".date-time-picker-time-zone")).toBeNull();
+        expect(document.querySelector('input[name="date-time-time-zone"]')).toBeNull();
+        unmount();
+
+        render(DateTimePicker, { props: base({ labels: { ...LABELS, timeZone: "Zone" } }) });
+        await open();
+        const select = document.querySelector(".date-time-picker-time-zone-select") as HTMLSelectElement;
+        const label = document.querySelector(".date-time-picker-time-zone-label") as HTMLLabelElement;
+        expect(label.textContent?.trim()).toBe("Zone");
+        expect(label.htmlFor).toBe(select.id);
+        expect(screen.getByLabelText("Zone")).toBe(select);
+        const all = Intl.supportedValuesOf("timeZone");
+        expect(all.length).toBeGreaterThan(300);
+        const offered = Array.from(select.options).map((o) => o.value);
+        // A leading empty option is the "no zone" state; then every runtime zone, in order.
+        expect(offered[0]).toBe("");
+        expect(offered.slice(1)).toEqual(all);
+        expect(select.value).toBe("");
+        expect(root().dataset.timeZone).toBeUndefined();
+        expect(dialog().compareDocumentPosition(grid()) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+        expect(select.compareDocumentPosition(grid()) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    });
+
+    test("§7.61 choosing a zone rides {name}-time-zone, data-time-zone, and the callback — and leaves the value alone", async () => {
+        const onTimeZoneChange = vi.fn();
+        const onChange = vi.fn();
+        render(DateTimePicker, {
+            props: base({
+                value: "2026-03-15",
+                name: "when",
+                labels: { ...LABELS, timeZone: "Zone" },
+                timeZones: ["Europe/London", "Asia/Tokyo"],
+                timeZoneLabels: { "Asia/Tokyo": "Tokyo" },
+                timeZone: "Europe/London",
+                onTimeZoneChange,
+                onChange,
+            }),
+        });
+        await open();
+        const select = document.querySelector(".date-time-picker-time-zone-select") as HTMLSelectElement;
+        const texts = Array.from(select.options).map((o) => [o.value, o.textContent]);
+        expect(texts).toEqual([["", ""], ["Europe/London", "Europe/London"], ["Asia/Tokyo", "Tokyo"]]);
+        const zoneInput = document.querySelector('input[name="when-time-zone"]') as HTMLInputElement;
+        expect(select.value).toBe("Europe/London");
+        expect(zoneInput.value).toBe("Europe/London");
+        expect(root().dataset.timeZone).toBe("Europe/London");
+
+        await fireEvent.change(select, { target: { value: "Asia/Tokyo" } });
+        await settle();
+        expect(zoneInput.value).toBe("Asia/Tokyo");
+        expect(root().dataset.timeZone).toBe("Asia/Tokyo");
+        expect(onTimeZoneChange).toHaveBeenCalledTimes(1);
+        expect(onTimeZoneChange).toHaveBeenCalledWith("Asia/Tokyo");
+        // A zone is metadata about the civil value, not part of it.
+        expect((document.querySelector('input[name="when"]') as HTMLInputElement).value).toBe("2026-03-15");
+        expect(onChange).not.toHaveBeenCalled();
     });
 });
