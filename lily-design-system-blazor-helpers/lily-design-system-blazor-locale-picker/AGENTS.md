@@ -77,7 +77,7 @@ lives in `Value` and rides a hidden input for form participation.
   <input type="hidden" name="@Name" value="@Value" />
   <button type="button" class="locale-picker-button" aria-label="@Label"
           aria-haspopup="listbox" aria-expanded="false" aria-controls="{listId}">
-    <span class="locale-picker-icon" aria-hidden="true">&#127760;</span>
+    <span class="locale-picker-icon" aria-hidden="true">🌐︎</span>
   </button>
   <ul class="locale-picker-list" id="{listId}" role="listbox" aria-label="@Label"
       tabindex="-1" hidden aria-activedescendant="{active option id, open only}">

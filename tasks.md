@@ -1429,8 +1429,18 @@ dropped. None is speculative.
   Verify: temporarily re-escape `PAUSE_SIGN` in one catalog and confirm
   `bin/test` fails; restore; `bin/test` exits 0.
 
-- [ ] **P8-T2 Register the new root `spec/*-picker/` topics, and add the
-  two missing ones.** `spec/theme-picker/`, `spec/locale-picker/`,
+- [x] **P8-T2 Register the new root `spec/*-picker/` topics, and add the
+  two missing ones.** Done 2026-09-03: `spec/motion-picker/index.md`
+  and `spec/date-time-picker/index.md` written in the same shape as the
+  four existing ones (bare glyph, then the button / list / list-item
+  HTML), each with the `README.md → index.md` symlink the others carry.
+  `date-time-picker`'s page is deliberately different in kind — field +
+  trigger (`aria-haspopup="dialog"`) + `role="dialog"` — because it is
+  a form control, not a listbox; the page says so. All six added to
+  `spec/index.md`'s Topics table, and the `helpers` row's stale "5
+  pickers" corrected to 6.
+  Verify: `bin/check-links` clean; `grep -c "picker/index.md)"
+  spec/index.md` → 6; `bin/test` exits 0. `spec/theme-picker/`, `spec/locale-picker/`,
   `spec/text-size-picker/`, and `spec/share-picker/` were added
   2026-09-03 as root-level picker contracts (button / list / list-item
   HTML), but none appears in `spec/index.md`'s Topics table, so they
@@ -1535,8 +1545,18 @@ dropped. None is speculative.
   Verify: `bin/check-theme` clean; the five factors in `AGENTS/helpers.md`
   all cite the same method and the ⏸ note no longer says "placeholder".
 
-- [ ] **P8-T9 About a dozen picker docs show an incomplete globe
-  entity.** Found and deliberately left out of scope during the glyph
+- [x] **P8-T9 About a dozen picker docs show an incomplete globe
+  entity.** Done 2026-09-03: exactly 10 illustrative
+  `<span class="locale-picker-icon" aria-hidden="true">` snippets
+  (5 angular, 5 blazor — `AGENTS.md`, `index.md`, `AGENTS/api.md`,
+  `AGENTS/ssr.md`, `spec/index.md` in each) rendered `&#127760;`
+  alone; each now holds the bare `🌐︎` (U+1F310 + U+FE0E), matching the
+  runtime constant and the reversed glyph rule. The prose mentions that
+  cite `&#127760;` as the decimal value of U+1F310 (vue/angular/blazor/
+  svelte `spec/index.md`, svelte `docs/accessibility.md`) are correct as
+  written and untouched.
+  Verify: `grep -rn '&#127760;' --include=*.md . | grep -v node_modules
+  | grep -v CHANGELOG | grep -c aria-hidden` → 0. Found and deliberately left out of scope during the glyph
   reversal: several illustrative HTML snippets in angular/blazor/vue's
   locale-picker `AGENTS.md`, `AGENTS/api.md`, `AGENTS/ssr.md`,
   `index.md`, and `spec/index.md` render the icon as `&#127760;` alone

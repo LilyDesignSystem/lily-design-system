@@ -180,7 +180,7 @@ the select.
     [attr.aria-expanded]="open()"
     [attr.aria-controls]="listId"
   >
-    <span class="locale-picker-icon" aria-hidden="true">&#127760;</span>
+    <span class="locale-picker-icon" aria-hidden="true">🌐︎</span>
   </button>
 
   <ul

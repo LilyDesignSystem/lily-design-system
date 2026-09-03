@@ -148,7 +148,7 @@ The control is an icon button plus a dropdown listbox:
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="locale-picker-icon" aria-hidden="true">&#127760;</span>
+    <span class="locale-picker-icon" aria-hidden="true">🌐︎</span>
   </button>
   <ul
     class="locale-picker-list"

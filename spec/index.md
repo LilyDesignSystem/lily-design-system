@@ -42,7 +42,13 @@ coding agents.
 | [monorepo-github-pages](monorepo-github-pages/index.md) | Publishing the docs site via git subtree to a read-only sibling export repo. |
 | [testing](testing/index.md) | Per-framework test suites, Storybook coverage, Playwright e2e, axe, responsive sweep. |
 | [frameworks](frameworks/index.md) | The seven framework pairs, per-framework file shapes and idioms, the copy-pattern. |
-| [helpers](helpers/index.md) | The `*-helpers` catalogs: the 5 pickers, their contracts, manifests, and publish pipeline. |
+| [helpers](helpers/index.md) | The `*-helpers` catalogs: the 6 pickers, their contracts, manifests, and publish pipeline. |
+| [theme-picker](theme-picker/index.md) | The theme-picker button / listbox / option HTML contract, one page, bare glyph ◑. |
+| [locale-picker](locale-picker/index.md) | The locale-picker button / listbox / option HTML contract, bare glyph 🌐︎. |
+| [text-size-picker](text-size-picker/index.md) | The text-size-picker button / listbox / option HTML contract, glyph "A", the seven-step size scale. |
+| [motion-picker](motion-picker/index.md) | The motion-picker button / listbox / option HTML contract, bare glyph ⏸︎, the unconditional `prefers-reduced-motion` default. |
+| [share-picker](share-picker/index.md) | The share-picker button / disclosure-of-links HTML contract, bare glyph ➤, no `aria-haspopup`. |
+| [date-time-picker](date-time-picker/index.md) | The date-time-picker field + trigger + APG dialog HTML contract, bare glyph 📅︎ — the one picker that is a form control. |
 | [national-identifiers](national-identifiers/index.md) | The 92 national personal identifier components, normalization, validation algorithms. |
 | [trusted-publishing](trusted-publishing/index.md) | OIDC publishing to npm/NuGet: the adoption position, readiness table, checklist. |
 | [free-open-source-funding](free-open-source-funding/index.md) | Funding channels (GitHub Sponsors live, Open Collective planned), terms, and the files that must agree. |

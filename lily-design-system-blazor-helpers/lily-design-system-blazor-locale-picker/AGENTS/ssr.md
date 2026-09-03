@@ -16,7 +16,7 @@ looks like:
     <button type="button" class="locale-picker-button" aria-label="Language"
             aria-haspopup="listbox" aria-expanded="false"
             aria-controls="locale-picker-1-list">
-        <span class="locale-picker-icon" aria-hidden="true">&#127760;</span>
+        <span class="locale-picker-icon" aria-hidden="true">🌐︎</span>
     </button>
     <ul class="locale-picker-list" id="locale-picker-1-list" role="listbox"
         aria-label="Language" tabindex="-1" hidden>

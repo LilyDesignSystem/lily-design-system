@@ -22,7 +22,7 @@ renders:
     aria-expanded="false"
     aria-controls="locale-picker-1-list"
   >
-    <span class="locale-picker-icon" aria-hidden="true">&#127760;</span>
+    <span class="locale-picker-icon" aria-hidden="true">🌐︎</span>
   </button>
   <ul
     class="locale-picker-list"
