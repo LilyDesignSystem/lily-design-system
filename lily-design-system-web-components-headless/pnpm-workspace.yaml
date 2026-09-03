@@ -1,2 +1,9 @@
 allowBuilds:
   esbuild: true
+# vite@8.2.2's optional esbuild peer resolves to 0.27.7 (below the
+# 0.28.1 GHSA fix) while storybook pulls a separate, already-patched
+# 0.28.2 -- two copies in the tree. vite's own peer range (^0.27.0 ||
+# ^0.28.0) already accepts 0.28.x, so pinning everyone to one patched
+# version is safe.
+overrides:
+  esbuild: "0.28.2"

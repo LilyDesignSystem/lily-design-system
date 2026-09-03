@@ -1,3 +1,13 @@
 allowBuilds:
   esbuild: true
   "@parcel/watcher": true
+# @sveltejs/kit pins cookie@^0.6.0 directly (not yet updated upstream to
+# the 0.7.0 fix for GHSA-pxg6-pf52-xh8x). pnpm 10+ reads `overrides` from
+# this file, not package.json's `pnpm.overrides` -- the whole block that
+# used to live there (13 entries accumulated over past CVE fixes) was a
+# silent no-op the entire time, found while remediating Dependabot
+# alerts. The other 12 entries are moot now (normal `pnpm update`
+# already resolves past every one of their targets); only cookie is
+# still actively blocked by @sveltejs/kit's own hard pin.
+overrides:
+  cookie: "0.7.2"

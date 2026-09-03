@@ -18,7 +18,7 @@
     "lily-design-system-react-locale-picker": "0.1.1",
     "lily-design-system-react-text-size-picker": "0.1.1",
     "lily-design-system-react-theme-picker": "0.1.1",
-    "next": "^16.3.0",
+    "next": "^16.3.4",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },
@@ -27,21 +27,15 @@
     "@playwright/test": "^1.62.1",
     "@storybook/nextjs-vite": "^10.5.10",
     "@testing-library/react": "^16.3.3",
-    "@testing-library/user-event": "^14.6.6",
-    "@types/node": "^26.4.0",
+    "@testing-library/user-event": "^14.6.7",
+    "@types/node": "^26.4.1",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.5",
     "@vitejs/plugin-react": "^6.1.1",
-    "jsdom": "^30.0.0",
+    "jsdom": "^30.0.1",
     "storybook": "^10.5.10",
-    "typescript": "^5.9.0",
-    "vitest": "^4.1.0"
-  },
-  "pnpm": {
-    "overrides": {
-      "undici@>=7.0.0 <7.24.0": ">=7.24.0",
-      "undici@>=7.17.0 <7.24.0": ">=7.24.0"
-    }
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.11"
   },
   "license": "MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause",
   "author": "Joel Parker Henderson <joel@joelparkerhenderson.com>",

@@ -1,2 +1,9 @@
 allowBuilds:
   esbuild: true
+# @sveltejs/kit pins cookie@^0.6.0 directly (not yet updated upstream to
+# the 0.7.0 fix for GHSA-pxg6-pf52-xh8x). pnpm 10+ reads `overrides` from
+# this file, not package.json's `pnpm.overrides` -- a real, previously
+# silent no-op found while remediating Dependabot alerts (the override
+# was declared correctly but in the wrong place, so it never applied).
+overrides:
+  cookie: "0.7.2"

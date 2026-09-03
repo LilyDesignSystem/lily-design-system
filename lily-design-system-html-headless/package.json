@@ -13,14 +13,14 @@
   },
   "devDependencies": {
     "@storybook/html-vite": "^10.5.10",
-    "@wdio/cli": "^9.0.0",
-    "@wdio/local-runner": "^9.0.0",
-    "@wdio/mocha-framework": "^9.0.0",
-    "@wdio/spec-reporter": "^9.0.0",
+    "@wdio/cli": "^9.31.5",
+    "@wdio/local-runner": "^9.31.5",
+    "@wdio/mocha-framework": "^9.31.5",
+    "@wdio/spec-reporter": "^9.31.2",
     "chromedriver": "^152.0.2",
     "storybook": "^10.5.10",
     "vite": "^8.2.2",
-    "wdio-chromedriver-service": "^8.0.0"
+    "wdio-chromedriver-service": "^8.1.1"
   },
   "author": "Joel Parker Henderson <joel@joelparkerhenderson.com>",
   "repository": {

@@ -46,6 +46,6 @@
     "url": "https://github.com/LilyDesignSystem/lily-design-system/issues"
   },
   "devDependencies": {
-    "@sveltejs/kit": "^2.70.2"
+    "@sveltejs/kit": "^2.70.3"
   }
 }

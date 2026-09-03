@@ -14,10 +14,10 @@
   },
   "devDependencies": {
     "@vitest/ui": "^4.1.11",
-    "jsdom": "^30.0.0",
+    "jsdom": "^30.0.1",
     "nunjucks": "^3.2.4",
-    "tsup": "^8.5.0",
-    "typescript": "^5.9.0",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
     "vitest": "^4.1.11"
   },
   "author": "Joel Parker Henderson <joel@joelparkerhenderson.com>",
