@@ -1,12 +1,12 @@
 # Lily Design System™ - Web Components Headless
 
-A headless component library built on **native custom elements** — the browser's own Web Components platform APIs, with no framework runtime. This package ships a **partial catalog**: 30 of the canonical 491 Lily components, chosen to span every major category, proving that the pattern works end to end (real, tested, buildable, Storybook-documented) — not a claim of parity with the other six headless catalogs. See [spec/index.md](spec/index.md) for the full scope statement.
+A headless component library built on **native custom elements** — the browser's own Web Components platform APIs, with no framework runtime. This package ships a **partial catalog**: 33 of the canonical 491 Lily components, chosen to span every major category, proving that the pattern works end to end (real, tested, buildable, Storybook-documented) — not a claim of parity with the other six headless catalogs. See [spec/index.md](spec/index.md) for the full scope statement.
 
 **Headless** means zero CSS, zero styles, zero opinions about appearance. You provide all styling. Components provide structure, semantics, accessibility, and behavior — the same promise as every other Lily headless library, just delivered as `<lily-button>` instead of `<Button>`.
 
 ## Features
 
-- 30 headless custom elements (see the full list below), each with a real ARIA/keyboard contract matching its canonical `components/{slug}/AGENTS.md` spec.
+- 33 headless custom elements (see the full list below), each with a real ARIA/keyboard contract matching its canonical `components/{slug}/AGENTS.md` spec.
 - Works in any framework, or none — a native custom element is valid markup anywhere HTML is valid.
 - TypeScript source with full type definitions.
 - WCAG 2.2 AAA target: semantic HTML first, ARIA only where needed.
@@ -59,6 +59,8 @@ Every component's real semantic element (the `<button>`, `<input>`, `<dialog>`, 
 **Media and data**: AvatarImage, Figure, FeaturePhoto, Progress, Meter, BarChart
 
 **Content**: Alert, Banner, Card, Badge, Blockquote, InformationCallout, WarningCallout
+
+**Navigation**: BreadcrumbNav, BreadcrumbList, BreadcrumbListItem — the first `*Nav/*List/*ListItem` family, using the "upgrade in place" pattern so the rendered `<ol>` contains only real `<li>` children (see `spec/index.md` §2.1)
 
 ## Documentation
 

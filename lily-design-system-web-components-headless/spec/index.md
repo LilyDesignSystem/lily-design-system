@@ -11,7 +11,7 @@ root spec was amended 2026-09-03 (plan P8-T3) to frame the catalog as
 7 full-catalog headless libraries plus this partial one; this file remains
 the authoritative record of the addition.
 
-**This is a deliberately partial implementation: 30 of the canonical 491
+**This is a deliberately partial implementation: 33 of the canonical 491
 components, not full parity with the other seven catalogs.** Every claim of
 completeness below is scoped to those 30. See §2 and §11 for exactly what is
 and is not covered, and why.
@@ -36,10 +36,11 @@ hand-rolled approximation.
 
 ### In scope
 
-- 30 native custom elements, one per canonical `components/{slug}/AGENTS.md`
+- 33 native custom elements, one per canonical `components/{slug}/AGENTS.md`
   contract, chosen to span every major category rather than cluster in one:
-  8 buttons/links, 5 forms, 4 overlays, 6 media/data, 7 content.
-- A vitest test file per component (163 tests total across the 30 `.test.ts`
+  8 buttons/links, 5 forms, 4 overlays, 6 media/data, 7 content, and the
+  3-component breadcrumb navigation family (the P8-T7 pilot, see §2.1).
+- A vitest test file per component (180 tests total across the 33 `.test.ts`
   files, plus a 31st `index.test.ts` exercising the **built** `dist/`
   bundle end to end).
 - A Storybook story per component.
@@ -50,22 +51,45 @@ hand-rolled approximation.
 
 ### Explicitly out of scope (this slice)
 
-- **461 of the 491 canonical components are not implemented here.** This is
+- **458 of the 491 canonical components are not implemented here.** This is
   not an oversight to silently backfill; it is the agreed scope of the
   initial subproject (plan P7-T6: "scaffold + representative subset").
-- **Every `*ListItem` and table sub-element family** — `*TableHead/-Body/
-  -Foot/-Row/-TH/-TD` (table, data-table, calendar-table, kanban-table) and
-  gantt's HTML-named equivalents. These need a native tag+attribute
-  selector (e.g. a hypothetical `li[lily-breadcrumb-list-item]`) to avoid
-  putting a wrapper element between a parent and child with a required
-  content-model relationship (`<ol>` + `<li>`, `<table>` + `<thead>`) —
+- **Every table sub-element family, and every `*ListItem` family other than
+  breadcrumb** — `*TableHead/-Body/-Foot/-Row/-TH/-TD` (table, data-table,
+  calendar-table, kanban-table), gantt's HTML-named equivalents, and the
+  remaining `*List`/`*ListItem` pairs. The underlying problem: a parent and
+  child with a required content-model relationship (`<ol>` + `<li>`,
+  `<table>` + `<thead>`) cannot have a wrapper element between them —
   angular-headless hit and fixed exactly this defect class in its 0.3.0
-  wrapper-host-semantics migration (root spec §11.8). That selector form is
-  only available to **customized built-in elements** (`<li is="...">`),
-  and customized built-ins are permanently unsupported in Safari/WebKit
-  (§3). Autonomous custom elements have no equivalent mechanism, so this
-  whole family is a real, unsolved gap for this architecture — not
-  something a bit more effort would have closed this session.
+  wrapper-host-semantics migration (root spec §11.8) with a tag+attribute
+  selector (`li[lily-breadcrumb-list-item]`), a form only **customized
+  built-in elements** support, and those are permanently unsupported in
+  Safari/WebKit (§3). §2.1 records the pattern this catalog now uses
+  instead, piloted on the breadcrumb family (P8-T7); it has a real cost
+  that makes it fit only passive items, which is why the rest of the
+  family is still out of scope rather than mechanically ported.
+
+### 2.1 The "upgrade in place" pattern (P8-T7 pilot: breadcrumb family)
+
+`BreadcrumbNav > BreadcrumbList > BreadcrumbListItem` ships as of
+2026-09-03. The list item does what no other component here does: in
+`connectedCallback` it builds the real `<li>`, moves the host's children
+and attributes into it, and then `this.replaceWith(li)` — the custom
+element **removes itself** from the tree. What remains is a pure
+`<ol> > <li>` structure with no host node at all, so the content model is
+satisfied without any selector trick. Verified by an axe-core run
+restricted to the `list` / `listitem` rules — the exact rules that flagged
+angular-headless's defect — over a rendered three-crumb trail: zero
+violations (`breadcrumb-list-item.test.ts`).
+
+The cost, stated plainly: after upgrade there is no custom-element
+instance, so no `attributeChangedCallback` and no live reactivity. That is
+acceptable for BreadcrumbListItem because its canonical contract is
+passive (`Interactive: no`, no keyboard, a one-shot `current` flag read at
+upgrade). It is **not** acceptable for an interactive list item, and the
+pattern must not be copied to one without revisiting this. Table
+sub-elements would additionally need the parent (`<table>`) to tolerate
+the transient host during parsing — untested, still out of scope.
 - **The 92 national personal identifier components.**
 - CSS, stylesheets, a CSS framework dependency, inline styles beyond the
   one documented structural exception (§4).
@@ -93,7 +117,7 @@ The Web Components spec defines two ways to register a custom element:
   so `<button is="...">` silently fails to upgrade in Safari.
 
 Lily targets every evergreen browser without a caveat, so autonomous is the
-only real choice. The accepted cost: every one of the 30 components
+only real choice. The accepted cost: every one of the 30 wrap-pattern components
 introduces one extra DOM host node (`<lily-button>`) wrapping its real
 semantic element (`<button>`), where a customized built-in would have had
 none. This is a real, permanent structural difference from the other seven
@@ -175,7 +199,7 @@ lily-design-system-web-components-headless/
   error thrown from inside the custom-element reaction queue — see the
   `icon-button.test.ts` / `float-button.test.ts` comments).
 - `index.test.ts` imports the **built** `dist/index.js`, not source, and
-  asserts all 30 tags self-register — the check that would have caught
+  asserts all 33 tags self-register — the check that would have caught
   react-headless's historical "main pointed at a dist file that was never
   built" defect (root `CHANGELOG.md`) had it existed there.
 - Run `pnpm build && pnpm test` for the full signal (source tests +
@@ -230,18 +254,19 @@ data, Content) matching this file's §2 breakdown.
 
 ## 11. Acceptance criteria
 
-- [x] 30 components chosen spanning every major category (not clustered).
+- [x] 33 components chosen spanning every major category (not clustered),
+      including one complete `*Nav/*List/*ListItem` family (P8-T7).
 - [x] Each component matches its canonical `components/{slug}/AGENTS.md`
       contract (HTML tag, ARIA, keyboard, required/optional attributes).
-- [x] Real, run-verified tests: 163 tests across 30 `.test.ts` files, all
+- [x] Real, run-verified tests: 180 tests across 33 `.test.ts` files, all
       green (`pnpm vitest run`).
 - [x] TypeScript compiles clean (`tsc --noEmit`).
 - [x] `pnpm build` succeeds: generates `index.ts`, bundles a non-empty
       `dist/index.js` + `dist/index.d.ts` via tsup.
 - [x] `index.test.ts` imports the **built** `dist/index.js` and confirms
-      all 30 `lily-{slug}` tags self-register, plus one end-to-end render
-      through the public entry point — 165 tests total including this file.
-- [x] `pnpm build-storybook` succeeds: all 30 stories compile and bundle.
+      all 33 `lily-{slug}` tags self-register, plus one end-to-end render
+      through the public entry point — 182 tests total including this file.
+- [x] `pnpm build-storybook` succeeds: all 33 stories compile and bundle.
 - [x] Required subproject files present (`index.md`, `README.md` symlink,
       `AGENTS.md`, `CLAUDE.md`, `spec/index.md`, `.git-subtree-push`).
 - [x] `bin/sync` run — root `AGENTS/*.md` present under this subproject's

@@ -38,6 +38,18 @@ export { Blockquote } from "./components/blockquote.js";
 import { Blockquote as _Blockquote } from "./components/blockquote.js";
 if (!customElements.get("lily-blockquote")) customElements.define("lily-blockquote", _Blockquote);
 
+export { BreadcrumbListItem } from "./components/breadcrumb-list-item.js";
+import { BreadcrumbListItem as _BreadcrumbListItem } from "./components/breadcrumb-list-item.js";
+if (!customElements.get("lily-breadcrumb-list-item")) customElements.define("lily-breadcrumb-list-item", _BreadcrumbListItem);
+
+export { BreadcrumbList } from "./components/breadcrumb-list.js";
+import { BreadcrumbList as _BreadcrumbList } from "./components/breadcrumb-list.js";
+if (!customElements.get("lily-breadcrumb-list")) customElements.define("lily-breadcrumb-list", _BreadcrumbList);
+
+export { BreadcrumbNav } from "./components/breadcrumb-nav.js";
+import { BreadcrumbNav as _BreadcrumbNav } from "./components/breadcrumb-nav.js";
+if (!customElements.get("lily-breadcrumb-nav")) customElements.define("lily-breadcrumb-nav", _BreadcrumbNav);
+
 export { Button } from "./components/button.js";
 import { Button as _Button } from "./components/button.js";
 if (!customElements.get("lily-button")) customElements.define("lily-button", _Button);

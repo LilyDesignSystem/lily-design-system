@@ -59,7 +59,7 @@ lily-design-system/                              ← canonical catalog + tools
 
 Headless libraries ship unstyled, accessible components; example apps demonstrate them with a full stylesheet and the three required routes (see [examples](../examples/index.md)).
 
-An 8th, **partial** headless library sits outside the pairs: `lily-design-system-web-components-headless` (added 2026-09-03) ships 30 of the 491 components as native custom elements with no framework runtime and no example app — a representative slice proving the pattern, not parity. Its own `spec/index.md` records the architecture decisions (autonomous custom elements, light DOM only) and the exact scope.
+An 8th, **partial** headless library sits outside the pairs: `lily-design-system-web-components-headless` (added 2026-09-03) ships 33 of the 491 components as native custom elements with no framework runtime and no example app — a representative slice proving the pattern, not parity. Its own `spec/index.md` records the architecture decisions (autonomous custom elements, light DOM only) and the exact scope.
 
 ## Helper catalogs
 
@@ -106,7 +106,7 @@ Every `components/{slug}/` directory (491 of them) carries:
 ## Acceptance criteria
 
 - [ ] All 7 headless and 7 example subprojects exist at the documented paths.
-- [ ] The partial `lily-design-system-web-components-headless` exists at the documented path and its `spec/index.md` states its 30/491 scope.
+- [ ] The partial `lily-design-system-web-components-headless` exists at the documented path and its `spec/index.md` states its 33/491 scope.
 - [ ] All 7 per-framework helper catalogs exist.
 - [ ] All 491 component directories carry the required component files.
 - [ ] Every subproject carries `index.md`, `README.md` symlink, `AGENTS.md`, `CLAUDE.md`, spec/plan/tasks, and `.git-subtree-push`.

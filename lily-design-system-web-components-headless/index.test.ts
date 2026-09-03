@@ -25,7 +25,9 @@ describe("dist/index.js (built package entry point)", () => {
         for (const slug of SLUGS) {
             expect(customElements.get(`lily-${slug}`), `lily-${slug} should be defined`).toBeTruthy();
         }
-        expect(SLUGS.length).toBe(30);
+        // 30 from the P7-T6 slice + the 3-component breadcrumb family
+        // added by the P8-T7 "upgrade in place" pilot.
+        expect(SLUGS.length).toBe(33);
     });
 
     test("a component rendered via the built bundle behaves like the source version", async () => {

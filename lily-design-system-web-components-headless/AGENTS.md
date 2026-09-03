@@ -1,6 +1,6 @@
 # Lily Design System - Web Components Headless
 
-A headless component library built on **native custom elements** (the Web Components platform APIs) rather than a JavaScript framework. **Partial catalog**: 30 of the canonical 491 components, spanning every major category, proving the pattern rather than completing the full catalog — see `spec/index.md` for the honest scope statement and the full list of what is and isn't implemented.
+A headless component library built on **native custom elements** (the Web Components platform APIs) rather than a JavaScript framework. **Partial catalog**: 33 of the canonical 491 components, spanning every major category, proving the pattern rather than completing the full catalog — see `spec/index.md` for the honest scope statement and the full list of what is and isn't implemented.
 
 @AGENTS/lily.md
 @AGENTS/components.md
@@ -38,22 +38,22 @@ A headless component library built on **native custom elements** (the Web Compon
 
 ## Two structural patterns
 
-Both patterns appear across the 30 components, chosen per the canonical `components/{slug}/AGENTS.md` contract for the component's designated HTML tag:
+Both patterns appear across the 33 components, chosen per the canonical `components/{slug}/AGENTS.md` contract for the component's designated HTML tag:
 
 1. **Wrap a real native element** (`Button`, `TextInput`, `Dialog`, `Figure`, most of the catalog): the custom element's `connectedCallback` creates the real semantic child (`<button>`, `<input>`, `<dialog>`, …), moves the host's original light-DOM children into it, and appends it. The host element itself carries no ARIA/role — it is inert scaffolding around the one node that matters.
 2. **Self-is-the-wrapper** (`Alert`, `Banner`, `ContextualHelp`, `Coachmark`) — used only where the canonical contract's own root element is `<div>` and there is no native element with useful built-in behaviour to defer to. The custom element instance itself carries the base class (via `applySelfClassName`) and the ARIA role/state directly, avoiding an otherwise-pointless extra wrapper `<div>` inside another `<div>`.
 
-Pattern 1 is preferred whenever the canonical root is a real semantic element; pattern 2 is the deliberate exception, not a second default.
+Pattern 1 is preferred whenever the canonical root is a real semantic element; pattern 2 is the deliberate exception, not a second default. A third, **upgrade in place**, exists only as the P8-T7 breadcrumb pilot and is described under "Deliberately excluded" below with its cost — it is not a general option.
 
 ## Deliberately excluded from this slice
 
-- Every `*ListItem` and table sub-element family (`*TableHead/-Body/-Foot/-Row/-TH/-TD`, gantt's `-Thead/-Tbody/-Tfoot/-Tr/-Th/-Td`). These require a native tag+attribute-selector-style registration (`li[lily-x-list-item]`) to avoid introducing a wrapper element between a parent and child with a required content-model relationship (`<ol>`+`<li>`, `<table>`+`<thead>`) — exactly the defect class angular-headless fixed in its 0.3.0 wrapper-host-semantics migration (see root `spec/index.md` §11.8). Autonomous custom elements cannot use that tag+attribute selector form at all (only customized built-ins can, and those are the permanently-unsupported path above), so this whole family needs its own, different solution before it can be added honestly. Out of scope for this slice; a real gap, not an oversight.
-- The 92 national personal identifier components, and the vast majority of the remaining catalog — this is a 30-of-491 representative slice, not a parity implementation. See `spec/index.md` for the full accounting.
+- Every table sub-element family and every `*ListItem` family **except breadcrumb**. The breadcrumb family (`BreadcrumbNav > BreadcrumbList > BreadcrumbListItem`) is the P8-T7 pilot of a third structural pattern, **upgrade in place**: the list item builds its real `<li>`, moves children/attributes in, then `this.replaceWith(li)` so no host node ever sits between `<ol>` and `<li>` — verified by an axe `list`/`listitem` run (`breadcrumb-list-item.test.ts`). Its cost is no live reactivity after upgrade, acceptable only because the canonical contract is passive; do not copy it to an interactive item. Table sub-elements stay out of scope (untested parser interaction with `<table>`). See `spec/index.md` §2.1.
+- The 92 national personal identifier components, and the vast majority of the remaining catalog — this is a 33-of-491 representative slice, not a parity implementation. See `spec/index.md` for the full accounting.
 
 ## Testing
 
 - `vitest` + `jsdom`. Each component's `.test.ts` renders via `document.body.innerHTML = "<lily-x ...>...</lily-x>"` (parser-driven upgrade) rather than constructing and appending programmatically, matching how a real consumer's markup activates the element.
-- `index.test.ts` at the package root imports the **built** `dist/index.js` (not source) and asserts every one of the 30 tags self-registers — the same class of check that would have caught react-headless's historical missing-entry-point defect.
+- `index.test.ts` at the package root imports the **built** `dist/index.js` (not source) and asserts every one of the 33 tags self-registers — the same class of check that would have caught react-headless's historical missing-entry-point defect.
 - Run: `pnpm test` (source-level, fast) and `pnpm build && pnpm test` (adds the dist-level smoke test).
 
 ## Component Patterns

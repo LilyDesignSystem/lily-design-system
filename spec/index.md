@@ -96,7 +96,7 @@ committing.
 ### In scope
 
 - A canonical catalog of 491 components (`components.tsv`).
-- Seven full-catalog headless component libraries: HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks — plus an 8th, **partial** one (Web Components, 30 of 491, added 2026-09-03) that is deliberately not at parity.
+- Seven full-catalog headless component libraries: HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks — plus an 8th, **partial** one (Web Components, 33 of 491, added 2026-09-03) that is deliberately not at parity.
 - Seven example applications: HTML+CSS+JS, SvelteKit, Next.js, Nuxt.js,
   Angular Analog, Blazor Web, Nunjucks Eleventy.
 - A CSS style-sheet template (`css-style-sheet-template.css`) declaring every
@@ -127,7 +127,7 @@ The repository root holds the canonical catalog and tools
 (`components.tsv`, `css-style-sheet-template.css`, `bin/`, `spec/`,
 `AGENTS/*.md`, `themes/`); 22 implementation subprojects hang off it —
 7 full-catalog headless libraries, 1 partial headless library (Web
-Components, 30/491), 7 example apps, and 7 helper catalogs, one per
+Components, 33/491), 7 example apps, and 7 helper catalogs, one per
 framework (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks). Each
 subproject is also a `git subtree` pushed to its own standalone remote
 via `bin/git-subtree-push`. Full directory tree, the per-framework
@@ -536,7 +536,7 @@ shapes and the exact viewport sizes: [spec/testing/index.md](testing/index.md).
 
 491 / 491 stories in svelte, react, vue, html, nunjucks, angular (6
 of 7 full-catalog headless libraries, and the partial Web Components
-catalog ships 30/30); Blazor deliberately has none — there is no
+catalog ships 33/33); Blazor deliberately has none — there is no
 idiomatic `@storybook/blazor`, and bUnit + `dotnet watch` covers the
 same exploration use case. Angular uses the webpack-based
 `@storybook/angular` builder rather than Vite. Re-verified clean

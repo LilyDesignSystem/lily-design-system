@@ -1534,11 +1534,41 @@ dropped. None is speculative.
   only) — a maintainer step. Then `bin/git-subtree-push
   lily-design-system-web-components-headless` and add the package to
   `bin/publish-headless` (it is not in that script's list either).
+  Progress 2026-09-03 — script half done: the package is now in
+  `bin/publish-headless`'s npm loop (publishes from the package root;
+  its `prepublishOnly` runs `build.mjs`). Verified by a real
+  `bin/publish-headless --dry-run`: the run reaches
+  `lily-design-system-web-components-headless`, runs `build.mjs`,
+  packs cleanly (`+ lily-design-system-web-components-headless@0.1.0`,
+  no registry conflict — it is unpublished), exit 0. Still open and
+  blocked on a maintainer: the GitLab/Codeberg standalone repos (no API
+  tokens here; `gh` covers GitHub only), then `bin/git-subtree-push`
+  and the real publish.
   Verify: `bin/publish-headless --dry-run` reaches the package and
-  reports a clean pack; the three remotes resolve.
+  reports a clean pack (done); the three remotes resolve (pending).
 
-- [ ] **P8-T7 Web Components headless: the `*ListItem` / table
-  sub-element gap.** Documented as unsolved in the subproject's own
+- [x] **P8-T7 Web Components headless: the `*ListItem` / table
+  sub-element gap.** Done 2026-09-03 for one family, as the task
+  allowed: `BreadcrumbNav > BreadcrumbList > BreadcrumbListItem` ship
+  (catalog 30 → 33) using an **upgrade in place** pattern — the list
+  item builds its real `<li>`, moves the host's children/attributes
+  in, then `this.replaceWith(li)`, so the custom element removes itself
+  and the rendered tree is a pure `<ol> > <li>` with no host node.
+  The cost is stated in the source, the subproject's `spec/index.md`
+  §2.1 and `AGENTS.md`: no custom-element instance survives upgrade,
+  so no live reactivity — acceptable only because the canonical
+  contract is passive (`Interactive: no`, one-shot `current` flag);
+  explicitly not to be copied to an interactive item. Table
+  sub-elements remain out of scope (untested `<table>` parser
+  interaction) and are recorded as such. `axe-core` added as a
+  devDependency for the gate.
+  Verify (as the task asks): `breadcrumb-list-item.test.ts` runs
+  axe-core restricted to the `list` / `listitem` rules over a rendered
+  three-crumb trail → zero violations; also asserts no
+  `<lily-breadcrumb-list-item>` remains and the `<ol>`'s children are
+  `["LI","LI","LI"]`. Full suite 34 files / 182 tests green, `tsc
+  --noEmit` clean, `build.mjs` registers 33, the built-bundle smoke
+  test passes at 33, Storybook builds the three new stories. Documented as unsolved in the subproject's own
   `spec/index.md` §2: autonomous custom elements cannot use the
   tag+attribute selector form (`li[lily-breadcrumb-list-item]`) that
   angular-headless 0.3.0 used to avoid a wrapper element between a
