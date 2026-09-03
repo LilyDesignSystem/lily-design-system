@@ -24,6 +24,7 @@ listbox.
 | [`lily-design-system-html-theme-picker`](./lily-design-system-html-theme-picker/)         | `<theme-picker>`     | Pick a visual theme; dynamic CSS load + `data-theme` swap.                                    |
 | [`lily-design-system-html-locale-picker`](./lily-design-system-html-locale-picker/)       | `<locale-picker>`    | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.                               |
 | [`lily-design-system-html-text-size-picker`](./lily-design-system-html-text-size-picker/) | `<text-size-picker>` | Pick a text size; sets `data-text-size` on the document root.                                 |
+| [`lily-design-system-html-motion-picker`](./lily-design-system-html-motion-picker/)       | `<motion-picker>`    | Pick a motion (reduced-motion) preference; sets `data-motion` on the document root, defaulting to the OS's own `(prefers-reduced-motion: reduce)` signal. |
 | [`lily-design-system-html-share-picker`](./lily-design-system-html-share-picker/)         | `<share-picker>`     | Share the page: native share sheet, or a disclosure list of your destinations + copy the URL. |
 | [`lily-design-system-html-date-time-picker`](./lily-design-system-html-date-time-picker/) | `<date-time-picker>` | Pick a date, a time, or both: a typeable field plus a WAI-ARIA APG Date Picker Dialog. |
 

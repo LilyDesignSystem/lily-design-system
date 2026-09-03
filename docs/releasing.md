@@ -23,7 +23,8 @@ the monorepo has its own (spec §14, currently 0.6.0, tagged `vX.Y.Z`).
 | svelte/react/vue headless | npm | 0.3.1 |
 | html/angular/nunjucks headless | npm | 0.1.0 |
 | Blazor headless | NuGet (`LilyDesignSystem.Blazor.Headless`) | 0.1.1, published 2026-09-02 |
-| The 35 helper packages | npm / NuGet, one line each | 0.1.0, all published (the 5 Blazor ones landed on NuGet 2026-09-02) |
+| The 35 pre-existing helper packages | npm / NuGet, one line each | 0.1.0, all published (the 5 Blazor ones landed on NuGet 2026-09-02) |
+| The 7 `motion-picker` packages (one per catalog, added 2026-09-03) | npm / NuGet | 0.1.0, **not yet published** |
 
 **First releases are numbered 0.1.0**, whatever version number the tree
 carried internally. A first release numbered higher implies registry

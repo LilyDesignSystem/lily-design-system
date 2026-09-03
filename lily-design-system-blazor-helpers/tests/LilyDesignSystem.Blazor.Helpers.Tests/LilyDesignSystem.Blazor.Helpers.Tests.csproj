@@ -22,6 +22,7 @@
     <ProjectReference Include="..\..\lily-design-system-blazor-theme-picker\LilyDesignSystem.Blazor.ThemePicker.csproj" />
     <ProjectReference Include="..\..\lily-design-system-blazor-locale-picker\LilyDesignSystem.Blazor.LocalePicker.csproj" />
     <ProjectReference Include="..\..\lily-design-system-blazor-text-size-picker\LilyDesignSystem.Blazor.TextSizePicker.csproj" />
+    <ProjectReference Include="..\..\lily-design-system-blazor-motion-picker\LilyDesignSystem.Blazor.MotionPicker.csproj" />
     <ProjectReference Include="..\..\lily-design-system-blazor-share-picker\LilyDesignSystem.Blazor.SharePicker.csproj" />
     <ProjectReference Include="..\..\lily-design-system-blazor-date-time-picker\LilyDesignSystem.Blazor.DateTimePicker.csproj" />
   </ItemGroup>
@@ -32,6 +33,7 @@
     <Compile Include="..\..\lily-design-system-blazor-theme-picker\ThemePickerTests.cs" />
     <Compile Include="..\..\lily-design-system-blazor-locale-picker\LocalePickerTests.cs" />
     <Compile Include="..\..\lily-design-system-blazor-text-size-picker\TextSizePickerTests.cs" />
+    <Compile Include="..\..\lily-design-system-blazor-motion-picker\MotionPickerTests.cs" />
     <Compile Include="..\..\lily-design-system-blazor-share-picker\SharePickerTests.cs" />
     <Compile Include="..\..\lily-design-system-blazor-date-time-picker\DateTimePickerTests.cs" />
   </ItemGroup>

@@ -1,0 +1,50 @@
+{
+  "name": "lily-design-system-react-motion-picker",
+  "version": "0.1.0",
+  "engines": {
+    "node": "=26"
+  },
+  "description": "Lily Design System React motion (reduced-motion) picker: an icon button opening an APG listbox that sets data-motion on the document, defaulting to the OS's own prefers-reduced-motion signal. Headless, SSR-safe, no CSS.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "index.md",
+    "README.md"
+  ],
+  "scripts": {
+    "prepublishOnly": "cd .. && npm run build"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "keywords": [
+    "lily",
+    "design",
+    "system",
+    "react",
+    "motion",
+    "reduced-motion",
+    "picker"
+  ],
+  "author": "Joel Parker Henderson <joel@joelparkerhenderson.com>",
+  "license": "MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LilyDesignSystem/lily-design-system-react-helpers.git",
+    "directory": "lily-design-system-react-motion-picker"
+  },
+  "homepage": "https://lilydesignsystem.github.io/",
+  "bugs": {
+    "url": "https://github.com/LilyDesignSystem/lily-design-system/issues"
+  }
+}

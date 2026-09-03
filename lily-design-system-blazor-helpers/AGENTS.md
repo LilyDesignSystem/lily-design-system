@@ -11,6 +11,7 @@ follows the file shape in [AGENTS/conventions.md](./AGENTS/conventions.md).
 - [`lily-design-system-blazor-theme-picker`](./lily-design-system-blazor-theme-picker/) — dynamic theme CSS loader.
 - [`lily-design-system-blazor-locale-picker`](./lily-design-system-blazor-locale-picker/) — `lang` + `dir` locale select.
 - [`lily-design-system-blazor-text-size-picker`](./lily-design-system-blazor-text-size-picker/) — `data-text-size` text-size select.
+- [`lily-design-system-blazor-motion-picker`](./lily-design-system-blazor-motion-picker/) — `data-motion` reduced-motion picker; defers to the OS's own `(prefers-reduced-motion: reduce)` signal (via `IJSRuntime`) rather than a fixed slug.
 - [`lily-design-system-blazor-share-picker`](./lily-design-system-blazor-share-picker/) — share via the native sheet or a list of consumer-supplied destinations, plus copy-the-URL. Owns an _action_, not a preference: applies nothing, persists nothing.
 - [`lily-design-system-blazor-date-time-picker`](./lily-design-system-blazor-date-time-picker/) — a headless date/time-picking form control: a text field plus an icon button opening a WAI-ARIA APG Date Picker Dialog. Owns a _form value_, not a preference or an action: applies nothing, persists nothing.
 
@@ -54,8 +55,9 @@ lily-design-system-blazor-helpers/
 ├── lily-design-system-blazor-theme-picker/    ← helper 1
 ├── lily-design-system-blazor-locale-picker/   ← helper 2
 ├── lily-design-system-blazor-text-size-picker/ ← helper 3
-├── lily-design-system-blazor-share-picker/    ← helper 4
-└── lily-design-system-blazor-date-time-picker/ ← helper 5
+├── lily-design-system-blazor-motion-picker/   ← helper 4
+├── lily-design-system-blazor-share-picker/    ← helper 5
+└── lily-design-system-blazor-date-time-picker/ ← helper 6
 ```
 
 ## Topic index (parent)

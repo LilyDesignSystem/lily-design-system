@@ -13,6 +13,7 @@ DOM application) for one small, common job.
 | [`lily-design-system-react-theme-picker`](./lily-design-system-react-theme-picker/)         | Pick a visual theme; dynamic CSS load + `data-theme` swap.                      |
 | [`lily-design-system-react-locale-picker`](./lily-design-system-react-locale-picker/)       | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.                 |
 | [`lily-design-system-react-text-size-picker`](./lily-design-system-react-text-size-picker/) | Pick a text size; sets `data-text-size` on the document root.                   |
+| [`lily-design-system-react-motion-picker`](./lily-design-system-react-motion-picker/)       | Pick a motion (reduced-motion) preference; sets `data-motion` on the document root, defaulting to the OS's own `(prefers-reduced-motion: reduce)` signal. |
 | [`lily-design-system-react-share-picker`](./lily-design-system-react-share-picker/)         | Share the page: native share sheet, else a list of destinations + copy the URL. |
 | [`lily-design-system-react-date-time-picker`](./lily-design-system-react-date-time-picker/) | Collect a date, a time, or both: a typeable text field plus an APG Date Picker Dialog. |
 

@@ -765,11 +765,69 @@ Rules for the executing agent:
   tests; Storybook.
   Verify: `bin/test` recognises it; suite passes.
 
-- [ ] **P7-T7 (stretch) `motion-picker` helper** (`data-motion`,
+- [x] **P7-T7 (stretch) `motion-picker` helper** (`data-motion`,
   reduced-motion default) — Svelte canonical, then 6 ports, following
-  the five-helper contract in `AGENTS/helpers.md`.
-  Verify: per-catalog tests pass; `bin/publish-helpers` dry-run
-  includes it.
+  the five-helper contract in `AGENTS/helpers.md`. Done 2026-09-03:
+  built in all 7 catalogs (Svelte, React, Vue, Angular, HTML,
+  Nunjucks, Blazor), each following its own catalog's exact
+  text-size-picker idiom (closest sibling: same icon-button + APG
+  listbox shape, no OS-detection precedent to follow). One deliberate
+  behaviour difference from all three preference siblings: the initial
+  value defers to `(prefers-reduced-motion: reduce)` **unconditionally**
+  (not an opt-in flag like theme-picker's `detectFromSystem`) — motion
+  has a real accessibility signal (WCAG 2.3.3) worth defaulting to.
+  Glyph: pause sign (U+23F8 + U+FE0E), chosen over an abstract symbol
+  for the "stop the moving parts" reading and real monochrome coverage
+  in ordinary fonts. Nunjucks has one documented deviation: the OS
+  check is unavailable at template-render time, so the macro marks
+  `motions[0]` selected server-side and the client corrects it on
+  init (the same pattern theme-picker's own `detectFromSystem` uses).
+  The 45 `themes/*.css` files gained a `.motion-picker-icon` selector
+  and `bin/check-theme`'s `HELPER_PREFIXES`/`bin/smoke-packages` were
+  updated to recognise it; the icon's `--lily-picker-icon-scale` is
+  documented as a reasoned placeholder (reference scale) rather than a
+  fabricated measured value, since I could not reproduce the original
+  four factors' measurement methodology to extend it honestly.
+  Verify: per-catalog tests pass (Svelte 242, React 310, Vue 309,
+  HTML 346, Nunjucks 381, Angular 345, Blazor 234 — all catalog
+  totals, up from the pre-existing counts by the new suite's size);
+  `bin/smoke-packages` (extended to cover motion-picker) run for real
+  end-to-end against all 6 npm catalogs' built tarballs — "all
+  packages OK"; `npm publish --access public --dry-run` verified
+  directly against the built `lily-design-system-svelte-motion-picker`
+  package — packs and validates cleanly (never-published 0.1.0, no
+  registry conflict). The aggregate `bin/publish-helpers --dry-run`
+  itself could not be used for this verification — see the new
+  backlog item below, a real pre-existing defect this surfaced.
+
+- [ ] **P7-T19 `bin/publish-helpers --dry-run` (and likely
+  `bin/publish-headless --dry-run`) fails on any already-published
+  package encountered before an unpublished one in the loop.** Found
+  2026-09-03 verifying P7-T7. `npm publish --dry-run` contacts the
+  real registry and refuses outright ("You cannot publish over the
+  previously published versions: X.Y.Z") when the local version
+  already exists there — confirmed against the live registry
+  (`npm view lily-design-system-svelte-date-time-picker version` →
+  `0.1.1`, matching the in-repo version). Because the aggregate
+  scripts loop with `set -eu`, hitting this on ANY already-published
+  package (alphabetically, `date-time-picker` sorts before
+  `motion-picker` in the svelte catalog) aborts the whole dry run
+  before later packages — including a brand-new, never-published one
+  like `motion-picker` — are ever reached. This means the project's
+  own "dry-run first, always" discipline (`docs/releasing.md`) has
+  been silently broken since the first package was actually published
+  (2026-08-26), and no prior dry run caught it because dry runs before
+  that date had nothing already published to collide with. Confirmed
+  motion-picker itself packs and publishes cleanly in isolation
+  (`cd` into its own directory and run `npm publish --dry-run`
+  directly) as a workaround for this session's own verification.
+  Verify: `bin/publish-helpers --dry-run` (and
+  `bin/publish-headless --dry-run`) succeed end-to-end with at least
+  one already-published package present in the loop before an
+  unpublished one — likely needs the scripts to treat "You cannot
+  publish over the previously published versions" as a non-fatal,
+  expected outcome specifically in dry-run mode, while still treating
+  every other `npm publish` failure as fatal.
 
 - [x] **P7-T8 Blazor-web-examples: 5 composed pages pass non-existent
   component parameters and silently do nothing.** Found 2026-08-29

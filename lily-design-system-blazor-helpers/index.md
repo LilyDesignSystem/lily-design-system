@@ -13,6 +13,7 @@ DOM application) for one small, common job.
 | [`lily-design-system-blazor-theme-picker`](./lily-design-system-blazor-theme-picker/)         | Pick a visual theme; dynamic CSS load + `data-theme` swap.                      |
 | [`lily-design-system-blazor-locale-picker`](./lily-design-system-blazor-locale-picker/)       | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.                 |
 | [`lily-design-system-blazor-text-size-picker`](./lily-design-system-blazor-text-size-picker/) | Pick a text size; sets `data-text-size` on the document root.                   |
+| [`lily-design-system-blazor-motion-picker`](./lily-design-system-blazor-motion-picker/)       | Pick a motion (reduced-motion) preference; sets `data-motion` on the document root, defaulting to the OS's own `(prefers-reduced-motion: reduce)` signal. |
 | [`lily-design-system-blazor-share-picker`](./lily-design-system-blazor-share-picker/)         | Share the page: native share sheet, else a list of destinations + copy the URL. |
 | [`lily-design-system-blazor-date-time-picker`](./lily-design-system-blazor-date-time-picker/) | Pick a date, a time, or both: a text field + button opening a WAI-ARIA APG Date Picker Dialog. |
 

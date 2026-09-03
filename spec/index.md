@@ -98,8 +98,8 @@ committing.
 - Component documentation per component (`components/{slug}/index.md`,
   `AGENTS.md`, `CLAUDE.md`, `spec/index.md`).
 - Seven framework-helper catalogs (`*-helpers`), each shipping the
-  `theme-picker`, `locale-picker`, `text-size-picker`, `share-picker`, and
-  `date-time-picker` helper packages — 35 packages in all.
+  `theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`,
+  `share-picker`, and `date-time-picker` helper packages — 42 packages in all.
 - A `themes/` directory of 45 ready-to-use reference theme stylesheets.
 - Tooling for listing, scaffolding, syncing, and testing components across
   subprojects (`bin/`).
@@ -135,9 +135,9 @@ table, and the git-subtree/multi-forge publishing model:
   demonstrating every component with the NHS UK visual reference.
 - **Helpers** (7 subprojects) — small catalogs of opinionated packages,
   each owning one complete interaction end to end: `theme-picker`,
-  `locale-picker`, `text-size-picker` (icon button + APG listbox,
-  own a user preference), `share-picker` (an action), and
-  `date-time-picker` (a form value) — 35 packages, SSR-safe, Svelte
+  `locale-picker`, `text-size-picker`, `motion-picker` (icon button +
+  APG listbox, own a user preference), `share-picker` (an action), and
+  `date-time-picker` (a form value) — 42 packages, SSR-safe, Svelte
   canonical. See [spec/helpers/](helpers/index.md).
 
 ### Required files
@@ -402,10 +402,10 @@ checked is considered live work; anything unchecked is queued in §12.
 - [x] All 7 example subprojects exist (HTML+CSS+JS, SvelteKit, Next.js,
       Nuxt.js, Angular + Analog.js, Blazor Web, Nunjucks Eleventy).
 - [x] All 7 helper subprojects exist (Svelte canonical, plus React, Vue,
-      Angular, HTML, Nunjucks, Blazor ports), each shipping the five
-      `*-picker` helpers (35 packages). Per-catalog test counts:
-      [spec/testing/](testing/index.md); the accessibility-hardening
-      sweeps that produced the current counts: §14.1.
+      Angular, HTML, Nunjucks, Blazor ports), each shipping the six
+      `*-picker` helpers (42 packages, `motion-picker` added 2026-09-03).
+      Per-catalog test counts: [spec/testing/](testing/index.md); the
+      accessibility-hardening sweeps that produced the current counts: §14.1.
 - [x] All 21 subprojects have required files (`index.md`, `README.md`
       symlink, `AGENTS.md`, `CLAUDE.md`, `spec/index.md`, `.git-subtree-push`).
       All use the spec-driven `spec/index.md` layout the May 2026 migration
@@ -669,6 +669,21 @@ Long-term: versioned releases per subproject npm/NuGet package
 
 ### 14.1 Changelog highlights
 
+- **P7-T7 motion-picker helper landed in all 7 catalogs (2026-09-03)**
+  — a sixth `*-picker` helper (`data-motion`), built as a Svelte
+  canonical + 6 idiom ports, following each catalog's own
+  text-size-picker shape. Its initial value defers to
+  `(prefers-reduced-motion: reduce)` unconditionally, not behind an
+  opt-in flag — the one behaviour difference from its three preference
+  siblings. Glyph: pause sign (U+23F8 + U+FE0E). Nunjucks has one
+  documented deviation (no `matchMedia` at render time, so the macro
+  marks `motions[0]` and the client corrects it). The 45 reference
+  themes, `bin/check-theme`, and `bin/smoke-packages` were extended to
+  match. Verified per-catalog (316 new tests total across 7
+  catalogs) and via a real end-to-end `bin/smoke-packages` run. Found
+  a real, unrelated pre-existing defect in `bin/publish-helpers
+  --dry-run` along the way — see `tasks.md` P7-T19. Full record:
+  [CHANGELOG.md](../CHANGELOG.md).
 - **P7-T5 visual regression baseline landed (2026-09-03)** — new
   `e2e/visual-regression.spec.ts` in svelte-sveltekit-examples: 30
   slugs across all 11 catalog categories × 3 themes (the app default,

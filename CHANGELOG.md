@@ -9,6 +9,46 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## P7-T7 closed: motion-picker helper lands in all 7 catalogs — 2026-09-03
+
+A sixth `*-picker` helper, `motion-picker` (`data-motion`), built in
+all 7 catalogs (Svelte canonical, then React, Vue, Angular, HTML,
+Nunjucks, Blazor ports), each following its own catalog's existing
+text-size-picker idiom exactly (closest sibling — no OS-detection
+precedent to adapt). One deliberate behaviour difference from its
+three preference siblings: the initial value defers to
+`(prefers-reduced-motion: reduce)` **unconditionally**, not behind an
+opt-in flag like theme-picker's `detectFromSystem` — motion has a real
+accessibility signal (WCAG 2.3.3) the canonical contract treats as the
+default to honour. Glyph: pause sign (U+23F8 + U+FE0E), chosen for the
+"stop the moving parts" reading, real monochrome coverage in ordinary
+system fonts, and no collision with any sibling glyph. Nunjucks has
+one documented deviation: `matchMedia` doesn't exist at template-render
+time, so the macro marks `motions[0]` selected server-side and the
+client corrects it on init — the same "server marks something honest,
+client refines it" pattern theme-picker's own `detectFromSystem`
+already uses.
+
+Cross-cutting updates in the same change: the 45 `themes/*.css` files
+gained a `.motion-picker-icon` selector (scale factor documented as a
+reasoned placeholder at the reference value, not a fabricated measured
+number — the original four factors' measurement methodology could not
+be reproduced); `bin/check-theme`'s `HELPER_PREFIXES` and
+`bin/smoke-packages` were extended to recognise the new helper;
+`AGENTS/helpers.md`, `spec/helpers/index.md`, and every catalog's own
+`index.md`/`AGENTS.md` were updated and re-synced via `bin/sync`.
+
+Verified: per-catalog unit suites pass (Svelte 242, React 310, Vue
+309, HTML 346, Nunjucks 381, Angular 345, Blazor 234 — all fresh runs,
+not restamps); `bin/smoke-packages` (itself extended to cover
+motion-picker) run for real end-to-end against all 6 npm catalogs'
+built tarballs, "all packages OK"; `npm publish --dry-run` verified
+directly against the built svelte package (never-published 0.1.0,
+packs and validates cleanly, no registry conflict). Full record:
+`tasks.md` P7-T7 — which also records a new backlog item, P7-T19, a
+real pre-existing defect in `bin/publish-helpers --dry-run` this
+verification pass surfaced (unrelated to motion-picker itself).
+
 ## P7-T5 closed: visual regression baseline — 2026-09-03
 
 New `e2e/visual-regression.spec.ts` in `svelte-sveltekit-examples`: 30

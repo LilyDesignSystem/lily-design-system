@@ -6,7 +6,7 @@ Asserts the contracts a theme stylesheet must honour (plan P3-T5):
   1. Class hooks are real. Every class used in a selector is a catalog
      slug from components.tsv, a documented sub-class of one
      (slug-prefixed), or a helper hook (theme-/locale-/text-size-/
-     share-/date-time-picker). The themes once styled invented hooks
+     motion-/share-/date-time-picker). The themes once styled invented hooks
      (`.link`, `.scroll-view`) that no component emits.
   2. Consumer-wins cascade. Every style rule either lives inside
      `@layer lily { ... }` (layered styles lose to any unlayered
@@ -41,7 +41,7 @@ import sys
 TOP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 HELPER_PREFIXES = (
-    "theme-picker", "locale-picker", "text-size-picker",
+    "theme-picker", "locale-picker", "text-size-picker", "motion-picker",
     "share-picker", "date-time-picker",
 )
 

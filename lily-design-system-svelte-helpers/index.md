@@ -13,15 +13,17 @@ DOM application) for one small, common job.
 | [`lily-design-system-svelte-theme-picker`](./lily-design-system-svelte-theme-picker/)         | Pick a visual theme; dynamic CSS load + `data-theme` swap.                                                           |
 | [`lily-design-system-svelte-locale-picker`](./lily-design-system-svelte-locale-picker/)       | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.                                                      |
 | [`lily-design-system-svelte-text-size-picker`](./lily-design-system-svelte-text-size-picker/) | Pick a text size; sets `data-text-size` on the document root.                                                        |
+| [`lily-design-system-svelte-motion-picker`](./lily-design-system-svelte-motion-picker/)       | Pick a motion (reduced-motion) preference; sets `data-motion` on the document root, defaulting to the OS's own `(prefers-reduced-motion: reduce)` signal. |
 | [`lily-design-system-svelte-share-picker`](./lily-design-system-svelte-share-picker/)         | Share the page: native share sheet where available, else a list of consumer-supplied destinations plus copy-the-URL. |
 | [`lily-design-system-svelte-date-time-picker`](./lily-design-system-svelte-date-time-picker/) | Pick a date, a time, or both: a typeable field plus an APG date-picker dialog, locale-correct from `Intl`.           |
 
 ### What counts as a helper
 
-The first four each own one **user preference** end to end — selection,
-DOM application, optional persistence. `share-picker` owns an **action**
-instead, and `date-time-picker` owns a **form value**: neither applies
-anything to the document and neither persists anything.
+The first four (theme, locale, text-size, motion) each own one **user
+preference** end to end — selection, DOM application, optional
+persistence. `share-picker` owns an **action** instead, and
+`date-time-picker` owns a **form value**: neither applies anything to
+the document and neither persists anything.
 
 They are all helpers for the same reason: each owns one complete
 interaction and ships the same headless contract. Not because they share a

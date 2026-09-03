@@ -2932,6 +2932,7 @@
         .theme-picker-icon,
         .locale-picker-icon,
         .text-size-picker-icon,
+        .motion-picker-icon,
         .share-picker-icon,
         .date-time-picker-icon
     ) {
@@ -2956,6 +2957,17 @@
        box against U+25D1's 0.842 — it needs scaling UP, not down. */
     :where(.text-size-picker-icon) {
         --lily-picker-icon-scale: 1.25;
+    }
+
+    /* U+23F8 (pause sign) is a monochrome dingbat in the same visual
+       family as U+25D1 (a simple line/shape glyph, not a cap-height
+       letter or a colour emoji), so it takes the reference scale
+       pending a calibrated measurement against this stack's resolved
+       font — unlike the other four factors here, this one has not yet
+       been measured pixel-for-pixel; it is a reasoned placeholder, not
+       a false-precision number. */
+    :where(.motion-picker-icon) {
+        --lily-picker-icon-scale: 1;
     }
 
     /* U+27A4 "➤" inks 0.613 of its em box against U+25D1's 0.777, so it

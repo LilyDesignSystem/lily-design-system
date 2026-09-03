@@ -14,6 +14,7 @@ DOM application) for one small, common job.
 | [`lily-design-system-angular-theme-picker`](./lily-design-system-angular-theme-picker/)         | Pick a visual theme; dynamic CSS load + `data-theme` swap.                                                           |
 | [`lily-design-system-angular-locale-picker`](./lily-design-system-angular-locale-picker/)       | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.                                                      |
 | [`lily-design-system-angular-text-size-picker`](./lily-design-system-angular-text-size-picker/) | Pick a text size; sets `data-text-size` on the document root.                                                        |
+| [`lily-design-system-angular-motion-picker`](./lily-design-system-angular-motion-picker/)       | Pick a motion (reduced-motion) preference; sets `data-motion` on the document root, defaulting to the OS's own `(prefers-reduced-motion: reduce)` signal. |
 | [`lily-design-system-angular-share-picker`](./lily-design-system-angular-share-picker/)         | Share the page: native share sheet where available, else a list of consumer-supplied destinations plus copy-the-URL. |
 | [`lily-design-system-angular-date-time-picker`](./lily-design-system-angular-date-time-picker/) | Pick a date, a time, or both: a typeable text field plus an icon button opening a WAI-ARIA APG Date Picker Dialog. |
 

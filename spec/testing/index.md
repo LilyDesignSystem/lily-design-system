@@ -63,17 +63,17 @@ Total: 9,007 specs, all green.
 
 ## Helper catalog test counts
 
-Re-verified 2026-09-02 (plan P1-T6); unchanged since the 2026-07-31 idempotent-apply fix (spec §14.1) except html, which grew by 4:
+Re-verified 2026-09-03 as the `motion-picker` helper landed in all seven catalogs (plan P7-T7); prior to that, unchanged since the 2026-07-31 idempotent-apply fix (spec §14.1) except html, which had grown by 4:
 
-| Catalog  | Tests |
-| -------- | ----- |
-| svelte   | 211   |
-| react    | 267   |
-| vue      | 261   |
-| html     | 298   |
-| nunjucks | 321   |
-| angular  | 290   |
-| blazor   | 203   |
+| Catalog  | Tests (before motion-picker) | Tests (with motion-picker) |
+| -------- | ----------------------------- | ---------------------------- |
+| svelte   | 211                            | 242                           |
+| react    | 267                            | 310                           |
+| vue      | 261                            | 309                           |
+| html     | 298                            | 346                           |
+| nunjucks | 321                            | 381                           |
+| angular  | 290                            | 345                           |
+| blazor   | 203                            | 234                           |
 
 ## axe-core accessibility baseline
 

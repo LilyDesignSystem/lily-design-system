@@ -13,6 +13,7 @@ Each helper follows the file shape in
 - [`lily-design-system-html-theme-picker`](./lily-design-system-html-theme-picker/) — `<theme-picker>` dynamic theme CSS loader.
 - [`lily-design-system-html-locale-picker`](./lily-design-system-html-locale-picker/) — `<locale-picker>` `lang` + `dir` locale picker.
 - [`lily-design-system-html-text-size-picker`](./lily-design-system-html-text-size-picker/) — `<text-size-picker>` `data-text-size` text-size picker.
+- [`lily-design-system-html-motion-picker`](./lily-design-system-html-motion-picker/) — `<motion-picker>` `data-motion` reduced-motion picker; defaults to the OS's own `(prefers-reduced-motion: reduce)` signal rather than a fixed slug.
 - [`lily-design-system-html-share-picker`](./lily-design-system-html-share-picker/) — `<share-picker>` native-sheet / disclosure share control.
 - [`lily-design-system-html-date-time-picker`](./lily-design-system-html-date-time-picker/) — `<date-time-picker>` WAI-ARIA APG date/time picker dialog.
 
@@ -32,12 +33,16 @@ Each helper follows the file shape in
   consumer's CSS targets the rendered children directly via the
   kebab-case class hooks the element emits (`theme-picker-option`,
   `locale-picker-option`, etc.).
-- One rendering shape for the preference helpers. All three render an
+- One rendering shape for the preference helpers. All four render an
   icon button that opens a `role="listbox"` dropdown (WAI-ARIA APG
   listbox pattern, keyboard implemented in JS). Do not reintroduce the
   native `<select>` — or its `placeholder` attribute — to any of them.
   `<text-size-picker>` was the last holdout and joined the other two;
   its glyph is `"A"` (U+0041) rather than a pictograph.
+  `<motion-picker>` joined afterward as the fourth, following the same
+  shape; its glyph is the pause sign (U+23F8 + U+FE0E) and its initial
+  value defers to `(prefers-reduced-motion: reduce)` rather than a
+  fixed default.
 - `<share-picker>` is the deliberate exception to that rule: it is a
   **disclosure** whose items are real `<a>` elements with no `role`
   override, and focus moves to the item rather than staying on the

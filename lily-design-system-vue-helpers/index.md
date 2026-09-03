@@ -13,6 +13,7 @@ DOM application) for one small, common job.
 | [`lily-design-system-vue-theme-picker`](./lily-design-system-vue-theme-picker/)         | Pick a visual theme; dynamic CSS load + `data-theme` swap.                                  |
 | [`lily-design-system-vue-locale-picker`](./lily-design-system-vue-locale-picker/)       | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.                             |
 | [`lily-design-system-vue-text-size-picker`](./lily-design-system-vue-text-size-picker/) | Pick a text size; sets `data-text-size` on the document root.                               |
+| [`lily-design-system-vue-motion-picker`](./lily-design-system-vue-motion-picker/)       | Pick a motion (reduced-motion) preference; sets `data-motion` on the document root, defaulting to the OS's own `(prefers-reduced-motion: reduce)` signal. |
 | [`lily-design-system-vue-share-picker`](./lily-design-system-vue-share-picker/)         | Share the page: native share sheet where available, else a destination list + copy the URL. |
 
 `date-time-picker` is a fifth helper, listed separately because it does

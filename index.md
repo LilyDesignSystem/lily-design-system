@@ -50,13 +50,15 @@ Headless versions if you want to use components with all your own styles:
 ## Helpers
 
 Per-framework helper catalogs of small, opinionated packages. Each catalog
-ships five helpers — 35 packages in all — and each owns one complete
+ships six helpers — 42 packages in all — and each owns one complete
 interaction end to end:
 
-- **theme-picker**, **locale-picker**, **text-size-picker** own a user
-  preference: selection, DOM application (`data-theme`, `lang`/`dir`,
-  `data-text-size`), and optional `localStorage` persistence. Each is an
-  icon button opening a WAI-ARIA APG listbox.
+- **theme-picker**, **locale-picker**, **text-size-picker**, **motion-picker**
+  own a user preference: selection, DOM application (`data-theme`,
+  `lang`/`dir`, `data-text-size`, `data-motion`), and optional
+  `localStorage` persistence. Each is an icon button opening a WAI-ARIA
+  APG listbox; motion-picker's initial value defers to the platform's
+  own `(prefers-reduced-motion: reduce)` signal.
 - **share-picker** owns an action: the native share sheet where the
   platform has one, else a disclosure of consumer-supplied destinations
   plus copy-the-URL. Applies nothing, persists nothing.

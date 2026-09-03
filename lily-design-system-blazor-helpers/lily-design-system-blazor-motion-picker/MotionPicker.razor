@@ -1,0 +1,73 @@
+@namespace LilyDesignSystem.Blazor.Helpers
+
+@*
+    MotionPicker — Blazor helper component.
+    Single source of truth: spec/index.md (§1–§9).
+
+    Renders an icon button that opens a dropdown listbox of available
+    motion (reduced-motion) preferences (WAI-ARIA APG listbox pattern).
+    On every selection it (1) sets data-motion on <html>, (2) optionally
+    persists to localStorage, and (3) invokes OnChange / ValueChanged.
+
+    Its initial value defers to the platform's own
+    (prefers-reduced-motion: reduce) media query before falling back to
+    a fixed default — the one behaviour difference from ThemePicker and
+    TextSizePicker.
+
+    All DOM writes happen through IJSRuntime inside OnAfterRenderAsync,
+    so the component is SSR / prerender safe.
+*@
+
+<div class="@RootClass"
+     @onfocusout="OnRootFocusOutAsync"
+     @attributes="AdditionalAttributes">
+
+    @* Preserves form participation; the listbox itself is not a form control. *@
+    <input type="hidden" name="@Name" value="@Value" />
+
+    <button type="button"
+            class="motion-picker-button"
+            @ref="_buttonElement"
+            aria-label="@Label"
+            aria-haspopup="listbox"
+            aria-expanded="@(_open ? "true" : "false")"
+            aria-controls="@ListId"
+            @onclick="OnButtonClickAsync"
+            @onkeydown="OnButtonKeyDownAsync">
+        @if (ChildContent is not null)
+        {
+            @ChildContent(BuildContext())
+        }
+        else
+        {
+            @* The glyph is decorative: the accessible name is the button's
+               aria-label, never the character itself. *@
+            <span class="motion-picker-icon" aria-hidden="true">@PauseSign</span>
+        }
+    </button>
+
+    @* mousedown default is suppressed so clicking an option does not blur
+       the listbox before the click handler runs. *@
+    <ul class="motion-picker-list"
+        id="@ListId"
+        role="listbox"
+        aria-label="@Label"
+        aria-activedescendant="@ActiveDescendantId"
+        tabindex="-1"
+        hidden="@(!_open)"
+        @ref="_listElement"
+        @onkeydown="OnListKeyDownAsync"
+        @onmousedown:preventDefault="true">
+        @for (var i = 0; i < Motions.Count; i++)
+        {
+            var index = i;
+            var motion = Motions[index];
+            <li class="motion-picker-option"
+                id="@OptionId(index)"
+                role="option"
+                aria-selected="@(motion == Value ? "true" : "false")"
+                data-active="@(index == _activeIndex ? "" : null)"
+                @onclick="() => ChooseAsync(index)">@LabelFor(motion)</li>
+        }
+    </ul>
+</div>

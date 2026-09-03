@@ -13,6 +13,7 @@ DOM application) for one small, common job.
 | [`lily-design-system-nunjucks-theme-picker`](./lily-design-system-nunjucks-theme-picker/)         | Pick a visual theme; dynamic CSS load + `data-theme` swap.            |
 | [`lily-design-system-nunjucks-locale-picker`](./lily-design-system-nunjucks-locale-picker/)       | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.       |
 | [`lily-design-system-nunjucks-text-size-picker`](./lily-design-system-nunjucks-text-size-picker/) | Pick a text size; sets `data-text-size` on the document root.         |
+| [`lily-design-system-nunjucks-motion-picker`](./lily-design-system-nunjucks-motion-picker/)       | Pick a motion (reduced-motion) preference; sets `data-motion` on the document root, checking the OS's own `(prefers-reduced-motion: reduce)` signal on the client. |
 | [`lily-design-system-nunjucks-share-picker`](./lily-design-system-nunjucks-share-picker/)         | Share the page: native share sheet, or a list of destinations + copy. |
 | [`lily-design-system-nunjucks-date-time-picker`](./lily-design-system-nunjucks-date-time-picker/) | Pick a date, a time, or both, via a text field + WAI-ARIA APG Date Picker Dialog. |
 
@@ -59,12 +60,12 @@ This split exists because:
 Little, and it differs between the preference helpers and
 `share-picker`. Worth being blunt about both:
 
-- **The three `*-select` helpers** — `theme-picker`, `locale-picker`,
-  and `text-size-picker` — are icon buttons that open a custom listbox.
-  **None of them is operable without JS**: the button has no handler
-  and the listbox renders `hidden`. Each macro does emit a
-  server-filled hidden `<input>`, so a form submit still carries a
-  value, but the user cannot change it.
+- **The four preference helpers** — `theme-picker`, `locale-picker`,
+  `text-size-picker`, and `motion-picker` — are icon buttons that open
+  a custom listbox. **None of them is operable without JS**: the
+  button has no handler and the listbox renders `hidden`. Each macro
+  does emit a server-filled hidden `<input>`, so a form submit still
+  carries a value, but the user cannot change it.
 - The markup still _paints_ correctly server-side, and the chosen
   value is applied on the document root, so a value you resolve on the
   server survives with no JS. It is the _choosing_ that requires the

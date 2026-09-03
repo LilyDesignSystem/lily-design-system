@@ -1,0 +1,109 @@
+# AGENTS — `<motion-picker>` (HTML helper)
+
+Single source of truth: [spec/index.md](./spec/index.md). Read it first; everything
+below is a fast index.
+
+## What this package is
+
+A reusable vanilla HTML/JS headless motion (reduced-motion) picker,
+packaged as the `<motion-picker>` custom element. The control is an
+**icon button that opens a dropdown listbox** (WAI-ARIA APG listbox
+pattern) — not a native `<select>`. On change it applies the chosen
+slug to the document root via `data-motion`, with optional
+`localStorage` persistence. Its initial value defers to the platform's
+`(prefers-reduced-motion: reduce)` media query before falling back to
+a fixed default — the one behaviour difference from its
+`theme-picker`/`text-size-picker` siblings. Ships no CSS; the consumer
+styles the `motion-picker` class hooks and decides what
+`[data-motion="reduce"]` actually suppresses.
+
+## Files
+
+| File                     | Purpose                                          |
+| ------------------------ | ------------------------------------------------ |
+| `spec/index.md`          | Specification-driven contract (canonical, Svelte-sourced). |
+| `motion-picker.ts`       | Implementation (TypeScript class).               |
+| `motion-picker.test.ts`  | Vitest + jsdom spec, one assertion per §7 item.  |
+| `index.ts`               | Barrel re-export + side-effectful registration.  |
+| `index.md`               | Human-readable guide.                            |
+
+## Public surface
+
+- Class `MotionPicker extends HTMLElement` (registered as
+  `<motion-picker>` on import of `index.ts`).
+- Named exports: `MotionPicker`, `motionName`, `nextMotionPickerId`,
+  `prefersReducedMotion`, `PAUSE_SIGN`.
+- Type exports: `MotionPickerProps`, `MotionPickerChangeDetail`.
+- Instance members beyond the attribute mirrors: `open` (getter),
+  `listId` (getter), `optionId(index)`, `openList(startIndex?)`,
+  `closeList(refocus = true)`, `labelFor(slug)`, and
+  `renderButtonContent()` — the overridable rendering hook.
+
+Required attributes: `label`, `motions`.
+
+## Behaviour contract (one paragraph)
+
+On every motion change the element (1) sets `data-motion="{slug}"` on
+`target` (default `document.documentElement`), (2) optionally writes
+the slug to `localStorage[storageKey]`, and (3) dispatches a
+`motionchange` `CustomEvent` carrying the slug. Initial value resolves
+from `value` > storage > `default-value` > `(prefers-reduced-motion:
+reduce)` (mapped to `"reduce"` / `"no-preference"` when offered) >
+`motions[0]`. All DOM writes happen inside `connectedCallback` /
+`attributeChangedCallback`, so the element is SSR-safe.
+
+The real selection lives on `this.value` (attribute + property);
+consumers read it from there or from the `motionchange` detail. A
+`value` change syncs state attributes in place rather than rebuilding
+the DOM, because a rebuild while the listbox is open would destroy
+focus and the active descendant.
+
+## HTML
+
+`<motion-picker>` contains one rendered
+`<div class="motion-picker {class}">` holding, in order: a hidden
+`<input name="{name}">` for form participation; a
+`<button type="button" class="motion-picker-button" aria-label="{label}"
+aria-haspopup="listbox" aria-expanded aria-controls="{listId}">`
+whose content defaults to
+`<span class="motion-picker-icon" aria-hidden="true">` (U+23F8 + U+FE0E,
+exported as `PAUSE_SIGN`); and a
+`<ul class="motion-picker-list" id="{listId}" role="listbox"
+aria-label="{label}" tabindex="-1" hidden>` with one
+`<li class="motion-picker-option" role="option" aria-selected>` per
+slug. `aria-activedescendant` sits on the `<ul>` only while open;
+`data-active` marks the keyboard-highlighted option, which is a
+different thing from `aria-selected`.
+
+## Accessibility
+
+- WCAG 2.2 AAA target; WAI-ARIA APG listbox pattern. This helper's
+  specific concern is **2.3.3 Animation from Interactions**.
+- The keyboard contract is implemented in JS, not inherited from the
+  platform. Button: `ArrowDown`/`Enter`/`Space` open, `ArrowUp` opens
+  on the last option. List: arrows move and clamp, `Home`/`End` jump,
+  `PageUp`/`PageDown` move by ten (clamped), `Enter`/`Space` select
+  and refocus the button, `Escape` closes without changing the value,
+  `Tab` puts focus on the button first and then closes — without
+  cancelling the key, so the default Tab proceeds from the picker's
+  position — and printable characters run a 500 ms typeahead where a
+  repeated character cycles through its matches and a buffer of
+  differing characters refines from the active option.
+- Focus sits on the `<ul>` while open, never on an `<li>`; the
+  highlighted option is conveyed by `aria-activedescendant`.
+- `aria-label` carries the consumer-supplied accessible name on both
+  the button and the list. The glyph is `aria-hidden="true"`.
+- Option labels default to title-cased slugs; the word "default" is
+  never emitted.
+
+## Conventions this package follows
+
+- Vanilla web component (custom element extending `HTMLElement`).
+- Light DOM only (no Shadow DOM).
+- Strict TypeScript on the public surface.
+- No runtime dependencies.
+- No bundled CSS, fonts, icons, or images.
+- All user-facing strings come from attributes / properties.
+- Mirrors the Svelte sibling's §7 acceptance criteria.
+- Glyph escaped in source (`PAUSE_SIGN`, U+23F8 + U+FE0E) per
+  `AGENTS/helpers.md`'s glyph-escaping rule.

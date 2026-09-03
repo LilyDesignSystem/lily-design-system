@@ -1,0 +1,115 @@
+{#
+  MotionPicker macro — icon button that opens a listbox of motion
+  (reduced-motion) preferences.
+
+  HTML tag: <div> (root), <button> + <ul role="listbox">
+  CSS class: motion-picker
+  Companion runtime: motion-picker.client.js
+
+  Same shape as theme-picker, locale-picker, and text-size-picker: an
+  icon button (pause sign, U+23F8 + U+FE0E) that opens a listbox.
+
+  Why the pause sign: it reads as "stop the moving parts" more
+  directly than an abstract symbol, has a real monochrome glyph in
+  ordinary system fonts (media-transport symbols default to text
+  presentation, unlike most pictographs), and doesn't collide with any
+  sibling picker's glyph (theme's CIRCLE WITH RIGHT HALF BLACK,
+  locale's GLOBE WITH MERIDIANS, text-size's plain "A", share's BLACK
+  RIGHTWARDS ARROWHEAD, date-time's CALENDAR).
+
+  Params (single `opts` object):
+    label         — string, required. aria-label for the button AND the
+                    listbox. The button is icon-only, so this is the
+                    ONLY accessible name it has.
+    motions       — array<string>, required. Available motion slugs,
+                    e.g. ["no-preference", "reduce"].
+    value         — string. Initial slug, emitted as
+                    data-lily-motion-picker-value for the client to
+                    read.
+    defaultValue  — string. Initial slug when nothing else is supplied.
+    storageKey    — string. If non-empty, client.js persists to localStorage.
+    name          — string. Hidden-input `name` (default "motion").
+    motionLabels  — object<string,string>. Pretty label per slug.
+    id            — string. Id prefix for the listbox and its options.
+                    Defaults to "motion-picker-{name}". Supply an
+                    explicit id when rendering two instances that share
+                    a `name`.
+    classes       — string. Extra CSS classes on the root <div>.
+    attributes    — object. Extra HTML attributes spread onto the root.
+
+  Unlike text-size-picker (which has NO OS signal to detect) and
+  theme-picker (whose `prefers-color-scheme` detection is opt-in via
+  `detectFromSystem`), motion-picker checks `(prefers-reduced-motion:
+  reduce)` UNCONDITIONALLY on the client whenever no value/storage/
+  defaultValue resolves one — the canonical Svelte contract treats
+  this as the default behaviour, not an opt-in, because a "reduce
+  motion" control that ignores the OS's own accessibility signal by
+  default would be the wrong default. `matchMedia` does not exist at
+  render time, so the server-rendered `aria-selected` fallback below
+  uses `motions[0]` and the client corrects it after hydration — the
+  same "server marks *something* honestly, client refines it" pattern
+  theme-picker's own `detectFromSystem` uses.
+
+  Custom glyph: call the macro with a `{% call %}` block and the block
+  body replaces the default glyph inside the button:
+
+    {% call motionPicker({label: "Motion", motions: [...]}) %}
+      <svg aria-hidden="true">…</svg>
+    {% endcall %}
+
+  Usage:
+    {% from "./motion-picker.njk" import motionPicker %}
+    {{ motionPicker({
+      label: "Motion",
+      motions: ["no-preference", "reduce"],
+      storageKey: "lily-motion"
+    }) }}
+
+  Then load motion-picker.client.js once and call autoInit().
+
+  NOTE: the button does nothing until motion-picker.client.js runs.
+  See docs/ssr.md — this is a real no-JS regression from a native
+  control, same as the other preference pickers.
+
+  Spec: spec/index.md §4.1 (macro parameters), §4.2 (DOM contract).
+#}
+{%- macro motionPicker(opts) -%}
+{%- set name = opts.name | default("motion") -%}
+{%- set value = opts.value | default("") -%}
+{%- set storageKey = opts.storageKey | default("") -%}
+{%- set defaultValue = opts.defaultValue | default("") -%}
+{%- set motionLabels = opts.motionLabels | default({}) -%}
+{%- set id = opts.id | default("motion-picker-" + name) -%}
+{%- set listId = id + "-list" -%}
+{#- Server-side selected resolution. matchMedia is client-only — there
+    is no OS signal at render time — so the client corrects this after
+    hydration; the point is that the server markup always marks
+    exactly one option aria-selected. -#}
+{%- set fallback = opts.motions[0] -%}
+{%- set selected = value or defaultValue or fallback -%}
+<div
+  class="motion-picker{% if opts.classes %} {{ opts.classes }}{% endif %}"
+  data-lily-motion-picker-root
+  data-lily-motion-picker-name="{{ name }}"
+  data-lily-motion-picker-storage-key="{{ storageKey }}"
+  data-lily-motion-picker-default-value="{{ defaultValue }}"
+  {%- if value %} data-lily-motion-picker-value="{{ value }}"{% endif %}
+  {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+<input type="hidden" name="{{ name }}" value="{{ selected }}" data-lily-motion-picker-input>
+<button type="button" class="motion-picker-button" aria-label="{{ opts.label }}" aria-haspopup="listbox" aria-expanded="false" aria-controls="{{ listId }}" data-lily-motion-picker-button>
+{%- if caller %}{{ caller() }}{% else %}<span class="motion-picker-icon" aria-hidden="true">&#9208;&#65038;</span>{% endif -%}
+</button>
+<ul class="motion-picker-list" id="{{ listId }}" role="listbox" aria-label="{{ opts.label }}" tabindex="-1" hidden data-lily-motion-picker-list>
+{%- for slug in opts.motions -%}
+  <li class="motion-picker-option" id="{{ id }}-option-{{ loop.index0 }}" role="option" aria-selected="{{ 'true' if slug == selected else 'false' }}" data-value="{{ slug }}">
+    {%- if motionLabels[slug] -%}
+      {{ motionLabels[slug] }}
+    {%- else -%}
+      {{ slug | replace(r/-/g, " ") | title }}
+    {%- endif -%}
+  </li>
+{%- endfor -%}
+</ul>
+</div>
+{%- endmacro -%}

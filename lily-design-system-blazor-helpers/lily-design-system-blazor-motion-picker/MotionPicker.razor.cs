@@ -1,0 +1,563 @@
+// MotionPicker — code-behind. See spec/index.md for the contract.
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
+
+namespace LilyDesignSystem.Blazor.Helpers;
+
+/// <summary>
+/// Context passed to a custom <c>ChildContent</c> render fragment. The
+/// fragment replaces the default glyph inside the button; it does not
+/// render options. See <c>spec/index.md §4.2</c>.
+/// </summary>
+public sealed class MotionPickerContext
+{
+    /// <summary>Currently selected motion slug.</summary>
+    public required string Value { get; init; }
+
+    /// <summary>Is the listbox open?</summary>
+    public required bool Open { get; init; }
+
+    /// <summary>Resolve a slug to its display label.</summary>
+    public required Func<string, string> LabelFor { get; init; }
+}
+
+public partial class MotionPicker : ComponentBase
+{
+    /// <summary>Default button glyph: U+23F8 PAUSE SIGN + U+FE0E (VARIATION
+    /// SELECTOR-15, text presentation) — the same treatment LocalePicker
+    /// gives its globe.</summary>
+    /// <remarks>
+    /// A pause glyph reads as "stop the moving parts" more directly than an
+    /// abstract symbol, has a real monochrome glyph in ordinary system
+    /// fonts (media-transport symbols default to text presentation, unlike
+    /// most pictographs), and doesn't collide with any sibling picker's
+    /// glyph (theme's CIRCLE WITH RIGHT HALF BLACK, locale's GLOBE WITH
+    /// MERIDIANS, text-size's plain "A", share's BLACK RIGHTWARDS
+    /// ARROWHEAD, date-time's CALENDAR).
+    /// </remarks>
+    public const string PauseSign = "\u23F8\uFE0E";
+
+    /// <summary>Typeahead buffer lifetime, per the APG listbox pattern.</summary>
+    private static readonly TimeSpan TypeaheadWindow = TimeSpan.FromMilliseconds(500);
+
+    /// <summary>Monotonic instance counter; SSR-safe (no randomness, no clock).</summary>
+    private static int _uid;
+
+    // -------------------------------------------------------------------
+    // Parameters — see spec/index.md §4.1.
+    // -------------------------------------------------------------------
+
+    /// <summary>Accessible name for the button and the listbox. Required.</summary>
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+
+    /// <summary>Available motion slugs, e.g. ["no-preference", "reduce"].</summary>
+    [Parameter, EditorRequired] public IReadOnlyList<string> Motions { get; set; } = Array.Empty<string>();
+
+    /// <summary>Currently selected motion slug. Bindable via <c>@bind-Value</c>.</summary>
+    [Parameter] public string Value { get; set; } = "";
+
+    /// <summary>Two-way binding callback for <see cref="Value"/>.</summary>
+    [Parameter] public EventCallback<string> ValueChanged { get; set; }
+
+    /// <summary>Initial motion when nothing else is supplied.</summary>
+    [Parameter] public string? DefaultValue { get; set; }
+
+    /// <summary>If set, persist the selection to <c>localStorage</c>.</summary>
+    [Parameter] public string? StorageKey { get; set; }
+
+    /// <summary>Shared <c>name</c> attribute for the hidden input.</summary>
+    [Parameter] public string Name { get; set; } = "motion";
+
+    /// <summary>Optional pretty labels per motion slug.</summary>
+    [Parameter] public IReadOnlyDictionary<string, string> MotionLabels { get; set; }
+        = new Dictionary<string, string>();
+
+    /// <summary>Replaces the default pause-sign glyph inside the button.</summary>
+    [Parameter] public RenderFragment<MotionPickerContext>? ChildContent { get; set; }
+
+    /// <summary>Called after the control applies a new motion preference.</summary>
+    [Parameter] public EventCallback<string> OnChange { get; set; }
+
+    /// <summary>Extra CSS class merged into the root &lt;div&gt;.</summary>
+    [Parameter] public string CssClass { get; set; } = "";
+
+    /// <summary>Captures all unmatched attributes; spread onto the root.</summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    [Inject] private IJSRuntime JS { get; set; } = default!;
+
+    // -------------------------------------------------------------------
+    // Instance state.
+    // -------------------------------------------------------------------
+
+    private readonly string _baseId = $"motion-picker-{Interlocked.Increment(ref _uid)}";
+
+    private bool _initialised;
+    private bool _open;
+    private int _activeIndex = -1;
+
+    private ElementReference _buttonElement;
+    private ElementReference _listElement;
+
+    private bool _focusListPending;
+    private bool _focusButtonPending;
+
+    /// <summary>Set while the component itself is moving focus, so the root's
+    /// focusout handler does not read the move as "focus left the control".</summary>
+    private bool _suppressFocusOut;
+
+    /// <summary>Set when a keydown already handled activation, so the click that
+    /// the browser synthesises for Enter / Space does not toggle a second time.</summary>
+    private bool _suppressNextClick;
+
+    private string _typeahead = "";
+    private DateTimeOffset _typeaheadAt = DateTimeOffset.MinValue;
+
+    // -------------------------------------------------------------------
+    // Ids and view helpers used by the .razor markup.
+    // -------------------------------------------------------------------
+
+    private string ListId => $"{_baseId}-list";
+
+    private string OptionId(int index) => $"{_baseId}-option-{index}";
+
+    /// <summary>Only advertised while open and pointing at a real option.</summary>
+    private string? ActiveDescendantId
+        => _open && _activeIndex >= 0 && _activeIndex < Motions.Count
+            ? OptionId(_activeIndex)
+            : null;
+
+    private string RootClass => $"motion-picker {CssClass}".Trim();
+
+    // -------------------------------------------------------------------
+    // Helpers — exposed for tests and consumers.
+    // -------------------------------------------------------------------
+
+    /// <summary>
+    /// Resolve a motion slug to its display label: each hyphen-separated
+    /// word title-cased, so <c>"no-preference"</c> renders as
+    /// <c>"No Preference"</c>. Mirrors <c>TextSizePicker.SizeName</c> and
+    /// <c>ThemePicker.ThemeName</c>.
+    /// </summary>
+    /// <remarks>
+    /// Public and pure, so consumers driving the control from their own
+    /// UI can render matching labels without duplicating the rule.
+    /// </remarks>
+    public static string MotionName(string slug)
+    {
+        if (string.IsNullOrEmpty(slug)) return slug;
+        return string.Join(" ", slug.Split('-')
+            .Select(word => word.Length == 0 ? word : char.ToUpperInvariant(word[0]) + word[1..]));
+    }
+
+    /// <summary>Instance label resolution: consumer override first, then
+    /// the shared <see cref="MotionName"/> rule.</summary>
+    private string LabelFor(string slug)
+    {
+        if (MotionLabels.TryGetValue(slug, out var pretty)) return pretty;
+        return MotionName(slug);
+    }
+
+    private MotionPickerContext BuildContext() => new()
+    {
+        Value = Value ?? "",
+        Open = _open,
+        LabelFor = LabelFor,
+    };
+
+    // -------------------------------------------------------------------
+    // Lifecycle.
+    // -------------------------------------------------------------------
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && !_initialised)
+        {
+            _initialised = true;
+
+            var initial = await ResolveInitialAsync();
+            if (!string.IsNullOrEmpty(initial))
+            {
+                if (initial != Value)
+                {
+                    Value = initial;
+                    await ValueChanged.InvokeAsync(Value);
+                    StateHasChanged();
+                }
+                await ApplyMotionAsync(initial);
+            }
+        }
+
+        // Focus moves are deferred to after render: the listbox cannot take
+        // focus while it still carries `hidden`.
+        if (_focusListPending)
+        {
+            _focusListPending = false;
+            await TryFocusAsync(_listElement);
+        }
+        if (_focusButtonPending)
+        {
+            _focusButtonPending = false;
+            await TryFocusAsync(_buttonElement);
+        }
+    }
+
+    private static async Task TryFocusAsync(ElementReference element)
+    {
+        try
+        {
+            await element.FocusAsync();
+        }
+        catch
+        {
+            // ignore prerender / interop failure
+        }
+    }
+
+    private async Task<string> ResolveInitialAsync()
+    {
+        if (!string.IsNullOrEmpty(Value)) return Value;
+
+        if (!string.IsNullOrEmpty(StorageKey))
+        {
+            try
+            {
+                var stored = await JS.InvokeAsync<string?>(
+                    "eval",
+                    $"(function(){{try{{return localStorage.getItem({JsonString(StorageKey!)});}}catch(e){{return null;}}}})()");
+                if (!string.IsNullOrEmpty(stored)) return stored!;
+            }
+            catch { /* prerender / interop unavailable */ }
+        }
+
+        if (!string.IsNullOrEmpty(DefaultValue)) return DefaultValue!;
+        if (Motions.Count == 0) return "";
+
+        // Unlike TextSizePicker's "medium" default, motion has a real
+        // external signal to defer to: the platform's own
+        // (prefers-reduced-motion: reduce) media query. Checked
+        // UNCONDITIONALLY, not behind an opt-in flag — the canonical
+        // Svelte contract treats deferring to it as the default.
+        var osPreferred = await PrefersReducedMotionAsync() ? "reduce" : "no-preference";
+        foreach (var m in Motions)
+        {
+            if (m == osPreferred) return osPreferred;
+        }
+        return Motions[0];
+    }
+
+    /// <summary>
+    /// True when the platform reports a preference for reduced motion.
+    /// Prerender-safe: returns <c>false</c> when JS interop is unavailable
+    /// (matching <c>prefersReducedMotion()</c> in every other catalog,
+    /// which returns <c>false</c> when <c>window</c>/<c>matchMedia</c> are
+    /// absent on the server).
+    /// </summary>
+    public async Task<bool> PrefersReducedMotionAsync()
+    {
+        try
+        {
+            return await JS.InvokeAsync<bool>(
+                "eval",
+                "(function(){try{return typeof window!=='undefined'&&typeof window.matchMedia==='function'&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;}catch(e){return false;}})()");
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    // -------------------------------------------------------------------
+    // Open / close.
+    // -------------------------------------------------------------------
+
+    /// <summary>Open the listbox. The active option defaults to the selected
+    /// one (or the first), unless <paramref name="startIndex"/> overrides it.</summary>
+    private void OpenList(int? startIndex = null)
+    {
+        var selected = IndexOfValue();
+        // An empty list has no option to activate; -1 keeps
+        // aria-activedescendant off rather than pointing at an id that
+        // does not exist.
+        _activeIndex = Motions.Count == 0
+            ? -1
+            : startIndex ?? (selected >= 0 ? selected : 0);
+        _open = true;
+        _focusListPending = true;
+        _suppressFocusOut = true;
+        StateHasChanged();
+    }
+
+    /// <summary>Close the listbox, optionally returning focus to the button.</summary>
+    private void CloseList(bool refocus = true)
+    {
+        if (!_open) return;
+        _open = false;
+        _activeIndex = -1;
+        _typeahead = "";
+        if (refocus)
+        {
+            _focusButtonPending = true;
+            _suppressFocusOut = true;
+        }
+        StateHasChanged();
+    }
+
+    private int IndexOfValue()
+    {
+        for (var i = 0; i < Motions.Count; i++)
+        {
+            if (Motions[i] == Value) return i;
+        }
+        return -1;
+    }
+
+    private async Task ChooseAsync(int index)
+    {
+        if (index >= 0 && index < Motions.Count)
+        {
+            var slug = Motions[index];
+            CloseList();
+            if (!string.IsNullOrEmpty(slug)) await SetMotionAsync(slug);
+            return;
+        }
+        CloseList();
+    }
+
+    private void MoveActive(int delta)
+    {
+        if (Motions.Count == 0) return;
+        // Clamp; the APG listbox pattern does not wrap.
+        var next = Math.Min(Math.Max(_activeIndex + delta, 0), Motions.Count - 1);
+        _activeIndex = next;
+    }
+
+    private void RunTypeahead(string character)
+    {
+        var now = DateTimeOffset.UtcNow;
+        if (now - _typeaheadAt > TypeaheadWindow) _typeahead = "";
+        _typeaheadAt = now;
+
+        var lower = character.ToLowerInvariant();
+        // APG listbox typeahead: a single character moves to the NEXT
+        // option starting with it, and repeating that character keeps
+        // cycling. Only a buffer of differing characters refines the
+        // match, and that buffer stays anchored on the active option.
+        var sameCharRun = _typeahead.Length == 0
+            || (lower.Length == 1 && _typeahead.All(c => c == lower[0]));
+        _typeahead += lower;
+
+        var query = sameCharRun ? lower : _typeahead;
+        var anchor = _activeIndex < 0 ? 0 : _activeIndex;
+        var start = sameCharRun ? anchor + 1 : anchor;
+        // Search forward, wrapping once — typeahead wraps even though the
+        // arrows clamp, or options above the cursor would be untypable.
+        for (var n = 0; n < Motions.Count; n++)
+        {
+            var i = (start + n) % Motions.Count;
+            if (LabelFor(Motions[i]).ToLowerInvariant().StartsWith(query, StringComparison.Ordinal))
+            {
+                _activeIndex = i;
+                return;
+            }
+        }
+    }
+
+    // -------------------------------------------------------------------
+    // Event handlers.
+    // -------------------------------------------------------------------
+
+    private Task OnButtonClickAsync()
+    {
+        if (_suppressNextClick)
+        {
+            _suppressNextClick = false;
+            return Task.CompletedTask;
+        }
+        if (_open) CloseList();
+        else OpenList();
+        return Task.CompletedTask;
+    }
+
+    private Task OnButtonKeyDownAsync(KeyboardEventArgs args)
+    {
+        switch (args.Key)
+        {
+            case "ArrowDown":
+            case "Enter":
+            case " ":
+                // Enter and Space also synthesise a click on a <button>;
+                // swallow it so the listbox is not toggled twice.
+                _suppressNextClick = true;
+                OpenList();
+                break;
+            case "ArrowUp":
+                _suppressNextClick = true;
+                OpenList(Motions.Count - 1);
+                break;
+        }
+        return Task.CompletedTask;
+    }
+
+    private async Task OnListKeyDownAsync(KeyboardEventArgs args)
+    {
+        switch (args.Key)
+        {
+            case "ArrowDown":
+                MoveActive(1);
+                break;
+            case "ArrowUp":
+                MoveActive(-1);
+                break;
+            case "Home":
+                _activeIndex = 0;
+                break;
+            case "End":
+                _activeIndex = Motions.Count - 1;
+                break;
+            case "Enter":
+            case " ":
+                if (_activeIndex >= 0) await ChooseAsync(_activeIndex);
+                break;
+            case "Escape":
+                // Close and return focus without changing the value.
+                CloseList();
+                break;
+            case "PageUp":
+                MoveActive(-10);
+                break;
+            case "PageDown":
+                // ±10, clamped: an APG-optional key for long lists.
+                MoveActive(10);
+                break;
+            case "Tab":
+                // Tab moves on: close without touching focus. The canonical
+                // Svelte fix moves focus to the button BEFORE hiding the
+                // list, because there the hide is synchronous and would
+                // otherwise precede the browser's default Tab, dropping
+                // focus to <body>. Blazor cannot reproduce that bug: the
+                // default Tab always runs before this async handler, so it
+                // proceeds from the still-visible list — the picker's own
+                // position — and focus has already landed on the next tab
+                // stop by the time the list hides. Requesting button focus
+                // here would run AFTER the default Tab and yank the user
+                // back to the trigger they just left.
+                CloseList(false);
+                break;
+            default:
+                if (args.Key.Length == 1 && !args.CtrlKey && !args.MetaKey && !args.AltKey)
+                {
+                    RunTypeahead(args.Key);
+                }
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Focus leaving the root closes the listbox. Blazor's
+    /// <see cref="FocusEventArgs"/> does not expose <c>relatedTarget</c>, so
+    /// focus moves the component made itself are flagged instead.
+    /// </summary>
+    private Task OnRootFocusOutAsync()
+    {
+        if (_suppressFocusOut)
+        {
+            _suppressFocusOut = false;
+            return Task.CompletedTask;
+        }
+        CloseList(false);
+        return Task.CompletedTask;
+    }
+
+    // -------------------------------------------------------------------
+    // Test seams (InternalsVisibleTo). bUnit has no live focus model, so
+    // the suite asserts which element a FocusAsync interop call targeted
+    // by comparing ElementReference ids — the same technique the
+    // DateTimePicker suite uses.
+    // -------------------------------------------------------------------
+
+    /// <summary>The trigger button's ElementReference id, once rendered.</summary>
+    internal string? ButtonReferenceId => _buttonElement.Id;
+
+    /// <summary>The listbox's ElementReference id, once rendered.</summary>
+    internal string? ListReferenceId => _listElement.Id;
+
+    // -------------------------------------------------------------------
+    // Apply / set.
+    // -------------------------------------------------------------------
+
+    /// <summary>Apply a motion imperatively. Public so consumers can drive the
+    /// control from their own UI.</summary>
+    public async Task SetMotionAsync(string slug)
+    {
+        if (string.IsNullOrEmpty(slug)) return;
+        if (slug == Value)
+        {
+            await ApplyMotionAsync(slug);
+            return;
+        }
+        Value = slug;
+        await ValueChanged.InvokeAsync(Value);
+        await ApplyMotionAsync(slug);
+        StateHasChanged();
+    }
+
+    private async Task ApplyMotionAsync(string slug)
+    {
+        var script = BuildApplyScript(slug, StorageKey);
+        try
+        {
+            await JS.InvokeVoidAsync("eval", script);
+        }
+        catch
+        {
+            // ignore prerender / interop failure
+        }
+        await OnChange.InvokeAsync(slug);
+    }
+
+    /// <summary>Build the JS snippet that mutates the DOM. Exposed for tests.</summary>
+    internal static string BuildApplyScript(string slug, string? storageKey)
+    {
+        var slugLit = JsonString(slug);
+        var storageLine = string.IsNullOrEmpty(storageKey)
+            ? ""
+            : $"try{{localStorage.setItem({JsonString(storageKey!)},{slugLit});}}catch(e){{}}";
+
+        return "(function(){"
+            + $"document.documentElement.setAttribute('data-motion',{slugLit});"
+            + storageLine
+            + "})();";
+    }
+
+    private static string JsonString(string s)
+    {
+        var sb = new System.Text.StringBuilder(s.Length + 2);
+        sb.Append('"');
+        foreach (var c in s)
+        {
+            switch (c)
+            {
+                case '"': sb.Append("\\\""); break;
+                case '\\': sb.Append("\\\\"); break;
+                case '\n': sb.Append("\\n"); break;
+                case '\r': sb.Append("\\r"); break;
+                case '\t': sb.Append("\\t"); break;
+                default:
+                    if (c < 0x20) sb.Append($"\\u{(int)c:X4}");
+                    else sb.Append(c);
+                    break;
+            }
+        }
+        sb.Append('"');
+        return sb.ToString();
+    }
+}

@@ -28,7 +28,7 @@ Canonical component list: [components.tsv](../components.tsv) — 491 components
 
 ## Subprojects for framework helpers
 
-Each catalog ships five `*-picker` helpers — theme-picker, locale-picker, text-size-picker, share-picker, date-time-picker. The first four are an icon button that opens a popup; none is a native `<select>` any more. `date-time-picker` is the exception: a form control, so it pairs a typeable text field with its trigger and opens an APG date-picker dialog. Svelte is the canonical reference; the other six are idiom ports.
+Each catalog ships six `*-picker` helpers — theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker. The first five are an icon button that opens a popup; none is a native `<select>` any more. `date-time-picker` is the exception: a form control, so it pairs a typeable text field with its trigger and opens an APG date-picker dialog. Svelte is the canonical reference; the other six are idiom ports.
 
 - [Lily Design System: HTML helpers](../lily-design-system-html-helpers)
 - [Lily Design System: Svelte helpers](../lily-design-system-svelte-helpers)
@@ -69,7 +69,7 @@ Both follow the `lily-design-system-` prefix and get full subproject treatment (
 - [sync-special-files](../bin/sync-special-files): Sync the top-level special files (LICENSE, CONTRIBUTING, SECURITY, GOVERNANCE, …) into every public subtree repo
 - [update](../bin/update): Update shared files
 - [generate-storybook-stories.mjs](../bin/generate-storybook-stories.mjs): Generate Storybook stories
-- [publish-helpers](../bin/publish-helpers): Build and publish the 35 helper packages (npm / NuGet)
+- [publish-helpers](../bin/publish-helpers): Build and publish the 42 helper packages (npm / NuGet)
 - [publish-headless](../bin/publish-headless): Build and publish the 7 headless libraries (npm / NuGet)
 - [generate-registries](../bin/generate-registries): Regenerate example-app catalog registries from components.tsv
 - [check-links](../bin/check-links): Verify relative markdown links resolve
