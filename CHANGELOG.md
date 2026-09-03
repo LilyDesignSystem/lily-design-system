@@ -9,6 +9,47 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## P7-T6 closed: Web Components headless subproject (partial, 30/491) — 2026-09-03
+
+An 8th headless catalog, `lily-design-system-web-components-headless`,
+ships native custom elements with no framework runtime — scoped by
+explicit choice to a representative subset (30 of the 491 canonical
+components spanning buttons/links, forms, overlays, media/data, and
+content) rather than full catalog parity with the other seven.
+
+Two architecture decisions, recorded in the subproject's own
+`spec/index.md`: **autonomous custom elements**, not customized
+built-ins (`<button is="...">`) — WebKit has never implemented the
+latter and has said it will not, so that path is permanently
+incompatible with Safari; and **light DOM only**, no shadow root, so
+consumer CSS reaches every element the same way it does in the other
+seven catalogs. Every component follows one of two structural
+patterns: wrap a real native element (26 of the 30) or, only where the
+canonical root is itself `<div>` with nothing native to defer to,
+self-is-the-wrapper (`Alert`, `Banner`, `ContextualHelp`, `Coachmark`).
+
+Deliberately excluded, documented as a real unsolved gap rather than
+an oversight: every `*ListItem` and table sub-element family (needs a
+tag+attribute selector — `li[lily-x-list-item]` — that only customized
+built-in elements support, so autonomous elements have no equivalent;
+this is the same wrapper-host defect class angular-headless's 0.3.0
+fixed), and the 92 national personal identifier components.
+
+A real defect was found and fixed via the slice's own test run:
+`bar-chart.ts`'s first draft destructured `NamedNodeMap` `Attr` nodes
+as `[key, value]` pairs (they aren't iterable that way), throwing on
+every render with any attribute present — fixed by using the same
+`passThroughAttributes` helper every sibling component already used.
+
+Verification: 163 tests across 30 `.test.ts` files
+(`pnpm exec vitest run`), `tsc --noEmit` clean, `pnpm build` produces a
+non-empty `dist/index.js` + `.d.ts`, a 31st `index.test.ts` imports the
+**built** dist bundle and confirms all 30 `lily-{slug}` tags
+self-register (165 tests total), `pnpm build-storybook` succeeds for
+all 30 stories, and root `bin/test` + `bin/check-links` both pass
+clean with the subproject present. Not yet done: git-subtree push to a
+standalone remote and npm publish — out of scope for this task.
+
 ## P7-T7 closed: motion-picker helper lands in all 7 catalogs — 2026-09-03
 
 A sixth `*-picker` helper, `motion-picker` (`data-motion`), built in

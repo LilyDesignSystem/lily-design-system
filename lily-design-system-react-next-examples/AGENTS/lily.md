@@ -8,6 +8,15 @@ Canonical component list: [components.tsv](../components.tsv) — 491 components
 
 ## Subprojects for headless components
 
+The seven framework pairs below are the canonical, full-catalog (491/491)
+headless libraries. An 8th, **partial** headless catalog joined 2026-09-03:
+[Lily Design System: Web Components headless](../lily-design-system-web-components-headless)
+ships 30 of the 491 components as native custom elements (no framework
+runtime) — a representative slice proving the pattern, not full parity with
+the seven below. See its own `spec/index.md` for the architecture decisions
+(autonomous custom elements over customized built-ins, light-DOM-only) and
+exact scope.
+
 - [Lily Design System: HTML headless](../lily-design-system-html-headless)
 - [Lily Design System: Svelte headless](../lily-design-system-svelte-headless)
 - [Lily Design System: React headless](../lily-design-system-react-headless)

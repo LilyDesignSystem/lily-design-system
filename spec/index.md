@@ -669,6 +669,30 @@ Long-term: versioned releases per subproject npm/NuGet package
 
 ### 14.1 Changelog highlights
 
+- **P7-T6 Web Components headless subproject, partial (2026-09-03)** —
+  an 8th headless catalog, `lily-design-system-web-components-headless`,
+  ships 30 of the 491 canonical components as native custom elements
+  with no framework runtime — a representative slice by explicit
+  scope choice, not full parity with the seven full-catalog libraries
+  above. Two architecture decisions: autonomous custom elements over
+  customized built-ins (WebKit never implemented the latter and has
+  said it will not), and light DOM only (no shadow root, so consumer
+  CSS reaches every element the same way the other seven catalogs
+  allow). Deliberately excluded and documented as a real, unsolved gap:
+  every `*ListItem`/table-sub-element family (needs a tag+attribute
+  selector only customized built-ins support — the same wrapper-host
+  defect class §11.8's angular-headless fix closed) and the 92
+  national personal identifier components. A real defect was found and
+  fixed via the slice's own tests: `bar-chart.ts` destructured
+  `NamedNodeMap` `Attr` nodes as `[key, value]` pairs (not iterable
+  that way), fixed by using the existing `passThroughAttributes`
+  helper. Verification: 163 tests across 30 files, `tsc --noEmit`
+  clean, a non-empty built `dist/`, a dist-level smoke test (165 tests
+  total), a clean Storybook build for all 30 stories, and root
+  `bin/test` + `bin/check-links` passing with the subproject present.
+  Not yet done: subtree push and npm publish. Full record:
+  CHANGELOG.md; full architecture rationale: the subproject's own
+  `spec/index.md`.
 - **P7-T7 motion-picker helper landed in all 7 catalogs (2026-09-03)**
   — a sixth `*-picker` helper (`data-motion`), built as a Svelte
   canonical + 6 idiom ports, following each catalog's own

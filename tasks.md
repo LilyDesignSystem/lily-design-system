@@ -760,10 +760,41 @@ Rules for the executing agent:
   584K); re-run without `--update-snapshots` reports 90/90 passed,
   confirmed stable across two consecutive runs.
 
-- [ ] **P7-T6 (stretch) Web Components headless subproject** — 8th
-  headless library as custom elements; full catalog; required files;
-  tests; Storybook.
-  Verify: `bin/test` recognises it; suite passes.
+- [x] **P7-T6 (stretch) Web Components headless subproject** — 8th
+  headless library as native custom elements. Done 2026-09-03, scoped
+  by explicit user choice to **scaffold + representative subset, not
+  full catalog parity**: `lily-design-system-web-components-headless`
+  ships 30 of the 491 canonical components (8 buttons/links, 5 forms,
+  4 overlays, 6 media/data, 7 content), each a real, tested autonomous
+  custom element (`customElements.define("lily-{slug}", ...)`), plus
+  the full required-file set, build tooling, and Storybook config.
+  Architecture decisions recorded in the subproject's own
+  `spec/index.md`: autonomous custom elements over customized
+  built-ins (WebKit never implemented the latter and has said it won't
+  — `<button is="...">` silently fails to upgrade in Safari), light
+  DOM only (no shadow root, so consumer CSS reaches every element the
+  same way it does in the other seven catalogs), and two structural
+  patterns (wrap-a-real-element for 26 components, self-is-the-wrapper
+  for the 4 `<div>`-rooted ones — `Alert`, `Banner`, `ContextualHelp`,
+  `Coachmark`). Deliberately excluded and documented as a real, unsolved
+  gap rather than an oversight: every `*ListItem` and table sub-element
+  family (needs a tag+attribute selector only customized built-ins
+  support — the same wrapper-host defect class angular-headless's
+  0.3.0 fixed) and the 92 national personal identifier components.
+  A real defect was found and fixed during this slice's own test run:
+  `bar-chart.ts`'s attribute passthrough destructured `Attr` nodes as
+  `[key, value]` pairs (they aren't iterable that way), throwing on
+  every render with any attribute at all — fixed by using the same
+  `passThroughAttributes` helper every sibling component already used.
+  Verify: 163 tests across 30 `.test.ts` files pass
+  (`pnpm exec vitest run`); `tsc --noEmit` clean; `pnpm build` produces
+  a non-empty `dist/index.js` + `.d.ts`; a 31st `index.test.ts` imports
+  the **built** dist bundle and confirms all 30 tags self-register
+  (165 tests total); `pnpm build-storybook` succeeds for all 30
+  stories; root `bin/test` and `bin/check-links` both pass clean with
+  the new subproject present. Not yet done: git-subtree push to a
+  standalone remote, and npm publish — this session scoped the task to
+  building and verifying the subproject itself, not its first release.
 
 - [x] **P7-T7 (stretch) `motion-picker` helper** (`data-motion`,
   reduced-motion default) — Svelte canonical, then 6 ports, following
