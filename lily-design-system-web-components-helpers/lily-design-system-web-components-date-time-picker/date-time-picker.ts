@@ -70,6 +70,14 @@ export type DateTimePickerLabels = {
     previousYear: string;
     /** Accessible name for the previous-month button. */
     previousMonth: string;
+    /** Accessible name for the previous-week button. */
+    previousWeek: string;
+    /** Accessible name for the previous-day button. */
+    previousDay: string;
+    /** Accessible name for the next-day button. */
+    nextDay: string;
+    /** Accessible name for the next-week button. */
+    nextWeek: string;
     /** Accessible name for the next-month button. */
     nextMonth: string;
     /** Accessible name for the next-year button. */
@@ -88,6 +96,12 @@ export type DateTimePickerLabels = {
     week?: string;
     /** Visible text of the clear button. The button renders only when set. */
     clear?: string;
+    /**
+     * Label for the time-zone select. The select renders only when set,
+     * for the same reason `clear` gates its button: a zone list is an
+     * opt-in part of the form, and we will not name it in English.
+     */
+    timeZone?: string;
     /**
      * Message announced when typed text will not parse or is out of
      * range. When set, a `role="status"` live region renders after the
@@ -123,6 +137,12 @@ export type DateTimePickerShortcutDetail = {
 export type DateTimePickerInvalidDetail = {
     /** The typed text that would not parse (or resolved out of range). */
     text: string;
+};
+
+/** Detail dispatched on the `timezonechange` CustomEvent. */
+export type DateTimePickerTimeZoneChangeDetail = {
+    /** The newly applied IANA zone, or `""` for none. */
+    timeZone: string;
 };
 
 /** Mirrors the observed attributes / properties for typing convenience. */
@@ -162,6 +182,18 @@ export type DateTimePickerProps = {
     onShortcut?: (id: string, isoDate: string) => void;
     /** Property-only callback; paired with the `invalidinput` event. */
     onInvalidInput?: (text: string) => void;
+    /**
+     * Selected IANA time zone, or `""` for none. Rides `{name}-time-zone`
+     * and `data-time-zone`. Metadata about WHERE the civil value applies,
+     * not part of the value; never guessed from the runtime.
+     */
+    timeZone?: string;
+    /** Property-only: zones offered by the select. */
+    timeZones?: string[];
+    /** Property-only: display text per zone id. */
+    timeZoneLabels?: Record<string, string>;
+    /** Property-only callback; paired with the `timezonechange` event. */
+    onTimeZoneChange?: (timeZone: string) => void;
 };
 
 // -----------------------------------------------------------------------
@@ -573,6 +605,10 @@ export const CALENDAR = "📅︎";
 const DEFAULT_LABELS: DateTimePickerLabels = {
     previousYear: "",
     previousMonth: "",
+    previousWeek: "",
+    previousDay: "",
+    nextDay: "",
+    nextWeek: "",
     nextMonth: "",
     nextYear: "",
     confirm: "",
@@ -606,12 +642,15 @@ export class DateTimePicker extends HTMLElement {
             "readonly",
             "required",
             "class",
+            "time-zone",
         ];
     }
 
     // ---- Backing storage for property-only members ----
     #labels: DateTimePickerLabels = DEFAULT_LABELS;
     #shortcuts: DateTimeShortcut[] = [];
+    #timeZones?: string[];
+    #timeZoneLabels: Record<string, string> = {};
     #isDateDisabled?: (isoDate: string) => boolean;
     #formatValue?: (value: string) => string;
     #parseInput?: (text: string) => string | null;
@@ -622,6 +661,8 @@ export class DateTimePicker extends HTMLElement {
     onShortcut?: (id: string, isoDate: string) => void;
     /** Fires when typed text will not parse. Mirrored by `invalidinput`. */
     onInvalidInput?: (text: string) => void;
+    /** Fires after a time-zone change is applied. Mirrored by `timezonechange`. */
+    onTimeZoneChange?: (timeZone: string) => void;
 
     // ---- Internal state, all private ----
     #open = false;
@@ -653,6 +694,8 @@ export class DateTimePicker extends HTMLElement {
     #hourSelect: HTMLSelectElement | null = null;
     #minuteSelect: HTMLSelectElement | null = null;
     #meridiemSelect: HTMLSelectElement | null = null;
+    #hiddenZoneEl: HTMLInputElement | null = null;
+    #zoneSelect: HTMLSelectElement | null = null;
 
     /**
      * The element that opened the dialog, so close can return focus to
@@ -727,6 +770,48 @@ export class DateTimePicker extends HTMLElement {
     set max(v: string | undefined) {
         if (v) this.setAttribute("max", v);
         else this.removeAttribute("max");
+    }
+
+    get timeZone(): string {
+        return this.getAttribute("time-zone") ?? "";
+    }
+    set timeZone(v: string) {
+        if (v) this.setAttribute("time-zone", v);
+        else this.removeAttribute("time-zone");
+    }
+
+    /**
+     * Zones offered by the select. Property-only: an array cannot be an
+     * attribute. Non-structural — the select's own options are rebuilt
+     * in `#syncState()`, which never creates or destroys the select
+     * itself.
+     */
+    get timeZones(): string[] | undefined {
+        return this.#timeZones ? [...this.#timeZones] : undefined;
+    }
+    set timeZones(v: string[] | undefined) {
+        this.#timeZones = Array.isArray(v) ? v.slice() : undefined;
+        this.#syncState();
+    }
+
+    /** Display text per zone id. Property-only: an object cannot be an attribute. */
+    get timeZoneLabels(): Record<string, string> {
+        return { ...this.#timeZoneLabels };
+    }
+    set timeZoneLabels(v: Record<string, string> | undefined) {
+        this.#timeZoneLabels = v ? { ...v } : {};
+        this.#syncState();
+    }
+
+    /**
+     * `Intl.supportedValuesOf` is guarded: an empty select beats a
+     * throw at mount on an older embedded runtime that lacks it.
+     */
+    #zoneOptions(): string[] {
+        if (this.#timeZones) return this.#timeZones;
+        return typeof Intl.supportedValuesOf === "function"
+            ? Intl.supportedValuesOf("timeZone")
+            : [];
     }
 
     /**
@@ -945,6 +1030,9 @@ export class DateTimePicker extends HTMLElement {
     get #instructionsId(): string {
         return `${this.#baseId}-instructions`;
     }
+    get #timeZoneId(): string {
+        return `${this.#baseId}-time-zone`;
+    }
 
     // ---- Public, overridable rendering hook ----
 
@@ -1122,6 +1210,20 @@ export class DateTimePicker extends HTMLElement {
         );
     }
 
+    #commitTimeZone(next: string): void {
+        if (next === this.timeZone) return;
+        this.timeZone = next;
+        this.onTimeZoneChange?.(next);
+        this.dispatchEvent(
+            new CustomEvent<DateTimePickerTimeZoneChangeDetail>("timezonechange", {
+                detail: { timeZone: next },
+                bubbles: true,
+                composed: true,
+            }),
+        );
+        this.#syncState();
+    }
+
     /** Commit the pending selection to `value` and notify. */
     #commit(): void {
         const next = joinValue(this.#pendingDate, this.#pendingTime, this.mode);
@@ -1213,6 +1315,33 @@ export class DateTimePicker extends HTMLElement {
 
     #shiftYear(delta: number): void {
         this.#shiftMonth(delta * 12);
+    }
+
+    /**
+     * Week/day steps are the fine end of the header: unlike month/year,
+     * which move the GRID and merely carry the cursor, these move the
+     * pending day itself by ±7 / ±1 civil days and page the grid only
+     * when the new day leaves the shown month. A step off the min/max
+     * window is refused outright; a step onto a vetoed day moves the
+     * cursor — vetoed days are reachable, as with the arrow keys — but
+     * leaves the pending selection where it was. No commit even under
+     * `confirmOnSelect`.
+     */
+    #shiftDays(delta: number): void {
+        const from = parseIsoDate(this.#cursor) ? this.#cursor : this.#pendingDate;
+        if (!from) return;
+        const next = addDays(from, delta);
+        if (!withinRange(next, this.min, this.max)) return;
+        const hadGridFocus = this.#tableEl?.contains(document.activeElement) === true;
+        const parsed = parseIsoDate(next);
+        if (parsed && (parsed.year !== this.#viewYear || parsed.month !== this.#viewMonth)) {
+            this.#viewYear = parsed.year;
+            this.#viewMonth = parsed.month;
+        }
+        this.#cursor = next;
+        if (!this.#dayDisabled(next)) this.#pendingDate = next;
+        this.#syncState();
+        if (hadGridFocus) queueMicrotask(() => this.#focusCursor());
     }
 
     #onGridKeydown = (event: KeyboardEvent): void => {
@@ -1589,6 +1718,9 @@ export class DateTimePicker extends HTMLElement {
     #syncState(): void {
         if (!this.#rootEl) return;
 
+        if (this.timeZone) this.#rootEl.setAttribute("data-time-zone", this.timeZone);
+        else this.#rootEl.removeAttribute("data-time-zone");
+
         if (this.#buttonEl) {
             this.#buttonEl.setAttribute("aria-expanded", String(this.#open));
             this.#buttonEl.setAttribute("aria-label", this.label);
@@ -1648,6 +1780,25 @@ export class DateTimePicker extends HTMLElement {
         if (this.#hiddenEl) {
             this.#hiddenEl.name = this.name;
             this.#hiddenEl.value = this.value;
+        }
+
+        if (this.#hiddenZoneEl) {
+            this.#hiddenZoneEl.name = `${this.name}-time-zone`;
+            this.#hiddenZoneEl.value = this.timeZone;
+        }
+
+        if (this.#zoneSelect) {
+            const emptyOpt = document.createElement("option");
+            emptyOpt.value = "";
+            const zoneLabels = this.#timeZoneLabels;
+            const options = this.#zoneOptions().map((zone) => {
+                const opt = document.createElement("option");
+                opt.value = zone;
+                opt.textContent = zoneLabels[zone] ?? zone;
+                return opt;
+            });
+            this.#zoneSelect.replaceChildren(emptyOpt, ...options);
+            this.#zoneSelect.value = this.timeZone;
         }
 
         if (this.#usesDate()) {
@@ -1779,6 +1930,15 @@ export class DateTimePicker extends HTMLElement {
         hiddenEl.value = this.value;
         root.appendChild(hiddenEl);
 
+        let hiddenZoneEl: HTMLInputElement | null = null;
+        if (this.#labels.timeZone) {
+            hiddenZoneEl = document.createElement("input");
+            hiddenZoneEl.type = "hidden";
+            hiddenZoneEl.name = `${this.name}-time-zone`;
+            hiddenZoneEl.value = this.timeZone;
+            root.appendChild(hiddenZoneEl);
+        }
+
         const fieldWrap = document.createElement("div");
         fieldWrap.className = "date-time-picker-field";
 
@@ -1855,6 +2015,7 @@ export class DateTimePicker extends HTMLElement {
 
         let periodEl: HTMLSpanElement | null = null;
         let tableEl: HTMLTableElement | null = null;
+        let zoneSelect: HTMLSelectElement | null = null;
         const weekdayThs: HTMLTableCellElement[] = [];
         let weekHeadingTh: HTMLTableCellElement | null = null;
         const weekThs: HTMLTableCellElement[] = [];
@@ -1880,11 +2041,43 @@ export class DateTimePicker extends HTMLElement {
             previousMonth.addEventListener("click", () => this.#shiftMonth(-1));
             header.appendChild(previousMonth);
 
+            const previousWeek = document.createElement("button");
+            previousWeek.type = "button";
+            previousWeek.className = "date-time-picker-previous-week";
+            previousWeek.setAttribute("aria-label", labels.previousWeek);
+            previousWeek.appendChild(this.#glyphSpan("‹‹"));
+            previousWeek.addEventListener("click", () => this.#shiftDays(-7));
+            header.appendChild(previousWeek);
+
+            const previousDay = document.createElement("button");
+            previousDay.type = "button";
+            previousDay.className = "date-time-picker-previous-day";
+            previousDay.setAttribute("aria-label", labels.previousDay);
+            previousDay.appendChild(this.#glyphSpan("‹"));
+            previousDay.addEventListener("click", () => this.#shiftDays(-1));
+            header.appendChild(previousDay);
+
             periodEl = document.createElement("span");
             periodEl.className = "date-time-picker-period";
             periodEl.id = this.#periodId;
             periodEl.setAttribute("aria-live", "polite");
             header.appendChild(periodEl);
+
+            const nextDay = document.createElement("button");
+            nextDay.type = "button";
+            nextDay.className = "date-time-picker-next-day";
+            nextDay.setAttribute("aria-label", labels.nextDay);
+            nextDay.appendChild(this.#glyphSpan("›"));
+            nextDay.addEventListener("click", () => this.#shiftDays(1));
+            header.appendChild(nextDay);
+
+            const nextWeek = document.createElement("button");
+            nextWeek.type = "button";
+            nextWeek.className = "date-time-picker-next-week";
+            nextWeek.setAttribute("aria-label", labels.nextWeek);
+            nextWeek.appendChild(this.#glyphSpan("››"));
+            nextWeek.addEventListener("click", () => this.#shiftDays(7));
+            header.appendChild(nextWeek);
 
             const nextMonth = document.createElement("button");
             nextMonth.type = "button";
@@ -1903,6 +2096,30 @@ export class DateTimePicker extends HTMLElement {
             header.appendChild(nextYear);
 
             dialogEl.appendChild(header);
+
+            if (labels.timeZone) {
+                // Before the grid, so the zone is chosen before the
+                // instant. The empty first option is the "no zone"
+                // state: the picker never guesses one from the runtime.
+                const zoneWrap = document.createElement("div");
+                zoneWrap.className = "date-time-picker-time-zone";
+
+                const zoneLabel = document.createElement("label");
+                zoneLabel.className = "date-time-picker-time-zone-label";
+                zoneLabel.htmlFor = this.#timeZoneId;
+                zoneLabel.textContent = labels.timeZone;
+                zoneWrap.appendChild(zoneLabel);
+
+                zoneSelect = document.createElement("select");
+                zoneSelect.className = "date-time-picker-time-zone-select";
+                zoneSelect.id = this.#timeZoneId;
+                zoneSelect.addEventListener("change", () => {
+                    this.#commitTimeZone(zoneSelect?.value ?? "");
+                });
+                zoneWrap.appendChild(zoneSelect);
+
+                dialogEl.appendChild(zoneWrap);
+            }
 
             tableEl = document.createElement("table");
             tableEl.className = "date-time-picker-calendar";
@@ -2069,6 +2286,8 @@ export class DateTimePicker extends HTMLElement {
         this.#hourSelect = hourSelect;
         this.#minuteSelect = minuteSelect;
         this.#meridiemSelect = meridiemSelect;
+        this.#hiddenZoneEl = hiddenZoneEl;
+        this.#zoneSelect = zoneSelect;
 
         this.replaceChildren(root);
 
