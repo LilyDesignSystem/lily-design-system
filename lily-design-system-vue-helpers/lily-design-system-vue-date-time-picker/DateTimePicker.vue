@@ -65,6 +65,14 @@ export type DateTimePickerLabels = {
     previousYear: string;
     /** Accessible name for the previous-month button. */
     previousMonth: string;
+    /** Accessible name for the previous-week button. */
+    previousWeek: string;
+    /** Accessible name for the previous-day button. */
+    previousDay: string;
+    /** Accessible name for the next-day button. */
+    nextDay: string;
+    /** Accessible name for the next-week button. */
+    nextWeek: string;
     /** Accessible name for the next-month button. */
     nextMonth: string;
     /** Accessible name for the next-year button. */
@@ -83,6 +91,12 @@ export type DateTimePickerLabels = {
     week?: string;
     /** Visible text of the clear button. The button renders only when set. */
     clear?: string;
+    /**
+     * Label for the time-zone select. The select renders only when set,
+     * for the same reason `clear` gates its button: a zone list is an
+     * opt-in part of the form, and we will not name it in English.
+     */
+    timeZone?: string;
     /**
      * Message announced when typed text will not parse or is out of
      * range. When set, a `role="status"` live region renders after the
@@ -145,6 +159,24 @@ export type Props = {
     confirmOnSelect?: boolean;
     /** `name` of the hidden input that carries the value in a form post. */
     name?: string;
+    /**
+     * Selected IANA time zone (e.g. `Europe/London`), or `""` for none.
+     * Two-way bindable via `v-model:timeZone`, matching `value`. Rides
+     * its own hidden input `{name}-time-zone` and is reflected as
+     * `data-time-zone` on the root. It is metadata about WHERE the civil
+     * value applies, not part of the value — converting to an instant
+     * stays the consumer's job. Never guessed from the runtime: the
+     * picker no more picks a zone than `locale-picker` picks a locale.
+     */
+    timeZone?: string;
+    /**
+     * Zones offered by the select. Defaults to every zone the runtime
+     * knows via `Intl.supportedValuesOf("timeZone")` — never a bundled
+     * table, the rule month and weekday names already follow.
+     */
+    timeZones?: string[];
+    /** Display text per zone id; a zone without an entry shows its id. */
+    timeZoneLabels?: Record<string, string>;
     /** `id` of the text field, so a consumer `<label for>` can name it. */
     inputId?: string;
     /** Forwarded to the text field as `aria-describedby`. */
@@ -588,6 +620,9 @@ const props = withDefaults(defineProps<Props>(), {
     shortcuts: () => [],
     confirmOnSelect: undefined,
     name: "date-time",
+    timeZone: "",
+    timeZones: undefined,
+    timeZoneLabels: () => ({}),
     inputId: undefined,
     describedBy: undefined,
     placeholder: undefined,
@@ -607,6 +642,7 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<{
     (event: "update:value", value: string): void;
     (event: "change", value: string): void;
+    (event: "update:timeZone", timeZone: string): void;
     (event: "shortcut", id: string, isoDate: string): void;
     (event: "invalidInput", text: string): void;
 }>();
@@ -618,6 +654,7 @@ const hourId = `${baseId}-hour`;
 const minuteId = `${baseId}-minute`;
 const meridiemId = `${baseId}-meridiem`;
 const statusId = `${baseId}-status`;
+const timeZoneId = `${baseId}-time-zone`;
 const instructionsId = `${baseId}-instructions`;
 
 const open = ref(false);
@@ -656,6 +693,22 @@ let openerEl: HTMLElement | null = null;
  * undo the user has to perform by hand, from memory.
  */
 const pendingDate = ref("");
+
+/**
+ * `Intl.supportedValuesOf` is ES2022; this package's `lib` target is
+ * ES2020 (a build-wide setting, not worth widening for one call), so the
+ * lookup goes through an explicit cast rather than a direct reference.
+ * Guarded at runtime too: an empty select beats a throw at mount on an
+ * older embedded runtime that lacks the method entirely.
+ */
+function supportedTimeZones(): string[] {
+    const supportedValuesOf = (
+        Intl as unknown as { supportedValuesOf?: (key: string) => string[] }
+    ).supportedValuesOf;
+    return typeof supportedValuesOf === "function" ? supportedValuesOf("timeZone") : [];
+}
+
+const zoneOptions = computed(() => props.timeZones ?? supportedTimeZones());
 const pendingTime = ref("");
 
 /**
@@ -669,6 +722,16 @@ watch(
     () => props.value,
     (next) => {
         if (next !== undefined && next !== current.value) current.value = next;
+    },
+);
+
+/** Same internal-source-of-truth idiom as `current`, for the time zone. */
+const currentZone = ref(props.timeZone ?? "");
+
+watch(
+    () => props.timeZone,
+    (next) => {
+        if (next !== undefined && next !== currentZone.value) currentZone.value = next;
     },
 );
 
@@ -1063,6 +1126,40 @@ function shiftYear(delta: number): void {
     void shiftMonth(delta * 12);
 }
 
+/**
+ * Week/day steps are the fine end of the header: unlike month/year, which
+ * move the GRID and merely carry the cursor, these move the pending day
+ * itself by ±7 / ±1 civil days and page the grid only when the new day
+ * leaves the shown month. A step off the min/max window is refused
+ * outright; a step onto a vetoed day moves the cursor — vetoed days are
+ * reachable, as with the arrow keys — but leaves the pending selection
+ * where it was. No commit even under `confirmOnSelect`.
+ */
+async function shiftDays(delta: number): Promise<void> {
+    const from = parseIsoDate(cursor.value) ? cursor.value : pendingDate.value;
+    if (!from) return;
+    const next = addDays(from, delta);
+    if (!withinRange(next, props.min, props.max)) return;
+    const hadGridFocus = gridEl.value?.contains(document.activeElement) === true;
+    const parsed = parseIsoDate(next);
+    if (parsed && (parsed.year !== viewYear.value || parsed.month !== viewMonth.value)) {
+        viewYear.value = parsed.year;
+        viewMonth.value = parsed.month;
+    }
+    cursor.value = next;
+    if (!dayDisabled(next)) pendingDate.value = next;
+    if (hadGridFocus) {
+        await nextTick();
+        focusCursor();
+    }
+}
+
+function onTimeZoneChange(event: Event): void {
+    const next = (event.target as HTMLSelectElement).value;
+    currentZone.value = next;
+    emit("update:timeZone", next);
+}
+
 function onGridKeydown(event: KeyboardEvent): void {
     switch (event.key) {
         case "ArrowLeft":
@@ -1325,6 +1422,22 @@ function onPreviousMonthClick(): void {
     void shiftMonth(-1);
 }
 
+function onPreviousWeekClick(): void {
+    void shiftDays(-7);
+}
+
+function onPreviousDayClick(): void {
+    void shiftDays(-1);
+}
+
+function onNextDayClick(): void {
+    void shiftDays(1);
+}
+
+function onNextWeekClick(): void {
+    void shiftDays(7);
+}
+
 function onNextMonthClick(): void {
     void shiftMonth(1);
 }
@@ -1411,8 +1524,15 @@ onBeforeUnmount(() => {
         ref="rootEl"
         :class="`date-time-picker ${props.class}`.trim()"
         :data-mode="mode"
+        :data-time-zone="currentZone || undefined"
     >
         <input type="hidden" :name="name" :value="current ?? ''" />
+        <input
+            v-if="labels.timeZone"
+            type="hidden"
+            :name="`${name}-time-zone`"
+            :value="currentZone"
+        />
 
         <div class="date-time-picker-field">
             <input
@@ -1502,6 +1622,22 @@ onBeforeUnmount(() => {
                 >
                     <span aria-hidden="true">&#8249;</span>
                 </button>
+                <button
+                    type="button"
+                    class="date-time-picker-previous-week"
+                    :aria-label="labels.previousWeek"
+                    @click="onPreviousWeekClick"
+                >
+                    <span aria-hidden="true">&#8249;&#8249;</span>
+                </button>
+                <button
+                    type="button"
+                    class="date-time-picker-previous-day"
+                    :aria-label="labels.previousDay"
+                    @click="onPreviousDayClick"
+                >
+                    <span aria-hidden="true">&#8249;</span>
+                </button>
 
                 <!-- Polite, not assertive: paging months is the visible
                      result of the user's own keypress, so it should reach
@@ -1510,6 +1646,22 @@ onBeforeUnmount(() => {
                     {{ periodText }}
                 </span>
 
+                <button
+                    type="button"
+                    class="date-time-picker-next-day"
+                    :aria-label="labels.nextDay"
+                    @click="onNextDayClick"
+                >
+                    <span aria-hidden="true">&#8250;</span>
+                </button>
+                <button
+                    type="button"
+                    class="date-time-picker-next-week"
+                    :aria-label="labels.nextWeek"
+                    @click="onNextWeekClick"
+                >
+                    <span aria-hidden="true">&#8250;&#8250;</span>
+                </button>
                 <button
                     type="button"
                     class="date-time-picker-next-month"
@@ -1526,6 +1678,26 @@ onBeforeUnmount(() => {
                 >
                     <span aria-hidden="true">&#187;</span>
                 </button>
+            </div>
+
+            <!-- Before the grid, so the zone is chosen before the instant.
+                 The empty first option is the "no zone" state: the picker
+                 never guesses one from the runtime. -->
+            <div v-if="labels.timeZone" class="date-time-picker-time-zone">
+                <label class="date-time-picker-time-zone-label" :for="timeZoneId">
+                    {{ labels.timeZone }}
+                </label>
+                <select
+                    class="date-time-picker-time-zone-select"
+                    :id="timeZoneId"
+                    :value="currentZone"
+                    @change="onTimeZoneChange"
+                >
+                    <option value=""></option>
+                    <option v-for="zone in zoneOptions" :key="zone" :value="zone">
+                        {{ timeZoneLabels[zone] ?? zone }}
+                    </option>
+                </select>
             </div>
 
             <!-- The grid owns its own keyboard contract, which is why the

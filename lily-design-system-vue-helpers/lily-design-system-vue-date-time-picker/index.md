@@ -30,6 +30,10 @@ const appointment = ref("");
 const labels = {
   previousYear: "Previous year",
   previousMonth: "Previous month",
+  previousWeek: "Previous week",
+  previousDay: "Previous day",
+  nextDay: "Next day",
+  nextWeek: "Next week",
   nextMonth: "Next month",
   nextYear: "Next year",
   confirm: "OK",
@@ -227,7 +231,9 @@ your CSS it renders in normal flow rather than as an overlay:
 
 Class hooks: `date-time-picker`, `-field`, `-input`, `-button`, `-icon`,
 `-status`, `-dialog`, `-instructions`, `-header`, `-previous-year`,
-`-previous-month`, `-period`, `-next-month`, `-next-year`, `-calendar`,
+`-previous-month`, `-previous-week`, `-previous-day`, `-period`,
+`-next-day`, `-next-week`, `-next-month`, `-next-year`, `-time-zone`,
+`-time-zone-label`, `-time-zone-select`, `-calendar`,
 `-weekday`, `-week-heading`, `-week`, `-day`, `-time`, `-time-label`,
 `-hour`, `-minute`, `-meridiem`, `-shortcuts`, `-shortcut`, `-footer`,
 `-clear`, `-cancel`, `-confirm`.
