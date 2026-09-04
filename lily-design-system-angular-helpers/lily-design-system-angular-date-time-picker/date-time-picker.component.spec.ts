@@ -34,6 +34,10 @@ import {
 const LABELS: DateTimePickerLabels = {
   previousYear: "PrevYear",
   previousMonth: "PrevMonth",
+  previousWeek: "PrevWeek",
+  previousDay: "PrevDay",
+  nextDay: "NextDay",
+  nextWeek: "NextWeek",
   nextMonth: "NextMonth",
   nextYear: "NextYear",
   confirm: "Commit",
@@ -107,6 +111,8 @@ const day = (fixture: ComponentFixture<unknown>, iso: string) =>
 const cursorDate = (fixture: ComponentFixture<unknown>) =>
   days(fixture).find((d) => d.getAttribute("tabindex") === "0")?.dataset
     .date ?? "";
+const periodText = (fixture: ComponentFixture<unknown>) =>
+  q<HTMLElement>(fixture, ".date-time-picker-period").textContent?.trim() ?? "";
 
 /** Dispatch a bubbling click and re-render. */
 function click(fixture: ComponentFixture<unknown>, target: HTMLElement): void {
@@ -1161,5 +1167,153 @@ describe("DateTimePicker — assistive technology", () => {
     click(fixture, field(fixture));
     expect(dialog(fixture).hasAttribute("hidden")).toBe(true);
     expect(hidden(fixture).value).toBe("2026-03-15");
+  });
+
+  // --- P8-T12 (2026-09-04): week/day step buttons and the time-zone select.
+
+  test("§7.56 the header renders eight step buttons, coarse to fine, each named only by its label", async () => {
+    const fixture = mount({ value: "2026-03-15" });
+    await open(fixture);
+    const header = q<HTMLElement>(fixture, ".date-time-picker-header");
+    const buttons = Array.from(header.querySelectorAll("button"));
+    expect(buttons.map((b) => b.className)).toEqual([
+      "date-time-picker-previous-year",
+      "date-time-picker-previous-month",
+      "date-time-picker-previous-week",
+      "date-time-picker-previous-day",
+      "date-time-picker-next-day",
+      "date-time-picker-next-week",
+      "date-time-picker-next-month",
+      "date-time-picker-next-year",
+    ]);
+    expect(buttons.map((b) => b.getAttribute("aria-label"))).toEqual([
+      "PrevYear", "PrevMonth", "PrevWeek", "PrevDay",
+      "NextDay", "NextWeek", "NextMonth", "NextYear",
+    ]);
+    const period = header.querySelector(".date-time-picker-period") as HTMLElement;
+    expect(
+      Array.from(header.children).indexOf(buttons[3]) <
+        Array.from(header.children).indexOf(period),
+    ).toBe(true);
+  });
+
+  test("§7.57 day steps move the pending day by ±1 civil day, keep the grid on the shown month, and keep focus on the button", async () => {
+    const fixture = mount({ value: "2026-03-15" });
+    const changed = vi.fn();
+    fixture.componentInstance.change.subscribe(changed);
+    await open(fixture);
+    const nextDay = q<HTMLButtonElement>(fixture, ".date-time-picker-next-day");
+    nextDay.focus();
+    await clickSettled(fixture, nextDay);
+    await clickSettled(fixture, nextDay);
+    expect(cursorDate(fixture)).toBe("2026-03-17");
+    expect(day(fixture, "2026-03-17").dataset.selected).toBeDefined();
+    expect(document.activeElement).toBe(nextDay);
+    expect(periodText(fixture)).toBe("March 2026");
+    expect(hidden(fixture).value).toBe("2026-03-15");
+    expect(changed).not.toHaveBeenCalled();
+    await clickSettled(fixture, q(fixture, ".date-time-picker-previous-day"));
+    await clickSettled(fixture, q(fixture, ".date-time-picker-confirm"));
+    expect(hidden(fixture).value).toBe("2026-03-16");
+    expect(changed).toHaveBeenCalledWith("2026-03-16");
+  });
+
+  test("§7.58 week steps move the pending day by ±7 civil days and page the grid only when leaving the shown month", async () => {
+    const fixture = mount({ value: "2026-03-25" });
+    await open(fixture);
+    const nextWeek = q<HTMLButtonElement>(fixture, ".date-time-picker-next-week");
+    await clickSettled(fixture, nextWeek);
+    expect(cursorDate(fixture)).toBe("2026-04-01");
+    expect(periodText(fixture)).toBe("April 2026");
+    await clickSettled(fixture, q(fixture, ".date-time-picker-previous-week"));
+    expect(cursorDate(fixture)).toBe("2026-03-25");
+    expect(periodText(fixture)).toBe("March 2026");
+    await clickSettled(fixture, q(fixture, ".date-time-picker-previous-week"));
+    expect(cursorDate(fixture)).toBe("2026-03-18");
+    expect(periodText(fixture)).toBe("March 2026");
+  });
+
+  test("§7.59 a step past min/max is refused; a step onto a vetoed day moves the cursor but not the pending selection", async () => {
+    const fixture = mount({
+      value: "2026-03-15",
+      max: "2026-03-16",
+      isDateDisabled: (iso: string) => iso === "2026-03-16",
+    });
+    await open(fixture);
+    const nextDay = q<HTMLButtonElement>(fixture, ".date-time-picker-next-day");
+    await clickSettled(fixture, nextDay);
+    expect(cursorDate(fixture)).toBe("2026-03-16");
+    expect(day(fixture, "2026-03-16").getAttribute("aria-disabled")).toBe("true");
+    expect(day(fixture, "2026-03-15").dataset.selected).toBeDefined();
+    expect(day(fixture, "2026-03-16").dataset.selected).toBeUndefined();
+    await clickSettled(fixture, nextDay);
+    expect(cursorDate(fixture)).toBe("2026-03-16");
+    await clickSettled(fixture, q(fixture, ".date-time-picker-next-week"));
+    expect(cursorDate(fixture)).toBe("2026-03-16");
+  });
+
+  test("§7.60 the time-zone select renders only with labels.timeZone, lists the runtime's zones by default, and honours timeZones/timeZoneLabels", async () => {
+    const bare = mount();
+    await open(bare);
+    expect(q(bare, ".date-time-picker-time-zone")).toBeNull();
+    expect(bare.nativeElement.querySelector('input[name="date-time-time-zone"]')).toBeNull();
+
+    const fixture = mount({ labels: { ...LABELS, timeZone: "Zone" } });
+    await open(fixture);
+    const select = q<HTMLSelectElement>(fixture, ".date-time-picker-time-zone-select");
+    const label = q<HTMLLabelElement>(fixture, ".date-time-picker-time-zone-label");
+    expect(label.textContent?.trim()).toBe("Zone");
+    expect(label.htmlFor).toBe(select.id);
+    const all = Intl.supportedValuesOf("timeZone");
+    expect(all.length).toBeGreaterThan(300);
+    const offered = Array.from(select.options).map((o) => o.value);
+    expect(offered[0]).toBe("");
+    expect(offered.slice(1)).toEqual(all);
+    expect(select.value).toBe("");
+    expect(root(fixture).dataset.timeZone).toBeUndefined();
+    expect(
+      dialog(fixture).compareDocumentPosition(grid(fixture)) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+    expect(
+      select.compareDocumentPosition(grid(fixture)) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+  });
+
+  test("§7.61 choosing a zone rides {name}-time-zone, data-time-zone, and the model signal — and leaves the value alone", async () => {
+    const fixture = mount({
+      value: "2026-03-15",
+      name: "when",
+      labels: { ...LABELS, timeZone: "Zone" },
+      timeZones: ["Europe/London", "Asia/Tokyo"],
+      timeZoneLabels: { "Asia/Tokyo": "Tokyo" },
+      timeZone: "Europe/London",
+    });
+    const changed = vi.fn();
+    fixture.componentInstance.change.subscribe(changed);
+    await open(fixture);
+    const select = q<HTMLSelectElement>(fixture, ".date-time-picker-time-zone-select");
+    const texts = Array.from(select.options).map((o) => [o.value, o.textContent?.trim()]);
+    expect(texts).toEqual([["", ""], ["Europe/London", "Europe/London"], ["Asia/Tokyo", "Tokyo"]]);
+    const zoneInput = fixture.nativeElement.querySelector(
+      'input[name="when-time-zone"]',
+    ) as HTMLInputElement;
+    expect(select.value).toBe("Europe/London");
+    expect(zoneInput.value).toBe("Europe/London");
+    expect(root(fixture).dataset.timeZone).toBe("Europe/London");
+
+    select.value = "Asia/Tokyo";
+    select.dispatchEvent(new Event("change", { bubbles: true }));
+    fixture.detectChanges();
+    expect(zoneInput.value).toBe("Asia/Tokyo");
+    expect(root(fixture).dataset.timeZone).toBe("Asia/Tokyo");
+    // `timeZone` is a `model()`, so the two-way-bindable signal itself
+    // carries the applied change — the same thing a `[(timeZone)]`
+    // binding on the consumer's side would observe.
+    expect(fixture.componentInstance.timeZone()).toBe("Asia/Tokyo");
+    expect(
+      (fixture.nativeElement.querySelector('input[name="when"]') as HTMLInputElement).value,
+    ).toBe("2026-03-15");
+    expect(changed).not.toHaveBeenCalled();
   });
 });

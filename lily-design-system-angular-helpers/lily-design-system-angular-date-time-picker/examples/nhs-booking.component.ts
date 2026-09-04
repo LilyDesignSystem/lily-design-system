@@ -24,6 +24,10 @@ import {
 const EN: DateTimePickerLabels = {
   previousYear: "Previous year",
   previousMonth: "Previous month",
+  previousWeek: "Previous week",
+  previousDay: "Previous day",
+  nextDay: "Next day",
+  nextWeek: "Next week",
   nextMonth: "Next month",
   nextYear: "Next year",
   confirm: "Confirm",
@@ -41,6 +45,10 @@ const EN: DateTimePickerLabels = {
 const CY: DateTimePickerLabels = {
   previousYear: "Blwyddyn flaenorol",
   previousMonth: "Mis blaenorol",
+  previousWeek: "Wythnos flaenorol",
+  previousDay: "Diwrnod blaenorol",
+  nextDay: "Diwrnod nesaf",
+  nextWeek: "Wythnos nesaf",
   nextMonth: "Mis nesaf",
   nextYear: "Blwyddyn nesaf",
   confirm: "Cadarnhau",

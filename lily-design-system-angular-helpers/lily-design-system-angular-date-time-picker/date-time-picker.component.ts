@@ -83,6 +83,14 @@ export type DateTimePickerLabels = {
   previousYear: string;
   /** Accessible name for the previous-month button. */
   previousMonth: string;
+  /** Accessible name for the previous-week button. */
+  previousWeek: string;
+  /** Accessible name for the previous-day button. */
+  previousDay: string;
+  /** Accessible name for the next-day button. */
+  nextDay: string;
+  /** Accessible name for the next-week button. */
+  nextWeek: string;
   /** Accessible name for the next-month button. */
   nextMonth: string;
   /** Accessible name for the next-year button. */
@@ -101,6 +109,12 @@ export type DateTimePickerLabels = {
   week?: string;
   /** Visible text of the clear button. The button renders only when set. */
   clear?: string;
+  /**
+   * Label for the time-zone select. The select renders only when set, for
+   * the same reason `clear` gates its button: a zone list is an opt-in
+   * part of the form, and we will not name it in English.
+   */
+  timeZone?: string;
   /**
    * Message announced when typed text will not parse or is out of range.
    * When set, a `role="status"` live region renders after the field and
@@ -613,8 +627,16 @@ export class DateTimePickerIcon {
       #rootEl
       class="date-time-picker {{ className() }}"
       [attr.data-mode]="mode()"
+      [attr.data-time-zone]="timeZone() || null"
     >
       <input type="hidden" [name]="name()" [value]="value()" />
+      @if (labels().timeZone) {
+        <input
+          type="hidden"
+          [name]="name() + '-time-zone'"
+          [value]="timeZone()"
+        />
+      }
 
       <div class="date-time-picker-field">
         <input
@@ -708,6 +730,22 @@ export class DateTimePickerIcon {
             >
               <span aria-hidden="true">&#8249;</span>
             </button>
+            <button
+              type="button"
+              class="date-time-picker-previous-week"
+              [attr.aria-label]="labels().previousWeek"
+              (click)="shiftDays(-7)"
+            >
+              <span aria-hidden="true">&#8249;&#8249;</span>
+            </button>
+            <button
+              type="button"
+              class="date-time-picker-previous-day"
+              [attr.aria-label]="labels().previousDay"
+              (click)="shiftDays(-1)"
+            >
+              <span aria-hidden="true">&#8249;</span>
+            </button>
 
             <!-- Polite, not assertive: paging months is the visible result
                  of the user's own keypress, so it should reach a screen
@@ -719,6 +757,22 @@ export class DateTimePickerIcon {
               >{{ periodText() }}</span
             >
 
+            <button
+              type="button"
+              class="date-time-picker-next-day"
+              [attr.aria-label]="labels().nextDay"
+              (click)="shiftDays(1)"
+            >
+              <span aria-hidden="true">&#8250;</span>
+            </button>
+            <button
+              type="button"
+              class="date-time-picker-next-week"
+              [attr.aria-label]="labels().nextWeek"
+              (click)="shiftDays(7)"
+            >
+              <span aria-hidden="true">&#8250;&#8250;</span>
+            </button>
             <button
               type="button"
               class="date-time-picker-next-month"
@@ -736,6 +790,40 @@ export class DateTimePickerIcon {
               <span aria-hidden="true">&#187;</span>
             </button>
           </div>
+
+          @if (labels().timeZone) {
+            <!-- Before the grid, so the zone is chosen before the instant.
+                 The empty first option is the "no zone" state: the picker
+                 never guesses one from the runtime. -->
+            <div class="date-time-picker-time-zone">
+              <label
+                class="date-time-picker-time-zone-label"
+                [for]="timeZoneId"
+                >{{ labels().timeZone }}</label
+              >
+              <!-- A parent [value] binding on <select> races the @for
+                   block's own per-option bindings: Angular's update pass
+                   can apply the select's value before the dynamically
+                   created <option> elements have their own [value]
+                   applied, so the browser matches nothing. Binding
+                   [selected] on each <option> instead selects correctly
+                   regardless of that ordering, because it is evaluated as
+                   part of the same per-item update as the option's own
+                   value/text. -->
+              <select
+                class="date-time-picker-time-zone-select"
+                [id]="timeZoneId"
+                (change)="onTimeZoneSelect($event)"
+              >
+                <option value="" [selected]="timeZone() === ''"></option>
+                @for (zone of zoneOptions(); track zone) {
+                  <option [value]="zone" [selected]="zone === timeZone()">
+                    {{ zoneLabel(zone) }}
+                  </option>
+                }
+              </select>
+            </div>
+          }
 
           <!-- The grid owns its own keyboard contract, which is why the
                handler sits on the table rather than on each of 42 cells. -->
@@ -943,6 +1031,24 @@ export class DateTimePicker {
   readonly confirmOnSelect = input<boolean | undefined>(undefined);
   /** `name` of the hidden input that carries the value in a form post. */
   readonly name = input<string>("date-time");
+  /**
+   * Selected IANA time zone (e.g. `Europe/London`), or `""` for none.
+   * Two-way bindable via `[(timeZone)]`, matching `value`. Rides its own
+   * hidden input `{name}-time-zone` and is reflected as `data-time-zone`
+   * on the root. It is metadata about WHERE the civil value applies, not
+   * part of the value — converting to an instant stays the consumer's
+   * job. Never guessed from the runtime: the picker no more picks a zone
+   * than `locale-picker` picks a locale.
+   */
+  readonly timeZone = model<string>("");
+  /**
+   * Zones offered by the select. Defaults to every zone the runtime
+   * knows via `Intl.supportedValuesOf("timeZone")` — never a bundled
+   * table, the rule month and weekday names already follow.
+   */
+  readonly timeZones = input<string[] | undefined>(undefined);
+  /** Display text per zone id; a zone without an entry shows its id. */
+  readonly timeZoneLabels = input<Record<string, string>>({});
   /** `id` of the text field, so a consumer `<label for>` can name it. */
   readonly inputId = input<string>("");
   /** Forwarded to the text field as `aria-describedby`. */
@@ -1016,6 +1122,7 @@ export class DateTimePicker {
   protected readonly meridiemId = `${this.baseId}-meridiem`;
   protected readonly statusId = `${this.baseId}-status`;
   protected readonly instructionsId = `${this.baseId}-instructions`;
+  protected readonly timeZoneId = `${this.baseId}-time-zone`;
 
   protected readonly open = signal(false);
   protected readonly invalid = signal(false);
@@ -1107,6 +1214,18 @@ export class DateTimePicker {
   });
 
   /** The "March 2026" heading. */
+  /**
+   * `Intl.supportedValuesOf` is guarded rather than called bare: an empty
+   * select beats a throw at mount on an older embedded runtime that
+   * lacks the method entirely.
+   */
+  protected readonly zoneOptions = computed<string[]>(() => {
+    if (this.timeZones() !== undefined) return this.timeZones() as string[];
+    return typeof Intl.supportedValuesOf === "function"
+      ? Intl.supportedValuesOf("timeZone")
+      : [];
+  });
+
   protected readonly periodText = computed(() => {
     const viewYear = this.viewYear();
     const viewMonth = this.viewMonth();
@@ -1525,6 +1644,59 @@ export class DateTimePicker {
 
   protected shiftYear(delta: number): void {
     this.shiftMonth(delta * 12);
+  }
+
+  /**
+   * Week/day steps are the fine end of the header: unlike month/year,
+   * which move the GRID and merely carry the cursor, these move the
+   * pending day itself by ±7 / ±1 civil days and page the grid only
+   * when the new day leaves the shown month. A step off the min/max
+   * window is refused outright; a step onto a vetoed day moves the
+   * cursor — vetoed days are reachable, as with the arrow keys — but
+   * leaves the pending selection where it was. No commit even under
+   * `confirmOnSelect`.
+   */
+  protected shiftDays(delta: number): void {
+    const from = parseIsoDate(this.cursor()) ? this.cursor() : this.pendingDate();
+    if (!from) return;
+    const next = addDays(from, delta);
+    if (!withinRange(next, this.min() || undefined, this.max() || undefined)) {
+      return;
+    }
+    const hadGridFocus =
+      this.gridRef()?.nativeElement.contains(document.activeElement) === true;
+    const parsed = parseIsoDate(next);
+    if (
+      parsed &&
+      (parsed.year !== this.viewYear() || parsed.month !== this.viewMonth())
+    ) {
+      this.viewYear.set(parsed.year);
+      this.viewMonth.set(parsed.month);
+    }
+    this.cursor.set(next);
+    if (!this.dayDisabled(next)) this.pendingDate.set(next);
+    if (hadGridFocus) {
+      this.cdr.detectChanges();
+      this.focusCursor();
+    }
+  }
+
+  protected onTimeZoneSelect(event: Event): void {
+    this.timeZone.set((event.target as HTMLSelectElement).value);
+  }
+
+  /**
+   * A plain index expression (`timeZoneLabels()[zone] ?? zone`) trips
+   * NG8102: without `noUncheckedIndexedAccess`, TypeScript types a
+   * `Record<string, string>` index as always `string`, so the compiler
+   * sees the `??` as dead code even though a real, unlisted zone id is
+   * exactly the case it exists for. The cast documents that the index
+   * genuinely can miss.
+   */
+  protected zoneLabel(zone: string): string {
+    return (
+      (this.timeZoneLabels() as Record<string, string | undefined>)[zone] ?? zone
+    );
   }
 
   protected onGridKeydown(event: KeyboardEvent): void {
