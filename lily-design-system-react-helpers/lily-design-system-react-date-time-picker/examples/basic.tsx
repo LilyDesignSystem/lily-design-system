@@ -11,6 +11,10 @@ import DateTimePicker from "../DateTimePicker";
 const labels = {
     previousYear: "Previous year",
     previousMonth: "Previous month",
+    previousWeek: "Previous week",
+    previousDay: "Previous day",
+    nextDay: "Next day",
+    nextWeek: "Next week",
     nextMonth: "Next month",
     nextYear: "Next year",
     confirm: "OK",

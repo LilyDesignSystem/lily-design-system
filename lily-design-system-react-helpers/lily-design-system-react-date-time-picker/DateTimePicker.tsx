@@ -66,6 +66,14 @@ export type DateTimePickerLabels = {
     previousYear: string;
     /** Accessible name for the previous-month button. */
     previousMonth: string;
+    /** Accessible name for the previous-week button. */
+    previousWeek: string;
+    /** Accessible name for the previous-day button. */
+    previousDay: string;
+    /** Accessible name for the next-day button. */
+    nextDay: string;
+    /** Accessible name for the next-week button. */
+    nextWeek: string;
     /** Accessible name for the next-month button. */
     nextMonth: string;
     /** Accessible name for the next-year button. */
@@ -84,6 +92,12 @@ export type DateTimePickerLabels = {
     week?: string;
     /** Visible text of the clear button. The button renders only when set. */
     clear?: string;
+    /**
+     * Label for the time-zone select. The select renders only when set,
+     * for the same reason `clear` gates its button: a zone list is an
+     * opt-in part of the form, and we will not name it in English.
+     */
+    timeZone?: string;
     /**
      * Message announced when typed text will not parse or is out of
      * range. When set, a `role="status"` live region renders after the
@@ -143,6 +157,26 @@ export type Props = Omit<React.HTMLAttributes<HTMLDivElement>, "children" | "onC
     confirmOnSelect?: boolean;
     /** `name` of the hidden input that carries the value in a form post. */
     name?: string;
+    /**
+     * Selected IANA time zone (e.g. `Europe/London`), or `""` for none.
+     * When supplied, the zone is controlled — the same idiom as `value`.
+     * Rides its own hidden input `{name}-time-zone` and is reflected as
+     * `data-time-zone` on the root. It is metadata about WHERE the civil
+     * value applies, not part of the value — converting to an instant
+     * stays the consumer's job. Never guessed from the runtime: the
+     * picker no more picks a zone than `locale-picker` picks a locale.
+     */
+    timeZone?: string;
+    /**
+     * Zones offered by the select. Defaults to every zone the runtime
+     * knows via `Intl.supportedValuesOf("timeZone")` — never a bundled
+     * table, the rule month and weekday names already follow.
+     */
+    timeZones?: string[];
+    /** Display text per zone id; a zone without an entry shows its id. */
+    timeZoneLabels?: Record<string, string>;
+    /** Fires once per applied time-zone change. */
+    onTimeZoneChange?: (timeZone: string) => void;
     /** `id` of the text field, so a consumer `<label for>` can name it. */
     inputId?: string;
     /** Forwarded to the text field as `aria-describedby`. */
@@ -568,6 +602,10 @@ export function DateTimePicker({
     shortcuts = [],
     confirmOnSelect,
     name = "date-time",
+    timeZone,
+    timeZones,
+    timeZoneLabels = {},
+    onTimeZoneChange,
     inputId,
     describedBy,
     placeholder,
@@ -591,6 +629,18 @@ export function DateTimePicker({
     );
     const currentValue = isControlled ? (value as string) : internalValue;
 
+    // The zone follows the same controlled/uncontrolled split as `value`.
+    const zoneControlled = timeZone !== undefined;
+    const [internalZone, setInternalZone] = React.useState<string>(
+        zoneControlled ? (timeZone as string) : "",
+    );
+    const currentZone = zoneControlled ? (timeZone as string) : internalZone;
+    // Guarded: `Intl.supportedValuesOf` is ES2022 and absent from a few
+    // older embedded runtimes; an empty select beats a throw at mount.
+    const zoneOptions =
+        timeZones ??
+        (typeof Intl.supportedValuesOf === "function" ? Intl.supportedValuesOf("timeZone") : []);
+
     // `useId` is stable across server and client render, so every id
     // below survives hydration. No Math.random / Date.now.
     const baseId = `date-time-picker-${React.useId()}`;
@@ -600,6 +650,7 @@ export function DateTimePicker({
     const minuteId = `${baseId}-minute`;
     const meridiemId = `${baseId}-meridiem`;
     const statusId = `${baseId}-status`;
+    const timeZoneId = `${baseId}-time-zone`;
     const instructionsId = `${baseId}-instructions`;
     const fieldId = inputId ?? `${baseId}-input`;
 
@@ -1033,6 +1084,41 @@ export function DateTimePicker({
         shiftMonth(delta * 12);
     }
 
+    /**
+     * Week/day steps are the fine end of the header: unlike month/year,
+     * which move the GRID and merely carry the cursor, these move the
+     * pending day itself by ±7 / ±1 civil days and page the grid only
+     * when the new day leaves the shown month. A step off the min/max
+     * window is refused outright (nothing out there to land on); a step
+     * onto a vetoed day moves the cursor — vetoed days are reachable, as
+     * with the arrow keys — but leaves the pending selection where it
+     * was. No commit even under `confirmOnSelect`: a step is navigation,
+     * and a dialog that closed on every "next day" could not be stepped
+     * twice.
+     */
+    function shiftDays(delta: number): void {
+        const from = parseIsoDate(cursor) ? cursor : pendingDate;
+        if (!from) return;
+        const next = addDays(from, delta);
+        if (!withinRange(next, min, max)) return;
+        const hadGridFocus = gridRef.current?.contains(document.activeElement) === true;
+        const parsed = parseIsoDate(next);
+        if (parsed && (parsed.year !== viewYear || parsed.month !== viewMonth)) {
+            setViewYear(parsed.year);
+            setViewMonth(parsed.month);
+        }
+        setCursor(next);
+        if (!dayDisabled(next)) setPendingDate(next);
+        if (hadGridFocus) focusRequestRef.current = "cursor";
+    }
+
+    function onTimeZoneSelect(event: React.ChangeEvent<HTMLSelectElement>): void {
+        const next = event.target.value;
+        if (next === currentZone) return;
+        if (!zoneControlled) setInternalZone(next);
+        onTimeZoneChange?.(next);
+    }
+
     function onGridKeydown(event: React.KeyboardEvent<HTMLTableElement>): void {
         switch (event.key) {
             case "ArrowLeft":
@@ -1343,9 +1429,13 @@ export function DateTimePicker({
             ref={rootRef}
             className={`date-time-picker ${className}`.trim()}
             data-mode={mode}
+            data-time-zone={currentZone || undefined}
             {...restProps}
         >
             <input type="hidden" name={name} value={currentValue} />
+            {labels.timeZone !== undefined && (
+                <input type="hidden" name={`${name}-time-zone`} value={currentZone} />
+            )}
 
             <div className="date-time-picker-field">
                 <input
@@ -1436,6 +1526,22 @@ export function DateTimePicker({
                         >
                             <span aria-hidden="true">{"‹"}</span>
                         </button>
+                        <button
+                            type="button"
+                            className="date-time-picker-previous-week"
+                            aria-label={labels.previousWeek}
+                            onClick={() => shiftDays(-7)}
+                        >
+                            <span aria-hidden="true">{"‹‹"}</span>
+                        </button>
+                        <button
+                            type="button"
+                            className="date-time-picker-previous-day"
+                            aria-label={labels.previousDay}
+                            onClick={() => shiftDays(-1)}
+                        >
+                            <span aria-hidden="true">{"‹"}</span>
+                        </button>
 
                         {/* Polite, not assertive: paging months is the visible
                             result of the user's own keypress, so it should
@@ -1445,6 +1551,22 @@ export function DateTimePicker({
                             {periodText}
                         </span>
 
+                        <button
+                            type="button"
+                            className="date-time-picker-next-day"
+                            aria-label={labels.nextDay}
+                            onClick={() => shiftDays(1)}
+                        >
+                            <span aria-hidden="true">{"›"}</span>
+                        </button>
+                        <button
+                            type="button"
+                            className="date-time-picker-next-week"
+                            aria-label={labels.nextWeek}
+                            onClick={() => shiftDays(7)}
+                        >
+                            <span aria-hidden="true">{"››"}</span>
+                        </button>
                         <button
                             type="button"
                             className="date-time-picker-next-month"
@@ -1461,6 +1583,30 @@ export function DateTimePicker({
                         >
                             <span aria-hidden="true">{"»"}</span>
                         </button>
+                    </div>
+                )}
+
+                {/* Before the grid, so the zone is chosen before the instant.
+                    The empty first option is the "no zone" state: the picker
+                    never guesses one from the runtime. */}
+                {labels.timeZone !== undefined && (
+                    <div className="date-time-picker-time-zone">
+                        <label className="date-time-picker-time-zone-label" htmlFor={timeZoneId}>
+                            {labels.timeZone}
+                        </label>
+                        <select
+                            className="date-time-picker-time-zone-select"
+                            id={timeZoneId}
+                            value={currentZone}
+                            onChange={onTimeZoneSelect}
+                        >
+                            <option value=""></option>
+                            {zoneOptions.map((zone) => (
+                                <option key={zone} value={zone}>
+                                    {timeZoneLabels[zone] ?? zone}
+                                </option>
+                            ))}
+                        </select>
                     </div>
                 )}
 
