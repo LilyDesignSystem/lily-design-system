@@ -47,6 +47,10 @@ public class DateTimePickerTests : TestContext, IDisposable
     {
         PreviousYear = "PrevYear",
         PreviousMonth = "PrevMonth",
+        PreviousWeek = "PrevWeek",
+        PreviousDay = "PrevDay",
+        NextDay = "NextDay",
+        NextWeek = "NextWeek",
         NextMonth = "NextMonth",
         NextYear = "NextYear",
         Confirm = "Commit",
@@ -1066,4 +1070,157 @@ public class DateTimePickerTests : TestContext, IDisposable
         // field, so the component made no focus call of its own.
         Assert.Equal(focusCallsAfterOpen, FocusedRefIds().Count);
     }
+
+    // =================================================================
+    // P8-T12 (2026-09-04): week/day step buttons and the time-zone select.
+    // =================================================================
+
+    private static string PeriodText(IRenderedComponent<DateTimePicker> cut)
+        => cut.Find(".date-time-picker-period").TextContent.Trim();
+
+    [Fact]
+    public async Task Section_7_56_Header_Renders_Eight_Step_Buttons_Coarse_To_Fine_Each_Named_Only_By_Its_Label()
+    {
+        var cut = await OpenAtAsync("2026-03-15");
+        var header = cut.Find(".date-time-picker-header");
+        var buttons = header.QuerySelectorAll("button").ToList();
+        Assert.Equal(
+            new[]
+            {
+                "date-time-picker-previous-year",
+                "date-time-picker-previous-month",
+                "date-time-picker-previous-week",
+                "date-time-picker-previous-day",
+                "date-time-picker-next-day",
+                "date-time-picker-next-week",
+                "date-time-picker-next-month",
+                "date-time-picker-next-year",
+            },
+            buttons.Select(b => b.ClassName));
+        Assert.Equal(
+            new[] { "PrevYear", "PrevMonth", "PrevWeek", "PrevDay", "NextDay", "NextWeek", "NextMonth", "NextYear" },
+            buttons.Select(b => b.GetAttribute("aria-label")));
+        var period = header.QuerySelector(".date-time-picker-period");
+        var children = header.Children.ToList();
+        Assert.True(children.IndexOf(buttons[3]) < children.IndexOf(period!));
+    }
+
+    [Fact]
+    public async Task Section_7_57_Day_Steps_Move_The_Pending_Day_By_One_Civil_Day_Keep_The_Grid_On_The_Shown_Month_And_Keep_Focus_On_The_Button()
+    {
+        string? changed = null;
+        var cut = Render(p => p.Add(x => x.Value, "2026-03-15").Add(x => x.OnChange, v => changed = v));
+        await OpenAsync(cut);
+        var focusCallsAfterOpen = FocusedRefIds().Count;
+        var nextDay = cut.Find("button.date-time-picker-next-day");
+        await nextDay.ClickAsync(new MouseEventArgs());
+        await nextDay.ClickAsync(new MouseEventArgs());
+        Assert.Equal("2026-03-17", CursorDate(cut));
+        Assert.NotNull(Day(cut, "2026-03-17").GetAttribute("data-selected"));
+        Assert.Equal(focusCallsAfterOpen, FocusedRefIds().Count);
+        Assert.Equal("March 2026", PeriodText(cut));
+        Assert.Equal("2026-03-15", Hidden(cut).GetAttribute("value"));
+        Assert.Null(changed);
+        await cut.Find("button.date-time-picker-previous-day").ClickAsync(new MouseEventArgs());
+        await cut.Find("button.date-time-picker-confirm").ClickAsync(new MouseEventArgs());
+        Assert.Equal("2026-03-16", Hidden(cut).GetAttribute("value"));
+        Assert.Equal("2026-03-16", changed);
+    }
+
+    [Fact]
+    public async Task Section_7_58_Week_Steps_Move_The_Pending_Day_By_Seven_Civil_Days_And_Page_The_Grid_Only_When_Leaving_The_Shown_Month()
+    {
+        var cut = await OpenAtAsync("2026-03-25");
+        var nextWeek = cut.Find("button.date-time-picker-next-week");
+        await nextWeek.ClickAsync(new MouseEventArgs());
+        Assert.Equal("2026-04-01", CursorDate(cut));
+        Assert.Equal("April 2026", PeriodText(cut));
+        var previousWeek = cut.Find("button.date-time-picker-previous-week");
+        await previousWeek.ClickAsync(new MouseEventArgs());
+        Assert.Equal("2026-03-25", CursorDate(cut));
+        Assert.Equal("March 2026", PeriodText(cut));
+        await previousWeek.ClickAsync(new MouseEventArgs());
+        Assert.Equal("2026-03-18", CursorDate(cut));
+        Assert.Equal("March 2026", PeriodText(cut));
+    }
+
+    [Fact]
+    public async Task Section_7_59_A_Step_Past_MinMax_Is_Refused_A_Step_Onto_A_Vetoed_Day_Moves_The_Cursor_But_Not_The_Pending_Selection()
+    {
+        var cut = Render(p => p
+            .Add(x => x.Value, "2026-03-15")
+            .Add(x => x.Max, "2026-03-16")
+            .Add(x => x.IsDateDisabled, (string iso) => iso == "2026-03-16"));
+        await OpenAsync(cut);
+        var nextDay = cut.Find("button.date-time-picker-next-day");
+        await nextDay.ClickAsync(new MouseEventArgs());
+        Assert.Equal("2026-03-16", CursorDate(cut));
+        Assert.Equal("true", Day(cut, "2026-03-16").GetAttribute("aria-disabled"));
+        Assert.NotNull(Day(cut, "2026-03-15").GetAttribute("data-selected"));
+        Assert.Null(Day(cut, "2026-03-16").GetAttribute("data-selected"));
+        await nextDay.ClickAsync(new MouseEventArgs());
+        Assert.Equal("2026-03-16", CursorDate(cut));
+        await cut.Find("button.date-time-picker-next-week").ClickAsync(new MouseEventArgs());
+        Assert.Equal("2026-03-16", CursorDate(cut));
+    }
+
+    [Fact]
+    public async Task Section_7_60_The_TimeZone_Select_Renders_Only_With_LabelsTimeZone_Lists_The_Runtimes_Zones_By_Default_And_Honours_TimeZonesTimeZoneLabels()
+    {
+        var bare = await OpenAtAsync("2026-03-15");
+        Assert.Empty(bare.FindAll(".date-time-picker-time-zone"));
+        Assert.Empty(bare.FindAll("input[name='date-time-time-zone']"));
+
+        var labelsWithZone = Labels with { TimeZone = "Zone" };
+        var cut = Render(p => p.Add(x => x.Value, "2026-03-15"), labels: labelsWithZone);
+        await OpenAsync(cut);
+        var select = cut.Find(".date-time-picker-time-zone-select");
+        var label = cut.Find(".date-time-picker-time-zone-label");
+        Assert.Equal("Zone", label.TextContent.Trim());
+        Assert.Equal(select.GetAttribute("id"), label.GetAttribute("for"));
+        var options = select.QuerySelectorAll("option").ToList();
+        var runtimeZones = System.TimeZoneInfo.GetSystemTimeZones().Count;
+        Assert.True(runtimeZones > 20);
+        Assert.Equal("", options[0].GetAttribute("value"));
+        Assert.True(options.Count - 1 > 0);
+        Assert.Equal("", ((IHtmlSelectElement)select).Value);
+        // Position in the rendered markup, not node identity: bUnit's own
+        // Find() results are not guaranteed reference-stable across calls.
+        var markup = cut.Markup;
+        Assert.True(
+            markup.IndexOf("date-time-picker-time-zone", StringComparison.Ordinal) <
+            markup.IndexOf("date-time-picker-calendar", StringComparison.Ordinal));
+    }
+
+    [Fact]
+    public async Task Section_7_61_Choosing_A_Zone_Rides_NameTimeZone_DataTimeZone_And_TimeZoneChanged_And_Leaves_The_Value_Alone()
+    {
+        string? changedZone = null;
+        string? changed = null;
+        var labelsWithZone = Labels with { TimeZone = "Zone" };
+        var cut = Render(p => p
+            .Add(x => x.Value, "2026-03-15")
+            .Add(x => x.Name, "when")
+            .Add(x => x.TimeZone, "Europe/London")
+            .Add(x => x.TimeZones, new[] { "Europe/London", "Asia/Tokyo" })
+            .Add(x => x.TimeZoneLabels, new Dictionary<string, string> { ["Asia/Tokyo"] = "Tokyo" })
+            .Add(x => x.TimeZoneChanged, (string z) => changedZone = z)
+            .Add(x => x.OnChange, (string v) => changed = v), labels: labelsWithZone);
+        await OpenAsync(cut);
+        var select = cut.Find(".date-time-picker-time-zone-select");
+        var options = select.QuerySelectorAll("option").ToList();
+        Assert.Equal(new[] { "", "Europe/London", "Asia/Tokyo" }, options.Select(o => o.GetAttribute("value")));
+        Assert.Equal(new[] { "", "Europe/London", "Tokyo" }, options.Select(o => o.TextContent));
+        var zoneInput = cut.Find("input[name='when-time-zone']");
+        Assert.Equal("Europe/London", zoneInput.GetAttribute("value"));
+        Assert.Equal("Europe/London", Root(cut).GetAttribute("data-time-zone"));
+
+        await select.ChangeAsync(new ChangeEventArgs { Value = "Asia/Tokyo" });
+        Assert.Equal("Asia/Tokyo", changedZone);
+        Assert.Equal("Asia/Tokyo", cut.Find("input[name='when-time-zone']").GetAttribute("value"));
+        Assert.Equal("Asia/Tokyo", Root(cut).GetAttribute("data-time-zone"));
+        Assert.Equal("2026-03-15", cut.Find("input[name='when']").GetAttribute("value"));
+        Assert.Null(changed);
+    }
+
 }

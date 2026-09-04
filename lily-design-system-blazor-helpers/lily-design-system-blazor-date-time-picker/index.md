@@ -34,6 +34,10 @@ Add a project reference to
     {
         PreviousYear = "Previous year",
         PreviousMonth = "Previous month",
+        PreviousWeek = "Previous week",
+        PreviousDay = "Previous day",
+        NextDay = "Next day",
+        NextWeek = "Next week",
         NextMonth = "Next month",
         NextYear = "Next year",
         Confirm = "OK",
@@ -164,6 +168,8 @@ learns their date was refused.
     private static readonly DateTimePickerLabels ClearableLabels = new()
     {
         PreviousYear = "Previous year", PreviousMonth = "Previous month",
+        PreviousWeek = "Previous week", PreviousDay = "Previous day",
+        NextDay = "Next day", NextWeek = "Next week",
         NextMonth = "Next month", NextYear = "Next year",
         Confirm = "OK", Cancel = "Cancel",
         Clear = "Clear date",
@@ -241,7 +247,10 @@ Class hooks: `.date-time-picker` (root), `.date-time-picker-field`,
 `Labels.Invalid`), `.date-time-picker-dialog`,
 `.date-time-picker-instructions` (only with `Labels.Instructions`),
 `.date-time-picker-header`, `.date-time-picker-previous-year` /
-`-previous-month` / `-next-month` / `-next-year`, `.date-time-picker-period`,
+`-previous-month` / `-previous-week` / `-previous-day` / `-next-day` /
+`-next-week` / `-next-month` / `-next-year`, `.date-time-picker-period`,
+`.date-time-picker-time-zone` / `-time-zone-label` / `-time-zone-select`
+(only with `Labels.TimeZone`),
 `.date-time-picker-calendar`, `.date-time-picker-week-heading`,
 `.date-time-picker-weekday`, `.date-time-picker-week`,
 `.date-time-picker-day`, `.date-time-picker-time`,

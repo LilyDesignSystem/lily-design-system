@@ -23,10 +23,15 @@
 <div class="@RootClass"
      id="@RootId"
      data-mode="@ModeAttribute"
+     data-time-zone="@(string.IsNullOrEmpty(SafeTimeZone) ? null : SafeTimeZone)"
      @onfocusout="OnRootFocusOut"
      @attributes="AdditionalAttributes">
 
     <input type="hidden" name="@Name" value="@SafeValue" />
+    @if (HasTimeZoneLabel)
+    {
+        <input type="hidden" name="@($"{Name}-time-zone")" value="@SafeTimeZone" />
+    }
 
     <div class="date-time-picker-field">
         <input class="date-time-picker-input"
@@ -109,12 +114,28 @@
                         aria-label="@Labels.PreviousMonth" @onclick="() => ShiftMonth(-1, false)">
                     <span aria-hidden="true">&#8249;</span>
                 </button>
+                <button type="button" class="date-time-picker-previous-week"
+                        aria-label="@Labels.PreviousWeek" @onclick="() => ShiftDays(-7)">
+                    <span aria-hidden="true">&#8249;&#8249;</span>
+                </button>
+                <button type="button" class="date-time-picker-previous-day"
+                        aria-label="@Labels.PreviousDay" @onclick="() => ShiftDays(-1)">
+                    <span aria-hidden="true">&#8249;</span>
+                </button>
 
                 @* Polite, not assertive: paging months is the visible result of
                    the user's own keypress, so it should reach a screen reader
                    without interrupting anything. *@
                 <span class="date-time-picker-period" id="@PeriodId" aria-live="polite">@PeriodText</span>
 
+                <button type="button" class="date-time-picker-next-day"
+                        aria-label="@Labels.NextDay" @onclick="() => ShiftDays(1)">
+                    <span aria-hidden="true">&#8250;</span>
+                </button>
+                <button type="button" class="date-time-picker-next-week"
+                        aria-label="@Labels.NextWeek" @onclick="() => ShiftDays(7)">
+                    <span aria-hidden="true">&#8250;&#8250;</span>
+                </button>
                 <button type="button" class="date-time-picker-next-month"
                         aria-label="@Labels.NextMonth" @onclick="() => ShiftMonth(1, false)">
                     <span aria-hidden="true">&#8250;</span>
@@ -124,6 +145,25 @@
                     <span aria-hidden="true">&#187;</span>
                 </button>
             </div>
+
+            @if (HasTimeZoneLabel)
+            {
+                @* Before the grid, so the zone is chosen before the
+                   instant. The empty first option is the "no zone"
+                   state: the component never guesses one from the
+                   runtime. *@
+                <div class="date-time-picker-time-zone">
+                    <label class="date-time-picker-time-zone-label" for="@TimeZoneId">@Labels.TimeZone</label>
+                    <select class="date-time-picker-time-zone-select" id="@TimeZoneId"
+                            value="@SafeTimeZone" @onchange="OnTimeZoneChangeAsync">
+                        <option value=""></option>
+                        @foreach (var zone in ZoneOptions)
+                        {
+                            <option value="@zone">@ZoneLabel(zone)</option>
+                        }
+                    </select>
+                </div>
+            }
 
             <table class="date-time-picker-calendar" role="grid" aria-labelledby="@PeriodId"
                    @onkeydown="OnGridKeyDownAsync" @onmousedown:preventDefault="true">

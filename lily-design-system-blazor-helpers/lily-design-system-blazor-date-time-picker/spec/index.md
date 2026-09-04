@@ -130,6 +130,10 @@ Identical to the canonical spec §2:
 | `OnShortcut` | `EventCallback<(string Id, string IsoDate)>` | no | — | Fires when a shortcut is used. |
 | `OnInvalidInput` | `EventCallback<string>` | no | — | Fires when typed text will not parse. |
 | `CssClass` | `string` | no | `""` | Extra CSS class on the root `<div>`. |
+| `TimeZone` | `string` | no | `""` | Selected IANA zone, or `""` for none. Rides `{Name}-time-zone` and `data-time-zone`. See §5.9. |
+| `TimeZones` | `IReadOnlyList<string>?` | no | `TimeZoneInfo.GetSystemTimeZones()` converted to IANA ids | Zones offered by the select. |
+| `TimeZoneLabels` | `IReadOnlyDictionary<string, string>?` | no | `null` | Display text per zone id; unlisted zones show their id. |
+| `TimeZoneChanged` | `EventCallback<string>` | no | — | Fires once per applied zone change. |
 | `AdditionalAttributes` | unmatched attributes | no | — | Spread onto the root `<div>`. |
 
 ```csharp
@@ -151,6 +155,10 @@ public sealed class DateTimePickerLabels
 {
     public required string PreviousYear { get; init; }
     public required string PreviousMonth { get; init; }
+    public required string PreviousWeek { get; init; }
+    public required string PreviousDay { get; init; }
+    public required string NextDay { get; init; }
+    public required string NextWeek { get; init; }
     public required string NextMonth { get; init; }
     public required string NextYear { get; init; }
     public required string Confirm { get; init; }
@@ -160,6 +168,7 @@ public sealed class DateTimePickerLabels
     public string? Meridiem { get; init; }
     public string? Week { get; init; }
     public string? Clear { get; init; }
+    public string? TimeZone { get; init; }
     public string? Invalid { get; init; }
     public string? Instructions { get; init; }
 }
@@ -192,6 +201,8 @@ canonical accessibility hardening (as `Invalid` / `Instructions` here).
 ```html
 <div class="date-time-picker {CssClass}" id="{rootId}" data-mode="date" ...AdditionalAttributes>
   <input type="hidden" name="{Name}" value="{Value}" />
+  <!-- Only when Labels.TimeZone: the zone's own form participation. -->
+  <input type="hidden" name="{Name}-time-zone" value="{TimeZone}" />
 
   <div class="date-time-picker-field">
     <input class="date-time-picker-input" id="{fieldId}" type="text"
@@ -216,9 +227,24 @@ canonical accessibility hardening (as `Invalid` / `Instructions` here).
     <div class="date-time-picker-header">
       <button class="date-time-picker-previous-year"  aria-label="…">…</button>
       <button class="date-time-picker-previous-month" aria-label="…">…</button>
+      <button class="date-time-picker-previous-week"  aria-label="…">…</button>
+      <button class="date-time-picker-previous-day"   aria-label="…">…</button>
       <span   class="date-time-picker-period" id="{periodId}" aria-live="polite">March 2026</span>
+      <button class="date-time-picker-next-day"       aria-label="…">…</button>
+      <button class="date-time-picker-next-week"      aria-label="…">…</button>
       <button class="date-time-picker-next-month"     aria-label="…">…</button>
       <button class="date-time-picker-next-year"      aria-label="…">…</button>
+    </div>
+
+    <!-- Only when Labels.TimeZone. Before the grid: the zone is chosen
+         before the instant. The empty first option is the "no zone" state. -->
+    <div class="date-time-picker-time-zone">
+      <label class="date-time-picker-time-zone-label" for="{timeZoneId}">…</label>
+      <select class="date-time-picker-time-zone-select" id="{timeZoneId}">
+        <option value=""></option>
+        <option value="Africa/Abidjan">Africa/Abidjan</option>
+        <!-- … one per zone in TimeZones, default the runtime's TimeZoneInfo list converted to IANA ids … -->
+      </select>
     </div>
 
     <table class="date-time-picker-calendar" role="grid" aria-labelledby="{periodId}">
@@ -362,6 +388,43 @@ analogue: a static-SSR render diverging from the interactive render that
 replaces it). Instance ids come from a monotonic `Interlocked.Increment`
 counter — never `Guid.NewGuid()` or a clock read — so server and client
 renders agree.
+
+### 5.8 Header step buttons
+
+The header carries four **pairs** of step buttons, coarse to fine, with
+the live period label in the middle: year, month, week, day. Year and
+month move the grid (which month is shown; the pending selection is
+untouched). Week and day move the **pending day** itself by ±7 / ±1
+civil days and page the grid only when the new day leaves the shown
+month; a step past `Min`/`Max` is refused, a step onto a vetoed day
+moves the cursor but not the pending selection, and a step never
+commits. All eight are header-button-only — there is no keyboard path
+onto `ShiftDays`, so it never needs to move focus, unlike `ShiftMonth`
+which is shared with the grid's `PageUp`/`PageDown`.
+
+### 5.9 Time zone
+
+An opt-in native `<select>` of IANA zones, gated on `Labels.TimeZone`
+exactly as the clear button is gated on `Labels.Clear`. It sits before
+the grid so the zone is chosen before the instant.
+
+- The list is `TimeZoneInfo.GetSystemTimeZones()` by default — never a
+  bundled table, the rule month and weekday names already follow. .NET's
+  ids are not IANA ids on Windows, so each is converted via
+  `TimeZoneInfo.TryConvertWindowsIdToIanaId`; one that fails to convert
+  is skipped rather than surfaced under a wrong id. `TimeZones` narrows
+  the list; `TimeZoneLabels` changes what a zone displays as.
+- `TimeZone` is written directly, the same idiom `CommitAsync` already
+  uses for `Value` — not a controlled/uncontrolled split, since Blazor
+  parameters are plain settable properties. It rides its own hidden
+  input, `{Name}-time-zone`, and is reflected as `data-time-zone` on the
+  root (absent while empty). `TimeZoneChanged` fires once per applied
+  change.
+- The picker's **value contract is unchanged** — a zone is metadata
+  about *where* the civil time applies, not part of it; converting to
+  an instant is the consumer's job, and `OnChange`/`ValueChanged` never
+  fire for a zone change.
+- No zone is selected unless the consumer sets one.
 
 ## 6. Accessibility
 
@@ -527,6 +590,12 @@ harness note at the top of `DateTimePickerTests.cs`.
 | §7.53 | Paging from a header button makes no focus request (the user stays on the button) while the cursor carries; paging from the grid requests focus on the carried cursor. |
 | §7.54 | `Labels.Instructions` renders keyboard help referenced by the dialog's `aria-describedby`; absent without the label. |
 | §7.55 | Clicking the text field while the dialog is open closes it without committing and without a focus request. |
+| §7.56 | The header renders eight step buttons in coarse-to-fine order around the period label, each named only by its label. |
+| §7.57 | Day steps move the pending day ±1 civil day, keep the grid on the shown month, make no focus request, and commit nothing until Confirm. |
+| §7.58 | Week steps move the pending day ±7 civil days and page the grid only when leaving the shown month. |
+| §7.59 | A step past `Min`/`Max` is refused; a step onto a vetoed day moves the cursor but not the pending selection. |
+| §7.60 | The time-zone select renders only with `Labels.TimeZone`, is labelled by it, lists the runtime's zones after an empty option by default, sits before the grid, and starts with no zone. |
+| §7.61 | Choosing a zone updates `{Name}-time-zone`, `data-time-zone`, and `TimeZoneChanged` once; `TimeZones`/`TimeZoneLabels` are honoured; the value and `OnChange` are untouched. |
 
 ## 8. DHCW feature parity
 

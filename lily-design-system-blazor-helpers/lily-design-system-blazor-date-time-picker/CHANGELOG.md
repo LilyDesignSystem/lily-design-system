@@ -4,6 +4,42 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.2.0 — 2026-09-04
+
+Week/day step buttons and a time-zone select (monorepo plan P8-T12;
+root contract `spec/date-time-picker/index.md`; ported from the
+canonical Svelte helper).
+
+### Breaking
+
+- `DateTimePickerLabels` gains four **required** entries —
+  `PreviousWeek`, `PreviousDay`, `NextDay`, `NextWeek` — naming the four
+  new header buttons. The `required` C# modifier enforces this at
+  compile time: an existing object initializer fails to build until it
+  supplies them.
+
+### Added
+
+- Header buttons `.date-time-picker-previous-week`, `-previous-day`,
+  `-next-day`, `-next-week`, placed inside the year/month pair, coarse
+  to fine around the period label. Header-button-only — no keyboard
+  path calls `ShiftDays`, so it never needs to move focus, unlike
+  `ShiftMonth` (shared with the grid's PageUp/PageDown). Unlike
+  year/month (which move the grid), these move the **pending day** by
+  ±7 / ±1 civil days and page the grid only when the day leaves the
+  shown month; a step past `Min`/`Max` is refused, a step onto a vetoed
+  day moves the cursor only, and a step never commits.
+- An opt-in time-zone `<select>` (`.date-time-picker-time-zone`,
+  `-time-zone-label`, `-time-zone-select`), gated on the new optional
+  `Labels.TimeZone`, listing `TimeZoneInfo.GetSystemTimeZones()`
+  (converted to IANA ids on Windows) — never a bundled table. New
+  parameters `TimeZone` (written directly, the same idiom `CommitAsync`
+  uses for `Value`), `TimeZones`, `TimeZoneLabels`, `TimeZoneChanged`;
+  the zone rides a hidden `{Name}-time-zone` input and `data-time-zone`
+  on the root. The value contract is unchanged.
+- Tests §7.56–§7.61, one per new acceptance clause (71 in the package,
+  240 in the catalog, all green).
+
 ## 0.1.0 — 2026-07-30
 
 First published release. Nothing earlier shipped, so the

@@ -87,6 +87,18 @@ public sealed record DateTimePickerLabels
     /// <summary>Accessible name for the previous-month button.</summary>
     public required string PreviousMonth { get; init; }
 
+    /// <summary>Accessible name for the previous-week button.</summary>
+    public required string PreviousWeek { get; init; }
+
+    /// <summary>Accessible name for the previous-day button.</summary>
+    public required string PreviousDay { get; init; }
+
+    /// <summary>Accessible name for the next-day button.</summary>
+    public required string NextDay { get; init; }
+
+    /// <summary>Accessible name for the next-week button.</summary>
+    public required string NextWeek { get; init; }
+
     /// <summary>Accessible name for the next-month button.</summary>
     public required string NextMonth { get; init; }
 
@@ -113,6 +125,14 @@ public sealed record DateTimePickerLabels
 
     /// <summary>Visible text of the clear button. The button renders only when set.</summary>
     public string? Clear { get; init; }
+
+    /// <summary>
+    /// Label for the time-zone select. The select renders only when set,
+    /// for the same reason <see cref="Clear"/> gates its button: a zone
+    /// list is an opt-in part of the form, and we will not name it in
+    /// English.
+    /// </summary>
+    public string? TimeZone { get; init; }
 
     /// <summary>
     /// Message announced when typed text will not parse or is out of range.
@@ -224,6 +244,31 @@ public partial class DateTimePicker : ComponentBase, IAsyncDisposable
 
     /// <summary><c>name</c> of the hidden input that carries the value in a form post.</summary>
     [Parameter] public string Name { get; set; } = "date-time";
+
+    /// <summary>
+    /// Selected IANA time zone (e.g. <c>Europe/London</c>), or <c>""</c>
+    /// for none. Rides its own hidden input <c>{Name}-time-zone</c> and is
+    /// reflected as <c>data-time-zone</c> on the root. It is metadata about
+    /// WHERE the civil value applies, not part of the value — converting
+    /// to an instant stays the consumer's job. Never guessed from the
+    /// runtime: the component no more picks a zone than LocalePicker
+    /// picks a locale.
+    /// </summary>
+    [Parameter] public string TimeZone { get; set; } = "";
+
+    /// <summary>Fires after a time-zone change is applied.</summary>
+    [Parameter] public EventCallback<string> TimeZoneChanged { get; set; }
+
+    /// <summary>
+    /// Zones offered by the select. Defaults to every zone the runtime
+    /// knows via <c>TimeZoneInfo.GetSystemTimeZones()</c> (converted to
+    /// IANA ids on Windows) — never a bundled table, the rule month and
+    /// weekday names already follow.
+    /// </summary>
+    [Parameter] public IReadOnlyList<string>? TimeZones { get; set; }
+
+    /// <summary>Display text per zone id; a zone without an entry shows its id.</summary>
+    [Parameter] public IReadOnlyDictionary<string, string>? TimeZoneLabels { get; set; }
 
     /// <summary><c>id</c> of the text field, so a consumer <c>&lt;label for&gt;</c> can name it.</summary>
     [Parameter] public string? InputId { get; set; }
@@ -427,6 +472,43 @@ public partial class DateTimePicker : ComponentBase, IAsyncDisposable
     private bool HasInvalidLabel => !string.IsNullOrEmpty(Labels.Invalid);
 
     private bool HasInstructionsLabel => !string.IsNullOrEmpty(Labels.Instructions);
+
+    private bool HasTimeZoneLabel => !string.IsNullOrEmpty(Labels.TimeZone);
+
+    private string SafeTimeZone => TimeZone ?? "";
+
+    private string TimeZoneId => $"{_baseId}-time-zone";
+
+    /// <summary>
+    /// The runtime's own zone list, never a bundled table. Windows'
+    /// <c>TimeZoneInfo</c> ids are not IANA ids, so each is converted;
+    /// any that fails to convert is skipped rather than surfaced as a
+    /// wrong id.
+    /// </summary>
+    private IReadOnlyList<string> ZoneOptions
+    {
+        get
+        {
+            if (TimeZones is { Count: > 0 } supplied) return supplied;
+            var result = new List<string>();
+            foreach (var tz in System.TimeZoneInfo.GetSystemTimeZones())
+            {
+                if (System.TimeZoneInfo.TryConvertWindowsIdToIanaId(tz.Id, out var iana))
+                {
+                    result.Add(iana);
+                }
+                else if (tz.Id.Contains('/'))
+                {
+                    // Already IANA-shaped (Linux/macOS system zones).
+                    result.Add(tz.Id);
+                }
+            }
+            return result;
+        }
+    }
+
+    private string ZoneLabel(string zone) =>
+        TimeZoneLabels is { } labels && labels.TryGetValue(zone, out var text) ? text : zone;
 
     /// <summary>
     /// <c>aria-describedby</c> for the field: the consumer's hint, plus —
@@ -831,6 +913,41 @@ public partial class DateTimePicker : ComponentBase, IAsyncDisposable
     }
 
     private void ShiftYear(int delta, bool refocusCursor) => ShiftMonth(delta * 12, refocusCursor);
+
+    /// <summary>
+    /// Week/day steps are the fine end of the header: unlike month/year,
+    /// which move the GRID and merely carry the cursor, these move the
+    /// pending day itself by ±7 / ±1 civil days and page the grid only
+    /// when the new day leaves the shown month. A step off the min/max
+    /// window is refused outright; a step onto a vetoed day moves the
+    /// cursor — vetoed days are reachable, as with the arrow keys — but
+    /// leaves the pending selection where it was. No commit even under
+    /// <see cref="ConfirmOnSelect"/>. Header-button-only (no keyboard
+    /// path calls this), so it never needs to move focus.
+    /// </summary>
+    private void ShiftDays(int delta)
+    {
+        var from = ParseIsoDate(_cursor) is not null ? _cursor : _pendingDate;
+        if (string.IsNullOrEmpty(from)) return;
+        var next = AddDays(from, delta);
+        if (!WithinRange(next, Min, Max)) return;
+        var parsed = ParseIsoDate(next);
+        if (parsed is { } p && (p.Year != _viewYear || p.Month != _viewMonth))
+        {
+            _viewYear = p.Year;
+            _viewMonth = p.Month;
+        }
+        _cursor = next;
+        if (!DayDisabled(next)) _pendingDate = next;
+    }
+
+    private async Task OnTimeZoneChangeAsync(ChangeEventArgs args)
+    {
+        var next = args.Value?.ToString() ?? "";
+        if (next == SafeTimeZone) return;
+        TimeZone = next;
+        await TimeZoneChanged.InvokeAsync(next);
+    }
 
     private async Task OnGridKeyDownAsync(KeyboardEventArgs args)
     {
