@@ -1746,26 +1746,38 @@ dropped. None is speculative.
   text-size,motion,share,date-time}-picker version` → `0.1.0` for all
   six, and the job log shows six `+ …@0.1.0` lines.
 
-- [ ] **P8-T12 `date-time-picker`: week/day step buttons and a
-  time-zone select.** Spec-first: `spec/date-time-picker/index.md`
-  (2026-09-03) now specifies four pairs of step buttons —
-  previous/next **year** and **month** (already shipped, canonical DOM
-  contract §4.3) plus previous/next **week** and **day** (new) — and a
-  native time-zone `<select>` populated from
+- [x] **P8-T12 `date-time-picker`: week/day step buttons and a
+  time-zone select.** Closed 2026-09-04. Spec-first:
+  `spec/date-time-picker/index.md` (2026-09-03) specified four pairs of
+  step buttons — previous/next **year** and **month** (already
+  shipped, canonical DOM contract §4.3) plus previous/next **week** and
+  **day** (new) — and a native time-zone `<select>` populated from
   `Intl.supportedValuesOf("timeZone")` (418 zones on Node 26, never a
   bundled table), with its own hidden input, `data-time-zone` on the
   root, optional `timeZones` subset and `timeZoneLabels`, and no
   guessed default. Value contract unchanged (civil ISO); the zone is
-  metadata. Implement Svelte canonical first (spec §4.3/§5/§6.2 + one
-  test per new acceptance clause: 4 new labels, ±7/±1 civil-day steps
-  that page the grid only when leaving the shown month, zone select
-  contents and form participation), then port to react, vue, angular,
-  html, nunjucks, blazor, web-components; extend `bin/smoke-packages`
-  attrs and the 45 themes' `.date-time-picker-*` hooks for the new
-  classes.
-  Verify: every catalog's date-time-picker suite green with the new
-  clauses; `bin/check-theme` clean; the root spec's Status note
-  updated from "implemented nowhere yet" to shipped.
+  metadata. Implemented Svelte canonical first (0.2.0, 71 tests, 6 new
+  acceptance clauses §7.56–§7.61), then ported clause-for-clause to
+  react, vue, angular, html, nunjucks, blazor, and web-components —
+  each catalog's `date-time-picker` package landed its own 0.2.0 (or
+  0.3.0 for Angular, which already carried an unrelated peer-range
+  bump) with the same six new tests, green in every catalog's full
+  suite. The Angular port found and fixed a real defect along the way:
+  the `<select>`'s own `[value]` binding raced its `@for`-generated
+  `<option>` children (Angular's update pass could apply the select's
+  value before the dynamically created options had their own `[value]`
+  applied, matching nothing) — switched to `[selected]` on each
+  `<option>`, evaluated as part of that option's own update instead.
+  `bin/smoke-packages`'s six `dtLabels` fixtures (react, vue, html,
+  web-components, nunjucks, svelte) and all 45 reference themes'
+  `.date-time-picker-*` CSS hooks (the four new header-button classes
+  plus `.date-time-picker-time-zone` / `-time-zone-label` /
+  `-time-zone-select`) were extended to match.
+  Verified: every catalog's date-time-picker suite green with the new
+  clauses (mutation-tested — each catalog's §7.59 confirmed to fail
+  when its range guard is removed); `bin/check-theme` clean across all
+  45 themes; the root spec's Status note updated from "implemented
+  nowhere yet" to shipped.
 
 ---
 

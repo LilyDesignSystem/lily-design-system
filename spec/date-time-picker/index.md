@@ -121,10 +121,16 @@ from `Intl`, never a bundled table. Its structural labels are
 **required** with no English default. Escape in the field reverts a
 pending edit; closing the dialog returns focus to its opener.
 
-**Status (2026-09-03).** Previous/next **year** and **month** buttons are
-shipped in every catalog's `date-time-picker` (canonical DOM contract
-§4.3). Previous/next **week** and **day** buttons and the **time-zone
-select** are new contract added here first and implemented nowhere yet —
-tracked as `tasks.md` P8-T12, Svelte canonical first, then the seven
-ports. Until that lands, this page describes the intended contract, not
-current behaviour, for those three.
+**Status (2026-09-04).** All eight buttons in the navigation header
+(previous/next year, month, week, day) and the time-zone select are
+shipped in every catalog's `date-time-picker` — the full canonical DOM
+contract above (§4.3, plus the week/day buttons and time-zone select
+added in this revision) is implemented, not aspirational. Landed
+Svelte canonical first (`lily-design-system-svelte-date-time-picker`
+0.2.0), then ported to React, Vue, Angular, HTML, Nunjucks, Blazor, and
+Web Components (each catalog's own `date-time-picker` package at
+0.2.0/0.3.0; the Angular port also fixed a real defect it found along
+the way — a `<select>`'s own `[value]` binding racing its `@for`-
+generated `<option>` children, switched to per-`<option>` `[selected]`).
+`bin/smoke-packages` and the 45 reference themes were extended to
+match; see `tasks.md` P8-T12 and `CHANGELOG.md` for the full record.

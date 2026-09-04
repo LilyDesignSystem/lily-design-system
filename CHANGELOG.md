@@ -9,6 +9,40 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## `date-time-picker`: week/day step buttons and a time-zone select — 2026-09-04
+
+**P8-T12 closed.** All eight catalogs' `date-time-picker` helper gained
+four new header step buttons (previous/next **week**, previous/next
+**day** — moving the pending day by ±7 / ±1 civil days and paging the
+grid only when the day leaves the shown month, distinct from the
+existing year/month pair which moves the grid itself) and an opt-in
+time-zone `<select>` gated on a new `labels.timeZone`, populated from
+`Intl.supportedValuesOf("timeZone")` (418 zones on Node 26) — never a
+bundled table. The four new header-button labels are **required**
+(breaking): `previousWeek`, `previousDay`, `nextDay`, `nextWeek`. The
+zone rides its own hidden `{name}-time-zone` input and `data-time-zone`
+on the root; the picker's civil-ISO value contract is unchanged, since
+a zone is metadata about where the value applies, not part of it.
+
+Landed Svelte canonical first
+(`lily-design-system-svelte-date-time-picker` 0.2.0, 71 tests, six new
+acceptance clauses §7.56–§7.61), then ported clause-for-clause to
+React, Vue, Angular, HTML, Nunjucks, Blazor, and Web Components — each
+catalog's own `date-time-picker` package landed the same six tests,
+green in that catalog's full suite (each §7.59 mutation-tested: proven
+to fail when its range guard is removed). Angular's port (0.3.0) found
+and fixed a real, unrelated-to-the-feature defect along the way: a
+`<select>`'s own `[value]` binding races its `@for`-generated
+`<option>` children — Angular's update pass could apply the select's
+value before the dynamically created options had their own `[value]`
+applied, so the browser matched nothing — fixed by moving to a
+`[selected]` binding on each `<option>` instead. `bin/smoke-packages`'s
+six `dtLabels` fixtures and all 45 reference themes' `.date-time-picker-*`
+CSS hooks were extended to match; `bin/check-theme` stays clean.
+
+Full per-catalog detail: each package's own `CHANGELOG.md`; the
+contract: [spec/date-time-picker/index.md](spec/date-time-picker/index.md).
+
 ## Web Components helpers catalog; Phase 8 follow-ups closed — 2026-09-03
 
 **New catalog: `lily-design-system-web-components-helpers`** — the six

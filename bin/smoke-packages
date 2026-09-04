@@ -101,6 +101,8 @@ if (!html.includes(String.raw`class="button`)) throw new Error("react render: " 
 if (![BreadcrumbNav, TextInput].every(Boolean)) throw new Error("react exports missing");
 const dtLabels = {
   previousYear: "Previous year", previousMonth: "Previous month",
+  previousWeek: "Previous week", previousDay: "Previous day",
+  nextDay: "Next day", nextWeek: "Next week",
   nextMonth: "Next month", nextYear: "Next year",
   confirm: "Confirm", cancel: "Cancel",
 };
@@ -134,6 +136,8 @@ if (!html.includes(String.raw`class="button`)) throw new Error("vue render: " + 
 if (![BreadcrumbNav, TextInput].every(Boolean)) throw new Error("vue exports missing");
 const dtLabels = {
   previousYear: "Previous year", previousMonth: "Previous month",
+  previousWeek: "Previous week", previousDay: "Previous day",
+  nextDay: "Next day", nextWeek: "Next week",
   nextMonth: "Next month", nextYear: "Next year",
   confirm: "Confirm", cancel: "Cancel",
 };
@@ -174,6 +178,8 @@ Object.defineProperty(globalThis, "navigator", { value: dom.window.navigator, co
 
 const dtLabels = {
   previousYear: "Previous year", previousMonth: "Previous month",
+  previousWeek: "Previous week", previousDay: "Previous day",
+  nextDay: "Next day", nextWeek: "Next week",
   nextMonth: "Next month", nextYear: "Next year",
   confirm: "Confirm", cancel: "Cancel",
 };
@@ -210,6 +216,8 @@ Object.defineProperty(globalThis, "navigator", { value: dom.window.navigator, co
 
 const dtLabels = {
   previousYear: "Previous year", previousMonth: "Previous month",
+  previousWeek: "Previous week", previousDay: "Previous day",
+  nextDay: "Next day", nextWeek: "Next week",
   nextMonth: "Next month", nextYear: "Next year",
   confirm: "Confirm", cancel: "Cancel",
 };
@@ -253,6 +261,8 @@ const pickerDirs = ["theme-picker", "locale-picker", "text-size-picker", "motion
 const helperEnv = new nunjucks.Environment(new nunjucks.FileSystemLoader(pickerDirs));
 const dtLabels = {
   previousYear: "Previous year", previousMonth: "Previous month",
+  previousWeek: "Previous week", previousDay: "Previous day",
+  nextDay: "Next day", nextWeek: "Next week",
   nextMonth: "Next month", nextYear: "Next year",
   confirm: "Confirm", cancel: "Cancel",
 };
@@ -311,6 +321,8 @@ cat > src/App.svelte <<'EOF'
   import DateTimePicker from "lily-design-system-svelte-date-time-picker";
   const dtLabels = {
     previousYear: "Previous year", previousMonth: "Previous month",
+    previousWeek: "Previous week", previousDay: "Previous day",
+    nextDay: "Next day", nextWeek: "Next week",
     nextMonth: "Next month", nextYear: "Next year",
     confirm: "Confirm", cancel: "Cancel",
   };
