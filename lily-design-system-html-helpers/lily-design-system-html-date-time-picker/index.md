@@ -43,6 +43,10 @@ npm install lily-design-system-html-date-time-picker
   document.getElementById("picker").labels = {
     previousYear: "Previous year",
     previousMonth: "Previous month",
+    previousWeek: "Previous week",
+    previousDay: "Previous day",
+    nextDay: "Next day",
+    nextWeek: "Next week",
     nextMonth: "Next month",
     nextYear: "Next year",
     confirm: "OK",
@@ -91,6 +95,7 @@ in your own code, deliberately.
 | `show-week-numbers` | `false` | Presence-based boolean. |
 | `confirm-on-select` | `mode === "date"` | `"true"` \| `"false"`. Absent = auto (tri-state, see below). |
 | `name` | `"date-time"` | `name` of the hidden input. |
+| `time-zone` | `""` | Selected IANA zone, or `""` for none. Rides `{name}-time-zone` and `data-time-zone`. |
 | `input-id` | generated | `id` of the text field, for a `<label for>`. |
 | `described-by` | — | Forwarded as `aria-describedby`. |
 | `placeholder` | — | Placeholder for the text field. |
@@ -137,6 +142,10 @@ risks silently dropping an optional label key. See
 type DateTimePickerLabels = {
   previousYear: string; // required
   previousMonth: string; // required
+  previousWeek: string; // required
+  previousDay: string; // required
+  nextDay: string; // required
+  nextWeek: string; // required
   nextMonth: string; // required
   nextYear: string; // required
   confirm: string; // required
@@ -146,6 +155,7 @@ type DateTimePickerLabels = {
   meridiem?: string; // required when hour12 resolves true
   week?: string; // required when showWeekNumbers
   clear?: string; // the clear button renders only when supplied
+  timeZone?: string; // the time-zone select renders only when supplied
   invalid?: string; // the invalid-input live region renders only when supplied
   instructions?: string; // dialog keyboard help, described-by the dialog when supplied
 };
