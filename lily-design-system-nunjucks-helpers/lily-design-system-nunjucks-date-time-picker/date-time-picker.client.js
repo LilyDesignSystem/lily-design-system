@@ -506,6 +506,9 @@ export function nextDateTimePickerId() {
  *   hour12?: boolean,
  *   showWeekNumbers?: boolean,
  *   shortcuts?: Array<{id: string, label: string, days?: number, months?: number, date?: string}>,
+ *   timeZones?: string[],
+ *   timeZoneLabels?: Record<string, string>,
+ *   onTimeZoneChange?: (timeZone: string) => void,
  *   confirmOnSelect?: boolean,
  *   formatValue?: (value: string) => string,
  *   parseInput?: (text: string) => string | null,
@@ -592,6 +595,10 @@ export function initDateTimePicker(root, opts = {}) {
   // --- Elements the macro always renders.
   const previousYearButton = root.querySelector("[data-lily-date-time-picker-previous-year]");
   const previousMonthButton = root.querySelector("[data-lily-date-time-picker-previous-month]");
+  const previousWeekButton = root.querySelector("[data-lily-date-time-picker-previous-week]");
+  const previousDayButton = root.querySelector("[data-lily-date-time-picker-previous-day]");
+  const nextDayButton = root.querySelector("[data-lily-date-time-picker-next-day]");
+  const nextWeekButton = root.querySelector("[data-lily-date-time-picker-next-week]");
   const nextMonthButton = root.querySelector("[data-lily-date-time-picker-next-month]");
   const nextYearButton = root.querySelector("[data-lily-date-time-picker-next-year]");
   const periodEl = root.querySelector("[data-lily-date-time-picker-period]");
@@ -601,6 +608,8 @@ export function initDateTimePicker(root, opts = {}) {
   const timeContainer = root.querySelector("[data-lily-date-time-picker-time]");
   const hourSelect = root.querySelector("[data-lily-date-time-picker-hour]");
   const minuteSelect = root.querySelector("[data-lily-date-time-picker-minute]");
+  const zoneSelect = root.querySelector("[data-lily-date-time-picker-time-zone]");
+  const hiddenZoneInput = root.querySelector("[data-lily-date-time-picker-hidden-time-zone]");
   const shortcutsContainer = root.querySelector("[data-lily-date-time-picker-shortcuts]");
   const clearButton = root.querySelector("[data-lily-date-time-picker-clear]");
   const cancelButton = root.querySelector("[data-lily-date-time-picker-cancel]");
@@ -709,6 +718,7 @@ export function initDateTimePicker(root, opts = {}) {
     cursor: "",
     today: "",
     value: hiddenInput.value || "",
+    timeZone: hiddenZoneInput ? hiddenZoneInput.value || "" : "",
   };
 
   function committed() {
@@ -926,6 +936,59 @@ export function initDateTimePicker(root, opts = {}) {
 
   function shiftYear(delta) {
     shiftMonth(delta * 12);
+  }
+
+  // Week/day steps are the fine end of the header: unlike month/year,
+  // which move the GRID and merely carry the cursor, these move the
+  // pending day itself by +/-7 / +/-1 civil days and page the grid only
+  // when the new day leaves the shown month. A step off the min/max
+  // window is refused outright; a step onto a vetoed day moves the
+  // cursor -- vetoed days are reachable, as with the arrow keys -- but
+  // leaves the pending selection where it was. No commit even under
+  // confirmOnSelect.
+  function shiftDays(delta) {
+    const from = parseIsoDate(state.cursor) ? state.cursor : state.pendingDate;
+    if (!from) return;
+    const next = addDays(from, delta);
+    if (!withinRange(next, min, max)) return;
+    const hadGridFocus = calendarTable ? calendarTable.contains(document.activeElement) : false;
+    const parsed = parseIsoDate(next);
+    if (parsed && (parsed.year !== state.viewYear || parsed.month !== state.viewMonth)) {
+      state.viewYear = parsed.year;
+      state.viewMonth = parsed.month;
+    }
+    state.cursor = next;
+    if (!dayDisabled(next)) state.pendingDate = next;
+    renderGrid();
+    if (hadGridFocus) focusCursor();
+  }
+
+  function onZoneChange(next) {
+    if (next === state.timeZone) return;
+    state.timeZone = next;
+    if (hiddenZoneInput) hiddenZoneInput.value = next;
+    if (next) root.setAttribute("data-time-zone", next);
+    else root.removeAttribute("data-time-zone");
+    if (typeof opts.onTimeZoneChange === "function") opts.onTimeZoneChange(next);
+  }
+
+  function renderZoneOptions() {
+    if (!zoneSelect) return;
+    zoneSelect.innerHTML = "";
+    const emptyOption = document.createElement("option");
+    emptyOption.value = "";
+    zoneSelect.appendChild(emptyOption);
+    const zones =
+      opts.timeZones ||
+      (typeof Intl.supportedValuesOf === "function" ? Intl.supportedValuesOf("timeZone") : []);
+    const zoneLabels = opts.timeZoneLabels || {};
+    for (const zone of zones) {
+      const option = document.createElement("option");
+      option.value = zone;
+      option.textContent = zoneLabels[zone] || zone;
+      zoneSelect.appendChild(option);
+    }
+    zoneSelect.value = state.timeZone;
   }
 
   // -------------------------------------------------------------
@@ -1359,8 +1422,13 @@ export function initDateTimePicker(root, opts = {}) {
   if (meridiemSelect) meridiemSelect.addEventListener("change", (e) => setMeridiem(e.target.value === "pm"));
   if (previousYearButton) previousYearButton.addEventListener("click", () => shiftYear(-1));
   if (previousMonthButton) previousMonthButton.addEventListener("click", () => shiftMonth(-1));
+  if (previousWeekButton) previousWeekButton.addEventListener("click", () => shiftDays(-7));
+  if (previousDayButton) previousDayButton.addEventListener("click", () => shiftDays(-1));
+  if (nextDayButton) nextDayButton.addEventListener("click", () => shiftDays(1));
+  if (nextWeekButton) nextWeekButton.addEventListener("click", () => shiftDays(7));
   if (nextMonthButton) nextMonthButton.addEventListener("click", () => shiftMonth(1));
   if (nextYearButton) nextYearButton.addEventListener("click", () => shiftYear(1));
+  if (zoneSelect) zoneSelect.addEventListener("change", (e) => onZoneChange(e.target.value));
   if (clearButton) clearButton.addEventListener("click", clearValue);
   if (cancelButton) cancelButton.addEventListener("click", () => closeDialog());
   if (confirmButton) confirmButton.addEventListener("click", commit);
@@ -1404,6 +1472,8 @@ export function initDateTimePicker(root, opts = {}) {
   }
   renderGrid();
   renderTimeOptions();
+  renderZoneOptions();
+  if (state.timeZone) root.setAttribute("data-time-zone", state.timeZone);
   refreshField();
 
   return {

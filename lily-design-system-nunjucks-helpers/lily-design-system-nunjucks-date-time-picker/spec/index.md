@@ -224,6 +224,9 @@ macro/client-runtime one.
 | `shortcuts`       | array         | no       | `[]`                           | `{id, label, days?, months?, date?}`. Rendered directly — see §3.4. |
 | `confirmOnSelect` | boolean       | no       | `mode === "date"`              | Commit and close on day click.                                     |
 | `name`            | string        | no       | `"date-time"`                  | `name` of the hidden input; also the id-derivation discriminator.  |
+| `timeZone`        | string        | no       | `""`                            | Initial selected IANA zone, or `""` for none. Rides `{name}-time-zone` and `data-time-zone`. See §5.9. |
+| `timeZones`       | array         | no       | `Intl.supportedValuesOf("timeZone")` | Zones offered by the select (init opt, since the macro cannot call Intl). |
+| `timeZoneLabels`  | object        | no       | `{}`                            | Display text per zone id (init opt). |
 | `id`              | string        | no       | `date-time-picker-{name}`     | Id prefix. Supply an explicit id for two instances sharing a name.  |
 | `inputId`         | string        | no       | `{id}-input`                   | `id` of the text field, for a consumer `<label for>`.               |
 | `describedBy`     | string        | no       | —                              | Forwarded as `aria-describedby`.                                    |
@@ -249,6 +252,10 @@ Each entry in `shortcuts`:
 labels = {
   previousYear:  string  // required — names an always-rendered button
   previousMonth: string  // required
+  previousWeek:  string  // required
+  previousDay:   string  // required
+  nextDay:       string  // required
+  nextWeek:      string  // required
   nextMonth:     string  // required
   nextYear:      string  // required
   confirm:       string  // required
@@ -258,6 +265,7 @@ labels = {
   meridiem:      string  // required when the resolved clock is 12-hour
   week:          string  // required when showWeekNumbers
   clear:         string  // optional — the clear button renders only when supplied
+  timeZone:      string  // optional — the time-zone select renders only when supplied
   invalid:       string  // optional — the invalid-input live region renders only when supplied
   instructions:  string  // optional — dialog keyboard help, described-by the dialog when supplied
 }
@@ -289,6 +297,8 @@ What the macro renders (elements present with no JavaScript at all):
 <div class="date-time-picker {classes}" data-lily-date-time-picker-root
      data-mode="date" data-lily-date-time-picker-name="{name}" …>
   <input type="hidden" name="{name}" value="{value}" data-lily-date-time-picker-hidden-input>
+  <!-- labels.timeZone only: the zone's own form participation. -->
+  <input type="hidden" name="{name}-time-zone" value="{timeZone}" data-lily-date-time-picker-hidden-time-zone>
 
   <div class="date-time-picker-field">
     <input class="date-time-picker-input" id="{fieldId}" type="text"
@@ -316,10 +326,22 @@ What the macro renders (elements present with no JavaScript at all):
     <div class="date-time-picker-header"> <!-- date modes only -->
       <button class="date-time-picker-previous-year"  aria-label="…" data-lily-date-time-picker-previous-year>…</button>
       <button class="date-time-picker-previous-month" aria-label="…" data-lily-date-time-picker-previous-month>…</button>
+      <button class="date-time-picker-previous-week"  aria-label="…" data-lily-date-time-picker-previous-week>…</button>
+      <button class="date-time-picker-previous-day"   aria-label="…" data-lily-date-time-picker-previous-day>…</button>
       <span   class="date-time-picker-period" id="{periodId}" aria-live="polite"
               data-lily-date-time-picker-period><!-- filled by client.js --></span>
+      <button class="date-time-picker-next-day"       aria-label="…" data-lily-date-time-picker-next-day>…</button>
+      <button class="date-time-picker-next-week"      aria-label="…" data-lily-date-time-picker-next-week>…</button>
       <button class="date-time-picker-next-month"     aria-label="…" data-lily-date-time-picker-next-month>…</button>
       <button class="date-time-picker-next-year"      aria-label="…" data-lily-date-time-picker-next-year>…</button>
+    </div>
+    <!-- labels.timeZone only: the WRAPPER + empty select are macro-
+         rendered (the gate needs no Intl call); client.js fills the
+         <option> list, the same split as the hour/minute selects. -->
+    <div class="date-time-picker-time-zone" data-lily-date-time-picker-time-zone-wrap>
+      <label class="date-time-picker-time-zone-label" for="{id}-time-zone">…</label>
+      <select class="date-time-picker-time-zone-select" id="{id}-time-zone"
+              data-lily-date-time-picker-time-zone></select>
     </div>
     <table class="date-time-picker-calendar" role="grid" aria-labelledby="{periodId}"
            data-lily-date-time-picker-calendar>
@@ -489,6 +511,37 @@ weekday header, grid (seeded from `value`, not "today", if present),
 time options, and reformats the field — synchronously, before any user
 interaction is possible.
 
+### 5.8 Header step buttons
+
+The header carries four **pairs** of step buttons, coarse to fine, with
+the live period label in the middle: year, month, week, day. Year and
+month move the grid (which month is shown; the pending selection is
+untouched). Week and day move the **pending day** itself by ±7 / ±1
+civil days (epoch-day arithmetic) and page the grid only when the new
+day leaves the shown month; a step past `min`/`max` is refused, a step
+onto a vetoed day moves the cursor but not the pending selection, and a
+step never commits. All eight keep focus on the button that was pressed
+and announce through the single `aria-live="polite"` period label.
+Identical semantics to the Svelte canonical §5.8 — no port deviation
+here, since none of it needs Intl.
+
+### 5.9 Time zone
+
+An opt-in native `<select>` of IANA zones, gated on `labels.timeZone`
+exactly as the clear button is gated on `labels.clear`. The macro
+renders the wrapper `<div>`, `<label>`, and an *empty* `<select>` — the
+gate is a string check, not an Intl call — and
+`date-time-picker.client.js` fills in the `<option>` list on init, the
+same split already used for the hour/minute selects (deviation 5, §3.4
+of the doc comment). The list is `Intl.supportedValuesOf("timeZone")`
+by default (418 zones on Node 26) — never a bundled table; the
+`timeZones`/`timeZoneLabels` init opts narrow/relabel it. The selected
+zone rides its own hidden input, `{name}-time-zone` (macro-rendered,
+gated the same way), and is reflected as `data-time-zone` on the root
+once the client applies it. The value contract is unchanged — a zone is
+metadata about *where* the civil time applies, not part of it — and
+`onChange`/`datetimechange` never fire for a zone change.
+
 ## 6. Accessibility
 
 ### 6.1 Roles and properties
@@ -647,6 +700,12 @@ clauses.
 | §7.53 | Paging from a header button keeps focus on that button while the cursor carries; paging from the grid moves focus with the cursor. |
 | §7.54 | `labels.instructions` renders keyboard help referenced by the dialog's `aria-describedby`; absent without the label. |
 | §7.55 | Clicking the text field while the dialog is open closes it without committing. |
+| §7.56 | The header renders eight step buttons in coarse-to-fine order around the period label, each named only by its label. |
+| §7.57 | Day steps move the pending day ±1 civil day, keep the grid on the shown month, keep focus on the button, and commit nothing until Confirm. |
+| §7.58 | Week steps move the pending day ±7 civil days and page the grid only when leaving the shown month. |
+| §7.59 | A step past `min`/`max` is refused; a step onto a vetoed day moves the cursor but not the pending selection. |
+| §7.60 | The time-zone select renders only with `labels.timeZone`, is labelled by it, lists the runtime's zones after an empty option by default, sits before the grid, and starts with no zone. |
+| §7.61 | Choosing a zone updates `{name}-time-zone`, `data-time-zone`, and `onTimeZoneChange` once; `timeZones`/`timeZoneLabels` are honoured; the value and `onChange` are untouched. |
 
 ### Nunjucks-specific surface
 

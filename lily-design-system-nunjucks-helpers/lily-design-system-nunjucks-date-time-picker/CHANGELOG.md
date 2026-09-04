@@ -4,6 +4,41 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.2.0 — 2026-09-04
+
+Week/day step buttons and a time-zone select (monorepo plan P8-T12;
+root contract `spec/date-time-picker/index.md`; ported from the
+canonical Svelte helper).
+
+### Breaking
+
+- `labels` gains four **required** entries — `previousWeek`,
+  `previousDay`, `nextDay`, `nextWeek` — naming the four new header
+  buttons.
+
+### Added
+
+- Header buttons `.date-time-picker-previous-week`, `-previous-day`,
+  `-next-day`, `-next-week`, placed inside the year/month pair, coarse
+  to fine around the period label. Macro-rendered, exactly like the
+  existing four — no Intl needed, so no port deviation here. Unlike
+  year/month (which move the grid), these move the **pending day** by
+  ±7 / ±1 civil days and page the grid only when the day leaves the
+  shown month; a step past `min`/`max` is refused, a step onto a vetoed
+  day moves the cursor only, and a step never commits.
+- An opt-in time-zone `<select>` (`.date-time-picker-time-zone`,
+  `-time-zone-label`, `-time-zone-select`), gated on the new optional
+  `labels.timeZone`. The macro renders the wrapper + empty select (the
+  gate needs no Intl call); `date-time-picker.client.js` fills the
+  `<option>` list from `Intl.supportedValuesOf("timeZone")` — never a
+  bundled table — the same split already used for the hour/minute
+  selects. New macro param `timeZone` (initial value) and init opts
+  `timeZones`, `timeZoneLabels`, `onTimeZoneChange`; the zone rides a
+  macro-rendered hidden `{name}-time-zone` input and `data-time-zone`
+  on the root. The value contract is unchanged.
+- Tests §7.56–§7.61, one per new acceptance clause (82 in the package,
+  387 in the catalog, all green).
+
 ## 0.1.1 — 2026-08-26
 
 Metadata-only patch; no behaviour change. Ships the corrected package

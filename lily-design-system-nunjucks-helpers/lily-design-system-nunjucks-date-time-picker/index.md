@@ -49,6 +49,10 @@ npm install lily-design-system-nunjucks-date-time-picker
     labels: {
         previousYear: "Previous year",
         previousMonth: "Previous month",
+        previousWeek: "Previous week",
+        previousDay: "Previous day",
+        nextDay: "Next day",
+        nextWeek: "Next week",
         nextMonth: "Next month",
         nextYear: "Next year",
         confirm: "Confirm",
@@ -121,6 +125,9 @@ Full rationale: [spec/index.md §3.4](./spec/index.md).
 | `shortcuts` | array | no | `[]` | `{id, label, days?, months?, date?}`. |
 | `confirmOnSelect` | boolean | no | `mode === "date"` | Commit and close on day click. |
 | `name` | string | no | `"date-time"` | `name` of the hidden input; also drives ids. |
+| `timeZone` | string | no | `""` | Initial selected IANA zone, or `""` for none. Rides `{name}-time-zone` and `data-time-zone`. |
+| `timeZones` | array | no | `Intl.supportedValuesOf("timeZone")` | Zones offered by the select (init opt). |
+| `timeZoneLabels` | object | no | `{}` | Display text per zone id (init opt). |
 | `id` | string | no | `date-time-picker-{name}` | Id prefix. |
 | `inputId` | string | no | `{id}-input` | Field id, for a consumer `<label for>`. |
 | `describedBy` | string | no | — | Forwarded as `aria-describedby`. |
@@ -135,6 +142,10 @@ Full rationale: [spec/index.md §3.4](./spec/index.md).
 {
   previousYear:  string  // required
   previousMonth: string  // required
+  previousWeek:  string  // required
+  previousDay:   string  // required
+  nextDay:       string  // required
+  nextWeek:      string  // required
   nextMonth:     string  // required
   nextYear:      string  // required
   confirm:       string  // required
@@ -144,6 +155,7 @@ Full rationale: [spec/index.md §3.4](./spec/index.md).
   meridiem:      string  // required when the resolved clock is 12-hour
   week:          string  // required when showWeekNumbers
   clear:         string  // optional -- gates the clear button
+  timeZone:      string  // optional -- gates the time-zone select
   invalid:       string  // optional -- gates the invalid-input live region
   instructions:  string  // optional -- gates the dialog keyboard help
 }

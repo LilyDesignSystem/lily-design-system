@@ -50,6 +50,10 @@ const env = nunjucks.configure(__dirname, {
 const LABELS = {
   previousYear: "Previous year",
   previousMonth: "Previous month",
+  previousWeek: "Previous week",
+  previousDay: "Previous day",
+  nextDay: "Next day",
+  nextWeek: "Next week",
   nextMonth: "Next month",
   nextYear: "Next year",
   confirm: "Confirm",
@@ -144,6 +148,20 @@ function dayButton(dialog: HTMLElement, iso: string): HTMLButtonElement {
   return dialog.querySelector(
     `.date-time-picker-day[data-date="${iso}"]`,
   ) as HTMLButtonElement;
+}
+
+function cursorDate(dialog: HTMLElement): string {
+  return (
+    dayButtons(dialog).find((d) => d.getAttribute("tabindex") === "0")
+      ?.dataset.date ?? ""
+  );
+}
+
+function periodText(dialog: HTMLElement): string {
+  return (
+    dialog.querySelector(".date-time-picker-period")?.textContent?.trim() ??
+    ""
+  );
 }
 
 beforeEach(() => {
@@ -1102,5 +1120,159 @@ describe("DateTimePicker -- Nunjucks surface and deviations", () => {
   test("glyph escapes: CALENDAR is a unicode escape, never a bare character in source", () => {
     expect(CALENDAR).toBe("📅︎");
     expect(CALENDAR.length).toBe(3); // surrogate pair + variation selector
+  });
+
+  // --- P8-T12 (2026-09-04): week/day step buttons and the time-zone select.
+
+  test("§7.56 the header renders eight step buttons, coarse to fine, each named only by its label", () => {
+    const { button, dialog } = setup({ value: "2026-03-15" });
+    click(button);
+    const header = dialog.querySelector(".date-time-picker-header") as HTMLElement;
+    const buttons = Array.from(header.querySelectorAll("button"));
+    expect(buttons.map((b) => b.className)).toEqual([
+      "date-time-picker-previous-year",
+      "date-time-picker-previous-month",
+      "date-time-picker-previous-week",
+      "date-time-picker-previous-day",
+      "date-time-picker-next-day",
+      "date-time-picker-next-week",
+      "date-time-picker-next-month",
+      "date-time-picker-next-year",
+    ]);
+    expect(buttons.map((b) => b.getAttribute("aria-label"))).toEqual([
+      "Previous year", "Previous month", "Previous week", "Previous day",
+      "Next day", "Next week", "Next month", "Next year",
+    ]);
+    const period = header.querySelector(".date-time-picker-period") as HTMLElement;
+    expect(
+      Array.from(header.children).indexOf(buttons[3]) <
+        Array.from(header.children).indexOf(period),
+    ).toBe(true);
+  });
+
+  test("§7.57 day steps move the pending day by ±1 civil day, keep the grid on the shown month, and keep focus on the button", () => {
+    const onChange = vi.fn();
+    const { button, dialog, hiddenInput } = setup({ value: "2026-03-15" }, { onChange });
+    click(button);
+    const nextDay = dialog.querySelector(".date-time-picker-next-day") as HTMLButtonElement;
+    nextDay.focus();
+    click(nextDay);
+    click(nextDay);
+    expect(cursorDate(dialog)).toBe("2026-03-17");
+    expect(dayButton(dialog, "2026-03-17").dataset.selected).toBeDefined();
+    expect(document.activeElement).toBe(nextDay);
+    expect(periodText(dialog)).toBe("March 2026");
+    expect(hiddenInput.value).toBe("2026-03-15");
+    expect(onChange).not.toHaveBeenCalled();
+    click(dialog.querySelector(".date-time-picker-previous-day") as HTMLButtonElement);
+    click(dialog.querySelector(".date-time-picker-confirm") as HTMLButtonElement);
+    expect(hiddenInput.value).toBe("2026-03-16");
+    expect(onChange).toHaveBeenCalledWith("2026-03-16");
+  });
+
+  test("§7.58 week steps move the pending day by ±7 civil days and page the grid only when leaving the shown month", () => {
+    const { button, dialog } = setup({ value: "2026-03-25" });
+    click(button);
+    const nextWeek = dialog.querySelector(".date-time-picker-next-week") as HTMLButtonElement;
+    click(nextWeek);
+    expect(cursorDate(dialog)).toBe("2026-04-01");
+    expect(periodText(dialog)).toBe("April 2026");
+    click(dialog.querySelector(".date-time-picker-previous-week") as HTMLButtonElement);
+    expect(cursorDate(dialog)).toBe("2026-03-25");
+    expect(periodText(dialog)).toBe("March 2026");
+    click(dialog.querySelector(".date-time-picker-previous-week") as HTMLButtonElement);
+    expect(cursorDate(dialog)).toBe("2026-03-18");
+    expect(periodText(dialog)).toBe("March 2026");
+  });
+
+  test("§7.59 a step past min/max is refused; a step onto a vetoed day moves the cursor but not the pending selection", () => {
+    const { button, dialog } = setup(
+      { value: "2026-03-15", max: "2026-03-16" },
+      { isDateDisabled: (iso: string) => iso === "2026-03-16" },
+    );
+    click(button);
+    const nextDay = dialog.querySelector(".date-time-picker-next-day") as HTMLButtonElement;
+    click(nextDay);
+    expect(cursorDate(dialog)).toBe("2026-03-16");
+    expect(dayButton(dialog, "2026-03-16").getAttribute("aria-disabled")).toBe("true");
+    expect(dayButton(dialog, "2026-03-15").dataset.selected).toBeDefined();
+    expect(dayButton(dialog, "2026-03-16").dataset.selected).toBeUndefined();
+    click(nextDay);
+    expect(cursorDate(dialog)).toBe("2026-03-16");
+    click(dialog.querySelector(".date-time-picker-next-week") as HTMLButtonElement);
+    expect(cursorDate(dialog)).toBe("2026-03-16");
+  });
+
+  test("§7.60 the time-zone select renders only with labels.timeZone, lists the runtime's zones by default, and honours timeZones/timeZoneLabels", () => {
+    const bare = setup();
+    click(bare.button);
+    expect(document.querySelector(".date-time-picker-time-zone")).toBeNull();
+    expect(document.querySelector('input[name="date-time-time-zone"]')).toBeNull();
+
+    const { button, dialog } = setup({ labels: { ...LABELS, timeZone: "Zone" } });
+    click(button);
+    const select = dialog.querySelector(
+      ".date-time-picker-time-zone-select",
+    ) as HTMLSelectElement;
+    const label = dialog.querySelector(
+      ".date-time-picker-time-zone-label",
+    ) as HTMLLabelElement;
+    expect(label.textContent?.trim()).toBe("Zone");
+    expect(label.htmlFor).toBe(select.id);
+    const all = Intl.supportedValuesOf("timeZone");
+    expect(all.length).toBeGreaterThan(300);
+    const offered = Array.from(select.options).map((o) => o.value);
+    expect(offered[0]).toBe("");
+    expect(offered.slice(1)).toEqual(all);
+    expect(select.value).toBe("");
+    expect((dialog.closest("[data-lily-date-time-picker-root]") as HTMLElement).dataset.timeZone).toBeUndefined();
+    const grid = dialog.querySelector(".date-time-picker-calendar")!;
+    expect(
+      dialog.compareDocumentPosition(grid) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+    expect(
+      select.compareDocumentPosition(grid) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+  });
+
+  test("§7.61 choosing a zone rides {name}-time-zone, data-time-zone, and onTimeZoneChange -- and leaves the value alone", () => {
+    const onTimeZoneChange = vi.fn();
+    const onChange = vi.fn();
+    const { root, button, dialog, hiddenInput } = setup(
+      {
+        value: "2026-03-15",
+        name: "when",
+        labels: { ...LABELS, timeZone: "Zone" },
+        timeZone: "Europe/London",
+      },
+      {
+        timeZones: ["Europe/London", "Asia/Tokyo"],
+        timeZoneLabels: { "Asia/Tokyo": "Tokyo" },
+        onTimeZoneChange,
+        onChange,
+      },
+    );
+    click(button);
+    const select = dialog.querySelector(
+      ".date-time-picker-time-zone-select",
+    ) as HTMLSelectElement;
+    const texts = Array.from(select.options).map((o) => [o.value, o.textContent]);
+    expect(texts).toEqual([["", ""], ["Europe/London", "Europe/London"], ["Asia/Tokyo", "Tokyo"]]);
+    const zoneInput = root.querySelector(
+      'input[name="when-time-zone"]',
+    ) as HTMLInputElement;
+    expect(select.value).toBe("Europe/London");
+    expect(zoneInput.value).toBe("Europe/London");
+    expect(root.dataset.timeZone).toBe("Europe/London");
+    expect(hiddenInput.value).toBe("2026-03-15");
+
+    select.value = "Asia/Tokyo";
+    select.dispatchEvent(new window.Event("change", { bubbles: true }));
+    expect(zoneInput.value).toBe("Asia/Tokyo");
+    expect(root.dataset.timeZone).toBe("Asia/Tokyo");
+    expect(onTimeZoneChange).toHaveBeenCalledTimes(1);
+    expect(onTimeZoneChange).toHaveBeenCalledWith("Asia/Tokyo");
+    expect(hiddenInput.value).toBe("2026-03-15");
+    expect(onChange).not.toHaveBeenCalled();
   });
 });
