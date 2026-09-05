@@ -43,7 +43,9 @@ Out of scope:
 | [`lily-design-system-web-components-theme-picker`](../lily-design-system-web-components-theme-picker/)         | Pick a visual theme; dynamic CSS load + `data-theme` swap, optional persistence.                           |
 | [`lily-design-system-web-components-locale-picker`](../lily-design-system-web-components-locale-picker/)       | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.                                            |
 | [`lily-design-system-web-components-text-size-picker`](../lily-design-system-web-components-text-size-picker/) | Pick a text size; sets `data-text-size` on the document root.                                              |
+| [`lily-design-system-web-components-motion-picker`](../lily-design-system-web-components-motion-picker/)       | Pick a reduced-motion preference; sets `data-motion` on the document root, defaulting **unconditionally** to `(prefers-reduced-motion: reduce)`. |
 | [`lily-design-system-web-components-share-picker`](../lily-design-system-web-components-share-picker/)         | Share the page: native share sheet, or a disclosure list of consumer-supplied destinations + copy the URL. |
+| [`lily-design-system-web-components-date-time-picker`](../lily-design-system-web-components-date-time-picker/) | Pick a date, a time, or both: a typeable text field plus an APG Date Picker Dialog. Owns a form value, not a preference. |
 
 ## 4. Conventions
 
@@ -65,16 +67,18 @@ Every helper subproject follows the same shape:
   helpers take the locale identifier and never pick a default.
 - **SSR-safe**: DOM writes happen only after mount, never during render.
 - **One job per helper**: each helper owns one job end to end and
-  composes cleanly with the others. For the three preference helpers
+  composes cleanly with the others. For the four preference helpers
   that job is the full lifecycle of one preference dimension; for
-  `share-picker` it is a single action, which applies nothing to the
-  document and persists nothing.
+  `share-picker` it is a single action, and for `date-time-picker` a
+  form value — neither applies anything to the document or persists
+  anything.
 - **Spec-driven**: tests assert against numbered spec sections; docs link back.
 
 ## 6. Acceptance criteria
 
-- [x] Catalog ships `theme-picker`, `locale-picker`, `text-size-picker`,
-      and `share-picker` helper subprojects.
+- [x] Catalog ships all six helper subprojects: `theme-picker`,
+      `locale-picker`, `text-size-picker`, `motion-picker`,
+      `share-picker`, and `date-time-picker`.
 - [x] Each helper has its component source, tests, `spec/index.md`, and package.json.
 - [x] Each helper is headless (no bundled CSS/fonts/icons) and i18n-clean.
 - [x] Catalog dir has `index.md`, `README.md` symlink, `AGENTS.md`,
@@ -83,17 +87,26 @@ Every helper subproject follows the same shape:
 
 ## 7. Status
 
-All four helpers are implemented with HTML source, tests, docs, and a
+All six helpers are implemented with HTML source, tests, docs, and a
 package manifest. The catalog mirrors the canonical
 [`lily-design-system-svelte-helpers`](../../lily-design-system-svelte-helpers/)
-reference with HTML idioms substituted.
+reference with HTML idioms substituted, as an independent copy of
+[`lily-design-system-html-helpers`](../../lily-design-system-html-helpers/)
+under the `<lily-*>` tag prefix (see the provenance note at the top of
+this file).
 
-`share-picker` (0.1.0) is the newest and the first non-preference
-helper. It is also the one place the catalog's single-rendering-shape
-rule is deliberately broken: its items are links, so it renders a
-**disclosure** with real `<a>` elements rather than the APG listbox the
-preference helpers use. See its
+`share-picker` is the first non-preference helper. It is also the one
+place the catalog's single-rendering-shape rule is deliberately broken:
+its items are links, so it renders a **disclosure** with real `<a>`
+elements rather than the APG listbox the preference helpers use. See its
 [`spec/index.md` §3](../lily-design-system-web-components-share-picker/spec/index.md#3-architectural-decisions).
+
+`date-time-picker` is a second, different kind of exception: a **form
+control**, not a page-header preference widget, so its trigger opens a
+`role="dialog"` month grid (WAI-ARIA APG Date Picker Dialog) rather than
+a listbox. Like `share-picker` it persists nothing. See its
+[`spec/index.md`](../lily-design-system-web-components-date-time-picker/spec/index.md)
+for the full contract.
 
 ## 8. References
 

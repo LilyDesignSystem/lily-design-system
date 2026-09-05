@@ -35,6 +35,10 @@ Out of scope:
 | ---------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
 | [`lily-design-system-blazor-theme-picker`](../lily-design-system-blazor-theme-picker/)   | Pick a visual theme; dynamic CSS load + `data-theme` swap, optional persistence. |
 | [`lily-design-system-blazor-locale-picker`](../lily-design-system-blazor-locale-picker/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.                  |
+| [`lily-design-system-blazor-text-size-picker`](../lily-design-system-blazor-text-size-picker/) | Pick a text size; sets `data-text-size` on the document root.                                                                             |
+| [`lily-design-system-blazor-motion-picker`](../lily-design-system-blazor-motion-picker/) | Pick a reduced-motion preference; sets `data-motion` on the document root (via `IJSRuntime`), defaulting **unconditionally** to `(prefers-reduced-motion: reduce)`. |
+| [`lily-design-system-blazor-share-picker`](../lily-design-system-blazor-share-picker/) | Share the page: native share sheet, or a disclosure of consumer-supplied destinations + copy the URL. Owns an action, not a preference.   |
+| [`lily-design-system-blazor-date-time-picker`](../lily-design-system-blazor-date-time-picker/) | Pick a date, a time, or both: a typeable text field plus an APG Date Picker Dialog. Owns a form value, not a preference.                  |
 
 ## 4. Conventions
 
@@ -61,7 +65,9 @@ Every helper subproject follows the same shape:
 
 ## 6. Acceptance criteria
 
-- [x] Catalog ships `theme-picker` and `locale-picker` helper subprojects.
+- [x] Catalog ships all six helper subprojects: `theme-picker`,
+      `locale-picker`, `text-size-picker`, `motion-picker`,
+      `share-picker`, and `date-time-picker`.
 - [x] Each helper has its component source, tests, `spec/index.md`, and .csproj (Razor class library).
 - [x] Each helper is headless (no bundled CSS/fonts/icons) and i18n-clean.
 - [x] Catalog dir has `index.md`, `README.md` symlink, `AGENTS.md`,
@@ -70,10 +76,19 @@ Every helper subproject follows the same shape:
 
 ## 7. Status
 
-Both helpers are implemented with Blazor 10 source, tests, docs, and a package
-manifest. The catalog mirrors the canonical
+All six helpers are implemented with Blazor 10 source, tests, docs, and a
+package manifest. The catalog mirrors the canonical
 [`lily-design-system-svelte-helpers`](../../lily-design-system-svelte-helpers/)
 reference with Blazor 10 idioms substituted.
+
+`share-picker` and `date-time-picker` are the two helpers that don't fit
+the icon-button-opens-listbox shape the first four share: `share-picker`
+renders a **disclosure** of real `<a>` elements (its destinations are
+navigation, not options) and owns an action rather than a preference;
+`date-time-picker` is a **form control** — a typeable text field plus an
+APG Date Picker Dialog — and owns a form value. Neither applies anything
+to the document or persists anything. See each helper's own
+`spec/index.md` for its full architectural-decisions section.
 
 ## 8. References
 

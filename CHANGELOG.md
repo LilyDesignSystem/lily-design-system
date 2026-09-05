@@ -9,6 +9,28 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Helpers catalogs' own `spec/index.md` files fixed — 2026-09-05
+
+Follow-up to the skills work below: authoring the framework-specific
+skills had turned up, in five different subagents' own investigations,
+that every one of the eight `*-helpers` catalogs' own `spec/index.md`
+(the "single source of truth for the catalog" per its own header) was
+stale — most listed only `theme-picker` and `locale-picker` in their §3
+catalog table, §6 acceptance criteria, and §7 status, predating
+`text-size-picker`, `motion-picker`, `share-picker`, and
+`date-time-picker` entirely; `html-helpers` and `web-components-helpers`
+were less stale (four of six, missing only `motion-picker` and
+`date-time-picker`). Each catalog's own `AGENTS.md` and `index.md` had
+already been kept current — the skills work grounded on those instead —
+so this was pure spec-doc drift, not a real gap in the six helpers
+themselves. Fixed all eight: `svelte-helpers`, `html-helpers`,
+`react-helpers`, `vue-helpers`, `angular-helpers`, `blazor-helpers`,
+`nunjucks-helpers`, `web-components-helpers` now each list all six
+helpers in their catalog table, acceptance criteria, and status section,
+with `share-picker`'s disclosure and `date-time-picker`'s form-control
+exceptions called out the same way `html-helpers` already did for
+`share-picker`. `bin/test` and `bin/check-links` re-verified clean.
+
 ## Sixteen framework-specific agent skills — 2026-09-04
 
 Maintainer-directed reversal of `spec/agent-skills/index.md`'s original
