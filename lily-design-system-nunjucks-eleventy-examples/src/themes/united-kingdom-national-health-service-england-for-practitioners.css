@@ -2474,6 +2474,10 @@
     :where(
         .date-time-picker-previous-year,
         .date-time-picker-previous-month,
+        .date-time-picker-previous-week,
+        .date-time-picker-previous-day,
+        .date-time-picker-next-day,
+        .date-time-picker-next-week,
         .date-time-picker-next-month,
         .date-time-picker-next-year,
         .date-time-picker-shortcut,
@@ -2493,6 +2497,10 @@
     :where(
         .date-time-picker-previous-year:hover,
         .date-time-picker-previous-month:hover,
+        .date-time-picker-previous-week:hover,
+        .date-time-picker-previous-day:hover,
+        .date-time-picker-next-day:hover,
+        .date-time-picker-next-week:hover,
         .date-time-picker-next-month:hover,
         .date-time-picker-next-year:hover,
         .date-time-picker-shortcut:hover,
@@ -2598,10 +2606,24 @@
         color: var(--lily-text-muted);
     }
 
+    :where(.date-time-picker-time-zone) {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: var(--lily-space-xs);
+        margin-block-end: var(--lily-space-sm);
+    }
+
+    :where(.date-time-picker-time-zone-label) {
+        font-size: 0.8125em;
+        color: var(--lily-text-muted);
+    }
+
     :where(
         .date-time-picker-hour,
         .date-time-picker-minute,
-        .date-time-picker-meridiem
+        .date-time-picker-meridiem,
+        .date-time-picker-time-zone-select
     ) {
         padding: var(--lily-space-xs);
         font: inherit;
