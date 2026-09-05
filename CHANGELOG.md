@@ -9,6 +9,48 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Sixteen framework-specific agent skills — 2026-09-04
+
+Maintainer-directed reversal of `spec/agent-skills/index.md`'s original
+"two skills only" decision (which had listed a third, framework-specific
+skill as explicitly out of scope). Sixteen new top-level Claude Skill
+subprojects land — one `lily-design-system-{framework}-headless-skill`
+and one `lily-design-system-{framework}-helpers-skill` per framework
+family (angular, blazor, html, nunjucks, react, svelte, vue,
+web-components) — each scoped to exactly the real subproject it covers,
+grounded by reading that subproject's own `AGENTS.md`/`spec/index.md`
+rather than restating them. All eighteen skills (the sixteen new plus
+the two pre-existing general/maintainer skills) now carry the same
+full-subproject treatment: `SKILL.md`, `index.md`, `README.md` symlink,
+`AGENTS.md`, `CLAUDE.md`, `spec/index.md`, the 14 special files, and
+`.git-subtree-push`.
+
+Authoring the sixteen surfaced and fixed a real, pre-existing
+classification bug in `bin/sync-special-files`'s `parts()` function: a
+name like `lily-design-system-angular-headless-skill` matched the
+`angular` framework prefix before the `-skill` suffix check ran, so its
+tail (`headless-skill`) matched neither `"headless"` nor `"helpers"` and
+fell through to the `"examples"` default — generating a wrong
+`INSTALL.md` ("Run this example application", `npm run dev`) for every
+framework-specific skill. Fixed by checking the `-skill` suffix first.
+The same investigation found two adjacent, genuinely pre-existing bugs
+in the same function and fixed them too: `"web-components"` was never in
+the `FRAMEWORK` label map, so the already-existing
+`lily-design-system-web-components-headless` and
+`-web-components-helpers` subprojects (not skills) were themselves
+misclassified the same way — the headless library's own `INSTALL.md`
+was telling readers to `npm install && npm run dev` it; and the
+generated helpers `INSTALL.md` text said "five helper packages" and
+omitted `motion-picker` (added 2026-09-03, live in all eight catalogs)
+from its package table, corrected to six everywhere including the
+Blazor NuGet table. `bin/list-implementations`'s stale "exactly the 21
+… subprojects" comment was also corrected. Full record:
+[spec/agent-skills/index.md](spec/agent-skills/index.md).
+
+Not yet done: `.git-subtree-push` remotes for any of the eighteen
+skills are configured names only — no real standalone repository has
+been pushed to for any of them.
+
 ## `date-time-picker`: week/day step buttons and a time-zone select — 2026-09-04
 
 **P8-T12 closed.** All eight catalogs' `date-time-picker` helper gained

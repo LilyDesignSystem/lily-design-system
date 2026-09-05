@@ -54,12 +54,13 @@ The [themes/](../themes) directory ships 45 standalone theme stylesheets (NHS En
 
 ## Agent skills
 
-Two top-level Claude Skill packages, spec: [spec/agent-skills/index.md](../spec/agent-skills/index.md).
+Eighteen top-level Claude Skill packages, spec: [spec/agent-skills/index.md](../spec/agent-skills/index.md).
 
 - [lily-design-system-skill](../lily-design-system-skill) — general-purpose: concepts, terminology, naming conventions, composition patterns, for people building *with* Lily.
 - [lily-design-system-maintainer-skill](../lily-design-system-maintainer-skill) — technical: required files, `bin/` tooling, the spec-driven workflow, for people working *on* this monorepo.
+- Sixteen framework-specific skills (2026-09-04), one `{framework}-headless-skill` and one `{framework}-helpers-skill` per framework family, each scoped to exactly the one real subproject it covers: `lily-design-system-angular-headless-skill`, `lily-design-system-angular-helpers-skill`, `lily-design-system-blazor-headless-skill`, `lily-design-system-blazor-helpers-skill`, `lily-design-system-html-headless-skill`, `lily-design-system-html-helpers-skill`, `lily-design-system-nunjucks-headless-skill`, `lily-design-system-nunjucks-helpers-skill`, `lily-design-system-react-headless-skill`, `lily-design-system-react-helpers-skill`, `lily-design-system-svelte-headless-skill`, `lily-design-system-svelte-helpers-skill`, `lily-design-system-vue-headless-skill`, `lily-design-system-vue-helpers-skill`, `lily-design-system-web-components-headless-skill` (covers the partial 33/491 catalog), `lily-design-system-web-components-helpers-skill`.
 
-Both follow the `lily-design-system-` prefix and get full subproject treatment (as of 2026-08-31; `lily-design-system-skill` was renamed from `lily-skill`, which deliberately sat outside the prefix — see [spec/agent-skills/index.md](../spec/agent-skills/index.md)).
+All eighteen follow the `lily-design-system-` prefix and get full subproject treatment (the first two as of 2026-08-31 — `lily-design-system-skill` was renamed from `lily-skill`, which deliberately sat outside the prefix — the sixteen framework-specific ones as of 2026-09-04, reversing this topic's earlier "two skills only" decision — see [spec/agent-skills/index.md](../spec/agent-skills/index.md)).
 
 ## AI guidance files
 
