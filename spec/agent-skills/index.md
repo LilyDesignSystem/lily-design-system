@@ -266,16 +266,16 @@ existing `bin/test` grep pattern the way `*-headless-skill` did.
 
 ### Standalone repositories (2026-09-04/05)
 
-All eighteen 2026-09-04-era skills (the two original plus the sixteen
-framework-specific ones) got real `git@github.com:LilyDesignSystem/...`
-remotes configured and their first `bin/git-subtree-push` on 2026-09-04,
-via `gh repo create` for each (this environment holds a GitHub token but
-no GitLab/Codeberg ones, so — matching the same gap already logged for
-`lily-design-system-web-components-headless` in `tasks.md` P8-T6 — these
-eighteen are GitHub-only for now; the multi-forge fan-out every other
-subproject's remote carries is a maintainer step). The eight
-framework-umbrella skills added 2026-09-05 do **not** have a remote
-configured yet.
+All twenty-six skills now have a real `git@github.com:LilyDesignSystem/...`
+remote configured and a first `bin/git-subtree-push`: the eighteen
+2026-09-04-era skills (the two original plus the sixteen
+framework-specific ones) on 2026-09-04, and the eight framework-umbrella
+skills on 2026-09-05 — both rounds via `gh repo create` for each. This
+environment holds a GitHub token but no GitLab/Codeberg ones, so —
+matching the same gap already logged for
+`lily-design-system-web-components-headless` in `tasks.md` P8-T6 — all
+twenty-six are GitHub-only for now; the multi-forge fan-out every other
+subproject's remote carries remains a maintainer step.
 
 ## Acceptance criteria
 
@@ -300,9 +300,9 @@ configured yet.
 - [x] This topic is linked from [spec/index.md](../index.md)'s topic
       table.
 - [x] A real `.git-subtree-push` remote is configured and the first push
-      has happened, GitHub-only, for the eighteen 2026-09-04-era skills.
-- [ ] The same for the eight framework-umbrella skills — not done as of
-      2026-09-05.
+      has happened, GitHub-only, for all twenty-six skills (the original
+      eighteen on 2026-09-04, the eight framework-umbrella ones on
+      2026-09-05).
 - [ ] GitLab and Codeberg remotes for any of the twenty-six skills — not
       done for any of them; blocked on API tokens this environment does
       not hold (`gh` covers GitHub only).
