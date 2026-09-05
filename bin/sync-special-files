@@ -140,6 +140,10 @@ def describe(name):
             return f"a Claude Skill covering the {label} headless component library for an AI coding agent"
         if name.endswith("-helpers-skill"):
             return f"a Claude Skill covering the {label} *-picker helpers catalog for an AI coding agent"
+        if label:
+            return (f"a Claude Skill covering everything available for {label} in "
+                    "Lily Design System (headless library, helpers catalog, and "
+                    "example app where one exists) for an AI coding agent")
         return "a Claude Skill packaging Lily Design System documentation for an AI coding agent"
     return "a Lily Design System subproject"
 
