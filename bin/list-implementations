@@ -3,8 +3,8 @@ set -euf
 top="$(git rev-parse --show-toplevel)"
 
 # The 'lily-design-system-' prefix (not the looser 'lily-*') is deliberate:
-# it matches exactly the 21 headless/examples/helpers subprojects, which is
-# also the prefix bin/sync-special-files scopes on. A top-level 'lily-*' dir
-# outside that family (e.g. an agent-skills package such as lily-skill) is
-# not an implementation subproject and must not be swept in here.
+# it matches every headless/examples/helpers/skill subproject held to the
+# full required-files bar, which is also the prefix bin/sync-special-files
+# scopes on. A top-level 'lily-*' dir outside that family (deliberately
+# outside full-subproject treatment) is not swept in here.
 find "$top" -type d -depth 1 -name 'lily-design-system-*' -exec basename {} \; | sort

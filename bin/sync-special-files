@@ -45,6 +45,7 @@ BANNER = (
 FRAMEWORK = {
     "html": "HTML", "svelte": "Svelte 5", "react": "React", "vue": "Vue 3",
     "angular": "Angular 22", "blazor": "Blazor", "nunjucks": "Nunjucks",
+    "web-components": "Web Components",
 }
 
 LINK = re.compile(r"\[([^\]]*)\]\(([^)\s]+)(\s+\"[^\"]*\")?\)")
@@ -93,6 +94,22 @@ def parts(name):
     """(framework, kind) for a subproject directory name."""
     if name == "lilydesignsystem.github.io":
         return None, "site"
+    # A Claude Skill package (spec/agent-skills/index.md), not a
+    # framework implementation: no package.json, nothing to `npm run
+    # dev`, no required-routes contract. Matched by suffix, not any
+    # single skill's exact name, so a future skill package is
+    # recognised the same way without another edit here. Checked
+    # *before* the framework-prefix loop below: a name like
+    # "lily-design-system-angular-headless-skill" starts with the
+    # "angular" framework prefix too, and its tail ("headless-skill")
+    # is neither "headless" nor "helpers", so leaving the loop to run
+    # first would misclassify every framework-specific skill as an
+    # "examples" subproject.
+    if name.endswith("-skill"):
+        for fw in FRAMEWORK:
+            if name.startswith(f"lily-design-system-{fw}-"):
+                return fw, "skill"
+        return None, "skill"
     for fw in FRAMEWORK:
         if name.startswith(f"lily-design-system-{fw}-"):
             tail = name[len(f"lily-design-system-{fw}-"):]
@@ -100,14 +117,6 @@ def parts(name):
                     else "headless" if tail == "headless"
                     else "examples")
             return fw, kind
-    # A Claude Skill package (spec/agent-skills/index.md), not a
-    # framework implementation: no package.json, nothing to `npm run
-    # dev`, no required-routes contract. Matched by suffix, not the
-    # single "lily-design-system-maintainer-skill" name, so a future
-    # skill package is recognised the same way without another edit
-    # here.
-    if name.endswith("-skill"):
-        return None, "skill"
     return None, "other"
 
 
@@ -117,12 +126,20 @@ def describe(name):
     if kind == "site":
         return "the Lily Design System documentation website"
     if kind == "headless":
+        if name == "lily-design-system-web-components-headless":
+            return (f"the {label} headless component library: a deliberately "
+                    "partial slice, 33 of the 491 catalog components, unstyled "
+                    "and accessible")
         return f"the {label} headless component library: all 491 catalog components, unstyled and accessible"
     if kind == "helpers":
-        return f"the {label} helpers catalog: five opinionated packages that each own one complete interaction"
+        return f"the {label} helpers catalog: six opinionated packages that each own one complete interaction"
     if kind == "examples":
         return f"the {label} example application: a fully styled reference app demonstrating every catalog component"
     if kind == "skill":
+        if name.endswith("-headless-skill"):
+            return f"a Claude Skill covering the {label} headless component library for an AI coding agent"
+        if name.endswith("-helpers-skill"):
+            return f"a Claude Skill covering the {label} *-picker helpers catalog for an AI coding agent"
         return "a Claude Skill packaging Lily Design System documentation for an AI coding agent"
     return "a Lily Design System subproject"
 
@@ -250,7 +267,7 @@ for a hook per component, and the 45 ready-made stylesheets in
             body = f"""
 ## Install
 
-This catalog ships five helper packages as Razor class libraries. **They are
+This catalog ships six helper packages as Razor class libraries. **They are
 built but not yet published to NuGet**; until they are, clone this repository and
 reference the `.csproj` you need:
 
@@ -259,6 +276,7 @@ reference the `.csproj` you need:
 | `LilyDesignSystem.Blazor.ThemePicker` | theme preference |
 | `LilyDesignSystem.Blazor.LocalePicker` | locale preference (`lang` / `dir`) |
 | `LilyDesignSystem.Blazor.TextSizePicker` | text-size preference |
+| `LilyDesignSystem.Blazor.MotionPicker` | reduced-motion preference |
 | `LilyDesignSystem.Blazor.SharePicker` | a share action |
 | `LilyDesignSystem.Blazor.DateTimePicker` | a date-time form value |
 
@@ -272,13 +290,14 @@ git clone {ORG}/{name}.git
                     ("theme-picker", "theme preference"),
                     ("locale-picker", "locale preference (`lang` / `dir`)"),
                     ("text-size-picker", "text-size preference"),
+                    ("motion-picker", "reduced-motion preference"),
                     ("share-picker", "a share action"),
                     ("date-time-picker", "a date-time form value"),
                 ])
             body = f"""
 ## Install
 
-This catalog ships five helper packages, all published to npm at `0.1.0`.
+This catalog ships six helper packages, all published to npm.
 Install only what you need:
 
 | Package | Owns |
