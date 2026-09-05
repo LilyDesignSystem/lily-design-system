@@ -9,6 +9,41 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Eight framework-umbrella agent skills — 2026-09-05
+
+Extends the previous day's framework-specific skills with a third tier:
+one `lily-design-system-{framework}-skill` per framework family
+(angular, blazor, html, nunjucks, react, svelte, vue, web-components).
+Where the existing `{framework}-headless-skill`/`{framework}-helpers-skill`
+pair each cover exactly one real subproject in depth, the umbrella skill
+maps all of that framework's real subprojects — headless, helpers, and,
+uniquely, the example app, since neither sibling skill covers it — and
+points down into the pair for the deep contracts rather than restating
+them.  `lily-design-system-web-components-skill` is the one exception
+with only two subprojects to map, not three: it states plainly that no
+Web Components example application exists yet rather than implying one.
+Each was authored by a dedicated agent reading that framework's own
+headless/helpers/example-app `AGENTS.md`/`index.md`/`spec/index.md`, plus
+its two sibling skills (to avoid duplicating them). Same full-subproject
+treatment as every other skill (`SKILL.md`, `index.md`, `README.md`
+symlink, `AGENTS.md`, `CLAUDE.md`, `spec/index.md`, `.git-subtree-push`,
+the 14 special files). Found and fixed one more small
+`bin/sync-special-files` gap along the way: a bare `{framework}-skill`
+name (no `headless`/`helpers` suffix) fell through to the generic,
+framework-less "Claude Skill packaging Lily Design System documentation"
+description; added a branch that names the framework. `bin/test` and
+`bin/check-links` re-verified clean with all 26 skills in place. Full
+record: [spec/agent-skills/index.md](spec/agent-skills/index.md).
+
+The eighteen skills from the previous day (the two general/maintainer
+ones plus the sixteen framework-specific ones) also got real
+`git@github.com:LilyDesignSystem/...` remotes and their first
+`bin/git-subtree-push`, GitHub-only (no GitLab/Codeberg tokens in this
+environment — the same gap already logged against
+`lily-design-system-web-components-headless` in `tasks.md` P8-T6). The
+eight framework-umbrella skills added today do not have a remote
+configured yet.
+
 ## Helpers catalogs' own `spec/index.md` files fixed — 2026-09-05
 
 Follow-up to the skills work below: authoring the framework-specific
