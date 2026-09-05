@@ -10,6 +10,7 @@
     { href: '/components/', label: 'Components' },
     { href: '/tutorials/', label: 'Tutorials' },
     { href: '/examples/', label: 'Examples' },
+    { href: '/lily-claude-code/', label: 'Claude Skills' },
     { href: '/help/', label: 'Help' },
     { href: '/accessibility/', label: 'Accessibility' },
     { href: '/news/', label: 'News' },
