@@ -25,6 +25,39 @@ The living specification is [spec/index.md](spec/index.md). The modular referenc
 [AGENTS.md](AGENTS.md) and [AGENTS/](AGENTS/). For a topic-by-topic walkthrough,
 see the modular specification docs under [spec/](spec/index.md).
 
+## AI agent support
+
+Twenty-six [Claude Skills](https://code.claude.com/docs/en/skills) give an AI
+coding agent a curated entry point, in three tiers:
+[lily-design-system-skill](lily-design-system-skill) for people
+building *with* Lily (concepts, naming, composition patterns),
+[lily-design-system-maintainer-skill](lily-design-system-maintainer-skill)
+for people working *on* this monorepo (required files, `bin/` tooling,
+the spec-driven workflow), eight framework-umbrella skills
+(`{framework}-skill`) that map a framework's headless/helpers/example-app
+subprojects and point down into the more specific skills, and sixteen
+framework-specific skills — one `{framework}-headless-skill` and one
+`{framework}-helpers-skill` per framework family (angular, blazor, html,
+nunjucks, react, svelte, vue, web-components) — each scoped to exactly
+the one real subproject it covers. All 26 are individually cloneable
+GitHub repos under [LilyDesignSystem](https://github.com/LilyDesignSystem)
+as well as living at this monorepo's root. See
+[spec/agent-skills/](spec/agent-skills/index.md) for the full list, or
+the docs site's [Lily + Claude Code](https://lilydesignsystem.com/lily-claude-code/)
+page for a guided tour.
+[llms.txt](llms.txt) and [llms.json](llms.json)
+give any LLM tool a curated map of the project's most important content,
+following the [llms.txt convention](https://llmstxt.org); the docs site
+publishes its own pair at its own root with site-appropriate links. See
+[spec/agent-skills/](spec/agent-skills/index.md) and
+[spec/llms-json-and-llms-txt/](spec/llms-json-and-llms-txt/index.md).
+
+How AI tools are actually used to build this project — disclosure, human
+oversight, quality controls, and the standing authorization for an agentic
+Claude Code session to decide a specific release is ready and publish it for
+real — is [AI_STATEMENT.md](AI_STATEMENT.md) and
+[GOVERNANCE.md](GOVERNANCE.md) § AI agent publish authority, not this section.
+
 ## Examples
 
 Batteries-included web examples that demonstrate components in real apps:
@@ -81,35 +114,6 @@ stylesheets that target the Lily™ class hooks — NHS England, NHS Scotland,
 and NHS Wales (patient and practitioner variants), GOV.UK GDS, USWDS,
 Adobe Spectrum, Mozilla Protocol, and general-purpose light/dark themes.
 The theme-picker helper loads them at runtime.
-
-## AI agent support
-
-Twenty-six [Claude Skills](https://code.claude.com/docs/en/skills) give an AI
-coding agent a curated entry point, in three tiers:
-[lily-design-system-skill](lily-design-system-skill) for people
-building *with* Lily (concepts, naming, composition patterns),
-[lily-design-system-maintainer-skill](lily-design-system-maintainer-skill)
-for people working *on* this monorepo (required files, `bin/` tooling,
-the spec-driven workflow), eight framework-umbrella skills
-(`{framework}-skill`) that map a framework's headless/helpers/example-app
-subprojects and point down into the more specific skills, and sixteen
-framework-specific skills — one `{framework}-headless-skill` and one
-`{framework}-helpers-skill` per framework family (angular, blazor, html,
-nunjucks, react, svelte, vue, web-components) — each scoped to exactly
-the one real subproject it covers. See
-[spec/agent-skills/](spec/agent-skills/index.md) for the full list.
-[llms.txt](llms.txt) and [llms.json](llms.json)
-give any LLM tool a curated map of the project's most important content,
-following the [llms.txt convention](https://llmstxt.org); the docs site
-publishes its own pair at its own root with site-appropriate links. See
-[spec/agent-skills/](spec/agent-skills/index.md) and
-[spec/llms-json-and-llms-txt/](spec/llms-json-and-llms-txt/index.md).
-
-How AI tools are actually used to build this project — disclosure, human
-oversight, quality controls, and the standing authorization for an agentic
-Claude Code session to decide a specific release is ready and publish it for
-real — is [AI_STATEMENT.md](AI_STATEMENT.md) and
-[GOVERNANCE.md](GOVERNANCE.md) § AI agent publish authority, not this section.
 
 ## Components
 
