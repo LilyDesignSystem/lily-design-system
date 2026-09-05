@@ -20,7 +20,7 @@ identifiers:
 repository-code: 'https://github.com/LilyDesignSystem/lily-design-system-web-components-helpers/'
 url: 'https://lilydesignsystem.github.io/'
 abstract: >-
-  This repository is a Lily Design System subproject.
+  This repository is the Web Components helpers catalog: six opinionated packages that each own one complete interaction.
   It is one subproject of Lily Design System, a free open-source headless
   design system whose canonical catalog of 491 components is implemented
   across seven frameworks. The canonical monorepo is at

@@ -1,6 +1,6 @@
 # Install
 
-This repository is the Nunjucks helpers catalog: five opinionated packages that each own one complete interaction.
+This repository is the Nunjucks helpers catalog: six opinionated packages that each own one complete interaction.
 
 It is published as a `git subtree` from the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.
@@ -9,7 +9,7 @@ Full documentation and the searchable component catalog: <https://lilydesignsyst
 
 ## Install
 
-This catalog ships five helper packages, all published to npm at `0.1.0`.
+This catalog ships six helper packages, all published to npm.
 Install only what you need:
 
 | Package | Owns |
@@ -17,6 +17,7 @@ Install only what you need:
 | `lily-design-system-nunjucks-theme-picker` | theme preference |
 | `lily-design-system-nunjucks-locale-picker` | locale preference (`lang` / `dir`) |
 | `lily-design-system-nunjucks-text-size-picker` | text-size preference |
+| `lily-design-system-nunjucks-motion-picker` | reduced-motion preference |
 | `lily-design-system-nunjucks-share-picker` | a share action |
 | `lily-design-system-nunjucks-date-time-picker` | a date-time form value |
 

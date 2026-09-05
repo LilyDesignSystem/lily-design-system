@@ -1,6 +1,6 @@
 # Install
 
-This repository is the Blazor helpers catalog: five opinionated packages that each own one complete interaction.
+This repository is the Blazor helpers catalog: six opinionated packages that each own one complete interaction.
 
 It is published as a `git subtree` from the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.
@@ -9,7 +9,7 @@ Full documentation and the searchable component catalog: <https://lilydesignsyst
 
 ## Install
 
-This catalog ships five helper packages as Razor class libraries. **They are
+This catalog ships six helper packages as Razor class libraries. **They are
 built but not yet published to NuGet**; until they are, clone this repository and
 reference the `.csproj` you need:
 
@@ -18,6 +18,7 @@ reference the `.csproj` you need:
 | `LilyDesignSystem.Blazor.ThemePicker` | theme preference |
 | `LilyDesignSystem.Blazor.LocalePicker` | locale preference (`lang` / `dir`) |
 | `LilyDesignSystem.Blazor.TextSizePicker` | text-size preference |
+| `LilyDesignSystem.Blazor.MotionPicker` | reduced-motion preference |
 | `LilyDesignSystem.Blazor.SharePicker` | a share action |
 | `LilyDesignSystem.Blazor.DateTimePicker` | a date-time form value |
 

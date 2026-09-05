@@ -1,6 +1,6 @@
 # Install
 
-This repository is the React helpers catalog: five opinionated packages that each own one complete interaction.
+This repository is the React helpers catalog: six opinionated packages that each own one complete interaction.
 
 It is published as a `git subtree` from the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.
@@ -9,7 +9,7 @@ Full documentation and the searchable component catalog: <https://lilydesignsyst
 
 ## Install
 
-This catalog ships five helper packages, all published to npm at `0.1.0`.
+This catalog ships six helper packages, all published to npm.
 Install only what you need:
 
 | Package | Owns |
@@ -17,6 +17,7 @@ Install only what you need:
 | `lily-design-system-react-theme-picker` | theme preference |
 | `lily-design-system-react-locale-picker` | locale preference (`lang` / `dir`) |
 | `lily-design-system-react-text-size-picker` | text-size preference |
+| `lily-design-system-react-motion-picker` | reduced-motion preference |
 | `lily-design-system-react-share-picker` | a share action |
 | `lily-design-system-react-date-time-picker` | a date-time form value |
 

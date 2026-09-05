@@ -1,28 +1,31 @@
 # Install
 
-This repository is a Lily Design System subproject.
+This repository is the Web Components headless component library: a deliberately partial slice, 33 of the 491 catalog components, unstyled and accessible.
 
 It is published as a `git subtree` from the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.
 
 Full documentation and the searchable component catalog: <https://lilydesignsystem.github.io/>
 
-## Run this example application
+## Install
+
+**This package is not yet published to npm.** Until it is, use either:
+
+**Copy the markup.** Lily is headless — a component is its semantic HTML, its
+ARIA, and its class hook. Take it from the catalog at <https://lilydesignsystem.github.io/> and paste it
+anywhere. No dependency, no build step.
+
+**Or clone and copy the component files:**
 
 ```sh
 git clone https://github.com/LilyDesignSystem/lily-design-system-web-components-headless.git
-cd lily-design-system-web-components-headless
-npm install
-npm run dev
 ```
 
-It ships three required routes — `/`, `/components` (the full searchable catalog),
-and `/components/{slug}` (a live demo per component) — plus composed-page
-demonstrations. The stylesheet targets Lily's kebab-case class names directly, with
-no CSS-framework dependency; the current visual reference is the NHS UK design
-system.
-
-Lily is not affiliated with or endorsed by NHS.
+The components ship no CSS. Style them through the kebab-case class hook on each
+root element. See the canonical
+[css-style-sheet-template.css](https://github.com/LilyDesignSystem/lily-design-system/blob/main/css-style-sheet-template.css)
+for a hook per component, and the 45 ready-made stylesheets in
+[themes/](https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes).
 
 ## License
 

@@ -1,28 +1,34 @@
 # Install
 
-This repository is a Lily Design System subproject.
+This repository is the Web Components helpers catalog: six opinionated packages that each own one complete interaction.
 
 It is published as a `git subtree` from the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.
 
 Full documentation and the searchable component catalog: <https://lilydesignsystem.github.io/>
 
-## Run this example application
+## Install
+
+This catalog ships six helper packages, all published to npm.
+Install only what you need:
+
+| Package | Owns |
+| --- | --- |
+| `lily-design-system-web-components-theme-picker` | theme preference |
+| `lily-design-system-web-components-locale-picker` | locale preference (`lang` / `dir`) |
+| `lily-design-system-web-components-text-size-picker` | text-size preference |
+| `lily-design-system-web-components-motion-picker` | reduced-motion preference |
+| `lily-design-system-web-components-share-picker` | a share action |
+| `lily-design-system-web-components-date-time-picker` | a date-time form value |
 
 ```sh
-git clone https://github.com/LilyDesignSystem/lily-design-system-web-components-helpers.git
-cd lily-design-system-web-components-helpers
-npm install
-npm run dev
+npm install lily-design-system-web-components-theme-picker
 ```
 
-It ships three required routes — `/`, `/components` (the full searchable catalog),
-and `/components/{slug}` (a live demo per component) — plus composed-page
-demonstrations. The stylesheet targets Lily's kebab-case class names directly, with
-no CSS-framework dependency; the current visual reference is the NHS UK design
-system.
-
-Lily is not affiliated with or endorsed by NHS.
+Every user-facing string is a prop — there are no English defaults to override.
+All are SSR-safe and ship no CSS. Contracts:
+[AGENTS/helpers.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/helpers.md) and
+[spec/helpers/index.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/helpers/index.md).
 
 ## License
 
