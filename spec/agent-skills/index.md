@@ -102,7 +102,7 @@ full-subproject treatment — see "Naming-split retirement" and
   documented deviation from the canonical contract (e.g. Nunjucks'
   server-rendered `motion-picker` default, the Angular wrapper-host
   tag+attribute-selector fix, the Web Components catalog's deliberate
-  33/491 partial scope and its still-missing example app).
+  125/491 partial scope and its still-missing example app).
 
 ## Detail sections
 
@@ -217,7 +217,7 @@ covering exactly the one real subproject it is named after:
 | React | [`lily-design-system-react-headless-skill`](../../lily-design-system-react-headless-skill/) → [`lily-design-system-react-headless`](../../lily-design-system-react-headless/) | [`lily-design-system-react-helpers-skill`](../../lily-design-system-react-helpers-skill/) → [`lily-design-system-react-helpers`](../../lily-design-system-react-helpers/) |
 | Svelte | [`lily-design-system-svelte-headless-skill`](../../lily-design-system-svelte-headless-skill/) → [`lily-design-system-svelte-headless`](../../lily-design-system-svelte-headless/) | [`lily-design-system-svelte-helpers-skill`](../../lily-design-system-svelte-helpers-skill/) → [`lily-design-system-svelte-helpers`](../../lily-design-system-svelte-helpers/) |
 | Vue | [`lily-design-system-vue-headless-skill`](../../lily-design-system-vue-headless-skill/) → [`lily-design-system-vue-headless`](../../lily-design-system-vue-headless/) | [`lily-design-system-vue-helpers-skill`](../../lily-design-system-vue-helpers-skill/) → [`lily-design-system-vue-helpers`](../../lily-design-system-vue-helpers/) |
-| Web Components | [`lily-design-system-web-components-headless-skill`](../../lily-design-system-web-components-headless-skill/) → [`lily-design-system-web-components-headless`](../../lily-design-system-web-components-headless/) (the partial, 33/491 catalog) | [`lily-design-system-web-components-helpers-skill`](../../lily-design-system-web-components-helpers-skill/) → [`lily-design-system-web-components-helpers`](../../lily-design-system-web-components-helpers/) (an independent copy of the HTML helpers, `<lily-*>` tag prefix) |
+| Web Components | [`lily-design-system-web-components-headless-skill`](../../lily-design-system-web-components-headless-skill/) → [`lily-design-system-web-components-headless`](../../lily-design-system-web-components-headless/) (the partial, 125/491 catalog) | [`lily-design-system-web-components-helpers-skill`](../../lily-design-system-web-components-helpers-skill/) → [`lily-design-system-web-components-helpers`](../../lily-design-system-web-components-helpers/) (an independent copy of the HTML helpers, `<lily-*>` tag prefix) |
 
 ### Tooling touched
 

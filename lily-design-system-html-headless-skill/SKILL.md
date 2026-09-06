@@ -89,10 +89,10 @@ classes shown above.
   date-time) are a separate layer with their own web-component packaging —
   use [`lily-design-system-html-helpers-skill`](../lily-design-system-html-helpers-skill/).
 - **The native-custom-element sibling catalog** — `lily-design-system-web-components-headless`
-  ships 33 of the 491 components as autonomous custom elements with no
-  framework runtime, a deliberately partial, separate subproject (not this
-  one, and not full parity) — use `lily-design-system-web-components-headless-skill`
-  for that catalog's own conventions.
+  ships 125 of the 491 components (growing) as autonomous custom elements
+  with no framework runtime, a separate subproject (not this one) — use
+  `lily-design-system-web-components-headless-skill` for that catalog's
+  own conventions.
 - **General Lily concepts** (what "headless" means, the catalog at a glance,
   picking a framework, terminology) that aren't specific to the plain-HTML
   idiom — use [`lily-design-system-skill`](../lily-design-system-skill/).

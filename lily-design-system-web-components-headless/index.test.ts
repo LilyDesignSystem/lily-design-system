@@ -26,8 +26,10 @@ describe("dist/index.js (built package entry point)", () => {
             expect(customElements.get(`lily-${slug}`), `lily-${slug} should be defined`).toBeTruthy();
         }
         // 30 from the P7-T6 slice + the 3-component breadcrumb family
-        // added by the P8-T7 "upgrade in place" pilot.
-        expect(SLUGS.length).toBe(33);
+        // added by the P8-T7 "upgrade in place" pilot + the 92 national
+        // personal identifier components (46 slugs x -input/-view) added
+        // in the P8-T14/P9 completion push.
+        expect(SLUGS.length).toBe(125);
     });
 
     test("a component rendered via the built bundle behaves like the source version", async () => {

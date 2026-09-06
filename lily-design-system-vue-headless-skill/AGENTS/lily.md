@@ -9,13 +9,14 @@ Canonical component list: [components.tsv](../components.tsv) — 491 components
 ## Subprojects for headless components
 
 The seven framework pairs below are the canonical, full-catalog (491/491)
-headless libraries. An 8th, **partial** headless catalog joined 2026-09-03:
-[Lily Design System: Web Components headless](../lily-design-system-web-components-headless)
-ships 33 of the 491 components as native custom elements (no framework
-runtime) — a representative slice proving the pattern, not full parity with
-the seven below. See its own `spec/index.md` for the architecture decisions
-(autonomous custom elements over customized built-ins, light-DOM-only) and
-exact scope.
+headless libraries. An 8th, **partial but growing** headless catalog joined
+2026-09-03: [Lily Design System: Web Components headless](../lily-design-system-web-components-headless)
+ships 125 of the 491 components (as of 2026-09-06) as native custom elements
+(no framework runtime). 35 components are permanently excluded by a real
+architectural limitation; the rest are open backlog, being implemented in
+batches toward the achievable 456/491. See its own `spec/index.md` for the
+architecture decisions (autonomous custom elements over customized
+built-ins, light-DOM-only) and the exact, current scope.
 
 - [Lily Design System: HTML headless](../lily-design-system-html-headless)
 - [Lily Design System: Svelte headless](../lily-design-system-svelte-headless)
@@ -59,7 +60,7 @@ Twenty-six top-level Claude Skill packages in three tiers, spec: [spec/agent-ski
 - [lily-design-system-skill](../lily-design-system-skill) — general-purpose: concepts, terminology, naming conventions, composition patterns, for people building *with* Lily.
 - [lily-design-system-maintainer-skill](../lily-design-system-maintainer-skill) — technical: required files, `bin/` tooling, the spec-driven workflow, for people working *on* this monorepo.
 - Eight framework-umbrella skills (2026-09-05), one `{framework}-skill` per framework family, each mapping that framework's up-to-three real subprojects (headless, helpers, example app — the one layer neither sibling skill below covers) and pointing down into them: `lily-design-system-angular-skill`, `lily-design-system-blazor-skill`, `lily-design-system-html-skill`, `lily-design-system-nunjucks-skill`, `lily-design-system-react-skill`, `lily-design-system-svelte-skill`, `lily-design-system-vue-skill`, `lily-design-system-web-components-skill` (the one with only two subprojects to map — no Web Components example app exists yet).
-- Sixteen framework-specific skills (2026-09-04), one `{framework}-headless-skill` and one `{framework}-helpers-skill` per framework family, each scoped to exactly the one real subproject it covers: `lily-design-system-angular-headless-skill`, `lily-design-system-angular-helpers-skill`, `lily-design-system-blazor-headless-skill`, `lily-design-system-blazor-helpers-skill`, `lily-design-system-html-headless-skill`, `lily-design-system-html-helpers-skill`, `lily-design-system-nunjucks-headless-skill`, `lily-design-system-nunjucks-helpers-skill`, `lily-design-system-react-headless-skill`, `lily-design-system-react-helpers-skill`, `lily-design-system-svelte-headless-skill`, `lily-design-system-svelte-helpers-skill`, `lily-design-system-vue-headless-skill`, `lily-design-system-vue-helpers-skill`, `lily-design-system-web-components-headless-skill` (covers the partial 33/491 catalog), `lily-design-system-web-components-helpers-skill`.
+- Sixteen framework-specific skills (2026-09-04), one `{framework}-headless-skill` and one `{framework}-helpers-skill` per framework family, each scoped to exactly the one real subproject it covers: `lily-design-system-angular-headless-skill`, `lily-design-system-angular-helpers-skill`, `lily-design-system-blazor-headless-skill`, `lily-design-system-blazor-helpers-skill`, `lily-design-system-html-headless-skill`, `lily-design-system-html-helpers-skill`, `lily-design-system-nunjucks-headless-skill`, `lily-design-system-nunjucks-helpers-skill`, `lily-design-system-react-headless-skill`, `lily-design-system-react-helpers-skill`, `lily-design-system-svelte-headless-skill`, `lily-design-system-svelte-helpers-skill`, `lily-design-system-vue-headless-skill`, `lily-design-system-vue-helpers-skill`, `lily-design-system-web-components-headless-skill` (covers the partial, growing catalog), `lily-design-system-web-components-helpers-skill`.
 
 All twenty-six follow the `lily-design-system-` prefix and get full subproject treatment (the first two as of 2026-08-31 — `lily-design-system-skill` was renamed from `lily-skill`, which deliberately sat outside the prefix — the sixteen framework-specific ones as of 2026-09-04 and the eight framework-umbrella ones as of 2026-09-05, both reversing or extending this topic's earlier "two skills only" decision — see [spec/agent-skills/index.md](../spec/agent-skills/index.md)).
 

@@ -2,8 +2,8 @@
 
 A Claude Skill ([`SKILL.md`](SKILL.md)) that explains how to consume
 [`lily-design-system-web-components-headless`](../lily-design-system-web-components-headless/):
-Lily's native custom-element implementation of a **deliberately partial**
-slice of the canonical component catalog — 33 of the 491 components,
+Lily's native custom-element implementation of a **partial, growing**
+slice of the canonical component catalog — 125 of the 491 components as of 2026-09-06,
 proving the pattern (autonomous custom elements, light DOM only, no
 framework runtime) rather than completing it. **It is not a 491/491 peer of
 the other seven headless catalogs** (HTML, Svelte, React, Vue, Angular,
@@ -22,7 +22,7 @@ general-purpose package living outside it.
 
 Load this skill when someone asks how to use Lily's native Web Components
 headless catalog, wants the custom-element usage idiom, needs to know
-exactly which 33 of the 491 catalog components this partial catalog
+exactly which components this partial, growing catalog
 actually covers, asks why it isn't full parity with the other seven
 catalogs, or asks about the autonomous-custom-elements-vs-customized-
 built-ins or light-DOM-only architecture decisions. It doesn't restate the

@@ -77,7 +77,7 @@ The headless layer is the contract; the example layer is the proof. Adopters can
 ## Acceptance criteria
 
 - [x] Canonical component list defines exactly 491 components in `components.tsv`.
-- [x] All 7 full-catalog headless subprojects exist and implement the full catalog; the partial Web Components catalog states its own 33/491 scope rather than claiming parity.
+- [x] All 7 full-catalog headless subprojects exist and implement the full catalog; the partial Web Components catalog states its own 125/491 scope rather than claiming parity.
 - [x] All 7 example subprojects exist and implement the full catalog.
 - [x] The headless layer bundles no stylesheets, fonts, images, or icons.
 - [ ] No component embeds a hardcoded user-facing string.

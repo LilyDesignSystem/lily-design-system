@@ -1,6 +1,6 @@
 # Install
 
-This repository is the Web Components headless component library: a deliberately partial slice, 33 of the 491 catalog components, unstyled and accessible.
+This repository is the Web Components headless component library: a partial, growing slice of the catalog (125 of the 491 components as of 2026-09-06), unstyled and accessible.
 
 It is published as a `git subtree` from the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.

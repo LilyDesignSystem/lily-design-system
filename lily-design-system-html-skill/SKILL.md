@@ -95,7 +95,7 @@ this is where its contract lives.
 Lily also ships two catalogs under `<lily-*>` tags —
 [`lily-design-system-web-components-headless`](../lily-design-system-web-components-headless/)
 (native custom elements, no framework runtime, but a deliberately **partial**
-33/491 catalog) and
+125/491 catalog) and
 [`lily-design-system-web-components-helpers`](../lily-design-system-web-components-helpers/)
 (an independent copy of these HTML helpers under `<lily-*-picker>` tags).
 Both helpers catalogs ship custom elements, but the two *headless* catalogs

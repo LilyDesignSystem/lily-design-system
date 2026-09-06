@@ -11,10 +11,15 @@ root spec was amended 2026-09-03 (plan P8-T3) to frame the catalog as
 7 full-catalog headless libraries plus this partial one; this file remains
 the authoritative record of the addition.
 
-**This is a deliberately partial implementation: 33 of the canonical 491
-components, not full parity with the other seven catalogs.** Every claim of
-completeness below is scoped to those 30. See §2 and §11 for exactly what is
-and is not covered, and why.
+**This is a partial implementation, growing toward full parity: 125 of the
+canonical 491 components as of 2026-09-06** (33 from the original P7-T6/P8-T7
+slice, plus all 92 national personal identifier components added in the
+completion push that started 2026-09-06). 35 components are **permanently
+excluded** from this catalog by a real architectural limitation (§2, §2.1);
+the other 331 not yet implemented are simply not done yet, and are being
+added in ongoing batches. Every claim of completeness below is scoped to
+what is actually implemented at the time it's read — see §2 and §11 for the
+exact accounting.
 
 ---
 
@@ -36,38 +41,68 @@ hand-rolled approximation.
 
 ### In scope
 
-- 33 native custom elements, one per canonical `components/{slug}/AGENTS.md`
-  contract, chosen to span every major category rather than cluster in one:
-  8 buttons/links, 5 forms, 4 overlays, 6 media/data, 7 content, and the
-  3-component breadcrumb navigation family (the P8-T7 pilot, see §2.1).
-- A vitest test file per component (180 tests total across the 33 `.test.ts`
-  files, plus a 31st `index.test.ts` exercising the **built** `dist/`
+- 125 native custom elements, one per canonical `components/{slug}/AGENTS.md`
+  contract: the original 33 (8 buttons/links, 5 forms, 4 overlays, 6
+  media/data, 7 content, and the 3-component breadcrumb navigation family —
+  the P8-T7 pilot, see §2.1) plus all 92 national personal identifier
+  components (46 identifier types x -input/-view), added in the 2026-09-06
+  completion push toward the achievable 423 (§11.8).
+- A vitest test file per component (594 tests total across the 125
+  `.test.ts` files, plus `index.test.ts` exercising the **built** `dist/`
   bundle end to end).
-- A Storybook story per component.
+- A Storybook story per component (the 92 national-identifier stories are
+  grouped under a new "National identifiers" category).
 - The shared `lib/dom-utils.ts` helpers every component builds on.
 - Required subproject files matching every other implementation directory:
   `index.md`, `README.md` (symlink), `AGENTS.md`, `CLAUDE.md`,
   `spec/index.md`, `.git-subtree-push`.
 
-### Explicitly out of scope (this slice)
+### Explicitly out of scope (permanent, architectural)
 
-- **458 of the 491 canonical components are not implemented here.** This is
-  not an oversight to silently backfill; it is the agreed scope of the
-  initial subproject (plan P7-T6: "scaffold + representative subset").
-- **Every table sub-element family, and every `*ListItem` family other than
-  breadcrumb** — `*TableHead/-Body/-Foot/-Row/-TH/-TD` (table, data-table,
-  calendar-table, kanban-table), gantt's HTML-named equivalents, and the
-  remaining `*List`/`*ListItem` pairs. The underlying problem: a parent and
-  child with a required content-model relationship (`<ol>` + `<li>`,
-  `<table>` + `<thead>`) cannot have a wrapper element between them —
-  angular-headless hit and fixed exactly this defect class in its 0.3.0
-  wrapper-host-semantics migration (root spec §11.8) with a tag+attribute
-  selector (`li[lily-breadcrumb-list-item]`), a form only **customized
-  built-in elements** support, and those are permanently unsupported in
-  Safari/WebKit (§3). §2.1 records the pattern this catalog now uses
-  instead, piloted on the breadcrumb family (P8-T7); it has a real cost
-  that makes it fit only passive items, which is why the rest of the
-  family is still out of scope rather than mechanically ported.
+- **35 components are permanently excluded**, not merely not-yet-done: every
+  table sub-element family (30: `*TableHead/-Body/-Foot/-Row/-TH/-TD` across
+  `table`/`data-table`/`calendar-table`/`kanban-table`, and gantt's
+  HTML-named equivalents) and the 5 `*ListItem` families whose canonical
+  contract is interactive (`accordion-list-item`, `chat-list-item`,
+  `check-list-item`, `document-list-item`, `tree-list-item`) — see §2.1 for
+  why. Everything else not yet implemented (331 components as of
+  2026-09-06) is open backlog, tracked in §11.8, not a permanent exclusion.
+- CSS, stylesheets, a CSS framework dependency, inline styles beyond the
+  one documented structural exception (§4).
+- Shadow DOM (§3).
+- A framework adapter layer (React wrapper, Vue wrapper, …) — a consumer in
+  a framework should use that framework's own Lily catalog instead; this
+  package targets no-framework and framework-agnostic contexts.
+
+### 2.0 History: what "not implemented" used to mean here
+
+Before 2026-09-06 this file described 458 components as out of scope by
+deliberate initial-slice choice — "not an oversight to silently backfill;
+it is the agreed scope of the initial subproject" (plan P7-T6: "scaffold +
+representative subset"). That framing is retired: a completion push started
+2026-09-06 to close as much of that gap as the architecture genuinely
+allows (§11.8 tracks progress). What has not changed is the reasoning
+behind the 35 components that stay out of scope regardless of how much of
+the rest gets implemented: every table sub-element family, and every
+interactive `*ListItem` family — `*TableHead/-Body/-Foot/-Row/-TH/-TD`
+(table, data-table, calendar-table, kanban-table), gantt's HTML-named
+equivalents, and `accordion-list-item`/`chat-list-item`/`check-list-item`/
+`document-list-item`/`tree-list-item`. The underlying problem: a parent and
+child with a required content-model relationship (`<ol>` + `<li>`,
+`<table>` + `<thead>`) cannot have a wrapper element between them —
+angular-headless hit and fixed exactly this defect class in its 0.3.0
+wrapper-host-semantics migration (root spec §11.8) with a tag+attribute
+selector (`li[lily-breadcrumb-list-item]`), a form only **customized
+built-in elements** support, and those are permanently unsupported in
+Safari/WebKit (§3). §2.1 records the pattern this catalog uses instead,
+piloted on the breadcrumb family (P8-T7); it has a real cost that makes it
+fit only passive items. The remaining 13 non-interactive `*ListItem`
+families (plus `description-list-item`, whose canonical tag is actually
+`<div>` and so was never blocked at all) are open backlog — §11.8 — where
+this same "upgrade in place" pattern is the intended approach, extended and
+verified per component rather than assumed safe by analogy. The 5
+interactive `*ListItem` families and all 30 table sub-elements are the
+permanent exclusion; nothing currently known extends to them.
 
 ### 2.1 The "upgrade in place" pattern (P8-T7 pilot: breadcrumb family)
 
@@ -90,13 +125,6 @@ upgrade). It is **not** acceptable for an interactive list item, and the
 pattern must not be copied to one without revisiting this. Table
 sub-elements would additionally need the parent (`<table>`) to tolerate
 the transient host during parsing — untested, still out of scope.
-- **The 92 national personal identifier components.**
-- CSS, stylesheets, a CSS framework dependency, inline styles beyond the
-  one documented structural exception (§4).
-- Shadow DOM (§3).
-- A framework adapter layer (React wrapper, Vue wrapper, …) — a consumer in
-  a framework should use that framework's own Lily catalog instead; this
-  package targets no-framework and framework-agnostic contexts.
 
 ## 3. Architecture decision: autonomous custom elements, light DOM only
 
@@ -249,37 +277,67 @@ data, Content) matching this file's §2 breakdown.
 - Package: `lily-design-system-web-components-headless`, npm, not yet
   published (see root `docs/releasing.md` for the publish gate).
 - Custom element tags: `lily-{slug}`, one per canonical slug in
-  `components.tsv` — this package defines only the 30 in §2.
-- Version: 0.1.0.
+  `components.tsv` — this package defines the 125 in §2.
+- Version: 0.2.0 (2026-09-06: 33 → 125 components, non-breaking).
 
 ## 11. Acceptance criteria
 
-- [x] 33 components chosen spanning every major category (not clustered),
-      including one complete `*Nav/*List/*ListItem` family (P8-T7).
-- [x] Each component matches its canonical `components/{slug}/AGENTS.md`
-      contract (HTML tag, ARIA, keyboard, required/optional attributes).
-- [x] Real, run-verified tests: 180 tests across 33 `.test.ts` files, all
-      green (`pnpm vitest run`).
+- [x] 125 components implemented against their canonical
+      `components/{slug}/AGENTS.md` contract (HTML tag, ARIA, keyboard,
+      required/optional attributes): the original 33 spanning every major
+      category (not clustered), including one complete
+      `*Nav/*List/*ListItem` family (P8-T7), plus all 92 national personal
+      identifier components (2026-09-06).
+- [x] Real, run-verified tests: 594 tests across 125 `.test.ts` files, all
+      green (`pnpm vitest run`), including a real defect the tests
+      themselves caught and fixed during the 2026-09-06 push: 14 of 46
+      national-identifier `-view` components were missing the `role="text"`
+      their own canonical AGENTS.md calls for (announces the identifier as
+      one unit rather than letting a screen reader fragment it) — added
+      per-component, verified against each contract individually rather
+      than applied blanket (32 of the 46 have it, 14 don't).
 - [x] TypeScript compiles clean (`tsc --noEmit`).
 - [x] `pnpm build` succeeds: generates `index.ts`, bundles a non-empty
       `dist/index.js` + `dist/index.d.ts` via tsup.
 - [x] `index.test.ts` imports the **built** `dist/index.js` and confirms
-      all 33 `lily-{slug}` tags self-register, plus one end-to-end render
-      through the public entry point — 182 tests total including this file.
-- [x] `pnpm build-storybook` succeeds: all 33 stories compile and bundle.
+      all 125 `lily-{slug}` tags self-register, plus one end-to-end render
+      through the public entry point — 594 tests total including this file.
+- [x] `pnpm build-storybook` succeeds: all 125 stories compile and bundle
+      (the 92 national-identifier stories grouped under a new "National
+      identifiers" category).
 - [x] Required subproject files present (`index.md`, `README.md` symlink,
       `AGENTS.md`, `CLAUDE.md`, `spec/index.md`, `.git-subtree-push`).
 - [x] `bin/sync` run — root `AGENTS/*.md` present under this subproject's
       own `AGENTS/`.
-- [ ] `bin/test` run clean against this subproject (pending — run after
-      this file is committed).
-- [ ] `bin/check-links` clean for this subproject's markdown.
+- [x] `bin/test` run clean against this subproject (2026-09-06).
+- [x] `bin/check-links` clean for this subproject's markdown (2026-09-06).
 - [ ] Registered as a git subtree with its own standalone remote and
       pushed (pending first publish decision — not yet published to npm;
       the `.git-subtree-push` file is in place but no push has run yet).
+- [ ] The remaining 331 achievable components (§11.8) — open backlog, being
+      worked in batches.
 - [ ] Angular-style `*ListItem`/table-sub-element wrapper-host-safe
       registration mechanism for autonomous custom elements — genuinely
-      unsolved, tracked as future work, not a defect in the 30 shipped.
+      unsolved, tracked as future work, not a defect in what is shipped.
+      The 5 interactive `*ListItem` families and 30 table sub-elements
+      stay excluded regardless (§2); the 13 remaining passive
+      `*ListItem` families plus `description-list-item` are open backlog
+      where the P8-T7 "upgrade in place" pattern is the intended approach
+      (§2.1), not yet applied.
+
+### 11.8 Open backlog (2026-09-06)
+
+- 331 of the 491 canonical components are not yet implemented, spanning
+  the `content`, `navigation` (the 14 non-blocked `*ListItem` families,
+  `description-list-item`, and the rest of that category), `forms`,
+  `lists`, `pickers`, `links`, `overlays`, `tables` (root table-family
+  elements, distinct from the excluded sub-elements), `media`, and
+  `data-viz` categories. None of these 331 are structurally blocked; they
+  simply haven't been written yet, following the same two structural
+  patterns (§4) as the 125 shipped so far, plus the "upgrade in place"
+  pattern (§2.1) where a `*ListItem` family's contract is passive. Being
+  implemented in batches — see the root `CHANGELOG.md` for progress as
+  batches land.
 
 ## 12. Related topics
 

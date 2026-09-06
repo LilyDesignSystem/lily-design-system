@@ -1,6 +1,6 @@
 # Lily Design System - Web Components Headless
 
-A headless component library built on **native custom elements** (the Web Components platform APIs) rather than a JavaScript framework. **Partial catalog**: 33 of the canonical 491 components, spanning every major category, proving the pattern rather than completing the full catalog — see `spec/index.md` for the honest scope statement and the full list of what is and isn't implemented.
+A headless component library built on **native custom elements** (the Web Components platform APIs) rather than a JavaScript framework. **Partial catalog, growing toward full parity**: 125 of the canonical 491 components as of 2026-09-06 (the original 33 spanning every major category, plus all 92 national personal identifier components). 35 components are permanently excluded by a real architectural limitation (table sub-elements and interactive `*ListItem` families); the rest are open backlog, not a permanent exclusion — see `spec/index.md` for the exact accounting.
 
 @AGENTS/lily.md
 @AGENTS/components.md
@@ -13,7 +13,7 @@ A headless component library built on **native custom elements** (the Web Compon
 ## Quick Reference
 
 - **Package**: lily-design-system-web-components-headless
-- **Version**: 0.1.0
+- **Version**: 0.2.0
 - **Created**: 2026-09-02
 - **License**: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause or contact us for more
 - **Contact**: Joel Parker Henderson (joel@joelparkerhenderson.com)
@@ -45,10 +45,13 @@ Both patterns appear across the 33 components, chosen per the canonical `compone
 
 Pattern 1 is preferred whenever the canonical root is a real semantic element; pattern 2 is the deliberate exception, not a second default. A third, **upgrade in place**, exists only as the P8-T7 breadcrumb pilot and is described under "Deliberately excluded" below with its cost — it is not a general option.
 
-## Deliberately excluded from this slice
+## Permanently excluded (architectural, not backlog)
 
-- Every table sub-element family and every `*ListItem` family **except breadcrumb**. The breadcrumb family (`BreadcrumbNav > BreadcrumbList > BreadcrumbListItem`) is the P8-T7 pilot of a third structural pattern, **upgrade in place**: the list item builds its real `<li>`, moves children/attributes in, then `this.replaceWith(li)` so no host node ever sits between `<ol>` and `<li>` — verified by an axe `list`/`listitem` run (`breadcrumb-list-item.test.ts`). Its cost is no live reactivity after upgrade, acceptable only because the canonical contract is passive; do not copy it to an interactive item. Table sub-elements stay out of scope (untested parser interaction with `<table>`). See `spec/index.md` §2.1.
-- The 92 national personal identifier components, and the vast majority of the remaining catalog — this is a 33-of-491 representative slice, not a parity implementation. See `spec/index.md` for the full accounting.
+- Every table sub-element family (30) and every **interactive** `*ListItem` family (5: accordion, chat, check, document, tree). The breadcrumb family (`BreadcrumbNav > BreadcrumbList > BreadcrumbListItem`) is the P8-T7 pilot of a third structural pattern, **upgrade in place**: the list item builds its real `<li>`, moves children/attributes in, then `this.replaceWith(li)` so no host node ever sits between `<ol>` and `<li>` — verified by an axe `list`/`listitem` run (`breadcrumb-list-item.test.ts`). Its cost is no live reactivity after upgrade, acceptable only because the canonical contract is passive; do not copy it to an interactive item. Table sub-elements stay out of scope (untested parser interaction with `<table>`). See `spec/index.md` §2.1.
+
+## Open backlog, not excluded
+
+- 331 components not yet implemented: everything outside the 125 shipped and the 35 permanently excluded above. None of these are structurally blocked — they simply haven't been written yet, and are being added in batches following the same two structural patterns (or, for a passive `*ListItem` family, the "upgrade in place" pattern extended and verified per component). See `spec/index.md` §11.8 for the full accounting.
 
 ## Testing
 

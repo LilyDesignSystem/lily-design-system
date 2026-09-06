@@ -127,7 +127,7 @@ The repository root holds the canonical catalog and tools
 (`components.tsv`, `css-style-sheet-template.css`, `bin/`, `spec/`,
 `AGENTS/*.md`, `themes/`); 22 implementation subprojects hang off it —
 7 full-catalog headless libraries, 1 partial headless library (Web
-Components, 33/491), 7 example apps, and 7 helper catalogs, one per
+Components, 125/491), 7 example apps, and 7 helper catalogs, one per
 framework (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks). Each
 subproject is also a `git subtree` pushed to its own standalone remote
 via `bin/git-subtree-push`. Full directory tree, the per-framework

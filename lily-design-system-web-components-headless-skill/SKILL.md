@@ -1,6 +1,6 @@
 ---
 name: lily-design-system-web-components-headless-skill
-description: Explains Lily Design System's native Web Components headless catalog — plain custom elements (`class X extends HTMLElement`, tags like `<lily-button>`), no framework runtime, no build step to consume. Use when someone asks how to use Lily Design System's native Web Components, wants the custom-element usage idiom, needs to know exactly which 33 of the 491 catalog components this partial catalog actually covers, asks why it isn't full parity with the other seven catalogs, or asks about autonomous custom elements vs. customized built-ins or light-DOM-only architecture.
+description: Explains Lily Design System's native Web Components headless catalog — plain custom elements (`class X extends HTMLElement`, tags like `<lily-button>`), no framework runtime, no build step to consume. Use when someone asks how to use Lily Design System's native Web Components, wants the custom-element usage idiom, needs to know exactly which of the 491 catalog components this growing partial catalog actually covers, asks why it isn't full parity with the other seven catalogs, or asks about autonomous custom elements vs. customized built-ins or light-DOM-only architecture.
 license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 ---
 
@@ -11,29 +11,40 @@ canonical component catalog as **native custom elements** — plain
 TypeScript classes extending `HTMLElement`, registered as
 `customElements.define("lily-{slug}", X)` — with no framework runtime, no
 JSX, no build-time template compiler. **It is a deliberately partial
-catalog: 33 of the canonical 491 components, not full parity with the seven
+catalog, growing toward full parity: 125 of the canonical 491 components as of 2026-09-06, not yet full parity with the seven
 full-catalog headless libraries (HTML, Svelte, React, Vue, Angular, Blazor,
 Nunjucks).** It proves the pattern works end to end (real, tested,
 buildable, Storybook-documented) across every major category; it is not a
-claim of completeness. Never imply broader coverage than 33/491 — if
+claim of completeness. Never imply broader coverage than what is actually implemented — check spec/index.md for the current count — if
 someone needs a component this catalog doesn't ship, point them at one of
 the seven full-catalog libraries instead.
 
 Root of the ecosystem: [../spec/index.md](../spec/index.md). The general
 Lily concepts skill: [../lily-design-system-skill/](../lily-design-system-skill/).
 
-## What's actually in the 33
+## What's actually implemented
 
-Spanning every major category rather than clustering in one: 8
-buttons/links (Button, ToggleButton, SwitchButton, IconButton, FloatButton,
-ClipboardCopyButton, BackLink, ActionLink), 5 forms (TextInput, EmailInput,
-TelInput, CheckboxGroup, Fieldset), 4 overlays (Dialog, AlertDialog,
-ContextualHelp, Coachmark), 6 media/data (AvatarImage, Figure,
-FeaturePhoto, Progress, Meter, BarChart), 7 content (Alert, Banner, Card,
-Badge, Blockquote, InformationCallout, WarningCallout), and the 3-component
-breadcrumb navigation family (BreadcrumbNav, BreadcrumbList,
-BreadcrumbListItem) — the one complete `*Nav`/`*List`/`*ListItem` family in
-this slice.
+The original 33-component slice spans every major category rather than
+clustering in one: 8 buttons/links (Button, ToggleButton, SwitchButton,
+IconButton, FloatButton, ClipboardCopyButton, BackLink, ActionLink), 5
+forms (TextInput, EmailInput, TelInput, CheckboxGroup, Fieldset), 4
+overlays (Dialog, AlertDialog, ContextualHelp, Coachmark), 6 media/data
+(AvatarImage, Figure, FeaturePhoto, Progress, Meter, BarChart), 7 content
+(Alert, Banner, Card, Badge, Blockquote, InformationCallout,
+WarningCallout), and the 3-component breadcrumb navigation family
+(BreadcrumbNav, BreadcrumbList, BreadcrumbListItem) — the one complete
+`*Nav`/`*List`/`*ListItem` family in the original slice.
+
+The 2026-09-06 completion push added all 92 national personal identifier
+components (46 identifier types x -input/-view, e.g.
+`AlbaCommunityHealthIndexInput`/`View`, `UnitedStatesSocialSecurityNumberInput`/`View`),
+each following the same `TextInput`/`EmailInput`-shaped -input pattern
+(with `autocomplete="off"` always forced, and `pattern`/`inputmode`
+hardcoded for the handful whose canonical contract documents a fixed
+format) paired with a `<span aria-label>`-shaped -view — `role="text"` is
+added to the -view's span wherever that identifier's own canonical
+`AGENTS.md` calls for it (32 of the 46 do; 14 don't), so check the
+component's own contract rather than assuming either way.
 
 ## Two architecture decisions, made explicitly before any component was written
 
@@ -47,7 +58,7 @@ this slice.
   [WebKit bug 182671](https://bugs.webkit.org/show_bug.cgi?id=182671), so it
   silently fails to upgrade in Safari). Lily targets every evergreen browser
   without a caveat, so autonomous is the only real choice. The accepted
-  cost: most of the 33 components introduce one extra DOM host node
+  cost: most components introduce one extra DOM host node
   (`<lily-button>`) wrapping the real semantic element (`<button>`) — a
   real, permanent structural difference from the other seven catalogs'
   output.
@@ -60,12 +71,12 @@ this slice.
 
 ## The two structural patterns
 
-1. **Wrap a real native element** (26 of the 33) — `connectedCallback`
+1. **Wrap a real native element** (most of the catalog) — `connectedCallback`
    creates the real semantic child, moves the host's original light-DOM
    children into it, sets attributes, and appends it. The custom-element
    host itself is inert scaffolding carrying no ARIA/role of its own.
 2. **Self-is-the-wrapper** (`Alert`, `Banner`, `ContextualHelp`,
-   `Coachmark` — 4 of the 33) — used only where the canonical root element
+   `Coachmark` and a handful of others) — used only where the canonical root element
    is `<div>` with no native element behaviour worth deferring to. The host
    element itself carries the base class and ARIA state directly, avoiding
    a pointless `<div>` inside a `<div>`.
@@ -133,14 +144,14 @@ The suffix→HTML-element mapping and the compound name-family patterns are
 catalog-wide and documented once, not restated here: see
 [../AGENTS/components.md](../AGENTS/components.md). Only the tag prefix
 differs — `lily-{slug}` rather than a bare PascalCase component name — and
-only 33 of the catalog's slugs actually exist in this package; check the
+only 125 of the catalog's slugs exist in this package as of 2026-09-06, growing; check the
 list above, or this catalog's own `spec/index.md`, before assuming a tag
 exists.
 
 ## When this isn't the right skill
 
 - **Full 491/491 catalog coverage in a specific framework** (a component
-  outside this slice's 33, or any framework-runtime binding) — use one of
+  outside this catalog's current scope, or any framework-runtime binding) — use one of
   the seven full-catalog headless skills, e.g.
   [`lily-design-system-html-headless-skill`](../lily-design-system-html-headless-skill/)
   for the plain-HTML no-framework-runtime full catalog, or the matching

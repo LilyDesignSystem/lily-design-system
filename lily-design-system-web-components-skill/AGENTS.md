@@ -24,8 +24,8 @@
 A Claude Skill that ties together the two real native-Web-Components
 subprojects in this monorepo —
 [`lily-design-system-web-components-headless`](../lily-design-system-web-components-headless/)
-(a deliberately partial, 33-of-491 catalog of native custom elements, no
-framework runtime) and
+(a partial, growing catalog of native custom elements — 125/491 as of
+2026-09-06 — no framework runtime) and
 [`lily-design-system-web-components-helpers`](../lily-design-system-web-components-helpers/)
 (the full six-helper `<lily-*-picker>` catalog, a maintainer-directed
 independent copy of `lily-design-system-html-helpers`) — and helps an agent
@@ -49,8 +49,8 @@ This subproject sits one level above
 [`lily-design-system-web-components-headless-skill`](../lily-design-system-web-components-headless-skill/)
 and
 [`lily-design-system-web-components-helpers-skill`](../lily-design-system-web-components-helpers-skill/):
-those two carry the deep, per-subproject contract (the partial 33/491
-scope and its architecture decisions; the six helpers and their provenance
+those two carry the deep, per-subproject contract (the current scope
+and its architecture decisions; the six helpers and their provenance
 relationship to the HTML helpers catalog); this one is the map that routes
 a request to the right one of the two.
 

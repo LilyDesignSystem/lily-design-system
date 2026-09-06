@@ -127,9 +127,9 @@ def describe(name):
         return "the Lily Design System documentation website"
     if kind == "headless":
         if name == "lily-design-system-web-components-headless":
-            return (f"the {label} headless component library: a deliberately "
-                    "partial slice, 33 of the 491 catalog components, unstyled "
-                    "and accessible")
+            return (f"the {label} headless component library: a partial, "
+                    "growing slice of the catalog (125 of the 491 components "
+                    "as of 2026-09-06), unstyled and accessible")
         return f"the {label} headless component library: all 491 catalog components, unstyled and accessible"
     if kind == "helpers":
         return f"the {label} helpers catalog: six opinionated packages that each own one complete interaction"

@@ -1,6 +1,6 @@
 ---
 name: lily-design-system-web-components-skill
-description: Explains what's available as native Web Components in Lily Design System and which of the two real Web Components subprojects to reach for — the partial (33/491) headless custom-element catalog, or the six `<lily-*-picker>` helpers catalog. Use when someone asks what Lily offers as native Web Components, which Web Components subproject they need, how the Web Components headless catalog relates to the Web Components helpers catalog, or asks whether there's a Web Components example application (there isn't one yet).
+description: Explains what's available as native Web Components in Lily Design System and which of the two real Web Components subprojects to reach for — the partial, growing (125/491 as of 2026-09-06) headless custom-element catalog, or the six `<lily-*-picker>` helpers catalog. Use when someone asks what Lily offers as native Web Components, which Web Components subproject they need, how the Web Components headless catalog relates to the Web Components helpers catalog, or asks whether there's a Web Components example application (there isn't one yet).
 license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 ---
 
@@ -19,15 +19,15 @@ to the native-custom-element idiom): [`lily-design-system-skill`](../lily-design
 ## The two real subprojects
 
 - **[`lily-design-system-web-components-headless`](../lily-design-system-web-components-headless/)**
-  — a **deliberately partial** headless catalog: 33 of the canonical 491
+  — a **partial, growing** headless catalog: 125 of the canonical 491 (as of 2026-09-06)
   components as native custom elements (`class X extends HTMLElement`,
   `customElements.define("lily-{slug}", X)`), no framework runtime, no
-  build step to consume. It proves the pattern across every major category
-  rather than clustering in one; it is not a claim of parity with the
-  seven full-catalog headless libraries (HTML, Svelte, React, Vue, Angular,
-  Blazor, Nunjucks). Deep dive, exact 33-component list, and the two
-  architecture decisions (autonomous custom elements over customized
-  built-ins; light-DOM-only):
+  build step to consume. It spans every major category rather than
+  clustering in one; it is working toward parity with the seven
+  full-catalog headless libraries (HTML, Svelte, React, Vue, Angular,
+  Blazor, Nunjucks) but has not reached it yet. Deep dive, the exact
+  current component list, and the two architecture decisions (autonomous
+  custom elements over customized built-ins; light-DOM-only):
   [`lily-design-system-web-components-headless-skill`](../lily-design-system-web-components-headless-skill/).
 - **[`lily-design-system-web-components-helpers`](../lily-design-system-web-components-helpers/)**
   — the full six-helper `*-picker` catalog (`theme-picker`, `locale-picker`,
@@ -40,10 +40,10 @@ to the native-custom-element idiom): [`lily-design-system-skill`](../lily-design
   and the precise provenance statement:
   [`lily-design-system-web-components-helpers-skill`](../lily-design-system-web-components-helpers-skill/).
 
-**This skill does not restate either sibling's content.** The partial
-33/491 scope, the architecture decisions, and the full component list live
-in the headless skill; the six helpers, their markup shapes, and the
-provenance relationship live in the helpers skill. Go there for the
+**This skill does not restate either sibling's content.** The current
+scope, the architecture decisions, and the full component list live in the
+headless skill; the six helpers, their markup shapes, and the provenance
+relationship live in the helpers skill. Go there for the
 contract; come here only to decide which one you need.
 
 ## The real, current gap: no Web Components example application
@@ -71,7 +71,7 @@ catalog. But the two headless catalogs are not the same thing:
 `lily-design-system-html-headless` is one of the seven full-catalog
 (491/491) headless libraries, targeting plain HTML with no custom-element
 registration; `lily-design-system-web-components-headless` is a separate,
-later, deliberately partial (33/491) project built on the native
+later, partial-but-growing project built on the native
 `customElements` platform API, with its own light-DOM-only and
 autonomous-custom-element architecture decisions. Don't conflate the two
 when answering a scope question — see

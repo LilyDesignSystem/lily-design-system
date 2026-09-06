@@ -58,7 +58,7 @@ sibling on the Web Components side is
   own page markup/CSS — this skill describes the example app's contract,
   it does not ship or reimplement it.
 - The separate Web Components catalogs' own conventions and scope (native
-  custom elements, a deliberately partial 33/491 headless slice) — that
+  custom elements, a partial, growing 125/491 headless slice) — that
   pair has its own umbrella skill, `lily-design-system-web-components-skill`,
   and its own `-headless-skill` / `-helpers-skill` siblings.
 

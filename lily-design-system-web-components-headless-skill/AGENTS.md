@@ -23,11 +23,11 @@
 
 A Claude Skill explaining how to consume
 [`lily-design-system-web-components-headless`](../lily-design-system-web-components-headless/),
-the native-custom-element implementation of a **deliberately partial**
-slice of Lily's canonical component catalog: 33 of the 491 components,
-added 2026-09-03, spanning every major category rather than clustering in
-one, proving the pattern rather than claiming parity with the seven
-full-catalog headless libraries. The skill itself is [`SKILL.md`](SKILL.md);
+the native-custom-element implementation of a **partial, growing** slice
+of Lily's canonical component catalog: 125 of the 491 components as of
+2026-09-06 (added 2026-09-03, growing since), spanning every major
+category, working toward parity with the seven full-catalog headless
+libraries rather than claiming it yet. The skill itself is [`SKILL.md`](SKILL.md);
 the `@AGENTS/*.md` files loaded above are the same binding design-principle
 rules every other subproject in this repository loads, so an agent
 explaining the Web Components headless consumption idiom is grounded in the
@@ -48,13 +48,14 @@ self-is-the-wrapper) live in the library's own `AGENTS.md` and
 ## What this subproject is, and isn't
 
 - **Is**: a distributable skill scoped to *consuming* the Web Components
-  headless catalog — its partial scope (which 33 components), its
-  custom-element usage idiom, its two architecture decisions, and how its
-  class-hook theming and naming conventions map onto the catalog-wide
-  rules.
-- **Isn't**: a full-parity 491/491 catalog, and never described as one —
-  every claim in this skill is scoped to the 33 components this library
-  actually ships. Isn't the general Lily concepts skill (that's
+  headless catalog — its current scope (check `spec/index.md` for the
+  live count), its custom-element usage idiom, its two architecture
+  decisions, and how its class-hook theming and naming conventions map
+  onto the catalog-wide rules.
+- **Isn't**: a full-parity 491/491 catalog yet, and never described as one
+  until it is — every claim in this skill is scoped to the components this
+  library actually ships at the time it's read. Isn't the general Lily
+  concepts skill (that's
   [`lily-design-system-skill`](../lily-design-system-skill/)). Isn't the
   Web Components headless library itself (that's
   [`lily-design-system-web-components-headless`](../lily-design-system-web-components-headless/)) —
