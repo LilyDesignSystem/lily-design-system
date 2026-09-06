@@ -1,5 +1,6 @@
 <script lang="ts">
   import { page } from '$app/state';
+  import SitePreferences from '$lib/components/SitePreferences.svelte';
 
   let { children } = $props();
 
@@ -44,6 +45,7 @@
       {/each}
       <a href="https://github.com/LilyDesignSystem">GitHub</a>
     </nav>
+    <SitePreferences />
   </div>
 </header>
 

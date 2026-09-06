@@ -13,6 +13,11 @@
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "test": "playwright test"
   },
+  "dependencies": {
+    "lily-design-system-svelte-share-picker": "^0.1.1",
+    "lily-design-system-svelte-text-size-picker": "^0.1.1",
+    "lily-design-system-svelte-theme-picker": "^0.1.1"
+  },
   "devDependencies": {
     "@playwright/test": "^1.62.1",
     "@sveltejs/adapter-static": "^3.0.10",

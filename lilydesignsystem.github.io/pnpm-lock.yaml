@@ -10,6 +10,16 @@ overrides:
 importers:
 
   .:
+    dependencies:
+      lily-design-system-svelte-share-picker:
+        specifier: ^0.1.1
+        version: 0.1.1(svelte@5.57.0)
+      lily-design-system-svelte-text-size-picker:
+        specifier: ^0.1.1
+        version: 0.1.1(svelte@5.57.0)
+      lily-design-system-svelte-theme-picker:
+        specifier: ^0.1.1
+        version: 0.1.1(svelte@5.57.0)
     devDependencies:
       '@playwright/test':
         specifier: ^1.62.1
@@ -359,6 +369,21 @@ packages:
   lightningcss@1.33.0:
     resolution: {integrity: sha512-WkUDrojuJs0xkgGf2udWxa3yGBRxPtxUkB79i6aCZLRgc7PM8fZe9TosfPDcvEpQZbuFASnHYmRLBLUbmLOIIA==}
     engines: {node: '>= 12.0.0'}
+
+  lily-design-system-svelte-share-picker@0.1.1:
+    resolution: {integrity: sha512-UAzR6kFMVZA/00nRmFd67tTwI1bS92QdjZ9FdJvcPKgDNkfOE441TUdYJa2KtSeRz5NaLbJ0UGKwnzG/bgYtZw==}
+    peerDependencies:
+      svelte: ^5.0.0
+
+  lily-design-system-svelte-text-size-picker@0.1.1:
+    resolution: {integrity: sha512-wTrJgzWVkU6Ch5awo+e7VfgGMRiJehX04T/qlfnCjp3oD/d6fc8McG2aBgDTv9bgqT3tytnLjkfcO2N0zmLN+w==}
+    peerDependencies:
+      svelte: ^5.0.0
+
+  lily-design-system-svelte-theme-picker@0.1.1:
+    resolution: {integrity: sha512-hh4yE2xsbwrf4fFLtWURKc8XOLm6UijazGhm4ejy+Jb20ZQW1QQCrbKtac9Tjp6v4mXX9IZl2E5HK1b9huCYiw==}
+    peerDependencies:
+      svelte: ^5.0.0
 
   locate-character@3.0.0:
     resolution: {integrity: sha512-SW13ws7BjaeJ6p7Q6CO2nchbYEc3X3J6WrmTTDto7yMPqVSZTUyY5Tjbid+Ab8gLnATtygYtiDIJGQRRn2ZOiA==}
@@ -726,6 +751,18 @@ snapshots:
       lightningcss-linux-x64-musl: 1.33.0
       lightningcss-win32-arm64-msvc: 1.33.0
       lightningcss-win32-x64-msvc: 1.33.0
+
+  lily-design-system-svelte-share-picker@0.1.1(svelte@5.57.0):
+    dependencies:
+      svelte: 5.57.0
+
+  lily-design-system-svelte-text-size-picker@0.1.1(svelte@5.57.0):
+    dependencies:
+      svelte: 5.57.0
+
+  lily-design-system-svelte-theme-picker@0.1.1(svelte@5.57.0):
+    dependencies:
+      svelte: 5.57.0
 
   locate-character@3.0.0: {}
 
