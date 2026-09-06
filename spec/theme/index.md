@@ -166,12 +166,12 @@ Editorial / scrollytelling primitives use CSS custom properties for column width
 
 ## Acceptance criteria
 
-- [ ] No headless component contains a hardcoded hex / named colour / RGB / HSL literal.
-- [ ] No headless component declares `font-family`, `font-size`, `line-height`, `padding`, `margin`, `gap`, `width`, `height`, breakpoint media queries, or shadow / border-radius / opacity literals.
-- [ ] Theme tokens are a flat object flattening to `--theme-{path}` custom properties.
-- [ ] `ThemeProvider` reflects `base` to `data-theme` and uses only `display: contents` plus CSS-variable inline styles.
-- [ ] Light / dark / high-contrast variants are selected via `data-theme` values, not component logic.
-- [ ] Editorial column widths use the `--content-width-*` convention set by `article-layout` and read by `content-block`.
+- [x] No headless component contains a hardcoded hex / named colour / RGB / HSL literal.
+- [x] No headless component declares `font-family`, `font-size`, `line-height`, `padding`, `margin`, `gap`, `width`, `height`, breakpoint media queries, or shadow / border-radius / opacity literals.
+- [x] Theme tokens are a flat object flattening to `--theme-{path}` custom properties.
+- [x] `ThemeProvider` reflects `base` to `data-theme` and uses only `display: contents` plus CSS-variable inline styles.
+- [x] Light / dark / high-contrast variants are selected via `data-theme` values, not component logic.
+- [x] Editorial column widths use the `--content-width-*` convention set by `article-layout` and read by `content-block`.
 
 ## Related topics
 

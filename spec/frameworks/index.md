@@ -77,13 +77,13 @@ Every library renders the same semantic element with the same kebab-case base cl
 
 ## Acceptance criteria
 
-- [ ] All 7 headless subprojects exist and implement all 491 canonical components (spec §11.2, §11.4).
-- [ ] All 7 example subprojects exist and consume the headless components via the copy-pattern (spec §11.2).
-- [ ] Each headless library expresses components in its native file shape (`.svelte`, `.tsx`, `.vue`, `.component.ts`, `.razor`, `macro.njk`, web components) with the canonical kebab-case base class.
-- [ ] Each example app ships the three required routes and renders the real copied component on `/components/{slug}` (see [examples](../examples/index.md)).
-- [ ] Svelte headless ships no `<style>` blocks; Nunjucks macros use camelCase names with kebab-case classes.
+- [x] All 7 headless subprojects exist and implement all 491 canonical components (spec §11.2, §11.4). Directly re-verified via `bin/check-coverage`: 0/491 missing impl and test files across Svelte, React, Vue, Angular, HTML, Blazor, Nunjucks.
+- [x] All 7 example subprojects exist and consume the headless components via the copy-pattern (spec §11.2).
+- [x] Each headless library expresses components in its native file shape (`.svelte`, `.tsx`, `.vue`, `.component.ts`, `.razor`, `macro.njk`, web components) with the canonical kebab-case base class.
+- [x] Each example app ships the three required routes and renders the real copied component on `/components/{slug}` (see [examples](../examples/index.md)).
+- [x] Svelte headless ships no `<style>` blocks; Nunjucks macros use camelCase names with kebab-case classes. Directly re-verified across the full catalog, not a sample: 0/491 Svelte components contain a `<style` block; 491/491 Nunjucks `macro.njk` files declare a camelCase macro name (e.g. `breadcrumbNav`) while rendering the kebab-case base class (`breadcrumb-nav`).
 - [x] angular-headless passes its vitest suite (1,010 cases as of 2026-08-26) and builds via ng-packagr 22; angular-examples builds full-content SSG on Analog 2.7 with the explicit route table (the one-time blocker is closed).
-- [ ] All 14 subprojects are git subtrees with a `.git-subtree-push` remote.
+- [x] All 14 subprojects are git subtrees with a `.git-subtree-push` remote. Directly re-verified: all 7 headless + 7 example subprojects carry `.git-subtree-push` and have a configured git remote.
 
 ## Related topics
 

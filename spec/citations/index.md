@@ -113,10 +113,10 @@ Reuters-specific branding, third-party integrations, or already-covered componen
 ## Acceptance criteria
 
 - [ ] Each reference in the headless, styled, and public-sector tables is reachable and correctly attributed.
-- [ ] Example apps target Lily's kebab-case class names directly; no `nhsuk-` (or other framework) prefixes appear in markup.
-- [ ] Alternative reference themes can be added as parallel `theme-*` layers without changing component code.
-- [ ] Every Reuters-influenced Lily slug in the mapping table exists in `components.tsv`.
-- [ ] Excluded Reuters components have no Lily counterpart introduced by the influence.
+- [x] Example apps target Lily's kebab-case class names directly; no `nhsuk-` (or other framework) prefixes appear in markup.
+- [x] Alternative reference themes can be added as parallel `theme-*` layers without changing component code.
+- [x] Every Reuters-influenced Lily slug in the mapping table exists in `components.tsv`.
+- [x] Excluded Reuters components have no Lily counterpart introduced by the influence.
 
 ## Related topics
 

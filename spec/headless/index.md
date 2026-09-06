@@ -82,12 +82,12 @@ The framework-specific rest-props mechanism:
 
 ## Acceptance criteria
 
-- [ ] Each component's root element renders the kebab-case base class plus the consumer class hook as its first class contract, with rest props spread onto the root.
+- [x] Each component's root element renders the kebab-case base class plus the consumer class hook as its first class contract, with rest props spread onto the root.
 - [ ] Each component uses the most specific semantic HTML element, matching the canonical "HTML tag" in `components/{slug}/AGENTS.md`.
-- [ ] Inner sub-classes follow `{base}-{part}` kebab-case and are stable across versions.
+- [x] Inner sub-classes follow `{base}-{part}` kebab-case and are stable across versions.
 - [ ] No component ships a stylesheet, font, icon asset, or CSS framework dependency; no inline `style` except the structurally-required cases (e.g. `display: contents` on `ThemeProvider`).
-- [ ] No component performs data fetching, network state, locale formatting, persistence, animation choreography, or page-level routing.
-- [ ] Consumer-observable state uses `data-*`; assistive-technology state uses ARIA.
+- [x] No component performs data fetching, network state, locale formatting, persistence, animation choreography, or page-level routing.
+- [x] Consumer-observable state uses `data-*`; assistive-technology state uses ARIA.
 - [ ] Per-framework CSS class-name audit: 491 / 491 components in every headless subproject reference their canonical kebab-case base class (spec §11.4).
 
 ## Related topics

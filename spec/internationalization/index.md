@@ -91,12 +91,12 @@ Live-region components own the ARIA plumbing but never the words.
 ## Acceptance criteria
 
 - [ ] No headless component contains a hardcoded user-facing string (label, description, placeholder, error, action verb, or announcement).
-- [ ] Text-bearing props use the canonical names (`label`, `description`, `placeholder`, `error`, `helpText`, `dismissLabel`, `loadingLabel`, `confirmLabel`, `cancelLabel`) rather than synonyms.
-- [ ] Locale-aware components accept `locale` / `currencyCode` (etc.) as props and pick no default locale.
-- [ ] Live-region components bake in `role` / `aria-live` / `aria-atomic` but take announced text and ARIA labels as props.
-- [ ] Anchors take visible text via `children`; icon-only links take an explicit `label` prop driving `aria-label`.
-- [ ] No component embeds plural / gender / conditional copy logic.
-- [ ] No component assumes LTR in its structural HTML; direction is left to the consumer's `dir` + CSS.
+- [x] Text-bearing props use the canonical names (`label`, `description`, `placeholder`, `error`, `helpText`, `dismissLabel`, `loadingLabel`, `confirmLabel`, `cancelLabel`) rather than synonyms.
+- [x] Locale-aware components accept `locale` / `currencyCode` (etc.) as props and pick no default locale.
+- [x] Live-region components bake in `role` / `aria-live` / `aria-atomic` but take announced text and ARIA labels as props.
+- [x] Anchors take visible text via `children`; icon-only links take an explicit `label` prop driving `aria-label`.
+- [x] No component embeds plural / gender / conditional copy logic.
+- [x] No component assumes LTR in its structural HTML; direction is left to the consumer's `dir` + CSS.
 
 ## Related topics
 

@@ -64,12 +64,12 @@ axe-core / Playwright integration ships across all six example apps. Rule set: *
 
 ## Acceptance criteria
 
-- [ ] Every interactive component is reachable and operable via `Tab`, `Shift+Tab`, `Enter`, `Space`, arrow keys, `Home`, `End`, and `Escape` as appropriate, with the contract documented in `components/{slug}/AGENTS.md`.
-- [ ] Every interactive element has an accessible name via visible text, `aria-label`, or `aria-labelledby`.
-- [ ] No component suppresses focus rings; `:focus`, `:focus-visible`, and `tabindex` are correct.
-- [ ] No status, validity, or selection is conveyed by colour alone (WCAG 1.4.1).
-- [ ] Live regions (`role="alert"`, `aria-live`) are used only for dynamic content the user must hear.
-- [ ] Headless components do not auto-animate; reduced-motion is the consumer's CSS concern.
+- [x] Every interactive component is reachable and operable via `Tab`, `Shift+Tab`, `Enter`, `Space`, arrow keys, `Home`, `End`, and `Escape` as appropriate, with the contract documented in `components/{slug}/AGENTS.md`.
+- [x] Every interactive element has an accessible name via visible text, `aria-label`, or `aria-labelledby`.
+- [x] No component suppresses focus rings; `:focus`, `:focus-visible`, and `tabindex` are correct.
+- [x] No status, validity, or selection is conveyed by colour alone (WCAG 1.4.1).
+- [x] Live regions (`role="alert"`, `aria-live`) are used only for dynamic content the user must hear.
+- [x] Headless components do not auto-animate; reduced-motion is the consumer's CSS concern.
 - [ ] axe-core (WCAG 2.0/2.1/2.2 A+AA) passes its full route baseline on all six example apps: 29/29 for the five SPA/SSR apps and 17/17 for nunjucks-eleventy (spec §11.5).
 
 ## Related topics

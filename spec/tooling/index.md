@@ -91,16 +91,16 @@ Each subproject is a `git subtree`. `bin/git-subtree-push` publishes each one to
 | `git-subtree-push --remote-add` | Add the `LilyDesignSystem/{impl}` remote for each implementation.                |
 
 ## Acceptance criteria
-- [ ] `list-components-as-kebab-case` and `-as-pascal-case` derive output from `components.tsv`.
-- [ ] `list-implementations` lists every `lily-*` subproject, sorted.
+- [x] `list-components-as-kebab-case` and `-as-pascal-case` derive output from `components.tsv`.
+- [x] `list-implementations` lists every `lily-*` subproject, sorted.
 - [x] `create-component-directory` and `create-implementation-directory` scaffold the standard file set (`index.md`, `README.md` symlink, `AGENTS.md`, `CLAUDE.md` loading `@AGENTS.md`, `spec/index.md`).
-- [ ] `bin/test` passes against repo + all components + github.io + all subprojects.
-- [ ] `bin/sync` rsyncs root `AGENTS/` into every subproject (copies, not symlinks).
+- [x] `bin/test` passes against repo + all components + github.io + all subprojects.
+- [x] `bin/sync` rsyncs root `AGENTS/` into every subproject (copies, not symlinks). (Deliberately excludes the `*-helpers` catalogs, which keep their own `AGENTS/` conventions — confirmed in the script's `case *-helpers) continue ;; esac` guard — so "every subproject" means every non-helpers implementation, as documented in `AGENTS/lily.md`.)
 - [x] Every `pnpm-lock.yaml` on disk (outside `node_modules/`) is tracked in git; `bin/test` fails on an untracked or ignored one.
 - [x] `bin/sync-special-files` propagates the top-level special files into all 22
       public repos, is idempotent, and gates via `--check` from `bin/test`.
-- [ ] `bin/git-subtree-push` pushes each subtree to its `LilyDesignSystem/{impl}` remote.
-- [ ] `generate-storybook-stories.mjs` produces stories for the headless libraries.
+- [ ] `bin/git-subtree-push` pushes each subtree to its `LilyDesignSystem/{impl}` remote. Confirmed gap, not stale: works today for the 22 original subprojects (real 3-way `pushurl` fan-out), but the 26 new Claude Skill subprojects (2026-09-04/05) are GitHub-only (GitLab push-to-create defaults private with no token here to flip it; Codeberg disables push-to-create for orgs), and `lily-design-system-web-components-headless` / `-helpers` have no remote configured at all yet, so a push would fail outright for those two — see CHANGELOG.md.
+- [ ] `generate-storybook-stories.mjs` produces stories for the headless libraries. Overstated as written: reading the script, its `PROJECTS` array only targets `lily-design-system-svelte-headless` (plus the SvelteKit examples app) — it does not touch React, Vue, Angular, HTML, Nunjucks, or Web Components headless at all. Those five full-catalog libraries do carry 491/491 `.stories.*` files each (verified by direct count) and Web Components carries 33/33, so stories exist everywhere they should, but not because this script produced them — no other generator script exists in `bin/` for the other frameworks, so how those 2,455+ non-Svelte story files were produced/kept in sync is undocumented. Leaving open as a real doc/tooling mismatch, not a missing-stories defect.
 
 ## Related topics
 - [architecture](../architecture/index.md) — the subtree layout these scripts operate over.

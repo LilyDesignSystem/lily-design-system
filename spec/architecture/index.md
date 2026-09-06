@@ -105,15 +105,15 @@ Every `components/{slug}/` directory (491 of them) carries:
 
 ## Acceptance criteria
 
-- [ ] All 7 headless and 7 example subprojects exist at the documented paths.
-- [ ] The partial `lily-design-system-web-components-headless` exists at the documented path and its `spec/index.md` states its 33/491 scope.
-- [ ] All 7 per-framework helper catalogs exist.
-- [ ] All 491 component directories carry the required component files.
-- [ ] Every subproject carries `index.md`, `README.md` symlink, `AGENTS.md`, `CLAUDE.md`, spec/plan/tasks, and `.git-subtree-push`.
-- [ ] `AGENTS.md` / `AGENTS/*.md` are canonical at the root and rsynced (not symlinked) into subprojects.
-- [ ] Each subproject is a git subtree pushable to its own standalone remote via `bin/git-subtree-push`.
-- [ ] Each subproject remote fans out to GitHub, Codeberg, and GitLab on push.
-- [ ] `bin/test` passes against the repository, all components, and all subprojects.
+- [x] All 7 headless and 7 example subprojects exist at the documented paths.
+- [x] The partial `lily-design-system-web-components-headless` exists at the documented path and its `spec/index.md` states its 33/491 scope.
+- [x] All 7 per-framework helper catalogs exist.
+- [x] All 491 component directories carry the required component files.
+- [x] Every subproject carries `index.md`, `README.md` symlink, `AGENTS.md`, `CLAUDE.md`, spec/plan/tasks, and `.git-subtree-push`.
+- [x] `AGENTS.md` / `AGENTS/*.md` are canonical at the root and rsynced (not symlinked) into subprojects.
+- [ ] Each subproject is a git subtree pushable to its own standalone remote via `bin/git-subtree-push`. Not yet true for all: `lily-design-system-web-components-headless` and `lily-design-system-web-components-helpers` have no remote configured at all (`git config --get remote.<name>.url` is empty for both), so a push would fail outright, not just fan out to one forge — see CHANGELOG.md's 2026-09-03 P7-T6 entry ("Not yet done: subtree push and npm publish").
+- [ ] Each subproject remote fans out to GitHub, Codeberg, and GitLab on push. Confirmed gap, not stale: the original 22 subprojects do have 3-way `pushurl` fan-out (verified via `git config --get-regexp 'remote\..*\.pushurl'`), but the 26 new Claude Skill subprojects added 2026-09-04/05 and the two `web-components-*` subprojects have only a single GitHub `url` and no `pushurl` fan-out at all (verified directly — zero matches for `skill|web-components` in the pushurl config). GitLab push-to-create defaults private (no API token here to flip it) and Codeberg disables push-to-create for orgs, per CHANGELOG.md 2026-09-05.
+- [x] `bin/test` passes against the repository, all components, and all subprojects.
 
 ## Related topics
 
