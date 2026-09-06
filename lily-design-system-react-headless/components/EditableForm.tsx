@@ -110,7 +110,6 @@ export default function EditableForm({
         {...restProps}
         >
         {children}
-        <button type="submit">Save</button>
         </form>
         )}
         </>

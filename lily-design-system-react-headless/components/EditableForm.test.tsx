@@ -23,7 +23,11 @@ describe("EditableForm", () => {
     test("calls onSubmit on form submit", async () => {
         const user: UserEvent = userEvent.setup();
         const handleSubmit = vi.fn();
-        render(<Subject label="Edit" editing onSubmit={handleSubmit} />);
+        render(
+            <Subject label="Edit" editing onSubmit={handleSubmit}>
+                <button type="submit">Save</button>
+            </Subject>
+        );
 
         await user.click(screen.getByRole("button", { name: "Save" }));
         expect(handleSubmit).toHaveBeenCalledOnce();
