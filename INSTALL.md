@@ -10,7 +10,7 @@ little you have to commit to.
    picker, date-time picker — wired end to end.
 
 Full documentation, a searchable catalog of all 491 components, and per-framework
-tutorials are at **<https://lilydesignsystem.github.io/>**.
+tutorials are at **<https://lilydesignsystem.com/>**.
 
 ## Requirements
 
@@ -268,7 +268,7 @@ later. The helper packages restarted at 0.1.0 after the July 2026 rename to
 
 ## Getting help
 
-- Documentation: <https://lilydesignsystem.github.io/>
+- Documentation: <https://lilydesignsystem.com/>
 - Issues: <https://github.com/LilyDesignSystem/lily-design-system/>
 - Email: <joel@joelparkerhenderson.com>
 

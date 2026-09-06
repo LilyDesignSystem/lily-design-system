@@ -32,7 +32,7 @@
   "bugs": {
     "url": "https://github.com/LilyDesignSystem/lily-design-system/issues"
   },
-  "homepage": "https://lilydesignsystem.github.io/",
+  "homepage": "https://lilydesignsystem.com/",
   "devDependencies": {
     "@storybook/vue3-vite": "^10.5.10",
     "@testing-library/user-event": "^14.6.7",

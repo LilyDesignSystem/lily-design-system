@@ -1,6 +1,6 @@
 # lilydesignsystem.github.io
 
-The public website for the [Lily Design System™](https://github.com/LilyDesignSystem) at <https://lilydesignsystem.github.io>.
+The public website for the [Lily Design System™](https://github.com/LilyDesignSystem) at <https://lilydesignsystem.com>.
 
 ## What's here
 
@@ -39,7 +39,7 @@ pnpm check        # type-check
 
 GitHub Actions deploys automatically on push to `main` of the public
 `LilyDesignSystem/lilydesignsystem.github.io` repo. The site is served from
-`https://lilydesignsystem.com/` (with a fallback on `https://lilydesignsystem.github.io/`).
+`https://lilydesignsystem.com/` (with a fallback on `https://lilydesignsystem.com/`).
 
 ## First deploy (one-time)
 

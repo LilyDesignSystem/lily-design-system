@@ -10,7 +10,7 @@ Design System™.
 The complete engineering record is in [CHANGELOG.md](CHANGELOG.md); this file is
 the summary a reader, a reporter, or an evaluator wants first.
 
-- **Website:** <https://lilydesignsystem.github.io/>
+- **Website:** <https://lilydesignsystem.com/>
 - **Source:** <https://github.com/LilyDesignSystem/lily-design-system/>
 - **Contact:** <joel@joelparkerhenderson.com>
 
@@ -183,8 +183,8 @@ author's ORCID iD.
 ## Following along
 
 This document is rendered on the website at
-<https://lilydesignsystem.github.io/news/> (with the forward plan at
-[/roadmap/](https://lilydesignsystem.github.io/roadmap/)). There is no
+<https://lilydesignsystem.com/news/> (with the forward plan at
+[/roadmap/](https://lilydesignsystem.com/roadmap/)). There is no
 newsletter or social account yet. Watch the repository on
 [GitHub](https://github.com/LilyDesignSystem/lily-design-system/), or the mirrors
 on GitLab and Codeberg. The outreach plan that would change this is written down

@@ -10,7 +10,7 @@
     <Version>0.2.0</Version>
     <Authors>Joel Parker Henderson</Authors>
     <Description>Lily Design System Blazor date and time picker: a typeable text field paired with an APG date-picker dialog. Headless, SSR-safe, no CSS.</Description>
-    <PackageProjectUrl>https://lilydesignsystem.github.io/</PackageProjectUrl>
+    <PackageProjectUrl>https://lilydesignsystem.com/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/LilyDesignSystem/lily-design-system-blazor-helpers</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>lily;design-system;blazor;headless;accessibility;wcag;aria;a11y</PackageTags>

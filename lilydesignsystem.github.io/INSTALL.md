@@ -5,7 +5,7 @@ This repository is the Lily Design System documentation website.
 It is published as a `git subtree` from the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.
 
-Full documentation and the searchable component catalog: <https://lilydesignsystem.github.io/>
+Full documentation and the searchable component catalog: <https://lilydesignsystem.com/>
 
 ## Run the site locally
 
@@ -16,7 +16,7 @@ npm install
 npm run dev
 ```
 
-This is the source of <https://lilydesignsystem.github.io/>.
+This is the source of <https://lilydesignsystem.com/>.
 
 ## License
 

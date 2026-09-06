@@ -1665,7 +1665,7 @@ pnpm check        # type-check
 
 GitHub Actions deploys automatically on push to `main` of the public
 `LilyDesignSystem/lilydesignsystem.github.io` repo. The site is served from
-`https://lilydesignsystem.com/` (with a fallback on `https://lilydesignsystem.github.io/`).
+`https://lilydesignsystem.com/` (with a fallback on `https://lilydesignsystem.com/`).
 ````
 
 - [ ] **Step 13.2: Verify the file still parses as Markdown**

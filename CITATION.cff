@@ -15,10 +15,10 @@ identifiers:
     value: 'https://github.com/LilyDesignSystem/lily-design-system/'
     description: Lily Design System source repository
   - type: url
-    value: 'https://lilydesignsystem.github.io/'
+    value: 'https://lilydesignsystem.com/'
     description: Lily Design System documentation site
 repository-code: 'https://github.com/LilyDesignSystem/lily-design-system/'
-url: 'https://lilydesignsystem.github.io/'
+url: 'https://lilydesignsystem.com/'
 abstract: >-
   Lily Design System is a free, open-source, headless design system.
   It defines a canonical catalog of 491 components and implements that

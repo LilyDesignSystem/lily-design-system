@@ -10,7 +10,7 @@
     <Version>0.1.0</Version>
     <Authors>Joel Parker Henderson</Authors>
     <Description>Lily Design System Blazor motion (reduced-motion) picker: an icon button opening an APG listbox that sets data-motion on the document, defaulting to the OS's own prefers-reduced-motion signal. Headless, SSR-safe, no CSS.</Description>
-    <PackageProjectUrl>https://lilydesignsystem.github.io/</PackageProjectUrl>
+    <PackageProjectUrl>https://lilydesignsystem.com/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/LilyDesignSystem/lily-design-system-blazor-helpers</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>lily;design-system;blazor;headless;accessibility;wcag;aria;a11y</PackageTags>

@@ -3,7 +3,7 @@
   "trademark": "Lily™ and Lily Design System™ are trademarks.",
   "summary": "Free, open-source, headless design system: a canonical catalog of 491 accessible components implemented across seven frameworks (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks), paired with fully styled example apps that demonstrate the same catalog end to end.",
   "description": "This is the public documentation site. Every link below is a page on this site unless marked otherwise; the github_repository links go to the canonical source monorepo, where the specification, design-principle rules, and every framework implementation actually live.",
-  "site": "https://lilydesignsystem.github.io/",
+  "site": "https://lilydesignsystem.com/",
   "github_repository": "https://github.com/LilyDesignSystem/lily-design-system",
   "license": "MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause",
   "component_count": 491,
@@ -11,29 +11,29 @@
     {
       "title": "Start here",
       "links": [
-        { "title": "Home", "url": "https://lilydesignsystem.github.io/", "description": "What Lily is, in brief, with the current component count and framework list." },
-        { "title": "Why Lily", "url": "https://lilydesignsystem.github.io/why/", "description": "The case for Lily: headless components you style yourself, WCAG 2.2 AAA accessibility built in, no hardcoded strings, seven frameworks, one catalog, free forever." },
-        { "title": "About", "url": "https://lilydesignsystem.github.io/about/", "description": "What Lily is, the principles behind it, and the design systems it draws inspiration from." },
-        { "title": "Help", "url": "https://lilydesignsystem.github.io/help/", "description": "Install the headless package for your framework, copy a component, style it, theme it, ship it. Troubleshooting, FAQ, and support." }
+        { "title": "Home", "url": "https://lilydesignsystem.com/", "description": "What Lily is, in brief, with the current component count and framework list." },
+        { "title": "Why Lily", "url": "https://lilydesignsystem.com/why/", "description": "The case for Lily: headless components you style yourself, WCAG 2.2 AAA accessibility built in, no hardcoded strings, seven frameworks, one catalog, free forever." },
+        { "title": "About", "url": "https://lilydesignsystem.com/about/", "description": "What Lily is, the principles behind it, and the design systems it draws inspiration from." },
+        { "title": "Help", "url": "https://lilydesignsystem.com/help/", "description": "Install the headless package for your framework, copy a component, style it, theme it, ship it. Troubleshooting, FAQ, and support." }
       ]
     },
     {
       "title": "Components and examples",
       "links": [
-        { "title": "Components", "url": "https://lilydesignsystem.github.io/components/", "description": "The full searchable catalog of all 491 components, each linking to its own /components/{slug}/ detail page (description, usage, props, ARIA, keyboard, references)." },
-        { "title": "Tutorials", "url": "https://lilydesignsystem.github.io/tutorials/", "description": "Step-by-step guides for HTML, Svelte, React, Vue, Angular, Blazor, and Nunjucks, each under /tutorials/{framework}/." },
-        { "title": "Examples", "url": "https://lilydesignsystem.github.io/examples/", "description": "Worked example apps showing how to style Lily components in every supported framework." },
-        { "title": "Comparisons", "url": "https://lilydesignsystem.github.io/comparisons/", "description": "How Lily compares with other design systems on headlessness, framework coverage, accessibility, and license." }
+        { "title": "Components", "url": "https://lilydesignsystem.com/components/", "description": "The full searchable catalog of all 491 components, each linking to its own /components/{slug}/ detail page (description, usage, props, ARIA, keyboard, references)." },
+        { "title": "Tutorials", "url": "https://lilydesignsystem.com/tutorials/", "description": "Step-by-step guides for HTML, Svelte, React, Vue, Angular, Blazor, and Nunjucks, each under /tutorials/{framework}/." },
+        { "title": "Examples", "url": "https://lilydesignsystem.com/examples/", "description": "Worked example apps showing how to style Lily components in every supported framework." },
+        { "title": "Comparisons", "url": "https://lilydesignsystem.com/comparisons/", "description": "How Lily compares with other design systems on headlessness, framework coverage, accessibility, and license." }
       ]
     },
     {
       "title": "Project status and policy",
       "links": [
-        { "title": "Accessibility statement", "url": "https://lilydesignsystem.github.io/accessibility/", "description": "What targeting WCAG 2.2 AAA means here: what is verified, by what, what is not verified by anything, and how to report a problem." },
-        { "title": "News", "url": "https://lilydesignsystem.github.io/news/", "description": "Announcements, release highlights, project status, and press contacts." },
-        { "title": "Roadmap", "url": "https://lilydesignsystem.github.io/roadmap/", "description": "What the project is working on and planning next." },
-        { "title": "Lily + Figma", "url": "https://lilydesignsystem.github.io/lily-figma/", "description": "There is no maintained Lily Figma library or plugin; the 45 reference themes' design tokens are published in DTCG format and can be imported into Figma today with an existing community plugin." },
-        { "title": "Lily + Claude Code", "url": "https://lilydesignsystem.github.io/lily-claude-code/", "description": "26 Claude Skills — general, per-framework umbrella, and per-subproject headless/helpers — give Claude Code a curated, loadable entry point into Lily; how to add one, and links to all 26." }
+        { "title": "Accessibility statement", "url": "https://lilydesignsystem.com/accessibility/", "description": "What targeting WCAG 2.2 AAA means here: what is verified, by what, what is not verified by anything, and how to report a problem." },
+        { "title": "News", "url": "https://lilydesignsystem.com/news/", "description": "Announcements, release highlights, project status, and press contacts." },
+        { "title": "Roadmap", "url": "https://lilydesignsystem.com/roadmap/", "description": "What the project is working on and planning next." },
+        { "title": "Lily + Figma", "url": "https://lilydesignsystem.com/lily-figma/", "description": "There is no maintained Lily Figma library or plugin; the 45 reference themes' design tokens are published in DTCG format and can be imported into Figma today with an existing community plugin." },
+        { "title": "Lily + Claude Code", "url": "https://lilydesignsystem.com/lily-claude-code/", "description": "26 Claude Skills — general, per-framework umbrella, and per-subproject headless/helpers — give Claude Code a curated, loadable entry point into Lily; how to add one, and links to all 26." }
       ]
     },
     {
@@ -48,7 +48,7 @@
     {
       "title": "Optional",
       "links": [
-        { "title": "llms.txt", "url": "https://lilydesignsystem.github.io/llms.txt", "description": "This same curated map as Markdown." }
+        { "title": "llms.txt", "url": "https://lilydesignsystem.com/llms.txt", "description": "This same curated map as Markdown." }
       ]
     }
   ]

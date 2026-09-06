@@ -56,7 +56,7 @@ repo-relative path and a site route don't resolve the same way.
 
 | | Workspace-root `llms.txt`/`llms.json` | Site `static/llms.txt`/`llms.json` |
 | --- | --- | --- |
-| Served from | A git checkout / GitHub | `https://lilydesignsystem.github.io/` |
+| Served from | A git checkout / GitHub | `https://lilydesignsystem.com/` |
 | Link style | Repo-relative (`spec/index.md`, `AGENTS.md`) | Absolute site routes (`/components/`, `/why/`) + absolute GitHub URLs for source content |
 | Points at | The specification, the design-principle rules, the 21 subprojects, the two agent skills | The site's own pages (`/`, `/why/`, `/about/`, `/help/`, `/components/`, `/tutorials/`, `/examples/`, `/comparisons/`, `/accessibility/`, `/news/`, `/roadmap/`, `/lily-figma/`), plus a "Source (GitHub)" section for the deeper technical docs |
 | Placed at | Repository root | `lilydesignsystem.github.io/static/` (the `adapter-static` folder copied verbatim to the build output root) |

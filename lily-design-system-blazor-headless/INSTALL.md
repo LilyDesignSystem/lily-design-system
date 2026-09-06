@@ -5,14 +5,14 @@ This repository is the Blazor headless component library: all 491 catalog compon
 It is published as a `git subtree` from the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.
 
-Full documentation and the searchable component catalog: <https://lilydesignsystem.github.io/>
+Full documentation and the searchable component catalog: <https://lilydesignsystem.com/>
 
 ## Install
 
 **This package is not yet published to NuGet.** Until it is, use either:
 
 **Copy the markup.** Lily is headless — a component is its semantic HTML, its
-ARIA, and its class hook. Take it from the catalog at <https://lilydesignsystem.github.io/> and paste it
+ARIA, and its class hook. Take it from the catalog at <https://lilydesignsystem.com/> and paste it
 anywhere. No dependency, no build step.
 
 **Or clone and copy the component files:**

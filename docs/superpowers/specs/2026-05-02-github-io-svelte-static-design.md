@@ -267,7 +267,7 @@ Minimal — no behavior under test in v1. Verification gates:
 | Subtree-pushed `node_modules`/`build` polluting the public repo | `.gitignore` lists both; the subtree only copies tracked files. |
 | `CNAME` reset by Pages settings UI | `static/CNAME` is the source of truth and is recreated on every deploy. |
 | First deploy fails because GitHub Pages source is still set to "Branch" | One-time manual switch to "GitHub Actions" in the public repo's settings. Documented in the migration plan. |
-| `paths.base` confusion if the custom domain is ever dropped | The repo is `<org>.github.io`, so even without the custom domain it serves at `https://lilydesignsystem.github.io/` (root). `paths.base` stays empty in either case. |
+| `paths.base` confusion if the custom domain is ever dropped | The repo is `<org>.github.io`, so even without the custom domain it serves at `https://lilydesignsystem.com/` (root). `paths.base` stays empty in either case. |
 | Existing inbound links to `/assets/style.css`, `/assets/favicon.svg`, `/assets/images/...` | Preserved by mirroring those paths under `static/assets/`. |
 | Tutorial / comparison / claude / figma directories currently hold empty or 1-line markdown stubs | Each becomes a thin `+page.svelte` reproducing the existing one-line content under the same URL, preserving inbound links; content can be filled in later. |
 

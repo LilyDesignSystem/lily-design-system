@@ -6,55 +6,55 @@
 > apps that demonstrate the same catalog end to end.
 
 This is the public documentation site. Every link below is a page on this
-site (https://lilydesignsystem.github.io/) unless marked otherwise; the
+site (https://lilydesignsystem.com/) unless marked otherwise; the
 GitHub-marked links go to the canonical source monorepo, where the
 specification, design-principle rules, and every framework implementation
 actually live.
 
 ## Start here
 
-- [Home](https://lilydesignsystem.github.io/): what Lily is, in brief, with
+- [Home](https://lilydesignsystem.com/): what Lily is, in brief, with
   the current component count and framework list.
-- [Why Lily](https://lilydesignsystem.github.io/why/): the case for
+- [Why Lily](https://lilydesignsystem.com/why/): the case for
   Lily — headless components you style yourself, WCAG 2.2 AAA accessibility
   built in, no hardcoded strings, seven frameworks, one catalog, free
   forever.
-- [About](https://lilydesignsystem.github.io/about/): what Lily is, the
+- [About](https://lilydesignsystem.com/about/): what Lily is, the
   principles behind it, and the design systems it draws inspiration from.
-- [Help](https://lilydesignsystem.github.io/help/): install the headless
+- [Help](https://lilydesignsystem.com/help/): install the headless
   package for your framework, copy a component, style it, theme it, ship
   it. Troubleshooting, FAQ, and support.
 
 ## Components and examples
 
-- [Components](https://lilydesignsystem.github.io/components/): the full
+- [Components](https://lilydesignsystem.com/components/): the full
   searchable catalog of all 491 components, each linking to its own
   `/components/{slug}/` detail page (description, usage, props, ARIA,
   keyboard, references).
-- [Tutorials](https://lilydesignsystem.github.io/tutorials/): step-by-step
+- [Tutorials](https://lilydesignsystem.com/tutorials/): step-by-step
   guides — your first component, styling, ready-made themes, and
   preference helpers — for HTML, Svelte, React, Vue, Angular, Blazor, and
   Nunjucks, each under `/tutorials/{framework}/`.
-- [Examples](https://lilydesignsystem.github.io/examples/): worked example
+- [Examples](https://lilydesignsystem.com/examples/): worked example
   apps showing how to style Lily components in every supported framework.
-- [Comparisons](https://lilydesignsystem.github.io/comparisons/): how Lily
+- [Comparisons](https://lilydesignsystem.com/comparisons/): how Lily
   compares with other design systems on headlessness, framework coverage,
   accessibility, and license.
 
 ## Project status and policy
 
-- [Accessibility statement](https://lilydesignsystem.github.io/accessibility/):
+- [Accessibility statement](https://lilydesignsystem.com/accessibility/):
   what targeting WCAG 2.2 AAA means here — what is verified, by what, what
   is not verified by anything, and how to report a problem.
-- [News](https://lilydesignsystem.github.io/news/): announcements, release
+- [News](https://lilydesignsystem.com/news/): announcements, release
   highlights, project status, and press contacts.
-- [Roadmap](https://lilydesignsystem.github.io/roadmap/): what the project
+- [Roadmap](https://lilydesignsystem.com/roadmap/): what the project
   is working on and planning next.
-- [Lily + Figma](https://lilydesignsystem.github.io/lily-figma/): there is
+- [Lily + Figma](https://lilydesignsystem.com/lily-figma/): there is
   no maintained Lily Figma library or plugin; the 45 reference themes'
   design tokens are published in DTCG format and can be imported into
   Figma today with an existing community plugin.
-- [Lily + Claude Code](https://lilydesignsystem.github.io/lily-claude-code/):
+- [Lily + Claude Code](https://lilydesignsystem.com/lily-claude-code/):
   26 Claude Skills — general, per-framework umbrella, and per-subproject
   headless/helpers — give Claude Code a curated, loadable entry point
   into Lily; how to add one, and links to all 26.
@@ -74,7 +74,7 @@ actually live.
 
 ## Optional
 
-- [llms.json](https://lilydesignsystem.github.io/llms.json): this same
+- [llms.json](https://lilydesignsystem.com/llms.json): this same
   curated map as structured JSON.
 
 ---

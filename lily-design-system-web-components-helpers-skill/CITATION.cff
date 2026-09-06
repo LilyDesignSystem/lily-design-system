@@ -18,7 +18,7 @@ identifiers:
     value: 'https://github.com/LilyDesignSystem/lily-design-system/'
     description: Lily Design System canonical monorepo
 repository-code: 'https://github.com/LilyDesignSystem/lily-design-system-web-components-helpers-skill/'
-url: 'https://lilydesignsystem.github.io/'
+url: 'https://lilydesignsystem.com/'
 abstract: >-
   This repository is a Claude Skill covering the Web Components *-picker helpers catalog for an AI coding agent.
   It is one subproject of Lily Design System, a free open-source headless

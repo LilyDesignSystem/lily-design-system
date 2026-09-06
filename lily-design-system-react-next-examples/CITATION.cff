@@ -18,7 +18,7 @@ identifiers:
     value: 'https://github.com/LilyDesignSystem/lily-design-system/'
     description: Lily Design System canonical monorepo
 repository-code: 'https://github.com/LilyDesignSystem/lily-design-system-react-next-examples/'
-url: 'https://lilydesignsystem.github.io/'
+url: 'https://lilydesignsystem.com/'
 abstract: >-
   This repository is the React example application: a fully styled reference app demonstrating every catalog component.
   It is one subproject of Lily Design System, a free open-source headless

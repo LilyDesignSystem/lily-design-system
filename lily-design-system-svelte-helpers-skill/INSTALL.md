@@ -5,7 +5,7 @@ This repository is a Claude Skill covering the Svelte 5 *-picker helpers catalog
 It is published as a `git subtree` from the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.
 
-Full documentation and the searchable component catalog: <https://lilydesignsystem.github.io/>
+Full documentation and the searchable component catalog: <https://lilydesignsystem.com/>
 
 ## Install
 

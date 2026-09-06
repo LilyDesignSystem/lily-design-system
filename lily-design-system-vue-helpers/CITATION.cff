@@ -18,7 +18,7 @@ identifiers:
     value: 'https://github.com/LilyDesignSystem/lily-design-system/'
     description: Lily Design System canonical monorepo
 repository-code: 'https://github.com/LilyDesignSystem/lily-design-system-vue-helpers/'
-url: 'https://lilydesignsystem.github.io/'
+url: 'https://lilydesignsystem.com/'
 abstract: >-
   This repository is the Vue 3 helpers catalog: six opinionated packages that each own one complete interaction.
   It is one subproject of Lily Design System, a free open-source headless

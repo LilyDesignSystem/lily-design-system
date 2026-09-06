@@ -2,7 +2,7 @@
 
 > Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
-**Summary.** The public docs site ([lilydesignsystem.github.io](https://lilydesignsystem.github.io/))
+**Summary.** The public docs site ([lilydesignsystem.com](https://lilydesignsystem.com/))
 is maintained as a normal nested subproject inside this monorepo
 (`lilydesignsystem.github.io/`) and published by exporting that
 subdirectory's history — via `git subtree` — into a standalone sibling
@@ -90,7 +90,7 @@ subprojects (see [architecture](../architecture/index.md)), or the
 | Docs site subproject (edit here) | `~/git/lilydesignsystem/lily-design-system/lilydesignsystem.github.io/` |
 | Standalone export (read-only, derived) | `~/git/lilydesignsystem/lilydesignsystem.github.io/` — a **sibling** of the monorepo, not nested inside it |
 | Standalone remote(s) | `git@{github,codeberg,gitlab}.com:LilyDesignSystem/lilydesignsystem.github.io.git`, reachable from the monorepo as either the `lilydesignsystem.github.io` git remote (`bin/git-subtree-push`) or the `github-pages` git remote (`make github-pages`) — same URLs, two names |
-| Live site | <https://lilydesignsystem.github.io/> |
+| Live site | <https://lilydesignsystem.com/> |
 | Publish shortcut | `make github-pages` (root `Makefile`) → `bin/make-github-pages` |
 
 ### Publish flow

@@ -18,7 +18,7 @@ identifiers:
     value: 'https://github.com/LilyDesignSystem/lily-design-system/'
     description: Lily Design System canonical monorepo
 repository-code: 'https://github.com/LilyDesignSystem/lily-design-system-web-components-headless/'
-url: 'https://lilydesignsystem.github.io/'
+url: 'https://lilydesignsystem.com/'
 abstract: >-
   This repository is the Web Components headless component library: a deliberately partial slice, 33 of the 491 catalog components, unstyled and accessible.
   It is one subproject of Lily Design System, a free open-source headless

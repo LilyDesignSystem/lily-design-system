@@ -14,7 +14,7 @@ CSS**. A paired set of **example** apps shows the same catalog fully styled
 end-to-end before wiring it into their own app.
 
 Canonical monorepo: <https://github.com/LilyDesignSystem/lily-design-system>.
-Docs and searchable catalog: <https://lilydesignsystem.github.io/>.
+Docs and searchable catalog: <https://lilydesignsystem.com/>.
 
 ## The two layers
 
@@ -68,7 +68,7 @@ several frameworks: [reference/composition-patterns.md](reference/composition-pa
 navigation (53), lists (39), tables (36), links (16), pickers (14),
 overlays (14), media (8), buttons (8), and data visualisation (7). Full
 listing: `components.tsv` in the canonical repo, or browse it at
-<https://lilydesignsystem.github.io/components/>.
+<https://lilydesignsystem.com/components/>.
 
 ## Picking a framework
 

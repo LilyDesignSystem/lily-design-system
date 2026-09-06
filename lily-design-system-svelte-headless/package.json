@@ -31,7 +31,7 @@
   "bugs": {
     "url": "https://github.com/LilyDesignSystem/lily-design-system/issues"
   },
-  "homepage": "https://lilydesignsystem.github.io/",
+  "homepage": "https://lilydesignsystem.com/",
   "devDependencies": {
     "@sveltejs/adapter-auto": "^7.0.1",
     "@sveltejs/kit": "^2.70.3",

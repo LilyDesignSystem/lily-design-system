@@ -18,7 +18,7 @@ duplicating them.
 `lilydesignsystem.github.io` is a SvelteKit project built with
 `@sveltejs/adapter-static`, fully prerendered, and deployed by GitHub
 Actions to `https://lilydesignsystem.com/` (with a fallback on
-`https://lilydesignsystem.github.io/`). It is the public front door to the
+`https://lilydesignsystem.com/`). It is the public front door to the
 Lily Design System™: it presents the full component catalog as browsable
 web pages, explains why and how to adopt Lily, and teaches the seven
 framework stacks through tutorials.
