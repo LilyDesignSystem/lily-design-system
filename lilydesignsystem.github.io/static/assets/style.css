@@ -169,6 +169,19 @@ kbd {
   flex-shrink: 0;
 }
 
+/* This site's own `p { margin: 0 0 1rem; }` reset above has real
+ * specificity and beats the reference theme's `:where(.share-picker-
+ * status)` rule (zero specificity, by design — see AGENTS/theme.md,
+ * "consumer overrides win"), so the theme's own margin-bottom: 0 never
+ * applies here. Left unfixed, the empty `<p class="share-picker-
+ * status">` carries a 1rem bottom margin even with nothing to announce,
+ * making the share-picker's root 16px taller than its theme-picker and
+ * text-size-picker siblings and knocking its button 8px out of vertical
+ * alignment in the flex row above. */
+.share-picker-status {
+  margin-bottom: 0;
+}
+
 /* Main content */
 
 .site-main {

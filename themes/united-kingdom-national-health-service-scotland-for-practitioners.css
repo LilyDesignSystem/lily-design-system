@@ -2441,7 +2441,7 @@
     /* Copy feedback. Never display:none this — that silences the live
        region for screen-reader users. */
     :where(.share-picker-status) {
-        margin-block-start: var(--lily-space-xs);
+        margin: var(--lily-space-xs) 0 0;
         font-size: 0.875em;
         color: var(--lily-text-muted);
     }
