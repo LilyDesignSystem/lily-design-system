@@ -1,3 +1,14 @@
+# This is a single-package app, not a real pnpm workspace, but the
+# workspace-config-only fields below (allowBuilds, overrides) require
+# this file to exist, and pnpm 9's `store path` (used by
+# pnpm/action-setup's cache step in .github/workflows/deploy.yml) fails
+# outright — "ERROR packages field missing or empty" — on a
+# pnpm-workspace.yaml with no `packages:` at all. Found 2026-09-06 while
+# diagnosing why lilydesignsystem.com had not redeployed since
+# 2026-08-27: every push since then failed this exact step.
+packages:
+  - "."
+
 allowBuilds:
   esbuild: true
 # @sveltejs/kit pins cookie@^0.6.0 directly (not yet updated upstream to
