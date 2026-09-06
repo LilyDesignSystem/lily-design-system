@@ -448,12 +448,12 @@
 .cymru-rhif-y-gwasanaeth-iechyd-gwladol-view {
 }
 
-/* cyprus-national-passport-number-input: an input for entering Cyprus's National Passport Number */
-.cyprus-national-passport-number-input {
+/* kypros-national-passport-number-input: an input for entering Kypros's National Passport Number */
+.kypros-national-passport-number-input {
 }
 
-/* cyprus-national-passport-number-view: a read-only display of Cyprus's National Passport Number */
-.cyprus-national-passport-number-view {
+/* kypros-national-passport-number-view: a read-only display of Kypros's National Passport Number */
+.kypros-national-passport-number-view {
 }
 
 /* danmark-personnummer-input: an input for entering Denmark's Personnummer (CPR-nummer) (CPR) */
@@ -964,12 +964,12 @@
 .inset-text {
 }
 
-/* ireland-individual-health-identifier-input: an input for entering Ireland IHI */
-.ireland-individual-health-identifier-input {
+/* eire-individual-health-identifier-input: an input for entering Eire IHI */
+.eire-individual-health-identifier-input {
 }
 
-/* ireland-individual-health-identifier-view: a read-only display of Ireland IHI */
-.ireland-individual-health-identifier-view {
+/* eire-individual-health-identifier-view: a read-only display of Eire IHI */
+.eire-individual-health-identifier-view {
 }
 
 /* island-kennitala-input: an input for entering Iceland's Kennitala */
@@ -1260,12 +1260,12 @@
 .norge-fodselsnummer-view {
 }
 
-/* northern-ireland-health-and-care-number-input: an input for entering NI H&C Number */
-.northern-ireland-health-and-care-number-input {
+/* tuaisceart-eireann-health-and-care-number-input: an input for entering NI H&C Number */
+.tuaisceart-eireann-health-and-care-number-input {
 }
 
-/* northern-ireland-health-and-care-number-view: a read-only display of NI H&C Number */
-.northern-ireland-health-and-care-number-view {
+/* tuaisceart-eireann-health-and-care-number-view: a read-only display of NI H&C Number */
+.tuaisceart-eireann-health-and-care-number-view {
 }
 
 /* notification: a brief message about an event or update */

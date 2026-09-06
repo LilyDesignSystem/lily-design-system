@@ -72,9 +72,9 @@ The French NIR (Numéro d'Inscription au Répertoire) is structured as 15 digits
 - `france-numero-d-identification-au-repertoire-input` — an input for entering a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
 - `espana-tarjeta-sanitaria-individual-input` — an input for entering an España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier
 - `espana-tarjeta-sanitaria-individual-view` — a read-only display of an España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier
-- `ireland-individual-health-identifier-input` — an input for entering Ireland Individual Health Identifier (IHI) unique national healthcare identifier
-- `ireland-individual-health-identifier-view` — a read-only display of Ireland Individual Health Identifier (IHI) unique national healthcare identifier
-- `northern-ireland-health-and-care-number-input` — an input for entering aNorthern Ireland Health and Care (H&C) Number unique national healthcare identifier
+- `eire-individual-health-identifier-input` — an input for entering Eire Individual Health Identifier (IHI) unique national healthcare identifier
+- `eire-individual-health-identifier-view` — a read-only display of Eire Individual Health Identifier (IHI) unique national healthcare identifier
+- `tuaisceart-eireann-health-and-care-number-input` — an input for entering aTuaisceart Eireann Health and Care (H&C) Number unique national healthcare identifier
 
 ## References
 

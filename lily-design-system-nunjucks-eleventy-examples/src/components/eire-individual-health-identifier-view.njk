@@ -1,0 +1,17 @@
+---
+layout: layouts/component-demo.njk
+title: Eire IHI View
+description: a read-only display of an Eire Individual Health Identifier
+---
+
+{% from "components/eire-individual-health-identifier-view/macro.njk" import eireIndividualHealthIdentifierView %}
+
+<h2>Automatic grouping</h2>
+<p>A 7-digit value is grouped as <code>XXXX XXX</code>.</p>
+
+<dl>
+  <dt>Raw 7 digits</dt>
+  <dd>{{ eireIndividualHealthIdentifierView({ value: "1234567", label: "IHI" }) }}</dd>
+  <dt>With embedded space</dt>
+  <dd>{{ eireIndividualHealthIdentifierView({ value: "1234 567", label: "IHI" }) }}</dd>
+</dl>

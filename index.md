@@ -229,8 +229,8 @@ slug below links to the per-component documentation.
 - [currency-input](components/currency-input): a locale-aware currency input with automatic formatting, symbols, separators
 - [cymru-rhif-y-gwasanaeth-iechyd-gwladol-input](components/cymru-rhif-y-gwasanaeth-iechyd-gwladol-input): an input for entering Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG)
 - [cymru-rhif-y-gwasanaeth-iechyd-gwladol-view](components/cymru-rhif-y-gwasanaeth-iechyd-gwladol-view): a read-only display of Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG)
-- [cyprus-national-passport-number-input](components/cyprus-national-passport-number-input): an input for entering Cyprus's National Passport Number
-- [cyprus-national-passport-number-view](components/cyprus-national-passport-number-view): a read-only display of Cyprus's National Passport Number
+- [kypros-national-passport-number-input](components/kypros-national-passport-number-input): an input for entering Kypros's National Passport Number
+- [kypros-national-passport-number-view](components/kypros-national-passport-number-view): a read-only display of Kypros's National Passport Number
 - [danmark-personnummer-input](components/danmark-personnummer-input): an input for entering Denmark's Personnummer (CPR-nummer) (CPR)
 - [danmark-personnummer-view](components/danmark-personnummer-view): a read-only display of Denmark's Personnummer (CPR-nummer) (CPR)
 - [data-filter-form](components/data-filter-form): a form for filtering data by criteria
@@ -358,8 +358,8 @@ slug below links to the per-component documentation.
 - [input-group](components/input-group): a group wrapping an input with prefix and suffix addons
 - [input-with-mask](components/input-with-mask): an input displaying a format mask placeholder for the user to fill in
 - [inset-text](components/inset-text): indented text to distinguish it from surrounding content
-- [ireland-individual-health-identifier-input](components/ireland-individual-health-identifier-input): an input for entering Ireland Individual Health Identifier (IHI) unique national healthcare identifier
-- [ireland-individual-health-identifier-view](components/ireland-individual-health-identifier-view): a read-only display of Ireland Individual Health Identifier (IHI) unique national healthcare identifier
+- [eire-individual-health-identifier-input](components/eire-individual-health-identifier-input): an input for entering Eire Individual Health Identifier (IHI) unique national healthcare identifier
+- [eire-individual-health-identifier-view](components/eire-individual-health-identifier-view): a read-only display of Eire Individual Health Identifier (IHI) unique national healthcare identifier
 - [island-kennitala-input](components/island-kennitala-input): an input for entering Iceland's Kennitala
 - [island-kennitala-view](components/island-kennitala-view): a read-only display of Iceland's Kennitala
 - [italia-codice-fiscale-input](components/italia-codice-fiscale-input): an input for entering Italy's Codice fiscale (CF)
@@ -432,8 +432,8 @@ slug below links to the per-component documentation.
 - [newsletter-signup](components/newsletter-signup): an email subscription form composition with idle, submitting, success, and error states
 - [norge-fodselsnummer-input](components/norge-fodselsnummer-input): an input for entering Norway's Fødselsnummer
 - [norge-fodselsnummer-view](components/norge-fodselsnummer-view): a read-only display of Norway's Fødselsnummer
-- [northern-ireland-health-and-care-number-input](components/northern-ireland-health-and-care-number-input): an input for entering Northern Ireland Health and Care (H&C) Number unique national healthcare identifier
-- [northern-ireland-health-and-care-number-view](components/northern-ireland-health-and-care-number-view): a read-only display of Northern Ireland Health and Care (H&C) Number unique national healthcare identifier
+- [tuaisceart-eireann-health-and-care-number-input](components/tuaisceart-eireann-health-and-care-number-input): an input for entering Tuaisceart Eireann Health and Care (H&C) Number unique national healthcare identifier
+- [tuaisceart-eireann-health-and-care-number-view](components/tuaisceart-eireann-health-and-care-number-view): a read-only display of Tuaisceart Eireann Health and Care (H&C) Number unique national healthcare identifier
 - [notification](components/notification): a brief message about an event or update
 - [number-input](components/number-input): an input for entering a numeric value with validation <input type="number">
 - [option](components/option): an option element within a select dropdown

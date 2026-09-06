@@ -107,8 +107,8 @@ contextual-help	ContextualHelp	a help button that opens a popover with explanato
 currency-input	CurrencyInput	a locale-aware currency input with automatic formatting, symbols, separators
 cymru-rhif-y-gwasanaeth-iechyd-gwladol-input	CymruRhifYGwasanaethIechydGwladolInput	an input for entering Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG)
 cymru-rhif-y-gwasanaeth-iechyd-gwladol-view	CymruRhifYGwasanaethIechydGwladolView	a read-only display of Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG)
-cyprus-national-passport-number-input	CyprusNationalPassportNumberInput	an input for entering Cyprus's National Passport Number
-cyprus-national-passport-number-view	CyprusNationalPassportNumberView	a read-only display of Cyprus's National Passport Number
+kypros-national-passport-number-input	KyprosNationalPassportNumberInput	an input for entering Kypros's National Passport Number
+kypros-national-passport-number-view	KyprosNationalPassportNumberView	a read-only display of Kypros's National Passport Number
 danmark-personnummer-input	DanmarkPersonnummerInput	an input for entering Denmark's Personnummer (CPR-nummer) (CPR)
 danmark-personnummer-view	DanmarkPersonnummerView	a read-only display of Denmark's Personnummer (CPR-nummer) (CPR)
 data-filter-form	DataFilterForm	a form for filtering data by criteria
@@ -236,8 +236,8 @@ input	Input	a generic HTML input element
 input-group	InputGroup	a group wrapping an input with prefix and suffix addons
 input-with-mask	InputWithMask	an input displaying a format mask placeholder for the user to fill in
 inset-text	InsetText	indented text to distinguish it from surrounding content
-ireland-individual-health-identifier-input	IrelandIndividualHealthIdentifierInput	an input for entering Ireland Individual Health Identifier (IHI) unique national healthcare identifier
-ireland-individual-health-identifier-view	IrelandIndividualHealthIdentifierView	a read-only display of Ireland Individual Health Identifier (IHI) unique national healthcare identifier
+eire-individual-health-identifier-input	EireIndividualHealthIdentifierInput	an input for entering Eire Individual Health Identifier (IHI) unique national healthcare identifier
+eire-individual-health-identifier-view	EireIndividualHealthIdentifierView	a read-only display of Eire Individual Health Identifier (IHI) unique national healthcare identifier
 island-kennitala-input	IslandKennitalaInput	an input for entering Iceland's Kennitala
 island-kennitala-view	IslandKennitalaView	a read-only display of Iceland's Kennitala
 italia-codice-fiscale-input	ItaliaCodiceFiscaleInput	an input for entering Italy's Codice fiscale (CF)
@@ -310,8 +310,8 @@ net-promoter-score-view	NetPromoterScoreView	a read-only display of a Net Promot
 newsletter-signup	NewsletterSignup	an email subscription form composition with idle, submitting, success, and error states
 norge-fodselsnummer-input	NorgeFodselsnummerInput	an input for entering Norway's Fødselsnummer
 norge-fodselsnummer-view	NorgeFodselsnummerView	a read-only display of Norway's Fødselsnummer
-northern-ireland-health-and-care-number-input	NorthernIrelandHealthAndCareNumberInput	an input for entering Northern Ireland Health and Care (H&C) Number unique national healthcare identifier
-northern-ireland-health-and-care-number-view	NorthernIrelandHealthAndCareNumberView	a read-only display of Northern Ireland Health and Care (H&C) Number unique national healthcare identifier
+tuaisceart-eireann-health-and-care-number-input	TuaisceartEireannHealthAndCareNumberInput	an input for entering Tuaisceart Eireann Health and Care (H&C) Number unique national healthcare identifier
+tuaisceart-eireann-health-and-care-number-view	TuaisceartEireannHealthAndCareNumberView	a read-only display of Tuaisceart Eireann Health and Care (H&C) Number unique national healthcare identifier
 notification	Notification	a brief message about an event or update
 number-input	NumberInput	an input for entering a numeric value with validation <input type="number">
 option	Option	an option element within a select dropdown

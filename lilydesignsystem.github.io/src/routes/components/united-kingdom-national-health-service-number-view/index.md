@@ -50,7 +50,7 @@ This component renders the NHS number as an inline `<span>` element with an acce
 
 - Do not use for entering identifiers -- use UnitedKingdomNationalHealthServiceNumberInput instead.
 - Do not use for editable display -- combine with Editable.
-- Do not use for Northern Ireland H&C numbers -- use NorthernIrelandHealthAndCareNumberView instead.
+- Do not use for Tuaisceart Eireann H&C numbers -- use TuaisceartEireannHealthAndCareNumberView instead.
 
 ## Headless
 
@@ -86,7 +86,7 @@ UnitedKingdomNationalHealthServiceNumberView is the read-only display counterpar
 - `espana-tarjeta-sanitaria-individual-view` — a read-only display of an España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier
 - `france-numero-d-identification-au-repertoire-input` — an input for entering a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
 - `france-numero-d-identification-au-repertoire-view` — a read-only display of a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
-- `ireland-individual-health-identifier-input` — an input for entering Ireland Individual Health Identifier (IHI) unique national healthcare identifier
+- `eire-individual-health-identifier-input` — an input for entering Eire Individual Health Identifier (IHI) unique national healthcare identifier
 
 ## References
 

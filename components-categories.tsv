@@ -107,8 +107,8 @@ contextual-help	div	overlays
 currency-input	input	forms
 cymru-rhif-y-gwasanaeth-iechyd-gwladol-input	input	national
 cymru-rhif-y-gwasanaeth-iechyd-gwladol-view	span	national
-cyprus-national-passport-number-input	input	national
-cyprus-national-passport-number-view	span	national
+kypros-national-passport-number-input	input	national
+kypros-national-passport-number-view	span	national
 danmark-personnummer-input	input	national
 danmark-personnummer-view	span	national
 data-filter-form	form	forms
@@ -236,8 +236,8 @@ input	input	forms
 input-group	div	forms
 input-with-mask	div	content
 inset-text	div	content
-ireland-individual-health-identifier-input	input	national
-ireland-individual-health-identifier-view	span	national
+eire-individual-health-identifier-input	input	national
+eire-individual-health-identifier-view	span	national
 island-kennitala-input	input	national
 island-kennitala-view	span	national
 italia-codice-fiscale-input	input	national
@@ -310,8 +310,8 @@ net-promoter-score-view	div	content
 newsletter-signup	form	forms
 norge-fodselsnummer-input	input	national
 norge-fodselsnummer-view	span	national
-northern-ireland-health-and-care-number-input	input	national
-northern-ireland-health-and-care-number-view	span	national
+tuaisceart-eireann-health-and-care-number-input	input	national
+tuaisceart-eireann-health-and-care-number-view	span	national
 notification	div	content
 number-input	input	forms
 option	option	forms
