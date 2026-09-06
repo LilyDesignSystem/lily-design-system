@@ -1,5 +1,18 @@
 <script lang="ts">
-  import { LILY_COMPONENTS } from '$lib/components';
+  import { LILY_COMPONENTS, type LilyComponent } from '$lib/components';
+
+  let query = $state('');
+
+  const matches: LilyComponent[] = $derived.by(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return LILY_COMPONENTS;
+    return LILY_COMPONENTS.filter(
+      (c) =>
+        c.name.includes(q) ||
+        c.pascal.toLowerCase().includes(q) ||
+        c.description.toLowerCase().includes(q)
+    );
+  });
 </script>
 
 <svelte:head>
@@ -75,6 +88,38 @@
     <a class="button button-secondary" href="/components/">Browse headless components</a>
     <a class="button button-secondary" href="/examples/">Explore styled examples</a>
   </div>
+</section>
+
+<section class="section">
+  <label
+    for="component-search"
+    style="display: block; font-weight: 600; margin-bottom: 0.5rem;"
+  >
+    Search components
+  </label>
+  <input
+    id="component-search"
+    class="component-search"
+    type="search"
+    placeholder="Try: button, input, list, table, accordion…"
+    autocomplete="off"
+    bind:value={query}
+  />
+
+  <ul class="component-list component-list-stacked" aria-label="Component list">
+    {#each matches as component (component.name)}
+      <li class="component-list-item">
+        <a class="component-list-item-link" href="/components/{component.name}/">
+          <span class="component-list-item-name">{component.name}:</span>
+        </a>
+          <span
+            class="component-status component-status-{component.status}"
+            title="Maturity: {component.status}">{component.status}</span
+          >
+          <span class="component-list-item-description">{component.description}</span>
+      </li>
+    {/each}
+  </ul>
 </section>
 
 <section class="section">

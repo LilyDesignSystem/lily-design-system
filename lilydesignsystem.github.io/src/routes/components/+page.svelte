@@ -16,8 +16,6 @@
     { label: 'all', filter: '' }
   ];
 
-  const total = LILY_COMPONENTS.length;
-
   const matches: LilyComponent[] = $derived.by(() => {
     const q = query.trim().toLowerCase();
     if (!q) return LILY_COMPONENTS;
@@ -28,12 +26,6 @@
         c.description.toLowerCase().includes(q)
     );
   });
-
-  const countLine: string = $derived(
-    matches.length === total
-      ? 'Showing all components.'
-      : `Showing ${matches.length} components.`
-  );
 
   function applyTag(filter: string) {
     query = filter;
@@ -49,12 +41,7 @@
 </svelte:head>
 
 <section class="hero">
-  <p class="hero-eyebrow">Catalog</p>
   <h1>All Lily components</h1>
-  <p class="hero-tagline">
-    Each component is implemented in HTML, Svelte, React, Vue, Blazor, and
-    Nunjucks. Search by name or description.
-  </p>
 </section>
 
 <section class="section">
@@ -87,13 +74,11 @@
     bind:value={query}
   />
 
-  <p class="component-count-line" aria-live="polite">{countLine}</p>
-
   <ul class="component-list component-list-stacked" aria-label="Component list">
     {#each matches as component (component.name)}
       <li class="component-list-item">
         <a class="component-list-item-link" href="/components/{component.name}/">
-          <span class="component-list-item-name">{component.name}</span>
+          <span class="component-list-item-name">{component.name}:</span>
         </a>
           <span
             class="component-status component-status-{component.status}"
@@ -104,21 +89,3 @@
     {/each}
   </ul>
 </section>
-
-<style>
-  .component-status {
-    display: inline-block;
-    margin-inline-start: 0.5rem;
-    padding: 0 0.45rem;
-    border: 1px solid currentColor;
-    border-radius: 999px;
-    font-size: 0.72rem;
-    line-height: 1.4;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    vertical-align: middle;
-  }
-  .component-status-stable { color: #0f7a52; }
-  .component-status-beta { color: #4c5b66; }
-  .component-status-experimental { color: #b45309; }
-</style>
