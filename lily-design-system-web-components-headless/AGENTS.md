@@ -1,6 +1,6 @@
 # Lily Design System - Web Components Headless
 
-A headless component library built on **native custom elements** (the Web Components platform APIs) rather than a JavaScript framework. **Partial catalog, growing toward full parity**: 261 of the canonical 491 components as of 2026-09-06. 35 components are permanently excluded by a real architectural limitation (table sub-elements and interactive `*ListItem` families); the rest are open backlog, not a permanent exclusion — see `spec/index.md` for the exact accounting.
+A headless component library built on **native custom elements** (the Web Components platform APIs) rather than a JavaScript framework. **The full achievable catalog as of 2026-09-06**: 456 of the canonical 491 components. The other 35 are permanently excluded by a real architectural limitation (table sub-elements and interactive `*ListItem` families) — not open backlog, since none remains. See `spec/index.md` for the exact accounting.
 
 @AGENTS/lily.md
 @AGENTS/components.md
@@ -13,7 +13,7 @@ A headless component library built on **native custom elements** (the Web Compon
 ## Quick Reference
 
 - **Package**: lily-design-system-web-components-headless
-- **Version**: 0.3.0
+- **Version**: 0.4.0
 - **Created**: 2026-09-02
 - **License**: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause or contact us for more
 - **Contact**: Joel Parker Henderson (joel@joelparkerhenderson.com)
@@ -49,9 +49,13 @@ Pattern 1 is preferred whenever the canonical root is a real semantic element; p
 
 - Every table sub-element family (30) and every **interactive** `*ListItem` family (5: accordion, chat, check, document, tree). The breadcrumb family (`BreadcrumbNav > BreadcrumbList > BreadcrumbListItem`) is the P8-T7 pilot of a third structural pattern, **upgrade in place**: the list item builds its real `<li>`, moves children/attributes in, then `this.replaceWith(li)` so no host node ever sits between `<ol>` and `<li>` — verified by an axe `list`/`listitem` run (`breadcrumb-list-item.test.ts`). Its cost is no live reactivity after upgrade, acceptable only because the canonical contract is passive; do not copy it to an interactive item. Table sub-elements stay out of scope (untested parser interaction with `<table>`). See `spec/index.md` §2.1.
 
-## Open backlog, not excluded
+## Backlog: none remaining
 
-- 331 components not yet implemented: everything outside the 125 shipped and the 35 permanently excluded above. None of these are structurally blocked — they simply haven't been written yet, and are being added in batches following the same two structural patterns (or, for a passive `*ListItem` family, the "upgrade in place" pattern extended and verified per component). See `spec/index.md` §11.8 for the full accounting.
+As of 2026-09-06 every achievable component (456 of 491) is implemented. The only components not in this catalog are the 35 permanently excluded above (§ "Permanently excluded"); there is no other gap. See `spec/index.md` §11.8 for the completion push's record.
+
+## Inline styles: two named exceptions, plus CSS custom properties
+
+Beyond `FloatButton`'s `position: fixed` and `ThemeProvider`'s `display: contents`, no component sets a raw CSS property inline. A component whose behaviour needs a per-instance value (`Affix`'s offsets, `AspectRatioContainer`'s ratio) sets only a CSS custom property (`--affix-offset-top`, `--aspect-ratio-container-ratio`, …) — already sanctioned by `AGENTS/headless.md` — and leaves the actual declaration to the consumer's stylesheet. See `spec/index.md` §4.3 for the three real violations found and fixed this way during the 2026-09-06 push.
 
 ## Testing
 

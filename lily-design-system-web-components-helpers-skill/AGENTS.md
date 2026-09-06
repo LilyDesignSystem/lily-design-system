@@ -65,7 +65,7 @@ skill points at rather than restates.
   it ships no helper packages of its own. Isn't the Web Components headless
   skill (that's
   [`lily-design-system-web-components-headless-skill`](../lily-design-system-web-components-headless-skill/)),
-  which covers the neighbouring, partial (125/491) component catalog. Isn't
+  which covers the neighbouring (456/491, its full achievable scope) component catalog. Isn't
   the HTML helpers skill (that's
   [`lily-design-system-html-helpers-skill`](../lily-design-system-html-helpers-skill/))
   — the two catalogs are independently maintained and this skill must never

@@ -1,6 +1,6 @@
 ---
 name: lily-design-system-html-headless-skill
-description: Explains how to consume Lily Design System's plain-HTML headless component library — copying semantic HTML/ARIA snippet files with an embedded vanilla-JS behavior layer, no build step, no framework runtime. Use when someone asks how to use Lily's HTML (vanilla) headless components, wants the no-framework/no-build usage idiom, needs to wire up a component's inline `<script>` IIFE, asks what the component's HTML comment header documents, or asks how HTML headless differs from the partial Web Components headless catalog.
+description: Explains how to consume Lily Design System's plain-HTML headless component library — copying semantic HTML/ARIA snippet files with an embedded vanilla-JS behavior layer, no build step, no framework runtime. Use when someone asks how to use Lily's HTML (vanilla) headless components, wants the no-framework/no-build usage idiom, needs to wire up a component's inline `<script>` IIFE, asks what the component's HTML comment header documents, or asks how HTML headless differs from the Web Components headless catalog.
 license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 ---
 
@@ -89,7 +89,7 @@ classes shown above.
   date-time) are a separate layer with their own web-component packaging —
   use [`lily-design-system-html-helpers-skill`](../lily-design-system-html-helpers-skill/).
 - **The native-custom-element sibling catalog** — `lily-design-system-web-components-headless`
-  ships 125 of the 491 components (growing) as autonomous custom elements
+  ships 456 of the 491 components (its full achievable scope) as autonomous custom elements
   with no framework runtime, a separate subproject (not this one) — use
   `lily-design-system-web-components-headless-skill` for that catalog's
   own conventions.

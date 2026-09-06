@@ -48,8 +48,8 @@ covers the neighbouring `*-picker` helpers catalog
 - Any component implementation, example page, or helper package.
 - The `*-picker` helpers catalog's own conventions — that's
   `lily-design-system-html-helpers-skill`'s job.
-- The separate, partial Web Components headless catalog's conventions
-  (native custom elements, light-DOM-only, 125/491) — that catalog has its
+- The separate, Web Components headless catalog's conventions
+  (native custom elements, light-DOM-only, 456/491) — that catalog has its
   own architecture decisions and its own skill.
 
 ## 3. Architecture

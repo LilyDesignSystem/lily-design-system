@@ -11,16 +11,18 @@ root spec was amended 2026-09-03 (plan P8-T3) to frame the catalog as
 7 full-catalog headless libraries plus this partial one; this file remains
 the authoritative record of the addition.
 
-**This is a partial implementation, growing toward full parity: 261 of the
-canonical 491 components as of 2026-09-06** (33 from the original P7-T6/P8-T7
-slice, plus all 92 national personal identifier components, plus 136 more
-across lists/forms/pickers/links/overlays/tables/media/data-viz/buttons,
-all added in the completion push that started 2026-09-06). 35 components
-are **permanently excluded** from this catalog by a real architectural
-limitation (§2, §2.1); the other 195 not yet implemented are simply not
-done yet, and are being added in ongoing batches. Every claim of
-completeness below is scoped to what is actually implemented at the time
-it's read — see §2 and §11 for the exact accounting.
+**This catalog reached its full achievable scope on 2026-09-06: 456 of the
+canonical 491 components** — every component except the 35 permanently
+excluded by a real architectural limitation (§2, §2.1). It is not, and
+will not become, a literal 491/491 peer of the seven full-catalog headless
+libraries: the remaining 35 (30 table sub-elements, 5 interactive
+`*ListItem` families) cannot be built as autonomous custom elements
+without either a wrapper-host defect or WebKit support for customized
+built-ins, neither of which exists. Within that constraint, this is now a
+complete catalog, not a partial slice — the "8th headless catalog, partial
+by design" framing that governed this file from 2026-09-03 through
+2026-09-06 (33 → 92 more → 136 more → the final 195) is retired; see §2.0
+for that history.
 
 ---
 
@@ -42,22 +44,22 @@ hand-rolled approximation.
 
 ### In scope
 
-- 261 native custom elements, one per canonical `components/{slug}/AGENTS.md`
-  contract: the original 33 (8 buttons/links, 5 forms, 4 overlays, 6
-  media/data, 7 content, and the 3-component breadcrumb navigation family —
-  the P8-T7 pilot, see §2.1), all 92 national personal identifier
-  components (46 identifier types x -input/-view), and 136 more across
-  lists (32, including 13 more passive `*ListItem` families via "upgrade
-  in place", §4.1), forms (50), pickers (14), links (14), and a mixed
-  overlays/tables/media/data-viz/buttons batch (26) — all added in the
-  2026-09-06 completion push toward the achievable 456 (§11.8).
-- A vitest test file per component (1484 tests total across the 261
+- 456 native custom elements, one per canonical `components/{slug}/AGENTS.md`
+  contract — the full achievable catalog: the original 33 (8 buttons/links,
+  5 forms, 4 overlays, 6 media/data, 7 content, and the 3-component
+  breadcrumb navigation family — the P8-T7 pilot, see §2.1), all 92
+  national personal identifier components (46 identifier types x
+  -input/-view), and 331 more added across three further batches in the
+  2026-09-06 completion push: lists (32, including 13 more passive
+  `*ListItem` families via "upgrade in place", §4.1), forms (50), pickers
+  (14), links (14), a mixed overlays/tables/media/data-viz/buttons batch
+  (26), navigation (52), and content (143).
+- A vitest test file per component (2669 tests total across the 456
   `.test.ts` files, plus `index.test.ts` exercising the **built** `dist/`
   bundle end to end).
-- A Storybook story per component (the 92 national-identifier stories
-  grouped under "National identifiers"; the 2026-09-06 batches added
-  "Lists", "Pickers", and "Links" categories, and grew "Overlays",
-  "Tables", "Media and data", and "Buttons and links").
+- A Storybook story per component, organised into 11 categories: Buttons
+  and links, Forms, Overlays, Media and data, Content, National
+  identifiers, Lists, Pickers, Links, Navigation, and Tables.
 - The shared `lib/dom-utils.ts` helpers every component builds on.
 - Required subproject files matching every other implementation directory:
   `index.md`, `README.md` (symlink), `AGENTS.md`, `CLAUDE.md`,
@@ -65,16 +67,18 @@ hand-rolled approximation.
 
 ### Explicitly out of scope (permanent, architectural)
 
-- **35 components are permanently excluded**, not merely not-yet-done: every
-  table sub-element family (30: `*TableHead/-Body/-Foot/-Row/-TH/-TD` across
+- **35 components are permanently excluded** — the only 35 of 491 this
+  catalog does not and will not implement: every table sub-element family
+  (30: `*TableHead/-Body/-Foot/-Row/-TH/-TD` across
   `table`/`data-table`/`calendar-table`/`kanban-table`, and gantt's
   HTML-named equivalents) and the 5 `*ListItem` families whose canonical
   contract is interactive (`accordion-list-item`, `chat-list-item`,
   `check-list-item`, `document-list-item`, `tree-list-item`) — see §2.1 for
-  why. Everything else not yet implemented (195 components as of
-  2026-09-06) is open backlog, tracked in §11.8, not a permanent exclusion.
+  why. As of 2026-09-06 there is no other backlog: every other canonical
+  component (456 of 491) is implemented — see §11.8 for the historical
+  record of how that backlog closed.
 - CSS, stylesheets, a CSS framework dependency, inline styles beyond the
-  one documented structural exception (§4).
+  two documented structural exceptions and CSS custom properties (§4, §4.3).
 - Shadow DOM (§3).
 - A framework adapter layer (React wrapper, Vue wrapper, …) — a consumer in
   a framework should use that framework's own Lily catalog instead; this
@@ -192,7 +196,7 @@ style exception, matching the precedent `ThemeProvider`'s `display:
 contents` sets in the other catalogs (`AGENTS/headless.md`).
 
 The counts above (26/30, 4/30) describe the original P7-T6/P8-T7 slice;
-with 261 components shipped as of the 2026-09-06 completion push, pattern 1
+with 456 components shipped as of the 2026-09-06 completion push, pattern 1
 covers the large majority and pattern 2 a modest handful (`Alert`,
 `Banner`, `ContextualHelp`, `Coachmark`, plus every `*-group`/`*-banner`
 component whose canonical root is a bare `<div>`) — see each file's own
@@ -234,6 +238,37 @@ structural consequence of the table-sub-element exclusion (§2) — it is not
 merely that this catalog doesn't *implement* `TableRow`/`TableTD` etc.,
 it's that the platform itself won't let plain HTML express them inside any
 non-`<table>`-context element, custom or otherwise.
+
+### 4.3 Inline styles: two named exceptions, plus CSS custom properties, no more
+
+Three components in the 2026-09-06 completion push initially set a raw
+CSS property inline — `Affix` (`position: sticky`/`top`/`bottom`),
+`AspectRatioContainer` (`aspect-ratio`), and `StickyPromoBanner`
+(`position: fixed`/`top`/`bottom`/`left`/`right`) — each because every
+other headless catalog does the same for that component, and each
+correctly flagged (or, for `StickyPromoBanner`, should have been flagged)
+as a candidate third/fourth exception beyond the two named ones
+(`FloatButton`'s `position: fixed`, `ThemeProvider`'s `display: contents`).
+Resolved the same way for all three, without growing the named-exception
+list: each now sets only a CSS custom property inline (`--affix-offset-top`,
+`--affix-offset-bottom`, `--aspect-ratio-container-ratio`) — a form
+`AGENTS/headless.md` already pre-sanctions ("CSS custom properties applied
+as variables") — and leaves the actual `position`/`aspect-ratio`
+declaration to the consumer's own stylesheet, targeting the component's
+class hook (e.g. `.affix { position: sticky; top: var(--affix-offset-top, 0); }`).
+`StickyPromoBanner` needed no CSS variable at all: its `data-position`
+attribute alone is enough for the consumer's CSS to select the right fixed
+edge. The reasoning generalises: since every visual behaviour in this
+catalog already requires matching consumer CSS keyed to a class hook or
+`data-*` attribute, a raw inline property is never actually *required* —
+only a per-instance *value* needs to cross from attribute to style, and
+CSS custom properties already do exactly that without inventing a new
+exception each time. Two later batches (`flex-stack`/`grid`/`masonry`,
+`container-with-fixed-width`/`container-with-fluid-width`) independently
+reached the same data-attribute-only conclusion when they hit the same
+question, without being told about this resolution — treat that
+convergence as confirmation this is the right general answer, not
+coincidence.
 
 ## 5. File layout
 
@@ -327,68 +362,75 @@ data, Content) matching this file's §2 breakdown.
 - Package: `lily-design-system-web-components-headless`, npm, not yet
   published (see root `docs/releasing.md` for the publish gate).
 - Custom element tags: `lily-{slug}`, one per canonical slug in
-  `components.tsv` — this package defines the 261 in §2.
-- Version: 0.3.0 (2026-09-06: 125 → 261 components, non-breaking).
+  `components.tsv` — this package defines the 456 in §2.
+- Version: 0.4.0 (2026-09-06: 261 → 456 components, the full achievable
+  catalog, non-breaking).
 
 ## 11. Acceptance criteria
 
-- [x] 261 components implemented against their canonical
+- [x] 456 components implemented against their canonical
       `components/{slug}/AGENTS.md` contract (HTML tag, ARIA, keyboard,
-      required/optional attributes): the original 33 spanning every major
-      category (not clustered), including one complete
-      `*Nav/*List/*ListItem` family (P8-T7); all 92 national personal
-      identifier components; and 136 more across lists, forms, pickers,
-      links, and a mixed overlays/tables/media/data-viz/buttons batch
-      (all 2026-09-06).
-- [x] Real, run-verified tests: 1484 tests across 261 `.test.ts` files, all
-      green (`pnpm vitest run`), including a real defect the tests
-      themselves caught and fixed during the 2026-09-06 push: 14 of 46
-      national-identifier `-view` components were missing the `role="text"`
-      their own canonical AGENTS.md calls for (announces the identifier as
-      one unit rather than letting a screen reader fragment it) — added
-      per-component, verified against each contract individually rather
-      than applied blanket (32 of the 46 have it, 14 don't).
+      required/optional attributes) — the full achievable catalog: the
+      original 33 spanning every major category (not clustered), including
+      one complete `*Nav/*List/*ListItem` family (P8-T7); all 92 national
+      personal identifier components; and 331 more across every remaining
+      category (lists, forms, pickers, links, overlays, tables, media,
+      data-viz, buttons, navigation, content) — all 2026-09-06.
+- [x] Real, run-verified tests: 2669 tests across 456 `.test.ts` files
+      (plus `index.test.ts`), all green (`pnpm vitest run`), including
+      real defects the tests themselves caught and fixed during the
+      2026-09-06 push: 14 of 46 national-identifier `-view` components
+      were missing the `role="text"` their own canonical AGENTS.md calls
+      for (verified per-component, not applied blanket — 32 of 46 have
+      it); and 3 components (`Affix`, `AspectRatioContainer`, and
+      `StickyPromoBanner`) initially set raw inline styles
+      (`position`/`aspect-ratio`) beyond this catalog's two sanctioned
+      exceptions (FloatButton, ThemeProvider) — resolved to CSS custom
+      properties (§4.3), an already-sanctioned form, rather than growing
+      the named-exception list.
 - [x] TypeScript compiles clean (`tsc --noEmit`).
 - [x] `pnpm build` succeeds: generates `index.ts`, bundles a non-empty
       `dist/index.js` + `dist/index.d.ts` via tsup.
 - [x] `index.test.ts` imports the **built** `dist/index.js` and confirms
-      all 261 `lily-{slug}` tags self-register, plus one end-to-end render
-      through the public entry point — 1484 tests total including this file.
-- [x] `pnpm build-storybook` succeeds: all 261 stories compile and bundle
-      (the 92 national-identifier stories grouped under "National
-      identifiers"; the 2026-09-06 batches also added "Lists", "Pickers",
-      and "Links" categories).
+      all 456 `lily-{slug}` tags self-register, plus one end-to-end render
+      through the public entry point — 2669 tests total including this file.
+- [x] `pnpm build-storybook` succeeds: all 456 stories compile and bundle,
+      across 11 categories (Buttons and links, Forms, Overlays, Media and
+      data, Content, National identifiers, Lists, Pickers, Links,
+      Navigation, Tables).
 - [x] Required subproject files present (`index.md`, `README.md` symlink,
       `AGENTS.md`, `CLAUDE.md`, `spec/index.md`, `.git-subtree-push`).
 - [x] `bin/sync` run — root `AGENTS/*.md` present under this subproject's
       own `AGENTS/`.
 - [x] `bin/test` run clean against this subproject (2026-09-06).
 - [x] `bin/check-links` clean for this subproject's markdown (2026-09-06).
+- [x] No component in this catalog carries an inline style beyond the two
+      named exceptions (`FloatButton`'s `position: fixed`,
+      `ThemeProvider`'s `display: contents`) and CSS custom properties
+      (§4.3) — swept 2026-09-06 after the completion push, 3 real
+      violations found and fixed (see the test-defects bullet above).
 - [ ] Registered as a git subtree with its own standalone remote and
       pushed (pending first publish decision — not yet published to npm;
       the `.git-subtree-push` file is in place but no push has run yet).
-- [ ] The remaining 195 achievable components (§11.8) — open backlog, being
-      worked in batches.
+- [x] Every achievable component implemented (§11.8) — no open backlog
+      remains as of 2026-09-06.
 - [ ] Angular-style `*ListItem`/table-sub-element wrapper-host-safe
       registration mechanism for autonomous custom elements — genuinely
       unsolved, tracked as future work, not a defect in what is shipped.
       The 5 interactive `*ListItem` families and 30 table sub-elements
-      stay excluded regardless (§2); the 13 remaining passive
-      `*ListItem` families plus `description-list-item` are open backlog
-      where the P8-T7 "upgrade in place" pattern is the intended approach
-      (§2.1), not yet applied.
+      stay permanently excluded (§2) regardless of any future fix here.
 
-### 11.8 Open backlog (2026-09-06)
+### 11.8 Backlog closed (2026-09-06)
 
-- 195 of the 491 canonical components are not yet implemented, spanning
-  the `content` (143) and `navigation` (52) categories. None of these 195
-  are structurally blocked; they simply haven't been written yet,
-  following the same two structural patterns (§4) as the 261 shipped so
-  far. `lists`, `forms`, `pickers`, `links`, `overlays`, `tables` (root
-  table-family elements, distinct from the excluded sub-elements),
-  `media`, `data-viz`, and `buttons` were completed 2026-09-06. Being
-  implemented in batches — see the root `CHANGELOG.md` for progress as
-  batches land.
+Every achievable component (456 of 491) is implemented. The completion
+push landed in four batches over one day: the original 33 (P7-T6/P8-T7,
+pre-existing), all 92 national personal identifier components, a
+136-component wave (lists, forms, pickers, links, and a mixed
+overlays/tables/media/data-viz/buttons batch), and a final 195-component
+wave (navigation, content) — see the root `CHANGELOG.md` for the detailed
+record of each wave. The only components not in this catalog are the 35
+permanently excluded ones (§2); there is no remaining "not yet done"
+category.
 
 ## 12. Related topics
 

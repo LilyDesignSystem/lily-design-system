@@ -1,6 +1,6 @@
 ---
 name: lily-design-system-web-components-headless-skill
-description: Explains Lily Design System's native Web Components headless catalog — plain custom elements (`class X extends HTMLElement`, tags like `<lily-button>`), no framework runtime, no build step to consume. Use when someone asks how to use Lily Design System's native Web Components, wants the custom-element usage idiom, needs to know exactly which of the 491 catalog components this growing partial catalog actually covers, asks why it isn't full parity with the other seven catalogs, or asks about autonomous custom elements vs. customized built-ins or light-DOM-only architecture.
+description: Explains Lily Design System's native Web Components headless catalog — plain custom elements (`class X extends HTMLElement`, tags like `<lily-button>`), no framework runtime, no build step to consume. Use when someone asks how to use Lily Design System's native Web Components, wants the custom-element usage idiom, needs to know exactly which 35 of the 491 catalog components this catalog permanently excludes (and why), asks why it isn't full parity with the other seven catalogs, or asks about autonomous custom elements vs. customized built-ins or light-DOM-only architecture.
 license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 ---
 
@@ -11,40 +11,54 @@ canonical component catalog as **native custom elements** — plain
 TypeScript classes extending `HTMLElement`, registered as
 `customElements.define("lily-{slug}", X)` — with no framework runtime, no
 JSX, no build-time template compiler. **It is a deliberately partial
-catalog, growing toward full parity: 125 of the canonical 491 components as of 2026-09-06, not yet full parity with the seven
-full-catalog headless libraries (HTML, Svelte, React, Vue, Angular, Blazor,
-Nunjucks).** It proves the pattern works end to end (real, tested,
-buildable, Storybook-documented) across every major category; it is not a
-claim of completeness. Never imply broader coverage than what is actually implemented — check spec/index.md for the current count — if
-someone needs a component this catalog doesn't ship, point them at one of
-the seven full-catalog libraries instead.
+catalog: 456 of the canonical 491 components as of 2026-09-06 — its full
+achievable scope, not full parity with the seven full-catalog headless
+libraries (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks), and it
+never will be: the remaining 35 are permanently excluded by a real
+architectural limitation (spec/index.md SS2), not backlog.** It is real,
+tested, buildable, and Storybook-documented across every category. If
+someone needs one of those 35 (a table sub-element or an interactive
+`*ListItem` family), point them at one of the seven full-catalog libraries
+instead.
 
 Root of the ecosystem: [../spec/index.md](../spec/index.md). The general
 Lily concepts skill: [../lily-design-system-skill/](../lily-design-system-skill/).
 
 ## What's actually implemented
 
-The original 33-component slice spans every major category rather than
-clustering in one: 8 buttons/links (Button, ToggleButton, SwitchButton,
-IconButton, FloatButton, ClipboardCopyButton, BackLink, ActionLink), 5
-forms (TextInput, EmailInput, TelInput, CheckboxGroup, Fieldset), 4
-overlays (Dialog, AlertDialog, ContextualHelp, Coachmark), 6 media/data
-(AvatarImage, Figure, FeaturePhoto, Progress, Meter, BarChart), 7 content
-(Alert, Banner, Card, Badge, Blockquote, InformationCallout,
-WarningCallout), and the 3-component breadcrumb navigation family
-(BreadcrumbNav, BreadcrumbList, BreadcrumbListItem) — the one complete
-`*Nav`/`*List`/`*ListItem` family in the original slice.
+All 456 achievable components (everything except the 35 permanently
+excluded, above), built in four passes on 2026-09-06:
 
-The 2026-09-06 completion push added all 92 national personal identifier
-components (46 identifier types x -input/-view, e.g.
-`AlbaCommunityHealthIndexInput`/`View`, `UnitedStatesSocialSecurityNumberInput`/`View`),
-each following the same `TextInput`/`EmailInput`-shaped -input pattern
-(with `autocomplete="off"` always forced, and `pattern`/`inputmode`
-hardcoded for the handful whose canonical contract documents a fixed
-format) paired with a `<span aria-label>`-shaped -view — `role="text"` is
-added to the -view's span wherever that identifier's own canonical
-`AGENTS.md` calls for it (32 of the 46 do; 14 don't), so check the
-component's own contract rather than assuming either way.
+- The original 33-component slice (2026-09-03/04): 8 buttons/links, 5
+  forms, 4 overlays, 6 media/data, 7 content, and the 3-component
+  breadcrumb navigation family (BreadcrumbNav, BreadcrumbList,
+  BreadcrumbListItem) — the pilot for the "upgrade in place" pattern below.
+- All 92 national personal identifier components (46 identifier types x
+  -input/-view, e.g. `AlbaCommunityHealthIndexInput`/`View`,
+  `UnitedStatesSocialSecurityNumberInput`/`View`), each following the same
+  `TextInput`/`EmailInput`-shaped -input pattern (with `autocomplete="off"`
+  always forced, and `pattern`/`inputmode` hardcoded for the handful whose
+  canonical contract documents a fixed format) paired with a `<span
+  aria-label>`-shaped -view — `role="text"` is added to the -view's span
+  wherever that identifier's own canonical `AGENTS.md` calls for it (32 of
+  the 46 do; 14 don't).
+- 136 more across lists (including 13 more passive `*ListItem` families
+  via "upgrade in place"), forms, pickers, links, and a mixed
+  overlays/tables/media/data-viz/buttons batch.
+- The final 195: navigation and content — the two largest, most
+  heterogeneous categories, including `ThemeProvider` (a faithful port of
+  the Svelte canonical's token-flattening algorithm to `--theme-{path}`
+  CSS custom properties), real WAI-ARIA widgets (combobox, listbox,
+  menu/menubar, tree, slider, tooltip), and the Reuters-Graphics-inspired
+  scrollytelling family (`Scroller`/`ScrollerBase`/`ScrollerVideo`, real
+  `IntersectionObserver` step-tracking).
+
+Check `spec/index.md` for the per-batch accounting and every deliberate
+deviation from a component's assumed shape found along the way (several
+components' own canonical `AGENTS.md` files disagreed with themselves, or
+with the real cross-catalog implementations, on HTML tag or ARIA — each
+was resolved against the majority of the seven full-catalog libraries and
+documented in the component's own header comment, not silently guessed).
 
 ## Two architecture decisions, made explicitly before any component was written
 
@@ -81,31 +95,38 @@ component's own contract rather than assuming either way.
    element itself carries the base class and ARIA state directly, avoiding
    a pointless `<div>` inside a `<div>`.
 
-`BreadcrumbListItem` uses a third pattern, **upgrade in place**, piloted
-only for that one passive, non-interactive component: it builds the real
-`<li>`, moves children/attributes in, then removes itself from the tree
-(`this.replaceWith(li)`) so no host node sits between `<ol>` and `<li>`.
-This is not a general option — it costs all live reactivity after upgrade,
-acceptable only because breadcrumb items are passive.
+A third pattern, **upgrade in place**, exists for exactly the components
+where pattern 1/2 would put a host node between a parent and child with a
+required content-model relationship (`<ol>`/`<ul>` + `<li>`, `<select>` +
+`<option>`): the custom element builds the real child element, moves its
+own children/attributes into it, then removes itself from the tree
+(`this.replaceWith(...)`) so no host node survives. Piloted on
+`BreadcrumbListItem`, then extended to 13 more passive `*ListItem`
+families and to `ThemeSelectOption` (2026-09-06) — 15 components in all.
+Not a general option: it costs all live reactivity after upgrade, which
+only a passive, non-interactive contract can tolerate.
 
-## What's deliberately excluded, and why
+## What's permanently excluded, and why
 
-- **Every table sub-element family, and every `*ListItem` family other
-  than breadcrumb** (`*TableHead/-Body/-Foot/-Row/-TH/-TD` across table,
-  data-table, calendar-table, kanban-table, gantt's HTML-named
-  equivalents, and the remaining `*List`/`*ListItem` pairs). The
-  underlying problem: a parent and child with a required content-model
-  relationship (`<ol>` + `<li>`, `<table>` + `<thead>`) cannot tolerate a
-  wrapper element between them. Angular-headless hit and fixed exactly this
-  defect class with a tag+attribute selector — a form only customized
-  built-in elements support, and those are permanently unsupported in
-  Safari/WebKit (see the architecture decision above). The "upgrade in
-  place" pattern piloted on breadcrumb is the one alternative found so far,
-  and it only fits passive items.
-- **The 92 national personal identifier components.**
-- **458 of the 491 canonical components overall** — this is a
-  representative slice by explicit scope choice (plan P7-T6), not an
-  oversight to silently backfill.
+Exactly 35 of the 491 canonical components — nothing else. Every other
+component (456 of 491) is implemented as of 2026-09-06.
+
+- **Every table sub-element family (30)** — `*TableHead/-Body/-Foot/-Row/-TH/-TD`
+  across table, data-table, calendar-table, kanban-table, and gantt's
+  HTML-named equivalents.
+- **Every interactive `*ListItem` family (5)** — accordion, chat, check,
+  document, tree. The 14 remaining, *passive* `*ListItem` families (plus
+  breadcrumb) all shipped via the "upgrade in place" pattern above.
+
+The underlying problem for both: a parent and child with a required
+content-model relationship (`<ol>` + `<li>`, `<table>` + `<thead>`) cannot
+tolerate a wrapper element between them. Angular-headless hit and fixed
+exactly this defect class with a tag+attribute selector — a form only
+customized built-in elements support, and those are permanently
+unsupported in Safari/WebKit (see the architecture decision above).
+"Upgrade in place" removes the wrapper node entirely instead, but costs
+all live reactivity after upgrade, which only a passive contract can
+tolerate — that rules it out for these 35.
 
 ## Consuming a component
 
@@ -144,9 +165,9 @@ The suffix→HTML-element mapping and the compound name-family patterns are
 catalog-wide and documented once, not restated here: see
 [../AGENTS/components.md](../AGENTS/components.md). Only the tag prefix
 differs — `lily-{slug}` rather than a bare PascalCase component name — and
-only 125 of the catalog's slugs exist in this package as of 2026-09-06, growing; check the
-list above, or this catalog's own `spec/index.md`, before assuming a tag
-exists.
+only 456 of the catalog's slugs exist in this package (the full achievable
+scope, permanently excluding 35) — check the list above, or this
+catalog's own `spec/index.md`, before assuming a tag exists.
 
 ## When this isn't the right skill
 

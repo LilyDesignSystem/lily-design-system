@@ -13,7 +13,7 @@ A Claude Skill that explains how to consume
 [`lily-design-system-web-components-helpers`](../../lily-design-system-web-components-helpers/):
 the catalog of six `<lily-*-picker>` web-component helpers — `theme-picker`,
 `locale-picker`, `text-size-picker`, `motion-picker`, `share-picker`,
-`date-time-picker` — that sit alongside the (partial, 125/491) Web
+`date-time-picker` — that sit alongside the (456/491, its full achievable scope) Web
 Components headless catalog. It is content and documentation, not a
 component implementation — it ships no helper packages of its own.
 
@@ -33,7 +33,7 @@ unrelated catalogs that happen to coincide.
 This is the framework-specific counterpart, for the Web Components helpers
 catalog, to the general [`lily-design-system-skill`](../../lily-design-system-skill/).
 Its sibling, [`lily-design-system-web-components-headless-skill`](../../lily-design-system-web-components-headless-skill/),
-covers the neighbouring, partial (125/491) headless component library
+covers the neighbouring (456/491, its full achievable scope) headless component library
 instead of the helpers catalog.
 
 ## 2. Scope
@@ -67,7 +67,7 @@ instead of the helpers catalog.
   never implying a live fork relationship, and never omitting that the two
   catalogs share a common origin and contract.
 - The Web Components headless catalog's own conventions (the partial
-  125/491 scope, the two architecture decisions) — that's
+  456/491 scope, the two architecture decisions) — that's
   `lily-design-system-web-components-headless-skill`'s job.
 - The HTML helpers catalog's own conventions (bare `<theme-picker>` tags,
   a separately maintained subproject) — that's
@@ -112,7 +112,7 @@ to run beyond `bin/test`'s required-files checks.
   for contrasting the bare `<theme-picker>` tags against this catalog's
   `<lily-theme-picker>` tags.
 - [../../lily-design-system-web-components-headless-skill/spec/index.md](../../lily-design-system-web-components-headless-skill/spec/index.md) —
-  the sibling skill for the neighbouring, partial (125/491) Web Components
+  the sibling skill for the neighbouring (456/491, its full achievable scope) Web Components
   headless catalog these helpers sit alongside.
 - [../../lily-design-system-skill/spec/index.md](../../lily-design-system-skill/spec/index.md) —
   the general Lily concepts skill this subproject specialises for the Web

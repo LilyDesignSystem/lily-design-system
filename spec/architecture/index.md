@@ -59,7 +59,7 @@ lily-design-system/                              ← canonical catalog + tools
 
 Headless libraries ship unstyled, accessible components; example apps demonstrate them with a full stylesheet and the three required routes (see [examples](../examples/index.md)).
 
-An 8th, **partial but growing** headless library sits outside the pairs: `lily-design-system-web-components-headless` (added 2026-09-03) ships 125 of the 491 components (as of 2026-09-06) as native custom elements with no framework runtime and no example app — 35 permanently excluded by a real architectural limitation, the rest open backlog toward the achievable 456/491. Its own `spec/index.md` records the architecture decisions (autonomous custom elements, light DOM only) and the exact scope.
+An 8th headless library sits outside the pairs: `lily-design-system-web-components-headless` (added 2026-09-03, reached its full achievable scope 2026-09-06) ships 456 of the 491 components as native custom elements with no framework runtime and no example app — the other 35 are permanently excluded by a real architectural limitation, not open backlog. Its own `spec/index.md` records the architecture decisions (autonomous custom elements, light DOM only) and the exact scope.
 
 ## Helper catalogs
 
@@ -106,7 +106,7 @@ Every `components/{slug}/` directory (491 of them) carries:
 ## Acceptance criteria
 
 - [x] All 7 headless and 7 example subprojects exist at the documented paths.
-- [x] The partial `lily-design-system-web-components-headless` exists at the documented path and its `spec/index.md` states its current (2026-09-06: 125/491, growing) scope.
+- [x] `lily-design-system-web-components-headless` exists at the documented path and its `spec/index.md` states its final (2026-09-06: 456/491, the full achievable scope) accounting.
 - [x] All 7 per-framework helper catalogs exist.
 - [x] All 491 component directories carry the required component files.
 - [x] Every subproject carries `index.md`, `README.md` symlink, `AGENTS.md`, `CLAUDE.md`, spec/plan/tasks, and `.git-subtree-push`.

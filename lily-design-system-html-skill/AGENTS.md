@@ -58,7 +58,7 @@ gives the example application real coverage.
   or [`lily-design-system-html-helpers-skill`](../lily-design-system-html-helpers-skill/) —
   it points at both rather than restating their contracts. Isn't the skill
   for the separate Web Components catalogs (native custom elements, a
-  partial 125/491 headless slice, its own `lily-design-system-web-components-skill`
+  456/491 headless slice, its own `lily-design-system-web-components-skill`
   and its own `-headless-skill` / `-helpers-skill` siblings).
 
 ## Internationalization

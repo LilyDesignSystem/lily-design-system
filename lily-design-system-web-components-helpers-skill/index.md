@@ -19,7 +19,7 @@ It is the framework-specific counterpart, for the Web Components helpers
 catalog, to the general
 [`lily-design-system-skill`](../lily-design-system-skill/), and sits beside
 [`lily-design-system-web-components-headless-skill`](../lily-design-system-web-components-headless-skill/),
-which covers the neighbouring, partial (125/491) headless component
+which covers the neighbouring (456/491, its full achievable scope) headless component
 library instead. It follows the `lily-design-system-` prefix that marks
 the monorepo's implementation subprojects, because it is fully bound to
 this repository's own catalog and conventions, not a portable

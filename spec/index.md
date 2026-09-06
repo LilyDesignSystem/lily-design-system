@@ -31,7 +31,7 @@ coding agents.
 | Topic | What it covers |
 | ----- | -------------- |
 | [overview](overview/index.md) | Vision, scope, the headless vs. example layers, key facts. |
-| [architecture](architecture/index.md) | Monorepo layout, the 15 implementation subprojects (7 full-catalog headless + 1 partial + 7 examples) + 7 helper catalogs, `themes/`, the git-subtree model, required files. |
+| [architecture](architecture/index.md) | Monorepo layout, the 15 implementation subprojects (7 full-catalog headless + 1 + 7 examples) + 7 helper catalogs, `themes/`, the git-subtree model, required files. |
 | [headless](headless/index.md) | Headless design rules: semantic markup, class hooks, rest-props, behaviour boundaries, zero CSS. |
 | [accessibility](accessibility/index.md) | WCAG 2.2 AAA target, WAI-ARIA APG patterns, ARIA reference table, axe-core baselines. |
 | [internationalization](internationalization/index.md) | No hardcoded strings, stable text-prop names, locale-aware props, RTL/bidi. |
@@ -41,7 +41,7 @@ coding agents.
 | [tooling](tooling/index.md) | The `bin/` scripts, the rsync sync model, `bin/test` verification, subtree push. |
 | [monorepo-github-pages](monorepo-github-pages/index.md) | Publishing the docs site via git subtree to a read-only sibling export repo. |
 | [testing](testing/index.md) | Per-framework test suites, Storybook coverage, Playwright e2e, axe, responsive sweep. |
-| [frameworks](frameworks/index.md) | The seven framework pairs (plus the unpaired, partial Web Components catalog), per-framework file shapes and idioms, the copy-pattern. |
+| [frameworks](frameworks/index.md) | The seven framework pairs (plus the unpaired, Web Components catalog), per-framework file shapes and idioms, the copy-pattern. |
 | [helpers](helpers/index.md) | The `*-helpers` catalogs: the 6 pickers, their contracts, manifests, and publish pipeline. |
 | [theme-picker](theme-picker/index.md) | The theme-picker button / listbox / option HTML contract, one page, bare glyph ◑. |
 | [locale-picker](locale-picker/index.md) | The locale-picker button / listbox / option HTML contract, bare glyph 🌐︎. |
@@ -126,8 +126,8 @@ committing.
 The repository root holds the canonical catalog and tools
 (`components.tsv`, `css-style-sheet-template.css`, `bin/`, `spec/`,
 `AGENTS/*.md`, `themes/`); 22 implementation subprojects hang off it —
-7 full-catalog headless libraries, 1 partial headless library (Web
-Components, 125/491), 7 example apps, and 7 helper catalogs, one per
+7 full-catalog headless libraries, 1 headless library (Web
+Components, 456/491), 7 example apps, and 7 helper catalogs, one per
 framework (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks). Each
 subproject is also a `git subtree` pushed to its own standalone remote
 via `bin/git-subtree-push`. Full directory tree, the per-framework
@@ -548,7 +548,7 @@ shapes and the exact viewport sizes: [spec/testing/index.md](testing/index.md).
 ### 11.7 Storybook coverage
 
 491 / 491 stories in svelte, react, vue, html, nunjucks, angular (6
-of 7 full-catalog headless libraries, and the partial Web Components
+of 7 full-catalog headless libraries, and the Web Components
 catalog ships 33/33); Blazor deliberately has none — there is no
 idiomatic `@storybook/blazor`, and bUnit + `dotnet watch` covers the
 same exploration use case. Angular uses the webpack-based
@@ -727,7 +727,7 @@ Long-term: versioned releases per subproject npm/NuGet package
   against the live npm registry: both scripts now run to completion
   (exit 0) with a mix of already-published and never-published
   packages in the loop. Full record: CHANGELOG.md.
-- **P7-T6 Web Components headless subproject, partial (2026-09-03)** —
+- **P7-T6 Web Components headless subproject, (2026-09-03)** —
   an 8th headless catalog, `lily-design-system-web-components-headless`,
   ships 30 of the 491 canonical components as native custom elements
   with no framework runtime — a representative slice by explicit

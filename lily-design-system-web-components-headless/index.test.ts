@@ -25,14 +25,15 @@ describe("dist/index.js (built package entry point)", () => {
         for (const slug of SLUGS) {
             expect(customElements.get(`lily-${slug}`), `lily-${slug} should be defined`).toBeTruthy();
         }
-        // 30 from the P7-T6 slice + the 3-component breadcrumb family
-        // added by the P8-T7 "upgrade in place" pilot + the 92 national
-        // personal identifier components (46 slugs x -input/-view) + 136
-        // more added in the 2026-09-06 completion push's first two waves
-        // (lists, forms, pickers, links, overlays/tables/media/data-viz/
-        // buttons, and 13 more passive *ListItem families via "upgrade in
-        // place").
-        expect(SLUGS.length).toBe(261);
+        // The full achievable catalog as of 2026-09-06: 491 canonical
+        // components minus the 35 permanently excluded by the wrapper-host
+        // limitation (30 table sub-elements + 5 interactive *ListItem
+        // families, spec/index.md SS2/SS2.1) = 456. Built up across the
+        // original P7-T6/P8-T7 slice (33), all 92 national personal
+        // identifier components, and three more waves covering every
+        // remaining category (lists, forms, pickers, links, overlays,
+        // tables, media, data-viz, buttons, navigation, content).
+        expect(SLUGS.length).toBe(456);
     });
 
     test("a component rendered via the built bundle behaves like the source version", async () => {

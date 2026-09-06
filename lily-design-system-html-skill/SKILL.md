@@ -95,13 +95,13 @@ this is where its contract lives.
 Lily also ships two catalogs under `<lily-*>` tags —
 [`lily-design-system-web-components-headless`](../lily-design-system-web-components-headless/)
 (native custom elements, no framework runtime, but a deliberately **partial**
-125/491 catalog) and
+456/491 catalog) and
 [`lily-design-system-web-components-helpers`](../lily-design-system-web-components-helpers/)
 (an independent copy of these HTML helpers under `<lily-*-picker>` tags).
 Both helpers catalogs ship custom elements, but the two *headless* catalogs
 differ in kind, not just tag prefix: HTML headless is full-catalog (491/491)
 semantic markup with an optional script, while Web Components headless is a
-partial slice of the catalog built as autonomous custom elements. For that
+slice of the catalog built as autonomous custom elements. For that
 pair's own conventions and scope, use
 [`lily-design-system-web-components-skill`](../lily-design-system-web-components-skill/)
 (and its own `-headless-skill` / `-helpers-skill` siblings) rather than this

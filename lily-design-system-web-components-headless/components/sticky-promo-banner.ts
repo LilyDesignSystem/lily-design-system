@@ -10,8 +10,12 @@
 //   open — "true" | "false", default true (absent = true). When "false",
 //     the rendered aside carries the `hidden` attribute.
 //   position — "top" | "bottom", default "bottom". Exposed as
-//     data-position, and drives the one documented inline style exception
-//     for this component (fixed positioning).
+//     data-position; the consumer's own CSS supplies the actual
+//     `position: fixed; top: 0;`/`bottom: 0;` declaration keyed off that
+//     attribute — no inline style is set here (this catalog sanctions only
+//     two named inline-style exceptions, FloatButton and ThemeProvider,
+//     plus CSS custom properties; direct fixed-positioning styles are
+//     neither).
 //   dismissible — presence-based boolean; renders a dismiss button.
 //   dismiss-label — accessible name for the dismiss button, via aria-label.
 //
@@ -76,11 +80,6 @@ export class StickyPromoBanner extends HTMLElement {
 
         const position = this.getAttribute("position") === "top" ? "top" : "bottom";
         aside.setAttribute("data-position", position);
-        aside.style.position = "fixed";
-        aside.style.left = "0";
-        aside.style.right = "0";
-        aside.style.top = position === "top" ? "0" : "";
-        aside.style.bottom = position === "bottom" ? "0" : "";
 
         aside.hidden = this.getAttribute("open") === "false";
     }

@@ -30,21 +30,20 @@ describe("StickyPromoBanner", () => {
         expect(host.querySelector("aside")!.getAttribute("aria-label")).toBe("Promotion");
     });
 
-    test("defaults data-position to bottom with a fixed inline style", () => {
+    test("defaults data-position to bottom, with no inline style set (the consumer's CSS positions it)", () => {
         const host = render('<lily-sticky-promo-banner label="Promotion">Save 20%.</lily-sticky-promo-banner>');
 
         const aside = host.querySelector("aside") as HTMLElement;
         expect(aside.getAttribute("data-position")).toBe("bottom");
-        expect(aside.style.position).toBe("fixed");
-        expect(aside.style.bottom).toBe("0px");
+        expect(aside.style.position).toBe("");
     });
 
-    test("position=top sets data-position and the top inline style", () => {
+    test("position=top sets data-position, still no inline style", () => {
         const host = render('<lily-sticky-promo-banner label="Promotion" position="top">Save 20%.</lily-sticky-promo-banner>');
 
         const aside = host.querySelector("aside") as HTMLElement;
         expect(aside.getAttribute("data-position")).toBe("top");
-        expect(aside.style.top).toBe("0px");
+        expect(aside.style.top).toBe("");
     });
 
     test("open=false hides the aside", () => {

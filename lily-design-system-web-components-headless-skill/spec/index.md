@@ -14,7 +14,7 @@ A Claude Skill that explains how to consume
 an 8th headless catalog, added 2026-09-03, alongside the seven canonical,
 full-catalog (491/491) headless libraries (HTML, Svelte, React, Vue,
 Angular, Blazor, Nunjucks). **This catalog, and therefore this skill, is
-partial, growing: 125 of the 491 canonical components as of 2026-09-06, spanning every
+its full achievable scope: 456 of the 491 canonical components as of 2026-09-06, spanning every
 major category, proving that native custom elements can deliver a real
 Lily component (headless, semantic, ARIA-correct, keyboard-operable) with
 no framework runtime — not a claim of parity with the seven full-catalog
@@ -34,7 +34,7 @@ library.
 
 ### In scope
 
-- `SKILL.md` — the skill: the catalog's partial scope and exact component
+- `SKILL.md` — the skill: the catalog's scope and exact component
   list (33 of 491, spanning buttons/links, forms, overlays, media/data,
   content, and the breadcrumb navigation family), the two architecture
   decisions made before any component was written (autonomous custom
@@ -100,9 +100,9 @@ reproduced here verbatim rather than reworded:
 
 - [x] `SKILL.md` exists with a `name` + `description` frontmatter pair that
       names concrete trigger phrases, per Claude Skill authoring practice.
-- [x] `SKILL.md` states the 125/491 partial scope plainly and lists which 33
-      components (by category) this catalog actually ships, without
-      implying broader coverage.
+- [x] `SKILL.md` states the 456/491 scope plainly and lists which 35
+      components this catalog permanently excludes and why, without
+      implying it will ever reach 491/491.
 - [x] `SKILL.md` cites both architecture decisions (autonomous custom
       elements over customized built-ins; light-DOM-only) accurately,
       including the WebKit rationale.

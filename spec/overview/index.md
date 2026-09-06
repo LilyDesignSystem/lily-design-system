@@ -35,7 +35,7 @@ The headless layer is the contract; the example layer is the proof. Adopters can
 **In scope**
 
 - A canonical catalog of **491 components** (`components.tsv`).
-- **Seven full-catalog headless component libraries**: HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks — plus a partial eighth (Web Components, 33 of 491) that is deliberately not at parity.
+- **Seven full-catalog headless component libraries**: HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks — plus a eighth (Web Components, 33 of 491) that is deliberately not at parity.
 - **Seven example applications**: HTML+CSS+JS, SvelteKit, Next.js, Nuxt.js, Angular Analog, Blazor Web, Nunjucks Eleventy.
 - A CSS style-sheet template (`css-style-sheet-template.css`) declaring every component class hook.
 - Per-component documentation under `components/{slug}/`.
@@ -77,7 +77,7 @@ The headless layer is the contract; the example layer is the proof. Adopters can
 ## Acceptance criteria
 
 - [x] Canonical component list defines exactly 491 components in `components.tsv`.
-- [x] All 7 full-catalog headless subprojects exist and implement the full catalog; the partial Web Components catalog states its own 125/491 scope rather than claiming parity.
+- [x] All 7 full-catalog headless subprojects exist and implement the full catalog; the Web Components catalog states its own 456/491 scope rather than claiming parity.
 - [x] All 7 example subprojects exist and implement the full catalog.
 - [x] The headless layer bundles no stylesheets, fonts, images, or icons.
 - [ ] No component embeds a hardcoded user-facing string.
