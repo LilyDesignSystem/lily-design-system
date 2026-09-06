@@ -21,10 +21,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # pnpm 11, matching the rest of the monorepo (plan P7-T12). Pinned
+      # here explicitly because this repo's pnpm-workspace.yaml carries an
+      # `overrides` block -- a pnpm 10+ feature -- that pnpm 9 silently
+      # ignores; under a frozen-lockfile install, pnpm 9 then reports the
+      # lockfile's recorded override as a "config mismatch" against the
+      # (from its perspective) unconfigured current state. Confirmed
+      # 2026-09-06: regenerating the lockfile under pnpm 9 instead would
+      # have reverted the cookie override to the vulnerable 0.6.0
+      # (GHSA-pxg6-pf52-xh8x) -- a real security regression, not a fix.
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
         with:
-          version: 9
+          version: 11
 
       - name: Install Node.js
         uses: actions/setup-node@v4
