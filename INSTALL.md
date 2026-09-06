@@ -183,8 +183,8 @@ unlike the headless layer it will write to the DOM (a `data-theme` attribute, a
 `lang`, a managed `<link>`) and optionally to `localStorage`. All are SSR-safe and
 still ship no CSS.
 
-The five helpers are `theme-picker`, `locale-picker`, `text-size-picker`,
-`share-picker`, and `date-time-picker`. The package name is
+The six helpers are `theme-picker`, `locale-picker`, `text-size-picker`,
+`motion-picker`, `share-picker`, and `date-time-picker`. The package name is
 `lily-design-system-{framework}-{helper}`.
 
 ```sh

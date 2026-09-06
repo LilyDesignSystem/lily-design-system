@@ -103,16 +103,16 @@ a `<select>` in practice, or a strong argument that a header control does not ne
 to be a single glyph. History: radio group → native `<select>` → icon button +
 listbox, so this has moved before and can move again.
 
-### RFC 4 — Are these the right five helpers?
+### RFC 4 — Are these the right six helpers?
 
 **Current answer:** `theme-picker`, `locale-picker`, `text-size-picker`,
-`share-picker`, `date-time-picker`.
+`motion-picker`, `share-picker`, `date-time-picker`.
 
-**The doubt:** three own a preference, one owns an action, one owns a form value.
+**The doubt:** four own a preference, one owns an action, one owns a form value.
 That is not a coherent category — [AGENTS/helpers.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/helpers.md) has been
-widened twice to keep the definition true, which is usually a sign the definition is
-wrong. And the set may simply be the wrong five: no combobox, no file upload, no
-table sort.
+widened three times now to keep the definition true, which is usually a sign the
+definition is wrong. And the set may simply be the wrong six: no combobox, no file
+upload, no table sort.
 
 **Changes my mind:** a helper you needed and had to build yourself, or a principled
 line between "helper" and "component" that the current set violates.

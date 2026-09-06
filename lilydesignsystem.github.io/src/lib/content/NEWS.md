@@ -12,22 +12,40 @@ the summary a reader, a reporter, or an evaluator wants first.
 
 ## Status at a glance
 
-_Updated 2026-08-26._
+_Updated 2026-09-06._
 
 | | |
 | --- | --- |
 | Version | 0.6.0 (pre-1.0; minor versions may break) |
 | Started | 2025-08-09 |
 | Catalog | 491 components |
-| Frameworks | 7 — HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks |
-| Layers | 7 headless libraries, 7 example applications, 7 helper catalogs (35 packages) |
+| Frameworks | 7 full-catalog — HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks — plus an 8th, Web Components, at its full achievable scope (456/491; the remaining 35 are permanently excluded, not backlog) |
+| Layers | 8 headless libraries, 7 example applications, 8 helper catalogs (48 packages) |
 | Themes | 45 reference stylesheets |
-| Published | 6 of 7 headless libraries and all 30 JS helper packages on npm; the 6 Blazor NuGet packages are packed, push pending credentials |
+| Published | 6 of 7 full-catalog headless libraries and the JS helper packages on npm (see [CHANGELOG.md](CHANGELOG.md) for exact per-package status); the 6 Blazor NuGet packages are packed, push pending credentials; Web Components headless and helpers are built but not yet subtree-pushed or published |
 | License | MIT, Apache-2.0, GPL-2.0-only, GPL-3.0-only, or BSD-3-Clause, at your option |
 | Maintainers | 1 |
 | Funding | [GitHub Sponsors](https://github.com/sponsors/joelparkerhenderson) live; Open Collective planned — see [CONTRIBUTING.md](CONTRIBUTING.md) for what money buys and does not |
 
 ## Recent news
+
+### 2026-09-06 — An 8th headless catalog, Web Components, reaches its full achievable scope
+
+`lily-design-system-web-components-headless` — native custom elements, no
+framework runtime — grew from a 33-component pilot slice to 456 of the
+491 canonical components in one day, spanning every category including
+all 92 national personal identifier components. The remaining 35 (30
+table sub-elements, 5 interactive list-item families) are permanently
+excluded by a real browser limitation, not a to-do: no safe way exists
+to register an autonomous custom element as a required child of
+`<table>`/`<ol>`/`<select>`, and the one workaround (customized built-in
+elements) is permanently unsupported in Safari. The same week: the docs
+site's header gained live theme, text-size, and share pickers (real
+published packages, not a demo); all 92 national-identifier component
+docs got a "where to find it" pointer and, where one exists, the actual
+validation algorithm; and every live link to the docs site was updated
+from `lilydesignsystem.github.io` to its custom domain. Full engineering
+record: [CHANGELOG.md](CHANGELOG.md).
 
 ### 2026-08-23 — Headless packages get a real entry point (0.3.0)
 

@@ -25,9 +25,9 @@ Companion checklist: [tasks.md](tasks.md).
 - Respect the binding rules in `AGENTS/*.md` (headless, accessibility,
   internationalization, theme, helpers, examples). Svelte is the
   canonical reference implementation; port outward from it.
-- The helpers are the five `*-picker` packages (theme, locale,
-  text-size, share, date-time) — the July plan's `*-select` names are
-  obsolete and must not reappear.
+- The helpers are the six `*-picker` packages (theme, locale,
+  text-size, motion, share, date-time) — the July plan's `*-select`
+  names are obsolete and must not reappear.
 - Keep commits small and per-task; note completed task IDs in commit
   messages.
 
