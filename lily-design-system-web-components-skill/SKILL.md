@@ -23,9 +23,10 @@ to the native-custom-element idiom): [`lily-design-system-skill`](../lily-design
   components as native custom elements (`class X extends HTMLElement`,
   `customElements.define("lily-{slug}", X)`), no framework runtime, no
   build step to consume. It spans every major category rather than
-  clustering in one; it is working toward parity with the seven
+  clustering in one; it is **not** a 491/491 peer of the seven
   full-catalog headless libraries (HTML, Svelte, React, Vue, Angular,
-  Blazor, Nunjucks) but has not reached it yet. Deep dive, the exact
+  Blazor, Nunjucks) and never will be — the remaining 35 are permanently
+  excluded by a real architectural limitation, not backlog. Deep dive, the exact
   current component list, and the two architecture decisions (autonomous
   custom elements over customized built-ins; light-DOM-only):
   [`lily-design-system-web-components-headless-skill`](../lily-design-system-web-components-headless-skill/).
@@ -71,7 +72,7 @@ catalog. But the two headless catalogs are not the same thing:
 `lily-design-system-html-headless` is one of the seven full-catalog
 (491/491) headless libraries, targeting plain HTML with no custom-element
 registration; `lily-design-system-web-components-headless` is a separate,
-later, partial-but-growing project built on the native
+later project at its full achievable scope (456/491) built on the native
 `customElements` platform API, with its own light-DOM-only and
 autonomous-custom-element architecture decisions. Don't conflate the two
 when answering a scope question — see

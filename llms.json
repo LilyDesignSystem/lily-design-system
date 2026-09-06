@@ -26,9 +26,9 @@
         { "title": "AGENTS/internationalization.md", "url": "AGENTS/internationalization.md", "description": "No hardcoded user-facing strings; stable text-prop names." },
         { "title": "AGENTS/theme.md", "url": "AGENTS/theme.md", "description": "Token shape, the headless forbidden-literal list, the 45 reference theme stylesheets." },
         { "title": "AGENTS/components.md", "url": "AGENTS/components.md", "description": "Suffix-to-HTML-element mapping, compound name-family patterns, composition templates." },
-        { "title": "AGENTS/helpers.md", "url": "AGENTS/helpers.md", "description": "The theme/locale/text-size/share/date-time picker helper contract." },
+        { "title": "AGENTS/helpers.md", "url": "AGENTS/helpers.md", "description": "The theme/locale/text-size/motion/share/date-time picker helper contract." },
         { "title": "AGENTS/citations.md", "url": "AGENTS/citations.md", "description": "Design systems and headless libraries Lily learns from." },
-        { "title": "AGENTS/lily.md", "url": "AGENTS/lily.md", "description": "The full subproject list (7 headless, 7 example, 7 helper catalogs) and the bin/ tool reference." }
+        { "title": "AGENTS/lily.md", "url": "AGENTS/lily.md", "description": "The full subproject list (8 headless, 7 example, 8 helper catalogs) and the bin/ tool reference." }
       ]
     },
     {
@@ -38,7 +38,7 @@
         { "title": "spec/components/index.md", "url": "spec/components/index.md", "description": "The 491-component catalog in depth; per-component documentation requirements." },
         { "title": "spec/testing/index.md", "url": "spec/testing/index.md", "description": "Per-framework test suites, Storybook coverage, Playwright e2e, axe, responsive sweep." },
         { "title": "spec/national-identifiers/index.md", "url": "spec/national-identifiers/index.md", "description": "The 92 national personal identifier components, normalization, validation algorithms." },
-        { "title": "spec/helpers/index.md", "url": "spec/helpers/index.md", "description": "The five *-picker helper contracts in full." },
+        { "title": "spec/helpers/index.md", "url": "spec/helpers/index.md", "description": "The six *-picker helper contracts in full." },
         { "title": "spec/frameworks/index.md", "url": "spec/frameworks/index.md", "description": "The seven framework pairs, per-framework file shapes, the copy-pattern." },
         { "title": "spec/agent-skills/index.md", "url": "spec/agent-skills/index.md", "description": "The lily-design-system-skill and lily-design-system-maintainer-skill Claude Skills." }
       ]
@@ -52,7 +52,7 @@
         { "title": "lily-design-system-skill", "url": "lily-design-system-skill/SKILL.md", "description": "General-purpose Claude Skill explaining Lily concepts and usage to people building with the system." },
         { "title": "lily-design-system-maintainer-skill", "url": "lily-design-system-maintainer-skill/SKILL.md", "description": "Technical Claude Skill for maintainers working on this monorepo." }
       ],
-      "note": "18 more headless/example/helper subprojects (React, Vue, Angular, Blazor, HTML, Nunjucks) follow the same shape as the Svelte three above; see AGENTS/lily.md for the full list."
+      "note": "20 more headless/example/helper subprojects (React, Vue, Angular, Blazor, HTML, Nunjucks, Web Components) follow the same shape as the Svelte three above; see AGENTS/lily.md for the full list."
     },
     {
       "title": "Optional",

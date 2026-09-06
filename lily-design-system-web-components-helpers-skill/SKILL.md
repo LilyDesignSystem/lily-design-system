@@ -110,7 +110,7 @@ shipped with it.
 ## When this isn't the right skill
 
 - **The headless component catalog these helpers sit alongside** (the
-  partial, 125-of-491-and-growing Web Components headless catalog) — use
+  Web Components headless catalog, 456/491, its full achievable scope) — use
   [`lily-design-system-web-components-headless-skill`](../lily-design-system-web-components-headless-skill/).
 - **The bare-tag HTML helpers catalog this one was copied from**
   (`<theme-picker>` rather than `<lily-theme-picker>`, a separately

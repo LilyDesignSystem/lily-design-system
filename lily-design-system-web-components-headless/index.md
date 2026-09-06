@@ -6,7 +6,7 @@ A headless component library built on **native custom elements** — the browser
 
 ## Features
 
-- 33 headless custom elements (see the full list below), each with a real ARIA/keyboard contract matching its canonical `components/{slug}/AGENTS.md` spec.
+- 456 headless custom elements (see the full list below), each with a real ARIA/keyboard contract matching its canonical `components/{slug}/AGENTS.md` spec.
 - Works in any framework, or none — a native custom element is valid markup anywhere HTML is valid.
 - TypeScript source with full type definitions.
 - WCAG 2.2 AAA target: semantic HTML first, ARIA only where needed.
@@ -48,19 +48,18 @@ pnpm install lily-design-system-web-components-headless
 
 Every component's real semantic element (the `<button>`, `<input>`, `<dialog>`, …) is a genuine light-DOM child, so `querySelector`, event delegation, and form participation all work exactly as they would on hand-written HTML.
 
-## Components in this slice
+## Components in this catalog
 
-**Buttons and links**: Button, ToggleButton, SwitchButton, IconButton, FloatButton, ClipboardCopyButton, BackLink, ActionLink
-
-**Forms**: TextInput, EmailInput, TelInput, CheckboxGroup, Fieldset
-
-**Overlays**: Dialog, AlertDialog, ContextualHelp, Coachmark
-
-**Media and data**: AvatarImage, Figure, FeaturePhoto, Progress, Meter, BarChart
-
-**Content**: Alert, Banner, Card, Badge, Blockquote, InformationCallout, WarningCallout
-
-**Navigation**: BreadcrumbNav, BreadcrumbList, BreadcrumbListItem — the first `*Nav/*List/*ListItem` family, using the "upgrade in place" pattern so the rendered `<ol>` contains only real `<li>` children (see `spec/index.md` §2.1)
+456 of the 491 canonical components, spanning every major category:
+buttons and links, forms, pickers, overlays, media and data
+visualisation, content, navigation (including the `*Nav`/`*List`/
+`*ListItem` families via the "upgrade in place" pattern — see
+`spec/index.md` §2.1), and all 92 national personal identifier
+components. The full list is every `.ts` file directly under
+`components/` (excluding `.test.ts`/`.stories.ts`) — list them with
+`ls components/*.ts | grep -v -e .test.ts -e .stories.ts`, or read
+`components.tsv` at the monorepo root and diff against this catalog's
+own file list to see exactly which 35 are the permanent exclusions.
 
 ## Documentation
 

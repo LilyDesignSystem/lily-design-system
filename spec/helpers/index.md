@@ -6,7 +6,7 @@
 
 ## Scope
 
-This topic covers the seven `*-helpers` catalogs (angular, blazor, html, nunjucks, react, svelte, vue), the six helpers each one now contains (theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker), their behaviour contracts, how helpers differ from the headless layer, the canonical-reference role of the svelte-helpers catalog, the per-package manifest convention (npm `package.json` vs. NuGet `.csproj` for Blazor), the dist/publish pipeline (`build.js`, `bin/publish-helpers`), and the per-helper subtree/remote layout.
+This topic covers the eight `*-helpers` catalogs (angular, blazor, html, nunjucks, react, svelte, vue, web-components), the six helpers each one now contains (theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker), their behaviour contracts, how helpers differ from the headless layer, the canonical-reference role of the svelte-helpers catalog, the per-package manifest convention (npm `package.json` vs. NuGet `.csproj` for Blazor), the dist/publish pipeline (`build.js`, `bin/publish-helpers`), and the per-helper subtree/remote layout.
 
 It does **not** cover: the headless 491-component catalog and its rules (see [headless](../headless/index.md) and [components](../components/index.md)), the seven framework pairs and their stacks (see [frameworks](../frameworks/index.md)), theme-CSS tokens and `data-theme` semantics (see [theme](../theme/index.md)), or the `lang`/`dir` internationalisation contract (see [internationalization](../internationalization/index.md)).
 
@@ -22,9 +22,9 @@ It does **not** cover: the headless 491-component catalog and its rules (see [he
 - **SSR-safe.** No DOM writes outside the framework's mount/effect lifecycle (`$effect` / `onMount` / equivalent).
 - **i18n-clean.** Every user-facing string comes from a prop.
 - **Spec-driven.** Every helper has a numbered `spec/index.md`; tests assert against those § numbers; docs link back.
-- **Svelte is canonical.** The `lily-design-system-svelte-helpers` catalog is the canonical reference; the other six are framework-idiom ports.
+- **Svelte is canonical.** The `lily-design-system-svelte-helpers` catalog is the canonical reference; the other seven are framework-idiom ports.
 
-## The seven helper catalogs
+## The eight helper catalogs
 
 | Catalog                                                   | Manifest per package                  | Helpers                                                                                     |
 | --------------------------------------------------------- | ------------------------------------- | ---------------------------------------------------------------------------------------------- |
@@ -95,7 +95,7 @@ A drop-in headless locale selector that applies a BCP 47 locale to the document.
 ## share-picker contract
 
 An action helper rather than a preference helper: it applies nothing to
-the document and persists nothing. Ships in all seven catalogs.
+the document and persists nothing. Ships in all eight catalogs.
 
 | Aspect               | Contract                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -145,21 +145,22 @@ A drop-in headless motion (reduced-motion) selector, added 2026-09-03.
 
 A form-value helper, not a page-header control: it owns a **date**, a
 **time**, or **both**, rather than a document-wide preference. Ships in
-all seven catalogs, added 2026-07-28. Full contract:
+all eight catalogs, added 2026-07-28. Full contract:
 [the Svelte package's spec/index.md](../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/spec/index.md)
 (canonical; every port's own `spec/index.md` mirrors its § numbering).
 
 | Aspect         | Contract                                                                                                                                                                                                                                                                                                       |
 | -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Markup         | `<div class="date-time-picker {class}">` containing a hidden input (carries `name`), a text field (`.date-time-picker-input`) plus a trigger button (`.date-time-picker-button`, glyph 📅 U+1F4C5 + U+FE0E) opening `.date-time-picker-dialog` (`role="dialog"`, `aria-modal="true"`) — a WAI-ARIA APG Date Picker Dialog with a fixed 6×7 month grid (`role="grid"`), optional time selects, optional shortcut buttons, and a Confirm/Cancel/Clear footer. |
-| Required props | `label`, `labels` (an object: `previousYear`/`previousMonth`/`nextMonth`/`nextYear`/`confirm`/`cancel` always required; `hour`/`minute`/`meridiem`/`week` required when the relevant UI is active; `clear` optional and gates the clear button's existence — no English defaults for any of these).            |
+| Markup         | `<div class="date-time-picker {class}">` containing a hidden input (carries `name`), a text field (`.date-time-picker-input`) plus a trigger button (`.date-time-picker-button`, glyph 📅 U+1F4C5 + U+FE0E) opening `.date-time-picker-dialog` (`role="dialog"`, `aria-modal="true"`) — a WAI-ARIA APG Date Picker Dialog with a fixed 6×7 month grid (`role="grid"`), optional time selects, an optional time-zone `<select>`, optional shortcut buttons, and a Confirm/Cancel/Clear footer. |
+| Required props | `label`, `labels` (an object: `previousYear`/`previousMonth`/`nextMonth`/`nextYear`/`previousWeek`/`previousDay`/`nextDay`/`nextWeek`/`confirm`/`cancel` always required — the week/day step buttons landed 2026-09-04, P8-T12, as a breaking change; `hour`/`minute`/`meridiem`/`week` required when the relevant UI is active; `clear` and `timeZone` optional, each gating its own control's existence — no English defaults for any of these). |
 | Value          | ISO 8601, mode-shaped: `YYYY-MM-DD` / `HH:MM` / `YYYY-MM-DDTHH:MM`. Selection inside the dialog is pending state, separate from the committed value, so Cancel/Escape have something to revert to.                                                                                                            |
+| Time zone      | Opt-in (`labels.timeZone` gates it): a bindable `timeZone` prop (IANA id or `""`), `timeZones` (default `Intl.supportedValuesOf("timeZone")`), `timeZoneLabels` (display text per id), and `onTimeZoneChange` — fires once per applied change, independent of the date/time `value`/`onChange`. Rides `{name}-time-zone` + `data-time-zone` for form participation. Landed 2026-09-04, P8-T12.                |
 | Locale         | Month/weekday names, first day of week, numeric field order, and 12- vs 24-hour clock all come from the platform's locale API (`Intl` in JS; `CultureInfo`/`DateTimeFormatInfo`/`ISOWeek` in .NET) — never a baked-in table.                                                                                  |
 | Arithmetic     | Civil dates via epoch-day arithmetic (`DateOnly`/`TimeOnly` in .NET) — never local-midnight `Date`/`DateTime` construction, which can resolve to the wrong day across a DST transition.                                                                                                                        |
 | Constraints    | `min`, `max` (inclusive), and an `isDateDisabled` predicate; a day outside them renders `aria-disabled` (still focusable, announced as unavailable, refusing activation — never the `disabled` attribute). The keyboard cursor may cross a disabled day but not leave the `min`/`max` window.                                                                                                                           |
 | Typed input    | Accepts ISO, locale-ordered numerics, and written month names (case/diacritic-insensitive, 3-character prefix match); unparseable or out-of-range text is marked `aria-invalid` and never silently repaired.                                                                                                  |
 | Persistence    | None — unlike the four preference helpers, nothing is written to storage; a date is data, not a preference.                                                                                                                                                                                                    |
-| Keyboard       | Grid: Arrow keys move by day/week, Home/End (respecting `firstDayOfWeek`), PageUp/PageDown page the month, Shift+PageUp/PageDown page the year, Enter/Space select. Dialog: a real focus trap (`aria-modal` is not self-enforcing), Escape discards, roving tabindex (exactly one day tabbable).              |
+| Keyboard       | Grid: Arrow keys move by day/week, Home/End (respecting `firstDayOfWeek`), PageUp/PageDown page the month, Shift+PageUp/PageDown page the year, Enter/Space select. Header: dedicated previous/next week and day step buttons alongside the month/year pagers. Dialog: a real focus trap (`aria-modal` is not self-enforcing), Escape discards, roving tabindex (exactly one day tabbable). |
 | Relationship   | Implements the Digital Health and Care Wales `nhsw-date-picker` feature set with defects fixed rather than tastes changed (no hardcoded English, locale-driven first day of week, a real focus trap, civil-date arithmetic, `min`/`max`/`isDateDisabled`, fixed-height grid, no `innerHTML` string-building, SSR-safe ids, typed-input round-tripping) — see the canonical spec §8–§9 for the full comparison. |
 
 ## Differences from the headless library
@@ -173,25 +174,25 @@ all seven catalogs, added 2026-07-28. Full contract:
 
 ## Acceptance criteria
 
-- [x] Each of the seven framework catalogs ships `theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`, `share-picker`, and `date-time-picker` helpers.
-- [x] `motion-picker` renders the same icon-button + APG-listbox shape as its three preference siblings in all seven catalogs, defers its initial value to `(prefers-reduced-motion: reduce)` unconditionally (documented Nunjucks deviation: server marks `motions[0]`, client corrects on init), and applies idempotently — verified against a numbered spec with one test per acceptance clause per catalog.
-- [x] `date-time-picker` renders a text field + trigger opening a WAI-ARIA APG Date Picker Dialog in all seven catalogs, with civil-date arithmetic, locale-driven formatting, `min`/`max`/`isDateDisabled` constraints, and a real focus trap, verified against a numbered spec with one test per acceptance clause per catalog.
+- [x] Each of the eight framework catalogs ships `theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`, `share-picker`, and `date-time-picker` helpers.
+- [x] `motion-picker` renders the same icon-button + APG-listbox shape as its three preference siblings in all eight catalogs, defers its initial value to `(prefers-reduced-motion: reduce)` unconditionally (documented Nunjucks deviation: server marks `motions[0]`, client corrects on init), and applies idempotently — verified against a numbered spec with one test per acceptance clause per catalog.
+- [x] `date-time-picker` renders a text field + trigger opening a WAI-ARIA APG Date Picker Dialog in all eight catalogs, with civil-date arithmetic, locale-driven formatting, `min`/`max`/`isDateDisabled` constraints, and a real focus trap, verified against a numbered spec with one test per acceptance clause per catalog.
 - [x] Every helper has a numbered `spec/index.md` and a test file asserting each acceptance clause.
 - [x] JS-framework helpers ship an npm `package.json`; Blazor helpers ship a NuGet `.csproj` (Razor class library).
 - [x] Every helper renders an icon button plus a `role="listbox"` popup with per-choice `role="option"` items.
 - [x] theme-picker swaps a managed `<link>` href, sets `data-theme` on the document root, and persists optionally to `localStorage`, SSR-safe.
 - [x] locale-picker sets `lang` + `dir`, auto-detects RTL scripts, emits BCP 47 hyphenated tags, and performs no translation.
 - [x] text-size-picker sets `data-text-size` on the target and persists optionally, and renders the same icon-button + listbox shape as the other two.
-- [x] All four preference helpers render an icon button + APG listbox in all seven catalogs — ◑ (U+25D1), 🌐 (U+1F310 + U+FE0E), "A" (U+0041), ⏸ (U+23F8 + U+FE0E), optically matched via `--lily-picker-icon-scale` (motion-picker's factor, 1.72, was measured 2026-09-03 by the same real-browser method as the others and is documented in `AGENTS/helpers.md`, and ➤ was re-baselined to 1 on the same measurement (P8-T10), so all five factors now share one baseline).
+- [x] All four preference helpers render an icon button + APG listbox in all eight catalogs — ◑ (U+25D1), 🌐 (U+1F310 + U+FE0E), "A" (U+0041), ⏸ (U+23F8 + U+FE0E), optically matched via `--lily-picker-icon-scale` (motion-picker's factor, 1.72, was measured 2026-09-03 by the same real-browser method as the others and is documented in `AGENTS/helpers.md`, and ➤ was re-baselined to 1 on the same measurement (P8-T10), so all five factors now share one baseline).
 - [x] All four icon-button helpers implement the full APG listbox keyboard contract (open keys, clamped arrows, Home/End, typeahead, Enter/Space select with focus return, Escape without change, Tab passthrough), verified in a real browser as well as in unit tests.
 - [x] The glyph is `aria-hidden` and the accessible name comes from `aria-label`; the `children` slot overrides the glyph, not the options.
 - [x] The helpers are symmetric: matching exported label resolvers (`themeName` / `localeName` / `sizeName` / `motionName`), matching monochrome glyph presentation, and matching doc + example file shape. theme-picker and locale-picker additionally match on first-visit detection (`detectFromSystem` / `detectFromNavigator`) at the same position in the resolution order; text-size-picker has no equivalent to detect; motion-picker's OS check (`prefers-reduced-motion`) runs unconditionally rather than behind an opt-in flag.
 - [x] The 45 root `themes/` stylesheets style the button and popup. The `:has(> .{helper}-button)` guard they used to need is gone: it existed only to separate the helpers from the catalog `theme-select` component, which shared the `.theme-select` hook, and the July 2026 rename to `*-picker` removed the collision outright.
-- [x] A pointer selection closes the listbox in all seven catalogs — asserted (`aria-expanded="false"` plus the list's `hidden`) rather than merely true, and confirmed to fail if the close is removed.
+- [x] A pointer selection closes the listbox in all eight catalogs — asserted (`aria-expanded="false"` plus the list's `hidden`) rather than merely true, and confirmed to fail if the close is removed.
 - [x] The four preference helpers apply idempotently: a value already applied is a no-op and the change callback fires once per applied change, verified per catalog by a regression test that fails without the guard.
 - [x] Helpers ship no bundled CSS, fonts, icons, or images and take no hardcoded user-facing strings — nor, in `share-picker`'s case, any third-party endpoint.
 - [x] `share-picker` renders a disclosure of real links plus a clipboard action, announces the copy outcome politely, and prefers the native share sheet where the platform has one.
-- [x] The svelte-helpers catalog is the canonical reference; the other six are idiom-faithful ports.
+- [x] The svelte-helpers catalog is the canonical reference; the other seven are idiom-faithful ports.
 - [x] Each `*-helpers` catalog and each helper is a git subtree with a standalone remote.
 - [x] Each helper builds a `dist/` via the catalog `build.js` and publishes via `bin/publish-helpers`.
 

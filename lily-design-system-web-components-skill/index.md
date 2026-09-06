@@ -20,8 +20,9 @@ not.
 
 Load this skill when someone asks what's available as native Web
 Components in Lily Design System, which Web Components subproject they
-need (the partial headless catalog or the `*-picker` helpers), how the two
-relate to each other or to the HTML catalogs they're modeled on, or asks
+need (the full-achievable-scope headless catalog or the `*-picker`
+helpers), how the two relate to each other or to the HTML catalogs
+they're modeled on, or asks
 whether there's a Web Components example app. It doesn't restate the
 `AGENTS/*.md` rules, the `spec/` topic docs, or either sibling skill's own
 content in full — it points at them, so the underlying source stays the

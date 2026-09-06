@@ -3,12 +3,13 @@
 A Claude Skill ([`SKILL.md`](SKILL.md)) that explains how to consume
 [`lily-design-system-web-components-headless`](../lily-design-system-web-components-headless/):
 Lily's native custom-element implementation of Lily's canonical
-component catalog at its **full achievable scope** — 456 of the 491
-components as of 2026-09-06,
-proving the pattern (autonomous custom elements, light DOM only, no
-framework runtime) rather than completing it. **It is not a 491/491 peer of
-the other seven headless catalogs** (HTML, Svelte, React, Vue, Angular,
-Blazor, Nunjucks); it is an 8th, catalog added 2026-09-03.
+component catalog at its **full achievable scope** as of 2026-09-06 —
+456 of the 491 components, proving the pattern (autonomous custom
+elements, light DOM only, no framework runtime) at real scale. **It is
+not a 491/491 peer of the other seven headless catalogs** (HTML, Svelte,
+React, Vue, Angular, Blazor, Nunjucks) and never will be — the remaining
+35 are permanently excluded by a real architectural limitation, not
+backlog; it is an 8th catalog, added 2026-09-03.
 
 It is the framework-specific counterpart, for this catalog, to the general
 [`lily-design-system-skill`](../lily-design-system-skill/) — the same
@@ -23,10 +24,10 @@ general-purpose package living outside it.
 
 Load this skill when someone asks how to use Lily's native Web Components
 headless catalog, wants the custom-element usage idiom, needs to know
-exactly which 35 components this catalog permanently excludes
-actually covers, asks why it isn't full parity with the other seven
-catalogs, or asks about the autonomous-custom-elements-vs-customized-
-built-ins or light-DOM-only architecture decisions. It doesn't restate the
+exactly which 35 components this catalog permanently excludes (and why),
+asks why it isn't full parity with the other seven catalogs, or asks
+about the autonomous-custom-elements-vs-customized-built-ins or
+light-DOM-only architecture decisions. It doesn't restate the
 root `AGENTS/*.md` rules or the Web Components headless subproject's own
 `spec/index.md` in full — it points at them, so the underlying source stays
 the single source of truth.
@@ -34,10 +35,10 @@ the single source of truth.
 ## Structure
 
 - [`SKILL.md`](SKILL.md) — the skill itself: the catalog's scope
-  (which 33 components, spanning which categories), the two architecture
+  (which 456 components, spanning which categories), the two architecture
   decisions (autonomous custom elements over customized built-ins,
   light-DOM-only), the two structural patterns components use, what's
-  deliberately excluded and why, the consumption idiom, and pointers into
+  permanently excluded and why, the consumption idiom, and pointers into
   the catalog-wide naming reference.
 
 Scaffolded to the same full-subproject bar as its siblings — including the

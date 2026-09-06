@@ -44,7 +44,7 @@ app, no helper packages of its own.
 ### Explicitly out of scope
 
 - Restating `lily-design-system-web-components-headless-skill`'s own
-  content in full — the exact 33-component list, the two architecture
+  content in full — the exact 456-component list, the two architecture
   decisions (autonomous custom elements over customized built-ins,
   light-DOM-only), the two structural patterns, and what's deliberately
   excluded all live there.
@@ -101,8 +101,7 @@ to run beyond `bin/test`'s required-files checks.
 
 - [../../lily-design-system-web-components-headless-skill/spec/index.md](../../lily-design-system-web-components-headless-skill/spec/index.md) —
   the deep contract for the Web Components headless catalog (456/491,
-  its full achievable scope)
-  catalog this skill points at rather than restates.
+  its full achievable scope) this skill points at rather than restates.
 - [../../lily-design-system-web-components-helpers-skill/spec/index.md](../../lily-design-system-web-components-helpers-skill/spec/index.md) —
   the deep contract for the six-helper `<lily-*-picker>` catalog this
   skill points at rather than restates.

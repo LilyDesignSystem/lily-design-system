@@ -34,7 +34,7 @@
     directory ships 45 standalone stylesheets. Copy them into your app's
     static assets and link one:
   </p>
-  <pre><code>{`<link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" />`}</code></pre>
+  <pre><code>{`<link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" />`}</code></pre>
   <p>Highlights of the set:</p>
   <ul>
     <li>
@@ -87,7 +87,7 @@
 
 <ThemePicker
   label="Theme"
-  themesUrl="/themes/"
+  themesUrl="/assets/themes/"
   themes={["light", "dark", "nord", "wireframe"]}
   storageKey="my-app-theme"
 />`}</code></pre>

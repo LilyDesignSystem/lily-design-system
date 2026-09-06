@@ -33,7 +33,10 @@ framework stacks through tutorials.
   static demo snippet, and a short Svelte usage example.
 - Marketing and orientation pages: `/` (home), `/why/`, `/about/`,
   `/comparisons/` (a table against other design systems), `/help/`
-  (setup guide, theme reference, preference-helpers reference, FAQ).
+  (setup guide, theme reference, preference-helpers reference, FAQ),
+  `/accessibility/` (accessibility statement), `/news/` (announcements,
+  rendered from the main repo's `NEWS.md`), `/roadmap/` (rendered from
+  `plan.md`).
 - `/examples/` — a directory of the seven worked example apps (HTML+CSS+JS,
   Svelte+SvelteKit, React+Next.js, Vue+Nuxt.js, Angular+Analog, Blazor Web,
   Nunjucks+Eleventy), each linking out to its own GitHub repo.
@@ -41,8 +44,17 @@ framework stacks through tutorials.
   (`angular`, `blazor`, `html`, `nunjucks`, `react`, `svelte`, `vue`) and
   two cross-cutting tutorials: `theming` (linking a ready-made theme,
   overriding it, and runtime switching with theme-picker) and `helpers`
-  (the preference/action/form-value helpers: theme-picker, locale-picker,
-  text-size-picker, share-picker, date-time-picker).
+  (five of the six preference/action/form-value helpers: theme-picker,
+  locale-picker, text-size-picker, share-picker, date-time-picker —
+  `motion-picker` is not yet covered here; see §7).
+- The home page's framework icon row includes an 8th icon, Web
+  Components, which links directly to its GitHub repo rather than a
+  `/tutorials/` page — there is no Web Components tutorial or example
+  app yet, unlike the other seven frameworks.
+- The global header, rendered once from `+layout.svelte` on every page
+  via `src/lib/components/SitePreferences.svelte`: live `theme-picker`,
+  `text-size-picker`, and `share-picker` widgets, using the real
+  published npm packages (not copied source).
 - Agent-facing project docs specific to this site (this file, `AGENTS.md`,
   `CLAUDE.md`, `index.md`), Playwright end-to-end tests, and the site's own
   `package.json` / SvelteKit config.
@@ -68,10 +80,18 @@ framework stacks through tutorials.
 lilydesignsystem.github.io/
 ├── src/
 │   ├── app.html              SvelteKit document shell
-│   ├── lib/components.ts     Component catalog (generated — see §6)
+│   ├── lib/
+│   │   ├── components.ts             Component catalog (generated — see §6)
+│   │   ├── components/SitePreferences.svelte
+│   │   │                            Theme/text-size/share pickers, rendered
+│   │   │                            site-wide from +layout.svelte's header
+│   │   └── content/NEWS.md, plan.md  Local copies rendered by /news, /roadmap
 │   └── routes/
-│       ├── +page.svelte                    Home
+│       ├── +page.svelte                    Home: framework icon row (incl.
+│       │                                   Web Components, external-link-only),
+│       │                                   its own component search box
 │       ├── about/, why/, help/, comparisons/, examples/
+│       ├── accessibility/, news/, roadmap/
 │       ├── lily-claude-code/, lily-claude-design/, lily-figma/
 │       ├── components/
 │       │   ├── +page.svelte                Catalog index (search + filter)
@@ -80,11 +100,13 @@ lilydesignsystem.github.io/
 │           ├── +page.svelte                Tutorials index
 │           ├── angular/, blazor/, html/, nunjucks/, react/, svelte/, vue/
 │           ├── theming/                    Cross-cutting: theme-picker
-│           └── helpers/                    Cross-cutting: the five helpers
+│           └── helpers/                    Cross-cutting: all six helpers
 ├── static/
 │   ├── CNAME                 Custom domain (lilydesignsystem.com)
 │   ├── .nojekyll             Disables Jekyll on GitHub Pages
-│   └── assets/                style.css, favicon.svg, images/
+│   └── assets/                style.css, favicon.svg, images/, themes/
+│                              (45 theme CSS files, manually copied — see
+│                              static/assets/themes/README.md)
 ├── tests/components/         Playwright specs, one file per component
 ├── .github/workflows/deploy.yml  CI: build + deploy on push to main
 ├── svelte.config.js          adapter-static config (strict prerender)
@@ -173,12 +195,21 @@ The repo root's `bin/test` enforces this: `registry_count_or_err` asserts
 
 ## 7. Known gaps (flagged, not built)
 
-- **No page coverage for the `*-helpers` catalogs beyond prose.** Unlike
-  the 491-component headless catalog, theme-picker, locale-picker,
-  text-size-picker, share-picker, and date-time-picker have no dedicated
-  demo/reference routes analogous to `/components/<slug>/` — only prose
-  mentions on `/help/`, `/tutorials/theming/`, and `/tutorials/helpers/`.
-  Building a `/helpers/` section with live demo pages (mirroring the
+- **`motion-picker` isn't covered anywhere on this site.** Added to the
+  main repo 2026-09-03, it's absent from `/tutorials/helpers/` (which
+  still only teaches locale-picker, text-size-picker, share-picker, and
+  date-time-picker), `/help/`, and the header. Adding it is a content
+  gap, not a build-pipeline one.
+- **No page coverage for most of the `*-helpers` catalog beyond prose.**
+  Three of the six — `theme-picker`, `text-size-picker`, and
+  `share-picker` — are no longer prose-only: they're live, working UI in
+  the global header (`src/lib/components/SitePreferences.svelte`,
+  rendered from `+layout.svelte` on every page), using the real
+  published npm packages. `locale-picker`, `motion-picker`, and
+  `date-time-picker` remain prose-only, with no live integration
+  anywhere on the site, and none of the six has a dedicated
+  demo/reference route analogous to `/components/<slug>/`. Building a
+  `/helpers/` section with live demo pages for all six (mirroring the
   `/components/` pattern) is a product decision for whoever owns this
   site's roadmap, not an audit/harmonization task.
 - **Playwright coverage is partial.** `tests/components/` has one spec per
@@ -189,17 +220,17 @@ The repo root's `bin/test` enforces this: `registry_count_or_err` asserts
   `index.md` it was ported from, silently, with no drift check. `bin/test`
   only checks that the directory and file exist, not that the content is
   current.
-- **`/themes/*.css` links may not resolve on the deployed site.** Several
-  pages (`/tutorials/theming/`, `/help/#themes`) link or show code samples
-  referencing `/themes/<name>.css`, implying the main repo's 45
-  `themes/*.css` reference stylesheets are served from this site's own
-  `static/`. As of this writing there is no `static/themes/` directory and
-  no build step (locally or in `.github/workflows/deploy.yml`) that
-  populates one from the main repo's `themes/`. Confirm whether this is
-  intentional (the samples are illustrative, and a real adopter is
-  expected to copy the files into their own app, not fetch them from this
-  site) or a genuine gap that needs a themes-sync step added to the build;
-  this is a build-pipeline decision, not a content fix.
+- **Resolved 2026-09-06: the theme paths now agree.** `static/assets/themes/`
+  holds a real, working copy of all 45 theme CSS files — copied in
+  manually (`cp themes/*.css lilydesignsystem.github.io/static/assets/themes/`,
+  documented in that directory's own `README.md`; no automated sync step
+  exists yet, so a future theme added to the main repo's `themes/` won't
+  reach this copy without someone re-running that command) — and
+  `SitePreferences.svelte` already pointed `ThemePicker` at the correct
+  `themesUrl="/assets/themes/"`. The `/help/` and `/tutorials/theming/`
+  code samples had drifted to the older, nonexistent `/themes/<name>.css`
+  path; corrected to match. The remaining, still-open gap is only the
+  lack of an automated sync step for future theme additions.
 
 ## 8. Acceptance criteria
 
@@ -210,13 +241,20 @@ The repo root's `bin/test` enforces this: `registry_count_or_err` asserts
 - [x] No page uses a pre-rename (`*-select` / `*-button`) name for a
       helper package, class hook, or import path.
 - [x] `/examples/` lists all seven example apps; `/tutorials/helpers/`
-      covers all five current helpers.
+      covers five of the six current helpers (`motion-picker` is not
+      yet covered — §7).
+- [x] Theme, text-size, and share pickers render live in the global
+      header (`SitePreferences.svelte`), using the real published npm
+      packages — verified 2026-09-06.
 - [x] This subproject has `AGENTS.md`, `CLAUDE.md`, and a non-empty
       `spec/index.md`, matching the convention every other subproject in
       the monorepo follows.
 - [ ] Full Playwright spec coverage across all 491 components (§7).
-- [ ] `/themes/*.css` links resolve on the deployed site, or are
-      rephrased so they don't imply they do (§7).
+- [x] Theme-CSS links (`/help/`, `/tutorials/theming/`) resolve on the
+      deployed site — corrected to `/assets/themes/*.css`, matching
+      `static/assets/themes/` and `SitePreferences.svelte`'s own
+      `themesUrl` (§7). Verified 2026-09-06.
+- [ ] `motion-picker` is documented on `/tutorials/helpers/` (§7).
 
 ## 9. Related topics (main repo spec)
 
@@ -224,8 +262,8 @@ The repo root's `bin/test` enforces this: `registry_count_or_err` asserts
   and required files per subproject, which this file satisfies.
 - [components](../../spec/components/index.md) — the 491-component
   catalog this site presents.
-- [helpers](../../spec/helpers/index.md) — the five `*-helpers` packages
-  this site currently only documents in prose (§7).
+- [helpers](../../spec/helpers/index.md) — the six `*-helpers` packages;
+  three are live in this site's header, three remain prose-only (§7).
 - [tooling](../../spec/tooling/index.md) — `bin/generate-registries` and
   `bin/test`'s checks against this subproject.
 - [citations](../../spec/citations/index.md) — the design systems Lily

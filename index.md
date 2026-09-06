@@ -79,12 +79,13 @@ Headless versions if you want to use components with all your own styles:
 - [Angular headless](lily-design-system-angular-headless)
 - [Blazor headless](lily-design-system-blazor-headless)
 - [Nunjucks headless](lily-design-system-nunjucks-headless)
+- [Web Components headless](lily-design-system-web-components-headless) — an 8th catalog at its full achievable scope (456 of 491; the remaining 35 are permanently excluded, not backlog)
 
 ## Helpers
 
 Per-framework helper catalogs of small, opinionated packages. Each catalog
-ships six helpers — 42 packages in all — and each owns one complete
-interaction end to end:
+ships six helpers — 48 packages in all across 8 catalogs — and each owns
+one complete interaction end to end:
 
 - **theme-picker**, **locale-picker**, **text-size-picker**, **motion-picker**
   own a user preference: selection, DOM application (`data-theme`,
@@ -106,6 +107,7 @@ interaction end to end:
 - [Angular helpers](lily-design-system-angular-helpers)
 - [Blazor helpers](lily-design-system-blazor-helpers)
 - [Nunjucks helpers](lily-design-system-nunjucks-helpers)
+- [Web Components helpers](lily-design-system-web-components-helpers) — an independent copy of the HTML helpers with `lily-*` tags
 
 ## Themes
 

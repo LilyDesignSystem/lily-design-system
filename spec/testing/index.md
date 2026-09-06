@@ -2,7 +2,7 @@
 
 > Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
-**Summary.** Every headless library has a per-framework unit suite asserting DOM and ARIA output, every example app has Playwright e2e plus an axe-core accessibility baseline and a responsive viewport sweep, and six of seven full-catalog headless libraries ship 491/491 Storybook stories (the partial Web Components catalog ships 33/33).
+**Summary.** Every headless library has a per-framework unit suite asserting DOM and ARIA output, every example app has Playwright e2e plus an axe-core accessibility baseline and a responsive viewport sweep, and six of seven full-catalog headless libraries ship 491/491 Storybook stories (the Web Components catalog ships 456/456, its full achievable scope).
 
 ## Scope
 
@@ -33,7 +33,7 @@ Re-verified 2026-09-02 (plan P1-T6, fresh verification sweep).
 
 ## Storybook coverage
 
-Six of seven full-catalog headless libraries ship Storybook (the partial Web Components catalog does too, 33/33); Blazor deliberately does not (no idiomatic `@storybook/blazor`; bUnit + `dotnet watch` covers exploration). Each story uses the `title: "Headless/{Pascal}"` + single `Default` story shape. Coverage re-verified 2026-09-02 by story-file presence per component (the same method the original counts used); a full `build-storybook` was not re-run for all six.
+Six of seven full-catalog headless libraries ship Storybook (the Web Components catalog does too, 456/456, its full achievable scope); Blazor deliberately does not (no idiomatic `@storybook/blazor`; bUnit + `dotnet watch` covers exploration). Each story uses the `title: "Headless/{Pascal}"` + single `Default` story shape. Coverage re-verified 2026-09-02 by story-file presence per component (the same method the original counts used); a full `build-storybook` was not re-run for all six.
 
 | Library            | Storybook     | Stories     |
 | ------------------ | ------------- | ----------- |

@@ -38,7 +38,7 @@ A headless component library built on **native custom elements** (the Web Compon
 
 ## Two structural patterns
 
-Both patterns appear across the 33 components, chosen per the canonical `components/{slug}/AGENTS.md` contract for the component's designated HTML tag:
+Both patterns appear across the 456 components, chosen per the canonical `components/{slug}/AGENTS.md` contract for the component's designated HTML tag:
 
 1. **Wrap a real native element** (`Button`, `TextInput`, `Dialog`, `Figure`, most of the catalog): the custom element's `connectedCallback` creates the real semantic child (`<button>`, `<input>`, `<dialog>`, …), moves the host's original light-DOM children into it, and appends it. The host element itself carries no ARIA/role — it is inert scaffolding around the one node that matters.
 2. **Self-is-the-wrapper** (`Alert`, `Banner`, `ContextualHelp`, `Coachmark`) — used only where the canonical contract's own root element is `<div>` and there is no native element with useful built-in behaviour to defer to. The custom element instance itself carries the base class (via `applySelfClassName`) and the ARIA role/state directly, avoiding an otherwise-pointless extra wrapper `<div>` inside another `<div>`.
@@ -60,7 +60,7 @@ Beyond `FloatButton`'s `position: fixed` and `ThemeProvider`'s `display: content
 ## Testing
 
 - `vitest` + `jsdom`. Each component's `.test.ts` renders via `document.body.innerHTML = "<lily-x ...>...</lily-x>"` (parser-driven upgrade) rather than constructing and appending programmatically, matching how a real consumer's markup activates the element.
-- `index.test.ts` at the package root imports the **built** `dist/index.js` (not source) and asserts every one of the 33 tags self-registers — the same class of check that would have caught react-headless's historical missing-entry-point defect.
+- `index.test.ts` at the package root imports the **built** `dist/index.js` (not source) and asserts every one of the 456 tags self-registers — the same class of check that would have caught react-headless's historical missing-entry-point defect.
 - Run: `pnpm test` (source-level, fast) and `pnpm build && pnpm test` (adds the dist-level smoke test).
 
 ## Component Patterns

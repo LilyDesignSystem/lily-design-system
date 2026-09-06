@@ -170,7 +170,7 @@ pnpm run dev`}</code></pre>
     directory. Each is one stylesheet targeting the Lily class hooks — link it
     and you're styled:
   </p>
-  <pre><code>{`<link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" />`}</code></pre>
+  <pre><code>{`<link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" />`}</code></pre>
   <p>The set covers:</p>
   <ul>
     <li>

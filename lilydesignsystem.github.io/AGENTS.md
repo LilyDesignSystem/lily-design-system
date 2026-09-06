@@ -30,6 +30,8 @@ implement or ship any component library itself — see
 - `/tutorials/` and `/tutorials/<framework>/` — one tutorial per framework
   pair, plus `/tutorials/theming/` and `/tutorials/helpers/`
 - `/comparisons/`, `/why/`, `/about/`, `/help/`
+- `/accessibility/`, `/news/` (renders the main repo's `NEWS.md`),
+  `/roadmap/` (renders `plan.md`)
 - `/lily-claude-code/`, `/lily-claude-design/`, `/lily-figma/`
 
 ## Working rules
@@ -41,13 +43,18 @@ implement or ship any component library itself — see
   `components.tsv` by the main repo's `bin/generate-registries` — never
   hand-edit it. See [spec/index.md §6](spec/index.md#6-the-component-catalog-srclibcomponentsts).
 - Keep all prose, class hooks, and import paths current with the main
-  repo's naming. In particular, the five `*-helpers` packages are named
-  `theme-picker`, `locale-picker`, `text-size-picker`, `share-picker`, and
-  `date-time-picker` (post-2026-07-28 rename) — never the older
-  `*-select` / `*-button` / `*-chooser` forms, except where deliberately
-  discussing history. This does not affect the catalog's own
-  `theme-select` / `theme-select-option` components, which are unrelated
-  and keep their names.
+  repo's naming. In particular, the six `*-helpers` packages are named
+  `theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`,
+  `share-picker`, and `date-time-picker` (post-2026-07-28 rename;
+  motion-picker added 2026-09-03) — never the older `*-select` /
+  `*-button` / `*-chooser` forms, except where deliberately discussing
+  history. This does not affect the catalog's own `theme-select` /
+  `theme-select-option` components, which are unrelated and keep their
+  names. Three of the six (`theme-picker`, `text-size-picker`,
+  `share-picker`) are live, real npm dependencies rendered site-wide in
+  the header via `src/lib/components/SitePreferences.svelte` — keep that
+  component's prop usage current with each package's own README when
+  bumping versions.
 - Do not hand-write new component documentation prose in
   `src/routes/components/<slug>/+page.svelte` — port it from the
   canonical `components/{slug}/index.md` in the main repo. See

@@ -31,7 +31,7 @@ coding agents.
 | Topic | What it covers |
 | ----- | -------------- |
 | [overview](overview/index.md) | Vision, scope, the headless vs. example layers, key facts. |
-| [architecture](architecture/index.md) | Monorepo layout, the 15 implementation subprojects (7 full-catalog headless + 1 + 7 examples) + 7 helper catalogs, `themes/`, the git-subtree model, required files. |
+| [architecture](architecture/index.md) | Monorepo layout, the 23 implementation subprojects (7 full-catalog headless + 1 at its full achievable scope + 7 examples + 8 helper catalogs), `themes/`, the git-subtree model, required files. |
 | [headless](headless/index.md) | Headless design rules: semantic markup, class hooks, rest-props, behaviour boundaries, zero CSS. |
 | [accessibility](accessibility/index.md) | WCAG 2.2 AAA target, WAI-ARIA APG patterns, ARIA reference table, axe-core baselines. |
 | [internationalization](internationalization/index.md) | No hardcoded strings, stable text-prop names, locale-aware props, RTL/bidi. |
@@ -96,7 +96,7 @@ committing.
 ### In scope
 
 - A canonical catalog of 491 components (`components.tsv`).
-- Seven full-catalog headless component libraries: HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks — plus an 8th, **partial** one (Web Components, 33 of 491, added 2026-09-03) that is deliberately not at parity.
+- Seven full-catalog headless component libraries: HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks — plus an 8th, native-custom-element one (Web Components, added 2026-09-03) at its full achievable scope since 2026-09-06: 456 of 491, the remaining 35 permanently excluded by a real architectural limitation, not backlog.
 - Seven example applications: HTML+CSS+JS, SvelteKit, Next.js, Nuxt.js,
   Angular Analog, Blazor Web, Nunjucks Eleventy.
 - A CSS style-sheet template (`css-style-sheet-template.css`) declaring every
@@ -125,26 +125,27 @@ committing.
 
 The repository root holds the canonical catalog and tools
 (`components.tsv`, `css-style-sheet-template.css`, `bin/`, `spec/`,
-`AGENTS/*.md`, `themes/`); 22 implementation subprojects hang off it —
-7 full-catalog headless libraries, 1 headless library (Web
-Components, 456/491), 7 example apps, and 7 helper catalogs, one per
-framework (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks). Each
-subproject is also a `git subtree` pushed to its own standalone remote
-via `bin/git-subtree-push`. Full directory tree, the per-framework
-table, and the git-subtree/multi-forge publishing model:
-[spec/architecture/](architecture/index.md).
+`AGENTS/*.md`, `themes/`); 23 implementation subprojects hang off it —
+7 full-catalog headless libraries, 1 headless library at its full
+achievable scope (Web Components, 456/491), 7 example apps, and 8
+helper catalogs, one per framework (HTML, Svelte, React, Vue, Angular,
+Blazor, Nunjucks, Web Components). Each subproject is also a `git
+subtree` pushed to its own standalone remote via `bin/git-subtree-push`.
+Full directory tree, the per-framework table, and the
+git-subtree/multi-forge publishing model: [spec/architecture/](architecture/index.md).
 
 ### The three subproject layers
 
-- **Headless** (7 subprojects) — framework libraries mirroring the full
-  491-component catalog: unstyled, accessible, zero CSS.
+- **Headless** (7 full-catalog subprojects + 1 at its full achievable
+  scope) — framework libraries mirroring the full 491-component catalog
+  (Web Components mirrors 456 of it): unstyled, accessible, zero CSS.
 - **Examples** (7 subprojects) — complete styled reference applications
   demonstrating every component with the NHS UK visual reference.
-- **Helpers** (7 subprojects) — small catalogs of opinionated packages,
+- **Helpers** (8 subprojects) — small catalogs of opinionated packages,
   each owning one complete interaction end to end: `theme-picker`,
   `locale-picker`, `text-size-picker`, `motion-picker` (icon button +
   APG listbox, own a user preference), `share-picker` (an action), and
-  `date-time-picker` (a form value) — 42 packages, SSR-safe, Svelte
+  `date-time-picker` (a form value) — 48 packages, SSR-safe, Svelte
   canonical. See [spec/helpers/](helpers/index.md).
 
 ### Required files
@@ -339,7 +340,7 @@ Scripts live in `bin/`:
 | `bin/update`                          | Update shared files.                                 |
 | `bin/git-subtree-push`                | Push each subtree to its standalone remote.          |
 | `bin/generate-storybook-stories.mjs`  | Generate Storybook stories.                          |
-| `bin/publish-helpers`                 | Build + publish the 35 helper packages (npm / NuGet).|
+| `bin/publish-helpers`                 | Build + publish the 48 helper packages (npm / NuGet).|
 | `bin/publish-headless`                | Build + publish the 7 headless libraries (npm / NuGet).|
 | `bin/generate-registries`             | Regenerate example-app registries from the catalog.  |
 | `bin/check-links`                     | Verify relative markdown links resolve.              |
@@ -423,10 +424,10 @@ checked is considered live work; anything unchecked is queued in §12.
       Nuxt.js, Angular + Analog.js, Blazor Web, Nunjucks Eleventy).
 - [x] All 7 helper subprojects exist (Svelte canonical, plus React, Vue,
       Angular, HTML, Nunjucks, Blazor ports), each shipping the six
-      `*-picker` helpers (42 packages, `motion-picker` added 2026-09-03).
+      `*-picker` helpers (48 packages, `motion-picker` added 2026-09-03).
       Per-catalog test counts: [spec/testing/](testing/index.md); the
       accessibility-hardening sweeps that produced the current counts: §14.1.
-- [x] All 22 subprojects have required files (`index.md`, `README.md`
+- [x] All 23 subprojects have required files (`index.md`, `README.md`
       symlink, `AGENTS.md`, `CLAUDE.md`, `spec/index.md`, `.git-subtree-push`).
       All use the spec-driven `spec/index.md` layout the May 2026 migration
       standardised on (it replaces the older split plan.md / tasks.md).
@@ -549,7 +550,8 @@ shapes and the exact viewport sizes: [spec/testing/index.md](testing/index.md).
 
 491 / 491 stories in svelte, react, vue, html, nunjucks, angular (6
 of 7 full-catalog headless libraries, and the Web Components
-catalog ships 33/33); Blazor deliberately has none — there is no
+catalog ships 456/456, its full achievable scope); Blazor deliberately
+has none — there is no
 idiomatic `@storybook/blazor`, and bUnit + `dotnet watch` covers the
 same exploration use case. Angular uses the webpack-based
 `@storybook/angular` builder rather than Vite. Re-verified clean
@@ -558,8 +560,16 @@ same exploration use case. Angular uses the webpack-based
 
 ### 11.8 Open backlog
 
-Completed items are recorded in [CHANGELOG.md](../CHANGELOG.md) and §12;
-this list holds only what is genuinely open.
+Completed items are recorded in [CHANGELOG.md](../CHANGELOG.md) and §12.
+As of 2026-09-06 every item below is closed — there is exactly one
+genuinely open item, carried forward from the Angular wrapper-host fix
+below rather than duplicated: `DateRange`/`ReviewDate` in
+angular-headless render `<div>` instead of the canonical `<span>`
+(`aria-prohibited-attr`, found by the same axe run that found the
+wrapper-host defect); `lily-design-system-angular-examples`'s
+`timeline-and-cards.ts` still works around it with direct class-hook
+markup. See §13 for what that leaves as the roadmap's actual near-term
+focus.
 
 - [x] Angular subprojects end-to-end verification — closed 2026-08-26.
       angular-headless was already fully verified (§11.2). The
@@ -663,9 +673,9 @@ section), not into a separate `tasks.md`.
 
 ## 13. Roadmap
 
-Near-term focus: close the remaining §11.8 backlog item (Angular
-headless wrapper-host semantics); expand composed-page demos beyond
-the required routes.
+Near-term focus: fix the one remaining §11.8 item (`DateRange`/
+`ReviewDate` rendering `<div>` instead of `<span>` in angular-headless);
+expand composed-page demos beyond the required routes.
 
 Long-term: versioned releases per subproject npm/NuGet package
 (started — see §14.1); contributor onboarding documentation
@@ -676,7 +686,7 @@ Long-term: versioned releases per subproject npm/NuGet package
 - Package: lily
 - Version: 0.6.0
 - Created: 2025-08-09
-- Updated: 2026-09-02
+- Updated: 2026-09-06
 - License: `MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause`
   (SPDX expression; or contact for other terms). See
   [LICENSE.md](../LICENSE.md) — it is the single source of truth, and every
@@ -690,6 +700,63 @@ Long-term: versioned releases per subproject npm/NuGet package
 
 ### 14.1 Changelog highlights
 
+- **Web Components headless catalog reaches its full achievable scope
+  (2026-09-06)** — grew from the 33-component P7-T6/P8-T7 pilot slice to
+  456 of 491 in one day, across three waves of parallel-agent batches:
+  all 92 national personal identifier components; a 136-component wave
+  (lists, forms, pickers, links, and a mixed overlays/tables/media/
+  data-viz/buttons batch); and a final 195-component wave (navigation,
+  content — the two largest, most heterogeneous categories, including a
+  faithful `ThemeProvider` port of the Svelte canonical's token-
+  flattening algorithm, real WAI-ARIA widgets for combobox/listbox/menu/
+  tree/slider/tooltip, and the Reuters-Graphics-inspired scrollytelling
+  family). The remaining 35 (30 table sub-elements, 5 interactive
+  `*ListItem` families) are permanently excluded by a real architectural
+  limitation — no wrapper-host-safe registration mechanism exists for
+  autonomous custom elements, and the one alternative (customized
+  built-in elements) is permanently unsupported in Safari/WebKit — not
+  backlog. Real, independently-verified findings along the way: a real
+  HTML5-parsing constraint that makes the five table-root components
+  unpopulatable via static HTML (documented in each component's header
+  and in the subproject's own `spec/index.md` §4.2); 14 of 46 national-
+  identifier `-view` components missing a documented `role="text"`; and
+  3 components that had drifted into unsanctioned inline styles,
+  resolved to CSS custom properties rather than growing the two-item
+  named-exception list. Verified: `tsc --noEmit` clean, 2669/2669 vitest
+  tests, a clean production build and Storybook build, and all root
+  `bin/test`/`bin/check-links`/`bin/check-coverage` checks. Full record:
+  CHANGELOG.md.
+- **National-identifier documentation completed (2026-09-06)** — all 92
+  national-identifier component docs were missing a "Where to find it"
+  pointer, and 21 of 46 `-input` docs described only the identifier's
+  format, not whether/how it's validated. Filled in from the
+  already-vetted `AGENTS/national-person-identifiers.tsv` columns; for
+  3 identifiers with a real, well-documented check-digit algorithm
+  (Spain's NIF/CIF Modulo-23 control letter, France's NIR/INSEE
+  Modulo-97 check key, Northern Ireland's H&C Number sharing the UK NHS
+  number's Modulus-11 scheme) the actual algorithm was independently
+  verified against public sources and added; the remaining 18 got an
+  explicit "no published algorithm" statement rather than silence. Full
+  record: CHANGELOG.md.
+- **Docs site domain rename, lilydesignsystem.github.io → .com
+  (2026-09-06)** — every live-site link across the monorepo, the 21
+  subprojects, and the 8 Claude Skills that carried one was updated to
+  the deployed custom domain (239 files); bare references to the
+  literal GitHub Pages repository name (which must stay
+  `lilydesignsystem.github.io` — GitHub requires it) were left alone.
+  Also fixed `bin/sync-special-files`'s own `DOCS` constant, which
+  generates every subproject's `INSTALL.md`/`CITATION.cff` and would
+  otherwise have reverted the rename on its next run. Full record:
+  CHANGELOG.md.
+- **Docs site gains a live theme/text-size/share picker (2026-09-06)** —
+  `lilydesignsystem.github.io`'s header now renders
+  `lily-design-system-svelte-theme-picker`, `-text-size-picker`, and
+  `-share-picker` (real, published npm dependencies) on every page, via
+  a new `src/lib/components/SitePreferences.svelte`. The theme picker
+  ships with all 45 reference themes copied into `static/assets/themes/`;
+  since the component-detail pages' live demos render real Lily class
+  hooks, switching themes now visibly reskins those demos too, not just
+  the picker itself. Full record: CHANGELOG.md.
 - **Web Components helpers catalog (2026-09-03)** — an 8th
   `*-helpers` catalog, `lily-design-system-web-components-helpers`,
   ships the six pickers as `<lily-*-picker>` custom elements. It is a
@@ -907,53 +974,18 @@ Long-term: versioned releases per subproject npm/NuGet package
   the old 80/40 figures had persisted in prose across the spec, both
   Claude Skills, `llms.txt`/`llms.json`, and the root special files —
   corrected repo-wide. Full record: [CHANGELOG.md](../CHANGELOG.md).
-- **Pointer-selection close is now part of the contract (2026-07-31)**
-  — clicking an option already closed the listbox in all seven
-  catalogs, but only the keyboard clause said so; the pointer clause
-  just said "selects and applies". The contract now reads "selects it,
-  applies it, and closes the listbox" everywhere, and every pointer
-  test asserts `aria-expanded` + `hidden`. Full record:
-  [CHANGELOG.md](../CHANGELOG.md).
-- **Idempotent apply in the preference pickers (2026-07-31)** — the
-  three preference helpers re-ran their apply step (and fired the
-  consumer's change callback) on every re-evaluation, not only when
-  the value changed; in Svelte this looped an ordinary `count += 1`
-  callback into `effect_update_depth_exceeded`, freezing the picker
-  mid-open. Apply is now a no-op for an already-applied value in
-  svelte, html, nunjucks, and react (angular/vue/blazor were already
-  clean). 1847 tests pass across the seven catalogs. Full record:
-  [CHANGELOG.md](../CHANGELOG.md).
-- **Sibling-picker accessibility hardening (2026-07-29)** — five
-  defects fixed canonical-first then ported to all seven catalogs:
-  Tab-out-of-open-picker focus preservation, APG typeahead cycling,
-  PageUp/PageDown, an empty-list `aria-activedescendant` guard, and
-  locale-picker defaulting to **endonym** labels ("Cymraeg" not
-  "Welsh") with `lang` claimed only when true. 1835 tests pass. Full
-  record: [CHANGELOG.md](../CHANGELOG.md).
-- **date-time-picker accessibility hardening (2026-07-29)** — seven
-  changes across all seven catalogs: vetoed days become `aria-disabled`
-  + `data-disabled` (never plain `disabled`), dialog close returns
-  focus to its opener, header paging no longer steals grid focus,
-  optional `invalid`/`instructions` labels add a status region and
-  keyboard help, field `Escape` reverts a pending edit, and
-  click-outside now honours `aria-modal`. 1717 tests pass. Full
-  record: [CHANGELOG.md](../CHANGELOG.md).
-- **Helpers renamed to `*-picker` (2026-07-21)** — every helper package
-  in all seven catalogs renamed: `theme-select` → `theme-picker`,
-  `locale-select` → `locale-picker`, `text-size-select` →
-  `text-size-picker`, `share-button` → `share-picker` (directories,
-  package ids, exported symbols, CSS hooks, selectors, element tags).
-  The catalog components `theme-select`/`theme-select-option` are
-  **not** affected. Every package resets to **0.1.0** (nothing had
-  been published under the old names). 1231 tests pass, unchanged
-  counts. Full record: [CHANGELOG.md](../CHANGELOG.md).
-- **Helpers — text-size-select 0.2.0, share-button 0.1.0 (2026-07-21)**
-  — `text-size-select` drops the native `<select>` for the same icon
-  button + APG listbox as its siblings (glyph `"A"`, U+0041). A new
-  `share-button` helper lands — the first to own an *action* rather
-  than a preference, applying and persisting nothing, with real `<a>`
-  destinations rather than `role="menuitem"` and no bundled
-  social-network endpoints. Full record: [CHANGELOG.md](../CHANGELOG.md).
+- **Helpers hardening, 2026-07-21 – 2026-07-31** — the `*-select`/
+  `*-button` helpers renamed to `*-picker` (`theme-picker`,
+  `locale-picker`, `text-size-picker`, `share-picker`; every package
+  reset to 0.1.0, nothing had published under the old names) and
+  `share-picker` landed as the first helper owning an action rather
+  than a preference; then five rounds of cross-catalog accessibility
+  hardening (sibling-picker focus/typeahead/PageUp-PageDown fixes,
+  locale-picker endonym labels, date-time-picker's `aria-disabled`/
+  focus-return/status-region fixes, a pointer-selection-must-close
+  contract clarification, and an idempotent-apply fix for a real
+  Svelte infinite-loop freeze). Test counts climbed 1231 → 1847 across
+  the seven catalogs as each round landed. Full record: CHANGELOG.md.
 
 Older epochs (full detail in [CHANGELOG.md](../CHANGELOG.md), one entry
 per version):

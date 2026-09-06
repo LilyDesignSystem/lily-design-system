@@ -9,6 +9,78 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Docs site gains a live theme/text-size/share picker — 2026-09-06
+
+`lilydesignsystem.github.io`'s header now renders
+`lily-design-system-svelte-theme-picker`, `-text-size-picker`, and
+`-share-picker` — real, published npm dependencies, not copied source —
+on every page, via a new `src/lib/components/SitePreferences.svelte`
+mounted from `+layout.svelte`. The theme picker ships with all 45
+reference themes copied into `static/assets/themes/` (documented as a
+manual, unautomated copy step in that directory's own `README.md`);
+since the component-detail pages' live demos render real Lily class
+hooks, switching themes visibly reskins those demos too. Full Playwright
+suite re-verified clean (2025/2025) before committing.
+
+## Docs site domain rename, lilydesignsystem.github.io → .com — 2026-09-06
+
+Every live-site link across the monorepo, the 21 subprojects, and the
+Claude Skills that carried one was updated to the deployed custom
+domain (239 files changed) — bare references to the literal GitHub
+Pages repository name (which must stay `lilydesignsystem.github.io`,
+GitHub requires it for the repo itself) were left alone. Also fixed
+`bin/sync-special-files`'s own `DOCS` constant, which generates every
+subproject's `INSTALL.md`/`CITATION.cff` and would otherwise have
+reverted the rename on its next run — a lesson from earlier drift where
+hand-editing a generated file was silently undone by the next sync.
+
+## National-identifier documentation completed — 2026-09-06
+
+All 92 national-identifier component docs were missing a "Where to find
+it" pointer, and 21 of 46 `-input` docs described only the identifier's
+format, not whether or how it's validated. Filled in from the
+already-vetted `AGENTS/national-person-identifiers.tsv` columns; for 3
+identifiers with a real, well-documented check-digit algorithm (Spain's
+NIF/CIF Modulo-23 control letter, France's NIR/INSEE Modulo-97 check
+key, Northern Ireland's H&C Number sharing the UK NHS number's
+Modulus-11 scheme) the actual algorithm was independently verified
+against public sources and added; the remaining 18 got an explicit
+"no published algorithm" statement rather than silence.
+
+## Web Components headless catalog reaches its full achievable scope — 2026-09-06
+
+Grew from the 33-component pilot slice (2026-09-03) to 456 of 491 in
+one day, across three waves of parallel-agent batches: all 92 national
+personal identifier components; a 136-component wave (lists, forms,
+pickers, links, and a mixed overlays/tables/media/data-viz/buttons
+batch); and a final 195-component wave (navigation, content — the two
+largest, most heterogeneous categories, including a faithful
+`ThemeProvider` port of the Svelte canonical's token-flattening
+algorithm, real WAI-ARIA widgets for combobox/listbox/menu/tree/
+slider/tooltip, and the Reuters-Graphics-inspired scrollytelling
+family). The remaining 35 (30 table sub-elements, 5 interactive
+`*ListItem` families) are permanently excluded by a real architectural
+limitation — no wrapper-host-safe registration mechanism exists for
+autonomous custom elements, and the one alternative (customized
+built-in elements) is permanently unsupported in Safari/WebKit — not
+backlog.
+
+Real, independently-verified findings along the way: a real HTML5-
+parsing constraint that makes the five table-root components
+unpopulatable via static HTML strings (documented in each component's
+header comment and in the subproject's own `spec/index.md` §4.2); 14 of
+46 national-identifier `-view` components missing a documented
+`role="text"`; and 3 components (`Affix`, `AspectRatioContainer`,
+`StickyPromoBanner`) that had drifted into unsanctioned inline styles,
+resolved to CSS custom properties rather than growing the two-item
+named-exception list (`FloatButton`, `ThemeProvider`).
+
+Verified: `tsc --noEmit` clean, 2669/2669 vitest tests, a clean
+production build and Storybook build (456/456 stories), a dist-level
+smoke test, and all root `bin/test`/`bin/check-links`/`bin/check-coverage`
+checks passing with the subproject at its new scope. Not yet done:
+subtree push and npm publish.
+
 ## Eight framework-umbrella agent skills — 2026-09-05
 
 Extends the previous day's framework-specific skills with a third tier:
