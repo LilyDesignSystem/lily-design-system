@@ -2,7 +2,7 @@
 
 > Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
-**Summary.** Lily™ defines a canonical catalog of 491 components in a single tab-separated file (`components.tsv`), each named and shaped by deterministic suffix-to-HTML-element and compound-name rules, composed via stable parent/child patterns, and documented per component through a fixed nine-section contract.
+**Summary.** Lily™ defines a canonical catalog of 491 components in a single tab-separated file (`components.tsv`), each named and shaped by deterministic suffix-to-HTML-element and compound-name rules, composed via stable parent/child patterns, and documented per component through a fixed fourteen-section contract.
 
 ## Scope
 
@@ -12,7 +12,7 @@ This topic is the single reference for the Lily component catalog and its naming
 - The suffix → HTML element mapping that fixes each component's root tag.
 - The compound component name patterns (`*Bar`/`*BarButton`, `*List`/`*ListItem`, etc.).
 - The composition patterns that snap components together (Form, Grail layout, Navigation, Table).
-- The per-component documentation contract: required files and the nine-section `index.md` order, quality standards, and the example-app demo strategy.
+- The per-component documentation contract: required files and the fourteen-section `index.md` order, quality standards, and the example-app demo strategy.
 
 Out of scope here: the headless implementation contract ([headless](../headless/index.md)), accessibility rules ([accessibility](../accessibility/index.md)), i18n rules ([internationalization](../internationalization/index.md)), theming ([theme](../theme/index.md)), example apps ([examples](../examples/index.md)), and the helper composition templates ([helpers](../helpers/index.md)).
 
@@ -22,7 +22,7 @@ Out of scope here: the headless implementation contract ([headless](../headless/
 - **Deterministic markup.** A component's root HTML element is fixed by its slug suffix (see the mapping table). The canonical HTML tag for each component is also recorded in `components/{slug}/AGENTS.md` under "HTML tag" as the single source of truth.
 - **Semantic HTML first.** Choose the most specific element (`<button>`, `<dialog>`, `<nav>`, `<figure>`, `<table>`, …) before reaching for `<div>` or `<span>`. ARIA augments only where native semantics fall short.
 - **Stable contracts.** Slugs, PascalCase names, base classes, and inner sub-classes are stable across versions. Consumers rely on them; do not rename or remove between versions.
-- **Consistent voice.** All 491 component docs follow the same nine-section order and the same headless, framework-agnostic, i18n-clean voice.
+- **Consistent voice.** All 491 component docs follow the same fourteen-section order and the same headless, framework-agnostic, i18n-clean voice.
 - **Count is exact.** The catalog holds exactly 491 components. Any change to the count is a catalog change that must propagate across all 14 implementation subprojects.
 
 ## The canonical catalog
@@ -185,7 +185,7 @@ This shape applies to breadcrumbs, contents, pagination, sections, tree, chat, a
 
 Each `components/{slug}/` directory carries:
 
-- `index.md` — human-readable component documentation (nine-section order below).
+- `index.md` — human-readable component documentation (fourteen-section order below).
 - `README.md` — symlink to `index.md`.
 - `AGENTS.md` — canonical machine-readable metadata (HTML tag, ARIA, keyboard contract, props).
 - `CLAUDE.md` — loads `AGENTS.md`.
@@ -193,19 +193,34 @@ Each `components/{slug}/` directory carries:
 
 `bin/test` verifies that every component directory and every subproject has its required files. See [testing](../testing/index.md).
 
-### Nine-section `index.md` order
+### Fourteen-section `index.md` order
 
-Each `components/{slug}/index.md` includes these sections, in this order:
+Each `components/{slug}/index.md` includes these sections, in this order
+(corrected 2026-09-06 — this list previously described a nine-section order
+that none of the 491 files ever actually followed; verified against a
+sample across the catalog):
 
-1. **Title** — PascalCase name.
-2. **Description** — one-sentence summary matching the `components.tsv` row.
-3. **When to Use** — 3–5 positive-guidance bullets (right choice, user need served, fitting contexts).
-4. **When Not to Use** — 2–4 bullets that name a specific Lily alternative, plus anti-patterns and contexts where it does not belong.
-5. **Usage** — realistic code example using semantic HTML with proper ARIA; concrete English demo strings flow through the same prop names a consumer would localise.
-6. **Props / Slots / Parameters** — name, type, required, description.
-7. **ARIA** — roles, states, properties used.
-8. **Keyboard** — table of key + action.
-9. **References** — links to WAI-ARIA APG, NHS UK, MDN, etc.
+1. **Title** — PascalCase name (the `# ` heading; the one-sentence
+   description matching the `components.tsv` row is the opening paragraph,
+   not its own heading).
+2. **Implementation Notes** — format, algorithm, or behavioural detail that
+   doesn't fit elsewhere.
+3. **Props** — name, type, required, description.
+4. **Usage** — realistic code example using semantic HTML with proper ARIA;
+   concrete English demo strings flow through the same prop names a
+   consumer would localise.
+5. **Keyboard Interactions** — table of key + action.
+6. **ARIA** — roles, states, properties used.
+7. **When to Use** — 3–5 positive-guidance bullets (right choice, user need
+   served, fitting contexts).
+8. **When Not to Use** — 2–4 bullets that name a specific Lily alternative,
+   plus anti-patterns and contexts where it does not belong.
+9. **Headless** — what the component does and does not decide visually.
+10. **Styles** — pointers to the class hooks a consumer targets.
+11. **Testing** — how the component's contract is verified.
+12. **Advice** — practical guidance beyond the When-to/When-Not bullets.
+13. **Related components** — cross-links to composed or adjacent components.
+14. **References** — links to WAI-ARIA APG, NHS UK, MDN, etc.
 
 ### Quality standards
 
@@ -229,7 +244,7 @@ Each `/components/{slug}` page in an example app renders the component's metadat
 | `*-list-item`               | list item with sample content                          |
 | `*-table`                   | table with head/body/row structure                     |
 | `*-table-head/body/foot/row/td/th` | corresponding table sub-element                 |
-| `*-view`                    | span with `role="img"` and sample data                 |
+| `*-view`                    | span with `aria-label` and sample data (`role="img"` only for the two rating views — `five-face-rating-view`, `five-star-rating-view` — that render a visual glyph, not the general rule; corrected 2026-09-06, see acceptance criteria) |
 | `*-picker`                  | div with `role="radiogroup"` and sample options        |
 | `*-picker-button`           | button within a picker                                 |
 | `*-link`                    | anchor element with `href`                             |
@@ -245,11 +260,11 @@ Each framework injects the generated demo HTML via its native escape hatch: HTML
 - [ ] Every component's root HTML element matches the suffix → element mapping and its `components/{slug}/AGENTS.md` "HTML tag" field. Spot-checked 2026-09-06 (`breadcrumb-nav`→`<nav>`, `data-table-td`→`<td>`, `alert-dialog`→`<dialog>`, `theme-select-option`→`<option>`, all correct), but this has never been exhaustively audited across all 491 components × 7 headless implementations — no `bin/` script checks it. Leaving open pending a real audit rather than checking on a 4-sample spot check.
 - [x] Every compound component follows the documented name patterns; no orphan parts. Confirmed by root `spec/index.md` §11.4: "Cross-subproject name consistency: TabGroup removed, `medical-record-red-box` renamed; no orphans remain."
 - [x] Every `components/{slug}/` has `index.md`, `README.md` (symlink), `AGENTS.md`, `CLAUDE.md`, and `spec/index.md`. Confirmed by root `spec/index.md` §11.1 and a clean `bin/test` run (2026-09-06, exit 0), which checks required-file presence per component.
-- [ ] **Every `index.md` follows the nine-section order with separate "When to Use" and "When Not to Use" sections.** FALSE AS WORDED — real defect. The separate-sections half is true (confirmed by root `spec/index.md` §11.1 and spot checks), but no component doc actually follows a "nine-section order": every file checked (`united-states-social-security-number-input`, `breadcrumb-nav`, `alert-dialog`, `text-input`) instead follows the differently-ordered, 14-section structure documented in `components/AGENTS.md` ("Component index.md Structure": Heading, Description, Use case, Implementation Notes, Props, Usage, Keyboard Interactions, ARIA, When to Use, Headless, Styles, Testing, Advice, Domain Knowledge, References) — e.g. `## Implementation Notes`, `## Props`, `## Usage`, `## Keyboard Interactions`, `## ARIA`, `## When to Use`, `## When Not to Use`, `## Headless`, `## Styles`, `## Testing`, `## Advice`, `## Related components`, `## References`. The root `spec/index.md` §8's own stated nine-section contract (Title, Description, When to Use, When Not to Use, Usage, Props, ARIA, Keyboard, References) has never matched the actual, consistently-implemented file structure. This is a doc/doc contradiction (this file and root §8 vs. `components/AGENTS.md` and reality), not a per-component inconsistency — every file agrees with each other, just not with the "nine-section" claim.
+- [x] Every `index.md` follows the fourteen-section order with separate "When to Use" and "When Not to Use" sections. Fixed 2026-09-06: this item and the surrounding doc previously described a nine-section order that none of the 491 files ever actually followed (a doc/doc contradiction between this file's own "Nine-section" heading, root `spec/index.md` §8, and the real, consistently-implemented structure) — corrected both docs to the real, verified fourteen-section order (see "Fourteen-section `index.md` order" above); no component files were changed, since every one of the 491 already agreed with each other and with reality.
 - [x] Every "When Not to Use" section names a specific Lily alternative. Confirmed by root `spec/index.md` §11.1 and spot checks (e.g. `united-states-social-security-number-input`: "use `UnitedStatesSocialSecurityNumberView` instead").
 - [x] `bin/list-components-as-kebab-case` and `-as-pascal-case` enumerate all 491 entries. Verified 2026-09-06: both commands output exactly 491 lines.
 - [x] `bin/test` passes for the catalog, all components, and all subprojects. Verified 2026-09-06: `bin/test` exit code 0.
-- [ ] **Each example app's `/components/{slug}` page renders a suffix-appropriate live demo for every component.** Partially false — real defect found. Spot-checking `lily-design-system-svelte-sveltekit-examples/src/lib/data/component-demos.ts` (the canonical demo map this doc says every app's registry is generated from) against this doc's own suffix table (line 232: "`*-view` — span with `role=\"img\"` and sample data") shows only 12 of 58 `*-view` demo entries actually render a `<span>`; the other 46 (all national personal identifier `-view` components) render a bare `<div class="...-view" aria-label="...">` with no `role="img"` at all — contradicting the documented suffix-to-demo mapping. The underlying headless `-view` components themselves are correct (confirmed `<span aria-label>` in `lily-design-system-html-headless/components/united-states-social-security-number-view.html`); only the generated demo-map entries for this batch use the wrong shape.
+- [x] Each example app's `/components/{slug}` page renders a suffix-appropriate live demo for every component. Fixed 2026-09-06: 44 of the 46 national-identifier `-view` demo entries (plus, found in the same pass, `date-time-view`) rendered the wrong element in the canonical `lily-design-system-svelte-sveltekit-examples/src/lib/data/component-demos.ts` (`<div>` for the 44 national identifiers, real component is `<span>`; `<div>` for `date-time-view`, real component is `<time>`) — the doc's own suffix table also overstated the rule (claimed `role="img"` for every `*-view`, which only two rating-view components actually use; corrected). Fixed the canonical file and re-ran `bin/generate-registries`, which propagated the fix into all 7 example apps at once (verified via diff on the Blazor and HTML CSS/JS apps' generated registries, not just the 4 that copy the TS file directly). `split-view` was checked and correctly left as `<div>` (a real layout container, not a text display).
 
 ## Maturity
 

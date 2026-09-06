@@ -83,7 +83,7 @@ The framework-specific rest-props mechanism:
 ## Acceptance criteria
 
 - [x] Each component's root element renders the kebab-case base class plus the consumer class hook as its first class contract, with rest props spread onto the root.
-- [ ] Each component uses the most specific semantic HTML element, matching the canonical "HTML tag" in `components/{slug}/AGENTS.md`.
+- [ ] Each component uses the most specific semantic HTML element, matching the canonical "HTML tag" in `components/{slug}/AGENTS.md`. Real defect found 2026-09-06: `components/red-amber-green-picker/AGENTS.md` and `components/red-orange-yellow-green-blue-picker/AGENTS.md` are internally self-contradictory (state "HTML tag: `<div>`" while also describing a rendered `<select>`), and the seven headless catalogs disagree with each other — svelte/react/vue implement it as a native `<select>`, angular/blazor/nunjucks as `<div role="radiogroup">`. Needs a canonical-shape decision before either the docs or the 3-of-7 minority catalogs can be brought in line; see the related, still-open `internationalization` topic item (the `<select>` catalogs also hardcode English option text).
 - [x] Inner sub-classes follow `{base}-{part}` kebab-case and are stable across versions.
 - [ ] No component ships a stylesheet, font, icon asset, or CSS framework dependency; no inline `style` except the structurally-required cases (e.g. `display: contents` on `ThemeProvider`).
 - [x] No component performs data fetching, network state, locale formatting, persistence, animation choreography, or page-level routing.

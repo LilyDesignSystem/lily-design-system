@@ -268,24 +268,37 @@ Headline patterns (recap):
 
 ## 8. Per-component documentation
 
-Each `components/{slug}/index.md` includes the following sections in this order:
+Each `components/{slug}/index.md` includes the following sections in this
+order (corrected 2026-09-06: this list previously described a nine-section
+order — Title, Description, When to Use, When Not to Use, Usage, Props,
+ARIA, Keyboard, References — that none of the 491 files ever actually
+followed; the real, consistently-implemented order below was verified
+against a sample across the catalog):
 
-1. **Title** — PascalCase name.
-2. **Description** — one-sentence summary matching `components.tsv`.
-3. **When to Use** — 3-5 positive-guidance bullets (when this component is the
-   right choice, what user needs it serves, what contexts it fits).
-4. **When Not to Use** — 2-4 bullets that name a specific Lily alternative,
-   anti-patterns, and contexts where it doesn't belong.
-5. **Usage** — realistic code example using semantic HTML with proper ARIA.
+1. **Title** — PascalCase name (as the `# ` heading; description follows
+   as the opening paragraph, not its own heading).
+2. **Implementation Notes** — format, algorithm, or behavioural detail
+   that doesn't fit elsewhere.
+3. **Props** — name, type, required, description.
+4. **Usage** — realistic code example using semantic HTML with proper ARIA.
    Demo strings are concrete English content but flow through the same prop
    names a consumer would localise.
-6. **Props / Slots / Parameters** — name, type, required, description.
-7. **ARIA** — roles, states, properties used.
-8. **Keyboard** — table of key + action.
-9. **References** — links to WAI-ARIA APG, NHS UK, MDN, etc.
+5. **Keyboard Interactions** — table of key + action.
+6. **ARIA** — roles, states, properties used.
+7. **When to Use** — 3-5 positive-guidance bullets (when this component is
+   the right choice, what user needs it serves, what contexts it fits).
+8. **When Not to Use** — 2-4 bullets that name a specific Lily alternative,
+   anti-patterns, and contexts where it doesn't belong.
+9. **Headless** — what the component does and does not decide visually.
+10. **Styles** — pointers to the class hooks a consumer targets.
+11. **Testing** — how the component's contract is verified.
+12. **Advice** — practical guidance beyond the When-to/When-Not bullets.
+13. **Related components** — cross-links to composed or adjacent components.
+14. **References** — links to WAI-ARIA APG, NHS UK, MDN, etc.
 
 The companion `AGENTS.md` carries the canonical machine-readable metadata
-(HTML tag, ARIA, keyboard contract, props) used by AI coding agents.
+(HTML tag, ARIA, keyboard contract, props) used by AI coding agents — a
+different, shorter file with its own structure, not a mirror of the above.
 
 ### 8.1 Quality standards for component docs
 

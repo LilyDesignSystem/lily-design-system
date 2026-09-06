@@ -2,7 +2,7 @@
 
 > Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
-**Summary.** Lily™ targets WCAG 2.2 AAA and follows WAI-ARIA Authoring Practices 1.2, with semantic HTML first and ARIA second, verified by axe-core via Playwright across all six example apps.
+**Summary.** Lily™ targets WCAG 2.2 AAA and follows WAI-ARIA Authoring Practices 1.2, with semantic HTML first and ARIA second, verified by axe-core via Playwright across all seven example apps.
 
 ## Scope
 
@@ -51,16 +51,17 @@ It does **not** cover: the headless markup and behaviour-boundary rules (see [he
 
 ### axe-core baseline (Playwright, spec §11.5)
 
-axe-core / Playwright integration ships across all six example apps. Rule set: **WCAG 2.0 A+AA, 2.1 A+AA, 2.2 AA**. Per-app baseline (axe-clean routes / total checked):
+axe-core / Playwright integration ships across all seven example apps. Rule set: **WCAG 2.0 A+AA, 2.1 A+AA, 2.2 AA**. Per-app baseline (axe-clean routes / total checked), re-verified 2026-09-02 (plan P1-T6) — see [testing](../testing/index.md) for the authoritative, live-maintained table:
 
 | App                            | Clean  | Status        |
 | ------------------------------ | ------ | ------------- |
-| svelte-sveltekit-examples      | 29/29  | ✅ full pass  |
-| react-next-examples            | 29/29  | ✅ full pass  |
-| vue-nuxt-examples              | 29/29  | ✅ full pass  |
-| blazor-web-examples            | 29/29  | ✅ full pass  |
+| svelte-sveltekit-examples      | 31/31  | ✅ full pass (plus a separate 491/491 full-catalog sweep) |
+| react-next-examples            | 31/31  | ✅ full pass  |
+| vue-nuxt-examples              | 31/31  | ✅ full pass  |
+| blazor-web-examples            | 31/31  | ✅ full pass  |
 | html-css-js-examples           | 29/29  | ✅ full pass  |
-| nunjucks-eleventy-examples     | 17/17  | ✅ full pass  |
+| nunjucks-eleventy-examples     | 31/31  | ✅ full pass  |
+| angular-examples               | 31/31  | ✅ full pass  |
 
 ## Acceptance criteria
 
@@ -70,7 +71,7 @@ axe-core / Playwright integration ships across all six example apps. Rule set: *
 - [x] No status, validity, or selection is conveyed by colour alone (WCAG 1.4.1).
 - [x] Live regions (`role="alert"`, `aria-live`) are used only for dynamic content the user must hear.
 - [x] Headless components do not auto-animate; reduced-motion is the consumer's CSS concern.
-- [ ] axe-core (WCAG 2.0/2.1/2.2 A+AA) passes its full route baseline on all six example apps: 29/29 for the five SPA/SSR apps and 17/17 for nunjucks-eleventy (spec §11.5).
+- [x] axe-core (WCAG 2.0/2.1/2.2 A+AA) passes its full route baseline on all seven example apps: 31/31 for six of them, 29/29 for html-css-js-examples (spec §11.5, re-verified 2026-09-02 plan P1-T6 — see [testing](../testing/index.md) for the live table). This item was stale, not false: it named "six" apps and cited 2026-08-26-era counts (29/29 × 5, 17/17 × 1) from before angular-examples landed and nunjucks-eleventy-examples grew from 17 to 31 routes.
 
 ## Related topics
 
