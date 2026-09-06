@@ -60,7 +60,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The Единен граждански номер / Edinen grazhdanski nomer (EGN) is Bulgaria's national-id identifier. Format: 10 digits: the first 6 are the date of birth (YYMMDD), the next 3 encode area and birth order (ninth digit even for boy, odd for girl), and the tenth is a check digit.
+Ten digits in the form YYMMDD-RRRGC: the first six encode the date of birth (with a month offset of +20 for 19th-century births and +40 for 21st-century births), three regional/serial digits, a gender digit (even for male, odd for female), and a weighted Modulus-10 check digit.
+
+**Where to find it:** Bulgarian national identity card (Лична карта), passport, driving licence, and birth certificate.
 
 ## Related components
 

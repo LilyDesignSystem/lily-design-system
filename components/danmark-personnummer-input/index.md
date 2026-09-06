@@ -60,7 +60,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The Personnummer (CPR-nummer) (CPR) is Denmark's national-id identifier. Format: 10 digits in the format DDMMYYXXXX where the first 6 are the date of birth (DDMMYY).
+Ten-digit code in the form DDMMYY-SSSC: the first six digits encode the date of birth, the next three are a serial number whose final digit encodes sex (odd for men, even for women), and the last is a Modulus-11 check digit (no longer mandatory for validation of new CPR numbers).
+
+**Where to find it:** Danish health insurance card (sundhedskort), national ID, driving licence, passport, and most official correspondence.
 
 ## Related components
 

@@ -60,7 +60,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The Personnummer is Sweden's national-id identifier. Format: 12 digits in the format CCYYMMDDZZZQ: CCYYMMDD is the date of birth, ZZZ a serial (odd male, even female), and Q a Luhn check digit.
+National identification number issued by Skatteverket since 1947, twelve digits CCYYMMDDZZZQ in automated data (or ten digits when the century is implicit). CCYYMMDD is the date of birth, ZZZ is the individual serial number whose third digit is odd for males and even for females, and Q is a Luhn check digit.
+
+**Where to find it:** Passports, national ID cards, driving licences, health-care cards, payslips, and tax correspondence; held by the Swedish Tax Agency (Skatteverket).
 
 ## Related components
 

@@ -60,7 +60,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The National Health Service Number (NHS) is England's healthcare identifier. Format: 10 digits in 3-3-4 format with a Modulus-11 check digit, allocated through the Personal Demographics Service.
+Ten-digit number in 3-3-4 format with a Modulus-11 check digit, allocated through the Personal Demographics Service and used as the key patient identifier across the English NHS.
+
+**Where to find it:** NHS medical card, GP correspondence, prescriptions, hospital letters, the NHS App and NHS login, and online services such as patient.nhs.uk.
 
 ## Related components
 

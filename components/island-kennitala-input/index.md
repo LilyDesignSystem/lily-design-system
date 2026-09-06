@@ -60,7 +60,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The Kennitala is Iceland's national-id identifier. Format: 10 digits where the first 6 are the date of birth (DDMMYY).
+Ten-digit identifier in the form DDMMYY-RRCC: the first six digits are the date of birth, the next two are a random serial, then a Modulus-11 check digit, and a final digit denoting the century of birth (9 for 19th, 0 for 20th, 1 for 21st).
+
+**Where to find it:** Icelandic National Registry (Þjóðskrá Íslands) record, national ID card, passport, driving licence, and all official forms and contracts.
 
 ## Related components
 

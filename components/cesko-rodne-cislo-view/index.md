@@ -55,7 +55,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The Rodné číslo (RČ) is Czech Republic's national-id identifier. Format: nine or ten digits in the format YYXXDD/SSSC where XX=MM for males and MM+50 for females; the ten-digit form ends in a check digit and is usually divisible by 11.
+Nine- or ten-digit number in the form YYXXDD/SSSC: YY is the last two digits of the year of birth; XX is the month of birth (01–12 for men, 51–62 for women, with +70 used when serial numbers run out); DD is the day; SSS is a serial number; and C is a check digit (omitted for people born before 1 January 1954). A ten-digit number must be divisible by 11.
+
+**Where to find it:** Birth certificate, national ID card (občanský průkaz), driving licence, and health-insurance card.
 
 ## Related components
 

@@ -92,6 +92,12 @@ The consumer provides all CSS styling. The component renders with a `.united-kin
 
 UnitedKingdomNationalHealthServiceNumberInput is the editable input counterpart to UnitedKingdomNationalHealthServiceNumberView, following the Input/View pattern. Use the Input for data entry and the View for read-only display.
 
+## Domain Knowledge
+
+Shared NHS numbering scheme across England, Wales, and the Isle of Man: ten digits in 3-3-4 format with a Modulus-11 check digit. Scotland and Tuaisceart Eireann operate parallel schemes (CHI and H&C Number) using the same ten-digit shape.
+
+**Where to find it:** NHS medical card, GP correspondence, prescriptions, hospital letters, and the NHS App.
+
 ## Related components
 
 - `united-kingdom-national-health-service-number-view` — a read-only display of a UK NHS number

@@ -55,7 +55,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The Enotna Matična Številka Občana (EMŠO) is Slovenia's national-id identifier. Format: 13 digits: the first 7 are the date of birth (DDMMYYY), digits 8-9 the register, 10-12 a sex-and-serial component (000-499 male, 500-999 female), 13 a check digit.
+Thirteen digits in the form DDMMYYY-RR-GGGC: seven-digit date of birth (last three digits of the year), a two-digit registry/republic code (50/59 for Slovenia after 18 February 1999, with 10–19 Bosnia and Herzegovina, 20–29 Montenegro, 30–39 Croatia, 40–49 Macedonia, 70–79 Serbia, 80–89 Autonomous Province of Vojvodina, 90–99 Kosovo for pre-1999 issuance), three digits combining sex and serial number (000–499 male, 500–999 female), and a weighted Modulus-11 check digit defined in Article 4 of the Regulation on the way of assigning the personal identification number.
+
+**Where to find it:** Slovenian Personal Identity Card (Osebna izkaznica), passport, birth certificate, and tax records.
 
 ## Related components
 

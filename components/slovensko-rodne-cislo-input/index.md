@@ -60,7 +60,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The Rodné číslo (RČ) is Slovakia's national-id identifier. Format: 10 digits in the form YYMMDDCCCX where MM is 01-12 for males and 51-62 for females; X is a check digit and the whole number is divisible by 11.
+Ten-digit code in the form YYMMDDCCCX: the first six digits are the date of birth (with month offset of +50 for women, so MM is 01–12 for men and 51–62 for women), CCC is a serial number distinguishing persons born on the same date, and X is a check digit such that the entire number is divisible by 11.
+
+**Where to find it:** Birth certificate (rodný list), national ID card (občiansky preukaz), driving licence, and other personal documents.
 
 ## Related components
 

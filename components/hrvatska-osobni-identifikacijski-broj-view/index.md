@@ -55,7 +55,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The Osobni identifikacijski broj (OIB) is Croatia's national-id identifier. Format: 11 digits — 10 random digits plus a check digit; permanent, unique, and assigned to every Croatian citizen and legal person.
+Eleven-digit code: ten randomly assigned digits with no information about the holder, followed by an ISO 7064 MOD 11,10 check digit. OIB is unique, unchangeable, and unrepeatable, and is the permanent identification code of every Croatian citizen and every legal person headquartered in Croatia.
+
+**Where to find it:** Croatian national identity card (Osobna iskaznica), passport, driving licence, tax records (Porezna uprava lookup), and most personal documents.
 
 ## Related components
 

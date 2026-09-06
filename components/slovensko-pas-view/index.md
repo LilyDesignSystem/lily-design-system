@@ -55,7 +55,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The Pas is Slovakia's passport identifier. Format: 9 characters in the format XXNNNNNNN: 2 block letters and 7 digits; valid for 10 years.
+Nine characters in the format XXNNNNNNN — two block letters followed by seven digits — with a ten-year validity. No check-digit or checksum algorithm is published for this identifier; correctness is confirmed by the issuing authority's own records, not by the format alone.
+
+**Where to find it:** Slovak passport (Cestovný pas); citizens who hold two passports simultaneously will only find the document number on the first one.
 
 ## Related components
 

@@ -55,7 +55,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The Asmens kodas is Lithuania's national-id identifier. Format: 11 digits in the format GYYMMDDNNNC: G encodes sex and century (4 or 6 women, 3 or 5 men), YYMMDD is the date of birth, NNN is a serial, C is the check digit.
+Eleven digits in the form GYYMMDDNNNC: G encodes sex and century of birth (3/5 for men born in the 20th/21st century, 4/6 for women born in the 20th/21st century); YYMMDD is the date of birth; NNN is a serial number; and C is a Modulus-11 check digit.
+
+**Where to find it:** Lithuanian ID card (Asmens tapatybės kortelė), passport, driving licence, residence permit, and most government correspondence.
 
 ## Related components
 

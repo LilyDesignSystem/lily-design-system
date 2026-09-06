@@ -55,7 +55,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The Burgerservicenummer (BSN) is Netherlands's national-id identifier. Format: 9-digit number issued via the Personal Records Database (BRP); validated with a variant of the eleven-test (Luhn) algorithm.
+Nine-digit citizen service number issued through the Personal Records Database (Basisregistratie Personen, BRP); introduced in 2007, validated with a variant of the eleven-test (Luhn-style) algorithm, and required for all dealings with the Dutch government.
+
+**Where to find it:** Dutch passport, identity card (Nederlandse identiteitskaart), driving licence, payslips, tax correspondence, and the DigiD-protected MijnOverheid portal.
 
 ## Related components
 

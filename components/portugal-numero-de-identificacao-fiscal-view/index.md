@@ -55,7 +55,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The Número de Identificação Fiscal (NIF) is Portugal's tax identifier. Format: 9 digits; the leading digit(s) encode the kind of taxpayer (1-3 personal, 45 non-resident citizen, 5 legal person, etc.).
+Nine digits, the first eight sequential and the ninth a check digit. The leading digit encodes the entity type: 1–3 individuals; 45 non-residents earning Portuguese income subject to withholding; 5 resident legal entities; 6 public administration; 70/74/75 indivisible estates; 71 non-resident entities subject to definitive withholding; 72 investment funds; 77 NIFs allocated by the tax authority; 78 non-residents in the VAT refund scheme; 79 special cases; 8 sole traders (legacy); 90/91 condominiums, irregular societies, undivided inheritances; 98 non-residents without permanent establishment; 99 civil societies without legal personality.
+
+**Where to find it:** Portuguese Cartão de Cidadão (which carries the NIF alongside the civil identification number), tax invoices, employer/contract documents, and the Portal das Finanças.
 
 ## Related components
 

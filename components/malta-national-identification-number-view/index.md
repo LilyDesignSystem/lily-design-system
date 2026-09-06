@@ -55,7 +55,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The Malta National Identification Number is Malta's national-id identifier. Format: 8 characters: 7 digits and a letter (A, B, G, H, L, M, P, or Z) that encodes geographic origin and registration era.
+Eight characters: seven digits and a trailing letter (M, G, A, P, L, H, B, or Z). The letter encodes the geographic origin and registration context: A foreigner with eRes Card; B Maltese births registered in the 1800s; G Gozitan births registered in the 1900s; H Gozitan births registered in the 2000s; L Maltese births registered in the 2000s; M Maltese births registered in the 1900s; P Maltese citizens registered without an original birth certificate from their country of birth; Z Gozitan births registered in the 1800s. No check-digit or checksum algorithm is published for this identifier; correctness is confirmed by the issuing authority's own records, not by the format alone.
+
+**Where to find it:** Maltese national identity card (Karta tal-Identità) issued by Identity Malta.
 
 ## Related components
 

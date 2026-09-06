@@ -55,7 +55,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The Paşaport is Romania's passport identifier. Format: 8 characters: positions 1-2 [A-Z] and positions 3-8 [0-9].
+Eight characters: positions 1 and 2 are letters [A-Z] and positions 3–8 are digits [0-9]. No check-digit or checksum algorithm is published for this identifier; correctness is confirmed by the issuing authority's own records, not by the format alone.
+
+**Where to find it:** Romanian passport (Paşaport), printed on the data page.
 
 ## Related components
 

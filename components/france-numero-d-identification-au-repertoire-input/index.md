@@ -73,7 +73,9 @@ The consumer provides all CSS styling. The component renders with a `.france-num
 
 ## Domain Knowledge
 
-The French NIR (Numéro d'Inscription au Répertoire) is structured as 15 digits: position 1 is sex (1=male, 2=female), positions 2-3 are birth year, 4-5 birth month, 6-7 department code, 8-10 commune INSEE code, 11-13 order number, 14-15 control key (checksum 01-97). For people born abroad, the department code is 99 and the commune code is replaced by a 3-digit country code. Temporary numbers begin with 7 (male) or 8 (female). The number is printed on the Carte Vitale and used for all medical reimbursements.
+Thirteen-digit "meaningful" code plus a two-digit check key, managed by INSEE in the Répertoire National d'Identification des Personnes Physiques (RNIPP). It encodes sex (1 male, 2 female), year and month of birth, INSEE département and commune of birth, and a serial number; commonly called the French social security number. The two-digit check key is computed as 97 minus the 13-digit number modulo 97 (Corsican département codes 2A/2B are substituted with 19/18 first) — a Modulo-97 scheme chosen because 97 is the largest prime below 100, which most reliably catches single-digit and transposition errors.
+
+**Where to find it:** Carte Vitale health insurance card, payslips, tax forms, the Ameli health portal, France Connect, and pension correspondence.
 
 ## Related components
 

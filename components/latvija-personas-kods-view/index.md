@@ -55,7 +55,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The Personas kods is Latvia's national-id identifier. Format: 11 digits in the form DDMMYY-CZZZZ where the first 6 are the date of birth (DDMMYY) and C encodes the century (0 = 19th, 1 = 20th, 2 = 21st).
+Eleven digits in the form DDMMYY-CZZZZ: the first six are the date of birth, C is the century sign (0 for 19th century, 1 for 20th, 2 for 21st), ZZZZ is a serial number, and the last digit is a check digit.
+
+**Where to find it:** Latvian eID card, passport, driving licence, and the official Latvija.lv portal.
 
 ## Related components
 

@@ -60,7 +60,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The Dematerialised Securities System (DSS) is Greece's securities identifier. Format: 10 digits linked to the investor's personal details (name, ID number, passport number, tax registration number) and managed by the Central Securities Depository of Greece.
+Ten-digit investor identifier linked to personal details (name, identity-card number, passport number, tax registration number); the investor share is the account record held in the DSS operated by the Hellenic Central Securities Depository (ATHEXCSD). No check-digit or checksum algorithm is published for this identifier; correctness is confirmed by the issuing authority's own records, not by the format alone.
+
+**Where to find it:** Account statements and confirmations issued by the Hellenic Central Securities Depository (ATHEXCSD) and by the investor's appointed operator (broker or bank).
 
 ## Related components
 

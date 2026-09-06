@@ -55,7 +55,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The Codice fiscale (CF) is Italy's tax/healthcare identifier. Format: 16 alphanumeric characters: 3 from the surname, 3 from the given name, 5 encoding date of birth and sex, 4 encoding place of birth, and 1 check character.
+Sixteen-character alphanumeric code issued by the Agenzia delle Entrate, derived from surname (3 letters), given name (3 letters), date of birth and sex (5 alphanumeric characters with day +40 for women), place of birth (4-character Belfiore code), and a final check letter. Example: RSSMRA62B25E205Y.
+
+**Where to find it:** Codice Fiscale paper card or Tessera Sanitaria (national health-service card), which carries the fiscal code on a magnetic stripe.
 
 ## Related components
 

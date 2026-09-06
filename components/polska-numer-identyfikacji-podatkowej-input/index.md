@@ -60,7 +60,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The Numer Identyfikacji Podatkowej (NIP) is Poland's tax identifier. Format: 10 numeric digits used for tax identification.
+Ten numeric digits with a Modulus-11 weighted check digit, used by investment firms and the tax administration to identify a person or organisation for tax purposes.
+
+**Where to find it:** NIP confirmation document, tax forms (PIT, including the PIT-8 issued by investment firms), invoices, and contracts.
 
 ## Related components
 

@@ -60,7 +60,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The Numéro de Registre National / Rijksregisternummer (NRN) is Belgium's national-id identifier. Format: 11 digits where the first 6 are the date of birth (YYMMDD), the next 3 are an ordering number (uneven for men, even for women) and the last 2 a check digit.
+Eleven digits where the first six are the date of birth (YYMMDD), the next three are a serial ordering number (odd for men, even for women), and the last two are a Modulus-97 check digit.
+
+**Where to find it:** Belgian electronic identity card (eID), SIS social-security card, passport, residence permit, and tax/health correspondence.
 
 ## Related components
 

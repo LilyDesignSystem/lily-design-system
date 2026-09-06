@@ -80,6 +80,12 @@ The consumer provides all CSS styling. The component renders with a `.united-sta
 
 UnitedStatesSocialSecurityNumberView is the read-only display counterpart to UnitedStatesSocialSecurityNumberInput, following the Input/View pattern. Use the View for display and the Input for data entry.
 
+## Domain Knowledge
+
+Nine-digit number in XXX-XX-XXXX format issued by the Social Security Administration since 1936 to track workers' earnings; randomised since 2011. Now a de facto national identifier in the United States. No check-digit or checksum algorithm is published for this identifier; correctness is confirmed by the issuing authority's own records, not by the format alone.
+
+**Where to find it:** Social Security card, W-2 forms, tax returns (IRS Form 1040), payslips, and the SSA "my Social Security" portal.
+
 ## Related components
 
 - `united-states-social-security-number-input` — an input for entering a US Social Security number

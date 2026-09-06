@@ -60,7 +60,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The Individual Healthcare Identifier (IHI) is Australia's healthcare identifier. Format: 16 digits assigned by the Healthcare Identifiers Service.
+Unique 16-digit number assigned by the Healthcare Identifiers Service to each person receiving healthcare in Australia, used to link records in My Health Record and other national digital health services. No check-digit or checksum algorithm is published for this identifier; correctness is confirmed by the issuing authority's own records, not by the format alone.
+
+**Where to find it:** Medicare online account, the My Health Record portal, hospital admission paperwork, and clinical correspondence.
 
 ## Related components
 

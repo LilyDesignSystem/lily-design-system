@@ -68,7 +68,9 @@ The consumer provides all CSS styling. The component renders with a `.tuaisceart
 
 ## Domain Knowledge
 
-The Tuaisceart Eireann Health and Care (H&C) Number is a 10-digit numeric identifier, often displayed in a 3-3-4 format (e.g. 320 000 0001). The first two digits are always between 32 and 39. It is the unique patient identifier used by Health and Social Care (HSC) services in Tuaisceart Eireann.
+Ten-digit identifier in the same 3-3-4 format as the NHS number, drawn from a reserved range (320 000 001 to 399 999 999) and used across Health and Social Care Tuaisceart Eireann (HSCNI). Because it shares the NHS number's ten-digit shape, it also shares its Modulus-11 check digit scheme.
+
+**Where to find it:** HSCNI medical card, GP correspondence, hospital appointment letters, and prescriptions across Tuaisceart Eireann.
 
 ## Related components
 

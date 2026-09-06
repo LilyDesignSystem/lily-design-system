@@ -55,7 +55,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The Passaporte is Portugal's passport identifier. Format: 1 letter [A-Z] and 6 digits [0-9].
+Uniform optical-model passport identified by one letter and six digits — position 1 is a letter [A-Z] and positions 2–6 are digits [0-9]. No check-digit or checksum algorithm is published for this identifier; correctness is confirmed by the issuing authority's own records, not by the format alone.
+
+**Where to find it:** Portuguese passport, printed on the data page and in the machine-readable zone.
 
 ## Related components
 

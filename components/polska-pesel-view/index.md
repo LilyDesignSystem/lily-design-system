@@ -55,7 +55,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The PESEL is Poland's national-id identifier. Format: 11 numeric digits; assigned shortly after birth and unchanged for life.
+Eleven numeric digits in the form YYMMDDSSSSC: the date of birth (with month offset +20 for the 2000s, +40 for the 2100s, +60 for the 2200s, −20 for the 1800s), four serial digits (the penultimate digit encodes sex — odd male, even female), and a weighted Modulus-10 check digit. The PESEL is assigned shortly after birth and is permanent.
+
+**Where to find it:** Polish ID card (dowód osobisty), passport, driving licence, birth certificate, and the obywatel.gov.pl portal.
 
 ## Related components
 

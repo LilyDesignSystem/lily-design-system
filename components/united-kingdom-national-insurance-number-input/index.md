@@ -60,7 +60,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The National Insurance Number (NINO) is United Kingdom's tax/welfare identifier. Format: two prefix letters, six digits, and a suffix letter (A, B, C, or D) — e.g. AB123456A; the letters D, F, I, Q, U, V and the prefix-2 letter O are excluded.
+Two prefix letters, six digits, and one suffix letter (always A, B, C, or D). Example: AB123456A. The letters D, F, I, Q, U, and V are not used as either of the first two letters of the prefix; O is not used as the second letter. Administrative prefixes used internally by HMRC and DWP (OO, CR, FY, MW, NC, PP, PZ, TN) are not valid NINOs. No check-digit or checksum algorithm is published for this identifier; correctness is confirmed by the issuing authority's own records, not by the format alone.
+
+**Where to find it:** Plastic National Insurance card (legacy), letters from HMRC or DWP, payslips, form P60, tax returns, and the HMRC personal tax account.
 
 ## Related components
 

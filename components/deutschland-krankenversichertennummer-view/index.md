@@ -55,7 +55,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The Krankenversichertennummer (KVNR) is Germany's healthcare identifier. Format: a random capital letter followed by eight random digits and a Luhn check digit.
+Lifelong federal health-insurance identifier: one random uppercase letter followed by eight random digits and a Luhn check digit, carried on the electronic health card (elektronische Gesundheitskarte, eGK).
+
+**Where to find it:** German electronic health insurance card (eGK), insurer correspondence, and prescriptions.
 
 ## Related components
 

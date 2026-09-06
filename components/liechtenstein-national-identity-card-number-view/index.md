@@ -55,7 +55,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The Liechtenstein National Identity Card Number is Liechtenstein's national-id identifier. Format: 2 letters followed by 8 digits (e.g. ID022143586); changes with each renewed card.
+Combination of 2 letters and 8 numbers, for example ID022143586. The number is regenerated on each renewal of the identity card. No check-digit or checksum algorithm is published for this identifier; correctness is confirmed by the issuing authority's own records, not by the format alone.
+
+**Where to find it:** Liechtenstein national identity card (Identitätskarte) issued by the Office of Civil Affairs (Amt für Zivilstandswesen).
 
 ## Related components
 

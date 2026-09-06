@@ -55,7 +55,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The Community Health Index (CHI) is Scotland's healthcare identifier. Format: 10 digits encoding date of birth (DDMMYY) + two random digits + a sex digit (odd male, even female) + a Modulus-11 check digit.
+Ten-digit number identifying every patient registered with NHS Scotland; encodes the date of birth (DDMMYY), two random digits, a sex digit (odd male, even female), and a Modulus-11 check digit.
+
+**Where to find it:** Printed on the NHS Scotland medical card, prescriptions, GP correspondence, hospital appointment letters, and the NHS Inform patient portal.
 
 ## Related components
 

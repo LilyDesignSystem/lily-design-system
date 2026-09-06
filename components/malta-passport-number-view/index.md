@@ -55,7 +55,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The Malta Passport Number is Malta's passport identifier. Format: 7 numerical digits issued by the Civil Registration Directorate.
+Seven numerical digits, issued by Identity Malta (formerly the Civil Registration Directorate). No check-digit or checksum algorithm is published for this identifier; correctness is confirmed by the issuing authority's own records, not by the format alone.
+
+**Where to find it:** Maltese passport (Passaport) issued by Identity Malta.
 
 ## Related components
 

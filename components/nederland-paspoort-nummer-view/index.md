@@ -55,7 +55,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The Paspoort Nummer is Netherlands's passport identifier. Format: 9 characters: positions 1-2 [A-Z] except 'O', positions 3-8 [A-Z 0-9] except 'O', position 9 [0-9].
+Nine characters: positions 1 and 2 are uppercase letters [A-Z] except O; positions 3–8 are alphanumeric [A-Z][0-9] except O; position 9 is a digit [0-9]. No check-digit or checksum algorithm is published for this identifier; correctness is confirmed by the issuing authority's own records, not by the format alone.
+
+**Where to find it:** Dutch passport (Nederlands paspoort), printed on the data page and in the machine-readable zone.
 
 ## Related components
 

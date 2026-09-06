@@ -60,7 +60,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The Isikukood (IK) is Estonia's national-id identifier. Format: 11 digits in the form GYYMMDDSSSC: G is sex and century (odd male, even female; 1-2 19th c., 3-4 20th c., 5-6 21st c.), SSS distinguishes persons born the same day, C is a checksum.
+Eleven digits in the form GYYMMDDSSSC: G encodes sex and century of birth (1–2 for the 19th century, 3–4 for the 20th, 5–6 for the 21st, with odd numbers male and even female); YYMMDD is the date of birth; SSS is a serial number; and C is a Modulus-11 check digit.
+
+**Where to find it:** Estonian ID card (ID-kaart), passport, residence permit, driving licence, and digital signing services such as Smart-ID and Mobiil-ID.
 
 ## Related components
 

@@ -68,7 +68,9 @@ The consumer provides all CSS styling. The component renders with a `.eire-indiv
 
 ## Domain Knowledge
 
-The Eire Individual Health Identifier (IHI) is a 10-digit clinical identifier used by healthcare providers to safely match patients with their medical records across different hospitals and GPs. Unlike the Eire Personal Public Service Number (PPSN), the IHI contains no personal information and is not used for social welfare or taxes. It is primarily used behind the scenes by the Health Service Executive (HSE).
+Ten-digit lifelong identifier created under the 2014 Health Identifiers Act and operated by the Health Service Executive (HSE) to uniquely identify every person using a health or social care service in Eire. No check-digit or checksum algorithm is published for this identifier; correctness is confirmed by the issuing authority's own records, not by the format alone.
+
+**Where to find it:** HSE correspondence, hospital and GP appointment letters, the National Shared Care Record, and patient-facing portals.
 
 ## Related components
 

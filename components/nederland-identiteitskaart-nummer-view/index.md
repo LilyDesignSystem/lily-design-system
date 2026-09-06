@@ -55,7 +55,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The Identiteitskaart Nummer is Netherlands's national-id identifier. Format: 9 characters following the same format as the passport number; 'O' is disallowed but '0' is permitted.
+Nine characters: positions 1 and 2 are uppercase letters [A-Z] except O; positions 3–8 are alphanumeric [A-Z][0-9] except the letter O; position 9 is a digit [0-9]. The character O is disallowed (to avoid confusion with 0), but the digit 0 is allowed. No check-digit or checksum algorithm is published for this identifier; correctness is confirmed by the issuing authority's own records, not by the format alone.
+
+**Where to find it:** Dutch national identity card (Nederlandse identiteitskaart), printed on the front of the card and in the machine-readable zone.
 
 ## Related components
 

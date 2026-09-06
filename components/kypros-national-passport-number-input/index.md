@@ -60,7 +60,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The National Passport Number is Kypros's passport identifier. Format: passports before 13/12/2010 begin with 'E' followed by 6 digits (e.g. E123456); biometric passports issued after 13/12/2010 begin with 'K' followed by 8 digits (e.g. K12345678).
+Passports issued before 13 December 2010 use the letter 'E' followed by six digits (e.g. E123456); biometric passports issued after that date use the letter 'K' followed by eight digits (e.g. K12345678). No check-digit or checksum algorithm is published for this identifier; correctness is confirmed by the issuing authority's own records, not by the format alone.
+
+**Where to find it:** Kypros passport issued by the Civil Registry Department of the Ministry of the Interior.
 
 ## Related components
 

@@ -60,7 +60,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The Cod Numeric Personal (CNP) is Romania's national-id identifier. Format: 13 digits: gender and century (1/3/5/7 male; 2/4/6/8 female; 9 foreigner), date of birth (YYMMDD), country zone (01-52, or 99 for Bucharest sectors), serial (3 digits), and a Modulus-11 checksum digit.
+Thirteen digits: a leading sex/century digit (1 male 1900–1999, 2 female 1900–1999, 3 male 1800–1899, 4 female 1800–1899, 5 male 2000+, 6 female 2000+, 7 male resident, 8 female resident, 9 foreign citizen); date of birth (YYMMDD); two-digit county code (01–52, or 99 for non-Romanians, or 4 followed by a Bucharest sector number); a three-digit serial number; and a check digit computed by weighted multiplication with the constant 279146358279 modulo 11 (remainder 10 maps to 1).
+
+**Where to find it:** Romanian Birth Certificate, Identity Card (Carte de Identitate), and Driving Licence.
 
 ## Related components
 

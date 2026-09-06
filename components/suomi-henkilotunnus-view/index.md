@@ -55,7 +55,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The Henkilötunnus (HETU) is Finland's national-id identifier. Format: 11 characters in the format DDMMYYCZZZQ: DDMMYY is the date of birth, C is the century sign (+, -, or A), ZZZ is an individual number (odd male, even female), Q is the checksum.
+Eleven characters of the form DDMMYYCZZZQ: DDMMYY is the date of birth, C is the century sign (+ for 1800–1899, - for 1900–1999, A for 2000–2099), ZZZ is the individual number (odd for males and even for females; for people born in Finland the range is 002–899), and Q is the check character (a digit or letter from a defined alphabet). Example: 311280-888Y.
+
+**Where to find it:** Finnish ID card, passport, residence permit, driving licence, and the Suomi.fi portal.
 
 ## Related components
 

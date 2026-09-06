@@ -55,7 +55,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG) is Wales's healthcare identifier. Format: 10 digits in 3-3-4 format with a Modulus-11 check digit (shared with England and the Isle of Man).
+Ten-digit identifier in 3-3-4 format with a Modulus-11 check digit, shared with England and the Isle of Man and issued at birth or on first registration with a GP.
+
+**Where to find it:** NHS Wales medical card, GP correspondence, prescriptions, hospital appointment letters, and the NHS Wales App.
 
 ## Related components
 

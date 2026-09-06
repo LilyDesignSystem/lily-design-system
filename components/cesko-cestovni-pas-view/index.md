@@ -55,7 +55,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The Cestovní pas is Czech Republic's passport identifier. Format: usually 8 digits, sometimes longer, issued by the Ministry of the Interior.
+Usually an eight-digit number (sometimes longer) printed on the data page of the biometric Czech passport issued by the Ministry of the Interior. No check-digit or checksum algorithm is published for this identifier; correctness is confirmed by the issuing authority's own records, not by the format alone.
+
+**Where to find it:** Czech passport (cestovní pas) issued by the Ministry of the Interior of the Czech Republic.
 
 ## Related components
 

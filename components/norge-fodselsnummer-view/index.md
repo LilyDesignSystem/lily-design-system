@@ -55,7 +55,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The Fødselsnummer is Norway's national-id identifier. Format: 11 digits where the first 6 represent the date of birth (DDMMYY).
+Eleven digits where the first six are the date of birth (DDMMYY) and the next three are a personal/serial number — odd for males, even for females. The final two digits are check digits computed using a weighted Modulus-11.
+
+**Where to find it:** Norwegian passport, national ID card, driving licence, bank cards, payslips, and the Altinn government portal.
 
 ## Related components
 

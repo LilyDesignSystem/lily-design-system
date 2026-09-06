@@ -55,7 +55,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The Liechtenstein Passport Number is Liechtenstein's passport identifier. Format: 1 letter followed by 5 digits (e.g. R00536).
+Combination of 1 letter and 5 numbers, for example R00536. No check-digit or checksum algorithm is published for this identifier; correctness is confirmed by the issuing authority's own records, not by the format alone.
+
+**Where to find it:** Liechtenstein passport (Reisepass) issued by the Office of Civil Affairs.
 
 ## Related components
 

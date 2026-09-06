@@ -60,7 +60,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The Código de Identificación Fiscal (CIF) is Spain's tax identifier. Format: 9 characters: 8 numbers and a control letter (the letters I, Ñ, O, and U are not used).
+Nine characters: eight digits plus a control letter (the letters I, Ñ, O, and U are not used). Example: 99111222M. For Spanish citizens the NIF equals the DNI; foreign residents use the NIE (leading letter X, Y, or Z). Since 2008 the CIF form is reserved for legal entities, while NIF designates natural persons. The control letter is computed with a Modulo 23 algorithm: the 8-digit number modulo 23 indexes into the fixed 23-character table "TRWAGMYFPDXBNJZSQVHLCKE" (e.g. 12345678 mod 23 = 14 → "Z"); for a NIE the leading letter is first mapped to a digit (X→0, Y→1, Z→2) before the same calculation.
+
+**Where to find it:** Spanish national identity card (DNI), the residence card (NIE) for foreign residents, the driving licence, and the social security card.
 
 ## Related components
 

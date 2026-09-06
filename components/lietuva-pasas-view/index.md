@@ -55,7 +55,9 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Domain Knowledge
 
-The Pasas is Lithuania's passport identifier. Format: 8-digit passport or identity card number.
+Eight-digit passport-document number printed on the Lithuanian passport (the same document number form is also used on the national ID card). No check-digit or checksum algorithm is published for this identifier; correctness is confirmed by the issuing authority's own records, not by the format alone.
+
+**Where to find it:** Lithuanian passport (Pasas) and national ID card issued by the Migration Department.
 
 ## Related components
 
