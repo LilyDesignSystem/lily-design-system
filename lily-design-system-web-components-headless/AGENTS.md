@@ -1,6 +1,6 @@
 # Lily Design System - Web Components Headless
 
-A headless component library built on **native custom elements** (the Web Components platform APIs) rather than a JavaScript framework. **Partial catalog, growing toward full parity**: 125 of the canonical 491 components as of 2026-09-06 (the original 33 spanning every major category, plus all 92 national personal identifier components). 35 components are permanently excluded by a real architectural limitation (table sub-elements and interactive `*ListItem` families); the rest are open backlog, not a permanent exclusion — see `spec/index.md` for the exact accounting.
+A headless component library built on **native custom elements** (the Web Components platform APIs) rather than a JavaScript framework. **Partial catalog, growing toward full parity**: 261 of the canonical 491 components as of 2026-09-06. 35 components are permanently excluded by a real architectural limitation (table sub-elements and interactive `*ListItem` families); the rest are open backlog, not a permanent exclusion — see `spec/index.md` for the exact accounting.
 
 @AGENTS/lily.md
 @AGENTS/components.md
@@ -13,7 +13,7 @@ A headless component library built on **native custom elements** (the Web Compon
 ## Quick Reference
 
 - **Package**: lily-design-system-web-components-headless
-- **Version**: 0.2.0
+- **Version**: 0.3.0
 - **Created**: 2026-09-02
 - **License**: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause or contact us for more
 - **Contact**: Joel Parker Henderson (joel@joelparkerhenderson.com)

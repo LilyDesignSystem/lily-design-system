@@ -27,9 +27,12 @@ describe("dist/index.js (built package entry point)", () => {
         }
         // 30 from the P7-T6 slice + the 3-component breadcrumb family
         // added by the P8-T7 "upgrade in place" pilot + the 92 national
-        // personal identifier components (46 slugs x -input/-view) added
-        // in the P8-T14/P9 completion push.
-        expect(SLUGS.length).toBe(125);
+        // personal identifier components (46 slugs x -input/-view) + 136
+        // more added in the 2026-09-06 completion push's first two waves
+        // (lists, forms, pickers, links, overlays/tables/media/data-viz/
+        // buttons, and 13 more passive *ListItem families via "upgrade in
+        // place").
+        expect(SLUGS.length).toBe(261);
     });
 
     test("a component rendered via the built bundle behaves like the source version", async () => {
