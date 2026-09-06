@@ -253,6 +253,39 @@ kbd {
   margin: 1.5rem 0;
 }
 
+.framework-icon-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 1.5rem 0;
+  padding: 0;
+  list-style: none;
+}
+.framework-icon-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  width: 6rem;
+  padding: 0.75rem 0.5rem;
+  border-radius: var(--lily-radius);
+  color: var(--lily-text-muted);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+  transition: background 150ms, color 150ms;
+}
+.framework-icon-link:hover {
+  background: var(--lily-card-bg);
+  color: var(--lily-primary);
+}
+.framework-icon-link img {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
 /* Card grids */
 
 .card-grid {
