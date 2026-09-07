@@ -139,7 +139,11 @@ at the repo root.
   nav links, and the three preference pickers (`SitePreferences.svelte`)
   all stay on a single line at every viewport width — no wrapping onto a
   second row. A narrow viewport makes the nav horizontally scrollable
-  rather than wrapping or shrinking illegibly.
+  rather than wrapping or shrinking illegibly. This is about the header
+  row's own layout, not about content a picker opens: a clicked picker's
+  listbox/disclosure is expected to descend below the header (it already
+  does — each helper package's own `{helper}-list` is positioned
+  absolute, out of the row's normal flow) and is not a second header row.
 - **No eyebrows.** A small uppercase/muted label sitting above a heading
   purely for visual rhythm (e.g. "The idea", "Quick start", "Why headless?")
   is not part of this site's own design — a heading stands on its own.
