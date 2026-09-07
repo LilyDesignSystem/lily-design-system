@@ -80,10 +80,6 @@
         <a class="component-list-item-link" href="/components/{component.name}/">
           <span class="component-list-item-name">{component.name}:</span>
         </a>
-          <span
-            class="component-status component-status-{component.status}"
-            title="Maturity: {component.status}">{component.status}</span
-          >
           <span class="component-list-item-description">{component.description}</span>
       </li>
     {/each}

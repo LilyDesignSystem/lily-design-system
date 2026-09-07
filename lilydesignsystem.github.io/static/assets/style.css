@@ -480,22 +480,6 @@ a.card:hover { color: inherit; }
   color: var(--lily-text-muted);
   margin-inline-start: 0.35rem;
 }
-.component-status {
-  display: inline-block;
-  margin-inline-start: 0.5rem;
-  padding: 0 0.45rem;
-  border: 1px solid currentColor;
-  border-radius: 999px;
-  font-size: 0.72rem;
-  line-height: 1.4;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  vertical-align: middle;
-}
-.component-status-stable { color: #0f7a52; }
-.component-status-beta { color: #4c5b66; }
-.component-status-experimental { color: #b45309; }
-
 /* Tag list (chips for categories) */
 
 .tag-list {

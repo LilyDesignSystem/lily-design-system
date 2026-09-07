@@ -7,15 +7,11 @@
   type NavLink = { href: string; label: string };
   const navLinks: NavLink[] = [
     { href: '/', label: 'Home' },
-    { href: '/why/', label: 'Why Lily' },
     { href: '/components/', label: 'Components' },
     { href: '/tutorials/', label: 'Tutorials' },
     { href: '/examples/', label: 'Examples' },
-    { href: '/lily-claude-code/', label: 'Claude Skills' },
+    { href: '/lily-claude-code/', label: 'Skills' },
     { href: '/help/', label: 'Help' },
-    { href: '/accessibility/', label: 'Accessibility' },
-    { href: '/news/', label: 'News' },
-    { href: '/roadmap/', label: 'Roadmap' },
     { href: '/about/', label: 'About' }
   ];
 

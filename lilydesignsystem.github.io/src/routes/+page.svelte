@@ -112,10 +112,6 @@
         <a class="component-list-item-link" href="/components/{component.name}/">
           <span class="component-list-item-name">{component.name}:</span>
         </a>
-          <span
-            class="component-status component-status-{component.status}"
-            title="Maturity: {component.status}">{component.status}</span
-          >
           <span class="component-list-item-description">{component.description}</span>
       </li>
     {/each}
@@ -320,10 +316,10 @@ pnpm install && pnpm run dev`}</code></pre>
     <li>Accessibility is a day-one requirement for your product.</li>
     <li>Your product ships in more than one language.</li>
     <li>Your organisation uses more than one framework — or might someday.</li>
-    <li>You build public-sector or healthcare services and want NHS / GOV.UK / USWDS patterns and themes out of the box.</li>
+    <li>You want NHS / GOV.UK / USWDS patterns and themes out of the box.</li>
   </ul>
   <p>
-    Weighing your options? We keep an honest, component-by-component
+    See the component-by-component
     <a href="/comparisons/">comparison against 17 design systems</a> — styled
     and headless, commercial and public-sector — so you can choose with
     confidence.
