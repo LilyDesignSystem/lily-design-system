@@ -7,7 +7,6 @@
 </svelte:head>
 
 <section class="page-intro">
-  <p class="page-intro-eyebrow">Accessibility</p>
   <h1>What “targets WCAG 2.2 AAA” means here</h1>
   <p class="page-intro-tagline">
     The word <em>targets</em> is deliberate. This page says precisely what is

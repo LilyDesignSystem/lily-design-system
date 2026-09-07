@@ -7,7 +7,6 @@
 </svelte:head>
 
 <section class="page-intro">
-  <p class="page-intro-eyebrow">Lily + Figma</p>
   <h1>No maintained Figma library — here's what exists instead</h1>
   <p class="page-intro-tagline">
     This page used to say "coming soon." It doesn't anymore, because nobody

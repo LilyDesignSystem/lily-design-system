@@ -7,7 +7,6 @@
 </svelte:head>
 
 <section class="page-intro">
-  <p class="page-intro-eyebrow">Lily + Claude Code</p>
   <h1>26 Claude Skills, one for every layer</h1>
   <p class="page-intro-tagline">
     Instead of one giant skill covering all seven frameworks and every

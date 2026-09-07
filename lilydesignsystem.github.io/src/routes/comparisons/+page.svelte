@@ -3,7 +3,6 @@
 </svelte:head>
 
 <section class="page-intro">
-  <p class="page-intro-eyebrow">Comparisons</p>
   <h1>Comparisons</h1>
 </section>
 

@@ -86,7 +86,7 @@
   <div class="button-row">
     <a class="button button-primary" href="/tutorials/">Start the tutorial</a>
     <a class="button button-secondary" href="/components/">Browse headless components</a>
-    <a class="button button-secondary" href="/examples/">Explore styled examples</a>
+    <a class="button button-secondary" href="/examples/">Browse styled examples</a>
   </div>
 </section>
 
@@ -110,8 +110,8 @@
     {#each matches as component (component.name)}
       <li class="component-list-item">
         <a class="component-list-item-link" href="/components/{component.name}/">
-          <span class="component-list-item-name">{component.name}:</span>
-        </a>
+          <span class="component-list-item-name">{component.name}</span>
+        </a>:
           <span class="component-list-item-description">{component.description}</span>
       </li>
     {/each}
@@ -120,7 +120,6 @@
 
 <section class="section">
   <header class="section-heading">
-    <p class="section-heading-eyebrow">The idea</p>
     <h2>Your design, from day one</h2>
   </header>
 
@@ -147,7 +146,6 @@
 
 <section class="section">
   <header class="section-heading">
-    <p class="section-heading-eyebrow">Quick start</p>
     <h2>Try Lily in 30 seconds</h2>
   </header>
 
@@ -181,14 +179,13 @@
 
 <section class="section">
   <header class="section-heading">
-    <p class="section-heading-eyebrow">See it in action</p>
     <h2>Seven styled example apps, yours to explore and adjust</h2>
   </header>
 
   <div class="prose" style="margin: 0 auto;">
     <p>
       Curious what Lily looks like fully dressed? Seven complete example apps
-      show the} components live and
+      show every one of the {LILY_COMPONENTS.length} components live and
       styled — one app per framework: plain HTML+CSS+JS, SvelteKit, Next.js,
       Nuxt, Angular + Analog, Blazor Web, and Nunjucks + Eleventy.
     </p>
@@ -212,7 +209,6 @@ pnpm install && pnpm run dev`}</code></pre>
 
 <section class="section">
   <header class="section-heading">
-    <p class="section-heading-eyebrow">Learn</p>
     <h2>Find your path</h2>
   </header>
 
@@ -268,7 +264,6 @@ pnpm install && pnpm run dev`}</code></pre>
 
 <section class="section">
   <header class="section-heading">
-    <p class="section-heading-eyebrow">Why headless?</p>
     <h2>Your design. Our groundwork.</h2>
   </header>
 
@@ -307,7 +302,6 @@ pnpm install && pnpm run dev`}</code></pre>
 
 <section class="section prose" style="margin: 0 auto;">
   <header class="section-heading">
-    <p class="section-heading-eyebrow">A quick fit check</p>
     <h2>Lily shines when…</h2>
   </header>
 
@@ -328,7 +322,6 @@ pnpm install && pnpm run dev`}</code></pre>
 
 <section class="section prose" style="margin: 0 auto;" aria-label="Common questions">
   <header class="section-heading">
-    <p class="section-heading-eyebrow">Questions?</p>
     <h2>Good questions, quick answers</h2>
   </header>
 

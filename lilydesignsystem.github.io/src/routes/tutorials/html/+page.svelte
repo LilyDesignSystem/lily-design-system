@@ -4,7 +4,6 @@
 </svelte:head>
 
 <section class="page-intro">
-  <p class="page-intro-eyebrow">Tutorials</p>
   <h1>HTML tutorial</h1>
   <p class="page-intro-tagline">
     The simplest possible start: copy semantic HTML with Lily's class hooks,

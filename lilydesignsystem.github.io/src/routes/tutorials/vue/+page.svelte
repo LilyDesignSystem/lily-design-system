@@ -4,7 +4,6 @@
 </svelte:head>
 
 <section class="page-intro">
-  <p class="page-intro-eyebrow">Tutorials</p>
   <h1>Vue tutorial</h1>
   <p class="page-intro-tagline">
     Vue 3 single-file components with typed props, <code>defineModel</code>

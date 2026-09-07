@@ -4,7 +4,6 @@
 </svelte:head>
 
 <section class="page-intro">
-  <p class="page-intro-eyebrow">Tutorials</p>
   <h1>Angular tutorial</h1>
   <p class="page-intro-tagline">
     Angular 20 standalone components — signal inputs, OnPush change

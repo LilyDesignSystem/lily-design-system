@@ -4,7 +4,6 @@
 </svelte:head>
 
 <section class="page-intro">
-  <p class="page-intro-eyebrow">Tutorials</p>
   <h1>Theming</h1>
   <p class="page-intro-tagline">
     Lily components carry stable class hooks and zero CSS — so a theme is

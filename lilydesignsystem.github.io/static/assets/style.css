@@ -120,7 +120,12 @@ kbd {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  /* One row always (spec §4): on a narrow viewport, brand + pickers
+     alone can already exceed the width, leaving the nav no room even
+     at zero width — so the whole row scrolls horizontally as a unit
+     rather than the nav alone trying to absorb the squeeze. */
+  overflow-x: auto;
 }
 
 .site-brand {
@@ -131,6 +136,8 @@ kbd {
   font-size: 1.125rem;
   color: var(--lily-text);
   text-decoration: none;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 .site-brand:hover { color: var(--lily-primary); }
 .site-brand-mark { width: 1.75rem; height: 1.75rem; display: inline-block; vertical-align: middle; }
@@ -138,7 +145,8 @@ kbd {
 .site-nav {
   display: flex;
   gap: 0.25rem;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
 }
 .site-nav a {
   color: var(--lily-text-muted);
@@ -147,6 +155,8 @@ kbd {
   border-radius: var(--lily-radius);
   font-size: 0.95rem;
   transition: background 150ms;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 .site-nav a:hover { background: var(--lily-border); color: var(--lily-text); }
 .site-nav a[aria-current="page"] {
@@ -157,16 +167,35 @@ kbd {
 
 /* Site preference pickers (theme, text size, share) — headless helper
  * packages (lily-design-system-svelte-{theme,text-size,share}-picker).
- * Each ships zero CSS of its own; the ThemePicker's default-selected
- * "light" reference theme (static/assets/themes/light.css) is what
- * actually styles their buttons, glyphs, and listboxes — see
- * :where(.theme-picker, .text-size-picker, .share-picker) there. This
- * rule is only the row layout that places the three in the header. */
+ * Each ships zero CSS of its own; the ThemePicker's currently-selected
+ * theme is what actually styles their buttons, glyphs, and listboxes —
+ * see :where(.theme-picker, .text-size-picker, .share-picker) in each
+ * themes/*.css. This rule is only the row layout that places the three
+ * in the header. */
 .site-preferences {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   flex-shrink: 0;
+  /* Real bug found 2026-09-07: this site's own :root block hardcodes
+   * --lily-text/-text-muted/-border/-border-strong to fixed light-mode
+   * values, and those (real specificity) beat the loaded theme's own
+   * :where(:root) definitions for the same names (zero specificity, by
+   * design — see AGENTS/theme.md, "consumer overrides win"). Since the
+   * picker buttons sit on --lily-surface (which the site never
+   * redefines, so it DOES correctly track the active theme), a theme
+   * whose surface goes dark — including "dark" itself, auto-selected
+   * for anyone with a system dark-mode preference via ThemePicker's
+   * detectFromSystem — left the buttons dark-on-dark: near-invisible
+   * icons, a hard-to-read border. Re-derived from the same underlying
+   * --color-* primitives every theme already exposes (not duplicated
+   * from a specific theme file, so it stays correct across all 45),
+   * scoped to just this row so the rest of the page's fixed light
+   * chrome is untouched. */
+  --lily-text: var(--color-base-content);
+  --lily-text-muted: color-mix(in oklch, var(--color-base-content) 70%, transparent);
+  --lily-border: color-mix(in oklch, var(--color-base-content) 20%, transparent);
+  --lily-border-strong: color-mix(in oklch, var(--color-base-content) 40%, transparent);
 }
 
 /* This site's own `p { margin: 0 0 1rem; }` reset above has real
@@ -568,7 +597,6 @@ details.faq-item p { margin-top: 0.75rem; }
 /* Responsive helpers */
 
 @media (max-width: 640px) {
-  .site-nav { width: 100%; justify-content: flex-start; }
   .site-main { padding: 2rem 1rem; }
   .page-intro { padding: 2rem 1rem 1rem; }
 }

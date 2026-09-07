@@ -4,7 +4,6 @@
 </svelte:head>
 
 <section class="page-intro">
-  <p class="page-intro-eyebrow">Tutorials</p>
   <h1>Preference helpers</h1>
   <p class="page-intro-tagline">
     Five small packages per framework, each owning one user job end to end.

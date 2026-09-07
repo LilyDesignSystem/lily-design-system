@@ -11,7 +11,6 @@
 </svelte:head>
 
 <section class="page-intro">
-  <p class="page-intro-eyebrow">Roadmap</p>
   <h1>What we're working on</h1>
   <p class="page-intro-tagline">
     The phased improvement plan, rendered from the repository's canonical

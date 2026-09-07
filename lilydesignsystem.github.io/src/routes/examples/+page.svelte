@@ -7,7 +7,6 @@
 </svelte:head>
 
 <section class="page-intro">
-  <p class="page-intro-eyebrow">Examples</p>
   <h1>See Lily in real apps</h1>
   <p class="page-intro-tagline">
     Seven worked example projects show how to take the headless components, layer
@@ -17,7 +16,6 @@
 
 <section class="section">
   <header class="section-heading">
-    <p class="section-heading-eyebrow">Batteries-included</p>
     <h2>Demo apps with full CSS and routing</h2>
   </header>
 
@@ -89,7 +87,6 @@
 
 <section class="section">
   <header class="section-heading">
-    <p class="section-heading-eyebrow">What's inside</p>
     <h2>Every example app has the same shape</h2>
   </header>
 

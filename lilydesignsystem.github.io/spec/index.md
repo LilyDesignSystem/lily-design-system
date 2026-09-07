@@ -135,6 +135,20 @@ at the repo root.
 - **One tutorial page per framework, two cross-cutting.** `/tutorials/`
   mirrors the seven framework pairs 1:1, plus `theming` and `helpers` which
   apply to all seven.
+- **The header is one row, never more.** The brand mark and title, the top
+  nav links, and the three preference pickers (`SitePreferences.svelte`)
+  all stay on a single line at every viewport width — no wrapping onto a
+  second row. A narrow viewport makes the nav horizontally scrollable
+  rather than wrapping or shrinking illegibly.
+- **No eyebrows.** A small uppercase/muted label sitting above a heading
+  purely for visual rhythm (e.g. "The idea", "Quick start", "Why headless?")
+  is not part of this site's own design — a heading stands on its own.
+  Removed 2026-09-07 (maintainer decision) from every page-intro banner and
+  every in-page section heading. This is about this site's own chrome, not
+  the canonical catalog: the real `SectionHeading`, `Headline`, and
+  `BodyText` components document a genuine `eyebrow` slot/prop as part of
+  their own contract, and those component pages' documentation and demos
+  are untouched by this rule.
 
 ## 5. Content model
 

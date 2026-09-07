@@ -7,7 +7,6 @@
 </svelte:head>
 
 <section class="page-intro">
-  <p class="page-intro-eyebrow">Why Lily</p>
   <h1>The case for Lily</h1>
   <p class="page-intro-tagline">
     Lily hands you the hard parts — semantics, accessibility, keyboard

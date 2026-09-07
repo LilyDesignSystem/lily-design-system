@@ -7,7 +7,6 @@
 </svelte:head>
 
 <section class="page-intro">
-  <p class="page-intro-eyebrow">About</p>
   <h1>What is Lily?</h1>
   <p class="page-intro-tagline">
     A free, open-source, accessible-first design system that meets you where you

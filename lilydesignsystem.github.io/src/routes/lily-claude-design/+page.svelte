@@ -3,7 +3,6 @@
 </svelte:head>
 
 <section class="page-intro">
-  <p class="page-intro-eyebrow">Lily + Claude Design</p>
   <h1>Lily + Claude Design</h1>
 </section>
 

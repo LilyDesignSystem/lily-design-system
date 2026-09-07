@@ -11,7 +11,6 @@
 </svelte:head>
 
 <section class="page-intro">
-  <p class="page-intro-eyebrow">News</p>
   <h1>Announcements and status</h1>
   <p class="page-intro-tagline">
     Rendered from the repository's canonical

@@ -7,7 +7,6 @@
 </svelte:head>
 
 <section class="page-intro">
-  <p class="page-intro-eyebrow">Tutorials</p>
   <h1>Learn Lily, step by step</h1>
   <p class="page-intro-tagline">
     Welcome! Every tutorial starts from scratch and builds the same small
@@ -44,7 +43,6 @@
 
 <section class="section">
   <header class="section-heading">
-    <p class="section-heading-eyebrow">The learning path</p>
     <h2>Four steps from zero to shipped</h2>
   </header>
   <div class="prose" style="margin: 0 auto;">
@@ -74,7 +72,6 @@
 
 <section class="section">
   <header class="section-heading">
-    <p class="section-heading-eyebrow">Steps 1 and 2</p>
     <h2>Pick your framework</h2>
   </header>
   <div class="card-grid">
@@ -123,7 +120,6 @@
 
 <section class="section">
   <header class="section-heading">
-    <p class="section-heading-eyebrow">Steps 3 and 4</p>
     <h2>Go deeper</h2>
   </header>
   <div class="card-grid">

@@ -4,7 +4,6 @@
 </svelte:head>
 
 <section class="page-intro">
-  <p class="page-intro-eyebrow">Tutorials</p>
   <h1>Nunjucks tutorial</h1>
   <p class="page-intro-tagline">
     Server-rendered macros for Eleventy, Express, or any Node templating

@@ -4,7 +4,6 @@
 </svelte:head>
 
 <section class="page-intro">
-  <p class="page-intro-eyebrow">Tutorials</p>
   <h1>Blazor tutorial</h1>
   <p class="page-intro-tagline">
     Razor class library components with parameters, <code>ChildContent</code>

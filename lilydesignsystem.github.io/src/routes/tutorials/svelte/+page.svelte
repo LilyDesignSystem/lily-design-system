@@ -4,7 +4,6 @@
 </svelte:head>
 
 <section class="page-intro">
-  <p class="page-intro-eyebrow">Tutorials</p>
   <h1>Svelte tutorial</h1>
   <p class="page-intro-tagline">
     Lily's Svelte library is the canonical implementation: Svelte 5 runes,

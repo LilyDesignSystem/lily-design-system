@@ -4,7 +4,6 @@
 </svelte:head>
 
 <section class="page-intro">
-  <p class="page-intro-eyebrow">Tutorials</p>
   <h1>React tutorial</h1>
   <p class="page-intro-tagline">
     Typed function components, one file each, controlled with the standard
