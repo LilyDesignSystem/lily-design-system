@@ -3,10 +3,10 @@
   <meta name="description" content="Build an accessible, styled form with Lily's React headless components: typed function components with value + onChange." />
 </svelte:head>
 
-<section class="hero">
-  <p class="hero-eyebrow">Tutorials</p>
+<section class="page-intro">
+  <p class="page-intro-eyebrow">Tutorials</p>
   <h1>React tutorial</h1>
-  <p class="hero-tagline">
+  <p class="page-intro-tagline">
     Typed function components, one file each, controlled with the standard
     <code>value</code> + <code>onChange</code> pattern — everything works
     the way React already does.

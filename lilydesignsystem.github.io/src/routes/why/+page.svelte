@@ -6,10 +6,10 @@
   />
 </svelte:head>
 
-<section class="hero">
-  <p class="hero-eyebrow">Why Lily</p>
+<section class="page-intro">
+  <p class="page-intro-eyebrow">Why Lily</p>
   <h1>The case for Lily</h1>
-  <p class="hero-tagline">
+  <p class="page-intro-tagline">
     Lily hands you the hard parts — semantics, accessibility, keyboard
     behaviour, internationalization — and leaves the look entirely,
     happily, to you.

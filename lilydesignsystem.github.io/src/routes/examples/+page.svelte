@@ -6,10 +6,10 @@
   />
 </svelte:head>
 
-<section class="hero">
-  <p class="hero-eyebrow">Examples</p>
+<section class="page-intro">
+  <p class="page-intro-eyebrow">Examples</p>
   <h1>See Lily in real apps</h1>
-  <p class="hero-tagline">
+  <p class="page-intro-tagline">
     Seven worked example projects show how to take the headless components, layer
     on styling, and ship a real website. Pick the framework you use.
   </p>

@@ -10,10 +10,10 @@
   />
 </svelte:head>
 
-<section class="hero">
-  <p class="hero-eyebrow">Roadmap</p>
+<section class="page-intro">
+  <p class="page-intro-eyebrow">Roadmap</p>
   <h1>What we're working on</h1>
-  <p class="hero-tagline">
+  <p class="page-intro-tagline">
     The phased improvement plan, rendered from the repository's canonical
     <a
       href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/plan.md"

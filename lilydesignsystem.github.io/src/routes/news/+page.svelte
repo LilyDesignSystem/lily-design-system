@@ -10,10 +10,10 @@
   />
 </svelte:head>
 
-<section class="hero">
-  <p class="hero-eyebrow">News</p>
+<section class="page-intro">
+  <p class="page-intro-eyebrow">News</p>
   <h1>Announcements and status</h1>
-  <p class="hero-tagline">
+  <p class="page-intro-tagline">
     Rendered from the repository's canonical
     <a
       href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/NEWS.md"

@@ -23,9 +23,9 @@
   />
 </svelte:head>
 
-<section class="hero">
+<section class="page-intro">
   <h1>Build web designs better.</h1>
-  <p class="hero-tagline">
+  <p class="page-intro-tagline">
     Lily™ is a free open-source design system with
     hundreds of components. You can use headless
     where you bring your own CSS, or styled customizable themes.

@@ -6,10 +6,10 @@
   />
 </svelte:head>
 
-<section class="hero">
-  <p class="hero-eyebrow">Lily + Claude Code</p>
+<section class="page-intro">
+  <p class="page-intro-eyebrow">Lily + Claude Code</p>
   <h1>26 Claude Skills, one for every layer</h1>
-  <p class="hero-tagline">
+  <p class="page-intro-tagline">
     Instead of one giant skill covering all seven frameworks and every
     subproject, Lily ships 26 small ones — general, per-framework, and
     per-subproject — so an agent loads exactly the context it needs and

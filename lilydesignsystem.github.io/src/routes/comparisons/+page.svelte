@@ -2,8 +2,8 @@
   <title>Comparisons — Lily Design System</title>
 </svelte:head>
 
-<section class="hero">
-  <p class="hero-eyebrow">Comparisons</p>
+<section class="page-intro">
+  <p class="page-intro-eyebrow">Comparisons</p>
   <h1>Comparisons</h1>
 </section>
 

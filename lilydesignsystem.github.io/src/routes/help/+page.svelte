@@ -6,10 +6,10 @@
   />
 </svelte:head>
 
-<section class="hero">
-  <p class="hero-eyebrow">Help</p>
+<section class="page-intro">
+  <p class="page-intro-eyebrow">Help</p>
   <h1>Getting started with Lily</h1>
-  <p class="hero-tagline">
+  <p class="page-intro-tagline">
     Pick a framework, clone the headless repo or the example app, and start
     composing your own pages. Prefer a guided path? Start with the
     <a href="/tutorials/">tutorials</a>.

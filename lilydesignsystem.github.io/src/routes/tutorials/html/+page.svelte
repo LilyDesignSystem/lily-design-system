@@ -3,10 +3,10 @@
   <meta name="description" content="Build an accessible, styled form with Lily's HTML headless components — plain markup, straight from a file." />
 </svelte:head>
 
-<section class="hero">
-  <p class="hero-eyebrow">Tutorials</p>
+<section class="page-intro">
+  <p class="page-intro-eyebrow">Tutorials</p>
   <h1>HTML tutorial</h1>
-  <p class="hero-tagline">
+  <p class="page-intro-tagline">
     The simplest possible start: copy semantic HTML with Lily's class hooks,
     add one stylesheet, ship. Plain files that work anywhere HTML works.
   </p>

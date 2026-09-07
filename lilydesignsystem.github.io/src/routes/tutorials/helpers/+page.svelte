@@ -3,10 +3,10 @@
   <meta name="description" content="Add user language and text-size preferences with Lily's locale-picker and text-size-picker helpers: headless icon-button + listbox controls with persistence and SSR safety." />
 </svelte:head>
 
-<section class="hero">
-  <p class="hero-eyebrow">Tutorials</p>
+<section class="page-intro">
+  <p class="page-intro-eyebrow">Tutorials</p>
   <h1>Preference helpers</h1>
-  <p class="hero-tagline">
+  <p class="page-intro-tagline">
     Five small packages per framework, each owning one user job end to end.
     You've met <a href="/tutorials/theming/">theme-picker</a>; here are
     locale-picker and text-size-picker (preferences), plus share-picker and

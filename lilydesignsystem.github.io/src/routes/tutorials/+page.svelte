@@ -6,10 +6,10 @@
   />
 </svelte:head>
 
-<section class="hero">
-  <p class="hero-eyebrow">Tutorials</p>
+<section class="page-intro">
+  <p class="page-intro-eyebrow">Tutorials</p>
   <h1>Learn Lily, step by step</h1>
-  <p class="hero-tagline">
+  <p class="page-intro-tagline">
     Welcome! Every tutorial starts from scratch and builds the same small
     thing — an accessible, styled form — in about 10 minutes, so you can
     compare frameworks apples-to-apples. Then go deeper with theming and

@@ -40,7 +40,7 @@
   />
 </svelte:head>
 
-<section class="hero">
+<section class="page-intro">
   <h1>All Lily components</h1>
 </section>
 

@@ -3,10 +3,10 @@
   <meta name="description" content="Build an accessible, styled form with Lily's Angular 20 headless components: standalone components with signal inputs." />
 </svelte:head>
 
-<section class="hero">
-  <p class="hero-eyebrow">Tutorials</p>
+<section class="page-intro">
+  <p class="page-intro-eyebrow">Tutorials</p>
   <h1>Angular tutorial</h1>
-  <p class="hero-tagline">
+  <p class="page-intro-tagline">
     Angular 20 standalone components — signal inputs, OnPush change
     detection, inline templates, zero NgModules, zero CSS.
   </p>

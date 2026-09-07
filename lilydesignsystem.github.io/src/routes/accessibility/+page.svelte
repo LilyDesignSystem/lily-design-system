@@ -6,10 +6,10 @@
   />
 </svelte:head>
 
-<section class="hero">
-  <p class="hero-eyebrow">Accessibility</p>
+<section class="page-intro">
+  <p class="page-intro-eyebrow">Accessibility</p>
   <h1>What “targets WCAG 2.2 AAA” means here</h1>
-  <p class="hero-tagline">
+  <p class="page-intro-tagline">
     The word <em>targets</em> is deliberate. This page says precisely what is
     verified, by what, what is not verified by anything, and what we intend to
     do about the gap. Lily never claims WCAG “compliance” — no audit supports

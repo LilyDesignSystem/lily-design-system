@@ -194,25 +194,32 @@ kbd {
 .prose ul, .prose ol { padding-left: 1.5rem; }
 .prose li { margin-bottom: 0.25rem; }
 
-/* Hero */
+/* Page intro banner (was named "hero" — renamed 2026-09-07: it collided
+ * with the canonical Lily `Hero` component's own `.hero` class hook.
+ * Every reference theme styles `:where(.hero)` with a bold
+ * background-color: var(--color-primary) for that real catalog
+ * component; once this site started loading theme CSS for the header
+ * pickers, this site's own unrelated page-header banner silently
+ * inherited that background with none of the matching foreground-color
+ * override, making the muted tagline text unreadable against it. */
 
-.hero {
+.page-intro {
   text-align: center;
   padding: 2.5rem 1rem 1rem;
   max-width: 48rem;
   margin: 0 auto;
 }
-.hero-logo {
+.page-intro-logo {
   display: block;
   width: clamp(5rem, 12vw, 7.5rem);
   height: auto;
   margin: 0 auto 1rem;
 }
-.hero .stat-row {
+.page-intro .stat-row {
   margin: 1.5rem 0 0;
   gap: 1rem;
 }
-.hero-eyebrow {
+.page-intro-eyebrow {
   display: inline-block;
   font-size: 0.875rem;
   font-weight: 600;
@@ -224,7 +231,7 @@ kbd {
   border-radius: 9999px;
   margin-bottom: 1rem;
 }
-.hero h1 {
+.page-intro h1 {
   font-size: clamp(2.25rem, 5vw, 3.5rem);
   margin: 0.5rem 0 1rem;
   background: linear-gradient(135deg, var(--lily-primary), var(--lily-accent));
@@ -232,7 +239,7 @@ kbd {
   background-clip: text;
   color: transparent;
 }
-.hero-tagline {
+.page-intro-tagline {
   font-size: 1.25rem;
   color: var(--lily-text-muted);
   margin: 0 auto 2rem;
@@ -281,28 +288,36 @@ kbd {
 }
 
 .framework-icon-row {
+  /* Eight icons need more room than .page-intro's 48rem prose-width
+     column gives them -- at the old 6rem item width even a zero gap
+     left no space at all, so they always wrapped onto two rows
+     regardless of viewport. Widening past the parent and tightening
+     the gap together (found live 2026-09-07) is what actually fits
+     them on one line down to a real tablet width. */
   display: flex;
-  gap: 1rem;
+  gap: 0.5rem;
   flex-wrap: wrap;
   justify-content: center;
-  margin: 1.5rem 0;
+  margin: 1.5rem auto;
   padding: 0;
   list-style: none;
+  max-width: var(--lily-content-max);
 }
 .framework-icon-link {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  width: 6rem;
-  padding: 0.75rem 0.5rem;
+  width: 5rem;
+  padding: 0.75rem 0.375rem;
   border-radius: var(--lily-radius);
   color: var(--lily-text-muted);
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
   font-weight: 600;
   text-decoration: none;
   text-align: center;
   transition: background 150ms, color 150ms;
+  overflow-wrap: normal;
 }
 .framework-icon-link:hover {
   background: var(--lily-card-bg);
@@ -571,7 +586,7 @@ details.faq-item p { margin-top: 0.75rem; }
 @media (max-width: 640px) {
   .site-nav { width: 100%; justify-content: flex-start; }
   .site-main { padding: 2rem 1rem; }
-  .hero { padding: 2rem 1rem 1rem; }
+  .page-intro { padding: 2rem 1rem 1rem; }
 }
 
 /* Reduced motion */

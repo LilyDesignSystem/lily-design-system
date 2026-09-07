@@ -3,10 +3,10 @@
   <meta name="description" content="Build accessible, styled, server-rendered pages with Lily's Nunjucks macros — ideal for Eleventy." />
 </svelte:head>
 
-<section class="hero">
-  <p class="hero-eyebrow">Tutorials</p>
+<section class="page-intro">
+  <p class="page-intro-eyebrow">Tutorials</p>
   <h1>Nunjucks tutorial</h1>
-  <p class="hero-tagline">
+  <p class="page-intro-tagline">
     Server-rendered macros for Eleventy, Express, or any Node templating
     pipeline — the GOV.UK-style approach, with Lily's catalog and class hooks.
   </p>

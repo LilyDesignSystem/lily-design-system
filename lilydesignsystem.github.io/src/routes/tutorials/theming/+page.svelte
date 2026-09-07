@@ -3,10 +3,10 @@
   <meta name="description" content="Theme Lily three ways: link one of 45 ready-made themes, override it with your CSS, and add runtime theme switching with the theme-picker helper." />
 </svelte:head>
 
-<section class="hero">
-  <p class="hero-eyebrow">Tutorials</p>
+<section class="page-intro">
+  <p class="page-intro-eyebrow">Tutorials</p>
   <h1>Theming</h1>
-  <p class="hero-tagline">
+  <p class="page-intro-tagline">
     Lily components carry stable class hooks and zero CSS — so a theme is
     just a stylesheet. This tutorial goes from "link one file" to "let the
     user switch themes at runtime, persisted".

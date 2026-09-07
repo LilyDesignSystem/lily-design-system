@@ -3,10 +3,10 @@
   <meta name="description" content="Build an accessible, styled form with Lily's Blazor headless components: Razor components with parameters and bUnit tests." />
 </svelte:head>
 
-<section class="hero">
-  <p class="hero-eyebrow">Tutorials</p>
+<section class="page-intro">
+  <p class="page-intro-eyebrow">Tutorials</p>
   <h1>Blazor tutorial</h1>
-  <p class="hero-tagline">
+  <p class="page-intro-tagline">
     Razor class library components with parameters, <code>ChildContent</code>
     render fragments, attribute splatting, and a bUnit test per component.
   </p>

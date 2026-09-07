@@ -3,10 +3,10 @@
   <meta name="description" content="Build an accessible, styled form with Lily's Svelte 5 headless components: runes, snippets, and bind:value." />
 </svelte:head>
 
-<section class="hero">
-  <p class="hero-eyebrow">Tutorials</p>
+<section class="page-intro">
+  <p class="page-intro-eyebrow">Tutorials</p>
   <h1>Svelte tutorial</h1>
-  <p class="hero-tagline">
+  <p class="page-intro-tagline">
     Lily's Svelte library is the canonical implementation: Svelte 5 runes,
     typed props, rest-prop spread, and two-way binding with
     <code>bind:value</code>.
