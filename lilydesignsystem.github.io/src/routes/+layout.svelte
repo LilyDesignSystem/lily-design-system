@@ -31,7 +31,7 @@
         alt=""
         aria-hidden="true"
       />
-      <span>Lily Design System™</span>
+      <span class="site-brand-name">Lily Design System™</span>
     </a>
     <nav class="site-nav" aria-label="Main">
       {#each navLinks as link}

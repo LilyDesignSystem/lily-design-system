@@ -121,11 +121,14 @@ kbd {
   justify-content: space-between;
   gap: 1rem;
   flex-wrap: nowrap;
-  /* One row always (spec §4): on a narrow viewport, brand + pickers
-     alone can already exceed the width, leaving the nav no room even
-     at zero width — so the whole row scrolls horizontally as a unit
-     rather than the nav alone trying to absorb the squeeze. */
-  overflow-x: auto;
+  /* No overflow-x/-y here (spec §4): a clicked picker's listbox is
+     position: absolute and expected to descend below this row — giving
+     this element its own overflow-x would force overflow-y to auto too
+     (the two are CSS-coupled: any non-visible overflow-x computes the
+     other axis to auto as well), clipping that dropdown. Found live
+     2026-09-07 the same day the one-row fix first shipped. The nav
+     below is the one part that scrolls, since it never hosts a
+     picker's own popup. */
 }
 
 .site-brand {
@@ -146,7 +149,8 @@ kbd {
   display: flex;
   gap: 0.25rem;
   flex-wrap: nowrap;
-  flex-shrink: 0;
+  min-width: 0;
+  overflow-x: auto;
 }
 .site-nav a {
   color: var(--lily-text-muted);
@@ -599,6 +603,13 @@ details.faq-item p { margin-top: 0.75rem; }
 @media (max-width: 640px) {
   .site-main { padding: 2rem 1rem; }
   .page-intro { padding: 2rem 1rem 1rem; }
+  /* At this width, the brand text + pickers together can already
+     exceed the viewport with zero room left for the nav, which would
+     force the header row itself past the page edge (the nav's own
+     overflow-x can shrink it to zero, but can't go negative). Drop the
+     visible title text; the link keeps its aria-label, so the
+     accessible name is unaffected. */
+  .site-brand-name { display: none; }
 }
 
 /* Reduced motion */
