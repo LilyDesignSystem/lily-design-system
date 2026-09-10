@@ -1519,19 +1519,42 @@ dropped. None is speculative.
   Verify: add a throwaway `pnpm.overrides` to one `package.json`,
   confirm `bin/test` fails with the pointer message; remove; exits 0.
 
-- [ ] **P8-T5 `extract-zip` — the two Dependabot alerts with no upstream
-  fix.** Alerts 183 (`html-headless`) and 130 (`html-css-js-examples`),
-  high, "unvalidated symlink path traversal", `<= 2.0.1`, and the
-  advisory lists **no `first_patched_version`**. Reached only via
-  `@wdio/utils` → `@puppeteer/browsers` (WebdriverIO's browser-binary
-  downloader, dev-only, never shipped). Not fixable by a pin today.
-  Track it: re-check the advisory monthly; if `@puppeteer/browsers`
-  drops or replaces `extract-zip`, bump `@wdio/*` and close; if a
-  patched `extract-zip` appears, add a `pnpm-workspace.yaml` override.
-  Checked 2026-09-03 (end of session): still exactly alerts 183 and
-  130, both `extract-zip`, still no `first_patched_version`; the day's
-  dependency changes (new `axe-core` devDependency, the second-wave
-  overrides) opened nothing new. Next check due ~2026-10-03.
+- [ ] **P8-T5 `extract-zip` / `adm-zip` — Dependabot alerts with no
+  upstream fix.** Grew from 2 to 6 open alerts on 2026-09-10, all the
+  same root cause and all still unfixable by a pin:
+  - Alerts 183 (`html-headless`) / 130 (`html-css-js-examples`),
+    `extract-zip` `<= 2.0.1`, GHSA-jmr9-qjv8-65gv "unvalidated symlink
+    path traversal" — tracked since before 2026-09-03.
+  - New 2026-09-10: alerts 407 / 406, same two manifests, `extract-zip`
+    `<= 2.0.1` again but a **second, distinct** advisory,
+    GHSA-7pqw-9j4j-h8q3 "arbitrary file writes through symlink archive
+    entries" (CVE-2026-19693) — same package, same version range, same
+    dependency path, different disclosure.
+  - New 2026-09-10: alerts 405 / 404, same two manifests, `adm-zip`
+    `>= 0.5.9, <= 0.6.0`, GHSA-vwc7-r8mq-g2x9 "extraction follows
+    destination symlinks, allowing arbitrary file overwrite"
+    (CVE-2026-76845).
+  All six: `first_patched_version` is null (`extract-zip` has no
+  release past 2.0.1 at all; `adm-zip`'s latest, 0.6.0, is itself
+  inside the vulnerable range with nothing newer published). Both
+  packages are `development`-scope only, reached exclusively through
+  WebdriverIO's Chrome-binary tooling — `extract-zip` via
+  `@wdio/utils` → `@puppeteer/browsers`; `adm-zip` via the `chromedriver`
+  npm package (used directly and via `wdio-chromedriver-service`),
+  which declares `"adm-zip": "^0.6.0"` — a caret range that pins the
+  vulnerable release with nothing older reachable without violating
+  chromedriver's own declared semver (and no evidence versions below
+  0.5.9 are actually safe rather than merely unaudited, so overriding
+  down would trade a documented risk for an unverified one). Both
+  vulnerability classes require extracting a maliciously crafted zip
+  containing symlink entries; the zips these tools extract are Chrome
+  and chromedriver binary downloads from Google's own distribution over
+  HTTPS, not attacker-supplied archives, so real-world exploitability
+  here is low. Not fixable by a pin today.
+  Track it: re-check monthly; if `@puppeteer/browsers` drops/replaces
+  `extract-zip`, bump `@wdio/*` and close those two; if `chromedriver`
+  moves off `adm-zip` or a patched `adm-zip`/`extract-zip` ships, close
+  the rest. Next check due ~2026-10-10.
   Verify: `gh api .../dependabot/alerts --paginate -q '.[] |
   select(.state=="open")'` returns zero rows.
 
