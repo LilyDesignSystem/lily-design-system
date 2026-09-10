@@ -1519,9 +1519,10 @@ dropped. None is speculative.
   Verify: add a throwaway `pnpm.overrides` to one `package.json`,
   confirm `bin/test` fails with the pointer message; remove; exits 0.
 
-- [ ] **P8-T5 `extract-zip` / `adm-zip` — Dependabot alerts with no
-  upstream fix.** Grew from 2 to 6 open alerts on 2026-09-10, all the
-  same root cause and all still unfixable by a pin:
+- [x] **P8-T5 `extract-zip` / `adm-zip` — Dependabot alerts with no
+  upstream fix.** Closed 2026-09-10 (dismissed, not fixed — no pin
+  resolves any of the six; see below). Grew from 2 to 6 open alerts
+  that day, all the same root cause:
   - Alerts 183 (`html-headless`) / 130 (`html-css-js-examples`),
     `extract-zip` `<= 2.0.1`, GHSA-jmr9-qjv8-65gv "unvalidated symlink
     path traversal" — tracked since before 2026-09-03.
@@ -1550,13 +1551,22 @@ dropped. None is speculative.
   containing symlink entries; the zips these tools extract are Chrome
   and chromedriver binary downloads from Google's own distribution over
   HTTPS, not attacker-supplied archives, so real-world exploitability
-  here is low. Not fixable by a pin today.
-  Track it: re-check monthly; if `@puppeteer/browsers` drops/replaces
-  `extract-zip`, bump `@wdio/*` and close those two; if `chromedriver`
-  moves off `adm-zip` or a patched `adm-zip`/`extract-zip` ships, close
-  the rest. Next check due ~2026-10-10.
+  here is low. Not fixable by a pin today. Maintainer directed
+  (2026-09-10): dismissed all six via `gh api --method PATCH
+  .../dependabot/alerts/{n}` with `dismissed_reason=tolerable_risk` and
+  a `dismissed_comment` recording this reasoning on each (280-char
+  limit — trimmed to the essentials, one comment per package shared
+  across its two/four alerts). This closes the open-alert count without
+  changing any dependency; it is a risk-acceptance record, not a fix.
+  Revisit if either upstream ships a patched release, or if `chromedriver`
+  moves off `adm-zip` — re-open by re-running Dependabot's rescan
+  (`gh api --method POST .../dependabot/alerts/{n}` is not a re-scan
+  trigger; a fresh push or the periodic Dependabot scan will re-flag
+  automatically if the dependency reappears vulnerable) and re-dismiss
+  or fix as appropriate. Next check due ~2026-10-10.
   Verify: `gh api .../dependabot/alerts --paginate -q '.[] |
-  select(.state=="open")'` returns zero rows.
+  select(.state=="open")'` returns zero rows (2026-09-10: confirmed
+  empty — the six above are `dismissed`, not absent).
 
 - [x] **P8-T6 Web Components headless: give it a standalone remote and
   publish.** P7-T6 deliberately stopped short of two acceptance items:
