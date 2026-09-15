@@ -686,7 +686,7 @@ Long-term: versioned releases per subproject npm/NuGet package
 - Package: lily
 - Version: 0.6.0
 - Created: 2025-08-09
-- Updated: 2026-09-06
+- Updated: 2026-09-15
 - License: `MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause`
   (SPDX expression; or contact for other terms). See
   [LICENSE.md](../LICENSE.md) — it is the single source of truth, and every
@@ -700,6 +700,44 @@ Long-term: versioned releases per subproject npm/NuGet package
 
 ### 14.1 Changelog highlights
 
+- **`picker-bar` helper lands in all eight catalogs (2026-09-15)** — a
+  seventh `*-picker` helper, maintainer-directed: composes
+  `theme-picker`, `locale-picker`, `text-size-picker`, and
+  `share-picker` into one page-header row (`motion-picker` has no
+  natural spot in the row; `date-time-picker` is a form control, not a
+  header control). Two catalog-wide defaults pre-wired and overridable:
+  all 45 root `themes/` slugs (alphabetical, the 8 UK/US government
+  themes grouped at the bottom) and the seven-step text-size scale
+  (`largest` … `smallest`, starting `normal`). Built first as the
+  Svelte canonical reference, then ported to react, vue, angular,
+  html, nunjucks, web-components, and blazor the same day — each
+  wrapped picker depended on as a real package (npm `dependencies`,
+  or for Blazor a `ProjectReference` that `dotnet pack` turns into a
+  real NuGet dependency), never vendored or duplicated. Angular and
+  Blazor diverge from the other six catalogs' spread/`Object.assign`
+  prop-bag pass-through pattern (Angular has no generic
+  spread-onto-inputs mechanism, so it flattens the wrapped pickers'
+  props onto named inputs and exposes three values as `model()`
+  signals; Blazor uses `@attributes` splatting) — both documented as
+  real, non-cosmetic framework-idiom deviations in their own package
+  spec. Porting surfaced one real, generic build-pipeline defect: four
+  of the seven JS catalogs' `tsup`-based builds bundle by default
+  (unlike Svelte's `svelte-package`, which only copies source), so each
+  silently inlined the four wrapped packages' compiled source into
+  `picker-bar`'s own `dist/` instead of depending on them at runtime —
+  a latent defect any future composed package in those catalogs would
+  also have hit. Fixed generically in each catalog's build script
+  (derive `--external` flags from the new package's own
+  `package.json#dependencies`), verified by confirming each built
+  `dist/` still imports its siblings by bare specifier rather than
+  containing their compiled source. Verified per catalog against a
+  numbered spec with one test per acceptance clause (16 tests in six
+  catalogs, 15 in Angular and web-components, matching each catalog's
+  own idiom); full-catalog suites green in all eight (332–403 tests
+  per catalog depending on framework); root `bin/test` and
+  `bin/check-links` clean throughout. Helper package count: 48 → 56
+  (8 catalogs × 7 helpers). Full record: CHANGELOG.md;
+  [spec/helpers/index.md § picker-bar contract](helpers/index.md).
 - **Web Components headless catalog reaches its full achievable scope
   (2026-09-06)** — grew from the 33-component P7-T6/P8-T7 pilot slice to
   456 of 491 in one day, across three waves of parallel-agent batches:

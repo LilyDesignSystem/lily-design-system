@@ -9,6 +9,46 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## `picker-bar` helper lands in all eight catalogs — 2026-09-15
+
+A seventh `*-picker` helper, maintainer-directed: composes
+`theme-picker`, `locale-picker`, `text-size-picker`, and `share-picker`
+into one page-header row (`motion-picker` has no natural spot in the
+row; `date-time-picker` is a form control, not a header control). Two
+catalog-wide defaults pre-wired and overridable: all 45 root `themes/`
+slugs (alphabetical, the 8 UK/US government themes grouped at the
+bottom) and the seven-step text-size scale (`largest` … `smallest`,
+starting `normal`). Built first as the Svelte canonical reference, then
+ported to react, vue, angular, html, nunjucks, web-components, and
+blazor the same day — each wrapped picker depended on as a real
+package (npm `dependencies`, or for Blazor a `ProjectReference` that
+`dotnet pack` turns into a real NuGet dependency), never vendored or
+duplicated source.
+
+Angular and Blazor diverge from the other six catalogs' spread/
+`Object.assign` prop-bag pass-through pattern: Angular has no generic
+spread-onto-inputs mechanism, so it flattens the wrapped pickers' props
+onto named inputs and exposes three values as `model()` signals;
+Blazor uses `@attributes` splatting. Both documented as real,
+non-cosmetic framework-idiom deviations in their own package spec.
+
+Porting surfaced one real, generic build-pipeline defect: four of the
+seven JS catalogs' `tsup`-based builds bundle by default (unlike
+Svelte's `svelte-package`, which only copies source), so each silently
+inlined the four wrapped packages' compiled source into `picker-bar`'s
+own `dist/` instead of depending on them at runtime — a latent defect
+any future composed package in those catalogs would also have hit.
+Fixed generically in each catalog's build script (derive `--external`
+flags from the new package's own `package.json#dependencies`), verified
+by confirming each built `dist/` still imports its siblings by bare
+specifier rather than containing their compiled source.
+
+Verified per catalog against a numbered spec with one test per
+acceptance clause (16 tests in six catalogs, 15 in Angular and
+web-components, matching each catalog's own idiom); full-catalog suites
+green in all eight; root `bin/test` and `bin/check-links` clean
+throughout. Helper package count: 48 → 56 (8 catalogs × 7 helpers).
+
 ## Docs site gains a live theme/text-size/share picker — 2026-09-06
 
 `lilydesignsystem.github.io`'s header now renders

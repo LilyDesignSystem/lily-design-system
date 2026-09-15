@@ -94,7 +94,17 @@ for (const pkg of packages) {
         // and any sibling .ts modules) automatically. Listing the whole
         // tree would drag in examples/, docs/, and tests, which depend
         // on framework globals (Nuxt, vitest) that aren't compiled here.
-        include: [resolve(pkgDir, "index.ts")],
+        // A package's own `shims.d.ts`, if present, is included too —
+        // ambient module declarations (e.g. picker-bar's local shims for
+        // the sibling packages it composes) that vue-tsc would otherwise
+        // never load, since nothing in index.ts references them by
+        // import.
+        include: [
+          resolve(pkgDir, "index.ts"),
+          ...(existsSync(join(pkgDir, "shims.d.ts"))
+            ? [resolve(pkgDir, "shims.d.ts")]
+            : []),
+        ],
         exclude: [
           resolve(pkgDir, "**/*.test.ts"),
           resolve(pkgDir, "examples"),

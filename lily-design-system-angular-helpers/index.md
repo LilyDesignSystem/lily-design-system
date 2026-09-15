@@ -17,11 +17,21 @@ DOM application) for one small, common job.
 | [`lily-design-system-angular-motion-picker`](./lily-design-system-angular-motion-picker/)       | Pick a motion (reduced-motion) preference; sets `data-motion` on the document root, defaulting to the OS's own `(prefers-reduced-motion: reduce)` signal. |
 | [`lily-design-system-angular-share-picker`](./lily-design-system-angular-share-picker/)         | Share the page: native share sheet where available, else a list of consumer-supplied destinations plus copy-the-URL. |
 | [`lily-design-system-angular-date-time-picker`](./lily-design-system-angular-date-time-picker/) | Pick a date, a time, or both: a typeable text field plus an icon button opening a WAI-ARIA APG Date Picker Dialog. |
+| [`lily-design-system-angular-picker-bar`](./lily-design-system-angular-picker-bar/) | Compose theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row, with all 45 reference themes and the seven-step text-size scale pre-wired. |
 
 `date-time-picker` is a fifth helper, listed after the other four because
 it does not fit their columns: it is a **form-value control**, not a
 page-header preference control, so it has a text field and applies
 nothing to the document root. See `AGENTS/helpers.md` at the repo root.
+
+`picker-bar` is a sixth: it owns no preference/action/form-value of its
+own. It is a composition of four of the other five — theme-picker,
+locale-picker, text-size-picker, and share-picker, each depended on as
+a real npm package and rendered unmodified, plus two catalog-specific
+defaults (all 45 reference themes; the seven-step text-size scale).
+`motion-picker` has no natural spot in that row; `date-time-picker` is
+a form control, not a header control. See
+[its spec §1](./lily-design-system-angular-picker-bar/spec/index.md).
 
 ## Conventions
 

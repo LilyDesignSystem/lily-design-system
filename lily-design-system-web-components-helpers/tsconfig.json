@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "strict": true,
+    "skipLibCheck": true,
+    "declaration": true,
+    "baseUrl": ".",
+    "paths": {
+      "lily-design-system-web-components-theme-picker": ["./lily-design-system-web-components-theme-picker/dist/index.d.ts"],
+      "lily-design-system-web-components-locale-picker": ["./lily-design-system-web-components-locale-picker/dist/index.d.ts"],
+      "lily-design-system-web-components-text-size-picker": ["./lily-design-system-web-components-text-size-picker/dist/index.d.ts"],
+      "lily-design-system-web-components-share-picker": ["./lily-design-system-web-components-share-picker/dist/index.d.ts"]
+    }
+  }
+}

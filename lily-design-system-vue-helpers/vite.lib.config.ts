@@ -31,7 +31,21 @@ export default defineConfig({
       fileName: () => "index.js",
     },
     rollupOptions: {
-      external: ["vue"],
+      // "vue" dedupes on the consumer's own copy. The four picker
+      // packages are external too, for lily-design-system-vue-picker-bar
+      // specifically: it depends on them as ordinary npm `dependencies`
+      // (see its own package.json), not vendored source, so its built
+      // dist/index.js must keep those bare imports rather than bundling
+      // each sibling's full implementation into every picker-bar
+      // install. Harmless for every other sub-package here, which
+      // doesn't import any of these specifiers.
+      external: [
+        "vue",
+        "lily-design-system-vue-theme-picker",
+        "lily-design-system-vue-locale-picker",
+        "lily-design-system-vue-text-size-picker",
+        "lily-design-system-vue-share-picker",
+      ],
     },
   },
 });

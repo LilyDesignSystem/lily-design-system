@@ -27,6 +27,16 @@ listbox.
 | [`lily-design-system-html-motion-picker`](./lily-design-system-html-motion-picker/)       | `<motion-picker>`    | Pick a motion (reduced-motion) preference; sets `data-motion` on the document root, defaulting to the OS's own `(prefers-reduced-motion: reduce)` signal. |
 | [`lily-design-system-html-share-picker`](./lily-design-system-html-share-picker/)         | `<share-picker>`     | Share the page: native share sheet, or a disclosure list of your destinations + copy the URL. |
 | [`lily-design-system-html-date-time-picker`](./lily-design-system-html-date-time-picker/) | `<date-time-picker>` | Pick a date, a time, or both: a typeable field plus a WAI-ARIA APG Date Picker Dialog. |
+| [`lily-design-system-html-picker-bar`](./lily-design-system-html-picker-bar/)             | `<picker-bar>`       | Compose theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row, with all 45 reference themes and the seven-step text-size scale pre-wired. |
+
+`<picker-bar>` is different again: it owns no preference, action, or
+form value of its own. It is a **composition** — the four elements
+above, each depended on as a real npm package and rendered unmodified,
+plus two catalog-specific defaults (all 45 reference themes; the
+seven-step text-size scale). It exists because those four, and only
+those four, share one shape (an icon button opening a popup in a page
+header); `<motion-picker>` has no natural spot in that row, and
+`<date-time-picker>` is a form control, not a header control.
 
 ## Conventions
 

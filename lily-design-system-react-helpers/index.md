@@ -16,6 +16,14 @@ DOM application) for one small, common job.
 | [`lily-design-system-react-motion-picker`](./lily-design-system-react-motion-picker/)       | Pick a motion (reduced-motion) preference; sets `data-motion` on the document root, defaulting to the OS's own `(prefers-reduced-motion: reduce)` signal. |
 | [`lily-design-system-react-share-picker`](./lily-design-system-react-share-picker/)         | Share the page: native share sheet, else a list of destinations + copy the URL. |
 | [`lily-design-system-react-date-time-picker`](./lily-design-system-react-date-time-picker/) | Collect a date, a time, or both: a typeable text field plus an APG Date Picker Dialog. |
+| [`lily-design-system-react-picker-bar`](./lily-design-system-react-picker-bar/)             | Compose theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row, with all 45 reference themes and the seven-step text-size scale pre-wired. |
+
+`picker-bar` owns no preference/action/form-value of its own — it is a
+**composition**, depending on the four wrapped pickers as real npm
+packages and rendering them unmodified. `motion-picker` and
+`date-time-picker` are not included: motion has no natural spot in
+this row, and `date-time-picker` is a form control, not a header
+control. See [its spec §1](./lily-design-system-react-picker-bar/spec/index.md).
 
 ## Conventions
 

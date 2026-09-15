@@ -1,0 +1,21 @@
+{
+  "//": "Scoped to this package only — passed to tsup via --tsconfig, never picked up as a catalog-wide default. Needed only so the DTS rollup step can resolve the four sibling packages' published types for picker-bar.ts's `import type` statements; the ESM build resolves them as ordinary --external bare imports regardless.",
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "declaration": true,
+    "sourceMap": false,
+    "baseUrl": ".",
+    "paths": {
+      "lily-design-system-html-theme-picker": ["../lily-design-system-html-theme-picker/dist/index.d.ts"],
+      "lily-design-system-html-locale-picker": ["../lily-design-system-html-locale-picker/dist/index.d.ts"],
+      "lily-design-system-html-text-size-picker": ["../lily-design-system-html-text-size-picker/dist/index.d.ts"],
+      "lily-design-system-html-share-picker": ["../lily-design-system-html-share-picker/dist/index.d.ts"]
+    }
+  }
+}

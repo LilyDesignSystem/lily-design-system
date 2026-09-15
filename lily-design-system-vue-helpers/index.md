@@ -24,6 +24,14 @@ preference or action control.
 | ------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
 | [`lily-design-system-vue-date-time-picker`](./lily-design-system-vue-date-time-picker/)         | Collect a date, a time, or both, via a text field + APG date-picker dialog.        |
 
+`picker-bar` is a sixth helper, also listed separately: it owns no
+preference/action/form-value of its own — it composes four of the five
+above into one page-header row.
+
+| Helper                                                                              | Purpose                                                                                                                       |
+| -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| [`lily-design-system-vue-picker-bar`](./lily-design-system-vue-picker-bar/)         | Compose theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row, with all 45 reference themes and the seven-step text-size scale pre-wired. |
+
 ## Conventions
 
 Every helper subproject follows the same shape:

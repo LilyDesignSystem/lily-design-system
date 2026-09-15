@@ -1,0 +1,7 @@
+export {
+    default,
+    default as PickerBar,
+    DEFAULT_THEMES,
+    DEFAULT_SIZES,
+} from "./PickerBar.svelte";
+export type { Props, PickerBarLabels } from "./PickerBar.svelte";

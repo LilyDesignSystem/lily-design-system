@@ -25,6 +25,7 @@
     <ProjectReference Include="..\..\lily-design-system-blazor-motion-picker\LilyDesignSystem.Blazor.MotionPicker.csproj" />
     <ProjectReference Include="..\..\lily-design-system-blazor-share-picker\LilyDesignSystem.Blazor.SharePicker.csproj" />
     <ProjectReference Include="..\..\lily-design-system-blazor-date-time-picker\LilyDesignSystem.Blazor.DateTimePicker.csproj" />
+    <ProjectReference Include="..\..\lily-design-system-blazor-picker-bar\LilyDesignSystem.Blazor.PickerBar.csproj" />
   </ItemGroup>
 
   <!-- The per-helper *Tests.cs files live inside the package dirs (and are
@@ -36,6 +37,7 @@
     <Compile Include="..\..\lily-design-system-blazor-motion-picker\MotionPickerTests.cs" />
     <Compile Include="..\..\lily-design-system-blazor-share-picker\SharePickerTests.cs" />
     <Compile Include="..\..\lily-design-system-blazor-date-time-picker\DateTimePickerTests.cs" />
+    <Compile Include="..\..\lily-design-system-blazor-picker-bar\PickerBarTests.cs" />
   </ItemGroup>
 
 </Project>

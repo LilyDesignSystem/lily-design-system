@@ -21,6 +21,24 @@ its columns: it is a form control, not a page-header control.
 
 | `date-time-picker` | Text field + icon button (📅 U+1F4C5 + U+FE0E) opening an APG date-picker dialog, rooted on `<div class="date-time-picker {class}">` | Nothing — it holds a form value. | None. |
 
+## picker-bar (a composition, not a seventh preference/action/form-value)
+
+`picker-bar` (added 2026-09-15, shipped first in `svelte-helpers` then
+ported to all seven other catalogs the same day) is a
+`<div class="picker-bar {class}">` that renders `theme-picker`,
+`locale-picker`, `text-size-picker`, and `share-picker` — each
+depended on as a real npm package, not vendored — in that order, with
+two defaults pre-wired: `themes` defaults to all 45 root `themes/`
+slugs (alphabetical, UK & US government themes moved to their own
+alphabetical group at the bottom), and `sizes` defaults to the
+seven-step scale `largest`, `larger`, `large`, `normal`, `small`,
+`smaller`, `smallest`, starting on `normal`. It excludes `motion-picker`
+(no natural spot in this row) and `date-time-picker` (a form control,
+not a page-header control). Its four accessible names arrive as one
+required `labels` object (`{ theme, locale, textSize, share }`), no
+English default — same reasoning as `date-time-picker`'s `labels`.
+Full contract: [spec/helpers/index.md § picker-bar contract](../spec/helpers/index.md).
+
 ## Rules
 
 - **One shape, across the five page-header helpers.** Each is an **icon button that opens a popup**, because a single glyph is the smallest possible footprint for a control that sits in a page header. The four preference helpers open a listbox; `share-picker` opens a disclosure of links. None may use the radio-group markup the June 2026 migration removed — do not reintroduce it. `date-time-picker` is exempt and only its trigger follows the rule: the reasoning behind "one glyph" is page-header footprint, which does not apply to a field in a form, and a date field that cannot be typed into is hostile to anyone who knows the date already.

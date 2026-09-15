@@ -16,6 +16,7 @@ DOM application) for one small, common job.
 | [`lily-design-system-svelte-motion-picker`](./lily-design-system-svelte-motion-picker/)       | Pick a motion (reduced-motion) preference; sets `data-motion` on the document root, defaulting to the OS's own `(prefers-reduced-motion: reduce)` signal. |
 | [`lily-design-system-svelte-share-picker`](./lily-design-system-svelte-share-picker/)         | Share the page: native share sheet where available, else a list of consumer-supplied destinations plus copy-the-URL. |
 | [`lily-design-system-svelte-date-time-picker`](./lily-design-system-svelte-date-time-picker/) | Pick a date, a time, or both: a typeable field plus an APG date-picker dialog, locale-correct from `Intl`.           |
+| [`lily-design-system-svelte-picker-bar`](./lily-design-system-svelte-picker-bar/)             | Compose theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row, with all 45 reference themes and the seven-step text-size scale pre-wired. |
 
 ### What counts as a helper
 
@@ -34,6 +35,17 @@ than a page-header control, which buys it two documented divergences: it
 has a text field alongside its icon button, and its ten user-facing
 strings arrive as one `labels` object rather than ten flat props. See
 [its spec §3](./lily-design-system-svelte-date-time-picker/spec/index.md).
+
+`picker-bar` is different again: it owns no preference, action, or
+form value of its own. It is a **composition** — theme-picker,
+locale-picker, text-size-picker, and share-picker, each depended on as
+a real npm package and rendered unmodified, plus two catalog-specific
+defaults (all 45 reference themes; the seven-step text-size scale). It
+exists because those four, and only those four, share one shape (an
+icon button opening a popup in a page header); `motion-picker` has no
+natural spot in that row, and `date-time-picker` is a form control, not
+a header control. See
+[its spec §1](./lily-design-system-svelte-picker-bar/spec/index.md).
 
 ## Conventions
 

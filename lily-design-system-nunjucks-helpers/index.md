@@ -16,6 +16,7 @@ DOM application) for one small, common job.
 | [`lily-design-system-nunjucks-motion-picker`](./lily-design-system-nunjucks-motion-picker/)       | Pick a motion (reduced-motion) preference; sets `data-motion` on the document root, checking the OS's own `(prefers-reduced-motion: reduce)` signal on the client. |
 | [`lily-design-system-nunjucks-share-picker`](./lily-design-system-nunjucks-share-picker/)         | Share the page: native share sheet, or a list of destinations + copy. |
 | [`lily-design-system-nunjucks-date-time-picker`](./lily-design-system-nunjucks-date-time-picker/) | Pick a date, a time, or both, via a text field + WAI-ARIA APG Date Picker Dialog. |
+| [`lily-design-system-nunjucks-picker-bar`](./lily-design-system-nunjucks-picker-bar/)             | Compose theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row, with all 45 reference themes and the seven-step text-size scale pre-wired. |
 
 The first three helpers own a **user preference** — selection + DOM
 application + optional persistence. `share-picker` owns an **action**:
@@ -25,6 +26,14 @@ document and persists nothing, but unlike any of the other three it is
 the fifth helper in the wider Lily™ catalog — currently Svelte-only
 elsewhere — and the hardest of the six ports, because its macro cannot
 render the calendar interior at all. See the dedicated section below.
+
+`picker-bar` is different again: it owns no preference, action, or
+form value of its own. It is a **composition** — theme-picker,
+locale-picker, text-size-picker, and share-picker, each depended on as
+a real npm package and rendered unmodified via cross-package macro
+imports, plus two catalog-specific defaults (all 45 reference themes;
+the seven-step text-size scale). See
+[its spec §1](./lily-design-system-nunjucks-picker-bar/spec/index.md).
 
 ## The split: macro + client.js
 

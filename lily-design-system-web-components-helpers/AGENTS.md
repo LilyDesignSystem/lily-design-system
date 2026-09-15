@@ -23,6 +23,7 @@ Each helper follows the file shape in
 - [`lily-design-system-web-components-motion-picker`](./lily-design-system-web-components-motion-picker/) — `<lily-motion-picker>` `data-motion` reduced-motion picker; defaults to the OS's own `(prefers-reduced-motion: reduce)` signal rather than a fixed slug.
 - [`lily-design-system-web-components-share-picker`](./lily-design-system-web-components-share-picker/) — `<lily-share-picker>` native-sheet / disclosure share control.
 - [`lily-design-system-web-components-date-time-picker`](./lily-design-system-web-components-date-time-picker/) — `<lily-date-time-picker>` WAI-ARIA APG date/time picker dialog.
+- [`lily-design-system-web-components-picker-bar`](./lily-design-system-web-components-picker-bar/) — `<lily-picker-bar>` composes theme/locale/text-size/share pickers into one page-header row. Owns no preference/action/form-value of its own; depends on the four wrapped pickers as real npm packages and pre-wires the 45-theme reference list and the seven-step text-size scale.
 
 ## Working rules
 
@@ -74,6 +75,18 @@ Each helper follows the file shape in
   `Record<string, string>`.
 - Change notifications fire as `CustomEvent`s with `bubbles: true`
   and `composed: true`.
+- **Composing one helper's element inside another (as `<lily-picker-bar>`
+  does)**: depend on the sibling as a real npm `dependency`, and (1)
+  register it via a bare `import "package-name";` side-effect import —
+  never only `import { TheClass } from "package-name"` used solely in
+  a type position (`as TheClass`), which esbuild's TS transform elides
+  along with its registration side effect; import the class via
+  `import type` instead for casts — and (2) connect the parent chain
+  to the document BEFORE appending the child custom element into it,
+  not after — jsdom does not reliably fire `connectedCallback`
+  recursively for a subtree that is built fully detached and then
+  attached in one move. See `lily-design-system-web-components-picker-bar/AGENTS.md`
+  for the concrete example both bit.
 
 ## Topic agent files
 

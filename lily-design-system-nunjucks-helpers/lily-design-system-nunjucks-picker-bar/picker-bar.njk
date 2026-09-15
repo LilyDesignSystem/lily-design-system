@@ -1,0 +1,185 @@
+{#
+  PickerBar macro — composes theme-picker, locale-picker,
+  text-size-picker, and share-picker into one page-header row.
+
+  HTML tag: <div> (root) wrapping the four picker roots, unmodified.
+  CSS class: picker-bar
+  Companion runtime: picker-bar.client.js (a convenience `autoInit`
+  wrapping the four siblings' own `autoInit` — see that file; there is
+  no picker-bar-owned lifecycle of its own).
+
+  This macro owns no preference, action, or form value itself. It is a
+  composition: each of the four picker macros below is imported from
+  its own sibling PACKAGE (a real npm `dependency` declared in this
+  package's package.json — not vendored source), and rendered with its
+  own unmodified contract. `motion-picker` and `date-time-picker` are
+  deliberately excluded — see spec/index.md §1.
+
+  The import paths below assume a Nunjucks Environment whose search
+  paths include `node_modules` (the standard way to make an installed
+  package's templates resolvable) — see index.md "Install" for the
+  one-line Environment setup. In this monorepo's own dev/test tree the
+  same relative shape already holds: each sibling package sits at
+  `../lily-design-system-nunjucks-{name}-picker/dist/{name}-picker.njk`
+  relative to the catalog root, exactly where `node_modules` would
+  place it after a real install.
+#}
+{% from "lily-design-system-nunjucks-theme-picker/dist/theme-picker.njk" import themePicker %}
+{% from "lily-design-system-nunjucks-locale-picker/dist/locale-picker.njk" import localePicker %}
+{% from "lily-design-system-nunjucks-text-size-picker/dist/text-size-picker.njk" import textSizePicker %}
+{% from "lily-design-system-nunjucks-share-picker/dist/share-picker.njk" import sharePicker %}
+{#
+  All 45 Lily reference theme slugs (see `themes/` at the repo root),
+  sorted alphabetically except the United Kingdom and United States
+  government/public-sector themes, which sort last as one alphabetical
+  group of their own. Mirrors `theme-picker`'s own title-casing of each
+  slug, so no `themeLabels` override is needed for these to read well.
+  Kept in agreement with `DEFAULT_THEMES` in picker-bar.client.js by a
+  test — a Nunjucks macro cannot import a JS constant, so, as with
+  `themeName`/`sizeName` elsewhere in this catalog, the two copies are
+  held in sync by assertion rather than by delegation.
+#}
+{%- set DEFAULT_THEMES = [
+  "abyss", "acid", "adobe-spectrum", "aqua", "autumn", "black",
+  "bumblebee", "business", "caramellatte", "cmyk", "coffee",
+  "corporate", "cupcake", "cyberpunk", "dark", "dim", "dracula",
+  "emerald", "fantasy", "forest", "garden", "halloween", "lemonade",
+  "light", "lofi", "luxury", "mozilla-protocol", "night", "nord",
+  "pastel", "retro", "silk", "sunset", "synthwave", "valentine",
+  "winter", "wireframe",
+  "united-kingdom-government-digital-service",
+  "united-kingdom-national-health-service-england-for-patients",
+  "united-kingdom-national-health-service-england-for-practitioners",
+  "united-kingdom-national-health-service-scotland-for-patients",
+  "united-kingdom-national-health-service-scotland-for-practitioners",
+  "united-kingdom-national-health-service-wales-for-patients",
+  "united-kingdom-national-health-service-wales-for-practitioners",
+  "united-states-web-design-system"
+] -%}
+{#
+  The seven-step text-size scale. Each slug title-cases to exactly the
+  requested label via text-size-picker's own default label rule, so no
+  `sizeLabels` override is needed.
+#}
+{%- set DEFAULT_SIZES = [
+  "largest", "larger", "large", "normal", "small", "smaller", "smallest"
+] -%}
+{#
+  Params (single `opts` object):
+    labels        — object, required: { theme, locale, textSize, share }.
+                    The four accessible names. No English default — a
+                    nav row this catalog invented is exactly what the
+                    i18n rule exists to prevent hardcoding.
+    themesUrl     — string, required. Forwarded to theme-picker.
+    locales       — array<string>, required. Forwarded to locale-picker;
+                    no catalog default exists.
+    themes        — array<string>. Defaults to DEFAULT_THEMES (above).
+    sizes         — array<string>. Defaults to DEFAULT_SIZES (above).
+    shareTargets  — array<object>. Forwarded to share-picker's `targets`
+                    (default []). See share-picker.njk for the object
+                    shape — `href` is an already-resolved string, not a
+                    function, per that package's documented deviation.
+    themeProps    — object. Extra theme-picker opts (value, defaultValue,
+                    storageKey, detectFromSystem, name, extension,
+                    themeLabels, id, classes, attributes) — anything NOT
+                    already lifted to the top level above.
+    localeProps   — object. Extra locale-picker opts (value, defaultValue,
+                    storageKey, detectFromNavigator, name, applyDir,
+                    localeLabels, id, classes, attributes).
+    textSizeProps — object. Extra text-size-picker opts (value,
+                    defaultValue, storageKey, name, sizeLabels, id,
+                    classes, attributes). `defaultValue` defaults to
+                    "normal" here (text-size-picker's own "medium"
+                    fallback is not one of DEFAULT_SIZES' seven slugs).
+    shareProps    — object. Extra share-picker opts (url, title, text,
+                    copyLabel, copiedLabel, copyFailedLabel, strategy,
+                    name, id, classes, attributes).
+    classes       — string. Extra CSS classes on the picker-bar root.
+    attributes    — object. Extra HTML attributes spread onto the root.
+
+  Unlike the Svelte canonical's `children` snippet passthrough, a
+  Nunjucks macro call accepts at most one `{% call %}` block, so
+  picker-bar cannot route a custom glyph to one specific nested picker.
+  Compose the four macros directly if you need a custom glyph on just
+  one of them — see spec/index.md §4.4.
+
+  Usage:
+    {% from "lily-design-system-nunjucks-picker-bar/dist/picker-bar.njk" import pickerBar %}
+    {{ pickerBar({
+      labels: { theme: "Theme", locale: "Language", textSize: "Text size", share: "Share" },
+      themesUrl: "/assets/themes/",
+      locales: ["en", "cy"]
+    }) }}
+
+  Spec: spec/index.md §4 (macro parameters), §5 (defaults).
+#}
+{%- macro pickerBar(opts) -%}
+{%- set themes = opts.themes | default(DEFAULT_THEMES) -%}
+{%- set sizes = opts.sizes | default(DEFAULT_SIZES) -%}
+{%- set themeProps = opts.themeProps | default({}) -%}
+{%- set localeProps = opts.localeProps | default({}) -%}
+{%- set textSizeProps = opts.textSizeProps | default({}) -%}
+{%- set shareProps = opts.shareProps | default({}) -%}
+<div
+  class="picker-bar{% if opts.classes %} {{ opts.classes }}{% endif %}"
+  data-lily-picker-bar-root
+  {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+{{ themePicker({
+  label: opts.labels.theme,
+  themesUrl: opts.themesUrl,
+  themes: themes,
+  value: themeProps.value,
+  defaultValue: themeProps.defaultValue,
+  storageKey: themeProps.storageKey,
+  detectFromSystem: themeProps.detectFromSystem,
+  name: themeProps.name,
+  extension: themeProps.extension,
+  themeLabels: themeProps.themeLabels,
+  id: themeProps.id,
+  classes: themeProps.classes,
+  attributes: themeProps.attributes
+}) }}
+{{ localePicker({
+  label: opts.labels.locale,
+  locales: opts.locales,
+  value: localeProps.value,
+  defaultValue: localeProps.defaultValue,
+  storageKey: localeProps.storageKey,
+  detectFromNavigator: localeProps.detectFromNavigator,
+  name: localeProps.name,
+  applyDir: localeProps.applyDir,
+  localeLabels: localeProps.localeLabels,
+  id: localeProps.id,
+  classes: localeProps.classes,
+  attributes: localeProps.attributes
+}) }}
+{{ textSizePicker({
+  label: opts.labels.textSize,
+  sizes: sizes,
+  value: textSizeProps.value,
+  defaultValue: textSizeProps.defaultValue | default("normal"),
+  storageKey: textSizeProps.storageKey,
+  name: textSizeProps.name,
+  sizeLabels: textSizeProps.sizeLabels,
+  id: textSizeProps.id,
+  classes: textSizeProps.classes,
+  attributes: textSizeProps.attributes
+}) }}
+{{ sharePicker({
+  label: opts.labels.share,
+  targets: opts.shareTargets | default([]),
+  url: shareProps.url,
+  title: shareProps.title,
+  text: shareProps.text,
+  copyLabel: shareProps.copyLabel,
+  copiedLabel: shareProps.copiedLabel,
+  copyFailedLabel: shareProps.copyFailedLabel,
+  strategy: shareProps.strategy,
+  name: shareProps.name,
+  id: shareProps.id,
+  classes: shareProps.classes,
+  attributes: shareProps.attributes
+}) }}
+</div>
+{%- endmacro -%}

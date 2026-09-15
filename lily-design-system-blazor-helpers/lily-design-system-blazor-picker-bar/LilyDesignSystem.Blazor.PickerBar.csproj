@@ -1,0 +1,67 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>LilyDesignSystem.Blazor.Helpers</RootNamespace>
+    <AssemblyName>LilyDesignSystem.Blazor.PickerBar</AssemblyName>
+    <PackageId>LilyDesignSystem.Blazor.PickerBar</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>Joel Parker Henderson</Authors>
+    <Description>Lily Design System Blazor picker bar: composes theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row. Headless, SSR-safe, no CSS.</Description>
+    <PackageProjectUrl>https://lilydesignsystem.com/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/LilyDesignSystem/lily-design-system-blazor-helpers</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>lily;design-system;blazor;headless;accessibility;wcag;aria;a11y</PackageTags>
+    <PackageLicenseExpression>MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause</PackageLicenseExpression>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <NoWarn>CS1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <!-- NuGet renders this on the package page. README.md is a symlink to
+       index.md, matching the convention every Lily subproject uses;
+       PackagePath puts it at the package root, where PackageReadmeFile
+       expects to find it. -->
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <!-- Tests, examples, and docs are not part of the published package. -->
+  <ItemGroup>
+    <Compile Remove="**/*Tests.cs" />
+    <Compile Remove="examples/**/*.cs" />
+    <Content Remove="examples/**" />
+    <Content Remove="docs/**" />
+    <None Remove="examples/**" />
+    <None Remove="docs/**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.11" />
+  </ItemGroup>
+
+  <!-- A real dependency on each wrapped picker — the same way any consumer
+       composing them by hand would — not vendored/duplicated source.
+       ProjectReference rather than PackageReference: this repo builds and
+       tests all four siblings from source in the same monorepo, and
+       `dotnet pack` on a packable project automatically emits each
+       ProjectReference target as a real NuGet <dependency> (at that
+       target's own <Version>) in the generated .nuspec, so the published
+       package still declares exactly the same dependency a PackageReference
+       would — with no risk of a duplicate-assembly conflict against the
+       shared test project's own ProjectReferences to these same four
+       projects. -->
+  <ItemGroup>
+    <ProjectReference Include="..\lily-design-system-blazor-theme-picker\LilyDesignSystem.Blazor.ThemePicker.csproj" />
+    <ProjectReference Include="..\lily-design-system-blazor-locale-picker\LilyDesignSystem.Blazor.LocalePicker.csproj" />
+    <ProjectReference Include="..\lily-design-system-blazor-text-size-picker\LilyDesignSystem.Blazor.TextSizePicker.csproj" />
+    <ProjectReference Include="..\lily-design-system-blazor-share-picker\LilyDesignSystem.Blazor.SharePicker.csproj" />
+  </ItemGroup>
+
+</Project>

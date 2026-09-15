@@ -14,6 +14,7 @@ follows the file shape in [AGENTS/conventions.md](./AGENTS/conventions.md).
 - [`lily-design-system-blazor-motion-picker`](./lily-design-system-blazor-motion-picker/) — `data-motion` reduced-motion picker; defers to the OS's own `(prefers-reduced-motion: reduce)` signal (via `IJSRuntime`) rather than a fixed slug.
 - [`lily-design-system-blazor-share-picker`](./lily-design-system-blazor-share-picker/) — share via the native sheet or a list of consumer-supplied destinations, plus copy-the-URL. Owns an _action_, not a preference: applies nothing, persists nothing.
 - [`lily-design-system-blazor-date-time-picker`](./lily-design-system-blazor-date-time-picker/) — a headless date/time-picking form control: a text field plus an icon button opening a WAI-ARIA APG Date Picker Dialog. Owns a _form value_, not a preference or an action: applies nothing, persists nothing.
+- [`lily-design-system-blazor-picker-bar`](./lily-design-system-blazor-picker-bar/) — composes theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row. Owns no preference/action/form-value of its own; references the four wrapped pickers via `ProjectReference` (packed as real NuGet dependencies) and pre-wires the 45-theme reference list and the seven-step text-size scale.
 
 ## Working rules
 
@@ -57,7 +58,8 @@ lily-design-system-blazor-helpers/
 ├── lily-design-system-blazor-text-size-picker/ ← helper 3
 ├── lily-design-system-blazor-motion-picker/   ← helper 4
 ├── lily-design-system-blazor-share-picker/    ← helper 5
-└── lily-design-system-blazor-date-time-picker/ ← helper 6
+├── lily-design-system-blazor-date-time-picker/ ← helper 6
+└── lily-design-system-blazor-picker-bar/      ← helper 7 (composes 1, 2, 3, 5)
 ```
 
 ## Topic index (parent)

@@ -18,7 +18,13 @@
     "useDefineForClassFields": false,
     "lib": ["ES2022", "DOM"],
     "skipLibCheck": true,
-    "types": ["node", "vitest/globals"]
+    "types": ["node", "vitest/globals"],
+    "paths": {
+      "lily-design-system-angular-theme-picker": ["./lily-design-system-angular-theme-picker/dist/types/lily-design-system-angular-theme-picker.d.ts"],
+      "lily-design-system-angular-locale-picker": ["./lily-design-system-angular-locale-picker/dist/types/lily-design-system-angular-locale-picker.d.ts"],
+      "lily-design-system-angular-text-size-picker": ["./lily-design-system-angular-text-size-picker/dist/types/lily-design-system-angular-text-size-picker.d.ts"],
+      "lily-design-system-angular-share-picker": ["./lily-design-system-angular-share-picker/dist/types/lily-design-system-angular-share-picker.d.ts"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

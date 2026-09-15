@@ -2,11 +2,11 @@
 
 > Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
-**Summary.** Each framework ships a `*-helpers` catalog of small, opinionated, reusable packages that sit alongside the headless library. Most own a **user preference** end to end (selection + DOM application + optional persistence) — `theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`, each rendered as a single-glyph icon button that opens a WAI-ARIA APG listbox. `share-picker` owns an **action** instead, and `date-time-picker` owns a **form value**; neither applies anything to the document nor persists anything. All six helpers ship in all eight catalogs (the eighth, `lily-design-system-web-components-helpers`, is an independent copy of the HTML catalog with `lily-*` tags — see its provenance note).
+**Summary.** Each framework ships a `*-helpers` catalog of small, opinionated, reusable packages that sit alongside the headless library. Most own a **user preference** end to end (selection + DOM application + optional persistence) — `theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`, each rendered as a single-glyph icon button that opens a WAI-ARIA APG listbox. `share-picker` owns an **action** instead, and `date-time-picker` owns a **form value**; neither applies anything to the document nor persists anything. All six helpers ship in all eight catalogs (the eighth, `lily-design-system-web-components-helpers`, is an independent copy of the HTML catalog with `lily-*` tags — see its provenance note). A seventh package, `picker-bar`, composes four of the six (theme, locale, text-size, share) into one page-header row; it shipped first in the canonical `svelte-helpers` catalog and was ported to all seven other catalogs the same day (2026-09-15) — see §"picker-bar contract" below.
 
 ## Scope
 
-This topic covers the eight `*-helpers` catalogs (angular, blazor, html, nunjucks, react, svelte, vue, web-components), the six helpers each one now contains (theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker), their behaviour contracts, how helpers differ from the headless layer, the canonical-reference role of the svelte-helpers catalog, the per-package manifest convention (npm `package.json` vs. NuGet `.csproj` for Blazor), the dist/publish pipeline (`build.js`, `bin/publish-helpers`), and the per-helper subtree/remote layout.
+This topic covers the eight `*-helpers` catalogs (angular, blazor, html, nunjucks, react, svelte, vue, web-components), the seven helpers each one now contains (theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker, picker-bar), their behaviour contracts, how helpers differ from the headless layer, the canonical-reference role of the svelte-helpers catalog, the per-package manifest convention (npm `package.json` vs. NuGet `.csproj` for Blazor), the dist/publish pipeline (`build.js`, `bin/publish-helpers`), and the per-helper subtree/remote layout.
 
 It does **not** cover: the headless 491-component catalog and its rules (see [headless](../headless/index.md) and [components](../components/index.md)), the seven framework pairs and their stacks (see [frameworks](../frameworks/index.md)), theme-CSS tokens and `data-theme` semantics (see [theme](../theme/index.md)), or the `lang`/`dir` internationalisation contract (see [internationalization](../internationalization/index.md)).
 
@@ -28,14 +28,14 @@ It does **not** cover: the headless 491-component catalog and its rules (see [he
 
 | Catalog                                                   | Manifest per package                  | Helpers                                                                                     |
 | --------------------------------------------------------- | ------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| `lily-design-system-svelte-helpers` (canonical reference) | npm `package.json`                    | theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker |
-| `lily-design-system-react-helpers`                        | npm `package.json`                    | theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker |
-| `lily-design-system-vue-helpers`                          | npm `package.json`                    | theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker |
-| `lily-design-system-angular-helpers`                      | npm `package.json`                    | theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker |
-| `lily-design-system-html-helpers`                         | npm `package.json`                    | theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker |
-| `lily-design-system-web-components-helpers`               | npm `package.json`                    | theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker (`lily-*` tags; copy of the HTML catalog) |
-| `lily-design-system-nunjucks-helpers`                     | npm `package.json`                    | theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker |
-| `lily-design-system-blazor-helpers`                       | NuGet `.csproj` (Razor class library) | theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker |
+| `lily-design-system-svelte-helpers` (canonical reference) | npm `package.json`                    | theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker, picker-bar |
+| `lily-design-system-react-helpers`                        | npm `package.json`                    | theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker, picker-bar |
+| `lily-design-system-vue-helpers`                          | npm `package.json`                    | theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker, picker-bar |
+| `lily-design-system-angular-helpers`                      | npm `package.json`                    | theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker, picker-bar |
+| `lily-design-system-html-helpers`                         | npm `package.json`                    | theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker, picker-bar |
+| `lily-design-system-web-components-helpers`               | npm `package.json`                    | theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker, picker-bar (`lily-*` tags; copy of the HTML catalog) |
+| `lily-design-system-nunjucks-helpers`                     | npm `package.json`                    | theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker, picker-bar |
+| `lily-design-system-blazor-helpers`                       | NuGet `.csproj` (Razor class library) | theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker, picker-bar |
 
 Blazor is .NET rather than npm, so its helpers ship as Razor class libraries with a `.csproj` (e.g. `LilyDesignSystem.Blazor.ThemeSelect.csproj`) instead of a `package.json`.
 
@@ -57,7 +57,7 @@ Each helper subproject follows the same spec-driven shape (Svelte example; other
 | `dist/`                            | Build output (`build.js` per catalog; `files`/`exports` maps, `svelte` condition where relevant).                                                                                      |
 | `docs/`, `examples/`               | Topic guides and runnable examples (optional).                                                                                                                                         |
 
-Each `*-helpers` catalog directory, and each helper inside it, is its own `git subtree` pushed to a standalone remote. All 48 helper packages (8 catalogs × 6 helpers) publish via [`bin/publish-helpers`](../../bin/publish-helpers) (npm registries for the JS frameworks, NuGet for Blazor).
+Each `*-helpers` catalog directory, and each helper inside it, is its own `git subtree` pushed to a standalone remote. All 56 helper packages (8 catalogs × 7 helpers, `picker-bar` included as of 2026-09-15) publish via [`bin/publish-helpers`](../../bin/publish-helpers) (npm registries for the JS frameworks, NuGet for Blazor).
 
 Every package is at **0.1.0**. The July 2026 rename from `*-select` / `*-button` to `*-picker` changed the published package names, and a renamed package has no history under its new name — numbering the first release 0.4.0 would imply three releases that never existed. Nothing had been published, so the reset cost nothing. The in-tree history (radio-group picker → native `<select>` → placeholder-pinned `<select>` → icon button + listbox) is preserved in each package's CHANGELOG under a provenance heading. `motion-picker` (added 2026-09-03) never carried the old names, so it has no provenance heading to preserve.
 
@@ -163,18 +163,52 @@ all eight catalogs, added 2026-07-28. Full contract:
 | Keyboard       | Grid: Arrow keys move by day/week, Home/End (respecting `firstDayOfWeek`), PageUp/PageDown page the month, Shift+PageUp/PageDown page the year, Enter/Space select. Header: dedicated previous/next week and day step buttons alongside the month/year pagers. Dialog: a real focus trap (`aria-modal` is not self-enforcing), Escape discards, roving tabindex (exactly one day tabbable). |
 | Relationship   | Implements the Digital Health and Care Wales `nhsw-date-picker` feature set with defects fixed rather than tastes changed (no hardcoded English, locale-driven first day of week, a real focus trap, civil-date arithmetic, `min`/`max`/`isDateDisabled`, fixed-height grid, no `innerHTML` string-building, SSR-safe ids, typed-input round-tripping) — see the canonical spec §8–§9 for the full comparison. |
 
+## picker-bar contract
+
+A composition, not a preference/action/form-value owner: it renders
+`theme-picker`, `locale-picker`, `text-size-picker`, and `share-picker`
+— each depended on as a real npm (or, for Blazor, `ProjectReference`
+→ NuGet) package, rendered unmodified — in one `<div class="picker-bar
+{class}">` row. Shipped first in the canonical `svelte-helpers`
+catalog on 2026-09-15, then ported to all seven other catalogs the
+same day. Full contract (canonical):
+[the Svelte package's spec/index.md](../../lily-design-system-svelte-helpers/lily-design-system-svelte-picker-bar/spec/index.md);
+each port's own `spec/index.md` mirrors its § numbering.
+
+| Aspect         | Contract                                                                                                                                                                                                                                        |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Markup         | `<div class="picker-bar {class}">` wrapping the four picker roots in fixed order (theme, locale, text-size, share); no new class hooks beyond `picker-bar` itself.                                                                            |
+| Required props | `labels` (`{ theme, locale, textSize, share }` — the four accessible names, no English default), `themesUrl`, `locales`.                                                                                                                       |
+| Defaults       | `themes` defaults to all 45 root `themes/` slugs, alphabetical except the 8 UK/US government themes moved to their own alphabetical group at the bottom. `sizes` defaults to the seven-step scale (`largest` … `smallest`), initial value `"normal"`. |
+| Pass-through   | Svelte/React/Vue/HTML/Nunjucks/web-components: `themeProps` / `localeProps` / `textSizeProps` / `shareProps` bags, each spread (or `Object.assign`'d, for the non-framework catalogs) onto its picker after the bar's own props, so any of that picker's own props can be overridden per-picker. Angular has no generic spread-onto-inputs mechanism, so it flattens each picker's most-used optional props onto named prefixed inputs instead and exposes the three preference values as two-way `model()` signals. Blazor uses `CaptureUnmatchedValues`/`@attributes` splatting, last-value-wins, giving the same override guarantee. |
+| Excludes       | `motion-picker` (no natural spot in this row) and `date-time-picker` (a form control, not a page-header control) — not bugs, a scope choice recorded in each package's own spec §1.                                                             |
+| Dependency     | Depends on the four wrapped packages as ordinary npm `dependencies` (Blazor: `ProjectReference`, which `dotnet pack` turns into a real NuGet dependency at publish) — not vendored or duplicated source — the same way any consumer composing them by hand would.                                                                             |
+
+A real, cross-catalog build-pipeline defect surfaced while porting: four
+of the seven JS catalogs' bundlers (`tsup` in react/html/nunjucks/
+web-components-helpers) bundle by default, unlike Svelte's
+`svelte-package` (which only copies source). Each one silently inlined
+the four wrapped packages' compiled source into `picker-bar`'s own
+`dist/` instead of leaving them as external runtime dependencies — a
+latent defect any future composed package in those catalogs would also
+have hit. Fixed generically in each catalog's build script (derive
+`--external` flags from the new package's own `package.json#dependencies`
+rather than hardcoding `picker-bar`), verified by confirming the built
+`dist/` still imports each sibling by bare specifier rather than
+containing its compiled source.
+
 ## Differences from the headless library
 
 | Headless component                                 | Helper                                                              |
 | -------------------------------------------------- | ------------------------------------------------------------------- |
-| Mirrors the canonical 491-component catalog.       | Small catalog of opinionated packages (currently 6).                |
+| Mirrors the canonical 491-component catalog.       | Small catalog of opinionated packages (currently 7).                |
 | Pure container, no lifecycle.                      | Owns the full lifecycle of one preference dimension.                |
 | Consumer writes their own persistence and loading. | Persistence and dynamic loading/attribute application are built in. |
 | Larger, generic API.                               | Smaller, more opinionated API.                                      |
 
 ## Acceptance criteria
 
-- [x] Each of the eight framework catalogs ships `theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`, `share-picker`, and `date-time-picker` helpers.
+- [x] Each of the eight framework catalogs ships `theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`, `share-picker`, `date-time-picker`, and `picker-bar` helpers.
 - [x] `motion-picker` renders the same icon-button + APG-listbox shape as its three preference siblings in all eight catalogs, defers its initial value to `(prefers-reduced-motion: reduce)` unconditionally (documented Nunjucks deviation: server marks `motions[0]`, client corrects on init), and applies idempotently — verified against a numbered spec with one test per acceptance clause per catalog.
 - [x] `date-time-picker` renders a text field + trigger opening a WAI-ARIA APG Date Picker Dialog in all eight catalogs, with civil-date arithmetic, locale-driven formatting, `min`/`max`/`isDateDisabled` constraints, and a real focus trap, verified against a numbered spec with one test per acceptance clause per catalog.
 - [x] Every helper has a numbered `spec/index.md` and a test file asserting each acceptance clause.
@@ -195,6 +229,7 @@ all eight catalogs, added 2026-07-28. Full contract:
 - [x] The svelte-helpers catalog is the canonical reference; the other seven are idiom-faithful ports.
 - [x] Each `*-helpers` catalog and each helper is a git subtree with a standalone remote.
 - [x] Each helper builds a `dist/` via the catalog `build.js` and publishes via `bin/publish-helpers`.
+- [x] `picker-bar` composes theme-picker, locale-picker, text-size-picker, and share-picker into one row, defaulting to all 45 reference themes and the seven-step text-size scale, verified against a numbered spec with one test per acceptance clause, in all eight catalogs.
 
 ## Related topics
 
@@ -214,6 +249,7 @@ all eight catalogs, added 2026-07-28. Full contract:
 - [lily-design-system-svelte-helpers/lily-design-system-svelte-motion-picker/](../../lily-design-system-svelte-helpers/lily-design-system-svelte-motion-picker/) — motion-picker contract
 - [lily-design-system-svelte-helpers/lily-design-system-svelte-share-picker/](../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-picker/) — share-picker contract
 - [lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/](../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/) — date-time-picker contract (canonical spec)
+- [lily-design-system-svelte-helpers/lily-design-system-svelte-picker-bar/](../../lily-design-system-svelte-helpers/lily-design-system-svelte-picker-bar/) — picker-bar contract (canonical spec; ported to all seven other catalogs the same day)
 - [bin/publish-helpers](../../bin/publish-helpers) — release pipeline
 - [spec/index.md](../index.md) §3 (subproject architecture)
 

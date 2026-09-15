@@ -1,0 +1,34 @@
+@namespace LilyDesignSystem.Blazor.Helpers
+
+@*
+    PickerBar — Blazor helper component.
+    Single source of truth: spec/index.md (§1–§8).
+
+    A thin composition wrapper: renders ThemePicker, LocalePicker,
+    TextSizePicker, and SharePicker — from their own published sibling
+    packages, referenced as ordinary project/package references, not
+    vendored source — in one page-header row. Introduces no lifecycle
+    of its own beyond two pre-wired defaults (DefaultThemes,
+    DefaultSizes). motion-picker and date-time-picker are deliberately
+    excluded — see spec/index.md §1.
+*@
+
+<div class="@RootClass" @attributes="AdditionalAttributes">
+    <ThemePicker Label="@Labels.Theme"
+                 ThemesUrl="@ThemesUrl"
+                 Themes="@Themes"
+                 @attributes="ThemeAttributes" />
+
+    <LocalePicker Label="@Labels.Locale"
+                  Locales="@Locales"
+                  @attributes="LocaleAttributes" />
+
+    <TextSizePicker Label="@Labels.TextSize"
+                     Sizes="@Sizes"
+                     DefaultValue="normal"
+                     @attributes="TextSizeAttributes" />
+
+    <SharePicker Label="@Labels.Share"
+                 Targets="@ShareTargets"
+                 @attributes="ShareAttributes" />
+</div>

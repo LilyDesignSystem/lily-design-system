@@ -14,6 +14,7 @@ follows the file shape in [index.md § Conventions](./index.md#conventions).
 - [`lily-design-system-vue-motion-picker`](./lily-design-system-vue-motion-picker/) — `data-motion` reduced-motion picker; defaults to the OS's own `(prefers-reduced-motion: reduce)` signal rather than a fixed slug.
 - [`lily-design-system-vue-share-picker`](./lily-design-system-vue-share-picker/) — native share sheet / destination disclosure + copy URL.
 - [`lily-design-system-vue-date-time-picker`](./lily-design-system-vue-date-time-picker/) — date / time / datetime form control with an APG date-picker dialog.
+- [`lily-design-system-vue-picker-bar`](./lily-design-system-vue-picker-bar/) — composes theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row. Owns no preference/action/form-value of its own; depends on the four wrapped pickers as real npm packages and pre-wires the 45-theme reference list and the seven-step text-size scale.
 
 ## Working rules
 
