@@ -38,15 +38,15 @@ importers:
       '@angular/router':
         specifier: ^22.1.4
         version: 22.1.4(@angular/common@22.1.4(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@22.1.4(@angular/common@22.1.4(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1)))(rxjs@7.8.2)
-      lily-design-system-angular-locale-picker:
-        specifier: 0.2.0
-        version: 0.2.0(@angular/common@22.1.4(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1))
-      lily-design-system-angular-text-size-picker:
-        specifier: 0.2.0
-        version: 0.2.0(@angular/common@22.1.4(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1))
-      lily-design-system-angular-theme-picker:
-        specifier: 0.2.0
-        version: 0.2.0(@angular/common@22.1.4(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1))
+      '@lilydesignsystem/angular-locale-picker':
+        specifier: 0.1.0
+        version: 0.1.0(@angular/common@22.1.4(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1))
+      '@lilydesignsystem/angular-text-size-picker':
+        specifier: 0.1.0
+        version: 0.1.0(@angular/common@22.1.4(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1))
+      '@lilydesignsystem/angular-theme-picker':
+        specifier: 0.1.0
+        version: 0.1.0(@angular/common@22.1.4(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1))
       rxjs:
         specifier: ^7.8.2
         version: 7.8.2
@@ -718,6 +718,27 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
+
+  '@lilydesignsystem/angular-locale-picker@0.1.0':
+    resolution: {integrity: sha512-sDBwPWCa1D1K5i9CtVVS5MCepEBqqyrDqVzp/Mw+iJp7mOXlvkdCAqQhnpHpxsKhqmCc9BioBTwqyfoeenYggw==}
+    engines: {node: '=26'}
+    peerDependencies:
+      '@angular/common': '>=20.0.0 <23.0.0'
+      '@angular/core': '>=20.0.0 <23.0.0'
+
+  '@lilydesignsystem/angular-text-size-picker@0.1.0':
+    resolution: {integrity: sha512-LUjB9gBsvOLs+j88q9Wq4M6UowNSi9rhJwjfv4zjtob/Z0ykEWj1/uFUjDdM0Kij1KRpVYYu4G6TRPIQH6uOsQ==}
+    engines: {node: '=26'}
+    peerDependencies:
+      '@angular/common': '>=20.0.0 <23.0.0'
+      '@angular/core': '>=20.0.0 <23.0.0'
+
+  '@lilydesignsystem/angular-theme-picker@0.1.0':
+    resolution: {integrity: sha512-WwP1olYJEKoBItWTk2VZhyUs8CKXI5Y3cESuCauz09oyBlU07SQ4EkYXmGYS7iRWBYXXAW8kNSCeNdj6b54PaQ==}
+    engines: {node: '=26'}
+    peerDependencies:
+      '@angular/common': '>=20.0.0 <23.0.0'
+      '@angular/core': '>=20.0.0 <23.0.0'
 
   '@lmdb/lmdb-darwin-arm64@3.5.6':
     resolution: {integrity: sha512-mY5FG4TjPAkY4P0w+OhHaUka5mDh2TX2WKYIwuKzJ1zeW3VvRgxdam/lGJTquI+bthTx5CSHDW+BAQCnNAzkEA==}
@@ -2874,24 +2895,6 @@ packages:
     resolution: {integrity: sha512-WkUDrojuJs0xkgGf2udWxa3yGBRxPtxUkB79i6aCZLRgc7PM8fZe9TosfPDcvEpQZbuFASnHYmRLBLUbmLOIIA==}
     engines: {node: '>= 12.0.0'}
 
-  lily-design-system-angular-locale-picker@0.2.0:
-    resolution: {integrity: sha512-0qLwt/r9YZeTovwhyYvuke4Y3VH9pk3dxBjNi24yXNowtVK4G4U10uV1Ma+TegZtWCMbDSFi6OvuoN2g7qmlng==}
-    peerDependencies:
-      '@angular/common': '>=20.0.0 <23.0.0'
-      '@angular/core': '>=20.0.0 <23.0.0'
-
-  lily-design-system-angular-text-size-picker@0.2.0:
-    resolution: {integrity: sha512-/rYYZ1bhBjCa9v0o7goDdDV9PCEf/3JumCLW7CXI3w2f73XGJ3whUwVLMvhMfBDjHxMJTmdwjOh1Y22TIJDJag==}
-    peerDependencies:
-      '@angular/common': '>=20.0.0 <23.0.0'
-      '@angular/core': '>=20.0.0 <23.0.0'
-
-  lily-design-system-angular-theme-picker@0.2.0:
-    resolution: {integrity: sha512-H3UbFXXauPE7P2+jnRK6sN0Hdld6dDuvV7bT8c00CRp0Qo3qqIGaoQW52mTcrhpcTHALTOxWdOMwb/RrKJbeRA==}
-    peerDependencies:
-      '@angular/common': '>=20.0.0 <23.0.0'
-      '@angular/core': '>=20.0.0 <23.0.0'
-
   listhen@1.10.1:
     resolution: {integrity: sha512-6nt/86SkqUQSLW1ofz8MxC6RhRMqOl3ONISe6qqvJ3xj09aJWQx6DhgSZpugs3PX4PXdOas/WD6A9jx6J2N19A==}
     hasBin: true
@@ -4685,6 +4688,24 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
 
+  '@lilydesignsystem/angular-locale-picker@0.1.0(@angular/common@22.1.4(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1))':
+    dependencies:
+      '@angular/common': 22.1.4(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)
+      '@angular/core': 22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1)
+      tslib: 2.8.1
+
+  '@lilydesignsystem/angular-text-size-picker@0.1.0(@angular/common@22.1.4(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1))':
+    dependencies:
+      '@angular/common': 22.1.4(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)
+      '@angular/core': 22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1)
+      tslib: 2.8.1
+
+  '@lilydesignsystem/angular-theme-picker@0.1.0(@angular/common@22.1.4(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1))':
+    dependencies:
+      '@angular/common': 22.1.4(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)
+      '@angular/core': 22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1)
+      tslib: 2.8.1
+
   '@lmdb/lmdb-darwin-arm64@3.5.6':
     optional: true
 
@@ -6351,24 +6372,6 @@ snapshots:
       lightningcss-linux-x64-musl: 1.33.0
       lightningcss-win32-arm64-msvc: 1.33.0
       lightningcss-win32-x64-msvc: 1.33.0
-
-  lily-design-system-angular-locale-picker@0.2.0(@angular/common@22.1.4(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1)):
-    dependencies:
-      '@angular/common': 22.1.4(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)
-      '@angular/core': 22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1)
-      tslib: 2.8.1
-
-  lily-design-system-angular-text-size-picker@0.2.0(@angular/common@22.1.4(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1)):
-    dependencies:
-      '@angular/common': 22.1.4(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)
-      '@angular/core': 22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1)
-      tslib: 2.8.1
-
-  lily-design-system-angular-theme-picker@0.2.0(@angular/common@22.1.4(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1)):
-    dependencies:
-      '@angular/common': 22.1.4(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)
-      '@angular/core': 22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)(zone.js@0.15.1)
-      tslib: 2.8.1
 
   listhen@1.10.1(@parcel/watcher@2.6.0):
     dependencies:

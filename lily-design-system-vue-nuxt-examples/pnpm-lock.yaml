@@ -8,15 +8,15 @@ importers:
 
   .:
     dependencies:
-      lily-design-system-vue-locale-picker:
-        specifier: 0.1.1
-        version: 0.1.1(vue@3.5.42(typescript@5.9.3))
-      lily-design-system-vue-text-size-picker:
-        specifier: 0.1.1
-        version: 0.1.1(vue@3.5.42(typescript@5.9.3))
-      lily-design-system-vue-theme-picker:
-        specifier: 0.1.1
-        version: 0.1.1(vue@3.5.42(typescript@5.9.3))
+      '@lilydesignsystem/vue-locale-picker':
+        specifier: 0.1.0
+        version: 0.1.0(vue@3.5.42(typescript@5.9.3))
+      '@lilydesignsystem/vue-text-size-picker':
+        specifier: 0.1.0
+        version: 0.1.0(vue@3.5.42(typescript@5.9.3))
+      '@lilydesignsystem/vue-theme-picker':
+        specifier: 0.1.0
+        version: 0.1.0(vue@3.5.42(typescript@5.9.3))
       nuxt:
         specifier: ^4.5.2
         version: 4.5.2(@babel/plugin-syntax-jsx@7.29.7(@babel/core@7.29.7))(@babel/plugin-syntax-typescript@7.29.7(@babel/core@7.29.7))(@oxc-project/types@0.147.0)(@vue/compiler-sfc@3.5.42)(commander@14.0.3)(db0@0.3.4)(esbuild@0.28.2)(ioredis@5.11.1)(lightningcss@1.33.0)(magicast@0.5.4)(rolldown@1.2.6)(rollup-plugin-visualizer@7.1.1(rolldown@1.2.6)(rollup@4.63.1))(rollup@4.63.1)(srvx@0.11.22)(terser@5.51.2)(typescript@5.9.3)(vite@8.2.2(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2))(vue-tsc@3.3.11(typescript@5.9.3))
@@ -491,6 +491,24 @@ packages:
 
   '@kwsites/promise-deferred@1.1.1':
     resolution: {integrity: sha512-GaHYm+c0O9MjZRu0ongGBRbinu8gVAMd2UZjji6jVmqKtZluZnptXGWhz1E8j8D2HJ3f/yMxKAUC0b+57wncIw==}
+
+  '@lilydesignsystem/vue-locale-picker@0.1.0':
+    resolution: {integrity: sha512-QZ1yq8m6MY6nPwrEj5t6BeT7luZw9AyelE1xH65T/wpwEs5J8Yjgn4+cblNx3pOvUsd5g3ndC/B5PHaf3FakXg==}
+    engines: {node: '=26'}
+    peerDependencies:
+      vue: ^3.0.0
+
+  '@lilydesignsystem/vue-text-size-picker@0.1.0':
+    resolution: {integrity: sha512-Z3Ak1s3u5zw5yiEPWXBAlk4nDpny/WXt0/lRnLjPBbJAeLzzqL/ENvbT0LKGk2BmlEURo6l2B2x5wy+RmBMkdw==}
+    engines: {node: '=26'}
+    peerDependencies:
+      vue: ^3.0.0
+
+  '@lilydesignsystem/vue-theme-picker@0.1.0':
+    resolution: {integrity: sha512-1y0mO5nOfU2+TjtEfk1oGPpxtLDZUOxnFsTuh62LXeGN92UsLs28f+LwRrxz6+0iAuEzzNqibBZ3CthC6ChO9w==}
+    engines: {node: '=26'}
+    peerDependencies:
+      vue: ^3.0.0
 
   '@mapbox/node-pre-gyp@2.0.3':
     resolution: {integrity: sha512-uwPAhccfFJlsfCxMYTwOdVfOz3xqyj8xYL3zJj8f0pb30tLohnnFPhLuqp4/qoEz8sNxe4SESZedcBojRefIzg==}
@@ -2714,21 +2732,6 @@ packages:
     resolution: {integrity: sha512-/vlFKAoH5Cgt3Ie+JLhRbwOsCQePABiU3tJ1egGvyQ+33R/vcwM2Zl2QR/LzjsBeItPt3oSVXapn+m4nQDvpzw==}
     engines: {node: '>=14'}
 
-  lily-design-system-vue-locale-picker@0.1.1:
-    resolution: {integrity: sha512-Uqsv/0m+zjZouDreWjmmPEyESLT5HSdy0VphySbblehQaXtDnhvfAAdCq+DB4M5CJcdumgFFdhEAKVd+qCLBzA==}
-    peerDependencies:
-      vue: ^3.0.0
-
-  lily-design-system-vue-text-size-picker@0.1.1:
-    resolution: {integrity: sha512-0bmtdBWfv/adesMM6aGIAgIa58V4qtxufe7n/xGzBJ8bOT/DX4F5C3Y+sc/OdVkg9L6wpgWabeqhVndR7AlD8Q==}
-    peerDependencies:
-      vue: ^3.0.0
-
-  lily-design-system-vue-theme-picker@0.1.1:
-    resolution: {integrity: sha512-2kWbWC7pHENdCJ8W6lW84BoysBTbrzowH1mxHE36k896/2qxg1diXZqeyCKEOuM+hmWftPvjGFZjdD/3Fz0iFA==}
-    peerDependencies:
-      vue: ^3.0.0
-
   listhen@1.10.1:
     resolution: {integrity: sha512-6nt/86SkqUQSLW1ofz8MxC6RhRMqOl3ONISe6qqvJ3xj09aJWQx6DhgSZpugs3PX4PXdOas/WD6A9jx6J2N19A==}
     hasBin: true
@@ -4782,6 +4785,18 @@ snapshots:
       - supports-color
 
   '@kwsites/promise-deferred@1.1.1': {}
+
+  '@lilydesignsystem/vue-locale-picker@0.1.0(vue@3.5.42(typescript@5.9.3))':
+    dependencies:
+      vue: 3.5.42(typescript@5.9.3)
+
+  '@lilydesignsystem/vue-text-size-picker@0.1.0(vue@3.5.42(typescript@5.9.3))':
+    dependencies:
+      vue: 3.5.42(typescript@5.9.3)
+
+  '@lilydesignsystem/vue-theme-picker@0.1.0(vue@3.5.42(typescript@5.9.3))':
+    dependencies:
+      vue: 3.5.42(typescript@5.9.3)
 
   '@mapbox/node-pre-gyp@2.0.3':
     dependencies:
@@ -7097,18 +7112,6 @@ snapshots:
       lightningcss-win32-x64-msvc: 1.33.0
 
   lilconfig@3.1.3: {}
-
-  lily-design-system-vue-locale-picker@0.1.1(vue@3.5.42(typescript@5.9.3)):
-    dependencies:
-      vue: 3.5.42(typescript@5.9.3)
-
-  lily-design-system-vue-text-size-picker@0.1.1(vue@3.5.42(typescript@5.9.3)):
-    dependencies:
-      vue: 3.5.42(typescript@5.9.3)
-
-  lily-design-system-vue-theme-picker@0.1.1(vue@3.5.42(typescript@5.9.3)):
-    dependencies:
-      vue: 3.5.42(typescript@5.9.3)
 
   listhen@1.10.1(srvx@0.11.22):
     dependencies:

@@ -8,15 +8,15 @@ importers:
 
   .:
     dependencies:
-      lily-design-system-react-locale-picker:
-        specifier: 0.1.1
-        version: 0.1.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
-      lily-design-system-react-text-size-picker:
-        specifier: 0.1.1
-        version: 0.1.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
-      lily-design-system-react-theme-picker:
-        specifier: 0.1.1
-        version: 0.1.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      '@lilydesignsystem/react-locale-picker':
+        specifier: 0.1.0
+        version: 0.1.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      '@lilydesignsystem/react-text-size-picker':
+        specifier: 0.1.0
+        version: 0.1.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      '@lilydesignsystem/react-theme-picker':
+        specifier: 0.1.0
+        version: 0.1.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       next:
         specifier: ^16.3.4
         version: 16.3.4(@babel/core@7.29.7)(@playwright/test@1.62.1)(@types/node@26.4.1)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -568,6 +568,27 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
+
+  '@lilydesignsystem/react-locale-picker@0.1.0':
+    resolution: {integrity: sha512-EyRQ/Gn5kQVKl144drTSRhTP4ifs24fq4p556NVKOIiIb2/JLZdjgiaPUL0wW690rrxPK+glMoREJgF6YdfAqQ==}
+    engines: {node: '=26'}
+    peerDependencies:
+      react: '>=18'
+      react-dom: '>=18'
+
+  '@lilydesignsystem/react-text-size-picker@0.1.0':
+    resolution: {integrity: sha512-zFCZhzGFYfoZHIt9R7p7VBF8JDsa9OPt4Z/BfkE8oFMTgPinNZonEZesB9X/KW47P4A/TWAVNqTLiShfeYw/dg==}
+    engines: {node: '=26'}
+    peerDependencies:
+      react: '>=18'
+      react-dom: '>=18'
+
+  '@lilydesignsystem/react-theme-picker@0.1.0':
+    resolution: {integrity: sha512-gVkfowSV9j1On4ZN+WZ5JyrUT0z1mV7iRie7FXVBQARL9RRHfryp9eBFdhB336tj6X1tDBjh9tRUuanYhw3ZRA==}
+    engines: {node: '=26'}
+    peerDependencies:
+      react: '>=18'
+      react-dom: '>=18'
 
   '@napi-rs/wasm-runtime@1.2.3':
     resolution: {integrity: sha512-UMduMbqO5s5zF2NkNacMT/yK5Y5QiKvWr2+50bzIIxFDwVJ2h49b+oyjaCGPhJxd2/gC2x39EHv/gHVuu36x2Q==}
@@ -1570,24 +1591,6 @@ packages:
     resolution: {integrity: sha512-WkUDrojuJs0xkgGf2udWxa3yGBRxPtxUkB79i6aCZLRgc7PM8fZe9TosfPDcvEpQZbuFASnHYmRLBLUbmLOIIA==}
     engines: {node: '>= 12.0.0'}
 
-  lily-design-system-react-locale-picker@0.1.1:
-    resolution: {integrity: sha512-DRy8sZoSbrYiBK0d6kxyJpT0P+S8xfKLyxFswC9wcir9cakf/OTQzqIHtrhrZOLl58FL11+j2S7OfvyPBjhYhA==}
-    peerDependencies:
-      react: '>=18'
-      react-dom: '>=18'
-
-  lily-design-system-react-text-size-picker@0.1.1:
-    resolution: {integrity: sha512-hCxB1m/HvvRkdCfUudrq2d8beZgc+galfmrOJQJT3EBCcAIABBXPqpk5rgb3+AG8hPXnnl0BZ5mfR/TODNG90A==}
-    peerDependencies:
-      react: '>=18'
-      react-dom: '>=18'
-
-  lily-design-system-react-theme-picker@0.1.1:
-    resolution: {integrity: sha512-oG3TK8Q86PpYWJ12Q4mGmXtP/4fViF0r1u7pGyOYueeZvYHegzGdflm4hdEHavlPaDj75iO6cNzANCCA5/08xQ==}
-    peerDependencies:
-      react: '>=18'
-      react-dom: '>=18'
-
   loupe@3.2.1:
     resolution: {integrity: sha512-CdzqowRJCeLU72bHvWqwRBBlLcMEtIvGrlvef74kMnV2AolS9Y8xUv1I0U/MNAWMhBlKIoyuEgoJ0t/bbwHbLQ==}
 
@@ -2508,6 +2511,21 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
 
+  '@lilydesignsystem/react-locale-picker@0.1.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
+    dependencies:
+      react: 19.2.8
+      react-dom: 19.2.8(react@19.2.8)
+
+  '@lilydesignsystem/react-text-size-picker@0.1.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
+    dependencies:
+      react: 19.2.8
+      react-dom: 19.2.8(react@19.2.8)
+
+  '@lilydesignsystem/react-theme-picker@0.1.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
+    dependencies:
+      react: 19.2.8
+      react-dom: 19.2.8(react@19.2.8)
+
   '@napi-rs/wasm-runtime@1.2.3(@emnapi/core@1.11.0)(@emnapi/runtime@1.11.0)':
     dependencies:
       '@emnapi/core': 1.11.0
@@ -3292,21 +3310,6 @@ snapshots:
       lightningcss-linux-x64-musl: 1.33.0
       lightningcss-win32-arm64-msvc: 1.33.0
       lightningcss-win32-x64-msvc: 1.33.0
-
-  lily-design-system-react-locale-picker@0.1.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8):
-    dependencies:
-      react: 19.2.8
-      react-dom: 19.2.8(react@19.2.8)
-
-  lily-design-system-react-text-size-picker@0.1.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8):
-    dependencies:
-      react: 19.2.8
-      react-dom: 19.2.8(react@19.2.8)
-
-  lily-design-system-react-theme-picker@0.1.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8):
-    dependencies:
-      react: 19.2.8
-      react-dom: 19.2.8(react@19.2.8)
 
   loupe@3.2.1: {}
 
