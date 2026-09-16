@@ -386,7 +386,7 @@ export class MotionPicker extends HTMLElement {
         this.#syncState();
         // Focus moves to the listbox; the active option is conveyed via
         // aria-activedescendant, per the APG listbox pattern.
-        this.#listEl?.focus();
+        this.#listEl?.focus({ preventScroll: true });
         this.#scrollActiveIntoView();
     }
 
@@ -396,7 +396,7 @@ export class MotionPicker extends HTMLElement {
         this.#open = false;
         this.#activeIndex = -1;
         this.#syncState();
-        if (refocus) this.#buttonEl?.focus();
+        if (refocus) this.#buttonEl?.focus({ preventScroll: true });
     }
 
     #choose(index: number): void {
@@ -516,7 +516,7 @@ export class MotionPicker extends HTMLElement {
                 // default Tab lands exactly where leaving the picker
                 // should. Guard the METHOD: jsdom-shaped environments
                 // may lack it.
-                this.#buttonEl?.focus?.();
+                this.#buttonEl?.focus?.({ preventScroll: true });
                 this.closeList(false);
                 break;
             default:

@@ -152,7 +152,7 @@ async function openList(focusLast = false): Promise<void> {
     // Wait for the DOM flush first — a `hidden` element cannot take focus.
     await nextTick();
     const all = items();
-    (focusLast ? all[all.length - 1] : all[0])?.focus();
+    (focusLast ? all[all.length - 1] : all[0])?.focus({ preventScroll: true });
 }
 
 async function closeList(refocus = true): Promise<void> {
@@ -160,7 +160,7 @@ async function closeList(refocus = true): Promise<void> {
     open.value = false;
     if (refocus) {
         await nextTick();
-        buttonEl.value?.focus();
+        buttonEl.value?.focus({ preventScroll: true });
     }
 }
 
@@ -199,13 +199,13 @@ function onButtonKeydown(event: KeyboardEvent): void {
     if (event.key === "ArrowDown") {
         event.preventDefault();
         if (!open.value) void openList();
-        else items()[0]?.focus();
+        else items()[0]?.focus({ preventScroll: true });
     } else if (event.key === "ArrowUp") {
         event.preventDefault();
         if (!open.value) void openList(true);
         else {
             const all = items();
-            all[all.length - 1]?.focus();
+            all[all.length - 1]?.focus({ preventScroll: true });
         }
     }
 }
@@ -215,7 +215,7 @@ function moveFocus(delta: number): void {
     if (all.length === 0) return;
     const i = all.indexOf(document.activeElement as HTMLElement);
     const next = Math.min(Math.max((i < 0 ? 0 : i) + delta, 0), all.length - 1);
-    all[next]?.focus();
+    all[next]?.focus({ preventScroll: true });
 }
 
 function onListKeydown(event: KeyboardEvent): void {
@@ -230,12 +230,12 @@ function onListKeydown(event: KeyboardEvent): void {
             break;
         case "Home":
             event.preventDefault();
-            items()[0]?.focus();
+            items()[0]?.focus({ preventScroll: true });
             break;
         case "End": {
             event.preventDefault();
             const all = items();
-            all[all.length - 1]?.focus();
+            all[all.length - 1]?.focus({ preventScroll: true });
             break;
         }
         case "Escape":
@@ -251,7 +251,7 @@ function onListKeydown(event: KeyboardEvent): void {
             // teleported the user to the page's first tab stop. From
             // the button, the default Tab lands exactly where leaving
             // the picker should.
-            buttonEl.value?.focus?.();
+            buttonEl.value?.focus?.({ preventScroll: true });
             void closeList(false);
             break;
     }

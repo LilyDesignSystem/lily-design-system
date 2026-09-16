@@ -210,13 +210,13 @@ export function SharePicker({
         if (event.key === "ArrowDown") {
             event.preventDefault();
             if (!open) openList();
-            else items()[0]?.focus();
+            else items()[0]?.focus({ preventScroll: true });
         } else if (event.key === "ArrowUp") {
             event.preventDefault();
             if (!open) openList(true);
             else {
                 const all = items();
-                all[all.length - 1]?.focus();
+                all[all.length - 1]?.focus({ preventScroll: true });
             }
         }
     }
@@ -229,7 +229,7 @@ export function SharePicker({
             Math.max((i < 0 ? 0 : i) + delta, 0),
             all.length - 1,
         );
-        all[next]?.focus();
+        all[next]?.focus({ preventScroll: true });
     }
 
     function onListKeyDown(event: React.KeyboardEvent<HTMLUListElement>): void {
@@ -244,13 +244,13 @@ export function SharePicker({
                 break;
             case "Home": {
                 event.preventDefault();
-                items()[0]?.focus();
+                items()[0]?.focus({ preventScroll: true });
                 break;
             }
             case "End": {
                 event.preventDefault();
                 const all = items();
-                all[all.length - 1]?.focus();
+                all[all.length - 1]?.focus({ preventScroll: true });
                 break;
             }
             case "Escape":
@@ -266,7 +266,7 @@ export function SharePicker({
                 // teleported the user to the page's first tab stop. From
                 // the button, the default Tab lands exactly where leaving
                 // the picker should.
-                buttonRef.current?.focus?.();
+                buttonRef.current?.focus?.({ preventScroll: true });
                 closeList(false);
                 break;
         }
@@ -308,11 +308,11 @@ export function SharePicker({
             pendingFocusRef.current = null;
             if (wanted) {
                 const all = items();
-                (wanted === "last" ? all[all.length - 1] : all[0])?.focus();
+                (wanted === "last" ? all[all.length - 1] : all[0])?.focus({ preventScroll: true });
             }
         } else if (refocusRef.current) {
             refocusRef.current = false;
-            buttonRef.current?.focus();
+            buttonRef.current?.focus({ preventScroll: true });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [open]);

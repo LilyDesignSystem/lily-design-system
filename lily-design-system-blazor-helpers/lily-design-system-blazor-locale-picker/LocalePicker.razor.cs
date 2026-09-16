@@ -211,11 +211,17 @@ public partial class LocalePicker : ComponentBase
         }
     }
 
+    // preventScroll stops the browser's default scroll-into-view: the
+    // listbox/list is positioned by CSS (see AGENTS/theme.md), and without
+    // a consumer override for a right-edge header it can render partly
+    // off-screen, and focusing it then auto-scrolled the whole page --
+    // which reads as the page jumping sideways the instant the picker
+    // opens.
     private static async Task TryFocusAsync(ElementReference element)
     {
         try
         {
-            await element.FocusAsync();
+            await element.FocusAsync(preventScroll: true);
         }
         catch
         {

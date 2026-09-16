@@ -1,6 +1,6 @@
 # PickerBar — Specification (React helper)
 
-Ports [the canonical Svelte package's spec/index.md](../../lily-design-system-svelte-helpers/lily-design-system-svelte-picker-bar/spec/index.md)
+Ports [the canonical Svelte package's spec/index.md](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-picker-bar/spec/index.md)
 one-to-one; only framework-specific detail (React function component +
 props instead of Svelte runes) differs. Same § numbering.
 

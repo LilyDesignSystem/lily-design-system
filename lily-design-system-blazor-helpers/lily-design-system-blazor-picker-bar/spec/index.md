@@ -1,7 +1,7 @@
 # PickerBar — Specification (Blazor helper)
 
 Ported from the canonical
-[Svelte package's spec/index.md](../../lily-design-system-svelte-helpers/lily-design-system-svelte-picker-bar/spec/index.md)
+[Svelte package's spec/index.md](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-picker-bar/spec/index.md)
 with the same § numbering; only framework-specific detail differs.
 
 ## 1. Purpose

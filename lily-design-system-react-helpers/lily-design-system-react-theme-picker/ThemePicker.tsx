@@ -365,7 +365,7 @@ export function ThemePicker({
         // tabbing out of an open picker teleported the user to
         // the page's first tab stop. From the button, the default
         // Tab lands exactly where leaving the picker should.
-        buttonRef.current?.focus?.();
+        buttonRef.current?.focus?.({ preventScroll: true });
         closeList(false);
         break;
       default:
@@ -394,10 +394,10 @@ export function ThemePicker({
   // Move focus to the listbox on open, back to the button on close.
   React.useEffect(() => {
     if (open) {
-      listRef.current?.focus();
+      listRef.current?.focus({ preventScroll: true });
     } else if (refocusRef.current) {
       refocusRef.current = false;
-      buttonRef.current?.focus();
+      buttonRef.current?.focus({ preventScroll: true });
     }
   }, [open]);
 

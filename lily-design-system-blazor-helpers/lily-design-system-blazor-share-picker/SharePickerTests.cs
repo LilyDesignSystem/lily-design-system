@@ -837,4 +837,26 @@ public class SharePickerTests : TestContext
         Assert.Equal("root", root.GetAttribute("data-testid"));
         Assert.Equal("share-1", root.GetAttribute("id"));
     }
+
+    // -----------------------------------------------------------------
+    // §7.25 — Every FocusAsync interop call the component makes on its
+    //         own passes preventScroll: true, so a list rendered partly
+    //         off-screen by unstyled/un-overridden positioning CSS
+    //         never forces the browser to scroll the whole page into
+    //         view (mirrors the canonical Svelte §7.25).
+    // -----------------------------------------------------------------
+    [Fact]
+    public void Section_7_25_Focus_Never_Scrolls_The_Page()
+    {
+        var cut = Render(p => p.Add(x => x.CopyLabel, "Copy link"));
+
+        cut.Find("button.share-picker-button").Click();
+        Key(cut, "ul.share-picker-list", "Escape");
+        cut.Find("button.share-picker-button").Click();
+        Key(cut, "ul.share-picker-list", "Tab");
+
+        var focusCalls = JSInterop.Invocations.Where(i => i.Identifier == FocusIdentifier);
+        Assert.NotEmpty(focusCalls);
+        Assert.All(focusCalls, i => Assert.True((bool)i.Arguments[1]!));
+    }
 }

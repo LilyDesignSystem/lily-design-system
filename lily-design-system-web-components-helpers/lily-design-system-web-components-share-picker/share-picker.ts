@@ -345,7 +345,7 @@ export class SharePicker extends HTMLElement {
         // Items are real focusable elements, so focus moves for real
         // rather than via aria-activedescendant. #syncState has already
         // removed `hidden`, so the target is focusable by now.
-        (focusLast ? all[all.length - 1] : all[0])?.focus();
+        (focusLast ? all[all.length - 1] : all[0])?.focus({ preventScroll: true });
     }
 
     /** Close the list. Returns focus to the trigger unless `refocus` is false. */
@@ -353,7 +353,7 @@ export class SharePicker extends HTMLElement {
         if (!this.#open) return;
         this.#open = false;
         this.#syncState();
-        if (refocus) this.#buttonEl?.focus();
+        if (refocus) this.#buttonEl?.focus({ preventScroll: true });
     }
 
     /** Every focusable item in the list, in DOM order. */
@@ -413,13 +413,13 @@ export class SharePicker extends HTMLElement {
         if (event.key === "ArrowDown") {
             event.preventDefault();
             if (!this.#open) this.openList();
-            else this.items()[0]?.focus();
+            else this.items()[0]?.focus({ preventScroll: true });
         } else if (event.key === "ArrowUp") {
             event.preventDefault();
             if (!this.#open) this.openList(true);
             else {
                 const all = this.items();
-                all[all.length - 1]?.focus();
+                all[all.length - 1]?.focus({ preventScroll: true });
             }
         }
     };
@@ -431,7 +431,7 @@ export class SharePicker extends HTMLElement {
         // Clamps rather than wrapping: the ends of the list are a real
         // boundary, and wrapping in a short disclosure list disorients.
         const next = Math.min(Math.max((i < 0 ? 0 : i) + delta, 0), all.length - 1);
-        all[next]?.focus();
+        all[next]?.focus({ preventScroll: true });
     }
 
     #onListKeydown = (event: KeyboardEvent): void => {
@@ -446,13 +446,13 @@ export class SharePicker extends HTMLElement {
                 break;
             case "Home": {
                 event.preventDefault();
-                this.items()[0]?.focus();
+                this.items()[0]?.focus({ preventScroll: true });
                 break;
             }
             case "End": {
                 event.preventDefault();
                 const all = this.items();
-                all[all.length - 1]?.focus();
+                all[all.length - 1]?.focus({ preventScroll: true });
                 break;
             }
             case "Escape":
@@ -469,7 +469,7 @@ export class SharePicker extends HTMLElement {
                 // the button, the default Tab lands exactly where leaving
                 // the picker should. Guard the METHOD: jsdom-shaped
                 // environments may lack it.
-                this.#buttonEl?.focus?.();
+                this.#buttonEl?.focus?.({ preventScroll: true });
                 this.closeList(false);
                 break;
         }

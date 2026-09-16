@@ -1,5 +1,5 @@
 import { mount, type VueWrapper } from "@vue/test-utils";
-import { afterEach, beforeEach, describe, expect, test } from "vitest";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { defineComponent, nextTick, ref } from "vue";
 
 import LocalePicker, {
@@ -642,5 +642,24 @@ describe("LocalePicker — accessibility hardening (§7.28–§7.32)", () => {
         const { el } = await openPicker([]);
         expect(el.hasAttribute("hidden")).toBe(false);
         expect(el.getAttribute("aria-activedescendant")).toBeNull();
+    });
+
+    test("§7.33 opening the listbox, closing via Escape, and closing via Tab all pass preventScroll", async () => {
+        const focusSpy = vi.spyOn(HTMLElement.prototype, "focus");
+        const { button, list, el } = await openPicker();
+        expect(document.activeElement).toBe(el);
+        expect(focusSpy).toHaveBeenLastCalledWith({ preventScroll: true });
+
+        await list.trigger("keydown", { key: "Escape" });
+        await flush();
+        expect(focusSpy).toHaveBeenLastCalledWith({ preventScroll: true });
+
+        await button.trigger("click");
+        await flush();
+        await list.trigger("keydown", { key: "Tab" });
+        await flush();
+        expect(focusSpy).toHaveBeenLastCalledWith({ preventScroll: true });
+
+        focusSpy.mockRestore();
     });
 });

@@ -296,7 +296,7 @@ export class SharePicker {
     // Deferred so the `hidden` attribute is gone before focus is moved.
     queueMicrotask(() => {
       const all = this.items();
-      (focusLast ? all[all.length - 1] : all[0])?.focus();
+      (focusLast ? all[all.length - 1] : all[0])?.focus({ preventScroll: true });
     });
   }
 
@@ -304,7 +304,7 @@ export class SharePicker {
   closeList(refocus = true): void {
     if (!this.open()) return;
     this.open.set(false);
-    if (refocus) queueMicrotask(() => this.buttonRef().nativeElement.focus());
+    if (refocus) queueMicrotask(() => this.buttonRef().nativeElement.focus({ preventScroll: true }));
   }
 
   private shareNatively(): Promise<boolean> {
@@ -384,13 +384,13 @@ export class SharePicker {
     if (event.key === "ArrowDown") {
       event.preventDefault();
       if (!this.open()) this.openList();
-      else this.items()[0]?.focus();
+      else this.items()[0]?.focus({ preventScroll: true });
     } else if (event.key === "ArrowUp") {
       event.preventDefault();
       if (!this.open()) this.openList(true);
       else {
         const all = this.items();
-        all[all.length - 1]?.focus();
+        all[all.length - 1]?.focus({ preventScroll: true });
       }
     }
   }
@@ -401,7 +401,7 @@ export class SharePicker {
     const i = all.indexOf(document.activeElement as HTMLElement);
     // Clamp rather than wrap.
     const next = Math.min(Math.max((i < 0 ? 0 : i) + delta, 0), all.length - 1);
-    all[next]?.focus();
+    all[next]?.focus({ preventScroll: true });
   }
 
   protected onListKeydown(event: KeyboardEvent): void {
@@ -416,13 +416,13 @@ export class SharePicker {
         break;
       case "Home": {
         event.preventDefault();
-        this.items()[0]?.focus();
+        this.items()[0]?.focus({ preventScroll: true });
         break;
       }
       case "End": {
         event.preventDefault();
         const all = this.items();
-        all[all.length - 1]?.focus();
+        all[all.length - 1]?.focus({ preventScroll: true });
         break;
       }
       case "Escape":
@@ -440,7 +440,7 @@ export class SharePicker {
         // always exists, so no detectChanges is needed before the
         // focus move; guard the METHOD because jsdom-shaped hosts may
         // not implement it.
-        this.buttonRef().nativeElement.focus?.();
+        this.buttonRef().nativeElement.focus?.({ preventScroll: true });
         this.closeList(false);
         break;
       default:

@@ -1,7 +1,7 @@
 # PickerBar — Specification (Angular helper)
 
 Canonical contract:
-[the Svelte package's spec/index.md](../../lily-design-system-svelte-helpers/lily-design-system-svelte-picker-bar/spec/index.md).
+[the Svelte package's spec/index.md](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-picker-bar/spec/index.md).
 This file mirrors its § numbering, adjusted for Angular idiom.
 
 ## 1. Purpose
@@ -112,7 +112,7 @@ uses for one-off cases.
 ### 5.1 `DEFAULT_THEMES`
 
 Identical array, same ordering rationale, as
-[the Svelte spec §5.1](../../lily-design-system-svelte-helpers/lily-design-system-svelte-picker-bar/spec/index.md#51-default_themes):
+[the Svelte spec §5.1](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-picker-bar/spec/index.md#51-default_themes):
 all 45 Lily reference theme slugs, alphabetical, with the 8 UK/US
 government/public-sector themes moved to their own alphabetical group
 at the bottom.
@@ -120,7 +120,7 @@ at the bottom.
 ### 5.2 `DEFAULT_SIZES`
 
 Identical array, same rationale, as
-[the Svelte spec §5.2](../../lily-design-system-svelte-helpers/lily-design-system-svelte-picker-bar/spec/index.md#52-default_sizes):
+[the Svelte spec §5.2](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-picker-bar/spec/index.md#52-default_sizes):
 the seven-step scale `largest`, `larger`, `large`, `normal`, `small`,
 `smaller`, `smallest`. `text-size-picker`'s own initial-value fallback
 does not fit this scale (`"medium"` is not one of the seven slugs), so

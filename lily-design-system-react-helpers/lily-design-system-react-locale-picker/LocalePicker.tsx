@@ -431,7 +431,7 @@ export function LocalePicker({
                 // tabbing out of an open picker teleported the user to
                 // the page's first tab stop. From the button, the default
                 // Tab lands exactly where leaving the picker should.
-                buttonRef.current?.focus?.();
+                buttonRef.current?.focus?.({ preventScroll: true });
                 closeList(false);
                 break;
             default:
@@ -458,12 +458,18 @@ export function LocalePicker({
     }
 
     // Move focus to the listbox on open, back to the button on close.
+    // preventScroll stops the browser's default scroll-into-view: the
+    // listbox is positioned by CSS (see AGENTS/theme.md), and without a
+    // consumer override for a right-edge header the box can render partly
+    // off-screen, and focusing it then auto-scrolled the whole page --
+    // which reads as the page jumping sideways the instant the picker
+    // opens.
     React.useEffect(() => {
         if (open) {
-            listRef.current?.focus();
+            listRef.current?.focus({ preventScroll: true });
         } else if (refocusRef.current) {
             refocusRef.current = false;
-            buttonRef.current?.focus();
+            buttonRef.current?.focus({ preventScroll: true });
         }
     }, [open]);
 

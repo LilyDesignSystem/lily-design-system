@@ -936,6 +936,29 @@ public class ThemePickerTests : TestContext
         Assert.Null(cut.Find("ul").GetAttribute("aria-activedescendant"));
     }
 
+    // -----------------------------------------------------------------
+    // §7.30 — Every FocusAsync interop call the component makes on its
+    //         own passes preventScroll: true, so a listbox rendered
+    //         partly off-screen by unstyled/un-overridden positioning
+    //         CSS never forces the browser to scroll the whole page
+    //         into view (mirrors the canonical Svelte §7.26).
+    // -----------------------------------------------------------------
+    [Fact]
+    public async Task Section_7_30_Focus_Never_Scrolls_The_Page()
+    {
+        var cut = RenderDefault();
+        await Task.Yield();
+
+        cut.Find("button").Click();
+        Key(cut, "ul", "Escape");
+        cut.Find("button").Click();
+        Key(cut, "ul", "Tab");
+
+        var focusCalls = JSInterop.Invocations.Where(i => i.Identifier == FocusIdentifier);
+        Assert.NotEmpty(focusCalls);
+        Assert.All(focusCalls, i => Assert.True((bool)i.Arguments[1]!));
+    }
+
     /// <summary>True when some eval interop call carried the given substring.</summary>
     private bool SawEvalContaining(string needle)
     {

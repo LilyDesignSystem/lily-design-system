@@ -271,7 +271,7 @@ async function openList(startIndex?: number): Promise<void> {
     // aria-activedescendant, per the APG listbox pattern. Wait for the
     // DOM flush first — a `hidden` element cannot take focus.
     await nextTick();
-    listEl.value?.focus();
+    listEl.value?.focus({ preventScroll: true });
     scrollActiveIntoView();
 }
 
@@ -281,7 +281,7 @@ async function closeList(refocus = true): Promise<void> {
     activeIndex.value = -1;
     if (refocus) {
         await nextTick();
-        buttonEl.value?.focus();
+        buttonEl.value?.focus({ preventScroll: true });
     }
 }
 
@@ -401,7 +401,7 @@ function onListKeydown(event: KeyboardEvent): void {
             // tabbing out of an open picker teleported the user to
             // the page's first tab stop. From the button, the default
             // Tab lands exactly where leaving the picker should.
-            buttonEl.value?.focus?.();
+            buttonEl.value?.focus?.({ preventScroll: true });
             void closeList(false);
             break;
         default:

@@ -600,6 +600,7 @@ cases (exact match wins, language-only fallback, empty when no match).
 | §7.30  | A repeated typeahead character cycles through its matches. |
 | §7.31  | `PageUp` / `PageDown` move the cursor by ten, clamped. |
 | §7.32  | An empty list opens without `aria-activedescendant`. |
+| §7.34  | Every focus move the component makes on its own (opening the listbox, returning focus to the button on close/Tab) passes `{ preventScroll: true }`, so a listbox rendered partly off-screen by unstyled/un-overridden positioning CSS never forces the browser to scroll the whole page into view. |
 
 ## 8. Out-of-scope (future, not implemented here)
 

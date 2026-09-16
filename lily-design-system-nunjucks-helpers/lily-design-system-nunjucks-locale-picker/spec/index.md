@@ -610,6 +610,11 @@ Ported from the canonical Svelte spec's §7.28–§7.32.
 40. An empty list opens without `aria-activedescendant`.
 41. An `onChange` that mirrors the value back through `setLocale`
     does not re-enter apply: it fires once per changed value.
+42. Every focus move the component makes on its own (opening the
+    listbox, returning focus to the button on close/Tab) passes
+    `{ preventScroll: true }`, so a listbox rendered partly off-screen
+    by unstyled/un-overridden positioning CSS never forces the browser
+    to scroll the whole page into view.
 
 ## 8. Out-of-scope (future)
 

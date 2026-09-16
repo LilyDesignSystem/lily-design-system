@@ -289,7 +289,7 @@ export function initLocalePicker(root, opts = {}) {
     setActive(start);
     // Focus moves to the listbox; the active option is conveyed via
     // aria-activedescendant, per the APG listbox pattern.
-    list.focus();
+    list.focus({ preventScroll: true });
   }
 
   function closeList(refocus = true) {
@@ -298,7 +298,7 @@ export function initLocalePicker(root, opts = {}) {
     list.hidden = true;
     button.setAttribute("aria-expanded", "false");
     setActive(-1);
-    if (refocus) button.focus();
+    if (refocus) button.focus({ preventScroll: true });
   }
 
   function choose(index) {
@@ -412,7 +412,7 @@ export function initLocalePicker(root, opts = {}) {
         // From the button, the default Tab lands exactly where leaving
         // the picker should. Guard the METHOD, not just the element:
         // this shape has bitten these helpers before.
-        button?.focus?.();
+        button?.focus?.({ preventScroll: true });
         closeList(false);
         break;
       default:

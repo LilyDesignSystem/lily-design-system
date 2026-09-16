@@ -191,7 +191,7 @@ export function initSharePicker(root, opts = {}) {
     refreshHrefs();
     const all = items();
     const target = focusLast ? all[all.length - 1] : all[0];
-    if (target) target.focus();
+    if (target) target.focus({ preventScroll: true });
   }
 
   function closeList(refocus = true) {
@@ -199,7 +199,7 @@ export function initSharePicker(root, opts = {}) {
     open = false;
     list.hidden = true;
     trigger.setAttribute("aria-expanded", "false");
-    if (refocus) trigger.focus();
+    if (refocus) trigger.focus({ preventScroll: true });
   }
 
   // -----------------------------------------------------------------
@@ -251,7 +251,7 @@ export function initSharePicker(root, opts = {}) {
     const i = all.indexOf(document.activeElement);
     // Clamp rather than wrap, matching the canonical Svelte helper.
     const next = Math.min(Math.max((i < 0 ? 0 : i) + delta, 0), all.length - 1);
-    if (all[next]) all[next].focus();
+    if (all[next]) all[next].focus({ preventScroll: true });
   }
 
   // -----------------------------------------------------------------
@@ -277,14 +277,14 @@ export function initSharePicker(root, opts = {}) {
       if (!open) openList();
       else {
         const all = items();
-        if (all[0]) all[0].focus();
+        if (all[0]) all[0].focus({ preventScroll: true });
       }
     } else if (event.key === "ArrowUp") {
       event.preventDefault();
       if (!open) openList(true);
       else {
         const all = items();
-        if (all[all.length - 1]) all[all.length - 1].focus();
+        if (all[all.length - 1]) all[all.length - 1].focus({ preventScroll: true });
       }
     }
   }
@@ -302,13 +302,13 @@ export function initSharePicker(root, opts = {}) {
       case "Home": {
         event.preventDefault();
         const all = items();
-        if (all[0]) all[0].focus();
+        if (all[0]) all[0].focus({ preventScroll: true });
         break;
       }
       case "End": {
         event.preventDefault();
         const all = items();
-        if (all[all.length - 1]) all[all.length - 1].focus();
+        if (all[all.length - 1]) all[all.length - 1].focus({ preventScroll: true });
         break;
       }
       case "Escape":
@@ -325,7 +325,7 @@ export function initSharePicker(root, opts = {}) {
         // default Tab lands exactly where leaving the picker should.
         // Guard the METHOD, not just the element: this shape has
         // bitten these helpers before.
-        trigger?.focus?.();
+        trigger?.focus?.({ preventScroll: true });
         closeList(false);
         break;
       default:

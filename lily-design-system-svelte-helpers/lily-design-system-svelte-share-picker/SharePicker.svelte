@@ -152,16 +152,22 @@
     function openList(focusLast = false): void {
         open = true;
         status = "";
+        // preventScroll stops the browser's default scroll-into-view: the
+        // list is positioned by CSS (see AGENTS/theme.md), and without a
+        // consumer override for a right-edge header it can render partly
+        // off-screen, and focusing an item then auto-scrolled the whole
+        // page -- which reads as the page jumping sideways the instant the
+        // picker opens.
         queueMicrotask(() => {
             const all = items();
-            (focusLast ? all[all.length - 1] : all[0])?.focus();
+            (focusLast ? all[all.length - 1] : all[0])?.focus({ preventScroll: true });
         });
     }
 
     function closeList(refocus = true): void {
         if (!open) return;
         open = false;
-        if (refocus) queueMicrotask(() => buttonEl?.focus());
+        if (refocus) queueMicrotask(() => buttonEl?.focus({ preventScroll: true }));
     }
 
     async function shareNatively(): Promise<boolean> {
@@ -196,11 +202,11 @@
         if (event.key === "ArrowDown") {
             event.preventDefault();
             if (!open) openList();
-            else items()[0]?.focus();
+            else items()[0]?.focus({ preventScroll: true });
         } else if (event.key === "ArrowUp") {
             event.preventDefault();
             if (!open) openList(true);
-            else items()[items().length - 1]?.focus();
+            else items()[items().length - 1]?.focus({ preventScroll: true });
         }
     }
 
@@ -209,7 +215,7 @@
         if (all.length === 0) return;
         const i = all.indexOf(document.activeElement as HTMLElement);
         const next = Math.min(Math.max((i < 0 ? 0 : i) + delta, 0), all.length - 1);
-        all[next]?.focus();
+        all[next]?.focus({ preventScroll: true });
     }
 
     function onListKeydown(event: KeyboardEvent): void {
@@ -224,12 +230,12 @@
                 break;
             case "Home":
                 event.preventDefault();
-                items()[0]?.focus();
+                items()[0]?.focus({ preventScroll: true });
                 break;
             case "End": {
                 event.preventDefault();
                 const all = items();
-                all[all.length - 1]?.focus();
+                all[all.length - 1]?.focus({ preventScroll: true });
                 break;
             }
             case "Escape":
@@ -245,7 +251,7 @@
                 // teleported the user to the page's first tab stop. From
                 // the button, the default Tab lands exactly where leaving
                 // the picker should.
-                buttonEl?.focus?.();
+                buttonEl?.focus?.({ preventScroll: true });
                 closeList(false);
                 break;
         }

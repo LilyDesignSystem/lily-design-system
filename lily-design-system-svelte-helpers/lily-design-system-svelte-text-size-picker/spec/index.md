@@ -106,3 +106,8 @@ Tab proceeds from the picker's position instead of restarting from
 - §7.17 An empty list opens without `aria-activedescendant`.
 - §7.18 `onChange` fires once per changed value, not once per effect
   run: a prop change that re-runs the apply effect does not re-fire it.
+- §7.19 Every focus move the component makes on its own (opening the
+  listbox, returning focus to the button on close/Tab) passes
+  `{ preventScroll: true }`, so a listbox rendered partly off-screen
+  by unstyled/un-overridden positioning CSS never forces the browser
+  to scroll the whole page into view.

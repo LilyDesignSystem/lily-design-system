@@ -852,6 +852,22 @@ describe("LocalePicker — accessibility hardening (§7.36–§7.40; canonical S
     expect(list.hasAttribute("hidden")).toBe(false);
     expect(list.getAttribute("aria-activedescendant")).toBeNull();
   });
+
+  test("§7.42 opening the listbox, closing via Escape, and closing via Tab all pass preventScroll", () => {
+    const focusSpy = vi.spyOn(HTMLElement.prototype, "focus");
+    const { button, list } = openPicker();
+    expect(document.activeElement).toBe(list);
+    expect(focusSpy).toHaveBeenLastCalledWith({ preventScroll: true });
+
+    key(list, "Escape");
+    expect(focusSpy).toHaveBeenLastCalledWith({ preventScroll: true });
+
+    click(button);
+    key(list, "Tab");
+    expect(focusSpy).toHaveBeenLastCalledWith({ preventScroll: true });
+
+    focusSpy.mockRestore();
+  });
 });
 
 describe("initLocalePicker — idempotent apply (§7.41)", () => {

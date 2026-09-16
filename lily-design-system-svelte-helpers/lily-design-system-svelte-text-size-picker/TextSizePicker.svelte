@@ -149,9 +149,15 @@
                 : (startIndex ?? (selected >= 0 ? selected : 0));
         open = true;
         // Focus moves to the listbox; the active option is conveyed via
-        // aria-activedescendant, per the APG listbox pattern.
+        // aria-activedescendant, per the APG listbox pattern. preventScroll
+        // stops the browser's default scroll-into-view: the listbox is
+        // positioned by CSS (see AGENTS/theme.md), and without a consumer
+        // override for a right-edge header the box can render partly
+        // off-screen, and focusing it then auto-scrolled the whole page --
+        // which reads as the page jumping sideways the instant the picker
+        // opens.
         queueMicrotask(() => {
-            listEl?.focus();
+            listEl?.focus({ preventScroll: true });
             scrollActiveIntoView();
         });
     }
@@ -160,7 +166,7 @@
         if (!open) return;
         open = false;
         activeIndex = -1;
-        if (refocus) queueMicrotask(() => buttonEl?.focus());
+        if (refocus) queueMicrotask(() => buttonEl?.focus({ preventScroll: true }));
     }
 
     function choose(index: number): void {
@@ -275,7 +281,7 @@
                 // tabbing out of an open picker teleported the user to
                 // the page's first tab stop. From the button, the default
                 // Tab lands exactly where leaving the picker should.
-                buttonEl?.focus?.();
+                buttonEl?.focus?.({ preventScroll: true });
                 closeList(false);
                 break;
             default:

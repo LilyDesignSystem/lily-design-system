@@ -493,6 +493,12 @@ builds the href from both forms.
 | ------ | ------------ |
 | §7.25  | `onChange` fires once per changed value, not once per effect run: a prop change that re-runs the apply effect does not re-fire it. |
 
+### Focus never scrolls the page
+
+| Clause | Test asserts |
+| ------ | ------------ |
+| §7.26  | Every focus move the component makes on its own (opening the listbox, returning focus to the button on close/Tab) passes `{ preventScroll: true }`, so a listbox rendered partly off-screen by unstyled/un-overridden positioning CSS never forces the browser to scroll the whole page into view. |
+
 ## 8. Out-of-scope (future, not implemented here)
 
 - A complementary `ThemeView` helper that displays the active theme. The

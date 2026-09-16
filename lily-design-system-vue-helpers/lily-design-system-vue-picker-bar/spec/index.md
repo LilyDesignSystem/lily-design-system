@@ -1,7 +1,7 @@
 # PickerBar — Specification (Vue helper)
 
 Canonical contract ported from
-[the Svelte package's spec/index.md](../../lily-design-system-svelte-helpers/lily-design-system-svelte-picker-bar/spec/index.md)
+[the Svelte package's spec/index.md](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-picker-bar/spec/index.md)
 (`lily-design-system-svelte-picker-bar`). Same § numbering; framework
 idiom swapped (props/emits instead of props/callback-props, `v-bind`
 instead of prop-bag spread).

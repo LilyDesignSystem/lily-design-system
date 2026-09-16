@@ -323,7 +323,7 @@ export class MotionPicker {
     // aria-activedescendant, per the APG listbox pattern.
     this.cdr.detectChanges();
     queueMicrotask(() => {
-      this.listRef().nativeElement.focus();
+      this.listRef().nativeElement.focus({ preventScroll: true });
       this.scrollActiveIntoView();
     });
   }
@@ -333,7 +333,7 @@ export class MotionPicker {
     if (!this.open()) return;
     this.open.set(false);
     this.activeIndex.set(-1);
-    if (refocus) queueMicrotask(() => this.buttonRef().nativeElement.focus());
+    if (refocus) queueMicrotask(() => this.buttonRef().nativeElement.focus({ preventScroll: true }));
   }
 
   protected choose(index: number): void {
@@ -455,7 +455,7 @@ export class MotionPicker {
         // the picker should. The button always exists, so no
         // detectChanges is needed before the focus move; guard the
         // METHOD because jsdom-shaped hosts may not implement it.
-        this.buttonRef().nativeElement.focus?.();
+        this.buttonRef().nativeElement.focus?.({ preventScroll: true });
         this.closeList(false);
         break;
       default:

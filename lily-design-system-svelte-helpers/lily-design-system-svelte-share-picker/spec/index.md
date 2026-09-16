@@ -212,6 +212,12 @@ sees on a phone is not what they see on a desktop.
     focus.
 24. The list carries the picker's accessible name (`aria-label` =
     `label`).
+25. Every focus move the component makes on its own (opening the
+    list, returning focus to the button on close/Tab, arrow/Home/End
+    navigation between items) passes `{ preventScroll: true }`, so a
+    list rendered partly off-screen by unstyled/un-overridden
+    positioning CSS never forces the browser to scroll the whole page
+    into view.
 
 ## 8. Tracking
 

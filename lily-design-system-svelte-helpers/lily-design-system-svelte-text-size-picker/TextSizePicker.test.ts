@@ -396,3 +396,30 @@ describe("TextSizePicker — idempotent apply (§7.18)", () => {
         expect(onChange).toHaveBeenCalledTimes(2);
     });
 });
+
+describe("TextSizePicker — focus never scrolls the page (§7.19)", () => {
+    test("§7.19 opening the listbox, closing via Escape, and closing via Tab all pass preventScroll", async () => {
+        const focusSpy = vi.spyOn(HTMLElement.prototype, "focus");
+        render(TextSizePicker, { props: { label: "Text size", sizes: SIZES } });
+        await flush();
+
+        await fireEvent.click(screen.getByRole("button"));
+        await flush();
+        const list = document.querySelector(".text-size-picker-list") as HTMLElement;
+        expect(list.matches(":focus")).toBe(true);
+        expect(focusSpy).toHaveBeenLastCalledWith({ preventScroll: true });
+
+        await fireEvent.keyDown(list, { key: "Escape" });
+        expect(focusSpy).toHaveBeenLastCalledWith({ preventScroll: true });
+
+        await fireEvent.click(screen.getByRole("button"));
+        await flush();
+        await fireEvent.keyDown(
+            document.querySelector(".text-size-picker-list") as HTMLElement,
+            { key: "Tab" },
+        );
+        expect(focusSpy).toHaveBeenLastCalledWith({ preventScroll: true });
+
+        focusSpy.mockRestore();
+    });
+});

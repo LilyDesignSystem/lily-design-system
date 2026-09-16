@@ -637,3 +637,30 @@ describe("LocalePicker — idempotent apply (§7.33)", () => {
         expect(onChange).toHaveBeenCalledTimes(2);
     });
 });
+
+describe("LocalePicker — focus never scrolls the page (§7.34)", () => {
+    test("§7.34 opening the listbox, closing via Escape, and closing via Tab all pass preventScroll", async () => {
+        const focusSpy = vi.spyOn(HTMLElement.prototype, "focus");
+        render(LocalePicker, { props: { label: "Language", locales: LOCALES } });
+        await flush();
+
+        await fireEvent.click(screen.getByRole("button"));
+        await flush();
+        const list = document.querySelector(".locale-picker-list") as HTMLElement;
+        expect(list.matches(":focus")).toBe(true);
+        expect(focusSpy).toHaveBeenLastCalledWith({ preventScroll: true });
+
+        await fireEvent.keyDown(list, { key: "Escape" });
+        expect(focusSpy).toHaveBeenLastCalledWith({ preventScroll: true });
+
+        await fireEvent.click(screen.getByRole("button"));
+        await flush();
+        await fireEvent.keyDown(
+            document.querySelector(".locale-picker-list") as HTMLElement,
+            { key: "Tab" },
+        );
+        expect(focusSpy).toHaveBeenLastCalledWith({ preventScroll: true });
+
+        focusSpy.mockRestore();
+    });
+});

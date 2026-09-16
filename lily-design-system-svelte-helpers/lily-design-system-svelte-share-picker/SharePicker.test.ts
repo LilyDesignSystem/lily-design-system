@@ -508,4 +508,21 @@ describe("SharePicker — accessibility hardening (§7.23–§7.24)", () => {
         const { list } = await openHardened();
         expect(list.getAttribute("aria-label")).toBe("Share");
     });
+
+    test("§7.25 opening the list and closing via Escape/Tab all pass preventScroll", async () => {
+        const focusSpy = vi.spyOn(HTMLElement.prototype, "focus");
+        const { button, list } = await openHardened();
+        expect(focusSpy).toHaveBeenLastCalledWith({ preventScroll: true });
+
+        await fireEvent.keyDown(list, { key: "Escape" });
+        expect(focusSpy).toHaveBeenLastCalledWith({ preventScroll: true });
+
+        await fireEvent.click(button);
+        await flush();
+        expect(focusSpy).toHaveBeenLastCalledWith({ preventScroll: true });
+        await fireEvent.keyDown(list, { key: "Tab" });
+        expect(focusSpy).toHaveBeenLastCalledWith({ preventScroll: true });
+
+        focusSpy.mockRestore();
+    });
 });
