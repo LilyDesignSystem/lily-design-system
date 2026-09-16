@@ -700,6 +700,18 @@ Long-term: versioned releases per subproject npm/NuGet package
 
 ### 14.1 Changelog highlights
 
+- **`angular-headless` stale endonym-rename exports fixed (2026-09-16)** —
+  closed the publish blocker the rescope below surfaced: not missing
+  components, a stale barrel. Three national-identifier types (Cyprus,
+  Ireland, Northern Ireland) had been renamed to their endonym-first
+  canonical names elsewhere in the repo — the real component files
+  existed under the new names the whole time — but `index.ts` never
+  followed, still exporting the old names against files that no
+  longer existed while never exporting the real ones. Fixed by
+  correcting the 6 exports to match every sibling catalog. Verified:
+  `ng-packagr` build clean, 491/491 tests (1011/1011, unchanged),
+  `bin/check-coverage` 0/491 drift, `@lilydesignsystem/angular-
+  headless@0.1.0` published. Full record: CHANGELOG.md.
 - **All npm packages move to the `@lilydesignsystem` scope (2026-09-16)** —
   maintainer-directed rename of all 63 npm packages (56 helpers minus
   Blazor's 7, plus the 7 headless libraries) from unscoped

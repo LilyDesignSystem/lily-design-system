@@ -9,6 +9,36 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## `angular-headless` stale endonym-rename exports fixed — 2026-09-16
+
+Closed the `angular-headless` publish blocker the rescope's dry-run
+surfaced (previous entry): not missing components after all. Three
+national-identifier types (Cyprus, Ireland, Northern Ireland) had been
+renamed to their endonym-first canonical names at some earlier point
+(`kypros-national-passport-number`, `eire-individual-health-identifier`,
+`tuaisceart-eireann-health-and-care-number` in
+`AGENTS/national-person-identifiers.tsv`) and the real, fully-
+implemented component files (`.ts`/`.spec.ts`/`.stories.ts`/`.md`,
+present in `components/` the whole time) were renamed to match — but
+`index.ts` was never updated: it still exported the old English names
+(`CyprusNationalPassportNumberInput`/`View`,
+`IrelandIndividualHealthIdentifierInput`/`View`,
+`NorthernIrelandHealthAndCareNumberInput`/`View`) pointing at files
+that no longer existed, while the real endonym-named files were never
+exported under any name. Every sibling catalog (confirmed against
+svelte and react) already exported the correct endonym names in the
+right alphabetical position — only angular-headless's barrel drifted.
+Fixed by removing the 6 dead exports and adding the 6 correct ones at
+their alphabetically-correct positions (matching the sibling
+catalogs' ordering). Verified: `ng-packagr` build clean, 491/491 test
+files (1011/1011 tests, unchanged from the documented count — the fix
+only touched export wiring, not behaviour), `bin/check-coverage`
+reports 0/491 drift across every check (impl/test/story/demo/css-hook)
+for the first time with angular included in a real compile pass, root
+`bin/test` and `bin/check-links` clean.
+`@lilydesignsystem/angular-headless@0.1.0` published for real
+immediately after.
+
 ## All npm packages move to the `@lilydesignsystem` scope — 2026-09-16
 
 Maintainer-directed: all 56 npm helper packages (7 catalogs × 7
