@@ -5,11 +5,12 @@ everything below is a fast index.
 
 ## What this package is
 
-A Nunjucks 3 + vanilla-JS headless share control. A glyph-only button
-(➤, U+27A4) that uses the **native share sheet** when the browser has
-one, and otherwise opens a disclosure list of consumer-supplied
-destinations plus a built-in copy-the-URL action. Ships no CSS, no
-icons, and no third-party endpoints.
+A Nunjucks 3 + vanilla-JS headless share control. An icon-only
+button (a bundled arrow SVG, reversed 2026-09-16 from the Unicode
+glyph U+27A4 BLACK RIGHTWARDS ARROWHEAD) that uses the **native share
+sheet** when the browser has one, and otherwise opens a disclosure
+list of consumer-supplied destinations plus a built-in copy-the-URL
+action. Ships no CSS and no third-party endpoints.
 
 The helper is a **macro + client.js pair**:
 
@@ -42,7 +43,9 @@ The helper is a **macro + client.js pair**:
 ### Client.js
 
 `initSharePicker`, `autoInit`, `canShareNatively`, `canCopy`,
-`nextSharePickerId`, `shareTargetHref`, `BLACK_RIGHTWARDS_ARROWHEAD`.
+`nextSharePickerId`, `shareTargetHref`. No glyph constant — the
+default icon is a bundled SVG, not a Unicode character (reversed
+2026-09-16).
 
 ## THE DEVIATION — `href` is a string in the macro
 
@@ -86,7 +89,7 @@ preference.
 ## HTML
 
 `<div class="share-picker" data-lily-share-picker-root>` →
-`<button class="share-picker-button">` with an `aria-hidden` glyph span
+`<button class="share-picker-button">` with an `aria-hidden` SVG icon
 → `<ul class="share-picker-list" aria-label="{label}" hidden>` of `<li>` containing
 `<a class="share-picker-target">` and an optional
 `<button class="share-picker-copy">` →
@@ -114,10 +117,11 @@ where `id` defaults to `share-picker-{name}` and `name` defaults to
   what it is for.
 - Known costs, documented honestly in `docs/accessibility.md`: the name
   has no visible fallback; `strategy="auto"` behaves differently per
-  platform and the native sheet is untestable from your code; the glyph
-  is font-dependent (➤ is in-font and far safer than an emoji, but not
-  guaranteed); and copy fails for reasons invisible to the user, so
-  `copyFailedLabel` must be actionable.
+  platform and the native sheet is untestable from your code; and copy
+  fails for reasons invisible to the user, so `copyFailedLabel` must be
+  actionable. (The old font-dependent-rendering tradeoff no longer
+  applies: the icon is a bundled SVG, not a Unicode character —
+  reversed 2026-09-16.)
 - **Partial no-JS degradation**, stated precisely in `docs/ssr.md`: the
   destination links work (real hrefs), but the list cannot be opened
   and copy is inert. Better than the `*-select` helpers, still a
@@ -128,7 +132,9 @@ where `id` defaults to `share-picker-{name}` and `name` defaults to
 - Nunjucks 3 macro, camelCase name, kebab-case file path and CSS class.
 - Single `opts` parameter on the macro.
 - No runtime dependency on the client side beyond standard DOM APIs.
-- No bundled CSS, fonts, icons, images, or third-party URLs.
+- No bundled CSS, fonts, or third-party URLs. The one deliberate
+  exception is the default button icon: a bundled SVG (reversed
+  2026-09-16 from a Unicode glyph).
 - All user-facing strings come from `opts` — including the copy label,
   which is why the copy item is opt-in.
 - No inline `<script>` in the macro output.

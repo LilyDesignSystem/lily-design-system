@@ -90,7 +90,7 @@ structural attributes (`locales`, `locale-labels`, `label`, `name`,
 The control used to be a native `<select>`. It is now an icon button
 that opens a `role="listbox"` dropdown. Two reasons:
 
-1. **Compactness at any locale count.** A glyph-sized trigger stays
+1. **Compactness at any locale count.** An icon-sized trigger stays
    the same width whether you ship 2 locales or 400, and it composes
    into a dense utility bar next to the sibling `<lily-theme-picker>`,
    which uses the identical shape.

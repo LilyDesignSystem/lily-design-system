@@ -5,7 +5,6 @@ import SharePicker, {
     canCopy,
     canShareNatively,
     nextSharePickerId,
-    BLACK_RIGHTWARDS_ARROWHEAD,
     type ShareTarget,
 } from "./SharePicker";
 
@@ -118,13 +117,12 @@ describe("SharePicker — markup contract (§7.1–§7.6)", () => {
         expect(document.getElementById(listId!)?.tagName).toBe("UL");
     });
 
-    test("§7.1 the button renders ➤, hidden from assistive tech", () => {
+    test("§7.1 the button renders the default arrow SVG icon, hidden from assistive tech", () => {
         render(<SharePicker label="Share" targets={TARGETS} url={URL_UNDER_TEST} />);
-        const icon = document.querySelector(".share-picker-icon") as HTMLElement;
-        // U+27A4 BLACK RIGHTWARDS ARROWHEAD
-        expect(icon.textContent).toBe("➤");
-        expect(BLACK_RIGHTWARDS_ARROWHEAD).toBe("➤");
+        const icon = document.querySelector(".share-picker-icon") as SVGElement;
+        expect(icon.tagName.toLowerCase()).toBe("svg");
         expect(icon.getAttribute("aria-hidden")).toBe("true");
+        expect(icon.querySelector("path")).toBeTruthy();
     });
 
     test("§7.1 the root carries the class hook, consumer class, and rest props", () => {

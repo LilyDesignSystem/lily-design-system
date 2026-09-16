@@ -68,8 +68,7 @@ import { ThemePicker } from "./lily-design-system-angular-theme-picker";
 ```
 
 The barrel also re-exports the optional `ThemePickerIcon` marker
-directive, the `CIRCLE_WITH_RIGHT_HALF_BLACK` glyph constant, the
-`nextThemePickerId` id generator, the pure helpers
+directive, the `nextThemePickerId` id generator, the pure helpers
 `normaliseThemesUrl`, `themeHref`, `themeName`, and
 `matchSystemTheme`, and the `ChildArgs` type.
 
@@ -111,7 +110,7 @@ export class Settings {
 ```
 
 The status line is part of the pattern, not decoration. The closed
-button shows only a glyph — it never names the active theme, visually
+button shows only an icon — it never names the active theme, visually
 or in the accessibility tree — so on its own it never tells anyone
 which theme is in effect. The `theme-picker-status` element restores
 that, in visible text, for sighted and screen-reader users alike;
@@ -196,7 +195,7 @@ re-deriving it when you build a sibling affordance.
     aria-expanded="false"
     aria-controls="theme-picker-1-list"
   >
-    <span class="theme-picker-icon" aria-hidden="true">◑</span>
+    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true">…</svg>
   </button>
 
   <ul
@@ -236,10 +235,9 @@ Notes on the pieces:
   participates in a surrounding `<form>`. Its `name` also
   discriminates the managed `<link>`, so two selects on one page need
   two distinct `name` values.
-- The **button** is icon-only. Its glyph — `◑`, U+25D1 CIRCLE WITH
-  RIGHT HALF BLACK, exported as `CIRCLE_WITH_RIGHT_HALF_BLACK` — is
-  `aria-hidden`, which makes `aria-label` the button's entire
-  accessible name. Pass a good one.
+- The **button** is icon-only. Its icon — a bundled outline SVG (not a
+  Unicode glyph; reversed 2026-09-16) — is `aria-hidden`, which makes
+  `aria-label` the button's entire accessible name. Pass a good one.
 - The **listbox** carries `hidden` while closed, and
   `aria-activedescendant` only while open.
 - **Options** carry two different states: `aria-selected="true"` is
@@ -288,7 +286,7 @@ field-by-field reference.
 ## Custom rendering
 
 There is one rendering escape hatch: a projected `<ng-template>` that
-**replaces the glyph inside the trigger button**.
+**replaces the icon inside the trigger button**.
 
 ```html
 <lily-theme-picker label="Theme" [themesUrl]="url" [themes]="themes">
@@ -307,8 +305,7 @@ variables under `strictTemplates`; it changes nothing at runtime.
 **The template does not render options.** The listbox, its options,
 and the whole ARIA and keyboard contract stay component-owned — that
 is the point of the helper. The most common use is swapping the
-default `◑` for an inline SVG you control, since the default glyph's
-appearance depends on the user's installed fonts.
+bundled default icon for a different inline SVG you control.
 
 If you need a different control shape entirely (swatch grid,
 segmented control), build it against the pure helpers and the

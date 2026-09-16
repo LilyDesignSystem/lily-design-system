@@ -27,7 +27,7 @@ Every example assumes:
 | 6   | [`06-system-preference.html`](./06-system-preference.html) | Follow `prefers-color-scheme`.                               |
 | 7   | [`07-two-way-binding.html`](./07-two-way-binding.html)     | Read/write `el.value`, `themechange`.                        |
 | 8   | [`08-lily-themes.html`](./08-lily-themes.html)             | All 45 Lily themes.                                          |
-| 9   | [`09-custom-rendering.html`](./09-custom-rendering.html)   | `renderButtonContent()`: inline SVG, and glyph + theme name. |
+| 9   | [`09-custom-rendering.html`](./09-custom-rendering.html)   | `renderButtonContent()`: inline SVG, and icon + theme name. |
 | 10  | [`eleventy-cookie/`](./eleventy-cookie/)                   | Cookie-driven first-paint via Eleventy.                      |
 
 ## The examples ship their own CSS — deliberately

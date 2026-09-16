@@ -51,7 +51,7 @@ spread onto the root after those so consumers can override `id`,
 
 ### Caller block
 
-Invoking the macro with `{% call %}` replaces the default glyph
+Invoking the macro with `{% call %}` replaces the default icon
 **inside the button** with the block body — this is the Nunjucks
 equivalent of "children":
 
@@ -82,7 +82,6 @@ export function matchNavigatorLanguage(
 export const defaultLocaleLabels: Record<string, string>;
 export const RTL_LANGUAGE_TAGS: ReadonlySet<string>;
 export const RTL_SCRIPT_SUBTAGS: ReadonlySet<string>;
-export const GLOBE_WITH_MERIDIANS: string; // "\u{1F310}", the default glyph
 
 // Init / wiring
 export function initLocalePicker(
@@ -194,7 +193,7 @@ Its three children, in source order:
   aria-controls="{id}-list"
   data-lily-locale-picker-button
 >
-  <span class="locale-picker-icon" aria-hidden="true">🌐︎</span>
+  <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="1.05rem" height="1.05rem"><circle cx="8" cy="8" r="6"/><path d="M2 8h12"/><path d="M8 2c2.2 0 4 2.7 4 6s-1.8 6-4 6-4-2.7-4-6 1.8-6 4-6z"/></svg>
 </button>
 
 <ul
@@ -219,9 +218,10 @@ Its three children, in source order:
 </ul>
 ```
 
-- The button glyph is U+1F310 GLOBE WITH MERIDIANS, wrapped in
-  `aria-hidden="true"`. A `{% call %}` block replaces the whole
-  `<span class="locale-picker-icon">` with the block body.
+- The button icon is a bundled globe-outline SVG (`viewBox="0 0 16
+  16"`), wrapped in `aria-hidden="true"` (reversed 2026-09-16). A
+  `{% call %}` block replaces the whole `<svg class="locale-picker-icon">`
+  with the block body.
 - Each option carries `lang` (BCP 47 hyphen form) for WCAG 3.1.2.
   The button and the `<ul>` do not: they are chrome, not content.
 - `{selected}` is resolved server-side as

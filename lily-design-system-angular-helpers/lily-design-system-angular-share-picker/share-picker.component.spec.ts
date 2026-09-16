@@ -5,7 +5,6 @@ import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import {
   SharePicker,
   SharePickerIcon,
-  BLACK_RIGHTWARDS_ARROWHEAD,
   canCopy,
   canShareNatively,
   nextSharePickerId,
@@ -208,13 +207,12 @@ describe("SharePicker — markup contract (§4.2, §7.1–§7.6)", () => {
     expect(root.classList.contains("extra")).toBe(true);
   });
 
-  test("§7.1 the button renders ➤, hidden from assistive tech", () => {
+  test("§7.1 the button renders the default arrow SVG icon, hidden from assistive tech", () => {
     const fixture = mount();
-    const icon = q<HTMLElement>(fixture, ".share-picker-icon");
-    // U+27A4 BLACK RIGHTWARDS ARROWHEAD
-    expect(icon.textContent).toBe("➤");
-    expect(BLACK_RIGHTWARDS_ARROWHEAD).toBe("➤");
+    const icon = q<SVGElement>(fixture, ".share-picker-icon");
+    expect(icon.tagName.toLowerCase()).toBe("svg");
     expect(icon.getAttribute("aria-hidden")).toBe("true");
+    expect(icon.querySelector("path")).toBeTruthy();
   });
 
   test("§4.3 nextSharePickerId mints unique, stable ids", () => {
@@ -676,8 +674,8 @@ class IconTemplateHost {
   readonly url = URL_UNDER_TEST;
 }
 
-describe("SharePicker — custom glyph template (§7.22)", () => {
-  test("§7.22 a projected ng-template replaces the glyph and receives ChildArgs", async () => {
+describe("SharePicker — custom icon template (§7.22)", () => {
+  test("§7.22 a projected ng-template replaces the icon and receives ChildArgs", async () => {
     const fixture = TestBed.createComponent(IconTemplateHost);
     fixture.detectChanges();
     fixtures.push(fixture);
@@ -686,7 +684,7 @@ describe("SharePicker — custom glyph template (§7.22)", () => {
 
     const custom = q<HTMLElement>(fixture, '[data-testid="custom"]');
     expect(custom).toBeTruthy();
-    // The custom glyph replaces the default ➤ inside the trigger.
+    // The custom template replaces the default SVG icon inside the trigger.
     expect(custom.closest("button")?.className).toContain(
       "share-picker-button",
     );

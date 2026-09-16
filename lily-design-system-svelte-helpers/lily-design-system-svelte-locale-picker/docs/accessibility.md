@@ -183,7 +183,7 @@ What to do:
   ```svelte
   <LocalePicker label="Language" {locales} bind:value={locale}>
     {#snippet children({ value, labelFor })}
-      <span aria-hidden="true">🌐︎</span>
+      <svg viewBox="0 0 16 16" aria-hidden="true">…</svg>
       <span class="locale-picker-text" lang={bcp47LocaleTag(value)}>
         {labelFor(value)}
       </span>

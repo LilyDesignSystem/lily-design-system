@@ -1,8 +1,8 @@
 # Custom rendering — `<lily-share-picker>`
 
 Light DOM has no `<slot>`, so the customisation surface is
-**subclassing**. Override `renderButtonContent()` to replace the ➤
-glyph; whatever it returns is placed inside the trigger.
+**subclassing**. Override `renderButtonContent()` to replace the
+default icon; whatever it returns is placed inside the trigger.
 
 This is the HTML-helper equivalent of the `children` snippet the Svelte,
 React and Vue versions expose, and it receives the same information they
@@ -28,9 +28,13 @@ Focus lives on a list item while the list is open, never inside the
 trigger, so replacing the trigger's children on sync never steals or
 strands focus.
 
-## Inline SVG instead of the glyph
+## A different inline SVG
 
-The safest option if your font stack might lack U+27A4.
+The default icon is already a bundled SVG (outline arrow), not a
+Unicode character (reversed 2026-09-16 from the old U+27A4 BLACK
+RIGHTWARDS ARROWHEAD glyph), so it already renders identically
+everywhere. Override it the same way when you want a different mark
+entirely.
 
 ```js
 import { SharePicker } from "lily-design-system-web-components-share-picker/share-picker";
@@ -57,7 +61,7 @@ customElements.define("svg-share-picker", SvgSharePicker);
 Keep `aria-hidden="true"` and `fill="currentColor"`: the name comes from
 `aria-label`, and the icon should inherit text colour.
 
-## Glyph plus visible text
+## Icon plus visible text
 
 Addresses the biggest accessibility cost — an icon-only trigger — but
 brings WCAG 2.5.3 into play.
@@ -66,10 +70,7 @@ brings WCAG 2.5.3 into play.
 class LabelledSharePicker extends SharePicker {
   renderButtonContent() {
     const frag = document.createDocumentFragment();
-    const icon = document.createElement("span");
-    icon.className = "share-picker-icon";
-    icon.setAttribute("aria-hidden", "true");
-    icon.textContent = "➤";
+    const icon = super.renderButtonContent(); // the default bundled SVG
     const text = document.createElement("span");
     text.className = "share-picker-text";
     text.textContent = this.label; // reuse the same string
@@ -93,7 +94,7 @@ class ChevronSharePicker extends SharePicker {
     const span = document.createElement("span");
     span.className = "share-picker-icon";
     span.setAttribute("aria-hidden", "true");
-    span.textContent = this.open ? "×" : "➤";
+    span.textContent = this.open ? "×" : "→"; // your own icon choice
     return span;
   }
 }

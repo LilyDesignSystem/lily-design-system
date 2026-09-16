@@ -22,7 +22,7 @@ Every example assumes:
 | 3   | [`03-multiple-pickers.html`](./03-multiple-pickers.html) | Two pickers in one page via `name` and per-instance `target`.   |
 | 4   | [`04-persistence.html`](./04-persistence.html)           | `localStorage` survival across reloads via `storage-key`.       |
 | 5   | [`05-external-buttons.html`](./05-external-buttons.html) | Driving the control from your own A-/A+ preset buttons.         |
-| 6   | [`06-custom-rendering.html`](./06-custom-rendering.html) | `renderButtonContent()`: inline SVG, and glyph + size name.      |
+| 6   | [`06-custom-rendering.html`](./06-custom-rendering.html) | `renderButtonContent()`: inline SVG, and icon + size name.      |
 
 ## The examples ship their own CSS — deliberately
 

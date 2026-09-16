@@ -5,7 +5,6 @@ import {
   canCopy,
   canShareNatively,
   nextSharePickerId,
-  BLACK_RIGHTWARDS_ARROWHEAD,
   type SharePickerShareDetail,
   type SharePickerUrlDetail,
   type ShareTarget,
@@ -197,11 +196,6 @@ describe("<lily-share-picker> — pure helpers", () => {
     expect(a).not.toBe(b);
   });
 
-  test("BLACK_RIGHTWARDS_ARROWHEAD is U+27A4", () => {
-    expect(BLACK_RIGHTWARDS_ARROWHEAD).toBe("➤");
-    expect(BLACK_RIGHTWARDS_ARROWHEAD.codePointAt(0)).toBe(0x27a4);
-  });
-
   test("canCopy reflects navigator.clipboard.writeText", () => {
     expect(canCopy()).toBe(false);
     const clip = stubClipboard();
@@ -236,14 +230,14 @@ describe("<lily-share-picker> — markup contract (§7.1–§7.6)", () => {
     expect(document.body.querySelector(".share-picker-trigger")).toBeNull();
   });
 
-  test("§7.1 the button renders ➤, hidden from assistive tech", async () => {
+  test("§7.1 the button renders the arrow icon, hidden from assistive tech", async () => {
     mount({ label: "Share", url: URL_UNDER_TEST });
     await flush();
-    const icon = document.body.querySelector<HTMLElement>(
+    const icon = document.body.querySelector<SVGElement>(
       ".share-picker-icon",
     )!;
-    // U+27A4 BLACK RIGHTWARDS ARROWHEAD
-    expect(icon.textContent).toBe("➤");
+    expect(icon.tagName.toLowerCase()).toBe("svg");
+    expect(icon.querySelectorAll("path").length).toBeGreaterThan(0);
     expect(icon.getAttribute("aria-hidden")).toBe("true");
     expect(icon.closest("button")).toBe(trigger());
   });
@@ -896,7 +890,6 @@ describe("<lily-share-picker> — HTML custom-element surface", () => {
     try {
       const mod = await import("./index.js");
       expect(mod.SharePicker).toBeDefined();
-      expect(mod.BLACK_RIGHTWARDS_ARROWHEAD).toBe("➤");
     } finally {
       (globalThis as any).customElements = original;
     }
@@ -935,13 +928,13 @@ describe("<lily-share-picker> — accessibility hardening (§7.23–§7.24)", ()
 
 describe("pointer open survives the button content swap (regression)", () => {
   // Same defect family as the listbox pickers: opening replaceChildren()s
-  // the button content, detaching the clicked icon span mid-event; the
+  // the button content, detaching the clicked icon mid-event; the
   // document click handler must judge by composedPath(), not by
   // containment of the (now detached) target.
-  test("clicking the icon span opens and STAYS open", async () => {
+  test("clicking the icon opens and STAYS open", async () => {
     const el = mount({ label: "Share this page", strategy: "list" });
     try {
-      const icon = el.querySelector(".share-picker-icon") as HTMLElement;
+      const icon = el.querySelector(".share-picker-icon") as SVGElement;
       icon.dispatchEvent(new MouseEvent("click", { bubbles: true, composed: true }));
       await Promise.resolve();
       const button = el.querySelector(".share-picker-button")!;

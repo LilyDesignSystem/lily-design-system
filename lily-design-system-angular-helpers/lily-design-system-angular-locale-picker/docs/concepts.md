@@ -41,9 +41,10 @@ The select:
 - Ships **no** translated strings. The `label` input and
   `localeLabels` input are passed through verbatim.
 
-The one visual thing it does ship is the default glyph, U+1F310 GLOBE
-WITH MERIDIANS — a character, not an asset, and replaceable by
-projecting an `<ng-template>`.
+The one visual thing it does ship is the default icon — a bundled
+inline SVG (reversed 2026-09-16 from the Unicode glyph U+1F310 GLOBE
+WITH MERIDIANS) — and it is replaceable by projecting an
+`<ng-template>`.
 
 ## The lifecycle
 

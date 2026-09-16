@@ -274,7 +274,6 @@ Alternatively, ship your own `theme-picker.client.d.ts`:
 
 ```ts
 // theme-picker.client.d.ts
-export const CIRCLE_WITH_RIGHT_HALF_BLACK: string;
 export function normaliseThemesUrl(url: string): string;
 export function themeHref(url: string, slug: string, extension: string): string;
 export function initThemePicker(

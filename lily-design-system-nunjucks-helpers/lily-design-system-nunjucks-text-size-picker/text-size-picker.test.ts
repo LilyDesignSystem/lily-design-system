@@ -7,7 +7,6 @@ import { fileURLToPath } from "node:url";
 import {
   autoInit,
   initTextSizePicker,
-  LATIN_CAPITAL_LETTER_A,
   sizeName,
 } from "./text-size-picker.client.js";
 
@@ -135,15 +134,15 @@ describe("TextSizePicker — macro markup contract (§7.1–§7.6)", () => {
     expect(list.getAttribute("tabindex")).toBe("-1");
   });
 
-  test("§7.1 the button renders the 'A' glyph, hidden from assistive tech", () => {
+  test("§7.1 the button renders the default 'A' SVG icon, hidden from assistive tech", () => {
     const root = mountIntoBody(
       renderMacro({ label: "Text size", sizes: SIZES }),
     );
-    const icon = root.querySelector(".text-size-picker-icon") as HTMLElement;
-    expect(icon.textContent).toBe(LATIN_CAPITAL_LETTER_A);
-    expect(LATIN_CAPITAL_LETTER_A).toBe("A");
+    const icon = root.querySelector(".text-size-picker-icon") as SVGElement;
+    expect(icon.tagName.toLowerCase()).toBe("svg");
     expect(icon.getAttribute("aria-hidden")).toBe("true");
-    // The glyph must never be the accessible name.
+    expect(icon.querySelector("path")).toBeTruthy();
+    // The icon must never be the accessible name.
     const button = root.querySelector(".text-size-picker-button")!;
     expect(button.textContent).not.toBe(button.getAttribute("aria-label"));
   });

@@ -42,13 +42,12 @@ describe("TextSizePicker — markup contract (§7.1–§7.5)", () => {
         expect(document.getElementById(listId!)?.getAttribute("role")).toBe("listbox");
     });
 
-    test("§7.1 the button renders 'A', hidden from assistive tech", () => {
+    test("§7.1 the button renders the default 'A' SVG icon, hidden from assistive tech", () => {
         render(TextSizePicker, { props: { label: "Text size", sizes: SIZES } });
-        const icon = document.querySelector(".text-size-picker-icon") as HTMLElement;
-        // U+0041 LATIN CAPITAL LETTER A — an in-font letter, not a
-        // pictograph, so it never falls back to a bitmap glyph.
-        expect(icon.textContent).toBe("A");
+        const icon = document.querySelector(".text-size-picker-icon") as SVGElement;
+        expect(icon.tagName.toLowerCase()).toBe("svg");
         expect(icon.getAttribute("aria-hidden")).toBe("true");
+        expect(icon.querySelector("path")).toBeTruthy();
     });
 
     test("§7.2 aria-label names the button and the listbox", () => {

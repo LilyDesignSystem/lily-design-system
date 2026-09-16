@@ -50,7 +50,7 @@ import LocalePicker, {
 | `target`              | `HTMLElement \| null`      | no       | `undefined` (resolves to `document.documentElement`) |
 | `applyDir`            | `boolean`                  | no       | `true`                                               |
 | `localeLabels`        | `Record<string, string>`   | no       | `{}`                                                 |
-| `children`            | `Snippet<[ChildArgs]>`     | no       | the globe glyph                                      |
+| `children`            | `Snippet<[ChildArgs]>`     | no       | the default SVG icon                                 |
 | `onChange`            | `(locale: string) => void` | no       | `undefined`                                          |
 | `class`               | `string`                   | no       | `""`                                                 |
 
@@ -118,7 +118,7 @@ Consumers consume it via a `{#snippet}` block:
     localeLabels={{ en: "English", fr: "Français", ar: "العربية" }}
 >
     {#snippet children({ value, open, labelFor })}
-        <span aria-hidden="true">🌐︎</span>
+        <svg viewBox="0 0 16 16" aria-hidden="true">…</svg>
         <span class="locale-picker-text" lang={bcp47LocaleTag(value)}>
             {labelFor(value)}
         </span>
@@ -128,7 +128,7 @@ Consumers consume it via a `{#snippet}` block:
 ```
 
 When no snippet is supplied, the button renders
-`<span class="locale-picker-icon" aria-hidden="true">🌐︎</span>`. When
+`<svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M2 8h12"/><path d="M8 2c2.2 0 4 2.7 4 6s-1.8 6-4 6-4-2.7-4-6 1.8-6 4-6z"/></svg>`. When
 one is supplied, that span is not emitted.
 
 The snippet's output lives inside a `<button>`, so it must not contain
@@ -148,25 +148,19 @@ export function matchNavigatorLanguage(
 ): string | "";
 export function nextLocalePickerId(): string;
 // + the constants:
-export const GLOBE_WITH_MERIDIANS: string; // "\u{1F310}︎"
 export const defaultLocaleLabels: Record<string, string>;
 export const RTL_LANGUAGE_TAGS: ReadonlySet<string>;
 export const RTL_SCRIPT_SUBTAGS: ReadonlySet<string>;
 ```
 
-`GLOBE_WITH_MERIDIANS` and `nextLocalePickerId` are **not** in the
-`index.ts` barrel; import them from `../LocalePicker.svelte` directly.
+`nextLocalePickerId` is **not** in the `index.ts` barrel; import it
+from `../LocalePicker.svelte` directly. No glyph constant — the
+default icon is a bundled SVG, not a Unicode character (reversed
+2026-09-16).
 
 `nextLocalePickerId()` increments a module counter to produce stable,
 unique, SSR-safe id prefixes. Never replace it with `Math.random()` or
 `Date.now()`.
-
-`GLOBE_WITH_MERIDIANS` is U+1F310 **plus U+FE0E VARIATION
-SELECTOR-15**. VS15 forces text presentation; without it browsers pick
-the colour-emoji font and the globe renders blue, mismatching
-`theme-picker`'s monochrome `◑`. Do not drop it. Note it is three code
-units (a surrogate pair plus the selector), so anything measuring or
-truncating it by `.length` will get it wrong.
 
 | Helper                   | Purpose                                                              |
 | ------------------------ | -------------------------------------------------------------------- |
@@ -195,7 +189,7 @@ without instantiating the select.
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="locale-picker-icon" aria-hidden="true">🌐︎</span>
+    <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M2 8h12"/><path d="M8 2c2.2 0 4 2.7 4 6s-1.8 6-4 6-4-2.7-4-6 1.8-6 4-6z"/></svg>
     <!-- or the children snippet output -->
   </button>
   <ul

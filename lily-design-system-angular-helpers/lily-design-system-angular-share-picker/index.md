@@ -1,8 +1,9 @@
 # SharePicker (Angular helper)
 
-A headless Angular 20 share control: a single-glyph button (➤) that opens
-the **native share sheet** where the browser has one, and otherwise shows
-a list of destinations you supply, plus **copy the page URL**.
+A headless Angular 20 share control: a single-icon button (a bundled
+outline-arrow SVG) that opens the **native share sheet** where the
+browser has one, and otherwise shows a list of destinations you
+supply, plus **copy the page URL**.
 
 The single source of truth is [spec/index.md](./spec/index.md). This file
 is the human-readable guide.
@@ -120,11 +121,11 @@ menuitem role strips middle-click, open-in-new-tab, and copy-link-address
 suggests a disclosure when the items are links. Copy is a real action, so
 it is a `<button>`.
 
-## Custom glyph
+## Custom icon
 
-Project an `<ng-template>` to replace the ➤ glyph inside the trigger. The
-optional `SharePickerIcon` marker directive gives the `let-` variable a
-type:
+Project an `<ng-template>` to replace the default icon inside the
+trigger. The optional `SharePickerIcon` marker directive gives the
+`let-` variable a type:
 
 ```html
 <lily-share-picker label="Share" [targets]="targets">
@@ -148,7 +149,7 @@ Outputs are Angular `output()`s rather than callback inputs:
 
 ## Accessibility
 
-- The glyph is `aria-hidden`; the name comes from `aria-label`, which
+- The icon is `aria-hidden`; the name comes from `aria-label`, which
   also names the list, so a screen reader entering it hears what it is
   for.
 - `Escape` closes and returns focus to the trigger; arrows move between
@@ -165,9 +166,10 @@ Class hooks: `.share-picker` (root), `.share-picker-button`,
 `.share-picker-icon`, `.share-picker-list`, `.share-picker-list-item`,
 `.share-picker-target`, `.share-picker-copy`, `.share-picker-status`.
 
-The package ships no CSS. The root `themes/` stylesheets style the button
-and popup, including the optical glyph sizing that keeps ➤ visually the
-same size as the other helpers' glyphs.
+The package ships no CSS beyond the bundled default icon markup. The
+root `themes/` stylesheets style the button and popup; since the
+bundled icon inks the same visual size as its sibling helpers' icons
+by construction, no per-icon scale correction is needed.
 
 ## Tests
 

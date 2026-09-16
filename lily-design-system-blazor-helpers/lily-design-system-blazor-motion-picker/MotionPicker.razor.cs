@@ -13,7 +13,7 @@ namespace LilyDesignSystem.Blazor.Helpers;
 
 /// <summary>
 /// Context passed to a custom <c>ChildContent</c> render fragment. The
-/// fragment replaces the default glyph inside the button; it does not
+/// fragment replaces the default icon inside the button; it does not
 /// render options. See <c>spec/index.md §4.2</c>.
 /// </summary>
 public sealed class MotionPickerContext
@@ -30,19 +30,11 @@ public sealed class MotionPickerContext
 
 public partial class MotionPicker : ComponentBase
 {
-    /// <summary>Default button glyph: U+23F8 PAUSE SIGN + U+FE0E (VARIATION
-    /// SELECTOR-15, text presentation) — the same treatment LocalePicker
-    /// gives its globe.</summary>
-    /// <remarks>
-    /// A pause glyph reads as "stop the moving parts" more directly than an
-    /// abstract symbol, has a real monochrome glyph in ordinary system
-    /// fonts (media-transport symbols default to text presentation, unlike
-    /// most pictographs), and doesn't collide with any sibling picker's
-    /// glyph (theme's CIRCLE WITH RIGHT HALF BLACK, locale's GLOBE WITH
-    /// MERIDIANS, text-size's plain "A", share's BLACK RIGHTWARDS
-    /// ARROWHEAD, date-time's CALENDAR).
-    /// </remarks>
-    public const string PauseSign = "⏸︎";
+    // Default button icon: a bundled SVG (two pause bars), not a Unicode
+    // character. Reversed 2026-09-16 from the font-dependent-glyph
+    // convention (was U+23F8 PAUSE SIGN + U+FE0E, exposed as the constant
+    // PauseSign -- removed, not renamed). "Stop the moving parts" still
+    // reads directly from two bars. See MotionPicker.razor.
 
     /// <summary>Typeahead buffer lifetime, per the APG listbox pattern.</summary>
     private static readonly TimeSpan TypeaheadWindow = TimeSpan.FromMilliseconds(500);
@@ -79,7 +71,7 @@ public partial class MotionPicker : ComponentBase
     [Parameter] public IReadOnlyDictionary<string, string> MotionLabels { get; set; }
         = new Dictionary<string, string>();
 
-    /// <summary>Replaces the default pause-sign glyph inside the button.</summary>
+    /// <summary>Replaces the default pause-bars icon inside the button.</summary>
     [Parameter] public RenderFragment<MotionPickerContext>? ChildContent { get; set; }
 
     /// <summary>Called after the control applies a new motion preference.</summary>

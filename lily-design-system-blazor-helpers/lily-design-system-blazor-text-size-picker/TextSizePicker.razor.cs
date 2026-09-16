@@ -13,7 +13,7 @@ namespace LilyDesignSystem.Blazor.Helpers;
 
 /// <summary>
 /// Context passed to a custom <c>ChildContent</c> render fragment. The
-/// fragment replaces the default glyph inside the button; it does not
+/// fragment replaces the default icon inside the button; it does not
 /// render options. See <c>spec/index.md §4.2</c>.
 /// </summary>
 public sealed class TextSizePickerContext
@@ -30,14 +30,10 @@ public sealed class TextSizePickerContext
 
 public partial class TextSizePicker : ComponentBase
 {
-    /// <summary>Default button glyph: U+0041 LATIN CAPITAL LETTER A.</summary>
-    /// <remarks>
-    /// Deliberately a letter, not a pictograph. U+1F5DB DECREASE FONT SIZE
-    /// SYMBOL has no real glyph in common font stacks and means "decrease"
-    /// rather than "size"; "A" renders in the page's own font everywhere
-    /// and is the conventional text-size affordance.
-    /// </remarks>
-    public const string LatinCapitalLetterA = "A";
+    // Default button icon: a bundled SVG (a stroke-drawn "A"), not a
+    // Unicode character. Reversed 2026-09-16 from the font-dependent-glyph
+    // convention (was the plain letter U+0041, exposed as the constant
+    // LatinCapitalLetterA -- removed, not renamed). See TextSizePicker.razor.
 
     /// <summary>Typeahead buffer lifetime, per the APG listbox pattern.</summary>
     private static readonly TimeSpan TypeaheadWindow = TimeSpan.FromMilliseconds(500);
@@ -74,7 +70,7 @@ public partial class TextSizePicker : ComponentBase
     [Parameter] public IReadOnlyDictionary<string, string> SizeLabels { get; set; }
         = new Dictionary<string, string>();
 
-    /// <summary>Replaces the default "A" glyph inside the button.</summary>
+    /// <summary>Replaces the default "A" icon inside the button.</summary>
     [Parameter] public RenderFragment<TextSizePickerContext>? ChildContent { get; set; }
 
     /// <summary>Called after the control applies a new size.</summary>

@@ -4,7 +4,6 @@ import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import SharePicker, {
     canCopy,
     canShareNatively,
-    BLACK_RIGHTWARDS_ARROWHEAD,
     type ShareTarget,
 } from "./SharePicker.svelte";
 
@@ -95,13 +94,12 @@ describe("SharePicker — markup contract (§7.1–§7.6)", () => {
         expect(document.getElementById(listId!)?.tagName).toBe("UL");
     });
 
-    test("§7.1 the button renders ➤, hidden from assistive tech", () => {
+    test("§7.1 the button renders the default arrow SVG icon, hidden from assistive tech", () => {
         render(SharePicker, { props: { label: "Share", targets: TARGETS, url: URL_UNDER_TEST } });
-        const icon = document.querySelector(".share-picker-icon") as HTMLElement;
-        // U+27A4 BLACK RIGHTWARDS ARROWHEAD
-        expect(icon.textContent).toBe("➤");
-        expect(BLACK_RIGHTWARDS_ARROWHEAD).toBe("➤");
+        const icon = document.querySelector(".share-picker-icon") as SVGElement;
+        expect(icon.tagName.toLowerCase()).toBe("svg");
         expect(icon.getAttribute("aria-hidden")).toBe("true");
+        expect(icon.querySelector("path")).toBeTruthy();
     });
 
     test("§7.2 the list is hidden until the button is activated", async () => {

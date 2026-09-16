@@ -80,7 +80,7 @@ colour-only meaning is required:
 4. The hidden `<input>`'s `value` (for form submission).
 
 Note that the **closed** button exposes none of them visibly — it
-shows only a glyph. See the tradeoffs below.
+shows only an icon. See the tradeoffs below.
 
 ## Known tradeoffs
 
@@ -96,17 +96,17 @@ In short:
    pickers, and typeahead all used to be free and battle-tested; an
    APG listbox has more variable AT support and no native mobile
    picker.
-3. **Glyph rendering is platform-dependent** — no font is bundled,
-   so the glyph may render as colour emoji, monochrome, or tofu.
-   Override `renderButtonContent()` with an inline SVG when the
-   appearance must be guaranteed.
+
+(A third tradeoff — platform-dependent glyph rendering — no longer
+applies: the default icon is a bundled SVG, not a Unicode character
+— reversed 2026-09-16.)
 
 ## CustomEvent vs ARIA live region
 
 `themechange` is a change notification for consumer code, not for
 assistive technology. Selecting an option updates `aria-selected`,
 which a screen reader announces while the list is open — but once
-the list closes, the button shows only a glyph and says nothing
+the list closes, the button shows only an icon and says nothing
 about the active theme.
 
 That makes the status region the **default pattern**, not an

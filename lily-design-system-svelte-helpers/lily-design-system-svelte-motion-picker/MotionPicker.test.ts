@@ -54,13 +54,12 @@ describe("MotionPicker — markup contract (§7.1–§7.5)", () => {
         expect(document.getElementById(listId!)?.getAttribute("role")).toBe("listbox");
     });
 
-    test("§7.1 the button renders the pause glyph, hidden from assistive tech", () => {
+    test("§7.1 the button renders the default pause SVG icon, hidden from assistive tech", () => {
         render(MotionPicker, { props: { label: "Motion", motions: MOTIONS } });
-        const icon = document.querySelector(".motion-picker-icon") as HTMLElement;
-        // U+23F8 PAUSE SIGN + U+FE0E (text presentation) — a real
-        // monochrome glyph, not a pictograph that falls back to a bitmap.
-        expect(icon.textContent).toBe("⏸︎");
+        const icon = document.querySelector(".motion-picker-icon") as SVGElement;
+        expect(icon.tagName.toLowerCase()).toBe("svg");
         expect(icon.getAttribute("aria-hidden")).toBe("true");
+        expect(icon.querySelector("path")).toBeTruthy();
     });
 
     test("§7.2 aria-label names the button and the listbox", () => {

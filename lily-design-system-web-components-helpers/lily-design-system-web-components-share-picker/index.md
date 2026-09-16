@@ -1,12 +1,14 @@
 # `<lily-share-picker>` — Lily Design System HTML helper
 
 A headless share control, packaged as a vanilla custom element. A
-single-glyph button (➤) that opens the **native share sheet** where the
-browser provides one, and otherwise a **disclosure list** of your
-destinations plus a built-in copy-the-URL action.
+single-icon button (a bundled outline arrow SVG) that opens the
+**native share sheet** where the browser provides one, and otherwise a
+**disclosure list** of your destinations plus a built-in copy-the-URL
+action.
 
-Ships no CSS, no icons, and **no third-party endpoints** — you supply
-the destinations.
+Ships no CSS and **no third-party endpoints** — you supply the
+destinations. The one bundled visual asset is the default button icon
+(a static SVG, not a Unicode character — reversed 2026-09-16).
 
 Canonical contract: [spec/index.md](./spec/index.md).
 
@@ -142,7 +144,7 @@ Every attribute also has a mirrored camelCase property, plus read-only
       aria-expanded="false"
       aria-controls="share-picker-1-list"
     >
-      <span class="share-picker-icon" aria-hidden="true">➤</span>
+      <svg class="share-picker-icon" viewBox="0 0 16 16" width="1.05rem" height="1.05rem" aria-hidden="true">…</svg>
     </button>
     <ul class="share-picker-list" id="share-picker-1-list" aria-label="Share" hidden>
       <li class="share-picker-list-item">
@@ -210,7 +212,7 @@ keeping it available to screen readers — do not set `display: none`,
 which removes it from the accessibility tree and silences the
 announcement.
 
-## Custom glyph
+## Custom icon
 
 Light DOM has no `<slot>`, so subclassing is the customisation surface.
 Override `renderButtonContent()`; it sees `this.open` and
@@ -223,10 +225,7 @@ import { SharePicker } from "lily-design-system-web-components-share-picker/shar
 class LabelledSharePicker extends SharePicker {
   renderButtonContent() {
     const frag = document.createDocumentFragment();
-    const icon = document.createElement("span");
-    icon.className = "share-picker-icon";
-    icon.setAttribute("aria-hidden", "true");
-    icon.textContent = "➤";
+    const icon = super.renderButtonContent(); // the default bundled SVG
     const text = document.createElement("span");
     text.textContent = this.open ? "Close" : "Share";
     frag.append(icon, text);

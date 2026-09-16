@@ -39,7 +39,9 @@ The control is an **icon button that opens a dropdown listbox**
 - Named exports: `LocalePicker`, `bcp47LocaleTag`, `isRtlLocale`,
   `localeName`, `localeEndonym`, `matchNavigatorLanguage`,
   `defaultLocaleLabels`, `RTL_LANGUAGE_TAGS`, `RTL_SCRIPT_SUBTAGS`,
-  `nextLocalePickerId`, `GLOBE_WITH_MERIDIANS`.
+  `nextLocalePickerId`.
+- No glyph constant — the default icon is a bundled SVG, not a
+  Unicode character (reversed 2026-09-16).
 - Type exports: `LocalePickerProps`, `LocalePickerChangeDetail`.
 - Instance members beyond the attribute mirrors: `open` (getter),
   `listId` (getter), `optionId(index)`, `openList(startIndex?)`,
@@ -87,10 +89,9 @@ rebuild and close the list first.
 containing, in order: a `<input type="hidden" name="{name}">` for
 form participation; a `<button type="button" class="locale-picker-button"
 aria-label="{label}" aria-haspopup="listbox" aria-expanded
-aria-controls="{listId}">` whose content is
-`<span class="locale-picker-icon" aria-hidden="true">` carrying
-U+1F310 GLOBE WITH MERIDIANS followed by U+FE0E VARIATION
-SELECTOR-15 (VS15 forces the monochrome text presentation); and a
+aria-controls="{listId}">` whose content is a bundled
+`<svg class="locale-picker-icon" aria-hidden="true">` (globe with
+meridian lines, not a Unicode character — reversed 2026-09-16); and a
 `<ul class="locale-picker-list" id="{listId}" role="listbox"
 aria-label="{label}" tabindex="-1" hidden>` holding one
 `<li class="locale-picker-option" id="{optionId}" role="option"
@@ -124,7 +125,7 @@ table: [spec/index.md §4.7](./spec/index.md#47-keyboard-contract).
 
 - WCAG 2.2 AAA target; WAI-ARIA APG listbox pattern.
 - `aria-label` carries the consumer-supplied accessible name on
-  **both** the button and the listbox. The glyph is
+  **both** the button and the listbox. The icon is
   `aria-hidden="true"`, so `label` is the only accessible name the
   control has.
 - Focus sits on the `<ul>` while open, never on an `<li>`; the active
@@ -133,11 +134,13 @@ table: [spec/index.md §4.7](./spec/index.md#47-keyboard-contract).
   Parts); **the button and the `<ul>` carry none**.
 - The document root carries `lang` (WCAG 3.1.1) and (by default)
   `dir` for bidi layout.
-- Three tradeoffs — icon-only naming (and WCAG 2.5.3 Label in Name),
+- Two tradeoffs — icon-only naming (and WCAG 2.5.3 Label in Name), and
   weaker AT support than a native `<select>` plus no native mobile
-  picker, and platform-dependent glyph rendering. Stated in full in
-  `docs/accessibility.md`.
-- Because the closed button shows only a glyph, the active locale is
+  picker. Stated in full in `docs/accessibility.md`. (The old
+  platform-dependent-glyph-rendering tradeoff no longer applies: the
+  icon is a bundled SVG, not a Unicode character — reversed
+  2026-09-16.)
+- Because the closed button shows only an icon, the active locale is
   not visible anywhere. Surfacing it in visible text or a polite live
   region is the documented default pattern.
 
@@ -163,8 +166,9 @@ invariants a tier-2 subclass must preserve.
 - Light DOM only (no Shadow DOM).
 - Strict TypeScript on the public surface.
 - No runtime dependencies.
-- No bundled CSS, fonts, icons, images, or translation files — which
-  is why the dropdown ships without positioning and the glyph is a
-  bare Unicode codepoint.
+- No bundled CSS, fonts, images, or translation files — which
+  is why the dropdown ships without positioning. The one deliberate
+  exception is the default button icon: a bundled SVG (reversed
+  2026-09-16 from a Unicode glyph).
 - All user-facing strings come from attributes / properties.
 - Mirrors the Svelte sibling's §7 acceptance criteria.

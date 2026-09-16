@@ -28,10 +28,11 @@ children, and must supply the list's positioning.
 - Class `ThemePicker extends HTMLElement` (registered as
   `<lily-theme-picker>` on import of `index.ts`).
 - Named exports: `ThemePicker`, `themeName`, `matchSystemTheme`,
-  `normalizeThemesUrl`, `themeHref`, `nextThemePickerId`,
-  `CIRCLE_WITH_RIGHT_HALF_BLACK`. `themeName` and `matchSystemTheme`
-  are the mirrors of locale-picker's `localeName` and
-  `matchNavigatorLanguage`.
+  `normalizeThemesUrl`, `themeHref`, `nextThemePickerId`. `themeName`
+  and `matchSystemTheme` are the mirrors of locale-picker's
+  `localeName` and `matchNavigatorLanguage`.
+- No glyph constant — the default icon is a bundled SVG, not a
+  Unicode character (reversed 2026-09-16).
 - Type exports: `ThemePickerProps`, `ThemePickerChangeDetail`.
 - Instance members beyond the attribute mirrors: `open` (getter),
   `listId` (getter), `optionId(index)`, `openList(startIndex?)`,
@@ -69,9 +70,9 @@ would destroy focus and the active descendant.
 `<input name="{name}">` for form participation; a
 `<button type="button" class="theme-picker-button" aria-label="{label}"
 aria-haspopup="listbox" aria-expanded aria-controls="{listId}">`
-whose content defaults to
-`<span class="theme-picker-icon" aria-hidden="true">◑</span>`
-(U+25D1, exported as `CIRCLE_WITH_RIGHT_HALF_BLACK`); and a
+whose content defaults to a bundled
+`<svg class="theme-picker-icon" aria-hidden="true">` (half-filled
+circle, not a Unicode character — reversed 2026-09-16); and a
 `<ul class="theme-picker-list" id="{listId}" role="listbox"
 aria-label="{label}" tabindex="-1" hidden>` with one
 `<li class="theme-picker-option" role="option" aria-selected>` per
@@ -97,16 +98,17 @@ different thing from `aria-selected`. Full markup:
 - Focus sits on the `<ul>` while open, never on an `<li>`; the
   highlighted option is conveyed by `aria-activedescendant`.
 - `aria-label` carries the consumer-supplied accessible name on both
-  the button and the list. The glyph is `aria-hidden="true"`.
+  the button and the list. The icon is `aria-hidden="true"`.
 - Option labels default to title-cased slugs; the word "default" is
   never emitted.
-- Three known tradeoffs — icon-only naming (and WCAG 2.5.3), a
-  custom listbox being weaker than a native `<select>` in AT, and
-  platform-dependent glyph rendering — are recorded in
-  [spec/index.md §6.5](./spec/index.md#65-known-tradeoffs) and
-  `docs/accessibility.md`. The closed button shows only a glyph, so
+- Two known tradeoffs — icon-only naming (and WCAG 2.5.3), and a
+  custom listbox being weaker than a native `<select>` in AT — are
+  recorded in [spec/index.md §6.5](./spec/index.md#65-known-tradeoffs)
+  and `docs/accessibility.md`. The closed button shows only an icon, so
   consumers should surface the active theme in visible text or a
-  polite live region.
+  polite live region. (The old platform-dependent-glyph tradeoff no
+  longer applies: the icon is a bundled SVG, not a Unicode character —
+  reversed 2026-09-16.)
 
 ## Conventions this package follows
 
@@ -114,6 +116,8 @@ different thing from `aria-selected`. Full markup:
 - Light DOM only (no Shadow DOM).
 - Strict TypeScript on the public surface.
 - No runtime dependencies.
-- No bundled CSS, fonts, icons, or images.
+- No bundled CSS, fonts, or images. The one deliberate exception is
+  the default button icon: a bundled SVG (reversed 2026-09-16 from a
+  Unicode glyph).
 - All user-facing strings come from attributes / properties.
 - Mirrors the Svelte sibling's §7 acceptance criteria.

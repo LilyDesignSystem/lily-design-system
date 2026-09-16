@@ -23,8 +23,9 @@ Ships no CSS; consumer styles the `theme-picker` class hook.
 
 - Default export: `ThemePicker` component.
 - Named exports: `ThemePicker`, `normaliseThemesUrl`, `themeHref`,
-  `themeName`, `matchSystemTheme`,
-  `nextThemePickerId`, `CIRCLE_WITH_RIGHT_HALF_BLACK`.
+  `themeName`, `matchSystemTheme`, `nextThemePickerId`. No glyph
+  constant — the default icon is a bundled SVG, not a Unicode
+  character (reversed 2026-09-16).
 - Type exports: `Props`, `SlotArgs`, `ChildArgs` (alias of `SlotArgs`).
 
 Required props: `label`, `themesUrl`, `themes`. Full table in
@@ -53,13 +54,13 @@ it) containing three things: a hidden `<input type="hidden"
 name="{name}" value="{value}">` for form participation; a
 `<button type="button" class="theme-picker-button" aria-label="{label}"
 aria-haspopup="listbox" aria-expanded aria-controls="{listId}">`
-wrapping `<span class="theme-picker-icon" aria-hidden="true">◑</span>`;
+wrapping `<svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>`;
 and a `<ul class="theme-picker-list" role="listbox" aria-label="{label}"
 tabindex="-1" hidden aria-activedescendant>` of
 `<li class="theme-picker-option" role="option" aria-selected
-data-active>`. The glyph is U+25D1 CIRCLE WITH RIGHT HALF BLACK,
-exported as `CIRCLE_WITH_RIGHT_HALF_BLACK`. The default scoped slot
-replaces the **button glyph** — not the options — and receives
+data-active>`. The icon is a bundled SVG (contrast/half-circle), not a
+Unicode character — reversed 2026-09-16. The default scoped slot
+replaces the **button icon** — not the options — and receives
 `{ value, open, labelFor }`.
 
 ## Accessibility
@@ -74,10 +75,10 @@ replaces the **button glyph** — not the options — and receives
   refine from the active option. Focus moves to the `<ul>` on open and returns to
   the button on commit or cancel.
 - The button is icon-only, so `aria-label` is its **only** accessible
-  name; the glyph is `aria-hidden="true"`.
+  name; the icon is `aria-hidden="true"`.
 - Option labels default to title-cased slugs; the word "default" is
   never emitted.
-- Because the closed control shows only a glyph, the documented pattern
+- Because the closed control shows only an icon, the documented pattern
   pairs the picker with a consumer-rendered
   `.theme-picker-status` live region. See
   [docs/accessibility.md](./docs/accessibility.md).
@@ -90,5 +91,7 @@ replaces the **button glyph** — not the options — and receives
 - `ref`, `watch`, `onMounted` for state and lifecycle.
 - Strict TypeScript on the public surface.
 - No runtime dependency beyond `vue`.
-- No bundled CSS, fonts, icons, or images.
+- No bundled CSS, fonts, or images. The one deliberate exception is
+  the default button icon: a bundled SVG (reversed 2026-09-16 from a
+  Unicode glyph), overridable via the default scoped slot.
 - All user-facing strings come from props.

@@ -62,7 +62,6 @@ button**. It does not render options.
 `theme-picker.client.js` is an ES module:
 
 ```js
-export const CIRCLE_WITH_RIGHT_HALF_BLACK: string; // "◑" (U+25D1)
 export function normaliseThemesUrl(themesUrl: string): string;
 export function themeHref(
     themesUrl: string,
@@ -88,7 +87,8 @@ export function autoInit(
 useful when the consumer already has a reference to a single root
 `<div>` (e.g. inside another component's lifecycle).
 
-`CIRCLE_WITH_RIGHT_HALF_BLACK` is the code point the macro renders
+The default icon is a bundled SVG, not an exported code point — reversed
+2026-09-16. The macro renders it
 as the default button glyph, exported so tests and custom
 renderings can reference it without re-typing it.
 
@@ -155,7 +155,7 @@ Macro output:
     <button type="button" class="theme-picker-button" aria-label="{label}"
             aria-haspopup="listbox" aria-expanded="false" aria-controls="{id}-list"
             data-lily-theme-picker-button>
-        <span class="theme-picker-icon" aria-hidden="true">◑</span>
+        <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" width="1.05rem" height="1.05rem">…</svg>
     </button>
     <ul class="theme-picker-list" id="{id}-list" role="listbox" aria-label="{label}"
         tabindex="-1" hidden data-lily-theme-picker-list>

@@ -6,11 +6,12 @@ everything below is a fast index.
 ## What this package is
 
 A reusable vanilla HTML/JS headless share control, packaged as the
-`<lily-share-picker>` custom element. A single-glyph button (➤, U+27A4) that
-uses the **native share sheet** when the browser has one, and otherwise
-opens a **disclosure list** of consumer-supplied destinations plus a
-built-in copy-the-URL action. Ships no CSS, no icons, and no third-party
-endpoints.
+`<lily-share-picker>` custom element. A single-icon button (a bundled
+outline-arrow SVG) that uses the **native share sheet** when the
+browser has one, and otherwise opens a **disclosure list** of
+consumer-supplied destinations plus a built-in copy-the-URL action.
+Ships no CSS and no third-party endpoints; the one deliberate
+exception to "no icons" is the bundled default button icon.
 
 Ported from the canonical Svelte helper
 [`lily-design-system-svelte-share-picker`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-picker/).
@@ -32,7 +33,9 @@ Svelte wins on behaviour; this package supplies the custom-element idiom.
 - Class `SharePicker extends HTMLElement` (registered as
   `<lily-share-picker>` on import of `index.ts`).
 - Named exports: `SharePicker`, `canShareNatively`, `canCopy`,
-  `nextSharePickerId`, `BLACK_RIGHTWARDS_ARROWHEAD`.
+  `nextSharePickerId`.
+- No glyph constant — the default icon is a bundled SVG, not a
+  Unicode character (reversed 2026-09-16).
 - Type exports: `SharePickerProps`, `SharePickerShareDetail`,
   `SharePickerUrlDetail`, `ShareTarget`, `ShareStrategy`.
 - Instance members beyond the attribute mirrors: `open`, `status`,
@@ -75,8 +78,9 @@ owns an action, not a preference.
 `<lily-share-picker>` contains one rendered
 `<div class="share-picker {class}">` holding, in order: a
 `<button type="button" class="share-picker-button" aria-label="{label}"
-aria-expanded aria-controls="{listId}">` whose content defaults to
-`<span class="share-picker-icon" aria-hidden="true">➤</span>`; a
+aria-expanded aria-controls="{listId}">` whose content defaults to a
+bundled `<svg class="share-picker-icon" aria-hidden="true">` (outline
+arrow, not a Unicode character — reversed 2026-09-16); a
 `<ul class="share-picker-list" id="{listId}" aria-label="{label}" hidden>` of
 `<li class="share-picker-list-item">` containing
 `<a class="share-picker-target" data-target-id target="_blank"
@@ -125,10 +129,12 @@ The focus-out handler **defers to a microtask** and re-reads
   Tab proceeds from the picker's position.
 - The list carries the picker's accessible name (`aria-label` =
   `label`), matching the sibling pickers' listboxes.
-- Four known costs — icon-only naming (and WCAG 2.5.3), platform-split
-  behaviour under `strategy="auto"`, font-dependent glyph, and invisible
-  copy failures — are recorded in [`docs/accessibility.md`](./docs/accessibility.md).
-  `copy-failed-label` should be actionable, not merely truthful.
+- Three known costs — icon-only naming (and WCAG 2.5.3), platform-split
+  behaviour under `strategy="auto"`, and invisible copy failures — are
+  recorded in [`docs/accessibility.md`](./docs/accessibility.md).
+  `copy-failed-label` should be actionable, not merely truthful. (The
+  old font-dependent-glyph tradeoff no longer applies: the icon is a
+  bundled SVG, not a Unicode character — reversed 2026-09-16.)
 
 ## Conventions this package follows
 
@@ -137,7 +143,9 @@ The focus-out handler **defers to a microtask** and re-reads
   stands in for the `children` slot the other frameworks expose.
 - Strict TypeScript on the public surface.
 - No runtime dependencies.
-- No bundled CSS, fonts, icons, images, or third-party URLs.
+- No bundled CSS, fonts, images, or third-party URLs. The one
+  deliberate exception is the default button icon: a bundled SVG
+  (reversed 2026-09-16 from a Unicode glyph).
 - All user-facing strings come from attributes / properties — including
   the copy label, which is why the copy item is opt-in.
 - Mirrors the Svelte sibling's §7 acceptance criteria.

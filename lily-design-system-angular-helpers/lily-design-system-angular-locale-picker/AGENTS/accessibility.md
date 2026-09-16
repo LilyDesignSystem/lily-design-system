@@ -180,8 +180,9 @@ native `<select>` with a custom listbox is an accessibility
    handling, `aria-activedescendant`-free announcement — that a
    `<ul role="listbox">` has to reimplement and that assistive
    technology supports less consistently.
-3. **The glyph may not render.** U+1F310 depends on platform font
-   and emoji coverage; it can render as tofu or vanish entirely.
+3. ~~The glyph may not render.~~ No longer applies: the default icon
+   is a bundled outline SVG, not a font-dependent Unicode character
+   (reversed 2026-09-16).
 
 Consumers who want the native affordance back can bind a sibling
 `<select>` to the same `[(value)]` signal — the select still owns

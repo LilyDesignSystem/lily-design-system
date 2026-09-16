@@ -16,12 +16,14 @@ export {
   localeName,
   matchNavigatorLanguage,
   nextLocalePickerId,
-  GLOBE_WITH_MERIDIANS,
   defaultLocaleLabels,
   RTL_LANGUAGE_TAGS,
   RTL_SCRIPT_SUBTAGS,
 } from "./LocalePicker.vue";
 ```
+
+No glyph constant — the default icon is a bundled SVG, not a Unicode
+character (reversed 2026-09-16).
 
 A consumer can import either the component or the pure helpers:
 
@@ -84,7 +86,7 @@ i18n library to load message bundles.
 
 ## Default scoped slot
 
-The default slot replaces the **button glyph** — not the options. The
+The default slot replaces the **button icon** — not the options. The
 listbox, its `<li role="option">` children, the keyboard contract, and
 the apply lifecycle stay component-owned. Its `SlotArgs`:
 
@@ -115,7 +117,7 @@ from `label` via `aria-label`, so slot markup should be
 `aria-hidden="true"` or text-free.
 
 When no slot is supplied, the button renders
-`<span class="locale-picker-icon" aria-hidden="true">🌐</span>` — the
+`<svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M2 8h12"/><path d="M8 2c2.2 0 4 2.7 4 6s-1.8 6-4 6-4-2.7-4-6 1.8-6 4-6z"/></svg>` — the
 markup documented in `spec/index.md §4.4`.
 
 ## Pure helpers
@@ -133,7 +135,6 @@ export function matchNavigatorLanguage(
 // per-instance id generator (module counter; SSR-safe):
 export function nextLocalePickerId(): string;
 // + the constants:
-export const GLOBE_WITH_MERIDIANS: string; // "\u{1F310}"
 export const defaultLocaleLabels: Record<string, string>;
 export const RTL_LANGUAGE_TAGS: ReadonlySet<string>;
 export const RTL_SCRIPT_SUBTAGS: ReadonlySet<string>;
@@ -159,7 +160,7 @@ stable and SSR-safe (never `Math.random()` or `Date.now()`).
     aria-controls="{listId}"
   >
     <!-- default slot output, or: -->
-    <span class="locale-picker-icon" aria-hidden="true">🌐</span>
+    <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M2 8h12"/><path d="M8 2c2.2 0 4 2.7 4 6s-1.8 6-4 6-4-2.7-4-6 1.8-6 4-6z"/></svg>
   </button>
   <ul
     class="locale-picker-list"

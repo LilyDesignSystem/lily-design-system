@@ -17,7 +17,6 @@ import {
   isRtlLocale,
   localeName,
   matchNavigatorLanguage,
-  GLOBE_WITH_MERIDIANS,
 } from "./locale-picker.js";
 
 // Register once; re-registering the same tag throws.

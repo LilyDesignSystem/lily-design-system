@@ -142,13 +142,13 @@ voice — comprehensible but ugly. With it, the reader says "Fran-SAY".
 ```
 
 The button and the `<ul>` carry **no `lang`**. They are chrome, not
-locale-specific content: the button holds a glyph and the list holds
+locale-specific content: the button holds an icon and the list holds
 options in many languages, so tagging either with a single language
 would be a lie.
 
 ## Tradeoffs
 
-Three, and none of them are small.
+Two, and neither is small.
 
 ### 1. It is an icon-only control
 
@@ -168,9 +168,8 @@ so:
   AAA you do — pair the control with a visible text label or a
   visible caption and make sure `label` matches it.
 
-The glyph itself is `aria-hidden="true"`, deliberately: an unhidden
-emoji would otherwise be announced as "globe with meridians" and
-could become the accessible name.
+The icon itself is `aria-hidden="true"`, deliberately: unhidden
+decorative content could otherwise become the accessible name.
 
 ### 2. A custom listbox is weaker than a native `<select>`
 
@@ -200,31 +199,19 @@ element handle only the application and persistence — every helper in
 this catalog now uses the listbox shape, so there is no longer a
 native-`<select>` sibling to copy.
 
-### 3. Glyph rendering is platform-dependent
-
-The button's glyph is a plain Unicode character — U+1F310 GLOBE WITH
-MERIDIANS followed by U+FE0E VARIATION SELECTOR-15 — and this package
-bundles no fonts or icon assets (Lily ships neither). It may render as
-a monochrome glyph or as tofu, depending entirely on the platform's
-installed fonts. The globe in particular varies a lot: different
-platforms show different continents, different sizes, and some Linux
-font stacks show nothing at all.
-
-VS15 requests the _text_ presentation, which is what keeps the glyph
-monochrome and consistent with theme-picker's ◑ (U+25D1 is not an
-emoji codepoint and needs no selector). Some platforms ignore the
-request and render the colour-emoji globe anyway; `font-variant-emoji:
-text` on `.locale-picker-icon` forces it where supported.
-
-If you need a guaranteed appearance, override `renderButtonContent()`
-with your own inline SVG — see
-[`./custom-rendering.md`](./custom-rendering.md#guaranteeing-the-glyphs-appearance).
+(A third tradeoff — platform-dependent glyph rendering — no longer
+applies: the default icon is a bundled SVG (globe outline), not a
+Unicode character — reversed 2026-09-16 from the old U+1F310 GLOBE
+WITH MERIDIANS + U+FE0E VARIATION SELECTOR-15. It renders identically
+everywhere. If you want a different mark entirely, override
+`renderButtonContent()` with your own inline SVG — see
+[`./custom-rendering.md`](./custom-rendering.md#swapping-the-icon-for-your-own).
 This is a one-method subclass and does not touch the accessibility
-contract.
+contract.)
 
 ## The status region is the default pattern
 
-The closed button shows **only a glyph**. The active locale is
+The closed button shows **only an icon**. The active locale is
 therefore not visible anywhere in the control and not announced as
 its value — which makes the compensating status region more useful
 now than it was under the previous rendering, not less.

@@ -24,7 +24,8 @@ Sibling files:
 
 Give an Angular 20 application a drop-in, headless share control that:
 
-1. Renders a single-glyph button (➤, U+27A4) matching the other Lily
+1. Renders a single-icon button (a bundled outline-arrow SVG, not a
+   Unicode character — reversed 2026-09-16) matching the other Lily
    helpers.
 2. Uses the **native share sheet** where the browser provides one.
 3. Otherwise opens a list of consumer-supplied destinations, plus a
@@ -107,11 +108,11 @@ Give an Angular 20 application a drop-in, headless share control that:
 | `nativeShare` | `string` (the URL)                 | The native sheet was used instead of the list. |
 
 Content projection: a single `<ng-template>` (queried via
-`contentChild(TemplateRef)`) replaces the ➤ glyph inside the trigger and
-receives `ChildArgs` as both `$implicit` and named properties. The
-optional `SharePickerIcon` marker directive
+`contentChild(TemplateRef)`) replaces the default icon inside the
+trigger and receives `ChildArgs` as both `$implicit` and named
+properties. The optional `SharePickerIcon` marker directive
 (`ng-template[lilySharePickerIcon]`) types the `let-` variables. The
-template replaces the **glyph only** — it never renders the list.
+template replaces the **icon only** — it never renders the list.
 
 ```ts
 type ShareTarget = {
@@ -137,7 +138,7 @@ type ShareEvent = { targetId: string; url: string };
     aria-expanded
     aria-controls="{listId}"
   >
-    <span class="share-picker-icon" aria-hidden="true">➤</span>
+    <svg class="share-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5"/></svg>
   </button>
   <ul class="share-picker-list" id="{listId}" aria-label="{label}" hidden>
     <li class="share-picker-list-item">
@@ -170,8 +171,11 @@ is dropped for a destination whose `newTab` is `false`.
 ### 4.3 Re-exports
 
 `index.ts` exports `SharePicker`, `SharePickerIcon`, `canShareNatively`,
-`canCopy`, `nextSharePickerId`, `BLACK_RIGHTWARDS_ARROWHEAD`, and the
-types `ChildArgs`, `ShareTarget`, `ShareStrategy`, `ShareEvent`.
+`canCopy`, `nextSharePickerId`, and the types `ChildArgs`,
+`ShareTarget`, `ShareStrategy`, `ShareEvent`. No glyph constant — the
+default icon is inline SVG markup in the component template, not a
+separately-exported swappable character value (reversed 2026-09-16;
+the removed `BLACK_RIGHTWARDS_ARROWHEAD` was not renamed).
 
 `nextSharePickerId()` is an incrementing module counter — stable, unique
 per instance, and SSR-safe (no `Math.random`, no `Date.now`). It mints
@@ -223,7 +227,7 @@ on `typeof navigator`.
 
 ## 6. Accessibility
 
-WCAG 2.2 AAA target. The glyph is `aria-hidden`; the accessible name is
+WCAG 2.2 AAA target. The icon is `aria-hidden`; the accessible name is
 the button's `aria-label`, which is consumer-supplied and localisable.
 The status region is `aria-live="polite"` and empty on load, so it
 announces the copy outcome and nothing else. Destinations keep native
@@ -261,9 +265,9 @@ number, and no clause is unexercised.
 - _renders a disclosure button controlling a list_ — `<button type="button">`
   with `aria-label`, `aria-expanded="false"`, and `aria-controls` pointing
   at the `<ul>`'s id.
-- _the button renders ➤, hidden from assistive tech_ — the icon span's
-  text is U+27A4, matches `BLACK_RIGHTWARDS_ARROWHEAD`, and is
-  `aria-hidden="true"`.
+- _the button renders the default arrow SVG icon, hidden from
+  assistive tech_ — the icon is an `<svg class="share-picker-icon">`,
+  not a Unicode glyph, and is `aria-hidden="true"`.
 
 ### 7.2 The list is hidden until the button is activated
 
@@ -375,9 +379,9 @@ number, and no clause is unexercised.
 - _with no url input it falls back to the current page URL_.
 - _the resolved url is what share reports_.
 
-### 7.22 A projected template replaces the glyph and receives `ChildArgs`
+### 7.22 A projected template replaces the icon and receives `ChildArgs`
 
-- _a projected ng-template replaces the glyph and receives ChildArgs_ —
+- _a projected ng-template replaces the icon and receives ChildArgs_ —
   the custom node sits inside `.share-picker-button`, the default
   `.share-picker-icon` is gone, and the context carries `open` and `url`.
 - _the ChildArgs open flag tracks the list state_.
@@ -421,6 +425,11 @@ Total: **49 cases**, all green.
 - Package: lily-design-system-angular-share-picker
 - Version: 0.1.0
 - License: MIT
+- **2026-09-16**: default icon changed from the Unicode glyph U+27A4
+  BLACK RIGHTWARDS ARROWHEAD (exported as `BLACK_RIGHTWARDS_ARROWHEAD`)
+  to a bundled outline SVG. Maintainer-directed, applied to all five
+  page-header pickers the same day. The glyph constant was removed, not
+  renamed — there is no longer a single swappable character value.
 
 ---
 

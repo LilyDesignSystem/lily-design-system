@@ -28,7 +28,7 @@ The helper is a **macro + client.js pair**:
 | -------------------------- | --------------------------------------------------------------- |
 | `spec/index.md`            | Specification-driven contract (canonical, Svelte-sourced).       |
 | `motion-picker.njk`        | Nunjucks macro (`motionPicker(opts)`).                          |
-| `motion-picker.client.js`  | ES module — `initMotionPicker`, `autoInit`, `motionName`, `prefersReducedMotion`, glyph. |
+| `motion-picker.client.js`  | ES module — `initMotionPicker`, `autoInit`, `motionName`, `prefersReducedMotion`. |
 | `motion-picker.test.ts`    | Vitest spec, one assertion per §7 acceptance.                    |
 | `index.md`                 | Concise user guide.                                              |
 
@@ -42,7 +42,9 @@ The helper is a **macro + client.js pair**:
 
 ### Client.js
 
-- `import { initMotionPicker, autoInit, motionName, prefersReducedMotion, PAUSE_SIGN } from "./motion-picker.client.js"`
+- `import { initMotionPicker, autoInit, motionName, prefersReducedMotion } from "./motion-picker.client.js"`
+- No glyph constant — the default icon is a bundled SVG, not a Unicode
+  character (reversed 2026-09-16).
 - `motionName(slug)` mirrors text-size-picker's `sizeName` and
   theme-picker's `themeName`: `"no-preference"` → `"No Preference"`.
 - `prefersReducedMotion()` reads `(prefers-reduced-motion: reduce)`;
@@ -90,7 +92,7 @@ movement, the APG keyboard contract, and typeahead.
     aria-controls="{id}-list"
     data-lily-motion-picker-button
   >
-    <span class="motion-picker-icon" aria-hidden="true">⏸︎</span>
+    <svg class="motion-picker-icon" viewBox="0 0 16 16" aria-hidden="true" width="1.05rem" height="1.05rem">…</svg>
   </button>
   <ul
     class="motion-picker-list"
@@ -114,11 +116,10 @@ movement, the APG keyboard contract, and typeahead.
 </div>
 ```
 
-The glyph is U+23F8 PAUSE SIGN + U+FE0E, `aria-hidden`, exported as
-`PAUSE_SIGN` from the client module and written as the HTML entity
-`⏸︎` in the macro (per the glyph-escaping rule — no bare
-character in source). A `{% call %}` block body replaces the glyph
-inside the button; it does not render options.
+The icon is a bundled two-bar pause SVG (`viewBox="0 0 16 16"`),
+`aria-hidden` — not a Unicode character (reversed 2026-09-16). A
+`{% call %}` block body replaces the icon inside the button; it does
+not render options.
 
 Server markup marks exactly ONE option `aria-selected="true"`,
 resolved as `value or defaultValue or motions[0]` — no OS check
@@ -146,10 +147,9 @@ Ids are `{id}-list` / `{id}-option-{i}` where `id` defaults to
 - Nunjucks 3 macro, camelCase name, kebab-case file path and CSS class.
 - Single `opts` parameter on the macro.
 - No runtime dependency on the client side beyond standard DOM APIs.
-- No bundled CSS, fonts, icons, or images.
+- No bundled CSS, fonts, or images. The one deliberate exception is
+  the default button icon: a bundled SVG (reversed 2026-09-16 from a
+  Unicode glyph).
 - All user-facing strings come from `opts`.
 - No inline `<script>` in the macro output; the client.js is loaded
   separately by the consumer.
-- Glyph escaped in source: HTML entity in the macro, Unicode escape
-  (`PAUSE_SIGN`, U+23F8 + U+FE0E) in the client module, per
-  `AGENTS/helpers.md`'s glyph-escaping rule.

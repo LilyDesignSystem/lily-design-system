@@ -279,51 +279,38 @@ active/selected distinction using system colours; the transparent
 outline above is the standard trick for making a background-only
 highlight survive.
 
-## The globe glyph
+## The globe icon
 
-The default button content is U+1F310 GLOBE WITH MERIDIANS followed by
-U+FE0E VARIATION SELECTOR-15, exported as `GLOBE_WITH_MERIDIANS`. VS15
-requests **text presentation**, so the glyph renders monochrome and
-inherits `color` like ordinary text rather than arriving as a blue
-colour-emoji bitmap. That is deliberate: this control usually sits
-beside theme-picker's `◑` in a page header, and the two should read as
-one set.
-
-Two things follow for consumers:
+Reversed 2026-09-16: the default button content used to be U+1F310
+GLOBE WITH MERIDIANS + U+FE0E VARIATION SELECTOR-15 (exported as
+`GLOBE_WITH_MERIDIANS`), a font-dependent glyph with genuinely uneven
+platform coverage (colour-emoji fallback, tofu). It is now a bundled
+`<svg class="locale-picker-icon">` that inherits `color` like ordinary
+text and renders identically on every platform — no font-stack
+correction needed, and it already matches theme-picker's, motion-picker's,
+share-picker's, and text-size-picker's icons as one visual family:
 
 ```css
 .locale-picker-icon {
-  /* Recolour it like text — VS15 makes this work. */
   color: var(--color-base-content, currentColor);
-  /* Name fonts you know cover the text-presentation form, so it
-       doesn't arrive from an arbitrary fallback at the wrong weight. */
-  font-family:
-    "Segoe UI Symbol", "Apple Symbols", "Noto Sans Symbols 2", sans-serif;
-  font-size: 1.125em;
-  line-height: 1;
+  width: 1.05rem;
+  height: 1.05rem;
 }
 ```
 
-If you override the font stack on the button or on the page, keep a
-family that carries the text-presentation glyph. Drop to a stack whose
-only match is a colour-emoji font and the VS15 request is ignored — you
-get a blue globe back, out of step with the sibling controls. Platform
-coverage for this glyph is genuinely uneven (it can render as tofu);
-the fallback story, and when to project your own `<ng-template>`
-instead, is in
-[accessibility.md](./accessibility.md#what-this-control-costs).
+To use a different mark entirely, project your own `<ng-template>` —
+see [accessibility.md](./accessibility.md#what-this-control-costs).
 
 ## Sizing the button
 
-The button is icon-only by default, so give it a target size that does
-not depend on the glyph rendering at all:
+The button is icon-only by default, so give it a comfortable target
+size:
 
 ```css
 .locale-picker-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  /* Usable target even if the glyph fails to render. */
   min-width: 2.25rem;
   min-height: 2.25rem;
   border: 1px solid var(--color-base-300, currentColor);

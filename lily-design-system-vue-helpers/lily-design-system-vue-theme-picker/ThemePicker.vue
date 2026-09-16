@@ -1,8 +1,17 @@
 <script lang="ts">
-/** Default button glyph: U+25D1 CIRCLE WITH RIGHT HALF BLACK. */
-export const CIRCLE_WITH_RIGHT_HALF_BLACK = "◑";
+/**
+ * Default button icon: a bundled SVG (contrast/half-circle), not a
+ * Unicode character. Reversed 2026-09-16 from the font-dependent-glyph
+ * convention (was U+25D1 CIRCLE WITH RIGHT HALF BLACK, exported as
+ * `CIRCLE_WITH_RIGHT_HALF_BLACK` — removed, not renamed, since there is
+ * no longer a single swappable character value). A bundled outline SVG
+ * renders identically across every font stack and platform. `viewBox="0
+ * 0 16 16"`, stroke-based (`stroke-width="1.6"`, round caps/joins) to
+ * match the other four picker icons as one visual family. Override via
+ * the default scoped slot, same as before.
+ */
 
-/** Arguments passed to the default scoped slot (the button glyph). */
+/** Arguments passed to the default scoped slot (the button icon). */
 export type SlotArgs = {
     /** Currently selected theme slug. */
     value: string;
@@ -416,9 +425,21 @@ onBeforeUnmount(() => {
             @keydown="onButtonKeydown"
         >
             <slot v-bind="{ value: current, open, labelFor }">
-                <span class="theme-picker-icon" aria-hidden="true">{{
-                    CIRCLE_WITH_RIGHT_HALF_BLACK
-                }}</span>
+                <svg
+                    class="theme-picker-icon"
+                    viewBox="0 0 16 16"
+                    width="1.05rem"
+                    height="1.05rem"
+                    aria-hidden="true"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+                    <circle cx="8" cy="8" r="6" />
+                    <path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none" />
+                </svg>
             </slot>
         </button>
 

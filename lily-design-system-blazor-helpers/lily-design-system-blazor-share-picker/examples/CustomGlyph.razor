@@ -1,7 +1,7 @@
 @*
-    Example 3 — Custom glyph via ChildContent.
+    Example 3 — Custom icon via ChildContent.
 
-    ChildContent REPLACES THE GLYPH INSIDE THE BUTTON. It does not render
+    ChildContent REPLACES THE ICON INSIDE THE BUTTON. It does not render
     the list items — those come from Targets. The fragment receives a
     SharePickerContext of { Open, Url }, so the face can react to the
     open state and can show what will be shared.
@@ -10,18 +10,18 @@
 
     1. Keep the replacement decorative — aria-hidden="true" on whatever
        you render. The accessible name is Label, and Label alone. If the
-       glyph is exposed to assistive tech it competes with the label and
+       icon is exposed to assistive tech it competes with the label and
        screen readers may read both.
 
     2. Do not put interactive content inside it. The fragment renders
        inside the <button>; a nested button or link is invalid HTML and
        breaks keyboard behaviour.
 
-    The default ➤ (U+27A4) is an in-font arrow, so it renders in the
-    page's own font and stays monochrome. Override it when your font
-    stack lacks the character, or when your design language calls for an
-    inline SVG — not to swap in an emoji, which will render as a colour
-    pictograph on some platforms and a monochrome glyph on others.
+    The default is a bundled outline-arrow SVG (not a Unicode character
+    -- reversed 2026-09-16), so it renders identically everywhere.
+    Override it when your design language calls for different artwork
+    -- not with an emoji, which will render as a colour pictograph on
+    some platforms and a monochrome glyph on others.
 *@
 
 @page "/examples/share-picker/custom-glyph"

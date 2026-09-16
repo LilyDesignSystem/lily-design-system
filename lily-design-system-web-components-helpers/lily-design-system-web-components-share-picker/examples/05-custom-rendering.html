@@ -90,7 +90,7 @@
             copy-label="Copy link"
         ></svg-share-picker>
 
-        <h2>Glyph plus visible text</h2>
+        <h2>Icon plus visible text</h2>
         <p>
             Note the visible text is <code>this.label</code>, so the accessible
             name contains it — WCAG 2.5.3 Label in Name.
@@ -128,7 +128,7 @@
                     const icon = document.createElement("span");
                     icon.className = "share-picker-icon";
                     icon.setAttribute("aria-hidden", "true");
-                    icon.textContent = this.open ? "×" : "➤";
+                    icon.textContent = this.open ? "×" : "→"; // your own icon choice
                     const text = document.createElement("span");
                     text.style.marginInlineStart = "0.4em";
                     text.textContent = this.label;

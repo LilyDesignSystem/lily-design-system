@@ -7,8 +7,9 @@ This file documents the Svelte 5-flavoured shape of the contract.
 
 `ThemePicker.svelte`'s module script exports the component plus the
 pure helpers `normaliseThemesUrl`, `themeHref`, `themeName`,
-`matchSystemTheme`, `nextThemePickerId`, and the glyph constant
-`CIRCLE_WITH_RIGHT_HALF_BLACK`.
+`matchSystemTheme`, `nextThemePickerId`. No glyph constant — the
+default icon is a bundled SVG, not a Unicode character (reversed
+2026-09-16).
 
 The barrel (`index.ts`) currently re-exports a **subset**:
 
@@ -22,8 +23,7 @@ export {
 export type { Props, ChildArgs } from "./ThemePicker.svelte";
 ```
 
-`themeName`, `matchSystemTheme`, and
-`CIRCLE_WITH_RIGHT_HALF_BLACK` must be imported from
+`themeName` and `matchSystemTheme` must be imported from
 `./ThemePicker.svelte` directly. Widening the barrel to match
 `locale-picker`'s — which re-exports all of its pure helpers — is a
 pending follow-up.
@@ -54,7 +54,7 @@ import ThemePicker, {
 | `extension`        | `string`                  | no       | `".css"`                                             |
 | `target`           | `HTMLElement \| null`     | no       | `undefined` (resolves to `document.documentElement`) |
 | `themeLabels`      | `Record<string, string>`  | no       | `{}`                                                 |
-| `children`         | `Snippet<[ChildArgs]>`    | no       | the `◑` glyph                                        |
+| `children`         | `Snippet<[ChildArgs]>`    | no       | the default SVG icon                                 |
 | `onChange`         | `(theme: string) => void` | no       | `undefined`                                          |
 | `class`            | `string`                  | no       | `""`                                                 |
 
@@ -113,7 +113,7 @@ Consumers consume it via a `{#snippet}` block:
     themes={["light", "dark", "abyss"]}
 >
     {#snippet children({ value, open, labelFor })}
-        <span aria-hidden="true">◑</span>
+        <svg viewBox="0 0 16 16" aria-hidden="true">…</svg>
         <span class="theme-picker-text">{labelFor(value)}</span>
         <span aria-hidden="true">{open ? "▴" : "▾"}</span>
     {/snippet}
@@ -121,7 +121,7 @@ Consumers consume it via a `{#snippet}` block:
 ```
 
 When no snippet is supplied, the button renders
-`<span class="theme-picker-icon" aria-hidden="true">◑</span>`. When one
+`<svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>`. When one
 is supplied, that span is not emitted.
 
 The snippet's output lives inside a `<button>`, so it must not contain
@@ -141,7 +141,6 @@ export function themeHref(
 export function themeName(theme: string): string;
 export function matchSystemTheme(themes: readonly string[]): string;
 export function nextThemePickerId(): string;
-export const CIRCLE_WITH_RIGHT_HALF_BLACK: string; // "◑", U+25D1
 ```
 
 - `normaliseThemesUrl(s)` ensures `s` ends with exactly one `/`.
@@ -178,7 +177,7 @@ select.
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="theme-picker-icon" aria-hidden="true">◑</span>
+    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
     <!-- or the children snippet output -->
   </button>
   <ul

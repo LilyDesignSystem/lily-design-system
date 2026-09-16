@@ -9,17 +9,19 @@
  * (WAI-ARIA APG listbox pattern). It is not a native `<select>`.
  */
 
+/** Namespace for building the default button icon's SVG elements. */
+const SVG_NS = "http://www.w3.org/2000/svg";
+
 /**
- * Default button glyph: U+0041 LATIN CAPITAL LETTER A.
- *
- * A plain letter rather than a pictograph, deliberately. The obvious
- * candidate — U+1F5DB DECREASE FONT SIZE SYMBOL — has no real glyph in
- * common font stacks and falls back to a crude bitmap shape, and it
- * means *decrease* rather than *size*. "A" renders in the page's own
- * font on every platform, stays monochrome like theme-picker's ◑, and
- * is the conventional text-size affordance.
+ * Default button icon: a bundled SVG (a stroke-drawn "A"), not a
+ * Unicode character. Reversed 2026-09-16 from the font-dependent-glyph
+ * convention (was the plain letter U+0041, exported as
+ * `LATIN_CAPITAL_LETTER_A` — removed, not renamed). "A" itself needed
+ * no escaping and had no font-fallback risk, but it still varied in
+ * weight and proportions across font stacks; a bundled outline SVG
+ * matches the other four picker icons as one consistent visual family
+ * regardless of the consumer's fonts.
  */
-export const LATIN_CAPITAL_LETTER_A = "A";
 
 /** Change-event detail dispatched on every applied size. */
 export type TextSizePickerChangeDetail = {
@@ -207,23 +209,35 @@ export class TextSizePicker extends HTMLElement {
     // ---- Public, overridable rendering hook ----
 
     /**
-     * Build the content of the button. The default is the "A" glyph
-     * wrapped in `aria-hidden="true"` so the accessible name comes from
-     * the button's `aria-label` alone.
+     * Build the content of the button. The default is a bundled SVG
+     * icon (a stroke-drawn "A") wrapped in `aria-hidden="true"` so the
+     * accessible name comes from the button's `aria-label` alone.
      *
      * This is the HTML-helper equivalent of the Svelte/React/Vue
-     * `children` snippet: it replaces the glyph inside the button, and
+     * `children` snippet: it replaces the icon inside the button, and
      * has `this.value`, `this.open`, and `this.labelFor(...)` available.
      * Subclasses may override it. Whatever it returns is placed inside
      * the button; the button's own aria wiring is not the subclass's to
      * change.
      */
     renderButtonContent(): Node {
-        const icon = document.createElement("span");
-        icon.className = "text-size-picker-icon";
-        icon.setAttribute("aria-hidden", "true");
-        icon.textContent = LATIN_CAPITAL_LETTER_A;
-        return icon;
+        const svg = document.createElementNS(SVG_NS, "svg");
+        svg.setAttribute("class", "text-size-picker-icon");
+        svg.setAttribute("viewBox", "0 0 16 16");
+        svg.setAttribute("width", "1.05rem");
+        svg.setAttribute("height", "1.05rem");
+        svg.setAttribute("aria-hidden", "true");
+        svg.setAttribute("fill", "none");
+        svg.setAttribute("stroke", "currentColor");
+        svg.setAttribute("stroke-width", "1.6");
+        svg.setAttribute("stroke-linecap", "round");
+        svg.setAttribute("stroke-linejoin", "round");
+
+        const path = document.createElementNS(SVG_NS, "path");
+        path.setAttribute("d", "M4 13 7.2 3h1.6L12 13M5.4 9.5h5.2");
+        svg.appendChild(path);
+
+        return svg;
     }
 
     /** Resolve a slug to its display label. Public for subclasses. */

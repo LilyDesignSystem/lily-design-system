@@ -1,6 +1,6 @@
 # Custom rendering
 
-`ChildContent` **replaces the glyph inside the button**. It does not
+`ChildContent` **replaces the icon inside the button**. It does not
 render the options.
 
 That boundary is deliberate. The listbox is the WAI-ARIA APG listbox
@@ -9,7 +9,7 @@ per-option `lang` — and all of it is component-owned so a consumer
 override cannot break the semantics. What is left for you to decide is
 the button's face, which is a purely visual choice.
 
-If you need a different *affordance* rather than a different glyph, skip
+If you need a different *affordance* rather than a different icon, skip
 `ChildContent` and drive the component from your own UI — see
 [Building a fully custom control](#building-a-fully-custom-control-instead).
 
@@ -47,10 +47,11 @@ it is `context`, which collides confusingly inside nested fragments.
 
 ## Patterns
 
-### Inline SVG instead of the glyph
+### A different inline SVG
 
-The most common reason to use `ChildContent`: the default glyph is a
-font character, and you want a real asset you control.
+The default icon is already a bundled SVG (reversed 2026-09-16 from a
+Unicode character); use `ChildContent` when you want different
+artwork.
 
 ```razor
 <LocalePicker Label="Language" Locales="@codes" @bind-Value="locale">
@@ -73,7 +74,7 @@ tab stop inside the button.
 Use `currentColor` so the icon inherits the button's colour and follows
 theme changes for free.
 
-### Glyph plus the active language code
+### Icon plus the active language code
 
 An icon-only button is compact but opaque. Adding the active code makes
 the control self-describing without much width:
@@ -82,7 +83,10 @@ the control self-describing without much width:
 <LocalePicker Label="Language" Locales="@codes" @bind-Value="locale">
     <ChildContent Context="ctx">
         <span aria-hidden="true">
-            @LocalePicker.GlobeWithMeridians
+            <svg class="my-globe" viewBox="0 0 16 16" width="16" height="16">
+                <circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" />
+                <path d="M2 8h12" stroke="currentColor" />
+            </svg>
             <span class="my-code">@ctx.Value.Split('_', '-')[0].ToUpperInvariant()</span>
         </span>
     </ChildContent>
@@ -106,7 +110,10 @@ announceable via `aria-live` and does not stretch the button.
 <LocalePicker Label="Language" Locales="@codes" @bind-Value="locale">
     <ChildContent Context="ctx">
         <span aria-hidden="true" class="my-face">
-            @LocalePicker.GlobeWithMeridians
+            <svg class="my-globe" viewBox="0 0 16 16" width="16" height="16">
+                <circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" />
+                <path d="M2 8h12" stroke="currentColor" />
+            </svg>
             <span class="my-caret">@(ctx.Open ? "▴" : "▾")</span>
         </span>
     </ChildContent>

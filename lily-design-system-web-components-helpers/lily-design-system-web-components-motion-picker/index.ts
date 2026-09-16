@@ -13,10 +13,9 @@ import {
     motionName,
     prefersReducedMotion,
     nextMotionPickerId,
-    PAUSE_SIGN,
 } from "./motion-picker.js";
 
-export { MotionPicker, motionName, prefersReducedMotion, nextMotionPickerId, PAUSE_SIGN };
+export { MotionPicker, motionName, prefersReducedMotion, nextMotionPickerId };
 export type {
     MotionPickerProps,
     MotionPickerChangeDetail,

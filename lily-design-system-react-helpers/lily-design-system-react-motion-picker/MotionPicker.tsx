@@ -1,19 +1,15 @@
 import * as React from "react";
 
 /**
- * Default button glyph: U+23F8 PAUSE SIGN, paired with U+FE0E
- * (VARIATION SELECTOR-15) to force text presentation — the same
- * treatment locale-picker gives its globe.
- *
- * A pause glyph reads as "stop the moving parts" more directly than an
- * abstract symbol, has a real monochrome glyph in ordinary system
- * fonts (media-transport symbols default to text presentation, unlike
- * most pictographs), and doesn't collide with any sibling picker's
- * glyph (theme's CIRCLE WITH RIGHT HALF BLACK, locale's GLOBE WITH
- * MERIDIANS, text-size's plain "A", share's BLACK RIGHTWARDS
- * ARROWHEAD, date-time's CALENDAR).
+ * Default button icon: a bundled SVG (two pause bars), not a Unicode
+ * character. Reversed 2026-09-16 from the font-dependent-glyph
+ * convention (was U+23F8 PAUSE SIGN + U+FE0E, exported as
+ * `PAUSE_SIGN` — removed, not renamed). "Stop the moving parts" still
+ * reads directly from two bars; a bundled outline SVG matches the
+ * other four picker icons as one consistent visual family regardless
+ * of the consumer's fonts, where the old glyph depended on the
+ * platform's media-transport symbols defaulting to text presentation.
  */
-export const PAUSE_SIGN = "⏸︎";
 
 /** Arguments passed to a custom `children` render prop (the button glyph). */
 export type ChildArgs = {
@@ -46,7 +42,7 @@ export type Props = Omit<
     target?: HTMLElement | null;
     /** Optional pretty labels per slug. */
     motionLabels?: Record<string, string>;
-    /** Replaces the default pause-sign glyph inside the button. */
+    /** Replaces the default pause-bars icon inside the button. */
     children?: (args: ChildArgs) => React.ReactNode;
     /** Called after the control applies a new motion preference. */
     onChange?: (motion: string) => void;
@@ -465,9 +461,20 @@ export function MotionPicker({
                 {children ? (
                     children({ value: currentValue ?? "", open, labelFor })
                 ) : (
-                    <span className="motion-picker-icon" aria-hidden="true">
-                        {PAUSE_SIGN}
-                    </span>
+                    <svg
+                        className="motion-picker-icon"
+                        viewBox="0 0 16 16"
+                        width="1.05rem"
+                        height="1.05rem"
+                        aria-hidden="true"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.6"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    >
+                        <path d="M5 3v10M11 3v10" />
+                    </svg>
                 )}
             </button>
 

@@ -152,35 +152,23 @@ skew toward assistive technology and you do not need an icon-only
 trigger, a plain `<select>` is the more robust choice, and choosing
 it over this helper is a legitimate decision.
 
-### 3. The glyph may not render
+### 3. The icon is a bundled SVG, not a font-dependent glyph
 
-The default glyph is `◑` — U+25D1 CIRCLE WITH RIGHT HALF BLACK
-(`◑`). It is a Geometric Shapes character, not an emoji, and
-its presence depends on the fonts installed on the user's device:
+Reversed 2026-09-16: the default icon used to be `◑` — U+25D1 CIRCLE
+WITH RIGHT HALF BLACK, a Geometric Shapes character whose rendering
+depended on the fonts installed on the user's device (different
+weight/size/alignment than surrounding text, tofu `□` with no covering
+font, unwanted emoji presentation on some platforms, or vanishing
+under forced-colours/user font overrides). The default icon is now a
+bundled `<svg>` that renders identically everywhere, so none of that
+applies any more.
 
-- It may render in a **different weight, size, or vertical
-  alignment** than the surrounding text, because it likely comes from
-  a fallback font rather than your body font.
-- It may render as **tofu** (`□`) if no installed font covers the
-  code point.
-- Some platforms apply **emoji presentation** to nearby geometric
-  characters, so it may arrive coloured and differently sized than
-  intended.
-- Under **forced-colours mode** or with **user font overrides** it
-  may vanish or become illegible.
+None of this ever affected the accessible name — the icon is
+`aria-hidden`, so screen-reader users are unaffected either way.
 
-None of this affects the accessible name — the glyph is
-`aria-hidden`, so screen-reader users are unaffected either way. It
-affects sighted users, who may see an empty or broken button.
-
-Two mitigations, both consumer-side:
-
-- Set an explicit font stack on `.theme-picker-icon` that you know
-  covers U+25D1, and give the button a minimum size so an
-  unrendered glyph still leaves a clickable, visible target.
-- Or replace the glyph entirely with a projected `<ng-template>` —
-  your own inline SVG, an icon font you control, or a text label.
-  See [custom-rendering.md](./custom-rendering.md).
+You can still replace the icon entirely with a projected
+`<ng-template>` — your own inline SVG, an icon font you control, or a
+text label. See [custom-rendering.md](./custom-rendering.md).
 
 ```html
 <lily-theme-picker label="Theme" [themesUrl]="url" [themes]="themes">

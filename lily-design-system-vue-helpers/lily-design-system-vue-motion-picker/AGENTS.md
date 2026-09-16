@@ -31,7 +31,8 @@ media query before falling back to a fixed default.
 
 - Default export: `MotionPicker` component.
 - Named exports: `MotionPicker`, `motionName`, `nextMotionPickerId`,
-  `prefersReducedMotion`, `PAUSE_SIGN`.
+  `prefersReducedMotion`. No glyph constant — the default icon is a
+  bundled SVG, not a Unicode character (reversed 2026-09-16).
 - Type exports: `Props`, `SlotArgs`, `ChildArgs` (alias of `SlotArgs`).
 
 Required props: `label`, `motions`.
@@ -55,11 +56,12 @@ to it) containing a hidden `<input type="hidden" name="{name}"
 value="{value}">`; a `<button type="button" class="motion-picker-button"
 aria-label="{label}" aria-haspopup="listbox" aria-expanded
 aria-controls="{listId}">` wrapping
-`<span class="motion-picker-icon" aria-hidden="true">` (pause-sign
-glyph); and a `<ul class="motion-picker-list" role="listbox"
+`<svg class="motion-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3v10M11 3v10"/></svg>`
+(bundled SVG, not a Unicode character — reversed 2026-09-16 from the
+pause-sign glyph); and a `<ul class="motion-picker-list" role="listbox"
 aria-label="{label}" tabindex="-1" hidden aria-activedescendant>` of
 `<li class="motion-picker-option" role="option" aria-selected
-data-active>`. The default scoped slot replaces the **button glyph** —
+data-active>`. The default scoped slot replaces the **button icon** —
 not the options — and receives `{ value, open, labelFor }`.
 
 ## Accessibility
@@ -72,7 +74,7 @@ not the options — and receives `{ value, open, labelFor }`.
   close via the button so the default Tab proceeds from the picker's
   position, and printable-character typeahead with a 500 ms buffer.
 - The button is icon-only, so `aria-label` is its only accessible
-  name; the glyph is `aria-hidden="true"`.
+  name; the icon is `aria-hidden="true"`.
 - Option labels default to title-cased slugs.
 
 ## Conventions this package follows
@@ -82,7 +84,7 @@ not the options — and receives `{ value, open, labelFor }`.
 - `ref`, `watch`, `onMounted`, `nextTick` for state and lifecycle.
 - Strict TypeScript on the public surface.
 - No runtime dependency beyond `vue`.
-- No bundled CSS, fonts, icons, or images.
+- No bundled CSS, fonts, or images. The one deliberate exception is
+  the default button icon: a bundled SVG (reversed 2026-09-16 from a
+  Unicode glyph), overridable via the default scoped slot.
 - All user-facing strings come from props.
-- Glyph escaped in source (`PAUSE_SIGN`, U+23F8 + U+FE0E) per
-  `AGENTS/helpers.md`'s glyph-escaping rule.

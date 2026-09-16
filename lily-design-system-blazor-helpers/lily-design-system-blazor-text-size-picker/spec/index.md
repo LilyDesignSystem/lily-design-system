@@ -68,11 +68,11 @@ Give a Blazor application a drop-in, headless text-size picker that:
   matches `ThemePicker` and `LocalePicker`, so all three helpers are one
   shape. The tradeoffs are stated plainly in
   [`docs/accessibility.md`](../docs/accessibility.md).
-- **The button glyph is `"A"` (U+0041 LATIN CAPITAL LETTER A).** A
-  letter, not a pictograph: U+1F5DB DECREASE FONT SIZE SYMBOL has no
-  real glyph in common font stacks and means _decrease_ rather than
-  _size_, whereas "A" renders in the page's own font everywhere, stays
-  monochrome like `◑`, and is the conventional text-size affordance.
+- **The button icon is a bundled SVG (a stroke-drawn "A"), not a
+  Unicode character** (reversed 2026-09-16 from U+0041 LATIN CAPITAL
+  LETTER A, exposed as `TextSizePicker.LatinCapitalLetterA` — removed,
+  not renamed). It renders identically on every platform and matches
+  the other four picker icons as one monochrome family.
 - **A hidden `<input>` preserves form participation.** The listbox is
   not a form control, so `Name` / `Value` ride a hidden input.
 - **Ids come from a monotonic process-wide counter**
@@ -96,15 +96,15 @@ Give a Blazor application a drop-in, headless text-size picker that:
 | `StorageKey`           | `string?`                                 | no       | `null`                                 | If set, persist selection to `localStorage`.                          |
 | `Name`                 | `string`                                  | no       | `"text-size"`                          | `name` set on the hidden `<input>`.                                   |
 | `SizeLabels`           | `IReadOnlyDictionary<string,string>`      | no       | empty                                  | Optional pretty labels per size slug.                                 |
-| `ChildContent`         | `RenderFragment<TextSizePickerContext>?` | no       | the `"A"` glyph                        | **Replaces the glyph inside the button.** It does not render options. |
+| `ChildContent`         | `RenderFragment<TextSizePickerContext>?` | no       | the default SVG icon                   | **Replaces the icon inside the button.** It does not render options.  |
 | `OnChange`             | `EventCallback<string>`                   | no       | —                                      | Fires after the control applies a new size.                           |
 | `CssClass`             | `string`                                  | no       | `""`                                   | Extra CSS class merged into the root `<div>`.                         |
 | `AdditionalAttributes` | `Dictionary<string,object>?`              | no       | —                                      | Captures unmatched attributes; spread onto the root `<div>`.          |
 
 ### 4.2 `TextSizePickerContext`
 
-`ChildContent` replaces the glyph, so the context is narrowed to what a
-glyph needs. Options are component-owned and cannot be overridden — the
+`ChildContent` replaces the icon, so the context is narrowed to what an
+icon needs. Options are component-owned and cannot be overridden — the
 listbox semantics therefore cannot be broken by a consumer.
 
 ```csharp
@@ -118,8 +118,10 @@ public sealed class TextSizePickerContext
 
 ### 4.3 Statics
 
-- `TextSizePicker.LatinCapitalLetterA` — the default glyph `"A"`
-  (U+0041).
+No public glyph constant — the default icon is inline SVG markup
+in the component, not a separately-exported swappable character
+value (reversed 2026-09-16 from `TextSizePicker.LatinCapitalLetterA`,
+`"A"`, U+0041 — removed, not renamed).
 - `TextSizePicker.SizeName(string slug)` — the ONE title-casing rule
   (`"x-large"` → `"X Large"`). The private instance `LabelFor`
   delegates to it, so consumers rendering their own UI never duplicate
@@ -274,10 +276,10 @@ an option does not blur the listbox before the click handler runs.
 - WAI-ARIA APG listbox pattern with `aria-activedescendant`; focus
   stays on the `<ul>` while open.
 - `aria-label` is the button's **entire** accessible name — the button
-  is icon-only and the glyph is `aria-hidden="true"`.
+  is icon-only and the icon is `aria-hidden="true"`.
 - Option labels default to title-cased slugs; the component emits no
   hardcoded natural-language strings.
-- Known tradeoffs (icon-only naming, custom-listbox AT support, glyph
+- Known tradeoffs (icon-only naming, custom-listbox AT support, icon
   font coverage) are documented in
   [`docs/accessibility.md`](../docs/accessibility.md).
 
@@ -292,9 +294,9 @@ an option does not blur the listbox before the click handler runs.
    `<button type="button" class="text-size-picker-button">` with
    `aria-haspopup="listbox"`, `aria-expanded`, and `aria-controls`
    pointing at a `<ul role="listbox" tabindex="-1">`. No `<select>`.
-2. §7.2 — The button renders the `"A"` glyph in
-   `span.text-size-picker-icon` with `aria-hidden="true"`, and
-   `LatinCapitalLetterA` is `"A"`.
+2. §7.2 — The button renders the default SVG icon in
+   `svg.text-size-picker-icon` (a stroke-drawn "A") with
+   `aria-hidden="true"`.
 3. §7.3 — `aria-label` equals `Label` on both the button and the list.
 4. §7.4 — One `<li role="option">` per size; the hidden input carries
    `Name` (default `"text-size"`) and the resolved `Value`.
@@ -341,7 +343,7 @@ an option does not blur the listbox before the click handler runs.
 
 23. §7.23 — Extra attributes captured by `AdditionalAttributes` spread
     onto the root `<div>`.
-24. §7.24 — `ChildContent` **replaces** the glyph inside the button and
+24. §7.24 — `ChildContent` **replaces** the icon inside the button and
     receives `Value`, `Open`, and `LabelFor`.
 
 ### Accessibility hardening
@@ -377,6 +379,7 @@ already numbered through §7.24, so the new clauses continue from §7.25.
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause (or
   contact for other terms)
 - Contact: Joel Parker Henderson &lt;joel@joelparkerhenderson.com&gt;
+- **2026-09-16**: default icon changed from the Unicode glyph U+0041 LATIN CAPITAL LETTER A (exposed as `TextSizePicker.LatinCapitalLetterA`) to a bundled outline SVG. Maintainer-directed, applied to all five page-header pickers the same day. The constant was removed, not renamed.
 - Canonical contract:
   [`../../lily-design-system-svelte-helpers/lily-design-system-svelte-text-size-picker/spec/index.md`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-text-size-picker/spec/index.md)
 

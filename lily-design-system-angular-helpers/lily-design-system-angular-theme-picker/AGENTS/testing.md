@@ -14,7 +14,6 @@ import { describe, test, expect, beforeEach, afterEach, vi } from "vitest";
 import { TestBed, type ComponentFixture } from "@angular/core/testing";
 import {
   ThemePicker,
-  CIRCLE_WITH_RIGHT_HALF_BLACK,
   themeHref,
   normaliseThemesUrl,
 } from "./theme-picker.component";
@@ -197,7 +196,7 @@ try {
 Note `vi.useFakeTimers()` also stops the `flush()` helper resolving,
 so use `mount()` (not the settled variant) inside fake-timer blocks.
 
-## Testing the custom glyph template
+## Testing the custom icon template
 
 `contentChild(TemplateRef)` needs real projection, so wrap the
 component in a host:
@@ -221,7 +220,7 @@ class IconTemplateHost {
 ```
 
 Then assert the custom node sits inside the button and the default
-glyph is gone:
+icon is gone:
 
 ```ts
 const custom = fixture.nativeElement.querySelector('[data-testid="custom"]');

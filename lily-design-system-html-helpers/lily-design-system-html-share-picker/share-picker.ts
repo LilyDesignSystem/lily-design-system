@@ -16,14 +16,16 @@
  */
 
 /**
- * Default button glyph: U+27A4 BLACK RIGHTWARDS ARROWHEAD.
- *
- * An in-font arrow rather than a pictograph, matching the other helpers'
- * rule: it renders in the page's own font on every platform and stays
- * monochrome alongside theme-picker's ◑, locale-picker's 🌐 and
- * text-size-picker's "A".
+ * Default button icon: a bundled SVG (outline right arrow), not a
+ * Unicode character. Reversed 2026-09-16 from the font-dependent-glyph
+ * convention (was U+27A4 BLACK RIGHTWARDS ARROWHEAD, exported as
+ * `BLACK_RIGHTWARDS_ARROWHEAD` — removed, not renamed). Maintainer-
+ * directed, following the outline-arrow icon already used at
+ * https://testingexamples.github.io/. A bundled SVG renders identically
+ * across every font stack; the other four picker icons moved to the
+ * same bundled-SVG convention the same day.
  */
-export const BLACK_RIGHTWARDS_ARROWHEAD = "➤";
+const SVG_NS = "http://www.w3.org/2000/svg";
 
 /**
  * One destination in the share list.
@@ -291,11 +293,21 @@ export class SharePicker extends HTMLElement {
      * change. See `docs/custom-rendering.md`.
      */
     renderButtonContent(): Node {
-        const icon = document.createElement("span");
-        icon.className = "share-picker-icon";
-        icon.setAttribute("aria-hidden", "true");
-        icon.textContent = BLACK_RIGHTWARDS_ARROWHEAD;
-        return icon;
+        const svg = document.createElementNS(SVG_NS, "svg");
+        svg.setAttribute("class", "share-picker-icon");
+        svg.setAttribute("viewBox", "0 0 16 16");
+        svg.setAttribute("width", "1.05rem");
+        svg.setAttribute("height", "1.05rem");
+        svg.setAttribute("aria-hidden", "true");
+        svg.setAttribute("fill", "none");
+        svg.setAttribute("stroke", "currentColor");
+        svg.setAttribute("stroke-width", "1.6");
+        svg.setAttribute("stroke-linecap", "round");
+        svg.setAttribute("stroke-linejoin", "round");
+        const path = document.createElementNS(SVG_NS, "path");
+        path.setAttribute("d", "M2.5 8h11M9 3.5 13.5 8 9 12.5");
+        svg.appendChild(path);
+        return svg;
     }
 
     // ---- Lifecycle ----

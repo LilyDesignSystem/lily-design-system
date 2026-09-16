@@ -28,11 +28,13 @@ styles the `motion-picker` class hook and decides what
 ## Public surface
 
 - Default export: `MotionPicker` component.
-- Named exports: `MotionPicker`, `motionName`, `prefersReducedMotion`, `PAUSE_SIGN`.
+- Named exports: `MotionPicker`, `motionName`, `prefersReducedMotion`.
+  No glyph constant — the default icon is a bundled SVG, not a
+  Unicode character (reversed 2026-09-16).
 - Type exports: `Props`, `ChildArgs`.
 
 Required props: `label`, `motions`. Optional `children` is a render prop
-that replaces the glyph inside the button and receives
+that replaces the icon inside the button and receives
 `{ value, open, labelFor }` — it does **not** render the options.
 
 There is deliberately no analogous OS-detection prop for text size or
@@ -60,7 +62,7 @@ is supplied; otherwise uncontrolled with internal `useState`.
   <button type="button" class="motion-picker-button"
           aria-label="{label}" aria-haspopup="listbox"
           aria-expanded="false" aria-controls="{listId}">
-    <span class="motion-picker-icon" aria-hidden="true">⏸︎</span>
+    <svg class="motion-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3v10M11 3v10"/></svg>
   </button>
   <ul class="motion-picker-list" id="{listId}" role="listbox"
       aria-label="{label}" tabindex="-1" hidden
@@ -95,7 +97,7 @@ Ids come from `useId`, so they are stable and hydration-safe.
 - React 19 function components with hooks.
 - Strict TypeScript on the public surface.
 - No runtime dependency beyond `react`.
-- No bundled CSS, fonts, icons, or images.
+- No bundled CSS, fonts, or images. The one deliberate exception is
+  the default button icon: a bundled SVG (reversed 2026-09-16 from a
+  Unicode glyph).
 - All user-facing strings come from props.
-- Glyph escaped in source (`PAUSE_SIGN`, U+23F8 + U+FE0E) per
-  `AGENTS/helpers.md`'s glyph-escaping rule.

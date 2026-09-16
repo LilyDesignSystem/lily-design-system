@@ -28,8 +28,8 @@ gated on the `data-motion` attribute this component sets.
 `<div class="motion-picker {class}">` containing a hidden input
 (carries `name`), a `<button class="motion-picker-button"
 aria-label="{label}" aria-haspopup="listbox" aria-expanded
-aria-controls>` whose only content is the `aria-hidden` pause-sign
-glyph (replaceable via `children`), and a `<ul class="motion-picker-list"
+aria-controls>` whose only content is the `aria-hidden` bundled SVG
+pause icon (replaceable via `children`), and a `<ul class="motion-picker-list"
 role="listbox" aria-label="{label}" tabindex="-1" hidden>` of
 `<li class="motion-picker-option" role="option" aria-selected>`
 entries, one per slug, with `data-active` mirroring the
@@ -134,6 +134,6 @@ focused list is hidden.
 MotionPicker follows the exact icon-button + APG-listbox contract in
 AGENTS/helpers.md shared by `theme-picker`, `locale-picker`, and
 `text-size-picker` — same markup shape, same keyboard contract, same
-idempotent-apply rule, same glyph-escaping discipline. It is additive:
+idempotent-apply rule, same bundled-SVG-icon convention. It is additive:
 existing catalogs, counts, and contracts for the other four helpers are
 unchanged by its introduction.

@@ -95,8 +95,8 @@ signal to detect.
 
 ## Statics
 
-- `TextSizePicker.LatinCapitalLetterA` — the default glyph `"A"`
-  (U+0041 LATIN CAPITAL LETTER A).
+- No glyph constant — the default icon is a bundled SVG, not a
+  Unicode character (reversed 2026-09-16).
 - `TextSizePicker.SizeName(slug)` — the shared title-casing rule
   (`"x-large"` → `"X Large"`). Use it when you render your own labels
   so they match the listbox exactly. Mirrors `ThemePicker.ThemeName`

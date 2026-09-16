@@ -147,15 +147,15 @@ describe("MotionPicker — macro markup contract (§7.1–§7.6)", () => {
     expect(list.getAttribute("tabindex")).toBe("-1");
   });
 
-  test("§7.1 the button renders the pause glyph, hidden from assistive tech", () => {
+  test("§7.1 the button renders the default pause SVG icon, hidden from assistive tech", () => {
     const root = mountIntoBody(
       renderMacro({ label: "Motion", motions: MOTIONS }),
     );
-    const icon = root.querySelector(".motion-picker-icon") as HTMLElement;
-    // U+23F8 PAUSE SIGN + U+FE0E (text presentation).
-    expect(icon.textContent).toBe("⏸︎");
+    const icon = root.querySelector(".motion-picker-icon") as SVGElement;
+    expect(icon.tagName.toLowerCase()).toBe("svg");
     expect(icon.getAttribute("aria-hidden")).toBe("true");
-    // The glyph must never be the accessible name.
+    expect(icon.querySelectorAll("path").length).toBeGreaterThan(0);
+    // The icon must never be the accessible name.
     const button = root.querySelector(".motion-picker-button")!;
     expect(button.textContent).not.toBe(button.getAttribute("aria-label"));
   });

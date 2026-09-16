@@ -14,7 +14,6 @@ export {
   normaliseThemesUrl,
   themeHref,
   nextThemePickerId,
-  CIRCLE_WITH_RIGHT_HALF_BLACK,
 } from "./ThemePicker.vue";
 export type { Props, SlotArgs, ChildArgs } from "./ThemePicker.vue";
 ```
@@ -26,16 +25,15 @@ import ThemePicker, {
   normaliseThemesUrl,
   themeHref,
   nextThemePickerId,
-  CIRCLE_WITH_RIGHT_HALF_BLACK,
   type Props,
   type SlotArgs,
   type ChildArgs,
 } from "./lily-design-system-vue-theme-picker";
 ```
 
-`CIRCLE_WITH_RIGHT_HALF_BLACK` is the default button glyph — `"◑"`,
-U+25D1. `ChildArgs` is an alias of `SlotArgs`, matching the canonical
-Svelte helper's type name.
+No glyph constant — the default icon is a bundled SVG, not a Unicode
+character (reversed 2026-09-16). `ChildArgs` is an alias of
+`SlotArgs`, matching the canonical Svelte helper's type name.
 
 ## Props
 
@@ -83,7 +81,7 @@ Use it for analytics, server sync, or cookie writes.
 
 ## Default scoped slot
 
-The default slot replaces the **button glyph** — not the options. The
+The default slot replaces the **button icon** — not the options. The
 listbox, its `<li role="option">` children, the keyboard contract, and
 the apply lifecycle are all component-owned.
 
@@ -111,7 +109,7 @@ interactive elements, and it must not introduce a competing accessible
 name — `aria-label` from `label` is the button's name.
 
 When no slot is supplied, the button renders
-`<span class="theme-picker-icon" aria-hidden="true">◑</span>`, as
+`<svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>`, as
 documented in `spec/index.md §4.4`.
 
 ## Pure helpers
@@ -126,7 +124,6 @@ export function themeHref(
   extension: string,
 ): string;
 export function nextThemePickerId(): string;
-export const CIRCLE_WITH_RIGHT_HALF_BLACK: string;
 ```
 
 `normaliseThemesUrl(s)` ensures `s` ends with exactly one `/`.
@@ -155,7 +152,7 @@ listbox and option ids.
     aria-controls="{listId}"
   >
     <!-- default slot output, or: -->
-    <span class="theme-picker-icon" aria-hidden="true">◑</span>
+    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
   </button>
   <ul
     class="theme-picker-list"

@@ -38,7 +38,7 @@ give sighted users an on-screen word.
 ```svelte
 <ThemePicker label="Theme" themesUrl="/assets/themes/" themes={["light", "dark"]}>
   {#snippet children({ value, labelFor })}
-    <span aria-hidden="true">◑</span>
+    <svg viewBox="0 0 16 16" aria-hidden="true">…</svg>
     <span class="theme-picker-text">{labelFor(value)}</span>
   {/snippet}
 </ThemePicker>
@@ -79,7 +79,7 @@ without a CSS-only workaround. (`[aria-expanded="true"]` on
 
 ```svelte
 {#snippet children({ open })}
-  <span aria-hidden="true">◑</span>
+  <svg viewBox="0 0 16 16" aria-hidden="true">…</svg>
   <span aria-hidden="true">{open ? "▴" : "▾"}</span>
 {/snippet}
 ```

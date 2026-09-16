@@ -22,10 +22,11 @@ Sibling files in this directory:
 - `docs/accessibility.md` — the accessibility rationale and tradeoffs
 
 > **Breaking change (unreleased).** The control is no longer a native
-> `<select>`. It is now an icon button (`A`, U+0041 LATIN CAPITAL
-> LETTER A) that opens a WAI-ARIA APG listbox, matching `theme-picker`
+> `<select>`. It is now an icon button (a bundled SVG, not a Unicode
+> character — reversed 2026-09-16, see §9) that opens a WAI-ARIA APG
+> listbox, matching `theme-picker`
 > and `locale-picker` — all three helpers are now the same shape. The
-> default slot now replaces the **button glyph** rather than the
+> default slot now replaces the **button icon** rather than the
 > options, and its scoped props change from
 > `{ sizes, value, setSize, name, labelFor }` to
 > `{ value, open, labelFor }`. Everything downstream
@@ -99,7 +100,7 @@ and no detection prop, per §2.
 
 ### 4.3 Slots
 
-Default slot — when provided, replaces the **button glyph**. It does
+Default slot — when provided, replaces the **button icon**. It does
 not render the options: the listbox, its `<li role="option">`
 children, the keyboard contract, and the apply lifecycle are all
 component-owned. The slot receives:
@@ -162,12 +163,11 @@ name.
 
 - Root element: a `<div class="text-size-picker {class}">`. `$attrs`
   falls through to it via the default Vue `inheritAttrs` behaviour.
-- The button is icon-only. The glyph is `A` (U+0041 LATIN CAPITAL
-  LETTER A), exported as `LATIN_CAPITAL_LETTER_A`, wrapped in
+- The button is icon-only. The icon is a bundled SVG (a stylised
+  "A", `viewBox="0 0 16 16"`), not a Unicode character (reversed
+  2026-09-16 from U+0041 LATIN CAPITAL LETTER A, exported as
+  `LATIN_CAPITAL_LETTER_A` — see §9 Tracking), wrapped in
   `aria-hidden="true"` so it can never become the accessible name.
-  A plain letter is deliberate: U+1F5DB DECREASE FONT SIZE SYMBOL has
-  no real glyph in common font stacks and means _decrease_ rather than
-  _size_.
 - The hidden input preserves form participation and carries `name`.
 - `aria-expanded` tracks the open state; `aria-controls` points at the
   listbox id.
@@ -188,8 +188,10 @@ name.
 - `TextSizePicker` (named alias of the default export)
 - `sizeName` (pure label resolver)
 - `nextTextSizePickerId` (per-instance id generator)
-- `LATIN_CAPITAL_LETTER_A` (the default button glyph)
 - `type Props`, `type SlotArgs`, `type ChildArgs`
+
+No glyph constant — the default icon is inline SVG markup in the
+component, not a separately-exported swappable character value.
 
 ## 5. Behaviour
 
@@ -257,7 +259,7 @@ comfortable reading size.
 
 - A `<button aria-haspopup="listbox" aria-expanded aria-controls>` is
   the trigger. Because it is icon-only, `aria-label={label}` is its
-  **only** accessible name — the glyph is `aria-hidden="true"`.
+  **only** accessible name — the icon is `aria-hidden="true"`.
 - A `<ul role="listbox" aria-label={label}>` holds one
   `<li role="option" aria-selected>` per slug.
 - The active option is conveyed with `aria-activedescendant` on the
@@ -318,8 +320,8 @@ run under vitest + jsdom + `@vue/test-utils`.
    `aria-expanded="false"`, and an `aria-controls` pointing at an
    element with `role="listbox"`. The root is a `<div>` carrying the
    `text-size-picker` class hook plus the consumer's `class`. The
-   button renders `A` (U+0041) inside
-   `<span class="text-size-picker-icon" aria-hidden="true">`.
+   button renders the default SVG icon inside
+   `<svg class="text-size-picker-icon" aria-hidden="true">`.
 2. `aria-label` is the supplied `label` on **both** the button and the
    listbox.
 3. Renders one `<li class="text-size-picker-option">` per entry in
@@ -346,7 +348,7 @@ run under vitest + jsdom + `@vue/test-utils`.
     text-size equivalent.)_
 12. Extra attributes spread through onto the root `<div>` (e.g.
     `data-testid`).
-13. A custom default slot replaces the button glyph — the
+13. A custom default slot replaces the button icon — the
     `.text-size-picker-icon` span is absent — and receives the
     `SlotArgs` contract (`value`, `open`, `labelFor`). Its `open` flag
     tracks the listbox state, and its `labelFor` respects
@@ -403,3 +405,9 @@ the same four clauses are numbered 19–22 here.)
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause
   (or contact for other terms)
 - Contact: Joel Parker Henderson &lt;joel@joelparkerhenderson.com&gt;
+
+**2026-09-16**: default icon changed from the Unicode glyph U+0041
+LATIN CAPITAL LETTER A (exported as `LATIN_CAPITAL_LETTER_A`) to a
+bundled outline SVG. Maintainer-directed, applied to all five
+page-header pickers the same day. The glyph constant was removed, not
+renamed — there is no longer a single swappable character value.

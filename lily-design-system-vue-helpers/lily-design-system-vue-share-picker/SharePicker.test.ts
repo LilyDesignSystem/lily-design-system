@@ -5,7 +5,6 @@ import { h, nextTick } from "vue";
 import SharePicker, {
     canCopy,
     canShareNatively,
-    BLACK_RIGHTWARDS_ARROWHEAD,
     type ShareTarget,
 } from "./SharePicker.vue";
 
@@ -139,12 +138,11 @@ describe("SharePicker — markup contract (§7.1–§7.6)", () => {
         expect(list.element.tagName).toBe("UL");
     });
 
-    test("§7.1 the button renders ➤, hidden from assistive tech", () => {
+    test("§7.1 the button renders the default arrow SVG icon, hidden from assistive tech", () => {
         const wrapper = build();
         const icon = wrapper.find(".share-picker-icon");
-        // U+27A4 BLACK RIGHTWARDS ARROWHEAD
-        expect(icon.text()).toBe("➤");
-        expect(BLACK_RIGHTWARDS_ARROWHEAD).toBe("➤");
+        expect(icon.element.tagName.toLowerCase()).toBe("svg");
+        expect(icon.find("path").exists()).toBe(true);
         expect(icon.attributes("aria-hidden")).toBe("true");
     });
 

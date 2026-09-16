@@ -1,12 +1,12 @@
 # Custom rendering
 
 The default markup is an icon button that opens a dropdown listbox,
-and the button's whole content is one glyph: `◑` (U+25D1). When you
-want a different mark — an inline SVG, a glyph plus a text label, a
-glyph that reacts to the open state — pass your own
-`RenderFragment<ThemePickerContext>`.
+and the button's whole content is one bundled SVG icon (not a Unicode
+character -- reversed 2026-09-16). When you want a different mark —
+a different SVG, an icon plus a text label, a mark that reacts to the
+open state — pass your own `RenderFragment<ThemePickerContext>`.
 
-`ChildContent` **replaces the glyph inside the button**. It does not
+`ChildContent` **replaces the icon inside the button**. It does not
 render the options: the listbox is owned by the component and built
 from the `Themes` parameter.
 
@@ -42,7 +42,7 @@ it Blazor defaults to `context` (also fine).
 
 ## Patterns
 
-### Inline SVG instead of the glyph
+### A different inline SVG
 
 ```razor
 <ThemePicker
@@ -64,7 +64,7 @@ button is icon-only and its entire accessible name is the `Label`
 parameter — a mark that is exposed to assistive technology competes
 with that name instead of adding to it.
 
-### Glyph plus a text label
+### Icon plus a text label
 
 ```razor
 <ThemePicker
@@ -72,7 +72,11 @@ with that name instead of adding to it.
     ThemesUrl="/assets/themes/"
     Themes="@(new[] { "light", "dark" })">
     <ChildContent Context="ctx">
-        <span class="theme-picker-icon" aria-hidden="true">@ThemePicker.CircleWithRightHalfBlack</span>
+        <svg class="theme-picker-icon" aria-hidden="true" focusable="false"
+             viewBox="0 0 16 16" width="16" height="16">
+            <circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" />
+            <path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none" />
+        </svg>
         <span class="theme-picker-text" aria-hidden="true">@ctx.LabelFor(ctx.Value)</span>
     </ChildContent>
 </ThemePicker>
@@ -84,7 +88,7 @@ Both spans stay `aria-hidden`, so the button still announces as
 visible-but-exposed markup — that keeps one accessible name instead
 of two competing ones.
 
-### State-dependent glyph
+### State-dependent mark
 
 `ctx.Open` lets the mark reflect whether the listbox is showing, and
 `ctx.Value` lets it reflect the active theme:
@@ -92,7 +96,7 @@ of two competing ones.
 ```razor
 <ChildContent Context="ctx">
     <span class="theme-picker-icon" aria-hidden="true">
-        @(ctx.Open ? "▾" : ctx.Value == "dark" ? "●" : "◑")
+        @(ctx.Open ? "▾" : ctx.Value == "dark" ? "●" : "○")
     </span>
 </ChildContent>
 ```

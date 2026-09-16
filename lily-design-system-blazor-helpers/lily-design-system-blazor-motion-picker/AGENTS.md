@@ -7,8 +7,9 @@ below is a fast index.
 
 A reusable Blazor headless motion (reduced-motion) picker that applies
 the chosen motion slug to the document root via `data-motion`, with
-optional `localStorage` persistence. It renders an icon button (pause
-sign) that opens a dropdown listbox. Ships no CSS; consumer styles the
+optional `localStorage` persistence. It renders an icon button (a
+bundled two-pause-bars SVG) that opens a dropdown listbox. Ships no
+CSS; consumer styles the
 `motion-picker`, `motion-picker-button`, `motion-picker-icon`,
 `motion-picker-list`, and `motion-picker-option` class hooks and
 decides what `[data-motion="reduce"]` actually suppresses.
@@ -32,8 +33,9 @@ back to a fixed default — the one behaviour difference from
 
 - Component: `MotionPicker` in namespace `LilyDesignSystem.Blazor.Helpers`.
 - Context: `MotionPickerContext` (`Value`, `Open`, `LabelFor`) for a
-  custom `ChildContent` glyph.
-- Constant: `MotionPicker.PauseSign` — the default glyph (U+23F8 + U+FE0E).
+  custom `ChildContent` icon.
+- No glyph constant — the default icon is a bundled SVG, not a
+  Unicode character (reversed 2026-09-16).
 - Statics: `MotionName(slug)` — the ONE title-casing rule
   (`"no-preference"` -> `"No Preference"`); the private instance
   `LabelFor` delegates to it. Mirrors `TextSizePicker.SizeName` and
@@ -58,7 +60,7 @@ prerender safe. Initial value resolves from `Value` > storage >
 offered) > `Motions[0]`.
 
 The control is an **icon button plus a dropdown listbox**, not a native
-`<select>`. The button shows only a glyph; the listbox is the WAI-ARIA
+`<select>`. The button shows only an icon; the listbox is the WAI-ARIA
 APG listbox pattern with `aria-activedescendant`. The real selection
 lives in `Value` and rides a hidden input for form participation.
 
@@ -69,7 +71,8 @@ lives in `Value` and rides a hidden input for form participation.
   <input type="hidden" name="@Name" value="@Value" />
   <button type="button" class="motion-picker-button" aria-label="@Label"
           aria-haspopup="listbox" aria-expanded="false" aria-controls="{listId}">
-    <span class="motion-picker-icon" aria-hidden="true">⏸︎</span>
+    <svg class="motion-picker-icon" viewBox="0 0 16 16" aria-hidden="true"
+         width="1.05rem" height="1.05rem">…</svg>
   </button>
   <ul class="motion-picker-list" id="{listId}" role="listbox" aria-label="@Label"
       tabindex="-1" hidden aria-activedescendant="{active option id, open only}">
@@ -79,7 +82,7 @@ lives in `Value` and rides a hidden input for form participation.
 </div>
 ```
 
-`ChildContent` **replaces the glyph inside the button**; it does not
+`ChildContent` **replaces the icon inside the button**; it does not
 render options. Ids come from a monotonic process-wide counter
 (`motion-picker-{n}`) so they are stable and SSR-safe.
 
@@ -125,7 +128,7 @@ canonical Svelte contract treats as the default to defer to.
 - `EventCallback<string>` for `ValueChanged`, `OnChange`.
 - `IJSRuntime` injected for DOM mutation.
 - No runtime dependency beyond `Microsoft.AspNetCore.Components.Web`.
-- No bundled CSS, fonts, icons, or images.
+- No bundled CSS, fonts, or images. The one deliberate exception is
+  the default button icon: a bundled SVG (reversed 2026-09-16 from a
+  Unicode glyph).
 - All user-facing strings come from parameters.
-- Glyph escaped in source (`PauseSign`, U+23F8 + U+FE0E) per
-  `AGENTS/helpers.md`'s glyph-escaping rule.

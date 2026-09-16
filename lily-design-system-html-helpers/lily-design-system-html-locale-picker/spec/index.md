@@ -170,9 +170,11 @@ composed.
       aria-expanded="false"
       aria-controls="locale-picker-1-list"
     >
-      <span class="locale-picker-icon" aria-hidden="true"
-        >🌐︎</span
-      >
+      <svg class="locale-picker-icon" viewBox="0 0 16 16" width="1.05rem" height="1.05rem" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="8" cy="8" r="6"></circle>
+        <path d="M2 8h12"></path>
+        <path d="M8 2c2.2 0 4 2.7 4 6s-1.8 6-4 6-4-2.7-4-6 1.8-6 4-6z"></path>
+      </svg>
     </button>
     <ul
       class="locale-picker-list"
@@ -219,14 +221,10 @@ Contract points:
 
 - The rendered root is a `<div>` carrying the `locale-picker` class
   hook plus the consumer's `class` attribute, mirrored from the host.
-- The default button glyph is **U+1F310 GLOBE WITH MERIDIANS**
-  followed by **U+FE0E VARIATION SELECTOR-15**
-  (`🌐︎`), exported as `GLOBE_WITH_MERIDIANS`. VS15
-  requests the text presentation so the glyph renders monochrome
-  rather than as a blue colour emoji, matching theme-picker's ◑
-  (U+25D1, which needs no selector). It is wrapped in
-  `<span class="locale-picker-icon" aria-hidden="true">` so it can
-  never become the accessible name; the name comes from the button's
+- The default button content is a bundled globe-outline
+  `<svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true">`
+  (not a Unicode character — reversed 2026-09-16), so it can never
+  become the accessible name; the name comes from the button's
   `aria-label` alone.
 - `aria-controls` on the button points at the list's `id`; the list
   carries `role="listbox"`, the same `aria-label`, and `tabindex="-1"`
@@ -262,10 +260,12 @@ apply.
 - `bcp47LocaleTag`, `isRtlLocale`, `localeName`, `localeEndonym`,
   `matchNavigatorLanguage` (pure helpers)
 - `nextLocalePickerId` (the id counter)
-- `GLOBE_WITH_MERIDIANS` (the default button glyph)
 - `defaultLocaleLabels`, `RTL_LANGUAGE_TAGS`, `RTL_SCRIPT_SUBTAGS`
   (re-exports from `./locales`)
 - `type LocalePickerProps`, `type LocalePickerChangeDetail`
+
+No glyph constant is exported — the default icon is a bundled SVG,
+not a Unicode character (reversed 2026-09-16).
 
 ### 4.7 Keyboard contract
 
@@ -457,7 +457,7 @@ between a server render and a client upgrade.
 - Each `<li>` carries `role="option"`, a unique stable `id`,
   `aria-selected`, and `lang="{tagFor(locale)}"` (WCAG 3.1.2
   Language of Parts).
-- The glyph span is `aria-hidden="true"`.
+- The icon svg is `aria-hidden="true"`.
 - The document root receives `lang` (WCAG 3.1.1 Language of Page)
   and `dir` for bidi layout.
 - Focus sits on the `<ul>` while the list is open, never on an
@@ -471,7 +471,7 @@ native control.
 
 ### 6.3 Known tradeoffs
 
-Three, stated in full in
+Two, stated in full in
 [`../docs/accessibility.md`](../docs/accessibility.md):
 
 1. **Icon-only control.** The accessible name depends entirely on
@@ -485,14 +485,11 @@ Three, stated in full in
    AT. A hand-rolled listbox is well-specified by the APG but has
    weaker and more variable support across screen readers and mobile
    browsers, and gets no native mobile picker UI.
-3. **Glyph rendering is platform-dependent.** The glyph is a plain
-   Unicode character with no bundled font (Lily ships no fonts or
-   icon assets). It may render as colour emoji, a monochrome glyph,
-   or tofu depending on platform fonts — the globe varies a lot.
-   Consumers needing a guaranteed appearance should override
-   `renderButtonContent()` with their own SVG.
 
-Because the closed button shows only a glyph, the active locale is
+(The platform-dependent-glyph tradeoff no longer applies: the icon
+is a bundled SVG, not a Unicode character — reversed 2026-09-16.)
+
+Because the closed button shows only an icon, the active locale is
 not visible anywhere in the control. Surfacing it in visible text or
 a polite live region is the documented default pattern, not an
 optional extra.
@@ -519,11 +516,9 @@ number. Numbering mirrors the Svelte sibling's §7.
 1. The rendered root is a `<div class="locale-picker">` containing a
    `<button type="button">` with `aria-haspopup="listbox"`,
    `aria-expanded="false"`, and an `aria-controls` that resolves to
-   the rendered `<ul role="listbox">`. The button's content is
-   `<span class="locale-picker-icon" aria-hidden="true">` carrying
-   U+1F310 GLOBE WITH MERIDIANS + U+FE0E VARIATION SELECTOR-15 (two
-   codepoints), and `GLOBE_WITH_MERIDIANS` exports
-   that same codepoint.
+   the rendered `<ul role="listbox">`. The button's content is a
+   bundled `<svg class="locale-picker-icon" aria-hidden="true">`
+   (not a Unicode character — reversed 2026-09-16).
 2. `aria-label` is the supplied `label`, on **both** the button and
    the listbox.
 3. One `<li role="option">` per entry in `locales`, and a hidden
@@ -616,7 +611,7 @@ carry no separate clause number.
 ### 7.7 Custom rendering by subclass (§4.8)
 
 29. A subclass overriding `renderButtonContent()` replaces the
-    default glyph — the `locale-picker-icon` span is gone and the
+    default icon — the `locale-picker-icon` svg is gone and the
     returned node sits inside `button.locale-picker-button` — while
     `aria-haspopup`, `aria-label`, and a resolvable `aria-controls`
     all survive, and `this.value`, `this.open`, and

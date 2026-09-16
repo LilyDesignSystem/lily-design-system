@@ -75,7 +75,6 @@ import {
   matchNavigatorLanguage,
   defaultLocaleLabels,
   RTL_LANGUAGE_TAGS,
-  GLOBE_WITH_MERIDIANS,
   nextLocalePickerId,
   type LocalePickerProps,
   type LocalePickerChangeDetail,
@@ -244,11 +243,9 @@ The element renders this into its light DOM:
 
 Points worth internalising:
 
-- The default glyph is **U+1F310 GLOBE WITH MERIDIANS** followed by
-  **U+FE0E VARIATION SELECTOR-15** (which requests the monochrome
-  text presentation, matching theme-picker's ◑), exported as
-  `GLOBE_WITH_MERIDIANS`. It is `aria-hidden="true"`; the accessible
-  name comes from the button's `aria-label` alone.
+- The default icon is a bundled globe-outline SVG (not a Unicode
+  character — reversed 2026-09-16). It is `aria-hidden="true"`; the
+  accessible name comes from the button's `aria-label` alone.
 - `aria-activedescendant` appears on the `<ul>` **only while open**.
 - `data-active` is the keyboard-highlighted option; `aria-selected`
   is the applied one. They are different things, and consumer CSS

@@ -108,14 +108,12 @@ describe("LocalePicker — markup contract (§4.3, §7.1)", () => {
         );
     });
 
-    test("§7.1 the button renders the globe glyph, hidden from assistive tech", () => {
+    test("§7.1 the button renders the default globe SVG icon, hidden from assistive tech", () => {
         render(<LocalePicker label="Language" locales={LOCALES} />);
-        const icon = document.querySelector(".locale-picker-icon") as HTMLElement;
-        // U+1F310 GLOBE WITH MERIDIANS + U+FE0E VARIATION SELECTOR-15.
-        // VS15 forces text presentation so the globe renders monochrome
-        // and matches theme-picker's ◑ rather than the blue emoji.
-        expect(icon.textContent).toBe("🌐︎");
+        const icon = document.querySelector(".locale-picker-icon") as SVGElement;
+        expect(icon.tagName.toLowerCase()).toBe("svg");
         expect(icon.getAttribute("aria-hidden")).toBe("true");
+        expect(icon.querySelector("circle")).toBeTruthy();
     });
 
     test("§7.1 the root is a div carrying the class hook", () => {

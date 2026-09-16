@@ -2,11 +2,11 @@
 
 The default rendering is an icon button that opens a dropdown
 listbox. When you need something else — your own SVG on the button,
-the active theme's name in place of the glyph, a segmented control —
+the active theme's name in place of the icon, a segmented control —
 the customisation surface is **subclassing `ThemePicker`**.
 
 The Svelte, React, and Vue siblings pass a `children` snippet /
-render prop / slot that replaces the glyph inside the button and
+render prop / slot that replaces the icon inside the button and
 receives `{ value, open, labelFor }`. Custom elements in light DOM
 have no equivalent: `<slot>` is a Shadow DOM mechanism, and these
 helpers commit to light DOM (see
@@ -25,7 +25,7 @@ accessibility contract.
 
 This is the direct analogue of the other frameworks' `children`.
 Return any `Node`; it is placed inside the button, replacing the
-default `<span class="theme-picker-icon">`.
+default `<svg class="theme-picker-icon">`.
 
 ```ts
 import { ThemePicker } from "./lily-design-system-web-components-theme-picker";
@@ -113,9 +113,10 @@ avoids the DOM churn entirely.
 
 ### Recipe: an inline SVG icon
 
-The default glyph is a plain Unicode character with no bundled font,
-so it renders differently across platforms and can even come out as
-tofu. Supplying your own SVG is the fix:
+The default icon is already a bundled SVG (reversed 2026-09-16 from a
+platform-dependent Unicode glyph), so it already renders identically
+across platforms. Override it the same way when you want a different
+mark entirely — your own brand's contrast/theme symbol, say:
 
 ```ts
 class SvgThemePicker extends ThemePicker {
@@ -146,7 +147,7 @@ Keep `aria-hidden="true"` on whatever you return. Without it the
 graphic can leak into the accessible name and compete with
 `aria-label`.
 
-### Recipe: glyph plus visible text
+### Recipe: icon plus visible text
 
 The icon-only default fails WCAG 2.5.3 Label in Name unless the
 consumer adds a visible label. Returning a fragment with both fixes
@@ -157,10 +158,7 @@ class TextThemePicker extends ThemePicker {
   renderButtonContent(): Node {
     const fragment = document.createDocumentFragment();
 
-    const icon = document.createElement("span");
-    icon.className = "theme-picker-icon";
-    icon.setAttribute("aria-hidden", "true");
-    icon.textContent = "◑";
+    const icon = super.renderButtonContent(); // the default bundled SVG
     fragment.appendChild(icon);
 
     const text = document.createElement("span");
@@ -233,7 +231,7 @@ None of it survives on markup the base class does not recognise.
    pointing at the active option while open, and no
    `aria-activedescendant` at all while closed. Reuse
    `this.listId` and `this.optionId(i)` for the ids.
-5. **Keep the glyph (or its replacement) `aria-hidden="true"`** so
+5. **Keep the icon (or its replacement) `aria-hidden="true"`** so
    it never becomes the accessible name.
 6. **Keep the hidden `<input>`** carrying `this.name` and the
    current value, or form participation breaks — and for
@@ -280,14 +278,14 @@ class MyThemePicker extends ThemePicker {
 }
 customElements.define("my-theme-picker", MyThemePicker);
 
-test("renderButtonContent replaces the glyph and keeps the aria wiring", async () => {
+test("renderButtonContent replaces the icon and keeps the aria wiring", async () => {
   const el = document.createElement("my-theme-picker") as MyThemePicker;
   el.setAttribute("label", "Theme");
   el.setAttribute("themes-url", "/t/");
   el.setAttribute("themes", "light,dark");
   document.body.appendChild(el);
 
-  // Your content replaced the default glyph.
+  // Your content replaced the default icon.
   expect(el.querySelector('[data-testid="custom"]')).not.toBeNull();
   expect(el.querySelector(".theme-picker-icon")).toBeNull();
 

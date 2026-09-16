@@ -5,11 +5,13 @@ everything below is a fast index.
 
 ## What this package is
 
-A reusable Angular 20 headless share control. A single-glyph button
-(➤, U+27A4) that uses the **native share sheet** when the browser has
-one, and otherwise opens a disclosure list of consumer-supplied
-destinations plus a built-in copy-the-URL action. Ships no CSS, no
-icons, and no third-party endpoints.
+A reusable Angular 20 headless share control. A single-icon button
+(a bundled outline-arrow SVG) that uses the **native share sheet** when
+the browser has one, and otherwise opens a disclosure list of
+consumer-supplied destinations plus a built-in copy-the-URL action.
+Ships no CSS, no third-party endpoints, and — the one deliberate
+exception — a bundled default icon (reversed 2026-09-16 from a Unicode
+glyph).
 
 Unlike the three preference helpers, this owns an _action_, not a preference:
 it applies nothing to the document root and persists nothing. No
@@ -32,7 +34,8 @@ it applies nothing to the document root and persists nothing. No
 - `SharePicker` (component class, selector `lily-share-picker`).
 - `SharePickerIcon` (optional marker directive,
   `ng-template[lilySharePickerIcon]`, for typed `let-` variables).
-- `BLACK_RIGHTWARDS_ARROWHEAD` (the default glyph, `"➤"` U+27A4).
+- No glyph constant — the default icon is a bundled SVG, not a
+  Unicode character (reversed 2026-09-16).
 - `canShareNatively`, `canCopy` (pure, SSR-safe capability probes).
 - `nextSharePickerId` (per-instance id generator).
 - Types `ChildArgs`, `ShareTarget`, `ShareStrategy`, `ShareEvent`.
@@ -63,7 +66,7 @@ clipboard API is a failure, never a crash. The URL is resolved lazily
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="share-picker-icon" aria-hidden="true">➤</span>
+    <svg class="share-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5"/></svg>
   </button>
   <ul class="share-picker-list" id="{listId}" aria-label="{label}" hidden>
     <li class="share-picker-list-item">
@@ -93,7 +96,7 @@ preference helpers do.
 `@for` is used (not `*ngFor`), tracked by `target.id`. Ids come from
 `nextSharePickerId()`, an incrementing module counter — stable, unique
 per instance, SSR-safe. A projected `<ng-template>` (queried via
-`contentChild(TemplateRef)`) replaces the glyph inside the button and
+`contentChild(TemplateRef)`) replaces the icon inside the button and
 receives `ChildArgs` (`{ $implicit, open, url }`); it does **not**
 render the list.
 
@@ -110,7 +113,7 @@ render the list.
 
 ## Accessibility
 
-- WCAG 2.2 AAA target. The glyph is `aria-hidden`; the name comes
+- WCAG 2.2 AAA target. The icon is `aria-hidden`; the name comes
   entirely from `aria-label`.
 - Button keys: `ArrowDown` / `ArrowUp` open the list on the first / last
   item. List keys: arrows move real focus and **clamp** (no wrap),

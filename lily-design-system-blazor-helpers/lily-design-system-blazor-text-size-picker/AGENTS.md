@@ -7,8 +7,8 @@ below is a fast index.
 
 A reusable Blazor headless text-size picker that applies the chosen
 size slug to the document root via `data-text-size`, with optional
-`localStorage` persistence. It renders an icon button (`A`) that opens
-a dropdown listbox. Ships no CSS; consumer styles the
+`localStorage` persistence. It renders an icon button (a bundled
+stroke-drawn "A" SVG) that opens a dropdown listbox. Ships no CSS; consumer styles the
 `text-size-picker`, `text-size-picker-button`, `text-size-picker-icon`,
 `text-size-picker-list`, and `text-size-picker-option` class hooks —
 see `docs/styling.md` — and maps each `[data-text-size="…"]` slug to
@@ -31,9 +31,9 @@ real typography.
 - Component: `TextSizePicker` in namespace
   `LilyDesignSystem.Blazor.Helpers`.
 - Context: `TextSizePickerContext` (`Value`, `Open`, `LabelFor`) for a
-  custom `ChildContent` glyph.
-- Constant: `TextSizePicker.LatinCapitalLetterA` — the default glyph
-  `"A"` (U+0041).
+  custom `ChildContent` icon.
+- No glyph constant — the default icon is a bundled SVG, not a
+  Unicode character (reversed 2026-09-16).
 - Statics: `SizeName`.
   - `SizeName(slug)` — the ONE title-casing rule (`"x-large"` ->
     `"X Large"`); the private instance `LabelFor` delegates to it, so
@@ -59,7 +59,7 @@ prerender safe. Initial value resolves from `Value` > storage >
 `DefaultValue` > `"medium"` (if present) > `Sizes[0]`.
 
 The control is an **icon button plus a dropdown listbox**, not a native
-`<select>`. The button shows only a glyph; the listbox is the WAI-ARIA
+`<select>`. The button shows only an icon; the listbox is the WAI-ARIA
 APG listbox pattern with `aria-activedescendant`. The real selection
 lives in `Value` and rides a hidden input for form participation.
 
@@ -70,7 +70,7 @@ lives in `Value` and rides a hidden input for form participation.
   <input type="hidden" name="@Name" value="@Value" />
   <button type="button" class="text-size-picker-button" aria-label="@Label"
           aria-haspopup="listbox" aria-expanded="false" aria-controls="{listId}">
-    <span class="text-size-picker-icon" aria-hidden="true">A</span>
+    <svg class="text-size-picker-icon" viewBox="0 0 16 16" aria-hidden="true">…</svg>
   </button>
   <ul class="text-size-picker-list" id="{listId}" role="listbox" aria-label="@Label"
       tabindex="-1" hidden aria-activedescendant="{active option id, open only}">
@@ -80,7 +80,7 @@ lives in `Value` and rides a hidden input for form participation.
 </div>
 ```
 
-`ChildContent` **replaces the glyph inside the button**; it no longer
+`ChildContent` **replaces the icon inside the button**; it no longer
 renders options. Ids come from a monotonic process-wide counter
 (`text-size-picker-{n}`) so they are stable and SSR-safe.
 
@@ -102,11 +102,12 @@ selects it; focus leaving the root closes.
 - WCAG 2.2 AAA target; directly supports 1.4.4 (Resize Text).
 - WAI-ARIA APG listbox pattern.
 - `aria-label` is the button's ENTIRE accessible name — the button is
-  icon-only and the glyph is `aria-hidden="true"`.
+  icon-only and the icon is `aria-hidden="true"`.
 - Option labels default to title-cased slugs.
-- Known tradeoffs (icon-only naming, custom-listbox AT support, glyph
-  font coverage) are documented in `docs/accessibility.md`. The `"A"`
-  glyph is materially safer than a pictograph on the last point.
+- Known tradeoffs (icon-only naming, custom-listbox AT support) are
+  documented in `docs/accessibility.md`. (The glyph-font-coverage
+  tradeoff no longer applies: the icon is a bundled SVG, not a
+  Unicode character — reversed 2026-09-16.)
 
 ## Blazor deviations from the canonical Svelte implementation
 
@@ -134,5 +135,7 @@ selects it; focus leaving the root closes.
 - `EventCallback<string>` for `ValueChanged`, `OnChange`.
 - `IJSRuntime` injected for DOM mutation.
 - No runtime dependency beyond `Microsoft.AspNetCore.Components.Web`.
-- No bundled CSS, fonts, icons, or images.
+- No bundled CSS, fonts, or images. The one deliberate exception is
+  the default button icon: a bundled SVG (reversed 2026-09-16 from a
+  Unicode glyph).
 - All user-facing strings come from parameters.

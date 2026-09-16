@@ -118,7 +118,7 @@ Full worked example, including the `[hidden]` trap to avoid:
 
 The default button is icon-only, so nothing shows the active theme.
 Override `renderButtonContent()` to render the label instead of (or
-beside) the glyph:
+beside) the icon:
 
 ```ts
 class LabelledThemePicker extends ThemePicker {

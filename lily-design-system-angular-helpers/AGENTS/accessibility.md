@@ -98,10 +98,12 @@ plainly, and new helpers must do the same rather than glossing them:
    the mobile platform picker. A native `<select>` remains the better
    control for some audiences; choosing one over these helpers is a
    legitimate decision.
-3. The default glyph is font-dependent. `theme-picker`'s `◑` (U+25D1)
-   may render as tofu or in an unexpected weight;
-   `text-size-picker`'s `"A"` (U+0041) is materially safer, being an
-   ordinary letter in the page's own font.
+3. Until 2026-09-16 the default icon was a font-dependent Unicode
+   glyph — `theme-picker`'s `◑` (U+25D1) could render as tofu or in an
+   unexpected weight, while `text-size-picker`'s `"A"` (U+0041) was
+   materially safer, being an ordinary letter in the page's own font.
+   All five page-header pickers now ship a bundled SVG instead, which
+   renders identically regardless of the consumer's fonts.
 
 The compensating pattern — a visible `aria-live="polite"` status
 region reporting the active value — is the **default** in every

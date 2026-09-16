@@ -137,7 +137,7 @@ Result:
 
 - First paint: `<html lang="fr" dir="ltr">` arrives in the HTML
   response. No flash, no layout shift.
-- The select shows its glyph (🌐), as it always does; the active
+- The select shows its icon (a bundled SVG), as it always does; the active
   locale is carried by `Value`, hydrated from the cookie, and by
   `<html lang>`.
 - User picks `ar`. The endpoint writes the cookie. The select

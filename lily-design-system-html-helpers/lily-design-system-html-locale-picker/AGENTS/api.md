@@ -19,15 +19,13 @@ export {
   RTL_LANGUAGE_TAGS,
   RTL_SCRIPT_SUBTAGS,
   nextLocalePickerId,
-  GLOBE_WITH_MERIDIANS,
   type LocalePickerProps,
   type LocalePickerChangeDetail,
 } from "./locale-picker";
 ```
 
-`GLOBE_WITH_MERIDIANS` is the default button glyph (U+1F310 followed
-by U+FE0E VARIATION SELECTOR-15 — two codepoints; VS15 forces the
-monochrome text presentation).
+No glyph constant is exported — the default button icon is a
+bundled SVG, not a Unicode character (reversed 2026-09-16).
 `nextLocalePickerId()` is the module-level id counter that produces
 the `listId` / `optionId` prefixes — deterministic and SSR-safe, no
 `Math.random()` or `Date.now()`.
@@ -57,7 +55,6 @@ import {
   localeName,
   matchNavigatorLanguage,
   defaultLocaleLabels,
-  GLOBE_WITH_MERIDIANS,
   type LocalePickerProps,
   type LocalePickerChangeDetail,
 } from "./lily-design-system-html-locale-picker";
@@ -155,7 +152,6 @@ export function matchNavigatorLanguage(
   locales: readonly string[],
 ): string | "";
 export function nextLocalePickerId(): string;
-export const GLOBE_WITH_MERIDIANS: string;
 export const defaultLocaleLabels: Record<string, string>;
 export const RTL_LANGUAGE_TAGS: ReadonlySet<string>;
 export const RTL_SCRIPT_SUBTAGS: ReadonlySet<string>;

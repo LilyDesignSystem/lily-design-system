@@ -138,7 +138,7 @@ And that a structural change closes rather than orphaning focus.
 ## Testing `renderButtonContent()` (§7.22)
 
 Subclass, register once guarded, then assert **both halves**: the custom
-node replaced the glyph, _and_ the base class's aria wiring survived.
+node replaced the icon, _and_ the base class's aria wiring survived.
 
 ```ts
 class CustomSharePicker extends SharePicker {

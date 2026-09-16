@@ -20,7 +20,6 @@ import {
   autoInit,
   initLocalePicker,
   bcp47LocaleTag,
-  GLOBE_WITH_MERIDIANS,
   isRtlLocale,
   localeName,
   matchNavigatorLanguage,
@@ -263,7 +262,7 @@ is no placeholder and no `<select>` left to guard.
 
 ## Caller-block test
 
-The `{% call %}` body replaces the glyph inside the button and
+The `{% call %}` body replaces the icon inside the button and
 nothing else:
 
 ```ts
@@ -311,7 +310,7 @@ test("§7.23 autoInit wires every root on the page", () => {
 
 | §7 group    | Test focus                                                                 |
 | ----------- | -------------------------------------------------------------------------- |
-| 7.1 — 7.6   | Macro DOM contract (root, button, listbox, glyph, ids, per-option `lang`). |
+| 7.1 — 7.6   | Macro DOM contract (root, button, listbox, icon, ids, per-option `lang`). |
 | 7.7 — 7.12  | Pure helpers (`bcp47LocaleTag`, `isRtlLocale`, `localeName`).              |
 | 7.13 — 7.17 | Client.js apply lifecycle (`lang`, `dir`, custom `target`).                |
 | 7.18 — 7.21 | Initial-value resolution (value, storage, navigator, default).             |

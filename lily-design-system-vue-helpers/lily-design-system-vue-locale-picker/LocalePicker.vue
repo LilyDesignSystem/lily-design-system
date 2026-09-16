@@ -6,17 +6,18 @@ import {
 } from "./locales.js";
 
 /**
- * Default button glyph: U+1F310 GLOBE WITH MERIDIANS followed by
- * U+FE0E VARIATION SELECTOR-15.
- *
- * VS15 requests *text* presentation. Without it the browser picks the
- * colour-emoji font and the globe renders blue, which does not match
- * theme-picker's monochrome ◑ — the two controls sit next to each
- * other in a page header and should read as one set.
+ * Default button icon: a bundled SVG (globe outline), not a Unicode
+ * character. Reversed 2026-09-16 from the font-dependent-glyph
+ * convention (was U+1F310 GLOBE WITH MERIDIANS + U+FE0E, exported as
+ * `GLOBE_WITH_MERIDIANS` — removed, not renamed). The old glyph needed
+ * VS15 to force text presentation and still risked the colour-emoji
+ * font on stacks that ignore the selector; a bundled outline SVG has
+ * no such risk and renders identically everywhere, matching the other
+ * four picker icons as one monochrome family. Override via the default
+ * scoped slot, same as before.
  */
-export const GLOBE_WITH_MERIDIANS = "🌐︎";
 
-/** Arguments passed to the default scoped slot (the button glyph). */
+/** Arguments passed to the default scoped slot (the button icon). */
 export type SlotArgs = {
     /** Currently selected locale code (consumer form, not BCP 47-normalised). */
     value: string;
@@ -496,9 +497,22 @@ onBeforeUnmount(() => {
             @keydown="onButtonKeydown"
         >
             <slot v-bind="{ value: current, open, labelFor }">
-                <span class="locale-picker-icon" aria-hidden="true">{{
-                    GLOBE_WITH_MERIDIANS
-                }}</span>
+                <svg
+                    class="locale-picker-icon"
+                    viewBox="0 0 16 16"
+                    width="1.05rem"
+                    height="1.05rem"
+                    aria-hidden="true"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+                    <circle cx="8" cy="8" r="6" />
+                    <path d="M2 8h12" />
+                    <path d="M8 2c2.2 0 4 2.7 4 6s-1.8 6-4 6-4-2.7-4-6 1.8-6 4-6z" />
+                </svg>
             </slot>
         </button>
 

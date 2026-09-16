@@ -31,18 +31,6 @@
 //
 // See spec/index.md §4.3 (client.js exports), §5 (behaviour).
 
-/**
- * Default button glyph: U+0041 LATIN CAPITAL LETTER A.
- *
- * A plain letter rather than a pictograph, deliberately. The obvious
- * candidate — U+1F5DB DECREASE FONT SIZE SYMBOL — has no real glyph in
- * common font stacks and falls back to a crude bitmap shape, and it
- * means *decrease* rather than *size*. "A" renders in the page's own
- * font on every platform, stays monochrome like theme-picker's ◑, and
- * is the conventional text-size affordance.
- */
-export const LATIN_CAPITAL_LETTER_A = "A";
-
 /** How long the typeahead buffer survives between keystrokes, in ms. */
 const TYPEAHEAD_RESET_MS = 500;
 

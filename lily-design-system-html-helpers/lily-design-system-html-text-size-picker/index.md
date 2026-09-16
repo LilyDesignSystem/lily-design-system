@@ -51,7 +51,6 @@ import {
   TextSizePicker,
   sizeName, // "x-large" → "X Large"
   nextTextSizePickerId,
-  LATIN_CAPITAL_LETTER_A, // the default "A" glyph
   type TextSizePickerProps,
   type TextSizePickerChangeDetail,
 } from "./lily-design-system-html-text-size-picker";

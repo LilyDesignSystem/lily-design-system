@@ -25,10 +25,11 @@ idioms (Composition API, `defineProps`, `defineModel`, `ref`,
 `watch`, `onMounted`, slots).
 
 > **Breaking change (unreleased).** The control is no longer a native
-> `<select>`. It is now an icon button (🌐, U+1F310 GLOBE WITH
-> MERIDIANS) that opens a WAI-ARIA APG listbox. The `placeholder`
+> `<select>`. It is now an icon button (a bundled globe-outline SVG,
+> not a Unicode character — reversed 2026-09-16, see §9) that opens a
+> WAI-ARIA APG listbox. The `placeholder`
 > prop is removed — there is no `<select>` left to pin — and the
-> default slot now replaces the button glyph rather than the options.
+> default slot now replaces the button icon rather than the options.
 > Everything downstream (`lang` / `dir` application, RTL detection,
 > persistence, navigator detection, `change`, initial-value
 > resolution, SSR safety, the exported pure helpers) is unchanged.
@@ -78,7 +79,7 @@ Give a Vue 3 application a drop-in, headless locale picker that:
   Storybook).
 - **Custom option rendering**. The listbox, its `<li role="option">`
   children, the keyboard contract, and the apply lifecycle are all
-  component-owned. The default slot replaces the button glyph only.
+  component-owned. The default slot replaces the button icon only.
   Consumers who need a different control shape (radios, an
   always-visible button row, a free-text combobox) render their own
   markup and bind it to the same value.
@@ -134,7 +135,7 @@ Give a Vue 3 application a drop-in, headless locale picker that:
 
 ### 4.3 Slots
 
-Default slot — when provided, replaces the **button glyph**. It does
+Default slot — when provided, replaces the **button icon**. It does
 not render the options: the listbox, its `<li role="option">`
 children, the keyboard contract, and the apply lifecycle are all
 component-owned. The slot receives the following scoped props:
@@ -171,7 +172,7 @@ name.
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="locale-picker-icon" aria-hidden="true">🌐</span>
+    <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M2 8h12"/><path d="M8 2c2.2 0 4 2.7 4 6s-1.8 6-4 6-4-2.7-4-6 1.8-6 4-6z"/></svg>
   </button>
   <ul
     class="locale-picker-list"
@@ -198,10 +199,10 @@ name.
 
 - Root element: a `<div class="locale-picker {class}">`. `$attrs`
   falls through to it via the default Vue `inheritAttrs` behaviour.
-- The button is icon-only. The glyph is `🌐` (U+1F310 GLOBE WITH
-  MERIDIANS, `&#127760;`), exported as `GLOBE_WITH_MERIDIANS`,
-  wrapped in `aria-hidden="true"` so it can never become the
-  accessible name.
+- The button is icon-only. The icon is a bundled SVG (globe with
+  meridians, `viewBox="0 0 16 16"`), not a Unicode character
+  (reversed 2026-09-16 — see §9 Tracking), wrapped in
+  `aria-hidden="true"` so it can never become the accessible name.
 - The hidden input preserves form participation and carries `name`.
 - `aria-expanded` tracks the open state; `aria-controls` points at the
   listbox id.
@@ -235,9 +236,11 @@ name.
 - `bcp47LocaleTag`, `isRtlLocale`, `localeName`,
   `matchNavigatorLanguage`, `defaultLocaleLabels` (pure helpers)
 - `nextLocalePickerId` (per-instance id generator)
-- `GLOBE_WITH_MERIDIANS` (the default button glyph)
 - `RTL_LANGUAGE_TAGS`, `RTL_SCRIPT_SUBTAGS` (constants)
 - `type Props`, `type SlotArgs`, `type ChildArgs`
+
+No glyph constant — the default icon is inline SVG markup in the
+component, not a separately-exported swappable character value.
 
 ## 5. Behaviour
 
@@ -344,7 +347,7 @@ no DOM is touched.
 
 - A `<button aria-haspopup="listbox" aria-expanded aria-controls>` is
   the trigger. Because it is icon-only, `aria-label={label}` is its
-  **only** accessible name — the glyph is `aria-hidden="true"`.
+  **only** accessible name — the icon is `aria-hidden="true"`.
 - A `<ul role="listbox" aria-label={label}>` holds one
   `<li role="option" aria-selected>` per locale code.
 - The active option is conveyed with `aria-activedescendant` on the
@@ -421,8 +424,8 @@ run under vitest + jsdom + `@vue/test-utils`.
    `aria-expanded="false"`, and an `aria-controls` pointing at an
    element with `role="listbox"`. The root is a `<div>` carrying the
    `locale-picker` class hook plus the consumer's `class`. The button
-   renders `🌐` (U+1F310) inside
-   `<span class="locale-picker-icon" aria-hidden="true">`.
+   renders the default SVG icon inside
+   `<svg class="locale-picker-icon" aria-hidden="true">`.
 2. `aria-label` is the supplied `label` on **both** the button and the
    listbox.
 3. Renders one `<li class="locale-picker-option">` per entry in
@@ -478,7 +481,7 @@ run under vitest + jsdom + `@vue/test-utils`.
 
 22. Extra attributes spread through onto the root `<div>` (e.g.
     `data-testid`).
-23. A custom default slot replaces the button glyph — the
+23. A custom default slot replaces the button icon — the
     `.locale-picker-icon` span is absent — and receives the `SlotArgs`
     contract (`value`, `open`, `labelFor`). Its `open` flag tracks the
     listbox state.
@@ -523,7 +526,7 @@ run under vitest + jsdom + `@vue/test-utils`.
   locale's pretty name.
 - A `LocalePicker` sibling that renders an always-visible radio group
   or button row. The default slot no longer covers that case — it
-  replaces the button glyph only.
+  replaces the button icon only.
 - An `Intl.LocaleMatcher` / RFC 4647 lookup integration.
 - A built-in `Accept-Language`-header server helper for SSR locale
   negotiation.
@@ -539,3 +542,9 @@ run under vitest + jsdom + `@vue/test-utils`.
 - Contact: Joel Parker Henderson &lt;joel@joelparkerhenderson.com&gt;
 - Canonical locale list: [locales.tsv](../locales.tsv) — 436 codes
   with English names
+
+**2026-09-16**: default icon changed from the Unicode glyph U+1F310
+GLOBE WITH MERIDIANS + U+FE0E (exported as `GLOBE_WITH_MERIDIANS`) to
+a bundled outline SVG. Maintainer-directed, applied to all five
+page-header pickers the same day. The glyph constant was removed, not
+renamed — there is no longer a single swappable character value.

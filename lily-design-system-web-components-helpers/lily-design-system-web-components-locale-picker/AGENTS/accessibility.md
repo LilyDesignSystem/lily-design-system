@@ -141,12 +141,13 @@ Stated in full in [`../docs/accessibility.md`](../docs/accessibility.md):
    hand-rolled listbox is well-specified by the APG but has weaker,
    more variable support across screen readers and mobile browsers,
    and no native mobile picker.
-3. **Glyph rendering is platform-dependent.** A bare Unicode
-   codepoint with no bundled font may render as colour emoji, a
-   monochrome glyph, or tofu. Override `renderButtonContent()` with
-   an SVG for a guaranteed appearance.
 
-Because the closed button shows only a glyph, the active locale is
+(A third tradeoff — platform-dependent glyph rendering — no longer
+applies: the default icon is a bundled SVG (globe outline), not a
+Unicode character — reversed 2026-09-16. Override
+`renderButtonContent()` with your own SVG for a different appearance.)
+
+Because the closed button shows only an icon, the active locale is
 not visible or announced anywhere in the control. The compensating
 status region (visible text or a polite live region fed from
 `localechange`) is the documented default pattern, not an optional

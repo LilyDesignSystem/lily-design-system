@@ -101,7 +101,7 @@ that:
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="text-size-picker-icon" aria-hidden="true">A</span>
+    <svg class="text-size-picker-icon" viewBox="0 0 16 16" width="1.05rem" height="1.05rem" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13 7.2 3h1.6L12 13M5.4 9.5h5.2"/></svg>
   </button>
   <ul
     class="text-size-picker-list"
@@ -125,17 +125,14 @@ that:
 </div>
 ```
 
-- The default button glyph is `LATIN_CAPITAL_LETTER_A` — `"A"`,
-  U+0041. A plain letter rather than a pictograph: U+1F5DB DECREASE
-  FONT SIZE SYMBOL has no real glyph in common font stacks and means
-  _decrease_ rather than _size_, whereas "A" renders in the page's own
-  font everywhere and stays monochrome like theme-picker's `◑`.
+- The default button icon is a bundled "A"-shaped outline SVG, not a
+  Unicode character (reversed 2026-09-16; see §9).
 - The hidden input preserves `name` and form participation.
 - `aria-activedescendant` is emitted only while the listbox is open.
 - `data-active` marks the keyboard cursor; `aria-selected` marks the
   size actually in effect. They are usually different options.
 - A projected `<ng-template>` (queried via `contentChild(TemplateRef)`)
-  replaces the **glyph** inside the button and receives `ChildArgs`
+  replaces the **icon** inside the button and receives `ChildArgs`
   (`{ $implicit, value, open, labelFor }`). It does **not** render
   options.
 - `data-text-size="{slug}"` is set on the `target` element on every
@@ -146,9 +143,10 @@ that:
 `index.ts` exports `TextSizePicker` (the component class),
 `TextSizePickerIcon` (the optional marker directive
 `ng-template[lilyTextSizePickerIcon]`, for typed `let-` variables),
-`LATIN_CAPITAL_LETTER_A` (the default glyph),
 `nextTextSizePickerId` (per-instance id generator), `sizeName` (the
-pure label resolver), and the `ChildArgs` type.
+pure label resolver), and the `ChildArgs` type. No glyph constant —
+the default icon is inline SVG markup in the component template, not
+a separately-exported swappable character value.
 
 ## 5. Behaviour
 
@@ -217,10 +215,9 @@ survives hydration.
   accessibility purpose, and it is why the control exists at all.
 - There is **no native control underneath**. Every role, state, focus
   move, and keystroke below is code in this component. The full
-  tradeoff discussion — the load-bearing `aria-label`, the weaker AT
-  support of a hand-rolled listbox versus a native `<select>`, and
-  the font-dependence of the glyph — is in
-  [`../docs/accessibility.md`](../docs/accessibility.md).
+  tradeoff discussion — the load-bearing `aria-label` and the weaker
+  AT support of a hand-rolled listbox versus a native `<select>` — is
+  in [`../docs/accessibility.md`](../docs/accessibility.md).
 - The button is icon-only, so `[attr.aria-label]="label"` is its
   **entire** accessible name. `label` is `input.required` because
   there is no safe default.
@@ -265,8 +262,9 @@ below. Tests run under vitest + jsdom + `@angular/core/testing`
 1. Renders a `<button type="button">` with `aria-haspopup="listbox"`,
    `aria-expanded="false"`, and `aria-controls` pointing at the
    `role="listbox"` element; the root is a `<div>` carrying the
-   `text-size-picker` class hook; the button renders `"A"` inside a
-   `.text-size-picker-icon` span marked `aria-hidden="true"`.
+   `text-size-picker` class hook; the button renders the default "A"
+   SVG icon inside a `.text-size-picker-icon` svg marked
+   `aria-hidden="true"`.
 2. `aria-label` names the button **and** the listbox.
 3. Renders one `<li role="option">` per entry in `sizes`; the hidden
    input carries the supplied `name` (default `"text-size"`); option
@@ -299,11 +297,11 @@ below. Tests run under vitest + jsdom + `@angular/core/testing`
 11. A custom `target` element receives `data-text-size` instead of
     `document.documentElement`.
 
-### 7.5 Class hook and custom glyph
+### 7.5 Class hook and custom icon
 
 12. The consumer's `className` is appended to the root `<div>` class
     list.
-13. A projected `<ng-template>` replaces the glyph inside the button
+13. A projected `<ng-template>` replaces the icon inside the button
     and receives `ChildArgs` (`value`, `open`, `labelFor`); the
     default `.text-size-picker-icon` is then absent.
 
@@ -361,3 +359,8 @@ clause means the same thing in every catalog.
   (or contact for other terms)
 - Contact: Joel Parker Henderson &lt;joel@joelparkerhenderson.com&gt;
 - Canonical contract: [`../../lily-design-system-svelte-helpers/lily-design-system-svelte-text-size-picker/spec/index.md`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-text-size-picker/spec/index.md)
+- **2026-09-16**: default icon changed from the Unicode glyph U+0041
+  LATIN CAPITAL LETTER A (exported as `LATIN_CAPITAL_LETTER_A`) to a
+  bundled outline SVG. Maintainer-directed, applied to all five
+  page-header pickers the same day. The glyph constant was removed, not
+  renamed — there is no longer a single swappable character value.

@@ -6,15 +6,16 @@ import {
 } from "./locales.js";
 
 /**
- * Default button glyph: U+1F310 GLOBE WITH MERIDIANS followed by
- * U+FE0E VARIATION SELECTOR-15.
- *
- * VS15 requests *text* presentation. Without it the browser picks the
- * colour-emoji font and the globe renders blue, which does not match
- * theme-picker's monochrome ◑ — the two controls sit next to each
- * other in a page header and should read as one set.
+ * Default button icon: a bundled SVG (globe outline), not a Unicode
+ * character. Reversed 2026-09-16 from the font-dependent-glyph
+ * convention (was U+1F310 GLOBE WITH MERIDIANS + U+FE0E, exported as
+ * `GLOBE_WITH_MERIDIANS` — removed, not renamed). The old glyph needed
+ * VS15 to force text presentation and still risked the colour-emoji
+ * font on stacks that ignore the selector; a bundled outline SVG has
+ * no such risk and renders identically everywhere, matching the other
+ * four picker icons as one monochrome family. Override via `children`,
+ * same as before.
  */
-export const GLOBE_WITH_MERIDIANS = "🌐︎";
 
 /** Arguments passed to a custom `children` render prop (the button glyph). */
 export type ChildArgs = {
@@ -51,7 +52,7 @@ export type Props = Omit<
     applyDir?: boolean;
     /** Optional pretty labels per locale code. */
     localeLabels?: Record<string, string>;
-    /** Replaces the default globe glyph inside the button. */
+    /** Replaces the default globe icon inside the button. */
     children?: (args: ChildArgs) => React.ReactNode;
     /** Called after the control applies a new locale. */
     onChange?: (locale: string) => void;
@@ -560,9 +561,22 @@ export function LocalePicker({
                 {children ? (
                     children({ value: currentValue ?? "", open, labelFor })
                 ) : (
-                    <span className="locale-picker-icon" aria-hidden="true">
-                        {GLOBE_WITH_MERIDIANS}
-                    </span>
+                    <svg
+                        className="locale-picker-icon"
+                        viewBox="0 0 16 16"
+                        width="1.05rem"
+                        height="1.05rem"
+                        aria-hidden="true"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.6"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    >
+                        <circle cx="8" cy="8" r="6" />
+                        <path d="M2 8h12" />
+                        <path d="M8 2c2.2 0 4 2.7 4 6s-1.8 6-4 6-4-2.7-4-6 1.8-6 4-6z" />
+                    </svg>
                 )}
             </button>
 

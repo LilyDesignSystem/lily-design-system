@@ -30,8 +30,8 @@ well and what it costs — the costs are real and are not talked around.
 **The name rests entirely on `aria-label`.** An icon-only control has no
 visible text fallback. If `Label` is wrong, missing, or untranslated,
 there is nothing else for anyone to go on — sighted users included, since
-➤ is not self-evidently "share". If you can spare the space, pair the
-button with visible text.
+an arrow icon is not self-evidently "share". If you can spare the
+space, pair the button with visible text.
 
 **Behaviour differs by platform.** With `Strategy.Auto`, a phone opens
 the OS share sheet and a desktop opens the in-page list. That is usually
@@ -39,10 +39,11 @@ the better experience on each, but it means your help text and support
 scripts cannot describe one flow. Force one with `Strategy.List` if
 consistency matters more.
 
-**The glyph is font-dependent.** ➤ (U+27A4) is an in-font arrow rather
-than a pictograph, so it is far safer than an emoji — it renders in the
-page's own font and stays monochrome. It is still not guaranteed on every
-font stack. Override it with `ChildContent` if your stack lacks it.
+**The icon is a bundled SVG, not a font character.** Reversed
+2026-09-16 from a font-dependent glyph: the old tradeoff (rendering
+varies by font stack) no longer applies, since a bundled SVG renders
+identically everywhere. Override it with `ChildContent` if your
+design calls for different artwork.
 
 **Copy can fail for reasons the user cannot see.** An insecure context, a
 denied permission, or a browser with no async clipboard all fail, and

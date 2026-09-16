@@ -5,7 +5,8 @@ everything below is a fast index.
 
 ## What this package is
 
-A Vue 3 headless share control. A single-glyph button (➤, U+27A4) that
+A Vue 3 headless share control. A single-icon button (a bundled arrow
+SVG, not a Unicode character — reversed 2026-09-16) that
 uses the **native share sheet** when the browser has one, and otherwise
 opens a disclosure list of consumer-supplied destinations plus a
 built-in copy-the-URL action. Ships no CSS, no icons, and no
@@ -30,7 +31,8 @@ When the two disagree, the Svelte side wins.
 
 - Default export: `SharePicker` component.
 - Named exports: `SharePicker`, `canShareNatively`, `canCopy`,
-  `nextSharePickerId`, `BLACK_RIGHTWARDS_ARROWHEAD`.
+  `nextSharePickerId`. No glyph constant — the default icon is a
+  bundled SVG, not a Unicode character (reversed 2026-09-16).
 - Type exports: `Props`, `SlotArgs`, `ChildArgs` (alias of `SlotArgs`),
   `ShareTarget`, `ShareStrategy`.
 
@@ -50,7 +52,8 @@ action, not a preference, so there is no `v-model` and no `storageKey`.
 ## HTML
 
 `<div class="share-picker">` → `<button class="share-picker-button">`
-with an `aria-hidden` glyph span → `<ul class="share-picker-list"
+with an `aria-hidden` bundled SVG icon (an arrow, not a Unicode
+character — reversed 2026-09-16) → `<ul class="share-picker-list"
 aria-label="{label}" hidden>` of `<li>` containing
 `<a class="share-picker-target">` and an optional
 `<button class="share-picker-copy">` → `<p class="share-picker-status"
@@ -91,6 +94,9 @@ helpers. `nativeShare` is written `@native-share` in templates.
 - `ref`, `onMounted`, `onBeforeUnmount` for state and lifecycle.
 - Strict TypeScript on the public surface.
 - No runtime dependency beyond `vue`.
-- No bundled CSS, fonts, icons, images, or third-party URLs.
+- No bundled CSS, fonts, images, or third-party URLs. The one
+  deliberate exception is the default button icon: a bundled SVG
+  (reversed 2026-09-16 from a Unicode glyph), overridable via the
+  default scoped slot.
 - All user-facing strings come from props — including the copy label,
   which is why the copy item is opt-in.

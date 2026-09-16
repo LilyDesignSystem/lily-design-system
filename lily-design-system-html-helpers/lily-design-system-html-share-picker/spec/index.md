@@ -26,7 +26,8 @@ Sibling files:
 
 Give any HTML page a drop-in, headless share control that:
 
-1. Renders a single-glyph button (➤, U+27A4) matching the other Lily
+1. Renders a single-icon button (a bundled outline-arrow SVG, not a
+   Unicode character — reversed 2026-09-16) matching the other Lily
    helpers.
 2. Uses the **native share sheet** where the browser provides one.
 3. Otherwise opens a disclosure list of consumer-supplied destinations,
@@ -183,7 +184,9 @@ an error (§5.3).
       aria-expanded="false"
       aria-controls="{listId}"
     >
-      <span class="share-picker-icon" aria-hidden="true">➤</span>
+      <svg class="share-picker-icon" viewBox="0 0 16 16" width="1.05rem" height="1.05rem" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5"></path>
+      </svg>
     </button>
     <ul class="share-picker-list" id="{listId}" aria-label="{label}" hidden>
       <li class="share-picker-list-item">
@@ -221,7 +224,7 @@ carries no value and does not participate in forms.
 
 Light DOM has no `<slot>`, so subclassing stands in for the `children` /
 slot the other frameworks expose. Override `renderButtonContent()` to
-replace the glyph; whatever it returns is placed inside the trigger.
+replace the icon; whatever it returns is placed inside the trigger.
 
 It receives the same information the other frameworks pass as
 `ChildArgs`: `this.open` and `this.currentUrl()` are both readable. The
@@ -231,9 +234,11 @@ current. The trigger's own aria wiring is not the subclass's to change.
 ### 4.8 Re-exports
 
 `index.ts` exports `SharePicker`, `canShareNatively`, `canCopy`,
-`nextSharePickerId`, `BLACK_RIGHTWARDS_ARROWHEAD`, and the types
+`nextSharePickerId`, and the types
 `SharePickerProps`, `SharePickerShareDetail`, `SharePickerUrlDetail`,
 `ShareTarget`, `ShareStrategy`. Importing it registers `<share-picker>`.
+No glyph constant is exported — the default icon is a bundled SVG,
+not a Unicode character (reversed 2026-09-16).
 
 ## 5. Behaviour
 
@@ -314,7 +319,7 @@ simplification against `theme-picker`.
 
 ## 6. Accessibility
 
-WCAG 2.2 AAA target. The glyph is `aria-hidden`; the accessible name is
+WCAG 2.2 AAA target. The icon is `aria-hidden`; the accessible name is
 the trigger's `aria-label`, consumer-supplied and localisable. The
 status region is `aria-live="polite"` and empty on load, so it announces
 the copy outcome and nothing else. Destinations keep native link
@@ -323,8 +328,10 @@ semantics.
 Known costs are recorded honestly in
 [`docs/accessibility.md`](../docs/accessibility.md): the name rests
 entirely on `aria-label` with no visible fallback; behaviour differs by
-platform under `strategy="auto"`; the glyph is font-dependent; and copy
-can fail for reasons invisible to the user.
+platform under `strategy="auto"`; and copy can fail for reasons
+invisible to the user. (The font-dependent-glyph cost no longer
+applies: the icon is a bundled SVG, not a Unicode character —
+reversed 2026-09-16.)
 
 ## 7. Testing acceptance criteria
 
@@ -352,7 +359,7 @@ prefixed with the clause number so a reviewer can spot a gap.
 19. Clicking outside, or focus leaving the root, closes the list.
 20. An explicit `url` attribute wins.
 21. With no `url`, the current page URL is used.
-22. `renderButtonContent()` replaces the glyph, sees `open` + `currentUrl()`, and keeps the base aria wiring.
+22. `renderButtonContent()` replaces the icon, sees `open` + `currentUrl()`, and keeps the base aria wiring.
 23. `Tab` from an open item puts focus on the button before closing, so
     the default Tab proceeds from the picker's position instead of
     restarting from `<body>` when the list is hidden while its item has

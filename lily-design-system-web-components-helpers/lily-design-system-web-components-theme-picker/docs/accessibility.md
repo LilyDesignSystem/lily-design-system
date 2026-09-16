@@ -17,7 +17,7 @@ in JavaScript, and documented in full below.
 | `<button>`                             | `aria-haspopup="listbox"`                      | Element       |
 | `<button>`                             | `aria-expanded="true" \| "false"`              | Element       |
 | `<button>`                             | `aria-controls={listId}`                       | Element       |
-| `<span class="theme-picker-icon">`     | `aria-hidden="true"`                           | Element       |
+| `<svg class="theme-picker-icon">`      | `aria-hidden="true"`                           | Element       |
 | `<ul class="theme-picker-list">`       | `role="listbox"`, `aria-label={label}`         | Element       |
 | `<ul>`                                 | `tabindex="-1"`; `hidden` while closed         | Element       |
 | `<ul>`                                 | `aria-activedescendant={optionId}` while open  | Element       |
@@ -113,13 +113,13 @@ colour-only meaning is required:
 4. The hidden `<input>`'s `value`, for form submission.
 
 All four describe the *open* control or the document. The **closed**
-button exposes none of them to a user: it shows a glyph and nothing
+button exposes none of them to a user: it shows an icon and nothing
 else.
 
 ## Known tradeoffs
 
 The icon-button-plus-listbox design buys a compact, fully-styleable
-control. It costs three things, and they are real. All three are the
+control. It costs two things, and they are real. Both are the
 consumer's to mitigate.
 
 ### 1. It is an icon-only control
@@ -137,7 +137,7 @@ all. Two consequences:
 
 The fix is a visible label next to the control, or button content
 that includes text — see
-[custom-rendering.md](./custom-rendering.md#recipe-glyph-plus-visible-text).
+[custom-rendering.md](./custom-rendering.md#recipe-icon-plus-visible-text).
 
 ### 2. A custom listbox is weaker than a native `<select>`
 
@@ -160,20 +160,16 @@ This is a genuine regression in robustness, accepted in exchange for
 a control that can be styled and positioned freely. If your audience
 skews toward mobile screen-reader users, weigh it seriously.
 
-### 3. Glyph rendering is platform-dependent
-
-The button's glyph is a plain Unicode character — U+25D1 CIRCLE WITH
-RIGHT HALF BLACK — with no bundled font, because Lily ships no fonts
-or icon assets. It may render as a colour emoji, a monochrome glyph,
-or tofu, depending entirely on the platform's installed fonts.
-
-Consumers who need a guaranteed appearance should override
-`renderButtonContent()` with their own inline SVG; see
-[custom-rendering.md](./custom-rendering.md#recipe-an-inline-svg-icon).
+(A third tradeoff — platform-dependent glyph rendering — no longer
+applies: the default icon is a bundled SVG, not a Unicode character
+— reversed 2026-09-16. Consumers who still want a different
+appearance override `renderButtonContent()` with their own inline
+SVG; see
+[custom-rendering.md](./custom-rendering.md#recipe-an-inline-svg-icon).)
 
 ## The status region is the default pattern
 
-Because the closed button shows only a glyph, **the current theme is
+Because the closed button shows only an icon, **the current theme is
 not displayed or announced anywhere** unless you surface it. This
 guidance is more important now than it was under the old native
 `<select>`, not less.

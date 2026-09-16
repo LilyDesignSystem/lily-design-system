@@ -1,14 +1,15 @@
 import * as React from "react";
 
 /**
- * Default button glyph: U+27A4 BLACK RIGHTWARDS ARROWHEAD.
- *
- * An in-font arrow rather than a pictograph, matching the other helpers'
- * rule: it renders in the page's own font on every platform and stays
- * monochrome alongside theme-picker's ◑, locale-picker's 🌐 and
- * text-size-picker's "A".
+ * Default button icon: a bundled SVG (outline right arrow), not a
+ * Unicode character. Reversed 2026-09-16 from the font-dependent-glyph
+ * convention (was U+27A4 BLACK RIGHTWARDS ARROWHEAD, exported as
+ * `BLACK_RIGHTWARDS_ARROWHEAD` — removed, not renamed). Maintainer-
+ * directed, following the outline-arrow icon already used at
+ * https://testingexamples.github.io/. A bundled SVG renders identically
+ * across every font stack; the other four picker icons moved to the
+ * same bundled-SVG convention the same day.
  */
-export const BLACK_RIGHTWARDS_ARROWHEAD = "➤";
 
 /**
  * One destination in the share list.
@@ -70,7 +71,7 @@ export type Props = Omit<
      * the sheet; `"list"` always shows the list.
      */
     strategy?: ShareStrategy;
-    /** Replaces the default ➤ glyph inside the button. */
+    /** Replaces the default arrow icon inside the button. */
     children?: (args: ChildArgs) => React.ReactNode;
     /** Fires after a destination is chosen, with its `id`. */
     onShare?: (targetId: string, url: string) => void;
@@ -351,9 +352,20 @@ export function SharePicker({
                 {children ? (
                     children({ open, url: currentUrl() })
                 ) : (
-                    <span className="share-picker-icon" aria-hidden="true">
-                        {BLACK_RIGHTWARDS_ARROWHEAD}
-                    </span>
+                    <svg
+                        className="share-picker-icon"
+                        viewBox="0 0 16 16"
+                        width="1.05rem"
+                        height="1.05rem"
+                        aria-hidden="true"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.6"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    >
+                        <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" />
+                    </svg>
                 )}
             </button>
 

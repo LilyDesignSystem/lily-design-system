@@ -20,7 +20,7 @@ and the select does not touch the DOM. The rendered HTML looks like:
     aria-expanded="false"
     aria-controls="theme-picker-1-list"
   >
-    <span class="theme-picker-icon" aria-hidden="true">◑</span>
+    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true">…</svg>
   </button>
   <ul
     class="theme-picker-list"

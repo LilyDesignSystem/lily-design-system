@@ -34,11 +34,11 @@ no CSS; consumer styles the `theme-picker` class hook.
   `matchMedia` is unavailable (SSR, and jsdom). It mirrors
   `matchNavigatorLanguage` in locale-picker and backs the
   `detectFromSystem` prop.
-- `ThemePicker.tsx` also exports `CIRCLE_WITH_RIGHT_HALF_BLACK` (the
-  default glyph, U+25D1); the barrel does not re-export it.
+No glyph constant — the default icon is a bundled SVG, not a Unicode
+character (reversed 2026-09-16).
 
 Required props: `label`, `themesUrl`, `themes`. Optional `children` is a
-render prop that replaces the glyph inside the button and receives
+render prop that replaces the icon inside the button and receives
 `{ value, open, labelFor }` — it does **not** render the options. Full
 table in [spec/index.md §4.1](./spec/index.md#41-props).
 
@@ -70,7 +70,7 @@ returns focus to the button when a selection or `Escape` closes the list.
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="theme-picker-icon" aria-hidden="true">◑</span>
+    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
   </button>
   <ul
     class="theme-picker-list"
@@ -96,7 +96,7 @@ returns focus to the button when a selection or `Escape` closes the list.
 
 Ids come from `useId`, so they are stable and hydration-safe. Custom
 rendering via the `children` render prop receiving
-`{ value, open, labelFor }` replaces the glyph inside the button only —
+`{ value, open, labelFor }` replaces the icon inside the button only —
 the component owns the options.
 
 ## Accessibility
@@ -110,7 +110,7 @@ the component owns the options.
   (a repeated character cycles through its matches). `Tab` closes via
   the button so the default Tab proceeds from the picker's position.
 - `aria-label` carries the consumer-supplied accessible name on both the
-  button and the listbox. The glyph is `aria-hidden`, so `label` is the
+  button and the listbox. The icon is `aria-hidden`, so `label` is the
   only source of the accessible name.
 - Active option is tracked with `aria-activedescendant`, not roving focus.
 - Option labels default to title-cased slugs; the word "default" is

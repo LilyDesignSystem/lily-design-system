@@ -135,32 +135,22 @@ size choice is load-bearing, test with the AT your users actually run,
 and consider rendering a plain `<select>` of the same slugs wired to
 `setSize` instead.
 
-### 3. The glyph may not render
+### 3. The icon is a bundled SVG, not a font-dependent glyph
 
-The button glyph is a Unicode character rendered with whatever font the
-consumer's CSS resolves. On platforms whose font stack lacks the glyph
-it degrades to a tofu box, and its weight, baseline, and optical size
-vary by platform. It may also be re-coloured or hidden entirely by a
-user stylesheet or forced-colors mode.
+Until 2026-09-16 the button showed `"A"` (U+0041 LATIN CAPITAL LETTER
+A) — a Unicode character rendered with whatever font the consumer's
+CSS resolved. Reversed maintainer-directed the same day as the other
+four page-header pickers: the button now renders a bundled
+stroke-drawn "A" SVG (`viewBox="0 0 16 16"`), so it renders identically
+regardless of the consumer's font stack, and cannot degrade to a tofu
+box. It may still be re-coloured or hidden by a user stylesheet or
+forced-colors mode, since it inherits `currentColor`.
 
-**This helper is materially safer on this point than its siblings**,
-and deliberately so. The glyph is `"A"` (U+0041 LATIN CAPITAL LETTER
-A) — a plain Latin capital letter present in every font that can render
-the page's own text. If "A" fails to render, the page has no readable
-text at all and the button is the least of the problems. Contrast
-`theme-picker`'s ◑ and `locale-picker`'s 🌐, which are genuinely
-absent from some stacks.
-
-The obvious pictographic candidate, U+1F5DB DECREASE FONT SIZE SYMBOL,
-was rejected for exactly this reason: it has no real glyph in common
-font stacks, falls back to a crude bitmap shape, and additionally means
-*decrease* rather than *size*.
-
-Because the glyph is decorative and `aria-hidden`, a missing glyph is
-never an accessibility failure — the accessible name survives. It is a
-visual failure. Consumers who want a guaranteed rendering, or a
-two-size "Aa" affordance, can override the glyph via the `{% call %}`
-block and keep `aria-hidden="true"` on it.
+Because the icon is decorative and `aria-hidden`, a hidden or
+re-coloured icon is never an accessibility failure — the accessible
+name survives. It is a visual concern only. Consumers who want a
+different rendering, or a two-size "Aa" affordance, can override the
+icon via the `{% call %}` block and keep `aria-hidden="true"` on it.
 
 ## The no-JS regression
 

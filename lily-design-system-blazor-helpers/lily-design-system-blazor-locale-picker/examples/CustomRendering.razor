@@ -1,7 +1,7 @@
 @*
-    Custom rendering — custom button glyph via ChildContent.
+    Custom rendering — a custom button icon via ChildContent.
 
-    ChildContent replaces the glyph INSIDE the button; it does not render
+    ChildContent replaces the icon INSIDE the button; it does not render
     the options. The listbox is always the component's own APG listbox, so
     a custom native <select> is no longer possible here — the control is an
     icon button plus a dropdown listbox, not a <select>.
@@ -9,7 +9,7 @@
     The fragment receives a LocalePickerContext with exactly three members:
     Value (active code), Open (is the listbox open?), and LabelFor (code →
     display label). Use it when you want your own artwork or a state-aware
-    face instead of the default 🌐.
+    face instead of the default bundled globe-outline SVG.
 
     Whatever you render must stay aria-hidden="true": the button is
     icon-only and its entire accessible name is the Label parameter.
@@ -42,8 +42,8 @@
     DetectFromNavigator="true">
     <ChildContent Context="ctx">
         <span class="locale-picker-icon" aria-hidden="true">
-            @* Decorative artwork replacing the default 🌐. An inline SVG
-               sidesteps the emoji-font coverage caveat in docs/accessibility.md. *@
+            @* Decorative artwork replacing the default bundled globe SVG.
+               A different inline SVG for a state-aware face. *@
             <svg focusable="false" width="16" height="16" viewBox="0 0 16 16">
                 <circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.5" />
                 <ellipse cx="8" cy="8" rx="3" ry="7" fill="none" stroke="currentColor" stroke-width="1.5" />

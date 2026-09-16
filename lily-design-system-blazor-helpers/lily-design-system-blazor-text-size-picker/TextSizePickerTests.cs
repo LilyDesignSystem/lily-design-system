@@ -66,20 +66,17 @@ public class TextSizePickerTests : TestContext
     }
 
     // -----------------------------------------------------------------
-    // §7.2 — The button renders the "A" glyph, hidden from assistive
-    //        technology.
+    // §7.2 — The button renders the default SVG icon, hidden from
+    //        assistive technology.
     // -----------------------------------------------------------------
     [Fact]
-    public void Section_7_2_Button_Renders_Glyph_Hidden_From_Assistive_Tech()
+    public void Section_7_2_Button_Renders_Icon_Hidden_From_Assistive_Tech()
     {
         var cut = RenderDefault();
 
-        var icon = cut.Find(".text-size-picker-icon");
-        // U+0041 LATIN CAPITAL LETTER A — a letter, not a pictograph, so it
-        // renders in the page's own font on every platform.
-        Assert.Equal("A", icon.TextContent.Trim());
+        var icon = cut.Find("svg.text-size-picker-icon");
         Assert.Equal("true", icon.GetAttribute("aria-hidden"));
-        Assert.Equal("A", TextSizePicker.LatinCapitalLetterA);
+        Assert.NotNull(icon.QuerySelector("path"));
     }
 
     // -----------------------------------------------------------------
@@ -620,7 +617,7 @@ public class TextSizePickerTests : TestContext
             .Add(x => x.ChildContent, custom));
         await Task.Yield();
 
-        // The default glyph is replaced, not supplemented.
+        // The default icon is replaced, not supplemented.
         Assert.Empty(cut.FindAll(".text-size-picker-icon"));
 
         var custom_ = cut.Find("[data-testid='custom']");

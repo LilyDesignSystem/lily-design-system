@@ -148,7 +148,7 @@ inside a `$effect`, which never runs on the server.
     aria-expanded="false"
     aria-controls="theme-picker-1-list"
   >
-    <span class="theme-picker-icon" aria-hidden="true">◑</span>
+    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
   </button>
   <ul
     class="theme-picker-list"
@@ -193,9 +193,9 @@ holds three themes or forty-five with names like
 `united-kingdom-national-health-service-england-for-patients`. A native
 `<select>` is as wide as its longest option, or truncates it.
 
-The glyph is U+25D1 CIRCLE WITH RIGHT HALF BLACK (`◑`, `◑`),
-exported as `CIRCLE_WITH_RIGHT_HALF_BLACK`. It is `aria-hidden`; the
-accessible name comes from `label`.
+The icon is a bundled outline SVG (contrast/half-circle) — not a
+Unicode character, so it renders identically on every platform. It is
+`aria-hidden`; the accessible name comes from `label`.
 
 This shape has three real costs — an icon-only control's name rests
 entirely on `aria-label`, a hand-rolled listbox has weaker
@@ -318,7 +318,7 @@ render the options; the listbox is component-owned.
   bind:value={theme}
 >
   {#snippet children({ value, open, labelFor })}
-    <span aria-hidden="true">◑</span>
+    <svg viewBox="0 0 16 16" aria-hidden="true">…</svg>
     <span class="theme-picker-text">{labelFor(value)}</span>
     <span aria-hidden="true">{open ? "▴" : "▾"}</span>
   {/snippet}

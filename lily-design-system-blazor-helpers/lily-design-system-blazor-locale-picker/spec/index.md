@@ -97,7 +97,7 @@ Give a Blazor application a drop-in, headless locale select that:
 | `Name`                 | `string`                                | no       | `"locale"`                           | `name` set on the hidden input.                                                                                 |
 | `ApplyDir`             | `bool`                                  | no       | `true`                               | If false, the control only writes `lang` and never touches `dir`.                                               |
 | `LocaleLabels`         | `IReadOnlyDictionary<string,string>`    | no       | empty                                | Optional pretty labels per locale code.                                                                         |
-| `ChildContent`         | `RenderFragment<LocalePickerContext>?` | no       | the default glyph                    | **Replaces the glyph inside the button.** It does not render options.                                           |
+| `ChildContent`         | `RenderFragment<LocalePickerContext>?` | no       | the default SVG icon                 | **Replaces the icon inside the button.** It does not render options.                                            |
 | `OnChange`             | `EventCallback<string>`                 | no       | —                                    | Fires after the control applies a new locale.                                                                   |
 | `CssClass`             | `string`                                | no       | `""`                                 | Extra CSS class merged into the root `<div>`.                                                                   |
 | `AdditionalAttributes` | `Dictionary<string,object>?`            | no       | —                                    | Captures unmatched attributes; spread onto the root `<div>`.                                                    |
@@ -121,10 +121,10 @@ public sealed class LocalePickerContext
 }
 ```
 
-Public constant: `LocalePicker.GlobeWithMeridians` — the default glyph,
-`"🌐︎"` (U+1F310 `&#127760;` followed by U+FE0E VARIATION SELECTOR-15
-`&#65038;`). VS15 selects the text presentation so the globe renders
-monochrome, matching ThemePicker's U+25D1 `◑`.
+No public glyph constant — the default icon is inline SVG markup
+in the component, not a separately-exported swappable character
+value (reversed 2026-09-16 from `LocalePicker.GlobeWithMeridians`,
+`"🌐︎"`, U+1F310 + U+FE0E — removed, not renamed).
 
 Public method: `Task SetLocaleAsync(string code)` — apply a locale
 imperatively, for consumers driving the control from their own UI.
@@ -148,7 +148,7 @@ The control is an icon button plus a dropdown listbox:
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="locale-picker-icon" aria-hidden="true">🌐︎</span>
+    <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true">…</svg>
   </button>
   <ul
     class="locale-picker-list"
@@ -175,11 +175,11 @@ The control is an icon button plus a dropdown listbox:
 
 - The root is a `<div>` carrying the `locale-picker` class hook plus
   `CssClass`; `AdditionalAttributes` spread onto it.
-- The glyph is `🌐︎` (U+1F310 GLOBE WITH MERIDIANS `&#127760;` plus
-  U+FE0E VARIATION SELECTOR-15 `&#65038;`), wrapped in
+- The icon is a bundled SVG (globe outline, `viewBox="0 0 16 16"`),
+  not a Unicode character (reversed 2026-09-16), wrapped in
   `aria-hidden="true"`. The accessible name comes from the
-  button's `aria-label` — never from the glyph.
-- `ChildContent` **replaces the glyph inside the button** and receives
+  button's `aria-label` — never from the icon.
+- `ChildContent` **replaces the icon inside the button** and receives
   `{ Value, Open, LabelFor }`. It no longer renders options.
 - The hidden input preserves form participation and the `Name`
   parameter.
@@ -313,7 +313,7 @@ attempted and no DOM is touched.
   is `aria-selected="true"` whenever `Value` matches a code.
 - Each option carries `lang="{TagFor(locale)}"` — WCAG 3.1.2 (Language
   of Parts).
-- The glyph is `aria-hidden="true"` and never contributes to the name.
+- The icon is `aria-hidden="true"` and never contributes to the name.
 - The document root receives `lang` and (by default) `dir` — WCAG
   3.1.1 (Language of Page) and 1.4.10 (Reflow / bidi).
 
@@ -436,9 +436,9 @@ run under bUnit + xUnit.
    `aria-haspopup="listbox"`, `aria-expanded="false"`, and
    `aria-controls` pointing at a `<ul role="listbox" tabindex="-1">`.
    No `<select>` is rendered.
-2. The button renders `<span class="locale-picker-icon"
-aria-hidden="true">🌐︎</span>` (U+1F310 + U+FE0E), matching the
-   public `LocalePicker.GlobeWithMeridians` constant.
+2. The button renders `<svg class="locale-picker-icon"
+   viewBox="0 0 16 16" aria-hidden="true">` (a bundled globe-outline
+   icon, not a Unicode character).
 3. `aria-label` is the supplied `Label` on BOTH the button and the
    listbox.
 4. One `<li class="locale-picker-option" role="option">` per entry in
@@ -506,7 +506,7 @@ visible option text (§5.4): the endonym beats the English table, so
     that value.
 28. Extra attributes captured by `AdditionalAttributes` spread through
     onto the root `<div>` (e.g. `data-testid`).
-29. A custom `ChildContent` render fragment **replaces** the glyph
+29. A custom `ChildContent` render fragment **replaces** the icon
     inside the button (the default `.locale-picker-icon` is absent) and
     receives `Value`, `Open`, and `LabelFor`.
 
@@ -548,5 +548,6 @@ already numbered through §7.29, so the new clauses continue from §7.30.
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause (or
   contact for other terms)
 - Contact: Joel Parker Henderson &lt;joel@joelparkerhenderson.com&gt;
+- **2026-09-16**: default icon changed from the Unicode glyph U+1F310 GLOBE WITH MERIDIANS + U+FE0E (exposed as `LocalePicker.GlobeWithMeridians`) to a bundled outline SVG. Maintainer-directed, applied to all five page-header pickers the same day. The constant was removed, not renamed.
 - Canonical locale list: [locales.tsv](../locales.tsv) — 436 codes with
   English names (verbatim copy of the Svelte canonical).

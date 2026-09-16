@@ -49,7 +49,7 @@ Five hooks, all kebab-case, all stable contracts:
 | ---- | ------- | ----- |
 | `.locale-picker` | the `<div>` root | Also carries whatever you passed in `class`. |
 | `.locale-picker-button` | the trigger `<button type="button">` | Carries `aria-label`, `aria-haspopup`, `aria-expanded`, `aria-controls`. |
-| `.locale-picker-icon` | the glyph `<span>` | `aria-hidden="true"`. Absent if you override `renderButtonContent()`. |
+| `.locale-picker-icon` | the default bundled `<svg>` icon | `aria-hidden="true"`. Absent if you override `renderButtonContent()`. |
 | `.locale-picker-list` | the `<ul role="listbox">` | `hidden` when closed. |
 | `.locale-picker-option` | each `<li role="option">` | Carries its own `lang` attribute. |
 
@@ -261,7 +261,7 @@ you want around a button.
 
 ## Showing the active locale
 
-The closed button is a bare glyph, so the active locale is not visible
+The closed button is a bare icon, so the active locale is not visible
 anywhere — an accessibility gap called out in
 [accessibility.md](./accessibility.md). The usual fix is a sibling
 element you render and update yourself:
@@ -352,9 +352,10 @@ auto-animate; any motion here is yours to make optional:
 - **Don't add `tabindex` to options.** Focus belongs on the `<ul>`;
   the active option is conveyed by `aria-activedescendant`. Making
   options tabbable breaks the APG listbox pattern.
-- **Don't rely on the glyph's size being stable across platforms.**
-  The globe is a bare codepoint from the system font stack; give the
-  button a `min-width` so its box does not jump between platforms.
+- **A `min-width` on the button is still good practice** even though
+  the default icon (a bundled SVG) is stable across platforms — it
+  guards against layout jump when a consumer overrides
+  `renderButtonContent()` with visible text or a Unicode glyph.
 
 ## Custom-element vs class specificity
 

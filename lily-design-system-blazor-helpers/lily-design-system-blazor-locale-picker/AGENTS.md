@@ -8,7 +8,7 @@ below is a fast index.
 A reusable Blazor headless locale select that applies the chosen
 locale to the document root via `lang` and `dir`, with optional
 `localStorage` persistence and `navigator.languages` detection. It
-renders an icon button (`🌐`) that opens a dropdown listbox. Ships no
+renders an icon button (a bundled globe-outline SVG) that opens a dropdown listbox. Ships no
 CSS; consumer styles the `locale-picker`, `locale-picker-button`,
 `locale-picker-icon`, `locale-picker-list`, and `locale-picker-option`
 class hooks.
@@ -32,10 +32,9 @@ class hooks.
 - Component: `LocalePicker` in namespace
   `LilyDesignSystem.Blazor.Helpers`.
 - Context: `LocalePickerContext` (`Value`, `Open`, `LabelFor`) for a
-  custom `ChildContent` glyph.
-- Constant: `LocalePicker.GlobeWithMeridians` — the default glyph
-  `"🌐︎"` (U+1F310 + U+FE0E VARIATION SELECTOR-15, which forces the
-  monochrome text presentation so it matches ThemePicker's `◑`).
+  custom `ChildContent` icon.
+- No glyph constant — the default icon is a bundled SVG, not a
+  Unicode character (reversed 2026-09-16).
 - Method: `SetLocaleAsync(string code)`.
 - Required parameters: `Label`, `Locales`.
 - **Removed:** the `Placeholder` parameter. It only existed to pin a
@@ -66,7 +65,7 @@ All DOM writes happen through `IJSRuntime` inside
 present) > `Locales[0]`.
 
 The control is an **icon button plus a dropdown listbox**, not a native
-`<select>`. The button shows only a glyph; the listbox is the WAI-ARIA
+`<select>`. The button shows only an icon; the listbox is the WAI-ARIA
 APG listbox pattern with `aria-activedescendant`. The real selection
 lives in `Value` and rides a hidden input for form participation.
 
@@ -77,7 +76,7 @@ lives in `Value` and rides a hidden input for form participation.
   <input type="hidden" name="@Name" value="@Value" />
   <button type="button" class="locale-picker-button" aria-label="@Label"
           aria-haspopup="listbox" aria-expanded="false" aria-controls="{listId}">
-    <span class="locale-picker-icon" aria-hidden="true">🌐︎</span>
+    <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true">…</svg>
   </button>
   <ul class="locale-picker-list" id="{listId}" role="listbox" aria-label="@Label"
       tabindex="-1" hidden aria-activedescendant="{active option id, open only}">
@@ -92,7 +91,7 @@ An option carries `lang` only when its label is the derived endonym —
 `lang` is a claim about the text's language, and a consumer label or
 the English-table fallback makes none; the button and the list carry
 none either. Labels resolve `LocaleLabels` → endonym → English table →
-raw code. `ChildContent` **replaces the glyph inside the button**; it no
+raw code. `ChildContent` **replaces the icon inside the button**; it no
 longer renders options. Ids come from a monotonic process-wide counter
 (`locale-picker-{n}`) so they are stable and SSR-safe.
 
@@ -115,13 +114,15 @@ opens with no `aria-activedescendant`.
 
 - WCAG 2.2 AAA target; WAI-ARIA APG listbox pattern.
 - `aria-label` is the button's ENTIRE accessible name — the button is
-  icon-only and the glyph is `aria-hidden="true"`.
+  icon-only and the icon is `aria-hidden="true"`.
 - A locale option gets a `lang` context — WCAG 3.1.2 "Language of
   Parts" — only when its label is the derived endonym, so screen
   readers pronounce "Français" with a French voice but the English
   word "Arabic" is never handed to an Arabic speech engine.
-- Known tradeoffs (icon-only naming, custom-listbox AT support, glyph
-  font coverage) are documented in `docs/accessibility.md`.
+- Known tradeoffs (icon-only naming, custom-listbox AT support) are
+  documented in `docs/accessibility.md`. (The glyph-font-coverage
+  tradeoff no longer applies: the icon is a bundled SVG, not a
+  Unicode character — reversed 2026-09-16.)
 
 ## Blazor deviations from the canonical Svelte implementation
 
@@ -153,5 +154,7 @@ opens with no `aria-activedescendant`.
 - `EventCallback<string>` for `ValueChanged`, `OnChange`.
 - `IJSRuntime` injected for DOM mutation.
 - No runtime dependency beyond `Microsoft.AspNetCore.Components.Web`.
-- No bundled CSS, fonts, icons, or images.
+- No bundled CSS, fonts, or images. The one deliberate exception is
+  the default button icon: a bundled SVG (reversed 2026-09-16 from a
+  Unicode glyph).
 - All user-facing strings come from parameters.

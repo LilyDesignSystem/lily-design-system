@@ -4,7 +4,6 @@ export {
     canShareNatively,
     canCopy,
     nextSharePickerId,
-    BLACK_RIGHTWARDS_ARROWHEAD,
 } from "./SharePicker";
 export type {
     Props,

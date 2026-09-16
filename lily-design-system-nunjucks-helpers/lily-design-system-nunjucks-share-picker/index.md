@@ -1,12 +1,13 @@
 # Lily Design System — Nunjucks SharePicker
 
-A headless share control for Nunjucks 3: a single-glyph button (➤) that
+A headless share control for Nunjucks 3: a single-icon button (a
+bundled arrow SVG, reversed 2026-09-16 from a Unicode glyph) that
 opens the **native share sheet** where the browser provides one, and
 otherwise a disclosure list of your destinations plus a built-in **copy
 the page URL** action.
 
-Ships zero CSS, zero icons, and **zero third-party endpoints** — you
-supply the destinations.
+Ships zero CSS and **zero third-party endpoints** — you supply the
+destinations.
 
 - Specification: [spec/index.md](./spec/index.md)
 - Accessibility tradeoffs: [docs/accessibility.md](./docs/accessibility.md)
@@ -117,7 +118,7 @@ supplies the control.
 
 | Key               | Type                               | Required | Default                | Purpose                                                                          |
 | ----------------- | ---------------------------------- | -------- | ---------------------- | -------------------------------------------------------------------------------- |
-| `label`           | string                             | yes      | —                      | Accessible name for the trigger. It is glyph-only, so this is its **only** name. |
+| `label`           | string                             | yes      | —                      | Accessible name for the trigger. It is icon-only, so this is its **only** name. |
 | `targets`         | array                              | no       | `[]`                   | Destinations. Empty is valid when `copyLabel` is set.                            |
 | `url`             | string                             | no       | —                      | URL to share. The client falls back to `location.href`.                          |
 | `title`           | string                             | no       | `""`                   | Passed to the native sheet.                                                      |
@@ -147,9 +148,11 @@ import {
   canCopy,
   nextSharePickerId,
   shareTargetHref,
-  BLACK_RIGHTWARDS_ARROWHEAD,
 } from "lily-design-system-nunjucks-share-picker";
 ```
+
+No glyph constant — the default icon is a bundled SVG, not a Unicode
+character (reversed 2026-09-16).
 
 `initSharePicker(root, opts?)` accepts `url`, `title`, `text`,
 `strategy`, `targets`, `copiedLabel`, `copyFailedLabel`,
@@ -172,9 +175,9 @@ A **dismissed** native sheet ends the interaction. It does not fall
 through to the list, because that would resurrect UI the user just
 dismissed.
 
-## Custom glyph
+## Custom icon
 
-A `{% call %}` block body replaces the glyph inside the button:
+A `{% call %}` block body replaces the icon inside the button:
 
 ```njk
 {% call sharePicker({label: "Share this article", targets: targets}) %}
@@ -193,15 +196,14 @@ No CSS ships. The hooks:
 | -------------------------- | -------------------------------- |
 | `.share-picker`           | root `<div>`                     |
 | `.share-picker-button`    | the `<button>` trigger           |
-| `.share-picker-icon`      | the glyph `<span>`               |
+| `.share-picker-icon`      | the default icon `<svg>`         |
 | `.share-picker-list`      | the `<ul>`, `hidden` when closed; carries the picker's `aria-label` |
 | `.share-picker-list-item` | each `<li>`                      |
 | `.share-picker-target`    | each destination `<a>`           |
 | `.share-picker-copy`      | the copy `<button>`              |
 | `.share-picker-status`    | the polite live region `<p>`     |
 
-The root `themes/` stylesheets already style these, including the
-glyph's optical scale.
+The root `themes/` stylesheets already style these.
 
 ## Without JavaScript
 

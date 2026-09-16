@@ -6,9 +6,11 @@
   Companion runtime: locale-picker.client.js
 
   BREAKING (Unreleased): this macro no longer renders a native
-  <select>. It renders an icon button (U+1F310 GLOBE WITH MERIDIANS + U+FE0E VARIATION SELECTOR-15)
-  that opens a listbox. The `placeholder` param is GONE — there is no
-  <select> left to pin a placeholder onto.
+  <select>. It renders an icon button (a bundled globe-outline SVG,
+  viewBox 0 0 16 16 — reversed 2026-09-16 from the Unicode glyph
+  U+1F310 GLOBE WITH MERIDIANS + U+FE0E) that opens a listbox. The
+  `placeholder` param is GONE — there is no <select> left to pin a
+  placeholder onto.
 
   Params (single `opts` object):
     label                — string, required. aria-label for the button AND
@@ -45,7 +47,7 @@
   button and the listbox never carry `lang` — they are chrome, not
   content.
 
-  Custom glyph: call the macro with a `{% call %}` block and the block
+  Custom icon: call the macro with a `{% call %}` block and the block
   body replaces the default globe inside the button.
 
   NOTE: the button does nothing until locale-picker.client.js runs. See
@@ -81,7 +83,7 @@
 >
 <input type="hidden" name="{{ name }}" value="{{ selected }}" data-lily-locale-picker-input>
 <button type="button" class="locale-picker-button" aria-label="{{ opts.label }}" aria-haspopup="listbox" aria-expanded="false" aria-controls="{{ listId }}" data-lily-locale-picker-button>
-{%- if caller %}{{ caller() }}{% else %}<span class="locale-picker-icon" aria-hidden="true">🌐︎</span>{% endif -%}
+{%- if caller %}{{ caller() }}{% else %}<svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="1.05rem" height="1.05rem"><circle cx="8" cy="8" r="6"/><path d="M2 8h12"/><path d="M8 2c2.2 0 4 2.7 4 6s-1.8 6-4 6-4-2.7-4-6 1.8-6 4-6z"/></svg>{% endif -%}
 </button>
 <ul class="locale-picker-list" id="{{ listId }}" role="listbox" aria-label="{{ opts.label }}" tabindex="-1" hidden data-lily-locale-picker-list>
 {%- for locale in opts.locales -%}

@@ -78,11 +78,13 @@ Give a Svelte 5 application a drop-in, headless locale select that:
   `locales.tsv`. It is also symmetric with `theme-picker`: the two sit
   next to each other in a page header and should read as one set. The
   cost is a hand-rolled listbox; §6 states that tradeoff honestly.
-- **The globe glyph forces text presentation**. The constant is
-  `"🌐︎"` — U+1F310 GLOBE WITH MERIDIANS followed by
-  U+FE0E VARIATION SELECTOR-15. Without VS15 browsers pick the
-  colour-emoji font and the globe renders blue, which does not match
-  `theme-picker`'s monochrome `◑`. Verified in Chromium.
+- **The icon is a bundled SVG, not a Unicode character** (reversed
+  2026-09-16 from U+1F310 GLOBE WITH MERIDIANS + U+FE0E, exported as
+  `GLOBE_WITH_MERIDIANS` — see §9 Tracking). The old glyph needed VS15
+  to force text presentation and still risked the colour-emoji font on
+  stacks that ignore the selector; a bundled globe-outline SVG has no
+  such risk and stays monochrome alongside `theme-picker`'s icon on
+  every platform.
 - **The `lang` attribute is the source of truth**. Every Lily helper
   and every i18n library agrees that `document.documentElement.lang`
   is the authoritative signal for current document language (WCAG
@@ -130,7 +132,7 @@ Give a Svelte 5 application a drop-in, headless locale select that:
 | `target`              | `HTMLElement \| null`      | no       | `document.documentElement`                      | Element that receives `lang` and `dir`.                                                         |
 | `applyDir`            | `boolean`                  | no       | `true`                                          | If false, the select only writes `lang` and never touches `dir`.                                |
 | `localeLabels`        | `Record<string, string>`   | no       | `{}`                                            | Optional pretty labels per locale code.                                                         |
-| `children`            | `Snippet<[ChildArgs]>`     | no       | the globe glyph                                 | **Replaces the glyph inside the button.** It does not render options.                           |
+| `children`            | `Snippet<[ChildArgs]>`     | no       | the default SVG icon                            | **Replaces the icon inside the button.** It does not render options.                            |
 | `onChange`            | `(locale: string) => void` | no       | `undefined`                                     | Fires after the select applies a new locale.                                                    |
 | `class`               | `string`                   | no       | `""`                                            | Extra CSS class on the root `<div>`.                                                            |
 | `...restProps`        | any HTML attributes        | no       | —                                               | Spread onto the root `<div>`.                                                                   |
@@ -170,7 +172,7 @@ helpers `bcp47LocaleTag` and `isRtlLocale`.
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="locale-picker-icon" aria-hidden="true">🌐︎</span>
+    <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M2 8h12"/><path d="M8 2c2.2 0 4 2.7 4 6s-1.8 6-4 6-4-2.7-4-6 1.8-6 4-6z"/></svg>
   </button>
   <ul
     class="locale-picker-list"
@@ -199,13 +201,11 @@ helpers `bcp47LocaleTag` and `isRtlLocale`.
   `class`; rest-props spread onto it.
 - **Hidden input** preserves form participation, carrying the
   consumer-form code (not the BCP 47 tag) under the `name` prop.
-- **Button glyph** is `GLOBE_WITH_MERIDIANS` — U+1F310 GLOBE WITH
-  MERIDIANS (`&#127760;`) followed by U+FE0E VARIATION SELECTOR-15,
-  which forces monochrome text presentation so the glyph matches
-  `theme-picker`'s `◑` instead of rendering as a blue colour emoji. It
-  is wrapped in `aria-hidden="true"`: the accessible name comes from
-  the button's `aria-label`, never from the glyph.
-- **`children` replaces the glyph**, not the options. It receives
+- **Button icon** is a bundled SVG (globe outline, `viewBox="0 0 16
+  16"`), not a Unicode character (reversed 2026-09-16 — see §9). It is
+  wrapped in `aria-hidden="true"`: the accessible name comes from the
+  button's `aria-label`, never from the icon.
+- **`children` replaces the icon**, not the options. It receives
   `ChildArgs` and renders inside the `<button>`. When it is supplied,
   no `.locale-picker-icon` span is emitted.
 - **Listbox** is `hidden` while closed. `aria-activedescendant` is
@@ -240,8 +240,9 @@ helpers `bcp47LocaleTag` and `isRtlLocale`.
 - `type Props`, `type ChildArgs`
 
 `LocalePicker.svelte`'s module script additionally exports
-`GLOBE_WITH_MERIDIANS` (the default glyph constant) and
-`nextLocalePickerId()`; import those from the component file directly.
+`nextLocalePickerId()`; import it from the component file directly.
+No glyph constant — the default icon is inline SVG markup in the
+component, not a separately-exported swappable character value.
 
 ## 5. Behaviour
 
@@ -529,7 +530,7 @@ cases (exact match wins, language-only fallback, empty when no match).
 | Clause | Test asserts                                                                                                                                                         |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | §7.1   | Renders a `<button type="button">` with `aria-haspopup="listbox"`, `aria-expanded="false"`, and an `aria-controls` pointing at an element whose `role` is `listbox`. |
-| §7.1   | The button renders the globe glyph inside `.locale-picker-icon` as the two-codepoint sequence `🌐︎`, carrying `aria-hidden="true"`.                           |
+| §7.1   | The button renders the default SVG icon inside `.locale-picker-icon`, carrying `aria-hidden="true"`.                                                          |
 | §7.2   | `aria-label` names **both** the button and the listbox.                                                                                                              |
 | §7.3   | One `.locale-picker-option` per entry in `locales`; the hidden input carries the supplied `name` and the resolved value.                                            |
 | §7.4   | The listbox is `hidden` until the button is activated; activating it clears `hidden` and sets `aria-expanded="true"`.                                                |
@@ -631,5 +632,10 @@ cases (exact match wins, language-only fallback, empty when no match).
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause (or
   contact for other terms)
 - Contact: Joel Parker Henderson &lt;joel@joelparkerhenderson.com&gt;
+- **2026-09-16**: default icon changed from the Unicode glyph U+1F310
+  GLOBE WITH MERIDIANS + U+FE0E (exported as `GLOBE_WITH_MERIDIANS`) to
+  a bundled outline SVG. Maintainer-directed, applied to all five
+  page-header pickers the same day. The glyph constant was removed,
+  not renamed.
 - Canonical locale list: [locales.tsv](../locales.tsv) — 436 codes with
   English names

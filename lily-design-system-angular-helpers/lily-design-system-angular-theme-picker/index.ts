@@ -1,7 +1,6 @@
 export {
   ThemePicker,
   ThemePickerIcon,
-  CIRCLE_WITH_RIGHT_HALF_BLACK,
   nextThemePickerId,
   normaliseThemesUrl,
   themeHref,

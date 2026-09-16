@@ -79,7 +79,7 @@ export class SettingsPage {
     aria-expanded="false"
     aria-controls="…-list"
   >
-    <span class="text-size-picker-icon" aria-hidden="true">A</span>
+    <svg class="text-size-picker-icon" viewBox="0 0 16 16" aria-hidden="true">…</svg>
   </button>
   <ul
     class="text-size-picker-list"
@@ -101,14 +101,15 @@ export class SettingsPage {
 </div>
 ```
 
-The glyph is `"A"` (U+0041 LATIN CAPITAL LETTER A) — a plain letter
-rather than a pictograph, so it renders in the page's own font on
-every platform. `data-active` marks the keyboard cursor;
-`aria-selected` marks the size in effect. Style both, differently.
+The icon is a bundled outline "A" SVG, not a Unicode character
+(reversed 2026-09-16) — it renders identically on every platform
+regardless of the consumer's installed fonts. `data-active` marks the
+keyboard cursor; `aria-selected` marks the size in effect. Style both,
+differently.
 
-## Custom glyph
+## Custom icon
 
-Project an `<ng-template>` to replace the glyph inside the button. It
+Project an `<ng-template>` to replace the icon inside the button. It
 receives `{ value, open, labelFor }`; it does **not** render options.
 
 ```html

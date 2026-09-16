@@ -69,7 +69,7 @@ exactly the person who needs it:
   bind:value={locale}
 >
   {#snippet children({ value, labelFor })}
-    <span aria-hidden="true">🌐︎</span>
+    <svg viewBox="0 0 16 16" aria-hidden="true">…</svg>
     <span class="locale-picker-text" lang={bcp47LocaleTag(value)}>
       {labelFor(value)}
     </span>
@@ -95,7 +95,7 @@ When space is tight but you still want text rather than a bare glyph:
 
 ```svelte
 {#snippet children({ value })}
-  <span aria-hidden="true">🌐︎</span>
+  <svg viewBox="0 0 16 16" aria-hidden="true">…</svg>
   <span class="locale-picker-text">{value.split(/[-_]/)[0].toUpperCase()}</span>
 {/snippet}
 ```
@@ -132,7 +132,7 @@ without a CSS-only workaround. (`[aria-expanded="true"]` on
 
 ```svelte
 {#snippet children({ open })}
-  <span aria-hidden="true">🌐︎</span>
+  <svg viewBox="0 0 16 16" aria-hidden="true">…</svg>
   <span aria-hidden="true">{open ? "▴" : "▾"}</span>
 {/snippet}
 ```
@@ -151,7 +151,7 @@ locale will do to the page:
 </script>
 
 {#snippet children({ value, labelFor })}
-  <span aria-hidden="true">🌐︎</span>
+  <svg viewBox="0 0 16 16" aria-hidden="true">…</svg>
   <span class="locale-picker-text" dir={isRtlLocale(value) ? "rtl" : "ltr"}>
     {labelFor(value)}
   </span>

@@ -14,14 +14,10 @@ import {
 } from "@angular/core";
 
 /**
- * Default button glyph: U+27A4 BLACK RIGHTWARDS ARROWHEAD.
- *
- * An in-font arrow rather than a pictograph, matching the other helpers'
- * rule: it renders in the page's own font on every platform and stays
- * monochrome alongside theme-picker's ◑, locale-picker's 🌐 and
- * text-size-picker's "A".
+ * The default button icon is now a bundled inline SVG, not a Unicode
+ * glyph (reversed 2026-09-16). The `BLACK_RIGHTWARDS_ARROWHEAD` constant
+ * was removed, not renamed.
  */
-export const BLACK_RIGHTWARDS_ARROWHEAD = "➤";
 
 /**
  * One destination in the share list.
@@ -41,7 +37,7 @@ export type ShareTarget = {
   newTab?: boolean;
 };
 
-/** Context passed to a custom icon `<ng-template>` (the button glyph). */
+/** Context passed to a custom icon `<ng-template>` (the button icon). */
 export type ChildArgs = {
   /** Is the list open? */
   open: boolean;
@@ -111,7 +107,7 @@ export class SharePickerIcon {
 /**
  * SharePicker — a headless share control.
  *
- * A single-glyph button (➤) that opens the **native share sheet** where
+ * A single-icon button (a bundled outline-arrow SVG) that opens the **native share sheet** where
  * the browser provides one, and otherwise a disclosure list of
  * consumer-supplied destinations plus a built-in copy-the-URL action.
  *
@@ -149,7 +145,20 @@ export class SharePickerIcon {
             [ngTemplateOutletContext]="childContext()"
           />
         } @else {
-          <span class="share-picker-icon" aria-hidden="true">{{ glyph }}</span>
+          <svg
+            class="share-picker-icon"
+            viewBox="0 0 16 16"
+            width="1.05rem"
+            height="1.05rem"
+            aria-hidden="true"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" />
+          </svg>
         }
       </button>
 
@@ -238,7 +247,7 @@ export class SharePicker {
   /** Fires when the native share sheet was used instead of the list. */
   readonly nativeShare = output<string>();
 
-  /** Projected icon template; replaces the default glyph when supplied. */
+  /** Projected icon template; replaces the default icon when supplied. */
   protected readonly iconTemplate = contentChild(TemplateRef);
 
   private readonly rootRef =
@@ -247,8 +256,6 @@ export class SharePicker {
     viewChild.required<ElementRef<HTMLButtonElement>>("buttonEl");
   private readonly listRef =
     viewChild.required<ElementRef<HTMLUListElement>>("listEl");
-
-  protected readonly glyph = BLACK_RIGHTWARDS_ARROWHEAD;
 
   private readonly baseId = nextSharePickerId();
   protected readonly listId = `${this.baseId}-list`;

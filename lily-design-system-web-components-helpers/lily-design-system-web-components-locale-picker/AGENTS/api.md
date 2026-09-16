@@ -19,15 +19,14 @@ export {
   RTL_LANGUAGE_TAGS,
   RTL_SCRIPT_SUBTAGS,
   nextLocalePickerId,
-  GLOBE_WITH_MERIDIANS,
   type LocalePickerProps,
   type LocalePickerChangeDetail,
 } from "./locale-picker";
 ```
 
-`GLOBE_WITH_MERIDIANS` is the default button glyph (U+1F310 followed
-by U+FE0E VARIATION SELECTOR-15 — two codepoints; VS15 forces the
-monochrome text presentation).
+No glyph constant is exported — the default button icon is a bundled
+SVG (globe outline), not a Unicode character (reversed 2026-09-16;
+the old `GLOBE_WITH_MERIDIANS` export was removed, not renamed).
 `nextLocalePickerId()` is the module-level id counter that produces
 the `listId` / `optionId` prefixes — deterministic and SSR-safe, no
 `Math.random()` or `Date.now()`.
@@ -57,7 +56,6 @@ import {
   localeName,
   matchNavigatorLanguage,
   defaultLocaleLabels,
-  GLOBE_WITH_MERIDIANS,
   type LocalePickerProps,
   type LocalePickerChangeDetail,
 } from "./lily-design-system-web-components-locale-picker";
@@ -155,7 +153,6 @@ export function matchNavigatorLanguage(
   locales: readonly string[],
 ): string | "";
 export function nextLocalePickerId(): string;
-export const GLOBE_WITH_MERIDIANS: string;
 export const defaultLocaleLabels: Record<string, string>;
 export const RTL_LANGUAGE_TAGS: ReadonlySet<string>;
 export const RTL_SCRIPT_SUBTAGS: ReadonlySet<string>;
@@ -226,9 +223,7 @@ Rendered children (recreated on every structural `#render()`):
     aria-expanded="false"
     aria-controls="locale-picker-1-list"
   >
-    <span class="locale-picker-icon" aria-hidden="true"
-      >🌐︎</span
-    >
+    <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true">…</svg>
   </button>
   <ul
     class="locale-picker-list"
@@ -276,7 +271,7 @@ Contract notes:
   so assistive technology pronounces the option name in its own
   language (WCAG 3.1.2, Language of Parts). **The button and the
   `<ul>` carry no `lang`** — they are not locale-specific.
-- The glyph span is `aria-hidden="true"`; the accessible name comes
+- The default icon is `aria-hidden="true"`; the accessible name comes
   from the button's `aria-label` alone.
 - `aria-activedescendant` appears on the `<ul>` **only while open**.
 - `data-active` (keyboard-highlighted) and `aria-selected` (applied)

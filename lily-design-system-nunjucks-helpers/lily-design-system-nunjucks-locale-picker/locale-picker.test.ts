@@ -8,7 +8,6 @@ import {
   autoInit,
   bcp47LocaleTag,
   derivedLocaleLabel,
-  GLOBE_WITH_MERIDIANS,
   initLocalePicker,
   isRtlLocale,
   localeEndonym,
@@ -131,29 +130,14 @@ describe("LocalePicker — macro markup contract (§7.1–§7.6)", () => {
     expect(list.getAttribute("tabindex")).toBe("-1");
   });
 
-  test("§7.1 the button renders the globe glyph, hidden from assistive tech", () => {
+  test("§7.1 the button renders the default globe SVG icon, hidden from assistive tech", () => {
     const root = mountIntoBody(
       renderMacro({ label: "Language", locales: LOCALES }),
     );
-    const icon = root.querySelector(".locale-picker-icon") as HTMLElement;
-    expect(icon.textContent).toBe(GLOBE_WITH_MERIDIANS);
+    const icon = root.querySelector(".locale-picker-icon") as SVGElement;
+    expect(icon.tagName.toLowerCase()).toBe("svg");
     expect(icon.getAttribute("aria-hidden")).toBe("true");
-  });
-
-  test("§7.1 the glyph carries U+FE0E so it renders monochrome, not as a colour emoji", () => {
-    // Two codepoints: U+1F310 GLOBE WITH MERIDIANS, then U+FE0E
-    // VARIATION SELECTOR-15 requesting the text presentation.
-    expect(
-      Array.from(GLOBE_WITH_MERIDIANS).map((c) => c.codePointAt(0)),
-    ).toEqual([0x1f310, 0xfe0e]);
-
-    const root = mountIntoBody(
-      renderMacro({ label: "Language", locales: LOCALES }),
-    );
-    const icon = root.querySelector(".locale-picker-icon") as HTMLElement;
-    expect(
-      Array.from(icon.textContent || "").map((c) => c.codePointAt(0)),
-    ).toEqual([0x1f310, 0xfe0e]);
+    expect(icon.querySelector("circle")).toBeTruthy();
   });
 
   test("§7.2 aria-label names both the button and the listbox", () => {

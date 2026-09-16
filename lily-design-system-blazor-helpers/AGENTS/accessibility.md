@@ -20,9 +20,9 @@ most of the notes below branch on it.
 
 | Helper             | Root                | Shape                                              |
 | ------------------ | ------------------- | -------------------------------------------------- |
-| `ThemePicker`      | `<div>`             | Icon button (`◑`) + dropdown `<ul role="listbox">`. |
-| `LocalePicker`     | `<div>`             | Icon button (`🌐`) + dropdown `<ul role="listbox">`. |
-| `TextSizePicker`   | `<div>`             | Icon button (`A`) + dropdown `<ul role="listbox">`. |
+| `ThemePicker`      | `<div>`             | Icon button (bundled SVG) + dropdown `<ul role="listbox">`. |
+| `LocalePicker`     | `<div>`             | Icon button (bundled SVG) + dropdown `<ul role="listbox">`. |
+| `TextSizePicker`   | `<div>`             | Icon button (bundled SVG) + dropdown `<ul role="listbox">`. |
 
 "The **listbox helpers**" below means all three: they share one shape.
 They follow the WAI-ARIA APG listbox pattern: an icon-only

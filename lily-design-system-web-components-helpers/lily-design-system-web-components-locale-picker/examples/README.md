@@ -135,7 +135,7 @@ light DOM has no `<slot>`. Subclassing is the customisation surface,
 in two tiers:
 
 - **Tier 1** — override `renderButtonContent(): Node` to replace the
-  glyph inside the button. The base class still owns the button, the
+  icon inside the button. The base class still owns the button, the
   listbox, all the ARIA, and the entire keyboard contract. This is
   the direct analogue of the other frameworks' `children` prop and
   the path to prefer.

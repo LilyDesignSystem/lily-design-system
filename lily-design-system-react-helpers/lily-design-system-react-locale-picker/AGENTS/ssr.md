@@ -40,7 +40,7 @@ The select outputs deterministic HTML based purely on the resolved
     aria-expanded="false"
     aria-controls="locale-picker-«r0»-list"
   >
-    <span class="locale-picker-icon" aria-hidden="true">🌐</span>
+    <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M2 8h12"/><path d="M8 2c2.2 0 4 2.7 4 6s-1.8 6-4 6-4-2.7-4-6 1.8-6 4-6z"/></svg>
   </button>
   <ul
     class="locale-picker-list"

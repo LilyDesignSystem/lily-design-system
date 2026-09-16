@@ -7,7 +7,6 @@ import {
   localeName,
   localeEndonym,
   matchNavigatorLanguage,
-  GLOBE_WITH_MERIDIANS,
 } from "./locale-picker.js";
 
 // Ensure the custom element is registered exactly once.
@@ -141,19 +140,14 @@ describe("<lily-locale-picker> — markup contract (§7.1)", () => {
     expect(document.getElementById(listId!)).toBe(list());
   });
 
-  test("§7.1 the button renders the globe glyph, hidden from assistive tech", async () => {
+  test("§7.1 the button renders the default globe SVG icon, hidden from assistive tech", async () => {
     mount({ label: "Language", locales: LOCALES.join(",") });
     await flush();
-    const icon = document.body.querySelector<HTMLElement>(
+    const icon = document.body.querySelector<SVGElement>(
       ".locale-picker-icon",
     )!;
-    // U+1F310 GLOBE WITH MERIDIANS + U+FE0E VARIATION SELECTOR-15.
-    // VS15 forces the text presentation so the glyph renders
-    // monochrome, matching theme-picker's ◑ rather than the blue
-    // colour-emoji globe.
-    expect(icon.textContent).toBe("🌐︎");
-    expect(GLOBE_WITH_MERIDIANS).toBe("🌐︎");
-    expect(Array.from(GLOBE_WITH_MERIDIANS)).toHaveLength(2);
+    expect(icon.tagName.toLowerCase()).toBe("svg");
+    expect(icon.querySelector("circle")).toBeTruthy();
     expect(icon.getAttribute("aria-hidden")).toBe("true");
     expect(icon.closest("button")).toBe(button());
   });

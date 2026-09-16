@@ -19,8 +19,10 @@ The helper is a **macro + client.js pair**:
   change events) and the whole listbox interaction.
 
 **BREAKING (Unreleased):** this helper no longer renders a native
-`<select>`. It renders an icon button (U+0041 LATIN CAPITAL LETTER A)
-that opens a listbox, matching `theme-picker` and `locale-picker`.
+`<select>`. It renders an icon button (a bundled stroke-drawn "A" SVG,
+viewBox 0 0 16 16 — reversed 2026-09-16 from the Unicode glyph U+0041
+LATIN CAPITAL LETTER A) that opens a listbox, matching `theme-picker`
+and `locale-picker`.
 
 ## Files
 
@@ -45,7 +47,9 @@ that opens a listbox, matching `theme-picker` and `locale-picker`.
 
 ### Client.js
 
-- `import { initTextSizePicker, autoInit, sizeName, LATIN_CAPITAL_LETTER_A } from "./text-size-picker.client.js"`
+- `import { initTextSizePicker, autoInit, sizeName } from "./text-size-picker.client.js"`
+- No glyph constant — the default icon is a bundled SVG, not a
+  Unicode character (reversed 2026-09-16).
 - `sizeName(slug)` mirrors theme-picker's `themeName` and
   locale-picker's `localeName`: `"x-large"` → `"X Large"`. It is the
   single JS statement of the label rule; the macro applies the same
@@ -93,7 +97,7 @@ APG keyboard contract, and typeahead. There is NO managed `<link>`, NO
     aria-controls="{id}-list"
     data-lily-text-size-picker-button
   >
-    <span class="text-size-picker-icon" aria-hidden="true">A</span>
+    <svg class="text-size-picker-icon" viewBox="0 0 16 16" aria-hidden="true" width="1.05rem" height="1.05rem">…</svg>
   </button>
   <ul
     class="text-size-picker-list"
@@ -117,12 +121,10 @@ APG keyboard contract, and typeahead. There is NO managed `<link>`, NO
 </div>
 ```
 
-The glyph is U+0041 LATIN CAPITAL LETTER A, `aria-hidden`. A plain
-letter rather than a pictograph, deliberately: U+1F5DB DECREASE FONT
-SIZE SYMBOL has no real glyph in common font stacks and means
-_decrease_ rather than _size_. A `{% call %}` block body replaces the
-glyph inside the button (the Nunjucks equivalent of `children`); it
-does not render options.
+The icon is a bundled stroke-drawn "A" SVG (`viewBox="0 0 16 16"`),
+`aria-hidden` — not a Unicode character (reversed 2026-09-16). A
+`{% call %}` block body replaces the icon inside the button (the
+Nunjucks equivalent of `children`); it does not render options.
 
 Server markup marks exactly ONE option `aria-selected="true"`,
 resolved as `value or defaultValue or ("medium" if present else
@@ -151,14 +153,15 @@ OS "preferred text size" signal — and **no** `placeholder` param.
   character cycles through its matches); an empty list opens without
   `aria-activedescendant`.
 - `aria-label` is the ONLY accessible name the button has, since the
-  glyph is `aria-hidden`.
+  icon is `aria-hidden`.
 - `aria-selected` tracks the applied size; `data-active` tracks the
   keyboard cursor. They are different things.
 - Known tradeoffs, documented honestly in `docs/accessibility.md`: an
   icon-only control depends entirely on `aria-label`; a custom listbox
   has weaker AT support than a native `<select>`, which remains the
-  better choice for some audiences; the glyph is font-dependent
-  (though "A" is materially safer than a pictograph).
+  better choice for some audiences. (The old font-dependent-rendering
+  tradeoff no longer applies: the icon is a bundled SVG, not a Unicode
+  character — reversed 2026-09-16.)
 - **No-JS regression**: the button cannot be operated at all without
   the client module, which the native `<select>` could. Stated plainly
   in `docs/ssr.md`. This deserves extra weight here, since the users
@@ -171,8 +174,9 @@ OS "preferred text size" signal — and **no** `placeholder` param.
 - Nunjucks 3 macro, camelCase name, kebab-case file path and CSS class.
 - Single `opts` parameter on the macro.
 - No runtime dependency on the client side beyond standard DOM APIs.
-- No bundled CSS, fonts, icons, or images — including no positioning
-  CSS for the open listbox.
+- No bundled CSS, fonts, or images — including no positioning CSS for
+  the open listbox. The one deliberate exception is the default button
+  icon: a bundled SVG (reversed 2026-09-16 from a Unicode glyph).
 - All user-facing strings come from `opts`.
 - No inline `<script>` in the macro output; the client.js is loaded
   separately by the consumer.

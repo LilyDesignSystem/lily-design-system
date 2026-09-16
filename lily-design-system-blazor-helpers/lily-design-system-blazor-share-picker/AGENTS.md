@@ -5,11 +5,12 @@ everything below is a fast index.
 
 ## What this package is
 
-A Blazor 10 headless share control. A single-glyph button (➤, U+27A4)
+A Blazor 10 headless share control. An icon button (a bundled
+outline-arrow SVG, not a Unicode character -- reversed 2026-09-16)
 that uses the **native share sheet** when the browser has one, and
 otherwise opens a disclosure list of consumer-supplied destinations plus
-a built-in copy-the-URL action. Ships no CSS, no icons, no JS file, and
-no third-party endpoints.
+a built-in copy-the-URL action. Ships no CSS, no bundled fonts or
+images, no JS file, and no third-party endpoints.
 
 The canonical implementation is the Svelte helper
 [`lily-design-system-svelte-share-picker`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-picker/);
@@ -35,8 +36,8 @@ for the deviations that could not be avoided.
   `LilyDesignSystem.Blazor.Helpers`.
 - Types: `ShareTarget`, `ShareStrategy`, `SharePickerContext`,
   `ShareEventArgs`, `NativeShareOutcome`.
-- Constant: `SharePicker.BlackRightwardsArrowhead` — the default glyph
-  `"➤"` (U+27A4).
+- No glyph constant — the default icon is a bundled SVG, not a
+  Unicode character (reversed 2026-09-16).
 - Statics: `NextSharePickerId()`, `CanShareNativelyAsync(IJSRuntime)`,
   `CanCopyAsync(IJSRuntime)`. The two probes are **async** because the
   browser is only reachable over interop; both return `false` during
@@ -64,7 +65,7 @@ Nothing is applied to the document and nothing is persisted.
 ## HTML
 
 `<div class="share-picker">` → `<button class="share-picker-button">`
-with an `aria-hidden` glyph span → `<ul class="share-picker-list"
+with an `aria-hidden` SVG icon → `<ul class="share-picker-list"
 aria-label="{Label}" hidden>` of `<li>` containing
 `<a class="share-picker-target">` and an optional
 `<button class="share-picker-copy">` → `<p class="share-picker-status"
@@ -126,10 +127,12 @@ Both mechanisms are documented in
 - `[Parameter, EditorRequired]` for `Label`;
   `[Parameter(CaptureUnmatchedValues = true)]` for spread.
 - `EventCallback<T>` for events; `RenderFragment<SharePickerContext>`
-  for the custom glyph.
+  for the custom icon.
 - All browser access through `IJSRuntime` from event handlers or
   `OnAfterRenderAsync`, so the component is SSR / prerender safe.
 - No runtime dependency beyond `Microsoft.AspNetCore.Components.Web`.
-- No bundled CSS, fonts, icons, images, or third-party URLs.
+- No bundled CSS, fonts, images, or third-party URLs. The one
+  deliberate exception is the default button icon: a bundled SVG
+  (reversed 2026-09-16 from a Unicode glyph).
 - All user-facing strings come from parameters — including the copy
   label, which is why the copy item is opt-in.

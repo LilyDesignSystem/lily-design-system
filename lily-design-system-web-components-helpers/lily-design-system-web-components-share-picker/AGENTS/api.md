@@ -102,9 +102,12 @@ From `share-picker.ts` and re-exported by `index.ts`:
 - `SharePicker` (class)
 - `canShareNatively()`, `canCopy()` — SSR-safe capability probes
 - `nextSharePickerId()` — module-counter id minter
-- `BLACK_RIGHTWARDS_ARROWHEAD` — the `"➤"` glyph constant
 - types `SharePickerProps`, `SharePickerShareDetail`,
   `SharePickerUrlDetail`, `ShareTarget`, `ShareStrategy`
+
+No glyph constant is exported — the default button icon is a bundled
+SVG (outline arrow), not a Unicode character (reversed 2026-09-16;
+the old `BLACK_RIGHTWARDS_ARROWHEAD` export was removed, not renamed).
 
 `index.ts` additionally registers `<lily-share-picker>` as a side effect,
 guarded by a `customElements.get` check so re-imports do not throw.

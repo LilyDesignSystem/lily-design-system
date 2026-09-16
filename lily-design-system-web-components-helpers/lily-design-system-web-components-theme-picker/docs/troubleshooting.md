@@ -102,12 +102,11 @@ theme already applied.
 
 ## "The button shows a box / question mark instead of an icon"
 
-**Likely cause.** Tofu. The glyph is a plain Unicode character
-(U+25D1) and the package bundles no fonts, so rendering depends
-entirely on the platform's installed fonts.
-
-**Fix.** Override `renderButtonContent()` and return your own inline
-SVG — see
+**No longer possible with the default icon.** It is a bundled SVG,
+not a Unicode character (reversed 2026-09-16), so it renders
+identically everywhere and cannot come out as tofu. If you have
+overridden `renderButtonContent()` with your own Unicode glyph and
+are seeing this, switch to an inline SVG instead — see
 [custom-rendering.md](./custom-rendering.md#recipe-an-inline-svg-icon).
 
 ## "Element upgrades but stays empty (no button)"

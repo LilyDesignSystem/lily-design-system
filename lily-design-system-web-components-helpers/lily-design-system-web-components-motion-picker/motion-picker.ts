@@ -9,20 +9,19 @@
  * (WAI-ARIA APG listbox pattern). It is not a native `<select>`.
  */
 
+/** Namespace for building the default button icon's SVG elements. */
+const SVG_NS = "http://www.w3.org/2000/svg";
+
 /**
- * Default button glyph: U+23F8 PAUSE SIGN, paired with U+FE0E
- * (VARIATION SELECTOR-15) to force text presentation — the same
- * treatment locale-picker gives its globe.
- *
- * A pause glyph reads as "stop the moving parts" more directly than an
- * abstract symbol, has a real monochrome glyph in ordinary system
- * fonts (media-transport symbols default to text presentation, unlike
- * most pictographs), and doesn't collide with any sibling picker's
- * glyph (theme's CIRCLE WITH RIGHT HALF BLACK, locale's GLOBE WITH
- * MERIDIANS, text-size's plain "A", share's BLACK RIGHTWARDS
- * ARROWHEAD, date-time's CALENDAR).
+ * Default button icon: a bundled SVG (two pause bars), not a Unicode
+ * character. Reversed 2026-09-16 from the font-dependent-glyph
+ * convention (was U+23F8 PAUSE SIGN + U+FE0E, exported as
+ * `PAUSE_SIGN` — removed, not renamed). "Stop the moving parts" still
+ * reads directly from two bars; a bundled outline SVG matches the
+ * other four picker icons as one consistent visual family regardless
+ * of the consumer's fonts, where the old glyph depended on the
+ * platform's media-transport symbols defaulting to text presentation.
  */
-export const PAUSE_SIGN = "⏸︎";
 
 /** Change-event detail dispatched on every applied motion preference. */
 export type MotionPickerChangeDetail = {
@@ -226,23 +225,35 @@ export class MotionPicker extends HTMLElement {
     // ---- Public, overridable rendering hook ----
 
     /**
-     * Build the content of the button. The default is the pause-sign
-     * glyph wrapped in `aria-hidden="true"` so the accessible name
-     * comes from the button's `aria-label` alone.
+     * Build the content of the button. The default is a bundled SVG
+     * icon (two pause bars) wrapped in `aria-hidden="true"` so the
+     * accessible name comes from the button's `aria-label` alone.
      *
      * This is the HTML-helper equivalent of the Svelte/React/Vue
-     * `children` snippet: it replaces the glyph inside the button, and
+     * `children` snippet: it replaces the icon inside the button, and
      * has `this.value`, `this.open`, and `this.labelFor(...)` available.
      * Subclasses may override it. Whatever it returns is placed inside
      * the button; the button's own aria wiring is not the subclass's to
      * change.
      */
     renderButtonContent(): Node {
-        const icon = document.createElement("span");
-        icon.className = "motion-picker-icon";
-        icon.setAttribute("aria-hidden", "true");
-        icon.textContent = PAUSE_SIGN;
-        return icon;
+        const svg = document.createElementNS(SVG_NS, "svg");
+        svg.setAttribute("class", "motion-picker-icon");
+        svg.setAttribute("viewBox", "0 0 16 16");
+        svg.setAttribute("width", "1.05rem");
+        svg.setAttribute("height", "1.05rem");
+        svg.setAttribute("aria-hidden", "true");
+        svg.setAttribute("fill", "none");
+        svg.setAttribute("stroke", "currentColor");
+        svg.setAttribute("stroke-width", "1.6");
+        svg.setAttribute("stroke-linecap", "round");
+        svg.setAttribute("stroke-linejoin", "round");
+
+        const path = document.createElementNS(SVG_NS, "path");
+        path.setAttribute("d", "M5 3v10M11 3v10");
+        svg.appendChild(path);
+
+        return svg;
     }
 
     /** Resolve a slug to its display label. Public for subclasses. */

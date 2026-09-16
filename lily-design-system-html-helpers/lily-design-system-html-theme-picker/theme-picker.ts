@@ -9,8 +9,16 @@
  * (WAI-ARIA APG listbox pattern). It is not a native `<select>`.
  */
 
-/** Default button glyph: U+25D1 CIRCLE WITH RIGHT HALF BLACK. */
-export const CIRCLE_WITH_RIGHT_HALF_BLACK = "◑";
+/**
+ * Default button icon: a bundled SVG (contrast/half-circle), not a
+ * Unicode character. Reversed 2026-09-16 from the font-dependent-glyph
+ * convention (was U+25D1 CIRCLE WITH RIGHT HALF BLACK, exported as
+ * `CIRCLE_WITH_RIGHT_HALF_BLACK` — removed, not renamed, since there is
+ * no longer a single swappable character value). A bundled outline SVG
+ * renders identically across every font stack and platform. See
+ * `renderButtonContent()` below.
+ */
+const SVG_NS = "http://www.w3.org/2000/svg";
 
 /** Change-event detail dispatched on every applied theme. */
 export type ThemePickerChangeDetail = {
@@ -272,23 +280,39 @@ export class ThemePicker extends HTMLElement {
   // ---- Public, overridable rendering hook ----
 
   /**
-   * Build the content of the button. The default is the half-circle
-   * glyph wrapped in `aria-hidden="true"` so the accessible name comes
-   * from the button's `aria-label` alone.
+   * Build the content of the button. The default is a bundled SVG icon
+   * (contrast/half-circle) wrapped in `aria-hidden="true"` so the
+   * accessible name comes from the button's `aria-label` alone.
    *
    * This is the HTML-helper equivalent of the Svelte/React/Vue
-   * `children` snippet: it replaces the glyph inside the button, and
+   * `children` snippet: it replaces the icon inside the button, and
    * has `this.value`, `this.open`, and `this.labelFor(...)` available.
    * Subclasses may override it. Whatever it returns is placed inside
    * the button; the button's own aria wiring is not the subclass's to
    * change. See `docs/custom-rendering.md`.
    */
   renderButtonContent(): Node {
-    const icon = document.createElement("span");
-    icon.className = "theme-picker-icon";
-    icon.setAttribute("aria-hidden", "true");
-    icon.textContent = CIRCLE_WITH_RIGHT_HALF_BLACK;
-    return icon;
+    const svg = document.createElementNS(SVG_NS, "svg");
+    svg.setAttribute("class", "theme-picker-icon");
+    svg.setAttribute("viewBox", "0 0 16 16");
+    svg.setAttribute("width", "1.05rem");
+    svg.setAttribute("height", "1.05rem");
+    svg.setAttribute("aria-hidden", "true");
+    svg.setAttribute("fill", "none");
+    svg.setAttribute("stroke", "currentColor");
+    svg.setAttribute("stroke-width", "1.6");
+    svg.setAttribute("stroke-linecap", "round");
+    svg.setAttribute("stroke-linejoin", "round");
+    const circle = document.createElementNS(SVG_NS, "circle");
+    circle.setAttribute("cx", "8");
+    circle.setAttribute("cy", "8");
+    circle.setAttribute("r", "6");
+    const path = document.createElementNS(SVG_NS, "path");
+    path.setAttribute("d", "M8 2a6 6 0 0 1 0 12z");
+    path.setAttribute("fill", "currentColor");
+    path.setAttribute("stroke", "none");
+    svg.append(circle, path);
+    return svg;
   }
 
   /** Resolve a slug to its display label. Public for subclasses. */

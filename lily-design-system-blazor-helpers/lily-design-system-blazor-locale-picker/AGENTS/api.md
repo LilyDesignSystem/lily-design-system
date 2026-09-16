@@ -156,7 +156,8 @@ An icon button plus a dropdown listbox:
   <button type="button" class="locale-picker-button"
           aria-label="{Label}" aria-haspopup="listbox"
           aria-expanded="false" aria-controls="{listId}">
-    <span class="locale-picker-icon" aria-hidden="true">🌐︎</span>
+    <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true"
+         width="1.05rem" height="1.05rem">…</svg>
   </button>
   <ul class="locale-picker-list" id="{listId}" role="listbox"
       aria-label="{Label}" tabindex="-1" hidden

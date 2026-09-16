@@ -6,7 +6,7 @@ below is a fast index.
 ## What this package is
 
 A reusable Svelte 5 headless motion (reduced-motion) picker. Renders an
-icon button (pause sign) opening a WAI-ARIA APG listbox of motion
+icon button (a bundled pause-bars SVG) opening a WAI-ARIA APG listbox of motion
 slugs and applies the chosen slug to the document root via
 `data-motion`, with optional `localStorage` persistence. Its initial
 value defers to the platform's `(prefers-reduced-motion: reduce)`
@@ -30,7 +30,9 @@ decides what `[data-motion="reduce"]` actually suppresses.
 - Default export: `MotionPicker` component.
 - Named export: `MotionPicker`.
 - Type exports: `Props`, `ChildArgs`.
-- Helper exports: `motionName`, `prefersReducedMotion`, `PAUSE_SIGN`.
+- Helper exports: `motionName`, `prefersReducedMotion`. No glyph
+  constant — the default icon is a bundled SVG, not a Unicode
+  character (reversed 2026-09-16).
 
 Required props: `label`, `motions`.
 
@@ -49,9 +51,10 @@ Initial value resolves from `value` > storage > `defaultValue` >
 `<div class="motion-picker {class}">` containing a hidden input, a
 `<button class="motion-picker-button" aria-label="{label}"
 aria-haspopup="listbox" aria-expanded aria-controls>` whose only
-content is the `aria-hidden` pause-sign glyph (replaceable via
-`children`), and a `<ul class="motion-picker-list" role="listbox">` of
-`<li class="motion-picker-option" role="option">` entries.
+content is the `aria-hidden` default SVG icon (two pause bars,
+`viewBox="0 0 16 16"`, replaceable via `children`), and a `<ul
+class="motion-picker-list" role="listbox">` of `<li
+class="motion-picker-option" role="option">` entries.
 
 ## Accessibility
 
@@ -69,7 +72,7 @@ content is the `aria-hidden` pause-sign glyph (replaceable via
 - Svelte 5 runes (`$props`, `$bindable`, `$effect`).
 - Strict TypeScript on the public surface.
 - No runtime dependency beyond `svelte`.
-- No bundled CSS, fonts, icons, or images.
+- No bundled CSS, fonts, or images. The one deliberate exception is
+  the default button icon: a bundled SVG (reversed 2026-09-16 from a
+  Unicode glyph), matching the other four page-header pickers.
 - All user-facing strings come from props.
-- Glyph escaped in source (`PAUSE_SIGN`, U+23F8 + U+FE0E) per
-  `AGENTS/helpers.md`'s glyph-escaping rule.

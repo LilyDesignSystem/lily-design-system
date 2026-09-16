@@ -31,7 +31,8 @@ are icon button + listbox.
 
 - Default export: `TextSizePicker` component.
 - Named exports: `TextSizePicker`, `sizeName`,
-  `nextTextSizePickerId`, `LATIN_CAPITAL_LETTER_A`.
+  `nextTextSizePickerId`. No glyph constant — the default icon is a
+  bundled SVG, not a Unicode character (reversed 2026-09-16).
 - Type exports: `Props`, `SlotArgs`, `ChildArgs` (alias of `SlotArgs`).
 
 Required props: `label`, `sizes`. Full table in
@@ -61,15 +62,14 @@ name="{name}" value="{value}">` for form participation; a
 `<button type="button" class="text-size-picker-button"
 aria-label="{label}" aria-haspopup="listbox" aria-expanded
 aria-controls="{listId}">` wrapping
-`<span class="text-size-picker-icon" aria-hidden="true">A</span>`; and
+`<svg class="text-size-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13 7.2 3h1.6L12 13M5.4 9.5h5.2"/></svg>`; and
 a `<ul class="text-size-picker-list" role="listbox"
 aria-label="{label}" tabindex="-1" hidden aria-activedescendant>` of
 `<li class="text-size-picker-option" role="option" aria-selected
-data-active>`. The glyph is U+0041 LATIN CAPITAL LETTER A, exported as
-`LATIN_CAPITAL_LETTER_A` — a plain letter rather than a pictograph,
-because U+1F5DB DECREASE FONT SIZE SYMBOL has no real glyph in common
-font stacks and means *decrease* rather than *size*. The default
-scoped slot replaces the **button glyph** — not the options — and
+data-active>`. The icon is a bundled SVG (a stylised "A"), not a
+Unicode character — reversed 2026-09-16 from U+0041 LATIN CAPITAL
+LETTER A (exported as `LATIN_CAPITAL_LETTER_A`). The default
+scoped slot replaces the **button icon** — not the options — and
 receives `{ value, open, labelFor }`.
 
 ## Accessibility
@@ -85,10 +85,10 @@ receives `{ value, open, labelFor }`.
   refine from the active option. Focus moves to the `<ul>` on open and returns to
   the button on commit or cancel.
 - The button is icon-only, so `aria-label` is its **only** accessible
-  name; the glyph is `aria-hidden="true"`.
+  name; the icon is `aria-hidden="true"`.
 - Option labels default to title-cased slugs; the word "default" is
   never emitted.
-- Because the closed control shows only a glyph, the documented pattern
+- Because the closed control shows only an icon, the documented pattern
   pairs the picker with a consumer-rendered
   `.text-size-picker-status` live region. See
   [docs/accessibility.md](./docs/accessibility.md).
@@ -100,5 +100,7 @@ receives `{ value, open, labelFor }`.
 - `ref`, `watch`, `onMounted`, `nextTick` for state and lifecycle.
 - Strict TypeScript on the public surface.
 - No runtime dependency beyond `vue`.
-- No bundled CSS, fonts, icons, or images.
+- No bundled CSS, fonts, or images. The one deliberate exception is
+  the default button icon: a bundled SVG (reversed 2026-09-16 from a
+  Unicode glyph), overridable via the default scoped slot.
 - All user-facing strings come from props.

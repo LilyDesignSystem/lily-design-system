@@ -30,8 +30,8 @@ gated on the `data-motion` attribute this component sets.
 `<div class="motion-picker {class}">` containing a hidden input
 (carries `name`), a `<button class="motion-picker-button"
 aria-label="{label}" aria-haspopup="listbox" aria-expanded
-aria-controls>` whose only content is the `aria-hidden` pause-sign
-glyph (replaceable via `children`), and a `<ul class="motion-picker-list"
+aria-controls>` whose only content is an `aria-hidden` bundled SVG
+icon (replaceable via `children`), and a `<ul class="motion-picker-list"
 role="listbox" aria-label="{label}" tabindex="-1" hidden>` of
 `<li class="motion-picker-option" role="option" aria-selected>`
 entries, one per slug, with `data-active` mirroring the
@@ -136,6 +136,14 @@ focused list is hidden.
 MotionPicker follows the exact icon-button + APG-listbox contract in
 AGENTS/helpers.md shared by `theme-picker`, `locale-picker`, and
 `text-size-picker` — same markup shape, same keyboard contract, same
-idempotent-apply rule, same glyph-escaping discipline. It is additive:
-existing catalogs, counts, and contracts for the other four helpers are
-unchanged by its introduction.
+idempotent-apply rule, same bundled-SVG-icon convention. It is
+additive: existing catalogs, counts, and contracts for the other four
+helpers are unchanged by its introduction.
+
+## 9. Tracking
+
+- **2026-09-16**: default icon changed from the Unicode glyph U+23F8
+  PAUSE SIGN + U+FE0E (exposed as the constant `MotionPicker.PauseSign`)
+  to a bundled outline SVG (two pause bars). Maintainer-directed,
+  applied to all five page-header pickers the same day. The constant
+  was removed, not renamed.

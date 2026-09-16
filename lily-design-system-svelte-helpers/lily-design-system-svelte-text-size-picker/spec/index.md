@@ -24,8 +24,10 @@ default sizes, or any visual styling.
 `<div class="text-size-picker {class}">` containing a hidden input
 (carries `name`), a `<button class="text-size-picker-button"
 aria-label="{label}" aria-haspopup="listbox" aria-expanded
-aria-controls>` whose only content is the `aria-hidden` "A" glyph
-(replaceable via `children`), and a `<ul class="text-size-picker-list"
+aria-controls>` whose only content is the `aria-hidden` default SVG
+icon (a stroke-drawn "A", `viewBox="0 0 16 16"`; bundled, not a
+Unicode character — reversed 2026-09-16, replaceable via `children`),
+and a `<ul class="text-size-picker-list"
 role="listbox" aria-label="{label}" tabindex="-1" hidden>` of
 `<li class="text-size-picker-option" role="option" aria-selected>`
 entries, one per slug, with `data-active` mirroring the

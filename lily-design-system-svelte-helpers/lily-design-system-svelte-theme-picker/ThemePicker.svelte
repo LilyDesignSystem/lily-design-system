@@ -1,8 +1,19 @@
 <script lang="ts" module>
     import type { Snippet } from "svelte";
 
-    /** Default button glyph: U+25D1 CIRCLE WITH RIGHT HALF BLACK. */
-    export const CIRCLE_WITH_RIGHT_HALF_BLACK = "◑";
+    /**
+     * Default button icon: a bundled SVG (contrast/half-circle), not a
+     * Unicode character. Reversed 2026-09-16 from the font-dependent-glyph
+     * convention (was U+25D1 CIRCLE WITH RIGHT HALF BLACK, exported as
+     * `CIRCLE_WITH_RIGHT_HALF_BLACK` — removed, not renamed, since there is
+     * no longer a single swappable character value). A bundled outline SVG
+     * renders identically across every font stack and platform, where the
+     * Unicode glyph depended on the consumer's fonts resolving U+25D1 to a
+     * visually similar shape at all. `viewBox="0 0 16 16"`, stroke-based
+     * (`stroke-width="1.6"`, round caps/joins) to match the other four
+     * picker icons as one visual family. Override via `children`, same as
+     * before.
+     */
 
     /** Arguments passed to a custom `children` snippet (the button glyph). */
     export type ChildArgs = {
@@ -38,7 +49,7 @@
         target?: HTMLElement | null;
         /** Optional pretty labels per slug. */
         themeLabels?: Record<string, string>;
-        /** Replaces the default half-circle glyph inside the button. */
+        /** Replaces the default half-circle icon inside the button. */
         children?: Snippet<[ChildArgs]>;
         /** Called after the control applies a new theme. */
         onChange?: (theme: string) => void;
@@ -428,9 +439,21 @@
         {#if children}
             {@render children({ value: value ?? "", open, labelFor })}
         {:else}
-            <span class="theme-picker-icon" aria-hidden="true"
-                >{CIRCLE_WITH_RIGHT_HALF_BLACK}</span
+            <svg
+                class="theme-picker-icon"
+                viewBox="0 0 16 16"
+                width="1.05rem"
+                height="1.05rem"
+                aria-hidden="true"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
             >
+                <circle cx="8" cy="8" r="6" />
+                <path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none" />
+            </svg>
         {/if}
     </button>
 

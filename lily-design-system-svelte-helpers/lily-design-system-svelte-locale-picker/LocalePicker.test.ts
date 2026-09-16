@@ -99,15 +99,12 @@ describe("LocalePicker — markup contract (§4.3, §7.1)", () => {
         expect(document.getElementById(listId!)?.getAttribute("role")).toBe("listbox");
     });
 
-    test("§7.1 the button renders the globe glyph, hidden from assistive tech", () => {
+    test("§7.1 the button renders the default globe SVG icon, hidden from assistive tech", () => {
         render(LocalePicker, { props: { label: "Language", locales: LOCALES } });
-        const icon = document.querySelector(".locale-picker-icon") as HTMLElement;
-        // U+1F310 GLOBE WITH MERIDIANS (decimal &#127760;) + U+FE0E
-        // VARIATION SELECTOR-15, which forces monochrome text presentation
-        // so the glyph matches theme-picker's ◑ rather than rendering as a
-        // colour emoji.
-        expect(icon.textContent).toBe("🌐︎");
+        const icon = document.querySelector(".locale-picker-icon") as SVGElement;
+        expect(icon.tagName.toLowerCase()).toBe("svg");
         expect(icon.getAttribute("aria-hidden")).toBe("true");
+        expect(icon.querySelector("circle")).toBeTruthy();
     });
 
     test("§7.2 aria-label names the button and the listbox", () => {

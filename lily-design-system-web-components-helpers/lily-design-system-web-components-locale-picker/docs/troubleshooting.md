@@ -93,24 +93,14 @@ Style both states distinctly, and never `outline: none` on
 
 ## "The globe shows as a box, a question mark, or a blue emoji"
 
-The glyph is a bare codepoint (U+1F310 GLOBE WITH MERIDIANS followed
-by U+FE0E VARIATION SELECTOR-15) rendered from the system font stack.
-The package bundles no icon font and no SVG.
-
-- **Box / question mark**: the platform has no glyph for it. Override
-  `renderButtonContent()` and supply your own inline SVG — see
-  [custom-rendering.md](./custom-rendering.md).
-- **Blue colour-emoji globe**: VS15 requests the text presentation,
-  but some platforms ignore it. Force it in CSS:
-  ```css
-  .locale-picker-icon {
-    font-variant-emoji: text;
-  }
-  ```
-  Where `font-variant-emoji` is unsupported, put a text-presentation
-  font first in the stack for that span.
-- **Size jumps between platforms**: give the button a `min-width` so
-  its box does not resize with the glyph.
+**No longer possible with the default icon.** It is a bundled SVG
+(globe outline), not a Unicode character — reversed 2026-09-16 from
+the old U+1F310 GLOBE WITH MERIDIANS + U+FE0E VARIATION SELECTOR-15 —
+so it renders identically everywhere and cannot come out as tofu, a
+colour emoji, or a size that jumps between platforms. If you have
+overridden `renderButtonContent()` with your own Unicode glyph and
+are seeing this, switch to an inline SVG instead — see
+[custom-rendering.md](./custom-rendering.md).
 
 ## "Locale does not persist across reloads"
 

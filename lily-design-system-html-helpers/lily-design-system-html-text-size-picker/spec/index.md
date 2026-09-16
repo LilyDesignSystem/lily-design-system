@@ -55,8 +55,9 @@ the app remembers.
   `detect-from-navigator`.
 - **Popover positioning**, collision detection, or overlay layering.
   The element toggles `hidden` on the list and nothing more.
-- **An icon font or SVG asset.** The button glyph is a plain Unicode
-  character; consumers who need a guaranteed rendering override
+- **An icon font or other icon-set asset.** The button icon is one
+  bundled inline SVG (reversed 2026-09-16 from a Unicode glyph);
+  consumers who need a different appearance override
   `renderButtonContent()`.
 
 ## 3. Architectural decisions
@@ -178,7 +179,9 @@ holding a hidden `<input>`, the icon button, and the listbox:
       aria-expanded="false"
       aria-controls="text-size-picker-1-list"
     >
-      <span class="text-size-picker-icon" aria-hidden="true">A</span>
+      <svg class="text-size-picker-icon" viewBox="0 0 16 16" width="1.05rem" height="1.05rem" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 13 7.2 3h1.6L12 13M5.4 9.5h5.2"></path>
+      </svg>
     </button>
     <ul
       class="text-size-picker-list"
@@ -215,14 +218,11 @@ Binding rules for that markup:
 - **Root.** A `<div class="text-size-picker {class}">` in light DOM.
   The consumer's `class` attribute on the host is mirrored onto it
   after the base hook.
-- **Glyph.** The default button content is
-  `<span class="text-size-picker-icon" aria-hidden="true">` containing
-  U+0041 LATIN CAPITAL LETTER A, exported as
-  `LATIN_CAPITAL_LETTER_A`. A plain letter, not a pictograph: the
-  obvious candidate U+1F5DB DECREASE FONT SIZE SYMBOL has no real
-  glyph in common font stacks and means _decrease_ rather than _size_.
-  It is hidden from assistive technology, so the accessible name comes
-  from the button's `aria-label` alone.
+- **Icon.** The default button content is a bundled stroke-drawn "A"
+  `<svg class="text-size-picker-icon" viewBox="0 0 16 16" aria-hidden="true">`
+  (not a Unicode character — reversed 2026-09-16). It is hidden from
+  assistive technology, so the accessible name comes from the
+  button's `aria-label` alone.
 - **Hidden input.** `<input type="hidden" name="{name}" value="{value}">`
   preserves form participation. Its `value` tracks the real selection.
 - **Aria wiring.** The button carries `aria-haspopup="listbox"`,
@@ -267,13 +267,15 @@ if it is to overlay the page rather than push content down.
   `themeName` and locale-picker's `localeName`. `labelFor` delegates
   to it, so there is exactly one implementation of the rule)
 - `nextTextSizePickerId` (the id counter)
-- `LATIN_CAPITAL_LETTER_A` (the default glyph)
 - `type TextSizePickerProps`, `type TextSizePickerChangeDetail`
+
+No glyph constant is exported — the default icon is a bundled SVG,
+not a Unicode character (reversed 2026-09-16).
 
 ### 4.7 `renderButtonContent()` — the custom-rendering hook
 
 The Svelte, React, and Vue siblings pass a `children` snippet / render
-prop / slot that replaces the glyph inside the button and receives
+prop / slot that replaces the icon inside the button and receives
 `{ value, open, labelFor }`. Custom elements in light DOM have no
 equivalent mechanism — `<slot>` is Shadow DOM only — so the HTML
 helper's stand-in is an overridable method:
@@ -390,7 +392,7 @@ collapsed trigger:
 | `<text-size-picker>` (host)            | none — a transparent lifecycle container.                                                                           |
 | `<div class="text-size-picker">`       | none — a styling root.                                                                                              |
 | `<button>`                              | implicit `button` role; `aria-label={label}`, `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls={listId}`. |
-| `<span class="text-size-picker-icon">` | `aria-hidden="true"` so the glyph never becomes the name.                                                           |
+| `<svg class="text-size-picker-icon">` | `aria-hidden="true"` so the icon never becomes the name.                                                           |
 | `<ul>`                                  | `role="listbox"`, `aria-label={label}`, `tabindex="-1"`, `hidden` while closed, `aria-activedescendant` while open. |
 | `<li>`                                  | `role="option"`, unique `id`, `aria-selected`; `data-active` when keyboard-highlighted.                             |
 | `<input type="hidden">`                 | form participation only; not in the accessibility tree.                                                             |
@@ -460,8 +462,8 @@ the consumer's CSS.
 ### 6.5 Known tradeoffs
 
 The icon-button-plus-listbox design buys a compact, fully-styleable
-control and pays for it in three places — the same three as
-theme-picker and locale-picker. All three are the consumer's to
+control and pays for it in two places — the same two as
+theme-picker and locale-picker. Both are the consumer's to
 mitigate.
 
 1. **Icon-only control.** The accessible name depends entirely on
@@ -477,15 +479,11 @@ mitigate.
    weaker and more variable support across screen readers and mobile
    browsers, and it does not get the native mobile picker UI. A native
    `<select>` remains the better choice for some audiences.
-3. **Glyph rendering is font-dependent.** The glyph is a plain Unicode
-   character with no bundled font — Lily ships no fonts or icon
-   assets. "A" is materially safer here than the pictograph
-   alternatives: it is ASCII, it exists in every font ever shipped,
-   and it inherits the page's own typeface, so it cannot render as
-   tofu or as an unexpected colour emoji the way U+1F5DB or ◑ can.
-   The residual risk is stylistic, not legibility.
 
-Separately, the closed button shows only a glyph, so **the active size
+(The font-dependent-glyph tradeoff no longer applies: the icon is a
+bundled SVG, not a Unicode character — reversed 2026-09-16.)
+
+Separately, the closed button shows only an icon, so **the active size
 is not visible anywhere** unless the consumer surfaces it. Pairing the
 control with visible text or a polite live region updated on
 `textsizechange` is the documented default pattern; see
@@ -508,9 +506,9 @@ and are not numbered here.
    `<button type="button" class="text-size-picker-button">` with
    `aria-haspopup="listbox"`, `aria-expanded="false"`, and an
    `aria-controls` pointing at the rendered `<ul role="listbox">`. The
-   button's default content is
-   `<span class="text-size-picker-icon" aria-hidden="true">` holding
-   `"A"`, the value of the exported `LATIN_CAPITAL_LETTER_A`. No
+   button's default content is a bundled
+   `<svg class="text-size-picker-icon" aria-hidden="true">` (not a
+   Unicode character — reversed 2026-09-16). No
    `<select>` and no `<option>` element is rendered.
 2. `aria-label` carries the supplied `label` on **both** the button and
    the listbox.
@@ -576,7 +574,7 @@ and are not numbered here.
 ### Custom rendering
 
 19. A subclass overriding `renderButtonContent()` replaces the default
-    glyph — no `.text-size-picker-icon` is rendered — while the
+    icon — no `.text-size-picker-icon` `<svg>` is rendered — while the
     button/listbox structure and aria wiring (`aria-haspopup`,
     `aria-label`, a resolvable `aria-controls`) are untouched.
     `this.value`, `this.open`, and `this.labelFor()` are readable from

@@ -14,7 +14,6 @@ export {
   normalizeThemesUrl,
   themeHref,
   nextThemePickerId,
-  CIRCLE_WITH_RIGHT_HALF_BLACK,
   type ThemePickerProps,
   type ThemePickerChangeDetail,
 } from "./theme-picker";
@@ -43,7 +42,6 @@ import {
   normalizeThemesUrl,
   themeHref,
   nextThemePickerId,
-  CIRCLE_WITH_RIGHT_HALF_BLACK,
   type ThemePickerProps,
   type ThemePickerChangeDetail,
 } from "./lily-design-system-html-theme-picker";

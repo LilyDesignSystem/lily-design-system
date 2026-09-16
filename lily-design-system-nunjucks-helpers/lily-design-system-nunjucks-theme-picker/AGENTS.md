@@ -37,7 +37,7 @@ The helper is a **macro + client.js pair**:
 
 ### Client.js
 
-- `import { initThemePicker, autoInit, normaliseThemesUrl, themeHref, themeName, matchSystemTheme, CIRCLE_WITH_RIGHT_HALF_BLACK } from "./theme-picker.client.js"`
+- `import { initThemePicker, autoInit, normaliseThemesUrl, themeHref, themeName, matchSystemTheme } from "./theme-picker.client.js"` — no glyph constant; the default icon is a bundled SVG, not a Unicode character (reversed 2026-09-16).
 - `themeName(slug)` mirrors locale-picker's `localeName(code)`:
   `"high-contrast"` → `"High Contrast"`. It is the single JS statement
   of the label rule; the macro applies the same rule in template syntax
@@ -89,7 +89,7 @@ colour-scheme detection (when `detectFromSystem` is on) > default-value
     aria-controls="{id}-list"
     data-lily-theme-picker-button
   >
-    <span class="theme-picker-icon" aria-hidden="true">◑</span>
+    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" width="1.05rem" height="1.05rem">…</svg>
   </button>
   <ul
     class="theme-picker-list"
@@ -113,9 +113,11 @@ colour-scheme detection (when `detectFromSystem` is on) > default-value
 </div>
 ```
 
-The glyph is U+25D1 CIRCLE WITH RIGHT HALF BLACK, `aria-hidden`. A
-`{% call %}` block body replaces the glyph inside the button (the
-Nunjucks equivalent of `children`); it does not render options.
+The icon is a bundled contrast/half-circle SVG (`viewBox="0 0 16 16"`,
+stroke-based), `aria-hidden` — not a Unicode character (reversed
+2026-09-16). A `{% call %}` block body replaces the icon inside the
+button (the Nunjucks equivalent of `children`); it does not render
+options.
 
 Server markup marks exactly ONE option `aria-selected="true"`,
 resolved as `value or defaultValue or ("light" if present else
@@ -143,13 +145,14 @@ There is **no** `placeholder` param and **no**
   character cycles through its matches); an empty list opens without
   `aria-activedescendant`.
 - `aria-label` is the ONLY accessible name the button has, since the
-  glyph is `aria-hidden`.
+  icon is `aria-hidden`.
 - `aria-selected` tracks the applied theme; `data-active` tracks the
   keyboard cursor. They are different things.
 - Known tradeoffs, documented honestly in `docs/accessibility.md`: an
   icon-only control depends entirely on `aria-label`; a custom listbox
-  has weaker AT support than a native `<select>`; the glyph may render
-  differently or be missing depending on platform fonts.
+  has weaker AT support than a native `<select>`. (The old
+  font-dependent-rendering tradeoff no longer applies: the icon is a
+  bundled SVG, not a Unicode character — reversed 2026-09-16.)
 - **No-JS regression**: the button will not open without the client
   module. Stated plainly in `docs/ssr.md`.
 - Option labels default to title-cased slugs; the word "default" is
@@ -160,7 +163,9 @@ There is **no** `placeholder` param and **no**
 - Nunjucks 3 macro, camelCase name, kebab-case file path and CSS class.
 - Single `opts` parameter on the macro.
 - No runtime dependency on the client side beyond standard DOM APIs.
-- No bundled CSS, fonts, icons, or images.
+- No bundled CSS, fonts, or images. The one deliberate exception is
+  the default button icon: a bundled SVG (reversed 2026-09-16 from a
+  Unicode glyph), matching the other four page-header pickers.
 - All user-facing strings come from `opts`.
 - No inline `<script>` in the macro output; the client.js is loaded
   separately by the consumer.

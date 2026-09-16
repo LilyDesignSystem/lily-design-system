@@ -97,12 +97,11 @@ describe("TextSizePicker — markup contract (§4.2, §7.1–§7.5)", () => {
         expect(wrapper.classes()).toContain("my-hook");
     });
 
-    test("§7.1 the button renders the letter-A glyph, hidden from assistive tech", () => {
+    test("§7.1 the button renders the default 'A' SVG icon, hidden from assistive tech", () => {
         const wrapper = build();
         const icon = wrapper.find(".text-size-picker-icon");
-        // U+0041 LATIN CAPITAL LETTER A — a real glyph in every font stack,
-        // unlike U+1F5DB DECREASE FONT SIZE SYMBOL.
-        expect(icon.text()).toBe("A");
+        expect(icon.element.tagName.toLowerCase()).toBe("svg");
+        expect(icon.find("path").exists()).toBe(true);
         expect(icon.attributes("aria-hidden")).toBe("true");
     });
 

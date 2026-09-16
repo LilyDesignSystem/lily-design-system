@@ -1,8 +1,8 @@
 /*
-    Example 5 — Custom rendering: replacing the button glyph.
+    Example 5 — Custom rendering: replacing the button icon.
 
     ThemePicker exposes exactly one rendering escape hatch: a projected
-    <ng-template> that replaces the glyph inside the trigger button.
+    <ng-template> that replaces the icon inside the trigger button.
     The listbox — its role, options, aria-selected flags,
     aria-activedescendant wiring, and keyboard contract — stays
     component-owned. That narrowness is the point: the accessibility
@@ -10,12 +10,12 @@
 
     Two overrides below.
 
-    1. An inline SVG. This is the most common reason to override: the
-       default glyph is U+25D1 CIRCLE WITH RIGHT HALF BLACK, and
-       whether it renders (and at what weight) depends on the fonts
-       installed on the user's device. An SVG is under your control.
-       Keep aria-hidden="true" and focusable="false" on it — the
-       button is named by its aria-label, and a named or focusable
+    1. An inline SVG. The default icon is already a bundled inline SVG
+       (reversed 2026-09-16 from the Unicode glyph U+25D1 CIRCLE WITH
+       RIGHT HALF BLACK, which depended on the fonts installed on the
+       user's device), so overriding it now is purely a branding
+       choice. Keep aria-hidden="true" and focusable="false" on it —
+       the button is named by its aria-label, and a named or focusable
        graphic inside only adds noise.
 
     2. A text label plus an open/closed caret, using the ChildArgs

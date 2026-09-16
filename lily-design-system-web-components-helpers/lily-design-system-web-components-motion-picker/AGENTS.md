@@ -32,7 +32,9 @@ styles the `motion-picker` class hooks and decides what
 - Class `MotionPicker extends HTMLElement` (registered as
   `<lily-motion-picker>` on import of `index.ts`).
 - Named exports: `MotionPicker`, `motionName`, `nextMotionPickerId`,
-  `prefersReducedMotion`, `PAUSE_SIGN`.
+  `prefersReducedMotion`.
+- No glyph constant — the default icon is a bundled SVG, not a
+  Unicode character (reversed 2026-09-16).
 - Type exports: `MotionPickerProps`, `MotionPickerChangeDetail`.
 - Instance members beyond the attribute mirrors: `open` (getter),
   `listId` (getter), `optionId(index)`, `openList(startIndex?)`,
@@ -65,9 +67,9 @@ focus and the active descendant.
 `<input name="{name}">` for form participation; a
 `<button type="button" class="motion-picker-button" aria-label="{label}"
 aria-haspopup="listbox" aria-expanded aria-controls="{listId}">`
-whose content defaults to
-`<span class="motion-picker-icon" aria-hidden="true">` (U+23F8 + U+FE0E,
-exported as `PAUSE_SIGN`); and a
+whose content defaults to a bundled
+`<svg class="motion-picker-icon" aria-hidden="true">` (two pause bars,
+not a Unicode character — reversed 2026-09-16); and a
 `<ul class="motion-picker-list" id="{listId}" role="listbox"
 aria-label="{label}" tabindex="-1" hidden>` with one
 `<li class="motion-picker-option" role="option" aria-selected>` per
@@ -92,7 +94,7 @@ different thing from `aria-selected`.
 - Focus sits on the `<ul>` while open, never on an `<li>`; the
   highlighted option is conveyed by `aria-activedescendant`.
 - `aria-label` carries the consumer-supplied accessible name on both
-  the button and the list. The glyph is `aria-hidden="true"`.
+  the button and the list. The icon is `aria-hidden="true"`.
 - Option labels default to title-cased slugs; the word "default" is
   never emitted.
 
@@ -105,5 +107,6 @@ different thing from `aria-selected`.
 - No bundled CSS, fonts, icons, or images.
 - All user-facing strings come from attributes / properties.
 - Mirrors the Svelte sibling's §7 acceptance criteria.
-- Glyph escaped in source (`PAUSE_SIGN`, U+23F8 + U+FE0E) per
-  `AGENTS/helpers.md`'s glyph-escaping rule.
+- No bundled CSS, fonts, or images. The one deliberate exception is
+  the default button icon: a bundled SVG (reversed 2026-09-16 from a
+  Unicode glyph).

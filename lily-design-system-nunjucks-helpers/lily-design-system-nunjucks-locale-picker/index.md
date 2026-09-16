@@ -23,7 +23,7 @@ the comprehensive user guide. For topic deep-dives see
 - [Pretty labels from the built-in table](#pretty-labels-from-the-built-in-table)
 - [BCP 47 normalisation](#bcp-47-normalisation)
 - [RTL auto-detection](#rtl-auto-detection)
-- [Custom glyph](#custom-glyph)
+- [Custom icon](#custom-icon)
 - [Accessibility](#accessibility)
 - [Keyboard](#keyboard)
 - [Styling](#styling)
@@ -90,7 +90,7 @@ Nunjucks render time                 │  Browser runtime
     value="en">                       │     ▼
   <button class="locale-picker-button"│  wires button + listbox events
     aria-haspopup="listbox"           │     │
-    aria-expanded="false">🌐</button> │     ▼
+    aria-expanded="false">[svg]</button> │     ▼
   <ul class="locale-picker-list"      │  resolves initial code
     role="listbox" hidden>            │     │
     <li role="option" data-value="en" │     ▼
@@ -140,7 +140,7 @@ resolve it at test time, browsers consume the compiled
 }) }}
 
 {# Status region: the closed control is an icon-only button showing
-   a globe glyph, never the active locale, so the active locale is
+   a globe icon, never the active locale, so the active locale is
    surfaced here instead — visibly, for sighted and screen-reader
    users alike. See docs/accessibility.md. #}
 <p class="locale-picker-status" aria-live="polite"></p>
@@ -220,9 +220,7 @@ input, an icon-only trigger button, and a listbox of options.
     aria-controls="locale-picker-locale-list"
     data-lily-locale-picker-button
   >
-    <span class="locale-picker-icon" aria-hidden="true"
-      >🌐︎</span
-    >
+    <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="1.05rem" height="1.05rem"><circle cx="8" cy="8" r="6"/><path d="M2 8h12"/><path d="M8 2c2.2 0 4 2.7 4 6s-1.8 6-4 6-4-2.7-4-6 1.8-6 4-6z"/></svg>
   </button>
   <ul
     class="locale-picker-list"
@@ -269,12 +267,11 @@ Consumer-labelled options are rendered verbatim and carry no `lang` —
 their language is unknown, and the English word "Arabic" must never
 be handed to an Arabic speech engine.
 
-The button's glyph is U+1F310 GLOBE WITH MERIDIANS followed by U+FE0E
-VARIATION SELECTOR-15 (the selector requests the monochrome text
-presentation, so the globe does not render as a blue colour emoji),
-wrapped in `aria-hidden="true"`, so the control's width stays constant no
-matter how long your locale names are. The accessible name comes
-solely from the button's `aria-label`.
+The button's icon is a bundled globe-outline SVG (`viewBox="0 0 16
+16"`, reversed 2026-09-16 from a Unicode glyph), wrapped in
+`aria-hidden="true"`, so the control's width stays constant no matter
+how long your locale names are. The accessible name comes solely from
+the button's `aria-label`.
 
 This means **the closed control never displays the active locale**.
 The active locale lives in `lang` / `dir` on the target, in the
@@ -352,7 +349,6 @@ import {
   localeName,
   matchNavigatorLanguage,
   defaultLocaleLabels,
-  GLOBE_WITH_MERIDIANS,
   RTL_LANGUAGE_TAGS,
   RTL_SCRIPT_SUBTAGS,
 } from "./locale-picker.client.js";
@@ -366,7 +362,6 @@ import {
   `matchNavigatorLanguage`.
 - Built-in data: `defaultLocaleLabels` (436 rows),
   `RTL_LANGUAGE_TAGS`, `RTL_SCRIPT_SUBTAGS`,
-  `GLOBE_WITH_MERIDIANS` (the default button glyph, `"\u{1F310}"`).
 
 Optional `opts`:
 
@@ -426,11 +421,11 @@ control of `dir` yourself.
 See [docs/rtl.md](./docs/rtl.md) for the full table and the CSS
 authoring guide.
 
-## Custom glyph
+## Custom icon
 
-The button renders a globe glyph by default. Nunjucks's equivalent
-of "children" is a `{% call %}` block, and its body replaces that
-glyph **inside the button**:
+The button renders a globe icon (a bundled SVG) by default.
+Nunjucks's equivalent of "children" is a `{% call %}` block, and its
+body replaces that icon **inside the button**:
 
 ```njk
 {% call localePicker({
@@ -445,7 +440,7 @@ glyph **inside the button**:
 
 The call block does **not** render options — the listbox still comes
 from `opts.locales`. Keep your replacement `aria-hidden="true"`: the
-button's accessible name is its `aria-label`, and visible glyph text
+button's accessible name is its `aria-label`, and visible icon text
 would compete with it.
 
 If you need a control the macro cannot render at all, write the DOM
@@ -462,7 +457,7 @@ the [examples/](./examples/) directory.
 - The button carries `aria-label="{label}"`, `aria-haspopup="listbox"`,
   `aria-expanded`, and `aria-controls` pointing at the listbox id. It
   is icon-only, so `aria-label` is its **only** accessible name.
-- The glyph is wrapped in `aria-hidden="true"` so assistive
+- The icon is wrapped in `aria-hidden="true"` so assistive
   technology never reads it.
 - The `<ul role="listbox">` carries the same `aria-label`, is
   `tabindex="-1"`, and receives focus while open; the active option
@@ -476,7 +471,7 @@ the [examples/](./examples/) directory.
 - The document root carries `lang` and (by default) `dir` (WCAG
   3.1.1, Language of Page, and 1.4.10, Reflow / bidi).
 - **Tradeoff, and the default answer to it**: because the closed
-  control shows only a glyph, a screen-reader user hears the label
+  control shows only an icon, a screen-reader user hears the label
   but not the active locale. The examples and the quick start
   therefore ship a visible `.locale-picker-status` region with
   `aria-live="polite"` next to the control. Treat that region as
@@ -508,7 +503,7 @@ clicking outside, or focus leaving the root, closes the listbox.
 
 The control ships no CSS. Class hooks: `.locale-picker` on the root
 `<div>`, `.locale-picker-button` on the trigger,
-`.locale-picker-icon` on the default glyph span,
+`.locale-picker-icon` on the default icon svg,
 `.locale-picker-list` on the `<ul role="listbox">`, and
 `.locale-picker-option` on each `<li>`. Style open / closed state
 from `[aria-expanded]` on the button and `[hidden]` on the list; the
@@ -569,7 +564,7 @@ recipes with:
   right language.
 - URL-prefix locales (`/en/about`, `/fr/about`) with the select
   driving navigation.
-- Replacing the globe glyph with your own icon via `{% call %}`.
+- Replacing the globe icon with your own icon via `{% call %}`.
 - Scoping the applied `lang` / `dir` to one panel with `target`.
 
 ## Testing
@@ -590,7 +585,7 @@ acceptance criterion in
 | [`docs/ssr.md`](./docs/ssr.md)                                   | Render-time vs runtime; cookie-resolved `value`.                       |
 | [`docs/accessibility.md`](./docs/accessibility.md)               | WCAG 2.2 AAA, the APG listbox contract, the tradeoffs.                 |
 | [`docs/styling.md`](./docs/styling.md)                           | Class hooks and state selectors.                                       |
-| [`docs/custom-rendering.md`](./docs/custom-rendering.md)         | Glyph override, CSS-only styling, hand-written DOM.                    |
+| [`docs/custom-rendering.md`](./docs/custom-rendering.md)         | Icon override, CSS-only styling, hand-written DOM.                    |
 | [`docs/recipes.md`](./docs/recipes.md)                           | Task-shaped solutions: status region, cookies, `Intl`, scoped targets. |
 | [`docs/troubleshooting.md`](./docs/troubleshooting.md)           | Symptoms, causes, fixes.                                               |
 

@@ -103,7 +103,6 @@ rules above:
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  /* Keep a usable target even if the glyph fails to render. */
   min-width: 2.25rem;
   min-height: 2.25rem;
   padding: 0.25rem 0.5rem;
@@ -115,12 +114,11 @@ rules above:
 }
 
 .theme-picker-icon {
-  /* The default glyph is U+25D1; name fonts you know cover it so it
-       doesn't arrive from an arbitrary fallback at the wrong weight. */
-  font-family:
-    "Segoe UI Symbol", "Apple Symbols", "Noto Sans Symbols 2", sans-serif;
-  font-size: 1.125em;
-  line-height: 1;
+  /* The default icon is a bundled SVG (reversed 2026-09-16 from a
+       Unicode glyph), so it renders identically regardless of the
+       consumer's fonts — no font-stack correction needed. */
+  width: 1.05rem;
+  height: 1.05rem;
 }
 
 .theme-picker-button:focus-visible,

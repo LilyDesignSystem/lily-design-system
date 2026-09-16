@@ -11,7 +11,6 @@ The barrel (`index.ts`) re-exports:
 export {
   ThemePicker,
   ThemePickerIcon,
-  CIRCLE_WITH_RIGHT_HALF_BLACK,
   nextThemePickerId,
   normaliseThemesUrl,
   themeHref,
@@ -21,14 +20,13 @@ export {
 export type { ChildArgs } from "./theme-picker.component";
 ```
 
-A consumer can import the component, the marker directive, the
-constants, or the helpers:
+A consumer can import the component, the marker directive, or the
+helpers:
 
 ```ts
 import {
   ThemePicker,
   ThemePickerIcon,
-  CIRCLE_WITH_RIGHT_HALF_BLACK,
   normaliseThemesUrl,
   themeHref,
   themeName,
@@ -40,7 +38,9 @@ import {
 The component's input/output types are inferred from the
 `input<T>()` / `model<T>()` / `output<T>()` factories — there's no
 separate `Props` interface to import. `ChildArgs` is the one exported
-type, and it describes the custom-glyph template context.
+type, and it describes the custom-icon template context. No glyph
+constant is exported — the default icon is a bundled SVG, not a
+Unicode character (reversed 2026-09-16).
 
 ## Inputs
 
@@ -69,7 +69,7 @@ class on the root `<div>`.
 ## Content projection
 
 An optional `<ng-template>` projected into `<lily-theme-picker>`
-replaces the default glyph inside the button:
+replaces the default icon inside the button:
 
 ```html
 <lily-theme-picker label="Theme" [themesUrl]="url" [themes]="themes">
@@ -101,7 +101,7 @@ It is passed as both `$implicit` and named properties, so
 `let-labelFor="labelFor"` all work.
 
 **The template does not render options.** It replaces the button
-glyph only; the listbox stays component-owned.
+icon only; the listbox stays component-owned.
 
 ## Outputs
 
@@ -172,13 +172,11 @@ in a field initialiser and derives `{base}-list` and
 
 ## Constants
 
-```ts
-export const CIRCLE_WITH_RIGHT_HALF_BLACK = "◑"; // U+25D1, ◑
-```
-
-The default button glyph. Exported so consumers can reuse the same
-glyph elsewhere (a status line, a menu entry) without hardcoding the
-code point.
+No glyph constant is exported. The default button icon is a bundled
+inline SVG in the component template (reversed 2026-09-16 from the
+Unicode glyph `◑` U+25D1, previously exported as
+`CIRCLE_WITH_RIGHT_HALF_BLACK`); it is no longer a single swappable
+character value.
 
 ## DOM contract
 
@@ -199,7 +197,7 @@ code point.
     (click)="toggle()"
     (keydown)="onButtonKeydown($event)"
   >
-    <span class="theme-picker-icon" aria-hidden="true">◑</span>
+    <svg class="theme-picker-icon" viewBox="0 0 16 16" width="1.05rem" height="1.05rem" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
   </button>
 
   <ul

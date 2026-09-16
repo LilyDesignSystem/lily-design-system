@@ -75,7 +75,7 @@ Give a React 19 application a drop-in, headless locale picker that:
   affordance. Consumers who need a filtering combobox build one on a
   headless Combobox primitive and reuse this package's exported pure
   helpers.
-- **A swappable control**. `children` replaces the glyph inside the
+- **A swappable control**. `children` replaces the icon inside the
   button only (§4.2). It cannot replace the button, the listbox, or the
   options — the component owns those.
 
@@ -129,14 +129,14 @@ Give a React 19 application a drop-in, headless locale picker that:
 | `target`              | `HTMLElement \| null`                  | no       | `document.documentElement`                      | Element that receives `lang` and `dir`.                                                                           |
 | `applyDir`            | `boolean`                              | no       | `true`                                          | If false, the select only writes `lang` and never touches `dir`.                                                  |
 | `localeLabels`        | `Record<string, string>`               | no       | `{}`                                            | Optional pretty labels per locale code.                                                                           |
-| `children`            | `(args: ChildArgs) => React.ReactNode` | no       | `<span class="locale-picker-icon">🌐</span>`   | Render prop that **replaces the glyph inside the button**. It does not render options — the component owns those. |
+| `children`            | `(args: ChildArgs) => React.ReactNode` | no       | `<svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M2 8h12"/><path d="M8 2c2.2 0 4 2.7 4 6s-1.8 6-4 6-4-2.7-4-6 1.8-6 4-6z"/></svg>`   | Render prop that **replaces the icon inside the button**. It does not render options — the component owns those. |
 | `onChange`            | `(locale: string) => void`             | no       | `undefined`                                     | Fires after the select applies a new locale.                                                                      |
 | `className`           | `string`                               | no       | `""`                                            | Extra CSS class on the root `<div>`.                                                                              |
 | `...restProps`        | any HTML `<div>` attributes            | no       | —                                               | Spread onto the root `<div>`.                                                                                     |
 
 ### 4.2 `ChildArgs`
 
-`children` is a render prop for the **button glyph only**. It receives
+`children` is a render prop for the **button icon only**. It receives
 three fields:
 
 ```ts
@@ -151,8 +151,8 @@ type ChildArgs = {
 ```
 
 The returned nodes are rendered inside `<button class="locale-picker-button">`
-in place of the default `<span class="locale-picker-icon">`. Because the
-button's accessible name comes from `aria-label={label}`, custom glyph
+in place of the default `<svg class="locale-picker-icon">`. Because the
+button's accessible name comes from `aria-label={label}`, custom icon
 content should carry `aria-hidden="true"` so it is not announced twice.
 
 ### 4.3 DOM contract
@@ -171,7 +171,7 @@ button, and a listbox:
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="locale-picker-icon" aria-hidden="true">🌐</span>
+    <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M2 8h12"/><path d="M8 2c2.2 0 4 2.7 4 6s-1.8 6-4 6-4-2.7-4-6 1.8-6 4-6z"/></svg>
   </button>
   <ul
     class="locale-picker-list"
@@ -205,14 +205,13 @@ value="{value}">` so the active locale submits with a surrounding
   named by `aria-label={label}`, with `aria-haspopup="listbox"`,
   `aria-expanded` tracking open state, and `aria-controls` pointing at
   the list's id.
-- **Glyph.** By default `<span class="locale-picker-icon"
-aria-hidden="true">` holding U+1F310 GLOBE WITH MERIDIANS followed
-  by U+FE0E VARIATION SELECTOR-15 (`🌐︎`), exported as
-  `GLOBE_WITH_MERIDIANS`. VS15 requests text presentation so the globe
-  renders monochrome rather than as a colour emoji, matching
-  theme-picker's `◑`. It is hidden from
-  assistive technology; the accessible name comes from the button's
-  `aria-label`. A `children` render prop replaces this span entirely.
+- **Icon.** By default `<svg class="locale-picker-icon"
+aria-hidden="true" viewBox="0 0 16 16">` holding a bundled outline
+  globe SVG (reversed 2026-09-16 from the Unicode glyph U+1F310 GLOBE
+  WITH MERIDIANS followed by U+FE0E VARIATION SELECTOR-15, formerly
+  exported as `GLOBE_WITH_MERIDIANS`). It is hidden from assistive
+  technology; the accessible name comes from the button's
+  `aria-label`. A `children` render prop replaces this svg entirely.
 - **Listbox.** `<ul class="locale-picker-list" role="listbox"
 aria-label="{label}" tabindex="-1">`, carrying the `hidden` attribute
   while closed. Open/close is `hidden` only — the package ships no CSS,
@@ -246,8 +245,12 @@ aria-label="{label}" tabindex="-1">`, carrying the `hidden` attribute
 - `bcp47LocaleTag`, `isRtlLocale`, `localeEndonym`, `localeName`,
   `matchNavigatorLanguage`, `defaultLocaleLabels` (pure helpers)
 - `RTL_LANGUAGE_TAGS`, `RTL_SCRIPT_SUBTAGS` (constants)
-- `GLOBE_WITH_MERIDIANS` (the default button glyph, U+1F310 + U+FE0E)
 - `type Props`, `type ChildArgs`
+
+No glyph constant is exported: the default icon is a bundled SVG, not
+a swappable character value (reversed 2026-09-16). The former
+`GLOBE_WITH_MERIDIANS` export is gone; use the `children` render prop
+to replace the icon instead.
 
 ## 5. Behaviour
 
@@ -430,7 +433,7 @@ endonyms (§5.4), so typing `f` reaches "français".
 - The `<button>` is the announced control: `aria-haspopup="listbox"`,
   `aria-expanded`, and `aria-controls` pointing at the list.
 - `aria-label={label}` supplies the accessible name for **both** the
-  button and the listbox. The default glyph is `aria-hidden="true"`, so
+  button and the listbox. The default icon is `aria-hidden="true"`, so
   `label` is the only source of the button's name — it is required.
 - The `<ul role="listbox">` holds `<li role="option">` children with
   `aria-selected` reflecting the active locale.
@@ -522,9 +525,8 @@ run under vitest + jsdom + `@testing-library/react`.
 
 1. Renders a `<button type="button">` with `aria-haspopup="listbox"`,
    `aria-expanded="false"`, and an `aria-controls` id resolving to an
-   element with `role="listbox"`. The button holds the globe glyph
-   (U+1F310 followed by U+FE0E VARIATION SELECTOR-15) inside
-   `.locale-picker-icon`, marked `aria-hidden="true"`.
+   element with `role="listbox"`. The button holds the default globe
+   SVG inside `.locale-picker-icon`, marked `aria-hidden="true"`.
    The root is a `<div>` whose class is `locale-picker {className}`.
 2. `aria-label` is the supplied `label`, on both the button and the
    listbox.
@@ -580,7 +582,7 @@ run under vitest + jsdom + `@testing-library/react`.
 
 22. Extra attributes spread through onto the root `<div>` (e.g.
     `data-testid`).
-23. A custom `children` render prop replaces the default glyph inside
+23. A custom `children` render prop replaces the default icon inside
     `.locale-picker-button` (no `.locale-picker-icon` is rendered) and
     receives `ChildArgs` — `value` in consumer form, `labelFor`, and
     `open`, which is `false` while closed and `true` once the listbox

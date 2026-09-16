@@ -4,7 +4,6 @@ import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
 import {
   LocalePicker,
-  GLOBE_WITH_MERIDIANS,
   bcp47LocaleTag,
   isRtlLocale,
   localeEndonym,
@@ -183,16 +182,12 @@ describe("LocalePicker — markup contract (§4.3, §7.1–§7.6)", () => {
     expect(root.classList.contains("extra")).toBe(true);
   });
 
-  test("§7.1 the button renders the globe glyph, hidden from assistive tech", () => {
+  test("§7.1 the button renders the default globe SVG icon, hidden from assistive tech", () => {
     const fixture = mount();
-    const icon = q<HTMLElement>(fixture, ".locale-picker-icon");
-    // U+1F310 GLOBE WITH MERIDIANS + U+FE0E VARIATION SELECTOR-15.
-    // VS15 forces text presentation so the globe renders monochrome,
-    // matching theme-picker's U+25D1 rather than the colour-emoji font.
-    expect(icon.textContent).toBe("🌐︎");
-    expect(GLOBE_WITH_MERIDIANS).toBe("🌐︎");
-    expect(Array.from(GLOBE_WITH_MERIDIANS)).toEqual(["\u{1F310}", "\uFE0E"]);
+    const icon = q<SVGElement>(fixture, ".locale-picker-icon");
+    expect(icon.tagName.toLowerCase()).toBe("svg");
     expect(icon.getAttribute("aria-hidden")).toBe("true");
+    expect(icon.querySelector("circle")).toBeTruthy();
   });
 
   test("§7.2 aria-label names the button and the listbox", () => {
@@ -633,7 +628,7 @@ describe("LocalePicker — custom icon template (§7.22–§7.23)", () => {
     ).toBe(true);
   });
 
-  test("§7.23 a projected ng-template replaces the glyph and receives ChildArgs", async () => {
+  test("§7.23 a projected ng-template replaces the icon and receives ChildArgs", async () => {
     const fixture = TestBed.createComponent(IconTemplateHost);
     fixture.detectChanges();
     fixtures.push(fixture);
@@ -642,7 +637,7 @@ describe("LocalePicker — custom icon template (§7.22–§7.23)", () => {
 
     const custom = q<HTMLElement>(fixture, '[data-testid="custom"]');
     expect(custom).toBeTruthy();
-    // The custom glyph replaces the default globe inside the button.
+    // The custom template replaces the default SVG icon inside the button.
     expect(custom.closest("button")?.className).toContain(
       "locale-picker-button",
     );

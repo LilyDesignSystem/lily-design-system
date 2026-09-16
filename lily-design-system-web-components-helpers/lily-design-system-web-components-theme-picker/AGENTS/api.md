@@ -14,11 +14,14 @@ export {
   normalizeThemesUrl,
   themeHref,
   nextThemePickerId,
-  CIRCLE_WITH_RIGHT_HALF_BLACK,
   type ThemePickerProps,
   type ThemePickerChangeDetail,
 } from "./theme-picker";
 ```
+
+No glyph constant is exported — the default button icon is a bundled
+SVG, not a Unicode character (reversed 2026-09-16; the old
+`CIRCLE_WITH_RIGHT_HALF_BLACK` export was removed, not renamed).
 
 It additionally performs the side-effectful registration:
 
@@ -43,7 +46,6 @@ import {
   normalizeThemesUrl,
   themeHref,
   nextThemePickerId,
-  CIRCLE_WITH_RIGHT_HALF_BLACK,
   type ThemePickerProps,
   type ThemePickerChangeDetail,
 } from "./lily-design-system-web-components-theme-picker";
@@ -211,7 +213,7 @@ Rendered children (recreated on every `#render()`):
     aria-expanded="false"
     aria-controls="theme-picker-1-list"
   >
-    <span class="theme-picker-icon" aria-hidden="true">◑</span>
+    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true">…</svg>
   </button>
   <ul
     class="theme-picker-list"
@@ -245,7 +247,7 @@ Rendered children (recreated on every `#render()`):
 `aria-activedescendant` is present on the `<ul>` only while open and
 points at the active option's id. `data-active` marks the
 keyboard-highlighted option; `aria-selected` marks the chosen one —
-they are different things. The glyph is `aria-hidden="true"` so the
+they are different things. The icon is `aria-hidden="true"` so the
 accessible name comes from `aria-label` alone. Read the selection
 from `el.value` or the `themechange` detail.
 

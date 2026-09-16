@@ -6,7 +6,6 @@ import {
   matchSystemTheme,
   normalizeThemesUrl,
   themeHref,
-  CIRCLE_WITH_RIGHT_HALF_BLACK,
 } from "./theme-picker.js";
 
 // Ensure the custom element is registered exactly once for the suite.
@@ -353,12 +352,11 @@ describe("<lily-theme-picker> — markup contract (§7.1–§7.5)", () => {
       themes: THEMES.join(","),
     });
     await flush();
-    const icon = document.body.querySelector<HTMLElement>(
+    const icon = document.body.querySelector<SVGElement>(
       ".theme-picker-icon",
     )!;
-    // U+25D1 CIRCLE WITH RIGHT HALF BLACK, decimal ◑
-    expect(icon.textContent).toBe("◑");
-    expect(CIRCLE_WITH_RIGHT_HALF_BLACK).toBe("◑");
+    expect(icon.tagName.toLowerCase()).toBe("svg");
+    expect(icon.querySelector("circle")).toBeTruthy();
     expect(icon.getAttribute("aria-hidden")).toBe("true");
     expect(icon.closest("button")).toBe(button());
   });

@@ -46,11 +46,13 @@ Each helper follows the file shape in
   listbox pattern, keyboard implemented in JS). Do not reintroduce the
   native `<select>` — or its `placeholder` attribute — to any of them.
   `<lily-text-size-picker>` was the last holdout and joined the other two;
-  its glyph is `"A"` (U+0041) rather than a pictograph.
+  its icon is a bundled stroke-drawn "A" SVG rather than a pictograph.
   `<lily-motion-picker>` joined afterward as the fourth, following the same
-  shape; its glyph is the pause sign (U+23F8 + U+FE0E) and its initial
+  shape; its icon is a bundled pause-sign SVG and its initial
   value defers to `(prefers-reduced-motion: reduce)` rather than a
-  fixed default.
+  fixed default. As of 2026-09-16 every preference helper's default
+  icon is a bundled SVG, not a Unicode character — see each helper's
+  own `docs/accessibility.md` for the reversal record.
 - `<lily-share-picker>` is the deliberate exception to that rule: it is a
   **disclosure** whose items are real `<a>` elements with no `role`
   override, and focus moves to the item rather than staying on the

@@ -206,45 +206,34 @@ size. Give `.text-size-picker-button` a generous minimum target size
 (WCAG 2.5.8 asks for 24×24 CSS px; AAA 2.5.5 asks for 44×44) that
 does not shrink with the smallest slug.
 
-### 3. The glyph may not render
+### 3. The icon is a bundled SVG
 
-The default glyph is `"A"` — U+0041 LATIN CAPITAL LETTER A. This is
-**materially safer than a pictograph**, and deliberately so.
+Reversed 2026-09-16: the default icon used to be the Unicode character
+`"A"` (U+0041 LATIN CAPITAL LETTER A, exported as
+`LATIN_CAPITAL_LETTER_A`) — deliberately a plain letter rather than a
+pictograph (the obvious candidate, U+1F5DB DECREASE FONT SIZE SYMBOL,
+has no real glyph in common font stacks and means _decrease_ rather
+than _size_). "A" was already materially safer than most Unicode
+glyphs, but it still varied in weight and proportions across font
+stacks. The default icon is now a bundled outline-"A" `<svg>` that
+renders identically everywhere, matching the other four page-header
+pickers' icons as one visual family, so the failure modes that used to
+afflict theme-picker's `◑` never applied as badly here and no longer
+apply at all.
 
-The obvious candidate was U+1F5DB DECREASE FONT SIZE SYMBOL. It was
-rejected on two counts: it has no real glyph in common font stacks
-and falls back to a crude bitmap shape or tofu, and it means
-_decrease_ rather than _size_, which is the wrong idea for a control
-that also increases. A plain Latin capital A is covered by every font
-that can render the surrounding page, arrives in the page's own
-typeface at the page's own weight, stays monochrome, and is the
-conventional text-size affordance across operating systems and
-browsers.
+One thing remains true regardless of icon type: it carries no _scale_
+information on its own. Many implementations pair a small A with a
+large A, or add a visible text label, to communicate "size" rather
+than "letter". Consider whether the icon alone reads as the right
+affordance in your UI.
 
-So the failure modes that afflict theme-picker's `◑` largely do not
-apply here. What remains:
-
-- Under **forced-colours mode** or with **user font overrides** the
-  letter follows the user's chosen colours — which is correct
-  behaviour, not a defect, but it may not match your design.
-- With a decorative or icon-only `font-family` on the button, "A"
-  could render as something unexpected. Don't set one.
-- The letter carries no _scale_ information on its own. Many
-  implementations pair a small A with a large A, or add a visible
-  text label, to communicate "size" rather than "letter". Consider
-  whether the glyph alone reads as the right affordance in your UI.
-
-None of this affects the accessible name — the glyph is
+None of this affects the accessible name — the icon is
 `aria-hidden`, so screen-reader users are unaffected either way. It
 affects sighted users.
 
-Two mitigations, both consumer-side:
-
-- Give the button a minimum size and a clear focus/hover treatment so
-  the target is unambiguous regardless of the glyph.
-- Or replace the glyph entirely with a projected `<ng-template>` —
-  your own inline SVG, a paired small-A/large-A treatment, or a text
-  label.
+If you want a different mark, replace the icon entirely with a
+projected `<ng-template>` — your own inline SVG, a paired
+small-A/large-A treatment, or a text label.
 
 ```html
 <lily-text-size-picker label="Text size" [sizes]="sizes">

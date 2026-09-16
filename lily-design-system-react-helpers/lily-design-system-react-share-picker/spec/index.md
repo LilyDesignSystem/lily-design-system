@@ -24,7 +24,8 @@ Sibling files:
 
 Give a React 19 application a drop-in, headless share control that:
 
-1. Renders a single-glyph button (➤, U+27A4) matching the other Lily
+1. Renders a single-icon button (a bundled outline-arrow SVG, reversed
+   2026-09-16 from the Unicode glyph U+27A4) matching the other Lily
    helpers.
 2. Uses the **native share sheet** where the browser provides one.
 3. Otherwise opens a list of consumer-supplied destinations, plus a
@@ -89,7 +90,7 @@ Give a React 19 application a drop-in, headless share control that:
 | `copiedLabel`     | `string`                               | no       | `undefined`      | Announced in the status region after a successful copy.        |
 | `copyFailedLabel` | `string`                               | no       | `undefined`      | Announced when the clipboard write fails.                      |
 | `strategy`        | `"auto" \| "native" \| "list"`         | no       | `"auto"`         | Whether to prefer the native sheet.                            |
-| `children`        | `(args: ChildArgs) => React.ReactNode` | no       | the ➤ glyph      | Replaces the button glyph.                                     |
+| `children`        | `(args: ChildArgs) => React.ReactNode` | no       | the default arrow icon | Replaces the button icon.                                |
 | `onShare`         | `(id, url) => void`                    | no       | —                | Fires when a destination is chosen.                            |
 | `onCopy`          | `(url) => void`                        | no       | —                | Fires after a successful copy.                                 |
 | `onNativeShare`   | `(url) => void`                        | no       | —                | Fires when the native sheet was used instead of the list.      |
@@ -124,7 +125,7 @@ clipboard write rather than being the DOM's `ClipboardEvent` handler.
     aria-expanded
     aria-controls="{listId}"
   >
-    <span class="share-picker-icon" aria-hidden="true">➤</span>
+    <svg class="share-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5"/></svg>
   </button>
   <ul class="share-picker-list" id="{listId}" aria-label="{label}" hidden>
     <li class="share-picker-list-item">
@@ -154,8 +155,11 @@ it is stable across server and client render and survives hydration.
 ### 4.3 Re-exports
 
 `index.ts` exports `default`, `SharePicker`, `canShareNatively`,
-`canCopy`, `nextSharePickerId`, `BLACK_RIGHTWARDS_ARROWHEAD`, and the
-types `Props`, `ChildArgs`, `ShareTarget`, `ShareStrategy`.
+`canCopy`, `nextSharePickerId`, and the types `Props`, `ChildArgs`,
+`ShareTarget`, `ShareStrategy`. No glyph constant is exported: the
+default icon is a bundled SVG, not a swappable character value
+(reversed 2026-09-16). The former `BLACK_RIGHTWARDS_ARROWHEAD` export
+is gone; use the `children` render prop to replace the icon instead.
 
 `nextSharePickerId()` is exported for parity with the canonical Svelte
 helper and for consumers labelling a control from outside the component
@@ -210,7 +214,7 @@ closes the list.
 
 ## 6. Accessibility
 
-WCAG 2.2 AAA target. The glyph is `aria-hidden`; the accessible name is
+WCAG 2.2 AAA target. The icon is `aria-hidden`; the accessible name is
 the button's `aria-label`, which is consumer-supplied and localisable.
 The status region is `aria-live="polite"` and empty on load, so it
 announces the copy outcome and nothing else. Destinations keep native
@@ -247,7 +251,7 @@ sees on a phone is not what they see on a desktop. Full treatment in
 19. Clicking outside closes the list.
 20. An explicit `url` prop wins.
 21. With no `url`, the current page URL is used.
-22. `children` replaces the glyph and receives `ChildArgs`.
+22. `children` replaces the icon and receives `ChildArgs`.
 23. `Tab` from an open item puts focus on the button before closing, so
     the default Tab proceeds from the picker's position instead of
     restarting from `<body>` when the list is hidden while its item has

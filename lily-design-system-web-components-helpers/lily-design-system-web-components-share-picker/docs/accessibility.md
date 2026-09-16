@@ -1,7 +1,7 @@
 # Accessibility — `<lily-share-picker>` (HTML helper)
 
 WCAG 2.2 AAA is the target. What follows is what the control does, and
-then the four places it will cost you something. The costs are real;
+then the three places it will cost you something. The costs are real;
 none of them are hypothetical.
 
 ## What the control does
@@ -22,7 +22,7 @@ none of them are hypothetical.
 - **Focus is never destroyed by a state change.** Opening, closing,
   announcing, and any `url` / `share-title` / `text` change all update
   attributes in place rather than rebuilding the DOM.
-- **The glyph is hidden.** `<span class="share-picker-icon"
+- **The icon is hidden.** `<svg class="share-picker-icon"
   aria-hidden="true">` keeps the arrow out of the accessible name.
 - **The status region is polite and silent on load.** It is empty until
   a copy succeeds or fails, so it announces the outcome and nothing
@@ -37,12 +37,12 @@ attribute. Three consequences:
   the floor; "Share this article" is better when several controls could
   plausibly be a share button.
 - **WCAG 2.5.3 Label in Name** applies to anyone using voice control. If
-  you later render visible text next to the glyph, the `aria-label` must
+  you later render visible text next to the icon, the `aria-label` must
   *contain* that visible text, or "click Share" will fail to match.
-- **Sighted users get no name at all.** ➤ is not a widely-understood
-  share symbol the way a magnifier means search. Consider a visible
-  label, or a tooltip, if the surrounding context does not make it
-  obvious.
+- **Sighted users get no name at all.** The outline arrow is not a
+  widely-understood share symbol the way a magnifier means search.
+  Consider a visible label, or a tooltip, if the surrounding context
+  does not make it obvious.
 
 If you need visible text, override `renderButtonContent()` and keep
 `aria-label` in sync with what you render.
@@ -72,22 +72,16 @@ So:
 Choosing `strategy="list"` gives you one predictable experience at the
 cost of the native integration users on mobile expect.
 
-## Cost 3 — the glyph is font-dependent
+(A third cost — font-dependent glyph rendering — no longer applies:
+the default icon is a bundled SVG (outline arrow), not a Unicode
+character — reversed 2026-09-16 from the old U+27A4 BLACK RIGHTWARDS
+ARROWHEAD glyph. It renders monochrome, at a fixed size, and inherits
+`currentColor` identically everywhere, with no tofu risk. It sits in
+the same visual family as the sibling helpers' icons. If you want a
+different mark entirely, override `renderButtonContent()` with your
+own inline SVG.)
 
-➤ (U+27A4 BLACK RIGHTWARDS ARROWHEAD) is an in-font arrow, not an emoji,
-which makes it far safer than a pictograph: it renders monochrome, at
-text weight, in the page's own font, and inherits `currentColor`. It
-sits in the same family as the sibling helpers' ◑ and "A".
-
-It is still not guaranteed. A font without U+27A4 renders tofu (□), and
-the arrow's optical weight varies enough between families that it can
-look under- or over-sized next to your text. If your font stack is
-narrow, verify it, or override `renderButtonContent()` with inline SVG.
-
-Because the glyph is `aria-hidden`, a tofu box is a purely visual
-failure — screen-reader users are unaffected — but it is a visible one.
-
-## Cost 4 — copying can fail invisibly
+## Cost 3 — copying can fail invisibly
 
 `navigator.clipboard.writeText()` fails for reasons the user cannot see
 and did not cause:

@@ -6,15 +6,11 @@
   Companion runtime: text-size-picker.client.js
 
   BREAKING (Unreleased): this macro no longer renders a native
-  <select>. It renders an icon button (U+0041 LATIN CAPITAL LETTER A)
-  that opens a listbox, matching theme-picker and locale-picker. All
-  three helpers are now the same shape.
-
-  Why "A" and not a pictograph: U+1F5DB DECREASE FONT SIZE SYMBOL has
-  no real glyph in common font stacks — it falls back to a crude bitmap
-  shape — and it means *decrease* rather than *size*. "A" renders in
-  the page's own font everywhere, stays monochrome like theme-picker's
-  ◑, and is the conventional text-size affordance.
+  <select>. It renders an icon button (a bundled stroke-drawn "A" SVG,
+  viewBox 0 0 16 16 — reversed 2026-09-16 from the Unicode glyph
+  U+0041 LATIN CAPITAL LETTER A) that opens a listbox, matching
+  theme-picker and locale-picker. All three helpers are now the same
+  shape.
 
   Params (single `opts` object):
     label         — string, required. aria-label for the button AND the
@@ -40,8 +36,8 @@
   the web platform exposes no OS "preferred text size" signal, so
   there is nothing to detect.
 
-  Custom glyph: call the macro with a `{% call %}` block and the block
-  body replaces the default glyph inside the button:
+  Custom icon: call the macro with a `{% call %}` block and the block
+  body replaces the default icon inside the button:
 
     {% call textSizePicker({label: "Text size", sizes: [...]}) %}
       <svg aria-hidden="true">…</svg>
@@ -88,7 +84,7 @@
 >
 <input type="hidden" name="{{ name }}" value="{{ selected }}" data-lily-text-size-picker-input>
 <button type="button" class="text-size-picker-button" aria-label="{{ opts.label }}" aria-haspopup="listbox" aria-expanded="false" aria-controls="{{ listId }}" data-lily-text-size-picker-button>
-{%- if caller %}{{ caller() }}{% else %}<span class="text-size-picker-icon" aria-hidden="true">A</span>{% endif -%}
+{%- if caller %}{{ caller() }}{% else %}<svg class="text-size-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="1.05rem" height="1.05rem"><path d="M4 13 7.2 3h1.6L12 13M5.4 9.5h5.2"/></svg>{% endif -%}
 </button>
 <ul class="text-size-picker-list" id="{{ listId }}" role="listbox" aria-label="{{ opts.label }}" tabindex="-1" hidden data-lily-text-size-picker-list>
 {%- for slug in opts.sizes -%}

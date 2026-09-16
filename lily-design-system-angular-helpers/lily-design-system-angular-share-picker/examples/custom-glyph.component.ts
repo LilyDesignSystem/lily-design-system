@@ -1,27 +1,29 @@
 /*
-    Example 3 — Replacing the ➤ glyph.
+    Example 3 — Replacing the default icon.
 
     Project an <ng-template> into <lily-share-picker> to replace the
-    default glyph. It receives the ChildArgs context — { open, url } —
-    available both as $implicit and as named properties, and can be
+    default icon (a bundled outline-arrow SVG, reversed 2026-09-16 from
+    a Unicode glyph). It receives the ChildArgs context — { open, url }
+    — available both as $implicit and as named properties, and can be
     typed with the optional SharePickerIcon marker directive.
 
-    The template replaces the GLYPH ONLY. It never renders the list;
+    The template replaces the ICON ONLY. It never renders the list;
     that stays component-owned.
 
     Two reasons you might reach for this:
 
-    1. Your font stack lacks U+27A4. It is an in-font arrow rather than
-       a pictograph, so it is far safer than an emoji, but "safer" is
-       not "guaranteed".
+    1. Branding. The bundled SVG renders identically everywhere now, so
+       swapping it is purely a visual choice, not a font-coverage
+       workaround.
 
     2. You want visible text. An icon-only control's accessible name
-       rests entirely on aria-label, with no visible fallback — and ➤ is
-       not self-evidently "share" to a sighted user either. If you can
-       spare the space, a word is simply better. Keep `label` supplied
-       even then: it remains the button's accessible name.
+       rests entirely on aria-label, with no visible fallback — and the
+       arrow icon is not self-evidently "share" to a sighted user
+       either. If you can spare the space, a word is simply better.
+       Keep `label` supplied even then: it remains the button's
+       accessible name.
 
-    `open` lets the glyph reflect state, which is the one thing
+    `open` lets the icon reflect state, which is the one thing
     aria-expanded conveys to assistive technology but nothing conveys
     visually.
 */
@@ -38,7 +40,7 @@ import {
   imports: [SharePicker, SharePickerIcon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <!-- Visible text instead of a glyph. -->
+    <!-- Visible text instead of the icon. -->
     <lily-share-picker
       label="Share this page"
       [targets]="targets"
@@ -51,7 +53,7 @@ import {
       </ng-template>
     </lily-share-picker>
 
-    <!-- A different glyph, still hidden from assistive tech: the
+    <!-- A different icon, still hidden from assistive tech: the
              accessible name comes from aria-label either way. -->
     <lily-share-picker label="Share this page" [targets]="targets">
       <ng-template lilySharePickerIcon>

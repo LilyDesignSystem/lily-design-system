@@ -37,14 +37,6 @@ import {
 
 export { defaultLocaleLabels, RTL_LANGUAGE_TAGS, RTL_SCRIPT_SUBTAGS };
 
-/**
- * Default button glyph: U+1F310 GLOBE WITH MERIDIANS followed by
- * U+FE0E VARIATION SELECTOR-15, which requests the TEXT presentation.
- * Without VS15 browsers pick the colour-emoji font and the globe
- * renders blue, which does not match theme-picker's monochrome ◑
- * (U+25D1 is not an emoji codepoint, so it needs no selector).
- */
-export const GLOBE_WITH_MERIDIANS = "🌐︎";
 
 /** How long the typeahead buffer survives between keystrokes, in ms. */
 const TYPEAHEAD_RESET_MS = 500;

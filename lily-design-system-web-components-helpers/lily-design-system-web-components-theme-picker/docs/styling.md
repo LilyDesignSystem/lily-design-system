@@ -42,7 +42,7 @@ element does no measuring and no repositioning.
 | `.theme-picker`                       | The rendered `<div>` root.                                       |
 | `.theme-picker.{consumerClass}`       | Both classes when `class` is passed.                             |
 | `.theme-picker-button`                | The trigger `<button>`.                                          |
-| `.theme-picker-icon`                  | The `<span>` wrapping the glyph (default content only).          |
+| `.theme-picker-icon`                  | The default bundled `<svg>` icon (default content only).         |
 | `.theme-picker-list`                  | The `<ul role="listbox">`.                                       |
 | `.theme-picker-option`                | Each `<li role="option">`.                                       |
 | `.theme-picker-status`                | The consumer-rendered status region announcing the active theme. |

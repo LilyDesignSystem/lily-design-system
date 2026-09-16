@@ -74,7 +74,6 @@ import {
   normalizeThemesUrl,
   themeHref,
   nextThemePickerId,
-  CIRCLE_WITH_RIGHT_HALF_BLACK,
   type ThemePickerProps,
   type ThemePickerChangeDetail,
 } from "./lily-design-system-web-components-theme-picker";
@@ -142,7 +141,7 @@ don't throw.
 ```
 
 **The status line is part of the pattern, not an optional extra.**
-The closed control is an icon button — it shows a glyph and nothing
+The closed control is an icon button — it shows an icon and nothing
 else — so this line is the only place the current selection is
 displayed and announced. `aria-live="polite"` speaks on each change
 and stays silent on first paint, which is why the initial text is
@@ -182,7 +181,7 @@ The element renders this into its light DOM:
       aria-expanded="false"
       aria-controls="theme-picker-1-list"
     >
-      <span class="theme-picker-icon" aria-hidden="true">◑</span>
+      <svg class="theme-picker-icon" viewBox="0 0 16 16" width="1.05rem" height="1.05rem" aria-hidden="true">…</svg>
     </button>
     <ul
       class="theme-picker-list"
@@ -224,8 +223,8 @@ The element renders this into its light DOM:
 
 Points worth knowing:
 
-- The **glyph** is U+25D1 CIRCLE WITH RIGHT HALF BLACK, exported as
-  `CIRCLE_WITH_RIGHT_HALF_BLACK`. It is `aria-hidden="true"`, so the
+- The **icon** is a bundled SVG (half-filled circle), not a Unicode
+  character — reversed 2026-09-16. It is `aria-hidden="true"`, so the
   accessible name comes from the button's `aria-label` alone.
 - The **hidden `<input>`** preserves form participation and carries
   `name` — a listbox is not a form control.
@@ -452,7 +451,7 @@ The Web Components helpers don't expose Vue scoped slots or Svelte snippets —
 `<slot>` is Shadow DOM only, and these helpers commit to light DOM.
 The equivalent of the other frameworks' `children` is an overridable
 method, **`renderButtonContent()`**. Whatever `Node` it returns
-replaces the default glyph inside the button:
+replaces the default icon inside the button:
 
 ```ts
 import { ThemePicker } from "./lily-design-system-web-components-theme-picker";
@@ -514,7 +513,7 @@ before first paint), see [`docs/ssr.md`](./docs/ssr.md) and the
   `.theme-picker-list:focus-visible` too, since focus moves to the
   `<ul>` while the list is open.
 
-**Three tradeoffs to know about**, all documented in full in
+**Two tradeoffs to know about**, both documented in full in
 [`docs/accessibility.md`](./docs/accessibility.md):
 
 1. **Icon-only control.** `aria-label` is the entire accessible
@@ -527,12 +526,13 @@ before first paint), see [`docs/ssr.md`](./docs/ssr.md) and the
    battle-tested in every AT. An APG listbox with
    `aria-activedescendant` has more variable support across screen
    readers and mobile browsers, and no native mobile picker.
-3. **Glyph rendering is platform-dependent.** No font is bundled, so
-   the glyph may render as colour emoji, monochrome, or tofu.
-   Override `renderButtonContent()` with your own SVG when the
-   appearance must be guaranteed.
 
-Because the closed button shows only a glyph, the active theme is
+(The old platform-dependent-glyph-rendering tradeoff no longer
+applies: the default icon is a bundled SVG, not a Unicode character
+— reversed 2026-09-16. Override `renderButtonContent()` with your own
+SVG when a different appearance is needed.)
+
+Because the closed button shows only an icon, the active theme is
 not visible or announced anywhere unless you surface it. The status
 region shown in [Quick start](#quick-start) is the **default
 pattern** — ship it unless you have a specific reason not to.

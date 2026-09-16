@@ -146,12 +146,12 @@ describe("MotionPicker — markup contract (§4.2, §7.1–§7.5)", () => {
     expect(root.classList.contains("extra")).toBe(true);
   });
 
-  test("§7.1 the button renders the pause glyph, hidden from assistive tech", () => {
+  test("§7.1 the button renders the default pause SVG icon, hidden from assistive tech", () => {
     const fixture = mount();
-    const icon = q<HTMLElement>(fixture, ".motion-picker-icon");
-    // U+23F8 PAUSE SIGN + U+FE0E (text presentation).
-    expect(icon.textContent).toBe("⏸︎");
+    const icon = q<SVGElement>(fixture, ".motion-picker-icon");
+    expect(icon.tagName.toLowerCase()).toBe("svg");
     expect(icon.getAttribute("aria-hidden")).toBe("true");
+    expect(icon.querySelector("path")).toBeTruthy();
   });
 
   test("§7.2 aria-label names the button and the listbox", () => {
@@ -548,7 +548,7 @@ describe("MotionPicker — custom icon template (§7.12–§7.13)", () => {
     ).toBe(true);
   });
 
-  test("§7.13 a projected ng-template replaces the glyph and receives ChildArgs", async () => {
+  test("§7.13 a projected ng-template replaces the icon and receives ChildArgs", async () => {
     const fixture = TestBed.createComponent(IconTemplateHost);
     fixture.detectChanges();
     fixtures.push(fixture);

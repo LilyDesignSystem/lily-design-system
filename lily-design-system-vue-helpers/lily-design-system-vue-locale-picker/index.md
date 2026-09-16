@@ -46,7 +46,6 @@ import LocalePicker, {
   localeName,
   matchNavigatorLanguage,
   defaultLocaleLabels,
-  GLOBE_WITH_MERIDIANS,
   type Props,
   type SlotArgs,
 } from "./lily-design-system-vue-locale-picker";
@@ -124,7 +123,7 @@ input for form participation, an icon button, and a listbox.
     aria-expanded="false"
     aria-controls="locale-picker-1-list"
   >
-    <span class="locale-picker-icon" aria-hidden="true">🌐</span>
+    <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M2 8h12"/><path d="M8 2c2.2 0 4 2.7 4 6s-1.8 6-4 6-4-2.7-4-6 1.8-6 4-6z"/></svg>
   </button>
   <ul
     class="locale-picker-list"
@@ -159,11 +158,11 @@ input for form participation, an icon button, and a listbox.
 
 Points worth knowing:
 
-- **The button is icon-only.** The glyph is 🌐 (U+1F310 GLOBE WITH
-  MERIDIANS), exported as `GLOBE_WITH_MERIDIANS`, and it is
+- **The button is icon-only.** The icon is a bundled SVG (globe with
+  meridians), not a Unicode character (reversed 2026-09-16), and it is
   `aria-hidden="true"` — so `label` is the button's _entire_
   accessible name. The same `label` also names the listbox.
-- **It costs one glyph of width** no matter how many locales you
+- **It costs one icon of width** no matter how many locales you
   support, which is why it replaced the native `<select>`: a select
   grows to fit the longest option, and the built-in table has 436 of
   them.

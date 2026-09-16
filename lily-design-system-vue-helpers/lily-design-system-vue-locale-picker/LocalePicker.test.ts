@@ -136,13 +136,11 @@ describe("LocalePicker — markup contract (§4.3, §7.1)", () => {
         expect(wrapper.classes()).toContain("my-hook");
     });
 
-    test("§7.1 the button renders the globe glyph, hidden from assistive tech", () => {
+    test("§7.1 the button renders the default globe SVG icon, hidden from assistive tech", () => {
         const wrapper = build({});
         const icon = wrapper.find(".locale-picker-icon");
-        // U+1F310 GLOBE WITH MERIDIANS + U+FE0E VARIATION SELECTOR-15.
-        // VS15 forces text presentation so the globe renders monochrome,
-        // matching theme-picker's ◑ rather than the colour-emoji globe.
-        expect(icon.text()).toBe("🌐︎");
+        expect(icon.element.tagName.toLowerCase()).toBe("svg");
+        expect(icon.find("circle").exists()).toBe(true);
         expect(icon.attributes("aria-hidden")).toBe("true");
     });
 

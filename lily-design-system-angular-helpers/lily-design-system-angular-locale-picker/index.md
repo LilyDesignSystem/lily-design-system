@@ -46,7 +46,6 @@ Or via the barrel (recommended; gives you the typed helpers too):
 import {
   LocalePicker,
   LocalePickerIcon,
-  GLOBE_WITH_MERIDIANS,
   bcp47LocaleTag,
   isRtlLocale,
   localeName,
@@ -204,7 +203,7 @@ Renders (listbox closed):
     aria-expanded="false"
     aria-controls="locale-picker-1-list"
   >
-    <span class="locale-picker-icon" aria-hidden="true">🌐︎</span>
+    <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true">…</svg>
   </button>
   <ul
     class="locale-picker-list"
@@ -283,8 +282,8 @@ Import the optional `LocalePickerIcon` directive if you want typed
 </lily-locale-picker>
 ```
 
-The default glyph is exported as `GLOBE_WITH_MERIDIANS` if you want to
-reuse it elsewhere.
+No glyph constant is exported — the default icon is a bundled SVG,
+not a Unicode character (reversed 2026-09-16).
 
 Because the closed control never shows the active locale, read it from
 `[(value)]` or the `localeChange` output and surface it yourself. See
@@ -385,7 +384,7 @@ The package ships **zero CSS**. These are the class hooks it emits:
 | ------------------------ | ------------------------- | -------------------------------------------------------------------------------------------------- |
 | `.locale-picker`        | root `<div>`              | Plus whatever you pass as `className`.                                                             |
 | `.locale-picker-button` | the trigger `<button>`    | Icon-only by default.                                                                              |
-| `.locale-picker-icon`   | the glyph `<span>`        | Absent when you project your own `<ng-template>`.                                                  |
+| `.locale-picker-icon`   | the icon `<svg>`          | Absent when you project your own `<ng-template>`.                                                  |
 | `.locale-picker-list`   | the `<ul role="listbox">` | Carries `hidden` while closed.                                                                     |
 | `.locale-picker-option` | each `<li role="option">` | Style selection with `[aria-selected="true"]` and the keyboard-active option with `[data-active]`. |
 

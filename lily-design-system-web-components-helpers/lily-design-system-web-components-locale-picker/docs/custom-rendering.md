@@ -6,7 +6,7 @@ the active language's endonym, an SVG, a whole different control —
 subclass `LocalePicker`.
 
 The other Lily framework helpers pass a `children` snippet / render
-prop / `ChildContent` that replaces the glyph inside the button and
+prop / `ChildContent` that replaces the icon inside the button and
 receives `{ value, open, labelFor }`. Custom elements in light DOM
 have no such mechanism: `<slot>` is a Shadow DOM feature, and this
 catalog commits to light DOM (see
@@ -47,7 +47,7 @@ customElements.define("flag-locale-picker", FlagLocalePicker);
 ```
 
 Whatever `Node` it returns is placed inside the button, replacing the
-default `<span class="locale-picker-icon">`. The three values the
+default `<svg class="locale-picker-icon">`. The three values the
 other frameworks pass into `children` are all available on `this`:
 
 | `ChildArgs` in other frameworks | Here                  |
@@ -63,7 +63,7 @@ node is decoration inside an otherwise-intact widget.
 Two rules for what you return:
 
 - **Keep it `aria-hidden="true"` if it is decorative.** The default
-  glyph is hidden so it can never become the accessible name; if you
+  icon is hidden so it can never become the accessible name; if you
   return visible text that duplicates `label`, hide it the same way.
   If you return the active language's endonym as _visible, meaningful_
   text, leave it exposed — but then also give it a `lang` attribute
@@ -132,17 +132,14 @@ class keeps in sync for you.
 
 The icon-only default fails WCAG 2.5.3 Label in Name unless the
 consumer adds a visible label. Returning a fragment with both the
-glyph and visible text fixes it inside the component:
+icon and visible text fixes it inside the component:
 
 ```ts
 class TextLocalePicker extends LocalePicker {
   renderButtonContent(): Node {
     const fragment = document.createDocumentFragment();
 
-    const icon = document.createElement("span");
-    icon.className = "locale-picker-icon";
-    icon.setAttribute("aria-hidden", "true");
-    icon.textContent = "🌐︎"; // globe + VS15
+    const icon = super.renderButtonContent(); // the default bundled SVG
     fragment.appendChild(icon);
 
     const text = document.createElement("span");
@@ -158,13 +155,14 @@ class TextLocalePicker extends LocalePicker {
 A `DocumentFragment` is a `Node`, so returning one to add several
 children works.
 
-### Guaranteeing the glyph's appearance
+### Swapping the icon for your own
 
-The default glyph is a plain Unicode character (U+1F310 GLOBE WITH
-MERIDIANS + U+FE0E VARIATION SELECTOR-15) and this package bundles no
-fonts or icon assets. VS15 asks for the monochrome text presentation,
-but platforms may ignore it, and where no font covers the codepoint
-you get tofu. Tier 1 is the fix:
+The default icon is already a bundled SVG (globe outline), not a
+Unicode character (reversed 2026-09-16 from the old
+platform-dependent glyph, U+1F310 GLOBE WITH MERIDIANS + U+FE0E
+VARIATION SELECTOR-15), so it already renders identically everywhere.
+Override it the same way when you want a different mark entirely —
+your own brand's globe or flag icon, say. Tier 1 is the hook:
 
 ```ts
 class SvgLocalePicker extends LocalePicker {
@@ -267,7 +265,7 @@ anything was inherited.
    at the active option while open, and nothing while closed. Use
    `this.listId` and `this.optionId(i)` so the ids stay collision-free
    across instances.
-5. **Keep the glyph (or its replacement) `aria-hidden="true"`** so it
+5. **Keep the icon (or its replacement) `aria-hidden="true"`** so it
    never becomes the accessible name.
 6. **Keep the hidden `<input>`** with `this.name` and the current
    value, or form participation breaks.
@@ -317,7 +315,7 @@ until you give the root `position: relative` and the list
 | ------------------------ | --------------------------- |
 | `.locale-picker`        | The rendered `<div>` root.  |
 | `.locale-picker-button` | The trigger `<button>`.     |
-| `.locale-picker-icon`   | The default glyph `<span>`. |
+| `.locale-picker-icon`   | The default icon `<svg>`. |
 | `.locale-picker-list`   | The `<ul role="listbox">`.  |
 | `.locale-picker-option` | Each `<li role="option">`.  |
 

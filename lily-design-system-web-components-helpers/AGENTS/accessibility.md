@@ -27,18 +27,20 @@ ceremony.
 All three helpers share one markup shape — an icon button that opens
 an APG listbox — and one keyboard implementation:
 
-| Helper | Rendering | Glyph | Keyboard comes from |
-| ------ | --------- | ----- | ------------------- |
-| `<lily-theme-picker>` | Icon button + `role="listbox"` dropdown | `◑` U+25D1 | The element's own JS handlers |
-| `<lily-locale-picker>` | Icon button + `role="listbox"` dropdown | U+1F310 + VS15 | The element's own JS handlers |
-| `<lily-text-size-picker>` | Icon button + `role="listbox"` dropdown | `A` U+0041 | The element's own JS handlers |
+| Helper | Rendering | Icon | Keyboard comes from |
+| ------ | --------- | ---- | -------------------- |
+| `<lily-theme-picker>` | Icon button + `role="listbox"` dropdown | Bundled SVG (half-filled circle) | The element's own JS handlers |
+| `<lily-locale-picker>` | Icon button + `role="listbox"` dropdown | Bundled SVG (globe outline) | The element's own JS handlers |
+| `<lily-text-size-picker>` | Icon button + `role="listbox"` dropdown | Bundled SVG (stroke-drawn "A") | The element's own JS handlers |
 
 `<lily-text-size-picker>` was deliberately left as a native `<select>` when
-the other two converted, and joined them afterwards. Its glyph is a
-plain ASCII letter rather than a pictograph: U+1F5DB DECREASE FONT
-SIZE SYMBOL has no real glyph in common font stacks and means
-*decrease* rather than *size*, whereas "A" exists in every font,
-inherits the page's typeface, and is the conventional affordance.
+the other two converted, and joined them afterwards. Its icon was
+chosen as a plain ASCII letter shape rather than a pictograph: U+1F5DB
+DECREASE FONT SIZE SYMBOL has no real glyph in common font stacks and
+means *decrease* rather than *size*, whereas "A" is the conventional
+resize-text affordance. As of 2026-09-16 every picker's default icon
+is a bundled SVG, not a Unicode character — see each helper's own
+`docs/accessibility.md` for the reversal record.
 
 ### `aria-label` on the rendered control, not on the custom element
 
@@ -54,7 +56,7 @@ The accessible name belongs on the rendered control, not on the
         <button type="button" class="theme-picker-button"
                 aria-label="Theme" aria-haspopup="listbox"
                 aria-expanded="false" aria-controls="theme-picker-1-list">
-            <span class="theme-picker-icon" aria-hidden="true">◑</span>
+            <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true">…</svg>
         </button>
         <ul class="theme-picker-list" id="theme-picker-1-list"
             role="listbox" aria-label="Theme" tabindex="-1" hidden>
@@ -64,7 +66,7 @@ The accessible name belongs on the rendered control, not on the
 </lily-theme-picker>
 ```
 
-Both the button and the listbox carry `aria-label`. The glyph inside
+Both the button and the listbox carry `aria-label`. The icon inside
 the button is `aria-hidden="true"` so it can never become the
 accessible name — an icon-only control has no visible text to fall
 back on, which makes the consumer's `label` load-bearing in a way it
@@ -107,7 +109,7 @@ icon-only button conveys nothing about its current value when closed.
 Light DOM means no `<slot>`, so subclassing is the customisation
 surface. There are two tiers, and they differ sharply in risk:
 
-- **Override `renderButtonContent()`** to replace the glyph inside
+- **Override `renderButtonContent()`** to replace the icon inside
   the button. The base class still builds the button and the
   listbox, so the aria wiring and the whole keyboard contract keep
   working. This is the safe path and the one to recommend.

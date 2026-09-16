@@ -51,7 +51,6 @@ import {
   TextSizePicker,
   sizeName, // "x-large" → "X Large"
   nextTextSizePickerId,
-  LATIN_CAPITAL_LETTER_A, // the default "A" glyph
   type TextSizePickerProps,
   type TextSizePickerChangeDetail,
 } from "./lily-design-system-web-components-text-size-picker";
@@ -82,7 +81,7 @@ When the user picks `large`, the element:
 - dispatches `new CustomEvent("textsizechange", { detail: { size: "large" }, bubbles: true, composed: true })`.
 
 The element does **not** style anything — your CSS maps each slug to a
-real font scale. The closed button shows only the "A" glyph, so the
+real font scale. The closed button shows only the "A" icon, so the
 status region above is the default pattern: it is the only thing that
 tells a user which size is active. Wire `textsizechange` (or read
 `el.value`) to keep it current:
@@ -148,7 +147,7 @@ the platform exposes no preferred-text-size signal to detect.
 | -------------------------- | ---------------------------------- |
 | `text-size-picker`        | root `<div>`                       |
 | `text-size-picker-button` | the icon `<button>`                |
-| `text-size-picker-icon`   | the `<span>` holding the "A" glyph |
+| `text-size-picker-icon`   | the `<svg>` holding the "A" icon   |
 | `text-size-picker-list`   | the `<ul role="listbox">`          |
 | `text-size-picker-option` | each `<li role="option">`          |
 
@@ -188,7 +187,7 @@ initial-value resolution. Storage errors are silently swallowed.
 
 ## Custom rendering
 
-Subclass and override `renderButtonContent()` to replace the glyph.
+Subclass and override `renderButtonContent()` to replace the icon.
 It is the HTML-helper stand-in for the `children` snippet the Svelte /
 React / Vue siblings take, and `this.value`, `this.open`, and
 `this.labelFor(...)` are all readable inside it:
@@ -228,9 +227,11 @@ and the whole keyboard contract keep working.
   feedback.
 - Directly supports WCAG 2.2 — 1.4.4 (Resize Text), 1.4.10 (Reflow),
   and 1.4.12 (Text Spacing).
-- Three known tradeoffs (icon-only naming, a custom listbox being
-  weaker than a native `<select>`, font-dependent glyph rendering) are
-  documented honestly in [docs/accessibility.md](./docs/accessibility.md).
+- Two known tradeoffs (icon-only naming, a custom listbox being
+  weaker than a native `<select>`) are documented honestly in
+  [docs/accessibility.md](./docs/accessibility.md). (A third —
+  font-dependent glyph rendering — no longer applies: the default icon
+  is a bundled SVG, not a Unicode character — reversed 2026-09-16.)
 
 ## SSR and static-site generation
 

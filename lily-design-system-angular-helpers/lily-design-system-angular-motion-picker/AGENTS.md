@@ -32,7 +32,8 @@ styles the `motion-picker` class hooks and decides what
 - `MotionPicker` (component class, selector `lily-motion-picker`).
 - `MotionPickerIcon` (optional marker directive,
   `ng-template[lilyMotionPickerIcon]`, for typed `let-` variables).
-- `PAUSE_SIGN` (the default glyph, U+23F8 + U+FE0E).
+- No glyph constant — the default icon is a bundled SVG, not a
+  Unicode character (reversed 2026-09-16).
 - `nextMotionPickerId` (per-instance id generator).
 - `motionName` (pure label resolver).
 - `prefersReducedMotion` (pure OS-preference reader).
@@ -65,7 +66,7 @@ participation.
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="motion-picker-icon" aria-hidden="true">⏸︎</span>
+    <svg class="motion-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3v10M11 3v10"/></svg>
   </button>
   <ul
     class="motion-picker-list"
@@ -92,7 +93,7 @@ participation.
 `@for` is used (not `*ngFor`). Ids come from `nextMotionPickerId()`,
 an incrementing module counter — stable, unique per instance,
 SSR-safe. A projected `<ng-template>` (queried via
-`contentChild(TemplateRef)`) replaces the glyph inside the button and
+`contentChild(TemplateRef)`) replaces the icon inside the button and
 receives `ChildArgs` (`{ $implicit, value, open, labelFor }`); it does
 **not** render options.
 
@@ -126,5 +127,3 @@ receives `ChildArgs` (`{ $implicit, value, open, labelFor }`); it does
 - No runtime dependency beyond `@angular/core` / `@angular/common`.
 - No bundled CSS, fonts, icons, or images.
 - All user-facing strings come from inputs.
-- Glyph escaped in source (`PAUSE_SIGN`, U+23F8 + U+FE0E) per
-  `AGENTS/helpers.md`'s glyph-escaping rule.

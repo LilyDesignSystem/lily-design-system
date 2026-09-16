@@ -11,7 +11,6 @@ The barrel (`index.ts`) re-exports:
 export {
   LocalePicker,
   LocalePickerIcon,
-  GLOBE_WITH_MERIDIANS,
   nextLocalePickerId,
   bcp47LocaleTag,
   isRtlLocale,
@@ -43,7 +42,8 @@ The component's TypeScript types (the public field shapes) are
 inferred from the `input<T>()` / `model<T>()` / `output<T>()`
 factories — there's no separate `Props` interface to import. The one
 exported type is `ChildArgs`, the context of the projected icon
-template.
+template. No glyph constant is exported — the default icon is a
+bundled SVG, not a Unicode character (reversed 2026-09-16).
 
 ## Inputs
 
@@ -73,7 +73,7 @@ the inner root `<div>`.
 
 ## Content projection
 
-A projected `<ng-template>` replaces the default globe glyph inside
+A projected `<ng-template>` replaces the default globe icon inside
 the button. It does **not** render options.
 
 ```html
@@ -156,11 +156,15 @@ server and client renders and trip hydration.
 Plus the constants:
 
 ```ts
-export const GLOBE_WITH_MERIDIANS: string; // "\u{1F310}"
 export const defaultLocaleLabels: Record<string, string>;
 export const RTL_LANGUAGE_TAGS: ReadonlySet<string>;
 export const RTL_SCRIPT_SUBTAGS: ReadonlySet<string>;
 ```
+
+No glyph constant is exported. The default button icon is a bundled
+inline SVG in the component template (reversed 2026-09-16 from the
+Unicode glyph U+1F310 GLOBE WITH MERIDIANS, previously exported as
+`GLOBE_WITH_MERIDIANS`).
 
 All the pure functions are side-effect-free; consumers can call them
 from tests, server code, or other components without instantiating
@@ -180,7 +184,7 @@ the select.
     [attr.aria-expanded]="open()"
     [attr.aria-controls]="listId"
   >
-    <span class="locale-picker-icon" aria-hidden="true">🌐︎</span>
+    <svg class="locale-picker-icon" viewBox="0 0 16 16" width="1.05rem" height="1.05rem" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M2 8h12"/><path d="M8 2c2.2 0 4 2.7 4 6s-1.8 6-4 6-4-2.7-4-6 1.8-6 4-6z"/></svg>
   </button>
 
   <ul
@@ -279,7 +283,7 @@ export class LocalePicker {
   readonly className = input<string>("");
   readonly localeChange = output<string>();
 
-  /** Projected icon template; replaces the default glyph when supplied. */
+  /** Projected icon template; replaces the default icon when supplied. */
   protected readonly iconTemplate = contentChild(TemplateRef);
   // …
 }

@@ -6,7 +6,6 @@ import { fileURLToPath } from "node:url";
 
 import {
   autoInit,
-  CIRCLE_WITH_RIGHT_HALF_BLACK,
   initThemePicker,
   matchSystemTheme,
   normaliseThemesUrl,
@@ -173,7 +172,7 @@ describe("ThemePicker — macro markup contract (§7.1–§7.6)", () => {
     expect(list.getAttribute("tabindex")).toBe("-1");
   });
 
-  test("§7.1 the button renders the half-circle glyph, hidden from assistive tech", () => {
+  test("§7.1 the button renders the default SVG icon, hidden from assistive tech", () => {
     const root = mountIntoBody(
       renderMacro({
         label: "Theme",
@@ -181,10 +180,11 @@ describe("ThemePicker — macro markup contract (§7.1–§7.6)", () => {
         themes: THEMES,
       }),
     );
-    const icon = root.querySelector(".theme-picker-icon") as HTMLElement;
-    expect(icon.textContent).toBe(CIRCLE_WITH_RIGHT_HALF_BLACK);
+    const icon = root.querySelector(".theme-picker-icon") as SVGElement;
+    expect(icon.tagName.toLowerCase()).toBe("svg");
     expect(icon.getAttribute("aria-hidden")).toBe("true");
-    // The glyph must never be the accessible name.
+    expect(icon.querySelector("circle")).toBeTruthy();
+    // The icon must never be the accessible name.
     expect(root.querySelector(".theme-picker-button")!.textContent).not.toBe(
       root.querySelector(".theme-picker-button")!.getAttribute("aria-label"),
     );

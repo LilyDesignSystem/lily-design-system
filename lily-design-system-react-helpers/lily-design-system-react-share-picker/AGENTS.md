@@ -5,9 +5,10 @@ everything below is a fast index.
 
 ## What this package is
 
-A React 19 headless share control. A single-glyph button (➤, U+27A4)
-that uses the **native share sheet** when the browser has one, and
-otherwise opens a disclosure list of consumer-supplied destinations plus
+A React 19 headless share control. A single-icon button (a bundled
+outline-arrow SVG, reversed 2026-09-16 from U+27A4) that uses the
+**native share sheet** when the browser has one, and otherwise opens
+a disclosure list of consumer-supplied destinations plus
 a built-in copy-the-URL action. Ships no CSS, no icons, and no
 third-party endpoints.
 
@@ -30,11 +31,12 @@ whose spec numbering this package mirrors clause for clause.
 ## Public surface
 
 Default export `SharePicker`; named `SharePicker`, `canShareNatively`,
-`canCopy`, `nextSharePickerId`, `BLACK_RIGHTWARDS_ARROWHEAD`; types
-`Props`, `ChildArgs`, `ShareTarget`, `ShareStrategy`.
+`canCopy`, `nextSharePickerId`; types `Props`, `ChildArgs`,
+`ShareTarget`, `ShareStrategy`. No glyph constant — the default icon
+is a bundled SVG, not a Unicode character.
 
 Required prop: `label`. Optional `children` is a render prop that
-replaces the **glyph** inside the button and receives `{ open, url }` —
+replaces the **icon** inside the button and receives `{ open, url }` —
 it does not render the list.
 
 ## Behaviour contract (one paragraph)
@@ -51,7 +53,7 @@ preference.
 ## HTML
 
 `<div class="share-picker">` → `<button class="share-picker-button">`
-with an `aria-hidden` glyph span → `<ul class="share-picker-list"
+with an `aria-hidden` SVG icon → `<ul class="share-picker-list"
 aria-label="{label}" hidden>`
 of `<li>` containing `<a class="share-picker-target">` and an optional
 `<button class="share-picker-copy">` → `<p class="share-picker-status"

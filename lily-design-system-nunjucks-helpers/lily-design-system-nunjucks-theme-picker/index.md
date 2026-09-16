@@ -78,7 +78,7 @@ Nunjucks render time                 │  Browser runtime
   …>                                  │     ▼
   <input type="hidden" name="theme">  │  wires button + listbox events
   <button class="theme-picker-button" │     │
-          aria-haspopup="listbox">◑   │     ▼
+          aria-haspopup="listbox">[svg]│     ▼
   <ul class="theme-picker-list"       │  resolves initial value
       role="listbox" hidden>          │     │
     <li role="option">…</li>          │     ▼
@@ -215,7 +215,7 @@ for form participation, an icon-only button, and a listbox that starts
     aria-controls="theme-picker-theme-list"
     data-lily-theme-picker-button
   >
-    <span class="theme-picker-icon" aria-hidden="true">◑</span>
+    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" width="1.05rem" height="1.05rem">…</svg>
   </button>
   <ul
     class="theme-picker-list"
@@ -248,7 +248,8 @@ for form participation, an icon-only button, and a listbox that starts
 </div>
 ```
 
-The default glyph is U+25D1 CIRCLE WITH RIGHT HALF BLACK (`◑`),
+The default icon is a bundled contrast/half-circle SVG (`viewBox="0 0 16 16"`),
+not a Unicode character (reversed 2026-09-16),
 wrapped in `aria-hidden="true"`: it is decoration, and the button's
 accessible name comes **only** from `aria-label="{label}"`. Because
 the button shows a fixed-width glyph rather than the theme name, the
@@ -322,7 +323,6 @@ import {
   autoInit,
   normaliseThemesUrl,
   themeHref,
-  CIRCLE_WITH_RIGHT_HALF_BLACK,
 } from "./theme-picker.client.js";
 ```
 
@@ -332,7 +332,7 @@ import {
   returns `{setTheme, destroy}`.
 - `normaliseThemesUrl(url)` — ensure exactly one trailing `/`.
 - `themeHref(url, slug, extension)` — build the full href.
-- `CIRCLE_WITH_RIGHT_HALF_BLACK` — the default button glyph (`◑`),
+- No glyph constant — the default icon is a bundled SVG, not a Unicode character.
   exported so tests and custom renderings can reference it without
   re-typing the code point.
 
@@ -355,7 +355,7 @@ controller.destroy(); // remove every listener
 The button's glyph is the one part of the markup the macro hands
 over. Nunjucks has no render props, so its equivalent of "children"
 is a `{% call %}` block: the block body replaces the default
-`<span class="theme-picker-icon">◑</span>` **inside** the button.
+`<svg class="theme-picker-icon">…</svg>` **inside** the button.
 
 ```njk
 {% call themePicker({

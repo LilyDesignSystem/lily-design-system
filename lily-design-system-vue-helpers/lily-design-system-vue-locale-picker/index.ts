@@ -7,7 +7,6 @@ export {
     localeName,
     matchNavigatorLanguage,
     nextLocalePickerId,
-    GLOBE_WITH_MERIDIANS,
     defaultLocaleLabels,
     RTL_LANGUAGE_TAGS,
     RTL_SCRIPT_SUBTAGS,

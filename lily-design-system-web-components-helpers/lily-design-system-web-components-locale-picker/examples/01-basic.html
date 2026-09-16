@@ -7,7 +7,7 @@
     in the list), writes <html lang="en"> and <html dir="ltr">,
     and dispatches a localechange CustomEvent.
 
-    The rendered control is an icon button (globe glyph, U+1F310)
+    The rendered control is an icon button (a bundled globe SVG)
     that opens a <ul role="listbox"> of <li role="option"> items —
     the WAI-ARIA APG listbox pattern. It is NOT a native <select>,
     so the whole keyboard contract is the element's own JS:
@@ -41,7 +41,7 @@
     adjust the <script src=…> to point at your build output.
 
     THE STATUS LINE IS PART OF THE PATTERN — copy it along with the
-    select. The closed control shows only a glyph, so without this
+    select. The closed control shows only an icon, so without this
     line there is nowhere the current selection is displayed or
     announced. See docs/accessibility.md.
 

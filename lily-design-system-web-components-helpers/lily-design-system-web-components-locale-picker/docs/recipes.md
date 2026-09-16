@@ -143,7 +143,7 @@ el.addEventListener("localechange", async (e) => {
 
 ## Show the active language next to the button
 
-The closed button is a glyph only. Mirror the state into visible text:
+The closed button is an icon only. Mirror the state into visible text:
 
 ```ts
 const out = document.querySelector("#locale-name")!;
@@ -184,7 +184,7 @@ el.localeLabels = { fr: "Français (French)", ar: "العربية (Arabic)" };
 
 ## Put the language code on the button
 
-Two-letter codes are a common alternative to the globe glyph. Subclass
+Two-letter codes are a common alternative to the globe icon. Subclass
 and override the tier-1 hook; the base class keeps all aria wiring:
 
 ```ts

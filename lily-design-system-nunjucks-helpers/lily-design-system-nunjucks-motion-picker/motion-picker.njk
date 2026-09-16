@@ -7,15 +7,9 @@
   Companion runtime: motion-picker.client.js
 
   Same shape as theme-picker, locale-picker, and text-size-picker: an
-  icon button (pause sign, U+23F8 + U+FE0E) that opens a listbox.
-
-  Why the pause sign: it reads as "stop the moving parts" more
-  directly than an abstract symbol, has a real monochrome glyph in
-  ordinary system fonts (media-transport symbols default to text
-  presentation, unlike most pictographs), and doesn't collide with any
-  sibling picker's glyph (theme's CIRCLE WITH RIGHT HALF BLACK,
-  locale's GLOBE WITH MERIDIANS, text-size's plain "A", share's BLACK
-  RIGHTWARDS ARROWHEAD, date-time's CALENDAR).
+  icon button (a bundled two-bar pause SVG, viewBox 0 0 16 16 —
+  reversed 2026-09-16 from the Unicode glyph U+23F8 + U+FE0E) that
+  opens a listbox.
 
   Params (single `opts` object):
     label         — string, required. aria-label for the button AND the
@@ -50,8 +44,8 @@
   same "server marks *something* honestly, client refines it" pattern
   theme-picker's own `detectFromSystem` uses.
 
-  Custom glyph: call the macro with a `{% call %}` block and the block
-  body replaces the default glyph inside the button:
+  Custom icon: call the macro with a `{% call %}` block and the block
+  body replaces the default icon inside the button:
 
     {% call motionPicker({label: "Motion", motions: [...]}) %}
       <svg aria-hidden="true">…</svg>
@@ -98,7 +92,7 @@
 >
 <input type="hidden" name="{{ name }}" value="{{ selected }}" data-lily-motion-picker-input>
 <button type="button" class="motion-picker-button" aria-label="{{ opts.label }}" aria-haspopup="listbox" aria-expanded="false" aria-controls="{{ listId }}" data-lily-motion-picker-button>
-{%- if caller %}{{ caller() }}{% else %}<span class="motion-picker-icon" aria-hidden="true">⏸︎</span>{% endif -%}
+{%- if caller %}{{ caller() }}{% else %}<svg class="motion-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="1.05rem" height="1.05rem"><path d="M5 3v10M11 3v10"/></svg>{% endif -%}
 </button>
 <ul class="motion-picker-list" id="{{ listId }}" role="listbox" aria-label="{{ opts.label }}" tabindex="-1" hidden data-lily-motion-picker-list>
 {%- for slug in opts.motions -%}

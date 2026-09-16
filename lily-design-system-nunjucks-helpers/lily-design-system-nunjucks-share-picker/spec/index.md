@@ -23,7 +23,8 @@ Sibling files:
 
 Give a Nunjucks application a drop-in, headless share control that:
 
-1. Renders a single-glyph button (➤, U+27A4) matching the other Lily
+1. Renders a single-icon button (a bundled arrow SVG, reversed
+   2026-09-16 from the Unicode glyph U+27A4) matching the other Lily
    helpers.
 2. Uses the **native share sheet** where the browser provides one.
 3. Otherwise opens a list of consumer-supplied destinations, plus a
@@ -131,7 +132,7 @@ exported as the pure resolver and accepts **both** forms, so one
 
 | Key               | Type                       | Required | Default                | Purpose                                                                              |
 | ----------------- | -------------------------- | -------- | ---------------------- | ------------------------------------------------------------------------------------ |
-| `label`           | string                     | yes      | —                      | Accessible name for the trigger. Glyph-only button, so this is its **only** name.    |
+| `label`           | string                     | yes      | —                      | Accessible name for the trigger. Icon-only button, so this is its **only** name.    |
 | `targets`         | array                      | no       | `[]`                   | Destinations. Empty is valid when `copyLabel` is set.                                |
 | `url`             | string                     | no       | —                      | URL to share. Emitted as a data attribute; the client falls back to `location.href`. |
 | `title`           | string                     | no       | `""`                   | Passed to the native sheet.                                                          |
@@ -144,7 +145,7 @@ exported as the pure resolver and accepts **both** forms, so one
 | `id`              | string                     | no       | `share-picker-{name}` | Id prefix for the list and items.                                                    |
 | `classes`         | string                     | no       | —                      | Extra classes on the root.                                                           |
 | `attributes`      | object                     | no       | —                      | Extra HTML attributes spread onto the root.                                          |
-| `{% call %}` body | —                          | no       | the ➤ glyph            | Replaces the glyph inside the button.                                                |
+| `{% call %}` body | —                          | no       | the default arrow icon | Replaces the icon inside the button.                                                |
 
 Each entry in `targets`:
 
@@ -167,7 +168,7 @@ Each entry in `targets`:
     aria-controls="{id}-list"
     data-lily-share-picker-button
   >
-    <span class="share-picker-icon" aria-hidden="true">➤</span>
+    <svg class="share-picker-icon" viewBox="0 0 16 16" aria-hidden="true" width="1.05rem" height="1.05rem">…</svg>
   </button>
   <ul
     class="share-picker-list"
@@ -215,7 +216,9 @@ The list is rendered `hidden`; nothing server-side removes it.
 ### 4.3 client.js exports
 
 `initSharePicker`, `autoInit`, `canShareNatively`, `canCopy`,
-`nextSharePickerId`, `shareTargetHref`, `BLACK_RIGHTWARDS_ARROWHEAD`.
+`nextSharePickerId`, `shareTargetHref`. No glyph constant — the
+default icon is a bundled SVG, not a Unicode character (reversed
+2026-09-16; see §8).
 
 `initSharePicker(root, opts?)` opts: `url`, `title`, `text`, `strategy`,
 `targets`, `copiedLabel`, `copyFailedLabel`, `onShare(id, url)`,
@@ -297,7 +300,7 @@ surface.
 19. Clicking outside closes the list.
 20. An explicit `url` opt wins.
 21. With no `url`, the current page URL is used.
-22. A `{% call %}` body replaces the glyph.
+22. A `{% call %}` body replaces the icon.
 23. Ids are deterministic, derived from `name` / `id`, and wired to `aria-controls`.
 24. `newTab: false` drops `target="_blank"` and keeps `rel`.
 25. `shareTargetHref` resolves both the function and string forms; a throwing function yields `""`.
@@ -319,6 +322,11 @@ Accessibility hardening (ported from the canonical Svelte spec's
 - Package: lily-design-system-nunjucks-share-picker
 - Version: 0.1.0
 - License: MIT
+- **2026-09-16**: default icon changed from the Unicode glyph U+27A4
+  BLACK RIGHTWARDS ARROWHEAD (exported as `BLACK_RIGHTWARDS_ARROWHEAD`)
+  to a bundled outline SVG. Maintainer-directed, applied to all five
+  page-header pickers the same day. The glyph constant was removed,
+  not renamed.
 
 ---
 

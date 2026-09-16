@@ -103,21 +103,18 @@ If your users depend on the platform picker — a screen-reader-heavy or
 mobile-first audience — a plain `<select>` bound to `Value` is the safer
 control, and choosing it over this helper is a legitimate decision.
 
-### 3. The glyph is a font-dependent character, not an asset
+### 3. The icon is `aria-hidden`, not the accessible name
 
-The default glyph is `◑` (U+25D1 CIRCLE WITH RIGHT HALF BLACK). This
-package ships no fonts, no icons, and no images, so what the user sees
-is whatever the platform's font stack resolves. Depending on OS,
-browser, font settings, and the user's own stylesheet it may render at
-a different weight or size than you designed for, get substituted from
-a fallback font, appear as a colour emoji, or render as `□` if nothing
-in the stack covers it.
+The default icon is a bundled outline/half-circle SVG (not a Unicode
+character — reversed 2026-09-16; this package previously shipped a
+font-dependent glyph and documented its cross-platform rendering
+variance here, but a bundled SVG renders identically everywhere, so
+that tradeoff no longer applies).
 
-Because the glyph is `aria-hidden`, a missing glyph is a *visual*
-failure, not a naming failure — the control stays operable and named.
-But it can leave a sighted user with an unlabelled blank button. If
-that matters, supply your own `ChildContent` (an inline SVG is the
-robust choice) and/or give `.theme-picker-button` a visible
+Because the icon is `aria-hidden`, it never competes with the
+button's accessible name, which comes wholly from `Label`. Supply
+your own `ChildContent` if you want different artwork, and/or give
+`.theme-picker-button` a visible
 `min-width` / `min-height` so it stays a clear target either way.
 
 ## The status region is still the recommended pattern

@@ -218,33 +218,23 @@ reaching the server — which is what makes the SSR strategies work.
 **Also check.** `storageKey` is actually set. It defaults to `""`, which
 disables persistence entirely; there is no implicit key.
 
-## "The globe renders blue, as a colour emoji"
+## "The globe renders blue, as a colour emoji" / "The button renders an empty box, or a □"
 
-**Cause.** `GLOBE_WITH_MERIDIANS` is two code points: U+1F310 GLOBE WITH
-MERIDIANS followed by U+FE0E VARIATION SELECTOR-15, which requests _text_
-presentation so the glyph stays monochrome next to theme-picker's `◑`. The
-colour emoji comes back when the variation selector stops having an effect —
-usually because a build step, sanitiser, or copy-paste through a tool that
-normalises Unicode has stripped it, or because the consumer font stack has no
-text-presentation glyph for U+1F310 and the browser falls back to the colour
-emoji font.
-
-**Fix.** Confirm the character survived — `GLOBE_WITH_MERIDIANS.length` is `3`
-(the astral glyph is a surrogate pair, plus VS15); a length of `2` means the
-selector is gone. Then set a font stack on `.locale-picker-icon` that includes
-a text-presentation face, or sidestep the question entirely with an inline SVG
-via a projected `<ng-template>`. Both are covered in
-[styling.md](./styling.md) and
+**No longer applicable.** Before 2026-09-16 the default icon was the
+Unicode glyph `GLOBE_WITH_MERIDIANS` (U+1F310 GLOBE WITH MERIDIANS +
+U+FE0E VARIATION SELECTOR-15), and both of these were real failure
+modes: a stripped variation selector made the glyph fall back to a
+colour emoji, and a font stack with no text-presentation glyph for
+U+1F310 rendered an empty box or tofu. The default icon is now a
+bundled `<svg>` that renders identically everywhere, so neither can
+happen any more. If you still see an empty box, check that the
+`<svg>`'s markup wasn't stripped by a sanitiser or build step, or
+replace the icon entirely with an inline SVG via a projected
+`<ng-template>` — covered in [styling.md](./styling.md) and
 [custom-rendering.md](./custom-rendering.md).
 
-## "The button renders an empty box, or a □"
-
-Same root cause as above, opposite failure: the device has no glyph for
-U+1F310 at all. Give `.locale-picker-button` a `min-width` and `min-height` so
-it stays a hittable target regardless, and consider replacing the glyph.
-
-The accessible name is unaffected either way — the span is `aria-hidden` and
-the button is named by `aria-label`.
+The accessible name is unaffected either way — the icon is
+`aria-hidden` and the button is named by `aria-label`.
 
 ## "Screen readers announce two language controls"
 

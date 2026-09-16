@@ -242,6 +242,14 @@ test_implementation_nunjucks_example() {
 #
 # ASCII "A" (U+0041) is exempt either way — it cannot be mangled, so
 # nothing here checks it.
+#
+# 2026-09-16: five of the six picker glyphs (theme, locale, text-size,
+# motion, share) were reversed again — from Unicode characters to bundled
+# SVG icons — so CIRCLE_WITH_RIGHT_HALF_BLACK, GLOBE_WITH_MERIDIANS,
+# BLACK_RIGHTWARDS_ARROWHEAD, and PAUSE_SIGN no longer exist as exported
+# constants; the patterns below simply find nothing for them now, which is
+# correct (not a bug in this check). Only date-time-picker's CALENDAR
+# constant is still a Unicode glyph and still covered.
 ##
 test_helper_glyphs_are_bare() (
     # NOTE: this script runs under `set -euf`; -f disables globbing, so

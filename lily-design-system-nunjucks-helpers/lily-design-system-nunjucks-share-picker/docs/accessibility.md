@@ -61,22 +61,21 @@ Consequences to weigh before shipping:
   "share". A visible label, or a tooltip you supply yourself, helps
   everyone and costs nothing.
 
-## The glyph is font-dependent
+## The icon is a bundled SVG, not a font-dependent glyph
 
-The default glyph is U+27A4 BLACK RIGHTWARDS ARROWHEAD (➤), chosen the
-same way as the other helpers' glyphs: an in-font arrow rather than a
-pictograph. It inherits the page's font, stays monochrome, respects
-`currentColor`, and scales with the type.
+Until 2026-09-16 the default was U+27A4 BLACK RIGHTWARDS ARROWHEAD
+(➤), a Unicode character rendered with whatever font the page
+resolved — safer than an emoji, but not guaranteed, since a narrow
+font stack or subsetted webfont could render tofu (▯). Reversed
+maintainer-directed the same day as the other four page-header
+pickers: the trigger now renders a bundled outline arrow SVG
+(`viewBox="0 0 16 16"`), which inherits `currentColor` and renders
+identically regardless of the consumer's font stack.
 
-It is **much** safer than an emoji — no colour-font substitution, no
-platform-specific redesign, no "share icon" that looks like a different
-product on each OS — but it is not guaranteed. A font without the
-codepoint renders tofu (▯). If your font stack is narrow or you serve a
-subsetted webfont, either check U+27A4 is in the subset or override the
-glyph with an inline SVG via `{% call %}`.
-
-Whatever you substitute, keep it `aria-hidden="true"` — the name comes
-from `aria-label` and a second source would double-announce.
+You can still override it with an inline SVG (or anything else) via
+`{% call %}`. Whatever you substitute, keep it `aria-hidden="true"` —
+the name comes from `aria-label` and a second source would
+double-announce.
 
 ## Behaviour differs by platform under `strategy="auto"`
 

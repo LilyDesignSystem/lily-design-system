@@ -278,7 +278,7 @@ Section map:
 | ---------------- | ----------------------------------------------------------------- |
 | **Markup contract** |                                                                |
 | 7.1 structure    | Root `<div>`, button with `aria-haspopup`/`aria-expanded`/`aria-controls`, `<ul role="listbox" tabindex="-1">`, no `<select>` |
-| 7.2 glyph        | `.theme-picker-icon` renders `◑`, `aria-hidden="true"`, matches `CircleWithRightHalfBlack` |
+| 7.2 icon         | `svg.theme-picker-icon` renders, `aria-hidden="true"`, contains a `<circle>` |
 | 7.3 naming       | `aria-label` on BOTH the button and the listbox                   |
 | 7.4 options      | One `li.theme-picker-option` per theme; hidden input carries `Name` + resolved `Value` |
 | 7.5 open state   | `hidden` until activated; activating toggles `hidden` + `aria-expanded` |

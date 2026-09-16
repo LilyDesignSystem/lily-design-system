@@ -31,12 +31,13 @@ the list.
 - Default export: `LocalePicker` component.
 - Named exports: `LocalePicker`, `bcp47LocaleTag`, `isRtlLocale`,
   `localeEndonym`, `localeName`, `matchNavigatorLanguage`,
-  `defaultLocaleLabels`, `RTL_LANGUAGE_TAGS`, `RTL_SCRIPT_SUBTAGS`,
-  `GLOBE_WITH_MERIDIANS`.
+  `defaultLocaleLabels`, `RTL_LANGUAGE_TAGS`, `RTL_SCRIPT_SUBTAGS`.
+  No glyph constant — the default icon is a bundled SVG, not a
+  Unicode character (reversed 2026-09-16).
 - Type exports: `Props`, `ChildArgs`.
 
 Required props: `label`, `locales`. `label` is the only source of the
-button's accessible name, because the glyph is `aria-hidden`. Full
+button's accessible name, because the icon is `aria-hidden`. Full
 table in [spec/index.md §4.1](./spec/index.md#41-props).
 
 ## Behaviour contract (one paragraph)
@@ -61,7 +62,7 @@ button.
   <button type="button" class="locale-picker-button"
           aria-label="{label}" aria-haspopup="listbox"
           aria-expanded="false" aria-controls="{listId}">
-    <span class="locale-picker-icon" aria-hidden="true">🌐</span>
+    <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M2 8h12"/><path d="M8 2c2.2 0 4 2.7 4 6s-1.8 6-4 6-4-2.7-4-6 1.8-6 4-6z"/></svg>
   </button>
   <ul class="locale-picker-list" id="{listId}" role="listbox"
       aria-label="{label}" tabindex="-1" hidden
@@ -73,14 +74,14 @@ button.
 </div>
 ```
 
-The glyph is U+1F310 GLOBE WITH MERIDIANS + U+FE0E VARIATION SELECTOR-15, exported
-as `GLOBE_WITH_MERIDIANS`. An option carries `lang` (BCP 47 hyphen form)
-only when its label is the derived endonym — WCAG 3.1.2 (Language of
-Parts) is a claim about the text, and consumer or English-fallback
-labels make no claim; the button and the list carry no `lang`. Ids
-come from `useId`, so they are stable and hydration-safe. The `children`
-render prop receives `{ value, open, labelFor }` and replaces the glyph
-inside the button — it does not render options.
+The icon is a bundled globe-outline SVG (`viewBox="0 0 16 16"`) —
+not a Unicode character, reversed 2026-09-16. An option carries `lang`
+(BCP 47 hyphen form) only when its label is the derived endonym —
+WCAG 3.1.2 (Language of Parts) is a claim about the text, and consumer
+or English-fallback labels make no claim; the button and the list carry
+no `lang`. Ids come from `useId`, so they are stable and hydration-safe.
+The `children` render prop receives `{ value, open, labelFor }` and
+replaces the icon inside the button — it does not render options.
 
 ## Accessibility
 
@@ -95,16 +96,17 @@ inside the button — it does not render options.
   proceeds from the picker's position.
   See [spec/index.md §6.2](./spec/index.md#62-keyboard-contract).
 - `aria-label` carries the consumer-supplied accessible name on both
-  the button and the listbox. Because the glyph is `aria-hidden`, it is
+  the button and the listbox. Because the icon is `aria-hidden`, it is
   the button's *only* name — never omit it.
 - An option carries its locale via `lang` only when its label is the
   derived endonym, so screen readers switch voice only when the claim
   is true.
 - The document root gets `lang` and (by default) `dir`.
 - Tradeoffs of the icon button + custom listbox (name depends wholly on
-  `aria-label`; weaker AT support than a native `<select>`; the globe
-  glyph is font-dependent and culturally loaded) are documented in
-  [docs/accessibility.md](./docs/accessibility.md).
+  `aria-label`; weaker AT support than a native `<select>`) are
+  documented in [docs/accessibility.md](./docs/accessibility.md). (The
+  font-dependent-glyph tradeoff no longer applies: the icon is a
+  bundled SVG — reversed 2026-09-16.)
 
 ## Conventions this package follows
 

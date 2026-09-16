@@ -30,7 +30,8 @@ class hooks, supplies the listbox positioning, and maps each
 - `TextSizePicker` (component class, selector `lily-text-size-picker`).
 - `TextSizePickerIcon` (optional marker directive,
   `ng-template[lilyTextSizePickerIcon]`, for typed `let-` variables).
-- `LATIN_CAPITAL_LETTER_A` (the default glyph, `"A"` U+0041).
+- No glyph constant — the default icon is a bundled SVG, not a
+  Unicode character (reversed 2026-09-16).
 - `nextTextSizePickerId` (per-instance id generator).
 - `sizeName` (pure label resolver).
 - `ChildArgs` (type).
@@ -64,7 +65,7 @@ text size" media query exists.
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="text-size-picker-icon" aria-hidden="true">A</span>
+    <svg class="text-size-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13 7.2 3h1.6L12 13M5.4 9.5h5.2"/></svg>
   </button>
   <ul
     class="text-size-picker-list"
@@ -91,13 +92,13 @@ text size" media query exists.
 `@for` is used (not `*ngFor`). Ids come from `nextTextSizePickerId()`,
 an incrementing module counter — stable, unique per instance,
 SSR-safe. A projected `<ng-template>` (queried via
-`contentChild(TemplateRef)`) replaces the glyph inside the button and
+`contentChild(TemplateRef)`) replaces the icon inside the button and
 receives `ChildArgs` (`{ $implicit, value, open, labelFor }`); it does
 **not** render options.
 
-The glyph is `"A"` (U+0041), not a pictograph: U+1F5DB DECREASE FONT
-SIZE SYMBOL has no real glyph in common font stacks and means
-_decrease_ rather than _size_.
+The default icon is a bundled outline "A" SVG, not a Unicode
+character (reversed 2026-09-16) — it renders identically regardless
+of the consumer's installed fonts.
 
 ## Accessibility
 

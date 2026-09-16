@@ -156,27 +156,15 @@ on top of the positioning block above:
 
 ### The monochrome globe
 
-The default glyph is U+1F310 GLOBE WITH MERIDIANS followed by U+FE0E
-VARIATION SELECTOR-15. VS15 asks for the _text_ presentation so the
-globe renders in the current text colour rather than as a blue colour-
-emoji, matching ThemePicker's `◑`.
-
-Some platforms honour VS15 only partially. If you see a colour globe
-where you want a monochrome one, the reliable fix is to name a text
-font ahead of the emoji font:
-
-```css
-.locale-picker-icon {
-  font-family: "Segoe UI Symbol", "Noto Sans Symbols 2", system-ui, sans-serif;
-}
-```
-
-Because `.locale-picker-icon` inherits `color`, a monochrome glyph
-follows your theme automatically — which is the reason to want it.
+The default icon is a bundled outline SVG (`stroke="currentColor"`),
+not a Unicode character (reversed 2026-09-16). Because it uses
+`currentColor`, `.locale-picker-icon` inherits `color` and follows
+your theme automatically — no font-fallback or emoji-presentation
+concerns, since nothing here depends on the platform's font stack.
 
 ## The status region
 
-The closed control shows only a glyph, never the active language, so
+The closed control shows only an icon, never the active language, so
 the recommended pattern pairs it with a status region that echoes the
 selection. You render that element yourself; the component does not
 emit it. Use the `.locale-picker-status` hook so the class name stays

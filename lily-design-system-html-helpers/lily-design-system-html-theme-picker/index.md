@@ -74,7 +74,6 @@ import {
   normalizeThemesUrl,
   themeHref,
   nextThemePickerId,
-  CIRCLE_WITH_RIGHT_HALF_BLACK,
   type ThemePickerProps,
   type ThemePickerChangeDetail,
 } from "./lily-design-system-html-theme-picker";
@@ -224,8 +223,8 @@ The element renders this into its light DOM:
 
 Points worth knowing:
 
-- The **glyph** is U+25D1 CIRCLE WITH RIGHT HALF BLACK, exported as
-  `CIRCLE_WITH_RIGHT_HALF_BLACK`. It is `aria-hidden="true"`, so the
+- The **icon** is a bundled contrast/half-circle SVG (not a Unicode
+  character — reversed 2026-09-16). It is `aria-hidden="true"`, so the
   accessible name comes from the button's `aria-label` alone.
 - The **hidden `<input>`** preserves form participation and carries
   `name` — a listbox is not a form control.

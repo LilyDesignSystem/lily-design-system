@@ -23,8 +23,8 @@ Sibling files:
 
 Give a Vue 3 application a drop-in, headless share control that:
 
-1. Renders a single-glyph button (➤, U+27A4) matching the other Lily
-   helpers.
+1. Renders a single-icon button (a bundled arrow SVG, not a Unicode
+   character — reversed 2026-09-16) matching the other Lily helpers.
 2. Uses the **native share sheet** where the browser provides one.
 3. Otherwise opens a list of consumer-supplied destinations, plus a
    built-in **copy the page URL** action.
@@ -109,7 +109,7 @@ action, not a value.
 
 ### 4.3 Slot
 
-The default scoped slot replaces the **button glyph** and receives
+The default scoped slot replaces the **button icon** and receives
 `SlotArgs`:
 
 ```ts
@@ -139,7 +139,7 @@ type ShareTarget = {
     aria-expanded
     aria-controls="{listId}"
   >
-    <span class="share-picker-icon" aria-hidden="true">➤</span>
+    <svg class="share-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5"/></svg>
   </button>
   <ul class="share-picker-list" id="{listId}" aria-label="{label}" hidden>
     <li class="share-picker-list-item">
@@ -169,9 +169,12 @@ rename to `share-picker` removed the need for that exception.)
 ### 4.5 Re-exports
 
 `index.ts` exports `default`, `SharePicker`, `canShareNatively`,
-`canCopy`, `nextSharePickerId`, `BLACK_RIGHTWARDS_ARROWHEAD`, and the
+`canCopy`, `nextSharePickerId`, and the
 types `Props`, `SlotArgs`, `ChildArgs` (alias of `SlotArgs`),
 `ShareTarget`, `ShareStrategy`.
+
+No glyph constant — the default icon is inline SVG markup in the
+component, not a separately-exported swappable character value.
 
 ## 5. Behaviour
 
@@ -221,7 +224,7 @@ closes the list.
 
 ## 6. Accessibility
 
-WCAG 2.2 AAA target. The glyph is `aria-hidden`; the accessible name is
+WCAG 2.2 AAA target. The icon is `aria-hidden`; the accessible name is
 the button's `aria-label`, which is consumer-supplied and localisable.
 The status region is `aria-live="polite"` and empty on load, so it
 announces the copy outcome and nothing else. Destinations keep native
@@ -258,7 +261,7 @@ sees on a phone is not what they see on a desktop. Full treatment in
 19. Clicking outside, re-clicking the trigger, or moving focus out of the root closes the list.
 20. An explicit `url` prop wins.
 21. With no `url`, the current page URL is used — for destinations and for the native sheet.
-22. The default slot replaces the glyph and receives `SlotArgs`, whose `open` tracks the list state.
+22. The default slot replaces the icon and receives `SlotArgs`, whose `open` tracks the list state.
 23. `Tab` from an open item puts focus on the button before closing, so
     the default Tab proceeds from the picker's position instead of
     restarting from `<body>` when the list is hidden while its item has
@@ -275,6 +278,12 @@ In addition, §4.2's root contract (class hook + consumer `class` +
 - Version: 0.1.0
 - License: MIT
 - Ported from: `lily-design-system-svelte-share-picker` 0.1.0
+
+**2026-09-16**: default icon changed from the Unicode glyph U+27A4
+BLACK RIGHTWARDS ARROWHEAD (exported as `BLACK_RIGHTWARDS_ARROWHEAD`)
+to a bundled outline SVG. Maintainer-directed, applied to all five
+page-header pickers the same day. The glyph constant was removed, not
+renamed — there is no longer a single swappable character value.
 
 ---
 

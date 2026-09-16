@@ -54,7 +54,6 @@ Or via the barrel (recommended; gives you the types too):
 ```ts
 import TextSizePicker, {
   sizeName,
-  LATIN_CAPITAL_LETTER_A,
   type Props,
   type SlotArgs,
 } from "./lily-design-system-vue-text-size-picker";

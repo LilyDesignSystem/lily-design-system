@@ -238,7 +238,7 @@ if (!customElements.get("glyphless-theme-picker")) {
 }
 ```
 
-Assert both halves: that the custom node replaced the glyph
+Assert both halves: that the custom node replaced the icon
 (`.theme-picker-icon` is gone) and that the base class's aria wiring
 survived (`aria-haspopup`, `aria-label`, a resolvable
 `aria-controls`).

@@ -8,18 +8,40 @@
     button + listbox markup; the banner just supplies the `className`
     hook so consumer CSS can position it.
 
-    The `children` render prop replaces the button glyph. Here we keep
-    the globe but pair it with the active language's endonym, so the
-    closed control still tells the reader which language is active —
-    the accessibility tradeoff of an icon-only button (see
-    docs/accessibility.md).
+    The `children` render prop replaces the button icon. Here we keep
+    the globe outline SVG but pair it with the active language's
+    endonym, so the closed control still tells the reader which
+    language is active — the accessibility tradeoff of an icon-only
+    button (see docs/accessibility.md).
 
-    Outcome: a <header> banner with a "🌐 English" button that opens the
-    language listbox.
+    Outcome: a <header> banner with a globe-icon "English" button that
+    opens the language listbox.
 */
 
 import { useState } from "react";
-import { LocalePicker, GLOBE_WITH_MERIDIANS } from "../LocalePicker";
+import { LocalePicker } from "../LocalePicker";
+
+// Mirrors LocalePicker's own default icon (reversed 2026-09-16 from
+// the Unicode glyph U+1F310); no longer exported as a constant.
+function GlobeIcon() {
+    return (
+        <svg
+            viewBox="0 0 16 16"
+            width="1.05rem"
+            height="1.05rem"
+            aria-hidden="true"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+        >
+            <circle cx="8" cy="8" r="6" />
+            <path d="M2 8h12" />
+            <path d="M8 2c2.2 0 4 2.7 4 6s-1.8 6-4 6-4-2.7-4-6 1.8-6 4-6z" />
+        </svg>
+    );
+}
 
 // Endonyms — each language in its own script.
 const NATIVE: Record<string, string> = {
@@ -57,8 +79,8 @@ export function NhsStyleExample() {
                     {({ value, labelFor }) => (
                         // aria-hidden: the button is already named by the
                         // `label` prop; this is redundant visual detail.
-                        <span aria-hidden="true">
-                            {GLOBE_WITH_MERIDIANS} {labelFor(value)}
+                        <span aria-hidden="true" style={{ display: "inline-flex", alignItems: "center", gap: "0.25em" }}>
+                            <GlobeIcon /> {labelFor(value)}
                         </span>
                     )}
                 </LocalePicker>

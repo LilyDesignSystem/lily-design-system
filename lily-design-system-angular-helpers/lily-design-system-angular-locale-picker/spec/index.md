@@ -60,7 +60,7 @@ Give an Angular 20 application a drop-in, headless locale picker that:
   Consumers needing a filtered 400-locale picker bind a sibling
   widget to the same `[(value)]` signal.
 - **Replacing the list rendering**. The projected `<ng-template>`
-  replaces the button glyph only. It does not render options.
+  replaces the button icon only. It does not render options.
 
 ## 3. Architectural decisions
 
@@ -80,7 +80,7 @@ Give an Angular 20 application a drop-in, headless locale picker that:
   increments a module-scoped integer. It is deliberately not
   `Math.random()` / `Date.now()` so server and client render the
   same ids and hydration does not mismatch.
-- **The projected `<ng-template>` replaces the glyph, nothing more.**
+- **The projected `<ng-template>` replaces the icon, nothing more.**
   Angular's answer to the Svelte canonical's `children` snippet. The
   component queries any projected template with
   `contentChild(TemplateRef)`; the exported `LocalePickerIcon`
@@ -131,7 +131,7 @@ Give an Angular 20 application a drop-in, headless locale picker that:
 
 ### 4.2 Content projection
 
-A projected `<ng-template>` replaces the default globe glyph inside
+A projected `<ng-template>` replaces the default globe icon inside
 the button. It does **not** render options — the listbox is
 component-owned.
 
@@ -171,7 +171,7 @@ The rendered tree, with the listbox closed:
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="locale-picker-icon" aria-hidden="true">🌐︎</span>
+    <svg class="locale-picker-icon" viewBox="0 0 16 16" width="1.05rem" height="1.05rem" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M2 8h12"/><path d="M8 2c2.2 0 4 2.7 4 6s-1.8 6-4 6-4-2.7-4-6 1.8-6 4-6z"/></svg>
   </button>
   <ul
     class="locale-picker-list"
@@ -212,12 +212,11 @@ Element by element:
   `locale-picker-button`, `aria-label="{label}"`,
   `aria-haspopup="listbox"`, `aria-expanded` tracking the open state,
   and `aria-controls` pointing at the list's `id`.
-- **Glyph** — `<span class="locale-picker-icon" aria-hidden="true">`
-  containing U+1F310 GLOBE WITH MERIDIANS (`&#127760;`), exported as
-  the constant `GLOBE_WITH_MERIDIANS`. It is hidden from assistive
-  technology because `aria-label` on the button already names the
-  control. A projected `<ng-template>` (§4.2) replaces this span
-  entirely.
+- **Icon** — `<svg class="locale-picker-icon" aria-hidden="true">`, a
+  bundled globe-outline icon (not a Unicode character — reversed
+  2026-09-16; see §9). It is hidden from assistive technology because
+  `aria-label` on the button already names the control. A projected
+  `<ng-template>` (§4.2) replaces this `<svg>` entirely.
 - **List** — `<ul class="locale-picker-list">` with `role="listbox"`,
   its own `aria-label="{label}"`, `tabindex="-1"` so it can receive
   focus programmatically, and the `hidden` attribute while closed.
@@ -259,13 +258,16 @@ Further rules:
 
 - `LocalePicker` (the component class)
 - `LocalePickerIcon` (the optional icon-template marker directive)
-- `GLOBE_WITH_MERIDIANS` (the default button glyph)
 - `nextLocalePickerId` (the per-instance id generator)
 - `bcp47LocaleTag`, `isRtlLocale`, `localeEndonym`, `localeName`,
   `matchNavigatorLanguage` (pure helpers)
 - `defaultLocaleLabels`, `RTL_LANGUAGE_TAGS`, `RTL_SCRIPT_SUBTAGS`
   (constants from `locales.ts`)
 - `ChildArgs` (type-only — the projected template's context)
+
+No glyph constant — the default icon is inline SVG markup in the
+component template, not a separately-exported swappable character
+value.
 
 ## 5. Behaviour
 
@@ -415,7 +417,7 @@ platform: every role, state, and key is the component's own.
 | `<button>`              | `aria-haspopup="listbox"`                               | Component      |
 | `<button>`              | `aria-expanded="true                                    | false"`        | Component |
 | `<button>`              | `aria-controls={listId}`                                | Component      |
-| `<span>`                | `aria-hidden="true"` (the glyph)                        | Component      |
+| `<svg>`                 | `aria-hidden="true"` (the icon)                         | Component      |
 | `<ul>`                  | `role="listbox"`, `aria-label={label}`, `tabindex="-1"` | Component      |
 | `<ul>`                  | `aria-activedescendant={optionId}` (open only)          | Component      |
 | `<li>`                  | `role="option"`, `aria-selected`                        | Component      |
@@ -424,7 +426,7 @@ platform: every role, state, and key is the component's own.
 Notes:
 
 - **The button is icon-only, so `label` is its entire accessible
-  name.** The glyph is `aria-hidden`, which means a vague or missing
+  name.** The icon is `aria-hidden`, which means a vague or missing
   `label` leaves the control unusable to screen-reader and
   voice-control users. See
   [`../docs/accessibility.md`](../docs/accessibility.md).
@@ -434,7 +436,7 @@ Notes:
 - The document root receives `lang` and (by default) `dir` (WCAG
   3.1.1 / 1.4.10).
 - The closed button never shows the active locale name — only the
-  glyph. Consumers surface the active locale separately; the status
+  icon. Consumers surface the active locale separately; the status
   region pattern is in
   [`../docs/accessibility.md`](../docs/accessibility.md).
 
@@ -497,8 +499,8 @@ below. Tests run under vitest + jsdom + `@angular/core/testing`
    `aria-expanded="false"`, and an `aria-controls` matching the
    `<ul role="listbox">`'s `id`; the root is a `<div>` carrying the
    `locale-picker` class hook plus the consumer's `className`; the
-   button contains a `.locale-picker-icon` span holding U+1F310
-   (equal to `GLOBE_WITH_MERIDIANS`) and marked `aria-hidden="true"`.
+   button contains a `.locale-picker-icon` svg — a bundled icon, not
+   a Unicode glyph — marked `aria-hidden="true"`.
 2. `aria-label` is the supplied `label` on **both** the button and
    the listbox.
 3. Renders exactly one `<li role="option">` per entry in `locales`;
@@ -560,8 +562,8 @@ below. Tests run under vitest + jsdom + `@angular/core/testing`
 
 22. The consumer's `className` is appended to the root `<div>`'s
     class list.
-23. A projected `<ng-template>` replaces the default glyph inside the
-    button — the `.locale-picker-icon` span is absent — and receives
+23. A projected `<ng-template>` replaces the default icon inside the
+    button — the `.locale-picker-icon` svg is absent — and receives
     the `ChildArgs` context (`value`, `open`, `labelFor`).
 
 ### 7.6 Keyboard contract (mirrors §5.9, §6.2)
@@ -628,3 +630,8 @@ clause means the same thing in every catalog.
 - Contact: Joel Parker Henderson &lt;joel@joelparkerhenderson.com&gt;
 - Canonical locale list: [locales.tsv](../locales.tsv) — 436 codes
   with English names.
+- **2026-09-16**: default icon changed from the Unicode glyph U+1F310
+  GLOBE WITH MERIDIANS + U+FE0E (exported as `GLOBE_WITH_MERIDIANS`)
+  to a bundled outline SVG. Maintainer-directed, applied to all five
+  page-header pickers the same day. The glyph constant was removed, not
+  renamed — there is no longer a single swappable character value.

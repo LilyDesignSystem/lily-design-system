@@ -5,11 +5,12 @@ everything below is a fast index.
 
 ## What this package is
 
-A Svelte 5 headless share control. A single-glyph button (➤, U+27A4)
-that uses the **native share sheet** when the browser has one, and
-otherwise opens a disclosure list of consumer-supplied destinations plus
-a built-in copy-the-URL action. Ships no CSS, no icons, and no
-third-party endpoints.
+A Svelte 5 headless share control. A single-icon button (a bundled
+outline-arrow SVG) that uses the **native share sheet** when the
+browser has one, and otherwise opens a disclosure list of
+consumer-supplied destinations plus a built-in copy-the-URL action.
+Ships no CSS and no third-party endpoints; the one bundled asset is
+the default button icon (reversed 2026-09-16 from a Unicode glyph).
 
 ## Files
 
@@ -25,8 +26,9 @@ third-party endpoints.
 ## Public surface
 
 Default export `SharePicker`; named `SharePicker`, `canShareNatively`,
-`canCopy`, `nextSharePickerId`, `BLACK_RIGHTWARDS_ARROWHEAD`; types
-`Props`, `ChildArgs`, `ShareTarget`, `ShareStrategy`.
+`canCopy`, `nextSharePickerId`; types `Props`, `ChildArgs`,
+`ShareTarget`, `ShareStrategy`. No glyph constant — the default icon
+is a bundled SVG, not a Unicode character.
 
 Required prop: `label`.
 
@@ -44,7 +46,7 @@ preference.
 ## HTML
 
 `<div class="share-picker">` → `<button class="share-picker-button">`
-with an `aria-hidden` glyph span → `<ul class="share-picker-list" hidden>`
+with an `aria-hidden` SVG icon → `<ul class="share-picker-list" hidden>`
 of `<li>` containing `<a class="share-picker-target">` and an optional
 `<button class="share-picker-copy">` → `<p class="share-picker-status"
 aria-live="polite">`.
@@ -58,6 +60,9 @@ convention the sibling helpers use.
 
 - Svelte 5 runes; strict TypeScript on the public surface.
 - No runtime dependency beyond `svelte`.
-- No bundled CSS, fonts, icons, images, or third-party URLs.
+- No bundled CSS, fonts, images, or third-party URLs. The one
+  deliberate exception is the default button icon: a bundled SVG
+  (reversed 2026-09-16 from a Unicode glyph), matching the other four
+  page-header pickers.
 - All user-facing strings come from props — including the copy label,
   which is why the copy item is opt-in.

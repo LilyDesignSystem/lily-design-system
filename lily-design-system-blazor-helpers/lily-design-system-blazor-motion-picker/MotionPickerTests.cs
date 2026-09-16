@@ -73,19 +73,17 @@ public class MotionPickerTests : TestContext
     }
 
     // -----------------------------------------------------------------
-    // §7.2 — The button renders the pause-sign glyph, hidden from
+    // §7.2 — The button renders the default SVG icon, hidden from
     //        assistive technology.
     // -----------------------------------------------------------------
     [Fact]
-    public void Section_7_2_Button_Renders_Glyph_Hidden_From_Assistive_Tech()
+    public void Section_7_2_Button_Renders_Icon_Hidden_From_Assistive_Tech()
     {
         var cut = RenderDefault();
 
-        var icon = cut.Find(".motion-picker-icon");
-        // U+23F8 PAUSE SIGN + U+FE0E (text presentation).
-        Assert.Equal("⏸︎", icon.TextContent.Trim());
+        var icon = cut.Find("svg.motion-picker-icon");
         Assert.Equal("true", icon.GetAttribute("aria-hidden"));
-        Assert.Equal("⏸︎", MotionPicker.PauseSign);
+        Assert.NotNull(icon.QuerySelector("path"));
     }
 
     // -----------------------------------------------------------------
@@ -635,7 +633,7 @@ public class MotionPickerTests : TestContext
             .Add(x => x.ChildContent, custom));
         await Task.Yield();
 
-        // The default glyph is replaced, not supplemented.
+        // The default icon is replaced, not supplemented.
         Assert.Empty(cut.FindAll(".motion-picker-icon"));
 
         var custom_ = cut.Find("[data-testid='custom']");

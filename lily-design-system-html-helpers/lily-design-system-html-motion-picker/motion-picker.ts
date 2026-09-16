@@ -10,19 +10,15 @@
  */
 
 /**
- * Default button glyph: U+23F8 PAUSE SIGN, paired with U+FE0E
- * (VARIATION SELECTOR-15) to force text presentation — the same
- * treatment locale-picker gives its globe.
- *
- * A pause glyph reads as "stop the moving parts" more directly than an
- * abstract symbol, has a real monochrome glyph in ordinary system
- * fonts (media-transport symbols default to text presentation, unlike
- * most pictographs), and doesn't collide with any sibling picker's
- * glyph (theme's CIRCLE WITH RIGHT HALF BLACK, locale's GLOBE WITH
- * MERIDIANS, text-size's plain "A", share's BLACK RIGHTWARDS
- * ARROWHEAD, date-time's CALENDAR).
+ * Default button icon: a bundled SVG (two pause bars), not a Unicode
+ * character. Reversed 2026-09-16 from the font-dependent-glyph
+ * convention (was U+23F8 PAUSE SIGN + U+FE0E, exported as
+ * `PAUSE_SIGN` — removed, not renamed). "Stop the moving parts" still
+ * reads directly from two bars; a bundled outline SVG matches the
+ * other four picker icons as one consistent visual family regardless
+ * of the consumer's fonts.
  */
-export const PAUSE_SIGN = "⏸︎";
+const SVG_NS = "http://www.w3.org/2000/svg";
 
 /** Change-event detail dispatched on every applied motion preference. */
 export type MotionPickerChangeDetail = {
@@ -238,11 +234,21 @@ export class MotionPicker extends HTMLElement {
      * change.
      */
     renderButtonContent(): Node {
-        const icon = document.createElement("span");
-        icon.className = "motion-picker-icon";
-        icon.setAttribute("aria-hidden", "true");
-        icon.textContent = PAUSE_SIGN;
-        return icon;
+        const svg = document.createElementNS(SVG_NS, "svg");
+        svg.setAttribute("class", "motion-picker-icon");
+        svg.setAttribute("viewBox", "0 0 16 16");
+        svg.setAttribute("width", "1.05rem");
+        svg.setAttribute("height", "1.05rem");
+        svg.setAttribute("aria-hidden", "true");
+        svg.setAttribute("fill", "none");
+        svg.setAttribute("stroke", "currentColor");
+        svg.setAttribute("stroke-width", "1.6");
+        svg.setAttribute("stroke-linecap", "round");
+        svg.setAttribute("stroke-linejoin", "round");
+        const path = document.createElementNS(SVG_NS, "path");
+        path.setAttribute("d", "M5 3v10M11 3v10");
+        svg.appendChild(path);
+        return svg;
     }
 
     /** Resolve a slug to its display label. Public for subclasses. */

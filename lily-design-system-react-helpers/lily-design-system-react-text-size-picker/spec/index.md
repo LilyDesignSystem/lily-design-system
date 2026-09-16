@@ -41,12 +41,13 @@ read, so first-visit resolution falls straight through to
   banner is visually and semantically uniform. A hidden
   `<input type="hidden" name="{name}">` carries the active slug so the
   control still participates in ordinary form submission.
-- **The glyph is `"A"` (U+0041 LATIN CAPITAL LETTER A).** A plain
-  letter, not a pictograph, deliberately. U+1F5DB DECREASE FONT SIZE
-  SYMBOL has no real glyph in common font stacks — it falls back to a
-  crude bitmap shape — and it means _decrease_ rather than _size_. "A"
-  renders in the page's own font everywhere, stays monochrome like
-  theme-picker's ◑, and is the conventional text-size affordance.
+- **The icon is a bundled stroke-drawn "A" SVG.** Reversed 2026-09-16
+  from the Unicode glyph U+0041 LATIN CAPITAL LETTER A: a bundled SVG
+  is not font-dependent, matching the other four page-header pickers.
+  Before that reversal, "A" was chosen over U+1F5DB DECREASE FONT SIZE
+  SYMBOL, which has no real glyph in common font stacks — it falls
+  back to a crude bitmap shape — and means _decrease_ rather than
+  _size_.
 - **Ids come from `useId`.** The listbox id and every option id derive
   from React's `useId`, so they are stable across server and client
   render and survive hydration. No `Math.random`, no `Date.now`.
@@ -69,7 +70,7 @@ read, so first-visit resolution falls straight through to
 | `name`         | `string`                               | no       | `"text-size"`                                     | `name` of the hidden input that carries the value in a form.                                         |
 | `target`       | `HTMLElement \| null`                  | no       | `document.documentElement`                        | Element that receives `data-text-size`.                                                              |
 | `sizeLabels`   | `Record<string, string>`               | no       | `{}`                                              | Optional pretty labels per slug.                                                                     |
-| `children`     | `(args: ChildArgs) => React.ReactNode` | no       | the `"A"` glyph                                   | Replaces the glyph **inside the button**. It does not render the options — the component owns those. |
+| `children`     | `(args: ChildArgs) => React.ReactNode` | no       | the default "A" icon                              | Replaces the icon **inside the button**. It does not render the options — the component owns those. |
 | `onChange`     | `(size: string) => void`               | no       | `undefined`                                       | Fires after the control applies a new size.                                                          |
 | `className`    | `string`                               | no       | `""`                                              | Extra CSS class on the root `<div>`.                                                                 |
 | `...restProps` | any HTML `<div>` attributes            | no       | —                                                 | Spread onto the root `<div>`.                                                                        |
@@ -90,7 +91,7 @@ type ChildArgs = {
 The render output replaces the default
 `<span class="text-size-picker-icon" aria-hidden="true">A</span>`. It
 sits inside the button, whose accessible name always comes from `label`
-via `aria-label` — so custom glyph content should be `aria-hidden` and
+via `aria-label` — so custom icon content should be `aria-hidden` and
 must never be relied on for naming.
 
 ### 4.3 DOM contract
@@ -137,10 +138,12 @@ must never be relied on for naming.
 - **Button.** `type="button"`, class hook `text-size-picker-button`,
   `aria-label="{label}"`, `aria-haspopup="listbox"`, `aria-expanded`
   tracking open state, `aria-controls` pointing at the listbox id.
-- **Glyph.** `<span class="text-size-picker-icon" aria-hidden="true">A</span>`
-  — U+0041, exported as `LATIN_CAPITAL_LETTER_A`. It is `aria-hidden`,
-  so the button's accessible name comes solely from `label`. Supplying
-  `children` replaces the glyph.
+- **Icon.** `<svg class="text-size-picker-icon" viewBox="0 0 16 16" aria-hidden="true">…</svg>`
+  — a bundled stroke-drawn "A" SVG (reversed 2026-09-16 from the
+  Unicode glyph U+0041, formerly exported as
+  `LATIN_CAPITAL_LETTER_A`). It is `aria-hidden`, so the button's
+  accessible name comes solely from `label`. Supplying `children`
+  replaces the icon.
 - **Listbox.** `<ul class="text-size-picker-list" role="listbox"
 aria-label="{label}" tabindex="-1">`, `hidden` while closed. While
   open it carries `aria-activedescendant` set to the active option's id.
@@ -162,8 +165,12 @@ aria-label="{label}" tabindex="-1">`, `hidden` while closed. While
 - `sizeName` (the pure helper; the single implementation of the
   title-casing label rule, mirroring `themeName` in theme-picker and
   `localeName` in locale-picker)
-- `LATIN_CAPITAL_LETTER_A` (the default glyph constant)
 - `type Props`, `type ChildArgs`
+
+No glyph constant is exported: the default icon is a bundled SVG, not
+a swappable character value (reversed 2026-09-16). The former
+`LATIN_CAPITAL_LETTER_A` export is gone; use the `children` render
+prop to replace the icon instead.
 
 ## 5. Behaviour
 
@@ -235,7 +242,7 @@ internal `useState`.
 | Element        | Role / property                                                                                                    |
 | -------------- | ------------------------------------------------------------------------------------------------------------------ |
 | `<button>`     | `aria-label={label}`, `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls`                                  |
-| glyph `<span>` | `aria-hidden="true"` — never part of the accessible name.                                                          |
+| icon element | `aria-hidden="true"` — never part of the accessible name.                                                          |
 | `<ul>`         | `role="listbox"`, `aria-label={label}`, `tabindex="-1"`, `hidden` while closed, `aria-activedescendant` while open |
 | `<li>`         | `role="option"`, `aria-selected`, `data-active` on the keyboard-active option                                      |
 
@@ -243,7 +250,7 @@ WCAG 2.2 AAA target. This helper is the one that most directly serves
 **1.4.4 (Resize Text)** and **1.4.12 (Text Spacing)**: it exists so a
 user can pick a comfortable reading size the app then remembers.
 
-The glyph carries no accessible name, so `label` is load-bearing: it is
+The icon carries no accessible name, so `label` is load-bearing: it is
 the only name the control has. See [`../docs/accessibility.md`](../docs/accessibility.md)
 for the tradeoffs this pattern accepts.
 
@@ -294,9 +301,8 @@ run under vitest + jsdom + `@testing-library/react`.
    1. Renders a `<button type="button">` with `aria-haspopup="listbox"`,
       `aria-expanded="false"`, and an `aria-controls` that resolves to an
       element with `role="listbox"`.
-   2. The button holds `<span class="text-size-picker-icon"
-aria-hidden="true">A</span>` (U+0041), equal to the exported
-      `LATIN_CAPITAL_LETTER_A`.
+   2. The button holds the default `<svg class="text-size-picker-icon"
+aria-hidden="true">` "A" icon.
    3. The root is a `<div>` whose class is `text-size-picker` plus the
       consumer's `className`.
 2. `aria-label` is the supplied `label` on **both** the button and the
@@ -328,8 +334,8 @@ aria-hidden="true">A</span>` (U+0041), equal to the exported
 12. Extra attributes spread through onto the root `<div>` (e.g.
     `data-testid`).
 13. A custom `children` render prop:
-    1. Replaces the default glyph inside the button (the
-       `.text-size-picker-icon` span is absent) and receives `ChildArgs`
+    1. Replaces the default icon inside the button (the
+       `.text-size-picker-icon` svg is absent) and receives `ChildArgs`
        — `value`, `open`, `labelFor`.
     2. Sees `open === true` once the listbox is expanded.
 14. Opening from the button:

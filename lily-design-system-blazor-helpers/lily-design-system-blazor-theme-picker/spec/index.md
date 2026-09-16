@@ -93,7 +93,7 @@ Give a Blazor application a drop-in, headless theme select that:
 | `Name`                 | `string`                               | no       | `"theme"`                              | `name` on the hidden input AND the `data-lily-theme-picker` discriminator on the managed `<link>`.                  |
 | `Extension`            | `string`                               | no       | `".css"`                               | File extension appended to each slug when constructing the URL.                                                     |
 | `ThemeLabels`          | `IReadOnlyDictionary<string,string>`   | no       | empty                                  | Optional pretty labels per slug.                                                                                    |
-| `ChildContent`         | `RenderFragment<ThemePickerContext>?` | no       | the default glyph                      | **Replaces the glyph inside the button.** It does not render options.                                               |
+| `ChildContent`         | `RenderFragment<ThemePickerContext>?` | no       | the default SVG icon                   | **Replaces the icon inside the button.** It does not render options.                                                |
 | `OnChange`             | `EventCallback<string>`                | no       | —                                      | Fires after the control applies a new theme. Mirrors `ValueChanged`.                                                |
 | `CssClass`             | `string`                               | no       | `""`                                   | Extra CSS class merged into the root `<div>`.                                                                       |
 | `AdditionalAttributes` | `Dictionary<string,object>?`           | no       | —                                      | Captures all unmatched attributes; spread onto the root `<div>`.                                                    |
@@ -115,8 +115,10 @@ public sealed class ThemePickerContext
 }
 ```
 
-Public constant: `ThemePicker.CircleWithRightHalfBlack` — the default
-glyph, `"◑"` (U+25D1, `◑`).
+No public glyph constant — the default icon is inline SVG markup
+in the component, not a separately-exported swappable character
+value (reversed 2026-09-16 from `ThemePicker.CircleWithRightHalfBlack`,
+`"◑"`, U+25D1 — removed, not renamed).
 
 Public method: `Task SetThemeAsync(string slug)` — apply a theme
 imperatively, for consumers driving the control from their own UI.
@@ -136,7 +138,7 @@ The control is an icon button plus a dropdown listbox:
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="theme-picker-icon" aria-hidden="true">◑</span>
+    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true">…</svg>
   </button>
   <ul
     class="theme-picker-list"
@@ -162,10 +164,11 @@ The control is an icon button plus a dropdown listbox:
 
 - The root is a `<div>` carrying the `theme-picker` class hook plus
   `CssClass`; `AdditionalAttributes` spread onto it.
-- The glyph is `◑` (U+25D1 CIRCLE WITH RIGHT HALF BLACK, `◑`),
-  wrapped in `aria-hidden="true"`. The accessible name comes from the
-  button's `aria-label` — never from the glyph.
-- `ChildContent` **replaces the glyph inside the button** and receives
+- The icon is a bundled SVG (contrast/half-circle, `viewBox="0 0 16
+  16"`), not a Unicode character (reversed 2026-09-16), wrapped in
+  `aria-hidden="true"`. The accessible name comes from the button's
+  `aria-label` — never from the icon.
+- `ChildContent` **replaces the icon inside the button** and receives
   `{ Value, Open, LabelFor }`. It no longer renders options.
 - The hidden input preserves form participation and the `Name`
   parameter. `Name` ALSO still discriminates the managed
@@ -263,7 +266,7 @@ consumer-supplied `Value` (if any). The apply step runs on the first
   APG listbox pattern (focus stays on the list, not on the options).
 - Each `<li role="option">` carries `aria-selected`. Exactly one option
   is `aria-selected="true"` whenever `Value` matches a slug.
-- The glyph is `aria-hidden="true"` and never contributes to the name.
+- The icon is `aria-hidden="true"` and never contributes to the name.
 - `name={Name}` is carried by the hidden input, not by an ARIA
   attribute.
 
@@ -356,9 +359,9 @@ run under bUnit + xUnit.
    `aria-haspopup="listbox"`, `aria-expanded="false"`, and
    `aria-controls` pointing at a `<ul role="listbox" tabindex="-1">`.
    No `<select>` is rendered.
-2. The button renders `<span class="theme-picker-icon"
-aria-hidden="true">◑</span>` (U+25D1), matching the public
-   `ThemePicker.CircleWithRightHalfBlack` constant.
+2. The button renders `<svg class="theme-picker-icon"
+   viewBox="0 0 16 16" aria-hidden="true">` (a bundled contrast/
+   half-circle icon, not a Unicode character).
 3. `aria-label` is the supplied `Label` on BOTH the button and the
    listbox.
 4. One `<li class="theme-picker-option" role="option">` per entry in
@@ -416,7 +419,7 @@ aria-hidden="true">◑</span>` (U+25D1), matching the public
 
 23. Extra attributes captured by `AdditionalAttributes` spread through
     onto the root `<div>` (e.g. `data-testid`).
-24. A custom `ChildContent` render fragment **replaces** the glyph
+24. A custom `ChildContent` render fragment **replaces** the icon
     inside the button (the default `.theme-picker-icon` is absent) and
     receives `Value`, `Open`, and `LabelFor`.
 
@@ -470,3 +473,8 @@ the new clauses continue from §7.26)
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause (or
   contact for other terms)
 - Contact: Joel Parker Henderson &lt;joel@joelparkerhenderson.com&gt;
+- **2026-09-16**: default icon changed from the Unicode glyph U+25D1
+  CIRCLE WITH RIGHT HALF BLACK (exposed as `ThemePicker.CircleWithRightHalfBlack`)
+  to a bundled outline SVG. Maintainer-directed, applied to all five
+  page-header pickers the same day. The constant was removed, not
+  renamed.

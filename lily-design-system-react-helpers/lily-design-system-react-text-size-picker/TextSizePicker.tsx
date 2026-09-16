@@ -1,16 +1,15 @@
 import * as React from "react";
 
 /**
- * Default button glyph: U+0041 LATIN CAPITAL LETTER A.
- *
- * A plain letter rather than a pictograph, deliberately. The obvious
- * candidate — U+1F5DB DECREASE FONT SIZE SYMBOL — has no real glyph in
- * common font stacks and falls back to a crude bitmap shape, and it
- * means *decrease* rather than *size*. "A" renders in the page's own
- * font on every platform, stays monochrome like theme-picker's ◑, and
- * is the conventional text-size affordance.
+ * Default button icon: a bundled SVG (a stroke-drawn "A"), not a
+ * Unicode character. Reversed 2026-09-16 from the font-dependent-glyph
+ * convention (was the plain letter U+0041, exported as
+ * `LATIN_CAPITAL_LETTER_A` — removed, not renamed). "A" itself needed
+ * no escaping and had no font-fallback risk, but it still varied in
+ * weight and proportions across font stacks; a bundled outline SVG
+ * matches the other four picker icons as one consistent visual family
+ * regardless of the consumer's fonts.
  */
-export const LATIN_CAPITAL_LETTER_A = "A";
 
 /** Arguments passed to a custom `children` render prop (the button glyph). */
 export type ChildArgs = {
@@ -43,7 +42,7 @@ export type Props = Omit<
     target?: HTMLElement | null;
     /** Optional pretty labels per slug. */
     sizeLabels?: Record<string, string>;
-    /** Replaces the default "A" glyph inside the button. */
+    /** Replaces the default "A" icon inside the button. */
     children?: (args: ChildArgs) => React.ReactNode;
     /** Called after the control applies a new size. */
     onChange?: (size: string) => void;
@@ -442,9 +441,20 @@ export function TextSizePicker({
                 {children ? (
                     children({ value: currentValue ?? "", open, labelFor })
                 ) : (
-                    <span className="text-size-picker-icon" aria-hidden="true">
-                        {LATIN_CAPITAL_LETTER_A}
-                    </span>
+                    <svg
+                        className="text-size-picker-icon"
+                        viewBox="0 0 16 16"
+                        width="1.05rem"
+                        height="1.05rem"
+                        aria-hidden="true"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.6"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    >
+                        <path d="M4 13 7.2 3h1.6L12 13M5.4 9.5h5.2" />
+                    </svg>
                 )}
             </button>
 

@@ -17,7 +17,6 @@ import {
   isRtlLocale,
   localeName,
   matchNavigatorLanguage,
-  GLOBE_WITH_MERIDIANS,
 } from "./locale-picker.js";
 
 // Register once; re-registering the same tag throws.
@@ -101,8 +100,8 @@ expect(document.getElementById(btn.getAttribute("aria-controls")!)).toBe(
   list(),
 );
 
-const icon = document.body.querySelector<HTMLElement>(".locale-picker-icon")!;
-expect(icon.textContent).toBe("🌐︎"); // GLOBE + VS15 (text presentation)
+const icon = document.body.querySelector<SVGElement>(".locale-picker-icon")!;
+expect(icon.tagName.toLowerCase()).toBe("svg"); // bundled SVG, not a glyph
 expect(icon.getAttribute("aria-hidden")).toBe("true");
 ```
 
@@ -292,7 +291,7 @@ Section map:
 
 | §7 group             | Clauses | Test focus                                                                 |
 | -------------------- | ------- | -------------------------------------------------------------------------- |
-| 7.1 markup           | 1–6     | div root, button, listbox, options, glyph, hidden input, per-option `lang` |
+| 7.1 markup           | 1–6     | div root, button, listbox, options, icon, hidden input, per-option `lang` |
 | 7.2 pure helpers     | 7–12    | `bcp47LocaleTag`, `isRtlLocale`, `localeName`                              |
 | 7.3 application      | 13–17   | `target.lang`, `target.dir`, `applyDir`, CustomEvent                       |
 | 7.4 init value       | 18–21   | storage / value / navigator / defaultValue ordering                        |

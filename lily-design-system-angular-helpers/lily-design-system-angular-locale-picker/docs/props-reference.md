@@ -419,20 +419,14 @@ RTL_LANGUAGE_TAGS.has("ar"); // true
 `mong`, `nkoo`, `syrc`, `thaa`, `adlm`. Membership is tested
 case-insensitively by `isRtlLocale`, so the set stores lowercase keys.
 
-### `GLOBE_WITH_MERIDIANS`
+### No glyph constant
 
-`string`. The default button glyph: U+1F310 GLOBE WITH MERIDIANS
-followed by U+FE0E VARIATION SELECTOR-15. VS15 requests _text_
-presentation — without it the browser picks the colour-emoji font and
-the globe renders blue, which would not match theme-picker's
-monochrome glyph when the two controls sit side by side in a page
-header.
-
-```ts
-GLOBE_WITH_MERIDIANS; // "\u{1F310}︎"
-```
-
-Exported so you can reuse the exact glyph in a custom icon template.
+Reversed 2026-09-16: the default button icon used to be a Unicode
+glyph exported as `GLOBE_WITH_MERIDIANS` (U+1F310 GLOBE WITH MERIDIANS
++ U+FE0E VARIATION SELECTOR-15). The default icon is now a bundled
+inline SVG in the component template — there is no longer a single
+swappable character value to export. Project your own `<ng-template>`
+to swap the icon in a custom rendering.
 
 ### `nextLocalePickerId`
 

@@ -1,7 +1,6 @@
 export {
   SharePicker,
   SharePickerIcon,
-  BLACK_RIGHTWARDS_ARROWHEAD,
   canShareNatively,
   canCopy,
   nextSharePickerId,

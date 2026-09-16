@@ -1,7 +1,7 @@
 # Custom rendering
 
 `ThemePicker` exposes exactly one rendering escape hatch: a projected
-`<ng-template>` that **replaces the glyph inside the trigger button**.
+`<ng-template>` that **replaces the icon inside the trigger button**.
 
 That is the whole surface, and the narrowness is deliberate. The
 listbox — its `role`, its options, its `aria-selected` flags, its
@@ -10,12 +10,12 @@ APG widget the component implements and tests. Letting consumers
 re-render it would put the accessibility contract in their hands
 every time, which is exactly what this helper exists to avoid.
 
-So: the glyph is yours, the listbox is the component's.
+So: the icon is yours, the listbox is the component's.
 
 ## The basic form
 
 Project an `<ng-template>` as the component's content. It replaces the
-default `<span class="theme-picker-icon" aria-hidden="true">◑</span>`
+default bundled `<svg class="theme-picker-icon" aria-hidden="true">…</svg>`
 inside the button.
 
 ```html
@@ -105,9 +105,10 @@ runtime.
 
 ## Recipe: an inline SVG icon
 
-The most common reason to override the glyph: the default `◑` depends
-on platform font coverage, and may render at an odd weight or as tofu.
-An inline SVG is under your control.
+The default icon is already a bundled inline SVG, so overriding it is
+purely a branding choice now, not a font-coverage workaround (before
+2026-09-16 the default was the Unicode glyph `◑`, which did depend on
+platform font coverage). Project your own SVG the same way.
 
 ```html
 <lily-theme-picker label="Theme" [themesUrl]="url" [themes]="themes">

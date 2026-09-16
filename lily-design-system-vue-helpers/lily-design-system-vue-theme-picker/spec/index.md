@@ -156,7 +156,7 @@ name.
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="theme-picker-icon" aria-hidden="true">◑</span>
+    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
   </button>
   <ul
     class="theme-picker-list"
@@ -182,10 +182,10 @@ name.
 
 - Root element: a `<div class="theme-picker {class}">`. `$attrs`
   falls through to it via the default Vue `inheritAttrs` behaviour.
-- The button is icon-only. The glyph is `◑` (U+25D1 CIRCLE WITH RIGHT
-  HALF BLACK, `◑`), exported as
-  `CIRCLE_WITH_RIGHT_HALF_BLACK`, wrapped in `aria-hidden="true"` so
-  it can never become the accessible name.
+- The button is icon-only. The icon is a bundled SVG (contrast/
+  half-circle, `viewBox="0 0 16 16"`), not a Unicode character
+  (reversed 2026-09-16 — see §9 Tracking), wrapped in
+  `aria-hidden="true"` so it can never become the accessible name.
 - The hidden input preserves form participation and carries `name`.
 - `aria-expanded` tracks the open state; `aria-controls` points at the
   listbox id.
@@ -217,8 +217,10 @@ data-lily-theme-picker="{name}">` in `document.head`. Created on
 - `normaliseThemesUrl`, `themeHref`, `themeName`, `matchSystemTheme`
   (pure helpers)
 - `nextThemePickerId` (per-instance id generator)
-- `CIRCLE_WITH_RIGHT_HALF_BLACK` (the default button glyph)
 - `type Props`, `type SlotArgs`, `type ChildArgs`
+
+No glyph constant — the default icon is inline SVG markup in the
+component, not a separately-exported swappable character value.
 
 ## 5. Behaviour
 
@@ -344,8 +346,8 @@ run under vitest + jsdom + `@vue/test-utils`.
    `aria-expanded="false"`, and an `aria-controls` pointing at an
    element with `role="listbox"`. The root is a `<div>` carrying the
    `theme-picker` class hook plus the consumer's `class`. The button
-   renders `◑` (U+25D1) inside
-   `<span class="theme-picker-icon" aria-hidden="true">`.
+   renders the default SVG icon inside
+   `<svg class="theme-picker-icon" aria-hidden="true">`.
 2. `aria-label` is the supplied `label` on **both** the button and the
    listbox.
 3. Renders one `<li class="theme-picker-option">` per entry in
@@ -437,3 +439,8 @@ data-lily-theme-picker="{name}">` exists in `document.head` and
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause
   (or contact for other terms)
 - Contact: Joel Parker Henderson &lt;joel@joelparkerhenderson.com&gt;
+- **2026-09-16**: default icon changed from the Unicode glyph U+25D1
+  CIRCLE WITH RIGHT HALF BLACK (exported as `CIRCLE_WITH_RIGHT_HALF_BLACK`)
+  to a bundled outline SVG. Maintainer-directed, applied to all five
+  page-header pickers the same day. The glyph constant was removed,
+  not renamed — there is no longer a single swappable character value.

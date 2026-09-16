@@ -66,7 +66,9 @@ per page.
 | `autoInit(opts?)` | Wires every `[data-lily-motion-picker-root]` on the page. |
 | `motionName(slug)` | Title-cases a hyphenated slug. |
 | `prefersReducedMotion()` | Reads `(prefers-reduced-motion: reduce)`; `false` on the server. |
-| `PAUSE_SIGN` | The default glyph (U+23F8 + U+FE0E). |
+
+No glyph constant — the default icon is a bundled SVG, not a Unicode
+character (reversed 2026-09-16).
 
 ## Behaviour
 

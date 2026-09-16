@@ -1,7 +1,7 @@
 @*
     Example 5 — Custom button face via RenderFragment<ThemePickerContext>.
 
-    ChildContent replaces the glyph INSIDE the button. It does not render
+    ChildContent replaces the icon INSIDE the button. It does not render
     the options — the listbox is always the component's own APG listbox.
     The fragment receives a ThemePickerContext with exactly three members:
       - Value:    the active slug
@@ -14,7 +14,7 @@
     exposing it would double-announce the control. See docs/accessibility.md.
 
     Two variants below:
-      1. A static inline SVG replacing the default ◑ glyph.
+      1. A different static inline SVG replacing the default icon.
       2. A state-aware face that reads ctx.Open and ctx.LabelFor(ctx.Value)
          to show the active theme name plus a chevron that flips when the
          listbox opens.
@@ -29,7 +29,7 @@
 @rendermode InteractiveServer
 @using LilyDesignSystem.Blazor.Helpers
 
-<h2>Inline SVG glyph</h2>
+<h2>A different inline SVG icon</h2>
 
 <ThemePicker
     Label="Theme"
@@ -38,7 +38,7 @@
     Themes="@Themes"
     @bind-Value="svgTheme">
     <ChildContent Context="ctx">
-        @* Decorative artwork: a half-filled circle echoing the default ◑.
+        @* Decorative artwork: a half-filled circle echoing the default icon.
            focusable="false" keeps legacy IE/Edge from tab-stopping the SVG. *@
         <svg class="theme-picker-icon"
              aria-hidden="true"

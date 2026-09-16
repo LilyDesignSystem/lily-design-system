@@ -10,7 +10,6 @@ import {
   canShareNatively,
   initSharePicker,
   nextSharePickerId,
-  BLACK_RIGHTWARDS_ARROWHEAD,
   shareTargetHref,
 } from "./share-picker.client.js";
 
@@ -200,14 +199,12 @@ describe("SharePicker — markup contract (§7.1–§7.6)", () => {
     expect(list.tagName).toBe("UL");
   });
 
-  test("§7.1 the button renders ➤, hidden from assistive tech", () => {
+  test("§7.1 the button renders the default arrow SVG icon, hidden from assistive tech", () => {
     const { root } = setup();
-    const icon = root.querySelector(".share-picker-icon") as HTMLElement;
-    // U+27A4 BLACK RIGHTWARDS ARROWHEAD, emitted as ➤
-    expect(icon.textContent).toBe("➤");
-    expect(BLACK_RIGHTWARDS_ARROWHEAD).toBe("➤");
-    expect(BLACK_RIGHTWARDS_ARROWHEAD.codePointAt(0)).toBe(0x27a4);
+    const icon = root.querySelector(".share-picker-icon") as SVGElement;
+    expect(icon.tagName.toLowerCase()).toBe("svg");
     expect(icon.getAttribute("aria-hidden")).toBe("true");
+    expect(icon.querySelector("path")).toBeTruthy();
   });
 
   test("§7.1 the trigger class is share-picker-button, matching the other helpers", () => {
@@ -560,10 +557,10 @@ describe("SharePicker — keyboard and dismissal (§7.15–§7.19)", () => {
 });
 
 // =====================================================================
-// §7.20–§7.22 — url resolution and custom glyph
+// §7.20–§7.22 — url resolution and custom icon
 // =====================================================================
 
-describe("SharePicker — url resolution and glyph (§7.20–§7.22)", () => {
+describe("SharePicker — url resolution and icon (§7.20–§7.22)", () => {
   test("§7.20 an explicit url opt wins", async () => {
     const nat = stubNativeShare();
     const { trigger } = setup({ url: URL_UNDER_TEST });
@@ -605,7 +602,7 @@ describe("SharePicker — url resolution and glyph (§7.20–§7.22)", () => {
     clip.restore();
   });
 
-  test("§7.22 a {% call %} body replaces the glyph", () => {
+  test("§7.22 a {% call %} body replaces the icon", () => {
     const root = mountIntoBody(
       renderMacroWithCaller(
         { label: "Share", targets: TARGETS },
@@ -617,11 +614,11 @@ describe("SharePicker — url resolution and glyph (§7.20–§7.22)", () => {
     expect(root.querySelector(".share-picker-icon")).toBeNull();
   });
 
-  test("§7.22 without a call body the default glyph renders", () => {
+  test("§7.22 without a call body the default icon renders", () => {
     const { root } = setup();
-    expect(
-      (root.querySelector(".share-picker-icon") as HTMLElement).textContent,
-    ).toBe(BLACK_RIGHTWARDS_ARROWHEAD);
+    const icon = root.querySelector(".share-picker-icon") as SVGElement;
+    expect(icon.tagName.toLowerCase()).toBe("svg");
+    expect(icon.querySelector("path")).toBeTruthy();
   });
 });
 

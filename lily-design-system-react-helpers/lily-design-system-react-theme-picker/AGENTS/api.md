@@ -19,9 +19,8 @@ import {
 The default export is `ThemePicker` for consumers who prefer
 `import ThemePicker from "./lily-design-system-react-theme-picker"`.
 
-The default glyph constant `CIRCLE_WITH_RIGHT_HALF_BLACK` is exported
-from `ThemePicker.tsx` but is not re-exported by the barrel; import it
-from `./ThemePicker` directly if needed.
+No glyph constant is exported — the default icon is a bundled SVG,
+not a Unicode character (reversed 2026-09-16).
 
 ## Required props
 
@@ -45,7 +44,7 @@ Omit any required prop and TypeScript errors at the call site.
 | `target`       | `HTMLElement \| null`                            | `document.documentElement`                                     |
 | `themeLabels`  | `Record<string, string>`                         | `{}`                                                           |
 | `onChange`     | `(slug: string) => void`                         | `undefined`                                                    |
-| `children`     | `(args: ChildArgs) => React.ReactNode`           | the half-circle glyph inside the button                        |
+| `children`     | `(args: ChildArgs) => React.ReactNode`           | the half-circle SVG icon inside the button                     |
 | `className`    | `string`                                         | `""`                                                           |
 | `...restProps` | `HTMLAttributes<HTMLDivElement>` minus the above | spread onto the root `<div>`                                   |
 
@@ -72,7 +71,7 @@ controlled/uncontrolled warning fires).
 
 ## ChildArgs
 
-`children` replaces the glyph **inside the button**. It does not render
+`children` replaces the icon **inside the button**. It does not render
 the options — the component owns those, along with their ids, ARIA
 state, and the keyboard contract.
 
@@ -91,7 +90,7 @@ type ChildArgs = {
 - `labelFor(slug)` — resolves to `themeLabels[slug]` if defined,
   otherwise the slug with each hyphen-separated word title-cased.
 
-There is no `setTheme` and no `themes` / `name` pass-through: a glyph
+There is no `setTheme` and no `themes` / `name` pass-through: an icon
 has no reason to mutate the selection. Consumers who need imperative
 control use the controlled `value` + `onChange` pair instead.
 
@@ -124,7 +123,7 @@ Rendered tree (full contract in
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="theme-picker-icon" aria-hidden="true">◑</span>
+    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
   </button>
   <ul
     class="theme-picker-list"

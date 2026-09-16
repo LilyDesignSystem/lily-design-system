@@ -25,7 +25,7 @@ accounting is in [`../docs/accessibility.md`](../docs/accessibility.md).
 | `<li>`                  | `role="option"`, `aria-selected="true|false"`         | Component      |
 | `<li>`                  | `data-active` — styling hook, **not** ARIA            | Component      |
 
-Because the glyph is `aria-hidden`, the button has no text content at
+Because the icon is `aria-hidden`, the button has no text content at
 all. `aria-label` is the only thing a screen reader or a voice-control
 user has to work with, which is why `label` is `input.required`.
 
@@ -76,8 +76,8 @@ colour-only meaning is required:
 3. `data-theme="<slug>"` on the target element (default `<html>`).
 4. The `value` model signal (bound via `[(value)]`).
 
-Note that the *closed* button conveys none of these — it shows only a
-glyph. Surfacing the active theme name is the consumer's job; see
+Note that the *closed* button conveys none of these — it shows only an
+icon. Surfacing the active theme name is the consumer's job; see
 [`../docs/accessibility.md`](../docs/accessibility.md).
 
 ## Internationalisation
@@ -146,10 +146,10 @@ transitions on the `data-theme` swap.
 - `OnPush` change detection is in effect. Signal changes (input
   signals, model signals, the internal `effect()`) drive view
   updates without manual `markForCheck()`.
-- A projected `<ng-template>` replaces the button glyph only. It
+- A projected `<ng-template>` replaces the button icon only. It
   cannot change the listbox markup, so the ARIA contract above holds
   whatever the consumer projects. If the projected content is text
-  rather than a decorative glyph, the button then has both a text
+  rather than a decorative icon, the button then has both a text
   name and an `aria-label`; `aria-label` still wins, so keep them
   consistent.
 

@@ -7,7 +7,7 @@ below is a fast index.
 
 A reusable Blazor headless theme select that **loads theme CSS files
 dynamically at runtime** from a developer-supplied directory URL. It
-renders an icon button (`◑`) that opens a dropdown listbox. Ships no
+renders an icon button (a bundled contrast/half-circle SVG) that opens a dropdown listbox. Ships no
 CSS; consumer styles the `theme-picker`, `theme-picker-button`,
 `theme-picker-icon`, `theme-picker-list`, and `theme-picker-option`
 class hooks — see `docs/styling.md`.
@@ -26,9 +26,9 @@ class hooks — see `docs/styling.md`.
 
 - Component: `ThemePicker` in namespace `LilyDesignSystem.Blazor.Helpers`.
 - Context: `ThemePickerContext` (`Value`, `Open`, `LabelFor`) for a
-  custom `ChildContent` glyph.
-- Constant: `ThemePicker.CircleWithRightHalfBlack` — the default glyph
-  `"◑"` (U+25D1).
+  custom `ChildContent` icon.
+- No glyph constant — the default icon is a bundled SVG, not a
+  Unicode character (reversed 2026-09-16).
 - Statics: `NormaliseThemesUrl`, `ThemeHref`, `ThemeName`,
   `MatchSystemTheme`.
   - `ThemeName(slug)` — the ONE title-casing rule
@@ -59,7 +59,7 @@ prerender safe. Initial value resolves from `Value` > storage >
 `DefaultValue` > `"light"` (if present) > `Themes[0]`.
 
 The control is an **icon button plus a dropdown listbox**, not a native
-`<select>`. The button shows only a glyph; the listbox is the WAI-ARIA
+`<select>`. The button shows only an icon; the listbox is the WAI-ARIA
 APG listbox pattern with `aria-activedescendant`. The real selection
 lives in `Value` and rides a hidden input for form participation.
 
@@ -76,7 +76,7 @@ lives in `Value` and rides a hidden input for form participation.
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="theme-picker-icon" aria-hidden="true">◑</span>
+    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true">…</svg>
   </button>
   <ul
     class="theme-picker-list"
@@ -100,7 +100,7 @@ lives in `Value` and rides a hidden input for form participation.
 </div>
 ```
 
-`ChildContent` **replaces the glyph inside the button**; it no longer
+`ChildContent` **replaces the icon inside the button**; it no longer
 renders options. Ids come from a monotonic process-wide counter
 (`theme-picker-{n}`) so they are stable and SSR-safe.
 
@@ -123,11 +123,13 @@ opens with no `aria-activedescendant`.
 
 - WCAG 2.2 AAA target; WAI-ARIA APG listbox pattern.
 - `aria-label` is the button's ENTIRE accessible name — the button is
-  icon-only and the glyph is `aria-hidden="true"`.
+  icon-only and the icon is `aria-hidden="true"`.
 - Option labels default to title-cased slugs; the word "default" is
   never emitted.
-- Known tradeoffs (icon-only naming, custom-listbox AT support, glyph
-  font coverage) are documented in `docs/accessibility.md`.
+- Known tradeoffs (icon-only naming, custom-listbox AT support) are
+  documented in `docs/accessibility.md`. (The glyph-font-coverage
+  tradeoff no longer applies: the icon is a bundled SVG, not a
+  Unicode character — reversed 2026-09-16.)
 
 ## Blazor deviations from the canonical Svelte implementation
 
@@ -155,5 +157,7 @@ opens with no `aria-activedescendant`.
 - `EventCallback<string>` for `ValueChanged`, `OnChange`.
 - `IJSRuntime` injected for DOM mutation.
 - No runtime dependency beyond `Microsoft.AspNetCore.Components.Web`.
-- No bundled CSS, fonts, icons, or images.
+- No bundled CSS, fonts, or images. The one deliberate exception is
+  the default button icon: a bundled SVG (reversed 2026-09-16 from a
+  Unicode glyph).
 - All user-facing strings come from parameters.

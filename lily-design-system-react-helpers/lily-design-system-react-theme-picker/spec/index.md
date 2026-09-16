@@ -105,7 +105,7 @@ role="listbox">`. The component therefore owns the keyboard contract
 | `extension`        | `string`                               | no       | `".css"`                                          | File extension appended to each slug when constructing the URL.                                      |
 | `target`           | `HTMLElement \| null`                  | no       | `document.documentElement`                        | Element that receives `data-theme`.                                                                  |
 | `themeLabels`      | `Record<string, string>`               | no       | `{}`                                              | Optional pretty labels per slug.                                                                     |
-| `children`         | `(args: ChildArgs) => React.ReactNode` | no       | the half-circle glyph                             | Replaces the glyph **inside the button**. It does not render the options — the component owns those. |
+| `children`         | `(args: ChildArgs) => React.ReactNode` | no       | the default icon                                  | Replaces the icon **inside the button**. It does not render the options — the component owns those. |
 | `onChange`         | `(theme: string) => void`              | no       | `undefined`                                       | Fires after the select applies a new theme.                                                          |
 | `className`        | `string`                               | no       | `""`                                              | Extra CSS class on the root `<div>`.                                                                 |
 | `...restProps`     | any HTML `<div>` attributes            | no       | —                                                 | Spread onto the root `<div>`.                                                                        |
@@ -124,9 +124,9 @@ type ChildArgs = {
 ```
 
 The render output replaces the default
-`<span class="theme-picker-icon" aria-hidden="true">◑</span>`. It sits
+`<svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>`. It sits
 inside the button, whose accessible name always comes from `label` via
-`aria-label` — so custom glyph content should be `aria-hidden` and must
+`aria-label` — so custom icon content should be `aria-hidden` and must
 never be relied on for naming.
 
 ### 4.2 DOM contract
@@ -144,7 +144,7 @@ The rendered tree is:
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="theme-picker-icon" aria-hidden="true">◑</span>
+    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
   </button>
   <ul
     class="theme-picker-list"
@@ -176,12 +176,13 @@ value="{value}">` carries the active slug so the control participates
 - **Button.** `type="button"`, class hook `theme-picker-button`,
   `aria-label="{label}"`, `aria-haspopup="listbox"`, `aria-expanded`
   tracking open state, and `aria-controls` pointing at the listbox id.
-- **Glyph.** The default button content is
-  `<span class="theme-picker-icon" aria-hidden="true">◑</span>` — U+25D1
-  CIRCLE WITH RIGHT HALF BLACK (`◑`), exported as
-  `CIRCLE_WITH_RIGHT_HALF_BLACK`. It is `aria-hidden`, so the button's
-  accessible name comes solely from `label` via `aria-label`. Supplying
-  `children` replaces the glyph.
+- **Icon.** The default button content is
+  `<svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>` —
+  a bundled outline half-circle SVG (reversed 2026-09-16 from the
+  Unicode glyph U+25D1 CIRCLE WITH RIGHT HALF BLACK, formerly exported
+  as `CIRCLE_WITH_RIGHT_HALF_BLACK`). It is `aria-hidden`, so the
+  button's accessible name comes solely from `label` via `aria-label`.
+  Supplying `children` replaces the icon.
 - **Listbox.** `<ul class="theme-picker-list" role="listbox"
 aria-label="{label}" tabindex="-1">`, `hidden` while closed. While
   open it carries `aria-activedescendant` set to the active option's id.
@@ -214,9 +215,10 @@ aria-label="{label}" tabindex="-1">`, `hidden` while closed. While
 - `type Props`
 - `type ChildArgs`
 
-`ThemePicker.tsx` additionally exports the default glyph constant
-`CIRCLE_WITH_RIGHT_HALF_BLACK`. The barrel does not currently re-export
-it; import it from `./ThemePicker` directly if you need it.
+`ThemePicker.tsx` no longer exports a glyph constant: the default icon
+is a bundled SVG, not a swappable character value (reversed
+2026-09-16). The former `CIRCLE_WITH_RIGHT_HALF_BLACK` export is gone;
+use the `children` render prop to replace the icon instead.
 
 ## 5. Behaviour
 
@@ -321,11 +323,11 @@ trigger.
 | Element        | Role / property                                                                                                    |
 | -------------- | ------------------------------------------------------------------------------------------------------------------ |
 | `<button>`     | `aria-label={label}`, `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls`                                  |
-| glyph `<span>` | `aria-hidden="true"` — never part of the accessible name.                                                          |
+| icon element | `aria-hidden="true"` — never part of the accessible name.                                                          |
 | `<ul>`         | `role="listbox"`, `aria-label={label}`, `tabindex="-1"`, `hidden` while closed, `aria-activedescendant` while open |
 | `<li>`         | `role="option"`, `aria-selected`, `data-active` on the keyboard-active option                                      |
 
-The glyph carries no accessible name, so `label` is load-bearing: it is
+The icon carries no accessible name, so `label` is load-bearing: it is
 the only name the control has. See `docs/accessibility.md` for the
 tradeoffs this pattern accepts.
 
@@ -392,8 +394,7 @@ under vitest + jsdom + `@testing-library/react`.
    1. Renders a `<button type="button">` with `aria-haspopup="listbox"`,
       `aria-expanded="false"`, and an `aria-controls` that resolves to an
       element with `role="listbox"`.
-   2. The button holds `<span class="theme-picker-icon"
-aria-hidden="true">◑</span>` (U+25D1, `◑`).
+   2. The button holds `<svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>` (U+25D1, `◑`).
    3. The root is a `<div>` whose class is `theme-picker` plus the
       consumer's `className`.
 2. `aria-label` is the supplied `label` on **both** the button and the
@@ -427,8 +428,8 @@ data-lily-theme-picker="{name}">` exists in `document.head` and its
 12. Extra attributes spread through onto the root `<div>` (e.g.
     `data-testid`).
 13. A custom `children` render prop:
-    1. Replaces the default glyph inside the button (the
-       `.theme-picker-icon` span is absent) and receives `ChildArgs` —
+    1. Replaces the default icon inside the button (the
+       `.theme-picker-icon` svg is absent) and receives `ChildArgs` —
        `value`, `open`, `labelFor`.
     2. Sees `open === true` once the listbox is expanded.
 14. Opening from the button:

@@ -21,17 +21,17 @@ attribute the component toggles.
 
 ## "The button renders an empty box, or a □"
 
-**Cause.** The default glyph is `◑` (U+25D1 CIRCLE WITH RIGHT HALF
-BLACK), a Geometric Shapes character. Whether it renders depends on
-the fonts installed on the user's device.
+**Cause.** This should no longer happen — the default icon is a
+bundled `<svg>` (reversed 2026-09-16 from the Unicode glyph `◑`, which
+did depend on the fonts installed on the user's device). If you see an
+empty box, check that the `<svg>`'s `viewBox`/`path` markup wasn't
+stripped by a sanitiser or build step.
 
-**Fix.** Either set a font stack on `.theme-picker-icon` that you know
-covers the code point plus a `min-width` / `min-height` on the button
-so it stays a visible target, or replace the glyph with your own
-inline SVG via a projected `<ng-template>`. See
+**Fix.** Replace the icon with your own inline SVG via a projected
+`<ng-template>` if you want a different mark. See
 [custom-rendering.md](./custom-rendering.md#recipe-an-inline-svg-icon).
 
-The accessible name is unaffected either way — the glyph is
+The accessible name is unaffected either way — the icon is
 `aria-hidden` and the button is named by `aria-label`.
 
 ## "Every option looks highlighted / the highlight doesn't move"

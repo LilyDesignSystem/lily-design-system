@@ -19,7 +19,6 @@ import {
     RTL_LANGUAGE_TAGS,
     RTL_SCRIPT_SUBTAGS,
     nextLocalePickerId,
-    GLOBE_WITH_MERIDIANS,
 } from "./locale-picker.js";
 
 export {
@@ -33,7 +32,6 @@ export {
     RTL_LANGUAGE_TAGS,
     RTL_SCRIPT_SUBTAGS,
     nextLocalePickerId,
-    GLOBE_WITH_MERIDIANS,
 };
 export type { LocalePickerProps, LocalePickerChangeDetail } from "./locale-picker.js";
 

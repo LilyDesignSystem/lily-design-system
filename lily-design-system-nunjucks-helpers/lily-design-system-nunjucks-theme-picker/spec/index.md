@@ -63,8 +63,8 @@ that:
 
 ## 3. Architectural decisions
 
-- **Icon button + listbox, not a native `<select>`.** The control is a
-  glyph-only `<button>` that opens a `<ul role="listbox">`. This buys a
+- **Icon button + listbox, not a native `<select>`.** The control is an
+  icon-only `<button>` that opens a `<ul role="listbox">`. This buys a
   narrow, icon-sized control and full styling control over the open
   list, at the cost of the native control's free keyboard semantics and
   its no-JS operability (see §5.7 and §6).
@@ -123,9 +123,9 @@ that:
 
 The `placeholder` parameter was **removed** in the icon-button release.
 There is no `<select>` left to pin a placeholder onto, and the closed
-control now shows a glyph rather than any word.
+control now shows an icon rather than any word.
 
-A `{% call %}` block body replaces the default glyph inside the button
+A `{% call %}` block body replaces the default icon inside the button
 — the Nunjucks equivalent of the canonical helper's `children`:
 
 ```njk
@@ -134,7 +134,7 @@ A `{% call %}` block body replaces the default glyph inside the button
 {% endcall %}
 ```
 
-The block replaces only the glyph. It does not render options, and it
+The block replaces only the icon. It does not render options, and it
 must not supply the accessible name — that stays on `aria-label`.
 
 The macro never emits the word `"default"` for option labels; an
@@ -171,7 +171,7 @@ and otherwise from the slug with its first character upper-cased
     aria-controls="{id}-list"
     data-lily-theme-picker-button
   >
-    <span class="theme-picker-icon" aria-hidden="true">◑</span>
+    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="1.05rem" height="1.05rem"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
   </button>
   <ul
     class="theme-picker-list"
@@ -197,9 +197,10 @@ and otherwise from the slug with its first character upper-cased
 
 - The root is a `<div>` carrying the `theme-picker` class hook plus the
   consumer's `classes`; `attributes` spread onto it.
-- The button glyph is U+25D1 CIRCLE WITH RIGHT HALF BLACK (`◑`),
+- The button icon is a bundled contrast/half-circle SVG (`viewBox="0
+  0 16 16"`), not a Unicode character (reversed 2026-09-16 — see §9),
   wrapped in `aria-hidden="true"`. The accessible name comes from
-  `aria-label` alone — the glyph is never the name.
+  `aria-label` alone — the icon is never the name.
 - `data-lily-theme-picker-value` is emitted **only when `opts.value` is
   non-empty**; it remains the sole channel by which the consumer's
   `value` prop reaches the client. It is a data attribute rather than
@@ -235,7 +236,6 @@ and otherwise from the slug with its first character upper-cased
 | `themeHref(url, slug, extension)` | `(string, string, string) => string`            | Build the theme href.                                                                                                                                                                      |
 | `themeName(theme)`                | `(string) => string`                            | Resolve a slug to its display label: each hyphen-separated word title-cased (`"high-contrast"` → `"High Contrast"`). Mirrors `localeName` in locale-picker.                               |
 | `matchSystemTheme(themes)`        | `(string[]) => string`                          | Resolve `prefers-color-scheme` to `"dark"` / `"light"`, or `""` when that slug is absent from `themes` or `matchMedia` is unavailable. Mirrors `matchNavigatorLanguage` in locale-picker. |
-| `CIRCLE_WITH_RIGHT_HALF_BLACK`    | `string`                                        | The default button glyph, U+25D1.                                                                                                                                                          |
 | `initThemePicker(root, opts?)`   | `(HTMLElement, object?) => {setTheme, destroy}` | Wire one rendered root.                                                                                                                                                                    |
 | `autoInit(opts?)`                 | `(object?) => Array<{setTheme, destroy}>`       | Find every `[data-lily-theme-picker-root]` and init it.                                                                                                                                    |
 
@@ -432,12 +432,13 @@ theme server-side — a cookie set from a client-side `matchMedia` probe
   focused `<ul>`, per the APG listbox pattern — focus itself stays on
   the `<ul>`.
 - `aria-label` is the ONLY accessible name the button has, because the
-  glyph is `aria-hidden`. A missing or vague `label` leaves the control
+  icon is `aria-hidden`. A missing or vague `label` leaves the control
   effectively unnamed.
 - A custom listbox has weaker and less consistent assistive-technology
-  support than a native `<select>`, and the glyph may render
-  differently or be absent depending on platform fonts. Both tradeoffs
-  are stated in [docs/accessibility.md](../docs/accessibility.md).
+  support than a native `<select>`. (The old glyph-font-rendering
+  tradeoff no longer applies: the icon is a bundled SVG, not a Unicode
+  character — reversed 2026-09-16.) Stated in
+  [docs/accessibility.md](../docs/accessibility.md).
 - WCAG 2.2 AAA is the target. Focus styling is the consumer's CSS
   concern, and the closed button shows no text, so the consumer is
   responsible for surfacing the active theme elsewhere if users need
@@ -455,8 +456,8 @@ jsdom document populated from the macro output.
    `<button type="button">` with `aria-haspopup="listbox"`,
    `aria-expanded="false"`, and `aria-controls` pointing at a
    `<ul role="listbox" tabindex="-1">`.
-   The button renders the U+25D1 glyph inside an `aria-hidden` span,
-   so the glyph is never the accessible name.
+   The button renders the default SVG icon inside an `aria-hidden`
+   `<svg>`, so the icon is never the accessible name.
 2. `aria-label` equals the supplied `label` on BOTH the button and the
    listbox.
 3. Macro renders one `<li role="option">` per entry in `themes`; the
@@ -504,7 +505,7 @@ data-lily-theme-picker="{name}">` exists in `document.head` and
     preference to `defaultValue`).
 18. When `opts.value` is unset, the root carries no
     `data-lily-theme-picker-value` attribute at all.
-19. A `{% call %}` block body replaces the default glyph inside the
+19. A `{% call %}` block body replaces the default icon inside the
     button; `aria-label` still carries the accessible name.
 20. On the button, `ArrowDown` / `Enter` / `Space` open the listbox,
     set `aria-expanded="true"`, and move focus to the `<ul>`;
@@ -571,3 +572,8 @@ Accessibility hardening (ported from the canonical Svelte spec's
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause
   (or contact for other terms)
 - Contact: Joel Parker Henderson &lt;joel@joelparkerhenderson.com&gt;
+- **2026-09-16**: default icon changed from the Unicode glyph U+25D1
+  CIRCLE WITH RIGHT HALF BLACK (exported as `CIRCLE_WITH_RIGHT_HALF_BLACK`)
+  to a bundled outline SVG. Maintainer-directed, applied to all five
+  page-header pickers the same day. The glyph constant was removed,
+  not renamed — there is no longer a single swappable character value.

@@ -1,8 +1,9 @@
 # SharePicker (Svelte helper)
 
-A headless Svelte 5 share control: a single-glyph button (➤) that opens
-the **native share sheet** where the browser has one, and otherwise shows
-a list of destinations you supply, plus **copy the page URL**.
+A headless Svelte 5 share control: a single-icon button (a bundled
+outline-arrow SVG) that opens the **native share sheet** where the
+browser has one, and otherwise shows a list of destinations you
+supply, plus **copy the page URL**.
 
 The single source of truth is [spec/index.md](./spec/index.md). This file
 is the human-readable guide.
@@ -124,9 +125,11 @@ Class hooks: `.share-picker` (root), `.share-picker-button`,
 `.share-picker-icon`, `.share-picker-list`, `.share-picker-list-item`,
 `.share-picker-target`, `.share-picker-copy`, `.share-picker-status`.
 
-The package ships no CSS. The root `themes/` stylesheets style the button
-and popup, including the optical glyph sizing that keeps ➤ visually the
-same size as the other helpers' glyphs.
+The package ships no CSS beyond the icon markup itself. The root
+`themes/` stylesheets style the button and popup; the icon is an
+explicitly-sized SVG (`width`/`height`, not font-size-based scaling),
+so it renders the same visual size as the other helpers' icons without
+needing a per-glyph optical correction.
 
 ## Tests
 

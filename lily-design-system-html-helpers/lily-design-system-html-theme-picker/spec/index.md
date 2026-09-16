@@ -62,8 +62,9 @@ Give any HTML page a drop-in, headless theme picker that:
   The element toggles `hidden` on the list and nothing more;
   `position`, `z-index`, and flip/shift behaviour are the
   consumer's CSS.
-- An icon font or SVG asset. The button glyph is a plain Unicode
-  character, and consumers who need a guaranteed rendering override
+- An icon font or other icon-set asset. The button icon is one
+  bundled inline SVG (reversed 2026-09-16 from a Unicode glyph);
+  consumers who need a different appearance override
   `renderButtonContent()`.
 
 ## 3. Architectural decisions
@@ -199,7 +200,10 @@ holding a hidden `<input>`, the icon button, and the listbox:
       aria-expanded="false"
       aria-controls="theme-picker-1-list"
     >
-      <span class="theme-picker-icon" aria-hidden="true">◑</span>
+      <svg class="theme-picker-icon" viewBox="0 0 16 16" width="1.05rem" height="1.05rem" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="8" cy="8" r="6"></circle>
+        <path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"></path>
+      </svg>
     </button>
     <ul
       class="theme-picker-list"
@@ -236,12 +240,11 @@ Binding rules for that markup:
 - **Root.** A `<div class="theme-picker {class}">` in light DOM. The
   consumer's `class` attribute on the host is mirrored onto it after
   the base hook.
-- **Glyph.** The default button content is
-  `<span class="theme-picker-icon" aria-hidden="true">` containing
-  U+25D1 CIRCLE WITH RIGHT HALF BLACK (`◑`), exported as
-  `CIRCLE_WITH_RIGHT_HALF_BLACK`. It is hidden from assistive
-  technology, so the accessible name comes from the button's
-  `aria-label` alone.
+- **Icon.** The default button content is a bundled contrast/half-circle
+  `<svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true">`
+  (not a Unicode character — reversed 2026-09-16). It is hidden from
+  assistive technology, so the accessible name comes from the
+  button's `aria-label` alone.
 - **Hidden input.** `<input type="hidden" name="{name}" value="{value}">`
   preserves form participation. Its `value` tracks the real
   selection.
@@ -299,13 +302,15 @@ list) if it is to overlay the page rather than push content down.
 - `matchSystemTheme` (OS colour-scheme preference → supported slug, or
   `""`; the mirror of locale-picker's `matchNavigatorLanguage`)
 - `nextThemePickerId` (the id counter)
-- `CIRCLE_WITH_RIGHT_HALF_BLACK` (the default glyph)
 - `type ThemePickerProps`, `type ThemePickerChangeDetail`
+
+No glyph constant is exported — the default icon is a bundled SVG,
+not a Unicode character (reversed 2026-09-16).
 
 ### 4.7 `renderButtonContent()` — the custom-rendering hook
 
 The Svelte, React, and Vue siblings pass a `children` snippet /
-render prop / slot that replaces the glyph inside the button and
+render prop / slot that replaces the icon inside the button and
 receives `{ value, open, labelFor }`. Custom elements in light DOM
 have no equivalent mechanism — `<slot>` is Shadow DOM only — so the
 HTML helper's stand-in is an overridable method:
@@ -461,7 +466,7 @@ collapsed trigger:
 | `<theme-picker>` (host)            | none — a transparent lifecycle container.                                                                           |
 | `<div class="theme-picker">`       | none — a styling root.                                                                                              |
 | `<button>`                          | implicit `button` role; `aria-label={label}`, `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls={listId}`. |
-| `<span class="theme-picker-icon">` | `aria-hidden="true"` so the glyph never becomes the name.                                                           |
+| `<svg class="theme-picker-icon">` | `aria-hidden="true"` so the icon never becomes the name.                                                           |
 | `<ul>`                              | `role="listbox"`, `aria-label={label}`, `tabindex="-1"`, `hidden` while closed, `aria-activedescendant` while open. |
 | `<li>`                              | `role="option"`, unique `id`, `aria-selected`; `data-active` when keyboard-highlighted.                             |
 | `<input type="hidden">`             | form participation only; not in the accessibility tree.                                                             |
@@ -520,7 +525,7 @@ scoped to `:root[data-theme="…"]` switches instantly.
 ### 6.5 Known tradeoffs
 
 The icon-button-plus-listbox design buys a compact, fully-styleable
-control and pays for it in three places. All three are the
+control and pays for it in two places. Both are the
 consumer's to mitigate.
 
 1. **Icon-only control.** The accessible name depends entirely on
@@ -536,14 +541,8 @@ consumer's to mitigate.
    well-specified by the APG but has weaker and more variable
    support across screen readers and mobile browsers, and it does
    not get the native mobile picker UI.
-3. **Glyph rendering is platform-dependent.** The glyph is a plain
-   Unicode character with no bundled font — Lily ships no fonts or
-   icon assets — so it may render as a colour emoji, a monochrome
-   glyph, or tofu depending on the platform's fonts. Consumers who
-   need a guaranteed appearance override `renderButtonContent()`
-   with their own inline SVG.
 
-Separately, the closed button shows only a glyph, so **the active
+Separately, the closed button shows only an icon, so **the active
 theme is not visible anywhere** unless the consumer surfaces it.
 Pairing the control with visible text or a polite live region
 updated on `themechange` is the documented default pattern; see
@@ -566,10 +565,9 @@ appending a trailing slash, `themeHref` composing the href) exercise
    `<button type="button" class="theme-picker-button">` with
    `aria-haspopup="listbox"`, `aria-expanded="false"`, and an
    `aria-controls` pointing at the rendered `<ul role="listbox">`.
-   The button's default content is
-   `<span class="theme-picker-icon" aria-hidden="true">` holding
-   U+25D1 (`◑`), the value of the exported
-   `CIRCLE_WITH_RIGHT_HALF_BLACK`.
+   The button's default content is a bundled
+   `<svg class="theme-picker-icon" aria-hidden="true">` (not a
+   Unicode character — reversed 2026-09-16).
 2. `aria-label` carries the supplied `label` on **both** the button
    and the listbox.
 3. One `<li class="theme-picker-option">` is rendered per entry in
@@ -641,7 +639,7 @@ data-lily-theme-picker="{name}">` exists in `document.head` and
 ### Custom rendering
 
 19. A subclass overriding `renderButtonContent()` replaces the
-    default glyph — no `.theme-picker-icon` is rendered — while the
+    default icon — no `.theme-picker-icon` `<svg>` is rendered — while the
     button/listbox structure and aria wiring
     (`aria-haspopup`, `aria-label`, a resolvable `aria-controls`)
     are untouched. `this.value`, `this.open`, and `this.labelFor()`

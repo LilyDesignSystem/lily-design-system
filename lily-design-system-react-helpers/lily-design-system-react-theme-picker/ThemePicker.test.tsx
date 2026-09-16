@@ -256,14 +256,14 @@ describe("ThemePicker — markup contract (§4.2, §7.1–§7.5)", () => {
     );
   });
 
-  test("§7.1 the button renders the half-circle glyph, hidden from assistive tech", () => {
+  test("§7.1 the button renders the default SVG icon, hidden from assistive tech", () => {
     render(
       <ThemePicker label="Theme" themesUrl={URL_TRAILING} themes={THEMES} />,
     );
-    const icon = document.querySelector(".theme-picker-icon") as HTMLElement;
-    // U+25D1 CIRCLE WITH RIGHT HALF BLACK, decimal ◑
-    expect(icon.textContent).toBe("◑");
+    const icon = document.querySelector(".theme-picker-icon") as SVGElement;
+    expect(icon.tagName.toLowerCase()).toBe("svg");
     expect(icon.getAttribute("aria-hidden")).toBe("true");
+    expect(icon.querySelector("circle")).toBeTruthy();
   });
 
   test("§7.1 the root is a div carrying the class hook", () => {

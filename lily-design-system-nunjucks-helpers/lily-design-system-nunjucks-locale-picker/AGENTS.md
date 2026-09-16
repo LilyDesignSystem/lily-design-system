@@ -87,9 +87,7 @@ really is the endonym.
     aria-controls="{id}-list"
     data-lily-locale-picker-button
   >
-    <span class="locale-picker-icon" aria-hidden="true"
-      >🌐︎</span
-    >
+    <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" width="1.05rem" height="1.05rem">…</svg>
   </button>
   <ul
     class="locale-picker-list"
@@ -114,11 +112,9 @@ really is the endonym.
 </div>
 ```
 
-The glyph is U+1F310 GLOBE WITH MERIDIANS + U+FE0E VARIATION
-SELECTOR-15 (`🌐︎`), `aria-hidden`. VS15 forces the text
-presentation so the globe stays monochrome and matches theme-picker's
-◑ instead of rendering as a blue colour emoji. A
-`{% call %}` block body replaces the glyph inside the button (the
+The icon is a bundled globe-outline SVG (`viewBox="0 0 16 16"`),
+`aria-hidden` — not a Unicode character (reversed 2026-09-16). A
+`{% call %}` block body replaces the icon inside the button (the
 Nunjucks equivalent of `children`); it does not render options.
 
 The macro emits NO `lang`, and marks options without a consumer label
@@ -156,7 +152,7 @@ There is **no** `placeholder` param and **no**
   character cycles through its matches); an empty list opens without
   `aria-activedescendant`.
 - `aria-label` is the ONLY accessible name the button has, since the
-  glyph is `aria-hidden`.
+  icon is `aria-hidden`.
 - `aria-selected` tracks the applied locale; `data-active` tracks the
   keyboard cursor. They are different things.
 - An option carries `lang` (WCAG 3.1.2, Language of Parts) only when
@@ -166,8 +162,9 @@ There is **no** `placeholder` param and **no**
   3.1.1 (Language of Page) and 1.4.10 (Reflow / bidi).
 - Known tradeoffs, documented honestly in `docs/accessibility.md`: an
   icon-only control depends entirely on `aria-label`; a custom listbox
-  has weaker AT support than a native `<select>`; the glyph may render
-  differently or be missing depending on platform fonts.
+  has weaker AT support than a native `<select>`. (The old
+  font-dependent-rendering tradeoff no longer applies: the icon is a
+  bundled SVG, not a Unicode character — reversed 2026-09-16.)
 - **No-JS regression**: the button will not open without the client
   module. Stated plainly in `docs/ssr.md`.
 
@@ -176,6 +173,8 @@ There is **no** `placeholder` param and **no**
 - Nunjucks 3 macro, camelCase name, kebab-case file path and CSS class.
 - Single `opts` parameter on the macro.
 - No runtime dependency beyond standard DOM APIs.
-- No bundled CSS, fonts, icons, or images.
+- No bundled CSS, fonts, or images. The one deliberate exception is
+  the default button icon: a bundled SVG (reversed 2026-09-16 from a
+  Unicode glyph), matching the other four page-header pickers.
 - All user-facing strings come from `opts`.
 - No inline `<script>` in the macro output.

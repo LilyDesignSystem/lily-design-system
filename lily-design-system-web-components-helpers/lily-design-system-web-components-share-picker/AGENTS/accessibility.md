@@ -33,7 +33,7 @@ regression. Say no.
 
 - Trigger is a real `<button type="button">` with `aria-expanded` and
   `aria-controls` → the `<ul>`.
-- Glyph is `aria-hidden="true"`, so the accessible name is `aria-label`
+- Icon is `aria-hidden="true"`, so the accessible name is `aria-label`
   alone.
 - Destinations carry **no** `role`, plus `target="_blank"` and
   `rel="noopener noreferrer"` (the `rel` stays even when `newTab:
@@ -63,7 +63,7 @@ Arrows **clamp, they do not wrap**. The ends of a short disclosure list
 are a real boundary, and wrapping disorients. A mutation test guards
 this.
 
-## The four costs
+## The three costs
 
 Recorded in full in [`../docs/accessibility.md`](../docs/accessibility.md);
 do not soften them:
@@ -74,12 +74,14 @@ do not soften them:
 2. **`strategy="auto"` splits behaviour by platform.** On a phone the OS
    sheet opens and the consumer's `targets` are never shown. Only
    `strategy="list"` guarantees they are reachable.
-3. **The glyph is font-dependent.** ➤ is in-font and far safer than an
-   emoji, but a font lacking U+27A4 renders tofu.
-4. **Copy fails invisibly** — insecure context, denied permission,
+3. **Copy fails invisibly** — insecure context, denied permission,
    unfocused document, or no API at all. The announcement is the entire
    recovery path, so `copy-failed-label` must be *actionable*, and
    omitting `copied-label` / `copy-failed-label` is silent failure.
+
+(A fourth cost — font-dependent glyph rendering — no longer applies:
+the default icon is a bundled SVG (outline arrow), not a Unicode
+character — reversed 2026-09-16.)
 
 ## Review checklist
 

@@ -1,8 +1,9 @@
 # SharePicker (Blazor helper)
 
-A headless Blazor 10 share control: a single-glyph button (➤) that opens
-the **native share sheet** where the browser has one, and otherwise shows
-a list of destinations you supply, plus **copy the page URL**.
+A headless Blazor 10 share control: an icon button (a bundled
+outline-arrow SVG, not a Unicode character) that opens the **native
+share sheet** where the browser has one, and otherwise shows a list
+of destinations you supply, plus **copy the page URL**.
 
 Ships no CSS, no JS file, and no third-party endpoints.
 
@@ -133,18 +134,18 @@ so a `@ref` lets you trigger the control from elsewhere:
 }
 ```
 
-## Custom glyph
+## Custom icon
 
-`ChildContent` replaces the glyph inside the button and receives a
+`ChildContent` replaces the icon inside the button and receives a
 `SharePickerContext` of `{ Open, Url }`:
 
 ```razor
 <SharePicker Label="Share" Targets="@Targets">
-    <span class="my-icon" aria-hidden="true">@(context.Open ? "▲" : "➤")</span>
+    <span class="my-icon" aria-hidden="true">@(context.Open ? "▲" : "▶")</span>
 </SharePicker>
 ```
 
-It replaces the glyph only — it does not render list items.
+It replaces the icon only — it does not render list items.
 
 ## Parameters
 
@@ -155,7 +156,6 @@ Required: `Label`. Everything else is optional.
 
 | Member | Purpose |
 | ------ | ------- |
-| `SharePicker.BlackRightwardsArrowhead` | The default glyph, `"➤"` (U+27A4). |
 | `SharePicker.NextSharePickerId()` | Mint a stable, prerender-safe id prefix. |
 | `SharePicker.CanShareNativelyAsync(js)` | Does this browser have a share sheet? |
 | `SharePicker.CanCopyAsync(js)` | Does this browser have an async clipboard? |
@@ -165,7 +165,7 @@ and both return `false` during prerender rather than throwing.
 
 ## Accessibility
 
-- The glyph is `aria-hidden`; the name comes from `aria-label`, and the
+- The icon is `aria-hidden`; the name comes from `aria-label`, and the
   list repeats it (`aria-label` = `Label`) so a screen reader entering
   the list hears what it is for.
 - `Escape` closes and returns focus to the button; arrows move between
@@ -183,8 +183,8 @@ Class hooks: `.share-picker` (root), `.share-picker-button`,
 `.share-picker-target`, `.share-picker-copy`, `.share-picker-status`.
 
 The package ships no CSS. The root [`themes/`](../../themes/)
-stylesheets style the button and popup, including the optical glyph
-sizing that keeps ➤ visually the same size as the other helpers' glyphs.
+stylesheets style the button and popup, including the optical icon
+sizing that keeps every picker's icon visually consistent.
 
 Position the root and the list yourself (`position: relative` /
 `position: absolute`), or an open list shoves the page around.

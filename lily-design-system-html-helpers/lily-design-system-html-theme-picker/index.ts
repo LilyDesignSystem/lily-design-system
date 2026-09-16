@@ -15,7 +15,6 @@ import {
     normalizeThemesUrl,
     themeHref,
     nextThemePickerId,
-    CIRCLE_WITH_RIGHT_HALF_BLACK,
 } from "./theme-picker.js";
 export {
     ThemePicker,
@@ -24,7 +23,6 @@ export {
     normalizeThemesUrl,
     themeHref,
     nextThemePickerId,
-    CIRCLE_WITH_RIGHT_HALF_BLACK,
 };
 export type { ThemePickerProps, ThemePickerChangeDetail } from "./theme-picker.js";
 

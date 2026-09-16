@@ -17,16 +17,20 @@ import {
 
 export { defaultLocaleLabels, RTL_LANGUAGE_TAGS, RTL_SCRIPT_SUBTAGS };
 
+/** Namespace for building the default button icon's SVG elements. */
+const SVG_NS = "http://www.w3.org/2000/svg";
+
 /**
- * Default button glyph: U+1F310 GLOBE WITH MERIDIANS followed by
- * U+FE0E VARIATION SELECTOR-15.
- *
- * VS15 requests the *text* presentation. Without it browsers pick the
- * colour-emoji font and the globe renders blue, which does not match
- * theme-picker's monochrome ◑. (U+25D1 needs no selector — it is not
- * an emoji codepoint and already defaults to text presentation.)
+ * Default button icon: a bundled SVG (globe outline), not a Unicode
+ * character. Reversed 2026-09-16 from the font-dependent-glyph
+ * convention (was U+1F310 GLOBE WITH MERIDIANS + U+FE0E, exported as
+ * `GLOBE_WITH_MERIDIANS` — removed, not renamed). The old glyph needed
+ * VS15 to force text presentation and still risked the colour-emoji
+ * font on stacks that ignore the selector; a bundled outline SVG has
+ * no such risk and renders identically everywhere, matching the other
+ * four picker icons as one monochrome family. Override via
+ * `renderButtonContent()`, same as before.
  */
-export const GLOBE_WITH_MERIDIANS = "🌐︎";
 
 /** Change-event detail dispatched on every applied locale. */
 export type LocalePickerChangeDetail = {
@@ -308,23 +312,48 @@ export class LocalePicker extends HTMLElement {
     // ---- Public, overridable rendering hook ----
 
     /**
-     * Build the content of the button. The default is the globe glyph
-     * wrapped in `aria-hidden="true"` so the accessible name comes from
-     * the button's `aria-label` alone.
+     * Build the content of the button. The default is a bundled SVG
+     * icon (globe outline) wrapped in `aria-hidden="true"` so the
+     * accessible name comes from the button's `aria-label` alone.
      *
      * This is the HTML-helper equivalent of the Svelte/React/Vue
-     * `children` snippet: it replaces the glyph inside the button, and
+     * `children` snippet: it replaces the icon inside the button, and
      * has `this.value`, `this.open`, and `this.labelFor(...)` available.
      * Subclasses may override it. Whatever it returns is placed inside
      * the button; the button's own aria wiring is not the subclass's to
      * change. See `docs/custom-rendering.md`.
      */
     renderButtonContent(): Node {
-        const icon = document.createElement("span");
-        icon.className = "locale-picker-icon";
-        icon.setAttribute("aria-hidden", "true");
-        icon.textContent = GLOBE_WITH_MERIDIANS;
-        return icon;
+        const svg = document.createElementNS(SVG_NS, "svg");
+        svg.setAttribute("class", "locale-picker-icon");
+        svg.setAttribute("viewBox", "0 0 16 16");
+        svg.setAttribute("width", "1.05rem");
+        svg.setAttribute("height", "1.05rem");
+        svg.setAttribute("aria-hidden", "true");
+        svg.setAttribute("fill", "none");
+        svg.setAttribute("stroke", "currentColor");
+        svg.setAttribute("stroke-width", "1.6");
+        svg.setAttribute("stroke-linecap", "round");
+        svg.setAttribute("stroke-linejoin", "round");
+
+        const circle = document.createElementNS(SVG_NS, "circle");
+        circle.setAttribute("cx", "8");
+        circle.setAttribute("cy", "8");
+        circle.setAttribute("r", "6");
+        svg.appendChild(circle);
+
+        const equator = document.createElementNS(SVG_NS, "path");
+        equator.setAttribute("d", "M2 8h12");
+        svg.appendChild(equator);
+
+        const meridian = document.createElementNS(SVG_NS, "path");
+        meridian.setAttribute(
+            "d",
+            "M8 2c2.2 0 4 2.7 4 6s-1.8 6-4 6-4-2.7-4-6 1.8-6 4-6z",
+        );
+        svg.appendChild(meridian);
+
+        return svg;
     }
 
     /** Resolve a locale code to its display label. Public for subclasses. */

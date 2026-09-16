@@ -34,9 +34,9 @@ well and what it costs — the costs are real and are not talked around.
 **The name rests entirely on `aria-label`.** An icon-only control has no
 visible text fallback. If `label` is wrong, missing, or untranslated,
 there is nothing else for anyone to go on — sighted users included,
-since ➤ is not self-evidently "share". If you can spare the space, pair
-the button with visible text, or project an `<ng-template>` that renders
-a word instead of the glyph.
+since the arrow icon is not self-evidently "share". If you can spare
+the space, pair the button with visible text, or project an
+`<ng-template>` that renders a word instead of the icon.
 
 **Behaviour differs by platform.** With `strategy="auto"`, a phone opens
 the OS share sheet and a desktop opens the in-page list. That is usually
@@ -45,12 +45,14 @@ scripts cannot describe one flow, and a keyboard or screen-reader user
 on a touch device meets an OS surface this package does not control.
 Force one path with `strategy="list"` if consistency matters more.
 
-**The glyph is font-dependent.** ➤ (U+27A4) is an in-font arrow rather
-than a pictograph, so it is far safer than an emoji — it renders in the
-page's own font and stays monochrome alongside theme-picker's ◑,
-locale-picker's 🌐 and text-size-picker's "A". It is still not
-guaranteed on every font stack. Override it with a projected
-`<ng-template>` if your stack lacks it.
+**The icon is a bundled SVG, not a font-dependent glyph.** Reversed
+2026-09-16: the default used to be ➤ (U+27A4 BLACK RIGHTWARDS
+ARROWHEAD), an in-font character whose rendering depended on the
+consumer's font stack. The default icon is now a bundled outline `<svg>`
+that renders identically everywhere, matching theme-picker's,
+locale-picker's, text-size-picker's, and motion-picker's icons as one
+visual family. Override it with a projected `<ng-template>` if you
+want a different mark.
 
 **Copy can fail for reasons the user cannot see.** An insecure context
 (plain HTTP), a denied permission, or a browser with no async clipboard

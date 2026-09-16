@@ -56,18 +56,18 @@ signal. The helper still owns `lang` / `dir` / storage /
 `localeChange`; you just replace the affordance. See
 [examples/sibling-select.component.ts](../examples/sibling-select.component.ts).
 
-**3. The glyph may not render.** U+1F310 GLOBE WITH MERIDIANS depends
-entirely on the platform's fonts and emoji coverage. It may render as
-a flat glyph, as a colour emoji, as a tofu box, or not at all —
-Linux systems without an emoji font and locked-down corporate Windows
-images are the usual culprits. Because the glyph is `aria-hidden` the
-accessible name survives, but sighted users can be left with an empty
-button. Project your own `<ng-template>` with an inline SVG if you
-need a guarantee.
+**3. The icon is a bundled SVG, not a font-dependent glyph.** Reversed
+2026-09-16: the default used to be U+1F310 GLOBE WITH MERIDIANS, which
+depended entirely on the platform's fonts and emoji coverage — it
+could render as a flat glyph, a colour emoji, a tofu box, or not at
+all. The default icon is now a bundled `<svg>` that renders
+identically everywhere, so that failure mode no longer exists. It is
+still `aria-hidden`, so the accessible name is unaffected either way;
+project your own `<ng-template>` if you want a different mark.
 
 ## The status region is part of the pattern
 
-The closed button shows only the globe glyph — never the active locale
+The closed button shows only the globe icon — never the active locale
 name. A screen-reader user focusing it hears the accessible name and
 the collapsed state, **not** the locale currently in effect; a sighted
 user sees an icon that looks identical whichever locale is active. The

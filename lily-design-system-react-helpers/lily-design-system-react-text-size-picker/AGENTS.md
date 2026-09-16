@@ -25,17 +25,18 @@ hook and maps each `[data-text-size="…"]` slug to real typography.
 ## Public surface
 
 - Default export: `TextSizePicker` component.
-- Named exports: `TextSizePicker`, `sizeName`, `LATIN_CAPITAL_LETTER_A`.
+- Named exports: `TextSizePicker`, `sizeName`.
 - Type exports: `Props`, `ChildArgs`.
 - `sizeName(slug)` is the single implementation of the title-casing
   label rule (`"x-large"` → `"X Large"`); the internal `labelFor`
   delegates to it, and it mirrors `themeName` in theme-picker and
   `localeName` in locale-picker. Consumers should use it instead of
   re-deriving labels. It replaced the old `titleCaseSize` export.
-- `LATIN_CAPITAL_LETTER_A` is the default glyph (U+0041).
+- No glyph constant — the default icon is a bundled SVG, not a
+  Unicode character (reversed 2026-09-16).
 
 Required props: `label`, `sizes`. Optional `children` is a render prop
-that replaces the glyph inside the button and receives
+that replaces the icon inside the button and receives
 `{ value, open, labelFor }` — it does **not** render the options. Full
 table in [spec/index.md §4.1](./spec/index.md#41-props).
 
@@ -64,7 +65,7 @@ focus to the button when a selection or `Escape` closes the list.
   <button type="button" class="text-size-picker-button"
           aria-label="{label}" aria-haspopup="listbox"
           aria-expanded="false" aria-controls="{listId}">
-    <span class="text-size-picker-icon" aria-hidden="true">A</span>
+    <svg class="text-size-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13 7.2 3h1.6L12 13M5.4 9.5h5.2"/></svg>
   </button>
   <ul class="text-size-picker-list" id="{listId}" role="listbox"
       aria-label="{label}" tabindex="-1" hidden
@@ -77,7 +78,7 @@ focus to the button when a selection or `Escape` closes the list.
 
 Ids come from `useId`, so they are stable and hydration-safe. Custom
 rendering via the `children` render prop receiving
-`{ value, open, labelFor }` replaces the glyph inside the button only —
+`{ value, open, labelFor }` replaces the icon inside the button only —
 the component owns the options.
 
 ## Accessibility
@@ -93,13 +94,15 @@ the component owns the options.
   its matches). `Tab` closes via the button so the default Tab proceeds
   from the picker's position.
 - `aria-label` carries the consumer-supplied accessible name on both the
-  button and the listbox. The glyph is `aria-hidden`, so `label` is the
+  button and the listbox. The icon is `aria-hidden`, so `label` is the
   only source of the accessible name.
 - Active option is tracked with `aria-activedescendant`, not roving focus.
 - Option labels default to title-cased slugs; the word "default" is
   never emitted.
-- The glyph is `"A"` rather than a pictograph: U+1F5DB has no real glyph
-  in common font stacks and means *decrease* rather than *size*.
+- The icon is a bundled SVG (a stroke-drawn "A"), not a Unicode
+  character (reversed 2026-09-16). The old glyph, U+1F5DB, was rejected
+  even before that reversal: it had no real glyph in common font
+  stacks and means *decrease* rather than *size*.
 
 ## Conventions this package follows
 

@@ -4,7 +4,6 @@ import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
 import TextSizePicker, {
     sizeName,
-    LATIN_CAPITAL_LETTER_A,
     type ChildArgs,
 } from "./TextSizePicker";
 
@@ -71,15 +70,14 @@ describe("TextSizePicker — markup contract (§4.2, §7.1–§7.5)", () => {
         );
     });
 
-    test("§7.1 the button renders 'A', hidden from assistive tech", () => {
+    test("§7.1 the button renders the default 'A' SVG icon, hidden from assistive tech", () => {
         render(<TextSizePicker label="Text size" sizes={SIZES} />);
         const icon = document.querySelector(
             ".text-size-picker-icon",
-        ) as HTMLElement;
-        // U+0041 LATIN CAPITAL LETTER A.
-        expect(icon.textContent).toBe("A");
-        expect(icon.textContent).toBe(LATIN_CAPITAL_LETTER_A);
+        ) as SVGElement;
+        expect(icon.tagName.toLowerCase()).toBe("svg");
         expect(icon.getAttribute("aria-hidden")).toBe("true");
+        expect(icon.querySelector("path")).toBeTruthy();
     });
 
     test("§7.1 the root is a div carrying the class hook", () => {

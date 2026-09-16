@@ -13,7 +13,7 @@ namespace LilyDesignSystem.Blazor.Helpers;
 
 /// <summary>
 /// Context passed to a custom <c>ChildContent</c> render fragment. The
-/// fragment replaces the default glyph inside the button; it does not
+/// fragment replaces the default icon inside the button; it does not
 /// render options. See <c>spec/index.md §4.1</c>.
 /// </summary>
 public sealed class ThemePickerContext
@@ -30,8 +30,11 @@ public sealed class ThemePickerContext
 
 public partial class ThemePicker : ComponentBase
 {
-    /// <summary>Default button glyph: U+25D1 CIRCLE WITH RIGHT HALF BLACK.</summary>
-    public const string CircleWithRightHalfBlack = "◑";
+    // Default button icon: a bundled SVG (contrast/half-circle), not a
+    // Unicode character. Reversed 2026-09-16 from the font-dependent-glyph
+    // convention (was U+25D1 CIRCLE WITH RIGHT HALF BLACK, exposed as the
+    // constant CircleWithRightHalfBlack — removed, not renamed, since there
+    // is no longer a single swappable character value). See ThemePicker.razor.
 
     /// <summary>Typeahead buffer lifetime, per the APG listbox pattern.</summary>
     private static readonly TimeSpan TypeaheadWindow = TimeSpan.FromMilliseconds(500);
@@ -79,7 +82,7 @@ public partial class ThemePicker : ComponentBase
     [Parameter] public IReadOnlyDictionary<string, string> ThemeLabels { get; set; }
         = new Dictionary<string, string>();
 
-    /// <summary>Replaces the default half-circle glyph inside the button.</summary>
+    /// <summary>Replaces the default half-circle icon inside the button.</summary>
     [Parameter] public RenderFragment<ThemePickerContext>? ChildContent { get; set; }
 
     /// <summary>Called after the control applies a new theme.</summary>

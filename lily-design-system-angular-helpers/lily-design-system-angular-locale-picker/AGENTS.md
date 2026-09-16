@@ -30,9 +30,8 @@ supply positioning for the list — see
 - `LocalePicker` (component class, selector `lily-locale-picker`).
 - `LocalePickerIcon` (optional marker directive for the projected
   icon `<ng-template>`; selector `ng-template[lilyLocalePickerIcon]`).
-- `GLOBE_WITH_MERIDIANS` (the default button glyph, U+1F310 +
-  U+FE0E VARIATION SELECTOR-15 — VS15 forces text presentation so
-  the globe renders monochrome, matching theme-picker's ◑).
+- No glyph constant — the default icon is a bundled SVG, not a
+  Unicode character (reversed 2026-09-16).
 - `nextLocalePickerId` (module-counter id generator; SSR-safe).
 - `bcp47LocaleTag`, `isRtlLocale`, `localeName`,
   `matchNavigatorLanguage` (pure helpers).
@@ -73,7 +72,7 @@ button — the apply pipeline then runs off the `value` change.
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="locale-picker-icon" aria-hidden="true">🌐︎</span>
+    <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M2 8h12"/><path d="M8 2c2.2 0 4 2.7 4 6s-1.8 6-4 6-4-2.7-4-6 1.8-6 4-6z"/></svg>
   </button>
   <ul
     class="locale-picker-list"
@@ -105,7 +104,7 @@ derived endonym — a consumer label's language is unknown, so it makes
 no claim; the button and the list carry none. Ids come from
 `nextLocalePickerId()` — a module counter, not `Math.random()` /
 `Date.now()` — so SSR and hydration agree. `@for` is used (not
-`*ngFor`). A projected `<ng-template>` replaces the glyph span only;
+`*ngFor`). A projected `<ng-template>` replaces the icon svg only;
 it never renders options, and its context is
 `{ $implicit, value, open, labelFor }`.
 
@@ -125,13 +124,13 @@ it never renders options, and its context is
   table in
   [spec/index.md §6.2](./spec/index.md#62-keyboard-contract).
 - `aria-label` names both the button and the listbox. The button is
-  icon-only and its glyph is `aria-hidden`, so `label` is the whole
+  icon-only and its icon is `aria-hidden`, so `label` is the whole
   accessible name — a weak `label` breaks the control.
 - Each endonym-labelled option carries `lang` so assistive tech
   switches pronunciation; consumer-labelled options carry no `lang`,
   because a claim about text in an unknown language would send the
   speech engine to the wrong voice.
-- The closed button shows only a glyph, never the active locale.
+- The closed button shows only an icon, never the active locale.
   Tradeoffs and the compensating status-region pattern:
   [docs/accessibility.md](./docs/accessibility.md).
 

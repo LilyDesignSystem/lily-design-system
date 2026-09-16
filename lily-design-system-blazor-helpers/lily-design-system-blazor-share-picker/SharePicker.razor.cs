@@ -80,7 +80,7 @@ public sealed class ShareEventArgs
 
 /// <summary>
 /// Context passed to a custom <c>ChildContent</c> render fragment. The
-/// fragment replaces the default glyph inside the button; it does not render
+/// fragment replaces the default icon inside the button; it does not render
 /// list items. See <c>spec/index.md §4.1</c>.
 /// </summary>
 public sealed class SharePickerContext
@@ -94,14 +94,11 @@ public sealed class SharePickerContext
 
 public partial class SharePicker : ComponentBase
 {
-    /// <summary>Default button glyph: U+27A4 BLACK RIGHTWARDS ARROWHEAD.</summary>
-    /// <remarks>
-    /// An in-font arrow rather than a pictograph, matching the other helpers'
-    /// rule: it renders in the page's own font on every platform and stays
-    /// monochrome alongside ThemePicker's ◑, LocalePicker's 🌐 and
-    /// TextSizePicker's "A".
-    /// </remarks>
-    public const string BlackRightwardsArrowhead = "➤";
+    // Default button icon: a bundled SVG (outline right arrow), not a
+    // Unicode character. Reversed 2026-09-16 from the font-dependent-glyph
+    // convention (was U+27A4 BLACK RIGHTWARDS ARROWHEAD, exposed as the
+    // constant BlackRightwardsArrowhead -- removed, not renamed). See
+    // SharePicker.razor.
 
     /// <summary>Monotonic instance counter; SSR-safe (no randomness, no clock).</summary>
     private static int _uid;
@@ -143,7 +140,7 @@ public partial class SharePicker : ComponentBase
     /// <summary>Whether to prefer the native share sheet.</summary>
     [Parameter] public ShareStrategy Strategy { get; set; } = ShareStrategy.Auto;
 
-    /// <summary>Replaces the default ➤ glyph inside the button.</summary>
+    /// <summary>Replaces the default arrow icon inside the button.</summary>
     [Parameter] public RenderFragment<SharePickerContext>? ChildContent { get; set; }
 
     /// <summary>Fires after a destination is chosen.</summary>

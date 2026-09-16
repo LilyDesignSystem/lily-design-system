@@ -75,7 +75,6 @@ import {
   matchNavigatorLanguage,
   defaultLocaleLabels,
   RTL_LANGUAGE_TAGS,
-  GLOBE_WITH_MERIDIANS,
   nextLocalePickerId,
   type LocalePickerProps,
   type LocalePickerChangeDetail,
@@ -145,7 +144,7 @@ don't throw.
 ```
 
 **The status line is part of the pattern, not an optional extra.**
-The closed control shows only a glyph, so this line is the only place
+The closed control shows only an icon, so this line is the only place
 the current selection is displayed and announced. It also doubles as
 the visible label that WCAG 2.5.3 Label in Name wants next to an
 icon-only control. `aria-live="polite"` speaks on each change and
@@ -197,9 +196,7 @@ The element renders this into its light DOM:
       aria-expanded="false"
       aria-controls="locale-picker-1-list"
     >
-      <span class="locale-picker-icon" aria-hidden="true"
-        >🌐︎</span
-      >
+      <svg class="locale-picker-icon" viewBox="0 0 16 16" width="1.05rem" height="1.05rem" aria-hidden="true">…</svg>
     </button>
     <ul
       class="locale-picker-list"
@@ -244,10 +241,9 @@ The element renders this into its light DOM:
 
 Points worth internalising:
 
-- The default glyph is **U+1F310 GLOBE WITH MERIDIANS** followed by
-  **U+FE0E VARIATION SELECTOR-15** (which requests the monochrome
-  text presentation, matching theme-picker's ◑), exported as
-  `GLOBE_WITH_MERIDIANS`. It is `aria-hidden="true"`; the accessible
+- The default icon is a bundled SVG (globe with meridian lines), not
+  a Unicode character — reversed 2026-09-16, matching theme-picker's
+  outline circle. It is `aria-hidden="true"`; the accessible
   name comes from the button's `aria-label` alone.
 - `aria-activedescendant` appears on the `<ul>` **only while open**.
 - `data-active` is the keyboard-highlighted option; `aria-selected`
@@ -274,7 +270,7 @@ Class hooks:
 | ------------------------ | --------------------------- |
 | `.locale-picker`        | The rendered `<div>` root.  |
 | `.locale-picker-button` | The trigger `<button>`.     |
-| `.locale-picker-icon`   | The default glyph `<span>`. |
+| `.locale-picker-icon`   | The default icon `<svg>`. |
 | `.locale-picker-list`   | The `<ul role="listbox">`.  |
 | `.locale-picker-option` | Each `<li role="option">`.  |
 
@@ -602,13 +598,15 @@ first paint), see [`docs/ssr.md`](./docs/ssr.md) and
   `<ul>` carry none.
 - The document root carries `lang` (WCAG 3.1.1) and (by default)
   `dir` for bidi layout.
-- **Three tradeoffs**, stated in full in
+- **Two tradeoffs**, stated in full in
   [`docs/accessibility.md`](./docs/accessibility.md): the control is
   icon-only, so `label` is load-bearing and WCAG 2.5.3 Label in Name
-  needs a visible label of your own; a hand-rolled listbox has weaker
-  and more variable AT support than the native `<select>` this
-  replaced, and gets no native mobile picker; and the Unicode glyph
-  renders differently — or not at all — depending on platform fonts.
+  needs a visible label of your own; and a hand-rolled listbox has
+  weaker and more variable AT support than the native `<select>` this
+  replaced, and gets no native mobile picker. (The old
+  platform-dependent-glyph-rendering tradeoff no longer applies: the
+  icon is a bundled SVG, not a Unicode character — reversed
+  2026-09-16.)
 - The compensating status region shown in
   [Quick start](#quick-start) is the **default pattern** — ship it
   unless you have a specific reason not to.

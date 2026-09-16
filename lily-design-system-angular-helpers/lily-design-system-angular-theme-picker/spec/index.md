@@ -92,7 +92,7 @@ data-lily-theme-picker="{name}">`. Multiple pickers can coexist by
   `@angular/common`.
 - **`model<string>()` for two-way bindable `value`.** Consumers use
   `[(value)]="x"` in their templates.
-- **Custom glyph via a projected `<ng-template>`.** The Svelte
+- **Custom icon via a projected `<ng-template>`.** The Svelte
   canonical's `children` snippet maps to a projected
   `<ng-template>`, queried with `contentChild(TemplateRef)` and
   stamped with the `ChildArgs` context. The optional
@@ -127,7 +127,7 @@ data-lily-theme-picker="{name}">`. Multiple pickers can coexist by
 | `themeChange`      | `output<string>()`                | no       | —                                     | Emits after the select applies a new theme.                                                                             |
 
 Content projection: an optional `<ng-template>` projected into
-`<lily-theme-picker>` replaces the default glyph inside the button.
+`<lily-theme-picker>` replaces the default icon inside the button.
 It receives the `ChildArgs` context described in §4.2.
 
 ### 4.2 DOM contract
@@ -146,7 +146,7 @@ The rendered markup is:
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="theme-picker-icon" aria-hidden="true">◑</span>
+    <svg class="theme-picker-icon" viewBox="0 0 16 16" width="1.05rem" height="1.05rem" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
   </button>
 
   <ul
@@ -182,11 +182,11 @@ The rendered markup is:
 - **Button**: `type="button"` (never submits), `aria-haspopup="listbox"`,
   `aria-expanded` reflecting open state, and `aria-controls` pointing at
   the listbox `id`. Its accessible name comes entirely from
-  `aria-label` — the glyph inside is `aria-hidden`.
-- **Glyph**: `<span class="theme-picker-icon" aria-hidden="true">`
-  containing `◑` — U+25D1 CIRCLE WITH RIGHT HALF BLACK, `◑`,
-  exported as the constant `CIRCLE_WITH_RIGHT_HALF_BLACK`. A projected
-  `<ng-template>` replaces the whole span; see below.
+  `aria-label` — the icon inside is `aria-hidden`.
+- **Icon**: `<svg class="theme-picker-icon" aria-hidden="true">`, a
+  bundled contrast/half-circle outline icon (not a Unicode character
+  — reversed 2026-09-16; see §9). A projected `<ng-template>` replaces
+  the whole `<svg>`; see below.
 - **Listbox**: `<ul class="theme-picker-list" role="listbox">` with the
   same `aria-label`, `tabindex="-1"` so it can take focus
   programmatically, and the `hidden` attribute while closed. While open
@@ -204,13 +204,13 @@ The rendered markup is:
   incrementing module counter. The listbox is `{base}-list` and option
   _i_ is `{base}-option-{i}`. Deterministic, unique per instance, and
   SSR-safe — no `Math.random()`, no `Date.now()`.
-- **Custom glyph**: a projected `<ng-template>` (queried with
+- **Custom icon**: a projected `<ng-template>` (queried with
   `contentChild(TemplateRef)`) replaces the default
-  `.theme-picker-icon` span inside the button. Its context is
+  `.theme-picker-icon` svg inside the button. Its context is
   `ChildArgs` — `{ $implicit, value, open, labelFor }`, where `value`
   is the selected slug, `open` is the listbox state, and `labelFor`
   resolves a slug to its display label. **The template does not render
-  options**; it only replaces the button glyph. The listbox is always
+  options**; it only replaces the button icon. The listbox is always
   component-owned.
 - `labelFor(slug)` returns `themeLabels[slug]` when supplied;
   otherwise it delegates to the exported `themeName(slug)`, which
@@ -233,10 +233,13 @@ data-lily-theme-picker="{name}">` in `document.head`. Created on
 
 - `ThemePicker` (the component class)
 - `ThemePickerIcon` (the optional icon-template marker directive)
-- `CIRCLE_WITH_RIGHT_HALF_BLACK` (the default glyph constant)
 - `nextThemePickerId` (the per-instance id generator)
 - `normaliseThemesUrl`, `themeHref` (pure helpers)
 - `ChildArgs` (type-only export)
+
+No glyph constant — the default icon is inline SVG markup in the
+component template, not a separately-exported swappable character
+value.
 
 ## 5. Behaviour
 
@@ -399,8 +402,8 @@ carrying the consumer's `className`. It contains a
 `aria-haspopup="listbox"`, `aria-expanded="false"`, and an
 `aria-controls` matching the `id` of a `<ul class="theme-picker-list"
 role="listbox">`. The button's default content is
-`<span class="theme-picker-icon" aria-hidden="true">` holding `◑`,
-and the exported `CIRCLE_WITH_RIGHT_HALF_BLACK` equals that glyph.
+`<svg class="theme-picker-icon" aria-hidden="true">` — a bundled SVG
+icon, not a Unicode glyph.
 
 **7.2 — Accessible name.** `label` is applied as `aria-label` to both
 the button and the listbox.
@@ -447,8 +450,8 @@ yields exactly one `/` before the slug. A supplied `target` receives
 **7.12 — Class hook.** The consumer's `className` is appended to the
 root `<div>`'s class list after `theme-picker`.
 
-**7.13 — Custom glyph.** A projected `<ng-template>` replaces the
-default `.theme-picker-icon` span inside the button (the default span
+**7.13 — Custom icon.** A projected `<ng-template>` replaces the
+default `.theme-picker-icon` svg inside the button (the default svg
 is then absent) and receives the `ChildArgs` context — `value`,
 `open`, and a working `labelFor`.
 
@@ -531,3 +534,8 @@ that does not exist.
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause
   (or contact for other terms)
 - Contact: Joel Parker Henderson &lt;joel@joelparkerhenderson.com&gt;
+- **2026-09-16**: default icon changed from the Unicode glyph U+25D1
+  CIRCLE WITH RIGHT HALF BLACK (exported as `CIRCLE_WITH_RIGHT_HALF_BLACK`)
+  to a bundled outline SVG. Maintainer-directed, applied to all five
+  page-header pickers the same day. The glyph constant was removed, not
+  renamed — there is no longer a single swappable character value.

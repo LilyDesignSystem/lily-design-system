@@ -32,21 +32,6 @@
 //
 // See spec/index.md §4.3 (client.js exports), §5 (behaviour).
 
-/**
- * Default button glyph: U+23F8 PAUSE SIGN, paired with U+FE0E
- * (VARIATION SELECTOR-15) to force text presentation — the same
- * treatment locale-picker gives its globe.
- *
- * A pause glyph reads as "stop the moving parts" more directly than an
- * abstract symbol, has a real monochrome glyph in ordinary system
- * fonts (media-transport symbols default to text presentation, unlike
- * most pictographs), and doesn't collide with any sibling picker's
- * glyph (theme's CIRCLE WITH RIGHT HALF BLACK, locale's GLOBE WITH
- * MERIDIANS, text-size's plain "A", share's BLACK RIGHTWARDS
- * ARROWHEAD, date-time's CALENDAR).
- */
-export const PAUSE_SIGN = "⏸︎";
-
 /** How long the typeahead buffer survives between keystrokes, in ms. */
 const TYPEAHEAD_RESET_MS = 500;
 

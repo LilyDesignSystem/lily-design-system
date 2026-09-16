@@ -61,9 +61,9 @@ import type { Props, SlotArgs } from "./lily-design-system-vue-theme-picker";
 ```
 
 The barrel also exports the pure helpers `normaliseThemesUrl`,
-`themeHref`, and `nextThemePickerId`, the default glyph constant
-`CIRCLE_WITH_RIGHT_HALF_BLACK`, and the `ChildArgs` type (an alias of
-`SlotArgs`).
+`themeHref`, and `nextThemePickerId`, and the `ChildArgs` type (an
+alias of `SlotArgs`). No glyph constant — the default icon is a
+bundled SVG, not a Unicode character (reversed 2026-09-16).
 
 ## Quick start
 
@@ -143,7 +143,7 @@ The control is a button that opens a WAI-ARIA APG listbox:
     aria-expanded="false"
     aria-controls="theme-picker-1-list"
   >
-    <span class="theme-picker-icon" aria-hidden="true">◑</span>
+    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
   </button>
   <ul
     class="theme-picker-list"
@@ -183,10 +183,10 @@ The control is a button that opens a WAI-ARIA APG listbox:
 
 Points worth knowing:
 
-- The default glyph is `◑` (U+25D1 CIRCLE WITH RIGHT HALF BLACK),
-  exported as `CIRCLE_WITH_RIGHT_HALF_BLACK`. It is `aria-hidden`, so
+- The default icon is a bundled SVG (contrast/half-circle), not a
+  Unicode character (reversed 2026-09-16). It is `aria-hidden`, so
   the button's accessible name comes entirely from `label`.
-- The trigger stays one glyph wide no matter how long the theme names
+- The trigger stays one icon wide no matter how long the theme names
   are — useful when your catalog includes entries like
   `united-kingdom-national-health-service-england-for-patients`.
 - The hidden input keeps the control working inside a `<form>`; its

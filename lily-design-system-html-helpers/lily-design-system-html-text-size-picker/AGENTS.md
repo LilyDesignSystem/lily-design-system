@@ -32,9 +32,10 @@ siblings in this catalog — all three helpers are the same shape.
 
 - Class `TextSizePicker extends HTMLElement` (registered as
   `<text-size-picker>` on import of `index.ts`).
-- Named exports: `TextSizePicker`, `sizeName`, `nextTextSizePickerId`,
-  `LATIN_CAPITAL_LETTER_A`. `sizeName` is the mirror of theme-picker's
-  `themeName` and locale-picker's `localeName`.
+- Named exports: `TextSizePicker`, `sizeName`, `nextTextSizePickerId`.
+  No glyph constant — the default icon is a bundled SVG, not a Unicode
+  character (reversed 2026-09-16). `sizeName` is the mirror of
+  theme-picker's `themeName` and locale-picker's `localeName`.
 - Type exports: `TextSizePickerProps`, `TextSizePickerChangeDetail`.
 - Instance members beyond the attribute mirrors: `open` (getter),
   `listId` (getter), `optionId(index)`, `openList(startIndex?)`,
@@ -72,9 +73,10 @@ focus and the active descendant.
 `<input name="{name}">` for form participation; a
 `<button type="button" class="text-size-picker-button" aria-label="{label}"
 aria-haspopup="listbox" aria-expanded aria-controls="{listId}">`
-whose content defaults to
-`<span class="text-size-picker-icon" aria-hidden="true">A</span>`
-(U+0041, exported as `LATIN_CAPITAL_LETTER_A`); and a
+whose content defaults to a bundled stroke-drawn "A"
+`<svg class="text-size-picker-icon" viewBox="0 0 16 16"
+aria-hidden="true">` (not a Unicode character — reversed
+2026-09-16); and a
 `<ul class="text-size-picker-list" id="{listId}" role="listbox"
 aria-label="{label}" tabindex="-1" hidden>` with one
 `<li class="text-size-picker-option" role="option" aria-selected>` per
@@ -103,15 +105,15 @@ different thing from `aria-selected`. Full markup:
 - Focus sits on the `<ul>` while open, never on an `<li>`; the
   highlighted option is conveyed by `aria-activedescendant`.
 - `aria-label` carries the consumer-supplied accessible name on both
-  the button and the list. The glyph is `aria-hidden="true"`.
+  the button and the list. The icon is `aria-hidden="true"`.
 - Option labels default to title-cased slugs; the word "default" is
   never emitted.
-- Three known tradeoffs — icon-only naming (and WCAG 2.5.3), a custom
-  listbox being weaker than a native `<select>`, and font-dependent
-  glyph rendering (materially safer with "A" than with a pictograph) —
-  are recorded in
+- Two known tradeoffs — icon-only naming (and WCAG 2.5.3) and a custom
+  listbox being weaker than a native `<select>` — are recorded in
   [spec/index.md §6.5](./spec/index.md#65-known-tradeoffs) and
-  `docs/accessibility.md`. The closed button shows only a glyph, so
+  `docs/accessibility.md`. (The font-dependent-glyph tradeoff no
+  longer applies: the icon is a bundled SVG, not a Unicode character —
+  reversed 2026-09-16.) The closed button shows only an icon, so
   consumers should surface the active size in visible text or a polite
   live region.
 
@@ -121,6 +123,8 @@ different thing from `aria-selected`. Full markup:
 - Light DOM only (no Shadow DOM).
 - Strict TypeScript on the public surface.
 - No runtime dependencies.
-- No bundled CSS, fonts, icons, or images.
+- No bundled CSS, fonts, or images. The one deliberate exception is
+  the default button icon: a bundled SVG (reversed 2026-09-16 from a
+  Unicode glyph).
 - All user-facing strings come from attributes / properties.
 - Mirrors the Svelte sibling's §7 acceptance criteria.

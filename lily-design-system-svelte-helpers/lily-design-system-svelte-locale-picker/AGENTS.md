@@ -32,8 +32,9 @@ positioning CSS).
 - Named exports: `LocalePicker`, `bcp47LocaleTag`, `isRtlLocale`,
   `localeName`, `matchNavigatorLanguage`, `defaultLocaleLabels`,
   `RTL_LANGUAGE_TAGS`, `RTL_SCRIPT_SUBTAGS`.
-- Also on the module script (not in the barrel):
-  `GLOBE_WITH_MERIDIANS`, `nextLocalePickerId`.
+- Also on the module script (not in the barrel): `nextLocalePickerId`.
+  No glyph constant — the default icon is a bundled SVG, not a
+  Unicode character (reversed 2026-09-16).
 - Type exports: `Props`, `ChildArgs`.
 
 Required props: `label`, `locales`. Full table in
@@ -60,7 +61,7 @@ detection (if enabled) > `defaultValue` > `"en"` (if present) >
   <input type="hidden" name="{name}" value="{value}" />
   <button type="button" class="locale-picker-button" aria-label="{label}"
           aria-haspopup="listbox" aria-expanded="false" aria-controls="{listId}">
-    <span class="locale-picker-icon" aria-hidden="true">🌐︎</span>
+    <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M2 8h12"/><path d="M8 2c2.2 0 4 2.7 4 6s-1.8 6-4 6-4-2.7-4-6 1.8-6 4-6z"/></svg>
   </button>
   <ul class="locale-picker-list" id="{listId}" role="listbox" aria-label="{label}"
       tabindex="-1" hidden aria-activedescendant="{active optionId while open}">
@@ -71,16 +72,15 @@ detection (if enabled) > `defaultValue` > `"en"` (if present) >
 </div>
 ```
 
-The glyph is `GLOBE_WITH_MERIDIANS` = `"\u{1F310}︎"` — U+1F310
-GLOBE WITH MERIDIANS plus **U+FE0E VARIATION SELECTOR-15**. VS15 forces
-text presentation; without it browsers pick the colour-emoji font and
-the globe renders blue, mismatching `theme-picker`'s monochrome `◑`.
-Do not drop it.
+The icon is a bundled globe-outline SVG (`viewBox="0 0 16 16"`,
+stroke-based) — not a Unicode character, so it renders identically on
+every platform with no colour-emoji fallback risk (reversed
+2026-09-16 from U+1F310 GLOBE WITH MERIDIANS + U+FE0E).
 
 Each locale option keeps `lang="{tagFor(…)}"` so its name is pronounced
 in its own language (WCAG 3.1.2); the button and the list carry none.
 
-The `children` snippet **replaces the glyph inside the button** and
+The `children` snippet **replaces the icon inside the button** and
 receives `{ value, open, labelFor }` — it no longer renders options.
 The hidden input carries form participation with the consumer-form
 code.
@@ -108,12 +108,14 @@ focus leaving the root closes.
   the button and the listbox.
 - The selection **is** exposed to assistive technology, via
   `aria-selected` on the options.
-- Three honest tradeoffs — icon-only naming, hand-rolled listbox
-  support, and font-dependent glyph rendering — are documented in
-  `docs/accessibility.md`. The first bites harder here than for
-  `theme-picker`: `aria-label` is written in *some* language, and a
-  user who cannot read the page needs this control most. A native
-  `<select>` remains the better choice for some audiences.
+- Two honest tradeoffs — icon-only naming and hand-rolled listbox
+  support — are documented in `docs/accessibility.md`. The first bites
+  harder here than for `theme-picker`: `aria-label` is written in
+  *some* language, and a user who cannot read the page needs this
+  control most. A native `<select>` remains the better choice for some
+  audiences. (The font-dependent-rendering tradeoff no longer applies:
+  the icon is a bundled SVG, not a Unicode character — reversed
+  2026-09-16.)
 
 ## Conventions this package follows
 

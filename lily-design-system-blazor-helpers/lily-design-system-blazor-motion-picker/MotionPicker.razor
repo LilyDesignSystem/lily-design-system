@@ -40,9 +40,15 @@
         }
         else
         {
-            @* The glyph is decorative: the accessible name is the button's
-               aria-label, never the character itself. *@
-            <span class="motion-picker-icon" aria-hidden="true">@PauseSign</span>
+            @* The icon is decorative: the accessible name is the button's
+               aria-label, never the icon itself. Bundled SVG, not a
+               Unicode character (reversed 2026-09-16). *@
+            <svg class="motion-picker-icon" viewBox="0 0 16 16" aria-hidden="true"
+                 fill="none" stroke="currentColor" stroke-width="1.6"
+                 stroke-linecap="round" stroke-linejoin="round"
+                 width="1.05rem" height="1.05rem">
+                <path d="M5 3v10M11 3v10" />
+            </svg>
         }
     </button>
 

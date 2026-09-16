@@ -247,7 +247,7 @@ it("themeHref builds the full URL", () => {
 Light DOM has no `<slot>`, so "custom rendering" means subclassing.
 `#render()` is a private field and cannot be overridden; the
 sanctioned hook on the listbox helpers is the public
-`renderButtonContent()`, which replaces the glyph inside the button
+`renderButtonContent()`, which replaces the icon inside the button
 and leaves the base class owning the button, the listbox, the aria
 wiring, and the keyboard contract:
 

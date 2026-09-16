@@ -117,7 +117,7 @@ colour-only meaning is required:
 4. The hidden `<input>`'s `value`, for form submission.
 
 All four describe the *open* control or the document. The **closed**
-button exposes none of them to a user: it shows a glyph and nothing
+button exposes none of them to a user: it shows an icon and nothing
 else.
 
 ## WCAG 1.4.4 is this helper's job
@@ -161,8 +161,8 @@ CSS.** To actually get there:
 
 The icon-button-plus-listbox design buys a compact, fully-styleable
 control — and makes this helper structurally identical to its
-`theme-picker` and `locale-picker` siblings. It costs three things,
-and they are real. All three are the consumer's to mitigate.
+`theme-picker` and `locale-picker` siblings. It costs two things,
+and they are real. Both are the consumer's to mitigate.
 
 ### 1. It is an icon-only control
 
@@ -209,27 +209,22 @@ theme or locale siblings: a user who needs this control is, by
 definition, a user with a visual or cognitive access need, and is
 therefore likelier than average to be on assistive technology.
 
-### 3. Glyph rendering is font-dependent
-
-The button's glyph is a plain Unicode character with no bundled font,
-because Lily ships no fonts or icon assets.
-
-**"A" is materially safer than a pictograph on this point** — and that
-is exactly why it was chosen. U+0041 LATIN CAPITAL LETTER A is ASCII;
-it exists in every font ever shipped, it inherits the page's own
-typeface, and it stays monochrome. It cannot render as tofu, and it
-cannot turn into an unexpected colour emoji the way U+1F5DB DECREASE
-FONT SIZE SYMBOL (which has no real glyph in common font stacks, and
-means *decrease* rather than *size*) or theme-picker's ◑ can.
-
-The residual risk is stylistic, not legibility: "A" picks up whatever
-typeface the button inherits, so it will look different across themes.
-Consumers who need a guaranteed appearance override
-`renderButtonContent()` with their own inline SVG.
+(A third tradeoff — font-dependent glyph rendering — no longer
+applies: the default icon is a bundled stroke-drawn "A" SVG, not a
+Unicode character — reversed 2026-09-16 from the old U+0041 LATIN
+CAPITAL LETTER A glyph. "A" was already materially safer than a
+pictograph — ASCII, in every font ever shipped, monochrome, never
+tofu, never an unexpected colour emoji the way U+1F5DB DECREASE FONT
+SIZE SYMBOL could have been — but it still picked up whatever
+typeface the button inherited, so its stroke weight and proportions
+varied across themes. The bundled SVG removes even that residual
+stylistic variance: it renders identically everywhere. Consumers who
+want a different mark entirely override `renderButtonContent()` with
+their own inline SVG.)
 
 ## The status region is the default pattern
 
-Because the closed button shows only a glyph, **the current text size
+Because the closed button shows only an icon, **the current text size
 is not displayed or announced anywhere** unless you surface it.
 
 So the control ships paired with a status region, and it is in the

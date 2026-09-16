@@ -6,8 +6,8 @@
     <slot> is a Shadow DOM mechanism and these helpers commit to light
     DOM. The equivalent of the other frameworks' `children` is a public,
     overridable method — renderButtonContent(). Whatever Node it returns
-    is placed inside the button, replacing the default
-    <span class="text-size-picker-icon"> "A" glyph.
+    is placed inside the button, replacing the default bundled
+    <svg class="text-size-picker-icon"> stroke-drawn "A" icon.
 
     Inside the hook you have the same information the other frameworks
     pass as ChildArgs:
@@ -23,15 +23,16 @@
 
     Two subclasses below:
 
-      <svg-text-size-picker>   replaces the default "A" glyph with an
-                               inline SVG. The default glyph is a font
-                               character, so it inherits the page's
-                               typeface and — being a text-size control —
-                               scales with the very setting it adjusts;
-                               an SVG sized in pixels stays put. See
-                               docs/accessibility.md tradeoff 3.
+      <svg-text-size-picker>   replaces the default bundled "A" SVG
+                               with a differently-drawn inline SVG of
+                               your own — both are sized in pixels, not
+                               font em units, so neither scales with the
+                               very text-size setting the control
+                               adjusts (reversed 2026-09-16; the old
+                               default was a font character and did
+                               scale — see docs/accessibility.md).
 
-      <text-text-size-picker>  renders the glyph AND the active size's
+      <text-text-size-picker>  renders the icon AND the active size's
                                name, which also fixes the icon-only
                                control's WCAG 2.5.3 Label in Name
                                failure.
@@ -131,7 +132,7 @@
             sizes="small,medium,large,x-large"
         ></svg-text-size-picker>
 
-        <h2>Glyph plus visible size name</h2>
+        <h2>Icon plus visible size name</h2>
         <text-text-size-picker
             label="Text size"
             sizes="small,medium,large,x-large"
@@ -141,7 +142,7 @@
         <script type="module">
             import { TextSizePicker } from "/dist/text-size-picker.js";
 
-            // ---- Tier 1a: swap the glyph for an inline SVG ----
+            // ---- Tier 1a: swap the default icon for a different inline SVG ----
 
             class SvgTextSizePicker extends TextSizePicker {
                 renderButtonContent() {
@@ -156,8 +157,8 @@
                     svg.setAttribute("width", "18");
                     svg.setAttribute("height", "18");
 
-                    // A capital "A" glyph rendered as strokes, matching
-                    // the default character but immune to font metrics.
+                    // A capital "A" drawn as strokes, similar to the
+                    // default icon but with your own proportions.
                     const path = document.createElementNS(ns, "path");
                     path.setAttribute(
                         "d",
@@ -174,7 +175,7 @@
 
             customElements.define("svg-text-size-picker", SvgTextSizePicker);
 
-            // ---- Tier 1b: glyph plus the active size's name ----
+            // ---- Tier 1b: icon plus the active size's name ----
 
             class TextTextSizePicker extends TextSizePicker {
                 renderButtonContent() {

@@ -105,7 +105,7 @@ Give a Svelte 5 application a drop-in, headless theme select that:
 | `extension`        | `string`                  | no       | `".css"`                                          | File extension appended to each slug when constructing the URL.                                 |
 | `target`           | `HTMLElement \| null`     | no       | `document.documentElement`                        | Element that receives `data-theme`.                                                             |
 | `themeLabels`      | `Record<string, string>`  | no       | `{}`                                              | Optional pretty labels per slug.                                                                |
-| `children`         | `Snippet<[ChildArgs]>`    | no       | the `◑` glyph                                     | **Replaces the glyph inside the button.** It does not render options.                           |
+| `children`         | `Snippet<[ChildArgs]>`    | no       | the default SVG icon                              | **Replaces the icon inside the button.** It does not render options.                            |
 | `onChange`         | `(theme: string) => void` | no       | `undefined`                                       | Fires after the select applies a new theme.                                                     |
 | `class`            | `string`                  | no       | `""`                                              | Extra CSS class on the root `<div>`.                                                            |
 | `...restProps`     | any HTML attributes       | no       | —                                                 | Spread onto the root `<div>`.                                                                   |
@@ -140,7 +140,7 @@ type ChildArgs = {
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="theme-picker-icon" aria-hidden="true">◑</span>
+    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
   </button>
   <ul
     class="theme-picker-list"
@@ -168,11 +168,11 @@ type ChildArgs = {
   `class`; rest-props spread onto it.
 - **Hidden input** preserves form participation. Its `name` is the
   `name` prop, which _also_ discriminates the managed `<link>`.
-- **Button glyph** is U+25D1 CIRCLE WITH RIGHT HALF BLACK (`◑`,
-  `◑`), exported as `CIRCLE_WITH_RIGHT_HALF_BLACK`. It is wrapped
-  in `aria-hidden="true"`: the accessible name comes from the button's
-  `aria-label`, never from the glyph.
-- **`children` replaces the glyph**, not the options. It receives
+- **Button icon** is a bundled SVG (contrast/half-circle, `viewBox="0
+  0 16 16"`), not a Unicode character (reversed 2026-09-16 — see §9).
+  It is wrapped in `aria-hidden="true"`: the accessible name comes
+  from the button's `aria-label`, never from the icon.
+- **`children` replaces the icon**, not the options. It receives
   `ChildArgs` and renders inside the `<button>`. When it is supplied,
   no `.theme-picker-icon` span is emitted.
 - **Listbox** is `hidden` while closed. `aria-activedescendant` is
@@ -201,8 +201,10 @@ type ChildArgs = {
 - `default` (the component)
 - `normaliseThemesUrl`, `themeHref`, `themeName`, `matchSystemTheme`,
   `nextThemePickerId` (pure helpers)
-- `CIRCLE_WITH_RIGHT_HALF_BLACK` (the default glyph constant)
 - `type Props`, `type ChildArgs`
+
+No glyph constant — the default icon is inline SVG markup in the
+component, not a separately-exported swappable character value.
 
 `index.ts` currently re-exports a subset:
 
@@ -210,8 +212,7 @@ type ChildArgs = {
 - `normaliseThemesUrl`, `themeHref`
 - `type Props`, `type ChildArgs`
 
-`themeName`, `matchSystemTheme`, and
-`CIRCLE_WITH_RIGHT_HALF_BLACK` are importable from
+`themeName` and `matchSystemTheme` are importable from
 `./ThemePicker.svelte` directly but are **not yet** in the barrel.
 Widening the barrel to match `locale-picker`'s (which re-exports all
 of its pure helpers) is a pending follow-up.
@@ -426,7 +427,7 @@ builds the href from both forms.
 | Clause | Test asserts                                                                                                                                                         |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | §7.1   | Renders a `<button type="button">` with `aria-haspopup="listbox"`, `aria-expanded="false"`, and an `aria-controls` pointing at an element whose `role` is `listbox`. |
-| §7.1   | The button renders the half-circle glyph `◑` inside `.theme-picker-icon`, carrying `aria-hidden="true"`.                                                            |
+| §7.1   | The button renders the default SVG icon inside `.theme-picker-icon`, carrying `aria-hidden="true"`.                                                                 |
 | §7.2   | `aria-label` names **both** the button and the listbox.                                                                                                              |
 | §7.3   | One `.theme-picker-option` per entry in `themes`; the hidden input carries the supplied `name` and the resolved value.                                              |
 | §7.4   | The listbox is `hidden` until the button is activated; activating it clears `hidden` and sets `aria-expanded="true"`.                                                |
@@ -523,3 +524,8 @@ builds the href from both forms.
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause (or
   contact for other terms)
 - Contact: Joel Parker Henderson &lt;joel@joelparkerhenderson.com&gt;
+- **2026-09-16**: default icon changed from the Unicode glyph U+25D1
+  CIRCLE WITH RIGHT HALF BLACK (exported as `CIRCLE_WITH_RIGHT_HALF_BLACK`)
+  to a bundled outline SVG. Maintainer-directed, applied to all five
+  page-header pickers the same day. The glyph constant was removed, not
+  renamed — there is no longer a single swappable character value.

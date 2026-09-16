@@ -15,11 +15,11 @@ public sealed class ThemePickerContext { /* … */ }
 public partial class ThemePicker : ComponentBase { /* … */ }
 ```
 
-The static helpers, the default-glyph constant, and the imperative
-setter used by tests and consumers are public:
+The static helpers and the imperative setter used by tests and
+consumers are public. There is no default-icon constant: the default
+icon is a bundled SVG, not a Unicode character (reversed 2026-09-16).
 
 ```csharp
-public const string CircleWithRightHalfBlack = "◑"; // U+25D1
 public static string NormaliseThemesUrl(string themesUrl);
 public static string ThemeHref(string themesUrl, string slug, string extension);
 public Task SetThemeAsync(string slug);
@@ -153,7 +153,7 @@ An icon button plus a dropdown listbox (`spec/index.md §4.2`):
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="theme-picker-icon" aria-hidden="true">◑</span>
+    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true">…</svg>
   </button>
   <ul
     class="theme-picker-list"
@@ -177,9 +177,9 @@ An icon button plus a dropdown listbox (`spec/index.md §4.2`):
 </div>
 ```
 
-`AdditionalAttributes` spread onto the root `<div>`. The glyph is the
-`CircleWithRightHalfBlack` constant, `aria-hidden` so the accessible
-name comes only from `aria-label`. The hidden input preserves form
+`AdditionalAttributes` spread onto the root `<div>`. The default icon
+is a bundled SVG, `aria-hidden` so the accessible name comes only from
+`aria-label`. The hidden input preserves form
 participation; `Name` also discriminates the managed `<link>`.
 `hidden` on the `<ul>` and `aria-expanded` on the button track the
 same open state. Ids are `{instance}-list` and

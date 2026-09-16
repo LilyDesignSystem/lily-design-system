@@ -13,7 +13,7 @@ namespace LilyDesignSystem.Blazor.Helpers;
 
 /// <summary>
 /// Context passed to a custom <c>ChildContent</c> render fragment. The
-/// fragment replaces the default glyph inside the button; it does not
+/// fragment replaces the default icon inside the button; it does not
 /// render options. See <c>spec/index.md §4.2</c>.
 /// </summary>
 public sealed class LocalePickerContext
@@ -30,14 +30,11 @@ public sealed class LocalePickerContext
 
 public partial class LocalePicker : ComponentBase
 {
-    /// <summary>
-    /// Default button glyph: U+1F310 GLOBE WITH MERIDIANS followed by
-    /// U+FE0E VARIATION SELECTOR-15. VS15 requests the *text*
-    /// presentation, so the globe renders monochrome and matches
-    /// ThemePicker's U+25D1. Without it browsers pick the colour-emoji
-    /// font and the globe comes out blue.
-    /// </summary>
-    public const string GlobeWithMeridians = "🌐︎";
+    // Default button icon: a bundled SVG (globe outline), not a Unicode
+    // character. Reversed 2026-09-16 from the font-dependent-glyph
+    // convention (was U+1F310 GLOBE WITH MERIDIANS + U+FE0E, exposed as
+    // the constant GlobeWithMeridians -- removed, not renamed). See
+    // LocalePicker.razor.
 
     /// <summary>Typeahead buffer lifetime, per the APG listbox pattern.</summary>
     private static readonly TimeSpan TypeaheadWindow = TimeSpan.FromMilliseconds(500);
@@ -80,7 +77,7 @@ public partial class LocalePicker : ComponentBase
     [Parameter] public IReadOnlyDictionary<string, string> LocaleLabels { get; set; }
         = new Dictionary<string, string>();
 
-    /// <summary>Replaces the default globe glyph inside the button.</summary>
+    /// <summary>Replaces the default globe icon inside the button.</summary>
     [Parameter] public RenderFragment<LocalePickerContext>? ChildContent { get; set; }
 
     /// <summary>Called after the control applies a new locale (consumer-form code, not BCP 47).</summary>

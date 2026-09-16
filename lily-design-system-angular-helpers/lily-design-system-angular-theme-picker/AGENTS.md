@@ -28,7 +28,8 @@ listbox positioning.
 - `ThemePicker` (component class, selector `lily-theme-picker`).
 - `ThemePickerIcon` (optional marker directive,
   `ng-template[lilyThemePickerIcon]`, for typed `let-` variables).
-- `CIRCLE_WITH_RIGHT_HALF_BLACK` (the default glyph, `◑` U+25D1).
+- No glyph constant — the default icon is a bundled SVG, not a
+  Unicode character (reversed 2026-09-16).
 - `nextThemePickerId` (per-instance id generator).
 - `normaliseThemesUrl`, `themeHref`, `themeName`, `matchSystemTheme`
   (pure helpers).
@@ -66,7 +67,7 @@ mirrors it for form participation.
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="theme-picker-icon" aria-hidden="true">◑</span>
+    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
   </button>
   <ul
     class="theme-picker-list"
@@ -93,7 +94,7 @@ mirrors it for form participation.
 `@for` is used (not `*ngFor`). Ids come from `nextThemePickerId()`, an
 incrementing module counter — stable, unique per instance, SSR-safe.
 A projected `<ng-template>` (queried via `contentChild(TemplateRef)`)
-replaces the glyph inside the button and receives `ChildArgs`
+replaces the icon inside the button and receives `ChildArgs`
 (`{ $implicit, value, open, labelFor }`); it does **not** render
 options.
 

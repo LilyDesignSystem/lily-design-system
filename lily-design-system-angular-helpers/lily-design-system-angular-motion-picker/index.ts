@@ -1,7 +1,6 @@
 export {
   MotionPicker,
   MotionPickerIcon,
-  PAUSE_SIGN,
   nextMotionPickerId,
   motionName,
   prefersReducedMotion,

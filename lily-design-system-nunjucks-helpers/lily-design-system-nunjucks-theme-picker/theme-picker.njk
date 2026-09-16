@@ -6,9 +6,11 @@
   Companion runtime: theme-picker.client.js
 
   BREAKING (Unreleased): this macro no longer renders a native
-  <select>. It renders an icon button (U+25D1 CIRCLE WITH RIGHT HALF
-  BLACK) that opens a listbox. The `placeholder` param is GONE — there
-  is no <select> left to pin a placeholder onto.
+  <select>. It renders an icon button (a bundled contrast/half-circle
+  SVG, viewBox 0 0 16 16 — reversed 2026-09-16 from the Unicode glyph
+  U+25D1 CIRCLE WITH RIGHT HALF BLACK) that opens a listbox. The
+  `placeholder` param is GONE — there is no <select> left to pin a
+  placeholder onto.
 
   Params (single `opts` object):
     label         — string, required. aria-label for the button AND the
@@ -36,8 +38,8 @@
     classes       — string. Extra CSS classes on the root <div>.
     attributes    — object. Extra HTML attributes spread onto the root.
 
-  Custom glyph: call the macro with a `{% call %}` block and the block
-  body replaces the default glyph inside the button:
+  Custom icon: call the macro with a `{% call %}` block and the block
+  body replaces the default icon inside the button:
 
     {% call themePicker({label: "Theme", themesUrl: "/t/", themes: [...]}) %}
       <svg aria-hidden="true">…</svg>
@@ -90,7 +92,7 @@
 >
 <input type="hidden" name="{{ name }}" value="{{ selected }}" data-lily-theme-picker-input>
 <button type="button" class="theme-picker-button" aria-label="{{ opts.label }}" aria-haspopup="listbox" aria-expanded="false" aria-controls="{{ listId }}" data-lily-theme-picker-button>
-{%- if caller %}{{ caller() }}{% else %}<span class="theme-picker-icon" aria-hidden="true">◑</span>{% endif -%}
+{%- if caller %}{{ caller() }}{% else %}<svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="1.05rem" height="1.05rem"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>{% endif -%}
 </button>
 <ul class="theme-picker-list" id="{{ listId }}" role="listbox" aria-label="{{ opts.label }}" tabindex="-1" hidden data-lily-theme-picker-list>
 {%- for slug in opts.themes -%}

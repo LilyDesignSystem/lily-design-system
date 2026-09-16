@@ -35,9 +35,15 @@
         }
         else
         {
-            @* The glyph is decorative: the accessible name is the button's
-               aria-label, never the character itself. *@
-            <span class="text-size-picker-icon" aria-hidden="true">@LatinCapitalLetterA</span>
+            @* The icon is decorative: the accessible name is the button's
+               aria-label, never the icon itself. Bundled SVG, not a
+               Unicode character (reversed 2026-09-16). *@
+            <svg class="text-size-picker-icon" viewBox="0 0 16 16" aria-hidden="true"
+                 fill="none" stroke="currentColor" stroke-width="1.6"
+                 stroke-linecap="round" stroke-linejoin="round"
+                 width="1.05rem" height="1.05rem">
+                <path d="M4 13 7.2 3h1.6L12 13M5.4 9.5h5.2" />
+            </svg>
         }
     </button>
 

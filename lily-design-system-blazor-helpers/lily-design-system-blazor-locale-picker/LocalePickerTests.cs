@@ -65,21 +65,17 @@ public class LocalePickerTests : TestContext
     }
 
     // -----------------------------------------------------------------
-    // §7.2 — The button renders the globe glyph, hidden from assistive
-    //        technology.
+    // §7.2 — The button renders the default SVG icon, hidden from
+    //        assistive technology.
     // -----------------------------------------------------------------
     [Fact]
-    public void Section_7_2_Button_Renders_Glyph_Hidden_From_Assistive_Tech()
+    public void Section_7_2_Button_Renders_Icon_Hidden_From_Assistive_Tech()
     {
         var cut = RenderDefault();
 
-        var icon = cut.Find(".locale-picker-icon");
-        // U+1F310 GLOBE WITH MERIDIANS (&#127760;) + U+FE0E VARIATION
-        // SELECTOR-15 (&#65038;), which forces the monochrome text
-        // presentation so the globe matches ThemePicker's ◑.
-        Assert.Equal("🌐︎", icon.TextContent.Trim());
+        var icon = cut.Find("svg.locale-picker-icon");
         Assert.Equal("true", icon.GetAttribute("aria-hidden"));
-        Assert.Equal("🌐︎", LocalePicker.GlobeWithMeridians);
+        Assert.NotNull(icon.QuerySelector("circle"));
     }
 
     // -----------------------------------------------------------------
@@ -650,7 +646,7 @@ public class LocalePickerTests : TestContext
             .Add(x => x.ChildContent, custom));
         await Task.Yield();
 
-        // The default glyph is replaced, not supplemented.
+        // The default icon is replaced, not supplemented.
         Assert.Empty(cut.FindAll(".locale-picker-icon"));
 
         var fragment = cut.Find("[data-testid='custom']");

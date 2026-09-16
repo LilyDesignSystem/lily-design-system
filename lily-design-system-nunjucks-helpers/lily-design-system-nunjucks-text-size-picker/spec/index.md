@@ -78,8 +78,9 @@ select that:
 - **Single `opts` object on the macro** — matches the Lily Nunjucks
   convention.
 - **Vanilla ES module client.js** — no framework dependency. Exports
-  `initTextSizePicker(root, opts?)`, `autoInit(opts?)`, `sizeName`,
-  and `LATIN_CAPITAL_LETTER_A`.
+  `initTextSizePicker(root, opts?)`, `autoInit(opts?)`, and `sizeName`.
+  No glyph constant — the default icon is a bundled SVG, not a Unicode
+  character (reversed 2026-09-16; see §9).
 - **SSR-safe.** Macro is a pure template; client.js guards every DOM
   read/write.
 - **Deterministic ids via the `id` opt.** A Nunjucks macro cannot hold
@@ -93,16 +94,17 @@ select that:
   holds the two in agreement — the same decision `theme-picker` and
   `locale-picker` took for `themeName` / `localeName`.
 
-### 3.1 The glyph, and what the conversion costs
+### 3.1 The icon, and what the conversion costs
 
-The button glyph is `"A"` (U+0041 LATIN CAPITAL LETTER A), not a
-pictograph. U+1F5DB DECREASE FONT SIZE SYMBOL was the first choice but
-has no real glyph in common font stacks — it degrades to a crude
-bitmap shape — and it means _decrease_ rather than _size_. "A" renders
-in the page's own font everywhere, stays monochrome like theme-picker's
-◑, and is the conventional text-size affordance.
+The button icon is a bundled stroke-drawn "A" SVG (`viewBox="0 0 16
+16"`), not a Unicode character. Until 2026-09-16 it was `"A"` (U+0041
+LATIN CAPITAL LETTER A) — a plain letter chosen over U+1F5DB DECREASE
+FONT SIZE SYMBOL, which has no real glyph in common font stacks and
+means _decrease_ rather than _size_ — reversed maintainer-directed to
+a bundled SVG the same day as the other four page-header pickers; see
+§9.
 
-The conversion costs three things, none of which is a bug to be fixed
+The conversion costs two things, neither of which is a bug to be fixed
 later. They are documented honestly in `docs/accessibility.md` and
 `docs/ssr.md`:
 
@@ -110,8 +112,6 @@ later. They are documented honestly in `docs/accessibility.md` and
 2. A hand-rolled listbox has weaker assistive-technology support than
    a native `<select>`; a native `<select>` remains the better choice
    for some audiences.
-3. The glyph is font-dependent — though "A" is materially safer here
-   than a pictograph would be.
 
 And one regression: **without JavaScript the button cannot be operated
 at all**, which the native `<select>` could. This deserves extra
@@ -141,7 +141,7 @@ weight in this particular helper, whose whole purpose is WCAG 1.4.4
 There is **no** `detectFromSystem` param (§2) and **no** `placeholder`
 param (this helper never had one).
 
-The `{% call %}` block body replaces the button's **glyph** — the
+The `{% call %}` block body replaces the button's **icon** — the
 Nunjucks equivalent of the canonical helper's `children`. It does not
 render options.
 
@@ -172,7 +172,7 @@ render options.
     aria-controls="{id}-list"
     data-lily-text-size-picker-button
   >
-    <span class="text-size-picker-icon" aria-hidden="true">A</span>
+    <svg class="text-size-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="1.05rem" height="1.05rem"><path d="M4 13 7.2 3h1.6L12 13M5.4 9.5h5.2"/></svg>
   </button>
   <ul
     class="text-size-picker-list"
@@ -216,7 +216,6 @@ sizes[0])`, and pre-fills the hidden input with it.
 | `initTextSizePicker(root, opts?)` | `(HTMLElement, object?) => {setSize, destroy}` | Wire one root.                                                         |
 | `autoInit(opts?)`                  | `(object?) => Array<{setSize, destroy}>`       | Wire every root on the page.                                           |
 | `sizeName(slug)`                   | `(string) => string`                           | Title-case a slug per hyphen-word. Mirrors `themeName` / `localeName`. |
-| `LATIN_CAPITAL_LETTER_A`           | `string`                                       | The default button glyph, `"A"`.                                       |
 
 Optional `opts` for `initTextSizePicker` / `autoInit`:
 
@@ -314,7 +313,7 @@ called. See `docs/ssr.md`, including the no-JS regression.
 - Directly supports WCAG 1.4.4 (Resize Text) by letting the user pick
   a larger typographic scale — this helper's specific concern.
 - `aria-label` is the ONLY accessible name the button has, since the
-  glyph is `aria-hidden="true"`.
+  icon is `aria-hidden="true"`.
 - The client provides Arrow / Home / End / Enter / Space / Escape /
   Tab / typeahead semantics; none of it works before the client runs.
 - Known tradeoffs and the no-JS regression are documented honestly in
@@ -335,8 +334,8 @@ parallel with `theme-picker`'s spec so the two read side by side.
    (`type="button"`, `aria-haspopup="listbox"`,
    `aria-expanded="false"`, `aria-controls` → the list id) that
    controls a `<ul role="listbox" tabindex="-1">`; the button renders
-   the `"A"` glyph in an `aria-hidden` span, and the glyph is never
-   the accessible name.
+   the default "A" SVG icon in an `aria-hidden` wrapper, and the icon
+   is never the accessible name.
 2. **§7.2** `aria-label` names both the button and the listbox.
 3. **§7.3** One `<li role="option">` per size; the hidden input
    carries the supplied `name`, defaulting to `"text-size"`.
@@ -376,13 +375,13 @@ parallel with `theme-picker`'s spec so the two read side by side.
 16. **§7.16** The hidden input is pre-filled server-side so a no-JS
     form submit still carries a size.
 
-### 7.4 The `value` channel and the glyph override
+### 7.4 The `value` channel and the icon override
 
 17. **§7.17** `opts.value` is carried on
     `data-lily-text-size-picker-value` and resolves the initial size.
 18. **§7.18** That data attribute is omitted entirely when `opts.value`
     is unset.
-19. **§7.19** A `{% call %}` block replaces the glyph inside the
+19. **§7.19** A `{% call %}` block replaces the icon inside the
     button, and the accessible name still comes from `aria-label`.
 
 ### 7.5 Keyboard contract (APG listbox)
@@ -451,7 +450,12 @@ Ported from the canonical Svelte spec's §7.14–§7.17.
   `lily-design-system-nunjucks-helpers/lily-design-system-nunjucks-text-size-picker/`
 - Spec version: 0.2.0 (unreleased — the icon-button conversion)
 - Created: 2026-06-17
-- Updated: 2026-07-29
+- Updated: 2026-09-16
+- **2026-09-16**: default icon changed from the Unicode glyph U+0041
+  LATIN CAPITAL LETTER A (exported as `LATIN_CAPITAL_LETTER_A`) to a
+  bundled outline SVG. Maintainer-directed, applied to all five
+  page-header pickers the same day. The glyph constant was removed,
+  not renamed.
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause
   (or contact for other terms)
 - Contact: Joel Parker Henderson &lt;joel@joelparkerhenderson.com&gt;

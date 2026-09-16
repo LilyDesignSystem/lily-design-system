@@ -3,7 +3,6 @@ import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import {
   TextSizePicker,
   sizeName,
-  LATIN_CAPITAL_LETTER_A,
 } from "./text-size-picker.js";
 
 // Ensure the custom element is registered exactly once for the suite.
@@ -123,15 +122,14 @@ describe("<lily-text-size-picker> — markup contract (§7.1–§7.5)", () => {
     expect(document.getElementById(listId!)).toBe(list());
   });
 
-  test("§7.1 the button renders the 'A' glyph, hidden from assistive tech", async () => {
+  test("§7.1 the button renders the default 'A' SVG icon, hidden from assistive tech", async () => {
     mount({ label: "Text size", sizes: SIZES.join(",") });
     await flush();
-    const icon = document.body.querySelector<HTMLElement>(
+    const icon = document.body.querySelector<SVGElement>(
       ".text-size-picker-icon",
     )!;
-    // U+0041 LATIN CAPITAL LETTER A — a letter, not a pictograph.
-    expect(icon.textContent).toBe("A");
-    expect(LATIN_CAPITAL_LETTER_A).toBe("A");
+    expect(icon.tagName.toLowerCase()).toBe("svg");
+    expect(icon.querySelector("path")).toBeTruthy();
     expect(icon.getAttribute("aria-hidden")).toBe("true");
     expect(icon.closest("button")).toBe(button());
   });

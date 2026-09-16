@@ -3,7 +3,7 @@
 A reusable, headless Blazor theme select that **loads themes
 dynamically at runtime** from a developer-specified directory.
 
-The control is an **icon button** (`◑`) that opens a **dropdown
+The control is an **icon button** (a bundled contrast/half-circle SVG) that opens a **dropdown
 listbox** of the available themes, built to the WAI-ARIA Authoring
 Practices listbox pattern. It is not a native `<select>`.
 
@@ -103,7 +103,7 @@ package; the helper is two source files (`ThemePicker.razor` +
 ```
 
 The status line is part of the pattern, not decoration. The closed
-control is a bare glyph, so nothing on screen says which theme is
+control is a bare icon, so nothing on screen says which theme is
 active; this line is the only place a sighted user reads the current
 selection back without opening the listbox. `aria-live="polite"`
 announces changes only, staying silent on first paint. Render it visible
@@ -153,7 +153,7 @@ so static-SSR / prerender renders the markup with no DOM mutation.
     aria-expanded="false"
     aria-controls="theme-picker-1-list"
   >
-    <span class="theme-picker-icon" aria-hidden="true">◑</span>
+    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true">…</svg>
   </button>
   <ul
     class="theme-picker-list"
@@ -188,9 +188,10 @@ so static-SSR / prerender renders the markup with no DOM mutation.
   onto it.
 - **The hidden input** carries `Name` and `Value` so the control still
   participates in a form. The listbox itself is not a form control.
-- **The glyph** is `◑` (U+25D1 CIRCLE WITH RIGHT HALF BLACK), wrapped in
+- **The icon** is a bundled contrast/half-circle SVG (`viewBox="0 0 16
+  16"`), not a Unicode character (reversed 2026-09-16), wrapped in
   `aria-hidden="true"`. The accessible name therefore comes wholly from
-  `Label` via the button's `aria-label` — never from the glyph. An empty
+  `Label` via the button's `aria-label` — never from the icon. An empty
   `Label` leaves the control unnameable.
 - **The listbox** carries `hidden` while closed and drops it while open;
   `aria-expanded` on the button tracks the same state. The sample above
@@ -213,9 +214,9 @@ block is in
 
 ### Sizing the control
 
-Because the closed control is an icon button, size it to the glyph
+Because the closed control is an icon button, size it to the icon
 rather than to the widest theme name — and give it a floor so it stays a
-clear target even if the platform substitutes or drops the character:
+clear target:
 
 ```css
 .theme-picker-button {
@@ -302,7 +303,7 @@ The complete table is in [spec/index.md §4.1](./spec/index.md#41-parameters). H
 | `Extension`            | `string`                               | no       | Defaults to `".css"`.                                                                                                     |
 | `ThemeLabels`          | `IReadOnlyDictionary<string,string>`   | no       | Per-slug display label override.                                                                                          |
 | `OnChange`             | `EventCallback<string>`                | no       | Callback fired after apply.                                                                                               |
-| `ChildContent`         | `RenderFragment<ThemePickerContext>?` | no       | Replaces the glyph inside the button. It does not render options.                                                         |
+| `ChildContent`         | `RenderFragment<ThemePickerContext>?` | no       | Replaces the default SVG icon inside the button. It does not render options.                                              |
 | `CssClass`             | `string`                               | no       | Extra CSS class merged into the root `<div>`.                                                                             |
 | `AdditionalAttributes` | `Dictionary<string,object>?`           | no       | Unmatched attributes; spread onto the root `<div>`.                                                                       |
 
@@ -326,7 +327,7 @@ side-effect coordination.
 ## Custom button content
 
 Pass a `ChildContent` `RenderFragment<ThemePickerContext>` to replace
-the default glyph **inside the button**. It does not render the options
+the default icon **inside the button**. It does not render the options
 — the listbox is owned by the component. The fragment receives a
 `ThemePickerContext` with `{ Value, Open, LabelFor }`:
 
@@ -338,7 +339,7 @@ the default glyph **inside the button**. It does not render the options
     @bind-Value="theme">
 
     <ChildContent Context="ctx">
-        @* An inline SVG is the robust alternative to the font glyph. *@
+        @* A custom icon, overriding the default bundled SVG. *@
         <svg class="theme-picker-glyph" aria-hidden="true"
              width="18" height="18" viewBox="0 0 20 20">
             <circle cx="10" cy="10" r="9" fill="none" stroke="currentColor" />
@@ -351,7 +352,7 @@ the default glyph **inside the button**. It does not render the options
 Keep the replacement `aria-hidden="true"`: the button's accessible name
 still comes from `Label`, and visible text inside the button would
 compete with it. `Open` lets the face react to the listbox state, and
-`LabelFor` resolves a slug to its display label — so a text-plus-glyph
+`LabelFor` resolves a slug to its display label — so a text-plus-icon
 button face is also possible:
 
 ```razor
@@ -407,17 +408,17 @@ recipe.
   `data-theme` on the document root, the `Value` binding (mirrored onto
   the hidden input), and `aria-selected` on exactly one option. No
   colour-only meaning is required.
-- **Tradeoff 1:** the button is icon-only and the glyph is
+- **Tradeoff 1:** the button is icon-only and the icon is
   `aria-hidden`, so the accessible name rests entirely on `Label`. An
   empty or untranslated `Label` leaves the control unnameable.
 - **Tradeoff 2:** a custom listbox has weaker assistive-technology
   support than a native `<select>`, which the platform renders with its
   own picker — behaviour varies more, especially on mobile screen
   readers and in virtual/browse modes.
-- **Tradeoff 3:** the glyph is a font character (U+25D1), not a shipped
-  asset, so it may render at an unexpected weight, be substituted, or
-  be missing entirely. Supply your own `ChildContent` and a
-  `min-inline-size` if that matters.
+
+(A former Tradeoff 3 — the glyph is a font character, not a shipped
+asset, so it may render at an unexpected weight or be missing — no
+longer applies: reversed 2026-09-16, the icon is now a bundled SVG.)
 - WCAG 2.2 AAA is the target; visible focus styling is the
   consumer's CSS responsibility — including a `[data-active]` cue on
   the active option, which is never focused.

@@ -215,7 +215,7 @@ The `*Context` record is a `sealed class` with `required init` fields,
 typed for clarity.
 
 What the fragment substitutes for differs by control shape. For the
-listbox helpers (`ThemePicker`, `LocalePicker`) it replaces the **glyph
+listbox helpers (`ThemePicker`, `LocalePicker`) it replaces the **icon
 inside the trigger button** — never the options, which stay
 component-owned so the listbox semantics cannot be broken from outside.
 The context is correspondingly small (`Value`, `Open`, `LabelFor`):
@@ -223,15 +223,16 @@ The context is correspondingly small (`Value`, `Open`, `LabelFor`):
 ```razor
 <ThemePicker Label="Theme" ThemesUrl="/t/" Themes="…">
     <ChildContent Context="ctx">
-        @* Replaces the ◑ glyph. Keep it aria-hidden: the accessible
-           name still comes from the button's aria-label (Label). *@
+        @* Replaces the default bundled SVG icon. Keep it aria-hidden:
+           the accessible name still comes from the button's aria-label
+           (Label). *@
         <svg class="my-icon" aria-hidden="true" viewBox="0 0 16 16">…</svg>
     </ChildContent>
 </ThemePicker>
 ```
 
 `LocalePicker` and `TextSizePicker` work identically; only the default
-glyph differs (`🌐` and `A`).
+icon differs (a globe outline and a stroke-drawn "A").
 
 To drive a helper from your own UI, take a `@ref` and call the public
 `SetThemeAsync` / `SetLocaleAsync` / `SetSizeAsync` method — the

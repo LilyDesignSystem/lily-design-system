@@ -158,7 +158,7 @@ A worked end-to-end example, including the type scale, is in
     aria-expanded="false"
     aria-controls="text-size-picker-text-size-list"
   >
-    <span class="text-size-picker-icon" aria-hidden="true">A</span>
+    <svg class="text-size-picker-icon" viewBox="0 0 16 16" aria-hidden="true" width="1.05rem" height="1.05rem">…</svg>
   </button>
   <ul
     class="text-size-picker-list"
@@ -186,13 +186,12 @@ open listbox. Style it with `.text-size-picker-list:not([hidden])` —
 never `display: block`, which would override the `hidden` attribute
 that is the open-state contract.
 
-### Why the glyph is "A"
+### Why the icon is a stroke-drawn "A"
 
-A plain Latin capital letter, not a pictograph. U+1F5DB DECREASE FONT
-SIZE SYMBOL has no real glyph in common font stacks — it degrades to a
-crude bitmap shape — and it means _decrease_ rather than _size_. "A"
-renders in the page's own font everywhere and is the conventional
-text-size affordance.
+A bundled outline SVG (`viewBox="0 0 16 16"`), not a Unicode character
+(reversed 2026-09-16). It renders identically everywhere, unlike a
+font-dependent glyph, and reads as the conventional text-size
+affordance.
 
 Override it with a `{% call %}` block:
 
@@ -202,7 +201,7 @@ Override it with a `{% call %}` block:
 {% endcall %}
 ```
 
-The block replaces the **glyph**, not the label, and does not render
+The block replaces the **icon**, not the label, and does not render
 options. Keep whatever you put there `aria-hidden="true"` — the
 accessible name must stay on `aria-label`.
 
@@ -243,7 +242,6 @@ import {
   initTextSizePicker,
   autoInit,
   sizeName,
-  LATIN_CAPITAL_LETTER_A,
 } from "./text-size-picker.client.js";
 ```
 
@@ -253,7 +251,6 @@ import {
   `{setSize, destroy}`.
 - `sizeName(slug)` — `"x-large"` → `"X Large"`. The JS statement of
   the label rule the macro applies in template syntax.
-- `LATIN_CAPITAL_LETTER_A` — the default glyph, `"A"`.
 
 Optional `opts`:
 
@@ -283,8 +280,8 @@ table in [docs/accessibility.md](./docs/accessibility.md).
   the old native `<select>` could. This matters more for a text-size
   control than for its siblings; browser zoom remains the backstop.
 
-The honest tradeoffs — the `aria-label` dependency, weaker AT support
-than a native `<select>`, and glyph rendering — are documented in
+The honest tradeoffs — the `aria-label` dependency and weaker AT
+support than a native `<select>` — are documented in
 [docs/accessibility.md](./docs/accessibility.md), and the SSR and
 no-JS consequences in [docs/ssr.md](./docs/ssr.md).
 

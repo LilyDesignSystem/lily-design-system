@@ -90,7 +90,7 @@ Shared design decisions across the catalog:
   override, and real focus movement rather than
   `aria-activedescendant`. Because light DOM has no `<slot>`, the
   customisation surface in every helper is subclassing — override
-  `renderButtonContent()` to replace the button glyph without giving
+  `renderButtonContent()` to replace the button icon without giving
   up the accessibility contract.
 - **Attribute-driven config**: attributes are kebab-case strings
   (`themes-url`, `storage-key`, `default-value`, `apply-dir`).

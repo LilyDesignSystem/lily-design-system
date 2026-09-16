@@ -14,7 +14,6 @@ import { describe, test, expect, beforeEach, afterEach, vi } from "vitest";
 import { TestBed, type ComponentFixture } from "@angular/core/testing";
 import {
   LocalePicker,
-  GLOBE_WITH_MERIDIANS,
   bcp47LocaleTag,
   isRtlLocale,
   localeName,

@@ -1,7 +1,6 @@
 export {
   LocalePicker,
   LocalePickerIcon,
-  GLOBE_WITH_MERIDIANS,
   nextLocalePickerId,
   bcp47LocaleTag,
   isRtlLocale,

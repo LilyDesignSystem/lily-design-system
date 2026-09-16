@@ -155,31 +155,23 @@ control, and choosing it over this helper is a legitimate decision.
 (The per-option `lang` support noted above cuts the other way; weigh
 both.)
 
-### 3. The glyph is a font-dependent character, not an asset
+### 3. The icon is `aria-hidden`, not the accessible name
 
-The default glyph is `🌐︎` (U+1F310 GLOBE WITH MERIDIANS followed by
-U+FE0E VARIATION SELECTOR-15, which requests the monochrome text
-presentation so the globe matches ThemePicker's `◑`). This package
-ships no fonts, no icons, and no images, so what the user sees is
-whatever the platform's font stack resolves. Depending on OS, browser,
-font settings, and the user's own stylesheet it may render as a colour
-emoji or a monochrome outline, sit on a different baseline, get
-substituted from a fallback font, or render as `□` if nothing in the
-stack covers it. U+1F310 is in the emoji block, so cross-platform
-variation is *more* likely here than for a plain geometric character —
-and VS15 is a *request*, not a guarantee: platforms that ignore it will
-still paint a colour globe.
+The default icon is a bundled outline SVG (not a Unicode character —
+reversed 2026-09-16; this package previously shipped a font-dependent
+glyph and documented its cross-platform rendering variance here, but
+a bundled SVG renders identically everywhere, so that tradeoff no
+longer applies).
 
-Because the glyph is `aria-hidden`, a missing glyph is a *visual*
-failure, not a naming failure — the control stays operable and named.
-But it can leave a sighted user with an unlabelled blank button. If
-that matters, supply your own `ChildContent` (an inline SVG is the
-robust choice) and/or give `.locale-picker-button` a visible
-`min-width` / `min-height` so it stays a clear target either way.
+Because the icon is `aria-hidden`, it never competes with the
+button's accessible name, which comes wholly from `Label`. Supply
+your own `ChildContent` if you want different artwork; give
+`.locale-picker-button` a visible `min-width` / `min-height` so it
+stays a clear target regardless of which icon renders.
 
 ## The status region is still the recommended pattern
 
-The closed control shows only a glyph, so nothing on screen says which
+The closed control shows only an icon, so nothing on screen says which
 locale is active. The recommended shape is the control **plus** a status
 region echoing the active locale, and that is what the
 [quick start](../index.md#quick-start) shows.

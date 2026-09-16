@@ -3,7 +3,8 @@
 A reusable, headless Blazor locale select that applies the chosen
 locale to the document root via `lang` and `dir`, with optional
 `localStorage` persistence and `navigator.languages` detection. It
-renders an icon button (`🌐`) that opens a dropdown listbox, built to
+renders an icon button (a bundled globe-outline SVG, not a Unicode
+character -- reversed 2026-09-16) that opens a dropdown listbox, built to
 the WAI-ARIA Authoring Practices listbox pattern.
 
 For the full contract see [spec/index.md](./spec/index.md) — it is the single
@@ -149,7 +150,8 @@ Renders (ids abbreviated; the listbox is shown open):
     <button type="button" class="locale-picker-button"
             aria-label="Language" aria-haspopup="listbox"
             aria-expanded="true" aria-controls="locale-picker-1-list">
-        <span class="locale-picker-icon" aria-hidden="true">🌐︎</span>
+        <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true"
+             width="1.05rem" height="1.05rem">…</svg>
     </button>
     <ul class="locale-picker-list" id="locale-picker-1-list" role="listbox"
         aria-label="Language" tabindex="-1"
@@ -169,10 +171,9 @@ Reading that markup:
   onto it.
 - The **hidden input** carries `Name` and `Value` so the control still
   participates in a form; the listbox itself is not a form control.
-- The **glyph** is `🌐︎` (U+1F310 GLOBE WITH MERIDIANS + U+FE0E
-  VARIATION SELECTOR-15, for the monochrome text presentation) wrapped in
-  `aria-hidden="true"`, so the accessible name comes wholly from
-  `Label` — never from the character.
+- The **icon** is a bundled outline SVG (not a Unicode character --
+  reversed 2026-09-16) wrapped in `aria-hidden="true"`, so the
+  accessible name comes wholly from `Label` — never from the icon.
 - An **`<li role="option">`** carries its own `lang` **only when its
   label is the derived endonym** — above, "Cymraeg" really is Welsh, so
   `lang="cy"` is a true claim and screen readers may switch voice
@@ -472,16 +473,14 @@ Three tradeoffs come with an icon button plus a custom listbox. None is
 a bug; all are worth knowing before you ship:
 
 1. **The accessible name rests entirely on `aria-label`.** The button
-   has no visible text and the glyph is `aria-hidden`. An empty,
+   has no visible text and the icon is `aria-hidden`. An empty,
    missing, or untranslated `Label` leaves the control unnameable.
 2. **A custom listbox has weaker assistive-technology support than a
    native `<select>`.** Correct ARIA is necessary but not sufficient;
    behaviour varies more on mobile screen readers and in browse modes.
-3. **The glyph is a font character, not an asset.** `🌐` sits in the
-   emoji block. The trailing U+FE0E requests the monochrome text
-   presentation, but not every platform honours it, so it may still
-   render as colour emoji, as a monochrome outline, or not at all.
-   Supply an inline SVG via `ChildContent` if that matters.
+   (The old font-dependent-rendering tradeoff no longer applies: the
+   icon is a bundled SVG, not a Unicode character — reversed
+   2026-09-16.)
 
 Full detail, the screen-reader matrix, and the Blazor-specific
 deviations: [docs/accessibility.md](./docs/accessibility.md).

@@ -10,7 +10,7 @@ applies.
 | ---- | ------- |
 | `.share-picker` | Rendered root `<div>`. Your `class` attribute is appended here. |
 | `.share-picker-button` | The trigger `<button>`. |
-| `.share-picker-icon` | The `aria-hidden` glyph `<span>`. |
+| `.share-picker-icon` | The `aria-hidden` default bundled `<svg>` icon. |
 | `.share-picker-list` | The `<ul>`. Carries `hidden` when closed. |
 | `.share-picker-list-item` | Each `<li>`. |
 | `.share-picker-target` | Each destination `<a>`. Also `[data-target-id]`. |
@@ -117,16 +117,18 @@ defaults. Level them:
 }
 ```
 
-## Glyph sizing
+## Icon sizing
 
-The ➤ arrow's optical weight varies between font families and can read
-small next to body text. The root `themes/` stylesheets already handle
-this; if you are not using them:
+The default icon is a bundled SVG (outline arrow, not a Unicode
+character — reversed 2026-09-16) sized via its `width`/`height`
+attributes. It reads a touch small next to body text at the default
+size; the root `themes/` stylesheets already correct this, but if you
+are not using them:
 
 ```css
 .share-picker-icon {
-  font-size: 1.15em;
-  line-height: 1;
+  width: 1.15em;
+  height: 1.15em;
 }
 ```
 

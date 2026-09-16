@@ -18,7 +18,6 @@ import { fileURLToPath } from "node:url";
 
 import {
   autoInit,
-  CIRCLE_WITH_RIGHT_HALF_BLACK,
   initThemePicker,
   normaliseThemesUrl,
   themeHref,
@@ -208,7 +207,7 @@ leaves the active descendant where it was.
 
 ## Testing the caller block
 
-`{% call %}` replaces the glyph inside the button and nothing else:
+`{% call %}` replaces the icon inside the button and nothing else:
 
 ```ts
 const root = mountIntoBody(
@@ -223,8 +222,10 @@ expect(button.querySelector(".theme-picker-icon")).toBeNull();
 expect(button.getAttribute("aria-label")).toBe("Theme");
 ```
 
-`CIRCLE_WITH_RIGHT_HALF_BLACK` is exported so the default-glyph test
-can compare against it instead of hardcoding `"◑"`.
+The default-icon test asserts against the rendered `<svg>` element and
+its `<circle>`/`<path>` children instead of comparing text content —
+there is no glyph constant to import (reversed 2026-09-16 from the
+Unicode glyph `"◑"`).
 
 ## jsdom caveats
 
@@ -341,12 +342,12 @@ test("§7.13-ish autoInit wires every root on the page", () => {
 
 | §7 group    | Test focus                                                                          |
 | ----------- | ----------------------------------------------------------------------------------- |
-| 7.1 — 7.6   | Macro DOM contract: root, button, listbox, glyph, ids, labels                       |
+| 7.1 — 7.6   | Macro DOM contract: root, button, listbox, icon, ids, labels                       |
 | 7.7 — 7.11  | Client.js apply lifecycle (jsdom mutations)                                         |
 | 7.12        | Pure helpers (normaliseThemesUrl, themeHref)                                        |
 | 7.13        | Attribute spread, destroy, autoInit                                                 |
 | 7.14 — 7.16 | Server-rendered state: closed listbox, one selected option, pre-filled hidden input |
-| 7.17 — 7.19 | `data-lily-theme-picker-value` channel + the `{% call %}` glyph override            |
+| 7.17 — 7.19 | `data-lily-theme-picker-value` channel + the `{% call %}` icon override            |
 | 7.20 — 7.24 | Keyboard and pointer contract (APG listbox)                                         |
 
 The old "only the placeholder is `selected`" regression guard is

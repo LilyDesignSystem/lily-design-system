@@ -194,19 +194,18 @@ public class SharePickerTests : TestContext
     }
 
     // -----------------------------------------------------------------
-    // §7.1 — The button renders ➤, hidden from assistive technology.
+    // §7.1 — The button renders the default SVG icon, hidden from
+    //        assistive technology.
     // -----------------------------------------------------------------
     [Fact]
-    public void Section_7_1_Button_Renders_Arrow_Glyph_Hidden_From_Assistive_Tech()
+    public void Section_7_1_Button_Renders_Icon_Hidden_From_Assistive_Tech()
     {
         var cut = Render();
 
-        var icon = cut.Find(".share-picker-icon");
-        // U+27A4 BLACK RIGHTWARDS ARROWHEAD.
-        Assert.Equal("➤", icon.TextContent.Trim());
-        Assert.Equal("➤", SharePicker.BlackRightwardsArrowhead);
-        // The accessible name is the button's aria-label, never the glyph.
+        var icon = cut.Find("svg.share-picker-icon");
+        // The accessible name is the button's aria-label, never the icon.
         Assert.Equal("true", icon.GetAttribute("aria-hidden"));
+        Assert.NotNull(icon.QuerySelector("path"));
     }
 
     // -----------------------------------------------------------------
@@ -784,10 +783,10 @@ public class SharePickerTests : TestContext
     }
 
     // -----------------------------------------------------------------
-    // §7.22 — ChildContent replaces the glyph and receives the context.
+    // §7.22 — ChildContent replaces the icon and receives the context.
     // -----------------------------------------------------------------
     [Fact]
-    public void Section_7_22_ChildContent_Replaces_The_Glyph_And_Gets_Context()
+    public void Section_7_22_ChildContent_Replaces_The_Icon_And_Gets_Context()
     {
         RenderFragment<SharePickerContext> custom_glyph = context => builder =>
         {
@@ -806,7 +805,7 @@ public class SharePickerTests : TestContext
         Assert.Equal("false", custom.GetAttribute("data-open"));
         Assert.Equal(UrlUnderTest, custom.GetAttribute("data-url"));
 
-        // It replaces the glyph rather than sitting beside it.
+        // It replaces the icon rather than sitting beside it.
         Assert.Empty(cut.FindAll(".share-picker-icon"));
         // And it lives inside the trigger.
         Assert.NotNull(cut.Find("button.share-picker-button [data-testid='custom']"));

@@ -178,12 +178,12 @@ describe("ThemePicker — markup contract (§4.2, §7.1–§7.5)", () => {
     expect(wrapper.classes()).toContain("my-hook");
   });
 
-  test("§7.1 the button renders the half-circle glyph, hidden from assistive tech", () => {
+  test("§7.1 the button renders the default SVG icon, hidden from assistive tech", () => {
     const wrapper = build({});
     const icon = wrapper.find(".theme-picker-icon");
-    // U+25D1 CIRCLE WITH RIGHT HALF BLACK, decimal ◑
-    expect(icon.text()).toBe("◑");
+    expect(icon.element.tagName.toLowerCase()).toBe("svg");
     expect(icon.attributes("aria-hidden")).toBe("true");
+    expect(icon.find("circle").exists()).toBe(true);
   });
 
   test("§7.2 aria-label names the button and the listbox", () => {

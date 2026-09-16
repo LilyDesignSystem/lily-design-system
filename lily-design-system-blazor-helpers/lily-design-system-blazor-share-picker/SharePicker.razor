@@ -4,9 +4,10 @@
     SharePicker — Blazor helper component.
     Single source of truth: spec/index.md (§1–§9).
 
-    Renders a single-glyph button (➤, U+27A4) that opens the native share
-    sheet where the browser provides one, and otherwise a disclosure list
-    of consumer-supplied destinations plus a built-in copy-the-URL action.
+    Renders an icon button (a bundled outline-arrow SVG, not a Unicode
+    character -- reversed 2026-09-16) that opens the native share sheet
+    where the browser provides one, and otherwise a disclosure list of
+    consumer-supplied destinations plus a built-in copy-the-URL action.
 
     A disclosure, not a menu: destinations are real <a> elements with no
     role override, so middle-click, open-in-new-tab and copy-link-address
@@ -36,9 +37,14 @@
         }
         else
         {
-            @* The glyph is decorative: the accessible name is the button's
-               aria-label, never the character itself. *@
-            <span class="share-picker-icon" aria-hidden="true">@BlackRightwardsArrowhead</span>
+            @* The icon is decorative: the accessible name is the button's
+               aria-label, never the icon itself. *@
+            <svg class="share-picker-icon" viewBox="0 0 16 16" aria-hidden="true"
+                 fill="none" stroke="currentColor" stroke-width="1.6"
+                 stroke-linecap="round" stroke-linejoin="round"
+                 width="1.05rem" height="1.05rem">
+                <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" />
+            </svg>
         }
     </button>
 

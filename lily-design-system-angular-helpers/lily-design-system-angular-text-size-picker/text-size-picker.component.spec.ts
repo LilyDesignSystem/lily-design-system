@@ -5,7 +5,6 @@ import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import {
   TextSizePicker,
   TextSizePickerIcon,
-  LATIN_CAPITAL_LETTER_A,
   nextTextSizePickerId,
   sizeName,
 } from "./text-size-picker.component";
@@ -134,14 +133,12 @@ describe("TextSizePicker — markup contract (§4.2, §7.1–§7.5)", () => {
     expect(root.classList.contains("extra")).toBe(true);
   });
 
-  test("§7.1 the button renders 'A', hidden from assistive tech", () => {
+  test("§7.1 the button renders the default 'A' SVG icon, hidden from assistive tech", () => {
     const fixture = mount();
-    const icon = q<HTMLElement>(fixture, ".text-size-picker-icon");
-    // U+0041 LATIN CAPITAL LETTER A — an in-font letter, not a
-    // pictograph, so it never falls back to a bitmap glyph.
-    expect(icon.textContent).toBe("A");
-    expect(LATIN_CAPITAL_LETTER_A).toBe("A");
+    const icon = q<SVGElement>(fixture, ".text-size-picker-icon");
+    expect(icon.tagName.toLowerCase()).toBe("svg");
     expect(icon.getAttribute("aria-hidden")).toBe("true");
+    expect(icon.querySelector("path")).toBeTruthy();
   });
 
   test("§7.2 aria-label names the button and the listbox", () => {
@@ -536,7 +533,7 @@ describe("TextSizePicker — custom icon template (§7.12–§7.13)", () => {
     ).toBe(true);
   });
 
-  test("§7.13 a projected ng-template replaces the glyph and receives ChildArgs", async () => {
+  test("§7.13 a projected ng-template replaces the icon and receives ChildArgs", async () => {
     const fixture = TestBed.createComponent(IconTemplateHost);
     fixture.detectChanges();
     fixtures.push(fixture);
@@ -545,7 +542,7 @@ describe("TextSizePicker — custom icon template (§7.12–§7.13)", () => {
 
     const custom = q<HTMLElement>(fixture, '[data-testid="custom"]');
     expect(custom).toBeTruthy();
-    // The custom glyph replaces the default "A" inside the button.
+    // The custom template replaces the default SVG icon inside the button.
     expect(custom.closest("button")?.className).toContain(
       "text-size-picker-button",
     );

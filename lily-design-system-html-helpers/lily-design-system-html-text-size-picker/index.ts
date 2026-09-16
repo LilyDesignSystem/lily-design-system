@@ -12,10 +12,9 @@ import {
     TextSizePicker,
     sizeName,
     nextTextSizePickerId,
-    LATIN_CAPITAL_LETTER_A,
 } from "./text-size-picker.js";
 
-export { TextSizePicker, sizeName, nextTextSizePickerId, LATIN_CAPITAL_LETTER_A };
+export { TextSizePicker, sizeName, nextTextSizePickerId };
 export type {
     TextSizePickerProps,
     TextSizePickerChangeDetail,

@@ -27,8 +27,8 @@ Sibling files:
 
 Give a Blazor 10 application a drop-in, headless share control that:
 
-1. Renders a single-glyph button (➤, U+27A4) matching the other Lily
-   helpers.
+1. Renders an icon button (a bundled outline-arrow SVG, not a Unicode
+   character) matching the other Lily helpers.
 2. Uses the **native share sheet** where the browser provides one.
 3. Otherwise opens a list of consumer-supplied destinations, plus a
    built-in **copy the page URL** action.
@@ -99,7 +99,7 @@ Give a Blazor 10 application a drop-in, headless share control that:
 | `CopiedLabel`          | `string?`                              | no       | `null`           | Announced in the status region after a successful copy.                                   |
 | `CopyFailedLabel`      | `string?`                              | no       | `null`           | Announced when the clipboard write fails.                                                 |
 | `Strategy`             | `ShareStrategy`                        | no       | `Auto`           | Whether to prefer the native sheet.                                                       |
-| `ChildContent`         | `RenderFragment<SharePickerContext>?` | no       | the ➤ glyph      | Replaces the button glyph.                                                                |
+| `ChildContent`         | `RenderFragment<SharePickerContext>?` | no       | the arrow icon    | Replaces the button icon.                                                                |
 | `OnShare`              | `EventCallback<ShareEventArgs>`        | no       | —                | Fires when a destination is chosen.                                                       |
 | `OnCopy`               | `EventCallback<string>`                | no       | —                | Fires after a successful copy, with the URL.                                              |
 | `OnNativeShare`        | `EventCallback<string>`                | no       | —                | Fires when the native sheet was used instead of the list.                                 |
@@ -141,7 +141,7 @@ public sealed class ShareEventArgs
     aria-expanded
     aria-controls="{listId}"
   >
-    <span class="share-picker-icon" aria-hidden="true">➤</span>
+    <svg class="share-picker-icon" viewBox="0 0 16 16" aria-hidden="true" width="1.05rem" height="1.05rem">…</svg>
   </button>
   <ul class="share-picker-list" id="{listId}" aria-label="{Label}" hidden>
     <li class="share-picker-list-item">
@@ -184,7 +184,6 @@ Blazor has no module barrel, so the Svelte package's re-exports become
 
 | Svelte export                | Blazor equivalent                                |
 | ---------------------------- | ------------------------------------------------ |
-| `BLACK_RIGHTWARDS_ARROWHEAD` | `SharePicker.BlackRightwardsArrowhead`          |
 | `nextSharePickerId()`       | `SharePicker.NextSharePickerId()`              |
 | `canShareNatively()`         | `SharePicker.CanShareNativelyAsync(IJSRuntime)` |
 | `canCopy()`                  | `SharePicker.CanCopyAsync(IJSRuntime)`          |
@@ -259,7 +258,7 @@ Focus leaving the root closes the list.
 
 ## 6. Accessibility
 
-WCAG 2.2 AAA target. The glyph is `aria-hidden`; the accessible name is
+WCAG 2.2 AAA target. The icon is `aria-hidden`; the accessible name is
 the button's `aria-label`, which is consumer-supplied and localisable.
 The status region is `aria-live="polite"` and empty on load, so it
 announces the copy outcome and nothing else. Destinations keep native
@@ -297,7 +296,7 @@ matches the canonical Svelte spec one-for-one.
 19. Focus leaving the root closes the list.
 20. An explicit `Url` parameter wins.
 21. With no `Url`, the current page URL is used.
-22. `ChildContent` replaces the glyph and receives `SharePickerContext`.
+22. `ChildContent` replaces the icon and receives `SharePickerContext`.
 23. `Tab` from an open item puts focus on the button before closing, so
     the user's next Tab proceeds from the picker's position instead of
     restarting from `<body>` after the browser's default Tab lands on a
@@ -375,6 +374,14 @@ Each of these is forced by the framework, not chosen.
 - Assembly / NuGet id: LilyDesignSystem.Blazor.SharePicker
 - Version: 0.1.0
 - License: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
+
+### 10.1 Changelog
+
+- **2026-09-16**: default icon changed from the Unicode glyph U+27A4
+  BLACK RIGHTWARDS ARROWHEAD (exposed as the constant
+  `SharePicker.BlackRightwardsArrowhead`) to a bundled outline SVG.
+  Maintainer-directed, applied to all five page-header pickers the
+  same day. The constant was removed, not renamed.
 
 ---
 

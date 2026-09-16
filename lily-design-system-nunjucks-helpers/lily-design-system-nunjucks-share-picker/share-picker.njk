@@ -1,7 +1,9 @@
 {#
-  SharePicker macro — glyph button that opens the native share sheet
-  where the browser has one, and otherwise a disclosure list of
-  consumer-supplied destinations plus a copy-the-URL action.
+  SharePicker macro — icon button (a bundled arrow SVG, viewBox 0 0 16
+  16 — reversed 2026-09-16 from the Unicode glyph U+27A4 BLACK
+  RIGHTWARDS ARROWHEAD) that opens the native share sheet where the
+  browser has one, and otherwise a disclosure list of consumer-supplied
+  destinations plus a copy-the-URL action.
 
   HTML tag: <div> (root), <button> + <ul> (disclosure, NOT a menu)
   CSS class: share-picker
@@ -36,7 +38,7 @@
 
   Params (single `opts` object):
     label       — string, required. aria-label for the trigger button.
-                  The button is glyph-only, so this is the ONLY
+                  The button is icon-only, so this is the ONLY
                   accessible name it has.
     targets     — array of objects, each:
                     id      — string, required. Passed back to onShare.
@@ -66,8 +68,8 @@
     classes     — string. Extra CSS classes on the root <div>.
     attributes  — object. Extra HTML attributes spread onto the root.
 
-  Custom glyph: call the macro with a `{% call %}` block and the block
-  body replaces the default glyph inside the button:
+  Custom icon: call the macro with a `{% call %}` block and the block
+  body replaces the default icon inside the button:
 
     {% call sharePicker({label: "Share", targets: [...]}) %}
       <svg aria-hidden="true">…</svg>
@@ -118,7 +120,7 @@
   {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
 <button type="button" class="share-picker-button" aria-label="{{ opts.label }}" aria-expanded="false" aria-controls="{{ listId }}" data-lily-share-picker-button>
-{%- if caller %}{{ caller() }}{% else %}<span class="share-picker-icon" aria-hidden="true">➤</span>{% endif -%}
+{%- if caller %}{{ caller() }}{% else %}<svg class="share-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="1.05rem" height="1.05rem"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5"/></svg>{% endif -%}
 </button>
 {#- Named like the sibling pickers' listboxes: a screen reader entering
     the list hears what it is for, not just "list, three items". -#}

@@ -16,7 +16,6 @@ import {
   defaultLocaleLabels,
   RTL_LANGUAGE_TAGS,
   RTL_SCRIPT_SUBTAGS,
-  GLOBE_WITH_MERIDIANS,
   type Props,
   type ChildArgs,
 } from "./lily-design-system-react-locale-picker";
@@ -29,7 +28,7 @@ The default export is `LocalePicker` for consumers who prefer
 
 | Prop      | Type       | Notes                                                                                                                        |
 | --------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| `label`   | `string`   | Accessible name (`aria-label`) on the button and the listbox. The glyph is `aria-hidden`, so this is the button's only name. |
+| `label`   | `string`   | Accessible name (`aria-label`) on the button and the listbox. The icon is `aria-hidden`, so this is the button's only name. |
 | `locales` | `string[]` | Available locale codes (`en`, `fr_CA`, `zh_Hant`).                                                                           |
 
 ## Optional props
@@ -45,7 +44,7 @@ The default export is `LocalePicker` for consumers who prefer
 | `applyDir`            | `boolean`                                        | `true`                                |
 | `localeLabels`        | `Record<string, string>`                         | `{}`                                  |
 | `onChange`            | `(code: string) => void`                         | `undefined`                           |
-| `children`            | `(args: ChildArgs) => React.ReactNode`           | default globe glyph span              |
+| `children`            | `(args: ChildArgs) => React.ReactNode`           | default globe SVG icon                |
 | `className`           | `string`                                         | `""`                                  |
 | `...restProps`        | `HTMLAttributes<HTMLDivElement>` minus the above | spread onto the root `<div>`          |
 
@@ -70,8 +69,8 @@ The select decides at first render based on `value !== undefined`.
 
 ## ChildArgs
 
-`children` is a render prop for the **button glyph only**. It replaces
-the default `<span class="locale-picker-icon">🌐</span>` inside
+`children` is a render prop for the **button icon only**. It replaces
+the default `<svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M2 8h12"/><path d="M8 2c2.2 0 4 2.7 4 6s-1.8 6-4 6-4-2.7-4-6 1.8-6 4-6z"/></svg>` inside
 `<button class="locale-picker-button">`. It does not render options —
 the component owns the listbox, its options, and the keyboard contract.
 
@@ -90,7 +89,7 @@ type ChildArgs = {
 - `labelFor(code)` — resolves to `localeLabels[code]` →
   `defaultLocaleLabels[code]` → `Intl.DisplayNames` → raw code.
 
-Mark custom glyph content `aria-hidden="true"`: the button is already
+Mark custom icon content `aria-hidden="true"`: the button is already
 named by `aria-label={label}`, so unhidden content is announced twice.
 
 ```tsx
@@ -131,9 +130,11 @@ All pure, server-safe, no React dependency.
 defaultLocaleLabels; // Record<string, string> — 436 codes → English names
 RTL_LANGUAGE_TAGS; // Set<string> — language subtags that imply RTL
 RTL_SCRIPT_SUBTAGS; // Set<string> — script subtags that imply RTL
-GLOBE_WITH_MERIDIANS; // "🌐︎" — the default button glyph
-// (VS15 forces monochrome text presentation)
 ```
+
+No glyph constant — the default icon is inline SVG markup in the
+component, not a separately-exported swappable character value
+(reversed 2026-09-16).
 
 `locales.ts` is the canonical source; it has no React dependency and
 is safe to import from a server component.
@@ -153,7 +154,7 @@ Rendered markup — root `<div>`, hidden input, icon button, listbox:
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="locale-picker-icon" aria-hidden="true">🌐</span>
+    <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M2 8h12"/><path d="M8 2c2.2 0 4 2.7 4 6s-1.8 6-4 6-4-2.7-4-6 1.8-6 4-6z"/></svg>
   </button>
   <ul
     class="locale-picker-list"

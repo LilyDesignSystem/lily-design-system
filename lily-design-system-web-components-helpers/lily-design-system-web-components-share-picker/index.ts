@@ -13,15 +13,8 @@ import {
     canShareNatively,
     canCopy,
     nextSharePickerId,
-    BLACK_RIGHTWARDS_ARROWHEAD,
 } from "./share-picker.js";
-export {
-    SharePicker,
-    canShareNatively,
-    canCopy,
-    nextSharePickerId,
-    BLACK_RIGHTWARDS_ARROWHEAD,
-};
+export { SharePicker, canShareNatively, canCopy, nextSharePickerId };
 export type {
     SharePickerProps,
     SharePickerShareDetail,

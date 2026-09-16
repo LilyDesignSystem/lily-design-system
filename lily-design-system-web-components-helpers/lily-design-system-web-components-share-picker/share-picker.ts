@@ -5,7 +5,7 @@
  * the custom-element class but does NOT register it. The `index.ts`
  * barrel registers it on import.
  *
- * The control is a single-glyph button that opens the **native share
+ * The control is a single-icon button that opens the **native share
  * sheet** where the browser provides one, and otherwise a **disclosure
  * list** of consumer-supplied destinations plus a built-in copy-the-URL
  * action.
@@ -15,15 +15,17 @@
  * There is no `storage-key`, and nothing is written to `localStorage`.
  */
 
+/** Namespace for building the default button icon's SVG elements. */
+const SVG_NS = "http://www.w3.org/2000/svg";
+
 /**
- * Default button glyph: U+27A4 BLACK RIGHTWARDS ARROWHEAD.
- *
- * An in-font arrow rather than a pictograph, matching the other helpers'
- * rule: it renders in the page's own font on every platform and stays
- * monochrome alongside theme-picker's ◑, locale-picker's 🌐 and
- * text-size-picker's "A".
+ * Default button icon: a bundled SVG (outline arrow), not a Unicode
+ * character. Reversed 2026-09-16 from the font-dependent-glyph
+ * convention (was U+27A4 BLACK RIGHTWARDS ARROWHEAD, exported as
+ * `BLACK_RIGHTWARDS_ARROWHEAD` — removed, not renamed). Matches the
+ * arrow at testingexamples.github.io and the other four picker icons
+ * as one consistent visual family regardless of the consumer's fonts.
  */
-export const BLACK_RIGHTWARDS_ARROWHEAD = "➤";
 
 /**
  * One destination in the share list.
@@ -278,9 +280,9 @@ export class SharePicker extends HTMLElement {
     // ---- Public, overridable rendering hook ----
 
     /**
-     * Build the content of the button. The default is the ➤ glyph
-     * wrapped in `aria-hidden="true"`, so the accessible name comes from
-     * the button's `aria-label` alone.
+     * Build the content of the button. The default is a bundled outline
+     * arrow SVG wrapped in `aria-hidden="true"`, so the accessible name
+     * comes from the button's `aria-label` alone.
      *
      * This is the HTML-helper equivalent of the Svelte/React/Vue
      * `children` snippet, and it receives the same information those
@@ -291,11 +293,21 @@ export class SharePicker extends HTMLElement {
      * change. See `docs/custom-rendering.md`.
      */
     renderButtonContent(): Node {
-        const icon = document.createElement("span");
-        icon.className = "share-picker-icon";
-        icon.setAttribute("aria-hidden", "true");
-        icon.textContent = BLACK_RIGHTWARDS_ARROWHEAD;
-        return icon;
+        const svg = document.createElementNS(SVG_NS, "svg");
+        svg.setAttribute("class", "share-picker-icon");
+        svg.setAttribute("viewBox", "0 0 16 16");
+        svg.setAttribute("width", "1.05rem");
+        svg.setAttribute("height", "1.05rem");
+        svg.setAttribute("aria-hidden", "true");
+        svg.setAttribute("fill", "none");
+        svg.setAttribute("stroke", "currentColor");
+        svg.setAttribute("stroke-width", "1.6");
+        svg.setAttribute("stroke-linecap", "round");
+        svg.setAttribute("stroke-linejoin", "round");
+        const path = document.createElementNS(SVG_NS, "path");
+        path.setAttribute("d", "M2.5 8h11M9 3.5 13.5 8 9 12.5");
+        svg.appendChild(path);
+        return svg;
     }
 
     // ---- Lifecycle ----

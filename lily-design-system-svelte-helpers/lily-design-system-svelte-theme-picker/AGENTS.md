@@ -27,8 +27,9 @@ listbox's positioning CSS).
 
 - Default export: `ThemePicker` component.
 - Module-script exports: `normaliseThemesUrl`, `themeHref`,
-  `themeName`, `matchSystemTheme`, `nextThemePickerId`,
-  `CIRCLE_WITH_RIGHT_HALF_BLACK`.
+  `themeName`, `matchSystemTheme`, `nextThemePickerId`. No glyph
+  constant — the default icon is a bundled SVG, not a Unicode
+  character (reversed 2026-09-16).
 - Barrel (`index.ts`) currently re-exports only `default`,
   `ThemePicker`, `normaliseThemesUrl`, `themeHref`, and the types —
   see [spec/index.md §4.3](./spec/index.md#43-re-exports).
@@ -65,7 +66,7 @@ calls `onChange(slug)`. SSR-safe — all DOM writes happen inside
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <span class="theme-picker-icon" aria-hidden="true">◑</span>
+    <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
   </button>
   <ul
     class="theme-picker-list"
@@ -89,8 +90,9 @@ calls `onChange(slug)`. SSR-safe — all DOM writes happen inside
 </div>
 ```
 
-The glyph is U+25D1 CIRCLE WITH RIGHT HALF BLACK (`◑`). The
-`children` snippet **replaces that glyph inside the button** and
+The icon is a bundled contrast/half-circle SVG (`viewBox="0 0 16 16"`,
+stroke-based, matching the other four picker icons as one family). The
+`children` snippet **replaces that icon inside the button** and
 receives `{ value, open, labelFor }` — it no longer renders options.
 The hidden input carries form participation; its `name` also
 discriminates the managed `<link>`.
@@ -118,10 +120,11 @@ focus leaving the root closes.
   `aria-selected` on the options.
 - Option labels default to `themeName(slug)` (title-cased); the word
   "default" is never emitted.
-- Three honest tradeoffs — icon-only naming, hand-rolled listbox
-  support, and font-dependent glyph rendering — are documented in
-  `docs/accessibility.md`. A native `<select>` remains the better
-  choice for some audiences.
+- Two honest tradeoffs — icon-only naming and hand-rolled listbox
+  support — are documented in `docs/accessibility.md`. A native
+  `<select>` remains the better choice for some audiences. (The
+  font-dependent-rendering tradeoff no longer applies: the icon is a
+  bundled SVG, not a Unicode character — reversed 2026-09-16.)
 
 ## Conventions this package follows
 
