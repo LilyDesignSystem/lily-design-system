@@ -4,6 +4,20 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.1.0 — 2026-09-16
+
+**Package renamed: `lily-design-system-nunjucks-theme-picker` → `@lilydesignsystem/nunjucks-theme-picker`.** npm scoped packages
+are registry-distinct from their unscoped counterparts, so this is a
+new package with no publish history of its own — version reset to
+`0.1.0` per this project's established rename precedent (the July
+2026 `*-select` → `*-picker` rename). No code or behaviour change
+relative to `lily-design-system-nunjucks-theme-picker`'s last published version (`0.2.0`);
+its full changelog continues below, now read as history prior to the
+rescope. The old unscoped name is deprecated on the registry (never
+unpublished), pointing consumers here.
+
+---
+
 ## 0.2.0 — 2026-09-16
 
 ### Changed (BREAKING)
@@ -103,7 +117,7 @@ Accessibility hardening, ported from the canonical Svelte helper.
 
 ### Initial entry — 2026-07-21
 
-First release under the name `lily-design-system-nunjucks-theme-picker`.
+First release under the name `@lilydesignsystem/nunjucks-theme-picker`.
 The package was renamed from `lily-design-system-nunjucks-theme-select`;
 because no release has ever been published under the new name, the
 version restarts at 0.1.0 rather than continuing the old 0.4.0 line.
@@ -141,7 +155,7 @@ a catalog component in `components.tsv`, and the helper shared its
 
 The entries below record this package's development under its
 former name. Nothing was ever published under the
-`lily-design-system-nunjucks-theme-picker` name before 0.1.0 above,
+`@lilydesignsystem/nunjucks-theme-picker` name before 0.1.0 above,
 so these version numbers do not describe releases of the current
 package. They are kept because the DOM contract, keyboard
 behaviour and breaking changes they describe are still the ones
@@ -462,8 +476,8 @@ Initial release.
 #### Parity
 
 This is a direct port of the Svelte canonical
-`lily-design-system-svelte-theme-picker` v0.1.0 and the Vue port
-`lily-design-system-vue-theme-picker` v0.1.0. The DOM contract,
+`@lilydesignsystem/svelte-theme-picker` v0.1.0 and the Vue port
+`@lilydesignsystem/vue-theme-picker` v0.1.0. The DOM contract,
 managed-link discriminator, initial-value resolution, and apply
 order match clause-for-clause.
 

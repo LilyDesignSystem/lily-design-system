@@ -1,7 +1,7 @@
 # Lily Design System™ — Vue Helpers
 
 A catalog of opinionated, reusable Vue 3 helper components that sit
-alongside the headless [`lily-design-system-vue-headless`](../lily-design-system-vue-headless/)
+alongside the headless [`@lilydesignsystem/vue-headless`](../lily-design-system-vue-headless/)
 library. Where the headless library ships pure markup primitives,
 these helpers wrap a complete lifecycle (selection + persistence +
 DOM application) for one small, common job.
@@ -10,11 +10,11 @@ DOM application) for one small, common job.
 
 | Helper                                                                                  | Purpose                                                                                     |
 | --------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| [`lily-design-system-vue-theme-picker`](./lily-design-system-vue-theme-picker/)         | Pick a visual theme; dynamic CSS load + `data-theme` swap.                                  |
-| [`lily-design-system-vue-locale-picker`](./lily-design-system-vue-locale-picker/)       | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.                             |
-| [`lily-design-system-vue-text-size-picker`](./lily-design-system-vue-text-size-picker/) | Pick a text size; sets `data-text-size` on the document root.                               |
-| [`lily-design-system-vue-motion-picker`](./lily-design-system-vue-motion-picker/)       | Pick a motion (reduced-motion) preference; sets `data-motion` on the document root, defaulting to the OS's own `(prefers-reduced-motion: reduce)` signal. |
-| [`lily-design-system-vue-share-picker`](./lily-design-system-vue-share-picker/)         | Share the page: native share sheet where available, else a destination list + copy the URL. |
+| [`@lilydesignsystem/vue-theme-picker`](./lily-design-system-vue-theme-picker/)         | Pick a visual theme; dynamic CSS load + `data-theme` swap.                                  |
+| [`@lilydesignsystem/vue-locale-picker`](./lily-design-system-vue-locale-picker/)       | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.                             |
+| [`@lilydesignsystem/vue-text-size-picker`](./lily-design-system-vue-text-size-picker/) | Pick a text size; sets `data-text-size` on the document root.                               |
+| [`@lilydesignsystem/vue-motion-picker`](./lily-design-system-vue-motion-picker/)       | Pick a motion (reduced-motion) preference; sets `data-motion` on the document root, defaulting to the OS's own `(prefers-reduced-motion: reduce)` signal. |
+| [`@lilydesignsystem/vue-share-picker`](./lily-design-system-vue-share-picker/)         | Share the page: native share sheet where available, else a destination list + copy the URL. |
 
 `date-time-picker` is a fifth helper, listed separately because it does
 not fit the table above: it is a form control, not a page-header
@@ -22,7 +22,7 @@ preference or action control.
 
 | Helper                                                                                          | Purpose                                                                            |
 | ------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| [`lily-design-system-vue-date-time-picker`](./lily-design-system-vue-date-time-picker/)         | Collect a date, a time, or both, via a text field + APG date-picker dialog.        |
+| [`@lilydesignsystem/vue-date-time-picker`](./lily-design-system-vue-date-time-picker/)         | Collect a date, a time, or both, via a text field + APG date-picker dialog.        |
 
 `picker-bar` is a sixth helper, also listed separately: it owns no
 preference/action/form-value of its own — it composes four of the five
@@ -30,7 +30,7 @@ above into one page-header row.
 
 | Helper                                                                              | Purpose                                                                                                                       |
 | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| [`lily-design-system-vue-picker-bar`](./lily-design-system-vue-picker-bar/)         | Compose theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row, with all 45 reference themes and the seven-step text-size scale pre-wired. |
+| [`@lilydesignsystem/vue-picker-bar`](./lily-design-system-vue-picker-bar/)         | Compose theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row, with all 45 reference themes and the seven-step text-size scale pre-wired. |
 
 ## Conventions
 
@@ -87,7 +87,7 @@ Shared design decisions across the catalog:
 
 The headless library mirrors the canonical 490-component catalog.
 Each component is a pure container with no lifecycle. A consumer
-typing on top of `ThemePicker` from `lily-design-system-vue-headless`
+typing on top of `ThemePicker` from `@lilydesignsystem/vue-headless`
 writes their own option markup, their own persistence, and their own
 loading.
 

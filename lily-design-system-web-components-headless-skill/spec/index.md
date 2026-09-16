@@ -10,7 +10,7 @@ two-skill plan (`lily-design-system-skill` and
 ## 1. Role in the ecosystem
 
 A Claude Skill that explains how to consume
-[`lily-design-system-web-components-headless`](../../lily-design-system-web-components-headless/):
+[`@lilydesignsystem/web-components-headless`](../../lily-design-system-web-components-headless/):
 an 8th headless catalog, added 2026-09-03, alongside the seven canonical,
 full-catalog (491/491) headless libraries (HTML, Svelte, React, Vue,
 Angular, Blazor, Nunjucks). **This catalog, and therefore this skill, is

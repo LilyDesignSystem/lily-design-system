@@ -10,7 +10,7 @@
 
 ## Metadata
 
-- **Package**: lily-design-system-vue-headless
+- **Package**: @lilydesignsystem/vue-headless
 - **Version**: 0.2.0
 - **Created**: 2026-03-03
 - **License**: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause or contact us for more

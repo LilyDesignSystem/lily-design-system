@@ -1,6 +1,6 @@
 # PickerBar — Specification (Nunjucks)
 
-Single source of truth for the `lily-design-system-nunjucks-picker-bar`
+Single source of truth for the `@lilydesignsystem/nunjucks-picker-bar`
 Nunjucks helper. Ports [the Svelte package's
 spec](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-picker-bar/spec/index.md)
 one-to-one; this file keeps the same § numbering and calls out every

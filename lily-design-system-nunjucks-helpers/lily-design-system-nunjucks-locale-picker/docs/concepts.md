@@ -209,7 +209,7 @@ reference suite that covers every `spec/index.md` §7 acceptance item.
 
 ## Symmetry with `ThemePicker`
 
-The sibling [`lily-design-system-nunjucks-theme-picker`](../../lily-design-system-nunjucks-theme-picker/)
+The sibling [`@lilydesignsystem/nunjucks-theme-picker`](../../lily-design-system-nunjucks-theme-picker/)
 ships with the same shape: a macro that emits markup with
 `data-lily-*-root` hooks, and a client.js
 that owns the apply lifecycle. Mount both selects on the same page

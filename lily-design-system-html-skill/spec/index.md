@@ -11,7 +11,7 @@ umbrella layer.
 
 A Claude Skill that ties together the three real plain-HTML subprojects in
 this monorepo — the full-catalog (491/491) headless component library
-([`lily-design-system-html-headless`](../../lily-design-system-html-headless/)),
+([`@lilydesignsystem/html-headless`](../../lily-design-system-html-headless/)),
 the six `*-picker` helper web components
 ([`lily-design-system-html-helpers`](../../lily-design-system-html-helpers/)),
 and the styled NHS-UK-themed reference application

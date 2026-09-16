@@ -9,7 +9,7 @@ for the human-readable guide and [AGENTS.md](../AGENTS.md) for the agent pointer
 
 The helpers catalog ships a small set of opinionated, reusable Vue 3
 components that sit alongside the headless
-[`lily-design-system-vue-headless`](../../lily-design-system-vue-headless/)
+[`@lilydesignsystem/vue-headless`](../../lily-design-system-vue-headless/)
 library. Where the headless library ships pure markup primitives, each helper
 wraps a complete lifecycle — selection, optional persistence, and DOM
 application — for one small, common job.
@@ -33,12 +33,12 @@ Out of scope:
 
 | Helper                                                                                             | Purpose                                                                                                                                    |
 | --------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`lily-design-system-vue-theme-picker`](../lily-design-system-vue-theme-picker/)                   | Pick a visual theme; dynamic CSS load + `data-theme` swap, optional persistence.                                                          |
-| [`lily-design-system-vue-locale-picker`](../lily-design-system-vue-locale-picker/)                 | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.                                                                           |
-| [`lily-design-system-vue-text-size-picker`](../lily-design-system-vue-text-size-picker/)           | Pick a text size; sets `data-text-size` on the document root.                                                                             |
-| [`lily-design-system-vue-motion-picker`](../lily-design-system-vue-motion-picker/)                 | Pick a reduced-motion preference; sets `data-motion` on the document root, defaulting **unconditionally** to `(prefers-reduced-motion: reduce)`. |
-| [`lily-design-system-vue-share-picker`](../lily-design-system-vue-share-picker/)                   | Share the page: native share sheet where available, else a destination disclosure + copy the URL. Owns an action, not a preference.       |
-| [`lily-design-system-vue-date-time-picker`](../lily-design-system-vue-date-time-picker/)           | Pick a date, a time, or both: a typeable text field plus an APG Date Picker Dialog. Owns a form value, not a preference.                  |
+| [`@lilydesignsystem/vue-theme-picker`](../lily-design-system-vue-theme-picker/)                   | Pick a visual theme; dynamic CSS load + `data-theme` swap, optional persistence.                                                          |
+| [`@lilydesignsystem/vue-locale-picker`](../lily-design-system-vue-locale-picker/)                 | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.                                                                           |
+| [`@lilydesignsystem/vue-text-size-picker`](../lily-design-system-vue-text-size-picker/)           | Pick a text size; sets `data-text-size` on the document root.                                                                             |
+| [`@lilydesignsystem/vue-motion-picker`](../lily-design-system-vue-motion-picker/)                 | Pick a reduced-motion preference; sets `data-motion` on the document root, defaulting **unconditionally** to `(prefers-reduced-motion: reduce)`. |
+| [`@lilydesignsystem/vue-share-picker`](../lily-design-system-vue-share-picker/)                   | Share the page: native share sheet where available, else a destination disclosure + copy the URL. Owns an action, not a preference.       |
+| [`@lilydesignsystem/vue-date-time-picker`](../lily-design-system-vue-date-time-picker/)           | Pick a date, a time, or both: a typeable text field plus an APG Date Picker Dialog. Owns a form value, not a preference.                  |
 
 ## 4. Conventions
 
@@ -93,5 +93,5 @@ to the document or persists anything. See each helper's own
 ## 8. References
 
 - Canonical reference catalog: [`lily-design-system-svelte-helpers`](../../lily-design-system-svelte-helpers/).
-- Headless sibling: [`lily-design-system-vue-headless`](../../lily-design-system-vue-headless/).
+- Headless sibling: [`@lilydesignsystem/vue-headless`](../../lily-design-system-vue-headless/).
 - Root specification: [../spec/index.md](../../spec/index.md) and [../AGENTS.md](../../AGENTS.md).

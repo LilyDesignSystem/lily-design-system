@@ -53,7 +53,7 @@ host (Eleventy, Express, Cloudflare Workers, plain
 set or the built-in 436-row BCP 47 table.
 
 The helper is a direct port of the Svelte canonical
-`lily-design-system-svelte-locale-picker`. The DOM contract and
+`@lilydesignsystem/svelte-locale-picker`. The DOM contract and
 behaviour match clause-for-clause; only the framework idioms
 differ.
 

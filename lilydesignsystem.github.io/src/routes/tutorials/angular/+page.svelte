@@ -41,7 +41,7 @@ pnpm run build-storybook`}</code></pre>
 
   <h2>Step 2 — Your first component</h2>
   <pre><code>{`import { Component } from "@angular/core";
-import { Button } from "lily-design-system-angular-headless";
+import { Button } from "@lilydesignsystem/angular-headless";
 
 @Component({
   selector: "app-save-bar",
@@ -62,7 +62,7 @@ export class SaveBar {
 
   <h2>Step 3 — Compose a small form</h2>
   <pre><code>{`import { Component, signal } from "@angular/core";
-import { Form, Field, TextInput, Button } from "lily-design-system-angular-headless";
+import { Form, Field, TextInput, Button } from "@lilydesignsystem/angular-headless";
 
 @Component({
   selector: "app-contact-form",

@@ -12,10 +12,10 @@
     "sourceMap": false,
     "baseUrl": ".",
     "paths": {
-      "lily-design-system-html-theme-picker": ["../lily-design-system-html-theme-picker/dist/index.d.ts"],
-      "lily-design-system-html-locale-picker": ["../lily-design-system-html-locale-picker/dist/index.d.ts"],
-      "lily-design-system-html-text-size-picker": ["../lily-design-system-html-text-size-picker/dist/index.d.ts"],
-      "lily-design-system-html-share-picker": ["../lily-design-system-html-share-picker/dist/index.d.ts"]
+      "@lilydesignsystem/html-theme-picker": ["../lily-design-system-html-theme-picker/dist/index.d.ts"],
+      "@lilydesignsystem/html-locale-picker": ["../lily-design-system-html-locale-picker/dist/index.d.ts"],
+      "@lilydesignsystem/html-text-size-picker": ["../lily-design-system-html-text-size-picker/dist/index.d.ts"],
+      "@lilydesignsystem/html-share-picker": ["../lily-design-system-html-share-picker/dist/index.d.ts"]
     }
   }
 }

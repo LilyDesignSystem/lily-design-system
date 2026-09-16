@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Build pipeline for lily-design-system-vue-headless.
+// Build pipeline for @lilydesignsystem/vue-headless.
 //
 //   1. Generate `index.ts` — the public barrel re-exporting every SFC in
 //      `components/`. Generated, not hand-maintained: the catalog is ~491

@@ -13,7 +13,7 @@ first day of week, numeric field order, and the 12/24-hour clock all come
 from .NET's `CultureInfo` / `DateTimeFormatInfo`, never a baked-in table.
 
 The canonical implementation is the Svelte helper
-[`lily-design-system-svelte-date-time-picker`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/);
+[`@lilydesignsystem/svelte-date-time-picker`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/);
 this is a direct port with Blazor idioms swapped. When the two disagree,
 Svelte wins — see
 [spec/index.md §9](./spec/index.md#9-blazor-deviations-from-the-canonical-svelte-implementation)

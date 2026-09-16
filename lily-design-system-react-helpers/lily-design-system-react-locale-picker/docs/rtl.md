@@ -185,7 +185,7 @@ during SSR:
 import {
   isRtlLocale,
   bcp47LocaleTag,
-} from "lily-design-system-react-locale-picker";
+} from "@lilydesignsystem/react-locale-picker";
 
 const locale = "ar";
 const lang = bcp47LocaleTag(locale); // "ar"

@@ -111,7 +111,7 @@ The rule is implemented by the exported pure helper
 `matchSystemTheme(themes)`, which mirrors `matchNavigatorLanguage`:
 
 ```ts
-import { matchSystemTheme } from "lily-design-system-web-components-theme-picker";
+import { matchSystemTheme } from "@lilydesignsystem/web-components-theme-picker";
 
 matchSystemTheme(["light", "dark"]); // → "dark" on a dark-mode OS
 matchSystemTheme(["light", "abyss"]); // → ""  (no "dark" slug offered)

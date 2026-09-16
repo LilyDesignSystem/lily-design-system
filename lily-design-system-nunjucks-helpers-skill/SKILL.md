@@ -17,7 +17,7 @@ application + optional persistence); `share-picker` owns an **action**;
 
 Each helper is its own npm package,
 `lily-design-system-nunjucks-{helper-name}` (e.g.
-`lily-design-system-nunjucks-motion-picker`), living as a sibling
+`@lilydesignsystem/nunjucks-motion-picker`), living as a sibling
 directory inside the `lily-design-system-nunjucks-helpers` catalog.
 
 ## The one-line contract per helper

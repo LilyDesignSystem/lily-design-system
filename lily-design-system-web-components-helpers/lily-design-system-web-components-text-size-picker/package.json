@@ -1,5 +1,5 @@
 {
-  "name": "lily-design-system-web-components-text-size-picker",
+  "name": "@lilydesignsystem/web-components-text-size-picker",
   "version": "0.1.0",
   "engines": {
     "node": "=26"

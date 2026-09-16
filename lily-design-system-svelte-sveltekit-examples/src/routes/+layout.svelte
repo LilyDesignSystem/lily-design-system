@@ -1,9 +1,9 @@
 <script lang="ts">
     import "$lib/css/app-shell.css";
     import SkipLink from "$lib/components/SkipLink/SkipLink.svelte";
-    import { ThemePicker } from "lily-design-system-svelte-theme-picker";
-    import { LocalePicker } from "lily-design-system-svelte-locale-picker";
-    import { TextSizePicker } from "lily-design-system-svelte-text-size-picker";
+    import { ThemePicker } from "@lilydesignsystem/svelte-theme-picker";
+    import { LocalePicker } from "@lilydesignsystem/svelte-locale-picker";
+    import { TextSizePicker } from "@lilydesignsystem/svelte-text-size-picker";
 
     let { children } = $props();
 

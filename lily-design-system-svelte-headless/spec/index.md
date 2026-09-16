@@ -302,7 +302,7 @@ pnpm run storybook                   # run Storybook
 
 ## 10. Tracking
 
-- Package: `lily-design-system-svelte-headless`
+- Package: `@lilydesignsystem/svelte-headless`
 - Version: 0.2.0
 - Framework: Svelte 5 + TypeScript
 - Test runner: vitest

@@ -13,7 +13,7 @@ built-in copy-the-URL action. Ships no CSS, no icons, and no
 third-party endpoints.
 
 A direct port of the canonical
-[`lily-design-system-svelte-share-picker`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-picker/).
+[`@lilydesignsystem/svelte-share-picker`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-picker/).
 When the two disagree, the Svelte side wins.
 
 ## Files

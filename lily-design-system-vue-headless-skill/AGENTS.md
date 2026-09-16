@@ -22,7 +22,7 @@
 ## Overview
 
 A Claude Skill scoped to consuming
-[`lily-design-system-vue-headless`](../lily-design-system-vue-headless/):
+[`@lilydesignsystem/vue-headless`](../lily-design-system-vue-headless/):
 the Vue 3 Composition API idiom this library expects (`<script setup
 lang="ts">`, `:class` base-plus-consumer binding, `v-bind="$attrs"` for
 fallthrough attributes, `<slot />` for children, `defineModel()` for
@@ -37,10 +37,10 @@ rules the library's own components are held to.
 ## What this subproject is, and isn't
 
 - **Is**: a distributable skill scoped to *consuming*
-  `lily-design-system-vue-headless` from a Vue 3 application — install,
+  `@lilydesignsystem/vue-headless` from a Vue 3 application — install,
   import, class binding, attribute fallthrough, slots, `v-model`.
 - **Isn't**: the Vue headless library itself (that's
-  [`lily-design-system-vue-headless`](../lily-design-system-vue-headless/)
+  [`@lilydesignsystem/vue-headless`](../lily-design-system-vue-headless/)
   — this subproject ships no components, no build, no tests beyond
   `bin/test`'s required-files checks).
 - **Isn't**: the general, framework-agnostic Lily concepts skill (that's

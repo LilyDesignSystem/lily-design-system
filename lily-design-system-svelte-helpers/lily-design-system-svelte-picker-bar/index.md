@@ -12,10 +12,10 @@ has no natural spot next to the other three header preferences, and
 ## Install
 
 ```sh
-npm install lily-design-system-svelte-picker-bar
+npm install @lilydesignsystem/svelte-picker-bar
 ```
 
-`lily-design-system-svelte-theme-picker`, `-locale-picker`,
+`@lilydesignsystem/svelte-theme-picker`, `-locale-picker`,
 `-text-size-picker`, and `-share-picker` install automatically as
 regular dependencies — `PickerBar` is a thin wrapper around them, not
 a reimplementation.
@@ -24,7 +24,7 @@ a reimplementation.
 
 ```svelte
 <script lang="ts">
-  import PickerBar from "lily-design-system-svelte-picker-bar";
+  import PickerBar from "@lilydesignsystem/svelte-picker-bar";
 </script>
 
 <PickerBar
@@ -65,7 +65,7 @@ if you add `shareProps={{ copyLabel: "Copy link" }}`.
 Both are exported as named constants:
 
 ```ts
-import { DEFAULT_THEMES, DEFAULT_SIZES } from "lily-design-system-svelte-picker-bar";
+import { DEFAULT_THEMES, DEFAULT_SIZES } from "@lilydesignsystem/svelte-picker-bar";
 ```
 
 ## Passing extra props to one picker

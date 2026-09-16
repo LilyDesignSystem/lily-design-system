@@ -23,7 +23,7 @@ way that left it unregistered.
 2. Confirm the import has a side effect. Importing _only_ types is
    elided by the compiler:
    ```ts
-   import "lily-design-system-html-locale-picker"; // registers
+   import "@lilydesignsystem/html-locale-picker"; // registers
    import type { LocalePicker } from "…"; // does NOT
    ```
 3. Check for a 404 or a MIME error on the module script in the
@@ -149,7 +149,7 @@ navigator language matches your list, and resolution falls through to
 `default-value`. Test the rule directly:
 
 ```ts
-import { matchNavigatorLanguage } from "lily-design-system-html-locale-picker";
+import { matchNavigatorLanguage } from "@lilydesignsystem/html-locale-picker";
 matchNavigatorLanguage([...navigator.languages], ["en", "fr"]);
 ```
 

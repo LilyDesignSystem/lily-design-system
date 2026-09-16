@@ -9,7 +9,7 @@ A composed Angular 20 standalone header control: one
 `<div class="picker-bar">` that renders `ThemePicker`, `LocalePicker`,
 `TextSizePicker`, and `SharePicker` — four of the six `*-picker`
 helpers — in that fixed order, each imported as a normal npm dependency
-from its own published package (`lily-design-system-angular-theme-picker`,
+from its own published package (`@lilydesignsystem/angular-theme-picker`,
 `-locale-picker`, `-text-size-picker`, `-share-picker`). It adds no
 lifecycle of its own beyond two catalog-specific defaults: the full
 45-theme reference list (§5.1 of the spec) and the seven-step
@@ -100,6 +100,6 @@ mirrors that with a `paths` map (to each sibling's `dist/types/*.d.ts`)
 for type-checking. Neither alias is read when this package's own
 `dist/` is built (`ng-packagr` keeps `dependencies` external, per
 `ng-package.json`'s `allowedNonPeerDependencies`) — the published
-`dist/fesm2022/lily-design-system-angular-picker-bar.mjs` keeps the
+`dist/fesm2022/@lilydesignsystem/angular-picker-bar.mjs` keeps the
 bare imports, which a real install resolves from `node_modules` via
 the `dependencies` ng-packagr writes into `dist/package.json`.

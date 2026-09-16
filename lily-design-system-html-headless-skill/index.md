@@ -1,7 +1,7 @@
 # Lily Design System™ — HTML Headless Skill
 
 A Claude Skill ([`SKILL.md`](SKILL.md)) that explains how to consume
-[`lily-design-system-html-headless`](../lily-design-system-html-headless/):
+[`@lilydesignsystem/html-headless`](../lily-design-system-html-headless/):
 the plain-HTML implementation of Lily's canonical component catalog —
 annotated semantic-HTML snippet files with ARIA and class hooks, plus an
 embedded vanilla-JS behavior layer, no build step, no framework runtime.

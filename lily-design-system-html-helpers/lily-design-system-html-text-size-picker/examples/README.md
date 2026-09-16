@@ -1,7 +1,7 @@
 # Examples
 
 Self-contained HTML examples for
-`lily-design-system-html-text-size-picker`. Each file is a runnable
+`@lilydesignsystem/html-text-size-picker`. Each file is a runnable
 page that can be opened in any browser after building the
 custom-element module.
 

@@ -44,7 +44,7 @@ any theme catalog — Lily™'s 45 ready-to-use themes, NHS-aligned
 themes, or your own bespoke set.
 
 The component is a direct port of the Svelte canonical
-`lily-design-system-svelte-theme-picker`. APIs and behaviour match;
+`@lilydesignsystem/svelte-theme-picker`. APIs and behaviour match;
 only the framework idioms differ.
 
 ## Install

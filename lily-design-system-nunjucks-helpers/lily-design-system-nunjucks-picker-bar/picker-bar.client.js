@@ -14,19 +14,19 @@
 import {
   initThemePicker,
   autoInit as autoInitThemePicker,
-} from "lily-design-system-nunjucks-theme-picker";
+} from "@lilydesignsystem/nunjucks-theme-picker";
 import {
   initLocalePicker,
   autoInit as autoInitLocalePicker,
-} from "lily-design-system-nunjucks-locale-picker";
+} from "@lilydesignsystem/nunjucks-locale-picker";
 import {
   initTextSizePicker,
   autoInit as autoInitTextSizePicker,
-} from "lily-design-system-nunjucks-text-size-picker";
+} from "@lilydesignsystem/nunjucks-text-size-picker";
 import {
   initSharePicker,
   autoInit as autoInitSharePicker,
-} from "lily-design-system-nunjucks-share-picker";
+} from "@lilydesignsystem/nunjucks-share-picker";
 
 /**
  * All 45 Lily reference theme slugs, in the same order as

@@ -2,7 +2,7 @@
 
 Self-contained Svelte 5 examples. Each is runnable as-is in a SvelteKit or
 Vite + Svelte app; adjust the import to the published package name
-(`lily-design-system-svelte-date-time-picker`) outside this repo.
+(`@lilydesignsystem/svelte-date-time-picker`) outside this repo.
 
 | Example | Shows |
 | ------- | ----- |

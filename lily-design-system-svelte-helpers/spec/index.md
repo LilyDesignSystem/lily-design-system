@@ -9,7 +9,7 @@ for the human-readable guide and [AGENTS.md](../AGENTS.md) for the agent pointer
 
 The helpers catalog ships a small set of opinionated, reusable Svelte 5
 components that sit alongside the headless
-[`lily-design-system-svelte-headless`](../../lily-design-system-svelte-headless/)
+[`@lilydesignsystem/svelte-headless`](../../lily-design-system-svelte-headless/)
 library. Where the headless library ships pure markup primitives, each helper
 wraps a complete lifecycle — selection, optional persistence, and DOM
 application — for one small, common job.
@@ -33,12 +33,12 @@ Out of scope:
 
 | Helper                                                                                             | Purpose                                                                                                                                    |
 | --------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`lily-design-system-svelte-theme-picker`](../lily-design-system-svelte-theme-picker/)             | Pick a visual theme; dynamic CSS load + `data-theme` swap, optional persistence.                                                          |
-| [`lily-design-system-svelte-locale-picker`](../lily-design-system-svelte-locale-picker/)           | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.                                                                           |
-| [`lily-design-system-svelte-text-size-picker`](../lily-design-system-svelte-text-size-picker/)     | Pick a text size; sets `data-text-size` on the document root, optional persistence.                                                       |
-| [`lily-design-system-svelte-motion-picker`](../lily-design-system-svelte-motion-picker/)           | Pick a reduced-motion preference; sets `data-motion` on the document root, defaulting **unconditionally** to `(prefers-reduced-motion: reduce)`. |
-| [`lily-design-system-svelte-share-picker`](../lily-design-system-svelte-share-picker/)             | Share the page: native share sheet, or a disclosure of consumer-supplied destinations + copy the URL. Owns an action, not a preference.   |
-| [`lily-design-system-svelte-date-time-picker`](../lily-design-system-svelte-date-time-picker/)     | Pick a date, a time, or both: a typeable text field plus an APG Date Picker Dialog. Owns a form value, not a preference.                  |
+| [`@lilydesignsystem/svelte-theme-picker`](../lily-design-system-svelte-theme-picker/)             | Pick a visual theme; dynamic CSS load + `data-theme` swap, optional persistence.                                                          |
+| [`@lilydesignsystem/svelte-locale-picker`](../lily-design-system-svelte-locale-picker/)           | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.                                                                           |
+| [`@lilydesignsystem/svelte-text-size-picker`](../lily-design-system-svelte-text-size-picker/)     | Pick a text size; sets `data-text-size` on the document root, optional persistence.                                                       |
+| [`@lilydesignsystem/svelte-motion-picker`](../lily-design-system-svelte-motion-picker/)           | Pick a reduced-motion preference; sets `data-motion` on the document root, defaulting **unconditionally** to `(prefers-reduced-motion: reduce)`. |
+| [`@lilydesignsystem/svelte-share-picker`](../lily-design-system-svelte-share-picker/)             | Share the page: native share sheet, or a disclosure of consumer-supplied destinations + copy the URL. Owns an action, not a preference.   |
+| [`@lilydesignsystem/svelte-date-time-picker`](../lily-design-system-svelte-date-time-picker/)     | Pick a date, a time, or both: a typeable text field plus an APG Date Picker Dialog. Owns a form value, not a preference.                  |
 
 ## 4. Conventions
 
@@ -93,5 +93,5 @@ to the document or persists anything. See each helper's own
 ## 8. References
 
 - Canonical reference catalog: [`lily-design-system-svelte-helpers`](../../lily-design-system-svelte-helpers/).
-- Headless sibling: [`lily-design-system-svelte-headless`](../../lily-design-system-svelte-headless/).
+- Headless sibling: [`@lilydesignsystem/svelte-headless`](../../lily-design-system-svelte-headless/).
 - Root specification: [../spec/index.md](../../spec/index.md) and [../AGENTS.md](../../AGENTS.md).

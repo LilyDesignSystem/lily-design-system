@@ -8,8 +8,8 @@
 // truth per this catalog's headless design rules) says `<span>`, but
 // its own "Key Behaviors" prose says "Renders a <p> element". The
 // cross-catalog implementations disagree with each other too
-// (lily-design-system-svelte-headless renders a <p>;
-// lily-design-system-html-headless renders a <span> — without even a
+// (@lilydesignsystem/svelte-headless renders a <p>;
+// @lilydesignsystem/html-headless renders a <span> — without even a
 // role). Followed the metadata field (the declared single source of
 // truth) for the tag, and the ARIA section (undisputed across every
 // source) for the role: a <span role="alert">.

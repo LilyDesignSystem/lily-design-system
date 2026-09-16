@@ -1,8 +1,8 @@
 "use client";
 
-import { ThemePicker } from "lily-design-system-react-theme-picker";
-import { LocalePicker } from "lily-design-system-react-locale-picker";
-import { TextSizePicker } from "lily-design-system-react-text-size-picker";
+import { ThemePicker } from "@lilydesignsystem/react-theme-picker";
+import { LocalePicker } from "@lilydesignsystem/react-locale-picker";
+import { TextSizePicker } from "@lilydesignsystem/react-text-size-picker";
 import { themes, themeLabels, defaultTheme } from "./theme-config";
 
 // Explicit endonym labels: the helper derives endonyms from

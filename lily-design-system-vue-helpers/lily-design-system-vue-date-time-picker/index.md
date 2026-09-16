@@ -9,13 +9,13 @@ construction: month names, weekday names, first day of week, numeric field
 order, 12- vs 24-hour clock and AM/PM names all come from `Intl`.
 
 A direct port of the canonical
-[`lily-design-system-svelte-date-time-picker`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/).
+[`@lilydesignsystem/svelte-date-time-picker`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/).
 Canonical contract: [spec/index.md](./spec/index.md).
 
 ## Install
 
 ```sh
-npm install lily-design-system-vue-date-time-picker
+npm install @lilydesignsystem/vue-date-time-picker
 ```
 
 ## Use it
@@ -256,14 +256,14 @@ nobody wants to page a calendar back forty years.
 
 ## Related
 
-- [`lily-design-system-vue-theme-picker`](../lily-design-system-vue-theme-picker/)
-- [`lily-design-system-vue-locale-picker`](../lily-design-system-vue-locale-picker/)
-- [`lily-design-system-vue-text-size-picker`](../lily-design-system-vue-text-size-picker/)
-- [`lily-design-system-vue-share-picker`](../lily-design-system-vue-share-picker/)
+- [`@lilydesignsystem/vue-theme-picker`](../lily-design-system-vue-theme-picker/)
+- [`@lilydesignsystem/vue-locale-picker`](../lily-design-system-vue-locale-picker/)
+- [`@lilydesignsystem/vue-text-size-picker`](../lily-design-system-vue-text-size-picker/)
+- [`@lilydesignsystem/vue-share-picker`](../lily-design-system-vue-share-picker/)
 
 ## Tests
 
-`npx vitest run lily-design-system-vue-date-time-picker` from the catalog
+`npx vitest run @lilydesignsystem/vue-date-time-picker` from the catalog
 root.
 
 ## License

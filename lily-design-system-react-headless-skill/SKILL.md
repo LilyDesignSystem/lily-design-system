@@ -6,12 +6,12 @@ license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 
 # Lily Design System™ — React headless
 
-`lily-design-system-react-headless` is the React 19 implementation of the
+`@lilydesignsystem/react-headless` is the React 19 implementation of the
 Lily Design System's canonical 491-component catalog. It is published on
 npm and installable today:
 
 ```bash
-pnpm install lily-design-system-react-headless
+pnpm install @lilydesignsystem/react-headless
 ```
 
 Peer dependencies: `react` and `react-dom`, `^18.0.0 || ^19.0.0`. The

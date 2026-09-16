@@ -6,7 +6,7 @@ const projectRoot = path.dirname(fileURLToPath(import.meta.url));
 const headlessRoot = path.resolve(
   projectRoot,
   "..",
-  "lily-design-system-nunjucks-headless",
+  "@lilydesignsystem/nunjucks-headless",
 );
 const helpersRoot = path.resolve(
   projectRoot,

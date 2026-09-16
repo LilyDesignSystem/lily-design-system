@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { ThemePicker } from "lily-design-system-vue-theme-picker";
-import { LocalePicker, isRtlLocale } from "lily-design-system-vue-locale-picker";
-import { TextSizePicker } from "lily-design-system-vue-text-size-picker";
+import { ThemePicker } from "@lilydesignsystem/vue-theme-picker";
+import { LocalePicker, isRtlLocale } from "@lilydesignsystem/vue-locale-picker";
+import { TextSizePicker } from "@lilydesignsystem/vue-text-size-picker";
 import SkipLink from "~/components/SkipLink.vue";
 import { themes, themeLabels, defaultTheme } from "~/theme-config";
 

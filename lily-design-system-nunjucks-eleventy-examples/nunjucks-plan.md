@@ -3,7 +3,7 @@
 ## Goal
 
 Build a browsable example website that demonstrates every Lily Design
-System component rendered through the `lily-design-system-nunjucks-headless`
+System component rendered through the `@lilydesignsystem/nunjucks-headless`
 macros and dressed in the NHS UK Design System's **look and feel** —
 colours, typography, spacing, focus state, page template, and
 interaction patterns.
@@ -34,7 +34,7 @@ This subproject does three things:
 
 Sibling subprojects:
 
-- `lily-design-system-nunjucks-headless` (the component library this
+- `@lilydesignsystem/nunjucks-headless` (the component library this
   project styles)
 - `lily-design-system-html-css-js-examples` (analogous examples
   site for the plain-HTML headless implementation)

@@ -22,7 +22,7 @@
 ## Overview
 
 A Claude Skill explaining how to consume
-[`lily-design-system-angular-headless`](../lily-design-system-angular-headless/),
+[`@lilydesignsystem/angular-headless`](../lily-design-system-angular-headless/),
 the Angular implementation of Lily's full 491-component headless catalog.
 The skill itself is [`SKILL.md`](SKILL.md); the `@AGENTS/*.md` files loaded
 above are the same binding design-principle rules every other subproject in
@@ -43,12 +43,12 @@ components use so a required parent-child content-model relationship
 ## What this subproject is, and isn't
 
 - **Is**: a distributable skill scoped to *consuming*
-  `lily-design-system-angular-headless` — installation, the Angular
+  `@lilydesignsystem/angular-headless` — installation, the Angular
   standalone-component idiom, the element-selector and
   tag+attribute-selector conventions, and theming/class hooks — portable to
   any Angular project that depends on Lily even outside this monorepo.
 - **Isn't**: the Angular headless library itself (that's
-  [`lily-design-system-angular-headless`](../lily-design-system-angular-headless/)),
+  [`@lilydesignsystem/angular-headless`](../lily-design-system-angular-headless/)),
   the general framework-agnostic Lily concepts skill (that's
   [`lily-design-system-skill`](../lily-design-system-skill/)), and isn't
   the Angular `*-picker` helpers skill (that's

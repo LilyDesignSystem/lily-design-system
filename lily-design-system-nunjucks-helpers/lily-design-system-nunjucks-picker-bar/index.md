@@ -12,10 +12,10 @@ has no natural spot next to the other three header preferences, and
 ## Install
 
 ```sh
-npm install lily-design-system-nunjucks-picker-bar
+npm install @lilydesignsystem/nunjucks-picker-bar
 ```
 
-`lily-design-system-nunjucks-theme-picker`, `-locale-picker`,
+`@lilydesignsystem/nunjucks-theme-picker`, `-locale-picker`,
 `-text-size-picker`, and `-share-picker` install automatically as
 regular dependencies — `pickerBar` is a thin wrapper around them, not
 a reimplementation.
@@ -80,7 +80,7 @@ function — a Nunjucks macro cannot call an arbitrary JS function.
 Both are exported from the client.js module too:
 
 ```js
-import { DEFAULT_THEMES, DEFAULT_SIZES } from "lily-design-system-nunjucks-picker-bar";
+import { DEFAULT_THEMES, DEFAULT_SIZES } from "@lilydesignsystem/nunjucks-picker-bar";
 ```
 
 ## Passing extra params to one picker

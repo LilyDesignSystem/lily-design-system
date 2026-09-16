@@ -22,7 +22,7 @@
 ## Overview
 
 A Claude Skill scoped to Vue as a whole: it maps the three real Vue
-subprojects (`lily-design-system-vue-headless`,
+subprojects (`@lilydesignsystem/vue-headless`,
 `lily-design-system-vue-helpers`, `lily-design-system-vue-nuxt-examples`),
 helps an agent pick the right one, and gives real coverage of the example
 app since neither of the two more specific sibling skills covers it. The

@@ -1,12 +1,12 @@
 # `<lily-picker-bar>` — Specification
 
-Single source of truth for the `lily-design-system-web-components-picker-bar`
+Single source of truth for the `@lilydesignsystem/web-components-picker-bar`
 HTML helper. This file drives implementation, testing, and
 documentation: anything not in this spec is out of scope; anything in
 this spec must be exercised by a test.
 
 Ported from the canonical Svelte helper
-[`lily-design-system-svelte-picker-bar`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-picker-bar/spec/index.md).
+[`@lilydesignsystem/svelte-picker-bar`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-picker-bar/spec/index.md).
 Per [`AGENTS/helpers.md`](../../../AGENTS/helpers.md) the Svelte side
 wins on behaviour; this file records the vanilla-custom-element idiom
 and the places the API shape could not be carried over verbatim
@@ -52,7 +52,7 @@ do — `<lily-picker-bar>` owns no lifecycle of its own.
   of the four wrapped pickers.
 - **Depends on the four wrapped packages as real npm `dependencies`,
   not vendored source.** `picker-bar.ts` imports
-  `lily-design-system-web-components-theme-picker`,
+  `@lilydesignsystem/web-components-theme-picker`,
   `-locale-picker`, `-text-size-picker`, and `-share-picker` by
   package name — the same way any consumer composing them by hand
   would — and the catalog `build.js`/tsup step is configured to leave

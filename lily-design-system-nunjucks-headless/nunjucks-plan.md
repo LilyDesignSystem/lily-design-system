@@ -18,8 +18,8 @@ via `{% from "component/macro.njk" import component %}`.
 - [Nunjucks API docs](https://mozilla.github.io/nunjucks/api.html)
 - [NHS.UK Design System — Components](https://service-manual.nhs.uk/design-system/components/)
 - [NHS.UK frontend repository](https://github.com/nhsuk/nhsuk-frontend)
-- Sibling subproject: `lily-design-system-html-headless`
-- Sibling subproject: `lily-design-system-svelte-headless`
+- Sibling subproject: `@lilydesignsystem/html-headless`
+- Sibling subproject: `@lilydesignsystem/svelte-headless`
 
 ## Technology
 
@@ -309,7 +309,7 @@ component in that list, 1:1, with no omissions and no additions.
 - [ ] Base CSS class on every component matches the kebab-case name.
 - [ ] `params.classes` is appended on every component.
 - [ ] `params.attributes` is rendered on every component.
-- [ ] `package.json` name is `lily-design-system-nunjucks-headless`.
+- [ ] `package.json` name is `@lilydesignsystem/nunjucks-headless`.
 
 ## Lessons borrowed from NHS.UK frontend
 
@@ -347,5 +347,5 @@ component in that list, 1:1, with no omissions and no additions.
 ## Titles
 
 - PackagePascalCase: `LilyNunjucksHeadless`
-- package-kebab-case: `lily-design-system-nunjucks-headless`
+- package-kebab-case: `@lilydesignsystem/nunjucks-headless`
 - package_snake_case: `lily_nunjucks_headless`

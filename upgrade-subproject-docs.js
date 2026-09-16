@@ -9,7 +9,7 @@ const TOP = __dirname;
 // Subproject definitions
 const subprojects = [
   {
-    dir: "lily-design-system-html-headless",
+    dir: "@lilydesignsystem/html-headless",
     title: "Lily Design System — HTML Headless",
     framework: "HTML",
     tech: "Plain HTML + vanilla JavaScript",
@@ -20,7 +20,7 @@ const subprojects = [
     type: "headless",
   },
   {
-    dir: "lily-design-system-svelte-headless",
+    dir: "@lilydesignsystem/svelte-headless",
     title: "Lily Design System — Svelte Headless",
     framework: "Svelte",
     tech: "Svelte 5 with runes + TypeScript",
@@ -31,7 +31,7 @@ const subprojects = [
     type: "headless",
   },
   {
-    dir: "lily-design-system-react-headless",
+    dir: "@lilydesignsystem/react-headless",
     title: "Lily Design System — React Headless",
     framework: "React",
     tech: "React 19 + TypeScript",
@@ -42,7 +42,7 @@ const subprojects = [
     type: "headless",
   },
   {
-    dir: "lily-design-system-vue-headless",
+    dir: "@lilydesignsystem/vue-headless",
     title: "Lily Design System — Vue Headless",
     framework: "Vue",
     tech: "Vue 3 Composition API + TypeScript",

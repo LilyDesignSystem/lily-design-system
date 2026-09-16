@@ -1,6 +1,6 @@
 # DateTimePicker — Specification
 
-Single source of truth for the `lily-design-system-angular-date-time-picker`
+Single source of truth for the `@lilydesignsystem/angular-date-time-picker`
 Angular helper. This file drives implementation, testing, and documentation:
 anything not in this spec is out of scope; anything in this spec must be
 exercised by a test.

@@ -1,6 +1,6 @@
 # DateTimePicker — Specification
 
-Single source of truth for the `lily-design-system-svelte-date-time-picker`
+Single source of truth for the `@lilydesignsystem/svelte-date-time-picker`
 Svelte helper. This file drives implementation, testing, and documentation
 in the spec-driven-development style: anything not in this spec is out of
 scope; anything in this spec must be exercised by a test.

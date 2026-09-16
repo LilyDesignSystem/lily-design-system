@@ -16,7 +16,7 @@ Canonical contract: [spec/index.md](./spec/index.md).
 ## Install
 
 ```sh
-npm install lily-design-system-html-date-time-picker
+npm install @lilydesignsystem/html-date-time-picker
 ```
 
 ## Quick start
@@ -36,7 +36,7 @@ npm install lily-design-system-html-date-time-picker
 ></date-time-picker>
 
 <script type="module">
-  import "lily-design-system-html-date-time-picker";
+  import "@lilydesignsystem/html-date-time-picker";
 
   // `labels` is a JS property, not an attribute — see "Property-only
   // members" below.
@@ -362,9 +362,9 @@ Runnable pages in [examples/](./examples/).
 
 ## Related
 
-- [`lily-design-system-html-share-picker`](../lily-design-system-html-share-picker/)
-- [`lily-design-system-html-theme-picker`](../lily-design-system-html-theme-picker/)
-- [`lily-design-system-html-locale-picker`](../lily-design-system-html-locale-picker/)
+- [`@lilydesignsystem/html-share-picker`](../lily-design-system-html-share-picker/)
+- [`@lilydesignsystem/html-theme-picker`](../lily-design-system-html-theme-picker/)
+- [`@lilydesignsystem/html-locale-picker`](../lily-design-system-html-locale-picker/)
 - [Svelte original](../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/)
 
 ---

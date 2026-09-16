@@ -2,7 +2,7 @@
 
 Self-contained Vue 3 SFCs. Each is runnable as-is in a Vite + Vue app;
 adjust the import to the published package name
-(`lily-design-system-vue-date-time-picker`) outside this repo.
+(`@lilydesignsystem/vue-date-time-picker`) outside this repo.
 
 | Example | Shows |
 | ------- | ----- |

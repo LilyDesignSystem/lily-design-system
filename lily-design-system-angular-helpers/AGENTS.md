@@ -8,13 +8,13 @@ follows the file shape in [index.md § Conventions](./index.md#conventions).
 
 ## Helpers currently in the catalog
 
-- [`lily-design-system-angular-theme-picker`](./lily-design-system-angular-theme-picker/) — dynamic theme CSS loader.
-- [`lily-design-system-angular-locale-picker`](./lily-design-system-angular-locale-picker/) — `lang` + `dir` locale picker.
-- [`lily-design-system-angular-text-size-picker`](./lily-design-system-angular-text-size-picker/) — `data-text-size` text-size picker.
-- [`lily-design-system-angular-motion-picker`](./lily-design-system-angular-motion-picker/) — `data-motion` reduced-motion picker; defaults to the OS's own `(prefers-reduced-motion: reduce)` signal rather than a fixed slug.
-- [`lily-design-system-angular-share-picker`](./lily-design-system-angular-share-picker/) — share via the native sheet or a list of consumer-supplied destinations, plus copy-the-URL. Owns an _action_, not a preference: applies nothing, persists nothing.
-- [`lily-design-system-angular-date-time-picker`](./lily-design-system-angular-date-time-picker/) — date / time / datetime form control: a typeable text field plus an APG Date Picker Dialog. A form-value control, not a page-header control: applies nothing, persists nothing. Angular port of the Svelte-canonical fifth helper.
-- [`lily-design-system-angular-picker-bar`](./lily-design-system-angular-picker-bar/) — composes theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row. Owns no preference/action/form-value of its own; depends on the four wrapped pickers as real npm packages and pre-wires the 45-theme reference list and the seven-step text-size scale.
+- [`@lilydesignsystem/angular-theme-picker`](./lily-design-system-angular-theme-picker/) — dynamic theme CSS loader.
+- [`@lilydesignsystem/angular-locale-picker`](./lily-design-system-angular-locale-picker/) — `lang` + `dir` locale picker.
+- [`@lilydesignsystem/angular-text-size-picker`](./lily-design-system-angular-text-size-picker/) — `data-text-size` text-size picker.
+- [`@lilydesignsystem/angular-motion-picker`](./lily-design-system-angular-motion-picker/) — `data-motion` reduced-motion picker; defaults to the OS's own `(prefers-reduced-motion: reduce)` signal rather than a fixed slug.
+- [`@lilydesignsystem/angular-share-picker`](./lily-design-system-angular-share-picker/) — share via the native sheet or a list of consumer-supplied destinations, plus copy-the-URL. Owns an _action_, not a preference: applies nothing, persists nothing.
+- [`@lilydesignsystem/angular-date-time-picker`](./lily-design-system-angular-date-time-picker/) — date / time / datetime form control: a typeable text field plus an APG Date Picker Dialog. A form-value control, not a page-header control: applies nothing, persists nothing. Angular port of the Svelte-canonical fifth helper.
+- [`@lilydesignsystem/angular-picker-bar`](./lily-design-system-angular-picker-bar/) — composes theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row. Owns no preference/action/form-value of its own; depends on the four wrapped pickers as real npm packages and pre-wires the 45-theme reference list and the seven-step text-size scale.
 
 ## Working rules
 

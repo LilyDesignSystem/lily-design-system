@@ -168,6 +168,6 @@ works around both by discovering every `lily-design-system-react-*`
 sibling directory and passing each as `--external` to every build — a
 no-op for a package that doesn't import it, and correct for
 `picker-bar`, whose `dist/index.js` must keep its four bare imports
-(`lily-design-system-react-theme-picker`, `-locale-picker`,
+(`@lilydesignsystem/react-theme-picker`, `-locale-picker`,
 `-text-size-picker`, `-share-picker`) unresolved, exactly like the
 canonical Svelte package's `dist/PickerBar.svelte` does.

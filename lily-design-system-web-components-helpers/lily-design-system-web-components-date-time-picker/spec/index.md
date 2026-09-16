@@ -1,12 +1,12 @@
 # `<lily-date-time-picker>` — Specification
 
-Single source of truth for the `lily-design-system-web-components-date-time-picker`
+Single source of truth for the `@lilydesignsystem/web-components-date-time-picker`
 HTML helper. This file drives implementation, testing, and
 documentation: anything not in this spec is out of scope; anything in
 this spec must be exercised by a test.
 
 Ported from the canonical Svelte helper
-[`lily-design-system-svelte-date-time-picker`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/spec/index.md).
+[`@lilydesignsystem/svelte-date-time-picker`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/spec/index.md).
 Per [`AGENTS/helpers.md`](../../../AGENTS/helpers.md) the Svelte side
 wins on behaviour; this file records the vanilla-custom-element idiom
 and the places the API shape could not be carried over verbatim (§4.3

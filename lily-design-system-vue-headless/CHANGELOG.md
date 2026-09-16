@@ -1,7 +1,21 @@
-# Changelog — lily-design-system-vue-headless
+# Changelog — @lilydesignsystem/vue-headless
 
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the package follows [Semantic Versioning](https://semver.org/).
+
+## 0.1.0 — 2026-09-16
+
+**Package renamed: `lily-design-system-vue-headless` → `@lilydesignsystem/vue-headless`.** npm scoped packages
+are registry-distinct from their unscoped counterparts, so this is a
+new package with no publish history of its own — version reset to
+`0.1.0` per this project's established rename precedent (the July
+2026 `*-select` → `*-picker` rename). No code or behaviour change
+relative to `lily-design-system-vue-headless`'s last published version (`0.1.0`);
+its full changelog continues below, now read as history prior to the
+rescope. The old unscoped name is deprecated on the registry (never
+unpublished), pointing consumers here.
+
+---
 
 ## 0.3.1 — 2026-08-26
 
@@ -28,7 +42,7 @@ declared a `main` that was never built; see 0.3.0's notes).
 
 - **The package had no entry point.** `package.json` declared
   `"main": "index.js"` and no such file was ever built or shipped, so
-  every `import … from "lily-design-system-vue-headless"` failed at
+  every `import … from "@lilydesignsystem/vue-headless"` failed at
   resolution. 0.2.0 is broken on npm for this reason. The package now
   builds a real `dist/` with Vite library mode + vue-tsc and points `main`/`types`/
   `exports` at it.

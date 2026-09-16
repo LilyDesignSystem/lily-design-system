@@ -1,7 +1,7 @@
 # `<text-size-picker>` — Specification
 
 Single source of truth for the
-`lily-design-system-html-text-size-picker` HTML helper. This file
+`@lilydesignsystem/html-text-size-picker` HTML helper. This file
 drives implementation, testing, and documentation in the
 spec-driven-development style: anything not in this spec is out of
 scope; anything in this spec must be exercised by a test.

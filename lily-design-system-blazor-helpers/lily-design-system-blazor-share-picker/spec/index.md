@@ -6,7 +6,7 @@ documentation: anything not in this spec is out of scope; anything in
 this spec must be exercised by a test.
 
 This package is a port of the canonical Svelte helper
-[`lily-design-system-svelte-share-picker`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-picker/spec/index.md).
+[`@lilydesignsystem/svelte-share-picker`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-picker/spec/index.md).
 Per [`AGENTS/helpers.md`](../../../AGENTS/helpers.md), Svelte is
 canonical: the behaviour contract below is the Svelte contract, and the
 §7 clause numbering is deliberately identical so the two suites can be

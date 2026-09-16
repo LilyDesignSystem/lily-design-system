@@ -17,7 +17,7 @@ directly once you know which subproject you need.
 
 | Subproject | What it is | Reach for it when |
 | --- | --- | --- |
-| [`lily-design-system-angular-headless`](../lily-design-system-angular-headless/) | The full 491-component catalog as standalone Angular 20 components — zero CSS, semantic HTML + ARIA + keyboard behaviour only. | You are building a real app and want to depend on and style the components yourself. |
+| [`@lilydesignsystem/angular-headless`](../lily-design-system-angular-headless/) | The full 491-component catalog as standalone Angular 20 components — zero CSS, semantic HTML + ARIA + keyboard behaviour only. | You are building a real app and want to depend on and style the components yourself. |
 | [`lily-design-system-angular-helpers`](../lily-design-system-angular-helpers/) | Six opinionated packages (`theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`, `share-picker`, `date-time-picker`), each owning one whole page-header preference/action, or — for `date-time-picker` — a form value. | You need a page-header preference control or a date/time form field, not a bare catalog primitive. |
 | [`lily-design-system-angular-examples`](../lily-design-system-angular-examples/) | A fully styled Angular + Analog.js reference app: every catalog component plus 12 composed pages, styled to the NHS UK visual reference. | You want to run something and see it working, or copy a working CSS answer for a component instead of inventing your own. |
 
@@ -37,7 +37,7 @@ Built on **Angular 20 + Analog.js v1**, file-based routing under
 `src/app/pages/`, signal-driven zoneless change detection, standalone
 components only, full SSG prerendering. The headless components are copied
 into `src/app/components/` (the same copy-pattern every other Lily example
-app uses — no workspace dependency on `lily-design-system-angular-headless`).
+app uses — no workspace dependency on `@lilydesignsystem/angular-headless`).
 
 Required routes (per `AGENTS/examples.md`, the contract every Lily example
 app follows):

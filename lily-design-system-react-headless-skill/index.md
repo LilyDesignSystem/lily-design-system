@@ -2,7 +2,7 @@
 
 A Claude Skill ([`SKILL.md`](SKILL.md)) that explains how to install,
 import, and use the React headless implementation of Lily Design
-System™: the `lily-design-system-react-headless` npm package, its
+System™: the `@lilydesignsystem/react-headless` npm package, its
 JSX consumption idiom (`className`, rest-props spreading, controlled
 props), and where to find the framework-agnostic naming and
 composition rules that apply to it.

@@ -28,7 +28,7 @@ rendered with `{@html …}`:
 - `demoHtml` — a small static markup snippet illustrating the rendered
   component (inside `BEGIN/END auto-generated component example` markers).
 - `svelteSource` — a short Svelte usage snippet importing from
-  `lily-design-system-svelte-headless`.
+  `@lilydesignsystem/svelte-headless`.
 
 Some `<slug>/spec/index.md` files also exist, mirroring the canonical
 catalog's per-component spec convention; treat them as read-only copies of

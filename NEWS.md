@@ -31,7 +31,7 @@ _Updated 2026-09-06._
 
 ### 2026-09-06 — An 8th headless catalog, Web Components, reaches its full achievable scope
 
-`lily-design-system-web-components-headless` — native custom elements, no
+`@lilydesignsystem/web-components-headless` — native custom elements, no
 framework runtime — grew from a 33-component pilot slice to 456 of the
 491 canonical components in one day, spanning every category including
 all 92 national personal identifier components. The remaining 35 (30

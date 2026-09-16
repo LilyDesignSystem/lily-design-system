@@ -1,8 +1,8 @@
 import { Component, ChangeDetectionStrategy } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
-import { ThemePicker } from "lily-design-system-angular-theme-picker";
-import { LocalePicker } from "lily-design-system-angular-locale-picker";
-import { TextSizePicker } from "lily-design-system-angular-text-size-picker";
+import { ThemePicker } from "@lilydesignsystem/angular-theme-picker";
+import { LocalePicker } from "@lilydesignsystem/angular-locale-picker";
+import { TextSizePicker } from "@lilydesignsystem/angular-text-size-picker";
 import { themes, themeLabels, defaultTheme } from "./theme-config";
 
 @Component({

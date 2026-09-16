@@ -1,15 +1,15 @@
 <script lang="ts" module>
-    import ThemePicker from "lily-design-system-svelte-theme-picker";
-    import LocalePicker from "lily-design-system-svelte-locale-picker";
-    import TextSizePicker from "lily-design-system-svelte-text-size-picker";
-    import SharePicker from "lily-design-system-svelte-share-picker";
-    import type { Props as ThemePickerProps } from "lily-design-system-svelte-theme-picker";
-    import type { Props as LocalePickerProps } from "lily-design-system-svelte-locale-picker";
-    import type { Props as TextSizePickerProps } from "lily-design-system-svelte-text-size-picker";
+    import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+    import LocalePicker from "@lilydesignsystem/svelte-locale-picker";
+    import TextSizePicker from "@lilydesignsystem/svelte-text-size-picker";
+    import SharePicker from "@lilydesignsystem/svelte-share-picker";
+    import type { Props as ThemePickerProps } from "@lilydesignsystem/svelte-theme-picker";
+    import type { Props as LocalePickerProps } from "@lilydesignsystem/svelte-locale-picker";
+    import type { Props as TextSizePickerProps } from "@lilydesignsystem/svelte-text-size-picker";
     import type {
         Props as SharePickerProps,
         ShareTarget,
-    } from "lily-design-system-svelte-share-picker";
+    } from "@lilydesignsystem/svelte-share-picker";
 
     /**
      * All 45 Lily reference theme slugs (see `themes/` at the repo root),

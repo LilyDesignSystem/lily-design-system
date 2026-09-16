@@ -359,7 +359,7 @@ data, Content) matching this file's §2 breakdown.
 
 ## 10. Naming and publishing
 
-- Package: `lily-design-system-web-components-headless`, npm, not yet
+- Package: `@lilydesignsystem/web-components-headless`, npm, not yet
   published (see root `docs/releasing.md` for the publish gate).
 - Custom element tags: `lily-{slug}`, one per canonical slug in
   `components.tsv` — this package defines the 456 in §2.

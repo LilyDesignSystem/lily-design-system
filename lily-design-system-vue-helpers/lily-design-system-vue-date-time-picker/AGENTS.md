@@ -12,7 +12,7 @@ hardcoded user-facing strings — month and weekday names come from `Intl`,
 everything else from props.
 
 A direct port of the canonical
-[`lily-design-system-svelte-date-time-picker`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/).
+[`@lilydesignsystem/svelte-date-time-picker`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/).
 When the two disagree, the Svelte side wins.
 
 It implements everything in the DHCW / NHSW `nhsw-date-picker` and fixes

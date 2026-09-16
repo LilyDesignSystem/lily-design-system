@@ -1,5 +1,5 @@
 {
-  "name": "lily-design-system-react-motion-picker",
+  "name": "@lilydesignsystem/react-motion-picker",
   "version": "0.1.0",
   "engines": {
     "node": "=26"

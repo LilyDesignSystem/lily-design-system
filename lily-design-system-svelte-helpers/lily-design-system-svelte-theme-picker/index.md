@@ -370,7 +370,7 @@ aria-haspopup="listbox">` controlling a `<ul role="listbox">` whose
    than a native `<select>` — particularly on mobile, where a native
    select opens the OS picker. For some audiences a native `<select>`
    is genuinely the better choice; the headless `ThemePicker` container
-   in `lily-design-system-svelte-headless` is one.
+   in `@lilydesignsystem/svelte-headless` is one.
 3. The glyph is a **font-dependent character**. It may substitute to a
    mismatched font, or render as a "tofu" box, or not render at all,
    depending on what is installed on the device.

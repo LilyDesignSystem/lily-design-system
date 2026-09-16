@@ -13,7 +13,7 @@ does not restate their content.
 
 | Subproject | What it is | Reach for it when |
 | --- | --- | --- |
-| [`lily-design-system-react-headless`](../lily-design-system-react-headless/) | An npm package: the 490-component headless catalog as React 19 function components. Zero CSS. | You're building your own app and want the library you actually `pnpm install` and depend on. |
+| [`@lilydesignsystem/react-headless`](../lily-design-system-react-headless/) | An npm package: the 490-component headless catalog as React 19 function components. Zero CSS. | You're building your own app and want the library you actually `pnpm install` and depend on. |
 | [`lily-design-system-react-helpers`](../lily-design-system-react-helpers/) | Six small npm packages (`theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`, `share-picker`, `date-time-picker`) that each own one whole page-header interaction — selection, DOM application, optional persistence. | You need a ready-made preference control or share action rather than building one from catalog primitives. |
 | [`lily-design-system-react-next-examples`](../lily-design-system-react-next-examples/) | A React 19 + Next.js 15 App Router application: every headless component fully styled and wired up, plus 12 composed-page demos. Not a package you install. | You want to see a component working end-to-end, copy its CSS, or run a live reference before wiring the headless library into your own app. |
 

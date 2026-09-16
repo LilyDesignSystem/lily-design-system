@@ -106,8 +106,8 @@ Implement the ${heading} component: ${description}.
 ## Approach
 
 1. Create framework-agnostic component documentation in index.md
-2. Implement HTML headless component in lily-design-system-html-headless
-3. Implement Svelte headless component in lily-design-system-svelte-headless
+2. Implement HTML headless component in @lilydesignsystem/html-headless
+3. Implement Svelte headless component in @lilydesignsystem/svelte-headless
 4. Ensure WCAG 2.2 AAA accessibility compliance
 5. Create tests for each implementation
 

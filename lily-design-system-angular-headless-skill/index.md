@@ -1,7 +1,7 @@
 # Lily Design System™ — Angular Headless Skill
 
 A Claude Skill ([`SKILL.md`](SKILL.md)) that explains how to consume
-[`lily-design-system-angular-headless`](../lily-design-system-angular-headless/):
+[`@lilydesignsystem/angular-headless`](../lily-design-system-angular-headless/):
 installing the package, the Angular-specific standalone-component and
 element-selector idiom, and — the one genuinely Angular-specific wrinkle —
 the tag+attribute-selector convention that 51 list-item and table

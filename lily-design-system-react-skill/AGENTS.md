@@ -23,7 +23,7 @@
 
 A Claude Skill mapping the three real React subprojects in this
 monorepo —
-[`lily-design-system-react-headless`](../lily-design-system-react-headless/)
+[`@lilydesignsystem/react-headless`](../lily-design-system-react-headless/)
 (the headless component library),
 [`lily-design-system-react-helpers`](../lily-design-system-react-helpers/)
 (the six `*-picker` helper packages), and

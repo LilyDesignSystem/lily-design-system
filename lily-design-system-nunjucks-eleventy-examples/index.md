@@ -2,7 +2,7 @@
 
 A browsable example website that demonstrates every Lily Design System
 component rendered through the
-[`lily-design-system-nunjucks-headless`](../lily-design-system-nunjucks-headless)
+[`@lilydesignsystem/nunjucks-headless`](../lily-design-system-nunjucks-headless)
 macros and dressed in the NHS UK Design System's look and feel.
 
 ## What it is

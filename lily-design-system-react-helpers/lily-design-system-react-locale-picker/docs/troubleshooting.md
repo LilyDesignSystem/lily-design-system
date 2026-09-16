@@ -45,7 +45,7 @@ font.
 import the constant instead:
 
 ```tsx
-import { GLOBE_WITH_MERIDIANS } from "lily-design-system-react-locale-picker";
+import { GLOBE_WITH_MERIDIANS } from "@lilydesignsystem/react-locale-picker";
 ```
 
 If it is still coloured, your CSS font stack may be forcing an emoji

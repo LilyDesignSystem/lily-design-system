@@ -58,7 +58,7 @@ explicit `value`, and let `value`-beats-everything do the rest.
 import LocalePicker, {
   bcp47LocaleTag,
   isRtlLocale,
-} from "lily-design-system-vue-locale-picker";
+} from "@lilydesignsystem/vue-locale-picker";
 
 const locale = useCookie<string>("locale", { default: () => "en" });
 
@@ -147,7 +147,7 @@ Give each scoped select a distinct `name` if several sit in one form.
 import { useI18n } from "vue-i18n";
 import LocalePicker, {
   bcp47LocaleTag,
-} from "lily-design-system-vue-locale-picker";
+} from "@lilydesignsystem/vue-locale-picker";
 
 const { locale, availableLocales } = useI18n();
 </script>
@@ -197,7 +197,7 @@ formatters from the bound ref:
 ```vue
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { bcp47LocaleTag } from "lily-design-system-vue-locale-picker";
+import { bcp47LocaleTag } from "@lilydesignsystem/vue-locale-picker";
 
 const locale = ref("en");
 const tag = computed(() => bcp47LocaleTag(locale.value));

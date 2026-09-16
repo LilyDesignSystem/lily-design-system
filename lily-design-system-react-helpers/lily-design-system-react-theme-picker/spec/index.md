@@ -1,6 +1,6 @@
 # ThemePicker — Specification
 
-Single source of truth for the `lily-design-system-react-theme-picker`
+Single source of truth for the `@lilydesignsystem/react-theme-picker`
 React helper. This file drives implementation, testing, and
 documentation in the spec-driven-development style: anything not in
 this spec is out of scope; anything in this spec must be exercised by

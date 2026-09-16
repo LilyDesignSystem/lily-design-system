@@ -32,7 +32,7 @@ app remembers.
 
 ```ts
 import { Component, signal } from "@angular/core";
-import { TextSizePicker } from "lily-design-system-angular-text-size-picker";
+import { TextSizePicker } from "@lilydesignsystem/angular-text-size-picker";
 
 @Component({
   standalone: true,

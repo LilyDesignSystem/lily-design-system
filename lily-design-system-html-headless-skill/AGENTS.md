@@ -22,7 +22,7 @@
 ## Overview
 
 A Claude Skill explaining how to consume
-[`lily-design-system-html-headless`](../lily-design-system-html-headless/),
+[`@lilydesignsystem/html-headless`](../lily-design-system-html-headless/),
 the plain-HTML implementation of Lily's canonical component catalog. The
 skill itself is [`SKILL.md`](SKILL.md); the `@AGENTS/*.md` files loaded above
 are the same binding design-principle rules every other subproject in this
@@ -44,7 +44,7 @@ a component. Consumers copy the snippet or fetch/include it server-side.
   library — its file shape, its copy-and-use idiom, and how its class-hook
   theming and naming conventions map onto the catalog-wide rules.
 - **Isn't**: the HTML headless library itself (that's
-  [`lily-design-system-html-headless`](../lily-design-system-html-headless/));
+  [`@lilydesignsystem/html-headless`](../lily-design-system-html-headless/));
   isn't the general Lily concepts skill (that's
   [`lily-design-system-skill`](../lily-design-system-skill/)); isn't the
   `*-picker` helpers skill (that's

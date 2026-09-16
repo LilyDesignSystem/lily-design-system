@@ -1,6 +1,6 @@
 # PickerBar — Specification (Svelte helper)
 
-Canonical contract for `lily-design-system-svelte-picker-bar`. The
+Canonical contract for `@lilydesignsystem/svelte-picker-bar`. The
 other framework catalogs (react, vue, angular, blazor, html, nunjucks,
 web-components) port this spec one-to-one.
 

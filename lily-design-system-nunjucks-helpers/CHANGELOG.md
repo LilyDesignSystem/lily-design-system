@@ -45,10 +45,10 @@ CHANGELOG carries the full record.
 
   | Was                                            | Becomes                                        | Old version         |
   | ---------------------------------------------- | ---------------------------------------------- | ------------------- |
-  | `lily-design-system-nunjucks-theme-select`     | `lily-design-system-nunjucks-theme-picker`     | 0.4.0               |
-  | `lily-design-system-nunjucks-locale-select`    | `lily-design-system-nunjucks-locale-picker`    | 0.4.0               |
-  | `lily-design-system-nunjucks-text-size-select` | `lily-design-system-nunjucks-text-size-picker` | 0.2.0               |
-  | `lily-design-system-nunjucks-share-button`     | `lily-design-system-nunjucks-share-picker`     | 0.1.0 (unpublished) |
+  | `lily-design-system-nunjucks-theme-select`     | `@lilydesignsystem/nunjucks-theme-picker`     | 0.4.0               |
+  | `lily-design-system-nunjucks-locale-select`    | `@lilydesignsystem/nunjucks-locale-picker`    | 0.4.0               |
+  | `lily-design-system-nunjucks-text-size-select` | `@lilydesignsystem/nunjucks-text-size-picker` | 0.2.0               |
+  | `lily-design-system-nunjucks-share-button`     | `@lilydesignsystem/nunjucks-share-picker`     | 0.1.0 (unpublished) |
 
 - **The motivating collision.** `theme-picker` is also the slug of a
   catalog component in `components.tsv`, and the helper shared its
@@ -89,7 +89,7 @@ CHANGELOG carries the full record.
 
 ### Added
 
-- **`lily-design-system-nunjucks-share-picker` 0.1.0** — a new helper,
+- **`@lilydesignsystem/nunjucks-share-picker` 0.1.0** — a new helper,
   ported from the canonical Svelte one. A glyph-only button (➤, U+27A4)
   that opens the **native share sheet** where the browser provides one,
   and otherwise a disclosure list of consumer-supplied destinations
@@ -283,7 +283,7 @@ client-side ES module.
 
 ### Added
 
-- `lily-design-system-nunjucks-theme-picker` v0.1.0 — runtime-loading
+- `@lilydesignsystem/nunjucks-theme-picker` v0.1.0 — runtime-loading
   theme picker. The `themePicker(opts)` macro emits a native
   `<select class="theme-picker">` with `data-lily-theme-picker-*`
   hooks; the companion `theme-picker.client.js` injects a managed
@@ -291,7 +291,7 @@ client-side ES module.
   on the document root, optionally persists to `localStorage`, and
   mirrors the active slug onto the `<select>` value. 13 acceptance
   criteria covered.
-- `lily-design-system-nunjucks-locale-picker` v0.1.0 — BCP 47 locale
+- `@lilydesignsystem/nunjucks-locale-picker` v0.1.0 — BCP 47 locale
   select. The `localePicker(opts)` macro emits a native
   `<select class="locale-picker">` whose `<option>`s carry per-option
   `lang="{tag}"` attributes; the client.js writes `lang` and

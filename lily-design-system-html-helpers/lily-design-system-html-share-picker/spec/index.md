@@ -1,12 +1,12 @@
 # `<share-picker>` — Specification
 
-Single source of truth for the `lily-design-system-html-share-picker`
+Single source of truth for the `@lilydesignsystem/html-share-picker`
 HTML helper. This file drives implementation, testing, and
 documentation: anything not in this spec is out of scope; anything in
 this spec must be exercised by a test.
 
 Ported from the canonical Svelte helper
-[`lily-design-system-svelte-share-picker`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-picker/spec/index.md).
+[`@lilydesignsystem/svelte-share-picker`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-picker/spec/index.md).
 Per [`AGENTS/helpers.md`](../../../AGENTS/helpers.md) the Svelte side
 wins on behaviour; this file records the vanilla-custom-element idiom
 and the two places the API shape could not be carried over verbatim
@@ -381,7 +381,7 @@ import safety.
 
 ## 9. Tracking
 
-- Package: lily-design-system-html-share-picker
+- Package: @lilydesignsystem/html-share-picker
 - Version: 0.1.0
 - License: MIT
 

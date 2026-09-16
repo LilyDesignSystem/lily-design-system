@@ -6,7 +6,7 @@ license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 
 # Lily Design System™ — Web Components headless usage
 
-`lily-design-system-web-components-headless` ships a slice of Lily's
+`@lilydesignsystem/web-components-headless` ships a slice of Lily's
 canonical component catalog as **native custom elements** — plain
 TypeScript classes extending `HTMLElement`, registered as
 `customElements.define("lily-{slug}", X)` — with no framework runtime, no
@@ -135,7 +135,7 @@ into markup:
 
 ```html
 <script type="module">
-  import "lily-design-system-web-components-headless";
+  import "@lilydesignsystem/web-components-headless";
 </script>
 
 <lily-text-input label="Your name"></lily-text-input>

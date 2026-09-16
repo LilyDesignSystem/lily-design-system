@@ -20,7 +20,7 @@ A comprehensive headless React component library with 490 accessible, unstyled c
 ### Install
 
 ```bash
-pnpm install lily-design-system-react-headless
+pnpm install @lilydesignsystem/react-headless
 ```
 
 ### Peer Dependencies
@@ -1025,7 +1025,7 @@ Many components expose data attributes for CSS-based styling:
 ### Setup
 
 ```bash
-git clone https://github.com/lily/lily-design-system-react-headless.git
+git clone https://github.com/lily/@lilydesignsystem/react-headless.git
 cd lily-design-system-react-headless
 pnpm install
 ```

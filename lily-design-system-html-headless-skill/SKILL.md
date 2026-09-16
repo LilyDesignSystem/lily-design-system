@@ -6,7 +6,7 @@ license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 
 # Lily Design System™ — HTML headless usage
 
-`lily-design-system-html-headless` is the plain-HTML implementation of Lily's
+`@lilydesignsystem/html-headless` is the plain-HTML implementation of Lily's
 canonical component catalog: annotated semantic-HTML snippet files with ARIA
 and class hooks, plus an embedded vanilla-JS behavior layer where a component
 needs interactivity. Zero CSS, zero framework, zero build step to *use* a
@@ -88,7 +88,7 @@ classes shown above.
 - **The `*-picker` helpers** (theme, locale, text-size, motion, share,
   date-time) are a separate layer with their own web-component packaging —
   use [`lily-design-system-html-helpers-skill`](../lily-design-system-html-helpers-skill/).
-- **The native-custom-element sibling catalog** — `lily-design-system-web-components-headless`
+- **The native-custom-element sibling catalog** — `@lilydesignsystem/web-components-headless`
   ships 456 of the 491 components (its full achievable scope) as autonomous custom elements
   with no framework runtime, a separate subproject (not this one) — use
   `lily-design-system-web-components-headless-skill` for that catalog's

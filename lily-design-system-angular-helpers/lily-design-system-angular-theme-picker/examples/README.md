@@ -1,7 +1,7 @@
 # Examples
 
 Self-contained Angular 20 examples for
-`lily-design-system-angular-theme-picker`. Each file is a runnable
+`@lilydesignsystem/angular-theme-picker`. Each file is a runnable
 standalone component that can be dropped into any Angular 20 host
 (Analog page, Angular CLI route, Storybook story).
 

@@ -16,7 +16,7 @@ for the human-readable guide and [AGENTS.md](../AGENTS.md) for the agent pointer
 
 The helpers catalog ships a small set of opinionated, reusable HTML
 components that sit alongside the headless
-[`lily-design-system-web-components-headless`](../../lily-design-system-web-components-headless/)
+[`@lilydesignsystem/web-components-headless`](../../lily-design-system-web-components-headless/)
 library. Where the headless library ships pure markup primitives, each helper
 wraps a complete lifecycle — selection, optional persistence, and DOM
 application — for one small, common job.
@@ -40,12 +40,12 @@ Out of scope:
 
 | Helper                                                                                     | Purpose                                                                                                    |
 | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- |
-| [`lily-design-system-web-components-theme-picker`](../lily-design-system-web-components-theme-picker/)         | Pick a visual theme; dynamic CSS load + `data-theme` swap, optional persistence.                           |
-| [`lily-design-system-web-components-locale-picker`](../lily-design-system-web-components-locale-picker/)       | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.                                            |
-| [`lily-design-system-web-components-text-size-picker`](../lily-design-system-web-components-text-size-picker/) | Pick a text size; sets `data-text-size` on the document root.                                              |
-| [`lily-design-system-web-components-motion-picker`](../lily-design-system-web-components-motion-picker/)       | Pick a reduced-motion preference; sets `data-motion` on the document root, defaulting **unconditionally** to `(prefers-reduced-motion: reduce)`. |
-| [`lily-design-system-web-components-share-picker`](../lily-design-system-web-components-share-picker/)         | Share the page: native share sheet, or a disclosure list of consumer-supplied destinations + copy the URL. |
-| [`lily-design-system-web-components-date-time-picker`](../lily-design-system-web-components-date-time-picker/) | Pick a date, a time, or both: a typeable text field plus an APG Date Picker Dialog. Owns a form value, not a preference. |
+| [`@lilydesignsystem/web-components-theme-picker`](../lily-design-system-web-components-theme-picker/)         | Pick a visual theme; dynamic CSS load + `data-theme` swap, optional persistence.                           |
+| [`@lilydesignsystem/web-components-locale-picker`](../lily-design-system-web-components-locale-picker/)       | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.                                            |
+| [`@lilydesignsystem/web-components-text-size-picker`](../lily-design-system-web-components-text-size-picker/) | Pick a text size; sets `data-text-size` on the document root.                                              |
+| [`@lilydesignsystem/web-components-motion-picker`](../lily-design-system-web-components-motion-picker/)       | Pick a reduced-motion preference; sets `data-motion` on the document root, defaulting **unconditionally** to `(prefers-reduced-motion: reduce)`. |
+| [`@lilydesignsystem/web-components-share-picker`](../lily-design-system-web-components-share-picker/)         | Share the page: native share sheet, or a disclosure list of consumer-supplied destinations + copy the URL. |
+| [`@lilydesignsystem/web-components-date-time-picker`](../lily-design-system-web-components-date-time-picker/) | Pick a date, a time, or both: a typeable text field plus an APG Date Picker Dialog. Owns a form value, not a preference. |
 
 ## 4. Conventions
 
@@ -111,5 +111,5 @@ for the full contract.
 ## 8. References
 
 - Canonical reference catalog: [`lily-design-system-svelte-helpers`](../../lily-design-system-svelte-helpers/).
-- Headless sibling: [`lily-design-system-web-components-headless`](../../lily-design-system-web-components-headless/).
+- Headless sibling: [`@lilydesignsystem/web-components-headless`](../../lily-design-system-web-components-headless/).
 - Root specification: [../spec/index.md](../../spec/index.md) and [../AGENTS.md](../../AGENTS.md).

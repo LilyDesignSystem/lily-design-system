@@ -1,12 +1,12 @@
 ---
 name: lily-design-system-vue-headless-skill
-description: Use when someone asks how to install or import Lily Design System's Vue headless components, wants the Vue 3 SFC-specific usage idiom (`:class` binding, `v-bind="$attrs"`, `<slot />`), needs the npm package name (`lily-design-system-vue-headless`), or is wiring a Lily component into a Vue 3 app (plain Vite, Nuxt, Quasar, Astro, or a Storybook setup) and wants the Composition-API-correct way to do it.
+description: Use when someone asks how to install or import Lily Design System's Vue headless components, wants the Vue 3 SFC-specific usage idiom (`:class` binding, `v-bind="$attrs"`, `<slot />`), needs the npm package name (`@lilydesignsystem/vue-headless`), or is wiring a Lily component into a Vue 3 app (plain Vite, Nuxt, Quasar, Astro, or a Storybook setup) and wants the Composition-API-correct way to do it.
 license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 ---
 
 # Lily Design System™ — Vue Headless — concepts & usage
 
-`lily-design-system-vue-headless` is the Vue 3 implementation of Lily's
+`@lilydesignsystem/vue-headless` is the Vue 3 implementation of Lily's
 canonical headless component catalog (`components.tsv` at the monorepo
 root): semantic HTML, ARIA, focus management, and keyboard behaviour, with
 **no CSS**. Each component is a `.vue` single-file component using
@@ -14,8 +14,8 @@ root): semantic HTML, ARIA, focus management, and keyboard behaviour, with
 `mixins`, no `defineComponent` wrapper around the SFC.
 
 ```bash
-pnpm install lily-design-system-vue-headless
-# or: npm install lily-design-system-vue-headless
+pnpm install @lilydesignsystem/vue-headless
+# or: npm install @lilydesignsystem/vue-headless
 ```
 
 Peer dependency: `vue ^3.0.0`. Each component ships as its own `.vue` file

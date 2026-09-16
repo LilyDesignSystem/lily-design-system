@@ -57,7 +57,7 @@ fallback table behind the `Intl`-derived endonym defaults), zero
 dependencies.
 
 The element is a direct port of the Svelte canonical
-`lily-design-system-svelte-locale-picker`. APIs and behaviour match;
+`@lilydesignsystem/svelte-locale-picker`. APIs and behaviour match;
 only the framework idioms differ.
 
 ## Install

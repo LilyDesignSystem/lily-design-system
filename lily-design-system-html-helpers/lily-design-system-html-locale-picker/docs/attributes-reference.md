@@ -130,7 +130,7 @@ The helper is exported so you can reuse the same matching rule
 server-side against an `Accept-Language` header:
 
 ```ts
-import { matchNavigatorLanguage } from "lily-design-system-html-locale-picker";
+import { matchNavigatorLanguage } from "@lilydesignsystem/html-locale-picker";
 const locale = matchNavigatorLanguage(parseAcceptLanguage(header), SUPPORTED);
 ```
 

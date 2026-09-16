@@ -1,6 +1,6 @@
 {
-  "name": "lily-design-system-vue-theme-picker",
-  "version": "0.2.0",
+  "name": "@lilydesignsystem/vue-theme-picker",
+  "version": "0.1.0",
   "engines": {
     "node": "=26"
   },

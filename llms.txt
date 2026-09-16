@@ -61,7 +61,7 @@ searchable component catalog: https://lilydesignsystem.com/.
 
 ## Subprojects
 
-- [lily-design-system-svelte-headless](lily-design-system-svelte-headless/index.md):
+- [@lilydesignsystem/svelte-headless](lily-design-system-svelte-headless/index.md):
   the canonical Svelte 5 headless library — other catalogs port from it.
 - [lily-design-system-svelte-sveltekit-examples](lily-design-system-svelte-sveltekit-examples/index.md):
   fully styled reference app for the same catalog.

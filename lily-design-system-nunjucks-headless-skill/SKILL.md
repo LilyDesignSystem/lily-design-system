@@ -6,7 +6,7 @@ license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 
 # Lily Design System™ — Nunjucks headless macros
 
-`lily-design-system-nunjucks-headless` is one of Lily's seven full-catalog
+`@lilydesignsystem/nunjucks-headless` is one of Lily's seven full-catalog
 headless libraries: 491 accessible components as Nunjucks 3 macros, one
 macro per component, zero CSS, zero bundled JavaScript. It targets WCAG 2.2
 AAA and follows the same headless-layer rules as every other Lily catalog —
@@ -16,7 +16,7 @@ baked in. Its directory layout mirrors the
 pattern.
 
 Canonical monorepo path: `lily-design-system-nunjucks-headless/`. Package
-name: `lily-design-system-nunjucks-headless` (npm, once published).
+name: `@lilydesignsystem/nunjucks-headless` (npm, once published).
 
 ## File layout
 
@@ -33,7 +33,7 @@ components/{kebab-case}/macro.test.js    ← vitest render test
 import nunjucks from "nunjucks";
 
 nunjucks.configure([
-  "node_modules/lily-design-system-nunjucks-headless",
+  "node_modules/@lilydesignsystem/nunjucks-headless",
   "views", // your own templates
 ], { autoescape: true });
 ```

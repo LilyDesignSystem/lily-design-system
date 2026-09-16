@@ -2,7 +2,7 @@
 
 A catalog of opinionated, reusable Angular 20 helper components that
 sit alongside the headless
-[`lily-design-system-angular-headless`](../lily-design-system-angular-headless/)
+[`@lilydesignsystem/angular-headless`](../lily-design-system-angular-headless/)
 library. Where the headless library ships pure markup primitives,
 these helpers wrap a complete lifecycle (selection + persistence +
 DOM application) for one small, common job.
@@ -11,13 +11,13 @@ DOM application) for one small, common job.
 
 | Helper                                                                                          | Purpose                                                                                                              |
 | ----------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| [`lily-design-system-angular-theme-picker`](./lily-design-system-angular-theme-picker/)         | Pick a visual theme; dynamic CSS load + `data-theme` swap.                                                           |
-| [`lily-design-system-angular-locale-picker`](./lily-design-system-angular-locale-picker/)       | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.                                                      |
-| [`lily-design-system-angular-text-size-picker`](./lily-design-system-angular-text-size-picker/) | Pick a text size; sets `data-text-size` on the document root.                                                        |
-| [`lily-design-system-angular-motion-picker`](./lily-design-system-angular-motion-picker/)       | Pick a motion (reduced-motion) preference; sets `data-motion` on the document root, defaulting to the OS's own `(prefers-reduced-motion: reduce)` signal. |
-| [`lily-design-system-angular-share-picker`](./lily-design-system-angular-share-picker/)         | Share the page: native share sheet where available, else a list of consumer-supplied destinations plus copy-the-URL. |
-| [`lily-design-system-angular-date-time-picker`](./lily-design-system-angular-date-time-picker/) | Pick a date, a time, or both: a typeable text field plus an icon button opening a WAI-ARIA APG Date Picker Dialog. |
-| [`lily-design-system-angular-picker-bar`](./lily-design-system-angular-picker-bar/) | Compose theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row, with all 45 reference themes and the seven-step text-size scale pre-wired. |
+| [`@lilydesignsystem/angular-theme-picker`](./lily-design-system-angular-theme-picker/)         | Pick a visual theme; dynamic CSS load + `data-theme` swap.                                                           |
+| [`@lilydesignsystem/angular-locale-picker`](./lily-design-system-angular-locale-picker/)       | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.                                                      |
+| [`@lilydesignsystem/angular-text-size-picker`](./lily-design-system-angular-text-size-picker/) | Pick a text size; sets `data-text-size` on the document root.                                                        |
+| [`@lilydesignsystem/angular-motion-picker`](./lily-design-system-angular-motion-picker/)       | Pick a motion (reduced-motion) preference; sets `data-motion` on the document root, defaulting to the OS's own `(prefers-reduced-motion: reduce)` signal. |
+| [`@lilydesignsystem/angular-share-picker`](./lily-design-system-angular-share-picker/)         | Share the page: native share sheet where available, else a list of consumer-supplied destinations plus copy-the-URL. |
+| [`@lilydesignsystem/angular-date-time-picker`](./lily-design-system-angular-date-time-picker/) | Pick a date, a time, or both: a typeable text field plus an icon button opening a WAI-ARIA APG Date Picker Dialog. |
+| [`@lilydesignsystem/angular-picker-bar`](./lily-design-system-angular-picker-bar/) | Compose theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row, with all 45 reference themes and the seven-step text-size scale pre-wired. |
 
 `date-time-picker` is a fifth helper, listed after the other four because
 it does not fit their columns: it is a **form-value control**, not a
@@ -96,7 +96,7 @@ Shared design decisions across the catalog:
 The headless library mirrors the canonical 490-component catalog.
 Each component is a pure container with no lifecycle. A consumer
 typing on top of `ThemePicker` from
-`lily-design-system-angular-headless` writes their own select markup,
+`@lilydesignsystem/angular-headless` writes their own select markup,
 their own persistence, and their own loading.
 
 The helpers in this directory are higher-level: they own the

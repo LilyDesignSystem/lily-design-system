@@ -2,7 +2,7 @@
 
 A catalog of opinionated, reusable vanilla HTML + JavaScript helper
 **web components (custom elements)** that sit alongside the headless
-[`lily-design-system-html-headless`](../lily-design-system-html-headless/)
+[`@lilydesignsystem/html-headless`](../lily-design-system-html-headless/)
 library. Where the headless library ships pure HTML snippets,
 these helpers wrap a complete lifecycle (selection + persistence +
 DOM application) for one small, common job — and ship that lifecycle
@@ -21,13 +21,13 @@ listbox.
 
 | Helper                                                                                    | Custom element        | Purpose                                                                                       |
 | ----------------------------------------------------------------------------------------- | --------------------- | --------------------------------------------------------------------------------------------- |
-| [`lily-design-system-html-theme-picker`](./lily-design-system-html-theme-picker/)         | `<theme-picker>`     | Pick a visual theme; dynamic CSS load + `data-theme` swap.                                    |
-| [`lily-design-system-html-locale-picker`](./lily-design-system-html-locale-picker/)       | `<locale-picker>`    | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.                               |
-| [`lily-design-system-html-text-size-picker`](./lily-design-system-html-text-size-picker/) | `<text-size-picker>` | Pick a text size; sets `data-text-size` on the document root.                                 |
-| [`lily-design-system-html-motion-picker`](./lily-design-system-html-motion-picker/)       | `<motion-picker>`    | Pick a motion (reduced-motion) preference; sets `data-motion` on the document root, defaulting to the OS's own `(prefers-reduced-motion: reduce)` signal. |
-| [`lily-design-system-html-share-picker`](./lily-design-system-html-share-picker/)         | `<share-picker>`     | Share the page: native share sheet, or a disclosure list of your destinations + copy the URL. |
-| [`lily-design-system-html-date-time-picker`](./lily-design-system-html-date-time-picker/) | `<date-time-picker>` | Pick a date, a time, or both: a typeable field plus a WAI-ARIA APG Date Picker Dialog. |
-| [`lily-design-system-html-picker-bar`](./lily-design-system-html-picker-bar/)             | `<picker-bar>`       | Compose theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row, with all 45 reference themes and the seven-step text-size scale pre-wired. |
+| [`@lilydesignsystem/html-theme-picker`](./lily-design-system-html-theme-picker/)         | `<theme-picker>`     | Pick a visual theme; dynamic CSS load + `data-theme` swap.                                    |
+| [`@lilydesignsystem/html-locale-picker`](./lily-design-system-html-locale-picker/)       | `<locale-picker>`    | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.                               |
+| [`@lilydesignsystem/html-text-size-picker`](./lily-design-system-html-text-size-picker/) | `<text-size-picker>` | Pick a text size; sets `data-text-size` on the document root.                                 |
+| [`@lilydesignsystem/html-motion-picker`](./lily-design-system-html-motion-picker/)       | `<motion-picker>`    | Pick a motion (reduced-motion) preference; sets `data-motion` on the document root, defaulting to the OS's own `(prefers-reduced-motion: reduce)` signal. |
+| [`@lilydesignsystem/html-share-picker`](./lily-design-system-html-share-picker/)         | `<share-picker>`     | Share the page: native share sheet, or a disclosure list of your destinations + copy the URL. |
+| [`@lilydesignsystem/html-date-time-picker`](./lily-design-system-html-date-time-picker/) | `<date-time-picker>` | Pick a date, a time, or both: a typeable field plus a WAI-ARIA APG Date Picker Dialog. |
+| [`@lilydesignsystem/html-picker-bar`](./lily-design-system-html-picker-bar/)             | `<picker-bar>`       | Compose theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row, with all 45 reference themes and the seven-step text-size scale pre-wired. |
 
 `<picker-bar>` is different again: it owns no preference, action, or
 form value of its own. It is a **composition** — the four elements
@@ -152,7 +152,7 @@ and tests stay in lock-step across frameworks.
 The HTML headless library mirrors the canonical 490-component
 catalog. Each entry is a static HTML snippet plus a minimal
 initialisation hook. A consumer typing on top of `theme-picker.html`
-from `lily-design-system-html-headless` writes their own radio
+from `@lilydesignsystem/html-headless` writes their own radio
 markup, their own persistence, and their own dynamic loading.
 
 The helpers in this directory are higher-level: they own the

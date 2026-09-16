@@ -1,7 +1,7 @@
 # Examples
 
 Self-contained Svelte 5 examples for
-`lily-design-system-svelte-locale-picker`. Each file is a runnable
+`@lilydesignsystem/svelte-locale-picker`. Each file is a runnable
 component that can be dropped into any Svelte 5 host (SvelteKit
 route, Vite + Svelte route, Astro `.svelte` island, Storybook
 story).

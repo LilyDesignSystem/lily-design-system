@@ -112,7 +112,7 @@ styling. CSS-in-JS interop is the consumer's choice.
 
 The current React helper catalog does not ship a
 `<ThemeProvider>` component. The headless library
-(`lily-design-system-react-headless`) provides one if needed;
+(`@lilydesignsystem/react-headless`) provides one if needed;
 otherwise `ThemePicker` writes directly to `document.documentElement`
 and consumer CSS reads from `:root[data-theme]`.
 

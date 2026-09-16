@@ -15,10 +15,10 @@ and the project follows
 
   | Was                                          | Now                                          |
   | -------------------------------------------- | -------------------------------------------- |
-  | `lily-design-system-svelte-theme-select`     | `lily-design-system-svelte-theme-picker`     |
-  | `lily-design-system-svelte-locale-select`    | `lily-design-system-svelte-locale-picker`    |
-  | `lily-design-system-svelte-text-size-select` | `lily-design-system-svelte-text-size-picker` |
-  | `lily-design-system-svelte-share-button`     | `lily-design-system-svelte-share-picker`     |
+  | `lily-design-system-svelte-theme-select`     | `@lilydesignsystem/svelte-theme-picker`     |
+  | `lily-design-system-svelte-locale-select`    | `@lilydesignsystem/svelte-locale-picker`    |
+  | `lily-design-system-svelte-text-size-select` | `@lilydesignsystem/svelte-text-size-picker` |
+  | `lily-design-system-svelte-share-button`     | `@lilydesignsystem/svelte-share-picker`     |
 
   A full-depth rename: directories, component and test file names,
   package names, exported symbols (`ThemePicker`, `nextThemePickerId`,
@@ -44,7 +44,7 @@ and the project follows
 
 ### Added
 
-- **`lily-design-system-svelte-share-picker` 0.1.0** — a new helper, and
+- **`@lilydesignsystem/svelte-share-picker` 0.1.0** — a new helper, and
   the first that owns an _action_ rather than a user preference: it
   applies nothing to the document and persists nothing. A single-glyph
   button (➤, U+27A4) opens the native share sheet where the browser has
@@ -128,11 +128,11 @@ disagree, the Svelte side wins and the others are patched.
 
 ### Added
 
-- `lily-design-system-svelte-theme-picker` v0.1.0 — runtime-loading
+- `@lilydesignsystem/svelte-theme-picker` v0.1.0 — runtime-loading
   theme select with `data-theme` swap, managed `<link>`-based
   stylesheet injection, `localStorage` persistence, and a `children`
   snippet for custom rendering. 13 acceptance criteria covered.
-- `lily-design-system-svelte-locale-picker` v0.1.0 — BCP 47 locale
+- `@lilydesignsystem/svelte-locale-picker` v0.1.0 — BCP 47 locale
   select that writes `lang` and `dir` on the document root, with
   optional `localStorage` persistence and `navigator.languages`
   detection. Built-in 436-row locale-name table, RTL detection set,

@@ -83,8 +83,8 @@ export const load: LayoutServerLoad = ({ locals }) => ({
 
 ```svelte
 <script lang="ts">
-    import { ThemePicker } from "lily-design-system-svelte-theme-picker";
-    import { LocalePicker } from "lily-design-system-svelte-locale-picker";
+    import { ThemePicker } from "@lilydesignsystem/svelte-theme-picker";
+    import { LocalePicker } from "@lilydesignsystem/svelte-locale-picker";
 
     let { data, children } = $props();
     let theme = $state(data.theme);

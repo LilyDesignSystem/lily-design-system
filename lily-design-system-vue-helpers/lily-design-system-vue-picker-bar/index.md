@@ -12,10 +12,10 @@ has no natural spot next to the other three header preferences, and
 ## Install
 
 ```sh
-npm install lily-design-system-vue-picker-bar
+npm install @lilydesignsystem/vue-picker-bar
 ```
 
-`lily-design-system-vue-theme-picker`, `-locale-picker`,
+`@lilydesignsystem/vue-theme-picker`, `-locale-picker`,
 `-text-size-picker`, and `-share-picker` install automatically as
 regular dependencies — `PickerBar` is a thin wrapper around them, not
 a reimplementation.
@@ -24,7 +24,7 @@ a reimplementation.
 
 ```vue
 <script setup lang="ts">
-import PickerBar from "lily-design-system-vue-picker-bar";
+import PickerBar from "@lilydesignsystem/vue-picker-bar";
 </script>
 
 <template>
@@ -67,7 +67,7 @@ if you add `:shareProps="{ copyLabel: 'Copy link' }"`.
 Both are exported as named constants:
 
 ```ts
-import { DEFAULT_THEMES, DEFAULT_SIZES } from "lily-design-system-vue-picker-bar";
+import { DEFAULT_THEMES, DEFAULT_SIZES } from "@lilydesignsystem/vue-picker-bar";
 ```
 
 ## Passing extra props to one picker

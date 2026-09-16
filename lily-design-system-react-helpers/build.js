@@ -18,7 +18,7 @@ import { fileURLToPath } from "node:url";
 
 const root = path.dirname(fileURLToPath(import.meta.url));
 
-const packages = fs
+const packageDirs = fs
   .readdirSync(root, { withFileTypes: true })
   .filter(
     (entry) =>
@@ -28,6 +28,14 @@ const packages = fs
   )
   .map((entry) => entry.name)
   .sort();
+
+// The npm identity externalized below (what a sibling's import specifier
+// actually resolves to) is each directory's package.json#name, not its
+// directory name -- those diverged 2026-09-16 when the catalog moved to
+// the @lilydesignsystem npm scope while directory names stayed put.
+const packages = packageDirs.map(
+  (dir) => JSON.parse(fs.readFileSync(path.join(root, dir, "package.json"), "utf8")).name,
+);
 
 const externalArgs = [
   "--external",
@@ -44,19 +52,19 @@ const tsupBin = path.join(
   process.platform === "win32" ? "tsup.cmd" : "tsup",
 );
 
-for (const pkg of packages) {
+for (const dir of packageDirs) {
   execFileSync(
     tsupBin,
     [
-      path.join(pkg, "index.ts"),
+      path.join(dir, "index.ts"),
       "--format",
       "esm",
       "--dts",
       "--out-dir",
-      path.join(pkg, "dist"),
+      path.join(dir, "dist"),
       ...externalArgs,
     ],
     { cwd: root, stdio: "inherit" },
   );
-  console.log(`built ${pkg}/dist`);
+  console.log(`built ${dir}/dist`);
 }

@@ -20,19 +20,19 @@
 // import whose binding is never used as a runtime value, dropping the
 // registration side effect with it. A bare side-effect import can
 // never be elided.
-import "lily-design-system-web-components-theme-picker";
-import "lily-design-system-web-components-locale-picker";
-import "lily-design-system-web-components-text-size-picker";
-import "lily-design-system-web-components-share-picker";
+import "@lilydesignsystem/web-components-theme-picker";
+import "@lilydesignsystem/web-components-locale-picker";
+import "@lilydesignsystem/web-components-text-size-picker";
+import "@lilydesignsystem/web-components-share-picker";
 
-import type { ThemePicker, ThemePickerProps } from "lily-design-system-web-components-theme-picker";
-import type { LocalePicker, LocalePickerProps } from "lily-design-system-web-components-locale-picker";
-import type { TextSizePicker, TextSizePickerProps } from "lily-design-system-web-components-text-size-picker";
+import type { ThemePicker, ThemePickerProps } from "@lilydesignsystem/web-components-theme-picker";
+import type { LocalePicker, LocalePickerProps } from "@lilydesignsystem/web-components-locale-picker";
+import type { TextSizePicker, TextSizePickerProps } from "@lilydesignsystem/web-components-text-size-picker";
 import type {
   SharePicker,
   SharePickerProps,
   ShareTarget,
-} from "lily-design-system-web-components-share-picker";
+} from "@lilydesignsystem/web-components-share-picker";
 
 /**
  * All 45 Lily reference theme slugs (see `themes/` at the repo root),

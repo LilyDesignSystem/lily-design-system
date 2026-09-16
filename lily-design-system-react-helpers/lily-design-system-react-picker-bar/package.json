@@ -1,5 +1,5 @@
 {
-  "name": "lily-design-system-react-picker-bar",
+  "name": "@lilydesignsystem/react-picker-bar",
   "version": "0.1.0",
   "engines": {
     "node": "=26"
@@ -28,10 +28,10 @@
     "react-dom": ">=18"
   },
   "dependencies": {
-    "lily-design-system-react-theme-picker": "^0.2.0",
-    "lily-design-system-react-locale-picker": "^0.2.0",
-    "lily-design-system-react-text-size-picker": "^0.2.0",
-    "lily-design-system-react-share-picker": "^0.2.0"
+    "@lilydesignsystem/react-theme-picker": "^0.1.0",
+    "@lilydesignsystem/react-locale-picker": "^0.1.0",
+    "@lilydesignsystem/react-text-size-picker": "^0.1.0",
+    "@lilydesignsystem/react-share-picker": "^0.1.0"
   },
   "keywords": [
     "lily",

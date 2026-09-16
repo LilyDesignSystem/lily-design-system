@@ -22,7 +22,7 @@
 ## Overview
 
 A Claude Skill explaining how to consume
-[`lily-design-system-web-components-headless`](../lily-design-system-web-components-headless/),
+[`@lilydesignsystem/web-components-headless`](../lily-design-system-web-components-headless/),
 the native-custom-element implementation of Lily's canonical component
 catalog at its **full achievable scope**: 456 of the 491 components as of
 2026-09-06 (added 2026-09-03, completed 2026-09-06), spanning every
@@ -60,7 +60,7 @@ self-is-the-wrapper) live in the library's own `AGENTS.md` and
   general Lily concepts skill (that's
   [`lily-design-system-skill`](../lily-design-system-skill/)). Isn't the
   Web Components headless library itself (that's
-  [`lily-design-system-web-components-headless`](../lily-design-system-web-components-headless/)) —
+  [`@lilydesignsystem/web-components-headless`](../lily-design-system-web-components-headless/)) —
   it ships no components of its own. Isn't the Web Components `*-picker`
   helpers skill (that's
   [`lily-design-system-web-components-helpers-skill`](../lily-design-system-web-components-helpers-skill/)),

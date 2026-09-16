@@ -4,6 +4,20 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.1.0 — 2026-09-16
+
+**Package renamed: `lily-design-system-nunjucks-date-time-picker` → `@lilydesignsystem/nunjucks-date-time-picker`.** npm scoped packages
+are registry-distinct from their unscoped counterparts, so this is a
+new package with no publish history of its own — version reset to
+`0.1.0` per this project's established rename precedent (the July
+2026 `*-select` → `*-picker` rename). No code or behaviour change
+relative to `lily-design-system-nunjucks-date-time-picker`'s last published version (`0.2.0`);
+its full changelog continues below, now read as history prior to the
+rescope. The old unscoped name is deprecated on the registry (never
+unpublished), pointing consumers here.
+
+---
+
 ## 0.2.0 — 2026-09-04
 
 Week/day step buttons and a time-zone select (monorepo plan P8-T12;
@@ -114,7 +128,7 @@ assertions moved from `disabled` to `aria-disabled`.
 ### Initial entry — 2026-07-28
 
 First release. A port of the canonical
-`lily-design-system-svelte-date-time-picker` helper — itself the fifth
+`@lilydesignsystem/svelte-date-time-picker` helper — itself the fifth
 helper in the Lily™ catalog, currently Svelte-only elsewhere, listed as
 a "fifth helper" alongside the four preference/action helpers in
 `AGENTS/helpers.md` — following this catalog's macro + `client.js`

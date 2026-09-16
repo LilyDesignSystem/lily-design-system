@@ -1,6 +1,6 @@
 # LocalePicker — Specification
 
-Single source of truth for the `lily-design-system-svelte-locale-picker`
+Single source of truth for the `@lilydesignsystem/svelte-locale-picker`
 Svelte helper. This file drives implementation, testing, and documentation in
 the spec-driven-development style: anything not in this spec is out of scope;
 anything in this spec must be exercised by a test.
@@ -15,7 +15,7 @@ Sibling files in this directory:
 - `index.ts` — re-export barrel
 - `index.md` — user-facing readme
 
-The headless `lily-design-system-svelte-headless` library does not (yet)
+The headless `@lilydesignsystem/svelte-headless` library does not (yet)
 include a canonical `LocalePicker`; this helper is the opinionated,
 reusable counterpart that owns the locale-application lifecycle (the
 `lang` and `dir` attributes on the document root) and the persistence

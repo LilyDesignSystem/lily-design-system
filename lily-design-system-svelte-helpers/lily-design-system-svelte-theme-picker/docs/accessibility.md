@@ -155,7 +155,7 @@ choice.** If your users are predominantly on mobile, or on older
 assistive technology, or in a regulated context where you must
 demonstrate maximum compatibility rather than argue for a pattern, then
 this helper is the wrong tool. Use the plain headless `ThemePicker`
-container in `lily-design-system-svelte-headless`, which is a native
+container in `@lilydesignsystem/svelte-headless`, which is a native
 `<select>` with `<option>` children. That is a legitimate outcome, not
 a failure to configure this package correctly.
 

@@ -8,7 +8,7 @@ const headlessComponents = path.resolve(
   "..",
   "..",
   "..",
-  "lily-design-system-nunjucks-headless",
+  "@lilydesignsystem/nunjucks-headless",
   "components",
 );
 const categoriesTsv = path.resolve(here, "..", "..", "..", "components-categories.tsv");

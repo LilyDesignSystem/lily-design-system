@@ -1,15 +1,15 @@
 <script lang="ts">
-import ThemePicker from "lily-design-system-vue-theme-picker";
-import LocalePicker from "lily-design-system-vue-locale-picker";
-import TextSizePicker from "lily-design-system-vue-text-size-picker";
-import SharePicker from "lily-design-system-vue-share-picker";
-import type { Props as ThemePickerProps } from "lily-design-system-vue-theme-picker";
-import type { Props as LocalePickerProps } from "lily-design-system-vue-locale-picker";
-import type { Props as TextSizePickerProps } from "lily-design-system-vue-text-size-picker";
+import ThemePicker from "@lilydesignsystem/vue-theme-picker";
+import LocalePicker from "@lilydesignsystem/vue-locale-picker";
+import TextSizePicker from "@lilydesignsystem/vue-text-size-picker";
+import SharePicker from "@lilydesignsystem/vue-share-picker";
+import type { Props as ThemePickerProps } from "@lilydesignsystem/vue-theme-picker";
+import type { Props as LocalePickerProps } from "@lilydesignsystem/vue-locale-picker";
+import type { Props as TextSizePickerProps } from "@lilydesignsystem/vue-text-size-picker";
 import type {
     Props as SharePickerProps,
     ShareTarget,
-} from "lily-design-system-vue-share-picker";
+} from "@lilydesignsystem/vue-share-picker";
 
 /**
  * All 45 Lily reference theme slugs (see `themes/` at the repo root),

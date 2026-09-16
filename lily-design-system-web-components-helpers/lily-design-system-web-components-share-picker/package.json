@@ -1,5 +1,5 @@
 {
-  "name": "lily-design-system-web-components-share-picker",
+  "name": "@lilydesignsystem/web-components-share-picker",
   "version": "0.1.0",
   "engines": {
     "node": "=26"

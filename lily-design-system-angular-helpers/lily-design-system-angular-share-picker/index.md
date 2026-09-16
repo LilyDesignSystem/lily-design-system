@@ -173,7 +173,7 @@ by construction, no per-icon scale correction is needed.
 
 ## Tests
 
-`npx vitest run lily-design-system-angular-share-picker` from the catalog
+`npx vitest run @lilydesignsystem/angular-share-picker` from the catalog
 root — 49 cases, one or more per §7 clause.
 
 ## See also

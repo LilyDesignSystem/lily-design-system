@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Build pipeline for lily-design-system-web-components-headless.
+// Build pipeline for @lilydesignsystem/web-components-headless.
 //
 // Two steps, in order:
 //

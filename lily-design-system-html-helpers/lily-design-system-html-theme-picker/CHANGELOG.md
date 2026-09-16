@@ -3,6 +3,20 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.1.0 — 2026-09-16
+
+**Package renamed: `lily-design-system-html-theme-picker` → `@lilydesignsystem/html-theme-picker`.** npm scoped packages
+are registry-distinct from their unscoped counterparts, so this is a
+new package with no publish history of its own — version reset to
+`0.1.0` per this project's established rename precedent (the July
+2026 `*-select` → `*-picker` rename). No code or behaviour change
+relative to `lily-design-system-html-theme-picker`'s last published version (`0.2.0`);
+its full changelog continues below, now read as history prior to the
+rescope. The old unscoped name is deprecated on the registry (never
+unpublished), pointing consumers here.
+
+---
+
 ## 0.2.0 — 2026-09-16
 
 ### Changed (BREAKING)
@@ -109,7 +123,7 @@ part of 0.1.0 rather than a later version.
 
 ### Initial entry — 2026-07-21
 
-First release under the name `lily-design-system-html-theme-picker`.
+First release under the name `@lilydesignsystem/html-theme-picker`.
 The version resets to 0.1.0 because this package name has never been
 published; a renamed package carries no release history.
 
@@ -365,7 +379,7 @@ package name.
 ### 0.1.0 — 2026-06-05
 
 Initial release. Ported from the Svelte canonical
-`lily-design-system-svelte-theme-picker`. The DOM contract,
+`@lilydesignsystem/svelte-theme-picker`. The DOM contract,
 behaviour, and acceptance criteria match the canonical clause-for-
 clause.
 

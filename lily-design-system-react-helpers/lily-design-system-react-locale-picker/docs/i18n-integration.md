@@ -29,7 +29,7 @@ through context. Drive the provider's `locale` prop from the select.
 
 import * as React from "react";
 import { IntlProvider, FormattedMessage } from "react-intl";
-import { LocalePicker } from "lily-design-system-react-locale-picker";
+import { LocalePicker } from "@lilydesignsystem/react-locale-picker";
 
 import enMessages from "./messages/en.json";
 import frMessages from "./messages/fr.json";
@@ -93,7 +93,7 @@ runtime control. Use `i18n.changeLanguage(code)` from `onChange`.
 
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { LocalePicker } from "lily-design-system-react-locale-picker";
+import { LocalePicker } from "@lilydesignsystem/react-locale-picker";
 
 export function App() {
   const { t, i18n } = useTranslation();
@@ -149,7 +149,7 @@ the locale.
 import * as React from "react";
 import { i18n } from "@lingui/core";
 import { I18nProvider, Trans } from "@lingui/react";
-import { LocalePicker } from "lily-design-system-react-locale-picker";
+import { LocalePicker } from "@lilydesignsystem/react-locale-picker";
 
 import { messages as enMessages } from "./locales/en/messages";
 import { messages as frMessages } from "./locales/fr/messages";
@@ -212,7 +212,7 @@ select still owns the `lang` / `dir` lifecycle:
 "use client";
 
 import * as React from "react";
-import { LocalePicker } from "lily-design-system-react-locale-picker";
+import { LocalePicker } from "@lilydesignsystem/react-locale-picker";
 
 export function App() {
   const [locale, setLocale] = React.useState("en");
@@ -258,7 +258,7 @@ the select from `useParams()` and `onChange` calls `router.push()`:
 
 import * as React from "react";
 import { useParams, usePathname, useRouter } from "next/navigation";
-import { LocalePicker } from "lily-design-system-react-locale-picker";
+import { LocalePicker } from "@lilydesignsystem/react-locale-picker";
 
 export function LocaleSwitcher() {
   const params = useParams<{ locale: string }>();

@@ -6,7 +6,7 @@ license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 
 # Lily Design System™ — Angular headless usage
 
-`lily-design-system-angular-headless` is the Angular implementation of the
+`@lilydesignsystem/angular-headless` is the Angular implementation of the
 Lily Design System's headless component library: the full 491-component
 catalog (`components.tsv`), each shipped as a standalone Angular component
 with zero CSS — semantic HTML, ARIA, and keyboard behaviour only. It is one
@@ -14,14 +14,14 @@ of the seven **full-catalog** headless libraries (HTML, Svelte, React, Vue,
 Angular, Blazor, Nunjucks); unlike the partial Web Components catalog
 (456/491, its full achievable scope), Angular ships the entire catalog.
 
-Published to npm as `lily-design-system-angular-headless`:
+Published to npm as `@lilydesignsystem/angular-headless`:
 
 ```sh
-pnpm add lily-design-system-angular-headless
+pnpm add @lilydesignsystem/angular-headless
 ```
 
 ```ts
-import { Button, TextInput } from "lily-design-system-angular-headless";
+import { Button, TextInput } from "@lilydesignsystem/angular-headless";
 
 @Component({
   standalone: true,

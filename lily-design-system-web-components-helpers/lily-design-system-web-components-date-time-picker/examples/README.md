@@ -1,6 +1,6 @@
 # Examples
 
-Self-contained HTML examples for `lily-design-system-web-components-date-time-picker`.
+Self-contained HTML examples for `@lilydesignsystem/web-components-date-time-picker`.
 Each file is a runnable page that can be opened in any browser after
 building the custom-element module.
 
@@ -18,7 +18,7 @@ requirement.
 
 ## The package ships its own CSS in these examples only
 
-`lily-design-system-web-components-date-time-picker` itself ships **zero CSS**,
+`@lilydesignsystem/web-components-date-time-picker` itself ships **zero CSS**,
 including the dialog's positioning. Each example carries a `<style>`
 block with the minimum needed to make the dialog render as an overlay
 rather than in normal flow. The rule people forget is in there too:

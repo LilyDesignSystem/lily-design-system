@@ -1,6 +1,6 @@
 {
-  "name": "lily-design-system-angular-headless",
-  "version": "0.3.0",
+  "name": "@lilydesignsystem/angular-headless",
+  "version": "0.1.0",
   "engines": {
     "node": "=26"
   },
@@ -11,8 +11,8 @@
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
     "build": "ng-packagr -p ng-package.json",
-    "storybook": "ng run lily-design-system-angular-headless:storybook",
-    "build-storybook": "ng run lily-design-system-angular-headless:build-storybook"
+    "storybook": "ng run @lilydesignsystem/angular-headless:storybook",
+    "build-storybook": "ng run @lilydesignsystem/angular-headless:build-storybook"
   },
   "peerDependencies": {
     "@angular/common": ">=20.0.0 <23.0.0",

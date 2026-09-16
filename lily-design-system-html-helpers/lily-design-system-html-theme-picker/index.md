@@ -54,7 +54,7 @@ themes (DaisyUI-inspired, NHS-aligned, and public-sector / vendor
 reference themes), or your own bespoke set.
 
 The element is a direct port of the Svelte canonical
-`lily-design-system-svelte-theme-picker`. APIs and behaviour match;
+`@lilydesignsystem/svelte-theme-picker`. APIs and behaviour match;
 only the framework idioms differ. The change-notification path uses
 a bubbling `CustomEvent` instead of Svelte's prop callback.
 

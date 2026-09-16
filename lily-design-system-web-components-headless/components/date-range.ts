@@ -7,7 +7,7 @@
 // single source of truth per this catalog's headless design rules) is
 // internally inconsistent with its own "Key Behaviors" prose, which
 // describes a <fieldset>. Every other framework's port actually renders
-// a <fieldset> (verified against lily-design-system-svelte-headless).
+// a <fieldset> (verified against @lilydesignsystem/svelte-headless).
 // Followed the metadata field here as instructed: this component wraps
 // a real <span> (Pattern 1 — a <span> cannot itself be a <fieldset>),
 // carrying `role="group"` + `aria-label` to reproduce the fieldset's

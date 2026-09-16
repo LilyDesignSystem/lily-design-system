@@ -33,7 +33,7 @@ import LocalePicker, {
   RTL_LANGUAGE_TAGS,
   type Props,
   type ChildArgs,
-} from "lily-design-system-svelte-locale-picker";
+} from "@lilydesignsystem/svelte-locale-picker";
 ```
 
 ## Props
@@ -232,7 +232,7 @@ Document mutations (only inside `$effect`):
 can type their wrapping code:
 
 ```ts
-import type { Props, ChildArgs } from "lily-design-system-svelte-locale-picker";
+import type { Props, ChildArgs } from "@lilydesignsystem/svelte-locale-picker";
 
 const config: Pick<Props, "locales" | "storageKey" | "detectFromNavigator"> = {
   locales: ["en", "fr", "ar"],

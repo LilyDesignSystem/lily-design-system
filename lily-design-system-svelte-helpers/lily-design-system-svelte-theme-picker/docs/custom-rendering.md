@@ -109,7 +109,7 @@ Because it is decorative and duplicated by the `aria-label`, keep it
   always-visible list of themes rather than a popup, this helper is
   the wrong shape — read `value` and write to it from your own
   controls, or use the headless `ThemePicker` container in
-  `lily-design-system-svelte-headless`.
+  `@lilydesignsystem/svelte-headless`.
 - **Don't mutate `document.head` or `data-theme` directly.** Let the
   component own that lifecycle.
 - **Don't leave the glyph exposed to assistive technology.** Anything

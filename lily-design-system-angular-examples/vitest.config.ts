@@ -3,7 +3,7 @@ import angular from "@analogjs/vite-plugin-angular";
 
 // Vitest configuration for this example app: both its own top-level
 // logic (the /components search's suffix-pattern derivation) and the
-// 491 component .spec.ts files copied from lily-design-system-angular-headless
+// 491 component .spec.ts files copied from @lilydesignsystem/angular-headless
 // (the standard copy-pattern). Mirrors angular-headless's own
 // vitest.config.ts + vitest-setup.ts.
 //

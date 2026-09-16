@@ -92,7 +92,7 @@ tests to run beyond `bin/test`'s required-files checks.
   the catalog this skill teaches consumers to use; the source of truth
   for the six packages, their conventions, and the macro-plus-client.js
   split.
-- [`lily-design-system-nunjucks-motion-picker`'s spec/index.md](../../lily-design-system-nunjucks-helpers/lily-design-system-nunjucks-motion-picker/spec/index.md) —
+- [`@lilydesignsystem/nunjucks-motion-picker`'s spec/index.md](../../lily-design-system-nunjucks-helpers/lily-design-system-nunjucks-motion-picker/spec/index.md) —
   the one helper with a documented server/client deviation, cited
   precisely in `SKILL.md`.
 - [`lily-design-system-nunjucks-headless-skill`'s spec/index.md](../../lily-design-system-nunjucks-headless-skill/spec/index.md) —

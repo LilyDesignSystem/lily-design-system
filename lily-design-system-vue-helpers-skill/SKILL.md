@@ -1,6 +1,6 @@
 ---
 name: lily-design-system-vue-helpers-skill
-description: Use when someone asks how to install or import one of Lily Design System's Vue `*-picker` helper packages (theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker), wants the Vue 3 SFC-specific usage idiom for them (`v-model`, `v-bind="$attrs"`, `defineModel`), needs an individual helper's npm package name (`lily-design-system-vue-theme-picker` and siblings), or wants to know the icon-button-plus-listbox vs. disclosure-of-links vs. field-plus-dialog contract each helper follows.
+description: Use when someone asks how to install or import one of Lily Design System's Vue `*-picker` helper packages (theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker), wants the Vue 3 SFC-specific usage idiom for them (`v-model`, `v-bind="$attrs"`, `defineModel`), needs an individual helper's npm package name (`@lilydesignsystem/vue-theme-picker` and siblings), or wants to know the icon-button-plus-listbox vs. disclosure-of-links vs. field-plus-dialog contract each helper follows.
 license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 ---
 
@@ -13,12 +13,12 @@ end to end. Each helper is its own npm package, installed and imported
 separately:
 
 ```bash
-pnpm install lily-design-system-vue-theme-picker
-pnpm install lily-design-system-vue-locale-picker
-pnpm install lily-design-system-vue-text-size-picker
-pnpm install lily-design-system-vue-motion-picker
-pnpm install lily-design-system-vue-share-picker
-pnpm install lily-design-system-vue-date-time-picker
+pnpm install @lilydesignsystem/vue-theme-picker
+pnpm install @lilydesignsystem/vue-locale-picker
+pnpm install @lilydesignsystem/vue-text-size-picker
+pnpm install @lilydesignsystem/vue-motion-picker
+pnpm install @lilydesignsystem/vue-share-picker
+pnpm install @lilydesignsystem/vue-date-time-picker
 ```
 
 Peer dependency: `vue ^3.0.0`. Each package ships an SFC

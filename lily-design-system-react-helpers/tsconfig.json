@@ -14,10 +14,10 @@
     "verbatimModuleSyntax": true,
     "baseUrl": ".",
     "paths": {
-      "lily-design-system-react-theme-picker": ["./lily-design-system-react-theme-picker/dist/index.d.ts"],
-      "lily-design-system-react-locale-picker": ["./lily-design-system-react-locale-picker/dist/index.d.ts"],
-      "lily-design-system-react-text-size-picker": ["./lily-design-system-react-text-size-picker/dist/index.d.ts"],
-      "lily-design-system-react-share-picker": ["./lily-design-system-react-share-picker/dist/index.d.ts"]
+      "@lilydesignsystem/react-theme-picker": ["./lily-design-system-react-theme-picker/dist/index.d.ts"],
+      "@lilydesignsystem/react-locale-picker": ["./lily-design-system-react-locale-picker/dist/index.d.ts"],
+      "@lilydesignsystem/react-text-size-picker": ["./lily-design-system-react-text-size-picker/dist/index.d.ts"],
+      "@lilydesignsystem/react-share-picker": ["./lily-design-system-react-share-picker/dist/index.d.ts"]
     }
   }
 }

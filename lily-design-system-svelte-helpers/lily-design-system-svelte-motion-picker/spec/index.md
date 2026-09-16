@@ -1,6 +1,6 @@
 # MotionPicker — Specification (Svelte helper)
 
-Canonical contract for `lily-design-system-svelte-motion-picker`.
+Canonical contract for `@lilydesignsystem/svelte-motion-picker`.
 The other framework catalogs (react, vue, angular, blazor, html,
 nunjucks) port this spec one-to-one.
 

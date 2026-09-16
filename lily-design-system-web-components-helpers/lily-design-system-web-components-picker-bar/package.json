@@ -1,5 +1,5 @@
 {
-  "name": "lily-design-system-web-components-picker-bar",
+  "name": "@lilydesignsystem/web-components-picker-bar",
   "version": "0.1.0",
   "engines": {
     "node": "=26"
@@ -24,10 +24,10 @@
     "prepublishOnly": "cd .. && npm run build"
   },
   "dependencies": {
-    "lily-design-system-web-components-theme-picker": "^0.1.0",
-    "lily-design-system-web-components-locale-picker": "^0.1.0",
-    "lily-design-system-web-components-text-size-picker": "^0.1.0",
-    "lily-design-system-web-components-share-picker": "^0.1.0"
+    "@lilydesignsystem/web-components-theme-picker": "^0.1.0",
+    "@lilydesignsystem/web-components-locale-picker": "^0.1.0",
+    "@lilydesignsystem/web-components-text-size-picker": "^0.1.0",
+    "@lilydesignsystem/web-components-share-picker": "^0.1.0"
   },
   "keywords": [
     "lily",

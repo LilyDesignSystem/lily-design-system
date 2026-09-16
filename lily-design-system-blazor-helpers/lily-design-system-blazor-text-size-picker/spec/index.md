@@ -7,7 +7,7 @@ spec-driven-development style: anything not in this spec is out of
 scope; anything in this spec must be exercised by a test.
 
 This is a one-to-one port of the canonical Svelte helper
-`lily-design-system-svelte-text-size-picker`; when the two disagree,
+`@lilydesignsystem/svelte-text-size-picker`; when the two disagree,
 the Svelte side wins and the Blazor side is patched.
 
 Sibling files in this directory:

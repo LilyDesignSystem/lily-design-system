@@ -1,7 +1,7 @@
 # Examples
 
 Self-contained Svelte 5 examples for
-`lily-design-system-svelte-theme-picker`. Each file is a runnable
+`@lilydesignsystem/svelte-theme-picker`. Each file is a runnable
 component that can be dropped into any Svelte 5 host (SvelteKit page,
 Vite + Svelte route, Astro `.svelte` island, Storybook story).
 

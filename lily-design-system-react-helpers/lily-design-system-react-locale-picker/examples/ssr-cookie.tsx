@@ -57,7 +57,7 @@ export default LocaleClient;
     import {
         isRtlLocale,
         bcp47LocaleTag,
-    } from "lily-design-system-react-locale-picker";
+    } from "@lilydesignsystem/react-locale-picker";
     import { LocaleClient } from "./locale-client";
 
     const KNOWN = new Set(["en", "fr", "ar", "he"]);

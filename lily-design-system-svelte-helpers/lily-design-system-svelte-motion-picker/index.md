@@ -27,7 +27,7 @@ size and colour scheme don't.
 
 ```svelte
 <script lang="ts">
-  import MotionPicker from "lily-design-system-svelte-motion-picker";
+  import MotionPicker from "@lilydesignsystem/svelte-motion-picker";
   let motion = $state("");
 </script>
 

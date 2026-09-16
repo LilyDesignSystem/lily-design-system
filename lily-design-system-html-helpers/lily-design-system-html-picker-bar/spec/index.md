@@ -1,6 +1,6 @@
 # PickerBar — Specification (HTML helper)
 
-Canonical contract ported from `lily-design-system-svelte-picker-bar`
+Canonical contract ported from `@lilydesignsystem/svelte-picker-bar`
 (see that package's `spec/index.md`, the reference for every framework
 port). This file follows its § numbering.
 

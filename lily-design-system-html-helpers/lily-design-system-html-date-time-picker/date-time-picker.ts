@@ -10,7 +10,7 @@
  * optional time selects, optional shortcuts, and a Confirm/Cancel footer.
  *
  * Ported from the canonical Svelte helper
- * `lily-design-system-svelte-date-time-picker`. Svelte wins on
+ * `@lilydesignsystem/svelte-date-time-picker`. Svelte wins on
  * behaviour; this file supplies the custom-element idiom. Unlike the
  * three preference helpers (and like `share-picker`) this control does
  * not persist anything to `localStorage`: a date is data, not a

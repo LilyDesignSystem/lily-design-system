@@ -1,7 +1,7 @@
 # Lily Design System™ — Svelte Helpers
 
 A catalog of opinionated, reusable Svelte 5 helper components that sit
-alongside the headless [`lily-design-system-svelte-headless`](../lily-design-system-svelte-headless/)
+alongside the headless [`@lilydesignsystem/svelte-headless`](../lily-design-system-svelte-headless/)
 library. Where the headless library ships pure markup primitives,
 these helpers wrap a complete lifecycle (selection + persistence +
 DOM application) for one small, common job.
@@ -10,13 +10,13 @@ DOM application) for one small, common job.
 
 | Helper                                                                                        | Purpose                                                                                                              |
 | --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| [`lily-design-system-svelte-theme-picker`](./lily-design-system-svelte-theme-picker/)         | Pick a visual theme; dynamic CSS load + `data-theme` swap.                                                           |
-| [`lily-design-system-svelte-locale-picker`](./lily-design-system-svelte-locale-picker/)       | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.                                                      |
-| [`lily-design-system-svelte-text-size-picker`](./lily-design-system-svelte-text-size-picker/) | Pick a text size; sets `data-text-size` on the document root.                                                        |
-| [`lily-design-system-svelte-motion-picker`](./lily-design-system-svelte-motion-picker/)       | Pick a motion (reduced-motion) preference; sets `data-motion` on the document root, defaulting to the OS's own `(prefers-reduced-motion: reduce)` signal. |
-| [`lily-design-system-svelte-share-picker`](./lily-design-system-svelte-share-picker/)         | Share the page: native share sheet where available, else a list of consumer-supplied destinations plus copy-the-URL. |
-| [`lily-design-system-svelte-date-time-picker`](./lily-design-system-svelte-date-time-picker/) | Pick a date, a time, or both: a typeable field plus an APG date-picker dialog, locale-correct from `Intl`.           |
-| [`lily-design-system-svelte-picker-bar`](./lily-design-system-svelte-picker-bar/)             | Compose theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row, with all 45 reference themes and the seven-step text-size scale pre-wired. |
+| [`@lilydesignsystem/svelte-theme-picker`](./lily-design-system-svelte-theme-picker/)         | Pick a visual theme; dynamic CSS load + `data-theme` swap.                                                           |
+| [`@lilydesignsystem/svelte-locale-picker`](./lily-design-system-svelte-locale-picker/)       | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.                                                      |
+| [`@lilydesignsystem/svelte-text-size-picker`](./lily-design-system-svelte-text-size-picker/) | Pick a text size; sets `data-text-size` on the document root.                                                        |
+| [`@lilydesignsystem/svelte-motion-picker`](./lily-design-system-svelte-motion-picker/)       | Pick a motion (reduced-motion) preference; sets `data-motion` on the document root, defaulting to the OS's own `(prefers-reduced-motion: reduce)` signal. |
+| [`@lilydesignsystem/svelte-share-picker`](./lily-design-system-svelte-share-picker/)         | Share the page: native share sheet where available, else a list of consumer-supplied destinations plus copy-the-URL. |
+| [`@lilydesignsystem/svelte-date-time-picker`](./lily-design-system-svelte-date-time-picker/) | Pick a date, a time, or both: a typeable field plus an APG date-picker dialog, locale-correct from `Intl`.           |
+| [`@lilydesignsystem/svelte-picker-bar`](./lily-design-system-svelte-picker-bar/)             | Compose theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row, with all 45 reference themes and the seven-step text-size scale pre-wired. |
 
 ### What counts as a helper
 
@@ -85,7 +85,7 @@ Shared design decisions across the catalog:
 
 The headless library mirrors the canonical 490-component catalog.
 Each component is a pure container with no lifecycle. A consumer
-typing on top of `ThemePicker` from `lily-design-system-svelte-headless`
+typing on top of `ThemePicker` from `@lilydesignsystem/svelte-headless`
 writes their own radio markup, their own persistence, and their own
 loading.
 

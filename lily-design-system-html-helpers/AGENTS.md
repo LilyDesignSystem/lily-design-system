@@ -10,13 +10,13 @@ Each helper follows the file shape in
 
 ## Helpers currently in the catalog
 
-- [`lily-design-system-html-theme-picker`](./lily-design-system-html-theme-picker/) — `<theme-picker>` dynamic theme CSS loader.
-- [`lily-design-system-html-locale-picker`](./lily-design-system-html-locale-picker/) — `<locale-picker>` `lang` + `dir` locale picker.
-- [`lily-design-system-html-text-size-picker`](./lily-design-system-html-text-size-picker/) — `<text-size-picker>` `data-text-size` text-size picker.
-- [`lily-design-system-html-motion-picker`](./lily-design-system-html-motion-picker/) — `<motion-picker>` `data-motion` reduced-motion picker; defaults to the OS's own `(prefers-reduced-motion: reduce)` signal rather than a fixed slug.
-- [`lily-design-system-html-share-picker`](./lily-design-system-html-share-picker/) — `<share-picker>` native-sheet / disclosure share control.
-- [`lily-design-system-html-date-time-picker`](./lily-design-system-html-date-time-picker/) — `<date-time-picker>` WAI-ARIA APG date/time picker dialog.
-- [`lily-design-system-html-picker-bar`](./lily-design-system-html-picker-bar/) — `<picker-bar>` composes theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row. Owns no preference/action/form-value of its own; depends on the four wrapped elements as real npm packages and pre-wires the 45-theme reference list and the seven-step text-size scale.
+- [`@lilydesignsystem/html-theme-picker`](./lily-design-system-html-theme-picker/) — `<theme-picker>` dynamic theme CSS loader.
+- [`@lilydesignsystem/html-locale-picker`](./lily-design-system-html-locale-picker/) — `<locale-picker>` `lang` + `dir` locale picker.
+- [`@lilydesignsystem/html-text-size-picker`](./lily-design-system-html-text-size-picker/) — `<text-size-picker>` `data-text-size` text-size picker.
+- [`@lilydesignsystem/html-motion-picker`](./lily-design-system-html-motion-picker/) — `<motion-picker>` `data-motion` reduced-motion picker; defaults to the OS's own `(prefers-reduced-motion: reduce)` signal rather than a fixed slug.
+- [`@lilydesignsystem/html-share-picker`](./lily-design-system-html-share-picker/) — `<share-picker>` native-sheet / disclosure share control.
+- [`@lilydesignsystem/html-date-time-picker`](./lily-design-system-html-date-time-picker/) — `<date-time-picker>` WAI-ARIA APG date/time picker dialog.
+- [`@lilydesignsystem/html-picker-bar`](./lily-design-system-html-picker-bar/) — `<picker-bar>` composes theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row. Owns no preference/action/form-value of its own; depends on the four wrapped elements as real npm packages and pre-wires the 45-theme reference list and the seven-step text-size scale.
 
 ## Working rules
 

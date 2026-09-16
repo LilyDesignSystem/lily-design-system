@@ -18,14 +18,14 @@ A headless component library built on **native custom elements** — the browser
 ### Install
 
 ```bash
-pnpm install lily-design-system-web-components-headless
+pnpm install @lilydesignsystem/web-components-headless
 ```
 
 ### Basic usage
 
 ```html
 <script type="module">
-  import "lily-design-system-web-components-headless";
+  import "@lilydesignsystem/web-components-headless";
 </script>
 
 <lily-text-input label="Your name"></lily-text-input>

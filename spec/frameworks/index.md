@@ -22,13 +22,13 @@ It does **not** cover: the binding markup/ARIA rules every framework obeys (see 
 
 | Framework | Headless dir | Example dir | Stack | Component file shape |
 | --------- | ------------ | ----------- | ----- | -------------------- |
-| HTML | `lily-design-system-html-headless` | `lily-design-system-html-css-js-examples` | Plain HTML + CSS + JS; web components | One web component per slug (`{slug}.js` custom element) + class hooks |
-| Svelte | `lily-design-system-svelte-headless` | `lily-design-system-svelte-sveltekit-examples` | Svelte 5 (runes) + SvelteKit 2, Vite, pnpm, TypeScript | `{Pascal}.svelte` |
-| React | `lily-design-system-react-headless` | `lily-design-system-react-next-examples` | React 19 + Next.js, TypeScript | `{Pascal}.tsx` |
-| Vue | `lily-design-system-vue-headless` | `lily-design-system-vue-nuxt-examples` | Vue 3 + Nuxt.js, TypeScript | `{Pascal}.vue` |
-| Angular | `lily-design-system-angular-headless` | `lily-design-system-angular-examples` | Angular 22 (signals, OnPush, standalone) + Analog.js v2, Vite 7 | `{slug}.component.ts` |
+| HTML | `@lilydesignsystem/html-headless` | `lily-design-system-html-css-js-examples` | Plain HTML + CSS + JS; web components | One web component per slug (`{slug}.js` custom element) + class hooks |
+| Svelte | `@lilydesignsystem/svelte-headless` | `lily-design-system-svelte-sveltekit-examples` | Svelte 5 (runes) + SvelteKit 2, Vite, pnpm, TypeScript | `{Pascal}.svelte` |
+| React | `@lilydesignsystem/react-headless` | `lily-design-system-react-next-examples` | React 19 + Next.js, TypeScript | `{Pascal}.tsx` |
+| Vue | `@lilydesignsystem/vue-headless` | `lily-design-system-vue-nuxt-examples` | Vue 3 + Nuxt.js, TypeScript | `{Pascal}.vue` |
+| Angular | `@lilydesignsystem/angular-headless` | `lily-design-system-angular-examples` | Angular 22 (signals, OnPush, standalone) + Analog.js v2, Vite 7 | `{slug}.component.ts` |
 | Blazor | `lily-design-system-blazor-headless` | `lily-design-system-blazor-web-examples` | Blazor 10 / .NET, bUnit | `{Pascal}.razor` (+ `.razor.cs`) |
-| Nunjucks | `lily-design-system-nunjucks-headless` | `lily-design-system-nunjucks-eleventy-examples` | Nunjucks 3 + Eleventy | `components/{slug}/macro.njk` |
+| Nunjucks | `@lilydesignsystem/nunjucks-headless` | `lily-design-system-nunjucks-eleventy-examples` | Nunjucks 3 + Eleventy | `components/{slug}/macro.njk` |
 
 ## How each headless library expresses a component
 

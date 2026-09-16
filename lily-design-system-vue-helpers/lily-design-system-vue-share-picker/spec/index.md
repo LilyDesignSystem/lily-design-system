@@ -1,12 +1,12 @@
 # SharePicker — Specification
 
-Single source of truth for the `lily-design-system-vue-share-picker`
+Single source of truth for the `@lilydesignsystem/vue-share-picker`
 Vue 3 helper. This file drives implementation, testing, and documentation:
 anything not in this spec is out of scope; anything in this spec must be
 exercised by a test.
 
 A direct port of the canonical
-[`lily-design-system-svelte-share-picker`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-picker/spec/index.md).
+[`@lilydesignsystem/svelte-share-picker`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-picker/spec/index.md).
 Where the two disagree, the Svelte side wins. The §7 clause numbers are
 kept identical across catalogs so the suites cross-reference.
 
@@ -274,10 +274,10 @@ In addition, §4.2's root contract (class hook + consumer `class` +
 
 ## 8. Tracking
 
-- Package: lily-design-system-vue-share-picker
+- Package: @lilydesignsystem/vue-share-picker
 - Version: 0.1.0
 - License: MIT
-- Ported from: `lily-design-system-svelte-share-picker` 0.1.0
+- Ported from: `@lilydesignsystem/svelte-share-picker` 0.1.0
 
 **2026-09-16**: default icon changed from the Unicode glyph U+27A4
 BLACK RIGHTWARDS ARROWHEAD (exported as `BLACK_RIGHTWARDS_ARROWHEAD`)

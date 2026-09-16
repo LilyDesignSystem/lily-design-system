@@ -2,7 +2,7 @@
 
 Canonical contract ported from
 [the Svelte package's spec/index.md](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-picker-bar/spec/index.md)
-(`lily-design-system-svelte-picker-bar`). Same § numbering; framework
+(`@lilydesignsystem/svelte-picker-bar`). Same § numbering; framework
 idiom swapped (props/emits instead of props/callback-props, `v-bind`
 instead of prop-bag spread).
 
@@ -200,5 +200,5 @@ generated shims entirely. This only weakens *this package's own local
 build-time* type-checking of the four nested components — the
 *published* `dist/PickerBar.vue.d.ts` still imports the real `Props`
 types from each sibling's bare specifier, so a real consumer installing
-`lily-design-system-vue-picker-bar` gets full type safety from their
+`@lilydesignsystem/vue-picker-bar` gets full type safety from their
 own installed copies of the four dependencies.

@@ -15,7 +15,7 @@ weekday names come from `Intl`, everything else from attributes or
 properties.
 
 Ported from the canonical Svelte helper
-[`lily-design-system-svelte-date-time-picker`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/).
+[`@lilydesignsystem/svelte-date-time-picker`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/).
 Svelte wins on behaviour; this package supplies the custom-element
 idiom. Unlike the three preference helpers (and like `share-picker`)
 this control does not persist to `localStorage`: a date in a form is

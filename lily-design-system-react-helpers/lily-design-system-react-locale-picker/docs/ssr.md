@@ -52,7 +52,7 @@ import { cookies } from "next/headers";
 import {
   isRtlLocale,
   bcp47LocaleTag,
-} from "lily-design-system-react-locale-picker";
+} from "@lilydesignsystem/react-locale-picker";
 import { LocaleClient } from "./locale-client";
 
 const KNOWN = new Set(["en", "fr", "ar", "he"]);
@@ -89,7 +89,7 @@ component because they have no React or DOM dependency.
 "use client";
 
 import * as React from "react";
-import { LocalePicker } from "lily-design-system-react-locale-picker";
+import { LocalePicker } from "@lilydesignsystem/react-locale-picker";
 
 export function LocaleClient({
   initialLocale,
@@ -150,7 +150,7 @@ import { notFound } from "next/navigation";
 import {
   isRtlLocale,
   bcp47LocaleTag,
-} from "lily-design-system-react-locale-picker";
+} from "@lilydesignsystem/react-locale-picker";
 
 const KNOWN = new Set(["en", "fr", "ar"]);
 
@@ -182,7 +182,7 @@ export default function LocaleLayout({
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { LocalePicker } from "lily-design-system-react-locale-picker";
+import { LocalePicker } from "@lilydesignsystem/react-locale-picker";
 
 export function LocaleSwitcher({ current }: { current: string }) {
   const pathname = usePathname();
@@ -218,7 +218,7 @@ import {
   matchNavigatorLanguage,
   isRtlLocale,
   bcp47LocaleTag,
-} from "lily-design-system-react-locale-picker";
+} from "@lilydesignsystem/react-locale-picker";
 
 const SUPPORTED = ["en", "fr", "ar"];
 
@@ -269,7 +269,7 @@ works.
 ```tsx
 "use client";
 
-import { LocalePicker } from "lily-design-system-react-locale-picker";
+import { LocalePicker } from "@lilydesignsystem/react-locale-picker";
 
 export default function Page() {
   return (
@@ -302,7 +302,7 @@ import { json, useLoaderData } from "@remix-run/react";
 import {
   isRtlLocale,
   bcp47LocaleTag,
-} from "lily-design-system-react-locale-picker";
+} from "@lilydesignsystem/react-locale-picker";
 import { LocaleClient } from "./locale-client";
 
 const SUPPORTED = ["en", "fr", "ar"];
@@ -399,13 +399,13 @@ runtime into the server bundle. Import only the pure helpers
 
 ```tsx
 // ❌ Don't do this in a server component
-import { LocalePicker } from "lily-design-system-react-locale-picker";
+import { LocalePicker } from "@lilydesignsystem/react-locale-picker";
 
 // ✅ Do this in a server component
 import {
   bcp47LocaleTag,
   isRtlLocale,
-} from "lily-design-system-react-locale-picker";
+} from "@lilydesignsystem/react-locale-picker";
 ```
 
 ---

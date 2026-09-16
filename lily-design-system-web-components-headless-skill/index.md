@@ -1,7 +1,7 @@
 # Lily Design System™ — Web Components Headless Skill
 
 A Claude Skill ([`SKILL.md`](SKILL.md)) that explains how to consume
-[`lily-design-system-web-components-headless`](../lily-design-system-web-components-headless/):
+[`@lilydesignsystem/web-components-headless`](../lily-design-system-web-components-headless/):
 Lily's native custom-element implementation of Lily's canonical
 component catalog at its **full achievable scope** as of 2026-09-06 —
 456 of the 491 components, proving the pattern (autonomous custom

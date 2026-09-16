@@ -1,6 +1,6 @@
 # SharePicker — Specification
 
-Single source of truth for the `lily-design-system-react-share-picker`
+Single source of truth for the `@lilydesignsystem/react-share-picker`
 React helper. This file drives implementation, testing, and documentation:
 anything not in this spec is out of scope; anything in this spec must be
 exercised by a test.
@@ -261,7 +261,7 @@ sees on a phone is not what they see on a desktop. Full treatment in
 
 ## 8. Tracking
 
-- Package: lily-design-system-react-share-picker
+- Package: @lilydesignsystem/react-share-picker
 - Version: 0.1.0
 - License: MIT
 

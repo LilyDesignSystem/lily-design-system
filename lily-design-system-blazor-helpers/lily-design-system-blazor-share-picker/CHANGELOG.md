@@ -62,7 +62,7 @@ part of 0.1.0 rather than a later version.
 ### Initial entry — 2026-07-21
 
 Initial release. A Blazor 10 port of the canonical Svelte helper
-[`lily-design-system-svelte-share-picker`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-picker/).
+[`@lilydesignsystem/svelte-share-picker`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-picker/).
 
 Developed in-tree as `lily-design-system-blazor-share-button` and
 renamed to `lily-design-system-blazor-share-picker` before its first

@@ -17,7 +17,7 @@ destinations.
 ## Install
 
 ```sh
-npm install lily-design-system-nunjucks-share-picker
+npm install @lilydesignsystem/nunjucks-share-picker
 ```
 
 ## Use
@@ -148,7 +148,7 @@ import {
   canCopy,
   nextSharePickerId,
   shareTargetHref,
-} from "lily-design-system-nunjucks-share-picker";
+} from "@lilydesignsystem/nunjucks-share-picker";
 ```
 
 No glyph constant — the default icon is a bundled SVG, not a Unicode

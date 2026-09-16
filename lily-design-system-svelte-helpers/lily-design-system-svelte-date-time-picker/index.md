@@ -13,14 +13,14 @@ Canonical contract: [spec/index.md](./spec/index.md).
 ## Install
 
 ```sh
-npm install lily-design-system-svelte-date-time-picker
+npm install @lilydesignsystem/svelte-date-time-picker
 ```
 
 ## Use it
 
 ```svelte
 <script lang="ts">
-  import DateTimePicker from "lily-design-system-svelte-date-time-picker";
+  import DateTimePicker from "@lilydesignsystem/svelte-date-time-picker";
 
   let appointment = $state("");
 </script>
@@ -234,10 +234,10 @@ nobody wants to page a calendar back forty years.
 
 ## Related
 
-- [`lily-design-system-svelte-theme-picker`](../lily-design-system-svelte-theme-picker/)
-- [`lily-design-system-svelte-locale-picker`](../lily-design-system-svelte-locale-picker/)
-- [`lily-design-system-svelte-text-size-picker`](../lily-design-system-svelte-text-size-picker/)
-- [`lily-design-system-svelte-share-picker`](../lily-design-system-svelte-share-picker/)
+- [`@lilydesignsystem/svelte-theme-picker`](../lily-design-system-svelte-theme-picker/)
+- [`@lilydesignsystem/svelte-locale-picker`](../lily-design-system-svelte-locale-picker/)
+- [`@lilydesignsystem/svelte-text-size-picker`](../lily-design-system-svelte-text-size-picker/)
+- [`@lilydesignsystem/svelte-share-picker`](../lily-design-system-svelte-share-picker/)
 
 ## License
 

@@ -23,7 +23,7 @@
 ## Overview
 
 A Claude Skill that ties together the three real Nunjucks subprojects in
-this monorepo — [`lily-design-system-nunjucks-headless`](../lily-design-system-nunjucks-headless/)
+this monorepo — [`@lilydesignsystem/nunjucks-headless`](../lily-design-system-nunjucks-headless/)
 (the 491-component headless macro library),
 [`lily-design-system-nunjucks-helpers`](../lily-design-system-nunjucks-helpers/)
 (the six `*-picker` macro-plus-`client.js` packages), and

@@ -53,7 +53,7 @@ catalog — Lily™'s 41 DaisyUI-inspired themes, NHS-aligned themes, or
 your own bespoke set.
 
 The component is a direct port of the Svelte canonical
-`lily-design-system-svelte-theme-picker`. APIs and behaviour match;
+`@lilydesignsystem/svelte-theme-picker`. APIs and behaviour match;
 only the framework idioms differ.
 
 ## Install

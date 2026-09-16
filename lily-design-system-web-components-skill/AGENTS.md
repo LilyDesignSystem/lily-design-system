@@ -23,7 +23,7 @@
 
 A Claude Skill that ties together the two real native-Web-Components
 subprojects in this monorepo —
-[`lily-design-system-web-components-headless`](../lily-design-system-web-components-headless/)
+[`@lilydesignsystem/web-components-headless`](../lily-design-system-web-components-headless/)
 (the full achievable catalog of native custom elements — 456/491 as of
 2026-09-06 — no framework runtime) and
 [`lily-design-system-web-components-helpers`](../lily-design-system-web-components-helpers/)

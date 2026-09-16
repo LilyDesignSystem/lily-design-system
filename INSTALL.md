@@ -31,12 +31,12 @@ frameworks, but not all seven are on a registry yet.
 
 | Package family | Registry | Status |
 | --- | --- | --- |
-| `lily-design-system-svelte-headless` | npm | **0.3.1** |
-| `lily-design-system-react-headless` | npm | **0.3.1** |
-| `lily-design-system-vue-headless` | npm | **0.3.1** |
-| `lily-design-system-html-headless` | npm | **0.1.0** |
-| `lily-design-system-angular-headless` | npm | **0.1.0** |
-| `lily-design-system-nunjucks-headless` | npm | **0.1.0** |
+| `@lilydesignsystem/svelte-headless` | npm | **0.3.1** |
+| `@lilydesignsystem/react-headless` | npm | **0.3.1** |
+| `@lilydesignsystem/vue-headless` | npm | **0.3.1** |
+| `@lilydesignsystem/html-headless` | npm | **0.1.0** |
+| `@lilydesignsystem/angular-headless` | npm | **0.1.0** |
+| `@lilydesignsystem/nunjucks-headless` | npm | **0.1.0** |
 | `LilyDesignSystem.Blazor.Headless` | NuGet | **0.1.1** |
 | All 30 JavaScript helper packages (6 frameworks × 5 helpers) | npm | **0.1.0** |
 | The 5 Blazor helper packages | NuGet | **0.1.0** |
@@ -78,12 +78,12 @@ import.
 ### Svelte 5
 
 ```sh
-npm install lily-design-system-svelte-headless
+npm install @lilydesignsystem/svelte-headless
 ```
 
 ```svelte
 <script>
-  import { BreadcrumbNav, BreadcrumbList, BreadcrumbListItem } from "lily-design-system-svelte-headless";
+  import { BreadcrumbNav, BreadcrumbList, BreadcrumbListItem } from "@lilydesignsystem/svelte-headless";
 </script>
 
 <BreadcrumbNav label="Breadcrumb">
@@ -97,11 +97,11 @@ npm install lily-design-system-svelte-headless
 ### React 18 or 19
 
 ```sh
-npm install lily-design-system-react-headless
+npm install @lilydesignsystem/react-headless
 ```
 
 ```jsx
-import { BreadcrumbNav, BreadcrumbList, BreadcrumbListItem } from "lily-design-system-react-headless";
+import { BreadcrumbNav, BreadcrumbList, BreadcrumbListItem } from "@lilydesignsystem/react-headless";
 
 export function Crumbs() {
   return (
@@ -118,12 +118,12 @@ export function Crumbs() {
 ### Vue 3
 
 ```sh
-npm install lily-design-system-vue-headless
+npm install @lilydesignsystem/vue-headless
 ```
 
 ```vue
 <script setup>
-import { BreadcrumbNav, BreadcrumbList, BreadcrumbListItem } from "lily-design-system-vue-headless";
+import { BreadcrumbNav, BreadcrumbList, BreadcrumbListItem } from "@lilydesignsystem/vue-headless";
 </script>
 
 <template>
@@ -139,7 +139,7 @@ import { BreadcrumbNav, BreadcrumbList, BreadcrumbListItem } from "lily-design-s
 ### HTML (framework-free)
 
 ```sh
-npm install lily-design-system-html-headless
+npm install @lilydesignsystem/html-headless
 ```
 
 The payload is 491 annotated semantic-HTML snippet files under
@@ -150,7 +150,7 @@ build tooling.
 ### Angular 22
 
 ```sh
-npm install lily-design-system-angular-headless
+npm install @lilydesignsystem/angular-headless
 ```
 
 An ng-packagr APF bundle: standalone, signal-based, OnPush components,
@@ -159,7 +159,7 @@ compiled by your Angular CLI build via the Angular Linker.
 ### Nunjucks
 
 ```sh
-npm install lily-design-system-nunjucks-headless
+npm install @lilydesignsystem/nunjucks-headless
 ```
 
 Add the exported `templatesDir` to your nunjucks `FileSystemLoader` search
@@ -188,11 +188,11 @@ The six helpers are `theme-picker`, `locale-picker`, `text-size-picker`,
 `lily-design-system-{framework}-{helper}`.
 
 ```sh
-npm install lily-design-system-react-theme-picker
+npm install @lilydesignsystem/react-theme-picker
 ```
 
 ```jsx
-import { ThemePicker } from "lily-design-system-react-theme-picker";
+import { ThemePicker } from "@lilydesignsystem/react-theme-picker";
 
 <ThemePicker
   label="Choose a theme"

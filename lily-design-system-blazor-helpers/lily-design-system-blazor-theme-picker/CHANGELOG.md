@@ -417,7 +417,7 @@ Initial release.
 ##### Parity
 
 This is a direct port of the Svelte canonical
-`lily-design-system-svelte-theme-picker` v0.1.0. The DOM contract,
+`@lilydesignsystem/svelte-theme-picker` v0.1.0. The DOM contract,
 managed-link discriminator, initial-value resolution, and apply
 order match clause-for-clause.
 

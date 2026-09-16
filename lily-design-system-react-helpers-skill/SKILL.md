@@ -8,22 +8,22 @@ license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 
 The React `*-picker` catalog ships six small, opinionated React 19
 packages that sit alongside the headless
-`lily-design-system-react-headless` library. Where a headless
+`@lilydesignsystem/react-headless` library. Where a headless
 component is a pure markup primitive, a helper owns one whole
 interaction end to end — selection, DOM application, and (for most of
 them) optional persistence. Each is its own npm package:
 
 | Package                                          | Owns                                                                      |
 | ------------------------------------------------- | -------------------------------------------------------------------------- |
-| `lily-design-system-react-theme-picker`          | A visual theme: swaps a managed `<link>` stylesheet and sets `data-theme` on the document root; pairs with the root `themes/` stylesheets. |
-| `lily-design-system-react-locale-picker`         | A BCP 47 locale: sets `lang` and `dir` (auto-detected per script) on the document root. No translation. |
-| `lily-design-system-react-text-size-picker`      | A text-size preference: sets `data-text-size` on the document root.       |
-| `lily-design-system-react-motion-picker`         | A reduced-motion preference: sets `data-motion` on the document root. Its initial value defers to the OS's own `(prefers-reduced-motion: reduce)` media query **unconditionally**, not behind an opt-in flag — the one behavioural difference from the three preference siblings above. |
-| `lily-design-system-react-share-picker`          | An *action*, not a preference: opens the native share sheet where available, else a disclosure list of consumer-supplied destinations plus copy-to-clipboard. Applies nothing, persists nothing. |
-| `lily-design-system-react-date-time-picker`      | A *form value*, not a preference: a typeable text field paired with a trigger that opens an APG date-picker dialog. Applies nothing, persists nothing. |
+| `@lilydesignsystem/react-theme-picker`          | A visual theme: swaps a managed `<link>` stylesheet and sets `data-theme` on the document root; pairs with the root `themes/` stylesheets. |
+| `@lilydesignsystem/react-locale-picker`         | A BCP 47 locale: sets `lang` and `dir` (auto-detected per script) on the document root. No translation. |
+| `@lilydesignsystem/react-text-size-picker`      | A text-size preference: sets `data-text-size` on the document root.       |
+| `@lilydesignsystem/react-motion-picker`         | A reduced-motion preference: sets `data-motion` on the document root. Its initial value defers to the OS's own `(prefers-reduced-motion: reduce)` media query **unconditionally**, not behind an opt-in flag — the one behavioural difference from the three preference siblings above. |
+| `@lilydesignsystem/react-share-picker`          | An *action*, not a preference: opens the native share sheet where available, else a disclosure list of consumer-supplied destinations plus copy-to-clipboard. Applies nothing, persists nothing. |
+| `@lilydesignsystem/react-date-time-picker`      | A *form value*, not a preference: a typeable text field paired with a trigger that opens an APG date-picker dialog. Applies nothing, persists nothing. |
 
 ```bash
-pnpm install lily-design-system-react-theme-picker
+pnpm install @lilydesignsystem/react-theme-picker
 ```
 
 (each helper installs the same way, under its own package name.)

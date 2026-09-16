@@ -10,7 +10,7 @@ agent-skills plan this subproject is part of.
 
 An **umbrella Claude Skill** for Svelte: it ties together the three real
 Svelte subprojects in this monorepo — the headless component library
-([`lily-design-system-svelte-headless`](../../lily-design-system-svelte-headless/)),
+([`@lilydesignsystem/svelte-headless`](../../lily-design-system-svelte-headless/)),
 the `*-picker` helpers catalog
 ([`lily-design-system-svelte-helpers`](../../lily-design-system-svelte-helpers/),
 which is also the **canonical** reference every other framework's helpers
@@ -64,7 +64,7 @@ helpers skill.
 - Restating `AGENTS/*.md` in full — `SKILL.md` points at the loaded
   `AGENTS/*.md` files rather than duplicating their rules.
 - Any component, helper, or example-app implementation. Component source
-  lives in `lily-design-system-svelte-headless`, helper source in
+  lives in `@lilydesignsystem/svelte-headless`, helper source in
   `lily-design-system-svelte-helpers`, and example pages in
   `lily-design-system-svelte-sveltekit-examples` — none of it here.
 - Framework-agnostic Lily concepts already covered by
@@ -86,7 +86,7 @@ to run beyond `bin/test`'s required-files checks.
       (symlink), `AGENTS.md`, `CLAUDE.md`, `spec/index.md`,
       `.git-subtree-push`.
 - [x] `SKILL.md` states only facts verified against the real
-      `lily-design-system-svelte-headless`, `lily-design-system-svelte-helpers`,
+      `@lilydesignsystem/svelte-headless`, `lily-design-system-svelte-helpers`,
       and `lily-design-system-svelte-sveltekit-examples` subprojects (the
       SvelteKit example app's required + composed routes, its
       `e2e/axe-catalog.spec.ts` and `e2e/visual-regression.spec.ts` files,

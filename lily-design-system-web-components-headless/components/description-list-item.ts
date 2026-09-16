@@ -10,7 +10,7 @@
 // describes the component itself building a <dt>/<dd> pair from `term`
 // / `description` props, but that shape is not what any of the actual
 // cross-catalog implementations render (verified against
-// lily-design-system-svelte-headless and lily-design-system-html-headless,
+// @lilydesignsystem/svelte-headless and @lilydesignsystem/html-headless,
 // both of which render exactly this: a plain div with an optional
 // aria-label and a children slot, no dt/dd). Followed the real,
 // consistently-implemented contract rather than the unimplemented prose.

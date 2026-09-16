@@ -1,6 +1,6 @@
 # LocalePicker — Specification (Nunjucks)
 
-Single source of truth for the `lily-design-system-nunjucks-locale-picker`
+Single source of truth for the `@lilydesignsystem/nunjucks-locale-picker`
 Nunjucks helper. This file drives implementation, testing, and
 documentation in the spec-driven-development style: anything not in
 this spec is out of scope; anything in this spec must be exercised by
@@ -17,7 +17,7 @@ Sibling files in this directory:
   names (verbatim copy of the Svelte canonical)
 - `index.md` — user-facing readme
 
-The headless `lily-design-system-nunjucks-headless` library does not
+The headless `@lilydesignsystem/nunjucks-headless` library does not
 (yet) include a canonical `LocalePicker`; this helper is the
 opinionated, reusable counterpart split into a Nunjucks macro and a
 client-side JS module.

@@ -13,10 +13,10 @@ and the project follows
 
 - **All four helpers renamed to `*-picker`, and all four reset to
   0.1.0.** The packages are now
-  `lily-design-system-html-theme-picker`,
-  `lily-design-system-html-locale-picker`,
-  `lily-design-system-html-text-size-picker`, and
-  `lily-design-system-html-share-picker`. Nothing had been published
+  `@lilydesignsystem/html-theme-picker`,
+  `@lilydesignsystem/html-locale-picker`,
+  `@lilydesignsystem/html-text-size-picker`, and
+  `@lilydesignsystem/html-share-picker`. Nothing had been published
   under the new names, so each version resets to 0.1.0 rather than
   implying releases that never existed. The rename also clears the
   collision between the old `theme-picker` helper and the Lily catalog
@@ -48,7 +48,7 @@ and the project follows
 ### Added
 
 - **`share-picker` 0.1.0** — a new helper, ported from the canonical
-  `lily-design-system-svelte-share-picker`. A single-glyph trigger (➤,
+  `@lilydesignsystem/svelte-share-picker`. A single-glyph trigger (➤,
   U+27A4) that opens the **native share sheet** where the browser
   provides one, and otherwise a **disclosure list** of consumer-supplied
   destinations plus an optional copy-the-URL action. Ships no CSS, no
@@ -194,13 +194,13 @@ catalog to vanilla web-component (custom-element) idioms:
 
 ### Added
 
-- `lily-design-system-html-theme-picker` v0.1.0 — `<theme-picker>`
+- `@lilydesignsystem/html-theme-picker` v0.1.0 — `<theme-picker>`
   runtime-loading theme picker. Imperatively swaps a managed
   `<link rel="stylesheet" data-lily-theme-picker="{name}">` in
   `<head>`, writes `data-theme` to `<html>`, optionally persists to
   `localStorage`, dispatches a `themechange` `CustomEvent`. 13
   acceptance criteria covered.
-- `lily-design-system-html-locale-picker` v0.1.0 — `<locale-picker>`
+- `@lilydesignsystem/html-locale-picker` v0.1.0 — `<locale-picker>`
   BCP 47 locale picker that writes `lang` and `dir` on the document
   root, with optional `localStorage` persistence and
   `navigator.languages` detection. Built-in 436-row locale-name

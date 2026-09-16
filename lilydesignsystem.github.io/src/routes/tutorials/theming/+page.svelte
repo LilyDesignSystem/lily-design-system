@@ -81,7 +81,7 @@
   </p>
   <!-- `<` + `script>` keeps the literal tag out of the Svelte compiler's view. -->
   <pre><code>{`<` + `script>
-  import ThemePicker from "lily-design-system-svelte-theme-picker";
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
 </` + `script>
 
 <ThemePicker

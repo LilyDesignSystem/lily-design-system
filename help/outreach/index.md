@@ -78,8 +78,8 @@ The project currently gives four different answers to "may I use this at work?":
 | --- | --- |
 | [LICENSE.md](../../LICENSE.md) | `CC BY-NC-SA` — **non-commercial**, share-alike, and a *content* licence, not a software licence |
 | [spec/index.md](../../spec/index.md) §14 | "MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause (or contact for other terms)" |
-| `lily-design-system-svelte-headless` on npm | `MIT` |
-| `lily-design-system-react-headless`, `…-vue-headless` on npm | `ISC` |
+| `@lilydesignsystem/svelte-headless` on npm | `MIT` |
+| `@lilydesignsystem/react-headless`, `…-vue-headless` on npm | `ISC` |
 
 Meanwhile [index.md](../../index.md) and the website both say "free open source".
 CC BY-NC-SA is not an open-source licence, is not OSI-approved, and its `NC` clause
@@ -99,12 +99,12 @@ The site promises seven frameworks. npm has three:
 
 | Package | npm latest | Downloads/mo (2026-07-26 → 08-24) |
 | --- | --- | --- |
-| `lily-design-system-svelte-headless` | 0.3.0 | 183 |
-| `lily-design-system-vue-headless` | 0.3.0 | 173 |
-| `lily-design-system-react-headless` | 0.3.0 | 161 |
-| `lily-design-system-html-headless` | — not published | — |
-| `lily-design-system-angular-headless` | — not published | — |
-| `lily-design-system-nunjucks-headless` | — not published | — |
+| `@lilydesignsystem/svelte-headless` | 0.3.0 | 183 |
+| `@lilydesignsystem/vue-headless` | 0.3.0 | 173 |
+| `@lilydesignsystem/react-headless` | 0.3.0 | 161 |
+| `@lilydesignsystem/html-headless` | — not published | — |
+| `@lilydesignsystem/angular-headless` | — not published | — |
+| `@lilydesignsystem/nunjucks-headless` | — not published | — |
 | `lily-design-system-blazor-headless` | — not published (NuGet) | — |
 
 An Angular or Blazor developer arriving from an Angular or Blazor pitch finds nothing
@@ -118,7 +118,7 @@ site → understand what Lily is → copy something → have it render. The site
 this well (three-step quick start, per-framework tutorials, a searchable catalog with
 live demos). Verify specifically that (a) the npm install path in each tutorial matches
 the published package name and version, (b) the helper packages' dependency lists are
-honest — `lily-design-system-svelte-theme-picker` currently declares `@sveltejs/kit` as
+honest — `@lilydesignsystem/svelte-theme-picker` currently declares `@sveltejs/kit` as
 a runtime `dependency`, which pulls a framework into any consumer's tree and will be
 read as carelessness by exactly the reviewers Lily wants, and (c) `CONTRIBUTING.md`
 exists — a project inviting collaboration with no contribution guide converts interest

@@ -49,17 +49,17 @@ lily-design-system/                              ← canonical catalog + tools
 
 | Framework | Headless library | Example app |
 | --- | --- | --- |
-| HTML | `lily-design-system-html-headless` | `lily-design-system-html-css-js-examples` |
-| Svelte | `lily-design-system-svelte-headless` | `lily-design-system-svelte-sveltekit-examples` |
-| React | `lily-design-system-react-headless` | `lily-design-system-react-next-examples` |
-| Vue | `lily-design-system-vue-headless` | `lily-design-system-vue-nuxt-examples` |
-| Angular | `lily-design-system-angular-headless` | `lily-design-system-angular-examples` |
+| HTML | `@lilydesignsystem/html-headless` | `lily-design-system-html-css-js-examples` |
+| Svelte | `@lilydesignsystem/svelte-headless` | `lily-design-system-svelte-sveltekit-examples` |
+| React | `@lilydesignsystem/react-headless` | `lily-design-system-react-next-examples` |
+| Vue | `@lilydesignsystem/vue-headless` | `lily-design-system-vue-nuxt-examples` |
+| Angular | `@lilydesignsystem/angular-headless` | `lily-design-system-angular-examples` |
 | Blazor | `lily-design-system-blazor-headless` | `lily-design-system-blazor-web-examples` |
-| Nunjucks | `lily-design-system-nunjucks-headless` | `lily-design-system-nunjucks-eleventy-examples` |
+| Nunjucks | `@lilydesignsystem/nunjucks-headless` | `lily-design-system-nunjucks-eleventy-examples` |
 
 Headless libraries ship unstyled, accessible components; example apps demonstrate them with a full stylesheet and the three required routes (see [examples](../examples/index.md)).
 
-An 8th headless library sits outside the pairs: `lily-design-system-web-components-headless` (added 2026-09-03, reached its full achievable scope 2026-09-06) ships 456 of the 491 components as native custom elements with no framework runtime and no example app — the other 35 are permanently excluded by a real architectural limitation, not open backlog. Its own `spec/index.md` records the architecture decisions (autonomous custom elements, light DOM only) and the exact scope.
+An 8th headless library sits outside the pairs: `@lilydesignsystem/web-components-headless` (added 2026-09-03, reached its full achievable scope 2026-09-06) ships 456 of the 491 components as native custom elements with no framework runtime and no example app — the other 35 are permanently excluded by a real architectural limitation, not open backlog. Its own `spec/index.md` records the architecture decisions (autonomous custom elements, light DOM only) and the exact scope.
 
 ## Helper catalogs
 
@@ -78,7 +78,7 @@ origin  push : git@codeberg.org:LilyDesignSystem/lily-design-system.git
 origin  push : git@gitlab.com:LilyDesignSystem/lily-design-system.git
 ```
 
-The same one-fetch / three-push pattern applies to every subproject remote (e.g. `lily-design-system-react-headless`). Subtree remote configuration for each subproject lives in its `.git-subtree-push` file.
+The same one-fetch / three-push pattern applies to every subproject remote (e.g. `@lilydesignsystem/react-headless`). Subtree remote configuration for each subproject lives in its `.git-subtree-push` file.
 
 ## Required files per subproject
 
@@ -106,12 +106,12 @@ Every `components/{slug}/` directory (491 of them) carries:
 ## Acceptance criteria
 
 - [x] All 7 headless and 7 example subprojects exist at the documented paths.
-- [x] `lily-design-system-web-components-headless` exists at the documented path and its `spec/index.md` states its final (2026-09-06: 456/491, the full achievable scope) accounting.
+- [x] `@lilydesignsystem/web-components-headless` exists at the documented path and its `spec/index.md` states its final (2026-09-06: 456/491, the full achievable scope) accounting.
 - [x] All 7 per-framework helper catalogs exist.
 - [x] All 491 component directories carry the required component files.
 - [x] Every subproject carries `index.md`, `README.md` symlink, `AGENTS.md`, `CLAUDE.md`, spec/plan/tasks, and `.git-subtree-push`.
 - [x] `AGENTS.md` / `AGENTS/*.md` are canonical at the root and rsynced (not symlinked) into subprojects.
-- [x] Each subproject is a git subtree pushable to its own standalone remote via `bin/git-subtree-push`. `lily-design-system-web-components-headless` and `lily-design-system-web-components-helpers` had no remote configured at all as of 2026-09-05; fixed 2026-09-06 (GitHub repos created, `bin/git-subtree-push` run for both, confirmed pushed). Every subproject and skill now has at least a working GitHub remote — the remaining gap (GitLab/Codeberg fan-out for the 2026-09-04/05 additions) is tracked separately below.
+- [x] Each subproject is a git subtree pushable to its own standalone remote via `bin/git-subtree-push`. `@lilydesignsystem/web-components-headless` and `lily-design-system-web-components-helpers` had no remote configured at all as of 2026-09-05; fixed 2026-09-06 (GitHub repos created, `bin/git-subtree-push` run for both, confirmed pushed). Every subproject and skill now has at least a working GitHub remote — the remaining gap (GitLab/Codeberg fan-out for the 2026-09-04/05 additions) is tracked separately below.
 - [ ] Each subproject remote fans out to GitHub, Codeberg, and GitLab on push. Confirmed gap, not stale: the original 22 subprojects do have 3-way `pushurl` fan-out (verified via `git config --get-regexp 'remote\..*\.pushurl'`), but the 26 new Claude Skill subprojects added 2026-09-04/05 and the two `web-components-*` subprojects have only a single GitHub `url` and no `pushurl` fan-out at all (verified directly — zero matches for `skill|web-components` in the pushurl config). GitLab push-to-create defaults private (no API token here to flip it) and Codeberg disables push-to-create for orgs, per CHANGELOG.md 2026-09-05.
 - [x] `bin/test` passes against the repository, all components, and all subprojects.
 

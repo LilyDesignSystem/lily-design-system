@@ -14,10 +14,10 @@ header control.
 ## Install
 
 ```sh
-npm install lily-design-system-web-components-picker-bar
+npm install @lilydesignsystem/web-components-picker-bar
 ```
 
-`lily-design-system-web-components-theme-picker`, `-locale-picker`,
+`@lilydesignsystem/web-components-theme-picker`, `-locale-picker`,
 `-text-size-picker`, and `-share-picker` install automatically as
 regular dependencies — `<lily-picker-bar>` is a thin wrapper around
 them, not a reimplementation.
@@ -26,7 +26,7 @@ them, not a reimplementation.
 
 ```html
 <script type="module">
-  import "lily-design-system-web-components-picker-bar";
+  import "@lilydesignsystem/web-components-picker-bar";
 </script>
 
 <lily-picker-bar id="header-picker-bar" themes-url="/assets/themes/"></lily-picker-bar>
@@ -76,7 +76,7 @@ copy-to-URL if you add `bar.shareProps = { copyLabel: "Copy link" }`.
 Both are exported as named constants:
 
 ```js
-import { DEFAULT_THEMES, DEFAULT_SIZES } from "lily-design-system-web-components-picker-bar";
+import { DEFAULT_THEMES, DEFAULT_SIZES } from "@lilydesignsystem/web-components-picker-bar";
 ```
 
 ## Passing extra properties to one picker

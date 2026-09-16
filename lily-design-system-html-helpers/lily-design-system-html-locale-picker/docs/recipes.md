@@ -1,7 +1,7 @@
 # Recipes
 
 Task-shaped snippets. Each is self-contained; each assumes the element
-is registered (`import "lily-design-system-html-locale-picker"`) and
+is registered (`import "@lilydesignsystem/html-locale-picker"`) and
 that you have applied at least the positioning CSS from
 [styling.md](./styling.md).
 
@@ -31,7 +31,7 @@ the wrong language and keeps cached HTML unambiguous. Reuse the same
 matching rule the element uses so client and server never disagree:
 
 ```ts
-import { matchNavigatorLanguage } from "lily-design-system-html-locale-picker";
+import { matchNavigatorLanguage } from "@lilydesignsystem/html-locale-picker";
 
 const SUPPORTED = ["en", "fr", "de", "ar"];
 
@@ -188,7 +188,7 @@ Two-letter codes are a common alternative to the globe glyph. Subclass
 and override the tier-1 hook; the base class keeps all aria wiring:
 
 ```ts
-import { LocalePicker } from "lily-design-system-html-locale-picker";
+import { LocalePicker } from "@lilydesignsystem/html-locale-picker";
 
 class CodeLocalePicker extends LocalePicker {
   renderButtonContent(): Node {
@@ -243,7 +243,7 @@ The element still writes `lang`, still persists, still fires
 the rule stays identical:
 
 ```ts
-import { isRtlLocale } from "lily-design-system-html-locale-picker";
+import { isRtlLocale } from "@lilydesignsystem/html-locale-picker";
 router.afterEach(() => {
   document.documentElement.dir = isRtlLocale(currentLocale) ? "rtl" : "ltr";
 });

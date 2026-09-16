@@ -24,7 +24,7 @@ pnpm build    # ng-packagr → dist/
 ## Consumer usage
 
 ```ts
-import { Button, TextInput } from "lily-design-system-angular-headless";
+import { Button, TextInput } from "@lilydesignsystem/angular-headless";
 
 @Component({
   standalone: true,

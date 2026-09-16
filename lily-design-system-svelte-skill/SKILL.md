@@ -13,7 +13,7 @@ the helpers catalog in depth. It does not restate their content.
 
 ## The three subprojects
 
-- **[`lily-design-system-svelte-headless`](../lily-design-system-svelte-headless/)**
+- **[`@lilydesignsystem/svelte-headless`](../lily-design-system-svelte-headless/)**
   — the headless component library. Published to npm; the library you
   actually depend on and style yourself. Semantic HTML, ARIA, focus
   management, and keyboard behaviour, **no CSS**. Reach for this when the

@@ -1,5 +1,5 @@
 {
-  "name": "lily-design-system-svelte-motion-picker",
+  "name": "@lilydesignsystem/svelte-motion-picker",
   "version": "0.1.0",
   "engines": {
     "node": "=26"

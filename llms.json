@@ -46,7 +46,7 @@
     {
       "title": "Subprojects",
       "links": [
-        { "title": "lily-design-system-svelte-headless", "url": "lily-design-system-svelte-headless/index.md", "description": "The canonical Svelte 5 headless library; other framework catalogs port from it." },
+        { "title": "@lilydesignsystem/svelte-headless", "url": "lily-design-system-svelte-headless/index.md", "description": "The canonical Svelte 5 headless library; other framework catalogs port from it." },
         { "title": "lily-design-system-svelte-sveltekit-examples", "url": "lily-design-system-svelte-sveltekit-examples/index.md", "description": "Fully styled reference app demonstrating the same catalog." },
         { "title": "lily-design-system-svelte-helpers", "url": "lily-design-system-svelte-helpers/index.md", "description": "The canonical theme/locale/text-size/share/date-time picker catalog." },
         { "title": "lily-design-system-skill", "url": "lily-design-system-skill/SKILL.md", "description": "General-purpose Claude Skill explaining Lily concepts and usage to people building with the system." },

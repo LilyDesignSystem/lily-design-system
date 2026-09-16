@@ -1,7 +1,7 @@
 # Examples
 
 Self-contained React 19 examples for
-`lily-design-system-react-theme-picker`. Each file is a runnable
+`@lilydesignsystem/react-theme-picker`. Each file is a runnable
 component that can be dropped into any React 19 host (Next.js App
 Router page, Vite + React route, Remix route, Astro `.tsx` island,
 Storybook story).

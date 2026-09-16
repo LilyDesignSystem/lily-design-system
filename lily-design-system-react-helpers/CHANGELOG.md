@@ -13,10 +13,10 @@ their package changes.
 
   | Was                                         | Now                                         |
   | ------------------------------------------- | ------------------------------------------- |
-  | `lily-design-system-react-theme-select`     | `lily-design-system-react-theme-picker`     |
-  | `lily-design-system-react-locale-select`    | `lily-design-system-react-locale-picker`    |
-  | `lily-design-system-react-text-size-select` | `lily-design-system-react-text-size-picker` |
-  | `lily-design-system-react-share-button`     | `lily-design-system-react-share-picker`     |
+  | `lily-design-system-react-theme-select`     | `@lilydesignsystem/react-theme-picker`     |
+  | `lily-design-system-react-locale-select`    | `@lilydesignsystem/react-locale-picker`    |
+  | `lily-design-system-react-text-size-select` | `@lilydesignsystem/react-text-size-picker` |
+  | `lily-design-system-react-share-button`     | `@lilydesignsystem/react-share-picker`     |
 
   The rename is full-depth: directories, file names (`ThemePicker.tsx` →
   `ThemePicker.tsx` and so on), package ids, exported symbols
@@ -105,9 +105,9 @@ and `*-share-button`.
 ### Added
 
 - Initial catalog scaffold with two helpers:
-  - [`lily-design-system-react-theme-picker`](./lily-design-system-react-theme-picker/)
+  - [`@lilydesignsystem/react-theme-picker`](./lily-design-system-react-theme-picker/)
     — dynamic theme CSS loader (`<link>` swap + `data-theme`).
-  - [`lily-design-system-react-locale-picker`](./lily-design-system-react-locale-picker/)
+  - [`@lilydesignsystem/react-locale-picker`](./lily-design-system-react-locale-picker/)
     — `lang` + `dir` locale picker with BCP 47 normalisation and
     optional `navigator.languages` detection.
 - Parent README (`index.md`) describing the catalog conventions:

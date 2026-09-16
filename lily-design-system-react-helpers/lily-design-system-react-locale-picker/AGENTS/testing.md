@@ -501,7 +501,7 @@ test("§7.21 — detectFromNavigator picks first matching language", async () =>
 ## Running the suite
 
 ```bash
-cd lily-design-system-react-helpers/lily-design-system-react-locale-picker
+cd lily-design-system-react-helpers/@lilydesignsystem/react-locale-picker
 pnpm vitest run
 ```
 

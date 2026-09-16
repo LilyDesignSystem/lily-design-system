@@ -1,7 +1,7 @@
 # Lily Design System™ — React Helpers
 
 A catalog of opinionated, reusable React 19 helper components that sit
-alongside the headless [`lily-design-system-react-headless`](../lily-design-system-react-headless/)
+alongside the headless [`@lilydesignsystem/react-headless`](../lily-design-system-react-headless/)
 library. Where the headless library ships pure markup primitives,
 these helpers wrap a complete lifecycle (selection + persistence +
 DOM application) for one small, common job.
@@ -10,13 +10,13 @@ DOM application) for one small, common job.
 
 | Helper                                                                                      | Purpose                                                                         |
 | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
-| [`lily-design-system-react-theme-picker`](./lily-design-system-react-theme-picker/)         | Pick a visual theme; dynamic CSS load + `data-theme` swap.                      |
-| [`lily-design-system-react-locale-picker`](./lily-design-system-react-locale-picker/)       | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.                 |
-| [`lily-design-system-react-text-size-picker`](./lily-design-system-react-text-size-picker/) | Pick a text size; sets `data-text-size` on the document root.                   |
-| [`lily-design-system-react-motion-picker`](./lily-design-system-react-motion-picker/)       | Pick a motion (reduced-motion) preference; sets `data-motion` on the document root, defaulting to the OS's own `(prefers-reduced-motion: reduce)` signal. |
-| [`lily-design-system-react-share-picker`](./lily-design-system-react-share-picker/)         | Share the page: native share sheet, else a list of destinations + copy the URL. |
-| [`lily-design-system-react-date-time-picker`](./lily-design-system-react-date-time-picker/) | Collect a date, a time, or both: a typeable text field plus an APG Date Picker Dialog. |
-| [`lily-design-system-react-picker-bar`](./lily-design-system-react-picker-bar/)             | Compose theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row, with all 45 reference themes and the seven-step text-size scale pre-wired. |
+| [`@lilydesignsystem/react-theme-picker`](./lily-design-system-react-theme-picker/)         | Pick a visual theme; dynamic CSS load + `data-theme` swap.                      |
+| [`@lilydesignsystem/react-locale-picker`](./lily-design-system-react-locale-picker/)       | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.                 |
+| [`@lilydesignsystem/react-text-size-picker`](./lily-design-system-react-text-size-picker/) | Pick a text size; sets `data-text-size` on the document root.                   |
+| [`@lilydesignsystem/react-motion-picker`](./lily-design-system-react-motion-picker/)       | Pick a motion (reduced-motion) preference; sets `data-motion` on the document root, defaulting to the OS's own `(prefers-reduced-motion: reduce)` signal. |
+| [`@lilydesignsystem/react-share-picker`](./lily-design-system-react-share-picker/)         | Share the page: native share sheet, else a list of destinations + copy the URL. |
+| [`@lilydesignsystem/react-date-time-picker`](./lily-design-system-react-date-time-picker/) | Collect a date, a time, or both: a typeable text field plus an APG Date Picker Dialog. |
+| [`@lilydesignsystem/react-picker-bar`](./lily-design-system-react-picker-bar/)             | Compose theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row, with all 45 reference themes and the seven-step text-size scale pre-wired. |
 
 `picker-bar` owns no preference/action/form-value of its own — it is a
 **composition**, depending on the four wrapped pickers as real npm
@@ -83,7 +83,7 @@ Shared design decisions across the catalog:
 
 The headless library mirrors the canonical 490-component catalog.
 Each component is a pure container with no lifecycle. A consumer
-typing on top of `ThemePicker` from `lily-design-system-react-headless`
+typing on top of `ThemePicker` from `@lilydesignsystem/react-headless`
 writes their own select markup, their own persistence, and their own
 loading.
 

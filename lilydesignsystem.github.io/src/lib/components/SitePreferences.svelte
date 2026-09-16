@@ -12,9 +12,9 @@
   pickers" section there.
 -->
 <script lang="ts">
-  import ThemePicker from 'lily-design-system-svelte-theme-picker';
-  import TextSizePicker from 'lily-design-system-svelte-text-size-picker';
-  import SharePicker, { type ShareTarget } from 'lily-design-system-svelte-share-picker';
+  import ThemePicker from '@lilydesignsystem/svelte-theme-picker';
+  import TextSizePicker from '@lilydesignsystem/svelte-text-size-picker';
+  import SharePicker, { type ShareTarget } from '@lilydesignsystem/svelte-share-picker';
 
   // The full 45-theme reference catalog, copied from the root themes/
   // directory into static/assets/themes/ at build time (see

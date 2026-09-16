@@ -36,7 +36,7 @@ treats deferring to it as the default.
 ```
 
 ```js
-import { autoInit } from "lily-design-system-nunjucks-motion-picker";
+import { autoInit } from "@lilydesignsystem/nunjucks-motion-picker";
 autoInit();
 ```
 

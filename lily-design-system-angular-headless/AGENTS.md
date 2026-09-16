@@ -10,7 +10,7 @@
 
 ## Metadata
 
-- Package: lily-design-system-angular-headless
+- Package: @lilydesignsystem/angular-headless
 - Version: 0.3.0
 - Created: 2026-05-28
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause or contact us for more
@@ -146,7 +146,7 @@ describe("Button", () => {
 exports map. Consumers install the package and import directly:
 
 ```ts
-import { Button } from "lily-design-system-angular-headless";
+import { Button } from "@lilydesignsystem/angular-headless";
 ```
 
 ## File structure

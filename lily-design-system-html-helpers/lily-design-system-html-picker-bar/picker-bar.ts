@@ -13,28 +13,28 @@
  */
 
 // Side-effect imports: each registers its own custom element.
-import "lily-design-system-html-theme-picker";
-import "lily-design-system-html-locale-picker";
-import "lily-design-system-html-text-size-picker";
-import "lily-design-system-html-share-picker";
+import "@lilydesignsystem/html-theme-picker";
+import "@lilydesignsystem/html-locale-picker";
+import "@lilydesignsystem/html-text-size-picker";
+import "@lilydesignsystem/html-share-picker";
 
 import type {
   ThemePicker,
   ThemePickerProps,
-} from "lily-design-system-html-theme-picker";
+} from "@lilydesignsystem/html-theme-picker";
 import type {
   LocalePicker,
   LocalePickerProps,
-} from "lily-design-system-html-locale-picker";
+} from "@lilydesignsystem/html-locale-picker";
 import type {
   TextSizePicker,
   TextSizePickerProps,
-} from "lily-design-system-html-text-size-picker";
+} from "@lilydesignsystem/html-text-size-picker";
 import type {
   SharePicker,
   SharePickerProps,
   ShareTarget,
-} from "lily-design-system-html-share-picker";
+} from "@lilydesignsystem/html-share-picker";
 
 export type { ShareTarget };
 

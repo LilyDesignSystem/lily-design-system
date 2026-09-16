@@ -9,7 +9,7 @@ A composed vanilla HTML/JS header control, packaged as the
 `<picker-bar>` custom element: renders `<theme-picker>`,
 `<locale-picker>`, `<text-size-picker>`, and `<share-picker>` — four of
 the six `*-picker` helpers — in that fixed order, each imported from
-its own published package (`lily-design-system-html-theme-picker`,
+its own published package (`@lilydesignsystem/html-theme-picker`,
 `-locale-picker`, `-text-size-picker`, `-share-picker`) as a real npm
 dependency, not vendored. Adds no lifecycle of its own beyond two
 catalog-specific defaults: the full 45-theme reference list (spec §5.1)
@@ -99,7 +99,7 @@ Every other package in this catalog has no `dependencies` field, so
 the shared `build.js` never had to mark anything `--external` before
 this package existed. `build.js` now reads each package's own
 `package.json#dependencies` and passes every entry to `tsup` as
-`--external`, so the bare `lily-design-system-html-theme-picker` (etc.)
+`--external`, so the bare `@lilydesignsystem/html-theme-picker` (etc.)
 imports in the built `dist/index.js` are left as real npm imports for
 a consumer's install to resolve, rather than tsup either erroring
 (can't resolve them locally — nothing installs siblings into

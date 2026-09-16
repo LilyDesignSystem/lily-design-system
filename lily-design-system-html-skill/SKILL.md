@@ -20,7 +20,7 @@ choice): [`lily-design-system-skill`](../lily-design-system-skill/).
 
 | Subproject | What it is | Reach for it when |
 | --- | --- | --- |
-| [`lily-design-system-html-headless`](../lily-design-system-html-headless/) | The full-catalog (491/491) headless component library: one self-contained `components/{slug}.html` file per component — an HTML comment header, semantic markup with ARIA and a kebab-case class, and, where needed, an embedded vanilla-JS `<script>` IIFE. Zero CSS. It is also the **reference implementation** every other framework binding mirrors. | You want the markup and behaviour for a component and will style it yourself; you're copying a snippet or including it server-side with no framework and no build step. |
+| [`@lilydesignsystem/html-headless`](../lily-design-system-html-headless/) | The full-catalog (491/491) headless component library: one self-contained `components/{slug}.html` file per component — an HTML comment header, semantic markup with ARIA and a kebab-case class, and, where needed, an embedded vanilla-JS `<script>` IIFE. Zero CSS. It is also the **reference implementation** every other framework binding mirrors. | You want the markup and behaviour for a component and will style it yourself; you're copying a snippet or including it server-side with no framework and no build step. |
 | [`lily-design-system-html-helpers`](../lily-design-system-html-helpers/) | Six vanilla-JS **custom elements** — `<theme-picker>`, `<locale-picker>`, `<text-size-picker>`, `<motion-picker>`, `<share-picker>`, `<date-time-picker>` — that sit alongside the headless library and each own one whole interaction (a page-header preference, an action, or a form value) end to end. | You need a page-header preference control, a share action, or a typeable date/time field — not a catalog component, a self-contained interactive widget. |
 | [`lily-design-system-html-css-js-examples`](../lily-design-system-html-css-js-examples/) | The styled reference application: every catalog component demonstrated live, NHS UK visual styling, and composed multi-component pages. | You want to see a component fully styled and running, or want working CSS to copy rather than write your own. |
 
@@ -93,7 +93,7 @@ this is where its contract lives.
 ## The Web Components catalogs are a different, separate pair
 
 Lily also ships two catalogs under `<lily-*>` tags —
-[`lily-design-system-web-components-headless`](../lily-design-system-web-components-headless/)
+[`@lilydesignsystem/web-components-headless`](../lily-design-system-web-components-headless/)
 (native custom elements, no framework runtime, but a deliberately **partial**
 456/491 catalog) and
 [`lily-design-system-web-components-helpers`](../lily-design-system-web-components-helpers/)

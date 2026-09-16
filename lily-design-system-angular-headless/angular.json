@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "lily-design-system-angular-headless": {
+    "@lilydesignsystem/angular-headless": {
       "projectType": "library",
       "root": ".",
       "sourceRoot": "components",
@@ -20,7 +20,7 @@
           "builder": "@storybook/angular:start-storybook",
           "options": {
             "configDir": ".storybook",
-            "browserTarget": "lily-design-system-angular-headless:build",
+            "browserTarget": "@lilydesignsystem/angular-headless:build",
             "tsConfig": ".storybook/tsconfig.json",
             "port": 6006,
             "compodoc": false
@@ -30,7 +30,7 @@
           "builder": "@storybook/angular:build-storybook",
           "options": {
             "configDir": ".storybook",
-            "browserTarget": "lily-design-system-angular-headless:build",
+            "browserTarget": "@lilydesignsystem/angular-headless:build",
             "tsConfig": ".storybook/tsconfig.json",
             "outputDir": "storybook-static",
             "compodoc": false

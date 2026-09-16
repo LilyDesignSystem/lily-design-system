@@ -11,7 +11,7 @@
 
 ## Metadata
 
-- Package: lily-design-system-nunjucks-headless
+- Package: @lilydesignsystem/nunjucks-headless
 - Version: 0.1.0
 - Created: 2026-04-18
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause or contact us for more
@@ -84,7 +84,7 @@ Each component lives in its own directory:
 ## Titles
 
 - PackagePascalCase: `LilyNunjucksHeadless`
-- package-kebab-case: `lily-design-system-nunjucks-headless`
+- package-kebab-case: `@lilydesignsystem/nunjucks-headless`
 - package_snake_case: `lily_nunjucks_headless`
 
 ## Helpers

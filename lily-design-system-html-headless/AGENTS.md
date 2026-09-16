@@ -10,7 +10,7 @@
 
 ## Metadata
 
-- Package: lily-design-system-html-headless
+- Package: @lilydesignsystem/html-headless
 - Version: 0.2.0
 - Created: 2026-03-08
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause or contact us for more
@@ -69,7 +69,7 @@ Each component has these files:
 ## Titles
 
 - PackagePascalCase: LilyHtmlHeadless
-- package-kebab-case: lily-design-system-html-headless
+- package-kebab-case: @lilydesignsystem/html-headless
 - package_snake_case: lily_html_headless
 
 ## Helpers

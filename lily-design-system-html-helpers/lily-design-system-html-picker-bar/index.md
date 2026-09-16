@@ -13,10 +13,10 @@ has no natural spot next to the other three header preferences, and
 ## Install
 
 ```sh
-npm install lily-design-system-html-picker-bar
+npm install @lilydesignsystem/html-picker-bar
 ```
 
-`lily-design-system-html-theme-picker`, `-locale-picker`,
+`@lilydesignsystem/html-theme-picker`, `-locale-picker`,
 `-text-size-picker`, and `-share-picker` install automatically as
 regular dependencies — `<picker-bar>` is a thin wrapper around them,
 not a reimplementation.
@@ -24,7 +24,7 @@ not a reimplementation.
 ## Usage
 
 ```js
-import "lily-design-system-html-picker-bar";
+import "@lilydesignsystem/html-picker-bar";
 
 const bar = document.createElement("picker-bar");
 bar.labels = {
@@ -81,7 +81,7 @@ same pattern elsewhere in this catalog.
 Both are exported as named constants:
 
 ```js
-import { DEFAULT_THEMES, DEFAULT_SIZES } from "lily-design-system-html-picker-bar";
+import { DEFAULT_THEMES, DEFAULT_SIZES } from "@lilydesignsystem/html-picker-bar";
 ```
 
 ## Passing extra configuration to one picker

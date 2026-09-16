@@ -4,6 +4,20 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.1.0 — 2026-09-16
+
+**Package renamed: `lily-design-system-nunjucks-text-size-picker` → `@lilydesignsystem/nunjucks-text-size-picker`.** npm scoped packages
+are registry-distinct from their unscoped counterparts, so this is a
+new package with no publish history of its own — version reset to
+`0.1.0` per this project's established rename precedent (the July
+2026 `*-select` → `*-picker` rename). No code or behaviour change
+relative to `lily-design-system-nunjucks-text-size-picker`'s last published version (`0.2.0`);
+its full changelog continues below, now read as history prior to the
+rescope. The old unscoped name is deprecated on the registry (never
+unpublished), pointing consumers here.
+
+---
+
 ## 0.2.0 — 2026-09-16
 
 ### Changed (BREAKING)
@@ -104,7 +118,7 @@ Accessibility hardening, ported from the canonical Svelte helper.
 ### Initial entry — 2026-07-21
 
 First release under the name
-`lily-design-system-nunjucks-text-size-picker`. The package was renamed
+`@lilydesignsystem/nunjucks-text-size-picker`. The package was renamed
 from `lily-design-system-nunjucks-text-size-select`; because no release
 has ever been published under the new name, the version restarts at
 0.1.0 rather than continuing the old 0.2.0 line. The rename brings the
@@ -134,7 +148,7 @@ hidden>` of `<li class="text-size-picker-option" role="option">`. Ids
 
 The entries below record this package's development under its
 former name. Nothing was ever published under the
-`lily-design-system-nunjucks-text-size-picker` name before 0.1.0 above,
+`@lilydesignsystem/nunjucks-text-size-picker` name before 0.1.0 above,
 so these version numbers do not describe releases of the current
 package. They are kept because the DOM contract, keyboard
 behaviour and breaking changes they describe are still the ones

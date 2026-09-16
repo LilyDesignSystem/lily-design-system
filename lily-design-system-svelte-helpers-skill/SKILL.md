@@ -52,20 +52,20 @@ Full per-helper contracts: `AGENTS/helpers.md` (loaded into this skill's
 ## Install
 
 Each helper is published as its own npm package. As verified against the
-live registry: `lily-design-system-svelte-theme-picker`,
+live registry: `@lilydesignsystem/svelte-theme-picker`,
 `-locale-picker`, `-text-size-picker`, `-share-picker`, and
 `-date-time-picker` are published (0.1.1); `-motion-picker` was not found
 on the registry as of this writing — check `npm view
-lily-design-system-svelte-motion-picker version` for current status
+@lilydesignsystem/svelte-motion-picker version` for current status
 before depending on it via npm rather than a workspace/folder import.
 
 ```sh
-pnpm add lily-design-system-svelte-theme-picker
+pnpm add @lilydesignsystem/svelte-theme-picker
 ```
 
 ```svelte
 <script lang="ts">
-  import { ThemePicker } from "lily-design-system-svelte-theme-picker";
+  import { ThemePicker } from "@lilydesignsystem/svelte-theme-picker";
 </script>
 ```
 

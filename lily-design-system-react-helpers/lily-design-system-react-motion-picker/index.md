@@ -27,7 +27,7 @@ size and colour scheme don't.
 
 ```tsx
 import { useState } from "react";
-import MotionPicker from "lily-design-system-react-motion-picker";
+import MotionPicker from "@lilydesignsystem/react-motion-picker";
 
 function Example() {
   const [motion, setMotion] = useState("");

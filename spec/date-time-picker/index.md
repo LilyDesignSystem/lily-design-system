@@ -126,7 +126,7 @@ pending edit; closing the dialog returns focus to its opener.
 shipped in every catalog's `date-time-picker` — the full canonical DOM
 contract above (§4.3, plus the week/day buttons and time-zone select
 added in this revision) is implemented, not aspirational. Landed
-Svelte canonical first (`lily-design-system-svelte-date-time-picker`
+Svelte canonical first (`@lilydesignsystem/svelte-date-time-picker`
 0.2.0), then ported to React, Vue, Angular, HTML, Nunjucks, Blazor, and
 Web Components (each catalog's own `date-time-picker` package at
 0.2.0/0.3.0; the Angular port also fixed a real defect it found along

@@ -43,7 +43,7 @@ it as a `lang` attribute, run it through the exported
 <script setup lang="ts">
 import LocalePicker, {
   bcp47LocaleTag,
-} from "lily-design-system-vue-locale-picker";
+} from "@lilydesignsystem/vue-locale-picker";
 </script>
 ```
 
@@ -95,7 +95,7 @@ the slot args at all.
 import LocalePicker, {
   bcp47LocaleTag,
   isRtlLocale,
-} from "lily-design-system-vue-locale-picker";
+} from "@lilydesignsystem/vue-locale-picker";
 </script>
 
 <template>

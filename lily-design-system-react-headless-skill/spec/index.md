@@ -12,7 +12,7 @@ React-specific pair.
 
 A Claude Skill that explains how to install, import, and use the React
 headless implementation of Lily Design System™: the
-`lily-design-system-react-headless` npm package, its JSX consumption
+`@lilydesignsystem/react-headless` npm package, its JSX consumption
 idiom (`className`, rest-props spreading, controlled-prop patterns),
 and pointers to the framework-agnostic naming and composition rules
 that govern it. It is content and documentation, not a component
@@ -32,7 +32,7 @@ consumption of a published package.
 
 ### In scope
 
-- `SKILL.md` — the skill: `lily-design-system-react-headless` package
+- `SKILL.md` — the skill: `@lilydesignsystem/react-headless` package
   identity and install command, the React/JSX consumption idiom
   (`className`, rest-props spreading, `value`/`onChange` and
   `open`/`onChange` controlled patterns, callback naming, React
@@ -50,7 +50,7 @@ consumption of a published package.
   `spec/index.md` in full — `SKILL.md` points at them so the root
   files stay the single source of truth.
 - Any component implementation. This skill does not ship JSX, tests,
-  or any part of the `lily-design-system-react-headless` library
+  or any part of the `@lilydesignsystem/react-headless` library
   itself — it only documents how to consume it.
 - The React `*-picker` helper packages — that's
   `lily-design-system-react-helpers-skill`'s job.
@@ -75,7 +75,7 @@ tests to run beyond `bin/test`'s required-files checks.
       (symlink), `AGENTS.md`, `CLAUDE.md`, `spec/index.md`,
       `.git-subtree-push`.
 - [x] `SKILL.md`'s package name, install command, and JSX conventions
-      are grounded in the real `lily-design-system-react-headless`
+      are grounded in the real `@lilydesignsystem/react-headless`
       subproject's `AGENTS.md`, `spec/index.md`, and `package.json`,
       not invented.
 - [ ] The 14 special files present via `bin/sync-special-files`.

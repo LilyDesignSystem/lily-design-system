@@ -24,7 +24,7 @@
 
 A Claude Skill that maps Lily Design System's three real Svelte
 subprojects — the headless component library
-([`lily-design-system-svelte-headless`](../lily-design-system-svelte-headless/)),
+([`@lilydesignsystem/svelte-headless`](../lily-design-system-svelte-headless/)),
 the canonical `*-picker` helpers catalog
 ([`lily-design-system-svelte-helpers`](../lily-design-system-svelte-helpers/)),
 and the SvelteKit example application

@@ -65,7 +65,7 @@ and nothing client-side second-guesses it.
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import LocalePicker from "lily-design-system-vue-locale-picker";
+import LocalePicker from "@lilydesignsystem/vue-locale-picker";
 
 const locale = ref("fr");
 </script>

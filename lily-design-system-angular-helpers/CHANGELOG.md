@@ -18,10 +18,10 @@ and the project follows
 
   | Was                                           | Now                                           |
   | --------------------------------------------- | --------------------------------------------- |
-  | `lily-design-system-angular-theme-select`     | `lily-design-system-angular-theme-picker`     |
-  | `lily-design-system-angular-locale-select`    | `lily-design-system-angular-locale-picker`    |
-  | `lily-design-system-angular-text-size-select` | `lily-design-system-angular-text-size-picker` |
-  | `lily-design-system-angular-share-button`     | `lily-design-system-angular-share-picker`     |
+  | `lily-design-system-angular-theme-select`     | `@lilydesignsystem/angular-theme-picker`     |
+  | `lily-design-system-angular-locale-select`    | `@lilydesignsystem/angular-locale-picker`    |
+  | `lily-design-system-angular-text-size-select` | `@lilydesignsystem/angular-text-size-picker` |
+  | `lily-design-system-angular-share-button`     | `@lilydesignsystem/angular-share-picker`     |
 
 - Selectors: `lily-theme-select` → `lily-theme-picker`, and likewise
   for locale, text-size and share. Component classes: `ThemePicker` →
@@ -168,12 +168,12 @@ catalog with the Vue helpers as the stylistic mirror:
 
 ### Added
 
-- `lily-design-system-angular-theme-picker` v0.1.0 — runtime-loading
+- `@lilydesignsystem/angular-theme-picker` v0.1.0 — runtime-loading
   theme select with `data-theme` swap, `<link>`-based stylesheet
   injection, `localStorage` persistence, and a `className` input
   for the consumer's CSS hook. Fully mirrors the Svelte canonical
   contract; 13 acceptance criteria covered.
-- `lily-design-system-angular-locale-picker` v0.1.0 — BCP 47 locale
+- `@lilydesignsystem/angular-locale-picker` v0.1.0 — BCP 47 locale
   select that writes `lang` and `dir` on the document root, with
   optional `localStorage` persistence and `navigator.languages`
   detection. Built-in 436-row locale-name table and RTL detection.

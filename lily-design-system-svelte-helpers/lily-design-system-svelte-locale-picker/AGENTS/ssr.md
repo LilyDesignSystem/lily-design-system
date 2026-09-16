@@ -131,7 +131,7 @@ export const load: LayoutServerLoad = ({ locals }) => ({
 
 ```svelte
 <script lang="ts">
-    import { LocalePicker } from "lily-design-system-svelte-locale-picker";
+    import { LocalePicker } from "@lilydesignsystem/svelte-locale-picker";
 
     let { data, children } = $props();
     let locale = $state(data.locale);
@@ -192,7 +192,7 @@ validate in middleware, and drive the select from
 ```svelte
 <script lang="ts">
     import { page, goto } from "$app/stores";
-    import { LocalePicker } from "lily-design-system-svelte-locale-picker";
+    import { LocalePicker } from "@lilydesignsystem/svelte-locale-picker";
 
     let current = $derived(String($page.params.locale ?? "en"));
 

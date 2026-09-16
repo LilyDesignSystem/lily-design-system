@@ -465,7 +465,7 @@ IsRtl }`.
 ##### Parity
 
 This is a direct port of the Svelte canonical
-`lily-design-system-svelte-locale-picker` v0.1.0. The DOM contract,
+`@lilydesignsystem/svelte-locale-picker` v0.1.0. The DOM contract,
 BCP 47 normalisation rules, RTL detection sets, initial-value
 resolution order, and apply order match clause-for-clause.
 

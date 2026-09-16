@@ -60,7 +60,7 @@ module.exports = {
 <html lang="en" data-theme="{{ theme.defaultTheme }}">
     <head>
         <link rel="stylesheet" href="/assets/themes/{{ theme.defaultTheme }}.css">
-        <script type="module" src="/dist/lily-design-system-html-theme-picker.js"></script>
+        <script type="module" src="/dist/@lilydesignsystem/html-theme-picker.js"></script>
     </head>
     <body>
         {{ content | safe }}

@@ -9,7 +9,7 @@ two-skill plan this subproject's siblings implement.
 ## 1. Role in the ecosystem
 
 A Claude Skill that explains how to install, import, and consume
-[`lily-design-system-vue-headless`](../../lily-design-system-vue-headless/)
+[`@lilydesignsystem/vue-headless`](../../lily-design-system-vue-headless/)
 — the Vue 3 implementation of Lily's headless component catalog — using
 that library's own Composition API idiom: SFC `<script setup lang="ts">`,
 `:class` base-plus-consumer binding, `v-bind="$attrs"` fallthrough,
@@ -32,7 +32,7 @@ Its siblings:
 
 ### In scope
 
-- `SKILL.md` — the skill: `lily-design-system-vue-headless`'s package
+- `SKILL.md` — the skill: `@lilydesignsystem/vue-headless`'s package
   identity and install command, the Vue 3 SFC consumption idiom (class
   binding, `v-bind="$attrs"`, slots, `defineModel()`, emitted events),
   and pointers to the framework-agnostic naming and composition

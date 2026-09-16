@@ -1,7 +1,7 @@
 # Lily Design System™ — Nunjucks Helpers
 
 A catalog of opinionated, reusable Nunjucks 3 helper packages that
-sit alongside the headless [`lily-design-system-nunjucks-headless`](../lily-design-system-nunjucks-headless/)
+sit alongside the headless [`@lilydesignsystem/nunjucks-headless`](../lily-design-system-nunjucks-headless/)
 library. Where the headless library ships pure macro primitives,
 these helpers wrap a complete lifecycle (selection + persistence +
 DOM application) for one small, common job.
@@ -10,13 +10,13 @@ DOM application) for one small, common job.
 
 | Helper                                                                                            | Purpose                                                               |
 | ------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
-| [`lily-design-system-nunjucks-theme-picker`](./lily-design-system-nunjucks-theme-picker/)         | Pick a visual theme; dynamic CSS load + `data-theme` swap.            |
-| [`lily-design-system-nunjucks-locale-picker`](./lily-design-system-nunjucks-locale-picker/)       | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.       |
-| [`lily-design-system-nunjucks-text-size-picker`](./lily-design-system-nunjucks-text-size-picker/) | Pick a text size; sets `data-text-size` on the document root.         |
-| [`lily-design-system-nunjucks-motion-picker`](./lily-design-system-nunjucks-motion-picker/)       | Pick a motion (reduced-motion) preference; sets `data-motion` on the document root, checking the OS's own `(prefers-reduced-motion: reduce)` signal on the client. |
-| [`lily-design-system-nunjucks-share-picker`](./lily-design-system-nunjucks-share-picker/)         | Share the page: native share sheet, or a list of destinations + copy. |
-| [`lily-design-system-nunjucks-date-time-picker`](./lily-design-system-nunjucks-date-time-picker/) | Pick a date, a time, or both, via a text field + WAI-ARIA APG Date Picker Dialog. |
-| [`lily-design-system-nunjucks-picker-bar`](./lily-design-system-nunjucks-picker-bar/)             | Compose theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row, with all 45 reference themes and the seven-step text-size scale pre-wired. |
+| [`@lilydesignsystem/nunjucks-theme-picker`](./lily-design-system-nunjucks-theme-picker/)         | Pick a visual theme; dynamic CSS load + `data-theme` swap.            |
+| [`@lilydesignsystem/nunjucks-locale-picker`](./lily-design-system-nunjucks-locale-picker/)       | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.       |
+| [`@lilydesignsystem/nunjucks-text-size-picker`](./lily-design-system-nunjucks-text-size-picker/) | Pick a text size; sets `data-text-size` on the document root.         |
+| [`@lilydesignsystem/nunjucks-motion-picker`](./lily-design-system-nunjucks-motion-picker/)       | Pick a motion (reduced-motion) preference; sets `data-motion` on the document root, checking the OS's own `(prefers-reduced-motion: reduce)` signal on the client. |
+| [`@lilydesignsystem/nunjucks-share-picker`](./lily-design-system-nunjucks-share-picker/)         | Share the page: native share sheet, or a list of destinations + copy. |
+| [`@lilydesignsystem/nunjucks-date-time-picker`](./lily-design-system-nunjucks-date-time-picker/) | Pick a date, a time, or both, via a text field + WAI-ARIA APG Date Picker Dialog. |
+| [`@lilydesignsystem/nunjucks-picker-bar`](./lily-design-system-nunjucks-picker-bar/)             | Compose theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row, with all 45 reference themes and the seven-step text-size scale pre-wired. |
 
 The first three helpers own a **user preference** — selection + DOM
 application + optional persistence. `share-picker` owns an **action**:

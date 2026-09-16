@@ -13,7 +13,7 @@ Canonical contract: [spec/index.md](./spec/index.md).
 ## Install
 
 ```sh
-npm install lily-design-system-html-share-picker
+npm install @lilydesignsystem/html-share-picker
 ```
 
 ## Quick start
@@ -28,7 +28,7 @@ npm install lily-design-system-html-share-picker
 ></share-picker>
 
 <script type="module">
-  import "lily-design-system-html-share-picker";
+  import "@lilydesignsystem/html-share-picker";
 
   // `targets` is a JS property, not an attribute: each target's `href`
   // is a function, so there is no honest string encoding for it.
@@ -262,9 +262,9 @@ Runnable pages in [examples/](./examples/).
 
 ## Related
 
-- [`lily-design-system-html-theme-picker`](../lily-design-system-html-theme-picker/)
-- [`lily-design-system-html-locale-picker`](../lily-design-system-html-locale-picker/)
-- [`lily-design-system-html-text-size-picker`](../lily-design-system-html-text-size-picker/)
+- [`@lilydesignsystem/html-theme-picker`](../lily-design-system-html-theme-picker/)
+- [`@lilydesignsystem/html-locale-picker`](../lily-design-system-html-locale-picker/)
+- [`@lilydesignsystem/html-text-size-picker`](../lily-design-system-html-text-size-picker/)
 - [Svelte original](../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-picker/)
 
 ---

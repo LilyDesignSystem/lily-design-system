@@ -227,7 +227,7 @@ pnpm exec vitest run                 # explicit one-shot run
 
 ## 10. Tracking
 
-- Package: `lily-design-system-nunjucks-headless`
+- Package: `@lilydesignsystem/nunjucks-headless`
 - Version: 0.2.0
 - Template engine: Nunjucks 3.x
 - Test runner: vitest + jsdom

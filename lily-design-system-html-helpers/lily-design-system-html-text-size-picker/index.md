@@ -37,7 +37,7 @@ preference; the consumer owns the typography itself via CSS keyed on
 ```
 
 The element is a direct port of the Svelte canonical
-`lily-design-system-svelte-text-size-picker`. APIs and behaviour match;
+`@lilydesignsystem/svelte-text-size-picker`. APIs and behaviour match;
 only the framework idioms differ.
 
 ## Install

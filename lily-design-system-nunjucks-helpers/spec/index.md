@@ -9,7 +9,7 @@ for the human-readable guide and [AGENTS.md](../AGENTS.md) for the agent pointer
 
 The helpers catalog ships a small set of opinionated, reusable Nunjucks 3
 components that sit alongside the headless
-[`lily-design-system-nunjucks-headless`](../../lily-design-system-nunjucks-headless/)
+[`@lilydesignsystem/nunjucks-headless`](../../lily-design-system-nunjucks-headless/)
 library. Where the headless library ships pure markup primitives, each helper
 wraps a complete lifecycle — selection, optional persistence, and DOM
 application — for one small, common job.
@@ -33,12 +33,12 @@ Out of scope:
 
 | Helper                                                                                       | Purpose                                                                          |
 | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| [`lily-design-system-nunjucks-theme-picker`](../lily-design-system-nunjucks-theme-picker/)   | Pick a visual theme; dynamic CSS load + `data-theme` swap, optional persistence. |
-| [`lily-design-system-nunjucks-locale-picker`](../lily-design-system-nunjucks-locale-picker/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.                  |
-| [`lily-design-system-nunjucks-text-size-picker`](../lily-design-system-nunjucks-text-size-picker/) | Pick a text size; sets `data-text-size` on the document root.                                                                             |
-| [`lily-design-system-nunjucks-motion-picker`](../lily-design-system-nunjucks-motion-picker/) | Pick a reduced-motion preference; sets `data-motion` on the document root. The macro cannot call `matchMedia` at render time, so it marks `motions[0]` selected server-side and `motion-picker.client.js` corrects it on init — this catalog's one documented deviation from the canonical contract. |
-| [`lily-design-system-nunjucks-share-picker`](../lily-design-system-nunjucks-share-picker/) | Share the page: native share sheet, or a disclosure of consumer-supplied destinations + copy the URL. Owns an action, not a preference.   |
-| [`lily-design-system-nunjucks-date-time-picker`](../lily-design-system-nunjucks-date-time-picker/) | Pick a date, a time, or both: a typeable text field plus an APG Date Picker Dialog, built client-side (no `Intl` in templates). Owns a form value, not a preference.                  |
+| [`@lilydesignsystem/nunjucks-theme-picker`](../lily-design-system-nunjucks-theme-picker/)   | Pick a visual theme; dynamic CSS load + `data-theme` swap, optional persistence. |
+| [`@lilydesignsystem/nunjucks-locale-picker`](../lily-design-system-nunjucks-locale-picker/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.                  |
+| [`@lilydesignsystem/nunjucks-text-size-picker`](../lily-design-system-nunjucks-text-size-picker/) | Pick a text size; sets `data-text-size` on the document root.                                                                             |
+| [`@lilydesignsystem/nunjucks-motion-picker`](../lily-design-system-nunjucks-motion-picker/) | Pick a reduced-motion preference; sets `data-motion` on the document root. The macro cannot call `matchMedia` at render time, so it marks `motions[0]` selected server-side and `motion-picker.client.js` corrects it on init — this catalog's one documented deviation from the canonical contract. |
+| [`@lilydesignsystem/nunjucks-share-picker`](../lily-design-system-nunjucks-share-picker/) | Share the page: native share sheet, or a disclosure of consumer-supplied destinations + copy the URL. Owns an action, not a preference.   |
+| [`@lilydesignsystem/nunjucks-date-time-picker`](../lily-design-system-nunjucks-date-time-picker/) | Pick a date, a time, or both: a typeable text field plus an APG Date Picker Dialog, built client-side (no `Intl` in templates). Owns a form value, not a preference.                  |
 
 ## 4. Conventions
 
@@ -98,5 +98,5 @@ deviations.
 ## 8. References
 
 - Canonical reference catalog: [`lily-design-system-svelte-helpers`](../../lily-design-system-svelte-helpers/).
-- Headless sibling: [`lily-design-system-nunjucks-headless`](../../lily-design-system-nunjucks-headless/).
+- Headless sibling: [`@lilydesignsystem/nunjucks-headless`](../../lily-design-system-nunjucks-headless/).
 - Root specification: [../spec/index.md](../../spec/index.md) and [../AGENTS.md](../../AGENTS.md).

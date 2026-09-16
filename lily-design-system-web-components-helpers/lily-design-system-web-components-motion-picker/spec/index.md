@@ -1,7 +1,7 @@
 # MotionPicker — Specification (HTML helper)
 
 Ported one-to-one from the Svelte canonical
-`lily-design-system-svelte-motion-picker` (see AGENTS/helpers.md:
+`@lilydesignsystem/svelte-motion-picker` (see AGENTS/helpers.md:
 Svelte is the reference; when catalogs disagree, the Svelte side wins).
 Element name: `<lily-motion-picker>`.
 

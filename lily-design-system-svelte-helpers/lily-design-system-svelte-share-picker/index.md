@@ -133,7 +133,7 @@ needing a per-glyph optical correction.
 
 ## Tests
 
-`npx vitest run lily-design-system-svelte-share-picker` from the catalog
+`npx vitest run @lilydesignsystem/svelte-share-picker` from the catalog
 root — 27 cases, one or more per §7 clause.
 
 ---

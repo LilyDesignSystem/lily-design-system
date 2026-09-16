@@ -20,10 +20,10 @@
     "skipLibCheck": true,
     "types": ["node", "vitest/globals"],
     "paths": {
-      "lily-design-system-angular-theme-picker": ["./lily-design-system-angular-theme-picker/dist/types/lily-design-system-angular-theme-picker.d.ts"],
-      "lily-design-system-angular-locale-picker": ["./lily-design-system-angular-locale-picker/dist/types/lily-design-system-angular-locale-picker.d.ts"],
-      "lily-design-system-angular-text-size-picker": ["./lily-design-system-angular-text-size-picker/dist/types/lily-design-system-angular-text-size-picker.d.ts"],
-      "lily-design-system-angular-share-picker": ["./lily-design-system-angular-share-picker/dist/types/lily-design-system-angular-share-picker.d.ts"]
+      "@lilydesignsystem/angular-theme-picker": ["./lily-design-system-angular-theme-picker/dist/types/lilydesignsystem-angular-theme-picker.d.ts"],
+      "@lilydesignsystem/angular-locale-picker": ["./lily-design-system-angular-locale-picker/dist/types/lilydesignsystem-angular-locale-picker.d.ts"],
+      "@lilydesignsystem/angular-text-size-picker": ["./lily-design-system-angular-text-size-picker/dist/types/lilydesignsystem-angular-text-size-picker.d.ts"],
+      "@lilydesignsystem/angular-share-picker": ["./lily-design-system-angular-share-picker/dist/types/lilydesignsystem-angular-share-picker.d.ts"]
     }
   },
   "angularCompilerOptions": {

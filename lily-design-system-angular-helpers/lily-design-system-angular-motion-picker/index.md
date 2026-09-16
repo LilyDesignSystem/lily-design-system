@@ -25,7 +25,7 @@ an arbitrary default.
 
 ```ts
 import { Component } from "@angular/core";
-import { MotionPicker } from "lily-design-system-angular-motion-picker";
+import { MotionPicker } from "@lilydesignsystem/angular-motion-picker";
 
 @Component({
   standalone: true,

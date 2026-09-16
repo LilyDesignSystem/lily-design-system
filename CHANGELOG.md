@@ -9,6 +9,103 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## All npm packages move to the `@lilydesignsystem` scope — 2026-09-16
+
+Maintainer-directed: all 56 npm helper packages (7 catalogs × 7
+`*-picker` helpers minus Blazor's 7, which stay NuGet-named) and all 7
+npm headless libraries rename from unscoped (`lily-design-system-*`) to
+the `@lilydesignsystem/*` scope (e.g. `lily-design-system-svelte-theme-
+picker` → `@lilydesignsystem/svelte-theme-picker`). Directory names,
+git-subtree repo names, and GitHub/GitLab/Codeberg URLs are unchanged —
+only the npm package identity moves. Blazor/NuGet packages are
+unaffected; NuGet has no scope concept and they already carry the
+`LilyDesignSystem.Blazor.*` namespace.
+
+**Why now.** Publishing the 2026-09-16 SVG-icon + `preventScroll`
+release (previous entry) hit a real npm 2FA/token wall; while resolving
+it the maintainer decided to move the whole npm surface to a proper
+scope rather than keep publishing 56+ unscoped names under a personal
+account.
+
+**Versioning.** Scoped packages are registry-distinct from their
+unscoped counterparts — npm has no publish history for
+`@lilydesignsystem/*` regardless of what the unscoped name reached.
+Every renamed package resets to `0.1.0` per this project's settled
+rename precedent (the July 2026 `*-select` → `*-picker` rename).
+`motion-picker` (7 catalogs) and the Web Components catalog's 5
+pickers were never published under the old scheme, so they simply
+ship their first-ever `0.1.0` release already scoped. The old unscoped
+names are deprecated on the registry (`npm deprecate`), never
+unpublished, pointing consumers at the new scope.
+
+**Mechanical scope.** package.json/`.csproj` name + version fields (56
+npm packages); every internal cross-package `dependencies` /
+`peerDependencies` declaration (picker-bar's four wrapped pickers, each
+catalog's own devDependency ranges); the 4 example apps and the docs
+site (`lilydesignsystem.github.io`) that depend on these packages as
+real npm dependencies; and — per explicit maintainer scope decision —
+every documentation reference across the monorepo (component `AGENTS.md`
+"Public surface" sections, README/index.md catalogs, `spec/*.md`,
+install/import snippets in `docs/`) via a context-aware repo-wide
+rename (matched only as a bare npm specifier/JSON value, never inside a
+relative path or markdown link href, so the ~2,000 repo-relative
+directory links this monorepo's docs depend on were not touched).
+
+**Real defects found and fixed along the way**, all pre-existing latent
+bugs the rescope's stress-test surfaced, none specific to the rename
+itself:
+
+- The blind rename pass initially over-matched two path-shaped
+  package.json fields whose value happens to equal the bare package
+  name but means something else — `repository.directory` (the git-
+  subtree subdirectory, unrelated to npm identity) in 49 files, and
+  each headless catalog's `.git-subtree-push` (the subtree remote name)
+  in 7 files. Both reverted to the literal directory name.
+- Two catalogs' `package.json`/`vitest.config.ts` carried a **guessed**
+  build-output path for a sibling picker's compiled types/bundle
+  (`dist/fesm2022/@lilydesignsystem/angular-theme-picker.mjs`, a nested-
+  directory shape) that turned out not to match ng-packagr's real
+  convention for scoped entry points — confirmed by an actual build:
+  `dist/fesm2022/lilydesignsystem-angular-theme-picker.mjs` (scope's
+  `@` stripped, hyphen-joined, no nested directory). Fixed in
+  `angular-helpers/vitest.config.ts` (4 aliases) and the root
+  `tsconfig.json` `paths` map (used by `angular-picker-bar`'s real
+  `ng-packagr` build, not just tests) — this second one would have
+  broken the real `bin/publish-helpers` build, not just local dev.
+- `react-helpers/build.js` derived its `tsup --external` flags from
+  each sibling's **directory name**, not its `package.json#name` — a
+  latent bug that only bit once a catalog's directory names and npm
+  names diverged for the first time (2026-09-16). Fixed to read each
+  sibling's actual package name; `html-helpers` and the two other
+  catalogs already keyed off `package.json#dependencies` correctly and
+  needed no change. Without this fix, `@lilydesignsystem/react-picker-
+  bar`'s build would have failed outright (confirmed: it did, before
+  the fix).
+- Found, not fixed (**out of scope, pre-existing, unrelated to the
+  rescope**): `angular-headless/index.ts` exports 6 national-identifier
+  components (Cyprus, Ireland, Northern Ireland — 3 identifiers ×
+  Input/View) whose `./components/*.ts` files do not exist in the repo.
+  This has apparently been true since 2026-07-07 and was invisible to
+  `bin/test` (which doesn't compile); only surfaced now because this
+  release's `bin/publish-headless --dry-run` was the first real
+  `ng-packagr` compile attempted against current `main`. Blocks
+  `angular-headless`'s own publish specifically — the other 6 headless
+  catalogs and all 8 helper catalogs (including `angular-helpers`,
+  a separate, working subproject) are unaffected. Filed for a
+  follow-up; not fixed here to avoid authoring un-vetted national-
+  identifier components as a side effect of an unrelated release.
+
+**Verified**: `bin/test` and `bin/check-links` clean (12,013 markdown
+files); full unit suites green in all 8 helper catalogs at their
+original counts (svelte 269, react 333, vue 333, angular 367, html
+368, nunjucks 403, web-components 367, blazor 261); every catalog's
+real build (`ng-packagr` / `tsup` / `svelte-package` / Vite lib mode)
+succeeds and each `picker-bar`'s built `dist/` keeps its sibling
+imports as bare specifiers rather than bundling them;
+`bin/publish-helpers --dry-run` clean (49 npm + 7 NuGet packages);
+`bin/publish-headless --dry-run` clean for 6 of 7 catalogs (angular
+blocked on the pre-existing defect above).
+
 ## `theme-picker`/`locale-picker`/`text-size-picker`/`share-picker` released at their SVG-icon + preventScroll versions — 2026-09-16
 
 Real npm/NuGet publish of the two changes landed in-tree earlier the
@@ -86,7 +183,7 @@ throughout. Helper package count: 48 → 56 (8 catalogs × 7 helpers).
 ## Docs site gains a live theme/text-size/share picker — 2026-09-06
 
 `lilydesignsystem.github.io`'s header now renders
-`lily-design-system-svelte-theme-picker`, `-text-size-picker`, and
+`@lilydesignsystem/svelte-theme-picker`, `-text-size-picker`, and
 `-share-picker` — real, published npm dependencies, not copied source —
 on every page, via a new `src/lib/components/SitePreferences.svelte`
 mounted from `+layout.svelte`. The theme picker ships with all 45
@@ -186,7 +283,7 @@ ones plus the sixteen framework-specific ones) also got real
 `git@github.com:LilyDesignSystem/...` remotes and their first
 `bin/git-subtree-push`, GitHub-only (no GitLab/Codeberg tokens in this
 environment — the same gap already logged against
-`lily-design-system-web-components-headless` in `tasks.md` P8-T6). The
+`@lilydesignsystem/web-components-headless` in `tasks.md` P8-T6). The
 eight framework-umbrella skills added today do not have a remote
 configured yet.
 
@@ -239,7 +336,7 @@ framework-specific skill. Fixed by checking the `-skill` suffix first.
 The same investigation found two adjacent, genuinely pre-existing bugs
 in the same function and fixed them too: `"web-components"` was never in
 the `FRAMEWORK` label map, so the already-existing
-`lily-design-system-web-components-headless` and
+`@lilydesignsystem/web-components-headless` and
 `-web-components-helpers` subprojects (not skills) were themselves
 misclassified the same way — the headless library's own `INSTALL.md`
 was telling readers to `npm install && npm run dev` it; and the
@@ -270,7 +367,7 @@ on the root; the picker's civil-ISO value contract is unchanged, since
 a zone is metadata about where the value applies, not part of it.
 
 Landed Svelte canonical first
-(`lily-design-system-svelte-date-time-picker` 0.2.0, 71 tests, six new
+(`@lilydesignsystem/svelte-date-time-picker` 0.2.0, 71 tests, six new
 acceptance clauses §7.56–§7.61), then ported clause-for-clause to
 React, Vue, Angular, HTML, Nunjucks, Blazor, and Web Components — each
 catalog's own `date-time-picker` package landed the same six tests,
@@ -359,7 +456,7 @@ different failure shapes than a plain `pnpm update` catches:
   vulnerability at all: `pnpm install` (not just `update`) pruned it
   as an orphaned lockfile entry no longer reachable from the actual
   dependency graph.
-- **`cookie` in the nested `lily-design-system-svelte-theme-picker`
+- **`cookie` in the nested `@lilydesignsystem/svelte-theme-picker`
   sub-package** — a genuinely stale lockfile: this subdirectory sits
   under a parent `pnpm-workspace.yaml` with no `packages:` glob, so
   pnpm silently treats the whole tree as one workspace and never
@@ -368,7 +465,7 @@ different failure shapes than a plain `pnpm update` catches:
   in current tooling does so automatically, and added the same
   `cookie` override to the parent's `pnpm-workspace.yaml` for when it
   does get read.
-- **`vite` in `lily-design-system-vue-headless`** (4 alerts, stuck at
+- **`vite` in `@lilydesignsystem/vue-headless`** (4 alerts, stuck at
   6.4.1) — `vite` was never a direct dependency here, only pulled in
   transitively; unlike sibling catalogs it hadn't naturally advanced
   past 6.4.1 despite `@storybook/vue3-vite`/`@vitejs/plugin-vue` both
@@ -384,7 +481,7 @@ different failure shapes than a plain `pnpm update` catches:
 - **`serialize-javascript`** (html-headless, html-css-js-examples) —
   mocha (via `@wdio/mocha-framework`) pins the unpatched `6.0.2`
   outright; overrode to `7.1.1`, the current release.
-- **`uuid` in `lily-design-system-angular-headless`** — `sockjs` (via
+- **`uuid` in `@lilydesignsystem/angular-headless`** — `sockjs` (via
   `webpack-dev-server`, an Angular CLI dev-server dependency) pins the
   unpatched `8.3.2`; overrode straight to the patched major `11.1.1`
   since `v4()` — the only export sockjs uses — is stable across that
@@ -483,7 +580,7 @@ tolerating 5 already-published headless packages. Root `bin/test` and
 
 ## P7-T6 closed: Web Components headless subproject (partial, 30/491) — 2026-09-03
 
-An 8th headless catalog, `lily-design-system-web-components-headless`,
+An 8th headless catalog, `@lilydesignsystem/web-components-headless`,
 ships native custom elements with no framework runtime — scoped by
 explicit choice to a representative subset (30 of the 491 canonical
 components spanning buttons/links, forms, overlays, media/data, and
@@ -748,7 +845,7 @@ version reads it. Investigating turned up a real, install-breaking bug
 that had nothing to do with which version CI happened to be pinned to:
 
 1. **Four `pnpm-workspace.yaml` files carried a literal, unfilled
-   template placeholder.** `lily-design-system-html-headless` and
+   template placeholder.** `@lilydesignsystem/html-headless` and
    `lily-design-system-html-css-js-examples` had
    `chromedriver`/`edgedriver`/`geckodriver`/`esbuild` all set to the
    string `"set this to true or false"`; `lily-design-system-svelte-sveltekit-examples`
@@ -894,7 +991,7 @@ just not listed) and still quoted nunjucks-eleventy-examples' pre-P6-T1
 ## angular-headless: wrapper-host attribute-selector migration — 2026-09-01
 
 Closes the spec §11.8 open backlog item ("Angular headless
-wrapper-host semantics"), a breaking change to `lily-design-system-angular-headless`
+wrapper-host semantics"), a breaking change to `@lilydesignsystem/angular-headless`
 (0.2.0 → 0.3.0). The first axe run against the Angular example app had
 shown that an element-selector Angular component wrapping a native
 element breaks any DOM structure that depends on a required direct
@@ -1026,7 +1123,7 @@ file isn't among them), logged separately as P7-T18.
 with `RolldownError: Element is missing end tag` at a line:col past
 the file's actual length. Confirmed the file itself is fine:
 `@vue/compiler-sfc` parses it standalone with zero errors, and
-`lily-design-system-vue-headless`'s own `storybook build` succeeds on
+`@lilydesignsystem/vue-headless`'s own `storybook build` succeeds on
 the byte-identical canonical copy. The difference is the bundler —
 vue-headless resolves `vite@6.4.1` (esbuild); vue-nuxt-examples, via
 Nuxt 4's dependency tree, resolves `vite@8.2.2`'s Rolldown-based
@@ -2193,7 +2290,7 @@ that drive breaking bumps, the deprecate-never-unpublish policy with
 
 ## Phase 2 begins: six of seven headless libraries on npm — 2026-08-26
 
-[plan.md](plan.md) P2-T1/T3: `lily-design-system-html-headless`,
+[plan.md](plan.md) P2-T1/T3: `@lilydesignsystem/html-headless`,
 `-angular-headless`, and `-nunjucks-headless` published, each first
 released at **0.1.0** — a first release numbered higher would imply
 registry history that never existed, the helpers' July 2026 reasoning.
@@ -2278,7 +2375,7 @@ cleanup"), plus the day's research-driven groundwork:
 ## Headless packages get a real entry point — 2026-08-23
 
 Preparing the first publish of the helper catalogs surfaced that the three
-published headless packages were broken on npm. `lily-design-system-svelte-headless`,
+published headless packages were broken on npm. `@lilydesignsystem/svelte-headless`,
 `-react-headless` and `-vue-headless` each declared `"main": "index.js"`
 and no such file had ever been built or shipped, so every
 `import … from "lily-design-system-<framework>-headless"` failed at
@@ -3094,7 +3191,7 @@ The helper packages still ship zero CSS.
   (they listed 410); the `lilydesignsystem.github.io` registry was
   missing the five 0.4.0 additions (485). All now match `components.tsv`
   exactly.
-- `lily-design-system-nunjucks-headless` no longer tracks its
+- `@lilydesignsystem/nunjucks-headless` no longer tracks its
   `node_modules/` in git (2,553 files untracked); root `.gitignore` gains
   `dist/` and `node_modules/`.
 - Six example apps' `nhs.css` dropped a conflicting leftover

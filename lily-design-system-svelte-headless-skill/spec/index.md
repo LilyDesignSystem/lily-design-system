@@ -12,7 +12,7 @@ pair rather than the whole catalog.
 
 A Claude Skill that explains how to install and consume the Svelte 5
 implementation of Lily Design System's headless component catalog,
-[`lily-design-system-svelte-headless`](../../lily-design-system-svelte-headless/):
+[`@lilydesignsystem/svelte-headless`](../../lily-design-system-svelte-headless/):
 the npm package identity, the Svelte 5 runes-specific consumption idiom
 (the `class` prop, `$props()` with rest-props spread onto the root
 element, `$bindable()` for open/close state), and where the catalog-wide
@@ -51,7 +51,7 @@ established for the framework-agnostic and maintainer-facing content.
   of truth.
 - Any component implementation. Component source, tests, stories, and
   per-component docs live in
-  [`lily-design-system-svelte-headless`](../../lily-design-system-svelte-headless/)
+  [`@lilydesignsystem/svelte-headless`](../../lily-design-system-svelte-headless/)
   itself.
 - The Svelte `*-picker` helper catalog — that's
   [`lily-design-system-svelte-helpers-skill`](../../lily-design-system-svelte-helpers-skill/)'s
@@ -75,7 +75,7 @@ to run beyond `bin/test`'s required-files checks.
       (symlink), `AGENTS.md`, `CLAUDE.md`, `spec/index.md`,
       `.git-subtree-push`.
 - [x] `SKILL.md` states only facts verified against the real
-      `lily-design-system-svelte-headless` subproject (package name,
+      `@lilydesignsystem/svelte-headless` subproject (package name,
       npm publish status, Svelte 5 idiom) — no fabricated version
       numbers or test counts.
 - [ ] The 14 special files present via `bin/sync-special-files`; not yet
@@ -88,7 +88,7 @@ to run beyond `bin/test`'s required-files checks.
 
 ## 5. Related topics
 
-- [`lily-design-system-svelte-headless`'s own spec/index.md](../../lily-design-system-svelte-headless/spec/index.md) —
+- [`@lilydesignsystem/svelte-headless`'s own spec/index.md](../../lily-design-system-svelte-headless/spec/index.md) —
   the Svelte 5 architecture, file conventions, and implementation status
   this skill points consumers at rather than duplicating.
 - [`lily-design-system-skill`'s spec/index.md](../../lily-design-system-skill/spec/index.md) —

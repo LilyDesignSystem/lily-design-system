@@ -16,10 +16,10 @@ and the project follows
 
   | Was                                       | Now                                       |
   | ----------------------------------------- | ----------------------------------------- |
-  | `lily-design-system-vue-theme-select`     | `lily-design-system-vue-theme-picker`     |
-  | `lily-design-system-vue-locale-select`    | `lily-design-system-vue-locale-picker`    |
-  | `lily-design-system-vue-text-size-select` | `lily-design-system-vue-text-size-picker` |
-  | `lily-design-system-vue-share-button`     | `lily-design-system-vue-share-picker`     |
+  | `lily-design-system-vue-theme-select`     | `@lilydesignsystem/vue-theme-picker`     |
+  | `lily-design-system-vue-locale-select`    | `@lilydesignsystem/vue-locale-picker`    |
+  | `lily-design-system-vue-text-size-select` | `@lilydesignsystem/vue-text-size-picker` |
+  | `lily-design-system-vue-share-button`     | `@lilydesignsystem/vue-share-picker`     |
 
   `theme-picker` and `theme-select-option` are two of the 490 components
   in the Lily catalog — a different thing entirely from the helper that
@@ -53,13 +53,13 @@ and the project follows
 
 ### Added
 
-- **A fourth helper: `lily-design-system-vue-share-picker` at 0.1.0.**
+- **A fourth helper: `@lilydesignsystem/vue-share-picker` at 0.1.0.**
   A headless share control — a single-glyph button (➤, U+27A4) that
   opens the **native share sheet** via `navigator.share` where the
   browser provides one, and otherwise a disclosure list of
   consumer-supplied destinations plus a built-in copy-the-URL action.
   Ported from the canonical
-  `lily-design-system-svelte-share-picker` 0.1.0, with the §7 clause
+  `@lilydesignsystem/svelte-share-picker` 0.1.0, with the §7 clause
   numbering kept identical across the two suites.
 
   It is the first helper in this catalog that owns an **action**

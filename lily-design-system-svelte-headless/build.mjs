@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Build pipeline for lily-design-system-svelte-headless.
+// Build pipeline for @lilydesignsystem/svelte-headless.
 //
 //   1. Generate `index.ts` — the public barrel re-exporting every
 //      `components/<Name>/<Name>.svelte`. Generated, not hand-maintained:

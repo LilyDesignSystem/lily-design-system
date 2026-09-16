@@ -9,10 +9,10 @@ license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 The Svelte 5 implementation of Lily's canonical 491-component catalog:
 headless, unstyled, accessible components — semantic HTML, ARIA, focus
 management, and keyboard behaviour, and **no CSS**. Published to npm as
-[`lily-design-system-svelte-headless`](https://www.npmjs.com/package/lily-design-system-svelte-headless).
+[`@lilydesignsystem/svelte-headless`](https://www.npmjs.com/package/@lilydesignsystem/svelte-headless).
 
 ```sh
-pnpm add lily-design-system-svelte-headless
+pnpm add @lilydesignsystem/svelte-headless
 ```
 
 The package ships a built `dist/` (via `svelte-package`) with a barrel entry
@@ -20,7 +20,7 @@ point — `main`/`types`/`svelte` all resolve through `package.json#exports`,
 so a consumer imports named exports from the package root:
 
 ```ts
-import { BreadcrumbNav, BreadcrumbList, BreadcrumbListItem } from "lily-design-system-svelte-headless";
+import { BreadcrumbNav, BreadcrumbList, BreadcrumbListItem } from "@lilydesignsystem/svelte-headless";
 ```
 
 This library does **not** depend on SvelteKit — it works in any Svelte 5

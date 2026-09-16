@@ -12,7 +12,7 @@ A headless React component library with accessible, unstyled components. Based o
 
 ## Quick Reference
 
-- **Package**: lily-design-system-react-headless
+- **Package**: @lilydesignsystem/react-headless
 - **Version**: 0.2.0
 - **Created**: 2026-03-03
 - **License**: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause or contact us for more

@@ -5,9 +5,9 @@
     "entryFile": "index.ts"
   },
   "allowedNonPeerDependencies": [
-    "lily-design-system-angular-theme-picker",
-    "lily-design-system-angular-locale-picker",
-    "lily-design-system-angular-text-size-picker",
-    "lily-design-system-angular-share-picker"
+    "@lilydesignsystem/angular-theme-picker",
+    "@lilydesignsystem/angular-locale-picker",
+    "@lilydesignsystem/angular-text-size-picker",
+    "@lilydesignsystem/angular-share-picker"
   ]
 }

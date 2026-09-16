@@ -29,7 +29,7 @@ contract cleanly:
   `text-size-picker` class hooks.
 
 The helper is a direct port of the Svelte canonical
-`lily-design-system-svelte-text-size-picker`. The DOM contract and
+`@lilydesignsystem/svelte-text-size-picker`. The DOM contract and
 behaviour match clause-for-clause; only the framework idioms differ.
 
 ## How the pieces fit

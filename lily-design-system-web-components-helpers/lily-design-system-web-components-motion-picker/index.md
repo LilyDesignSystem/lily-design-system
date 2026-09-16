@@ -34,7 +34,7 @@ media query before falling back to an arbitrary default.
 ```
 
 ```js
-import "lily-design-system-web-components-motion-picker";
+import "@lilydesignsystem/web-components-motion-picker";
 
 const picker = document.querySelector("motion-picker");
 picker.addEventListener("motionchange", (e) => {

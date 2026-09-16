@@ -24,7 +24,7 @@
 A Claude Skill explaining how to consume the
 [`lily-design-system-angular-helpers`](../lily-design-system-angular-helpers/)
 catalog: six opinionated Angular packages
-(`lily-design-system-angular-theme-picker`,
+(`@lilydesignsystem/angular-theme-picker`,
 `-locale-picker`, `-text-size-picker`, `-motion-picker`, `-share-picker`,
 `-date-time-picker`) that each own one complete interaction end to end,
 alongside the pure-markup Angular headless catalog. The skill itself is

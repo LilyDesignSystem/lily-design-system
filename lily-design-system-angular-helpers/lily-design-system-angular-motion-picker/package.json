@@ -1,5 +1,5 @@
 {
-  "name": "lily-design-system-angular-motion-picker",
+  "name": "@lilydesignsystem/angular-motion-picker",
   "version": "0.1.0",
   "engines": {
     "node": "=26"

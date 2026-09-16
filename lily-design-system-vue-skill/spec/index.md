@@ -10,7 +10,7 @@ eighteen-skill plan this subproject implements one part of.
 
 An **umbrella** Claude Skill for Vue: it ties together the three real Vue
 subprojects in this monorepo —
-[`lily-design-system-vue-headless`](../../lily-design-system-vue-headless/)
+[`@lilydesignsystem/vue-headless`](../../lily-design-system-vue-headless/)
 (the 491-component catalog as unstyled `.vue` SFCs),
 [`lily-design-system-vue-helpers`](../../lily-design-system-vue-helpers/)
 (the six `*-picker` packages), and
@@ -28,7 +28,7 @@ Its siblings:
   composition patterns — this subproject narrows that to "which Vue
   subproject do I need" rather than duplicating it.
 - [`lily-design-system-vue-headless-skill`](../../lily-design-system-vue-headless-skill/)
-  covers `lily-design-system-vue-headless`'s own install/import/consumption
+  covers `@lilydesignsystem/vue-headless`'s own install/import/consumption
   idiom in depth.
 - [`lily-design-system-vue-helpers-skill`](../../lily-design-system-vue-helpers-skill/)
   covers `lily-design-system-vue-helpers`'s own per-package contracts and

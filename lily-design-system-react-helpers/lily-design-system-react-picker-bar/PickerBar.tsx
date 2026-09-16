@@ -2,17 +2,17 @@ import * as React from "react";
 
 import ThemePicker, {
   type Props as ThemePickerProps,
-} from "lily-design-system-react-theme-picker";
+} from "@lilydesignsystem/react-theme-picker";
 import LocalePicker, {
   type Props as LocalePickerProps,
-} from "lily-design-system-react-locale-picker";
+} from "@lilydesignsystem/react-locale-picker";
 import TextSizePicker, {
   type Props as TextSizePickerProps,
-} from "lily-design-system-react-text-size-picker";
+} from "@lilydesignsystem/react-text-size-picker";
 import SharePicker, {
   type Props as SharePickerProps,
   type ShareTarget,
-} from "lily-design-system-react-share-picker";
+} from "@lilydesignsystem/react-share-picker";
 
 /**
  * All 45 Lily reference theme slugs (see `themes/` at the repo root),

@@ -1,5 +1,5 @@
 {
-  "name": "lily-design-system-nunjucks-motion-picker",
+  "name": "@lilydesignsystem/nunjucks-motion-picker",
   "version": "0.1.0",
   "engines": {
     "node": "=26"

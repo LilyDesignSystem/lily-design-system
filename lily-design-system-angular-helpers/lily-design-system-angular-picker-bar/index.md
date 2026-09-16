@@ -12,10 +12,10 @@ has no natural spot next to the other three header preferences, and
 ## Install
 
 ```sh
-npm install lily-design-system-angular-picker-bar
+npm install @lilydesignsystem/angular-picker-bar
 ```
 
-`lily-design-system-angular-theme-picker`, `-locale-picker`,
+`@lilydesignsystem/angular-theme-picker`, `-locale-picker`,
 `-text-size-picker`, and `-share-picker` install automatically as
 regular dependencies — `PickerBar` is a thin wrapper around them, not
 a reimplementation.
@@ -24,7 +24,7 @@ a reimplementation.
 
 ```ts
 import { Component } from "@angular/core";
-import { PickerBar } from "lily-design-system-angular-picker-bar";
+import { PickerBar } from "@lilydesignsystem/angular-picker-bar";
 
 @Component({
   selector: "app-header",
@@ -61,7 +61,7 @@ if you add `[copyLabel]="'Copy link'"`.
 Both are exported as named constants:
 
 ```ts
-import { DEFAULT_THEMES, DEFAULT_SIZES } from "lily-design-system-angular-picker-bar";
+import { DEFAULT_THEMES, DEFAULT_SIZES } from "@lilydesignsystem/angular-picker-bar";
 ```
 
 ## Overriding one picker's extra options

@@ -30,7 +30,7 @@ app remembers.
 
 ```svelte
 <script lang="ts">
-  import TextSizePicker from "lily-design-system-svelte-text-size-picker";
+  import TextSizePicker from "@lilydesignsystem/svelte-text-size-picker";
   let size = $state("");
 </script>
 

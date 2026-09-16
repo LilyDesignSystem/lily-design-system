@@ -1,6 +1,6 @@
 # TextSizePicker — Specification (Nunjucks)
 
-Single source of truth for the `lily-design-system-nunjucks-text-size-picker`
+Single source of truth for the `@lilydesignsystem/nunjucks-text-size-picker`
 Nunjucks helper. This file drives implementation, testing, and
 documentation in the spec-driven-development style: anything not in
 this spec is out of scope; anything in this spec must be exercised by
@@ -15,11 +15,11 @@ Sibling files in this directory:
 - `index.md` — user-facing readme
 - `docs/` — topic deep-dives (`accessibility.md`, `ssr.md`)
 
-The headless `lily-design-system-nunjucks-headless` library does not
+The headless `@lilydesignsystem/nunjucks-headless` library does not
 (yet) include a canonical `TextSizePicker`; this helper is the
 opinionated, reusable counterpart split into a Nunjucks macro and a
 client-side JS module. It is a direct port of the canonical Svelte
-helper `lily-design-system-svelte-text-size-picker`; the DOM contract
+helper `@lilydesignsystem/svelte-text-size-picker`; the DOM contract
 and behaviour match clause-for-clause, only the framework idioms
 differ.
 
@@ -460,7 +460,7 @@ Ported from the canonical Svelte spec's §7.14–§7.17.
   (or contact for other terms)
 - Contact: Joel Parker Henderson &lt;joel@joelparkerhenderson.com&gt;
 - Canonical reference: the Svelte helper
-  `lily-design-system-svelte-text-size-picker`
+  `@lilydesignsystem/svelte-text-size-picker`
 
 ---
 

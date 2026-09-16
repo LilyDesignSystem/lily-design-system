@@ -1,12 +1,12 @@
 # DateTimePicker — Specification
 
-Single source of truth for the `lily-design-system-vue-date-time-picker`
+Single source of truth for the `@lilydesignsystem/vue-date-time-picker`
 Vue 3 helper. This file drives implementation, testing, and documentation
 in the spec-driven-development style: anything not in this spec is out of
 scope; anything in this spec must be exercised by a test.
 
 A direct port of the canonical
-[`lily-design-system-svelte-date-time-picker`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/spec/index.md).
+[`@lilydesignsystem/svelte-date-time-picker`](../../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/spec/index.md).
 Where the two disagree, the Svelte side wins. The §7 clause numbers are
 kept identical across catalogs so the suites cross-reference.
 
@@ -810,7 +810,7 @@ canonical, since these are all behavioural rather than framework-specific.
 - Package directory: `lily-design-system-vue-helpers/lily-design-system-vue-date-time-picker/`
 - Spec version: 0.1.0
 - Created: 2026-07-28
-- Ported from: `lily-design-system-svelte-date-time-picker` 0.1.0
+- Ported from: `@lilydesignsystem/svelte-date-time-picker` 0.1.0
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause (or
   contact for other terms)
 - Contact: Joel Parker Henderson &lt;joel@joelparkerhenderson.com&gt;

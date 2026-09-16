@@ -14,7 +14,7 @@ built-in copy-the-URL action. Ships no CSS, no icons, and no third-party
 endpoints.
 
 Ported from the canonical Svelte helper
-[`lily-design-system-svelte-share-picker`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-picker/).
+[`@lilydesignsystem/svelte-share-picker`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-picker/).
 Svelte wins on behaviour; this package supplies the custom-element idiom.
 
 ## Files

@@ -109,7 +109,7 @@ subprojects (see [architecture](../architecture/index.md)), or the
 
 Every other implementation subproject's exported name follows the
 `lily-design-system-*` prefix and exists purely as a publishing target —
-nobody needs a local sibling clone of `lily-design-system-svelte-headless`
+nobody needs a local sibling clone of `@lilydesignsystem/svelte-headless`
 next to the monorepo, because there's no platform requirement forcing a
 specific standalone name or location. The docs site is the one subproject
 where the export's name and (optionally) its local presence as a sibling

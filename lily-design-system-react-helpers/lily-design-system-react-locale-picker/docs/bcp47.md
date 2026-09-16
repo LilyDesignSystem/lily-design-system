@@ -248,7 +248,7 @@ import {
   isRtlLocale,
   localeName,
   matchNavigatorLanguage,
-} from "lily-design-system-react-locale-picker";
+} from "@lilydesignsystem/react-locale-picker";
 
 bcp47LocaleTag("en_US"); // "en-US"
 bcp47LocaleTag("zh_Hant_TW"); // "zh-Hant-TW"

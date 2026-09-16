@@ -1,7 +1,7 @@
 # Lily Design System™ — Svelte Headless Skill
 
 A Claude Skill ([`SKILL.md`](SKILL.md)) that explains how to install and
-consume [`lily-design-system-svelte-headless`](../lily-design-system-svelte-headless/),
+consume [`@lilydesignsystem/svelte-headless`](../lily-design-system-svelte-headless/),
 the Svelte 5 implementation of Lily's 491-component headless catalog: the
 npm package identity, the Svelte 5 runes-specific consumption idiom (the
 `class` prop, `$props()` with rest-props, `$bindable()` for open/close

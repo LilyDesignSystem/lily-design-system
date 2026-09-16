@@ -12,7 +12,7 @@ a framework-scoped pair.
 ## 1. Role in the ecosystem
 
 A Claude Skill that explains how to consume
-[`lily-design-system-nunjucks-headless`](../../lily-design-system-nunjucks-headless/):
+[`@lilydesignsystem/nunjucks-headless`](../../lily-design-system-nunjucks-headless/):
 the macro-call idiom (a single `params` object, the shared `text` / `html`
 / `label` / `classes` / `attributes` keys), the camelCase-macro versus
 kebab-case-file/class naming split Nunjucks' own identifier syntax forces,
@@ -78,7 +78,7 @@ tests to run beyond `bin/test`'s required-files checks.
 
 ## 5. Related topics
 
-- [`lily-design-system-nunjucks-headless`'s spec/index.md](../../lily-design-system-nunjucks-headless/spec/index.md) —
+- [`@lilydesignsystem/nunjucks-headless`'s spec/index.md](../../lily-design-system-nunjucks-headless/spec/index.md) —
   the subproject this skill teaches consumers to use; the source of
   truth for the macro catalog itself, its file layout, and its test
   suite.

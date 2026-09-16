@@ -18,7 +18,7 @@ to the native-custom-element idiom): [`lily-design-system-skill`](../lily-design
 
 ## The two real subprojects
 
-- **[`lily-design-system-web-components-headless`](../lily-design-system-web-components-headless/)**
+- **[`@lilydesignsystem/web-components-headless`](../lily-design-system-web-components-headless/)**
   — a headless catalog at its **full achievable scope**: 456 of the canonical 491 (as of 2026-09-06)
   components as native custom elements (`class X extends HTMLElement`,
   `customElements.define("lily-{slug}", X)`), no framework runtime, no
@@ -69,9 +69,9 @@ framework's example app carries.
 Both plain HTML and Web Components ship helpers as custom elements — the
 Web Components helpers catalog is in fact copied from the HTML helpers
 catalog. But the two headless catalogs are not the same thing:
-`lily-design-system-html-headless` is one of the seven full-catalog
+`@lilydesignsystem/html-headless` is one of the seven full-catalog
 (491/491) headless libraries, targeting plain HTML with no custom-element
-registration; `lily-design-system-web-components-headless` is a separate,
+registration; `@lilydesignsystem/web-components-headless` is a separate,
 later project at its full achievable scope (456/491) built on the native
 `customElements` platform API, with its own light-DOM-only and
 autonomous-custom-element architecture decisions. Don't conflate the two

@@ -10,19 +10,19 @@ order, 12- vs 24-hour clock and AM/PM names all come from `Intl`.
 
 Canonical contract: [spec/index.md](./spec/index.md). This package is the
 Angular port of the Svelte-canonical
-[`lily-design-system-svelte-date-time-picker`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/).
+[`@lilydesignsystem/svelte-date-time-picker`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/).
 
 ## Install
 
 ```sh
-npm install lily-design-system-angular-date-time-picker
+npm install @lilydesignsystem/angular-date-time-picker
 ```
 
 ## Use it
 
 ```ts
 import { Component } from "@angular/core";
-import { DateTimePicker } from "lily-design-system-angular-date-time-picker";
+import { DateTimePicker } from "@lilydesignsystem/angular-date-time-picker";
 
 @Component({
   selector: "app-booking",
@@ -265,11 +265,11 @@ nobody wants to page a calendar back forty years.
 
 ## Related
 
-- [`lily-design-system-angular-theme-picker`](../lily-design-system-angular-theme-picker/)
-- [`lily-design-system-angular-locale-picker`](../lily-design-system-angular-locale-picker/)
-- [`lily-design-system-angular-text-size-picker`](../lily-design-system-angular-text-size-picker/)
-- [`lily-design-system-angular-share-picker`](../lily-design-system-angular-share-picker/)
-- [`lily-design-system-svelte-date-time-picker`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/) — the canonical Svelte original.
+- [`@lilydesignsystem/angular-theme-picker`](../lily-design-system-angular-theme-picker/)
+- [`@lilydesignsystem/angular-locale-picker`](../lily-design-system-angular-locale-picker/)
+- [`@lilydesignsystem/angular-text-size-picker`](../lily-design-system-angular-text-size-picker/)
+- [`@lilydesignsystem/angular-share-picker`](../lily-design-system-angular-share-picker/)
+- [`@lilydesignsystem/svelte-date-time-picker`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/) — the canonical Svelte original.
 
 ## License
 

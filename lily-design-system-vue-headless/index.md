@@ -18,7 +18,7 @@ A headless Vue 3 component library with 490 components. All components are headl
 ### Install
 
 ```bash
-pnpm install lily-design-system-vue-headless
+pnpm install @lilydesignsystem/vue-headless
 ```
 
 ### Peer Dependencies

@@ -23,7 +23,7 @@ This is the framework-specific counterpart, for the HTML helpers catalog, to
 the general [`lily-design-system-skill`](../../lily-design-system-skill/).
 Its own sibling, [`lily-design-system-html-headless-skill`](../../lily-design-system-html-headless-skill/),
 covers the neighbouring headless component library
-(`lily-design-system-html-headless`) instead of this helpers catalog.
+(`@lilydesignsystem/html-headless`) instead of this helpers catalog.
 
 ## 2. Scope
 

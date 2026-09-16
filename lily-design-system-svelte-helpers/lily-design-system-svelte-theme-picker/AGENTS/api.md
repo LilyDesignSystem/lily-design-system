@@ -224,7 +224,7 @@ And on the resolved target:
 can type their wrapping code:
 
 ```ts
-import type { Props, ChildArgs } from "lily-design-system-svelte-theme-picker";
+import type { Props, ChildArgs } from "@lilydesignsystem/svelte-theme-picker";
 
 const config: Pick<Props, "themesUrl" | "themes" | "storageKey"> = {
   themesUrl: "/assets/themes/",

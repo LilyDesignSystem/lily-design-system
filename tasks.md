@@ -763,7 +763,7 @@ Rules for the executing agent:
 - [x] **P7-T6 (stretch) Web Components headless subproject** — 8th
   headless library as native custom elements. Done 2026-09-03, scoped
   by explicit user choice to **scaffold + representative subset, not
-  full catalog parity**: `lily-design-system-web-components-headless`
+  full catalog parity**: `@lilydesignsystem/web-components-headless`
   ships 30 of the 491 canonical components (8 buttons/links, 5 forms,
   4 overlays, 6 media/data, 7 content), each a real, tested autonomous
   custom element (`customElements.define("lily-{slug}", ...)`), plus
@@ -825,7 +825,7 @@ Rules for the executing agent:
   `bin/smoke-packages` (extended to cover motion-picker) run for real
   end-to-end against all 6 npm catalogs' built tarballs — "all
   packages OK"; `npm publish --access public --dry-run` verified
-  directly against the built `lily-design-system-svelte-motion-picker`
+  directly against the built `@lilydesignsystem/svelte-motion-picker`
   package — packs and validates cleanly (never-published 0.1.0, no
   registry conflict). The aggregate `bin/publish-helpers --dry-run`
   itself could not be used for this verification — see the new
@@ -838,7 +838,7 @@ Rules for the executing agent:
   real registry and refuses outright ("You cannot publish over the
   previously published versions: X.Y.Z") when the local version
   already exists there — confirmed against the live registry
-  (`npm view lily-design-system-svelte-date-time-picker version` →
+  (`npm view @lilydesignsystem/svelte-date-time-picker version` →
   `0.1.1`, matching the in-repo version). Because the aggregate
   scripts loop with `set -eu`, hitting this on ANY already-published
   package (alphabetically, `date-time-picker` sorts before
@@ -1074,7 +1074,7 @@ Rules for the executing agent:
   vitest setup — 491 orphaned `src/app/components/*.spec.ts` files
   can't run.** Found 2026-08-29 while adding P6-T5's suffix-pattern
   unit tests: this app has copies of all 491 `.spec.ts` files from
-  `lily-design-system-angular-headless` (part of the standard
+  `@lilydesignsystem/angular-headless` (part of the standard
   copy-pattern) but never received the matching `vitest.config.ts` /
   TestBed / jsdom / `@analogjs/vite-plugin-angular` wiring that
   angular-headless's own config provides — running `vitest` cold fails
@@ -1248,7 +1248,7 @@ Rules for the executing agent:
   mirrors' tests run together via vitest's default glob — plus 1 in
   svelte-sveltekit-examples).
 
-- [x] **P7-T14 `lily-design-system-svelte-headless` carries a second,
+- [x] **P7-T14 `@lilydesignsystem/svelte-headless` carries a second,
   likely-dead copy of every component under a root `components/`
   directory, duplicating `src/lib/components/`.** Found 2026-08-29
   alongside P7-T13.
@@ -1486,7 +1486,7 @@ dropped. None is speculative.
   (§2 scope, §3 architecture, the `bin/publish-headless` and
   `bin/check-coverage` table rows, §11.2, §11.4, §11.7) and
   `spec/architecture/index.md` inherits the count. The 8th, partial
-  `lily-design-system-web-components-headless` catalog (30/491) joined
+  `@lilydesignsystem/web-components-headless` catalog (30/491) joined
   2026-09-03 and its own `spec/index.md` explicitly notes the root
   framing "predates this subproject and is not itself amended here".
   Decide the framing once — "7 full-catalog + 1 partial" is the honest
@@ -1572,18 +1572,18 @@ dropped. None is speculative.
   publish.** P7-T6 deliberately stopped short of two acceptance items:
   the git-subtree standalone repos (GitHub / GitLab / Codeberg under
   `LilyDesignSystem`) do not exist yet, so `bin/git-subtree-push`
-  cannot run for it, and `lily-design-system-web-components-headless`
+  cannot run for it, and `@lilydesignsystem/web-components-headless`
   0.1.0 is unpublished on npm. Creating the GitLab and Codeberg repos
   needs API tokens this environment does not hold (`gh` covers GitHub
   only) — a maintainer step. Then `bin/git-subtree-push
-  lily-design-system-web-components-headless` and add the package to
+  @lilydesignsystem/web-components-headless` and add the package to
   `bin/publish-headless` (it is not in that script's list either).
   Progress 2026-09-03 — script half done: the package is now in
   `bin/publish-headless`'s npm loop (publishes from the package root;
   its `prepublishOnly` runs `build.mjs`). Verified by a real
   `bin/publish-headless --dry-run`: the run reaches
-  `lily-design-system-web-components-headless`, runs `build.mjs`,
-  packs cleanly (`+ lily-design-system-web-components-headless@0.1.0`,
+  `@lilydesignsystem/web-components-headless`, runs `build.mjs`,
+  packs cleanly (`+ @lilydesignsystem/web-components-headless@0.1.0`,
   no registry conflict — it is unpublished), exit 0. Still open and
   blocked on a maintainer: the GitLab/Codeberg standalone repos (no API
   tokens here; `gh` covers GitHub only), then `bin/git-subtree-push`
@@ -1592,7 +1592,7 @@ dropped. None is speculative.
   reports a clean pack (done); the three remotes resolve (pending).
   Closed 2026-09-03 by maintainer decision: asked whether to create the
   GitHub repo and subtree-push, the answer was to keep
-  `lily-design-system-web-components-headless` **inside the monorepo**
+  `@lilydesignsystem/web-components-headless` **inside the monorepo**
   — no standalone remote and no npm publish for now. The
   `.git-subtree-push` file and the `bin/publish-headless` wiring stay
   in place so either can be done later without rework; the package

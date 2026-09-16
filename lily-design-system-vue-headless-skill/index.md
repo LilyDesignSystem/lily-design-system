@@ -1,7 +1,7 @@
 # Lily Design System™ — Vue Headless Skill
 
 A Claude Skill ([`SKILL.md`](SKILL.md)) that explains how to install, import,
-and consume [`lily-design-system-vue-headless`](../lily-design-system-vue-headless/)
+and consume [`@lilydesignsystem/vue-headless`](../lily-design-system-vue-headless/)
 — the Vue 3 implementation of Lily's headless component catalog — using
 correct Vue 3 Composition API idiom: SFC `<script setup lang="ts">`,
 `:class` binding, `v-bind="$attrs"`, `<slot />`, `defineModel()`.
@@ -16,7 +16,7 @@ committing to any one framework's syntax.
 ## What it's for
 
 Load this skill when someone asks how to install or import
-`lily-design-system-vue-headless`, wants a Vue 3 SFC-correct usage example
+`@lilydesignsystem/vue-headless`, wants a Vue 3 SFC-correct usage example
 of a Lily headless component, or is unsure how class binding, fallthrough
 attributes, or slots work in this library specifically. It doesn't restate
 `AGENTS/headless.md`, `AGENTS/components.md`, or the Vue headless

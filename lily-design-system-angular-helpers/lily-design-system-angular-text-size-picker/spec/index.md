@@ -1,7 +1,7 @@
 # TextSizePicker — Specification
 
 Single source of truth for the
-`lily-design-system-angular-text-size-picker` Angular helper. This file
+`@lilydesignsystem/angular-text-size-picker` Angular helper. This file
 drives implementation, testing, and documentation in the
 spec-driven-development style: anything not in this spec is out of
 scope; anything in this spec must be exercised by a test.

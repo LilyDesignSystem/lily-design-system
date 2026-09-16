@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, input, model, output } from "@angular/core";
 
-import { ThemePicker } from "lily-design-system-angular-theme-picker";
-import { LocalePicker } from "lily-design-system-angular-locale-picker";
-import { TextSizePicker } from "lily-design-system-angular-text-size-picker";
+import { ThemePicker } from "@lilydesignsystem/angular-theme-picker";
+import { LocalePicker } from "@lilydesignsystem/angular-locale-picker";
+import { TextSizePicker } from "@lilydesignsystem/angular-text-size-picker";
 import {
   SharePicker,
   type ShareEvent,
   type ShareStrategy,
   type ShareTarget,
-} from "lily-design-system-angular-share-picker";
+} from "@lilydesignsystem/angular-share-picker";
 
 /**
  * All 45 Lily reference theme slugs (see `themes/` at the repo root),

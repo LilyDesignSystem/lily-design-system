@@ -1,5 +1,5 @@
 {
-  "name": "lily-design-system-vue-motion-picker",
+  "name": "@lilydesignsystem/vue-motion-picker",
   "version": "0.1.0",
   "engines": {
     "node": "=26"

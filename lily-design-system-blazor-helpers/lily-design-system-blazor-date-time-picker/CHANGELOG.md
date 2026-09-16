@@ -109,7 +109,7 @@ keyboard user would actually hit. Test count 58 → 65 (§7.49–§7.55); the
 ### Initial entry — 2026-07-28
 
 Initial release. A Blazor 10 port of the canonical Svelte helper
-[`lily-design-system-svelte-date-time-picker`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/).
+[`@lilydesignsystem/svelte-date-time-picker`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/).
 
 `date-time-picker` is the catalog's **fifth helper**, and its first port
 outside Svelte. Unlike the three `*-select` preference helpers and

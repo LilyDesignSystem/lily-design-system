@@ -58,7 +58,7 @@ needs no extra wiring.
 ```svelte
 <script lang="ts">
     import { locale } from "svelte-i18n";
-    import { LocalePicker } from "lily-design-system-svelte-locale-picker";
+    import { LocalePicker } from "@lilydesignsystem/svelte-locale-picker";
 
     let code = $state($locale ?? "en");
 
@@ -80,7 +80,7 @@ Paraglide example:
 ```svelte
 <script lang="ts">
     import { setLocale } from "$lib/paraglide/runtime";
-    import { LocalePicker } from "lily-design-system-svelte-locale-picker";
+    import { LocalePicker } from "@lilydesignsystem/svelte-locale-picker";
 
     let code = $state("en");
 </script>

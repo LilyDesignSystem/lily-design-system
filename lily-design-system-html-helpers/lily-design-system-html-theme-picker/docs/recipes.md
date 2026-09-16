@@ -29,7 +29,7 @@ resolution falls through — reach for the exported helper and your own
 mapping instead:
 
 ```ts
-import { matchSystemTheme } from "lily-design-system-html-theme-picker";
+import { matchSystemTheme } from "@lilydesignsystem/html-theme-picker";
 
 // Catalog uses "midnight" rather than "dark".
 const prefersDark = window.matchMedia?.("(prefers-color-scheme: dark)").matches;

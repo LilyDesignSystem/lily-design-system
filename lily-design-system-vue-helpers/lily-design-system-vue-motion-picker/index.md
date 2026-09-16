@@ -26,7 +26,7 @@ an arbitrary default.
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import MotionPicker from "lily-design-system-vue-motion-picker";
+import MotionPicker from "@lilydesignsystem/vue-motion-picker";
 
 const motion = ref("");
 </script>

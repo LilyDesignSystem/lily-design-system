@@ -36,7 +36,7 @@ exist in the server-rendered markup at all. See
 ## Install
 
 ```sh
-npm install lily-design-system-nunjucks-date-time-picker
+npm install @lilydesignsystem/nunjucks-date-time-picker
 ```
 
 ## Use
@@ -80,7 +80,7 @@ predicate, or a `formatValue` / `parseInput` override.
 
 ## The deviations from the canonical Svelte helper
 
-The canonical helper — `lily-design-system-svelte-date-time-picker` —
+The canonical helper — `@lilydesignsystem/svelte-date-time-picker` —
 types four props as functions, plus one prop (`hour12`) whose rendering
 depends on a runtime computation. A Nunjucks macro cannot call an
 arbitrary JavaScript function, and cannot call `Intl` at all, so:
@@ -177,7 +177,7 @@ reader speaks it once on open. Either can also arrive at init time via
 ### `initDateTimePicker(root, opts?)`
 
 ```js
-import { initDateTimePicker } from "lily-design-system-nunjucks-date-time-picker";
+import { initDateTimePicker } from "@lilydesignsystem/nunjucks-date-time-picker";
 
 initDateTimePicker(document.querySelector(".date-time-picker"), {
   locale: "en-GB",

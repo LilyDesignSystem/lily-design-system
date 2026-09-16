@@ -1,7 +1,7 @@
 # Lily Design System™ — Nunjucks Headless Skill
 
 A Claude Skill ([`SKILL.md`](SKILL.md)) that explains how to consume
-[`lily-design-system-nunjucks-headless`](../lily-design-system-nunjucks-headless/):
+[`@lilydesignsystem/nunjucks-headless`](../lily-design-system-nunjucks-headless/):
 the macro-call idiom (a single `params` object, `classes`, `attributes`,
 `text`/`html`), the camelCase-macro/kebab-case-file naming split Nunjucks
 syntax forces, composing components via `{% call %}`/`caller()`, and

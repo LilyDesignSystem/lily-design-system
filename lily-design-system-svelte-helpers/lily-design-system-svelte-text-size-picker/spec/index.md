@@ -1,6 +1,6 @@
 # TextSizePicker — Specification (Svelte helper)
 
-Canonical contract for `lily-design-system-svelte-text-size-picker`.
+Canonical contract for `@lilydesignsystem/svelte-text-size-picker`.
 The other framework catalogs (react, vue, angular, blazor, html,
 nunjucks) port this spec one-to-one.
 

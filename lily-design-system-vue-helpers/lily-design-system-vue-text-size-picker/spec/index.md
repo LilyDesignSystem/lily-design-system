@@ -1,6 +1,6 @@
 # TextSizePicker — Specification (Vue 3 helper)
 
-Single source of truth for the `lily-design-system-vue-text-size-picker`
+Single source of truth for the `@lilydesignsystem/vue-text-size-picker`
 Vue 3 helper. This file drives implementation, testing, and
 documentation in the spec-driven-development style: anything not in
 this spec is out of scope; anything in this spec must be exercised by

@@ -1,7 +1,7 @@
 # Examples
 
 Self-contained Nunjucks examples for
-`lily-design-system-nunjucks-theme-picker`. Each file is a
+`@lilydesignsystem/nunjucks-theme-picker`. Each file is a
 runnable template that can be dropped into any Nunjucks host
 (Eleventy page, Express view, plain `nunjucks.render` script).
 

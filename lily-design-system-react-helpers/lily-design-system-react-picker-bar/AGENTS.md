@@ -9,7 +9,7 @@ A composed React 19 header control: one `<div className="picker-bar">`
 that renders `ThemePicker`, `LocalePicker`, `TextSizePicker`, and
 `SharePicker` — four of the six `*-picker` helpers — in that fixed
 order, each imported as a normal npm dependency from its own published
-package (`lily-design-system-react-theme-picker`, `-locale-picker`,
+package (`@lilydesignsystem/react-theme-picker`, `-locale-picker`,
 `-text-size-picker`, `-share-picker`). It adds no lifecycle of its own
 beyond two catalog-specific defaults: the full 45-theme reference list
 (§5.1 of the spec) and the seven-step text-size scale (§5.2).

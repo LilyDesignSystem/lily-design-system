@@ -23,7 +23,7 @@
 
 A Claude Skill explaining how to install, import, and use the React
 headless implementation of Lily Design System™:
-[`lily-design-system-react-headless`](../lily-design-system-react-headless/)
+[`@lilydesignsystem/react-headless`](../lily-design-system-react-headless/)
 (npm, React 19, 491-component catalog). The skill itself is
 [`SKILL.md`](SKILL.md); the `@AGENTS/*.md` files loaded above are the
 same binding design-principle rules every other subproject in this
@@ -34,12 +34,12 @@ is held to.
 ## What this subproject is, and isn't
 
 - **Is**: a distributable skill covering how to consume
-  `lily-design-system-react-headless` in a React application — install,
+  `@lilydesignsystem/react-headless` in a React application — install,
   import, JSX conventions (`className`, rest-props spreading,
   controlled `value`/`onChange` and `open`/`onChange` patterns) — for
   people building *with* it.
 - **Isn't**: the React headless library itself (that's
-  [`lily-design-system-react-headless`](../lily-design-system-react-headless/),
+  [`@lilydesignsystem/react-headless`](../lily-design-system-react-headless/),
   which ships the actual components), isn't the general
   framework-agnostic Lily skill (that's
   [`lily-design-system-skill`](../lily-design-system-skill/)), and

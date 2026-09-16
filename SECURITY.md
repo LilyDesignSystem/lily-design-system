@@ -25,7 +25,7 @@ retro-fitted: a published npm version is immutable, so the only remedy for any
 defect is a new version. If you are not on the newest release, you are receiving no
 fixes, and the action is to upgrade.
 
-**Known-bad versions.** Versions `0.2.0` of `lily-design-system-svelte-headless`,
+**Known-bad versions.** Versions `0.2.0` of `@lilydesignsystem/svelte-headless`,
 `-react-headless`, and `-vue-headless` are unusable — they declared an entry point
 that was never built. Not a security defect, but recorded here because "upgrade" is
 the answer to it too.

@@ -1,6 +1,6 @@
 {
-  "name": "lily-design-system-nunjucks-text-size-picker",
-  "version": "0.2.0",
+  "name": "@lilydesignsystem/nunjucks-text-size-picker",
+  "version": "0.1.0",
   "engines": {
     "node": "=26"
   },

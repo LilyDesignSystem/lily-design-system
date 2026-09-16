@@ -27,7 +27,7 @@ Its siblings:
   framework's consumption syntax rather than duplicating it.
 - [`lily-design-system-vue-headless-skill`](../../lily-design-system-vue-headless-skill/)
   covers the parallel headless component catalog for Vue
-  (`lily-design-system-vue-headless`), a separate npm package family with
+  (`@lilydesignsystem/vue-headless`), a separate npm package family with
   a separate contract.
 
 ## 2. Scope

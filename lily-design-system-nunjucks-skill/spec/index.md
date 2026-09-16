@@ -12,7 +12,7 @@ among them — extend.
 
 A Claude Skill that acts as the **umbrella** for Nunjucks in Lily Design
 System: it ties together the three real Nunjucks subprojects —
-[`lily-design-system-nunjucks-headless`](../../lily-design-system-nunjucks-headless/),
+[`@lilydesignsystem/nunjucks-headless`](../../lily-design-system-nunjucks-headless/),
 [`lily-design-system-nunjucks-helpers`](../../lily-design-system-nunjucks-helpers/),
 and
 [`lily-design-system-nunjucks-eleventy-examples`](../../lily-design-system-nunjucks-eleventy-examples/) —

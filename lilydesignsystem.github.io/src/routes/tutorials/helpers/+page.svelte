@@ -60,7 +60,7 @@
   </p>
   <!-- `<` + `script>` keeps the literal tag out of the Svelte compiler's view. -->
   <pre><code>{`<` + `script>
-  import LocalePicker from "lily-design-system-svelte-locale-picker";
+  import LocalePicker from "@lilydesignsystem/svelte-locale-picker";
 
   let locale = $state("en-US");
 </` + `script>
@@ -88,7 +88,7 @@
     CSS maps each value to sizing.
   </p>
   <pre><code>{`<` + `script>
-  import TextSizePicker from "lily-design-system-svelte-text-size-picker";
+  import TextSizePicker from "@lilydesignsystem/svelte-text-size-picker";
 </` + `script>
 
 <TextSizePicker
@@ -123,7 +123,7 @@
     system's.
   </p>
   <pre><code>{`<` + `script>
-  import SharePicker from "lily-design-system-svelte-share-picker";
+  import SharePicker from "@lilydesignsystem/svelte-share-picker";
 
   const targets = [
     { id: "mastodon", label: "Mastodon",
@@ -159,7 +159,7 @@
     <code>mode="datetime"</code>.
   </p>
   <pre><code>{`<` + `script>
-  import DateTimePicker from "lily-design-system-svelte-date-time-picker";
+  import DateTimePicker from "@lilydesignsystem/svelte-date-time-picker";
 
   let appointment = $state("");
 </` + `script>

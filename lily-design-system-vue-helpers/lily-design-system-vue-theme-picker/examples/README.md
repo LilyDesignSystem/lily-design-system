@@ -1,7 +1,7 @@
 # Examples
 
 Self-contained Vue 3 examples for
-`lily-design-system-vue-theme-picker`. Each file is a runnable
+`@lilydesignsystem/vue-theme-picker`. Each file is a runnable
 component that can be dropped into any Vue 3 host (Nuxt 3 page,
 Vite + Vue route, Astro `.vue` island, Storybook story).
 

@@ -31,25 +31,25 @@
 // all (back to `TS2307: Cannot find module`, the exact error this file
 // exists to avoid). Keep this file import-free.
 
-declare module "lily-design-system-vue-theme-picker" {
+declare module "@lilydesignsystem/vue-theme-picker" {
     const ThemePicker: any;
     export default ThemePicker;
     export type Props = Record<string, unknown>;
 }
 
-declare module "lily-design-system-vue-locale-picker" {
+declare module "@lilydesignsystem/vue-locale-picker" {
     const LocalePicker: any;
     export default LocalePicker;
     export type Props = Record<string, unknown>;
 }
 
-declare module "lily-design-system-vue-text-size-picker" {
+declare module "@lilydesignsystem/vue-text-size-picker" {
     const TextSizePicker: any;
     export default TextSizePicker;
     export type Props = Record<string, unknown>;
 }
 
-declare module "lily-design-system-vue-share-picker" {
+declare module "@lilydesignsystem/vue-share-picker" {
     const SharePicker: any;
     export default SharePicker;
     export type Props = Record<string, unknown>;

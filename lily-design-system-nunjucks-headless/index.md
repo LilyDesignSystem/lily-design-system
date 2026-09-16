@@ -28,7 +28,7 @@ design system's Nunjucks macro pattern.
 Install the package (once published):
 
 ```bash
-pnpm add lily-design-system-nunjucks-headless
+pnpm add @lilydesignsystem/nunjucks-headless
 ```
 
 Configure Nunjucks with the components path:
@@ -37,7 +37,7 @@ Configure Nunjucks with the components path:
 import nunjucks from "nunjucks";
 
 nunjucks.configure([
-  "node_modules/lily-design-system-nunjucks-headless",
+  "node_modules/@lilydesignsystem/nunjucks-headless",
   "views",
 ], {
   autoescape: true,

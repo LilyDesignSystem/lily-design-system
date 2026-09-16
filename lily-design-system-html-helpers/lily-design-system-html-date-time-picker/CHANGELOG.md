@@ -1,8 +1,22 @@
 # Changelog
 
-All notable changes to `lily-design-system-html-date-time-picker` are
+All notable changes to `@lilydesignsystem/html-date-time-picker` are
 documented here. The format follows [Keep a Changelog](https://keepachangelog.com/),
 and this package uses [semantic versioning](https://semver.org/).
+
+## 0.1.0 — 2026-09-16
+
+**Package renamed: `lily-design-system-html-date-time-picker` → `@lilydesignsystem/html-date-time-picker`.** npm scoped packages
+are registry-distinct from their unscoped counterparts, so this is a
+new package with no publish history of its own — version reset to
+`0.1.0` per this project's established rename precedent (the July
+2026 `*-select` → `*-picker` rename). No code or behaviour change
+relative to `lily-design-system-html-date-time-picker`'s last published version (`0.2.0`);
+its full changelog continues below, now read as history prior to the
+rescope. The old unscoped name is deprecated on the registry (never
+unpublished), pointing consumers here.
+
+---
 
 ## 0.2.0 — 2026-09-04
 
@@ -106,7 +120,7 @@ assertions moved from `disabled` to `aria-disabled`.
 ### Initial entry — 2026-07-28
 
 First release. Port of the canonical Svelte helper
-`lily-design-system-svelte-date-time-picker` to a vanilla custom
+`@lilydesignsystem/svelte-date-time-picker` to a vanilla custom
 element, following this catalog's established `<share-picker>` /
 `<theme-picker>` idiom.
 

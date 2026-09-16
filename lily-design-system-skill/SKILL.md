@@ -42,7 +42,7 @@ the headless layer.
 | **Class hook** | The one stable CSS class every component's root element carries. Consumer CSS targets it; nothing else is a contract to rely on unless the component's docs name a sub-class. |
 | **Helper** | A small opinionated package (`theme-picker`, `locale-picker`, `text-size-picker`, `share-picker`, `date-time-picker`) that owns one whole interaction — not just markup, but the popup, the keyboard behaviour, and (for the first three) applying + persisting a preference. Helpers are a layer above plain catalog components. |
 | **Theme** | A ready-to-use stylesheet (45 of them, under `themes/`) targeting the class hooks — NHS England/Scotland/Wales, GOV.UK, USWDS, Adobe Spectrum, Mozilla Protocol, and general-purpose light/dark. The `theme-picker` helper swaps between them at runtime. |
-| **Subproject** | One implementation of the whole catalog for one framework and one layer, e.g. `lily-design-system-react-headless`. Published as its own git subtree/repo. |
+| **Subproject** | One implementation of the whole catalog for one framework and one layer, e.g. `@lilydesignsystem/react-headless`. Published as its own git subtree/repo. |
 
 ## Naming conventions
 

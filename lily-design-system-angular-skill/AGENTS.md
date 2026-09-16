@@ -23,7 +23,7 @@
 
 A Claude Skill that ties together the three real Angular subprojects in
 this monorepo — the headless component library
-[`lily-design-system-angular-headless`](../lily-design-system-angular-headless/),
+[`@lilydesignsystem/angular-headless`](../lily-design-system-angular-headless/),
 the `*-picker` helpers catalog
 [`lily-design-system-angular-helpers`](../lily-design-system-angular-helpers/),
 and the styled example application

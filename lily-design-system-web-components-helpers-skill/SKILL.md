@@ -98,7 +98,7 @@ the event rather than polling a value.
 ## Install and consumption
 
 Each helper is its own npm package (e.g.
-`lily-design-system-web-components-theme-picker`), built from a
+`@lilydesignsystem/web-components-theme-picker`), built from a
 `<kebab>.ts` custom element class plus an `index.ts` barrel that both
 re-exports the class and registers it. A consumer imports the package (or
 its built `dist/` module) for the side-effecting registration, then drops

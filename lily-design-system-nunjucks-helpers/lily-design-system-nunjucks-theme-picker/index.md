@@ -49,7 +49,7 @@ DaisyUI-inspired themes, NHS-aligned themes, or your own bespoke
 set.
 
 The helper is a direct port of the Svelte canonical
-`lily-design-system-svelte-theme-picker`. The DOM contract and
+`@lilydesignsystem/svelte-theme-picker`. The DOM contract and
 behaviour match clause-for-clause; only the framework idioms
 differ.
 

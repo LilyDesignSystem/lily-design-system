@@ -1,5 +1,5 @@
 {
-  "name": "lily-design-system-html-picker-bar",
+  "name": "@lilydesignsystem/html-picker-bar",
   "version": "0.1.0",
   "engines": {
     "node": "=26"
@@ -24,10 +24,10 @@
     "prepublishOnly": "cd .. && npm run build"
   },
   "dependencies": {
-    "lily-design-system-html-theme-picker": "^0.2.0",
-    "lily-design-system-html-locale-picker": "^0.2.0",
-    "lily-design-system-html-text-size-picker": "^0.2.0",
-    "lily-design-system-html-share-picker": "^0.2.0"
+    "@lilydesignsystem/html-theme-picker": "^0.1.0",
+    "@lilydesignsystem/html-locale-picker": "^0.1.0",
+    "@lilydesignsystem/html-text-size-picker": "^0.1.0",
+    "@lilydesignsystem/html-share-picker": "^0.1.0"
   },
   "keywords": [
     "lily",

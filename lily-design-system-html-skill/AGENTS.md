@@ -22,7 +22,7 @@
 ## Overview
 
 A Claude Skill that ties together the three real plain-HTML subprojects in
-this monorepo — [`lily-design-system-html-headless`](../lily-design-system-html-headless/)
+this monorepo — [`@lilydesignsystem/html-headless`](../lily-design-system-html-headless/)
 (the full-catalog, 491/491 headless component library and reference
 implementation), [`lily-design-system-html-helpers`](../lily-design-system-html-helpers/)
 (the six `*-picker` custom elements), and

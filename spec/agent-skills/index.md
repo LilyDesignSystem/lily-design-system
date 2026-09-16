@@ -210,14 +210,14 @@ covering exactly the one real subproject it is named after:
 
 | Framework | Headless skill | Helpers skill |
 | --- | --- | --- |
-| Angular | [`lily-design-system-angular-headless-skill`](../../lily-design-system-angular-headless-skill/) → [`lily-design-system-angular-headless`](../../lily-design-system-angular-headless/) | [`lily-design-system-angular-helpers-skill`](../../lily-design-system-angular-helpers-skill/) → [`lily-design-system-angular-helpers`](../../lily-design-system-angular-helpers/) |
+| Angular | [`lily-design-system-angular-headless-skill`](../../lily-design-system-angular-headless-skill/) → [`@lilydesignsystem/angular-headless`](../../lily-design-system-angular-headless/) | [`lily-design-system-angular-helpers-skill`](../../lily-design-system-angular-helpers-skill/) → [`lily-design-system-angular-helpers`](../../lily-design-system-angular-helpers/) |
 | Blazor | [`lily-design-system-blazor-headless-skill`](../../lily-design-system-blazor-headless-skill/) → [`lily-design-system-blazor-headless`](../../lily-design-system-blazor-headless/) | [`lily-design-system-blazor-helpers-skill`](../../lily-design-system-blazor-helpers-skill/) → [`lily-design-system-blazor-helpers`](../../lily-design-system-blazor-helpers/) |
-| HTML | [`lily-design-system-html-headless-skill`](../../lily-design-system-html-headless-skill/) → [`lily-design-system-html-headless`](../../lily-design-system-html-headless/) | [`lily-design-system-html-helpers-skill`](../../lily-design-system-html-helpers-skill/) → [`lily-design-system-html-helpers`](../../lily-design-system-html-helpers/) |
-| Nunjucks | [`lily-design-system-nunjucks-headless-skill`](../../lily-design-system-nunjucks-headless-skill/) → [`lily-design-system-nunjucks-headless`](../../lily-design-system-nunjucks-headless/) | [`lily-design-system-nunjucks-helpers-skill`](../../lily-design-system-nunjucks-helpers-skill/) → [`lily-design-system-nunjucks-helpers`](../../lily-design-system-nunjucks-helpers/) |
-| React | [`lily-design-system-react-headless-skill`](../../lily-design-system-react-headless-skill/) → [`lily-design-system-react-headless`](../../lily-design-system-react-headless/) | [`lily-design-system-react-helpers-skill`](../../lily-design-system-react-helpers-skill/) → [`lily-design-system-react-helpers`](../../lily-design-system-react-helpers/) |
-| Svelte | [`lily-design-system-svelte-headless-skill`](../../lily-design-system-svelte-headless-skill/) → [`lily-design-system-svelte-headless`](../../lily-design-system-svelte-headless/) | [`lily-design-system-svelte-helpers-skill`](../../lily-design-system-svelte-helpers-skill/) → [`lily-design-system-svelte-helpers`](../../lily-design-system-svelte-helpers/) |
-| Vue | [`lily-design-system-vue-headless-skill`](../../lily-design-system-vue-headless-skill/) → [`lily-design-system-vue-headless`](../../lily-design-system-vue-headless/) | [`lily-design-system-vue-helpers-skill`](../../lily-design-system-vue-helpers-skill/) → [`lily-design-system-vue-helpers`](../../lily-design-system-vue-helpers/) |
-| Web Components | [`lily-design-system-web-components-headless-skill`](../../lily-design-system-web-components-headless-skill/) → [`lily-design-system-web-components-headless`](../../lily-design-system-web-components-headless/) (456/491, its full achievable scope) | [`lily-design-system-web-components-helpers-skill`](../../lily-design-system-web-components-helpers-skill/) → [`lily-design-system-web-components-helpers`](../../lily-design-system-web-components-helpers/) (an independent copy of the HTML helpers, `<lily-*>` tag prefix) |
+| HTML | [`lily-design-system-html-headless-skill`](../../lily-design-system-html-headless-skill/) → [`@lilydesignsystem/html-headless`](../../lily-design-system-html-headless/) | [`lily-design-system-html-helpers-skill`](../../lily-design-system-html-helpers-skill/) → [`lily-design-system-html-helpers`](../../lily-design-system-html-helpers/) |
+| Nunjucks | [`lily-design-system-nunjucks-headless-skill`](../../lily-design-system-nunjucks-headless-skill/) → [`@lilydesignsystem/nunjucks-headless`](../../lily-design-system-nunjucks-headless/) | [`lily-design-system-nunjucks-helpers-skill`](../../lily-design-system-nunjucks-helpers-skill/) → [`lily-design-system-nunjucks-helpers`](../../lily-design-system-nunjucks-helpers/) |
+| React | [`lily-design-system-react-headless-skill`](../../lily-design-system-react-headless-skill/) → [`@lilydesignsystem/react-headless`](../../lily-design-system-react-headless/) | [`lily-design-system-react-helpers-skill`](../../lily-design-system-react-helpers-skill/) → [`lily-design-system-react-helpers`](../../lily-design-system-react-helpers/) |
+| Svelte | [`lily-design-system-svelte-headless-skill`](../../lily-design-system-svelte-headless-skill/) → [`@lilydesignsystem/svelte-headless`](../../lily-design-system-svelte-headless/) | [`lily-design-system-svelte-helpers-skill`](../../lily-design-system-svelte-helpers-skill/) → [`lily-design-system-svelte-helpers`](../../lily-design-system-svelte-helpers/) |
+| Vue | [`lily-design-system-vue-headless-skill`](../../lily-design-system-vue-headless-skill/) → [`@lilydesignsystem/vue-headless`](../../lily-design-system-vue-headless/) | [`lily-design-system-vue-helpers-skill`](../../lily-design-system-vue-helpers-skill/) → [`lily-design-system-vue-helpers`](../../lily-design-system-vue-helpers/) |
+| Web Components | [`lily-design-system-web-components-headless-skill`](../../lily-design-system-web-components-headless-skill/) → [`@lilydesignsystem/web-components-headless`](../../lily-design-system-web-components-headless/) (456/491, its full achievable scope) | [`lily-design-system-web-components-helpers-skill`](../../lily-design-system-web-components-helpers-skill/) → [`lily-design-system-web-components-helpers`](../../lily-design-system-web-components-helpers/) (an independent copy of the HTML helpers, `<lily-*>` tag prefix) |
 
 ### Tooling touched
 
@@ -242,7 +242,7 @@ neither `"headless"` nor `"helpers"` exactly — falling through to the
 `-skill` suffix first. Fixing it also surfaced two adjacent, genuinely
 pre-existing bugs in the same function, fixed at the same time: (1)
 `"web-components"` was never in the `FRAMEWORK` label map at all, so
-`lily-design-system-web-components-headless` and
+`@lilydesignsystem/web-components-headless` and
 `-web-components-helpers` (both already-existing real subprojects, not
 skills) fell through to the same `"other"`/`"examples"` misclassification
 — `lily-design-system-web-components-headless/INSTALL.md` was telling
@@ -273,7 +273,7 @@ framework-specific ones) on 2026-09-04, and the eight framework-umbrella
 skills on 2026-09-05 — both rounds via `gh repo create` for each. This
 environment holds a GitHub token but no GitLab/Codeberg ones, so —
 matching the same gap already logged for
-`lily-design-system-web-components-headless` in `tasks.md` P8-T6 — all
+`@lilydesignsystem/web-components-headless` in `tasks.md` P8-T6 — all
 twenty-six are GitHub-only for now; the multi-forge fan-out every other
 subproject's remote carries remains a maintainer step.
 

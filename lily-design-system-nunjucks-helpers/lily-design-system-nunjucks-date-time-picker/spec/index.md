@@ -1,6 +1,6 @@
 # DateTimePicker (Nunjucks) — Specification
 
-Single source of truth for the `lily-design-system-nunjucks-date-time-picker`
+Single source of truth for the `@lilydesignsystem/nunjucks-date-time-picker`
 helper. This file drives implementation, testing, and documentation:
 anything not in this spec is out of scope; anything in this spec must be
 exercised by a test.

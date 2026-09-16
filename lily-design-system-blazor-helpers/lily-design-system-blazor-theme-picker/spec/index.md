@@ -19,7 +19,7 @@ container. This helper is the opinionated, reusable counterpart that
 owns the dynamic loading lifecycle.
 
 The canonical cross-framework reference is
-`lily-design-system-svelte-helpers/lily-design-system-svelte-theme-picker`;
+`lily-design-system-svelte-helpers/@lilydesignsystem/svelte-theme-picker`;
 where the two disagree, the Svelte side wins.
 
 ---

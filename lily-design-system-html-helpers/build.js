@@ -4,7 +4,7 @@
 // Packages are discovered rather than listed (mirrors the Svelte
 // catalog's own build.js): a hardcoded list silently skips any new
 // helper. Each package's own `dependencies` (declared in its
-// package.json — currently only lily-design-system-html-picker-bar has
+// package.json — currently only @lilydesignsystem/html-picker-bar has
 // any) are passed to tsup as `--external`, so a composed package's real
 // npm dependency on a sibling package is left as a bare import in the
 // built output rather than erroring (tsup/esbuild can't resolve it

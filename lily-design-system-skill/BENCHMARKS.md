@@ -33,11 +33,11 @@ table.
 
 | Package | Version | Unpacked | Files |
 | --- | --- | --- | --- |
-| `lily-design-system-svelte-headless` | 0.3.0 | 1364 KB | 987 |
-| `lily-design-system-vue-headless` | 0.3.0 | 660 KB | 496 |
-| `lily-design-system-react-headless` | 0.3.0 | 572 KB | 5 |
-| `lily-design-system-react-theme-picker` | 0.1.0 | 38 KB | 4 |
-| `lily-design-system-svelte-date-time-picker` | 0.1.0 | 82 KB | 6 |
+| `@lilydesignsystem/svelte-headless` | 0.3.0 | 1364 KB | 987 |
+| `@lilydesignsystem/vue-headless` | 0.3.0 | 660 KB | 496 |
+| `@lilydesignsystem/react-headless` | 0.3.0 | 572 KB | 5 |
+| `@lilydesignsystem/react-theme-picker` | 0.1.0 | 38 KB | 4 |
+| `@lilydesignsystem/svelte-date-time-picker` | 0.1.0 | 82 KB | 6 |
 
 All figures cover the full 491-component catalog. The file-count spread is a
 packaging-format artifact: React bundles to a single ESM file through tsup, Vue

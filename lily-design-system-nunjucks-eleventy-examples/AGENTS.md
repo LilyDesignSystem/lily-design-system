@@ -21,7 +21,7 @@
 
 - Eleventy 3.x static site generator
 - Nunjucks template engine (matches the headless project)
-- Depends on `lily-design-system-nunjucks-headless` via a shared
+- Depends on `@lilydesignsystem/nunjucks-headless` via a shared
   Nunjucks `FileSystemLoader` search path in `.eleventy.js`
 - CSS recreates the NHS UK visual design language on Lily class names
 - Progressive-enhancement JavaScript: pages work without JS

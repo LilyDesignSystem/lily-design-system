@@ -154,7 +154,7 @@ same size as the other helpers' glyphs.
 
 ## Tests
 
-`npx vitest run lily-design-system-react-share-picker` from the catalog
+`npx vitest run @lilydesignsystem/react-share-picker` from the catalog
 root — 34 cases, one or more per §7 clause.
 
 ---

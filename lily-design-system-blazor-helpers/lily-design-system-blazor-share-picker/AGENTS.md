@@ -13,7 +13,7 @@ a built-in copy-the-URL action. Ships no CSS, no bundled fonts or
 images, no JS file, and no third-party endpoints.
 
 The canonical implementation is the Svelte helper
-[`lily-design-system-svelte-share-picker`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-picker/);
+[`@lilydesignsystem/svelte-share-picker`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-share-picker/);
 this is a direct port with Blazor idioms swapped. When the two disagree,
 Svelte wins — see [spec/index.md §9](./spec/index.md#9-blazor-deviations-from-the-canonical-svelte-implementation)
 for the deviations that could not be avoided.

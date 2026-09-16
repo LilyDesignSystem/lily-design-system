@@ -11,7 +11,7 @@
 
 ## Metadata
 
-- Package: lily-design-system-svelte-headless
+- Package: @lilydesignsystem/svelte-headless
 - Version: 0.2.0
 - Created: 2021-03-30T15:47:49Z
 - Updated: 2026-05-30T00:00:00Z
@@ -89,7 +89,7 @@ Each component has these files:
 ## Titles
 
 - PackagePascalCase: LilySvelteHeadless
-- package-kebab-case: lily-design-system-svelte-headless
+- package-kebab-case: @lilydesignsystem/svelte-headless
 - package_snake_case: lily_svelte_headless
 
 ## Helpers

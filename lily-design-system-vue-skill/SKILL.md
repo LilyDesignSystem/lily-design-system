@@ -15,7 +15,7 @@ covers. It does not restate either sibling's content.
 
 | Subproject | What it is | Reach for it when |
 | --- | --- | --- |
-| [`lily-design-system-vue-headless`](../lily-design-system-vue-headless/) | The 491-component catalog as unstyled `.vue` SFCs — semantic HTML, ARIA, keyboard behaviour, **no CSS**. | You're depending on Lily components in your own app and will style them yourself. |
+| [`@lilydesignsystem/vue-headless`](../lily-design-system-vue-headless/) | The 491-component catalog as unstyled `.vue` SFCs — semantic HTML, ARIA, keyboard behaviour, **no CSS**. | You're depending on Lily components in your own app and will style them yourself. |
 | [`lily-design-system-vue-helpers`](../lily-design-system-vue-helpers/) | Six small opinionated packages (`theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`, `share-picker`, `date-time-picker`) that each own one whole page-header interaction — popup, keyboard, and (for the four preferences) applying + persisting a value. | You need a ready-made preference control, a share action, or a date/time form field rather than assembling one from catalog primitives. |
 | [`lily-design-system-vue-nuxt-examples`](../lily-design-system-vue-nuxt-examples/) | A fully styled Nuxt 3 reference app rendering every catalog component plus composed pages, NHS UK visual reference. | You want to see a component running and styled before wiring it in, or want working CSS to copy rather than write from scratch. |
 

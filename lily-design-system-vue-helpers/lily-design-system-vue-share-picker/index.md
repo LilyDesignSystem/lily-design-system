@@ -169,7 +169,7 @@ same size as the other helpers' glyphs.
 
 ## Tests
 
-`npx vitest run lily-design-system-vue-share-picker` from the catalog
+`npx vitest run @lilydesignsystem/vue-share-picker` from the catalog
 root — 35 cases, one or more per §7 clause.
 
 ---

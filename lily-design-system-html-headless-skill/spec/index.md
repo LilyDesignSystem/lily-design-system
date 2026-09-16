@@ -10,7 +10,7 @@ two-skill plan (`lily-design-system-skill` and
 ## 1. Role in the ecosystem
 
 A Claude Skill that explains how to consume
-[`lily-design-system-html-headless`](../../lily-design-system-html-headless/):
+[`@lilydesignsystem/html-headless`](../../lily-design-system-html-headless/):
 one of the seven canonical, full-catalog (491/491) headless component
 libraries, and the framework's own **reference implementation** — the
 canonical semantic HTML, ARIA, and keyboard behaviour every other framework

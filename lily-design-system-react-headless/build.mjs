@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Build pipeline for lily-design-system-react-headless.
+// Build pipeline for @lilydesignsystem/react-headless.
 //
 // Two steps, in order:
 //
@@ -15,7 +15,7 @@
 //
 // Why this exists at all: until 0.3.0 this package declared
 // `"main": "index.js"` and no such file was ever built, so every
-// `import ... from "lily-design-system-react-headless"` failed at
+// `import ... from "@lilydesignsystem/react-headless"` failed at
 // resolution. Nothing caught it because nothing in CI imported the
 // package the way a consumer does.
 //

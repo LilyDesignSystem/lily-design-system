@@ -3,11 +3,25 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.1.0 — 2026-09-16
+
+**Package renamed: `lily-design-system-web-components-locale-picker` → `@lilydesignsystem/web-components-locale-picker`.** npm scoped packages
+are registry-distinct from their unscoped counterparts, so this is a
+new package with no publish history of its own — version reset to
+`0.1.0` per this project's established rename precedent (the July
+2026 `*-select` → `*-picker` rename). No code or behaviour change
+relative to `lily-design-system-web-components-locale-picker`'s last published version (`0.1.0`);
+its full changelog continues below, now read as history prior to the
+rescope. The old unscoped name is deprecated on the registry (never
+unpublished), pointing consumers here.
+
+---
+
 ## 0.1.0 — 2026-09-03
 
 First release under this name. This package is a maintainer-directed
 independent copy of the HTML helper of the same picker
-(`lily-design-system-html-locale-picker`), differing only in the tag it
+(`@lilydesignsystem/html-locale-picker`), differing only in the tag it
 registers (`<lily-locale-picker>` rather than `<locale-picker>`) and its package name.
 Any entries below are that package's history, inherited so the
 reasoning behind the code is not lost; none of them was released under
@@ -105,7 +119,7 @@ part of 0.1.0 rather than a later version.
 
 ### Initial entry — 2026-07-21
 
-First release under the name `lily-design-system-web-components-locale-picker`.
+First release under the name `@lilydesignsystem/web-components-locale-picker`.
 The version resets to 0.1.0 because this package name has never been
 published; a renamed package carries no release history.
 
@@ -369,7 +383,7 @@ counterpart and were not invented; locale-picker's
 ### 0.1.0 — 2026-06-05
 
 Initial release. Ported from the Svelte canonical
-`lily-design-system-svelte-locale-picker`. The DOM contract,
+`@lilydesignsystem/svelte-locale-picker`. The DOM contract,
 behaviour, and acceptance criteria match the canonical clause-for-
 clause.
 

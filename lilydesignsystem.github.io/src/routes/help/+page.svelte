@@ -46,12 +46,12 @@ cd lily-design-system-react-headless
 pnpm install`}</code></pre>
   <p>The same pattern works for the other frameworks:</p>
   <ul>
-    <li><code>lily-design-system-html-headless</code> — no install needed; copy <code>.html</code> files</li>
-    <li><code>lily-design-system-svelte-headless</code> — <code>pnpm install</code></li>
-    <li><code>lily-design-system-react-headless</code> — <code>pnpm install</code></li>
-    <li><code>lily-design-system-vue-headless</code> — <code>pnpm install</code></li>
-    <li><code>lily-design-system-angular-headless</code> — <code>pnpm install</code></li>
-    <li><code>lily-design-system-nunjucks-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/html-headless</code> — no install needed; copy <code>.html</code> files</li>
+    <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/angular-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
     <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
   </ul>
   <p>
@@ -99,7 +99,7 @@ pnpm install`}</code></pre>
 <Button @click="save">Save</Button>`}</code></pre>
 
   <h3>Angular</h3>
-  <pre><code>{`import { Button } from "lily-design-system-angular-headless";
+  <pre><code>{`import { Button } from "@lilydesignsystem/angular-headless";
 
 @Component({
   imports: [Button],

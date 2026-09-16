@@ -8,18 +8,18 @@ license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 
 `lily-design-system-angular-helpers` is a catalog of six opinionated
 Angular 20 components that sit alongside
-[`lily-design-system-angular-headless`](../lily-design-system-angular-headless-skill/).
+[`@lilydesignsystem/angular-headless`](../lily-design-system-angular-headless-skill/).
 Where a headless catalog component is a pure markup primitive with no
 lifecycle, each helper owns one complete interaction end to end. Each
 helper is its own npm package, named `lily-design-system-angular-<name>`:
 
 ```sh
-pnpm add lily-design-system-angular-theme-picker
-pnpm add lily-design-system-angular-locale-picker
-pnpm add lily-design-system-angular-text-size-picker
-pnpm add lily-design-system-angular-motion-picker
-pnpm add lily-design-system-angular-share-picker
-pnpm add lily-design-system-angular-date-time-picker
+pnpm add @lilydesignsystem/angular-theme-picker
+pnpm add @lilydesignsystem/angular-locale-picker
+pnpm add @lilydesignsystem/angular-text-size-picker
+pnpm add @lilydesignsystem/angular-motion-picker
+pnpm add @lilydesignsystem/angular-share-picker
+pnpm add @lilydesignsystem/angular-date-time-picker
 ```
 
 ## The six helpers and their contracts
@@ -60,7 +60,7 @@ document nor persists anything.
 ## The Angular-specific idiom
 
 All six helpers follow the same Angular conventions as
-`lily-design-system-angular-headless`:
+`@lilydesignsystem/angular-headless`:
 
 - **Standalone components**, no NgModules.
 - **Signal-based inputs/outputs** — `input<T>()`, `input.required<T>()`,

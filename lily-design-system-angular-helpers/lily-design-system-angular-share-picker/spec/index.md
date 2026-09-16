@@ -1,6 +1,6 @@
 # SharePicker — Specification
 
-Single source of truth for the `lily-design-system-angular-share-picker`
+Single source of truth for the `@lilydesignsystem/angular-share-picker`
 Angular helper. This file drives implementation, testing, and
 documentation: anything not in this spec is out of scope; anything in
 this spec must be exercised by a test.
@@ -422,7 +422,7 @@ Total: **49 cases**, all green.
 
 ## 9. Tracking
 
-- Package: lily-design-system-angular-share-picker
+- Package: @lilydesignsystem/angular-share-picker
 - Version: 0.1.0
 - License: MIT
 - **2026-09-16**: default icon changed from the Unicode glyph U+27A4

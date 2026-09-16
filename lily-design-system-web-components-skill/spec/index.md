@@ -26,7 +26,7 @@ app, no helper packages of its own.
 ### In scope
 
 - `SKILL.md` — the skill: the two-subproject map
-  (`lily-design-system-web-components-headless`, its full achievable scope,
+  (`@lilydesignsystem/web-components-headless`, its full achievable scope,
   456/491 native-custom-element catalog; `lily-design-system-web-components-helpers`,
   the full six-helper `<lily-*-picker>` catalog), a decision guide for
   which one a given request needs, the real and current absence of a Web
@@ -87,7 +87,7 @@ to run beyond `bin/test`'s required-files checks.
 - [x] `SKILL.md` states plainly, and does not paper over, the absence of
       a Web Components example application.
 - [x] `SKILL.md` distinguishes the Web Components headless catalog from
-      `lily-design-system-html-headless` without conflating the two.
+      `@lilydesignsystem/html-headless` without conflating the two.
 - [x] Required subproject files present: `index.md`, `README.md`
       (symlink), `AGENTS.md`, `CLAUDE.md`, `spec/index.md`,
       `.git-subtree-push`.

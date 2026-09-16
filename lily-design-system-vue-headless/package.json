@@ -1,6 +1,6 @@
 {
-  "name": "lily-design-system-vue-headless",
-  "version": "0.3.1",
+  "name": "@lilydesignsystem/vue-headless",
+  "version": "0.1.0",
   "engines": {
     "node": "=26"
   },

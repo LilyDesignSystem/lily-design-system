@@ -168,7 +168,7 @@ Each `<slug>/+page.svelte` embeds three string constants, rendered via
 - `demoHtml` — a small static markup snippet (inside
   `BEGIN/END auto-generated component example` markers).
 - `svelteSource` — a short import + usage snippet against
-  `lily-design-system-svelte-headless`.
+  `@lilydesignsystem/svelte-headless`.
 
 Some `<slug>/spec/index.md` files exist too, copied read-only from the
 canonical per-component spec. See

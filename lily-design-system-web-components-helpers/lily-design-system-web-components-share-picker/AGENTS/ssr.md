@@ -68,7 +68,7 @@ function), so wire it in the client module:
 
 ```html
 <script type="module">
-  import "lily-design-system-web-components-share-picker";
+  import "@lilydesignsystem/web-components-share-picker";
   for (const el of document.querySelectorAll("share-picker")) {
     el.targets = SHARE_TARGETS;
   }

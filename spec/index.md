@@ -700,6 +700,26 @@ Long-term: versioned releases per subproject npm/NuGet package
 
 ### 14.1 Changelog highlights
 
+- **All npm packages move to the `@lilydesignsystem` scope (2026-09-16)** —
+  maintainer-directed rename of all 63 npm packages (56 helpers minus
+  Blazor's 7, plus the 7 headless libraries) from unscoped
+  `lily-design-system-*` to `@lilydesignsystem/*`; directory names,
+  subtree repo names, and forge URLs are unchanged — only the npm
+  identity moves. Every renamed package resets to `0.1.0` (scoped
+  packages have no publish history under their old name), per the
+  July 2026 `*-select` → `*-picker` rename precedent. The rescope's
+  repo-wide doc pass was context-aware (bare npm specifiers only,
+  never inside a relative path or markdown link href) and surfaced
+  three real pre-existing/latent defects along the way: two catalogs'
+  build config guessed the wrong ng-packagr output path for a scoped
+  entry point (confirmed against a real build and fixed), and
+  `react-helpers/build.js` externalized siblings by directory name
+  instead of `package.json#name` (would have broken
+  `@lilydesignsystem/react-picker-bar`'s build). Also found, **not
+  fixed** (pre-existing, unrelated): `angular-headless/index.ts`
+  exports 6 national-identifier components with no corresponding
+  source file, blocking only that one catalog's own publish. Full
+  record: CHANGELOG.md.
 - **`theme-picker`/`locale-picker`/`text-size-picker`/`share-picker` published at their SVG-icon + preventScroll versions (2026-09-16)** —
   real npm publish of the two in-tree-but-unreleased changes below:
   the bundled-SVG icon reversal (breaking — the exported glyph
@@ -807,7 +827,7 @@ Long-term: versioned releases per subproject npm/NuGet package
   CHANGELOG.md.
 - **Docs site gains a live theme/text-size/share picker (2026-09-06)** —
   `lilydesignsystem.github.io`'s header now renders
-  `lily-design-system-svelte-theme-picker`, `-text-size-picker`, and
+  `@lilydesignsystem/svelte-theme-picker`, `-text-size-picker`, and
   `-share-picker` (real, published npm dependencies) on every page, via
   a new `src/lib/components/SitePreferences.svelte`. The theme picker
   ships with all 45 reference themes copied into `static/assets/themes/`;
@@ -852,7 +872,7 @@ Long-term: versioned releases per subproject npm/NuGet package
   (exit 0) with a mix of already-published and never-published
   packages in the loop. Full record: CHANGELOG.md.
 - **P7-T6 Web Components headless subproject, (2026-09-03)** —
-  an 8th headless catalog, `lily-design-system-web-components-headless`,
+  an 8th headless catalog, `@lilydesignsystem/web-components-headless`,
   ships 30 of the 491 canonical components as native custom elements
   with no framework runtime — a representative slice by explicit
   scope choice, not full parity with the seven full-catalog libraries

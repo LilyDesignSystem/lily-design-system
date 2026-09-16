@@ -12,7 +12,7 @@ A headless component library built on **native custom elements** (the Web Compon
 
 ## Quick Reference
 
-- **Package**: lily-design-system-web-components-headless
+- **Package**: @lilydesignsystem/web-components-headless
 - **Version**: 0.4.0
 - **Created**: 2026-09-02
 - **License**: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause or contact us for more

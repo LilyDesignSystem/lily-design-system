@@ -10,7 +10,7 @@ framework-specific skills plan this subproject sits at the top of.
 
 A Claude Skill that acts as the **umbrella** for React in Lily Design
 System™: it ties together the three real React subprojects —
-[`lily-design-system-react-headless`](../../lily-design-system-react-headless/),
+[`@lilydesignsystem/react-headless`](../../lily-design-system-react-headless/),
 [`lily-design-system-react-helpers`](../../lily-design-system-react-helpers/),
 and
 [`lily-design-system-react-next-examples`](../../lily-design-system-react-next-examples/) —
@@ -61,7 +61,7 @@ pointer.
   `spec/index.md` files in full.
 - Any component, helper, or example-page implementation. This skill
   does not ship any part of
-  `lily-design-system-react-headless`,
+  `@lilydesignsystem/react-headless`,
   `lily-design-system-react-helpers`, or
   `lily-design-system-react-next-examples` themselves — it only
   documents how to choose between them and, for the example app, how
@@ -90,7 +90,7 @@ tests to run beyond `bin/test`'s required-files checks.
 - [x] `SKILL.md`'s three-subproject map, the example-app coverage
       (routes, styling, running it, App Router specifics), and the
       React-wide conventions are grounded in the real
-      `lily-design-system-react-headless`,
+      `@lilydesignsystem/react-headless`,
       `lily-design-system-react-helpers`, and
       `lily-design-system-react-next-examples` subprojects' own
       `AGENTS.md` and `index.md` files, not invented.

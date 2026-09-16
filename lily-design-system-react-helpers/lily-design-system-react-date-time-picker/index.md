@@ -16,14 +16,14 @@ which is canonical per `AGENTS/helpers.md`.
 ## Install
 
 ```sh
-npm install lily-design-system-react-date-time-picker
+npm install @lilydesignsystem/react-date-time-picker
 ```
 
 ## Use it
 
 ```tsx
 import { useState } from "react";
-import DateTimePicker from "lily-design-system-react-date-time-picker";
+import DateTimePicker from "@lilydesignsystem/react-date-time-picker";
 
 const labels = {
   previousYear: "Previous year",
@@ -274,15 +274,15 @@ nobody wants to page a calendar back forty years.
 
 ## Related
 
-- [`lily-design-system-react-theme-picker`](../lily-design-system-react-theme-picker/)
-- [`lily-design-system-react-locale-picker`](../lily-design-system-react-locale-picker/)
-- [`lily-design-system-react-text-size-picker`](../lily-design-system-react-text-size-picker/)
-- [`lily-design-system-react-share-picker`](../lily-design-system-react-share-picker/)
-- [`lily-design-system-svelte-date-time-picker`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/) — the canonical original
+- [`@lilydesignsystem/react-theme-picker`](../lily-design-system-react-theme-picker/)
+- [`@lilydesignsystem/react-locale-picker`](../lily-design-system-react-locale-picker/)
+- [`@lilydesignsystem/react-text-size-picker`](../lily-design-system-react-text-size-picker/)
+- [`@lilydesignsystem/react-share-picker`](../lily-design-system-react-share-picker/)
+- [`@lilydesignsystem/svelte-date-time-picker`](../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/) — the canonical original
 
 ## Tests
 
-`npx vitest run lily-design-system-react-date-time-picker` from the
+`npx vitest run @lilydesignsystem/react-date-time-picker` from the
 catalog root — 65 cases, one or more per §7 clause.
 
 ## License
