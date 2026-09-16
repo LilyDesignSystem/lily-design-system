@@ -686,7 +686,7 @@ Long-term: versioned releases per subproject npm/NuGet package
 - Package: lily
 - Version: 0.6.0
 - Created: 2025-08-09
-- Updated: 2026-09-15
+- Updated: 2026-09-16
 - License: `MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause`
   (SPDX expression; or contact for other terms). See
   [LICENSE.md](../LICENSE.md) — it is the single source of truth, and every
@@ -700,6 +700,25 @@ Long-term: versioned releases per subproject npm/NuGet package
 
 ### 14.1 Changelog highlights
 
+- **`theme-picker`/`locale-picker`/`text-size-picker`/`share-picker` published at their SVG-icon + preventScroll versions (2026-09-16)** —
+  real npm publish of the two in-tree-but-unreleased changes below:
+  the bundled-SVG icon reversal (breaking — the exported glyph
+  constant is removed) and the `preventScroll` page-jump fix. Every
+  catalog's four affected pickers bump minor
+  (html/nunjucks/react/svelte/vue/blazor 0.1.1 → 0.2.0, angular
+  0.2.0 → 0.3.0); `motion-picker` and the Web Components catalog ship
+  unaffected at their existing first-release 0.1.0, already containing
+  both fixes. `svelte-picker-bar` bumps 0.1.0 → 0.1.1 to widen its
+  dependency ranges; every other catalog's `picker-bar` stays an
+  unpublished 0.1.0 first release, now depending on the bumped
+  versions from birth. Verified per `docs/releasing.md`: `bin/test`,
+  `bin/check-links`, `bin/publish-helpers --dry-run`, and
+  `bin/smoke-packages` all clean before the real npm publish, executed
+  under [GOVERNANCE.md](../GOVERNANCE.md) § AI agent publish
+  authority. The four Blazor packages' NuGet release is prepared
+  (version bumped, changelog written) but not yet pushed — no local
+  OIDC context; needs a `publish.yml` dispatch with `real: true`,
+  `nuget_only: true`. Full record: CHANGELOG.md.
 - **`picker-bar` helper lands in all eight catalogs (2026-09-15)** — a
   seventh `*-picker` helper, maintainer-directed: composes
   `theme-picker`, `locale-picker`, `text-size-picker`, and

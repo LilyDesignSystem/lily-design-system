@@ -27,10 +27,10 @@
     "vue": "^3.0.0"
   },
   "dependencies": {
-    "lily-design-system-vue-theme-picker": "^0.1.1",
-    "lily-design-system-vue-locale-picker": "^0.1.1",
-    "lily-design-system-vue-text-size-picker": "^0.1.1",
-    "lily-design-system-vue-share-picker": "^0.1.1"
+    "lily-design-system-vue-theme-picker": "^0.2.0",
+    "lily-design-system-vue-locale-picker": "^0.2.0",
+    "lily-design-system-vue-text-size-picker": "^0.2.0",
+    "lily-design-system-vue-share-picker": "^0.2.0"
   },
   "keywords": [
     "lily",

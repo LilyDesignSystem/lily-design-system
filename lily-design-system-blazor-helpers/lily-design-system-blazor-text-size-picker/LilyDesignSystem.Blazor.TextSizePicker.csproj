@@ -7,7 +7,7 @@
     <RootNamespace>LilyDesignSystem.Blazor.Helpers</RootNamespace>
     <AssemblyName>LilyDesignSystem.Blazor.TextSizePicker</AssemblyName>
     <PackageId>LilyDesignSystem.Blazor.TextSizePicker</PackageId>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
     <Authors>Joel Parker Henderson</Authors>
     <Description>Lily Design System Blazor text size picker: an icon button opening an APG listbox that sets data-text-size on the document. Headless, SSR-safe, no CSS.</Description>
     <PackageProjectUrl>https://lilydesignsystem.com/</PackageProjectUrl>

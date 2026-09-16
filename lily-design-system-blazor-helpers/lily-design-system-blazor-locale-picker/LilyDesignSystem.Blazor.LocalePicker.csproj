@@ -7,7 +7,7 @@
     <RootNamespace>LilyDesignSystem.Blazor.Helpers</RootNamespace>
     <AssemblyName>LilyDesignSystem.Blazor.LocalePicker</AssemblyName>
     <PackageId>LilyDesignSystem.Blazor.LocalePicker</PackageId>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
     <Authors>Joel Parker Henderson</Authors>
     <Description>Lily Design System Blazor locale picker: an icon button opening an APG listbox that sets lang and dir on the document. Headless, SSR-safe, no CSS.</Description>
     <PackageProjectUrl>https://lilydesignsystem.com/</PackageProjectUrl>

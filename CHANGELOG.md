@@ -9,6 +9,40 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## `theme-picker`/`locale-picker`/`text-size-picker`/`share-picker` released at their SVG-icon + preventScroll versions — 2026-09-16
+
+Real npm/NuGet publish of the two changes landed in-tree earlier the
+same day but never released: the bundled-SVG icon reversal and the
+`preventScroll` page-jump fix (both below). Every catalog's
+`theme-picker`, `locale-picker`, `text-size-picker`, and `share-picker`
+bump minor (breaking, since the exported glyph constant is removed):
+html/nunjucks/react/svelte/vue/blazor 0.1.1 → 0.2.0 (Blazor was still
+at its first-published 0.1.0, one line behind the five JS catalogs
+that had already shipped a 0.1.1 metadata patch, so its jump reads the
+same but starts one step lower), angular 0.2.0 → 0.3.0 (it was already
+a version line ahead from an earlier, unrelated bump).
+`motion-picker` and the Web Components catalog's five pickers are
+unaffected — none of them has published yet, so they ship at their
+existing first-release 0.1.0, already containing both fixes from
+birth. `svelte-picker-bar` (the only `picker-bar` package published so
+far, at 0.1.0) bumps to 0.1.1 to widen its four dependency ranges to
+the new versions; it carries no source change of its own. Every other
+catalog's `picker-bar` remains an unpublished first release at 0.1.0,
+now correctly depending on the bumped versions from its first publish
+rather than needing a second release immediately after.
+
+Each bumped package's own `CHANGELOG.md` carries the full entry.
+Verified per `docs/releasing.md`: `bin/test` and `bin/check-links`
+clean, `bin/publish-helpers --dry-run` clean, `bin/smoke-packages`
+imported every packed npm tarball successfully. Published for real via
+`bin/publish-helpers` (npm) under the standing
+[GOVERNANCE.md](GOVERNANCE.md) § AI agent publish authority. The four
+Blazor packages' NuGet publish could not run locally — no
+`NUGET_API_KEY`/OIDC context outside the `publish.yml` workflow — so
+their release is prepared (version bumped, changelog written) but not
+yet pushed to nuget.org; dispatching `publish.yml` with `real: true`,
+`target: helpers`, `nuget_only: true` is the remaining step.
+
 ## `picker-bar` helper lands in all eight catalogs — 2026-09-15
 
 A seventh `*-picker` helper, maintainer-directed: composes

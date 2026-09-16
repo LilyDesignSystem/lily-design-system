@@ -28,10 +28,10 @@
     "react-dom": ">=18"
   },
   "dependencies": {
-    "lily-design-system-react-theme-picker": "^0.1.1",
-    "lily-design-system-react-locale-picker": "^0.1.1",
-    "lily-design-system-react-text-size-picker": "^0.1.1",
-    "lily-design-system-react-share-picker": "^0.1.1"
+    "lily-design-system-react-theme-picker": "^0.2.0",
+    "lily-design-system-react-locale-picker": "^0.2.0",
+    "lily-design-system-react-text-size-picker": "^0.2.0",
+    "lily-design-system-react-share-picker": "^0.2.0"
   },
   "keywords": [
     "lily",

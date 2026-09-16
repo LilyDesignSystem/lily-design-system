@@ -4,6 +4,33 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.2.0 — 2026-09-16
+
+### Changed (BREAKING)
+
+- **Default icon changed from a Unicode glyph to a bundled SVG.** The
+  button now renders an inline `<svg viewBox="0 0 16 16" aria-hidden="true">`
+  (globe (outline circle, equator, one meridian) design, `stroke="currentColor"`, `stroke-width="1.6"`,
+  round caps/joins, explicit `width="1.05rem" height="1.05rem"`) instead
+  of a text glyph. Renders identically on every platform and font
+  stack — no colour-emoji fallback risk (the globe could render as a blue colour emoji without VS15), no per-glyph optical-scale correction to
+  maintain. The public constant **`GlobeWithMeridians`** (🌐
+  U+1F310 + U+FE0E) is **removed, not renamed** — there is no longer a
+  single swappable character value to expose. `ChildContent` still
+  overrides the icon exactly as before.
+
+### Fixed
+
+- **Opening the popup no longer scrolls the page.** Every programmatic
+  focus move this component makes on itself now goes through the
+  shared `TryFocusAsync` helper with `preventScroll: true`. Without it,
+  a popup rendered partly off-screen (the shipped default CSS anchors
+  to the left edge and grows rightward, which overflows a right-aligned
+  header picker unless the consumer adds an `inset-inline-end`
+  override) triggered the browser's default scroll-into-view, which
+  read as the whole page jumping sideways the instant the picker
+  opened.
+
 ## 0.1.0 — 2026-07-30
 
 First published release. Nothing earlier shipped, so the

@@ -10,10 +10,10 @@
     "@angular/common": ">=20.0.0 <23.0.0"
   },
   "dependencies": {
-    "lily-design-system-angular-theme-picker": "^0.2.0",
-    "lily-design-system-angular-locale-picker": "^0.2.0",
-    "lily-design-system-angular-text-size-picker": "^0.2.0",
-    "lily-design-system-angular-share-picker": "^0.2.0"
+    "lily-design-system-angular-theme-picker": "^0.3.0",
+    "lily-design-system-angular-locale-picker": "^0.3.0",
+    "lily-design-system-angular-text-size-picker": "^0.3.0",
+    "lily-design-system-angular-share-picker": "^0.3.0"
   },
   "sideEffects": false,
   "scripts": {
