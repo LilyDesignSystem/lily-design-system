@@ -9,9 +9,8 @@ Full documentation and the searchable component catalog: <https://lilydesignsyst
 
 ## Install
 
-This catalog ships six helper packages as Razor class libraries. **They are
-built but not yet published to NuGet**; until they are, clone this repository and
-reference the `.csproj` you need:
+This catalog ships seven helper packages as Razor class libraries,
+all published to NuGet. Install only what you need:
 
 | Package | Owns |
 | --- | --- |
@@ -21,10 +20,16 @@ reference the `.csproj` you need:
 | `LilyDesignSystem.Blazor.MotionPicker` | reduced-motion preference |
 | `LilyDesignSystem.Blazor.SharePicker` | a share action |
 | `LilyDesignSystem.Blazor.DateTimePicker` | a date-time form value |
+| `LilyDesignSystem.Blazor.PickerBar` | composes theme/locale/text-size/share into one page-header row |
 
 ```sh
-git clone https://github.com/LilyDesignSystem/lily-design-system-blazor-helpers.git
+dotnet add package LilyDesignSystem.Blazor.ThemePicker
 ```
+
+Every user-facing string is a parameter — there are no English defaults
+to override. All are SSR-safe and ship no CSS. Contracts:
+[AGENTS/helpers.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/helpers.md) and
+[spec/helpers/index.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/helpers/index.md).
 
 ## License
 

@@ -9,20 +9,21 @@ Full documentation and the searchable component catalog: <https://lilydesignsyst
 
 ## Install
 
-This catalog ships six helper packages, all published to npm.
+This catalog ships seven helper packages, all published to npm.
 Install only what you need:
 
 | Package | Owns |
 | --- | --- |
-| `lily-design-system-svelte-theme-picker` | theme preference |
-| `lily-design-system-svelte-locale-picker` | locale preference (`lang` / `dir`) |
-| `lily-design-system-svelte-text-size-picker` | text-size preference |
-| `lily-design-system-svelte-motion-picker` | reduced-motion preference |
-| `lily-design-system-svelte-share-picker` | a share action |
-| `lily-design-system-svelte-date-time-picker` | a date-time form value |
+| `@lilydesignsystem/svelte-theme-picker` | theme preference |
+| `@lilydesignsystem/svelte-locale-picker` | locale preference (`lang` / `dir`) |
+| `@lilydesignsystem/svelte-text-size-picker` | text-size preference |
+| `@lilydesignsystem/svelte-motion-picker` | reduced-motion preference |
+| `@lilydesignsystem/svelte-share-picker` | a share action |
+| `@lilydesignsystem/svelte-date-time-picker` | a date-time form value |
+| `@lilydesignsystem/svelte-picker-bar` | composes theme/locale/text-size/share into one page-header row |
 
 ```sh
-npm install lily-design-system-svelte-theme-picker
+npm install @lilydesignsystem/svelte-theme-picker
 ```
 
 Every user-facing string is a prop — there are no English defaults to override.

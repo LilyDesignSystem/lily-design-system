@@ -153,7 +153,23 @@ PUBLISHED_NPM = {
     "lily-design-system-svelte-headless", "lily-design-system-react-headless",
     "lily-design-system-vue-headless", "lily-design-system-html-headless",
     "lily-design-system-angular-headless", "lily-design-system-nunjucks-headless",
+    "lily-design-system-web-components-headless",
 }
+
+PUBLISHED_NUGET = {"lily-design-system-blazor-headless"}
+
+
+def npm_name(name):
+    """The real npm package identity for a `lily-design-system-*` directory.
+
+    2026-09-16: every npm package moved to the @lilydesignsystem scope,
+    but directory names (and this function's input) deliberately did not
+    -- only the npm identity moved. A generated doc that assumes
+    `name` IS the npm name (as this file used to) tells consumers to
+    `npm install` an old, now-deprecated, unscoped package.
+    """
+    assert name.startswith("lily-design-system-"), name
+    return "@lilydesignsystem/" + name[len("lily-design-system-"):]
 
 
 def citation(name):
@@ -231,13 +247,29 @@ This is the source of <{DOCS}>.
 ## Install
 
 ```sh
-npm install {name}
+npm install {npm_name(name)}
 ```
 
 Import any of the 491 catalog components from the package root; the barrel is
 tree-shakeable (`sideEffects: false`), so your bundler drops what you do not use.
 
 The components ship semantic HTML, ARIA, focus management, and keyboard
+behaviour — and **no CSS**. Style them through the kebab-case class hook on each
+root element. See the canonical
+[css-style-sheet-template.css]({CANONICAL}/blob/main/css-style-sheet-template.css)
+for a hook per component, and the 45 ready-made stylesheets in
+[themes/]({CANONICAL}/tree/main/themes).
+"""
+        elif name in PUBLISHED_NUGET:
+            body = f"""
+## Install
+
+```sh
+dotnet add package LilyDesignSystem.Blazor.Headless
+```
+
+Import any of the 491 catalog components as Razor components. The
+components ship semantic HTML, ARIA, focus management, and keyboard
 behaviour — and **no CSS**. Style them through the kebab-case class hook on each
 root element. See the canonical
 [css-style-sheet-template.css]({CANONICAL}/blob/main/css-style-sheet-template.css)
@@ -272,9 +304,8 @@ for a hook per component, and the 45 ready-made stylesheets in
             body = f"""
 ## Install
 
-This catalog ships six helper packages as Razor class libraries. **They are
-built but not yet published to NuGet**; until they are, clone this repository and
-reference the `.csproj` you need:
+This catalog ships seven helper packages as Razor class libraries,
+all published to NuGet. Install only what you need:
 
 | Package | Owns |
 | --- | --- |
@@ -284,25 +315,32 @@ reference the `.csproj` you need:
 | `LilyDesignSystem.Blazor.MotionPicker` | reduced-motion preference |
 | `LilyDesignSystem.Blazor.SharePicker` | a share action |
 | `LilyDesignSystem.Blazor.DateTimePicker` | a date-time form value |
+| `LilyDesignSystem.Blazor.PickerBar` | composes theme/locale/text-size/share into one page-header row |
 
 ```sh
-git clone {ORG}/{name}.git
+dotnet add package LilyDesignSystem.Blazor.ThemePicker
 ```
+
+Every user-facing string is a parameter — there are no English defaults
+to override. All are SSR-safe and ship no CSS. Contracts:
+[AGENTS/helpers.md]({CANONICAL}/blob/main/AGENTS/helpers.md) and
+[spec/helpers/index.md]({CANONICAL}/blob/main/spec/helpers/index.md).
 """
         else:
             rows = "\n".join(
-                f"| `lily-design-system-{fw}-{h}` | {d} |" for h, d in [
+                f"| `{npm_name(f'lily-design-system-{fw}-{h}')}` | {d} |" for h, d in [
                     ("theme-picker", "theme preference"),
                     ("locale-picker", "locale preference (`lang` / `dir`)"),
                     ("text-size-picker", "text-size preference"),
                     ("motion-picker", "reduced-motion preference"),
                     ("share-picker", "a share action"),
                     ("date-time-picker", "a date-time form value"),
+                    ("picker-bar", "composes theme/locale/text-size/share into one page-header row"),
                 ])
             body = f"""
 ## Install
 
-This catalog ships six helper packages, all published to npm.
+This catalog ships seven helper packages, all published to npm.
 Install only what you need:
 
 | Package | Owns |
@@ -310,7 +348,7 @@ Install only what you need:
 {rows}
 
 ```sh
-npm install lily-design-system-{fw}-theme-picker
+npm install {npm_name(f'lily-design-system-{fw}-theme-picker')}
 ```
 
 Every user-facing string is a prop — there are no English defaults to override.

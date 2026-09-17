@@ -9,20 +9,21 @@ Full documentation and the searchable component catalog: <https://lilydesignsyst
 
 ## Install
 
-This catalog ships six helper packages, all published to npm.
+This catalog ships seven helper packages, all published to npm.
 Install only what you need:
 
 | Package | Owns |
 | --- | --- |
-| `lily-design-system-web-components-theme-picker` | theme preference |
-| `lily-design-system-web-components-locale-picker` | locale preference (`lang` / `dir`) |
-| `lily-design-system-web-components-text-size-picker` | text-size preference |
-| `lily-design-system-web-components-motion-picker` | reduced-motion preference |
-| `lily-design-system-web-components-share-picker` | a share action |
-| `lily-design-system-web-components-date-time-picker` | a date-time form value |
+| `@lilydesignsystem/web-components-theme-picker` | theme preference |
+| `@lilydesignsystem/web-components-locale-picker` | locale preference (`lang` / `dir`) |
+| `@lilydesignsystem/web-components-text-size-picker` | text-size preference |
+| `@lilydesignsystem/web-components-motion-picker` | reduced-motion preference |
+| `@lilydesignsystem/web-components-share-picker` | a share action |
+| `@lilydesignsystem/web-components-date-time-picker` | a date-time form value |
+| `@lilydesignsystem/web-components-picker-bar` | composes theme/locale/text-size/share into one page-header row |
 
 ```sh
-npm install lily-design-system-web-components-theme-picker
+npm install @lilydesignsystem/web-components-theme-picker
 ```
 
 Every user-facing string is a prop — there are no English defaults to override.

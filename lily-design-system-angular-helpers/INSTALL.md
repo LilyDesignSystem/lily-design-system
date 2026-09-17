@@ -9,20 +9,21 @@ Full documentation and the searchable component catalog: <https://lilydesignsyst
 
 ## Install
 
-This catalog ships six helper packages, all published to npm.
+This catalog ships seven helper packages, all published to npm.
 Install only what you need:
 
 | Package | Owns |
 | --- | --- |
-| `lily-design-system-angular-theme-picker` | theme preference |
-| `lily-design-system-angular-locale-picker` | locale preference (`lang` / `dir`) |
-| `lily-design-system-angular-text-size-picker` | text-size preference |
-| `lily-design-system-angular-motion-picker` | reduced-motion preference |
-| `lily-design-system-angular-share-picker` | a share action |
-| `lily-design-system-angular-date-time-picker` | a date-time form value |
+| `@lilydesignsystem/angular-theme-picker` | theme preference |
+| `@lilydesignsystem/angular-locale-picker` | locale preference (`lang` / `dir`) |
+| `@lilydesignsystem/angular-text-size-picker` | text-size preference |
+| `@lilydesignsystem/angular-motion-picker` | reduced-motion preference |
+| `@lilydesignsystem/angular-share-picker` | a share action |
+| `@lilydesignsystem/angular-date-time-picker` | a date-time form value |
+| `@lilydesignsystem/angular-picker-bar` | composes theme/locale/text-size/share into one page-header row |
 
 ```sh
-npm install lily-design-system-angular-theme-picker
+npm install @lilydesignsystem/angular-theme-picker
 ```
 
 Every user-facing string is a prop — there are no English defaults to override.

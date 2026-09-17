@@ -10,7 +10,7 @@ Full documentation and the searchable component catalog: <https://lilydesignsyst
 ## Install
 
 ```sh
-npm install lily-design-system-nunjucks-headless
+npm install @lilydesignsystem/nunjucks-headless
 ```
 
 Import any of the 491 catalog components from the package root; the barrel is
