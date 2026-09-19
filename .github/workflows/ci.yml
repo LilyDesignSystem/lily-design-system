@@ -262,8 +262,16 @@ jobs:
       # dependency tree, and ten full trees would crowd the runner.
       - name: Build angular dist (ng-packagr)
         working-directory: lily-design-system-angular-headless
+        # --legacy-peer-deps: this package only declares @angular/core
+        # and @angular/common as peerDependencies (a consumer provides
+        # them), but building here needs a concrete version installed,
+        # and npm 7+'s strict peer-dependency resolver hits a known
+        # Arborist internal crash ("Cannot read properties of null
+        # (reading 'edgesOut')") against this catalog's mix of
+        # Angular-tooling devDependencies, each with their own Angular
+        # peer range. --legacy-peer-deps skips that resolver entirely.
         run: |
-          npm install --no-audit --no-fund
+          npm install --no-audit --no-fund --legacy-peer-deps
           npm run build
           rm -rf node_modules
       - name: Build svelte dist
