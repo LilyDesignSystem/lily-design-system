@@ -27,7 +27,19 @@ const packageDirs = fs
       fs.existsSync(path.join(root, entry.name, "index.ts")),
   )
   .map((entry) => entry.name)
-  .sort();
+  // Alphabetical, except picker-bar always sorts last: its dts build
+  // resolves each sibling picker's *type declarations*, which only
+  // exist once that sibling's own build has already run. Alphabetical
+  // order alone put it before theme-picker/share-picker/text-size-picker
+  // on a from-scratch build (no pre-existing dist/ anywhere) -- fine
+  // locally once any prior build had left their dist/ on disk, but a
+  // hard failure on a genuinely clean checkout (confirmed in CI).
+  .sort((a, b) => {
+    const aBar = a.endsWith("-picker-bar");
+    const bBar = b.endsWith("-picker-bar");
+    if (aBar !== bBar) return aBar ? 1 : -1;
+    return a.localeCompare(b);
+  });
 
 // The npm identity externalized below (what a sibling's import specifier
 // actually resolves to) is each directory's package.json#name, not its

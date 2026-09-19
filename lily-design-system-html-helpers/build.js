@@ -28,7 +28,20 @@ const packages = fs
       fs.existsSync(path.join(root, entry.name, "index.ts")),
   )
   .map((entry) => entry.name)
-  .sort();
+  // Alphabetical, except picker-bar always sorts last: its dts build
+  // resolves each sibling picker's *type declarations* via the
+  // per-package tsconfig `paths` below, which only exist once that
+  // sibling's own build has already run. Alphabetical order alone put
+  // it before theme-picker/share-picker/text-size-picker on a
+  // from-scratch build (no pre-existing dist/ anywhere) -- fine locally
+  // once any prior build had left their dist/ on disk, but a hard
+  // failure on a genuinely clean checkout (confirmed in CI).
+  .sort((a, b) => {
+    const aBar = a.endsWith("-picker-bar");
+    const bBar = b.endsWith("-picker-bar");
+    if (aBar !== bBar) return aBar ? 1 : -1;
+    return a.localeCompare(b);
+  });
 
 const tsupBin = path.join(
   root,

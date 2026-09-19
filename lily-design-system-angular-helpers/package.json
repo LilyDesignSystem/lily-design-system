@@ -7,7 +7,7 @@
   "type": "module",
   "description": "Lily Design System - Angular 20 helpers catalog (dev/test harness)",
   "scripts": {
-    "build": "set -e; for d in lily-design-system-angular-*/; do [ -f \"$d/ng-package.json\" ] || continue; echo \"building ${d%/}\"; ng-packagr -p \"$d/ng-package.json\" -c \"$d/tsconfig.lib.json\"; done",
+    "build": "set -e; for d in lily-design-system-angular-*/; do [ -f \"$d/ng-package.json\" ] || continue; case \"$d\" in *-picker-bar/) continue ;; esac; echo \"building ${d%/}\"; ng-packagr -p \"$d/ng-package.json\" -c \"$d/tsconfig.lib.json\"; done; for d in lily-design-system-angular-*/; do [ -f \"$d/ng-package.json\" ] || continue; case \"$d\" in *-picker-bar/) ;; *) continue ;; esac; echo \"building ${d%/}\"; ng-packagr -p \"$d/ng-package.json\" -c \"$d/tsconfig.lib.json\"; done",
     "build:one": "ng-packagr",
     "test": "vitest run",
     "test:watch": "vitest",
