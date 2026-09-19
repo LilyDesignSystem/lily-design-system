@@ -294,10 +294,10 @@ jobs:
           npm install --no-audit --no-fund --legacy-peer-deps
           npm run build
           rm -rf node_modules
-      # bin/smoke-packages also packs the 5 picker helpers in each of
-      # these 6 npm-published helper catalogs (Blazor is NuGet, not
+      # bin/smoke-packages also packs the 6 picker helpers in each of
+      # these 7 npm-published helper catalogs (Blazor is NuGet, not
       # npm, so it's excluded here same as it is from smoke-packages
-      # itself) — each catalog's own `npm run build` builds all 5 of
+      # itself) — each catalog's own `npm run build` builds all 6 of
       # its nested picker packages in one pass.
       - name: Build svelte helpers dist
         working-directory: lily-design-system-svelte-helpers
@@ -331,6 +331,12 @@ jobs:
           rm -rf node_modules
       - name: Build nunjucks helpers dist
         working-directory: lily-design-system-nunjucks-helpers
+        run: |
+          npm install --no-audit --no-fund --legacy-peer-deps
+          npm run build
+          rm -rf node_modules
+      - name: Build web-components helpers dist
+        working-directory: lily-design-system-web-components-helpers
         run: |
           npm install --no-audit --no-fund --legacy-peer-deps
           npm run build

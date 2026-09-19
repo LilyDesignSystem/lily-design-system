@@ -89,13 +89,13 @@ echo "== react =="
 node --input-type=module -e '
 import { renderToStaticMarkup } from "react-dom/server";
 import React from "react";
-import { Button, BreadcrumbNav, TextInput } from "lily-design-system-react-headless";
-import ThemePicker from "lily-design-system-react-theme-picker";
-import LocalePicker from "lily-design-system-react-locale-picker";
-import TextSizePicker from "lily-design-system-react-text-size-picker";
-import MotionPicker from "lily-design-system-react-motion-picker";
-import SharePicker from "lily-design-system-react-share-picker";
-import DateTimePicker from "lily-design-system-react-date-time-picker";
+import { Button, BreadcrumbNav, TextInput } from "@lilydesignsystem/react-headless";
+import ThemePicker from "@lilydesignsystem/react-theme-picker";
+import LocalePicker from "@lilydesignsystem/react-locale-picker";
+import TextSizePicker from "@lilydesignsystem/react-text-size-picker";
+import MotionPicker from "@lilydesignsystem/react-motion-picker";
+import SharePicker from "@lilydesignsystem/react-share-picker";
+import DateTimePicker from "@lilydesignsystem/react-date-time-picker";
 const html = renderToStaticMarkup(React.createElement(Button, {}, "Go"));
 if (!html.includes(String.raw`class="button`)) throw new Error("react render: " + html);
 if (![BreadcrumbNav, TextInput].every(Boolean)) throw new Error("react exports missing");
@@ -124,13 +124,13 @@ echo "== vue =="
 node --input-type=module -e '
 import { createSSRApp, h } from "vue";
 import { renderToString } from "vue/server-renderer";
-import { Button, BreadcrumbNav, TextInput } from "lily-design-system-vue-headless";
-import ThemePicker from "lily-design-system-vue-theme-picker";
-import LocalePicker from "lily-design-system-vue-locale-picker";
-import TextSizePicker from "lily-design-system-vue-text-size-picker";
-import MotionPicker from "lily-design-system-vue-motion-picker";
-import SharePicker from "lily-design-system-vue-share-picker";
-import DateTimePicker from "lily-design-system-vue-date-time-picker";
+import { Button, BreadcrumbNav, TextInput } from "@lilydesignsystem/vue-headless";
+import ThemePicker from "@lilydesignsystem/vue-theme-picker";
+import LocalePicker from "@lilydesignsystem/vue-locale-picker";
+import TextSizePicker from "@lilydesignsystem/vue-text-size-picker";
+import MotionPicker from "@lilydesignsystem/vue-motion-picker";
+import SharePicker from "@lilydesignsystem/vue-share-picker";
+import DateTimePicker from "@lilydesignsystem/vue-date-time-picker";
 const html = await renderToString(createSSRApp({ render: () => h(Button, {}, () => "Go") }));
 if (!html.includes(String.raw`class="button`)) throw new Error("vue render: " + html);
 if (![BreadcrumbNav, TextInput].every(Boolean)) throw new Error("vue exports missing");
@@ -157,7 +157,7 @@ console.log("vue OK");'
 
 echo "== html =="
 node -e '
-const lib = require("lily-design-system-html-headless");
+const lib = require("@lilydesignsystem/html-headless");
 const n = lib.listComponents().length;
 if (n !== 491) throw new Error("html: expected 491 components, got " + n);
 if (!lib.readComponent("button").includes(String.raw`class="button"`)) throw new Error("html: bad snippet");
@@ -184,12 +184,12 @@ const dtLabels = {
   confirm: "Confirm", cancel: "Cancel",
 };
 const checks = [
-  ["lily-design-system-html-theme-picker", "theme-picker", { label: "Theme", "themes-url": "/themes/", themes: "light,dark" }, {}],
-  ["lily-design-system-html-locale-picker", "locale-picker", { label: "Language", locales: "en,cy" }, {}],
-  ["lily-design-system-html-text-size-picker", "text-size-picker", { label: "Text size", sizes: "small,medium,large" }, {}],
-  ["lily-design-system-html-motion-picker", "motion-picker", { label: "Motion", motions: "no-preference,reduce" }, {}],
-  ["lily-design-system-html-share-picker", "share-picker", { label: "Share" }, {}],
-  ["lily-design-system-html-date-time-picker", "date-time-picker", { label: "Date" }, { labels: dtLabels }],
+  ["@lilydesignsystem/html-theme-picker", "theme-picker", { label: "Theme", "themes-url": "/themes/", themes: "light,dark" }, {}],
+  ["@lilydesignsystem/html-locale-picker", "locale-picker", { label: "Language", locales: "en,cy" }, {}],
+  ["@lilydesignsystem/html-text-size-picker", "text-size-picker", { label: "Text size", sizes: "small,medium,large" }, {}],
+  ["@lilydesignsystem/html-motion-picker", "motion-picker", { label: "Motion", motions: "no-preference,reduce" }, {}],
+  ["@lilydesignsystem/html-share-picker", "share-picker", { label: "Share" }, {}],
+  ["@lilydesignsystem/html-date-time-picker", "date-time-picker", { label: "Date" }, { labels: dtLabels }],
 ];
 for (const [pkg, tag, attrs, props] of checks) {
   await import(pkg);
@@ -224,12 +224,12 @@ const dtLabels = {
 // [package, tag, class hook, attrs, props] -- the class hook is the
 // theme-facing contract and does NOT carry the lily- tag prefix.
 const checks = [
-  ["lily-design-system-web-components-theme-picker", "lily-theme-picker", "theme-picker", { label: "Theme", "themes-url": "/themes/", themes: "light,dark" }, {}],
-  ["lily-design-system-web-components-locale-picker", "lily-locale-picker", "locale-picker", { label: "Language", locales: "en,cy" }, {}],
-  ["lily-design-system-web-components-text-size-picker", "lily-text-size-picker", "text-size-picker", { label: "Text size", sizes: "small,medium,large" }, {}],
-  ["lily-design-system-web-components-motion-picker", "lily-motion-picker", "motion-picker", { label: "Motion", motions: "no-preference,reduce" }, {}],
-  ["lily-design-system-web-components-share-picker", "lily-share-picker", "share-picker", { label: "Share" }, {}],
-  ["lily-design-system-web-components-date-time-picker", "lily-date-time-picker", "date-time-picker", { label: "Date" }, { labels: dtLabels }],
+  ["@lilydesignsystem/web-components-theme-picker", "lily-theme-picker", "theme-picker", { label: "Theme", "themes-url": "/themes/", themes: "light,dark" }, {}],
+  ["@lilydesignsystem/web-components-locale-picker", "lily-locale-picker", "locale-picker", { label: "Language", locales: "en,cy" }, {}],
+  ["@lilydesignsystem/web-components-text-size-picker", "lily-text-size-picker", "text-size-picker", { label: "Text size", sizes: "small,medium,large" }, {}],
+  ["@lilydesignsystem/web-components-motion-picker", "lily-motion-picker", "motion-picker", { label: "Motion", motions: "no-preference,reduce" }, {}],
+  ["@lilydesignsystem/web-components-share-picker", "lily-share-picker", "share-picker", { label: "Share" }, {}],
+  ["@lilydesignsystem/web-components-date-time-picker", "lily-date-time-picker", "date-time-picker", { label: "Date" }, { labels: dtLabels }],
 ];
 for (const [pkg, tag, cls, attrs, props] of checks) {
   await import(pkg);
@@ -244,7 +244,7 @@ console.log("web-components helpers OK");'
 
 echo "== nunjucks =="
 node -e '
-const lily = require("lily-design-system-nunjucks-headless");
+const lily = require("@lilydesignsystem/nunjucks-headless");
 const nunjucks = require("nunjucks");
 if (lily.listComponents().length !== 491) throw new Error("nunjucks: expected 491");
 const env = new nunjucks.Environment(new nunjucks.FileSystemLoader(lily.templatesDir));
@@ -257,7 +257,7 @@ if (!out.includes(String.raw`class="breadcrumb-nav"`)) throw new Error("nunjucks
 // rather than importing the package'"'"'s JS entry at all.
 const path = require("node:path");
 const pickerDirs = ["theme-picker", "locale-picker", "text-size-picker", "motion-picker", "share-picker", "date-time-picker"]
-  .map((p) => path.join(process.cwd(), "node_modules", "lily-design-system-nunjucks-" + p, "dist"));
+  .map((p) => path.join(process.cwd(), "node_modules", "@lilydesignsystem", "nunjucks-" + p, "dist"));
 const helperEnv = new nunjucks.Environment(new nunjucks.FileSystemLoader(pickerDirs));
 const dtLabels = {
   previousYear: "Previous year", previousMonth: "Previous month",
@@ -286,17 +286,17 @@ console.log("nunjucks OK");'
 echo "== angular (JIT smoke; consumers link via the Angular CLI) =="
 node --input-type=module -e '
 import "@angular/compiler";
-import * as lib from "lily-design-system-angular-headless";
+import * as lib from "@lilydesignsystem/angular-headless";
 for (const n of ["Button", "BreadcrumbNav", "TextInput", "ImageCropper"])
   if (typeof lib[n] !== "function") throw new Error("angular missing export: " + n);
 if (Object.keys(lib).length < 491) throw new Error("angular: expected >=491 exports");
 const helperPackages = [
-  ["lily-design-system-angular-theme-picker", "ThemePicker"],
-  ["lily-design-system-angular-locale-picker", "LocalePicker"],
-  ["lily-design-system-angular-text-size-picker", "TextSizePicker"],
-  ["lily-design-system-angular-motion-picker", "MotionPicker"],
-  ["lily-design-system-angular-share-picker", "SharePicker"],
-  ["lily-design-system-angular-date-time-picker", "DateTimePicker"],
+  ["@lilydesignsystem/angular-theme-picker", "ThemePicker"],
+  ["@lilydesignsystem/angular-locale-picker", "LocalePicker"],
+  ["@lilydesignsystem/angular-text-size-picker", "TextSizePicker"],
+  ["@lilydesignsystem/angular-motion-picker", "MotionPicker"],
+  ["@lilydesignsystem/angular-share-picker", "SharePicker"],
+  ["@lilydesignsystem/angular-date-time-picker", "DateTimePicker"],
 ];
 for (const [pkg, exportName] of helperPackages) {
   const mod = await import(pkg);
@@ -312,13 +312,13 @@ export default { plugins: [svelte()], build: { ssr: "src/entry.js", outDir: "out
 EOF
 cat > src/App.svelte <<'EOF'
 <script>
-  import { Button, BreadcrumbNav, TextInput } from "lily-design-system-svelte-headless";
-  import ThemePicker from "lily-design-system-svelte-theme-picker";
-  import LocalePicker from "lily-design-system-svelte-locale-picker";
-  import TextSizePicker from "lily-design-system-svelte-text-size-picker";
-  import MotionPicker from "lily-design-system-svelte-motion-picker";
-  import SharePicker from "lily-design-system-svelte-share-picker";
-  import DateTimePicker from "lily-design-system-svelte-date-time-picker";
+  import { Button, BreadcrumbNav, TextInput } from "@lilydesignsystem/svelte-headless";
+  import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
+  import LocalePicker from "@lilydesignsystem/svelte-locale-picker";
+  import TextSizePicker from "@lilydesignsystem/svelte-text-size-picker";
+  import MotionPicker from "@lilydesignsystem/svelte-motion-picker";
+  import SharePicker from "@lilydesignsystem/svelte-share-picker";
+  import DateTimePicker from "@lilydesignsystem/svelte-date-time-picker";
   const dtLabels = {
     previousYear: "Previous year", previousMonth: "Previous month",
     previousWeek: "Previous week", previousDay: "Previous day",
