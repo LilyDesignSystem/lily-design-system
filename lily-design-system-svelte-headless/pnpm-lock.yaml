@@ -39,6 +39,9 @@ importers:
       svelte:
         specifier: ^5.57.0
         version: 5.57.0
+      vite:
+        specifier: ^8.0.0
+        version: 8.2.2
       vitest:
         specifier: ^5.0.0
         version: 5.0.0(@vitest/ui@5.0.0)(jsdom@30.0.1)(vite@8.2.2)
