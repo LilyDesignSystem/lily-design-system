@@ -178,4 +178,26 @@ tarjeta
 граждански
 Единен
 номер
+changelogged
+chromedriver
+chromedriver's
+edgedriver
+ENEEDAUTH
+exploitability
+fesm
+geckodriver
+GHSA
+INSEE
+kypros
+Kypros's
+rescope
+rescope's
+sockjs
+trustedpublishing
+tuaisceart
+Tuaisceart
+unautomated
+unbumped
+unfocusable
+unpopulatable
 
