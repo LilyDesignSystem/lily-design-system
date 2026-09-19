@@ -260,16 +260,18 @@ jobs:
       # Each build step cleans its subproject's node_modules once the
       # dist exists: npm pack needs the dist and the manifest, not the
       # dependency tree, and ten full trees would crowd the runner.
+      # --legacy-peer-deps on every npm install below: this job's `npm
+      # install` (not the project's own pnpm) has hit npm's internal
+      # Arborist crash "Cannot read properties of null (reading
+      # 'edgesOut')" on every main-branch CI run for at least 12 days
+      # (earliest run checked: 2026-09-07) -- not specific to any one
+      # catalog's peer-dependency shape (first found on angular's
+      # @angular/core/@angular/common peerDependencies, but svelte hit
+      # it too with no comparable peer complexity). --legacy-peer-deps
+      # skips npm 7+'s strict peer resolver, which sidesteps whatever
+      # graph shape trips the crash.
       - name: Build angular dist (ng-packagr)
         working-directory: lily-design-system-angular-headless
-        # --legacy-peer-deps: this package only declares @angular/core
-        # and @angular/common as peerDependencies (a consumer provides
-        # them), but building here needs a concrete version installed,
-        # and npm 7+'s strict peer-dependency resolver hits a known
-        # Arborist internal crash ("Cannot read properties of null
-        # (reading 'edgesOut')") against this catalog's mix of
-        # Angular-tooling devDependencies, each with their own Angular
-        # peer range. --legacy-peer-deps skips that resolver entirely.
         run: |
           npm install --no-audit --no-fund --legacy-peer-deps
           npm run build
@@ -277,19 +279,19 @@ jobs:
       - name: Build svelte dist
         working-directory: lily-design-system-svelte-headless
         run: |
-          npm install --no-audit --no-fund
+          npm install --no-audit --no-fund --legacy-peer-deps
           npm run build
           rm -rf node_modules
       - name: Build react dist
         working-directory: lily-design-system-react-headless
         run: |
-          npm install --no-audit --no-fund
+          npm install --no-audit --no-fund --legacy-peer-deps
           npm run build
           rm -rf node_modules
       - name: Build vue dist
         working-directory: lily-design-system-vue-headless
         run: |
-          npm install --no-audit --no-fund
+          npm install --no-audit --no-fund --legacy-peer-deps
           npm run build
           rm -rf node_modules
       # bin/smoke-packages also packs the 5 picker helpers in each of
@@ -300,37 +302,37 @@ jobs:
       - name: Build svelte helpers dist
         working-directory: lily-design-system-svelte-helpers
         run: |
-          npm install --no-audit --no-fund
+          npm install --no-audit --no-fund --legacy-peer-deps
           npm run build
           rm -rf node_modules
       - name: Build react helpers dist
         working-directory: lily-design-system-react-helpers
         run: |
-          npm install --no-audit --no-fund
+          npm install --no-audit --no-fund --legacy-peer-deps
           npm run build
           rm -rf node_modules
       - name: Build vue helpers dist
         working-directory: lily-design-system-vue-helpers
         run: |
-          npm install --no-audit --no-fund
+          npm install --no-audit --no-fund --legacy-peer-deps
           npm run build
           rm -rf node_modules
       - name: Build angular helpers dist
         working-directory: lily-design-system-angular-helpers
         run: |
-          npm install --no-audit --no-fund
+          npm install --no-audit --no-fund --legacy-peer-deps
           npm run build
           rm -rf node_modules
       - name: Build html helpers dist
         working-directory: lily-design-system-html-helpers
         run: |
-          npm install --no-audit --no-fund
+          npm install --no-audit --no-fund --legacy-peer-deps
           npm run build
           rm -rf node_modules
       - name: Build nunjucks helpers dist
         working-directory: lily-design-system-nunjucks-helpers
         run: |
-          npm install --no-audit --no-fund
+          npm install --no-audit --no-fund --legacy-peer-deps
           npm run build
           rm -rf node_modules
       - name: Smoke every package as a consumer
