@@ -63,7 +63,6 @@ ai_exists_or_err() (
     file_size_or_err "$1/index.md"
     symlink_exists_or_err "$1/README.md"
     file_size_or_err "$1/AGENTS.md" && implemented_or_err "$1/AGENTS.md"
-    file_size_or_err "$1/CLAUDE.md"
     directory_exists_or_err "$1/spec"
     file_size_or_err "$1/spec/index.md" && implemented_or_err "$1/spec/index.md"
 )

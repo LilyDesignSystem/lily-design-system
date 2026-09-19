@@ -1,6 +1,6 @@
 # Lily Design System: Components
 
-Reference: [../CLAUDE.md](../CLAUDE.md) for the full component list, naming patterns, and composition patterns.
+Reference: [../AGENTS.md](../AGENTS.md) for the full component list, naming patterns, and composition patterns.
 
 Reference: [../css-style-sheet-template.css](../css-style-sheet-template.css) for CSS class names.
 

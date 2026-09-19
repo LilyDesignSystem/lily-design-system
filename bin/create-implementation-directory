@@ -8,7 +8,6 @@ mkdir_with_ai() {
   touch index.md
   ln -sfn index.md README.md
   touch AGENTS.md
-  echo "@AGENTS.md" > CLAUDE.md
   mkdir spec
   touch spec/index.md
 }

@@ -183,7 +183,6 @@ printf '%s\t%s\t%s\n' "$slug" "$pascal" "$description" >> components.tsv
 # ---------- 2. docs dir (components/{slug}/) ----------
 mkdir -p "components/$slug/spec"
 ln -sfn index.md "components/$slug/README.md"
-echo "@AGENTS.md" > "components/$slug/CLAUDE.md"
 
 cat > "components/$slug/AGENTS.md" <<AGENTSEOF
 # $pascal
@@ -899,7 +898,6 @@ NJKEXEOF
 gh_dir="lilydesignsystem.github.io/src/routes/components/$slug"
 mkdir -p "$gh_dir/spec"
 ln -sfn index.md "$gh_dir/README.md"
-echo "@AGENTS.md" > "$gh_dir/CLAUDE.md"
 cp "components/$slug/AGENTS.md" "$gh_dir/AGENTS.md"
 cp "components/$slug/index.md" "$gh_dir/index.md"
 cp "components/$slug/spec/index.md" "$gh_dir/spec/index.md"
