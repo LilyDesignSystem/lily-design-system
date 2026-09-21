@@ -5,7 +5,7 @@ and the package follows [Semantic Versioning](https://semver.org/).
 The canonical monorepo history is in the root
 [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md).
 
-## Unreleased
+## 0.2.0 — 2026-09-21
 
 **`Listbox` and `IconButton` extended, additively, so the `*-helpers`
 catalog's picker components can compose them instead of hand-rolling
