@@ -17,6 +17,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using LilyBlazorHeadless.Components;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
@@ -377,7 +378,7 @@ public partial class DateTimePicker : ComponentBase, IAsyncDisposable
     /// </summary>
     private bool _openerIsField;
 
-    private ElementReference _buttonElement;
+    private IconButton? _buttonComponent;
     private ElementReference _fieldElement;
     private ElementReference _hourElement;
 
@@ -419,7 +420,7 @@ public partial class DateTimePicker : ComponentBase, IAsyncDisposable
     internal string? FieldReferenceId => _fieldElement.Id;
 
     /// <summary>The trigger button's ElementReference id, once rendered.</summary>
-    internal string? TriggerReferenceId => _buttonElement.Id;
+    internal string? TriggerReferenceId => _buttonComponent?.Element.Id;
 
     /// <summary>The ElementReference id of the day button currently showing
     /// <paramref name="isoDate"/>, or null when it is not on screen.</summary>
@@ -677,7 +678,14 @@ public partial class DateTimePicker : ComponentBase, IAsyncDisposable
         if (_focusOpenerAfterRender)
         {
             _focusOpenerAfterRender = false;
-            await TryFocusAsync(_openerIsField ? _fieldElement : _buttonElement);
+            if (_openerIsField)
+            {
+                await TryFocusAsync(_fieldElement);
+            }
+            else if (_buttonComponent is not null)
+            {
+                await TryFocusAsync(_buttonComponent.Element);
+            }
         }
     }
 

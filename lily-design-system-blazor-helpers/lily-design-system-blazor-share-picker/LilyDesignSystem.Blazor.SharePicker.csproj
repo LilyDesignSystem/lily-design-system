@@ -46,6 +46,16 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.12" />
   </ItemGroup>
 
+  <!-- A real dependency on the headless catalog's IconButton — the
+       same "depend on, don't vendor" rule picker-bar follows. The
+       destination/copy list stays self-built: real <a>/<button>
+       navigation with a roving-focus pattern of its own, not an ARIA
+       listbox, so headless Listbox (role="listbox" over role="option")
+       is the wrong widget for it. -->
+  <ItemGroup>
+    <ProjectReference Include="..\..\lily-design-system-blazor-headless\src\LilyBlazorHeadless\LilyBlazorHeadless.csproj" />
+  </ItemGroup>
+
   <!-- The helper test project exercises internal static helpers
        (e.g. BuildNativeShareScript) directly. -->
   <ItemGroup>

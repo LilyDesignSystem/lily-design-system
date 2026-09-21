@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using LilyBlazorHeadless.Components;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
@@ -172,7 +173,7 @@ public partial class SharePicker : ComponentBase
     private bool _open;
     private string _status = "";
 
-    private ElementReference _triggerElement;
+    private IconButton? _triggerComponent;
     private ElementReference _listElement;
 
     /// <summary>Element references for the focusable list items, keyed by
@@ -298,7 +299,7 @@ public partial class SharePicker : ComponentBase
         if (_focusTriggerPending)
         {
             _focusTriggerPending = false;
-            await TryFocusAsync(_triggerElement);
+            if (_triggerComponent is not null) await TryFocusAsync(_triggerComponent.Element);
         }
     }
 

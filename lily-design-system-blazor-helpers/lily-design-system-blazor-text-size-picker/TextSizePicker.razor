@@ -1,4 +1,5 @@
 @namespace LilyDesignSystem.Blazor.Helpers
+@using LilyBlazorHeadless.Components
 
 @*
     TextSizePicker — Blazor helper component.
@@ -20,15 +21,14 @@
     @* Preserves form participation; the listbox itself is not a form control. *@
     <input type="hidden" name="@Name" value="@Value" />
 
-    <button type="button"
-            class="text-size-picker-button"
-            @ref="_buttonElement"
-            aria-label="@Label"
-            aria-haspopup="listbox"
-            aria-expanded="@(_open ? "true" : "false")"
-            aria-controls="@ListId"
-            @onclick="OnButtonClickAsync"
-            @onkeydown="OnButtonKeyDownAsync">
+    <IconButton @ref="_buttonComponent"
+                Label="@Label"
+                BaseCssClass="text-size-picker-button"
+                aria-haspopup="listbox"
+                aria-expanded="@(_open ? "true" : "false")"
+                aria-controls="@ListId"
+                @onclick="OnButtonClickAsync"
+                @onkeydown="OnButtonKeyDownAsync">
         @if (ChildContent is not null)
         {
             @ChildContent(BuildContext())
@@ -45,20 +45,24 @@
                 <path d="M4 13 7.2 3h1.6L12 13M5.4 9.5h5.2" />
             </svg>
         }
-    </button>
+    </IconButton>
 
-    @* mousedown default is suppressed so clicking an option does not blur
-       the listbox before the click handler runs. *@
-    <ul class="text-size-picker-list"
-        id="@ListId"
-        role="listbox"
-        aria-label="@Label"
-        aria-activedescendant="@ActiveDescendantId"
-        tabindex="-1"
-        hidden="@(!_open)"
-        @ref="_listElement"
-        @onkeydown="OnListKeyDownAsync"
-        @onmousedown:preventDefault="true">
+    <Listbox @ref="_listComponent"
+             Label="@Label"
+             BaseCssClass="text-size-picker-list"
+             id="@ListId"
+             Navigation="active-descendant"
+             Clamp="true"
+             Typeahead="true"
+             PageSize="10"
+             OptionCount="@Sizes.Count"
+             OptionId="@OptionId"
+             OptionLabel="@(i => LabelFor(Sizes[i]))"
+             @bind-ActiveIndex="_activeIndex"
+             hidden="@(!_open)"
+             OnActivate="ChooseAsync"
+             OnEscape="@(() => CloseList())"
+             OnTabOut="@(() => CloseList(false))">
         @for (var i = 0; i < Sizes.Count; i++)
         {
             var index = i;
@@ -70,5 +74,5 @@
                 data-active="@(index == _activeIndex ? "" : null)"
                 @onclick="() => ChooseAsync(index)">@LabelFor(size)</li>
         }
-    </ul>
+    </Listbox>
 </div>

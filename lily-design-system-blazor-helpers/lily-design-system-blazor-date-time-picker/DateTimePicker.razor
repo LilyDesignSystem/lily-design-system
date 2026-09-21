@@ -1,4 +1,5 @@
 @namespace LilyDesignSystem.Blazor.Helpers
+@using LilyBlazorHeadless.Components
 
 @*
     DateTimePicker — Blazor helper component.
@@ -52,15 +53,14 @@
                @onkeydown="OnFieldKeyDownAsync"
                @onclick="OnFieldClick" />
 
-        <button type="button"
-                @ref="_buttonElement"
-                class="date-time-picker-button"
-                aria-label="@Label"
-                aria-haspopup="dialog"
-                aria-expanded="@(_open ? "true" : "false")"
-                aria-controls="@DialogId"
-                disabled="@(Disabled || ReadOnly)"
-                @onclick="OnTriggerClick">
+        <IconButton @ref="_buttonComponent"
+                    Label="@Label"
+                    BaseCssClass="date-time-picker-button"
+                    aria-haspopup="dialog"
+                    aria-expanded="@(_open ? "true" : "false")"
+                    aria-controls="@DialogId"
+                    disabled="@(Disabled || ReadOnly)"
+                    @onclick="OnTriggerClick">
             @if (ChildContent is not null)
             {
                 @ChildContent(BuildContext())
@@ -69,7 +69,7 @@
             {
                 <span class="date-time-picker-icon" aria-hidden="true">📅︎</span>
             }
-        </button>
+        </IconButton>
     </div>
 
     @if (HasInvalidLabel)

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using LilyBlazorHeadless.Components;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
@@ -35,9 +36,6 @@ public partial class MotionPicker : ComponentBase
     // convention (was U+23F8 PAUSE SIGN + U+FE0E, exposed as the constant
     // PauseSign -- removed, not renamed). "Stop the moving parts" still
     // reads directly from two bars. See MotionPicker.razor.
-
-    /// <summary>Typeahead buffer lifetime, per the APG listbox pattern.</summary>
-    private static readonly TimeSpan TypeaheadWindow = TimeSpan.FromMilliseconds(500);
 
     /// <summary>Monotonic instance counter; SSR-safe (no randomness, no clock).</summary>
     private static int _uid;
@@ -96,8 +94,8 @@ public partial class MotionPicker : ComponentBase
     private bool _open;
     private int _activeIndex = -1;
 
-    private ElementReference _buttonElement;
-    private ElementReference _listElement;
+    private IconButton? _buttonComponent;
+    private Listbox? _listComponent;
 
     private bool _focusListPending;
     private bool _focusButtonPending;
@@ -110,9 +108,6 @@ public partial class MotionPicker : ComponentBase
     /// the browser synthesises for Enter / Space does not toggle a second time.</summary>
     private bool _suppressNextClick;
 
-    private string _typeahead = "";
-    private DateTimeOffset _typeaheadAt = DateTimeOffset.MinValue;
-
     // -------------------------------------------------------------------
     // Ids and view helpers used by the .razor markup.
     // -------------------------------------------------------------------
@@ -120,12 +115,6 @@ public partial class MotionPicker : ComponentBase
     private string ListId => $"{_baseId}-list";
 
     private string OptionId(int index) => $"{_baseId}-option-{index}";
-
-    /// <summary>Only advertised while open and pointing at a real option.</summary>
-    private string? ActiveDescendantId
-        => _open && _activeIndex >= 0 && _activeIndex < Motions.Count
-            ? OptionId(_activeIndex)
-            : null;
 
     private string RootClass => $"motion-picker {CssClass}".Trim();
 
@@ -193,12 +182,12 @@ public partial class MotionPicker : ComponentBase
         if (_focusListPending)
         {
             _focusListPending = false;
-            await TryFocusAsync(_listElement);
+            if (_listComponent is not null) await TryFocusAsync(_listComponent.Element);
         }
         if (_focusButtonPending)
         {
             _focusButtonPending = false;
-            await TryFocusAsync(_buttonElement);
+            if (_buttonComponent is not null) await TryFocusAsync(_buttonComponent.Element);
         }
     }
 
@@ -300,7 +289,6 @@ public partial class MotionPicker : ComponentBase
         if (!_open) return;
         _open = false;
         _activeIndex = -1;
-        _typeahead = "";
         if (refocus)
         {
             _focusButtonPending = true;
@@ -330,47 +318,14 @@ public partial class MotionPicker : ComponentBase
         CloseList();
     }
 
-    private void MoveActive(int delta)
-    {
-        if (Motions.Count == 0) return;
-        // Clamp; the APG listbox pattern does not wrap.
-        var next = Math.Min(Math.Max(_activeIndex + delta, 0), Motions.Count - 1);
-        _activeIndex = next;
-    }
-
-    private void RunTypeahead(string character)
-    {
-        var now = DateTimeOffset.UtcNow;
-        if (now - _typeaheadAt > TypeaheadWindow) _typeahead = "";
-        _typeaheadAt = now;
-
-        var lower = character.ToLowerInvariant();
-        // APG listbox typeahead: a single character moves to the NEXT
-        // option starting with it, and repeating that character keeps
-        // cycling. Only a buffer of differing characters refines the
-        // match, and that buffer stays anchored on the active option.
-        var sameCharRun = _typeahead.Length == 0
-            || (lower.Length == 1 && _typeahead.All(c => c == lower[0]));
-        _typeahead += lower;
-
-        var query = sameCharRun ? lower : _typeahead;
-        var anchor = _activeIndex < 0 ? 0 : _activeIndex;
-        var start = sameCharRun ? anchor + 1 : anchor;
-        // Search forward, wrapping once — typeahead wraps even though the
-        // arrows clamp, or options above the cursor would be untypable.
-        for (var n = 0; n < Motions.Count; n++)
-        {
-            var i = (start + n) % Motions.Count;
-            if (LabelFor(Motions[i]).ToLowerInvariant().StartsWith(query, StringComparison.Ordinal))
-            {
-                _activeIndex = i;
-                return;
-            }
-        }
-    }
-
     // -------------------------------------------------------------------
     // Event handlers.
+    //
+    // Arrow/Home/End/PageUp/PageDown/typeahead/Escape/Tab keyboard
+    // handling inside the open list is owned by the composed `Listbox`'s
+    // `Navigation="active-descendant"` mode (see
+    // LilyBlazorHeadless.Components); this component only decides what
+    // open/close/choose mean.
     // -------------------------------------------------------------------
 
     private Task OnButtonClickAsync()
@@ -405,60 +360,6 @@ public partial class MotionPicker : ComponentBase
         return Task.CompletedTask;
     }
 
-    private async Task OnListKeyDownAsync(KeyboardEventArgs args)
-    {
-        switch (args.Key)
-        {
-            case "ArrowDown":
-                MoveActive(1);
-                break;
-            case "ArrowUp":
-                MoveActive(-1);
-                break;
-            case "Home":
-                _activeIndex = 0;
-                break;
-            case "End":
-                _activeIndex = Motions.Count - 1;
-                break;
-            case "Enter":
-            case " ":
-                if (_activeIndex >= 0) await ChooseAsync(_activeIndex);
-                break;
-            case "Escape":
-                // Close and return focus without changing the value.
-                CloseList();
-                break;
-            case "PageUp":
-                MoveActive(-10);
-                break;
-            case "PageDown":
-                // ±10, clamped: an APG-optional key for long lists.
-                MoveActive(10);
-                break;
-            case "Tab":
-                // Tab moves on: close without touching focus. The canonical
-                // Svelte fix moves focus to the button BEFORE hiding the
-                // list, because there the hide is synchronous and would
-                // otherwise precede the browser's default Tab, dropping
-                // focus to <body>. Blazor cannot reproduce that bug: the
-                // default Tab always runs before this async handler, so it
-                // proceeds from the still-visible list — the picker's own
-                // position — and focus has already landed on the next tab
-                // stop by the time the list hides. Requesting button focus
-                // here would run AFTER the default Tab and yank the user
-                // back to the trigger they just left.
-                CloseList(false);
-                break;
-            default:
-                if (args.Key.Length == 1 && !args.CtrlKey && !args.MetaKey && !args.AltKey)
-                {
-                    RunTypeahead(args.Key);
-                }
-                break;
-        }
-    }
-
     /// <summary>
     /// Focus leaving the root closes the listbox. Blazor's
     /// <see cref="FocusEventArgs"/> does not expose <c>relatedTarget</c>, so
@@ -483,10 +384,10 @@ public partial class MotionPicker : ComponentBase
     // -------------------------------------------------------------------
 
     /// <summary>The trigger button's ElementReference id, once rendered.</summary>
-    internal string? ButtonReferenceId => _buttonElement.Id;
+    internal string? ButtonReferenceId => _buttonComponent?.Element.Id;
 
     /// <summary>The listbox's ElementReference id, once rendered.</summary>
-    internal string? ListReferenceId => _listElement.Id;
+    internal string? ListReferenceId => _listComponent?.Element.Id;
 
     // -------------------------------------------------------------------
     // Apply / set.

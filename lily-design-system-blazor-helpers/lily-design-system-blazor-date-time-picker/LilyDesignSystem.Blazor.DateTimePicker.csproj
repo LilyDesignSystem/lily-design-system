@@ -46,6 +46,18 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.12" />
   </ItemGroup>
 
+  <!-- A real dependency on the headless catalog's IconButton — the
+       same "depend on, don't vendor" rule picker-bar follows. The
+       dialog and calendar grid stay self-built: headless Dialog wraps
+       a native <dialog> with no open/showModal() wiring and no focus
+       trap, while this component uses a <div role="dialog"> toggled
+       via `hidden` plus its own hand-rolled trap — composing the
+       headless Dialog would gain nothing and would conflict with both
+       the tag and the visibility mechanism already in place. -->
+  <ItemGroup>
+    <ProjectReference Include="..\..\lily-design-system-blazor-headless\src\LilyBlazorHeadless\LilyBlazorHeadless.csproj" />
+  </ItemGroup>
+
   <!-- The helper test project exercises internal static helpers
        (e.g. NowProvider, BuildInstallFocusTrapScript) directly. -->
   <ItemGroup>

@@ -46,6 +46,16 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.12" />
   </ItemGroup>
 
+  <!-- A real dependency on the headless catalog's IconButton/Listbox —
+       the same "depend on, don't vendor" rule picker-bar follows for its
+       four wrapped pickers (see that project's own comment). ProjectReference
+       rather than PackageReference for the same reason picker-bar uses it:
+       this repo builds and tests both catalogs from source, and `dotnet pack`
+       turns a ProjectReference into a real NuGet <dependency> automatically. -->
+  <ItemGroup>
+    <ProjectReference Include="..\..\lily-design-system-blazor-headless\src\LilyBlazorHeadless\LilyBlazorHeadless.csproj" />
+  </ItemGroup>
+
   <!-- The helper test project exercises internal static helpers
        (e.g. BuildApplyScript) directly. -->
   <ItemGroup>

@@ -4,6 +4,21 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+**Internal refactor: now depends on `LilyDesignSystem.Blazor.Headless`'s
+`IconButton` and `Listbox` instead of hand-rolling their equivalents.**
+No change to the public API, rendered markup (class names, ids, ARIA
+attributes), or keyboard contract — the full existing test suite
+(39 tests) passes unchanged. `Listbox` in this catalog was built from
+scratch (unlike the JS catalogs, it had no prior keyboard logic to
+extend) and deliberately does not query a live DOM for its options —
+Blazor has no synchronous DOM access without JS interop — instead
+taking `OptionCount`/`OptionId`/`OptionLabel` as parameters, mirroring
+this component's own pre-refactor `ActiveDescendantId`/`OptionId`
+pattern. See `LilyBlazorHeadless`'s own CHANGELOG (root CHANGELOG.md)
+for the full extension.
+
 ## 0.2.0 — 2026-09-16
 
 ### Changed (BREAKING)

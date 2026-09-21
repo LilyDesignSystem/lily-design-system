@@ -4,6 +4,18 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+**Internal refactor: the trigger button now depends on
+`LilyDesignSystem.Blazor.Headless`'s `IconButton` instead of
+hand-rolling one.** No change to the public API, rendered markup, or
+keyboard contract — the full existing test suite passes unchanged.
+The destination/copy list stays self-built: it is a real disclosure of
+`<a>`/`<button>` elements with a roving-focus pattern, not an ARIA
+listbox, so headless `Listbox` (which always renders `role="listbox"`
+over `role="option"` children) is the wrong widget for it, not merely
+an unmigrated one.
+
 ## 0.2.0 — 2026-09-16
 
 ### Changed (BREAKING)

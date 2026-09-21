@@ -1,4 +1,5 @@
 @namespace LilyDesignSystem.Blazor.Helpers
+@using LilyBlazorHeadless.Components
 
 @*
     MotionPicker — Blazor helper component.
@@ -25,15 +26,14 @@
     @* Preserves form participation; the listbox itself is not a form control. *@
     <input type="hidden" name="@Name" value="@Value" />
 
-    <button type="button"
-            class="motion-picker-button"
-            @ref="_buttonElement"
-            aria-label="@Label"
-            aria-haspopup="listbox"
-            aria-expanded="@(_open ? "true" : "false")"
-            aria-controls="@ListId"
-            @onclick="OnButtonClickAsync"
-            @onkeydown="OnButtonKeyDownAsync">
+    <IconButton @ref="_buttonComponent"
+                Label="@Label"
+                BaseCssClass="motion-picker-button"
+                aria-haspopup="listbox"
+                aria-expanded="@(_open ? "true" : "false")"
+                aria-controls="@ListId"
+                @onclick="OnButtonClickAsync"
+                @onkeydown="OnButtonKeyDownAsync">
         @if (ChildContent is not null)
         {
             @ChildContent(BuildContext())
@@ -50,20 +50,24 @@
                 <path d="M5 3v10M11 3v10" />
             </svg>
         }
-    </button>
+    </IconButton>
 
-    @* mousedown default is suppressed so clicking an option does not blur
-       the listbox before the click handler runs. *@
-    <ul class="motion-picker-list"
-        id="@ListId"
-        role="listbox"
-        aria-label="@Label"
-        aria-activedescendant="@ActiveDescendantId"
-        tabindex="-1"
-        hidden="@(!_open)"
-        @ref="_listElement"
-        @onkeydown="OnListKeyDownAsync"
-        @onmousedown:preventDefault="true">
+    <Listbox @ref="_listComponent"
+             Label="@Label"
+             BaseCssClass="motion-picker-list"
+             id="@ListId"
+             Navigation="active-descendant"
+             Clamp="true"
+             Typeahead="true"
+             PageSize="10"
+             OptionCount="@Motions.Count"
+             OptionId="@OptionId"
+             OptionLabel="@(i => LabelFor(Motions[i]))"
+             @bind-ActiveIndex="_activeIndex"
+             hidden="@(!_open)"
+             OnActivate="ChooseAsync"
+             OnEscape="@(() => CloseList())"
+             OnTabOut="@(() => CloseList(false))">
         @for (var i = 0; i < Motions.Count; i++)
         {
             var index = i;
@@ -75,5 +79,5 @@
                 data-active="@(index == _activeIndex ? "" : null)"
                 @onclick="() => ChooseAsync(index)">@LabelFor(motion)</li>
         }
-    </ul>
+    </Listbox>
 </div>

@@ -1,4 +1,5 @@
 @namespace LilyDesignSystem.Blazor.Helpers
+@using LilyBlazorHeadless.Components
 
 @*
     SharePicker — Blazor helper component.
@@ -22,15 +23,14 @@
      @onfocusout="OnRootFocusOutAsync"
      @attributes="AdditionalAttributes">
 
-    <button type="button"
-            class="share-picker-button"
-            @ref="_triggerElement"
-            aria-label="@Label"
-            aria-expanded="@(_open ? "true" : "false")"
-            aria-controls="@ListId"
-            @onclick="OnTriggerClickAsync"
-            @onkeydown="OnTriggerKeyDownAsync"
-            @onfocus="OnTriggerFocus">
+    <IconButton @ref="_triggerComponent"
+                Label="@Label"
+                BaseCssClass="share-picker-button"
+                aria-expanded="@(_open ? "true" : "false")"
+                aria-controls="@ListId"
+                @onclick="OnTriggerClickAsync"
+                @onkeydown="OnTriggerKeyDownAsync"
+                @onfocus="OnTriggerFocus">
         @if (ChildContent is not null)
         {
             @ChildContent(BuildContext())
@@ -46,7 +46,7 @@
                 <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" />
             </svg>
         }
-    </button>
+    </IconButton>
 
     @* mousedown default is suppressed so pressing an item does not blur
        the focused element before the click handler runs. *@

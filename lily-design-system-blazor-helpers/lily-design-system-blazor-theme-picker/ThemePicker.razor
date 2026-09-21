@@ -1,4 +1,5 @@
 @namespace LilyDesignSystem.Blazor.Helpers
+@using LilyBlazorHeadless.Components
 
 @*
     ThemePicker — Blazor helper component.
@@ -21,15 +22,14 @@
     @* Preserves form participation; the listbox itself is not a form control. *@
     <input type="hidden" name="@Name" value="@Value" />
 
-    <button type="button"
-            class="theme-picker-button"
-            @ref="_buttonElement"
-            aria-label="@Label"
-            aria-haspopup="listbox"
-            aria-expanded="@(_open ? "true" : "false")"
-            aria-controls="@ListId"
-            @onclick="OnButtonClickAsync"
-            @onkeydown="OnButtonKeyDownAsync">
+    <IconButton @ref="_buttonComponent"
+                Label="@Label"
+                BaseCssClass="theme-picker-button"
+                aria-haspopup="listbox"
+                aria-expanded="@(_open ? "true" : "false")"
+                aria-controls="@ListId"
+                @onclick="OnButtonClickAsync"
+                @onkeydown="OnButtonKeyDownAsync">
         @if (ChildContent is not null)
         {
             @ChildContent(BuildContext())
@@ -47,20 +47,24 @@
                 <path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none" />
             </svg>
         }
-    </button>
+    </IconButton>
 
-    @* mousedown default is suppressed so clicking an option does not blur
-       the listbox before the click handler runs. *@
-    <ul class="theme-picker-list"
-        id="@ListId"
-        role="listbox"
-        aria-label="@Label"
-        aria-activedescendant="@ActiveDescendantId"
-        tabindex="-1"
-        hidden="@(!_open)"
-        @ref="_listElement"
-        @onkeydown="OnListKeyDownAsync"
-        @onmousedown:preventDefault="true">
+    <Listbox @ref="_listComponent"
+             Label="@Label"
+             BaseCssClass="theme-picker-list"
+             id="@ListId"
+             Navigation="@Listbox.ActiveDescendant"
+             Clamp="true"
+             Typeahead="true"
+             PageSize="10"
+             OptionCount="@Themes.Count"
+             OptionId="@OptionId"
+             OptionLabel="@(i => LabelFor(Themes[i]))"
+             @bind-ActiveIndex="_activeIndex"
+             hidden="@(!_open)"
+             OnActivate="ChooseAsync"
+             OnEscape="@(() => CloseList())"
+             OnTabOut="@(() => CloseList(false))">
         @for (var i = 0; i < Themes.Count; i++)
         {
             var index = i;
@@ -72,5 +76,5 @@
                 data-active="@(index == _activeIndex ? "" : null)"
                 @onclick="() => ChooseAsync(index)">@LabelFor(theme)</li>
         }
-    </ul>
+    </Listbox>
 </div>

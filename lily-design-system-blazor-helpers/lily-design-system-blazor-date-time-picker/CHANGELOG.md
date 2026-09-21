@@ -4,6 +4,21 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+**Internal refactor: the trigger button now depends on
+`LilyDesignSystem.Blazor.Headless`'s `IconButton` instead of
+hand-rolling one.** No change to the public API, rendered markup, or
+keyboard contract — the full existing test suite (71 tests) passes
+unchanged. The dialog and calendar grid stay self-built, deliberately:
+headless `Dialog` wraps a native `<dialog>` with no `open`/
+`showModal()` wiring and no focus trap, while this component uses a
+`<div role="dialog">` toggled via `hidden` plus its own hand-rolled
+trap — composing the headless `Dialog` would gain nothing and would
+conflict with both the tag and the visibility mechanism already in
+place. The calendar grid is bespoke civil-date business logic with no
+generic headless equivalent.
+
 ## 0.2.0 — 2026-09-04
 
 Week/day step buttons and a time-zone select (monorepo plan P8-T12;
