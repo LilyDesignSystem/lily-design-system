@@ -41,6 +41,17 @@ export default defineConfig({
           import.meta.url,
         ),
       ),
+      // theme-picker/locale-picker/text-size-picker/motion-picker's
+      // client.js each depend on this shared listbox-keyboard-behaviour
+      // package the same way a real consumer would (a regular npm
+      // `dependency`) — same local dev/test aliasing reason as the four
+      // picker-bar dependencies above.
+      "@lilydesignsystem/nunjucks-listbox-behavior": fileURLToPath(
+        new URL(
+          "./lily-design-system-nunjucks-listbox-behavior/dist/index.js",
+          import.meta.url,
+        ),
+      ),
     },
   },
   test: {

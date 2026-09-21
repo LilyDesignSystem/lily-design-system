@@ -5,9 +5,11 @@
 // browser and owns two things:
 //
 // A. The listbox INTERACTION (new in the icon-button release): open /
-//    close, focus movement, the APG listbox keyboard contract, and
-//    typeahead. None of this exists in the server markup — the button
-//    is inert until this module runs. See docs/ssr.md.
+//    close and focus movement here; the APG listbox keyboard contract
+//    itself is delegated to the shared
+//    @lilydesignsystem/nunjucks-listbox-behavior module. None of this
+//    exists in the server markup — the button is inert until this
+//    module runs. See docs/ssr.md.
 //
 // B. The locale LIFECYCLE (unchanged):
 //   0. Read the consumer's `value` prop from
@@ -37,9 +39,7 @@ import {
 
 export { defaultLocaleLabels, RTL_LANGUAGE_TAGS, RTL_SCRIPT_SUBTAGS };
 
-
-/** How long the typeahead buffer survives between keystrokes, in ms. */
-const TYPEAHEAD_RESET_MS = 500;
+import { createListboxKeyboard } from "@lilydesignsystem/nunjucks-listbox-behavior";
 
 // ---------------------------------------------------------------
 // Pure helpers
@@ -142,13 +142,6 @@ function safeStorageSet(key, value) {
   }
 }
 
-/** jsdom and older browsers do not always implement scrollIntoView. */
-function scrollIntoViewIfPossible(el) {
-  if (el && typeof el.scrollIntoView === "function") {
-    el.scrollIntoView({ block: "nearest" });
-  }
-}
-
 // ---------------------------------------------------------------
 // Init
 // ---------------------------------------------------------------
@@ -191,8 +184,6 @@ export function initLocalePicker(root, opts = {}) {
     else o.removeAttribute("lang");
   });
 
-  const labels = options.map((o) => (o.textContent || "").trim());
-
   const storageKey =
     root.getAttribute("data-lily-locale-picker-storage-key") || "";
   const defaultValue =
@@ -209,9 +200,6 @@ export function initLocalePicker(root, opts = {}) {
 
   let current = "";
   let open = false;
-  let activeIndex = -1;
-  let typeahead = "";
-  let typeaheadTimer;
 
   // -----------------------------------------------------------------
   // Applying a locale
@@ -248,20 +236,6 @@ export function initLocalePicker(root, opts = {}) {
   // Open / close / active-option movement
   // -----------------------------------------------------------------
 
-  function setActive(index) {
-    activeIndex = index;
-    options.forEach((o, i) => {
-      if (i === index) o.setAttribute("data-active", "");
-      else o.removeAttribute("data-active");
-    });
-    if (index >= 0 && options[index]) {
-      list.setAttribute("aria-activedescendant", options[index].id);
-      scrollIntoViewIfPossible(options[index]);
-    } else {
-      list.removeAttribute("aria-activedescendant");
-    }
-  }
-
   function openList(startIndex) {
     const selected = values.indexOf(current);
     // An empty list has no option to activate; -1 keeps
@@ -278,7 +252,7 @@ export function initLocalePicker(root, opts = {}) {
     open = true;
     list.hidden = false;
     button.setAttribute("aria-expanded", "true");
-    setActive(start);
+    keyboard.setActive(start);
     // Focus moves to the listbox; the active option is conveyed via
     // aria-activedescendant, per the APG listbox pattern.
     list.focus({ preventScroll: true });
@@ -289,7 +263,7 @@ export function initLocalePicker(root, opts = {}) {
     open = false;
     list.hidden = true;
     button.setAttribute("aria-expanded", "false");
-    setActive(-1);
+    keyboard.setActive(-1);
     if (refocus) button.focus({ preventScroll: true });
   }
 
@@ -299,39 +273,26 @@ export function initLocalePicker(root, opts = {}) {
     closeList();
   }
 
-  function moveActive(delta) {
-    if (options.length === 0) return;
-    // Clamp rather than wrap, matching the canonical Svelte helper.
-    const next = Math.min(Math.max(activeIndex + delta, 0), options.length - 1);
-    setActive(next);
-  }
-
-  function runTypeahead(char) {
-    const lower = char.toLowerCase();
-    // APG listbox typeahead: a single character moves to the NEXT
-    // option starting with it, and repeating that character keeps
-    // cycling. Only a buffer of differing characters refines the
-    // match, and that buffer stays anchored on the active option.
-    const sameCharRun =
-      typeahead === "" || Array.from(typeahead).every((c) => c === lower);
-    typeahead += lower;
-    clearTimeout(typeaheadTimer);
-    typeaheadTimer = setTimeout(() => {
-      typeahead = "";
-    }, TYPEAHEAD_RESET_MS);
-    const query = sameCharRun ? lower : typeahead;
-    const anchor = activeIndex < 0 ? 0 : activeIndex;
-    const start = sameCharRun ? anchor + 1 : anchor;
-    // Search forward, wrapping once — typeahead wraps even though the
-    // arrows clamp, or options above the cursor would be untypable.
-    for (let n = 0; n < options.length; n++) {
-      const i = (start + n) % options.length;
-      if (labels[i].toLowerCase().startsWith(query)) {
-        setActive(i);
-        return;
-      }
-    }
-  }
+  const keyboard = createListboxKeyboard(list, {
+    clamp: true,
+    typeahead: true,
+    pageSize: 10,
+    onActivate: choose,
+    onEscape: () => closeList(),
+    onTabOut: () => {
+      // Tab moves on — but focus goes to the button FIRST, without
+      // cancelling the key (the shared controller never prevents Tab's
+      // default). Hiding the focused list drops focus to <body>, and
+      // the browser then computes the default Tab move from the top of
+      // the document, so tabbing out of an open picker teleported the
+      // user to the page's first tab stop. From the button, the default
+      // Tab lands exactly where leaving the picker should. Guard the
+      // METHOD, not just the element: this shape has bitten these
+      // helpers before.
+      button?.focus?.({ preventScroll: true });
+      closeList(false);
+    },
+  });
 
   // -----------------------------------------------------------------
   // Event handlers
@@ -359,66 +320,6 @@ export function initLocalePicker(root, opts = {}) {
     }
   }
 
-  function onListKeydown(event) {
-    switch (event.key) {
-      case "ArrowDown":
-        event.preventDefault();
-        moveActive(1);
-        break;
-      case "ArrowUp":
-        event.preventDefault();
-        moveActive(-1);
-        break;
-      case "Home":
-        event.preventDefault();
-        setActive(0);
-        break;
-      case "End":
-        event.preventDefault();
-        setActive(options.length - 1);
-        break;
-      case "Enter":
-      case " ":
-        event.preventDefault();
-        if (activeIndex >= 0) choose(activeIndex);
-        break;
-      case "Escape":
-        event.preventDefault();
-        closeList();
-        break;
-      case "PageUp":
-        event.preventDefault();
-        moveActive(-10);
-        break;
-      case "PageDown":
-        // ±10, clamped: an APG-optional key for long locale lists.
-        event.preventDefault();
-        moveActive(10);
-        break;
-      case "Tab":
-        // Tab moves on — but focus goes to the button FIRST, without
-        // cancelling the key. Hiding the focused list drops focus to
-        // <body>, and the browser then computes the default Tab move
-        // from the top of the document, so tabbing out of an open
-        // picker teleported the user to the page's first tab stop.
-        // From the button, the default Tab lands exactly where leaving
-        // the picker should. Guard the METHOD, not just the element:
-        // this shape has bitten these helpers before.
-        button?.focus?.({ preventScroll: true });
-        closeList(false);
-        break;
-      default:
-        if (
-          event.key.length === 1 &&
-          !event.ctrlKey &&
-          !event.metaKey &&
-          !event.altKey
-        ) {
-          runTypeahead(event.key);
-        }
-    }
-  }
-
   function onListClick(event) {
     const li =
       event.target && event.target.closest
@@ -443,7 +344,6 @@ export function initLocalePicker(root, opts = {}) {
 
   button.addEventListener("click", onButtonClick);
   button.addEventListener("keydown", onButtonKeydown);
-  list.addEventListener("keydown", onListKeydown);
   list.addEventListener("click", onListClick);
   root.addEventListener("focusout", onRootFocusOut);
   document.addEventListener("click", onDocumentClick);
@@ -486,10 +386,9 @@ export function initLocalePicker(root, opts = {}) {
   return {
     setLocale: applyLocale,
     destroy: () => {
-      clearTimeout(typeaheadTimer);
+      keyboard.destroy();
       button.removeEventListener("click", onButtonClick);
       button.removeEventListener("keydown", onButtonKeydown);
-      list.removeEventListener("keydown", onListKeydown);
       list.removeEventListener("click", onListClick);
       root.removeEventListener("focusout", onRootFocusOut);
       document.removeEventListener("click", onDocumentClick);
