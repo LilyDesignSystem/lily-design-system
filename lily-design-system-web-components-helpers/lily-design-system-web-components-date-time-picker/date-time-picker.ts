@@ -15,7 +15,23 @@
  * three preference helpers (and like `share-picker`) this control does
  * not persist anything to `localStorage`: a date is data, not a
  * preference.
+ *
+ * Depends on `@lilydesignsystem/web-components-headless`'s
+ * `<lily-icon-button>` for the trigger button, composed in `#render()`
+ * rather than hand-rolled. Imported here (not only from `index.ts`) so
+ * `lily-icon-button` is registered regardless of which module a
+ * consumer (or this package's own tests) imports first. The dialog and
+ * calendar grid stay self-built: this catalog's `Dialog` custom
+ * element wraps a native `<dialog>` shown via the `open` property, not
+ * `.showModal()` — by its own doc comment it deliberately provides no
+ * focus trap ("left to the consumer"), so composing it would gain
+ * nothing this component doesn't already implement, while changing the
+ * documented root tag from `<div role="dialog">` to `<lily-dialog>`
+ * wrapping a native `<dialog>`. The calendar grid is bespoke civil-date
+ * arithmetic with no generic headless equivalent to compose.
  */
+
+import "@lilydesignsystem/web-components-headless";
 
 // -----------------------------------------------------------------------
 // Types
@@ -1958,17 +1974,23 @@ export class DateTimePicker extends HTMLElement {
         fieldEl.addEventListener("keydown", this.#onFieldKeydown);
         fieldWrap.appendChild(fieldEl);
 
-        const buttonEl = document.createElement("button");
-        buttonEl.type = "button";
-        buttonEl.className = "date-time-picker-button";
-        buttonEl.setAttribute("aria-label", this.label);
-        buttonEl.setAttribute("aria-haspopup", "dialog");
-        buttonEl.setAttribute("aria-expanded", "false");
-        buttonEl.setAttribute("aria-controls", this.dialogId);
-        buttonEl.disabled = this.disabled || this.readonly;
-        buttonEl.appendChild(this.renderButtonContent());
-        buttonEl.addEventListener("click", () => (this.#open ? this.#closeDialog() : this.openDialog()));
-        fieldWrap.appendChild(buttonEl);
+        // Composes @lilydesignsystem/web-components-headless's
+        // <lily-icon-button> for the trigger rather than hand-rolling a
+        // <button>. base-class replaces its default "icon-button" class
+        // outright; aria-haspopup/expanded/controls and disabled are
+        // copied onto (or handled by) the real inner <button> via that
+        // component's own attribute handling. click doesn't get copied,
+        // so it goes on the host — it bubbles up from the real button.
+        const iconButtonHost = document.createElement("lily-icon-button");
+        iconButtonHost.setAttribute("base-class", "date-time-picker-button");
+        iconButtonHost.setAttribute("label", this.label);
+        iconButtonHost.setAttribute("aria-haspopup", "dialog");
+        iconButtonHost.setAttribute("aria-expanded", "false");
+        iconButtonHost.setAttribute("aria-controls", this.dialogId);
+        if (this.disabled || this.readonly) iconButtonHost.setAttribute("disabled", "");
+        iconButtonHost.appendChild(this.renderButtonContent());
+        iconButtonHost.addEventListener("click", () => (this.#open ? this.#closeDialog() : this.openDialog()));
+        fieldWrap.appendChild(iconButtonHost);
 
         root.appendChild(fieldWrap);
 
@@ -2273,7 +2295,6 @@ export class DateTimePicker extends HTMLElement {
 
         this.#rootEl = root;
         this.#fieldEl = fieldEl;
-        this.#buttonEl = buttonEl;
         this.#dialogEl = dialogEl;
         this.#hiddenEl = hiddenEl;
         this.#statusEl = statusEl;
@@ -2290,6 +2311,10 @@ export class DateTimePicker extends HTMLElement {
         this.#zoneSelect = zoneSelect;
 
         this.replaceChildren(root);
+        // <lily-icon-button> only builds its real inner <button> once
+        // connected to a live document, which just happened synchronously
+        // above.
+        this.#buttonEl = iconButtonHost.querySelector("button");
 
         this.#syncState();
     }

@@ -23,6 +23,9 @@
   "scripts": {
     "prepublishOnly": "cd .. && npm run build"
   },
+  "dependencies": {
+    "@lilydesignsystem/web-components-headless": "^0.1.0"
+  },
   "keywords": [
     "lily",
     "design",

@@ -42,6 +42,17 @@ export default defineConfig({
           import.meta.url,
         ),
       ),
+      // The pickers now depend on the *headless* catalog's <lily-icon-button>
+      // for their trigger button (see its CHANGELOG entry, 2026-09-21) — the
+      // first cross-catalog dependency here, same shape as the sibling
+      // aliases above but pointing one level up at a sibling top-level
+      // directory rather than a nested helper package.
+      "@lilydesignsystem/web-components-headless": fileURLToPath(
+        new URL(
+          "../lily-design-system-web-components-headless/dist/index.js",
+          import.meta.url,
+        ),
+      ),
     },
   },
   test: {

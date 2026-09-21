@@ -6,8 +6,15 @@
  * not throw. Consumers who want a different tag name can import the
  * class directly from `./theme-picker` and call
  * `customElements.define(...)` themselves.
+ *
+ * Depends on `@lilydesignsystem/web-components-headless` for the
+ * trigger button (`<lily-icon-button>`, composed rather than
+ * hand-rolled — see theme-picker.ts's `#render()`). Importing that
+ * package here (for its side effect) registers `lily-icon-button`
+ * before `#render()` ever runs.
  */
 
+import "@lilydesignsystem/web-components-headless";
 import {
     ThemePicker,
     themeName,

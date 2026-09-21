@@ -7,7 +7,15 @@
  *
  * The control is an icon button that opens a dropdown listbox
  * (WAI-ARIA APG listbox pattern). It is not a native `<select>`.
+ *
+ * Depends on `@lilydesignsystem/web-components-headless`'s
+ * `<lily-icon-button>` for the trigger button, composed in `#render()`
+ * rather than hand-rolled. Imported here (not only from `index.ts`) so
+ * `lily-icon-button` is registered regardless of which module a
+ * consumer (or this package's own tests) imports first.
  */
+
+import "@lilydesignsystem/web-components-headless";
 
 /** Namespace for building the default button icon's SVG elements. */
 const SVG_NS = "http://www.w3.org/2000/svg";
@@ -133,6 +141,8 @@ export class ThemePicker extends HTMLElement {
   // Rendered-DOM references. Null until #render() has run.
   #rootEl: HTMLDivElement | null = null;
   #inputEl: HTMLInputElement | null = null;
+  // The real <button>, nested one level inside the composed
+  // <lily-icon-button> host (see #render()) — not #rootEl's direct child.
   #buttonEl: HTMLButtonElement | null = null;
   #listEl: HTMLUListElement | null = null;
   #optionEls: HTMLLIElement[] = [];
@@ -717,20 +727,26 @@ export class ThemePicker extends HTMLElement {
     input.value = this.value;
     root.appendChild(input);
 
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "theme-picker-button";
-    button.setAttribute("aria-label", this.label);
-    button.setAttribute("aria-haspopup", "listbox");
-    button.setAttribute("aria-expanded", "false");
-    button.setAttribute("aria-controls", this.listId);
-    button.appendChild(this.renderButtonContent());
-    button.addEventListener("click", () => {
+    // Composes @lilydesignsystem/web-components-headless's <lily-icon-button>
+    // for the trigger rather than hand-rolling a <button>. `base-class`
+    // replaces its default "icon-button" class outright; every other
+    // attribute set here (aria-haspopup/expanded/controls) is copied onto
+    // the real inner <button> via that component's passThroughAttributes.
+    // Event listeners don't get copied by it, so click/keydown are
+    // attached to the host — both bubble up from the real button.
+    const iconButtonHost = document.createElement("lily-icon-button");
+    iconButtonHost.setAttribute("base-class", "theme-picker-button");
+    iconButtonHost.setAttribute("label", this.label);
+    iconButtonHost.setAttribute("aria-haspopup", "listbox");
+    iconButtonHost.setAttribute("aria-expanded", "false");
+    iconButtonHost.setAttribute("aria-controls", this.listId);
+    iconButtonHost.appendChild(this.renderButtonContent());
+    iconButtonHost.addEventListener("click", () => {
       if (this.#open) this.closeList();
       else this.openList();
     });
-    button.addEventListener("keydown", this.#onButtonKeydown);
-    root.appendChild(button);
+    iconButtonHost.addEventListener("keydown", this.#onButtonKeydown);
+    root.appendChild(iconButtonHost);
 
     const list = document.createElement("ul");
     list.className = "theme-picker-list";
@@ -757,11 +773,15 @@ export class ThemePicker extends HTMLElement {
 
     this.#rootEl = root;
     this.#inputEl = input;
-    this.#buttonEl = button;
     this.#listEl = list;
     this.#optionEls = optionEls;
 
     this.replaceChildren(root);
+    // <lily-icon-button> only builds its real inner <button> once
+    // connected to a live document, which just happened synchronously
+    // above (connecting a subtree upgrades every custom element in it,
+    // in tree order, before this line runs).
+    this.#buttonEl = iconButtonHost.querySelector("button");
   }
 }
 

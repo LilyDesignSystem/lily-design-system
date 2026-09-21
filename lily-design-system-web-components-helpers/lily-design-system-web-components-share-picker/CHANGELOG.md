@@ -4,6 +4,16 @@ All notable changes to `@lilydesignsystem/web-components-share-picker` are
 documented here. The format follows [Keep a Changelog](https://keepachangelog.com/),
 and this package uses [semantic versioning](https://semver.org/).
 
+## Unreleased
+
+**Internal refactor: the trigger button now composes
+`@lilydesignsystem/web-components-headless`'s `<lily-icon-button>`
+instead of hand-rolling a `<button>`.** No change to the public API,
+rendered markup, or keyboard contract — the full existing test suite
+passes unchanged. The destination/copy list stays self-built: it is a
+real disclosure of `<a>`/`<button>` elements with a roving-focus
+pattern, not an ARIA listbox.
+
 ## 0.1.0 — 2026-09-16
 
 **Package renamed: `lily-design-system-web-components-share-picker` → `@lilydesignsystem/web-components-share-picker`.** npm scoped packages

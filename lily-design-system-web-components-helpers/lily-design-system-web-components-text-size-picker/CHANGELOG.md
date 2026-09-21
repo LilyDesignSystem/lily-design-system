@@ -4,6 +4,20 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+**Internal refactor: the trigger button now composes
+`@lilydesignsystem/web-components-headless`'s `<lily-icon-button>`
+instead of hand-rolling a `<button>`.** No change to the public API,
+rendered markup, or keyboard contract — the full existing test suite
+passes unchanged. The listbox stays self-built: this catalog's
+`Listbox` custom element is a native-tag-fixed `<lily-listbox>` (no
+customized built-ins, by this catalog's own prior architecture
+decision — WebKit never implemented them), so it cannot stand in for
+the documented `<ul>` the way Svelte's could via `<svelte:element
+as="ul">`; composing it would silently change the picker's markup tag,
+not just add a class token.
+
 ## 0.1.0 — 2026-09-16
 
 **Package renamed: `lily-design-system-web-components-text-size-picker` → `@lilydesignsystem/web-components-text-size-picker`.** npm scoped packages

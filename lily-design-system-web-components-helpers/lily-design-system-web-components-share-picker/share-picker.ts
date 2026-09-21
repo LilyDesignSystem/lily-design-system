@@ -13,7 +13,17 @@
  * Unlike its sibling helpers this one owns an *action*, not a user
  * preference: it applies nothing to the document and persists nothing.
  * There is no `storage-key`, and nothing is written to `localStorage`.
+ *
+ * Depends on `@lilydesignsystem/web-components-headless`'s
+ * `<lily-icon-button>` for the trigger button, composed in `#render()`
+ * rather than hand-rolled. Imported here (not only from `index.ts`) so
+ * `lily-icon-button` is registered regardless of which module a
+ * consumer (or this package's own tests) imports first. The
+ * destination/copy list stays self-built: it is a disclosure of real
+ * `<a>`/`<button>` elements, not an ARIA listbox.
  */
+
+import "@lilydesignsystem/web-components-headless";
 
 /** Namespace for building the default button icon's SVG elements. */
 const SVG_NS = "http://www.w3.org/2000/svg";
@@ -589,18 +599,23 @@ export class SharePicker extends HTMLElement {
         root.className = `share-picker ${extraClass}`.trim();
         root.addEventListener("focusout", this.#onRootFocusOut);
 
-        const button = document.createElement("button");
-        button.type = "button";
-        // Follows the catalog's `{helper}-button` convention, same as the
-        // sibling helpers.
-        button.className = "share-picker-button";
-        button.setAttribute("aria-label", this.label);
-        button.setAttribute("aria-expanded", "false");
-        button.setAttribute("aria-controls", this.listId);
-        button.appendChild(this.renderButtonContent());
-        button.addEventListener("click", this.#onButtonClick);
-        button.addEventListener("keydown", this.#onButtonKeydown);
-        root.appendChild(button);
+        // Composes @lilydesignsystem/web-components-headless's
+        // <lily-icon-button> for the trigger rather than hand-rolling a
+        // <button>. base-class replaces its default "icon-button" class
+        // outright, following the catalog's `{helper}-button` convention;
+        // aria-expanded/controls are copied onto the real inner <button>
+        // via that component's passThroughAttributes. Event listeners
+        // aren't copied by it, so click/keydown go on the host — both
+        // bubble up from the real button.
+        const iconButtonHost = document.createElement("lily-icon-button");
+        iconButtonHost.setAttribute("base-class", "share-picker-button");
+        iconButtonHost.setAttribute("label", this.label);
+        iconButtonHost.setAttribute("aria-expanded", "false");
+        iconButtonHost.setAttribute("aria-controls", this.listId);
+        iconButtonHost.appendChild(this.renderButtonContent());
+        iconButtonHost.addEventListener("click", this.#onButtonClick);
+        iconButtonHost.addEventListener("keydown", this.#onButtonKeydown);
+        root.appendChild(iconButtonHost);
 
         const list = document.createElement("ul");
         list.className = "share-picker-list";
@@ -665,11 +680,14 @@ export class SharePicker extends HTMLElement {
         root.appendChild(status);
 
         this.#rootEl = root;
-        this.#buttonEl = button;
         this.#listEl = list;
         this.#statusEl = status;
         this.#targetEls = targetEls;
 
         this.replaceChildren(root);
+        // <lily-icon-button> only builds its real inner <button> once
+        // connected to a live document, which just happened synchronously
+        // above.
+        this.#buttonEl = iconButtonHost.querySelector("button");
     }
 }
