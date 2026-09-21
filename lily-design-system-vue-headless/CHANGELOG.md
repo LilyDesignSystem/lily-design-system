@@ -3,6 +3,36 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the package follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+**`Listbox` and `IconButton` extended, additively, to support the
+`*-helpers` catalog's icon-button-triggered pickers depending on them
+instead of hand-rolling equivalent markup/keyboard logic — porting the
+same extension already made to `@lilydesignsystem/svelte-headless`.**
+Both components had zero real consumers elsewhere in this catalog
+(only doc-comment mentions found) before this change — full suite
+(2668 tests) still green.
+
+- `IconButton` gains `baseClass` (default `"icon-button"`, unchanged)
+  — a consumer whose own contract requires an exact class (no extra
+  `icon-button` token, since Vue's default class fallthrough only
+  concatenates) sets `baseClass` instead — and `defineExpose({ el })`
+  exposing the rendered `<button>` so a consumer can call `.focus()`
+  on it (neither component exposed anything via `defineExpose` before
+  this change).
+- `Listbox` gains `baseClass` (default `"listbox"`, same reasoning)
+  and `as` (default `"div"`, unchanged — a consumer needing e.g. a
+  `<ul>` root sets `as="ul"`, rendered via `<component :is="as">`),
+  plus an opt-in `navigation="active-descendant"` mode (default
+  remains `"roving-focus"`, byte-for-byte unchanged behaviour): the
+  root holds real focus and tracks a virtual cursor
+  (`aria-activedescendant`, `v-model:activeIndex`) rather than moving
+  DOM focus between options, plus `clamp` (vs. wrap), `typeahead`,
+  `pageSize` paging, and `activate`/`escape`/`tab-out` emits — the
+  full WAI-ARIA APG listbox keyboard contract the picker helpers
+  already implement by hand. `defineExpose({ el })` exposes the
+  rendered root the same way.
+
 ## 0.1.0 — 2026-09-16
 
 **Package renamed: `lily-design-system-vue-headless` → `@lilydesignsystem/vue-headless`.** npm scoped packages

@@ -90,4 +90,23 @@ describe("IconButton", () => {
         const button: HTMLElement = screen.getByRole("button");
         expect(button.getAttribute("id")).toBe("btn-close");
     });
+
+    test("baseClass replaces the default class token outright", () => {
+        render(Subject, { props: { label: "X", baseClass: "motion-picker-button" }, slots: { default: "X" } });
+
+        const button: HTMLElement = screen.getByRole("button");
+        expect(button.className).toBe("motion-picker-button");
+    });
+
+    test("aria-haspopup/aria-expanded/aria-controls fall through via restProps", () => {
+        render(Subject, {
+            props: { label: "Motion", "aria-haspopup": "listbox", "aria-expanded": "false", "aria-controls": "list-1" },
+            slots: { default: "X" },
+        });
+
+        const button: HTMLElement = screen.getByRole("button");
+        expect(button.getAttribute("aria-haspopup")).toBe("listbox");
+        expect(button.getAttribute("aria-expanded")).toBe("false");
+        expect(button.getAttribute("aria-controls")).toBe("list-1");
+    });
 });
