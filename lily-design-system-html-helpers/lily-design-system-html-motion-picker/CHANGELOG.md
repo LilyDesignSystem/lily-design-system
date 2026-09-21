@@ -4,6 +4,17 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+**Internal refactor: now depends on `@lilydesignsystem/html-headless`'s
+new `ListboxController` (`components/listbox-controller.js`) instead of
+hand-rolling its own keyboard logic.** No change to the public API,
+rendered markup, or keyboard contract — the full existing test suite
+passes unchanged. See `@lilydesignsystem/html-headless`'s own
+CHANGELOG for the module this depends on and why it had to be built
+from scratch rather than extended (this catalog's headless `listbox`
+was a markup-only stub with no working behaviour).
+
 ## 0.1.0 — 2026-09-16
 
 **Package renamed: `lily-design-system-html-motion-picker` → `@lilydesignsystem/html-motion-picker`.** npm scoped packages

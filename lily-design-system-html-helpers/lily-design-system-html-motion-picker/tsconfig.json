@@ -1,0 +1,18 @@
+{
+  "//": "Scoped to this package only — passed to tsup via --tsconfig, never picked up as a catalog-wide default. Needed only so the DTS rollup step can resolve the headless catalog's ListboxController type for motion-picker.ts's import; the ESM build resolves it as an ordinary --external bare import regardless.",
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "declaration": true,
+    "sourceMap": false,
+    "baseUrl": ".",
+    "paths": {
+      "@lilydesignsystem/html-headless/components/listbox-controller.js": ["../../lily-design-system-html-headless/components/listbox-controller.d.ts"]
+    }
+  }
+}

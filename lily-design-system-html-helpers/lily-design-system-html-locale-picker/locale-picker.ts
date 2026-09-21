@@ -14,6 +14,7 @@ import {
     RTL_LANGUAGE_TAGS,
     RTL_SCRIPT_SUBTAGS,
 } from "./locales.js";
+import { ListboxController } from "@lilydesignsystem/html-headless/components/listbox-controller.js";
 
 export { defaultLocaleLabels, RTL_LANGUAGE_TAGS, RTL_SCRIPT_SUBTAGS };
 
@@ -180,9 +181,11 @@ export class LocalePicker extends HTMLElement {
     // Stable ids for the button/listbox aria wiring.
     readonly #baseId = nextLocalePickerId();
 
-    // Typeahead buffer: APG listbox behaviour. Reset after a pause.
-    #typeahead = "";
-    #typeaheadTimer: ReturnType<typeof setTimeout> | undefined;
+    // Arrow/Home/End/typeahead/PageUp/PageDown/Escape/Tab keyboard handling
+    // inside the open list is owned by the shared ListboxController (see
+    // @lilydesignsystem/html-headless/components/listbox-controller.js);
+    // this element only decides what open/close/choose mean.
+    #listboxController: ListboxController | null = null;
 
     #onDocumentClick = (event: MouseEvent): void => {
         if (!this.#open) return;
@@ -428,7 +431,7 @@ export class LocalePicker extends HTMLElement {
 
     disconnectedCallback(): void {
         document.removeEventListener("click", this.#onDocumentClick);
-        clearTimeout(this.#typeaheadTimer);
+        this.#listboxController?.destroy();
         // A re-connected element must apply again: the document root it
         // returns to need not be the one it left.
         this.#appliedValue = "";
@@ -513,6 +516,7 @@ export class LocalePicker extends HTMLElement {
             this.#locales.length === 0
                 ? -1
                 : (startIndex ?? (selected >= 0 ? selected : 0));
+        this.#listboxController?.setActiveIndex(this.#activeIndex);
         this.#open = true;
         this.#syncState();
         // Focus moves to the listbox; the active option is conveyed via
@@ -526,6 +530,7 @@ export class LocalePicker extends HTMLElement {
         if (!this.#open) return;
         this.#open = false;
         this.#activeIndex = -1;
+        this.#listboxController?.setActiveIndex(-1);
         this.#syncState();
         if (refocus) this.#buttonEl?.focus({ preventScroll: true });
     }
@@ -542,50 +547,6 @@ export class LocalePicker extends HTMLElement {
         this.#optionEls[this.#activeIndex]?.scrollIntoView?.({ block: "nearest" });
     }
 
-    #moveActive(delta: number): void {
-        if (this.#locales.length === 0) return;
-        this.#activeIndex = Math.min(
-            Math.max(this.#activeIndex + delta, 0),
-            this.#locales.length - 1,
-        );
-        this.#syncState();
-        this.#scrollActiveIntoView();
-    }
-
-    #setActive(index: number): void {
-        this.#activeIndex = index;
-        this.#syncState();
-        this.#scrollActiveIntoView();
-    }
-
-    #runTypeahead(char: string): void {
-        const lower = char.toLowerCase();
-        // APG listbox typeahead: a single character moves to the NEXT
-        // option starting with it, and repeating that character keeps
-        // cycling. Only a buffer of differing characters refines the
-        // match, and that buffer stays anchored on the active option.
-        const sameCharRun =
-            this.#typeahead === "" ||
-            [...this.#typeahead].every((c) => c === lower);
-        this.#typeahead += lower;
-        clearTimeout(this.#typeaheadTimer);
-        this.#typeaheadTimer = setTimeout(() => {
-            this.#typeahead = "";
-        }, 500);
-        const query = sameCharRun ? lower : this.#typeahead;
-        const anchor = this.#activeIndex < 0 ? 0 : this.#activeIndex;
-        const start = sameCharRun ? anchor + 1 : anchor;
-        // Search forward, wrapping once — typeahead wraps even though the
-        // arrows clamp, or options above the cursor would be untypable.
-        for (let n = 0; n < this.#locales.length; n++) {
-            const i = (start + n) % this.#locales.length;
-            if (this.labelFor(this.#locales[i]).toLowerCase().startsWith(query)) {
-                this.#setActive(i);
-                return;
-            }
-        }
-    }
-
     #onButtonKeydown = (event: KeyboardEvent): void => {
         switch (event.key) {
             case "ArrowDown":
@@ -598,67 +559,6 @@ export class LocalePicker extends HTMLElement {
                 event.preventDefault();
                 this.openList(this.#locales.length - 1);
                 break;
-        }
-    };
-
-    #onListKeydown = (event: KeyboardEvent): void => {
-        switch (event.key) {
-            case "ArrowDown":
-                event.preventDefault();
-                this.#moveActive(1);
-                break;
-            case "ArrowUp":
-                event.preventDefault();
-                this.#moveActive(-1);
-                break;
-            case "Home":
-                event.preventDefault();
-                this.#setActive(0);
-                break;
-            case "End":
-                event.preventDefault();
-                this.#setActive(this.#locales.length - 1);
-                break;
-            case "Enter":
-            case " ":
-                event.preventDefault();
-                if (this.#activeIndex >= 0) this.#choose(this.#activeIndex);
-                break;
-            case "Escape":
-                event.preventDefault();
-                this.closeList();
-                break;
-            case "PageUp":
-                event.preventDefault();
-                this.#moveActive(-10);
-                break;
-            case "PageDown":
-                // ±10, clamped: an APG-optional key for long locale lists.
-                event.preventDefault();
-                this.#moveActive(10);
-                break;
-            case "Tab":
-                // Tab moves on — but focus goes to the button FIRST,
-                // without cancelling the key. Hiding the focused list
-                // drops focus to <body>, and the browser then computes
-                // the default Tab move from the top of the document, so
-                // tabbing out of an open picker teleported the user to
-                // the page's first tab stop. From the button, the
-                // default Tab lands exactly where leaving the picker
-                // should. Guard the METHOD: jsdom-shaped environments
-                // may lack it.
-                this.#buttonEl?.focus?.({ preventScroll: true });
-                this.closeList(false);
-                break;
-            default:
-                if (
-                    event.key.length === 1 &&
-                    !event.ctrlKey &&
-                    !event.metaKey &&
-                    !event.altKey
-                ) {
-                    this.#runTypeahead(event.key);
-                }
         }
     };
 
@@ -725,6 +625,7 @@ export class LocalePicker extends HTMLElement {
         // so it closes first.
         this.#open = false;
         this.#activeIndex = -1;
+        this.#listboxController?.destroy();
 
         const extraClass = this.getAttribute("class") ?? "";
         const root = document.createElement("div");
@@ -760,7 +661,35 @@ export class LocalePicker extends HTMLElement {
         list.setAttribute("aria-label", this.label);
         list.setAttribute("tabindex", "-1");
         list.setAttribute("hidden", "");
-        list.addEventListener("keydown", this.#onListKeydown);
+        this.#listboxController = new ListboxController({
+            root: list,
+            clamp: true,
+            typeahead: true,
+            pageSize: 10,
+            // Each <li>'s textContent is already labelFor(locale) — set
+            // below — so reading it back needs no index lookup.
+            getOptionLabel: (option) => option.textContent ?? "",
+            onActiveIndexChange: (index) => {
+                this.#activeIndex = index;
+                this.#syncState();
+                this.#scrollActiveIntoView();
+            },
+            onActivate: (index) => this.#choose(index),
+            onEscape: () => this.closeList(),
+            onTabOut: () => {
+                // Tab moves on — but focus goes to the button FIRST,
+                // without cancelling the key. Hiding the focused list
+                // drops focus to <body>, and the browser then computes
+                // the default Tab move from the top of the document, so
+                // tabbing out of an open picker teleported the user to
+                // the page's first tab stop. From the button, the
+                // default Tab lands exactly where leaving the picker
+                // should. Guard the METHOD: jsdom-shaped environments
+                // may lack it.
+                this.#buttonEl?.focus?.({ preventScroll: true });
+                this.closeList(false);
+            },
+        });
 
         const optionEls: HTMLLIElement[] = [];
         this.#locales.forEach((locale, i) => {

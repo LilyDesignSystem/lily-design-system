@@ -40,6 +40,21 @@ export default defineConfig({
           import.meta.url,
         ),
       ),
+      // @lilydesignsystem/html-theme-picker (and the other migrated
+      // pickers) depend on the *headless* catalog's ListboxController —
+      // a real npm `dependency`, resolved from the registry once
+      // published — porting the same headless-composition refactor
+      // already done for the other framework catalogs. The headless
+      // catalog lives one level up as a sibling top-level directory, and
+      // unlike the four sibling helper packages above, it ships no
+      // dist/ at all (no build step; components/ IS the published
+      // source), so this points straight at the source file.
+      "@lilydesignsystem/html-headless/components/listbox-controller.js": fileURLToPath(
+        new URL(
+          "../lily-design-system-html-headless/components/listbox-controller.js",
+          import.meta.url,
+        ),
+      ),
     },
   },
   test: {
