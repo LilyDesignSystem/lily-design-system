@@ -3,7 +3,7 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.1.1 — 2026-09-21
 
 **Internal refactor: now depends on `@lilydesignsystem/html-headless`'s
 new `ListboxController` (`components/listbox-controller.js`) instead of

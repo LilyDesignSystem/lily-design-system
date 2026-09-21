@@ -5,7 +5,7 @@ and the package follows [Semantic Versioning](https://semver.org/).
 The canonical monorepo history is in the root
 [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md).
 
-## Unreleased
+## 0.2.0 — 2026-09-21
 
 **New: `ListboxController` (`components/listbox-controller.js` +
 `.js.d.ts`), a real, reusable WAI-ARIA APG listbox keyboard-behaviour
