@@ -1,15 +1,215 @@
 @namespace LilyBlazorHeadless.Components
+@using Microsoft.AspNetCore.Components.Web
 
 @*
     Listbox component
     a list of selectable options with keyboard navigation
+
+    `Navigation="active-descendant"` (opt-in; default "roving-focus" is
+    unchanged — inert, since this component shipped with no keyboard
+    handling of any kind, so there was no existing behaviour to
+    preserve beyond "does nothing") implements the full WAI-ARIA APG
+    listbox keyboard contract via a virtual cursor: a bindable
+    `ActiveIndex` (`@bind-ActiveIndex`) mirrored to `aria-activedescendant`,
+    `Clamp` (vs. wrap), `Typeahead`, `PageSize` paging, and
+    `OnActivate`/`OnEscape`/`OnTabOut` callbacks so a composing consumer
+    decides what "select" / "cancel" / "leave" mean.
+
+    Unlike the other framework ports, this component never queries a
+    live DOM for its options (Blazor's rendering model does not give
+    C# code synchronous DOM access the way Svelte/Vue/React do without
+    JS interop) — instead the consumer supplies `OptionCount`,
+    `OptionId` (an id-per-index function, matching whatever id scheme
+    the consumer's own rendered `<li>`s use), and, when `Typeahead` is
+    set, `OptionLabel`. This mirrors ThemePicker's own pre-extension
+    `ActiveDescendantId`/`OptionId` pattern exactly — a synchronous,
+    testable-without-a-real-DOM design that is *more* idiomatic here
+    than porting the DOM-querying approach the other catalogs use.
+
+    `BaseCssClass` (default "listbox", unchanged) replaces the base
+    class token outright, matching `IconButton`. `Element` exposes the
+    rendered root's `ElementReference` for `FocusAsync`. `id`/`hidden`/
+    etc. need no new parameters — they already flow through
+    `AdditionalAttributes`.
+
+    Mousedown's default is suppressed unconditionally (not just in
+    active-descendant mode): without it, clicking an option blurs the
+    listbox before the option's own click handler runs, for any
+    consumer of this component — a generically correct default, not a
+    picker-specific quirk, so it is not gated behind a parameter.
+
+    Root tag is a fixed `<ul>`, not configurable. Razor has no clean
+    equivalent of Svelte's `<svelte:element this={tag}>` for a
+    consumer-chosen root tag short of manually driving a
+    `RenderTreeBuilder` — and with zero other consumers of this
+    component (confirmed before this behaviour was added) and every
+    real consumer (all six `*-picker` components) needing `<ul>` to
+    match their own spec's exact markup contract, building that
+    machinery for a hypothetical future `<div>`-shaped consumer would
+    be speculative. If a real one shows up, add it then.
 *@
 
-<div class="@($"listbox {CssClass}".Trim())" role="listbox" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<ul class="@RootClass"
+    role="listbox"
+    aria-label="@Label"
+    aria-activedescendant="@ActiveDescendantId"
+    tabindex="@(IsActiveDescendant ? "-1" : null)"
+    @ref="Element"
+    @onkeydown="OnKeyDownAsync"
+    @onmousedown:preventDefault="true"
+    @attributes="AdditionalAttributes">@ChildContent</ul>
 
 @code {
+    // Plain string constants (not a real enum) so the `Navigation`
+    // parameter can be set from markup as a literal string, matching
+    // every other catalog's `navigation="..."` API. A consumer
+    // referencing these constants from markup MUST prefix with `@`
+    // (`Navigation="@Listbox.ActiveDescendant"`) — without it, Razor
+    // treats the quoted value as a string LITERAL ("Listbox.ActiveDescendant",
+    // 23 characters) rather than evaluating it as an expression, which
+    // silently never equals ActiveDescendant and leaves every
+    // active-descendant behaviour dead with no compile or runtime error.
+    // Simplest correct alternative: just write the literal string
+    // directly, `Navigation="active-descendant"`.
+    public const string RovingFocus = "roving-focus";
+    public const string ActiveDescendant = "active-descendant";
+
     [Parameter, EditorRequired] public string Label { get; set; } = "";
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
+    /// <summary>Base class token, replacing "listbox" outright (not appended).</summary>
+    [Parameter] public string BaseCssClass { get; set; } = "listbox";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>"roving-focus" (default, inert) or "active-descendant".</summary>
+    [Parameter] public string Navigation { get; set; } = RovingFocus;
+    /// <summary>Arrow keys clamp instead of wrap (active-descendant mode only).</summary>
+    [Parameter] public bool Clamp { get; set; }
+    /// <summary>Printable-character typeahead (active-descendant mode only).</summary>
+    [Parameter] public bool Typeahead { get; set; }
+    /// <summary>PageUp/PageDown step size (active-descendant mode only).</summary>
+    [Parameter] public int PageSize { get; set; } = 10;
+    /// <summary>How many options exist. Required for active-descendant mode.</summary>
+    [Parameter] public int OptionCount { get; set; }
+    /// <summary>Maps an option index to its rendered id, for aria-activedescendant. Required for active-descendant mode.</summary>
+    [Parameter] public Func<int, string>? OptionId { get; set; }
+    /// <summary>Maps an option index to its display label, for typeahead matching. Required when Typeahead is set.</summary>
+    [Parameter] public Func<int, string>? OptionLabel { get; set; }
+
+    /// <summary>Virtual cursor position. Bindable via `@bind-ActiveIndex`. -1 = none.</summary>
+    [Parameter] public int ActiveIndex { get; set; } = -1;
+    [Parameter] public EventCallback<int> ActiveIndexChanged { get; set; }
+
+    /// <summary>Enter/Space on the active option (active-descendant mode only).</summary>
+    [Parameter] public EventCallback<int> OnActivate { get; set; }
+    /// <summary>Escape pressed (active-descendant mode only).</summary>
+    [Parameter] public EventCallback OnEscape { get; set; }
+    /// <summary>Tab pressed (active-descendant mode only). Blazor's default Tab
+    /// already runs before this async handler fires (unlike the synchronous
+    /// DOM frameworks), so a consumer reacting to this does not need to move
+    /// focus to a trigger button first — see spec/index.md and the Svelte
+    /// port's comment on the same fix for the contrast.</summary>
+    [Parameter] public EventCallback OnTabOut { get; set; }
+
+    /// <summary>The rendered root, for a consumer that needs to call FocusAsync on it.</summary>
+    public ElementReference Element { get; private set; }
+
+    private string RootClass => $"{BaseCssClass} {CssClass}".Trim();
+
+    private bool IsActiveDescendant => Navigation == ActiveDescendant;
+
+    private string? ActiveDescendantId
+        => IsActiveDescendant && ActiveIndex >= 0 && ActiveIndex < OptionCount && OptionId is not null
+            ? OptionId(ActiveIndex)
+            : null;
+
+    private static readonly TimeSpan TypeaheadWindow = TimeSpan.FromMilliseconds(500);
+    private string _typeahead = "";
+    private DateTimeOffset _typeaheadAt = DateTimeOffset.MinValue;
+
+    private async Task SetActiveIndexAsync(int value)
+    {
+        if (ActiveIndex == value) return;
+        ActiveIndex = value;
+        await ActiveIndexChanged.InvokeAsync(value);
+    }
+
+    private Task MoveActiveAsync(int delta)
+    {
+        if (OptionCount == 0) return Task.CompletedTask;
+        var next = ActiveIndex + delta;
+        var result = Clamp
+            ? Math.Min(Math.Max(next, 0), OptionCount - 1)
+            : ((next % OptionCount) + OptionCount) % OptionCount;
+        return SetActiveIndexAsync(result);
+    }
+
+    private Task RunTypeaheadAsync(string character)
+    {
+        if (OptionLabel is null || OptionCount == 0) return Task.CompletedTask;
+
+        var now = DateTimeOffset.UtcNow;
+        if (now - _typeaheadAt > TypeaheadWindow) _typeahead = "";
+        _typeaheadAt = now;
+
+        var lower = character.ToLowerInvariant();
+        var sameCharRun = _typeahead.Length == 0
+            || (lower.Length == 1 && _typeahead.All(c => c == lower[0]));
+        _typeahead += lower;
+
+        var query = sameCharRun ? lower : _typeahead;
+        var anchor = ActiveIndex < 0 ? 0 : ActiveIndex;
+        var start = sameCharRun ? anchor + 1 : anchor;
+        for (var n = 0; n < OptionCount; n++)
+        {
+            var i = (start + n) % OptionCount;
+            if (OptionLabel(i).ToLowerInvariant().StartsWith(query, StringComparison.Ordinal))
+            {
+                return SetActiveIndexAsync(i);
+            }
+        }
+        return Task.CompletedTask;
+    }
+
+    private async Task OnKeyDownAsync(KeyboardEventArgs args)
+    {
+        if (!IsActiveDescendant) return;
+        switch (args.Key)
+        {
+            case "ArrowDown":
+                await MoveActiveAsync(1);
+                break;
+            case "ArrowUp":
+                await MoveActiveAsync(-1);
+                break;
+            case "Home":
+                await SetActiveIndexAsync(OptionCount > 0 ? 0 : -1);
+                break;
+            case "End":
+                await SetActiveIndexAsync(OptionCount - 1);
+                break;
+            case "PageDown":
+                await MoveActiveAsync(PageSize);
+                break;
+            case "PageUp":
+                await MoveActiveAsync(-PageSize);
+                break;
+            case "Enter":
+            case " ":
+                if (ActiveIndex >= 0) await OnActivate.InvokeAsync(ActiveIndex);
+                break;
+            case "Escape":
+                await OnEscape.InvokeAsync();
+                break;
+            case "Tab":
+                await OnTabOut.InvokeAsync();
+                break;
+            default:
+                if (Typeahead && args.Key.Length == 1 && !args.CtrlKey && !args.MetaKey && !args.AltKey)
+                {
+                    await RunTypeaheadAsync(args.Key);
+                }
+                break;
+        }
+    }
 }

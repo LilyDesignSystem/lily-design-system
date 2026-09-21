@@ -3,13 +3,37 @@
 @*
     IconButton component
     a button containing only an icon with a required accessible label
+
+    `BaseCssClass` (default "icon-button", unchanged) replaces the base
+    class token outright instead of appending — a consumer whose own
+    contract requires an exact class (e.g. a `*-picker` component
+    composing this) sets `BaseCssClass` rather than layering `CssClass`
+    on top of it. `Element` exposes the rendered `<button>`'s
+    `ElementReference` so a consumer can `await button.Element
+    .FocusAsync(...)`. `aria-haspopup`/`aria-expanded`/`aria-controls`/
+    `onclick`/`onkeydown`/etc. need no new parameters: they already flow
+    through `AdditionalAttributes` (`@attributes` splatting), Blazor's
+    existing generic passthrough mechanism.
+
+    `Type` defaults to `"button"`, not the HTMLButtonElement default of
+    `"submit"` — an icon button sitting inside a `<form>` (e.g. a
+    picker's hidden input for form participation) must never submit
+    that form on click.
 *@
 
-<button class="@($"icon-button {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</button>
+<button type="@Type" class="@RootClass" aria-label="@Label" @ref="Element" @attributes="AdditionalAttributes">@ChildContent</button>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
+    [Parameter] public string Type { get; set; } = "button";
+    /// <summary>Base class token, replacing "icon-button" outright (not appended).</summary>
+    [Parameter] public string BaseCssClass { get; set; } = "icon-button";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>The rendered button, for a consumer that needs to call FocusAsync on it.</summary>
+    public ElementReference Element { get; private set; }
+
+    private string RootClass => $"{BaseCssClass} {CssClass}".Trim();
 }

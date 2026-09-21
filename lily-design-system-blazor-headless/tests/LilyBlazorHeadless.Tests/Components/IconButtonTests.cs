@@ -34,4 +34,47 @@ public class IconButtonTests : TestContext
         var root = cut.Find(".icon-button");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Defaults_to_type_button_not_submit()
+    {
+        var cut = RenderComponent<IconButton>(p => p.AddChildContent("body"));
+        Assert.Equal("button", cut.Find("button").GetAttribute("type"));
+    }
+
+    [Fact]
+    public void BaseCssClass_replaces_the_default_class_token_outright()
+    {
+        var cut = RenderComponent<IconButton>(p => p
+            .AddChildContent("body")
+            .Add(x => x.BaseCssClass, "theme-picker-button"));
+        var root = cut.Find("button");
+        Assert.Equal("theme-picker-button", root.GetAttribute("class"));
+        Assert.Throws<Bunit.ElementNotFoundException>(() => cut.Find(".icon-button"));
+    }
+
+    [Fact]
+    public void AriaHaspopup_expanded_controls_pass_through_via_AdditionalAttributes()
+    {
+        var cut = RenderComponent<IconButton>(p => p
+            .AddChildContent("body")
+            .AddUnmatched("aria-haspopup", "listbox")
+            .AddUnmatched("aria-expanded", "false")
+            .AddUnmatched("aria-controls", "some-list"));
+        var root = cut.Find("button");
+        Assert.Equal("listbox", root.GetAttribute("aria-haspopup"));
+        Assert.Equal("false", root.GetAttribute("aria-expanded"));
+        Assert.Equal("some-list", root.GetAttribute("aria-controls"));
+    }
+
+    [Fact]
+    public void Element_exposes_the_rendered_button_for_FocusAsync()
+    {
+        var cut = RenderComponent<IconButton>(p => p.AddChildContent("body"));
+        // A real ElementReference.Id is only assigned once bUnit's renderer
+        // has captured the @ref against a live element — a non-null/empty
+        // id is the same "did @ref actually bind" proof ThemePickerTests
+        // relies on for its own ButtonReferenceId test seam.
+        Assert.False(string.IsNullOrEmpty(cut.Instance.Element.Id));
+    }
 }
