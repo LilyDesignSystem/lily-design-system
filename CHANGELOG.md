@@ -9,6 +9,28 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## `web-components-headless` `IconButton` gains `base-class` — 2026-09-21
+
+Additive extension, no default-behaviour change: `<lily-icon-button>`
+now accepts a `base-class` attribute (default `"icon-button"`,
+unchanged) that replaces the rendered `<button>`'s base class token
+outright rather than appending to it — needed so `*-helpers` picker
+components (whose spec requires an exact class like
+`theme-picker-button`, no extra `icon-button` token) can compose this
+component instead of hand-rolling their own trigger button, mirroring
+the same `IconButton`/`Listbox` extension already done in the Svelte
+catalog. Zero other consumers of `IconButton` existed in the
+491-component headless catalog before this change (confirmed by
+search), so nothing else could regress; full suite (2671 tests, +2 new)
+stays green. `Listbox` was audited for the same treatment but not
+extended: it is a native custom element with a fixed tag
+(`lily-listbox`), and this catalog's own documented architecture
+decision rules out customized built-ins (WebKit never implemented
+them), so `Listbox` cannot stand in for the pickers' literal `<ul>`
+the way it could in Svelte via `<svelte:element as="ul">` — composing
+it would silently change the pickers' documented markup tag, not just
+add a class token, so the pickers' listboxes stay self-built.
+
 ## `angular-headless` stale endonym-rename exports fixed — 2026-09-16
 
 Closed the `angular-headless` publish blocker the rescope's dry-run
