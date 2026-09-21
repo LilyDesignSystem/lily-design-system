@@ -7,7 +7,7 @@
     <RootNamespace>LilyBlazorHeadless</RootNamespace>
     <AssemblyName>LilyBlazorHeadless</AssemblyName>
     <PackageId>LilyDesignSystem.Blazor.Headless</PackageId>
-    <Version>0.1.1</Version>
+    <Version>0.2.0</Version>
     <Authors>Joel Parker Henderson</Authors>
     <Description>Lily Design System Blazor headless component library: all 491 catalog components as Razor components. Unstyled, accessible, zero CSS. Targets WCAG 2.2 AAA.</Description>
     <PackageProjectUrl>https://lilydesignsystem.com/</PackageProjectUrl>
