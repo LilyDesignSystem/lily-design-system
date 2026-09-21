@@ -3,6 +3,37 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the package follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+**`Listbox` and `IconButton` extended, additively, to support the
+`react-helpers` catalog's icon-button-triggered pickers depending on
+them instead of hand-rolling equivalent markup/keyboard logic** —
+porting the same change already made to `@lilydesignsystem/svelte-headless`.
+Both components had zero real consumers elsewhere in this
+491-component catalog (confirmed by search before changing either;
+`Listbox` had two doc-comment *mentions* as an example, no actual
+imports) — full suite (2679 tests) still green.
+
+- `IconButton` gains `baseClass` (default `"icon-button"`, unchanged)
+  and a forwarded ref (`React.forwardRef`) exposing the rendered
+  `<button>`. Its props interface now extends
+  `React.ButtonHTMLAttributes<HTMLButtonElement>` instead of a
+  `[key: string]: unknown` catch-all — restProps (`aria-haspopup`,
+  `aria-expanded`, `aria-controls`, `onKeyDown`, etc.) keep real types,
+  and `forwardRef`'s `Omit<P, "ref">` machinery no longer collapses
+  named properties on an indexed type during `.d.ts` generation (a
+  real build break this refactor hit and fixed, not a style choice).
+- `Listbox` gains an opt-in `navigation="active-descendant"` mode
+  (default remains `"roving-focus"`, byte-for-byte unchanged
+  behaviour): the root holds real focus and tracks a virtual cursor
+  (`aria-activedescendant`, a controlled/uncontrolled `activeIndex` +
+  `onActiveIndexChange`, mirroring Svelte's bindable `activeIndex`)
+  rather than moving DOM focus between options, plus `clamp` (vs.
+  wrap), `typeahead`, `pageSize` paging, `onActivate`/`onEscape`/
+  `onTabOut` callbacks, `baseClass`, `as` (root tag, default `"div"`),
+  and a forwarded ref. Same props interface fix as `IconButton`
+  (extends `React.HTMLAttributes<HTMLElement>`, no index signature).
+
 ## 0.1.0 — 2026-09-16
 
 **Package renamed: `lily-design-system-react-headless` → `@lilydesignsystem/react-headless`.** npm scoped packages

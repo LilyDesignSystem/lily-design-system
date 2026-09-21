@@ -63,4 +63,17 @@ describe("IconButton", () => {
         const button: HTMLElement = screen.getByRole("button");
         expect(button.getAttribute("id")).toBe("x-btn");
     });
+
+    test("baseClass replaces the default class token outright", () => {
+        render(<Subject label="Close" baseClass="motion-picker-button">X</Subject>);
+
+        const button: HTMLElement = screen.getByRole("button");
+        expect(button.className.trim()).toBe("motion-picker-button");
+    });
+
+    test("ref exposes the rendered button", () => {
+        const ref = { current: null as HTMLButtonElement | null };
+        render(<Subject label="Close" ref={ref}>X</Subject>);
+        expect(ref.current).toBe(screen.getByRole("button"));
+    });
 });
