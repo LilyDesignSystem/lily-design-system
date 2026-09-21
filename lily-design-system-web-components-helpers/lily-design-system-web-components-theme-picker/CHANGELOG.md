@@ -3,7 +3,7 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.1.1 — 2026-09-21
 
 **Internal refactor: the trigger button now composes
 `@lilydesignsystem/web-components-headless`'s `<lily-icon-button>`

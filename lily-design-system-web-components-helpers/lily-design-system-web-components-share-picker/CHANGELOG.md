@@ -4,7 +4,7 @@ All notable changes to `@lilydesignsystem/web-components-share-picker` are
 documented here. The format follows [Keep a Changelog](https://keepachangelog.com/),
 and this package uses [semantic versioning](https://semver.org/).
 
-## Unreleased
+## 0.1.1 — 2026-09-21
 
 **Internal refactor: the trigger button now composes
 `@lilydesignsystem/web-components-headless`'s `<lily-icon-button>`
