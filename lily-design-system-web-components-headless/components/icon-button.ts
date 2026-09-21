@@ -9,6 +9,12 @@
 //   disabled — presence-based boolean.
 //   pressed — "true" | "false"; aria-pressed rendered only when present
 //     (toggle-button pattern), matching Button.
+//   base-class — replaces the default "icon-button" base class token
+//     outright (not appended — `rootClassName` still appends the host's
+//     own `class` attribute after it). A consumer with its own exact
+//     class-hook contract (e.g. a picker helper whose spec requires
+//     `class="{helper}-button"` with no extra "icon-button" token) sets
+//     this instead of layering `class` on top of the default.
 //
 // Usage:
 //   <lily-icon-button label="Close">
@@ -21,14 +27,15 @@
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
-const HANDLED = new Set(["type", "disabled", "pressed", "label"]);
+const HANDLED = new Set(["type", "disabled", "pressed", "label", "base-class"]);
 
 export class IconButton extends HTMLElement {
     connectedCallback(): void {
-        if (this.querySelector(":scope > button.icon-button")) return;
+        const baseClass = this.getAttribute("base-class") ?? "icon-button";
+        if (this.querySelector(`:scope > button.${baseClass}`)) return;
 
         const button = document.createElement("button");
-        button.className = rootClassName(this, "icon-button");
+        button.className = rootClassName(this, baseClass);
         button.type = (this.getAttribute("type") as "button" | "submit" | "reset" | null) ?? "button";
         if (this.hasAttribute("disabled")) button.disabled = true;
         const pressed = this.getAttribute("pressed");

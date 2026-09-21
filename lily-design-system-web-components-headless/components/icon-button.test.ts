@@ -51,4 +51,17 @@ describe("IconButton", () => {
 
         expect(host.querySelector("button")!.getAttribute("aria-pressed")).toBe("true");
     });
+
+    test("base-class replaces the default class token outright, not appended", () => {
+        const host = render('<lily-icon-button label="Theme" base-class="theme-picker-button"></lily-icon-button>');
+
+        const button = host.querySelector("button") as HTMLButtonElement;
+        expect(button.className).toBe("theme-picker-button");
+    });
+
+    test("default class is unaffected when base-class is absent", () => {
+        const host = render('<lily-icon-button label="Close"></lily-icon-button>');
+
+        expect((host.querySelector("button") as HTMLButtonElement).className).toBe("icon-button");
+    });
 });
