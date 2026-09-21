@@ -3,7 +3,7 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the package follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.2.0 — 2026-09-21
 
 **`Listbox` and `IconButton` extended, additively, to support the
 `react-helpers` catalog's icon-button-triggered pickers depending on

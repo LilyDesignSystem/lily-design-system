@@ -1,6 +1,6 @@
 # CHANGELOG — @lilydesignsystem/react-locale-picker
 
-## Unreleased
+## 0.1.1 — 2026-09-21
 
 **Internal refactor: now depends on `@lilydesignsystem/react-headless`'s
 `IconButton` and `Listbox` (new `navigation="active-descendant"` mode)
