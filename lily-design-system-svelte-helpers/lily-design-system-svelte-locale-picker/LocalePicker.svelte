@@ -1,5 +1,6 @@
 <script lang="ts" module>
     import type { Snippet } from "svelte";
+    import { IconButton, Listbox } from "@lilydesignsystem/svelte-headless";
     import {
         defaultLocaleLabels,
         RTL_LANGUAGE_TAGS,
@@ -185,12 +186,8 @@
     let open = $state(false);
     let activeIndex = $state(-1);
     let buttonEl: HTMLButtonElement | undefined = $state();
-    let listEl: HTMLUListElement | undefined = $state();
+    let listEl: HTMLElement | undefined = $state();
     let rootEl: HTMLDivElement | undefined = $state();
-
-    // Typeahead buffer: APG listbox behaviour. Reset after a pause.
-    let typeahead = "";
-    let typeaheadTimer: ReturnType<typeof setTimeout> | undefined;
 
     function labelFor(locale: string): string {
         if (locale in localeLabels) return localeLabels[locale];
@@ -307,37 +304,26 @@
         el?.scrollIntoView?.({ block: "nearest" });
     }
 
-    function moveActive(delta: number): void {
-        if (locales.length === 0) return;
-        const next = Math.min(Math.max(activeIndex + delta, 0), locales.length - 1);
-        activeIndex = next;
+    // Arrow/Home/End/PageUp/PageDown/typeahead/Escape/Tab keyboard handling
+    // inside the open list is owned by Listbox's "active-descendant" mode
+    // (see @lilydesignsystem/svelte-headless); this component only decides
+    // what open/close/choose/scroll mean. Keep the highlighted option in
+    // view for every reason activeIndex can change.
+    $effect(() => {
+        activeIndex;
         scrollActiveIntoView();
-    }
+    });
 
-    function runTypeahead(char: string): void {
-        const lower = char.toLowerCase();
-        // APG listbox typeahead: a single character moves to the NEXT
-        // option starting with it, and repeating that character keeps
-        // cycling. Only a buffer of differing characters refines the
-        // match, and that buffer stays anchored on the active option.
-        const sameCharRun =
-            typeahead === "" || [...typeahead].every((c) => c === lower);
-        typeahead += lower;
-        clearTimeout(typeaheadTimer);
-        typeaheadTimer = setTimeout(() => (typeahead = ""), 500);
-        const query = sameCharRun ? lower : typeahead;
-        const anchor = activeIndex < 0 ? 0 : activeIndex;
-        const start = sameCharRun ? anchor + 1 : anchor;
-        // Search forward, wrapping once — typeahead wraps even though the
-        // arrows clamp, or options above the cursor would be untypable.
-        for (let n = 0; n < locales.length; n++) {
-            const i = (start + n) % locales.length;
-            if (labelFor(locales[i]).toLowerCase().startsWith(query)) {
-                activeIndex = i;
-                scrollActiveIntoView();
-                return;
-            }
-        }
+    function handleTabOut(): void {
+        // Tab moves on — but focus goes to the button FIRST, without
+        // cancelling the key (Listbox's onTabOut never preventDefaults
+        // Tab). Hiding the focused list drops focus to <body>, and the
+        // browser then computes the default Tab move from the top of the
+        // document, so tabbing out of an open picker teleported the user to
+        // the page's first tab stop. From the button, the default Tab
+        // lands exactly where leaving the picker should.
+        buttonEl?.focus?.({ preventScroll: true });
+        closeList(false);
     }
 
     function onButtonKeydown(event: KeyboardEvent): void {
@@ -352,62 +338,6 @@
                 event.preventDefault();
                 openList(locales.length - 1);
                 break;
-        }
-    }
-
-    function onListKeydown(event: KeyboardEvent): void {
-        switch (event.key) {
-            case "ArrowDown":
-                event.preventDefault();
-                moveActive(1);
-                break;
-            case "ArrowUp":
-                event.preventDefault();
-                moveActive(-1);
-                break;
-            case "Home":
-                event.preventDefault();
-                activeIndex = 0;
-                scrollActiveIntoView();
-                break;
-            case "End":
-                event.preventDefault();
-                activeIndex = locales.length - 1;
-                scrollActiveIntoView();
-                break;
-            case "Enter":
-            case " ":
-                event.preventDefault();
-                if (activeIndex >= 0) choose(activeIndex);
-                break;
-            case "Escape":
-                event.preventDefault();
-                closeList();
-                break;
-            case "PageUp":
-                event.preventDefault();
-                moveActive(-10);
-                break;
-            case "PageDown":
-                // ±10, clamped: an APG-optional key for long locale lists.
-                event.preventDefault();
-                moveActive(10);
-                break;
-            case "Tab":
-                // Tab moves on — but focus goes to the button FIRST,
-                // without cancelling the key. Hiding the focused list
-                // drops focus to <body>, and the browser then computes
-                // the default Tab move from the top of the document, so
-                // tabbing out of an open picker teleported the user to
-                // the page's first tab stop. From the button, the default
-                // Tab lands exactly where leaving the picker should.
-                buttonEl?.focus?.({ preventScroll: true });
-                closeList(false);
-                break;
-            default:
-                if (event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
-                    runTypeahead(event.key);
-                }
         }
     }
 
@@ -481,11 +411,10 @@
 >
     <input type="hidden" {name} {value} />
 
-    <button
-        bind:this={buttonEl}
-        type="button"
-        class="locale-picker-button"
-        aria-label={label}
+    <IconButton
+        bind:ref={buttonEl}
+        baseClass="locale-picker-button"
+        label={label}
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-controls={listId}
@@ -512,18 +441,23 @@
                 <path d="M8 2c2.2 0 4 2.7 4 6s-1.8 6-4 6-4-2.7-4-6 1.8-6 4-6z" />
             </svg>
         {/if}
-    </button>
+    </IconButton>
 
-    <ul
-        bind:this={listEl}
-        class="locale-picker-list"
+    <Listbox
+        bind:ref={listEl}
+        as="ul"
+        baseClass="locale-picker-list"
         id={listId}
-        role="listbox"
-        aria-label={label}
-        aria-activedescendant={open && activeIndex >= 0 ? optionId(activeIndex) : undefined}
-        tabindex="-1"
+        label={label}
+        navigation="active-descendant"
+        clamp
+        typeahead
+        pageSize={10}
+        bind:activeIndex
         hidden={!open}
-        onkeydown={onListKeydown}
+        onActivate={choose}
+        onEscape={() => closeList()}
+        onTabOut={handleTabOut}
     >
         {#each locales as locale, i (locale)}
             <!-- The option's keyboard interaction lives on the listbox
@@ -543,5 +477,5 @@
                 {labelFor(locale)}
             </li>
         {/each}
-    </ul>
+    </Listbox>
 </div>

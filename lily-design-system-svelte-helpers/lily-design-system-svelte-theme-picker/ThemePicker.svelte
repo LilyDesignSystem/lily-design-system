@@ -1,5 +1,6 @@
 <script lang="ts" module>
     import type { Snippet } from "svelte";
+    import { IconButton, Listbox } from "@lilydesignsystem/svelte-headless";
 
     /**
      * Default button icon: a bundled SVG (contrast/half-circle), not a
@@ -140,12 +141,8 @@
     let open = $state(false);
     let activeIndex = $state(-1);
     let buttonEl: HTMLButtonElement | undefined = $state();
-    let listEl: HTMLUListElement | undefined = $state();
+    let listEl: HTMLElement | undefined = $state();
     let rootEl: HTMLDivElement | undefined = $state();
-
-    // Typeahead buffer: APG listbox behaviour. Reset after a pause.
-    let typeahead = "";
-    let typeaheadTimer: ReturnType<typeof setTimeout> | undefined;
 
     function labelFor(theme: string): string {
         if (theme in themeLabels) return themeLabels[theme];
@@ -249,42 +246,26 @@
         el?.scrollIntoView?.({ block: "nearest" });
     }
 
-    function moveActive(delta: number): void {
-        if (themes.length === 0) return;
-        const next = Math.min(
-            Math.max(activeIndex + delta, 0),
-            themes.length - 1,
-        );
-        activeIndex = next;
+    // Arrow/Home/End/PageUp/PageDown/typeahead/Escape/Tab keyboard handling
+    // inside the open list is owned by Listbox's "active-descendant" mode
+    // (see @lilydesignsystem/svelte-headless); this component only decides
+    // what open/close/choose/scroll mean. Keep the highlighted option in
+    // view for every reason activeIndex can change.
+    $effect(() => {
+        activeIndex;
         scrollActiveIntoView();
-    }
+    });
 
-    function runTypeahead(char: string): void {
-        const lower = char.toLowerCase();
-        // APG listbox typeahead: a single character moves to the NEXT
-        // option starting with it, and repeating that character keeps
-        // cycling — which is what makes the dark / dim / dracula run of a
-        // long theme list reachable by pressing "d" three times. Only a
-        // buffer of differing characters refines the match, and that
-        // buffer stays anchored on the active option.
-        const sameCharRun =
-            typeahead === "" || [...typeahead].every((c) => c === lower);
-        typeahead += lower;
-        clearTimeout(typeaheadTimer);
-        typeaheadTimer = setTimeout(() => (typeahead = ""), 500);
-        const query = sameCharRun ? lower : typeahead;
-        const anchor = activeIndex < 0 ? 0 : activeIndex;
-        const start = sameCharRun ? anchor + 1 : anchor;
-        // Search forward, wrapping once — typeahead wraps even though the
-        // arrows clamp, or options above the cursor would be untypable.
-        for (let n = 0; n < themes.length; n++) {
-            const i = (start + n) % themes.length;
-            if (labelFor(themes[i]).toLowerCase().startsWith(query)) {
-                activeIndex = i;
-                scrollActiveIntoView();
-                return;
-            }
-        }
+    function handleTabOut(): void {
+        // Tab moves on — but focus goes to the button FIRST, without
+        // cancelling the key (Listbox's onTabOut never preventDefaults
+        // Tab). Hiding the focused list drops focus to <body>, and the
+        // browser then computes the default Tab move from the top of the
+        // document, so tabbing out of an open picker teleported the user to
+        // the page's first tab stop. From the button, the default Tab
+        // lands exactly where leaving the picker should.
+        buttonEl?.focus?.({ preventScroll: true });
+        closeList(false);
     }
 
     function onButtonKeydown(event: KeyboardEvent): void {
@@ -299,68 +280,6 @@
                 event.preventDefault();
                 openList(themes.length - 1);
                 break;
-        }
-    }
-
-    function onListKeydown(event: KeyboardEvent): void {
-        switch (event.key) {
-            case "ArrowDown":
-                event.preventDefault();
-                moveActive(1);
-                break;
-            case "ArrowUp":
-                event.preventDefault();
-                moveActive(-1);
-                break;
-            case "Home":
-                event.preventDefault();
-                activeIndex = 0;
-                scrollActiveIntoView();
-                break;
-            case "End":
-                event.preventDefault();
-                activeIndex = themes.length - 1;
-                scrollActiveIntoView();
-                break;
-            case "Enter":
-            case " ":
-                event.preventDefault();
-                if (activeIndex >= 0) choose(activeIndex);
-                break;
-            case "Escape":
-                event.preventDefault();
-                closeList();
-                break;
-            case "PageUp":
-                event.preventDefault();
-                moveActive(-10);
-                break;
-            case "PageDown":
-                // ±10, clamped: an APG-optional key that earns its place
-                // in a 45-theme list.
-                event.preventDefault();
-                moveActive(10);
-                break;
-            case "Tab":
-                // Tab moves on — but focus goes to the button FIRST,
-                // without cancelling the key. Hiding the focused list
-                // drops focus to <body>, and the browser then computes
-                // the default Tab move from the top of the document, so
-                // tabbing out of an open picker teleported the user to
-                // the page's first tab stop. From the button, the default
-                // Tab lands exactly where leaving the picker should.
-                buttonEl?.focus?.({ preventScroll: true });
-                closeList(false);
-                break;
-            default:
-                if (
-                    event.key.length === 1 &&
-                    !event.ctrlKey &&
-                    !event.metaKey &&
-                    !event.altKey
-                ) {
-                    runTypeahead(event.key);
-                }
         }
     }
 
@@ -425,11 +344,10 @@
 >
     <input type="hidden" {name} {value} />
 
-    <button
-        bind:this={buttonEl}
-        type="button"
-        class="theme-picker-button"
-        aria-label={label}
+    <IconButton
+        bind:ref={buttonEl}
+        baseClass="theme-picker-button"
+        label={label}
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-controls={listId}
@@ -455,20 +373,23 @@
                 <path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none" />
             </svg>
         {/if}
-    </button>
+    </IconButton>
 
-    <ul
-        bind:this={listEl}
-        class="theme-picker-list"
+    <Listbox
+        bind:ref={listEl}
+        as="ul"
+        baseClass="theme-picker-list"
         id={listId}
-        role="listbox"
-        aria-label={label}
-        aria-activedescendant={open && activeIndex >= 0
-            ? optionId(activeIndex)
-            : undefined}
-        tabindex="-1"
+        label={label}
+        navigation="active-descendant"
+        clamp
+        typeahead
+        pageSize={10}
+        bind:activeIndex
         hidden={!open}
-        onkeydown={onListKeydown}
+        onActivate={choose}
+        onEscape={() => closeList()}
+        onTabOut={handleTabOut}
     >
         {#each themes as theme, i (theme)}
             <!-- The option's keyboard interaction lives on the listbox
@@ -487,5 +408,5 @@
                 {labelFor(theme)}
             </li>
         {/each}
-    </ul>
+    </Listbox>
 </div>

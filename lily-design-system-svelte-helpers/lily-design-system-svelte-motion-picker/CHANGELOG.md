@@ -4,6 +4,20 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+**Internal refactor: now depends on `@lilydesignsystem/svelte-headless`'s
+`IconButton` and `Listbox` (new `navigation="active-descendant"` mode)
+instead of hand-rolling their equivalents.** No change to the public
+API, rendered markup (class names, ids, ARIA attributes), or keyboard
+contract — the full existing test suite passes unchanged, run against
+the refactored component with no test edits. `Listbox` gained
+`clamp`/`typeahead`/`pageSize`/`onActivate`/`onEscape`/`onTabOut`/
+`baseClass`/`as`/bindable `ref` specifically to make this migration
+possible without any behaviour regression; `IconButton` gained
+`baseClass` and a bindable `ref`. See the headless catalog's own
+CHANGELOG for the full extension.
+
 ## 0.1.0 — 2026-09-16
 
 **Package renamed: `lily-design-system-svelte-motion-picker` → `@lilydesignsystem/svelte-motion-picker`.** npm scoped packages

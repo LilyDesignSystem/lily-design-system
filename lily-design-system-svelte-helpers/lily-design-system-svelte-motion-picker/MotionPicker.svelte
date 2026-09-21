@@ -1,5 +1,6 @@
 <script lang="ts" module>
     import type { Snippet } from "svelte";
+    import { IconButton, Listbox } from "@lilydesignsystem/svelte-headless";
 
     /**
      * Default button icon: a bundled SVG (two pause bars), not a Unicode
@@ -110,12 +111,8 @@
     let open = $state(false);
     let activeIndex = $state(-1);
     let buttonEl: HTMLButtonElement | undefined = $state();
-    let listEl: HTMLUListElement | undefined = $state();
+    let listEl: HTMLElement | undefined = $state();
     let rootEl: HTMLDivElement | undefined = $state();
-
-    // Typeahead buffer: APG listbox behaviour. Reset after a pause.
-    let typeahead = "";
-    let typeaheadTimer: ReturnType<typeof setTimeout> | undefined;
 
     function labelFor(motion: string): string {
         if (motion in motionLabels) return motionLabels[motion];
@@ -151,8 +148,24 @@
     }
 
     // ---------------------------------------------------------------
-    // Open / close
+    // Open / close. Arrow/Home/End/PageUp/PageDown/typeahead/Escape/Tab
+    // keyboard handling inside the open list is owned by Listbox's
+    // "active-descendant" mode (see @lilydesignsystem/svelte-headless);
+    // this component only decides what open/close/choose/scroll mean.
     // ---------------------------------------------------------------
+
+    function scrollActiveIntoView(): void {
+        if (activeIndex < 0 || !listEl) return;
+        const el = document.getElementById(optionId(activeIndex));
+        el?.scrollIntoView?.({ block: "nearest" });
+    }
+
+    // Keep the highlighted option in view for every reason activeIndex
+    // can change: opening, arrows, typeahead, Home/End, PageUp/PageDown.
+    $effect(() => {
+        activeIndex;
+        scrollActiveIntoView();
+    });
 
     function openList(startIndex?: number): void {
         const selected = motions.indexOf(value);
@@ -174,7 +187,6 @@
         // opens.
         queueMicrotask(() => {
             listEl?.focus({ preventScroll: true });
-            scrollActiveIntoView();
         });
     }
 
@@ -191,48 +203,16 @@
         closeList();
     }
 
-    function scrollActiveIntoView(): void {
-        if (activeIndex < 0 || !listEl) return;
-        // getElementById, not a `#id` selector: ids here are generated and
-        // contain nothing needing escaping, and `CSS` is absent entirely in
-        // jsdom — `CSS.escape` there throws inside the keydown handler,
-        // after activeIndex is already assigned, so the suite stays green
-        // while this path never actually runs.
-        const el = document.getElementById(optionId(activeIndex));
-        el?.scrollIntoView?.({ block: "nearest" });
-    }
-
-    function moveActive(delta: number): void {
-        if (motions.length === 0) return;
-        const next = Math.min(Math.max(activeIndex + delta, 0), motions.length - 1);
-        activeIndex = next;
-        scrollActiveIntoView();
-    }
-
-    function runTypeahead(char: string): void {
-        const lower = char.toLowerCase();
-        // APG listbox typeahead: a single character moves to the NEXT
-        // option starting with it, and repeating that character keeps
-        // cycling. Only a buffer of differing characters refines the
-        // match, and that buffer stays anchored on the active option.
-        const sameCharRun =
-            typeahead === "" || [...typeahead].every((c) => c === lower);
-        typeahead += lower;
-        clearTimeout(typeaheadTimer);
-        typeaheadTimer = setTimeout(() => (typeahead = ""), 500);
-        const query = sameCharRun ? lower : typeahead;
-        const anchor = activeIndex < 0 ? 0 : activeIndex;
-        const start = sameCharRun ? anchor + 1 : anchor;
-        // Search forward, wrapping once — typeahead wraps even though the
-        // arrows clamp, or options above the cursor would be untypable.
-        for (let n = 0; n < motions.length; n++) {
-            const i = (start + n) % motions.length;
-            if (labelFor(motions[i]).toLowerCase().startsWith(query)) {
-                activeIndex = i;
-                scrollActiveIntoView();
-                return;
-            }
-        }
+    function handleTabOut(): void {
+        // Tab moves on — but focus goes to the button FIRST, without
+        // cancelling the key (Listbox's onTabOut never preventDefaults
+        // Tab). Hiding the focused list drops focus to <body>, and the
+        // browser then computes the default Tab move from the top of the
+        // document, so tabbing out of an open picker teleported the user
+        // to the page's first tab stop. From the button, the default Tab
+        // lands exactly where leaving the picker should.
+        buttonEl?.focus?.({ preventScroll: true });
+        closeList(false);
     }
 
     function onButtonKeydown(event: KeyboardEvent): void {
@@ -247,63 +227,6 @@
                 event.preventDefault();
                 openList(motions.length - 1);
                 break;
-        }
-    }
-
-    function onListKeydown(event: KeyboardEvent): void {
-        switch (event.key) {
-            case "ArrowDown":
-                event.preventDefault();
-                moveActive(1);
-                break;
-            case "ArrowUp":
-                event.preventDefault();
-                moveActive(-1);
-                break;
-            case "Home":
-                event.preventDefault();
-                activeIndex = 0;
-                scrollActiveIntoView();
-                break;
-            case "End":
-                event.preventDefault();
-                activeIndex = motions.length - 1;
-                scrollActiveIntoView();
-                break;
-            case "Enter":
-            case " ":
-                event.preventDefault();
-                if (activeIndex >= 0) choose(activeIndex);
-                break;
-            case "Escape":
-                event.preventDefault();
-                closeList();
-                break;
-            case "PageUp":
-                event.preventDefault();
-                moveActive(-10);
-                break;
-            case "PageDown":
-                // ±10, clamped: an APG-optional key, matching the
-                // sibling pickers.
-                event.preventDefault();
-                moveActive(10);
-                break;
-            case "Tab":
-                // Tab moves on — but focus goes to the button FIRST,
-                // without cancelling the key. Hiding the focused list
-                // drops focus to <body>, and the browser then computes
-                // the default Tab move from the top of the document, so
-                // tabbing out of an open picker teleported the user to
-                // the page's first tab stop. From the button, the default
-                // Tab lands exactly where leaving the picker should.
-                buttonEl?.focus?.({ preventScroll: true });
-                closeList(false);
-                break;
-            default:
-                if (event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
-                    runTypeahead(event.key);
-                }
         }
     }
 
@@ -372,11 +295,10 @@
 >
     <input type="hidden" {name} {value} />
 
-    <button
-        bind:this={buttonEl}
-        type="button"
-        class="motion-picker-button"
-        aria-label={label}
+    <IconButton
+        bind:ref={buttonEl}
+        baseClass="motion-picker-button"
+        label={label}
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-controls={listId}
@@ -401,24 +323,30 @@
                 <path d="M5 3v10M11 3v10" />
             </svg>
         {/if}
-    </button>
+    </IconButton>
 
-    <ul
-        bind:this={listEl}
-        class="motion-picker-list"
+    <Listbox
+        bind:ref={listEl}
+        as="ul"
+        baseClass="motion-picker-list"
         id={listId}
-        role="listbox"
-        aria-label={label}
-        aria-activedescendant={open && activeIndex >= 0 ? optionId(activeIndex) : undefined}
-        tabindex="-1"
+        label={label}
+        navigation="active-descendant"
+        clamp
+        typeahead
+        pageSize={10}
+        bind:activeIndex
         hidden={!open}
-        onkeydown={onListKeydown}
+        onActivate={choose}
+        onEscape={() => closeList()}
+        onTabOut={handleTabOut}
     >
         {#each motions as motion, i (motion)}
             <!-- The option's keyboard interaction lives on the listbox
                  (aria-activedescendant pattern): the list is the focused
-                 element and its keydown handler operates the options, so a
-                 per-option key handler would be wrong, not missing. -->
+                 element and Listbox's own keydown handling operates the
+                 options, so a per-option key handler would be wrong, not
+                 missing. -->
             <!-- svelte-ignore a11y_click_events_have_key_events -->
             <li
                 class="motion-picker-option"
@@ -431,5 +359,5 @@
                 {labelFor(motion)}
             </li>
         {/each}
-    </ul>
+    </Listbox>
 </div>

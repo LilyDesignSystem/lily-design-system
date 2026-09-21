@@ -16,7 +16,8 @@
       "@lilydesignsystem/svelte-theme-picker": ["./lily-design-system-svelte-theme-picker/dist/index.d.ts"],
       "@lilydesignsystem/svelte-locale-picker": ["./lily-design-system-svelte-locale-picker/dist/index.d.ts"],
       "@lilydesignsystem/svelte-text-size-picker": ["./lily-design-system-svelte-text-size-picker/dist/index.d.ts"],
-      "@lilydesignsystem/svelte-share-picker": ["./lily-design-system-svelte-share-picker/dist/index.d.ts"]
+      "@lilydesignsystem/svelte-share-picker": ["./lily-design-system-svelte-share-picker/dist/index.d.ts"],
+      "@lilydesignsystem/svelte-headless": ["../lily-design-system-svelte-headless/dist/index.d.ts"]
     }
   }
 }

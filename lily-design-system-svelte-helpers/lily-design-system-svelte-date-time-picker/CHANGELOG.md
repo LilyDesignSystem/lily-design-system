@@ -4,6 +4,26 @@ All notable changes to this package. Format follows
 [Keep a Changelog](https://keepachangelog.com/); versions follow
 [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+**Internal refactor: the trigger button now depends on
+`@lilydesignsystem/svelte-headless`'s `IconButton` instead of
+hand-rolling one.** No change to the public API, rendered markup, or
+keyboard contract — the full existing test suite (71 tests) passes
+unchanged. The dialog and calendar grid stay self-contained,
+deliberately: headless `Dialog` renders `{#if open}<dialog ...>`,
+unmounting the element on close, which would invalidate `dialogEl` and
+every ref this component keeps across opens and would change the
+documented markup contract (`hidden={!open}`, element always present)
+to "absent when closed." It also brings no real modal guarantee —
+`Dialog` sets the `open` attribute declaratively rather than calling
+`.showModal()`, so composing it would not actually trap focus or
+render to the top layer, the two things this component's own
+hand-rolled focus trap exists to provide (`aria-modal="true"` is a
+promise the browser does not keep on its own — see the code comment
+at the focus-trap implementation). The calendar grid is bespoke
+civil-date business logic with no generic headless equivalent.
+
 ## 0.1.0 — 2026-09-16
 
 **Package renamed: `lily-design-system-svelte-date-time-picker` → `@lilydesignsystem/svelte-date-time-picker`.** npm scoped packages

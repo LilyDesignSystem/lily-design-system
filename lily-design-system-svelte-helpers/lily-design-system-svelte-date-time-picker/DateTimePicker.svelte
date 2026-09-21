@@ -1,5 +1,19 @@
 <script lang="ts" module>
     import type { Snippet } from "svelte";
+    import { IconButton } from "@lilydesignsystem/svelte-headless";
+    // Only the trigger button composes a headless primitive here.
+    // headless `Dialog` renders `{#if open}<dialog ...>` — the element is
+    // unmounted on close, which would invalidate `dialogEl` and every ref
+    // this component keeps across opens, and it changes the documented
+    // markup contract (`hidden={!open}`, element always present) to
+    // "absent when closed". Native `<dialog>` also brings no real modal
+    // guarantee here: `Dialog` sets the `open` attribute declaratively
+    // rather than calling `.showModal()`, so it would not actually trap
+    // focus or render to the top layer — the two things this component's
+    // own hand-rolled focus trap exists to provide, because (documented
+    // in the code below) `aria-modal="true"` is a promise the browser
+    // does not keep on its own. The calendar grid is bespoke civil-date
+    // business logic with no generic headless equivalent to compose.
 
     /**
      * Default button glyph: U+1F4C5 CALENDAR, followed by U+FE0E VARIATION
@@ -1442,11 +1456,10 @@
             onkeydown={onFieldKeydown}
         />
 
-        <button
-            bind:this={buttonEl}
-            type="button"
-            class="date-time-picker-button"
-            aria-label={label}
+        <IconButton
+            bind:ref={buttonEl}
+            baseClass="date-time-picker-button"
+            label={label}
             aria-haspopup="dialog"
             aria-expanded={open}
             aria-controls={dialogId}
@@ -1460,7 +1473,7 @@
                     >📅︎</span
                 >
             {/if}
-        </button>
+        </IconButton>
     </div>
 
     {#if labels.invalid}

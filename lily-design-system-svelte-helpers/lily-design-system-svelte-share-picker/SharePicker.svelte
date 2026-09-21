@@ -1,5 +1,13 @@
 <script lang="ts" module>
     import type { Snippet } from "svelte";
+    import { IconButton } from "@lilydesignsystem/svelte-headless";
+    // Only the trigger button composes a headless primitive. The list
+    // below is real `<a>`/`<button>` navigation with a roving-focus
+    // pattern of its own — not an ARIA listbox (no role="listbox"), so
+    // headless `Listbox` (which always renders role="listbox" over
+    // role="option" children) is the wrong widget for it, not merely an
+    // unmigrated one. See spec/index.md §3 / AGENTS/helpers.md: a
+    // disclosure of real links is deliberately not a listbox.
 
     /**
      * Default button icon: a bundled SVG (outline right arrow), not a
@@ -297,11 +305,10 @@
     onfocusout={onRootFocusOut}
     {...restProps}
 >
-    <button
-        bind:this={buttonEl}
-        type="button"
-        class="share-picker-button"
-        aria-label={label}
+    <IconButton
+        bind:ref={buttonEl}
+        baseClass="share-picker-button"
+        label={label}
         aria-expanded={open}
         aria-controls={listId}
         onclick={onButtonClick}
@@ -325,7 +332,7 @@
                 <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" />
             </svg>
         {/if}
-    </button>
+    </IconButton>
 
     <!-- Named like the sibling pickers' listboxes: a screen reader
          entering the list hears what the list is for, not just "list,
