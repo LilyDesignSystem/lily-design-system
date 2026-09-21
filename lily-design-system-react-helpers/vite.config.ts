@@ -8,6 +8,12 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [react()],
   resolve: {
+    // The headless catalog's dist/index.js (aliased below to a raw file
+    // path outside this workspace) has its own separate node_modules/react
+    // install one directory up. Without forcing both to resolve to this
+    // workspace's own react/react-dom, React mounts two copies and every
+    // hook call inside the headless components throws "Invalid hook call".
+    dedupe: ["react", "react-dom"],
     alias: {
       // @lilydesignsystem/react-picker-bar depends on these four sibling
       // packages the same way a real consumer would (declared as regular
@@ -39,6 +45,16 @@ export default defineConfig({
       "@lilydesignsystem/react-share-picker": fileURLToPath(
         new URL(
           "./lily-design-system-react-share-picker/dist/index.js",
+          import.meta.url,
+        ),
+      ),
+      // @lilydesignsystem/react-{theme,locale,text-size,motion,share,date-time}-picker
+      // depend on the *headless* catalog's IconButton/Listbox the same way a
+      // real consumer would (a regular npm `dependency`). The headless
+      // catalog lives one level up as a sibling top-level directory.
+      "@lilydesignsystem/react-headless": fileURLToPath(
+        new URL(
+          "../lily-design-system-react-headless/dist/index.js",
           import.meta.url,
         ),
       ),

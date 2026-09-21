@@ -54,6 +54,14 @@ const externalArgs = [
   "react",
   "--external",
   "react-dom",
+  // Cross-catalog dependency: @lilydesignsystem/react-headless lives in a
+  // sibling top-level directory, not inside this catalog, so it is never
+  // discovered by the `packages` scan above (which only lists directories
+  // under this root). Six pickers depend on it for IconButton/Listbox
+  // (2026-09-21) — hardcoded here the same way react/react-dom are, since
+  // it is a fixed, known dependency rather than something to auto-discover.
+  "--external",
+  "@lilydesignsystem/react-headless",
   ...packages.flatMap((pkg) => ["--external", pkg]),
 ];
 

@@ -1,5 +1,18 @@
 # CHANGELOG — @lilydesignsystem/react-theme-picker
 
+## Unreleased
+
+**Internal refactor: now depends on `@lilydesignsystem/react-headless`'s
+`IconButton` and `Listbox` (new `navigation="active-descendant"` mode)
+instead of hand-rolling their equivalents.** No change to the public
+API, rendered markup (class names, ids, ARIA attributes), or keyboard
+contract — the full existing test suite (60 tests) passes unchanged,
+run against the refactored component with no test edits. The pilot
+for this catalog's migration — see the headless catalog's own
+CHANGELOG for the full extension `Listbox`/`IconButton` gained
+(`baseClass`, forwarded `ref`, and `Listbox`'s opt-in
+`navigation="active-descendant"` mode) to make it possible.
+
 ## 0.1.0 — 2026-09-16
 
 **Package renamed: `lily-design-system-react-theme-picker` → `@lilydesignsystem/react-theme-picker`.** npm scoped packages

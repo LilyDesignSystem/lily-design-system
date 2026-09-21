@@ -4,6 +4,18 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+**Internal refactor: now depends on `@lilydesignsystem/react-headless`'s
+`IconButton` and `Listbox` (new `navigation="active-descendant"` mode)
+instead of hand-rolling their equivalents.** No change to the public
+API, rendered markup (class names, ids, ARIA attributes), or keyboard
+contract — the full existing test suite (43 tests) passes unchanged, run against
+the refactored component with no test edits. See
+`@lilydesignsystem/react-theme-picker`'s changelog (the pilot for this
+catalog's migration) and the headless catalog's own CHANGELOG for the
+full extension `Listbox`/`IconButton` gained to make it possible.
+
 ## 0.1.0 — 2026-09-16
 
 **Package renamed: `lily-design-system-react-motion-picker` → `@lilydesignsystem/react-motion-picker`.** npm scoped packages

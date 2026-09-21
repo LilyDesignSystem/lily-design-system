@@ -1,4 +1,11 @@
 import * as React from "react";
+import { IconButton } from "@lilydesignsystem/react-headless";
+// Only the trigger button composes a headless primitive. The list
+// below is real `<a>`/`<button>` navigation with a roving-focus
+// pattern of its own — not an ARIA listbox (no role="listbox"), so
+// headless `Listbox` (which always renders role="listbox" over
+// role="option" children) is the wrong widget for it, not merely an
+// unmigrated one.
 
 /**
  * Default button icon: a bundled SVG (outline right arrow), not a
@@ -339,11 +346,10 @@ export function SharePicker({
             onBlur={onRootBlur}
             {...restProps}
         >
-            <button
+            <IconButton
                 ref={buttonRef}
-                type="button"
-                className="share-picker-button"
-                aria-label={label}
+                baseClass="share-picker-button"
+                label={label}
                 aria-expanded={open}
                 aria-controls={listId}
                 onClick={onButtonClick}
@@ -367,7 +373,7 @@ export function SharePicker({
                         <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" />
                     </svg>
                 )}
-            </button>
+            </IconButton>
 
             {/* Named like the sibling pickers' listboxes: a screen reader
                 entering the list hears what the list is for, not just

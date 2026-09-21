@@ -1,4 +1,5 @@
 import * as React from "react";
+import { IconButton, Listbox } from "@lilydesignsystem/react-headless";
 
 /**
  * Default button icon: a bundled SVG (two pause bars), not a Unicode
@@ -107,9 +108,6 @@ function resolveInitialMotion(
     return motions[0] ?? "";
 }
 
-/** Milliseconds of inactivity after which the typeahead buffer resets. */
-const TYPEAHEAD_RESET_MS = 500;
-
 export function MotionPicker({
     label,
     motions,
@@ -147,16 +145,10 @@ export function MotionPicker({
 
     const rootRef = React.useRef<HTMLDivElement | null>(null);
     const buttonRef = React.useRef<HTMLButtonElement | null>(null);
-    const listRef = React.useRef<HTMLUListElement | null>(null);
+    const listRef = React.useRef<HTMLElement | null>(null);
 
     // Set when a close should hand focus back to the button.
     const refocusRef = React.useRef(false);
-
-    // Typeahead buffer: APG listbox behaviour. Reset after a pause.
-    const typeaheadRef = React.useRef("");
-    const typeaheadTimerRef = React.useRef<ReturnType<typeof setTimeout>>(
-        undefined as unknown as ReturnType<typeof setTimeout>,
-    );
 
     function labelFor(motion: string): string {
         if (motion in motionLabels) return motionLabels[motion];
@@ -238,42 +230,16 @@ export function MotionPicker({
         el?.scrollIntoView?.({ block: "nearest" });
     }
 
-    function moveActive(delta: number): void {
-        if (motions.length === 0) return;
-        setActiveIndex((prev) =>
-            Math.min(Math.max(prev + delta, 0), motions.length - 1),
-        );
-    }
-
-    function runTypeahead(char: string): void {
-        const lower = char.toLowerCase();
-        // APG listbox typeahead: a single character moves to the NEXT
-        // option starting with it, and repeating that character keeps
-        // cycling. Only a buffer of differing characters refines the
-        // match, and that buffer stays anchored on the active option.
-        const sameCharRun =
-            typeaheadRef.current === "" ||
-            [...typeaheadRef.current].every((c) => c === lower);
-        typeaheadRef.current += lower;
-        clearTimeout(typeaheadTimerRef.current);
-        typeaheadTimerRef.current = setTimeout(() => {
-            typeaheadRef.current = "";
-        }, TYPEAHEAD_RESET_MS);
-        const query = sameCharRun ? lower : typeaheadRef.current;
-        setActiveIndex((prev) => {
-            const anchor = prev < 0 ? 0 : prev;
-            const start = sameCharRun ? anchor + 1 : anchor;
-            // Search forward, wrapping once — typeahead wraps even though
-            // the arrows clamp, or options above the cursor would be
-            // untypable.
-            for (let n = 0; n < motions.length; n++) {
-                const i = (start + n) % motions.length;
-                if (labelFor(motions[i]).toLowerCase().startsWith(query)) {
-                    return i;
-                }
-            }
-            return prev;
-        });
+    function handleTabOut(): void {
+        // Tab moves on — but focus goes to the button FIRST, without
+        // cancelling the key (Listbox's onTabOut never preventDefaults
+        // Tab). Hiding the focused list drops focus to <body>, and the
+        // browser then computes the default Tab move from the top of the
+        // document, so tabbing out of an open picker teleported the user to
+        // the page's first tab stop. From the button, the default Tab
+        // lands exactly where leaving the picker should.
+        buttonRef.current?.focus?.({ preventScroll: true });
+        closeList(false);
     }
 
     function onButtonKeyDown(
@@ -290,66 +256,6 @@ export function MotionPicker({
                 event.preventDefault();
                 openList(motions.length - 1);
                 break;
-        }
-    }
-
-    function onListKeyDown(event: React.KeyboardEvent<HTMLUListElement>): void {
-        switch (event.key) {
-            case "ArrowDown":
-                event.preventDefault();
-                moveActive(1);
-                break;
-            case "ArrowUp":
-                event.preventDefault();
-                moveActive(-1);
-                break;
-            case "Home":
-                event.preventDefault();
-                setActiveIndex(0);
-                break;
-            case "End":
-                event.preventDefault();
-                setActiveIndex(motions.length - 1);
-                break;
-            case "Enter":
-            case " ":
-                event.preventDefault();
-                if (activeIndex >= 0) choose(activeIndex);
-                break;
-            case "Escape":
-                event.preventDefault();
-                closeList();
-                break;
-            case "PageUp":
-                event.preventDefault();
-                moveActive(-10);
-                break;
-            case "PageDown":
-                // ±10, clamped: an APG-optional key, matching the
-                // sibling pickers.
-                event.preventDefault();
-                moveActive(10);
-                break;
-            case "Tab":
-                // Tab moves on — but focus goes to the button FIRST,
-                // without cancelling the key. Hiding the focused list
-                // drops focus to <body>, and the browser then computes
-                // the default Tab move from the top of the document, so
-                // tabbing out of an open picker teleported the user to
-                // the page's first tab stop. From the button, the default
-                // Tab lands exactly where leaving the picker should.
-                buttonRef.current?.focus?.({ preventScroll: true });
-                closeList(false);
-                break;
-            default:
-                if (
-                    event.key.length === 1 &&
-                    !event.ctrlKey &&
-                    !event.metaKey &&
-                    !event.altKey
-                ) {
-                    runTypeahead(event.key);
-                }
         }
     }
 
@@ -393,11 +299,6 @@ export function MotionPicker({
         return () => document.removeEventListener("click", onDocumentClick);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [open]);
-
-    // Drop any pending typeahead timer on unmount.
-    React.useEffect(() => {
-        return () => clearTimeout(typeaheadTimerRef.current);
-    }, []);
 
     // ---------------------------------------------------------------
     // Initial value resolution + apply
@@ -447,11 +348,10 @@ export function MotionPicker({
         >
             <input type="hidden" name={name} value={currentValue ?? ""} />
 
-            <button
+            <IconButton
                 ref={buttonRef}
-                type="button"
-                className="motion-picker-button"
-                aria-label={label}
+                baseClass="motion-picker-button"
+                label={label}
                 aria-haspopup="listbox"
                 aria-expanded={open}
                 aria-controls={listId}
@@ -476,20 +376,24 @@ export function MotionPicker({
                         <path d="M5 3v10M11 3v10" />
                     </svg>
                 )}
-            </button>
+            </IconButton>
 
-            <ul
+            <Listbox
                 ref={listRef}
-                className="motion-picker-list"
+                as="ul"
+                baseClass="motion-picker-list"
                 id={listId}
-                role="listbox"
-                aria-label={label}
-                aria-activedescendant={
-                    open && activeIndex >= 0 ? optionId(activeIndex) : undefined
-                }
-                tabIndex={-1}
+                label={label}
+                navigation="active-descendant"
+                clamp
+                typeahead
+                pageSize={10}
+                activeIndex={activeIndex}
+                onActiveIndexChange={setActiveIndex}
                 hidden={!open}
-                onKeyDown={onListKeyDown}
+                onActivate={choose}
+                onEscape={() => closeList()}
+                onTabOut={handleTabOut}
             >
                 {motions.map((motion, i) => (
                     <li
@@ -504,7 +408,7 @@ export function MotionPicker({
                         {labelFor(motion)}
                     </li>
                 ))}
-            </ul>
+            </Listbox>
         </div>
     );
 }

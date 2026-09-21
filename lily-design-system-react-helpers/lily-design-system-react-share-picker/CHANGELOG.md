@@ -4,6 +4,18 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+**Internal refactor: the trigger button now depends on
+`@lilydesignsystem/react-headless`'s `IconButton` instead of
+hand-rolling one.** No change to the public API, rendered markup, or
+keyboard contract — the full existing test suite (36 tests) passes
+unchanged. The destination/copy list stays self-contained: it is a
+real disclosure of `<a>`/`<button>` elements with a roving-focus
+pattern, not an ARIA listbox, so headless `Listbox` (which always
+renders `role="listbox"` over `role="option"` children) is the wrong
+widget for it, not merely an unmigrated one.
+
 ## 0.1.0 — 2026-09-16
 
 **Package renamed: `lily-design-system-react-share-picker` → `@lilydesignsystem/react-share-picker`.** npm scoped packages

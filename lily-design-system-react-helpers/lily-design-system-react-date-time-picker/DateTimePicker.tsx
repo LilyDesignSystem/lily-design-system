@@ -1,4 +1,17 @@
 import * as React from "react";
+import { IconButton } from "@lilydesignsystem/react-headless";
+// Only the trigger button composes a headless primitive here. headless
+// `Dialog` renders `{open && <dialog ...>}` — the element is unmounted
+// on close, which would invalidate `dialogRef` and every ref this
+// component keeps across opens, and it changes the documented markup
+// contract (`hidden={!open}`, element always present) to "absent when
+// closed". It also brings no real modal guarantee: `Dialog` sets no
+// `.showModal()` call, so composing it would not actually trap focus
+// or reach the top layer — the two things this component's own
+// hand-rolled focus trap exists to provide (`aria-modal="true"` is a
+// promise the browser does not keep on its own). The calendar grid is
+// bespoke civil-date business logic with no generic headless
+// equivalent to compose.
 
 /**
  * Default button glyph: U+1F4C5 CALENDAR, followed by U+FE0E VARIATION
@@ -1456,11 +1469,10 @@ export function DateTimePicker({
                     onKeyDown={onFieldKeydown}
                 />
 
-                <button
+                <IconButton
                     ref={buttonRef}
-                    type="button"
-                    className="date-time-picker-button"
-                    aria-label={label}
+                    baseClass="date-time-picker-button"
+                    label={label}
                     aria-haspopup="dialog"
                     aria-expanded={open}
                     aria-controls={dialogId}
@@ -1474,7 +1486,7 @@ export function DateTimePicker({
                             {CALENDAR}
                         </span>
                     )}
-                </button>
+                </IconButton>
             </div>
 
             {labels.invalid && (
