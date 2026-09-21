@@ -3,6 +3,34 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the package follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+**`Listbox` and `IconButton` extended, additively, to support the
+`*-helpers` catalog's icon-button-triggered pickers depending on them
+instead of hand-rolling equivalent markup/keyboard logic.** Both
+components had zero consumers elsewhere in this 491-component catalog
+(confirmed by search before changing either), so these are pure
+additions with no risk to an existing consumer — full suite (4917
+tests) still green.
+
+- `IconButton` gains `baseClass` (default `"icon-button"`, unchanged)
+  — a consumer whose own contract requires an exact class (no extra
+  `icon-button` token) sets `baseClass` instead of layering `class` on
+  top of it — and a bindable `ref` exposing the rendered `<button>` so
+  a consumer can call `.focus()` on it.
+- `Listbox` gains `baseClass` (default `"listbox"`, unchanged, same
+  reasoning as `IconButton`'s) and `as` (default `"div"`, unchanged —
+  a consumer needing e.g. a `<ul>` root sets `as="ul"`), plus an opt-in
+  `navigation="active-descendant"` mode (default remains
+  `"roving-focus"`, byte-for-byte unchanged behaviour): the root holds
+  real focus and tracks a virtual cursor (`aria-activedescendant`,
+  bindable `activeIndex`) rather than moving DOM focus between
+  options, plus `clamp` (vs. wrap), `typeahead`, `pageSize` paging,
+  and `onActivate`/`onEscape`/`onTabOut` callbacks — the full
+  WAI-ARIA APG listbox keyboard contract the picker helpers already
+  implement by hand. A bindable `ref` prop exposes the rendered root
+  so a consumer can call `.focus()` on it.
+
 ## 0.1.0 — 2026-09-16
 
 **Package renamed: `lily-design-system-svelte-headless` → `@lilydesignsystem/svelte-headless`.** npm scoped packages
