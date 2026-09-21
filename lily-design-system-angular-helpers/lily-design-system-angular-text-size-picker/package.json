@@ -5,6 +5,9 @@
     "node": "=26"
   },
   "description": "Lily Design System Angular 20 text size picker: an icon button opening an APG listbox that sets data-text-size on the document. Headless, SSR-safe, no CSS.",
+  "dependencies": {
+    "@lilydesignsystem/angular-headless": "^0.1.0"
+  },
   "peerDependencies": {
     "@angular/core": ">=20.0.0 <23.0.0",
     "@angular/common": ">=20.0.0 <23.0.0"

@@ -10,6 +10,20 @@ import angular from "@analogjs/vite-plugin-angular";
 export default defineConfig({
   plugins: [angular()],
   resolve: {
+    // @lilydesignsystem/angular-headless is a separate top-level catalog
+    // (its own package.json/pnpm install), unlike the four sibling
+    // *-picker packages below (nested inside this catalog, sharing this
+    // root's one node_modules). Crossing that install boundary means the
+    // aliased headless FESM bundle's own `@angular/core` import resolves
+    // to a DIFFERENT physical copy than this catalog's — same version,
+    // separate pnpm-store path — which breaks Angular's DI: components
+    // created from the two copies don't share the same injection-context
+    // tracking, and instantiating a headless component (e.g. IconButton)
+    // as a child of a helpers component throws NG0203
+    // ("inputFunction() can only be used within an injection context").
+    // `dedupe` forces every resolution of these packages, regardless of
+    // which file imports them, to the one copy Vite finds first.
+    dedupe: ["@angular/core", "@angular/common", "rxjs"],
     alias: {
       // @lilydesignsystem/angular-picker-bar depends on these four
       // sibling packages the same way a real consumer would (declared
@@ -48,6 +62,19 @@ export default defineConfig({
       "@lilydesignsystem/angular-share-picker": fileURLToPath(
         new URL(
           "./lily-design-system-angular-share-picker/dist/fesm2022/lilydesignsystem-angular-share-picker.mjs",
+          import.meta.url,
+        ),
+      ),
+      // @lilydesignsystem/angular-theme-picker (and the other migrated
+      // pickers) depend on the *headless* catalog's IconButton/Listbox
+      // the same way a real consumer would (a regular npm `dependency`,
+      // resolved from the registry once published) — porting the
+      // composition refactor already done for the Svelte catalog. The
+      // headless catalog lives one level up as a sibling top-level
+      // directory, not nested inside this one.
+      "@lilydesignsystem/angular-headless": fileURLToPath(
+        new URL(
+          "../lily-design-system-angular-headless/dist/fesm2022/lilydesignsystem-angular-headless.mjs",
           import.meta.url,
         ),
       ),

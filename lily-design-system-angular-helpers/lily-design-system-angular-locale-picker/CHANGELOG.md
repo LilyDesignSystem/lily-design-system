@@ -4,6 +4,18 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+**Internal refactor: now depends on `@lilydesignsystem/angular-headless`'s
+`IconButton` and `Listbox` (new `navigation="active-descendant"` mode)
+instead of hand-rolling their equivalents.** No change to the public
+API, rendered markup, or keyboard contract — the full existing test
+suite passes unchanged. See `@lilydesignsystem/angular-theme-picker`'s
+changelog (the reference migration) and the headless catalog's own
+changelog for the full extension this depends on, including the
+`resolve.dedupe` fix this catalog's `vitest.config.ts` needed for a
+real cross-catalog `@angular/core` DI issue.
+
 ## 0.1.0 — 2026-09-16
 
 **Package renamed: `lily-design-system-angular-locale-picker` → `@lilydesignsystem/angular-locale-picker`.** npm scoped packages

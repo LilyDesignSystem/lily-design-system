@@ -3,7 +3,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  DestroyRef,
   Directive,
   ElementRef,
   TemplateRef,
@@ -17,6 +16,7 @@ import {
   signal,
   viewChild,
 } from "@angular/core";
+import { IconButton, Listbox } from "@lilydesignsystem/angular-headless";
 
 /**
  * Default button icon: a bundled SVG (a stroke-drawn "A"), not a
@@ -97,7 +97,7 @@ export class TextSizePickerIcon {
 @Component({
   selector: "lily-text-size-picker",
   standalone: true,
-  imports: [NgTemplateOutlet],
+  imports: [NgTemplateOutlet, IconButton, Listbox],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     "(document:click)": "onDocumentClick($event)",
@@ -110,14 +110,13 @@ export class TextSizePickerIcon {
     >
       <input type="hidden" [name]="name()" [value]="value()" />
 
-      <button
+      <lily-icon-button
         #buttonEl
-        type="button"
-        class="text-size-picker-button"
-        [attr.aria-label]="label() || null"
-        aria-haspopup="listbox"
-        [attr.aria-expanded]="open()"
-        [attr.aria-controls]="listId"
+        [label]="label()"
+        baseClass="text-size-picker-button"
+        ariaHaspopup="listbox"
+        [ariaExpanded]="open()"
+        [ariaControls]="listId"
         (click)="toggle()"
         (keydown)="onButtonKeydown($event)"
       >
@@ -142,18 +141,22 @@ export class TextSizePickerIcon {
             <path d="M4 13 7.2 3h1.6L12 13M5.4 9.5h5.2" />
           </svg>
         }
-      </button>
+      </lily-icon-button>
 
-      <ul
+      <lily-listbox
         #listEl
-        class="text-size-picker-list"
-        [id]="listId"
-        role="listbox"
-        [attr.aria-label]="label() || null"
-        [attr.aria-activedescendant]="activeDescendant()"
-        tabindex="-1"
-        [attr.hidden]="open() ? null : ''"
-        (keydown)="onListKeydown($event)"
+        [label]="label()"
+        baseClass="text-size-picker-list"
+        [elementId]="listId"
+        navigation="active-descendant"
+        [clamp]="true"
+        [typeahead]="true"
+        [pageSize]="10"
+        [(activeIndex)]="activeIndex"
+        [hidden]="!open()"
+        (activate)="choose($event)"
+        (escape)="closeList()"
+        (tabOut)="onListTabOut()"
       >
         @for (size of sizes(); track size; let i = $index) {
           <li
@@ -167,7 +170,7 @@ export class TextSizePickerIcon {
             {{ labelFor(size) }}
           </li>
         }
-      </ul>
+      </lily-listbox>
     </div>
   `,
 })
@@ -188,22 +191,17 @@ export class TextSizePicker {
 
   private readonly rootRef =
     viewChild.required<ElementRef<HTMLDivElement>>("rootEl");
-  private readonly buttonRef =
-    viewChild.required<ElementRef<HTMLButtonElement>>("buttonEl");
-  private readonly listRef =
-    viewChild.required<ElementRef<HTMLUListElement>>("listEl");
+  // Angular resolves a template-ref-variable on a component tag to the
+  // component INSTANCE by default (not its ElementRef) — exactly what's
+  // needed to call the headless components' own public `focus()` methods.
+  private readonly buttonRef = viewChild.required<IconButton>("buttonEl");
+  private readonly listRef = viewChild.required<Listbox>("listEl");
 
   private readonly baseId = nextTextSizePickerId();
   protected readonly listId = `${this.baseId}-list`;
 
   protected readonly open = signal(false);
   protected readonly activeIndex = signal(-1);
-
-  /** `aria-activedescendant` is only meaningful while the listbox is open. */
-  protected readonly activeDescendant = computed(() => {
-    const i = this.activeIndex();
-    return this.open() && i >= 0 ? this.optionId(i) : null;
-  });
 
   protected readonly childContext = computed(() => {
     const args: ChildArgs = {
@@ -214,15 +212,9 @@ export class TextSizePicker {
     return { $implicit: args, ...args };
   });
 
-  // Typeahead buffer: APG listbox behaviour. Reset after a pause.
-  private typeahead = "";
-  private typeaheadTimer: ReturnType<typeof setTimeout> | undefined;
-
   private initialised = false;
 
   constructor() {
-    inject(DestroyRef).onDestroy(() => clearTimeout(this.typeaheadTimer));
-
     effect(() => {
       const current = this.value();
 
@@ -301,7 +293,7 @@ export class TextSizePicker {
     // aria-activedescendant, per the APG listbox pattern.
     this.cdr.detectChanges();
     queueMicrotask(() => {
-      this.listRef().nativeElement.focus({ preventScroll: true });
+      this.listRef().focus({ preventScroll: true });
       this.scrollActiveIntoView();
     });
   }
@@ -311,7 +303,7 @@ export class TextSizePicker {
     if (!this.open()) return;
     this.open.set(false);
     this.activeIndex.set(-1);
-    if (refocus) queueMicrotask(() => this.buttonRef().nativeElement.focus({ preventScroll: true }));
+    if (refocus) queueMicrotask(() => this.buttonRef().focus({ preventScroll: true }));
   }
 
   protected choose(index: number): void {
@@ -323,48 +315,26 @@ export class TextSizePicker {
   private scrollActiveIntoView(): void {
     const i = this.activeIndex();
     if (i < 0) return;
-    const el = this.listRef().nativeElement.children[i] as
-      HTMLElement | undefined;
+    // getElementById rather than reaching into the composed Listbox's
+    // DOM: Listbox exposes behaviour (focus()) and state (activeIndex),
+    // not its rendered children, the same "consumer owns the option
+    // elements" division of responsibility the headless component
+    // documents for itself.
+    const el = document.getElementById(this.optionId(i));
     // jsdom does not implement scrollIntoView; call it only if present.
     el?.scrollIntoView?.({ block: "nearest" });
   }
 
-  private moveActive(delta: number): void {
-    const count = this.sizes().length;
-    if (count === 0) return;
-    // Clamp rather than wrap, per the APG listbox pattern.
-    this.activeIndex.set(
-      Math.min(Math.max(this.activeIndex() + delta, 0), count - 1),
-    );
+  // Arrow/Home/End/PageUp/PageDown/typeahead/Escape/Tab keyboard handling
+  // inside the open list is owned by the composed `lily-listbox`'s
+  // `navigation="active-descendant"` mode (see
+  // @lilydesignsystem/angular-headless); this component only decides
+  // what open/close/choose/scroll mean, and keeps the highlighted option
+  // in view whenever activeIndex changes.
+  private readonly scrollOnActiveIndexChange = effect(() => {
+    this.activeIndex();
     this.scrollActiveIntoView();
-  }
-
-  private runTypeahead(char: string): void {
-    const lower = char.toLowerCase();
-    // APG listbox typeahead: a single character moves to the NEXT
-    // option starting with it, and repeating that character keeps
-    // cycling. Only a buffer of differing characters refines the
-    // match, and that buffer stays anchored on the active option.
-    const sameCharRun =
-      this.typeahead === "" || [...this.typeahead].every((c) => c === lower);
-    this.typeahead += lower;
-    clearTimeout(this.typeaheadTimer);
-    this.typeaheadTimer = setTimeout(() => (this.typeahead = ""), 500);
-    const query = sameCharRun ? lower : this.typeahead;
-    const sizes = this.sizes();
-    const anchor = this.activeIndex() < 0 ? 0 : this.activeIndex();
-    const start = sameCharRun ? anchor + 1 : anchor;
-    // Search forward, wrapping once — typeahead wraps even though the
-    // arrows clamp, or options above the cursor would be untypable.
-    for (let n = 0; n < sizes.length; n++) {
-      const i = (start + n) % sizes.length;
-      if (this.labelFor(sizes[i]).toLowerCase().startsWith(query)) {
-        this.activeIndex.set(i);
-        this.scrollActiveIntoView();
-        return;
-      }
-    }
-  }
+  });
 
   // ---------------------------------------------------------------
   // Keyboard
@@ -385,67 +355,14 @@ export class TextSizePicker {
     }
   }
 
-  protected onListKeydown(event: KeyboardEvent): void {
-    switch (event.key) {
-      case "ArrowDown":
-        event.preventDefault();
-        this.moveActive(1);
-        break;
-      case "ArrowUp":
-        event.preventDefault();
-        this.moveActive(-1);
-        break;
-      case "Home":
-        event.preventDefault();
-        this.activeIndex.set(0);
-        this.scrollActiveIntoView();
-        break;
-      case "End":
-        event.preventDefault();
-        this.activeIndex.set(this.sizes().length - 1);
-        this.scrollActiveIntoView();
-        break;
-      case "Enter":
-      case " ":
-        event.preventDefault();
-        if (this.activeIndex() >= 0) this.choose(this.activeIndex());
-        break;
-      case "Escape":
-        event.preventDefault();
-        this.closeList();
-        break;
-      case "PageUp":
-        event.preventDefault();
-        this.moveActive(-10);
-        break;
-      case "PageDown":
-        // ±10, clamped: an APG-optional key for long size lists.
-        event.preventDefault();
-        this.moveActive(10);
-        break;
-      case "Tab":
-        // Tab moves on — but focus goes to the button FIRST, without
-        // cancelling the key. Hiding the focused list drops focus to
-        // <body>, and the browser then computes the default Tab move
-        // from the top of the document, so tabbing out of an open
-        // picker teleported the user to the page's first tab stop.
-        // From the button, the default Tab lands exactly where leaving
-        // the picker should. The button always exists, so no
-        // detectChanges is needed before the focus move; guard the
-        // METHOD because jsdom-shaped hosts may not implement it.
-        this.buttonRef().nativeElement.focus?.({ preventScroll: true });
-        this.closeList(false);
-        break;
-      default:
-        if (
-          event.key.length === 1 &&
-          !event.ctrlKey &&
-          !event.metaKey &&
-          !event.altKey
-        ) {
-          this.runTypeahead(event.key);
-        }
-    }
+  /** `lily-listbox` Tab handling never prevents the key — focus goes to
+   * the button FIRST so the browser's default Tab move computes from
+   * the picker's position rather than from <body> (hiding the focused
+   * list drops focus there, and the browser would otherwise compute the
+   * default Tab move from the top of the document). */
+  protected onListTabOut(): void {
+    this.buttonRef().focus({ preventScroll: true });
+    this.closeList(false);
   }
 
   protected onRootFocusOut(event: FocusEvent): void {

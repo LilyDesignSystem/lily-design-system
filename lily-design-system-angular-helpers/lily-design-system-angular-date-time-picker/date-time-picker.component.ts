@@ -16,6 +16,21 @@ import {
   signal,
   viewChild,
 } from "@angular/core";
+// Only the trigger button composes a headless primitive here. Angular's
+// headless `Dialog` renders `<dialog [open]="open()">` — the native tag,
+// not this component's documented `<div class="date-time-picker-dialog"
+// role="dialog">` markup, so composing it would change the root tag
+// outright. It also sets `open` as a plain boolean attribute rather than
+// calling `.showModal()`, which HTML defines as producing a *non-modal*
+// dialog (no backdrop, no top-layer promotion, no native focus trap,
+// Escape does not auto-close) — so composing it would gain none of the
+// modal guarantee this component's own hand-rolled focus trap exists to
+// provide (`aria-modal="true"` alone is a promise the browser does not
+// keep on its own — see the focus-trap code below), while still needing
+// `Dialog` extended with `aria-modal`/`aria-describedby`/`tabindex`/a
+// keydown output it doesn't have today. The calendar grid is bespoke
+// civil-date business logic with no generic headless equivalent either.
+import { IconButton } from "@lilydesignsystem/angular-headless";
 
 /**
  * Default button glyph: U+1F4C5 CALENDAR, followed by U+FE0E VARIATION
@@ -617,7 +632,7 @@ export class DateTimePickerIcon {
 @Component({
   selector: "lily-date-time-picker",
   standalone: true,
-  imports: [NgTemplateOutlet],
+  imports: [NgTemplateOutlet, IconButton],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     "(document:click)": "onDocumentClick($event)",
@@ -659,14 +674,13 @@ export class DateTimePickerIcon {
           (keydown)="onFieldKeydown($event)"
         />
 
-        <button
+        <lily-icon-button
           #buttonEl
-          type="button"
-          class="date-time-picker-button"
-          [attr.aria-label]="label()"
-          aria-haspopup="dialog"
-          [attr.aria-expanded]="open()"
-          [attr.aria-controls]="dialogId"
+          [label]="label()"
+          baseClass="date-time-picker-button"
+          ariaHaspopup="dialog"
+          [ariaExpanded]="open()"
+          [ariaControls]="dialogId"
           [disabled]="disabled() || readOnly()"
           (click)="open() ? closeDialog() : openDialog()"
         >
@@ -680,7 +694,7 @@ export class DateTimePickerIcon {
               glyph
             }}</span>
           }
-        </button>
+        </lily-icon-button>
       </div>
 
       @if (labels().invalid) {
@@ -1090,8 +1104,11 @@ export class DateTimePicker {
 
   private readonly rootRef =
     viewChild.required<ElementRef<HTMLDivElement>>("rootEl");
-  private readonly buttonRef =
-    viewChild.required<ElementRef<HTMLButtonElement>>("buttonEl");
+  // Angular resolves a template-ref-variable on a component tag to the
+  // component INSTANCE by default (not its ElementRef) — exactly what's
+  // needed to call the headless component's own public `focus()`
+  // method / `element` getter.
+  private readonly buttonRef = viewChild.required<IconButton>("buttonEl");
   private readonly dialogRef =
     viewChild.required<ElementRef<HTMLDivElement>>("dialogEl");
   /** Optional: the grid renders only when `mode` includes a date. */
@@ -1477,7 +1494,7 @@ export class DateTimePicker {
       active instanceof HTMLElement &&
       this.rootRef().nativeElement.contains(active)
         ? active
-        : (this.buttonRef().nativeElement ?? null);
+        : (this.buttonRef().element ?? null);
     const today = todayIso();
     this.today.set(today);
     const pendingDate = this.committed().date || this.nearestSelectable(today);
@@ -1521,7 +1538,7 @@ export class DateTimePicker {
     if (!this.open()) return;
     this.open.set(false);
     if (refocus) {
-      const target = this.openerEl ?? this.buttonRef().nativeElement;
+      const target = this.openerEl ?? this.buttonRef().element;
       queueMicrotask(() => target?.focus?.());
     }
   }
@@ -1939,7 +1956,7 @@ export class DateTimePicker {
     // trigger button is exempt because its own handler already toggles.
     if (
       this.dialogRef().nativeElement.contains(target) ||
-      this.buttonRef().nativeElement.contains(target)
+      (this.buttonRef().element?.contains(target) ?? false)
     ) {
       return;
     }

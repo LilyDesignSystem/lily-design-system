@@ -4,6 +4,24 @@ All notable changes to this package. Format follows
 [Keep a Changelog](https://keepachangelog.com/); versions follow
 [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+**Internal refactor: the trigger button now depends on
+`@lilydesignsystem/angular-headless`'s `IconButton` instead of
+hand-rolling one.** No change to the public API, rendered markup, or
+keyboard contract — the full existing test suite passes unchanged.
+The dialog and calendar grid stay self-contained, deliberately:
+headless `Dialog` renders the native `<dialog>` tag, not this
+component's documented `<div role="dialog">` markup, and sets `open`
+as a plain attribute rather than calling `.showModal()` — which HTML
+defines as producing a *non-modal* dialog (no backdrop, no top-layer
+promotion, no native focus trap) — so composing it would gain none of
+the modal guarantee this component's own hand-rolled focus trap exists
+to provide, while requiring `Dialog` to be extended with several more
+inputs it doesn't have today (`aria-modal`, `aria-describedby`,
+`tabindex`, a keydown output). The calendar grid is bespoke civil-date
+business logic with no generic headless equivalent either.
+
 ## 0.1.0 — 2026-09-16
 
 **Package renamed: `lily-design-system-angular-date-time-picker` → `@lilydesignsystem/angular-date-time-picker`.** npm scoped packages

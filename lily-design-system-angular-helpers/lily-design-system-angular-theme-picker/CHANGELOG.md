@@ -4,6 +4,23 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+**Internal refactor: now depends on `@lilydesignsystem/angular-headless`'s
+`IconButton` and `Listbox` (new `navigation="active-descendant"` mode)
+instead of hand-rolling their equivalents.** No change to the public
+API, rendered markup (class names, ids, ARIA attributes), or keyboard
+contract — the full existing test suite (61 tests) passes unchanged.
+Composing a component from a separate top-level catalog (rather than a
+nested sibling like `picker-bar`'s four dependencies) surfaced a real
+Angular DI issue: two independently pnpm-installed copies of
+`@angular/core` don't share injection-context tracking, so
+instantiating a headless component as a child threw `NG0203`. Fixed in
+the catalog's shared `vitest.config.ts` via `resolve.dedupe` — see its
+comment for the full explanation. Real installs are unaffected (a
+single npm/pnpm install tree normally dedupes a shared peer dependency
+on its own); this was a local dev/test-harness-only issue.
+
 ## 0.1.0 — 2026-09-16
 
 **Package renamed: `lily-design-system-angular-theme-picker` → `@lilydesignsystem/angular-theme-picker`.** npm scoped packages

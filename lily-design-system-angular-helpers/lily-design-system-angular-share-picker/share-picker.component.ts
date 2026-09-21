@@ -12,6 +12,14 @@ import {
   signal,
   viewChild,
 } from "@angular/core";
+// Only the trigger button composes a headless primitive. The list below
+// is real `<a>`/`<button>` navigation with a roving-focus pattern of its
+// own — not an ARIA listbox (no role="listbox") — so headless `Listbox`
+// (which always renders role="listbox" over role="option" children) is
+// the wrong widget for it, not merely an unmigrated one. See
+// spec/index.md §3 / AGENTS/helpers.md: a disclosure of real links is
+// deliberately not a listbox.
+import { IconButton } from "@lilydesignsystem/angular-headless";
 
 /**
  * The default button icon is now a bundled inline SVG, not a Unicode
@@ -118,7 +126,7 @@ export class SharePickerIcon {
 @Component({
   selector: "lily-share-picker",
   standalone: true,
-  imports: [NgTemplateOutlet],
+  imports: [NgTemplateOutlet, IconButton],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     "(document:click)": "onDocumentClick($event)",
@@ -129,13 +137,12 @@ export class SharePickerIcon {
       class="share-picker {{ className() }}"
       (focusout)="onRootFocusOut($event)"
     >
-      <button
+      <lily-icon-button
         #buttonEl
-        type="button"
-        class="share-picker-button"
-        [attr.aria-label]="label() || null"
-        [attr.aria-expanded]="open()"
-        [attr.aria-controls]="listId"
+        [label]="label()"
+        baseClass="share-picker-button"
+        [ariaExpanded]="open()"
+        [ariaControls]="listId"
         (click)="onButtonClick()"
         (keydown)="onButtonKeydown($event)"
       >
@@ -160,7 +167,7 @@ export class SharePickerIcon {
             <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" />
           </svg>
         }
-      </button>
+      </lily-icon-button>
 
       <!-- Named like the sibling pickers' listboxes: a screen reader
            entering the list hears what the list is for, not just "list,
@@ -252,8 +259,10 @@ export class SharePicker {
 
   private readonly rootRef =
     viewChild.required<ElementRef<HTMLDivElement>>("rootEl");
-  private readonly buttonRef =
-    viewChild.required<ElementRef<HTMLButtonElement>>("buttonEl");
+  // Angular resolves a template-ref-variable on a component tag to the
+  // component INSTANCE by default (not its ElementRef) — exactly what's
+  // needed to call the headless component's own public `focus()` method.
+  private readonly buttonRef = viewChild.required<IconButton>("buttonEl");
   private readonly listRef =
     viewChild.required<ElementRef<HTMLUListElement>>("listEl");
 
@@ -311,7 +320,7 @@ export class SharePicker {
   closeList(refocus = true): void {
     if (!this.open()) return;
     this.open.set(false);
-    if (refocus) queueMicrotask(() => this.buttonRef().nativeElement.focus({ preventScroll: true }));
+    if (refocus) queueMicrotask(() => this.buttonRef().focus({ preventScroll: true }));
   }
 
   private shareNatively(): Promise<boolean> {
@@ -447,7 +456,7 @@ export class SharePicker {
         // always exists, so no detectChanges is needed before the
         // focus move; guard the METHOD because jsdom-shaped hosts may
         // not implement it.
-        this.buttonRef().nativeElement.focus?.({ preventScroll: true });
+        this.buttonRef().focus?.({ preventScroll: true });
         this.closeList(false);
         break;
       default:
