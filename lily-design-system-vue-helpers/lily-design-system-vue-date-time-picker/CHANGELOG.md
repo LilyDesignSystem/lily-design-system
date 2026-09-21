@@ -4,6 +4,13 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+**Internal refactor: the trigger button now depends on
+`@lilydesignsystem/vue-headless`'s `IconButton` instead of hand-rolling
+one.** No change to the public API, rendered markup, or keyboard
+contract — the full existing test suite passes unchanged. The dialog and calendar grid stay self-contained, deliberately: headless `Dialog` renders `v-if="open"<dialog ...>`, unmounting the element on close, which would invalidate `dialogEl` and every ref this component keeps across opens and would change the documented markup contract (`:hidden="open ? undefined : true"`, element always present) to "absent when closed." It also brings no real modal guarantee — `Dialog` sets the `open` attribute declaratively rather than calling `.showModal()`, so composing it would not actually trap focus or render to the top layer, the two things this component's own hand-rolled focus trap exists to provide. The calendar grid is bespoke civil-date business logic with no generic headless equivalent.
+
 ## 0.1.0 — 2026-09-16
 
 **Package renamed: `lily-design-system-vue-date-time-picker` → `@lilydesignsystem/vue-date-time-picker`.** npm scoped packages

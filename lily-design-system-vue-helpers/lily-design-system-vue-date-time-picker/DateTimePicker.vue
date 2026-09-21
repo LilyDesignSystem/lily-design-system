@@ -605,6 +605,20 @@ export function nextDateTimePickerId(): string {
 
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
+import { IconButton } from "@lilydesignsystem/vue-headless";
+// Only the trigger button composes a headless primitive here. Vue's
+// headless `Dialog` renders `v-if="open"<dialog ...>` — the element is
+// unmounted on close, which would invalidate `dialogEl` and every ref
+// this component keeps across opens, and it changes the documented
+// markup contract (`:hidden="open ? undefined : true"`, element always
+// present) to "absent when closed". It also brings no real modal
+// guarantee: it sets the `open` attribute declaratively rather than
+// calling `.showModal()`, so it would not actually trap focus or
+// render to the top layer — the two things this component's own
+// hand-rolled focus trap exists to provide (`aria-modal="true"` is a
+// promise the browser does not keep on its own — see the focus-trap
+// code below). The calendar grid is bespoke civil-date business logic
+// with no generic headless equivalent to compose.
 
 const props = withDefaults(defineProps<Props>(), {
     mode: "date",
@@ -670,7 +684,9 @@ const invalid = ref(false);
 const typed = ref<string | null>(null);
 
 const rootEl = ref<HTMLDivElement | null>(null);
-const buttonEl = ref<HTMLButtonElement | null>(null);
+// IconButton is a composition: a template ref on it resolves to
+// whatever it defineExpose (`{ el }`), not the raw DOM node.
+const buttonEl = ref<{ el?: HTMLButtonElement } | null>(null);
 const dialogEl = ref<HTMLDivElement | null>(null);
 const gridEl = ref<HTMLTableElement | null>(null);
 
@@ -973,7 +989,7 @@ async function openDialog(): Promise<void> {
     openerEl =
         active instanceof HTMLElement && rootEl.value?.contains(active)
             ? active
-            : (buttonEl.value ?? null);
+            : (buttonEl.value?.el ?? null);
     today.value = todayIso();
     pendingDate.value = committed.value.date || nearestSelectable(today.value);
     pendingTime.value = committed.value.time || defaultTime();
@@ -1016,7 +1032,7 @@ async function closeDialog(refocus = true): Promise<void> {
         // Return focus to whichever element opened the dialog — the text
         // field after Alt+ArrowDown, the trigger button after a click —
         // per the APG dialog rule, falling back to the button.
-        const target = openerEl ?? buttonEl.value;
+        const target = openerEl ?? buttonEl.value?.el;
         await nextTick();
         target?.focus?.();
     }
@@ -1498,7 +1514,7 @@ function onDocumentClick(event: MouseEvent): void {
     // that stays open while the user edits the field behind it is
     // telling assistive technology one thing and doing another. The
     // trigger button is exempt because its own handler already toggles.
-    if (dialogEl.value?.contains(target) || buttonEl.value?.contains(target)) return;
+    if (dialogEl.value?.contains(target) || buttonEl.value?.el?.contains(target)) return;
     void closeDialog(false);
 }
 
@@ -1553,11 +1569,10 @@ onBeforeUnmount(() => {
                 @keydown="onFieldKeydown"
             />
 
-            <button
+            <IconButton
                 ref="buttonEl"
-                type="button"
-                class="date-time-picker-button"
-                :aria-label="label"
+                baseClass="date-time-picker-button"
+                :label="label"
                 aria-haspopup="dialog"
                 :aria-expanded="open ? 'true' : 'false'"
                 :aria-controls="dialogId"
@@ -1569,7 +1584,7 @@ onBeforeUnmount(() => {
                         >📅︎</span
                     >
                 </slot>
-            </button>
+            </IconButton>
         </div>
 
         <!-- Present in the DOM before it has content: a live region that

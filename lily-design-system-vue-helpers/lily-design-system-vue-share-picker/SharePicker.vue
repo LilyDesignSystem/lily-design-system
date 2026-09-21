@@ -97,6 +97,13 @@ export function nextSharePickerId(): string {
 
 <script setup lang="ts">
 import { nextTick, onBeforeUnmount, onMounted, ref } from "vue";
+import { IconButton } from "@lilydesignsystem/vue-headless";
+// Only the trigger button composes a headless primitive. The list
+// below is real `<a>`/`<button>` navigation with a roving-focus
+// pattern of its own — not an ARIA listbox (no role="listbox"), so
+// headless Listbox (which always renders role="listbox" over
+// role="option" children) is the wrong widget for it, not merely an
+// unmigrated one. See spec/index.md §3 / AGENTS/helpers.md.
 
 const props = withDefaults(defineProps<Props>(), {
     targets: () => [],
@@ -123,7 +130,9 @@ const listId = `${baseId}-list`;
 
 const open = ref(false);
 const status = ref("");
-const buttonEl = ref<HTMLButtonElement | null>(null);
+// IconButton is a composition: a template ref on it resolves to
+// whatever it defineExpose (`{ el }`), not the raw DOM node.
+const buttonEl = ref<{ el?: HTMLButtonElement } | null>(null);
 const listEl = ref<HTMLUListElement | null>(null);
 const rootEl = ref<HTMLDivElement | null>(null);
 
@@ -161,7 +170,7 @@ async function closeList(refocus = true): Promise<void> {
     open.value = false;
     if (refocus) {
         await nextTick();
-        buttonEl.value?.focus({ preventScroll: true });
+        buttonEl.value?.el?.focus({ preventScroll: true });
     }
 }
 
@@ -252,7 +261,7 @@ function onListKeydown(event: KeyboardEvent): void {
             // teleported the user to the page's first tab stop. From
             // the button, the default Tab lands exactly where leaving
             // the picker should.
-            buttonEl.value?.focus?.({ preventScroll: true });
+            buttonEl.value?.el?.focus?.({ preventScroll: true });
             void closeList(false);
             break;
     }
@@ -303,11 +312,10 @@ onBeforeUnmount(() => {
         :class="`share-picker ${props.class}`.trim()"
         @focusout="onRootFocusOut"
     >
-        <button
+        <IconButton
             ref="buttonEl"
-            type="button"
-            class="share-picker-button"
-            :aria-label="label"
+            baseClass="share-picker-button"
+            :label="label"
             :aria-expanded="open ? 'true' : 'false'"
             :aria-controls="listId"
             @click="onButtonClick"
@@ -329,7 +337,7 @@ onBeforeUnmount(() => {
                     <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" />
                 </svg>
             </slot>
-        </button>
+        </IconButton>
 
         <!-- Named like the sibling pickers' listboxes: a screen reader
              entering the list hears what the list is for, not just

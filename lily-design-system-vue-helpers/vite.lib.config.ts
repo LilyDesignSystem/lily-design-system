@@ -45,6 +45,13 @@ export default defineConfig({
         "@lilydesignsystem/vue-locale-picker",
         "@lilydesignsystem/vue-text-size-picker",
         "@lilydesignsystem/vue-share-picker",
+        // theme-picker, locale-picker, text-size-picker, motion-picker,
+        // share-picker, and date-time-picker all depend on this now
+        // (IconButton/Listbox) — external for the same reason as the
+        // four sibling pickers above: keep the bare import in each
+        // package's own dist rather than inlining the whole headless
+        // bundle into six separate installs.
+        "@lilydesignsystem/vue-headless",
       ],
     },
   },

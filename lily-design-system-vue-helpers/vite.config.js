@@ -43,6 +43,18 @@ export default defineConfig({
           import.meta.url,
         ),
       ),
+      // @lilydesignsystem/vue-headless: the six migrated pickers now
+      // depend on it (IconButton/Listbox) the same way a real consumer
+      // would (a regular npm `dependency`, resolved from the registry
+      // once published). It lives one level up as a sibling top-level
+      // directory, not nested inside this catalog, and its build output
+      // is `dist/index.mjs` (its own bundled build), not `dist/index.js`.
+      "@lilydesignsystem/vue-headless": fileURLToPath(
+        new URL(
+          "../lily-design-system-vue-headless/dist/index.mjs",
+          import.meta.url,
+        ),
+      ),
     },
   },
   test: {
