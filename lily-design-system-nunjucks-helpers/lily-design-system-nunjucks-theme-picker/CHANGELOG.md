@@ -4,6 +4,18 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.1.1 — 2026-09-21
+
+**Internal refactor: keyboard/typeahead logic now comes from the new
+`@lilydesignsystem/nunjucks-listbox-behavior` shared module instead of
+being hand-rolled here.** No change to the public API, rendered
+markup, or keyboard contract — the existing test suite passes
+unchanged. Porting the same headless-composition refactor already
+done for the other seven catalogs; the real duplication problem in
+this one was six `*.client.js` files each hand-rolling the same
+~150-line APG listbox implementation with no shared module to point
+them at.
+
 ## 0.1.0 — 2026-09-16
 
 **Package renamed: `lily-design-system-nunjucks-theme-picker` → `@lilydesignsystem/nunjucks-theme-picker`.** npm scoped packages
