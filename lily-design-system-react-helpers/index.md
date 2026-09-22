@@ -17,6 +17,8 @@ DOM application) for one small, common job.
 | [`@lilydesignsystem/react-share-picker`](./lily-design-system-react-share-picker/)         | Share the page: native share sheet, else a list of destinations + copy the URL. |
 | [`@lilydesignsystem/react-date-time-picker`](./lily-design-system-react-date-time-picker/) | Collect a date, a time, or both: a typeable text field plus an APG Date Picker Dialog. |
 | [`@lilydesignsystem/react-picker-bar`](./lily-design-system-react-picker-bar/)             | Compose theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row, with all 45 reference themes and the seven-step text-size scale pre-wired. |
+| [`@lilydesignsystem/react-kanban-board`](./lily-design-system-react-kanban-board/)         | Interactive kanban board over the headless `KanbanTable` grid: pointer drag-and-drop plus a keyboard-accessible per-card "Move to…" menu, never drag-only. |
+| [`@lilydesignsystem/react-gantt-chart`](./lily-design-system-react-gantt-chart/)           | Interactive Gantt chart over the headless `GanttTable` grid: task bars as column-spanning cells, row hierarchy, milestones, and keyboard-accessible editing composed from two `date-time-picker` instances. |
 
 `picker-bar` owns no preference/action/form-value of its own — it is a
 **composition**, depending on the four wrapped pickers as real npm
@@ -24,6 +26,15 @@ packages and rendering them unmodified. `motion-picker` and
 `date-time-picker` are not included: motion has no natural spot in
 this row, and `date-time-picker` is a form control, not a header
 control. See [its spec §1](./lily-design-system-react-picker-bar/spec/index.md).
+
+`kanban-board` and `gantt-chart` are a seventh and eighth helper: both
+are interactive layers over a headless `*Table` grid family
+(`KanbanTable`, `GanttTable`) rather than preference/action/form-value
+controls in their own right. `gantt-chart` is also the first helper
+besides `picker-bar` to depend on a *sibling helper*
+(`date-time-picker`, used twice per edit session) as a real package,
+mirroring `picker-bar`'s own dependency/build-alias pattern. See each
+package's own `spec/index.md` §3 for what each composes and why.
 
 ## Conventions
 

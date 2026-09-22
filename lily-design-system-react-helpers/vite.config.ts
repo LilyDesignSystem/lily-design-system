@@ -48,6 +48,16 @@ export default defineConfig({
           import.meta.url,
         ),
       ),
+      // @lilydesignsystem/react-gantt-chart depends on this sibling helper
+      // the same way picker-bar depends on its four (a real npm
+      // `dependency`, resolved from the registry once published) — used
+      // twice per edit session, for a task's start and end date.
+      "@lilydesignsystem/react-date-time-picker": fileURLToPath(
+        new URL(
+          "./lily-design-system-react-date-time-picker/dist/index.js",
+          import.meta.url,
+        ),
+      ),
       // @lilydesignsystem/react-{theme,locale,text-size,motion,share,date-time}-picker
       // depend on the *headless* catalog's IconButton/Listbox the same way a
       // real consumer would (a regular npm `dependency`). The headless

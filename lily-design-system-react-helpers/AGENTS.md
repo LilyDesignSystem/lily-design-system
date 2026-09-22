@@ -15,6 +15,8 @@ follows the file shape in [index.md § Conventions](./index.md#conventions).
 - [`@lilydesignsystem/react-share-picker`](./lily-design-system-react-share-picker/) — native share sheet, or a disclosure list of destinations plus copy-the-URL.
 - [`@lilydesignsystem/react-date-time-picker`](./lily-design-system-react-date-time-picker/) — form control for a date, a time, or both: a typeable field plus an APG Date Picker Dialog.
 - [`@lilydesignsystem/react-picker-bar`](./lily-design-system-react-picker-bar/) — composes theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row. Owns no preference/action/form-value of its own; depends on the four wrapped pickers as real npm packages and pre-wires the 45-theme reference list and the seven-step text-size scale.
+- [`@lilydesignsystem/react-kanban-board`](./lily-design-system-react-kanban-board/) — interactive kanban board composing the headless `KanbanTable` family plus `IconButton`/`Listbox` for a per-card "Move to…" menu. WAI-ARIA APG Grid roving-tabindex; card movement is never drag-only (WCAG 2.5.7). Ports `@lilydesignsystem/svelte-kanban-board`.
+- [`@lilydesignsystem/react-gantt-chart`](./lily-design-system-react-gantt-chart/) — interactive Gantt chart composing the headless `GanttTable` family plus the sibling helper `@lilydesignsystem/react-date-time-picker` (used twice per edit session). Row hierarchy, milestones, percent-complete, today marker, finish-to-start dependencies via `aria-describedby`. Ports `@lilydesignsystem/svelte-gantt-chart`.
 
 ## Working rules
 
