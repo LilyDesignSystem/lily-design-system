@@ -25,6 +25,15 @@ import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, computed, in
  * contract and call `.focus()` on the real button — Angular has no
  * generic spread-onto-inputs mechanism (see picker-bar's own contract
  * note), so these are named inputs rather than a rest-prop spread.
+ *
+ * `tabIndex` (added for `kanban-board`/`gantt-chart`, 2026-09-22):
+ * a button composed inside a WAI-ARIA APG grid cell must not be an
+ * independent Tab stop — the grid's own roving `tabindex` is the only
+ * stop, and Enter/Space on the focused cell is what opens it. The
+ * Svelte reference achieves this with a plain rest-prop spread
+ * (`tabindex="-1"`); Angular's `IconButton` has no such mechanism, so
+ * this is a named input instead, additive and defaulting to `null`
+ * (no attribute — unchanged default behaviour).
  */
 @Component({
   selector: "lily-icon-button",
@@ -37,6 +46,7 @@ import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, computed, in
     [attr.aria-haspopup]="ariaHaspopup() || null"
     [attr.aria-expanded]="ariaExpandedAttr()"
     [attr.aria-controls]="ariaControls() || null"
+    [attr.tabindex]="tabIndex()"
     [disabled]="disabled()"
   ><ng-content /></button>`,
   host: { style: "display: contents" },
@@ -52,6 +62,8 @@ export class IconButton {
   readonly ariaHaspopup = input<string>("");
   readonly ariaExpanded = input<boolean | null>(null);
   readonly ariaControls = input<string>("");
+  /** Overrides the real button's `tabindex`. `null` (default) sets none. */
+  readonly tabIndex = input<number | null>(null);
   readonly disabled = input<boolean>(false);
 
   @ViewChild("root") private rootRef?: ElementRef<HTMLButtonElement>;
