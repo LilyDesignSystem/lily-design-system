@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>&lt;kanban-board&gt; — basic example</title>
+  <style>
+    /* This package ships no CSS. Everything below is example styling only. */
+    body { font-family: system-ui, sans-serif; margin: 2rem; }
+    .kanban-table { border-collapse: collapse; width: 100%; }
+    .kanban-table-th, .kanban-table-td { border: 1px solid #ccc; padding: 0.5rem; vertical-align: top; min-width: 12rem; }
+    .kanban-table-td[tabindex="0"] { outline: 2px solid #1a73e8; outline-offset: -2px; }
+    .kanban-table-th[data-over-limit] { background: #fdecea; }
+    .kanban-board-card-title { display: block; cursor: grab; }
+    .kanban-board-move-button { margin-top: 0.25rem; }
+    .kanban-board-move-list { list-style: none; margin: 0.25rem 0 0; padding: 0.25rem; border: 1px solid #999; background: #fff; }
+    .kanban-board-move-option[data-active] { background: #e8f0fe; }
+    .kanban-board-status { position: absolute; left: -9999px; }
+  </style>
+</head>
+<body>
+  <h1>Sprint board</h1>
+  <kanban-board label="Sprint board"></kanban-board>
+
+  <script type="module">
+    import "../index.js";
+
+    const board = document.querySelector("kanban-board");
+    board.columns = [
+      { id: "todo", title: "To Do" },
+      { id: "doing", title: "In Progress", wipLimit: 2 },
+      { id: "done", title: "Done" },
+    ];
+    board.cards = [
+      { id: "c1", columnId: "todo", title: "Write the spec" },
+      { id: "c2", columnId: "todo", title: "Review PR" },
+      { id: "c3", columnId: "doing", title: "Build the component" },
+      { id: "c4", columnId: "done", title: "Set up CI" },
+    ];
+    board.labels = {
+      cardCount: (n) => `${n} card${n === 1 ? "" : "s"}`,
+      overLimit: (n, limit) => `Over limit: ${n}/${limit}`,
+      moveButton: (card) => `Move ${card.title}`,
+      moveMenuLabel: "Move to column",
+      moveAnnouncement: (title, column) => `${title} moved to ${column}`,
+    };
+    board.addEventListener("movecard", (event) => {
+      const { cardId, toColumnId } = event.detail;
+      board.cards = board.cards.map((c) => (c.id === cardId ? { ...c, columnId: toColumnId } : c));
+    });
+  </script>
+</body>
+</html>

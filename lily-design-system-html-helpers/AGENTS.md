@@ -17,6 +17,8 @@ Each helper follows the file shape in
 - [`@lilydesignsystem/html-share-picker`](./lily-design-system-html-share-picker/) — `<share-picker>` native-sheet / disclosure share control.
 - [`@lilydesignsystem/html-date-time-picker`](./lily-design-system-html-date-time-picker/) — `<date-time-picker>` WAI-ARIA APG date/time picker dialog.
 - [`@lilydesignsystem/html-picker-bar`](./lily-design-system-html-picker-bar/) — `<picker-bar>` composes theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row. Owns no preference/action/form-value of its own; depends on the four wrapped elements as real npm packages and pre-wires the 45-theme reference list and the seven-step text-size scale.
+- [`@lilydesignsystem/html-kanban-board`](./lily-design-system-html-kanban-board/) — `<kanban-board>` builds the `kanban-table` markup contract by hand (no headless JS class exists for it in this catalog) plus composes `ListboxController` for a per-card "Move to…" menu. WAI-ARIA APG Grid roving-tabindex; card movement is never drag-only (WCAG 2.5.7). Ports `@lilydesignsystem/svelte-kanban-board`.
+- [`@lilydesignsystem/html-gantt-chart`](./lily-design-system-html-gantt-chart/) — `<gantt-chart>` builds the `gantt-table` markup contract by hand plus composes the sibling `<date-time-picker>` (used twice per edit session). Row hierarchy, milestones, percent-complete, today marker, finish-to-start dependencies via `aria-describedby`. Ports `@lilydesignsystem/svelte-gantt-chart`.
 
 ## Working rules
 

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>&lt;gantt-chart&gt; — basic example</title>
+  <style>
+    /* This package ships no CSS. Everything below is example styling only. */
+    body { font-family: system-ui, sans-serif; margin: 2rem; }
+    .gantt-table { border-collapse: collapse; }
+    .gantt-table-th, .gantt-table-td { border: 1px solid #ccc; padding: 0.25rem 0.4rem; text-align: center; min-width: 1.6rem; }
+    .gantt-table-th[scope="row"] { text-align: left; white-space: nowrap; }
+    .gantt-table-td[tabindex="0"] { outline: 2px solid #1a73e8; outline-offset: -2px; }
+    .gantt-table-th[data-today], .gantt-table-td[data-today] { background: #fff8e1; }
+    .gantt-table-td[data-in-range] { background: #e8f0fe; }
+    .gantt-table-td[data-milestone] { background: #d1c4e9; }
+    .gantt-chart-bar[data-percent-complete] { display: block; height: 0.4rem; background: #1a73e8; }
+    .gantt-chart-edit-row td { padding: 0.5rem; background: #fafafa; }
+    .gantt-chart-status { position: absolute; left: -9999px; }
+  </style>
+</head>
+<body>
+  <h1>Q4 plan</h1>
+  <gantt-chart label="Q4 plan"></gantt-chart>
+
+  <script type="module">
+    import "../index.js";
+
+    const chart = document.querySelector("gantt-chart");
+    chart.range = { start: "2026-10-01", end: "2026-10-14" };
+    chart.today = "2026-10-05";
+    chart.tasks = [
+      { id: "design", label: "Design", start: "2026-10-01", end: "2026-10-03" },
+      { id: "build", label: "Build", start: "2026-10-04", end: "2026-10-10", dependsOn: ["design"], percentComplete: 40 },
+      { id: "launch", label: "Launch", start: "2026-10-14", end: "2026-10-14" },
+    ];
+    chart.labels = {
+      columnLabel: (start) => start.slice(-2),
+      startLabel: "Start date",
+      endLabel: "End date",
+      dateTimePickerLabels: {
+        previousYear: "Previous year", previousMonth: "Previous month",
+        previousWeek: "Previous week", previousDay: "Previous day",
+        nextDay: "Next day", nextWeek: "Next week",
+        nextMonth: "Next month", nextYear: "Next year",
+        confirm: "Confirm", cancel: "Cancel",
+      },
+      saveLabel: "Save",
+      cancelLabel: "Cancel",
+      dependencySummary: (preds) => `Blocked by: ${preds.join(", ")}`,
+      dateAnnouncement: (title, start, end) => `${title} moved to ${start} – ${end}`,
+      collapseButton: (task, collapsed) => (collapsed ? `Expand ${task.label}` : `Collapse ${task.label}`),
+    };
+    chart.addEventListener("taskchange", (event) => {
+      const { taskId, start, end } = event.detail;
+      chart.tasks = chart.tasks.map((t) => (t.id === taskId ? { ...t, start, end } : t));
+    });
+  </script>
+</body>
+</html>

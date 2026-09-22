@@ -40,6 +40,17 @@ export default defineConfig({
           import.meta.url,
         ),
       ),
+      // @lilydesignsystem/html-gantt-chart depends on
+      // @lilydesignsystem/html-date-time-picker as a real npm
+      // `dependency` (composed twice per edit session), resolved from
+      // the registry once published. Same local-dev/test-only aliasing
+      // as the four picker-bar siblings above.
+      "@lilydesignsystem/html-date-time-picker": fileURLToPath(
+        new URL(
+          "./lily-design-system-html-date-time-picker/dist/index.js",
+          import.meta.url,
+        ),
+      ),
       // @lilydesignsystem/html-theme-picker (and the other migrated
       // pickers) depend on the *headless* catalog's ListboxController —
       // a real npm `dependency`, resolved from the registry once
