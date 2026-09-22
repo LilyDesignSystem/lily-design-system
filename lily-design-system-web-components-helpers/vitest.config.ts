@@ -42,6 +42,15 @@ export default defineConfig({
           import.meta.url,
         ),
       ),
+      // @lilydesignsystem/web-components-gantt-chart composes
+      // date-time-picker twice per edit session (start/end) — the same
+      // local-dev/test-only aliasing as the picker-bar deps above.
+      "@lilydesignsystem/web-components-date-time-picker": fileURLToPath(
+        new URL(
+          "./lily-design-system-web-components-date-time-picker/dist/index.js",
+          import.meta.url,
+        ),
+      ),
       // The pickers now depend on the *headless* catalog's <lily-icon-button>
       // for their trigger button (see its CHANGELOG entry, 2026-09-21) — the
       // first cross-catalog dependency here, same shape as the sibling

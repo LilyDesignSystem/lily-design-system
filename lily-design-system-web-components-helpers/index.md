@@ -35,6 +35,17 @@ listbox.
 | [`@lilydesignsystem/web-components-share-picker`](./lily-design-system-web-components-share-picker/)         | `<lily-share-picker>`     | Share the page: native share sheet, or a disclosure list of your destinations + copy the URL. |
 | [`@lilydesignsystem/web-components-date-time-picker`](./lily-design-system-web-components-date-time-picker/) | `<lily-date-time-picker>` | Pick a date, a time, or both: a typeable field plus a WAI-ARIA APG Date Picker Dialog. |
 | [`@lilydesignsystem/web-components-picker-bar`](./lily-design-system-web-components-picker-bar/)             | `<lily-picker-bar>`       | Compose theme, locale, text-size, and share pickers into one page-header row, with all 45 reference themes and the seven-step text-size scale pre-wired. |
+| [`@lilydesignsystem/web-components-kanban-board`](./lily-design-system-web-components-kanban-board/)         | `<lily-kanban-board>`     | Interactive kanban board over the headless `<lily-kanban-table>`: pointer drag-and-drop plus a keyboard-accessible per-card "Move to…" menu, never drag-only. |
+| [`@lilydesignsystem/web-components-gantt-chart`](./lily-design-system-web-components-gantt-chart/)           | `<lily-gantt-chart>`      | Interactive Gantt chart over the headless `<lily-gantt-table>`: task bars as column-spanning cells, row hierarchy, milestones, and keyboard-accessible editing composed from two `<lily-date-time-picker>` instances. |
+
+`<lily-kanban-board>` and `<lily-gantt-chart>` are a seventh and eighth
+helper: both are interactive layers over a headless `<lily-*-table>`
+grid rather than preference/action/form-value controls in their own
+right. `<lily-gantt-chart>` is also the first helper besides
+`<lily-picker-bar>` to depend on a *sibling helper*
+(`<lily-date-time-picker>`, used twice per edit session) as a real
+package. See each package's own `spec/index.md` §3 for what each
+composes and why.
 
 `<lily-picker-bar>` is different again from the three shapes above: it
 owns no preference, action, or form value of its own. It is a

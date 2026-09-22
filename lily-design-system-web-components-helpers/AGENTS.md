@@ -24,6 +24,8 @@ Each helper follows the file shape in
 - [`@lilydesignsystem/web-components-share-picker`](./lily-design-system-web-components-share-picker/) — `<lily-share-picker>` native-sheet / disclosure share control.
 - [`@lilydesignsystem/web-components-date-time-picker`](./lily-design-system-web-components-date-time-picker/) — `<lily-date-time-picker>` WAI-ARIA APG date/time picker dialog.
 - [`@lilydesignsystem/web-components-picker-bar`](./lily-design-system-web-components-picker-bar/) — `<lily-picker-bar>` composes theme/locale/text-size/share pickers into one page-header row. Owns no preference/action/form-value of its own; depends on the four wrapped pickers as real npm packages and pre-wires the 45-theme reference list and the seven-step text-size scale.
+- [`@lilydesignsystem/web-components-kanban-board`](./lily-design-system-web-components-kanban-board/) — `<lily-kanban-board>` composes the headless `<lily-kanban-table>` (with `role="grid"` set explicitly — it defaults to `role="region"`) plus `<lily-icon-button>` for a per-card "Move to…" menu. WAI-ARIA APG Grid roving-tabindex; card movement is never drag-only (WCAG 2.5.7). Ports `@lilydesignsystem/svelte-kanban-board`.
+- [`@lilydesignsystem/web-components-gantt-chart`](./lily-design-system-web-components-gantt-chart/) — `<lily-gantt-chart>` composes the headless `<lily-gantt-table>` plus the sibling `<lily-date-time-picker>` (used twice per edit session). Row hierarchy, milestones, percent-complete, today marker, finish-to-start dependencies via `aria-describedby`. Ports `@lilydesignsystem/svelte-gantt-chart`.
 
 ## Working rules
 

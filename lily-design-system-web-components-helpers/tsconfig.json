@@ -12,7 +12,9 @@
       "@lilydesignsystem/web-components-theme-picker": ["./lily-design-system-web-components-theme-picker/dist/index.d.ts"],
       "@lilydesignsystem/web-components-locale-picker": ["./lily-design-system-web-components-locale-picker/dist/index.d.ts"],
       "@lilydesignsystem/web-components-text-size-picker": ["./lily-design-system-web-components-text-size-picker/dist/index.d.ts"],
-      "@lilydesignsystem/web-components-share-picker": ["./lily-design-system-web-components-share-picker/dist/index.d.ts"]
+      "@lilydesignsystem/web-components-share-picker": ["./lily-design-system-web-components-share-picker/dist/index.d.ts"],
+      "@lilydesignsystem/web-components-date-time-picker": ["./lily-design-system-web-components-date-time-picker/dist/index.d.ts"],
+      "@lilydesignsystem/web-components-headless": ["../lily-design-system-web-components-headless/dist/index.d.ts"]
     }
   }
 }

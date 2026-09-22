@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>lily-kanban-board — basic example</title>
+  </head>
+  <body>
+    <lily-kanban-board id="board" label="Sprint board"></lily-kanban-board>
+
+    <script type="module">
+      import "../index.js";
+
+      const board = document.getElementById("board");
+
+      board.columns = [
+        { id: "todo", title: "To Do" },
+        { id: "doing", title: "In Progress", wipLimit: 3 },
+        { id: "done", title: "Done" },
+      ];
+
+      board.cards = [
+        { id: "c1", columnId: "todo", title: "Write the RFC" },
+        { id: "c2", columnId: "todo", title: "Draft the tests" },
+        { id: "c3", columnId: "doing", title: "Review the RFC" },
+      ];
+
+      board.labels = {
+        cardCount: (n) => `${n} card${n === 1 ? "" : "s"}`,
+        overLimit: (n, limit) => `Over limit: ${n}/${limit}`,
+        moveButton: (card) => `Move "${card.title}"`,
+        moveMenuLabel: "Move to column",
+        moveAnnouncement: (title, column) => `${title} moved to ${column}`,
+      };
+
+      board.onMove = (cardId, toColumnId) => {
+        board.cards = board.cards.map((c) => (c.id === cardId ? { ...c, columnId: toColumnId } : c));
+      };
+    </script>
+  </body>
+</html>
