@@ -1,0 +1,144 @@
+@namespace LilyDesignSystem.Blazor.Helpers
+@using LilyBlazorHeadless.Components
+
+@*
+    KanbanBoard — Blazor helper component.
+    Single source of truth: spec/index.md (§1-§10).
+
+    Composes the headless KanbanTable family (table/thead/tbody/row/th/td)
+    unmodified, plus IconButton/Listbox for a per-card "Move to..." menu —
+    the same composition shape theme-picker et al. use for their own
+    trigger-button-opens-listbox popup, anchored to a grid cell instead of
+    a page header. WAI-ARIA APG Grid roving-tabindex keyboard model,
+    hand-rolled (no headless data-grid exists yet in this catalog to reuse
+    it from) via AdditionalAttributes splatting: tabindex/aria-selected/
+    role are NOT parameters KanbanTableTD exposes, so they are set as
+    ordinary unmatched attributes that flow through its own
+    `@attributes="AdditionalAttributes"`.
+
+    KanbanTable/KanbanTableBody/KanbanTableTD hardcode role="region" /
+    role="list" / role="listitem" respectively (this catalog's headless
+    family predates the WAI-ARIA Grid pattern this component needs) — all
+    three are overridden to role="grid" / role="rowgroup" / role="gridcell"
+    here via the same attribute-splat mechanism, relying on Blazor's
+    documented last-attribute-wins merge order (the explicit role in each
+    headless component's own markup appears BEFORE its own
+    `@attributes="AdditionalAttributes"`, so a caller-supplied `role` in
+    AdditionalAttributes always wins). No modification to the headless
+    components themselves. See CHANGELOG.md for the full reasoning.
+*@
+
+<div id="@RootId" class="@RootClass" @attributes="AdditionalAttributes">
+    <KanbanTable Label="@Label" role="grid" @onkeydown="OnGridKeyDown">
+        @if (!string.IsNullOrEmpty(Caption))
+        {
+            @* KanbanTable has no built-in caption slot; a literal <caption>
+               as the table's first child is valid HTML and needs no
+               modification to the headless component. *@
+            <caption>@Caption</caption>
+        }
+        <KanbanTableHead>
+            <KanbanTableRow>
+                @{ var byColumnHead = CardsByColumn; }
+                @foreach (var column in Columns)
+                {
+                    var count = byColumnHead.TryGetValue(column.Id, out var headList) ? headList.Count : 0;
+                    var overLimit = column.WipLimit is { } limit && count > limit;
+                    <KanbanTableTH scope="col" data-over-limit="@(overLimit ? "" : null)">
+                        @column.Title
+                        @if (Labels.CardCount is not null)
+                        {
+                            <span class="kanban-board-count">@Labels.CardCount(count)</span>
+                        }
+                        @if (overLimit && Labels.OverLimit is not null)
+                        {
+                            <span class="kanban-board-wip-warning">@Labels.OverLimit(count, column.WipLimit ?? 0)</span>
+                        }
+                    </KanbanTableTH>
+                }
+            </KanbanTableRow>
+        </KanbanTableHead>
+        <KanbanTableBody role="rowgroup">
+            @{
+                var byColumn = CardsByColumn;
+                var maxRows = MaxRows(byColumn);
+            }
+            @for (var rowIndex = 0; rowIndex < maxRows; rowIndex++)
+            {
+                var row = rowIndex;
+                <KanbanTableRow>
+                    @for (var colIndex = 0; colIndex < Columns.Count; colIndex++)
+                    {
+                        var col = colIndex;
+                        var column = Columns[col];
+                        var card = CardAt(Columns, byColumn, col, row);
+                        var isActive = _focusedRow == row && _focusedCol == col;
+                        <KanbanTableTD id="@CellId(row, col)"
+                                       role="gridcell"
+                                       data-row="@row"
+                                       data-col="@col"
+                                       tabindex="@(isActive ? "0" : "-1")"
+                                       aria-selected="@(isActive ? "true" : "false")"
+                                       Label="@(card is not null ? ResolveCardLabel(card) : null)"
+                                       @ondragover:preventDefault="true"
+                                       @ondrop="@(e => OnColumnDropAsync(column, e))">
+                            @if (card is not null)
+                            {
+                                var currentCard = card;
+                                @* The card title is a supplementary pointer-drag handle
+                                   inside an already-interactive gridcell (role comes
+                                   from the parent KanbanTableTD); dragstart here is one
+                                   of two equally-real move paths, not the accessible
+                                   one — see the move-button/listbox below for that. *@
+                                <span class="kanban-board-card-title"
+                                      draggable="true"
+                                      @ondragstart="@(e => OnCardDragStart(currentCard, e))">
+                                    @ResolveCardLabel(currentCard)
+                                </span>
+                                <IconButton @ref="_moveButtonComponents[currentCard.Id]"
+                                            BaseCssClass="kanban-board-move-button"
+                                            Label="@(Labels.MoveButton?.Invoke(currentCard) ?? "")"
+                                            tabindex="-1"
+                                            aria-haspopup="listbox"
+                                            aria-expanded="@(_openCardId == currentCard.Id ? "true" : "false")"
+                                            @onclick="@(() => OnMoveButtonClickAsync(currentCard))">
+                                    &#8644;
+                                </IconButton>
+                                @if (_openCardId == currentCard.Id)
+                                {
+                                    <Listbox @ref="_listComponent"
+                                             Label="@(Labels.MoveMenuLabel ?? "")"
+                                             BaseCssClass="kanban-board-move-list"
+                                             Navigation="@Listbox.ActiveDescendant"
+                                             Clamp="true"
+                                             OptionCount="@Columns.Count"
+                                             OptionId="@MoveOptionId"
+                                             @bind-ActiveIndex="_moveActiveIndex"
+                                             OnActivate="@(i => MoveCardAsync(currentCard, Columns[i]))"
+                                             OnEscape="@(() => CloseMoveMenuAsync())"
+                                             OnTabOut="@(() => CloseMoveMenuAsync(false))">
+                                        @for (var i = 0; i < Columns.Count; i++)
+                                        {
+                                            var destinationIndex = i;
+                                            var destination = Columns[destinationIndex];
+                                            <li class="kanban-board-move-option"
+                                                id="@MoveOptionId(destinationIndex)"
+                                                role="option"
+                                                aria-selected="@(destination.Id == currentCard.ColumnId ? "true" : "false")"
+                                                data-active="@(destinationIndex == _moveActiveIndex ? "" : null)"
+                                                @onclick="@(() => MoveCardAsync(currentCard, destination))">
+                                                @destination.Title
+                                            </li>
+                                        }
+                                    </Listbox>
+                                }
+                            }
+                        </KanbanTableTD>
+                    }
+                </KanbanTableRow>
+            }
+        </KanbanTableBody>
+    </KanbanTable>
+
+    <p class="kanban-board-status" aria-live="polite">@_statusMessage</p>
+</div>

@@ -1,0 +1,149 @@
+@namespace LilyDesignSystem.Blazor.Helpers
+@using LilyBlazorHeadless.Components
+
+@*
+    GanttChart — Blazor helper component.
+    Single source of truth: spec/index.md (§1-§10).
+
+    Composes the headless GanttTable family (table/thead/tbody/tr/th/td)
+    unmodified, plus the SIBLING DateTimePicker helper — used twice per
+    edit session, once for a task's start date and once for its end —
+    for keyboard-accessible date editing. WAI-ARIA APG Grid
+    roving-tabindex keyboard model, hand-rolled via AdditionalAttributes
+    splatting, matching KanbanBoard's own approach (no headless data-grid
+    exists yet in this catalog to reuse it from).
+
+    IMPORTANT FINDING (see CHANGELOG.md for the full write-up): the
+    Svelte reference's spec anticipated that the headless GanttTableTD
+    might expose its own `active` prop overloaded to mean "cell is
+    within the task's span" (a real conflict its own headless catalog
+    had). This catalog's actual GanttTableTD.razor has NO such
+    parameter at all — no `Active`, no roving-tabindex concept of any
+    kind, only Label/CssClass/ChildContent/AdditionalAttributes. So
+    there is no overload to avoid; `data-in-range` (span membership) and
+    `tabindex`/`aria-selected` (the roving-tabindex cursor) are both
+    just ordinary attributes passed through AdditionalAttributes, kept
+    conceptually distinct exactly as the Svelte contract requires.
+
+    A REAL bug was found instead: GanttTableTD.razor hardcodes
+    `role="grid"` on its own `<td>` element — invalid ARIA (a grid
+    cell's implicit/expected role is "gridcell", not "grid" nested
+    inside a grid). Not modified (per this task's instructions); instead
+    overridden per-cell to `role="gridcell"` via the same attribute-splat
+    last-value-wins mechanism KanbanBoard uses for KanbanTable's
+    role="region"/"list"/"listitem".
+*@
+
+<div id="@RootId" class="@RootClass" @attributes="AdditionalAttributes">
+    <GanttTable Label="@Label" @onkeydown="OnGridKeyDown">
+        @if (!string.IsNullOrEmpty(Caption))
+        {
+            <caption>@Caption</caption>
+        }
+        <GanttTableThead>
+            <GanttTableTr>
+                <GanttTableTH scope="col"></GanttTableTH>
+                @foreach (var column in Columns)
+                {
+                    var isColumnToday = Today is not null && RangesOverlap(column.Start, column.End, Today, Today);
+                    <GanttTableTH scope="col" data-today="@(isColumnToday ? "" : null)">
+                        @(Labels.ColumnLabel?.Invoke(column.Start, column.End, TimeUnit) ?? column.Start)
+                    </GanttTableTH>
+                }
+            </GanttTableTr>
+        </GanttTableThead>
+        <GanttTableTbody role="rowgroup">
+            @{
+                var rows = Rows;
+                var columns = Columns;
+            }
+            @for (var rowIndex = 0; rowIndex < rows.Count; rowIndex++)
+            {
+                var row = rows[rowIndex];
+                var rowNum = rowIndex;
+                var range = RangeFor(row.Task, row.HasChildren);
+                var deps = PredecessorLabels(row.Task);
+                <GanttTableTr>
+                    <GanttTableTH scope="row" style="@($"padding-inline-start: {row.Depth}em")">
+                        @if (row.HasChildren)
+                        {
+                            var collapsibleTask = row.Task;
+                            var isCollapsed = _collapsed.Contains(collapsibleTask.Id);
+                            <button type="button"
+                                    class="gantt-chart-collapse-button"
+                                    aria-expanded="@(!isCollapsed ? "true" : "false")"
+                                    aria-label="@(Labels.CollapseButton?.Invoke(collapsibleTask, isCollapsed) ?? "")"
+                                    @onclick="@(() => ToggleCollapse(collapsibleTask.Id))">
+                                @(isCollapsed ? "▸" : "▾")
+                            </button>
+                        }
+                        @ResolveTaskLabel(row.Task)
+                        @if (deps.Count > 0 && Labels.DependencySummary is not null)
+                        {
+                            <span id="@DependencyId(row.Task.Id)" class="gantt-chart-dependency-summary" hidden>
+                                @Labels.DependencySummary(deps)
+                            </span>
+                        }
+                    </GanttTableTH>
+                    @for (var colIndex = 0; colIndex < columns.Count; colIndex++)
+                    {
+                        var colNum = colIndex;
+                        var column = columns[colNum];
+                        var inRange = RangesOverlap(column.Start, column.End, range.Start, range.End);
+                        var isMilestone = inRange && range.Start == range.End;
+                        var isCellToday = Today is not null && RangesOverlap(column.Start, column.End, Today, Today);
+                        var isLeadingCell = inRange && RangesOverlap(column.Start, column.End, range.Start, range.Start);
+                        var hasDescribedBy = deps.Count > 0 && Labels.DependencySummary is not null;
+                        var isActiveCell = _focusedRow == rowNum && _focusedCol == colNum;
+                        var currentTask = row.Task;
+                        var hasChildrenForCell = row.HasChildren;
+                        <GanttTableTD id="@CellId(rowNum, colNum)"
+                                      role="gridcell"
+                                      data-row="@rowNum"
+                                      data-col="@colNum"
+                                      tabindex="@(isActiveCell ? "0" : "-1")"
+                                      aria-selected="@(isActiveCell ? "true" : "false")"
+                                      data-in-range="@(inRange ? "" : null)"
+                                      data-milestone="@(isMilestone ? "" : null)"
+                                      data-today="@(isCellToday ? "" : null)"
+                                      aria-describedby="@(hasDescribedBy ? DependencyId(currentTask.Id) : null)"
+                                      @ondragover:preventDefault="true"
+                                      @ondrop="@(e => OnCellDropAsync(column, e))">
+                            @if (isLeadingCell)
+                            {
+                                <span class="gantt-chart-bar"
+                                      data-percent-complete="@(currentTask.PercentComplete?.ToString() ?? null)"
+                                      draggable="@(!hasChildrenForCell ? "true" : null)"
+                                      @ondragstart="@(e => OnBarDragStart(currentTask, e))"></span>
+                            }
+                        </GanttTableTD>
+                    }
+                </GanttTableTr>
+                @if (_editingTaskId == row.Task.Id && Labels.DateTimePickerLabels is not null)
+                {
+                    var editingTask = row.Task;
+                    <tr class="gantt-chart-edit-row">
+                        <td colspan="@(columns.Count + 1)">
+                            <DateTimePicker Label="@(Labels.StartLabel ?? "")"
+                                             Labels="@Labels.DateTimePickerLabels"
+                                             Mode="DateTimeMode.Date"
+                                             @bind-Value="_editStart" />
+                            <DateTimePicker Label="@(Labels.EndLabel ?? "")"
+                                             Labels="@Labels.DateTimePickerLabels"
+                                             Mode="DateTimeMode.Date"
+                                             @bind-Value="_editEnd" />
+                            <button type="button" class="gantt-chart-save-button" @onclick="@(() => SaveEditAsync(editingTask))">
+                                @(Labels.SaveLabel ?? "")
+                            </button>
+                            <button type="button" class="gantt-chart-cancel-button" @onclick="CancelEdit">
+                                @(Labels.CancelLabel ?? "")
+                            </button>
+                        </td>
+                    </tr>
+                }
+            }
+        </GanttTableTbody>
+    </GanttTable>
+
+    <p class="gantt-chart-status" aria-live="polite">@_statusMessage</p>
+</div>

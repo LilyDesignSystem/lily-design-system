@@ -17,6 +17,17 @@ DOM application) for one small, common job.
 | [`lily-design-system-blazor-share-picker`](./lily-design-system-blazor-share-picker/)         | Share the page: native share sheet, else a list of destinations + copy the URL. |
 | [`lily-design-system-blazor-date-time-picker`](./lily-design-system-blazor-date-time-picker/) | Pick a date, a time, or both: a text field + button opening a WAI-ARIA APG Date Picker Dialog. |
 | [`lily-design-system-blazor-picker-bar`](./lily-design-system-blazor-picker-bar/)             | Compose theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row, with all 45 reference themes and the seven-step text-size scale pre-wired. |
+| [`lily-design-system-blazor-kanban-board`](./lily-design-system-blazor-kanban-board/)         | Interactive kanban board over the headless `KanbanTable` grid: pointer drag-and-drop plus a keyboard-accessible per-card "Move to…" menu, never drag-only. |
+| [`lily-design-system-blazor-gantt-chart`](./lily-design-system-blazor-gantt-chart/)           | Interactive Gantt chart over the headless `GanttTable` grid: task bars as column-spanning cells, row hierarchy, milestones, and keyboard-accessible editing composed from two `date-time-picker` instances. |
+
+`kanban-board` and `gantt-chart` are an eighth and ninth helper: both
+are interactive layers over a headless `*Table` grid family
+(`KanbanTable`, `GanttTable`) rather than preference/action/form-value
+controls in their own right. `gantt-chart` is also the first helper
+besides `picker-bar` to depend on a *sibling helper*
+(`date-time-picker`, used twice per edit session) via `ProjectReference`.
+See each package's own `spec/index.md` §3 for what each composes and
+why.
 
 ## Conventions
 

@@ -1,0 +1,68 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>LilyDesignSystem.Blazor.Helpers</RootNamespace>
+    <AssemblyName>LilyDesignSystem.Blazor.GanttChart</AssemblyName>
+    <PackageId>LilyDesignSystem.Blazor.GanttChart</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>Joel Parker Henderson</Authors>
+    <Description>Lily Design System Blazor Gantt chart: a keyboard-accessible Gantt chart composing the headless GanttTable family plus the sibling DateTimePicker helper (twice per edit session) for start/end date editing. Row hierarchy, milestones, percent-complete, today marker, finish-to-start dependency data. Headless, SSR-safe, no CSS.</Description>
+    <PackageProjectUrl>https://lilydesignsystem.com/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/LilyDesignSystem/lily-design-system-blazor-helpers</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>lily;design-system;blazor;headless;accessibility;wcag;aria;a11y;gantt</PackageTags>
+    <PackageLicenseExpression>MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause</PackageLicenseExpression>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <NoWarn>CS1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <!-- NuGet renders this on the package page. README.md is a symlink to
+       index.md, matching the convention every Lily subproject uses;
+       PackagePath puts it at the package root, where PackageReadmeFile
+       expects to find it. -->
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <!-- Tests, examples, and docs are not part of the published package. -->
+  <ItemGroup>
+    <Compile Remove="**/*Tests.cs" />
+    <Compile Remove="examples/**/*.cs" />
+    <Content Remove="examples/**" />
+    <Content Remove="docs/**" />
+    <None Remove="examples/**" />
+    <None Remove="docs/**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.12" />
+  </ItemGroup>
+
+  <!-- Real dependencies, not vendored markup: the headless GanttTable
+       family (matching data-grid's/kanban-board's relationship to their
+       own headless table families), and the SIBLING date-time-picker
+       helper, used twice per edit session (start date, end date) — the
+       same ProjectReference-to-a-sibling-package pattern picker-bar
+       established for composing other *helpers* from this same catalog.
+       ProjectReference rather than PackageReference: this repo builds and
+       tests the whole catalog from source, and `dotnet pack` turns a
+       ProjectReference into a real NuGet <dependency> automatically. -->
+  <ItemGroup>
+    <ProjectReference Include="..\..\lily-design-system-blazor-headless\src\LilyBlazorHeadless\LilyBlazorHeadless.csproj" />
+    <ProjectReference Include="..\lily-design-system-blazor-date-time-picker\LilyDesignSystem.Blazor.DateTimePicker.csproj" />
+  </ItemGroup>
+
+  <!-- The helper test project exercises internal static/instance helpers directly. -->
+  <ItemGroup>
+    <InternalsVisibleTo Include="LilyDesignSystem.Blazor.Helpers.Tests" />
+  </ItemGroup>
+
+</Project>
