@@ -43,6 +43,15 @@ export default defineConfig({
           import.meta.url,
         ),
       ),
+      // @lilydesignsystem/svelte-gantt-chart depends on this sibling helper
+      // twice (start date, end date) for its own keyboard-accessible edit
+      // surface, the same "depend on, don't vendor" rule as the four above.
+      "@lilydesignsystem/svelte-date-time-picker": fileURLToPath(
+        new URL(
+          "./lily-design-system-svelte-date-time-picker/dist/index.js",
+          import.meta.url,
+        ),
+      ),
       // @lilydesignsystem/svelte-data-grid depends on the *headless*
       // catalog's DataTable family the same way a real consumer would (a
       // regular npm `dependency`, resolved from the registry once
