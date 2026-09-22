@@ -18,6 +18,8 @@ DOM application) for one small, common job.
 | [`@lilydesignsystem/angular-share-picker`](./lily-design-system-angular-share-picker/)         | Share the page: native share sheet where available, else a list of consumer-supplied destinations plus copy-the-URL. |
 | [`@lilydesignsystem/angular-date-time-picker`](./lily-design-system-angular-date-time-picker/) | Pick a date, a time, or both: a typeable text field plus an icon button opening a WAI-ARIA APG Date Picker Dialog. |
 | [`@lilydesignsystem/angular-picker-bar`](./lily-design-system-angular-picker-bar/) | Compose theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row, with all 45 reference themes and the seven-step text-size scale pre-wired. |
+| [`@lilydesignsystem/angular-kanban-board`](./lily-design-system-angular-kanban-board/) | Interactive kanban board over the headless `KanbanTable` grid: pointer drag-and-drop plus a keyboard-accessible per-card "Move to…" menu, never drag-only. |
+| [`@lilydesignsystem/angular-gantt-chart`](./lily-design-system-angular-gantt-chart/) | Interactive Gantt chart over the headless `GanttTable` grid: task bars as column-spanning cells, row hierarchy, milestones, and keyboard-accessible editing composed from two `date-time-picker` instances. |
 
 `date-time-picker` is a fifth helper, listed after the other four because
 it does not fit their columns: it is a **form-value control**, not a
@@ -32,6 +34,15 @@ defaults (all 45 reference themes; the seven-step text-size scale).
 `motion-picker` has no natural spot in that row; `date-time-picker` is
 a form control, not a header control. See
 [its spec §1](./lily-design-system-angular-picker-bar/spec/index.md).
+
+`kanban-board` and `gantt-chart` are a seventh and eighth: both are
+interactive layers over a headless `*Table` grid family (`KanbanTable`,
+`GanttTable`) rather than preference/action/form-value controls in
+their own right. `gantt-chart` is also the first helper besides
+`picker-bar` to depend on a *sibling helper* (`date-time-picker`, used
+twice per edit session) as a real package, mirroring `picker-bar`'s own
+dependency/build-alias pattern. See each package's own `spec/index.md`
+§3 for what each composes and why.
 
 ## Conventions
 

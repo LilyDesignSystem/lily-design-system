@@ -24,6 +24,7 @@
       "@lilydesignsystem/angular-locale-picker": ["./lily-design-system-angular-locale-picker/dist/types/lilydesignsystem-angular-locale-picker.d.ts"],
       "@lilydesignsystem/angular-text-size-picker": ["./lily-design-system-angular-text-size-picker/dist/types/lilydesignsystem-angular-text-size-picker.d.ts"],
       "@lilydesignsystem/angular-share-picker": ["./lily-design-system-angular-share-picker/dist/types/lilydesignsystem-angular-share-picker.d.ts"],
+      "@lilydesignsystem/angular-date-time-picker": ["./lily-design-system-angular-date-time-picker/dist/types/lilydesignsystem-angular-date-time-picker.d.ts"],
       "@lilydesignsystem/angular-headless": ["../lily-design-system-angular-headless/dist/types/lilydesignsystem-angular-headless.d.ts"]
     }
   },

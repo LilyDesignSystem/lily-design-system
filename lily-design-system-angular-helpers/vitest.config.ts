@@ -65,6 +65,16 @@ export default defineConfig({
           import.meta.url,
         ),
       ),
+      // @lilydesignsystem/angular-gantt-chart depends on this sibling
+      // helper the same way picker-bar depends on its own four siblings
+      // (see the note above) — used twice per edit session, for a
+      // task's start and end date.
+      "@lilydesignsystem/angular-date-time-picker": fileURLToPath(
+        new URL(
+          "./lily-design-system-angular-date-time-picker/dist/fesm2022/lilydesignsystem-angular-date-time-picker.mjs",
+          import.meta.url,
+        ),
+      ),
       // @lilydesignsystem/angular-theme-picker (and the other migrated
       // pickers) depend on the *headless* catalog's IconButton/Listbox
       // the same way a real consumer would (a regular npm `dependency`,
