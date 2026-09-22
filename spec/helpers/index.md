@@ -6,7 +6,7 @@
 
 ## Scope
 
-This topic covers the eight `*-helpers` catalogs (angular, blazor, html, nunjucks, react, svelte, vue, web-components), the seven helpers each one now contains (theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker, picker-bar), their behaviour contracts, how helpers differ from the headless layer, the canonical-reference role of the svelte-helpers catalog, the per-package manifest convention (npm `package.json` vs. NuGet `.csproj` for Blazor), the dist/publish pipeline (`build.js`, `bin/publish-helpers`), and the per-helper subtree/remote layout. It also documents an eighth helper, `data-grid` (see §"data-grid contract" below), specced first per this topic's own "Spec-driven" principle and now implemented in the canonical `svelte-helpers` catalog (2026-09-21); the other seven catalogs do not port it yet.
+This topic covers the eight `*-helpers` catalogs (angular, blazor, html, nunjucks, react, svelte, vue, web-components), the seven helpers each one now contains (theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker, picker-bar), their behaviour contracts, how helpers differ from the headless layer, the canonical-reference role of the svelte-helpers catalog, the per-package manifest convention (npm `package.json` vs. NuGet `.csproj` for Blazor), the dist/publish pipeline (`build.js`, `bin/publish-helpers`), and the per-helper subtree/remote layout. It also documents an eighth helper, `data-grid` (see §"data-grid contract" below), specced first per this topic's own "Spec-driven" principle and now implemented in the canonical `svelte-helpers` catalog (2026-09-21); the other seven catalogs do not port it yet. A ninth, `kanban-board` (see §"kanban-board contract" below), and a tenth, `gantt-chart` (see §"gantt-chart contract" below — the first helper to compose another *helper*, `date-time-picker`, rather than only headless components), are likewise now implemented in the canonical `svelte-helpers` catalog only (2026-09-22); the other seven catalogs do not port either yet.
 
 It does **not** cover: the headless 491-component catalog and its rules (see [headless](../headless/index.md) and [components](../components/index.md)), the seven framework pairs and their stacks (see [frameworks](../frameworks/index.md)), theme-CSS tokens and `data-theme` semantics (see [theme](../theme/index.md)), or the `lang`/`dir` internationalisation contract (see [internationalization](../internationalization/index.md)).
 
@@ -292,6 +292,147 @@ layer) before writing the table above:
 - [AG Grid: Accessibility](https://www.ag-grid.com/javascript-data-grid/accessibility/) and [CoreUI Data Grid: Accessibility](https://coreui.io/data-grid/docs/guides/accessibility/) — cross-checked the `aria-rowcount`/`aria-colcount`/`aria-rowindex` bookkeeping DataTable would need once rows can be hidden (column visibility) or reordered (pagination).
 - [CoreUI Data Grid: Virtualization](https://coreui.io/data-grid/docs/features/virtualization/) — source for treating virtualization as an accessibility trade-off (broken screen-reader row traversal unless bookkeeping is exact) and recommending pagination as the safer default, which is why virtualization is listed as a non-goal above rather than a v2 stretch item.
 
+## kanban-board contract
+
+**Status: implemented in `svelte-helpers` only (2026-09-22), as
+`@lilydesignsystem/svelte-kanban-board`.** Documented here first,
+before the package existed, per this topic's own "Spec-driven"
+principle — the same workflow `data-grid` followed. The other seven
+catalogs do not port it yet.
+
+An interactive layer over the headless `KanbanTable` family. The
+headless `KanbanTable`/`KanbanTableHead`/`KanbanTableBody`/
+`KanbanTableFoot`/`KanbanTableRow`/`KanbanTableTH`/`KanbanTableTD`
+already render `<table role="grid">` with an accessible label, but —
+same as `DataTable` before it — ship zero interactive behaviour by
+design (see the component's own doc comment). `kanban-board` composes
+that family exactly the way `data-grid` composes `DataTable`, reusing
+the same WAI-ARIA APG Grid roving-tabindex keyboard model `data-grid`
+already established (one cell `tabindex="0"` at a time, via
+`KanbanTableTD`'s own `active`-prop shape) rather than inventing a
+second grid-navigation implementation.
+
+The one genuinely new design problem here — and the reason this
+contract needed its own research pass rather than a copy of
+`data-grid`'s — is that **card movement is drag-and-drop by
+convention, and native drag-and-drop is not keyboard- or
+screen-reader-accessible.** WCAG 2.5.7 (Dragging Movements) requires a
+non-dragging alternative for any drag-based interaction. The
+consulted sources are unanimous that the *right* alternative is not
+arrow-key dragging (which several teams tried and moved away from) but
+a **per-card "Move to…" action menu** listing destination columns —
+Atlassian's own Pragmatic Drag and Drop team cites user testing
+specifically favouring the action-menu pattern over directional
+keyboard controls for board-style reordering. `kanban-board` adopts
+that pattern as the primary keyboard path, with pointer drag-and-drop
+as a supplementary, not exclusive, pointer-only affordance — mirroring
+how `date-time-picker`'s typed-input path and calendar-grid path are
+two equally-real ways to set the same value, neither a fallback for
+the other.
+
+Composing `KanbanTable`'s `<table>` shape also means every rendered
+row must stay rectangular even though columns hold different numbers
+of cards in practice: shorter columns pad with empty cells past their
+own card count, the same "sparse but rectangular" trade-off some
+accessible enterprise kanban tools already make specifically to keep
+the WAI-ARIA Grid pattern's `aria-rowcount`/`aria-colcount` bookkeeping
+honest, rather than switching to a non-table DOM shape that would lose
+that 2D keyboard grid for free.
+
+| Aspect             | Contract                                                                                                                                                                                                                                                                                                                            |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Markup             | `<div class="kanban-board {class}">` wrapping an optional `<div class="kanban-board-toolbar">` (search/filter, v2), the unmodified `KanbanTable` family (`KanbanTableTH` per column carries the column title, a card count, and an optional WIP-limit badge; `KanbanTableTD` renders a card or, past that column's own card count, stays empty to keep the row rectangular), and a status region.                                                                                                                                                                            |
+| Composition        | Depends on `KanbanTable`, `KanbanTableHead`, `KanbanTableBody`, `KanbanTableRow`, `KanbanTableTH`, `KanbanTableTD` as real dependencies — the same "compose, don't duplicate" rule `data-grid` follows for `DataTable`. `kanban-board` owns state and behaviour; `KanbanTable` keeps owning the grid markup and accessible name.                                                                                                                                                 |
+| Required props     | `label` (passed through to `KanbanTable`), `columns` (id, title, optional `wipLimit`), `cards` (id, `columnId`, title, an ordering field), `onMove` (fired after a card's column and/or position changes, by pointer or by the move menu — one callback, one contract, regardless of input method).                                                                                                                                                                              |
+| Card move — pointer | Pointer drag-and-drop between columns (and within a column, to reorder). Supplementary, not the only path — see above.                                                                                                                                                                                                                                                                    |
+| Card move — keyboard | A focused card's Enter/Space (or a dedicated `kanban-board-move-button`) opens a **"Move to…" action menu** (not arrow-key dragging) listing destination columns; choosing one moves the card, closes the menu, returns focus to the card at its new position, and announces the result. Escape closes without moving.                                                                                                                                                          |
+| WIP limits         | Optional `column.wipLimit`; a column at or over its limit renders a warning state on its header (e.g. `data-over-limit`) — a real workflow/accessibility signal, not decorative, the same category as `motion-picker`'s OS-preference check being a signal rather than an enhancement.                                                                                                                                                                                           |
+| Card counts        | Derived from `cards`, rendered in each column header via a consumer-supplied label function — never a hardcoded "X cards" string.                                                                                                                                                                                                                                                        |
+| Announcements      | A single `kanban-board-status` `aria-live="polite"` region — mirroring `data-grid`'s own status region and `share-picker`'s copy-status precedent — announces move start/move/cancel via consumer-supplied label functions.                                                                                                                                                            |
+| Keyboard           | WAI-ARIA APG Grid pattern, identical model to `data-grid`: roving tabindex, one cell `tabindex="0"` at a time. Up/Down move within a column; Left/Right move across columns; Home/End jump within a column; Ctrl+Home/Ctrl+End jump to the grid's first/last cell; Enter/Space on a card opens the move menu.                                                                                                                                                                     |
+| Persistence        | None — card position is data, not a preference, the same non-goal `date-time-picker` already documents for its own value ("a date is data, not a preference").                                                                                                                                                                                                                          |
+| SSR                | All DOM writes inside the framework's mount/effect lifecycle; server render emits `cards` in their given order.                                                                                                                                                                                                                                                                          |
+| i18n               | Every user-facing string (column titles come from the consumer's own `columns` data; the move menu's labels, live-region announcement templates, WIP-limit warning text) comes from a prop or function; no hardcoded English, matching every other helper.                                                                                                                             |
+| Non-goals (v1)     | **Drag-preview/ghost-element rendering** — positioning a floating preview under the pointer is real visual/layout ownership, the same objection `data-grid` raises against virtualization; a consumer wires their own preview to the drag events this helper exposes. **Virtualization** for very large boards — same reasoning again. **Undo/redo** — belongs to the consumer's own data layer, not a rendering-layer helper, the same boundary `date-time-picker` draws around persistence. Also out for v1: column reordering, swimlanes, card selection/bulk-move, search/filter, collapsible columns — v2 candidates once v1 ships and is exercised in a real app. |
+
+Researched against WCAG 2.5.7 (Dragging Movements), the WAI-ARIA APG's
+keyboard-interface guidance, and dnd-kit's and Pragmatic Drag and
+Drop's own accessibility documentation before writing the table above:
+
+- [Developing a Keyboard Interface, WAI-ARIA APG](https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/) — general keyboard-interface guidance, reused from the `data-grid` research pass for the underlying grid model.
+- [Accessibility guidelines, Pragmatic Drag and Drop (Atlassian Design)](https://atlassian.design/components/pragmatic-drag-and-drop/accessibility-guidelines) — the decisive source: user testing favouring an action-menu move pattern over directional/arrow-key keyboard controls for board-style reordering, which is why "Move to…" is the specified keyboard path above, not arrow-key dragging.
+- [Accessibility, @dnd-kit docs](https://docs.dndkit.com/guides/accessibility) — closest headless/framework-agnostic match to Lily's own layer; its dedicated announcements interface (`dragstart`/`dragmove`/`dragover`/`dragend`) is the model for this contract's own live-region announcements.
+- [Accessible Drag and Drop Without Requiring Dragging](https://accessibility.build/blog/drag-and-drop-accessibility-without-dragging) — general framing for "model the outcome, not the gesture," which is why pointer drag is documented as supplementary rather than primary above.
+
+## gantt-chart contract
+
+**Status: implemented in `svelte-helpers` only (2026-09-22), as
+`@lilydesignsystem/svelte-gantt-chart`.** Documented here first, before
+the package existed, per this topic's own "Spec-driven" principle —
+the same workflow `data-grid` and `kanban-board` followed. The other
+seven catalogs do not port it yet.
+
+An interactive layer over the headless `GanttTable` family. The
+headless `GanttTable`/`GanttTableThead`/`GanttTableTbody`/
+`GanttTableTfoot`/`GanttTableTr`/`GanttTableTH`/`GanttTableTD` already
+render `<table role="grid">` with an accessible label, but — same as
+`DataTable` and `KanbanTable` before it — ship zero interactive
+behaviour by design. Its own doc comment's example is the composition
+argument made for free: an occupied period renders
+`<GanttTableTD active>`, an empty one `<GanttTableTD />` — one column
+per time unit (day/week/whatever the current zoom is), a task bar
+expressed as a *span of grid cells*, not a pixel-positioned floating
+div. `gantt-chart` composes that family exactly the way `data-grid`
+composes `DataTable` and `kanban-board` composes `KanbanTable`, and
+gets the accessible timeline-to-grid mapping the research below
+recommends without having to design it from scratch.
+
+The keyboard-accessibility question here has the same shape as
+`kanban-board`'s — native drag-to-resize/drag-to-reschedule fails
+WCAG 2.5.7 (Dragging Movements) — but a materially better answer:
+Syncfusion's own accessibility documentation for its Gantt component
+states plainly that **no keyboard shortcut exists for dragging a bar**;
+the actual accessible path it ships is an edit surface with typed
+start/end/duration fields. Lily already owns exactly that surface —
+`date-time-picker` — so `gantt-chart` composes it directly for date
+editing rather than inventing a second one, the same "compose a
+sibling helper, don't duplicate its year of hardening" reasoning that
+makes `picker-bar` depend on four other helpers as real packages.
+Dependency **links** are handled differently from dependency **arrows**:
+every accessibility source consulted (Syncfusion's own docs included)
+treats the visual arrow between two bars as an unsolved rendering
+problem industry-wide, but the underlying data — "this task's
+predecessor is that task" — is trivially expressible as text via
+`aria-describedby`, independent of whether anything gets drawn.
+
+| Aspect              | Contract                                                                                                                                                                                                                                                                                                                            |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Markup              | `<div class="gantt-chart {class}">` wrapping an optional `<div class="gantt-chart-toolbar">` (zoom controls, v2), the unmodified `GanttTable` family (`GanttTableTr` per task row, `GanttTableTH` the task's own label/hierarchy cell, one `GanttTableTD` per time-unit column — `active` (or a span) for the columns the task's date range covers, empty otherwise), and a status region.                                                                     |
+| Composition         | Depends on `GanttTable`, `GanttTableThead`, `GanttTableTbody`, `GanttTableTfoot`, `GanttTableTr`, `GanttTableTH`, `GanttTableTD`, **and `date-time-picker`**, all as real dependencies — the same "compose, don't duplicate" rule `data-grid` and `kanban-board` follow, extended for the first time to a sibling *helper* rather than only headless components (matching how `picker-bar` already depends on four helpers).                                    |
+| Required props      | `label` (passed through to `GanttTable`), `timeUnit` (day / week / month — which column each grid cell represents), `range` (the chart's own start/end), `tasks` (id, label, start, end or duration, optional `percentComplete`, optional `parentId` for hierarchy, optional `dependsOn: taskId[]`), `onTaskChange`.               |
+| Task bar             | A task's date range renders as the run of `GanttTableTD` cells its start/end covers within the current `timeUnit` grid — a column span, not a CSS `left`/`width` position. Zoom (v2) just changes how many columns a given date range covers; the composition model does not change.                                                                                                                                                            |
+| Date/duration edit — keyboard | A focused task bar's Enter/Space (or a dedicated `gantt-chart-edit-button`) opens the composed **`date-time-picker`** against the task's start/end — not arrow-key-nudge-by-one-day, matching the decisive finding below. Pointer drag-to-resize/reschedule is supplementary, never the only path.                                                                                                                                              |
+| Milestones           | A task with zero duration (`start === end`) renders as a milestone marker on its one column rather than a spanning bar — a data-driven distinction, not a separate prop.                                                                                                                                                                                                                                                          |
+| Percent-complete     | A plain data value (`task.percentComplete`); rendering the progress fill inside the bar is the consumer's own CSS/markup, matching the headless rule that no visual detail ships bundled.                                                                                                                                                                                                                                          |
+| Row hierarchy        | Optional `task.parentId`; a parent row's own date range is derived (min start / max end of its children) and rendered read-only; `aria-expanded` + collapse/expand on the parent's `GanttTableTH`, matching the WAI-ARIA `treegrid` pattern research recommends over a flat grid for hierarchical rows.                                                                                                                                                    |
+| Dependencies         | `task.dependsOn` is **data**, not a rendered arrow: each dependent task's cell carries an `aria-describedby` pointing at a generated text summary ("Blocked by: {predecessor label}") — see Non-goals for why the visual link stays out of v1.                                                                                                                                                                                                     |
+| Today marker         | A data flag on whichever column represents the current date, not a rendering decision — the consumer's CSS keys off it (e.g. `[data-today]`), same division of responsibility `motion-picker` uses for `data-motion`.                                                                                                                                                                                                                              |
+| Announcements        | A single `gantt-chart-status` `aria-live="polite"` region — mirroring `data-grid`'s and `kanban-board`'s own status regions — announces date/duration/dependency changes via consumer-supplied label functions.                                                                                                                                                                                                                                    |
+| Keyboard             | WAI-ARIA APG Grid pattern, identical roving-tabindex model to `data-grid`/`kanban-board`: one cell `tabindex="0"` at a time. Up/Down move between task rows; Left/Right move between time-unit columns; Home/End jump within a row; Ctrl+Home/Ctrl+End jump to the grid's first/last cell; Enter/Space on a task bar opens the composed `date-time-picker`.                                                                                       |
+| Persistence          | None — task dates are data, not a preference, the same non-goal `date-time-picker` and `kanban-board` already document for their own values.                                                                                                                                                                                                                                                                                                        |
+| SSR                  | All DOM writes inside the framework's mount/effect lifecycle; server render emits `tasks` at their given dates with no zoom/scroll state assumed.                                                                                                                                                                                                                                                                                                    |
+| i18n                 | Every user-facing string (task labels come from the consumer's own `tasks` data; live-region announcement templates, the dependency-summary template, milestone/today-marker labels) comes from a prop or function; no hardcoded English, matching every other helper.                                                                                                                                                                            |
+| Non-goals (v1)       | **Dependency-arrow rendering** (the SVG/CSS overlay drawn between two bars) — real visual/layout ownership that even mature commercial libraries (Syncfusion, Telerik) document as unsolved for accessibility, the same objection class as `data-grid`'s virtualization and `kanban-board`'s drag-preview non-goals; the dependency *data* ships, the arrow does not. **Virtualization** for very large projects — same reasoning again. **Critical-path calculation** — a scheduling algorithm over the consumer's own data, not a rendering-layer concern. Also out for v1: dependency types beyond finish-to-start, zoom-level switching, weekend/holiday shading, resource/assignee columns — v2 candidates once v1 ships and is exercised in a real app. |
+
+Researched against WCAG 2.5.7 (Dragging Movements), the WAI-ARIA APG's
+`treegrid` guidance, and two commercial Gantt libraries' own
+accessibility documentation before writing the table above:
+
+- [Accessibility in React Gantt Chart Component, Syncfusion](https://ej2.syncfusion.com/react/documentation/gantt/accessibility) — the decisive source: confirms no keyboard shortcut exists for dragging a bar to resize/reschedule, and its actual accessible path is a typed-field edit surface — the model for composing `date-time-picker` here — plus its own documented limitation on dependency-link accessibility, the source for treating the arrow as a non-goal.
+- [Accessibility Support for the Gantt Component, Telerik Design System](https://www.telerik.com/design-system/docs/components/gantt/accessibility/) — cross-checked the same "no accessible drag" and dependency-arrow gap against a second commercial implementation.
+- [Gantt Chart Guide, TeamGantt](https://www.teamgantt.com/what-is-a-gantt-chart) — source for the standard feature vocabulary (milestones, today line, finish-to-start as the default dependency type) behind the v1/v2 triage above.
+- [Gantt View — Milestones & Dependencies, Airtable Support](https://support.airtable.com/docs/gantt-view-milestones-dependencies-and-critical-paths) — source for treating percent-complete as a v1 data value and critical-path as a v2/out-of-scope calculation rather than a rendering feature.
+
 ## Differences from the headless library
 
 | Headless component                                 | Helper                                                              |
@@ -327,6 +468,10 @@ layer) before writing the table above:
 - [x] `picker-bar` composes theme-picker, locale-picker, text-size-picker, and share-picker into one row, defaulting to all 45 reference themes and the seven-step text-size scale, verified against a numbered spec with one test per acceptance clause, in all eight catalogs.
 - [x] `data-grid` (implemented 2026-09-21 as `@lilydesignsystem/svelte-data-grid`): composes the headless `DataTable` family rather than duplicating a `<table>` implementation, in the canonical `svelte-helpers` catalog, implementing the WAI-ARIA APG Grid roving-tabindex keyboard contract plus sort/filter/selection/resize/visibility/pagination behaviour and `aria-live` state announcements, verified against a numbered spec — 22 tests, all passing, covering every §8 acceptance clause.
 - [ ] `data-grid` ported to the other seven catalogs following the same canonical-first workflow as `motion-picker` / `date-time-picker` / `picker-bar`. Not started.
+- [x] `kanban-board` (implemented 2026-09-22 as `@lilydesignsystem/svelte-kanban-board`): composes the headless `KanbanTable` family rather than duplicating a `<table>` implementation, in the canonical `svelte-helpers` catalog, reusing `data-grid`'s own WAI-ARIA APG Grid roving-tabindex keyboard model; keyboard-accessible card movement via a per-card "Move to…" action menu, not arrow-key dragging, per WCAG 2.5.7 and Atlassian's Pragmatic Drag and Drop accessibility research (cited in § "kanban-board contract"); pointer drag-and-drop is supplementary, not the only path. Verified against a numbered spec — 14 tests, all passing, covering every §8 acceptance clause.
+- [ ] `kanban-board` ported to the other seven catalogs following the same canonical-first workflow as `motion-picker` / `date-time-picker` / `picker-bar` / `data-grid`. Not started.
+- [x] `gantt-chart` (implemented 2026-09-22 as `@lilydesignsystem/svelte-gantt-chart`): composes the headless `GanttTable` family (task bars as column-spanning grid cells, not pixel-positioned floating divs) and, for the first time, a sibling *helper* — `date-time-picker` — as the keyboard-accessible date/duration edit surface, per Syncfusion's and Telerik's own accessibility documentation confirming no keyboard shortcut exists for dragging a bar in either commercial implementation. Dependency data ships via `aria-describedby` text summaries; the dependency *arrow* itself is documented as a non-goal — every accessibility source consulted treats it as an unsolved rendering problem industry-wide, not something Lily is uniquely skipping. Verified against a numbered spec — 27 tests, all passing, covering every §8 acceptance clause.
+- [ ] `gantt-chart` ported to the other seven catalogs following the same canonical-first workflow as `motion-picker` / `date-time-picker` / `picker-bar` / `data-grid`. Not started.
 - [x] In the canonical `svelte-helpers` catalog (2026-09-21), `theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`, `share-picker`, and `date-time-picker` each depend on headless `IconButton` for their trigger button rather than hand-rolling one; the first four additionally depend on headless `Listbox`'s new `navigation="active-descendant"` mode for their list. Every migrated package's full existing test suite passes unchanged (motion-picker 32, theme-picker 42, locale-picker, text-size-picker, share-picker 30, date-time-picker 71), proving the public markup/keyboard contract held. `share-picker`'s destination list and `date-time-picker`'s dialog/calendar grid stay self-built, documented as a deliberate scope boundary, not a gap — see § "Composition with the headless layer".
 - [x] `Listbox` and `IconButton` in `@lilydesignsystem/svelte-headless` gained the additive props this composition needed (`navigation`, `clamp`, `typeahead`, `pageSize`, `onActivate`/`onEscape`/`onTabOut`, `baseClass`, `as`, bindable `ref`/`activeIndex`) with zero change to either component's pre-existing default behaviour — confirmed by both components having zero other consumers in the 491-component catalog before the change, and by the full headless suite (4917 tests) staying green after it.
 - [x] The headless-composition pattern ported to all seven other `*-helpers` catalogs (2026-09-21): react, vue, angular, blazor, web-components compose `IconButton` (+ `Listbox` for the 4 preference pickers, except web-components, whose fixed-tag `Listbox` can't stand in for a literal `<ul>`); html and nunjucks compose a purpose-built shared behavior module in place of a headless `Listbox` that turned out not to be a real component in either catalog. Every migrated package's own existing test suite passed with zero test-file edits, and every catalog's full headless + helpers workspace suite stayed green — see the per-catalog summary table above for what each catalog's own audit found and how its extension differs from Svelte's.
@@ -353,6 +498,11 @@ layer) before writing the table above:
 - [lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/](../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/) — date-time-picker contract (canonical spec)
 - [lily-design-system-svelte-helpers/lily-design-system-svelte-picker-bar/](../../lily-design-system-svelte-helpers/lily-design-system-svelte-picker-bar/) — picker-bar contract (canonical spec; ported to all seven other catalogs the same day)
 - [lily-design-system-svelte-headless/components/DataTable/DataTable.svelte](../../lily-design-system-svelte-headless/components/DataTable/DataTable.svelte) — the headless `role="grid"` container the data-grid contract composes rather than duplicates
+- [lily-design-system-svelte-headless/components/KanbanTable/KanbanTable.svelte](../../lily-design-system-svelte-headless/components/KanbanTable/KanbanTable.svelte) — the headless `role="grid"` container the kanban-board contract composes rather than duplicates
+- [lily-design-system-svelte-headless/components/GanttTable/GanttTable.svelte](../../lily-design-system-svelte-headless/components/GanttTable/GanttTable.svelte) — the headless `role="grid"` container the gantt-chart contract composes rather than duplicates; its own doc-comment example already shows the column-span task-bar pattern
+- [lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/](../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/) — the sibling helper the gantt-chart contract composes for keyboard-accessible date/duration editing
+- [lily-design-system-svelte-helpers/lily-design-system-svelte-kanban-board/](../../lily-design-system-svelte-helpers/lily-design-system-svelte-kanban-board/) — kanban-board contract (canonical spec; implemented only here so far)
+- [lily-design-system-svelte-helpers/lily-design-system-svelte-gantt-chart/](../../lily-design-system-svelte-helpers/lily-design-system-svelte-gantt-chart/) — gantt-chart contract (canonical spec; implemented only here so far)
 - [lily-design-system-svelte-headless/components/Listbox/Listbox.svelte](../../lily-design-system-svelte-headless/components/Listbox/Listbox.svelte) — extended 2026-09-21 with `navigation="active-descendant"` mode so the preference helpers could compose it
 - [lily-design-system-svelte-headless/components/IconButton/IconButton.svelte](../../lily-design-system-svelte-headless/components/IconButton/IconButton.svelte) — extended 2026-09-21 with `baseClass` and a bindable `ref` for the same reason
 - [lily-design-system-svelte-headless/CHANGELOG.md](../../lily-design-system-svelte-headless/CHANGELOG.md) — the Unreleased entry documenting both extensions
