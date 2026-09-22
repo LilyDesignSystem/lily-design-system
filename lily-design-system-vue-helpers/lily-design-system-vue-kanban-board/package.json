@@ -1,0 +1,52 @@
+{
+  "name": "@lilydesignsystem/vue-kanban-board",
+  "version": "0.1.0",
+  "engines": {
+    "node": "=26"
+  },
+  "description": "Lily Design System Vue 3 headless kanban board (pointer + keyboard-accessible card move over KanbanTable)",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "index.md",
+    "README.md"
+  ],
+  "scripts": {
+    "prepublishOnly": "cd .. && npm run build"
+  },
+  "dependencies": {
+    "@lilydesignsystem/vue-headless": "^0.2.0"
+  },
+  "peerDependencies": {
+    "vue": "^3.0.0"
+  },
+  "keywords": [
+    "lily",
+    "design",
+    "system",
+    "vue",
+    "kanban",
+    "board",
+    "headless"
+  ],
+  "author": "Joel Parker Henderson <joel@joelparkerhenderson.com>",
+  "license": "MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LilyDesignSystem/lily-design-system-vue-helpers.git",
+    "directory": "lily-design-system-vue-kanban-board"
+  },
+  "homepage": "https://lilydesignsystem.com/",
+  "bugs": {
+    "url": "https://github.com/LilyDesignSystem/lily-design-system/issues"
+  }
+}

@@ -55,6 +55,17 @@ export default defineConfig({
           import.meta.url,
         ),
       ),
+      // @lilydesignsystem/vue-gantt-chart depends on this sibling helper
+      // the same way a real consumer would (declared as a regular npm
+      // `dependency`), composed twice per edit session for a task's
+      // start/end date. Same local-alias-for-tests-only rule as the
+      // four picker-bar dependencies above.
+      "@lilydesignsystem/vue-date-time-picker": fileURLToPath(
+        new URL(
+          "./lily-design-system-vue-date-time-picker/dist/index.js",
+          import.meta.url,
+        ),
+      ),
     },
   },
   test: {

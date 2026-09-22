@@ -31,6 +31,17 @@ above into one page-header row.
 | Helper                                                                              | Purpose                                                                                                                       |
 | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
 | [`@lilydesignsystem/vue-picker-bar`](./lily-design-system-vue-picker-bar/)         | Compose theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row, with all 45 reference themes and the seven-step text-size scale pre-wired. |
+| [`@lilydesignsystem/vue-kanban-board`](./lily-design-system-vue-kanban-board/)     | Interactive kanban board over the headless `KanbanTable` grid: pointer drag-and-drop plus a keyboard-accessible per-card "Move to…" menu, never drag-only. |
+| [`@lilydesignsystem/vue-gantt-chart`](./lily-design-system-vue-gantt-chart/)       | Interactive Gantt chart over the headless `GanttTable` grid: task bars as column-spanning cells, row hierarchy, milestones, and keyboard-accessible editing composed from two `date-time-picker` instances. |
+
+`kanban-board` and `gantt-chart` are a seventh and eighth helper: both
+are interactive layers over a headless `*Table` grid family
+(`KanbanTable`, `GanttTable`) rather than preference/action/form-value
+controls in their own right. `gantt-chart` is also the first helper
+besides `picker-bar` to depend on a *sibling helper*
+(`date-time-picker`, used twice per edit session) as a real package.
+See each package's own `spec/index.md` §3 for what each composes and
+why.
 
 ## Conventions
 
