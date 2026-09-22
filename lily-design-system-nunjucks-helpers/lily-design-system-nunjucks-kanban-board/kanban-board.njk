@@ -1,0 +1,216 @@
+{#
+  KanbanBoard macro — a keyboard-and-pointer-accessible kanban board:
+  cards move between columns via a per-card "Move to…" menu (the
+  accessible path) or native HTML5 drag-and-drop (supplementary).
+
+  HTML tag: <div> (root) wrapping a <table role="grid"> built from
+            @lilydesignsystem/nunjucks-headless's kanban-table macro
+            family, plus one aria-live status paragraph.
+  CSS class: kanban-board
+  Companion runtime: kanban-board.client.js
+
+  This macro composes, unmodified, a real npm dependency's macros:
+  lily-design-system-nunjucks-headless's kanban-table family
+  (kanbanTable, kanbanTableHead, kanbanTableBody, kanbanTableRow,
+  kanbanTableTh, kanbanTableTd) for the grid's structural markup — the
+  same "depend on, don't vendor" rule every other Lily helper follows
+  for its own headless dependency. kanban-board.client.js separately
+  depends on @lilydesignsystem/nunjucks-listbox-behavior for the move
+  menu's APG listbox keyboard contract.
+
+  IMPLEMENTATION NOTE — every nested composition below is built with
+  plain macro-call expressions (`{{ someMacro(args) }}`) and each
+  headless macro's `html`/`attributes` params, NEVER Nunjucks'
+  `{% call %}` block form for structural nesting. Empirically verified
+  while building this package: a variable introduced with `{% set %}`
+  in an enclosing macro body is NOT visible inside a nested
+  `{% call otherMacro() %}...{% endcall %}` body (only that body's own
+  loop variables and the enclosing macro's OWN parameters are) — a
+  real Nunjucks scoping trap, undocumented as far as this port found.
+  Building every level bottom-up as a `| safe`-marked HTML string and
+  threading every value the leaf needs as an explicit macro parameter
+  sidesteps it entirely. See AGENTS.md "Nunjucks gotchas".
+
+  Every card cell's move-button + move-listbox markup is rendered
+  UNCONDITIONALLY at SSR time (hidden via the `hidden` attribute and
+  aria-expanded="false"), exactly the way theme-picker.njk always
+  renders its listbox and merely toggles `hidden` client-side — there
+  is no server-side notion of "the menu that happens to be open" the
+  way the Svelte canonical's `{#if openCardId === card.id}` block has.
+  One consequence worth calling out: every card's move button is a
+  distinct, stable DOM node from first render onward, so there is no
+  single shared "last mounted button" variable for client.js to
+  mis-bind — see kanban-board.client.js's header comment and
+  spec/index.md §10 for the shared-ref regression this sidesteps by
+  construction (the same bug independently found and fixed in every
+  other framework catalog's own port of this component).
+
+  ---------------------------------------------------------------------
+  NUNJUCKS DEVIATIONS from the canonical Svelte props
+  ---------------------------------------------------------------------
+
+  1. cardLabel: (card) => string in Svelte, default card.title. A
+     macro cannot evaluate a callback (the established rule in this
+     catalog — see date-time-picker.njk's own deviations, and
+     share-picker.njk's `href`-as-string deviation). There is no
+     `cardLabel` macro param: the macro always renders `card.title`.
+     A consumer who wants different display text sets it on the card
+     data itself before calling the macro (mirrors share-picker's
+     "pass the already-resolved value" precedent).
+
+  2. labels.cardCount / labels.overLimit / labels.moveButton: each a
+     function taking numeric/card arguments in Svelte. Same reason as
+     above — these deviate to TEMPLATE STRINGS with `{token}`
+     placeholders the macro substitutes at render time via the
+     `replace` filter:
+       cardCount  — e.g. "{count} cards"            -> {count}
+       overLimit  — e.g. "Over limit: {count}/{limit}" -> {count}, {limit}
+       moveButton — e.g. "Move {card}"                -> {card} (the card's title)
+     Every field stays optional and gates the control/text it names,
+     exactly like the canonical Svelte props (absence -> "" / no render).
+
+  3. labels.moveMenuLabel stays a plain string (it already was one in
+     Svelte — no deviation needed).
+
+  4. labels.moveAnnouncement: (cardTitle, columnTitle) => string stays
+     a REAL function — but it is never called from this macro. A
+     move only ever happens after hydration (drag or the move menu),
+     so the announcement is entirely kanban-board.client.js's concern:
+     pass it as `initKanbanBoard(root, {labels: {moveAnnouncement}})`.
+
+  5. onMove: (cardId, toColumnId) => void — same as #4, a
+     kanban-board.client.js init option, never a macro param.
+
+  Params (single `opts` object):
+    label       — string, required. aria-label for the grid table.
+    columns     — array<{id, title, wipLimit?}>, required.
+    cards       — array<{id, columnId, title}>, required. Card order
+                  within a column follows the order cards appear in
+                  this array (matches the Svelte canonical).
+    caption     — string. Visible <caption>, forwarded to kanbanTable.
+    labels      — object. See deviations above. Every field optional;
+                  its presence gates the control/text it names.
+    name        — string, default "board". Discriminator for ids.
+    id          — string, default "kanban-board-{name}".
+    classes     — string. Extra CSS classes on the root <div>.
+    attributes  — object. Extra HTML attributes spread onto the root.
+
+  Custom move-button glyph: call the macro with a `{% call %}` block;
+  the block body replaces the default glyph inside EVERY card's move
+  button (there is one macro invocation for the whole board, unlike a
+  per-card override, which no Nunjucks macro call shape supports).
+
+  Usage:
+    {% from "./kanban-board.njk" import kanbanBoard %}
+    {{ kanbanBoard({
+      label: "Sprint board",
+      columns: [{id: "todo", title: "To do"}, {id: "done", title: "Done", wipLimit: 3}],
+      cards: [{id: "c1", columnId: "todo", title: "Write the spec"}],
+      labels: {
+        cardCount: "{count} cards",
+        overLimit: "Over limit: {count}/{limit}",
+        moveButton: "Move {card}",
+        moveMenuLabel: "Move to column"
+      }
+    }) }}
+
+  Then load kanban-board.client.js once and call autoInit().
+
+  Spec: spec/index.md §4 (macro parameters), §6 (behaviour).
+#}
+{% from "lily-design-system-nunjucks-headless/components/kanban-table/macro.njk" import kanbanTable %}
+{% from "lily-design-system-nunjucks-headless/components/kanban-table-head/macro.njk" import kanbanTableHead %}
+{% from "lily-design-system-nunjucks-headless/components/kanban-table-body/macro.njk" import kanbanTableBody %}
+{% from "lily-design-system-nunjucks-headless/components/kanban-table-row/macro.njk" import kanbanTableRow %}
+{% from "lily-design-system-nunjucks-headless/components/kanban-table-th/macro.njk" import kanbanTableTh %}
+{% from "lily-design-system-nunjucks-headless/components/kanban-table-td/macro.njk" import kanbanTableTd %}
+
+{%- macro _kanbanBoardHeaderCellHtml(column, count, overLimit, labels) -%}
+{{- column.title -}}
+{%- if labels.cardCount %}<span class="kanban-board-count">{{ labels.cardCount | replace("{count}", count) }}</span>{% endif -%}
+{%- if overLimit and labels.overLimit %}<span class="kanban-board-wip-warning">{{ labels.overLimit | replace("{count}", count) | replace("{limit}", column.wipLimit) }}</span>{% endif -%}
+{%- endmacro -%}
+
+{%- macro _kanbanBoardCardCellHtml(card, columns, labels, id, glyphHtml) -%}
+{%- if card -%}
+{%- set moveListId = id + "-move-list-" + card.id -%}
+{%- set moveButtonId = id + "-move-button-" + card.id -%}
+<span class="kanban-board-card-title" draggable="true" data-lily-kanban-board-card-handle data-lily-kanban-board-card-id="{{ card.id }}">{{ card.title }}</span><button type="button" class="kanban-board-move-button" id="{{ moveButtonId }}" tabindex="-1" aria-haspopup="listbox" aria-expanded="false" aria-controls="{{ moveListId }}" aria-label="{{ labels.moveButton | default('') | replace('{card}', card.title) }}" data-lily-kanban-board-move-button data-lily-kanban-board-card-id="{{ card.id }}">{{ glyphHtml | safe }}</button><ul class="kanban-board-move-list" id="{{ moveListId }}" role="listbox" aria-label="{{ labels.moveMenuLabel | default('') }}" tabindex="-1" hidden data-lily-kanban-board-move-list data-lily-kanban-board-card-id="{{ card.id }}">{%- for destination in columns -%}<li class="kanban-board-move-option" id="{{ id }}-move-option-{{ card.id }}-{{ loop.index0 }}" role="option" aria-selected="{{ 'true' if destination.id == card.columnId else 'false' }}" data-value="{{ destination.id }}">{{ destination.title }}</li>{%- endfor -%}</ul>
+{%- endif -%}
+{%- endmacro -%}
+
+{%- macro _kanbanBoardHeaderRowHtml(columns, columnCardLists, labels) -%}
+{%- set out = "" -%}
+{%- for column in columns -%}
+  {%- set colCards = columnCardLists[loop.index0] -%}
+  {%- set count = colCards.length -%}
+  {%- set overLimit = column.wipLimit is defined and column.wipLimit is not none and count > column.wipLimit -%}
+  {%- set thAttrs = [["data-lily-kanban-board-column-id", column.id]] -%}
+  {%- if overLimit -%}{%- set thAttrs = thAttrs.concat([["data-over-limit", ""]]) -%}{%- endif -%}
+  {%- set cellHtml = _kanbanBoardHeaderCellHtml(column, count, overLimit, labels) -%}
+  {%- set out = (out ~ kanbanTableTh({ attributes: thAttrs, html: cellHtml })) | safe -%}
+{%- endfor -%}
+{{- out | safe -}}
+{%- endmacro -%}
+
+{%- macro _kanbanBoardBodyRowHtml(rowIndex, columns, columnCardLists, labels, id, glyphHtml) -%}
+{%- set out = "" -%}
+{%- for column in columns -%}
+  {%- set colIndex = loop.index0 -%}
+  {%- set colCards = columnCardLists[colIndex] -%}
+  {%- set card = colCards[rowIndex] -%}
+  {%- set isActive = (rowIndex == 0 and colIndex == 0) -%}
+  {%- set tdAttrs = [["data-row", rowIndex], ["data-col", colIndex], ["tabindex", (0 if isActive else -1)]] -%}
+  {%- if card -%}{%- set tdAttrs = tdAttrs.concat([["data-lily-kanban-board-card-id", card.id]]) -%}{%- endif -%}
+  {%- set cellHtml = _kanbanBoardCardCellHtml(card, columns, labels, id, glyphHtml) -%}
+  {%- set out = (out ~ kanbanTableTd({ attributes: tdAttrs, html: cellHtml })) | safe -%}
+{%- endfor -%}
+{{- out | safe -}}
+{%- endmacro -%}
+
+{%- macro kanbanBoard(opts) -%}
+{%- set columns = opts.columns -%}
+{%- set cards = opts.cards -%}
+{%- set labels = opts.labels | default({}) -%}
+{%- set name = opts.name | default("board") -%}
+{%- set id = opts.id | default("kanban-board-" + name) -%}
+{%- set statusId = id + "-status" -%}
+{%- set hasCustomGlyph = caller is defined -%}
+{%- set glyphHtml = (caller() if hasCustomGlyph else '<span aria-hidden="true">&#8644;</span>') | safe -%}
+{#- Group cards by column, preserving each card's position in `cards`,
+    and find the tallest column — the "sparse but rectangular" grid
+    trade-off documented in spec/helpers/index.md. Built with
+    `.concat()` accumulation rather than a dict/selectattr filter —
+    see AGENTS.md "Nunjucks gotchas" for why selectattr("x","equalto",v)
+    did not reliably filter in this Nunjucks version. -#}
+{%- set columnCardLists = [] -%}
+{%- set maxRows = 0 -%}
+{%- for column in columns -%}
+  {%- set colCards = [] -%}
+  {%- for card in cards -%}
+    {%- if card.columnId == column.id -%}
+      {%- set colCards = colCards.concat([card]) -%}
+    {%- endif -%}
+  {%- endfor -%}
+  {%- set columnCardLists = columnCardLists.concat([colCards]) -%}
+  {%- if colCards.length > maxRows -%}{%- set maxRows = colCards.length -%}{%- endif -%}
+{%- endfor -%}
+{%- set headerRowHtml = _kanbanBoardHeaderRowHtml(columns, columnCardLists, labels) -%}
+{%- set theadHtml = (kanbanTableHead({ html: (kanbanTableRow({ html: headerRowHtml }) | safe) })) | safe -%}
+{%- set bodyRowsHtml = "" -%}
+{%- for rowIndex in range(0, maxRows) -%}
+  {%- set rowCellsHtml = _kanbanBoardBodyRowHtml(rowIndex, columns, columnCardLists, labels, id, glyphHtml) -%}
+  {%- set bodyRowsHtml = (bodyRowsHtml ~ kanbanTableRow({ html: rowCellsHtml })) | safe -%}
+{%- endfor -%}
+{%- set tbodyHtml = (kanbanTableBody({ html: bodyRowsHtml })) | safe -%}
+{%- set tableHtml = kanbanTable({ label: opts.label, caption: opts.caption, attributes: {"role": "grid"}, html: (theadHtml ~ tbodyHtml) | safe }) -%}
+<div
+  class="kanban-board{% if opts.classes %} {{ opts.classes }}{% endif %}"
+  data-lily-kanban-board-root
+  data-lily-kanban-board-name="{{ name }}"
+  {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+{{ tableHtml | safe }}
+<p class="kanban-board-status" id="{{ statusId }}" aria-live="polite" data-lily-kanban-board-status></p>
+</div>
+{%- endmacro -%}

@@ -1,0 +1,51 @@
+{
+  "name": "@lilydesignsystem/nunjucks-kanban-board",
+  "version": "0.1.0",
+  "engines": {
+    "node": "=26"
+  },
+  "description": "Lily Design System Nunjucks kanban board: a keyboard-and-pointer-accessible kanban board (WAI-ARIA APG Grid, per-card move menu, drag-and-drop supplementary). Headless, SSR-safe, no CSS.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./template": "./dist/kanban-board.njk"
+  },
+  "files": [
+    "dist",
+    "index.md",
+    "README.md"
+  ],
+  "scripts": {
+    "prepublishOnly": "cd .. && npm run build"
+  },
+  "dependencies": {
+    "@lilydesignsystem/nunjucks-headless": "^0.1.0",
+    "@lilydesignsystem/nunjucks-listbox-behavior": "^0.1.0"
+  },
+  "keywords": [
+    "lily",
+    "design",
+    "system",
+    "nunjucks",
+    "kanban",
+    "board",
+    "grid"
+  ],
+  "author": "Joel Parker Henderson <joel@joelparkerhenderson.com>",
+  "license": "MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LilyDesignSystem/lily-design-system-nunjucks-helpers.git",
+    "directory": "lily-design-system-nunjucks-kanban-board"
+  },
+  "homepage": "https://lilydesignsystem.com/",
+  "bugs": {
+    "url": "https://github.com/LilyDesignSystem/lily-design-system/issues"
+  }
+}

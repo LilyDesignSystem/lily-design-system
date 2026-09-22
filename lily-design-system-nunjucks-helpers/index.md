@@ -17,6 +17,16 @@ DOM application) for one small, common job.
 | [`@lilydesignsystem/nunjucks-share-picker`](./lily-design-system-nunjucks-share-picker/)         | Share the page: native share sheet, or a list of destinations + copy. |
 | [`@lilydesignsystem/nunjucks-date-time-picker`](./lily-design-system-nunjucks-date-time-picker/) | Pick a date, a time, or both, via a text field + WAI-ARIA APG Date Picker Dialog. |
 | [`@lilydesignsystem/nunjucks-picker-bar`](./lily-design-system-nunjucks-picker-bar/)             | Compose theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row, with all 45 reference themes and the seven-step text-size scale pre-wired. |
+| [`@lilydesignsystem/nunjucks-kanban-board`](./lily-design-system-nunjucks-kanban-board/)         | Interactive kanban board over the headless `kanban-table` macro family: pointer drag-and-drop plus a keyboard-accessible per-card "Move to…" menu, never drag-only. |
+| [`@lilydesignsystem/nunjucks-gantt-chart`](./lily-design-system-nunjucks-gantt-chart/)           | Interactive Gantt chart over the headless `gantt-table` macro family: task bars as column-spanning cells, row hierarchy, milestones, and keyboard-accessible editing composed from two `date-time-picker` instances. |
+
+`kanban-board` and `gantt-chart` are a seventh and eighth helper: both
+are interactive layers over a headless `*-table` macro family rather
+than preference/action/form-value controls in their own right.
+`gantt-chart` is also the first helper besides `picker-bar` to depend
+on a *sibling helper* (`date-time-picker`, used twice per edit
+session) as a real package. See each package's own `spec/index.md` §3
+for what each composes and why.
 
 The first three helpers own a **user preference** — selection + DOM
 application + optional persistence. `share-picker` owns an **action**:

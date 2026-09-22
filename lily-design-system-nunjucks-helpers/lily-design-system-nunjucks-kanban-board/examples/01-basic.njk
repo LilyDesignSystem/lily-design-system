@@ -1,0 +1,35 @@
+{# Basic KanbanBoard: three columns, a WIP limit on the middle one. #}
+{% from "@lilydesignsystem/nunjucks-kanban-board/template" import kanbanBoard %}
+
+{{ kanbanBoard({
+  label: "Sprint board",
+  columns: [
+    { id: "todo", title: "To do" },
+    { id: "doing", title: "In progress", wipLimit: 2 },
+    { id: "done", title: "Done" }
+  ],
+  cards: [
+    { id: "c1", columnId: "todo", title: "Write the spec" },
+    { id: "c2", columnId: "todo", title: "Review the PR" },
+    { id: "c3", columnId: "doing", title: "Build the macro" }
+  ],
+  labels: {
+    cardCount: "{count} cards",
+    overLimit: "Over limit: {count}/{limit}",
+    moveButton: "Move {card}",
+    moveMenuLabel: "Move to column"
+  }
+}) }}
+
+<script type="module">
+  import { autoInit } from "@lilydesignsystem/nunjucks-kanban-board";
+
+  autoInit({
+    onMove(cardId, toColumnId) {
+      console.log(`moved ${cardId} to ${toColumnId}`);
+    },
+    labels: {
+      moveAnnouncement: (cardTitle, columnTitle) => `${cardTitle} moved to ${columnTitle}`,
+    },
+  });
+</script>

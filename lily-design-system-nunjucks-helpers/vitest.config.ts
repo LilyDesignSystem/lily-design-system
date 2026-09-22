@@ -41,6 +41,17 @@ export default defineConfig({
           import.meta.url,
         ),
       ),
+      // @lilydesignsystem/nunjucks-gantt-chart's client.js composes
+      // date-time-picker's client.js twice per edit session (start
+      // date, end date) the same way a real consumer would (a regular
+      // npm `dependency`) — same local dev/test aliasing reason as the
+      // picker-bar dependencies above.
+      "@lilydesignsystem/nunjucks-date-time-picker": fileURLToPath(
+        new URL(
+          "./lily-design-system-nunjucks-date-time-picker/dist/index.js",
+          import.meta.url,
+        ),
+      ),
       // theme-picker/locale-picker/text-size-picker/motion-picker's
       // client.js each depend on this shared listbox-keyboard-behaviour
       // package the same way a real consumer would (a regular npm

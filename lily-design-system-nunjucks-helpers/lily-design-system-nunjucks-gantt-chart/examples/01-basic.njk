@@ -1,0 +1,43 @@
+{# Basic GanttChart: three tasks, one dependency, one with percentComplete. #}
+{% from "@lilydesignsystem/nunjucks-gantt-chart/template" import ganttChart %}
+
+{{ ganttChart({
+  label: "Q4 plan",
+  range: { start: "2026-10-01", end: "2026-10-31" },
+  today: "2026-10-15",
+  tasks: [
+    { id: "design", label: "Design", start: "2026-10-01", end: "2026-10-03" },
+    { id: "build", label: "Build", start: "2026-10-04", end: "2026-10-08", dependsOn: ["design"], percentComplete: 40 },
+    { id: "launch", label: "Launch", start: "2026-10-09", end: "2026-10-09" }
+  ],
+  labels: {
+    saveLabel: "Save",
+    cancelLabel: "Cancel",
+    startLabel: "Start date",
+    endLabel: "End date",
+    dependencySummary: "Blocked by: {predecessors}",
+    collapseLabel: "Collapse {task}",
+    expandLabel: "Expand {task}",
+    dateTimePickerLabels: {
+      previousYear: "Previous year", previousMonth: "Previous month",
+      previousWeek: "Previous week", previousDay: "Previous day",
+      nextDay: "Next day", nextWeek: "Next week",
+      nextMonth: "Next month", nextYear: "Next year",
+      confirm: "Confirm", cancel: "Cancel"
+    }
+  }
+}) }}
+
+<script type="module">
+  import { autoInit } from "@lilydesignsystem/nunjucks-gantt-chart";
+
+  autoInit({
+    onTaskChange(taskId, start, end) {
+      console.log(`rescheduled ${taskId} to ${start} – ${end}`);
+    },
+    labels: {
+      columnLabel: (start) => start,
+      dateAnnouncement: (taskLabel, start, end) => `${taskLabel} moved to ${start} – ${end}`,
+    },
+  });
+</script>

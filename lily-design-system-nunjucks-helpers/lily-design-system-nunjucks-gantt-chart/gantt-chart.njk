@@ -1,0 +1,333 @@
+{#
+  GanttChart macro — a keyboard-and-pointer-accessible Gantt chart: task
+  bars as column-spanning grid cells, row hierarchy with collapse/
+  expand, milestones, percent-complete, a today marker, and
+  finish-to-start dependency data exposed via aria-describedby. Editing
+  is a per-row inline region composing @lilydesignsystem/nunjucks-date-
+  time-picker TWICE (start date, end date) — never drag-only.
+
+  HTML tag: <div> (root) wrapping a <table role="grid"> built from
+            @lilydesignsystem/nunjucks-headless's gantt-table macro
+            family, plus one aria-live status paragraph.
+  CSS class: gantt-chart
+  Companion runtime: gantt-chart.client.js
+
+  This macro composes, unmodified, a real npm dependency's macros:
+  lily-design-system-nunjucks-headless's gantt-table family (ganttTable,
+  ganttTableThead, ganttTableTbody, ganttTableTr, ganttTableTh,
+  ganttTableTd) — the same "depend on, don't vendor" rule kanban-board
+  follows for its own headless dependency. It ALSO depends on
+  @lilydesignsystem/nunjucks-date-time-picker's `dateTimePicker` macro,
+  called twice per editable row (start date, end date) — the first
+  helper-to-helper composition in this catalog, mirroring picker-bar's
+  "import a sibling PACKAGE's macro, don't vendor it" pattern (see that
+  package's own header comment).
+
+  ---------------------------------------------------------------------
+  WHY THE TIME-AXIS COLUMNS AND GRID CELLS ARE NOT RENDERED HERE
+  ---------------------------------------------------------------------
+
+  Generating the `range`/`timeUnit` column list (one per day, 7-day
+  week, or calendar month) needs real civil-date arithmetic — days in a
+  month, leap years, month-end clamping — the SAME class of computation
+  date-time-picker.njk's own header comment explains Nunjucks cannot do
+  at all (no custom filters are registered in this catalog; see that
+  file's header comment for the precedent). Every per-cell flag that
+  depends on those columns (`data-in-range`, `data-milestone`,
+  `data-today`, which cell is the bar's "leading" cell) inherits the
+  same limitation transitively.
+
+  So, exactly like date-time-picker.njk splits "the calendar's FIXED
+  markup" (trigger, nav buttons, footer) from "the Intl-dependent
+  interior" (weekday header, day-cell grid, built by client.js on
+  first run): this macro renders every piece of markup whose content is
+  fixed at render time —
+    - the root wrapper and status region,
+    - the table's leading (blank) header cell,
+    - one <tr> per task in hierarchy order (row header: label, collapse
+      button, dependency summary — none of this needs date math, only a
+      parentId tree walk),
+    - each editable row's own inline edit region, calling
+      `dateTimePicker` twice — plain macro composition, no date math
+      needed to RENDER it, only to USE it,
+  and leaves entirely to gantt-chart.client.js:
+    - the date-column <th> cells (one per generated column),
+    - every body <td> cell in every row (data-in-range/-milestone/
+      -today, the task bar, its data-percent-complete).
+  A grid with rows but no date columns or cells is what a no-JS user
+  sees — the same real, documented no-JS regression date-time-picker.njk
+  already accepts for its own calendar grid. See spec/index.md §3, §10.
+
+  Row hierarchy, depth, and each row's own `data-lily-gantt-chart-start`/
+  `-end` are resolved HERE though — a parentId tree walk and reading two
+  string fields off task data need no date arithmetic. So does resolving
+  each row's dependency summary text (a lookup by id into `tasks`, not a
+  date computation) and rendering the two composed date pickers pre-
+  seeded with the task's own `start`/`end` values (a string passthrough,
+  not a computation over them). Only bar math needs date arithmetic, and
+  bar math is what got deferred.
+
+  ---------------------------------------------------------------------
+  NUNJUCKS DEVIATIONS from the canonical Svelte props
+  ---------------------------------------------------------------------
+
+  1. taskLabel: (task) => string in Svelte, default task.label. Same
+     rule as kanban-board's cardLabel: a macro cannot evaluate a
+     callback. There is no `taskLabel` macro param: the macro always
+     renders `task.label`. A consumer who wants different display text
+     sets it on the task data itself before calling the macro.
+
+  2. columnLabel(start, end, timeUnit) / dateAnnouncement(taskLabel,
+     start, end): both REAL functions in Svelte, and BOTH stay real
+     functions here too — the opposite of kanban-board's
+     cardCount/overLimit/moveButton template-string deviation. Neither
+     control is ever rendered by this macro (see above: columns and
+     cells are entirely client-built, and an edit only ever completes
+     after hydration), so there is no render-time value to deviate
+     INTO a template string for. Pass both to
+     `initGanttChart(root, {labels: {columnLabel, dateAnnouncement}})`.
+     `columnLabel`'s Svelte fallback (`?? column.start`, not a gated
+     "renders nothing") is preserved client-side.
+
+  3. dependencySummary(predecessorLabels: string[]) => string: THIS one
+     DOES deviate to a template string, because — unlike columnLabel —
+     everything it needs (the dependent task's OTHER tasks' labels) is
+     plain data available at render time, no date math involved. The
+     macro joins the resolved predecessor labels with ", " itself and
+     substitutes them for a single `{predecessors}` token:
+       dependencySummary — e.g. "Blocked by: {predecessors}" -> "Blocked by: Design, Build"
+     Stays optional and gates the summary the same way every other
+     Lily helper's labels do.
+
+  4. collapseButton(task, collapsed) => string: one callback covering
+     two states in Svelte. A single Nunjucks template string cannot
+     branch on `collapsed`, so this splits into two template strings,
+     one per state:
+       collapseLabel — e.g. "Collapse {task}" -> {task} (used while expanded)
+       expandLabel   — e.g. "Expand {task}"   -> {task} (used while collapsed)
+     The macro renders the INITIAL button (every row starts expanded,
+     matching Svelte's default empty `collapsed` set) using
+     `collapseLabel`, substituted. Both RAW (unsubstituted) templates
+     also ride on the button as `data-lily-gantt-chart-collapse-label`/
+     `-expand-label` so gantt-chart.client.js can recompute the other
+     state's label on toggle without asking the consumer to pass the
+     same strings twice, in two different places.
+
+  5. onTaskChange: (taskId, start, end) => void — a
+     `initGanttChart(root, {onTaskChange})` client.js init option,
+     never a macro param, same as kanban-board's `onMove`.
+
+  Params (single `opts` object):
+    label       — string, required. aria-label for the grid table.
+    range       — {start, end} (ISO dates), required.
+    tasks       — array<{id, label, start, end, percentComplete?,
+                  parentId?, dependsOn?}>, required.
+    caption     — string. Visible <caption>, forwarded to ganttTable.
+    timeUnit    — "day" | "week" | "month", default "day". Forwarded as
+                  a data attribute; client.js generates the columns.
+    today       — ISO date string. Forwarded as a data attribute when
+                  present; never computed by this macro (no Date.now()
+                  at render time — a server-computed "today" and a
+                  client-computed one can disagree across a render
+                  boundary, the same rule every other Lily helper's SSR
+                  section documents).
+    labels      — object. See deviations above:
+                  startLabel/endLabel (plain strings, forwarded as each
+                  composed dateTimePicker's own `label`), dateTimePicker
+                  Labels (object, forwarded as-is to both composed date
+                  pickers' own `labels`; editing is gated on this being
+                  present), saveLabel/cancelLabel (plain strings),
+                  dependencySummary (template string, {predecessors}),
+                  collapseLabel/expandLabel (template strings, {task}).
+                  columnLabel/dateAnnouncement are client.js init opts —
+                  see deviation 2.
+    name        — string, default "chart". Discriminator for ids.
+    id          — string, default "gantt-chart-{name}".
+    classes     — string. Extra CSS classes on the root <div>.
+    attributes  — object. Extra HTML attributes spread onto the root.
+
+  Usage:
+    {% from "./gantt-chart.njk" import ganttChart %}
+    {{ ganttChart({
+      label: "Q4 plan",
+      range: {start: "2026-10-01", end: "2026-10-31"},
+      tasks: [{id: "design", label: "Design", start: "2026-10-01", end: "2026-10-03"}],
+      labels: {
+        saveLabel: "Save", cancelLabel: "Cancel",
+        startLabel: "Start date", endLabel: "End date",
+        dateTimePickerLabels: { previousYear: "…", confirm: "Confirm", cancel: "Cancel", … }
+      }
+    }) }}
+
+  Then load gantt-chart.client.js once and call autoInit({labels: {columnLabel, dateAnnouncement}, onTaskChange}).
+
+  Spec: spec/index.md §4 (macro parameters), §6 (behaviour).
+#}
+{% from "lily-design-system-nunjucks-headless/components/gantt-table/macro.njk" import ganttTable %}
+{% from "lily-design-system-nunjucks-headless/components/gantt-table-thead/macro.njk" import ganttTableThead %}
+{% from "lily-design-system-nunjucks-headless/components/gantt-table-tbody/macro.njk" import ganttTableTbody %}
+{% from "lily-design-system-nunjucks-headless/components/gantt-table-tr/macro.njk" import ganttTableTr %}
+{% from "lily-design-system-nunjucks-headless/components/gantt-table-th/macro.njk" import ganttTableTh %}
+{% from "lily-design-system-nunjucks-date-time-picker/dist/date-time-picker.njk" import dateTimePicker %}
+
+{%- macro _ganttChartEditRowHtml(task, labels, id) -%}
+{%- set startName = id + "-edit-" + task.id + "-start" -%}
+{%- set endName = id + "-edit-" + task.id + "-end" -%}
+{%- set startHtml = dateTimePicker({
+  label: labels.startLabel | default(""),
+  labels: labels.dateTimePickerLabels,
+  mode: "date",
+  value: task.start,
+  name: startName,
+  id: startName
+}) -%}
+{%- set endHtml = dateTimePicker({
+  label: labels.endLabel | default(""),
+  labels: labels.dateTimePickerLabels,
+  mode: "date",
+  value: task.end,
+  name: endName,
+  id: endName
+}) -%}
+<tr class="gantt-chart-edit-row" hidden data-lily-gantt-chart-edit-row data-lily-gantt-chart-task-id="{{ task.id }}" data-lily-gantt-chart-original-start="{{ task.start }}" data-lily-gantt-chart-original-end="{{ task.end }}">
+<td>{{ startHtml | safe }}{{ endHtml | safe }}<button type="button" class="gantt-chart-save-button" data-lily-gantt-chart-save-button data-lily-gantt-chart-task-id="{{ task.id }}">{{ labels.saveLabel | default("") }}</button><button type="button" class="gantt-chart-cancel-button" data-lily-gantt-chart-cancel-button data-lily-gantt-chart-task-id="{{ task.id }}">{{ labels.cancelLabel | default("") }}</button></td>
+</tr>
+{%- endmacro -%}
+
+{#-
+  A parent's start/end are derived (min start / max end across ALL its
+  descendants, recursively), never its own data — mirrors the Svelte
+  canonical's `effectiveRange`. Pure string comparison (ISO dates
+  compare correctly lexicographically), no civil-date arithmetic
+  needed, so — unlike column generation — this CAN run in Nunjucks.
+  Returns "start,end"; the caller splits on the comma.
+-#}
+{%- macro _ganttChartEffectiveRange(taskId, tasks) -%}
+{%- set start = "" -%}
+{%- set end = "" -%}
+{%- for t in tasks -%}
+  {%- if (t.parentId | default("")) == taskId -%}
+    {%- set childHasKids = false -%}
+    {%- for t2 in tasks -%}
+      {%- if (t2.parentId | default("")) == t.id -%}{%- set childHasKids = true -%}{%- endif -%}
+    {%- endfor -%}
+    {%- if childHasKids -%}
+      {%- set childRange = (_ganttChartEffectiveRange(t.id, tasks)).split(",") -%}
+      {%- set cs = childRange[0] -%}
+      {%- set ce = childRange[1] -%}
+    {%- else -%}
+      {%- set cs = t.start -%}
+      {%- set ce = t.end -%}
+    {%- endif -%}
+    {%- if start == "" or cs < start -%}{%- set start = cs -%}{%- endif -%}
+    {%- if end == "" or ce > end -%}{%- set end = ce -%}{%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+{{- start }},{{ end -}}
+{%- endmacro -%}
+
+{%- macro _ganttChartRowHtml(task, depth, hasChildren, deps, labels, id, dtpLabelsPresent, tasks) -%}
+{%- set thHtml = "" -%}
+{%- if hasChildren -%}
+  {%- set collapseLabelRaw = labels.collapseLabel | default("") -%}
+  {%- set expandLabelRaw = labels.expandLabel | default("") -%}
+  {%- set collapseLabelSub = collapseLabelRaw | replace("{task}", task.label) -%}
+  {%- set thHtml = (thHtml ~ '<button type="button" class="gantt-chart-collapse-button" aria-expanded="true" aria-label="' ~ collapseLabelSub ~ '" data-lily-gantt-chart-collapse-button data-lily-gantt-chart-task-id="' ~ task.id ~ '" data-lily-gantt-chart-collapse-label="' ~ collapseLabelRaw ~ '" data-lily-gantt-chart-expand-label="' ~ expandLabelRaw ~ '"><span aria-hidden="true">&#9662;</span></button>') | safe -%}
+{%- endif -%}
+{%- set thHtml = (thHtml ~ task.label) | safe -%}
+{%- set hasDeps = (deps | length) > 0 and labels.dependencySummary -%}
+{%- if hasDeps -%}
+  {%- set depId = id + "-deps-" + task.id -%}
+  {%- set depsText = labels.dependencySummary | replace("{predecessors}", deps | join(", ")) -%}
+  {%- set thHtml = (thHtml ~ '<span id="' ~ depId ~ '" class="gantt-chart-dependency-summary" hidden data-lily-gantt-chart-dependency-summary>' ~ depsText ~ '</span>') | safe -%}
+{%- endif -%}
+{%- set thAttrs = [["style", "padding-inline-start: " + depth + "em"]] -%}
+{%- set thContent = ganttTableTh({ scope: "row", attributes: thAttrs, html: thHtml }) -%}
+{%- if hasChildren -%}
+  {%- set effRange = (_ganttChartEffectiveRange(task.id, tasks)).split(",") -%}
+  {%- set effStart = effRange[0] -%}
+  {%- set effEnd = effRange[1] -%}
+{%- else -%}
+  {%- set effStart = task.start -%}
+  {%- set effEnd = task.end -%}
+{%- endif -%}
+{%- set rowAttrs = [
+  ["data-lily-gantt-chart-task-id", task.id],
+  ["data-lily-gantt-chart-task-label", task.label],
+  ["data-lily-gantt-chart-depth", depth],
+  ["data-lily-gantt-chart-start", effStart],
+  ["data-lily-gantt-chart-end", effEnd]
+] -%}
+{%- if hasChildren -%}{%- set rowAttrs = rowAttrs.concat([["data-lily-gantt-chart-has-children", ""]]) -%}{%- endif -%}
+{%- if task.percentComplete is defined and task.percentComplete is not none -%}
+  {%- set rowAttrs = rowAttrs.concat([["data-lily-gantt-chart-percent-complete", task.percentComplete]]) -%}
+{%- endif -%}
+{%- set out = ganttTableTr({ attributes: rowAttrs, html: thContent }) -%}
+{%- if not hasChildren and dtpLabelsPresent -%}
+  {%- set out = (out ~ _ganttChartEditRowHtml(task, labels, id)) | safe -%}
+{%- endif -%}
+{{- out | safe -}}
+{%- endmacro -%}
+
+{#-
+  Depth-first walk of the parentId tree, built as a single recursive
+  macro that returns its own HTML bottom-up (the same technique
+  kanban-board.njk validated: plain macro-call expressions, never
+  nested `{% call %}` blocks — see that file's header comment for the
+  Nunjucks scoping trap this sidesteps). `parentTaskId` is "" at the
+  root call; comparing against `task.parentId | default("")` handles
+  both root tasks (no parentId) and nested ones uniformly.
+-#}
+{%- macro _ganttChartRowsHtml(parentTaskId, depth, tasks, labels, id, dtpLabelsPresent) -%}
+{%- set out = "" -%}
+{%- for task in tasks -%}
+  {%- if (task.parentId | default("")) == parentTaskId -%}
+    {%- set hasChildren = false -%}
+    {%- for t2 in tasks -%}
+      {%- if (t2.parentId | default("")) == task.id -%}{%- set hasChildren = true -%}{%- endif -%}
+    {%- endfor -%}
+    {%- set deps = [] -%}
+    {%- if task.dependsOn -%}
+      {%- for depId in task.dependsOn -%}
+        {%- for t3 in tasks -%}
+          {%- if t3.id == depId -%}{%- set deps = deps.concat([t3.label]) -%}{%- endif -%}
+        {%- endfor -%}
+      {%- endfor -%}
+    {%- endif -%}
+    {%- set out = (out ~ _ganttChartRowHtml(task, depth, hasChildren, deps, labels, id, dtpLabelsPresent, tasks)) | safe -%}
+    {%- if hasChildren -%}
+      {%- set out = (out ~ _ganttChartRowsHtml(task.id, depth + 1, tasks, labels, id, dtpLabelsPresent)) | safe -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+{{- out | safe -}}
+{%- endmacro -%}
+
+{%- macro ganttChart(opts) -%}
+{%- set tasks = opts.tasks -%}
+{%- set labels = opts.labels | default({}) -%}
+{%- set name = opts.name | default("chart") -%}
+{%- set id = opts.id | default("gantt-chart-" + name) -%}
+{%- set statusId = id + "-status" -%}
+{%- set timeUnit = opts.timeUnit | default("day") -%}
+{%- set dtpLabelsPresent = (labels.dateTimePickerLabels is defined) and labels.dateTimePickerLabels -%}
+{%- set leadingThHtml = ganttTableTh({ scope: "col", attributes: [["data-lily-gantt-chart-leading-column", ""]] }) -%}
+{%- set theadRowHtml = ganttTableTr({ html: leadingThHtml, attributes: [["data-lily-gantt-chart-header-row", ""]] }) -%}
+{%- set theadHtml = ganttTableThead({ html: theadRowHtml }) -%}
+{%- set bodyRowsHtml = _ganttChartRowsHtml("", 0, tasks, labels, id, dtpLabelsPresent) -%}
+{%- set tbodyHtml = ganttTableTbody({ html: bodyRowsHtml }) -%}
+{%- set tableHtml = ganttTable({ label: opts.label, caption: opts.caption, attributes: {"role": "grid"}, html: (theadHtml ~ tbodyHtml) | safe }) -%}
+<div
+  class="gantt-chart{% if opts.classes %} {{ opts.classes }}{% endif %}"
+  data-lily-gantt-chart-root
+  data-lily-gantt-chart-name="{{ name }}"
+  data-lily-gantt-chart-range-start="{{ opts.range.start }}"
+  data-lily-gantt-chart-range-end="{{ opts.range.end }}"
+  data-lily-gantt-chart-time-unit="{{ timeUnit }}"
+  {%- if opts.today %} data-lily-gantt-chart-today="{{ opts.today }}"{% endif %}
+  {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+{{ tableHtml | safe }}
+<p class="gantt-chart-status" id="{{ statusId }}" aria-live="polite" data-lily-gantt-chart-status></p>
+</div>
+{%- endmacro -%}
