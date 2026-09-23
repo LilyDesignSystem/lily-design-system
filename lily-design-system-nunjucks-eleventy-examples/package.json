@@ -22,8 +22,8 @@
     "@axe-core/playwright": "^4.13.0",
     "@playwright/test": "^1.63.0",
     "http-server": "^14.1.1",
-    "jsdom": "^30.0.0",
-    "vitest": "^5.0.0"
+    "jsdom": "^30.1.0",
+    "vitest": "^5.0.1"
   },
   "author": "Joel Parker Henderson <joel@joelparkerhenderson.com>",
   "repository": {
