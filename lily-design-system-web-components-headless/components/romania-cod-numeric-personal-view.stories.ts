@@ -6,7 +6,7 @@ import { h } from "../stories/render.js";
 const SLOT = "";
 
 const meta: Meta = {
-    title: "National identifiers/RomaniaCodNumericPersonalView",
+    title: "Special-Purpose Identifiers/RomaniaCodNumericPersonalView",
     render: (args) => h("lily-romania-cod-numeric-personal-view", args as Record<string, string | boolean>, SLOT),
     args: {
         "label": "Cod Numeric Personal (CNP)",

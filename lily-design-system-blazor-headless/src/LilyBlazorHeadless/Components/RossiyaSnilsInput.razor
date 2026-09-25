@@ -1,0 +1,14 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    RossiyaSnilsInput component
+    an input for entering Russia's SNILS Individual Insurance Account Number
+*@
+
+<input class="@($"rossiya-snils-input {CssClass}".Trim())" type="text" aria-label="@Label" autocomplete="off" @attributes="AdditionalAttributes" />
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

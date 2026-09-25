@@ -6,7 +6,7 @@ import { h } from "../stories/render.js";
 const SLOT = "";
 
 const meta: Meta = {
-    title: "National identifiers/TuaisceartEireannHealthAndCareNumberView",
+    title: "Special-Purpose Identifiers/TuaisceartEireannHealthAndCareNumberView",
     render: (args) => h("lily-tuaisceart-eireann-health-and-care-number-view", args as Record<string, string | boolean>, SLOT),
     args: {
         "label": "Health and Care (H&C) Number",

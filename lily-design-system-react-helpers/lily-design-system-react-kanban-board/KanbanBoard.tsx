@@ -312,7 +312,7 @@ export function KanbanBoard({
                           {cardLabel(card)}
                         </span>
                         <IconButton
-                          ref={(el) => {
+                          ref={(el: HTMLButtonElement | null) => {
                             if (el) moveButtonRefs.current.set(card.id, el);
                             else moveButtonRefs.current.delete(card.id);
                           }}
@@ -339,7 +339,7 @@ export function KanbanBoard({
                             clamp
                             activeIndex={moveActiveIndex}
                             onActiveIndexChange={setMoveActiveIndex}
-                            onActivate={(i) => moveCard(card, columns[i])}
+                            onActivate={(i: number) => moveCard(card, columns[i])}
                             onEscape={() => closeMoveMenu()}
                             onTabOut={() => closeMoveMenu(false)}
                           >
