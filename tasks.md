@@ -2015,6 +2015,32 @@ dropped. None is speculative.
   skill-repo mention. Nothing committed to git; awaiting the user's
   go-ahead.
 
+- [ ] **P8-T16 angular-headless's index.ts barrel is missing every
+  national-identifier export.** Found 2026-09-25 while investigating
+  Dependabot CI failures: unlike svelte/react/vue/web-components-
+  headless, `lily-design-system-angular-headless/index.ts` (the real
+  ng-packagr `lib.entryFile`, not a legacy artifact — confirmed via
+  `ng-package.json`) has no `build.mjs`-style generator script keeping
+  it in sync with `components.tsv`. It currently exports none of the
+  national-identifier components at all — not just the 48 added in
+  P8-T13/P8-T15, but the original 92 too (495 lines, close to the old
+  491-component count with no identifiers). The published
+  `@lilydesignsystem/angular-headless` npm package is therefore
+  missing ~140 exports a consumer would expect. Component-level tests
+  still pass (1209/1209) because they import each component directly
+  by path, not through the barrel, which is why this went unnoticed
+  through both identifier rounds' verification sweeps.
+  - [ ] Write a generator (mirroring the other three catalogs'
+    `build.mjs` barrel-generation logic) that produces
+    `lily-design-system-angular-headless/index.ts` from
+    `components.tsv`, or extend an existing Angular build script if
+    one already covers adjacent generation.
+  - [ ] Regenerate and commit the file; confirm `ng-packagr` still
+    builds clean and the previously-missing exports resolve.
+  - [ ] Audit whether any other catalog's own barrel/registry has a
+    similar silent generator gap (this session only checked
+    svelte/react/vue/web-components/angular).
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.
