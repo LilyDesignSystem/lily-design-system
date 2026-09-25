@@ -6,7 +6,7 @@ import { h } from "../stories/render.js";
 const SLOT = "";
 
 const meta: Meta = {
-    title: "National identifiers/RomaniaPasaportInput",
+    title: "Special-Purpose Identifiers/RomaniaPasaportInput",
     render: (args) => h("lily-romania-pasaport-input", args as Record<string, string | boolean>, SLOT),
     args: {
         "label": "Pașaport"

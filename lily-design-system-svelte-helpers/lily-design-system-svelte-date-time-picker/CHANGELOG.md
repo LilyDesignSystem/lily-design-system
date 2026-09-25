@@ -4,6 +4,21 @@ All notable changes to this package. Format follows
 [Keep a Changelog](https://keepachangelog.com/); versions follow
 [Semantic Versioning](https://semver.org/).
 
+## 0.1.2 — 2026-09-25
+
+**Fix: dependency range on `@lilydesignsystem/svelte-headless` widened
+from `^0.1.0` to `^0.2.0`.** 0.1.1 (below) started passing `baseClass`
+to the trigger button's `IconButton`, a prop that only exists in
+`svelte-headless` 0.2.0. Because `^0.1.0` never resolves to a 0.2.x
+release, every consumer installing this package fresh got 0.1.x's
+`IconButton`, which does not recognise `baseClass` and spreads it onto
+the rendered `<button>` as an inert HTML attribute (`baseclass="date-
+time-picker-button"`) instead of applying it as the element's class.
+The practical symptom: the trigger button never actually got its
+`date-time-picker-button` class, so a consumer's styling for it never
+matched anything. No code change here; the component's own
+implementation was already correct — only the manifest was wrong.
+
 ## 0.1.1 — 2026-09-21
 
 **Internal refactor: the trigger button now depends on

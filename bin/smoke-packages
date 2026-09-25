@@ -159,7 +159,7 @@ echo "== html =="
 node -e '
 const lib = require("@lilydesignsystem/html-headless");
 const n = lib.listComponents().length;
-if (n !== 491) throw new Error("html: expected 491 components, got " + n);
+if (n !== 539) throw new Error("html: expected 539 components, got " + n);
 if (!lib.readComponent("button").includes(String.raw`class="button"`)) throw new Error("html: bad snippet");
 console.log("html OK");'
 
@@ -246,7 +246,7 @@ echo "== nunjucks =="
 node -e '
 const lily = require("@lilydesignsystem/nunjucks-headless");
 const nunjucks = require("nunjucks");
-if (lily.listComponents().length !== 491) throw new Error("nunjucks: expected 491");
+if (lily.listComponents().length !== 539) throw new Error("nunjucks: expected 539");
 const env = new nunjucks.Environment(new nunjucks.FileSystemLoader(lily.templatesDir));
 const out = env.renderString(`{% import "` + lily.macroPath("breadcrumb-nav") + `" as c %}{{ c.breadcrumbNav({ label: "Breadcrumb" }) }}`);
 if (!out.includes(String.raw`class="breadcrumb-nav"`)) throw new Error("nunjucks render: " + out);
@@ -289,6 +289,9 @@ import "@angular/compiler";
 import * as lib from "@lilydesignsystem/angular-headless";
 for (const n of ["Button", "BreadcrumbNav", "TextInput", "ImageCropper"])
   if (typeof lib[n] !== "function") throw new Error("angular missing export: " + n);
+// Still 491, not 539: angular-headless's index.ts has no generator
+// keeping it in sync with components.tsv and is missing every national-
+// identifier export (tasks.md P8-T16, found 2026-09-25, not fixed here).
 if (Object.keys(lib).length < 491) throw new Error("angular: expected >=491 exports");
 const helperPackages = [
   ["@lilydesignsystem/angular-theme-picker", "ThemePicker"],
