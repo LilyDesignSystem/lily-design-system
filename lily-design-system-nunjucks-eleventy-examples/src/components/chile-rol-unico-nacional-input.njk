@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: ChileRolUnicoNacionalInput
+description: an input for entering Chile's Rol Unico Nacional (RUN)
+---
+
+{% from "components/chile-rol-unico-nacional-input/macro.njk" import chileRolUnicoNacionalInput %}
+
+<h2>Default</h2>
+<p>{{ chileRolUnicoNacionalInput({ text: "ChileRolUnicoNacionalInput example", label: "ChileRolUnicoNacionalInput example" }) }}</p>

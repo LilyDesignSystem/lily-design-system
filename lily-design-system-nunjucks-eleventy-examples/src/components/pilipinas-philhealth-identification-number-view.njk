@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: PilipinasPhilhealthIdentificationNumberView
+description: a read-only display of the Philippines' PhilHealth Identification Number (PIN)
+---
+
+{% from "components/pilipinas-philhealth-identification-number-view/macro.njk" import pilipinasPhilhealthIdentificationNumberView %}
+
+<h2>Default</h2>
+<p>{{ pilipinasPhilhealthIdentificationNumberView({ text: "PilipinasPhilhealthIdentificationNumberView example", label: "PilipinasPhilhealthIdentificationNumberView example" }) }}</p>

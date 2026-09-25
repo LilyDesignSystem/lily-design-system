@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: CanadaSocialInsuranceNumberInput
+description: an input for entering Canada's Social Insurance Number (SIN)
+---
+
+{% from "components/canada-social-insurance-number-input/macro.njk" import canadaSocialInsuranceNumberInput %}
+
+<h2>Default</h2>
+<p>{{ canadaSocialInsuranceNumberInput({ text: "CanadaSocialInsuranceNumberInput example", label: "CanadaSocialInsuranceNumberInput example" }) }}</p>

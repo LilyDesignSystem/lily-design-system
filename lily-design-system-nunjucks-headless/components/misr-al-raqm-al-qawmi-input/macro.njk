@@ -1,0 +1,35 @@
+{#
+  MisrAlRaqmAlQawmiInput macro -- an input for entering الرقم القومي (Al-Raqm Al-Qawmi).
+
+  HTML tag: <input type="text">
+  CSS class: misr-al-raqm-al-qawmi-input
+  Format: Fourteen digits. The first digit encodes century of birth (2 for 1900-1999, 3 for 2000-2099); the next six encode date of birth (YYMMDD); the next two encode governorate of birth/registration; the next four are a serial number whose own parity encodes sex (odd male, even female); the fourteenth digit is a check digit.
+  Accessibility: autocomplete="off", spellcheck suppressed.
+
+  Params:
+    id, name, value, label, describedBy, errormessage, invalid,
+    required, disabled, readonly, classes, attributes.
+
+  Usage:
+    {% from "components/misr-al-raqm-al-qawmi-input/macro.njk" import misrAlRaqmAlQawmiInput %}
+    {{ misrAlRaqmAlQawmiInput({ id: "field-id", label: "الرقم القومي (Al-Raqm Al-Qawmi)" }) }}
+#}
+{%- macro misrAlRaqmAlQawmiInput(params) -%}
+<input
+  class="misr-al-raqm-al-qawmi-input{% if params.classes %} {{ params.classes }}{% endif %}"
+  type="text"
+  id="{{ params.id }}"
+  name="{{ params.name | default(params.id) }}"
+  value="{{ params.value | default('') }}"
+  autocomplete="off"
+  spellcheck="false"
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.describedBy %} aria-describedby="{{ params.describedBy }}"{% endif %}
+  {%- if params.errormessage %} aria-errormessage="{{ params.errormessage }}"{% endif %}
+  {%- if params.invalid %} aria-invalid="true"{% endif %}
+  {%- if params.required %} required{% endif %}
+  {%- if params.disabled %} disabled{% endif %}
+  {%- if params.readonly %} readonly{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+{%- endmacro -%}

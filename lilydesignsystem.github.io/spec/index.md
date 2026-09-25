@@ -92,7 +92,7 @@ lilydesignsystem.github.io/
 │       │                                   its own component search box
 │       ├── about/, why/, help/, comparisons/, examples/
 │       ├── accessibility/, news/, roadmap/
-│       ├── lily-claude-code/, lily-claude-design/, lily-figma/
+│       ├── skills/, lily-claude-design/, lily-figma/
 │       ├── components/
 │       │   ├── +page.svelte                Catalog index (search + filter)
 │       │   └── <slug>/+page.svelte         One route per component (491)

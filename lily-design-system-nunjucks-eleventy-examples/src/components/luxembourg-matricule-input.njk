@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: LuxembourgMatriculeInput
+description: an input for entering Luxembourg's Numero d'Identification Nationale (Matricule)
+---
+
+{% from "components/luxembourg-matricule-input/macro.njk" import luxembourgMatriculeInput %}
+
+<h2>Default</h2>
+<p>{{ luxembourgMatriculeInput({ text: "LuxembourgMatriculeInput example", label: "LuxembourgMatriculeInput example" }) }}</p>

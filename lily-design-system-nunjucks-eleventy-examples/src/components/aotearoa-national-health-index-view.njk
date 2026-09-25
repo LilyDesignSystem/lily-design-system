@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: AotearoaNationalHealthIndexView
+description: a read-only display of New Zealand's National Health Index (NHI) Number
+---
+
+{% from "components/aotearoa-national-health-index-view/macro.njk" import aotearoaNationalHealthIndexView %}
+
+<h2>Default</h2>
+<p>{{ aotearoaNationalHealthIndexView({ text: "AotearoaNationalHealthIndexView example", label: "AotearoaNationalHealthIndexView example" }) }}</p>
