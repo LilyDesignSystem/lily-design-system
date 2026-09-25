@@ -43,7 +43,7 @@ the one real subproject it covers. All 26 are individually cloneable
 GitHub repos under [LilyDesignSystem](https://github.com/LilyDesignSystem)
 as well as living at this monorepo's root. See
 [spec/agent-skills/](spec/agent-skills/index.md) for the full list, or
-the docs site's [Lily + Claude Code](https://lilydesignsystem.com/lily-claude-code/)
+the docs site's [Lily + Claude Code](https://lilydesignsystem.com/skills/)
 page for a guided tour.
 [llms.txt](llms.txt) and [llms.json](llms.json)
 give any LLM tool a curated map of the project's most important content,
@@ -119,7 +119,7 @@ The theme-picker helper loads them at runtime.
 
 ## Components
 
-The canonical catalog is [components.tsv](components.tsv) — 491 components. Each
+The canonical catalog is [components.tsv](components.tsv) — 539 components. Each
 slug below links to the per-component documentation.
 
 - [accordion-checkbox](components/accordion-checkbox): a checkbox option that reveals an accordion panel when checked
@@ -613,6 +613,54 @@ slug below links to the per-component documentation.
 - [warning-callout](components/warning-callout): a callout box highlighting a warning message
 - [watermark](components/watermark): a decorative repeating overlay text or image marking a page
 - [week-input](components/week-input): an input for selecting a week and year <input type="week">
+- [aotearoa-national-health-index-input](components/aotearoa-national-health-index-input): an input for entering New Zealand's National Health Index (NHI) Number
+- [aotearoa-national-health-index-view](components/aotearoa-national-health-index-view): a read-only display of New Zealand's National Health Index (NHI) Number
+- [pilipinas-philhealth-identification-number-input](components/pilipinas-philhealth-identification-number-input): an input for entering the Philippines' PhilHealth Identification Number (PIN)
+- [pilipinas-philhealth-identification-number-view](components/pilipinas-philhealth-identification-number-view): a read-only display of the Philippines' PhilHealth Identification Number (PIN)
+- [brasil-cartao-nacional-de-saude-input](components/brasil-cartao-nacional-de-saude-input): an input for entering Brazil's Cartao Nacional de Saude (CNS)
+- [brasil-cartao-nacional-de-saude-view](components/brasil-cartao-nacional-de-saude-view): a read-only display of Brazil's Cartao Nacional de Saude (CNS)
+- [schweiz-ahv-nummer-input](components/schweiz-ahv-nummer-input): an input for entering Switzerland's AHV-Nummer / Numero AVS
+- [schweiz-ahv-nummer-view](components/schweiz-ahv-nummer-view): a read-only display of Switzerland's AHV-Nummer / Numero AVS
+- [canada-social-insurance-number-input](components/canada-social-insurance-number-input): an input for entering Canada's Social Insurance Number (SIN)
+- [canada-social-insurance-number-view](components/canada-social-insurance-number-view): a read-only display of Canada's Social Insurance Number (SIN)
+- [hanguk-jumin-deungnok-beonho-input](components/hanguk-jumin-deungnok-beonho-input): an input for entering South Korea's Resident Registration Number
+- [hanguk-jumin-deungnok-beonho-view](components/hanguk-jumin-deungnok-beonho-view): a read-only display of South Korea's Resident Registration Number
+- [nihon-kojin-bango-input](components/nihon-kojin-bango-input): an input for entering Japan's Individual Number (My Number)
+- [nihon-kojin-bango-view](components/nihon-kojin-bango-view): a read-only display of Japan's Individual Number (My Number)
+- [bharat-aadhaar-input](components/bharat-aadhaar-input): an input for entering India's Aadhaar number
+- [bharat-aadhaar-view](components/bharat-aadhaar-view): a read-only display of India's Aadhaar number
+- [yisrael-teudat-zehut-input](components/yisrael-teudat-zehut-input): an input for entering Israel's Teudat Zehut identity number
+- [yisrael-teudat-zehut-view](components/yisrael-teudat-zehut-view): a read-only display of Israel's Teudat Zehut identity number
+- [south-africa-identity-number-input](components/south-africa-identity-number-input): an input for entering South Africa's Identity Number
+- [south-africa-identity-number-view](components/south-africa-identity-number-view): a read-only display of South Africa's Identity Number
+- [mexico-clave-unica-de-registro-de-poblacion-input](components/mexico-clave-unica-de-registro-de-poblacion-input): an input for entering Mexico's Clave Unica de Registro de Poblacion (CURP)
+- [mexico-clave-unica-de-registro-de-poblacion-view](components/mexico-clave-unica-de-registro-de-poblacion-view): a read-only display of Mexico's Clave Unica de Registro de Poblacion (CURP)
+- [singapore-national-registration-identity-card-input](components/singapore-national-registration-identity-card-input): an input for entering Singapore's National Registration Identity Card number (NRIC/FIN)
+- [singapore-national-registration-identity-card-view](components/singapore-national-registration-identity-card-view): a read-only display of Singapore's National Registration Identity Card number (NRIC/FIN)
+- [osterreich-sozialversicherungsnummer-input](components/osterreich-sozialversicherungsnummer-input): an input for entering Austria's Sozialversicherungsnummer (SVNR)
+- [osterreich-sozialversicherungsnummer-view](components/osterreich-sozialversicherungsnummer-view): a read-only display of Austria's Sozialversicherungsnummer (SVNR)
+- [magyarorszag-taj-szam-input](components/magyarorszag-taj-szam-input): an input for entering Hungary's Tarsadalombiztositasi Azonosito Jel (TAJ)
+- [magyarorszag-taj-szam-view](components/magyarorszag-taj-szam-view): a read-only display of Hungary's Tarsadalombiztositasi Azonosito Jel (TAJ)
+- [luxembourg-matricule-input](components/luxembourg-matricule-input): an input for entering Luxembourg's Numero d'Identification Nationale (Matricule)
+- [luxembourg-matricule-view](components/luxembourg-matricule-view): a read-only display of Luxembourg's Numero d'Identification Nationale (Matricule)
+- [zhongguo-jumin-shenfenzheng-haoma-input](components/zhongguo-jumin-shenfenzheng-haoma-input): an input for entering China's Resident Identity Card Number
+- [zhongguo-jumin-shenfenzheng-haoma-view](components/zhongguo-jumin-shenfenzheng-haoma-view): a read-only display of China's Resident Identity Card Number
+- [rossiya-snils-input](components/rossiya-snils-input): an input for entering Russia's SNILS Individual Insurance Account Number
+- [rossiya-snils-view](components/rossiya-snils-view): a read-only display of Russia's SNILS Individual Insurance Account Number
+- [turkiye-tc-kimlik-numarasi-input](components/turkiye-tc-kimlik-numarasi-input): an input for entering Turkey's T.C. Kimlik Numarasi
+- [turkiye-tc-kimlik-numarasi-view](components/turkiye-tc-kimlik-numarasi-view): a read-only display of Turkey's T.C. Kimlik Numarasi
+- [argentina-codigo-unico-de-identificacion-laboral-input](components/argentina-codigo-unico-de-identificacion-laboral-input): an input for entering Argentina's Codigo Unico de Identificacion Laboral (CUIL)
+- [argentina-codigo-unico-de-identificacion-laboral-view](components/argentina-codigo-unico-de-identificacion-laboral-view): a read-only display of Argentina's Codigo Unico de Identificacion Laboral (CUIL)
+- [ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input](components/ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input): an input for entering Ukraine's Taxpayer Registration Card Number (RNOKPP)
+- [ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view](components/ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view): a read-only display of Ukraine's Taxpayer Registration Card Number (RNOKPP)
+- [indonesia-nomor-induk-kependudukan-input](components/indonesia-nomor-induk-kependudukan-input): an input for entering Indonesia's Nomor Induk Kependudukan (NIK)
+- [indonesia-nomor-induk-kependudukan-view](components/indonesia-nomor-induk-kependudukan-view): a read-only display of Indonesia's Nomor Induk Kependudukan (NIK)
+- [prathet-thai-lek-prajam-tua-prachachon-input](components/prathet-thai-lek-prajam-tua-prachachon-input): an input for entering Thailand's National Identification Number
+- [prathet-thai-lek-prajam-tua-prachachon-view](components/prathet-thai-lek-prajam-tua-prachachon-view): a read-only display of Thailand's National Identification Number
+- [chile-rol-unico-nacional-input](components/chile-rol-unico-nacional-input): an input for entering Chile's Rol Unico Nacional (RUN)
+- [chile-rol-unico-nacional-view](components/chile-rol-unico-nacional-view): a read-only display of Chile's Rol Unico Nacional (RUN)
+- [misr-al-raqm-al-qawmi-input](components/misr-al-raqm-al-qawmi-input): an input for entering Egypt's National Number
+- [misr-al-raqm-al-qawmi-view](components/misr-al-raqm-al-qawmi-view): a read-only display of Egypt's National Number
 
 ## Design Principles
 

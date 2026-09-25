@@ -221,12 +221,12 @@ tab-separated columns: slug, PascalCase name, description. Mirrored by
 implementations; the example-app registries are regenerated from it by
 `bin/generate-registries`.
 
-**Current count: 491 components.**
+**Current count: 539 components** (491 + 24 national-identifier types × 2, added 2026-09-22 in two same-day rounds — see `spec/national-identifiers/index.md`; catalog-registered and fully implemented in all 8 headless catalogs, including Web Components).
 
 The catalog spans forms, navigation, tables, layout, editorial /
 scrollytelling, data visualisation, media, overlays, pickers and
-ratings, semantic entities, and 92 national personal identifier
-components (46 identifier types × `-input` + `-view` across 30+
+ratings, semantic entities, and 140 national personal identifier
+components (70 identifier types × `-input` + `-view` across 50+
 countries). The full category walkthrough lives in
 [spec/components/](components/index.md); the national identifiers in
 [spec/national-identifiers/](national-identifiers/index.md).
