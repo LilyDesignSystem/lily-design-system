@@ -6,7 +6,7 @@ import { h } from "../stories/render.js";
 const SLOT = "";
 
 const meta: Meta = {
-    title: "National identifiers/EestiIsikukoodView",
+    title: "Special-Purpose Identifiers/EestiIsikukoodView",
     render: (args) => h("lily-eesti-isikukood-view", args as Record<string, string | boolean>, SLOT),
     args: {
         "label": "Isikukood",

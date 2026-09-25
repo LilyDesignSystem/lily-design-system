@@ -6,7 +6,7 @@ import { h } from "../stories/render.js";
 const SLOT = "";
 
 const meta: Meta = {
-    title: "National identifiers/EspanaCodigoDeIdentificacionFiscalInput",
+    title: "Special-Purpose Identifiers/EspanaCodigoDeIdentificacionFiscalInput",
     render: (args) => h("lily-espana-codigo-de-identificacion-fiscal-input", args as Record<string, string | boolean>, SLOT),
     args: {
         "label": "Código de Identificación Fiscal"

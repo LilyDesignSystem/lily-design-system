@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: TurkiyeTcKimlikNumarasiView
+description: a read-only display of Turkey's T.C. Kimlik Numarasi
+---
+
+{% from "components/turkiye-tc-kimlik-numarasi-view/macro.njk" import turkiyeTcKimlikNumarasiView %}
+
+<h2>Default</h2>
+<p>{{ turkiyeTcKimlikNumarasiView({ text: "TurkiyeTcKimlikNumarasiView example", label: "TurkiyeTcKimlikNumarasiView example" }) }}</p>

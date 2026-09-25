@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: SingaporeNationalRegistrationIdentityCardInput
+description: an input for entering Singapore's National Registration Identity Card number (NRIC/FIN)
+---
+
+{% from "components/singapore-national-registration-identity-card-input/macro.njk" import singaporeNationalRegistrationIdentityCardInput %}
+
+<h2>Default</h2>
+<p>{{ singaporeNationalRegistrationIdentityCardInput({ text: "SingaporeNationalRegistrationIdentityCardInput example", label: "SingaporeNationalRegistrationIdentityCardInput example" }) }}</p>

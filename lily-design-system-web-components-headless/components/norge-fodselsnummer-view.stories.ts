@@ -6,7 +6,7 @@ import { h } from "../stories/render.js";
 const SLOT = "";
 
 const meta: Meta = {
-    title: "National identifiers/NorgeFodselsnummerView",
+    title: "Special-Purpose Identifiers/NorgeFodselsnummerView",
     render: (args) => h("lily-norge-fodselsnummer-view", args as Record<string, string | boolean>, SLOT),
     args: {
         "label": "Fødselsnummer",

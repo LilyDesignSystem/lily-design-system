@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: BharatAadhaarInput
+description: an input for entering India's Aadhaar number
+---
+
+{% from "components/bharat-aadhaar-input/macro.njk" import bharatAadhaarInput %}
+
+<h2>Default</h2>
+<p>{{ bharatAadhaarInput({ text: "BharatAadhaarInput example", label: "BharatAadhaarInput example" }) }}</p>
