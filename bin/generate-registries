@@ -316,6 +316,13 @@ const htmlEntry = (c, indent) => {
 }
 
 // ---------- root index.md listing ----------
+//
+// Special-purpose identifier components (category "national" — national
+// personal identifiers such as government health-insurance or national-ID
+// numbers) are listed in their own "## Special-Purpose Identifiers"
+// section, immediately after "## Components", rather than interleaved
+// alphabetically among general-purpose components. Both blocks stay
+// sorted by slug within themselves.
 
 {
   const p = "index.md";
@@ -326,10 +333,30 @@ const htmlEntry = (c, indent) => {
     last = i;
   }
   if (first < 0) throw new Error("index.md listing not found");
-  const listing = components.map(
-    (c) => `- [${c.slug}](components/${c.slug}): ${c.description}`
-  );
-  write(p, [...lines.slice(0, first), ...listing, ...lines.slice(last + 1)].join("\n"));
+
+  const generalComponents = components.filter((c) => c.category !== "national");
+  const specialPurposeComponents = components
+    .filter((c) => c.category === "national")
+    .sort((a, b) => a.slug.localeCompare(b.slug));
+
+  const listingFor = (list) =>
+    list.map((c) => `- [${c.slug}](components/${c.slug}): ${c.description}`);
+
+  const block = [
+    ...listingFor(generalComponents),
+    "",
+    "## Special-Purpose Identifiers",
+    "",
+    "National personal identifier components — government health-insurance,",
+    "national-ID, tax, and passport identifiers — kept separate from the",
+    "general-purpose catalog above. See",
+    "[spec/national-identifiers](spec/national-identifiers/index.md) for the",
+    "full contract.",
+    "",
+    ...listingFor(specialPurposeComponents),
+  ];
+
+  write(p, [...lines.slice(0, first), ...block, ...lines.slice(last + 1)].join("\n"));
 }
 
 console.log(`done: ${components.length} components across all registries`);

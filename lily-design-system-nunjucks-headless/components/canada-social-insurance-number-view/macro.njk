@@ -1,0 +1,23 @@
+{#
+  CanadaSocialInsuranceNumberView macro — a read-only display of
+    Canada's Social Insurance Number (SIN).
+
+  HTML tag: <span>
+  CSS class: canada-social-insurance-number-view
+  Format: Nine digits, usually displayed in three groups of three (NNN NNN NNN). The leading digit denotes the region of registration (1 Atlantic, 2-3 Quebec, 4-5 Ontario, 6 Prairies, 7 Pacific, 9 temporary residents), the following seven digits are a serial number, and the final digit is a Luhn (Modulus-10) check digit over the first eight.
+
+  Params:
+    value, label, id, classes, attributes.
+
+  Usage:
+    {% from "components/canada-social-insurance-number-view/macro.njk" import canadaSocialInsuranceNumberView %}
+    {{ canadaSocialInsuranceNumberView({ value: "sample", label: "Canada's Social Insurance Number (SIN)" }) }}
+#}
+{%- macro canadaSocialInsuranceNumberView(params) -%}
+<span
+  class="canada-social-insurance-number-view{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>{{ params.value | default("") }}</span>
+{%- endmacro -%}

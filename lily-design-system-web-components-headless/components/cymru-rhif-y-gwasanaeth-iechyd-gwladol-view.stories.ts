@@ -6,7 +6,7 @@ import { h } from "../stories/render.js";
 const SLOT = "";
 
 const meta: Meta = {
-    title: "National identifiers/CymruRhifYGwasanaethIechydGwladolView",
+    title: "Special-Purpose Identifiers/CymruRhifYGwasanaethIechydGwladolView",
     render: (args) => h("lily-cymru-rhif-y-gwasanaeth-iechyd-gwladol-view", args as Record<string, string | boolean>, SLOT),
     args: {
         "label": "Rhif y Gwasanaeth Iechyd Gwladol",

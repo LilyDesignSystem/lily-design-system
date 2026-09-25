@@ -86,6 +86,28 @@ jobs:
       - name: Install
         working-directory: ${{ matrix.catalog }}
         run: pnpm install --no-frozen-lockfile
+      - name: Build sibling headless catalog (cross-catalog helper dependency)
+        # data-grid/kanban-board/gantt-chart, plus the six migrated pickers,
+        # depend on their own framework's *headless* catalog via a real npm
+        # `dependency`, resolved in local dev/test by a vite alias pointing
+        # at ../{catalog}-headless/dist/... (see each helpers catalog's own
+        # vite config for the exact path). That headless catalog is a
+        # separate top-level subproject with its own package.json/pnpm
+        # install -- this job's own Install/Build steps above never touch
+        # it, so a fresh checkout has no dist/ for the alias to resolve to.
+        # Reproduces as "Failed to resolve import ... Does the file exist?"
+        # when skipped (found 2026-09-25 via 18 Dependabot PRs that all
+        # failed identically regardless of which dependency each bumped --
+        # a pre-existing CI gap, not caused by any of those version bumps).
+        # html-helpers' own sibling reference is a source file, not a dist/
+        # build output, so it needs no build step; nunjucks-helpers has no
+        # such reference at all.
+        if: contains(fromJSON('["lily-design-system-svelte-helpers","lily-design-system-react-helpers","lily-design-system-vue-helpers","lily-design-system-angular-helpers"]'), matrix.catalog)
+        run: |
+          headless="$(echo '${{ matrix.catalog }}' | sed 's/-helpers$/-headless/')"
+          cd "$headless"
+          pnpm install --no-frozen-lockfile
+          pnpm run build
       - name: Build
         # picker-bar's test-time vite alias for each sibling package
         # (theme/locale/text-size/share-picker) resolves to that

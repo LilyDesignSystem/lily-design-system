@@ -32,7 +32,7 @@ implement or ship any component library itself — see
 - `/comparisons/`, `/why/`, `/about/`, `/help/`
 - `/accessibility/`, `/news/` (renders the main repo's `NEWS.md`),
   `/roadmap/` (renders `plan.md`)
-- `/lily-claude-code/`, `/lily-claude-design/`, `/lily-figma/`
+- `/skills/`, `/lily-claude-design/`, `/lily-figma/`
 
 ## Working rules
 
