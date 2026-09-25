@@ -6,7 +6,7 @@ import { h } from "../stories/render.js";
 const SLOT = "";
 
 const meta: Meta = {
-    title: "National identifiers/SlovenskoRodneCisloInput",
+    title: "Special-Purpose Identifiers/SlovenskoRodneCisloInput",
     render: (args) => h("lily-slovensko-rodne-cislo-input", args as Record<string, string | boolean>, SLOT),
     args: {
         "label": "Rodné číslo (RČ)"

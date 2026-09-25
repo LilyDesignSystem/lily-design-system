@@ -33,7 +33,7 @@
         { "title": "News", "url": "https://lilydesignsystem.com/news/", "description": "Announcements, release highlights, project status, and press contacts." },
         { "title": "Roadmap", "url": "https://lilydesignsystem.com/roadmap/", "description": "What the project is working on and planning next." },
         { "title": "Lily + Figma", "url": "https://lilydesignsystem.com/lily-figma/", "description": "There is no maintained Lily Figma library or plugin; the 45 reference themes' design tokens are published in DTCG format and can be imported into Figma today with an existing community plugin." },
-        { "title": "Lily + Claude Code", "url": "https://lilydesignsystem.com/lily-claude-code/", "description": "26 Claude Skills — general, per-framework umbrella, and per-subproject headless/helpers — give Claude Code a curated, loadable entry point into Lily; how to add one, and links to all 26." }
+        { "title": "Lily + Claude Code", "url": "https://lilydesignsystem.com/skills/", "description": "26 Claude Skills — general, per-framework umbrella, and per-subproject headless/helpers — give Claude Code a curated, loadable entry point into Lily; how to add one, and links to all 26." }
       ]
     },
     {

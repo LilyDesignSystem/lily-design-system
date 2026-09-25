@@ -1,0 +1,36 @@
+{#
+  PilipinasPhilhealthIdentificationNumberInput macro — an input for entering
+    the Philippines' PhilHealth Identification Number (PIN).
+
+  HTML tag: <input type="text">
+  CSS class: pilipinas-philhealth-identification-number-input
+  Format: Twelve-digit number assigned by the Philippine Health Insurance Corporation (PhilHealth) to every enrolled member, commonly displayed grouped as NN-NNNNNNNNN-N. No published check-digit algorithm; correctness is confirmed against PhilHealth's own membership records.
+  Accessibility: autocomplete="off", spellcheck suppressed.
+
+  Params:
+    id, name, value, label, describedBy, errormessage, invalid,
+    required, disabled, readonly, classes, attributes.
+
+  Usage:
+    {% from "components/pilipinas-philhealth-identification-number-input/macro.njk" import pilipinasPhilhealthIdentificationNumberInput %}
+    {{ pilipinasPhilhealthIdentificationNumberInput({ id: "field-id", label: "the Philippines' PhilHealth Identification Number (PIN)" }) }}
+#}
+{%- macro pilipinasPhilhealthIdentificationNumberInput(params) -%}
+<input
+  class="pilipinas-philhealth-identification-number-input{% if params.classes %} {{ params.classes }}{% endif %}"
+  type="text"
+  id="{{ params.id }}"
+  name="{{ params.name | default(params.id) }}"
+  value="{{ params.value | default('') }}"
+  autocomplete="off"
+  spellcheck="false"
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.describedBy %} aria-describedby="{{ params.describedBy }}"{% endif %}
+  {%- if params.errormessage %} aria-errormessage="{{ params.errormessage }}"{% endif %}
+  {%- if params.invalid %} aria-invalid="true"{% endif %}
+  {%- if params.required %} required{% endif %}
+  {%- if params.disabled %} disabled{% endif %}
+  {%- if params.readonly %} readonly{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+{%- endmacro -%}
