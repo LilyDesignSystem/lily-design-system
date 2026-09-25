@@ -101,6 +101,8 @@ vuejs
 
 # Lily-specific naming
 dont
+oxendict
+pickerbar
 
 # National personal identifier names (30+ countries, native spelling)
 Aadhaar

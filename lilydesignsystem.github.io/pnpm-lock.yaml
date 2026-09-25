@@ -11,13 +11,10 @@ importers:
 
   .:
     dependencies:
+      '@lilydesignsystem/svelte-picker-bar':
+        specifier: ^0.1.0
+        version: 0.1.0(svelte@5.57.0)
       '@lilydesignsystem/svelte-share-picker':
-        specifier: ^0.1.0
-        version: 0.1.0(svelte@5.57.0)
-      '@lilydesignsystem/svelte-text-size-picker':
-        specifier: ^0.1.0
-        version: 0.1.0(svelte@5.57.0)
-      '@lilydesignsystem/svelte-theme-picker':
         specifier: ^0.1.0
         version: 0.1.0(svelte@5.57.0)
     devDependencies:
@@ -66,6 +63,24 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
+
+  '@lilydesignsystem/svelte-headless@0.1.0':
+    resolution: {integrity: sha512-cB4/baunQqs/rrW7xY1jt3Nw3dJEbPD+JjQNsZY9kBlLALOSUoCnkfdo229RUj5Vamc099FvPsYXx4RKi0Siuw==}
+    engines: {node: '=26'}
+    peerDependencies:
+      svelte: ^5.0.0
+
+  '@lilydesignsystem/svelte-locale-picker@0.1.1':
+    resolution: {integrity: sha512-Mh+J1RwD2CMzTRSp4AXNbBf71lt/7M9jDw48X1P4zouJiK+WCdGo3hkbXvNcf5kNCUqO6p7kl5Ww5+JEXu9vxg==}
+    engines: {node: '=26'}
+    peerDependencies:
+      svelte: ^5.0.0
+
+  '@lilydesignsystem/svelte-picker-bar@0.1.0':
+    resolution: {integrity: sha512-WDNgZt4hL2URnhbGV0yDk1trthq92vPoJIkxhZJyqOs1QRhRYcKMtK7JhTzEOGTPVLMoX2U/V0jJ0R/liboI6g==}
+    engines: {node: '=26'}
+    peerDependencies:
+      svelte: ^5.0.0
 
   '@lilydesignsystem/svelte-share-picker@0.1.0':
     resolution: {integrity: sha512-TC+TengyALGRMwYl1q+rtVq7FQQStnMte/FNv5ar3a2NMYEdz26aO0tZzYlIJccINXqmvxUFUIBakXan/9LZzA==}
@@ -248,6 +263,10 @@ packages:
 
   aria-query@5.3.1:
     resolution: {integrity: sha512-Z/ZeOgVl7bcSYZ/u/rh0fOpvEpq//LZmdbkXyc7syVzjPAhfOa9ebsdTSjEBDU4vs5nC98Kfduj1uFo0qyET3g==}
+    engines: {node: '>= 0.4'}
+
+  aria-query@5.3.2:
+    resolution: {integrity: sha512-COROpnaoap1E2F000S62r6A60uHZnmlvomhfyT2DlTcrY1OrBKn2UhH7qn5wTC9zMvD0AY7csdPSNwKP+7WiQw==}
     engines: {node: '>= 0.4'}
 
   axobject-query@4.1.0:
@@ -564,6 +583,24 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
 
+  '@lilydesignsystem/svelte-headless@0.1.0(svelte@5.57.0)':
+    dependencies:
+      aria-query: 5.3.2
+      svelte: 5.57.0
+
+  '@lilydesignsystem/svelte-locale-picker@0.1.1(svelte@5.57.0)':
+    dependencies:
+      '@lilydesignsystem/svelte-headless': 0.1.0(svelte@5.57.0)
+      svelte: 5.57.0
+
+  '@lilydesignsystem/svelte-picker-bar@0.1.0(svelte@5.57.0)':
+    dependencies:
+      '@lilydesignsystem/svelte-locale-picker': 0.1.1(svelte@5.57.0)
+      '@lilydesignsystem/svelte-share-picker': 0.1.0(svelte@5.57.0)
+      '@lilydesignsystem/svelte-text-size-picker': 0.1.0(svelte@5.57.0)
+      '@lilydesignsystem/svelte-theme-picker': 0.1.0(svelte@5.57.0)
+      svelte: 5.57.0
+
   '@lilydesignsystem/svelte-share-picker@0.1.0(svelte@5.57.0)':
     dependencies:
       svelte: 5.57.0
@@ -679,6 +716,8 @@ snapshots:
   acorn@8.18.0: {}
 
   aria-query@5.3.1: {}
+
+  aria-query@5.3.2: {}
 
   axobject-query@4.1.0: {}
 
