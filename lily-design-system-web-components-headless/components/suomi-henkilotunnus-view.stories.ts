@@ -6,7 +6,7 @@ import { h } from "../stories/render.js";
 const SLOT = "";
 
 const meta: Meta = {
-    title: "National identifiers/SuomiHenkilotunnusView",
+    title: "Special-Purpose Identifiers/SuomiHenkilotunnusView",
     render: (args) => h("lily-suomi-henkilotunnus-view", args as Record<string, string | boolean>, SLOT),
     args: {
         "label": "Henkilötunnus (HETU)",
