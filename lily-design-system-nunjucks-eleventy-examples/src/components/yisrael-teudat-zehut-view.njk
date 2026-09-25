@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: YisraelTeudatZehutView
+description: a read-only display of Israel's Teudat Zehut identity number
+---
+
+{% from "components/yisrael-teudat-zehut-view/macro.njk" import yisraelTeudatZehutView %}
+
+<h2>Default</h2>
+<p>{{ yisraelTeudatZehutView({ text: "YisraelTeudatZehutView example", label: "YisraelTeudatZehutView example" }) }}</p>

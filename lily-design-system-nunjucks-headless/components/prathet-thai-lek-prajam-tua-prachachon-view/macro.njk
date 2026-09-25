@@ -1,0 +1,21 @@
+{#
+  PrathetThaiLekPrajamTuaPrachachonView macro -- a read-only display of เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon).
+
+  HTML tag: <span>
+  CSS class: prathet-thai-lek-prajam-tua-prachachon-view
+
+  Params:
+    value, label, id, classes, attributes.
+
+  Usage:
+    {% from "components/prathet-thai-lek-prajam-tua-prachachon-view/macro.njk" import prathetThaiLekPrajamTuaPrachachonView %}
+    {{ prathetThaiLekPrajamTuaPrachachonView({ value: "sample", label: "เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)" }) }}
+#}
+{%- macro prathetThaiLekPrajamTuaPrachachonView(params) -%}
+<span
+  class="prathet-thai-lek-prajam-tua-prachachon-view{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>{{ params.value | default("") }}</span>
+{%- endmacro -%}

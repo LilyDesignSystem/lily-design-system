@@ -46,6 +46,13 @@ function isRuntimeSource(name) {
   if (name.endsWith(".test.ts") || name.endsWith(".test.tsx")) return false;
   if (name.endsWith(".spec.ts")) return false;
   if (name.includes(".stories.")) return false;
+  // Test-only .svelte host components (needed to exercise a Snippet-typed
+  // prop with real Svelte template syntax rather than hand-constructing
+  // Svelte's internal snippet-calling convention — see
+  // lily-design-system-svelte-calendar-view/CalendarViewEventsTestHost.svelte,
+  // the first helper that needed one). Imported only from a *.test.ts file,
+  // never from index.ts, so excluding it here costs nothing at runtime.
+  if (name.endsWith("TestHost.svelte")) return false;
   return name.endsWith(".ts") || name.endsWith(".svelte");
 }
 

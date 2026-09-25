@@ -7,7 +7,7 @@
 // CommonJS generator script directly — keep the two in sync if the
 // category set changes.
 const CATEGORY_LABEL = {
-  national: "National identifiers",
+  national: "Special-Purpose Identifiers",
   forms: "Form controls",
   buttons: "Buttons",
   links: "Links",

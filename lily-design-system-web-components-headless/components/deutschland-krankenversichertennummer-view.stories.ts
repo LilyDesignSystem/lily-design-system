@@ -6,7 +6,7 @@ import { h } from "../stories/render.js";
 const SLOT = "";
 
 const meta: Meta = {
-    title: "National identifiers/DeutschlandKrankenversichertennummerView",
+    title: "Special-Purpose Identifiers/DeutschlandKrankenversichertennummerView",
     render: (args) => h("lily-deutschland-krankenversichertennummer-view", args as Record<string, string | boolean>, SLOT),
     args: {
         "label": "Krankenversichertennummer",

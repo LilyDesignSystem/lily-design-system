@@ -6,7 +6,7 @@ import { h } from "../stories/render.js";
 const SLOT = "";
 
 const meta: Meta = {
-    title: "National identifiers/NederlandBurgerserviceNummerView",
+    title: "Special-Purpose Identifiers/NederlandBurgerserviceNummerView",
     render: (args) => h("lily-nederland-burgerservice-nummer-view", args as Record<string, string | boolean>, SLOT),
     args: {
         "label": "Burgerservicenummer (BSN)",

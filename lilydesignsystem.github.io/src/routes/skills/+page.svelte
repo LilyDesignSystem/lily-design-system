@@ -7,17 +7,16 @@
 </svelte:head>
 
 <section class="page-intro">
-  <h1>26 Claude Skills, one for every layer</h1>
+  <h1>Skills on AI agents make Lily even easier</h1>
   <p class="page-intro-tagline">
-    Instead of one giant skill covering all seven frameworks and every
-    subproject, Lily ships 26 small ones — general, per-framework, and
+    Lily ships focused skills — general, per-framework, and
     per-subproject — so an agent loads exactly the context it needs and
     nothing it doesn't.
   </p>
 </section>
 
 <section class="section prose" style="margin: 0 auto;">
-  <h2>Three tiers</h2>
+  <h2>What skill do you want?</h2>
   <p>
     Each tier answers a different question. Load the general skill when you
     don't know Lily yet. Load a framework skill when you know your framework
@@ -26,39 +25,29 @@
     working on.
   </p>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Tier</th>
-        <th>Answers</th>
-        <th>Skills</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>General / maintainer</td>
-        <td>"What is Lily?" / "How is this monorepo put together?"</td>
-        <td>
-          <a href="https://github.com/LilyDesignSystem/lily-design-system-skill"
-            ><code>lily-design-system-skill</code></a
-          >,
-          <a href="https://github.com/LilyDesignSystem/lily-design-system-maintainer-skill"
-            ><code>lily-design-system-maintainer-skill</code></a
-          >
-        </td>
-      </tr>
-      <tr>
-        <td>Framework umbrella</td>
-        <td>"What's available for {`{framework}`}, and which piece do I need?"</td>
-        <td>8 — one <code>{`{framework}`}-skill</code> each</td>
-      </tr>
-      <tr>
-        <td>Headless / helpers</td>
-        <td>"How exactly do I use {`{framework}`}'s components / *-picker helpers?"</td>
-        <td>16 — one <code>{`{framework}`}-headless-skill</code> and one <code>{`{framework}`}-helpers-skill</code> each</td>
-      </tr>
-    </tbody>
-  </table>
+  <ul>
+    <li>
+      <strong>General / maintainer</strong> — "What is Lily?" / "How is this
+      monorepo put together?" —
+      <a href="https://github.com/LilyDesignSystem/lily-design-system-skill"
+        ><code>lily-design-system-skill</code></a
+      >,
+      <a href="https://github.com/LilyDesignSystem/lily-design-system-maintainer-skill"
+        ><code>lily-design-system-maintainer-skill</code></a
+      >
+    </li>
+    <li>
+      <strong>Framework umbrella</strong> — "What's available for
+      {`{framework}`}, and which piece do I need?" — 8, one
+      <code>{`{framework}`}-skill</code> each
+    </li>
+    <li>
+      <strong>Headless / helpers</strong> — "How exactly do I use
+      {`{framework}`}'s components / *-picker helpers?" — 16, one
+      <code>{`{framework}`}-headless-skill</code> and one
+      <code>{`{framework}`}-helpers-skill</code> each
+    </li>
+  </ul>
 
   <h2>The eight frameworks</h2>
   <p>
@@ -144,9 +133,8 @@
 
   <h2>Add one skill</h2>
   <p>
-    Each skill is a small, standalone <a href="https://code.claude.com/docs/en/skills">Claude Skill</a>
-    package — just a <code>SKILL.md</code> plus supporting files, no build
-    step. Clone the one you need into wherever your Claude Code setup loads
+    Each skill is a <a href="https://code.claude.com/docs/en/skills"><code>SKILL.md</code></a>
+    file — plus supporting files, no build step. Clone the one you need into wherever your Claude Code setup loads
     skills from (see the official docs linked above for your project's or
     account's skills directory):
   </p>
@@ -157,20 +145,5 @@
     instead — every one of the 26 skills already lives at its root, alongside
     the headless libraries, the helpers catalogs, and the example apps they
     describe.
-  </p>
-
-  <h2>The full breakdown</h2>
-  <p>
-    Why 26 rather than one — or seven — and the exact required-files
-    contract every skill carries, is
-    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/agent-skills/index.md"
-      >spec/agent-skills/index.md</a
-    >
-    in the canonical monorepo.
-  </p>
-  <p>
-    One honest gap: all 26 are pushed to GitHub only for now. The
-    multi-forge fan-out (GitLab, Codeberg) every other Lily subproject's
-    remote carries hasn't reached these yet.
   </p>
 </section>
