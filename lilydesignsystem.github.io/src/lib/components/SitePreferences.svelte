@@ -1,77 +1,29 @@
 <!--
-  SitePreferences — the three page-header preference/action pickers
-  (theme, text size, share), each a real, published Lily helper package.
-  Rendered once, in the root layout, so it appears in the header on
-  every page.
+  SitePreferences — the page-header preference/action picker row,
+  composed from the real, published `@lilydesignsystem/svelte-picker-bar`
+  helper (theme, language, text size, share in one component) rather than
+  assembling the four sibling pickers by hand — see
+  lily-design-system-svelte-helpers/lily-design-system-svelte-picker-bar.
 
-  These are headless components: this file supplies the props (which
-  themes exist, which sizes exist, which share destinations exist) and
-  the surrounding stylesheet (static/assets/style.css) supplies every
-  visual decision, including the two listboxes' open-state positioning
-  and the [data-text-size] font-size mapping — see the "Site preference
-  pickers" section there.
+  These are headless components: PickerBar supplies no CSS of its own;
+  static/assets/style.css supplies every visual decision, including the
+  listboxes' open-state positioning and the [data-text-size] font-size
+  mapping — see the "Site preference pickers" section there.
 -->
 <script lang="ts">
-  import ThemePicker from '@lilydesignsystem/svelte-theme-picker';
-  import TextSizePicker from '@lilydesignsystem/svelte-text-size-picker';
-  import SharePicker, { type ShareTarget } from '@lilydesignsystem/svelte-share-picker';
+  import { goto } from '$app/navigation';
+  import PickerBar from '@lilydesignsystem/svelte-picker-bar';
+  import type { ShareTarget } from '@lilydesignsystem/svelte-share-picker';
+  import { LOCALE_LABELS, locales, DEFAULT_LOCALE } from '$lib/locales';
+  import { ui } from '$lib/i18n';
 
-  // The full 45-theme reference catalog, copied from the root themes/
-  // directory into static/assets/themes/ at build time (see
-  // static/assets/themes/README.md for how to keep the two in sync).
-  const themes = [
-    'abyss',
-    'acid',
-    'adobe-spectrum',
-    'aqua',
-    'autumn',
-    'black',
-    'bumblebee',
-    'business',
-    'caramellatte',
-    'cmyk',
-    'coffee',
-    'corporate',
-    'cupcake',
-    'cyberpunk',
-    'dark',
-    'dim',
-    'dracula',
-    'emerald',
-    'fantasy',
-    'forest',
-    'garden',
-    'halloween',
-    'lemonade',
-    'light',
-    'lofi',
-    'luxury',
-    'mozilla-protocol',
-    'night',
-    'nord',
-    'pastel',
-    'retro',
-    'silk',
-    'sunset',
-    'synthwave',
-    'united-kingdom-government-digital-service',
-    'united-kingdom-national-health-service-england-for-patients',
-    'united-kingdom-national-health-service-england-for-practitioners',
-    'united-kingdom-national-health-service-scotland-for-patients',
-    'united-kingdom-national-health-service-scotland-for-practitioners',
-    'united-kingdom-national-health-service-wales-for-patients',
-    'united-kingdom-national-health-service-wales-for-practitioners',
-    'united-states-web-design-system',
-    'valentine',
-    'winter',
-    'wireframe'
-  ];
+  let { locale = DEFAULT_LOCALE }: { locale?: string } = $props();
 
-  const sizes = ['small', 'medium', 'large', 'x-large'];
+  const strings = $derived(ui(locale));
 
   // No social-network URL ships with the package (see the helper's own
   // docs) — every destination here is this site's own editorial choice.
-  const targets: ShareTarget[] = [
+  const shareTargets: ShareTarget[] = [
     {
       id: 'x',
       label: 'X',
@@ -92,28 +44,42 @@
     {
       id: 'email',
       label: 'Email',
-      href: (url, title) =>
-        `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(url)}`,
+      href: (url, title) => `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(url)}`,
       newTab: false
     }
   ];
+
+  // The site only has translated content at /locales/<code>/ so far (see
+  // spec/locales-for-global-sharing-with-svelte) — switching locale always
+  // goes to that locale's home page, not a translated version of whatever
+  // page you were on, since most pages don't have one yet.
+  function onLocaleChange(code: string) {
+    goto(`/locales/${code}/`);
+  }
 </script>
 
-<div class="site-preferences">
-  <ThemePicker
-    label="Theme"
-    themesUrl="/assets/themes/"
-    {themes}
-    detectFromSystem
-    storageKey="lily-site-theme"
-  />
-  <TextSizePicker label="Text size" {sizes} storageKey="lily-site-text-size" />
-  <SharePicker
-    label="Share this page"
-    title="Lily Design System™"
-    {targets}
-    copyLabel="Copy link"
-    copiedLabel="Link copied"
-    copyFailedLabel="Could not copy — copy it from the address bar"
-  />
-</div>
+<PickerBar
+  class="site-preferences"
+  labels={{
+    theme: strings.pickerLabels.theme,
+    locale: strings.pickerLabels.locale,
+    textSize: strings.pickerLabels.textSize,
+    share: strings.pickerLabels.share
+  }}
+  themesUrl="/assets/themes/"
+  themeProps={{ detectFromSystem: true, storageKey: 'lily-site-theme' }}
+  locales={locales()}
+  localeProps={{
+    value: locale,
+    localeLabels: LOCALE_LABELS,
+    onChange: onLocaleChange
+  }}
+  textSizeProps={{ storageKey: 'lily-site-text-size' }}
+  {shareTargets}
+  shareProps={{
+    title: 'Lily Design System™',
+    copyLabel: 'Copy link',
+    copiedLabel: 'Link copied',
+    copyFailedLabel: 'Could not copy — copy it from the address bar'
+  }}
+/>
