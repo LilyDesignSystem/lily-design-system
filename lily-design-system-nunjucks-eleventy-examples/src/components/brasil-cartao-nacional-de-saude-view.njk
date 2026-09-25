@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: BrasilCartaoNacionalDeSaudeView
+description: a read-only display of Brazil's Cartao Nacional de Saude (CNS)
+---
+
+{% from "components/brasil-cartao-nacional-de-saude-view/macro.njk" import brasilCartaoNacionalDeSaudeView %}
+
+<h2>Default</h2>
+<p>{{ brasilCartaoNacionalDeSaudeView({ text: "BrasilCartaoNacionalDeSaudeView example", label: "BrasilCartaoNacionalDeSaudeView example" }) }}</p>

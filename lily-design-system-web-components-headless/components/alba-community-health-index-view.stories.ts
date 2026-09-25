@@ -6,7 +6,7 @@ import { h } from "../stories/render.js";
 const SLOT = "";
 
 const meta: Meta = {
-    title: "National identifiers/AlbaCommunityHealthIndexView",
+    title: "Special-Purpose Identifiers/AlbaCommunityHealthIndexView",
     render: (args) => h("lily-alba-community-health-index-view", args as Record<string, string | boolean>, SLOT),
     args: {
         "label": "Community Health Index",

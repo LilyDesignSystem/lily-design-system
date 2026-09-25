@@ -6,7 +6,7 @@ import { h } from "../stories/render.js";
 const SLOT = "";
 
 const meta: Meta = {
-    title: "National identifiers/EnglandNationalHealthServiceNumberView",
+    title: "Special-Purpose Identifiers/EnglandNationalHealthServiceNumberView",
     render: (args) => h("lily-england-national-health-service-number-view", args as Record<string, string | boolean>, SLOT),
     args: {
         "label": "National Health Service Number",

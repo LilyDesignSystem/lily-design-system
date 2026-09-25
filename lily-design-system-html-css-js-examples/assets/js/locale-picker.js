@@ -489,18 +489,18 @@ var RTL_SCRIPT_SUBTAGS = /* @__PURE__ */ new Set([
 ]);
 
 // lily-design-system-html-locale-picker/locale-picker.ts
-var GLOBE_WITH_MERIDIANS = "\u{1F310}\uFE0E";
+import { ListboxController } from "@lilydesignsystem/html-headless/components/listbox-controller.js";
+var SVG_NS = "http://www.w3.org/2000/svg";
 function bcp47LocaleTag(locale) {
   return locale.replace(/_/g, "-");
 }
 function isRtlLocale(locale) {
-  var _a;
   if (!locale) return false;
   const parts = locale.split(/[-_]/);
   for (const part of parts) {
     if (RTL_SCRIPT_SUBTAGS.has(part.toLowerCase())) return true;
   }
-  const base = ((_a = parts[0]) == null ? void 0 : _a.toLowerCase()) ?? "";
+  const base = parts[0]?.toLowerCase() ?? "";
   return RTL_LANGUAGE_TAGS.has(base);
 }
 function localeName(locale) {
@@ -575,9 +575,11 @@ var LocalePicker = class extends HTMLElement {
   #activeIndex = -1;
   // Stable ids for the button/listbox aria wiring.
   #baseId = nextLocalePickerId();
-  // Typeahead buffer: APG listbox behaviour. Reset after a pause.
-  #typeahead = "";
-  #typeaheadTimer;
+  // Arrow/Home/End/typeahead/PageUp/PageDown/Escape/Tab keyboard handling
+  // inside the open list is owned by the shared ListboxController (see
+  // @lilydesignsystem/html-headless/components/listbox-controller.js);
+  // this element only decides what open/close/choose mean.
+  #listboxController = null;
   #onDocumentClick = (event) => {
     if (!this.#open) return;
     if (!event.composedPath().includes(this)) this.closeList(false);
@@ -677,7 +679,8 @@ var LocalePicker = class extends HTMLElement {
   }
   // ---- Public, overridable rendering hook ----
   /**
-   * Build the content of the button. The default is the globe glyph
+   * Build the content of the button. The default is a bundled SVG icon
+   * (globe outline)
    * wrapped in `aria-hidden="true"` so the accessible name comes from
    * the button's `aria-label` alone.
    *
@@ -689,11 +692,27 @@ var LocalePicker = class extends HTMLElement {
    * change. See `docs/custom-rendering.md`.
    */
   renderButtonContent() {
-    const icon = document.createElement("span");
-    icon.className = "locale-picker-icon";
-    icon.setAttribute("aria-hidden", "true");
-    icon.textContent = GLOBE_WITH_MERIDIANS;
-    return icon;
+    const svg = document.createElementNS(SVG_NS, "svg");
+    svg.setAttribute("class", "locale-picker-icon");
+    svg.setAttribute("viewBox", "0 0 16 16");
+    svg.setAttribute("width", "1.05rem");
+    svg.setAttribute("height", "1.05rem");
+    svg.setAttribute("aria-hidden", "true");
+    svg.setAttribute("fill", "none");
+    svg.setAttribute("stroke", "currentColor");
+    svg.setAttribute("stroke-width", "1.6");
+    svg.setAttribute("stroke-linecap", "round");
+    svg.setAttribute("stroke-linejoin", "round");
+    const circle = document.createElementNS(SVG_NS, "circle");
+    circle.setAttribute("cx", "8");
+    circle.setAttribute("cy", "8");
+    circle.setAttribute("r", "6");
+    const equator = document.createElementNS(SVG_NS, "path");
+    equator.setAttribute("d", "M2 8h12");
+    const meridian = document.createElementNS(SVG_NS, "path");
+    meridian.setAttribute("d", "M8 2c2.2 0 4 2.7 4 6s-1.8 6-4 6-4-2.7-4-6 1.8-6 4-6z");
+    svg.append(circle, equator, meridian);
+    return svg;
   }
   /** Resolve a locale code to its display label. Public for subclasses. */
   labelFor(locale) {
@@ -765,7 +784,7 @@ var LocalePicker = class extends HTMLElement {
   }
   disconnectedCallback() {
     document.removeEventListener("click", this.#onDocumentClick);
-    clearTimeout(this.#typeaheadTimer);
+    this.#listboxController?.destroy();
     this.#appliedValue = "";
   }
   // ---- Behaviour ----
@@ -820,22 +839,22 @@ var LocalePicker = class extends HTMLElement {
   // ---- Open / close ----
   /** Open the listbox. `startIndex` overrides the active option. */
   openList(startIndex) {
-    var _a;
     const selected = this.#locales.indexOf(this.value);
     this.#activeIndex = this.#locales.length === 0 ? -1 : startIndex ?? (selected >= 0 ? selected : 0);
+    this.#listboxController?.setActiveIndex(this.#activeIndex);
     this.#open = true;
     this.#syncState();
-    (_a = this.#listEl) == null ? void 0 : _a.focus();
+    this.#listEl?.focus({ preventScroll: true });
     this.#scrollActiveIntoView();
   }
   /** Close the listbox. Returns focus to the button unless `refocus` is false. */
   closeList(refocus = true) {
-    var _a;
     if (!this.#open) return;
     this.#open = false;
     this.#activeIndex = -1;
+    this.#listboxController?.setActiveIndex(-1);
     this.#syncState();
-    if (refocus) (_a = this.#buttonEl) == null ? void 0 : _a.focus();
+    if (refocus) this.#buttonEl?.focus({ preventScroll: true });
   }
   #choose(index) {
     const code = this.#locales[index];
@@ -843,42 +862,8 @@ var LocalePicker = class extends HTMLElement {
     this.closeList();
   }
   #scrollActiveIntoView() {
-    var _a, _b;
     if (this.#activeIndex < 0) return;
-    (_b = (_a = this.#optionEls[this.#activeIndex]) == null ? void 0 : _a.scrollIntoView) == null ? void 0 : _b.call(_a, { block: "nearest" });
-  }
-  #moveActive(delta) {
-    if (this.#locales.length === 0) return;
-    this.#activeIndex = Math.min(
-      Math.max(this.#activeIndex + delta, 0),
-      this.#locales.length - 1
-    );
-    this.#syncState();
-    this.#scrollActiveIntoView();
-  }
-  #setActive(index) {
-    this.#activeIndex = index;
-    this.#syncState();
-    this.#scrollActiveIntoView();
-  }
-  #runTypeahead(char) {
-    const lower = char.toLowerCase();
-    const sameCharRun = this.#typeahead === "" || [...this.#typeahead].every((c) => c === lower);
-    this.#typeahead += lower;
-    clearTimeout(this.#typeaheadTimer);
-    this.#typeaheadTimer = setTimeout(() => {
-      this.#typeahead = "";
-    }, 500);
-    const query = sameCharRun ? lower : this.#typeahead;
-    const anchor = this.#activeIndex < 0 ? 0 : this.#activeIndex;
-    const start = sameCharRun ? anchor + 1 : anchor;
-    for (let n = 0; n < this.#locales.length; n++) {
-      const i = (start + n) % this.#locales.length;
-      if (this.labelFor(this.#locales[i]).toLowerCase().startsWith(query)) {
-        this.#setActive(i);
-        return;
-      }
-    }
+    this.#optionEls[this.#activeIndex]?.scrollIntoView?.({ block: "nearest" });
   }
   #onButtonKeydown = (event) => {
     switch (event.key) {
@@ -894,60 +879,12 @@ var LocalePicker = class extends HTMLElement {
         break;
     }
   };
-  #onListKeydown = (event) => {
-    var _a, _b;
-    switch (event.key) {
-      case "ArrowDown":
-        event.preventDefault();
-        this.#moveActive(1);
-        break;
-      case "ArrowUp":
-        event.preventDefault();
-        this.#moveActive(-1);
-        break;
-      case "Home":
-        event.preventDefault();
-        this.#setActive(0);
-        break;
-      case "End":
-        event.preventDefault();
-        this.#setActive(this.#locales.length - 1);
-        break;
-      case "Enter":
-      case " ":
-        event.preventDefault();
-        if (this.#activeIndex >= 0) this.#choose(this.#activeIndex);
-        break;
-      case "Escape":
-        event.preventDefault();
-        this.closeList();
-        break;
-      case "PageUp":
-        event.preventDefault();
-        this.#moveActive(-10);
-        break;
-      case "PageDown":
-        event.preventDefault();
-        this.#moveActive(10);
-        break;
-      case "Tab":
-        (_b = (_a = this.#buttonEl) == null ? void 0 : _a.focus) == null ? void 0 : _b.call(_a);
-        this.closeList(false);
-        break;
-      default:
-        if (event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
-          this.#runTypeahead(event.key);
-        }
-    }
-  };
   #onRootFocusOut = (event) => {
-    var _a;
     const next = event.relatedTarget;
-    if (next && ((_a = this.#rootEl) == null ? void 0 : _a.contains(next))) return;
+    if (next && this.#rootEl?.contains(next)) return;
     queueMicrotask(() => {
-      var _a2;
       const active = document.activeElement;
-      if (active && ((_a2 = this.#rootEl) == null ? void 0 : _a2.contains(active))) return;
+      if (active && this.#rootEl?.contains(active)) return;
       this.closeList(false);
     });
   };
@@ -987,6 +924,7 @@ var LocalePicker = class extends HTMLElement {
     if (!this.isConnected) return;
     this.#open = false;
     this.#activeIndex = -1;
+    this.#listboxController?.destroy();
     const extraClass = this.getAttribute("class") ?? "";
     const root = document.createElement("div");
     root.className = `locale-picker ${extraClass}`.trim();
@@ -1017,7 +955,26 @@ var LocalePicker = class extends HTMLElement {
     list.setAttribute("aria-label", this.label);
     list.setAttribute("tabindex", "-1");
     list.setAttribute("hidden", "");
-    list.addEventListener("keydown", this.#onListKeydown);
+    this.#listboxController = new ListboxController({
+      root: list,
+      clamp: true,
+      typeahead: true,
+      pageSize: 10,
+      // Each <li>'s textContent is already labelFor(locale) — set
+      // below — so reading it back needs no index lookup.
+      getOptionLabel: (option) => option.textContent ?? "",
+      onActiveIndexChange: (index) => {
+        this.#activeIndex = index;
+        this.#syncState();
+        this.#scrollActiveIntoView();
+      },
+      onActivate: (index) => this.#choose(index),
+      onEscape: () => this.closeList(),
+      onTabOut: () => {
+        this.#buttonEl?.focus?.({ preventScroll: true });
+        this.closeList(false);
+      }
+    });
     const optionEls = [];
     this.#locales.forEach((locale, i) => {
       const option = document.createElement("li");
@@ -1060,7 +1017,6 @@ if (typeof customElements !== "undefined" && !customElements.get("locale-picker"
   customElements.define("locale-picker", LocalePicker);
 }
 export {
-  GLOBE_WITH_MERIDIANS,
   LocalePicker,
   RTL_LANGUAGE_TAGS,
   RTL_SCRIPT_SUBTAGS,
