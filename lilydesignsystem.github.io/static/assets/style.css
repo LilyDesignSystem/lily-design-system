@@ -181,13 +181,13 @@ kbd {
   background: #eef2ff;
 }
 
-/* Site preference pickers (theme, text size, share) — headless helper
- * packages (lily-design-system-svelte-{theme,text-size,share}-picker).
- * Each ships zero CSS of its own; the ThemePicker's currently-selected
- * theme is what actually styles their buttons, glyphs, and listboxes —
- * see :where(.theme-picker, .text-size-picker, .share-picker) in each
- * themes/*.css. This rule is only the row layout that places the three
- * in the header. */
+/* Site preference pickers (theme, language, text size, share) — composed
+ * via lily-design-system-svelte-picker-bar, a thin wrapper around the
+ * four sibling headless helper packages. Each ships zero CSS of its own;
+ * the ThemePicker's currently-selected theme is what actually styles
+ * their buttons, glyphs, and listboxes — see :where(.theme-picker,
+ * .locale-picker, .text-size-picker, .share-picker) in each themes/*.css.
+ * This rule is only the row layout that places the four in the header. */
 .site-preferences {
   display: flex;
   align-items: center;
@@ -226,6 +226,23 @@ kbd {
 .share-picker-status {
   margin-bottom: 0;
 }
+
+/* Text-size preference. text-size-picker sets data-text-size on
+ * document.documentElement by default (its `target` prop) -- found
+ * 2026-09-25 that nothing ever consumed it: the picker worked and the
+ * attribute was there, but choosing a size had no visible effect on the
+ * page. Scaling <html>'s font-size scales every rem-based size on the
+ * page together, since body's own font-size is itself 1rem. Percentages
+ * match PickerBar's seven-step DEFAULT_SIZES scale (largest ...
+ * smallest, "normal" the unscaled default this site now uses instead of
+ * its old bespoke small/medium/large/x-large set). */
+html[data-text-size='smallest'] { font-size: 80%; }
+html[data-text-size='smaller'] { font-size: 90%; }
+html[data-text-size='small'] { font-size: 95%; }
+html[data-text-size='normal'] { font-size: 100%; }
+html[data-text-size='large'] { font-size: 110%; }
+html[data-text-size='larger'] { font-size: 125%; }
+html[data-text-size='largest'] { font-size: 150%; }
 
 /* Main content */
 
