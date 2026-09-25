@@ -328,11 +328,21 @@ const htmlEntry = (c, indent) => {
   const p = "index.md";
   const lines = read(p).split("\n");
   const first = lines.findIndex((l) => /^- \[.*\]\(components\//.test(l));
+  if (first < 0) throw new Error("index.md listing not found");
+  // Walk to the end of the WHOLE listing region, not just the first
+  // contiguous run of bullets: a prior run already wrote a "##
+  // Special-Purpose Identifiers" heading, its intro prose, and its own
+  // bullet list right after the general list, all of which must be
+  // replaced too on a second run -- stopping at the first contiguous
+  // bullet run (the original logic) left that second heading/list in
+  // place and prepended a fresh copy in front of it, duplicating the
+  // section every time this script ran. Only a heading OTHER than that
+  // one (e.g. "## Design Principles") ends the region.
   let last = first;
-  for (let i = first; i < lines.length && /^- \[.*\]\(components\//.test(lines[i]); i++) {
+  for (let i = first; i < lines.length; i++) {
+    if (/^## /.test(lines[i]) && lines[i].trim() !== "## Special-Purpose Identifiers") break;
     last = i;
   }
-  if (first < 0) throw new Error("index.md listing not found");
 
   const generalComponents = components.filter((c) => c.category !== "national");
   const specialPurposeComponents = components
@@ -354,6 +364,7 @@ const htmlEntry = (c, indent) => {
     "full contract.",
     "",
     ...listingFor(specialPurposeComponents),
+    ""
   ];
 
   write(p, [...lines.slice(0, first), ...block, ...lines.slice(last + 1)].join("\n"));
