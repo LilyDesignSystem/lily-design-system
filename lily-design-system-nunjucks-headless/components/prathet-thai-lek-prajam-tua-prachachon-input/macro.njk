@@ -1,0 +1,35 @@
+{#
+  PrathetThaiLekPrajamTuaPrachachonInput macro -- an input for entering เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon).
+
+  HTML tag: <input type="text">
+  CSS class: prathet-thai-lek-prajam-tua-prachachon-input
+  Format: Thirteen digits. Digit 1 denotes registration category; digits 2-5 denote the district/province office of registration; digits 6-10 form a serial number; digit 11 is a Modulus-11 check digit computed over the first ten digits; digits 12-13 are further disambiguating digits.
+  Accessibility: autocomplete="off", spellcheck suppressed.
+
+  Params:
+    id, name, value, label, describedBy, errormessage, invalid,
+    required, disabled, readonly, classes, attributes.
+
+  Usage:
+    {% from "components/prathet-thai-lek-prajam-tua-prachachon-input/macro.njk" import prathetThaiLekPrajamTuaPrachachonInput %}
+    {{ prathetThaiLekPrajamTuaPrachachonInput({ id: "field-id", label: "เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)" }) }}
+#}
+{%- macro prathetThaiLekPrajamTuaPrachachonInput(params) -%}
+<input
+  class="prathet-thai-lek-prajam-tua-prachachon-input{% if params.classes %} {{ params.classes }}{% endif %}"
+  type="text"
+  id="{{ params.id }}"
+  name="{{ params.name | default(params.id) }}"
+  value="{{ params.value | default('') }}"
+  autocomplete="off"
+  spellcheck="false"
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.describedBy %} aria-describedby="{{ params.describedBy }}"{% endif %}
+  {%- if params.errormessage %} aria-errormessage="{{ params.errormessage }}"{% endif %}
+  {%- if params.invalid %} aria-invalid="true"{% endif %}
+  {%- if params.required %} required{% endif %}
+  {%- if params.disabled %} disabled{% endif %}
+  {%- if params.readonly %} readonly{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+{%- endmacro -%}

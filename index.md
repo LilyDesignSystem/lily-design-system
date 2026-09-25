@@ -43,7 +43,7 @@ the one real subproject it covers. All 26 are individually cloneable
 GitHub repos under [LilyDesignSystem](https://github.com/LilyDesignSystem)
 as well as living at this monorepo's root. See
 [spec/agent-skills/](spec/agent-skills/index.md) for the full list, or
-the docs site's [Lily + Claude Code](https://lilydesignsystem.com/lily-claude-code/)
+the docs site's [Lily + Claude Code](https://lilydesignsystem.com/skills/)
 page for a guided tour.
 [llms.txt](llms.txt) and [llms.json](llms.json)
 give any LLM tool a curated map of the project's most important content,
@@ -119,7 +119,7 @@ The theme-picker helper loads them at runtime.
 
 ## Components
 
-The canonical catalog is [components.tsv](components.tsv) — 491 components. Each
+The canonical catalog is [components.tsv](components.tsv) — 539 components. Each
 slug below links to the per-component documentation.
 
 - [accordion-checkbox](components/accordion-checkbox): a checkbox option that reveals an accordion panel when checked
@@ -135,8 +135,6 @@ slug below links to the per-component documentation.
 - [addressograph-box](components/addressograph-box): a box that shows a person's identification details, such as name, tracking information, and salient notations
 - [affix](components/affix): a wrapper that pins its content to a viewport position while the page scrolls
 - [ai-label](components/ai-label): an indicator of AI instances that is a pathway to AI explainability
-- [alba-community-health-index-input](components/alba-community-health-index-input): an input for entering Scotland's Community Health Index (CHI)
-- [alba-community-health-index-view](components/alba-community-health-index-view): a read-only display of Scotland's Community Health Index (CHI)
 - [alert](components/alert): a status message for important information or feedback
 - [alert-dialog](components/alert-dialog): a modal dialog for urgent messages requiring user acknowledgment
 - [angle-slider-range-input](components/angle-slider-range-input): a range input for selecting an angle in degrees
@@ -145,8 +143,6 @@ slug below links to the per-component documentation.
 - [area-chart](components/area-chart): an area chart visualization showing sized components in continuous data
 - [article-layout](components/article-layout): a top-level article wrapper that sets CSS custom properties for content column widths
 - [aspect-ratio-container](components/aspect-ratio-container): a container that maintains a fixed aspect ratio
-- [australia-individual-healthcare-identifier-input](components/australia-individual-healthcare-identifier-input): an input for entering Australia's Individual Healthcare Identifier (IHI)
-- [australia-individual-healthcare-identifier-view](components/australia-individual-healthcare-identifier-view): a read-only display of Australia's Individual Healthcare Identifier (IHI)
 - [autosuggest](components/autosuggest): a text input that proposes matching options as users type
 - [avatar](components/avatar): an avatar indicator that shows an avatar image or avatar text
 - [avatar-group](components/avatar-group): a group of avatar components
@@ -159,16 +155,12 @@ slug below links to the per-component documentation.
 - [bar-chart](components/bar-chart): a horizontal bar chart visualization for displaying data
 - [barcode-image](components/barcode-image): a visual machine-readable symbolic code image, such as for a scanner
 - [beach-ball](components/beach-ball): a decorative animated beach ball element
-- [belgique-numero-de-registre-national-input](components/belgique-numero-de-registre-national-input): an input for entering Belgium's Numéro de Registre National / Rijksregisternummer (NRN)
-- [belgique-numero-de-registre-national-view](components/belgique-numero-de-registre-national-view): a read-only display of Belgium's Numéro de Registre National / Rijksregisternummer (NRN)
 - [blockquote](components/blockquote): a block-level quotation with optional source citation
 - [body-text](components/body-text): a rendered text block within a content width container
 - [breadcrumb-link](components/breadcrumb-link): one breadcrumb link in the trail
 - [breadcrumb-list](components/breadcrumb-list): an ordered list of breadcrumb list items
 - [breadcrumb-list-item](components/breadcrumb-list-item): one breadcrumb list item in the trail
 - [breadcrumb-nav](components/breadcrumb-nav): a navigation container for breadcrumb trail links
-- [bulgaria-edinen-grazhdanski-nomer-input](components/bulgaria-edinen-grazhdanski-nomer-input): an input for entering Bulgaria's Единен граждански номер / Edinen grazhdanski nomer (EGN)
-- [bulgaria-edinen-grazhdanski-nomer-view](components/bulgaria-edinen-grazhdanski-nomer-view): a read-only display of Bulgaria's Единен граждански номер / Edinen grazhdanski nomer (EGN)
 - [button](components/button): a generic clickable button element
 - [button-group](components/button-group): a wrapper that groups related buttons together
 - [button-input](components/button-input): an input element of type button for form actions <input type="button">
@@ -187,10 +179,6 @@ slug below links to the per-component documentation.
 - [care-card](components/care-card): a medical care instruction card with urgency levels
 - [carousel](components/carousel): a slideshow for cycling through content items
 - [cascader](components/cascader): a multi-level dropdown for selecting a value from a hierarchy
-- [cesko-cestovni-pas-input](components/cesko-cestovni-pas-input): an input for entering Czech Republic's Cestovní pas
-- [cesko-cestovni-pas-view](components/cesko-cestovni-pas-view): a read-only display of Czech Republic's Cestovní pas
-- [cesko-rodne-cislo-input](components/cesko-rodne-cislo-input): an input for entering Czech Republic's Rodné číslo (RČ)
-- [cesko-rodne-cislo-view](components/cesko-rodne-cislo-view): a read-only display of Czech Republic's Rodné číslo (RČ)
 - [character](components/character): a single character display element
 - [character-counter](components/character-counter): a counter showing remaining or used characters in a text field
 - [chat-list](components/chat-list): an ordered list of chat list item components
@@ -229,12 +217,6 @@ slug below links to the per-component documentation.
 - [context-menu-item](components/context-menu-item): one item in a context menu
 - [contextual-help](components/contextual-help): a help button that opens a popover with explanatory content
 - [currency-input](components/currency-input): a locale-aware currency input with automatic formatting, symbols, separators
-- [cymru-rhif-y-gwasanaeth-iechyd-gwladol-input](components/cymru-rhif-y-gwasanaeth-iechyd-gwladol-input): an input for entering Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG)
-- [cymru-rhif-y-gwasanaeth-iechyd-gwladol-view](components/cymru-rhif-y-gwasanaeth-iechyd-gwladol-view): a read-only display of Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG)
-- [kypros-national-passport-number-input](components/kypros-national-passport-number-input): an input for entering Kypros's National Passport Number
-- [kypros-national-passport-number-view](components/kypros-national-passport-number-view): a read-only display of Kypros's National Passport Number
-- [danmark-personnummer-input](components/danmark-personnummer-input): an input for entering Denmark's Personnummer (CPR-nummer) (CPR)
-- [danmark-personnummer-view](components/danmark-personnummer-view): a read-only display of Denmark's Personnummer (CPR-nummer) (CPR)
 - [data-filter-form](components/data-filter-form): a form for filtering data by criteria
 - [data-table](components/data-table): a data table interactive grid for displaying and sorting tabular data <table>
 - [data-table-body](components/data-table-body): a data table interactive grid tbody for displaying and sorting tabular data <tbody>
@@ -252,8 +234,6 @@ slug below links to the per-component documentation.
 - [description-list](components/description-list): a definition list displaying information in key-value format <dl>
 - [description-list-item](components/description-list-item): one key-value pair in a description list using dt and dd elements
 - [details](components/details): a disclosure widget that shows and hides content
-- [deutschland-krankenversichertennummer-input](components/deutschland-krankenversichertennummer-input): an input for entering Germany's Krankenversichertennummer (KVNR)
-- [deutschland-krankenversichertennummer-view](components/deutschland-krankenversichertennummer-view): a read-only display of Germany's Krankenversichertennummer (KVNR)
 - [dial](components/dial): a rotary dial control for selecting a value
 - [dial-group](components/dial-group): a group of dial components
 - [dialog](components/dialog): a modal or non-modal dialog window
@@ -271,23 +251,13 @@ slug below links to the per-component documentation.
 - [dropdown-menu](components/dropdown-menu): a menu that opens below a trigger button
 - [editable](components/editable): an inline-editable text element that toggles between view and edit modes
 - [editable-form](components/editable-form): a form wrapper for inline editing of content
-- [eesti-isikukood-input](components/eesti-isikukood-input): an input for entering Estonia's Isikukood (IK)
-- [eesti-isikukood-view](components/eesti-isikukood-view): a read-only display of Estonia's Isikukood (IK)
-- [ellada-dematerialised-securities-system-input](components/ellada-dematerialised-securities-system-input): an input for entering Greece's Dematerialised Securities System (DSS)
-- [ellada-dematerialised-securities-system-view](components/ellada-dematerialised-securities-system-view): a read-only display of Greece's Dematerialised Securities System (DSS)
 - [email-input](components/email-input): an input for entering an email address <input type="email">
 - [email-link](components/email-link): a mailto hyperlink for an email address
 - [emoji](components/emoji): a single emoji character with accessible name
 - [emoji-character-picker](components/emoji-character-picker): a picker for browsing and selecting emoji characters
 - [end-notes](components/end-notes): a section of titled endnote items at the end of an article
-- [england-national-health-service-number-input](components/england-national-health-service-number-input): an input for entering England's National Health Service Number (NHS)
-- [england-national-health-service-number-view](components/england-national-health-service-number-view): a read-only display of England's National Health Service Number (NHS)
 - [error-message](components/error-message): an error message associated with a form field
 - [error-summary](components/error-summary): a summary of all validation errors on a form
-- [espana-codigo-de-identificacion-fiscal-input](components/espana-codigo-de-identificacion-fiscal-input): an input for entering Spain's Código de Identificación Fiscal (CIF)
-- [espana-codigo-de-identificacion-fiscal-view](components/espana-codigo-de-identificacion-fiscal-view): a read-only display of Spain's Código de Identificación Fiscal (CIF)
-- [espana-tarjeta-sanitaria-individual-input](components/espana-tarjeta-sanitaria-individual-input): an input for entering an España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier
-- [espana-tarjeta-sanitaria-individual-view](components/espana-tarjeta-sanitaria-individual-view): a read-only display of an España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier
 - [event](components/event): an event component that contains other event-related information
 - [expander](components/expander): a control that expands to reveal more content
 - [feature-card](components/feature-card): a large content card with a prominent image positioned alongside or above the text
@@ -313,8 +283,6 @@ slug below links to the per-component documentation.
 - [footnote](components/footnote): a footnote reference and content element
 - [form](components/form): a form element for collecting and submitting user data
 - [framer](components/framer): a container for framed content display with decorative border
-- [france-numero-d-identification-au-repertoire-input](components/france-numero-d-identification-au-repertoire-input): an input for entering a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
-- [france-numero-d-identification-au-repertoire-view](components/france-numero-d-identification-au-repertoire-view): a read-only display of a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
 - [gantt-table](components/gantt-table): a Gantt chart table interactive grid for planning schedule visualization <table>
 - [gantt-table-tbody](components/gantt-table-tbody): a Gantt chart table interactive grid tbody for planning schedule visualization <tbody>
 - [gantt-table-td](components/gantt-table-td): a Gantt chart table interactive grid data cell for planning schedule visualization <td>
@@ -344,8 +312,6 @@ slug below links to the per-component documentation.
 - [hint](components/hint): hint text providing guidance for a form field
 - [horizontal-scroller](components/horizontal-scroller): a horizontally scrollable content container
 - [hover-card](components/hover-card): a card that appears on hover over a trigger element
-- [hrvatska-osobni-identifikacijski-broj-input](components/hrvatska-osobni-identifikacijski-broj-input): an input for entering Croatia's Osobni identifikacijski broj (OIB)
-- [hrvatska-osobni-identifikacijski-broj-view](components/hrvatska-osobni-identifikacijski-broj-view): a read-only display of Croatia's Osobni identifikacijski broj (OIB)
 - [icon](components/icon): a container for displaying an icon
 - [icon-button](components/icon-button): a button containing only an icon with a required accessible label
 - [icon-list](components/icon-list): an ordered list of icon list item components
@@ -360,12 +326,6 @@ slug below links to the per-component documentation.
 - [input-group](components/input-group): a group wrapping an input with prefix and suffix addons
 - [input-with-mask](components/input-with-mask): an input displaying a format mask placeholder for the user to fill in
 - [inset-text](components/inset-text): indented text to distinguish it from surrounding content
-- [eire-individual-health-identifier-input](components/eire-individual-health-identifier-input): an input for entering Eire Individual Health Identifier (IHI) unique national healthcare identifier
-- [eire-individual-health-identifier-view](components/eire-individual-health-identifier-view): a read-only display of Eire Individual Health Identifier (IHI) unique national healthcare identifier
-- [island-kennitala-input](components/island-kennitala-input): an input for entering Iceland's Kennitala
-- [island-kennitala-view](components/island-kennitala-view): a read-only display of Iceland's Kennitala
-- [italia-codice-fiscale-input](components/italia-codice-fiscale-input): an input for entering Italy's Codice fiscale (CF)
-- [italia-codice-fiscale-view](components/italia-codice-fiscale-view): a read-only display of Italy's Codice fiscale (CF)
 - [kanban-table](components/kanban-table): a kanban board table interactive grid for organizing items by status <table>
 - [kanban-table-body](components/kanban-table-body): a kanban board table interactive grid tbody for organizing items by status <tbody>
 - [kanban-table-foot](components/kanban-table-foot): a kanban board table interactive grid tfoot for organizing items by status <tfoot>
@@ -375,23 +335,9 @@ slug below links to the per-component documentation.
 - [kanban-table-th](components/kanban-table-th): a kanban board table interactive grid header cell for organizing items by status <th>
 - [kbd](components/kbd): show keyboard shortcuts and key combinations in a styled inline element
 - [label](components/label): a label associated with a form input
-- [latvija-personas-kods-input](components/latvija-personas-kods-input): an input for entering Latvia's Personas kods
-- [latvija-personas-kods-view](components/latvija-personas-kods-view): a read-only display of Latvia's Personas kods
-- [liechtenstein-national-identity-card-number-input](components/liechtenstein-national-identity-card-number-input): an input for entering Liechtenstein's Liechtenstein National Identity Card Number
-- [liechtenstein-national-identity-card-number-view](components/liechtenstein-national-identity-card-number-view): a read-only display of Liechtenstein's Liechtenstein National Identity Card Number
-- [liechtenstein-passport-number-input](components/liechtenstein-passport-number-input): an input for entering Liechtenstein's Liechtenstein Passport Number
-- [liechtenstein-passport-number-view](components/liechtenstein-passport-number-view): a read-only display of Liechtenstein's Liechtenstein Passport Number
-- [lietuva-asmens-kodas-input](components/lietuva-asmens-kodas-input): an input for entering Lithuania's Asmens kodas
-- [lietuva-asmens-kodas-view](components/lietuva-asmens-kodas-view): a read-only display of Lithuania's Asmens kodas
-- [lietuva-pasas-input](components/lietuva-pasas-input): an input for entering Lithuania's Pasas
-- [lietuva-pasas-view](components/lietuva-pasas-view): a read-only display of Lithuania's Pasas
 - [line-chart](components/line-chart): a line chart visualization connecting data points to display data
 - [listbox](components/listbox): a list of selectable options with keyboard navigation
 - [loading](components/loading): a loading indicator, such as text, or image, or animation
-- [malta-national-identification-number-input](components/malta-national-identification-number-input): an input for entering Malta's Malta National Identification Number
-- [malta-national-identification-number-view](components/malta-national-identification-number-view): a read-only display of Malta's Malta National Identification Number
-- [malta-passport-number-input](components/malta-passport-number-input): an input for entering Malta's Malta Passport Number
-- [malta-passport-number-view](components/malta-passport-number-view): a read-only display of Malta's Malta Passport Number
 - [masonry](components/masonry): a masonry layout container for variable-height items
 - [measurement-instance-input](components/measurement-instance-input): an input for entering a measurement value and unit
 - [measurement-instance-view](components/measurement-instance-view): a read-only display of a measurement value and unit
@@ -422,20 +368,10 @@ slug below links to the per-component documentation.
 - [month-input](components/month-input): an input for selecting a month and year <input type="month">
 - [mutually-exclusive](components/mutually-exclusive): a container ensuring only one option can be selected from a group
 - [navigation-menu](components/navigation-menu): a site-wide navigation menu with links
-- [nederland-burgerservice-nummer-input](components/nederland-burgerservice-nummer-input): an input for entering Netherlands's Burgerservicenummer (BSN)
-- [nederland-burgerservice-nummer-view](components/nederland-burgerservice-nummer-view): a read-only display of Netherlands's Burgerservicenummer (BSN)
-- [nederland-identiteitskaart-nummer-input](components/nederland-identiteitskaart-nummer-input): an input for entering Netherlands's Identiteitskaart Nummer
-- [nederland-identiteitskaart-nummer-view](components/nederland-identiteitskaart-nummer-view): a read-only display of Netherlands's Identiteitskaart Nummer
-- [nederland-paspoort-nummer-input](components/nederland-paspoort-nummer-input): an input for entering Netherlands's Paspoort Nummer
-- [nederland-paspoort-nummer-view](components/nederland-paspoort-nummer-view): a read-only display of Netherlands's Paspoort Nummer
 - [net-promoter-score-picker](components/net-promoter-score-picker): a picker for selecting a 0-10 Net Promoter Score
 - [net-promoter-score-picker-button](components/net-promoter-score-picker-button): a picker button for selecting a 0-10 Net Promoter Score
 - [net-promoter-score-view](components/net-promoter-score-view): a read-only display of a Net Promoter Score
 - [newsletter-signup](components/newsletter-signup): an email subscription form composition with idle, submitting, success, and error states
-- [norge-fodselsnummer-input](components/norge-fodselsnummer-input): an input for entering Norway's Fødselsnummer
-- [norge-fodselsnummer-view](components/norge-fodselsnummer-view): a read-only display of Norway's Fødselsnummer
-- [tuaisceart-eireann-health-and-care-number-input](components/tuaisceart-eireann-health-and-care-number-input): an input for entering Tuaisceart Eireann Health and Care (H&C) Number unique national healthcare identifier
-- [tuaisceart-eireann-health-and-care-number-view](components/tuaisceart-eireann-health-and-care-number-view): a read-only display of Tuaisceart Eireann Health and Care (H&C) Number unique national healthcare identifier
 - [notification](components/notification): a brief message about an event or update
 - [number-input](components/number-input): an input for entering a numeric value with validation <input type="number">
 - [option](components/option): an option element within a select dropdown
@@ -455,17 +391,9 @@ slug below links to the per-component documentation.
 - [pictogram](components/pictogram): an icon-based component pairing an icon with a title and description in a centered or side layout
 - [pin-input-div](components/pin-input-div): a series of single-digit inputs for entering a PIN or OTP code
 - [place](components/place): a place component that contains other place-related information
-- [polska-numer-identyfikacji-podatkowej-input](components/polska-numer-identyfikacji-podatkowej-input): an input for entering Poland's Numer Identyfikacji Podatkowej (NIP)
-- [polska-numer-identyfikacji-podatkowej-view](components/polska-numer-identyfikacji-podatkowej-view): a read-only display of Poland's Numer Identyfikacji Podatkowej (NIP)
-- [polska-pesel-input](components/polska-pesel-input): an input for entering Poland's PESEL
-- [polska-pesel-view](components/polska-pesel-view): a read-only display of Poland's PESEL
 - [popconfirm-dialog](components/popconfirm-dialog): a popover dialog with confirm and cancel buttons
 - [popover](components/popover): a floating content box anchored to a trigger element
 - [popup](components/popup): a temporary overlay that appears above page content
-- [portugal-numero-de-identificacao-fiscal-input](components/portugal-numero-de-identificacao-fiscal-input): an input for entering Portugal's Número de Identificação Fiscal (NIF)
-- [portugal-numero-de-identificacao-fiscal-view](components/portugal-numero-de-identificacao-fiscal-view): a read-only display of Portugal's Número de Identificação Fiscal (NIF)
-- [portugal-passaporte-input](components/portugal-passaporte-input): an input for entering Portugal's Passaporte
-- [portugal-passaporte-view](components/portugal-passaporte-view): a read-only display of Portugal's Passaporte
 - [postal-code-input](components/postal-code-input): an input for entering a postal or ZIP code
 - [postal-code-view](components/postal-code-view): a read-only display of a postal or ZIP code
 - [product-card](components/product-card): a specialized card for displaying a product with image, title, price, and actions
@@ -488,10 +416,6 @@ slug below links to the per-component documentation.
 - [reset-input](components/reset-input): a button input that resets a form to default values <input type="reset">
 - [resizable](components/resizable): a container that the user can resize by dragging
 - [review-date](components/review-date): a display of a content review date
-- [romania-cod-numeric-personal-input](components/romania-cod-numeric-personal-input): an input for entering Romania's Cod Numeric Personal (CNP)
-- [romania-cod-numeric-personal-view](components/romania-cod-numeric-personal-view): a read-only display of Romania's Cod Numeric Personal (CNP)
-- [romania-pasaport-input](components/romania-pasaport-input): an input for entering Romania's Paşaport
-- [romania-pasaport-view](components/romania-pasaport-view): a read-only display of Romania's Paşaport
 - [scatter-chart](components/scatter-chart): a scatter chart visualization using dots to display data
 - [screen-reader-span](components/screen-reader-span): a visually hidden span of text intended for screen readers to provide more descriptive labels
 - [scroll-area](components/scroll-area): a scrollable container with custom scrollbar support
@@ -519,12 +443,6 @@ slug below links to the per-component documentation.
 - [slide-out-drawer](components/slide-out-drawer): a drawer that slides out from the side of the page
 - [slider](components/slider): a draggable control for selecting a value along a track
 - [slider-button](components/slider-button): a button with a slider that the user needs to slide to confirm
-- [slovenija-emso-input](components/slovenija-emso-input): an input for entering Slovenia's Enotna Matična Številka Občana (EMŠO)
-- [slovenija-emso-view](components/slovenija-emso-view): a read-only display of Slovenia's Enotna Matična Številka Občana (EMŠO)
-- [slovensko-pas-input](components/slovensko-pas-input): an input for entering Slovakia's Pas
-- [slovensko-pas-view](components/slovensko-pas-view): a read-only display of Slovakia's Pas
-- [slovensko-rodne-cislo-input](components/slovensko-rodne-cislo-input): an input for entering Slovakia's Rodné číslo (RČ)
-- [slovensko-rodne-cislo-view](components/slovensko-rodne-cislo-view): a read-only display of Slovakia's Rodné číslo (RČ)
 - [sonner](components/sonner): a toast notification manager
 - [sparkline](components/sparkline): a small inline chart showing a data trend
 - [split-button](components/split-button): a button with a primary action and a dropdown for related actions
@@ -541,11 +459,7 @@ slug below links to the per-component documentation.
 - [summary-box](components/summary-box): a boxed callout highlighting key takeaways or next steps from a longer page
 - [summary-list](components/summary-list): an ordered list of key-value summary pairs
 - [summary-list-item](components/summary-list-item): one key-value pair in a summary list
-- [suomi-henkilotunnus-input](components/suomi-henkilotunnus-input): an input for entering Finland's Henkilötunnus (HETU)
-- [suomi-henkilotunnus-view](components/suomi-henkilotunnus-view): a read-only display of Finland's Henkilötunnus (HETU)
 - [super-banner](components/super-banner): a super-banner communicates a high-priority state that affects an entire app, experience, process, or system
-- [sverige-personnummer-input](components/sverige-personnummer-input): an input for entering Sweden's Personnummer
-- [sverige-personnummer-view](components/sverige-personnummer-view): a read-only display of Sweden's Personnummer
 - [switch-button](components/switch-button): a toggle switch for turning a setting on or off
 - [tab-bar](components/tab-bar): a group of tabs for switching between content panels
 - [tab-bar-button](components/tab-bar-button): one tab button in a tab group
@@ -599,12 +513,6 @@ slug below links to the per-component documentation.
 - [tree-menu](components/tree-menu): a hierarchical tree menu with expandable branches
 - [tree-nav](components/tree-nav): a hierarchical navigation with expandable branches
 - [tree-select](components/tree-select): a select dropdown showing a tree of hierarchical options
-- [united-kingdom-national-health-service-number-input](components/united-kingdom-national-health-service-number-input): an input for entering a UK NHS number
-- [united-kingdom-national-health-service-number-view](components/united-kingdom-national-health-service-number-view): a read-only display of a UK NHS number
-- [united-kingdom-national-insurance-number-input](components/united-kingdom-national-insurance-number-input): an input for entering United Kingdom's National Insurance Number (NINO)
-- [united-kingdom-national-insurance-number-view](components/united-kingdom-national-insurance-number-view): a read-only display of United Kingdom's National Insurance Number (NINO)
-- [united-states-social-security-number-input](components/united-states-social-security-number-input): an input for entering a US Social Security number
-- [united-states-social-security-number-view](components/united-states-social-security-number-view): a read-only display of a US Social Security number
 - [url-input](components/url-input): an input for entering a URL <input type="url">
 - [validation-list](components/validation-list): a live-feedback list of input validation rules with pending, passed, and failed states
 - [validation-list-item](components/validation-list-item): one validation rule in a validation list with a status of pending, passed, or failed
@@ -613,6 +521,155 @@ slug below links to the per-component documentation.
 - [warning-callout](components/warning-callout): a callout box highlighting a warning message
 - [watermark](components/watermark): a decorative repeating overlay text or image marking a page
 - [week-input](components/week-input): an input for selecting a week and year <input type="week">
+
+## Special-Purpose Identifiers
+
+National personal identifier components — government health-insurance,
+national-ID, tax, and passport identifiers — kept separate from the
+general-purpose catalog above. See
+[spec/national-identifiers](spec/national-identifiers/index.md) for the
+full contract.
+
+- [alba-community-health-index-input](components/alba-community-health-index-input): an input for entering Scotland's Community Health Index (CHI)
+- [alba-community-health-index-view](components/alba-community-health-index-view): a read-only display of Scotland's Community Health Index (CHI)
+- [aotearoa-national-health-index-input](components/aotearoa-national-health-index-input): an input for entering New Zealand's National Health Index (NHI) Number
+- [aotearoa-national-health-index-view](components/aotearoa-national-health-index-view): a read-only display of New Zealand's National Health Index (NHI) Number
+- [argentina-codigo-unico-de-identificacion-laboral-input](components/argentina-codigo-unico-de-identificacion-laboral-input): an input for entering Argentina's Codigo Unico de Identificacion Laboral (CUIL)
+- [argentina-codigo-unico-de-identificacion-laboral-view](components/argentina-codigo-unico-de-identificacion-laboral-view): a read-only display of Argentina's Codigo Unico de Identificacion Laboral (CUIL)
+- [australia-individual-healthcare-identifier-input](components/australia-individual-healthcare-identifier-input): an input for entering Australia's Individual Healthcare Identifier (IHI)
+- [australia-individual-healthcare-identifier-view](components/australia-individual-healthcare-identifier-view): a read-only display of Australia's Individual Healthcare Identifier (IHI)
+- [belgique-numero-de-registre-national-input](components/belgique-numero-de-registre-national-input): an input for entering Belgium's Numéro de Registre National / Rijksregisternummer (NRN)
+- [belgique-numero-de-registre-national-view](components/belgique-numero-de-registre-national-view): a read-only display of Belgium's Numéro de Registre National / Rijksregisternummer (NRN)
+- [bharat-aadhaar-input](components/bharat-aadhaar-input): an input for entering India's Aadhaar number
+- [bharat-aadhaar-view](components/bharat-aadhaar-view): a read-only display of India's Aadhaar number
+- [brasil-cartao-nacional-de-saude-input](components/brasil-cartao-nacional-de-saude-input): an input for entering Brazil's Cartao Nacional de Saude (CNS)
+- [brasil-cartao-nacional-de-saude-view](components/brasil-cartao-nacional-de-saude-view): a read-only display of Brazil's Cartao Nacional de Saude (CNS)
+- [bulgaria-edinen-grazhdanski-nomer-input](components/bulgaria-edinen-grazhdanski-nomer-input): an input for entering Bulgaria's Единен граждански номер / Edinen grazhdanski nomer (EGN)
+- [bulgaria-edinen-grazhdanski-nomer-view](components/bulgaria-edinen-grazhdanski-nomer-view): a read-only display of Bulgaria's Единен граждански номер / Edinen grazhdanski nomer (EGN)
+- [canada-social-insurance-number-input](components/canada-social-insurance-number-input): an input for entering Canada's Social Insurance Number (SIN)
+- [canada-social-insurance-number-view](components/canada-social-insurance-number-view): a read-only display of Canada's Social Insurance Number (SIN)
+- [cesko-cestovni-pas-input](components/cesko-cestovni-pas-input): an input for entering Czech Republic's Cestovní pas
+- [cesko-cestovni-pas-view](components/cesko-cestovni-pas-view): a read-only display of Czech Republic's Cestovní pas
+- [cesko-rodne-cislo-input](components/cesko-rodne-cislo-input): an input for entering Czech Republic's Rodné číslo (RČ)
+- [cesko-rodne-cislo-view](components/cesko-rodne-cislo-view): a read-only display of Czech Republic's Rodné číslo (RČ)
+- [chile-rol-unico-nacional-input](components/chile-rol-unico-nacional-input): an input for entering Chile's Rol Unico Nacional (RUN)
+- [chile-rol-unico-nacional-view](components/chile-rol-unico-nacional-view): a read-only display of Chile's Rol Unico Nacional (RUN)
+- [cymru-rhif-y-gwasanaeth-iechyd-gwladol-input](components/cymru-rhif-y-gwasanaeth-iechyd-gwladol-input): an input for entering Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG)
+- [cymru-rhif-y-gwasanaeth-iechyd-gwladol-view](components/cymru-rhif-y-gwasanaeth-iechyd-gwladol-view): a read-only display of Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG)
+- [danmark-personnummer-input](components/danmark-personnummer-input): an input for entering Denmark's Personnummer (CPR-nummer) (CPR)
+- [danmark-personnummer-view](components/danmark-personnummer-view): a read-only display of Denmark's Personnummer (CPR-nummer) (CPR)
+- [deutschland-krankenversichertennummer-input](components/deutschland-krankenversichertennummer-input): an input for entering Germany's Krankenversichertennummer (KVNR)
+- [deutschland-krankenversichertennummer-view](components/deutschland-krankenversichertennummer-view): a read-only display of Germany's Krankenversichertennummer (KVNR)
+- [eesti-isikukood-input](components/eesti-isikukood-input): an input for entering Estonia's Isikukood (IK)
+- [eesti-isikukood-view](components/eesti-isikukood-view): a read-only display of Estonia's Isikukood (IK)
+- [eire-individual-health-identifier-input](components/eire-individual-health-identifier-input): an input for entering Eire Individual Health Identifier (IHI) unique national healthcare identifier
+- [eire-individual-health-identifier-view](components/eire-individual-health-identifier-view): a read-only display of Eire Individual Health Identifier (IHI) unique national healthcare identifier
+- [ellada-dematerialised-securities-system-input](components/ellada-dematerialised-securities-system-input): an input for entering Greece's Dematerialised Securities System (DSS)
+- [ellada-dematerialised-securities-system-view](components/ellada-dematerialised-securities-system-view): a read-only display of Greece's Dematerialised Securities System (DSS)
+- [england-national-health-service-number-input](components/england-national-health-service-number-input): an input for entering England's National Health Service Number (NHS)
+- [england-national-health-service-number-view](components/england-national-health-service-number-view): a read-only display of England's National Health Service Number (NHS)
+- [espana-codigo-de-identificacion-fiscal-input](components/espana-codigo-de-identificacion-fiscal-input): an input for entering Spain's Código de Identificación Fiscal (CIF)
+- [espana-codigo-de-identificacion-fiscal-view](components/espana-codigo-de-identificacion-fiscal-view): a read-only display of Spain's Código de Identificación Fiscal (CIF)
+- [espana-tarjeta-sanitaria-individual-input](components/espana-tarjeta-sanitaria-individual-input): an input for entering an España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier
+- [espana-tarjeta-sanitaria-individual-view](components/espana-tarjeta-sanitaria-individual-view): a read-only display of an España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier
+- [france-numero-d-identification-au-repertoire-input](components/france-numero-d-identification-au-repertoire-input): an input for entering a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
+- [france-numero-d-identification-au-repertoire-view](components/france-numero-d-identification-au-repertoire-view): a read-only display of a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
+- [hanguk-jumin-deungnok-beonho-input](components/hanguk-jumin-deungnok-beonho-input): an input for entering South Korea's Resident Registration Number
+- [hanguk-jumin-deungnok-beonho-view](components/hanguk-jumin-deungnok-beonho-view): a read-only display of South Korea's Resident Registration Number
+- [hrvatska-osobni-identifikacijski-broj-input](components/hrvatska-osobni-identifikacijski-broj-input): an input for entering Croatia's Osobni identifikacijski broj (OIB)
+- [hrvatska-osobni-identifikacijski-broj-view](components/hrvatska-osobni-identifikacijski-broj-view): a read-only display of Croatia's Osobni identifikacijski broj (OIB)
+- [indonesia-nomor-induk-kependudukan-input](components/indonesia-nomor-induk-kependudukan-input): an input for entering Indonesia's Nomor Induk Kependudukan (NIK)
+- [indonesia-nomor-induk-kependudukan-view](components/indonesia-nomor-induk-kependudukan-view): a read-only display of Indonesia's Nomor Induk Kependudukan (NIK)
+- [island-kennitala-input](components/island-kennitala-input): an input for entering Iceland's Kennitala
+- [island-kennitala-view](components/island-kennitala-view): a read-only display of Iceland's Kennitala
+- [italia-codice-fiscale-input](components/italia-codice-fiscale-input): an input for entering Italy's Codice fiscale (CF)
+- [italia-codice-fiscale-view](components/italia-codice-fiscale-view): a read-only display of Italy's Codice fiscale (CF)
+- [kypros-national-passport-number-input](components/kypros-national-passport-number-input): an input for entering Kypros's National Passport Number
+- [kypros-national-passport-number-view](components/kypros-national-passport-number-view): a read-only display of Kypros's National Passport Number
+- [latvija-personas-kods-input](components/latvija-personas-kods-input): an input for entering Latvia's Personas kods
+- [latvija-personas-kods-view](components/latvija-personas-kods-view): a read-only display of Latvia's Personas kods
+- [liechtenstein-national-identity-card-number-input](components/liechtenstein-national-identity-card-number-input): an input for entering Liechtenstein's Liechtenstein National Identity Card Number
+- [liechtenstein-national-identity-card-number-view](components/liechtenstein-national-identity-card-number-view): a read-only display of Liechtenstein's Liechtenstein National Identity Card Number
+- [liechtenstein-passport-number-input](components/liechtenstein-passport-number-input): an input for entering Liechtenstein's Liechtenstein Passport Number
+- [liechtenstein-passport-number-view](components/liechtenstein-passport-number-view): a read-only display of Liechtenstein's Liechtenstein Passport Number
+- [lietuva-asmens-kodas-input](components/lietuva-asmens-kodas-input): an input for entering Lithuania's Asmens kodas
+- [lietuva-asmens-kodas-view](components/lietuva-asmens-kodas-view): a read-only display of Lithuania's Asmens kodas
+- [lietuva-pasas-input](components/lietuva-pasas-input): an input for entering Lithuania's Pasas
+- [lietuva-pasas-view](components/lietuva-pasas-view): a read-only display of Lithuania's Pasas
+- [luxembourg-matricule-input](components/luxembourg-matricule-input): an input for entering Luxembourg's Numero d'Identification Nationale (Matricule)
+- [luxembourg-matricule-view](components/luxembourg-matricule-view): a read-only display of Luxembourg's Numero d'Identification Nationale (Matricule)
+- [magyarorszag-taj-szam-input](components/magyarorszag-taj-szam-input): an input for entering Hungary's Tarsadalombiztositasi Azonosito Jel (TAJ)
+- [magyarorszag-taj-szam-view](components/magyarorszag-taj-szam-view): a read-only display of Hungary's Tarsadalombiztositasi Azonosito Jel (TAJ)
+- [malta-national-identification-number-input](components/malta-national-identification-number-input): an input for entering Malta's Malta National Identification Number
+- [malta-national-identification-number-view](components/malta-national-identification-number-view): a read-only display of Malta's Malta National Identification Number
+- [malta-passport-number-input](components/malta-passport-number-input): an input for entering Malta's Malta Passport Number
+- [malta-passport-number-view](components/malta-passport-number-view): a read-only display of Malta's Malta Passport Number
+- [mexico-clave-unica-de-registro-de-poblacion-input](components/mexico-clave-unica-de-registro-de-poblacion-input): an input for entering Mexico's Clave Unica de Registro de Poblacion (CURP)
+- [mexico-clave-unica-de-registro-de-poblacion-view](components/mexico-clave-unica-de-registro-de-poblacion-view): a read-only display of Mexico's Clave Unica de Registro de Poblacion (CURP)
+- [misr-al-raqm-al-qawmi-input](components/misr-al-raqm-al-qawmi-input): an input for entering Egypt's National Number
+- [misr-al-raqm-al-qawmi-view](components/misr-al-raqm-al-qawmi-view): a read-only display of Egypt's National Number
+- [nederland-burgerservice-nummer-input](components/nederland-burgerservice-nummer-input): an input for entering Netherlands's Burgerservicenummer (BSN)
+- [nederland-burgerservice-nummer-view](components/nederland-burgerservice-nummer-view): a read-only display of Netherlands's Burgerservicenummer (BSN)
+- [nederland-identiteitskaart-nummer-input](components/nederland-identiteitskaart-nummer-input): an input for entering Netherlands's Identiteitskaart Nummer
+- [nederland-identiteitskaart-nummer-view](components/nederland-identiteitskaart-nummer-view): a read-only display of Netherlands's Identiteitskaart Nummer
+- [nederland-paspoort-nummer-input](components/nederland-paspoort-nummer-input): an input for entering Netherlands's Paspoort Nummer
+- [nederland-paspoort-nummer-view](components/nederland-paspoort-nummer-view): a read-only display of Netherlands's Paspoort Nummer
+- [nihon-kojin-bango-input](components/nihon-kojin-bango-input): an input for entering Japan's Individual Number (My Number)
+- [nihon-kojin-bango-view](components/nihon-kojin-bango-view): a read-only display of Japan's Individual Number (My Number)
+- [norge-fodselsnummer-input](components/norge-fodselsnummer-input): an input for entering Norway's Fødselsnummer
+- [norge-fodselsnummer-view](components/norge-fodselsnummer-view): a read-only display of Norway's Fødselsnummer
+- [osterreich-sozialversicherungsnummer-input](components/osterreich-sozialversicherungsnummer-input): an input for entering Austria's Sozialversicherungsnummer (SVNR)
+- [osterreich-sozialversicherungsnummer-view](components/osterreich-sozialversicherungsnummer-view): a read-only display of Austria's Sozialversicherungsnummer (SVNR)
+- [pilipinas-philhealth-identification-number-input](components/pilipinas-philhealth-identification-number-input): an input for entering the Philippines' PhilHealth Identification Number (PIN)
+- [pilipinas-philhealth-identification-number-view](components/pilipinas-philhealth-identification-number-view): a read-only display of the Philippines' PhilHealth Identification Number (PIN)
+- [polska-numer-identyfikacji-podatkowej-input](components/polska-numer-identyfikacji-podatkowej-input): an input for entering Poland's Numer Identyfikacji Podatkowej (NIP)
+- [polska-numer-identyfikacji-podatkowej-view](components/polska-numer-identyfikacji-podatkowej-view): a read-only display of Poland's Numer Identyfikacji Podatkowej (NIP)
+- [polska-pesel-input](components/polska-pesel-input): an input for entering Poland's PESEL
+- [polska-pesel-view](components/polska-pesel-view): a read-only display of Poland's PESEL
+- [portugal-numero-de-identificacao-fiscal-input](components/portugal-numero-de-identificacao-fiscal-input): an input for entering Portugal's Número de Identificação Fiscal (NIF)
+- [portugal-numero-de-identificacao-fiscal-view](components/portugal-numero-de-identificacao-fiscal-view): a read-only display of Portugal's Número de Identificação Fiscal (NIF)
+- [portugal-passaporte-input](components/portugal-passaporte-input): an input for entering Portugal's Passaporte
+- [portugal-passaporte-view](components/portugal-passaporte-view): a read-only display of Portugal's Passaporte
+- [prathet-thai-lek-prajam-tua-prachachon-input](components/prathet-thai-lek-prajam-tua-prachachon-input): an input for entering Thailand's National Identification Number
+- [prathet-thai-lek-prajam-tua-prachachon-view](components/prathet-thai-lek-prajam-tua-prachachon-view): a read-only display of Thailand's National Identification Number
+- [romania-cod-numeric-personal-input](components/romania-cod-numeric-personal-input): an input for entering Romania's Cod Numeric Personal (CNP)
+- [romania-cod-numeric-personal-view](components/romania-cod-numeric-personal-view): a read-only display of Romania's Cod Numeric Personal (CNP)
+- [romania-pasaport-input](components/romania-pasaport-input): an input for entering Romania's Paşaport
+- [romania-pasaport-view](components/romania-pasaport-view): a read-only display of Romania's Paşaport
+- [rossiya-snils-input](components/rossiya-snils-input): an input for entering Russia's SNILS Individual Insurance Account Number
+- [rossiya-snils-view](components/rossiya-snils-view): a read-only display of Russia's SNILS Individual Insurance Account Number
+- [schweiz-ahv-nummer-input](components/schweiz-ahv-nummer-input): an input for entering Switzerland's AHV-Nummer / Numero AVS
+- [schweiz-ahv-nummer-view](components/schweiz-ahv-nummer-view): a read-only display of Switzerland's AHV-Nummer / Numero AVS
+- [singapore-national-registration-identity-card-input](components/singapore-national-registration-identity-card-input): an input for entering Singapore's National Registration Identity Card number (NRIC/FIN)
+- [singapore-national-registration-identity-card-view](components/singapore-national-registration-identity-card-view): a read-only display of Singapore's National Registration Identity Card number (NRIC/FIN)
+- [slovenija-emso-input](components/slovenija-emso-input): an input for entering Slovenia's Enotna Matična Številka Občana (EMŠO)
+- [slovenija-emso-view](components/slovenija-emso-view): a read-only display of Slovenia's Enotna Matična Številka Občana (EMŠO)
+- [slovensko-pas-input](components/slovensko-pas-input): an input for entering Slovakia's Pas
+- [slovensko-pas-view](components/slovensko-pas-view): a read-only display of Slovakia's Pas
+- [slovensko-rodne-cislo-input](components/slovensko-rodne-cislo-input): an input for entering Slovakia's Rodné číslo (RČ)
+- [slovensko-rodne-cislo-view](components/slovensko-rodne-cislo-view): a read-only display of Slovakia's Rodné číslo (RČ)
+- [south-africa-identity-number-input](components/south-africa-identity-number-input): an input for entering South Africa's Identity Number
+- [south-africa-identity-number-view](components/south-africa-identity-number-view): a read-only display of South Africa's Identity Number
+- [suomi-henkilotunnus-input](components/suomi-henkilotunnus-input): an input for entering Finland's Henkilötunnus (HETU)
+- [suomi-henkilotunnus-view](components/suomi-henkilotunnus-view): a read-only display of Finland's Henkilötunnus (HETU)
+- [sverige-personnummer-input](components/sverige-personnummer-input): an input for entering Sweden's Personnummer
+- [sverige-personnummer-view](components/sverige-personnummer-view): a read-only display of Sweden's Personnummer
+- [tuaisceart-eireann-health-and-care-number-input](components/tuaisceart-eireann-health-and-care-number-input): an input for entering Tuaisceart Eireann Health and Care (H&C) Number unique national healthcare identifier
+- [tuaisceart-eireann-health-and-care-number-view](components/tuaisceart-eireann-health-and-care-number-view): a read-only display of Tuaisceart Eireann Health and Care (H&C) Number unique national healthcare identifier
+- [turkiye-tc-kimlik-numarasi-input](components/turkiye-tc-kimlik-numarasi-input): an input for entering Turkey's T.C. Kimlik Numarasi
+- [turkiye-tc-kimlik-numarasi-view](components/turkiye-tc-kimlik-numarasi-view): a read-only display of Turkey's T.C. Kimlik Numarasi
+- [ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input](components/ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input): an input for entering Ukraine's Taxpayer Registration Card Number (RNOKPP)
+- [ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view](components/ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view): a read-only display of Ukraine's Taxpayer Registration Card Number (RNOKPP)
+- [united-kingdom-national-health-service-number-input](components/united-kingdom-national-health-service-number-input): an input for entering a UK NHS number
+- [united-kingdom-national-health-service-number-view](components/united-kingdom-national-health-service-number-view): a read-only display of a UK NHS number
+- [united-kingdom-national-insurance-number-input](components/united-kingdom-national-insurance-number-input): an input for entering United Kingdom's National Insurance Number (NINO)
+- [united-kingdom-national-insurance-number-view](components/united-kingdom-national-insurance-number-view): a read-only display of United Kingdom's National Insurance Number (NINO)
+- [united-states-social-security-number-input](components/united-states-social-security-number-input): an input for entering a US Social Security number
+- [united-states-social-security-number-view](components/united-states-social-security-number-view): a read-only display of a US Social Security number
+- [yisrael-teudat-zehut-input](components/yisrael-teudat-zehut-input): an input for entering Israel's Teudat Zehut identity number
+- [yisrael-teudat-zehut-view](components/yisrael-teudat-zehut-view): a read-only display of Israel's Teudat Zehut identity number
+- [zhongguo-jumin-shenfenzheng-haoma-input](components/zhongguo-jumin-shenfenzheng-haoma-input): an input for entering China's Resident Identity Card Number
+- [zhongguo-jumin-shenfenzheng-haoma-view](components/zhongguo-jumin-shenfenzheng-haoma-view): a read-only display of China's Resident Identity Card Number
 
 ## Design Principles
 
