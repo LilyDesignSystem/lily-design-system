@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: SingaporeNationalRegistrationIdentityCardView
+description: a read-only display of Singapore's National Registration Identity Card number (NRIC/FIN)
+---
+
+{% from "components/singapore-national-registration-identity-card-view/macro.njk" import singaporeNationalRegistrationIdentityCardView %}
+
+<h2>Default</h2>
+<p>{{ singaporeNationalRegistrationIdentityCardView({ text: "SingaporeNationalRegistrationIdentityCardView example", label: "SingaporeNationalRegistrationIdentityCardView example" }) }}</p>

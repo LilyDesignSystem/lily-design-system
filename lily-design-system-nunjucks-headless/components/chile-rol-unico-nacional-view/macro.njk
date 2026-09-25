@@ -1,0 +1,21 @@
+{#
+  ChileRolUnicoNacionalView macro -- a read-only display of Rol Único Nacional (RUN).
+
+  HTML tag: <span>
+  CSS class: chile-rol-unico-nacional-view
+
+  Params:
+    value, label, id, classes, attributes.
+
+  Usage:
+    {% from "components/chile-rol-unico-nacional-view/macro.njk" import chileRolUnicoNacionalView %}
+    {{ chileRolUnicoNacionalView({ value: "sample", label: "Rol Único Nacional (RUN)" }) }}
+#}
+{%- macro chileRolUnicoNacionalView(params) -%}
+<span
+  class="chile-rol-unico-nacional-view{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>{{ params.value | default("") }}</span>
+{%- endmacro -%}

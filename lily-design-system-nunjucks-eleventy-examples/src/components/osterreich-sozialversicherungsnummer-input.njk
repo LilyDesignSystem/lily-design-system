@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: OsterreichSozialversicherungsnummerInput
+description: an input for entering Austria's Sozialversicherungsnummer (SVNR)
+---
+
+{% from "components/osterreich-sozialversicherungsnummer-input/macro.njk" import osterreichSozialversicherungsnummerInput %}
+
+<h2>Default</h2>
+<p>{{ osterreichSozialversicherungsnummerInput({ text: "OsterreichSozialversicherungsnummerInput example", label: "OsterreichSozialversicherungsnummerInput example" }) }}</p>
