@@ -225,11 +225,12 @@ implementations; the example-app registries are regenerated from it by
 
 The catalog spans forms, navigation, tables, layout, editorial /
 scrollytelling, data visualisation, media, overlays, pickers and
-ratings, semantic entities, and 140 national personal identifier
-components (70 identifier types × `-input` + `-view` across 50+
-countries). The full category walkthrough lives in
-[spec/components/](components/index.md); the national identifiers in
-[spec/national-identifiers/](national-identifiers/index.md).
+ratings, semantic entities, and — grouped in their own "Special-Purpose
+Identifiers" section, apart from the general-purpose components above —
+140 national personal identifier components (70 identifier types ×
+`-input` + `-view` across 50+ countries). The full category walkthrough
+lives in [spec/components/](components/index.md); the national
+identifiers in [spec/national-identifiers/](national-identifiers/index.md).
 
 ## 6. Naming conventions
 

@@ -6,7 +6,7 @@ import { h } from "../stories/render.js";
 const SLOT = "";
 
 const meta: Meta = {
-    title: "National identifiers/OsterreichSozialversicherungsnummerInput",
+    title: "Special-Purpose Identifiers/OsterreichSozialversicherungsnummerInput",
     render: (args) => h("lily-osterreich-sozialversicherungsnummer-input", args as Record<string, string | boolean>, SLOT),
     args: {
         "label": "Sozialversicherungsnummer (SVNR)"

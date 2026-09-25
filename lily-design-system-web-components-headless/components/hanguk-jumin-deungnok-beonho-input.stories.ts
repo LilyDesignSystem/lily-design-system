@@ -6,7 +6,7 @@ import { h } from "../stories/render.js";
 const SLOT = "";
 
 const meta: Meta = {
-    title: "National identifiers/HangukJuminDeungnokBeonhoInput",
+    title: "Special-Purpose Identifiers/HangukJuminDeungnokBeonhoInput",
     render: (args) => h("lily-hanguk-jumin-deungnok-beonho-input", args as Record<string, string | boolean>, SLOT),
     args: {
         "label": "Resident Registration Number (주민등록번호)"

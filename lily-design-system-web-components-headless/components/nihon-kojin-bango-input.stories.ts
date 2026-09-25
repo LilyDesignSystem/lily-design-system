@@ -6,7 +6,7 @@ import { h } from "../stories/render.js";
 const SLOT = "";
 
 const meta: Meta = {
-    title: "National identifiers/NihonKojinBangoInput",
+    title: "Special-Purpose Identifiers/NihonKojinBangoInput",
     render: (args) => h("lily-nihon-kojin-bango-input", args as Record<string, string | boolean>, SLOT),
     args: {
         "label": "Individual Number / My Number (マイナンバー)"

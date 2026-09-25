@@ -6,7 +6,7 @@ import { h } from "../stories/render.js";
 const SLOT = "";
 
 const meta: Meta = {
-    title: "National identifiers/YisraelTeudatZehutView",
+    title: "Special-Purpose Identifiers/YisraelTeudatZehutView",
     render: (args) => h("lily-yisrael-teudat-zehut-view", args as Record<string, string | boolean>, SLOT),
     args: {
         "label": "Teudat Zehut (תעודת זהות)",

@@ -6,7 +6,7 @@ import { h } from "../stories/render.js";
 const SLOT = "";
 
 const meta: Meta = {
-    title: "National identifiers/CanadaSocialInsuranceNumberView",
+    title: "Special-Purpose Identifiers/CanadaSocialInsuranceNumberView",
     render: (args) => h("lily-canada-social-insurance-number-view", args as Record<string, string | boolean>, SLOT),
     args: {
         "label": "Social Insurance Number (SIN)",

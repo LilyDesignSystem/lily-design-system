@@ -6,7 +6,7 @@ import { h } from "../stories/render.js";
 const SLOT = "";
 
 const meta: Meta = {
-    title: "National identifiers/UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput",
+    title: "Special-Purpose Identifiers/UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput",
     render: (args) => h("lily-ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input", args as Record<string, string | boolean>, SLOT),
     args: {
         "label": "Реєстраційний номер облікової картки платника податків (РНОКПП)"

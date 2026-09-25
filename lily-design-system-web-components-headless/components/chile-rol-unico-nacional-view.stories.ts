@@ -6,7 +6,7 @@ import { h } from "../stories/render.js";
 const SLOT = "";
 
 const meta: Meta = {
-    title: "National identifiers/ChileRolUnicoNacionalView",
+    title: "Special-Purpose Identifiers/ChileRolUnicoNacionalView",
     render: (args) => h("lily-chile-rol-unico-nacional-view", args as Record<string, string | boolean>, SLOT),
     args: {
         "label": "Rol Único Nacional (RUN)",

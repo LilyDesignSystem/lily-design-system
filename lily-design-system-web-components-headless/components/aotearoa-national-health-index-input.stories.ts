@@ -6,7 +6,7 @@ import { h } from "../stories/render.js";
 const SLOT = "";
 
 const meta: Meta = {
-    title: "National identifiers/AotearoaNationalHealthIndexInput",
+    title: "Special-Purpose Identifiers/AotearoaNationalHealthIndexInput",
     render: (args) => h("lily-aotearoa-national-health-index-input", args as Record<string, string | boolean>, SLOT),
     args: {
         "label": "National Health Index (NHI) Number"

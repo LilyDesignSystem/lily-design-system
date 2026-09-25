@@ -6,7 +6,7 @@ import { h } from "../stories/render.js";
 const SLOT = "";
 
 const meta: Meta = {
-    title: "National identifiers/PilipinasPhilhealthIdentificationNumberView",
+    title: "Special-Purpose Identifiers/PilipinasPhilhealthIdentificationNumberView",
     render: (args) => h("lily-pilipinas-philhealth-identification-number-view", args as Record<string, string | boolean>, SLOT),
     args: {
         "label": "PhilHealth Identification Number (PIN)",

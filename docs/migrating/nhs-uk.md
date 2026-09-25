@@ -79,9 +79,9 @@ textarea) worth an [RFC](../../RFC.md) rather than a workaround, unlike
 GOV.UK's gaps, none of which is a page-level pattern here — NHS.UK's
 component list is more consistently component-shaped than GOV.UK's.
 
-## National identifiers (NHS-specific, no upstream equivalent)
+## Special-Purpose Identifiers (NHS-specific, no upstream equivalent)
 
-nhsuk-frontend has no equivalent to Lily's 92 national personal
+nhsuk-frontend has no equivalent to Lily's 140 national personal
 identifier components — including the ten UK-specific ones (NHS
 number, and identifiers for other UK nations and territories). See
 [spec/national-identifiers](../../spec/national-identifiers/index.md).

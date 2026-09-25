@@ -2,7 +2,7 @@
 
 > Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
-**Summary.** Lily™ ships 140 national personal identifier components — 70 identifier types each paired as `-input` and `-view` — spanning 50+ countries and covering healthcare, national-ID, tax, and passport identifiers, rendered through one headless input/view pattern and grounded in canonical reference TSVs.
+**Summary.** Lily™ ships 140 national personal identifier components — 70 identifier types each paired as `-input` and `-view` — spanning 50+ countries and covering healthcare, national-ID, tax, and passport identifiers, rendered through one headless input/view pattern and grounded in canonical reference TSVs. In every generated listing (root `index.md`, each example app's `/components` category filter, the Web Components catalog's Storybook grouping) these ship under a single "Special-Purpose Identifiers" heading, apart from the general-purpose catalog — this topic's own name (and its `national` category id) stays the internal/engineering term.
 
 ## Scope
 

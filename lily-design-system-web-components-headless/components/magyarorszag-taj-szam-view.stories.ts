@@ -6,7 +6,7 @@ import { h } from "../stories/render.js";
 const SLOT = "";
 
 const meta: Meta = {
-    title: "National identifiers/MagyarorszagTajSzamView",
+    title: "Special-Purpose Identifiers/MagyarorszagTajSzamView",
     render: (args) => h("lily-magyarorszag-taj-szam-view", args as Record<string, string | boolean>, SLOT),
     args: {
         "label": "Társadalombiztosítási Azonosító Jel (TAJ)",

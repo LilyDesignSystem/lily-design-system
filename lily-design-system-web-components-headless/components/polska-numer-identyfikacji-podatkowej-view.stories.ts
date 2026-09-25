@@ -6,7 +6,7 @@ import { h } from "../stories/render.js";
 const SLOT = "";
 
 const meta: Meta = {
-    title: "National identifiers/PolskaNumerIdentyfikacjiPodatkowejView",
+    title: "Special-Purpose Identifiers/PolskaNumerIdentyfikacjiPodatkowejView",
     render: (args) => h("lily-polska-numer-identyfikacji-podatkowej-view", args as Record<string, string | boolean>, SLOT),
     args: {
         "label": "Numer Identyfikacji Podatkowej (NIP)",

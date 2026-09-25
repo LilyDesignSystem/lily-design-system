@@ -6,7 +6,7 @@ import { h } from "../stories/render.js";
 const SLOT = "";
 
 const meta: Meta = {
-    title: "National identifiers/IndonesiaNomorIndukKependudukanInput",
+    title: "Special-Purpose Identifiers/IndonesiaNomorIndukKependudukanInput",
     render: (args) => h("lily-indonesia-nomor-induk-kependudukan-input", args as Record<string, string | boolean>, SLOT),
     args: {
         "label": "Nomor Induk Kependudukan (NIK)"

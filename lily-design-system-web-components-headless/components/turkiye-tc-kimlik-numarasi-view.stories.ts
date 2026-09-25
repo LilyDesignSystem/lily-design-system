@@ -6,7 +6,7 @@ import { h } from "../stories/render.js";
 const SLOT = "";
 
 const meta: Meta = {
-    title: "National identifiers/TurkiyeTcKimlikNumarasiView",
+    title: "Special-Purpose Identifiers/TurkiyeTcKimlikNumarasiView",
     render: (args) => h("lily-turkiye-tc-kimlik-numarasi-view", args as Record<string, string | boolean>, SLOT),
     args: {
         "label": "T.C. Kimlik Numarası",

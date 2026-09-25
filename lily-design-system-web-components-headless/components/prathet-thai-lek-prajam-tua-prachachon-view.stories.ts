@@ -6,7 +6,7 @@ import { h } from "../stories/render.js";
 const SLOT = "";
 
 const meta: Meta = {
-    title: "National identifiers/PrathetThaiLekPrajamTuaPrachachonView",
+    title: "Special-Purpose Identifiers/PrathetThaiLekPrajamTuaPrachachonView",
     render: (args) => h("lily-prathet-thai-lek-prajam-tua-prachachon-view", args as Record<string, string | boolean>, SLOT),
     args: {
         "label": "เลขประจำตัวประชาชน (National ID)",

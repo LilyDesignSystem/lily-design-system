@@ -6,7 +6,7 @@ import { h } from "../stories/render.js";
 const SLOT = "";
 
 const meta: Meta = {
-    title: "National identifiers/MexicoClaveUnicaDeRegistroDePoblacionView",
+    title: "Special-Purpose Identifiers/MexicoClaveUnicaDeRegistroDePoblacionView",
     render: (args) => h("lily-mexico-clave-unica-de-registro-de-poblacion-view", args as Record<string, string | boolean>, SLOT),
     args: {
         "label": "Clave Única de Registro de Población (CURP)",

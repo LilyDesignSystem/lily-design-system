@@ -6,7 +6,7 @@ import { h } from "../stories/render.js";
 const SLOT = "";
 
 const meta: Meta = {
-    title: "National identifiers/MisrAlRaqmAlQawmiInput",
+    title: "Special-Purpose Identifiers/MisrAlRaqmAlQawmiInput",
     render: (args) => h("lily-misr-al-raqm-al-qawmi-input", args as Record<string, string | boolean>, SLOT),
     args: {
         "label": "الرقم القومي (National Number)"
