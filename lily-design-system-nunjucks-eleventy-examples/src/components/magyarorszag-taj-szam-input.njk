@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: MagyarorszagTajSzamInput
+description: an input for entering Hungary's Tarsadalombiztositasi Azonosito Jel (TAJ)
+---
+
+{% from "components/magyarorszag-taj-szam-input/macro.njk" import magyarorszagTajSzamInput %}
+
+<h2>Default</h2>
+<p>{{ magyarorszagTajSzamInput({ text: "MagyarorszagTajSzamInput example", label: "MagyarorszagTajSzamInput example" }) }}</p>

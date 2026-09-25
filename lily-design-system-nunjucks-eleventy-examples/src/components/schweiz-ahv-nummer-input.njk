@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: SchweizAhvNummerInput
+description: an input for entering Switzerland's AHV-Nummer / Numero AVS
+---
+
+{% from "components/schweiz-ahv-nummer-input/macro.njk" import schweizAhvNummerInput %}
+
+<h2>Default</h2>
+<p>{{ schweizAhvNummerInput({ text: "SchweizAhvNummerInput example", label: "SchweizAhvNummerInput example" }) }}</p>

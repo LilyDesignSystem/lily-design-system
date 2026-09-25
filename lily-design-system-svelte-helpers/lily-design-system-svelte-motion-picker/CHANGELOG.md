@@ -4,6 +4,24 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.1.2 — 2026-09-25
+
+**Fix: dependency range on `@lilydesignsystem/svelte-headless` widened
+from `^0.1.0` to `^0.2.0`.** 0.1.1 (below) started passing `baseClass`,
+`as`, and `navigation="active-descendant"` to `Listbox`, and `IconButton`
+similarly — props that only exist in `svelte-headless` 0.2.0. Because
+`^0.1.0` never resolves to a 0.2.x release, every consumer installing
+this package fresh got 0.1.x's `Listbox`, which does not recognise those
+props and spreads them onto the rendered element as inert HTML
+attributes (`baseclass="..."`, `as="ul"`, `navigation="..."`, ...)
+instead of applying them. The practical symptom: the popup's intended
+`class` (e.g. `motion-picker-list`) was never actually set, so a
+consumer's positioning CSS (`position: absolute`, ...) never matched
+anything, and the listbox rendered in normal document flow — pushing
+the whole page down and sideways the instant it opened. No code change
+here; the component's own implementation was already correct — only
+the manifest was wrong.
+
 ## 0.1.1 — 2026-09-21
 
 **Internal refactor: now depends on `@lilydesignsystem/svelte-headless`'s

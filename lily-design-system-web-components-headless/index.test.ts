@@ -25,15 +25,22 @@ describe("dist/index.js (built package entry point)", () => {
         for (const slug of SLUGS) {
             expect(customElements.get(`lily-${slug}`), `lily-${slug} should be defined`).toBeTruthy();
         }
-        // The full achievable catalog as of 2026-09-06: 491 canonical
+        // The full achievable catalog as of 2026-09-22: 491 canonical
         // components minus the 35 permanently excluded by the wrapper-host
         // limitation (30 table sub-elements + 5 interactive *ListItem
-        // families, spec/index.md SS2/SS2.1) = 456. Built up across the
-        // original P7-T6/P8-T7 slice (33), all 92 national personal
-        // identifier components, and three more waves covering every
-        // remaining category (lists, forms, pickers, links, overlays,
-        // tables, media, data-viz, buttons, navigation, content).
-        expect(SLUGS.length).toBe(456);
+        // families, spec/index.md SS2/SS2.1) = 456, plus 24 more added for
+        // the 12 additional national-personal-identifier types (aotearoa,
+        // pilipinas, brasil, schweiz, canada, hanguk, nihon, bharat,
+        // yisrael, south-africa, mexico, singapore) = 480, plus 24 more
+        // added for a further 12 national-personal-identifier types
+        // (osterreich, magyarorszag, luxembourg, zhongguo, rossiya,
+        // turkiye, argentina, ukrayina, indonesia, prathet-thai, chile,
+        // misr) = 504. Built up across the original P7-T6/P8-T7 slice
+        // (33), all 116 + 24 + 24 national personal identifier
+        // components, and three more waves covering every remaining
+        // category (lists, forms, pickers, links, overlays, tables,
+        // media, data-viz, buttons, navigation, content).
+        expect(SLUGS.length).toBe(504);
     });
 
     test("a component rendered via the built bundle behaves like the source version", async () => {

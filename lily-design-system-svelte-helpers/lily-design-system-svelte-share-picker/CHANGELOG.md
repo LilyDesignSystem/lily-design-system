@@ -4,6 +4,21 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.1.2 — 2026-09-25
+
+**Fix: dependency range on `@lilydesignsystem/svelte-headless` widened
+from `^0.1.0` to `^0.2.0`.** 0.1.1 (below) started passing `baseClass`
+to `IconButton` — a prop that only exists in `svelte-headless` 0.2.0.
+Because `^0.1.0` never resolves to a 0.2.x release, every consumer
+installing this package fresh got 0.1.x's `IconButton`, which does not
+recognise `baseClass` and spreads it onto the rendered element as an
+inert HTML attribute (`baseclass="share-picker-button"`) instead of
+applying it as a class. The practical symptom: the trigger button never
+actually received the `share-picker-button` class, so a consumer's
+styling for it silently did nothing. No code change here; the
+component's own implementation was already correct — only the manifest
+was wrong.
+
 ## 0.1.1 — 2026-09-21
 
 **Internal refactor: the trigger button now depends on

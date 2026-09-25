@@ -54,7 +54,7 @@ actually live.
   no maintained Lily Figma library or plugin; the 45 reference themes'
   design tokens are published in DTCG format and can be imported into
   Figma today with an existing community plugin.
-- [Lily + Claude Code](https://lilydesignsystem.com/lily-claude-code/):
+- [Lily + Claude Code](https://lilydesignsystem.com/skills/):
   26 Claude Skills — general, per-framework umbrella, and per-subproject
   headless/helpers — give Claude Code a curated, loadable entry point
   into Lily; how to add one, and links to all 26.

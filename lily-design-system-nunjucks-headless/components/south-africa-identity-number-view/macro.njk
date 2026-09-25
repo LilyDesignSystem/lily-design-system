@@ -1,0 +1,23 @@
+{#
+  SouthAfricaIdentityNumberView macro — a read-only display of
+    South Africa's Identity Number.
+
+  HTML tag: <span>
+  CSS class: south-africa-identity-number-view
+  Format: Thirteen digits in the form YYMMDDSSSSCAZ: the first six encode date of birth; the next four encode sex (0000-4999 female, 5000-9999 male); the eleventh digit encodes citizenship status (0 citizen, 1 permanent resident, 2 refugee); the twelfth is a legacy field fixed at 8 on modern cards; the thirteenth is a Luhn (Modulus-10) check digit over the preceding twelve.
+
+  Params:
+    value, label, id, classes, attributes.
+
+  Usage:
+    {% from "components/south-africa-identity-number-view/macro.njk" import southAfricaIdentityNumberView %}
+    {{ southAfricaIdentityNumberView({ value: "sample", label: "South Africa's Identity Number" }) }}
+#}
+{%- macro southAfricaIdentityNumberView(params) -%}
+<span
+  class="south-africa-identity-number-view{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>{{ params.value | default("") }}</span>
+{%- endmacro -%}
