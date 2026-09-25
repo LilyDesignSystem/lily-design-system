@@ -6,7 +6,7 @@ import { h } from "../stories/render.js";
 const SLOT = "";
 
 const meta: Meta = {
-    title: "National identifiers/EspanaTarjetaSanitariaIndividualView",
+    title: "Special-Purpose Identifiers/EspanaTarjetaSanitariaIndividualView",
     render: (args) => h("lily-espana-tarjeta-sanitaria-individual-view", args as Record<string, string | boolean>, SLOT),
     args: {
         "label": "Tarjeta Sanitaria Individual",

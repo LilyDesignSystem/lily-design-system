@@ -1,0 +1,14 @@
+<script module lang="ts">
+    import { defineMeta } from "@storybook/addon-svelte-csf";
+    import BharatAadhaarView from "./BharatAadhaarView.svelte";
+    const { Story } = defineMeta({
+        title: "Headless/BharatAadhaarView",
+        component: BharatAadhaarView,
+    });
+</script>
+
+<Story name="Default" tags={["autodocs", "!dev"]}>
+    <BharatAadhaarView label="BharatAadhaarView example">
+        <span>BharatAadhaarView example</span>
+    </BharatAadhaarView>
+</Story>

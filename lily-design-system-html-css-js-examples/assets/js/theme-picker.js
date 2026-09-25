@@ -1,5 +1,6 @@
 // lily-design-system-html-theme-picker/theme-picker.ts
-var CIRCLE_WITH_RIGHT_HALF_BLACK = "\u25D1";
+import { ListboxController } from "@lilydesignsystem/html-headless/components/listbox-controller.js";
+var SVG_NS = "http://www.w3.org/2000/svg";
 function themeName(theme) {
   return theme.split("-").map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
 }
@@ -53,9 +54,13 @@ var ThemePicker = class extends HTMLElement {
   #activeIndex = -1;
   // Stable ids for the button/listbox aria wiring.
   #baseId = nextThemePickerId();
-  // Typeahead buffer: APG listbox behaviour. Reset after a pause.
-  #typeahead = "";
-  #typeaheadTimer;
+  // Arrow/Home/End/typeahead/PageUp/PageDown/Escape/Tab keyboard handling
+  // inside the open list is owned by the shared ListboxController (see
+  // @lilydesignsystem/html-headless/components/listbox-controller.js);
+  // this element only decides what open/close/choose mean. Created once
+  // per #render() (the listbox root is rebuilt each time); destroyed in
+  // disconnectedCallback and before every rebuild.
+  #listboxController = null;
   #onDocumentClick = (event) => {
     if (!this.#open) return;
     if (!event.composedPath().includes(this)) this.closeList(false);
@@ -166,23 +171,39 @@ var ThemePicker = class extends HTMLElement {
   }
   // ---- Public, overridable rendering hook ----
   /**
-   * Build the content of the button. The default is the half-circle
-   * glyph wrapped in `aria-hidden="true"` so the accessible name comes
-   * from the button's `aria-label` alone.
+   * Build the content of the button. The default is a bundled SVG icon
+   * (contrast/half-circle) wrapped in `aria-hidden="true"` so the
+   * accessible name comes from the button's `aria-label` alone.
    *
    * This is the HTML-helper equivalent of the Svelte/React/Vue
-   * `children` snippet: it replaces the glyph inside the button, and
+   * `children` snippet: it replaces the icon inside the button, and
    * has `this.value`, `this.open`, and `this.labelFor(...)` available.
    * Subclasses may override it. Whatever it returns is placed inside
    * the button; the button's own aria wiring is not the subclass's to
    * change. See `docs/custom-rendering.md`.
    */
   renderButtonContent() {
-    const icon = document.createElement("span");
-    icon.className = "theme-picker-icon";
-    icon.setAttribute("aria-hidden", "true");
-    icon.textContent = CIRCLE_WITH_RIGHT_HALF_BLACK;
-    return icon;
+    const svg = document.createElementNS(SVG_NS, "svg");
+    svg.setAttribute("class", "theme-picker-icon");
+    svg.setAttribute("viewBox", "0 0 16 16");
+    svg.setAttribute("width", "1.05rem");
+    svg.setAttribute("height", "1.05rem");
+    svg.setAttribute("aria-hidden", "true");
+    svg.setAttribute("fill", "none");
+    svg.setAttribute("stroke", "currentColor");
+    svg.setAttribute("stroke-width", "1.6");
+    svg.setAttribute("stroke-linecap", "round");
+    svg.setAttribute("stroke-linejoin", "round");
+    const circle = document.createElementNS(SVG_NS, "circle");
+    circle.setAttribute("cx", "8");
+    circle.setAttribute("cy", "8");
+    circle.setAttribute("r", "6");
+    const path = document.createElementNS(SVG_NS, "path");
+    path.setAttribute("d", "M8 2a6 6 0 0 1 0 12z");
+    path.setAttribute("fill", "currentColor");
+    path.setAttribute("stroke", "none");
+    svg.append(circle, path);
+    return svg;
   }
   /** Resolve a slug to its display label. Public for subclasses. */
   labelFor(theme) {
@@ -234,7 +255,7 @@ var ThemePicker = class extends HTMLElement {
   }
   disconnectedCallback() {
     document.removeEventListener("click", this.#onDocumentClick);
-    clearTimeout(this.#typeaheadTimer);
+    this.#listboxController?.destroy();
     this.#appliedValue = "";
     const sameName = document.querySelectorAll(
       `theme-picker[name="${this.name}"]`
@@ -243,7 +264,7 @@ var ThemePicker = class extends HTMLElement {
       const link = document.head.querySelector(
         `link[data-lily-theme-picker="${this.name}"]`
       );
-      link == null ? void 0 : link.remove();
+      link?.remove();
     }
   }
   // ---- Behaviour ----
@@ -309,22 +330,22 @@ var ThemePicker = class extends HTMLElement {
   // ---- Open / close ----
   /** Open the listbox. `startIndex` overrides the active option. */
   openList(startIndex) {
-    var _a;
     const selected = this.#themes.indexOf(this.value);
     this.#activeIndex = this.#themes.length === 0 ? -1 : startIndex ?? (selected >= 0 ? selected : 0);
+    this.#listboxController?.setActiveIndex(this.#activeIndex);
     this.#open = true;
     this.#syncState();
-    (_a = this.#listEl) == null ? void 0 : _a.focus();
+    this.#listEl?.focus({ preventScroll: true });
     this.#scrollActiveIntoView();
   }
   /** Close the listbox. Returns focus to the button unless `refocus` is false. */
   closeList(refocus = true) {
-    var _a;
     if (!this.#open) return;
     this.#open = false;
     this.#activeIndex = -1;
+    this.#listboxController?.setActiveIndex(-1);
     this.#syncState();
-    if (refocus) (_a = this.#buttonEl) == null ? void 0 : _a.focus();
+    if (refocus) this.#buttonEl?.focus({ preventScroll: true });
   }
   #choose(index) {
     const slug = this.#themes[index];
@@ -332,42 +353,8 @@ var ThemePicker = class extends HTMLElement {
     this.closeList();
   }
   #scrollActiveIntoView() {
-    var _a, _b;
     if (this.#activeIndex < 0) return;
-    (_b = (_a = this.#optionEls[this.#activeIndex]) == null ? void 0 : _a.scrollIntoView) == null ? void 0 : _b.call(_a, { block: "nearest" });
-  }
-  #moveActive(delta) {
-    if (this.#themes.length === 0) return;
-    this.#activeIndex = Math.min(
-      Math.max(this.#activeIndex + delta, 0),
-      this.#themes.length - 1
-    );
-    this.#syncState();
-    this.#scrollActiveIntoView();
-  }
-  #setActive(index) {
-    this.#activeIndex = index;
-    this.#syncState();
-    this.#scrollActiveIntoView();
-  }
-  #runTypeahead(char) {
-    const lower = char.toLowerCase();
-    const sameCharRun = this.#typeahead === "" || [...this.#typeahead].every((c) => c === lower);
-    this.#typeahead += lower;
-    clearTimeout(this.#typeaheadTimer);
-    this.#typeaheadTimer = setTimeout(() => {
-      this.#typeahead = "";
-    }, 500);
-    const query = sameCharRun ? lower : this.#typeahead;
-    const anchor = this.#activeIndex < 0 ? 0 : this.#activeIndex;
-    const start = sameCharRun ? anchor + 1 : anchor;
-    for (let n = 0; n < this.#themes.length; n++) {
-      const i = (start + n) % this.#themes.length;
-      if (this.labelFor(this.#themes[i]).toLowerCase().startsWith(query)) {
-        this.#setActive(i);
-        return;
-      }
-    }
+    this.#optionEls[this.#activeIndex]?.scrollIntoView?.({ block: "nearest" });
   }
   #onButtonKeydown = (event) => {
     switch (event.key) {
@@ -383,60 +370,12 @@ var ThemePicker = class extends HTMLElement {
         break;
     }
   };
-  #onListKeydown = (event) => {
-    var _a, _b;
-    switch (event.key) {
-      case "ArrowDown":
-        event.preventDefault();
-        this.#moveActive(1);
-        break;
-      case "ArrowUp":
-        event.preventDefault();
-        this.#moveActive(-1);
-        break;
-      case "Home":
-        event.preventDefault();
-        this.#setActive(0);
-        break;
-      case "End":
-        event.preventDefault();
-        this.#setActive(this.#themes.length - 1);
-        break;
-      case "Enter":
-      case " ":
-        event.preventDefault();
-        if (this.#activeIndex >= 0) this.#choose(this.#activeIndex);
-        break;
-      case "Escape":
-        event.preventDefault();
-        this.closeList();
-        break;
-      case "PageUp":
-        event.preventDefault();
-        this.#moveActive(-10);
-        break;
-      case "PageDown":
-        event.preventDefault();
-        this.#moveActive(10);
-        break;
-      case "Tab":
-        (_b = (_a = this.#buttonEl) == null ? void 0 : _a.focus) == null ? void 0 : _b.call(_a);
-        this.closeList(false);
-        break;
-      default:
-        if (event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
-          this.#runTypeahead(event.key);
-        }
-    }
-  };
   #onRootFocusOut = (event) => {
-    var _a;
     const next = event.relatedTarget;
-    if (next && ((_a = this.#rootEl) == null ? void 0 : _a.contains(next))) return;
+    if (next && this.#rootEl?.contains(next)) return;
     queueMicrotask(() => {
-      var _a2;
       const active = document.activeElement;
-      if (active && ((_a2 = this.#rootEl) == null ? void 0 : _a2.contains(active))) return;
+      if (active && this.#rootEl?.contains(active)) return;
       this.closeList(false);
     });
   };
@@ -476,6 +415,7 @@ var ThemePicker = class extends HTMLElement {
     if (!this.isConnected) return;
     this.#open = false;
     this.#activeIndex = -1;
+    this.#listboxController?.destroy();
     const extraClass = this.getAttribute("class") ?? "";
     const root = document.createElement("div");
     root.className = `theme-picker ${extraClass}`.trim();
@@ -506,7 +446,26 @@ var ThemePicker = class extends HTMLElement {
     list.setAttribute("aria-label", this.label);
     list.setAttribute("tabindex", "-1");
     list.setAttribute("hidden", "");
-    list.addEventListener("keydown", this.#onListKeydown);
+    this.#listboxController = new ListboxController({
+      root: list,
+      clamp: true,
+      typeahead: true,
+      pageSize: 10,
+      // Each <li>'s textContent is already labelFor(theme) — set below —
+      // so reading it back needs no index lookup.
+      getOptionLabel: (option) => option.textContent ?? "",
+      onActiveIndexChange: (index) => {
+        this.#activeIndex = index;
+        this.#syncState();
+        this.#scrollActiveIntoView();
+      },
+      onActivate: (index) => this.#choose(index),
+      onEscape: () => this.closeList(),
+      onTabOut: () => {
+        this.#buttonEl?.focus?.({ preventScroll: true });
+        this.closeList(false);
+      }
+    });
     const optionEls = [];
     this.#themes.forEach((theme, i) => {
       const option = document.createElement("li");
@@ -547,7 +506,6 @@ if (typeof customElements !== "undefined" && !customElements.get("theme-picker")
   customElements.define("theme-picker", ThemePicker);
 }
 export {
-  CIRCLE_WITH_RIGHT_HALF_BLACK,
   ThemePicker,
   matchSystemTheme,
   nextThemePickerId,

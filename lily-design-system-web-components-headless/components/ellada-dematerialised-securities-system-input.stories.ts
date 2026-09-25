@@ -6,7 +6,7 @@ import { h } from "../stories/render.js";
 const SLOT = "";
 
 const meta: Meta = {
-    title: "National identifiers/ElladaDematerialisedSecuritiesSystemInput",
+    title: "Special-Purpose Identifiers/ElladaDematerialisedSecuritiesSystemInput",
     render: (args) => h("lily-ellada-dematerialised-securities-system-input", args as Record<string, string | boolean>, SLOT),
     args: {
         "label": "Dematerialised Securities System"

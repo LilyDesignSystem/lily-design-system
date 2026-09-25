@@ -6,7 +6,7 @@ import { h } from "../stories/render.js";
 const SLOT = "";
 
 const meta: Meta = {
-    title: "National identifiers/PolskaPeselView",
+    title: "Special-Purpose Identifiers/PolskaPeselView",
     render: (args) => h("lily-polska-pesel-view", args as Record<string, string | boolean>, SLOT),
     args: {
         "label": "PESEL",

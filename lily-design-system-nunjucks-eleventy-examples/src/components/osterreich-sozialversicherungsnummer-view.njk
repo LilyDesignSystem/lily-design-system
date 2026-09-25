@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: OsterreichSozialversicherungsnummerView
+description: a read-only display of Austria's Sozialversicherungsnummer (SVNR)
+---
+
+{% from "components/osterreich-sozialversicherungsnummer-view/macro.njk" import osterreichSozialversicherungsnummerView %}
+
+<h2>Default</h2>
+<p>{{ osterreichSozialversicherungsnummerView({ text: "OsterreichSozialversicherungsnummerView example", label: "OsterreichSozialversicherungsnummerView example" }) }}</p>

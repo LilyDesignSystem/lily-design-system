@@ -6,7 +6,7 @@
 
 ## Scope
 
-This topic covers the eight `*-helpers` catalogs (angular, blazor, html, nunjucks, react, svelte, vue, web-components), the seven helpers each one now contains (theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker, picker-bar), their behaviour contracts, how helpers differ from the headless layer, the canonical-reference role of the svelte-helpers catalog, the per-package manifest convention (npm `package.json` vs. NuGet `.csproj` for Blazor), the dist/publish pipeline (`build.js`, `bin/publish-helpers`), and the per-helper subtree/remote layout. It also documents an eighth helper, `data-grid` (see §"data-grid contract" below), specced first per this topic's own "Spec-driven" principle and now implemented in the canonical `svelte-helpers` catalog (2026-09-21); the other seven catalogs do not port it yet. A ninth, `kanban-board` (see §"kanban-board contract" below), and a tenth, `gantt-chart` (see §"gantt-chart contract" below — the first helper to compose another *helper*, `date-time-picker`, rather than only headless components), are likewise now implemented in the canonical `svelte-helpers` catalog and ported to all seven other catalogs — `react-helpers`, `vue-helpers`, `angular-helpers`, `blazor-helpers` (2026-09-22), then `web-components-helpers`, `html-helpers`, and `nunjucks-helpers` (also 2026-09-22, once an earlier survey's claim that those three catalogs had no `DataTable`/`KanbanTable`/`GanttTable` headless family at all was found to be a false negative from a broken search pattern — they had the family all along). `kanban-board` and `gantt-chart` are the first two helpers to ship in every catalog.
+This topic covers the eight `*-helpers` catalogs (angular, blazor, html, nunjucks, react, svelte, vue, web-components), the seven helpers each one now contains (theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker, picker-bar), their behaviour contracts, how helpers differ from the headless layer, the canonical-reference role of the svelte-helpers catalog, the per-package manifest convention (npm `package.json` vs. NuGet `.csproj` for Blazor), the dist/publish pipeline (`build.js`, `bin/publish-helpers`), and the per-helper subtree/remote layout. It also documents an eighth helper, `data-grid` (see §"data-grid contract" below), specced first per this topic's own "Spec-driven" principle and now implemented in the canonical `svelte-helpers` catalog (2026-09-21); the other seven catalogs do not port it yet. A ninth, `kanban-board` (see §"kanban-board contract" below), and a tenth, `gantt-chart` (see §"gantt-chart contract" below — the first helper to compose another *helper*, `date-time-picker`, rather than only headless components), are likewise now implemented in the canonical `svelte-helpers` catalog and ported to all seven other catalogs — `react-helpers`, `vue-helpers`, `angular-helpers`, `blazor-helpers` (2026-09-22), then `web-components-helpers`, `html-helpers`, and `nunjucks-helpers` (also 2026-09-22, once an earlier survey's claim that those three catalogs had no `DataTable`/`KanbanTable`/`GanttTable` headless family at all was found to be a false negative from a broken search pattern — they had the family all along). `kanban-board` and `gantt-chart` are the first two helpers to ship in every catalog. An eleventh, `calendar-view` (see §"calendar-view contract" below — a read/browse week/four-week/month calendar composing `CalendarTable` and, for its date arithmetic, the sibling helper `date-time-picker`), is likewise now implemented in the canonical `svelte-helpers` catalog (2026-09-22); the other seven catalogs do not port it yet.
 
 It does **not** cover: the headless 491-component catalog and its rules (see [headless](../headless/index.md) and [components](../components/index.md)), the seven framework pairs and their stacks (see [frameworks](../frameworks/index.md)), theme-CSS tokens and `data-theme` semantics (see [theme](../theme/index.md)), or the `lang`/`dir` internationalisation contract (see [internationalization](../internationalization/index.md)).
 
@@ -445,6 +445,102 @@ accessibility documentation before writing the table above:
 - [Gantt Chart Guide, TeamGantt](https://www.teamgantt.com/what-is-a-gantt-chart) — source for the standard feature vocabulary (milestones, today line, finish-to-start as the default dependency type) behind the v1/v2 triage above.
 - [Gantt View — Milestones & Dependencies, Airtable Support](https://support.airtable.com/docs/gantt-view-milestones-dependencies-and-critical-paths) — source for treating percent-complete as a v1 data value and critical-path as a v2/out-of-scope calculation rather than a rendering feature.
 
+## calendar-view contract
+
+**Status: implemented in `svelte-helpers` only (2026-09-22), as
+`@lilydesignsystem/svelte-calendar-view`.** Documented here first,
+before the package existed, per this topic's own "Spec-driven"
+principle — the same workflow `data-grid`, `kanban-board`, and
+`gantt-chart` followed. The other seven catalogs do not port it yet.
+
+A read/browse surface over the headless `CalendarTable` family —
+`CalendarTable`/`CalendarTableHead`/`CalendarTableBody`/
+`CalendarTableFoot`/`CalendarTableRow`/`CalendarTableTH`/
+`CalendarTableTD` already render `<table role="grid">` with an
+accessible `label`, a `selected`/`today` state per cell, and the same
+roving-tabindex shape (`tabindex="0"` on the selected cell only) that
+`data-grid`/`kanban-board`/`gantt-chart` all independently arrived at
+— but ship zero period logic, zero navigation, and zero event
+rendering by design (see the component's own doc comment).
+`calendar-view` composes that family the way `gantt-chart` composes
+`GanttTable`, and reuses `date-time-picker`'s own exported civil-date
+arithmetic (`monthMatrix`, `weekdayOf`, `isoWeek`, `addDays`,
+`addMonths`, `parseIsoDate`, `formatIsoDate`) rather than
+re-deriving it — `date-time-picker`'s own calendar dialog already
+solves "generate a month grid" and "which weekday does the 1st fall
+on," and its keyboard model (`ArrowLeft`/`ArrowRight` ±1 day,
+`ArrowUp`/`ArrowDown` ±1 week, `Home`/`End` start/end of week,
+`PageUp`/`PageDown` ±1 month) is exactly the WAI-ARIA APG calendar
+keyboard pattern this contract needs too, confirmed directly in
+`date-time-picker`'s own source rather than assumed from the spec
+alone. This makes `calendar-view` the third helper (after
+`picker-bar` and `gantt-chart`) to depend on a sibling helper as a
+real package.
+
+The genuinely new design problem here is the **view period itself**:
+unlike a date picker (always one month) or a Gantt chart (one
+continuous consumer-supplied range), a viewing calendar switches
+between several fixed-length windows — this contract's v1 set, per
+the request that specced it, is **one week**, **a rolling four
+weeks**, and **one calendar month**. A month grid pads with leading
+and trailing days from the adjacent months (the standard shape every
+consulted library and the WAI-ARIA APG's own date-picker example use)
+so every row stays a full seven days; a week or four-week view has no
+such padding, since it is not anchored to a calendar month boundary.
+Consulted commercial/OSS libraries (FullCalendar, react-big-calendar,
+Toast UI Calendar, Schedule-X) converge on the same three primitives
+this contract needs: a **view switcher** (day/week/month tabs or
+toggle buttons — FullCalendar marks the active one `aria-pressed`,
+reused directly below), **period navigation** (previous/next/today,
+with the period label itself in a live region so a screen-reader user
+hears "week of 6 January 2026" without re-reading the whole grid), and
+**events rendered inside day cells** — which this contract treats as
+fully consumer-owned content (a snippet/render-prop per cell, in the
+spirit of the existing generic `event` component rather than a
+baked-in "event card" shape), matching the no-opinion-on-visual-rows
+stance `data-grid` already takes on cell content.
+
+One rejected alternative, documented rather than silently dropped: a
+2018 accessibility deep-dive on calendar UIs argues against `<table>`
+entirely, for the "Column 2, Row 2" verbosity a table-semantics screen
+reader announcement adds to every cell. Lily's own `CalendarTable` —
+and every other grid-shaped headless component in this catalog —
+already made the opposite call, matching the WAI-ARIA APG's own
+Date Picker Dialog reference implementation, which is itself
+table-based. Reusing `CalendarTable` keeps `calendar-view` consistent
+with `data-grid`/`kanban-board`/`gantt-chart` rather than introducing
+a fourth, non-table grid shape into the catalog for one component;
+the "Column 2, Row 2" complaint is mitigated the same way the WAI-ARIA
+APG example mitigates it — a full accessible name per cell (e.g. "11,
+Tuesday, 6 January 2026") rather than a bare day number.
+
+| Aspect                | Contract                                                                                                                                                                                                                                                                                                       |
+| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Markup                 | `<div class="calendar-view {class}">` wrapping an optional `<div class="calendar-view-toolbar">` (view switcher + prev/next/today), the unmodified `CalendarTable` family (`CalendarTableTH` per weekday, `CalendarTableTD` per day carrying `today`/`selected`/`data-outside-period` and a snippet slot for that day's events), and a status region.                                            |
+| Composition             | Depends on `CalendarTable`, `CalendarTableHead`, `CalendarTableBody`, `CalendarTableRow`, `CalendarTableTH`, `CalendarTableTD` as real dependencies, plus the sibling helper `date-time-picker` for civil-date arithmetic — the same "compose, don't duplicate" rule every prior grid helper follows.                                                                                              |
+| Required props          | `label` (passed through to `CalendarTable`), `view` (`"week" \| "four-week" \| "month"`), `anchorDate` (an ISO date the view is computed around — the selected week/four-week-window/month), `events` (id, date or `[start, end]`, plus consumer data), `onNavigate` (fired when the visible period changes, by toolbar button or keyboard). |
+| View switcher           | Toggle buttons or a tab list for `week`/`four-week`/`month`; the active view's control carries `aria-pressed="true"` (toggle-button shape) or `aria-selected="true"` (tablist shape) — mirroring FullCalendar's own toolbar convention, cited below.                                                              |
+| Period navigation       | Previous/next buttons step by the current view's own length (7 days, 28 days, or a calendar month); a "Today" button jumps `anchorDate` back to the current date regardless of view. Button labels are consumer-supplied functions (e.g. `previousLabel(view)`), never hardcoded English.                        |
+| Week view               | Exactly 7 days starting from `anchorDate`'s week start (locale-aware via `firstDayOfWeekFor`, reused from `date-time-picker`), no padding.                                                                                                                                                                          |
+| Four-week view          | Exactly 28 days (4 × 7) starting from `anchorDate`'s week start — a rolling near-term capacity window, not anchored to a month boundary, no padding.                                                                                                                                                                |
+| Month view               | A full calendar month, padded with leading/trailing days from the adjacent months so every row is 7 days (the `monthMatrix` shape `date-time-picker` already generates); padding cells carry `data-outside-period` so a consumer can style or hide them without losing the grid's rectangularity.                |
+| Events                  | Consumer-supplied `events`, matched to the day(s) they fall on and rendered via a snippet/render-prop inside that day's `CalendarTableTD` — this contract owns placement, not event card visual design (see Non-goals).                                                                                            |
+| Announcements            | A single `calendar-view-status` `aria-live="polite"` region — mirroring `data-grid`/`kanban-board`/`gantt-chart`'s own status region — announces the new period label on every navigation, consumer-templated (e.g. `periodAnnouncement(view, start, end)`).                                                       |
+| Keyboard                 | WAI-ARIA APG calendar keyboard pattern, the same model already implemented in `date-time-picker`'s own calendar dialog: `ArrowLeft`/`ArrowRight` move focus ±1 day (crossing into the adjacent period's own padding cells, or triggering navigation, at a period boundary); `ArrowUp`/`ArrowDown` ±1 week; `Home`/`End` jump to the start/end of the focused week; `PageUp`/`PageDown` step the whole view forward/back by its own length. Roving tabindex via `CalendarTableTD`'s existing `selected` prop. |
+| SSR                      | All DOM writes inside the framework's mount/effect lifecycle; server render emits the `anchorDate`-computed grid with no client-only "today" assumption (today is itself a prop, defaulting to the server's own date, the same `today`-as-data pattern `gantt-chart` uses).                                       |
+| i18n                     | Every user-facing string (weekday header abbreviations, the view-switcher labels, navigation-button labels, the period-announcement template) comes from a prop or function; no hardcoded English, matching every other helper.                                                                                    |
+| Non-goals (v1)           | **Event creation/editing UI** — this is a *viewing* helper per its own name and the request that specced it; a consumer wires its own form/dialog to the day-click or event-click events this helper exposes. **Drag-to-reschedule events** — real interaction ownership, the same class of objection `gantt-chart` raises against dependency-arrow rendering. **Day view and agenda/list view** — the request scoped this to week/four-week/month; day and agenda are natural v2 candidates once v1 ships. **Recurring-event expansion** — a consumer data-layer concern, not a rendering-layer one, the same boundary `kanban-board`'s undo/redo non-goal draws. **Timezone conversion** — `events` carry ISO civil dates/times, the same convention `gantt-chart` and `date-time-picker` both already use; timezone handling is the consumer's. Also out for v1: virtualization for very-long event lists per day, multi-calendar/resource views, print/export. |
+
+Researched against the WAI-ARIA APG's calendar/date-picker keyboard
+guidance, an accessibility-focused critique of calendar-grid markup,
+and three established JS/TS calendar libraries' own feature and
+accessibility documentation before writing the table above:
+
+- [Date Picker Dialog Example, WAI-ARIA APG](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/examples/datepicker-dialog/) — the canonical keyboard model (`ArrowLeft`/`ArrowRight`/`ArrowUp`/`ArrowDown`/`Home`/`End`/`PageUp`/`PageDown`) this contract reuses, cross-checked against `date-time-picker`'s own implementation of the same pattern rather than taken on faith.
+- [Accessibility, FullCalendar Docs](https://fullcalendar.io/docs/accessibility) — source for the `aria-pressed` view-switcher convention and the locale-driven previous/next button-label requirement (masculine/feminine noun agreement in some languages, the reason labels are functions, not strings, above).
+- [A New Day: Making a Better Calendar, 24 Accessibility](https://www.24a11y.com/2018/a-new-day-making-a-better-calendar/) — the rejected-alternative source (avoid `<table>`) engaged with directly above, plus the "full accessible name per cell" and live-region-for-period-heading guidance this contract does adopt.
+- Feature-vocabulary triage across [FullCalendar](https://fullcalendar.io/), [react-big-calendar](https://github.com/jquense/react-big-calendar), [Toast UI Calendar](https://ui.toast.com/tui-calendar), and [Schedule-X](https://schedule-x.dev/) — the source for the view-switcher/navigation/event-slot primitive set above, and for scoping day view and agenda/list view out of v1 as the two most consistently-offered features this contract does not yet cover.
+
 ## Differences from the headless library
 
 | Headless component                                 | Helper                                                              |
@@ -488,6 +584,7 @@ accessibility documentation before writing the table above:
 - [x] The headless-composition pattern ported to all seven other `*-helpers` catalogs (2026-09-21): react, vue, angular, blazor, web-components compose `IconButton` (+ `Listbox` for the 4 preference pickers, except web-components, whose fixed-tag `Listbox` can't stand in for a literal `<ul>`); html and nunjucks compose a purpose-built shared behavior module in place of a headless `Listbox` that turned out not to be a real component in either catalog. Every migrated package's own existing test suite passed with zero test-file edits, and every catalog's full headless + helpers workspace suite stayed green — see the per-catalog summary table above for what each catalog's own audit found and how its extension differs from Svelte's.
 - [x] `data-grid` ships no bundled CSS and no hardcoded strings (every user-facing string is a `labels.*` prop whose presence gates its control), and persists only column-width/visibility/sort-state view preferences (never row data or selection) to `localStorage`, matching every other helper.
 - [x] `data-grid` documents virtualization, inline cell editing, column reorder/pin, row grouping, server-side data, CSV export, and row drag-reorder as explicit v1 non-goals rather than silent gaps (spec/index.md §9).
+- [x] `calendar-view` (implemented 2026-09-22 as `@lilydesignsystem/svelte-calendar-view`): composes the headless `CalendarTable` family rather than duplicating a `<table>` implementation, in the canonical `svelte-helpers` catalog, reusing `date-time-picker`'s own exported civil-date arithmetic (`monthMatrix`, `weekdayOf`, `firstDayOfWeekFor`, `addDays`, `addMonths`) and its calendar dialog's own WAI-ARIA APG keyboard model (including its re-paging-on-boundary-crossing behaviour) rather than re-deriving either. Three view periods — week (7 days), a rolling four-week window (28 days), and a padded calendar month (42 days, `monthMatrix`'s own fixed shape) — with a view switcher (`aria-pressed`, renders only the buttons whose label is supplied), previous/next/today navigation, and consumer-owned event rendering per day cell via a `day` snippet, never a baked-in event-card shape. `CalendarTableTD`'s own `selected` prop already means "the roving-tabindex cursor" in its own doc comment, so composing it for the keyboard cursor needed no workaround, unlike `GanttTableTD`'s genuinely overloaded `active` prop. Documents an explicitly rejected alternative (a non-table, flexbox/CSS-Grid calendar layout, per a cited accessibility critique of table-based calendars) in favour of staying consistent with `data-grid`/`kanban-board`/`gantt-chart`'s own table-based WAI-ARIA APG Grid convention. Verified against a numbered spec — 27 tests, all passing, covering every §8 acceptance clause, including a real Svelte-template test host (`CalendarViewEventsTestHost.svelte`) to exercise the `day` snippet prop rather than hand-constructing Svelte's internal snippet-calling convention; the catalog's shared `build.js` gained a `*TestHost.svelte` exclusion rule so this test-only file never ships in the published package.
 
 ## Related topics
 
@@ -518,6 +615,10 @@ accessibility documentation before writing the table above:
 - [lily-design-system-svelte-headless/components/IconButton/IconButton.svelte](../../lily-design-system-svelte-headless/components/IconButton/IconButton.svelte) — extended 2026-09-21 with `baseClass` and a bindable `ref` for the same reason
 - [lily-design-system-svelte-headless/CHANGELOG.md](../../lily-design-system-svelte-headless/CHANGELOG.md) — the Unreleased entry documenting both extensions
 - [lily-design-system-svelte-helpers/lily-design-system-svelte-data-grid/](../../lily-design-system-svelte-helpers/lily-design-system-svelte-data-grid/) — data-grid contract (canonical spec; implemented only here so far)
+- [lily-design-system-svelte-headless/components/CalendarTable/CalendarTable.svelte](../../lily-design-system-svelte-headless/components/CalendarTable/CalendarTable.svelte) — the headless `role="grid"` container the calendar-view contract composes rather than duplicates
+- [lily-design-system-svelte-headless/components/CalendarTableTD/CalendarTableTD.svelte](../../lily-design-system-svelte-headless/components/CalendarTableTD/CalendarTableTD.svelte) — the `selected`/`today` cell shape and roving-tabindex model the calendar-view contract reuses
+- [lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/](../../lily-design-system-svelte-helpers/lily-design-system-svelte-date-time-picker/) — the sibling helper the calendar-view contract composes for civil-date arithmetic and the WAI-ARIA APG calendar keyboard model, both confirmed present in its own source
+- [lily-design-system-svelte-helpers/lily-design-system-svelte-calendar-view/](../../lily-design-system-svelte-helpers/lily-design-system-svelte-calendar-view/) — calendar-view contract (canonical spec; implemented only here so far)
 - [bin/publish-helpers](../../bin/publish-helpers) — release pipeline
 - [spec/index.md](../index.md) §3 (subproject architecture)
 

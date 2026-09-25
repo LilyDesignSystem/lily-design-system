@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: CanadaSocialInsuranceNumberView
+description: a read-only display of Canada's Social Insurance Number (SIN)
+---
+
+{% from "components/canada-social-insurance-number-view/macro.njk" import canadaSocialInsuranceNumberView %}
+
+<h2>Default</h2>
+<p>{{ canadaSocialInsuranceNumberView({ text: "CanadaSocialInsuranceNumberView example", label: "CanadaSocialInsuranceNumberView example" }) }}</p>
