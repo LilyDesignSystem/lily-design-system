@@ -1,5 +1,6 @@
 // lily-design-system-html-text-size-picker/text-size-picker.ts
-var LATIN_CAPITAL_LETTER_A = "A";
+import { ListboxController } from "@lilydesignsystem/html-headless/components/listbox-controller.js";
+var SVG_NS = "http://www.w3.org/2000/svg";
 function sizeName(size) {
   return size.split("-").map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
 }
@@ -37,9 +38,11 @@ var TextSizePicker = class extends HTMLElement {
   #activeIndex = -1;
   // Stable ids for the button/listbox aria wiring.
   #baseId = nextTextSizePickerId();
-  // Typeahead buffer: APG listbox behaviour. Reset after a pause.
-  #typeahead = "";
-  #typeaheadTimer;
+  // Arrow/Home/End/typeahead/PageUp/PageDown/Escape/Tab keyboard handling
+  // inside the open list is owned by the shared ListboxController (see
+  // @lilydesignsystem/html-headless/components/listbox-controller.js);
+  // this element only decides what open/close/choose mean.
+  #listboxController = null;
   #onDocumentClick = (event) => {
     if (!this.#open) return;
     if (!event.composedPath().includes(this)) this.closeList(false);
@@ -123,7 +126,8 @@ var TextSizePicker = class extends HTMLElement {
   }
   // ---- Public, overridable rendering hook ----
   /**
-   * Build the content of the button. The default is the "A" glyph
+   * Build the content of the button. The default is a bundled
+   * SVG icon (a stroke-drawn "A")
    * wrapped in `aria-hidden="true"` so the accessible name comes from
    * the button's `aria-label` alone.
    *
@@ -135,11 +139,21 @@ var TextSizePicker = class extends HTMLElement {
    * change.
    */
   renderButtonContent() {
-    const icon = document.createElement("span");
-    icon.className = "text-size-picker-icon";
-    icon.setAttribute("aria-hidden", "true");
-    icon.textContent = LATIN_CAPITAL_LETTER_A;
-    return icon;
+    const svg = document.createElementNS(SVG_NS, "svg");
+    svg.setAttribute("class", "text-size-picker-icon");
+    svg.setAttribute("viewBox", "0 0 16 16");
+    svg.setAttribute("width", "1.05rem");
+    svg.setAttribute("height", "1.05rem");
+    svg.setAttribute("aria-hidden", "true");
+    svg.setAttribute("fill", "none");
+    svg.setAttribute("stroke", "currentColor");
+    svg.setAttribute("stroke-width", "1.6");
+    svg.setAttribute("stroke-linecap", "round");
+    svg.setAttribute("stroke-linejoin", "round");
+    const path = document.createElementNS(SVG_NS, "path");
+    path.setAttribute("d", "M4 13 7.2 3h1.6L12 13M5.4 9.5h5.2");
+    svg.appendChild(path);
+    return svg;
   }
   /** Resolve a slug to its display label. Public for subclasses. */
   labelFor(size) {
@@ -191,7 +205,7 @@ var TextSizePicker = class extends HTMLElement {
   }
   disconnectedCallback() {
     document.removeEventListener("click", this.#onDocumentClick);
-    clearTimeout(this.#typeaheadTimer);
+    this.#listboxController?.destroy();
     this.#appliedValue = "";
   }
   // ---- Behaviour ----
@@ -238,22 +252,22 @@ var TextSizePicker = class extends HTMLElement {
   // ---- Open / close ----
   /** Open the listbox. `startIndex` overrides the active option. */
   openList(startIndex) {
-    var _a;
     const selected = this.#sizes.indexOf(this.value);
     this.#activeIndex = this.#sizes.length === 0 ? -1 : startIndex ?? (selected >= 0 ? selected : 0);
+    this.#listboxController?.setActiveIndex(this.#activeIndex);
     this.#open = true;
     this.#syncState();
-    (_a = this.#listEl) == null ? void 0 : _a.focus();
+    this.#listEl?.focus({ preventScroll: true });
     this.#scrollActiveIntoView();
   }
   /** Close the listbox. Returns focus to the button unless `refocus` is false. */
   closeList(refocus = true) {
-    var _a;
     if (!this.#open) return;
     this.#open = false;
     this.#activeIndex = -1;
+    this.#listboxController?.setActiveIndex(-1);
     this.#syncState();
-    if (refocus) (_a = this.#buttonEl) == null ? void 0 : _a.focus();
+    if (refocus) this.#buttonEl?.focus({ preventScroll: true });
   }
   #choose(index) {
     const slug = this.#sizes[index];
@@ -261,42 +275,8 @@ var TextSizePicker = class extends HTMLElement {
     this.closeList();
   }
   #scrollActiveIntoView() {
-    var _a, _b;
     if (this.#activeIndex < 0) return;
-    (_b = (_a = this.#optionEls[this.#activeIndex]) == null ? void 0 : _a.scrollIntoView) == null ? void 0 : _b.call(_a, { block: "nearest" });
-  }
-  #moveActive(delta) {
-    if (this.#sizes.length === 0) return;
-    this.#activeIndex = Math.min(
-      Math.max(this.#activeIndex + delta, 0),
-      this.#sizes.length - 1
-    );
-    this.#syncState();
-    this.#scrollActiveIntoView();
-  }
-  #setActive(index) {
-    this.#activeIndex = index;
-    this.#syncState();
-    this.#scrollActiveIntoView();
-  }
-  #runTypeahead(char) {
-    const lower = char.toLowerCase();
-    const sameCharRun = this.#typeahead === "" || [...this.#typeahead].every((c) => c === lower);
-    this.#typeahead += lower;
-    clearTimeout(this.#typeaheadTimer);
-    this.#typeaheadTimer = setTimeout(() => {
-      this.#typeahead = "";
-    }, 500);
-    const query = sameCharRun ? lower : this.#typeahead;
-    const anchor = this.#activeIndex < 0 ? 0 : this.#activeIndex;
-    const start = sameCharRun ? anchor + 1 : anchor;
-    for (let n = 0; n < this.#sizes.length; n++) {
-      const i = (start + n) % this.#sizes.length;
-      if (this.labelFor(this.#sizes[i]).toLowerCase().startsWith(query)) {
-        this.#setActive(i);
-        return;
-      }
-    }
+    this.#optionEls[this.#activeIndex]?.scrollIntoView?.({ block: "nearest" });
   }
   #onButtonKeydown = (event) => {
     switch (event.key) {
@@ -312,60 +292,12 @@ var TextSizePicker = class extends HTMLElement {
         break;
     }
   };
-  #onListKeydown = (event) => {
-    var _a, _b;
-    switch (event.key) {
-      case "ArrowDown":
-        event.preventDefault();
-        this.#moveActive(1);
-        break;
-      case "ArrowUp":
-        event.preventDefault();
-        this.#moveActive(-1);
-        break;
-      case "Home":
-        event.preventDefault();
-        this.#setActive(0);
-        break;
-      case "End":
-        event.preventDefault();
-        this.#setActive(this.#sizes.length - 1);
-        break;
-      case "Enter":
-      case " ":
-        event.preventDefault();
-        if (this.#activeIndex >= 0) this.#choose(this.#activeIndex);
-        break;
-      case "Escape":
-        event.preventDefault();
-        this.closeList();
-        break;
-      case "PageUp":
-        event.preventDefault();
-        this.#moveActive(-10);
-        break;
-      case "PageDown":
-        event.preventDefault();
-        this.#moveActive(10);
-        break;
-      case "Tab":
-        (_b = (_a = this.#buttonEl) == null ? void 0 : _a.focus) == null ? void 0 : _b.call(_a);
-        this.closeList(false);
-        break;
-      default:
-        if (event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
-          this.#runTypeahead(event.key);
-        }
-    }
-  };
   #onRootFocusOut = (event) => {
-    var _a;
     const next = event.relatedTarget;
-    if (next && ((_a = this.#rootEl) == null ? void 0 : _a.contains(next))) return;
+    if (next && this.#rootEl?.contains(next)) return;
     queueMicrotask(() => {
-      var _a2;
       const active = document.activeElement;
-      if (active && ((_a2 = this.#rootEl) == null ? void 0 : _a2.contains(active))) return;
+      if (active && this.#rootEl?.contains(active)) return;
       this.closeList(false);
     });
   };
@@ -405,6 +337,7 @@ var TextSizePicker = class extends HTMLElement {
     if (!this.isConnected) return;
     this.#open = false;
     this.#activeIndex = -1;
+    this.#listboxController?.destroy();
     const extraClass = this.getAttribute("class") ?? "";
     const root = document.createElement("div");
     root.className = `text-size-picker ${extraClass}`.trim();
@@ -435,7 +368,26 @@ var TextSizePicker = class extends HTMLElement {
     list.setAttribute("aria-label", this.label);
     list.setAttribute("tabindex", "-1");
     list.setAttribute("hidden", "");
-    list.addEventListener("keydown", this.#onListKeydown);
+    this.#listboxController = new ListboxController({
+      root: list,
+      clamp: true,
+      typeahead: true,
+      pageSize: 10,
+      // Each <li>'s textContent is already labelFor(size) — set
+      // below — so reading it back needs no index lookup.
+      getOptionLabel: (option) => option.textContent ?? "",
+      onActiveIndexChange: (index) => {
+        this.#activeIndex = index;
+        this.#syncState();
+        this.#scrollActiveIntoView();
+      },
+      onActivate: (index) => this.#choose(index),
+      onEscape: () => this.closeList(),
+      onTabOut: () => {
+        this.#buttonEl?.focus?.({ preventScroll: true });
+        this.closeList(false);
+      }
+    });
     const optionEls = [];
     this.#sizes.forEach((size, i) => {
       const option = document.createElement("li");
@@ -476,7 +428,6 @@ if (typeof customElements !== "undefined" && !customElements.get("text-size-pick
   customElements.define("text-size-picker", TextSizePicker);
 }
 export {
-  LATIN_CAPITAL_LETTER_A,
   TextSizePicker,
   nextTextSizePickerId,
   sizeName
