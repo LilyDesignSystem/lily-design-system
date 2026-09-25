@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: LuxembourgMatriculeView
+description: a read-only display of Luxembourg's Numero d'Identification Nationale (Matricule)
+---
+
+{% from "components/luxembourg-matricule-view/macro.njk" import luxembourgMatriculeView %}
+
+<h2>Default</h2>
+<p>{{ luxembourgMatriculeView({ text: "LuxembourgMatriculeView example", label: "LuxembourgMatriculeView example" }) }}</p>

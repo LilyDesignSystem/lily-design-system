@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: SchweizAhvNummerView
+description: a read-only display of Switzerland's AHV-Nummer / Numero AVS
+---
+
+{% from "components/schweiz-ahv-nummer-view/macro.njk" import schweizAhvNummerView %}
+
+<h2>Default</h2>
+<p>{{ schweizAhvNummerView({ text: "SchweizAhvNummerView example", label: "SchweizAhvNummerView example" }) }}</p>

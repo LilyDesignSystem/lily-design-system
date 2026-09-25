@@ -6,7 +6,7 @@ import { h } from "../stories/render.js";
 const SLOT = "";
 
 const meta: Meta = {
-    title: "National identifiers/HrvatskaOsobniIdentifikacijskiBrojView",
+    title: "Special-Purpose Identifiers/HrvatskaOsobniIdentifikacijskiBrojView",
     render: (args) => h("lily-hrvatska-osobni-identifikacijski-broj-view", args as Record<string, string | boolean>, SLOT),
     args: {
         "label": "Osobni identifikacijski broj (OIB)",

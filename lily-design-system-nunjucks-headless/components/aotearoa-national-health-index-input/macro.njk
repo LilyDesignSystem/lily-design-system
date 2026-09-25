@@ -1,0 +1,36 @@
+{#
+  AotearoaNationalHealthIndexInput macro — an input for entering
+    New Zealand's National Health Index (NHI) Number.
+
+  HTML tag: <input type="text">
+  CSS class: aotearoa-national-health-index-input
+  Format: Seven-character identifier (three letters, four digits). The legacy AAANNNC format uses a Modulus-11 check digit over the six preceding characters; an expanded AAANNAX format (issued from July 2026) uses a Modulus-23 check digit instead, to extend the identifier space.
+  Accessibility: autocomplete="off", spellcheck suppressed.
+
+  Params:
+    id, name, value, label, describedBy, errormessage, invalid,
+    required, disabled, readonly, classes, attributes.
+
+  Usage:
+    {% from "components/aotearoa-national-health-index-input/macro.njk" import aotearoaNationalHealthIndexInput %}
+    {{ aotearoaNationalHealthIndexInput({ id: "field-id", label: "New Zealand's National Health Index (NHI) Number" }) }}
+#}
+{%- macro aotearoaNationalHealthIndexInput(params) -%}
+<input
+  class="aotearoa-national-health-index-input{% if params.classes %} {{ params.classes }}{% endif %}"
+  type="text"
+  id="{{ params.id }}"
+  name="{{ params.name | default(params.id) }}"
+  value="{{ params.value | default('') }}"
+  autocomplete="off"
+  spellcheck="false"
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.describedBy %} aria-describedby="{{ params.describedBy }}"{% endif %}
+  {%- if params.errormessage %} aria-errormessage="{{ params.errormessage }}"{% endif %}
+  {%- if params.invalid %} aria-invalid="true"{% endif %}
+  {%- if params.required %} required{% endif %}
+  {%- if params.disabled %} disabled{% endif %}
+  {%- if params.readonly %} readonly{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+{%- endmacro -%}

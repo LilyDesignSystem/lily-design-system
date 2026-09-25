@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: RossiyaSnilsView
+description: a read-only display of Russia's SNILS Individual Insurance Account Number
+---
+
+{% from "components/rossiya-snils-view/macro.njk" import rossiyaSnilsView %}
+
+<h2>Default</h2>
+<p>{{ rossiyaSnilsView({ text: "RossiyaSnilsView example", label: "RossiyaSnilsView example" }) }}</p>

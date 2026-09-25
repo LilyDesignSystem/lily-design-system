@@ -1812,6 +1812,235 @@ dropped. None is speculative.
   45 themes; the root spec's Status note updated from "implemented
   nowhere yet" to shipped.
 
+- [x] **P8-T13 Twelve more national personal identifiers** (24 new
+  components: 12 types × `-input`/`-view`), researched and sourced
+  2026-09-22, extending the existing 46-type / 92-component catalog
+  (`AGENTS/national-person-identifiers.tsv`) past its current
+  Europe + Australia + United States coverage into Asia, the
+  Americas, and Africa — several are literally a government health
+  insurance identifier, matching this task's own trigger. All twelve
+  verified against real sources (see each's own Wikipedia link and the
+  research notes below) rather than assumed from memory:
+
+  | Slug | Country | Identifier | Why it's a good fit |
+  | --- | --- | --- | --- |
+  | `aotearoa-national-health-index` | New Zealand | National Health Index (NHI) Number — 7-char alphanumeric, Modulus-11 (legacy) / Modulus-23 (2026-expanded) check digit | A government health-system identifier, directly on point |
+  | `pilipinas-philhealth-identification-number` | Philippines | PhilHealth Identification Number (PIN) — 12 digits | The literal national government health-insurance corporation's own ID |
+  | `brasil-cartao-nacional-de-saude` | Brazil | Cartão Nacional de Saúde (CNS) — 15 digits, Modulus-11 | Brazil's national health-card number for the SUS public health system |
+  | `schweiz-ahv-nummer` | Switzerland | AHV-Nummer / Numéro AVS — 13 digits, EAN-13 check digit | Switzerland's social-insurance number, which its universal mandatory health-insurance system keys against; notable gap since every EU/EEA neighbour is already catalogued but Switzerland (EFTA, not EU) was not |
+  | `canada-social-insurance-number` | Canada | Social Insurance Number (SIN) — 9 digits, Luhn check digit | Large, previously-uncovered North American country; SIN underlies federal benefits including health-related ones (though day-to-day health cards are provincial, out of scope for a *national* identifier) |
+  | `hanguk-jumin-deungnok-beonho` | South Korea | Resident Registration Number (주민등록번호) — 13 digits, date-of-birth + sex + region + Modulus-11 check digit | First non-Latin-script entry; used for National Health Insurance enrolment |
+  | `nihon-kojin-bango` | Japan | Kojin Bangō / My Number (マイナンバー) — 12 digits, weighted Modulus-11 check digit | Unifies health-insurance, pension, and tax administration since 2016 |
+  | `bharat-aadhaar` | India | Aadhaar (आधार) — 12 digits, Verhoeff check digit | World's largest biometric ID system; increasingly the key for Ayushman Bharat and other public health schemes |
+  | `yisrael-teudat-zehut` | Israel | Teudat Zehut — 9 digits, Luhn check digit | Registers a person with their Kupat Cholim (statutory health fund) |
+  | `south-africa-identity-number` | South Africa | South African ID Number — 13 digits, date-of-birth + sex + citizenship + Luhn check digit | Large African country, previously uncovered |
+  | `mexico-clave-unica-de-registro-de-poblacion` | Mexico | CURP — 18-character alphanumeric, composed from name/DOB/sex/state, no trailing check digit | Keys IMSS/health-service registration; large North American country, previously uncovered |
+  | `singapore-national-registration-identity-card` | Singapore | NRIC / FIN — 1 letter + 7 digits + 1 check letter, Modulus-11 with prefix-dependent offset | Widely cited identifier format, previously uncovered |
+
+  **Naming judgment calls** (documented per the churn-history precedent
+  in `spec/national-identifiers/index.md`, not hidden): New Zealand
+  uses the Māori endonym `aotearoa` (mirrors Alba/Cymru/Éire's
+  indigenous-name precedent over an Anglophone exonym). Switzerland,
+  with four official languages and no Belgium-style natural single
+  pick, uses German `Schweiz` (the plurality language) with both
+  German and French identifier names recorded, mirroring Belgium's own
+  dual-name-in-one-field convention. South Africa and Singapore both
+  keep the English country form: both have English as one of several
+  official languages (unlike Belgium, where French/Dutch/German are
+  official but English is not), so — unlike Belgium — there is a
+  legitimate official-language basis for keeping the form the sources
+  actually use. Canada keeps `Canada` (identical in both English and
+  French). South Korea's endonym romanizes the everyday native name
+  (한국, Hanguk) rather than the full formal state name. Japan uses
+  `Nihon` (日本). India uses the Hindi/constitutional name `Bharat`
+  (भारत), alongside `India`, per the Constitution's own dual-naming.
+
+  Scope, per the binding AGENTS.md rule ("Svelte subprojects are
+  canonical; implement there first, then port to the other
+  frameworks"):
+  - [x] Add all 12 rows to `AGENTS/national-person-identifiers.tsv`
+    (`bin/sync` propagates it).
+  - [x] Scaffold all 24 slugs into the catalog via `bin/new-component`
+    (catalog row, docs dir, CSS hook, all 7 headless implementations +
+    tests + stories, the two example apps, the github.io route, every
+    generated registry) — generic placeholders at this step.
+  - [x] Replace the Svelte canonical implementation (the binding
+    minimum) for all 24 with the real `-input`/`-view` pattern every
+    existing identifier follows (`<input type="text"
+    autocomplete="off">` / `<span aria-label="…">`), plus real
+    `AGENTS.md`/`index.md`/`spec/index.md` content — country, identifier
+    name, format, validation algorithm, where to find it — matching the
+    depth of an existing entry (e.g.
+    `components/malta-national-identification-number-input/`).
+  - [x] Port the corrected pattern + content to the other 7 headless
+    catalogs (React, Vue, Angular, HTML, Nunjucks, Blazor, Web
+    Components — including Web Components, a deliberate deviation from
+    P7-T6's 2026-09-03 "92 identifiers excluded" note: that note
+    predates this session's `kanban-board`/`gantt-chart` work, which
+    found `web-components-headless` had already grown well past its
+    original 30-component representative slice, so treating it like
+    every other catalog here is more current than preserving a
+    now-stale exclusion).
+  - [x] Verify: `bin/test` and `bin/check-links` pass; `bin/check-coverage`
+    shows 0 gaps for all 24 new slugs across all 7 catalogs; each
+    catalog's full headless suite green; `bin/check-theme` clean
+    (24 new CSS hooks, still empty selectors per the existing
+    identifier convention); catalog count updated everywhere it's
+    stated (491 → 515).
+
+  Done 2026-09-22. Discovered mid-task that `bin/new-component` never
+  learned to scaffold the 8th (Web Components) catalog at all — its
+  own source never mentions "web-components" — so that catalog's 24
+  were built from scratch by its own port agent, matching its existing
+  46-type pattern (`lily-*` custom elements), rather than corrected
+  from a generated placeholder like the other six catalogs. All 7
+  headless catalogs' full suites independently re-run and confirmed
+  green by the coordinating session, not just trusted from each port's
+  own report: Svelte 359/359, React 2811/2811, Vue 2800/2800, Angular
+  1161/1161, Blazor 1658/1658, Nunjucks 2976/2976, Web Components
+  2779/2779, HTML 515/516 (the one failure, `listbox-controller.test.js`,
+  confirmed pre-existing via `git log` and untouched by this task — a
+  chromedriver-cache environment issue on the porting agent's own
+  machine, not a code defect). `bin/check-coverage`: 0/515 drift across
+  all 7 catalogs. Every canonical `components/{slug}/AGENTS.md`/
+  `index.md`'s Status line moved from "experimental — Svelte only" to
+  "beta — implemented and unit-tested in all seven frameworks",
+  matching every pre-existing identifier's own status language, and
+  synced to the github.io route copies. `spec/national-identifiers/index.md`
+  updated: 92 → 116 components, 46 → 58 types. Two items explicitly
+  left open, flagged rather than silently skipped: the wider count-
+  reconciliation sweep across every skill repo (same category of
+  follow-up P1-T1 needed for a 1-component delta, now larger for a
+  24-component one), and Web Components' own internal narrative docs
+  (`index.md`/`AGENTS.md`/`INSTALL.md`/`spec/index.md`/`NEWS.md`)
+  still stating a stale "456 of 491, no open backlog" framing.
+
+- [x] **P8-T15 Twelve more national personal identifiers, round two**
+  (24 new components: 12 types × `-input`/`-view`), researched and
+  sourced 2026-09-22, extending the 58-type / 116-component catalog
+  P8-T13 left off at. This round closes three real EU/EEA gaps the
+  first 46 types somehow skipped (Austria, Hungary, Luxembourg — every
+  other EU/EEA member already had an entry) and continues the global
+  expansion into Asia, Eastern Europe, Africa, and South America. All
+  twelve verified against real sources rather than assumed from
+  memory:
+
+  | Slug | Country | Identifier | Why it's a good fit |
+  | --- | --- | --- | --- |
+  | `osterreich-sozialversicherungsnummer` | Austria | Sozialversicherungsnummer (SVNR) — 10 digits, Modulus-11 check digit | Closes an EU/EEA gap; the number the statutory health-insurance system (Sozialversicherung) itself is keyed on |
+  | `magyarorszag-taj-szam` | Hungary | Társadalombiztosítási Azonosító Jel (TAJ) — 9 digits, weighted Modulus-10 check digit | Closes an EU/EEA gap; literally the health/social-insurance identification mark, used at every doctor visit |
+  | `luxembourg-matricule` | Luxembourg | Numéro d'Identification Nationale (Matricule) — 13 digits, Luhn (12th digit) + Verhoeff (13th digit) double check digit | Closes an EU/EEA gap; the last member state left uncatalogued |
+  | `zhongguo-jumin-shenfenzheng-haoma` | China | Resident Identity Card Number (居民身份证号码) — 18 characters, ISO 7064 MOD 11-2 check digit (may be X) | World's most populous country, previously uncovered |
+  | `rossiya-snils` | Russia | СНИЛС (Individual Insurance Account Number) — 11 digits, Modulus-101 check digit | Russia's own social/pension-insurance number; large previously-uncovered country |
+  | `turkiye-tc-kimlik-numarasi` | Turkey | T.C. Kimlik Numarası — 11 digits, two trailing check digits (odd/even-position weighted sums) | Keys SGK (Social Security Institution) health coverage; large previously-uncovered country spanning Europe/Asia |
+  | `argentina-codigo-unico-de-identificacion-laboral` | Argentina | Código Único de Identificación Laboral (CUIL) — 2-digit prefix + 8-digit DNI + Modulus-11 check digit | Keys obra social (health-insurance fund) registration; large previously-uncovered South American country |
+  | `ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv` | Ukraine | Реєстраційний номер облікової картки платника податків (РНОКПП) — 10 digits, date-of-birth-encoded + check digit | Large previously-uncovered Eastern European country |
+  | `indonesia-nomor-induk-kependudukan` | Indonesia | Nomor Induk Kependudukan (NIK) — 16 digits, region + date-of-birth + serial, no published check digit | Keys BPJS Kesehatan (the national government health-insurance body) registration; world's 4th-most-populous country |
+  | `prathet-thai-lek-prajam-tua-prachachon` | Thailand | เลขประจำตัวประชาชน (National ID Number) — 13 digits, Modulus-11 check digit | Keys the Universal Coverage Scheme ("Gold Card") national health system; previously-uncovered Southeast Asian country |
+  | `chile-rol-unico-nacional` | Chile | Rol Único Nacional (RUN) — 7-8 digits + Modulus-11 check digit/letter (0-9 or K) | Keys FONASA (public health insurance) registration; previously-uncovered South American country |
+  | `misr-al-raqm-al-qawmi` | Egypt | الرقم القومي (National Number) — 14 digits, century + date-of-birth + governorate + serial + check digit | First Middle East/North Africa entry; large previously-uncovered country |
+
+  **Naming judgment calls**: Austria (`Österreich`), Hungary
+  (`Magyarország`), and Turkey (`Türkiye`) romanize by dropping
+  diacritics per the established transliteration convention (`cesko`,
+  `espana`, `suomi` set the precedent). Luxembourg keeps the English/
+  French spelling (identical in both, one of the country's three
+  official languages) rather than picking a fourth form. China, Russia,
+  Ukraine, Thailand, and Egypt are this catalog's first Chinese-,
+  Cyrillic-, Thai-, and Arabic-script entries respectively (after South
+  Korea, Japan, India, and Israel from P8-T13) — each romanized from its
+  actual native name, not the English exonym: `Zhongguo` (中国, not
+  "China"), `Rossiya` (Россия, not "Russia"), `Ukrayina` (Україна, not
+  "Ukraine"), `Prathet Thai` (ประเทศไทย, not "Thailand"), `Misr` (مصر,
+  not "Egypt" — the Greek-derived exonym every European language
+  borrowed). Argentina, Indonesia, and Chile keep their English-
+  identical native forms.
+
+  Scope, following P8-T13's exact proven workflow:
+  - [x] Add all 12 rows to `AGENTS/national-person-identifiers.tsv`
+    (`bin/sync` propagates it).
+  - [x] Scaffold all 24 slugs via `bin/new-component` into the 7
+    catalogs it supports (React, Vue, Angular, HTML, Blazor, Nunjucks,
+    Svelte); hand-build the Web Components equivalents separately, the
+    same workaround P8-T13 needed since `bin/new-component` has never
+    been extended to that 8th catalog.
+  - [x] Replace the Svelte canonical implementation for all 24 with
+    the real `-input`/`-view` pattern, plus real `AGENTS.md`/
+    `index.md` content — country, identifier name, format, validation
+    algorithm, where to find it.
+  - [x] Port the corrected pattern + content to the other 7 headless
+    catalogs (React, Vue, Angular, HTML, Nunjucks, Blazor, Web
+    Components).
+  - [x] Verify: `bin/test`, `bin/check-links`, `bin/check-coverage`
+    (0 gaps for all 24 new slugs), `bin/check-theme` clean; catalog
+    count updated everywhere stated (515 → 539).
+
+  **Done 2026-09-22.** All 24 components (12 types × `-input`/`-view`)
+  landed the same day as P8-T13, following its exact workflow. Svelte
+  canonical implementation first, then ported to React, Vue, Angular,
+  Blazor, HTML, and Nunjucks by parallel porting agents, each given
+  the real Malta pair as its template; Web Components built from
+  scratch again (that catalog still has no `bin/new-component`
+  scaffold), mirroring the existing `malta-national-identification-
+  number-input.ts`/`view.ts` pattern, `index.ts` barrel regenerated
+  via `node build.mjs`, and the hardcoded component-count assertion in
+  `index.test.ts` updated to 504. Every catalog port was independently
+  re-verified by the coordinating session after each agent's
+  completion, not just trusted from its own report: Svelte 5233/5233,
+  React 2943/2943, Vue 2932/2932, Angular 1209/1209, Blazor 1790/1790,
+  Nunjucks 3108/3108, Web Components 2887/2887, HTML 539/540. The one
+  HTML failure is `listbox-controller.test.js`, confirmed pre-existing
+  and unrelated (identical failure was already present in round one's
+  515/516 run, file untouched by this work both times). One deviation
+  worth recording: the Web Components porting agent needed a manual
+  apostrophe escape for Luxembourg's French-language label
+  (`Numéro d'Identification Nationale`) that the other catalogs'
+  templating handled automatically. React's porting agent flagged
+  roughly 780 pre-existing TypeScript errors in unrelated older
+  `.stories.tsx` files elsewhere in that catalog — confirmed via its
+  own grep that none of the 24 new files were involved; out of scope,
+  not fixed here. The Nunjucks porting agent's report described the
+  round-one-added 12 types as "untracked placeholder" components in
+  passing; independently verified false by directly reading
+  `aotearoa-national-health-index-input/macro.njk` (real
+  implementation, not a placeholder) — the agent had conflated
+  "untracked in `git status`" with "placeholder," no actual defect.
+  Repo-wide checks all clean: `bin/check-coverage` 0/539 drift across
+  all 7 core catalogs, `bin/check-links` OK (11021 files),
+  `bin/check-theme` OK (45 themes), full `bin/test` sweep exits 0.
+  Catalog-count references updated in `index.md`,
+  `spec/national-identifiers/index.md` (summary, scope, and a new
+  acceptance-criteria bullet), and `spec/index.md`'s "Current count"
+  — the same light-touch scope P8-T13 used, not chasing every
+  skill-repo mention. Nothing committed to git; awaiting the user's
+  go-ahead.
+
+- [ ] **P8-T16 angular-headless's index.ts barrel is missing every
+  national-identifier export.** Found 2026-09-25 while investigating
+  Dependabot CI failures: unlike svelte/react/vue/web-components-
+  headless, `lily-design-system-angular-headless/index.ts` (the real
+  ng-packagr `lib.entryFile`, not a legacy artifact — confirmed via
+  `ng-package.json`) has no `build.mjs`-style generator script keeping
+  it in sync with `components.tsv`. It currently exports none of the
+  national-identifier components at all — not just the 48 added in
+  P8-T13/P8-T15, but the original 92 too (495 lines, close to the old
+  491-component count with no identifiers). The published
+  `@lilydesignsystem/angular-headless` npm package is therefore
+  missing ~140 exports a consumer would expect. Component-level tests
+  still pass (1209/1209) because they import each component directly
+  by path, not through the barrel, which is why this went unnoticed
+  through both identifier rounds' verification sweeps.
+  - [ ] Write a generator (mirroring the other three catalogs'
+    `build.mjs` barrel-generation logic) that produces
+    `lily-design-system-angular-headless/index.ts` from
+    `components.tsv`, or extend an existing Angular build script if
+    one already covers adjacent generation.
+  - [ ] Regenerate and commit the file; confirm `ng-packagr` still
+    builds clean and the previously-missing exports resolve.
+  - [ ] Audit whether any other catalog's own barrel/registry has a
+    similar silent generator gap (this session only checked
+    svelte/react/vue/web-components/angular).
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.
