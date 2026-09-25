@@ -241,7 +241,7 @@ pnpm install && pnpm run dev`}</code></pre>
       </p>
       <p class="card-meta">Clone one and explore</p>
     </a>
-    <a class="card" href="/lily-claude-code/">
+    <a class="card" href="/skills/">
       <h3 class="card-heading">Claude Skills</h3>
       <p class="card-description">
         Give Claude Code a curated entry point into Lily: 26 skills — general,

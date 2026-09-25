@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: NihonKojinBangoInput
+description: an input for entering Japan's Individual Number (My Number)
+---
+
+{% from "components/nihon-kojin-bango-input/macro.njk" import nihonKojinBangoInput %}
+
+<h2>Default</h2>
+<p>{{ nihonKojinBangoInput({ text: "NihonKojinBangoInput example", label: "NihonKojinBangoInput example" }) }}</p>

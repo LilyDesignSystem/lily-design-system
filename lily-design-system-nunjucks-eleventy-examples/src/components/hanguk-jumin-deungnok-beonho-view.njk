@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: HangukJuminDeungnokBeonhoView
+description: a read-only display of South Korea's Resident Registration Number
+---
+
+{% from "components/hanguk-jumin-deungnok-beonho-view/macro.njk" import hangukJuminDeungnokBeonhoView %}
+
+<h2>Default</h2>
+<p>{{ hangukJuminDeungnokBeonhoView({ text: "HangukJuminDeungnokBeonhoView example", label: "HangukJuminDeungnokBeonhoView example" }) }}</p>

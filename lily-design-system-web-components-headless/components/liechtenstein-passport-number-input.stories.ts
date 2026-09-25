@@ -6,7 +6,7 @@ import { h } from "../stories/render.js";
 const SLOT = "";
 
 const meta: Meta = {
-    title: "National identifiers/LiechtensteinPassportNumberInput",
+    title: "Special-Purpose Identifiers/LiechtensteinPassportNumberInput",
     render: (args) => h("lily-liechtenstein-passport-number-input", args as Record<string, string | boolean>, SLOT),
     args: {
         "label": "Passport Number"
