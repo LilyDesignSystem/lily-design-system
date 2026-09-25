@@ -86,7 +86,7 @@ const ROLE_BUCKET = {
 
 // id → display label, in the order the UI should offer them.
 const CATEGORY_LABEL = {
-  national: "National identifiers",
+  national: "Special-Purpose Identifiers",
   forms: "Form controls",
   buttons: "Buttons",
   links: "Links",

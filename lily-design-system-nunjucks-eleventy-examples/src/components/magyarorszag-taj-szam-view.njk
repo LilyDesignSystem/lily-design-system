@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: MagyarorszagTajSzamView
+description: a read-only display of Hungary's Tarsadalombiztositasi Azonosito Jel (TAJ)
+---
+
+{% from "components/magyarorszag-taj-szam-view/macro.njk" import magyarorszagTajSzamView %}
+
+<h2>Default</h2>
+<p>{{ magyarorszagTajSzamView({ text: "MagyarorszagTajSzamView example", label: "MagyarorszagTajSzamView example" }) }}</p>

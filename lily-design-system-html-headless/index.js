@@ -21,7 +21,10 @@ function readComponent(slug) {
 function listComponents() {
   return fs
     .readdirSync(componentsDir)
-    .filter((f) => f.endsWith(".html"))
+    // listbox-controller.fixture.html is test-only harness markup for
+    // listbox-controller.test.js, not a shipped component -- excluded so
+    // it doesn't leak into a real consumer's component listing.
+    .filter((f) => f.endsWith(".html") && !f.endsWith(".fixture.html"))
     .map((f) => f.slice(0, -5))
     .sort();
 }
