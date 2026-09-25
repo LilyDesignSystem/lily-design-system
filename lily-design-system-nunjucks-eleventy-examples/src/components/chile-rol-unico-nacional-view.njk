@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: ChileRolUnicoNacionalView
+description: a read-only display of Chile's Rol Unico Nacional (RUN)
+---
+
+{% from "components/chile-rol-unico-nacional-view/macro.njk" import chileRolUnicoNacionalView %}
+
+<h2>Default</h2>
+<p>{{ chileRolUnicoNacionalView({ text: "ChileRolUnicoNacionalView example", label: "ChileRolUnicoNacionalView example" }) }}</p>

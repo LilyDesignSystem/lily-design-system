@@ -1,0 +1,21 @@
+{#
+  IndonesiaNomorIndukKependudukanView macro -- a read-only display of Nomor Induk Kependudukan (NIK).
+
+  HTML tag: <span>
+  CSS class: indonesia-nomor-induk-kependudukan-view
+
+  Params:
+    value, label, id, classes, attributes.
+
+  Usage:
+    {% from "components/indonesia-nomor-induk-kependudukan-view/macro.njk" import indonesiaNomorIndukKependudukanView %}
+    {{ indonesiaNomorIndukKependudukanView({ value: "sample", label: "Nomor Induk Kependudukan (NIK)" }) }}
+#}
+{%- macro indonesiaNomorIndukKependudukanView(params) -%}
+<span
+  class="indonesia-nomor-induk-kependudukan-view{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>{{ params.value | default("") }}</span>
+{%- endmacro -%}

@@ -489,3 +489,51 @@ visible	Visible	an IntersectionObserver wrapper that exposes element visibility 
 warning-callout	WarningCallout	a callout box highlighting a warning message
 watermark	Watermark	a decorative repeating overlay text or image marking a page
 week-input	WeekInput	an input for selecting a week and year <input type="week">
+aotearoa-national-health-index-input	AotearoaNationalHealthIndexInput	an input for entering New Zealand's National Health Index (NHI) Number
+aotearoa-national-health-index-view	AotearoaNationalHealthIndexView	a read-only display of New Zealand's National Health Index (NHI) Number
+pilipinas-philhealth-identification-number-input	PilipinasPhilhealthIdentificationNumberInput	an input for entering the Philippines' PhilHealth Identification Number (PIN)
+pilipinas-philhealth-identification-number-view	PilipinasPhilhealthIdentificationNumberView	a read-only display of the Philippines' PhilHealth Identification Number (PIN)
+brasil-cartao-nacional-de-saude-input	BrasilCartaoNacionalDeSaudeInput	an input for entering Brazil's Cartao Nacional de Saude (CNS)
+brasil-cartao-nacional-de-saude-view	BrasilCartaoNacionalDeSaudeView	a read-only display of Brazil's Cartao Nacional de Saude (CNS)
+schweiz-ahv-nummer-input	SchweizAhvNummerInput	an input for entering Switzerland's AHV-Nummer / Numero AVS
+schweiz-ahv-nummer-view	SchweizAhvNummerView	a read-only display of Switzerland's AHV-Nummer / Numero AVS
+canada-social-insurance-number-input	CanadaSocialInsuranceNumberInput	an input for entering Canada's Social Insurance Number (SIN)
+canada-social-insurance-number-view	CanadaSocialInsuranceNumberView	a read-only display of Canada's Social Insurance Number (SIN)
+hanguk-jumin-deungnok-beonho-input	HangukJuminDeungnokBeonhoInput	an input for entering South Korea's Resident Registration Number
+hanguk-jumin-deungnok-beonho-view	HangukJuminDeungnokBeonhoView	a read-only display of South Korea's Resident Registration Number
+nihon-kojin-bango-input	NihonKojinBangoInput	an input for entering Japan's Individual Number (My Number)
+nihon-kojin-bango-view	NihonKojinBangoView	a read-only display of Japan's Individual Number (My Number)
+bharat-aadhaar-input	BharatAadhaarInput	an input for entering India's Aadhaar number
+bharat-aadhaar-view	BharatAadhaarView	a read-only display of India's Aadhaar number
+yisrael-teudat-zehut-input	YisraelTeudatZehutInput	an input for entering Israel's Teudat Zehut identity number
+yisrael-teudat-zehut-view	YisraelTeudatZehutView	a read-only display of Israel's Teudat Zehut identity number
+south-africa-identity-number-input	SouthAfricaIdentityNumberInput	an input for entering South Africa's Identity Number
+south-africa-identity-number-view	SouthAfricaIdentityNumberView	a read-only display of South Africa's Identity Number
+mexico-clave-unica-de-registro-de-poblacion-input	MexicoClaveUnicaDeRegistroDePoblacionInput	an input for entering Mexico's Clave Unica de Registro de Poblacion (CURP)
+mexico-clave-unica-de-registro-de-poblacion-view	MexicoClaveUnicaDeRegistroDePoblacionView	a read-only display of Mexico's Clave Unica de Registro de Poblacion (CURP)
+singapore-national-registration-identity-card-input	SingaporeNationalRegistrationIdentityCardInput	an input for entering Singapore's National Registration Identity Card number (NRIC/FIN)
+singapore-national-registration-identity-card-view	SingaporeNationalRegistrationIdentityCardView	a read-only display of Singapore's National Registration Identity Card number (NRIC/FIN)
+osterreich-sozialversicherungsnummer-input	OsterreichSozialversicherungsnummerInput	an input for entering Austria's Sozialversicherungsnummer (SVNR)
+osterreich-sozialversicherungsnummer-view	OsterreichSozialversicherungsnummerView	a read-only display of Austria's Sozialversicherungsnummer (SVNR)
+magyarorszag-taj-szam-input	MagyarorszagTajSzamInput	an input for entering Hungary's Tarsadalombiztositasi Azonosito Jel (TAJ)
+magyarorszag-taj-szam-view	MagyarorszagTajSzamView	a read-only display of Hungary's Tarsadalombiztositasi Azonosito Jel (TAJ)
+luxembourg-matricule-input	LuxembourgMatriculeInput	an input for entering Luxembourg's Numero d'Identification Nationale (Matricule)
+luxembourg-matricule-view	LuxembourgMatriculeView	a read-only display of Luxembourg's Numero d'Identification Nationale (Matricule)
+zhongguo-jumin-shenfenzheng-haoma-input	ZhongguoJuminShenfenzhengHaomaInput	an input for entering China's Resident Identity Card Number
+zhongguo-jumin-shenfenzheng-haoma-view	ZhongguoJuminShenfenzhengHaomaView	a read-only display of China's Resident Identity Card Number
+rossiya-snils-input	RossiyaSnilsInput	an input for entering Russia's SNILS Individual Insurance Account Number
+rossiya-snils-view	RossiyaSnilsView	a read-only display of Russia's SNILS Individual Insurance Account Number
+turkiye-tc-kimlik-numarasi-input	TurkiyeTcKimlikNumarasiInput	an input for entering Turkey's T.C. Kimlik Numarasi
+turkiye-tc-kimlik-numarasi-view	TurkiyeTcKimlikNumarasiView	a read-only display of Turkey's T.C. Kimlik Numarasi
+argentina-codigo-unico-de-identificacion-laboral-input	ArgentinaCodigoUnicoDeIdentificacionLaboralInput	an input for entering Argentina's Codigo Unico de Identificacion Laboral (CUIL)
+argentina-codigo-unico-de-identificacion-laboral-view	ArgentinaCodigoUnicoDeIdentificacionLaboralView	a read-only display of Argentina's Codigo Unico de Identificacion Laboral (CUIL)
+ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input	UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput	an input for entering Ukraine's Taxpayer Registration Card Number (RNOKPP)
+ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view	UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivView	a read-only display of Ukraine's Taxpayer Registration Card Number (RNOKPP)
+indonesia-nomor-induk-kependudukan-input	IndonesiaNomorIndukKependudukanInput	an input for entering Indonesia's Nomor Induk Kependudukan (NIK)
+indonesia-nomor-induk-kependudukan-view	IndonesiaNomorIndukKependudukanView	a read-only display of Indonesia's Nomor Induk Kependudukan (NIK)
+prathet-thai-lek-prajam-tua-prachachon-input	PrathetThaiLekPrajamTuaPrachachonInput	an input for entering Thailand's National Identification Number
+prathet-thai-lek-prajam-tua-prachachon-view	PrathetThaiLekPrajamTuaPrachachonView	a read-only display of Thailand's National Identification Number
+chile-rol-unico-nacional-input	ChileRolUnicoNacionalInput	an input for entering Chile's Rol Unico Nacional (RUN)
+chile-rol-unico-nacional-view	ChileRolUnicoNacionalView	a read-only display of Chile's Rol Unico Nacional (RUN)
+misr-al-raqm-al-qawmi-input	MisrAlRaqmAlQawmiInput	an input for entering Egypt's National Number
+misr-al-raqm-al-qawmi-view	MisrAlRaqmAlQawmiView	a read-only display of Egypt's National Number

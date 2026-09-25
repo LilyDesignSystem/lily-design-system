@@ -6,7 +6,7 @@ import { h } from "../stories/render.js";
 const SLOT = "";
 
 const meta: Meta = {
-    title: "National identifiers/FranceNumeroDIdentificationAuRepertoireView",
+    title: "Special-Purpose Identifiers/FranceNumeroDIdentificationAuRepertoireView",
     render: (args) => h("lily-france-numero-d-identification-au-repertoire-view", args as Record<string, string | boolean>, SLOT),
     args: {
         "label": "Numéro d'Identification au Répertoire",
