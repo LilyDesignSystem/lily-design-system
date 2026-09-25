@@ -2041,6 +2041,62 @@ dropped. None is speculative.
     similar silent generator gap (this session only checked
     svelte/react/vue/web-components/angular).
 
+- [x] **P8-T17 lilydesignsystem.github.io: multi-locale infrastructure
+  (15 locales), real `PickerBar`, real text-size defaults.** Implements
+  `lilydesignsystem.github.io/spec/locales-for-global-sharing-with-svelte`
+  (adapted from another project's SvelteKit i18n playbook — this site has
+  no `[locale]` dynamic route or markdown-per-topic content model, so the
+  adaptation is real static directories per locale plus a shared
+  `LocaleHome.svelte`, not a literal port).
+  - [x] `src/lib/locales.ts` — `LOCALE_LABELS` (endonyms, English
+    variants qualified for the picker), `locales()`, `bcp47Tag()`,
+    `isRtl()`. Fixed two real data bugs in the spec's own
+    `locales.tsv` along the way: `ar-001`/`bn-001` had their
+    endonym/exonym columns merged (missing tab), and `zh-cn`'s endonym
+    was a literal `?` placeholder (now `中文`).
+  - [x] `src/lib/i18n.ts` — real (not machine-stub) translations of the
+    nav/footer/picker-label/home-hero chrome strings for all 15 locales,
+    including the two RTL ones (Arabic, Urdu).
+  - [x] `src/hooks.server.ts` sets `<html lang dir>` correctly at
+    prerender time per locale (adapter-static still runs hooks once per
+    discovered page during the build); `+layout.svelte` keeps both in
+    sync across client-side navigation too.
+  - [x] Root `SitePreferences.svelte` rewritten to compose the real
+    `@lilydesignsystem/svelte-picker-bar` helper instead of assembling
+    theme/text-size/share pickers by hand, adding the locale picker as a
+    fourth control that navigates to `/locales/<code>/` on change —
+    "add lily pickerbar" from earlier the same session.
+  - [x] Adopted `svelte-picker-bar`'s own `DEFAULT_SIZES` (the seven-step
+    largest…smallest scale) instead of this site's old bespoke
+    small/medium/large/x-large set — "add lily text-size-picker
+    defaults." Found while verifying the swap: `static/assets/style.css`
+    never actually had a `[data-text-size]` rule at all despite a
+    comment claiming it did — the picker worked and set the attribute,
+    but no CSS ever consumed it, so changing text size has silently done
+    nothing since the picker was first added. Added the real
+    `html[data-text-size="…"] { font-size: …% }` scale.
+  - [x] `src/routes/locales/` — an index page (locale list ordered per
+    the spec: default first, then grouped by language name, then
+    alphabetically by label) plus one real static directory per locale
+    (`ar-001`, `bn-001`, `cy-001`, `en-001`, `en-gb`, `en-gb-oxendict`,
+    `en-us`, `es-001`, `fr-001`, `hi-001`, `id-001`, `pt-001`, `ru-001`,
+    `ur-001`, `zh-cn`), each a thin `+page.svelte` around the shared
+    `LocaleHome.svelte`. A footer link to `/locales/` makes all 16 pages
+    discoverable to the static-adapter's prerender crawler (no dynamic
+    route, so nothing else would find them).
+  - [x] Verified: `pnpm run check` (0 errors), `pnpm run build` (all 16
+    pages prerendered, `<html lang dir>` spot-checked correct per
+    locale including RTL, no prerender warnings), root `/` unchanged
+    (still exactly `en-001`'s strings, which are the site's original
+    hardcoded English verbatim), `bin/test` clean.
+  - [ ] **Deliberately not done**: translating the site's ~550 other
+    pages (tutorials, component docs, about, comparisons, etc.) into
+    these 15 locales. Every locale gets only its home page for now,
+    per the spec's own "starts empty" rollout note — each locale's home
+    page says so, in that locale's own language (`home.notice`). A
+    real per-page translation effort is a separate, much larger,
+    ongoing task, not a one-session addition.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.
