@@ -10,7 +10,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
-    "build": "ng-packagr -p ng-package.json",
+    "build": "node generate-index.mjs && ng-packagr -p ng-package.json",
     "storybook": "ng run @lilydesignsystem/angular-headless:storybook",
     "build-storybook": "ng run @lilydesignsystem/angular-headless:build-storybook"
   },

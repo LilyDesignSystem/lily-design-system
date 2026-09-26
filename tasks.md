@@ -2015,7 +2015,7 @@ dropped. None is speculative.
   skill-repo mention. Nothing committed to git; awaiting the user's
   go-ahead.
 
-- [ ] **P8-T16 angular-headless's index.ts barrel is missing every
+- [x] **P8-T16 angular-headless's index.ts barrel is missing every
   national-identifier export.** Found 2026-09-25 while investigating
   Dependabot CI failures: unlike svelte/react/vue/web-components-
   headless, `lily-design-system-angular-headless/index.ts` (the real
@@ -2030,16 +2030,37 @@ dropped. None is speculative.
   still pass (1209/1209) because they import each component directly
   by path, not through the barrel, which is why this went unnoticed
   through both identifier rounds' verification sweeps.
-  - [ ] Write a generator (mirroring the other three catalogs'
+  - [x] Write a generator (mirroring the other three catalogs'
     `build.mjs` barrel-generation logic) that produces
     `lily-design-system-angular-headless/index.ts` from
     `components.tsv`, or extend an existing Angular build script if
     one already covers adjacent generation.
-  - [ ] Regenerate and commit the file; confirm `ng-packagr` still
+  - [x] Regenerate and commit the file; confirm `ng-packagr` still
     builds clean and the previously-missing exports resolve.
   - [ ] Audit whether any other catalog's own barrel/registry has a
     similar silent generator gap (this session only checked
     svelte/react/vue/web-components/angular).
+
+  **Done 2026-09-26.** Added `lily-design-system-angular-headless/
+  generate-index.mjs`, discovering exports from each `components/*.ts`
+  source file (top-level `export class/interface/type`, not assumed to
+  be exactly the filename) rather than reading `components.tsv`
+  directly — this catches a real edge case `components.tsv` alone
+  wouldn't: `Listbox.ts` also exports a type, `ListboxNavigation`, that
+  the barrel needs re-exported alongside the class. Wired into
+  `package.json`'s `"build"` script (`node generate-index.mjs &&
+  ng-packagr ...`), matching the other three catalogs' "regenerate then
+  build" pattern. Verified idempotent (two consecutive runs produce
+  identical output — checked deliberately, having just fixed a
+  non-idempotent generator elsewhere this same session). Full rebuild
+  clean; the built FESM bundle now exports 539 runtime values (540
+  including the type-only `ListboxNavigation`, erased at runtime as
+  expected); spot-checked `AotearoaNationalHealthIndexInput` resolves as
+  a real component. `lily-design-system-angular-helpers` (the sibling
+  catalog that cross-depends on this barrel) still passes 1209/1209.
+  Updated `bin/smoke-packages`'s angular floor check from `>=491` to
+  `>=539` now that it reflects reality. `bin/test` and
+  `bin/check-coverage` clean.
 
 - [x] **P8-T17 lilydesignsystem.github.io: multi-locale infrastructure
   (15 locales), real `PickerBar`, real text-size defaults.** Implements

@@ -289,10 +289,10 @@ import "@angular/compiler";
 import * as lib from "@lilydesignsystem/angular-headless";
 for (const n of ["Button", "BreadcrumbNav", "TextInput", "ImageCropper"])
   if (typeof lib[n] !== "function") throw new Error("angular missing export: " + n);
-// Still 491, not 539: angular-headless's index.ts has no generator
-// keeping it in sync with components.tsv and is missing every national-
-// identifier export (tasks.md P8-T16, found 2026-09-25, not fixed here).
-if (Object.keys(lib).length < 491) throw new Error("angular: expected >=491 exports");
+// Fixed 2026-09-26 (tasks.md P8-T16): generate-index.mjs now keeps
+// index.ts in sync with components/, closing the gap that used to leave
+// every national-identifier export out of the published package.
+if (Object.keys(lib).length < 539) throw new Error("angular: expected >=539 exports");
 const helperPackages = [
   ["@lilydesignsystem/angular-theme-picker", "ThemePicker"],
   ["@lilydesignsystem/angular-locale-picker", "LocalePicker"],
