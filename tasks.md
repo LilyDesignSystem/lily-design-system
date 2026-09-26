@@ -2037,9 +2037,18 @@ dropped. None is speculative.
     one already covers adjacent generation.
   - [x] Regenerate and commit the file; confirm `ng-packagr` still
     builds clean and the previously-missing exports resolve.
-  - [ ] Audit whether any other catalog's own barrel/registry has a
+  - [x] Audit whether any other catalog's own barrel/registry has a
     similar silent generator gap (this session only checked
-    svelte/react/vue/web-components/angular).
+    svelte/react/vue/web-components/angular). **Done 2026-09-26:**
+    checked the remaining three. `html-headless` and `nunjucks-headless`
+    both discover components via a *dynamic* filesystem scan at call
+    time (`listComponents()` reads `components/` live), not a static
+    generated file — architecturally immune to this class of bug;
+    verified both currently return exactly 539. `blazor-headless` has
+    no barrel at all and needs none: `.razor` components are discovered
+    by the compiler via namespace (`_Imports.razor` has one `@using`
+    line for the whole namespace, not a per-component list).
+    angular-headless was the only catalog with this gap.
 
   **Done 2026-09-26.** Added `lily-design-system-angular-headless/
   generate-index.mjs`, discovering exports from each `components/*.ts`
