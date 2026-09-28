@@ -94,6 +94,13 @@ def parts(name):
     """(framework, kind) for a subproject directory name."""
     if name == "lilydesignsystem.github.io":
         return None, "site"
+    # Not framework-scoped (no "lily-design-system-{fw}-" prefix) and
+    # not a Claude Skill, so it would otherwise fall through to the
+    # generic "other" bucket and inherit the framework-loop's default
+    # install() body ("Run this example application" / npm run dev),
+    # which is wrong for a CSS-only package.
+    if name == "lily-design-system-themes":
+        return None, "themes"
     # A Claude Skill package (spec/agent-skills/index.md), not a
     # framework implementation: no package.json, nothing to `npm run
     # dev`, no required-routes contract. Matched by suffix, not any
@@ -125,6 +132,8 @@ def describe(name):
     label = FRAMEWORK.get(fw, "")
     if kind == "site":
         return "the Lily Design System documentation website"
+    if kind == "themes":
+        return "the 45 reference theme stylesheets, packaged for npm"
     if kind == "headless":
         if name == "lily-design-system-web-components-headless":
             return (f"the {label} headless component library: its full "
@@ -240,6 +249,32 @@ npm run dev
 ```
 
 This is the source of <{DOCS}>.
+"""
+    elif kind == "themes":
+        body = f"""
+## Install
+
+```sh
+npm install {npm_name(name)}
+```
+
+CSS only, no build step and no JavaScript. Reference a theme by its
+slug via a subpath import or a `<link>`:
+
+```js
+import "{npm_name(name)}/light.css";
+```
+
+```html
+<link rel="stylesheet" href="/node_modules/{npm_name(name)}/light.css">
+```
+
+Each file name is the `data-theme="{{slug}}"` value the `theme-picker`
+helper sets — see
+[AGENTS/helpers.md]({CANONICAL}/blob/main/AGENTS/helpers.md). Every
+selector is `:where(...)` or `@layer lily {{ ... }}` (zero specificity),
+so your own CSS always wins the cascade — see
+[AGENTS/theme.md]({CANONICAL}/blob/main/AGENTS/theme.md).
 """
     elif kind == "headless":
         if name in PUBLISHED_NPM:

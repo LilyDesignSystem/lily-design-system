@@ -9,6 +9,53 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## New package: `@lilydesignsystem/themes` — 2026-09-28
+
+A 24th subproject, `lily-design-system-themes`, packages the canonical
+45 reference theme stylesheets (`themes/` at the monorepo root) as an
+installable npm package, so a consumer can `npm install
+@lilydesignsystem/themes` instead of cloning the monorepo or
+hand-copying CSS files. CSS only — no JavaScript, no build step for
+consumers. `build.js` copies `../themes/*.css` into `dist/` unmodified
+at publish time; the root `themes/` directory remains the single
+canonical source (`AGENTS/theme.md`), unaffected by this package's
+existence. `bin/sync-special-files` gained a `"themes"` kind (it would
+otherwise have inherited the generic "examples app" `npm run dev`
+install instructions, which are wrong for a CSS-only package) so its
+generated `INSTALL.md`/`CITATION.cff` describe it correctly. Verified:
+`bin/test` and `bin/check-links` clean with the new subproject present,
+a real `npm pack` + install into a scratch consumer resolving both a
+short slug (`light.css`) and the longest slug
+(`united-kingdom-national-health-service-wales-for-practitioners.css`).
+First release, `0.1.0`, per `docs/releasing.md`'s numbering rule.
+
+## SharePicker status paragraph no longer misaligns the button row — 2026-09-28
+
+`SharePicker`'s always-rendered `<p class="share-picker-status"
+aria-live="polite">` (required so the live region exists before the
+first announcement — removing it would silence the first copy/share
+outcome for screen-reader users) still generated a line box and
+carried its caption's margin-top even when empty, making
+`.share-picker` taller than its sibling pickers and knocking its
+button out of vertical alignment in a flex row like `picker-bar`. Two
+downstream consumers (this project's own docs site, and an external
+adopter) had already independently discovered and locally patched
+around this with consumer CSS. Fixed at the source instead: all 45
+`themes/*.css` gained a zero-specificity
+`:where(.share-picker-status:empty)` rule (`margin: 0; line-height:
+0;`) that collapses the paragraph only while there is nothing to
+announce — `:empty` matches Svelte's rendered `{status}` of `""` since
+a zero-length text node doesn't count as a child per the CSS spec.
+Propagated to the 7 example apps' static theme copies via `bin/sync`.
+Verified: `bin/check-theme` clean, 45/45.
+
+Incidentally, `bin/sync` also caught up 41 subproject copies of
+`AGENTS/national-person-identifiers.tsv` that had been 12 rows behind
+the canonical root file since `6af923880` (2026-09-25), which had
+propagated only 12 of that commit's 24 new rows. Committed separately
+since it's unrelated; verified byte-for-byte against the canonical
+source across all 41 copies before committing.
+
 ## `web-components-headless` `IconButton` gains `base-class` — 2026-09-21
 
 Additive extension, no default-behaviour change: `<lily-icon-button>`
