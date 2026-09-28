@@ -2312,6 +2312,20 @@
         color: var(--lily-text-muted);
     }
 
+    /* The status paragraph is always rendered so the aria-live region
+       exists before the first announcement (see above); empty, it still
+       generates a line box and carries the margin-top set above, both of
+       which push the button row out of alignment in a flex layout like
+       picker-bar (found independently by two downstream consumers, each
+       patching around it locally). :empty here matches a Svelte-rendered
+       {status} of "" (a zero-length text node doesn't count as a child
+       per the CSS spec), so this only applies while there is nothing to
+       announce, and normal spacing returns the moment status has text. */
+    :where(.share-picker-status:empty) {
+        margin: 0;
+        line-height: 0;
+    }
+
     :where(
         .theme-picker-list,
         .locale-picker-list,
