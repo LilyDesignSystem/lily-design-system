@@ -6,20 +6,20 @@
 
 :root {
   /* Real bug found 2026-09-07 (the same class as the earlier picker-icon
-   * dark-mode fix): --lily-primary/-accent were fixed hex values, so
-   * switching themes visibly reskinned the pickers (which read the
-   * theme's own --lily-* tokens) while the hero heading gradient, the
-   * buttons, nav-hover, and focus rings stayed the site's original blue
-   * regardless of the chosen theme. Unlike --lily-text (which the theme
-   * already defines under the same name, so removing the site's own
-   * definition was enough), no theme defines --lily-primary/-accent
-   * under those names -- they map to the theme's --color-primary/
-   * -accent instead, with the original literals kept only as the
-   * var() fallback for the brief pre-hydration paint before any theme
-   * stylesheet has loaded. */
+   * dark-mode fix): --lily-primary was a fixed hex value, so switching
+   * themes visibly reskinned the pickers (which read the theme's own
+   * --lily-* tokens) while the hero heading, buttons, nav-hover, and
+   * focus rings stayed the site's original blue regardless of the chosen
+   * theme. Unlike --lily-text (which the theme already defines under the
+   * same name, so removing the site's own definition was enough), no
+   * theme defines --lily-primary under that name -- it maps to the
+   * theme's --color-primary instead, with the original literal kept only
+   * as the var() fallback for the brief pre-hydration paint before any
+   * theme stylesheet has loaded. (The former --lily-accent token existed
+   * only for the hero heading's text-gradient fill, removed below; it had
+   * no other consumer, so it was removed rather than carried forward.) */
   --lily-primary: var(--color-primary, #2563eb);
   --lily-primary-hover: color-mix(in oklch, var(--color-primary, #2563eb) 85%, black);
-  --lily-accent: var(--color-accent, #005eb8);
   --lily-danger: #dc2626;
   --lily-warning: #f59e0b;
   --lily-success: #16a34a;
@@ -296,10 +296,7 @@ html[data-text-size='largest'] { font-size: 150%; }
 .page-intro h1 {
   font-size: clamp(2.25rem, 5vw, 3.5rem);
   margin: 0.5rem 0 1rem;
-  background: linear-gradient(135deg, var(--lily-primary), var(--lily-accent));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--lily-primary);
 }
 .page-intro-tagline {
   font-size: 1.25rem;
