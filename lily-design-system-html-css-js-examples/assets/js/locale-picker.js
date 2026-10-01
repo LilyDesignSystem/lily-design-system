@@ -489,7 +489,7 @@ var RTL_SCRIPT_SUBTAGS = /* @__PURE__ */ new Set([
 ]);
 
 // lily-design-system-html-locale-picker/locale-picker.ts
-import { ListboxController } from "@lilydesignsystem/html-headless/components/listbox-controller.js";
+import { ListboxController } from "./listbox-controller.js";
 var SVG_NS = "http://www.w3.org/2000/svg";
 function bcp47LocaleTag(locale) {
   return locale.replace(/_/g, "-");
@@ -707,7 +707,6 @@ var LocalePicker = class extends HTMLElement {
     circle.setAttribute("cx", "8");
     circle.setAttribute("cy", "8");
     circle.setAttribute("r", "6");
-    // Graticule after https://commons.wikimedia.org/wiki/File:Globe_icon.svg
     const graticule = document.createElementNS(SVG_NS, "path");
     graticule.setAttribute("stroke-width", "1.1");
     graticule.setAttribute("d", "M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7");

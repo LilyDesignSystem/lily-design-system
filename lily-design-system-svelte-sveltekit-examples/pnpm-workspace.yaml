@@ -1,5 +1,7 @@
 allowBuilds:
   esbuild: true
+minimumReleaseAgeExclude:
+  - "@lilydesignsystem/svelte-locale-picker@0.1.3"
 # @sveltejs/kit pins cookie@^0.6.0 directly (not yet updated upstream to
 # the 0.7.0 fix for GHSA-pxg6-pf52-xh8x). pnpm 10+ reads `overrides` from
 # this file, not package.json's `pnpm.overrides` -- a real, previously

@@ -1,5 +1,5 @@
 // lily-design-system-html-theme-picker/theme-picker.ts
-import { ListboxController } from "@lilydesignsystem/html-headless/components/listbox-controller.js";
+import { ListboxController } from "./listbox-controller.js";
 var SVG_NS = "http://www.w3.org/2000/svg";
 function themeName(theme) {
   return theme.split("-").map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");

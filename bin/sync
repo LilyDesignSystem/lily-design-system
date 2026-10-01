@@ -38,10 +38,19 @@ cp "$top/plan.md" "$top/lilydesignsystem.github.io/src/lib/content/plan.md"
 
 # The html example app vendors the picker custom elements (built dist)
 # the same way it vendors everything else: as copied files.
+#
+# Each built picker imports html-headless's ListboxController by bare
+# package specifier, which a static page with no import map cannot
+# resolve -- the module fails to load and no picker ever registers. So
+# vendor listbox-controller.js alongside the pickers and rewrite the
+# bare import to that sibling file.
 mkdir -p "$top/lily-design-system-html-css-js-examples/pages/assets/js"
+cp "$top/lily-design-system-html-headless/components/listbox-controller.js" \
+    "$top/lily-design-system-html-css-js-examples/pages/assets/js/listbox-controller.js"
 for picker in theme-picker locale-picker text-size-picker; do
     src="$top/lily-design-system-html-helpers/lily-design-system-html-$picker/dist/index.js"
     if [ -f "$src" ]; then
-        cp "$src" "$top/lily-design-system-html-css-js-examples/pages/assets/js/$picker.js"
+        sed 's#"@lilydesignsystem/html-headless/components/listbox-controller.js"#"./listbox-controller.js"#' \
+            "$src" > "$top/lily-design-system-html-css-js-examples/pages/assets/js/$picker.js"
     fi
 done

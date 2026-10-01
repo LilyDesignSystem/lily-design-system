@@ -1,5 +1,5 @@
 // lily-design-system-html-text-size-picker/text-size-picker.ts
-import { ListboxController } from "@lilydesignsystem/html-headless/components/listbox-controller.js";
+import { ListboxController } from "./listbox-controller.js";
 var SVG_NS = "http://www.w3.org/2000/svg";
 function sizeName(size) {
   return size.split("-").map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
