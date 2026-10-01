@@ -4,3 +4,7 @@ allowBuilds:
   sharp: true
   unrs-resolver: true
   better-sqlite3: true
+minimumReleaseAgeExclude:
+  - "@lilydesignsystem/vue-locale-picker@0.1.3"
+  - "@lilydesignsystem/vue-text-size-picker@0.1.2"
+  - "@lilydesignsystem/vue-theme-picker@0.1.2"
