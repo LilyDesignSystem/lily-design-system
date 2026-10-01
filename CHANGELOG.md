@@ -9,6 +9,22 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## `locale-picker` globe icon redrawn — 2026-10-01
+
+The default `locale-picker` icon now follows
+[Wikimedia Commons' Globe_icon.svg](https://commons.wikimedia.org/wiki/File:Globe_icon.svg):
+the single-ellipse meridian plus equator becomes a full graticule
+(equator, central meridian, two curved meridians, two curved parallels)
+on the same `viewBox="0 0 16 16"`, `r="6"` circle as the other
+page-header icons. The graticule path carries `stroke-width="1.1"`
+under the circle's inherited `1.6`, keeping the source's 26:18
+outline-to-interior weight ratio — at 1.6 throughout, six interior
+lines fill in at 1.05rem. A deliberate, recorded exception to the
+"all five icons share stroke-width 1.6" family rule in
+`AGENTS/helpers.md`. No API, class-hook, keyboard, or ARIA change, so
+a patch release in every catalog: svelte 0.1.3; react, vue, angular,
+html, nunjucks, web-components 0.1.2; Blazor 0.2.2.
+
 ## New package: `@lilydesignsystem/themes` — 2026-09-28
 
 A 24th subproject, `lily-design-system-themes`, packages the canonical

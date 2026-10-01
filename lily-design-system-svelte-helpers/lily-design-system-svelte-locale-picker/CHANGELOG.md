@@ -4,7 +4,7 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.1.3 — 2026-10-01
 
 **Icon: the default globe now follows
 [Wikimedia Commons' Globe_icon.svg](https://commons.wikimedia.org/wiki/File:Globe_icon.svg).**

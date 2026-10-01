@@ -1,6 +1,6 @@
 # CHANGELOG — @lilydesignsystem/react-locale-picker
 
-## Unreleased
+## 0.1.2 — 2026-10-01
 
 **Icon: the default globe now follows
 [Wikimedia Commons' Globe_icon.svg](https://commons.wikimedia.org/wiki/File:Globe_icon.svg).**
