@@ -1,12 +1,12 @@
 {
   "name": "@lilydesignsystem/angular-motion-picker",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "engines": {
     "node": "=26"
   },
   "description": "Lily Design System Angular 20 motion (reduced-motion) picker: an icon button opening an APG listbox that sets data-motion on the document, defaulting to the OS's own prefers-reduced-motion signal. Headless, SSR-safe, no CSS.",
   "dependencies": {
-    "@lilydesignsystem/angular-headless": "^0.1.0"
+    "@lilydesignsystem/angular-headless": "^0.2.0"
   },
   "peerDependencies": {
     "@angular/core": ">=20.0.0 <23.0.0",

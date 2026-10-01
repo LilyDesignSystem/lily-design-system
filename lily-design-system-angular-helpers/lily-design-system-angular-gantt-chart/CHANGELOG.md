@@ -4,6 +4,15 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.1.1 — 2026-10-01
+
+**Fix: dependency range on `@lilydesignsystem/angular-headless` widened
+from `^0.1.0` to `^0.2.0`.** This package's own headless imports (the `GanttTable*`
+components) already exist in 0.1.0, but it embeds
+`@lilydesignsystem/angular-date-time-picker`, whose 0.1.2 needs
+angular-headless 0.2.0; widening here keeps a single headless copy in a
+consumer's tree. No source change.
+
 ## 0.1.0 — 2026-09-22
 
 Initial release. Ports `@lilydesignsystem/svelte-gantt-chart`

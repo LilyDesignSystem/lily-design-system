@@ -1,6 +1,6 @@
 {
   "name": "@lilydesignsystem/vue-text-size-picker",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "engines": {
     "node": "=26"
   },
@@ -24,7 +24,7 @@
     "prepublishOnly": "cd .. && npm run build"
   },
   "dependencies": {
-    "@lilydesignsystem/vue-headless": "^0.1.0"
+    "@lilydesignsystem/vue-headless": "^0.2.0"
   },
   "peerDependencies": {
     "vue": "^3.0.0"

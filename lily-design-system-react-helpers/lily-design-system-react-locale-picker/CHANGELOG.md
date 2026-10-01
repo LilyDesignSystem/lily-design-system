@@ -1,5 +1,19 @@
 # CHANGELOG — @lilydesignsystem/react-locale-picker
 
+## 0.1.3 — 2026-10-01
+
+**Fix: dependency range on `@lilydesignsystem/react-headless` widened
+from `^0.1.0` to `^0.2.0`.** This package composes the headless `IconButton` (plus, for the listbox pickers and
+kanban-board, `Listbox`) with props (`baseClass`, the active-descendant
+`navigation` mode, …) that only exist in
+react-headless 0.2.0, but `^0.1.0` never resolves to a 0.2.x release,
+so a fresh install got 0.1.0 and those props were dropped: Escape left
+`aria-expanded="true"` and option selection never applied. Found when
+the react example app's picker e2e tests failed against the published
+packages, and confirmed by forcing react-headless 0.2.0, which made every
+one pass. The same defect and fix as the Svelte catalog's 0.1.2. No
+source change.
+
 ## 0.1.2 — 2026-10-01
 
 **Icon: the default globe now follows

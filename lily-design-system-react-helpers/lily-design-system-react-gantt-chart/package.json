@@ -1,6 +1,6 @@
 {
   "name": "@lilydesignsystem/react-gantt-chart",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "engines": {
     "node": "=26"
   },
@@ -24,7 +24,7 @@
     "prepublishOnly": "cd .. && npm run build"
   },
   "dependencies": {
-    "@lilydesignsystem/react-headless": "^0.1.0",
+    "@lilydesignsystem/react-headless": "^0.2.0",
     "@lilydesignsystem/react-date-time-picker": "^0.1.1"
   },
   "peerDependencies": {

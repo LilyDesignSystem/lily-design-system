@@ -9,6 +9,30 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## React/Vue/Angular helpers: `*-headless` range widened to `^0.2.0` — 2026-10-01
+
+The same defect the Svelte catalog fixed in its pickers' 0.1.2,
+never ported: 22 published React, Vue and Angular helpers (every
+`*-picker` plus react/angular `gantt-chart` and `kanban-board`)
+compose the headless `IconButton`/`Listbox` with props that only
+exist in `*-headless` 0.2.0, but declared `^0.1.0`, which never
+resolves to 0.2.x. A fresh install therefore got headless 0.1.0, the
+props were dropped (React logged `does not recognize the baseClass
+prop`), and the pickers broke: Escape left `aria-expanded="true"` and
+selecting an option never applied it. Found when the React, Vue and
+Angular example apps' picker e2e tests failed after moving off their
+exact `0.1.0` pins; confirmed by forcing headless 0.2.0 in the React
+and Angular apps, which made every test pass. Fixed by widening the
+range to `^0.2.0` and patch-releasing all 22; no source change.
+`bin/smoke-packages` is now free of those React prop warnings.
+
+Also fixed: the HTML example app's three pickers had not rendered
+since 2026-09-25 (`d054e7ba3`). Their vendored builds import
+`@lilydesignsystem/html-headless/components/listbox-controller.js` by
+bare specifier, which a static page with no import map cannot
+resolve. `bin/sync` now vendors `listbox-controller.js` beside the
+pickers and rewrites that import to `./listbox-controller.js`.
+
 ## `html-headless` 0.3.0 and the HTML pickers' dependency widened — 2026-10-01
 
 Every `@lilydesignsystem/html-*-picker` (theme, locale, text-size,
@@ -42,6 +66,15 @@ lines fill in at 1.05rem. A deliberate, recorded exception to the
 `AGENTS/helpers.md`. No API, class-hook, keyboard, or ARIA change, so
 a patch release in every catalog: svelte 0.1.3; react, vue, angular,
 html, nunjucks, web-components 0.1.2; Blazor 0.2.2.
+
+The four npm-consuming example apps (angular, react-next,
+svelte-sveltekit, vue-nuxt) moved from their exact `0.1.0` pins to
+the current theme/locale/text-size-picker releases. pnpm 12's
+`minimumReleaseAge` cooldown blocks a same-day release, so each app's
+`pnpm-workspace.yaml` carries a `minimumReleaseAgeExclude` entry
+pinned to that one locale-picker version. The Blazor and Nunjucks apps
+reference the helper source directly, and the HTML app vendors the
+built dist, so all three were already current.
 
 ## New package: `@lilydesignsystem/themes` — 2026-09-28
 

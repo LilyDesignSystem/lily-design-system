@@ -1,12 +1,12 @@
 {
   "name": "@lilydesignsystem/angular-kanban-board",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "engines": {
     "node": "=26"
   },
   "description": "Lily Design System Angular 20 kanban board: composes the headless KanbanTable grid with an IconButton/Listbox per-card move menu. Headless, SSR-safe, no CSS.",
   "dependencies": {
-    "@lilydesignsystem/angular-headless": "^0.1.0"
+    "@lilydesignsystem/angular-headless": "^0.2.0"
   },
   "peerDependencies": {
     "@angular/core": ">=20.0.0 <23.0.0",

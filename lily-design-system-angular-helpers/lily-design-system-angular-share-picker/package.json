@@ -1,12 +1,12 @@
 {
   "name": "@lilydesignsystem/angular-share-picker",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "engines": {
     "node": "=26"
   },
   "description": "Lily Design System Angular 20 share picker: an icon button opening the native share sheet, or a disclosure of consumer-supplied links plus copy-to-clipboard. Headless, SSR-safe, no CSS.",
   "dependencies": {
-    "@lilydesignsystem/angular-headless": "^0.1.0"
+    "@lilydesignsystem/angular-headless": "^0.2.0"
   },
   "peerDependencies": {
     "@angular/core": ">=20.0.0 <23.0.0",
