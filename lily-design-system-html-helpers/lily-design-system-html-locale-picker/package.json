@@ -24,7 +24,7 @@
     "prepublishOnly": "cd .. && npm run build"
   },
   "dependencies": {
-    "@lilydesignsystem/html-headless": "^0.1.0"
+    "@lilydesignsystem/html-headless": "^0.3.0"
   },
   "keywords": [
     "lily",

@@ -3,6 +3,16 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.1.2 — 2026-10-01
+
+**Dependency: `@lilydesignsystem/html-headless` widened to `^0.3.0`.**
+This package imports `@lilydesignsystem/html-headless/components/listbox-controller.js`,
+which no html-headless release before 0.3.0 actually delivered (0.1.x
+lacks the module; 0.2.0 omitted it from the tarball and blocked it in
+`exports`), so every earlier version of this package failed to import
+from a real npm install with `ERR_PACKAGE_PATH_NOT_EXPORTED`. No source
+change.
+
 ## 0.1.1 — 2026-09-21
 
 **Internal refactor: now depends on `@lilydesignsystem/html-headless`'s

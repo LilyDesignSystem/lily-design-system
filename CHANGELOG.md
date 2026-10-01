@@ -9,6 +9,24 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## `html-headless` 0.3.0 and the HTML pickers' dependency widened — 2026-10-01
+
+Every `@lilydesignsystem/html-*-picker` (theme, locale, text-size,
+motion) and `html-kanban-board` imports
+`@lilydesignsystem/html-headless/components/listbox-controller.js`, but no
+published html-headless delivered it: 0.1.x predates the module, and
+0.2.0 both left it out of `files` and blocked it with a legacy
+folder-mapping `exports` entry. So every published version of those five
+packages failed to import from a real npm install
+(`ERR_PACKAGE_PATH_NOT_EXPORTED`). The fix (`61931772d`, 2026-09-25)
+was committed but never released, and `bin/smoke-packages`' html-helpers
+section had been failing against the registry ever since. It surfaced
+while releasing the locale-picker icon, below. Released now as
+html-headless **0.3.0** (minor, not patch, because it also carries 48
+new national-identifier components), with the five dependents widened to
+`^0.3.0`: theme/text-size/motion/locale-picker 0.1.2, kanban-board
+0.1.1. No source change in any dependent.
+
 ## `locale-picker` globe icon redrawn — 2026-10-01
 
 The default `locale-picker` icon now follows

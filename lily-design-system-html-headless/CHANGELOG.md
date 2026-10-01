@@ -5,6 +5,23 @@ and the package follows [Semantic Versioning](https://semver.org/).
 The canonical monorepo history is in the root
 [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md).
 
+## 0.3.0 — 2026-10-01
+
+**Fix: `ListboxController` is importable at last.** 0.2.0 shipped it
+broken two ways (fixed in-tree 2026-09-25, `61931772d`, released here):
+the `exports` map used the legacy trailing-slash folder mapping
+(`"./components/": "./components/"`), which Node's strict ESM resolver
+rejects with `ERR_PACKAGE_PATH_NOT_EXPORTED`, so the wildcard
+`"./components/*"` replaces it; and `files` listed only
+`components/*.html`, so `components/listbox-controller.js` was never in
+the tarball at all. Every `@lilydesignsystem/html-*-picker` and
+`html-kanban-board` imports it, so every one of them was unusable from a
+real npm install.
+
+**New: 48 national personal identifier components** (24 types ×
+`-input` + `-view`, P8-T13 and P8-T15), matching the other catalogs.
+Additive, hence the minor bump rather than a patch.
+
 ## 0.2.0 — 2026-09-21
 
 **New: `ListboxController` (`components/listbox-controller.js` +
