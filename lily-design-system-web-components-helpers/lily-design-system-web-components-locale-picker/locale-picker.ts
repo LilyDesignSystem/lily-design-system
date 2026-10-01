@@ -349,16 +349,14 @@ export class LocalePicker extends HTMLElement {
         circle.setAttribute("r", "6");
         svg.appendChild(circle);
 
-        const equator = document.createElementNS(SVG_NS, "path");
-        equator.setAttribute("d", "M2 8h12");
-        svg.appendChild(equator);
-
-        const meridian = document.createElementNS(SVG_NS, "path");
-        meridian.setAttribute(
+        // Graticule after https://commons.wikimedia.org/wiki/File:Globe_icon.svg
+        const graticule = document.createElementNS(SVG_NS, "path");
+        graticule.setAttribute("stroke-width", "1.1");
+        graticule.setAttribute(
             "d",
-            "M8 2c2.2 0 4 2.7 4 6s-1.8 6-4 6-4-2.7-4-6 1.8-6 4-6z",
+            "M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7",
         );
-        svg.appendChild(meridian);
+        svg.appendChild(graticule);
 
         return svg;
     }

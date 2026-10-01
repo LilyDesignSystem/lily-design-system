@@ -129,7 +129,7 @@ Give a React 19 application a drop-in, headless locale picker that:
 | `target`              | `HTMLElement \| null`                  | no       | `document.documentElement`                      | Element that receives `lang` and `dir`.                                                                           |
 | `applyDir`            | `boolean`                              | no       | `true`                                          | If false, the select only writes `lang` and never touches `dir`.                                                  |
 | `localeLabels`        | `Record<string, string>`               | no       | `{}`                                            | Optional pretty labels per locale code.                                                                           |
-| `children`            | `(args: ChildArgs) => React.ReactNode` | no       | `<svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M2 8h12"/><path d="M8 2c2.2 0 4 2.7 4 6s-1.8 6-4 6-4-2.7-4-6 1.8-6 4-6z"/></svg>`   | Render prop that **replaces the icon inside the button**. It does not render options — the component owns those. |
+| `children`            | `(args: ChildArgs) => React.ReactNode` | no       | `<svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path stroke-width="1.1" d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"/></svg>`   | Render prop that **replaces the icon inside the button**. It does not render options — the component owns those. |
 | `onChange`            | `(locale: string) => void`             | no       | `undefined`                                     | Fires after the select applies a new locale.                                                                      |
 | `className`           | `string`                               | no       | `""`                                            | Extra CSS class on the root `<div>`.                                                                              |
 | `...restProps`        | any HTML `<div>` attributes            | no       | —                                               | Spread onto the root `<div>`.                                                                                     |
@@ -171,7 +171,7 @@ button, and a listbox:
     aria-expanded="false"
     aria-controls="{listId}"
   >
-    <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M2 8h12"/><path d="M8 2c2.2 0 4 2.7 4 6s-1.8 6-4 6-4-2.7-4-6 1.8-6 4-6z"/></svg>
+    <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path stroke-width="1.1" d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"/></svg>
   </button>
   <ul
     class="locale-picker-list"

@@ -4,6 +4,20 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+**Icon: the default globe now follows
+[Wikimedia Commons' Globe_icon.svg](https://commons.wikimedia.org/wiki/File:Globe_icon.svg).**
+The old single-ellipse meridian plus equator is replaced by a full
+graticule — equator, central meridian, two curved meridians, two curved
+parallels — scaled onto the same `viewBox="0 0 16 16"`, `r="6"` circle
+as the other page-header icons. The graticule path carries
+`stroke-width="1.1"` under the circle's inherited `1.6`, keeping the
+source icon's outline-to-interior weight ratio (26:18); at 1.6
+throughout, six interior lines fill in at 1.05rem. Still one
+`<circle>`, still `aria-hidden`, still replaced wholesale by
+`children`. No API change.
+
 ## 0.1.2 — 2026-09-25
 
 **Fix: dependency range on `@lilydesignsystem/svelte-headless` widened

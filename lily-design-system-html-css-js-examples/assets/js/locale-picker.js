@@ -707,11 +707,11 @@ var LocalePicker = class extends HTMLElement {
     circle.setAttribute("cx", "8");
     circle.setAttribute("cy", "8");
     circle.setAttribute("r", "6");
-    const equator = document.createElementNS(SVG_NS, "path");
-    equator.setAttribute("d", "M2 8h12");
-    const meridian = document.createElementNS(SVG_NS, "path");
-    meridian.setAttribute("d", "M8 2c2.2 0 4 2.7 4 6s-1.8 6-4 6-4-2.7-4-6 1.8-6 4-6z");
-    svg.append(circle, equator, meridian);
+    // Graticule after https://commons.wikimedia.org/wiki/File:Globe_icon.svg
+    const graticule = document.createElementNS(SVG_NS, "path");
+    graticule.setAttribute("stroke-width", "1.1");
+    graticule.setAttribute("d", "M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7");
+    svg.append(circle, graticule);
     return svg;
   }
   /** Resolve a locale code to its display label. Public for subclasses. */
