@@ -47,7 +47,7 @@ One item in a task bar.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import TaskBarButton from "$lib/components/TaskBarButton/TaskBarButton.svelte";
+  import TaskBarButton from "#lib/components/TaskBarButton/TaskBarButton.svelte";
 </script>
 
 <TaskBarButton>New Task</TaskBarButton>

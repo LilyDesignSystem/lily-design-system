@@ -54,7 +54,7 @@ An ordered list of chronological events or milestones.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import TimelineList from "$lib/components/TimelineList/TimelineList.svelte";
+  import TimelineList from "#lib/components/TimelineList/TimelineList.svelte";
 </script>
 
 <TimelineList label="Project milestones">...</TimelineList>

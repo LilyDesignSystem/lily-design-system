@@ -60,7 +60,7 @@ A site-wide navigation menu with links.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import NavigationMenu from "$lib/components/NavigationMenu/NavigationMenu.svelte";
+  import NavigationMenu from "#lib/components/NavigationMenu/NavigationMenu.svelte";
 </script>
 
 <NavigationMenu label="Main navigation">

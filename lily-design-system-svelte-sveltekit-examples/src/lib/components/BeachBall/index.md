@@ -49,7 +49,7 @@ A decorative animated beach ball element.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import BeachBall from "$lib/components/BeachBall/BeachBall.svelte";
+  import BeachBall from "#lib/components/BeachBall/BeachBall.svelte";
 </script>
 
 <BeachBall label="Loading content" />

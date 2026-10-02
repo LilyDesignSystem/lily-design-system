@@ -63,7 +63,7 @@ A range input for selecting an angle in degrees.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import AngleSliderRangeInput from "$lib/components/AngleSliderRangeInput/AngleSliderRangeInput.svelte";
+  import AngleSliderRangeInput from "#lib/components/AngleSliderRangeInput/AngleSliderRangeInput.svelte";
 </script>
 
 <AngleSliderRangeInput label="Rotation" bind:value={angle} />

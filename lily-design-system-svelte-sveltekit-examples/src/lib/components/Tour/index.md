@@ -68,7 +68,7 @@ A tour guide, such as for sightseeing, or pathways, or demonstrations, etc.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Tour from "$lib/components/Tour/Tour.svelte";
+  import Tour from "#lib/components/Tour/Tour.svelte";
 </script>
 
 <Tour label="Getting started" bind:active>

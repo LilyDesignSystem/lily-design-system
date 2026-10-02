@@ -53,7 +53,7 @@ A button showing a color swatch in a color picker.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ColorPickerButton from "$lib/components/ColorPickerButton/ColorPickerButton.svelte";
+  import ColorPickerButton from "#lib/components/ColorPickerButton/ColorPickerButton.svelte";
 </script>
 
 <ColorPickerButton color="#ff0000" label="Red" onclick={handleSelect} />

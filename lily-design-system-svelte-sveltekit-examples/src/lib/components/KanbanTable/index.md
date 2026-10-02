@@ -59,7 +59,7 @@ A kanban board table interactive grid for organizing items by status <table>.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import KanbanTable from "$lib/components/KanbanTable/KanbanTable.svelte";
+  import KanbanTable from "#lib/components/KanbanTable/KanbanTable.svelte";
 </script>
 
 <KanbanTable label="Sprint 5 board">...</KanbanTable>

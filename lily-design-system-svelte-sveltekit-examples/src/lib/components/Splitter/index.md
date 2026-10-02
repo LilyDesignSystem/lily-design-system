@@ -49,7 +49,7 @@ A draggable divider for resizing adjacent panels.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Splitter from "$lib/components/Splitter/Splitter.svelte";
+  import Splitter from "#lib/components/Splitter/Splitter.svelte";
 </script>
 
 <Splitter label="Resize panels" orientation="vertical" />

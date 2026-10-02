@@ -56,7 +56,7 @@ A QR code image generated from text or URL data.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import QrCodeImage from "$lib/components/QrCodeImage/QrCodeImage.svelte";
+  import QrCodeImage from "#lib/components/QrCodeImage/QrCodeImage.svelte";
 </script>
 
 <QrCodeImage label="Scan to visit example.com">{qrSvg}</QrCodeImage>

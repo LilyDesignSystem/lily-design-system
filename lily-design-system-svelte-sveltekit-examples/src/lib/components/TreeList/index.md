@@ -51,7 +51,7 @@ A hierarchical list with nested expandable items.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import TreeList from "$lib/components/TreeList/TreeList.svelte";
+  import TreeList from "#lib/components/TreeList/TreeList.svelte";
 </script>
 
 <TreeList label="File browser">...</TreeList>

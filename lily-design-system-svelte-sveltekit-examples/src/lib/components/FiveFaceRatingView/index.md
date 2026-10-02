@@ -50,7 +50,7 @@ A read-only display of a five-face satisfaction rating.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import FiveFaceRatingView from "$lib/components/FiveFaceRatingView/FiveFaceRatingView.svelte";
+  import FiveFaceRatingView from "#lib/components/FiveFaceRatingView/FiveFaceRatingView.svelte";
 </script>
 
 <FiveFaceRatingView value={4} label="Good rating" />

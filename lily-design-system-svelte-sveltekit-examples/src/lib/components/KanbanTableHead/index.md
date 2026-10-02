@@ -38,7 +38,7 @@ A kanban board table interactive grid thead for organizing items by status <thea
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import KanbanTableHead from "$lib/components/KanbanTableHead/KanbanTableHead.svelte";
+  import KanbanTableHead from "#lib/components/KanbanTableHead/KanbanTableHead.svelte";
 </script>
 
 <KanbanTableHead>

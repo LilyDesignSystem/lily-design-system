@@ -55,7 +55,7 @@ A navigation container for breadcrumb trail links.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import BreadcrumbNav from "$lib/components/BreadcrumbNav/BreadcrumbNav.svelte";
+  import BreadcrumbNav from "#lib/components/BreadcrumbNav/BreadcrumbNav.svelte";
 </script>
 
 <BreadcrumbNav label="Breadcrumb">

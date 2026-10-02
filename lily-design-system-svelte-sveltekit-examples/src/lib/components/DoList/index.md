@@ -55,7 +55,7 @@ A guideline list of encouraged do-list-item components.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import DoList from "$lib/components/DoList/DoList.svelte";
+  import DoList from "#lib/components/DoList/DoList.svelte";
 </script>
 
 <DoList><li>Best practice</li></DoList>

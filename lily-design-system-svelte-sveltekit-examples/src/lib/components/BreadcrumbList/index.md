@@ -53,7 +53,7 @@ An ordered list of breadcrumb list items.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import BreadcrumbList from "$lib/components/BreadcrumbList/BreadcrumbList.svelte";
+  import BreadcrumbList from "#lib/components/BreadcrumbList/BreadcrumbList.svelte";
 </script>
 
 <BreadcrumbList>

@@ -38,7 +38,7 @@ A medical banner box that is inside a medical-banner component, using flexbox ho
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import MedicalBannerBox from "$lib/components/MedicalBannerBox/MedicalBannerBox.svelte";
+  import MedicalBannerBox from "#lib/components/MedicalBannerBox/MedicalBannerBox.svelte";
 </script>
 
 <MedicalBannerBox>content</MedicalBannerBox>

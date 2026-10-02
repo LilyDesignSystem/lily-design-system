@@ -52,7 +52,7 @@ One contents list item.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ContentsListItem from "$lib/components/ContentsListItem/ContentsListItem.svelte";
+  import ContentsListItem from "#lib/components/ContentsListItem/ContentsListItem.svelte";
 </script>
 
 <ContentsListItem><a href="#section">Section</a></ContentsListItem>

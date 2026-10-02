@@ -52,7 +52,7 @@ An ordered list of check list item components.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import CheckList from "$lib/components/CheckList/CheckList.svelte";
+  import CheckList from "#lib/components/CheckList/CheckList.svelte";
 </script>
 
 <CheckList label="Tasks">

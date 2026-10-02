@@ -49,7 +49,7 @@ A read-only display of a five-level color status.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import RedOrangeYellowGreenBlueView from "$lib/components/RedOrangeYellowGreenBlueView/RedOrangeYellowGreenBlueView.svelte";
+  import RedOrangeYellowGreenBlueView from "#lib/components/RedOrangeYellowGreenBlueView/RedOrangeYellowGreenBlueView.svelte";
 </script>
 
 <RedOrangeYellowGreenBlueView label="Risk level" value="yellow" />

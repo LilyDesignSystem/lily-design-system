@@ -52,7 +52,7 @@ An input element of type button for form actions <input type="button">.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ButtonInput from "$lib/components/ButtonInput/ButtonInput.svelte";
+  import ButtonInput from "#lib/components/ButtonInput/ButtonInput.svelte";
 </script>
 
 <ButtonInput value="Click me" onclick={handleClick} />

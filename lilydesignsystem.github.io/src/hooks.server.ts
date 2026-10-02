@@ -1,5 +1,5 @@
-import type { Handle } from '@sveltejs/kit';
-import { LOCALE_LABELS, bcp47Tag, isRtl } from '$lib/locales';
+import type { Handle } from '@sveltejs/kit/hooks';
+import { LOCALE_LABELS, bcp47Tag, isRtl } from '#lib/locales.js';
 
 // Sets <html lang dir> per route at prerender time (adapter-static still
 // runs this hook once per discovered page during the build), so a direct

@@ -50,7 +50,7 @@ A group of tag elements.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import TagGroup from "$lib/components/TagGroup/TagGroup.svelte";
+  import TagGroup from "#lib/components/TagGroup/TagGroup.svelte";
 </script>
 
 <TagGroup label="Technologies">...</TagGroup>

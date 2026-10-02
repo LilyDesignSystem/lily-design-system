@@ -14,8 +14,8 @@
   import { goto } from '$app/navigation';
   import PickerBar from '@lilydesignsystem/svelte-picker-bar';
   import type { ShareTarget } from '@lilydesignsystem/svelte-share-picker';
-  import { LOCALE_LABELS, locales, DEFAULT_LOCALE } from '$lib/locales';
-  import { ui } from '$lib/i18n';
+  import { LOCALE_LABELS, locales, DEFAULT_LOCALE } from '#lib/locales.js';
+  import { ui } from '#lib/i18n.js';
 
   let { locale = DEFAULT_LOCALE }: { locale?: string } = $props();
 
@@ -53,7 +53,14 @@
   // spec/locales-for-global-sharing-with-svelte) — switching locale always
   // goes to that locale's home page, not a translated version of whatever
   // page you were on, since most pages don't have one yet.
+  //
+  // LocalePicker fires onChange once on mount, applying its initial
+  // value — which is this page's own locale. Only navigate on a real
+  // change: SvelteKit 2 silently dropped a goto() made before its router
+  // was initialised, but SvelteKit 3 performs it, which sent every
+  // non-locale page straight to /locales/en-001/ on load.
   function onLocaleChange(code: string) {
+    if (code === locale) return;
     goto(`/locales/${code}/`);
   }
 </script>

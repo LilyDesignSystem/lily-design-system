@@ -49,7 +49,7 @@ A two-dimensional board for picking colors by hue and saturation.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ColorPicker from "$lib/components/ColorPicker/ColorPicker.svelte";
+  import ColorPicker from "#lib/components/ColorPicker/ColorPicker.svelte";
 </script>
 
 <ColorPicker label="Color saturation and brightness" bind:x bind:y />

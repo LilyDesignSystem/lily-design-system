@@ -48,7 +48,7 @@ One pagination list item in the trail.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import PaginationListItem from "$lib/components/PaginationListItem/PaginationListItem.svelte";
+  import PaginationListItem from "#lib/components/PaginationListItem/PaginationListItem.svelte";
 </script>
 
 <PaginationListItem><a href="/page/1">1</a></PaginationListItem>

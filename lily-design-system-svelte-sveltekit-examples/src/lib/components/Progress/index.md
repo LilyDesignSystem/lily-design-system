@@ -55,7 +55,7 @@ A horizontal progress bar showing completion.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Progress from "$lib/components/Progress/Progress.svelte";
+  import Progress from "#lib/components/Progress/Progress.svelte";
 </script>
 
 <Progress label="Upload progress" value={50} />

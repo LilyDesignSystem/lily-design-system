@@ -40,7 +40,7 @@ A Gantt chart table interactive grid tfoot for planning schedule visualization <
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import GanttTableTfoot from "$lib/components/GanttTableTfoot/GanttTableTfoot.svelte";
+  import GanttTableTfoot from "#lib/components/GanttTableTfoot/GanttTableTfoot.svelte";
 </script>
 
 <GanttTableTfoot>

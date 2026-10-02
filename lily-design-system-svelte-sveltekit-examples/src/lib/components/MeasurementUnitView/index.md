@@ -50,7 +50,7 @@ A read-only display of a measurement unit.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import MeasurementUnitView from "$lib/components/MeasurementUnitView/MeasurementUnitView.svelte";
+  import MeasurementUnitView from "#lib/components/MeasurementUnitView/MeasurementUnitView.svelte";
 </script>
 
 <MeasurementUnitView value="kg" />

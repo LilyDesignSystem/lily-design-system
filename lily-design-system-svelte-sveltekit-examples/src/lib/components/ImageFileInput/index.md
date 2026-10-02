@@ -51,7 +51,7 @@ An input for selecting image files with preview.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ImageFileInput from "$lib/components/ImageFileInput/ImageFileInput.svelte";
+  import ImageFileInput from "#lib/components/ImageFileInput/ImageFileInput.svelte";
 </script>
 
 <ImageFileInput label="Upload profile photo" />

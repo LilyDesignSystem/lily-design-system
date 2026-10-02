@@ -54,7 +54,7 @@ A picker for browsing and selecting emoji characters.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import EmojiCharacterPicker from "$lib/components/EmojiCharacterPicker/EmojiCharacterPicker.svelte";
+  import EmojiCharacterPicker from "#lib/components/EmojiCharacterPicker/EmojiCharacterPicker.svelte";
 </script>
 
 <EmojiCharacterPicker label="Choose an emoji">

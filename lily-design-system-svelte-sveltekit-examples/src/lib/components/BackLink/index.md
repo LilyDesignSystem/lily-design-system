@@ -54,7 +54,7 @@ A navigation link to return to a previous page.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import BackLink from "$lib/components/BackLink/BackLink.svelte";
+  import BackLink from "#lib/components/BackLink/BackLink.svelte";
 </script>
 
 <BackLink href="/previous">Back</BackLink>

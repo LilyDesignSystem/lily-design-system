@@ -39,7 +39,7 @@ A Gantt chart table interactive grid thead for planning schedule visualization <
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import GanttTableHead from "$lib/components/GanttTableHead/GanttTableHead.svelte";
+  import GanttTableHead from "#lib/components/GanttTableHead/GanttTableHead.svelte";
 </script>
 
 <GanttTableHead>

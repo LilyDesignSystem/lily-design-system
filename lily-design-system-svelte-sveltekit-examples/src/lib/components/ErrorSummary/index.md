@@ -61,7 +61,7 @@ A summary of all validation errors on a form.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ErrorSummary from "$lib/components/ErrorSummary/ErrorSummary.svelte";
+  import ErrorSummary from "#lib/components/ErrorSummary/ErrorSummary.svelte";
 </script>
 
 <ErrorSummary title="There is a problem">

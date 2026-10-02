@@ -40,7 +40,7 @@ A data table interactive grid row for displaying and sorting tabular data <tr>.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import DataTableRow from "$lib/components/DataTableRow/DataTableRow.svelte";
+  import DataTableRow from "#lib/components/DataTableRow/DataTableRow.svelte";
 </script>
 
 <DataTableRow>

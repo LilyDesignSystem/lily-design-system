@@ -51,7 +51,7 @@ Indented text to distinguish it from surrounding content.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import InsetText from "$lib/components/InsetText/InsetText.svelte";
+  import InsetText from "#lib/components/InsetText/InsetText.svelte";
 </script>
 
 <InsetText>It can take up to 8 weeks to process.</InsetText>

@@ -49,7 +49,7 @@ One breadcrumb list item in the trail.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import BreadcrumbListItem from "$lib/components/BreadcrumbListItem/BreadcrumbListItem.svelte";
+  import BreadcrumbListItem from "#lib/components/BreadcrumbListItem/BreadcrumbListItem.svelte";
 </script>
 
 <BreadcrumbListItem><a href="/">Home</a></BreadcrumbListItem>

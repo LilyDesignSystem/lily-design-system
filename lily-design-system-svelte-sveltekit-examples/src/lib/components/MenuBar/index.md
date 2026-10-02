@@ -53,7 +53,7 @@ A horizontal bar of menu triggers.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import MenuBar from "$lib/components/MenuBar/MenuBar.svelte";
+  import MenuBar from "#lib/components/MenuBar/MenuBar.svelte";
 </script>
 
 <MenuBar label="Main menu">

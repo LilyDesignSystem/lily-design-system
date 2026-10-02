@@ -58,7 +58,7 @@ A panel that slides in from a screen edge as an overlay.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Sheet from "$lib/components/Sheet/Sheet.svelte";
+  import Sheet from "#lib/components/Sheet/Sheet.svelte";
 </script>
 
 <Sheet label="Settings" bind:open side="right">

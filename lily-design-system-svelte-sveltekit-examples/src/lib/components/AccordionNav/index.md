@@ -56,7 +56,7 @@ An accordion navigation area for collapsible accordion information.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import AccordionNav from "$lib/components/AccordionNav/AccordionNav.svelte";
+  import AccordionNav from "#lib/components/AccordionNav/AccordionNav.svelte";
 </script>
 
 <AccordionNav label="FAQ">

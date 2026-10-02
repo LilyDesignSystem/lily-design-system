@@ -55,7 +55,7 @@ A guideline list of discouraged dont-list-item components.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import DontList from "$lib/components/DontList/DontList.svelte";
+  import DontList from "#lib/components/DontList/DontList.svelte";
 </script>
 
 <DontList><li>Avoid this</li></DontList>

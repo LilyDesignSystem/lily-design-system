@@ -51,7 +51,7 @@ An input for entering a search query <input type="search">.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import SearchInput from "$lib/components/SearchInput/SearchInput.svelte";
+  import SearchInput from "#lib/components/SearchInput/SearchInput.svelte";
 </script>
 
 <SearchInput label="Search" bind:value />

@@ -18,8 +18,7 @@ lilydesignsystem.github.io/
 │   └── assets/               style.css, favicon.svg, images/
 ├── .github/workflows/
 │   └── deploy.yml            CI: builds and deploys on push to main
-├── svelte.config.js          adapter-static config
-├── vite.config.ts
+├── vite.config.ts            sveltekit() plugin + adapter-static config
 ├── tsconfig.json
 ├── package.json
 └── README.md

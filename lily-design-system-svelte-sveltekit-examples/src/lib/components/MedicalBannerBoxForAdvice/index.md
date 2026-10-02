@@ -38,7 +38,7 @@ A medical record banner box for advice information e.g. contacts, contexts, plan
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import MedicalBannerBoxForAdvice from "$lib/components/MedicalBannerBoxForAdvice/MedicalBannerBoxForAdvice.svelte";
+  import MedicalBannerBoxForAdvice from "#lib/components/MedicalBannerBoxForAdvice/MedicalBannerBoxForAdvice.svelte";
 </script>
 
 <MedicalBannerBoxForAdvice label="Care contacts">content</MedicalBannerBoxForAdvice>

@@ -50,7 +50,7 @@ A container that can be expanded or collapsed.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Collapsible from "$lib/components/Collapsible/Collapsible.svelte";
+  import Collapsible from "#lib/components/Collapsible/Collapsible.svelte";
 </script>
 
 <Collapsible summary="More info">Content here</Collapsible>

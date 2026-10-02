@@ -38,7 +38,7 @@ A read-only display of a España Tarjeta Sanitaria Individual (TSI) unique natio
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import EspanaTarjetaSanitariaIndividualView from "$lib/components/EspanaTarjetaSanitariaIndividualView/EspanaTarjetaSanitariaIndividualView.svelte";
+  import EspanaTarjetaSanitariaIndividualView from "#lib/components/EspanaTarjetaSanitariaIndividualView/EspanaTarjetaSanitariaIndividualView.svelte";
 </script>
 
 <EspanaTarjetaSanitariaIndividualView label="TSI" value="BBBB12345678" />

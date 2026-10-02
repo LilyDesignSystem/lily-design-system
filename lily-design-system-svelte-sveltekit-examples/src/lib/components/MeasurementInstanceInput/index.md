@@ -52,7 +52,7 @@ An input for entering a measurement value and unit.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import MeasurementInstanceInput from "$lib/components/MeasurementInstanceInput/MeasurementInstanceInput.svelte";
+  import MeasurementInstanceInput from "#lib/components/MeasurementInstanceInput/MeasurementInstanceInput.svelte";
 </script>
 
 <MeasurementInstanceInput label="Weight" bind:value />

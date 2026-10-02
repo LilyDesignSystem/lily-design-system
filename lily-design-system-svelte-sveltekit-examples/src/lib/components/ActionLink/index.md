@@ -58,7 +58,7 @@ A hyperlink styled as an action trigger.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ActionLink from "$lib/components/ActionLink/ActionLink.svelte";
+  import ActionLink from "#lib/components/ActionLink/ActionLink.svelte";
 </script>
 
 <ActionLink href="/path">Link text</ActionLink>

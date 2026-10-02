@@ -53,7 +53,7 @@ A draggable control for selecting a value along a track.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Slider from "$lib/components/Slider/Slider.svelte";
+  import Slider from "#lib/components/Slider/Slider.svelte";
 </script>
 
 <Slider label="Volume" bind:value min={0} max={100} step={5} />

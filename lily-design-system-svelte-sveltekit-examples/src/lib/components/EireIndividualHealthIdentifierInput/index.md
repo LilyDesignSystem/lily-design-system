@@ -50,7 +50,7 @@ An input for entering Eire Individual Health Identifier (IHI) unique national he
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import IrelandIndividualHealthIdentifierInput from "$lib/components/IrelandIndividualHealthIdentifierInput/IrelandIndividualHealthIdentifierInput.svelte";
+  import IrelandIndividualHealthIdentifierInput from "#lib/components/IrelandIndividualHealthIdentifierInput/IrelandIndividualHealthIdentifierInput.svelte";
 </script>
 
 <IrelandIndividualHealthIdentifierInput label="IHI" bind:value />

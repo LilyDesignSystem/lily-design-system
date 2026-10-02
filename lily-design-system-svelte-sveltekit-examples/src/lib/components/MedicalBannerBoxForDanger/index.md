@@ -38,7 +38,7 @@ A medical record banner box for danger information e.g. reactions, warnings, ala
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import MedicalBannerBoxForDanger from "$lib/components/MedicalBannerBoxForDanger/MedicalBannerBoxForDanger.svelte";
+  import MedicalBannerBoxForDanger from "#lib/components/MedicalBannerBoxForDanger/MedicalBannerBoxForDanger.svelte";
 </script>
 
 <MedicalBannerBoxForDanger label="Allergies">content</MedicalBannerBoxForDanger>

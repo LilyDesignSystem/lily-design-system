@@ -53,7 +53,7 @@ One tab button in a tab group.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import TabBarButton from "$lib/components/TabBarButton/TabBarButton.svelte";
+  import TabBarButton from "#lib/components/TabBarButton/TabBarButton.svelte";
 </script>
 
 <TabBarButton selected={true} controls="panel-1">Label</TabBarButton>

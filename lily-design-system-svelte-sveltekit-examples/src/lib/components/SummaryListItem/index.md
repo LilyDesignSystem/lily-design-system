@@ -50,7 +50,7 @@ One key-value pair in a summary list.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import SummaryListItem from "$lib/components/SummaryListItem/SummaryListItem.svelte";
+  import SummaryListItem from "#lib/components/SummaryListItem/SummaryListItem.svelte";
 </script>
 
 <SummaryListItem term="Label">Value</SummaryListItem>

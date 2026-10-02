@@ -52,7 +52,7 @@ A button that toggles between pressed and unpressed states.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ToggleButton from "$lib/components/ToggleButton/ToggleButton.svelte";
+  import ToggleButton from "#lib/components/ToggleButton/ToggleButton.svelte";
 </script>
 
 <ToggleButton label="Dark mode" bind:pressed />

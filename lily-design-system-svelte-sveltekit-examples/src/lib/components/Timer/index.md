@@ -51,7 +51,7 @@ A countdown or elapsed time display.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Timer from "$lib/components/Timer/Timer.svelte";
+  import Timer from "#lib/components/Timer/Timer.svelte";
 </script>
 
 <Timer label="Countdown">05:30</Timer>

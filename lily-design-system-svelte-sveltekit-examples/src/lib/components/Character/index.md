@@ -51,7 +51,7 @@ A single character display element.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Character from "$lib/components/Character/Character.svelte";
+  import Character from "#lib/components/Character/Character.svelte";
 </script>
 
 <Character label="Check mark">✓</Character>

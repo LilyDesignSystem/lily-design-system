@@ -109,7 +109,7 @@ lilydesignsystem.github.io/
 │                              static/assets/themes/README.md)
 ├── tests/components/         Playwright specs, one file per component
 ├── .github/workflows/deploy.yml  CI: build + deploy on push to main
-├── svelte.config.js          adapter-static config (strict prerender)
+├── vite.config.ts            sveltekit() plugin + adapter-static config (strict prerender)
 └── package.json
 ```
 
@@ -292,7 +292,7 @@ The repo root's `bin/test` enforces this: `registry_count_or_err` asserts
 - [`index.md`](../index.md) — human-readable project overview, develop/deploy
   instructions.
 - [`AGENTS.md`](../AGENTS.md) — AI-agent pointer to this file.
-- [`package.json`](../package.json), [`svelte.config.js`](../svelte.config.js),
+- [`package.json`](../package.json), [`vite.config.ts`](../vite.config.ts),
   [`playwright.config.ts`](../playwright.config.ts).
 - [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml) — CI
   build + deploy.

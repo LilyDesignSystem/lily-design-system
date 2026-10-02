@@ -61,7 +61,7 @@ One event in a timeline list.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import TimelineListItem from "$lib/components/TimelineListItem/TimelineListItem.svelte";
+  import TimelineListItem from "#lib/components/TimelineListItem/TimelineListItem.svelte";
 </script>
 
 <TimelineListItem datetime="2024-01-15" heading="Jan 15">Event description</TimelineListItem>

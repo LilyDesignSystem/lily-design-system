@@ -51,7 +51,7 @@ An input for entering a España Tarjeta Sanitaria Individual (TSI) unique nation
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import EspanaTarjetaSanitariaIndividualInput from "$lib/components/EspanaTarjetaSanitariaIndividualInput/EspanaTarjetaSanitariaIndividualInput.svelte";
+  import EspanaTarjetaSanitariaIndividualInput from "#lib/components/EspanaTarjetaSanitariaIndividualInput/EspanaTarjetaSanitariaIndividualInput.svelte";
 </script>
 
 <EspanaTarjetaSanitariaIndividualInput label="TSI" bind:value />

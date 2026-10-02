@@ -50,7 +50,7 @@ A kanban board table interactive grid column for organizing items by status <th>
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import KanbanTableTD from "$lib/components/KanbanTableTD/KanbanTableTD.svelte";
+  import KanbanTableTD from "#lib/components/KanbanTableTD/KanbanTableTD.svelte";
 </script>
 
 <colgroup><KanbanTableTD /><KanbanTableTD /><KanbanTableTD /></colgroup>

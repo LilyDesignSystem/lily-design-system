@@ -52,7 +52,7 @@ A group of toggle buttons for selecting options.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ToggleGroup from "$lib/components/ToggleGroup/ToggleGroup.svelte";
+  import ToggleGroup from "#lib/components/ToggleGroup/ToggleGroup.svelte";
 </script>
 
 <ToggleGroup label="Text formatting">...</ToggleGroup>

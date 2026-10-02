@@ -42,31 +42,31 @@
     // populate, then two animation frames, before asserting anything
     // CSS-dependent -- confirmed 8/8 stable against that wait, versus a
     // real miss without it.
-    import BackLink from "$lib/components/BackLink/BackLink.svelte";
-    import BreadcrumbNav from "$lib/components/BreadcrumbNav/BreadcrumbNav.svelte";
-    import BreadcrumbList from "$lib/components/BreadcrumbList/BreadcrumbList.svelte";
-    import BreadcrumbListItem from "$lib/components/BreadcrumbListItem/BreadcrumbListItem.svelte";
-    import InsetText from "$lib/components/InsetText/InsetText.svelte";
-    import Form from "$lib/components/Form/Form.svelte";
-    import Fieldset from "$lib/components/Fieldset/Fieldset.svelte";
-    import Field from "$lib/components/Field/Field.svelte";
-    import Label from "$lib/components/Label/Label.svelte";
-    import RadioGroup from "$lib/components/RadioGroup/RadioGroup.svelte";
-    import RadioInput from "$lib/components/RadioInput/RadioInput.svelte";
-    import CheckboxInput from "$lib/components/CheckboxInput/CheckboxInput.svelte";
-    import TextInput from "$lib/components/TextInput/TextInput.svelte";
-    import Button from "$lib/components/Button/Button.svelte";
-    import DataTable from "$lib/components/DataTable/DataTable.svelte";
-    import DataTableHead from "$lib/components/DataTableHead/DataTableHead.svelte";
-    import DataTableBody from "$lib/components/DataTableBody/DataTableBody.svelte";
-    import DataTableRow from "$lib/components/DataTableRow/DataTableRow.svelte";
-    import DataTableTH from "$lib/components/DataTableTH/DataTableTH.svelte";
-    import DataTableTD from "$lib/components/DataTableTD/DataTableTD.svelte";
-    import PaginationNav from "$lib/components/PaginationNav/PaginationNav.svelte";
-    import PaginationList from "$lib/components/PaginationList/PaginationList.svelte";
-    import PaginationListItem from "$lib/components/PaginationListItem/PaginationListItem.svelte";
-    import Header from "$lib/components/Header/Header.svelte";
-    import Footer from "$lib/components/Footer/Footer.svelte";
+    import BackLink from "#lib/components/BackLink/BackLink.svelte";
+    import BreadcrumbNav from "#lib/components/BreadcrumbNav/BreadcrumbNav.svelte";
+    import BreadcrumbList from "#lib/components/BreadcrumbList/BreadcrumbList.svelte";
+    import BreadcrumbListItem from "#lib/components/BreadcrumbListItem/BreadcrumbListItem.svelte";
+    import InsetText from "#lib/components/InsetText/InsetText.svelte";
+    import Form from "#lib/components/Form/Form.svelte";
+    import Fieldset from "#lib/components/Fieldset/Fieldset.svelte";
+    import Field from "#lib/components/Field/Field.svelte";
+    import Label from "#lib/components/Label/Label.svelte";
+    import RadioGroup from "#lib/components/RadioGroup/RadioGroup.svelte";
+    import RadioInput from "#lib/components/RadioInput/RadioInput.svelte";
+    import CheckboxInput from "#lib/components/CheckboxInput/CheckboxInput.svelte";
+    import TextInput from "#lib/components/TextInput/TextInput.svelte";
+    import Button from "#lib/components/Button/Button.svelte";
+    import DataTable from "#lib/components/DataTable/DataTable.svelte";
+    import DataTableHead from "#lib/components/DataTableHead/DataTableHead.svelte";
+    import DataTableBody from "#lib/components/DataTableBody/DataTableBody.svelte";
+    import DataTableRow from "#lib/components/DataTableRow/DataTableRow.svelte";
+    import DataTableTH from "#lib/components/DataTableTH/DataTableTH.svelte";
+    import DataTableTD from "#lib/components/DataTableTD/DataTableTD.svelte";
+    import PaginationNav from "#lib/components/PaginationNav/PaginationNav.svelte";
+    import PaginationList from "#lib/components/PaginationList/PaginationList.svelte";
+    import PaginationListItem from "#lib/components/PaginationListItem/PaginationListItem.svelte";
+    import Header from "#lib/components/Header/Header.svelte";
+    import Footer from "#lib/components/Footer/Footer.svelte";
 
     let contactMethod = $state("email");
     let agreeTerms = $state(false);

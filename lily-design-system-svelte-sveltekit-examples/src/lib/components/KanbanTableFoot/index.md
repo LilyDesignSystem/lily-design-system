@@ -41,7 +41,7 @@ A kanban board table interactive grid tfoot for organizing items by status <tfoo
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import KanbanTableFoot from "$lib/components/KanbanTableFoot/KanbanTableFoot.svelte";
+  import KanbanTableFoot from "#lib/components/KanbanTableFoot/KanbanTableFoot.svelte";
 </script>
 
 <KanbanTableFoot>

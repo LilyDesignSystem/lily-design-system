@@ -41,7 +41,7 @@ A data table interactive grid tbody for displaying and sorting tabular data <tbo
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import DataTableBody from "$lib/components/DataTableBody/DataTableBody.svelte";
+  import DataTableBody from "#lib/components/DataTableBody/DataTableBody.svelte";
 </script>
 
 <DataTableBody>

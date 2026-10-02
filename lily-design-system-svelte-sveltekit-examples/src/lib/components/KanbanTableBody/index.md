@@ -41,7 +41,7 @@ A kanban board table interactive grid tbody for organizing items by status <tbod
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import KanbanTableBody from "$lib/components/KanbanTableBody/KanbanTableBody.svelte";
+  import KanbanTableBody from "#lib/components/KanbanTableBody/KanbanTableBody.svelte";
 </script>
 
 <KanbanTableBody>

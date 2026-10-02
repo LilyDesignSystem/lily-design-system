@@ -53,7 +53,7 @@ A prominent prompt encouraging user action.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import CallToAction from "$lib/components/CallToAction/CallToAction.svelte";
+  import CallToAction from "#lib/components/CallToAction/CallToAction.svelte";
 </script>
 
 <CallToAction href="/signup">Sign Up Now</CallToAction>

@@ -38,7 +38,7 @@ A data table interactive grid thead for displaying and sorting tabular data <the
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import DataTableHead from "$lib/components/DataTableHead/DataTableHead.svelte";
+  import DataTableHead from "#lib/components/DataTableHead/DataTableHead.svelte";
 </script>
 
 <DataTableHead>

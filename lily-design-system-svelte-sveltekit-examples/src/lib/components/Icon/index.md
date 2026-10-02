@@ -53,7 +53,7 @@ A container for displaying an icon.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Icon from "$lib/components/Icon/Icon.svelte";
+  import Icon from "#lib/components/Icon/Icon.svelte";
 </script>
 
 <Icon label="Close">x</Icon>

@@ -61,7 +61,7 @@ A discouraged-practice item in a dont-list guideline list.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import DontListItem from "$lib/components/DontListItem/DontListItem.svelte";
+  import DontListItem from "#lib/components/DontListItem/DontListItem.svelte";
 </script>
 
 <DontListItem>Use vague placeholder text</DontListItem>

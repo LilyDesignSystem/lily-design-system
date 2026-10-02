@@ -57,7 +57,7 @@ A side panel for navigation or supplementary content.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Sidebar from "$lib/components/Sidebar/Sidebar.svelte";
+  import Sidebar from "#lib/components/Sidebar/Sidebar.svelte";
 </script>
 
 <Sidebar label="Navigation">

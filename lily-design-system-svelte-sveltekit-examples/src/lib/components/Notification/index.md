@@ -54,7 +54,7 @@ A brief message about an event or update.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Notification from "$lib/components/Notification/Notification.svelte";
+  import Notification from "#lib/components/Notification/Notification.svelte";
 </script>
 
 <Notification label="Success">Message here.</Notification>

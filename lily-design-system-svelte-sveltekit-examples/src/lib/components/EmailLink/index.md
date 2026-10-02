@@ -48,7 +48,7 @@ A mailto hyperlink for an email address.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import EmailLink from "$lib/components/EmailLink/EmailLink.svelte";
+  import EmailLink from "#lib/components/EmailLink/EmailLink.svelte";
 </script>
 
 <EmailLink email="alice@example.com" />

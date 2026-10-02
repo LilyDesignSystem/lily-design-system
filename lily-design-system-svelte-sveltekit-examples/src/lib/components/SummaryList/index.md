@@ -51,7 +51,7 @@ An ordered list of key-value summary pairs.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import SummaryList from "$lib/components/SummaryList/SummaryList.svelte";
+  import SummaryList from "#lib/components/SummaryList/SummaryList.svelte";
 </script>
 
 <SummaryList label="Order summary">...</SummaryList>

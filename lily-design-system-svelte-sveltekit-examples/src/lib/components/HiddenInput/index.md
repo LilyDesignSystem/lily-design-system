@@ -49,7 +49,7 @@ A hidden input for including data in form submission <input type="hidden">.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import HiddenInput from "$lib/components/HiddenInput/HiddenInput.svelte";
+  import HiddenInput from "#lib/components/HiddenInput/HiddenInput.svelte";
 </script>
 
 <HiddenInput name="csrf" value={token} />

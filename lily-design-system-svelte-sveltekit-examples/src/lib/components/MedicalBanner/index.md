@@ -44,7 +44,7 @@ A prominent message bar across the top of a page, with medical information.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import MedicalBanner from "$lib/components/MedicalBanner/MedicalBanner.svelte";
+  import MedicalBanner from "#lib/components/MedicalBanner/MedicalBanner.svelte";
 </script>
 
 <MedicalBanner label="Patient alerts">content</MedicalBanner>

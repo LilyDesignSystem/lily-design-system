@@ -56,7 +56,7 @@ A circular progress indicator.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ProgressCircle from "$lib/components/ProgressCircle/ProgressCircle.svelte";
+  import ProgressCircle from "#lib/components/ProgressCircle/ProgressCircle.svelte";
 </script>
 
 <ProgressCircle label="Upload" value={75} />

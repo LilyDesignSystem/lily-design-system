@@ -59,7 +59,7 @@ A container that maintains a fixed aspect ratio.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import AspectRatioContainer from "$lib/components/AspectRatioContainer/AspectRatioContainer.svelte";
+  import AspectRatioContainer from "#lib/components/AspectRatioContainer/AspectRatioContainer.svelte";
 </script>
 
 <AspectRatioContainer ratio={16/9}>content</AspectRatioContainer>

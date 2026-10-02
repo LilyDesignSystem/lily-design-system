@@ -50,7 +50,7 @@ An error message associated with a form field.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ErrorMessage from "$lib/components/ErrorMessage/ErrorMessage.svelte";
+  import ErrorMessage from "#lib/components/ErrorMessage/ErrorMessage.svelte";
 </script>
 
 <ErrorMessage>Error text here</ErrorMessage>

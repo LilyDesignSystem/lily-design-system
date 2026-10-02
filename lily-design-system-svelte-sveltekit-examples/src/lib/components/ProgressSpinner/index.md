@@ -53,7 +53,7 @@ An indeterminate spinning progress indicator.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ProgressSpinner from "$lib/components/ProgressSpinner/ProgressSpinner.svelte";
+  import ProgressSpinner from "#lib/components/ProgressSpinner/ProgressSpinner.svelte";
 </script>
 
 <ProgressSpinner label="Loading data" />

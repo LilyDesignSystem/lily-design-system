@@ -56,7 +56,7 @@ A generic content panel with optional heading.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Panel from "$lib/components/Panel/Panel.svelte";
+  import Panel from "#lib/components/Panel/Panel.svelte";
 </script>
 
 <Panel label="Settings">{children}</Panel>

@@ -52,7 +52,7 @@ A counter showing remaining or used characters in a text field.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import CharacterCounter from "$lib/components/CharacterCounter/CharacterCounter.svelte";
+  import CharacterCounter from "#lib/components/CharacterCounter/CharacterCounter.svelte";
 </script>
 
 <CharacterCounter count={text.length} max={280} label="Characters" />

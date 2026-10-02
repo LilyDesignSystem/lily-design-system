@@ -1,4 +1,4 @@
-import type { Handle } from "@sveltejs/kit";
+import type { Handle } from "@sveltejs/kit/hooks";
 
 const KNOWN_THEMES = new Set(["light", "dark", "abyss"]);
 const DEFAULT_THEME = "light";

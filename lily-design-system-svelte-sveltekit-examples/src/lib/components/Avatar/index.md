@@ -60,7 +60,7 @@ An avatar indicator that shows an avatar image or avatar text.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Avatar from "$lib/components/Avatar/Avatar.svelte";
+  import Avatar from "#lib/components/Avatar/Avatar.svelte";
 </script>
 
 <Avatar alt="Jane Doe">...</Avatar>

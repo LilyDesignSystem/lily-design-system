@@ -49,7 +49,7 @@ A button input that resets a form to default values <input type="reset">.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ResetInput from "$lib/components/ResetInput/ResetInput.svelte";
+  import ResetInput from "#lib/components/ResetInput/ResetInput.svelte";
 </script>
 
 <ResetInput />

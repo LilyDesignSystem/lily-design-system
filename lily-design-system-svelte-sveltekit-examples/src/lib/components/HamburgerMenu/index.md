@@ -62,7 +62,7 @@ A toggle button that opens a mobile navigation menu.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import HamburgerMenu from "$lib/components/HamburgerMenu/HamburgerMenu.svelte";
+  import HamburgerMenu from "#lib/components/HamburgerMenu/HamburgerMenu.svelte";
 </script>
 
 <HamburgerMenu label="Main menu" bind:open>{children}</HamburgerMenu>

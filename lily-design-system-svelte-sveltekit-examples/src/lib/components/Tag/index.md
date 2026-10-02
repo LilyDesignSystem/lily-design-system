@@ -50,7 +50,7 @@ A keyword label for categorizing content.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Tag from "$lib/components/Tag/Tag.svelte";
+  import Tag from "#lib/components/Tag/Tag.svelte";
 </script>
 
 <Tag label="Category">Design</Tag>

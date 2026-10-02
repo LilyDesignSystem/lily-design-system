@@ -54,7 +54,7 @@ One option in a theme select dropdown.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ThemeSelectOption from "$lib/components/ThemeSelectOption/ThemeSelectOption.svelte";
+  import ThemeSelectOption from "#lib/components/ThemeSelectOption/ThemeSelectOption.svelte";
 </script>
 
 <ThemeSelectOption value="dark">Dark</ThemeSelectOption>

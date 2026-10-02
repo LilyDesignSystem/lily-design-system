@@ -55,7 +55,7 @@ A small inline chart showing a data trend.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Sparkline from "$lib/components/Sparkline/Sparkline.svelte";
+  import Sparkline from "#lib/components/Sparkline/Sparkline.svelte";
 </script>
 
 <Sparkline label="Sales trend">

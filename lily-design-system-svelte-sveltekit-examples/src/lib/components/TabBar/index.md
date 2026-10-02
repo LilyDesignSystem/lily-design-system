@@ -53,7 +53,7 @@ A group of tabs for switching between content panels.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import TabBar from "$lib/components/TabBar/TabBar.svelte";
+  import TabBar from "#lib/components/TabBar/TabBar.svelte";
 </script>
 
 <TabBar label="Settings">

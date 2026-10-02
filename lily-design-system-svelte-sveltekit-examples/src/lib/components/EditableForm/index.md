@@ -62,7 +62,7 @@ A form wrapper for inline editing of content.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import EditableForm from "$lib/components/EditableForm/EditableForm.svelte";
+  import EditableForm from "#lib/components/EditableForm/EditableForm.svelte";
 </script>
 
 <EditableForm label="Edit profile" bind:editing onsubmit={save}>

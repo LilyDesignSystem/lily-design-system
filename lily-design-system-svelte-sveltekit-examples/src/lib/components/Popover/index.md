@@ -53,7 +53,7 @@ A floating content box anchored to a trigger element.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Popover from "$lib/components/Popover/Popover.svelte";
+  import Popover from "#lib/components/Popover/Popover.svelte";
 </script>
 
 <Popover label="Info" bind:open>{children}</Popover>

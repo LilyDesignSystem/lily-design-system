@@ -45,7 +45,7 @@ A multi-line text area with a caption below that is a character counter "[number
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import TextAreaInputWithCharacterCounter from "$lib/components/TextAreaInputWithCharacterCounter/TextAreaInputWithCharacterCounter.svelte";
+  import TextAreaInputWithCharacterCounter from "#lib/components/TextAreaInputWithCharacterCounter/TextAreaInputWithCharacterCounter.svelte";
 </script>
 
 <TextAreaInputWithCharacterCounter label="Feedback" maxLength={500} bind:value />

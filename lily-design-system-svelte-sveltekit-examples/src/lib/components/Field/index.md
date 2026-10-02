@@ -58,7 +58,7 @@ A form field wrapper with label, input, and error message.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Field from "$lib/components/Field/Field.svelte";
+  import Field from "#lib/components/Field/Field.svelte";
 </script>
 
 <Field label="Name"><input id="name-input" /></Field>

@@ -48,7 +48,7 @@ A toggle switch for turning a setting on or off.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import SwitchButton from "$lib/components/SwitchButton/SwitchButton.svelte";
+  import SwitchButton from "#lib/components/SwitchButton/SwitchButton.svelte";
 </script>
 
 <SwitchButton label="Enable notifications" bind:checked />

@@ -56,7 +56,7 @@ A custom scrollbar element.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ScrollBar from "$lib/components/ScrollBar/ScrollBar.svelte";
+  import ScrollBar from "#lib/components/ScrollBar/ScrollBar.svelte";
 </script>
 
 <ScrollBar orientation="vertical" label="Scroll">

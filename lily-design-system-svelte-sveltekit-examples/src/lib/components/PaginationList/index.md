@@ -57,7 +57,7 @@ An ordered list of pagination list items.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import PaginationList from "$lib/components/PaginationList/PaginationList.svelte";
+  import PaginationList from "#lib/components/PaginationList/PaginationList.svelte";
 </script>
 
 <PaginationList label="Pagination">{children}</PaginationList>

@@ -53,7 +53,7 @@ A multi-line text input area.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import TextAreaInput from "$lib/components/TextAreaInput/TextAreaInput.svelte";
+  import TextAreaInput from "#lib/components/TextAreaInput/TextAreaInput.svelte";
 </script>
 
 <TextAreaInput label="Comments" bind:value rows={5} />

@@ -37,7 +37,7 @@ A read-only display of Tuaisceart Eireann Health and Care (H&C) Number unique na
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import NorthernIrelandHealthAndCareNumberView from "$lib/components/NorthernIrelandHealthAndCareNumberView/NorthernIrelandHealthAndCareNumberView.svelte";
+  import NorthernIrelandHealthAndCareNumberView from "#lib/components/NorthernIrelandHealthAndCareNumberView/NorthernIrelandHealthAndCareNumberView.svelte";
 </script>
 
 <NorthernIrelandHealthAndCareNumberView label="H&C Number" value="320 000 0001" />

@@ -55,7 +55,7 @@ An input for selecting files from the file system <input type="file">.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import FileInput from "$lib/components/FileInput/FileInput.svelte";
+  import FileInput from "#lib/components/FileInput/FileInput.svelte";
 </script>
 
 <FileInput label="Upload photo" accept="image/*" />

@@ -49,7 +49,7 @@ One item in a context menu.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ContextMenuItem from "$lib/components/ContextMenuItem/ContextMenuItem.svelte";
+  import ContextMenuItem from "#lib/components/ContextMenuItem/ContextMenuItem.svelte";
 </script>
 
 <ContextMenuItem>Cut</ContextMenuItem>

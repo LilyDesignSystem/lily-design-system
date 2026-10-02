@@ -41,7 +41,7 @@ A calendar table interactive grid column for managing dates, days, etc. <th>.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import CalendarTableTD from "$lib/components/CalendarTableTD/CalendarTableTD.svelte";
+  import CalendarTableTD from "#lib/components/CalendarTableTD/CalendarTableTD.svelte";
 </script>
 
 <colgroup>

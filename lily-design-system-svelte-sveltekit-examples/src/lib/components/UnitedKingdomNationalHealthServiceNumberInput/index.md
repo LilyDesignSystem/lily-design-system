@@ -53,7 +53,7 @@ An input for entering a UK NHS number.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import UnitedKingdomNationalHealthServiceNumberInput from "$lib/components/UnitedKingdomNationalHealthServiceNumberInput/UnitedKingdomNationalHealthServiceNumberInput.svelte";
+  import UnitedKingdomNationalHealthServiceNumberInput from "#lib/components/UnitedKingdomNationalHealthServiceNumberInput/UnitedKingdomNationalHealthServiceNumberInput.svelte";
 </script>
 
 <UnitedKingdomNationalHealthServiceNumberInput label="NHS Number" bind:value />

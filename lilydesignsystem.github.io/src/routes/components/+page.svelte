@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { LILY_COMPONENTS, type LilyComponent } from '$lib/components';
+  import { LILY_COMPONENTS, type LilyComponent } from '#lib/components.js';
 
   let query = $state('');
 

@@ -53,7 +53,7 @@ A brief auto-dismissing notification message.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Toast from "$lib/components/Toast/Toast.svelte";
+  import Toast from "#lib/components/Toast/Toast.svelte";
 </script>
 
 <Toast label="Success">Your changes have been saved.</Toast>

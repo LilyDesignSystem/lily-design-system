@@ -50,7 +50,7 @@ An input for entering an email address <input type="email">.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import EmailInput from "$lib/components/EmailInput/EmailInput.svelte";
+  import EmailInput from "#lib/components/EmailInput/EmailInput.svelte";
 </script>
 
 <EmailInput label="Your email" bind:value />

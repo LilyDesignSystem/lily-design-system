@@ -53,7 +53,7 @@ A Gantt chart table interactive grid data cell for planning schedule visualizati
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import GanttTableTD from "$lib/components/GanttTableTD/GanttTableTD.svelte";
+  import GanttTableTD from "#lib/components/GanttTableTD/GanttTableTD.svelte";
 </script>
 
 <GanttTableTD active>---</GanttTableTD>

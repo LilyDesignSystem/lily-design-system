@@ -49,7 +49,7 @@ An input for selecting a color value <input type="color">.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ColorInput from "$lib/components/ColorInput/ColorInput.svelte";
+  import ColorInput from "#lib/components/ColorInput/ColorInput.svelte";
 </script>
 
 <ColorInput label="Background color" bind:value={color} />

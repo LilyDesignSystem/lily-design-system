@@ -60,7 +60,7 @@ An accordion list item component.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import AccordionListItem from "$lib/components/AccordionListItem/AccordionListItem.svelte";
+  import AccordionListItem from "#lib/components/AccordionListItem/AccordionListItem.svelte";
 </script>
 
 <AccordionListItem>

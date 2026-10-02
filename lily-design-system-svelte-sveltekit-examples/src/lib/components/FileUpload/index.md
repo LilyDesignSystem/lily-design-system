@@ -52,7 +52,7 @@ A drag-and-drop area for uploading files.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import FileUpload from "$lib/components/FileUpload/FileUpload.svelte";
+  import FileUpload from "#lib/components/FileUpload/FileUpload.svelte";
 </script>
 
 <FileUpload label="Upload files" accept=".pdf" onchange={handleFiles} />

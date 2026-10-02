@@ -1,6 +1,6 @@
 <script lang="ts">
-    import "$lib/css/app-shell.css";
-    import SkipLink from "$lib/components/SkipLink/SkipLink.svelte";
+    import "#lib/css/app-shell.css";
+    import SkipLink from "#lib/components/SkipLink/SkipLink.svelte";
     import { ThemePicker } from "@lilydesignsystem/svelte-theme-picker";
     import { LocalePicker } from "@lilydesignsystem/svelte-locale-picker";
     import { TextSizePicker } from "@lilydesignsystem/svelte-text-size-picker";

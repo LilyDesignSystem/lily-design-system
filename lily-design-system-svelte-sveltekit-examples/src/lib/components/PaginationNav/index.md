@@ -57,7 +57,7 @@ An ordered list of page navigation links.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import PaginationNav from "$lib/components/PaginationNav/PaginationNav.svelte";
+  import PaginationNav from "#lib/components/PaginationNav/PaginationNav.svelte";
 </script>
 
 <PaginationNav label="Pagination">

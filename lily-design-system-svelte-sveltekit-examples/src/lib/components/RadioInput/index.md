@@ -55,7 +55,7 @@ A single radio button input <input type="radio">.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import RadioInput from "$lib/components/RadioInput/RadioInput.svelte";
+  import RadioInput from "#lib/components/RadioInput/RadioInput.svelte";
 </script>
 
 <RadioInput label="Option A" name="choice" value="a" />

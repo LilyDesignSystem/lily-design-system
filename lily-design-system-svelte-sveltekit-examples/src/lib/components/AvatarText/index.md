@@ -53,7 +53,7 @@ An avatar indicator inner text such as a user name.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import AvatarText from "$lib/components/AvatarText/AvatarText.svelte";
+  import AvatarText from "#lib/components/AvatarText/AvatarText.svelte";
 </script>
 
 <AvatarText>JD</AvatarText>

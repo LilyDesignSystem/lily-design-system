@@ -52,7 +52,7 @@ An input for selecting a measurement system.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import MeasurementSystemInput from "$lib/components/MeasurementSystemInput/MeasurementSystemInput.svelte";
+  import MeasurementSystemInput from "#lib/components/MeasurementSystemInput/MeasurementSystemInput.svelte";
 </script>
 
 <MeasurementSystemInput label="Measurement system" bind:value />

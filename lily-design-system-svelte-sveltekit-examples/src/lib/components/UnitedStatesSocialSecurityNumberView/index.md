@@ -48,7 +48,7 @@ A read-only display of a US Social Security number.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import UnitedStatesSocialSecurityNumberView from "$lib/components/UnitedStatesSocialSecurityNumberView/UnitedStatesSocialSecurityNumberView.svelte";
+  import UnitedStatesSocialSecurityNumberView from "#lib/components/UnitedStatesSocialSecurityNumberView/UnitedStatesSocialSecurityNumberView.svelte";
 </script>
 
 <UnitedStatesSocialSecurityNumberView label="SSN" value="123-45-6789" />

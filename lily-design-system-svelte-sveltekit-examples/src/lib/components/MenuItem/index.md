@@ -58,7 +58,7 @@ One item in a menu.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import MenuItem from "$lib/components/MenuItem/MenuItem.svelte";
+  import MenuItem from "#lib/components/MenuItem/MenuItem.svelte";
 </script>
 
 <MenuItem>New File</MenuItem>

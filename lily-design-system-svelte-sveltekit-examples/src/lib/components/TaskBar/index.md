@@ -53,7 +53,7 @@ A horizontal bar of task shortcuts or actions.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import TaskBar from "$lib/components/TaskBar/TaskBar.svelte";
+  import TaskBar from "#lib/components/TaskBar/TaskBar.svelte";
 </script>
 
 <TaskBar label="Tasks">

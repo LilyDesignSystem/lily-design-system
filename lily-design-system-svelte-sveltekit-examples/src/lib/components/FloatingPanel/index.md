@@ -54,7 +54,7 @@ A panel that floats above page content.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import FloatingPanel from "$lib/components/FloatingPanel/FloatingPanel.svelte";
+  import FloatingPanel from "#lib/components/FloatingPanel/FloatingPanel.svelte";
 </script>
 
 <FloatingPanel open={showPanel} label="Options">{children}</FloatingPanel>

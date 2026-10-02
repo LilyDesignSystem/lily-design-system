@@ -55,7 +55,7 @@ A gauge displaying a scalar value within a known range.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Meter from "$lib/components/Meter/Meter.svelte";
+  import Meter from "#lib/components/Meter/Meter.svelte";
 </script>
 
 <Meter label="Disk space" value={45} max={100} />

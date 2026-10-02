@@ -59,7 +59,7 @@ An input for entering a date and time and "now" button <input type="date"><input
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import DateTimeNowInput from "$lib/components/DateTimeNowInput/DateTimeNowInput.svelte";
+  import DateTimeNowInput from "#lib/components/DateTimeNowInput/DateTimeNowInput.svelte";
 </script>
 
 <DateTimeNowInput label="Event time" bind:dateValue bind:timeValue />

@@ -53,7 +53,7 @@ A group of mutually exclusive segment options.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import SegmentGroup from "$lib/components/SegmentGroup/SegmentGroup.svelte";
+  import SegmentGroup from "#lib/components/SegmentGroup/SegmentGroup.svelte";
 </script>
 
 <SegmentGroup label="View">

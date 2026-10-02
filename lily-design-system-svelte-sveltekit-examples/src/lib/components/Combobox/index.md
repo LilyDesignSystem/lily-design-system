@@ -57,7 +57,7 @@ A text input combined with a dropdown list for filtering options.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Combobox from "$lib/components/Combobox/Combobox.svelte";
+  import Combobox from "#lib/components/Combobox/Combobox.svelte";
 </script>
 
 <Combobox label="Search" bind:value bind:open>

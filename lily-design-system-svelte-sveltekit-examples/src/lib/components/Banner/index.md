@@ -62,7 +62,7 @@ A prominent message bar across the top of a page.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Banner from "$lib/components/Banner/Banner.svelte";
+  import Banner from "#lib/components/Banner/Banner.svelte";
 </script>
 
 <Banner>Message</Banner>

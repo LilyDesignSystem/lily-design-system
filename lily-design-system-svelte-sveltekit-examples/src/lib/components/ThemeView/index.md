@@ -48,7 +48,7 @@ A read-only display of the current theme.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ThemeView from "$lib/components/ThemeView/ThemeView.svelte";
+  import ThemeView from "#lib/components/ThemeView/ThemeView.svelte";
 </script>
 
 <ThemeView label="Current theme" value="dark" />

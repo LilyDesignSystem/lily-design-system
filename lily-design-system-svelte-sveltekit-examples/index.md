@@ -54,7 +54,6 @@ lily-design-system-svelte-sveltekit-examples/
 ├── static/
 │   └── css/nhs.css             # NHS UK design tokens & component styles
 ├── package.json
-├── svelte.config.js
 ├── vite.config.ts
 ├── vitest.config.ts
 └── tsconfig.json

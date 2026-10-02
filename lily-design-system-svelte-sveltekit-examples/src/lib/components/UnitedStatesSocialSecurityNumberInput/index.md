@@ -53,7 +53,7 @@ An input for entering a US Social Security number.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import UnitedStatesSocialSecurityNumberInput from "$lib/components/UnitedStatesSocialSecurityNumberInput/UnitedStatesSocialSecurityNumberInput.svelte";
+  import UnitedStatesSocialSecurityNumberInput from "#lib/components/UnitedStatesSocialSecurityNumberInput/UnitedStatesSocialSecurityNumberInput.svelte";
 </script>
 
 <UnitedStatesSocialSecurityNumberInput label="Social Security Number" bind:value />

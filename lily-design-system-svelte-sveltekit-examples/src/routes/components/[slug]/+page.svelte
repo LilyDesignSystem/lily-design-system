@@ -1,10 +1,10 @@
 <script lang="ts">
     import { page } from "$app/state";
-    import Header from "$lib/components/Header/Header.svelte";
-    import Footer from "$lib/components/Footer/Footer.svelte";
-    import BackLink from "$lib/components/BackLink/BackLink.svelte";
-    import { components } from "$lib/data/components";
-    import { componentDemos } from "$lib/data/component-demos";
+    import Header from "#lib/components/Header/Header.svelte";
+    import Footer from "#lib/components/Footer/Footer.svelte";
+    import BackLink from "#lib/components/BackLink/BackLink.svelte";
+    import { components } from "#lib/data/components.js";
+    import { componentDemos } from "#lib/data/component-demos.js";
 
     const slug = $derived(page.params.slug);
     const component = $derived(components.find((c) => c.slug === slug));
@@ -46,7 +46,7 @@
         <pre tabindex="0"><code>&lt;{component.name} /&gt;</code></pre>
 
         <h2>Import</h2>
-        <pre tabindex="0"><code>import {component.name} from "$lib/components/{component.name}.svelte";</code></pre>
+        <pre tabindex="0"><code>import {component.name} from "#lib/components/{component.name}.svelte";</code></pre>
     {:else}
         <p>Component not found.</p>
     {/if}

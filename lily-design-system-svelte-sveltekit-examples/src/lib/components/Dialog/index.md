@@ -57,7 +57,7 @@ A modal or non-modal dialog window.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Dialog from "$lib/components/Dialog/Dialog.svelte";
+  import Dialog from "#lib/components/Dialog/Dialog.svelte";
 </script>
 
 <Dialog label="Confirm" bind:open>Content here</Dialog>

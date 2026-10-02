@@ -61,7 +61,7 @@ A dropdown select element for choosing one option.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Select from "$lib/components/Select/Select.svelte";
+  import Select from "#lib/components/Select/Select.svelte";
 </script>
 
 <Select label="Country" bind:value>

@@ -57,7 +57,7 @@ An ordered list of task list items.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import TaskList from "$lib/components/TaskList/TaskList.svelte";
+  import TaskList from "#lib/components/TaskList/TaskList.svelte";
 </script>
 
 <TaskList label="Today's tasks">...</TaskList>

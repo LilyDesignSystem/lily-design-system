@@ -49,7 +49,7 @@ A read-only display of a red/amber/green status.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import RedAmberGreenView from "$lib/components/RedAmberGreenView/RedAmberGreenView.svelte";
+  import RedAmberGreenView from "#lib/components/RedAmberGreenView/RedAmberGreenView.svelte";
 </script>
 
 <RedAmberGreenView label="Project status" value="green" />

@@ -54,7 +54,7 @@ A label associated with a form input.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Label from "$lib/components/Label/Label.svelte";
+  import Label from "#lib/components/Label/Label.svelte";
 </script>
 
 <Label for="email">Email address</Label>

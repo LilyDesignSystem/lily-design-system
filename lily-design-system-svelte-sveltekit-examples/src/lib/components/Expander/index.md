@@ -54,7 +54,7 @@ A control that expands to reveal more content.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Expander from "$lib/components/Expander/Expander.svelte";
+  import Expander from "#lib/components/Expander/Expander.svelte";
 </script>
 
 <Expander label="Show details" bind:expanded>Content</Expander>

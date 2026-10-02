@@ -56,7 +56,7 @@ A checkbox input for toggling a boolean value <input type="checkbox">.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import CheckboxInput from "$lib/components/CheckboxInput/CheckboxInput.svelte";
+  import CheckboxInput from "#lib/components/CheckboxInput/CheckboxInput.svelte";
 </script>
 
 <CheckboxInput label="Accept terms" bind:checked />

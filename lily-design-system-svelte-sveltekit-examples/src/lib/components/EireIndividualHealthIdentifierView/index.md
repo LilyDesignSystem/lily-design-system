@@ -38,7 +38,7 @@ A read-only display of Eire Individual Health Identifier (IHI) unique national h
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import IrelandIndividualHealthIdentifierView from "$lib/components/IrelandIndividualHealthIdentifierView/IrelandIndividualHealthIdentifierView.svelte";
+  import IrelandIndividualHealthIdentifierView from "#lib/components/IrelandIndividualHealthIdentifierView/IrelandIndividualHealthIdentifierView.svelte";
 </script>
 
 <IrelandIndividualHealthIdentifierView label="IHI" value="1234567890" />

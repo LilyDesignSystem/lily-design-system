@@ -40,7 +40,7 @@ A calendar table interactive grid row for managing dates, days, etc. <tr>.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import CalendarTableRow from "$lib/components/CalendarTableRow/CalendarTableRow.svelte";
+  import CalendarTableRow from "#lib/components/CalendarTableRow/CalendarTableRow.svelte";
 </script>
 
 <CalendarTableRow>

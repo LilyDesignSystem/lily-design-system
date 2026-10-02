@@ -62,7 +62,7 @@ A list of actions or options triggered by a button.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Menu from "$lib/components/Menu/Menu.svelte";
+  import Menu from "#lib/components/Menu/Menu.svelte";
 </script>
 
 <Menu label="Actions">

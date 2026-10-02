@@ -55,7 +55,7 @@ A slideshow for cycling through content items.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Carousel from "$lib/components/Carousel/Carousel.svelte";
+  import Carousel from "#lib/components/Carousel/Carousel.svelte";
 </script>
 
 <Carousel label="Photo gallery">

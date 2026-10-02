@@ -52,7 +52,7 @@ A footnote reference and content element.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Footnote from "$lib/components/Footnote/Footnote.svelte";
+  import Footnote from "#lib/components/Footnote/Footnote.svelte";
 </script>
 
 <Footnote id="fn1">Source: Example et al., 2024</Footnote>

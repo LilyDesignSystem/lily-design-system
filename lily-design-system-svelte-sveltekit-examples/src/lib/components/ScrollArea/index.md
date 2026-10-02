@@ -55,7 +55,7 @@ A scrollable container with custom scrollbar support.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ScrollArea from "$lib/components/ScrollArea/ScrollArea.svelte";
+  import ScrollArea from "#lib/components/ScrollArea/ScrollArea.svelte";
 </script>
 
 <ScrollArea label="Scrollable content">

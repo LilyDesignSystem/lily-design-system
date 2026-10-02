@@ -54,7 +54,7 @@ A disclosure widget that shows and hides content.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Details from "$lib/components/Details/Details.svelte";
+  import Details from "#lib/components/Details/Details.svelte";
 </script>
 
 <Details summary="More info">Content here</Details>

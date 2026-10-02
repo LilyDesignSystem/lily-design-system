@@ -1,5 +1,5 @@
-import raw from '$lib/content/plan.md?raw';
-import { renderDoc } from '$lib/render-doc';
+import raw from '#lib/content/plan.md?raw';
+import { renderDoc } from '#lib/render-doc.js';
 
 export const prerender = true;
 

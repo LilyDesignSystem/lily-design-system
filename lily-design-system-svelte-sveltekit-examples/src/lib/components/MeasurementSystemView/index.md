@@ -50,7 +50,7 @@ A read-only display of a measurement system.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import MeasurementSystemView from "$lib/components/MeasurementSystemView/MeasurementSystemView.svelte";
+  import MeasurementSystemView from "#lib/components/MeasurementSystemView/MeasurementSystemView.svelte";
 </script>
 
 <MeasurementSystemView value="metric" />

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { DEFAULT_LOCALE, locales, localeLabel } from '$lib/locales';
+  import { DEFAULT_LOCALE, locales, localeLabel } from '#lib/locales.js';
 
   // Default locale first, then grouped by language name (the label text
   // before a trailing "(" — e.g. every English variant groups together),

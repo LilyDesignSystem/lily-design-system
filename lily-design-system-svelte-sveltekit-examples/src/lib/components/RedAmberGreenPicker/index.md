@@ -49,7 +49,7 @@ A picker for selecting a red/amber/green status.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import RedAmberGreenPicker from "$lib/components/RedAmberGreenPicker/RedAmberGreenPicker.svelte";
+  import RedAmberGreenPicker from "#lib/components/RedAmberGreenPicker/RedAmberGreenPicker.svelte";
 </script>
 
 <RedAmberGreenPicker label="Project status" bind:value={status} />

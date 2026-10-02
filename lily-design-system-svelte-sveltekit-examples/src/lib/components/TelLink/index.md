@@ -47,7 +47,7 @@ A tel hyperlink for a telephone number.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import TelLink from "$lib/components/TelLink/TelLink.svelte";
+  import TelLink from "#lib/components/TelLink/TelLink.svelte";
 </script>
 
 <TelLink phone="+1-555-0100" />

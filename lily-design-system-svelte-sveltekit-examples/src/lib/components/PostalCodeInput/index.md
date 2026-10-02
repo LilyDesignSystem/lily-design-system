@@ -56,7 +56,7 @@ An input for entering a postal or ZIP code.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import PostalCodeInput from "$lib/components/PostalCodeInput/PostalCodeInput.svelte";
+  import PostalCodeInput from "#lib/components/PostalCodeInput/PostalCodeInput.svelte";
 </script>
 
 <PostalCodeInput label="Postal code" bind:value />

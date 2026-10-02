@@ -54,7 +54,7 @@ An input for entering a numeric value with validation <input type="number">.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import NumberInput from "$lib/components/NumberInput/NumberInput.svelte";
+  import NumberInput from "#lib/components/NumberInput/NumberInput.svelte";
 </script>
 
 <NumberInput label="Quantity" bind:value />

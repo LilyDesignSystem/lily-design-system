@@ -55,7 +55,7 @@ A command palette for searching and executing actions.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Command from "$lib/components/Command/Command.svelte";
+  import Command from "#lib/components/Command/Command.svelte";
 </script>
 
 <Command label="Command palette" placeholder="Search..." bind:value={query}>

@@ -50,7 +50,7 @@ One item in a menu bar.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import MenuBarButton from "$lib/components/MenuBarButton/MenuBarButton.svelte";
+  import MenuBarButton from "#lib/components/MenuBarButton/MenuBarButton.svelte";
 </script>
 
 <MenuBarButton>File</MenuBarButton>

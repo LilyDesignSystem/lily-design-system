@@ -49,7 +49,7 @@ A hidden link for keyboard users to skip to main content.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import SkipLink from "$lib/components/SkipLink/SkipLink.svelte";
+  import SkipLink from "#lib/components/SkipLink/SkipLink.svelte";
 </script>
 
 <SkipLink />

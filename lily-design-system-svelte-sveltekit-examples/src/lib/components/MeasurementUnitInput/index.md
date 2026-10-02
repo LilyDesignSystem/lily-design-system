@@ -52,7 +52,7 @@ An input for selecting a measurement unit.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import MeasurementUnitInput from "$lib/components/MeasurementUnitInput/MeasurementUnitInput.svelte";
+  import MeasurementUnitInput from "#lib/components/MeasurementUnitInput/MeasurementUnitInput.svelte";
 </script>
 
 <MeasurementUnitInput label="Unit" bind:value />

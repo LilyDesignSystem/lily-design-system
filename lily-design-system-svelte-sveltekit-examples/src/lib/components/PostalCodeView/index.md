@@ -51,7 +51,7 @@ A read-only display of a postal or ZIP code.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import PostalCodeView from "$lib/components/PostalCodeView/PostalCodeView.svelte";
+  import PostalCodeView from "#lib/components/PostalCodeView/PostalCodeView.svelte";
 </script>
 
 <PostalCodeView text="90210" />

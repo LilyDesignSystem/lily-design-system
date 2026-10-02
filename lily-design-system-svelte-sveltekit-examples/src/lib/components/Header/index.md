@@ -58,7 +58,7 @@ A page or section header area.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Header from "$lib/components/Header/Header.svelte";
+  import Header from "#lib/components/Header/Header.svelte";
 </script>
 
 <Header label="Site header">{children}</Header>

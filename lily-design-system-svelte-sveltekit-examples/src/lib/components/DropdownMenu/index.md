@@ -60,7 +60,7 @@ A menu that opens below a trigger button.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import DropdownMenu from "$lib/components/DropdownMenu/DropdownMenu.svelte";
+  import DropdownMenu from "#lib/components/DropdownMenu/DropdownMenu.svelte";
 </script>
 
 <DropdownMenu label="Options" bind:open>

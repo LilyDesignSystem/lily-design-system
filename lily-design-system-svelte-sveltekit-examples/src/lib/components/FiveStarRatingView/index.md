@@ -49,7 +49,7 @@ A read-only display of a five-star rating.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import FiveStarRatingView from "$lib/components/FiveStarRatingView/FiveStarRatingView.svelte";
+  import FiveStarRatingView from "#lib/components/FiveStarRatingView/FiveStarRatingView.svelte";
 </script>
 
 <FiveStarRatingView value={4} label="4 out of 5 stars" />

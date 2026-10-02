@@ -54,7 +54,7 @@ A grouped content container with header, body, and footer areas.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Card from "$lib/components/Card/Card.svelte";
+  import Card from "#lib/components/Card/Card.svelte";
 </script>
 
 <Card><h3>Title</h3><p>Content</p></Card>

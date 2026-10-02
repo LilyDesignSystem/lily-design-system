@@ -53,7 +53,7 @@ An input for entering a date and time without time zone <input type="datetime-lo
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import DateTimeLocalInput from "$lib/components/DateTimeLocalInput/DateTimeLocalInput.svelte";
+  import DateTimeLocalInput from "#lib/components/DateTimeLocalInput/DateTimeLocalInput.svelte";
 </script>
 
 <DateTimeLocalInput label="Event start" bind:value />

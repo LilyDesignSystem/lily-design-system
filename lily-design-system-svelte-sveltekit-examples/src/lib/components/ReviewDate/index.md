@@ -50,7 +50,7 @@ A display of a content review date.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ReviewDate from "$lib/components/ReviewDate/ReviewDate.svelte";
+  import ReviewDate from "#lib/components/ReviewDate/ReviewDate.svelte";
 </script>
 
 <ReviewDate label="Next review" datetime="2025-06-15">June 15, 2025</ReviewDate>

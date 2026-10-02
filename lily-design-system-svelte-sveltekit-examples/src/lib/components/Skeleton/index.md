@@ -51,7 +51,7 @@ A placeholder loading animation for content.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Skeleton from "$lib/components/Skeleton/Skeleton.svelte";
+  import Skeleton from "#lib/components/Skeleton/Skeleton.svelte";
 </script>
 
 <Skeleton />

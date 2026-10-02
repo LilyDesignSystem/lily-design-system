@@ -9,9 +9,9 @@
   rollout note. `home.notice` says so, in the page's own language.
 -->
 <script lang="ts">
-  import { LILY_COMPONENTS } from '$lib/components';
-  import { ui } from '$lib/i18n';
-  import { localeLabel } from '$lib/locales';
+  import { LILY_COMPONENTS } from '#lib/components.js';
+  import { ui } from '#lib/i18n.js';
+  import { localeLabel } from '#lib/locales.js';
 
   let { locale }: { locale: string } = $props();
 

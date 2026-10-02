@@ -51,7 +51,7 @@ One action button in a tool bar.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ToolBarButton from "$lib/components/ToolBarButton/ToolBarButton.svelte";
+  import ToolBarButton from "#lib/components/ToolBarButton/ToolBarButton.svelte";
 </script>
 
 <ToolBarButton>Bold</ToolBarButton>

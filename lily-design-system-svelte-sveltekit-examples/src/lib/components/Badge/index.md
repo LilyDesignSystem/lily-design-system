@@ -57,7 +57,7 @@ A small label for counts, statuses, or categories.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Badge from "$lib/components/Badge/Badge.svelte";
+  import Badge from "#lib/components/Badge/Badge.svelte";
 </script>
 
 <Badge>New</Badge>

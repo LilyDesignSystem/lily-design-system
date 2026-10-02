@@ -50,7 +50,7 @@ A read-only display of a Net Promoter Score.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import NetPromoterScoreView from "$lib/components/NetPromoterScoreView/NetPromoterScoreView.svelte";
+  import NetPromoterScoreView from "#lib/components/NetPromoterScoreView/NetPromoterScoreView.svelte";
 </script>
 
 <NetPromoterScoreView label="NPS Score" value="8" />

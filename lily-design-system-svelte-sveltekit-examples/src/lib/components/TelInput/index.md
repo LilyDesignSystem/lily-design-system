@@ -48,7 +48,7 @@ An input for entering a telephone number <input type="tel">.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import TelInput from "$lib/components/TelInput/TelInput.svelte";
+  import TelInput from "#lib/components/TelInput/TelInput.svelte";
 </script>
 
 <TelInput label="Phone number" bind:value />

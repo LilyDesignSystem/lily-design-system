@@ -57,7 +57,7 @@ An input for entering a password <input type="password"> or text <input type="te
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import PasswordInputOrTextInputDiv from "$lib/components/PasswordInputOrTextInputDiv/PasswordInputOrTextInputDiv.svelte";
+  import PasswordInputOrTextInputDiv from "#lib/components/PasswordInputOrTextInputDiv/PasswordInputOrTextInputDiv.svelte";
 </script>
 
 <PasswordInputOrTextInputDiv label="Password" bind:value />

@@ -50,7 +50,7 @@ A table with rows and columns <table>.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Table from "$lib/components/Table/Table.svelte";
+  import Table from "#lib/components/Table/Table.svelte";
 </script>
 
 <Table label="User accounts">...</Table>

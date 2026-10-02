@@ -51,7 +51,7 @@ One selectable segment in a segment group.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import SegmentGroupItem from "$lib/components/SegmentGroupItem/SegmentGroupItem.svelte";
+  import SegmentGroupItem from "#lib/components/SegmentGroupItem/SegmentGroupItem.svelte";
 </script>
 
 <SegmentGroupItem checked={true} value="grid">Grid</SegmentGroupItem>

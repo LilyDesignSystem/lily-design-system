@@ -54,7 +54,7 @@ A menu that appears on right-click or long-press.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ContextMenu from "$lib/components/ContextMenu/ContextMenu.svelte";
+  import ContextMenu from "#lib/components/ContextMenu/ContextMenu.svelte";
 </script>
 
 <ContextMenu label="Actions" bind:open>

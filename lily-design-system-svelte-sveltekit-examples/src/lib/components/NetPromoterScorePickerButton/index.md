@@ -51,7 +51,7 @@ A picker button for selecting a 0-10 Net Promoter Score.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import NetPromoterScorePickerButton from "$lib/components/NetPromoterScorePickerButton/NetPromoterScorePickerButton.svelte";
+  import NetPromoterScorePickerButton from "#lib/components/NetPromoterScorePickerButton/NetPromoterScorePickerButton.svelte";
 </script>
 
 <NetPromoterScorePickerButton value={9} label="9" onclick={handleSelect} />

@@ -50,7 +50,7 @@ A calendar table interactive grid data cell for managing dates, days, etc. <td>.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import CalendarTableTD from "$lib/components/CalendarTableTD/CalendarTableTD.svelte";
+  import CalendarTableTD from "#lib/components/CalendarTableTD/CalendarTableTD.svelte";
 </script>
 
 <CalendarTableTD>15</CalendarTableTD>

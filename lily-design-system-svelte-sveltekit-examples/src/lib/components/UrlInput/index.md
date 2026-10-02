@@ -49,7 +49,7 @@ An input for entering a URL <input type="url">.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import UrlInput from "$lib/components/UrlInput/UrlInput.svelte";
+  import UrlInput from "#lib/components/UrlInput/UrlInput.svelte";
 </script>
 
 <UrlInput label="Website URL" bind:value />

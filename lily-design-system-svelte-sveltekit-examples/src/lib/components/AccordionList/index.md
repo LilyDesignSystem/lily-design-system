@@ -54,7 +54,7 @@ An accordion ordered list of list item components.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import AccordionList from "$lib/components/AccordionList/AccordionList.svelte";
+  import AccordionList from "#lib/components/AccordionList/AccordionList.svelte";
 </script>
 
 <AccordionNav>

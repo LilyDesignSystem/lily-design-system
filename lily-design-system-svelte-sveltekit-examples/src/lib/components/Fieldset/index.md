@@ -59,7 +59,7 @@ A group of related form fields with a legend.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Fieldset from "$lib/components/Fieldset/Fieldset.svelte";
+  import Fieldset from "#lib/components/Fieldset/Fieldset.svelte";
 </script>
 
 <Fieldset legend="Contact info">

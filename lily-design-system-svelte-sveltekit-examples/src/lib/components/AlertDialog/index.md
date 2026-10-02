@@ -64,7 +64,7 @@ A modal dialog for urgent messages requiring user acknowledgment.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import AlertDialog from "$lib/components/AlertDialog/AlertDialog.svelte";
+  import AlertDialog from "#lib/components/AlertDialog/AlertDialog.svelte";
 </script>
 
 <AlertDialog bind:open title="Confirm" description="Are you sure?">

@@ -60,7 +60,7 @@ One step in a tour guide list.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import TourListItem from "$lib/components/TourListItem/TourListItem.svelte";
+  import TourListItem from "#lib/components/TourListItem/TourListItem.svelte";
 </script>
 
 <TourListItem label="Welcome" current={step === 0} stepNumber={1} totalSteps={3}>...</TourListItem>

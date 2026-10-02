@@ -49,7 +49,7 @@ An input for adding and removing tags.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import TagInput from "$lib/components/TagInput/TagInput.svelte";
+  import TagInput from "#lib/components/TagInput/TagInput.svelte";
 </script>
 
 <TagInput label="Add tag" bind:value onadd={(tag) => tags.push(tag)} />

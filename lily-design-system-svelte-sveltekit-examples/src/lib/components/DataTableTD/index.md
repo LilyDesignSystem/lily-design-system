@@ -40,7 +40,7 @@ A data table interactive grid data cell for displaying and sorting tabular data 
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import DataTableTD from "$lib/components/DataTableTD/DataTableTD.svelte";
+  import DataTableTD from "#lib/components/DataTableTD/DataTableTD.svelte";
 </script>
 
 <DataTableTD>Alice</DataTableTD>

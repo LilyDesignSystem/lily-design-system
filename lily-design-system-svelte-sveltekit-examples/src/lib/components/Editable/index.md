@@ -51,7 +51,7 @@ An inline-editable text element that toggles between view and edit modes.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Editable from "$lib/components/Editable/Editable.svelte";
+  import Editable from "#lib/components/Editable/Editable.svelte";
 </script>
 
 <Editable label="Name" bind:value />

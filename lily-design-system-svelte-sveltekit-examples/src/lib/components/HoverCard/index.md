@@ -56,7 +56,7 @@ A card that appears on hover over a trigger element.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import HoverCard from "$lib/components/HoverCard/HoverCard.svelte";
+  import HoverCard from "#lib/components/HoverCard/HoverCard.svelte";
 </script>
 
 <HoverCard label="User info" bind:open>{children}</HoverCard>

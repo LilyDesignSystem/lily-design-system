@@ -54,7 +54,7 @@ A dialog for browsing and selecting files.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import FileDialog from "$lib/components/FileDialog/FileDialog.svelte";
+  import FileDialog from "#lib/components/FileDialog/FileDialog.svelte";
 </script>
 
 <FileDialog label="Open file" bind:open>Content</FileDialog>

@@ -52,7 +52,7 @@ A picker button for selecting a 1-5 satisfaction rating using face labels.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import FiveFaceRatingPickerButton from "$lib/components/FiveFaceRatingPickerButton/FiveFaceRatingPickerButton.svelte";
+  import FiveFaceRatingPickerButton from "#lib/components/FiveFaceRatingPickerButton/FiveFaceRatingPickerButton.svelte";
 </script>
 
 <FiveFaceRatingPickerButton value={3} label="Okay" onclick={handleSelect} />

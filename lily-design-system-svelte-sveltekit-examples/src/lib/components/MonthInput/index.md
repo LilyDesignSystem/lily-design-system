@@ -52,7 +52,7 @@ An input for selecting a month and year <input type="month">.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import MonthInput from "$lib/components/MonthInput/MonthInput.svelte";
+  import MonthInput from "#lib/components/MonthInput/MonthInput.svelte";
 </script>
 
 <MonthInput label="Start month" bind:value />

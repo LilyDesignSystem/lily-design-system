@@ -65,7 +65,7 @@ A select dropdown with additional features like search or groups.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import SelectWithExtras from "$lib/components/SelectWithExtras/SelectWithExtras.svelte";
+  import SelectWithExtras from "#lib/components/SelectWithExtras/SelectWithExtras.svelte";
 </script>
 
 <SelectWithExtras label="Country" bind:value>

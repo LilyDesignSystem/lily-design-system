@@ -54,7 +54,7 @@ A Gantt chart table interactive grid for planning schedule visualization <table>
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import GanttTable from "$lib/components/GanttTable/GanttTable.svelte";
+  import GanttTable from "#lib/components/GanttTable/GanttTable.svelte";
 </script>
 
 <GanttTable label="Project timeline">

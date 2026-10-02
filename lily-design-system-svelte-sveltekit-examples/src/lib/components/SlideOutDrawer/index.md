@@ -60,7 +60,7 @@ A drawer that slides out from the side of the page.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import SlideOutDrawer from "$lib/components/SlideOutDrawer/SlideOutDrawer.svelte";
+  import SlideOutDrawer from "#lib/components/SlideOutDrawer/SlideOutDrawer.svelte";
 </script>
 
 <SlideOutDrawer label="Menu" bind:open={isOpen}>

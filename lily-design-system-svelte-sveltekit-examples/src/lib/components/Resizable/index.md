@@ -56,7 +56,7 @@ A container that the user can resize by dragging.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Resizable from "$lib/components/Resizable/Resizable.svelte";
+  import Resizable from "#lib/components/Resizable/Resizable.svelte";
 </script>
 
 <Resizable label="Resizable panel" direction="both">

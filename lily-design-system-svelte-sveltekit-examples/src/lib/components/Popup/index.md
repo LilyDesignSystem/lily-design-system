@@ -53,7 +53,7 @@ A temporary overlay that appears above page content.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Popup from "$lib/components/Popup/Popup.svelte";
+  import Popup from "#lib/components/Popup/Popup.svelte";
 </script>
 
 <Popup label="Info" bind:open>{children}</Popup>

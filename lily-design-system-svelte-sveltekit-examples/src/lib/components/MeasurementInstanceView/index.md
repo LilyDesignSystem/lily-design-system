@@ -49,7 +49,7 @@ A read-only display of a measurement value and unit.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import MeasurementInstanceView from "$lib/components/MeasurementInstanceView/MeasurementInstanceView.svelte";
+  import MeasurementInstanceView from "#lib/components/MeasurementInstanceView/MeasurementInstanceView.svelte";
 </script>
 
 <MeasurementInstanceView value="72 kg" />

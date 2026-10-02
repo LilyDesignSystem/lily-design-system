@@ -60,7 +60,7 @@ A list of selectable options with keyboard navigation.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Listbox from "$lib/components/Listbox/Listbox.svelte";
+  import Listbox from "#lib/components/Listbox/Listbox.svelte";
 </script>
 
 <Listbox label="Fruits">

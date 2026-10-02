@@ -51,7 +51,7 @@ A picker for selecting a 1-5 star rating using radio buttons.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import FiveStarRatingPicker from "$lib/components/FiveStarRatingPicker/FiveStarRatingPicker.svelte";
+  import FiveStarRatingPicker from "#lib/components/FiveStarRatingPicker/FiveStarRatingPicker.svelte";
 </script>
 
 <FiveStarRatingPicker label="Rate this" bind:value />

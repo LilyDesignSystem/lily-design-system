@@ -58,7 +58,7 @@ A picker for selecting a 0-10 Net Promoter Score.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import NetPromoterScorePicker from "$lib/components/NetPromoterScorePicker/NetPromoterScorePicker.svelte";
+  import NetPromoterScorePicker from "#lib/components/NetPromoterScorePicker/NetPromoterScorePicker.svelte";
 </script>
 
 <NetPromoterScorePicker label="How likely are you to recommend us?" bind:value={score} />

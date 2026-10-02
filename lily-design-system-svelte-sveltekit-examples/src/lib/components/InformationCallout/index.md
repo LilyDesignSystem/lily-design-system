@@ -54,7 +54,7 @@ A callout box highlighting informational content.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import InformationCallout from "$lib/components/InformationCallout/InformationCallout.svelte";
+  import InformationCallout from "#lib/components/InformationCallout/InformationCallout.svelte";
 </script>
 
 <InformationCallout label="Note">{children}</InformationCallout>

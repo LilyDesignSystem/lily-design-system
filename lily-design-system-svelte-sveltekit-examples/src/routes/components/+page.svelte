@@ -1,9 +1,9 @@
 <script lang="ts">
-    import Header from "$lib/components/Header/Header.svelte";
-    import Footer from "$lib/components/Footer/Footer.svelte";
-    import BackLink from "$lib/components/BackLink/BackLink.svelte";
-    import { components, CATEGORY_LABEL } from "$lib/data/components";
-    import { suffixPatternOf, SUFFIX_LABEL, STANDALONE_ID } from "$lib/data/suffix-pattern";
+    import Header from "#lib/components/Header/Header.svelte";
+    import Footer from "#lib/components/Footer/Footer.svelte";
+    import BackLink from "#lib/components/BackLink/BackLink.svelte";
+    import { components, CATEGORY_LABEL } from "#lib/data/components.js";
+    import { suffixPatternOf, SUFFIX_LABEL, STANDALONE_ID } from "#lib/data/suffix-pattern.js";
 
     // Plan P6-T5: category + suffix-pattern filters alongside the
     // existing text search. Category comes from each component's own

@@ -47,7 +47,7 @@ An avatar indicator inside image such as a user photo.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import AvatarImage from "$lib/components/AvatarImage/AvatarImage.svelte";
+  import AvatarImage from "#lib/components/AvatarImage/AvatarImage.svelte";
 </script>
 
 <AvatarImage src="/photo.jpg" alt="Jane Doe" />

@@ -52,7 +52,7 @@ A picker button for selecting a red/amber/green status.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import RedAmberGreenPickerButton from "$lib/components/RedAmberGreenPickerButton/RedAmberGreenPickerButton.svelte";
+  import RedAmberGreenPickerButton from "#lib/components/RedAmberGreenPickerButton/RedAmberGreenPickerButton.svelte";
 </script>
 
 <RedAmberGreenPickerButton value="green" label="Green" onclick={handleSelect} />

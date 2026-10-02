@@ -56,7 +56,7 @@ A display of a start and end date range.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import DateRange from "$lib/components/DateRange/DateRange.svelte";
+  import DateRange from "#lib/components/DateRange/DateRange.svelte";
 </script>
 
 <DateRange label="Trip dates" startLabel="Departure" endLabel="Return" bind:start bind:end />

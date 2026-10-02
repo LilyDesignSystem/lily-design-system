@@ -57,7 +57,7 @@ A data table interactive grid for displaying and sorting tabular data <table>.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import DataTable from "$lib/components/DataTable/DataTable.svelte";
+  import DataTable from "#lib/components/DataTable/DataTable.svelte";
 </script>
 
 <DataTable label="User accounts">

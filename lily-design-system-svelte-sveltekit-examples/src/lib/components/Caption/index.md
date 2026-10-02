@@ -51,7 +51,7 @@ A caption for a table or figure element.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Caption from "$lib/components/Caption/Caption.svelte";
+  import Caption from "#lib/components/Caption/Caption.svelte";
 </script>
 
 <Caption>Photo of a sunset over the ocean.</Caption>

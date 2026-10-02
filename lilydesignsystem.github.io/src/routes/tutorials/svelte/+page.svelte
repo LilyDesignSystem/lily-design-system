@@ -42,7 +42,7 @@ pnpm run storybook   # browse all 491 components`}</code></pre>
   <h2>Step 2 — Your first component</h2>
   <!-- `<` + `script>` keeps the literal tag out of the Svelte compiler's view. -->
   <pre><code>{`<` + `script>
-  import Button from "$lib/components/Button/Button.svelte";
+  import Button from "#lib/components/Button/Button.svelte";
 
   function save() { console.log("saved"); }
 </` + `script>
@@ -58,10 +58,10 @@ pnpm run storybook   # browse all 491 components`}</code></pre>
 
   <h2>Step 3 — Compose a small form</h2>
   <pre><code>{`<` + `script>
-  import Form from "$lib/components/Form/Form.svelte";
-  import Field from "$lib/components/Field/Field.svelte";
-  import TextInput from "$lib/components/TextInput/TextInput.svelte";
-  import Button from "$lib/components/Button/Button.svelte";
+  import Form from "#lib/components/Form/Form.svelte";
+  import Field from "#lib/components/Field/Field.svelte";
+  import TextInput from "#lib/components/TextInput/TextInput.svelte";
+  import Button from "#lib/components/Button/Button.svelte";
 
   let name = $state("");
 </` + `script>

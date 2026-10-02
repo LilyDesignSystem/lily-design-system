@@ -55,7 +55,7 @@ A callout box highlighting a warning message.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import WarningCallout from "$lib/components/WarningCallout/WarningCallout.svelte";
+  import WarningCallout from "#lib/components/WarningCallout/WarningCallout.svelte";
 </script>
 
 <WarningCallout label="Warning">...</WarningCallout>

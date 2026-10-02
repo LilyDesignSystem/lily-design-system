@@ -58,7 +58,7 @@ A form element for collecting and submitting user data.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Form from "$lib/components/Form/Form.svelte";
+  import Form from "#lib/components/Form/Form.svelte";
 </script>
 
 <Form label="Login" onsubmit={handleLogin}>{children}</Form>

@@ -51,7 +51,7 @@ A horizontal bar of tool actions.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ToolBar from "$lib/components/ToolBar/ToolBar.svelte";
+  import ToolBar from "#lib/components/ToolBar/ToolBar.svelte";
 </script>
 
 <ToolBar label="Editor tools">...</ToolBar>

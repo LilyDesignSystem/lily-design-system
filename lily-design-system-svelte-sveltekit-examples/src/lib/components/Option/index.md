@@ -52,7 +52,7 @@ An option element within a select dropdown.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Option from "$lib/components/Option/Option.svelte";
+  import Option from "#lib/components/Option/Option.svelte";
 </script>
 
 <Option value="us">United States</Option>

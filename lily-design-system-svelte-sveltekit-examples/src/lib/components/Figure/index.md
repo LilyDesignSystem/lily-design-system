@@ -56,7 +56,7 @@ A self-contained figure with optional caption.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Figure from "$lib/components/Figure/Figure.svelte";
+  import Figure from "#lib/components/Figure/Figure.svelte";
 </script>
 
 <Figure label="Monthly revenue">

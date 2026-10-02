@@ -49,7 +49,7 @@ An input for selecting a week and year <input type="week">.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import WeekInput from "$lib/components/WeekInput/WeekInput.svelte";
+  import WeekInput from "#lib/components/WeekInput/WeekInput.svelte";
 </script>
 
 <WeekInput label="Select week" bind:value />

@@ -46,7 +46,7 @@ A single-line text input field <input type="text"> with search capability.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import TextInputWithSearch from "$lib/components/TextInputWithSearch/TextInputWithSearch.svelte";
+  import TextInputWithSearch from "#lib/components/TextInputWithSearch/TextInputWithSearch.svelte";
 </script>
 
 <TextInputWithSearch label="Site search" onsearch={handleSearch} bind:value />

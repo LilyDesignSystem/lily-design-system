@@ -38,7 +38,7 @@ A calendar table interactive grid thead for managing dates, days, etc. <thead>.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import CalendarTableHead from "$lib/components/CalendarTableHead/CalendarTableHead.svelte";
+  import CalendarTableHead from "#lib/components/CalendarTableHead/CalendarTableHead.svelte";
 </script>
 
 <CalendarTableHead>

@@ -52,7 +52,7 @@ A button that copies text to the clipboard.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ClipboardCopyButton from "$lib/components/ClipboardCopyButton/ClipboardCopyButton.svelte";
+  import ClipboardCopyButton from "#lib/components/ClipboardCopyButton/ClipboardCopyButton.svelte";
 </script>
 
 <ClipboardCopyButton text="https://example.com" label="Copy link" />

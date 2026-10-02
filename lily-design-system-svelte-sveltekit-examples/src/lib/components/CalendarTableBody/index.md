@@ -41,7 +41,7 @@ A calendar table interactive grid tbody for managing dates, days, etc. <tbody>.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import CalendarTableBody from "$lib/components/CalendarTableBody/CalendarTableBody.svelte";
+  import CalendarTableBody from "#lib/components/CalendarTableBody/CalendarTableBody.svelte";
 </script>
 
 <CalendarTableBody>

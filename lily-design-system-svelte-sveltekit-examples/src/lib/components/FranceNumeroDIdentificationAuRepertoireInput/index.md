@@ -52,7 +52,7 @@ An input for entering a France numéro d'identification au répertoire (NIR) uni
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import FranceNumeroDIdentificationAuRepertoireInput from "$lib/components/FranceNumeroDIdentificationAuRepertoireInput/FranceNumeroDIdentificationAuRepertoireInput.svelte";
+  import FranceNumeroDIdentificationAuRepertoireInput from "#lib/components/FranceNumeroDIdentificationAuRepertoireInput/FranceNumeroDIdentificationAuRepertoireInput.svelte";
 </script>
 
 <FranceNumeroDIdentificationAuRepertoireInput label="NIR" bind:value />

@@ -52,7 +52,7 @@ An contents ordered list of contents list item components.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ContentsList from "$lib/components/ContentsList/ContentsList.svelte";
+  import ContentsList from "#lib/components/ContentsList/ContentsList.svelte";
 </script>
 
 <ContentsList>

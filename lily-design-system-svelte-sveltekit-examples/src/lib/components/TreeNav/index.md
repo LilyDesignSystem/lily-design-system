@@ -52,7 +52,7 @@ A hierarchical navigation with expandable branches.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import TreeNav from "$lib/components/TreeNav/TreeNav.svelte";
+  import TreeNav from "#lib/components/TreeNav/TreeNav.svelte";
 </script>
 
 <TreeNav label="Navigation">...</TreeNav>

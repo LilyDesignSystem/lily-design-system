@@ -48,7 +48,7 @@ A read-only display of a France numéro d'identification au répertoire (NIR) un
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import FranceNumeroDIdentificationAuRepertoireView from "$lib/components/FranceNumeroDIdentificationAuRepertoireView/FranceNumeroDIdentificationAuRepertoireView.svelte";
+  import FranceNumeroDIdentificationAuRepertoireView from "#lib/components/FranceNumeroDIdentificationAuRepertoireView/FranceNumeroDIdentificationAuRepertoireView.svelte";
 </script>
 
 <FranceNumeroDIdentificationAuRepertoireView label="NIR" value="1 85 05 75 012 345 67" />

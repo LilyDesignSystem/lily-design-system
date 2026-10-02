@@ -41,7 +41,7 @@ A data table interactive grid tfoot for displaying and sorting tabular data <tfo
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import DataTableFoot from "$lib/components/DataTableFoot/DataTableFoot.svelte";
+  import DataTableFoot from "#lib/components/DataTableFoot/DataTableFoot.svelte";
 </script>
 
 <DataTableFoot>

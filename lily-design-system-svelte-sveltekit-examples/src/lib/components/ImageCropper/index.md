@@ -58,7 +58,7 @@ A container for cropping and resizing an image to a selected region.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ImageCropper from "$lib/components/ImageCropper/ImageCropper.svelte";
+  import ImageCropper from "#lib/components/ImageCropper/ImageCropper.svelte";
 </script>
 
 <ImageCropper label="Crop your profile photo">

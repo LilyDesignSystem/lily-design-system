@@ -55,7 +55,7 @@ A generic HTML input element.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Input from "$lib/components/Input/Input.svelte";
+  import Input from "#lib/components/Input/Input.svelte";
 </script>
 
 <Input label="Search" bind:value />

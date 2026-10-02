@@ -51,7 +51,7 @@ A single-line text input field <input type="text">.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import TextInput from "$lib/components/TextInput/TextInput.svelte";
+  import TextInput from "#lib/components/TextInput/TextInput.svelte";
 </script>
 
 <TextInput label="Full name" bind:value />

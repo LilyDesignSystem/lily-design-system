@@ -48,7 +48,7 @@ A read-only display of a UK NHS number.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import UnitedKingdomNationalHealthServiceNumberView from "$lib/components/UnitedKingdomNationalHealthServiceNumberView/UnitedKingdomNationalHealthServiceNumberView.svelte";
+  import UnitedKingdomNationalHealthServiceNumberView from "#lib/components/UnitedKingdomNationalHealthServiceNumberView/UnitedKingdomNationalHealthServiceNumberView.svelte";
 </script>
 
 <UnitedKingdomNationalHealthServiceNumberView label="NHS Number" value="123 456 7890" />

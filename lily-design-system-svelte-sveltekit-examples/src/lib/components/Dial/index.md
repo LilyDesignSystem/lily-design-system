@@ -53,7 +53,7 @@ A rotary dial control for selecting a value.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Dial from "$lib/components/Dial/Dial.svelte";
+  import Dial from "#lib/components/Dial/Dial.svelte";
 </script>
 
 <Dial label="Volume" bind:value min={0} max={100} />

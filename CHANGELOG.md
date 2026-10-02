@@ -9,6 +9,56 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## SvelteKit 3, and every open Dependabot alert resolved — 2026-10-02
+
+**SvelteKit 2 → 3** in the four Svelte subprojects that depend on it
+(svelte-sveltekit-examples, the docs site, svelte-headless, and
+svelte-theme-picker's example), started with `sv migrate sveltekit-3`
+and finished by hand. Config moves from `svelte.config.js` into the
+`sveltekit()` Vite plugin, `$lib` becomes a `#lib` subpath import, and
+tsconfig extends `$app/tsconfig`. The tool's output needed four
+corrections:
+
+- It pinned prerelease ranges (`^3.0.0-next.0`), and its lockfiles
+  resolved `@sveltejs/kit@3.0.0-next.31`; now stable `^3.0.0` /
+  adapter-auto `^8.0.0` / adapter-static `^4.0.0`.
+- SvelteKit 3 needs `cookie@^2.0.1`, but four `pnpm-workspace.yaml`
+  files still forced `cookie@0.7.2` (a GHSA-pxg6-pf52-xh8x workaround
+  for SvelteKit 2's hard `^0.6.0` pin). The overrides are removed; 2.x
+  is past that fix anyway.
+- svelte-headless is a plain Svelte library, not a SvelteKit app: the
+  tool deleted the `svelte.config.js` its `@sveltejs/package` build
+  still reads, and added a `sveltekit()` plugin beside the existing
+  `svelte()` one. Both reverted; svelte raised to `^5.57.1`.
+- `#lib` import maps were added to svelte-headless and
+  svelte-theme-picker, which have no `src/lib/index.js`; removed.
+
+One real behaviour change surfaced only in a browser: LocalePicker fires
+`onChange` once on mount with the page's own locale, and the docs site's
+handler called `goto('/locales/<code>/')` unconditionally. SvelteKit 2
+silently dropped a `goto` made before its router was initialised;
+SvelteKit 3 performs it, so every non-locale page redirected to
+`/locales/en-001/` on load (about 280 of the site's 2,025 Playwright
+tests failed). `SitePreferences.svelte` now navigates only when the
+chosen locale differs from the page's.
+
+**Dependabot.** All 104 open alerts across 20 lockfiles are resolved and
+the 30 open PRs are superseded: their version floors were applied
+directly and every lockfile refreshed within its ranges (the non-Svelte
+half landed separately in `a9d840d96`). Two needed overrides because no
+in-range fix exists: `serialize-javascript` 7.1.2 (mocha still asks for
+^6), and `webpack-dev-middleware` ^7.4.6 under
+`@storybook/builder-webpack5`, whose latest release still requires the
+never-patched 6.x line.
+
+Verified: svelte-headless 5,233 tests + build; svelte-helpers 359;
+svelte-sveltekit-examples 2,505 unit + build + 36 Playwright (pickers,
+theme switching, accessibility); docs site `svelte-check` 0 errors and
+2,025/2,025 Playwright. svelte-sveltekit-examples' type-check reports 679
+errors, but they predate the migration (678 at HEAD; the +1 is the
+existing `GanttTableTR.svelte` / `GanttTableTr.svelte` casing clash now
+reported from both files).
+
 ## React/Vue/Angular helpers: `*-headless` range widened to `^0.2.0` — 2026-10-01
 
 The same defect the Svelte catalog fixed in its pickers' 0.1.2,

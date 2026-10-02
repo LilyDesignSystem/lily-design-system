@@ -51,7 +51,7 @@ A small popup showing descriptive text on hover or focus.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Tooltip from "$lib/components/Tooltip/Tooltip.svelte";
+  import Tooltip from "#lib/components/Tooltip/Tooltip.svelte";
 </script>
 
 <Tooltip id="tip" label="Additional info" bind:visible={showTip} />

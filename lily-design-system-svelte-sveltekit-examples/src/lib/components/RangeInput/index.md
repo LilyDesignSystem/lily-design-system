@@ -54,7 +54,7 @@ A slider input for selecting a value within a range <input type="range">.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import RangeInput from "$lib/components/RangeInput/RangeInput.svelte";
+  import RangeInput from "#lib/components/RangeInput/RangeInput.svelte";
 </script>
 
 <RangeInput label="Volume" bind:value />

@@ -58,7 +58,7 @@ A medical care instruction card with urgency levels.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import CareCard from "$lib/components/CareCard/CareCard.svelte";
+  import CareCard from "#lib/components/CareCard/CareCard.svelte";
 </script>
 
 <CareCard heading="See a GP if:">

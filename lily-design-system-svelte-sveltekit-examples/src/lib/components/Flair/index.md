@@ -49,7 +49,7 @@ A decorative highlight or emphasis element.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Flair from "$lib/components/Flair/Flair.svelte";
+  import Flair from "#lib/components/Flair/Flair.svelte";
 </script>
 
 <Flair>New</Flair>

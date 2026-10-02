@@ -1,8 +1,8 @@
 <script lang="ts">
   import { page } from '$app/state';
-  import SitePreferences from '$lib/components/SitePreferences.svelte';
-  import { ui } from '$lib/i18n';
-  import { DEFAULT_LOCALE, LOCALE_LABELS, bcp47Tag, isRtl } from '$lib/locales';
+  import SitePreferences from '#lib/components/SitePreferences.svelte';
+  import { ui } from '#lib/i18n.js';
+  import { DEFAULT_LOCALE, LOCALE_LABELS, bcp47Tag, isRtl } from '#lib/locales.js';
 
   let { children } = $props();
 

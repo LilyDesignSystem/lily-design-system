@@ -58,7 +58,7 @@ A Gantt chart table interactive grid row for planning schedule visualization <tr
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import GanttTableTR from "$lib/components/GanttTableTR/GanttTableTR.svelte";
+  import GanttTableTR from "#lib/components/GanttTableTR/GanttTableTR.svelte";
 </script>
 
 <GanttTableTR>

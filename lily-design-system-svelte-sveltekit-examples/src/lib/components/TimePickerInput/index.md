@@ -49,7 +49,7 @@ An input with a dropdown for picking a time.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import TimePickerInput from "$lib/components/TimePickerInput/TimePickerInput.svelte";
+  import TimePickerInput from "#lib/components/TimePickerInput/TimePickerInput.svelte";
 </script>
 
 <TimePickerInput label="Appointment time" bind:value />

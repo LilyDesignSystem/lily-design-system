@@ -53,7 +53,7 @@ A select dropdown for choosing a theme.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ThemeSelect from "$lib/components/ThemeSelect/ThemeSelect.svelte";
+  import ThemeSelect from "#lib/components/ThemeSelect/ThemeSelect.svelte";
 </script>
 
 <ThemeSelect label="Theme" bind:value>...</ThemeSelect>

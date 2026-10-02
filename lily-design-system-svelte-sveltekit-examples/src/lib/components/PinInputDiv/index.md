@@ -56,7 +56,7 @@ A series of single-digit inputs for entering a PIN or OTP code.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import PinInputDiv from "$lib/components/PinInputDiv/PinInputDiv.svelte";
+  import PinInputDiv from "#lib/components/PinInputDiv/PinInputDiv.svelte";
 </script>
 
 <PinInputDiv label="Enter PIN" bind:value />

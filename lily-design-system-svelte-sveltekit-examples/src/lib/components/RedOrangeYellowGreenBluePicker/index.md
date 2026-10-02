@@ -49,7 +49,7 @@ A picker for selecting a five-level color status.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import RedOrangeYellowGreenBluePicker from "$lib/components/RedOrangeYellowGreenBluePicker/RedOrangeYellowGreenBluePicker.svelte";
+  import RedOrangeYellowGreenBluePicker from "#lib/components/RedOrangeYellowGreenBluePicker/RedOrangeYellowGreenBluePicker.svelte";
 </script>
 
 <RedOrangeYellowGreenBluePicker label="Risk level" bind:value={level} />

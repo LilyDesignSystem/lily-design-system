@@ -52,7 +52,7 @@ A picker for selecting a date range on a calendar.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import CalendarRangePicker from "$lib/components/CalendarRangePicker/CalendarRangePicker.svelte";
+  import CalendarRangePicker from "#lib/components/CalendarRangePicker/CalendarRangePicker.svelte";
 </script>
 
 <CalendarRangePicker label="Select dates">

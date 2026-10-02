@@ -65,7 +65,7 @@ A status message for important information or feedback.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Alert from "$lib/components/Alert/Alert.svelte";
+  import Alert from "#lib/components/Alert/Alert.svelte";
 </script>
 
 <Alert>Message</Alert>

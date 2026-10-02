@@ -40,7 +40,7 @@ A calendar table interactive grid tfoot for managing dates, days, etc. <tfoot>.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import CalendarTableFoot from "$lib/components/CalendarTableFoot/CalendarTableFoot.svelte";
+  import CalendarTableFoot from "#lib/components/CalendarTableFoot/CalendarTableFoot.svelte";
 </script>
 
 <CalendarTableFoot>

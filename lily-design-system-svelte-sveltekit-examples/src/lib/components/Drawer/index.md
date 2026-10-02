@@ -56,7 +56,7 @@ A panel that slides in from the edge of the screen.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Drawer from "$lib/components/Drawer/Drawer.svelte";
+  import Drawer from "#lib/components/Drawer/Drawer.svelte";
 </script>
 
 <Drawer label="Nav" bind:open side="left">Content</Drawer>

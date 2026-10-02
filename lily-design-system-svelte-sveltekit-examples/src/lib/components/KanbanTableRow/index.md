@@ -47,7 +47,7 @@ A kanban board table interactive grid row for organizing items by status <tr>.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import KanbanTableRow from "$lib/components/KanbanTableRow/KanbanTableRow.svelte";
+  import KanbanTableRow from "#lib/components/KanbanTableRow/KanbanTableRow.svelte";
 </script>
 
 <KanbanTableRow><KanbanTableTD>Task</KanbanTableTD></KanbanTableRow>

@@ -56,7 +56,7 @@ A drawing area for capturing a handwritten signature.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import SignaturePad from "$lib/components/SignaturePad/SignaturePad.svelte";
+  import SignaturePad from "#lib/components/SignaturePad/SignaturePad.svelte";
 </script>
 
 <SignaturePad label="Sign here">

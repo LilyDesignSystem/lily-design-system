@@ -50,7 +50,7 @@ An input for entering a Tuaisceart Eireann Health and Care (H&C) Number unique n
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import NorthernIrelandHealthAndCareNumberInput from "$lib/components/NorthernIrelandHealthAndCareNumberInput/NorthernIrelandHealthAndCareNumberInput.svelte";
+  import NorthernIrelandHealthAndCareNumberInput from "#lib/components/NorthernIrelandHealthAndCareNumberInput/NorthernIrelandHealthAndCareNumberInput.svelte";
 </script>
 
 <NorthernIrelandHealthAndCareNumberInput label="H&C Number" bind:value />

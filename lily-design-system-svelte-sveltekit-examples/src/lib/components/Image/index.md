@@ -54,7 +54,7 @@ An image element with alt text.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Image from "$lib/components/Image/Image.svelte";
+  import Image from "#lib/components/Image/Image.svelte";
 </script>
 
 <Image src="/photo.jpg" alt="Description" />

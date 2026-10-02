@@ -53,7 +53,7 @@ A file browser for navigating and managing files.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import FileManager from "$lib/components/FileManager/FileManager.svelte";
+  import FileManager from "#lib/components/FileManager/FileManager.svelte";
 </script>
 
 <FileManager label="Project files">Content</FileManager>

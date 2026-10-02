@@ -47,7 +47,7 @@ A calendar table interactive grid for managing dates, days, etc. <table>.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import CalendarTable from "$lib/components/CalendarTable/CalendarTable.svelte";
+  import CalendarTable from "#lib/components/CalendarTable/CalendarTable.svelte";
 </script>
 
 <CalendarTable label="January 2025">

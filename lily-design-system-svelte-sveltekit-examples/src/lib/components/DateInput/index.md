@@ -53,7 +53,7 @@ An input for entering a date value <input type="date">.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import DateInput from "$lib/components/DateInput/DateInput.svelte";
+  import DateInput from "#lib/components/DateInput/DateInput.svelte";
 </script>
 
 <DateInput label="Birth date" bind:value />

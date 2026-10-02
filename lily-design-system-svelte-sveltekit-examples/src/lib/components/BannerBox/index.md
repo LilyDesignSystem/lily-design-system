@@ -50,7 +50,7 @@ A banner box that is inside a banner component, using flexbox horizontal.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import BannerBox from "$lib/components/BannerBox/BannerBox.svelte";
+  import BannerBox from "#lib/components/BannerBox/BannerBox.svelte";
 </script>
 
 <BannerBox>content</BannerBox>

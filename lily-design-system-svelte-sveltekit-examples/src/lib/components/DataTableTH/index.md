@@ -40,7 +40,7 @@ A data table interactive grid column for displaying and sorting tabular data <th
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import DataTableTD from "$lib/components/DataTableTD/DataTableTD.svelte";
+  import DataTableTD from "#lib/components/DataTableTD/DataTableTD.svelte";
 </script>
 
 <colgroup>

@@ -56,7 +56,7 @@ A page or section footer area.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Footer from "$lib/components/Footer/Footer.svelte";
+  import Footer from "#lib/components/Footer/Footer.svelte";
 </script>
 
 <Footer label="Site footer">{children}</Footer>

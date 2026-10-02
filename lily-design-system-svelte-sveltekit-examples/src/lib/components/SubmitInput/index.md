@@ -49,7 +49,7 @@ A button input that submits a form <input type="submit">.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import SubmitInput from "$lib/components/SubmitInput/SubmitInput.svelte";
+  import SubmitInput from "#lib/components/SubmitInput/SubmitInput.svelte";
 </script>
 
 <SubmitInput />

@@ -49,7 +49,7 @@ One check list item component with a checkbox.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import CheckListItem from "$lib/components/CheckListItem/CheckListItem.svelte";
+  import CheckListItem from "#lib/components/CheckListItem/CheckListItem.svelte";
 </script>
 
 <CheckListItem>Task one</CheckListItem>

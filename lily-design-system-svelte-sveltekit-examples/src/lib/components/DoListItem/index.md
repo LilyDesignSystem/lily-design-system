@@ -61,7 +61,7 @@ An encouraged-practice item in a do-list guideline list.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import DoListItem from "$lib/components/DoListItem/DoListItem.svelte";
+  import DoListItem from "#lib/components/DoListItem/DoListItem.svelte";
 </script>
 
 <DoListItem>Use semantic HTML elements</DoListItem>

@@ -41,7 +41,7 @@ A Gantt chart table interactive grid tbody for planning schedule visualization <
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import GanttTableBody from "$lib/components/GanttTableBody/GanttTableBody.svelte";
+  import GanttTableBody from "#lib/components/GanttTableBody/GanttTableBody.svelte";
 </script>
 
 <GanttTableBody>

@@ -57,7 +57,7 @@ An ordered list of tour guide steps.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import TourList from "$lib/components/TourList/TourList.svelte";
+  import TourList from "#lib/components/TourList/TourList.svelte";
 </script>
 
 <TourList label="Getting started" bind:active>...</TourList>

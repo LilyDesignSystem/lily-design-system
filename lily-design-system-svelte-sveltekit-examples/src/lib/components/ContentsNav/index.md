@@ -56,7 +56,7 @@ A contents navigation area.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ContentsNav from "$lib/components/ContentsNav/ContentsNav.svelte";
+  import ContentsNav from "#lib/components/ContentsNav/ContentsNav.svelte";
 </script>
 
 <ContentsNav label="Contents">

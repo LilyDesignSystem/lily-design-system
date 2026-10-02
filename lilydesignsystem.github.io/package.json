@@ -15,18 +15,18 @@
   },
   "dependencies": {
     "@lilydesignsystem/svelte-picker-bar": "^0.1.0",
-    "@lilydesignsystem/svelte-share-picker": "^0.1.0"
+    "@lilydesignsystem/svelte-share-picker": "^0.1.2"
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",
-    "@sveltejs/adapter-static": "^3.0.10",
-    "@sveltejs/kit": "^2.70.3",
-    "@sveltejs/vite-plugin-svelte": "^7.3.0",
-    "marked": "^18.0.13",
+    "@sveltejs/adapter-static": "^4.0.0",
+    "@sveltejs/kit": "^3.0.0",
+    "@sveltejs/vite-plugin-svelte": "^7.3.1",
+    "marked": "^18.0.14",
     "svelte": "^5.57.1",
     "svelte-check": "^4.7.6",
-    "typescript": "^5.9.3",
-    "vite": "^8.3.0"
+    "typescript": "^6.0.3",
+    "vite": "^8.3.1"
   },
   "license": "MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause",
   "author": "Joel Parker Henderson <joel@joelparkerhenderson.com>",
@@ -37,5 +37,9 @@
   "homepage": "https://lilydesignsystem.com/",
   "bugs": {
     "url": "https://github.com/LilyDesignSystem/lily-design-system/issues"
+  },
+  "imports": {
+    "#lib": "./src/lib/index.js",
+    "#lib/*": "./src/lib/*"
   }
 }

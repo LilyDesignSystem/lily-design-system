@@ -51,7 +51,7 @@ A group of radio buttons for selecting one option.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import RadioGroup from "$lib/components/RadioGroup/RadioGroup.svelte";
+  import RadioGroup from "#lib/components/RadioGroup/RadioGroup.svelte";
 </script>
 
 <RadioGroup label="Size">{children}</RadioGroup>

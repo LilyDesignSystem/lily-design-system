@@ -58,7 +58,7 @@ A toast notification manager.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Sonner from "$lib/components/Sonner/Sonner.svelte";
+  import Sonner from "#lib/components/Sonner/Sonner.svelte";
 </script>
 
 <Sonner label="Notifications">

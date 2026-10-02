@@ -42,7 +42,7 @@ A Gantt chart table interactive grid column for planning schedule visualization 
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import GanttTableTH from "$lib/components/GanttTableTH/GanttTableTH.svelte";
+  import GanttTableTH from "#lib/components/GanttTableTH/GanttTableTH.svelte";
 </script>
 
 <colgroup>

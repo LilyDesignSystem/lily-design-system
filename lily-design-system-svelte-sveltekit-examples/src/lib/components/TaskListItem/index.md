@@ -56,7 +56,7 @@ One task item with a checkbox and label.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import TaskListItem from "$lib/components/TaskListItem/TaskListItem.svelte";
+  import TaskListItem from "#lib/components/TaskListItem/TaskListItem.svelte";
 </script>
 
 <TaskListItem label="Buy groceries" />

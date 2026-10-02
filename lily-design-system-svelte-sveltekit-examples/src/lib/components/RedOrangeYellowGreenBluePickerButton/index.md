@@ -51,7 +51,7 @@ A picker button for selecting a five-level color status.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import RedOrangeYellowGreenBluePickerButton from "$lib/components/RedOrangeYellowGreenBluePickerButton/RedOrangeYellowGreenBluePickerButton.svelte";
+  import RedOrangeYellowGreenBluePickerButton from "#lib/components/RedOrangeYellowGreenBluePickerButton/RedOrangeYellowGreenBluePickerButton.svelte";
 </script>
 
 <RedOrangeYellowGreenBluePickerButton value="green" label="Green" onclick={handleSelect} />

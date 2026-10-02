@@ -49,7 +49,7 @@ A single emoji character with accessible name.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Emoji from "$lib/components/Emoji/Emoji.svelte";
+  import Emoji from "#lib/components/Emoji/Emoji.svelte";
 </script>
 
 <Emoji emoji="👍" label="Thumbs up" />

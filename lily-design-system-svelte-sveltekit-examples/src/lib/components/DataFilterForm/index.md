@@ -55,7 +55,7 @@ A form for filtering data by criteria.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import DataFilterForm from "$lib/components/DataFilterForm/DataFilterForm.svelte";
+  import DataFilterForm from "#lib/components/DataFilterForm/DataFilterForm.svelte";
 </script>
 
 <DataFilterForm label="Filter results" onsubmit={applyFilters}>

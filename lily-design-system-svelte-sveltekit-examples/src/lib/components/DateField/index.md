@@ -54,7 +54,7 @@ A structured field for entering date components.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import DateField from "$lib/components/DateField/DateField.svelte";
+  import DateField from "#lib/components/DateField/DateField.svelte";
 </script>
 
 <DateField label="Start date" bind:value />

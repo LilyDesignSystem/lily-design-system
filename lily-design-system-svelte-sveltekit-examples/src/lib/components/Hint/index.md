@@ -51,7 +51,7 @@ Hint text providing guidance for a form field.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Hint from "$lib/components/Hint/Hint.svelte";
+  import Hint from "#lib/components/Hint/Hint.svelte";
 </script>
 
 <Hint id="email-hint">Enter your work email</Hint>

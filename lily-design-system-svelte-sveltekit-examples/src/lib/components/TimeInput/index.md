@@ -49,7 +49,7 @@ An input for entering a time value <input type="time">.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import TimeInput from "$lib/components/TimeInput/TimeInput.svelte";
+  import TimeInput from "#lib/components/TimeInput/TimeInput.svelte";
 </script>
 
 <TimeInput label="Start time" bind:value />

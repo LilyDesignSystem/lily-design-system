@@ -48,7 +48,7 @@ A horizontal or vertical divider between content sections.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import Separator from "$lib/components/Separator/Separator.svelte";
+  import Separator from "#lib/components/Separator/Separator.svelte";
 </script>
 
 <Separator />
