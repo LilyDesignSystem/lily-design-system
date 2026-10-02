@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
-import Card from "@pgds/Card";
+import Card from "@lily/Card";
 
 describe("Card", () => {
     test("renders card content", () => {

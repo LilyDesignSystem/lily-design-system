@@ -1,6 +1,6 @@
 # Gantt Table TH
 
-A Gantt table col is a column header cell in a GanttTable. It renders a `<th scope="col">` element and is intended to live inside a GanttTableTR within GanttTableHead, where it labels a time-period column (day, week, month, milestone, etc.).
+A Gantt table col is a column header cell in a GanttTable. It renders a `<th scope="col">` element and is intended to live inside a GanttTableTr within GanttTableHead, where it labels a time-period column (day, week, month, milestone, etc.).
 
 **Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
 
@@ -25,20 +25,20 @@ A Gantt table col is a column header cell in a GanttTable. It renders a `<th sco
 ```html
 <GanttTable label="Q1 2026 schedule">
   <GanttTableHead>
-    <GanttTableTR>
+    <GanttTableTr>
       <GanttTableTH>Task</GanttTableTH>
       <GanttTableTH>Jan</GanttTableTH>
       <GanttTableTH>Feb</GanttTableTH>
       <GanttTableTH>Mar</GanttTableTH>
-    </GanttTableTR>
+    </GanttTableTr>
   </GanttTableHead>
   <GanttTableBody>
-    <GanttTableTR>
+    <GanttTableTr>
       <th scope="row">Design phase</th>
       <GanttTableTD active>████</GanttTableTD>
       <GanttTableTD></GanttTableTD>
       <GanttTableTD></GanttTableTD>
-    </GanttTableTR>
+    </GanttTableTr>
   </GanttTableBody>
 </GanttTable>
 ```
@@ -81,7 +81,7 @@ The consumer provides all CSS styling. The component renders with a `.gantt-tabl
 ## Advice
 
 - **Designers**: Use consistent column widths for time-period columns to create a uniform grid.
-- **Developers**: Place GanttTableTH elements inside a GanttTableTR within GanttTableHead.
+- **Developers**: Place GanttTableTH elements inside a GanttTableTr within GanttTableHead.
 
 ## Related components
 

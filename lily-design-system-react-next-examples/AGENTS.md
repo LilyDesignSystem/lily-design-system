@@ -24,8 +24,7 @@ React 19 + Next.js 15 example application demonstrating the Lily Design System h
 
 - React 19 with TypeScript and Next.js 15 App Router
 - All example pages use `"use client"` directive (interactive components need client rendering)
-- Components imported from headless library via `@pgds/*` path alias
-- Wrapper components in `components/` re-export from headless library for local imports
+- Components live in this app's own `components/` directory (copies of the react-headless catalog, so this subtree builds standalone) and are imported via the `@lily/*` path alias
 - Component styling comes from the runtime theme stylesheet (a managed `<link data-lily-theme-picker>` the theme-picker helper swaps among `/themes/*.css`, default NHS England for patients); `assets/css/app-shell.css` keeps only the fixed app-shell chrome (skip-link, page-wrapper, site-header) that no theme should style
 - `typescript.ignoreBuildErrors: true` in next.config.ts (headless lib `[key: string]: unknown` rest props conflict with Next.js strict ReactNode typing)
 
@@ -34,28 +33,18 @@ React 19 + Next.js 15 example application demonstrating the Lily Design System h
 ```json
 {
   "@/*": ["./*"],
-  "@pgds/*": ["../lily-design-system-react-headless/components/*"]
+  "@lily/*": ["./components/*"]
 }
 ```
 
 ### Component Integration
 
 ```tsx
-// Import directly from headless library
-import Button from "@pgds/Button";
-
-// Or import from local wrapper
-import Button from "@/components/Button";
+import Button from "@lily/Button";
 ```
 
-### Wrapper Component Pattern
-
-Each wrapper in `components/` is a thin re-export:
-
-```tsx
-export { default } from "@pgds/Button";
-export type * from "@pgds/Button";
-```
+vitest.config.ts declares the same `@lily` alias, so pages and tests
+resolve components identically.
 
 ## Testing
 

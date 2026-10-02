@@ -2,7 +2,7 @@
 
 ## Overview
 
-A single cell within a GanttTableTR representing a time period in the
+A single cell within a GanttTableTr representing a time period in the
 Gantt table grid. Renders as a <td> with role="gridcell". Supports an
 active state to indicate the task spans this time period, communicated
 via aria-selected for screen readers.

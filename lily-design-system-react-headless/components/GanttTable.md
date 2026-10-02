@@ -2,7 +2,7 @@
 
 An interactive Gantt table that displays project tasks and their timelines as a structured grid widget. Renders a `<table>` element with `role="grid"` and an accessible label. Supports an optional visible caption. Commonly used in project management tools and resource planning applications.
 
-Compound component: use with GanttTableHead, GanttTableBody, GanttTableTfoot, GanttTableTR, GanttTableTD, and GanttTableTH.
+Compound component: use with GanttTableHead, GanttTableBody, GanttTableTfoot, GanttTableTr, GanttTableTD, and GanttTableTH.
 
 ## Props
 
@@ -16,23 +16,23 @@ Compound component: use with GanttTableHead, GanttTableBody, GanttTableTfoot, Ga
 ```tsx
 <GanttTable label="Project Alpha timeline">
   <GanttTableHead>
-    <GanttTableTR>
+    <GanttTableTr>
       <th>Task</th><th>Week 1</th><th>Week 2</th><th>Week 3</th>
-    </GanttTableTR>
+    </GanttTableTr>
   </GanttTableHead>
   <GanttTableBody>
-    <GanttTableTR>
+    <GanttTableTr>
       <th>Design</th>
       <GanttTableTD active>---</GanttTableTD>
       <GanttTableTD />
       <GanttTableTD />
-    </GanttTableTR>
-    <GanttTableTR>
+    </GanttTableTr>
+    <GanttTableTr>
       <th>Development</th>
       <GanttTableTD />
       <GanttTableTD active>---</GanttTableTD>
       <GanttTableTD active>---</GanttTableTD>
-    </GanttTableTR>
+    </GanttTableTr>
   </GanttTableBody>
 </GanttTable>
 ```

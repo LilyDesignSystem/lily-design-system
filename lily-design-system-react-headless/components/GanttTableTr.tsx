@@ -10,25 +10,25 @@
 //   ...restProps — additional HTML attributes spread onto the <tr>.
 //
 // Syntax:
-//   <GanttTableTR>
+//   <GanttTableTr>
 //     <th>Design</th>
 //     <GanttTableTD active>---</GanttTableTD>
 //     <GanttTableTD />
-//   </GanttTableTR>
+//   </GanttTableTr>
 //
 // Examples:
 //   
-//   <GanttTableTR>
+//   <GanttTableTr>
 //     <th>Development</th>
 //     <GanttTableTD />
 //     <GanttTableTD active>---</GanttTableTD>
 //     <GanttTableTD active>---</GanttTableTD>
-//   </GanttTableTR>
+//   </GanttTableTr>
 //
 //   
-//   <GanttTableTR>
+//   <GanttTableTr>
 //     <th>Task</th><th>Week 1</th><th>Week 2</th><th>Week 3</th>
-//   </GanttTableTR>
+//   </GanttTableTr>
 //
 // Keyboard:
 //   None built-in — keyboard navigation is handled at the GanttTable grid level.
@@ -56,7 +56,7 @@ export interface GanttTableTrProps {
     [key: string]: unknown;
 }
 
-export default function GanttTableTR({
+export default function GanttTableTr({
     className = "",
     children,
     ...restProps

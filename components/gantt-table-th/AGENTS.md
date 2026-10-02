@@ -18,7 +18,7 @@
 ## Key Behaviors
 
 - Renders as a `<th>` element with `scope="col"` by default
-- Intended to live inside a GanttTableTR within GanttTableHead, where it labels a time-period column
+- Intended to live inside a GanttTableTr within GanttTableHead, where it labels a time-period column
 - Accepts optional `colspan` / `rowspan` for grouped header cells
 - Accepts an alternative `scope` (e.g. `"colgroup"` for grouped headers)
 - Renders header text via children

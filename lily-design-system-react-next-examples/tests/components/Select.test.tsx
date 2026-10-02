@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
-import Select from "@pgds/Select";
-import Option from "@pgds/Option";
+import Select from "@lily/Select";
+import Option from "@lily/Option";
 
 describe("Select", () => {
     test("renders a combobox", () => {

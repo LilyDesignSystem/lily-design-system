@@ -37,12 +37,11 @@ skill gives real, not just pointer-level, coverage.
   because the headless library's `[key: string]: unknown` rest-props
   typing conflicts with Next's strict `ReactNode` typing — a known,
   deliberate accommodation, not a defect to fix.
-- **Component wiring**: components are imported from the headless
-  library through a `@pgds/*` path alias
-  (`../lily-design-system-react-headless/components/*`); each of the
-  490 wrapper components under `components/` is a thin re-export
-  (`export { default } from "@pgds/Button"`) so example pages can also
-  import locally via `@/components/*`.
+- **Component wiring**: components live in the app's own
+  `components/` directory as real copies of the react-headless catalog
+  (so the standalone subtree repo builds on its own) and are imported
+  through a `@lily/*` path alias (`./components/*`), declared in both
+  `tsconfig.json` and `vitest.config.ts`.
 - **Styling**: NHS UK design system colours, typography, spacing, and
   focus states — the same default visual reference every Lily example
   app uses — served as a runtime theme stylesheet (a managed

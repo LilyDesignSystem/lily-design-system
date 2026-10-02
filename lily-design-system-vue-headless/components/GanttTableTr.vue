@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-    // GanttTableTR component
+    // GanttTableTr component
     //
     // A single row within a GanttTable grid. Renders as a <tr> containing
     // GanttTableTD cells for each time period and task header cells.
@@ -12,25 +12,25 @@
     //   ...restProps — additional HTML attributes spread onto the <tr>.
     //
     // Syntax:
-    //   <GanttTableTR>
+    //   <GanttTableTr>
     //     <th>Design</th>
     //     <GanttTableTD active>---</GanttTableTD>
     //     <GanttTableTD />
-    //   </GanttTableTR>
+    //   </GanttTableTr>
     //
     // Examples:
     //   <!-- Task row with active time periods -->
-    //   <GanttTableTR>
+    //   <GanttTableTr>
     //     <th>Development</th>
     //     <GanttTableTD />
     //     <GanttTableTD active>---</GanttTableTD>
     //     <GanttTableTD active>---</GanttTableTD>
-    //   </GanttTableTR>
+    //   </GanttTableTr>
     //
     //   <!-- Header row with time period labels -->
-    //   <GanttTableTR>
+    //   <GanttTableTr>
     //     <th>Task</th><th>Week 1</th><th>Week 2</th><th>Week 3</th>
-    //   </GanttTableTR>
+    //   </GanttTableTr>
     //
     // Keyboard:
     //   None built-in — keyboard navigation is handled at the GanttTable grid level.
@@ -52,7 +52,7 @@
 </script>
 
 <template>
-    <!-- GanttTableTR.vue -->
+    <!-- GanttTableTr.vue -->
     <tr
         class="gantt-table-tr"
     >

@@ -1,4 +1,4 @@
-# GanttTableTR
+# GanttTableTr
 
 ## Overview
 
@@ -21,11 +21,11 @@ A Gantt chart table interactive grid row for planning schedule visualization <tr
 ## Usage
 
 ```svelte
-<GanttTableTR>
+<GanttTableTr>
   <th>Design</th>
   <GanttTableTD active>---</GanttTableTD>
   <GanttTableTD />
-</GanttTableTR>
+</GanttTableTr>
 ```
 
 ## Props
@@ -40,17 +40,17 @@ A Gantt chart table interactive grid row for planning schedule visualization <tr
 
 ```svelte
 <!-- Task row with active time periods -->
-<GanttTableTR>
+<GanttTableTr>
   <th>Development</th>
   <GanttTableTD />
   <GanttTableTD active>---</GanttTableTD>
   <GanttTableTD active>---</GanttTableTD>
-</GanttTableTR>
+</GanttTableTr>
 
 <!-- Header row with time period labels -->
-<GanttTableTR>
+<GanttTableTr>
   <th>Task</th><th>Week 1</th><th>Week 2</th><th>Week 3</th>
-</GanttTableTR>
+</GanttTableTr>
 ```
 
 ## SvelteKit example
@@ -58,14 +58,14 @@ A Gantt chart table interactive grid row for planning schedule visualization <tr
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import GanttTableTR from "#lib/components/GanttTableTR/GanttTableTR.svelte";
+  import GanttTableTr from "#lib/components/GanttTableTr/GanttTableTr.svelte";
 </script>
 
-<GanttTableTR>
+<GanttTableTr>
   <th>Design</th>
   <GanttTableTD active>---</GanttTableTD>
   <GanttTableTD />
-</GanttTableTR>
+</GanttTableTr>
 ```
 
 ## Keyboard

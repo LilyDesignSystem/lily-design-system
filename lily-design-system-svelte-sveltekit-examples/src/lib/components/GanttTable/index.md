@@ -24,17 +24,17 @@ A Gantt chart table interactive grid for planning schedule visualization <table>
 ```svelte
 <GanttTable label="Project timeline">
   <GanttTableHead>
-    <GanttTableTR>
+    <GanttTableTr>
       <th>Task</th><th>Week 1</th><th>Week 2</th><th>Week 3</th>
-    </GanttTableTR>
+    </GanttTableTr>
   </GanttTableHead>
   <GanttTableBody>
-    <GanttTableTR>
+    <GanttTableTr>
       <th>Design</th>
       <GanttTableTD active>---</GanttTableTD>
       <GanttTableTD />
       <GanttTableTD />
-    </GanttTableTR>
+    </GanttTableTr>
   </GanttTableBody>
 </GanttTable>
 ```
@@ -59,17 +59,17 @@ A Gantt chart table interactive grid for planning schedule visualization <table>
 
 <GanttTable label="Project timeline">
   <GanttTableHead>
-    <GanttTableTR>
+    <GanttTableTr>
       <th>Task</th><th>Week 1</th><th>Week 2</th><th>Week 3</th>
-    </GanttTableTR>
+    </GanttTableTr>
   </GanttTableHead>
   <GanttTableBody>
-    <GanttTableTR>
+    <GanttTableTr>
       <th>Design</th>
       <GanttTableTD active>---</GanttTableTD>
       <GanttTableTD />
       <GanttTableTD />
-    </GanttTableTR>
+    </GanttTableTr>
   </GanttTableBody>
 </GanttTable>
 ```

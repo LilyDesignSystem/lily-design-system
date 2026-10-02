@@ -3,7 +3,7 @@
 ## Overview
 
 The body section of a GanttTable, rendered as a <tbody> element.
-Contains GanttTableTR elements with task data cells.
+Contains GanttTableTr elements with task data cells.
 
 ## What it does
 
@@ -21,10 +21,10 @@ A Gantt chart table interactive grid tbody for planning schedule visualization <
 
 ```svelte
 <GanttTableBody>
-  <GanttTableTR>
+  <GanttTableTr>
     <GanttTableTD>Design</GanttTableTD>
     <GanttTableTD>Jan 1</GanttTableTD>
-  </GanttTableTR>
+  </GanttTableTr>
 </GanttTableBody>
 ```
 
@@ -33,7 +33,7 @@ A Gantt chart table interactive grid tbody for planning schedule visualization <
 | Prop | Type | Description |
 |------|------|-------------|
 | `className` | string, optional | CSS class name. |
-| `children` | Snippet, required | GanttTableTR elements with data cells. |
+| `children` | Snippet, required | GanttTableTr elements with data cells. |
 | `...restProps` | additional HTML attributes spread onto the <tbody> |  |
 
 ## SvelteKit example
@@ -45,10 +45,10 @@ A Gantt chart table interactive grid tbody for planning schedule visualization <
 </script>
 
 <GanttTableBody>
-  <GanttTableTR>
+  <GanttTableTr>
     <GanttTableTD>Design</GanttTableTD>
     <GanttTableTD>Jan 1</GanttTableTD>
-  </GanttTableTR>
+  </GanttTableTr>
 </GanttTableBody>
 ```
 

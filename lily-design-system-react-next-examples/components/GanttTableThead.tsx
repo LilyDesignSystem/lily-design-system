@@ -1,17 +1,17 @@
 // GanttTableThead component
 //
 // The header section of a GanttTable, rendered as a <thead> element.
-// Contains GanttTableTR elements with column headers for task names,
+// Contains GanttTableTr elements with column headers for task names,
 // dates, durations, or other Gantt chart metadata.
 //
 // Props:
 //   className — string, optional. CSS class name.
-//   children — ReactNode, required. GanttTableTR elements with header cells.
+//   children — ReactNode, required. GanttTableTr elements with header cells.
 //   ...restProps — additional HTML attributes spread onto the <thead>.
 //
 // Syntax:
 //   <GanttTableHead>
-//     <GanttTableTR><th>Task</th><th>Start</th><th>End</th></GanttTableTR>
+//     <GanttTableTr><th>Task</th><th>Start</th><th>End</th></GanttTableTr>
 //   </GanttTableHead>
 //
 // Keyboard:
@@ -32,7 +32,7 @@ import React from "react";
 
 export interface GanttTableTheadProps {
     className?: string;
-    /** GanttTableTR elements with header cells. */
+    /** GanttTableTr elements with header cells. */
     children: React.ReactNode;
     [key: string]: unknown;
 }

@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, test, vi } from "vitest";
-import TextInput from "@pgds/TextInput";
+import TextInput from "@lily/TextInput";
 
 describe("TextInput", () => {
     test("renders an input element", () => {

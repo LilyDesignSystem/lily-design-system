@@ -103,24 +103,15 @@ lily-design-system-react-next-examples/
 
 ### Component Integration
 
-Components are imported from the sibling headless library via TypeScript path aliases:
+Components live in this app's own `components/` directory and are imported via a TypeScript path alias:
 
 ```tsx
-// Page imports directly from the headless library
-import Button from "@pgds/Button";
-import TextInput from "@pgds/TextInput";
-import Alert from "@pgds/Alert";
+import Button from "@lily/Button";
+import TextInput from "@lily/TextInput";
+import Alert from "@lily/Alert";
 ```
 
-The `@pgds/*` alias resolves to `../lily-design-system-react-headless/components/*`.
-
-Wrapper components in `components/` re-export from the headless library for consumers who prefer local imports:
-
-```tsx
-// components/Button.tsx
-export { default } from "@pgds/Button";
-export type * from "@pgds/Button";
-```
+The `@lily/*` alias resolves to `./components/*` (tsconfig.json and vitest.config.ts declare it alike).
 
 ### simple styling
 

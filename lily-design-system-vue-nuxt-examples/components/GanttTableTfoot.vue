@@ -3,18 +3,18 @@
     // GanttTableTfoot component
     //
     // The footer section of a GanttTable, rendered as a <tfoot> element.
-    // Contains GanttTableTR elements with summary or aggregate data cells.
+    // Contains GanttTableTr elements with summary or aggregate data cells.
     //
     // Props:
     //   className — string, optional. CSS class name.
-    //   default slot. GanttTableTR elements with footer cells.
+    //   default slot. GanttTableTr elements with footer cells.
     //   ...restProps — additional HTML attributes spread onto the <tfoot>.
     //
     // Syntax:
     //   <GanttTableTfoot>
-    //     <GanttTableTR>
+    //     <GanttTableTr>
     //       <GanttTableTD>Total: 12 tasks</GanttTableTD>
-    //     </GanttTableTR>
+    //     </GanttTableTr>
     //   </GanttTableTfoot>
     //
     // Keyboard:

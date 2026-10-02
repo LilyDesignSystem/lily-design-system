@@ -363,7 +363,7 @@ A headless Svelte 5 component library with 490 components. All components are he
   - Table TableHead TableBody TableFoot TableTD TableRow TableTD
   - CalendarTable CalendarTableHead CalendarTableBody CalendarTableFoot CalendarTableTD CalendarTableRow CalendarTableTD
   - DataTable DataTableHead DataTableBody DataTableFoot DataTableTD DataTableRow DataTableTD
-  - GanttTable GanttTableHead GanttTableBody GanttTableTfoot GanttTableTH GanttTableTR GanttTableTD
+  - GanttTable GanttTableHead GanttTableBody GanttTableTfoot GanttTableTH GanttTableTr GanttTableTD
   - KanbanTable KanbanTableHead KanbanTableBody KanbanTableFoot KanbanTableTD KanbanTableRow KanbanTableTD
 
 ## Component patterns for name suffix and HTML tag

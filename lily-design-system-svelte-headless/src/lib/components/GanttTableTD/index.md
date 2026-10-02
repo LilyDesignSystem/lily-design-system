@@ -1,6 +1,6 @@
 # GanttTableTD
 
-A single cell within a `GanttTableTR` representing a time period in the Gantt grid. Renders a `<td>` with `role="gridcell"` and supports an `active` state communicated via `aria-selected` and a roving `tabindex`.
+A single cell within a `GanttTableTr` representing a time period in the Gantt grid. Renders a `<td>` with `role="gridcell"` and supports an `active` state communicated via `aria-selected` and a roving `tabindex`.
 
 ## What it is
 
@@ -23,11 +23,11 @@ A Svelte 5 component that renders `<td class="gantt-table-td ..." role="gridcell
 
 - For non-grid tabular data cells. Use `DataTableTD` or `TableTD`.
 - For calendar dates or kanban statuses. Use `CalendarTableTD` or `KanbanTableTD`.
-- For column headers. Use native `<th>` inside a `GanttTableTR`.
+- For column headers. Use native `<th>` inside a `GanttTableTr`.
 
 ## How to use it
 
-Inside a `GanttTableTR`, place one `GanttTableTD` per time-period column. Set `active` on cells where the task is scheduled.
+Inside a `GanttTableTr`, place one `GanttTableTD` per time-period column. Set `active` on cells where the task is scheduled.
 
 ## Props
 
@@ -40,54 +40,54 @@ Inside a `GanttTableTR`, place one `GanttTableTD` per time-period column. Set `a
 
 ```svelte
 <script lang="ts">
-    import GanttTableTR from "../GanttTableTR/GanttTableTR.svelte";
+    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
     import GanttTableTD from "./GanttTableTD.svelte";
 </script>
 
-<GanttTableTR>
+<GanttTableTr>
     <th>Task A</th>
     <GanttTableTD active>---</GanttTableTD>
     <GanttTableTD />
     <GanttTableTD />
-</GanttTableTR>
+</GanttTableTr>
 ```
 
 ```svelte
 <script lang="ts">
-    import GanttTableTR from "../GanttTableTR/GanttTableTR.svelte";
+    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
     import GanttTableTD from "./GanttTableTD.svelte";
 </script>
 
-<GanttTableTR>
+<GanttTableTr>
     <th>Launch</th>
     <GanttTableTD />
     <GanttTableTD active>◆</GanttTableTD>
     <GanttTableTD />
-</GanttTableTR>
+</GanttTableTr>
 ```
 
 ```svelte
 <script lang="ts">
-    import GanttTableTR from "../GanttTableTR/GanttTableTR.svelte";
+    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
     import GanttTableTD from "./GanttTableTD.svelte";
     const period = [false, true, true, false];
 </script>
 
-<GanttTableTR>
+<GanttTableTr>
     <th>Build</th>
     {#each period as a}
         <GanttTableTD active={a}>{a ? "---" : ""}</GanttTableTD>
     {/each}
-</GanttTableTR>
+</GanttTableTr>
 ```
 
 ```svelte
 <script lang="ts">
-    import GanttTableTR from "../GanttTableTR/GanttTableTR.svelte";
+    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
     import GanttTableTD from "./GanttTableTD.svelte";
 </script>
 
-<GanttTableTR>
+<GanttTableTr>
     <th>QA</th>
     <GanttTableTD
         active
@@ -97,17 +97,17 @@ Inside a `GanttTableTR`, place one `GanttTableTD` per time-period column. Set `a
     >
         ●
     </GanttTableTD>
-</GanttTableTR>
+</GanttTableTr>
 ```
 
 ```svelte
 <script lang="ts">
-    import GanttTableTR from "../GanttTableTR/GanttTableTR.svelte";
+    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
     import GanttTableTD from "./GanttTableTD.svelte";
     let focused = $state<number | null>(null);
 </script>
 
-<GanttTableTR>
+<GanttTableTr>
     <th>Review</th>
     {#each [0, 1, 2] as i}
         <GanttTableTD
@@ -117,7 +117,7 @@ Inside a `GanttTableTR`, place one `GanttTableTD` per time-period column. Set `a
             {focused === i ? "▮" : ""}
         </GanttTableTD>
     {/each}
-</GanttTableTR>
+</GanttTableTr>
 ```
 
 ## Accessibility
@@ -130,7 +130,7 @@ Inside a `GanttTableTR`, place one `GanttTableTD` per time-period column. Set `a
 ## Related components
 
 - `GanttTable` - parent grid.
-- `GanttTableTR` - row wrapper (`<tr>`).
+- `GanttTableTr` - row wrapper (`<tr>`).
 - `GanttTableHead` / `GanttTableBody` / `GanttTableTfoot` - sections.
 - `GanttTableTH` - column definition (`<col>`).
 - `DataTableTD`, `CalendarTableTD`, `KanbanTableTD`, `TableTD` - data-cell variants in other table families.

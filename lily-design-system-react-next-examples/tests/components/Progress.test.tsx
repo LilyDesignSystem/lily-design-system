@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
-import Progress from "@pgds/Progress";
+import Progress from "@lily/Progress";
 
 describe("Progress", () => {
     test("renders a progressbar", () => {

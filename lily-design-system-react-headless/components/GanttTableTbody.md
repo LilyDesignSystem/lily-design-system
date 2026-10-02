@@ -1,20 +1,20 @@
 # GanttTableBody
 
-The body section of a GanttTable, rendered as a `<tbody>` element. Contains GanttTableTR elements with task data cells.
+The body section of a GanttTable, rendered as a `<tbody>` element. Contains GanttTableTr elements with task data cells.
 
 ## Props
 
-- `children`: ReactNode (required) -- GanttTableTR elements with data cells
+- `children`: ReactNode (required) -- GanttTableTr elements with data cells
 - `...restProps`: unknown -- additional attributes spread onto the `<tbody>`
 
 ## Usage
 
 ```tsx
 <GanttTableBody>
-  <GanttTableTR>
+  <GanttTableTr>
     <GanttTableTD>Design</GanttTableTD>
     <GanttTableTD>Jan 1</GanttTableTD>
-  </GanttTableTR>
+  </GanttTableTr>
 </GanttTableBody>
 ```
 

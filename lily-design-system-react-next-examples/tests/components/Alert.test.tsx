@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
-import Alert from "@pgds/Alert";
+import Alert from "@lily/Alert";
 
 describe("Alert", () => {
     test("renders with alert role", () => {

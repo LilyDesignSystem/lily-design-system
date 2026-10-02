@@ -18,7 +18,7 @@ A headless Svelte 5 structural wrapper. Category: calendar grid row primitive; i
 
 ## When not to use it
 
-- Outside a `CalendarTable` — use `DataTableRow`, `GanttTableTR`, `KanbanTableRow`, or `TableRow` as appropriate.
+- Outside a `CalendarTable` — use `DataTableRow`, `GanttTableTr`, `KanbanTableRow`, or `TableRow` as appropriate.
 
 ## How to use it
 
@@ -121,7 +121,7 @@ Import `CalendarTableRow` from `./CalendarTableRow.svelte`. Fill with `<th>` cel
 ## Related components
 
 - `CalendarTable`, `CalendarTableHead`, `CalendarTableBody`, `CalendarTableFoot`, `CalendarTableTD`, `CalendarTableTD`.
-- `DataTableRow`, `GanttTableTR`, `KanbanTableRow`, `TableRow`.
+- `DataTableRow`, `GanttTableTr`, `KanbanTableRow`, `TableRow`.
 
 ---
 

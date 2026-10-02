@@ -2,7 +2,7 @@
 
 A Gantt table body is the main content section of a Gantt chart grid, wrapping the rows that represent individual tasks and their timeline data. Each row typically contains a task name and cells indicating the task's duration across time periods. It is designed to be used inside a GanttTable `<table>` structure.
 
-The component renders a `<tbody>` element and passes through its children, which are expected to be GanttTableTR or `<tr>` elements containing task and timeline cells.
+The component renders a `<tbody>` element and passes through its children, which are expected to be GanttTableTr or `<tr>` elements containing task and timeline cells.
 
 ## Implementation Notes
 
@@ -23,18 +23,18 @@ The component renders a `<tbody>` element and passes through its children, which
 <GanttTable label="Q1 2025 schedule">
   <GanttTableHead>...</GanttTableHead>
   <GanttTableBody>
-    <GanttTableTR>
+    <GanttTableTr>
       <GanttTableTH scope="row">Design phase</GanttTableTH>
       <GanttTableTD active>████</GanttTableTD>
       <GanttTableTD active>████</GanttTableTD>
       <GanttTableTD></GanttTableTD>
-    </GanttTableTR>
-    <GanttTableTR>
+    </GanttTableTr>
+    <GanttTableTr>
       <GanttTableTH scope="row">Development</GanttTableTH>
       <GanttTableTD></GanttTableTD>
       <GanttTableTD active>████</GanttTableTD>
       <GanttTableTD active>████</GanttTableTD>
-    </GanttTableTR>
+    </GanttTableTr>
   </GanttTableBody>
 </GanttTable>
 ```
@@ -77,7 +77,7 @@ The consumer provides all CSS styling. The component renders with a `.gantt-tabl
 ## Advice
 
 - **Designers**: Use alternating row backgrounds or subtle borders to help users track across long timelines. Highlight the current time period column.
-- **Developers**: Place GanttTableTR elements as children. Each row should have a `<th>` for the task name followed by GanttTableTD cells for time periods.
+- **Developers**: Place GanttTableTr elements as children. Each row should have a `<th>` for the task name followed by GanttTableTD cells for time periods.
 
 ## Related components
 

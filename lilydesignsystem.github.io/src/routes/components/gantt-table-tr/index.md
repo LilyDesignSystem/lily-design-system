@@ -21,18 +21,18 @@ The component renders a `<tr>` element and passes through its children, which ar
 
 ```html
 <GanttTableBody>
-  <GanttTableTR>
+  <GanttTableTr>
     <GanttTableTH scope="row">Design phase</GanttTableTH>
     <GanttTableTD active>████</GanttTableTD>
     <GanttTableTD active>████</GanttTableTD>
     <GanttTableTD></GanttTableTD>
-  </GanttTableTR>
-  <GanttTableTR>
+  </GanttTableTr>
+  <GanttTableTr>
     <GanttTableTH scope="row">Development</GanttTableTH>
     <GanttTableTD></GanttTableTD>
     <GanttTableTD active>████</GanttTableTD>
     <GanttTableTD active>████</GanttTableTD>
-  </GanttTableTR>
+  </GanttTableTr>
 </GanttTableBody>
 ```
 

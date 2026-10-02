@@ -1,6 +1,6 @@
 # GanttTableHead
 
-The header section of a `GanttTable`, rendered as a native `<thead>` element. It contains `GanttTableTR` elements with column headers for task names, dates, durations, or other Gantt-chart metadata.
+The header section of a `GanttTable`, rendered as a native `<thead>` element. It contains `GanttTableTr` elements with column headers for task names, dates, durations, or other Gantt-chart metadata.
 
 ## What it is
 
@@ -24,12 +24,12 @@ A Svelte 5 structural wrapper that renders `<thead class="gantt-table-thead ..."
 
 ## How to use it
 
-Place inside a `GanttTable` before `GanttTableBody`. Populate with a `GanttTableTR` containing native `<th>` cells.
+Place inside a `GanttTable` before `GanttTableBody`. Populate with a `GanttTableTr` containing native `<th>` cells.
 
 ## Props
 
 - `class` (string, optional) - CSS class appended after the base `gantt-table-thead` class.
-- `children` (Snippet, required) - `GanttTableTR` elements with header cells.
+- `children` (Snippet, required) - `GanttTableTr` elements with header cells.
 - `...restProps` - Additional HTML attributes spread onto the `<thead>`.
 
 ## Usage
@@ -38,14 +38,14 @@ Place inside a `GanttTable` before `GanttTableBody`. Populate with a `GanttTable
 <script lang="ts">
     import GanttTable from "../GanttTable/GanttTable.svelte";
     import GanttTableHead from "./GanttTableHead.svelte";
-    import GanttTableTR from "../GanttTableTR/GanttTableTR.svelte";
+    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
 </script>
 
 <GanttTable label="Plan">
     <GanttTableHead>
-        <GanttTableTR>
+        <GanttTableTr>
             <th>Task</th><th>Start</th><th>End</th>
-        </GanttTableTR>
+        </GanttTableTr>
     </GanttTableHead>
 </GanttTable>
 ```
@@ -55,23 +55,23 @@ Place inside a `GanttTable` before `GanttTableBody`. Populate with a `GanttTable
     import GanttTable from "../GanttTable/GanttTable.svelte";
     import GanttTableHead from "./GanttTableHead.svelte";
     import GanttTableBody from "../GanttTableBody/GanttTableBody.svelte";
-    import GanttTableTR from "../GanttTableTR/GanttTableTR.svelte";
+    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
     import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
 </script>
 
 <GanttTable label="Weekly">
     <GanttTableHead>
-        <GanttTableTR>
+        <GanttTableTr>
             <th>Task</th><th>Week 1</th><th>Week 2</th><th>Week 3</th>
-        </GanttTableTR>
+        </GanttTableTr>
     </GanttTableHead>
     <GanttTableBody>
-        <GanttTableTR>
+        <GanttTableTr>
             <th>Plan</th>
             <GanttTableTD active />
             <GanttTableTD />
             <GanttTableTD />
-        </GanttTableTR>
+        </GanttTableTr>
     </GanttTableBody>
 </GanttTable>
 ```
@@ -80,14 +80,14 @@ Place inside a `GanttTable` before `GanttTableBody`. Populate with a `GanttTable
 <script lang="ts">
     import GanttTable from "../GanttTable/GanttTable.svelte";
     import GanttTableHead from "./GanttTableHead.svelte";
-    import GanttTableTR from "../GanttTableTR/GanttTableTR.svelte";
+    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
 </script>
 
 <GanttTable label="Custom head">
     <GanttTableHead class="sticky-head" data-testid="gantt-head">
-        <GanttTableTR>
+        <GanttTableTr>
             <th scope="col">Task</th><th scope="col">Q1</th><th scope="col">Q2</th>
-        </GanttTableTR>
+        </GanttTableTr>
     </GanttTableHead>
 </GanttTable>
 ```
@@ -96,16 +96,16 @@ Place inside a `GanttTable` before `GanttTableBody`. Populate with a `GanttTable
 <script lang="ts">
     import GanttTable from "../GanttTable/GanttTable.svelte";
     import GanttTableHead from "./GanttTableHead.svelte";
-    import GanttTableTR from "../GanttTableTR/GanttTableTR.svelte";
+    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
     const weeks = ["W1", "W2", "W3", "W4", "W5"];
 </script>
 
 <GanttTable label="Dynamic head">
     <GanttTableHead>
-        <GanttTableTR>
+        <GanttTableTr>
             <th>Task</th>
             {#each weeks as w}<th>{w}</th>{/each}
-        </GanttTableTR>
+        </GanttTableTr>
     </GanttTableHead>
 </GanttTable>
 ```
@@ -114,19 +114,19 @@ Place inside a `GanttTable` before `GanttTableBody`. Populate with a `GanttTable
 <script lang="ts">
     import GanttTable from "../GanttTable/GanttTable.svelte";
     import GanttTableHead from "./GanttTableHead.svelte";
-    import GanttTableTR from "../GanttTableTR/GanttTableTR.svelte";
+    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
 </script>
 
 <GanttTable label="Two-level head">
     <GanttTableHead>
-        <GanttTableTR>
+        <GanttTableTr>
             <th rowspan="2">Task</th>
             <th colspan="2">January</th>
             <th colspan="2">February</th>
-        </GanttTableTR>
-        <GanttTableTR>
+        </GanttTableTr>
+        <GanttTableTr>
             <th>W1</th><th>W2</th><th>W1</th><th>W2</th>
-        </GanttTableTR>
+        </GanttTableTr>
     </GanttTableHead>
 </GanttTable>
 ```
@@ -134,14 +134,14 @@ Place inside a `GanttTable` before `GanttTableBody`. Populate with a `GanttTable
 ## Accessibility
 
 - `<thead>` conveys structural header semantics to assistive tech.
-- Use native `<th scope="col">` inside `GanttTableTR` to properly associate column headers with data cells.
+- Use native `<th scope="col">` inside `GanttTableTr` to properly associate column headers with data cells.
 
 ## Related components
 
 - `GanttTable` - parent grid.
 - `GanttTableBody` - body section.
 - `GanttTableTfoot` - footer section.
-- `GanttTableTR` - row wrapper.
+- `GanttTableTr` - row wrapper.
 - `GanttTableTD` - data cell primitive.
 - `GanttTableTH` - column definition.
 

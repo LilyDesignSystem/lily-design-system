@@ -2,7 +2,7 @@
 
     // GanttTableTD component
     //
-    // A single cell within a GanttTableTR representing a time period in the
+    // A single cell within a GanttTableTr representing a time period in the
     // Gantt table grid. Renders as a <td> with role="gridcell". Supports an
     // active state to indicate the task spans this time period, communicated
     // via aria-selected for screen readers.
@@ -40,7 +40,7 @@
     //
     // Claude rules:
     //   - Headless: no CSS, no styles — consumer provides all styling
-    //   - Must be used inside a GanttTableTR (which provides the <tr>)
+    //   - Must be used inside a GanttTableTr (which provides the <tr>)
     //   - Children are optional — empty cells represent inactive time periods
     //
     // References:

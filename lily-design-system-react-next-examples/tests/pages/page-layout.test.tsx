@@ -15,10 +15,12 @@ describe("PageLayout", () => {
         expect(breadcrumb).toBeTruthy();
     });
 
-    test("renders skip link", () => {
+    // The skip link lives once in app/layout.tsx (moved there in bdab1862e)
+    // and e2e/responsive.spec.ts checks it on every route. The page must not
+    // render a second one: two skip links per document is an a11y defect.
+    test("does not duplicate the layout's skip link", () => {
         render(<PageLayoutPage />);
-        const skipLink = screen.getByText("Skip to main content");
-        expect(skipLink).toBeTruthy();
+        expect(screen.queryByText("Skip to main content")).toBeNull();
     });
 
     test("renders main content area", () => {

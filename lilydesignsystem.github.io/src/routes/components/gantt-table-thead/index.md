@@ -2,7 +2,7 @@
 
 A Gantt table head is the header section of a Gantt chart grid, wrapping one or more rows that label the columns of the chart. Typically contains a row with a task-name column header and time-period column headers (e.g., weeks, months, sprints). It is designed to be used inside a GanttTable `<table>` structure.
 
-The component renders a `<thead>` element and passes through its children, which are expected to be GanttTableTR or `<tr>` elements containing `<th>` header cells.
+The component renders a `<thead>` element and passes through its children, which are expected to be GanttTableTr or `<tr>` elements containing `<th>` header cells.
 
 ## Implementation Notes
 
@@ -22,12 +22,12 @@ The component renders a `<thead>` element and passes through its children, which
 ```html
 <GanttTable label="Q1 2025 schedule">
   <GanttTableHead>
-    <GanttTableTR>
+    <GanttTableTr>
       <GanttTableTH scope="col">Task</GanttTableTH>
       <GanttTableTH scope="col">Jan</GanttTableTH>
       <GanttTableTH scope="col">Feb</GanttTableTH>
       <GanttTableTH scope="col">Mar</GanttTableTH>
-    </GanttTableTR>
+    </GanttTableTr>
   </GanttTableHead>
   <GanttTableBody>...</GanttTableBody>
 </GanttTable>
@@ -71,7 +71,7 @@ The consumer provides all CSS styling. The component renders with a `.gantt-tabl
 ## Advice
 
 - **Designers**: Make header labels concise and readable. For long timelines, consider multi-row headers (e.g., months on one row, weeks on another).
-- **Developers**: Use `<th>` elements inside GanttTableTR children for proper header cell semantics. Add `scope="col"` to column headers for screen reader clarity.
+- **Developers**: Use `<th>` elements inside GanttTableTr children for proper header cell semantics. Add `scope="col"` to column headers for screen reader clarity.
 
 ## Related components
 

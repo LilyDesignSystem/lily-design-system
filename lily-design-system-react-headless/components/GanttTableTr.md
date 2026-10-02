@@ -1,4 +1,4 @@
-# GanttTableTR
+# GanttTableTr
 
 A single row within a GanttTable grid. Renders as a `<tr>` containing GanttTableTD cells for each time period and task header cells. Used inside GanttTableHead, GanttTableBody, or GanttTableTfoot.
 
@@ -11,17 +11,17 @@ A single row within a GanttTable grid. Renders as a `<tr>` containing GanttTable
 
 ```tsx
 {/* Task row with active time periods */}
-<GanttTableTR>
+<GanttTableTr>
   <th>Development</th>
   <GanttTableTD />
   <GanttTableTD active>---</GanttTableTD>
   <GanttTableTD active>---</GanttTableTD>
-</GanttTableTR>
+</GanttTableTr>
 
 {/* Header row */}
-<GanttTableTR>
+<GanttTableTr>
   <th>Task</th><th>Week 1</th><th>Week 2</th><th>Week 3</th>
-</GanttTableTR>
+</GanttTableTr>
 ```
 
 ## Accessibility

@@ -24,26 +24,26 @@ This headless component renders a `<table>` element with `role="grid"` and an ac
 ```html
 <GanttTable caption="Project timeline" label="Q1 2025 schedule">
   <GanttTableHead>
-    <GanttTableTR>
+    <GanttTableTr>
       <GanttTableTH scope="col">Task</GanttTableTH>
       <GanttTableTH scope="col">Jan</GanttTableTH>
       <GanttTableTH scope="col">Feb</GanttTableTH>
       <GanttTableTH scope="col">Mar</GanttTableTH>
-    </GanttTableTR>
+    </GanttTableTr>
   </GanttTableHead>
   <GanttTableBody>
-    <GanttTableTR>
+    <GanttTableTr>
       <GanttTableTH scope="row">Design phase</GanttTableTH>
       <GanttTableTD active>████</GanttTableTD>
       <GanttTableTD active>████</GanttTableTD>
       <GanttTableTD></GanttTableTD>
-    </GanttTableTR>
-    <GanttTableTR>
+    </GanttTableTr>
+    <GanttTableTr>
       <GanttTableTH scope="row">Development</GanttTableTH>
       <GanttTableTD></GanttTableTD>
       <GanttTableTD active>████</GanttTableTD>
       <GanttTableTD active>████</GanttTableTD>
-    </GanttTableTR>
+    </GanttTableTr>
   </GanttTableBody>
 </GanttTable>
 ```
@@ -97,7 +97,7 @@ The consumer provides all CSS styling. The component renders with a `.gantt-tabl
 
 ## Composition
 
-GanttTable uses the Table composition pattern: GanttTable contains GanttTableHead, GanttTableBody, and optionally GanttTableTfoot. Each section contains GanttTableTR elements, which contain `<th>` cells for task names and GanttTableTD cells for time period indicators. Use GanttTableTH inside a `<colgroup>` for column-level styling.
+GanttTable uses the Table composition pattern: GanttTable contains GanttTableHead, GanttTableBody, and optionally GanttTableTfoot. Each section contains GanttTableTr elements, which contain `<th>` cells for task names and GanttTableTD cells for time period indicators. Use GanttTableTH inside a `<colgroup>` for column-level styling.
 
 ## Related components
 

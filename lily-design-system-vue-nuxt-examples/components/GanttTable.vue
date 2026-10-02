@@ -17,17 +17,17 @@
     // Syntax:
     //   <GanttTable label="Project timeline">
     //     <GanttTableHead>
-    //       <GanttTableTR>
+    //       <GanttTableTr>
     //         <th>Task</th><th>Week 1</th><th>Week 2</th><th>Week 3</th>
-    //       </GanttTableTR>
+    //       </GanttTableTr>
     //     </GanttTableHead>
     //     <GanttTableBody>
-    //       <GanttTableTR>
+    //       <GanttTableTr>
     //         <th>Design</th>
     //         <GanttTableTD active>---</GanttTableTD>
     //         <GanttTableTD />
     //         <GanttTableTD />
-    //       </GanttTableTR>
+    //       </GanttTableTr>
     //     </GanttTableBody>
     //   </GanttTable>
     //
@@ -47,7 +47,7 @@
     // Claude rules:
     //   - Headless: no CSS, no styles — consumer provides all styling
     //   - Compound component: use with GanttTableHead, GanttTableBody, GanttTableTfoot,
-    //     GanttTableTR, GanttTableTD, and GanttTableTH
+    //     GanttTableTr, GanttTableTD, and GanttTableTH
     //
     // References:
     //   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/

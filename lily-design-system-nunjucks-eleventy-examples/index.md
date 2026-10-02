@@ -37,7 +37,7 @@ macros and dressed in the NHS UK Design System's look and feel.
 pnpm install
 pnpm dev     # Eleventy dev server on http://localhost:8080
 pnpm build   # produce static site in _site/
-pnpm test    # Vitest
+pnpm test    # Playwright (same as pnpm test:e2e; this app has no unit tests)
 ```
 
 ## Source of components

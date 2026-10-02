@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
-import Badge from "@pgds/Badge";
+import Badge from "@lily/Badge";
 
 describe("Badge", () => {
     test("renders with status role", () => {

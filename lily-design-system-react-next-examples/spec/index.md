@@ -70,19 +70,15 @@ Path alias to the sibling headless library:
   "compilerOptions": {
     "paths": {
       "@/*": ["./*"],
-      "@pgds/*": ["../lily-design-system-react-headless/components/*"]
+      "@lily/*": ["./components/*"]
     }
   }
 }
 ```
 
-Wrapper components in `components/` re-export from `@pgds/*` for local
-imports:
-
-```tsx
-export { default } from "@pgds/Button";
-export type * from "@pgds/Button";
-```
+Components live in this app's own `components/` directory (copies of the
+react-headless catalog, so the subtree builds standalone) and are imported
+as `@lily/Button`; vitest.config.ts declares the same alias.
 
 `typescript.ignoreBuildErrors: true` is set in `next.config.ts` because the
 headless library's `[key: string]: unknown` rest-props conflict with Next.js
@@ -109,7 +105,7 @@ lily-design-system-react-next-examples/
 │   └── data/
 │       ├── component-demos.ts             ← slug → demo-HTML (490 entries)
 │       └── components.ts                  ← catalog metadata (490 entries)
-├── components/{PascalCase}.tsx            ← wrapper re-exports from @pgds/*
+├── components/{PascalCase}.tsx            ← component copies, imported as @lily/*
 ├── assets/css/nhs.css                     ← NHS-aligned stylesheet
 ├── e2e/components/{kebab-case}.spec.ts    ← Playwright e2e per slug
 ├── playwright.config.ts

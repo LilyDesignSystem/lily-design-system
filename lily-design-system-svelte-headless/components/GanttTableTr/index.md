@@ -1,4 +1,4 @@
-# GanttTableTR
+# GanttTableTr
 
 A single row within a `GanttTable` grid. Renders a native `<tr>` element containing `GanttTableTD` cells for each time period, along with optional `<th>` header cells.
 
@@ -36,58 +36,58 @@ Place inside `GanttTableHead`, `GanttTableBody`, or `GanttTableTfoot`. Add cells
 
 ```svelte
 <script lang="ts">
-    import GanttTableTR from "./GanttTableTR.svelte";
+    import GanttTableTr from "./GanttTableTr.svelte";
     import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
 </script>
 
-<GanttTableTR>
+<GanttTableTr>
     <th>Design</th>
     <GanttTableTD active>---</GanttTableTD>
     <GanttTableTD />
-</GanttTableTR>
+</GanttTableTr>
 ```
 
 ```svelte
 <script lang="ts">
-    import GanttTableTR from "./GanttTableTR.svelte";
+    import GanttTableTr from "./GanttTableTr.svelte";
 </script>
 
-<GanttTableTR>
+<GanttTableTr>
     <th>Task</th><th>Week 1</th><th>Week 2</th><th>Week 3</th>
-</GanttTableTR>
+</GanttTableTr>
 ```
 
 ```svelte
 <script lang="ts">
-    import GanttTableTR from "./GanttTableTR.svelte";
+    import GanttTableTr from "./GanttTableTr.svelte";
     import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
     const task = { name: "Build", periods: [false, true, true, false] };
 </script>
 
-<GanttTableTR>
+<GanttTableTr>
     <th>{task.name}</th>
     {#each task.periods as p}
         <GanttTableTD active={p}>{p ? "---" : ""}</GanttTableTD>
     {/each}
-</GanttTableTR>
+</GanttTableTr>
 ```
 
 ```svelte
 <script lang="ts">
-    import GanttTableTR from "./GanttTableTR.svelte";
+    import GanttTableTr from "./GanttTableTr.svelte";
     import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
 </script>
 
-<GanttTableTR class="critical-path" data-testid="row-critical">
+<GanttTableTr class="critical-path" data-testid="row-critical">
     <th>Launch</th>
     <GanttTableTD />
     <GanttTableTD active>◆</GanttTableTD>
-</GanttTableTR>
+</GanttTableTr>
 ```
 
 ```svelte
 <script lang="ts">
-    import GanttTableTR from "./GanttTableTR.svelte";
+    import GanttTableTr from "./GanttTableTr.svelte";
     import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
     const rows = [
         { name: "Scope", active: [true] },
@@ -96,12 +96,12 @@ Place inside `GanttTableHead`, `GanttTableBody`, or `GanttTableTfoot`. Add cells
 </script>
 
 {#each rows as r}
-    <GanttTableTR>
+    <GanttTableTr>
         <th>{r.name}</th>
         {#each r.active as a}
             <GanttTableTD active={a} />
         {/each}
-    </GanttTableTR>
+    </GanttTableTr>
 {/each}
 ```
 

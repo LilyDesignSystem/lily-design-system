@@ -3,7 +3,7 @@
     // GanttTableTH component
     //
     // A column header cell within a GanttTable, rendered as a <th> element.
-    // Used inside a <GanttTableTR> within <GanttTableHead> to label time
+    // Used inside a <GanttTableTr> within <GanttTableHead> to label time
     // period columns of the Gantt grid.
     //
     // Props:
