@@ -10,3 +10,9 @@ allowBuilds:
 # overriding straight to the patched major is safe.
 overrides:
   uuid: "11.1.1"
+  # @storybook/builder-webpack5 (latest 10.6.1) still requires
+  # webpack-dev-middleware@^6.1.2, and the 6.x line never received the
+  # GHSA-g84c-rxfj-3j2c path-traversal fix (7.4.6 / 8.3.0). Scoped to
+  # Storybook's dev server only; the Angular CLI path already resolves
+  # the patched 8.x.
+  "@storybook/builder-webpack5>webpack-dev-middleware": "^7.4.6"

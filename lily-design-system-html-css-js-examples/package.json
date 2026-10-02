@@ -15,11 +15,11 @@
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
     "@playwright/test": "^1.63.0",
-    "@wdio/cli": "^9.31.9",
-    "@wdio/local-runner": "^9.31.9",
-    "@wdio/mocha-framework": "^9.31.9",
-    "@wdio/spec-reporter": "^9.31.2",
-    "chromedriver": "^153.0.2",
+    "@wdio/cli": "^9.32.0",
+    "@wdio/local-runner": "^9.32.0",
+    "@wdio/mocha-framework": "^9.32.0",
+    "@wdio/spec-reporter": "^9.32.0",
+    "chromedriver": "^154.0.1",
     "http-server": "^14.1.1",
     "wdio-chromedriver-service": "^8.1.1"
   },
