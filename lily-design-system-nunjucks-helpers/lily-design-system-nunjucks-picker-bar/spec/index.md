@@ -15,11 +15,12 @@ Sibling files in this directory:
 
 ## 1. Purpose
 
-A single page-header row that composes four of the six `*-picker`
-helpers in this catalog — `theme-picker`, `locale-picker`,
-`text-size-picker`, and `share-picker` — with two catalog-specific
-defaults pre-wired, so a consumer can call one macro instead of
-assembling and configuring four. `motion-picker` and `date-time-picker`
+A single page-header row that composes five of the `*-picker`
+helpers in this catalog — `search-picker`, `theme-picker`,
+`locale-picker`, `text-size-picker`, and `share-picker` — with two
+catalog-specific defaults pre-wired, so a consumer can call one macro
+instead of assembling and configuring five. `search-picker` sits first
+in the row (added after the 0.1.0 release; see §8). `motion-picker` and `date-time-picker`
 are deliberately excluded: the former has no natural page-header spot
 next to the other three preference pickers picked for this bar, and
 the latter is a form control, not a header control — see
@@ -27,11 +28,11 @@ the latter is a form control, not a header control — see
 
 ## 2. Scope
 
-In scope: a macro rendering the four picker macros in a fixed order
-(theme, locale, text-size, share), forwarding each picker's required
+In scope: a macro rendering the five picker macros in a fixed order
+(search, theme, locale, text-size, share), forwarding each picker's required
 and optional params, and supplying two catalog-wide defaults (§5.1,
 §5.2). Out of scope: any new markup, interaction, or lifecycle beyond
-what the four wrapped pickers already own — `picker-bar` owns nothing
+what the five wrapped pickers already own — `picker-bar` owns nothing
 of its own except the convenience `autoInit`/`initPickerBar` wiring in
 §4.3.
 
@@ -39,7 +40,7 @@ of its own except the convenience `autoInit`/`initPickerBar` wiring in
 
 ### 3.1 Cross-package macro imports, not a bundler
 
-The Svelte canonical imports its four sibling components as ordinary
+The Svelte canonical imports its five sibling components as ordinary
 JS module specifiers, resolved by the consumer's bundler /
 `node_modules`. A Nunjucks macro has no equivalent import system of its
 own — `{% from "PATH" %}` is resolved by the Nunjucks `Environment`'s
@@ -61,7 +62,7 @@ override one wrapped picker's glyph. A Nunjucks macro call accepts at
 most one `{% call %}` block, and `pickerBar(opts)` already needs none
 of its own — there is nowhere to route a per-picker caller block to
 one specific nested macro call. A consumer who needs a custom glyph on
-one picker composes the four macros directly instead of using
+one picker composes the five macros directly instead of using
 `pickerBar`; this is a real, documented capability gap, not an
 oversight.
 
@@ -74,12 +75,25 @@ already split into a macro (markup) and a `*.client.js` module
 owns no lifecycle of its own (each wrapped picker's own `client.js`
 already owns its own, independent of nesting), but `picker-bar.client.js`
 still exists, as a convenience: `initPickerBar(root, opts)` finds the
-four nested picker roots inside one `picker-bar` root and calls each
+five nested picker roots inside one `picker-bar` root and calls each
 sibling's own `init{X}Picker` on them, and `autoInit(opts)` does that
 for every `[data-lily-picker-bar-root]` on the page. This is optional —
-calling the four siblings' own `autoInit()` separately works exactly
+calling the five siblings' own `autoInit()` separately works exactly
 the same, since each already scans the whole document for its own hook
 regardless of nesting.
+
+### 3.4 `searchProps` is split between the macro and the client
+
+The Svelte canonical's `searchProps` bag forwards anything — including
+the function-valued `navigate` and `onSearch` — to `SearchPicker`. A
+Nunjucks macro cannot carry a function (search-picker's own spec §3.3),
+so `searchProps` exists on both sides of the split, exactly as the
+other `*Props` objects already do: the macro's `searchProps` forwards
+the renderable options (`placeholder`, `value`, `action`, `name`, `id`,
+`classes`, `attributes`), and `initPickerBar(root, { searchProps })` /
+`autoInit({ searchProps })` hands the client options (`navigate`,
+`onSearch`, and an overriding `action`) to search-picker's own
+`initSearchPicker`.
 
 ## 4. Macro parameters
 
@@ -88,18 +102,26 @@ authoritative, most detailed list):
 
 | Param           | Type                                  | Required | Default              |
 | --------------- | -------------------------------------- | -------- | --------------------- |
-| `labels`        | `{ theme, locale, textSize, share }`   | yes      | —                      |
+| `labels`        | `{ search, searchInput, searchSubmit, theme, locale, textSize, share }` | yes | — |
 | `themesUrl`     | `string`                                | yes      | —                      |
 | `locales`       | `array<string>`                        | yes      | —                      |
 | `themes`        | `array<string>`                        | no       | `DEFAULT_THEMES` (§5.1) |
 | `sizes`         | `array<string>`                        | no       | `DEFAULT_SIZES` (§5.2)  |
 | `shareTargets`  | `array<object>`                        | no       | `[]`                   |
+| `searchProps`   | `object`                                | no       | `{}`                   |
 | `themeProps`    | `object`                                | no       | `{}`                   |
 | `localeProps`   | `object`                                | no       | `{}`                   |
 | `textSizeProps` | `object`                                | no       | `{}`                   |
 | `shareProps`    | `object`                                | no       | `{}`                   |
 | `classes`       | `string`                                | no       | `""`                   |
 | `attributes`    | `object`                                | no       | `{}`                   |
+
+`labels` carries seven required accessible names, with no English
+default: `search` names the search picker's icon button and search
+landmark, `searchInput` its field, and `searchSubmit` its `⏎` submit
+button — passed as search-picker's `label`, `inputLabel`, and
+`submitLabel` — and `theme`, `locale`, `textSize`, `share` name the
+other four pickers' buttons.
 
 Each `*Props` object accepts that picker's own optional params
 (excluding the ones already lifted to the top level: `themesUrl` /
@@ -109,7 +131,7 @@ own header comment for its full param list.
 ### 4.3 `picker-bar.client.js` exports
 
 `initPickerBar(root, opts)`, `autoInit(opts)`, `DEFAULT_THEMES`,
-`DEFAULT_SIZES`, plus re-exports of the four siblings' own
+`DEFAULT_SIZES`, plus re-exports of the five siblings' own
 `autoInit` under `autoInit{X}Picker` names, so a consumer who only
 loaded `picker-bar.client.js` can still wire a standalone picker
 outside any bar. See §3.3.
@@ -143,7 +165,8 @@ nested `textSizePicker` call, same as the Svelte canonical.
 
 WCAG 2.2 AAA target, unchanged from each wrapped picker's own contract
 — `picker-bar` introduces no new interaction. `labels` supplies the
-four accessible names; there is no default that would hardcode English
+seven accessible names (three for search-picker's button/landmark,
+field, and `⏎` button; one for each of the other four pickers); there is no default that would hardcode English
 text. Like every other helper in this catalog, none of the wrapped
 pickers is operable until their client.js modules run — see each
 sibling's own `docs/ssr.md`; `picker-bar` adds nothing here.
@@ -152,8 +175,9 @@ sibling's own `docs/ssr.md`; `picker-bar` adds nothing here.
 
 - §7.1 Renders a `<div class="picker-bar {classes}"
   data-lily-picker-bar-root>` root, extra attributes spread onto it.
-- §7.2 Renders exactly the four pickers — theme, locale, text-size,
-  share — in that order, each accessibly named from `labels`.
+- §7.2 Renders exactly the five pickers — search, theme, locale,
+  text-size, share — in that order, each accessibly named from
+  `labels`.
 - §7.3 Forwards `themesUrl` to `theme-picker`; `themes` omitted
   resolves to `DEFAULT_THEMES` (45 entries, `abyss` first, the 8 UK/US
   themes last as a group).
@@ -170,13 +194,23 @@ sibling's own `docs/ssr.md`; `picker-bar` adds nothing here.
 - §7.10 `shareTargets` reaches the nested `share-picker`'s list.
 - §7.11 `localeProps`, `shareProps` reach their respective pickers, the
   same way `themeProps` and `textSizeProps` do (§7.7, §7.9).
+- §7.12 `search-picker` is the first picker in the row; its search
+  landmark is named by `labels.search`, its field by
+  `labels.searchInput`, and its `⏎` button by `labels.searchSubmit`.
+- §7.13 The search options reach `search-picker`: with
+  `searchProps.action` `"/search"` on the macro and a `navigate` spy in
+  `initPickerBar`'s `searchProps`, searching `foo` navigates to
+  `/search?foo`.
 
-## 8. Relationship to the six `*-picker` helpers
+## 8. Relationship to the `*-picker` helpers
 
-`picker-bar` wraps four of the six `*-picker` helpers in this catalog
+`picker-bar` wraps five of the `*-picker` helpers in this catalog
 without altering any of their individual contracts — existing counts,
-markup, and keyboard behaviour for `theme-picker`, `locale-picker`,
-`text-size-picker`, and `share-picker` are unchanged. It is additive: a
-seventh package in this catalog, built on top of the other six the
+markup, and keyboard behaviour for `search-picker`, `theme-picker`,
+`locale-picker`, `text-size-picker`, and `share-picker` are unchanged.
+`search-picker` joined the bar, first in the row, after 0.1.0
+(unreleased; breaking, because `labels` gained three required names —
+see CHANGELOG.md). It is additive: a
+separate package in this catalog, built on top of the wrapped pickers the
 same way a real consumer would compose them — declared as ordinary npm
 `dependencies` in `package.json`, not vendored or duplicated source.

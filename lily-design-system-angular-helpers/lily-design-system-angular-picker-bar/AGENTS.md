@@ -6,10 +6,11 @@ below is a fast index.
 ## What this package is
 
 A composed Angular 20 standalone header control: one
-`<div class="picker-bar">` that renders `ThemePicker`, `LocalePicker`,
-`TextSizePicker`, and `SharePicker` — four of the six `*-picker`
-helpers — in that fixed order, each imported as a normal npm dependency
-from its own published package (`@lilydesignsystem/angular-theme-picker`,
+`<div class="picker-bar">` that renders `SearchPicker`, `ThemePicker`,
+`LocalePicker`, `TextSizePicker`, and `SharePicker` — five of the seven
+`*-picker` helpers — in that fixed order, each imported as a normal npm
+dependency from its own published package
+(`@lilydesignsystem/angular-search-picker`, `-theme-picker`,
 `-locale-picker`, `-text-size-picker`, `-share-picker`). It adds no
 lifecycle of its own beyond two catalog-specific defaults: the full
 45-theme reference list (§5.1 of the spec) and the seven-step
@@ -37,11 +38,11 @@ Required inputs: `labels`, `themesUrl`, `locales`. Full table in
 
 ## Behaviour contract (one paragraph)
 
-`PickerBar` renders the four wrapped pickers unmodified. Because
+`PickerBar` renders the five wrapped pickers unmodified, search first. Because
 Angular has no generic spread-onto-inputs mechanism (unlike the
 canonical Svelte contract's `*Props` bag), each wrapped picker's most
 commonly needed optional inputs are flattened onto `PickerBar`'s own
-inputs with a `theme…` / `locale…` / `textSize…` prefix — see spec §4
+inputs with a `search…` / `theme…` / `locale…` / `textSize…` prefix — see spec §4
 for the full list and the deviation note. `themes` defaults to
 `DEFAULT_THEMES` (all 45 reference theme slugs, alphabetical with the
 UK/US themes moved to one alphabetical group at the bottom); `sizes`
@@ -51,12 +52,15 @@ defaults to `DEFAULT_SIZES` (`largest` … `smallest`, seven slugs) with
 three preference pickers' current values are exposed as two-way
 `model()` signals (`themeValue`, `localeValue`, `textSizeValue`);
 `share-picker`'s `share`/`copy`/`nativeShare` outputs are forwarded
-unmodified, since it has no bindable value to model.
+unmodified, since it has no bindable value to model. The search
+picker's text is the `searchValue` model, and its `searched` output is
+re-emitted unmodified.
 
 ## HTML
 
 ```html
 <div class="picker-bar {className}">
+  <lily-search-picker>…</lily-search-picker>
   <lily-theme-picker>…</lily-theme-picker>
   <lily-locale-picker>…</lily-locale-picker>
   <lily-text-size-picker>…</lily-text-size-picker>
@@ -74,16 +78,17 @@ CSS selector walks the DOM tree.
 ## Accessibility
 
 WCAG 2.2 AAA target — unchanged from each wrapped picker, since
-`PickerBar` adds no new interaction. `labels` supplies all four
-accessible names; there is no English default.
+`PickerBar` adds no new interaction. `labels` supplies all seven
+accessible names (`search`, `searchInput`, `searchSubmit`, `theme`,
+`locale`, `textSize`, `share`); there is no English default.
 
 ## Conventions this package follows
 
 - Angular 20 standalone component, signal-based inputs
   (`input()`/`input.required()`), signal outputs (`output()`), model
-  signals (`model()`) for the three bindable values, `OnPush` change
+  signals (`model()`) for the four bindable values, `OnPush` change
   detection.
-- Depends on the four wrapped pickers as real npm `dependencies`
+- Depends on the five wrapped pickers as real npm `dependencies`
   (declared in `ng-package.json`'s `allowedNonPeerDependencies`) — the
   same way any consumer would — not vendored or duplicated source.
 - No bundled CSS, fonts, icons, or images.
@@ -93,7 +98,7 @@ accessible names; there is no English default.
 ## Local development note
 
 This catalog has no pnpm workspace linking (`pnpm-workspace.yaml`
-carries no `packages:` glob). `../vitest.config.ts` aliases the four
+carries no `packages:` glob). `../vitest.config.ts` aliases the five
 bare package specifiers to each sibling's already-built ng-packagr
 `dist/fesm2022/*.mjs` so tests resolve locally; `../tsconfig.json`
 mirrors that with a `paths` map (to each sibling's `dist/types/*.d.ts`)

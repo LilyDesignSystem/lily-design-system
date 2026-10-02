@@ -84,8 +84,8 @@ Headless versions if you want to use components with all your own styles:
 ## Helpers
 
 Per-framework helper catalogs of small, opinionated packages. Each catalog
-ships six helpers — 48 packages in all across 8 catalogs — and each owns
-one complete interaction end to end:
+ships seven `*-picker` helpers — 56 packages across 8 catalogs — and each
+owns one complete interaction end to end:
 
 - **theme-picker**, **locale-picker**, **text-size-picker**, **motion-picker**
   own a user preference: selection, DOM application (`data-theme`,
@@ -96,6 +96,9 @@ one complete interaction end to end:
 - **share-picker** owns an action: the native share sheet where the
   platform has one, else a disclosure of consumer-supplied destinations
   plus copy-the-URL. Applies nothing, persists nothing.
+- **search-picker** owns an action too: a magnifying-glass icon opening
+  a search field and a `⏎` submit button; a search for `foo` performs a
+  GET to `/?foo`. Applies nothing, persists nothing.
 - **date-time-picker** owns a form value: a typeable text field plus an
   APG date-picker dialog, locale-correct from `Intl`. Applies nothing,
   persists nothing — a date in a form is data, not a preference.

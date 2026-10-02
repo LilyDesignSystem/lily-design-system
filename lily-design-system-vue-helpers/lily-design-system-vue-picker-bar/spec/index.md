@@ -8,11 +8,12 @@ instead of prop-bag spread).
 
 ## 1. Purpose
 
-A single page-header row that composes four of the six `*-picker`
-helpers — `theme-picker`, `locale-picker`, `text-size-picker`, and
-`share-picker` — with sensible catalog-wide defaults pre-wired, so a
-consumer can drop one component into a header instead of assembling
-and configuring four. `motion-picker` and `date-time-picker` are
+A single page-header row that composes five of the `*-picker`
+helpers — `search-picker`, `theme-picker`, `locale-picker`,
+`text-size-picker`, and `share-picker` — with sensible catalog-wide
+defaults pre-wired, so a consumer can drop one component into a header
+instead of assembling and configuring five. Search comes first in the
+row (added 2026-10-02). `motion-picker` and `date-time-picker` are
 deliberately excluded: the former has no natural page-header spot next
 to the other three preference pickers picked for this bar, and the
 latter is a form control, not a header control — see
@@ -20,18 +21,19 @@ latter is a form control, not a header control — see
 
 ## 2. Scope
 
-In scope: rendering the four pickers in a fixed order (theme, locale,
-text-size, share), forwarding each picker's required and optional
+In scope: rendering the five pickers in a fixed order (search, theme,
+locale, text-size, share), forwarding each picker's required and optional
 props, and supplying two catalog-specific defaults (§5.1, §5.2) so the
 common case needs no configuration beyond accessible names, a themes
 URL, and a locale list. Out of scope: any new interaction, state, or
-DOM application beyond what the four wrapped pickers already do —
+DOM application beyond what the five wrapped pickers already do —
 `PickerBar` owns no lifecycle of its own.
 
 ## 3. HTML
 
 ```html
 <div class="picker-bar {class}">
+  <div class="search-picker">…</div>
   <div class="theme-picker">…</div>
   <div class="locale-picker">…</div>
   <div class="text-size-picker">…</div>
@@ -52,7 +54,8 @@ sibling picker in this catalog already relies on, no manual
 
 | Prop            | Type                                | Required | Default              |
 | --------------- | ------------------------------------ | -------- | --------------------- |
-| `labels`         | `{ theme, locale, textSize, share }` | yes      | —                      |
+| `labels`         | `{ search, searchInput, searchSubmit, theme, locale, textSize, share }` | yes | — |
+| `searchProps`    | `Partial<SearchPicker Props>`        | no       | `{}`                   |
 | `themesUrl`      | `string`                             | yes      | —                      |
 | `themes`         | `string[]`                           | no       | `DEFAULT_THEMES` (§5.1) |
 | `themeProps`     | `Partial<ThemePicker Props>`         | no       | `{}`                   |
@@ -64,14 +67,18 @@ sibling picker in this catalog already relies on, no manual
 | `shareProps`     | `Partial<SharePicker Props>`         | no       | `{}`                   |
 | `class`          | `string`                             | no       | `""`                   |
 
-`labels` carries the four accessible names as one object, following
-`date-time-picker`'s precedent (AGENTS/helpers.md): four structural
-labels this catalog did not invent get no English default. There is no
-top-level `label` — it would be ambiguous across four controls.
+`labels` carries the seven accessible names as one object, following
+`date-time-picker`'s precedent (AGENTS/helpers.md): structural labels
+this catalog did not invent get no English default. Search needs three
+— `search` (its icon button and search landmark), `searchInput` (the
+field) and `searchSubmit` (the `⏎` button), passed as `SearchPicker`'s
+`label` / `inputLabel` / `submitLabel` — the others one each. There is
+no top-level `label` — it would be ambiguous across five controls.
 
 Each `*Props` bag accepts that picker's own optional props (excluding
 the ones `PickerBar` already lifts to the top level — `themesUrl` /
-`themes`, `locales`, `sizes`, `targets`) and is applied to that picker
+`themes`, `locales`, `sizes`, `targets`, and search's three labels)
+and is applied to that picker
 via `v-bind="{picker}Props"`, placed **after** `PickerBar`'s own
 `:prop` bindings in the template — Vue resolves duplicate keys on a
 component tag in source order, so a key present in the bag wins over
@@ -88,6 +95,7 @@ props bag:
 
 | PickerBar event    | Forwarded from              |
 | ------------------- | ---------------------------- |
+| `search`             | `SearchPicker`'s `search`    |
 | `theme-change`       | `ThemePicker`'s `change`     |
 | `locale-change`      | `LocalePicker`'s `change`    |
 | `text-size-change`   | `TextSizePicker`'s `change`  |
@@ -136,18 +144,18 @@ therefore binds `defaultValue="normal"` to its `TextSizePicker` unless
 ## 6. Accessibility
 
 WCAG 2.2 AAA target, unchanged from each wrapped picker's own
-contract (§6 of `theme-picker`, `locale-picker`, `text-size-picker`,
-and `share-picker`'s respective specs) — `PickerBar` introduces no new
+contract (§6 of `search-picker`, `theme-picker`, `locale-picker`,
+`text-size-picker`, and `share-picker`'s respective specs) — `PickerBar` introduces no new
 interaction, so it introduces no new accessibility surface. `labels`
-supplies the four accessible names; there is no default that would
+supplies the seven accessible names; there is no default that would
 hardcode English text.
 
 ## 7. Acceptance criteria
 
 - §7.1 Renders a `<div class="picker-bar {class}">` root, with extra
   attributes falling through onto it.
-- §7.2 Renders exactly the four pickers — theme, locale, text-size,
-  share — in that order, each accessibly named from `labels`.
+- §7.2 Renders exactly the five pickers — search, theme, locale,
+  text-size, share — in that order, each accessibly named from `labels`.
 - §7.3 Forwards `themesUrl` to `ThemePicker`; `themes` omitted resolves
   to `DEFAULT_THEMES` (45 entries, `abyss` first, the 8 UK/US themes
   last as a group).
@@ -162,13 +170,19 @@ hardcode English text.
   `textSizeProps.defaultValue` overrides it.
 - §7.10 `shareTargets` reaches the nested `SharePicker`'s list.
 - §7.11 `PickerBar` re-emits each wrapped picker's own change/action
-  event under a bar-scoped name (§4.1).
+  event under a bar-scoped name (§4.1), including `SearchPicker`'s
+  `search`.
+- §7.12 Search is the first picker; its field and `⏎` button are
+  named from `labels.searchInput` and `labels.searchSubmit`.
+- §7.13 `searchProps` (e.g. `action`, `navigate`) reaches the nested
+  `SearchPicker`: with `action: "/search"`, a search for `foo`
+  navigates to `/search?foo`.
 
 ## 8. Relationship to the six `*-picker` helpers
 
-`PickerBar` wraps four of the six `*-picker` helpers in
-AGENTS/helpers.md without altering any of their individual contracts —
-existing counts, markup, and keyboard behaviour for `theme-picker`,
+`PickerBar` wraps five of the `*-picker` helpers in AGENTS/helpers.md
+without altering any of their individual contracts — existing counts,
+markup, and keyboard behaviour for `search-picker`, `theme-picker`,
 `locale-picker`, `text-size-picker`, and `share-picker` are unchanged.
 It is additive: a seventh package in this catalog, built on top of the
 other six the same way a real consumer would compose them — declared
@@ -179,7 +193,7 @@ as ordinary npm `dependencies`, not vendored or duplicated source.
 Unlike the Svelte catalog (whose `svelte-package` build copies source
 files without bundling), this catalog's `build.mjs` compiles each
 sub-package with **Vite library mode**, which bundles by default. The
-four sibling packages are added to `vite.lib.config.ts`'s
+five sibling packages are added to `vite.lib.config.ts`'s
 `rollupOptions.external` (alongside `vue`) so `PickerBar`'s built
 `dist/index.js` keeps real `import … from "lily-design-system-vue-*-picker"`
 statements instead of inlining each sibling's implementation — verified
@@ -190,15 +204,15 @@ building this package: loading more than one pre-built
 `{Pascal}.vue.d.ts` shim into one `vue-tsc` program throws
 `TS6200: Definitions of the following identifiers conflict with those
 in another file` for the `__VLS_*` globals each shim declares — since
-`PickerBar.vue`'s template renders all four siblings at once, this is
+`PickerBar.vue`'s template renders all five siblings at once, this is
 unavoidable via `tsconfig` `paths` pointing at the real generated
 declarations. Fixed with a local, unpublished `shims.d.ts` (loose,
-`any`-typed ambient module declarations for the four specifiers,
+`any`-typed ambient module declarations for the five specifiers,
 included only for this package's own build via a generic addition to
 `build.mjs`'s throwaway tsconfig) that sidesteps the conflicting
 generated shims entirely. This only weakens *this package's own local
-build-time* type-checking of the four nested components — the
+build-time* type-checking of the five nested components — the
 *published* `dist/PickerBar.vue.d.ts` still imports the real `Props`
 types from each sibling's bare specifier, so a real consumer installing
 `@lilydesignsystem/vue-picker-bar` gets full type safety from their
-own installed copies of the four dependencies.
+own installed copies of the five dependencies.

@@ -1,0 +1,90 @@
+@namespace LilyDesignSystem.Blazor.Helpers
+@using LilyBlazorHeadless.Components
+
+@*
+    SearchPicker — Blazor helper component.
+    Single source of truth: spec/index.md (§1–§10).
+
+    Renders an icon button (a bundled magnifying-glass SVG) that opens a
+    disclosure panel holding a real <form role="search">: a type="search"
+    field and, after it, a submit button whose visible content is ⏎.
+    Submitting navigates to `${Action}?${encodeURIComponent(query.Trim())}`
+    — by default /?<query>.
+
+    A disclosure holding a native form, not a menu or a listbox: Return to
+    submit, mobile search keyboards and form semantics all come from the
+    platform. The native submission is cancelled (it would send
+    /?name=value) and the component navigates to the bare-query URL itself.
+
+    Focus moves are deferred to OnAfterRenderAsync and the one browser
+    question the component asks (is focus still inside me?) goes through
+    IJSRuntime "eval" from an event handler, so the component is SSR /
+    prerender safe and ships no JS file.
+*@
+
+<div class="@RootClass"
+     @onfocusout="OnRootFocusOutAsync"
+     @attributes="AdditionalAttributes">
+
+    <IconButton @ref="_triggerComponent"
+                Label="@Label"
+                BaseCssClass="search-picker-button"
+                aria-expanded="@(_open ? "true" : "false")"
+                aria-controls="@PanelId"
+                @onclick="OnTriggerClick">
+        @if (ChildContent is not null)
+        {
+            @ChildContent(BuildContext())
+        }
+        else
+        {
+            @* The icon is decorative: the accessible name is the button's
+               aria-label, never the icon itself. *@
+            <svg class="search-picker-icon" viewBox="0 0 16 16"
+                 width="1.05rem" height="1.05rem" aria-hidden="true"
+                 fill="none" stroke="currentColor" stroke-width="1.6"
+                 stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="7" cy="7" r="4.5" />
+                <path d="M10.5 10.5 14 14" />
+            </svg>
+        }
+    </IconButton>
+
+    @* The keydown handler only listens for Escape bubbling up from the
+       field and the submit button inside; the panel itself takes no
+       focus. *@
+    <div class="search-picker-panel"
+         id="@PanelId"
+         hidden="@(!_open)"
+         @onkeydown="OnPanelKeyDown">
+        @* The form keeps action/method="get" so its semantics stay
+           truthful; the submission itself is cancelled and done in C#,
+           because a native GET always sends name=value pairs and the
+           contract is the bare query (/?foo, not /?q=foo). *@
+        <form class="search-picker-form"
+              role="search"
+              aria-label="@Label"
+              action="@Action"
+              method="get"
+              @onsubmit="OnSubmitAsync"
+              @onsubmit:preventDefault="true">
+            <input class="search-picker-input"
+                   type="search"
+                   aria-label="@InputLabel"
+                   placeholder="@Placeholder"
+                   enterkeyhint="search"
+                   value="@Value"
+                   @ref="_inputElement"
+                   @oninput="OnInputAsync" />
+            @* mousedown default is suppressed so pressing ⏎ does not move
+               focus off the field before the click lands: a browser that
+               does not focus buttons on click (Safari) would otherwise
+               send focus to <body>, the root's focusout would close the
+               panel, and the click would never reach the button. *@
+            <button type="submit"
+                    class="search-picker-submit"
+                    aria-label="@SubmitLabel"
+                    @onmousedown:preventDefault="true"><span class="search-picker-submit-symbol" aria-hidden="true">@ReturnSymbol</span></button>
+        </form>
+    </div>
+</div>

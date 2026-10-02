@@ -3,9 +3,9 @@
  *
  * Importing this module registers the custom element under the tag
  * name `"lily-picker-bar"`, and — because it statically imports the
- * four wrapped pickers' own barrels — registers `lily-theme-picker`,
- * `lily-locale-picker`, `lily-text-size-picker`, and `lily-share-picker`
- * too, if they are not already registered. Registration is idempotent
+ * five wrapped pickers' own barrels — registers `lily-search-picker`,
+ * `lily-theme-picker`, `lily-locale-picker`, `lily-text-size-picker`, and
+ * `lily-share-picker` too, if they are not already registered. Registration is idempotent
  * — re-imports do not throw.
  */
 

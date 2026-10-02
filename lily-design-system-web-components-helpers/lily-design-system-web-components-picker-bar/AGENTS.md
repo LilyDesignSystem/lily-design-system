@@ -6,9 +6,10 @@ below is a fast index.
 ## What this package is
 
 A composed vanilla HTML/JS header control: the `<lily-picker-bar>`
-custom element renders `<lily-theme-picker>`, `<lily-locale-picker>`,
-`<lily-text-size-picker>`, and `<lily-share-picker>` — four of the six
-`*-picker` helpers in this catalog — in that fixed order, each
+custom element renders `<lily-search-picker>`, `<lily-theme-picker>`,
+`<lily-locale-picker>`, `<lily-text-size-picker>`, and
+`<lily-share-picker>` — five of the `*-picker` helpers in this catalog
+— in that fixed order (search first), each
 imported as a normal npm dependency from its own published package. It
 adds no lifecycle of its own beyond two catalog-specific defaults: the
 full 45-theme reference list (§5.1 of the spec) and the seven-step
@@ -29,7 +30,7 @@ text-size scale (§5.2). `<lily-motion-picker>` and
 
 - Class `PickerBar extends HTMLElement` (registered as
   `<lily-picker-bar>` on import of `index.ts`; that import also
-  registers the four wrapped pickers, transitively).
+  registers the five wrapped pickers, transitively).
 - Named exports: `PickerBar`, `DEFAULT_THEMES`, `DEFAULT_SIZES`.
 - Type exports: `PickerBarProps`, `PickerBarLabels`.
 
@@ -39,9 +40,9 @@ Required attributes/properties: `labels` (property-only), `themes-url`,
 
 ## Behaviour contract (one paragraph)
 
-`<lily-picker-bar>` renders the four wrapped pickers unmodified,
+`<lily-picker-bar>` renders the five wrapped pickers unmodified,
 setting each its own required attributes/properties plus any extras
-from that picker's `*Props` bag (`themeProps`, `localeProps`,
+from that picker's `*Props` bag (`searchProps`, `themeProps`, `localeProps`,
 `textSizeProps`, `shareProps`), applied via `Object.assign` **after**
 the bar's own base values, so a consumer can override anything.
 `themes` defaults to `DEFAULT_THEMES` (all 45 reference theme slugs,
@@ -58,6 +59,7 @@ the wrapped picker's own contract; see that picker's own `AGENTS.md`.
 ```html
 <lily-picker-bar>
   <div class="picker-bar {class}">
+    <lily-search-picker>…</lily-search-picker>
     <lily-theme-picker>…</lily-theme-picker>
     <lily-locale-picker>…</lily-locale-picker>
     <lily-text-size-picker>…</lily-text-size-picker>
@@ -74,7 +76,7 @@ class.
 
 WCAG 2.2 AAA target — unchanged from each wrapped picker, since
 `<lily-picker-bar>` adds no new interaction. `labels` supplies all
-four accessible names; there is no English default (matching
+seven accessible names (three for search: button, field, `⏎`); there is no English default (matching
 `<lily-date-time-picker>`'s `labels` precedent in this catalog).
 
 ## Conventions this package follows
@@ -82,7 +84,7 @@ four accessible names; there is no English default (matching
 - Vanilla web component (custom element extending `HTMLElement`).
 - Light DOM only (no Shadow DOM).
 - Strict TypeScript on the public surface.
-- Depends on the four wrapped pickers as real npm `dependencies` —
+- Depends on the five wrapped pickers as real npm `dependencies` —
   the same way any consumer would — not vendored or duplicated source.
 - No bundled CSS, fonts, icons, or images.
 - All user-facing strings come from properties (`labels`, and
@@ -90,7 +92,7 @@ four accessible names; there is no English default (matching
 
 ## Two implementation gotchas that cost real debugging time — do not reintroduce either
 
-1. **Side-effect imports of the four wrapped packages must stay bare
+1. **Side-effect imports of the five wrapped packages must stay bare
    `import "…";` statements**, never `import { ThemePicker } from "…"`
    used only in a type position (`as ThemePicker`). esbuild's TS
    transform elides an import whose binding is never used as a runtime
@@ -99,7 +101,7 @@ four accessible names; there is no English default (matching
    `customElements.define(...)` call. Import the classes only via
    `import type { ThemePicker, ThemePickerProps } from "…"` for casts;
    trigger registration with a separate bare `import "…";`.
-2. **Connect `root` to `this` before appending the four picker
+2. **Connect `root` to `this` before appending the five picker
    children into it**, not after. `document.createElement` for each
    nested picker only runs its own render once its `connectedCallback`
    fires, which requires the element to actually be part of the
@@ -112,7 +114,7 @@ four accessible names; there is no English default (matching
 ## Local development note
 
 This catalog has no pnpm workspace linking (no `packages:` glob).
-`../vitest.config.ts` aliases the four bare package specifiers to each
+`../vitest.config.ts` aliases the five bare package specifiers to each
 sibling's already-built `dist/index.js` so tests resolve locally; the
 catalog root `tsconfig.json` (new, added for this package) mirrors
 that with a `paths` map so `tsup --dts` can type-check the same

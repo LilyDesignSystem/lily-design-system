@@ -4,7 +4,7 @@
   "engines": {
     "node": "=26"
   },
-  "description": "Lily Design System Vue 3 picker bar: composes theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row. Headless, SSR-safe, no CSS.",
+  "description": "Lily Design System Vue 3 picker bar: composes search-picker, theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row. Headless, SSR-safe, no CSS.",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -27,6 +27,7 @@
     "vue": "^3.0.0"
   },
   "dependencies": {
+    "@lilydesignsystem/vue-search-picker": "^0.1.0",
     "@lilydesignsystem/vue-theme-picker": "^0.1.0",
     "@lilydesignsystem/vue-locale-picker": "^0.1.0",
     "@lilydesignsystem/vue-text-size-picker": "^0.1.0",
@@ -39,6 +40,7 @@
     "vue",
     "picker",
     "picker-bar",
+    "search",
     "theme",
     "locale",
     "text-size",

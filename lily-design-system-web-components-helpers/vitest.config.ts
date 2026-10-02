@@ -9,7 +9,7 @@ export default defineConfig({
   resolve: {
     alias: {
       // @lilydesignsystem/web-components-picker-bar depends on these
-      // four sibling packages the same way a real consumer would
+      // five sibling packages the same way a real consumer would
       // (declared as regular npm `dependencies`, resolved from the
       // registry once published). This catalog has no pnpm workspace
       // linking (no `packages:` glob in pnpm-workspace.yaml), so
@@ -18,6 +18,12 @@ export default defineConfig({
       // already-built `dist/` for local dev/test only. Not read by the
       // tsup build: picker-bar's own dist keeps the bare imports,
       // which real installs resolve normally.
+      "@lilydesignsystem/web-components-search-picker": fileURLToPath(
+        new URL(
+          "./lily-design-system-web-components-search-picker/dist/index.js",
+          import.meta.url,
+        ),
+      ),
       "@lilydesignsystem/web-components-theme-picker": fileURLToPath(
         new URL(
           "./lily-design-system-web-components-theme-picker/dist/index.js",

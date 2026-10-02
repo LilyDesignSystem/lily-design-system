@@ -1,9 +1,10 @@
 # Lily Design System™ — Svelte PickerBar
 
-A single page-header row that composes four of the Lily
-[`*-picker` helpers](../index.md) — theme, locale, text size, and
-share — with two catalog-wide defaults pre-wired, so you can drop one
-component into a header instead of assembling and configuring four.
+A single page-header row that composes five of the Lily
+[`*-picker` helpers](../index.md) — search, theme, locale, text size,
+and share, in that order — with two catalog-wide defaults pre-wired, so
+you can drop one component into a header instead of assembling and
+configuring five.
 
 `motion-picker` and `date-time-picker` are not part of the bar: motion
 has no natural spot next to the other three header preferences, and
@@ -15,8 +16,8 @@ has no natural spot next to the other three header preferences, and
 npm install @lilydesignsystem/svelte-picker-bar
 ```
 
-`@lilydesignsystem/svelte-theme-picker`, `-locale-picker`,
-`-text-size-picker`, and `-share-picker` install automatically as
+`@lilydesignsystem/svelte-search-picker`, `-theme-picker`,
+`-locale-picker`, `-text-size-picker`, and `-share-picker` install automatically as
 regular dependencies — `PickerBar` is a thin wrapper around them, not
 a reimplementation.
 
@@ -29,6 +30,9 @@ a reimplementation.
 
 <PickerBar
   labels={{
+    search: "Search this site",
+    searchInput: "Search terms",
+    searchSubmit: "Search",
     theme: "Theme",
     locale: "Language",
     textSize: "Text size",
@@ -46,7 +50,8 @@ a reimplementation.
 />
 ```
 
-That's a complete, working header row: 45 themes, four locales, the
+That's a complete, working header row: site search (a search for
+`foo` goes to `/?foo`), 45 themes, four locales, the
 seven-step text-size scale, and one share destination plus copy-to-URL
 if you add `shareProps={{ copyLabel: "Copy link" }}`.
 
@@ -76,7 +81,11 @@ detection, a `*Labels` override map, a custom glyph:
 
 ```svelte
 <PickerBar
-  labels={{ theme: "Theme", locale: "Language", textSize: "Text size", share: "Share" }}
+  labels={{
+    search: "Search this site", searchInput: "Search terms", searchSubmit: "Search",
+    theme: "Theme", locale: "Language", textSize: "Text size", share: "Share",
+  }}
+  searchProps={{ action: "/search", placeholder: "Search…" }}
   themesUrl="/assets/themes/"
   locales={["en", "cy"]}
   themeProps={{ storageKey: "lily-theme", detectFromSystem: true }}
@@ -95,7 +104,8 @@ top-level prop instead).
 
 `PickerBar` renders no CSS of its own class beyond the `picker-bar`
 root wrapper — style each child through its own package's class hooks
-(`theme-picker`, `locale-picker`, `text-size-picker`, `share-picker`;
+(`search-picker`, `theme-picker`, `locale-picker`, `text-size-picker`,
+`share-picker`;
 see each package's own `index.md`). A typical header layout:
 
 ```css

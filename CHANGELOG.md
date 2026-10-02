@@ -9,6 +9,62 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## New helper: `search-picker`, first in `picker-bar` — 2026-10-02
+
+**`search-picker`** (maintainer-directed) ships in all eight `*-helpers`
+catalogs as `@lilydesignsystem/{framework}-search-picker` (Blazor:
+`LilyDesignSystem.Blazor.SearchPicker`), version 0.1.0, not yet
+published. A magnifying-glass icon button opens a dropdown holding a real
+`<form role="search">`: a `type="search"` field and, at its right, a
+submit button labelled `⏎` (U+23CE). Return in the field, or the `⏎`
+button, navigates to `/?<text>` — a search for `foo` goes to `/?foo`.
+
+- The query is trimmed and URI-encoded (`foo bar` → `/?foo%20bar`,
+  `a&b` → `/?a%26b`); an empty query goes nowhere. A native GET form
+  would send `/?name=value`, so the component cancels the native
+  submission and navigates itself; the form keeps `action`/`method="get"`
+  so its semantics stay truthful.
+- `action` (default `/`) changes the path; `navigate` (default
+  `location.assign`, a real GET) swaps in a client-side router;
+  `onSearch` observes the query.
+- `⏎` is the visible label only (`aria-hidden`); the accessible names
+  come from three required props — `label`, `inputLabel`,
+  `submitLabel` — with no English defaults. `RETURN_SYMBOL` is exported
+  as a bare literal, and `bin/test`'s glyph check now covers it.
+- Svelte is canonical; the other seven are idiom ports (Vue `@search`,
+  Angular's `searched` output — a `(search)` binding would also catch the
+  field's native `search` event — custom elements with a bubbling
+  `search` event, a Nunjucks macro plus client script, Blazor with
+  `NavigationManager.NavigateTo(href, forceLoad: true)`). Tests, one per
+  spec clause, each shown to fail when the implementation is broken:
+  Svelte 24, React 25, Vue 24, Angular 24, HTML 32, Web Components 32,
+  Nunjucks 35, Blazor 26.
+
+**A real Safari bug, caught before release.** Every first draft closed the
+panel when focus left the root with no `relatedTarget`. Safari does not
+focus a `<button>` on click, so pressing `⏎` blurred the field with no new
+focus target, the panel closed before the click landed, and the search
+never ran — reproduced in real WebKit (Chromium was fine), as was the
+icon button re-opening instead of toggling closed. Now a focusout with no
+`relatedTarget` never closes the panel (Blazor, which cannot read
+`relatedTarget`, waits for the causing click instead). Confirmed in real
+WebKit and Chromium for the Svelte, React, Vue, HTML, Web Components and
+Nunjucks ports; Angular and Blazor by unit test.
+
+**`picker-bar`** now renders `search-picker` first, before theme, locale,
+text size and share, in all eight catalogs. **Breaking:** `labels` gains
+three required names — `search`, `searchInput`, `searchSubmit` — recorded
+as Unreleased in each `picker-bar` CHANGELOG, for a minor bump. A
+`searchProps` bag (Angular: flattened `search*` inputs; Blazor:
+`SearchAttributes`) forwards the rest.
+
+The 45 root `themes/` style the new hooks: the panel is positioned like
+the other pickers' popups, and the field and `⏎` button sit in one row
+(`bin/check-theme` now covers `search-picker`). Synced to the seven
+example apps, the docs site and the subprojects' `AGENTS/`. Also fixed:
+five Web Components pickers' `AGENTS.md` claimed "no runtime
+dependencies" while depending on `web-components-headless`.
+
 ## SvelteKit 3, and every open Dependabot alert resolved — 2026-10-02
 
 **SvelteKit 2 → 3** in the four Svelte subprojects that depend on it

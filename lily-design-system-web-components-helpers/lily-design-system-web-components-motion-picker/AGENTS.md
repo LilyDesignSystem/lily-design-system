@@ -103,7 +103,7 @@ different thing from `aria-selected`.
 - Vanilla web component (custom element extending `HTMLElement`).
 - Light DOM only (no Shadow DOM).
 - Strict TypeScript on the public surface.
-- No runtime dependencies.
+- One runtime dependency: `@lilydesignsystem/web-components-headless`, for the trigger's `<lily-icon-button>`.
 - No bundled CSS, fonts, icons, or images.
 - All user-facing strings come from attributes / properties.
 - Mirrors the Svelte sibling's §7 acceptance criteria.

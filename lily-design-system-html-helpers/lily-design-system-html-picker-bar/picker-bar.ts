@@ -5,19 +5,25 @@
  * the custom-element class but does NOT register it. The `index.ts`
  * barrel registers it on import.
  *
- * A thin composition: renders `<theme-picker>`, `<locale-picker>`,
- * `<text-size-picker>`, and `<share-picker>` — each imported from its
+ * A thin composition: renders `<search-picker>`, `<theme-picker>`,
+ * `<locale-picker>`, `<text-size-picker>`, and `<share-picker>` — in
+ * that order, search first — each imported from its
  * own published package, not vendored — inside one
  * `<div class="picker-bar {class}">` row. Owns no lifecycle of its
  * own beyond two catalog-specific defaults (§5.1, §5.2 of the spec).
  */
 
 // Side-effect imports: each registers its own custom element.
+import "@lilydesignsystem/html-search-picker";
 import "@lilydesignsystem/html-theme-picker";
 import "@lilydesignsystem/html-locale-picker";
 import "@lilydesignsystem/html-text-size-picker";
 import "@lilydesignsystem/html-share-picker";
 
+import type {
+  SearchPicker,
+  SearchPickerProps,
+} from "@lilydesignsystem/html-search-picker";
 import type {
   ThemePicker,
   ThemePickerProps,
@@ -109,8 +115,14 @@ export const DEFAULT_SIZES: string[] = [
   "smallest",
 ];
 
-/** Accessible names for the four pickers. Required — no English default. */
+/** Accessible names for the five pickers. Required — no English default. */
 export type PickerBarLabels = {
+  /** Accessible name for the search picker's button and search landmark. */
+  search: string;
+  /** Accessible name for the search picker's text field. */
+  searchInput: string;
+  /** Accessible name for the search picker's ⏎ submit button. */
+  searchSubmit: string;
   /** Accessible name for the theme picker's button and listbox. */
   theme: string;
   /** Accessible name for the locale picker's button and listbox. */
@@ -122,6 +134,9 @@ export type PickerBarLabels = {
 };
 
 const DEFAULT_LABELS: PickerBarLabels = {
+  search: "",
+  searchInput: "",
+  searchSubmit: "",
   theme: "",
   locale: "",
   textSize: "",
@@ -137,6 +152,9 @@ const DEFAULT_LABELS: PickerBarLabels = {
  * so anything here overrides them. Excludes the props `<picker-bar>`
  * already lifts to the top level.
  */
+export type SearchPickerExtra = Partial<
+  Omit<SearchPickerProps, "label" | "inputLabel" | "submitLabel">
+>;
 export type ThemePickerExtra = Partial<
   Omit<ThemePickerProps, "label" | "themesUrl" | "themes">
 >;
@@ -149,6 +167,7 @@ export type SharePickerExtra = Partial<Omit<SharePickerProps, "label" | "targets
 /** Mirrors the observed attributes / properties for typing convenience. */
 export type PickerBarProps = {
   labels: PickerBarLabels;
+  searchProps?: SearchPickerExtra;
   themesUrl: string;
   themes?: string[];
   themeProps?: ThemePickerExtra;
@@ -176,6 +195,7 @@ export class PickerBar extends HTMLElement {
   #locales: string[] = [];
   #sizes: string[] = DEFAULT_SIZES;
   #shareTargets: ShareTarget[] = [];
+  #searchProps: SearchPickerExtra = {};
   #themeProps: ThemePickerExtra = {};
   #localeProps: LocalePickerExtra = {};
   #textSizeProps: TextSizePickerExtra = {};
@@ -183,6 +203,7 @@ export class PickerBar extends HTMLElement {
 
   // Rendered-DOM references. Null until #render() has run.
   #rootEl: HTMLDivElement | null = null;
+  #searchPickerEl: SearchPicker | null = null;
   #themePickerEl: ThemePicker | null = null;
   #localePickerEl: LocalePicker | null = null;
   #textSizePickerEl: TextSizePicker | null = null;
@@ -252,6 +273,14 @@ export class PickerBar extends HTMLElement {
     this.#render();
   }
 
+  get searchProps(): SearchPickerExtra {
+    return this.#searchProps;
+  }
+  set searchProps(v: SearchPickerExtra) {
+    this.#searchProps = v ?? {};
+    this.#render();
+  }
+
   get themeProps(): ThemePickerExtra {
     return this.#themeProps;
   }
@@ -284,6 +313,10 @@ export class PickerBar extends HTMLElement {
     this.#render();
   }
 
+  /** The rendered `<search-picker>` instance, once connected. */
+  get searchPicker(): SearchPicker | null {
+    return this.#searchPickerEl;
+  }
   /** The rendered `<theme-picker>` instance, once connected. */
   get themePicker(): ThemePicker | null {
     return this.#themePickerEl;
@@ -351,6 +384,14 @@ export class PickerBar extends HTMLElement {
     const root = document.createElement("div");
     root.className = `picker-bar ${extraClass}`.trim();
 
+    // Search comes first in the row (maintainer-directed, 2026-10-02).
+    const searchEl = document.createElement("search-picker") as SearchPicker;
+    searchEl.label = this.#labels.search;
+    searchEl.inputLabel = this.#labels.searchInput;
+    searchEl.submitLabel = this.#labels.searchSubmit;
+    Object.assign(searchEl, this.#searchProps);
+    root.appendChild(searchEl);
+
     const themeEl = document.createElement("theme-picker") as ThemePicker;
     themeEl.label = this.#labels.theme;
     themeEl.themesUrl = this.themesUrl;
@@ -386,6 +427,7 @@ export class PickerBar extends HTMLElement {
 
     this.replaceChildren(root);
     this.#rootEl = root;
+    this.#searchPickerEl = searchEl;
     this.#themePickerEl = themeEl;
     this.#localePickerEl = localeEl;
     this.#textSizePickerEl = textSizeEl;

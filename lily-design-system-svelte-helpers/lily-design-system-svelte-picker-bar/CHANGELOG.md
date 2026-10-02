@@ -4,6 +4,18 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+**`search-picker` joins the bar, first in the row.** `PickerBar` now
+renders `SearchPicker` before the theme, locale, text-size and share
+pickers, and depends on `@lilydesignsystem/svelte-search-picker`.
+**Breaking:** `labels` gains three required names — `search` (the icon
+button and search landmark), `searchInput` (the field) and
+`searchSubmit` (the `⏎` button) — with no English default, so existing
+call sites must add them. A new `searchProps` bag forwards anything
+else (`action`, `navigate`, `placeholder`, `onSearch`). Release as a
+minor bump.
+
 ## 0.1.0 — 2026-09-16
 
 **Package renamed: `lily-design-system-svelte-picker-bar` → `@lilydesignsystem/svelte-picker-bar`.** npm scoped packages

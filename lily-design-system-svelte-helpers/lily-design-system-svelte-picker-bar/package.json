@@ -27,6 +27,7 @@
     "svelte": "^5.0.0"
   },
   "dependencies": {
+    "@lilydesignsystem/svelte-search-picker": "^0.1.0",
     "@lilydesignsystem/svelte-theme-picker": "^0.1.0",
     "@lilydesignsystem/svelte-locale-picker": "^0.1.0",
     "@lilydesignsystem/svelte-text-size-picker": "^0.1.0",

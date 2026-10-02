@@ -9,6 +9,14 @@ and the project follows
 
 ## Unreleased
 
+### Added
+
+- **`@lilydesignsystem/html-search-picker` 0.1.0 (2026-10-02)** — new
+  `<search-picker>` helper, ported from the Svelte canonical: a
+  magnifying-glass icon button opening a `<form role="search">` with a
+  search field and a `⏎` submit button; submitting navigates to
+  `/?<query>`. 31 tests. Not yet published.
+
 ### Changed (BREAKING)
 
 - **All four helpers renamed to `*-picker`, and all four reset to

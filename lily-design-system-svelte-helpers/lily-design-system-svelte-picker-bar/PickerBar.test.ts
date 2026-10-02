@@ -1,9 +1,12 @@
 import { render, screen, fireEvent } from "@testing-library/svelte";
-import { afterEach, beforeEach, describe, expect, test } from "vitest";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
 import PickerBar, { DEFAULT_THEMES, DEFAULT_SIZES } from "./PickerBar.svelte";
 
 const LABELS = {
+  search: "Search this site",
+  searchInput: "Search terms",
+  searchSubmit: "Search",
   theme: "Theme",
   locale: "Language",
   textSize: "Text size",
@@ -88,20 +91,22 @@ describe("PickerBar — composition (§4, §7.1–§7.4)", () => {
     expect(root?.classList.contains("my-picker-bar")).toBe(true);
   });
 
-  test("§7.2 renders all four pickers, each named from `labels`", () => {
+  test("§7.2 renders all five pickers, each named from `labels`", () => {
     renderBar();
+    expect(screen.getByRole("button", { name: "Search this site" })).toBeTruthy();
     expect(screen.getByRole("button", { name: "Theme" })).toBeTruthy();
     expect(screen.getByRole("button", { name: "Language" })).toBeTruthy();
     expect(screen.getByRole("button", { name: "Text size" })).toBeTruthy();
     expect(screen.getByRole("button", { name: "Share" })).toBeTruthy();
   });
 
-  test("§7.2 renders the four picker root class hooks in theme, locale, text-size, share order", () => {
+  test("§7.2 renders the five picker root class hooks in search, theme, locale, text-size, share order", () => {
     const { container } = renderBar();
     const roots = Array.from(
       container.querySelectorAll(".picker-bar > div"),
     ).map((el) => el.className.split(" ")[0]);
     expect(roots).toEqual([
+      "search-picker",
       "theme-picker",
       "locale-picker",
       "text-size-picker",
@@ -206,5 +211,26 @@ describe("PickerBar — share-picker wiring (§5.4, §7.10)", () => {
     });
     await fireEvent.click(screen.getByRole("button", { name: "Share" }));
     expect(screen.getByText("Email")).toBeTruthy();
+  });
+});
+
+describe("PickerBar — search-picker wiring (§7.12, §7.13)", () => {
+  test("§7.12 search is the first picker, with its field and ⏎ button named from `labels`", async () => {
+    const { container } = renderBar();
+    const first = container.querySelector(".picker-bar > div");
+    expect(first?.classList.contains("search-picker")).toBe(true);
+    await fireEvent.click(screen.getByRole("button", { name: "Search this site" }));
+    expect(screen.getByRole("searchbox", { name: "Search terms" })).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Search" })).toBeTruthy();
+  });
+
+  test("§7.13 `searchProps` reaches SearchPicker (action + navigate)", async () => {
+    const navigate = vi.fn();
+    renderBar({ searchProps: { action: "/search", navigate } });
+    await fireEvent.click(screen.getByRole("button", { name: "Search this site" }));
+    const input = screen.getByRole("searchbox", { name: "Search terms" });
+    await fireEvent.input(input, { target: { value: "foo" } });
+    await fireEvent.submit(document.querySelector(".search-picker-form")!);
+    expect(navigate).toHaveBeenCalledWith("/search?foo");
   });
 });

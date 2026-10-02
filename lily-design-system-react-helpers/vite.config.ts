@@ -15,7 +15,7 @@ export default defineConfig({
     // hook call inside the headless components throws "Invalid hook call".
     dedupe: ["react", "react-dom"],
     alias: {
-      // @lilydesignsystem/react-picker-bar depends on these four sibling
+      // @lilydesignsystem/react-picker-bar depends on these five sibling
       // packages the same way a real consumer would (declared as regular
       // npm `dependencies`, resolved from the registry once published).
       // This catalog has no pnpm workspace linking (no `packages:` glob in
@@ -39,6 +39,12 @@ export default defineConfig({
       "@lilydesignsystem/react-text-size-picker": fileURLToPath(
         new URL(
           "./lily-design-system-react-text-size-picker/dist/index.js",
+          import.meta.url,
+        ),
+      ),
+      "@lilydesignsystem/react-search-picker": fileURLToPath(
+        new URL(
+          "./lily-design-system-react-search-picker/dist/index.js",
           import.meta.url,
         ),
       ),

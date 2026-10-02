@@ -31,7 +31,7 @@ export default defineConfig({
       fileName: () => "index.js",
     },
     rollupOptions: {
-      // "vue" dedupes on the consumer's own copy. The four picker
+      // "vue" dedupes on the consumer's own copy. The five picker
       // packages are external too, for @lilydesignsystem/vue-picker-bar
       // specifically: it depends on them as ordinary npm `dependencies`
       // (see its own package.json), not vendored source, so its built
@@ -45,11 +45,12 @@ export default defineConfig({
         "@lilydesignsystem/vue-locale-picker",
         "@lilydesignsystem/vue-text-size-picker",
         "@lilydesignsystem/vue-share-picker",
+        "@lilydesignsystem/vue-search-picker",
         // theme-picker, locale-picker, text-size-picker, motion-picker,
-        // share-picker, date-time-picker, kanban-board, and gantt-chart
+        // share-picker, search-picker, date-time-picker, kanban-board, and gantt-chart
         // all depend on this now (IconButton/Listbox, or the KanbanTable/
         // GanttTable families) — external for the same reason as the
-        // four sibling pickers above: keep the bare import in each
+        // five sibling pickers above: keep the bare import in each
         // package's own dist rather than inlining the whole headless
         // bundle into every install.
         "@lilydesignsystem/vue-headless",

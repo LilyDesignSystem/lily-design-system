@@ -5,9 +5,10 @@
  * the custom-element class but does NOT register it. The `index.ts`
  * barrel registers it on import.
  *
- * A thin composition wrapper: it renders `<lily-theme-picker>`,
- * `<lily-locale-picker>`, `<lily-text-size-picker>`, and
- * `<lily-share-picker>` — each depended on as a real npm package, not
+ * A thin composition wrapper: it renders `<lily-search-picker>`,
+ * `<lily-theme-picker>`, `<lily-locale-picker>`,
+ * `<lily-text-size-picker>`, and `<lily-share-picker>` — search first,
+ * each depended on as a real npm package, not
  * vendored — in that fixed order, with two catalog-specific defaults
  * pre-wired (§5.1, §5.2 of the spec). It owns no interaction of its
  * own: no listbox, no keyboard handling, no applied/persisted state.
@@ -20,11 +21,13 @@
 // import whose binding is never used as a runtime value, dropping the
 // registration side effect with it. A bare side-effect import can
 // never be elided.
+import "@lilydesignsystem/web-components-search-picker";
 import "@lilydesignsystem/web-components-theme-picker";
 import "@lilydesignsystem/web-components-locale-picker";
 import "@lilydesignsystem/web-components-text-size-picker";
 import "@lilydesignsystem/web-components-share-picker";
 
+import type { SearchPicker, SearchPickerProps } from "@lilydesignsystem/web-components-search-picker";
 import type { ThemePicker, ThemePickerProps } from "@lilydesignsystem/web-components-theme-picker";
 import type { LocalePicker, LocalePickerProps } from "@lilydesignsystem/web-components-locale-picker";
 import type { TextSizePicker, TextSizePickerProps } from "@lilydesignsystem/web-components-text-size-picker";
@@ -107,6 +110,12 @@ export const DEFAULT_SIZES: string[] = [
 
 /** Accessible names for the four pickers. Required — no English default. */
 export type PickerBarLabels = {
+  /** Accessible name for the search picker's button and search landmark. */
+  search: string;
+  /** Accessible name for the search picker's text field. */
+  searchInput: string;
+  /** Accessible name for the search picker's ⏎ submit button. */
+  searchSubmit: string;
   /** Accessible name for the theme picker's button and listbox. */
   theme: string;
   /** Accessible name for the locale picker's button and listbox. */
@@ -123,6 +132,9 @@ export type PickerBarLabels = {
  * than a name this catalog invented.
  */
 const DEFAULT_LABELS: PickerBarLabels = {
+  search: "",
+  searchInput: "",
+  searchSubmit: "",
   theme: "",
   locale: "",
   textSize: "",
@@ -133,6 +145,8 @@ const DEFAULT_LABELS: PickerBarLabels = {
 export type PickerBarProps = {
   /** Property-only — see `spec/index.md` §4.3. Required, no default. */
   labels: PickerBarLabels;
+  /** Property-only extra `<lily-search-picker>` config (`action`, `navigate`, `placeholder`, `onSearch`, …), applied after the bar's own. */
+  searchProps?: Partial<Omit<SearchPickerProps, "label" | "inputLabel" | "submitLabel">>;
   themesUrl: string;
   themes?: string[];
   /** Property-only extra `<lily-theme-picker>` config, applied after the bar's own. */
@@ -168,6 +182,7 @@ export class PickerBar extends HTMLElement {
   #sizes: string[] = [...DEFAULT_SIZES];
   #labels: PickerBarLabels = { ...DEFAULT_LABELS };
   #shareTargets: ShareTarget[] = [];
+  #searchProps: Partial<SearchPickerProps> = {};
   #themeProps: Partial<ThemePickerProps> = {};
   #localeProps: Partial<LocalePickerProps> = {};
   #textSizeProps: Partial<TextSizePickerProps> = {};
@@ -175,6 +190,7 @@ export class PickerBar extends HTMLElement {
 
   #built = false;
   #rootEl: HTMLDivElement | null = null;
+  #searchEl: SearchPicker | null = null;
   #themeEl: ThemePicker | null = null;
   #localeEl: LocalePicker | null = null;
   #textSizeEl: TextSizePicker | null = null;
@@ -234,6 +250,11 @@ export class PickerBar extends HTMLElement {
   }
   set labels(v: PickerBarLabels) {
     this.#labels = v ?? { ...DEFAULT_LABELS };
+    if (this.#searchEl) {
+      this.#searchEl.label = this.#labels.search;
+      this.#searchEl.inputLabel = this.#labels.searchInput;
+      this.#searchEl.submitLabel = this.#labels.searchSubmit;
+    }
     if (this.#themeEl) this.#themeEl.label = this.#labels.theme;
     if (this.#localeEl) this.#localeEl.label = this.#labels.locale;
     if (this.#textSizeEl) this.#textSizeEl.label = this.#labels.textSize;
@@ -247,6 +268,14 @@ export class PickerBar extends HTMLElement {
   set shareTargets(v: ShareTarget[]) {
     this.#shareTargets = Array.isArray(v) ? v.slice() : [];
     if (this.#shareEl) this.#shareEl.targets = this.#shareTargets;
+  }
+
+  get searchProps(): Partial<SearchPickerProps> {
+    return { ...this.#searchProps };
+  }
+  set searchProps(v: Partial<SearchPickerProps>) {
+    this.#searchProps = v ?? {};
+    if (this.#searchEl) Object.assign(this.#searchEl, this.#searchProps);
   }
 
   get themeProps(): Partial<ThemePickerProps> {
@@ -347,6 +376,14 @@ export class PickerBar extends HTMLElement {
     // fires immediately, in every environment.
     this.replaceChildren(root);
 
+    // Search comes first in the row (maintainer-directed, 2026-10-02).
+    const searchEl = document.createElement("lily-search-picker") as SearchPicker;
+    searchEl.label = this.#labels.search;
+    searchEl.inputLabel = this.#labels.searchInput;
+    searchEl.submitLabel = this.#labels.searchSubmit;
+    Object.assign(searchEl, this.#searchProps);
+    root.appendChild(searchEl);
+
     const themeEl = document.createElement("lily-theme-picker") as ThemePicker;
     themeEl.label = this.#labels.theme;
     themeEl.themesUrl = this.themesUrl;
@@ -379,6 +416,7 @@ export class PickerBar extends HTMLElement {
     root.appendChild(shareEl);
 
     this.#rootEl = root;
+    this.#searchEl = searchEl;
     this.#themeEl = themeEl;
     this.#localeEl = localeEl;
     this.#textSizeEl = textSizeEl;

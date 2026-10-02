@@ -7,14 +7,24 @@ using Microsoft.AspNetCore.Components;
 namespace LilyDesignSystem.Blazor.Helpers;
 
 /// <summary>
-/// The four accessible names PickerBar's wrapped pickers need. Grouped into
-/// one object rather than four flat parameters — the same reasoning as
+/// The seven accessible names PickerBar's five wrapped pickers need (three
+/// for search: button, field, ⏎). Grouped into one object rather than
+/// seven flat parameters — the same reasoning as
 /// <c>DateTimePickerLabels</c> in the sibling date-time-picker package:
-/// four structural labels this catalog did not invent get no English
-/// default. See spec/index.md §4.
+/// structural labels this catalog did not invent get no English default.
+/// See spec/index.md §4.
 /// </summary>
 public sealed record PickerBarLabels
 {
+    /// <summary>Accessible name for the search picker's icon button and search landmark.</summary>
+    public required string Search { get; init; }
+
+    /// <summary>Accessible name for the search picker's text field.</summary>
+    public required string SearchInput { get; init; }
+
+    /// <summary>Accessible name for the search picker's ⏎ submit button.</summary>
+    public required string SearchSubmit { get; init; }
+
     /// <summary>Accessible name for the theme picker's button and listbox.</summary>
     public required string Theme { get; init; }
 
@@ -109,6 +119,14 @@ public partial class PickerBar : ComponentBase
 
     /// <summary>Accessible names for each picker.</summary>
     [Parameter, EditorRequired] public PickerBarLabels Labels { get; set; } = default!;
+
+    /// <summary>
+    /// Extra SearchPicker parameters (e.g. <c>Action</c>, <c>Navigate</c>,
+    /// <c>Placeholder</c>, <c>OnSearch</c>), splatted onto the nested
+    /// SearchPicker after this bar's own parameters — so anything here
+    /// overrides PickerBar's value.
+    /// </summary>
+    [Parameter] public Dictionary<string, object>? SearchAttributes { get; set; }
 
     /// <summary>Base URL of the themes directory, forwarded to ThemePicker.</summary>
     [Parameter, EditorRequired] public string ThemesUrl { get; set; } = "";

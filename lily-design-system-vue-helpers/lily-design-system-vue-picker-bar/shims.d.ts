@@ -1,4 +1,4 @@
-// Local-only ambient module declarations for the four sibling picker
+// Local-only ambient module declarations for the five sibling picker
 // packages this package composes.
 //
 // Each sibling's own build (vite.lib.config.ts + vue-tsc) generates a
@@ -7,7 +7,7 @@
 // of how vue-tsc types a compiled SFC). That block is meant to be
 // scoped per file, but loading MORE THAN ONE such generated shim into
 // one TypeScript program — which is exactly what PickerBar.vue's
-// template does, rendering all four siblings at once — produces
+// template does, rendering all five siblings at once — produces
 // `TS6200: Definitions of the following identifiers conflict with
 // those in another file` for the duplicate `const __VLS_*` globals.
 // Real, reproduced: `node build.mjs` fails on this package specifically
@@ -59,4 +59,10 @@ declare module "@lilydesignsystem/vue-share-picker" {
         href: (url: string, title: string, text: string) => string;
         newTab?: boolean;
     };
+}
+
+declare module "@lilydesignsystem/vue-search-picker" {
+    const SearchPicker: any;
+    export default SearchPicker;
+    export type Props = Record<string, unknown>;
 }

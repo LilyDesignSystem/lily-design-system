@@ -1,9 +1,12 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { afterEach, beforeEach, describe, expect, test } from "vitest";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
 import { PickerBar, DEFAULT_THEMES, DEFAULT_SIZES } from "./picker-bar.component";
 
 const LABELS = {
+  search: "Search this site",
+  searchInput: "Search terms",
+  searchSubmit: "Search",
   theme: "Theme",
   locale: "Language",
   textSize: "Text size",
@@ -128,15 +131,16 @@ describe("PickerBar — composition (§4, §7.1–§7.4)", () => {
     expect(el.classList.contains("my-picker-bar")).toBe(true);
   });
 
-  test("§7.2 renders all four pickers, each named from `labels`", () => {
+  test("§7.2 renders all five pickers, each named from `labels`", () => {
     const fixture = mount();
+    expect(button(fixture, "Search this site")).toBeTruthy();
     expect(button(fixture, "Theme")).toBeTruthy();
     expect(button(fixture, "Language")).toBeTruthy();
     expect(button(fixture, "Text size")).toBeTruthy();
     expect(button(fixture, "Share")).toBeTruthy();
   });
 
-  test("§7.2 renders the four picker root class hooks in theme, locale, text-size, share order", () => {
+  test("§7.2 renders the five picker root class hooks in search, theme, locale, text-size, share order", () => {
     const fixture = mount();
     // Angular does not strip the wrapping custom-element tag in tests, so
     // each picker's own root <div> is a grandchild of .picker-bar, one
@@ -145,6 +149,7 @@ describe("PickerBar — composition (§4, §7.1–§7.4)", () => {
       .map((host) => (host as HTMLElement).querySelector("div"))
       .map((div) => div?.className.split(" ")[0]);
     expect(roots).toEqual([
+      "search-picker",
       "theme-picker",
       "locale-picker",
       "text-size-picker",
@@ -246,5 +251,41 @@ describe("PickerBar — share-picker wiring (§5.4, §7.10)", () => {
     });
     click(fixture, button(fixture, "Share"));
     expect(fixture.nativeElement.textContent).toContain("Email");
+  });
+});
+
+describe("PickerBar — search-picker wiring (§7.12, §7.13)", () => {
+  test("§7.12 search is the first picker, with its field and ⏎ button named from `labels`", () => {
+    const fixture = mount();
+    const first = fixture.nativeElement
+      .querySelector(".picker-bar > *")
+      ?.querySelector("div") as HTMLElement | null;
+    expect(first?.classList.contains("search-picker")).toBe(true);
+    click(fixture, button(fixture, "Search this site"));
+    const field = fixture.nativeElement.querySelector(
+      ".search-picker-input",
+    ) as HTMLInputElement;
+    expect(field.getAttribute("type")).toBe("search");
+    expect(field.getAttribute("aria-label")).toBe("Search terms");
+    const submit = button(fixture, "Search");
+    expect(submit.classList.contains("search-picker-submit")).toBe(true);
+    expect(submit.getAttribute("type")).toBe("submit");
+  });
+
+  test("§7.13 the search inputs reach SearchPicker (searchAction + searchNavigate)", () => {
+    const navigate = vi.fn();
+    const fixture = mount({ searchAction: "/search", searchNavigate: navigate });
+    click(fixture, button(fixture, "Search this site"));
+    const field = fixture.nativeElement.querySelector(
+      ".search-picker-input",
+    ) as HTMLInputElement;
+    field.value = "foo";
+    field.dispatchEvent(new Event("input", { bubbles: true }));
+    fixture.detectChanges();
+    fixture.nativeElement
+      .querySelector(".search-picker-form")
+      .dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
+    fixture.detectChanges();
+    expect(navigate).toHaveBeenCalledWith("/search?foo");
   });
 });

@@ -25,7 +25,7 @@ export default defineConfig({
     // which file imports them, to the one copy Vite finds first.
     dedupe: ["@angular/core", "@angular/common", "rxjs"],
     alias: {
-      // @lilydesignsystem/angular-picker-bar depends on these four
+      // @lilydesignsystem/angular-picker-bar depends on these five
       // sibling packages the same way a real consumer would (declared
       // as regular npm `dependencies`, resolved from the registry once
       // published). This catalog has no pnpm workspace linking (no
@@ -65,8 +65,16 @@ export default defineConfig({
           import.meta.url,
         ),
       ),
+      // Added 2026-10-02: picker-bar's fifth wrapped picker, rendered
+      // first in the row.
+      "@lilydesignsystem/angular-search-picker": fileURLToPath(
+        new URL(
+          "./lily-design-system-angular-search-picker/dist/fesm2022/lilydesignsystem-angular-search-picker.mjs",
+          import.meta.url,
+        ),
+      ),
       // @lilydesignsystem/angular-gantt-chart depends on this sibling
-      // helper the same way picker-bar depends on its own four siblings
+      // helper the same way picker-bar depends on its own five siblings
       // (see the note above) — used twice per edit session, for a
       // task's start and end date.
       "@lilydesignsystem/angular-date-time-picker": fileURLToPath(

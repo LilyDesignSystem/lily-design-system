@@ -38,6 +38,7 @@ Out of scope:
 | [`@lilydesignsystem/html-text-size-picker`](../lily-design-system-html-text-size-picker/) | Pick a text size; sets `data-text-size` on the document root.                                              |
 | [`@lilydesignsystem/html-motion-picker`](../lily-design-system-html-motion-picker/)       | Pick a reduced-motion preference; sets `data-motion` on the document root, defaulting **unconditionally** to `(prefers-reduced-motion: reduce)`. |
 | [`@lilydesignsystem/html-share-picker`](../lily-design-system-html-share-picker/)         | Share the page: native share sheet, or a disclosure list of consumer-supplied destinations + copy the URL. |
+| [`@lilydesignsystem/html-search-picker`](../lily-design-system-html-search-picker/) | Site search: a magnifying-glass icon button opening a search field and a ⏎ submit button; navigates to `/?<query>`. Owns an action, not a preference. |
 | [`@lilydesignsystem/html-date-time-picker`](../lily-design-system-html-date-time-picker/) | Pick a date, a time, or both: a typeable text field plus an APG Date Picker Dialog. Owns a form value, not a preference. |
 
 ## 4. Conventions

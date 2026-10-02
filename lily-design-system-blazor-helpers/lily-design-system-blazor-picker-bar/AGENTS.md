@@ -6,9 +6,9 @@ below is a fast index.
 ## What this package is
 
 A composed Blazor header control: one `<div class="picker-bar">` that
-renders `ThemePicker`, `LocalePicker`, `TextSizePicker`, and
-`SharePicker` — four of the six `*-picker` helpers — in that fixed
-order, each referenced from its own sibling package in this catalog
+renders `SearchPicker`, `ThemePicker`, `LocalePicker`,
+`TextSizePicker`, and `SharePicker` — five of the `*-picker` helpers —
+in that fixed order (search first), each referenced from its own sibling package in this catalog
 via `ProjectReference` (which `dotnet pack` turns into a real NuGet
 dependency on each sibling's own published version). It adds no
 lifecycle of its own beyond two catalog-specific defaults: the full
@@ -29,8 +29,9 @@ deliberately not included — see spec §1.
 ## Public surface
 
 - Component: `PickerBar` in namespace `LilyDesignSystem.Blazor.Helpers`.
-- Record: `PickerBarLabels` (`Theme`, `Locale`, `TextSize`, `Share`) —
-  all `required`, no English default.
+- Record: `PickerBarLabels` (`Search`, `SearchInput`, `SearchSubmit`,
+  `Theme`, `Locale`, `TextSize`, `Share`) — all `required`, no English
+  default.
 - Statics: `PickerBar.DefaultThemes` (45 slugs), `PickerBar.DefaultSizes`
   (7 slugs).
 - Required parameters: `Labels`, `ThemesUrl`, `Locales`.
@@ -40,10 +41,10 @@ deliberately not included — see spec §1.
 
 ## Behaviour contract (one paragraph)
 
-`PickerBar` renders the four wrapped pickers unmodified, passing each
+`PickerBar` renders the five wrapped pickers unmodified, passing each
 its own required parameters plus any extras from that picker's
-`*Attributes` dictionary (`ThemeAttributes`, `LocaleAttributes`,
-`TextSizeAttributes`, `ShareAttributes`), splatted via `@attributes`
+`*Attributes` dictionary (`SearchAttributes`, `ThemeAttributes`,
+`LocaleAttributes`, `TextSizeAttributes`, `ShareAttributes`), splatted via `@attributes`
 **after** the bar's own parameters so a consumer can override anything
 (Blazor's attribute-splat merge is last-value-wins, same ordering
 guarantee as the canonical Svelte spread). `Themes` defaults to
@@ -60,6 +61,7 @@ contract; see that picker's own `AGENTS.md`.
 
 ```html
 <div class="picker-bar {CssClass}" ...AdditionalAttributes>
+  <div class="search-picker">…</div>
   <div class="theme-picker">…</div>
   <div class="locale-picker">…</div>
   <div class="text-size-picker">…</div>
@@ -73,8 +75,8 @@ contract. `PickerBar` contributes only the `picker-bar` root class.
 ## Accessibility
 
 WCAG 2.2 AAA target — unchanged from each wrapped picker, since
-`PickerBar` adds no new interaction. `Labels` supplies all four
-accessible names; there is no English default (see
+`PickerBar` adds no new interaction. `Labels` supplies all seven
+accessible names (three for search: button, field, `⏎`); there is no English default (see
 `DateTimePickerLabels`'s precedent in AGENTS/helpers.md for why a bar
 of structural labels this catalog invented gets none).
 
@@ -86,7 +88,7 @@ of structural labels this catalog invented gets none).
   `[Parameter(CaptureUnmatchedValues = true)]` for the root's own
   attribute spread; a `Dictionary<string, object>?` parameter per
   wrapped picker for that picker's own attribute spread.
-- Depends on the four wrapped pickers as real project references
+- Depends on the five wrapped pickers as real project references
   within this monorepo (packed as real NuGet dependencies) — the same
   way any consumer would depend on them — not vendored or duplicated
   source.
@@ -94,16 +96,16 @@ of structural labels this catalog invented gets none).
 - All user-facing strings come from parameters (`Labels`, and whatever
   each wrapped picker's own parameters require).
 - Sets no `IJSRuntime` interop of its own — it has no lifecycle beyond
-  rendering its four children, so it needs no `OnAfterRenderAsync`.
+  rendering its five children, so it needs no `OnAfterRenderAsync`.
 
 ## Local development note
 
 Unlike a `PackageReference` to a registry version, this package's
-`.csproj` uses `<ProjectReference>` to the four sibling `.csproj` files
+`.csproj` uses `<ProjectReference>` to the five sibling `.csproj` files
 in this same catalog, so building/testing it locally never depends on
 those packages actually being resolvable from nuget.org — and the
 shared `tests/LilyDesignSystem.Blazor.Helpers.Tests` project's own
-`ProjectReference`s to those same four projects resolve to the exact
+`ProjectReference`s to those same five projects resolve to the exact
 same build output (a normal diamond dependency), so there is no
 duplicate-assembly risk. `dotnet pack` on this project still emits a
 real NuGet `<dependency>` per sibling, at that sibling's own

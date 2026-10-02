@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>search-picker — events</title>
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 2rem; max-width: 40rem; }
+      lily-search-picker { display: inline-block; }
+      .search-picker { position: relative; display: inline-block; }
+      .search-picker-panel { position: absolute; inset-block-start: 100%; inset-inline-start: 0; }
+      .search-picker-panel[hidden] { display: none; }
+      .search-picker-form { display: flex; gap: 0.25rem; }
+      :focus-visible { outline: 3px solid #ffeb3b; outline-offset: 2px; }
+    </style>
+  </head>
+  <body>
+    <h1>search-picker — events</h1>
+    <p>
+      <code>action="/search"</code> sends <code>foo</code> to
+      <code>/search?foo</code>. Here <code>navigate</code> is replaced so the
+      page stays put and reports the destination instead.
+    </p>
+
+    <lily-search-picker
+      id="search"
+      label="Search this site"
+      input-label="Search terms"
+      submit-label="Search"
+      action="/search"
+    ></lily-search-picker>
+
+    <p role="status" id="log"></p>
+
+    <script type="module">
+      import "/dist/search-picker.js";
+
+      const search = document.getElementById("search");
+      const log = document.getElementById("log");
+
+      // `navigate` is a property: a function cannot be an attribute.
+      search.navigate = (href) => {
+        log.textContent = `Would navigate to ${href}`;
+      };
+
+      // The `search` event bubbles, after onSearch and before navigate.
+      document.addEventListener("search", (event) => {
+        if (event.target === search) console.log("search", event.detail);
+      });
+    </script>
+  </body>
+</html>

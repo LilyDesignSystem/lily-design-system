@@ -18,6 +18,7 @@ its columns: it is a form control, not a page-header control.
 | `text-size-picker` | Icon button (bundled "A" SVG) + listbox, rooted on `<div class="text-size-picker {class}">`               | Sets `data-text-size` on the document root; consumer CSS maps values to sizing.                                                                              | Optional `localStorage`.                                                     |
 | `motion-picker`    | Icon button (bundled pause-bars SVG) + listbox, rooted on `<div class="motion-picker {class}">`            | Sets `data-motion` on the document root; consumer CSS/JS maps values to what gets suppressed. Initial value defers to `(prefers-reduced-motion: reduce)` **unconditionally**, not behind an opt-in flag. | Optional `localStorage`.                                                     |
 | `share-picker`     | Icon button (bundled outline-arrow SVG) + disclosure list of real links, rooted on `<div class="share-picker {class}">` | Nothing — opens the native share sheet where available, else a list of consumer-supplied destinations plus copy-to-clipboard.                                | None.                                                                        |
+| `search-picker`    | Icon button (bundled magnifying-glass SVG) + disclosure panel holding a `<form role="search">` (a `type="search"` field and a `⏎` U+23CE submit button at its right), rooted on `<div class="search-picker {class}">` | Nothing — submitting navigates (GET) to `/?<text>` (trimmed, URI-encoded; `action` and `navigate` overridable). | None. |
 
 | `date-time-picker` | Text field + icon button (📅 U+1F4C5 + U+FE0E) opening an APG date-picker dialog, rooted on `<div class="date-time-picker {class}">` | Nothing — it holds a form value. | None. |
 
@@ -31,18 +32,20 @@ See the Rules below for why.
 
 `picker-bar` (added 2026-09-15, shipped first in `svelte-helpers` then
 ported to all seven other catalogs the same day) is a
-`<div class="picker-bar {class}">` that renders `theme-picker`,
-`locale-picker`, `text-size-picker`, and `share-picker` — each
-depended on as a real npm package, not vendored — in that order, with
+`<div class="picker-bar {class}">` that renders `search-picker`
+(first in the row, added 2026-10-02), `theme-picker`, `locale-picker`,
+`text-size-picker`, and `share-picker` — each depended on as a real
+npm package, not vendored — in that order, with
 two defaults pre-wired: `themes` defaults to all 45 root `themes/`
 slugs (alphabetical, UK & US government themes moved to their own
 alphabetical group at the bottom), and `sizes` defaults to the
 seven-step scale `largest`, `larger`, `large`, `normal`, `small`,
 `smaller`, `smallest`, starting on `normal`. It excludes `motion-picker`
 (no natural spot in this row) and `date-time-picker` (a form control,
-not a page-header control). Its four accessible names arrive as one
-required `labels` object (`{ theme, locale, textSize, share }`), no
-English default — same reasoning as `date-time-picker`'s `labels`.
+not a page-header control). Its seven accessible names arrive as one
+required `labels` object (`{ search, searchInput, searchSubmit, theme,
+locale, textSize, share }` — search needs three: its button, its field,
+and its `⏎` button), no English default — same reasoning as `date-time-picker`'s `labels`.
 Full contract: [spec/helpers/index.md § picker-bar contract](../spec/helpers/index.md).
 
 ## Rules

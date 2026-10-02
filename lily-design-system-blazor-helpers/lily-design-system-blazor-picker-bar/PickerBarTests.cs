@@ -14,6 +14,9 @@ public class PickerBarTests : TestContext
 {
     private static readonly PickerBarLabels Labels = new()
     {
+        Search = "Search this site",
+        SearchInput = "Search terms",
+        SearchSubmit = "Search",
         Theme = "Theme",
         Locale = "Language",
         TextSize = "Text size",
@@ -95,9 +98,10 @@ public class PickerBarTests : TestContext
     }
 
     [Fact]
-    public void Section_7_2_Renders_All_Four_Pickers_Each_Named_From_Labels()
+    public void Section_7_2_Renders_All_Five_Pickers_Each_Named_From_Labels()
     {
         var cut = RenderBar();
+        Assert.NotNull(cut.Find("button[aria-label='Search this site']"));
         Assert.NotNull(cut.Find("button[aria-label='Theme']"));
         Assert.NotNull(cut.Find("button[aria-label='Language']"));
         Assert.NotNull(cut.Find("button[aria-label='Text size']"));
@@ -105,14 +109,14 @@ public class PickerBarTests : TestContext
     }
 
     [Fact]
-    public void Section_7_2_Renders_The_Four_Picker_Roots_In_Order()
+    public void Section_7_2_Renders_The_Five_Picker_Roots_In_Order()
     {
         var cut = RenderBar();
         var roots = cut.Find("div.picker-bar").Children
             .Select(el => el.ClassList.FirstOrDefault())
             .ToList();
         Assert.Equal(
-            new[] { "theme-picker", "locale-picker", "text-size-picker", "share-picker" },
+            new[] { "search-picker", "theme-picker", "locale-picker", "text-size-picker", "share-picker" },
             roots);
     }
 
@@ -230,5 +234,41 @@ public class PickerBarTests : TestContext
         var cut = RenderBar(p => p.Add(x => x.ShareTargets, targets));
         cut.Find("button[aria-label='Share']").Click();
         Assert.Contains("Email", cut.Find(".share-picker-list").TextContent);
+    }
+
+    // =================================================================
+    // search-picker wiring — §7.12, §7.13
+    // =================================================================
+
+    [Fact]
+    public void Section_7_12_Search_Is_First_With_Field_And_Submit_Named_From_Labels()
+    {
+        var cut = RenderBar();
+        var first = cut.Find("div.picker-bar").Children.First();
+        Assert.Contains("search-picker", first.ClassList);
+
+        cut.Find("div.picker-bar > div.search-picker button.search-picker-button").Click();
+        // The panel is open and its field and ⏎ button carry the bar's labels.
+        Assert.False(cut.Find(".search-picker-panel").HasAttribute("hidden"));
+        Assert.Equal("search", cut.Find("input[aria-label='Search terms']").GetAttribute("type"));
+        Assert.Equal("submit", cut.Find("button[aria-label='Search']").GetAttribute("type"));
+        Assert.Equal("Search this site", cut.Find("form.search-picker-form").GetAttribute("aria-label"));
+    }
+
+    [Fact]
+    public void Section_7_13_SearchAttributes_Reach_SearchPicker()
+    {
+        var navigated = new List<string>();
+        var cut = RenderBar(p => p.Add(x => x.SearchAttributes, new Dictionary<string, object>
+        {
+            ["Action"] = "/search",
+            ["Navigate"] = (System.Action<string>)(href => navigated.Add(href)),
+        }));
+
+        cut.Find("button.search-picker-button").Click();
+        cut.Find("input.search-picker-input").Input("foo");
+        cut.Find("form.search-picker-form").Submit();
+
+        Assert.Equal(new[] { "/search?foo" }, navigated);
     }
 }

@@ -38,6 +38,7 @@ Out of scope:
 | [`lily-design-system-blazor-text-size-picker`](../lily-design-system-blazor-text-size-picker/) | Pick a text size; sets `data-text-size` on the document root.                                                                             |
 | [`lily-design-system-blazor-motion-picker`](../lily-design-system-blazor-motion-picker/) | Pick a reduced-motion preference; sets `data-motion` on the document root (via `IJSRuntime`), defaulting **unconditionally** to `(prefers-reduced-motion: reduce)`. |
 | [`lily-design-system-blazor-share-picker`](../lily-design-system-blazor-share-picker/) | Share the page: native share sheet, or a disclosure of consumer-supplied destinations + copy the URL. Owns an action, not a preference.   |
+| [`lily-design-system-blazor-search-picker`](../lily-design-system-blazor-search-picker/) | Search the site: a magnifying-glass icon button opening a search field + `⏎` submit button that navigates to `/?<query>`. Owns an action, not a preference. |
 | [`lily-design-system-blazor-date-time-picker`](../lily-design-system-blazor-date-time-picker/) | Pick a date, a time, or both: a typeable text field plus an APG Date Picker Dialog. Owns a form value, not a preference.                  |
 
 ## 4. Conventions

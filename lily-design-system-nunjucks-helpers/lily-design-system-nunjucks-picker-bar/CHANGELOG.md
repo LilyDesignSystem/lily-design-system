@@ -4,6 +4,24 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+**`search-picker` joins the bar, first in the row** (ports the
+canonical `@lilydesignsystem/svelte-picker-bar` change). `pickerBar`
+now renders `searchPicker` before the theme, locale, text-size and
+share pickers, and depends on `@lilydesignsystem/nunjucks-search-picker`
+`^0.1.0`; `initPickerBar`/`autoInit` wire it alongside the other four
+and return it as `search`, and `autoInitSearchPicker` is re-exported.
+**Breaking:** `labels` gains three required names — `search` (the icon
+button and search landmark), `searchInput` (the field) and
+`searchSubmit` (the `⏎` button) — with no English default, so existing
+call sites must add them. A new `searchProps` object forwards the rest:
+on the macro, the renderable options (`placeholder`, `value`, `action`,
+`name`, `id`, `classes`, `attributes`); on the client
+(`initPickerBar`/`autoInit`), the function-valued `navigate` and
+`onSearch`, which a macro cannot carry (spec §3.4). Release as a minor
+bump.
+
 ## 0.1.0 — 2026-09-16
 
 **Package renamed: `lily-design-system-nunjucks-picker-bar` → `@lilydesignsystem/nunjucks-picker-bar`.** npm scoped packages

@@ -195,8 +195,9 @@ prop changes justify a rebuild.
 - Light DOM only (no Shadow DOM); subclassing `renderButtonContent()`
   stands in for the `children` snippet the Svelte original exposes.
 - Strict TypeScript on the public surface.
-- No runtime dependencies — no date library, matching the Svelte
-  original.
+- One runtime dependency: `@lilydesignsystem/web-components-headless`,
+  for the trigger's `<lily-icon-button>` and the `<lily-dialog>`. No
+  date library, matching the Svelte original.
 - No bundled CSS, fonts, icons, images, or third-party URLs.
 - Civil-date arithmetic only — never a local-midnight `Date` for date
   math. See `spec/index.md` §3.

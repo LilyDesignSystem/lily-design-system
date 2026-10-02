@@ -5,6 +5,7 @@
     "entryFile": "index.ts"
   },
   "allowedNonPeerDependencies": [
+    "@lilydesignsystem/angular-search-picker",
     "@lilydesignsystem/angular-theme-picker",
     "@lilydesignsystem/angular-locale-picker",
     "@lilydesignsystem/angular-text-size-picker",

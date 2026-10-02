@@ -16,8 +16,9 @@ DOM application) for one small, common job.
 | [`@lilydesignsystem/angular-text-size-picker`](./lily-design-system-angular-text-size-picker/) | Pick a text size; sets `data-text-size` on the document root.                                                        |
 | [`@lilydesignsystem/angular-motion-picker`](./lily-design-system-angular-motion-picker/)       | Pick a motion (reduced-motion) preference; sets `data-motion` on the document root, defaulting to the OS's own `(prefers-reduced-motion: reduce)` signal. |
 | [`@lilydesignsystem/angular-share-picker`](./lily-design-system-angular-share-picker/)         | Share the page: native share sheet where available, else a list of consumer-supplied destinations plus copy-the-URL. |
+| [`@lilydesignsystem/angular-search-picker`](./lily-design-system-angular-search-picker/)       | Search the site: a magnifying-glass icon button opening a search field with a `⏎` submit button that navigates to `/?<query>`. Owns an action, not a preference. |
 | [`@lilydesignsystem/angular-date-time-picker`](./lily-design-system-angular-date-time-picker/) | Pick a date, a time, or both: a typeable text field plus an icon button opening a WAI-ARIA APG Date Picker Dialog. |
-| [`@lilydesignsystem/angular-picker-bar`](./lily-design-system-angular-picker-bar/) | Compose theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row, with all 45 reference themes and the seven-step text-size scale pre-wired. |
+| [`@lilydesignsystem/angular-picker-bar`](./lily-design-system-angular-picker-bar/) | Compose search-picker, theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row (search first), with all 45 reference themes and the seven-step text-size scale pre-wired. |
 | [`@lilydesignsystem/angular-kanban-board`](./lily-design-system-angular-kanban-board/) | Interactive kanban board over the headless `KanbanTable` grid: pointer drag-and-drop plus a keyboard-accessible per-card "Move to…" menu, never drag-only. |
 | [`@lilydesignsystem/angular-gantt-chart`](./lily-design-system-angular-gantt-chart/) | Interactive Gantt chart over the headless `GanttTable` grid: task bars as column-spanning cells, row hierarchy, milestones, and keyboard-accessible editing composed from two `date-time-picker` instances. |
 
@@ -27,8 +28,9 @@ page-header preference control, so it has a text field and applies
 nothing to the document root. See `AGENTS/helpers.md` at the repo root.
 
 `picker-bar` is a sixth: it owns no preference/action/form-value of its
-own. It is a composition of four of the other five — theme-picker,
-locale-picker, text-size-picker, and share-picker, each depended on as
+own. It is a composition of five other helpers — search-picker (first
+in the row, since 2026-10-02), theme-picker, locale-picker,
+text-size-picker, and share-picker, each depended on as
 a real npm package and rendered unmodified, plus two catalog-specific
 defaults (all 45 reference themes; the seven-step text-size scale).
 `motion-picker` has no natural spot in that row; `date-time-picker` is

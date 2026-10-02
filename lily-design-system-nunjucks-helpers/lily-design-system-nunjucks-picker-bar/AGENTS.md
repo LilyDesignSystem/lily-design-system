@@ -6,9 +6,9 @@ below is a fast index.
 ## What this package is
 
 A composed Nunjucks 3 header control: one macro,
-`pickerBar(opts)`, that renders `theme-picker`, `locale-picker`,
-`text-size-picker`, and `share-picker` — four of the six `*-picker`
-helpers in this catalog — in that fixed order inside
+`pickerBar(opts)`, that renders `search-picker`, `theme-picker`,
+`locale-picker`, `text-size-picker`, and `share-picker` — five of the
+`*-picker` helpers in this catalog — in that fixed order inside
 `<div class="picker-bar" data-lily-picker-bar-root>`, each imported
 from its own sibling npm package (a real `dependencies` entry in
 `package.json`, not vendored source). It adds no lifecycle of its own
@@ -43,15 +43,15 @@ convenience wrapper. See spec §3.3.
 ### Client.js
 
 `initPickerBar(root, opts)`, `autoInit(opts)`, `DEFAULT_THEMES`,
-`DEFAULT_SIZES`, and re-exports of the four siblings' own `autoInit`
+`DEFAULT_SIZES`, and re-exports of the five siblings' own `autoInit`
 under `autoInit{X}Picker` names.
 
 ## Behaviour contract (one paragraph)
 
-The macro renders the four wrapped picker macros unmodified, forwarding
+The macro renders the five wrapped picker macros unmodified, forwarding
 each its own required params plus any extras from that picker's
-`*Props` object (`themeProps`, `localeProps`, `textSizeProps`,
-`shareProps`) — anything in one of those objects (persistence, initial
+`*Props` object (`searchProps`, `themeProps`, `localeProps`,
+`textSizeProps`, `shareProps`) — anything in one of those objects (persistence, initial
 value, detection, an override-labels map, `id`, `classes`,
 `attributes`) reaches that picker exactly as if called directly.
 `themes` defaults to `DEFAULT_THEMES` (all 45 reference theme slugs,
@@ -59,15 +59,19 @@ alphabetical with the UK/US themes moved to one alphabetical group at
 the bottom); `sizes` defaults to `DEFAULT_SIZES` (`largest` … `smallest`,
 seven slugs) with the nested `text-size-picker`'s `defaultValue` set to
 `"normal"` (its own `"medium"` fallback does not exist in this
-seven-slug scale). None of the four wrapped pickers is operable until
+seven-slug scale). search-picker's function-valued options
+(`navigate`, `onSearch`) cannot pass through a macro, so they go in
+`initPickerBar`/`autoInit`'s `searchProps` instead (spec §3.4). None of
+the five wrapped pickers is operable until
 their own client.js modules run — same no-JS story as every other
 helper in this catalog; `picker-bar.client.js` is one convenient way to
-wire all four at once (§4.3), not a requirement.
+wire all five at once (§4.3), not a requirement.
 
 ## HTML
 
 ```html
 <div class="picker-bar {classes}" data-lily-picker-bar-root ...attributes>
+  <div class="search-picker" data-lily-search-picker-root>…</div>
   <div class="theme-picker" data-lily-theme-picker-root>…</div>
   <div class="locale-picker" data-lily-locale-picker-root>…</div>
   <div class="text-size-picker" data-lily-text-size-picker-root>…</div>
@@ -81,8 +85,9 @@ own package's class contract.
 ## Accessibility
 
 WCAG 2.2 AAA target — unchanged from each wrapped picker, since
-`pickerBar` adds no new interaction. `labels` supplies all four
-accessible names; there is no English default (see `date-time-picker`'s
+`pickerBar` adds no new interaction. `labels` supplies all seven
+accessible names (`search`, `searchInput`, `searchSubmit`, `theme`,
+`locale`, `textSize`, `share`); there is no English default (see `date-time-picker`'s
 precedent in AGENTS/helpers.md for why a bar of structural labels this
 catalog invented gets none).
 
@@ -91,7 +96,7 @@ catalog invented gets none).
 - Nunjucks 3 macro, camelCase name (`pickerBar`), kebab-case file path
   and CSS class.
 - Single `opts` parameter on the macro.
-- Depends on the four wrapped pickers as real npm `dependencies` — the
+- Depends on the five wrapped pickers as real npm `dependencies` — the
   same way any consumer would — not vendored or duplicated source.
 - No bundled CSS, fonts, icons, or images.
 - All user-facing strings come from `opts` (`labels`, and whatever
@@ -101,7 +106,7 @@ catalog invented gets none).
 ## Local development note
 
 This catalog has no pnpm/npm workspace linking. `../vitest.config.ts`
-aliases the four bare package specifiers (for the client.js JS import)
+aliases the five bare package specifiers (for the client.js JS import)
 to each sibling's already-built `dist/index.js` so tests resolve
 locally, and the test file's own `nunjucks.configure([...])` includes
 the catalog root as a second search path so the macro's

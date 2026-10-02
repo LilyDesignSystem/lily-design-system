@@ -9,7 +9,7 @@ export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      // @lilydesignsystem/vue-picker-bar depends on these four sibling
+      // @lilydesignsystem/vue-picker-bar depends on these five sibling
       // packages the same way a real consumer would (declared as
       // regular npm `dependencies`, resolved from the registry once
       // published). This catalog has no pnpm workspace linking (no
@@ -43,6 +43,14 @@ export default defineConfig({
           import.meta.url,
         ),
       ),
+      // Fifth picker-bar dependency (added 2026-10-02, rendered first
+      // in the row). Same local-alias-for-tests-only rule as above.
+      "@lilydesignsystem/vue-search-picker": fileURLToPath(
+        new URL(
+          "./lily-design-system-vue-search-picker/dist/index.js",
+          import.meta.url,
+        ),
+      ),
       // @lilydesignsystem/vue-headless: the six migrated pickers now
       // depend on it (IconButton/Listbox) the same way a real consumer
       // would (a regular npm `dependency`, resolved from the registry
@@ -59,7 +67,7 @@ export default defineConfig({
       // the same way a real consumer would (declared as a regular npm
       // `dependency`), composed twice per edit session for a task's
       // start/end date. Same local-alias-for-tests-only rule as the
-      // four picker-bar dependencies above.
+      // five picker-bar dependencies above.
       "@lilydesignsystem/vue-date-time-picker": fileURLToPath(
         new URL(
           "./lily-design-system-vue-date-time-picker/dist/index.js",

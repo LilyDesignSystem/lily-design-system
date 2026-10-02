@@ -29,7 +29,7 @@ footnote; see
 
 The one place the maintainer explicitly does *not* have final say is conformance to
 the project's own written contracts. [spec/](spec/index.md) and the rules in
-[AGENTS/](https://github.com/LilyDesignSystem/lily-design-system/tree/main/AGENTS) are the oracle: the canonical element, ARIA, keyboard contract
+[AGENTS/](AGENTS/) are the oracle: the canonical element, ARIA, keyboard contract
 and props for each component are fixed in `components/{slug}/AGENTS.md`, and an
 implementation that disagrees with that file is wrong — not a matter of taste, and
 not the maintainer's call.
@@ -52,7 +52,7 @@ places that cannot drift out of sync with the tree.
 | Kind of decision | Where it lives |
 | --- | --- |
 | What a component *is* — element, ARIA, keyboard, props | `components/{slug}/AGENTS.md`, and the row in [components.tsv](https://github.com/LilyDesignSystem/lily-design-system/blob/main/components.tsv) |
-| Standing design rules | the relevant file in [AGENTS/](https://github.com/LilyDesignSystem/lily-design-system/tree/main/AGENTS) — headless, accessibility, internationalization, theme, helpers |
+| Standing design rules | the relevant file in [AGENTS/](AGENTS/) — headless, accessibility, internationalization, theme, helpers |
 | Why the system is shaped this way | the relevant topic under [spec/](spec/index.md) |
 | Why a change looks the way it does | the pull request description that landed it, and the entry in [CHANGELOG.md](CHANGELOG.md) |
 | What a release contains | [CHANGELOG.md](CHANGELOG.md) and [NEWS.md](NEWS.md) |
@@ -128,7 +128,7 @@ most projects do not have: what to do when the frameworks disagree.
   pickers deliberately omit a focus-restoration step because its async event
   ordering makes the bug impossible and the fix a regression. That is a legitimate
   divergence precisely because it is recorded in
-  [AGENTS/helpers.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/helpers.md) with its reasoning.
+  [AGENTS/helpers.md](AGENTS/helpers.md) with its reasoning.
 - **A behaviour change lands in all seven or it explains why not.**
 
 ## Becoming a maintainer

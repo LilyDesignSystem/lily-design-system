@@ -1,16 +1,21 @@
 // PickerBar client-side runtime.
 //
 // Pairs with picker-bar.njk. Unlike every other helper in this catalog,
-// this module owns NO lifecycle of its own: theme-picker.client.js,
-// locale-picker.client.js, text-size-picker.client.js, and
-// share-picker.client.js already own theirs, in full, independently of
+// this module owns NO lifecycle of its own: search-picker.client.js,
+// theme-picker.client.js, locale-picker.client.js,
+// text-size-picker.client.js, and share-picker.client.js already own
+// theirs, in full, independently of
 // nesting (each scans the document for its own `data-lily-*-picker-root`
-// hook). This module is a convenience wrapper that wires all four at
+// hook). This module is a convenience wrapper that wires all five at
 // once, scoped to one `picker-bar` root, instead of requiring the
-// consumer to call four separate `init*Picker` functions.
+// consumer to call five separate `init*Picker` functions.
 //
 // See spec/index.md §4.3 (client.js exports), §5 (behaviour).
 
+import {
+  initSearchPicker,
+  autoInit as autoInitSearchPicker,
+} from "@lilydesignsystem/nunjucks-search-picker";
 import {
   initThemePicker,
   autoInit as autoInitThemePicker,
@@ -96,25 +101,36 @@ export const DEFAULT_SIZES = [
 ];
 
 /**
- * Wire the four pickers inside one `[data-lily-picker-bar-root]`
+ * Wire the five pickers inside one `[data-lily-picker-bar-root]`
  * element. Each nested picker root is found and handed to its own
  * sibling package's `init*Picker(root, opts)` — no different from
- * calling all four by hand, just in one call.
+ * calling all five by hand, just in one call. `searchProps` is where
+ * search-picker's function-valued options (`navigate`, `onSearch`) go,
+ * since a macro cannot carry a function; `action` here overrides the
+ * rendered one.
  *
  * @param {HTMLElement} root
- * @param {{themeProps?: object, localeProps?: object, textSizeProps?: object, shareProps?: object}=} opts
+ * @param {{searchProps?: object, themeProps?: object, localeProps?: object, textSizeProps?: object, shareProps?: object}=} opts
  */
 export function initPickerBar(root, opts = {}) {
   if (!root) {
-    return { theme: null, locale: null, textSize: null, share: null };
+    return {
+      search: null,
+      theme: null,
+      locale: null,
+      textSize: null,
+      share: null,
+    };
   }
   const {
+    searchProps = {},
     themeProps = {},
     localeProps = {},
     textSizeProps = {},
     shareProps = {},
   } = opts;
 
+  const searchRoot = root.querySelector("[data-lily-search-picker-root]");
   const themeRoot = root.querySelector("[data-lily-theme-picker-root]");
   const localeRoot = root.querySelector("[data-lily-locale-picker-root]");
   const textSizeRoot = root.querySelector(
@@ -123,6 +139,7 @@ export function initPickerBar(root, opts = {}) {
   const shareRoot = root.querySelector("[data-lily-share-picker-root]");
 
   return {
+    search: searchRoot ? initSearchPicker(searchRoot, searchProps) : null,
     theme: themeRoot ? initThemePicker(themeRoot, themeProps) : null,
     locale: localeRoot ? initLocalePicker(localeRoot, localeProps) : null,
     textSize: textSizeRoot
@@ -135,7 +152,7 @@ export function initPickerBar(root, opts = {}) {
 /**
  * Find every `[data-lily-picker-bar-root]` and wire it.
  *
- * @param {{themeProps?: object, localeProps?: object, textSizeProps?: object, shareProps?: object}=} opts
+ * @param {{searchProps?: object, themeProps?: object, localeProps?: object, textSizeProps?: object, shareProps?: object}=} opts
  * @returns {Array<ReturnType<typeof initPickerBar>>}
  */
 export function autoInit(opts = {}) {
@@ -147,9 +164,10 @@ export function autoInit(opts = {}) {
 }
 
 // Re-exported so a consumer who only loaded picker-bar.client.js can
-// still reach the four siblings' own page-wide autoInit directly, e.g.
+// still reach the five siblings' own page-wide autoInit directly, e.g.
 // when a page also has a standalone theme-picker outside any bar.
 export {
+  autoInitSearchPicker,
   autoInitThemePicker,
   autoInitLocalePicker,
   autoInitTextSizePicker,

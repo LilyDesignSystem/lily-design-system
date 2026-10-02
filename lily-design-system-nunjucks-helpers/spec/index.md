@@ -38,6 +38,7 @@ Out of scope:
 | [`@lilydesignsystem/nunjucks-text-size-picker`](../lily-design-system-nunjucks-text-size-picker/) | Pick a text size; sets `data-text-size` on the document root.                                                                             |
 | [`@lilydesignsystem/nunjucks-motion-picker`](../lily-design-system-nunjucks-motion-picker/) | Pick a reduced-motion preference; sets `data-motion` on the document root. The macro cannot call `matchMedia` at render time, so it marks `motions[0]` selected server-side and `motion-picker.client.js` corrects it on init — this catalog's one documented deviation from the canonical contract. |
 | [`@lilydesignsystem/nunjucks-share-picker`](../lily-design-system-nunjucks-share-picker/) | Share the page: native share sheet, or a disclosure of consumer-supplied destinations + copy the URL. Owns an action, not a preference.   |
+| [`@lilydesignsystem/nunjucks-search-picker`](../lily-design-system-nunjucks-search-picker/) | Search the site: a magnifying-glass icon button opening a search field + `⏎` submit button that navigates to `/?<query>`. Owns an action, not a preference. |
 | [`@lilydesignsystem/nunjucks-date-time-picker`](../lily-design-system-nunjucks-date-time-picker/) | Pick a date, a time, or both: a typeable text field plus an APG Date Picker Dialog, built client-side (no `Intl` in templates). Owns a form value, not a preference.                  |
 
 ## 4. Conventions

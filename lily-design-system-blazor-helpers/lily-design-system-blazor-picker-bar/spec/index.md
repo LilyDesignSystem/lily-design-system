@@ -6,11 +6,12 @@ with the same § numbering; only framework-specific detail differs.
 
 ## 1. Purpose
 
-A single page-header row that composes four of the six `*-picker`
-helpers — `theme-picker`, `locale-picker`, `text-size-picker`, and
-`share-picker` — with sensible catalog-wide defaults pre-wired, so a
-consumer can drop one component into a header instead of assembling
-and configuring four. `motion-picker` and `date-time-picker` are
+A single page-header row that composes five of the `*-picker`
+helpers — `search-picker`, `theme-picker`, `locale-picker`,
+`text-size-picker`, and `share-picker` — with sensible catalog-wide
+defaults pre-wired, so a consumer can drop one component into a header
+instead of assembling and configuring five. Search comes first in the
+row (maintainer-directed, 2026-10-02). `motion-picker` and `date-time-picker` are
 deliberately excluded: the former has no natural page-header spot next
 to the other three preference pickers picked for this bar, and the
 latter is a form control, not a header control — see
@@ -18,12 +19,12 @@ latter is a form control, not a header control — see
 
 ## 2. Scope
 
-In scope: rendering the four pickers in a fixed order (theme, locale,
-text-size, share), forwarding each picker's required and optional
+In scope: rendering the five pickers in a fixed order (search, theme,
+locale, text-size, share), forwarding each picker's required and optional
 parameters, and supplying two catalog-specific defaults (§5.1, §5.2)
 so the common case needs no configuration beyond accessible names, a
 themes URL, and a locale list. Out of scope: any new interaction,
-state, or DOM application beyond what the four wrapped pickers already
+state, or DOM application beyond what the five wrapped pickers already
 do — `PickerBar` owns no lifecycle of its own; it renders no
 `IJSRuntime` calls, sets no attributes on `<html>`, and writes nothing
 to storage.
@@ -32,6 +33,7 @@ to storage.
 
 ```html
 <div class="picker-bar {CssClass}" ...AdditionalAttributes>
+  <div class="search-picker">…</div>
   <div class="theme-picker">…</div>
   <div class="locale-picker">…</div>
   <div class="text-size-picker">…</div>
@@ -39,8 +41,8 @@ to storage.
 </div>
 ```
 
-Each child is the real, unmodified `ThemePicker` / `LocalePicker` /
-`TextSizePicker` / `SharePicker` component from its own sibling
+Each child is the real, unmodified `SearchPicker` / `ThemePicker` /
+`LocalePicker` / `TextSizePicker` / `SharePicker` component from its own sibling
 package — same class hooks, same ARIA, same keyboard contract as
 documented in that package's own `spec/index.md`. `PickerBar` adds no
 markup of its own beyond the root wrapper.
@@ -50,6 +52,7 @@ markup of its own beyond the root wrapper.
 | Parameter            | Type                              | Required | Default                |
 | --------------------- | ---------------------------------- | -------- | ------------------------ |
 | `Labels`               | `PickerBarLabels`                  | yes      | —                        |
+| `SearchAttributes`     | `Dictionary<string, object>?`      | no       | `null`                   |
 | `ThemesUrl`            | `string`                           | yes      | —                        |
 | `Themes`               | `IReadOnlyList<string>`            | no       | `DefaultThemes` (§5.1)   |
 | `ThemeAttributes`      | `Dictionary<string, object>?`      | no       | `null`                   |
@@ -62,15 +65,21 @@ markup of its own beyond the root wrapper.
 | `CssClass`             | `string`                           | no       | `""`                     |
 | `AdditionalAttributes` | `Dictionary<string, object>?`      | no       | `null` (spread on root)  |
 
-`Labels` carries the four accessible names as one `PickerBarLabels`
-record, following `DateTimePickerLabels`'s precedent
-(AGENTS/helpers.md): four structural labels this catalog did not
-invent get no English default. There is no top-level `Label` — it
-would be ambiguous across four controls.
+`Labels` carries the seven accessible names as one `PickerBarLabels`
+record (`Search`, `SearchInput`, `SearchSubmit`, `Theme`, `Locale`,
+`TextSize`, `Share`, all `required`), following
+`DateTimePickerLabels`'s precedent (AGENTS/helpers.md): structural
+labels this catalog did not invent get no English default. Search
+needs three — `Search` (its icon button and search landmark),
+`SearchInput` (the field) and `SearchSubmit` (the `⏎` button), passed
+as `SearchPicker`'s `Label` / `InputLabel` / `SubmitLabel` — the others
+one each. There is no top-level `Label` — it would be ambiguous across
+five controls.
 
 Each `*Attributes` dictionary is splatted (`@attributes="…"`) onto
 that picker **after** `PickerBar`'s own explicit parameters, so a key
-in the dictionary — `StorageKey`, `DetectFromSystem`, `DefaultValue`,
+in the dictionary — `Action`, `Navigate`, `Placeholder`, `OnSearch`
+(as an `EventCallback<SearchEventArgs>`), `StorageKey`, `DetectFromSystem`, `DefaultValue`,
 `Value`, `Name`, `Target`, a `*Labels` map, `ChildContent`, `OnChange`,
 or `CssClass` on that specific child — overrides `PickerBar`'s
 default, matching Blazor's own last-value-wins attribute merge order.
@@ -118,18 +127,19 @@ it.
 ## 6. Accessibility
 
 WCAG 2.2 AAA target, unchanged from each wrapped picker's own
-contract (§6 of `theme-picker`, `locale-picker`, `text-size-picker`,
-and `share-picker`'s respective specs) — `PickerBar` introduces no new
-interaction, so it introduces no new accessibility surface. `Labels`
-supplies the four accessible names; there is no default that would
+contract (§6 of `search-picker`, `theme-picker`, `locale-picker`,
+`text-size-picker`, and `share-picker`'s respective specs) —
+`PickerBar` introduces no new interaction, so it introduces no new
+accessibility surface. `Labels` supplies all seven accessible names
+(three for search: button, field, `⏎`); there is no default that would
 hardcode English text.
 
 ## 7. Acceptance criteria
 
 - §7.1 Renders a `<div class="picker-bar {CssClass}">` root, extra
   attributes spread onto it.
-- §7.2 Renders exactly the four pickers — theme, locale, text-size,
-  share — in that order, each accessibly named from `Labels`.
+- §7.2 Renders exactly the five pickers — search, theme, locale,
+  text-size, share — in that order, each accessibly named from `Labels`.
 - §7.3 Forwards `ThemesUrl` to `ThemePicker`; `Themes` omitted resolves
   to `DefaultThemes` (45 entries, `abyss` first, the 8 UK/US themes
   last as a group).
@@ -147,15 +157,20 @@ hardcode English text.
 - §7.11 `LocaleAttributes`, `ShareAttributes` reach their respective
   pickers, the same way `ThemeAttributes` and `TextSizeAttributes` do
   (§7.7, §7.9).
+- §7.12 Search is the first picker; its field and `⏎` button are
+  named from `Labels.SearchInput` and `Labels.SearchSubmit`.
+- §7.13 `SearchAttributes` (e.g. `Action`, `Navigate`) reaches the
+  nested `SearchPicker`: with `Action` `"/search"` and a `Navigate`
+  spy, a search for `foo` navigates to `/search?foo`.
 
 ## 8. Relationship to the six `*-picker` helpers
 
-`PickerBar` wraps four of the six `*-picker` helpers in
-AGENTS/helpers.md without altering any of their individual contracts —
-existing counts, markup, and keyboard behaviour for `theme-picker`,
+`PickerBar` wraps five of the `*-picker` helpers in AGENTS/helpers.md
+without altering any of their individual contracts — existing counts,
+markup, and keyboard behaviour for `search-picker`, `theme-picker`,
 `locale-picker`, `text-size-picker`, and `share-picker` are unchanged.
-It is additive: a seventh package in this catalog, built on top of the
-other six the same way a real consumer would compose them —
+It is additive: a package in this catalog built on top of the other
+pickers the same way a real consumer would compose them —
 `ProjectReference`d from source in this monorepo, which `dotnet pack`
 turns into a real NuGet `<dependency>` on each sibling's own published
 version, not vendored or duplicated source.

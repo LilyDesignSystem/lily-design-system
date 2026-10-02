@@ -6,11 +6,12 @@ This file mirrors its § numbering, adjusted for Angular idiom.
 
 ## 1. Purpose
 
-A single page-header row that composes four of the six `*-picker`
-helpers — `theme-picker`, `locale-picker`, `text-size-picker`, and
-`share-picker` — with sensible catalog-wide defaults pre-wired, so a
-consumer can drop one component into a header instead of assembling
-and configuring four. `motion-picker` and `date-time-picker` are
+A single page-header row that composes five of the seven `*-picker`
+helpers — `search-picker`, `theme-picker`, `locale-picker`,
+`text-size-picker`, and `share-picker` — with sensible catalog-wide
+defaults pre-wired, so a consumer can drop one component into a header
+instead of assembling and configuring five. `search-picker` (added
+2026-10-02) comes first in the row. `motion-picker` and `date-time-picker` are
 deliberately excluded: the former has no natural page-header spot next
 to the other three preference pickers picked for this bar, and the
 latter is a form control, not a header control — see
@@ -18,17 +19,18 @@ latter is a form control, not a header control — see
 
 ## 2. Scope
 
-In scope: rendering the four pickers in a fixed order (theme, locale,
-text-size, share), forwarding each picker's required and commonly-used
+In scope: rendering the five pickers in a fixed order (search, theme,
+locale, text-size, share), forwarding each picker's required and commonly-used
 optional inputs, and supplying two catalog-specific defaults (§5.1,
 §5.2). Out of scope: any new interaction, state, or DOM application
-beyond what the four wrapped pickers already do — `PickerBar` owns no
+beyond what the five wrapped pickers already do — `PickerBar` owns no
 lifecycle of its own.
 
 ## 3. HTML
 
 ```html
 <div class="picker-bar {className}">
+  <lily-search-picker>…</lily-search-picker>
   <lily-theme-picker>…</lily-theme-picker>
   <lily-locale-picker>…</lily-locale-picker>
   <lily-text-size-picker>…</lily-text-size-picker>
@@ -49,6 +51,10 @@ markup of its own beyond the root wrapper.
 | Input                       | Type                     | Required | Default              |
 | ---------------------------- | ------------------------ | -------- | --------------------- |
 | `labels`                     | `PickerBarLabels`        | yes      | —                      |
+| `searchPlaceholder`          | `string \| undefined`    | no       | `undefined`            |
+| `searchValue`                | `string` (model, 2-way)  | no       | `""`                   |
+| `searchAction`               | `string`                 | no       | `"/"`                  |
+| `searchNavigate`             | `((href: string) => void) \| undefined` | no | `undefined` (`location.assign`) |
 | `themesUrl`                  | `string`                 | yes      | —                      |
 | `themes`                     | `string[]`               | no       | `DEFAULT_THEMES` (§5.1) |
 | `themeValue`                 | `string` (model, 2-way)  | no       | `""`                   |
@@ -80,9 +86,17 @@ markup of its own beyond the root wrapper.
 | `shareStrategy`                  | `ShareStrategy`         | no       | `"auto"`                |
 | `className`                      | `string`                | no       | `""`                    |
 
-Outputs: `share` (`ShareEvent`), `copy` (`string`), `nativeShare`
-(`string`) — forwarded from the wrapped `SharePicker` unmodified.
-`themeValue`, `localeValue`, and `textSizeValue` are Angular `model()`
+`labels` is a `PickerBarLabels` object with seven required names, no
+English default: `search` (the search picker's icon button and search
+landmark), `searchInput` (its text field), `searchSubmit` (its `⏎`
+submit button) — passed as `SearchPicker`'s `label` / `inputLabel` /
+`submitLabel` — plus `theme`, `locale`, `textSize`, and `share`.
+
+Outputs: `searched` (`SearchEvent`) — forwarded from the wrapped
+`SearchPicker` unmodified; `share` (`ShareEvent`), `copy` (`string`),
+`nativeShare` (`string`) — forwarded from the wrapped `SharePicker`
+unmodified. `searchValue`, `themeValue`, `localeValue`, and
+`textSizeValue` are Angular `model()`
 signals: each auto-generates a paired `{name}Change` output, so a
 consumer can either two-way bind (`[(themeValue)]="…"`) or listen for
 the change event, without `PickerBar` needing a separate forwarded
@@ -90,20 +104,21 @@ the change event, without `PickerBar` needing a separate forwarded
 bag exposes one.
 
 **Deviation from the canonical Svelte contract.** Svelte's `PickerBar`
-exposes a `themeProps` / `localeProps` / `textSizeProps` / `shareProps`
-object per picker, spread onto that picker after the bar's own props,
+exposes a `searchProps` / `themeProps` / `localeProps` /
+`textSizeProps` / `shareProps` object per picker, spread onto that picker after the bar's own props,
 so literally any of that picker's props can be overridden. Angular has
 no equivalent generic spread-onto-inputs mechanism for component
 bindings — every binding is a named `[input]="…"` in the template — so
 this port flattens each wrapped picker's most commonly needed optional
-inputs onto `PickerBar`'s own inputs instead (prefixed `theme…`,
-`locale…`, `textSize…`). This covers persistence, detection, initial
+inputs onto `PickerBar`'s own inputs instead (prefixed `search…`,
+`theme…`, `locale…`, `textSize…`). This covers persistence, detection, initial
 value, per-option label maps, the hidden-input `name`, and the DOM
 `target` for the three preference pickers, and the full prop surface
-for `share-picker` (it has few enough inputs to expose all of them). A
+for `share-picker` and `search-picker` (each has few enough inputs to
+expose all of them). A
 consumer who needs something not flattened here (e.g. a custom icon
 template via `ThemePickerIcon`/`LocalePickerIcon`/etc.) drops down to
-composing the four wrapped pickers directly instead of using
+composing the five wrapped pickers directly instead of using
 `PickerBar` — the same escape hatch any composed-page demo already
 uses for one-off cases.
 
@@ -130,14 +145,16 @@ does not fit this scale (`"medium"` is not one of the seven slugs), so
 
 WCAG 2.2 AAA target, unchanged from each wrapped picker's own
 contract — `PickerBar` introduces no new interaction, so it introduces
-no new accessibility surface. `labels` supplies the four accessible
-names; there is no default that would hardcode English text.
+no new accessibility surface. `labels` supplies the seven accessible
+names (three for the search picker's button/landmark, field, and `⏎`
+button; one each for the other four); there is no default that would
+hardcode English text.
 
 ## 7. Acceptance criteria
 
 - §7.1 Renders a `<div class="picker-bar {className}">` root.
-- §7.2 Renders exactly the four pickers — theme, locale, text-size,
-  share — in that order, each accessibly named from `labels`.
+- §7.2 Renders exactly the five pickers — search, theme, locale,
+  text-size, share — in that order, each accessibly named from `labels`.
 - §7.3 Forwards `themesUrl` to `ThemePicker`; `themes` omitted resolves
   to `DEFAULT_THEMES` (45 entries, `abyss` first, the 8 UK/US themes
   last as a group).
@@ -150,13 +167,22 @@ names; there is no default that would hardcode English text.
 - §7.9 The nested `TextSizePicker` initial value is `"normal"` unless
   `textSizeDefaultValue` overrides it.
 - §7.10 `shareTargets` reaches the nested `SharePicker`'s list.
+- §7.11 (Svelte: the `localeProps` / `shareProps` bags reach their
+  pickers. No bags exist in this port — §4 — so the flattened inputs
+  are covered per picker by §7.4, §7.7, §7.9, §7.10, and §7.13.)
+- §7.12 Search is the first picker; its field and `⏎` button are
+  accessibly named from `labels.searchInput` / `labels.searchSubmit`.
+- §7.13 The search inputs reach the nested `SearchPicker`: with
+  `searchAction="/search"` and a `searchNavigate` spy, searching `foo`
+  navigates to `/search?foo`.
 
-## 8. Relationship to the six `*-picker` helpers
+## 8. Relationship to the seven `*-picker` helpers
 
-`PickerBar` wraps four of the six `*-picker` helpers in
+`PickerBar` wraps five of the seven `*-picker` helpers in
 AGENTS/helpers.md without altering any of their individual contracts —
-existing counts, markup, and keyboard behaviour for `theme-picker`,
-`locale-picker`, `text-size-picker`, and `share-picker` are unchanged.
+existing counts, markup, and keyboard behaviour for `search-picker`,
+`theme-picker`, `locale-picker`, `text-size-picker`, and `share-picker`
+are unchanged.
 It is additive: a seventh package in this catalog, built on top of the
 other six the same way a real consumer would compose them — declared
 as ordinary npm `dependencies` (`allowedNonPeerDependencies` in

@@ -4,7 +4,7 @@
   "engines": {
     "node": "=26"
   },
-  "description": "Lily Design System - HTML custom element picker bar: composes lily-theme-picker, lily-locale-picker, lily-text-size-picker, and lily-share-picker into one page-header row.",
+  "description": "Lily Design System - HTML custom element picker bar: composes lily-search-picker, lily-theme-picker, lily-locale-picker, lily-text-size-picker, and lily-share-picker into one page-header row.",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -24,6 +24,7 @@
     "prepublishOnly": "cd .. && npm run build"
   },
   "dependencies": {
+    "@lilydesignsystem/web-components-search-picker": "^0.1.0",
     "@lilydesignsystem/web-components-theme-picker": "^0.1.0",
     "@lilydesignsystem/web-components-locale-picker": "^0.1.0",
     "@lilydesignsystem/web-components-text-size-picker": "^0.1.0",
@@ -36,6 +37,7 @@
     "html",
     "picker",
     "picker-bar",
+    "search",
     "theme",
     "locale",
     "text-size",

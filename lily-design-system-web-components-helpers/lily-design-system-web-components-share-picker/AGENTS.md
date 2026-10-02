@@ -142,7 +142,10 @@ The focus-out handler **defers to a microtask** and re-reads
 - Light DOM only (no Shadow DOM); subclassing `renderButtonContent()`
   stands in for the `children` slot the other frameworks expose.
 - Strict TypeScript on the public surface.
-- No runtime dependencies.
+- One runtime dependency: `@lilydesignsystem/web-components-headless`,
+  for the `<lily-icon-button>` trigger (composed in `#render()`; see
+  the header comment in `share-picker.ts`). The list itself stays
+  self-built.
 - No bundled CSS, fonts, images, or third-party URLs. The one
   deliberate exception is the default button icon: a bundled SVG
   (reversed 2026-09-16 from a Unicode glyph).

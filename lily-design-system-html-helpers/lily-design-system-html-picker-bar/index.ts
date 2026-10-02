@@ -2,9 +2,9 @@
  * Barrel re-export for `<picker-bar>`.
  *
  * Importing this module registers the custom element under the tag
- * name `"picker-bar"` — and, as a side effect, registers the four
- * wrapped elements (`theme-picker`, `locale-picker`, `text-size-picker`,
- * `share-picker`) too, since it imports each of their own packages.
+ * name `"picker-bar"` — and, as a side effect, registers the five
+ * wrapped elements (`search-picker`, `theme-picker`, `locale-picker`,
+ * `text-size-picker`, `share-picker`) too, since it imports each of their own packages.
  * Registration is idempotent — re-imports do not throw.
  */
 
@@ -14,6 +14,7 @@ export { PickerBar, DEFAULT_THEMES, DEFAULT_SIZES };
 export type {
   PickerBarProps,
   PickerBarLabels,
+  SearchPickerExtra,
   ThemePickerExtra,
   LocalePickerExtra,
   TextSizePickerExtra,

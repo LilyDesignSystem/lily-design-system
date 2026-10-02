@@ -1,0 +1,21 @@
+@*
+    Example 1 — Basic usage.
+
+    A search for "foo" performs a GET to "/?foo". Every user-facing string
+    is a parameter: the trigger, the field, and the ⏎ button each get a
+    localisable accessible name. Placeholder is optional and has no
+    default, because a default would be a hardcoded English string.
+
+    An interactive render mode is required. Under static SSR the markup
+    renders, but no event handler runs, so the button cannot open the
+    panel.
+*@
+
+@page "/examples/search-picker/basic"
+@rendermode InteractiveServer
+@using LilyDesignSystem.Blazor.Helpers
+
+<SearchPicker Label="Search this site"
+              InputLabel="Search terms"
+              SubmitLabel="Search"
+              Placeholder="Search…" />

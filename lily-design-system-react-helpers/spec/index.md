@@ -38,6 +38,7 @@ Out of scope:
 | [`@lilydesignsystem/react-text-size-picker`](../lily-design-system-react-text-size-picker/)       | Pick a text size; sets `data-text-size` on the document root, optional persistence.                                                       |
 | [`@lilydesignsystem/react-motion-picker`](../lily-design-system-react-motion-picker/)             | Pick a reduced-motion preference; sets `data-motion` on the document root, defaulting **unconditionally** to `(prefers-reduced-motion: reduce)`. |
 | [`@lilydesignsystem/react-share-picker`](../lily-design-system-react-share-picker/)               | Share the page: native share sheet, or a disclosure of consumer-supplied destinations + copy the URL. Owns an action, not a preference.   |
+| [`@lilydesignsystem/react-search-picker`](../lily-design-system-react-search-picker/)             | Search the site: a magnifying-glass icon button opening a disclosure holding a `<form role="search">` whose submit navigates to `/?<query>`. Owns an action, not a preference. |
 | [`@lilydesignsystem/react-date-time-picker`](../lily-design-system-react-date-time-picker/)       | Pick a date, a time, or both: a typeable text field plus an APG Date Picker Dialog. Owns a form value, not a preference.                  |
 
 ## 4. Conventions

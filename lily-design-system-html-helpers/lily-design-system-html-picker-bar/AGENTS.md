@@ -6,10 +6,11 @@ below is a fast index.
 ## What this package is
 
 A composed vanilla HTML/JS header control, packaged as the
-`<picker-bar>` custom element: renders `<theme-picker>`,
-`<locale-picker>`, `<text-size-picker>`, and `<share-picker>` — four of
-the six `*-picker` helpers — in that fixed order, each imported from
-its own published package (`@lilydesignsystem/html-theme-picker`,
+`<picker-bar>` custom element: renders `<search-picker>`,
+`<theme-picker>`, `<locale-picker>`, `<text-size-picker>`, and
+`<share-picker>` — five of the `*-picker` helpers — in that fixed order
+(search first), each imported from its own published package
+(`@lilydesignsystem/html-search-picker`, `-theme-picker`,
 `-locale-picker`, `-text-size-picker`, `-share-picker`) as a real npm
 dependency, not vendored. Adds no lifecycle of its own beyond two
 catalog-specific defaults: the full 45-theme reference list (spec §5.1)
@@ -30,17 +31,17 @@ and the seven-step text-size scale (spec §5.2). `motion-picker` and
 ## Public surface
 
 - Class `PickerBar extends HTMLElement` (registered as `<picker-bar>`
-  on import of `index.ts`, alongside the four wrapped elements — this
+  on import of `index.ts`, alongside the five wrapped elements — this
   package's `index.ts` imports each sibling's own barrel, which
   self-registers).
 - Named exports: `PickerBar`, `DEFAULT_THEMES`, `DEFAULT_SIZES`.
-- Type exports: `PickerBarProps`, `PickerBarLabels`, `ThemePickerExtra`,
+- Type exports: `PickerBarProps`, `PickerBarLabels`, `SearchPickerExtra`, `ThemePickerExtra`,
   `LocalePickerExtra`, `TextSizePickerExtra`, `SharePickerExtra`,
   `ShareTarget`.
-- Instance members: `labels`, `themesUrl`, `themes`, `themeProps`,
+- Instance members: `labels`, `searchProps`, `themesUrl`, `themes`, `themeProps`,
   `locales`, `localeProps`, `sizes`, `textSizeProps`, `shareTargets`,
-  `shareProps` (property accessors — see spec §4), plus four read-only
-  getters onto the rendered children: `themePicker`, `localePicker`,
+  `shareProps` (property accessors — see spec §4), plus five read-only
+  getters onto the rendered children: `searchPicker`, `themePicker`, `localePicker`,
   `textSizePicker`, `sharePicker`.
 
 Required: `labels` (property), `themes-url` (attribute or `themesUrl`
@@ -49,8 +50,8 @@ property), `locales` (attribute or property).
 ## Behaviour contract (one paragraph)
 
 `<picker-bar>` renders a `<div class="picker-bar {class}">` holding the
-four wrapped elements unmodified. Each `*Props` bag
-(`themeProps`/`localeProps`/`textSizeProps`/`shareProps`) is applied via
+five wrapped elements unmodified. Each `*Props` bag
+(`searchProps`/`themeProps`/`localeProps`/`textSizeProps`/`shareProps`) is applied via
 `Object.assign(childElement, bag)` **before** that child is connected —
 so a bag entry that reflects to an attribute (`storageKey`,
 `detectFromSystem`, `defaultValue`, …) still governs the child's own
@@ -65,6 +66,7 @@ seven-slug scale) unless `textSizeProps.defaultValue` overrides it.
 ```html
 <picker-bar>
   <div class="picker-bar {class}">
+    <search-picker>…</search-picker>
     <theme-picker>…</theme-picker>
     <locale-picker>…</locale-picker>
     <text-size-picker>…</text-size-picker>
@@ -79,15 +81,15 @@ its own package's class contract.
 ## Accessibility
 
 WCAG 2.2 AAA target — unchanged from each wrapped picker, since
-`<picker-bar>` adds no new interaction. `labels` supplies all four
-accessible names; there is no English default (mirrors
+`<picker-bar>` adds no new interaction. `labels` supplies all seven
+accessible names (three for search: button, field, `⏎`); there is no English default (mirrors
 `date-time-picker`'s `labels` precedent — a set of names this catalog
 invented is exactly the case Lily's i18n rule exists for).
 
 ## Conventions this package follows
 
 - Vanilla `HTMLElement` subclass, light DOM, no Shadow DOM.
-- Depends on the four wrapped pickers as real npm `dependencies` — the
+- Depends on the five wrapped pickers as real npm `dependencies` — the
   same way any consumer would — not vendored or duplicated source.
 - No bundled CSS, fonts, icons, or images.
 - All user-facing strings come from `labels` and whatever each wrapped
@@ -107,7 +109,7 @@ a consumer's install to resolve, rather than tsup either erroring
 
 This package also carries its own `tsconfig.json` — the only one in
 the catalog — with a `paths` map so the DTS rollup step can resolve the
-four siblings' published types. `build.js` passes it to `tsup` via
+five siblings' published types. `build.js` passes it to `tsup` via
 `--tsconfig` **scoped to this package's own build invocation only**;
 it is never picked up as a catalog-wide default, so the other six
 packages' builds are unaffected. Local test resolution for the bare

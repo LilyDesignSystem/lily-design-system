@@ -1,10 +1,10 @@
 # Lily Design System™ — HTML PickerBar
 
-A single page-header custom element, `<picker-bar>`, that composes four
-of the Lily [`*-picker` helpers](../index.md) — theme, locale, text
-size, and share — with two catalog-wide defaults pre-wired, so you can
-drop one element into a header instead of assembling and configuring
-four.
+A single page-header custom element, `<picker-bar>`, that composes five
+of the Lily [`*-picker` helpers](../index.md) — search, theme, locale,
+text size, and share, in that order — with two catalog-wide defaults
+pre-wired, so you can drop one element into a header instead of
+assembling and configuring five.
 
 `motion-picker` and `date-time-picker` are not part of the bar: motion
 has no natural spot next to the other three header preferences, and
@@ -16,8 +16,8 @@ has no natural spot next to the other three header preferences, and
 npm install @lilydesignsystem/html-picker-bar
 ```
 
-`@lilydesignsystem/html-theme-picker`, `-locale-picker`,
-`-text-size-picker`, and `-share-picker` install automatically as
+`@lilydesignsystem/html-search-picker`, `-theme-picker`,
+`-locale-picker`, `-text-size-picker`, and `-share-picker` install automatically as
 regular dependencies — `<picker-bar>` is a thin wrapper around them,
 not a reimplementation.
 
@@ -28,6 +28,9 @@ import "@lilydesignsystem/html-picker-bar";
 
 const bar = document.createElement("picker-bar");
 bar.labels = {
+  search: "Search this site",
+  searchInput: "Search terms",
+  searchSubmit: "Search",
   theme: "Theme",
   locale: "Language",
   textSize: "Text size",
@@ -52,6 +55,9 @@ Or in markup, for the parts that fit plain attributes:
 <picker-bar themes-url="/assets/themes/" locales="en,cy,gd,ga"></picker-bar>
 <script type="module">
   document.querySelector("picker-bar").labels = {
+    search: "Search this site",
+    searchInput: "Search terms",
+    searchSubmit: "Search",
     theme: "Theme",
     locale: "Language",
     textSize: "Text size",
@@ -59,6 +65,11 @@ Or in markup, for the parts that fit plain attributes:
   };
 </script>
 ```
+
+Search sends a query for `foo` to `/?foo` by default. `labels` carries
+seven names: three for search (`search` names its button and search
+landmark, `searchInput` the field, `searchSubmit` the `⏎` button) and
+one for each other picker.
 
 `labels` has to be set as a JS property (no honest attribute encoding
 exists for an object), same as `shareTargets` — see
@@ -91,6 +102,7 @@ attribute — for anything beyond what `<picker-bar>` lifts to the top
 level: persistence, initial value, detection, a `*Labels` override map.
 
 ```js
+bar.searchProps = { action: "/search", placeholder: "Search…", navigate: (href) => router.push(href) };
 bar.themeProps = { storageKey: "lily-theme", detectFromSystem: true };
 bar.localeProps = { storageKey: "lily-locale", detectFromNavigator: true };
 bar.textSizeProps = { storageKey: "lily-text-size" };
@@ -108,6 +120,7 @@ After `<picker-bar>` has rendered (i.e. once it's connected to the
 document), each wrapped element is available as a read-only property:
 
 ```js
+bar.searchPicker; // the <search-picker> instance
 bar.themePicker; // the <theme-picker> instance
 bar.localePicker; // the <locale-picker> instance
 bar.textSizePicker; // the <text-size-picker> instance
@@ -122,7 +135,8 @@ instances of their own packages.
 
 `<picker-bar>` renders no CSS of its own beyond the `picker-bar` root
 wrapper class — style each child through its own package's class hooks
-(`theme-picker`, `locale-picker`, `text-size-picker`, `share-picker`;
+(`search-picker`, `theme-picker`, `locale-picker`, `text-size-picker`,
+`share-picker`;
 see each package's own `index.md`). A typical header layout:
 
 ```css

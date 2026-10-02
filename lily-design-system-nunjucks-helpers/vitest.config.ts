@@ -9,7 +9,7 @@ export default defineConfig({
   resolve: {
     alias: {
       // @lilydesignsystem/nunjucks-picker-bar's client.js depends on
-      // these four sibling packages' client.js the same way a real
+      // these five sibling packages' client.js the same way a real
       // consumer would (declared as regular npm `dependencies`,
       // resolved from the registry once published). This catalog has
       // no workspace linking, so nothing installs them into
@@ -17,6 +17,12 @@ export default defineConfig({
       // at each sibling's already-built `dist/index.js` for local
       // dev/test only. picker-bar's own dist keeps the bare imports,
       // which a real install resolves normally.
+      "@lilydesignsystem/nunjucks-search-picker": fileURLToPath(
+        new URL(
+          "./lily-design-system-nunjucks-search-picker/dist/index.js",
+          import.meta.url,
+        ),
+      ),
       "@lilydesignsystem/nunjucks-theme-picker": fileURLToPath(
         new URL(
           "./lily-design-system-nunjucks-theme-picker/dist/index.js",
@@ -55,7 +61,7 @@ export default defineConfig({
       // theme-picker/locale-picker/text-size-picker/motion-picker's
       // client.js each depend on this shared listbox-keyboard-behaviour
       // package the same way a real consumer would (a regular npm
-      // `dependency`) — same local dev/test aliasing reason as the four
+      // `dependency`) — same local dev/test aliasing reason as the five
       // picker-bar dependencies above.
       "@lilydesignsystem/nunjucks-listbox-behavior": fileURLToPath(
         new URL(

@@ -1,0 +1,19 @@
+{# Example 1 — Basic usage.
+
+   A search for "foo" performs a GET to "/?foo". Every user-facing string
+   is a parameter: the trigger, the field, and the ⏎ button each get a
+   localisable accessible name.
+#}
+{% from "search-picker.njk" import searchPicker %}
+
+{{ searchPicker({
+    label: "Search this site",
+    inputLabel: "Search terms",
+    submitLabel: "Search",
+    placeholder: "Search…"
+}) }}
+
+<script type="module">
+    import { autoInit } from "/js/search-picker.client.js";
+    autoInit();
+</script>

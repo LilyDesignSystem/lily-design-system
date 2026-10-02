@@ -8,7 +8,7 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   resolve: {
     alias: {
-      // @lilydesignsystem/html-picker-bar depends on these four sibling
+      // @lilydesignsystem/html-picker-bar depends on these five sibling
       // packages the same way a real consumer would (declared as regular
       // npm `dependencies`, resolved from the registry once published).
       // This catalog has no workspace linking, so nothing installs them
@@ -16,6 +16,12 @@ export default defineConfig({
       // specifiers at each sibling's already-built `dist/` for local
       // dev/test only. Not read by the catalog `build` script: picker-bar's
       // own dist keeps the bare imports, which real installs resolve.
+      "@lilydesignsystem/html-search-picker": fileURLToPath(
+        new URL(
+          "./lily-design-system-html-search-picker/dist/index.js",
+          import.meta.url,
+        ),
+      ),
       "@lilydesignsystem/html-theme-picker": fileURLToPath(
         new URL(
           "./lily-design-system-html-theme-picker/dist/index.js",
@@ -44,7 +50,7 @@ export default defineConfig({
       // @lilydesignsystem/html-date-time-picker as a real npm
       // `dependency` (composed twice per edit session), resolved from
       // the registry once published. Same local-dev/test-only aliasing
-      // as the four picker-bar siblings above.
+      // as the five picker-bar siblings above.
       "@lilydesignsystem/html-date-time-picker": fileURLToPath(
         new URL(
           "./lily-design-system-html-date-time-picker/dist/index.js",
@@ -57,7 +63,7 @@ export default defineConfig({
       // published — porting the same headless-composition refactor
       // already done for the other framework catalogs. The headless
       // catalog lives one level up as a sibling top-level directory, and
-      // unlike the four sibling helper packages above, it ships no
+      // unlike the five sibling helper packages above, it ships no
       // dist/ at all (no build step; components/ IS the published
       // source), so this points straight at the source file.
       "@lilydesignsystem/html-headless/components/listbox-controller.js": fileURLToPath(

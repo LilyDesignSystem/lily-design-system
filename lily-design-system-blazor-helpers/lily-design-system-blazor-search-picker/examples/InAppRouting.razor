@@ -1,0 +1,30 @@
+@*
+    Example 2 — In-app routing, a custom path, and observing the query.
+
+    Action sends searches to /search?<query> instead of /?<query>.
+    Navigate replaces the default full-page GET
+    (NavigationManager.NavigateTo(href, forceLoad: true)) with an in-app
+    navigation. OnSearch fires first, with the trimmed query and the
+    destination. @bind-Value keeps the field's text in your own state.
+*@
+
+@page "/examples/search-picker/in-app-routing"
+@rendermode InteractiveServer
+@using LilyDesignSystem.Blazor.Helpers
+@inject NavigationManager Nav
+
+<SearchPicker Label="Search this site"
+              InputLabel="Search terms"
+              SubmitLabel="Search"
+              Action="/search"
+              @bind-Value="_query"
+              Navigate="@(href => Nav.NavigateTo(href))"
+              OnSearch="@(e => _last = e.Query)" />
+
+<p>Typing: @_query</p>
+<p>Last search: @_last</p>
+
+@code {
+    private string _query = "";
+    private string _last = "";
+}

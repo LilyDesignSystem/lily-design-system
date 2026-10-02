@@ -6,11 +6,12 @@ props instead of Svelte runes) differs. Same § numbering.
 
 ## 1. Purpose
 
-A single page-header row that composes four of the six `*-picker`
-helpers — `theme-picker`, `locale-picker`, `text-size-picker`, and
-`share-picker` — with sensible catalog-wide defaults pre-wired, so a
-consumer can drop one component into a header instead of assembling
-and configuring four. `motion-picker` and `date-time-picker` are
+A single page-header row that composes five of the `*-picker`
+helpers — `search-picker`, `theme-picker`, `locale-picker`,
+`text-size-picker`, and `share-picker` — with sensible catalog-wide
+defaults pre-wired, so a consumer can drop one component into a header
+instead of assembling and configuring five. Search comes first in the
+row (maintainer-directed, 2026-10-02). `motion-picker` and `date-time-picker` are
 deliberately excluded: the former has no natural page-header spot next
 to the other three preference pickers picked for this bar, and the
 latter is a form control, not a header control — see
@@ -18,18 +19,19 @@ latter is a form control, not a header control — see
 
 ## 2. Scope
 
-In scope: rendering the four pickers in a fixed order (theme, locale,
-text-size, share), forwarding each picker's required and optional
+In scope: rendering the five pickers in a fixed order (search, theme,
+locale, text-size, share), forwarding each picker's required and optional
 props, and supplying two catalog-specific defaults (§5.1, §5.2) so the
 common case needs no configuration beyond accessible names, a themes
 URL, and a locale list. Out of scope: any new interaction, state, or
-DOM application beyond what the four wrapped pickers already do —
+DOM application beyond what the five wrapped pickers already do —
 `PickerBar` owns no lifecycle of its own.
 
 ## 3. HTML
 
 ```html
 <div class="picker-bar {className}" ...restProps>
+  <div class="search-picker">…</div>
   <div class="theme-picker">…</div>
   <div class="locale-picker">…</div>
   <div class="text-size-picker">…</div>
@@ -46,7 +48,8 @@ markup of its own beyond the root wrapper.
 
 | Prop            | Type                                | Required | Default              |
 | --------------- | ------------------------------------ | -------- | --------------------- |
-| `labels`         | `{ theme, locale, textSize, share }` | yes      | —                      |
+| `labels`         | `{ search, searchInput, searchSubmit, theme, locale, textSize, share }` | yes | — |
+| `searchProps`    | `Partial<SearchPicker Props>`        | no       | `{}`                   |
 | `themesUrl`      | `string`                             | yes      | —                      |
 | `themes`         | `string[]`                           | no       | `DEFAULT_THEMES` (§5.1) |
 | `themeProps`     | `Partial<ThemePicker Props>`         | no       | `{}`                   |
@@ -58,14 +61,17 @@ markup of its own beyond the root wrapper.
 | `shareProps`     | `Partial<SharePicker Props>`         | no       | `{}`                   |
 | `className`      | `string`                             | no       | `""`                   |
 
-`labels` carries the four accessible names as one object, following
-`date-time-picker`'s precedent (AGENTS/helpers.md): four structural
-labels this catalog did not invent get no English default. There is no
-top-level `label` — it would be ambiguous across four controls.
+`labels` carries the seven accessible names as one object, following
+`date-time-picker`'s precedent (AGENTS/helpers.md): structural labels
+this catalog did not invent get no English default. Search needs three
+— `search` (its icon button and search landmark), `searchInput` (the
+field) and `searchSubmit` (the `⏎` button), passed as `SearchPicker`'s
+`label`, `inputLabel` and `submitLabel` — the others one each. There
+is no top-level `label` — it would be ambiguous across five controls.
 
 Each `*Props` bag accepts that picker's own optional props (excluding
 the ones `PickerBar` already lifts to the top level — `themesUrl` /
-`themes`, `locales`, `sizes`, `targets`) and is spread onto that picker
+`themes`, `locales`, `sizes`, `targets`, and search's three labels) and is spread onto that picker
 **after** `PickerBar`'s own props, so anything in the bag — including
 `storageKey`, `detectFromSystem`, `defaultValue`, `value`, `name`,
 `target`, a `*Labels` map, `className`, `onChange`, or a `children`
@@ -114,18 +120,18 @@ unless `textSizeProps.defaultValue` overrides it.
 ## 6. Accessibility
 
 WCAG 2.2 AAA target, unchanged from each wrapped picker's own
-contract (§6 of `theme-picker`, `locale-picker`, `text-size-picker`,
-and `share-picker`'s respective specs) — `PickerBar` introduces no new
+contract (§6 of `search-picker`, `theme-picker`, `locale-picker`,
+`text-size-picker`, and `share-picker`'s respective specs) — `PickerBar` introduces no new
 interaction, so it introduces no new accessibility surface. `labels`
-supplies the four accessible names; there is no default that would
+supplies all seven accessible names; there is no default that would
 hardcode English text.
 
 ## 7. Acceptance criteria
 
 - §7.1 Renders a `<div class="picker-bar {className}">` root, extra
   attributes spread onto it.
-- §7.2 Renders exactly the four pickers — theme, locale, text-size,
-  share — in that order, each accessibly named from `labels`.
+- §7.2 Renders exactly the five pickers — search, theme, locale,
+  text-size, share — in that order, each accessibly named from `labels`.
 - §7.3 Forwards `themesUrl` to `ThemePicker`; `themes` omitted resolves
   to `DEFAULT_THEMES` (45 entries, `abyss` first, the 8 UK/US themes
   last as a group).
@@ -142,12 +148,17 @@ hardcode English text.
 - §7.10 `shareTargets` reaches the nested `SharePicker`'s list.
 - §7.11 `localeProps`, `shareProps` reach their respective pickers, the
   same way `themeProps` and `textSizeProps` do (§7.7, §7.9).
+- §7.12 Search is the first picker; its field and `⏎` button are
+  named from `labels.searchInput` and `labels.searchSubmit`.
+- §7.13 `searchProps` (e.g. `action`, `navigate`) reaches the nested
+  `SearchPicker`: with `action: "/search"`, a search for `foo`
+  navigates to `/search?foo`.
 
 ## 8. Relationship to the six `*-picker` helpers
 
-`PickerBar` wraps four of the six `*-picker` helpers in
-AGENTS/helpers.md without altering any of their individual contracts —
-existing counts, markup, and keyboard behaviour for `theme-picker`,
+`PickerBar` wraps five of the `*-picker` helpers in AGENTS/helpers.md
+without altering any of their individual contracts — existing counts,
+markup, and keyboard behaviour for `search-picker`, `theme-picker`,
 `locale-picker`, `text-size-picker`, and `share-picker` are unchanged.
 It is additive: a seventh package in each `*-helpers` catalog, built on
 top of the other six the same way a real consumer would compose them —
@@ -167,7 +178,7 @@ never sees `package.json`'s `dependencies` field either. `build.js`
 works around both by discovering every `lily-design-system-react-*`
 sibling directory and passing each as `--external` to every build — a
 no-op for a package that doesn't import it, and correct for
-`picker-bar`, whose `dist/index.js` must keep its four bare imports
-(`@lilydesignsystem/react-theme-picker`, `-locale-picker`,
+`picker-bar`, whose `dist/index.js` must keep its five bare imports
+(`@lilydesignsystem/react-search-picker`, `-theme-picker`, `-locale-picker`,
 `-text-size-picker`, `-share-picker`) unresolved, exactly like the
 canonical Svelte package's `dist/PickerBar.svelte` does.

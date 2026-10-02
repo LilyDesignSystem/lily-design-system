@@ -1,10 +1,10 @@
 # Lily Design System™ — `<lily-picker-bar>`
 
-A single page-header row that composes four of the Lily
-[`*-picker` helpers](../index.md) — theme, locale, text size, and
-share — with two catalog-wide defaults pre-wired, so you can drop one
-custom element into a header instead of assembling and configuring
-four.
+A single page-header row that composes five of the Lily
+[`*-picker` helpers](../index.md) — search, theme, locale, text size,
+and share, in that order — with two catalog-wide defaults pre-wired,
+so you can drop one custom element into a header instead of
+assembling and configuring five.
 
 `<lily-motion-picker>` and `<lily-date-time-picker>` are not part of
 the bar: motion has no natural spot next to the other three header
@@ -17,8 +17,8 @@ header control.
 npm install @lilydesignsystem/web-components-picker-bar
 ```
 
-`@lilydesignsystem/web-components-theme-picker`, `-locale-picker`,
-`-text-size-picker`, and `-share-picker` install automatically as
+`@lilydesignsystem/web-components-search-picker`, `-theme-picker`,
+`-locale-picker`, `-text-size-picker`, and `-share-picker` install automatically as
 regular dependencies — `<lily-picker-bar>` is a thin wrapper around
 them, not a reimplementation.
 
@@ -34,6 +34,9 @@ them, not a reimplementation.
 <script type="module">
   const bar = document.getElementById("header-picker-bar");
   bar.labels = {
+    search: "Search this site",
+    searchInput: "Search terms",
+    searchSubmit: "Search",
     theme: "Theme",
     locale: "Language",
     textSize: "Text size",
@@ -56,7 +59,8 @@ spec) — objects and functions cannot be expressed as HTML attributes
 `themes-url` (required) and `class` are plain attributes and can be
 written directly in HTML, as shown above.
 
-That's a complete, working header row: 45 themes, four locales, the
+That's a complete, working header row: site search (a search for
+`foo` goes to `/?foo`), 45 themes, four locales, the
 seven-step text-size scale, and one share destination plus
 copy-to-URL if you add `bar.shareProps = { copyLabel: "Copy link" }`.
 
@@ -86,6 +90,7 @@ Each wrapped picker takes a `*Props` bag for anything beyond what
 value, detection, a `*Labels` override map, a custom glyph:
 
 ```js
+bar.searchProps = { action: "/search", placeholder: "Search…", navigate: (href) => router.push(href) };
 bar.themeProps = { storageKey: "lily-theme", detectFromSystem: true };
 bar.localeProps = { storageKey: "lily-locale", detectFromNavigator: true };
 bar.textSizeProps = { storageKey: "lily-text-size" };
@@ -99,7 +104,7 @@ for that picker.
 
 `<lily-picker-bar>` renders no CSS of its own class beyond the
 `picker-bar` root wrapper — style each child through its own
-package's class hooks (`theme-picker`, `locale-picker`,
+package's class hooks (`search-picker`, `theme-picker`, `locale-picker`,
 `text-size-picker`, `share-picker`; see each package's own `index.md`).
 A typical header layout:
 

@@ -40,7 +40,7 @@ and the exact scope.
 
 ## Subprojects for framework helpers
 
-Each catalog ships six `*-picker` helpers — theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, date-time-picker. The first five are an icon button that opens a popup; none is a native `<select>` any more. `date-time-picker` is the exception: a form control, so it pairs a typeable text field with its trigger and opens an APG date-picker dialog. Svelte is the canonical reference; the other six are idiom ports.
+Each catalog ships seven `*-picker` helpers — theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, search-picker (added 2026-10-02), date-time-picker. The first six are an icon button that opens a popup; none is a native `<select>` any more. `date-time-picker` is the exception: a form control, so it pairs a typeable text field with its trigger and opens an APG date-picker dialog. Svelte is the canonical reference; the other six are idiom ports.
 
 - [Lily Design System: HTML helpers](../lily-design-system-html-helpers)
 - [Lily Design System: Svelte helpers](../lily-design-system-svelte-helpers)

@@ -6,11 +6,12 @@ below is a fast index.
 ## What this package is
 
 A composed React 19 header control: one `<div className="picker-bar">`
-that renders `ThemePicker`, `LocalePicker`, `TextSizePicker`, and
-`SharePicker` — four of the six `*-picker` helpers — in that fixed
-order, each imported as a normal npm dependency from its own published
-package (`@lilydesignsystem/react-theme-picker`, `-locale-picker`,
-`-text-size-picker`, `-share-picker`). It adds no lifecycle of its own
+that renders `SearchPicker`, `ThemePicker`, `LocalePicker`,
+`TextSizePicker`, and `SharePicker` — five of the `*-picker` helpers —
+in that fixed order, each imported as a normal npm dependency from its
+own published package (`@lilydesignsystem/react-search-picker`,
+`-theme-picker`, `-locale-picker`, `-text-size-picker`,
+`-share-picker`). It adds no lifecycle of its own
 beyond two catalog-specific defaults: the full 45-theme reference list
 (§5.1 of the spec) and the seven-step text-size scale (§5.2).
 `motion-picker` and `date-time-picker` are deliberately not included —
@@ -37,9 +38,10 @@ Required props: `labels`, `themesUrl`, `locales`. Full table in
 
 ## Behaviour contract (one paragraph)
 
-`PickerBar` renders the four wrapped pickers unmodified, passing each
+`PickerBar` renders the five wrapped pickers unmodified, passing each
 its own required props plus any extras from that picker's `*Props` bag
-(`themeProps`, `localeProps`, `textSizeProps`, `shareProps`), spread
+(`searchProps`, `themeProps`, `localeProps`, `textSizeProps`,
+`shareProps`), spread
 **after** the bar's own values so a consumer can override anything.
 `themes` defaults to `DEFAULT_THEMES` (all 45 reference theme slugs,
 alphabetical with the UK/US themes moved to one alphabetical group at
@@ -54,6 +56,7 @@ contract; see that picker's own `AGENTS.md`.
 
 ```html
 <div class="picker-bar {className}" ...restProps>
+  <div class="search-picker">…</div>
   <div class="theme-picker">…</div>
   <div class="locale-picker">…</div>
   <div class="text-size-picker">…</div>
@@ -67,15 +70,15 @@ contract. `PickerBar` contributes only the `picker-bar` root class.
 ## Accessibility
 
 WCAG 2.2 AAA target — unchanged from each wrapped picker, since
-`PickerBar` adds no new interaction. `labels` supplies all four
-accessible names; there is no English default (see
+`PickerBar` adds no new interaction. `labels` supplies all seven
+accessible names (three for search: button, field, `⏎`); there is no English default (see
 `date-time-picker`'s precedent in AGENTS/helpers.md for why a bar of
 structural labels this catalog invented gets none).
 
 ## Conventions this package follows
 
 - React 19 function component, TypeScript, no class components.
-- Depends on the four wrapped pickers as real npm `dependencies` —
+- Depends on the five wrapped pickers as real npm `dependencies` —
   the same way any consumer would — not vendored or duplicated source.
 - No bundled CSS, fonts, icons, or images.
 - All user-facing strings come from props (`labels`, and whatever each
@@ -94,7 +97,7 @@ build. See [spec/index.md §9](./spec/index.md#9-framework-specific-note-the-bui
 ## Local development note
 
 This catalog has no pnpm workspace linking (`pnpm-workspace.yaml`
-carries no `packages:` glob). `../vite.config.ts` aliases the four bare
+carries no `packages:` glob). `../vite.config.ts` aliases the five bare
 package specifiers to each sibling's already-built `dist/` so tests
 resolve locally; `../tsconfig.json` mirrors that with a `paths` map for
 type-checking. Neither alias/path is read by `../build.js` — the

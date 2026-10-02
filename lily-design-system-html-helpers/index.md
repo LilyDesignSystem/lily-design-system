@@ -26,8 +26,9 @@ listbox.
 | [`@lilydesignsystem/html-text-size-picker`](./lily-design-system-html-text-size-picker/) | `<text-size-picker>` | Pick a text size; sets `data-text-size` on the document root.                                 |
 | [`@lilydesignsystem/html-motion-picker`](./lily-design-system-html-motion-picker/)       | `<motion-picker>`    | Pick a motion (reduced-motion) preference; sets `data-motion` on the document root, defaulting to the OS's own `(prefers-reduced-motion: reduce)` signal. |
 | [`@lilydesignsystem/html-share-picker`](./lily-design-system-html-share-picker/)         | `<share-picker>`     | Share the page: native share sheet, or a disclosure list of your destinations + copy the URL. |
+| [`@lilydesignsystem/html-search-picker`](./lily-design-system-html-search-picker/) | `<search-picker>` | Site search: a magnifying-glass icon button opening a search field and a ⏎ submit button that navigates to `/?<query>`. |
 | [`@lilydesignsystem/html-date-time-picker`](./lily-design-system-html-date-time-picker/) | `<date-time-picker>` | Pick a date, a time, or both: a typeable field plus a WAI-ARIA APG Date Picker Dialog. |
-| [`@lilydesignsystem/html-picker-bar`](./lily-design-system-html-picker-bar/)             | `<picker-bar>`       | Compose theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row, with all 45 reference themes and the seven-step text-size scale pre-wired. |
+| [`@lilydesignsystem/html-picker-bar`](./lily-design-system-html-picker-bar/)             | `<picker-bar>`       | Compose search-picker, theme-picker, locale-picker, text-size-picker, and share-picker (search first) into one page-header row, with all 45 reference themes and the seven-step text-size scale pre-wired. |
 | [`@lilydesignsystem/html-kanban-board`](./lily-design-system-html-kanban-board/)         | `<kanban-board>`     | Interactive kanban board over the `kanban-table` markup contract: pointer drag-and-drop plus a keyboard-accessible per-card "Move to…" menu, never drag-only. |
 | [`@lilydesignsystem/html-gantt-chart`](./lily-design-system-html-gantt-chart/)           | `<gantt-chart>`      | Interactive Gantt chart over the `gantt-table` markup contract: task bars as column-spanning cells, row hierarchy, milestones, and keyboard-accessible editing composed from two `<date-time-picker>` instances. |
 
@@ -43,12 +44,12 @@ package. See each package's own `spec/index.md` §3 for what each
 composes and why.
 
 `<picker-bar>` is different again: it owns no preference, action, or
-form value of its own. It is a **composition** — the four elements
-above, each depended on as a real npm package and rendered unmodified,
-plus two catalog-specific defaults (all 45 reference themes; the
-seven-step text-size scale). It exists because those four, and only
-those four, share one shape (an icon button opening a popup in a page
-header); `<motion-picker>` has no natural spot in that row, and
+form value of its own. It is a **composition** — `<search-picker>`
+first, then the four elements above, each depended on as a real npm
+package and rendered unmodified, plus two catalog-specific defaults
+(all 45 reference themes; the seven-step text-size scale). It exists
+because those five, and only those five, share one shape (an icon
+button opening a popup in a page header); `<motion-picker>` has no natural spot in that row, and
 `<date-time-picker>` is a form control, not a header control.
 
 ## Conventions

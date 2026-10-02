@@ -6,21 +6,22 @@ port). This file follows its § numbering.
 
 ## 1. Purpose
 
-A single page-header element, `<picker-bar>`, that composes four of the
-six `*-picker` helpers — `theme-picker`, `locale-picker`,
+A single page-header element, `<picker-bar>`, that composes five of the
+`*-picker` helpers — `search-picker`, `theme-picker`, `locale-picker`,
 `text-size-picker`, and `share-picker` — with sensible catalog-wide
 defaults pre-wired, so a consumer can drop one custom element into a
-header instead of assembling and configuring four. `motion-picker` and
+header instead of assembling and configuring five. Search comes first
+in the row (maintainer-directed, 2026-10-02). `motion-picker` and
 `date-time-picker` are deliberately excluded — see the Svelte spec §1
 and [AGENTS/helpers.md](../../../AGENTS/helpers.md).
 
 ## 2. Scope
 
-In scope: rendering the four pickers in a fixed order (theme, locale,
-text-size, share) inside one `<div class="picker-bar {class}">`,
+In scope: rendering the five pickers in a fixed order (search, theme,
+locale, text-size, share) inside one `<div class="picker-bar {class}">`,
 forwarding each picker's required and optional configuration, and
 supplying two catalog-specific defaults (§5.1, §5.2). Out of scope: any
-new interaction, state, or DOM application beyond what the four wrapped
+new interaction, state, or DOM application beyond what the five wrapped
 custom elements already do — `<picker-bar>` owns no lifecycle of its
 own.
 
@@ -29,6 +30,7 @@ own.
 ```html
 <picker-bar>
   <div class="picker-bar {class}">
+    <search-picker>…</search-picker>
     <theme-picker>…</theme-picker>
     <locale-picker>…</locale-picker>
     <text-size-picker>…</text-size-picker>
@@ -39,7 +41,7 @@ own.
 
 `<picker-bar>` itself is a light-DOM custom element (matching every
 other helper in this catalog): it renders a `<div class="picker-bar
-{class}">` as its one child, which in turn holds the four real,
+{class}">` as its one child, which in turn holds the five real,
 unmodified sibling elements — same class hooks, same ARIA, same
 keyboard contract as documented in that element's own `spec/index.md`.
 
@@ -48,6 +50,7 @@ keyboard contract as documented in that element's own `spec/index.md`.
 | Attribute      | Property        | Type                          | Required | Default              |
 | -------------- | ---------------- | ------------------------------ | -------- | --------------------- |
 | —              | `labels`         | `PickerBarLabels`              | yes      | —                      |
+| —              | `searchProps`    | `Partial<SearchPickerProps>`   | no       | `{}`                   |
 | `themes-url`   | `themesUrl`      | `string`                       | yes      | —                      |
 | `themes`       | `themes`         | `string[]` (CSV attr)          | no       | `DEFAULT_THEMES` (§5.1) |
 | —              | `themeProps`     | `Partial<ThemePickerProps>`    | no       | `{}`                   |
@@ -63,16 +66,23 @@ keyboard contract as documented in that element's own `spec/index.md`.
 standard `getAttribute("class")` / `element.className`, following this
 catalog's existing convention (e.g. `<theme-picker>`).
 
-`labels` (`{ theme, locale, textSize, share }`, the four accessible
-names) and `shareTargets` (its `href` is a function) are **property-only**
+`labels` (`{ search, searchInput, searchSubmit, theme, locale,
+textSize, share }`, the seven accessible names) and `shareTargets` (its `href` is a function) are **property-only**
 — no honest attribute encoding exists for either, the same reasoning
 `date-time-picker`'s `labels` and `share-picker`'s `targets` already
-document. There is no default for `labels`' four strings (all resolve
+document. There is no default for `labels`' seven strings (all resolve
 to `""` until set) — a nav control this catalog invented gets no
-English default, matching `date-time-picker`'s precedent.
+English default, matching `date-time-picker`'s precedent. Search needs
+three: `search` (its icon button and search landmark), `searchInput`
+(the field, set as `<search-picker>`'s `input-label`) and
+`searchSubmit` (the `⏎` button, its `submit-label`); the other pickers
+one each.
 
-The four `*Props` bags (`themeProps`, `localeProps`, `textSizeProps`,
-`shareProps`) are also property-only. Each is applied via
+The five `*Props` bags (`searchProps`, `themeProps`, `localeProps`,
+`textSizeProps`, `shareProps`) are also property-only. `searchProps`
+excludes search's three lifted labels and carries the rest —
+`action`, `placeholder`, `value`, and the function-valued `navigate` /
+`onSearch`, which `Object.assign` sets as plain properties. Each is applied via
 `Object.assign(childElement, bag)` **before** the child element is
 connected to the document — so a property that reflects to an attribute
 (`storageKey`, `detectFromSystem`, `defaultValue`, `value`, `name`,
@@ -82,7 +92,8 @@ had set it directly. Applied after `<picker-bar>`'s own defaults, so
 anything in a bag overrides them.
 
 Composed elements are exposed as read-only properties once rendered:
-`themePicker`, `localePicker`, `textSizePicker`, `sharePicker` each
+`searchPicker`, `themePicker`, `localePicker`, `textSizePicker`,
+`sharePicker` each
 return that child's live element instance (or `null` before first
 render), for a consumer who wants to read state or attach a listener
 after mount rather than pre-configure via a `*Props` bag.
@@ -120,15 +131,17 @@ overrides it.
 
 WCAG 2.2 AAA target, unchanged from each wrapped picker's own contract
 — `<picker-bar>` introduces no new interaction, so it introduces no new
-accessibility surface. `labels` supplies the four accessible names;
+accessibility surface. `labels` supplies the seven accessible names
+(three for search: button and landmark, field, `⏎` button);
 there is no default that would hardcode English text.
 
 ## 7. Acceptance criteria
 
 - §7.1 Renders a `<div class="picker-bar {class}">` inside the
   `<picker-bar>` host.
-- §7.2 Renders exactly the four pickers — theme, locale, text-size,
-  share — in that order, each accessibly named from `labels`.
+- §7.2 Renders exactly the five pickers — search, theme, locale,
+  text-size, share — in that order, each accessibly named from
+  `labels`.
 - §7.3 Forwards `themesUrl` to `<theme-picker>`; `themes` omitted
   resolves to `DEFAULT_THEMES` (45 entries, `abyss` first, the 8 UK/US
   themes last as a group).
@@ -147,13 +160,19 @@ there is no default that would hardcode English text.
 - §7.10 `shareTargets` reaches the nested `<share-picker>`'s `targets`.
 - §7.11 `localeProps`, `shareProps` reach their respective pickers, the
   same way `themeProps` and `textSizeProps` do (§7.7, §7.9).
+- §7.12 `<search-picker>` is the first picker in the row; its field and
+  `⏎` button are named from `labels.searchInput` and
+  `labels.searchSubmit`.
+- §7.13 `searchProps` reaches the nested `<search-picker>`: with
+  `action: "/search"` and a `navigate` spy, searching `foo` navigates to
+  `/search?foo`.
 
-## 8. Relationship to the six `*-picker` helpers
+## 8. Relationship to the `*-picker` helpers
 
-Wraps four of the six `*-picker` helpers without altering any of their
+Wraps five of the `*-picker` helpers without altering any of their
 individual contracts — existing markup, attributes, and keyboard
-behaviour for `<theme-picker>`, `<locale-picker>`, `<text-size-picker>`,
-and `<share-picker>` are unchanged. Depends on the four wrapped
+behaviour for `<search-picker>`, `<theme-picker>`, `<locale-picker>`, `<text-size-picker>`,
+and `<share-picker>` are unchanged. Depends on the five wrapped
 packages as ordinary npm `dependencies`, not vendored or duplicated
 source — the same way a real consumer composing them by hand would;
 the catalog `build.js` marks each of a package's own `dependencies` as

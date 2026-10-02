@@ -1,5 +1,5 @@
 import { mount, type VueWrapper } from "@vue/test-utils";
-import { afterEach, beforeEach, describe, expect, test } from "vitest";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { nextTick } from "vue";
 
 import PickerBar, { DEFAULT_THEMES, DEFAULT_SIZES } from "./PickerBar.vue";
@@ -12,6 +12,9 @@ async function flush(): Promise<void> {
 }
 
 const LABELS = {
+  search: "Search this site",
+  searchInput: "Search terms",
+  searchSubmit: "Search",
   theme: "Theme",
   locale: "Language",
   textSize: "Text size",
@@ -38,6 +41,7 @@ function build(props: Record<string, unknown> = {}) {
 
 function buttons(wrapper: VueWrapper<any>) {
   return {
+    search: wrapper.find("button.search-picker-button"),
     theme: wrapper.find("button.theme-picker-button"),
     locale: wrapper.find("button.locale-picker-button"),
     textSize: wrapper.find("button.text-size-picker-button"),
@@ -112,21 +116,23 @@ describe("PickerBar — composition (§4, §7.1–§7.4)", () => {
     expect(root.classes()).toContain("my-picker-bar");
   });
 
-  test("§7.2 renders all four pickers, each named from `labels`", () => {
+  test("§7.2 renders all five pickers, each named from `labels`", () => {
     const wrapper = build();
-    const { theme, locale, textSize, share } = buttons(wrapper);
+    const { search, theme, locale, textSize, share } = buttons(wrapper);
+    expect(search.attributes("aria-label")).toBe("Search this site");
     expect(theme.attributes("aria-label")).toBe("Theme");
     expect(locale.attributes("aria-label")).toBe("Language");
     expect(textSize.attributes("aria-label")).toBe("Text size");
     expect(share.attributes("aria-label")).toBe("Share");
   });
 
-  test("§7.2 renders the four picker root class hooks in theme, locale, text-size, share order", () => {
+  test("§7.2 renders the five picker root class hooks in search, theme, locale, text-size, share order", () => {
     const wrapper = build();
     const roots = wrapper
       .findAll(".picker-bar > div")
       .map((el) => el.classes()[0]);
     expect(roots).toEqual([
+      "search-picker",
       "theme-picker",
       "locale-picker",
       "text-size-picker",
@@ -239,5 +245,48 @@ describe("PickerBar — share-picker wiring (§5.4, §7.10)", () => {
     });
     await buttons(wrapper).share.trigger("click");
     expect(wrapper.find(".share-picker-target").text()).toBe("Email");
+  });
+});
+
+describe("PickerBar — search-picker wiring (§7.11, §7.12, §7.13)", () => {
+  /** Open the search panel, type a query, and submit the form. */
+  async function search(wrapper: VueWrapper<any>, query: string) {
+    await buttons(wrapper).search.trigger("click");
+    await flush();
+    await wrapper.find("input.search-picker-input").setValue(query);
+    wrapper
+      .find("form.search-picker-form")
+      .element.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
+    await flush();
+  }
+
+  test("§7.12 search is the first picker, with its field and ⏎ button named from `labels`", async () => {
+    const wrapper = build();
+    const first = wrapper.find(".picker-bar > div");
+    expect(first.classes()).toContain("search-picker");
+    await buttons(wrapper).search.trigger("click");
+    await flush();
+    const input = first.find("input.search-picker-input");
+    const submit = first.find("button.search-picker-submit");
+    expect(input.attributes("type")).toBe("search");
+    expect(input.attributes("aria-label")).toBe("Search terms");
+    expect(submit.attributes("type")).toBe("submit");
+    expect(submit.attributes("aria-label")).toBe("Search");
+    expect(first.find("form.search-picker-form").attributes("aria-label")).toBe(
+      "Search this site",
+    );
+  });
+
+  test("§7.13 `searchProps` reaches SearchPicker (action + navigate)", async () => {
+    const navigate = vi.fn();
+    const wrapper = build({ searchProps: { action: "/search", navigate } });
+    await search(wrapper, "foo");
+    expect(navigate).toHaveBeenCalledWith("/search?foo");
+  });
+
+  test("§7.11 re-emits SearchPicker's search as `search`", async () => {
+    const wrapper = build({ searchProps: { navigate: vi.fn() } });
+    await search(wrapper, "foo");
+    expect(wrapper.emitted("search")).toEqual([["foo", "/?foo"]]);
   });
 });

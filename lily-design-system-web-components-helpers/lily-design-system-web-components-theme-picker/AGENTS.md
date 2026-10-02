@@ -115,7 +115,7 @@ different thing from `aria-selected`. Full markup:
 - Vanilla web component (custom element extending `HTMLElement`).
 - Light DOM only (no Shadow DOM).
 - Strict TypeScript on the public surface.
-- No runtime dependencies.
+- One runtime dependency: `@lilydesignsystem/web-components-headless`, for the trigger's `<lily-icon-button>`.
 - No bundled CSS, fonts, or images. The one deliberate exception is
   the default button icon: a bundled SVG (reversed 2026-09-16 from a
   Unicode glyph).

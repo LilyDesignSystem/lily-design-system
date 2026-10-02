@@ -2069,6 +2069,7 @@
         .theme-picker,
         .locale-picker,
         .text-size-picker,
+        .search-picker,
         .share-picker,
         .date-time-picker
     ) {
@@ -2080,6 +2081,7 @@
         .theme-picker-button,
         .locale-picker-button,
         .text-size-picker-button,
+        .search-picker-button,
         .share-picker-button,
         .date-time-picker-button
     ) {
@@ -2115,7 +2117,8 @@
         .locale-picker-icon,
         .text-size-picker-icon,
         .motion-picker-icon,
-        .share-picker-icon
+        .share-picker-icon,
+        .search-picker-icon
     ) {
         display: inline-flex;
         align-items: center;
@@ -2194,11 +2197,53 @@
         line-height: 0;
     }
 
+    /* search-picker's panel holds a search form rather than a list: the
+       field and the ⏎ submit button sit in one row, the button at the
+       field's inline end (right in LTR, left under dir="rtl"). The ⏎
+       button matches the picker trigger buttons' size and border. */
+    :where(.search-picker-form) {
+        display: flex;
+        align-items: stretch;
+        gap: var(--lily-space-xs);
+        margin: 0;
+    }
+
+    :where(.search-picker-input) {
+        min-width: 14rem;
+        padding: var(--lily-space-xs) var(--lily-space-sm);
+        font: inherit;
+        color: var(--lily-text);
+        background-color: var(--lily-surface);
+        border: var(--border) solid var(--lily-border-strong);
+        border-radius: var(--lily-radius-sm);
+    }
+
+    :where(.search-picker-submit) {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 2.5rem;
+        min-height: 2.5rem;
+        padding: var(--lily-space-xs);
+        font: inherit;
+        line-height: 1;
+        color: var(--lily-text);
+        background-color: var(--lily-surface);
+        border: var(--border) solid var(--lily-border-strong);
+        border-radius: var(--lily-radius-md);
+        cursor: pointer;
+    }
+
+    :where(.search-picker-submit:hover) {
+        background-color: var(--lily-surface-alt);
+    }
+
     :where(
         .theme-picker-list,
         .locale-picker-list,
         .text-size-picker-list,
-        .share-picker-list
+        .share-picker-list,
+        .search-picker-panel
     ) {
         position: absolute;
         z-index: 10;
@@ -2222,7 +2267,8 @@
         .theme-picker-list,
         .locale-picker-list,
         .text-size-picker-list,
-        .share-picker-list
+        .share-picker-list,
+        .search-picker-panel
     )[hidden] {
         display: none;
     }

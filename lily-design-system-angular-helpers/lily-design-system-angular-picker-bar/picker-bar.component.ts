@@ -9,6 +9,10 @@ import {
   type ShareStrategy,
   type ShareTarget,
 } from "@lilydesignsystem/angular-share-picker";
+import {
+  SearchPicker,
+  type SearchEvent,
+} from "@lilydesignsystem/angular-search-picker";
 
 /**
  * All 45 Lily reference theme slugs (see `themes/` at the repo root),
@@ -80,8 +84,14 @@ export const DEFAULT_SIZES: string[] = [
   "smallest",
 ];
 
-/** Accessible names for the four pickers. Required — no English default. */
+/** Accessible names for the five pickers. Required — no English default. */
 export type PickerBarLabels = {
+  /** Accessible name for the search picker's button and search landmark. */
+  search: string;
+  /** Accessible name for the search picker's text field. */
+  searchInput: string;
+  /** Accessible name for the search picker's ⏎ submit button. */
+  searchSubmit: string;
   /** Accessible name for the theme picker's button and listbox. */
   theme: string;
   /** Accessible name for the locale picker's button and listbox. */
@@ -93,10 +103,10 @@ export type PickerBarLabels = {
 };
 
 /**
- * PickerBar — composes theme-picker, locale-picker, text-size-picker,
- * and share-picker into one page-header row.
+ * PickerBar — composes search-picker, theme-picker, locale-picker,
+ * text-size-picker, and share-picker into one page-header row.
  *
- * A thin wrapper: it renders the four picker components, each imported
+ * A thin wrapper: it renders the five picker components, each imported
  * as a real npm dependency from its own published package, unmodified.
  * It pre-wires two catalog-specific defaults (`DEFAULT_THEMES`,
  * `DEFAULT_SIZES`) and flattens each wrapped picker's most commonly
@@ -109,10 +119,20 @@ export type PickerBarLabels = {
 @Component({
   selector: "lily-picker-bar",
   standalone: true,
-  imports: [ThemePicker, LocalePicker, TextSizePicker, SharePicker],
+  imports: [SearchPicker, ThemePicker, LocalePicker, TextSizePicker, SharePicker],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="picker-bar {{ className() }}">
+      <lily-search-picker
+        [label]="labels().search"
+        [inputLabel]="labels().searchInput"
+        [submitLabel]="labels().searchSubmit"
+        [placeholder]="searchPlaceholder()"
+        [(value)]="searchValue"
+        [action]="searchAction()"
+        [navigate]="searchNavigate()"
+        (searched)="searched.emit($event)"
+      />
       <lily-theme-picker
         [label]="labels().theme"
         [themesUrl]="themesUrl()"
@@ -167,6 +187,18 @@ export type PickerBarLabels = {
 export class PickerBar {
   /** Accessible names for each picker. */
   readonly labels = input.required<PickerBarLabels>();
+
+  // --- search-picker ---
+  /** Placeholder for the search field. No default (it would be English). */
+  readonly searchPlaceholder = input<string | undefined>(undefined);
+  /** Two-way bindable search text. */
+  readonly searchValue = model<string>("");
+  /** Path the query is appended to (`${searchAction}?${query}`). */
+  readonly searchAction = input<string>("/");
+  /** Performs the search navigation. Defaults to `location.assign(href)`. */
+  readonly searchNavigate = input<((href: string) => void) | undefined>(undefined);
+  /** Fires with the trimmed query and destination, before navigating. */
+  readonly searched = output<SearchEvent>();
 
   // --- theme-picker ---
   /** Base URL of the themes directory, forwarded to ThemePicker. */

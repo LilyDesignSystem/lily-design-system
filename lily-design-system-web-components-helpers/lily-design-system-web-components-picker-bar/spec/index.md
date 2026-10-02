@@ -16,19 +16,20 @@ Sibling files:
 
 - `picker-bar.ts` — the implementation (custom-element class)
 - `picker-bar.test.ts` — vitest + jsdom spec exercising every clause in §7
-- `index.ts` — barrel re-export + side-effectful registration (of `<lily-picker-bar>` and, transitively, its four wrapped pickers)
+- `index.ts` — barrel re-export + side-effectful registration (of `<lily-picker-bar>` and, transitively, its five wrapped pickers)
 - `index.md` — user-facing guide
 
 ---
 
 ## 1. Purpose
 
-A single page-header row that composes four of the six Lily `*-picker`
-helpers in this catalog — `<lily-theme-picker>`, `<lily-locale-picker>`,
-`<lily-text-size-picker>`, and `<lily-share-picker>` — with two
-catalog-specific defaults pre-wired, so a consumer can drop one
-custom element into a header instead of assembling and configuring
-four. `<lily-motion-picker>` and `<lily-date-time-picker>` are
+A single page-header row that composes five of the Lily `*-picker`
+helpers in this catalog — `<lily-search-picker>`, `<lily-theme-picker>`,
+`<lily-locale-picker>`, `<lily-text-size-picker>`, and
+`<lily-share-picker>` — with two catalog-specific defaults pre-wired,
+so a consumer can drop one custom element into a header instead of
+assembling and configuring five. Search comes first in the row
+(maintainer-directed, 2026-10-02). `<lily-motion-picker>` and `<lily-date-time-picker>` are
 deliberately excluded: the former has no natural page-header spot next
 to the other three preference pickers picked for this bar, and the
 latter is a form control, not a header control — see
@@ -36,12 +37,12 @@ latter is a form control, not a header control — see
 
 ## 2. Scope
 
-In scope: rendering the four pickers in a fixed order (theme, locale,
-text-size, share), forwarding each picker's required and optional
+In scope: rendering the five pickers in a fixed order (search, theme,
+locale, text-size, share), forwarding each picker's required and optional
 attributes/properties, and supplying two catalog-wide defaults (§5)
 so the common case needs no configuration beyond accessible names, a
 themes URL, and a locale list. Out of scope: any new interaction,
-state, or DOM application beyond what the four wrapped pickers already
+state, or DOM application beyond what the five wrapped pickers already
 do — `<lily-picker-bar>` owns no lifecycle of its own.
 
 ## 3. Architectural decisions
@@ -49,14 +50,14 @@ do — `<lily-picker-bar>` owns no lifecycle of its own.
 - **A helper, but not a preference/action/form-value lifecycle.** It
   is a pure **composition**. It applies nothing to the document and
   persists nothing itself; every behaviour it exhibits belongs to one
-  of the four wrapped pickers.
-- **Depends on the four wrapped packages as real npm `dependencies`,
+  of the five wrapped pickers.
+- **Depends on the five wrapped packages as real npm `dependencies`,
   not vendored source.** `picker-bar.ts` imports
-  `@lilydesignsystem/web-components-theme-picker`,
+  `@lilydesignsystem/web-components-search-picker`, `-theme-picker`,
   `-locale-picker`, `-text-size-picker`, and `-share-picker` by
   package name — the same way any consumer composing them by hand
   would — and the catalog `build.js`/tsup step is configured to leave
-  those four specifiers unbundled (`--external`), so the published
+  those five specifiers unbundled (`--external`), so the published
   `dist/index.js` still imports them by name and a real install
   resolves them from `node_modules`.
 - **Light DOM, no Shadow DOM.** As with every sibling helper, the
@@ -95,17 +96,22 @@ existing convention for `<lily-share-picker>`'s `targets` and
 
 | Property        | Type                                     | Required | Default                         |
 | ---------------- | ----------------------------------------- | -------- | --------------------------------- |
-| `labels`         | `{ theme, locale, textSize, share }`      | yes      | `{ theme:"", locale:"", textSize:"", share:"" }` |
+| `labels`         | `{ search, searchInput, searchSubmit, theme, locale, textSize, share }` | yes | all seven `""` |
+| `searchProps`    | `Partial<SearchPickerProps>`              | no       | `{}`                               |
 | `shareTargets`   | `ShareTarget[]` (re-exported from `share-picker`) | no | `[]`                              |
 | `themeProps`     | `Partial<ThemePickerProps>`               | no       | `{}`                               |
 | `localeProps`    | `Partial<LocalePickerProps>`              | no       | `{}`                               |
 | `textSizeProps`  | `Partial<TextSizePickerProps>`            | no       | `{}`                               |
 | `shareProps`     | `Partial<SharePickerProps>`               | no       | `{}`                               |
 
-`labels`' default is four empty strings, not English text — mirroring
+`labels`' default is seven empty strings, not English text — mirroring
 `<lily-date-time-picker>`'s own `DEFAULT_LABELS` exactly (see its
-`spec/index.md`). An omitted `labels` renders four unnamed controls
-rather than a name this catalog invented.
+`spec/index.md`). An omitted `labels` renders unnamed controls rather
+than a name this catalog invented. Search needs three names: `search`
+(its icon button and search landmark), `searchInput` (the field — its
+`input-label`) and `searchSubmit` (the `⏎` button — its
+`submit-label`); the other pickers one each. Assigning `labels` after
+connect updates every picker's names in place.
 
 Each `*Props` bag accepts that picker's own optional properties
 (excluding the ones `<lily-picker-bar>` already lifts to the top
@@ -113,11 +119,12 @@ level) and is applied via `Object.assign(childElement, bag)` **after**
 the bar's own base configuration, so any key present in the bag —
 `storageKey`, `detectFromSystem`, `defaultValue`, `value`, `name`,
 `target`, a `*Labels` map, `onChange`, or a `renderButtonContent`
-override — wins over `<lily-picker-bar>`'s default.
+override, and for `searchProps` `action`, `placeholder`, and the
+function-valued `navigate` / `onSearch` — wins over `<lily-picker-bar>`'s default.
 
 ### 4.4 Build order (implementation detail, not part of the public contract)
 
-The four wrapped pickers are constructed via `document.createElement`
+The five wrapped pickers are constructed via `document.createElement`
 and configured **after** the bar's own root `<div>` is already
 connected to the document (`this.replaceChildren(root)` runs before
 any child is appended, not after). Appending a still-detached
@@ -163,16 +170,18 @@ overrides it.
 
 WCAG 2.2 AAA target, unchanged from each wrapped picker's own
 contract — `<lily-picker-bar>` introduces no new interaction, so it
-introduces no new accessibility surface. `labels` supplies the four
-accessible names; there is no default that would hardcode English
+introduces no new accessibility surface. `labels` supplies the seven
+accessible names (three for search: button and landmark, field, `⏎`
+button); there is no default that would hardcode English
 text.
 
 ## 7. Acceptance criteria
 
 - §7.1 Renders a `<div class="picker-bar {class}">` root inside the
   `<lily-picker-bar>` host.
-- §7.2 Renders exactly the four pickers — theme, locale, text-size,
-  share — in that order, each accessibly named from `labels`.
+- §7.2 Renders exactly the five pickers — search, theme, locale,
+  text-size, share — in that order, each accessibly named from
+  `labels`.
 - §7.3 Forwards `themes-url` to `<lily-theme-picker>`; `themes` omitted
   resolves to `DEFAULT_THEMES` (45 entries, `abyss` first, the 8
   UK/US themes last as a group).
@@ -189,13 +198,22 @@ text.
 - §7.9 The nested `<lily-text-size-picker>` initial value is `"normal"`
   unless `textSizeProps.defaultValue` overrides it.
 - §7.10 `shareTargets` reaches the nested `<lily-share-picker>`'s list.
+- §7.11 — not carried in this port (the canonical clause covers
+  `localeProps` / `shareProps`); numbering kept aligned with the
+  Svelte spec.
+- §7.12 `<lily-search-picker>` is the first picker in the row; its
+  field and `⏎` button are named from `labels.searchInput` and
+  `labels.searchSubmit`.
+- §7.13 `searchProps` reaches the nested `<lily-search-picker>`: with
+  `action: "/search"` and a `navigate` spy, searching `foo` navigates
+  to `/search?foo`.
 
-## 8. Relationship to the six `*-picker` helpers
+## 8. Relationship to the `*-picker` helpers
 
-`<lily-picker-bar>` wraps four of the six `*-picker` helpers in
+`<lily-picker-bar>` wraps five of the `*-picker` helpers in
 AGENTS/helpers.md without altering any of their individual contracts —
 existing attributes, markup, and keyboard behaviour for
-`<lily-theme-picker>`, `<lily-locale-picker>`, `<lily-text-size-picker>`,
+`<lily-search-picker>`, `<lily-theme-picker>`, `<lily-locale-picker>`, `<lily-text-size-picker>`,
 and `<lily-share-picker>` are unchanged. It is additive: a seventh
 package in this catalog, built on top of the other six the same way a
 real consumer would compose them.

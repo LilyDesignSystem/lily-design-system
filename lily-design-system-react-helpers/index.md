@@ -15,13 +15,14 @@ DOM application) for one small, common job.
 | [`@lilydesignsystem/react-text-size-picker`](./lily-design-system-react-text-size-picker/) | Pick a text size; sets `data-text-size` on the document root.                   |
 | [`@lilydesignsystem/react-motion-picker`](./lily-design-system-react-motion-picker/)       | Pick a motion (reduced-motion) preference; sets `data-motion` on the document root, defaulting to the OS's own `(prefers-reduced-motion: reduce)` signal. |
 | [`@lilydesignsystem/react-share-picker`](./lily-design-system-react-share-picker/)         | Share the page: native share sheet, else a list of destinations + copy the URL. |
+| [`@lilydesignsystem/react-search-picker`](./lily-design-system-react-search-picker/)       | Search the site: a magnifying-glass button opening a search field + `⏎` submit that navigates to `/?<query>`. |
 | [`@lilydesignsystem/react-date-time-picker`](./lily-design-system-react-date-time-picker/) | Collect a date, a time, or both: a typeable text field plus an APG Date Picker Dialog. |
-| [`@lilydesignsystem/react-picker-bar`](./lily-design-system-react-picker-bar/)             | Compose theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row, with all 45 reference themes and the seven-step text-size scale pre-wired. |
+| [`@lilydesignsystem/react-picker-bar`](./lily-design-system-react-picker-bar/)             | Compose search-picker, theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row, with all 45 reference themes and the seven-step text-size scale pre-wired. |
 | [`@lilydesignsystem/react-kanban-board`](./lily-design-system-react-kanban-board/)         | Interactive kanban board over the headless `KanbanTable` grid: pointer drag-and-drop plus a keyboard-accessible per-card "Move to…" menu, never drag-only. |
 | [`@lilydesignsystem/react-gantt-chart`](./lily-design-system-react-gantt-chart/)           | Interactive Gantt chart over the headless `GanttTable` grid: task bars as column-spanning cells, row hierarchy, milestones, and keyboard-accessible editing composed from two `date-time-picker` instances. |
 
 `picker-bar` owns no preference/action/form-value of its own — it is a
-**composition**, depending on the four wrapped pickers as real npm
+**composition**, depending on the five wrapped pickers as real npm
 packages and rendering them unmodified. `motion-picker` and
 `date-time-picker` are not included: motion has no natural spot in
 this row, and `date-time-picker` is a form control, not a header

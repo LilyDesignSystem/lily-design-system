@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { afterEach, beforeEach, describe, expect, test } from "vitest";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import nunjucks from "nunjucks";
 import * as path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -13,7 +13,7 @@ import {
 
 // ---------------------------------------------------------------------
 // Nunjucks env that can resolve both "./picker-bar.njk" (this package)
-// and the four sibling packages' "lily-design-system-nunjucks-*-picker/
+// and the five sibling packages' "lily-design-system-nunjucks-*-picker/
 // dist/*.njk" templates. The catalog root is the second search path so
 // a bare "lily-design-system-nunjucks-theme-picker/dist/theme-picker.njk"
 // resolves the same way it would from an installed node_modules — see
@@ -30,6 +30,9 @@ const env = nunjucks.configure([__dirname, catalogRoot], {
 });
 
 const LABELS = {
+  search: "Search this site",
+  searchInput: "Search terms",
+  searchSubmit: "Search",
   theme: "Theme",
   locale: "Language",
   textSize: "Text size",
@@ -136,8 +139,11 @@ describe("PickerBar — composition (§4, §7.1–§7.4)", () => {
     expect(root.hasAttribute("data-lily-picker-bar-root")).toBe(true);
   });
 
-  test("§7.2 renders all four pickers, each named from `labels`", () => {
+  test("§7.2 renders all five pickers, each named from `labels`", () => {
     const { root } = setup();
+    expect(
+      root.querySelector(".search-picker-button")?.getAttribute("aria-label"),
+    ).toBe("Search this site");
     expect(
       root.querySelector(".theme-picker-button")?.getAttribute("aria-label"),
     ).toBe("Theme");
@@ -154,14 +160,13 @@ describe("PickerBar — composition (§4, §7.1–§7.4)", () => {
     ).toBe("Share");
   });
 
-  test("§7.2 renders the four picker roots in theme, locale, text-size, share order", () => {
+  test("§7.2 renders the five picker roots in search, theme, locale, text-size, share order", () => {
     const { root } = setup();
-    const roots = Array.from(
-      root.querySelectorAll(
-        ":scope > [data-lily-theme-picker-root], :scope > [data-lily-locale-picker-root], :scope > [data-lily-text-size-picker-root], :scope > [data-lily-share-picker-root]",
-      ),
-    ).map((el) => el.className.split(" ")[0]);
+    const roots = Array.from(root.querySelectorAll(":scope > div")).map(
+      (el) => el.className.split(" ")[0],
+    );
     expect(roots).toEqual([
+      "search-picker",
       "theme-picker",
       "locale-picker",
       "text-size-picker",
@@ -261,6 +266,53 @@ describe("PickerBar — share-picker wiring (§5.4, §7.10)", () => {
   });
 });
 
+describe("PickerBar — search-picker wiring (§7.12, §7.13)", () => {
+  test("§7.12 search is the first picker, with its field and ⏎ button named from `labels`", () => {
+    const { root } = setup();
+    const first = root.querySelector(":scope > div");
+    expect(first?.classList.contains("search-picker")).toBe(true);
+    const button = first!.querySelector(
+      ".search-picker-button",
+    ) as HTMLButtonElement;
+    click(button);
+    expect(button.getAttribute("aria-expanded")).toBe("true");
+    expect(
+      first!.querySelector(".search-picker-form")?.getAttribute("aria-label"),
+    ).toBe("Search this site");
+    expect(
+      first!.querySelector(".search-picker-input")?.getAttribute("aria-label"),
+    ).toBe("Search terms");
+    expect(
+      first!.querySelector(".search-picker-submit")?.getAttribute("aria-label"),
+    ).toBe("Search");
+  });
+
+  test("§7.13 `searchProps` reaches SearchPicker (action + navigate)", () => {
+    const navigate = vi.fn();
+    const root = mountIntoBody(
+      renderMacro({
+        labels: LABELS,
+        themesUrl: THEMES_URL,
+        locales: LOCALES,
+        // Macro side: rendered onto the form's `action` attribute.
+        searchProps: { action: "/search" },
+      }),
+    );
+    // Client side: a macro cannot carry a function, so `navigate`
+    // reaches search-picker through initPickerBar's `searchProps`.
+    initPickerBar(root, { searchProps: { navigate } });
+    click(root.querySelector(".search-picker-button")!);
+    const input = root.querySelector(
+      ".search-picker-input",
+    ) as HTMLInputElement;
+    input.value = "foo";
+    root
+      .querySelector(".search-picker-form")!
+      .dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
+    expect(navigate).toHaveBeenCalledWith("/search?foo");
+  });
+});
+
 describe("PickerBar — autoInit (§4.3)", () => {
   test("wires every [data-lily-picker-bar-root] on the page", () => {
     document.body.innerHTML =
@@ -268,6 +320,7 @@ describe("PickerBar — autoInit (§4.3)", () => {
       renderMacro({ labels: LABELS, themesUrl: THEMES_URL, locales: LOCALES });
     const controllers = autoInit();
     expect(controllers).toHaveLength(2);
+    expect(controllers[0].search).not.toBeNull();
     expect(controllers[0].theme).not.toBeNull();
     expect(controllers[0].locale).not.toBeNull();
     expect(controllers[0].textSize).not.toBeNull();

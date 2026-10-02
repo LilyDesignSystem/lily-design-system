@@ -39,7 +39,7 @@ ships no AI.** No model is trained, embedded, or called at render time. The
 components are semantic HTML, ARIA, focus management, and keyboard behaviour.
 Nothing in a page built with Lily contacts a model, and Lily adds no network
 calls of any kind — the headless layer performs no data fetching by design
-([AGENTS/headless.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/headless.md), "Behavior boundaries"). AI is used to
+([AGENTS/headless.md](AGENTS/headless.md), "Behavior boundaries"). AI is used to
 *build* the software, in the same sense that compilers and linters are used to
 build it.
 
@@ -93,11 +93,11 @@ no defensible method exists for measuring one.
 | Activity | Level | Notes |
 | --- | --- | --- |
 | Component implementations across the seven frameworks | ai-generated | written in directed sessions against the canonical per-component metadata in `components/{slug}/AGENTS.md`; reviewed and merged by the maintainer |
-| The helper packages and their accessibility behaviour | ai-generated | held to the WAI-ARIA APG patterns cited in [AGENTS/accessibility.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/accessibility.md); the Svelte catalog is canonical and the six ports are derived from it |
+| The helper packages and their accessibility behaviour | ai-generated | held to the WAI-ARIA APG patterns cited in [AGENTS/accessibility.md](AGENTS/accessibility.md); the Svelte catalog is canonical and the six ports are derived from it |
 | Tests, Storybook stories, Playwright specs | ai-generated | held to the same authority as the code they test: expectations cite the spec clause, and §7's attribution rule governs failures |
 | Per-component documentation (491 × `index.md`) | ai-generated | to the structure fixed in [spec/index.md](spec/index.md) §8 |
 | The specification under `spec/`, the `AGENTS/` rules, and this statement | ai-generated | held to the repository's own prose rules; the maintainer sets the positions |
-| Catalog decisions — what a component is, what it is named, what element it maps to | ai-assisted | proposed in session, decided by the maintainer, recorded in `components.tsv` and [AGENTS/components.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/components.md) |
+| Catalog decisions — what a component is, what it is named, what element it maps to | ai-assisted | proposed in session, decided by the maintainer, recorded in `components.tsv` and [AGENTS/components.md](AGENTS/components.md) |
 | Design-principle rulings, license and trademark decisions, and what a release contains | none | the maintainer's alone |
 | Deciding a specific, already-prepared release is ready, and executing its publish (real `npm publish`, NuGet push) | ai-assisted | authorized in an agentic session per [GOVERNANCE.md](GOVERNANCE.md) § AI agent publish authority, against the readiness criteria written there — this is judgement plus execution on a release already scoped by the ordinary contribution process, not a decision about what to build or ship |
 | Contribution and review verdicts on others' work | none | prohibited use; see §11 |
@@ -172,7 +172,7 @@ exactly as it would be for a human-introduced copy. The tools are used under ter
 that do not restrict the output's use under this project's licenses.
 
 One area deserves specific mention, because Lily's whole method is learning from
-other design systems. [AGENTS/citations.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/citations.md) names them, and
+other design systems. [AGENTS/citations.md](AGENTS/citations.md) names them, and
 the rule is that Lily takes *patterns and research* — what a component is for,
 when not to use it, which ARIA pattern applies — and not code or stylesheets. The
 NHS UK visual reference in the example apps is an independent implementation
@@ -295,9 +295,9 @@ answered in public, and never silently absorbed.
 **Normative for this project** (the documents that bind the practice described
 here): [LICENSE.md](LICENSE.md); [spec/index.md](spec/index.md) and the topic docs
 under `spec/`; [AGENTS.md](AGENTS.md) and the rule set in `AGENTS/`, in particular
-[headless.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/headless.md), [accessibility.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/accessibility.md),
-[internationalization.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/internationalization.md), and
-[helpers.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/helpers.md); [MAINTAINERS.md](MAINTAINERS.md);
+[headless.md](AGENTS/headless.md), [accessibility.md](AGENTS/accessibility.md),
+[internationalization.md](AGENTS/internationalization.md), and
+[helpers.md](AGENTS/helpers.md); [MAINTAINERS.md](MAINTAINERS.md);
 [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md); [CHANGELOG.md](CHANGELOG.md).
 
 **Informative** (the sources this document's structure and positions draw on):

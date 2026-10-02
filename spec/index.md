@@ -48,6 +48,7 @@ coding agents.
 | [text-size-picker](text-size-picker/index.md) | The text-size-picker button / listbox / option HTML contract, glyph "A", the seven-step size scale. |
 | [motion-picker](motion-picker/index.md) | The motion-picker button / listbox / option HTML contract, bare glyph ⏸︎, the unconditional `prefers-reduced-motion` default. |
 | [share-picker](share-picker/index.md) | The share-picker button / disclosure-of-links HTML contract, bare glyph ➤, no `aria-haspopup`. |
+| [search-picker](search-picker/index.md) | The search-picker button / search-form disclosure HTML contract: magnifying-glass icon, ⏎ submit, GET to `/?<text>`. |
 | [date-time-picker](date-time-picker/index.md) | The date-time-picker field + trigger + APG dialog HTML contract, bare glyph 📅︎ — the one picker that is a form control. |
 | [national-identifiers](national-identifiers/index.md) | The 92 national personal identifier components, normalization, validation algorithms. |
 | [trusted-publishing](trusted-publishing/index.md) | OIDC publishing to npm/NuGet: the adoption position, readiness table, checklist. |
@@ -105,7 +106,8 @@ committing.
   `AGENTS.md`, `CLAUDE.md`, `spec/index.md`).
 - Eight framework-helper catalogs (`*-helpers`), each shipping the
   `theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`,
-  `share-picker`, and `date-time-picker` helper packages — 48 packages in all.
+  `share-picker`, `search-picker`, and `date-time-picker` helper packages —
+  56 `*-picker` packages in all.
 - A `themes/` directory of 45 ready-to-use reference theme stylesheets.
 - Tooling for listing, scaffolding, syncing, and testing components across
   subprojects (`bin/`).
@@ -144,9 +146,9 @@ git-subtree/multi-forge publishing model: [spec/architecture/](architecture/inde
 - **Helpers** (8 subprojects) — small catalogs of opinionated packages,
   each owning one complete interaction end to end: `theme-picker`,
   `locale-picker`, `text-size-picker`, `motion-picker` (icon button +
-  APG listbox, own a user preference), `share-picker` (an action), and
-  `date-time-picker` (a form value) — 48 packages, SSR-safe, Svelte
-  canonical. See [spec/helpers/](helpers/index.md).
+  APG listbox, own a user preference), `share-picker` and `search-picker`
+  (actions), and `date-time-picker` (a form value) — 56 `*-picker`
+  packages, SSR-safe, Svelte canonical. See [spec/helpers/](helpers/index.md).
 
 ### Required files
 

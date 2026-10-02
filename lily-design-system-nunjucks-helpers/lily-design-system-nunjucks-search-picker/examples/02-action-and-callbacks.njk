@@ -1,0 +1,25 @@
+{# Example 2 — A custom path, client-side navigation, and onSearch.
+
+   `action` is a macro parameter: here a search for "foo" goes to
+   "/search?foo". `navigate` and `onSearch` are functions, which a
+   Nunjucks macro cannot hold, so they are passed to the client instead.
+   See ../spec/index.md §3.3.
+#}
+{% from "search-picker.njk" import searchPicker %}
+
+{{ searchPicker({
+    label: "Search the docs",
+    inputLabel: "Search terms",
+    submitLabel: "Search",
+    action: "/search",
+    name: "docs"
+}) }}
+
+<script type="module">
+    import { autoInit } from "/js/search-picker.client.js";
+    autoInit({
+        // Keep a single-page app in-app instead of a full GET.
+        navigate: (href) => window.history.pushState({}, "", href),
+        onSearch: (query, href) => console.log("search", query, href),
+    });
+</script>

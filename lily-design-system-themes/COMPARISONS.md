@@ -131,8 +131,8 @@ this page: [docs/migrating/govuk.md](https://github.com/LilyDesignSystem/lily-de
 ## Sources
 
 The full list of systems Lily studies is in
-[AGENTS/citations.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/citations.md); the reference relationship with NHS UK
-is in [AGENTS/nhs-uk-design-system-references.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS/nhs-uk-design-system-references.md);
+[AGENTS/citations.md](AGENTS/citations.md); the reference relationship with NHS UK
+is in [AGENTS/nhs-uk-design-system-references.md](AGENTS/nhs-uk-design-system-references.md);
 adaptation notes for the editorial and scrollytelling components are in
 [spec/citations/index.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/citations/index.md).
 

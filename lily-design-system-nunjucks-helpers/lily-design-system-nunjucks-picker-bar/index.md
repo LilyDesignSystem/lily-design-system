@@ -1,9 +1,10 @@
 # Lily Design System™ — Nunjucks PickerBar
 
-A single page-header macro that composes four of the Lily
-[`*-picker` helpers](../index.md) in this catalog — theme, locale,
-text size, and share — with two catalog-wide defaults pre-wired, so
-you can call one macro instead of assembling and configuring four.
+A single page-header macro that composes five of the Lily
+[`*-picker` helpers](../index.md) in this catalog — search, theme,
+locale, text size, and share, in that order — with two catalog-wide
+defaults pre-wired, so you can call one macro instead of assembling
+and configuring five.
 
 `motion-picker` and `date-time-picker` are not part of the bar: motion
 has no natural spot next to the other three header preferences, and
@@ -15,8 +16,9 @@ has no natural spot next to the other three header preferences, and
 npm install @lilydesignsystem/nunjucks-picker-bar
 ```
 
-`@lilydesignsystem/nunjucks-theme-picker`, `-locale-picker`,
-`-text-size-picker`, and `-share-picker` install automatically as
+`@lilydesignsystem/nunjucks-search-picker`, `-theme-picker`,
+`-locale-picker`, `-text-size-picker`, and `-share-picker` install
+automatically as
 regular dependencies — `pickerBar` is a thin wrapper around them, not
 a reimplementation.
 
@@ -35,6 +37,9 @@ const env = nunjucks.configure(["views", "node_modules"], { autoescape: true });
 
 {{ pickerBar({
   labels: {
+    search: "Search this site",
+    searchInput: "Search terms",
+    searchSubmit: "Search",
     theme: "Theme",
     locale: "Language",
     textSize: "Text size",
@@ -57,7 +62,8 @@ Then load `picker-bar.client.js` once and call `autoInit()`:
 </script>
 ```
 
-That's a complete, working header row: 45 themes, four locales, the
+That's a complete, working header row: a site search (a search for
+`foo` goes to `/?foo`), 45 themes, four locales, the
 seven-step text-size scale, and one share destination plus copy-to-URL
 if you add `shareProps: { copyLabel: "Copy link" }`.
 
@@ -91,9 +97,13 @@ detection, a `*Labels` override map, an `id`:
 
 ```njk
 {{ pickerBar({
-  labels: { theme: "Theme", locale: "Language", textSize: "Text size", share: "Share" },
+  labels: {
+    search: "Search this site", searchInput: "Search terms", searchSubmit: "Search",
+    theme: "Theme", locale: "Language", textSize: "Text size", share: "Share"
+  },
   themesUrl: "/assets/themes/",
   locales: ["en", "cy"],
+  searchProps: { action: "/search", placeholder: "Search…" },
   themeProps: { storageKey: "lily-theme", detectFromSystem: true },
   localeProps: { storageKey: "lily-locale", detectFromNavigator: true },
   textSizeProps: { storageKey: "lily-text-size" },
@@ -101,16 +111,25 @@ detection, a `*Labels` override map, an `id`:
 }) }}
 ```
 
+`search-picker`'s function-valued options — `navigate` (default
+`location.assign`) and `onSearch` — cannot pass through a macro, so
+hand them to the client instead:
+
+```js
+autoInit({ searchProps: { navigate: (href) => router.go(href) } });
+```
+
 Unlike the Svelte canonical, `pickerBar` cannot route a custom glyph to
 one specific picker (a Nunjucks macro call accepts only one
-`{% call %}` block) — compose the four macros directly if you need
+`{% call %}` block) — compose the five macros directly if you need
 that.
 
 ## Styling
 
 `pickerBar` renders no CSS of its own beyond the `picker-bar` root
 wrapper — style each child through its own package's class hooks
-(`theme-picker`, `locale-picker`, `text-size-picker`, `share-picker`;
+(`search-picker`, `theme-picker`, `locale-picker`, `text-size-picker`,
+`share-picker`;
 see each package's own `index.md`). A typical header layout:
 
 ```css
@@ -123,11 +142,14 @@ see each package's own `index.md`). A typical header layout:
 
 ## Accessibility
 
-Every accessible name comes from `labels` — there is no English
+Every accessible name comes from `labels` — `search`, `searchInput`,
+and `searchSubmit` name the search picker's button and landmark, field,
+and `⏎` button; `theme`, `locale`, `textSize`, `share` the others —
+and there is no English
 default, because a set of names this catalog invented is exactly the
 case the rest of Lily's i18n rule exists for. Each wrapped picker keeps
 its own WAI-ARIA APG contract unchanged; see that picker's own
-`index.md`. As with every helper in this catalog, none of the four is
+`index.md`. As with every helper in this catalog, none of the five is
 operable until its client.js has run — see each package's own
 `docs/ssr.md`.
 

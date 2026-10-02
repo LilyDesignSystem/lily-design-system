@@ -248,7 +248,9 @@ test_implementation_nunjucks_example() {
 # BLACK_RIGHTWARDS_ARROWHEAD, and PAUSE_SIGN no longer exist as exported
 # constants; the patterns below simply find nothing for them now, which is
 # correct (not a bug in this check). Only date-time-picker's CALENDAR
-# constant is still a Unicode glyph and still covered.
+# constant is still a Unicode glyph and still covered — joined 2026-10-02
+# by search-picker's RETURN_SYMBOL (⏎, U+23CE), the submit button's
+# visible label.
 ##
 test_helper_glyphs_are_bare() (
     # NOTE: this script runs under `set -euf`; -f disables globbing, so
@@ -273,13 +275,14 @@ test_helper_glyphs_are_bare() (
             if grep -e 'CIRCLE_WITH_RIGHT_HALF_BLACK *=' -e 'GLOBE_WITH_MERIDIANS *=' \
                     -e 'BLACK_RIGHTWARDS_ARROWHEAD *=' -e 'CALENDAR *=' -e 'PAUSE_SIGN *=' \
                     -e 'CircleWithRightHalfBlack *=' -e 'GlobeWithMeridians *=' \
-                    -e 'BlackRightwardsArrowhead *=' -e 'Calendar *=' -e 'PauseSign *=' "$file" \
+                    -e 'BlackRightwardsArrowhead *=' -e 'Calendar *=' -e 'PauseSign *=' \
+                    -e 'RETURN_SYMBOL *=' -e 'ReturnSymbol *=' "$file" \
                | grep -q -e '\\u'; then
                 err "glyph constant holds an escape; use the bare glyph character directly: $file"
             fi
 
             # The icon markup that emits the glyph.
-            if grep -- '-picker-icon' "$file" | grep -q -e '&#'; then
+            if grep -e '-picker-icon' -e '-picker-submit-symbol' "$file" | grep -q -e '&#'; then
                 err "icon markup holds an HTML entity; use the bare glyph character directly: $file"
             fi
         done

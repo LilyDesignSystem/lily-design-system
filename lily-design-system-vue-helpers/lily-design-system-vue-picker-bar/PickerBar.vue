@@ -3,6 +3,7 @@ import ThemePicker from "@lilydesignsystem/vue-theme-picker";
 import LocalePicker from "@lilydesignsystem/vue-locale-picker";
 import TextSizePicker from "@lilydesignsystem/vue-text-size-picker";
 import SharePicker from "@lilydesignsystem/vue-share-picker";
+import SearchPicker from "@lilydesignsystem/vue-search-picker";
 import type { Props as ThemePickerProps } from "@lilydesignsystem/vue-theme-picker";
 import type { Props as LocalePickerProps } from "@lilydesignsystem/vue-locale-picker";
 import type { Props as TextSizePickerProps } from "@lilydesignsystem/vue-text-size-picker";
@@ -10,6 +11,7 @@ import type {
     Props as SharePickerProps,
     ShareTarget,
 } from "@lilydesignsystem/vue-share-picker";
+import type { Props as SearchPickerProps } from "@lilydesignsystem/vue-search-picker";
 
 /**
  * All 45 Lily reference theme slugs (see `themes/` at the repo root),
@@ -81,8 +83,14 @@ export const DEFAULT_SIZES: string[] = [
     "smallest",
 ];
 
-/** Accessible names for the four pickers. Required — no English default. */
+/** Accessible names for the five pickers. Required — no English default. */
 export type PickerBarLabels = {
+    /** Accessible name for the search picker's button and search landmark. */
+    search: string;
+    /** Accessible name for the search picker's text field. */
+    searchInput: string;
+    /** Accessible name for the search picker's ⏎ submit button. */
+    searchSubmit: string;
     /** Accessible name for the theme picker's button and listbox. */
     theme: string;
     /** Accessible name for the locale picker's button and listbox. */
@@ -97,6 +105,11 @@ export type PickerBarLabels = {
 export type Props = {
     /** Accessible names for each picker. */
     labels: PickerBarLabels;
+
+    /** Extra SearchPicker props (e.g. `action`, `navigate`, `placeholder`), bound after this bar's own. */
+    searchProps?: Partial<
+        Omit<SearchPickerProps, "label" | "inputLabel" | "submitLabel" | "class">
+    >;
 
     /** Base URL of the themes directory, forwarded to ThemePicker. */
     themesUrl: string;
@@ -131,6 +144,7 @@ export type Props = {
 
 <script setup lang="ts">
 const props = withDefaults(defineProps<Props>(), {
+    searchProps: () => ({}),
     themes: () => DEFAULT_THEMES,
     themeProps: () => ({}),
     localeProps: () => ({}),
@@ -147,6 +161,7 @@ const props = withDefaults(defineProps<Props>(), {
 // fully typed, rather than accepting an untyped `onChange` key inside
 // `themeProps` et al.
 const emit = defineEmits<{
+    (event: "search", query: string, href: string): void;
     (event: "theme-change", value: string): void;
     (event: "locale-change", value: string): void;
     (event: "text-size-change", value: string): void;
@@ -158,6 +173,13 @@ const emit = defineEmits<{
 
 <template>
     <div :class="`picker-bar ${props.class}`.trim()">
+        <SearchPicker
+            :label="labels.search"
+            :inputLabel="labels.searchInput"
+            :submitLabel="labels.searchSubmit"
+            v-bind="searchProps"
+            @search="(query: string, href: string) => emit('search', query, href)"
+        />
         <ThemePicker
             :label="labels.theme"
             :themesUrl="themesUrl"

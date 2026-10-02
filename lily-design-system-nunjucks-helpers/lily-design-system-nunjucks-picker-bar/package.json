@@ -4,7 +4,7 @@
   "engines": {
     "node": "=26"
   },
-  "description": "Lily Design System Nunjucks picker bar: composes theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row. Headless, SSR-safe, no CSS.",
+  "description": "Lily Design System Nunjucks picker bar: composes search-picker, theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row. Headless, SSR-safe, no CSS.",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -25,6 +25,7 @@
     "prepublishOnly": "cd .. && npm run build"
   },
   "dependencies": {
+    "@lilydesignsystem/nunjucks-search-picker": "^0.1.0",
     "@lilydesignsystem/nunjucks-theme-picker": "^0.1.0",
     "@lilydesignsystem/nunjucks-locale-picker": "^0.1.0",
     "@lilydesignsystem/nunjucks-text-size-picker": "^0.1.0",
@@ -37,6 +38,7 @@
     "nunjucks",
     "picker",
     "picker-bar",
+    "search",
     "theme",
     "locale",
     "text-size",

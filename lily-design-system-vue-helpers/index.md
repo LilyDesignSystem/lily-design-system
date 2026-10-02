@@ -15,6 +15,7 @@ DOM application) for one small, common job.
 | [`@lilydesignsystem/vue-text-size-picker`](./lily-design-system-vue-text-size-picker/) | Pick a text size; sets `data-text-size` on the document root.                               |
 | [`@lilydesignsystem/vue-motion-picker`](./lily-design-system-vue-motion-picker/)       | Pick a motion (reduced-motion) preference; sets `data-motion` on the document root, defaulting to the OS's own `(prefers-reduced-motion: reduce)` signal. |
 | [`@lilydesignsystem/vue-share-picker`](./lily-design-system-vue-share-picker/)         | Share the page: native share sheet where available, else a destination list + copy the URL. |
+| [`@lilydesignsystem/vue-search-picker`](./lily-design-system-vue-search-picker/)       | Search the site: a search field + `⏎` submit button that navigates to `/?<query>`. Owns an action, not a preference. |
 
 `date-time-picker` is a fifth helper, listed separately because it does
 not fit the table above: it is a form control, not a page-header
@@ -25,12 +26,12 @@ preference or action control.
 | [`@lilydesignsystem/vue-date-time-picker`](./lily-design-system-vue-date-time-picker/)         | Collect a date, a time, or both, via a text field + APG date-picker dialog.        |
 
 `picker-bar` is a sixth helper, also listed separately: it owns no
-preference/action/form-value of its own — it composes four of the five
+preference/action/form-value of its own — it composes five of the helpers
 above into one page-header row.
 
 | Helper                                                                              | Purpose                                                                                                                       |
 | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| [`@lilydesignsystem/vue-picker-bar`](./lily-design-system-vue-picker-bar/)         | Compose theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row, with all 45 reference themes and the seven-step text-size scale pre-wired. |
+| [`@lilydesignsystem/vue-picker-bar`](./lily-design-system-vue-picker-bar/)         | Compose search-picker (first), theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row, with all 45 reference themes and the seven-step text-size scale pre-wired. |
 | [`@lilydesignsystem/vue-kanban-board`](./lily-design-system-vue-kanban-board/)     | Interactive kanban board over the headless `KanbanTable` grid: pointer drag-and-drop plus a keyboard-accessible per-card "Move to…" menu, never drag-only. |
 | [`@lilydesignsystem/vue-gantt-chart`](./lily-design-system-vue-gantt-chart/)       | Interactive Gantt chart over the headless `GanttTable` grid: task bars as column-spanning cells, row hierarchy, milestones, and keyboard-accessible editing composed from two `date-time-picker` instances. |
 

@@ -3,6 +3,7 @@
     import LocalePicker from "@lilydesignsystem/svelte-locale-picker";
     import TextSizePicker from "@lilydesignsystem/svelte-text-size-picker";
     import SharePicker from "@lilydesignsystem/svelte-share-picker";
+    import SearchPicker from "@lilydesignsystem/svelte-search-picker";
     import type { Props as ThemePickerProps } from "@lilydesignsystem/svelte-theme-picker";
     import type { Props as LocalePickerProps } from "@lilydesignsystem/svelte-locale-picker";
     import type { Props as TextSizePickerProps } from "@lilydesignsystem/svelte-text-size-picker";
@@ -10,6 +11,7 @@
         Props as SharePickerProps,
         ShareTarget,
     } from "@lilydesignsystem/svelte-share-picker";
+    import type { Props as SearchPickerProps } from "@lilydesignsystem/svelte-search-picker";
 
     /**
      * All 45 Lily reference theme slugs (see `themes/` at the repo root),
@@ -81,8 +83,14 @@
         "smallest",
     ];
 
-    /** Accessible names for the four pickers. Required — no English default. */
+    /** Accessible names for the five pickers. Required — no English default. */
     export type PickerBarLabels = {
+        /** Accessible name for the search picker's button and search landmark. */
+        search: string;
+        /** Accessible name for the search picker's text field. */
+        searchInput: string;
+        /** Accessible name for the search picker's ⏎ submit button. */
+        searchSubmit: string;
         /** Accessible name for the theme picker's button and listbox. */
         theme: string;
         /** Accessible name for the locale picker's button and listbox. */
@@ -97,6 +105,9 @@
     export type Props = {
         /** Accessible names for each picker. */
         labels: PickerBarLabels;
+
+        /** Extra SearchPicker props (e.g. `action`, `navigate`, `placeholder`), spread after this bar's own. */
+        searchProps?: Partial<Omit<SearchPickerProps, "label" | "inputLabel" | "submitLabel">>;
 
         /** Base URL of the themes directory, forwarded to ThemePicker. */
         themesUrl: string;
@@ -131,6 +142,7 @@
     let {
         class: className = "",
         labels,
+        searchProps = {},
         themesUrl,
         themes = DEFAULT_THEMES,
         themeProps = {},
@@ -145,6 +157,12 @@
 </script>
 
 <div class={`picker-bar ${className}`.trim()} {...restProps}>
+    <SearchPicker
+        label={labels.search}
+        inputLabel={labels.searchInput}
+        submitLabel={labels.searchSubmit}
+        {...searchProps}
+    />
     <ThemePicker
         label={labels.theme}
         {themesUrl}

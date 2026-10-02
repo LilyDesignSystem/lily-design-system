@@ -1,9 +1,9 @@
-import { afterEach, beforeEach, describe, expect, test } from "vitest";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
 import { PickerBar, DEFAULT_THEMES, DEFAULT_SIZES } from "./picker-bar.js";
 import type { PickerBarLabels } from "./picker-bar.js";
 
-// Ensure the custom element (and its four wrapped pickers, via
+// Ensure the custom element (and its five wrapped pickers, via
 // picker-bar.ts's own imports) is registered exactly once for the suite.
 if (
   typeof customElements !== "undefined" &&
@@ -13,6 +13,9 @@ if (
 }
 
 const LABELS: PickerBarLabels = {
+  search: "Search this site",
+  searchInput: "Search terms",
+  searchSubmit: "Search",
   theme: "Theme",
   locale: "Language",
   textSize: "Text size",
@@ -32,6 +35,7 @@ type MountOptions = {
     label: string;
     href: (url: string, title: string, text: string) => string;
   }>;
+  searchProps?: Record<string, unknown>;
   themeProps?: Record<string, unknown>;
   textSizeProps?: Record<string, unknown>;
   class?: string;
@@ -48,6 +52,7 @@ function mount(opts: MountOptions = {}): PickerBar {
   el.locales = opts.locales ?? LOCALES;
   if (opts.sizes) el.sizes = opts.sizes;
   if (opts.shareTargets) el.shareTargets = opts.shareTargets as never;
+  if (opts.searchProps) el.searchProps = opts.searchProps as never;
   if (opts.themeProps) el.themeProps = opts.themeProps as never;
   if (opts.textSizeProps) el.textSizeProps = opts.textSizeProps as never;
   document.body.appendChild(el);
@@ -122,20 +127,29 @@ describe("PickerBar — composition (§4, §7.1–§7.4)", () => {
     expect(root?.classList.contains("my-picker-bar")).toBe(true);
   });
 
-  test("§7.2 renders all four pickers, each named from `labels`", () => {
+  test("§7.2 renders all five pickers, each named from `labels`", () => {
     const el = mount();
-    const buttons = [...el.querySelectorAll("button")].map((b) =>
+    // Each picker's trigger is its one button carrying aria-expanded
+    // (search's ⏎ submit button, inside its closed panel, has none).
+    const buttons = [...el.querySelectorAll("button[aria-expanded]")].map((b) =>
       b.getAttribute("aria-label"),
     );
-    expect(buttons).toEqual(["Theme", "Language", "Text size", "Share"]);
+    expect(buttons).toEqual([
+      "Search this site",
+      "Theme",
+      "Language",
+      "Text size",
+      "Share",
+    ]);
   });
 
-  test("§7.2 renders the four picker elements in theme, locale, text-size, share order", () => {
+  test("§7.2 renders the five picker elements in search, theme, locale, text-size, share order", () => {
     const el = mount();
     const tags = [...(el.querySelector(".picker-bar")?.children ?? [])].map(
       (n) => n.tagName.toLowerCase(),
     );
     expect(tags).toEqual([
+      "lily-search-picker",
       "lily-theme-picker",
       "lily-locale-picker",
       "lily-text-size-picker",
@@ -230,5 +244,36 @@ describe("PickerBar — share-picker wiring (§5.4, §7.10)", () => {
     click(el.querySelector(".share-picker-button")!);
     const target = el.querySelector(".share-picker-target");
     expect(target?.textContent?.trim()).toBe("Email");
+  });
+});
+
+describe("PickerBar — search-picker wiring (§7.12, §7.13)", () => {
+  test("§7.12 search is the first picker, with its field and ⏎ button named from `labels`", () => {
+    const el = mount();
+    const first = el.querySelector(".picker-bar")?.firstElementChild;
+    expect(first?.tagName.toLowerCase()).toBe("lily-search-picker");
+    click(el.querySelector(".search-picker-button")!);
+    expect(
+      el.querySelector(".search-picker-button")!.getAttribute("aria-label"),
+    ).toBe("Search this site");
+    expect(
+      el.querySelector(".search-picker-input")!.getAttribute("aria-label"),
+    ).toBe("Search terms");
+    expect(
+      el.querySelector(".search-picker-submit")!.getAttribute("aria-label"),
+    ).toBe("Search");
+  });
+
+  test("§7.13 `searchProps` reaches SearchPicker (action + navigate)", () => {
+    const navigate = vi.fn();
+    const el = mount({ searchProps: { action: "/search", navigate } });
+    click(el.querySelector(".search-picker-button")!);
+    const input = el.querySelector<HTMLInputElement>(".search-picker-input")!;
+    input.value = "foo";
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    el.querySelector(".search-picker-form")!.dispatchEvent(
+      new Event("submit", { bubbles: true, cancelable: true }),
+    );
+    expect(navigate).toHaveBeenCalledWith("/search?foo");
   });
 });
