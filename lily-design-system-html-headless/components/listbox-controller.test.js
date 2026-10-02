@@ -4,12 +4,26 @@
 // (see the class doc comment in listbox-controller.js). Real-browser
 // harness: listbox-controller.fixture.html, not a shipped component.
 
+const fs = require("fs");
 const path = require("path");
+
+// Chrome blocks a module import between file:// URLs, so the fixture
+// cannot import the controller itself. Inject its source as an inline
+// classic script (export keyword dropped) and hand the class to the
+// fixture's setup function.
+const controllerSource = fs
+  .readFileSync(path.resolve(__dirname, "listbox-controller.js"), "utf8")
+  .replace(/^export class ListboxController/m, "class ListboxController");
 
 async function open(query = "") {
   await browser.url(
     "file://" + path.resolve(__dirname, "listbox-controller.fixture.html") + query
   );
+  await browser.execute((source) => {
+    const script = document.createElement("script");
+    script.textContent = source + "\nwindow.__setup(ListboxController);";
+    document.head.append(script);
+  }, controllerSource);
 }
 
 async function calls() {
