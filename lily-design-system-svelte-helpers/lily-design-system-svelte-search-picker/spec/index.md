@@ -102,6 +102,7 @@ type ChildArgs = { open: boolean; query: string };
   >
     <svg class="search-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="1.05rem" height="1.05rem"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14"/></svg>
   </button>
+  <div class="search-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
   <div class="search-picker-panel" id="{panelId}" hidden>
     <form class="search-picker-form" role="search" aria-label="{label}" action="{action}" method="get">
       <input class="search-picker-input" type="search" aria-label="{inputLabel}" placeholder="{placeholder}" enterkeyhint="search" />
@@ -116,6 +117,19 @@ type ChildArgs = { open: boolean; query: string };
 The submit button follows the field in DOM order, so it sits at the
 field's right in left-to-right layouts (and at its left under
 `dir="rtl"`, as it should). Its placement is consumer CSS.
+
+**Tooltip.** `.search-picker-tooltip` is a sibling of the button, always in
+the DOM, `hidden` at rest, holding the button's `label` text. It is shown
+while the pointer is over the button or over the tooltip itself
+(hoverable) and while the button has keyboard focus (`:focus-visible`);
+`Escape` dismisses it without moving focus, wherever focus is while the
+tooltip is visible (a document-level `keydown` listener present only
+while it is visible, so hover-only tooltips are dismissable too —
+WCAG 1.4.13) (until the pointer or focus re-enters); it is never shown while the panel is open. It is purely
+visual: the text duplicates the button's `aria-label`, so it is
+deliberately **not** linked with `aria-describedby` (that would announce
+the name twice). Position and appearance are consumer/theme CSS, via the
+`hidden` attribute.
 
 ### 4.3 Re-exports
 
@@ -189,8 +203,16 @@ the accessible name never relies on it.
 20. `searchHref()` builds the same destination the component navigates to.
 21. `RETURN_SYMBOL` is the bare `⏎` (U+23CE).
 22. `class` is appended to `search-picker` on the root, and rest props spread onto the root.
-23. The component renders no user-facing text of its own: with no `placeholder` the field has none, and the only text node is the `aria-hidden` `⏎`.
+23. The component renders no user-facing text of its own: with no `placeholder` the field has none, and the only text nodes are the `aria-hidden` `⏎` and the tooltip's `label`.
 24. A focusout with no `relatedTarget` (Safari's click on `⏎` or on the icon button, a window blur) leaves the panel open, so the click that caused it still lands.
+25. Renders `.search-picker-tooltip` with `role="tooltip"`, holding `label`, `hidden` at rest, and the button carries no `aria-describedby`.
+26. Pointer over the button shows it; leaving hides it.
+27. It stays visible while the pointer is over the tooltip itself.
+28. Keyboard focus on the button shows it; blur hides it.
+29. `Escape` on the button dismisses it; re-entering shows it again.
+30. It is never shown while the panel is open.
+31. While the tooltip is visible, `Escape` pressed anywhere (e.g. on `document.body` or another element, with the pointer hovering and focus elsewhere) dismisses it without moving focus or preventing default.
+32. The document `keydown` listener exists only while the tooltip is visible: added once on show, never doubled, removed on hide and on unmount.
 
 ## 8. Tracking
 

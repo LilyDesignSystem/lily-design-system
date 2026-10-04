@@ -3,6 +3,17 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.2.0 — 2026-10-04
+
+**Tooltip (additive, minor).** New `.locale-picker-tooltip` element
+(`role="tooltip"`, a sibling right after the icon button, `hidden` at rest,
+holding the button's `label`) and class hook, shown on pointer hover
+(hoverable), on keyboard focus (`:focus-visible`), dismissed by `Escape`,
+never shown while the listbox is open. Not linked by `aria-describedby`
+(it duplicates `aria-label`). 8 new tests, spec §7.37–§7.42.
+
+**Tooltip Escape works wherever focus is.** While the tooltip is visible a `document` `keydown` listener dismisses it on `Escape` (hover-only tooltips now dismiss, WCAG 1.4.13); removed on hide/disconnect. 2 new tests, spec clause 43.
+
 ## 0.1.2 — 2026-10-01
 
 **Icon: the default globe now follows

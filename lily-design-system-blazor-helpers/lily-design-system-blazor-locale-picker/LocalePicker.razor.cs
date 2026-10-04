@@ -325,6 +325,7 @@ public partial class LocalePicker : ComponentBase
 
     private Task OnButtonClickAsync()
     {
+        TipOnClick();
         if (_suppressNextClick)
         {
             _suppressNextClick = false;
@@ -337,6 +338,7 @@ public partial class LocalePicker : ComponentBase
 
     private Task OnButtonKeyDownAsync(KeyboardEventArgs args)
     {
+        TipOnKeyDown(args);
         switch (args.Key)
         {
             case "ArrowDown":
@@ -461,5 +463,67 @@ public partial class LocalePicker : ComponentBase
         }
         sb.Append('"');
         return sb.ToString();
+    }
+
+    // -------------------------------------------------------------------
+    // Tooltip — spec/index.md §4.2 "Tooltip". Purely visual; the text is
+    // the button's Label, so it is NOT linked with aria-describedby.
+    // Blazor deviation (spec §9): no JS interop, so keyboard focus cannot
+    // be told apart with matches(':focus-visible'). A mousedown on the
+    // button immediately before its focus event marks the focus as
+    // pointer-induced (no tooltip); any other focus counts as keyboard.
+    // -------------------------------------------------------------------
+
+    private bool _tipHoverButton;
+    private bool _tipHoverTooltip;
+    private bool _tipFocusButton;
+    private bool _tipDismissed;
+    private bool _tipPointerDown;
+
+    private string TooltipId => $"{_baseId}-tooltip";
+
+    private bool TooltipVisible
+        => !_open && !_tipDismissed && (_tipHoverButton || _tipHoverTooltip || _tipFocusButton);
+
+    private void OnTipButtonEnter() { _tipHoverButton = true; _tipDismissed = false; }
+
+    private void OnTipButtonLeave() => _tipHoverButton = false;
+
+    private void OnTipButtonMouseDown() => _tipPointerDown = true;
+
+    private void OnTipButtonFocus()
+    {
+        _tipFocusButton = !_tipPointerDown;
+        _tipPointerDown = false;
+    }
+
+    private void OnTipButtonBlur()
+    {
+        _tipFocusButton = false;
+        _tipDismissed = false;
+        _tipPointerDown = false;
+    }
+
+    private void OnTipTooltipEnter() => _tipHoverTooltip = true;
+
+    private void OnTipTooltipLeave() => _tipHoverTooltip = false;
+
+    /// <summary>Clicking the button clears hover (the popup toggle follows).</summary>
+    private void TipOnClick() => _tipHoverButton = false;
+
+    /// <summary>Escape pressed anywhere inside the root (focus on any child while the
+    /// tooltip is visible by hover) dismisses it. Blazor deviation: no document-level
+    /// listener without JS interop, so Escape with focus outside the root is not
+    /// handled. Never moves focus, never prevents default.</summary>
+    private void OnTipRootKeyDown(KeyboardEventArgs args)
+    {
+        if (args.Key == "Escape" && TooltipVisible) _tipDismissed = true;
+    }
+
+    /// <summary>Escape dismisses a visible tooltip without moving focus.</summary>
+    private void TipOnKeyDown(KeyboardEventArgs args)
+    {
+        _tipPointerDown = false;
+        if (args.Key == "Escape" && TooltipVisible) _tipDismissed = true;
     }
 }

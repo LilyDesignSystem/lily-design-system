@@ -167,3 +167,7 @@ canonical Svelte helper:
    rule in `AGENTS/helpers.md` applies only to its trigger.
 2. **Strings arrive as one `labels` object**, not a dozen flat `*Label`
    props. The siblings need two or three strings; this needs ten.
+
+## Tooltip
+
+`<div class="date-time-picker-tooltip" role="tooltip" id="{baseId}-tooltip" hidden>{label}</div>` is a sibling right after the icon button (the calendar trigger), always in the DOM, text = `label` (no new props). Shown on pointer hover (button or tooltip) or `:focus-visible` keyboard focus; `Escape` on the button dismisses it without moving focus; never shown while the dialog is open. Not linked with `aria-describedby` (it duplicates `aria-label`). Position/appearance is theme CSS keyed on `hidden`.

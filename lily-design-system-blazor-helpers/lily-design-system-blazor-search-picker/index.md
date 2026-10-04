@@ -110,7 +110,7 @@ because every user-facing string is yours to localise. Optional:
 ## Styling
 
 Class hooks: `.search-picker` (root), `.search-picker-button`,
-`.search-picker-icon`, `.search-picker-panel`, `.search-picker-form`,
+`.search-picker-icon`, `.search-picker-tooltip`, `.search-picker-panel`, `.search-picker-form`,
 `.search-picker-input`, `.search-picker-submit`,
 `.search-picker-submit-symbol`.
 
@@ -121,7 +121,7 @@ a row.
 ## Tests
 
 From `tests/LilyDesignSystem.Blazor.Helpers.Tests`, `dotnet test` — this
-package contributes 26 cases, one per §7 clause (clauses 10 and 24
+package contributes 32 cases, one per §7 clause (clauses 10 and 24
 have two).
 
 ---

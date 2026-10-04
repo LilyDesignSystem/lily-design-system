@@ -568,6 +568,7 @@ var LocalePicker = class extends HTMLElement {
   #rootEl = null;
   #inputEl = null;
   #buttonEl = null;
+  #tooltip = null;
   #listEl = null;
   #optionEls = [];
   // Listbox state.
@@ -782,6 +783,7 @@ var LocalePicker = class extends HTMLElement {
     }
   }
   disconnectedCallback() {
+    this.#tooltip?.destroy();
     document.removeEventListener("click", this.#onDocumentClick);
     this.#listboxController?.destroy();
     this.#appliedValue = "";
@@ -895,6 +897,7 @@ var LocalePicker = class extends HTMLElement {
    */
   #syncState() {
     if (!this.#rootEl) return;
+    this.#tooltip?.update();
     const value = this.value;
     if (this.#inputEl) this.#inputEl.value = value;
     if (this.#buttonEl) {
@@ -947,6 +950,16 @@ var LocalePicker = class extends HTMLElement {
     });
     button.addEventListener("keydown", this.#onButtonKeydown);
     root.appendChild(button);
+    this.#tooltip?.destroy();
+    const tooltip = createTooltip(
+      button,
+      "locale-picker-tooltip",
+      `${this.#baseId}-tooltip`,
+      () => this.label,
+      () => this.#open
+    );
+    root.appendChild(tooltip.el);
+    this.#tooltip = tooltip;
     const list = document.createElement("ul");
     list.className = "locale-picker-list";
     list.id = this.listId;
@@ -1009,6 +1022,83 @@ function parseJsonObject(s) {
   } catch {
   }
   return {};
+}
+function createTooltip(button, className, id, getLabel, isOpen) {
+  const el = document.createElement("div");
+  el.className = className;
+  el.setAttribute("role", "tooltip");
+  el.id = id;
+  el.setAttribute("hidden", "");
+  let hoverButton = false;
+  let hoverTooltip = false;
+  let focusButton = false;
+  let dismissed = false;
+  let listening = false;
+  const onDocumentKeydown = (event) => {
+    if (event.key === "Escape") {
+      dismissed = true;
+      update();
+    }
+  };
+  const destroy = () => {
+    if (listening) {
+      document.removeEventListener("keydown", onDocumentKeydown);
+      listening = false;
+    }
+  };
+  const update = () => {
+    const label = getLabel();
+    if (el.textContent !== label) el.textContent = label;
+    const visible = !isOpen() && !dismissed && (hoverButton || hoverTooltip || focusButton);
+    if (visible) el.removeAttribute("hidden");
+    else if (!el.hasAttribute("hidden")) el.setAttribute("hidden", "");
+    if (visible && !listening) {
+      document.addEventListener("keydown", onDocumentKeydown);
+      listening = true;
+    } else if (!visible) destroy();
+  };
+  button.addEventListener("mouseenter", () => {
+    hoverButton = true;
+    dismissed = false;
+    update();
+  });
+  button.addEventListener("mouseleave", () => {
+    hoverButton = false;
+    update();
+  });
+  button.addEventListener("focus", () => {
+    try {
+      focusButton = button.matches(":focus-visible");
+    } catch {
+      focusButton = true;
+    }
+    update();
+  });
+  button.addEventListener("blur", () => {
+    focusButton = false;
+    dismissed = false;
+    update();
+  });
+  button.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !el.hasAttribute("hidden")) {
+      dismissed = true;
+      update();
+    }
+  });
+  button.addEventListener("click", () => {
+    hoverButton = false;
+    update();
+  });
+  el.addEventListener("mouseenter", () => {
+    hoverTooltip = true;
+    update();
+  });
+  el.addEventListener("mouseleave", () => {
+    hoverTooltip = false;
+    update();
+  });
+  update();
+  return { el, update, destroy };
 }
 
 // lily-design-system-html-locale-picker/index.ts

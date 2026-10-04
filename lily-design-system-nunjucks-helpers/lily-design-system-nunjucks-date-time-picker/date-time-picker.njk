@@ -204,6 +204,7 @@
   >
 {%- if caller %}{{ caller() }}{% else %}<span class="date-time-picker-icon" aria-hidden="true">📅︎</span>{% endif -%}
   </button>
+<div class="date-time-picker-tooltip" role="tooltip" id="{{ id }}-tooltip" hidden>{{ opts.label }}</div>
 </div>
 
 {%- if labels.invalid %}

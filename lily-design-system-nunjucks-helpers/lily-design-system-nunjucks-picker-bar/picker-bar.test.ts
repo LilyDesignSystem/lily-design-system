@@ -327,3 +327,21 @@ describe("PickerBar — autoInit (§4.3)", () => {
     expect(controllers[0].share).not.toBeNull();
   });
 });
+
+describe("PickerBar — nested picker tooltips (§7.14)", () => {
+  test("§7.14 each of the five pickers renders its tooltip and initPickerBar wires it", () => {
+    const { root } = setup();
+    for (const helper of ["search", "theme", "locale", "text-size", "share"]) {
+      const button = root.querySelector(
+        `.${helper}-picker-button`,
+      ) as HTMLButtonElement;
+      const tip = root.querySelector(`.${helper}-picker-tooltip`) as HTMLElement;
+      expect(tip.getAttribute("role")).toBe("tooltip");
+      expect(tip.hasAttribute("hidden")).toBe(true);
+      button.dispatchEvent(new window.MouseEvent("mouseenter"));
+      expect(tip.hasAttribute("hidden")).toBe(false);
+      button.dispatchEvent(new window.MouseEvent("mouseleave"));
+      expect(tip.hasAttribute("hidden")).toBe(true);
+    }
+  });
+});

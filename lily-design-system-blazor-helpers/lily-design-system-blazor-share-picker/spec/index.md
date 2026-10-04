@@ -143,6 +143,7 @@ public sealed class ShareEventArgs
   >
     <svg class="share-picker-icon" viewBox="0 0 16 16" aria-hidden="true" width="1.05rem" height="1.05rem">…</svg>
   </button>
+  <div class="share-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{Label}</div>
   <ul class="share-picker-list" id="{listId}" aria-label="{Label}" hidden>
     <li class="share-picker-list-item">
       <a
@@ -161,6 +162,18 @@ public sealed class ShareEventArgs
   <p class="share-picker-status" aria-live="polite"></p>
 </div>
 ```
+
+**Tooltip.** `.share-picker-tooltip` is a sibling of the button, always in
+the DOM, `hidden` at rest, holding the button's `Label` text. It is shown
+while the pointer is over the button or over the tooltip itself
+(hoverable) and while the button has keyboard focus; `Escape` dismisses
+it without moving focus, wherever focus is inside the picker while the tooltip is visible (until the pointer or focus re-enters); it is
+never shown while the disclosure list is open. It is purely visual: the text
+duplicates the button's `aria-label`, so it is deliberately **not**
+linked with `aria-describedby` (that would announce the name twice).
+Position and appearance are consumer/theme CSS, via the `hidden`
+attribute. Keyboard-versus-pointer focus is the one Blazor deviation —
+see the deviations section.
 
 The trigger's class is `share-picker-button`, following the
 `{helper}-button` convention the sibling helpers use.
@@ -305,6 +318,13 @@ matches the canonical Svelte spec one-for-one.
     focus request for the trigger.)
 24. The list carries the picker's accessible name (`aria-label` =
     `Label`).
+25. The component renders a `<div class="share-picker-tooltip" role="tooltip">` as a sibling right after the icon button, always in the DOM, `hidden` at rest, with an `id` and text equal to the button's `Label`; the button carries no `aria-describedby`.
+26. Pointer over the button shows the tooltip; leaving hides it.
+27. The tooltip stays visible while the pointer is over the tooltip itself (hoverable); leaving it hides it.
+28. Keyboard focus on the button shows the tooltip and blur hides it; a focus immediately preceded by a `mousedown` on the button (pointer-induced focus) does not show it, and the mark is consumed so the next focus is a keyboard focus (Blazor stand-in for `:focus-visible` — §9).
+29. `Escape` on the button dismisses a visible tooltip without moving focus (no focus request); re-entering the button with the pointer shows it again.
+30. The tooltip is never shown while the disclosure list is open, whether by hover or focus.
+31. While the tooltip is visible, `Escape` pressed anywhere inside the picker root dismisses it (pointer hover with focus on another child of the root; no focus request, default not prevented). Blazor deviation (no JS interop, so no document-level listener): Escape with focus entirely outside the root is not handled. Escape while the tooltip is hidden is a no-op and does not pre-dismiss the next show.
 
 ### 7.1 How focus is asserted
 
@@ -367,6 +387,24 @@ Each of these is forced by the framework, not chosen.
   `RenderFragment<SharePickerContext>` rather than a Svelte snippet.
 - **`OnShare` carries a `ShareEventArgs`** rather than two positional
   arguments, because `EventCallback<T>` is single-argument.
+- **Tooltip keyboard focus has no `:focus-visible`.** The canonical Svelte
+  `share-picker` asks the browser `button.matches(":focus-visible")`; Blazor
+  cannot without JS interop, and this package ships none for the tooltip.
+  Instead the button's `@onfocus` shows the tooltip unless a `@onmousedown`
+  on the same button immediately preceded it (pointer focus), a mark that
+  the focus, any button keydown, or blur consumes. Consequences: a
+  programmatic refocus of the button after the popup closes (e.g. after
+  a pointer pick) counts as keyboard focus and shows the tooltip until blur,
+  and focus arriving by Tab after a pointer interaction elsewhere is
+  correctly keyboard focus. Hover, Escape-dismissal and the never-while-open
+  rule are identical to the canonical behaviour. Each tooltip event is a
+  Blazor event callback (a server round trip under Blazor Server).
+- **No document-level Escape listener.** The canonical picker listens for `Escape` on the
+  document while the tooltip is visible, so a hover-shown tooltip dismisses with focus anywhere. Blazor
+  cannot add one without JS interop, which this package does not use for the tooltip. Instead
+  `@onkeydown` on the root wrapper and on the tooltip dismisses it (keydown from any focused child
+  bubbles to the root). **Not supported:** Escape pressed while hovering with focus entirely outside
+  the picker. The handler never moves focus and never prevents default.
 
 ## 10. Tracking
 

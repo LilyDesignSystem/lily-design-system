@@ -173,6 +173,7 @@ and otherwise from the slug with its first character upper-cased
   >
     <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="1.05rem" height="1.05rem"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
   </button>
+  <div class="theme-picker-tooltip" role="tooltip" id="{id}-tooltip" hidden>{label}</div>
   <ul
     class="theme-picker-list"
     id="{id}-list"
@@ -194,6 +195,8 @@ and otherwise from the slug with its first character upper-cased
   </ul>
 </div>
 ```
+
+**Tooltip.** `.theme-picker-tooltip` is a sibling right after the icon button, always in the markup, `hidden` at rest, holding the button's `label` text (no new macro argument, no new English). `client.js` shows it while the pointer is over the button or over the tooltip itself (hoverable) and while the button has keyboard focus (`:focus-visible`; a mouse click's focus does not count); `Escape` dismisses it without moving focus, wherever focus is while the tooltip is visible (a document-level `keydown` listener exists only while it is shown, so pointer-hover-only works too; WCAG 1.4.13), until the pointer re-enters or focus leaves and returns; it is never shown while the listbox is open. It is purely visual: the text duplicates the button's `aria-label`, so it is deliberately **not** linked with `aria-describedby` (that would announce the name twice). Position and appearance are consumer/theme CSS, via the `hidden` attribute. Canonical reference: the Svelte helper's Tooltip paragraph.
 
 - The root is a `<div>` carrying the `theme-picker` class hook plus the
   consumer's `classes`; `attributes` spread onto it.
@@ -556,6 +559,14 @@ Accessibility hardening (ported from the canonical Svelte spec's
 32. An empty list opens without `aria-activedescendant`.
 33. An `onChange` that mirrors the value back through `setTheme`
     does not re-enter apply: it fires once per changed value.
+34. Renders `.theme-picker-tooltip` (`role="tooltip"`) as a sibling right after the icon button, holding the button's label, `hidden` at rest, and the button carries no `aria-describedby`.
+35. Pointer over the button shows it; leaving hides it.
+36. It stays visible while the pointer is over the tooltip itself.
+37. Keyboard focus on the button (`:focus-visible`) shows it; blur hides it; mouse-induced focus does not.
+38. `Escape` on the button dismisses it without moving focus; re-entering shows it again.
+39. It is never shown while the listbox is open.
+40. Initialising the same root twice replaces the first tooltip wiring rather than doubling it.
+41. Pointer hover shows the tooltip with focus elsewhere; Escape pressed on `document.body` or another element dismisses it (without `preventDefault`, without moving focus), and the document `keydown` listener exists only while the tooltip is visible (removed on hide, `destroy()` and re-init).
 
 ## 8. Out-of-scope (future)
 

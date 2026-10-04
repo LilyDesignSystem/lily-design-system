@@ -356,10 +356,11 @@ describe("<lily-search-picker> — value, exports, root (§7.19–§7.23)", () =
     expect(root.parentElement?.tagName).toBe("LILY-SEARCH-PICKER");
   });
 
-  test("§7.23 no user-facing text of its own beyond the hidden ⏎", async () => {
+  test("§7.23 no user-facing text of its own beyond the hidden ⏎ and the tooltip's label", async () => {
     await openPanel();
     expect(input().hasAttribute("placeholder")).toBe(false);
     const root = document.body.querySelector(".search-picker")!;
+    root.querySelector(".search-picker-tooltip")!.remove();
     const texts: string[] = [];
     const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
     while (walker.nextNode()) {
@@ -486,5 +487,135 @@ describe("<lily-search-picker> — custom-element surface (§7.25–§7.31)", ()
     const b = nextSearchPickerId();
     expect(a).toMatch(/^search-picker-\d+$/);
     expect(a).not.toBe(b);
+  });
+});
+
+describe("<lily-search-picker> — tooltip (§7.32–§7.37)", () => {
+  function setup() {
+    const el = mount() as HTMLElement;
+    const host = el.querySelector("lily-icon-button") as HTMLElement;
+    const button = el.querySelector(".search-picker-button") as HTMLButtonElement;
+    const tip = el.querySelector(".search-picker-tooltip") as HTMLElement;
+    return { el, host, button, tip };
+  }
+  const enter = (e: Element) => e.dispatchEvent(new MouseEvent("mouseenter"));
+  const leave = (e: Element) => e.dispatchEvent(new MouseEvent("mouseleave"));
+  const isHidden = (e: Element) => e.hasAttribute("hidden");
+
+  test("§7.32 renders a role=tooltip element right after the button holding the label, hidden at rest, not aria-describedby-linked", () => {
+    const { host, button, tip } = setup();
+    expect(tip.getAttribute("role")).toBe("tooltip");
+    expect(tip.textContent).toBe("Search this site");
+    expect(isHidden(tip)).toBe(true);
+    expect(tip.id).toBeTruthy();
+    expect(host.nextElementSibling).toBe(tip);
+    expect(button.hasAttribute("aria-describedby")).toBe(false);
+    expect(host.hasAttribute("aria-describedby")).toBe(false);
+  });
+
+  test("§7.32 its text follows the label attribute", () => {
+    const { el } = setup();
+    el.setAttribute("label", "Renamed");
+    expect(el.querySelector(".search-picker-tooltip")!.textContent).toBe("Renamed");
+  });
+
+  test("§7.33 pointer over the button shows it; leaving hides it", () => {
+    const { host, tip } = setup();
+    enter(host);
+    expect(isHidden(tip)).toBe(false);
+    leave(host);
+    expect(isHidden(tip)).toBe(true);
+  });
+
+  test("§7.34 it stays visible while the pointer is over the tooltip itself", () => {
+    const { host, tip } = setup();
+    enter(host);
+    leave(host);
+    enter(tip);
+    expect(isHidden(tip)).toBe(false);
+    leave(tip);
+    expect(isHidden(tip)).toBe(true);
+  });
+
+  test("§7.35 keyboard focus shows it; blur hides it", () => {
+    const { button, tip } = setup();
+    // jsdom has no input-modality tracking; stand in for the keyboard.
+    vi.spyOn(button, "matches").mockImplementation((q: string) => q === ":focus-visible");
+    button.focus();
+    expect(isHidden(tip)).toBe(false);
+    button.blur();
+    expect(isHidden(tip)).toBe(true);
+  });
+
+  test("§7.35 mouse-induced focus (not :focus-visible) does not show it", () => {
+    const { button, tip } = setup();
+    vi.spyOn(button, "matches").mockReturnValue(false);
+    button.focus();
+    expect(isHidden(tip)).toBe(true);
+  });
+
+  test("§7.36 Escape dismisses it without moving focus; re-entering shows it again", () => {
+    const { host, button, tip } = setup();
+    vi.spyOn(button, "matches").mockReturnValue(true);
+    button.focus();
+    enter(host);
+    button.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+    expect(isHidden(tip)).toBe(true);
+    expect(document.activeElement).toBe(button);
+    leave(host);
+    enter(host);
+    expect(isHidden(tip)).toBe(false);
+  });
+
+  test("§7.37 it is never shown while the popup is open", () => {
+    const { host, button, tip } = setup();
+    enter(host);
+    button.click();
+    expect(button.getAttribute("aria-expanded")).toBe("true");
+    expect(isHidden(tip)).toBe(true);
+    enter(host);
+    expect(isHidden(tip)).toBe(true);
+  });
+
+  test("§7.38 hover with focus elsewhere shows the tooltip; Escape on document.body dismisses it without moving focus or being prevented", () => {
+    const { host, button, tip } = setup();
+    enter(host);
+    expect(isHidden(tip)).toBe(false);
+    expect(document.activeElement).not.toBe(button);
+    const ev = new KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true });
+    document.body.dispatchEvent(ev);
+    expect(isHidden(tip)).toBe(true);
+    expect(ev.defaultPrevented).toBe(false);
+    expect(document.activeElement).not.toBe(button);
+    leave(host);
+    enter(host);
+    expect(isHidden(tip)).toBe(false);
+  });
+
+  test("§7.38 the document keydown listener is added once while visible and removed on hide and on disconnect", () => {
+    const add = vi.spyOn(document, "addEventListener");
+    const rem = vi.spyOn(document, "removeEventListener");
+    const keydowns = (spy: typeof add) => spy.mock.calls.filter((c) => c[0] === "keydown");
+    try {
+      const { el, host, tip } = setup();
+      add.mockClear();
+      rem.mockClear();
+      enter(host);
+      enter(host);
+      expect(keydowns(add).length).toBe(1);
+      const fn = keydowns(add)[0][1];
+      leave(host);
+      expect(isHidden(tip)).toBe(true);
+      expect(keydowns(rem).some((c) => c[1] === fn)).toBe(true);
+      // Re-show, then disconnect while visible: the listener must go too.
+      enter(host);
+      expect(keydowns(add).length).toBe(2);
+      rem.mockClear();
+      el.remove();
+      expect(keydowns(rem).some((c) => c[1] === keydowns(add)[1][1])).toBe(true);
+    } finally {
+      add.mockRestore();
+      rem.mockRestore();
+    }
   });
 });

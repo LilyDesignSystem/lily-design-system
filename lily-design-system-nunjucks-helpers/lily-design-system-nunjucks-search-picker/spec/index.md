@@ -130,6 +130,7 @@ side of the split that can actually honour it.
           aria-expanded="false" aria-controls="{id}-panel" data-lily-search-picker-button>
     <svg class="search-picker-icon" viewBox="0 0 16 16" width="1.05rem" height="1.05rem" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14"/></svg>
   </button>
+  <div class="search-picker-tooltip" role="tooltip" id="{id}-tooltip" hidden>{label}</div>
   <div class="search-picker-panel" id="{id}-panel" hidden data-lily-search-picker-panel>
     <form class="search-picker-form" role="search" aria-label="{label}" action="{action}" method="get" data-lily-search-picker-form>
       <input class="search-picker-input" id="{id}-input" type="search" aria-label="{inputLabel}"
@@ -141,6 +142,8 @@ side of the split that can actually honour it.
   </div>
 </div>
 ```
+
+**Tooltip.** `.search-picker-tooltip` is a sibling right after the icon button, always in the markup, `hidden` at rest, holding the button's `label` text (no new macro argument, no new English). `client.js` shows it while the pointer is over the button or over the tooltip itself (hoverable) and while the button has keyboard focus (`:focus-visible`; a mouse click's focus does not count); `Escape` dismisses it without moving focus, wherever focus is while the tooltip is visible (a document-level `keydown` listener exists only while it is shown, so pointer-hover-only works too; WCAG 1.4.13), until the pointer re-enters or focus leaves and returns; it is never shown while the panel is open. It is purely visual: the text duplicates the button's `aria-label`, so it is deliberately **not** linked with `aria-describedby` (that would announce the name twice). Position and appearance are consumer/theme CSS, via the `hidden` attribute. Canonical reference: the Svelte helper's Tooltip paragraph.
 
 `placeholder` and `value` are omitted entirely when not supplied. The
 submit button follows the field in DOM order, so it sits at the field's
@@ -223,11 +226,19 @@ surface.
 20. `searchHref()` builds the same destination the component navigates to.
 21. `RETURN_SYMBOL` is the bare `⏎` (U+23CE).
 22. `classes` is appended to `search-picker` on the root, and `attributes` spread onto the root.
-23. The macro renders no user-facing text of its own: with no `placeholder` the field has none, and the only text node is the `aria-hidden` `⏎`.
+23. The macro renders no user-facing text of its own: with no `placeholder` the field has none, and the only text nodes are the `aria-hidden` `⏎` and the tooltip's `label`.
 24. A focusout with no `relatedTarget` (Safari's click on `⏎` or on the icon button, a window blur) leaves the panel open, so the click that caused it still lands.
 25. Ids are deterministic, derived from `name` / `id`, and wired to `aria-controls`.
 26. `autoInit` wires every root; `initSearchPicker` is inert on a missing or foreign root; the returned `open` / `close` / `search` work and `destroy` removes the listeners.
 27. `nextSearchPickerId` mints stable, incrementing, SSR-safe ids.
+28. Renders `.search-picker-tooltip` (`role="tooltip"`) as a sibling right after the icon button, holding the button's label, `hidden` at rest, and the button carries no `aria-describedby`.
+29. Pointer over the button shows it; leaving hides it.
+30. It stays visible while the pointer is over the tooltip itself.
+31. Keyboard focus on the button (`:focus-visible`) shows it; blur hides it; mouse-induced focus does not.
+32. `Escape` on the button dismisses it without moving focus; re-entering shows it again.
+33. It is never shown while the panel is open.
+34. Initialising the same root twice replaces the first tooltip wiring rather than doubling it.
+35. Pointer hover shows the tooltip with focus elsewhere; Escape pressed on `document.body` or another element dismisses it (without `preventDefault`, without moving focus), and the document `keydown` listener exists only while the tooltip is visible (removed on hide, `destroy()` and re-init).
 
 §6 is asserted too: without the client the panel stays hidden, and the
 macro touches no document, storage, or navigator state.

@@ -73,6 +73,7 @@
 <button type="button" class="search-picker-button" aria-label="{{ opts.label }}" aria-expanded="false" aria-controls="{{ panelId }}" data-lily-search-picker-button>
 {%- if caller %}{{ caller({open: false, query: value}) }}{% else %}<svg class="search-picker-icon" viewBox="0 0 16 16" width="1.05rem" height="1.05rem" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14"/></svg>{% endif -%}
 </button>
+<div class="search-picker-tooltip" role="tooltip" id="{{ id }}-tooltip" hidden>{{ opts.label }}</div>
 <div class="search-picker-panel" id="{{ panelId }}" hidden data-lily-search-picker-panel>
 {#- A real search landmark: Return-to-submit, mobile search keyboards and
     form semantics all come from the platform. action/method stay

@@ -141,6 +141,7 @@ type ShareTarget = {
   >
     <svg class="share-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5"/></svg>
   </button>
+  <div class="share-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
   <ul class="share-picker-list" id="{listId}" aria-label="{label}" hidden>
     <li class="share-picker-list-item">
       <a
@@ -159,6 +160,16 @@ type ShareTarget = {
   <p class="share-picker-status" aria-live="polite"></p>
 </div>
 ```
+
+**Tooltip.** `.share-picker-tooltip` is a sibling right after the icon button, always in the DOM,
+`hidden` at rest, holding the button's `label` text. It is shown while the
+pointer is over the button or over the tooltip itself (hoverable) and while
+the button has keyboard focus (`:focus-visible`); `Escape` dismisses it without moving focus, wherever focus is while it is visible (a document-level listener, present only while shown; until the pointer or focus re-enters);
+clicking the button clears the hover; it is never shown while the disclosure list is
+open. It is purely visual: the text duplicates the button's `aria-label`,
+so it is deliberately **not** linked with `aria-describedby` (that would
+announce the name twice). Position and appearance are consumer/theme CSS,
+via the `hidden` attribute.
 
 The trigger's class is `share-picker-button`, following the same
 `{helper}-button` convention as `theme-picker`, `locale-picker` and
@@ -268,6 +279,13 @@ sees on a phone is not what they see on a desktop. Full treatment in
     focus.
 24. The list carries the picker's accessible name (`aria-label` =
     `label`).
+25. Renders `.share-picker-tooltip` with `role="tooltip"`, holding `label`, `hidden` at rest, and the button carries no `aria-describedby`.
+26. Pointer over the button shows it; leaving hides it.
+27. It stays visible while the pointer is over the tooltip itself.
+28. Keyboard focus (`:focus-visible`) on the button shows it; blur hides it; mouse-induced focus does not.
+29. `Escape` on the button dismisses it without moving focus; re-entering shows it again.
+30. It is never shown while the disclosure list is open.
+31. `Escape` pressed anywhere (e.g. on `document.body` or another element, with the tooltip shown by pointer hover alone) dismisses it without moving focus; the document `keydown` listener exists only while the tooltip is visible and is removed on hide and on unmount.
 
 In addition, §4.2's root contract (class hook + consumer `class` +
 `$attrs` fall-through) is asserted directly.

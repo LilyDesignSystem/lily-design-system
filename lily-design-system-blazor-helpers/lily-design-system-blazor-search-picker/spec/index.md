@@ -131,6 +131,7 @@ public sealed class SearchEventArgs
   >
     <svg class="search-picker-icon" viewBox="0 0 16 16" width="1.05rem" height="1.05rem" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14"/></svg>
   </button>
+  <div class="search-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{Label}</div>
   <div class="search-picker-panel" id="{panelId}" hidden>
     <form class="search-picker-form" role="search" aria-label="{Label}" action="{Action}" method="get">
       <input class="search-picker-input" type="search" aria-label="{InputLabel}" placeholder="{Placeholder}" enterkeyhint="search" />
@@ -141,6 +142,18 @@ public sealed class SearchEventArgs
   </div>
 </div>
 ```
+
+**Tooltip.** `.search-picker-tooltip` is a sibling of the button, always in
+the DOM, `hidden` at rest, holding the button's `Label` text. It is shown
+while the pointer is over the button or over the tooltip itself
+(hoverable) and while the button has keyboard focus; `Escape` dismisses
+it without moving focus, wherever focus is inside the picker while the tooltip is visible (until the pointer or focus re-enters); it is
+never shown while the panel is open. It is purely visual: the text
+duplicates the button's `aria-label`, so it is deliberately **not**
+linked with `aria-describedby` (that would announce the name twice).
+Position and appearance are consumer/theme CSS, via the `hidden`
+attribute. Keyboard-versus-pointer focus is the one Blazor deviation —
+see the deviations section.
 
 The submit button follows the field in DOM order, so it sits at the
 field's right in left-to-right layouts (and at its left under
@@ -236,8 +249,15 @@ matches the canonical Svelte spec one-for-one.
 20. `SearchHref()` builds the same destination the component navigates to.
 21. `ReturnSymbol` is the bare `⏎` (U+23CE).
 22. `CssClass` is appended to `search-picker` on the root, and unmatched attributes spread onto the root.
-23. The component renders no user-facing text of its own: with no `Placeholder` the field has none, and the only text node is the `aria-hidden` `⏎`.
+23. The component renders no user-facing text of its own: with no `Placeholder` the field has none, and the only text node is the `aria-hidden` `⏎` (the tooltip, which holds the button's `Label`, aside).
 24. A focusout that is not a confirmed departure (Safari's click on `⏎` or on the icon button, a window blur, an interop failure) leaves the panel open, so the click that caused it still lands: the icon button then toggles the panel closed, and `⏎` searches.
+25. The component renders a `<div class="search-picker-tooltip" role="tooltip">` as a sibling right after the icon button, always in the DOM, `hidden` at rest, with an `id` and text equal to the button's `Label`; the button carries no `aria-describedby`.
+26. Pointer over the button shows the tooltip; leaving hides it.
+27. The tooltip stays visible while the pointer is over the tooltip itself (hoverable); leaving it hides it.
+28. Keyboard focus on the button shows the tooltip and blur hides it; a focus immediately preceded by a `mousedown` on the button (pointer-induced focus) does not show it, and the mark is consumed so the next focus is a keyboard focus (Blazor stand-in for `:focus-visible` — §9).
+29. `Escape` on the button dismisses a visible tooltip without moving focus (no focus request); re-entering the button with the pointer shows it again.
+30. The tooltip is never shown while the panel is open, whether by hover or focus.
+31. While the tooltip is visible, `Escape` pressed anywhere inside the picker root dismisses it (pointer hover with focus on another child of the root; no focus request, default not prevented). Blazor deviation (no JS interop, so no document-level listener): Escape with focus entirely outside the root is not handled. Escape while the tooltip is hidden is a no-op and does not pre-dismiss the next show.
 
 ### 7.1 How focus is asserted
 
@@ -266,9 +286,9 @@ From `lily-design-system-blazor-helpers/tests/LilyDesignSystem.Blazor.Helpers.Te
 dotnet test
 ```
 
-The whole catalog suite must be green. This package contributes 26
-cases (24 clauses; clauses 10 and 24 split in two); the catalog total
-is 332 (including PickerBar's two search-wiring cases).
+The whole catalog suite must be green. This package contributes 32
+cases (30 clauses; clauses 10 and 24 split in two); the catalog total
+is 374 (including PickerBar's two search-wiring cases).
 
 ## 9. Blazor deviations from the canonical Svelte implementation
 
@@ -329,6 +349,24 @@ Each of these is forced by the framework, not chosen.
 - **An interactive render mode is required.** Under static SSR the
   markup renders, but no event handler runs, so the button cannot open
   the panel.
+- **Tooltip keyboard focus has no `:focus-visible`.** The canonical Svelte
+  `search-picker` asks the browser `button.matches(":focus-visible")`; Blazor
+  cannot without JS interop, and this package ships none for the tooltip.
+  Instead the button's `@onfocus` shows the tooltip unless a `@onmousedown`
+  on the same button immediately preceded it (pointer focus), a mark that
+  the focus, any button keydown, or blur consumes. Consequences: a
+  programmatic refocus of the button after the popup closes (e.g. after
+  a pointer pick) counts as keyboard focus and shows the tooltip until blur,
+  and focus arriving by Tab after a pointer interaction elsewhere is
+  correctly keyboard focus. Hover, Escape-dismissal and the never-while-open
+  rule are identical to the canonical behaviour. Each tooltip event is a
+  Blazor event callback (a server round trip under Blazor Server).
+- **No document-level Escape listener.** The canonical picker listens for `Escape` on the
+  document while the tooltip is visible, so a hover-shown tooltip dismisses with focus anywhere. Blazor
+  cannot add one without JS interop, which this package does not use for the tooltip. Instead
+  `@onkeydown` on the root wrapper and on the tooltip dismisses it (keydown from any focused child
+  bubbles to the root). **Not supported:** Escape pressed while hovering with focus entirely outside
+  the picker. The handler never moves focus and never prevents default.
 
 ## 10. Tracking
 

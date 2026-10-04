@@ -68,6 +68,7 @@ calls `onChange(slug)`. SSR-safe — all DOM writes happen inside
   >
     <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
   </button>
+  <div class="theme-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
   <ul
     class="theme-picker-list"
     id="{listId}"

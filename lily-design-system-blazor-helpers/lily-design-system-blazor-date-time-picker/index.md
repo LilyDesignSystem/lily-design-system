@@ -243,7 +243,7 @@ Full list in [spec/index.md §4.4](./spec/index.md#44-public-surface).
 
 Class hooks: `.date-time-picker` (root), `.date-time-picker-field`,
 `.date-time-picker-input`, `.date-time-picker-button`,
-`.date-time-picker-icon`, `.date-time-picker-status` (only with
+`.date-time-picker-icon`, `.date-time-picker-tooltip`, `.date-time-picker-status` (only with
 `Labels.Invalid`), `.date-time-picker-dialog`,
 `.date-time-picker-instructions` (only with `Labels.Instructions`),
 `.date-time-picker-header`, `.date-time-picker-previous-year` /

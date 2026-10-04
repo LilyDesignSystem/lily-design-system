@@ -249,6 +249,7 @@ Supplying both is strongly recommended.
               aria-controls="{dialogId}">
         <span class="date-time-picker-icon" aria-hidden="true">📅︎</span>
       </button>
+      <div class="date-time-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
     </div>
 
     <!-- Only when labels.invalid: always present, empty while valid. -->
@@ -319,6 +320,23 @@ Supplying both is strongly recommended.
   </div>
 </lily-date-time-picker>
 ```
+**Tooltip.** `.date-time-picker-tooltip` is a sibling of the calendar trigger button, always in
+the DOM, `hidden` at rest, holding the button's `label` text. It is shown
+while the pointer is over the button or over the tooltip itself
+(hoverable, WCAG 1.4.13) and while the button has keyboard focus
+(`:focus-visible`, read in a `try`/`catch` that falls back to showing);
+`Escape` dismisses it without moving focus, wherever focus is while it is visible (so a hover-only tooltip is dismissable too, WCAG 1.4.13; a `document` `keydown` listener exists only while visible) (until the
+pointer or focus re-enters); a click on the button clears the hover; it
+is never shown while the dialog is open. It is purely visual: the text
+duplicates the button's `aria-label`, so it is deliberately **not**
+linked with `aria-describedby` (that would announce the name twice).
+Position and appearance are consumer/theme CSS, via the `hidden`
+attribute. Angular idiom: four signals (`hoverButton`, `hoverTooltip`,
+`focusButton`, `dismissed`) feed one `computed` `tooltipVisible`; the
+pointer and focus listeners sit on the `lily-icon-button` host
+(`mouseenter`/`mouseleave`/`focusin`/`focusout`), and the tooltip text is
+the existing `label` input, so there is no new input and no new English text.
+
 
 - **Root** is a `<div>` carrying `date-time-picker` plus the consumer's
   `className`, and `data-mode` so CSS can branch without a second hook.
@@ -719,6 +737,18 @@ Stated plainly in [`../docs/accessibility.md`](../docs/accessibility.md):
 | §7.59 | A step past `min`/`max` is refused; a step onto a vetoed day moves the cursor but not the pending selection. |
 | §7.60 | The time-zone select renders only with `labels.timeZone`, is labelled by it, lists the runtime's zones after an empty option by default, sits before the grid, and starts with no zone. |
 | §7.61 | Choosing a zone updates `{name}-time-zone`, `data-time-zone`, and the `timeZone` model; `timeZones`/`timeZoneLabels` are honoured; the value and `change` are untouched. |
+
+### Tooltip (mirrors §4.3)
+
+| Clause | Test asserts |
+| ------ | ------------ |
+| §7.62 | Renders `.date-time-picker-tooltip` with `role="tooltip"`, holding `label`, `hidden` at rest, and the button carries no `aria-describedby`. |
+| §7.63 | Pointer over the button shows it; leaving hides it. |
+| §7.64 | It stays visible while the pointer is over the tooltip itself. |
+| §7.65 | Keyboard focus on the button shows it (`:focus-visible`); blur hides it; mouse-induced focus (`:focus-visible` false) does not show it. |
+| §7.66 | `Escape` on the button dismisses it without moving focus; re-entering shows it again. |
+| §7.67 | It is never shown while the dialog is open. |
+| §7.68 | Pointer hover shows the tooltip with focus elsewhere; `Escape` pressed on `document.body` or another element dismisses it, and the document `keydown` listener is added once while visible and removed on hide and on destroy (no leak). |
 
 ## 8. DHCW feature parity
 

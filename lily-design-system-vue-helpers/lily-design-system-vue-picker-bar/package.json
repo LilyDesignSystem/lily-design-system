@@ -1,6 +1,6 @@
 {
   "name": "@lilydesignsystem/vue-picker-bar",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "engines": {
     "node": "=26"
   },
@@ -28,10 +28,10 @@
   },
   "dependencies": {
     "@lilydesignsystem/vue-search-picker": "^0.1.0",
-    "@lilydesignsystem/vue-theme-picker": "^0.1.0",
-    "@lilydesignsystem/vue-locale-picker": "^0.1.0",
-    "@lilydesignsystem/vue-text-size-picker": "^0.1.0",
-    "@lilydesignsystem/vue-share-picker": "^0.1.0"
+    "@lilydesignsystem/vue-theme-picker": "^0.2.0",
+    "@lilydesignsystem/vue-locale-picker": "^0.2.0",
+    "@lilydesignsystem/vue-text-size-picker": "^0.2.0",
+    "@lilydesignsystem/vue-share-picker": "^0.2.0"
   },
   "keywords": [
     "lily",

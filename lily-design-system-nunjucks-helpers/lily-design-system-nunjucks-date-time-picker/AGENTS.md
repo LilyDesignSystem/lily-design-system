@@ -167,3 +167,7 @@ which `date-time-picker.client.js` builds: [spec/index.md §4.3](./spec/index.md
 - No `localStorage`, and no `data-*` written to the document root.
 - Deterministic ids derived from `name` / `id`, matching `share-picker`'s
   `{id}-list` pattern.
+
+## Tooltip
+
+`.date-time-picker-tooltip` (`<div role="tooltip" id="{id}-tooltip" hidden>`) is rendered right after the calendar trigger button, holding the button's `label`. `date-time-picker.client.js` shows it on pointer hover (button or tooltip) or keyboard focus (`:focus-visible`), hides it on `Escape` (focus stays) and never shows it while the popup is open. Not linked with `aria-describedby`. See `spec/index.md` (Tooltip).

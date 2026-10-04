@@ -127,6 +127,7 @@ clipboard write rather than being the DOM's `ClipboardEvent` handler.
   >
     <svg class="share-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5"/></svg>
   </button>
+  <div class="share-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
   <ul class="share-picker-list" id="{listId}" aria-label="{label}" hidden>
     <li class="share-picker-list-item">
       <a
@@ -145,6 +146,8 @@ clipboard write rather than being the DOM's `ClipboardEvent` handler.
   <p class="share-picker-status" aria-live="polite"></p>
 </div>
 ```
+
+**Tooltip.** `.share-picker-tooltip` is a sibling of the button, always in the DOM, `hidden` at rest, holding the button's `label` text. It is shown while the pointer is over the button or over the tooltip itself (hoverable) and while the button has keyboard focus (`:focus-visible`, falling back to shown where unsupported); `Escape` dismisses it without moving focus, wherever focus is while the tooltip is visible (a `document`-level `keydown` listener, present only while it is shown, so hover alone suffices; WCAG 1.4.13) (until the pointer enters or focus leaves and returns); it is never shown while the disclosure list is open. It is purely visual: the text duplicates the button's `aria-label`, so it is deliberately **not** linked with `aria-describedby`. Position and appearance are consumer/theme CSS, via the `hidden` attribute. State lives in a small `usePickerTooltip` hook inside the component file; the added `.share-picker-tooltip` element is the only new API.
 
 The trigger's class is `share-picker-button`, matching the
 `{helper}-button` convention the sibling helpers use.
@@ -258,6 +261,14 @@ sees on a phone is not what they see on a desktop. Full treatment in
     focus.
 24. The list carries the picker's accessible name (`aria-label` =
     `label`).
+25. Renders `.share-picker-tooltip` with `role="tooltip"` right after the button, holding `label`, `hidden` at rest, and the button carries no `aria-describedby`.
+26. Pointer over the button shows it; leaving hides it.
+27. It stays visible while the pointer is over the tooltip itself.
+28. Keyboard focus on the button (`:focus-visible`) shows it; blur hides it; mouse-induced focus does not.
+29. `Escape` on the button dismisses it without moving focus; re-entering shows it again.
+30. It is never shown while the disclosure list is open.
+31. Pointer hover shows it with focus elsewhere; `Escape` pressed on `document.body` or another element dismisses it without moving focus.
+32. The `document` `keydown` listener exists only while the tooltip is visible: added once, removed on hide and on unmount.
 
 ## 8. Tracking
 

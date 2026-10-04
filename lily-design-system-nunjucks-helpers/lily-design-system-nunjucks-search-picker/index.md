@@ -109,6 +109,10 @@ catalog root — one or more cases per spec §7 clause (1–24 mirror the
 canonical Svelte spec; 25–27 cover the Nunjucks surface), plus the §6
 no-JS checks.
 
+## Tooltip
+
+`.search-picker-tooltip` (`<div role="tooltip" id="{id}-tooltip" hidden>`) is rendered right after the icon button, holding the button's `label`. `search-picker.client.js` shows it on pointer hover (button or tooltip) or keyboard focus (`:focus-visible`), hides it on `Escape` (focus stays) and never shows it while the popup is open. Not linked with `aria-describedby`. See `spec/index.md` (Tooltip).
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.

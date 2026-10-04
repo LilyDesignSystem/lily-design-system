@@ -122,6 +122,7 @@
 <button type="button" class="share-picker-button" aria-label="{{ opts.label }}" aria-expanded="false" aria-controls="{{ listId }}" data-lily-share-picker-button>
 {%- if caller %}{{ caller() }}{% else %}<svg class="share-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="1.05rem" height="1.05rem"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5"/></svg>{% endif -%}
 </button>
+<div class="share-picker-tooltip" role="tooltip" id="{{ id }}-tooltip" hidden>{{ opts.label }}</div>
 {#- Named like the sibling pickers' listboxes: a screen reader entering
     the list hears what it is for, not just "list, three items". -#}
 <ul class="share-picker-list" id="{{ listId }}" aria-label="{{ opts.label }}" hidden data-lily-share-picker-list>

@@ -117,8 +117,12 @@ export class TextSizePickerIcon {
         ariaHaspopup="listbox"
         [ariaExpanded]="open()"
         [ariaControls]="listId"
-        (click)="toggle()"
-        (keydown)="onButtonKeydown($event)"
+        (click)="toggle(); hoverButton.set(false)"
+        (mouseenter)="onTooltipButtonEnter()"
+        (mouseleave)="hoverButton.set(false)"
+        (focusin)="onTooltipButtonFocusIn()"
+        (focusout)="onTooltipButtonFocusOut()"
+        (keydown)="onButtonKeydown($event); onTooltipKeydown($event)"
       >
         @if (iconTemplate(); as tpl) {
           <ng-container
@@ -142,6 +146,18 @@ export class TextSizePickerIcon {
           </svg>
         }
       </lily-icon-button>
+
+      <!-- Purely visual: the same text is already the button's aria-label,
+           so it is not wired with aria-describedby (that would announce
+           the name twice). -->
+      <div
+        class="text-size-picker-tooltip"
+        role="tooltip"
+        [id]="tooltipId"
+        [attr.hidden]="tooltipVisible() ? null : ''"
+        (mouseenter)="hoverTooltip.set(true)"
+        (mouseleave)="hoverTooltip.set(false)"
+      >{{ label() }}</div>
 
       <lily-listbox
         #listEl
@@ -201,6 +217,61 @@ export class TextSizePicker {
   protected readonly listId = `${this.baseId}-list`;
 
   protected readonly open = signal(false);
+
+  // Tooltip: shown while the pointer is over the button or the tooltip
+  // itself (hoverable, WCAG 1.4.13) or while the button has keyboard
+  // focus; Escape dismisses it without moving focus; never shown while
+  // the popup is open, since the popup then explains the control.
+  protected readonly tooltipId = `${this.baseId}-tooltip`;
+  protected readonly hoverButton = signal(false);
+  protected readonly hoverTooltip = signal(false);
+  protected readonly focusButton = signal(false);
+  protected readonly dismissed = signal(false);
+  protected readonly tooltipVisible = computed(
+    () =>
+      !this.open() &&
+      !this.dismissed() &&
+      (this.hoverButton() || this.hoverTooltip() || this.focusButton()),
+  );
+
+  protected onTooltipButtonEnter(): void {
+    this.hoverButton.set(true);
+    this.dismissed.set(false);
+  }
+
+  protected onTooltipButtonFocusIn(): void {
+    // Keyboard focus only: a mouse click also focuses the button in
+    // Chromium, and the tooltip should not stick after a click.
+    try {
+      this.focusButton.set(
+        this.buttonRef().element?.matches(":focus-visible") ?? false,
+      );
+    } catch {
+      this.focusButton.set(true); // engine without :focus-visible — err towards showing
+    }
+  }
+
+  protected onTooltipButtonFocusOut(): void {
+    this.focusButton.set(false);
+    this.dismissed.set(false);
+  }
+
+  protected onTooltipKeydown(event: KeyboardEvent): void {
+    if (event.key === "Escape" && this.tooltipVisible()) this.dismissed.set(true);
+  }
+
+  // WCAG 1.4.13 "dismissable": while the tooltip is visible, Escape works
+  // wherever focus is (hover-only tooltips have focus elsewhere). The
+  // listener exists only while visible; the effect cleanup removes it on
+  // hide and on destroy. No preventDefault/stopPropagation, focus untouched.
+  private readonly tooltipEscapeListener = effect((onCleanup) => {
+    if (!this.tooltipVisible() || typeof document === "undefined") return;
+    const onKey = (event: KeyboardEvent): void => {
+      if (event.key === "Escape") this.dismissed.set(true);
+    };
+    document.addEventListener("keydown", onKey);
+    onCleanup(() => document.removeEventListener("keydown", onKey));
+  });
   protected readonly activeIndex = signal(-1);
 
   protected readonly childContext = computed(() => {

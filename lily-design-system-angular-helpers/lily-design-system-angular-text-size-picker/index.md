@@ -81,6 +81,7 @@ export class SettingsPage {
   >
     <svg class="text-size-picker-icon" viewBox="0 0 16 16" aria-hidden="true">…</svg>
   </button>
+  <div class="text-size-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
   <ul
     class="text-size-picker-list"
     id="…-list"

@@ -4,6 +4,23 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.2.0 — 2026-10-04
+
+**Added: a hover/keyboard-focus tooltip on the icon button (minor, additive).**
+A new `<div class="locale-picker-tooltip" role="tooltip" id="{baseId}-tooltip" hidden>`
+sits right after the button, always in the DOM, holding the button's
+existing `label` text (no new props, no new English text). It is shown
+while the pointer is over the button or the tooltip, or while the button
+has keyboard focus (`:focus-visible`); `Escape` dismisses it without
+moving focus; it is never shown while the listbox is open. It is
+deliberately not linked with `aria-describedby` (it duplicates the
+`aria-label`). New class hook `.locale-picker-tooltip`; the 45 reference
+themes already style it. Mirrors `search-picker`'s tooltip (§7.25–§7.30
+there); this picker's clauses are §7.35–§7.40.
+
+**Fix: the tooltip's `Escape` dismissal now works wherever focus is (WCAG 1.4.13).** It was bound to the button's keydown only, so a tooltip shown by pointer hover alone could not be dismissed. While the tooltip is visible a document `keydown` listener (added once, removed on hide/unmount; no `preventDefault`, no focus move) sets it dismissed. New clauses §7.41–§7.42.
+
+
 ## 0.1.3 — 2026-10-01
 
 **Icon: the default globe now follows

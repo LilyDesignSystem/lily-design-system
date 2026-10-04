@@ -10,7 +10,7 @@ the chosen motion slug to the document root via `data-motion`, with
 optional `localStorage` persistence. It renders an icon button (a
 bundled two-pause-bars SVG) that opens a dropdown listbox. Ships no
 CSS; consumer styles the
-`motion-picker`, `motion-picker-button`, `motion-picker-icon`,
+`motion-picker`, `motion-picker-button`, `motion-picker-icon`, `motion-picker-tooltip`,
 `motion-picker-list`, and `motion-picker-option` class hooks and
 decides what `[data-motion="reduce"]` actually suppresses.
 

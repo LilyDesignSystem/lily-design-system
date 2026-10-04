@@ -3154,6 +3154,70 @@
         line-height: 0;
     }
 
+    /* Picker tooltips (added 2026-10-04): a visual-only role="tooltip"
+       element beside each picker's icon button, holding the same text as
+       its aria-label. The component toggles [hidden]; position and look
+       are here. It sits just below the button, in the inverse of the
+       page colours so it never disappears into the surface. A ::before
+       strip bridges the gap to the button so the pointer can travel onto
+       the tooltip without it closing (WCAG 1.4.13, hoverable). */
+    :where(.motion-picker) {
+        position: relative;
+        display: inline-block;
+    }
+
+    :where(
+        .theme-picker-tooltip,
+        .locale-picker-tooltip,
+        .text-size-picker-tooltip,
+        .motion-picker-tooltip,
+        .share-picker-tooltip,
+        .search-picker-tooltip,
+        .date-time-picker-tooltip
+    ) {
+        position: absolute;
+        z-index: 11;
+        inset-inline-start: 0;
+        inset-block-start: 100%;
+        margin-block-start: var(--lily-space-xs);
+        padding: var(--lily-space-xs) var(--lily-space-sm);
+        font-size: 0.875em;
+        line-height: 1.3;
+        white-space: nowrap;
+        color: var(--lily-surface);
+        background-color: var(--lily-text);
+        border-radius: var(--lily-radius-sm);
+        box-shadow: var(--lily-shadow-md);
+    }
+
+    :where(
+        .theme-picker-tooltip,
+        .locale-picker-tooltip,
+        .text-size-picker-tooltip,
+        .motion-picker-tooltip,
+        .share-picker-tooltip,
+        .search-picker-tooltip,
+        .date-time-picker-tooltip
+    )::before {
+        content: "";
+        position: absolute;
+        inset-inline: 0;
+        inset-block-end: 100%;
+        height: var(--lily-space-xs);
+    }
+
+    :where(
+        .theme-picker-tooltip,
+        .locale-picker-tooltip,
+        .text-size-picker-tooltip,
+        .motion-picker-tooltip,
+        .share-picker-tooltip,
+        .search-picker-tooltip,
+        .date-time-picker-tooltip
+    )[hidden] {
+        display: none;
+    }
+
     /* search-picker's panel holds a search form rather than a list: the
        field and the ⏎ submit button sit in one row, the button at the
        field's inline end (right in LTR, left under dir="rtl"). The ⏎

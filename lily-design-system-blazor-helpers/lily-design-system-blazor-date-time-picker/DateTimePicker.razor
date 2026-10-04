@@ -26,6 +26,7 @@
      data-mode="@ModeAttribute"
      data-time-zone="@(string.IsNullOrEmpty(SafeTimeZone) ? null : SafeTimeZone)"
      @onfocusout="OnRootFocusOut"
+     @onkeydown="OnTipRootKeyDown"
      @attributes="AdditionalAttributes">
 
     <input type="hidden" name="@Name" value="@SafeValue" />
@@ -60,7 +61,11 @@
                     aria-expanded="@(_open ? "true" : "false")"
                     aria-controls="@DialogId"
                     disabled="@(Disabled || ReadOnly)"
-                    @onclick="OnTriggerClick">
+                    @onclick="OnTriggerClick"
+                    @onkeydown="TipOnKeyDown"
+                    @onmouseenter="OnTipButtonEnter" @onmouseleave="OnTipButtonLeave"
+                    @onmousedown="OnTipButtonMouseDown" @onblur="OnTipButtonBlur"
+                    @onfocus="OnTipButtonFocus">
             @if (ChildContent is not null)
             {
                 @ChildContent(BuildContext())
@@ -70,6 +75,12 @@
                 <span class="date-time-picker-icon" aria-hidden="true">📅︎</span>
             }
         </IconButton>
+
+        @* Purely visual: the same text is already the button's aria-label, so it
+           is not wired with aria-describedby (that would announce the name twice).
+           See spec §4.2 "Tooltip". *@
+        <div class="date-time-picker-tooltip" role="tooltip" id="@TooltipId" hidden="@(!TooltipVisible)"
+             @onkeydown="OnTipRootKeyDown" @onmouseenter="OnTipTooltipEnter" @onmouseleave="OnTipTooltipLeave">@Label</div>
     </div>
 
     @if (HasInvalidLabel)

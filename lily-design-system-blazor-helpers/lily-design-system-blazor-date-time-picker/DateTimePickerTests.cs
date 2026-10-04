@@ -1223,4 +1223,142 @@ public class DateTimePickerTests : TestContext, IDisposable
         Assert.Null(changed);
     }
 
+    // =================================================================
+    // Tooltip — §7.62–§7.67 (spec §4.2 "Tooltip"). Method names carry a
+    // Tooltip_ prefix: this file's older Section_7_* numbering has drifted
+    // from the spec's, so the prefix keeps the names collision-free.
+    // =================================================================
+
+    private IRenderedComponent<DateTimePicker> TipRender() => Render();
+
+    private static AngleSharp.Dom.IElement TipButton(IRenderedComponent<DateTimePicker> cut)
+        => cut.Find("button.date-time-picker-button");
+
+    private static AngleSharp.Dom.IElement TipEl(IRenderedComponent<DateTimePicker> cut)
+        => cut.Find("div.date-time-picker-tooltip");
+
+    private static bool TipHidden(IRenderedComponent<DateTimePicker> cut)
+        => TipEl(cut).HasAttribute("hidden");
+
+    [Fact]
+    public void Tooltip_Section_7_62_Renders_A_Hidden_Role_Tooltip_Holding_The_Label_Not_Described_By()
+    {
+        var cut = TipRender();
+        var button = TipButton(cut);
+        var tip = TipEl(cut);
+        Assert.Equal("tooltip", tip.GetAttribute("role"));
+        Assert.Equal(button.GetAttribute("aria-label"), tip.TextContent);
+        Assert.True(tip.HasAttribute("hidden"));
+        Assert.False(string.IsNullOrEmpty(tip.Id));
+        // A sibling right after the icon button.
+        Assert.Equal(button.ClassName, tip.PreviousElementSibling?.ClassName);
+        // Purely visual: it duplicates aria-label, so it is not linked.
+        Assert.False(button.HasAttribute("aria-describedby"));
+    }
+
+    [Fact]
+    public void Tooltip_Section_7_63_Pointer_Over_The_Button_Shows_It_Leaving_Hides_It()
+    {
+        var cut = TipRender();
+        TipButton(cut).TriggerEvent("onmouseenter", new MouseEventArgs());
+        Assert.False(TipHidden(cut));
+        TipButton(cut).TriggerEvent("onmouseleave", new MouseEventArgs());
+        Assert.True(TipHidden(cut));
+    }
+
+    [Fact]
+    public void Tooltip_Section_7_64_It_Stays_Visible_While_The_Pointer_Is_Over_The_Tooltip()
+    {
+        var cut = TipRender();
+        TipButton(cut).TriggerEvent("onmouseenter", new MouseEventArgs());
+        TipButton(cut).TriggerEvent("onmouseleave", new MouseEventArgs());
+        TipEl(cut).TriggerEvent("onmouseenter", new MouseEventArgs());
+        Assert.False(TipHidden(cut));
+        TipEl(cut).TriggerEvent("onmouseleave", new MouseEventArgs());
+        Assert.True(TipHidden(cut));
+    }
+
+    [Fact]
+    public void Tooltip_Section_7_65_Keyboard_Focus_Shows_It_Blur_Hides_It_Mouse_Focus_Does_Not()
+    {
+        var cut = TipRender();
+        TipButton(cut).Focus();
+        Assert.False(TipHidden(cut));
+        TipButton(cut).Blur();
+        Assert.True(TipHidden(cut));
+
+        // A mousedown immediately before focus marks the focus as
+        // pointer-induced (Blazor stand-in for :focus-visible, spec §9).
+        TipButton(cut).MouseDown();
+        TipButton(cut).Focus();
+        Assert.True(TipHidden(cut));
+        TipButton(cut).Blur();
+
+        // ... and the mark is consumed: the next focus is keyboard focus.
+        TipButton(cut).Focus();
+        Assert.False(TipHidden(cut));
+    }
+
+    [Fact]
+    public void Tooltip_Section_7_66_Escape_Dismisses_It_Without_Moving_Focus_Reentering_Shows_It_Again()
+    {
+        var cut = TipRender();
+        TipButton(cut).TriggerEvent("onmouseenter", new MouseEventArgs());
+        TipButton(cut).KeyDown(new KeyboardEventArgs { Key = "Escape" });
+        Assert.True(TipHidden(cut));
+        // No focus request: dismissal never moves focus.
+        Assert.DoesNotContain(JSInterop.Invocations,
+            i => i.Identifier == "Blazor._internal.domWrapper.focus");
+        TipButton(cut).TriggerEvent("onmouseleave", new MouseEventArgs());
+        TipButton(cut).TriggerEvent("onmouseenter", new MouseEventArgs());
+        Assert.False(TipHidden(cut));
+    }
+
+    [Fact]
+    public void Tooltip_Section_7_67_It_Is_Never_Shown_While_The_Popup_Is_Open()
+    {
+        var cut = TipRender();
+        TipButton(cut).TriggerEvent("onmouseenter", new MouseEventArgs());
+        TipButton(cut).Click();
+        Assert.Equal("true", TipButton(cut).GetAttribute("aria-expanded"));
+        Assert.True(TipHidden(cut));
+        TipButton(cut).TriggerEvent("onmouseenter", new MouseEventArgs());
+        Assert.True(TipHidden(cut));
+        TipButton(cut).Focus();
+        Assert.True(TipHidden(cut));
+    }
+
+    [Fact]
+    public void Tooltip_Section_7_68_Escape_From_Elsewhere_In_The_Root_Dismisses_A_Hover_Shown_Tooltip()
+    {
+        var cut = TipRender();
+        TipButton(cut).TriggerEvent("onmouseenter", new MouseEventArgs());
+        Assert.False(TipHidden(cut));
+        // Escape arrives at the root (or tooltip), not at the button.
+        cut.Find("div.date-time-picker").KeyDown(new KeyboardEventArgs { Key = "Escape" });
+        Assert.True(TipHidden(cut));
+        Assert.DoesNotContain(JSInterop.Invocations,
+            i => i.Identifier == "Blazor._internal.domWrapper.focus");
+        TipButton(cut).TriggerEvent("onmouseleave", new MouseEventArgs());
+        TipButton(cut).TriggerEvent("onmouseenter", new MouseEventArgs());
+        Assert.False(TipHidden(cut));
+        TipEl(cut).KeyDown(new KeyboardEventArgs { Key = "Escape" });
+        Assert.True(TipHidden(cut));
+    }
+
+    [Fact]
+    public void Tooltip_Section_7_68_Root_Escape_While_Hidden_Is_A_NoOp_And_Does_Not_Pre_Dismiss()
+    {
+        var cut = TipRender();
+        TipButton(cut).TriggerEvent("onmouseenter", new MouseEventArgs());
+        TipButton(cut).TriggerEvent("onmouseleave", new MouseEventArgs());
+        Assert.True(TipHidden(cut));
+        cut.Find("div.date-time-picker").KeyDown(new KeyboardEventArgs { Key = "Escape" });
+        Assert.True(TipHidden(cut));
+        // Nothing lingers: a later keyboard focus still shows the tooltip.
+        TipButton(cut).Focus();
+        Assert.False(TipHidden(cut));
+        Assert.DoesNotContain(JSInterop.Invocations,
+            i => i.Identifier == "Blazor._internal.domWrapper.focus");
+    }
 }

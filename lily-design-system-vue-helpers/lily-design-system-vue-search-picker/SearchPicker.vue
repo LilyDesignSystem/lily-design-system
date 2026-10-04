@@ -64,7 +64,7 @@ export function nextSearchPickerId(): string {
 </script>
 
 <script setup lang="ts">
-import { nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { IconButton } from "@lilydesignsystem/vue-headless";
 // Only the trigger button composes a headless primitive. The panel is a
 // real <form role="search"> with a real search field and a real submit
@@ -92,6 +92,65 @@ const baseId = nextSearchPickerId();
 const panelId = `${baseId}-panel`;
 
 const open = ref(false);
+
+const tooltipId = `${baseId}-tooltip`;
+
+// Tooltip: shown while the pointer is over the button or the tooltip
+// itself (hoverable, WCAG 1.4.13) or while the button has keyboard focus;
+// Escape dismisses it without moving focus; never shown while the popup is
+// open, since the popup then explains the control.
+const hoverButton = ref(false);
+const hoverTooltip = ref(false);
+const focusButton = ref(false);
+const dismissed = ref(false);
+const tooltipVisible = computed(
+    () => !open.value && !dismissed.value && (hoverButton.value || hoverTooltip.value || focusButton.value),
+);
+
+function onTooltipButtonEnter(): void {
+    hoverButton.value = true;
+    dismissed.value = false;
+}
+
+function onTooltipButtonLeave(): void {
+    hoverButton.value = false;
+}
+
+function onTooltipButtonFocus(event: FocusEvent): void {
+    // Keyboard focus only: a mouse click also focuses the button in
+    // Chromium, and the tooltip should not stick after a click.
+    try {
+        focusButton.value = (event.currentTarget as HTMLElement).matches(":focus-visible");
+    } catch {
+        focusButton.value = true; // engine without :focus-visible, err towards showing
+    }
+}
+
+function onTooltipButtonBlur(): void {
+    focusButton.value = false;
+    dismissed.value = false;
+}
+
+function onTooltipKeydown(event: KeyboardEvent): void {
+    if (event.key === "Escape" && tooltipVisible.value) dismissed.value = true;
+}
+
+// WCAG 1.4.13: while the tooltip is visible, Escape dismisses it wherever
+// focus is (hover alone leaves focus elsewhere). The document listener
+// exists only while visible; never preventDefault/stopPropagation, no
+// focus move. SSR-safe: watch callbacks run client-side only.
+function onTooltipDocumentKeydown(event: KeyboardEvent): void {
+    if (event.key === "Escape") dismissed.value = true;
+}
+let tooltipDocListening = false;
+function setTooltipDocListener(on: boolean): void {
+    if (typeof document === "undefined" || on === tooltipDocListening) return;
+    tooltipDocListening = on;
+    if (on) document.addEventListener("keydown", onTooltipDocumentKeydown);
+    else document.removeEventListener("keydown", onTooltipDocumentKeydown);
+}
+watch(tooltipVisible, (visible) => setTooltipDocListener(visible), { flush: "sync" });
+onBeforeUnmount(() => setTooltipDocListener(false));
 // Internal source of truth so the field works both controlled
 // (`v-model:value`) and uncontrolled (no binding).
 const current = ref(props.value ?? "");
@@ -132,6 +191,7 @@ async function closePanel(refocus = true): Promise<void> {
 }
 
 function onButtonClick(): void {
+    hoverButton.value = false;
     if (open.value) void closePanel();
     else void openPanel();
 }
@@ -197,6 +257,11 @@ onBeforeUnmount(() => {
             :aria-expanded="open ? 'true' : 'false'"
             :aria-controls="panelId"
             @click="onButtonClick"
+            @mouseenter="onTooltipButtonEnter"
+            @mouseleave="onTooltipButtonLeave"
+            @focus="onTooltipButtonFocus"
+            @blur="onTooltipButtonBlur"
+            @keydown="onTooltipKeydown"
         >
             <slot v-bind="{ open, query: current }">
                 <svg
@@ -216,6 +281,18 @@ onBeforeUnmount(() => {
                 </svg>
             </slot>
         </IconButton>
+
+        <!-- Purely visual: the same text is already the button's aria-label,
+             so it is not wired with aria-describedby (that would announce
+             the name twice). -->
+        <div
+            class="search-picker-tooltip"
+            role="tooltip"
+            :id="tooltipId"
+            :hidden="tooltipVisible ? undefined : true"
+            @mouseenter="hoverTooltip = true"
+            @mouseleave="hoverTooltip = false"
+        >{{ label }}</div>
 
         <!-- The keydown handler only listens for Escape bubbling up from
              the field and the submit button inside; the panel itself

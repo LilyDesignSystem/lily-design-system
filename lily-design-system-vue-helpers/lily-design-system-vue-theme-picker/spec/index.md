@@ -158,6 +158,7 @@ name.
   >
     <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
   </button>
+  <div class="theme-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
   <ul
     class="theme-picker-list"
     id="{listId}"
@@ -179,6 +180,16 @@ name.
   </ul>
 </div>
 ```
+
+**Tooltip.** `.theme-picker-tooltip` is a sibling right after the icon button, always in the DOM,
+`hidden` at rest, holding the button's `label` text. It is shown while the
+pointer is over the button or over the tooltip itself (hoverable) and while
+the button has keyboard focus (`:focus-visible`); `Escape` dismisses it without moving focus, wherever focus is while it is visible (a document-level listener, present only while shown; until the pointer or focus re-enters);
+clicking the button clears the hover; it is never shown while the listbox is
+open. It is purely visual: the text duplicates the button's `aria-label`,
+so it is deliberately **not** linked with `aria-describedby` (that would
+announce the name twice). Position and appearance are consumer/theme CSS,
+via the `hidden` attribute.
 
 - Root element: a `<div class="theme-picker {class}">`. `$attrs`
   falls through to it via the default Vue `inheritAttrs` behaviour.
@@ -418,6 +429,13 @@ data-lily-theme-picker="{name}">` exists in `document.head` and
     multi-character buffer refines from the active option.
 23. `PageUp` / `PageDown` move the cursor by ten, clamped.
 24. An empty list opens without `aria-activedescendant`.
+25. Renders `.theme-picker-tooltip` with `role="tooltip"`, holding `label`, `hidden` at rest, and the button carries no `aria-describedby`.
+26. Pointer over the button shows it; leaving hides it.
+27. It stays visible while the pointer is over the tooltip itself.
+28. Keyboard focus (`:focus-visible`) on the button shows it; blur hides it; mouse-induced focus does not.
+29. `Escape` on the button dismisses it without moving focus; re-entering shows it again.
+30. It is never shown while the listbox is open.
+31. `Escape` pressed anywhere (e.g. on `document.body` or another element, with the tooltip shown by pointer hover alone) dismisses it without moving focus; the document `keydown` listener exists only while the tooltip is visible and is removed on hide and on unmount.
 
 ## 8. Out-of-scope (future, not implemented here)
 

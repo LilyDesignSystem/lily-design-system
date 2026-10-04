@@ -24,6 +24,7 @@
 
 <div class="@RootClass"
      @onfocusout="OnRootFocusOutAsync"
+     @onkeydown="OnTipRootKeyDown"
      @attributes="AdditionalAttributes">
 
     <IconButton @ref="_triggerComponent"
@@ -31,7 +32,11 @@
                 BaseCssClass="search-picker-button"
                 aria-expanded="@(_open ? "true" : "false")"
                 aria-controls="@PanelId"
-                @onclick="OnTriggerClick">
+                @onclick="OnTriggerClick"
+                @onkeydown="TipOnKeyDown"
+                @onmouseenter="OnTipButtonEnter" @onmouseleave="OnTipButtonLeave"
+                @onmousedown="OnTipButtonMouseDown" @onblur="OnTipButtonBlur"
+                @onfocus="OnTipButtonFocus">
         @if (ChildContent is not null)
         {
             @ChildContent(BuildContext())
@@ -49,6 +54,12 @@
             </svg>
         }
     </IconButton>
+
+    @* Purely visual: the same text is already the button's aria-label, so it
+       is not wired with aria-describedby (that would announce the name twice).
+       See spec §4.2 "Tooltip". *@
+    <div class="search-picker-tooltip" role="tooltip" id="@TooltipId" hidden="@(!TooltipVisible)"
+         @onkeydown="OnTipRootKeyDown" @onmouseenter="OnTipTooltipEnter" @onmouseleave="OnTipTooltipLeave">@Label</div>
 
     @* The keydown handler only listens for Escape bubbling up from the
        field and the submit button inside; the panel itself takes no

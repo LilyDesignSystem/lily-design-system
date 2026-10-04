@@ -4,6 +4,12 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.2.0 — 2026-10-04
+
+**Added: picker tooltip (minor, additive).** The macro now renders `<div class="theme-picker-tooltip" role="tooltip" id="{id}-tooltip" hidden>{label}</div>` as a sibling right after the icon button — the button's existing `label`, no new macro argument, no new English text, deliberately not linked with `aria-describedby`. The client wires it: shown on pointer hover (over the button or the tooltip itself) or keyboard focus (`:focus-visible`); `Escape` on the button dismisses it without moving focus; never shown while the popup is open; idempotent across repeated init. New class hook `.theme-picker-tooltip`; theme CSS for it already ships in `themes/`. Ports the canonical Svelte change.
+
+**Fixed: tooltip Escape now works wherever focus is.** While the tooltip is visible, `client.js` listens for `Escape` on the document (added only while visible, removed on hide, `destroy()` and re-init), so a tooltip shown by pointer hover alone with focus elsewhere can be dismissed (WCAG 1.4.13). It never calls `preventDefault`/`stopPropagation` and never moves focus.
+
 ## 0.1.1 — 2026-09-21
 
 **Internal refactor: keyboard/typeahead logic now comes from the new

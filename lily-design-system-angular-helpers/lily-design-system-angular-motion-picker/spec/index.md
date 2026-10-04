@@ -36,6 +36,26 @@ role="listbox" aria-label="{label}" tabindex="-1" hidden>` of
 entries, one per slug, with `data-active` mirroring the
 `aria-activedescendant` cursor.
 
+The root also holds a sibling right after the button: `<div
+class="motion-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>`.
+
+**Tooltip.** `.motion-picker-tooltip` is a sibling of the button, always in
+the DOM, `hidden` at rest, holding the button's `label` text. It is shown
+while the pointer is over the button or over the tooltip itself
+(hoverable, WCAG 1.4.13) and while the button has keyboard focus
+(`:focus-visible`, read in a `try`/`catch` that falls back to showing);
+`Escape` dismisses it without moving focus, wherever focus is while it is visible (so a hover-only tooltip is dismissable too, WCAG 1.4.13; a `document` `keydown` listener exists only while visible) (until the
+pointer or focus re-enters); a click on the button clears the hover; it
+is never shown while the list is open. It is purely visual: the text
+duplicates the button's `aria-label`, so it is deliberately **not**
+linked with `aria-describedby` (that would announce the name twice).
+Position and appearance are consumer/theme CSS, via the `hidden`
+attribute. Angular idiom: four signals (`hoverButton`, `hoverTooltip`,
+`focusButton`, `dismissed`) feed one `computed` `tooltipVisible`; the
+pointer and focus listeners sit on the `lily-icon-button` host
+(`mouseenter`/`mouseleave`/`focusin`/`focusout`), and the tooltip text is
+the existing `label` input, so there is no new input and no new English text.
+
 ## 4. Props
 
 | Prop           | Type                       | Required | Default    |
@@ -129,6 +149,14 @@ focused list is hidden.
 - §7.17 An empty list opens without `aria-activedescendant`.
 - §7.18 `onChange` fires once per changed value, not once per effect
   run: a prop change that re-runs the apply effect does not re-fire it.
+
+- §7.24 Renders `.motion-picker-tooltip` with `role="tooltip"`, holding `label`, `hidden` at rest, and the button carries no `aria-describedby`.
+- §7.25 Pointer over the button shows it; leaving hides it.
+- §7.26 It stays visible while the pointer is over the tooltip itself.
+- §7.27 Keyboard focus on the button shows it (`:focus-visible`); blur hides it; mouse-induced focus (`:focus-visible` false) does not show it.
+- §7.28 `Escape` on the button dismisses it without moving focus; re-entering shows it again.
+- §7.29 It is never shown while the list is open.
+- §7.30 Pointer hover shows the tooltip with focus elsewhere; `Escape` pressed on `document.body` or another element dismisses it, and the document `keydown` listener is added once while visible and removed on hide and on destroy (no leak).
 
 ## 8. Relationship to the other four preference/action helpers
 

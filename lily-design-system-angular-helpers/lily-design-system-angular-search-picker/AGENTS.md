@@ -50,6 +50,7 @@ Nothing is applied to the document and nothing is persisted — like
 
 `<div class="search-picker">` → `<button class="search-picker-button">`
 (via headless `IconButton`) with an `aria-hidden` SVG icon →
+`<div class="search-picker-tooltip" role="tooltip" hidden>` (the `label`) →
 `<div class="search-picker-panel" hidden>` →
 `<form class="search-picker-form" role="search">` →
 `<input class="search-picker-input" type="search">` +

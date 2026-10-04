@@ -880,3 +880,166 @@ describe("initLocalePicker — idempotent apply (§7.41)", () => {
     expect(parts.list.hasAttribute("hidden")).toBe(true);
   });
 });
+
+// =====================================================================
+// Tooltip (§7.43–§7.49): purely visual, hoverable, never over the popup
+// =====================================================================
+
+describe("LocalePicker — tooltip (§7.43–§7.50)", () => {
+  function tooltipSetup() {
+    const { root } = setup();
+    const button = root.querySelector(".locale-picker-button") as HTMLButtonElement;
+    const tip = root.querySelector(".locale-picker-tooltip") as HTMLElement;
+    return { root, button, tip };
+  }
+  const mouse = (el: Element, type: string) =>
+    el.dispatchEvent(new window.MouseEvent(type, { bubbles: false }));
+  const flushObservers = () => new Promise<void>((r) => setTimeout(r, 0));
+
+  test("§7.43 renders a role=tooltip sibling right after the button holding the label, hidden at rest, not aria-describedby-linked", () => {
+    const { root, button, tip } = tooltipSetup();
+    expect(tip.getAttribute("role")).toBe("tooltip");
+    expect(tip.tagName).toBe("DIV");
+    expect(tip.textContent).toBe(button.getAttribute("aria-label"));
+    expect(tip.hasAttribute("hidden")).toBe(true);
+    expect(tip.id).toBeTruthy();
+    expect(root.querySelectorAll("#" + tip.id)).toHaveLength(1);
+    expect(button.nextElementSibling).toBe(tip);
+    expect(button.hasAttribute("aria-describedby")).toBe(false);
+  });
+
+  test("§7.44 pointer over the button shows it; leaving hides it", () => {
+    const { button, tip } = tooltipSetup();
+    mouse(button, "mouseenter");
+    expect(tip.hasAttribute("hidden")).toBe(false);
+    mouse(button, "mouseleave");
+    expect(tip.hasAttribute("hidden")).toBe(true);
+  });
+
+  test("§7.45 it stays visible while the pointer is over the tooltip itself", () => {
+    const { button, tip } = tooltipSetup();
+    mouse(button, "mouseenter");
+    mouse(button, "mouseleave");
+    mouse(tip, "mouseenter");
+    expect(tip.hasAttribute("hidden")).toBe(false);
+    mouse(tip, "mouseleave");
+    expect(tip.hasAttribute("hidden")).toBe(true);
+  });
+
+  test("§7.46 keyboard focus shows it; blur hides it", () => {
+    const { button, tip } = tooltipSetup();
+    // jsdom has no input-modality tracking; stand in for the keyboard.
+    vi.spyOn(button, "matches").mockImplementation((q) => q === ":focus-visible");
+    button.focus();
+    expect(tip.hasAttribute("hidden")).toBe(false);
+    button.blur();
+    expect(tip.hasAttribute("hidden")).toBe(true);
+  });
+
+  test("§7.46 mouse-induced focus (not :focus-visible) does not show it", () => {
+    const { button, tip } = tooltipSetup();
+    vi.spyOn(button, "matches").mockReturnValue(false);
+    button.focus();
+    expect(tip.hasAttribute("hidden")).toBe(true);
+  });
+
+  test("§7.47 Escape dismisses it without moving focus; re-entering shows it again", () => {
+    const { button, tip } = tooltipSetup();
+    button.focus();
+    mouse(button, "mouseenter");
+    expect(tip.hasAttribute("hidden")).toBe(false);
+    button.dispatchEvent(
+      new window.KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true }),
+    );
+    expect(tip.hasAttribute("hidden")).toBe(true);
+    expect(document.activeElement).toBe(button);
+    mouse(button, "mouseleave");
+    mouse(button, "mouseenter");
+    expect(tip.hasAttribute("hidden")).toBe(false);
+  });
+
+  test("§7.48 it is never shown while the listbox is open", async () => {
+    const { button, tip } = tooltipSetup();
+    mouse(button, "mouseenter");
+    expect(tip.hasAttribute("hidden")).toBe(false);
+    button.dispatchEvent(new window.MouseEvent("click", { bubbles: true, cancelable: true }));
+    await flushObservers();
+    expect(button.getAttribute("aria-expanded")).toBe("true");
+    expect(tip.hasAttribute("hidden")).toBe(true);
+    mouse(button, "mouseenter");
+    expect(tip.hasAttribute("hidden")).toBe(true);
+  });
+
+  test("§7.49 initialising twice does not double-wire the tooltip", () => {
+    const { root, button, tip } = tooltipSetup();
+    const add = vi.spyOn(button, "addEventListener");
+    const remove = vi.spyOn(button, "removeEventListener");
+    // A second init of the same root replaces, not adds to, the first
+    // tooltip wiring: the old listeners come off as the new ones go on.
+    initLocalePicker(root);
+    const count = (spy: typeof add) =>
+      spy.mock.calls.filter((c) => c[0] === "mouseenter").length;
+    expect(count(add)).toBe(1);
+    expect(count(remove)).toBe(1);
+    mouse(button, "mouseenter");
+    expect(tip.hasAttribute("hidden")).toBe(false);
+    mouse(button, "mouseleave");
+    expect(tip.hasAttribute("hidden")).toBe(true);
+    add.mockRestore();
+    remove.mockRestore();
+  });
+
+  test("§7.50 pointer hover shows the tooltip with focus elsewhere; Escape on document.body dismisses it", () => {
+    const { button, tip } = tooltipSetup();
+    const other = document.createElement("div");
+    other.tabIndex = -1;
+    document.body.appendChild(other);
+    other.focus();
+    mouse(button, "mouseenter");
+    expect(tip.hasAttribute("hidden")).toBe(false);
+    expect(document.activeElement).not.toBe(button);
+    const esc = () =>
+      new window.KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true });
+    const ev = esc();
+    document.body.dispatchEvent(ev);
+    expect(ev.defaultPrevented).toBe(false);
+    expect(tip.hasAttribute("hidden")).toBe(true);
+    expect(document.activeElement).toBe(other);
+    // Dismissal resets on re-entry, and Escape on another element works too.
+    mouse(button, "mouseleave");
+    mouse(button, "mouseenter");
+    expect(tip.hasAttribute("hidden")).toBe(false);
+    other.dispatchEvent(esc());
+    expect(tip.hasAttribute("hidden")).toBe(true);
+    other.remove();
+  });
+
+  test("§7.50 the document keydown listener exists only while the tooltip is visible and is gone after hide and re-init", () => {
+    const { root, button, tip } = tooltipSetup();
+    const add = vi.spyOn(document, "addEventListener");
+    const remove = vi.spyOn(document, "removeEventListener");
+    const keydowns = (spy: typeof add) =>
+      spy.mock.calls.filter((c) => c[0] === "keydown").length;
+    expect(keydowns(add)).toBe(0);
+    mouse(button, "mouseenter");
+    expect(keydowns(add)).toBe(1);
+    mouse(tip, "mouseenter"); // still visible: no second listener
+    expect(keydowns(add)).toBe(1);
+    mouse(button, "mouseleave");
+    mouse(tip, "mouseleave");
+    expect(tip.hasAttribute("hidden")).toBe(true);
+    expect(keydowns(remove)).toBe(1);
+    // Escape while hidden does nothing harmful.
+    document.body.dispatchEvent(
+      new window.KeyboardEvent("keydown", { key: "Escape", bubbles: true }),
+    );
+    expect(tip.hasAttribute("hidden")).toBe(true);
+    // Re-initialising while visible removes the old listener.
+    mouse(button, "mouseenter");
+    expect(keydowns(add)).toBe(2);
+    initLocalePicker(root);
+    expect(keydowns(remove)).toBe(2);
+    add.mockRestore();
+    remove.mockRestore();
+  });
+});

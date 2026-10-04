@@ -1340,3 +1340,133 @@ describe("<date-time-picker> — HTML custom-element surface", () => {
     expect(onChange).not.toHaveBeenCalled();
   });
 });
+
+describe("<date-time-picker> — tooltip (§7.62–§7.68)", () => {
+  function setup() {
+    mount(base());
+    const btn = document.body.querySelector<HTMLButtonElement>(".date-time-picker-button")!;
+    const tip = document.body.querySelector<HTMLElement>(".date-time-picker-tooltip")!;
+    return { btn, tip };
+  }
+  const fire = (el: Element, type: string): void => {
+    el.dispatchEvent(new MouseEvent(type, { bubbles: false }));
+  };
+
+  test("§7.62 renders a role=tooltip element holding label, hidden at rest, not aria-describedby-linked", () => {
+    const { btn, tip } = setup();
+    expect(tip.getAttribute("role")).toBe("tooltip");
+    expect(tip.textContent).toBe(btn.getAttribute("aria-label"));
+    expect(tip.hasAttribute("hidden")).toBe(true);
+    expect(tip.id).toMatch(/-tooltip$/);
+    expect(btn.hasAttribute("aria-describedby")).toBe(false);
+    expect(btn.nextElementSibling).toBe(tip);
+  });
+
+  test("§7.62 the tooltip text follows a label change", () => {
+    setup();
+    const el = document.body.querySelector<HTMLElement>("date-time-picker")!;
+    el.setAttribute("label", "Renamed");
+    const t2 = document.body.querySelector<HTMLElement>(".date-time-picker-tooltip")!;
+    expect(t2.textContent).toBe("Renamed");
+  });
+
+  test("§7.63 pointer over the button shows it; leaving hides it", () => {
+    const { btn, tip } = setup();
+    fire(btn, "mouseenter");
+    expect(tip.hasAttribute("hidden")).toBe(false);
+    fire(btn, "mouseleave");
+    expect(tip.hasAttribute("hidden")).toBe(true);
+  });
+
+  test("§7.64 it stays visible while the pointer is over the tooltip itself", () => {
+    const { btn, tip } = setup();
+    fire(btn, "mouseenter");
+    fire(btn, "mouseleave");
+    fire(tip, "mouseenter");
+    expect(tip.hasAttribute("hidden")).toBe(false);
+    fire(tip, "mouseleave");
+    expect(tip.hasAttribute("hidden")).toBe(true);
+  });
+
+  test("§7.65 keyboard focus shows it; blur hides it", () => {
+    const { btn, tip } = setup();
+    // jsdom has no input-modality tracking; stand in for the keyboard.
+    vi.spyOn(btn, "matches").mockImplementation((q) => q === ":focus-visible");
+    btn.focus();
+    expect(tip.hasAttribute("hidden")).toBe(false);
+    btn.blur();
+    expect(tip.hasAttribute("hidden")).toBe(true);
+  });
+
+  test("§7.65 mouse-induced focus (not :focus-visible) does not show it", () => {
+    const { btn, tip } = setup();
+    vi.spyOn(btn, "matches").mockReturnValue(false);
+    btn.focus();
+    expect(tip.hasAttribute("hidden")).toBe(true);
+  });
+
+  test("§7.66 Escape dismisses it without moving focus; re-entering shows it again", () => {
+    const { btn, tip } = setup();
+    fire(btn, "mouseenter");
+    btn.focus();
+    btn.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+    expect(tip.hasAttribute("hidden")).toBe(true);
+    expect(document.activeElement).toBe(btn);
+    fire(btn, "mouseleave");
+    fire(btn, "mouseenter");
+    expect(tip.hasAttribute("hidden")).toBe(false);
+  });
+
+  test("§7.67 it is never shown while the dialog is open", () => {
+    const { btn, tip } = setup();
+    fire(btn, "mouseenter");
+    btn.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true, composed: true }));
+    expect(btn.getAttribute("aria-expanded")).toBe("true");
+    expect(tip.hasAttribute("hidden")).toBe(true);
+    fire(btn, "mouseenter");
+    expect(tip.hasAttribute("hidden")).toBe(true);
+  });
+
+  test("§7.68 pointer hover alone shows it; Escape on document.body or another element dismisses it without moving focus", () => {
+    const { btn, tip } = setup();
+    const other = document.createElement("input");
+    document.body.appendChild(other);
+    other.focus();
+    fire(btn, "mouseenter");
+    expect(tip.hasAttribute("hidden")).toBe(false);
+    expect(document.activeElement).toBe(other);
+    document.body.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+    expect(tip.hasAttribute("hidden")).toBe(true);
+    expect(document.activeElement).toBe(other);
+    // Dismissal resets on re-entry; Escape from another element works too.
+    fire(btn, "mouseleave");
+    fire(btn, "mouseenter");
+    expect(tip.hasAttribute("hidden")).toBe(false);
+    other.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+    expect(tip.hasAttribute("hidden")).toBe(true);
+    other.remove();
+  });
+
+  test("§7.68 the document Escape listener exists only while the tooltip is visible (no leak, no double-add)", () => {
+    const { btn, tip } = setup();
+    const add = vi.spyOn(document, "addEventListener");
+    const remove = vi.spyOn(document, "removeEventListener");
+    const keydownCalls = (spy: typeof add) => spy.mock.calls.filter((c) => c[0] === "keydown");
+    fire(btn, "mouseenter");
+    fire(tip, "mouseenter"); // a second show trigger must not add again
+    expect(keydownCalls(add).length).toBe(1);
+    fire(btn, "mouseleave");
+    expect(keydownCalls(remove).length).toBe(0); // still hovering the tooltip
+    fire(tip, "mouseleave");
+    expect(tip.hasAttribute("hidden")).toBe(true);
+    expect(keydownCalls(remove).length).toBe(1);
+    expect(keydownCalls(remove)[0][1]).toBe(keydownCalls(add)[0][1]);
+    // Showing again re-adds exactly once more; disconnecting removes it.
+    fire(btn, "mouseenter");
+    expect(keydownCalls(add).length).toBe(2);
+    document.body.querySelector("date-time-picker")!.remove();
+    expect(keydownCalls(remove).length).toBe(2);
+    add.mockRestore();
+    remove.mockRestore();
+  });
+});

@@ -153,6 +153,9 @@ hardcode English text.
 - §7.13 `searchProps` (e.g. `action`, `navigate`) reaches the nested
   `SearchPicker`: with `action: "/search"`, a search for `foo`
   navigates to `/search?foo`.
+- §7.14 Each nested picker renders its own `-tooltip` element holding its
+  button's `label`, `hidden` at rest (the tooltip is the pickers' own
+  contract; the bar adds nothing).
 
 ## 8. Relationship to the six `*-picker` helpers
 

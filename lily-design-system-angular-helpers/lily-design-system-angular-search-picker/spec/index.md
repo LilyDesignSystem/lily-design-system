@@ -148,6 +148,7 @@ type SearchEvent = { query: string; href: string };
     >
       <svg class="search-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="1.05rem" height="1.05rem"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14"/></svg>
     </button>
+    <div class="search-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
     <div class="search-picker-panel" id="{panelId}" hidden>
       <form class="search-picker-form" role="search" aria-label="{label}" action="{action}" method="get">
         <input class="search-picker-input" type="search" aria-label="{inputLabel}" placeholder="{placeholder}" enterkeyhint="search" />
@@ -159,6 +160,23 @@ type SearchEvent = { query: string; href: string };
   </div>
 </lily-search-picker>
 ```
+**Tooltip.** `.search-picker-tooltip` is a sibling of the button, always in
+the DOM, `hidden` at rest, holding the button's `label` text. It is shown
+while the pointer is over the button or over the tooltip itself
+(hoverable, WCAG 1.4.13) and while the button has keyboard focus
+(`:focus-visible`, read in a `try`/`catch` that falls back to showing);
+`Escape` dismisses it without moving focus, wherever focus is while it is visible (so a hover-only tooltip is dismissable too, WCAG 1.4.13; a `document` `keydown` listener exists only while visible) (until the
+pointer or focus re-enters); a click on the button clears the hover; it
+is never shown while the panel is open. It is purely visual: the text
+duplicates the button's `aria-label`, so it is deliberately **not**
+linked with `aria-describedby` (that would announce the name twice).
+Position and appearance are consumer/theme CSS, via the `hidden`
+attribute. Angular idiom: four signals (`hoverButton`, `hoverTooltip`,
+`focusButton`, `dismissed`) feed one `computed` `tooltipVisible`; the
+pointer and focus listeners sit on the `lily-icon-button` host
+(`mouseenter`/`mouseleave`/`focusin`/`focusout`), and the tooltip text is
+the existing `label` input, so there is no new input and no new English text.
+
 
 The `<button>` is rendered inside the headless `<lily-icon-button>`
 host, which carries `display: contents` and so adds no box. The submit
@@ -248,10 +266,17 @@ per clause, each titled with its clause number.
 20. `searchHref()` builds the same destination the component navigates to.
 21. `RETURN_SYMBOL` is the bare `⏎` (U+23CE).
 22. `className` is appended to `search-picker` on the root; attributes on the host tag land on the host element (Angular's stand-in for rest props, §3).
-23. The component renders no user-facing text of its own: with no `placeholder` the field has none, and the only text node is the `aria-hidden` `⏎`.
+23. The component renders no user-facing text of its own: with no `placeholder` the field has none, and the only text nodes are the `aria-hidden` `⏎` and the tooltip's `label`.
 24. A focusout with no `relatedTarget` (Safari's click on ⏎ or on the icon button, a window blur) leaves the panel open, so the click that caused it still lands.
+25. Renders `.search-picker-tooltip` with `role="tooltip"`, holding `label`, `hidden` at rest, and the button carries no `aria-describedby`.
+26. Pointer over the button shows it; leaving hides it.
+27. It stays visible while the pointer is over the tooltip itself.
+28. Keyboard focus on the button shows it (`:focus-visible`); blur hides it; mouse-induced focus (`:focus-visible` false) does not show it.
+29. `Escape` on the button dismisses it without moving focus; re-entering shows it again.
+30. It is never shown while the panel is open.
+31. Pointer hover shows the tooltip with focus elsewhere; `Escape` pressed on `document.body` or another element dismisses it, and the document `keydown` listener is added once while visible and removed on hide and on destroy (no leak).
 
-Total: **24 cases**, all green.
+Total: **31 cases** (30 clauses; §7.28 has two tests), all green.
 
 ## 8. Tracking
 

@@ -170,6 +170,7 @@ Each entry in `targets`:
   >
     <svg class="share-picker-icon" viewBox="0 0 16 16" aria-hidden="true" width="1.05rem" height="1.05rem">…</svg>
   </button>
+  <div class="share-picker-tooltip" role="tooltip" id="{id}-tooltip" hidden>{label}</div>
   <ul
     class="share-picker-list"
     id="{id}-list"
@@ -206,6 +207,8 @@ Each entry in `targets`:
   ></p>
 </div>
 ```
+
+**Tooltip.** `.share-picker-tooltip` is a sibling right after the icon button, always in the markup, `hidden` at rest, holding the button's `label` text (no new macro argument, no new English). `client.js` shows it while the pointer is over the button or over the tooltip itself (hoverable) and while the button has keyboard focus (`:focus-visible`; a mouse click's focus does not count); `Escape` dismisses it without moving focus, wherever focus is while the tooltip is visible (a document-level `keydown` listener exists only while it is shown, so pointer-hover-only works too; WCAG 1.4.13), until the pointer re-enters or focus leaves and returns; it is never shown while the disclosure list is open. It is purely visual: the text duplicates the button's `aria-label`, so it is deliberately **not** linked with `aria-describedby` (that would announce the name twice). Position and appearance are consumer/theme CSS, via the `hidden` attribute. Canonical reference: the Svelte helper's Tooltip paragraph.
 
 Ids are deterministic and SSR-safe: `{id}-list`, `{id}-target-{i}`,
 `{id}-copy`, where `id` defaults to `share-picker-{name}`. Two instances
@@ -316,6 +319,14 @@ Accessibility hardening (ported from the canonical Svelte spec's
     `label`), matching the sibling pickers' listboxes: a screen reader
     entering the list hears what it is for, not just "list, three
     items".
+29. Renders `.share-picker-tooltip` (`role="tooltip"`) as a sibling right after the icon button, holding the button's label, `hidden` at rest, and the button carries no `aria-describedby`.
+30. Pointer over the button shows it; leaving hides it.
+31. It stays visible while the pointer is over the tooltip itself.
+32. Keyboard focus on the button (`:focus-visible`) shows it; blur hides it; mouse-induced focus does not.
+33. `Escape` on the button dismisses it without moving focus; re-entering shows it again.
+34. It is never shown while the disclosure list is open.
+35. Initialising the same root twice replaces the first tooltip wiring rather than doubling it.
+36. Pointer hover shows the tooltip with focus elsewhere; Escape pressed on `document.body` or another element dismisses it (without `preventDefault`, without moving focus), and the document `keydown` listener exists only while the tooltip is visible (removed on hide, `destroy()` and re-init).
 
 ## 8. Tracking
 

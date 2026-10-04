@@ -95,3 +95,7 @@ replaces the **button icon** — not the options — and receives
   the default button icon: a bundled SVG (reversed 2026-09-16 from a
   Unicode glyph), overridable via the default scoped slot.
 - All user-facing strings come from props.
+
+## Tooltip
+
+`<div class="theme-picker-tooltip" role="tooltip" id="{baseId}-tooltip" hidden>{label}</div>` — a sibling right after the icon button; text is the button's `label`; shown on pointer hover (button or tooltip) or `:focus-visible` on the button, dismissed by `Escape` on the button, never shown while the listbox is open; deliberately not `aria-describedby`-linked. Class hook: `.theme-picker-tooltip`.

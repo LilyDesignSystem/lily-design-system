@@ -175,6 +175,7 @@ hardcode English text.
 - §7.13 The search inputs reach the nested `SearchPicker`: with
   `searchAction="/search"` and a `searchNavigate` spy, searching `foo`
   navigates to `/search?foo`.
+- §7.14 Each wrapped picker's `.{helper}-tooltip` is present (`role="tooltip"`, `hidden` at rest, text = the button's accessible name); the bar adds no tooltip logic of its own.
 
 ## 8. Relationship to the seven `*-picker` helpers
 

@@ -27,11 +27,25 @@ aria-label="{label}" aria-haspopup="listbox" aria-expanded
 aria-controls>` whose only content is the `aria-hidden` default SVG
 icon (a stroke-drawn "A", `viewBox="0 0 16 16"`; bundled, not a
 Unicode character — reversed 2026-09-16, replaceable via `children`),
+a `<div class="text-size-picker-tooltip" role="tooltip" id hidden>` holding `label`,
 and a `<ul class="text-size-picker-list"
 role="listbox" aria-label="{label}" tabindex="-1" hidden>` of
 `<li class="text-size-picker-option" role="option" aria-selected>`
 entries, one per slug, with `data-active` mirroring the
 `aria-activedescendant` cursor.
+
+**Tooltip.** `.text-size-picker-tooltip` is a sibling right after the button, always in
+the DOM, `hidden` at rest, holding the button's `label` text. It is shown
+while the pointer is over the button or over the tooltip itself
+(hoverable) and while the button has keyboard focus (`:focus-visible`);
+`Escape` dismisses it without moving focus, wherever focus is while the
+tooltip is visible (a document-level `keydown` listener present only
+while it is visible, so hover-only tooltips are dismissable too —
+WCAG 1.4.13) (until the pointer or focus re-enters); it is never shown while the listbox is open. It is purely
+visual: the text duplicates the button's `aria-label`, so it is
+deliberately **not** linked with `aria-describedby` (that would announce
+the name twice). Position and appearance are consumer/theme CSS, via the
+`hidden` attribute.
 
 ## 4. Props
 
@@ -113,3 +127,11 @@ Tab proceeds from the picker's position instead of restarting from
   `{ preventScroll: true }`, so a listbox rendered partly off-screen
   by unstyled/un-overridden positioning CSS never forces the browser
   to scroll the whole page into view.
+- §7.20 Renders `.text-size-picker-tooltip` with `role="tooltip"`, holding `label`, `hidden` at rest, and the button carries no `aria-describedby`.
+- §7.21 Pointer over the button shows it; leaving hides it.
+- §7.22 It stays visible while the pointer is over the tooltip itself.
+- §7.23 Keyboard focus on the button shows it (mouse-induced focus does not); blur hides it.
+- §7.24 `Escape` on the button dismisses it; re-entering shows it again.
+- §7.25 It is never shown while the listbox is open.
+- §7.26 While the tooltip is visible, `Escape` pressed anywhere (e.g. on `document.body` or another element, with the pointer hovering and focus elsewhere) dismisses it without moving focus or preventing default.
+- §7.27 The document `keydown` listener exists only while the tooltip is visible: added once on show, never doubled, removed on hide and on unmount.

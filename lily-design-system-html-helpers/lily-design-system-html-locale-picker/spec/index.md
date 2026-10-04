@@ -175,6 +175,7 @@ composed.
         <path stroke-width="1.1" d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"></path>
       </svg>
     </button>
+    <div class="locale-picker-tooltip" role="tooltip" id="{baseId}-tooltip" hidden>{label}</div>
     <ul
       class="locale-picker-list"
       id="locale-picker-1-list"
@@ -215,6 +216,8 @@ composed.
   </div>
 </locale-picker>
 ```
+
+**Tooltip.** `.locale-picker-tooltip` is a sibling right after the icon button, always in the DOM, `hidden` at rest, holding the button's `label` text (kept in sync when `label` changes). It is shown while the pointer is over the button or over the tooltip itself (hoverable) and while the button has keyboard focus (`:focus-visible`); `Escape` dismisses it without moving focus wherever focus is while it is visible, including when it was shown by pointer hover alone (WCAG 1.4.13; a `keydown` listener sits on the document only while the tooltip is visible, and is removed on hide and on disconnect) — until the pointer or focus re-enters; clicking the button clears the hover; it is never shown while the listbox is open. It is purely visual: the text duplicates the button's `aria-label`, so it is deliberately **not** linked with `aria-describedby` (that would announce the name twice). Position and appearance are theme/consumer CSS, via the `hidden` attribute. Its button and tooltip listeners live on those elements themselves and are discarded with the DOM; the one document-level `keydown` listener is added only while the tooltip is visible and removed on hide and in `disconnectedCallback` (and before a re-render).
 
 Contract points:
 
@@ -646,6 +649,16 @@ local sequence instead.
 
 35. A listener that mirrors the value back onto the element does
     not re-enter apply: the event fires once per changed value.
+
+### Tooltip
+
+37. Renders `.locale-picker-tooltip` with `role="tooltip"`, holding `label`, `hidden` at rest, and the button carries no `aria-describedby`.
+38. Pointer over the button shows it; leaving hides it.
+39. It stays visible while the pointer is over the tooltip itself.
+40. Keyboard focus on the button (`:focus-visible`) shows it and blur hides it; mouse-induced focus (not `:focus-visible`) does not show it.
+41. `Escape` on the button dismisses it without moving focus; re-entering shows it again.
+42. It is never shown while the listbox is open.
+43. Pointer hover shows it with focus elsewhere; `Escape` pressed on `document.body` or another element dismisses it without moving focus, and the document `keydown` listener is gone once it is hidden or the element is disconnected.
 
 ## 8. Out-of-scope (future, not implemented here)
 

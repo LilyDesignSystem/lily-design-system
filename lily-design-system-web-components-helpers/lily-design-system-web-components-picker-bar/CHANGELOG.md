@@ -4,7 +4,7 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.2.0 — 2026-10-04
 
 **`search-picker` joins the bar, first in the row.** `<lily-picker-bar>`
 now renders `<lily-search-picker>` before the theme, locale, text-size

@@ -158,6 +158,69 @@ export class SharePicker extends HTMLElement {
     // Stable id for the button/list aria wiring.
     readonly #baseId = nextSharePickerId();
 
+    // Tooltip: shown while the pointer is over the button or the tooltip
+    // itself (hoverable, WCAG 1.4.13) or while the button has keyboard
+    // focus; Escape dismisses it without moving focus; never shown while
+    // the popup is open, since the popup then explains the control.
+    #tooltipEl: HTMLDivElement | null = null;
+    #hoverButton = false;
+    #hoverTooltip = false;
+    #focusButton = false;
+    #tipDismissed = false;
+
+    // Escape anywhere dismisses a visible tooltip (WCAG 1.4.13: dismissable
+    // without moving pointer or focus), so a hover-only tooltip (focus
+    // elsewhere) still closes. The document listener exists only while
+    // the tooltip is visible; it neither prevents default nor stops
+    // propagation, and never moves focus.
+    #tipDocListening = false;
+    readonly #onTipDocKeydown = (event: KeyboardEvent): void => {
+      if (event.key === "Escape" && this.#tooltipVisible()) {
+        this.#tipDismissed = true;
+        this.#syncTooltip();
+      }
+    };
+    #setTipDocListener(on: boolean): void {
+      if (on === this.#tipDocListening || typeof document === "undefined") return;
+      this.#tipDocListening = on;
+      if (on) document.addEventListener("keydown", this.#onTipDocKeydown);
+      else document.removeEventListener("keydown", this.#onTipDocKeydown);
+    }
+
+    #tooltipVisible(): boolean {
+        return (
+            !this.#open &&
+            !this.#tipDismissed &&
+            (this.#hoverButton || this.#hoverTooltip || this.#focusButton)
+        );
+    }
+
+    /** Write the tooltip's text and `hidden` in place; idempotent. */
+    #syncTooltip(): void {
+        const el = this.#tooltipEl;
+        if (!el) return;
+        if (el.textContent !== this.label) el.textContent = this.label;
+        const hide = !this.#tooltipVisible();
+      this.#setTipDocListener(!hide);
+        if (el.hasAttribute("hidden") !== hide) {
+            if (hide) el.setAttribute("hidden", "");
+            else el.removeAttribute("hidden");
+        }
+    }
+
+    #resetTooltip(): void {
+      this.#setTipDocListener(false);
+        this.#hoverButton = false;
+        this.#hoverTooltip = false;
+        this.#focusButton = false;
+        this.#tipDismissed = false;
+    }
+
+    /** id of the rendered `<div class="share-picker-tooltip">`. */
+    get tooltipId(): string {
+        return `${this.#baseId}-tooltip`;
+    }
+
     #onDocumentClick = (event: MouseEvent): void => {
         if (!this.#open) return;
         // Judge the click by its composedPath() snapshot, not by containment
@@ -352,6 +415,7 @@ export class SharePicker extends HTMLElement {
     }
 
     disconnectedCallback(): void {
+        this.#resetTooltip();
         document.removeEventListener("click", this.#onDocumentClick);
     }
 
@@ -558,6 +622,7 @@ export class SharePicker extends HTMLElement {
      */
     #syncState(): void {
         if (!this.#rootEl) return;
+        this.#syncTooltip();
 
         if (this.#buttonEl) {
             this.#buttonEl.setAttribute("aria-expanded", String(this.#open));
@@ -616,6 +681,64 @@ export class SharePicker extends HTMLElement {
         iconButtonHost.addEventListener("click", this.#onButtonClick);
         iconButtonHost.addEventListener("keydown", this.#onButtonKeydown);
         root.appendChild(iconButtonHost);
+
+        // Tooltip: a purely visual sibling right after the trigger button. The
+        // same text is already the button's aria-label, so it is deliberately not
+        // wired with aria-describedby (that would announce the name twice).
+        this.#resetTooltip();
+        const tooltip = document.createElement("div");
+        tooltip.className = "share-picker-tooltip";
+        tooltip.setAttribute("role", "tooltip");
+        tooltip.id = this.tooltipId;
+        tooltip.setAttribute("hidden", "");
+        tooltip.textContent = this.label;
+        tooltip.addEventListener("mouseenter", () => {
+            this.#hoverTooltip = true;
+            this.#syncTooltip();
+        });
+        tooltip.addEventListener("mouseleave", () => {
+            this.#hoverTooltip = false;
+            this.#syncTooltip();
+        });
+        this.#tooltipEl = tooltip;
+        // Pointer and focus listeners go on the <lily-icon-button> host: mouseenter
+        // does not bubble but fires on the host itself; focusin/focusout bubble
+        // up from the real inner <button>.
+        iconButtonHost.addEventListener("mouseenter", () => {
+            this.#hoverButton = true;
+            this.#tipDismissed = false;
+            this.#syncTooltip();
+        });
+        iconButtonHost.addEventListener("mouseleave", () => {
+            this.#hoverButton = false;
+            this.#syncTooltip();
+        });
+        iconButtonHost.addEventListener("click", () => {
+            this.#hoverButton = false;
+            this.#syncTooltip();
+        });
+        iconButtonHost.addEventListener("focusin", () => {
+            // Keyboard focus only: a mouse click also focuses the button in
+            // Chromium, and the tooltip should not stick after a click.
+            try {
+                this.#focusButton = this.#buttonEl?.matches(":focus-visible") ?? false;
+            } catch {
+                this.#focusButton = true; // engine without :focus-visible
+            }
+            this.#syncTooltip();
+        });
+        iconButtonHost.addEventListener("focusout", () => {
+            this.#focusButton = false;
+            this.#tipDismissed = false;
+            this.#syncTooltip();
+        });
+        iconButtonHost.addEventListener("keydown", (event: Event) => {
+            if ((event as KeyboardEvent).key === "Escape" && this.#tooltipVisible()) {
+                this.#tipDismissed = true;
+                this.#syncTooltip();
+            }
+        });
+        root.appendChild(tooltip);
 
         const list = document.createElement("ul");
         list.className = "share-picker-list";

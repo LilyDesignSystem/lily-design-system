@@ -146,6 +146,138 @@ function safeStorageSet(key, value) {
 // Init
 // ---------------------------------------------------------------
 
+// ---------------------------------------------------------------------
+// Tooltip (purely visual; the same text is already the button's
+// aria-label, so it is NOT linked with aria-describedby). Visible iff the
+// popup is closed, it has not been dismissed with Escape, and the pointer
+// is over the button or the tooltip (hoverable, WCAG 1.4.13) or the
+// button has KEYBOARD focus (:focus-visible; a mouse click's focus does
+// not count). Never interferes with the picker's own keys or closing.
+// Idempotent: wiring the same tooltip twice replaces the first wiring.
+// ---------------------------------------------------------------------
+
+const tooltipWirings = new WeakMap();
+
+function wireTooltip(root, button, selector, popup) {
+  const tooltip = root.querySelector(selector);
+  if (!tooltip || !button || !popup) return () => {};
+  const previous = tooltipWirings.get(tooltip);
+  if (previous) previous();
+
+  let hoverButton = false;
+  let hoverTooltip = false;
+  let focusButton = false;
+  let dismissed = false;
+
+  // WCAG 1.4.13 "dismissable": Escape must work wherever focus is while
+  // the tooltip is visible (pointer hover alone leaves focus elsewhere).
+  // The document listener exists only while visible; never preventDefault
+  // or stopPropagation, never move focus.
+  let docListening = false;
+  const onDocumentKeydown = (event) => {
+    if (event.key === "Escape") {
+      dismissed = true;
+      update();
+    }
+  };
+  function syncDocumentListener() {
+    const want = !tooltip.hidden;
+    if (want && !docListening) {
+      document.addEventListener("keydown", onDocumentKeydown);
+      docListening = true;
+    } else if (!want && docListening) {
+      document.removeEventListener("keydown", onDocumentKeydown);
+      docListening = false;
+    }
+  }
+
+  function update() {
+    tooltip.hidden = !(
+      popup.hidden &&
+      !dismissed &&
+      (hoverButton || hoverTooltip || focusButton)
+    );
+    syncDocumentListener();
+  }
+
+  const onButtonEnter = () => {
+    hoverButton = true;
+    dismissed = false;
+    update();
+  };
+  const onButtonLeave = () => {
+    hoverButton = false;
+    update();
+  };
+  const onTooltipEnter = () => {
+    hoverTooltip = true;
+    update();
+  };
+  const onTooltipLeave = () => {
+    hoverTooltip = false;
+    update();
+  };
+  const onButtonFocus = () => {
+    try {
+      focusButton = button.matches(":focus-visible");
+    } catch {
+      focusButton = true; // engine without :focus-visible
+    }
+    update();
+  };
+  const onButtonBlur = () => {
+    focusButton = false;
+    dismissed = false;
+    update();
+  };
+  const onButtonKeydown = (event) => {
+    if (event.key === "Escape" && !tooltip.hidden) dismissed = true;
+    update();
+  };
+  const onButtonClick = () => {
+    hoverButton = false;
+    update();
+  };
+
+  button.addEventListener("mouseenter", onButtonEnter);
+  button.addEventListener("mouseleave", onButtonLeave);
+  button.addEventListener("focus", onButtonFocus);
+  button.addEventListener("blur", onButtonBlur);
+  button.addEventListener("keydown", onButtonKeydown);
+  button.addEventListener("click", onButtonClick);
+  tooltip.addEventListener("mouseenter", onTooltipEnter);
+  tooltip.addEventListener("mouseleave", onTooltipLeave);
+
+  // The popup's own open/close (including the programmatic API) flips its
+  // `hidden` attribute; follow it so the tooltip never shows over it.
+  const observer =
+    typeof MutationObserver === "function"
+      ? new MutationObserver(update)
+      : null;
+  if (observer) observer.observe(popup, { attributes: true, attributeFilter: ["hidden"] });
+
+  update();
+
+  const destroy = () => {
+    button.removeEventListener("mouseenter", onButtonEnter);
+    button.removeEventListener("mouseleave", onButtonLeave);
+    button.removeEventListener("focus", onButtonFocus);
+    button.removeEventListener("blur", onButtonBlur);
+    button.removeEventListener("keydown", onButtonKeydown);
+    button.removeEventListener("click", onButtonClick);
+    tooltip.removeEventListener("mouseenter", onTooltipEnter);
+    tooltip.removeEventListener("mouseleave", onTooltipLeave);
+    if (observer) observer.disconnect();
+    if (docListening) {
+      document.removeEventListener("keydown", onDocumentKeydown);
+      docListening = false;
+    }
+    if (tooltipWirings.get(tooltip) === destroy) tooltipWirings.delete(tooltip);
+  };
+  tooltipWirings.set(tooltip, destroy);
+  return destroy;
+}
+
 /**
  * Wire one rendered LocalePicker root.
  *
@@ -383,9 +515,12 @@ export function initLocalePicker(root, opts = {}) {
 
   if (initial) applyLocale(initial);
 
+  const tooltipDestroy = wireTooltip(root, button, ".locale-picker-tooltip", list);
+
   return {
     setLocale: applyLocale,
     destroy: () => {
+      tooltipDestroy();
       keyboard.destroy();
       button.removeEventListener("click", onButtonClick);
       button.removeEventListener("keydown", onButtonKeydown);

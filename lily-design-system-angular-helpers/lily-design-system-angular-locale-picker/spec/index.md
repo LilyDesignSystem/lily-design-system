@@ -173,6 +173,7 @@ The rendered tree, with the listbox closed:
   >
     <svg class="locale-picker-icon" viewBox="0 0 16 16" width="1.05rem" height="1.05rem" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path stroke-width="1.1" d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"/></svg>
   </button>
+  <div class="locale-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
   <ul
     class="locale-picker-list"
     id="{listId}"
@@ -195,6 +196,23 @@ The rendered tree, with the listbox closed:
   </ul>
 </div>
 ```
+**Tooltip.** `.locale-picker-tooltip` is a sibling of the button, always in
+the DOM, `hidden` at rest, holding the button's `label` text. It is shown
+while the pointer is over the button or over the tooltip itself
+(hoverable, WCAG 1.4.13) and while the button has keyboard focus
+(`:focus-visible`, read in a `try`/`catch` that falls back to showing);
+`Escape` dismisses it without moving focus, wherever focus is while it is visible (so a hover-only tooltip is dismissable too, WCAG 1.4.13; a `document` `keydown` listener exists only while visible) (until the
+pointer or focus re-enters); a click on the button clears the hover; it
+is never shown while the list is open. It is purely visual: the text
+duplicates the button's `aria-label`, so it is deliberately **not**
+linked with `aria-describedby` (that would announce the name twice).
+Position and appearance are consumer/theme CSS, via the `hidden`
+attribute. Angular idiom: four signals (`hoverButton`, `hoverTooltip`,
+`focusButton`, `dismissed`) feed one `computed` `tooltipVisible`; the
+pointer and focus listeners sit on the `lily-icon-button` host
+(`mouseenter`/`mouseleave`/`focusin`/`focusout`), and the tooltip text is
+the existing `label` input, so there is no new input and no new English text.
+
 
 An option's `lang` attribute is present only when its label is the
 derived endonym (see §5.4); consumer-labelled options and English-table
@@ -610,6 +628,14 @@ clause means the same thing in every catalog.
     `{ preventScroll: true }`, so a listbox rendered partly off-screen
     by unstyled/un-overridden positioning CSS never forces the browser
     to scroll the whole page into view.
+
+34. Renders `.locale-picker-tooltip` with `role="tooltip"`, holding `label`, `hidden` at rest, and the button carries no `aria-describedby`.
+35. Pointer over the button shows it; leaving hides it.
+36. It stays visible while the pointer is over the tooltip itself.
+37. Keyboard focus on the button shows it (`:focus-visible`); blur hides it; mouse-induced focus (`:focus-visible` false) does not show it.
+38. `Escape` on the button dismisses it without moving focus; re-entering shows it again.
+39. It is never shown while the list is open.
+40. Pointer hover shows the tooltip with focus elsewhere; `Escape` pressed on `document.body` or another element dismisses it, and the document `keydown` listener is added once while visible and removed on hide and on destroy (no leak).
 
 ## 8. Out-of-scope (future, not implemented here)
 

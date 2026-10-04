@@ -148,6 +148,7 @@ The rendered markup is:
   >
     <svg class="theme-picker-icon" viewBox="0 0 16 16" width="1.05rem" height="1.05rem" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
   </button>
+  <div class="theme-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
 
   <ul
     class="theme-picker-list"
@@ -172,6 +173,23 @@ The rendered markup is:
   </ul>
 </div>
 ```
+**Tooltip.** `.theme-picker-tooltip` is a sibling of the button, always in
+the DOM, `hidden` at rest, holding the button's `label` text. It is shown
+while the pointer is over the button or over the tooltip itself
+(hoverable, WCAG 1.4.13) and while the button has keyboard focus
+(`:focus-visible`, read in a `try`/`catch` that falls back to showing);
+`Escape` dismisses it without moving focus, wherever focus is while it is visible (so a hover-only tooltip is dismissable too, WCAG 1.4.13; a `document` `keydown` listener exists only while visible) (until the
+pointer or focus re-enters); a click on the button clears the hover; it
+is never shown while the list is open. It is purely visual: the text
+duplicates the button's `aria-label`, so it is deliberately **not**
+linked with `aria-describedby` (that would announce the name twice).
+Position and appearance are consumer/theme CSS, via the `hidden`
+attribute. Angular idiom: four signals (`hoverButton`, `hoverTooltip`,
+`focusButton`, `dismissed`) feed one `computed` `tooltipVisible`; the
+pointer and focus listeners sit on the `lily-icon-button` host
+(`mouseenter`/`mouseleave`/`focusin`/`focusout`), and the tooltip text is
+the existing `label` input, so there is no new input and no new English text.
+
 
 - **Root**: a `<div>` carrying the `theme-picker` class hook plus the
   consumer's `className`. It is not a form control; it is a container.
@@ -515,6 +533,21 @@ clamped at the ends.
 **7.24 — Empty list.** Opening with zero options activates no option,
 so `aria-activedescendant` is absent rather than pointing at an id
 that does not exist.
+
+
+**7.25 — Tooltip.** Renders `.theme-picker-tooltip` with `role="tooltip"`, holding `label`, `hidden` at rest, and the button carries no `aria-describedby`.
+
+**7.26 — Tooltip.** Pointer over the button shows it; leaving hides it.
+
+**7.27 — Tooltip.** It stays visible while the pointer is over the tooltip itself.
+
+**7.28 — Tooltip.** Keyboard focus on the button shows it (`:focus-visible`); blur hides it; mouse-induced focus (`:focus-visible` false) does not show it.
+
+**7.29 — Tooltip.** `Escape` on the button dismisses it without moving focus; re-entering shows it again.
+
+**7.30 — Tooltip.** It is never shown while the list is open.
+
+**7.31 — Tooltip.** Pointer hover shows the tooltip with focus elsewhere; `Escape` pressed on `document.body` or another element dismisses it, and the document `keydown` listener is added once while visible and removed on hide and on destroy (no leak).
 
 ## 8. Out-of-scope (future, not implemented here)
 

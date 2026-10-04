@@ -878,3 +878,117 @@ describe("ThemePicker — idempotent apply (§7.25)", () => {
     );
   });
 });
+
+
+describe("ThemePicker — tooltip (§7.26–§7.33)", () => {
+    function setupTooltip() {
+        render(<ThemePicker label="Theme" themesUrl="/themes/" themes={THEMES} />);
+        const button = document.querySelector(".theme-picker-button") as HTMLButtonElement;
+        const tip = document.querySelector(".theme-picker-tooltip") as HTMLElement;
+        return { button, tip };
+    }
+
+    test("§7.26 renders a role=tooltip element holding the label, hidden at rest, not aria-describedby-linked", () => {
+        const { button, tip } = setupTooltip();
+        expect(tip.getAttribute("role")).toBe("tooltip");
+        expect(tip.textContent).toBe("Theme");
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        expect(tip.id).toBeTruthy();
+        expect(button.hasAttribute("aria-describedby")).toBe(false);
+        expect(button.nextElementSibling).toBe(tip);
+    });
+
+    test("§7.27 pointer over the button shows it; leaving hides it", () => {
+        const { button, tip } = setupTooltip();
+        fireEvent.mouseEnter(button);
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        fireEvent.mouseLeave(button);
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.28 it stays visible while the pointer is over the tooltip itself", () => {
+        const { button, tip } = setupTooltip();
+        fireEvent.mouseEnter(button);
+        fireEvent.mouseLeave(button);
+        fireEvent.mouseEnter(tip);
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        fireEvent.mouseLeave(tip);
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.29 keyboard focus shows it; blur hides it; mouse-induced focus does not show it", () => {
+        const { button, tip } = setupTooltip();
+        // jsdom has no input-modality tracking; stand in for the keyboard.
+        const matches = vi.spyOn(button, "matches").mockImplementation((q) => q === ":focus-visible");
+        fireEvent.focus(button);
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        fireEvent.blur(button);
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        matches.mockReturnValue(false);
+        fireEvent.focus(button);
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.30 Escape dismisses it without moving focus; re-entering shows it again", () => {
+        const { button, tip } = setupTooltip();
+        button.focus();
+        fireEvent.mouseEnter(button);
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        fireEvent.keyDown(button, { key: "Escape" });
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        expect(document.activeElement).toBe(button);
+        fireEvent.mouseLeave(button);
+        fireEvent.mouseEnter(button);
+        expect(tip.hasAttribute("hidden")).toBe(false);
+    });
+
+    test("§7.31 it is never shown while the popup is open", async () => {
+        const { button, tip } = setupTooltip();
+        fireEvent.mouseEnter(button);
+        fireEvent.click(button);
+        expect(button.getAttribute("aria-expanded")).toBe("true");
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        fireEvent.mouseEnter(button);
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.32 pointer hover shows it with focus elsewhere; Escape on document.body or another element dismisses it, without moving focus", () => {
+        const { button, tip } = setupTooltip();
+        const other = document.createElement("input");
+        document.body.appendChild(other);
+        other.focus();
+        fireEvent.mouseEnter(button);
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        fireEvent.keyDown(document.body, { key: "Escape" });
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        expect(document.activeElement).toBe(other);
+        fireEvent.mouseLeave(button);
+        fireEvent.mouseEnter(button);
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        fireEvent.keyDown(other, { key: "Escape" });
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        other.remove();
+    });
+
+    test("§7.33 the document keydown listener exists only while the tooltip is visible: added once, removed on hide and on unmount", () => {
+        const add = vi.spyOn(document, "addEventListener");
+        const remove = vi.spyOn(document, "removeEventListener");
+        const count = (spy: typeof add) => spy.mock.calls.filter((c) => c[0] === "keydown").length;
+        const view = render(<ThemePicker label="Theme" themesUrl="/themes/" themes={THEMES} />);
+        const button = document.querySelector(".theme-picker-button") as HTMLButtonElement;
+        const addBase = count(add);
+        const baseRemove = count(remove);
+        fireEvent.mouseEnter(button);
+        expect(count(add) - addBase).toBe(1);
+        fireEvent.keyDown(document.body, { key: "a" });
+        expect(count(add) - addBase).toBe(1);
+        fireEvent.mouseLeave(button);
+        expect(count(remove) - baseRemove).toBe(1);
+        fireEvent.mouseEnter(button);
+        expect(count(add) - addBase).toBe(2);
+        view.unmount();
+        expect(count(remove) - baseRemove).toBe(2);
+        add.mockRestore();
+        remove.mockRestore();
+    });
+});

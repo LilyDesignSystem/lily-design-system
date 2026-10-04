@@ -295,6 +295,10 @@ acceptance criterion in [spec/index.md §7](./spec/index.md#7-testing-acceptance
 MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause. Contact
 joel@joelparkerhenderson.com for other terms.
 
+## Tooltip
+
+`.text-size-picker-tooltip` (`<div role="tooltip" id="{id}-tooltip" hidden>`) is rendered right after the icon button, holding the button's `label`. `text-size-picker.client.js` shows it on pointer hover (button or tooltip) or keyboard focus (`:focus-visible`), hides it on `Escape` (focus stays) and never shows it while the popup is open. Not linked with `aria-describedby`. See `spec/index.md` (Tooltip).
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.

@@ -233,3 +233,21 @@ describe("PickerBar — search-picker wiring (§7.12, §7.13)", () => {
     expect(navigate).toHaveBeenCalledWith("/search?foo");
   });
 });
+
+describe("PickerBar — tooltips (§7.14)", () => {
+  test("§7.14 each of the five nested pickers renders its own tooltip, holding its button's label", () => {
+    const { container } = renderBar();
+    for (const [helper, label] of [
+      ["search-picker", "Search this site"],
+      ["theme-picker", "Theme"],
+      ["locale-picker", "Language"],
+      ["text-size-picker", "Text size"],
+      ["share-picker", "Share"],
+    ]) {
+      const tip = container.querySelector(`.${helper}-tooltip`) as HTMLElement;
+      expect(tip.getAttribute("role")).toBe("tooltip");
+      expect(tip.textContent).toBe(label);
+      expect(tip.hasAttribute("hidden")).toBe(true);
+    }
+  });
+});

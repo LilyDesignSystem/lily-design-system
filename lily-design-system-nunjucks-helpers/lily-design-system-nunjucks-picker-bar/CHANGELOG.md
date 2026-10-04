@@ -6,6 +6,10 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+**Picks up the pickers' new tooltips (no code change).** The composed pickers now each render a `.{helper}-tooltip` element after their icon button and wire it in their own `init*Picker`; `pickerBar` and `initPickerBar` need no change. Verified by the bar's tests: every picker in the bar renders its tooltip and `initPickerBar` wires it.
+
+## 0.2.0 — 2026-10-04
+
 **`search-picker` joins the bar, first in the row** (ports the
 canonical `@lilydesignsystem/svelte-picker-bar` change). `pickerBar`
 now renders `searchPicker` before the theme, locale, text-size and

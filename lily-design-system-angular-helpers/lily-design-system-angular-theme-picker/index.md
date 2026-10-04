@@ -197,6 +197,7 @@ re-deriving it when you build a sibling affordance.
   >
     <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true">…</svg>
   </button>
+  <div class="theme-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
 
   <ul
     class="theme-picker-list"

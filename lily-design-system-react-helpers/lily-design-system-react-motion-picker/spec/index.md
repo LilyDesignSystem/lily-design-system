@@ -34,6 +34,8 @@ role="listbox" aria-label="{label}" tabindex="-1" hidden>` of
 entries, one per slug, with `data-active` mirroring the
 `aria-activedescendant` cursor.
 
+**Tooltip.** `.motion-picker-tooltip` is a sibling of the button, always in the DOM, `hidden` at rest, holding the button's `label` text. It is shown while the pointer is over the button or over the tooltip itself (hoverable) and while the button has keyboard focus (`:focus-visible`, falling back to shown where unsupported); `Escape` dismisses it without moving focus, wherever focus is while the tooltip is visible (a `document`-level `keydown` listener, present only while it is shown, so hover alone suffices; WCAG 1.4.13) (until the pointer enters or focus leaves and returns); it is never shown while the listbox is open. It is purely visual: the text duplicates the button's `aria-label`, so it is deliberately **not** linked with `aria-describedby`. Position and appearance are consumer/theme CSS, via the `hidden` attribute. State lives in a small `usePickerTooltip` hook inside the component file; the added `.motion-picker-tooltip` element is the only new API.
+
 ## 4. Props
 
 | Prop           | Type                       | Required | Default    |
@@ -127,6 +129,17 @@ focused list is hidden.
 - §7.17 An empty list opens without `aria-activedescendant`.
 - §7.18 `onChange` fires once per changed value, not once per effect
   run: a prop change that re-runs the apply effect does not re-fire it.
+
+### Tooltip
+
+- §7.19 Renders `.motion-picker-tooltip` with `role="tooltip"` right after the button, holding `label`, `hidden` at rest, and the button carries no `aria-describedby`.
+- §7.20 Pointer over the button shows it; leaving hides it.
+- §7.21 It stays visible while the pointer is over the tooltip itself.
+- §7.22 Keyboard focus on the button (`:focus-visible`) shows it; blur hides it; mouse-induced focus does not.
+- §7.23 `Escape` on the button dismisses it without moving focus; re-entering shows it again.
+- §7.24 It is never shown while the listbox is open.
+- §7.25 Pointer hover shows it with focus elsewhere; `Escape` pressed on `document.body` or another element dismisses it without moving focus.
+- §7.26 The `document` `keydown` listener exists only while the tooltip is visible: added once, removed on hide and on unmount.
 
 ## 8. Relationship to the other four preference/action helpers
 

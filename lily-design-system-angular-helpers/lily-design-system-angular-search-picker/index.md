@@ -122,7 +122,7 @@ marked `lilySearchPickerIcon`) replaces the icon.
 Class hooks: `.search-picker` (root), `.search-picker-button`,
 `.search-picker-icon`, `.search-picker-panel`, `.search-picker-form`,
 `.search-picker-input`, `.search-picker-submit`,
-`.search-picker-submit-symbol`.
+`.search-picker-submit-symbol`, `.search-picker-tooltip`.
 
 The package ships no CSS beyond the icon markup. The root `themes/`
 stylesheets position the panel and lay the field and `⏎` button out in

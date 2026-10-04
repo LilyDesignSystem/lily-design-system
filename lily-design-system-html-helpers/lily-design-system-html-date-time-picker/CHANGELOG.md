@@ -4,6 +4,12 @@ All notable changes to `@lilydesignsystem/html-date-time-picker` are
 documented here. The format follows [Keep a Changelog](https://keepachangelog.com/),
 and this package uses [semantic versioning](https://semver.org/).
 
+## 0.2.0 — 2026-10-04
+
+**Added: picker tooltip (minor, additive).** The button now has a purely visual `<div class="date-time-picker-tooltip" role="tooltip" hidden>` sibling holding its `label` text, shown on pointer hover (hoverable, WCAG 1.4.13) or keyboard focus, dismissible with `Escape`, never shown while the dialog is open, and deliberately not linked with `aria-describedby`. New `.date-time-picker-tooltip` class hook; no new attributes or text. Spec clauses 62-67.
+
+**Fixed: tooltip `Escape` now works wherever focus is (WCAG 1.4.13).** The `Escape` handler was on the button only, so a tooltip shown by pointer hover alone could not be dismissed. While visible, the tooltip now listens for `Escape` on the document (no `preventDefault`, no focus move); the listener is added only while visible and removed on hide, re-render and disconnect. Spec clause 68.
+
 ## 0.1.0 — 2026-09-16
 
 **Package renamed: `lily-design-system-html-date-time-picker` → `@lilydesignsystem/html-date-time-picker`.** npm scoped packages

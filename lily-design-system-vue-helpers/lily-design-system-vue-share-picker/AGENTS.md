@@ -100,3 +100,7 @@ helpers. `nativeShare` is written `@native-share` in templates.
   default scoped slot.
 - All user-facing strings come from props — including the copy label,
   which is why the copy item is opt-in.
+
+## Tooltip
+
+`<div class="share-picker-tooltip" role="tooltip" id="{baseId}-tooltip" hidden>{label}</div>` — a sibling right after the icon button; text is the button's `label`; shown on pointer hover (button or tooltip) or `:focus-visible` on the button, dismissed by `Escape` on the button, never shown while the disclosure list is open; deliberately not `aria-describedby`-linked. Class hook: `.share-picker-tooltip`.

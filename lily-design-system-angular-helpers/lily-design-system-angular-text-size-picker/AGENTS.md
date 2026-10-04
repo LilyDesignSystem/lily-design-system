@@ -67,6 +67,7 @@ text size" media query exists.
   >
     <svg class="text-size-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13 7.2 3h1.6L12 13M5.4 9.5h5.2"/></svg>
   </button>
+  <div class="text-size-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
   <ul
     class="text-size-picker-list"
     id="{listId}"

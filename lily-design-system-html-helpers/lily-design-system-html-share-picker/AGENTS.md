@@ -88,6 +88,8 @@ rel="noopener noreferrer">` and an optional
 `<button class="share-picker-copy">`; and a
 `<p class="share-picker-status" aria-live="polite">`.
 
+**Tooltip.** Right after the button the root also holds `<div class="share-picker-tooltip" role="tooltip" id="{baseId}-tooltip" hidden>{label}</div>` — purely visual (hover/hoverable, keyboard `:focus-visible`, `Escape` dismisses, never while the popup is open), deliberately not `aria-describedby`-linked, built by the module-local `createTooltip()` helper.
+
 **Not a menu, and not this catalog's listbox.** The three preference
 helpers render `role="listbox"` with `aria-activedescendant`. This one
 deliberately does not: destinations are navigation, so they are real

@@ -114,7 +114,8 @@ These each encode a bug that was avoided on purpose.
 `<lily-date-time-picker>` renders `<div class="date-time-picker"
 data-mode>` → hidden input → `<div class="date-time-picker-field">` with
 `<input class="date-time-picker-input">` and `<button
-class="date-time-picker-button" aria-haspopup="dialog">` → optional
+class="date-time-picker-button" aria-haspopup="dialog">` → `<div
+class="date-time-picker-tooltip" role="tooltip" hidden>` (the `label`) → optional
 `role="status"` live region (gated on `labels.invalid`) → `<div
 class="date-time-picker-dialog" role="dialog" aria-modal="true"
 tabindex="-1" hidden>` containing optional keyboard help (gated on

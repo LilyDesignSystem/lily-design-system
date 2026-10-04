@@ -68,6 +68,7 @@ clipboard API is a failure, never a crash. The URL is resolved lazily
   >
     <svg class="share-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5"/></svg>
   </button>
+  <div class="share-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
   <ul class="share-picker-list" id="{listId}" aria-label="{label}" hidden>
     <li class="share-picker-list-item">
       <a

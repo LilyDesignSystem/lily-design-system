@@ -1,5 +1,11 @@
 # CHANGELOG — @lilydesignsystem/react-locale-picker
 
+## 0.2.0 — 2026-10-04
+
+**Added (minor, additive): a picker tooltip.** A new `.locale-picker-tooltip` element (`role="tooltip"`, `hidden` at rest) follows the icon button and shows the button's existing `label` on pointer hover, on the tooltip itself (hoverable), and on keyboard focus (`:focus-visible`); `Escape` dismisses it without moving focus, and it is never shown while the listbox is open. No new props and no new text; deliberately not linked by `aria-describedby`, since it duplicates the button's `aria-label`. Position and appearance are theme CSS keyed on `hidden`.
+
+**Fix: tooltip `Escape` now works wherever focus is.** While the tooltip is visible, a `document` `keydown` listener (added only while visible, removed on hide/unmount) dismisses it, so a pointer-hover-only tooltip is dismissable without moving pointer or focus (WCAG 1.4.13). Does not prevent default, stop propagation, or move focus.
+
 ## 0.1.3 — 2026-10-01
 
 **Fix: dependency range on `@lilydesignsystem/react-headless` widened

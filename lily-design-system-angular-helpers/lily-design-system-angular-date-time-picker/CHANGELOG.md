@@ -4,6 +4,17 @@ All notable changes to this package. Format follows
 [Keep a Changelog](https://keepachangelog.com/); versions follow
 [Semantic Versioning](https://semver.org/).
 
+## 0.2.0 — 2026-10-04
+
+**Added: picker tooltip (minor, additive).** A new
+`.date-time-picker-tooltip` element (`role="tooltip"`, `hidden` at rest) follows the
+calendar trigger button inside the root and shows the button's existing `label` on
+pointer hover (hoverable), on keyboard focus (`:focus-visible`), and is dismissed by
+`Escape` or hidden while the dialog is open. No new inputs, no new English
+text, not linked by `aria-describedby`. New class hook: `date-time-picker-tooltip`.
+
+**Fixed: tooltip `Escape` works wherever focus is.** While the tooltip is visible a `document` `keydown` listener (added/removed by an `effect()` on `tooltipVisible`, SSR-safe, no leak) dismisses it, so a hover-only tooltip is dismissable without moving the pointer or focus (WCAG 1.4.13). New spec clause §7.68.
+
 ## 0.1.2 — 2026-10-01
 
 **Fix: dependency range on `@lilydesignsystem/angular-headless` widened

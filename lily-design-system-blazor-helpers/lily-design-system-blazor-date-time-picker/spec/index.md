@@ -213,6 +213,7 @@ canonical accessibility hardening (as `Invalid` / `Instructions` here).
             aria-controls="{dialogId}">
       <span class="date-time-picker-icon" aria-hidden="true">📅︎</span>
     </button>
+    <div class="date-time-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{Label}</div>
   </div>
 
   <!-- Only when Labels.Invalid: always present, empty while valid. -->
@@ -282,6 +283,18 @@ canonical accessibility hardening (as `Invalid` / `Instructions` here).
   </div>
 </div>
 ```
+
+**Tooltip.** `.date-time-picker-tooltip` is a sibling of the button, always in
+the DOM, `hidden` at rest, holding the button's `Label` text. It is shown
+while the pointer is over the button or over the tooltip itself
+(hoverable) and while the button has keyboard focus; `Escape` dismisses
+it without moving focus, wherever focus is inside the picker while the tooltip is visible (until the pointer or focus re-enters); it is
+never shown while the dialog is open. It is purely visual: the text
+duplicates the button's `aria-label`, so it is deliberately **not**
+linked with `aria-describedby` (that would announce the name twice).
+Position and appearance are consumer/theme CSS, via the `hidden`
+attribute. Keyboard-versus-pointer focus is the one Blazor deviation —
+see the deviations section.
 
 Identical class hooks, `data-*` attributes and ARIA to the canonical DOM
 contract. The one addition is `id="{rootId}"` on the root `<div>` — a
@@ -596,6 +609,13 @@ harness note at the top of `DateTimePickerTests.cs`.
 | §7.59 | A step past `Min`/`Max` is refused; a step onto a vetoed day moves the cursor but not the pending selection. |
 | §7.60 | The time-zone select renders only with `Labels.TimeZone`, is labelled by it, lists the runtime's zones after an empty option by default, sits before the grid, and starts with no zone. |
 | §7.61 | Choosing a zone updates `{Name}-time-zone`, `data-time-zone`, and `TimeZoneChanged` once; `TimeZones`/`TimeZoneLabels` are honoured; the value and `OnChange` are untouched. |
+| §7.62 | The component renders a `<div class="date-time-picker-tooltip" role="tooltip">` as a sibling right after the icon button (the calendar trigger, not the text field), always in the DOM, `hidden` at rest, with an `id` and text equal to the button's `Label`; the button carries no `aria-describedby`. |
+| §7.63 | Pointer over the button shows the tooltip; leaving hides it. |
+| §7.64 | The tooltip stays visible while the pointer is over the tooltip itself (hoverable); leaving it hides it. |
+| §7.65 | Keyboard focus on the button shows the tooltip and blur hides it; a focus immediately preceded by a `mousedown` on the button (pointer-induced focus) does not show it, and the mark is consumed so the next focus is a keyboard focus (Blazor stand-in for `:focus-visible` — §9). |
+| §7.66 | `Escape` on the button dismisses a visible tooltip without moving focus (no focus request); re-entering the button with the pointer shows it again. |
+| §7.67 | The tooltip is never shown while the dialog is open, whether by hover or focus. |
+| §7.68 | While the tooltip is visible, `Escape` pressed anywhere inside the picker root dismisses it (pointer hover with focus on another child of the root; no focus request, default not prevented). Blazor deviation (no JS interop, so no document-level listener): Escape with focus entirely outside the root is not handled. Escape while the tooltip is hidden is a no-op and does not pre-dismiss the next show. |
 
 ## 8. DHCW feature parity
 
@@ -714,6 +734,24 @@ Each of these is forced by the framework or by .NET, not chosen.
   given position is the same DOM element for the life of the component,
   so position-keyed references stay correct. Purely an implementation
   detail; no markup difference.
+- **Tooltip keyboard focus has no `:focus-visible`.** The canonical Svelte
+  `date-time-picker` asks the browser `button.matches(":focus-visible")`; Blazor
+  cannot without JS interop, and this package ships none for the tooltip.
+  Instead the button's `@onfocus` shows the tooltip unless a `@onmousedown`
+  on the same button immediately preceded it (pointer focus), a mark that
+  the focus, any button keydown, or blur consumes. Consequences: a
+  programmatic refocus of the button after the popup closes (e.g. after
+  a pointer pick) counts as keyboard focus and shows the tooltip until blur,
+  and focus arriving by Tab after a pointer interaction elsewhere is
+  correctly keyboard focus. Hover, Escape-dismissal and the never-while-open
+  rule are identical to the canonical behaviour. Each tooltip event is a
+  Blazor event callback (a server round trip under Blazor Server).
+- **No document-level Escape listener.** The canonical picker listens for `Escape` on the
+  document while the tooltip is visible, so a hover-shown tooltip dismisses with focus anywhere. Blazor
+  cannot add one without JS interop, which this package does not use for the tooltip. Instead
+  `@onkeydown` on the root wrapper and on the tooltip dismisses it (keydown from any focused child
+  bubbles to the root). **Not supported:** Escape pressed while hovering with focus entirely outside
+  the picker. The handler never moves focus and never prevents default.
 
 ## 10. Tracking
 

@@ -109,6 +109,7 @@ must never be relied on for naming.
   >
     <span class="text-size-picker-icon" aria-hidden="true">A</span>
   </button>
+  <div class="text-size-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
   <ul
     class="text-size-picker-list"
     id="{listId}"
@@ -130,6 +131,8 @@ must never be relied on for naming.
   </ul>
 </div>
 ```
+
+**Tooltip.** `.text-size-picker-tooltip` is a sibling of the button, always in the DOM, `hidden` at rest, holding the button's `label` text. It is shown while the pointer is over the button or over the tooltip itself (hoverable) and while the button has keyboard focus (`:focus-visible`, falling back to shown where unsupported); `Escape` dismisses it without moving focus, wherever focus is while the tooltip is visible (a `document`-level `keydown` listener, present only while it is shown, so hover alone suffices; WCAG 1.4.13) (until the pointer enters or focus leaves and returns); it is never shown while the listbox is open. It is purely visual: the text duplicates the button's `aria-label`, so it is deliberately **not** linked with `aria-describedby`. Position and appearance are consumer/theme CSS, via the `hidden` attribute. State lives in a small `usePickerTooltip` hook inside the component file; the added `.text-size-picker-tooltip` element is the only new API.
 
 - **Root element:** `<div className="text-size-picker {className}">`.
   Rest props spread onto this `<div>`.
@@ -385,6 +388,17 @@ plus a test that the component's default option text equals it.
 
 - §7.19 Controlled mode fires `onChange` once per changed value:
   the consumer writing the value back does not re-fire it.
+
+### Tooltip
+
+- §7.20 Renders `.text-size-picker-tooltip` with `role="tooltip"` right after the button, holding `label`, `hidden` at rest, and the button carries no `aria-describedby`.
+- §7.21 Pointer over the button shows it; leaving hides it.
+- §7.22 It stays visible while the pointer is over the tooltip itself.
+- §7.23 Keyboard focus on the button (`:focus-visible`) shows it; blur hides it; mouse-induced focus does not.
+- §7.24 `Escape` on the button dismisses it without moving focus; re-entering shows it again.
+- §7.25 It is never shown while the listbox is open.
+- §7.26 Pointer hover shows it with focus elsewhere; `Escape` pressed on `document.body` or another element dismisses it without moving focus.
+- §7.27 The `document` `keydown` listener exists only while the tooltip is visible: added once, removed on hide and on unmount.
 
 ## 8. Out-of-scope (future, not implemented here)
 

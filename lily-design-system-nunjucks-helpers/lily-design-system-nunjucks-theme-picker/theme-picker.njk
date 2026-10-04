@@ -94,6 +94,7 @@
 <button type="button" class="theme-picker-button" aria-label="{{ opts.label }}" aria-haspopup="listbox" aria-expanded="false" aria-controls="{{ listId }}" data-lily-theme-picker-button>
 {%- if caller %}{{ caller() }}{% else %}<svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="1.05rem" height="1.05rem"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>{% endif -%}
 </button>
+<div class="theme-picker-tooltip" role="tooltip" id="{{ id }}-tooltip" hidden>{{ opts.label }}</div>
 <ul class="theme-picker-list" id="{{ listId }}" role="listbox" aria-label="{{ opts.label }}" tabindex="-1" hidden data-lily-theme-picker-list>
 {%- for slug in opts.themes -%}
   <li class="theme-picker-option" id="{{ id }}-option-{{ loop.index0 }}" role="option" aria-selected="{{ 'true' if slug == selected else 'false' }}" data-value="{{ slug }}">

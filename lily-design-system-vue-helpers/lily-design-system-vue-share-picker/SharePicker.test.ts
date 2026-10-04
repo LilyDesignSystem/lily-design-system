@@ -1,5 +1,5 @@
 import { mount, type VueWrapper } from "@vue/test-utils";
-import { afterEach, beforeEach, describe, expect, test } from "vitest";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { h, nextTick } from "vue";
 
 import SharePicker, {
@@ -544,5 +544,133 @@ describe("SharePicker — accessibility hardening (§7.23–§7.24)", () => {
     test("§7.24 the list carries the picker's accessible name", async () => {
         const { list } = await openHardened();
         expect(list.attributes("aria-label")).toBe("Share");
+    });
+});
+
+describe("SharePicker — tooltip (§7.25–§7.30)", () => {
+    function tipSetup() {
+        const wrapper = build();
+        const button = wrapper.element.querySelector(".share-picker-button") as HTMLButtonElement;
+        const tip = wrapper.element.querySelector(".share-picker-tooltip") as HTMLElement;
+        return { wrapper, button, tip };
+    }
+    const fire = (el: Element, type: string) => el.dispatchEvent(new MouseEvent(type));
+
+    test("§7.25 renders a role=tooltip element holding label, hidden at rest, not aria-describedby-linked", () => {
+        const { button, tip } = tipSetup();
+        expect(tip.getAttribute("role")).toBe("tooltip");
+        expect(tip.textContent).toBe(button.getAttribute("aria-label"));
+        expect(tip.textContent!.length).toBeGreaterThan(0);
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        expect(tip.id).toBeTruthy();
+        expect(button.previousElementSibling === tip || button.nextElementSibling === tip).toBe(true);
+        expect(button.hasAttribute("aria-describedby")).toBe(false);
+    });
+
+    test("§7.26 pointer over the button shows it; leaving hides it", async () => {
+        const { button, tip } = tipSetup();
+        fire(button, "mouseenter");
+        await nextTick();
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        fire(button, "mouseleave");
+        await nextTick();
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.27 it stays visible while the pointer is over the tooltip itself", async () => {
+        const { button, tip } = tipSetup();
+        fire(button, "mouseenter");
+        fire(button, "mouseleave");
+        fire(tip, "mouseenter");
+        await nextTick();
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        fire(tip, "mouseleave");
+        await nextTick();
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.28 keyboard focus shows it; blur hides it", async () => {
+        const { button, tip } = tipSetup();
+        // jsdom has no input-modality tracking; stand in for the keyboard.
+        vi.spyOn(button, "matches").mockImplementation((q) => q === ":focus-visible");
+        button.focus();
+        await nextTick();
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        button.blur();
+        await nextTick();
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.28 mouse-induced focus (not :focus-visible) does not show it", async () => {
+        const { button, tip } = tipSetup();
+        vi.spyOn(button, "matches").mockReturnValue(false);
+        button.focus();
+        await nextTick();
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.29 Escape dismisses it without moving focus; re-entering shows it again", async () => {
+        const { button, tip } = tipSetup();
+        button.focus();
+        fire(button, "mouseenter");
+        await nextTick();
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        button.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+        await nextTick();
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        expect(document.activeElement).toBe(button);
+        fire(button, "mouseleave");
+        fire(button, "mouseenter");
+        await nextTick();
+        expect(tip.hasAttribute("hidden")).toBe(false);
+    });
+
+    test("§7.30 it is never shown while the popup is open", async () => {
+        const { button, tip } = tipSetup();
+        fire(button, "mouseenter");
+        button.click();
+        await nextTick();
+        await new Promise((r) => setTimeout(r, 0));
+        await nextTick();
+        expect(button.getAttribute("aria-expanded")).toBe("true");
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        fire(button, "mouseenter");
+        await nextTick();
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.31 hover-only tooltip: Escape on another element dismisses it; listener removed after hide/unmount", async () => {
+        const addSpy = vi.spyOn(document, "addEventListener");
+        const removeSpy = vi.spyOn(document, "removeEventListener");
+        const keydownCalls = (spy: typeof addSpy) => spy.mock.calls.filter((c) => c[0] === "keydown").length;
+        const wrapper = build();
+        const button = wrapper.element.querySelector(".share-picker-button") as HTMLButtonElement;
+        const tip = wrapper.element.querySelector(".share-picker-tooltip") as HTMLElement;
+        const other = document.createElement("button");
+        document.body.appendChild(other);
+        other.focus();
+        button.dispatchEvent(new MouseEvent("mouseenter"));
+        await nextTick();
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        expect(keydownCalls(addSpy)).toBe(1);
+        const ev = new KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true });
+        other.dispatchEvent(ev);
+        await nextTick();
+        expect(ev.defaultPrevented).toBe(false);
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        expect(document.activeElement).toBe(other);
+        expect(keydownCalls(removeSpy)).toBe(1);
+        // re-entering shows it again and adds exactly one listener again
+        button.dispatchEvent(new MouseEvent("mouseleave"));
+        button.dispatchEvent(new MouseEvent("mouseenter"));
+        await nextTick();
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        expect(keydownCalls(addSpy)).toBe(2);
+        // unmount while visible removes the listener
+        wrapper.unmount();
+        expect(keydownCalls(removeSpy)).toBe(2);
+        other.remove();
+        addSpy.mockRestore();
+        removeSpy.mockRestore();
     });
 });

@@ -16,6 +16,7 @@
 
 <div class="@RootClass"
      @onfocusout="OnRootFocusOutAsync"
+     @onkeydown="OnTipRootKeyDown"
      @attributes="AdditionalAttributes">
 
     @* Preserves form participation; the listbox itself is not a form control. *@
@@ -28,7 +29,10 @@
                 aria-expanded="@(_open ? "true" : "false")"
                 aria-controls="@ListId"
                 @onclick="OnButtonClickAsync"
-                @onkeydown="OnButtonKeyDownAsync">
+                @onkeydown="OnButtonKeyDownAsync"
+                @onmouseenter="OnTipButtonEnter" @onmouseleave="OnTipButtonLeave"
+                @onmousedown="OnTipButtonMouseDown" @onblur="OnTipButtonBlur"
+                @onfocus="OnTipButtonFocus">
         @if (ChildContent is not null)
         {
             @ChildContent(BuildContext())
@@ -46,6 +50,12 @@
             </svg>
         }
     </IconButton>
+
+    @* Purely visual: the same text is already the button's aria-label, so it
+       is not wired with aria-describedby (that would announce the name twice).
+       See spec §4.2 "Tooltip". *@
+    <div class="text-size-picker-tooltip" role="tooltip" id="@TooltipId" hidden="@(!TooltipVisible)"
+         @onkeydown="OnTipRootKeyDown" @onmouseenter="OnTipTooltipEnter" @onmouseleave="OnTipTooltipLeave">@Label</div>
 
     <Listbox @ref="_listComponent"
              Label="@Label"

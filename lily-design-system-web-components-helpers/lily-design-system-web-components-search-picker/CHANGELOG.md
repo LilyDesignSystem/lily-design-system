@@ -4,6 +4,17 @@ All notable changes to `@lilydesignsystem/web-components-search-picker` are
 documented here. The format follows [Keep a Changelog](https://keepachangelog.com/),
 and this package uses [semantic versioning](https://semver.org/).
 
+## 0.1.0 — 2026-10-02, additions before first publication
+
+**Tooltip (additive, minor).** New `.search-picker-tooltip` element
+(`role="tooltip"`, a sibling right after the icon button, `hidden` at rest,
+holding the button's `label`) and class hook, shown on pointer hover
+(hoverable), on keyboard focus (`:focus-visible`), dismissed by `Escape`,
+never shown while the panel is open. Not linked by `aria-describedby`
+(it duplicates `aria-label`). 8 new tests, spec §7.32–§7.37.
+
+**Tooltip Escape works wherever focus is.** While the tooltip is visible a `document` `keydown` listener dismisses it on `Escape` (hover-only tooltips now dismiss, WCAG 1.4.13); removed on hide/disconnect. 2 new tests, spec clause 38.
+
 ## 0.1.0 — 2026-10-02
 
 **New helper (maintainer-directed)**, ported from the canonical Svelte

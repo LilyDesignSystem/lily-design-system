@@ -10,7 +10,7 @@ locale to the document root via `lang` and `dir`, with optional
 `localStorage` persistence and `navigator.languages` detection. It
 renders an icon button (a bundled globe-outline SVG) that opens a dropdown listbox. Ships no
 CSS; consumer styles the `locale-picker`, `locale-picker-button`,
-`locale-picker-icon`, `locale-picker-list`, and `locale-picker-option`
+`locale-picker-icon`, `locale-picker-tooltip`, `locale-picker-list`, and `locale-picker-option`
 class hooks.
 
 ## Files

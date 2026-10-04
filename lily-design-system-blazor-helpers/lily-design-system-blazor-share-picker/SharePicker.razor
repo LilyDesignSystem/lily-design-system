@@ -21,6 +21,7 @@
 
 <div class="@RootClass"
      @onfocusout="OnRootFocusOutAsync"
+     @onkeydown="OnTipRootKeyDown"
      @attributes="AdditionalAttributes">
 
     <IconButton @ref="_triggerComponent"
@@ -30,7 +31,9 @@
                 aria-controls="@ListId"
                 @onclick="OnTriggerClickAsync"
                 @onkeydown="OnTriggerKeyDownAsync"
-                @onfocus="OnTriggerFocus">
+                @onfocus="OnTriggerFocus"
+                @onmouseenter="OnTipButtonEnter" @onmouseleave="OnTipButtonLeave"
+                @onmousedown="OnTipButtonMouseDown" @onblur="OnTipButtonBlur">
         @if (ChildContent is not null)
         {
             @ChildContent(BuildContext())
@@ -47,6 +50,12 @@
             </svg>
         }
     </IconButton>
+
+    @* Purely visual: the same text is already the button's aria-label, so it
+       is not wired with aria-describedby (that would announce the name twice).
+       See spec §4.2 "Tooltip". *@
+    <div class="share-picker-tooltip" role="tooltip" id="@TooltipId" hidden="@(!TooltipVisible)"
+         @onkeydown="OnTipRootKeyDown" @onmouseenter="OnTipTooltipEnter" @onmouseleave="OnTipTooltipLeave">@Label</div>
 
     @* mousedown default is suppressed so pressing an item does not blur
        the focused element before the click handler runs. *@

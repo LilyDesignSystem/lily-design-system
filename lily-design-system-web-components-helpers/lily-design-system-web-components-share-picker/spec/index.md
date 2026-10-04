@@ -185,6 +185,7 @@ an error (§5.3).
     >
       <svg class="share-picker-icon" viewBox="0 0 16 16" width="1.05rem" height="1.05rem" aria-hidden="true">…</svg>
     </button>
+    <div class="share-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
     <ul class="share-picker-list" id="{listId}" aria-label="{label}" hidden>
       <li class="share-picker-list-item">
         <a
@@ -204,6 +205,21 @@ an error (§5.3).
   </div>
 </lily-share-picker>
 ```
+
+**Tooltip.** `.share-picker-tooltip` is a sibling right after the icon button,
+always in the DOM, `hidden` at rest, holding the button's `label` text. It
+is shown while the pointer is over the button or over the tooltip itself
+(hoverable) and while the button has keyboard focus (`:focus-visible`);
+`Escape` dismisses it without moving focus, wherever focus is while it is
+visible (a `document` listener, present only while visible, so a hover-only
+tooltip dismisses too — WCAG 1.4.13) (until the
+pointer or focus re-enters); it is never shown while the disclosure list is
+open. It is purely visual: the text duplicates the button's `aria-label`,
+so it is deliberately **not** linked with `aria-describedby` (that would
+announce the name twice). Position and appearance are consumer/theme CSS,
+via the `hidden` attribute. Pointer and focus listeners sit on the
+`<lily-icon-button>` host (`mouseenter` fires on the host itself;
+`focusin`/`focusout` bubble from the real button).
 
 Three things that are not negotiable:
 
@@ -367,6 +383,16 @@ attribute/property mirroring, `targets` being property-only, the
 `share-title` rename, the `#render` / `#syncState` split holding focus,
 the absence of any persistence, listener cleanup on disconnect, and SSR
 import safety.
+
+### Tooltip
+
+25. `.share-picker-tooltip` renders with `role="tooltip"` right after the trigger button, holding `label` (kept in sync with it), `hidden` at rest, and the button carries no `aria-describedby`.
+26. Pointer over the button shows it; leaving hides it.
+27. It stays visible while the pointer is over the tooltip itself.
+28. Keyboard focus (`:focus-visible`) on the button shows it; blur hides it; mouse-induced focus does not show it.
+29. `Escape` on the button dismisses it without moving focus; re-entering shows it again.
+30. It is never shown while the disclosure list is open.
+31. Pointer hover shows the tooltip with focus elsewhere; `Escape` pressed on `document.body` or another element dismisses it (WCAG 1.4.13), without `preventDefault`/`stopPropagation` or moving focus. The `document` `keydown` listener exists only while the tooltip is visible and is removed on hide, popup open, re-render and disconnect, never added twice.
 
 ## 8. Out-of-scope (future, not implemented here)
 

@@ -289,3 +289,21 @@ describe("PickerBar — search-picker wiring (§7.12, §7.13)", () => {
     expect(navigate).toHaveBeenCalledWith("/search?foo");
   });
 });
+
+describe("PickerBar — tooltips of the wrapped pickers (§7.14)", () => {
+  test("§7.14 each wrapped picker renders its own role=tooltip, holding the button's label, hidden at rest", () => {
+    const fixture = mount();
+    for (const h of ["search", "theme", "locale", "text-size", "share"]) {
+      const tip = fixture.nativeElement.querySelector(
+        `.${h}-picker-tooltip`,
+      ) as HTMLElement;
+      const btn = fixture.nativeElement.querySelector(
+        `.${h}-picker-button`,
+      ) as HTMLElement;
+      expect(tip, h).toBeTruthy();
+      expect(tip.getAttribute("role")).toBe("tooltip");
+      expect(tip.hasAttribute("hidden")).toBe(true);
+      expect(tip.textContent).toBe(btn.getAttribute("aria-label"));
+    }
+  });
+});

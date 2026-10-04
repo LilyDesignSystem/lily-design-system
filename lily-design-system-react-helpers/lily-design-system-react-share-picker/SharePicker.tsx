@@ -91,6 +91,70 @@ export type Props = Omit<
 };
 
 /** Is a native share sheet available? SSR-safe. */
+/**
+ * Tooltip state for the icon button. Shown while the pointer is over the
+ * button or over the tooltip itself (hoverable, WCAG 1.4.13) or while the
+ * button has keyboard focus; Escape dismisses it without moving focus;
+ * never shown while the popup is open, since the popup then explains the
+ * control. Purely visual: the text is the button's own aria-label, so it
+ * is deliberately not linked with aria-describedby.
+ */
+function usePickerTooltip(
+    buttonRef: React.RefObject<HTMLButtonElement | null>,
+    open: boolean,
+) {
+    const [hoverButton, setHoverButton] = React.useState(false);
+    const [hoverTooltip, setHoverTooltip] = React.useState(false);
+    const [focusButton, setFocusButton] = React.useState(false);
+    const [dismissed, setDismissed] = React.useState(false);
+    const visible = !open && !dismissed && (hoverButton || hoverTooltip || focusButton);
+    // WCAG 1.4.13 "dismissable": Escape must work wherever focus is while
+    // the tooltip is visible (pointer hover alone leaves focus elsewhere).
+    // The document listener exists only while visible; never prevents
+    // default, stops propagation, or moves focus.
+    React.useEffect(() => {
+        if (!visible) return;
+        const onKeyDown = (event: KeyboardEvent) => {
+            if (event.key === "Escape") setDismissed(true);
+        };
+        document.addEventListener("keydown", onKeyDown);
+        return () => document.removeEventListener("keydown", onKeyDown);
+    }, [visible]);
+    return {
+        visible,
+        buttonProps: {
+            onMouseEnter: () => {
+                setHoverButton(true);
+                setDismissed(false);
+            },
+            onMouseLeave: () => setHoverButton(false),
+            onFocus: () => {
+                // Keyboard focus only: a mouse click also focuses the
+                // button in Chromium, and the tooltip should not stick.
+                try {
+                    setFocusButton(buttonRef.current?.matches(":focus-visible") ?? false);
+                } catch {
+                    setFocusButton(true); // no :focus-visible — err towards showing
+                }
+            },
+            onBlur: () => {
+                setFocusButton(false);
+                setDismissed(false);
+            },
+        },
+        /** Call from the button's click handler. */
+        onButtonClick: () => setHoverButton(false),
+        /** Call first in the button's keydown handler; never prevents default. */
+        onButtonKeyDown: (event: React.KeyboardEvent) => {
+            if (event.key === "Escape" && visible) setDismissed(true);
+        },
+        tooltipProps: {
+            onMouseEnter: () => setHoverTooltip(true),
+            onMouseLeave: () => setHoverTooltip(false),
+        },
+    };
+}
+
 export function canShareNatively(): boolean {
     return (
         typeof navigator !== "undefined" && typeof navigator.share === "function"
@@ -138,7 +202,9 @@ export function SharePicker({
 }: Props): React.ReactElement {
     // `useId` is stable across server and client render, so the list id
     // survives hydration. No Math.random / Date.now.
-    const listId = `share-picker-${React.useId()}-list`;
+    const baseId = `share-picker-${React.useId()}`;
+    const listId = `${baseId}-list`;
+    const tooltipId = `${baseId}-tooltip`;
 
     const [open, setOpen] = React.useState(false);
     const [status, setStatus] = React.useState("");
@@ -339,6 +405,8 @@ export function SharePicker({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [open]);
 
+    const tip = usePickerTooltip(buttonRef, open);
+
     return (
         <div
             ref={rootRef}
@@ -348,12 +416,19 @@ export function SharePicker({
         >
             <IconButton
                 ref={buttonRef}
+                {...tip.buttonProps}
                 baseClass="share-picker-button"
                 label={label}
                 aria-expanded={open}
                 aria-controls={listId}
-                onClick={onButtonClick}
-                onKeyDown={onButtonKeyDown}
+                onClick={() => {
+                tip.onButtonClick();
+                void onButtonClick();
+            }}
+                onKeyDown={(event) => {
+                    tip.onButtonKeyDown(event);
+                    onButtonKeyDown(event);
+                }}
             >
                 {children ? (
                     children({ open, url: currentUrl() })
@@ -374,6 +449,17 @@ export function SharePicker({
                     </svg>
                 )}
             </IconButton>
+            {/* Purely visual: the same text is already the button's aria-label,
+                so it is not wired with aria-describedby. */}
+            <div
+                className="share-picker-tooltip"
+                role="tooltip"
+                id={tooltipId}
+                hidden={!tip.visible}
+                {...tip.tooltipProps}
+            >
+                {label}
+            </div>
 
             {/* Named like the sibling pickers' listboxes: a screen reader
                 entering the list hears what the list is for, not just

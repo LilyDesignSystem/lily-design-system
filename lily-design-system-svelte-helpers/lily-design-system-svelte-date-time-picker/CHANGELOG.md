@@ -4,6 +4,23 @@ All notable changes to this package. Format follows
 [Keep a Changelog](https://keepachangelog.com/); versions follow
 [Semantic Versioning](https://semver.org/).
 
+## 0.2.0 — 2026-10-04
+
+**Added: a hover/keyboard-focus tooltip on the icon button (minor, additive).**
+A new `<div class="date-time-picker-tooltip" role="tooltip" id="{baseId}-tooltip" hidden>`
+sits right after the calendar trigger, always in the DOM, holding the button's
+existing `label` text (no new props, no new English text). It is shown
+while the pointer is over the button or the tooltip, or while the button
+has keyboard focus (`:focus-visible`); `Escape` dismisses it without
+moving focus; it is never shown while the dialog is open. It is
+deliberately not linked with `aria-describedby` (it duplicates the
+`aria-label`). New class hook `.date-time-picker-tooltip`; the 45 reference
+themes already style it. Mirrors `search-picker`'s tooltip (§7.25–§7.30
+there); this picker's clauses are §7.62–§7.67.
+
+**Fix: the tooltip's `Escape` dismissal now works wherever focus is (WCAG 1.4.13).** It was bound to the button's keydown only, so a tooltip shown by pointer hover alone could not be dismissed. While the tooltip is visible a document `keydown` listener (added once, removed on hide/unmount; no `preventDefault`, no focus move) sets it dismissed. New clauses §7.68–§7.69.
+
+
 ## 0.1.2 — 2026-09-25
 
 **Fix: dependency range on `@lilydesignsystem/svelte-headless` widened

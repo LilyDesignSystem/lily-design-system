@@ -101,3 +101,7 @@ Ids come from `useId`, so they are stable and hydration-safe.
   the default button icon: a bundled SVG (reversed 2026-09-16 from a
   Unicode glyph).
 - All user-facing strings come from props.
+
+## Tooltip
+
+`<div class="motion-picker-tooltip" role="tooltip" id="{baseId}-tooltip" hidden>{label}</div>` is a sibling right after the icon button, always in the DOM, text = `label` (no new props). Shown on pointer hover (button or tooltip) or `:focus-visible` keyboard focus; `Escape` on the button dismisses it without moving focus; never shown while the listbox is open. Not linked with `aria-describedby` (it duplicates `aria-label`). Position/appearance is theme CSS keyed on `hidden`.

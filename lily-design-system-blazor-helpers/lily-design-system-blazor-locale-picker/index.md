@@ -187,7 +187,7 @@ Reading that markup:
   neither `aria-activedescendant` nor `data-active` is emitted at all.
 
 Class hooks: `.locale-picker` on the root, `.locale-picker-button` on
-the trigger, `.locale-picker-icon` on the glyph, `.locale-picker-list`
+the trigger, `.locale-picker-icon` on the glyph, `.locale-picker-tooltip` on the hover/focus tooltip, `.locale-picker-list`
 on the `<ul>`, and `.locale-picker-option` on every `<li>`. The active
 option additionally carries `[data-active]`, and the selected option
 `[aria-selected="true"]`.

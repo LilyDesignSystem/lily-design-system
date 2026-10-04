@@ -174,6 +174,7 @@ subclass's to change.
         <svg class="search-picker-icon" viewBox="0 0 16 16" width="1.05rem" height="1.05rem" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="4.5"></circle><path d="M10.5 10.5 14 14"></path></svg>
       </button>
     </lily-icon-button>
+    <div class="search-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
     <div class="search-picker-panel" id="{panelId}" hidden>
       <form class="search-picker-form" role="search" aria-label="{label}" action="{action}" method="get">
         <input class="search-picker-input" type="search" aria-label="{inputLabel}" placeholder="{placeholder}" enterkeyhint="search" />
@@ -185,6 +186,21 @@ subclass's to change.
   </div>
 </lily-search-picker>
 ```
+
+**Tooltip.** `.search-picker-tooltip` is a sibling right after the icon button,
+always in the DOM, `hidden` at rest, holding the button's `label` text. It
+is shown while the pointer is over the button or over the tooltip itself
+(hoverable) and while the button has keyboard focus (`:focus-visible`);
+`Escape` dismisses it without moving focus, wherever focus is while it is
+visible (a `document` listener, present only while visible, so a hover-only
+tooltip dismisses too — WCAG 1.4.13) (until the
+pointer or focus re-enters); it is never shown while the panel is
+open. It is purely visual: the text duplicates the button's `aria-label`,
+so it is deliberately **not** linked with `aria-describedby` (that would
+announce the name twice). Position and appearance are consumer/theme CSS,
+via the `hidden` attribute. Pointer and focus listeners sit on the
+`<lily-icon-button>` host (`mouseenter` fires on the host itself;
+`focusin`/`focusout` bubble from the real button).
 
 The submit button follows the field in DOM order, so it sits at the
 field's right in left-to-right layouts (and at its left under
@@ -272,7 +288,7 @@ cover the custom-element surface.
 20. `searchHref()` builds the same destination the element navigates to.
 21. `RETURN_SYMBOL` is the bare `⏎` (U+23CE).
 22. `class` is appended to `search-picker` on the rendered root.
-23. The element renders no user-facing text of its own: with no `placeholder` the field has none, and the only text node is the `aria-hidden` `⏎`.
+23. The element renders no user-facing text of its own: with no `placeholder` the field has none, and the only text nodes are the `aria-hidden` `⏎` and the tooltip's `label`.
 24. A focusout with no `relatedTarget` (Safari's click on `⏎` or on the icon button, a window blur) leaves the panel open, so the click that caused it still lands.
 25. A search dispatches a bubbling `search` CustomEvent with `{ query, href }`, after `onSearch` and before `navigate`.
 26. Attributes and properties mirror each other; `action` reads back as `"/"` when absent; writing the `value` property updates the field.
@@ -281,6 +297,13 @@ cover the custom-element surface.
 29. The module is import-safe with no `customElements` (SSR).
 30. A pointer click on the icon itself opens the panel and it stays open (the `composedPath()` guard).
 31. Nothing is written to `localStorage` or the document root.
+32. `.search-picker-tooltip` renders with `role="tooltip"` right after the trigger button, holding `label` (kept in sync with it), `hidden` at rest, and the button carries no `aria-describedby`.
+33. Pointer over the button shows it; leaving hides it.
+34. It stays visible while the pointer is over the tooltip itself.
+35. Keyboard focus (`:focus-visible`) on the button shows it; blur hides it; mouse-induced focus does not show it.
+36. `Escape` on the button dismisses it without moving focus; re-entering shows it again.
+37. It is never shown while the panel is open.
+38. Pointer hover shows the tooltip with focus elsewhere; `Escape` pressed on `document.body` or another element dismisses it (WCAG 1.4.13), without `preventDefault`/`stopPropagation` or moving focus. The `document` `keydown` listener exists only while the tooltip is visible and is removed on hide, popup open, re-render and disconnect, never added twice.
 
 ## 8. Tracking
 

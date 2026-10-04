@@ -153,3 +153,7 @@ Ids are `{id}-list` / `{id}-option-{i}` where `id` defaults to
 - All user-facing strings come from `opts`.
 - No inline `<script>` in the macro output; the client.js is loaded
   separately by the consumer.
+
+## Tooltip
+
+`.motion-picker-tooltip` (`<div role="tooltip" id="{id}-tooltip" hidden>`) is rendered right after the icon button, holding the button's `label`. `motion-picker.client.js` shows it on pointer hover (button or tooltip) or keyboard focus (`:focus-visible`), hides it on `Escape` (focus stays) and never shows it while the popup is open. Not linked with `aria-describedby`. See `spec/index.md` (Tooltip).

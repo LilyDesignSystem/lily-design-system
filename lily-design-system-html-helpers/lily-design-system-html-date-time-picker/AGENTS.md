@@ -125,6 +125,8 @@ roving tabindex (vetoed days are `aria-disabled` + `data-disabled`,
 never `disabled`), optional time selects, optional shortcuts, and the
 footer.
 
+**Tooltip.** Right after the calendar trigger button the root also holds `<div class="date-time-picker-tooltip" role="tooltip" id="{baseId}-tooltip" hidden>{label}</div>` — purely visual (hover/hoverable, keyboard `:focus-visible`, `Escape` dismisses, never while the popup is open), deliberately not `aria-describedby`-linked, built by the module-local `createTooltip()` helper.
+
 Full contract in `spec/index.md` §4.4.
 
 ## Things not to undo

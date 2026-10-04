@@ -308,6 +308,7 @@ What the macro renders (elements present with no JavaScript at all):
             aria-controls="{dialogId}" data-lily-date-time-picker-button>
       <span class="date-time-picker-icon" aria-hidden="true">📅︎</span>
     </button>
+    <div class="date-time-picker-tooltip" role="tooltip" id="{id}-tooltip" hidden>{label}</div>
   </div>
 
   <!-- labels.invalid only: always present, EMPTY while valid; the
@@ -372,6 +373,8 @@ What the macro renders (elements present with no JavaScript at all):
   </div>
 </div>
 ```
+
+**Tooltip.** `.date-time-picker-tooltip` is a sibling right after the calendar trigger button, always in the markup, `hidden` at rest, holding the button's `label` text (no new macro argument, no new English). `client.js` shows it while the pointer is over the button or over the tooltip itself (hoverable) and while the button has keyboard focus (`:focus-visible`; a mouse click's focus does not count); `Escape` dismisses it without moving focus, wherever focus is while the tooltip is visible (a document-level `keydown` listener exists only while it is shown, so pointer-hover-only works too; WCAG 1.4.13), until the pointer re-enters or focus leaves and returns; it is never shown while the dialog is open. It is purely visual: the text duplicates the button's `aria-label`, so it is deliberately **not** linked with `aria-describedby` (that would announce the name twice). Position and appearance are consumer/theme CSS, via the `hidden` attribute. Canonical reference: the Svelte helper's Tooltip paragraph.
 
 What `date-time-picker.client.js` additionally builds, every time the
 view changes: the weekday `<th>` row, every `<tbody>` row's day
@@ -724,6 +727,19 @@ clauses.
 | Clicking outside the root closes the dialog without committing. |
 | `defaultFormatValue` and `dayLabel` are exported for a consumer composing their own `formatValue`. |
 | The `CALENDAR` glyph constant is a unicode escape, never a bare character in source. |
+
+### Tooltip (tests `Tooltip 1`–`Tooltip 8`)
+
+| Test asserts |
+| ------------ |
+| Renders `.date-time-picker-tooltip` (`role="tooltip"`) as a sibling right after the icon button, holding the button's label, `hidden` at rest, and the button carries no `aria-describedby`. |
+| Pointer over the button shows it; leaving hides it. |
+| It stays visible while the pointer is over the tooltip itself. |
+| Keyboard focus on the button (`:focus-visible`) shows it; blur hides it; mouse-induced focus does not. |
+| `Escape` on the button dismisses it without moving focus; re-entering shows it again. |
+| It is never shown while the dialog is open. |
+| Initialising the same root twice replaces the first tooltip wiring rather than doubling it. |
+| Pointer hover shows the tooltip with focus elsewhere; Escape pressed on `document.body` or another element dismisses it (without `preventDefault`, without moving focus), and the document `keydown` listener exists only while the tooltip is visible (removed on hide, `destroy()` and re-init). |
 
 ## 8. Tracking
 

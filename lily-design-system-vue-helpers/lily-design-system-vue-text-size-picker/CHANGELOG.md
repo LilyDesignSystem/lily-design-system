@@ -4,6 +4,13 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.2.0 — 2026-10-04
+
+**Added: hover/keyboard-focus tooltip (minor, additive).** A new
+`<div class="text-size-picker-tooltip" role="tooltip">` sits right after the icon button, always in the DOM and `hidden` at rest, holding the button's existing `label` text (no new props, no new English text). It is shown while the pointer is over the button or the tooltip (hoverable), or while the button has keyboard focus (`:focus-visible`); `Escape` on the button dismisses it without moving focus; it is never shown while the listbox is open. Not linked with `aria-describedby` (it would duplicate the `aria-label`). New class hook `.text-size-picker-tooltip`; styling is the theme CSS's. Spec clauses §7.23–§7.28.
+
+**Fixed: tooltip `Escape` now works wherever focus is (WCAG 1.4.13).** While the tooltip is visible a document `keydown` listener dismisses it on `Escape`, so a hover-only tooltip (focus elsewhere) is dismissable too; added only while visible, removed on hide/unmount. Spec clause §7.29.
+
 ## 0.1.2 — 2026-10-01
 
 **Fix: dependency range on `@lilydesignsystem/vue-headless` widened

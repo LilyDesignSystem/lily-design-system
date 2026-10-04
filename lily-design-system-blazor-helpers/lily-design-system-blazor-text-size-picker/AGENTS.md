@@ -9,7 +9,7 @@ A reusable Blazor headless text-size picker that applies the chosen
 size slug to the document root via `data-text-size`, with optional
 `localStorage` persistence. It renders an icon button (a bundled
 stroke-drawn "A" SVG) that opens a dropdown listbox. Ships no CSS; consumer styles the
-`text-size-picker`, `text-size-picker-button`, `text-size-picker-icon`,
+`text-size-picker`, `text-size-picker-button`, `text-size-picker-icon`, `text-size-picker-tooltip`,
 `text-size-picker-list`, and `text-size-picker-option` class hooks —
 see `docs/styling.md` — and maps each `[data-text-size="…"]` slug to
 real typography.

@@ -173,6 +173,7 @@ button, and a listbox:
   >
     <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path stroke-width="1.1" d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"/></svg>
   </button>
+  <div class="locale-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
   <ul
     class="locale-picker-list"
     id="{listId}"
@@ -195,6 +196,8 @@ button, and a listbox:
   </ul>
 </div>
 ```
+
+**Tooltip.** `.locale-picker-tooltip` is a sibling of the button, always in the DOM, `hidden` at rest, holding the button's `label` text. It is shown while the pointer is over the button or over the tooltip itself (hoverable) and while the button has keyboard focus (`:focus-visible`, falling back to shown where unsupported); `Escape` dismisses it without moving focus, wherever focus is while the tooltip is visible (a `document`-level `keydown` listener, present only while it is shown, so hover alone suffices; WCAG 1.4.13) (until the pointer enters or focus leaves and returns); it is never shown while the listbox is open. It is purely visual: the text duplicates the button's `aria-label`, so it is deliberately **not** linked with `aria-describedby`. Position and appearance are consumer/theme CSS, via the `hidden` attribute. State lives in a small `usePickerTooltip` hook inside the component file; the added `.locale-picker-tooltip` element is the only new API.
 
 - **Root.** `<div className="locale-picker {className}">`. All rest
   props spread onto this element.
@@ -631,6 +634,19 @@ run under vitest + jsdom + `@testing-library/react`.
 | Clause | Test asserts |
 | ------ | ------------ |
 | §7.34  | Every focus move the component makes on its own (opening the listbox, returning focus to the button on close/Tab) passes `{ preventScroll: true }`, so a listbox rendered partly off-screen by unstyled/un-overridden positioning CSS never forces the browser to scroll the whole page into view. |
+
+### Tooltip
+
+| Clause | Test asserts |
+| ------ | ------------ |
+| §7.35 | Renders `.locale-picker-tooltip` with `role="tooltip"` right after the button, holding `label`, `hidden` at rest, and the button carries no `aria-describedby`. |
+| §7.36 | Pointer over the button shows it; leaving hides it. |
+| §7.37 | It stays visible while the pointer is over the tooltip itself. |
+| §7.38 | Keyboard focus on the button (`:focus-visible`) shows it; blur hides it; mouse-induced focus does not. |
+| §7.39 | `Escape` on the button dismisses it without moving focus; re-entering shows it again. |
+| §7.40 | It is never shown while the listbox is open. |
+| §7.41 | Pointer hover shows it with focus elsewhere; `Escape` pressed on `document.body` or another element dismisses it without moving focus. |
+| §7.42 | The `document` `keydown` listener exists only while the tooltip is visible: added once, removed on hide and on unmount. |
 
 ## 8. Out-of-scope (future, not implemented here)
 

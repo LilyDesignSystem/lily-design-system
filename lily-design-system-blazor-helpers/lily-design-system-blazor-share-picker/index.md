@@ -179,7 +179,7 @@ and both return `false` during prerender rather than throwing.
 ## Styling
 
 Class hooks: `.share-picker` (root), `.share-picker-button`,
-`.share-picker-icon`, `.share-picker-list`, `.share-picker-list-item`,
+`.share-picker-icon`, `.share-picker-tooltip`, `.share-picker-list`, `.share-picker-list-item`,
 `.share-picker-target`, `.share-picker-copy`, `.share-picker-status`.
 
 The package ships no CSS. The root [`themes/`](../../themes/)

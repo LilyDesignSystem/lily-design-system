@@ -227,6 +227,10 @@ three costs are spelled out in
 
 MIT
 
+## Tooltip
+
+`.share-picker-tooltip` (`<div role="tooltip" id="{id}-tooltip" hidden>`) is rendered right after the icon button, holding the button's `label`. `share-picker.client.js` shows it on pointer hover (button or tooltip) or keyboard focus (`:focus-visible`), hides it on `Escape` (focus stays) and never shows it while the popup is open. Not linked with `aria-describedby`. See `spec/index.md` (Tooltip).
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.

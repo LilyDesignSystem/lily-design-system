@@ -77,6 +77,8 @@ slug. `aria-activedescendant` sits on the `<ul>` only while open;
 `data-active` marks the keyboard-highlighted option, which is a
 different thing from `aria-selected`.
 
+**Tooltip.** Right after the button the root also holds `<div class="motion-picker-tooltip" role="tooltip" id="{baseId}-tooltip" hidden>{label}</div>` — purely visual (hover/hoverable, keyboard `:focus-visible`, `Escape` dismisses, never while the popup is open), deliberately not `aria-describedby`-linked, built by the module-local `createTooltip()` helper.
+
 ## Accessibility
 
 - WCAG 2.2 AAA target; WAI-ARIA APG listbox pattern. This helper's

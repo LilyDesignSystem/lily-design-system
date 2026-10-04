@@ -242,6 +242,7 @@ shortcut resolves to a blocked date (§5.5) — both match the Svelte
               aria-controls="{dialogId}">
         <span class="date-time-picker-icon" aria-hidden="true">📅︎</span>
       </button>
+      <div class="date-time-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
     </div>
 
     <!-- Only when labels.invalid: always present, empty while valid. -->
@@ -312,6 +313,21 @@ shortcut resolves to a blocked date (§5.5) — both match the Svelte
   </div>
 </lily-date-time-picker>
 ```
+
+**Tooltip.** `.date-time-picker-tooltip` is a sibling right after the calendar trigger button (not the text field),
+always in the DOM, `hidden` at rest, holding the button's `label` text. It
+is shown while the pointer is over the button or over the tooltip itself
+(hoverable) and while the button has keyboard focus (`:focus-visible`);
+`Escape` dismisses it without moving focus, wherever focus is while it is
+visible (a `document` listener, present only while visible, so a hover-only
+tooltip dismisses too — WCAG 1.4.13) (until the
+pointer or focus re-enters); it is never shown while the dialog is
+open. It is purely visual: the text duplicates the button's `aria-label`,
+so it is deliberately **not** linked with `aria-describedby` (that would
+announce the name twice). Position and appearance are consumer/theme CSS,
+via the `hidden` attribute. Pointer and focus listeners sit on the
+`<lily-icon-button>` host (`mouseenter` fires on the host itself;
+`focusin`/`focusout` bubble from the real button).
 
 This is the same markup shape as the Svelte spec's §4.3, with the outer
 custom element itself as one further wrapping layer (matching
@@ -681,6 +697,18 @@ persistence, listener cleanup on disconnect, and SSR import safety.
 | §7.59 | A step past `min`/`max` is refused; a step onto a vetoed day moves the cursor but not the pending selection. |
 | §7.60 | The time-zone select renders only with `labels.timeZone`, is labelled by it, lists the runtime's zones after an empty option by default, sits before the grid, and starts with no zone. |
 | §7.61 | Choosing a zone updates `{name}-time-zone`, `data-time-zone`, and `onTimeZoneChange`/`timezonechange` once; `timeZones`/`timeZoneLabels` are honoured; the value and `datetimechange` are untouched. |
+
+### Tooltip
+
+| Clause | Test asserts |
+| ------ | ------------ |
+| §7.62 | `.date-time-picker-tooltip` renders with `role="tooltip"` right after the trigger button, holding `label` (kept in sync with it), `hidden` at rest, and the button carries no `aria-describedby`. |
+| §7.63 | Pointer over the button shows it; leaving hides it. |
+| §7.64 | It stays visible while the pointer is over the tooltip itself. |
+| §7.65 | Keyboard focus (`:focus-visible`) on the button shows it; blur hides it; mouse-induced focus does not show it. |
+| §7.66 | `Escape` on the button dismisses it without moving focus; re-entering shows it again. |
+| §7.67 | It is never shown while the dialog is open. |
+| §7.68 | Pointer hover shows the tooltip with focus elsewhere; `Escape` pressed on `document.body` or another element dismisses it (WCAG 1.4.13), without `preventDefault`/`stopPropagation` or moving focus. The `document` `keydown` listener exists only while the tooltip is visible and is removed on hide, popup open, re-render and disconnect, never added twice. |
 
 ## 8. DHCW feature parity
 

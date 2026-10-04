@@ -84,3 +84,7 @@ with an `aria-hidden` SVG icon → `<div class="search-picker-panel" hidden>`
   pickers.
 - All user-facing strings come from props. `⏎` is a symbol shown to
   sighted users only; it is never an accessible name.
+
+## Tooltip
+
+`<div class="search-picker-tooltip" role="tooltip" id="{baseId}-tooltip" hidden>{label}</div>` is a sibling right after the icon button, always in the DOM, text = `label` (no new props). Shown on pointer hover (button or tooltip) or `:focus-visible` keyboard focus; `Escape` on the button dismisses it without moving focus; never shown while the panel is open. Not linked with `aria-describedby` (it duplicates `aria-label`). Position/appearance is theme CSS keyed on `hidden`.

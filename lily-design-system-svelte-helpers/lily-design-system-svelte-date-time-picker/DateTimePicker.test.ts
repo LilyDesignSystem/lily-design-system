@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/svelte";
+import { render, screen, fireEvent, cleanup } from "@testing-library/svelte";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
 import DateTimePicker, {
@@ -1202,5 +1202,131 @@ describe("DateTimePicker — assistive technology", () => {
         // A zone is metadata about the civil value, not part of it.
         expect((document.querySelector('input[name="when"]') as HTMLInputElement).value).toBe("2026-03-15");
         expect(onChange).not.toHaveBeenCalled();
+    });
+});
+
+describe("DateTimePicker — tooltip (§7.62–§7.67)", () => {
+    function setup() {
+        render(DateTimePicker, { props: base() });
+        const button = document.querySelector(".date-time-picker-button" ) as HTMLButtonElement;
+        const tip = document.querySelector(".date-time-picker-tooltip") as HTMLElement;
+        return { button, tip };
+    }
+
+    test("§7.62 renders a role=tooltip element holding label, hidden at rest, not aria-describedby-linked", () => {
+        const { button, tip } = setup();
+        expect(tip.getAttribute("role")).toBe("tooltip");
+        expect(tip.textContent).toBe("Pick a date");
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        expect(tip.id).toBeTruthy();
+        expect(button.hasAttribute("aria-describedby")).toBe(false);
+        expect(tip.previousElementSibling).toBe(button);
+    });
+
+    test("§7.63 pointer over the button shows it; leaving hides it", async () => {
+        const { button, tip } = setup();
+        await fireEvent.mouseEnter(button);
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        await fireEvent.mouseLeave(button);
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.64 it stays visible while the pointer is over the tooltip itself", async () => {
+        const { button, tip } = setup();
+        await fireEvent.mouseEnter(button);
+        await fireEvent.mouseLeave(button);
+        await fireEvent.mouseEnter(tip);
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        await fireEvent.mouseLeave(tip);
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.65 keyboard focus shows it; blur hides it", async () => {
+        const { button, tip } = setup();
+        // jsdom has no input-modality tracking; stand in for the keyboard.
+        vi.spyOn(button, "matches").mockImplementation((q) => q === ":focus-visible");
+        await fireEvent.focus(button);
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        await fireEvent.blur(button);
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.65 mouse-induced focus (not :focus-visible) does not show it", async () => {
+        const { button, tip } = setup();
+        vi.spyOn(button, "matches").mockReturnValue(false);
+        await fireEvent.focus(button);
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.66 Escape dismisses it without moving focus; re-entering shows it again", async () => {
+        const { button, tip } = setup();
+        await fireEvent.mouseEnter(button);
+        await fireEvent.keyDown(button, { key: "Escape" });
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        await fireEvent.mouseLeave(button);
+        await fireEvent.mouseEnter(button);
+        expect(tip.hasAttribute("hidden")).toBe(false);
+    });
+
+    test("§7.67 it is never shown while the dialog is open", async () => {
+        const { button, tip } = setup();
+        await fireEvent.mouseEnter(button);
+        await fireEvent.click(button);
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        await fireEvent.mouseEnter(button);
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.68 pointer hover shows it with focus elsewhere; Escape on document.body or another element dismisses it without moving focus", async () => {
+        const { button, tip } = setup();
+        const other = document.createElement("input");
+        document.body.appendChild(other);
+        other.focus();
+        await fireEvent.mouseEnter(button);
+        expect(document.activeElement).not.toBe(button);
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        // fireEvent returns false when preventDefault was called.
+        expect(await fireEvent.keyDown(document.body, { key: "Escape" })).toBe(true);
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        expect(document.activeElement).toBe(other);
+        // Dismissal resets on re-entry; a second dismissal via another element works.
+        await fireEvent.mouseLeave(button);
+        await fireEvent.mouseEnter(button);
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        await fireEvent.keyDown(other, { key: "Escape" });
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        // Other keys do not dismiss.
+        await fireEvent.mouseLeave(button);
+        await fireEvent.mouseEnter(button);
+        await fireEvent.keyDown(document.body, { key: "a" });
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        other.remove();
+    });
+
+    test("§7.68 the document keydown listener exists only while the tooltip is visible, is never doubled, and is removed on hide and on unmount", async () => {
+        const add = vi.spyOn(document, "addEventListener");
+        const remove = vi.spyOn(document, "removeEventListener");
+        const keydownAdds = () => add.mock.calls.filter((c) => c[0] === "keydown").length;
+        const keydownRemoves = () => remove.mock.calls.filter((c) => c[0] === "keydown").length;
+        const { button } = setup();
+        const baseAdds = keydownAdds();
+        const baseRemoves = keydownRemoves();
+        await fireEvent.mouseEnter(button);
+        expect(keydownAdds()).toBe(baseAdds + 1);
+        await fireEvent.mouseEnter(button); // already visible: no second listener
+        expect(keydownAdds()).toBe(baseAdds + 1);
+        const handler = add.mock.calls.filter((c) => c[0] === "keydown").at(-1)![1];
+        await fireEvent.mouseLeave(button);
+        expect(keydownRemoves()).toBe(baseRemoves + 1);
+        expect(remove.mock.calls.filter((c) => c[0] === "keydown").at(-1)![1]).toBe(handler);
+        // Shown again, then unmounted while visible: the listener goes too.
+        await fireEvent.mouseEnter(button);
+        expect(keydownAdds()).toBe(baseAdds + 2);
+        const second = add.mock.calls.filter((c) => c[0] === "keydown").at(-1)![1];
+        expect(remove.mock.calls.some((c) => c[0] === "keydown" && c[1] === second)).toBe(false);
+        cleanup();
+        expect(remove.mock.calls.some((c) => c[0] === "keydown" && c[1] === second)).toBe(true);
+        add.mockRestore();
+        remove.mockRestore();
     });
 });

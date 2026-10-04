@@ -65,3 +65,7 @@ rationale: [spec/index.md §3.3](./spec/index.md).
   bare literal character in source (`bin/test` glyph rule).
 - Applies nothing to the document, persists nothing — like
   `share-picker`, this owns an action, not a preference.
+
+## Tooltip
+
+`.search-picker-tooltip` (`<div role="tooltip" id="{id}-tooltip" hidden>`) is rendered right after the icon button, holding the button's `label`. `search-picker.client.js` shows it on pointer hover (button or tooltip) or keyboard focus (`:focus-visible`), hides it on `Escape` (focus stays) and never shows it while the popup is open. Not linked with `aria-describedby`. See `spec/index.md` (Tooltip).

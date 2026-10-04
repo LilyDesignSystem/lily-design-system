@@ -61,6 +61,70 @@ export type Props = Omit<
  * in theme-picker and `localeName` in locale-picker. The word "default"
  * is never emitted.
  */
+/**
+ * Tooltip state for the icon button. Shown while the pointer is over the
+ * button or over the tooltip itself (hoverable, WCAG 1.4.13) or while the
+ * button has keyboard focus; Escape dismisses it without moving focus;
+ * never shown while the popup is open, since the popup then explains the
+ * control. Purely visual: the text is the button's own aria-label, so it
+ * is deliberately not linked with aria-describedby.
+ */
+function usePickerTooltip(
+    buttonRef: React.RefObject<HTMLButtonElement | null>,
+    open: boolean,
+) {
+    const [hoverButton, setHoverButton] = React.useState(false);
+    const [hoverTooltip, setHoverTooltip] = React.useState(false);
+    const [focusButton, setFocusButton] = React.useState(false);
+    const [dismissed, setDismissed] = React.useState(false);
+    const visible = !open && !dismissed && (hoverButton || hoverTooltip || focusButton);
+    // WCAG 1.4.13 "dismissable": Escape must work wherever focus is while
+    // the tooltip is visible (pointer hover alone leaves focus elsewhere).
+    // The document listener exists only while visible; never prevents
+    // default, stops propagation, or moves focus.
+    React.useEffect(() => {
+        if (!visible) return;
+        const onKeyDown = (event: KeyboardEvent) => {
+            if (event.key === "Escape") setDismissed(true);
+        };
+        document.addEventListener("keydown", onKeyDown);
+        return () => document.removeEventListener("keydown", onKeyDown);
+    }, [visible]);
+    return {
+        visible,
+        buttonProps: {
+            onMouseEnter: () => {
+                setHoverButton(true);
+                setDismissed(false);
+            },
+            onMouseLeave: () => setHoverButton(false),
+            onFocus: () => {
+                // Keyboard focus only: a mouse click also focuses the
+                // button in Chromium, and the tooltip should not stick.
+                try {
+                    setFocusButton(buttonRef.current?.matches(":focus-visible") ?? false);
+                } catch {
+                    setFocusButton(true); // no :focus-visible — err towards showing
+                }
+            },
+            onBlur: () => {
+                setFocusButton(false);
+                setDismissed(false);
+            },
+        },
+        /** Call from the button's click handler. */
+        onButtonClick: () => setHoverButton(false),
+        /** Call first in the button's keydown handler; never prevents default. */
+        onButtonKeyDown: (event: React.KeyboardEvent) => {
+            if (event.key === "Escape" && visible) setDismissed(true);
+        },
+        tooltipProps: {
+            onMouseEnter: () => setHoverTooltip(true),
+            onMouseLeave: () => setHoverTooltip(false),
+        },
+    };
+}
+
 export function sizeName(size: string): string {
     return size
         .split("-")
@@ -118,6 +182,7 @@ export function TextSizePicker({
     // ids survive hydration. No Math.random / Date.now.
     const baseId = `text-size-picker-${React.useId()}`;
     const listId = `${baseId}-list`;
+    const tooltipId = `${baseId}-tooltip`;
     const optionId = (i: number) => `${baseId}-option-${i}`;
 
     const [open, setOpen] = React.useState(false);
@@ -319,6 +384,8 @@ export function TextSizePicker({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentValue]);
 
+    const tip = usePickerTooltip(buttonRef, open);
+
     return (
         <div
             ref={rootRef}
@@ -330,13 +397,21 @@ export function TextSizePicker({
 
             <IconButton
                 ref={buttonRef}
+                {...tip.buttonProps}
                 baseClass="text-size-picker-button"
                 label={label}
                 aria-haspopup="listbox"
                 aria-expanded={open}
                 aria-controls={listId}
-                onClick={() => (open ? closeList() : openList())}
-                onKeyDown={onButtonKeyDown}
+                onClick={() => {
+                    tip.onButtonClick();
+                    if (open) closeList();
+                    else openList();
+                }}
+                onKeyDown={(event) => {
+                    tip.onButtonKeyDown(event);
+                    onButtonKeyDown(event);
+                }}
             >
                 {children ? (
                     children({ value: currentValue ?? "", open, labelFor })
@@ -357,6 +432,17 @@ export function TextSizePicker({
                     </svg>
                 )}
             </IconButton>
+            {/* Purely visual: the same text is already the button's aria-label,
+                so it is not wired with aria-describedby. */}
+            <div
+                className="text-size-picker-tooltip"
+                role="tooltip"
+                id={tooltipId}
+                hidden={!tip.visible}
+                {...tip.tooltipProps}
+            >
+                {label}
+            </div>
 
             <Listbox
                 ref={listRef}

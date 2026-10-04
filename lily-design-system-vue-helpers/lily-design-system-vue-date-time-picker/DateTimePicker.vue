@@ -672,6 +672,65 @@ const timeZoneId = `${baseId}-time-zone`;
 const instructionsId = `${baseId}-instructions`;
 
 const open = ref(false);
+
+const tooltipId = `${baseId}-tooltip`;
+
+// Tooltip: shown while the pointer is over the button or the tooltip
+// itself (hoverable, WCAG 1.4.13) or while the button has keyboard focus;
+// Escape dismisses it without moving focus; never shown while the popup is
+// open, since the popup then explains the control.
+const hoverButton = ref(false);
+const hoverTooltip = ref(false);
+const focusButton = ref(false);
+const dismissed = ref(false);
+const tooltipVisible = computed(
+    () => !open.value && !dismissed.value && (hoverButton.value || hoverTooltip.value || focusButton.value),
+);
+
+function onTooltipButtonEnter(): void {
+    hoverButton.value = true;
+    dismissed.value = false;
+}
+
+function onTooltipButtonLeave(): void {
+    hoverButton.value = false;
+}
+
+function onTooltipButtonFocus(event: FocusEvent): void {
+    // Keyboard focus only: a mouse click also focuses the button in
+    // Chromium, and the tooltip should not stick after a click.
+    try {
+        focusButton.value = (event.currentTarget as HTMLElement).matches(":focus-visible");
+    } catch {
+        focusButton.value = true; // engine without :focus-visible, err towards showing
+    }
+}
+
+function onTooltipButtonBlur(): void {
+    focusButton.value = false;
+    dismissed.value = false;
+}
+
+function onTooltipKeydown(event: KeyboardEvent): void {
+    if (event.key === "Escape" && tooltipVisible.value) dismissed.value = true;
+}
+
+// WCAG 1.4.13: while the tooltip is visible, Escape dismisses it wherever
+// focus is (hover alone leaves focus elsewhere). The document listener
+// exists only while visible; never preventDefault/stopPropagation, no
+// focus move. SSR-safe: watch callbacks run client-side only.
+function onTooltipDocumentKeydown(event: KeyboardEvent): void {
+    if (event.key === "Escape") dismissed.value = true;
+}
+let tooltipDocListening = false;
+function setTooltipDocListener(on: boolean): void {
+    if (typeof document === "undefined" || on === tooltipDocListening) return;
+    tooltipDocListening = on;
+    if (on) document.addEventListener("keydown", onTooltipDocumentKeydown);
+    else document.removeEventListener("keydown", onTooltipDocumentKeydown);
+}
+watch(tooltipVisible, (visible) => setTooltipDocListener(visible), { flush: "sync" });
+onBeforeUnmount(() => setTooltipDocListener(false));
 const invalid = ref(false);
 
 /**
@@ -1427,6 +1486,7 @@ function onMeridiemChange(event: Event): void {
 // ---------------------------------------------------------------
 
 function onTriggerClick(): void {
+    hoverButton.value = false;
     void (open.value ? closeDialog() : openDialog());
 }
 
@@ -1578,6 +1638,11 @@ onBeforeUnmount(() => {
                 :aria-controls="dialogId"
                 :disabled="disabled || readonly"
                 @click="onTriggerClick"
+                @mouseenter="onTooltipButtonEnter"
+                @mouseleave="onTooltipButtonLeave"
+                @focus="onTooltipButtonFocus"
+                @blur="onTooltipButtonBlur"
+                @keydown="onTooltipKeydown"
             >
                 <slot v-bind="{ value: current, open, display }">
                     <span class="date-time-picker-icon" aria-hidden="true"
@@ -1585,6 +1650,18 @@ onBeforeUnmount(() => {
                     >
                 </slot>
             </IconButton>
+
+            <!-- Purely visual: the same text is already the button's aria-label,
+                 so it is not wired with aria-describedby (that would announce
+                 the name twice). -->
+            <div
+                class="date-time-picker-tooltip"
+                role="tooltip"
+                :id="tooltipId"
+                :hidden="tooltipVisible ? undefined : true"
+                @mouseenter="hoverTooltip = true"
+                @mouseleave="hoverTooltip = false"
+            >{{ label }}</div>
         </div>
 
         <!-- Present in the DOM before it has content: a live region that

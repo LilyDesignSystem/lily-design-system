@@ -205,6 +205,7 @@ Renders (listbox closed):
   >
     <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true">…</svg>
   </button>
+  <div class="locale-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
   <ul
     class="locale-picker-list"
     id="locale-picker-1-list"
@@ -385,6 +386,7 @@ The package ships **zero CSS**. These are the class hooks it emits:
 | `.locale-picker`        | root `<div>`              | Plus whatever you pass as `className`.                                                             |
 | `.locale-picker-button` | the trigger `<button>`    | Icon-only by default.                                                                              |
 | `.locale-picker-icon`   | the icon `<svg>`          | Absent when you project your own `<ng-template>`.                                                  |
+| `.locale-picker-tooltip` | `<div role="tooltip">` after the button | Holds the button's `label`; `hidden` unless hovered / keyboard-focused. |
 | `.locale-picker-list`   | the `<ul role="listbox">` | Carries `hidden` while closed.                                                                     |
 | `.locale-picker-option` | each `<li role="option">` | Style selection with `[aria-selected="true"]` and the keyboard-active option with `[data-active]`. |
 

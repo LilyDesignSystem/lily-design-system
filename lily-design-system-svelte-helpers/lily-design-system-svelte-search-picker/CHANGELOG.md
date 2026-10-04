@@ -18,3 +18,5 @@ Safari-safe before release: a focusout with no `relatedTarget` (Safari
 does not focus a `<button>` on click) no longer closes the panel —
 reproduced in real WebKit, where clicking `⏎` closed the panel before
 the click landed and the search never ran (§7.24).
+
+**Fix: the tooltip's `Escape` dismissal now works wherever focus is (WCAG 1.4.13).** It was bound to the button's keydown only, so a tooltip shown by pointer hover alone could not be dismissed. While the tooltip is visible a document `keydown` listener (added once, removed on hide/unmount; no `preventDefault`, no focus move) sets it dismissed. New clauses §7.31–§7.32.

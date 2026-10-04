@@ -676,3 +676,132 @@ describe("MotionPicker — motionName / prefersReducedMotion (§7.23)", () => {
     expect(prefersReducedMotion()).toBe(false);
   });
 });
+
+describe("motion-picker — tooltip (§7.24–§7.29)", () => {
+  function setup() {
+    const fixture = mount();
+    const button = q<HTMLButtonElement>(fixture, ".motion-picker-button");
+    const tip = q<HTMLElement>(fixture, ".motion-picker-tooltip");
+    const hover = (el: Element, type: "mouseenter" | "mouseleave") => {
+      el.dispatchEvent(new MouseEvent(type, { bubbles: true }));
+      fixture.detectChanges();
+    };
+    const hidden = () => tip.hasAttribute("hidden");
+    return { fixture, button, tip, hover, hidden };
+  }
+
+  test("§7.24 renders a role=tooltip element holding the label, hidden at rest, not aria-describedby-linked", () => {
+    const { button, tip, hidden } = setup();
+    expect(tip.getAttribute("role")).toBe("tooltip");
+    expect(tip.textContent).toBe("Motion");
+    expect(hidden()).toBe(true);
+    expect(tip.id).toBeTruthy();
+    expect(button.hasAttribute("aria-describedby")).toBe(false);
+    expect(tip.previousElementSibling).toBe(button.closest("lily-icon-button"));
+  });
+
+  test("§7.25 pointer over the button shows it; leaving hides it", () => {
+    const { button, hover, hidden } = setup();
+    hover(button, "mouseenter");
+    expect(hidden()).toBe(false);
+    hover(button, "mouseleave");
+    expect(hidden()).toBe(true);
+  });
+
+  test("§7.26 it stays visible while the pointer is over the tooltip itself", () => {
+    const { button, tip, hover, hidden } = setup();
+    hover(button, "mouseenter");
+    hover(button, "mouseleave");
+    hover(tip, "mouseenter");
+    expect(hidden()).toBe(false);
+    hover(tip, "mouseleave");
+    expect(hidden()).toBe(true);
+  });
+
+  test("§7.27 keyboard focus shows it; blur hides it", async () => {
+    const { fixture, button, hidden } = setup();
+    // jsdom has no input-modality tracking; stand in for the keyboard.
+    vi.spyOn(button, "matches").mockImplementation((s) => s === ":focus-visible");
+    button.focus();
+    fixture.detectChanges();
+    expect(hidden()).toBe(false);
+    button.blur();
+    fixture.detectChanges();
+    expect(hidden()).toBe(true);
+  });
+
+  test("§7.27 mouse-induced focus (not :focus-visible) does not show it", async () => {
+    const { fixture, button, hidden } = setup();
+    vi.spyOn(button, "matches").mockReturnValue(false);
+    button.focus();
+    fixture.detectChanges();
+    expect(hidden()).toBe(true);
+  });
+
+  test("§7.28 Escape dismisses it without moving focus; re-entering shows it again", () => {
+    const { fixture, button, hover, hidden } = setup();
+    button.focus();
+    hover(button, "mouseenter");
+    expect(hidden()).toBe(false);
+    const ev = new KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true });
+    button.dispatchEvent(ev);
+    fixture.detectChanges();
+    expect(hidden()).toBe(true);
+    expect(document.activeElement).toBe(button);
+    hover(button, "mouseleave");
+    hover(button, "mouseenter");
+    expect(hidden()).toBe(false);
+  });
+
+  test("§7.29 it is never shown while the popup is open", async () => {
+    const { fixture, button, hover, hidden } = setup();
+    hover(button, "mouseenter");
+    button.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    await flush();
+    fixture.detectChanges();
+    expect(button.getAttribute("aria-expanded")).toBe("true");
+    expect(hidden()).toBe(true);
+    hover(button, "mouseenter");
+    expect(hidden()).toBe(true);
+  });
+
+  test("§7.30 pointer hover shows it with focus elsewhere; Escape on another element dismisses it, and the document listener is gone after hide/destroy", () => {
+    const { fixture, button, hover, hidden } = setup();
+    const keydownAdds = (spy: ReturnType<typeof vi.spyOn>) =>
+      spy.mock.calls.filter((c) => c[0] === "keydown");
+    const add = vi.spyOn(document, "addEventListener");
+    const remove = vi.spyOn(document, "removeEventListener");
+    try {
+      const other = document.createElement("input");
+      document.body.appendChild(other);
+      other.focus();
+      hover(button, "mouseenter");
+      expect(hidden()).toBe(false);
+      expect(document.activeElement).toBe(other);
+      expect(keydownAdds(add).length).toBe(1); // added once, not per change detection
+      fixture.detectChanges();
+      expect(keydownAdds(add).length).toBe(1);
+
+      const ev = new KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true });
+      other.dispatchEvent(ev);
+      fixture.detectChanges();
+      expect(hidden()).toBe(true);
+      expect(ev.defaultPrevented).toBe(false);
+      expect(document.activeElement).toBe(other);
+      expect(keydownAdds(remove).length).toBe(1); // removed on hide
+      expect(keydownAdds(remove)[0][1]).toBe(keydownAdds(add)[0][1]);
+
+      // Re-entering shows it again (listener re-added), destroy removes it.
+      hover(button, "mouseleave");
+      hover(button, "mouseenter");
+      expect(hidden()).toBe(false);
+      expect(keydownAdds(add).length).toBe(2);
+      fixture.destroy();
+      expect(keydownAdds(remove).length).toBe(2);
+      other.remove();
+    } finally {
+      add.mockRestore();
+      remove.mockRestore();
+    }
+  });
+});

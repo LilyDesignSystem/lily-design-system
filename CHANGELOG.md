@@ -9,6 +9,23 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Tooltips on every picker — 2026-10-04
+
+Maintainer-directed: all seven pickers in all eight catalogs (56 packages)
+render a `<div class="{helper}-tooltip" role="tooltip" hidden>` after their
+icon button, holding the button's own `label` (no new prop, no new English
+text). Shown on pointer hover over the button or the tooltip itself
+(hoverable) and on keyboard focus (`:focus-visible`); `Escape` dismisses it wherever focus is (a real-browser run found a button-only handler left a hover-shown tooltip undismissable);
+never shown while the popup is open (WCAG 1.4.13). Deliberately **not**
+linked by `aria-describedby`: it duplicates the `aria-label`, so linking
+would announce the name twice. The 45 reference themes style it (inverse
+page colours, a `::before` strip bridging the gap to the button). Blazor
+tells pointer focus from keyboard focus by a preceding `mousedown`, since
+`:focus-visible` needs JS interop. Additive: new class hook, minor bump
+for the affected packages. `picker-bar` bumped 0.1.0 → 0.2.0 for the
+earlier breaking `labels` change. Full suites green in every catalog; not
+verified in real Chromium and WebKit (HTML catalog), and not published.
+
 ## New helper: `search-picker`, first in `picker-bar` — 2026-10-02
 
 **`search-picker`** (maintainer-directed) ships in all eight `*-helpers`

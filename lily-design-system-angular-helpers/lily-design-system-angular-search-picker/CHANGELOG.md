@@ -4,6 +4,17 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.1.0 — 2026-10-02, additions before first publication
+
+**Added: picker tooltip (minor, additive).** A new
+`.search-picker-tooltip` element (`role="tooltip"`, `hidden` at rest) follows the
+icon button inside the root and shows the button's existing `label` on
+pointer hover (hoverable), on keyboard focus (`:focus-visible`), and is dismissed by
+`Escape` or hidden while the panel is open. No new inputs, no new English
+text, not linked by `aria-describedby`. New class hook: `search-picker-tooltip`.
+
+**Fixed: tooltip `Escape` works wherever focus is.** While the tooltip is visible a `document` `keydown` listener (added/removed by an `effect()` on `tooltipVisible`, SSR-safe, no leak) dismisses it, so a hover-only tooltip is dismissable without moving the pointer or focus (WCAG 1.4.13). New spec clause §7.31.
+
 ## 0.1.0 — 2026-10-02
 
 **New helper (maintainer-directed), ported from the Svelte canonical

@@ -4,6 +4,17 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.3.0 — 2026-10-04
+
+**Added (minor, additive): picker tooltip.** A new `.date-time-picker-tooltip` element
+(`<div role="tooltip">`, a sibling right after the icon button, always rendered, `hidden` at rest)
+holding the button's `Label` text, shown on pointer hover (hoverable) and keyboard focus, dismissed
+by `Escape`, never shown while the popup is open. No new parameters, no new English text, no
+`aria-describedby`. Blazor deviation: keyboard focus is told from pointer focus via
+`@onmousedown` + `@onfocus` rather than `:focus-visible` (no JS interop). 6 new tests.
+
+**Tooltip Escape works wherever focus is inside the picker.** `@onkeydown` on the root and tooltip dismisses a visible tooltip, not just on the button (WCAG 1.4.13). Blazor deviation: no document-level listener without JS interop, so Escape with focus entirely outside the picker (hover only) is not supported. 2 new tests.
+
 ## 0.1.1 — 2026-09-21
 
 **Internal refactor: the trigger button now depends on

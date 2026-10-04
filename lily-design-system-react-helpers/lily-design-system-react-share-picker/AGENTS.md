@@ -89,3 +89,7 @@ trigger class is `share-picker-button`, following the same
 - No bundled CSS, fonts, icons, images, or third-party URLs.
 - All user-facing strings come from props — including the copy label,
   which is why the copy item is opt-in.
+
+## Tooltip
+
+`<div class="share-picker-tooltip" role="tooltip" id="{baseId}-tooltip" hidden>{label}</div>` is a sibling right after the icon button, always in the DOM, text = `label` (no new props). Shown on pointer hover (button or tooltip) or `:focus-visible` keyboard focus; `Escape` on the button dismisses it without moving focus; never shown while the disclosure list is open. Not linked with `aria-describedby` (it duplicates `aria-label`). Position/appearance is theme CSS keyed on `hidden`.

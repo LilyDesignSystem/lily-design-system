@@ -9,7 +9,7 @@ A reusable Blazor headless theme select that **loads theme CSS files
 dynamically at runtime** from a developer-supplied directory URL. It
 renders an icon button (a bundled contrast/half-circle SVG) that opens a dropdown listbox. Ships no
 CSS; consumer styles the `theme-picker`, `theme-picker-button`,
-`theme-picker-icon`, `theme-picker-list`, and `theme-picker-option`
+`theme-picker-icon`, `theme-picker-tooltip`, `theme-picker-list`, and `theme-picker-option`
 class hooks — see `docs/styling.md`.
 
 ## Files

@@ -670,6 +670,7 @@
 
     const baseId = nextDateTimePickerId();
     const dialogId = `${baseId}-dialog`;
+    const tooltipId = `${baseId}-tooltip`;
     const periodId = `${baseId}-period`;
     const hourId = `${baseId}-hour`;
     const minuteId = `${baseId}-minute`;
@@ -688,6 +689,46 @@
     const instructionsId = `${baseId}-instructions`;
 
     let open = $state(false);
+
+    // Tooltip: shown while the pointer is over the button or the tooltip
+    // itself (hoverable, WCAG 1.4.13) or while the button has keyboard
+    // focus; Escape dismisses it without moving focus; never shown while
+    // the popup is open, since the popup then explains the control.
+    let hoverButton = $state(false);
+    let hoverTooltip = $state(false);
+    let focusButton = $state(false);
+    let dismissed = $state(false);
+    const tooltipVisible = $derived(
+        !open && !dismissed && (hoverButton || hoverTooltip || focusButton),
+    );
+
+    function onButtonFocus(): void {
+        // Keyboard focus only: a mouse click also focuses the button in
+        // Chromium, and the tooltip should not stick after a click.
+        try {
+            focusButton = buttonEl?.matches(":focus-visible") ?? false;
+        } catch {
+            focusButton = true; // engine without :focus-visible — err towards showing
+        }
+    }
+
+    // WCAG 1.4.13 "dismissable": a tooltip shown by pointer hover alone has
+    // no focus on the button, so Escape must work wherever focus is. The
+    // document listener exists only while the tooltip is visible and is
+    // removed on hide/destroy ($effect cleanup). $effect never runs during
+    // SSR. It neither prevents default, stops propagation, nor moves focus.
+    $effect(() => {
+        if (!tooltipVisible) return;
+        const onDocumentKeydown = (event: KeyboardEvent): void => {
+            if (event.key === "Escape") dismissed = true;
+        };
+        document.addEventListener("keydown", onDocumentKeydown);
+        return () => document.removeEventListener("keydown", onDocumentKeydown);
+    });
+
+    function onButtonKeydown(event: KeyboardEvent): void {
+        if (event.key === "Escape" && tooltipVisible) dismissed = true;
+    }
     let invalid = $state(false);
 
     /**
@@ -1464,7 +1505,12 @@
             aria-expanded={open}
             aria-controls={dialogId}
             disabled={disabled || readonly}
-            onclick={() => (open ? closeDialog() : openDialog())}
+            onclick={() => { hoverButton = false; if (open) closeDialog(); else openDialog(); }}
+            onkeydown={onButtonKeydown}
+            onmouseenter={() => { hoverButton = true; dismissed = false; }}
+            onmouseleave={() => { hoverButton = false; }}
+            onfocus={onButtonFocus}
+            onblur={() => { focusButton = false; dismissed = false; }}
         >
             {#if children}
                 {@render children({ value: value ?? "", open, display })}
@@ -1474,6 +1520,19 @@
                 >
             {/if}
         </IconButton>
+
+        <!-- Purely visual: the same text is already the button's aria-label,
+             so it is not wired with aria-describedby (that would announce the
+             name twice). -->
+        <!-- svelte-ignore a11y_no_static_element_interactions -->
+        <div
+            class="date-time-picker-tooltip"
+            role="tooltip"
+            id={tooltipId}
+            hidden={!tooltipVisible}
+            onmouseenter={() => { hoverTooltip = true; }}
+            onmouseleave={() => { hoverTooltip = false; }}
+        >{label}</div>
     </div>
 
     {#if labels.invalid}

@@ -146,6 +146,7 @@ The rendered tree is:
   >
     <svg class="theme-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>
   </button>
+  <div class="theme-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
   <ul
     class="theme-picker-list"
     id="{listId}"
@@ -167,6 +168,8 @@ The rendered tree is:
   </ul>
 </div>
 ```
+
+**Tooltip.** `.theme-picker-tooltip` is a sibling of the button, always in the DOM, `hidden` at rest, holding the button's `label` text. It is shown while the pointer is over the button or over the tooltip itself (hoverable) and while the button has keyboard focus (`:focus-visible`, falling back to shown where unsupported); `Escape` dismisses it without moving focus, wherever focus is while the tooltip is visible (a `document`-level `keydown` listener, present only while it is shown, so hover alone suffices; WCAG 1.4.13) (until the pointer enters or focus leaves and returns); it is never shown while the listbox is open. It is purely visual: the text duplicates the button's `aria-label`, so it is deliberately **not** linked with `aria-describedby`. Position and appearance are consumer/theme CSS, via the `hidden` attribute. State lives in a small `usePickerTooltip` hook inside the component file; the added `.theme-picker-tooltip` element is the only new API.
 
 - **Root element:** `<div className="theme-picker {className}">`. Rest
   props spread onto this `<div>`.
@@ -483,6 +486,19 @@ returning `""` for an unsupported slug, and returning `""` when
 | Clause | Test asserts |
 | ------ | ------------ |
 | §7.25  | Controlled mode fires `onChange` once per changed value: the consumer writing the value back does not re-fire it. |
+
+### Tooltip
+
+| Clause | Test asserts |
+| ------ | ------------ |
+| §7.26 | Renders `.theme-picker-tooltip` with `role="tooltip"` right after the button, holding `label`, `hidden` at rest, and the button carries no `aria-describedby`. |
+| §7.27 | Pointer over the button shows it; leaving hides it. |
+| §7.28 | It stays visible while the pointer is over the tooltip itself. |
+| §7.29 | Keyboard focus on the button (`:focus-visible`) shows it; blur hides it; mouse-induced focus does not. |
+| §7.30 | `Escape` on the button dismisses it without moving focus; re-entering shows it again. |
+| §7.31 | It is never shown while the listbox is open. |
+| §7.32 | Pointer hover shows it with focus elsewhere; `Escape` pressed on `document.body` or another element dismisses it without moving focus. |
+| §7.33 | The `document` `keydown` listener exists only while the tooltip is visible: added once, removed on hide and on unmount. |
 
 ## 8. Out-of-scope (future, not implemented here)
 

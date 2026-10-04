@@ -85,6 +85,8 @@ slug. `aria-activedescendant` sits on the `<ul>` only while open;
 different thing from `aria-selected`. Full markup:
 [spec/index.md §4.5](./spec/index.md#45-dom-contract).
 
+**Tooltip.** Right after the button the root also holds `<div class="text-size-picker-tooltip" role="tooltip" id="{baseId}-tooltip" hidden>{label}</div>` — purely visual (hover/hoverable, keyboard `:focus-visible`, `Escape` dismisses, never while the popup is open), deliberately not `aria-describedby`-linked, built by the module-local `createTooltip()` helper.
+
 ## Accessibility
 
 - WCAG 2.2 AAA target; WAI-ARIA APG listbox pattern. This helper's

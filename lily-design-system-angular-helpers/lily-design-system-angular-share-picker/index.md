@@ -164,7 +164,7 @@ Outputs are Angular `output()`s rather than callback inputs:
 
 Class hooks: `.share-picker` (root), `.share-picker-button`,
 `.share-picker-icon`, `.share-picker-list`, `.share-picker-list-item`,
-`.share-picker-target`, `.share-picker-copy`, `.share-picker-status`.
+`.share-picker-target`, `.share-picker-copy`, `.share-picker-status`, `.share-picker-tooltip`.
 
 The package ships no CSS beyond the bundled default icon markup. The
 root `themes/` stylesheets style the button and popup; since the

@@ -98,6 +98,8 @@ aria-label="{label}" tabindex="-1" hidden>` holding one
 aria-selected>` per locale, with `lang="{tag}"` present only when
 the option's label is the derived endonym.
 
+**Tooltip.** Right after the button the root also holds `<div class="locale-picker-tooltip" role="tooltip" id="{baseId}-tooltip" hidden>{label}</div>` — purely visual (hover/hoverable, keyboard `:focus-visible`, `Escape` dismisses, never while the popup is open), deliberately not `aria-describedby`-linked, built by the module-local `createTooltip()` helper.
+
 `aria-activedescendant` sits on the `<ul>` only while open.
 `data-active` marks the keyboard-highlighted option; `aria-selected`
 marks the applied one — different things. Ids come from

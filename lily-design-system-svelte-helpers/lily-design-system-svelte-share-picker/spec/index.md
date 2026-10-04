@@ -108,6 +108,7 @@ type ChildArgs = { open: boolean; url: string };
   >
     <svg class="share-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5"/></svg>
   </button>
+  <div class="share-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
   <ul class="share-picker-list" id="{listId}" hidden>
     <li class="share-picker-list-item">
       <a
@@ -126,6 +127,19 @@ type ChildArgs = { open: boolean; url: string };
   <p class="share-picker-status" aria-live="polite"></p>
 </div>
 ```
+
+**Tooltip.** `.share-picker-tooltip` is a sibling right after the button, always in
+the DOM, `hidden` at rest, holding the button's `label` text. It is shown
+while the pointer is over the button or over the tooltip itself
+(hoverable) and while the button has keyboard focus (`:focus-visible`);
+`Escape` dismisses it without moving focus, wherever focus is while the
+tooltip is visible (a document-level `keydown` listener present only
+while it is visible, so hover-only tooltips are dismissable too —
+WCAG 1.4.13) (until the pointer or focus re-enters); it is never shown while the disclosure list is open. It is purely
+visual: the text duplicates the button's `aria-label`, so it is
+deliberately **not** linked with `aria-describedby` (that would announce
+the name twice). Position and appearance are consumer/theme CSS, via the
+`hidden` attribute.
 
 The trigger's class is `share-picker-button`, matching the
 `{helper}-button` convention the sibling helpers use.
@@ -220,6 +234,14 @@ sees on a phone is not what they see on a desktop.
     list rendered partly off-screen by unstyled/un-overridden
     positioning CSS never forces the browser to scroll the whole page
     into view.
+26. Renders `.share-picker-tooltip` with `role="tooltip"` right after the button, holding `label`, `hidden` at rest, and the button carries no `aria-describedby`.
+27. Pointer over the button shows it; leaving hides it.
+28. It stays visible while the pointer is over the tooltip itself.
+29. Keyboard focus on the button shows it (mouse-induced focus does not); blur hides it.
+30. `Escape` on the button dismisses it; re-entering shows it again.
+31. It is never shown while the disclosure list is open.
+32. While the tooltip is visible, `Escape` pressed anywhere (e.g. on `document.body` or another element, with the pointer hovering and focus elsewhere) dismisses it without moving focus or preventing default.
+33. The document `keydown` listener exists only while the tooltip is visible: added once on show, never doubled, removed on hide and on unmount.
 
 ## 8. Tracking
 

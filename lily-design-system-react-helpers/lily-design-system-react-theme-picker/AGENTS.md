@@ -123,3 +123,7 @@ the component owns the options.
 - No runtime dependency beyond `react`.
 - No bundled CSS, fonts, icons, or images.
 - All user-facing strings come from props.
+
+## Tooltip
+
+`<div class="theme-picker-tooltip" role="tooltip" id="{baseId}-tooltip" hidden>{label}</div>` is a sibling right after the icon button, always in the DOM, text = `label` (no new props). Shown on pointer hover (button or tooltip) or `:focus-visible` keyboard focus; `Escape` on the button dismisses it without moving focus; never shown while the listbox is open. Not linked with `aria-describedby` (it duplicates `aria-label`). Position/appearance is theme CSS keyed on `hidden`.

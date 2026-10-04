@@ -201,6 +201,7 @@ sibling's own `docs/ssr.md`; `picker-bar` adds nothing here.
   `searchProps.action` `"/search"` on the macro and a `navigate` spy in
   `initPickerBar`'s `searchProps`, searching `foo` navigates to
   `/search?foo`.
+- §7.14 Each of the five nested pickers renders its `.{helper}-picker-tooltip` and `initPickerBar` wires it (hover shows, leave hides); the bar adds no tooltip of its own.
 
 ## 8. Relationship to the `*-picker` helpers
 

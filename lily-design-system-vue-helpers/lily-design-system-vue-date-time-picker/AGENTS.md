@@ -157,3 +157,7 @@ Two, both deliberate and both noted in spec §3:
    in `AGENTS/helpers.md` applies only to its trigger.
 2. **Strings arrive as one `labels` object**, not a dozen flat `*Label`
    props. The siblings need two or three strings; this needs ten.
+
+## Tooltip
+
+`<div class="date-time-picker-tooltip" role="tooltip" id="{baseId}-tooltip" hidden>{label}</div>` — right after the calendar trigger button (inside `.date-time-picker-field`, not after the text field); text is the button's `label`; shown on pointer hover (button or tooltip) or `:focus-visible` on the button, dismissed by `Escape` on the button, never shown while the dialog is open; deliberately not `aria-describedby`-linked. Class hook: `.date-time-picker-tooltip`.

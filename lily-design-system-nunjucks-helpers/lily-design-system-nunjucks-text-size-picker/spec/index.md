@@ -174,6 +174,7 @@ render options.
   >
     <svg class="text-size-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="1.05rem" height="1.05rem"><path d="M4 13 7.2 3h1.6L12 13M5.4 9.5h5.2"/></svg>
   </button>
+  <div class="text-size-picker-tooltip" role="tooltip" id="{id}-tooltip" hidden>{label}</div>
   <ul
     class="text-size-picker-list"
     id="{id}-list"
@@ -195,6 +196,8 @@ render options.
   </ul>
 </div>
 ```
+
+**Tooltip.** `.text-size-picker-tooltip` is a sibling right after the icon button, always in the markup, `hidden` at rest, holding the button's `label` text (no new macro argument, no new English). `client.js` shows it while the pointer is over the button or over the tooltip itself (hoverable) and while the button has keyboard focus (`:focus-visible`; a mouse click's focus does not count); `Escape` dismisses it without moving focus, wherever focus is while the tooltip is visible (a document-level `keydown` listener exists only while it is shown, so pointer-hover-only works too; WCAG 1.4.13), until the pointer re-enters or focus leaves and returns; it is never shown while the listbox is open. It is purely visual: the text duplicates the button's `aria-label`, so it is deliberately **not** linked with `aria-describedby` (that would announce the name twice). Position and appearance are consumer/theme CSS, via the `hidden` attribute. Canonical reference: the Svelte helper's Tooltip paragraph.
 
 - `labelFor(slug)` is `sizeLabels[slug]` when present, else the slug
   title-cased per hyphen-word (`x-large` → `X Large`).
@@ -437,6 +440,14 @@ Ported from the canonical Svelte spec's §7.14–§7.17.
 33. **§7.33** An `onChange` that mirrors the value back through
     `setSize` does not re-enter apply: it fires once per changed
     value.
+34. **§7.34** Renders `.text-size-picker-tooltip` (`role="tooltip"`) as a sibling right after the icon button, holding the button's label, `hidden` at rest, and the button carries no `aria-describedby`.
+35. **§7.35** Pointer over the button shows it; leaving hides it.
+36. **§7.36** It stays visible while the pointer is over the tooltip itself.
+37. **§7.37** Keyboard focus on the button (`:focus-visible`) shows it; blur hides it; mouse-induced focus does not.
+38. **§7.38** `Escape` on the button dismisses it without moving focus; re-entering shows it again.
+39. **§7.39** It is never shown while the listbox is open.
+40. **§7.40** Initialising the same root twice replaces the first tooltip wiring rather than doubling it.
+41. **§7.41** Pointer hover shows the tooltip with focus elsewhere; Escape pressed on `document.body` or another element dismisses it (without `preventDefault`, without moving focus), and the document `keydown` listener exists only while the tooltip is visible (removed on hide, `destroy()` and re-init).
 
 ## 8. Out-of-scope (future)
 

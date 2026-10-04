@@ -139,6 +139,7 @@ name.
   >
     <span class="text-size-picker-icon" aria-hidden="true">A</span>
   </button>
+  <div class="text-size-picker-tooltip" role="tooltip" id="{tooltipId}" hidden>{label}</div>
   <ul
     class="text-size-picker-list"
     id="{listId}"
@@ -160,6 +161,16 @@ name.
   </ul>
 </div>
 ```
+
+**Tooltip.** `.text-size-picker-tooltip` is a sibling right after the icon button, always in the DOM,
+`hidden` at rest, holding the button's `label` text. It is shown while the
+pointer is over the button or over the tooltip itself (hoverable) and while
+the button has keyboard focus (`:focus-visible`); `Escape` dismisses it without moving focus, wherever focus is while it is visible (a document-level listener, present only while shown; until the pointer or focus re-enters);
+clicking the button clears the hover; it is never shown while the listbox is
+open. It is purely visual: the text duplicates the button's `aria-label`,
+so it is deliberately **not** linked with `aria-describedby` (that would
+announce the name twice). Position and appearance are consumer/theme CSS,
+via the `hidden` attribute.
 
 - Root element: a `<div class="text-size-picker {class}">`. `$attrs`
   falls through to it via the default Vue `inheritAttrs` behaviour.
@@ -387,6 +398,13 @@ the same four clauses are numbered 19–22 here.)
     multi-character buffer refines from the active option.
 21. `PageUp` / `PageDown` move the cursor by ten, clamped.
 22. An empty list opens without `aria-activedescendant`.
+23. Renders `.text-size-picker-tooltip` with `role="tooltip"`, holding `label`, `hidden` at rest, and the button carries no `aria-describedby`.
+24. Pointer over the button shows it; leaving hides it.
+25. It stays visible while the pointer is over the tooltip itself.
+26. Keyboard focus (`:focus-visible`) on the button shows it; blur hides it; mouse-induced focus does not.
+27. `Escape` on the button dismisses it without moving focus; re-entering shows it again.
+28. It is never shown while the listbox is open.
+29. `Escape` pressed anywhere (e.g. on `document.body` or another element, with the tooltip shown by pointer hover alone) dismisses it without moving focus; the document `keydown` listener exists only while the tooltip is visible and is removed on hide and on unmount.
 
 ## 8. Out-of-scope (future, not implemented here)
 
