@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: ToolCallName
+description: the name of the tool in a tool call, shown in the summary
+---
+
+{% from "components/tool-call-name/macro.njk" import toolCallName %}
+
+<h2>Tool name</h2>
+{% call toolCallName({}) %}search_web{% endcall %}

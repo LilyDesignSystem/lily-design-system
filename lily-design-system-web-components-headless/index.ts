@@ -813,6 +813,24 @@ if (!customElements.get("lily-sunburst-chart")) customElements.define("lily-sunb
 export { StreamingText } from "./components/streaming-text.js";
 import { StreamingText as _StreamingText } from "./components/streaming-text.js";
 if (!customElements.get("lily-streaming-text")) customElements.define("lily-streaming-text", _StreamingText);
+export { ToolCall } from "./components/tool-call.js";
+import { ToolCall as _ToolCall } from "./components/tool-call.js";
+if (!customElements.get("lily-tool-call")) customElements.define("lily-tool-call", _ToolCall);
+export { ToolCallName } from "./components/tool-call-name.js";
+import { ToolCallName as _ToolCallName } from "./components/tool-call-name.js";
+if (!customElements.get("lily-tool-call-name")) customElements.define("lily-tool-call-name", _ToolCallName);
+export { ToolCallStatus } from "./components/tool-call-status.js";
+import { ToolCallStatus as _ToolCallStatus } from "./components/tool-call-status.js";
+if (!customElements.get("lily-tool-call-status")) customElements.define("lily-tool-call-status", _ToolCallStatus);
+export { ToolCallInput } from "./components/tool-call-input.js";
+import { ToolCallInput as _ToolCallInput } from "./components/tool-call-input.js";
+if (!customElements.get("lily-tool-call-input")) customElements.define("lily-tool-call-input", _ToolCallInput);
+export { ToolCallOutput } from "./components/tool-call-output.js";
+import { ToolCallOutput as _ToolCallOutput } from "./components/tool-call-output.js";
+if (!customElements.get("lily-tool-call-output")) customElements.define("lily-tool-call-output", _ToolCallOutput);
+export { ToolCallError } from "./components/tool-call-error.js";
+import { ToolCallError as _ToolCallError } from "./components/tool-call-error.js";
+if (!customElements.get("lily-tool-call-error")) customElements.define("lily-tool-call-error", _ToolCallError);
 
 export { GoToNextSection } from "./components/go-to-next-section.js";
 import { GoToNextSection as _GoToNextSection } from "./components/go-to-next-section.js";

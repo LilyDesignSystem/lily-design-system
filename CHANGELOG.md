@@ -9,6 +9,22 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## `tool-call` and five inner parts, catalog 563 → 569 — 2026-10-05
+
+From the Baby UI triage: `tool-call` (a native `<details>`, closed by default,
+`status` pending | running | done | error → `data-status`, `aria-busy` only
+while running, `open` bindable) with `tool-call-name`, `tool-call-status`
+(the visible status word, so state is never colour alone), `tool-call-input`
+and `tool-call-output` (named groups when `label` is given) and
+`tool-call-error` (`role="alert"`; the docs say to open the call on error,
+since an alert inside a closed `<details>` is not announced). The summary
+slot is per framework (snippet / prop / named slot / projected
+`toolCallSummary` element / `Summary` fragment / `params.summary` /
+`slot="summary"`). All eight headless libraries. `tool-chips`, the other
+Baby UI tool component, is deferred (maintainer decision). Verified: Svelte
+64 (+32 examples), React 32, Vue 26, Angular 25, Blazor 33, Nunjucks 38,
+Web Components 38, HTML 6 specs in real Chrome. Not yet published.
+
 ## `streaming-text`, catalog 562 → 563 — 2026-10-05
 
 From the Baby UI triage, kept deliberately narrow (maintainer decision): a

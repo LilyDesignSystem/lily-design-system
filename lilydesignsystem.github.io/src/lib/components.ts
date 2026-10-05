@@ -573,4 +573,10 @@ export const LILY_COMPONENTS: LilyComponent[] = [
   { name: "choropleth-chart", pascal: "ChoroplethChart", description: "a map chart that shades regions by the value of a measure", status: "beta" },
   { name: "sunburst-chart", pascal: "SunburstChart", description: "a radial chart showing a hierarchy as concentric rings of arcs", status: "beta" },
   { name: "streaming-text", pascal: "StreamingText", description: "text that arrives in chunks, as an AI answer streams in, announced once to screen readers when complete", status: "beta" },
+  { name: "tool-call", pascal: "ToolCall", description: "a collapsible record of one tool invocation by an AI agent, with a name, a status word, and its input, output or error", status: "beta" },
+  { name: "tool-call-name", pascal: "ToolCallName", description: "the name of the tool in a tool call, shown in the summary", status: "beta" },
+  { name: "tool-call-status", pascal: "ToolCallStatus", description: "the status of a tool call as a word, such as pending, running, done or error", status: "beta" },
+  { name: "tool-call-input", pascal: "ToolCallInput", description: "the input or arguments passed to a tool in a tool call", status: "beta" },
+  { name: "tool-call-output", pascal: "ToolCallOutput", description: "the output or result returned by a tool in a tool call", status: "beta" },
+  { name: "tool-call-error", pascal: "ToolCallError", description: "the error shown when a tool call fails", status: "beta" },
 ];

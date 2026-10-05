@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: ToolCallStatus
+description: the status of a tool call as a word, such as pending, running, done or error
+---
+
+{% from "components/tool-call-status/macro.njk" import toolCallStatus %}
+
+<h2>Running</h2>
+{% call toolCallStatus({ status: "running" }) %}Running{% endcall %}

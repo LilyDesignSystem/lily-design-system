@@ -548,6 +548,12 @@ slug below links to the per-component documentation.
 - [choropleth-chart](components/choropleth-chart): a map chart that shades regions by the value of a measure
 - [sunburst-chart](components/sunburst-chart): a radial chart showing a hierarchy as concentric rings of arcs
 - [streaming-text](components/streaming-text): text that arrives in chunks, as an AI answer streams in, announced once to screen readers when complete
+- [tool-call](components/tool-call): a collapsible record of one tool invocation by an AI agent, with a name, a status word, and its input, output or error
+- [tool-call-name](components/tool-call-name): the name of the tool in a tool call, shown in the summary
+- [tool-call-status](components/tool-call-status): the status of a tool call as a word, such as pending, running, done or error
+- [tool-call-input](components/tool-call-input): the input or arguments passed to a tool in a tool call
+- [tool-call-output](components/tool-call-output): the output or result returned by a tool in a tool call
+- [tool-call-error](components/tool-call-error): the error shown when a tool call fails
 
 ## Special-Purpose Identifiers
 

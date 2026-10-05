@@ -2416,3 +2416,35 @@
 /* streaming-text: text that arrives in chunks, as an AI answer streams in, announced once to screen readers when complete */
 .streaming-text {
 }
+
+/* tool-call: a collapsible record of one tool invocation by an AI agent, with a name, a status word, and its input, output or error */
+.tool-call {
+}
+
+/* tool-call-content: sub-element of tool-call */
+.tool-call-content {
+}
+
+/* tool-call-summary: sub-element of tool-call */
+.tool-call-summary {
+}
+
+/* tool-call-name: the name of the tool in a tool call, shown in the summary */
+.tool-call-name {
+}
+
+/* tool-call-status: the status of a tool call as a word, such as pending, running, done or error */
+.tool-call-status {
+}
+
+/* tool-call-input: the input or arguments passed to a tool in a tool call */
+.tool-call-input {
+}
+
+/* tool-call-output: the output or result returned by a tool in a tool call */
+.tool-call-output {
+}
+
+/* tool-call-error: the error shown when a tool call fails */
+.tool-call-error {
+}

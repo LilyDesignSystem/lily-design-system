@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: ToolCallOutput
+description: the output or result returned by a tool in a tool call
+---
+
+{% from "components/tool-call-output/macro.njk" import toolCallOutput %}
+
+<h2>Labelled output</h2>
+{% call toolCallOutput({ label: "Output" }) %}<pre tabindex="0">12 degrees, light rain</pre>{% endcall %}

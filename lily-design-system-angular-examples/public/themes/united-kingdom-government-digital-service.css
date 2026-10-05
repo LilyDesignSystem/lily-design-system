@@ -2350,6 +2350,52 @@
         overflow-x: auto;
     }
 
+    /* tool-call (2026-10-05): a bordered disclosure; the status word sits next
+       to the name in the summary and is never the only cue. [data-status] is
+       the consumer hook for a spinner or icon. */
+    :where(.tool-call) {
+        border: var(--border) solid var(--lily-border-strong);
+        border-radius: var(--lily-radius-md);
+        background-color: var(--lily-surface);
+        color: var(--lily-text);
+    }
+
+    :where(.tool-call-summary) {
+        display: flex;
+        align-items: center;
+        gap: var(--lily-space-sm);
+        padding: var(--lily-space-xs) var(--lily-space-sm);
+        cursor: pointer;
+    }
+
+    :where(.tool-call-content) {
+        display: grid;
+        gap: var(--lily-space-xs);
+        padding: var(--lily-space-xs) var(--lily-space-sm);
+        border-block-start: var(--border) solid var(--lily-border-strong);
+    }
+
+    :where(.tool-call-name) {
+        font-family: var(--lily-font-mono);
+    }
+
+    :where(.tool-call-status) {
+        color: var(--lily-text-muted);
+    }
+
+    :where(.tool-call-input pre, .tool-call-output pre) {
+        margin: 0;
+        overflow-x: auto;
+        font-family: var(--lily-font-mono);
+    }
+
+    :where(.tool-call-error) {
+        padding: var(--lily-space-xs) var(--lily-space-sm);
+        border: var(--border) solid var(--lily-border-strong);
+        border-radius: var(--lily-radius-sm);
+        font-weight: 600;
+    }
+
     /* Picker tooltips (added 2026-10-04): a visual-only role="tooltip"
        element beside each picker's icon button, holding the same text as
        its aria-label. The component toggles [hidden]; position and look

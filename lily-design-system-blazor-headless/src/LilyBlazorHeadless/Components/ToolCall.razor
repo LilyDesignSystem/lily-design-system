@@ -1,0 +1,35 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    ToolCall component
+    A headless disclosure for one tool invocation, built on the native <details>. Closed by default. The `summary` content (typically ToolCallName and ToolCallStatus) goes inside <summary class="tool-call-summary">; the body (ToolCallInput, ToolCallOutput, ToolCallError) goes inside <div class="tool-call-content">. `status` (pending | running | done | error) sets data-status on the root, and aria-busy="true" only while running. The component never animates, times or opens itself: the consumer owns `open` (open it on error so ToolCallError is not hidden) and any spinner/animation CSS.
+    Parameters: Status (string?), Open / OpenChanged (@bind-Open), Summary (RenderFragment),
+    ChildContent (the body). Unmatched attributes spread onto the root <details>.
+    The summary's click flips Open and raises OpenChanged while the native toggle still
+    happens, so static rendering keeps working (same as Thinking).
+*@
+
+<details class="@($"tool-call {CssClass}".Trim())"
+         open="@Open"
+         data-status="@Status"
+         aria-busy="@(Status == "running" ? "true" : null)"
+         @attributes="AdditionalAttributes">
+    <summary class="tool-call-summary" @onclick="ToggleAsync">@Summary</summary>
+    <div class="tool-call-content">@ChildContent</div>
+</details>
+
+@code {
+    [Parameter] public string? Status { get; set; }
+    [Parameter] public bool Open { get; set; }
+    [Parameter] public EventCallback<bool> OpenChanged { get; set; }
+    [Parameter] public RenderFragment? Summary { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private async Task ToggleAsync()
+    {
+        Open = !Open;
+        await OpenChanged.InvokeAsync(Open);
+    }
+}

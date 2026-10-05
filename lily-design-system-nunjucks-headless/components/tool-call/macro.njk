@@ -1,0 +1,41 @@
+{#
+  ToolCall macro -- a collapsible record of one tool invocation by an AI agent, with a name, a status word, and its input, output or error.
+
+  A headless disclosure for one tool invocation, built on the native <details>. Closed by default. The `summary` content (typically ToolCallName and ToolCallStatus) goes inside <summary class="tool-call-summary">; the body (ToolCallInput, ToolCallOutput, ToolCallError) goes inside <div class="tool-call-content">. `status` (pending | running | done | error) sets data-status on the root, and aria-busy="true" only while running. The component never animates, times or opens itself: the consumer owns `open` (open it on error so ToolCallError is not hidden) and any spinner/animation CSS.
+
+  HTML tag: <details>
+  CSS class: tool-call
+
+  Params:
+    status       string   pending | running | done | error (data-status; aria-busy only for running).
+    open         boolean  Render the details open.
+    summary      string   Raw HTML for the summary (ToolCallName + ToolCallStatus output).
+    id           string   Element id.
+    classes      string   Consumer-provided extra CSS classes.
+    attributes   object   Extra HTML attributes as key/value pairs.
+    html         string   Raw HTML body.
+    text         string   Plain text body (escaped).
+
+  Usage:
+    {% from "components/tool-call/macro.njk" import toolCall %}
+    {% call toolCall({ status: "running", summary: nameAndStatusHtml }) %}...body...{% endcall %}
+#}
+{%- macro toolCall(params) -%}
+{%- set p = params | default({}) -%}
+<details
+  class="tool-call{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.open %} open{% endif %}
+  {%- if p.status %} data-status="{{ p.status }}"{% endif %}
+  {%- if p.status == "running" %} aria-busy="true"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <summary class="tool-call-summary">{% if p.summary %}{{ p.summary | safe }}{% endif %}</summary>
+  <div class="tool-call-content">
+    {%- if p.html -%}{{ p.html | safe }}
+    {%- elif p.text -%}{{ p.text }}
+    {%- elif caller -%}{{ caller() }}
+    {%- endif -%}
+  </div>
+</details>
+{%- endmacro -%}

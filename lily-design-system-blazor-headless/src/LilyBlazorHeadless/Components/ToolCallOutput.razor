@@ -1,0 +1,16 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    ToolCallOutput component
+    A headless inner part of ToolCall: the output or result returned by a tool in a tool call. Contract: `label` (optional) sets `role="group"` and `aria-label`; without it neither is rendered.
+    Unmatched attributes spread onto the root.
+*@
+
+<div class="@($"tool-call-output {CssClass}".Trim())" role="@(string.IsNullOrEmpty(Label) ? null : "group")" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+
+@code {
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

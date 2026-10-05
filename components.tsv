@@ -561,3 +561,9 @@ composed-chart	ComposedChart	a chart that combines several chart types, such as 
 choropleth-chart	ChoroplethChart	a map chart that shades regions by the value of a measure
 sunburst-chart	SunburstChart	a radial chart showing a hierarchy as concentric rings of arcs
 streaming-text	StreamingText	text that arrives in chunks, as an AI answer streams in, announced once to screen readers when complete
+tool-call	ToolCall	a collapsible record of one tool invocation by an AI agent, with a name, a status word, and its input, output or error
+tool-call-name	ToolCallName	the name of the tool in a tool call, shown in the summary
+tool-call-status	ToolCallStatus	the status of a tool call as a word, such as pending, running, done or error
+tool-call-input	ToolCallInput	the input or arguments passed to a tool in a tool call
+tool-call-output	ToolCallOutput	the output or result returned by a tool in a tool call
+tool-call-error	ToolCallError	the error shown when a tool call fails

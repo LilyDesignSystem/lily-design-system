@@ -1,0 +1,34 @@
+{#
+  ToolCallError macro -- the error shown when a tool call fails.
+
+  A headless inner part of ToolCall. Contract: `role="alert"` announces the error when it appears (open the tool call on error so it is not hidden inside a closed `<details>`).
+
+  HTML tag: <div>
+  CSS class: tool-call-error
+
+  Params:
+
+    id           string   Element id.
+    classes      string   Consumer-provided extra CSS classes.
+    attributes   object   Extra HTML attributes as key/value pairs.
+    html         string   Raw HTML content.
+    text         string   Plain text content (escaped).
+
+  Usage:
+    {% from "components/tool-call-error/macro.njk" import toolCallError %}
+    {% call toolCallError({}) %}Text{% endcall %}
+#}
+{%- macro toolCallError(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="tool-call-error{% if p.classes %} {{ p.classes }}{% endif %}"
+   role="alert"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif p.text -%}{{ p.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</div>
+{%- endmacro -%}

@@ -228,6 +228,12 @@ export { default as ComposedChart } from "./components/ComposedChart/ComposedCha
 export { default as ChoroplethChart } from "./components/ChoroplethChart/ChoroplethChart.svelte";
 export { default as SunburstChart } from "./components/SunburstChart/SunburstChart.svelte";
 export { default as StreamingText } from "./components/StreamingText/StreamingText.svelte";
+export { default as ToolCall } from "./components/ToolCall/ToolCall.svelte";
+export { default as ToolCallName } from "./components/ToolCallName/ToolCallName.svelte";
+export { default as ToolCallStatus } from "./components/ToolCallStatus/ToolCallStatus.svelte";
+export { default as ToolCallInput } from "./components/ToolCallInput/ToolCallInput.svelte";
+export { default as ToolCallOutput } from "./components/ToolCallOutput/ToolCallOutput.svelte";
+export { default as ToolCallError } from "./components/ToolCallError/ToolCallError.svelte";
 export { default as GoToNextSection } from "./components/GoToNextSection/GoToNextSection.svelte";
 export { default as GoToPreviousSection } from "./components/GoToPreviousSection/GoToPreviousSection.svelte";
 export { default as GoToTop } from "./components/GoToTop/GoToTop.svelte";

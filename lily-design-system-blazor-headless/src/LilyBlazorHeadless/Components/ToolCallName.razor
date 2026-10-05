@@ -1,0 +1,16 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    ToolCallName component
+    A headless inner part of ToolCall: the name of the tool in a tool call, shown in the summary. Contract: a plain wrapper with the base class and children.
+    Unmatched attributes spread onto the root.
+*@
+
+<span class="@($"tool-call-name {CssClass}".Trim())"  @attributes="AdditionalAttributes">@ChildContent</span>
+
+@code {
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

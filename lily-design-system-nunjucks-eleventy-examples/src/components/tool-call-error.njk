@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: ToolCallError
+description: the error shown when a tool call fails
+---
+
+{% from "components/tool-call-error/macro.njk" import toolCallError %}
+
+<h2>Error</h2>
+{% call toolCallError({}) %}The tool timed out.{% endcall %}

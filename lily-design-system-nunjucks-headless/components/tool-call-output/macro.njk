@@ -1,0 +1,34 @@
+{#
+  ToolCallOutput macro -- the output or result returned by a tool in a tool call.
+
+  A headless inner part of ToolCall. Contract: `label` (optional) sets `role="group"` and `aria-label`; without it neither is rendered.
+
+  HTML tag: <div>
+  CSS class: tool-call-output
+
+  Params:
+    label        string   Optional accessible name; also adds role="group".
+    id           string   Element id.
+    classes      string   Consumer-provided extra CSS classes.
+    attributes   object   Extra HTML attributes as key/value pairs.
+    html         string   Raw HTML content.
+    text         string   Plain text content (escaped).
+
+  Usage:
+    {% from "components/tool-call-output/macro.njk" import toolCallOutput %}
+    {% call toolCallOutput({}) %}Text{% endcall %}
+#}
+{%- macro toolCallOutput(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="tool-call-output{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.label %} role="group" aria-label="{{ p.label }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif p.text -%}{{ p.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</div>
+{%- endmacro -%}

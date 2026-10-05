@@ -1,0 +1,16 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    ToolCallStatus component
+    A headless inner part of ToolCall: the status of a tool call as a word, such as pending, running, done or error. Contract: `status` (optional) sets `data-status`; the visible status word is the children (consumer text, never colour alone).
+    Unmatched attributes spread onto the root.
+*@
+
+<span class="@($"tool-call-status {CssClass}".Trim())" data-status="@Status" @attributes="AdditionalAttributes">@ChildContent</span>
+
+@code {
+    [Parameter] public string? Status { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

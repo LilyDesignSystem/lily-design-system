@@ -4001,6 +4001,48 @@
                         tag: "div",
                         category: "content",
                     },
+                    {
+                        slug: "tool-call",
+                        name: "ToolCall",
+                        description: "a collapsible record of one tool invocation by an AI agent, with a name, a status word, and its input, output or error",
+                        tag: "div",
+                        category: "content",
+                    },
+                    {
+                        slug: "tool-call-name",
+                        name: "ToolCallName",
+                        description: "the name of the tool in a tool call, shown in the summary",
+                        tag: "div",
+                        category: "content",
+                    },
+                    {
+                        slug: "tool-call-status",
+                        name: "ToolCallStatus",
+                        description: "the status of a tool call as a word, such as pending, running, done or error",
+                        tag: "div",
+                        category: "content",
+                    },
+                    {
+                        slug: "tool-call-input",
+                        name: "ToolCallInput",
+                        description: "the input or arguments passed to a tool in a tool call",
+                        tag: "div",
+                        category: "content",
+                    },
+                    {
+                        slug: "tool-call-output",
+                        name: "ToolCallOutput",
+                        description: "the output or result returned by a tool in a tool call",
+                        tag: "div",
+                        category: "content",
+                    },
+                    {
+                        slug: "tool-call-error",
+                        name: "ToolCallError",
+                        description: "the error shown when a tool call fails",
+                        tag: "div",
+                        category: "content",
+                    },
                 ];
 
                 function escapeHtml(text) {
@@ -4577,6 +4619,12 @@
                 'choropleth-chart': '<figure class="choropleth-chart"><div class="choropleth-chart-graphic" role="img" aria-label="Choropleth chart: four regions shaded by value"><svg viewBox="0 0 120 80" width="240" height="160" aria-hidden="true" focusable="false"><rect x="10" y="10" width="45" height="30" fill="currentColor" fill-opacity="0.9"/><rect x="58" y="10" width="45" height="30" fill="currentColor" fill-opacity="0.4"/><rect x="10" y="43" width="45" height="28" fill="currentColor" fill-opacity="0.6"/><rect x="58" y="43" width="45" height="28" fill="currentColor" fill-opacity="0.2"/></svg></div><div class="choropleth-chart-data-table"><table><caption>Value by region</caption><tbody><tr><th scope="row">North</th><td>High</td></tr><tr><th scope="row">East</th><td>Low-medium</td></tr><tr><th scope="row">West</th><td>Medium-high</td></tr><tr><th scope="row">South</th><td>Low</td></tr></tbody></table></div></figure>',
                 'sunburst-chart': '<figure class="sunburst-chart"><div class="sunburst-chart-graphic" role="img" aria-label="Sunburst chart: budget by department and project"><svg viewBox="0 0 120 80" width="240" height="160" aria-hidden="true" focusable="false"><circle cx="60" cy="40" r="14" fill="currentColor"/><path d="M60 26 A14 14 0 0 1 74 40" fill="none" stroke="currentColor" stroke-opacity="0" /><circle cx="60" cy="40" r="26" fill="none" stroke="currentColor" stroke-opacity="0.5" stroke-width="10" stroke-dasharray="60 104"/><circle cx="60" cy="40" r="36" fill="none" stroke="currentColor" stroke-opacity="0.3" stroke-width="8" stroke-dasharray="90 136"/></svg></div><div class="sunburst-chart-data-table"><table><caption>Budget by level</caption><tbody><tr><th scope="row">Department A</th><td>60%</td></tr><tr><th scope="row">Project A1 (in A)</th><td>40%</td></tr><tr><th scope="row">Department B</th><td>40%</td></tr></tbody></table></div></figure>',
                 'streaming-text': '<div class="streaming-text" role="status" aria-live="polite" aria-atomic="true" aria-label="Assistant answer" aria-busy="true" data-streaming="true">The answer is arriv</div>',
+                'tool-call': '<details class="tool-call" data-status="done" open><summary class="tool-call-summary"><span class="tool-call-name">search_web</span> <span class="tool-call-status" data-status="done">Done</span></summary><div class="tool-call-content"><div class="tool-call-input" role="group" aria-label="Input"><pre tabindex="0">{"query": "weather in London"}</pre></div><div class="tool-call-output" role="group" aria-label="Output"><pre tabindex="0">12 degrees, light rain</pre></div></div></details>',
+                'tool-call-name': '<span class="tool-call-name">search_web</span>',
+                'tool-call-status': '<span class="tool-call-status" data-status="running">Running</span>',
+                'tool-call-input': '<div class="tool-call-input" role="group" aria-label="Input"><pre tabindex="0">{"query": "weather in London"}</pre></div>',
+                'tool-call-output': '<div class="tool-call-output" role="group" aria-label="Output"><pre tabindex="0">12 degrees, light rain</pre></div>',
+                'tool-call-error': '<div class="tool-call-error" role="alert">The tool timed out after 30 seconds.</div>',
             };
 
                 function renderComponent(component) {

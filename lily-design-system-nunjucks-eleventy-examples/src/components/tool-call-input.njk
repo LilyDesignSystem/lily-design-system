@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: ToolCallInput
+description: the input or arguments passed to a tool in a tool call
+---
+
+{% from "components/tool-call-input/macro.njk" import toolCallInput %}
+
+<h2>Labelled input</h2>
+{% call toolCallInput({ label: "Input" }) %}<pre tabindex="0">{"query": "weather"}</pre>{% endcall %}
