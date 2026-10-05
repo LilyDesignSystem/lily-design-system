@@ -2,7 +2,7 @@
 
 A grid chart where cell colour encodes the value at each row and column.
 
-Headless wrapper: `<figure role="img" aria-label>` around the consumer-supplied inline `<svg>`. No drawing happens in the component. Point `aria-describedby` (passed through as a rest prop) at a text description or a real `<table>` carrying the same data.
+Headless wrapper: `<figure>` holding a `<div class="heatmap-chart-graphic" role="img" aria-label>` around the consumer-supplied inline `<svg>`. No drawing happens in the component. Point `aria-describedby` (passed through as a rest prop) at a text description or a real `<table>` carrying the same data.
 
 ## Props
 
@@ -23,3 +23,7 @@ Headless wrapper: `<figure role="img" aria-label>` around the consumer-supplied 
 ## Deviations from Svelte
 
 None. (The Svelte version takes the svg as a snippet; React uses `children`. The optional data-table alternative is a sibling referenced via `aria-describedby`, as in Svelte.)
+
+## Data table alternative (added 2026-10-05)
+
+The graphic is wrapped in `<div class="heatmap-chart-graphic" role="img" aria-label>`; `role="img"` is **not** on the `<figure>` any more. The optional the `dataTable` prop (a `ReactNode`) renders the accessible table in `<div class="heatmap-chart-data-table">`, a **sibling** of the graphic and never inside it: `role="img"` makes its descendants presentational, so a table inside would be invisible to assistive technology. Without a data table the wrapper is not rendered (except Angular, noted above).

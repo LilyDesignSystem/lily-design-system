@@ -4,7 +4,7 @@ A grid of the twelve months of one year (typically 3 x 4 or 4 x 3 month cells).
 
 ## Canonical documentation
 
-See [components/calendar-year-table/index.md](../../../components/calendar-year-table/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/calendar-year-table/index.md](../../../../../components/calendar-year-table/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

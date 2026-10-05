@@ -12,7 +12,7 @@
 
 ## Key Behaviors
 
-- Renders a `<figure role="img">` containing the consumer-supplied inline `<svg>`
+- Renders a `<figure>` holding a `<div class="sankey-chart-graphic" role="img" aria-label>` containing the consumer-supplied inline `<svg>`
 - Names the figure via `aria-label` from `label`
 - `aria-describedby` (via restProps) references a description or data table
 - Draws nothing; spreads `restProps` onto the root `<figure>`
@@ -37,9 +37,13 @@
 ## Acceptance Criteria
 
 - [ ] Renders <figure> element with class="sankey-chart"
-- [ ] Has role="img" and aria-label
+- [ ] Graphic wrapper has role="img" and aria-label
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Data table alternative (added 2026-10-05)
+
+The graphic is wrapped in `<div class="sankey-chart-graphic" role="img" aria-label>`; `role="img"` is **not** on the `<figure>` any more. The optional `dataTable` (a snippet in Svelte, a prop in React, a named slot in Vue, a projected `[dataTable]` element in Angular, a `DataTable` render fragment in Blazor, `params.dataTable` in Nunjucks, a `slot="data-table"` child in Web Components) renders the accessible table in `<div class="sankey-chart-data-table">`, a **sibling** of the graphic and never inside it: `role="img"` makes its descendants presentational, so a table inside would be invisible to assistive technology. Without a data table the wrapper is not rendered (except Angular, noted above).
 
 ## References
 

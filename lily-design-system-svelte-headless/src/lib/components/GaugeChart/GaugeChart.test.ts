@@ -9,36 +9,58 @@ function svgSnippet() {
     }));
 }
 
+function tableSnippet() {
+    return createRawSnippet(() => ({
+        render: () => `<table><caption>Values</caption><tbody><tr><th scope="row">A</th><td>1</td></tr></tbody></table>`,
+    }));
+}
+
 describe("GaugeChart", () => {
     it("renders a <figure> with the base class", () => {
         const { container } = render(GaugeChart, { props: { label: "Test", children: svgSnippet() } });
-        const el = container.querySelector("figure.gauge-chart");
-        expect(el).toBeTruthy();
+        expect(container.querySelector("figure.gauge-chart")).toBeTruthy();
     });
 
-    it("exposes the chart as a single image", () => {
+    it("exposes the graphic as a single named image", () => {
         render(GaugeChart, { props: { label: "Test", children: svgSnippet() } });
-        expect(screen.getByRole("img", { name: "Test" }).tagName).toBe("FIGURE");
+        const img = screen.getByRole("img", { name: "Test" });
+        expect(img.tagName).toBe("DIV");
+        expect(img.getAttribute("class")).toBe("gauge-chart-graphic");
+        expect(img.getAttribute("aria-label")).toBe("Test");
     });
 
-    it("sets aria-label from label", () => {
-        render(GaugeChart, { props: { label: "Quarterly figures", children: svgSnippet() } });
-        expect(screen.getByRole("img").getAttribute("aria-label")).toBe("Quarterly figures");
+    it("does not put role=img on the figure", () => {
+        const { container } = render(GaugeChart, { props: { label: "T", children: svgSnippet() } });
+        expect(container.querySelector("figure")!.hasAttribute("role")).toBe(false);
     });
 
     it("appends the consumer class after the base class", () => {
-        render(GaugeChart, { props: { label: "T", class: "mine", children: svgSnippet() } });
-        expect(screen.getByRole("img").getAttribute("class")).toBe("gauge-chart mine");
+        const { container } = render(GaugeChart, { props: { label: "T", class: "mine", children: svgSnippet() } });
+        expect(container.querySelector("figure")!.getAttribute("class")).toBe("gauge-chart mine");
     });
 
-    it("renders the consumer svg as children", () => {
+    it("renders the consumer svg inside the image wrapper", () => {
         render(GaugeChart, { props: { label: "T", children: svgSnippet() } });
-        expect(screen.getByTestId("art").closest("figure")).toBe(screen.getByRole("img"));
+        expect(screen.getByTestId("art").closest("[role=img]")).toBe(screen.getByRole("img"));
     });
 
-    it("passes aria-describedby through to the figure", () => {
-        render(GaugeChart, { props: { label: "T", "aria-describedby": "desc", children: svgSnippet() } });
-        expect(screen.getByRole("img").getAttribute("aria-describedby")).toBe("desc");
+    it("renders no data-table wrapper without a dataTable snippet", () => {
+        const { container } = render(GaugeChart, { props: { label: "T", children: svgSnippet() } });
+        expect(container.querySelector(".gauge-chart-data-table")).toBeNull();
+    });
+
+    it("renders the dataTable snippet in a .gauge-chart-data-table sibling after the graphic", () => {
+        const { container } = render(GaugeChart, { props: { label: "T", children: svgSnippet(), dataTable: tableSnippet() } });
+        const wrap = container.querySelector(".gauge-chart-data-table")!;
+        expect(wrap).toBeTruthy();
+        expect(wrap.previousElementSibling).toBe(container.querySelector(".gauge-chart-graphic"));
+        expect(wrap.parentElement!.tagName).toBe("FIGURE");
+    });
+
+    it("keeps the table outside the role=img element so assistive technology can reach it", () => {
+        render(GaugeChart, { props: { label: "T", children: svgSnippet(), dataTable: tableSnippet() } });
+        const table = screen.getByRole("table");
+        expect(table.closest("[role=img]")).toBeNull();
     });
 
     it("spreads rest props onto the figure", () => {

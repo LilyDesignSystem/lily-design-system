@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/react";
 import HeatmapChart from "./HeatmapChart";
 
 const art = <svg data-testid="art" viewBox="0 0 10 10"><circle r="4" /></svg>;
+const table = <table><caption>Values</caption><tbody><tr><th scope="row">A</th><td>1</td></tr></tbody></table>;
 
 describe("HeatmapChart", () => {
     it("renders a <figure> with the base class", () => {
@@ -10,29 +11,45 @@ describe("HeatmapChart", () => {
         expect(container.querySelector("figure.heatmap-chart")).toBeTruthy();
     });
 
-    it("exposes the chart as a single image", () => {
+    it("exposes the graphic as a single named image", () => {
         render(<HeatmapChart label="Test">{art}</HeatmapChart>);
-        expect(screen.getByRole("img", { name: "Test" }).tagName).toBe("FIGURE");
+        const img = screen.getByRole("img", { name: "Test" });
+        expect(img.tagName).toBe("DIV");
+        expect(img.getAttribute("class")).toBe("heatmap-chart-graphic");
+        expect(img.getAttribute("aria-label")).toBe("Test");
     });
 
-    it("sets aria-label from label", () => {
-        render(<HeatmapChart label="Quarterly figures">{art}</HeatmapChart>);
-        expect(screen.getByRole("img").getAttribute("aria-label")).toBe("Quarterly figures");
+    it("does not put role=img on the figure", () => {
+        const { container } = render(<HeatmapChart label="T">{art}</HeatmapChart>);
+        expect(container.querySelector("figure")!.hasAttribute("role")).toBe(false);
     });
 
     it("appends the consumer class after the base class", () => {
-        render(<HeatmapChart label="T" className="mine">{art}</HeatmapChart>);
-        expect(screen.getByRole("img").getAttribute("class")).toBe("heatmap-chart mine");
+        const { container } = render(<HeatmapChart label="T" className="mine">{art}</HeatmapChart>);
+        expect(container.querySelector("figure")!.getAttribute("class")).toBe("heatmap-chart mine");
     });
 
-    it("renders the consumer svg as children", () => {
+    it("renders the consumer svg inside the image wrapper", () => {
         render(<HeatmapChart label="T">{art}</HeatmapChart>);
-        expect(screen.getByTestId("art").closest("figure")).toBe(screen.getByRole("img"));
+        expect(screen.getByTestId("art").closest("[role=img]")).toBe(screen.getByRole("img"));
     });
 
-    it("passes aria-describedby through to the figure", () => {
-        render(<HeatmapChart label="T" aria-describedby="desc">{art}</HeatmapChart>);
-        expect(screen.getByRole("img").getAttribute("aria-describedby")).toBe("desc");
+    it("renders no data-table wrapper without dataTable", () => {
+        const { container } = render(<HeatmapChart label="T">{art}</HeatmapChart>);
+        expect(container.querySelector(".heatmap-chart-data-table")).toBeNull();
+    });
+
+    it("renders dataTable in a .heatmap-chart-data-table sibling after the graphic", () => {
+        const { container } = render(<HeatmapChart label="T" dataTable={table}>{art}</HeatmapChart>);
+        const wrap = container.querySelector(".heatmap-chart-data-table")!;
+        expect(wrap).toBeTruthy();
+        expect(wrap.previousElementSibling).toBe(container.querySelector(".heatmap-chart-graphic"));
+        expect(wrap.parentElement!.tagName).toBe("FIGURE");
+    });
+
+    it("keeps the table outside the role=img element so assistive technology can reach it", () => {
+        render(<HeatmapChart label="T" dataTable={table}>{art}</HeatmapChart>);
+        expect(screen.getByRole("table").closest("[role=img]")).toBeNull();
     });
 
     it("spreads rest props onto the figure", () => {

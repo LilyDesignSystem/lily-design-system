@@ -1,6 +1,6 @@
 # HeatmapChart
 
-HeatmapChart is a headless wrapper for a matrix chart where cell colour encodes a value. It renders a `<figure role="img">` around the consumer-supplied inline `<svg>`. No drawing happens in the macro (headless).
+HeatmapChart is a headless wrapper for a matrix chart where cell colour encodes a value. It renders a `<figure>` holding a `<div class="heatmap-chart-graphic" role="img" aria-label>` around the consumer-supplied inline `<svg>`. No drawing happens in the macro (headless).
 
 ## Implementation Notes
 
@@ -53,6 +53,10 @@ See `macro.test.js`: base class, role, aria-label, describedby, html/caller cont
 ## Deviations
 
 None from the Svelte contract; `aria-describedby` is the named `describedBy` param (idiom: Nunjucks has no rest props, `params.attributes` also works).
+
+## Data table alternative (added 2026-10-05)
+
+The graphic is wrapped in `<div class="heatmap-chart-graphic" role="img" aria-label>`; `role="img"` is **not** on the `<figure>` any more. The optional `params.dataTable` (raw HTML) renders the accessible table in `<div class="heatmap-chart-data-table">`, a **sibling** of the graphic and never inside it: `role="img"` makes its descendants presentational, so a table inside would be invisible to assistive technology. `params.describedBy` now sets `aria-describedby` on the image wrapper; `id`, `classes` and `attributes` stay on the `<figure>`. Without a data table the wrapper is not rendered (except Angular, noted above).
 
 ## References
 

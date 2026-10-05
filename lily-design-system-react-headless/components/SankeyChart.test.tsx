@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/react";
 import SankeyChart from "./SankeyChart";
 
 const art = <svg data-testid="art" viewBox="0 0 10 10"><circle r="4" /></svg>;
+const table = <table><caption>Values</caption><tbody><tr><th scope="row">A</th><td>1</td></tr></tbody></table>;
 
 describe("SankeyChart", () => {
     it("renders a <figure> with the base class", () => {
@@ -10,29 +11,45 @@ describe("SankeyChart", () => {
         expect(container.querySelector("figure.sankey-chart")).toBeTruthy();
     });
 
-    it("exposes the chart as a single image", () => {
+    it("exposes the graphic as a single named image", () => {
         render(<SankeyChart label="Test">{art}</SankeyChart>);
-        expect(screen.getByRole("img", { name: "Test" }).tagName).toBe("FIGURE");
+        const img = screen.getByRole("img", { name: "Test" });
+        expect(img.tagName).toBe("DIV");
+        expect(img.getAttribute("class")).toBe("sankey-chart-graphic");
+        expect(img.getAttribute("aria-label")).toBe("Test");
     });
 
-    it("sets aria-label from label", () => {
-        render(<SankeyChart label="Quarterly figures">{art}</SankeyChart>);
-        expect(screen.getByRole("img").getAttribute("aria-label")).toBe("Quarterly figures");
+    it("does not put role=img on the figure", () => {
+        const { container } = render(<SankeyChart label="T">{art}</SankeyChart>);
+        expect(container.querySelector("figure")!.hasAttribute("role")).toBe(false);
     });
 
     it("appends the consumer class after the base class", () => {
-        render(<SankeyChart label="T" className="mine">{art}</SankeyChart>);
-        expect(screen.getByRole("img").getAttribute("class")).toBe("sankey-chart mine");
+        const { container } = render(<SankeyChart label="T" className="mine">{art}</SankeyChart>);
+        expect(container.querySelector("figure")!.getAttribute("class")).toBe("sankey-chart mine");
     });
 
-    it("renders the consumer svg as children", () => {
+    it("renders the consumer svg inside the image wrapper", () => {
         render(<SankeyChart label="T">{art}</SankeyChart>);
-        expect(screen.getByTestId("art").closest("figure")).toBe(screen.getByRole("img"));
+        expect(screen.getByTestId("art").closest("[role=img]")).toBe(screen.getByRole("img"));
     });
 
-    it("passes aria-describedby through to the figure", () => {
-        render(<SankeyChart label="T" aria-describedby="desc">{art}</SankeyChart>);
-        expect(screen.getByRole("img").getAttribute("aria-describedby")).toBe("desc");
+    it("renders no data-table wrapper without dataTable", () => {
+        const { container } = render(<SankeyChart label="T">{art}</SankeyChart>);
+        expect(container.querySelector(".sankey-chart-data-table")).toBeNull();
+    });
+
+    it("renders dataTable in a .sankey-chart-data-table sibling after the graphic", () => {
+        const { container } = render(<SankeyChart label="T" dataTable={table}>{art}</SankeyChart>);
+        const wrap = container.querySelector(".sankey-chart-data-table")!;
+        expect(wrap).toBeTruthy();
+        expect(wrap.previousElementSibling).toBe(container.querySelector(".sankey-chart-graphic"));
+        expect(wrap.parentElement!.tagName).toBe("FIGURE");
+    });
+
+    it("keeps the table outside the role=img element so assistive technology can reach it", () => {
+        render(<SankeyChart label="T" dataTable={table}>{art}</SankeyChart>);
+        expect(screen.getByRole("table").closest("[role=img]")).toBeNull();
     });
 
     it("spreads rest props onto the figure", () => {

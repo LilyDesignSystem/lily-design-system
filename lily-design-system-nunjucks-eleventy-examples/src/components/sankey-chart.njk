@@ -7,11 +7,11 @@ description: a flow diagram whose link widths encode quantity
 {% from "components/sankey-chart/macro.njk" import sankeyChart %}
 
 <h2>Consumer-supplied svg with a data table alternative</h2>
-{% call sankeyChart({ label: "Sankey chart example", describedBy: "sankey-chart-data" }) %}
-  <svg viewBox="0 0 100 50" width="200" height="100" aria-hidden="true" focusable="false"><circle cx="50" cy="25" r="20"></circle></svg>
-{% endcall %}
-<table id="sankey-chart-data">
+{% set dataTable %}<table>
   <caption>Sankey chart data</caption>
   <thead><tr><th scope="col">Name</th><th scope="col">Value</th></tr></thead>
   <tbody><tr><th scope="row">Example</th><td>42</td></tr></tbody>
-</table>
+</table>{% endset %}
+{% call sankeyChart({ label: "Sankey chart example", dataTable: dataTable }) %}
+  <svg viewBox="0 0 100 50" width="200" height="100" aria-hidden="true" focusable="false"><circle cx="50" cy="25" r="20"></circle></svg>
+{% endcall %}

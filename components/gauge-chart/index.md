@@ -4,11 +4,11 @@ A headless wrapper for a dial chart showing one value within a range, with optio
 
 **Status:** beta — implemented and unit-tested in the Svelte canonical; not yet exercised in composed flows.
 
-The component renders a `<figure role="img">` around an inline `<svg>` that the consumer draws, names the figure with `aria-label` (from `label`), and lets the consumer reference a longer description or a real data `<table>` through `aria-describedby`. The component draws nothing and ships no scales, colours or animation; it exists to give every chart in the catalog the same accessible, stylable shell.
+The component renders a `<figure>` holding a `<div class="gauge-chart-graphic" role="img" aria-label>` around an inline `<svg>` that the consumer draws, names the figure with `aria-label` (from `label`), and lets the consumer reference a longer description or a real data `<table>` through `aria-describedby`. The component draws nothing and ships no scales, colours or animation; it exists to give every chart in the catalog the same accessible, stylable shell.
 
 ## Implementation Notes
 
-- Renders `<figure class="gauge-chart {class}" role="img" aria-label={label}>` containing the children
+- Renders `<figure class="gauge-chart {class}>` containing the children
 - The consumer supplies the `<svg>` (and any legend or caption markup)
 - `restProps` — including `aria-describedby` — spread onto the `<figure>`
 - No internal state, no drawing, no data handling
@@ -64,7 +64,7 @@ Target `.gauge-chart` for the figure and style the supplied `<svg>` from consume
 
 ## Testing
 
-- Renders a `<figure>` with class `gauge-chart` and `role="img"`
+- Renders a `<figure>` with class `gauge-chart` and a `.gauge-chart-graphic` child with `role="img"`
 - `label` sets `aria-label`
 - `aria-describedby` and other rest props reach the figure
 - The consumer svg renders inside the figure
@@ -74,6 +74,10 @@ Target `.gauge-chart` for the figure and style the supplied `<svg>` from consume
 Pass the dial `<svg>` (arc, needle, tick marks) as children. State the value, range and any threshold crossings in the accessible name or description, e.g. `aria-describedby` pointing at text that says "72 of 100, in the amber band".
 
 Because `role="img"` makes descendants presentational, never put interactive controls inside the figure; place legends and toggles next to it.
+
+## Data table alternative (added 2026-10-05)
+
+The graphic is wrapped in `<div class="gauge-chart-graphic" role="img" aria-label>`; `role="img"` is **not** on the `<figure>` any more. The optional `dataTable` (a snippet in Svelte, a prop in React, a named slot in Vue, a projected `[dataTable]` element in Angular, a `DataTable` render fragment in Blazor, `params.dataTable` in Nunjucks, a `slot="data-table"` child in Web Components) renders the accessible table in `<div class="gauge-chart-data-table">`, a **sibling** of the graphic and never inside it: `role="img"` makes its descendants presentational, so a table inside would be invisible to assistive technology. Without a data table the wrapper is not rendered (except Angular, noted above).
 
 ## Related components
 

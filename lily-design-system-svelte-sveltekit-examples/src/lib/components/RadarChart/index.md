@@ -4,7 +4,7 @@ A chart plotting several axes from a shared centre as a polygon.
 
 ## Canonical documentation
 
-See [components/radar-chart/index.md](../../../components/radar-chart/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/radar-chart/index.md](../../../../../components/radar-chart/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

@@ -4,7 +4,7 @@ A dial chart showing one value within a range, with optional thresholds.
 
 ## Canonical documentation
 
-See [components/gauge-chart/index.md](../../../components/gauge-chart/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/gauge-chart/index.md](../../../../../components/gauge-chart/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

@@ -4,6 +4,7 @@ import { describe, expect, test } from "vitest";
 import Subject from "./GaugeChart.vue";
 
 const svg = `<svg data-testid="art" viewBox="0 0 10 10"><circle r="4" /></svg>`;
+const table = `<table><caption>Values</caption><tbody><tr><th scope="row">A</th><td>1</td></tr></tbody></table>`;
 
 describe("GaugeChart", () => {
     test("renders a <figure> with the base class", () => {
@@ -11,35 +12,47 @@ describe("GaugeChart", () => {
         expect(container.querySelector("figure.gauge-chart")).toBeTruthy();
     });
 
-    test("exposes the chart as a single image", () => {
+    test("exposes the graphic as a single named image", () => {
         render(Subject, { props: { label: "Test" }, slots: { default: svg } });
-        expect(screen.getByRole("img", { name: "Test" }).tagName).toBe("FIGURE");
+        const img = screen.getByRole("img", { name: "Test" });
+        expect(img.tagName).toBe("DIV");
+        expect(img.getAttribute("class")).toBe("gauge-chart-graphic");
+        expect(img.getAttribute("aria-label")).toBe("Test");
     });
 
-    test("sets aria-label from label", () => {
-        render(Subject, { props: { label: "Quarterly figures" }, slots: { default: svg } });
-        expect(screen.getByRole("img").getAttribute("aria-label")).toBe("Quarterly figures");
+    test("does not put role=img on the figure", () => {
+        const { container } = render(Subject, { props: { label: "T" }, slots: { default: svg } });
+        expect(container.querySelector("figure")!.hasAttribute("role")).toBe(false);
     });
 
-    test("appends the consumer class after the base class", () => {
-        render(Subject, { props: { label: "T" }, attrs: { class: "mine" }, slots: { default: svg } });
-        expect(screen.getByRole("img").getAttribute("class")).toBe("gauge-chart mine");
-    });
-
-    test("renders the consumer svg as the slot", () => {
+    test("renders the consumer svg inside the image wrapper", () => {
         render(Subject, { props: { label: "T" }, slots: { default: svg } });
-        expect(screen.getByTestId("art").closest("figure")).toBe(screen.getByRole("img"));
+        expect(screen.getByTestId("art").closest("[role=img]")).toBe(screen.getByRole("img"));
     });
 
-    test("passes aria-describedby through to the figure", () => {
-        render(Subject, { props: { label: "T" }, attrs: { "aria-describedby": "desc" }, slots: { default: svg } });
-        expect(screen.getByRole("img").getAttribute("aria-describedby")).toBe("desc");
+    test("renders no data-table wrapper without the dataTable slot", () => {
+        const { container } = render(Subject, { props: { label: "T" }, slots: { default: svg } });
+        expect(container.querySelector(".gauge-chart-data-table")).toBeNull();
     });
 
-    test("spreads rest props onto the figure", () => {
-        render(Subject, { props: { label: "T" }, attrs: { id: "c1", "data-testid": "chart" }, slots: { default: svg } });
+    test("renders the dataTable slot in a .gauge-chart-data-table sibling after the graphic", () => {
+        const { container } = render(Subject, { props: { label: "T" }, slots: { default: svg, dataTable: table } });
+        const wrap = container.querySelector(".gauge-chart-data-table")!;
+        expect(wrap).toBeTruthy();
+        expect(wrap.previousElementSibling).toBe(container.querySelector(".gauge-chart-graphic"));
+        expect(wrap.parentElement!.tagName).toBe("FIGURE");
+    });
+
+    test("keeps the table outside the role=img element so assistive technology can reach it", () => {
+        render(Subject, { props: { label: "T" }, slots: { default: svg, dataTable: table } });
+        expect(screen.getByRole("table").closest("[role=img]")).toBeNull();
+    });
+
+    test("passes attrs (class, id, data-*) through onto the figure", () => {
+        render(Subject, { props: { label: "T" }, attrs: { class: "mine", id: "c1", "data-testid": "chart" }, slots: { default: svg } });
         const el = screen.getByTestId("chart");
         expect(el.tagName).toBe("FIGURE");
         expect(el.id).toBe("c1");
+        expect(el.getAttribute("class")).toBe("gauge-chart mine");
     });
 });

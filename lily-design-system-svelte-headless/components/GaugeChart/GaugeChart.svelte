@@ -1,23 +1,32 @@
 <script lang="ts">
     // GaugeChart component
     //
-    // A headless wrapper for a dial chart showing one value within a range, with optional thresholds. Renders a <figure role="img">
-    // around the consumer-supplied inline <svg>. No drawing happens here.
+    // A headless chart container. The consumer supplies the inline svg as
+    // `children`; the component draws nothing. The graphic is a
+    // role="img" wrapper named by `label`. The optional `dataTable` snippet
+    // renders the accessible table alternative as a SIBLING of that image
+    // wrapper, never inside it: a role="img" element makes its descendants
+    // presentational, so a table placed inside would be invisible to
+    // assistive technology.
     //
     // Props:
-    //   className — string, optional. CSS class name.
-    //   label — string, required. Accessible name for the chart.
-    //   children — Snippet, required. The inline <svg> (and any extra markup).
-    //   ...restProps — additional HTML attributes spread onto the <figure>
-    //     (use aria-describedby to point at a description or a data table).
+    //   class — string, optional. Consumer class appended after the base class.
+    //   label — string, required. Accessible name of the chart image.
+    //   children — Snippet. The consumer-supplied inline svg.
+    //   dataTable — Snippet, optional. The accessible table alternative.
+    //   ...restProps — spread onto the root <figure>.
     //
-    // Keyboard:
-    //   None — the chart is a single image to assistive technology.
+    // Markup:
+    //   <figure class="gauge-chart">
+    //     <div class="gauge-chart-graphic" role="img" aria-label>…svg…</div>
+    //     <div class="gauge-chart-data-table">…table…</div>   (only when provided)
+    //   </figure>
     //
-    // Accessibility:
-    //   - role="img" exposes the chart as one image; aria-label names it
-    //   - aria-describedby (via restProps) should reference a text description
-    //     or a real <table> carrying the same data
+    // Keyboard: none on the graphic; the data table follows native table behaviour.
+    //
+    // Claude rules:
+    //   - Headless: no CSS, no inline styles; no drawing.
+    //   - No hardcoded user-facing strings.
 
     import type { Snippet } from "svelte";
 
@@ -25,12 +34,15 @@
         class: className = "",
         label,
         children,
+        dataTable,
         ...restProps
     }: {
         /** Accessible name for the chart. */
         label: string;
         /** The consumer-supplied inline svg. */
         children: Snippet;
+        /** Optional accessible data table alternative. */
+        dataTable?: Snippet;
         [key: string]: unknown;
     } = $props();
 </script>
@@ -38,9 +50,14 @@
 <!-- GaugeChart.svelte -->
 <figure
     class={`gauge-chart ${className}`}
-    role="img"
-    aria-label={label}
     {...restProps}
 >
-    {@render children?.()}
+    <div class="gauge-chart-graphic" role="img" aria-label={label}>
+        {@render children?.()}
+    </div>
+    {#if dataTable}
+        <div class="gauge-chart-data-table">
+            {@render dataTable()}
+        </div>
+    {/if}
 </figure>

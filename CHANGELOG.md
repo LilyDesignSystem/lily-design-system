@@ -27,7 +27,7 @@ behaviour: React 555 files / 3,094 tests, Vue 3,082, Angular 1,345,
 Blazor 1,932, Nunjucks 3,263, Web Components 521 files / 3,048, HTML 16
 new specs in real Chrome; Svelte canonical. The 45 themes style them;
 `bin/test`, `bin/check-coverage` (0 drift) and a Chromium axe sweep of
-the 16 demo pages pass. Not yet published. Deferred from the same
+the 16 demo pages pass. The four charts also take an optional data table (a `dataTable` snippet/prop/slot/fragment per framework, a `[dataTable]` projected element in Angular, `slot="data-table"` in Web Components): it renders in `.{chart}-data-table`, a sibling of a new `.{chart}-graphic` `role="img"` wrapper, because a table inside a `role="img"` element would be invisible to assistive technology — so `role="img"` moved off the `<figure>` for these four (unlike `bar-chart` and the other existing charts, which a follow-up could migrate the same way). Not yet published. Deferred from the same
 triage: the rest of Baby UI's primitives, blocks, animated/text/
 background effects, OG images and emails; most agent-UI components and
 the remaining chart types.

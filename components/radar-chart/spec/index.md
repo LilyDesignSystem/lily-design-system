@@ -4,7 +4,7 @@ Single source of truth for the RadarChart component: a chart plotting several ax
 
 ## Goal
 
-A headless `<figure role="img">` shell, identical in contract to `bar-chart`, around a consumer-drawn `<svg>`.
+A headless `<figure>` holding a `<div class="radar-chart-graphic" role="img" aria-label>` shell, like `bar-chart`, but with the image on an inner graphic wrapper and an optional data-table slot outside it, around a consumer-drawn `<svg>`.
 
 ## HTML Tag and CSS Class
 
@@ -30,3 +30,7 @@ A headless `<figure role="img">` shell, identical in contract to `bar-chart`, ar
 ---
 
 Lily™ and Lily Design System™ are trademarks.
+
+## Data table alternative (added 2026-10-05)
+
+The graphic is wrapped in `<div class="radar-chart-graphic" role="img" aria-label>`; `role="img"` is **not** on the `<figure>` any more. The optional `dataTable` (a snippet in Svelte, a prop in React, a named slot in Vue, a projected `[dataTable]` element in Angular, a `DataTable` render fragment in Blazor, `params.dataTable` in Nunjucks, a `slot="data-table"` child in Web Components) renders the accessible table in `<div class="radar-chart-data-table">`, a **sibling** of the graphic and never inside it: `role="img"` makes its descendants presentational, so a table inside would be invisible to assistive technology. Without a data table the wrapper is not rendered (except Angular, noted above).

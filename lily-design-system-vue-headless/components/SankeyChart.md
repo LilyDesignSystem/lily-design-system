@@ -1,6 +1,6 @@
 # SankeyChart
 
-A headless wrapper for a flow chart where link width encodes the quantity moving between nodes. Renders `<figure role="img" aria-label>` around the consumer-supplied inline `<svg>`. No drawing happens in the component.
+A headless wrapper for a flow chart where link width encodes the quantity moving between nodes. Renders `<figure>` holding a `<div class="sankey-chart-graphic" role="img" aria-label>` around the consumer-supplied inline `<svg>`. No drawing happens in the component.
 
 ## Props
 
@@ -23,3 +23,7 @@ None; the chart is a single image to assistive technology. Point `aria-described
 ## Deviations from Svelte
 
 None. The `children` snippet is the default slot.
+
+## Data table alternative (added 2026-10-05)
+
+The graphic is wrapped in `<div class="sankey-chart-graphic" role="img" aria-label>`; `role="img"` is **not** on the `<figure>` any more. The optional the `dataTable` named slot renders the accessible table in `<div class="sankey-chart-data-table">`, a **sibling** of the graphic and never inside it: `role="img"` makes its descendants presentational, so a table inside would be invisible to assistive technology. Without a data table the wrapper is not rendered (except Angular, noted above).

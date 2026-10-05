@@ -4,7 +4,7 @@ A grid of the time slots of one day: one row per slot.
 
 ## Canonical documentation
 
-See [components/calendar-day-table/index.md](../../../components/calendar-day-table/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/calendar-day-table/index.md](../../../../../components/calendar-day-table/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

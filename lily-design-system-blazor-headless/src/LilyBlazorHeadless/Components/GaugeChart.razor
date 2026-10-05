@@ -2,16 +2,29 @@
 
 @*
     GaugeChart component
-    A headless wrapper for a dial chart showing one value within a range, with optional thresholds. Renders a <figure role="img">
-    around the consumer-supplied inline <svg>. No drawing happens here.
-    Use aria-describedby (unmatched attribute) to point at a description or a real data table.
+    A headless wrapper for a dial chart showing one value within a range, with optional thresholds. Renders a <figure> holding a
+    role="img" graphic wrapper around the consumer-supplied inline <svg>.
+    No drawing happens here. The optional DataTable fragment renders the
+    accessible table alternative in .gauge-chart-data-table, a SIBLING of the
+    image wrapper: role="img" makes descendants presentational, so a table
+    inside it would be invisible to assistive technology.
+    Use aria-describedby (unmatched attribute, applied to the figure) for a
+    text description; unmatched attributes spread onto the <figure>.
 *@
 
-<figure class="@($"gauge-chart {CssClass}".Trim())" role="img" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</figure>
+<figure class="@($"gauge-chart {CssClass}".Trim())" @attributes="AdditionalAttributes">
+    <div class="gauge-chart-graphic" role="img" aria-label="@Label">@ChildContent</div>
+    @if (DataTable is not null)
+    {
+        <div class="gauge-chart-data-table">@DataTable</div>
+    }
+</figure>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
     [Parameter] public RenderFragment? ChildContent { get; set; }
+    /// <summary>Optional accessible data table alternative, rendered outside the role=img wrapper.</summary>
+    [Parameter] public RenderFragment? DataTable { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 }
