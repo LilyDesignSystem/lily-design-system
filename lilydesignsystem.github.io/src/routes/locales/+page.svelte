@@ -2,14 +2,14 @@
   import { DEFAULT_LOCALE, locales, localeLabel } from '#lib/locales.js';
 
   // Default locale first, then grouped by language name (the label text
-  // before a trailing "(" — e.g. every English variant groups together),
+  // before the first " - " — e.g. every English variant groups together),
   // then alphabetically by label within a group. Plain string comparison
   // does not sort meaningfully across scripts (Arabic vs Bengali vs
   // Cyrillic, say) — this only needs to be deterministic, not a real
   // collation, since each group has exactly one member in every script
   // except English. See spec/locales-for-global-sharing-with-svelte.
   function groupLabel(code: string): string {
-    return localeLabel(code).split(' (')[0];
+    return localeLabel(code).split(' - ')[0];
   }
 
   const orderedLocales = locales().sort((a, b) => {
