@@ -96,6 +96,14 @@
 .area-chart {
 }
 
+/* area-chart-graphic: sub-element of area-chart */
+.area-chart-graphic {
+}
+
+/* area-chart-data-table: sub-element of area-chart */
+.area-chart-data-table {
+}
+
 /* article-layout: a top-level article wrapper that sets CSS custom properties for content column widths */
 .article-layout {
 }
@@ -150,6 +158,14 @@
 
 /* bar-chart: a horizontal bar chart visualization for displaying data */
 .bar-chart {
+}
+
+/* bar-chart-graphic: sub-element of bar-chart */
+.bar-chart-graphic {
+}
+
+/* bar-chart-data-table: sub-element of bar-chart */
+.bar-chart-data-table {
 }
 
 /* barcode-image: a visual machine-readable symbolic code image, such as for a scanner */
@@ -378,6 +394,14 @@
 
 /* column-chart: a vertical column chart visualization for displaying data */
 .column-chart {
+}
+
+/* column-chart-graphic: sub-element of column-chart */
+.column-chart-graphic {
+}
+
+/* column-chart-data-table: sub-element of column-chart */
+.column-chart-data-table {
 }
 
 /* combobox: a text input combined with a dropdown list for filtering options */
@@ -1068,6 +1092,14 @@
 .line-chart {
 }
 
+/* line-chart-graphic: sub-element of line-chart */
+.line-chart-graphic {
+}
+
+/* line-chart-data-table: sub-element of line-chart */
+.line-chart-data-table {
+}
+
 /* listbox: a list of selectable options with keyboard navigation */
 .listbox {
 }
@@ -1494,6 +1526,14 @@
 
 /* scatter-chart: a scatter chart visualization using dots to display data */
 .scatter-chart {
+}
+
+/* scatter-chart-graphic: sub-element of scatter-chart */
+.scatter-chart-graphic {
+}
+
+/* scatter-chart-data-table: sub-element of scatter-chart */
+.scatter-chart-data-table {
 }
 
 /* screen-reader-span: a visually hidden span of text intended for screen readers to provide more descriptive labels */
@@ -2241,18 +2281,134 @@
 .gauge-chart {
 }
 
+/* gauge-chart-graphic: sub-element of gauge-chart */
+.gauge-chart-graphic {
+}
+
+/* gauge-chart-data-table: sub-element of gauge-chart */
+.gauge-chart-data-table {
+}
+
 /* heatmap-chart: a grid chart where cell colour encodes the value at each row and column */
 .heatmap-chart {
+}
+
+/* heatmap-chart-graphic: sub-element of heatmap-chart */
+.heatmap-chart-graphic {
+}
+
+/* heatmap-chart-data-table: sub-element of heatmap-chart */
+.heatmap-chart-data-table {
 }
 
 /* radar-chart: a chart plotting several axes from a shared centre as a polygon */
 .radar-chart {
 }
 
+/* radar-chart-graphic: sub-element of radar-chart */
+.radar-chart-graphic {
+}
+
+/* radar-chart-data-table: sub-element of radar-chart */
+.radar-chart-data-table {
+}
+
 /* sankey-chart: a flow chart where link width encodes the quantity moving between nodes */
 .sankey-chart {
 }
 
+/* sankey-chart-graphic: sub-element of sankey-chart */
+.sankey-chart-graphic {
+}
+
+/* sankey-chart-data-table: sub-element of sankey-chart */
+.sankey-chart-data-table {
+}
+
 /* file-tree: a hierarchical tree of folders and files with expandable folders */
 .file-tree {
+}
+
+/* pie-chart: a circular chart divided into slices that show each part of a whole */
+.pie-chart {
+}
+
+/* pie-chart-graphic: sub-element of pie-chart */
+.pie-chart-graphic {
+}
+
+/* pie-chart-data-table: sub-element of pie-chart */
+.pie-chart-data-table {
+}
+
+/* ring-chart: a pie chart with a hollow centre, often used to show progress or a share of a total */
+.ring-chart {
+}
+
+/* ring-chart-graphic: sub-element of ring-chart */
+.ring-chart-graphic {
+}
+
+/* ring-chart-data-table: sub-element of ring-chart */
+.ring-chart-data-table {
+}
+
+/* funnel-chart: a chart of stages narrowing from top to bottom, showing how a quantity drops at each step */
+.funnel-chart {
+}
+
+/* funnel-chart-graphic: sub-element of funnel-chart */
+.funnel-chart-graphic {
+}
+
+/* funnel-chart-data-table: sub-element of funnel-chart */
+.funnel-chart-data-table {
+}
+
+/* candlestick-chart: a financial chart showing open, high, low and close values for each period as candles */
+.candlestick-chart {
+}
+
+/* candlestick-chart-graphic: sub-element of candlestick-chart */
+.candlestick-chart-graphic {
+}
+
+/* candlestick-chart-data-table: sub-element of candlestick-chart */
+.candlestick-chart-data-table {
+}
+
+/* composed-chart: a chart that combines several chart types, such as bars and a line, on shared axes */
+.composed-chart {
+}
+
+/* composed-chart-graphic: sub-element of composed-chart */
+.composed-chart-graphic {
+}
+
+/* composed-chart-data-table: sub-element of composed-chart */
+.composed-chart-data-table {
+}
+
+/* choropleth-chart: a map chart that shades regions by the value of a measure */
+.choropleth-chart {
+}
+
+/* choropleth-chart-graphic: sub-element of choropleth-chart */
+.choropleth-chart-graphic {
+}
+
+/* choropleth-chart-data-table: sub-element of choropleth-chart */
+.choropleth-chart-data-table {
+}
+
+/* sunburst-chart: a radial chart showing a hierarchy as concentric rings of arcs */
+.sunburst-chart {
+}
+
+/* sunburst-chart-graphic: sub-element of sunburst-chart */
+.sunburst-chart-graphic {
+}
+
+/* sunburst-chart-data-table: sub-element of sunburst-chart */
+.sunburst-chart-data-table {
 }

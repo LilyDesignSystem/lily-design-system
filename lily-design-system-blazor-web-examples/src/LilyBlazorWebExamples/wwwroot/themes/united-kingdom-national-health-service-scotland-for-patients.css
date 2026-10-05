@@ -2445,6 +2445,50 @@
         letter-spacing: 0.25em;
     }
 
+    /* Chart containers added 2026-10-05 (gauge, heatmap, radar, sankey, pie,
+       ring, funnel, candlestick, composed, choropleth, sunburst) join the
+       existing five as block figures. Every chart's optional data-table
+       wrapper sits below the graphic; the table itself inherits the
+       catalog's table styling. */
+    :where(
+        .gauge-chart,
+        .heatmap-chart,
+        .radar-chart,
+        .sankey-chart,
+        .pie-chart,
+        .ring-chart,
+        .funnel-chart,
+        .candlestick-chart,
+        .composed-chart,
+        .choropleth-chart,
+        .sunburst-chart
+    ) {
+        display: block;
+        margin: 0;
+    }
+
+    :where(
+        .area-chart-data-table,
+        .bar-chart-data-table,
+        .column-chart-data-table,
+        .line-chart-data-table,
+        .scatter-chart-data-table,
+        .gauge-chart-data-table,
+        .heatmap-chart-data-table,
+        .radar-chart-data-table,
+        .sankey-chart-data-table,
+        .pie-chart-data-table,
+        .ring-chart-data-table,
+        .funnel-chart-data-table,
+        .candlestick-chart-data-table,
+        .composed-chart-data-table,
+        .choropleth-chart-data-table,
+        .sunburst-chart-data-table
+    ) {
+        margin-block-start: var(--lily-space-sm);
+        overflow-x: auto;
+    }
+
     /* Picker tooltips (added 2026-10-04): a visual-only role="tooltip"
        element beside each picker's icon button, holding the same text as
        its aria-label. The component toggles [hidden]; position and look

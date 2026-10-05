@@ -540,6 +540,13 @@ slug below links to the per-component documentation.
 - [radar-chart](components/radar-chart): a chart plotting several axes from a shared centre as a polygon
 - [sankey-chart](components/sankey-chart): a flow chart where link width encodes the quantity moving between nodes
 - [file-tree](components/file-tree): a hierarchical tree of folders and files with expandable folders
+- [pie-chart](components/pie-chart): a circular chart divided into slices that show each part of a whole
+- [ring-chart](components/ring-chart): a pie chart with a hollow centre, often used to show progress or a share of a total
+- [funnel-chart](components/funnel-chart): a chart of stages narrowing from top to bottom, showing how a quantity drops at each step
+- [candlestick-chart](components/candlestick-chart): a financial chart showing open, high, low and close values for each period as candles
+- [composed-chart](components/composed-chart): a chart that combines several chart types, such as bars and a line, on shared axes
+- [choropleth-chart](components/choropleth-chart): a map chart that shades regions by the value of a measure
+- [sunburst-chart](components/sunburst-chart): a radial chart showing a hierarchy as concentric rings of arcs
 
 ## Special-Purpose Identifiers
 

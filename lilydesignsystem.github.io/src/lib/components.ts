@@ -565,4 +565,11 @@ export const LILY_COMPONENTS: LilyComponent[] = [
   { name: "radar-chart", pascal: "RadarChart", description: "a chart plotting several axes from a shared centre as a polygon", status: "beta" },
   { name: "sankey-chart", pascal: "SankeyChart", description: "a flow chart where link width encodes the quantity moving between nodes", status: "beta" },
   { name: "file-tree", pascal: "FileTree", description: "a hierarchical tree of folders and files with expandable folders", status: "beta" },
+  { name: "pie-chart", pascal: "PieChart", description: "a circular chart divided into slices that show each part of a whole", status: "beta" },
+  { name: "ring-chart", pascal: "RingChart", description: "a pie chart with a hollow centre, often used to show progress or a share of a total", status: "beta" },
+  { name: "funnel-chart", pascal: "FunnelChart", description: "a chart of stages narrowing from top to bottom, showing how a quantity drops at each step", status: "beta" },
+  { name: "candlestick-chart", pascal: "CandlestickChart", description: "a financial chart showing open, high, low and close values for each period as candles", status: "beta" },
+  { name: "composed-chart", pascal: "ComposedChart", description: "a chart that combines several chart types, such as bars and a line, on shared axes", status: "beta" },
+  { name: "choropleth-chart", pascal: "ChoroplethChart", description: "a map chart that shades regions by the value of a measure", status: "beta" },
+  { name: "sunburst-chart", pascal: "SunburstChart", description: "a radial chart showing a hierarchy as concentric rings of arcs", status: "beta" },
 ];

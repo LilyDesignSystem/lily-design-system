@@ -1,0 +1,17 @@
+---
+layout: layouts/component-demo.njk
+title: ChoroplethChart
+description: a map chart that shades regions by the value of a measure
+---
+
+{% from "components/choropleth-chart/macro.njk" import choroplethChart %}
+
+<h2>Consumer-supplied svg with a data table alternative</h2>
+{% set dataTable %}<table>
+  <caption>Choropleth chart data</caption>
+  <thead><tr><th scope="col">Name</th><th scope="col">Value</th></tr></thead>
+  <tbody><tr><th scope="row">Example</th><td>42</td></tr></tbody>
+</table>{% endset %}
+{% call choroplethChart({ label: "Choropleth chart example", dataTable: dataTable }) %}
+  <svg viewBox="0 0 100 50" width="200" height="100" aria-hidden="true" focusable="false"><circle cx="50" cy="25" r="20"></circle></svg>
+{% endcall %}

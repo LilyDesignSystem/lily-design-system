@@ -1,0 +1,17 @@
+---
+layout: layouts/component-demo.njk
+title: RingChart
+description: a pie chart with a hollow centre, often used to show progress or a share of a total
+---
+
+{% from "components/ring-chart/macro.njk" import ringChart %}
+
+<h2>Consumer-supplied svg with a data table alternative</h2>
+{% set dataTable %}<table>
+  <caption>Ring chart data</caption>
+  <thead><tr><th scope="col">Name</th><th scope="col">Value</th></tr></thead>
+  <tbody><tr><th scope="row">Example</th><td>42</td></tr></tbody>
+</table>{% endset %}
+{% call ringChart({ label: "Ring chart example", dataTable: dataTable }) %}
+  <svg viewBox="0 0 100 50" width="200" height="100" aria-hidden="true" focusable="false"><circle cx="50" cy="25" r="20"></circle></svg>
+{% endcall %}

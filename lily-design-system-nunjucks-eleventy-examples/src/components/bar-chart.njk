@@ -6,8 +6,12 @@ description: a horizontal bar chart visualization for displaying data
 
 {% from "components/bar-chart/macro.njk" import barChart %}
 
-<h2>Default</h2>
-{{ barChart({ text: "Example BarChart content" }) }}
-
-<h2>With accessible label</h2>
-{{ barChart({ text: "Example content", label: "BarChart example" }) }}
+<h2>Consumer-supplied svg with a data table alternative</h2>
+{% set dataTable %}<table>
+  <caption>Bar chart data</caption>
+  <thead><tr><th scope="col">Name</th><th scope="col">Value</th></tr></thead>
+  <tbody><tr><th scope="row">Example</th><td>42</td></tr></tbody>
+</table>{% endset %}
+{% call barChart({ label: "Bar chart example", dataTable: dataTable }) %}
+  <svg viewBox="0 0 100 50" width="200" height="100" aria-hidden="true" focusable="false"><circle cx="50" cy="25" r="20"></circle></svg>
+{% endcall %}

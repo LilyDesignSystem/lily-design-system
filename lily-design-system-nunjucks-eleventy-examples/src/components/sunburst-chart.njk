@@ -1,0 +1,17 @@
+---
+layout: layouts/component-demo.njk
+title: SunburstChart
+description: a radial chart showing a hierarchy as concentric rings of arcs
+---
+
+{% from "components/sunburst-chart/macro.njk" import sunburstChart %}
+
+<h2>Consumer-supplied svg with a data table alternative</h2>
+{% set dataTable %}<table>
+  <caption>Sunburst chart data</caption>
+  <thead><tr><th scope="col">Name</th><th scope="col">Value</th></tr></thead>
+  <tbody><tr><th scope="row">Example</th><td>42</td></tr></tbody>
+</table>{% endset %}
+{% call sunburstChart({ label: "Sunburst chart example", dataTable: dataTable }) %}
+  <svg viewBox="0 0 100 50" width="200" height="100" aria-hidden="true" focusable="false"><circle cx="50" cy="25" r="20"></circle></svg>
+{% endcall %}

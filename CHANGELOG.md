@@ -9,6 +9,22 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## 7 more charts, catalog 555 → 562 — 2026-10-05
+
+From the deferred part of the Baby UI triage: `pie-chart`, `ring-chart`,
+`funnel-chart`, `candlestick-chart`, `composed-chart`, `choropleth-chart`
+and `sunburst-chart`, all with the graphic + optional data-table structure
+(`<figure>` > `.{chart}-graphic[role=img]` + sibling `.{chart}-data-table`),
+`label` optional, in all eight headless libraries. Also: `-graphic` and
+`-data-table` hooks added to `css-style-sheet-template.css` for all 16
+charts, theme rules for the new containers and every data-table wrapper
+in all 45 themes, real demos, and the Nunjucks Eleventy pages for all 12
+non-gauge/heatmap/radar/sankey charts now show an svg plus a data table.
+Verified: Svelte 140 (+70 in the examples app), React 70, Vue 63, Angular
+70, Blazor 70, Nunjucks 77, Web Components 63, HTML 16 chart specs in real
+Chrome; `bin/check-coverage` (0 drift), `bin/check-theme`, Chromium axe on
+the seven demo pages. Not yet published.
+
 ## Existing charts migrated to graphic + data-table — 2026-10-05 (breaking)
 
 `area-chart`, `bar-chart`, `column-chart`, `line-chart` and `scatter-chart`

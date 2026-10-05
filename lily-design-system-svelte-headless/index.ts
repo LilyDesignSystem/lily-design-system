@@ -220,6 +220,13 @@ export { default as GanttTableTfoot } from "./components/GanttTableTfoot/GanttTa
 export { default as GanttTableThead } from "./components/GanttTableThead/GanttTableThead.svelte";
 export { default as GanttTableTr } from "./components/GanttTableTr/GanttTableTr.svelte";
 export { default as GaugeChart } from "./components/GaugeChart/GaugeChart.svelte";
+export { default as PieChart } from "./components/PieChart/PieChart.svelte";
+export { default as RingChart } from "./components/RingChart/RingChart.svelte";
+export { default as FunnelChart } from "./components/FunnelChart/FunnelChart.svelte";
+export { default as CandlestickChart } from "./components/CandlestickChart/CandlestickChart.svelte";
+export { default as ComposedChart } from "./components/ComposedChart/ComposedChart.svelte";
+export { default as ChoroplethChart } from "./components/ChoroplethChart/ChoroplethChart.svelte";
+export { default as SunburstChart } from "./components/SunburstChart/SunburstChart.svelte";
 export { default as GoToNextSection } from "./components/GoToNextSection/GoToNextSection.svelte";
 export { default as GoToPreviousSection } from "./components/GoToPreviousSection/GoToPreviousSection.svelte";
 export { default as GoToTop } from "./components/GoToTop/GoToTop.svelte";

@@ -789,6 +789,27 @@ if (!customElements.get("lily-gantt-table")) customElements.define("lily-gantt-t
 export { GaugeChart } from "./components/gauge-chart.js";
 import { GaugeChart as _GaugeChart } from "./components/gauge-chart.js";
 if (!customElements.get("lily-gauge-chart")) customElements.define("lily-gauge-chart", _GaugeChart);
+export { PieChart } from "./components/pie-chart.js";
+import { PieChart as _PieChart } from "./components/pie-chart.js";
+if (!customElements.get("lily-pie-chart")) customElements.define("lily-pie-chart", _PieChart);
+export { RingChart } from "./components/ring-chart.js";
+import { RingChart as _RingChart } from "./components/ring-chart.js";
+if (!customElements.get("lily-ring-chart")) customElements.define("lily-ring-chart", _RingChart);
+export { FunnelChart } from "./components/funnel-chart.js";
+import { FunnelChart as _FunnelChart } from "./components/funnel-chart.js";
+if (!customElements.get("lily-funnel-chart")) customElements.define("lily-funnel-chart", _FunnelChart);
+export { CandlestickChart } from "./components/candlestick-chart.js";
+import { CandlestickChart as _CandlestickChart } from "./components/candlestick-chart.js";
+if (!customElements.get("lily-candlestick-chart")) customElements.define("lily-candlestick-chart", _CandlestickChart);
+export { ComposedChart } from "./components/composed-chart.js";
+import { ComposedChart as _ComposedChart } from "./components/composed-chart.js";
+if (!customElements.get("lily-composed-chart")) customElements.define("lily-composed-chart", _ComposedChart);
+export { ChoroplethChart } from "./components/choropleth-chart.js";
+import { ChoroplethChart as _ChoroplethChart } from "./components/choropleth-chart.js";
+if (!customElements.get("lily-choropleth-chart")) customElements.define("lily-choropleth-chart", _ChoroplethChart);
+export { SunburstChart } from "./components/sunburst-chart.js";
+import { SunburstChart as _SunburstChart } from "./components/sunburst-chart.js";
+if (!customElements.get("lily-sunburst-chart")) customElements.define("lily-sunburst-chart", _SunburstChart);
 
 export { GoToNextSection } from "./components/go-to-next-section.js";
 import { GoToNextSection as _GoToNextSection } from "./components/go-to-next-section.js";

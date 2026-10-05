@@ -1,0 +1,29 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    RingChart component
+    A headless wrapper for a pie chart with a hollow centre, often used to show progress or a share of a total. Renders a <figure> holding a
+    role="img" graphic wrapper around the consumer-supplied inline <svg>.
+    No drawing happens here. The optional DataTable fragment renders the
+    accessible table alternative in .ring-chart-data-table, a SIBLING of the
+    image wrapper: role="img" makes descendants presentational, so a table
+    inside it would be invisible to assistive technology.
+    Unmatched attributes spread onto the <figure>.
+*@
+
+<figure class="@($"ring-chart {CssClass}".Trim())" @attributes="AdditionalAttributes">
+    <div class="ring-chart-graphic" role="img" aria-label="@Label">@ChildContent</div>
+    @if (DataTable is not null)
+    {
+        <div class="ring-chart-data-table">@DataTable</div>
+    }
+</figure>
+
+@code {
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    /// <summary>Optional accessible data table alternative, rendered outside the role=img wrapper.</summary>
+    [Parameter] public RenderFragment? DataTable { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

@@ -1,0 +1,17 @@
+---
+layout: layouts/component-demo.njk
+title: FunnelChart
+description: a chart of stages narrowing from top to bottom, showing how a quantity drops at each step
+---
+
+{% from "components/funnel-chart/macro.njk" import funnelChart %}
+
+<h2>Consumer-supplied svg with a data table alternative</h2>
+{% set dataTable %}<table>
+  <caption>Funnel chart data</caption>
+  <thead><tr><th scope="col">Name</th><th scope="col">Value</th></tr></thead>
+  <tbody><tr><th scope="row">Example</th><td>42</td></tr></tbody>
+</table>{% endset %}
+{% call funnelChart({ label: "Funnel chart example", dataTable: dataTable }) %}
+  <svg viewBox="0 0 100 50" width="200" height="100" aria-hidden="true" focusable="false"><circle cx="50" cy="25" r="20"></circle></svg>
+{% endcall %}
