@@ -6,32 +6,44 @@ namespace LilyBlazorHeadless.Tests.Components;
 
 public class BarChartTests : TestContext
 {
-    [Fact]
-    public void Renders_with_kebab_base_class()
-    {
-        var cut = RenderComponent<BarChart>(p => p
-            .AddChildContent("body"));
-        var root = cut.Find(".bar-chart");
-        Assert.NotNull(root);
-    }
+    private const string Svg = "<svg data-testid=\"art\" viewBox=\"0 0 10 10\"><circle r=\"4\" /></svg>";
+    private const string Table = "<table><caption>Values</caption><tbody><tr><th scope=\"row\">A</th><td>1</td></tr></tbody></table>";
 
-    [Fact]
-    public void CssClass_is_appended_to_kebab_base_class()
-    {
-        var cut = RenderComponent<BarChart>(p => p
-            .AddChildContent("body")
-            .Add(x => x.CssClass, "extra"));
-        var root = cut.Find(".bar-chart");
-        Assert.Contains("extra", root.GetAttribute("class"));
-    }
+    private IRenderedComponent<BarChart> Render(Action<Bunit.ComponentParameterCollectionBuilder<BarChart>>? extra = null) =>
+        RenderComponent<BarChart>(p => { p.Add(x => x.Label, "Quarterly figures").AddChildContent(Svg); extra?.Invoke(p); });
 
-    [Fact]
-    public void AdditionalAttributes_pass_through_to_root()
+    [Fact] public void Renders_figure_with_base_class() => Assert.NotNull(Render().Find("figure.bar-chart"));
+    [Fact] public void Exposes_graphic_as_single_named_image()
     {
-        var cut = RenderComponent<BarChart>(p => p
-            .AddChildContent("body")
-            .AddUnmatched("data-test", "value"));
-        var root = cut.Find(".bar-chart");
-        Assert.Equal("value", root.GetAttribute("data-test"));
+        var g = Render().Find("[role=img]");
+        Assert.Equal("DIV", g.TagName);
+        Assert.Equal("bar-chart-graphic", g.GetAttribute("class"));
+        Assert.Equal("Quarterly figures", g.GetAttribute("aria-label"));
+    }
+    [Fact] public void Omits_aria_label_without_label() =>
+        Assert.Null(RenderComponent<BarChart>(p => p.AddChildContent(Svg)).Find("[role=img]").GetAttribute("aria-label"));
+    [Fact] public void Figure_has_no_role() => Assert.Null(Render().Find("figure").GetAttribute("role"));
+    [Fact] public void Consumer_class_follows_base_class() =>
+        Assert.Equal("bar-chart mine", Render(p => p.Add(x => x.CssClass, "mine")).Find("figure").GetAttribute("class"));
+    [Fact] public void Renders_svg_inside_the_image_wrapper() => Assert.NotNull(Render().Find("[role=img] svg[data-testid=art]"));
+    [Fact] public void No_data_table_wrapper_without_fragment() => Assert.Empty(Render().FindAll(".bar-chart-data-table"));
+    [Fact] public void Renders_data_table_as_sibling_after_the_graphic()
+    {
+        var c = Render(p => p.Add(x => x.DataTable, (Microsoft.AspNetCore.Components.RenderFragment)(b => b.AddMarkupContent(0, Table))));
+        var wrap = c.Find(".bar-chart-data-table");
+        Assert.Equal("bar-chart-graphic", wrap.PreviousElementSibling!.GetAttribute("class"));
+        Assert.Equal("FIGURE", wrap.ParentElement!.TagName);
+    }
+    [Fact] public void Table_is_outside_the_role_img_element()
+    {
+        var c = Render(p => p.Add(x => x.DataTable, (Microsoft.AspNetCore.Components.RenderFragment)(b => b.AddMarkupContent(0, Table))));
+        Assert.Empty(c.FindAll("[role=img] table"));
+        Assert.NotNull(c.Find("table"));
+    }
+    [Fact] public void Spreads_rest_props_on_figure()
+    {
+        var el = Render(p => p.AddUnmatched("id", "c1").AddUnmatched("data-test", "chart")).Find("figure");
+        Assert.Equal("c1", el.Id);
+        Assert.Equal("chart", el.GetAttribute("data-test"));
     }
 }

@@ -12,7 +12,7 @@
 
 ## Key Behaviors
 
-- Renders a `<figure role="img">` containing an inline `<svg>` rendering of the area chart
+- Renders a `<figure>` holding a `<div class="area-chart-graphic" role="img" aria-label>` containing an inline `<svg>` rendering of the area chart
 - The figure has an accessible name from the `label` prop and an extended description from the `description` prop
 - Data is supplied as `series` (one or more series of `{ x, y }` points)
 - A textual data table can be rendered inside the same figure via the `dataTable` slot for screen readers and as a fallback when SVG is not available
@@ -43,6 +43,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Data table alternative (added 2026-10-05)
+
+The graphic is wrapped in `<div class="area-chart-graphic" role="img" aria-label>`; `role="img"` is **not** on the `<figure>` any more. The optional `dataTable` (a snippet in Svelte, a prop in React, a named slot in Vue, a projected `[dataTable]` element in Angular, a `DataTable` render fragment in Blazor, `params.dataTable` in Nunjucks, a `slot="data-table"` child in Web Components) renders the accessible table in `<div class="area-chart-data-table">`, a **sibling** of the graphic and never inside it: `role="img"` makes its descendants presentational, so a table inside would be invisible to assistive technology. Without a data table the wrapper is not rendered (except Angular, noted above). **Breaking** for consumers that styled or queried `role="img"` on the figure.
 
 ## References
 

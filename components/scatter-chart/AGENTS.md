@@ -12,7 +12,7 @@
 
 ## Key Behaviors
 
-- Renders a `<figure role="img">` containing an inline `<svg>` rendering of dots positioned at `(x, y)` coordinates
+- Renders a `<figure>` holding a `<div class="scatter-chart-graphic" role="img" aria-label>` containing an inline `<svg>` rendering of dots positioned at `(x, y)` coordinates
 - Each series is plotted as a distinct set of dots
 - An optional accessible data table is rendered via the `dataTable` slot
 - Spreads `restProps` onto the root `<figure>`
@@ -41,6 +41,10 @@
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
+
+## Data table alternative (added 2026-10-05)
+
+The graphic is wrapped in `<div class="scatter-chart-graphic" role="img" aria-label>`; `role="img"` is **not** on the `<figure>` any more. The optional `dataTable` (a snippet in Svelte, a prop in React, a named slot in Vue, a projected `[dataTable]` element in Angular, a `DataTable` render fragment in Blazor, `params.dataTable` in Nunjucks, a `slot="data-table"` child in Web Components) renders the accessible table in `<div class="scatter-chart-data-table">`, a **sibling** of the graphic and never inside it: `role="img"` makes its descendants presentational, so a table inside would be invisible to assistive technology. Without a data table the wrapper is not rendered (except Angular, noted above). **Breaking** for consumers that styled or queried `role="img"` on the figure.
 
 ## References
 

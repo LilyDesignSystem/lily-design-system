@@ -9,6 +9,27 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Existing charts migrated to graphic + data-table — 2026-10-05 (breaking)
+
+`area-chart`, `bar-chart`, `column-chart`, `line-chart` and `scatter-chart`
+now share the structure the four new charts introduced: `<figure
+class="{chart}">` holding a `<div class="{chart}-graphic" role="img"
+aria-label>` and, when supplied, a sibling `<div
+class="{chart}-data-table">` (a `dataTable` snippet/prop/slot/fragment per
+framework, a `[dataTable]` projected element in Angular, `slot="data-table"`
+in Web Components). `role="img"` therefore moved off the `<figure>`; a table
+inside a `role="img"` element is presentational and was unreachable to
+assistive technology — `bar-chart`'s docs already promised a `dataTable` slot
+that no library but Web Components implemented, and Web Components put it
+inside the image. Angular's `BarChart` had no `role="img"` at all and now
+matches the rest. `label` stays optional on these five. `aria-describedby`
+(rest props) still lands on the `<figure>` except in Angular and Nunjucks
+(`describedBy` → the image wrapper). **Breaking** markup change in all eight
+headless libraries — minor bump while 0.x. Verified: Svelte 100 (+50 in the
+examples app), React 50, Vue 45, Angular 50, Blazor 50, Nunjucks 55, Web
+Components 40, HTML 9 specs (all nine charts) in real Chrome. The five
+example-app demos are unchanged placeholders.
+
 ## 16 new components, catalog 539 → 555 — 2026-10-05
 
 Maintainer-selected from a triage of Baby UI's 239 components against the

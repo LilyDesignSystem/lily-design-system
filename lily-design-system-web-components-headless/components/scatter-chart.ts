@@ -1,21 +1,22 @@
 // ScatterChart component
 //
-// A <figure role="img"> containing an inline <svg> rendering of dots
+// A <figure> holding a role="img" graphic wrapper containing an inline <svg> rendering of dots
 // positioned at `(x, y)` coordinates for one or more data series, plus an
 // optional accessible data-table fallback. Structural sibling of
 // BarChart, adapted for continuous `{ x, y }` series data.
 //
 // Attributes:
-//   label — REQUIRED. Accessible name, via aria-label.
+//   label — accessible name of the image wrapper, via aria-label.
 //   description — optional extended description, via aria-describedby
 //     (rendered as a <figcaption>; this package ships no CSS, so "visually
 //     hidden" is the consumer's rule to apply to `.scatter-chart-description`).
 //   series — JSON-encoded array of { name, points: { x, y }[] }. Also
 //     settable as a real `series` property for programmatic use.
 //
-// A `dataTable` slot (a light-DOM child marked `slot="data-table"`) is
-// moved in after the chart for consumers who want a real fallback
-// <table>.
+// A `dataTable` slot (a light-DOM child marked `slot="data-table"`) is placed in
+// <div class="scatter-chart-data-table">, a SIBLING of the image wrapper (never inside it:
+// role="img" makes descendants presentational), for consumers who want a
+// real fallback <table>.
 //
 // References:
 //   - components/scatter-chart/index.md (canonical contract)
@@ -65,6 +66,7 @@ function toSvgPoint(p: ChartPoint, bounds: ReturnType<typeof extent>): ChartPoin
 
 export class ScatterChart extends HTMLElement {
     #figure: HTMLElement | null = null;
+    #graphic: HTMLElement | null = null;
     #series: ChartSeries[] = [];
     #descriptionId = nextId("lily-scatter-chart-description");
 
@@ -75,9 +77,15 @@ export class ScatterChart extends HTMLElement {
 
         const figure = document.createElement("figure");
         figure.className = rootClassName(this, "scatter-chart");
-        figure.setAttribute("role", "img");
+        // role="img" lives on an inner graphic wrapper, never on the figure: it
+        // makes descendants presentational, so the data table (a sibling of the
+        // wrapper) must stay outside it to be reachable by assistive technology.
+        const graphic = document.createElement("div");
+        graphic.className = "scatter-chart-graphic";
+        graphic.setAttribute("role", "img");
+        figure.appendChild(graphic);
         const label = this.getAttribute("label");
-        if (label !== null) figure.setAttribute("aria-label", label);
+        if (label !== null) graphic.setAttribute("aria-label", label);
 
         const description = this.getAttribute("description");
         if (description !== null) {
@@ -85,19 +93,25 @@ export class ScatterChart extends HTMLElement {
             figcaption.className = "scatter-chart-description";
             figcaption.id = this.#descriptionId;
             figcaption.textContent = description;
-            figure.appendChild(figcaption);
-            figure.setAttribute("aria-describedby", this.#descriptionId);
+            graphic.appendChild(figcaption);
+            graphic.setAttribute("aria-describedby", this.#descriptionId);
         }
 
         passThroughAttributes(this, figure, HANDLED);
 
         const dataTable = this.querySelector('[slot="data-table"]');
         this.replaceChildren();
-        this.#renderDots(figure);
-        if (dataTable) figure.appendChild(dataTable);
+        this.#renderDots(graphic);
+        if (dataTable) {
+            const wrap = document.createElement("div");
+            wrap.className = "scatter-chart-data-table";
+            wrap.appendChild(dataTable);
+            figure.appendChild(wrap);
+        }
 
         this.appendChild(figure);
         this.#figure = figure;
+        this.#graphic = graphic;
     }
 
     get series(): ChartSeries[] {
@@ -106,9 +120,9 @@ export class ScatterChart extends HTMLElement {
 
     set series(value: ChartSeries[]) {
         this.#series = value;
-        if (this.#figure) {
-            this.#figure.querySelector("svg")?.remove();
-            this.#renderDots(this.#figure);
+        if (this.#graphic) {
+            this.#graphic.querySelector("svg")?.remove();
+            this.#renderDots(this.#graphic);
         }
     }
 

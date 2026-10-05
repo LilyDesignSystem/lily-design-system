@@ -27,16 +27,17 @@ const SERIES_JSON = JSON.stringify([
 ]);
 
 describe("LineChart", () => {
-    test("renders a figure with role=img", () => {
+    test("exposes the graphic as a named image, not the figure", () => {
         const host = render(`<lily-line-chart label="Temperature over time" series='${SERIES_JSON}'></lily-line-chart>`);
 
-        expect(host.querySelector("figure")!.getAttribute("role")).toBe("img");
+        expect(host.querySelector(".line-chart-graphic")!.getAttribute("role")).toBe("img");
+        expect(host.querySelector("figure")!.hasAttribute("role")).toBe(false);
     });
 
     test("uses label as the accessible name", () => {
         const host = render(`<lily-line-chart label="Temperature over time" series='${SERIES_JSON}'></lily-line-chart>`);
 
-        expect(host.querySelector("figure")!.getAttribute("aria-label")).toBe("Temperature over time");
+        expect(host.querySelector(".line-chart-graphic")!.getAttribute("aria-label")).toBe("Temperature over time");
     });
 
     test("renders one polyline per series", () => {
@@ -61,17 +62,20 @@ describe("LineChart", () => {
             `<lily-line-chart label="Temperature" description="Line shows temperature." series='${SERIES_JSON}'></lily-line-chart>`,
         );
 
-        const figure = host.querySelector("figure")!;
-        const describedbyId = figure.getAttribute("aria-describedby")!;
+        const graphic = host.querySelector(".line-chart-graphic")!;
+        const describedbyId = graphic.getAttribute("aria-describedby")!;
         expect(document.getElementById(describedbyId)!.textContent).toBe("Line shows temperature.");
     });
 
-    test("moves a slot=data-table child in after the chart", () => {
+    test("moves a slot=data-table child into a sibling wrapper after the graphic, outside role=img", () => {
         const host = render(
             `<lily-line-chart label="Temperature" series='${SERIES_JSON}'><table slot="data-table"><caption>Temp</caption></table></lily-line-chart>`,
         );
 
-        expect(host.querySelector("figure table")).toBeTruthy();
+        const wrap = host.querySelector(".line-chart-data-table")!;
+        expect(wrap.querySelector("table")).toBeTruthy();
+        expect(wrap.previousElementSibling).toBe(host.querySelector(".line-chart-graphic"));
+        expect(host.querySelector("[role=img] table")).toBeNull();
     });
 
     test("the series property is live and re-renders on set", () => {

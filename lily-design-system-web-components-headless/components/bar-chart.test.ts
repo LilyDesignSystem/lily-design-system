@@ -21,16 +21,17 @@ const CATEGORIES_JSON = JSON.stringify([
 ]);
 
 describe("BarChart", () => {
-    test("renders a figure with role=img", () => {
+    test("exposes the graphic as a named image, not the figure", () => {
         const host = render(`<lily-bar-chart label="Sales by day" categories='${CATEGORIES_JSON}'></lily-bar-chart>`);
 
-        expect(host.querySelector("figure")!.getAttribute("role")).toBe("img");
+        expect(host.querySelector(".bar-chart-graphic")!.getAttribute("role")).toBe("img");
+        expect(host.querySelector("figure")!.hasAttribute("role")).toBe(false);
     });
 
     test("uses label as the accessible name", () => {
         const host = render(`<lily-bar-chart label="Sales by day" categories='${CATEGORIES_JSON}'></lily-bar-chart>`);
 
-        expect(host.querySelector("figure")!.getAttribute("aria-label")).toBe("Sales by day");
+        expect(host.querySelector(".bar-chart-graphic")!.getAttribute("aria-label")).toBe("Sales by day");
     });
 
     test("renders one svg rect per category", () => {
@@ -52,17 +53,20 @@ describe("BarChart", () => {
             `<lily-bar-chart label="Sales by day" description="Bars show daily sales." categories='${CATEGORIES_JSON}'></lily-bar-chart>`,
         );
 
-        const figure = host.querySelector("figure")!;
-        const describedbyId = figure.getAttribute("aria-describedby")!;
+        const graphic = host.querySelector(".bar-chart-graphic")!;
+        const describedbyId = graphic.getAttribute("aria-describedby")!;
         expect(document.getElementById(describedbyId)!.textContent).toBe("Bars show daily sales.");
     });
 
-    test("moves a slot=data-table child in after the chart", () => {
+    test("moves a slot=data-table child into a sibling wrapper after the graphic, outside role=img", () => {
         const host = render(
             `<lily-bar-chart label="Sales by day" categories='${CATEGORIES_JSON}'><table slot="data-table"><caption>Sales</caption></table></lily-bar-chart>`,
         );
 
-        expect(host.querySelector("figure table")).toBeTruthy();
+        const wrap = host.querySelector(".bar-chart-data-table")!;
+        expect(wrap.querySelector("table")).toBeTruthy();
+        expect(wrap.previousElementSibling).toBe(host.querySelector(".bar-chart-graphic"));
+        expect(host.querySelector("[role=img] table")).toBeNull();
     });
 
     test("the categories property is live and re-renders on set", () => {

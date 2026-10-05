@@ -1,21 +1,22 @@
 // AreaChart component
 //
-// A <figure role="img"> containing an inline <svg> filled-area rendering
+// A <figure> holding a role="img" graphic wrapper containing an inline <svg> filled-area rendering
 // of one or more data series, plus an optional accessible data-table
 // fallback. Structural sibling of BarChart, adapted for continuous
 // `{ x, y }` series data instead of discrete categories.
 //
 // Attributes:
-//   label — REQUIRED. Accessible name, via aria-label.
+//   label — accessible name of the image wrapper, via aria-label.
 //   description — optional extended description, via aria-describedby
 //     (rendered as a <figcaption>; this package ships no CSS, so "visually
 //     hidden" is the consumer's rule to apply to `.area-chart-description`).
 //   series — JSON-encoded array of { name, points: { x, y }[] }. Also
 //     settable as a real `series` property for programmatic use.
 //
-// A `dataTable` slot (a light-DOM child marked `slot="data-table"`) is
-// moved in after the chart for consumers who want a real fallback
-// <table>.
+// A `dataTable` slot (a light-DOM child marked `slot="data-table"`) is placed in
+// <div class="area-chart-data-table">, a SIBLING of the image wrapper (never inside it:
+// role="img" makes descendants presentational), for consumers who want a
+// real fallback <table>.
 //
 // References:
 //   - components/area-chart/index.md (canonical contract)
@@ -64,6 +65,7 @@ function toSvgCoords(points: ChartPoint[], bounds: ReturnType<typeof extent>): C
 
 export class AreaChart extends HTMLElement {
     #figure: HTMLElement | null = null;
+    #graphic: HTMLElement | null = null;
     #series: ChartSeries[] = [];
     #descriptionId = nextId("lily-area-chart-description");
 
@@ -74,9 +76,15 @@ export class AreaChart extends HTMLElement {
 
         const figure = document.createElement("figure");
         figure.className = rootClassName(this, "area-chart");
-        figure.setAttribute("role", "img");
+        // role="img" lives on an inner graphic wrapper, never on the figure: it
+        // makes descendants presentational, so the data table (a sibling of the
+        // wrapper) must stay outside it to be reachable by assistive technology.
+        const graphic = document.createElement("div");
+        graphic.className = "area-chart-graphic";
+        graphic.setAttribute("role", "img");
+        figure.appendChild(graphic);
         const label = this.getAttribute("label");
-        if (label !== null) figure.setAttribute("aria-label", label);
+        if (label !== null) graphic.setAttribute("aria-label", label);
 
         const description = this.getAttribute("description");
         if (description !== null) {
@@ -84,19 +92,25 @@ export class AreaChart extends HTMLElement {
             figcaption.className = "area-chart-description";
             figcaption.id = this.#descriptionId;
             figcaption.textContent = description;
-            figure.appendChild(figcaption);
-            figure.setAttribute("aria-describedby", this.#descriptionId);
+            graphic.appendChild(figcaption);
+            graphic.setAttribute("aria-describedby", this.#descriptionId);
         }
 
         passThroughAttributes(this, figure, HANDLED);
 
         const dataTable = this.querySelector('[slot="data-table"]');
         this.replaceChildren();
-        this.#renderAreas(figure);
-        if (dataTable) figure.appendChild(dataTable);
+        this.#renderAreas(graphic);
+        if (dataTable) {
+            const wrap = document.createElement("div");
+            wrap.className = "area-chart-data-table";
+            wrap.appendChild(dataTable);
+            figure.appendChild(wrap);
+        }
 
         this.appendChild(figure);
         this.#figure = figure;
+        this.#graphic = graphic;
     }
 
     get series(): ChartSeries[] {
@@ -105,9 +119,9 @@ export class AreaChart extends HTMLElement {
 
     set series(value: ChartSeries[]) {
         this.#series = value;
-        if (this.#figure) {
-            this.#figure.querySelector("svg")?.remove();
-            this.#renderAreas(this.#figure);
+        if (this.#graphic) {
+            this.#graphic.querySelector("svg")?.remove();
+            this.#renderAreas(this.#graphic);
         }
     }
 
