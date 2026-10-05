@@ -20,10 +20,10 @@ the monorepo has its own (spec §14, currently 0.6.0, tagged `vX.Y.Z`).
 | Line | Packages | Current |
 | --- | --- | --- |
 | Monorepo | the canonical catalog + docs, tagged on this repo | 0.6.0 |
-| svelte/react/vue/angular headless | npm | 0.3.0 prepared 2026-10-05, not yet published (0.2.0 current on npm; scoped `@lilydesignsystem/*`; the unscoped 0.3.1 line predates the 2026-09-16 rescope) |
-| html headless | npm | 0.4.0 prepared 2026-10-05, not yet published (0.3.0 published 2026-10-01) |
-| nunjucks headless | npm | 0.2.0 prepared 2026-10-05, not yet published (0.1.0 current) |
-| Blazor headless | NuGet (`LilyDesignSystem.Blazor.Headless`) | 0.1.1, published 2026-09-02 |
+| svelte/react/vue/angular headless | npm | 0.3.0, published 2026-10-05 (0.2.0 was current before; scoped `@lilydesignsystem/*`; the unscoped 0.3.1 line predates the 2026-09-16 rescope) |
+| html headless | npm | 0.4.0, published 2026-10-05 (0.3.0 published 2026-10-01) |
+| nunjucks headless | npm | 0.2.0, published 2026-10-05 (0.1.0 before) |
+| Blazor headless | NuGet (`LilyDesignSystem.Blazor.Headless`) | 0.2.0, published 2026-10-05 (0.1.1 published 2026-09-02) |
 | Helper packages (`*-picker`, `picker-bar`, `gantt-chart`, `kanban-board`; 8 catalogs) | npm / NuGet, one line each | each package's own `CHANGELOG.md` is the record; all published as of 2026-10-01 except `svelte-calendar-view` (not yet released) |
 | `@lilydesignsystem/themes` (added 2026-09-28) | npm | 0.1.0, published 2026-09-28 |
 
