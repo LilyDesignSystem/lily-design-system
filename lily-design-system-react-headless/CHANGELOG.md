@@ -3,6 +3,22 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the package follows [Semantic Versioning](https://semver.org/).
 
+## 0.4.0 — 2026-10-06
+
+**16 new components (catalog 555 → 571); no breaking changes.**
+Seven charts built with the graphic + optional data-table structure
+introduced in the previous release: `pie-chart`, `ring-chart`,
+`funnel-chart`, `candlestick-chart`, `composed-chart`, `choropleth-chart`,
+`sunburst-chart`. `streaming-text` (a polite, atomic status region that goes
+busy while text arrives, then announces the finished text once). `tool-call`
+(a native `<details>` with `status`) and its inner parts `tool-call-name`,
+`tool-call-status`, `tool-call-input`, `tool-call-output`, `tool-call-error`.
+`mark` (the native `<mark>` highlight). `chat-composer` (a chat input form:
+growing textarea, Enter sends, Shift+Enter inserts a line break, IME-safe, one
+button that is send or stop). See the monorepo CHANGELOG for the full record
+and the per-library deviations (Blazor: no plain-Enter send; Nunjucks and
+HTML: markup-only `chat-composer`).
+
 ## 0.3.0 — 2026-10-05
 
 **16 new components (catalog 539 → 555) and a breaking chart change.**
