@@ -1,0 +1,36 @@
+<!-- heatmap-chart.html -->
+<!-- HeatmapChart component -->
+<!--
+  Description: a headless wrapper for a grid chart where cell colour encodes the value at each row and column.
+    Wraps a consumer-supplied inline <svg>; no drawing happens here.
+  HTML tag: <figure role="img">
+  CSS class: heatmap-chart
+  Keyboard: None (the chart is a single image to assistive technology)
+  Accessibility: role="img" exposes the chart as one image; aria-label names it
+    (required, consumer-supplied); aria-describedby should reference a text
+    description or a real <table> carrying the same data.
+  Usage:
+    <figure
+      class="heatmap-chart"
+      role="img"
+      aria-label="Example"
+      aria-describedby="heatmap-chart-desc"
+    >
+      <!-- Consumer provides the inline svg; no drawing happens in this component. -->
+      <svg data-testid="art" viewBox="0 0 10 10"><circle r="4" cx="5" cy="5"></circle></svg>
+    </figure>
+    <!-- Text description or real <table> carrying the same data, referenced by aria-describedby -->
+    <p id="heatmap-chart-desc">Example description</p>
+-->
+
+<figure
+  class="heatmap-chart"
+  role="img"
+  aria-label="Example"
+  aria-describedby="heatmap-chart-desc"
+>
+  <!-- Consumer provides the inline svg; no drawing happens in this component. -->
+  <svg data-testid="art" viewBox="0 0 10 10"><circle r="4" cx="5" cy="5"></circle></svg>
+</figure>
+<!-- Text description or real <table> carrying the same data, referenced by aria-describedby -->
+<p id="heatmap-chart-desc">Example description</p>

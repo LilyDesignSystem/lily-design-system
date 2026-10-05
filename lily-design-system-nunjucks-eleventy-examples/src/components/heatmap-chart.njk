@@ -1,0 +1,17 @@
+---
+layout: layouts/component-demo.njk
+title: HeatmapChart
+description: a matrix chart where cell colour encodes a value
+---
+
+{% from "components/heatmap-chart/macro.njk" import heatmapChart %}
+
+<h2>Consumer-supplied svg with a data table alternative</h2>
+{% call heatmapChart({ label: "Heatmap chart example", describedBy: "heatmap-chart-data" }) %}
+  <svg viewBox="0 0 100 50" width="200" height="100" aria-hidden="true" focusable="false"><circle cx="50" cy="25" r="20"></circle></svg>
+{% endcall %}
+<table id="heatmap-chart-data">
+  <caption>Heatmap chart data</caption>
+  <thead><tr><th scope="col">Name</th><th scope="col">Value</th></tr></thead>
+  <tbody><tr><th scope="row">Example</th><td>42</td></tr></tbody>
+</table>

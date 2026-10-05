@@ -2168,3 +2168,91 @@
 /* misr-al-raqm-al-qawmi-view: a read-only display of Egypt's National Number */
 .misr-al-raqm-al-qawmi-view {
 }
+
+/* one-time-password-input: a single one-time-password input with a numeric keypad, SMS autofill, and a fixed length */
+.one-time-password-input {
+}
+
+/* multi-select: a native select that allows choosing several options at once */
+.multi-select {
+}
+
+/* multi-select-with-extras: a multiple-choice select with additional features like search, groups, or selected-value chips */
+.multi-select-with-extras {
+}
+
+/* empty-state: a placeholder shown when a list, table, or view has nothing to display yet, with room for guidance and an action */
+.empty-state {
+}
+
+/* show-more: a content region clamped to a shorter height with a button that reveals the rest */
+.show-more {
+}
+
+/* show-more-content: sub-element of show-more */
+.show-more-content {
+}
+
+/* show-more-button: sub-element of show-more */
+.show-more-button {
+}
+
+/* kbd-shortcut: a keyboard shortcut made of one or more key caps, for example Ctrl plus K */
+.kbd-shortcut {
+}
+
+/* kbd-shortcut-key: sub-element of kbd-shortcut */
+.kbd-shortcut-key {
+}
+
+/* kbd-shortcut-separator: sub-element of kbd-shortcut */
+.kbd-shortcut-separator {
+}
+
+/* calendar-year-table: a calendar grid showing the twelve months of one year */
+.calendar-year-table {
+}
+
+/* calendar-month-table: a calendar grid showing the days of one month */
+.calendar-month-table {
+}
+
+/* calendar-week-table: a calendar grid showing the seven days of one week */
+.calendar-week-table {
+}
+
+/* calendar-day-table: a calendar grid showing the time slots of one day */
+.calendar-day-table {
+}
+
+/* thinking: a collapsible block that shows an AI agent's reasoning or thinking, closed by default */
+.thinking {
+}
+
+/* thinking-summary: sub-element of thinking */
+.thinking-summary {
+}
+
+/* thinking-content: sub-element of thinking */
+.thinking-content {
+}
+
+/* gauge-chart: a dial chart showing one value within a range, with optional thresholds */
+.gauge-chart {
+}
+
+/* heatmap-chart: a grid chart where cell colour encodes the value at each row and column */
+.heatmap-chart {
+}
+
+/* radar-chart: a chart plotting several axes from a shared centre as a polygon */
+.radar-chart {
+}
+
+/* sankey-chart: a flow chart where link width encodes the quantity moving between nodes */
+.sankey-chart {
+}
+
+/* file-tree: a hierarchical tree of folders and files with expandable folders */
+.file-tree {
+}

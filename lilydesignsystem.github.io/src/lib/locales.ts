@@ -5,7 +5,7 @@
 // Labels are endonyms (each language's own name for itself), except the
 // four English variants, which need a qualifier to tell them apart in a
 // picker that lists all four side by side. The qualifier is the full
-// region name after a dash ("English - United Kingdom"), never an
+// region name after a dash ("English - Great Britain"), never an
 // abbreviation or a parenthetical.
 
 export const DEFAULT_LOCALE = 'en-001';
@@ -15,8 +15,8 @@ export const LOCALE_LABELS: Record<string, string> = {
   'bn-001': 'বাংলা',
   'cy-001': 'Cymraeg',
   'en-001': 'English',
-  'en-gb': 'English - United Kingdom',
-  'en-gb-oxendict': 'English - United Kingdom - Oxford',
+  'en-gb': 'English - Great Britain',
+  'en-gb-oxendict': 'English - Great Britain - Oxford',
   'en-us': 'English - United States',
   'es-001': 'Español',
   'fr-001': 'Français',

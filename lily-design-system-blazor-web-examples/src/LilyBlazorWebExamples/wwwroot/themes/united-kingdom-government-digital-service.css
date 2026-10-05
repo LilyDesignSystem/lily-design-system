@@ -2202,6 +2202,110 @@
         line-height: 0;
     }
 
+    /* Components added 2026-10-05: kbd-shortcut, show-more, thinking,
+       empty-state, file-tree, one-time-password-input, multi-select, and
+       the four calendar views. The calendar views reuse the
+       calendar-table-* sub-element hooks, so they only need the table
+       root rule. show-more's clamp is keyed on data-expanded (the
+       component never sets an inline style); file-tree hides a closed
+       folder's group via aria-expanded. */
+    :where(.calendar-year-table, .calendar-month-table, .calendar-week-table, .calendar-day-table) {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    :where(.kbd-shortcut) {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--lily-space-xs);
+    }
+
+    :where(.kbd-shortcut-key) {
+        display: inline-block;
+        padding: 0.125rem 0.4rem;
+        font-family: var(--lily-font-mono);
+        font-size: 0.85em;
+        background-color: var(--lily-surface-alt);
+        border: var(--border) solid var(--lily-border-strong);
+        border-bottom-width: 2px;
+        border-radius: var(--lily-radius-sm);
+    }
+
+    :where(.show-more-content[data-expanded="false"]) {
+        max-height: 6em;
+        overflow: hidden;
+    }
+
+    :where(.show-more-button) {
+        margin-block-start: var(--lily-space-xs);
+        padding: var(--lily-space-xs);
+        font: inherit;
+        color: inherit;
+        text-decoration: underline;
+        background: none;
+        border: 0;
+        cursor: pointer;
+    }
+
+    :where(.thinking) {
+        padding: var(--lily-space-xs) var(--lily-space-sm);
+        color: var(--lily-text-muted);
+        border: var(--border) solid var(--lily-border-strong);
+        border-radius: var(--lily-radius-md);
+    }
+
+    :where(.thinking-summary) {
+        cursor: pointer;
+    }
+
+    :where(.thinking[data-streaming] .thinking-summary) {
+        font-style: italic;
+    }
+
+    :where(.empty-state) {
+        padding: var(--lily-space-lg);
+        text-align: center;
+        color: var(--lily-text-muted);
+    }
+
+    :where(.file-tree, .file-tree [role="group"]) {
+        margin: 0;
+        padding-inline-start: 0;
+        list-style: none;
+    }
+
+    :where(.file-tree [role="group"]) {
+        padding-inline-start: var(--lily-space-md);
+    }
+
+    :where(.file-tree [role="treeitem"]) {
+        padding: var(--lily-space-xs) var(--lily-space-sm);
+        cursor: pointer;
+    }
+
+    :where(.file-tree [role="treeitem"][aria-expanded="false"] > [role="group"]) {
+        display: none;
+    }
+
+    :where(.file-tree [role="treeitem"]:focus-visible) {
+        outline: var(--lily-focus-ring);
+        outline-offset: -2px;
+    }
+
+    :where(.one-time-password-input, .multi-select, .multi-select-with-extras select) {
+        padding: var(--lily-space-xs) var(--lily-space-sm);
+        font: inherit;
+        color: var(--lily-text);
+        background-color: var(--lily-surface);
+        border: var(--border) solid var(--lily-border-strong);
+        border-radius: var(--lily-radius-sm);
+    }
+
+    :where(.one-time-password-input) {
+        font-family: var(--lily-font-mono);
+        letter-spacing: 0.25em;
+    }
+
     /* Picker tooltips (added 2026-10-04): a visual-only role="tooltip"
        element beside each picker's icon button, holding the same text as
        its aria-label. The component toggles [hidden]; position and look

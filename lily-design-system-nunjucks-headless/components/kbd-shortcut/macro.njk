@@ -1,0 +1,37 @@
+{#
+  KbdShortcut macro — a keyboard shortcut: an outer <kbd> holding one inner
+    <kbd> per key, with a decorative separator between keys. Use `kbd` for
+    a single key.
+
+  HTML tag: <kbd>
+  CSS class: kbd-shortcut (sub-classes kbd-shortcut-key, kbd-shortcut-separator)
+  Accessibility: separators are aria-hidden so screen readers read the keys;
+    `label` (optional) overrides the spoken form.
+
+  Params:
+    keys        array    Key names in order, e.g. ["Ctrl", "K"]. Required.
+    separator   string   Decorative text between keys. Default "+".
+    label       string   Optional spoken form (aria-label on the root).
+    id          string
+    classes     string
+    attributes  object
+
+  Usage:
+    {% from "components/kbd-shortcut/macro.njk" import kbdShortcut %}
+    {{ kbdShortcut({ keys: ["Ctrl", "K"], label: "Control K" }) }}
+#}
+{%- macro kbdShortcut(params) -%}
+{%- set p = params | default({}) -%}
+{%- set sep = p.separator if p.separator is defined else "+" -%}
+<kbd
+  class="kbd-shortcut{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- for key in p.keys -%}
+    {%- if not loop.first -%}<span class="kbd-shortcut-separator" aria-hidden="true">{{ sep }}</span>{%- endif -%}
+    <kbd class="kbd-shortcut-key">{{ key }}</kbd>
+  {%- endfor -%}
+</kbd>
+{%- endmacro -%}

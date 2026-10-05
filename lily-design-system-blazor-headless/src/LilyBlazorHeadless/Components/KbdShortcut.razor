@@ -1,0 +1,33 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    KbdShortcut component
+    a keyboard shortcut made of one or more key caps, for example Ctrl plus K
+
+    Outer <kbd> holding one inner <kbd class="kbd-shortcut-key"> per key,
+    separated by <span class="kbd-shortcut-separator" aria-hidden="true">.
+
+    Parameters:
+        Keys — IReadOnlyList<string>, required.
+        Separator — string, default "+".
+        Label — string?, optional spoken form (aria-label on the root); when
+            absent, screen readers read the keys.
+        AdditionalAttributes — spread onto the root <kbd>.
+*@
+
+<kbd class="@($"kbd-shortcut {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@for (var i = 0; i < Keys.Count; i++)
+{
+    if (i > 0)
+    {
+        <span class="kbd-shortcut-separator" aria-hidden="true">@Separator</span>
+    }
+    <kbd class="kbd-shortcut-key">@Keys[i]</kbd>
+}</kbd>
+
+@code {
+    [Parameter, EditorRequired] public IReadOnlyList<string> Keys { get; set; } = Array.Empty<string>();
+    [Parameter] public string Separator { get; set; } = "+";
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

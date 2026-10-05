@@ -1,0 +1,58 @@
+{#
+  MultiSelectWithExtras macro — a native <select multiple> inside a wrapper
+    <div>, with optional content before and after it. Same shape as the
+    Svelte canonical.
+
+  HTML tag: <div> wrapper around <select multiple>
+  CSS class: multi-select-with-extras (on the wrapper)
+  Keyboard: native only.
+
+  Params:
+    label       string   Accessible name — aria-label on the <select>. Required.
+    id          string   id of the <select>.
+    name        string   name of the <select>.
+    value       array    Selected option values.
+    options     array    { value, text, html, selected, disabled } descriptors;
+                         if omitted, caller() content (<option>s) is used.
+    size        number
+    required    boolean
+    disabled    boolean
+    before      string   Raw HTML rendered before the select.
+    after       string   Raw HTML rendered after the select.
+    classes     string   Appended to the wrapper's class.
+    attributes  object   Extra attributes on the WRAPPER.
+
+  Usage:
+    {% from "components/multi-select-with-extras/macro.njk" import multiSelectWithExtras %}
+    {{ multiSelectWithExtras({ label: "Tags", options: [{ value: "a", text: "A" }] }) }}
+#}
+{%- macro multiSelectWithExtras(params) -%}
+<div
+  class="multi-select-with-extras{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if params.before %}{{ params.before | safe }}{% endif -%}
+  <select
+    multiple
+    {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+    {%- if params.id %} id="{{ params.id }}"{% endif %}
+    {%- if params.name %} name="{{ params.name }}"{% endif %}
+    {%- if params.size %} size="{{ params.size }}"{% endif %}
+    {%- if params.required %} required{% endif %}
+    {%- if params.disabled %} disabled{% endif %}
+  >
+    {%- if params.options -%}
+      {%- for opt in params.options -%}
+        <option value="{{ opt.value }}"
+          {%- if opt.selected or (params.value and opt.value in params.value) %} selected{% endif %}
+          {%- if opt.disabled %} disabled{% endif %}
+        >
+          {%- if opt.html -%}{{ opt.html | safe }}{%- else -%}{{ opt.text }}{%- endif -%}
+        </option>
+      {%- endfor -%}
+    {%- elif caller -%}{{ caller() }}
+    {%- endif -%}
+  </select>
+  {%- if params.after %}{{ params.after | safe }}{% endif -%}
+</div>
+{%- endmacro -%}

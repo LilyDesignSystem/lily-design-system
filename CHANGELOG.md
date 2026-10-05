@@ -9,6 +9,29 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## 16 new components, catalog 539 → 555 — 2026-10-05
+
+Maintainer-selected from a triage of Baby UI's 239 components against the
+catalog (ideas only; no code copied). New: `one-time-password-input`
+(one native input with `autocomplete="one-time-code"`, not segmented
+boxes), `multi-select`, `multi-select-with-extras`, `empty-state`,
+`show-more`, `kbd-shortcut`, `calendar-year-table`,
+`calendar-month-table`, `calendar-week-table`, `calendar-day-table`
+(structural `role="grid"` wrappers reusing the `calendar-table-*`
+sub-elements), `thinking` (a native `<details>` for an AI agent's
+reasoning, with `streaming`), `gauge-chart`, `heatmap-chart`,
+`radar-chart`, `sankey-chart` (mirroring `bar-chart`) and `file-tree`
+(an APG tree root owning roving tabindex, arrows, Home/End, `*` and
+typeahead). All eight headless libraries, with tests per documented
+behaviour: React 555 files / 3,094 tests, Vue 3,082, Angular 1,345,
+Blazor 1,932, Nunjucks 3,263, Web Components 521 files / 3,048, HTML 16
+new specs in real Chrome; Svelte canonical. The 45 themes style them;
+`bin/test`, `bin/check-coverage` (0 drift) and a Chromium axe sweep of
+the 16 demo pages pass. Not yet published. Deferred from the same
+triage: the rest of Baby UI's primitives, blocks, animated/text/
+background effects, OG images and emails; most agent-UI components and
+the remaining chart types.
+
 ## Tooltips on every picker — 2026-10-04
 
 Maintainer-directed: all seven pickers in all eight catalogs (56 packages)

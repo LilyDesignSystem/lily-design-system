@@ -1,0 +1,48 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    Thinking component
+    a collapsible block that shows an AI agent's reasoning or thinking, closed by default
+
+    Built on the native <details>. Closed by default. While Streaming, the
+    root carries data-streaming="true" and aria-busy="true".
+
+    Parameters:
+        Label — string, required. The <summary> text.
+        Open — bool, default false, bindable via @bind-Open.
+        Streaming — bool, default false.
+        AdditionalAttributes — spread onto the root <details>.
+
+    Keyboard: native <summary> (Enter / Space).
+
+    Blazor deviation: C# cannot read the live `open` property, and
+    ontoggle carries no new state. The summary's click (which Enter / Space
+    also raise) flips Open and raises OpenChanged while the native toggle
+    still happens, so static rendering keeps working. A toggle made by other
+    means (e.g. browser find-in-page) does not update Open.
+*@
+
+<details class="@($"thinking {CssClass}".Trim())"
+         open="@Open"
+         data-streaming="@(Streaming ? "true" : null)"
+         aria-busy="@(Streaming ? "true" : null)"
+         @attributes="AdditionalAttributes">
+    <summary class="thinking-summary" @onclick="ToggleAsync">@Label</summary>
+    <div class="thinking-content">@ChildContent</div>
+</details>
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public bool Open { get; set; }
+    [Parameter] public EventCallback<bool> OpenChanged { get; set; }
+    [Parameter] public bool Streaming { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private async Task ToggleAsync()
+    {
+        Open = !Open;
+        await OpenChanged.InvokeAsync(Open);
+    }
+}

@@ -1,0 +1,50 @@
+<!-- calendar-month-table.html -->
+<!-- CalendarMonthTable component -->
+<!--
+  Description: a calendar grid showing the days of one month: week rows by seven day columns. A structural wrapper like
+    calendar-table: the consumer supplies head, body, rows and cells.
+  HTML tag: <table role="grid">
+  CSS class: calendar-month-table
+  Data attribute: data-view="month" lets consumer CSS and JS key on the view
+  Keyboard: None built-in. The consumer implements grid keyboard navigation
+    (arrow keys for cell movement, Enter/Space for selection).
+  Accessibility: role="grid" identifies an interactive grid widget; aria-label
+    names the period shown (required, consumer-supplied, e.g. "January 2025").
+    An optional <caption> gives a visible name.
+  Internationalization: the consumer owns locale formatting (Intl) and all
+    cell content; no text is hardcoded here (the strings below are demo only).
+  Usage:
+    <table
+      class="calendar-month-table"
+      role="grid"
+      aria-label="January 2025"
+      data-view="month"
+    >
+      <caption>Visible caption (optional)</caption>
+      <!-- Consumer provides thead, tbody, tfoot: reuse the calendar-table-* sub-elements
+           (calendar-table-head, calendar-table-body, calendar-table-foot, calendar-table-row,
+           calendar-table-th, calendar-table-td). There are no calendar-month-table-* sub-elements. -->
+      <tbody class="calendar-table-body">
+        <tr class="calendar-table-row">
+          <td class="calendar-table-td">1</td>
+        </tr>
+      </tbody>
+    </table>
+-->
+
+<table
+  class="calendar-month-table"
+  role="grid"
+  aria-label="January 2025"
+  data-view="month"
+>
+  <caption>Visible caption (optional)</caption>
+  <!-- Consumer provides thead, tbody, tfoot: reuse the calendar-table-* sub-elements
+       (calendar-table-head, calendar-table-body, calendar-table-foot, calendar-table-row,
+       calendar-table-th, calendar-table-td). There are no calendar-month-table-* sub-elements. -->
+  <tbody class="calendar-table-body">
+    <tr class="calendar-table-row">
+      <td class="calendar-table-td">1</td>
+    </tr>
+  </tbody>
+</table>

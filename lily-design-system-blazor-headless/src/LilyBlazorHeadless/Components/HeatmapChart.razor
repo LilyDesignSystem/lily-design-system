@@ -1,0 +1,17 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    HeatmapChart component
+    A headless wrapper for a grid chart where cell colour encodes the value at each row and column. Renders a <figure role="img">
+    around the consumer-supplied inline <svg>. No drawing happens here.
+    Use aria-describedby (unmatched attribute) to point at a description or a real data table.
+*@
+
+<figure class="@($"heatmap-chart {CssClass}".Trim())" role="img" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</figure>
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

@@ -1,0 +1,49 @@
+{#
+  CalendarMonthTable macro -- a calendar grid for one month: week rows x 7 day columns.
+
+  A structural wrapper like calendarTable: a <table> with role="grid" and
+  data-view="month". The consumer supplies head, body and rows by reusing the
+  calendarTable* sub-element macros; there are no calendar-month-table-* sub-elements.
+
+  HTML tag: <table role="grid">
+  CSS class: calendar-month-table
+  Accessibility:
+    - role="grid" + aria-label (params.label, required) name the period shown.
+    - data-view="month" lets consumer CSS and JS key on the view.
+    - Grid keyboard navigation is the consumer's concern.
+
+  Params:
+    label         string   Required accessible name (aria-label), e.g. "March 2025".
+    caption       string   Visible caption text (escaped).
+    captionHtml   string   Visible caption raw HTML.
+    id            string   Element id.
+    classes       string   Consumer-provided extra CSS classes.
+    attributes    object   Extra HTML attributes as key/value pairs.
+    html          string   Raw body HTML (alternative to caller()).
+
+  Usage:
+    {% from "components/calendar-month-table/macro.njk" import calendarMonthTable %}
+    {% call calendarMonthTable({ label: "March 2025" }) %}
+      ... calendarTableBody / calendarTableRow / calendarTableTd ...
+    {% endcall %}
+#}
+{%- macro calendarMonthTable(params) -%}
+{%- set p = params | default({}) -%}
+<table
+  class="calendar-month-table{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="grid"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  data-view="month"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, val in p.attributes %} {{ k }}="{{ val }}"{% endfor %}{% endif %}
+>
+  {%- if p.captionHtml %}
+  <caption>{{ p.captionHtml | safe }}</caption>
+  {%- elif p.caption %}
+  <caption>{{ p.caption }}</caption>
+  {%- endif %}
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</table>
+{%- endmacro -%}

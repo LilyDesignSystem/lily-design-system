@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: MultiSelect
+description: a native select that allows choosing several options at once
+---
+
+{% from "components/multi-select/macro.njk" import multiSelect %}
+
+<h2>Default</h2>
+<p>{{ multiSelect({ label: "Toppings", size: 3, value: ["b"], options: [{ value: "a", text: "Cheese" }, { value: "b", text: "Olives" }, { value: "c", text: "Peppers" }] }) }}</p>

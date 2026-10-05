@@ -537,3 +537,19 @@ chile-rol-unico-nacional-input	ChileRolUnicoNacionalInput	an input for entering 
 chile-rol-unico-nacional-view	ChileRolUnicoNacionalView	a read-only display of Chile's Rol Unico Nacional (RUN)
 misr-al-raqm-al-qawmi-input	MisrAlRaqmAlQawmiInput	an input for entering Egypt's National Number
 misr-al-raqm-al-qawmi-view	MisrAlRaqmAlQawmiView	a read-only display of Egypt's National Number
+one-time-password-input	OneTimePasswordInput	a single one-time-password input with a numeric keypad, SMS autofill, and a fixed length
+multi-select	MultiSelect	a native select that allows choosing several options at once
+multi-select-with-extras	MultiSelectWithExtras	a multiple-choice select with additional features like search, groups, or selected-value chips
+empty-state	EmptyState	a placeholder shown when a list, table, or view has nothing to display yet, with room for guidance and an action
+show-more	ShowMore	a content region clamped to a shorter height with a button that reveals the rest
+kbd-shortcut	KbdShortcut	a keyboard shortcut made of one or more key caps, for example Ctrl plus K
+calendar-year-table	CalendarYearTable	a calendar grid showing the twelve months of one year
+calendar-month-table	CalendarMonthTable	a calendar grid showing the days of one month
+calendar-week-table	CalendarWeekTable	a calendar grid showing the seven days of one week
+calendar-day-table	CalendarDayTable	a calendar grid showing the time slots of one day
+thinking	Thinking	a collapsible block that shows an AI agent's reasoning or thinking, closed by default
+gauge-chart	GaugeChart	a dial chart showing one value within a range, with optional thresholds
+heatmap-chart	HeatmapChart	a grid chart where cell colour encodes the value at each row and column
+radar-chart	RadarChart	a chart plotting several axes from a shared centre as a polygon
+sankey-chart	SankeyChart	a flow chart where link width encodes the quantity moving between nodes
+file-tree	FileTree	a hierarchical tree of folders and files with expandable folders

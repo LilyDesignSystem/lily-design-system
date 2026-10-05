@@ -1,0 +1,47 @@
+{#
+  OneTimePasswordInput macro — a single-line input for a one-time code
+    (SMS / authenticator / email).
+
+  HTML tag: <input type="text" inputmode="numeric" autocomplete="one-time-code">
+  CSS class: one-time-password-input
+  Behavior: ONE real input (not segmented boxes like pin-input-div) so SMS
+    autofill and paste work. No keyboard handling beyond native.
+
+  Params:
+    label       string   Accessible name (aria-label). Required.
+    length      number   Code length -> maxlength + data-length. Required;
+                         no default (the consumer decides).
+    value       string   Current value.
+    name        string   Name attribute.
+    id          string
+    inputMode   string   Default "numeric".
+    pattern     string   Default "[0-9]*".
+    required    boolean
+    disabled    boolean
+    classes     string
+    attributes  object   Extra attributes on the root.
+
+  Usage:
+    {% from "components/one-time-password-input/macro.njk" import oneTimePasswordInput %}
+    {{ oneTimePasswordInput({ label: "Security code", length: 6, name: "code" }) }}
+#}
+{%- macro oneTimePasswordInput(params) -%}
+<input
+  class="one-time-password-input{% if params.classes %} {{ params.classes }}{% endif %}"
+  type="text"
+  inputmode="{{ params.inputMode | default('numeric') }}"
+  autocomplete="one-time-code"
+  {%- if params.length %} maxlength="{{ params.length }}"{% endif %}
+  pattern="{{ params.pattern | default('[0-9]*') }}"
+  spellcheck="false"
+  autocapitalize="off"
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.length %} data-length="{{ params.length }}"{% endif %}
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.name %} name="{{ params.name }}"{% endif %}
+  {%- if params.value is defined and params.value != none %} value="{{ params.value }}"{% endif %}
+  {%- if params.required %} required{% endif %}
+  {%- if params.disabled %} disabled{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+{%- endmacro -%}

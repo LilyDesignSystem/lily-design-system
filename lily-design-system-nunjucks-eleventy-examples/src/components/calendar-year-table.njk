@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Calendar Year Table
+description: a calendar grid for the twelve months of one year
+---
+
+{% from "components/calendar-year-table/macro.njk" import calendarYearTable %}
+{% from "components/calendar-table-body/macro.njk" import calendarTableBody %}
+{% from "components/calendar-table-row/macro.njk" import calendarTableRow %}
+{% from "components/calendar-table-td/macro.njk" import calendarTableTd %}
+
+<h2>Default</h2>
+{% call calendarYearTable({ label: "2025", caption: "2025" }) %}
+  {% call calendarTableBody() %}
+    {% call calendarTableRow() %}
+      {{ calendarTableTd({ text: "Jan" }) }}
+      {{ calendarTableTd({ text: "Feb" }) }}
+      {{ calendarTableTd({ text: "Mar" }) }}
+    {% endcall %}
+  {% endcall %}
+{% endcall %}

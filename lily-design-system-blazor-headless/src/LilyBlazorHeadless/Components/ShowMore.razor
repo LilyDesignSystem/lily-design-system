@@ -1,0 +1,42 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    ShowMore component
+    a content region clamped to a shorter height with a button that reveals the rest
+
+    The clamp is consumer CSS keyed on data-expanded on .show-more-content
+    (no inline style); the content stays in the accessibility tree. The
+    button is a native <button>: Enter / Space toggle.
+
+    Parameters:
+        MoreLabel / LessLabel — string, both required, no English default.
+        Expanded — bool, default false, bindable via @bind-Expanded.
+        AdditionalAttributes — spread onto the root <div>.
+*@
+
+<div class="@($"show-more {CssClass}".Trim())" @attributes="AdditionalAttributes">
+    <div class="show-more-content" id="@_contentId" data-expanded="@(Expanded ? "true" : "false")">@ChildContent</div>
+    <button type="button"
+            class="show-more-button"
+            aria-expanded="@(Expanded ? "true" : "false")"
+            aria-controls="@_contentId"
+            @onclick="ToggleAsync">@(Expanded ? LessLabel : MoreLabel)</button>
+</div>
+
+@code {
+    [Parameter, EditorRequired] public string MoreLabel { get; set; } = "";
+    [Parameter, EditorRequired] public string LessLabel { get; set; } = "";
+    [Parameter] public bool Expanded { get; set; }
+    [Parameter] public EventCallback<bool> ExpandedChanged { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private readonly string _contentId = $"show-more-{Guid.NewGuid():N}";
+
+    private async Task ToggleAsync()
+    {
+        Expanded = !Expanded;
+        await ExpandedChanged.InvokeAsync(Expanded);
+    }
+}

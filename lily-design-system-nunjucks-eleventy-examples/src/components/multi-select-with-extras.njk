@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: MultiSelectWithExtras
+description: a multiple-choice select with additional features like search, groups, or selected-value chips
+---
+
+{% from "components/multi-select-with-extras/macro.njk" import multiSelectWithExtras %}
+
+<h2>Default</h2>
+{{ multiSelectWithExtras({ label: "Toppings", before: "<span>Pick some:</span>", after: "<span>Optional</span>", options: [{ value: "a", text: "Cheese" }, { value: "b", text: "Olives" }] }) }}

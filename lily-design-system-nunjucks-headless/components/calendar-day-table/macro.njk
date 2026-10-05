@@ -1,0 +1,49 @@
+{#
+  CalendarDayTable macro -- a calendar grid for one day: time-slot rows.
+
+  A structural wrapper like calendarTable: a <table> with role="grid" and
+  data-view="day". The consumer supplies head, body and rows by reusing the
+  calendarTable* sub-element macros; there are no calendar-day-table-* sub-elements.
+
+  HTML tag: <table role="grid">
+  CSS class: calendar-day-table
+  Accessibility:
+    - role="grid" + aria-label (params.label, required) name the period shown.
+    - data-view="day" lets consumer CSS and JS key on the view.
+    - Grid keyboard navigation is the consumer's concern.
+
+  Params:
+    label         string   Required accessible name (aria-label), e.g. "Monday 3 March 2025".
+    caption       string   Visible caption text (escaped).
+    captionHtml   string   Visible caption raw HTML.
+    id            string   Element id.
+    classes       string   Consumer-provided extra CSS classes.
+    attributes    object   Extra HTML attributes as key/value pairs.
+    html          string   Raw body HTML (alternative to caller()).
+
+  Usage:
+    {% from "components/calendar-day-table/macro.njk" import calendarDayTable %}
+    {% call calendarDayTable({ label: "Monday 3 March 2025" }) %}
+      ... calendarTableBody / calendarTableRow / calendarTableTd ...
+    {% endcall %}
+#}
+{%- macro calendarDayTable(params) -%}
+{%- set p = params | default({}) -%}
+<table
+  class="calendar-day-table{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="grid"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  data-view="day"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, val in p.attributes %} {{ k }}="{{ val }}"{% endfor %}{% endif %}
+>
+  {%- if p.captionHtml %}
+  <caption>{{ p.captionHtml | safe }}</caption>
+  {%- elif p.caption %}
+  <caption>{{ p.caption }}</caption>
+  {%- endif %}
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</table>
+{%- endmacro -%}

@@ -1,0 +1,45 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    MultiSelect component
+    a native select that allows choosing several options at once
+
+    Root is a native <select multiple> with aria-label. Children are Option
+    elements. Native keyboard only.
+
+    Parameters:
+        Label — string, required. Accessible name via aria-label.
+        Value — string[], bindable via @bind-Value: the selected option values.
+        Size — int?, optional number of visible rows.
+        Required / Disabled — native attributes.
+        AdditionalAttributes — spread onto the <select>.
+*@
+
+<select class="@($"multi-select {CssClass}".Trim())"
+        multiple
+        aria-label="@Label"
+        size="@Size"
+        required="@Required"
+        disabled="@Disabled"
+        @bind:get="Value"
+        @bind:set="SetValueAsync"
+        @bind:event="onchange"
+        @attributes="AdditionalAttributes">@ChildContent</select>
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public string[] Value { get; set; } = Array.Empty<string>();
+    [Parameter] public EventCallback<string[]> ValueChanged { get; set; }
+    [Parameter] public int? Size { get; set; }
+    [Parameter] public bool Required { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private async Task SetValueAsync(string[] next)
+    {
+        Value = next;
+        await ValueChanged.InvokeAsync(next);
+    }
+}

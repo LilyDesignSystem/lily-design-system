@@ -1,0 +1,42 @@
+{#
+  RadarChart macro -- a radar (spider) chart comparing several variables on radial axes.
+
+  A headless wrapper: <figure role="img"> around the consumer-supplied
+  inline <svg>. No drawing happens in the macro (headless).
+
+  HTML tag: <figure role="img">
+  CSS class: radar-chart
+  Accessibility:
+    - role="img" exposes the chart as one image; aria-label names it.
+    - params.describedBy sets aria-describedby: point it at a text
+      description or a real <table> carrying the same data.
+
+  Params:
+    label        string   Required accessible name (aria-label).
+    describedBy  string   id(s) for aria-describedby.
+    id           string   Element id.
+    classes      string   Consumer-provided extra CSS classes.
+    attributes   object   Extra HTML attributes as key/value pairs.
+    html         string   Raw HTML content (the svg).
+    text         string   Plain text content (escaped).
+
+  Usage:
+    {% from "components/radar-chart/macro.njk" import radarChart %}
+    {% call radarChart({ label: "Example", describedBy: "desc" }) %}<svg>...</svg>{% endcall %}
+#}
+{%- macro radarChart(params) -%}
+{%- set p = params | default({}) -%}
+<figure
+  class="radar-chart{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="img"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.describedBy %} aria-describedby="{{ p.describedBy }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif p.text -%}{{ p.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</figure>
+{%- endmacro -%}

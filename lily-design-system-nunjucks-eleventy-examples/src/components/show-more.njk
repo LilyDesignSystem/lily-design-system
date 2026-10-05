@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: ShowMore
+description: a content region clamped to a shorter height with a button that reveals the rest
+---
+
+{% from "components/show-more/macro.njk" import showMore %}
+
+<h2>Default</h2>
+{% call showMore({ moreLabel: "Show more", lessLabel: "Show less", id: "demo-more" }) %}<p>A longer passage of text that a consumer would clamp with CSS keyed on data-expanded.</p>{% endcall %}

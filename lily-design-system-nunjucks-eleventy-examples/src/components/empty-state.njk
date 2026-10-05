@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: EmptyState
+description: a placeholder shown when a list, table, or view has nothing to display yet, with room for guidance and an action
+---
+
+{% from "components/empty-state/macro.njk" import emptyState %}
+
+<h2>Default</h2>
+{% call emptyState({ label: "No results" }) %}<h3>No results</h3><p>Try a different search.</p><button type="button">Clear filters</button>{% endcall %}

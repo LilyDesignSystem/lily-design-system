@@ -524,6 +524,22 @@ slug below links to the per-component documentation.
 - [warning-callout](components/warning-callout): a callout box highlighting a warning message
 - [watermark](components/watermark): a decorative repeating overlay text or image marking a page
 - [week-input](components/week-input): an input for selecting a week and year <input type="week">
+- [one-time-password-input](components/one-time-password-input): a single one-time-password input with a numeric keypad, SMS autofill, and a fixed length
+- [multi-select](components/multi-select): a native select that allows choosing several options at once
+- [multi-select-with-extras](components/multi-select-with-extras): a multiple-choice select with additional features like search, groups, or selected-value chips
+- [empty-state](components/empty-state): a placeholder shown when a list, table, or view has nothing to display yet, with room for guidance and an action
+- [show-more](components/show-more): a content region clamped to a shorter height with a button that reveals the rest
+- [kbd-shortcut](components/kbd-shortcut): a keyboard shortcut made of one or more key caps, for example Ctrl plus K
+- [calendar-year-table](components/calendar-year-table): a calendar grid showing the twelve months of one year
+- [calendar-month-table](components/calendar-month-table): a calendar grid showing the days of one month
+- [calendar-week-table](components/calendar-week-table): a calendar grid showing the seven days of one week
+- [calendar-day-table](components/calendar-day-table): a calendar grid showing the time slots of one day
+- [thinking](components/thinking): a collapsible block that shows an AI agent's reasoning or thinking, closed by default
+- [gauge-chart](components/gauge-chart): a dial chart showing one value within a range, with optional thresholds
+- [heatmap-chart](components/heatmap-chart): a grid chart where cell colour encodes the value at each row and column
+- [radar-chart](components/radar-chart): a chart plotting several axes from a shared centre as a polygon
+- [sankey-chart](components/sankey-chart): a flow chart where link width encodes the quantity moving between nodes
+- [file-tree](components/file-tree): a hierarchical tree of folders and files with expandable folders
 
 ## Special-Purpose Identifiers
 

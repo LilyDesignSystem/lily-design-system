@@ -1,0 +1,50 @@
+{#
+  ShowMore macro — a "show more / show less" toggle for long content.
+
+  HTML tag: <div> containing a content <div> and a <button>
+  CSS class: show-more (sub-classes show-more-content, show-more-button)
+  Behavior: content stays in the accessibility tree; the clamp is consumer
+    CSS keyed on [data-expanded]. Nunjucks ships no JavaScript, so the
+    button carries data-module="show-more" and the consumer's JS flips
+    aria-expanded + data-expanded (and swaps the label) — the one deviation
+    from the Svelte canonical, which toggles itself.
+
+  Params:
+    moreLabel   string   Button text while collapsed. Required.
+    lessLabel   string   Button text while expanded. Required.
+    expanded    boolean  Default false.
+    id          string   Content id (default: "show-more-content").
+    classes     string
+    html / text / caller()  The content.
+    attributes  object   Extra attributes on the root.
+    Both labels are also exposed as data-more-label / data-less-label so
+    consumer JS can swap the text.
+
+  Usage:
+    {% from "components/show-more/macro.njk" import showMore %}
+    {% call showMore({ moreLabel: "Show more", lessLabel: "Show less", id: "bio" }) %}...{% endcall %}
+#}
+{%- macro showMore(params) -%}
+{%- set p = params | default({}) -%}
+{%- set contentId = p.id | default("show-more-content") -%}
+<div
+  class="show-more{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <div class="show-more-content" id="{{ contentId }}" data-expanded="{{ 'true' if p.expanded else 'false' }}">
+    {%- if p.html -%}{{ p.html | safe }}
+    {%- elif p.text -%}{{ p.text }}
+    {%- elif caller -%}{{ caller() }}
+    {%- endif -%}
+  </div>
+  <button
+    type="button"
+    class="show-more-button"
+    data-module="show-more"
+    data-more-label="{{ p.moreLabel }}"
+    data-less-label="{{ p.lessLabel }}"
+    aria-expanded="{{ 'true' if p.expanded else 'false' }}"
+    aria-controls="{{ contentId }}"
+  >{{ p.lessLabel if p.expanded else p.moreLabel }}</button>
+</div>
+{%- endmacro -%}

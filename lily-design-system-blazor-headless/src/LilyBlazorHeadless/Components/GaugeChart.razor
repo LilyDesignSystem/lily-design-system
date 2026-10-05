@@ -1,0 +1,17 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    GaugeChart component
+    A headless wrapper for a dial chart showing one value within a range, with optional thresholds. Renders a <figure role="img">
+    around the consumer-supplied inline <svg>. No drawing happens here.
+    Use aria-describedby (unmatched attribute) to point at a description or a real data table.
+*@
+
+<figure class="@($"gauge-chart {CssClass}".Trim())" role="img" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</figure>
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

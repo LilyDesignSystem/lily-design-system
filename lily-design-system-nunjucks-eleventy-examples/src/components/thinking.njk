@@ -1,0 +1,12 @@
+---
+layout: layouts/component-demo.njk
+title: Thinking
+description: a collapsible block that shows an AI agent's reasoning or thinking, closed by default
+---
+
+{% from "components/thinking/macro.njk" import thinking %}
+
+<h2>Default</h2>
+{% call thinking({ label: "Thinking" }) %}Step one, then step two.{% endcall %}
+<h2>Streaming</h2>
+{% call thinking({ label: "Thinking", streaming: true, open: true }) %}Working...{% endcall %}

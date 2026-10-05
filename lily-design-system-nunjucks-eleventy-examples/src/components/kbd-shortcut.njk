@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: KbdShortcut
+description: a keyboard shortcut made of one or more key caps, for example Ctrl plus K
+---
+
+{% from "components/kbd-shortcut/macro.njk" import kbdShortcut %}
+
+<h2>Default</h2>
+<p>Press {{ kbdShortcut({ keys: ["Ctrl", "K"], label: "Control K" }) }} to search.</p>

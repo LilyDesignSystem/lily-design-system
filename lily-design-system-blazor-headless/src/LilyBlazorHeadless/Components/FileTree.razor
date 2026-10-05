@@ -1,0 +1,74 @@
+@namespace LilyBlazorHeadless.Components
+@using Microsoft.JSInterop
+@implements IAsyncDisposable
+@inject IJSRuntime JS
+
+@*
+    FileTree component
+    a hierarchical tree of folders and files with expandable folders
+
+    Headless WAI-ARIA APG tree. The consumer supplies <li role="treeitem">
+    descendants, with a nested <ul role="group"> inside each folder item and
+    aria-expanded on folders. The root owns the keyboard and a ROVING
+    TABINDEX: exactly one visible item has tabindex="0". Opening/closing
+    toggles aria-expanded; hiding a closed folder's group is consumer CSS.
+
+    Parameters:
+        Label — string, required. aria-label.
+        ChildContent — the tree items.
+        AdditionalAttributes — spread onto the root <ul>.
+
+    Keyboard (focus on a treeitem): ArrowDown/Up next/previous visible item;
+    ArrowRight opens a closed folder or moves to the first child; ArrowLeft
+    closes an open folder or moves to the parent; Home/End first/last visible;
+    * expands sibling folders; printable characters typeahead on the item's
+    own text; Enter/Space click the item.
+
+    Blazor deviation: C# has no synchronous DOM access, and the items are
+    consumer markup, so the keyboard lives in a small collocated ES module
+    (FileTree.razor.js: browser DOM APIs only, no styling), a faithful port
+    of the Svelte logic, loaded through JS interop after first render. The
+    JS interop is skipped during prerender. Without interactivity (static
+    SSR) the tree renders correctly but has no arrow-key behaviour.
+*@
+
+<ul class="@($"file-tree {CssClass}".Trim())"
+    role="tree"
+    aria-label="@Label"
+    @ref="_root"
+    @attributes="AdditionalAttributes">@ChildContent</ul>
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>Module path, relative to the app base (static web asset of this library).</summary>
+    public const string ModulePath = "./_content/LilyDesignSystem.Blazor.Headless/Components/FileTree.razor.js";
+
+    private ElementReference _root;
+    private IJSObjectReference? _module;
+    private IJSObjectReference? _handle;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+        _module = await JS.InvokeAsync<IJSObjectReference>("import", ModulePath);
+        _handle = await _module.InvokeAsync<IJSObjectReference>("attach", _root);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        try
+        {
+            if (_handle is not null)
+            {
+                await _handle.InvokeVoidAsync("dispose");
+                await _handle.DisposeAsync();
+            }
+            if (_module is not null) await _module.DisposeAsync();
+        }
+        catch (JSDisconnectedException) { }
+    }
+}

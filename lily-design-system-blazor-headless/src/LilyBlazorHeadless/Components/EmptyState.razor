@@ -1,0 +1,28 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    EmptyState component
+    a placeholder shown when a list, table, or view has nothing to display yet, with room for guidance and an action
+
+    Root <div>. When Label is supplied it becomes role="group" with aria-label;
+    otherwise it is a plain <div>. Children (heading, text, action) are
+    entirely consumer-supplied. No icon.
+
+    Parameters:
+        Label — string?, optional.
+        AdditionalAttributes — spread onto the root.
+*@
+
+<div class="@($"empty-state {CssClass}".Trim())"
+     role="@(HasLabel ? "group" : null)"
+     aria-label="@(HasLabel ? Label : null)"
+     @attributes="AdditionalAttributes">@ChildContent</div>
+
+@code {
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private bool HasLabel => !string.IsNullOrEmpty(Label);
+}

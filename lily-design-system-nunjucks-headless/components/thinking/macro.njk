@@ -1,0 +1,41 @@
+{#
+  Thinking macro — a disclosure for an AI assistant's reasoning trace,
+    built on the native <details>. Closed by default.
+
+  HTML tag: <details>
+  CSS class: thinking (sub-classes thinking-summary, thinking-content)
+  Keyboard: native summary (Enter / Space).
+  Accessibility: while `streaming`, root carries data-streaming="true" and
+    aria-busy="true".
+
+  Params:
+    label       string   Summary text. Required.
+    open        boolean  Default false.
+    streaming   boolean  Default false.
+    id          string
+    classes     string
+    attributes  object
+    html / text / caller()  The reasoning content.
+
+  Usage:
+    {% from "components/thinking/macro.njk" import thinking %}
+    {% call thinking({ label: "Thinking" }) %}Step one...{% endcall %}
+#}
+{%- macro thinking(params) -%}
+{%- set p = params | default({}) -%}
+<details
+  class="thinking{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.open %} open{% endif %}
+  {%- if p.streaming %} data-streaming="true" aria-busy="true"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <summary class="thinking-summary">{{ p.label }}</summary>
+  <div class="thinking-content">
+    {%- if p.html -%}{{ p.html | safe }}
+    {%- elif p.text -%}{{ p.text }}
+    {%- elif caller -%}{{ caller() }}
+    {%- endif -%}
+  </div>
+</details>
+{%- endmacro -%}

@@ -1,0 +1,17 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    RadarChart component
+    A headless wrapper for a chart plotting several axes from a shared centre as a polygon. Renders a <figure role="img">
+    around the consumer-supplied inline <svg>. No drawing happens here.
+    Use aria-describedby (unmatched attribute) to point at a description or a real data table.
+*@
+
+<figure class="@($"radar-chart {CssClass}".Trim())" role="img" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</figure>
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

@@ -1,0 +1,27 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    CalendarDayTable component
+    A calendar grid for a grid of the time slots of one day: one row per slot. A structural wrapper like CalendarTable:
+    a <table> with role="grid" and data-view="day"; the consumer supplies the
+    head, body and rows by reusing the CalendarTable* sub-elements.
+    Label: required accessible name for the period shown. Caption: optional visible caption.
+    Keyboard: none built in; the consumer implements grid navigation.
+    i18n: Label and Caption supply all text; Intl formatting and cell content are the consumer's concern.
+*@
+
+<table class="@($"calendar-day-table {CssClass}".Trim())" role="grid" aria-label="@Label" data-view="day" @attributes="AdditionalAttributes">
+    @if (!string.IsNullOrEmpty(Caption))
+    {
+        <caption>@Caption</caption>
+    }
+    @ChildContent
+</table>
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public string? Caption { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

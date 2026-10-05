@@ -1,0 +1,51 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    MultiSelectWithExtras component
+    a multiple-choice select with additional features like search, groups, or selected-value chips
+
+    A wrapper <div> with Before / After content around a native
+    <select multiple>. Same shape as SelectWithExtras.
+
+    Parameters:
+        Label — string, required. Accessible name via aria-label on the <select>.
+        Value — string[], bindable via @bind-Value.
+        Size — int?, optional number of visible rows.
+        Required / Disabled — native attributes on the <select>.
+        Before / After — RenderFragments rendered around the <select>.
+        ChildContent — Option elements.
+        AdditionalAttributes — spread onto the wrapper <div>.
+*@
+
+<div class="@($"multi-select-with-extras {CssClass}".Trim())" @attributes="AdditionalAttributes">
+    @Before
+    <select multiple
+            aria-label="@Label"
+            size="@Size"
+            required="@Required"
+            disabled="@Disabled"
+            @bind:get="Value"
+            @bind:set="SetValueAsync"
+            @bind:event="onchange">@ChildContent</select>
+    @After
+</div>
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public string[] Value { get; set; } = Array.Empty<string>();
+    [Parameter] public EventCallback<string[]> ValueChanged { get; set; }
+    [Parameter] public int? Size { get; set; }
+    [Parameter] public bool Required { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public RenderFragment? Before { get; set; }
+    [Parameter] public RenderFragment? After { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private async Task SetValueAsync(string[] next)
+    {
+        Value = next;
+        await ValueChanged.InvokeAsync(next);
+    }
+}

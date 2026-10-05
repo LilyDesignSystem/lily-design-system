@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Calendar Week Table
+description: a calendar grid for one week as seven day columns
+---
+
+{% from "components/calendar-week-table/macro.njk" import calendarWeekTable %}
+{% from "components/calendar-table-body/macro.njk" import calendarTableBody %}
+{% from "components/calendar-table-row/macro.njk" import calendarTableRow %}
+{% from "components/calendar-table-td/macro.njk" import calendarTableTd %}
+
+<h2>Default</h2>
+{% call calendarWeekTable({ label: "Week of 3 March 2025", caption: "Week of 3 March 2025" }) %}
+  {% call calendarTableBody() %}
+    {% call calendarTableRow() %}
+      {{ calendarTableTd({ text: "Mon 3" }) }}
+      {{ calendarTableTd({ text: "Tue 4" }) }}
+      {{ calendarTableTd({ text: "Wed 5" }) }}
+    {% endcall %}
+  {% endcall %}
+{% endcall %}

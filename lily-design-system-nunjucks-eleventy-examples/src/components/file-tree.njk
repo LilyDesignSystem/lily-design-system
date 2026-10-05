@@ -1,0 +1,15 @@
+---
+layout: layouts/component-demo.njk
+title: FileTree
+description: a hierarchical tree of folders and files with expandable folders
+---
+
+{% from "components/file-tree/macro.njk" import fileTree %}
+
+<h2>Default</h2>
+{% call fileTree({ label: "Project files" }) %}
+<li role="treeitem" aria-expanded="true" tabindex="0">src
+  <ul role="group"><li role="treeitem" tabindex="-1">index.js</li></ul>
+</li>
+<li role="treeitem" tabindex="-1">README</li>
+{% endcall %}
