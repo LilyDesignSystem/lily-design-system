@@ -228,6 +228,7 @@ export { CandlestickChart } from "./components/CandlestickChart";
 export { ComposedChart } from "./components/ComposedChart";
 export { ChoroplethChart } from "./components/ChoroplethChart";
 export { SunburstChart } from "./components/SunburstChart";
+export { StreamingText } from "./components/StreamingText";
 export { GoToNextSection } from "./components/GoToNextSection";
 export { GoToPreviousSection } from "./components/GoToPreviousSection";
 export { GoToTop } from "./components/GoToTop";

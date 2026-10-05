@@ -560,3 +560,4 @@ candlestick-chart	CandlestickChart	a financial chart showing open, high, low and
 composed-chart	ComposedChart	a chart that combines several chart types, such as bars and a line, on shared axes
 choropleth-chart	ChoroplethChart	a map chart that shades regions by the value of a measure
 sunburst-chart	SunburstChart	a radial chart showing a hierarchy as concentric rings of arcs
+streaming-text	StreamingText	text that arrives in chunks, as an AI answer streams in, announced once to screen readers when complete

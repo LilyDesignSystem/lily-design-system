@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: StreamingText
+description: text that arrives in chunks, as an AI answer streams in, announced once to screen readers when complete
+---
+
+{% from "components/streaming-text/macro.njk" import streamingText %}
+
+<h2>Streaming (busy, not yet announced)</h2>
+{% call streamingText({ label: "Assistant answer", streaming: true }) %}The answer is arriv{% endcall %}
+
+<h2>Complete (announced once)</h2>
+{% call streamingText({ label: "Assistant answer" }) %}The answer has arrived in full.{% endcall %}

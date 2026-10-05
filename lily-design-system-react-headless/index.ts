@@ -453,6 +453,8 @@ export { default as ChoroplethChart } from "./components/ChoroplethChart";
 export type { ChoroplethChartProps } from "./components/ChoroplethChart";
 export { default as SunburstChart } from "./components/SunburstChart";
 export type { SunburstChartProps } from "./components/SunburstChart";
+export { default as StreamingText } from "./components/StreamingText";
+export type { StreamingTextProps } from "./components/StreamingText";
 export { default as GoToNextSection } from "./components/GoToNextSection";
 export type { GoToNextSectionProps } from "./components/GoToNextSection";
 export { default as GoToPreviousSection } from "./components/GoToPreviousSection";

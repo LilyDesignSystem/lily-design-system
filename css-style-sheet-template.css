@@ -2412,3 +2412,7 @@
 /* sunburst-chart-data-table: sub-element of sunburst-chart */
 .sunburst-chart-data-table {
 }
+
+/* streaming-text: text that arrives in chunks, as an AI answer streams in, announced once to screen readers when complete */
+.streaming-text {
+}

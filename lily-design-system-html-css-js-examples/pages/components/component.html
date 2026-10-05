@@ -3949,50 +3949,57 @@
                         slug: "pie-chart",
                         name: "PieChart",
                         description: "a circular chart divided into slices that show each part of a whole",
-                        tag: "div",
+                        tag: "figure",
                         category: "data-viz",
                     },
                     {
                         slug: "ring-chart",
                         name: "RingChart",
                         description: "a pie chart with a hollow centre, often used to show progress or a share of a total",
-                        tag: "div",
+                        tag: "figure",
                         category: "data-viz",
                     },
                     {
                         slug: "funnel-chart",
                         name: "FunnelChart",
                         description: "a chart of stages narrowing from top to bottom, showing how a quantity drops at each step",
-                        tag: "div",
+                        tag: "figure",
                         category: "data-viz",
                     },
                     {
                         slug: "candlestick-chart",
                         name: "CandlestickChart",
                         description: "a financial chart showing open, high, low and close values for each period as candles",
-                        tag: "div",
+                        tag: "figure",
                         category: "data-viz",
                     },
                     {
                         slug: "composed-chart",
                         name: "ComposedChart",
                         description: "a chart that combines several chart types, such as bars and a line, on shared axes",
-                        tag: "div",
+                        tag: "figure",
                         category: "data-viz",
                     },
                     {
                         slug: "choropleth-chart",
                         name: "ChoroplethChart",
                         description: "a map chart that shades regions by the value of a measure",
-                        tag: "div",
+                        tag: "figure",
                         category: "data-viz",
                     },
                     {
                         slug: "sunburst-chart",
                         name: "SunburstChart",
                         description: "a radial chart showing a hierarchy as concentric rings of arcs",
-                        tag: "div",
+                        tag: "figure",
                         category: "data-viz",
+                    },
+                    {
+                        slug: "streaming-text",
+                        name: "StreamingText",
+                        description: "text that arrives in chunks, as an AI answer streams in, announced once to screen readers when complete",
+                        tag: "div",
+                        category: "content",
                     },
                 ];
 
@@ -4569,6 +4576,7 @@
                 'composed-chart': '<figure class="composed-chart"><div class="composed-chart-graphic" role="img" aria-label="Composed chart: sales bars with a trend line"><svg viewBox="0 0 120 80" width="240" height="160" aria-hidden="true" focusable="false"><rect x="15" y="40" width="16" height="30" fill="currentColor" fill-opacity="0.4"/><rect x="45" y="28" width="16" height="42" fill="currentColor" fill-opacity="0.4"/><rect x="75" y="20" width="16" height="50" fill="currentColor" fill-opacity="0.4"/><polyline points="23,34 53,24 83,14" fill="none" stroke="currentColor" stroke-width="2"/></svg></div><div class="composed-chart-data-table"><table><caption>Sales and trend</caption><tbody><tr><th scope="row">Q1</th><td>Sales 30, trend 36</td></tr><tr><th scope="row">Q2</th><td>Sales 42, trend 46</td></tr><tr><th scope="row">Q3</th><td>Sales 50, trend 56</td></tr></tbody></table></div></figure>',
                 'choropleth-chart': '<figure class="choropleth-chart"><div class="choropleth-chart-graphic" role="img" aria-label="Choropleth chart: four regions shaded by value"><svg viewBox="0 0 120 80" width="240" height="160" aria-hidden="true" focusable="false"><rect x="10" y="10" width="45" height="30" fill="currentColor" fill-opacity="0.9"/><rect x="58" y="10" width="45" height="30" fill="currentColor" fill-opacity="0.4"/><rect x="10" y="43" width="45" height="28" fill="currentColor" fill-opacity="0.6"/><rect x="58" y="43" width="45" height="28" fill="currentColor" fill-opacity="0.2"/></svg></div><div class="choropleth-chart-data-table"><table><caption>Value by region</caption><tbody><tr><th scope="row">North</th><td>High</td></tr><tr><th scope="row">East</th><td>Low-medium</td></tr><tr><th scope="row">West</th><td>Medium-high</td></tr><tr><th scope="row">South</th><td>Low</td></tr></tbody></table></div></figure>',
                 'sunburst-chart': '<figure class="sunburst-chart"><div class="sunburst-chart-graphic" role="img" aria-label="Sunburst chart: budget by department and project"><svg viewBox="0 0 120 80" width="240" height="160" aria-hidden="true" focusable="false"><circle cx="60" cy="40" r="14" fill="currentColor"/><path d="M60 26 A14 14 0 0 1 74 40" fill="none" stroke="currentColor" stroke-opacity="0" /><circle cx="60" cy="40" r="26" fill="none" stroke="currentColor" stroke-opacity="0.5" stroke-width="10" stroke-dasharray="60 104"/><circle cx="60" cy="40" r="36" fill="none" stroke="currentColor" stroke-opacity="0.3" stroke-width="8" stroke-dasharray="90 136"/></svg></div><div class="sunburst-chart-data-table"><table><caption>Budget by level</caption><tbody><tr><th scope="row">Department A</th><td>60%</td></tr><tr><th scope="row">Project A1 (in A)</th><td>40%</td></tr><tr><th scope="row">Department B</th><td>40%</td></tr></tbody></table></div></figure>',
+                'streaming-text': '<div class="streaming-text" role="status" aria-live="polite" aria-atomic="true" aria-label="Assistant answer" aria-busy="true" data-streaming="true">The answer is arriv</div>',
             };
 
                 function renderComponent(component) {

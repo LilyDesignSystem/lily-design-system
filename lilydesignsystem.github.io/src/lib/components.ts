@@ -572,4 +572,5 @@ export const LILY_COMPONENTS: LilyComponent[] = [
   { name: "composed-chart", pascal: "ComposedChart", description: "a chart that combines several chart types, such as bars and a line, on shared axes", status: "beta" },
   { name: "choropleth-chart", pascal: "ChoroplethChart", description: "a map chart that shades regions by the value of a measure", status: "beta" },
   { name: "sunburst-chart", pascal: "SunburstChart", description: "a radial chart showing a hierarchy as concentric rings of arcs", status: "beta" },
+  { name: "streaming-text", pascal: "StreamingText", description: "text that arrives in chunks, as an AI answer streams in, announced once to screen readers when complete", status: "beta" },
 ];

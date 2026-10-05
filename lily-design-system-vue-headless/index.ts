@@ -227,6 +227,7 @@ export { default as CandlestickChart } from "./components/CandlestickChart.vue";
 export { default as ComposedChart } from "./components/ComposedChart.vue";
 export { default as ChoroplethChart } from "./components/ChoroplethChart.vue";
 export { default as SunburstChart } from "./components/SunburstChart.vue";
+export { default as StreamingText } from "./components/StreamingText.vue";
 export { default as GoToNextSection } from "./components/GoToNextSection.vue";
 export { default as GoToPreviousSection } from "./components/GoToPreviousSection.vue";
 export { default as GoToTop } from "./components/GoToTop.vue";

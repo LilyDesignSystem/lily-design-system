@@ -227,6 +227,7 @@ export { default as CandlestickChart } from "./components/CandlestickChart/Candl
 export { default as ComposedChart } from "./components/ComposedChart/ComposedChart.svelte";
 export { default as ChoroplethChart } from "./components/ChoroplethChart/ChoroplethChart.svelte";
 export { default as SunburstChart } from "./components/SunburstChart/SunburstChart.svelte";
+export { default as StreamingText } from "./components/StreamingText/StreamingText.svelte";
 export { default as GoToNextSection } from "./components/GoToNextSection/GoToNextSection.svelte";
 export { default as GoToPreviousSection } from "./components/GoToPreviousSection/GoToPreviousSection.svelte";
 export { default as GoToTop } from "./components/GoToTop/GoToTop.svelte";

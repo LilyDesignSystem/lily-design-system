@@ -810,6 +810,9 @@ if (!customElements.get("lily-choropleth-chart")) customElements.define("lily-ch
 export { SunburstChart } from "./components/sunburst-chart.js";
 import { SunburstChart as _SunburstChart } from "./components/sunburst-chart.js";
 if (!customElements.get("lily-sunburst-chart")) customElements.define("lily-sunburst-chart", _SunburstChart);
+export { StreamingText } from "./components/streaming-text.js";
+import { StreamingText as _StreamingText } from "./components/streaming-text.js";
+if (!customElements.get("lily-streaming-text")) customElements.define("lily-streaming-text", _StreamingText);
 
 export { GoToNextSection } from "./components/go-to-next-section.js";
 import { GoToNextSection as _GoToNextSection } from "./components/go-to-next-section.js";

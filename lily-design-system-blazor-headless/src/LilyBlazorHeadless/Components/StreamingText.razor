@@ -1,0 +1,18 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    StreamingText component
+    A polite live region for text that grows over time. While `streaming` is true the region is marked busy (`aria-busy="true"`, `data-streaming="true"`) so assistive technology waits instead of announcing every chunk; when it flips to false the finished text is announced once (`role="status"`, `aria-live="polite"`, `aria-atomic="true"`). The component never splits, times, reveals or animates the text: the consumer appends chunks to the children, and owns any caret or reduced-motion CSS.
+    Unmatched attributes spread onto the root <div>.
+*@
+
+<div class="@($"streaming-text {CssClass}".Trim())" role="status" aria-live="polite" aria-atomic="true" aria-label="@Label" aria-busy="@(Streaming ? "true" : null)" data-streaming="@(Streaming ? "true" : null)" @attributes="AdditionalAttributes">@ChildContent</div>
+
+@code {
+    [Parameter] public string? Label { get; set; }
+    /// <summary>True while chunks are still arriving.</summary>
+    [Parameter] public bool Streaming { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

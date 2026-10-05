@@ -547,6 +547,7 @@ slug below links to the per-component documentation.
 - [composed-chart](components/composed-chart): a chart that combines several chart types, such as bars and a line, on shared axes
 - [choropleth-chart](components/choropleth-chart): a map chart that shades regions by the value of a measure
 - [sunburst-chart](components/sunburst-chart): a radial chart showing a hierarchy as concentric rings of arcs
+- [streaming-text](components/streaming-text): text that arrives in chunks, as an AI answer streams in, announced once to screen readers when complete
 
 ## Special-Purpose Identifiers
 

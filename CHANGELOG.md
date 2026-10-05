@@ -9,6 +9,20 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## `streaming-text`, catalog 562 → 563 — 2026-10-05
+
+From the Baby UI triage, kept deliberately narrow (maintainer decision): a
+`<div role="status" aria-live="polite" aria-atomic="true">` that goes busy
+(`aria-busy="true"`, `data-streaming="true"`) while `streaming` is true so
+assistive technology holds announcements, then announces the finished text
+once when it clears. No timing, word splitting, animation, caret, sources,
+citations, actions or follow-ups — those stay consumer concerns or separate
+components. Same `streaming` convention as `thinking`. All eight headless
+libraries (Web Components reacts to the `streaming`/`label` attributes
+changing). Verified: Svelte 18 (+9 examples), React 9, Vue 8, Angular 7,
+Blazor 9, Nunjucks 9, Web Components 10, HTML 1 spec in real Chrome. Not yet
+published.
+
 ## 7 more charts, catalog 555 → 562 — 2026-10-05
 
 From the deferred part of the Baby UI triage: `pie-chart`, `ring-chart`,
