@@ -5,6 +5,25 @@ and the package follows [Semantic Versioning](https://semver.org/).
 The canonical monorepo history is in the root
 [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md).
 
+## 0.4.0 — 2026-10-05
+
+**16 new components (catalog 539 → 555) and a breaking chart change.**
+New: `one-time-password-input`, `multi-select`, `multi-select-with-extras`,
+`empty-state`, `show-more`, `kbd-shortcut`, `calendar-year-table`,
+`calendar-month-table`, `calendar-week-table`, `calendar-day-table`,
+`thinking`, `gauge-chart`, `heatmap-chart`, `radar-chart`, `sankey-chart`,
+`file-tree`.
+
+**Breaking:** `area-chart`, `bar-chart`, `column-chart`, `line-chart` and
+`scatter-chart` (and the four new charts) now render `<figure
+class="{chart}">` holding a `<div class="{chart}-graphic" role="img"
+aria-label>` plus an optional sibling `<div class="{chart}-data-table">`.
+`role="img"` is no longer on the `<figure>`: a table inside a `role="img"`
+element is presentational and was unreachable to assistive technology.
+Consumer CSS or tests that targeted `figure[role=img]` must target
+`.{chart}-graphic`. `aria-describedby` passed as a rest prop still lands on
+the `<figure>`. See the monorepo CHANGELOG for the full record.
+
 ## 0.3.0 — 2026-10-01
 
 **Fix: `ListboxController` is importable at last.** 0.2.0 shipped it

@@ -10,7 +10,7 @@
     //   label -- string, required. Accessible name via aria-label.
     //   length -- number, required. Number of characters; no default, the consumer decides.
     //   value -- string, default "". Bindable via v-model.
-    //   inputMode -- string, default "numeric". Virtual keyboard hint.
+    //   inputMode -- "text" | "email" | "search" | "tel" | "url" | "none" | "decimal" | "numeric", default "numeric". Virtual keyboard hint.
     //   pattern -- string, default "[0-9]*". Allowed characters.
     //   name -- string, optional. Form field name.
     //   required, disabled -- boolean, default false.
@@ -32,7 +32,7 @@
         /** Number of characters in the code. */
         length: number;
         /** Virtual keyboard hint. */
-        inputMode?: string;
+        inputMode?: "text" | "email" | "search" | "tel" | "url" | "none" | "decimal" | "numeric";
         /** Allowed characters pattern. */
         pattern?: string;
         /** Form field name. */
