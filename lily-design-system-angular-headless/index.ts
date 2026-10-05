@@ -235,6 +235,7 @@ export { ToolCallStatus } from "./components/ToolCallStatus";
 export { ToolCallInput } from "./components/ToolCallInput";
 export { ToolCallOutput } from "./components/ToolCallOutput";
 export { ToolCallError } from "./components/ToolCallError";
+export { Mark } from "./components/Mark";
 export { GoToNextSection } from "./components/GoToNextSection";
 export { GoToPreviousSection } from "./components/GoToPreviousSection";
 export { GoToTop } from "./components/GoToTop";

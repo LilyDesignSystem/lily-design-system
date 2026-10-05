@@ -75,6 +75,7 @@ The slug suffix fixes the root HTML element. This is the canonical mapping:
 | `header`       | `<header>`   | Header                                                        |
 | `input`        | `<input>`    | TextInput, DateInput, EmailInput                              |
 | `kbd`          | `<kbd>`      | Kbd                                                           |
+| `mark`         | `<mark>`     | Mark                                                          |
 | `list`         | `<ol>`       | CheckList, TaskList (DoList/DontList use `<ul>`)              |
 | `list-item`    | `<li>`       | CheckListItem, TaskListItem                                   |
 | `main`         | `<main>`     | GrailLayoutCenterMain                                         |

@@ -234,6 +234,7 @@ export { default as ToolCallStatus } from "./components/ToolCallStatus.vue";
 export { default as ToolCallInput } from "./components/ToolCallInput.vue";
 export { default as ToolCallOutput } from "./components/ToolCallOutput.vue";
 export { default as ToolCallError } from "./components/ToolCallError.vue";
+export { default as Mark } from "./components/Mark.vue";
 export { default as GoToNextSection } from "./components/GoToNextSection.vue";
 export { default as GoToPreviousSection } from "./components/GoToPreviousSection.vue";
 export { default as GoToTop } from "./components/GoToTop.vue";

@@ -9,6 +9,19 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## `mark`, catalog 569 → 570 — 2026-10-05
+
+A small semantic component, maintainer-requested after the Baby UI survey
+(Baby UI's own `marker` is an animated hand-drawn effect, which Lily does not
+do): a headless wrapper around the native `<mark class="mark">` — text
+highlighted for reference or relevance, such as a search match — alongside
+`kbd` and `code`. No ARIA, state or strings; consumers can pass
+`aria-label`/`aria-roledescription` through rest props. `mark` joins the
+suffix→element table. All eight headless libraries; the 45 themes restyle it
+from their own surface/text tokens. Verified: Svelte 8 (+4 examples), React
+4, Vue 3, Angular 3, Blazor 10, Nunjucks 5, Web Components 5, HTML 1 spec in
+real Chrome. Not yet published.
+
 ## `tool-call` and five inner parts, catalog 563 → 569 — 2026-10-05
 
 From the Baby UI triage: `tool-call` (a native `<details>`, closed by default,

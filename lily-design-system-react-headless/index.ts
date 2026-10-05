@@ -467,6 +467,8 @@ export { default as ToolCallOutput } from "./components/ToolCallOutput";
 export type { ToolCallOutputProps } from "./components/ToolCallOutput";
 export { default as ToolCallError } from "./components/ToolCallError";
 export type { ToolCallErrorProps } from "./components/ToolCallError";
+export { default as Mark } from "./components/Mark";
+export type { MarkProps } from "./components/Mark";
 export { default as GoToNextSection } from "./components/GoToNextSection";
 export type { GoToNextSectionProps } from "./components/GoToNextSection";
 export { default as GoToPreviousSection } from "./components/GoToPreviousSection";

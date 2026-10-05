@@ -2448,3 +2448,7 @@
 /* tool-call-error: the error shown when a tool call fails */
 .tool-call-error {
 }
+
+/* mark: an inline highlight marking text as relevant or referenced, such as a search match, using the native mark element */
+.mark {
+}

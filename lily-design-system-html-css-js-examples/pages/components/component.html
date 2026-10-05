@@ -4005,21 +4005,21 @@
                         slug: "tool-call",
                         name: "ToolCall",
                         description: "a collapsible record of one tool invocation by an AI agent, with a name, a status word, and its input, output or error",
-                        tag: "div",
-                        category: "content",
+                        tag: "details",
+                        category: "navigation",
                     },
                     {
                         slug: "tool-call-name",
                         name: "ToolCallName",
                         description: "the name of the tool in a tool call, shown in the summary",
-                        tag: "div",
+                        tag: "span",
                         category: "content",
                     },
                     {
                         slug: "tool-call-status",
                         name: "ToolCallStatus",
                         description: "the status of a tool call as a word, such as pending, running, done or error",
-                        tag: "div",
+                        tag: "span",
                         category: "content",
                     },
                     {
@@ -4040,6 +4040,13 @@
                         slug: "tool-call-error",
                         name: "ToolCallError",
                         description: "the error shown when a tool call fails",
+                        tag: "div",
+                        category: "content",
+                    },
+                    {
+                        slug: "mark",
+                        name: "Mark",
+                        description: "an inline highlight marking text as relevant or referenced, such as a search match, using the native mark element",
                         tag: "div",
                         category: "content",
                     },
@@ -4625,6 +4632,7 @@
                 'tool-call-input': '<div class="tool-call-input" role="group" aria-label="Input"><pre tabindex="0">{"query": "weather in London"}</pre></div>',
                 'tool-call-output': '<div class="tool-call-output" role="group" aria-label="Output"><pre tabindex="0">12 degrees, light rain</pre></div>',
                 'tool-call-error': '<div class="tool-call-error" role="alert">The tool timed out after 30 seconds.</div>',
+                'mark': '<p>Found 3 results for <mark class="mark">accessible</mark> components.</p>',
             };
 
                 function renderComponent(component) {

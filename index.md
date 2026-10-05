@@ -554,6 +554,7 @@ slug below links to the per-component documentation.
 - [tool-call-input](components/tool-call-input): the input or arguments passed to a tool in a tool call
 - [tool-call-output](components/tool-call-output): the output or result returned by a tool in a tool call
 - [tool-call-error](components/tool-call-error): the error shown when a tool call fails
+- [mark](components/mark): an inline highlight marking text as relevant or referenced, such as a search match, using the native mark element
 
 ## Special-Purpose Identifiers
 

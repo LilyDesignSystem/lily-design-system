@@ -567,3 +567,4 @@ tool-call-status	ToolCallStatus	the status of a tool call as a word, such as pen
 tool-call-input	ToolCallInput	the input or arguments passed to a tool in a tool call
 tool-call-output	ToolCallOutput	the output or result returned by a tool in a tool call
 tool-call-error	ToolCallError	the error shown when a tool call fails
+mark	Mark	an inline highlight marking text as relevant or referenced, such as a search match, using the native mark element

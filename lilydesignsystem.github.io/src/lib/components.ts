@@ -579,4 +579,5 @@ export const LILY_COMPONENTS: LilyComponent[] = [
   { name: "tool-call-input", pascal: "ToolCallInput", description: "the input or arguments passed to a tool in a tool call", status: "beta" },
   { name: "tool-call-output", pascal: "ToolCallOutput", description: "the output or result returned by a tool in a tool call", status: "beta" },
   { name: "tool-call-error", pascal: "ToolCallError", description: "the error shown when a tool call fails", status: "beta" },
+  { name: "mark", pascal: "Mark", description: "an inline highlight marking text as relevant or referenced, such as a search match, using the native mark element", status: "beta" },
 ];

@@ -24,6 +24,7 @@ Use the bin tools to query the catalog programmatically:
 | header     | `<header>`   | Header                                           |
 | input      | `<input>`    | TextInput, DateInput, EmailInput                 |
 | kbd        | `<kbd>`      |                                                  |
+| mark       | `<mark>`     | Mark                                             |
 | list       | `<ol>`       | CheckList, TaskList (DoList/DontList use `<ul>`) |
 | list-item  | `<li>`       | CheckListItem, TaskListItem                      |
 | main       | `<main>`     | GrailLayoutCenterMain                            |

@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: Mark
+description: an inline highlight marking text as relevant or referenced, such as a search match, using the native mark element
+---
+
+{% from "components/mark/macro.njk" import mark %}
+
+<h2>Search match</h2>
+<p>Found 3 results for {% call mark({}) %}accessible{% endcall %} components.</p>

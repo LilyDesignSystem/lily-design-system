@@ -568,4 +568,5 @@ export const componentDemos: Record<string, string> = {
   'tool-call-input': '<div class="tool-call-input" role="group" aria-label="Input"><pre tabindex="0">{"query": "weather in London"}</pre></div>',
   'tool-call-output': '<div class="tool-call-output" role="group" aria-label="Output"><pre tabindex="0">12 degrees, light rain</pre></div>',
   'tool-call-error': '<div class="tool-call-error" role="alert">The tool timed out after 30 seconds.</div>',
+  'mark': '<p>Found 3 results for <mark class="mark">accessible</mark> components.</p>',
 };

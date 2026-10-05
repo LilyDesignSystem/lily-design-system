@@ -561,9 +561,10 @@ composed-chart	figure	data-viz
 choropleth-chart	figure	data-viz
 sunburst-chart	figure	data-viz
 streaming-text	div	content
-tool-call	div	content
-tool-call-name	div	content
-tool-call-status	div	content
+tool-call	details	navigation
+tool-call-name	span	content
+tool-call-status	span	content
 tool-call-input	div	content
 tool-call-output	div	content
 tool-call-error	div	content
+mark	div	content

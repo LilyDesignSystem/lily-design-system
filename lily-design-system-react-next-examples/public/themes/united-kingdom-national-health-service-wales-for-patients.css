@@ -3206,6 +3206,17 @@
         font-weight: 600;
     }
 
+    /* mark (2026-10-05): the native <mark> highlight. The UA default is a
+       fixed yellow; this uses the theme's own surface and text tokens so the
+       pair keeps its contrast in every theme (including dark ones). */
+    :where(.mark) {
+        padding-inline: 0.15em;
+        color: var(--lily-text);
+        background-color: var(--lily-surface-alt);
+        border-radius: var(--lily-radius-sm);
+        box-shadow: 0 0 0 1px var(--lily-border-strong);
+    }
+
     /* Picker tooltips (added 2026-10-04): a visual-only role="tooltip"
        element beside each picker's icon button, holding the same text as
        its aria-label. The component toggles [hidden]; position and look

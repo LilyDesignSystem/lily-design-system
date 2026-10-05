@@ -831,6 +831,9 @@ if (!customElements.get("lily-tool-call-output")) customElements.define("lily-to
 export { ToolCallError } from "./components/tool-call-error.js";
 import { ToolCallError as _ToolCallError } from "./components/tool-call-error.js";
 if (!customElements.get("lily-tool-call-error")) customElements.define("lily-tool-call-error", _ToolCallError);
+export { Mark } from "./components/mark.js";
+import { Mark as _Mark } from "./components/mark.js";
+if (!customElements.get("lily-mark")) customElements.define("lily-mark", _Mark);
 
 export { GoToNextSection } from "./components/go-to-next-section.js";
 import { GoToNextSection as _GoToNextSection } from "./components/go-to-next-section.js";
