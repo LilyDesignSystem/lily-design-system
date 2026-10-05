@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: ChatComposer
+description: a chat input form with a text area that grows with its content, sends on Enter, and turns its send button into a stop button while a reply is in progress
+---
+
+{% from "components/chat-composer/macro.njk" import chatComposer %}
+
+<h2>Empty (send disabled)</h2>
+{{ chatComposer({ label: "Message", sendLabel: "Send", stopLabel: "Stop" }) }}
+
+<h2>Reply in progress (stop)</h2>
+{{ chatComposer({ label: "Message", sendLabel: "Send", stopLabel: "Stop", busy: true, value: "Explain headless components" }) }}

@@ -2630,6 +2630,43 @@
         box-shadow: 0 0 0 1px var(--lily-border-strong);
     }
 
+    /* chat-composer (2026-10-05): one row, textarea growing, one button. The
+       button's visible word is its accessible name — hide it visually, never
+       with display:none, if you replace it with an icon. */
+    :where(.chat-composer) {
+        display: flex;
+        align-items: flex-end;
+        gap: var(--lily-space-xs);
+    }
+
+    :where(.chat-composer-input) {
+        flex: 1;
+        padding: var(--lily-space-xs) var(--lily-space-sm);
+        font: inherit;
+        color: var(--lily-text);
+        background-color: var(--lily-surface);
+        border: var(--border) solid var(--lily-border-strong);
+        border-radius: var(--lily-radius-md);
+        resize: none;
+    }
+
+    :where(.chat-composer-button) {
+        min-width: 2.5rem;
+        min-height: 2.5rem;
+        padding: var(--lily-space-xs) var(--lily-space-sm);
+        font: inherit;
+        color: var(--lily-text);
+        background-color: var(--lily-surface);
+        border: var(--border) solid var(--lily-border-strong);
+        border-radius: var(--lily-radius-md);
+        cursor: pointer;
+    }
+
+    :where(.chat-composer-button:disabled) {
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+
     /* Picker tooltips (added 2026-10-04): a visual-only role="tooltip"
        element beside each picker's icon button, holding the same text as
        its aria-label. The component toggles [hidden]; position and look

@@ -591,6 +591,7 @@ public static class ComponentData
         new("tool-call-input", "ToolCallInput", "the input or arguments passed to a tool in a tool call", "div", "content", "<div class=\"tool-call-input\" role=\"group\" aria-label=\"Input\"><pre tabindex=\"0\">{\"query\": \"weather in London\"}</pre></div>"),
         new("tool-call-output", "ToolCallOutput", "the output or result returned by a tool in a tool call", "div", "content", "<div class=\"tool-call-output\" role=\"group\" aria-label=\"Output\"><pre tabindex=\"0\">12 degrees, light rain</pre></div>"),
         new("tool-call-error", "ToolCallError", "the error shown when a tool call fails", "div", "content", "<div class=\"tool-call-error\" role=\"alert\">The tool timed out after 30 seconds.</div>"),
-        new("mark", "Mark", "an inline highlight marking text as relevant or referenced, such as a search match, using the native mark element", "div", "content", "<p>Found 3 results for <mark class=\"mark\">accessible</mark> components.</p>"),
+        new("mark", "Mark", "an inline highlight marking text as relevant or referenced, such as a search match, using the native mark element", "mark", "content", "<p>Found 3 results for <mark class=\"mark\">accessible</mark> components.</p>"),
+        new("chat-composer", "ChatComposer", "a chat input form with a text area that grows with its content, sends on Enter, and turns its send button into a stop button while a reply is in progress", "div", "content", "<form class=\"chat-composer\"><textarea class=\"chat-composer-input\" aria-label=\"Message\" rows=\"1\"></textarea><button class=\"chat-composer-button\" type=\"submit\" data-state=\"send\" disabled><span class=\"chat-composer-button-label\">Send</span></button></form>"),
     };
 }

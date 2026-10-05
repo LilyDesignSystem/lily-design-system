@@ -1,0 +1,79 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    ChatComposer component
+    A headless chat input form: a <textarea> that grows with its content (rows from the number of lines, clamped between minRows and maxRows) and ONE button that is "send" normally and turns into "stop" while `busy`. Enter sends; Shift+Enter inserts a line break; Enter while an IME composition is in progress does nothing. The send button is disabled, never hidden, when the text is empty or the form is disabled. The component never clears the text (the consumer does, in its send handler), never animates, and carries no strings: the textarea name, the send word and the stop word are required props. Models, attachments and menus are consumer composition (put them in the default slot, rendered before the textarea).
+    Parameters: Label, SendLabel, StopLabel (required), Value / ValueChanged (@bind-Value), Placeholder, Name,
+    MinRows (1), MaxRows (8), Busy, Disabled, OnSend (EventCallback<string>), OnStop (EventCallback),
+    ChildContent (rendered before the textarea). Unmatched attributes spread onto the root <form>.
+
+    BLAZOR DEVIATION: a Blazor @onkeydown handler cannot decide per key whether to prevent the browser
+    default without JS interop, so plain Enter inserts a line break as the browser does. Sending is by the
+    send button (the form's submit) or Ctrl/Cmd+Enter. Enter-to-send and the IME guard need the
+    document-level key handling the other libraries have; add a small JS interop if you need them.
+*@
+
+<form class="@($"chat-composer {CssClass}".Trim())" @onsubmit="SubmitAsync" @onsubmit:preventDefault @attributes="AdditionalAttributes">
+    @ChildContent
+    <textarea class="chat-composer-input"
+              aria-label="@Label"
+              rows="@Rows"
+              placeholder="@Placeholder"
+              name="@Name"
+              disabled="@Disabled"
+              value="@Value"
+              @oninput="OnInputAsync"
+              @onkeydown="OnKeyDownAsync"></textarea>
+    <button class="chat-composer-button"
+            type="@(Busy ? "button" : "submit")"
+            data-state="@(Busy ? "stop" : "send")"
+            disabled="@(Disabled || (!Busy && Empty))"
+            @onclick="OnButtonClickAsync"><span class="chat-composer-button-label">@(Busy ? StopLabel : SendLabel)</span></button>
+</form>
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter, EditorRequired] public string SendLabel { get; set; } = "";
+    [Parameter, EditorRequired] public string StopLabel { get; set; } = "";
+    [Parameter] public string Value { get; set; } = "";
+    [Parameter] public EventCallback<string> ValueChanged { get; set; }
+    [Parameter] public string? Placeholder { get; set; }
+    [Parameter] public string? Name { get; set; }
+    [Parameter] public int MinRows { get; set; } = 1;
+    [Parameter] public int MaxRows { get; set; } = 8;
+    /// <summary>A reply is in progress: the button becomes "stop".</summary>
+    [Parameter] public bool Busy { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public EventCallback<string> OnSend { get; set; }
+    [Parameter] public EventCallback OnStop { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private bool Empty => string.IsNullOrWhiteSpace(Value);
+    private int Rows => Math.Min(MaxRows, Math.Max(MinRows, (Value ?? "").Split('\n').Length));
+
+    private async Task OnInputAsync(ChangeEventArgs e)
+    {
+        Value = e.Value?.ToString() ?? "";
+        await ValueChanged.InvokeAsync(Value);
+    }
+
+    private async Task TrySendAsync()
+    {
+        if (Disabled || Busy || Empty) return;
+        await OnSend.InvokeAsync(Value);
+    }
+
+    private Task SubmitAsync() => TrySendAsync();
+
+    private async Task OnKeyDownAsync(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter" && (e.CtrlKey || e.MetaKey)) await TrySendAsync();
+    }
+
+    private async Task OnButtonClickAsync()
+    {
+        if (Busy) await OnStop.InvokeAsync();
+    }
+}

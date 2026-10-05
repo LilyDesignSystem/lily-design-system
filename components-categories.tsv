@@ -567,4 +567,5 @@ tool-call-status	span	content
 tool-call-input	div	content
 tool-call-output	div	content
 tool-call-error	div	content
-mark	div	content
+mark	mark	content
+chat-composer	div	content

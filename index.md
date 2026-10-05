@@ -555,6 +555,7 @@ slug below links to the per-component documentation.
 - [tool-call-output](components/tool-call-output): the output or result returned by a tool in a tool call
 - [tool-call-error](components/tool-call-error): the error shown when a tool call fails
 - [mark](components/mark): an inline highlight marking text as relevant or referenced, such as a search match, using the native mark element
+- [chat-composer](components/chat-composer): a chat input form with a text area that grows with its content, sends on Enter, and turns its send button into a stop button while a reply is in progress
 
 ## Special-Purpose Identifiers
 

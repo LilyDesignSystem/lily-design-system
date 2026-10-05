@@ -834,6 +834,9 @@ if (!customElements.get("lily-tool-call-error")) customElements.define("lily-too
 export { Mark } from "./components/mark.js";
 import { Mark as _Mark } from "./components/mark.js";
 if (!customElements.get("lily-mark")) customElements.define("lily-mark", _Mark);
+export { ChatComposer } from "./components/chat-composer.js";
+import { ChatComposer as _ChatComposer } from "./components/chat-composer.js";
+if (!customElements.get("lily-chat-composer")) customElements.define("lily-chat-composer", _ChatComposer);
 
 export { GoToNextSection } from "./components/go-to-next-section.js";
 import { GoToNextSection as _GoToNextSection } from "./components/go-to-next-section.js";

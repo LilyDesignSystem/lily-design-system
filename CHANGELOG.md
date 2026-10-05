@@ -9,6 +9,26 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## `chat-composer`, catalog 570 → 571 — 2026-10-05
+
+Baby UI's `composer` built narrowly (maintainer decision; Baby UI's
+`chat-composer`, a whole chat panel, is composition and was not built): a
+`<form>` with a growing `<textarea>` and ONE button that is send normally
+and stop while `busy`, so it keeps focus across the swap. Enter sends,
+Shift+Enter inserts a line break, Enter during IME composition (a Japanese
+conversion, say) does nothing — the part chat inputs most often get wrong. The
+send button is disabled, never hidden, when empty. `rows` follows the line
+count between `minRows` and `maxRows`. It never clears the text, animates or
+carries strings (textarea name, send word and stop word are required props);
+models, attachments and menus are consumer composition in the default slot.
+All eight headless libraries. Documented deviations: **Blazor** has no JS
+interop, so plain Enter inserts a line break there (send by the button or
+Ctrl/Cmd+Enter); **Nunjucks and HTML** are markup-only (correct initial
+state, no live behaviour; the Web Components element has it). Verified:
+Svelte 30 (two trees; +15 examples), React 16, Vue 16, Angular 15, Blazor
+14, Nunjucks 11, Web Components 16, HTML 1 spec in real Chrome. Not yet
+published.
+
 ## `mark`, catalog 569 → 570 — 2026-10-05
 
 A small semantic component, maintainer-requested after the Baby UI survey

@@ -235,6 +235,7 @@ export { default as ToolCallInput } from "./components/ToolCallInput/ToolCallInp
 export { default as ToolCallOutput } from "./components/ToolCallOutput/ToolCallOutput.svelte";
 export { default as ToolCallError } from "./components/ToolCallError/ToolCallError.svelte";
 export { default as Mark } from "./components/Mark/Mark.svelte";
+export { default as ChatComposer } from "./components/ChatComposer/ChatComposer.svelte";
 export { default as GoToNextSection } from "./components/GoToNextSection/GoToNextSection.svelte";
 export { default as GoToPreviousSection } from "./components/GoToPreviousSection/GoToPreviousSection.svelte";
 export { default as GoToTop } from "./components/GoToTop/GoToTop.svelte";

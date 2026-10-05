@@ -2452,3 +2452,19 @@
 /* mark: an inline highlight marking text as relevant or referenced, such as a search match, using the native mark element */
 .mark {
 }
+
+/* chat-composer: a chat input form with a text area that grows with its content, sends on Enter, and turns its send button into a stop button while a reply is in progress */
+.chat-composer {
+}
+
+/* chat-composer-button-label: sub-element of chat-composer */
+.chat-composer-button-label {
+}
+
+/* chat-composer-button: sub-element of chat-composer */
+.chat-composer-button {
+}
+
+/* chat-composer-input: sub-element of chat-composer */
+.chat-composer-input {
+}

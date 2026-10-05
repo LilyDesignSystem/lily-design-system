@@ -569,4 +569,5 @@ export const componentDemos: Record<string, string> = {
   'tool-call-output': '<div class="tool-call-output" role="group" aria-label="Output"><pre tabindex="0">12 degrees, light rain</pre></div>',
   'tool-call-error': '<div class="tool-call-error" role="alert">The tool timed out after 30 seconds.</div>',
   'mark': '<p>Found 3 results for <mark class="mark">accessible</mark> components.</p>',
+  'chat-composer': '<form class="chat-composer"><textarea class="chat-composer-input" aria-label="Message" rows="1"></textarea><button class="chat-composer-button" type="submit" data-state="send" disabled><span class="chat-composer-button-label">Send</span></button></form>',
 };
