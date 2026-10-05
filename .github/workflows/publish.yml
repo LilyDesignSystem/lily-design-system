@@ -16,7 +16,7 @@ name: Publish
 #
 # Secrets required for a real run:
 #   NPM_TOKEN    npm automation token for the lily-design-system-* names
-#   NUGET_USER   nuget.org profile name (not email) for the NuGet/login step
+#   NUGET_USER   username of the trusted-publishing policy CREATOR (not the owning org, not an email)
 
 on:
   push:

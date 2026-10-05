@@ -123,7 +123,7 @@ Deprecations, like releases, get a CHANGELOG entry.
 | Registry | Credential | Where |
 | --- | --- | --- |
 | npm | maintainer login / `NPM_TOKEN` secret | local `npm login`; CI secret for the workflow |
-| NuGet | OIDC [Trusted Publishing](../spec/trusted-publishing/index.md) — a `NUGET_USER` secret (nuget.org profile name) plus a nuget.org policy bound to this repo's `publish.yml`; no API key exists | the `NuGet/login@v1` step in [`publish.yml`](../.github/workflows/publish.yml); see [MAINTAINERS.md](../MAINTAINERS.md) for holder + recovery |
+| NuGet | OIDC [Trusted Publishing](../spec/trusted-publishing/index.md) — a `NUGET_USER` secret (the nuget.org username of whoever *created* the policy — not the organization that owns it, and not an email) plus a policy, owned by the `lilydesignsystem` organization, bound to this repo's `publish.yml`; no API key exists | the `NuGet/login@v1` step in [`publish.yml`](../.github/workflows/publish.yml); see [MAINTAINERS.md](../MAINTAINERS.md) for holder + recovery |
 
 `NPM_TOKEN` is the remaining interim posture. The standing position
 ([spec/trusted-publishing/](../spec/trusted-publishing/index.md)) is to
