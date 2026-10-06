@@ -478,8 +478,10 @@ checked is considered live work; anything unchecked is queued in §12.
 - [x] Per-framework unit test suites cover every component in every
       headless subproject and helper catalog (re-verified 2026-09-02,
       all passing) — counts and runners: [spec/testing/index.md](testing/index.md).
-- [x] Per-framework CSS class-name audit: 490 / 490 components in every
-      headless subproject reference their canonical kebab-case base class.
+- [x] Per-framework CSS class-name audit: `bin/check-class-names` (2026-10-06) — all 571
+      components in each of the 7 full-catalog headless libraries, and 536 of 536 in Web
+      Components, carry their canonical kebab-case base class as the first token of a class
+      list; part of `bin/test` and CI.
 - [x] Storybook story coverage: 491 / 491 in svelte, react, vue, html,
       nunjucks, angular; Blazor deliberately has none — detail:
       [spec/testing/index.md](testing/index.md).

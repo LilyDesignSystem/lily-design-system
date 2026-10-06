@@ -2163,7 +2163,11 @@ All items below are done and verified (suites green, `bin/test`, `bin/check-cove
 ### Open
 
 - [x] **P9-T10 Monorepo tag and GitHub Release for the October work** — `v0.7.0`, 2026-10-06.
-- [ ] **P9-T11 Per-framework CSS class-name audit for all 571 components** (spec/headless §acceptance).
+- [x] **P9-T11 Per-framework CSS class-name audit for all 571 components** — closed 2026-10-06. New
+  `bin/check-class-names` (in `bin/test` and CI): all 571 implementations in each of 7 libraries and 536 in Web
+  Components carry the slug as the first token of a class list. Two mutation checks (slug renamed; slug moved behind
+  another class) each produce exactly one gap. It checks the hook's presence and position in the markup, not that it
+  sits on the root element — that needs a rendered DOM and stays with the per-component tests.
 - [ ] **P9-T12 Deferred Baby UI ideas**: `attachment`, `tool-chips`, the other agent components
   (`conversation`, `message`, `task-steps`, `loading-state`, …), advanced widgets (`table-of-contents`,
   `filter-table`, `wheel-picker`, `flowchart`, …) and the small primitives (`native-select`,

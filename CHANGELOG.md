@@ -9,6 +9,15 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## `bin/check-class-names`: the CSS class-name audit, automated — 2026-10-06
+
+Every implementation of every component in all eight headless libraries must carry its slug as the base class,
+first in a class list (the styling contract of `AGENTS/headless.md`). Result: 571/571 in Svelte, React, Vue,
+Angular, HTML, Blazor and Nunjucks and 536/536 in Web Components (35 permanently excluded) — no gaps, so no
+component changed. Comments are stripped before matching, and two deliberate mutations (a renamed hook; a hook moved
+behind another class) are each caught. Wired into `bin/test` and CI. It verifies presence and order in the source,
+not that the class sits on the root element.
+
 ## Error text contrast in all 45 themes; docs-site axe sweep clean — 2026-10-06
 
 26 of the 45 reference themes failed WCAG contrast for `.error-message` (2.35–4.4:1): they coloured error text
