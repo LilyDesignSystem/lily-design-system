@@ -348,6 +348,7 @@ Scripts live in `bin/`:
 | `bin/check-theme`                     | Conformance checks for the 45 reference themes.      |
 | `bin/generate-theme-tokens`           | DTCG token source: extract / generate / drift-check. |
 | `bin/generate-api-docs`               | Site canonical-contract sections from AGENTS metadata; drift-checked. |
+| `bin/check-class-names`               | Every implementation in all 8 headless libraries carries its slug as the first token of a class list. |
 | `bin/check-coverage`                  | Coverage drift matrix: per-component file presence across all 7 headless libraries. |
 | `bin/generate-component-categories`   | Regenerate `components-categories.tsv` (per-component HTML tag + category) from `components.tsv`. |
 | `bin/new-component`                   | End-to-end scaffolder for one new placeholder component. |

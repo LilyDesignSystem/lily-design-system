@@ -103,6 +103,7 @@ tests and stories), the two example apps `bin/test` verifies, and the docs-site 
 | `generate-storybook-stories.mjs` | Generate Storybook stories for a headless library. |
 | `check-links` | Verify relative markdown links resolve. |
 | `check-theme` | Conformance checks for the 45 reference themes. |
+| `check-class-names` | Audit that every implementation in all 8 headless libraries carries its slug as the base class (first token of a class list); part of `bin/test`. |
 | `check-coverage` | Coverage drift matrix: per-component file presence across all 7 headless libraries (beyond `bin/test`'s 3). |
 | `generate-theme-tokens` | DTCG token source under `themes/tokens/` — extract, generate, drift-check. |
 | `generate-component-categories` | Regenerate `components-categories.tsv` (per-component HTML tag + category) from `components.tsv`. |

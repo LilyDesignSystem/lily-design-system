@@ -47,6 +47,9 @@ jobs:
       - name: bin/check-coverage (7-headless-implementation drift matrix)
         run: bin/check-coverage --quiet
 
+      - name: bin/check-class-names (every headless implementation carries its base class)
+        run: bin/check-class-names
+
   helpers:
     name: helpers tests (${{ matrix.catalog }})
     runs-on: ubuntu-latest

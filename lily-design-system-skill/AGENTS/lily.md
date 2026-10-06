@@ -89,6 +89,7 @@ All twenty-six follow the `lily-design-system-` prefix and get full subproject t
 - [generate-registries](../bin/generate-registries): Regenerate example-app catalog registries from components.tsv
 - [check-links](../bin/check-links): Verify relative markdown links resolve
 - [check-theme](../bin/check-theme): Verify the 45 reference themes honour their conformance contracts
+- [check-class-names](../bin/check-class-names): Every headless implementation carries its kebab-case base class (first in a class list)
 - [check-coverage](../bin/check-coverage): Coverage drift matrix — per-component file presence across all 7 headless libraries
 - [generate-theme-tokens](../bin/generate-theme-tokens): DTCG token source under themes/tokens/ — extract, generate, drift-check
 - [generate-component-categories](../bin/generate-component-categories): Regenerate components-categories.tsv (per-component HTML tag + category) from components.tsv

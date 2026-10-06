@@ -1,0 +1,101 @@
+#!/usr/bin/env node
+// bin/check-class-names
+//
+// Audit that every headless implementation of every catalog component carries its canonical
+// kebab-case base class (the component's slug) in its markup — the one styling contract
+// AGENTS/headless.md says consumer CSS may rely on. For each of the 8 headless libraries and
+// each component the implementation file must, after stripping comments, contain the slug as a
+// whole class token on a line that sets a class (class=, class:, className, CssClass, classes).
+//
+// It also requires the slug to be the FIRST token of some class list (the rule that the base
+// class leads the root's classes). It cannot tell that list is the root element's; that needs a
+// rendered DOM and is covered by the per-component tests.
+//
+// A component can be exempted per library in EXEMPT (with the reason): Web Components skips the
+// 35 permanently excluded components, which have no implementation file.
+//
+// Usage: bin/check-class-names [--list]   (--list prints every gap; exits 1 on any gap)
+
+const fs = require("fs");
+const path = require("path");
+
+const top = path.join(__dirname, "..");
+const read = (p) => fs.readFileSync(path.join(top, p), "utf-8");
+const exists = (p) => fs.existsSync(path.join(top, p));
+
+const components = read("components.tsv")
+  .split("\n")
+  .filter((l) => l.trim())
+  .map((l) => {
+    const [slug, name] = l.split("\t");
+    return { slug, name };
+  });
+
+const FRAMEWORKS = [
+  { id: "svelte", impl: (c) => `lily-design-system-svelte-headless/src/lib/components/${c.name}/${c.name}.svelte` },
+  { id: "react", impl: (c) => `lily-design-system-react-headless/components/${c.name}.tsx` },
+  { id: "vue", impl: (c) => `lily-design-system-vue-headless/components/${c.name}.vue` },
+  { id: "angular", impl: (c) => `lily-design-system-angular-headless/components/${c.name}.ts` },
+  { id: "html", impl: (c) => `lily-design-system-html-headless/components/${c.slug}.html` },
+  { id: "blazor", impl: (c) => `lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/${c.name}.razor` },
+  { id: "nunjucks", impl: (c) => `lily-design-system-nunjucks-headless/components/${c.slug}/macro.njk` },
+  { id: "web-components", impl: (c) => `lily-design-system-web-components-headless/components/${c.slug}.ts`, optional: true },
+];
+
+// slug -> reason, applied to every library. Fill only with a documented reason.
+const EXEMPT = {};
+
+function stripComments(text) {
+  return text
+    .replace(/\/\*[\s\S]*?\*\//g, "")
+    .replace(/<!--[\s\S]*?-->/g, "")
+    .replace(/\{#[\s\S]*?#\}/g, "")
+    .replace(/@\*[\s\S]*?\*@/g, "")
+    .split("\n")
+    .filter((l) => !/^\s*(\/\/|\*)/.test(l))
+    .join("\n");
+}
+
+const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const gaps = [];
+const perLib = {};
+
+for (const f of FRAMEWORKS) {
+  perLib[f.id] = { checked: 0, ok: 0, skipped: 0 };
+  for (const c of components) {
+    if (EXEMPT[c.slug]) continue;
+    const p = f.impl(c);
+    if (!exists(p)) {
+      if (f.optional) {
+        perLib[f.id].skipped++;
+        continue;
+      }
+      gaps.push([f.id, c.slug, "implementation file missing: " + p]);
+      continue;
+    }
+    perLib[f.id].checked++;
+    const body = stripComments(read(p));
+    const token = new RegExp(`(?<![\\w-])${esc(c.slug)}(?![\\w-])`);
+    const lines = body.split("\n").filter((l) => /class|Class/.test(l));
+    const hasHook = lines.some((l) => token.test(l));
+    // Stricter: the slug starts a class value (right after a quote/backtick), i.e. it is the FIRST
+    // token of some class list, as AGENTS/headless.md requires of the root element.
+    const first = new RegExp(`["'\`]${esc(c.slug)}(?![\\w-])`);
+    const startsList = lines.some((l) => first.test(l));
+    if (hasHook && startsList) perLib[f.id].ok++;
+    else if (hasHook) gaps.push([f.id, c.slug, "base class present but never first in a class list in " + p]);
+    else gaps.push([f.id, c.slug, "no class hook `" + c.slug + "` in " + p]);
+  }
+}
+
+console.log("library          checked    ok  skipped");
+for (const [id, r] of Object.entries(perLib)) {
+  console.log(`${id.padEnd(16)} ${String(r.checked).padStart(7)} ${String(r.ok).padStart(5)} ${String(r.skipped).padStart(8)}`);
+}
+if (gaps.length) {
+  console.log(`\n${gaps.length} gap(s):`);
+  for (const [lib, slug, d] of process.argv.includes("--list") ? gaps : gaps.slice(0, 25)) console.log(`  ${lib}: ${slug} — ${d}`);
+  if (!process.argv.includes("--list") && gaps.length > 25) console.log(`  … ${gaps.length - 25} more (use --list)`);
+  process.exit(1);
+}
+console.log("\nbin/check-class-names: OK — every checked implementation carries its base class.");
