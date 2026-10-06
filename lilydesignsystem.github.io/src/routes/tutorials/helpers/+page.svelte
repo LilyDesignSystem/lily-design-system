@@ -61,7 +61,8 @@
     signalling — your i18n library handles the translation.
   </p>
   <!-- `<` + `script>` keeps the literal tag out of the Svelte compiler's view. -->
-  <pre><code>{`<` + `script>
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`<` + `script>
   import LocalePicker from "@lilydesignsystem/svelte-locale-picker";
 
   let locale = $state("en-US");
@@ -89,7 +90,8 @@
     <code>data-text-size="&#123;slug&#125;"</code> on the document root and your
     CSS maps each value to sizing.
   </p>
-  <pre><code>{`<` + `script>
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`<` + `script>
   import TextSizePicker from "@lilydesignsystem/svelte-text-size-picker";
 </` + `script>
 
@@ -98,7 +100,8 @@
   sizes={["small", "medium", "large", "x-large"]}
   storageKey="my-app-text-size"
 />`}</code></pre>
-  <pre><code>{`:root[data-text-size="small"]   { font-size: 87.5%; }
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`:root[data-text-size="small"]   { font-size: 87.5%; }
 :root[data-text-size="medium"]  { font-size: 100%; }
 :root[data-text-size="large"]   { font-size: 112.5%; }
 :root[data-text-size="x-large"] { font-size: 125%; }`}</code></pre>
@@ -124,7 +127,8 @@
     which networks belong in your product is your call, not the design
     system's.
   </p>
-  <pre><code>{`<` + `script>
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`<` + `script>
   import SharePicker from "@lilydesignsystem/svelte-share-picker";
 
   const targets = [
@@ -160,7 +164,8 @@
     <code>mode="time"</code>, <code>"2026-03-15T09:30"</code> for
     <code>mode="datetime"</code>.
   </p>
-  <pre><code>{`<` + `script>
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`<` + `script>
   import DateTimePicker from "@lilydesignsystem/svelte-date-time-picker";
 
   let appointment = $state("");
@@ -195,7 +200,8 @@
     because motion is a real accessibility need (WCAG 2.3.3). Your CSS and
     scripts decide what gets suppressed.
   </p>
-  <pre><code>{`<` + `script>
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`<` + `script>
   import MotionPicker from "@lilydesignsystem/svelte-motion-picker";
 </` + `script>
 
@@ -204,7 +210,8 @@
   motions={["no-preference", "reduce"]}
   storageKey="my-app-motion"
 />`}</code></pre>
-  <pre><code>{`:root[data-motion="reduce"] *,
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`:root[data-motion="reduce"] *,
 :root[data-motion="reduce"] *::before,
 :root[data-motion="reduce"] *::after {
   animation: none !important;
@@ -220,7 +227,8 @@
     query goes nowhere). Its three accessible names are required, because the
     helper ships no English.
   </p>
-  <pre><code>{`<` + `script>
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`<` + `script>
   import SearchPicker from "@lilydesignsystem/svelte-search-picker";
   import { goto } from "$app/navigation";
 </` + `script>
@@ -246,7 +254,8 @@
     scale pre-wired. Every accessible name arrives in one required
     <code>labels</code> object.
   </p>
-  <pre><code>{`<` + `script>
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`<` + `script>
   import PickerBar from "@lilydesignsystem/svelte-picker-bar";
 </` + `script>
 
@@ -277,7 +286,8 @@
 
   <h2>A settings panel in one place</h2>
   <p>The four preference helpers compose naturally:</p>
-  <pre><code>{`<fieldset class="fieldset">
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`<fieldset class="fieldset">
   <legend>Preferences</legend>
   <ThemePicker    label="Theme"     themesUrl="/themes/" themes={themes} storageKey="pref-theme" />
   <LocalePicker   label="Language"  locales={locales}    storageKey="pref-locale" />
@@ -297,7 +307,8 @@
   </div>
 
   <h2>Where to get them</h2>
-  <pre><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-helpers
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-helpers
 # or -react- / -vue- / -angular- / -html- / -nunjucks- / -blazor- / -web-components-`}</code></pre>
   <p>
     Each catalog has per-package specs, tests mapped to the spec clauses,

@@ -26,7 +26,8 @@
   </p>
 
   <h2>Step 1 — Get the code</h2>
-  <pre><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-blazor-headless
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-blazor-headless
 cd lily-design-system-blazor-headless
 dotnet build
 dotnet test      # bUnit — 1,400+ cases across the catalog`}</code></pre>
@@ -39,7 +40,8 @@ dotnet test      # bUnit — 1,400+ cases across the catalog`}</code></pre>
   </p>
 
   <h2>Step 2 — Your first component</h2>
-  <pre><code>{`<Button OnClick="Save">Save</Button>`}</code></pre>
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`<Button OnClick="Save">Save</Button>`}</code></pre>
   <p>
     Renders <code>&lt;button class="button"&gt;</code>. The shared parameter
     conventions: <code>Label</code> (an <code>aria-label</code> override),
@@ -50,7 +52,8 @@ dotnet test      # bUnit — 1,400+ cases across the catalog`}</code></pre>
   </p>
 
   <h2>Step 3 — Compose a small form</h2>
-  <pre><code>{`<Form OnSubmit="HandleSubmit">
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`<Form OnSubmit="HandleSubmit">
   <Field Label="Full name" Required="true">
     <TextInput Id="name" Label="Full name" @bind-Value="name" Required="true" />
   </Field>
@@ -97,14 +100,16 @@ dotnet test      # bUnit — 1,400+ cases across the catalog`}</code></pre>
     link a ready-made theme in <code>App.razor</code> /
     <code>index.html</code>:
   </p>
-  <pre><code>{`<link rel="stylesheet" href="themes/wireframe.css" />`}</code></pre>
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`<link rel="stylesheet" href="themes/wireframe.css" />`}</code></pre>
 
   <h2>Step 5 — See it all working</h2>
   <p>
     The <a href="/examples/">Blazor Web example app</a> shows the full
     catalog styled and demoed, with Playwright e2e tests:
   </p>
-  <pre><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-blazor-web-examples
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-blazor-web-examples
 cd lily-design-system-blazor-web-examples
 dotnet run --project src/LilyBlazorWebExamples`}</code></pre>
 

@@ -41,7 +41,8 @@
     Lily is published as separate Git repos per framework. The fastest way to try
     it is to clone the headless repo for your stack:
   </p>
-  <pre><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-react-headless
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-react-headless
 cd lily-design-system-react-headless
 pnpm install`}</code></pre>
   <p>The same pattern works for the other frameworks:</p>
@@ -71,7 +72,8 @@ pnpm install`}</code></pre>
   </p>
 
   <h3>HTML</h3>
-  <pre><code>{`<button class="button" type="button" aria-label="Save">
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`<button class="button" type="button" aria-label="Save">
   Save
 </button>`}</code></pre>
 
@@ -79,27 +81,31 @@ pnpm install`}</code></pre>
   <!-- The Svelte compiler scans literal `<script>`/`</script>` even inside template
        literals, so we concatenate `<` + `script>` to render the tags as plain text
        in the rendered code sample without triggering the parser. -->
-  <pre><code>{`<` + `script>
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`<` + `script>
   import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
 </` + `script>
 
 <Button onclick={save}>Save</Button>`}</code></pre>
 
   <h3>React</h3>
-  <pre><code>{`import Button from "lily-design-system-react-headless/components/Button";
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`import Button from "lily-design-system-react-headless/components/Button";
 
 <Button onClick={save}>Save</Button>`}</code></pre>
 
   <h3>Vue</h3>
   <!-- See note above the Svelte sample for why `<` + `script setup>` is split. -->
-  <pre><code>{`<` + `script setup>
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`<` + `script setup>
   import Button from "lily-design-system-vue-headless/components/Button.vue";
 </` + `script>
 
 <Button @click="save">Save</Button>`}</code></pre>
 
   <h3>Angular</h3>
-  <pre><code>{`import { Button } from "@lilydesignsystem/angular-headless";
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`import { Button } from "@lilydesignsystem/angular-headless";
 
 @Component({
   imports: [Button],
@@ -107,10 +113,12 @@ pnpm install`}</code></pre>
 })`}</code></pre>
 
   <h3>Blazor</h3>
-  <pre><code>{`<Button OnClick="Save">Save</Button>`}</code></pre>
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`<Button OnClick="Save">Save</Button>`}</code></pre>
 
   <h3>Nunjucks</h3>
-  <pre><code>{`{% from "components/button/macro.njk" import button %}
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`{% from "components/button/macro.njk" import button %}
 
 {{ button({ text: "Save", type: "button" }) }}`}</code></pre>
 </section>
@@ -122,7 +130,8 @@ pnpm install`}</code></pre>
     to experiment is to start the SvelteKit, Next, Nuxt, Analog, or Eleventy
     example app and view the demo at <code>/components</code>.
   </p>
-  <pre><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-sveltekit-examples
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-sveltekit-examples
 cd lily-design-system-svelte-sveltekit-examples
 pnpm install
 pnpm run dev`}</code></pre>
@@ -138,7 +147,8 @@ pnpm run dev`}</code></pre>
     For example, <code>&lt;Button&gt;</code> renders <code>&lt;button class="button"&gt;</code>.
     Style it however you like:
   </p>
-  <pre><code>{`.button {
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`.button {
   background: var(--my-primary);
   color: #fff;
   padding: 0.75rem 1.5rem;
@@ -169,7 +179,8 @@ pnpm run dev`}</code></pre>
     directory. Each is one stylesheet targeting the Lily class hooks — link it
     and you're styled:
   </p>
-  <pre><code>{`<link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" />`}</code></pre>
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`<link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" />`}</code></pre>
   <p>The set covers:</p>
   <ul>
     <li>
@@ -227,7 +238,8 @@ pnpm run dev`}</code></pre>
       <code>&lt;input type="date"&gt;</code>.
     </li>
   </ul>
-  <pre><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-helpers`}</code></pre>
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-helpers`}</code></pre>
   <p>
     The Svelte catalog is the canonical reference; React, Vue, Angular, HTML,
     Nunjucks, and Blazor ports match it contract-for-contract. See the

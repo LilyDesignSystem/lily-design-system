@@ -2168,7 +2168,12 @@ All items below are done and verified (suites green, `bin/test`, `bin/check-cove
   (`conversation`, `message`, `task-steps`, `loading-state`, …), advanced widgets (`table-of-contents`,
   `filter-table`, `wheel-picker`, `flowchart`, …) and the small primitives (`native-select`,
   `theme-toggle`, `date-picker`, …). Each needs a design pass first (see CHANGELOG 2026-10-05/06).
-- [ ] **P9-T13 Docs-site `error-message` demo colour contrast** (axe `color-contrast`; predates this phase).
+- [x] **P9-T13 Docs-site `error-message` colour contrast** — closed 2026-10-06. Not a demo bug: 26 of the 45 themes
+  coloured error text with `--color-error`, a *fill* colour (2.35–4.4:1 on the error-tinted callout). Added
+  `--lily-error-text` (22% error mixed into the theme's own `--color-base-content`) and used it for the three text uses
+  (`.error-message`, failed `.validation-list-item`, `.dont-list-item` marker): 0 of 45 themes now fail on
+  `/components/error-message/`. The full docs-site axe sweep (575 pages, WCAG 2.2 AA tags) is clean after also making
+  every hand-written `<pre>` on the site keyboard-focusable (axe `scrollable-region-focusable`).
 - [x] **P9-T14 `DateRange`/`ReviewDate` in angular-headless** — closed 2026-10-06. The real problem was a
   contract split, not just `<div>` vs `<span>`: `components/date-range/AGENTS.md` said `<span>` while its own
   prose, Svelte, React and Vue used a `<fieldset>` with two date inputs. Maintainer decision: **fieldset**.

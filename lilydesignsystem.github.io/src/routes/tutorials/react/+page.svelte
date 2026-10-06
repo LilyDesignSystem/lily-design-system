@@ -27,7 +27,8 @@
   </p>
 
   <h2>Step 1 — Get the code</h2>
-  <pre><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-react-headless
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-react-headless
 cd lily-design-system-react-headless
 pnpm install
 pnpm test        # vitest + @testing-library/react
@@ -40,7 +41,8 @@ pnpm run storybook   # browse all 571 components`}</code></pre>
   </p>
 
   <h2>Step 2 — Your first component</h2>
-  <pre><code>{`import Button from "lily-design-system-react-headless/components/Button";
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`import Button from "lily-design-system-react-headless/components/Button";
 
 export function SaveBar() {
   return <Button onClick={save}>Save</Button>;
@@ -54,7 +56,8 @@ export function SaveBar() {
   </p>
 
   <h2>Step 3 — Compose a small form</h2>
-  <pre><code>{`import { useState } from "react";
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`import { useState } from "react";
 import Form from ".../components/Form";
 import Field from ".../components/Field";
 import TextInput from ".../components/TextInput";
@@ -97,14 +100,16 @@ export function ContactForm() {
     your stylesheet, layer Tailwind utilities via <code>className</code>, or
     link a ready-made theme:
   </p>
-  <pre><code>{`<link rel="stylesheet" href="/themes/united-states-web-design-system.css" />`}</code></pre>
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`<link rel="stylesheet" href="/themes/united-states-web-design-system.css" />`}</code></pre>
 
   <h2>Step 5 — See it all working</h2>
   <p>
     The <a href="/examples/">Next.js example app</a> is the full catalog
     styled and demoed, with Playwright e2e and an axe-core baseline:
   </p>
-  <pre><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-react-next-examples
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-react-next-examples
 cd lily-design-system-react-next-examples
 pnpm install && pnpm run dev`}</code></pre>
 

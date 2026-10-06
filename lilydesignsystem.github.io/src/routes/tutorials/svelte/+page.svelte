@@ -27,7 +27,8 @@
   </p>
 
   <h2>Step 1 — Get the code</h2>
-  <pre><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-headless
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-headless
 cd lily-design-system-svelte-headless
 pnpm install
 pnpm test        # vitest — thousands of component cases
@@ -41,7 +42,8 @@ pnpm run storybook   # browse all 571 components`}</code></pre>
 
   <h2>Step 2 — Your first component</h2>
   <!-- `<` + `script>` keeps the literal tag out of the Svelte compiler's view. -->
-  <pre><code>{`<` + `script>
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`<` + `script>
   import Button from "#lib/components/Button/Button.svelte";
 
   function save() { console.log("saved"); }
@@ -57,7 +59,8 @@ pnpm run storybook   # browse all 571 components`}</code></pre>
   </p>
 
   <h2>Step 3 — Compose a small form</h2>
-  <pre><code>{`<` + `script>
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`<` + `script>
   import Form from "#lib/components/Form/Form.svelte";
   import Field from "#lib/components/Field/Field.svelte";
   import TextInput from "#lib/components/TextInput/TextInput.svelte";
@@ -110,7 +113,8 @@ pnpm run storybook   # browse all 571 components`}</code></pre>
     <code>.field</code> — in your global stylesheet, or link a ready-made
     theme in <code>app.html</code>:
   </p>
-  <pre><code>{`<link rel="stylesheet" href="/themes/dark.css" />`}</code></pre>
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`<link rel="stylesheet" href="/themes/dark.css" />`}</code></pre>
   <p>
     Per-instance tweaks go through the <code>class</code> prop, which appends
     to the base hook: <code>&lt;Button class="wide"&gt;</code> renders
@@ -123,7 +127,8 @@ pnpm run storybook   # browse all 571 components`}</code></pre>
     fully styled, with live demos, Playwright e2e tests, and an axe-core
     accessibility baseline:
   </p>
-  <pre><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-sveltekit-examples
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-sveltekit-examples
 cd lily-design-system-svelte-sveltekit-examples
 pnpm install && pnpm run dev`}</code></pre>
 

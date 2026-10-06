@@ -27,7 +27,8 @@
   </p>
 
   <h2>Step 1 — Get the code</h2>
-  <pre><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-html-headless
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-html-headless
 cd lily-design-system-html-headless`}</code></pre>
   <p>
     Every component is a standalone file in <code>components/</code> —
@@ -39,7 +40,8 @@ cd lily-design-system-html-headless`}</code></pre>
 
   <h2>Step 2 — Your first component</h2>
   <p>Open <code>components/button.html</code>, or just write the markup — the class hook is the contract:</p>
-  <pre><code>{`<button class="button" type="button">
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`<button class="button" type="button">
   Save
 </button>`}</code></pre>
   <p>
@@ -48,7 +50,8 @@ cd lily-design-system-html-headless`}</code></pre>
   </p>
 
   <h2>Step 3 — Compose a small form</h2>
-  <pre><code>{`<form class="form">
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`<form class="form">
   <div class="field">
     <label class="label" for="name">Full name</label>
     <input class="text-input" type="text" id="name" name="name" required />
@@ -76,7 +79,8 @@ cd lily-design-system-html-headless`}</code></pre>
 
   <h2>Step 4 — Style it</h2>
   <p>Write CSS against the hooks:</p>
-  <pre><code>{`.button {
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`.button {
   background: #2563eb;
   color: #fff;
   padding: 0.75rem 1.5rem;
@@ -94,7 +98,8 @@ cd lily-design-system-html-headless`}</code></pre>
     Or skip hand-writing CSS entirely — link one of the 45 ready-made themes
     and the same markup lights up:
   </p>
-  <pre><code>{`<link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" />`}</code></pre>
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`<link rel="stylesheet" href="/themes/united-kingdom-national-health-service-england-for-patients.css" />`}</code></pre>
 
   <h2>Step 5 — Explore further</h2>
   <ul>

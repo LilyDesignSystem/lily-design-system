@@ -26,7 +26,8 @@
   </p>
 
   <h2>Step 1 — Get the code</h2>
-  <pre><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-angular-headless
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-angular-headless
 cd lily-design-system-angular-headless
 pnpm install
 pnpm test        # vitest + TestBed, all 571 components
@@ -40,7 +41,8 @@ pnpm run build-storybook`}</code></pre>
   </p>
 
   <h2>Step 2 — Your first component</h2>
-  <pre><code>{`import { Component } from "@angular/core";
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`import { Component } from "@angular/core";
 import { Button } from "@lilydesignsystem/angular-headless";
 
 @Component({
@@ -61,7 +63,8 @@ export class SaveBar {
   </p>
 
   <h2>Step 3 — Compose a small form</h2>
-  <pre><code>{`import { Component, signal } from "@angular/core";
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`import { Component, signal } from "@angular/core";
 import { Form, Field, TextInput, Button } from "@lilydesignsystem/angular-headless";
 
 @Component({
@@ -116,14 +119,16 @@ export class ContactForm {
     add a ready-made theme to the <code>styles</code> array in
     <code>angular.json</code> / link it in <code>index.html</code>:
   </p>
-  <pre><code>{`<link rel="stylesheet" href="/themes/adobe-spectrum.css" />`}</code></pre>
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`<link rel="stylesheet" href="/themes/adobe-spectrum.css" />`}</code></pre>
 
   <h2>Step 5 — See it all working</h2>
   <p>
     The <a href="/examples/">Angular + Analog example app</a> shows the full
     catalog with file-based routing and Vite:
   </p>
-  <pre><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-angular-examples
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-angular-examples
 cd lily-design-system-angular-examples
 pnpm install && pnpm run dev`}</code></pre>
 

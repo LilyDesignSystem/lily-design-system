@@ -26,7 +26,8 @@
   </p>
 
   <h2>Step 1 — Get the code</h2>
-  <pre><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-vue-headless
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-vue-headless
 cd lily-design-system-vue-headless
 pnpm install
 pnpm test        # vitest + @testing-library/vue
@@ -39,7 +40,8 @@ pnpm run storybook   # browse all 571 components`}</code></pre>
 
   <h2>Step 2 — Your first component</h2>
   <!-- `<` + `script setup>` keeps the literal tag out of the Svelte compiler's view. -->
-  <pre><code>{`<` + `script setup>
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`<` + `script setup>
 import Button from "lily-design-system-vue-headless/components/Button.vue";
 </` + `script>
 
@@ -54,7 +56,8 @@ import Button from "lily-design-system-vue-headless/components/Button.vue";
   </p>
 
   <h2>Step 3 — Compose a small form</h2>
-  <pre><code>{`<` + `script setup>
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`<` + `script setup>
 import { ref } from "vue";
 import Form from ".../components/Form.vue";
 import Field from ".../components/Field.vue";
@@ -109,14 +112,16 @@ const name = ref("");
     <code>.label</code>, <code>.field</code> — in your stylesheet, or link a
     ready-made theme in <code>index.html</code> / <code>nuxt.config</code>:
   </p>
-  <pre><code>{`<link rel="stylesheet" href="/themes/nord.css" />`}</code></pre>
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`<link rel="stylesheet" href="/themes/nord.css" />`}</code></pre>
 
   <h2>Step 5 — See it all working</h2>
   <p>
     The <a href="/examples/">Nuxt example app</a> is the full catalog styled
     and demoed, with Playwright e2e and an axe-core baseline:
   </p>
-  <pre><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-vue-nuxt-examples
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-vue-nuxt-examples
 cd lily-design-system-vue-nuxt-examples
 pnpm install && pnpm run dev`}</code></pre>
 

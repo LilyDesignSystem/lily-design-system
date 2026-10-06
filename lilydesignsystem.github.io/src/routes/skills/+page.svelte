@@ -138,7 +138,8 @@
     skills from (see the official docs linked above for your project's or
     account's skills directory):
   </p>
-  <pre><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-skill`}</code></pre>
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-skill`}</code></pre>
   <p>
     Working across several frameworks, or on the monorepo itself? Clone the
     <a href="https://github.com/LilyDesignSystem/lily-design-system">canonical monorepo</a>

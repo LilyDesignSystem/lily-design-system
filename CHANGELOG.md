@@ -9,6 +9,18 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Error text contrast in all 45 themes; docs-site axe sweep clean — 2026-10-06
+
+26 of the 45 reference themes failed WCAG contrast for `.error-message` (2.35–4.4:1): they coloured error text
+with `--color-error`, which is a fill colour, on a callout tinted with the same colour. Themes now define
+`--lily-error-text` (the error colour mixed 22% into the theme's own `--color-base-content`, so a host page that
+overrides `--lily-text` cannot break it) and use it for the three text uses: `.error-message`, a failed
+`.validation-list-item` and the `.dont-list-item` marker. Error text is a little darker/less saturated than before.
+Verified by switching all 45 themes on `/components/error-message/` under axe: 0 failures (was 26). Also on the docs
+site: every hand-written `<pre>` is now keyboard-focusable, and a full axe sweep of 575 pages (home, catalog,
+tutorials, accessibility and all 571 component pages, WCAG 2.0–2.2 A/AA tags) reports 0 violations. The
+`@lilydesignsystem/themes` package copy is not yet republished.
+
 ## `DateRange` is a fieldset everywhere; `ReviewDate` is a `<time>` in Angular — 2026-10-06
 
 Closes the long-open angular-headless item. The catalog's `AGENTS.md` said `<span>` for `date-range`

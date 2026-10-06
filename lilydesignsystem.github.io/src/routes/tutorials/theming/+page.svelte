@@ -33,7 +33,8 @@
     directory ships 45 standalone stylesheets. Copy them into your app's
     static assets and link one:
   </p>
-  <pre><code>{`<link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" />`}</code></pre>
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`<link rel="stylesheet" href="/assets/themes/united-kingdom-national-health-service-england-for-patients.css" />`}</code></pre>
   <p>Highlights of the set:</p>
   <ul>
     <li>
@@ -63,7 +64,8 @@
     Theme selectors are wrapped in <code>:where(...)</code>, which has zero
     specificity — so any rule you write wins, plain and simple:
   </p>
-  <pre><code>{`/* After the theme link: your brand button, everything else themed */
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`/* After the theme link: your brand button, everything else themed */
 .button {
   background: #7c3aed;
   border-radius: 9999px;
@@ -80,7 +82,8 @@
     Angular, HTML, Nunjucks, and Blazor ports match contract-for-contract:
   </p>
   <!-- `<` + `script>` keeps the literal tag out of the Svelte compiler's view. -->
-  <pre><code>{`<` + `script>
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`<` + `script>
   import ThemePicker from "@lilydesignsystem/svelte-theme-picker";
 </` + `script>
 
@@ -108,7 +111,8 @@
     Because the helper sets <code>data-theme</code> on the document root,
     your own styles can branch on it:
   </p>
-  <pre><code>{`[data-theme="dark"] .site-logo { filter: invert(1); }`}</code></pre>
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`[data-theme="dark"] .site-logo { filter: invert(1); }`}</code></pre>
 
   <h2>Notes for server rendering</h2>
   <p>

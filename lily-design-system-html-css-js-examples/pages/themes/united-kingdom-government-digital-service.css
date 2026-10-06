@@ -160,6 +160,14 @@
         /* Primary body-copy colour. Maps to the theme's high-contrast
            reading colour. */
         --lily-text: var(--color-base-content);
+        /* Error text: the theme's error colour pulled toward the theme's own reading colour (`--color-base-content`, not `--lily-text`, which a host page may override) so it
+           keeps WCAG contrast as text on the page and on the error-tinted
+           callout surface (`--color-error` itself is a fill colour). */
+        --lily-error-text: color-mix(
+            in oklch,
+            var(--color-error) 22%,
+            var(--color-base-content)
+        );
         /* Muted / secondary text — mixed 70% with transparent to keep the
            hue but lower contrast for captions, helptext, placeholders. */
         --lily-text-muted: color-mix(
@@ -899,7 +907,7 @@
     }
     :where(.dont-list-item)::marker {
         content: "✗ ";
-        color: var(--color-error);
+        color: var(--lily-error-text);
     }
 
     /* --- Tree --------------------------------------------------------------- */
@@ -981,7 +989,7 @@
         color: var(--color-success);
     }
     :where(.validation-list-item[data-status="failed"]) {
-        color: var(--color-error);
+        color: var(--lily-error-text);
     }
     :where(.validation-list-item[data-status="pending"]) {
         color: var(--lily-text-muted);
@@ -1339,7 +1347,7 @@
 
     /* Error message — inline form-validation message. */
     :where(.error-message) {
-        color: var(--color-error);
+        color: var(--lily-error-text);
         font-weight: 600;
     }
     /* Error summary — heavyweight 4px border (GOV.UK pattern) so users

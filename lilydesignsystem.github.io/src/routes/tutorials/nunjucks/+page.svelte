@@ -25,7 +25,8 @@
   </p>
 
   <h2>Step 1 — Get the code</h2>
-  <pre><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-nunjucks-headless
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-nunjucks-headless
 cd lily-design-system-nunjucks-headless
 pnpm install
 pnpm test        # vitest rendering every macro`}</code></pre>
@@ -38,7 +39,8 @@ pnpm test        # vitest rendering every macro`}</code></pre>
   </p>
 
   <h2>Step 2 — Your first component</h2>
-  <pre><code>{`{% from "components/button/macro.njk" import button %}
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`{% from "components/button/macro.njk" import button %}
 
 {{ button({ text: "Save", type: "submit" }) }}`}</code></pre>
   <p>
@@ -49,7 +51,8 @@ pnpm test        # vitest rendering every macro`}</code></pre>
   </p>
 
   <h2>Step 3 — Compose a small form</h2>
-  <pre><code>{`{% from "components/form/macro.njk" import form %}
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`{% from "components/form/macro.njk" import form %}
 {% from "components/label/macro.njk" import label %}
 {% from "components/text-input/macro.njk" import textInput %}
 {% from "components/button/macro.njk" import button %}
@@ -81,14 +84,16 @@ pnpm test        # vitest rendering every macro`}</code></pre>
     <code>.label</code>, <code>.field</code> — in your stylesheet, or link a
     ready-made theme in your base layout:
   </p>
-  <pre><code>{`<link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" />`}</code></pre>
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`<link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" />`}</code></pre>
 
   <h2>Step 5 — See it all working</h2>
   <p>
     The <a href="/examples/">Nunjucks + Eleventy example app</a> builds the
     full catalog as a static site with per-component demo pages:
   </p>
-  <pre><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-nunjucks-eleventy-examples
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-nunjucks-eleventy-examples
 cd lily-design-system-nunjucks-eleventy-examples
 pnpm install && pnpm run dev`}</code></pre>
 

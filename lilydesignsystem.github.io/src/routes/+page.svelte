@@ -129,9 +129,11 @@
       semantic elements, ARIA states, keyboard contracts, focus
       management, and more - and you can style all the components as you wish.
     </p>
-    <pre><code>{`<!-- What Lily renders: semantic HTML, correct ARIA, one class hook -->
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre tabindex="0"><code>{`<!-- What Lily renders: semantic HTML, correct ARIA, one class hook -->
 <button class="button" type="button">Save</button>`}</code></pre>
-    <pre><code>{`/* What you write: any CSS you like — it applies directly, first try */
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre tabindex="0"><code>{`/* What you write: any CSS you like — it applies directly, first try */
 .button {
   background: rebeccapurple;
   color: #fff;
@@ -151,7 +153,8 @@
 
   <div class="prose" style="margin: 0 auto;">
     <p><strong>1. Copy a component.</strong> Lily's HTML flavour is plain markup — paste it straight into any page, zero install, zero build step:</p>
-    <pre><code>{`<form class="form">
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre tabindex="0"><code>{`<form class="form">
   <div class="field">
     <label class="label" for="name">Full name</label>
     <input class="text-input" type="text" id="name" name="name" required />
@@ -160,12 +163,14 @@
 </form>`}</code></pre>
 
     <p><strong>2. Style the class hooks.</strong> Each component carries one kebab-case class — that's the whole contract:</p>
-    <pre><code>{`.button     { background: #2563eb; color: #fff; padding: 0.75rem 1.5rem; }
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre tabindex="0"><code>{`.button     { background: #2563eb; color: #fff; padding: 0.75rem 1.5rem; }
 .text-input { border: 2px solid #6b7280; padding: 0.5rem 0.75rem; }
 .label      { font-weight: 600; }`}</code></pre>
 
     <p><strong>3. In a hurry? Link a ready-made theme instead.</strong> One stylesheet and the same markup lights up — NHS, GOV.UK, USWDS, dark, nord, and 40 more:</p>
-    <pre><code>{`<link rel="stylesheet" href="/themes/dark.css" />`}</code></pre>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre tabindex="0"><code>{`<link rel="stylesheet" href="/themes/dark.css" />`}</code></pre>
 
     <p>
       Prefer Svelte, React, Vue, Angular, Blazor, or Nunjucks? The same
@@ -198,7 +203,8 @@
       straight into your own project and adjust it as you wish. It's all
       free, open source, and made to be remixed.
     </p>
-    <pre><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-sveltekit-examples
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-sveltekit-examples
 cd lily-design-system-svelte-sveltekit-examples
 pnpm install && pnpm run dev`}</code></pre>
     <p style="text-align: center; margin-top: 2rem;">
