@@ -49,7 +49,7 @@ same rules the packages themselves are held to.
   [`lily-design-system-skill`](../lily-design-system-skill/)).
 - **Isn't**: the Vue headless component skill (that's
   [`lily-design-system-vue-headless-skill`](../lily-design-system-vue-headless-skill/)
-  — the 491-component catalog, a separate npm package with a separate
+  — the 571-component catalog, a separate npm package with a separate
   contract).
 
 ## Internationalization

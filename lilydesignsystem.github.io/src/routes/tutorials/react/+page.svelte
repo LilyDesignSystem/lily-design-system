@@ -31,7 +31,7 @@
 cd lily-design-system-react-headless
 pnpm install
 pnpm test        # vitest + @testing-library/react
-pnpm run storybook   # browse all 491 components`}</code></pre>
+pnpm run storybook   # browse all 571 components`}</code></pre>
   <p>
     Components are flat files in <code>components/</code> —
     <code>Button.tsx</code>, <code>TextInput.tsx</code> — each with its test,

@@ -10,7 +10,7 @@ project overview.
 A SvelteKit project (`@sveltejs/adapter-static`) that prerenders the
 entire public marketing/docs site for the Lily Design System™, deployed by
 GitHub Actions to <https://lilydesignsystem.com/>. It presents the
-491-component headless catalog as browsable pages, teaches the seven
+571-component headless catalog as browsable pages, teaches the seven
 framework stacks, and explains why and how to adopt Lily. It does not
 implement or ship any component library itself — see
 [spec/index.md §2](spec/index.md#2-scope) for the exact scope split.
@@ -24,7 +24,7 @@ implement or ship any component library itself — see
 ## Routes
 
 - `/` — home
-- `/components/` and `/components/<slug>/` — the 491-component catalog
+- `/components/` and `/components/<slug>/` — the 571-component catalog
   (one route per `components.tsv` row)
 - `/examples/` — links to the seven worked example apps
 - `/tutorials/` and `/tutorials/<framework>/` — one tutorial per framework

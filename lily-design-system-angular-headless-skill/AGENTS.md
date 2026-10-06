@@ -23,7 +23,7 @@
 
 A Claude Skill explaining how to consume
 [`@lilydesignsystem/angular-headless`](../lily-design-system-angular-headless/),
-the Angular implementation of Lily's full 491-component headless catalog.
+the Angular implementation of Lily's full 571-component headless catalog.
 The skill itself is [`SKILL.md`](SKILL.md); the `@AGENTS/*.md` files loaded
 above are the same binding design-principle rules every other subproject in
 this repository loads, so an agent explaining Angular-headless consumption

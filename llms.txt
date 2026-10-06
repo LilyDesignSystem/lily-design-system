@@ -1,9 +1,9 @@
 # Lily Design System™
 
-> Free, open-source, headless design system: a canonical catalog of 491
+> Free, open-source, headless design system: a canonical catalog of 571
 > accessible components implemented across seven frameworks (HTML, Svelte,
-> React, Vue, Angular, Blazor, Nunjucks), paired with fully styled example
-> apps that demonstrate the same catalog end to end.
+> React, Vue, Angular, Blazor, Nunjucks) plus a Web Components catalog, paired
+> with fully styled example apps that demonstrate the same catalog end to end.
 
 This is the canonical monorepo. The living specification is `spec/`,
 entered via `spec/index.md`; binding design-principle rules for AI coding
@@ -18,7 +18,7 @@ searchable component catalog: https://lilydesignsystem.com/.
 - [AGENTS.md](AGENTS.md): binding design-principle rules; loads every file
   under `AGENTS/`.
 - [README.md](README.md): human-readable project overview.
-- [components.tsv](components.tsv): the canonical 491-component catalog —
+- [components.tsv](components.tsv): the canonical 571-component catalog —
   one row per component: slug, PascalCase name, description.
 - [CHANGELOG.md](CHANGELOG.md): full change history, with the reasoning
   behind each change.
@@ -35,8 +35,9 @@ searchable component catalog: https://lilydesignsystem.com/.
   forbidden-literal list, the 45 reference theme stylesheets.
 - [AGENTS/components.md](AGENTS/components.md): suffix-to-HTML-element
   mapping, compound name-family patterns, composition templates.
-- [AGENTS/helpers.md](AGENTS/helpers.md): the theme/locale/text-size/
-  motion/share/date-time picker contract.
+- [AGENTS/helpers.md](AGENTS/helpers.md): the seven picker helpers
+  (theme, locale, text-size, motion, share, search, date-time), picker-bar and the
+  tooltip contract.
 - [AGENTS/citations.md](AGENTS/citations.md): design systems and headless
   libraries Lily learns from.
 - [AGENTS/lily.md](AGENTS/lily.md): the full subproject list (8
@@ -46,18 +47,25 @@ searchable component catalog: https://lilydesignsystem.com/.
 
 - [spec/architecture/index.md](spec/architecture/index.md): monorepo
   layout, the git-subtree model, required files per subproject/component.
-- [spec/components/index.md](spec/components/index.md): the 491-component
+- [spec/components/index.md](spec/components/index.md): the 571-component
   catalog in depth, per-component documentation requirements.
 - [spec/testing/index.md](spec/testing/index.md): per-framework test
   suites, Storybook coverage, Playwright e2e, axe, responsive sweep.
 - [spec/national-identifiers/index.md](spec/national-identifiers/index.md):
-  the 92 national personal identifier components, validation algorithms.
-- [spec/helpers/index.md](spec/helpers/index.md): the six `*-picker`
-  helper contracts in full.
+  the 140 national personal identifier components, validation algorithms.
+- [spec/helpers/index.md](spec/helpers/index.md): the seven `*-picker`
+  helper contracts in full, picker-bar, and the tooltip contract.
 - [spec/frameworks/index.md](spec/frameworks/index.md): the seven
   framework pairs, per-framework file shapes, the copy-pattern.
-- [spec/agent-skills/index.md](spec/agent-skills/index.md): the
-  `lily-design-system-skill` and `lily-design-system-maintainer-skill` Claude Skills.
+- [spec/agent-skills/index.md](spec/agent-skills/index.md): the 26 Claude
+  Skills (end-user, maintainer, eight framework umbrellas, sixteen
+  headless/helpers skills).
+- [spec/examples/index.md](spec/examples/index.md): the example apps and the
+  demonstration-page contract (live demo, variants, real usage example).
+- [spec/tooling/index.md](spec/tooling/index.md): the `bin/` scripts, sync
+  model, generators and verification.
+- [spec/history/index.md](spec/history/index.md): the dated per-event record,
+  moved out of spec/index.md.
 
 ## Subprojects
 
@@ -66,7 +74,8 @@ searchable component catalog: https://lilydesignsystem.com/.
 - [lily-design-system-svelte-sveltekit-examples](lily-design-system-svelte-sveltekit-examples/index.md):
   fully styled reference app for the same catalog.
 - [lily-design-system-svelte-helpers](lily-design-system-svelte-helpers/index.md):
-  the canonical theme/locale/text-size/share/date-time picker catalog.
+  the canonical picker catalog (theme, locale, text-size, motion, share, search,
+  date-time, picker-bar).
 - The remaining 20 headless/example/helper subprojects (React, Vue,
   Angular, Blazor, HTML, Nunjucks, Web Components) follow the same
   shape — see [AGENTS/lily.md](AGENTS/lily.md) for the full list.
@@ -83,6 +92,8 @@ searchable component catalog: https://lilydesignsystem.com/.
   class hook declared per catalog component.
 - [themes/](themes/): 45 ready-to-use reference theme stylesheets (NHS
   England/Scotland/Wales, GOV.UK, USWDS, Adobe Spectrum, Mozilla Protocol).
+- [component-variants.json](component-variants.json): hand-curated extra demo
+  states rendered on every demonstration page (`bin/generate-examples`).
 - [bin/](bin/): scaffolding, listing, sync, test, and publish tooling —
   start with `bin/test` to verify a working tree.
 - [CONTRIBUTING.md](CONTRIBUTING.md): how to propose a change.

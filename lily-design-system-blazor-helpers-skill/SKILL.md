@@ -123,7 +123,7 @@ Two helpers deliberately don't fit that shape:
 ## When this isn't the right skill
 
 - For the headless component catalog itself (`Button`, `TextInput`,
-  `BreadcrumbNav`, and the rest of the 491-component catalog) use
+  `BreadcrumbNav`, and the rest of the 571-component catalog) use
   [`lily-design-system-blazor-headless-skill`](../lily-design-system-blazor-headless-skill/)
   instead — these six helpers are a separate, higher-level catalog that sits
   alongside it.

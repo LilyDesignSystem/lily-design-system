@@ -2,7 +2,7 @@
 
 > Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
-**Summary.** Lily™ implements one canonical 491-component catalog across seven framework pairs — a headless library plus a styled example app per framework — so the same semantic, accessible markup is expressed in each framework's native idiom. This topic maps the pairs, their stacks, and their per-framework component file shapes.
+**Summary.** Lily™ implements one canonical 571-component catalog across seven framework pairs — a headless library plus a styled example app per framework — so the same semantic, accessible markup is expressed in each framework's native idiom. This topic maps the pairs, their stacks, and their per-framework component file shapes.
 
 ## Scope
 
@@ -12,11 +12,11 @@ It does **not** cover: the binding markup/ARIA rules every framework obeys (see 
 
 ## Principles and rules
 
-- **One catalog, seven idioms.** Every framework implements the same 491 components with the same kebab-case base classes and the same semantic HTML; only the language and file shape differ.
+- **One catalog, seven idioms.** Every framework implements the same 571 components with the same kebab-case base classes and the same semantic HTML; only the language and file shape differ.
 - **Headless libraries ship components only.** They do not depend on their sibling app framework — e.g. svelte-headless does not depend on SvelteKit; angular-headless ships standalone components, not an Analog app.
 - **Example apps consume by copy.** Each example app copies the headless components into its own source tree rather than taking an npm/NuGet dependency, so the demos always track the in-repo headless source.
 - **Framework idioms, not framework lock-in.** Rest-props spread, two-way binding, and slots/children each use the framework's native mechanism (see [headless](../headless/index.md) for the rest-props table).
-- **Subtree-pushable.** Each of the 14 subprojects is a `git subtree` with its own `.git-subtree-push` remote configuration.
+- **Subtree-pushable.** Each of the 23 implementation subprojects is a `git subtree` with its own `.git-subtree-push` remote configuration.
 
 ## The seven framework pairs
 
@@ -73,22 +73,22 @@ Every library renders the same semantic element with the same kebab-case base cl
 ## Angular + Analog.js status (spec §11.2, §11.8)
 
 - **angular-headless** is verified end-to-end: `pnpm install` resolves with `@analogjs/vite-plugin-angular` pinned to `1.19.4` and `@angular/build` as a direct devDep; `vitest run` passes 974 / 974 across 490 / 490 spec files; `ng-packagr` emits a clean APF bundle; `@storybook/angular` 9.1 builds 490 / 490 stories. Source fix: `($event.target as HTMLInputElement).value` rewritten to `$any($event.target).value` because Angular template parsing rejects parenthesised TS casts inside method calls.
-- **angular-examples** builds full-content static SSG on Angular 22.1 + Analog 2.7 + Vite 7 + TypeScript 6. The route layer uses an explicit 15-route table over plain `src/app/views/*.ts` components rather than Analog's file-route convention, whose injection failed silently in every mode (upstream: [analogjs/analog#2498](https://github.com/analogjs/analog/issues/2498)); the full history is in [analog-ssg-notes.md](../../lily-design-system-angular-examples/docs/analog-ssg-notes.md). Playwright covers the app end to end: 1,545 specs (491 component pages, axe, responsive, theme switching).
+- **angular-examples** builds full-content static SSG on Angular 22.1 + Analog 2.7 + Vite 7 + TypeScript 6. The route layer uses an explicit 15-route table over plain `src/app/views/*.ts` components rather than Analog's file-route convention, whose injection failed silently in every mode (upstream: [analogjs/analog#2498](https://github.com/analogjs/analog/issues/2498)); the full history is in [analog-ssg-notes.md](../../lily-design-system-angular-examples/docs/analog-ssg-notes.md). Playwright covers the app end to end: 1,545 specs (571 component pages, axe, responsive, theme switching).
 
 ## Acceptance criteria
 
-- [x] All 7 headless subprojects exist and implement all 491 canonical components (spec §11.2, §11.4). Directly re-verified via `bin/check-coverage`: 0/491 missing impl and test files across Svelte, React, Vue, Angular, HTML, Blazor, Nunjucks.
+- [x] All 7 headless subprojects exist and implement all 571 canonical components (spec §11.2, §11.4). Directly re-verified 2026-10-06 via `bin/check-coverage`: 0/571 missing impl and test files across Svelte, React, Vue, Angular, HTML, Blazor, Nunjucks.
 - [x] All 7 example subprojects exist and consume the headless components via the copy-pattern (spec §11.2).
 - [x] Each headless library expresses components in its native file shape (`.svelte`, `.tsx`, `.vue`, `.component.ts`, `.razor`, `macro.njk`, web components) with the canonical kebab-case base class.
 - [x] Each example app ships the three required routes and renders the real copied component on `/components/{slug}` (see [examples](../examples/index.md)).
-- [x] Svelte headless ships no `<style>` blocks; Nunjucks macros use camelCase names with kebab-case classes. Directly re-verified across the full catalog, not a sample: 0/491 Svelte components contain a `<style` block; 491/491 Nunjucks `macro.njk` files declare a camelCase macro name (e.g. `breadcrumbNav`) while rendering the kebab-case base class (`breadcrumb-nav`).
+- [x] Svelte headless ships no `<style>` blocks; Nunjucks macros use camelCase names with kebab-case classes. Directly re-verified across the full catalog, not a sample (2026-10-06): 0/571 Svelte components contain a `<style` block; Nunjucks `macro.njk` files declare a camelCase macro name (e.g. `breadcrumbNav`) while rendering the kebab-case base class (`breadcrumb-nav`).
 - [x] angular-headless passes its vitest suite (1,010 cases as of 2026-08-26) and builds via ng-packagr 22; angular-examples builds full-content SSG on Analog 2.7 with the explicit route table (the one-time blocker is closed).
-- [x] All 14 subprojects are git subtrees with a `.git-subtree-push` remote. Directly re-verified: all 7 headless + 7 example subprojects carry `.git-subtree-push` and have a configured git remote.
+- [x] All 23 implementation subprojects are git subtrees with a `.git-subtree-push` remote. Directly re-verified: all 7 headless + 7 example subprojects carry `.git-subtree-push` and have a configured git remote.
 
 ## Related topics
 
 - [headless](../headless/index.md) — the markup/ARIA rules every framework obeys, including the rest-props mechanism table
-- [components](../components/index.md) — the canonical 491-component catalog and suffix-to-element mapping each framework implements
+- [components](../components/index.md) — the canonical 571-component catalog and suffix-to-element mapping each framework implements
 - [examples](../examples/index.md) — the styled reference apps, required routes, and copy-pattern target
 - [testing](../testing/index.md) — per-framework vitest / bUnit / Playwright / Storybook coverage
 - [helpers](../helpers/index.md) — the reusable helper packages shipped per framework alongside the headless libraries

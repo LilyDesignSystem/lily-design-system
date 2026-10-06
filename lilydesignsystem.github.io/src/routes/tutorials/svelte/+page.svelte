@@ -31,7 +31,7 @@
 cd lily-design-system-svelte-headless
 pnpm install
 pnpm test        # vitest — thousands of component cases
-pnpm run storybook   # browse all 491 components`}</code></pre>
+pnpm run storybook   # browse all 571 components`}</code></pre>
   <p>
     Components live in <code>src/lib/components/&#123;Name&#125;/</code>, one
     directory per component with the <code>.svelte</code> file, its tests,

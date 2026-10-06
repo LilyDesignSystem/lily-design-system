@@ -1,6 +1,6 @@
 # Lily Design System™
 
-> Free, open-source, headless design system: a canonical catalog of 491
+> Free, open-source, headless design system: a canonical catalog of 571
 > accessible components implemented across seven frameworks (HTML, Svelte,
 > React, Vue, Angular, Blazor, Nunjucks), paired with fully styled example
 > apps that demonstrate the same catalog end to end.
@@ -28,7 +28,7 @@ actually live.
 ## Components and examples
 
 - [Components](https://lilydesignsystem.com/components/): the full
-  searchable catalog of all 491 components, each linking to its own
+  searchable catalog of all 571 components, each linking to its own
   `/components/{slug}/` detail page (description, usage, props, ARIA,
   keyboard, references).
 - [Tutorials](https://lilydesignsystem.com/tutorials/): step-by-step
@@ -67,7 +67,7 @@ actually live.
 - [AGENTS.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS.md):
   binding design-principle rules for AI coding agents.
 - [components.tsv](https://github.com/LilyDesignSystem/lily-design-system/blob/main/components.tsv):
-  the canonical 491-component catalog (slug, PascalCase name, description).
+  the canonical 571-component catalog (slug, PascalCase name, description).
 - [Canonical monorepo](https://github.com/LilyDesignSystem/lily-design-system):
   all 23 framework subprojects (8 headless, 7 example, 8 helper catalogs),
   the `bin/` tooling, and full change history.

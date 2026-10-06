@@ -12,9 +12,9 @@ two-skill plan (`lily-design-system-skill` and
 A Claude Skill that explains how to consume
 [`@lilydesignsystem/web-components-headless`](../../lily-design-system-web-components-headless/):
 an 8th headless catalog, added 2026-09-03, alongside the seven canonical,
-full-catalog (491/491) headless libraries (HTML, Svelte, React, Vue,
+full-catalog (571/571) headless libraries (HTML, Svelte, React, Vue,
 Angular, Blazor, Nunjucks). **This catalog, and therefore this skill, is
-its full achievable scope: 456 of the 491 canonical components as of 2026-09-06, spanning every
+its full achievable scope: 536 of the 571 canonical components as of 2026-10-06, spanning every
 major category, proving that native custom elements can deliver a real
 Lily component (headless, semantic, ARIA-correct, keyboard-operable) with
 no framework runtime — not a claim of parity with the seven full-catalog
@@ -35,7 +35,7 @@ library.
 ### In scope
 
 - `SKILL.md` — the skill: the catalog's scope and exact component
-  list (456 of 491 — its full achievable scope, spanning every category
+  list (536 of 571 — its full achievable scope, spanning every category
   in the canonical catalog), the two architecture decisions made before
   any component was written (autonomous custom elements over customized
   built-ins, light-DOM-only), the two structural patterns components use
@@ -58,7 +58,7 @@ library.
   `spec/index.md` in full — `SKILL.md` points at them so the root and
   subproject files stay the single source of truth.
 - Any component implementation, example page, or helper package.
-- **Claiming or implying full 491/491 catalog parity.** The 456-component
+- **Claiming or implying full 571/571 catalog parity.** The 456-component
   scope, and the 35 components this catalog permanently does not ship
   (and will not — a real architectural limitation, not backlog), are
   stated plainly wherever this skill discusses coverage — never softened
@@ -102,9 +102,9 @@ reproduced here verbatim rather than reworded:
 
 - [x] `SKILL.md` exists with a `name` + `description` frontmatter pair that
       names concrete trigger phrases, per Claude Skill authoring practice.
-- [x] `SKILL.md` states the 456/491 scope plainly and lists which 35
+- [x] `SKILL.md` states the 536/571 scope plainly and lists which 35
       components this catalog permanently excludes and why, without
-      implying it will ever reach 491/491.
+      implying it will ever reach 571/571.
 - [x] `SKILL.md` cites both architecture decisions (autonomous custom
       elements over customized built-ins; light-DOM-only) accurately,
       including the WebKit rationale.

@@ -1,6 +1,6 @@
 ## Components
 
-The canonical catalog of 491 components lives in [components.tsv](../components.tsv) — tab-separated rows of `slug	PascalCase	description`. Read that file for the full listing rather than maintaining a duplicate here.
+The canonical catalog of 571 components lives in [components.tsv](../components.tsv) — tab-separated rows of `slug	PascalCase	description`. Read that file for the full listing rather than maintaining a duplicate here.
 
 Use the bin tools to query the catalog programmatically:
 
@@ -150,6 +150,41 @@ Use the bin tools to query the catalog programmatically:
   </BreadcrumbList>
 </BreadcrumbNav>
 ```
+
+### Chart pattern: figure → graphic (+ data table)
+
+The sixteen chart components share one shape. The graphic is the only thing inside `role="img"`; the
+accessible table is a **sibling**, because `role="img"` makes its descendants presentational.
+
+```tsx
+<GaugeChart label="Speed: 72 of 100" dataTable={<table>…</table>}>
+  <svg viewBox="0 0 120 80">…</svg>
+</GaugeChart>
+// <figure class="gauge-chart">
+//   <div class="gauge-chart-graphic" role="img" aria-label="…"><svg>…</svg></div>
+//   <div class="gauge-chart-data-table"><table>…</table></div>   (only when supplied)
+// </figure>
+```
+
+### Tool-call pattern: ToolCall → name + status in the summary, input / output / error in the body
+
+```tsx
+<ToolCall status="running" open>
+  {/* summary slot */}
+  <ToolCallName>search_web</ToolCallName>
+  <ToolCallStatus status="running">Running</ToolCallStatus>
+  {/* body */}
+  <ToolCallInput label="Input"><pre>{"query": "weather"}</pre></ToolCallInput>
+  <ToolCallError>The tool timed out.</ToolCallError>   {/* role="alert": open the call on error */}
+</ToolCall>
+```
+
+### Chat input pattern: ChatComposer
+
+`<ChatComposer label sendLabel stopLabel value busy onSend onStop />` — Enter sends, Shift+Enter inserts a line
+break, Enter during IME composition is ignored; one button is send, or stop while `busy`. Put attachments or a
+model picker in the default slot; show the conversation with `ChatNav`/`ChatList`/`ChatMessage`; announce a
+streaming reply with `StreamingText`.
 
 ### Table pattern: Table → Head/Body → Row → TH/TD
 

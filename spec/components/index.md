@@ -2,7 +2,7 @@
 
 > Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
-**Summary.** Lily™ defines a canonical catalog of 491 components in a single tab-separated file (`components.tsv`), each named and shaped by deterministic suffix-to-HTML-element and compound-name rules, composed via stable parent/child patterns, and documented per component through a fixed fourteen-section contract.
+**Summary.** Lily™ defines a canonical catalog of 571 components in a single tab-separated file (`components.tsv`), each named and shaped by deterministic suffix-to-HTML-element and compound-name rules, composed via stable parent/child patterns, and documented per component through a fixed fourteen-section contract.
 
 ## Scope
 
@@ -22,12 +22,12 @@ Out of scope here: the headless implementation contract ([headless](../headless/
 - **Deterministic markup.** A component's root HTML element is fixed by its slug suffix (see the mapping table). The canonical HTML tag for each component is also recorded in `components/{slug}/AGENTS.md` under "HTML tag" as the single source of truth.
 - **Semantic HTML first.** Choose the most specific element (`<button>`, `<dialog>`, `<nav>`, `<figure>`, `<table>`, …) before reaching for `<div>` or `<span>`. ARIA augments only where native semantics fall short.
 - **Stable contracts.** Slugs, PascalCase names, base classes, and inner sub-classes are stable across versions. Consumers rely on them; do not rename or remove between versions.
-- **Consistent voice.** All 491 component docs follow the same fourteen-section order and the same headless, framework-agnostic, i18n-clean voice.
-- **Count is exact.** The catalog holds exactly 491 components. Any change to the count is a catalog change that must propagate across all 14 implementation subprojects.
+- **Consistent voice.** All 571 component docs follow the same fourteen-section order and the same headless, framework-agnostic, i18n-clean voice.
+- **Count is exact.** The catalog holds exactly 571 components. Any change to the count is a catalog change that must propagate across all 8 headless libraries, the 7 example apps and the generated registries.
 
 ## The canonical catalog
 
-The catalog lives in [`components.tsv`](../../components.tsv) at the repo root: 491 tab-separated rows, three columns per row:
+The catalog lives in [`components.tsv`](../../components.tsv) at the repo root: 571 tab-separated rows, three columns per row:
 
 ```
 slug    PascalCaseName    description
@@ -45,7 +45,7 @@ accordion-list        AccordionList        an accordion ordered list of list ite
 - **name** — PascalCase identifier (e.g., `BreadcrumbListItem`), used for component symbols in every framework.
 - **description** — one-sentence summary; the same sentence opens each component's `index.md`.
 
-**Mirrors.** [`AGENTS/components.md`](../../AGENTS/components.md) carries the naming/mapping/composition rules (but points to the TSV for the listing); the repo-root `index.md` provides a linked listing. The seven headless libraries and seven example apps each implement all 491 entries.
+**Mirrors.** [`AGENTS/components.md`](../../AGENTS/components.md) carries the naming/mapping/composition rules (but points to the TSV for the listing); the repo-root `index.md` provides a linked listing. The seven headless libraries and seven example apps each implement all 571 entries.
 
 **Querying the catalog.** Use the `bin/` tools rather than re-parsing the TSV by hand:
 
@@ -189,7 +189,6 @@ Each `components/{slug}/` directory carries:
 - `index.md` — human-readable component documentation (fourteen-section order below).
 - `README.md` — symlink to `index.md`.
 - `AGENTS.md` — canonical machine-readable metadata (HTML tag, ARIA, keyboard contract, props).
-- `CLAUDE.md` — loads `AGENTS.md`.
 - `spec/index.md` — spec-driven per-component plan + tasks (replaces the older split `plan.md` / `tasks.md`).
 
 `bin/test` verifies that every component directory and every subproject has its required files. See [testing](../testing/index.md).
@@ -230,42 +229,62 @@ sample across the catalog):
 - "When Not to Use" always names specific Lily alternatives.
 - Code examples use semantic HTML with proper ARIA.
 - No hardcoded user-facing strings in examples — use realistic placeholder content.
-- Consistent voice across all 491 components.
+- Consistent voice across all 571 components.
 
 ### Example-app demo strategy
 
-Each `/components/{slug}` page in an example app renders the component's metadata, a live styled demo with sample data, a usage code snippet, and an import statement. Demo HTML is generated from the slug suffix:
-
-| Suffix pattern              | Demo rendered                                          |
-| --------------------------- | ------------------------------------------------------ |
-| `*-input`                   | labeled input with appropriate `type`                  |
-| `*-button`                  | button element with sample text                        |
-| `*-nav`                     | nav element with `aria-label`                          |
-| `*-list`                    | ordered list with sample items                         |
-| `*-list-item`               | list item with sample content                          |
-| `*-table`                   | table with head/body/row structure                     |
-| `*-table-head/body/foot/row/td/th` | corresponding table sub-element                 |
-| `*-view`                    | span with `aria-label` and sample data (`role="img"` only for the two rating views — `five-face-rating-view`, `five-star-rating-view` — that render a visual glyph, not the general rule; corrected 2026-09-06, see acceptance criteria) |
-| `*-picker`                  | div with `role="radiogroup"` and sample options        |
-| `*-picker-button`           | button within a picker                                 |
-| `*-link`                    | anchor element with `href`                             |
-| `*-menu`                    | div with `role="menu"`                                 |
-| `*-menu-item`               | div with `role="menuitem"`                             |
-| standalone                  | semantic HTML based on component type                  |
-
-Each framework injects the generated demo HTML via its native escape hatch: HTML/JS `element.innerHTML`, Svelte `{@html}`, React `dangerouslySetInnerHTML`, Vue `v-html`, Blazor `MarkupString`, Nunjucks `{{ demo | safe }}`. See [examples](../examples/index.md) and [frameworks](../frameworks/index.md).
+Every `/components/{slug}` page in an example app renders a live demo, extra rendered
+variants and a real usage example. The contract, the data sources and the generators are
+specified once, in [examples § Demonstration pages](../examples/index.md#demonstration-pages).
+Demo HTML is curated per slug in the canonical `component-demos.ts`; the earlier
+suffix-pattern table that lived here (seeding rules such as "`*-picker` → radiogroup") was
+retired on 2026-10-06 because the curated demos no longer follow it.
 
 ## Acceptance criteria
 
-- [x] `components.tsv` holds exactly 491 rows of `slug\tPascalCase\tdescription`. Verified 2026-09-06: `wc -l < components.tsv` = 491.
+- [x] `components.tsv` holds exactly 571 rows of `slug\tPascalCase\tdescription`. Verified 2026-10-06: `wc -l < components.tsv` = 571.
 - [ ] Every component's root HTML element matches the suffix → element mapping and its `components/{slug}/AGENTS.md` "HTML tag" field. Spot-checked 2026-09-06 (`breadcrumb-nav`→`<nav>`, `data-table-td`→`<td>`, `alert-dialog`→`<dialog>`, `theme-select-option`→`<option>`, all correct), but this has never been exhaustively audited across all 491 components × 7 headless implementations — no `bin/` script checks it. Leaving open pending a real audit rather than checking on a 4-sample spot check.
 - [x] Every compound component follows the documented name patterns; no orphan parts. Confirmed by root `spec/index.md` §11.4: "Cross-subproject name consistency: TabGroup removed, `medical-record-red-box` renamed; no orphans remain."
-- [x] Every `components/{slug}/` has `index.md`, `README.md` (symlink), `AGENTS.md`, `CLAUDE.md`, and `spec/index.md`. Confirmed by root `spec/index.md` §11.1 and a clean `bin/test` run (2026-09-06, exit 0), which checks required-file presence per component.
+- [x] Every `components/{slug}/` has `index.md`, `README.md` (symlink), `AGENTS.md`, and `spec/index.md`. Confirmed by root `spec/index.md` §11.1 and a clean `bin/test` run (2026-09-06, exit 0), which checks required-file presence per component.
 - [x] Every `index.md` follows the fourteen-section order with separate "When to Use" and "When Not to Use" sections. Fixed 2026-09-06: this item and the surrounding doc previously described a nine-section order that none of the 491 files ever actually followed (a doc/doc contradiction between this file's own "Nine-section" heading, root `spec/index.md` §8, and the real, consistently-implemented structure) — corrected both docs to the real, verified fourteen-section order (see "Fourteen-section `index.md` order" above); no component files were changed, since every one of the 491 already agreed with each other and with reality.
 - [x] Every "When Not to Use" section names a specific Lily alternative. Confirmed by root `spec/index.md` §11.1 and spot checks (e.g. `united-states-social-security-number-input`: "use `UnitedStatesSocialSecurityNumberView` instead").
-- [x] `bin/list-components-as-kebab-case` and `-as-pascal-case` enumerate all 491 entries. Verified 2026-09-06: both commands output exactly 491 lines.
+- [x] `bin/list-components-as-kebab-case` and `-as-pascal-case` enumerate all 571 entries. Verified 2026-10-06: both commands output exactly 571 lines.
 - [x] `bin/test` passes for the catalog, all components, and all subprojects. Verified 2026-09-06: `bin/test` exit code 0.
 - [x] Each example app's `/components/{slug}` page renders a suffix-appropriate live demo for every component. Fixed 2026-09-06: 44 of the 46 national-identifier `-view` demo entries (plus, found in the same pass, `date-time-view`) rendered the wrong element in the canonical `lily-design-system-svelte-sveltekit-examples/src/lib/data/component-demos.ts` (`<div>` for the 44 national identifiers, real component is `<span>`; `<div>` for `date-time-view`, real component is `<time>`) — the doc's own suffix table also overstated the rule (claimed `role="img"` for every `*-view`, which only two rating-view components actually use; corrected). Fixed the canonical file and re-ran `bin/generate-registries`, which propagated the fix into all 7 example apps at once (verified via diff on the Blazor and HTML CSS/JS apps' generated registries, not just the 4 that copy the TS file directly). `split-view` was checked and correctly left as `<div>` (a real layout container, not a text display).
+
+## Contracts introduced 2026-10
+
+Short contracts for the components added in October 2026; each component's own
+`components/{slug}/spec/index.md` is the authority.
+
+- **Charts (`area`, `bar`, `column`, `line`, `scatter`, `gauge`, `heatmap`, `radar`, `sankey`, `pie`, `ring`, `funnel`, `candlestick`, `composed`, `choropleth`, `sunburst`).**
+  `<figure class="{chart}">` holds `<div class="{chart}-graphic" role="img" aria-label>` (the
+  consumer's inline svg) and, only when supplied, a **sibling** `<div class="{chart}-data-table">`.
+  `role="img"` makes descendants presentational, so a table inside it would be invisible to assistive
+  technology — hence the sibling. `label` is optional. Breaking change from the earlier
+  `<figure role="img">` shape (2026-10-05). The framework spelling of the data-table slot: Svelte
+  snippet `dataTable`, React prop, Vue named slot, Angular projected `[dataTable]` element (the
+  wrapper is always rendered), Blazor `DataTable` fragment, Nunjucks `params.dataTable`, Web
+  Components `slot="data-table"`.
+- **`tool-call`** (`<details>`, closed by default; `status` pending | running | done | error →
+  `data-status`, `aria-busy` only while running) with inner parts `tool-call-name`,
+  `tool-call-status` (the status as a **visible word**, never colour alone), `tool-call-input` and
+  `tool-call-output` (named groups when `label` is given) and `tool-call-error` (`role="alert"`;
+  open the call on error, since an alert inside a closed `<details>` is not announced).
+- **`streaming-text`** — `role="status"`, `aria-live="polite"`, `aria-atomic="true"`; `streaming`
+  adds `aria-busy="true"` + `data-streaming="true"` so assistive technology waits, then announces the
+  finished text once. No timing, splitting or animation.
+- **`chat-composer`** — a `<form>` with a growing `<textarea>` and ONE button that is send or stop
+  (`data-state`). Enter sends, Shift+Enter inserts a line break, Enter during IME composition does
+  nothing; the send button is disabled, never hidden, when empty. Blazor cannot prevent the browser
+  default per key without JS interop, so plain Enter inserts a line break there (send by the button
+  or Ctrl/Cmd+Enter); Nunjucks and HTML are markup-only (correct initial state, no live behaviour).
+- **`mark`** — the native `<mark class="mark">`, like `kbd` and `code`.
+- **Smaller additions** — `one-time-password-input` (one real `<input autocomplete="one-time-code">`,
+  not segmented boxes), `multi-select` (+ `-with-extras`), `empty-state`, `show-more`,
+  `kbd-shortcut`, `thinking` (`<details>`, `streaming`), `file-tree` (APG tree keyboard on the
+  root), and the structural `calendar-year/month/week/day-table` views (they reuse the
+  `calendar-table-*` sub-elements).
 
 ## Maturity
 
@@ -309,7 +328,7 @@ explicit about that boundary.
 
 ## Sources
 
-- [`components.tsv`](../../components.tsv) — canonical 491-row catalog.
+- [`components.tsv`](../../components.tsv) — canonical 571-row catalog.
 - [`AGENTS/components.md`](../../AGENTS/components.md) — suffix mapping, name patterns, composition patterns.
 - [`AGENTS/components-helpers/`](../../AGENTS/components-helpers/) — composition templates (avatar, calendar-table, data-table, gantt-table, grail-layout, kanban-table).
 - [`spec/index.md`](../index.md) — §5 catalog, §6 naming, §7 composition, §8 per-component documentation.

@@ -29,7 +29,7 @@
   <pre><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-angular-headless
 cd lily-design-system-angular-headless
 pnpm install
-pnpm test        # vitest + TestBed, all 491 components
+pnpm test        # vitest + TestBed, all 571 components
 pnpm run build-storybook`}</code></pre>
   <p>
     Components are flat files in <code>components/</code> —

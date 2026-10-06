@@ -1,12 +1,12 @@
 # Lily Design System™ - Web Components Headless
 
-A headless component library built on **native custom elements** — the browser's own Web Components platform APIs, with no framework runtime. This package ships its full achievable scope as of 2026-09-06: **456 of the canonical 491 Lily components** — real, tested, buildable, Storybook-documented. The other 35 are permanently excluded by a real architectural limitation (§2 of the spec), not open backlog. See [spec/index.md](spec/index.md) for the full scope statement.
+A headless component library built on **native custom elements** — the browser's own Web Components platform APIs, with no framework runtime. This package ships its full achievable scope as of 2026-10-06: **536 of the canonical 571 Lily components** (456 of 491 at 2026-09-06; every component added since is implemented) — real, tested, buildable, Storybook-documented. The other 35 are permanently excluded by a real architectural limitation (§2 of the spec), not open backlog. See [spec/index.md](spec/index.md) for the full scope statement.
 
 **Headless** means zero CSS, zero styles, zero opinions about appearance. You provide all styling. Components provide structure, semantics, accessibility, and behavior — the same promise as every other Lily headless library, just delivered as `<lily-button>` instead of `<Button>`.
 
 ## Features
 
-- 456 headless custom elements (see the full list below), each with a real ARIA/keyboard contract matching its canonical `components/{slug}/AGENTS.md` spec.
+- 536 headless custom elements (see the full list below), each with a real ARIA/keyboard contract matching its canonical `components/{slug}/AGENTS.md` spec.
 - Works in any framework, or none — a native custom element is valid markup anywhere HTML is valid.
 - TypeScript source with full type definitions.
 - WCAG 2.2 AAA target: semantic HTML first, ARIA only where needed.
@@ -50,7 +50,7 @@ Every component's real semantic element (the `<button>`, `<input>`, `<dialog>`, 
 
 ## Components in this catalog
 
-456 of the 491 canonical components, spanning every major category:
+536 of the 571 canonical components, spanning every major category:
 buttons and links, forms, pickers, overlays, media and data
 visualisation, content, navigation (including the `*Nav`/`*List`/
 `*ListItem` families via the "upgrade in place" pattern — see

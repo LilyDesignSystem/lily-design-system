@@ -23,7 +23,7 @@ through the input, never as a competing static attribute), and why the
 parent containers (`*List`, `*Table`, `*TableHead`, `Select`) were left
 on the element selector.
 
-Verification: `vitest run` 491/491 files, 1011/1011 tests;
+Verification: `vitest run` 571/571 files, 1011/1011 tests;
 `ng-packagr` build clean; `lily-design-system-angular-examples`
 (vendored copy kept identical, same as every other change to this
 library) builds, prerenders 507 pages, and its full Playwright suite

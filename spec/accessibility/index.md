@@ -55,7 +55,7 @@ axe-core / Playwright integration ships across all seven example apps. Rule set:
 
 | App                            | Clean  | Status        |
 | ------------------------------ | ------ | ------------- |
-| svelte-sveltekit-examples      | 31/31  | ✅ full pass (plus a separate 491/491 full-catalog sweep) |
+| svelte-sveltekit-examples      | 31/31  | ✅ full pass (plus a separate 571/571 full-catalog sweep) |
 | react-next-examples            | 31/31  | ✅ full pass  |
 | vue-nuxt-examples              | 31/31  | ✅ full pass  |
 | blazor-web-examples            | 31/31  | ✅ full pass  |

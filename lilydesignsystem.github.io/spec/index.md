@@ -7,7 +7,7 @@ from, and what "correct" means for it. It supersedes any prior informal
 notes; there is no separate `plan.md` / `tasks.md` for this subproject.
 
 This spec is scoped to the **site**. The design system itself — the
-491-component catalog, the seven headless libraries, the seven
+571-component catalog, the seven headless libraries, the seven
 `*-helpers` catalogs, and the seven example apps — is specified one level
 up, in the main repo's [`spec/index.md`](../../spec/index.md) and
 [`AGENTS/*.md`](../../AGENTS/). This file links to those rather than
@@ -28,7 +28,7 @@ framework stacks through tutorials.
 ### In scope
 
 - A component catalog browser at `/components/` — one route per catalog
-  component (491, matching [`components.tsv`](https://github.com/LilyDesignSystem/lily-design-system/blob/main/components.tsv)
+  component (571, matching [`components.tsv`](https://github.com/LilyDesignSystem/lily-design-system/blob/main/components.tsv)
   at the repo root), each rendering that component's documentation, a
   static demo snippet, and a short Svelte usage example.
 - Marketing and orientation pages: `/` (home), `/why/`, `/about/`,
@@ -95,7 +95,7 @@ lilydesignsystem.github.io/
 │       ├── skills/, lily-claude-design/, lily-figma/
 │       ├── components/
 │       │   ├── +page.svelte                Catalog index (search + filter)
-│       │   └── <slug>/+page.svelte         One route per component (491)
+│       │   └── <slug>/+page.svelte         One route per component (571)
 │       └── tutorials/
 │           ├── +page.svelte                Tutorials index
 │           ├── angular/, blazor/, html/, nunjucks/, react/, svelte/, vue/
@@ -175,7 +175,7 @@ canonical per-component spec. See
 [`src/routes/components/AGENTS.md`](../src/routes/components/AGENTS.md)
 for the full convention.
 
-There is currently **no generator** that produces these 491 pages from
+There is currently **no generator** that produces these 571 pages from
 `components.tsv` — unlike `src/lib/components.ts` (§6), they are
 hand-authored and hand-maintained. Adding a generator is a main-repo
 `bin/` tooling decision, out of scope for this site alone.
@@ -194,7 +194,7 @@ and `date-time-picker` shipped.
 `src/lib/components.ts` is **generated**, not hand-edited. Its single
 source of truth is the main repo's
 [`components.tsv`](https://github.com/LilyDesignSystem/lily-design-system/blob/main/components.tsv)
-(491 rows: slug, PascalCase name, one-line description), and the generator
+(571 rows: slug, PascalCase name, one-line description), and the generator
 is the main repo's own [`bin/generate-registries`](https://github.com/LilyDesignSystem/lily-design-system/blob/main/bin/generate-registries)
 — it writes this file as one of several registries it keeps in sync
 (alongside the Svelte/React/Vue/Angular example-app registries). Regenerate
@@ -278,7 +278,7 @@ The repo root's `bin/test` enforces this: `registry_count_or_err` asserts
 
 - [architecture](../../spec/architecture/index.md) — the monorepo layout
   and required files per subproject, which this file satisfies.
-- [components](../../spec/components/index.md) — the 491-component
+- [components](../../spec/components/index.md) — the 571-component
   catalog this site presents.
 - [helpers](../../spec/helpers/index.md) — the six `*-helpers` packages;
   three are live in this site's header, three remain prose-only (§7).

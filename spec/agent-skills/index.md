@@ -72,7 +72,7 @@ full-subproject treatment — see "Naming-split retirement" and
   starting with the `lily-design-system-` prefix is swept up by
   `bin/list-implementations` and `bin/sync-special-files` as an
   implementation subproject, held to the full required-files bar
-  (`index.md`, `README.md` symlink, `AGENTS.md`, `CLAUDE.md`,
+  (`index.md`, `README.md` symlink, `AGENTS.md`,
   `spec/index.md`, the 14 special files, `.git-subtree-push`), per
   [architecture](../architecture/index.md) and
   [special-files-for-public-repos](../special-files-for-public-repos/index.md).
@@ -102,7 +102,7 @@ full-subproject treatment — see "Naming-split retirement" and
   documented deviation from the canonical contract (e.g. Nunjucks'
   server-rendered `motion-picker` default, the Angular wrapper-host
   tag+attribute-selector fix, the Web Components catalog's deliberate
-  456/491 scope and its still-missing example app).
+  536/571 scope and its still-missing example app).
 
 ## Detail sections
 
@@ -129,7 +129,7 @@ Identical across all twenty-six skills:
 | `SKILL.md` | yes | yes |
 | `README.md` (symlink) | → `index.md` | → `index.md` |
 | `index.md` | yes | yes |
-| `AGENTS.md` / `CLAUDE.md` | yes | yes |
+| `AGENTS.md` | yes | yes |
 | `spec/index.md` | yes | yes |
 | 14 special files + `.git-subtree-push` | yes, via `bin/sync-special-files` | yes, via `bin/sync-special-files` |
 | `reference/*.md` | yes for `lily-design-system-skill` (naming-and-catalog, composition-patterns); none for the maintainer skill | none — each points into its own real subproject's docs, or its sibling skills, instead |
@@ -148,7 +148,7 @@ matched any `-skill`-suffixed name generically rather than hardcoding
 `lily-design-system-maintainer-skill` by name (see "Tooling touched")
 — required no tooling change at all: `lily-design-system-skill` was
 automatically picked up, scaffolded with the full required-files set
-(`index.md`, `AGENTS.md`, `CLAUDE.md`, `spec/index.md`,
+(`index.md`, `AGENTS.md`, `spec/index.md`,
 `.git-subtree-push`, the 14 special files via `bin/sync-special-files`),
 and its `README.md` symlink retargeted from `SKILL.md` to the new
 `index.md`, matching the maintainer skill's own shape.
@@ -217,7 +217,7 @@ covering exactly the one real subproject it is named after:
 | React | [`lily-design-system-react-headless-skill`](../../lily-design-system-react-headless-skill/) → [`@lilydesignsystem/react-headless`](../../lily-design-system-react-headless/) | [`lily-design-system-react-helpers-skill`](../../lily-design-system-react-helpers-skill/) → [`lily-design-system-react-helpers`](../../lily-design-system-react-helpers/) |
 | Svelte | [`lily-design-system-svelte-headless-skill`](../../lily-design-system-svelte-headless-skill/) → [`@lilydesignsystem/svelte-headless`](../../lily-design-system-svelte-headless/) | [`lily-design-system-svelte-helpers-skill`](../../lily-design-system-svelte-helpers-skill/) → [`lily-design-system-svelte-helpers`](../../lily-design-system-svelte-helpers/) |
 | Vue | [`lily-design-system-vue-headless-skill`](../../lily-design-system-vue-headless-skill/) → [`@lilydesignsystem/vue-headless`](../../lily-design-system-vue-headless/) | [`lily-design-system-vue-helpers-skill`](../../lily-design-system-vue-helpers-skill/) → [`lily-design-system-vue-helpers`](../../lily-design-system-vue-helpers/) |
-| Web Components | [`lily-design-system-web-components-headless-skill`](../../lily-design-system-web-components-headless-skill/) → [`@lilydesignsystem/web-components-headless`](../../lily-design-system-web-components-headless/) (456/491, its full achievable scope) | [`lily-design-system-web-components-helpers-skill`](../../lily-design-system-web-components-helpers-skill/) → [`lily-design-system-web-components-helpers`](../../lily-design-system-web-components-helpers/) (an independent copy of the HTML helpers, `<lily-*>` tag prefix) |
+| Web Components | [`lily-design-system-web-components-headless-skill`](../../lily-design-system-web-components-headless-skill/) → [`@lilydesignsystem/web-components-headless`](../../lily-design-system-web-components-headless/) (536/571, its full achievable scope) | [`lily-design-system-web-components-helpers-skill`](../../lily-design-system-web-components-helpers-skill/) → [`lily-design-system-web-components-helpers`](../../lily-design-system-web-components-helpers/) (an independent copy of the HTML helpers, `<lily-*>` tag prefix) |
 
 ### Tooling touched
 
@@ -284,8 +284,7 @@ subproject's remote carries remains a maintainer step.
 - [x] Each has a `SKILL.md` with `name` + `description` frontmatter
       naming concrete trigger phrases.
 - [x] All twenty-six skills carry the full required-files set
-      (`index.md`, `README.md` symlink to `index.md`, `AGENTS.md`,
-      `CLAUDE.md`, `spec/index.md`, `.git-subtree-push`, the 14 special
+      (`index.md`, `README.md` symlink to `index.md`, `AGENTS.md`, `spec/index.md`, `.git-subtree-push`, the 14 special
       files via `bin/sync-special-files`) and pass `bin/test`.
 - [x] `bin/sync-special-files`'s generated files for all twenty-six
       skills (and for the two pre-existing `web-components-*`

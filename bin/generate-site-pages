@@ -208,4 +208,51 @@ for (const c of components) {
   refreshed++;
 }
 
-console.log(`rebuilt ${rebuilt} placeholder pages; refreshed the example region of ${refreshed} pages`);
+// ---------- Playwright spec for every page that lacks one ----------
+
+const specFor = (c) => `import { test, expect } from '@playwright/test';
+
+const slug = '${c.slug}';
+const title = ${jsStr(c.name)};
+
+test.describe('component page: ' + slug, () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/components/' + slug + '/');
+  });
+
+  test('responds with a non-error status', async ({ page }) => {
+    const res = await page.goto('/components/' + slug + '/');
+    expect(res, 'navigation response').not.toBeNull();
+    expect(res!.status(), 'http status').toBeLessThan(400);
+  });
+
+  test('document title contains the component name', async ({ page }) => {
+    await expect(page).toHaveTitle(/${c.name}\s+\u2014\s+Lily Design System/);
+  });
+
+  test('renders the H1 heading', async ({ page }) => {
+    await expect(page.getByRole('heading', { level: 1, name: title })).toBeVisible();
+  });
+
+  test('shows the breadcrumb back-link to /components/', async ({ page }) => {
+    const back = page.getByRole('link', { name: /All components/ });
+    await expect(back).toBeVisible();
+    await expect(back).toHaveAttribute('href', '/components/');
+  });
+
+  test('renders the documentation article', async ({ page }) => {
+    await expect(page.locator('article.component-page')).toBeVisible();
+  });
+});
+`;
+
+let specs = 0;
+for (const c of components) {
+  const sp = `${siteDir}/tests/components/${c.slug}.spec.ts`;
+  if (!fs.existsSync(path.join(top, sp)) && fs.existsSync(path.join(top, `${siteDir}/src/routes/components/${c.slug}/+page.svelte`))) {
+    write(sp, specFor(c));
+    specs++;
+  }
+}
+
+console.log(`rebuilt ${rebuilt} placeholder pages; refreshed the example region of ${refreshed} pages; wrote ${specs} missing Playwright specs`);

@@ -88,7 +88,7 @@ number, and identifiers for other UK nations and territories). See
 
 ## What Lily has that NHS.UK doesn't
 
-Lily's catalog is 491 components against NHS.UK's 38; most of the
+Lily's catalog is 571 components against NHS.UK's 38; most of the
 difference is scope NHS.UK doesn't attempt. See
 [COMPARISONS.md](../../COMPARISONS.md) for the honest positioning.
 

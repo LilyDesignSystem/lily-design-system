@@ -15,7 +15,7 @@ It is the Nunjucks-helpers-specific counterpart to
 [`lily-design-system-skill`](../lily-design-system-skill/), which covers
 framework-agnostic Lily concepts, and the sibling of
 [`lily-design-system-nunjucks-headless-skill`](../lily-design-system-nunjucks-headless-skill/),
-which covers the 491-component headless macro catalog instead of the
+which covers the 571-component headless macro catalog instead of the
 `*-picker` helpers.
 
 ## What it's for

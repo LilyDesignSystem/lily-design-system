@@ -1,6 +1,6 @@
 ---
 name: lily-design-system-nunjucks-skill
-description: Umbrella skill for Nunjucks in Lily Design System — explains which of the three real Nunjucks subprojects to reach for (the 491-component headless macro library, the six *-picker helper packages, or the fully styled Eleventy example app), points to the two deeper sibling skills for the headless and helpers contracts, and gives real coverage of the Eleventy example app that neither sibling skill covers. Use when someone asks what's available for Nunjucks in Lily Design System, which Nunjucks subproject or package they need, how the three Nunjucks pieces relate, or wants to run or copy CSS from the styled Nunjucks/Eleventy reference app.
+description: Umbrella skill for Nunjucks in Lily Design System — explains which of the three real Nunjucks subprojects to reach for (the 571-component headless macro library, the six *-picker helper packages, or the fully styled Eleventy example app), points to the two deeper sibling skills for the headless and helpers contracts, and gives real coverage of the Eleventy example app that neither sibling skill covers. Use when someone asks what's available for Nunjucks in Lily Design System, which Nunjucks subproject or package they need, how the three Nunjucks pieces relate, or wants to run or copy CSS from the styled Nunjucks/Eleventy reference app.
 license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 ---
 
@@ -120,7 +120,7 @@ Verified in each subproject's own `AGENTS.md`/`AGENTS/nunjucks.md`:
 ## Lily concepts that apply beyond Nunjucks
 
 For framework-agnostic Lily concepts — the headless-vs-example split, the
-491-component catalog, class hooks, composition patterns, theming, and
+571-component catalog, class hooks, composition patterns, theming, and
 picking among the seven supported frameworks — use
 [`lily-design-system-skill`](../lily-design-system-skill/). This skill
 covers only what's specific to choosing among and orienting inside the

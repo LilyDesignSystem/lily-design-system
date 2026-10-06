@@ -97,8 +97,7 @@ bin/generate-registries   # propagates to every app's registry + demo map
 
 **5. Site route.** Create
 `lilydesignsystem.github.io/src/routes/components/{slug}/` with the
-standard file set (`index.md`, `README.md` symlink, `AGENTS.md`,
-`CLAUDE.md` containing `@AGENTS.md`, `spec/index.md`) plus
+standard file set (`index.md`, `README.md` symlink, `AGENTS.md` containing `@AGENTS.md`, `spec/index.md`) plus
 `+page.svelte` (copy a sibling's and adjust).
 
 **6. Implementations — all seven frameworks.** Svelte is canonical:

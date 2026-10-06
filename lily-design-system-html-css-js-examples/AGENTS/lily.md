@@ -4,14 +4,14 @@ Living specification: [spec/index.md](../spec/index.md)
 
 [CSS style sheet template](../css-style-sheet-template.css)
 
-Canonical component list: [components.tsv](../components.tsv) — 491 components.
+Canonical component list: [components.tsv](../components.tsv) — 571 components.
 
 ## Subprojects for headless components
 
-The seven framework pairs below are the canonical, full-catalog (491/491)
+The seven framework pairs below are the canonical, full-catalog (571/571)
 headless libraries. An 8th headless catalog joined 2026-09-03:
 [Lily Design System: Web Components headless](../lily-design-system-web-components-headless)
-ships its full achievable scope as of 2026-09-06: 456 of the 491
+ships its full achievable scope as of 2026-10-06: 536 of the 571
 components as native custom elements (no framework runtime). The other 35
 are permanently excluded by a real architectural limitation (table
 sub-elements and interactive `*ListItem` families — no wrapper-host-safe
@@ -84,7 +84,7 @@ All twenty-six follow the `lily-design-system-` prefix and get full subproject t
 - [sync-special-files](../bin/sync-special-files): Sync the top-level special files (LICENSE, CONTRIBUTING, SECURITY, GOVERNANCE, …) into every public subtree repo
 - [update](../bin/update): Update shared files
 - [generate-storybook-stories.mjs](../bin/generate-storybook-stories.mjs): Generate Storybook stories
-- [publish-helpers](../bin/publish-helpers): Build and publish the 48 helper packages (npm / NuGet)
+- [publish-helpers](../bin/publish-helpers): Build and publish every helper package (npm / NuGet)
 - [publish-headless](../bin/publish-headless): Build and publish the 7 headless libraries (npm / NuGet)
 - [generate-registries](../bin/generate-registries): Regenerate example-app catalog registries from components.tsv
 - [check-links](../bin/check-links): Verify relative markdown links resolve
@@ -121,7 +121,6 @@ See [citations.md](citations.md) for the full list of design systems Lily draws 
 - `README.md` symlink to `index.md`
 - `AGENTS.md` with AI coding help
 - `AGENTS/` directory with modular agent files
-- `CLAUDE.md` that loads `AGENTS.md`
 - `spec/index.md` — spec-driven plan + tasks (replaces the older split plan.md / tasks.md)
 - `.git-subtree-push`
 
@@ -130,7 +129,6 @@ See [citations.md](citations.md) for the full list of design systems Lily draws 
 - `index.md`
 - `README.md` symlink to `index.md`
 - `AGENTS.md`
-- `CLAUDE.md`
 - `spec/index.md` — spec-driven plan + tasks (replaces the older split plan.md / tasks.md)
 
 ## Verify

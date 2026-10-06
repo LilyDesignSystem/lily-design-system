@@ -14,7 +14,7 @@ Covers the `bin/` toolchain: catalog listers, directory scaffolders, the verific
 - **AGENTS files at the repo root are canonical.** `bin/sync` rsyncs `AGENTS/` into each subproject. It uses rsync (file copies), **not** symlinks, because `git subtree push` does not follow symlinks across project boundaries — a symlinked AGENTS dir would break the standalone subtree repos.
 - **`bin/test` is the single verification gate.** It checks required files across the repository, all components, the github.io site, and all implementation subprojects, and fails on missing or stub ("Not yet implemented.") files.
 - **Lockfiles are always committed.** Every `pnpm-lock.yaml` (and any other package-manager lockfile) that exists in the tree is tracked in git — never gitignored, never left untracked. Reproducible installs are the point: CI, a fresh clone, and each published subtree repo must resolve the same dependency graph the maintainer tested, and a subproject published without its lockfile silently loses that. Lockfiles live where their `pnpm install` runs (a catalog or app root, or a package with its own install), and `bin/test` fails on any lockfile left untracked or ignored.
-- **Scaffolders produce the standard file set.** Both `create-*-directory` scripts emit `index.md`, a `README.md` symlink to it, `AGENTS.md`, a `CLAUDE.md` that loads `@AGENTS.md`, plus `spec/index.md` (the spec-driven plan + tasks file that replaced the older `plan.md` / `tasks.md`).
+- **Scaffolders produce the standard file set.** Both `create-*-directory` scripts emit `index.md`, a `README.md` symlink to it, `AGENTS.md`, plus `spec/index.md` (the spec-driven plan + tasks file that replaced the older `plan.md` / `tasks.md`).
 
 ## bin/ scripts
 
@@ -30,13 +30,15 @@ Covers the `bin/` toolchain: catalog listers, directory scaffolders, the verific
 | `update`                             | Drive an end-to-end audit/harmonise/test pass (invokes `claude` over every subproject).  |
 | `git-subtree-push`                    | Push each subproject subtree to its standalone GitHub remote.                             |
 | `generate-storybook-stories.mjs`      | Generate Storybook stories for the headless libraries.                                    |
-| `publish-helpers`                     | Build (`build.js` per catalog) and publish the 21 helper packages — npm for the JS catalogs, NuGet for Blazor. |
+| `publish-helpers`                     | Build (`build.js` per catalog) and publish every helper package — npm for the JS catalogs, NuGet for Blazor. |
+| `generate-examples`                   | Per-component usage examples (from the docs) and rendered variants (`component-variants.json`) for every demonstration page; writes the generated data for all example apps. |
+| `generate-site-pages`                 | Rebuild the docs-site component pages that are still placeholders from `components/{slug}/index.md` and refresh every page's Example section. |
 | `generate-registries`                 | Regenerate every example-app catalog registry from `components.tsv` + the canonical SvelteKit demo map, so hand-copied registries cannot drift. |
 | `check-links`                         | Verify every relative markdown link in tracked `*.md` files resolves (synced AGENTS copies excluded); exits non-zero on breakage. |
 
 ## Verification: bin/test
 
-`bin/test` resolves the repo root via `git rev-parse --show-toplevel`, then runs a series of checks. Each subject must have `index.md`, a `README.md` symlink, a non-empty `AGENTS.md`, a `CLAUDE.md`, and a non-empty `spec/index.md`; `AGENTS.md` and `spec/index.md` must not contain the "Not yet implemented." marker.
+`bin/test` resolves the repo root via `git rev-parse --show-toplevel`, then runs a series of checks. Each subject must have `index.md`, a `README.md` symlink, a non-empty `AGENTS.md`, a and a non-empty `spec/index.md`; `AGENTS.md` and `spec/index.md` must not contain the "Not yet implemented." marker.
 
 | Check function                       | What it verifies                                                                         |
 | ------------------------------------ | ---------------------------------------------------------------------------------------- |
@@ -56,7 +58,7 @@ Covers the `bin/` toolchain: catalog listers, directory scaffolders, the verific
 Every subproject is a `git subtree` pushed to its own standalone **public**
 repository, so each needs the top-level files a public repository is expected to
 carry. `bin/sync-special-files` propagates them from the canonical root into all
-22 published repositories, rewriting relative links so each copy is correct where
+51 published repositories, rewriting relative links so each copy is correct where
 it lands, and generating `CITATION.cff` and `INSTALL.md` per subproject. It is
 idempotent, and `--check` makes it a gate (`bin/test` calls it that way).
 
@@ -93,12 +95,12 @@ Each subproject is a `git subtree`. `bin/git-subtree-push` publishes each one to
 ## Acceptance criteria
 - [x] `list-components-as-kebab-case` and `-as-pascal-case` derive output from `components.tsv`.
 - [x] `list-implementations` lists every `lily-*` subproject, sorted.
-- [x] `create-component-directory` and `create-implementation-directory` scaffold the standard file set (`index.md`, `README.md` symlink, `AGENTS.md`, `CLAUDE.md` loading `@AGENTS.md`, `spec/index.md`).
+- [x] `create-component-directory` and `create-implementation-directory` scaffold the standard file set (`index.md`, `README.md` symlink, `AGENTS.md` loading `@AGENTS.md`, `spec/index.md`).
 - [x] `bin/test` passes against repo + all components + github.io + all subprojects.
 - [x] `bin/sync` rsyncs root `AGENTS/` into every subproject (copies, not symlinks). (Deliberately excludes the `*-helpers` catalogs, which keep their own `AGENTS/` conventions — confirmed in the script's `case *-helpers) continue ;; esac` guard — so "every subproject" means every non-helpers implementation, as documented in `AGENTS/lily.md`.)
 - [x] Every `pnpm-lock.yaml` on disk (outside `node_modules/`) is tracked in git; `bin/test` fails on an untracked or ignored one.
-- [x] `bin/sync-special-files` propagates the top-level special files into all 22
-      public repos, is idempotent, and gates via `--check` from `bin/test`.
+- [x] `bin/sync-special-files` propagates the top-level special files into all 51
+      published repos, is idempotent, and gates via `--check` from `bin/test`.
 - [ ] `bin/git-subtree-push` pushes each subtree to its `LilyDesignSystem/{impl}` remote, fanned out to all three forges. Confirmed gap, not stale: works today for the 22 original subprojects (real 3-way `pushurl` fan-out). `@lilydesignsystem/web-components-headless` / `-helpers` had no remote at all as of 2026-09-05; fixed 2026-09-06 (GitHub only, matching the 26 Claude Skill subprojects from 2026-09-04/05, which are also GitHub-only — GitLab push-to-create defaults private with no token here to flip it; Codeberg disables push-to-create for orgs). So every subproject now pushes somewhere, but 28 of them (26 skills + these 2) are GitHub-only, not the full 3-way fan-out — see CHANGELOG.md.
 - [ ] `generate-storybook-stories.mjs` produces stories for the headless libraries. Overstated as written: reading the script, its `PROJECTS` array only targets `@lilydesignsystem/svelte-headless` (plus the SvelteKit examples app) — it does not touch React, Vue, Angular, HTML, Nunjucks, or Web Components headless at all. Those five full-catalog libraries do carry 491/491 `.stories.*` files each (verified by direct count) and Web Components carries 456/456 (its full achievable scope), so stories exist everywhere they should, but not because this script produced them — no other generator script exists in `bin/` for the other frameworks, so how those non-Svelte story files were produced/kept in sync is undocumented. Leaving open as a real doc/tooling mismatch, not a missing-stories defect.
 

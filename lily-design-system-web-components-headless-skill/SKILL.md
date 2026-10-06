@@ -1,6 +1,6 @@
 ---
 name: lily-design-system-web-components-headless-skill
-description: Explains Lily Design System's native Web Components headless catalog — plain custom elements (`class X extends HTMLElement`, tags like `<lily-button>`), no framework runtime, no build step to consume. Use when someone asks how to use Lily Design System's native Web Components, wants the custom-element usage idiom, needs to know exactly which 35 of the 491 catalog components this catalog permanently excludes (and why), asks why it isn't full parity with the other seven catalogs, or asks about autonomous custom elements vs. customized built-ins or light-DOM-only architecture.
+description: Explains Lily Design System's native Web Components headless catalog — plain custom elements (`class X extends HTMLElement`, tags like `<lily-button>`), no framework runtime, no build step to consume. Use when someone asks how to use Lily Design System's native Web Components, wants the custom-element usage idiom, needs to know exactly which 35 of the 571 catalog components this catalog permanently excludes (and why), asks why it isn't full parity with the other seven catalogs, or asks about autonomous custom elements vs. customized built-ins or light-DOM-only architecture.
 license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 ---
 
@@ -11,7 +11,7 @@ canonical component catalog as **native custom elements** — plain
 TypeScript classes extending `HTMLElement`, registered as
 `customElements.define("lily-{slug}", X)` — with no framework runtime, no
 JSX, no build-time template compiler. **It is a deliberately partial
-catalog: 456 of the canonical 491 components as of 2026-09-06 — its full
+catalog: 536 of the canonical 571 components as of 2026-10-06 (456 of 491 at 2026-09-06) — its full
 achievable scope, not full parity with the seven full-catalog headless
 libraries (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks), and it
 never will be: the remaining 35 are permanently excluded by a real
@@ -108,8 +108,8 @@ only a passive, non-interactive contract can tolerate.
 
 ## What's permanently excluded, and why
 
-Exactly 35 of the 491 canonical components — nothing else. Every other
-component (456 of 491) is implemented as of 2026-09-06.
+Exactly 35 of the 571 canonical components — nothing else. Every other
+component (536 of 571) is implemented as of 2026-10-06.
 
 - **Every table sub-element family (30)** — `*TableHead/-Body/-Foot/-Row/-TH/-TD`
   across table, data-table, calendar-table, kanban-table, and gantt's
@@ -171,7 +171,7 @@ catalog's own `spec/index.md`, before assuming a tag exists.
 
 ## When this isn't the right skill
 
-- **Full 491/491 catalog coverage in a specific framework** (a component
+- **Full 571/571 catalog coverage in a specific framework** (a component
   outside this catalog's current scope, or any framework-runtime binding) — use one of
   the seven full-catalog headless skills, e.g.
   [`lily-design-system-html-headless-skill`](../lily-design-system-html-headless-skill/)

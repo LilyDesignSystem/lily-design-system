@@ -12,7 +12,7 @@ framework-specific pair.
 
 A Claude Skill that explains how to consume
 [`@lilydesignsystem/angular-headless`](../../lily-design-system-angular-headless/),
-the Angular implementation of Lily's full 491-component headless catalog:
+the Angular implementation of Lily's full 571-component headless catalog:
 package identity and install, the Angular-specific standalone-component and
 signal-input idiom, the element-selector convention, and — the one
 genuinely Angular-specific wrinkle in the whole catalog — the

@@ -90,7 +90,7 @@ skill gives real, not just pointer-level, coverage.
 ## Framework-agnostic Lily concepts
 
 For what "headless" means in general, what a class hook or slug is, the
-491-component catalog at a glance, naming conventions, and composition
+571-component catalog at a glance, naming conventions, and composition
 patterns that aren't React-specific, use
 [`lily-design-system-skill`](../lily-design-system-skill/) instead —
 this skill assumes that grounding and only adds the React layer on top.

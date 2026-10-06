@@ -1,13 +1,13 @@
 ---
 name: lily-design-system-react-headless-skill
-description: Explains how to install, import, and use Lily Design System's React headless component library — the npm package name, JSX usage, the className + rest-props spreading convention, controlled-prop patterns (value/onChange, open/onChange), and where the 491-component catalog and naming rules live. Use when someone asks how to install or import Lily Design System's React headless components, wants the React-specific usage idiom (JSX, className, rest-props spreading, controlled props), asks what React version or peer dependencies it needs, or needs the npm package name for a specific Lily component in React.
+description: Explains how to install, import, and use Lily Design System's React headless component library — the npm package name, JSX usage, the className + rest-props spreading convention, controlled-prop patterns (value/onChange, open/onChange), and where the 571-component catalog and naming rules live. Use when someone asks how to install or import Lily Design System's React headless components, wants the React-specific usage idiom (JSX, className, rest-props spreading, controlled props), asks what React version or peer dependencies it needs, or needs the npm package name for a specific Lily component in React.
 license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 ---
 
 # Lily Design System™ — React headless
 
 `@lilydesignsystem/react-headless` is the React 19 implementation of the
-Lily Design System's canonical 491-component catalog. It is published on
+Lily Design System's canonical 571-component catalog. It is published on
 npm and installable today:
 
 ```bash

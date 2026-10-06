@@ -219,7 +219,7 @@ pnpm run storybook                            # run Storybook
 ## 10. Tracking
 
 - Package: `@lilydesignsystem/html-headless`
-- Version: 0.2.0
+- Version: 0.5.0
 - Framework: Plain HTML + vanilla JavaScript
 - Test runner: WebDriverIO
 - Build: none (no bundler)

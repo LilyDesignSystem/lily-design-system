@@ -12,9 +12,10 @@ root spec was amended 2026-09-03 (plan P8-T3) to frame the catalog as
 the authoritative record of the addition.
 
 **This catalog reached its full achievable scope on 2026-09-06: 456 of the
-canonical 491 components** — every component except the 35 permanently
-excluded by a real architectural limitation (§2, §2.1). It is not, and
-will not become, a literal 491/491 peer of the seven full-catalog headless
+canonical 491 components; as of 2026-10-06 it is 536 of 571** (every
+component added since is implemented) — every component except the 35
+permanently excluded by a real architectural limitation (§2, §2.1). It is
+not, and will not become, a literal 571/571 peer of the seven full-catalog headless
 libraries: the remaining 35 (30 table sub-elements, 5 interactive
 `*ListItem` families) cannot be built as autonomous custom elements
 without either a wrapper-host defect or WebKit support for customized
@@ -44,8 +45,13 @@ hand-rolled approximation.
 
 ### In scope
 
-- 456 native custom elements, one per canonical `components/{slug}/AGENTS.md`
-  contract — the full achievable catalog: the original 33 (8 buttons/links,
+- 536 native custom elements (456 at the 2026-09-06 completion push, plus 80
+  added since: 48 more national-identifier components, the four calendar views,
+  `one-time-password-input`, `multi-select` and its extras variant, `empty-state`,
+  `show-more`, `kbd-shortcut`, `thinking`, `file-tree`, eleven charts, `streaming-text`,
+  `tool-call` and its five inner parts, `mark` and `chat-composer`), one per canonical
+  `components/{slug}/AGENTS.md` contract — the full achievable catalog. The 2026-09-06
+  breakdown: the original 33 (8 buttons/links,
   5 forms, 4 overlays, 6 media/data, 7 content, and the 3-component
   breadcrumb navigation family — the P8-T7 pilot, see §2.1), all 92
   national personal identifier components (46 identifier types x
@@ -54,9 +60,10 @@ hand-rolled approximation.
   `*ListItem` families via "upgrade in place", §4.1), forms (50), pickers
   (14), links (14), a mixed overlays/tables/media/data-viz/buttons batch
   (26), navigation (52), and content (143).
-- A vitest test file per component (2669 tests total across the 456
-  `.test.ts` files, plus `index.test.ts` exercising the **built** `dist/`
-  bundle end to end).
+- A vitest test file per component (3,179 tests across the 536 component
+  `.test.ts` files as of 2026-10-06, plus `index.test.ts` exercising the **built** `dist/`
+  bundle end to end — it pins the registered-element count, so it must be updated
+  with each batch).
 - A Storybook story per component, organised into 11 categories: Buttons
   and links, Forms, Overlays, Media and data, Content, National
   identifiers, Lists, Pickers, Links, Navigation, and Tables.
@@ -67,7 +74,7 @@ hand-rolled approximation.
 
 ### Explicitly out of scope (permanent, architectural)
 
-- **35 components are permanently excluded** — the only 35 of 491 this
+- **35 components are permanently excluded** — the only 35 of 571 this
   catalog does not and will not implement: every table sub-element family
   (30: `*TableHead/-Body/-Foot/-Row/-TH/-TD` across
   `table`/`data-table`/`calendar-table`/`kanban-table`, and gantt's
@@ -75,7 +82,7 @@ hand-rolled approximation.
   contract is interactive (`accordion-list-item`, `chat-list-item`,
   `check-list-item`, `document-list-item`, `tree-list-item`) — see §2.1 for
   why. As of 2026-09-06 there is no other backlog: every other canonical
-  component (456 of 491) is implemented — see §11.8 for the historical
+  component (536 of 571; 456 of 491 at 2026-09-06) is implemented — see §11.8 for the historical
   record of how that backlog closed.
 - CSS, stylesheets, a CSS framework dependency, inline styles beyond the
   two documented structural exceptions and CSS custom properties (§4, §4.3).
@@ -359,16 +366,16 @@ data, Content) matching this file's §2 breakdown.
 
 ## 10. Naming and publishing
 
-- Package: `@lilydesignsystem/web-components-headless`, npm, not yet
-  published (see root `docs/releasing.md` for the publish gate).
+- Package: `@lilydesignsystem/web-components-headless`, npm, published
+  (0.4.0, 2026-10-06; see root `docs/releasing.md`).
 - Custom element tags: `lily-{slug}`, one per canonical slug in
-  `components.tsv` — this package defines the 456 in §2.
-- Version: 0.4.0 (2026-09-06: 261 → 456 components, the full achievable
-  catalog, non-breaking).
+  `components.tsv` — this package defines the 536 in §2.
+- Version: 0.4.0 (2026-10-06: 456 → 536 components, non-breaking; 2026-09-06:
+  261 → 456, the full achievable catalog at that date).
 
 ## 11. Acceptance criteria
 
-- [x] 456 components implemented against their canonical
+- [x] 536 components implemented (456 at 2026-09-06) against their canonical
       `components/{slug}/AGENTS.md` contract (HTML tag, ARIA, keyboard,
       required/optional attributes) — the full achievable catalog: the
       original 33 spanning every major category (not clustered), including
@@ -376,8 +383,8 @@ data, Content) matching this file's §2 breakdown.
       personal identifier components; and 331 more across every remaining
       category (lists, forms, pickers, links, overlays, tables, media,
       data-viz, buttons, navigation, content) — all 2026-09-06.
-- [x] Real, run-verified tests: 2669 tests across 456 `.test.ts` files
-      (plus `index.test.ts`), all green (`pnpm vitest run`), including
+- [x] Real, run-verified tests: 3,179 tests across 536 `.test.ts` files as of
+      2026-10-06 (2,669 across 456 at 2026-09-06; plus `index.test.ts`), all green (`pnpm vitest run`), including
       real defects the tests themselves caught and fixed during the
       2026-09-06 push: 14 of 46 national-identifier `-view` components
       were missing the `role="text"` their own canonical AGENTS.md calls
@@ -422,7 +429,7 @@ data, Content) matching this file's §2 breakdown.
 
 ### 11.8 Backlog closed (2026-09-06)
 
-Every achievable component (456 of 491) is implemented. The completion
+Every achievable component (536 of 571 as of 2026-10-06; 456 of 491 at 2026-09-06) is implemented. The completion
 push landed in four batches over one day: the original 33 (P7-T6/P8-T7,
 pre-existing), all 92 national personal identifier components, a
 136-component wave (lists, forms, pickers, links, and a mixed

@@ -24,9 +24,9 @@
 A Claude Skill explaining how to consume
 [`@lilydesignsystem/web-components-headless`](../lily-design-system-web-components-headless/),
 the native-custom-element implementation of Lily's canonical component
-catalog at its **full achievable scope**: 456 of the 491 components as of
+catalog at its **full achievable scope**: 536 of the 571 components as of
 2026-09-06 (added 2026-09-03, completed 2026-09-06), spanning every
-category — not a full-parity 491/491 peer of the seven full-catalog
+category — not a full-parity 571/571 peer of the seven full-catalog
 headless libraries, and never will be, since the remaining 35 are
 permanently excluded by a real architectural limitation, not backlog. The
 skill itself is [`SKILL.md`](SKILL.md);
@@ -54,7 +54,7 @@ self-is-the-wrapper) live in the library's own `AGENTS.md` and
   live count), its custom-element usage idiom, its two architecture
   decisions, and how its class-hook theming and naming conventions map
   onto the catalog-wide rules.
-- **Isn't**: a full-parity 491/491 catalog, and never will be — 35
+- **Isn't**: a full-parity 571/571 catalog, and never will be — 35
   components are permanently excluded by a real architectural limitation
   (§ "Permanently excluded" in the library's own `AGENTS.md`). Isn't the
   general Lily concepts skill (that's

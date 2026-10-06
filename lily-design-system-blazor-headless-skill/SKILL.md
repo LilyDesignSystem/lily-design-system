@@ -107,7 +107,7 @@ components in `LilyBlazorHeadless.Components`.
   [`lily-design-system-blazor-helpers-skill`](../lily-design-system-blazor-helpers-skill/)
   instead.
 - For framework-agnostic Lily concepts (what "headless" means, the
-  491-component catalog at large, naming conventions, cross-framework
+  571-component catalog at large, naming conventions, cross-framework
   composition patterns not specific to Blazor) use
   [`lily-design-system-skill`](../lily-design-system-skill/) instead — it
   doesn't restate Blazor's own idioms, and this skill doesn't restate its

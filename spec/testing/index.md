@@ -10,7 +10,7 @@ Covers test coverage across all fourteen subprojects: per-framework headless uni
 
 ## Principles and rules
 
-- **Every component is covered in every subproject.** Each headless library's unit suite and each example app's e2e suite reach all 491 catalog components.
+- **Every component is covered in every subproject.** Each headless library's unit suite and each example app's e2e suite reach all 571 catalog components.
 - **Tests assert semantics, not pixels.** Headless suites check the rendered DOM and ARIA attributes (label, role, `aria-expanded`, `aria-pressed`, `aria-valuenow`, etc.) — never colour or layout, which belong to the [examples](../examples/index.md) layer.
 - **Accessibility is gated, not aspirational.** axe-core runs via Playwright against each example app's full route baseline; the rule set is WCAG 2.0 A+AA, 2.1 A+AA, 2.2 AA. WCAG 2.2 AAA remains the [accessibility](../accessibility/index.md) target.
 - **A green suite is not evidence for the helper pickers.** Two defect classes in the `*-helpers` catalogs were invisible to every unit suite. Re-entrant apply (a consumer's change callback writing reactive state, looping back into the apply effect until Svelte gave up updating the component) needs a real consumer to trigger, so jsdom never saw it; the picker froze mid-open with a stale `aria-expanded` over a hidden list. And an unasserted contract — the pointer selection's close — was correct in all seven catalogs while nothing tested it. When changing a picker, drive it in a real browser and assert the DOM state after the interaction, not just the value it produced.
@@ -19,30 +19,31 @@ Covers test coverage across all fourteen subprojects: per-framework headless uni
 
 ## Per-framework headless unit suites
 
-Re-verified 2026-09-02 (plan P1-T6, fresh verification sweep).
+Re-run in full 2026-10-06 (all suites green; 571 components). The previous baseline (2026-09-02, plan P1-T6) had 491 spec files per library.
 
 | Library            | Runner       | Count (spec/index.md §11.4)                          |
 | ------------------ | ------------ | ---------------------------------------------- |
-| svelte-headless    | vitest       | 4,906 cases across 983 dual-mirror spec files  |
-| react-headless     | vitest       | 2,665 cases across 491 spec files              |
-| vue-headless       | vitest       | 2,655 cases across 491 spec files              |
-| angular-headless   | vitest       | 1,011 cases across 491 spec files              |
-| blazor-headless    | bUnit        | 1,509 cases                                    |
-| nunjucks-headless  | vitest       | 2,844 cases across 491 spec files              |
-| html-headless      | WebdriverIO  | 491 spec files (browser run not re-executed — corrected 2026-09-02, plan P7-T12: the 2026-09-01 note blaming this sandbox's network egress was wrong. The real, now-fixed cause was `pnpm-workspace.yaml`'s `chromedriver`/`edgedriver`/`geckodriver`/`esbuild` entries carrying the literal placeholder text `"set this to true or false"` — and, separately, this file being gitignored here and in 9 other subprojects rather than committed — both of which blocked those packages' install-time driver-download postinstall scripts under pnpm 11 (`ERR_PNPM_IGNORED_BUILDS`). With both fixed, `pnpm install` now downloads chromedriver cleanly and the suite starts; a full `wdio run` still can't complete in this specific interactive sandbox because it receives an unexplained SIGINT within seconds every time, reproducible even for a single spec file with no other load — a harness-level limitation, not a network block or a Lily defect) |
+| svelte-headless    | vitest       | 5,895 cases across 1,143 dual-mirror spec files (571 × the two real trees, plus one) |
+| react-headless     | vitest       | 3,278 cases across 571 spec files              |
+| vue-headless       | vitest       | 3,242 cases across 571 spec files              |
+| angular-headless   | vitest       | 1,513 cases across 571 spec files              |
+| blazor-headless    | bUnit        | 2,105 cases                                    |
+| nunjucks-headless  | vitest       | 3,447 cases across 571 spec files              |
+| web-components-headless | vitest  | 3,180 cases across 537 spec files (536 components + `index.test.ts`, which pins the registered-element count and drives the built `dist/`) |
+| html-headless      | WebdriverIO  | 572 spec files (571 components + the shared `listbox-controller` spec), all passing in real headless Chrome 154 on 2026-10-06 with a matching chromedriver (`wdio.conf.js` must not fall back to a download in a sandbox: point `wdio:chromedriverOptions.binary` at a cached driver). Earlier note, kept for the record: browser run not re-executed — corrected 2026-09-02, plan P7-T12: the 2026-09-01 note blaming this sandbox's network egress was wrong. The real, now-fixed cause was `pnpm-workspace.yaml`'s `chromedriver`/`edgedriver`/`geckodriver`/`esbuild` entries carrying the literal placeholder text `"set this to true or false"` — and, separately, this file being gitignored here and in 9 other subprojects rather than committed — both of which blocked those packages' install-time driver-download postinstall scripts under pnpm 11 (`ERR_PNPM_IGNORED_BUILDS`). With both fixed, `pnpm install` now downloads chromedriver cleanly and the suite starts; a full `wdio run` still can't complete in this specific interactive sandbox because it receives an unexplained SIGINT within seconds every time, reproducible even for a single spec file with no other load — a harness-level limitation, not a network block or a Lily defect) |
 
 ## Storybook coverage
 
-Six of seven full-catalog headless libraries ship Storybook (the Web Components catalog does too, 456/456, its full achievable scope); Blazor deliberately does not (no idiomatic `@storybook/blazor`; bUnit + `dotnet watch` covers exploration). Each story uses the `title: "Headless/{Pascal}"` + single `Default` story shape. Coverage re-verified 2026-09-02 by story-file presence per component (the same method the original counts used); a full `build-storybook` was not re-run for all six.
+Six of seven full-catalog headless libraries ship Storybook (the Web Components catalog does too, 536/536, its full achievable scope); Blazor deliberately does not (no idiomatic `@storybook/blazor`; bUnit + `dotnet watch` covers exploration). Each story uses the `title: "Headless/{Pascal}"` + single `Default` story shape. Coverage re-verified 2026-09-02 by story-file presence per component (the same method the original counts used); a full `build-storybook` was not re-run for all six.
 
 | Library            | Storybook     | Stories     |
 | ------------------ | ------------- | ----------- |
-| html-headless      | yes (vite)    | 491 / 491   |
-| svelte-headless    | yes (vite)    | 491 / 491   |
-| react-headless     | yes (vite)    | 491 / 491   |
-| vue-headless       | yes (vite)    | 491 / 491   |
-| nunjucks-headless  | yes (vite)    | 491 / 491   |
-| angular-headless   | yes (webpack) | 491 / 491   |
+| html-headless      | yes (vite)    | 571 / 571   |
+| svelte-headless    | yes (vite)    | 571 / 571   |
+| react-headless     | yes (vite)    | 571 / 571   |
+| vue-headless       | yes (vite)    | 571 / 571   |
+| nunjucks-headless  | yes (vite)    | 571 / 571   |
+| angular-headless   | yes (webpack) | 571 / 571   |
 | blazor-headless    | no            | not planned |
 
 ## Playwright e2e on example apps
@@ -81,7 +82,7 @@ axe-core / Playwright integration runs across all seven example apps. Rule set: 
 
 | App                          | Clean | Status       |
 | ---------------------------- | ----- | ------------ |
-| svelte-sveltekit-examples    | 31/31 | full pass (plus 491/491 on the separate full-catalog `axe-catalog.spec.ts` sweep — see §11.5a) |
+| svelte-sveltekit-examples    | 31/31 | full pass (plus 571/571 on the separate full-catalog `axe-catalog.spec.ts` sweep — see §11.5a) |
 | react-next-examples          | 31/31 | full pass    |
 | vue-nuxt-examples            | 31/31 | full pass    |
 | blazor-web-examples          | 31/31 | full pass    |

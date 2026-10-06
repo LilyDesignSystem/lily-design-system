@@ -13,13 +13,12 @@ tooling that keeps them in sync.
 ## Scope
 
 This topic covers the special top-level files for the repository root and for all
-22 published repositories (21 implementation subprojects plus
-`lilydesignsystem.github.io`), the copy-versus-generate decision per file, the
+51 published repositories (the 23 implementation subprojects, the 26 Claude Skills, `lily-design-system-themes` and `lilydesignsystem.github.io`), the copy-versus-generate decision per file, the
 link-rewriting rule that makes a copied file correct in its destination, and the
 `bin/sync-special-files` and `bin/test` enforcement.
 
 It does **not** cover: the per-directory AI convention of `index.md`, `README.md`
-symlink, `AGENTS.md`, `CLAUDE.md`, and `spec/index.md` (see
+symlink, `AGENTS.md`, and `spec/index.md` (see
 [architecture](../architecture/index.md)), the content of the specification itself,
 or the publish pipeline (see [tooling](../tooling/index.md)).
 
@@ -27,8 +26,8 @@ or the publish pipeline (see [tooling](../tooling/index.md)).
 
 - **A public repository with no `LICENSE` is "all rights reserved".** Default
   copyright applies to a repository that omits it, whatever the upstream monorepo
-  says. This is the single reason this topic exists: 22 public repositories were
-  shipping without one.
+  says. This is the single reason this topic exists: the 22 public repositories that existed
+  in 2026-08 were shipping without one.
 - **The root is canonical; subprojects receive copies.** Edit at the root and run
   `bin/sync-special-files`. Never hand-edit a synced copy — it will be overwritten.
   Each copy carries an HTML-comment provenance banner saying so.
@@ -77,7 +76,7 @@ instantiation of it, and is what the sync distributes.
 
 `CODE_OF_CONDUCT.md`, `RFC.md`, `GOVERNANCE.md`, and `SECURITY.md` are part of the
 set alongside the original list: `CODE_OF_CONDUCT.md` because `CONTRIBUTING.md`
-links to it and a dangling link in 22 repositories is worse than an extra file, and
+links to it and a dangling link in every published repository is worse than an extra file, and
 the other three because they are root special files with the same
 canonical-and-copy shape as the rest. `SECURITY.md` matters most of the four to a
 repository read on its own: a public repo with no reporting route gets its
@@ -102,7 +101,7 @@ absolute link on the canonical repository, which is the only place that file exi
 
 | Script | Purpose |
 | --- | --- |
-| [`bin/sync-special-files`](../../bin/sync-special-files) | Propagate the set into all 22 public repositories, rewriting links and generating the per-subproject files |
+| [`bin/sync-special-files`](../../bin/sync-special-files) | Propagate the set into all 51 published repositories, rewriting links and generating the per-subproject files |
 | [`bin/test`](../../bin/test) | Verify the set is present and non-empty in the root and every subproject |
 | [`bin/check-links`](../../bin/check-links) | Verify every rewritten relative link still resolves |
 
@@ -114,7 +113,7 @@ after editing any canonical file, and before `bin/git-subtree-push`.
 - [x] The repository root carries all 16 files in the table.
 - [x] `LICENSE.md` states one SPDX expression, and it matches every package
       manifest and [spec/index.md](../index.md) §14.
-- [x] All 22 public repositories carry the full set.
+- [x] All 51 published repositories carry the full set (re-run 2026-10-06: 51 repositories, 0 changed).
 - [x] Every subproject `CITATION.cff` names its own repository and parses as valid
       YAML against CFF 1.2.0.
 - [x] Every subproject `INSTALL.md` documents that subproject's own install path,

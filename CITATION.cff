@@ -21,7 +21,7 @@ repository-code: 'https://github.com/LilyDesignSystem/lily-design-system/'
 url: 'https://lilydesignsystem.com/'
 abstract: >-
   Lily Design System is a free, open-source, headless design system.
-  It defines a canonical catalog of 491 components and implements that
+  It defines a canonical catalog of 571 components and implements that
   same catalog across seven frameworks (HTML, Svelte, React, Vue,
   Angular, Blazor, Nunjucks) as unstyled, accessible components that
   ship semantic HTML, ARIA, focus management, and keyboard behaviour

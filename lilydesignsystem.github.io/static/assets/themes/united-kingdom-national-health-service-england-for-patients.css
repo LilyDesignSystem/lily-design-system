@@ -2238,6 +2238,312 @@
         line-height: 0;
     }
 
+    /* Components added 2026-10-05: kbd-shortcut, show-more, thinking,
+       empty-state, file-tree, one-time-password-input, multi-select, and
+       the four calendar views. The calendar views reuse the
+       calendar-table-* sub-element hooks, so they only need the table
+       root rule. show-more's clamp is keyed on data-expanded (the
+       component never sets an inline style); file-tree hides a closed
+       folder's group via aria-expanded. */
+    :where(.calendar-year-table, .calendar-month-table, .calendar-week-table, .calendar-day-table) {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    :where(.kbd-shortcut) {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--lily-space-xs);
+    }
+
+    :where(.kbd-shortcut-key) {
+        display: inline-block;
+        padding: 0.125rem 0.4rem;
+        font-family: var(--lily-font-mono);
+        font-size: 0.85em;
+        background-color: var(--lily-surface-alt);
+        border: var(--border) solid var(--lily-border-strong);
+        border-bottom-width: 2px;
+        border-radius: var(--lily-radius-sm);
+    }
+
+    :where(.show-more-content[data-expanded="false"]) {
+        max-height: 6em;
+        overflow: hidden;
+    }
+
+    :where(.show-more-button) {
+        margin-block-start: var(--lily-space-xs);
+        padding: var(--lily-space-xs);
+        font: inherit;
+        color: inherit;
+        text-decoration: underline;
+        background: none;
+        border: 0;
+        cursor: pointer;
+    }
+
+    :where(.thinking) {
+        padding: var(--lily-space-xs) var(--lily-space-sm);
+        color: var(--lily-text-muted);
+        border: var(--border) solid var(--lily-border-strong);
+        border-radius: var(--lily-radius-md);
+    }
+
+    :where(.thinking-summary) {
+        cursor: pointer;
+    }
+
+    :where(.thinking[data-streaming] .thinking-summary) {
+        font-style: italic;
+    }
+
+    :where(.empty-state) {
+        padding: var(--lily-space-lg);
+        text-align: center;
+        color: var(--lily-text-muted);
+    }
+
+    :where(.file-tree, .file-tree [role="group"]) {
+        margin: 0;
+        padding-inline-start: 0;
+        list-style: none;
+    }
+
+    :where(.file-tree [role="group"]) {
+        padding-inline-start: var(--lily-space-md);
+    }
+
+    :where(.file-tree [role="treeitem"]) {
+        padding: var(--lily-space-xs) var(--lily-space-sm);
+        cursor: pointer;
+    }
+
+    :where(.file-tree [role="treeitem"][aria-expanded="false"] > [role="group"]) {
+        display: none;
+    }
+
+    :where(.file-tree [role="treeitem"]:focus-visible) {
+        outline: var(--lily-focus-ring);
+        outline-offset: -2px;
+    }
+
+    :where(.one-time-password-input, .multi-select, .multi-select-with-extras select) {
+        padding: var(--lily-space-xs) var(--lily-space-sm);
+        font: inherit;
+        color: var(--lily-text);
+        background-color: var(--lily-surface);
+        border: var(--border) solid var(--lily-border-strong);
+        border-radius: var(--lily-radius-sm);
+    }
+
+    :where(.one-time-password-input) {
+        font-family: var(--lily-font-mono);
+        letter-spacing: 0.25em;
+    }
+
+    /* Chart containers added 2026-10-05 (gauge, heatmap, radar, sankey, pie,
+       ring, funnel, candlestick, composed, choropleth, sunburst) join the
+       existing five as block figures. Every chart's optional data-table
+       wrapper sits below the graphic; the table itself inherits the
+       catalog's table styling. */
+    :where(
+        .gauge-chart,
+        .heatmap-chart,
+        .radar-chart,
+        .sankey-chart,
+        .pie-chart,
+        .ring-chart,
+        .funnel-chart,
+        .candlestick-chart,
+        .composed-chart,
+        .choropleth-chart,
+        .sunburst-chart
+    ) {
+        display: block;
+        margin: 0;
+    }
+
+    :where(
+        .area-chart-data-table,
+        .bar-chart-data-table,
+        .column-chart-data-table,
+        .line-chart-data-table,
+        .scatter-chart-data-table,
+        .gauge-chart-data-table,
+        .heatmap-chart-data-table,
+        .radar-chart-data-table,
+        .sankey-chart-data-table,
+        .pie-chart-data-table,
+        .ring-chart-data-table,
+        .funnel-chart-data-table,
+        .candlestick-chart-data-table,
+        .composed-chart-data-table,
+        .choropleth-chart-data-table,
+        .sunburst-chart-data-table
+    ) {
+        margin-block-start: var(--lily-space-sm);
+        overflow-x: auto;
+    }
+
+    /* tool-call (2026-10-05): a bordered disclosure; the status word sits next
+       to the name in the summary and is never the only cue. [data-status] is
+       the consumer hook for a spinner or icon. */
+    :where(.tool-call) {
+        border: var(--border) solid var(--lily-border-strong);
+        border-radius: var(--lily-radius-md);
+        background-color: var(--lily-surface);
+        color: var(--lily-text);
+    }
+
+    :where(.tool-call-summary) {
+        display: flex;
+        align-items: center;
+        gap: var(--lily-space-sm);
+        padding: var(--lily-space-xs) var(--lily-space-sm);
+        cursor: pointer;
+    }
+
+    :where(.tool-call-content) {
+        display: grid;
+        gap: var(--lily-space-xs);
+        padding: var(--lily-space-xs) var(--lily-space-sm);
+        border-block-start: var(--border) solid var(--lily-border-strong);
+    }
+
+    :where(.tool-call-name) {
+        font-family: var(--lily-font-mono);
+    }
+
+    :where(.tool-call-status) {
+        color: var(--lily-text-muted);
+    }
+
+    :where(.tool-call-input pre, .tool-call-output pre) {
+        margin: 0;
+        overflow-x: auto;
+        font-family: var(--lily-font-mono);
+    }
+
+    :where(.tool-call-error) {
+        padding: var(--lily-space-xs) var(--lily-space-sm);
+        border: var(--border) solid var(--lily-border-strong);
+        border-radius: var(--lily-radius-sm);
+        font-weight: 600;
+    }
+
+    /* mark (2026-10-05): the native <mark> highlight. The UA default is a
+       fixed yellow; this uses the theme's own surface and text tokens so the
+       pair keeps its contrast in every theme (including dark ones). */
+    :where(.mark) {
+        padding-inline: 0.15em;
+        color: var(--lily-text);
+        background-color: var(--lily-surface-alt);
+        border-radius: var(--lily-radius-sm);
+        box-shadow: 0 0 0 1px var(--lily-border-strong);
+    }
+
+    /* chat-composer (2026-10-05): one row, textarea growing, one button. The
+       button's visible word is its accessible name — hide it visually, never
+       with display:none, if you replace it with an icon. */
+    :where(.chat-composer) {
+        display: flex;
+        align-items: flex-end;
+        gap: var(--lily-space-xs);
+    }
+
+    :where(.chat-composer-input) {
+        flex: 1;
+        padding: var(--lily-space-xs) var(--lily-space-sm);
+        font: inherit;
+        color: var(--lily-text);
+        background-color: var(--lily-surface);
+        border: var(--border) solid var(--lily-border-strong);
+        border-radius: var(--lily-radius-md);
+        resize: none;
+    }
+
+    :where(.chat-composer-button) {
+        min-width: 2.5rem;
+        min-height: 2.5rem;
+        padding: var(--lily-space-xs) var(--lily-space-sm);
+        font: inherit;
+        color: var(--lily-text);
+        background-color: var(--lily-surface);
+        border: var(--border) solid var(--lily-border-strong);
+        border-radius: var(--lily-radius-md);
+        cursor: pointer;
+    }
+
+    :where(.chat-composer-button:disabled) {
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+
+    /* Picker tooltips (added 2026-10-04): a visual-only role="tooltip"
+       element beside each picker's icon button, holding the same text as
+       its aria-label. The component toggles [hidden]; position and look
+       are here. It sits just below the button, in the inverse of the
+       page colours so it never disappears into the surface. A ::before
+       strip bridges the gap to the button so the pointer can travel onto
+       the tooltip without it closing (WCAG 1.4.13, hoverable). */
+    :where(.motion-picker) {
+        position: relative;
+        display: inline-block;
+    }
+
+    :where(
+        .theme-picker-tooltip,
+        .locale-picker-tooltip,
+        .text-size-picker-tooltip,
+        .motion-picker-tooltip,
+        .share-picker-tooltip,
+        .search-picker-tooltip,
+        .date-time-picker-tooltip
+    ) {
+        position: absolute;
+        z-index: 11;
+        inset-inline-start: 0;
+        inset-block-start: 100%;
+        margin-block-start: var(--lily-space-xs);
+        padding: var(--lily-space-xs) var(--lily-space-sm);
+        font-size: 0.875em;
+        line-height: 1.3;
+        white-space: nowrap;
+        color: var(--lily-surface);
+        background-color: var(--lily-text);
+        border-radius: var(--lily-radius-sm);
+        box-shadow: var(--lily-shadow-md);
+    }
+
+    :where(
+        .theme-picker-tooltip,
+        .locale-picker-tooltip,
+        .text-size-picker-tooltip,
+        .motion-picker-tooltip,
+        .share-picker-tooltip,
+        .search-picker-tooltip,
+        .date-time-picker-tooltip
+    )::before {
+        content: "";
+        position: absolute;
+        inset-inline: 0;
+        inset-block-end: 100%;
+        height: var(--lily-space-xs);
+    }
+
+    :where(
+        .theme-picker-tooltip,
+        .locale-picker-tooltip,
+        .text-size-picker-tooltip,
+        .motion-picker-tooltip,
+        .share-picker-tooltip,
+        .search-picker-tooltip,
+        .date-time-picker-tooltip
+    )[hidden] {
+        display: none;
+    }
+
     /* search-picker's panel holds a search form rather than a list: the
        field and the ⏎ submit button sit in one row, the button at the
        field's inline end (right in LTR, left under dir="rtl"). The ⏎

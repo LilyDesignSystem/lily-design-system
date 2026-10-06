@@ -30,7 +30,7 @@ in the repository should be read as softening it.
 
 ## Scale, and what one maintainer means at this scale
 
-Lily is unusually large for a one-person project: 491 catalog components
+Lily is unusually large for a one-person project: 571 catalog components
 implemented across seven frameworks, seven example applications, 35 helper
 packages, 45 theme stylesheets, and roughly 11,000 markdown files. State that
 plainly rather than let a reader discover it as a surprise.

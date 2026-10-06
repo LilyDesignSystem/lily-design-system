@@ -94,7 +94,7 @@ These files are committed at the repo root and propagated to all subprojects by 
 
 ## Related topics
 
-- [components](../components/index.md) — the canonical 491-component catalog these 92 belong to, and the suffix mapping
+- [components](../components/index.md) — the canonical 571-component catalog these 92 belong to, and the suffix mapping
 - [headless](../headless/index.md) — the markup and behaviour contract `-input`/`-view` components follow
 - [frameworks](../frameworks/index.md) — the seven libraries that implement each component
 - [accessibility](../accessibility/index.md) — the accessible-name requirement the `-view` `aria-label` meets

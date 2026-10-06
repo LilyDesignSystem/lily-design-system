@@ -7,7 +7,7 @@ license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 # Lily Design System™ — Nunjucks headless macros
 
 `@lilydesignsystem/nunjucks-headless` is one of Lily's seven full-catalog
-headless libraries: 491 accessible components as Nunjucks 3 macros, one
+headless libraries: 571 accessible components as Nunjucks 3 macros, one
 macro per component, zero CSS, zero bundled JavaScript. It targets WCAG 2.2
 AAA and follows the same headless-layer rules as every other Lily catalog —
 semantic HTML first, ARIA where semantics fall short, no visual decisions

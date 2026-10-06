@@ -26,7 +26,7 @@ and documentation, not a component implementation — it ships no helpers of
 its own.
 
 Its sibling, [`lily-design-system-angular-headless-skill`](../../lily-design-system-angular-headless-skill/),
-covers the Angular headless component library (the full 491-component
+covers the Angular headless component library (the full 571-component
 catalog) instead of the picker helper catalog. Both follow the
 `lily-design-system-` naming convention established by
 `lily-design-system-skill` and `lily-design-system-maintainer-skill`

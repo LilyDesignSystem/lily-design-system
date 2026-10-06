@@ -101,7 +101,7 @@ skill covers the bare-tag HTML catalog only.
 
 ## When this isn't the right skill
 
-- **The headless component catalog itself** (the 491-component library
+- **The headless component catalog itself** (the 571-component library
   these helpers sit alongside) — use
   [`lily-design-system-html-headless-skill`](../lily-design-system-html-headless-skill/).
 - **General Lily concepts** not specific to the HTML helpers idiom — use

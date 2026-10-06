@@ -95,7 +95,7 @@ no defensible method exists for measuring one.
 | Component implementations across the seven frameworks | ai-generated | written in directed sessions against the canonical per-component metadata in `components/{slug}/AGENTS.md`; reviewed and merged by the maintainer |
 | The helper packages and their accessibility behaviour | ai-generated | held to the WAI-ARIA APG patterns cited in [AGENTS/accessibility.md](AGENTS/accessibility.md); the Svelte catalog is canonical and the six ports are derived from it |
 | Tests, Storybook stories, Playwright specs | ai-generated | held to the same authority as the code they test: expectations cite the spec clause, and §7's attribution rule governs failures |
-| Per-component documentation (491 × `index.md`) | ai-generated | to the structure fixed in [spec/index.md](spec/index.md) §8 |
+| Per-component documentation (571 × `index.md`) | ai-generated | to the structure fixed in [spec/index.md](spec/index.md) §8 |
 | The specification under `spec/`, the `AGENTS/` rules, and this statement | ai-generated | held to the repository's own prose rules; the maintainer sets the positions |
 | Catalog decisions — what a component is, what it is named, what element it maps to | ai-assisted | proposed in session, decided by the maintainer, recorded in `components.tsv` and [AGENTS/components.md](AGENTS/components.md) |
 | Design-principle rulings, license and trademark decisions, and what a release contains | none | the maintainer's alone |
@@ -188,7 +188,7 @@ therefore not in any prompt. Demo content in the example applications is invente
 
 Two points a reader should check rather than take on trust:
 
-- The 92 national personal identifier components validate identifier *formats*
+- The 140 national personal identifier components validate identifier *formats*
   (checksums, structure, normalization). The test fixtures are synthetic values
   constructed to satisfy those algorithms, not real identifiers belonging to real
   people. This is a structural property verifiable against the tree.
@@ -245,7 +245,7 @@ This section exists because a disclosure without one is marketing.
 - **Review depth is one person's.** See [MAINTAINERS.md](MAINTAINERS.md). "The
   maintainer understands and can explain every merged change" is the honest claim;
   "every line was independently re-derived" would not be.
-- **Scale outruns verification.** 491 components × 7 frameworks is a lot of
+- **Scale outruns verification.** 571 components × 8 frameworks is a lot of
   surface for machine gates plus one reviewer. Verified counts in
   [spec/index.md](spec/index.md) §11.4 are point-in-time snapshots and are
   labelled as such; §11.8 lists what is genuinely open.

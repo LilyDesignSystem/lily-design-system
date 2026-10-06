@@ -22,8 +22,8 @@ _Updated 2026-09-06._
 | --- | --- |
 | Version | 0.6.0 (pre-1.0; minor versions may break) |
 | Started | 2025-08-09 |
-| Catalog | 491 components |
-| Frameworks | 7 full-catalog — HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks — plus an 8th, Web Components, at its full achievable scope (456/491; the remaining 35 are permanently excluded, not backlog) |
+| Catalog | 571 components |
+| Frameworks | 7 full-catalog — HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks — plus an 8th, Web Components, at its full achievable scope (536/571; the remaining 35 are permanently excluded, not backlog) |
 | Layers | 8 headless libraries, 7 example applications, 8 helper catalogs (48 packages) |
 | Themes | 45 reference stylesheets |
 | Published | 6 of 7 full-catalog headless libraries and the JS helper packages on npm (see [CHANGELOG.md](CHANGELOG.md) for exact per-package status); the 6 Blazor NuGet packages are packed, push pending credentials; Web Components headless and helpers are built but not yet subtree-pushed or published |
@@ -37,7 +37,7 @@ _Updated 2026-09-06._
 
 `@lilydesignsystem/web-components-headless` — native custom elements, no
 framework runtime — grew from a 33-component pilot slice to 456 of the
-491 canonical components in one day, spanning every category including
+571 canonical components in one day, spanning every category including
 all 92 national personal identifier components. The remaining 35 (30
 table sub-elements, 5 interactive list-item families) are permanently
 excluded by a real browser limitation, not a to-do: no safe way exists
@@ -60,7 +60,7 @@ resolution — 0.2.0 is unusable on the registry for that reason. Nothing in CI 
 imported a package the way a consumer does; the tests import component files by
 relative path.
 
-Each package now generates a barrel over all 491 components and builds a real
+Each package now generates a barrel over all 571 components and builds a real
 `dist/`, verified by installing the packed tarball into a scratch project. The
 packages shrank by roughly 80% in the process. **If you installed 0.2.0, upgrade.**
 
@@ -143,7 +143,7 @@ direct answer, including when the answer is unflattering.
 ### Boilerplate
 
 > Lily Design System™ is a free, open-source, headless design system. It defines a
-> canonical catalog of 491 components and implements that same catalog across seven
+> canonical catalog of 571 components and implements that same catalog across seven
 > frameworks — HTML, Svelte, React, Vue, Angular, Blazor, and Nunjucks — as
 > unstyled, accessible components that ship semantic HTML, ARIA, focus management,
 > and keyboard behaviour with no CSS and no framework dependency. It also ships 45

@@ -22,7 +22,7 @@ url: 'https://lilydesignsystem.com/'
 abstract: >-
   This repository is the Vue 3 helpers catalog: six opinionated packages that each own one complete interaction.
   It is one subproject of Lily Design System, a free open-source headless
-  design system whose canonical catalog of 491 components is implemented
+  design system whose canonical catalog of 571 components is implemented
   across seven frameworks. The canonical monorepo is at
   https://github.com/LilyDesignSystem/lily-design-system and this repository is
   published from it as a git subtree.

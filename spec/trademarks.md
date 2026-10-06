@@ -70,7 +70,7 @@ footer are applied to:
 | ----- | ----------- |
 | Top-level docs | [AGENTS.md](../AGENTS.md), [CHANGELOG.md](../CHANGELOG.md), [index.md](../index.md) (`README.md` symlinks to it), [spec/index.md](index.md) |
 | Spec topic docs | every `spec/**/*.md` (this file included) |
-| Subproject + component docs | every `index.md` across all 21 subprojects, the 491 component directories, and `lilydesignsystem.github.io` |
+| Subproject + component docs | every `index.md` across all 23 implementation subprojects, the 26 skills, the 571 component directories, and `lilydesignsystem.github.io` |
 | Reference docs | every `docs/**/*.md` (e.g. the helper packages' guides) |
 
 **Rendered pages** — the footer is placed once in each app's shared layout so it
@@ -87,7 +87,7 @@ renders site-wide:
 is independent of the content license.
 
 **Deliberately unmarked** — machine-readable metadata (`AGENTS.md` under
-subprojects/components), `CLAUDE.md` loaders, and per-subproject/per-component
+subprojects/components) loaders, and per-subproject/per-component
 `spec/index.md` plan files carry neither the prose mark nor the footer, as do
 package names, file paths, URLs, and kebab-case class hooks.
 
@@ -102,7 +102,7 @@ package names, file paths, URLs, and kebab-case class hooks.
 - [x] The example apps and the `github.io` site render the footer site-wide from
       their shared layout; the `github.io` header and intro carry the ™ marks.
 - [x] `LICENSE.md` carries the trademark notice.
-- [x] Identifiers, paths, code hooks, machine-readable `AGENTS.md`, `CLAUDE.md`
+- [x] Identifiers, paths, code hooks, machine-readable `AGENTS.md`
       loaders, and `spec/index.md` plan files are left unmarked.
 
 ## Related topics

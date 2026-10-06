@@ -10,7 +10,7 @@ license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 canonical component catalog: annotated semantic-HTML snippet files with ARIA
 and class hooks, plus an embedded vanilla-JS behavior layer where a component
 needs interactivity. Zero CSS, zero framework, zero build step to *use* a
-component. It is one of the seven canonical, full-catalog (491/491) headless
+component. It is one of the seven canonical, full-catalog (571/571) headless
 libraries — HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks — each
 implementing the same slugs, props/attributes, and ARIA/keyboard contracts.
 It is also the **reference implementation**: the canonical semantic HTML,
@@ -89,7 +89,7 @@ classes shown above.
   date-time) are a separate layer with their own web-component packaging —
   use [`lily-design-system-html-helpers-skill`](../lily-design-system-html-helpers-skill/).
 - **The native-custom-element sibling catalog** — `@lilydesignsystem/web-components-headless`
-  ships 456 of the 491 components (its full achievable scope) as autonomous custom elements
+  ships 536 of the 571 components (its full achievable scope) as autonomous custom elements
   with no framework runtime, a separate subproject (not this one) — use
   `lily-design-system-web-components-headless-skill` for that catalog's
   own conventions.

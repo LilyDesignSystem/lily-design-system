@@ -106,7 +106,7 @@ idempotent" rule for the full cross-framework rationale.
 
 ## When NOT this skill
 
-- For the headless component library itself — the 491-component
+- For the headless component library itself — the 571-component
   catalog, JSX usage, `className`, controlled-prop patterns for
   ordinary components — use `lily-design-system-react-headless-skill`
   instead.

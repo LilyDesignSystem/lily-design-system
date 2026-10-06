@@ -71,7 +71,7 @@ defaults and a translation mechanism bolted on afterwards.
 
 **4. Public-sector reference coverage.**
 45 themes covering NHS England, Scotland and Wales in patient and practitioner
-variants, GOV.UK GDS, and USWDS, plus 92 national personal identifier components
+variants, GOV.UK GDS, and USWDS, plus 140 national personal identifier components
 across 30+ countries with normalization and validation. Nothing else in the table
 addresses this, and it is the one area where Lily's breadth is not just breadth.
 
@@ -95,7 +95,7 @@ Written for someone deciding, not someone already convinced.
   [MAINTAINERS.md](MAINTAINERS.md) for what that means in practice.
 - **Four of seven frameworks are not on a registry yet.** See
   [INSTALL.md](INSTALL.md).
-- **Breadth outruns depth.** 491 components is more surface than one person plus
+- **Breadth outruns depth.** 571 components is more surface than one person plus
   machine gates can exercise the way production does. Point-in-time verification
   snapshots are labelled as such in [spec/index.md](spec/index.md) §11.4.
 - **No design tooling.** No Figma library, no token pipeline, no design-to-code

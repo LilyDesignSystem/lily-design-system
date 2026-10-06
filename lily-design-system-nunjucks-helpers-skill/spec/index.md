@@ -26,7 +26,7 @@ and documentation, not a component implementation — it ships no macros,
 no client.js modules, no example app.
 
 Its sibling, [`lily-design-system-nunjucks-headless-skill`](../../lily-design-system-nunjucks-headless-skill/),
-covers the 491-component headless macro catalog instead — a different
+covers the 571-component headless macro catalog instead — a different
 package with no client.js at all. The framework-agnostic
 [`lily-design-system-skill`](../../lily-design-system-skill/) covers Lily
 concepts that apply across all seven frameworks and is this subproject's
@@ -52,7 +52,7 @@ first stop for anything not specific to the Nunjucks helpers.
   helper's own `spec/index.md` in full — `SKILL.md` points at them so
   the root and subproject files stay the single source of truth.
 - Any component implementation, example page, or headless macro.
-- The 491-component headless macro catalog — that's
+- The 571-component headless macro catalog — that's
   `lily-design-system-nunjucks-headless-skill`'s job.
 - Maintainer-facing tooling and workflow content for the monorepo as a
   whole — that's `lily-design-system-maintainer-skill`'s job.
@@ -96,7 +96,7 @@ tests to run beyond `bin/test`'s required-files checks.
   the one helper with a documented server/client deviation, cited
   precisely in `SKILL.md`.
 - [`lily-design-system-nunjucks-headless-skill`'s spec/index.md](../../lily-design-system-nunjucks-headless-skill/spec/index.md) —
-  the sibling skill covering the 491-component headless macro catalog
+  the sibling skill covering the 571-component headless macro catalog
   instead of the picker helpers.
 - [spec/agent-skills/index.md](../../spec/agent-skills/index.md) — the
   two-skill (consumer / maintainer) plan this subproject's naming

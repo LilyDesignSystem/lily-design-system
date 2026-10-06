@@ -29,6 +29,13 @@ do
     rsync -a --delete "$top/themes/" "$themes_dest/"
 done
 
+# The docs site loads the same themes at runtime (static/assets/themes/, via
+# SitePreferences.svelte's themesUrl). Copy only the *.css files: the
+# directory also holds its own README.md, which --delete must not remove
+# (excluded files are protected from --delete).
+mkdir -p "$top/lilydesignsystem.github.io/static/assets/themes"
+rsync -a --delete --include='*.css' --exclude='*' "$top/themes/" "$top/lilydesignsystem.github.io/static/assets/themes/"
+
 # The site's /news and /roadmap routes render the canonical NEWS.md and
 # plan.md at build time (vite ?raw import + marked). Copy them into the
 # site's content dir so the standalone github.io subtree builds alone.

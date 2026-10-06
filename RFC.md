@@ -52,13 +52,13 @@ Each one states what the project currently believes, why, and — importantly �
 **what would change its mind.** That last line is the contract: if you produce it,
 the answer changes.
 
-### RFC 1 — Is 491 components right, or is it too many?
+### RFC 1 — Is 571 components right, or is it too many?
 
 **Current answer:** breadth is deliberate. A catalog that covers what real
 applications need means fewer escapes into bespoke markup.
 
 **The doubt:** mature systems settle at 100–200 components, and they get there by
-subtraction after production use. Lily arrived at 491 by construction, without that
+subtraction after production use. Lily arrived at 571 by construction, without that
 pressure. [COMPARISONS.md](COMPARISONS.md) shows the gap plainly. Breadth may be
 diluting depth — and depth is what an accessible component actually needs.
 
@@ -147,7 +147,7 @@ are machine-consumable by token tooling without abandoning the
 ship-complete-stylesheets position. The open half of the question is
 now only the design-tooling side (Figma library or not).
 
-### RFC 7 — Do 92 national identifier components belong in a general design system?
+### RFC 7 — Do 140 national identifier components belong in a general design system?
 
 **Current answer:** yes — they encode real validation knowledge across 30+
 countries, and nothing else in the field covers this.
@@ -213,8 +213,8 @@ may not go far enough for organisations with stricter ones.
 ### RFC 12 — Is the suffix-to-element mapping too rigid?
 
 **Current answer:** the slug suffix fixes the root element — `-button` →
-`<button>`, `-list` → `<ol>`, `-picker` → `<div>` — which makes 491 components
-predictable without reading 491 documents.
+`<button>`, `-list` → `<ol>`, `-picker` → `<div>` — which makes 571 components
+predictable without reading 571 documents.
 
 **The doubt:** it has already generated exceptions (gantt tables use raw HTML
 element names; `-list` is `<ol>` except where it is `<ul>`). A convention accreting

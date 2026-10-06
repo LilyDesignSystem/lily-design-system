@@ -20,9 +20,9 @@ identifiers:
 repository-code: 'https://github.com/LilyDesignSystem/lily-design-system-nunjucks-headless/'
 url: 'https://lilydesignsystem.com/'
 abstract: >-
-  This repository is the Nunjucks headless component library: all 491 catalog components, unstyled and accessible.
+  This repository is the Nunjucks headless component library: all 571 catalog components, unstyled and accessible.
   It is one subproject of Lily Design System, a free open-source headless
-  design system whose canonical catalog of 491 components is implemented
+  design system whose canonical catalog of 571 components is implemented
   across seven frameworks. The canonical monorepo is at
   https://github.com/LilyDesignSystem/lily-design-system and this repository is
   published from it as a git subtree.

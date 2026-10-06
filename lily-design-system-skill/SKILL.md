@@ -1,13 +1,13 @@
 ---
 name: lily-design-system-skill
-description: Explains Lily Design System™ concepts, terminology, and usage patterns for people building with it — the headless-vs-example layers, the 491-component catalog, naming conventions, composition patterns, theming, and the seven supported frameworks. Use when someone asks what Lily Design System is, what a Lily term means (headless, class hook, slug, helper, theme), how to compose a Lily pattern (a form, a nav, a table, a page shell), or wants a working example in a given framework.
+description: Explains Lily Design System™ concepts, terminology, and usage patterns for people building with it — the headless-vs-example layers, the 571-component catalog, naming conventions, composition patterns, theming, and the seven supported frameworks. Use when someone asks what Lily Design System is, what a Lily term means (headless, class hook, slug, helper, theme), how to compose a Lily pattern (a form, a nav, a table, a page shell), or wants a working example in a given framework.
 license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 ---
 
 # Lily Design System™ — concepts & usage
 
 Lily is a free, open-source, **headless** design system: a canonical catalog
-of 491 accessible components, implemented across seven frameworks, that ship
+of 571 accessible components, implemented across seven frameworks, that ship
 semantic HTML, ARIA, focus management, and keyboard behaviour — and **no
 CSS**. A paired set of **example** apps shows the same catalog fully styled
 (the current visual reference is NHS UK) so adopters can see it working
@@ -63,10 +63,10 @@ several frameworks: [reference/composition-patterns.md](reference/composition-pa
 
 ## The catalog at a glance
 
-491 components across content (149), national personal identifiers (92,
-46 identifier types × input/view across 30+ countries), forms (55),
-navigation (53), lists (39), tables (36), links (16), pickers (14),
-overlays (14), media (8), buttons (8), and data visualisation (7). Full
+571 components across content (161), national personal identifiers (140,
+70 identifier types × input/view across 50+ countries), forms (57),
+navigation (55), tables (40), lists (40), data visualisation (18), links (16),
+pickers (14), overlays (14), media (8), and buttons (8). Full
 listing: `components.tsv` in the canonical repo, or browse it at
 <https://lilydesignsystem.com/components/>.
 
@@ -74,7 +74,7 @@ listing: `components.tsv` in the canonical repo, or browse it at
 
 Each of the seven frameworks ships a matched headless + example pair:
 HTML/Web Components, Svelte 5, React, Vue 3, Angular 20, Blazor, Nunjucks.
-All seven implement the full 491-component catalog with the same slugs,
+All seven implement the full 571-component catalog with the same slugs,
 props, and ARIA/keyboard contracts — pick whichever matches your stack, the
 concepts and naming transfer directly.
 

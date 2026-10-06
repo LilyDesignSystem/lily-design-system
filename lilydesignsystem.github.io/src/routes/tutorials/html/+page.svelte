@@ -101,7 +101,7 @@ cd lily-design-system-html-headless`}</code></pre>
     <li>The repo's tests run real browsers: <code>pnpm install &amp;&amp; pnpm test</code> (WebDriverIO).</li>
     <li>Storybook for every component: <code>pnpm run storybook</code>.</li>
     <li>
-      The <a href="/examples/">HTML+CSS+JS example app</a> shows all 491
+      The <a href="/examples/">HTML+CSS+JS example app</a> shows all 571
       components styled, searchable, and demoed.
     </li>
   </ul>

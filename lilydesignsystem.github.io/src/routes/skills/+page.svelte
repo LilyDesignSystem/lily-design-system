@@ -118,7 +118,7 @@
             href="https://github.com/LilyDesignSystem/lily-design-system-web-components-headless-skill"
             >skill</a
           >
-          (33/491, partial)
+          (33/571, partial)
         </td>
         <td><a aria-label="Web Components helpers skill" href="https://github.com/LilyDesignSystem/lily-design-system-web-components-helpers-skill">skill</a></td>
       </tr>
@@ -126,7 +126,7 @@
   </table>
   <p>
     Web Components is the one exception in both directions: its headless
-    catalog is a deliberate 33-of-491 slice (native custom elements, no
+    catalog is a deliberate 33-of-571 slice (native custom elements, no
     framework runtime), and there is no Web Components example app yet — its
     umbrella skill says so rather than implying one exists.
   </p>

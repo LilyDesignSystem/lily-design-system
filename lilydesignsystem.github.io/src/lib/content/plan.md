@@ -25,9 +25,9 @@ Companion checklist: [tasks.md](tasks.md).
 - Respect the binding rules in `AGENTS/*.md` (headless, accessibility,
   internationalization, theme, helpers, examples). Svelte is the
   canonical reference implementation; port outward from it.
-- The helpers are the six `*-picker` packages (theme, locale,
-  text-size, motion, share, date-time) — the July plan's `*-select`
-  names are obsolete and must not reappear.
+- The helpers are the seven `*-picker` packages (theme, locale,
+  text-size, motion, share, search, date-time) plus `picker-bar` — the July plan's
+  `*-select` names are obsolete and must not reappear.
 - Keep commits small and per-task; note completed task IDs in commit
   messages.
 
@@ -73,32 +73,41 @@ Recorded so the delta is auditable; details in
   comparisons — and a placeholder `lily-figma` route (P5 decides its
   fate).
 
-## Current state (verified 2026-08-26)
+## Current state (verified 2026-10-06)
 
-- Catalog: **491 rows** in `components.tsv`; spec §14 still says 490
-  and §11.4's snapshot tables say 490 — reconciliation is P1-T1.
-- 22 published subtree repos all pass `bin/test` (~63 s) and
-  `bin/check-links` (11,006 files).
-- **Published**: svelte/react/vue headless 0.3.0 (npm, ~160–185
-  downloads/month each); 30 JS helper packages 0.1.0. **Not
-  published**: html, angular, nunjucks headless (npm); blazor headless
-  and the 5 built blazor helper `.nupkg` files in `dist-nuget/`
-  (NuGet).
-- **No git tags, no GitHub Releases** — releases exist only as
-  CHANGELOG entries. npm 0.2.0 packages are broken and **not
-  deprecated** on the registry.
-- **Themes inert**: 45 stylesheets ship, but no example app mounts
-  `theme-picker` (or any helper) in its shell.
-- **CI gaps**: helpers tests run for 6 catalogs; **no blazor job, no
-  headless suites, no example-app e2e, no consumer smoke test** of
-  published packages.
-- Open backlog carried from spec §11.8: Angular examples Playwright
-  e2e never run; Analog SSG shell-only (upstream issue drafted, not
-  filed); svelte dual-mirror specs missing for the 80
-  national-identifier components.
-- Repo security posture (SECURITY.md's table): intended settings not
-  yet confirmed/enabled; GitHub topics and descriptions missing on
-  the 23 repos; root README has no screenshots.
+The 2026-08-26 snapshot that stood here (491 rows, 22 repos, "themes inert", "no
+tags", "nothing published but three libraries") described a project that no longer
+exists; it is kept in `CHANGELOG.md` and `spec/history/`. As of 2026-10-06:
+
+- **Catalog**: **571 rows** in `components.tsv` — 491 plus the 48 national-identifier
+  components (2026-09-22) and 32 components added 2026-10-05/06 from a Baby UI survey
+  and maintainer requests. All 8 headless libraries implement every row except Web
+  Components, which implements 536 (the 35 table sub-elements and interactive `*ListItem`
+  families are permanently excluded). `bin/check-coverage` reports 0 drift.
+- **Repositories**: 51 published subtree repos — 23 implementation subprojects (8 headless,
+  7 example apps, 8 helper catalogs), 26 Claude Skills, `lily-design-system-themes` and the
+  docs site. `bin/test` and `bin/check-links` (12,425 markdown files) are clean.
+- **Published** (2026-10-06): headless npm `svelte`/`react`/`vue`/`angular`/`web-components`
+  0.4.0, `html` 0.5.0, `nunjucks` 0.3.0; NuGet `LilyDesignSystem.Blazor.Headless` 0.3.0;
+  `@lilydesignsystem/themes` 0.2.0; every helper package (npm and NuGet), including the
+  seven pickers and `picker-bar`. NuGet publishes through OIDC trusted publishing from
+  `publish.yml` (`NUGET_USER` must be the policy creator's username).
+- **Releases**: monorepo tags `v0.2.0`–`v0.6.0` exist (all cut 2026-08-26); there has been no
+  monorepo tag since, so releases after 2026-08-26 live only in CHANGELOG and per-package
+  versions. Cutting a monorepo tag/Release for the October work is open.
+- **Themes live**: 45 themes ship, the docs site mounts `picker-bar`, and every picker has a
+  tooltip. `bin/sync` now keeps the site's copy of the themes in step (it had drifted).
+- **Demonstration pages**: every example app and the docs site render the live demo, rendered
+  variants and a real usage example (`bin/generate-examples`, `bin/generate-site-pages`).
+- **CI**: `.github/workflows/ci.yml` defines jobs `verify`, `helpers`, `headless`,
+  `html-headless`, `dotnet-tests`, `example-smoke`, `consumer-smoke` and `spell-check`
+  (job list read from the file 2026-10-06; run history not re-checked).
+- **Open backlog**: `DateRange`/`ReviewDate` render `<div>` instead of `<span>` in
+  angular-headless (spec §11.8); the per-framework CSS class-name audit for all 571; the
+  docs-site `error-message` demo fails colour contrast; a monorepo tag/Release for the
+  October work; the deferred Baby UI ideas (`attachment`, `tool-chips`, the remaining agent,
+  advanced and primitive components); security-posture settings, GitHub topics and README
+  screenshots were **not re-verified** on 2026-10-06.
 
 ## Research findings (2026-08)
 

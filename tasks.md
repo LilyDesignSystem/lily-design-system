@@ -11,8 +11,8 @@ Rules for the executing agent:
   also exit 0 at the end of every session.
 - Follow `AGENTS/*.md` binding rules. Svelte subprojects are canonical;
   implement there first, then port to the other frameworks.
-- The helpers are the six `*-picker` packages (`motion-picker` joined
-  2026-09-03); `*-select` naming is obsolete.
+- The helpers are the seven `*-picker` packages (`motion-picker` joined
+  2026-09-03, `search-picker` 2026-10-02) plus `picker-bar`; `*-select` naming is obsolete.
 - Run `bin/sync-special-files` after touching any root special file.
 - Reference completed task IDs in commit messages. When a task changes
   something the spec claims, update `spec/index.md` (and the relevant
@@ -2126,6 +2126,50 @@ dropped. None is speculative.
     page says so, in that locale's own language (`home.notice`). A
     real per-page translation effort is a separate, much larger,
     ongoing task, not a one-session addition.
+
+## Phase 9 — October 2026: pickers, Baby UI triage, charts, demonstration pages
+
+All items below are done and verified (suites green, `bin/test`, `bin/check-coverage`,
+`bin/check-links`); the verification for each is in its CHANGELOG entry.
+
+- [x] **P9-T1 `search-picker` in all eight catalogs, first in `picker-bar`** (2026-10-02).
+  Real WebKit/Chromium run found and fixed the Safari focusout defect.
+- [x] **P9-T2 Tooltips on every picker** (2026-10-04). Hoverable, dismissable `role="tooltip"`;
+  a real-browser run found hover-only Escape dismissal missing (WCAG 1.4.13) and fixed it in
+  all eight catalogs; the 45 themes style it.
+- [x] **P9-T3 Baby UI triage and 16 components** (2026-10-05): `one-time-password-input`,
+  `multi-select` (+ extras), `empty-state`, `show-more`, `kbd-shortcut`, the four
+  `calendar-*-table` views, `thinking`, four charts, `file-tree`. Catalog 539 → 555.
+- [x] **P9-T4 Charts: graphic + data-table structure** (2026-10-05, breaking): `role="img"` moved
+  to an inner graphic wrapper so the data table is reachable; all nine existing charts migrated.
+- [x] **P9-T5 Seven more charts** (2026-10-06): pie, ring, funnel, candlestick, composed,
+  choropleth, sunburst. Catalog 555 → 562.
+- [x] **P9-T6 `streaming-text`, `tool-call` + five inner parts, `mark`, `chat-composer`**
+  (2026-10-06). Catalog 562 → 571. Documented deviations: Blazor (no plain-Enter send), Nunjucks
+  and HTML (`chat-composer` markup-only).
+- [x] **P9-T7 Demonstration pages** (2026-10-06): real usage examples and rendered variants in every
+  example app (`bin/generate-examples`, `component-variants.json`); the 80 placeholder docs-site
+  pages rebuilt and every site page given an Example section (`bin/generate-site-pages`); 166
+  missing site Playwright specs written; the site's stale themes copy re-synced by `bin/sync`;
+  raw-HTML-in-prose escaping; helpers tutorial extended.
+- [x] **P9-T8 Releases** (2026-10-04 → 06): helper packages (tooltips, picker-bar 0.2.0), headless
+  0.3.0 and 0.4.0 (html 0.4.0/0.5.0, nunjucks 0.2.0/0.3.0, Blazor 0.2.0/0.3.0), themes 0.2.0; NuGet
+  trusted-publishing setup corrected (`NUGET_USER` = policy creator's username).
+- [x] **P9-T9 Documentation sweep** (2026-10-06): counts, versions and contracts across `spec/`,
+  `AGENTS/`, READMEs, `llms.txt`/`llms.json`, skills and the site; `spec/index.md` cut from 68 KB to
+  37 KB (history moved to `spec/history/`); the retired `CLAUDE.md` removed from every "required
+  files" claim.
+
+### Open
+
+- [ ] **P9-T10 Monorepo tag and GitHub Release for the October work** (last tag `v0.6.0`, 2026-08-26).
+- [ ] **P9-T11 Per-framework CSS class-name audit for all 571 components** (spec/headless §acceptance).
+- [ ] **P9-T12 Deferred Baby UI ideas**: `attachment`, `tool-chips`, the other agent components
+  (`conversation`, `message`, `task-steps`, `loading-state`, …), advanced widgets (`table-of-contents`,
+  `filter-table`, `wheel-picker`, `flowchart`, …) and the small primitives (`native-select`,
+  `theme-toggle`, `date-picker`, …). Each needs a design pass first (see CHANGELOG 2026-10-05/06).
+- [ ] **P9-T13 Docs-site `error-message` demo colour contrast** (axe `color-contrast`; predates this phase).
+- [ ] **P9-T14 `DateRange`/`ReviewDate` render `<div>` not `<span>` in angular-headless** (spec §11.8).
 
 ---
 

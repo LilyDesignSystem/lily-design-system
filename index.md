@@ -79,7 +79,7 @@ Headless versions if you want to use components with all your own styles:
 - [Angular headless](lily-design-system-angular-headless)
 - [Blazor headless](lily-design-system-blazor-headless)
 - [Nunjucks headless](lily-design-system-nunjucks-headless)
-- [Web Components headless](lily-design-system-web-components-headless) — an 8th catalog at its full achievable scope (456 of 491; the remaining 35 are permanently excluded, not backlog)
+- [Web Components headless](lily-design-system-web-components-headless) — an 8th catalog at its full achievable scope (536 of 571; the remaining 35 are permanently excluded, not backlog)
 
 ## Helpers
 

@@ -153,7 +153,7 @@
       component documents its props, ARIA contract, and keyboard behaviour.
     </li>
     <li>
-      Clone an <a href="/examples/">example app</a> to see all 491
+      Clone an <a href="/examples/">example app</a> to see all 571
       components styled and working together — the CSS targets the same
       class hooks you just used, so copy any of it into your project and
       adjust it as you wish.

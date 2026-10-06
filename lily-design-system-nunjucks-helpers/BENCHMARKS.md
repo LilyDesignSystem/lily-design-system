@@ -39,7 +39,7 @@ table.
 | `@lilydesignsystem/react-theme-picker` | 0.1.0 | 38 KB | 4 |
 | `@lilydesignsystem/svelte-date-time-picker` | 0.1.0 | 82 KB | 6 |
 
-All figures cover the full 491-component catalog. The file-count spread is a
+All figures cover the full 571-component catalog. The file-count spread is a
 packaging-format artifact: React bundles to a single ESM file through tsup, Vue
 emits per-component chunks from Vite library mode, and Svelte ships compiled
 component files because `svelte-package` must, so the Svelte consumer's compiler
@@ -116,7 +116,7 @@ has, and each must state its baseline — a number without one is not a benchmar
 | Does importing Lily bloat my bundle? | Bundled + minified + gzipped size of a realistic app importing 10, 50, and 200 components | The same app with hand-written equivalents |
 | Does tree-shaking actually work? | Bundle size for one imported component vs. the whole barrel | Should be within noise of hand-written |
 | Do the helpers cost anything meaningful? | Time to interactive with 3 pickers in a page header | The same page without them |
-| Is a large catalog page usable? | Render and interaction timing on `/components` at 491 entries | Framework baseline for a list of the same size |
+| Is a large catalog page usable? | Render and interaction timing on `/components` at 571 entries | Framework baseline for a list of the same size |
 | Does theme switching stall? | Time from click to repaint on a `theme-picker` selection | A hardcoded `<link>` swap |
 
 Rules for any such suite:

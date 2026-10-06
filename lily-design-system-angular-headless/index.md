@@ -1,6 +1,6 @@
 # Lily Design System™ - Angular Headless
 
-A headless Angular 20 component library implementing the Lily Design System catalog (490 components).
+A headless Angular component library (Angular 20–22 peer range) implementing the Lily Design System catalog (571 components).
 
 Components are standalone, signal-based, zero-CSS, and ship semantic HTML + ARIA only. Consumers provide all styling via the kebab-case class hooks documented in `css-style-sheet-template.css`.
 

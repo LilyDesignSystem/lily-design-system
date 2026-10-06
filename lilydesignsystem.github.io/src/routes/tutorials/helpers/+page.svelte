@@ -6,10 +6,12 @@
 <section class="page-intro">
   <h1>Preference helpers</h1>
   <p class="page-intro-tagline">
-    Five small packages per framework, each owning one user job end to end.
-    You've met <a href="/tutorials/theming/">theme-picker</a>; here are
-    locale-picker and text-size-picker (preferences), plus share-picker and
-    date-time-picker (actions and form values).
+    Seven small packages per framework, each owning one user job end to end,
+    plus a bar that assembles five of them. You've met
+    <a href="/tutorials/theming/">theme-picker</a>; here are locale-picker,
+    text-size-picker and motion-picker (preferences), share-picker and
+    search-picker (actions), date-time-picker (a form value), and
+    picker-bar.
   </p>
 </section>
 
@@ -185,27 +187,118 @@
     your backend.
   </p>
 
+  <h2>motion-picker — respect reduced motion</h2>
+  <p>
+    The helper sets <code>data-motion="&#123;slug&#125;"</code> on the document
+    root. Its first value comes from the visitor's operating-system
+    <code>prefers-reduced-motion</code> setting — always, with no opt-in flag,
+    because motion is a real accessibility need (WCAG 2.3.3). Your CSS and
+    scripts decide what gets suppressed.
+  </p>
+  <pre><code>{`<` + `script>
+  import MotionPicker from "@lilydesignsystem/svelte-motion-picker";
+</` + `script>
+
+<MotionPicker
+  label="Motion"
+  motions={["no-preference", "reduce"]}
+  storageKey="my-app-motion"
+/>`}</code></pre>
+  <pre><code>{`:root[data-motion="reduce"] *,
+:root[data-motion="reduce"] *::before,
+:root[data-motion="reduce"] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}`}</code></pre>
+
+  <h2>search-picker — a search box that stays out of the way</h2>
+  <p>
+    An icon button that opens a search field. Pressing Return, or the
+    &#9166; button beside the field, navigates with a plain GET request to
+    <code>/?&lt;text&gt;</code> (the text trimmed and URI-encoded; an empty
+    query goes nowhere). Its three accessible names are required, because the
+    helper ships no English.
+  </p>
+  <pre><code>{`<` + `script>
+  import SearchPicker from "@lilydesignsystem/svelte-search-picker";
+  import { goto } from "$app/navigation";
+</` + `script>
+
+<SearchPicker
+  label="Search this site"
+  inputLabel="Search terms"
+  submitLabel="Search"
+  placeholder="Search…"
+  action="/search"
+  navigate={(href) => goto(href)}
+/>`}</code></pre>
+  <p>
+    <code>action</code> changes the path (<code>/search?foo</code>), and
+    <code>navigate</code> keeps the navigation in-app; without it the helper
+    calls <code>location.assign</code>.
+  </p>
+
+  <h2>picker-bar — the whole header row at once</h2>
+  <p>
+    <code>picker-bar</code> renders search, theme, locale, text-size and share
+    in one row, with the full set of reference themes and the seven-step text
+    scale pre-wired. Every accessible name arrives in one required
+    <code>labels</code> object.
+  </p>
+  <pre><code>{`<` + `script>
+  import PickerBar from "@lilydesignsystem/svelte-picker-bar";
+</` + `script>
+
+<PickerBar
+  labels={{
+    search: "Search", searchInput: "Search terms", searchSubmit: "Search",
+    theme: "Theme", locale: "Language", textSize: "Text size", share: "Share",
+  }}
+  themesUrl="/themes/"
+  locales={["en", "fr", "es"]}
+  shareTargets={targets}
+/>`}</code></pre>
+  <p>
+    Reach any wrapped picker with <code>searchProps</code>,
+    <code>themeProps</code>, <code>localeProps</code>,
+    <code>textSizeProps</code> and <code>shareProps</code>.
+  </p>
+
+  <h2>Tooltips come built in</h2>
+  <p>
+    Every picker shows its label in a tooltip when the pointer rests on its
+    button or the button has keyboard focus. The tooltip stays while the
+    pointer moves onto it, Escape dismisses it wherever focus is, and it
+    never shows while the picker's popup is open. It carries the same text as
+    the button's accessible name, so there is nothing to configure and nothing
+    to translate twice; the reference themes style it.
+  </p>
+
   <h2>A settings panel in one place</h2>
-  <p>The three preference helpers compose naturally:</p>
+  <p>The four preference helpers compose naturally:</p>
   <pre><code>{`<fieldset class="fieldset">
   <legend>Preferences</legend>
   <ThemePicker    label="Theme"     themesUrl="/themes/" themes={themes} storageKey="pref-theme" />
   <LocalePicker   label="Language"  locales={locales}    storageKey="pref-locale" />
   <TextSizePicker label="Text size" sizes={sizes}        storageKey="pref-text-size" />
+  <MotionPicker   label="Motion"    motions={motions}    storageKey="pref-motion" />
 </fieldset>`}</code></pre>
 
   <div class="callout">
     <p style="margin: 0;">
-      <strong>Verified 2026-08-29:</strong> every snippet on this page —
-      locale-picker, text-size-picker, share-picker, date-time-picker, and
-      the combined settings panel — was compiled individually against the
-      published <code>0.1.1</code> packages through <code>svelte/server</code>.
+      <strong>Verified:</strong> the locale-picker, text-size-picker,
+      share-picker, date-time-picker and combined-panel snippets were compiled
+      individually against the published <code>0.1.1</code> packages through
+      <code>svelte/server</code> (2026-08-29); the motion-picker, search-picker
+      and picker-bar snippets were rendered against the packages' own
+      components on 2026-10-06.
     </p>
   </div>
 
   <h2>Where to get them</h2>
   <pre><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-helpers
-# or -react- / -vue- / -angular- / -html- / -nunjucks- / -blazor-`}</code></pre>
+# or -react- / -vue- / -angular- / -html- / -nunjucks- / -blazor- / -web-components-`}</code></pre>
   <p>
     Each catalog has per-package specs, tests mapped to the spec clauses,
     runnable examples (including SSR cookie patterns), and a build + publish
@@ -215,7 +308,7 @@
 
   <h2>Next steps</h2>
   <ul>
-    <li><a href="/components/">Component catalog</a> — the full 491-component reference.</li>
+    <li><a href="/components/">Component catalog</a> — the full 571-component reference.</li>
     <li><a href="/help/">Help</a> — troubleshooting and FAQ.</li>
     <li><a href="/why/">Why Lily</a> — and how to support the project.</li>
   </ul>

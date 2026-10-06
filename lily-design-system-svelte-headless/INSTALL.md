@@ -1,6 +1,6 @@
 # Install
 
-This repository is the Svelte 5 headless component library: all 491 catalog components, unstyled and accessible.
+This repository is the Svelte 5 headless component library: all 571 catalog components, unstyled and accessible.
 
 It is published as a `git subtree` from the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.
@@ -13,7 +13,7 @@ Full documentation and the searchable component catalog: <https://lilydesignsyst
 npm install @lilydesignsystem/svelte-headless
 ```
 
-Import any of the 491 catalog components from the package root; the barrel is
+Import any of the 571 catalog components from the package root; the barrel is
 tree-shakeable (`sideEffects: false`), so your bundler drops what you do not use.
 
 The components ship semantic HTML, ARIA, focus management, and keyboard

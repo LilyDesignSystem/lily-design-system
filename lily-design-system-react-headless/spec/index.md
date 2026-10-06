@@ -282,7 +282,7 @@ pnpm run storybook                   # run Storybook
 ## 11. Tracking
 
 - Package: `@lilydesignsystem/react-headless`
-- Version: 0.2.0
+- Version: 0.4.0
 - Framework: React 19 + TypeScript
 - Test runner: vitest
 - Package manager: pnpm

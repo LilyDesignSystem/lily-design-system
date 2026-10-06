@@ -1,6 +1,6 @@
 # Lily Design System - Web Components Headless
 
-A headless component library built on **native custom elements** (the Web Components platform APIs) rather than a JavaScript framework. **The full achievable catalog as of 2026-09-06**: 456 of the canonical 491 components. The other 35 are permanently excluded by a real architectural limitation (table sub-elements and interactive `*ListItem` families) — not open backlog, since none remains. See `spec/index.md` for the exact accounting.
+A headless component library built on **native custom elements** (the Web Components platform APIs) rather than a JavaScript framework. **The full achievable catalog as of 2026-10-06**: 536 of the canonical 571 components (456 of 491 when it first reached full scope on 2026-09-06; every component added since is implemented). The other 35 are permanently excluded by a real architectural limitation (table sub-elements and interactive `*ListItem` families) — not open backlog, since none remains. See `spec/index.md` for the exact accounting.
 
 @AGENTS/lily.md
 @AGENTS/components.md
@@ -38,7 +38,7 @@ A headless component library built on **native custom elements** (the Web Compon
 
 ## Two structural patterns
 
-Both patterns appear across the 456 components, chosen per the canonical `components/{slug}/AGENTS.md` contract for the component's designated HTML tag:
+Both patterns appear across the 536 components, chosen per the canonical `components/{slug}/AGENTS.md` contract for the component's designated HTML tag:
 
 1. **Wrap a real native element** (`Button`, `TextInput`, `Dialog`, `Figure`, most of the catalog): the custom element's `connectedCallback` creates the real semantic child (`<button>`, `<input>`, `<dialog>`, …), moves the host's original light-DOM children into it, and appends it. The host element itself carries no ARIA/role — it is inert scaffolding around the one node that matters.
 2. **Self-is-the-wrapper** (`Alert`, `Banner`, `ContextualHelp`, `Coachmark`) — used only where the canonical contract's own root element is `<div>` and there is no native element with useful built-in behaviour to defer to. The custom element instance itself carries the base class (via `applySelfClassName`) and the ARIA role/state directly, avoiding an otherwise-pointless extra wrapper `<div>` inside another `<div>`.
@@ -51,7 +51,7 @@ Pattern 1 is preferred whenever the canonical root is a real semantic element; p
 
 ## Backlog: none remaining
 
-As of 2026-09-06 every achievable component (456 of 491) is implemented. The only components not in this catalog are the 35 permanently excluded above (§ "Permanently excluded"); there is no other gap. See `spec/index.md` §11.8 for the completion push's record.
+As of 2026-10-06 every achievable component (536 of 571) is implemented (456 of 491 at 2026-09-06). The only components not in this catalog are the 35 permanently excluded above (§ "Permanently excluded"); there is no other gap. See `spec/index.md` §11.8 for the completion push's record.
 
 ## Inline styles: two named exceptions, plus CSS custom properties
 
@@ -60,7 +60,7 @@ Beyond `FloatButton`'s `position: fixed` and `ThemeProvider`'s `display: content
 ## Testing
 
 - `vitest` + `jsdom`. Each component's `.test.ts` renders via `document.body.innerHTML = "<lily-x ...>...</lily-x>"` (parser-driven upgrade) rather than constructing and appending programmatically, matching how a real consumer's markup activates the element.
-- `index.test.ts` at the package root imports the **built** `dist/index.js` (not source) and asserts every one of the 456 tags self-registers — the same class of check that would have caught react-headless's historical missing-entry-point defect.
+- `index.test.ts` at the package root imports the **built** `dist/index.js` (not source) and asserts every one of the 536 tags self-registers — the same class of check that would have caught react-headless's historical missing-entry-point defect.
 - Run: `pnpm test` (source-level, fast) and `pnpm build && pnpm test` (adds the dist-level smoke test).
 
 ## Component Patterns

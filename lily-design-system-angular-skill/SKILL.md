@@ -17,7 +17,7 @@ directly once you know which subproject you need.
 
 | Subproject | What it is | Reach for it when |
 | --- | --- | --- |
-| [`@lilydesignsystem/angular-headless`](../lily-design-system-angular-headless/) | The full 491-component catalog as standalone Angular 20 components — zero CSS, semantic HTML + ARIA + keyboard behaviour only. | You are building a real app and want to depend on and style the components yourself. |
+| [`@lilydesignsystem/angular-headless`](../lily-design-system-angular-headless/) | The full 571-component catalog as standalone Angular 20 components — zero CSS, semantic HTML + ARIA + keyboard behaviour only. | You are building a real app and want to depend on and style the components yourself. |
 | [`lily-design-system-angular-helpers`](../lily-design-system-angular-helpers/) | Six opinionated packages (`theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`, `share-picker`, `date-time-picker`), each owning one whole page-header preference/action, or — for `date-time-picker` — a form value. | You need a page-header preference control or a date/time form field, not a bare catalog primitive. |
 | [`lily-design-system-angular-examples`](../lily-design-system-angular-examples/) | A fully styled Angular + Analog.js reference app: every catalog component plus 12 composed pages, styled to the NHS UK visual reference. | You want to run something and see it working, or copy a working CSS answer for a component instead of inventing your own. |
 
@@ -43,7 +43,7 @@ Required routes (per `AGENTS/examples.md`, the contract every Lily example
 app follows):
 
 - `/` — home, links to the components catalog and every composed-page demo.
-- `/components` — searchable/filterable index of all 491 catalog components.
+- `/components` — searchable/filterable index of all 571 catalog components.
 - `/components/[slug]` — one detail page per component: renders the demo
   HTML via Angular's `[innerHTML]` + `DomSanitizer.bypassSecurityTrustHtml`
   (the same rendering shape as `{@html}` in svelte-sveltekit-examples,
@@ -91,7 +91,7 @@ Bootstrap, Angular Material) anywhere in the headless or helpers layers.
 ## When NOT this skill
 
 For framework-agnostic Lily concepts — the headless-vs-example layers, the
-491-component catalog, naming conventions, composition patterns, or picking
+571-component catalog, naming conventions, composition patterns, or picking
 a framework — use [`lily-design-system-skill`](../lily-design-system-skill/)
 instead. It does not cover Angular specifics; this skill does not repeat
 its framework-agnostic content.

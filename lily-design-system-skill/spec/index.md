@@ -10,7 +10,7 @@ two-skill plan this subproject implements one half of.
 
 A Claude Skill that explains Lily Design System™ concepts, terminology, and
 usage patterns to people building *with* it: the headless-vs-example
-layers, the 491-component catalog, naming conventions, composition
+layers, the 571-component catalog, naming conventions, composition
 patterns, theming, and the seven supported frameworks. It is content and
 documentation, not a component implementation — it ships no headless
 components, no example app, no helper packages.

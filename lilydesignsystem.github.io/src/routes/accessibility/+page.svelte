@@ -25,10 +25,11 @@
       seven frameworks).
     </li>
     <li>
-      Every one of the 491 component demo pages is axe-clean (WCAG 2.0/2.1
-      A+AA and 2.2 AA rule sets) — the full-catalog sweep, first baselined
-      2026-08-27, plus per-app baselines on home, catalog, and composed
-      routes in all seven example apps.
+      Every one of the 571 component demo pages in the SvelteKit example app
+      is axe-clean (WCAG 2.0/2.1 A+AA and 2.2 AA rule sets) — the
+      full-catalog sweep, first baselined 2026-08-27 and re-run 2026-10-06 —
+      plus per-app baselines on home, catalog, and composed routes in all
+      seven example apps.
     </li>
     <li>
       Keyboard contracts per interactive component, documented in each

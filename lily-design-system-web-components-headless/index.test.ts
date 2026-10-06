@@ -35,12 +35,12 @@ describe("dist/index.js (built package entry point)", () => {
         // added for a further 12 national-personal-identifier types
         // (osterreich, magyarorszag, luxembourg, zhongguo, rossiya,
         // turkiye, argentina, ukrayina, indonesia, prathet-thai, chile,
-        // misr) = 504, plus 16 more (2026-10-05: one-time-password-input, multi-select, multi-select-with-extras, empty-state, show-more, kbd-shortcut, thinking, file-tree, the four calendar-*-table views and the four chart families) = 520. Built up across the original P7-T6/P8-T7 slice
+        // misr) = 504, plus 16 more (2026-10-05: one-time-password-input, multi-select, multi-select-with-extras, empty-state, show-more, kbd-shortcut, thinking, file-tree, the four calendar-*-table views and the four chart families) = 520, plus 16 more (2026-10-06: the seven charts pie / ring / funnel / candlestick / composed / choropleth / sunburst, streaming-text, tool-call and its five inner parts, mark, chat-composer) = 536. Built up across the original P7-T6/P8-T7 slice
         // (33), all 116 + 24 + 24 national personal identifier
         // components, and three more waves covering every remaining
         // category (lists, forms, pickers, links, overlays, tables,
         // media, data-viz, buttons, navigation, content).
-        expect(SLUGS.length).toBe(520);
+        expect(SLUGS.length).toBe(536);
     });
 
     test("a component rendered via the built bundle behaves like the source version", async () => {

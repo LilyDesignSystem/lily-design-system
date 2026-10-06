@@ -115,6 +115,6 @@ every example app runs.
 ## Framework-agnostic Lily concepts
 
 For what Lily is, its terminology (component, slug, class hook, helper,
-theme, subproject), the 491-component catalog, naming conventions, and
+theme, subproject), the 571-component catalog, naming conventions, and
 composition patterns that apply across all seven frameworks, use
 [`lily-design-system-skill`](../lily-design-system-skill/).

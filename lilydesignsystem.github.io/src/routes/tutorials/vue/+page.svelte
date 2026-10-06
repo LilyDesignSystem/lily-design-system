@@ -30,7 +30,7 @@
 cd lily-design-system-vue-headless
 pnpm install
 pnpm test        # vitest + @testing-library/vue
-pnpm run storybook   # browse all 491 components`}</code></pre>
+pnpm run storybook   # browse all 571 components`}</code></pre>
   <p>
     Components are flat files in <code>components/</code> —
     <code>Button.vue</code>, <code>TextInput.vue</code> — each with its test,

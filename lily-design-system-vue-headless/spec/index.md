@@ -258,7 +258,7 @@ pnpm run storybook                   # run Storybook
 ## 10. Tracking
 
 - Package: `@lilydesignsystem/vue-headless`
-- Version: 0.2.0
+- Version: 0.4.0
 - Framework: Vue 3 Composition API + TypeScript
 - Test runner: vitest
 - Package manager: pnpm

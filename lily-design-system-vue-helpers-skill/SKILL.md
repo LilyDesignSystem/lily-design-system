@@ -93,7 +93,7 @@ this skill to restate it.
 ## When NOT this skill
 
 - For the headless component catalog itself in Vue (`Button`, `TextInput`,
-  `BreadcrumbNav`, and the rest of the 491), use
+  `BreadcrumbNav`, and the rest of the 571), use
   `lily-design-system-vue-headless-skill` instead.
 - For framework-agnostic Lily concepts — what a helper is as opposed to a
   plain catalog component, the shared contract every catalog's helpers

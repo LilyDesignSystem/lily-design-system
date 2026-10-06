@@ -137,10 +137,10 @@ def describe(name):
     if kind == "headless":
         if name == "lily-design-system-web-components-headless":
             return (f"the {label} headless component library: its full "
-                    "achievable scope (456 of the 491 components as of "
-                    "2026-09-06; the other 35 are permanently excluded by a "
+                    "achievable scope (536 of the 571 components as of "
+                    "2026-10-06; the other 35 are permanently excluded by a "
                     "real architectural limitation), unstyled and accessible")
-        return f"the {label} headless component library: all 491 catalog components, unstyled and accessible"
+        return f"the {label} headless component library: all 571 catalog components, unstyled and accessible"
     if kind == "helpers":
         return f"the {label} helpers catalog: six opinionated packages that each own one complete interaction"
     if kind == "examples":
@@ -206,7 +206,7 @@ url: '{DOCS}'
 abstract: >-
   This repository is {describe(name)}.
   It is one subproject of Lily Design System, a free open-source headless
-  design system whose canonical catalog of 491 components is implemented
+  design system whose canonical catalog of 571 components is implemented
   across seven frameworks. The canonical monorepo is at
   {CANONICAL} and this repository is
   published from it as a git subtree.
@@ -285,7 +285,7 @@ so your own CSS always wins the cascade — see
 npm install {npm_name(name)}
 ```
 
-Import any of the 491 catalog components from the package root; the barrel is
+Import any of the 571 catalog components from the package root; the barrel is
 tree-shakeable (`sideEffects: false`), so your bundler drops what you do not use.
 
 The components ship semantic HTML, ARIA, focus management, and keyboard
@@ -303,7 +303,7 @@ for a hook per component, and the 45 ready-made stylesheets in
 dotnet add package LilyDesignSystem.Blazor.Headless
 ```
 
-Import any of the 491 catalog components as Razor components. The
+Import any of the 571 catalog components as Razor components. The
 components ship semantic HTML, ARIA, focus management, and keyboard
 behaviour — and **no CSS**. Style them through the kebab-case class hook on each
 root element. See the canonical
