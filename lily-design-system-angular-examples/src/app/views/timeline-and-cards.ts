@@ -21,13 +21,16 @@ import { ReviewDate } from "../components/ReviewDate";
 
       <lily-card>
         <h2>Sample card</h2>
-        <!-- Direct class-hook markup: DateRange/ReviewDate's Angular
-             implementation renders a <div>, not the canonical <span>
-             (components/date-range/AGENTS.md, components/review-date/AGENTS.md)
-             — a separate, pre-existing defect from the list/table wrapper-host
-             issue this page used to work around; not fixed here. -->
-        <p><span class="date-range">January – March 2026</span></p>
-        <p><span class="review-date">Last reviewed 26 August 2026</span></p>
+        <lily-date-range
+          label="Project dates"
+          startLabel="Start date"
+          endLabel="End date"
+          start="2026-01-01"
+          end="2026-03-31"
+        />
+        <p>
+          <lily-review-date label="Last reviewed" datetime="2026-08-26">Last reviewed 26 August 2026</lily-review-date>
+        </p>
       </lily-card>
     </article>
   `,

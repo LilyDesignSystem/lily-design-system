@@ -9,6 +9,22 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## `DateRange` is a fieldset everywhere; `ReviewDate` is a `<time>` in Angular — 2026-10-06
+
+Closes the long-open angular-headless item. The catalog's `AGENTS.md` said `<span>` for `date-range`
+while its own prose, Svelte, React and Vue used a `<fieldset>` with two `<input type="date">`;
+angular-headless rendered a bare `<div>`, Blazor and Web Components a `<span role="group">`, HTML and
+Nunjucks a display `<span>` of `<time>`s. Maintainer decision: fieldset. All eight libraries now render
+`<fieldset class="date-range" aria-label>` holding two `<input class="date-input" type="date" aria-label>`;
+Angular (`start`/`end` models), Blazor (`@bind-Start`/`@bind-End`) and Web Components are two-way; the
+Nunjucks macro's params changed (`label`, `startLabel`, `endLabel`, `start`, `end`, `startName`, `endName`)
+— **breaking** for HTML, Nunjucks, Blazor, Angular and Web Components consumers. `ReviewDate` in
+angular-headless is now a `<time datetime>`. The canonical demo and the Angular example workaround were
+replaced. Verified: angular-headless 1,517, Nunjucks 3,448, Web Components 3,180, Blazor 2,108, HTML
+WebdriverIO `date-range` in Chrome 154; Angular examples 994 unit tests, build and the timeline/date-range
+Playwright+axe specs; SvelteKit examples date-range axe. Not yet published. `ReviewDate` in Blazor, HTML and
+Nunjucks still differs (tasks P9-T15).
+
 ## 0.7.0 — October 2026: 571 components, demonstration pages, documentation sweep — 2026-10-06
 
 The monorepo's first tag since 0.6.0 (2026-08-26). It rolls up the October work, all of it already

@@ -1,11 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-const html = `<span
-  class="date-range">
-  <time class="date-range-start"></time>
-  <span class="date-range-separator" aria-hidden="true">–</span>
-  <time class="date-range-end"></time>
-</span>`;
+const html = `<fieldset class="date-range" aria-label="Trip dates">
+  <input class="date-input" type="date" aria-label="Departure" />
+  <input class="date-input" type="date" aria-label="Return" />
+</fieldset>`;
 
 const meta = {
   title: 'Headless/DateRange',

@@ -524,16 +524,10 @@ same exploration use case. Angular uses the webpack-based
 
 ### 11.8 Open backlog
 
-Completed items are recorded in [CHANGELOG.md](../CHANGELOG.md) and §12.
-As of 2026-09-06 every item below is closed — there is exactly one
-genuinely open item, carried forward from the Angular wrapper-host fix
-below rather than duplicated: `DateRange`/`ReviewDate` in
-angular-headless render `<div>` instead of the canonical `<span>`
-(`aria-prohibited-attr`, found by the same axe run that found the
-wrapper-host defect); `lily-design-system-angular-examples`'s
-`timeline-and-cards.ts` still works around it with direct class-hook
-markup. See §13 for what that leaves as the roadmap's actual near-term
-focus.
+Completed items are recorded in [CHANGELOG.md](../CHANGELOG.md) and §12. The `DateRange`/`ReviewDate`
+item that stood here was closed 2026-10-06: `DateRange` is a `<fieldset>` holding two `<input type="date">`
+in every library, and `ReviewDate` is a `<time>` in angular-headless (see the CHANGELOG). Open work is
+tracked in [tasks.md](../tasks.md) Phase 9.
 
 The completed items (Angular end-to-end verification, Blazor and HTML axe/responsive fixes, the
 Angular wrapper-host semantics fix) moved to [history](history/index.md)
@@ -571,8 +565,8 @@ section), not into a separate `tasks.md`.
 
 ## 13. Roadmap
 
-Near-term focus: fix the one remaining §11.8 item (`DateRange`/
-`ReviewDate` rendering `<div>` instead of `<span>` in angular-headless);
+Near-term focus: the open Phase 9 items in [tasks.md](../tasks.md) (the CSS class-name audit for all
+571 components, the deferred Baby UI ideas, the `ReviewDate` shape in Blazor/HTML/Nunjucks);
 expand composed-page demos beyond the required routes.
 
 Long-term: versioned releases per subproject npm/NuGet package

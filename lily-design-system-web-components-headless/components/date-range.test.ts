@@ -16,14 +16,14 @@ function render(html: string): HTMLElement {
 }
 
 describe("DateRange", () => {
-    test("wraps a real span carrying the base class and role=group (per the AGENTS.md metadata field)", () => {
+    test("renders a real fieldset carrying the base class and the group name", () => {
         const host = render(
             '<lily-date-range label="Trip dates" start-label="Departure" end-label="Return"></lily-date-range>',
         );
 
-        const span = host.querySelector("span") as HTMLSpanElement;
+        const span = host.querySelector("fieldset") as HTMLFieldSetElement;
         expect(span.className).toBe("date-range");
-        expect(span.getAttribute("role")).toBe("group");
+        expect(span.hasAttribute("role")).toBe(false);
         expect(span.getAttribute("aria-label")).toBe("Trip dates");
     });
 

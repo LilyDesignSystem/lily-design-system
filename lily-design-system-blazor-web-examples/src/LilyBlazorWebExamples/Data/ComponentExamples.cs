@@ -131,7 +131,7 @@ public static class ComponentExamples
         ["data-table-th"] = new("razor", "<DataTableTH>\n    Content\n</DataTableTH>\n", new List<ExampleVariant> {  }),
         ["date-field"] = new("html", "<DateField label=\"Date of birth\" value={dateOfBirth} description=\"Enter as day, month, year\" required />\n", new List<ExampleVariant> {  }),
         ["date-input"] = new("html", "<Fieldset legend=\"What is your date of birth?\">\n  <Hint>For example, 15 3 1984</Hint>\n  <DateInput label=\"Date of birth\" autocomplete=\"bday\" />\n</Fieldset>\n", new List<ExampleVariant> {  }),
-        ["date-range"] = new("html", "<DateRange\n    label=\"Stay dates\"\n    startLabel=\"Check-in\"\n    endLabel=\"Check-out\"\n    start={checkIn}\n    end={checkOut}\n/>\n", new List<ExampleVariant> {  }),
+        ["date-range"] = new("razor", "<DateRange Label=\"Trip dates\" StartLabel=\"Departure\" EndLabel=\"Return\"\n           @bind-Start=\"departure\" @bind-End=\"return\" />\n", new List<ExampleVariant> {  }),
         ["date-time-local-input"] = new("html", "<DateTimeLocalInput label=\"Meeting start\" value={meetingStart} min=\"2026-01-01T08:00\" max=\"2026-12-31T18:00\" required />\n", new List<ExampleVariant> {  }),
         ["date-time-now-input"] = new("html", "<DateTimeNowInput label=\"Observation recorded\" dateValue={obsDate} timeValue={obsTime} nowLabel=\"Record now\" required />\n", new List<ExampleVariant> {  }),
         ["date-time-view"] = new("razor", "<DateTimeView>\n    Content\n</DateTimeView>\n", new List<ExampleVariant> {  }),

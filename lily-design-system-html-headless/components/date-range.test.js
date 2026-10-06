@@ -8,16 +8,18 @@ describe('DateRange', function() {
     await browser.url('file://' + path.resolve(__dirname, 'date-range.html'));
   });
 
-  it('should render the span element with correct class', async function() {
-    const el = await $('span.date-range');
+  it('should render a fieldset with the base class and a group name', async function() {
+    const el = await $('fieldset.date-range');
     await expect(el).toExist();
-    const className = await el.getAttribute('class');
-    expect(className).toContain('date-range');
-  });
-
-  it('should have an aria-label attribute', async function() {
-    const el = await $('span.date-range');
     const label = await el.getAttribute('aria-label');
     expect(label).not.toBeNull();
+  });
+
+  it('should hold two date inputs, each with its own accessible name', async function() {
+    const inputs = await $$('fieldset.date-range input.date-input[type="date"]');
+    expect(inputs.length).toBe(2);
+    for (const input of inputs) {
+      expect(await input.getAttribute('aria-label')).not.toBeNull();
+    }
   });
 });

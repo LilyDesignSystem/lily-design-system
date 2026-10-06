@@ -1,6 +1,6 @@
 # DateRange
 
-A display of a start and end date range.
+Paired start and end date inputs in a `<fieldset>`.
 
 ## Canonical documentation
 
@@ -11,7 +11,7 @@ See [components/date-range/index.md](../../../components/date-range/index.md) fo
 ```njk
 {% from "components/date-range/macro.njk" import dateRange %}
 
-{{ dateRange({ }) }}
+{{ dateRange({ label: "Trip dates", startLabel: "Departure", endLabel: "Return", start: "2026-04-01" }) }}
 ```
 
 ## Files

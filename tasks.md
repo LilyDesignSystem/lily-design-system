@@ -2169,12 +2169,18 @@ All items below are done and verified (suites green, `bin/test`, `bin/check-cove
   `filter-table`, `wheel-picker`, `flowchart`, …) and the small primitives (`native-select`,
   `theme-toggle`, `date-picker`, …). Each needs a design pass first (see CHANGELOG 2026-10-05/06).
 - [ ] **P9-T13 Docs-site `error-message` demo colour contrast** (axe `color-contrast`; predates this phase).
-- [ ] **P9-T14 `DateRange`/`ReviewDate` in angular-headless** (spec §11.8). Re-examined 2026-10-06: the
-  backlog wording ("`<div>` instead of the canonical `<span>`") is incomplete. `components/date-range/AGENTS.md`
-  says `HTML tag: <span>` but its own Key Behaviors describe a `<fieldset>` with two `<input type="date">`
-  (what Svelte and React ship), while angular-headless renders a bare `<div aria-label>` wrapper. Needs a
-  maintainer decision on the canonical contract first (fieldset+inputs vs. display span), then the AGENTS.md,
-  the eight libraries and the Angular examples workaround (`timeline-and-cards.ts`) aligned to it.
+- [x] **P9-T14 `DateRange`/`ReviewDate` in angular-headless** — closed 2026-10-06. The real problem was a
+  contract split, not just `<div>` vs `<span>`: `components/date-range/AGENTS.md` said `<span>` while its own
+  prose, Svelte, React and Vue used a `<fieldset>` with two date inputs. Maintainer decision: **fieldset**.
+  `AGENTS.md` fixed; Angular (`start`/`end` `model()`s), Blazor (`@bind-Start`/`@bind-End`), HTML, Nunjucks
+  (macro params `label`, `startLabel`, `endLabel`, `start`, `end`) and Web Components (was a `<span role="group">`)
+  brought to it, with tests; the canonical demo and Angular `timeline-and-cards` workaround replaced.
+  `ReviewDate` in angular-headless is now a `<time datetime>` like Svelte/React/Vue/Web Components.
+- [ ] **P9-T15 `ReviewDate` shape in Blazor, HTML and Nunjucks**: Blazor renders `<span aria-label>`, HTML and
+  Nunjucks a `<span>` wrapping a `<time>`; Svelte, React, Vue, Web Components and now Angular render the `<time>`
+  itself with `datetime`. Decide and align (breaking for those three).
+- [ ] **P9-T16 Catalog description**: `components.tsv` still describes `date-range` as "a display of a start and
+  end date range"; it is now paired date inputs. Changing it ripples through every registry and doc.
 
 ---
 

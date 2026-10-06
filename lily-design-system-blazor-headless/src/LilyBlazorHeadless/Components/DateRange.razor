@@ -2,14 +2,39 @@
 
 @*
     DateRange component
-    a display of a start and end date range
+    paired start and end date inputs <fieldset><input type="date">
 *@
 
-<span class="@($"date-range {CssClass}".Trim())" role="group" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</span>
+<fieldset class="@($"date-range {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">
+    <input class="date-input" type="date" aria-label="@StartLabel" value="@Start" @onchange="OnStartChange" />
+    <input class="date-input" type="date" aria-label="@EndLabel" value="@End" @onchange="OnEndChange" />
+</fieldset>
 
 @code {
+    /// <summary>Accessible group label, set on the fieldset's aria-label.</summary>
     [Parameter, EditorRequired] public string Label { get; set; } = "";
-    [Parameter] public RenderFragment? ChildContent { get; set; }
+    /// <summary>Accessible label for the start date input.</summary>
+    [Parameter, EditorRequired] public string StartLabel { get; set; } = "";
+    /// <summary>Accessible label for the end date input.</summary>
+    [Parameter, EditorRequired] public string EndLabel { get; set; } = "";
+    /// <summary>Start date, YYYY-MM-DD. Supports @bind-Start.</summary>
+    [Parameter] public string Start { get; set; } = "";
+    [Parameter] public EventCallback<string> StartChanged { get; set; }
+    /// <summary>End date, YYYY-MM-DD. Supports @bind-End.</summary>
+    [Parameter] public string End { get; set; } = "";
+    [Parameter] public EventCallback<string> EndChanged { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private async Task OnStartChange(ChangeEventArgs e)
+    {
+        Start = e.Value?.ToString() ?? "";
+        await StartChanged.InvokeAsync(Start);
+    }
+
+    private async Task OnEndChange(ChangeEventArgs e)
+    {
+        End = e.Value?.ToString() ?? "";
+        await EndChanged.InvokeAsync(End);
+    }
 }

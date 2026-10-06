@@ -3,26 +3,19 @@
 // A display of a start and end date range: two native
 // <input type="date"> elements grouped together.
 //
-// The canonical AGENTS.md metadata field ("HTML tag: <span>" — the
-// single source of truth per this catalog's headless design rules) is
-// internally inconsistent with its own "Key Behaviors" prose, which
-// describes a <fieldset>. Every other framework's port actually renders
-// a <fieldset> (verified against @lilydesignsystem/svelte-headless).
-// Followed the metadata field here as instructed: this component wraps
-// a real <span> (Pattern 1 — a <span> cannot itself be a <fieldset>),
-// carrying `role="group"` + `aria-label` to reproduce the fieldset's
-// grouping semantics without the fieldset element itself. Flagged as a
-// deliberate, documented deviation from the sibling catalogs.
+// Renders a real <fieldset> (as every sibling catalog does), whose
+// native group semantics name the pair via aria-label; each input has the
+// `date-input` class and its own accessible name.
 //
 // Attributes:
-//   label — REQUIRED. Accessible group name, via aria-label (role=group).
+//   label — REQUIRED. Accessible group name, via aria-label on the fieldset.
 //   start-label — REQUIRED. Accessible name for the start date input.
 //   end-label — REQUIRED. Accessible name for the end date input.
 //   start — bindable start date value (YYYY-MM-DD); also a live `start`
 //     property.
 //   end — bindable end date value (YYYY-MM-DD); also a live `end`
 //     property.
-//   ...rest — spread onto the generated <span>.
+//   ...rest — spread onto the generated <fieldset>.
 //
 // References:
 //   - components/date-range/index.md (canonical contract)
@@ -34,27 +27,28 @@ import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 const HANDLED = new Set(["label", "start-label", "end-label", "start", "end"]);
 
 export class DateRange extends HTMLElement {
-    #span: HTMLSpanElement | null = null;
+    #root: HTMLFieldSetElement | null = null;
     #start: HTMLInputElement | null = null;
     #end: HTMLInputElement | null = null;
 
     connectedCallback(): void {
-        if (this.#span) return;
+        if (this.#root) return;
 
-        const span = document.createElement("span");
+        const span = document.createElement("fieldset");
         span.className = rootClassName(this, "date-range");
-        span.setAttribute("role", "group");
         const label = this.getAttribute("label");
         if (label !== null) span.setAttribute("aria-label", label);
         passThroughAttributes(this, span, HANDLED);
 
         const start = document.createElement("input");
+        start.className = "date-input";
         start.type = "date";
         const startLabel = this.getAttribute("start-label");
         if (startLabel !== null) start.setAttribute("aria-label", startLabel);
         start.value = this.getAttribute("start") ?? "";
 
         const end = document.createElement("input");
+        end.className = "date-input";
         end.type = "date";
         const endLabel = this.getAttribute("end-label");
         if (endLabel !== null) end.setAttribute("aria-label", endLabel);
@@ -64,7 +58,7 @@ export class DateRange extends HTMLElement {
         span.appendChild(end);
 
         this.appendChild(span);
-        this.#span = span;
+        this.#root = span;
         this.#start = start;
         this.#end = end;
     }
