@@ -87,14 +87,13 @@ exists; it is kept in `CHANGELOG.md` and `spec/history/`. As of 2026-10-06:
 - **Repositories**: 51 published subtree repos — 23 implementation subprojects (8 headless,
   7 example apps, 8 helper catalogs), 26 Claude Skills, `lily-design-system-themes` and the
   docs site. `bin/test` and `bin/check-links` (12,425 markdown files) are clean.
-- **Published** (2026-10-06): headless npm `svelte`/`react`/`vue`/`angular`/`web-components`
-  0.4.0, `html` 0.5.0, `nunjucks` 0.3.0; NuGet `LilyDesignSystem.Blazor.Headless` 0.3.0;
-  `@lilydesignsystem/themes` 0.2.0; every helper package (npm and NuGet), including the
+- **Published** (2026-10-06): headless npm `svelte`/`react`/`vue` 0.4.0, `angular`/`web-components`
+  0.5.0, `html` 0.6.0, `nunjucks` 0.4.0; NuGet `LilyDesignSystem.Blazor.Headless` 0.4.0;
+  `@lilydesignsystem/themes` 0.3.0; every helper package (npm and NuGet), including the
   seven pickers and `picker-bar`. NuGet publishes through OIDC trusted publishing from
   `publish.yml` (`NUGET_USER` must be the policy creator's username).
-- **Releases**: monorepo tags `v0.2.0`–`v0.6.0` exist (all cut 2026-08-26); there has been no
-  monorepo tag since, so releases after 2026-08-26 live only in CHANGELOG and per-package
-  versions. Cutting a monorepo tag/Release for the October work is open.
+- **Releases**: monorepo tags `v0.2.0`–`v0.8.0` exist (`v0.7.0` and `v0.8.0` both cut 2026-10-06, each with a
+  GitHub Release); all 50 subtrees were pushed at 0.8.0.
 - **Themes live**: 45 themes ship, the docs site mounts `picker-bar`, and every picker has a
   tooltip. `bin/sync` now keeps the site's copy of the themes in step (it had drifted).
 - **Demonstration pages**: every example app and the docs site render the live demo, rendered
@@ -102,12 +101,11 @@ exists; it is kept in `CHANGELOG.md` and `spec/history/`. As of 2026-10-06:
 - **CI**: `.github/workflows/ci.yml` defines jobs `verify`, `helpers`, `headless`,
   `html-headless`, `dotnet-tests`, `example-smoke`, `consumer-smoke` and `spell-check`
   (job list read from the file 2026-10-06; run history not re-checked).
-- **Open backlog**: `DateRange`/`ReviewDate` render `<div>` instead of `<span>` in
-  angular-headless (spec §11.8); the per-framework CSS class-name audit for all 571; the
-  docs-site `error-message` demo fails colour contrast; a monorepo tag/Release for the
-  October work; the deferred Baby UI ideas (`attachment`, `tool-chips`, the remaining agent,
-  advanced and primitive components); security-posture settings, GitHub topics and README
-  screenshots were **not re-verified** on 2026-10-06.
+- **Open backlog**: only the deferred Baby UI ideas (`attachment`, `tool-chips`, the remaining agent,
+  advanced and primitive components — tasks P9-T12, each needing a design pass first). Closed 2026-10-06:
+  the `DateRange`/`ReviewDate` contracts, error-text contrast in all 45 themes, `bin/check-class-names`, the
+  monorepo tags. Security-posture settings, GitHub topics and README screenshots were **not re-verified**
+  on 2026-10-06.
 
 ## Research findings (2026-08)
 

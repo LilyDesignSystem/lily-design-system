@@ -83,6 +83,16 @@ The root [`themes/`](../../themes/) directory ships 45 ready-to-use theme styles
 - Selectors use `:where(...)` so consumer overrides always win on specificity.
 - The [`theme-select` helper](../helpers/index.md) loads these at runtime by swapping a managed `<link>` href and setting `data-theme` on the document root.
 
+## Error text (`--lily-error-text`)
+
+`--color-error` is a **fill** colour (a badge, a border, a tint), not a text colour: used as text it failed WCAG
+contrast in 26 of the 45 themes (2.35–4.4:1 on the error-tinted callout). Every theme therefore defines
+`--lily-error-text` — the error colour mixed 22% into the theme's own `--color-base-content` — and uses it for error
+*text*: `.error-message`, a failed `.validation-list-item` and the `.dont-list-item` marker. It deliberately mixes
+`--color-base-content`, not `--lily-text`, so a host page that overrides `--lily-text` (the docs site does) cannot
+break it. Verified by switching all 45 themes on `/components/error-message/` under axe (0 failures). Any new
+status-coloured text should follow the same pattern rather than reuse a fill token.
+
 ## Design-token source (DTCG)
 
 Each theme's design primitives — the `--color-*`, `--radius-*`,

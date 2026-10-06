@@ -43,7 +43,7 @@ See `AGENTS.md` for the full architecture, component pattern, testing convention
 
 ## Status
 
-Complete and published: all 571 catalog components as standalone, signal-based, OnPush Angular components (peer range Angular `>=20 <23`), each with a vitest spec and a Storybook story. Version 0.4.0.
+Complete and published: all 571 catalog components as standalone, signal-based, OnPush Angular components (peer range Angular `>=20 <23`), each with a vitest spec and a Storybook story. Version 0.5.0.
 
 ---
 

@@ -370,7 +370,7 @@ data, Content) matching this file's §2 breakdown.
   (0.4.0, 2026-10-06; see root `docs/releasing.md`).
 - Custom element tags: `lily-{slug}`, one per canonical slug in
   `components.tsv` — this package defines the 536 in §2.
-- Version: 0.4.0 (2026-10-06: 456 → 536 components, non-breaking; 2026-09-06:
+- Version: 0.5.0 (2026-10-06: `DateRange` now a `<fieldset>`, breaking; 0.4.0 2026-10-06: 456 → 536 components, non-breaking; 2026-09-06:
   261 → 456, the full achievable catalog at that date).
 
 ## 11. Acceptance criteria

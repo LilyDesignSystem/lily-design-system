@@ -49,6 +49,15 @@ It does **not** cover: the headless markup and behaviour-boundary rules (see [he
 - Screen-reader smoke tests — VoiceOver (macOS), NVDA (Windows), JAWS (Windows) at minimum on the major composed example pages.
 - Colour-contrast spot checks on the example apps — automated via axe / Lighthouse, manual where colour interacts with state.
 
+### Docs-site sweep (2026-10-06)
+
+A full axe sweep of the docs site — home, catalog, tutorials, accessibility and all 571 component pages, 575 pages,
+WCAG 2.0–2.2 A/AA tags, run against the built site with the default theme loaded — reports 0 violations. The sweep
+found two real defects, both fixed: error text in 26 of the 45 themes failed contrast (see [theme](../theme/index.md)),
+and overflowing hand-written `<pre>` blocks were not keyboard-focusable (`scrollable-region-focusable`). When running
+axe against a page whose theme stylesheet loads at runtime, wait for the managed `<link data-lily-theme-picker>` and
+let button transitions settle, or axe samples mid-transition colours.
+
 ### axe-core baseline (Playwright, spec §11.5)
 
 axe-core / Playwright integration ships across all seven example apps. Rule set: **WCAG 2.0 A+AA, 2.1 A+AA, 2.2 AA**. Per-app baseline (axe-clean routes / total checked), re-verified 2026-09-02 (plan P1-T6) — see [testing](../testing/index.md) for the authoritative, live-maintained table:

@@ -26,11 +26,15 @@ Re-run in full 2026-10-06 (all suites green; 571 components). The previous basel
 | svelte-headless    | vitest       | 5,895 cases across 1,143 dual-mirror spec files (571 × the two real trees, plus one) |
 | react-headless     | vitest       | 3,278 cases across 571 spec files              |
 | vue-headless       | vitest       | 3,242 cases across 571 spec files              |
-| angular-headless   | vitest       | 1,513 cases across 571 spec files              |
-| blazor-headless    | bUnit        | 2,105 cases                                    |
-| nunjucks-headless  | vitest       | 3,447 cases across 571 spec files              |
+| angular-headless   | vitest       | 1,517 cases across 571 spec files              |
+| blazor-headless    | bUnit        | 2,110 cases                                    |
+| nunjucks-headless  | vitest       | 3,449 cases across 571 spec files              |
 | web-components-headless | vitest  | 3,180 cases across 537 spec files (536 components + `index.test.ts`, which pins the registered-element count and drives the built `dist/`) |
 | html-headless      | WebdriverIO  | 572 spec files (571 components + the shared `listbox-controller` spec), all passing in real headless Chrome 154 on 2026-10-06 with a matching chromedriver (`wdio.conf.js` must not fall back to a download in a sandbox: point `wdio:chromedriverOptions.binary` at a cached driver). Earlier note, kept for the record: browser run not re-executed — corrected 2026-09-02, plan P7-T12: the 2026-09-01 note blaming this sandbox's network egress was wrong. The real, now-fixed cause was `pnpm-workspace.yaml`'s `chromedriver`/`edgedriver`/`geckodriver`/`esbuild` entries carrying the literal placeholder text `"set this to true or false"` — and, separately, this file being gitignored here and in 9 other subprojects rather than committed — both of which blocked those packages' install-time driver-download postinstall scripts under pnpm 11 (`ERR_PNPM_IGNORED_BUILDS`). With both fixed, `pnpm install` now downloads chromedriver cleanly and the suite starts; a full `wdio run` still can't complete in this specific interactive sandbox because it receives an unexplained SIGINT within seconds every time, reproducible even for a single spec file with no other load — a harness-level limitation, not a network block or a Lily defect) |
+
+Beyond the per-library suites: `bin/check-class-names` (every implementation carries its slug as the first
+token of a class list — run by `bin/test` and CI), and the **docs site's** Playwright suite
+(`lilydesignsystem.github.io/tests/`, 1,873 passing on 2026-10-06, one spec file per component page).
 
 ## Storybook coverage
 

@@ -2,7 +2,7 @@
 
 ## Status
 
-Initial scaffold landed 2026-05-28; the library has since been fully verified and published. As of 2026-10-06 it ships all 571 catalog components (571 `.ts` + `.spec.ts` + `.stories.ts` triplets plus docs), version 0.4.0 on npm as `@lilydesignsystem/angular-headless`, with a peer range of Angular `>=20 <23` (the example app runs Angular 22). The "Plan" and "Tasks" checklists below are the original scaffold-era ones, now updated to current state.
+Initial scaffold landed 2026-05-28; the library has since been fully verified and published. As of 2026-10-06 it ships all 571 catalog components (571 `.ts` + `.spec.ts` + `.stories.ts` triplets plus docs), version 0.5.0 on npm as `@lilydesignsystem/angular-headless`, with a peer range of Angular `>=20 <23` (the example app runs Angular 22). The "Plan" and "Tasks" checklists below are the original scaffold-era ones, now updated to current state.
 
 ## 2026-09-01 — wrapper-host attribute-selector migration (0.3.0, breaking)
 
@@ -96,7 +96,7 @@ lily-design-system-angular-headless/
 ## Tracking
 
 - Package: `@lilydesignsystem/angular-headless`
-- Version: 0.4.0
+- Version: 0.5.0
 - Framework: Angular `>=20 <23` (signals, standalone, OnPush) + TypeScript
 - Test runner: vitest
 - Package manager: pnpm

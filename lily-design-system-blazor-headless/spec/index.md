@@ -263,7 +263,7 @@ dotnet test                                                     # run bUnit test
 ## 10. Tracking
 
 - Package: `lily-design-system-blazor-headless`
-- Version: 0.3.0
+- Version: 0.4.0
 - Framework: Blazor .NET 10 + C# 13
 - Test runner: bUnit + xUnit
 - Build: `dotnet build`

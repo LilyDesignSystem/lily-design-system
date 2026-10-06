@@ -33,6 +33,11 @@ Consumer CSS reads `var(--theme-color-primary)`, `var(--theme-space-md)`, etc.
 
 `ThemeProvider` accepts a `base` prop (`"light" | "dark"`) that is reflected as `data-theme` on the wrapper. Consumer CSS targets `[data-theme="light"]` and `[data-theme="dark"]` to swap variables. High-contrast themes are an additional `data-theme` value and are layered the same way.
 
+### Error text
+
+`--color-error` is a fill colour, not a text colour. Error *text* uses `--lily-error-text` (error mixed 22% into
+`--color-base-content`), defined by every reference theme; reuse that pattern for any status-coloured text.
+
 ### Forbidden in the headless layer
 
 - Hard-coded hex values, named colours, RGB / HSL literals

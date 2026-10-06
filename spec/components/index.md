@@ -252,6 +252,16 @@ retired on 2026-10-06 because the curated demos no longer follow it.
 - [x] `bin/test` passes for the catalog, all components, and all subprojects. Verified 2026-09-06: `bin/test` exit code 0.
 - [x] Each example app's `/components/{slug}` page renders a suffix-appropriate live demo for every component. Fixed 2026-09-06: 44 of the 46 national-identifier `-view` demo entries (plus, found in the same pass, `date-time-view`) rendered the wrong element in the canonical `lily-design-system-svelte-sveltekit-examples/src/lib/data/component-demos.ts` (`<div>` for the 44 national identifiers, real component is `<span>`; `<div>` for `date-time-view`, real component is `<time>`) — the doc's own suffix table also overstated the rule (claimed `role="img"` for every `*-view`, which only two rating-view components actually use; corrected). Fixed the canonical file and re-ran `bin/generate-registries`, which propagated the fix into all 7 example apps at once (verified via diff on the Blazor and HTML CSS/JS apps' generated registries, not just the 4 that copy the TS file directly). `split-view` was checked and correctly left as `<div>` (a real layout container, not a text display).
 
+## Contracts settled 2026-10-06
+
+- **`DateRange`** is a `<fieldset class="date-range" aria-label>` holding two
+  `<input class="date-input" type="date" aria-label>` in all eight libraries (it had been a `<span>`, `<div>` and
+  `<fieldset>` depending on the library). Props: `label`, `startLabel`, `endLabel`, bindable `start` / `end`
+  (Nunjucks: macro params; Blazor: `@bind-Start` / `@bind-End`).
+- **`ReviewDate`** is a `<time class="review-date" aria-label datetime>` whose content is the human-readable date,
+  in all eight libraries. A "next review" date is a second `ReviewDate`.
+- The catalog description of `date-range` is "paired start and end date inputs".
+
 ## Contracts introduced 2026-10
 
 Short contracts for the components added in October 2026; each component's own
