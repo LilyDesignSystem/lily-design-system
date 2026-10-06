@@ -27,6 +27,20 @@ site's axe sweep (575 pages) is clean. Packages published with it: angular-headl
 0.5.0, html-headless 0.6.0, nunjucks-headless 0.4.0, Blazor headless 0.4.0, `@lilydesignsystem/themes` 0.3.0.
 svelte/react/vue headless and every helper package are unchanged and stay at their versions.
 
+## Picker popups no longer slide the page — 2026-10-06
+
+Reported on lilydesignsystem.com: clicking the theme picker made the page slide sideways. The theme list (508px:
+long theme names on one line) opened left-aligned under a button on the right of the header, ran 236px past the
+window, and focusing it scrolled the document 231px. All 45 themes now place the popups with CSS anchor positioning:
+`position: fixed` (so the viewport is the containing block), `position-area: block-end span-inline-end`, flip
+fallbacks (`flip-inline`, `flip-block`), `width: max-content` capped at `100vw - 1rem`. Verified in Chromium, Firefox
+and WebKit at 1280 px and 390 px, left-to-right and right-to-left, for the theme, locale, text-size, share and search
+popups: no sideways scroll, every popup inside the viewport. (WebKit's `share-picker` opens the native share sheet
+instead of the list, so it is not testable there.) `.motion-picker-list` / `-option` had no theme rules at all in any
+of the 45 themes and now share the same ones. New regression test `tests/header-popups.spec.ts` (10 cases): fails on the
+old CSS (6 failures), passes now; docs-site suite 2,865 passed, 0 failed. Browsers without anchor positioning keep the
+old absolute placement. `@lilydesignsystem/themes` is not yet republished.
+
 ## Docs-site Playwright suite repaired; header search goes live — 2026-10-06
 
 The 1,873-passed figure recorded for the docs site on 2026-10-06 was wrong: runs were piped through `tail`, which hid

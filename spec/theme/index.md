@@ -83,6 +83,17 @@ The root [`themes/`](../../themes/) directory ships 45 ready-to-use theme styles
 - Selectors use `:where(...)` so consumer overrides always win on specificity.
 - The [`theme-select` helper](../helpers/index.md) loads these at runtime by swapping a managed `<link>` href and setting `data-theme` on the document root.
 
+## Picker popups
+
+The reference themes place every picker popup (`.{theme,locale,text-size,motion,share}-picker-list`,
+`.search-picker-panel`) with CSS anchor positioning inside `@supports (position-area: block-end)`: `position: fixed`,
+anchored to the picker root (`anchor-name: --lily-{picker}`), `position-area: block-end span-inline-end`,
+`position-try-fallbacks: flip-inline, flip-block, flip-block flip-inline`, and a width of `max-content` capped at
+`100vw - 1rem`. Fixed positioning is deliberate: fallbacks are checked against the containing block, so only the
+viewport makes them react to the window edge. A popup that is wider than the space beside its button otherwise runs off
+the window and focusing it scrolls the page sideways. Do not use `min-width: max-content` here: it beats `max-width`,
+and `min()` does not accept intrinsic keywords. Regression test: the docs site's `tests/header-popups.spec.ts`.
+
 ## Error text (`--lily-error-text`)
 
 `--color-error` is a **fill** colour (a badge, a border, a tint), not a text colour: used as text it failed WCAG
