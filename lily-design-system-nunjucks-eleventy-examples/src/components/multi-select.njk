@@ -8,3 +8,9 @@ description: a native select that allows choosing several options at once
 
 <h2>Default</h2>
 <p>{{ multiSelect({ label: "Toppings", size: 3, value: ["b"], options: [{ value: "a", text: "Cheese" }, { value: "b", text: "Olives" }, { value: "c", text: "Peppers" }] }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{{ multiSelect({ label: "Toppings", value: ["a"], options: [{ value: "a", text: "Cheese" }] }) }}
+{% endraw %}</code></pre>
+{# END generated: examples #}

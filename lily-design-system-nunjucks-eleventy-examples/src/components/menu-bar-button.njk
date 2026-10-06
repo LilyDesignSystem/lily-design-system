@@ -11,3 +11,13 @@ description: one item in a menu bar
   {{ menuBarButton({ text: "Edit", expanded: true, controls: "edit-menu" }) }}
   {{ menuBarButton({ text: "Disabled", disabled: true }) }}
 </div>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;MenuBar label="Application menu"&gt;
+    &lt;MenuBarButton onclick={() =&gt; openFileMenu()}&gt;File&lt;/MenuBarButton&gt;
+    &lt;MenuBarButton onclick={() =&gt; openEditMenu()}&gt;Edit&lt;/MenuBarButton&gt;
+    &lt;MenuBarButton onclick={() =&gt; openViewMenu()}&gt;View&lt;/MenuBarButton&gt;
+&lt;/MenuBar&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

@@ -15,3 +15,30 @@ description: a dual list box for moving items between two lists
   targetHtml: "<ul role='listbox'><li role='option'>Dana</li></ul>",
   actionsHtml: "<button type='button'>&rarr;</button> <button type='button'>&larr;</button>"
 }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/transfer-list/macro.njk" import transferList %}
+
+{{ transferList({
+  label: "Manage members",
+  sourceLabel: "Available members",
+  targetLabel: "Selected members",
+  sourceHtml: "
+    &lt;ul role='listbox'&gt;
+      &lt;li role='option'&gt;Alice&lt;/li&gt;
+      &lt;li role='option'&gt;Bob&lt;/li&gt;
+    &lt;/ul&gt;
+  ",
+  targetHtml: "
+    &lt;ul role='listbox'&gt;
+      &lt;li role='option'&gt;Carol&lt;/li&gt;
+    &lt;/ul&gt;
+  ",
+  actionsHtml: "
+    &lt;button type='button' aria-label='Move right'&gt;→&lt;/button&gt;
+    &lt;button type='button' aria-label='Move left'&gt;←&lt;/button&gt;
+  "
+}) }}
+{% endraw %}</code></pre>
+{# END generated: examples #}

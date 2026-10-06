@@ -30,3 +30,26 @@ description: a select dropdown showing a tree of hierarchical options
     <li role="treeitem" aria-selected="true">design</li>
   </ul>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/tree-select/macro.njk" import treeSelect %}
+
+{% call treeSelect({
+  label: "Choose a category",
+  placeholder: "Select…",
+  expanded: true,
+  multiple: true
+}) %}
+  &lt;ul role="tree"&gt;
+    &lt;li role="treeitem" aria-expanded="false"&gt;Books
+      &lt;ul role="group"&gt;
+        &lt;li role="treeitem"&gt;Fiction&lt;/li&gt;
+        &lt;li role="treeitem"&gt;Non-fiction&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li role="treeitem"&gt;Music&lt;/li&gt;
+  &lt;/ul&gt;
+{% endcall %}
+{% endraw %}</code></pre>
+{# END generated: examples #}

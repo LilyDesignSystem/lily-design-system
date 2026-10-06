@@ -8,3 +8,13 @@ description: an input for entering the Philippines' PhilHealth Identification Nu
 
 <h2>Default</h2>
 <p>{{ pilipinasPhilhealthIdentificationNumberInput({ text: "PilipinasPhilhealthIdentificationNumberInput example", label: "PilipinasPhilhealthIdentificationNumberInput example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="PhilHealth Identification Number (PIN)" required&gt;
+  &lt;PilipinasPhilhealthIdentificationNumberInput label="PhilHealth Identification Number (PIN)" value={value} required /&gt;
+  &lt;Hint&gt;Twelve-digit number assigned by the Philippine Health Insurance Corporation (PhilHealth) to every enrolled member, commonly displayed grouped as NN-NNNNNNNNN-N. No published check-digit algorithm; correctness is confirmed against PhilHealth's own membership records.&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid PhilHealth Identification Number&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

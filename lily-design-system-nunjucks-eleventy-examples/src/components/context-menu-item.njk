@@ -12,3 +12,14 @@ description: one item in a context menu
   {{ contextMenuItem({ text: "Destructive action", danger: true }) }}
   {{ contextMenuItem({ text: "Disabled", disabled: true }) }}
 </ul>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;ContextMenu label="Text actions" open={open}&gt;
+    &lt;ContextMenuItem onclick={() =&gt; handleCut()}&gt;Cut&lt;/ContextMenuItem&gt;
+    &lt;ContextMenuItem onclick={() =&gt; handleCopy()}&gt;Copy&lt;/ContextMenuItem&gt;
+    &lt;ContextMenuItem onclick={() =&gt; handlePaste()}&gt;Paste&lt;/ContextMenuItem&gt;
+    &lt;ContextMenuItem aria-disabled="true"&gt;Delete&lt;/ContextMenuItem&gt;
+&lt;/ContextMenu&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

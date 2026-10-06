@@ -11,3 +11,13 @@ description: one item in a menu
   {{ menuItem({ text: "With shortcut", shortcut: "Ctrl+K" }) }}
   {{ menuItem({ text: "Disabled", disabled: true }) }}
 </ul>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Menu label="File"&gt;
+    &lt;MenuItem onclick={() =&gt; handleNew()}&gt;New File&lt;/MenuItem&gt;
+    &lt;MenuItem onclick={() =&gt; handleOpen()}&gt;Open File&lt;/MenuItem&gt;
+    &lt;MenuItem onclick={() =&gt; handleSave()}&gt;Save&lt;/MenuItem&gt;
+&lt;/Menu&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

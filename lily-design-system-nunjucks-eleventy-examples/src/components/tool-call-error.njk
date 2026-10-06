@@ -8,3 +8,10 @@ description: the error shown when a tool call fails
 
 <h2>Error</h2>
 {% call toolCallError({}) %}The tool timed out.{% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/tool-call-error/macro.njk" import toolCallError %}
+{% call toolCallError({}) %}…{% endcall %}
+{% endraw %}</code></pre>
+{# END generated: examples #}

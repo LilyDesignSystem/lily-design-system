@@ -20,3 +20,14 @@ description: a text container that truncates content to a maximum number of line
 {% call clampText({ lines: 1 }) %}
   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/clamp-text/macro.njk" import clampText %}
+
+{{ clampText({
+  text: "Long paragraph that should be truncated after three lines.",
+  lines: 3
+}) }}
+{% endraw %}</code></pre>
+{# END generated: examples #}

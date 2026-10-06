@@ -31,3 +31,17 @@ description: a medical record banner box for danger information (reactions, warn
 <p>The macro sets <code>role="alert"</code> so assistive tech
   announces the contents when they appear. Use for patient-wide
   safety flags that must be persistently visible.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;MedicalBanner label="Patient summary"&gt;
+  &lt;MedicalBannerBox&gt;
+    &lt;strong&gt;Sarah Mitchell&lt;/strong&gt; | NHS: 485 777 3456
+  &lt;/MedicalBannerBox&gt;
+  &lt;MedicalBannerBoxForDanger label="Allergies and reactions"&gt;
+    &lt;p&gt;Penicillin -- Anaphylaxis&lt;/p&gt;
+    &lt;p&gt;Latex -- Skin rash&lt;/p&gt;
+  &lt;/MedicalBannerBoxForDanger&gt;
+&lt;/MedicalBanner&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

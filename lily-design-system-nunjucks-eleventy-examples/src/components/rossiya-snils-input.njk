@@ -8,3 +8,13 @@ description: an input for entering Russia's SNILS Individual Insurance Account N
 
 <h2>Default</h2>
 <p>{{ rossiyaSnilsInput({ text: "RossiyaSnilsInput example", label: "RossiyaSnilsInput example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="СНИЛС (Strakhovoy Nomer Individualnogo Litsevogo Scheta)" required&gt;
+  &lt;RossiyaSnilsInput label="СНИЛС (Strakhovoy Nomer Individualnogo Litsevogo Scheta)" value={value} required /&gt;
+  &lt;Hint&gt;Eleven digits, displayed as NNN-NNN-NNN CC. The first nine digits are an account number; the last two form a Modulus-101 check value computed as a weighted sum of the first nine digits (each multiplied by its position from 9 down to 1), with sums of 100 or 101 both mapping to a check value of 00.&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid СНИЛС&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

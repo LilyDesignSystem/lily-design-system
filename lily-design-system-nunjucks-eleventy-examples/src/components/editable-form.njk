@@ -11,3 +11,16 @@ description: a form wrapper for inline editing
   <button type="submit">Save</button>
   <button type="reset">Cancel</button>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;button onclick={() =&gt; (editing = true)}&gt;Edit profile&lt;/button&gt;
+&lt;EditableForm label="Edit profile" editing={editing} onsubmit={saveProfile} oncancel={revertProfile}&gt;
+  &lt;Field label="Full name"&gt;
+    &lt;TextInput label="Full name" value={fullName} /&gt;
+  &lt;/Field&gt;
+  &lt;button type="submit"&gt;Save&lt;/button&gt;
+  &lt;button type="button" onclick={() =&gt; (editing = false)}&gt;Cancel&lt;/button&gt;
+&lt;/EditableForm&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

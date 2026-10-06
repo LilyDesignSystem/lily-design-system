@@ -10,3 +10,14 @@ layout: layouts/component-demo.njk
 
 <h2>Default</h2>
 {{ visible({ label: "Example" }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Visible once threshold={0.5}&gt;
+  {(isVisible) =&gt; isVisible
+    ? &lt;img src="photo.jpg" alt="Lazy loaded photo" /&gt;
+    : &lt;div class="placeholder" /&gt;
+  }
+&lt;/Visible&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

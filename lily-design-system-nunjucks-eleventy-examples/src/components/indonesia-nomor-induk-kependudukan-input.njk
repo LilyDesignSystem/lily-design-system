@@ -8,3 +8,13 @@ description: an input for entering Indonesia's Nomor Induk Kependudukan (NIK)
 
 <h2>Default</h2>
 <p>{{ indonesiaNomorIndukKependudukanInput({ text: "IndonesiaNomorIndukKependudukanInput example", label: "IndonesiaNomorIndukKependudukanInput example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="Nomor Induk Kependudukan (NIK)" required&gt;
+  &lt;IndonesiaNomorIndukKependudukanInput label="Nomor Induk Kependudukan (NIK)" value={value} required /&gt;
+  &lt;Hint&gt;Sixteen digits in the form PPKKCC-DDMMYY-NNNN: the first six digits encode province, regency/city, and sub-district of first registration; the next six encode date of birth (with 40 added to the day-of-month digits for a female holder, e.g. day 10 becomes 50); the final four digits are a sequence number disambiguating same-day-same-subdistrict registrations. No published check digit.&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid Nomor Induk Kependudukan&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

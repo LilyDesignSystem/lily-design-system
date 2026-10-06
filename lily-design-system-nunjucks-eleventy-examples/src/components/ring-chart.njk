@@ -15,3 +15,14 @@ description: a pie chart with a hollow centre, often used to show progress or a 
 {% call ringChart({ label: "Ring chart example", dataTable: dataTable }) %}
   <svg viewBox="0 0 100 50" width="200" height="100" aria-hidden="true" focusable="false"><circle cx="50" cy="25" r="20"></circle></svg>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/ring-chart/macro.njk" import ringChart %}
+{% call ringChart({ label: "Example", describedBy: "desc" }) %}&lt;svg&gt;...&lt;/svg&gt;{% endcall %}
+{% endraw %}</code></pre>
+<h2>More examples</h2>
+<h3>Graphic only (no data table)</h3>
+{% raw %}<div class="component-demo-variant"><figure class="ring-chart"><div class="ring-chart-graphic" role="img" aria-label="Ring chart: 72 percent of target"><svg viewBox="0 0 120 80" width="240" height="160" aria-hidden="true" focusable="false"><circle cx="60" cy="40" r="28" fill="none" stroke="currentColor" stroke-opacity="0.25" stroke-width="10"/><path d="M60 12 A28 28 0 1 1 33 49" fill="none" stroke="currentColor" stroke-width="10"/></svg></div></figure></div>{% endraw %}
+<details><summary>Show markup</summary><pre tabindex="0"><code>{% raw %}&lt;figure class="ring-chart"&gt;&lt;div class="ring-chart-graphic" role="img" aria-label="Ring chart: 72 percent of target"&gt;&lt;svg viewBox="0 0 120 80" width="240" height="160" aria-hidden="true" focusable="false"&gt;&lt;circle cx="60" cy="40" r="28" fill="none" stroke="currentColor" stroke-opacity="0.25" stroke-width="10"/&gt;&lt;path d="M60 12 A28 28 0 1 1 33 49" fill="none" stroke="currentColor" stroke-width="10"/&gt;&lt;/svg&gt;&lt;/div&gt;&lt;/figure&gt;{% endraw %}</code></pre></details>
+{# END generated: examples #}

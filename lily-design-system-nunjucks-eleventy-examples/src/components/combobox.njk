@@ -12,3 +12,13 @@ description: a text input combined with a dropdown list
   <li role="option">Urgent care</li>
   <li role="option">Pharmacy</li>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Combobox label="Select country" value={country} open={countryOpen}&gt;
+    &lt;div role="option" tabindex="-1" onclick={() =&gt; { country = 'United Kingdom'; countryOpen = false; }}&gt;United Kingdom&lt;/div&gt;
+    &lt;div role="option" tabindex="-1" onclick={() =&gt; { country = 'United States'; countryOpen = false; }}&gt;United States&lt;/div&gt;
+    &lt;div role="option" tabindex="-1" onclick={() =&gt; { country = 'France'; countryOpen = false; }}&gt;France&lt;/div&gt;
+&lt;/Combobox&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

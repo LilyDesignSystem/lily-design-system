@@ -35,3 +35,19 @@ description: a banner identifying a website as belonging to a government, with a
     <p>A .gov website belongs to an official US government organization.</p>
   </div>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/government-banner/macro.njk" import governmentBanner %}
+
+{% call governmentBanner({
+  label: "Official government website",
+  headerText: "An official website of the United States government",
+  expandLabel: "Here's how you know",
+  expanded: false
+}) %}
+  &lt;p&gt;The .gov means it's official.&lt;/p&gt;
+  &lt;p&gt;Secure .gov websites use HTTPS.&lt;/p&gt;
+{% endcall %}
+{% endraw %}</code></pre>
+{# END generated: examples #}

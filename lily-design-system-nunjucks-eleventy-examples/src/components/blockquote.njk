@@ -17,3 +17,15 @@ description: a block-level quotation with optional source citation
 {{ blockquote({
   html: "<p>The best way to predict the future is to invent it.</p>"
 }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/blockquote/macro.njk" import blockquote %}
+
+{{ blockquote({
+  text: "The web is for everyone.",
+  cite: "https://example.com/source",
+  citationText: "— Tim Berners-Lee"
+}) }}
+{% endraw %}</code></pre>
+{# END generated: examples #}

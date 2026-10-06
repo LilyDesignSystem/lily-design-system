@@ -8,3 +8,10 @@ description: the input or arguments passed to a tool in a tool call
 
 <h2>Labelled input</h2>
 {% call toolCallInput({ label: "Input" }) %}<pre tabindex="0">{"query": "weather"}</pre>{% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/tool-call-input/macro.njk" import toolCallInput %}
+{% call toolCallInput({}) %}…{% endcall %}
+{% endraw %}</code></pre>
+{# END generated: examples #}

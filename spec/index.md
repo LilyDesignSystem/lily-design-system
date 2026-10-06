@@ -353,6 +353,8 @@ Scripts live in `bin/`:
 | `bin/check-coverage`                  | Coverage drift matrix: per-component file presence across all 7 headless libraries. |
 | `bin/generate-component-categories`   | Regenerate `components-categories.tsv` (per-component HTML tag + category) from `components.tsv`. |
 | `bin/new-component`                   | End-to-end scaffolder for one new placeholder component. |
+| `bin/generate-examples`               | Per-component usage examples (from the docs) and rendered variants (`component-variants.json`) for every demonstration page. |
+| `bin/generate-site-pages`             | Docs-site component pages: rebuilds placeholders from `index.md`, refreshes every Example section. |
 | `bin/smoke-packages`                  | Pack + install every headless + npm helper tarball into a scratch consumer and render it. |
 | `bin/make-github-pages`               | Push the docs site subtree to its `github-pages` remote; invoked by `make github-pages`. |
 

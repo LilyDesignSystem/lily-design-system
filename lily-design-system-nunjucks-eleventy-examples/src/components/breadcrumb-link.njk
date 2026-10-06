@@ -20,3 +20,21 @@ description: one breadcrumb link in the trail
 
 <p>See the <a href="/components/breadcrumb-nav/">BreadcrumbNav demo</a>
   for the full composition.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;BreadcrumbNav label="Breadcrumb"&gt;
+  &lt;BreadcrumbList&gt;
+    &lt;BreadcrumbListItem&gt;
+      &lt;BreadcrumbLink href="/"&gt;Home&lt;/BreadcrumbLink&gt;
+    &lt;/BreadcrumbListItem&gt;
+    &lt;BreadcrumbListItem&gt;
+      &lt;BreadcrumbLink href="/health-a-z"&gt;Health A to Z&lt;/BreadcrumbLink&gt;
+    &lt;/BreadcrumbListItem&gt;
+    &lt;BreadcrumbListItem aria-current="page"&gt;
+      Diabetes
+    &lt;/BreadcrumbListItem&gt;
+  &lt;/BreadcrumbList&gt;
+&lt;/BreadcrumbNav&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

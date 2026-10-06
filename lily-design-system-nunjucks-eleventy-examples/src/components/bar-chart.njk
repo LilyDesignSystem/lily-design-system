@@ -15,3 +15,9 @@ description: a horizontal bar chart visualization for displaying data
 {% call barChart({ label: "Bar chart example", dataTable: dataTable }) %}
   <svg viewBox="0 0 100 50" width="200" height="100" aria-hidden="true" focusable="false"><circle cx="50" cy="25" r="20"></circle></svg>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;BarChart label="Top services by usage" categories={topServices} description="Usage counts for the top 10 services" /&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

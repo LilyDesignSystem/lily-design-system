@@ -19,3 +19,13 @@ description: an input for entering Scotland's Community Health Index (CHI)
 
 <h2>Reference</h2>
 <p>See <a href="https://en.wikipedia.org/wiki/National_Health_Service_Central_Register">Community Health Index</a>.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="Community Health Index" required&gt;
+  &lt;AlbaCommunityHealthIndexInput label="Community Health Index" value={value} required /&gt;
+  &lt;Hint&gt;10 digits encoding date of birth (DDMMYY) + two random digits + a sex digit (odd male, even female) + a Modulus-11 check digit&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid Community Health Index&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

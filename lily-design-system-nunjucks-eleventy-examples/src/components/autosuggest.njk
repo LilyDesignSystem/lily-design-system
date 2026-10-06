@@ -11,3 +11,9 @@ description: a text input that proposes matching options as users type
 
 <h2>With accessible label</h2>
 {{ autosuggest({ text: "Example content", label: "Autosuggest example" }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Autosuggest label="Find a service" suggestions={current} onInput={handleQuery} onSelect={handleSelect} /&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

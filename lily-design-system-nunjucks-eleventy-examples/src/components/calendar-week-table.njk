@@ -19,3 +19,12 @@ description: a calendar grid for one week as seven day columns
     {% endcall %}
   {% endcall %}
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/calendar-week-table/macro.njk" import calendarWeekTable %}
+{% call calendarWeekTable({ label: "Week of 3 March 2025" }) %}
+  ...calendarTableBody...
+{% endcall %}
+{% endraw %}</code></pre>
+{# END generated: examples #}

@@ -21,3 +21,13 @@ description: an input for entering an Eire Individual Health Identifier
     describedBy: "ihi-hint"
   }) }}
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="Individual Health Identifier" required&gt;
+  &lt;EireIndividualHealthIdentifierInput label="IHI" value={ihi} required /&gt;
+  &lt;Hint&gt;Enter the 10-digit IHI from your HSE records&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid 10-digit IHI&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

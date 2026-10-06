@@ -45,3 +45,13 @@ description: a floating content box anchored to a trigger element
   <p>I stay open until explicitly closed.</p>
   <button popovertarget="pop-manual" popovertargetaction="hide" class="button button-secondary">Close</button>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;button onclick={() =&gt; showPopover = !showPopover}&gt;Toggle info&lt;/button&gt;
+&lt;Popover label="Additional information" open={showPopover}&gt;
+  &lt;p&gt;Here is some contextual information.&lt;/p&gt;
+  &lt;button onclick={() =&gt; showPopover = false}&gt;Close&lt;/button&gt;
+&lt;/Popover&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

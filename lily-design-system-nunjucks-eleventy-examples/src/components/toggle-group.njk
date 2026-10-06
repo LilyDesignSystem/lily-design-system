@@ -21,3 +21,13 @@ description: a group of toggle buttons for selecting options
   {{ toggleButton({ text: "Hospital" }) }}
   {{ toggleButton({ text: "Dentist" }) }}
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;ToggleGroup label="Text formatting"&gt;
+  &lt;ToggleButton label="Bold" pressed={isBold} /&gt;
+  &lt;ToggleButton label="Italic" pressed={isItalic} /&gt;
+  &lt;ToggleButton label="Underline" pressed={isUnderline} /&gt;
+&lt;/ToggleGroup&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

@@ -19,3 +19,21 @@ description: one accordion link in the trail
   content. See the
   <a href="/components/accordion-nav/">Accordion Nav demo</a>
   for a composed example.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;AccordionNav label="Service categories"&gt;
+  &lt;AccordionList&gt;
+    &lt;AccordionListItem heading="Mental health" expanded&gt;
+      &lt;AccordionLink href="/services/anxiety"&gt;Anxiety&lt;/AccordionLink&gt;
+      &lt;AccordionLink href="/services/depression"&gt;Depression&lt;/AccordionLink&gt;
+      &lt;AccordionLink href="/services/stress"&gt;Stress management&lt;/AccordionLink&gt;
+    &lt;/AccordionListItem&gt;
+    &lt;AccordionListItem heading="Physical health"&gt;
+      &lt;AccordionLink href="/services/back-pain"&gt;Back pain&lt;/AccordionLink&gt;
+      &lt;AccordionLink href="/services/headaches" label="Headaches and migraines"&gt;Headaches&lt;/AccordionLink&gt;
+    &lt;/AccordionListItem&gt;
+  &lt;/AccordionList&gt;
+&lt;/AccordionNav&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

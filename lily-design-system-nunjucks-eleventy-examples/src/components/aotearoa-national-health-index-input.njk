@@ -8,3 +8,13 @@ description: an input for entering New Zealand's National Health Index (NHI) Num
 
 <h2>Default</h2>
 <p>{{ aotearoaNationalHealthIndexInput({ text: "AotearoaNationalHealthIndexInput example", label: "AotearoaNationalHealthIndexInput example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="National Health Index (NHI) Number" required&gt;
+  &lt;AotearoaNationalHealthIndexInput label="National Health Index (NHI) Number" value={value} required /&gt;
+  &lt;Hint&gt;Seven-character identifier (three letters, four digits). The legacy AAANNNC format uses a Modulus-11 check digit over the six preceding characters; an expanded AAANNAX format (issued from July 2026) uses a Modulus-23 check digit instead, to extend the identifier space.&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid National Health Index&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

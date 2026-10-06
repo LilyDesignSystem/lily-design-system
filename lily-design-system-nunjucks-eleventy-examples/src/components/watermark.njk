@@ -20,3 +20,20 @@ description: a decorative repeating overlay text or image marking a page
     <p>Default values: gap 100px, rotate -22 degrees.</p>
   </div>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/watermark/macro.njk" import watermark %}
+
+{% call watermark({
+  text: "Confidential",
+  rotate: -22,
+  gap: "120px"
+}) %}
+  &lt;article&gt;
+    &lt;h1&gt;Q3 Forecast&lt;/h1&gt;
+    &lt;p&gt;…&lt;/p&gt;
+  &lt;/article&gt;
+{% endcall %}
+{% endraw %}</code></pre>
+{# END generated: examples #}

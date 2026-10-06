@@ -38,3 +38,14 @@ description: a button input that submits a form
 <p>Prefer the <a href="/components/button/"><code>Button</code></a>
   with <code>type="submit"</code> for most cases.
   <code>SubmitInput</code> is here for parity with legacy forms.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Form label="Contact us" onsubmit={handleSubmit}&gt;
+  &lt;Field label="Message" required&gt;
+    &lt;TextAreaInput label="Message" value={message} required /&gt;
+  &lt;/Field&gt;
+  &lt;SubmitInput value="Send message" /&gt;
+&lt;/Form&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

@@ -31,3 +31,15 @@ description: a picker for selecting a 1-5 star rating
   <code>.five-star-rating-picker-button:hover ~ .five-star-rating-picker-button</code>
   highlights <em>lower-valued</em> stars when you hover a higher
   one — a classic CSS-only star-rating pattern without JavaScript.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;FiveStarRatingPicker label="Rate this product" value={rating}&gt;
+    &lt;FiveStarRatingPickerButton value="1" label="1 star" onclick={handleClick} /&gt;
+    &lt;FiveStarRatingPickerButton value="2" label="2 stars" onclick={handleClick} /&gt;
+    &lt;FiveStarRatingPickerButton value="3" label="3 stars" selected onclick={handleClick} /&gt;
+    &lt;FiveStarRatingPickerButton value="4" label="4 stars" onclick={handleClick} /&gt;
+    &lt;FiveStarRatingPickerButton value="5" label="5 stars" onclick={handleClick} /&gt;
+&lt;/FiveStarRatingPicker&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

@@ -8,3 +8,13 @@ description: an input for entering Ukraine's Taxpayer Registration Card Number (
 
 <h2>Default</h2>
 <p>{{ ukrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput({ text: "UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput example", label: "UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="Реєстраційний номер облікової картки платника податків (РНОКПП)" required&gt;
+  &lt;UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput label="Реєстраційний номер облікової картки платника податків (РНОКПП)" value={value} required /&gt;
+  &lt;Hint&gt;Ten digits. The first five encode date of birth as the number of days elapsed since 1 January 1900; the next four are a registration sequence number, whose own last digit's parity encodes sex (odd male, even female); the tenth digit is a check digit computed with a weighted-sum algorithm over the first nine digits.&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid Реєстраційний номер облікової картки платника податків&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

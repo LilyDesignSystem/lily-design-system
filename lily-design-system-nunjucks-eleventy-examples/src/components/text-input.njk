@@ -52,3 +52,21 @@ nhsuk: https://service-manual.nhs.uk/design-system/components/text-input
     inputmode: "numeric"
   }) }}
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="What is your full name?"&gt;
+  &lt;TextInput label="Full name" autocomplete="name" /&gt;
+&lt;/Field&gt;
+
+&lt;Field label="Enter a full postcode in England"&gt;
+  &lt;Hint&gt;For example, LS1 1AB&lt;/Hint&gt;
+  &lt;TextInput label="Postcode" autocomplete="postal-code" /&gt;
+&lt;/Field&gt;
+
+&lt;Field label="What is your NHS number?"&gt;
+  &lt;Hint&gt;This is a 10-digit number, like 485 777 3456&lt;/Hint&gt;
+  &lt;TextInput label="NHS number" inputmode="numeric" /&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

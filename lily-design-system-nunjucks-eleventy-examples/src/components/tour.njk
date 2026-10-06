@@ -18,3 +18,27 @@ description: a tour guide, such as for sightseeing, or pathways, or demonstratio
     {% call tourListItem() %}Review and finish.{% endcall %}
   {% endcall %}
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Tour label="Patient record system walkthrough"&gt;
+  &lt;TourList label="Getting started" active={showTour}&gt;
+    &lt;TourListItem label="Welcome" current={step === 0} stepNumber={1} totalSteps={3}&gt;
+      &lt;p&gt;Welcome to the patient record system. This tour will show you the key features.&lt;/p&gt;
+      &lt;Button onclick={() =&gt; step++}&gt;Next&lt;/Button&gt;
+      &lt;Button onclick={() =&gt; showTour = false}&gt;Skip tour&lt;/Button&gt;
+    &lt;/TourListItem&gt;
+    &lt;TourListItem label="Search patients" current={step === 1} stepNumber={2} totalSteps={3}&gt;
+      &lt;p&gt;Use the search bar to find patients by name, NHS number, or date of birth.&lt;/p&gt;
+      &lt;Button onclick={() =&gt; step--}&gt;Back&lt;/Button&gt;
+      &lt;Button onclick={() =&gt; step++}&gt;Next&lt;/Button&gt;
+    &lt;/TourListItem&gt;
+    &lt;TourListItem label="View record" current={step === 2} stepNumber={3} totalSteps={3}&gt;
+      &lt;p&gt;Click a patient name to open their full record, including demographics and appointments.&lt;/p&gt;
+      &lt;Button onclick={() =&gt; step--}&gt;Back&lt;/Button&gt;
+      &lt;Button onclick={() =&gt; showTour = false}&gt;Finish&lt;/Button&gt;
+    &lt;/TourListItem&gt;
+  &lt;/TourList&gt;
+&lt;/Tour&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

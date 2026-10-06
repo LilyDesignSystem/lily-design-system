@@ -19,3 +19,13 @@ description: an input for entering Slovakia's Pas
 
 <h2>Reference</h2>
 <p>See <a href="https://en.wikipedia.org/wiki/Slovak_passport">Slovak Passport</a>.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="Slovak Passport" required&gt;
+  &lt;SlovenskoPasInput label="Slovak Passport" value={value} required /&gt;
+  &lt;Hint&gt;9 characters in the format XXNNNNNNN: 2 block letters and 7 digits&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid Slovak Passport&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

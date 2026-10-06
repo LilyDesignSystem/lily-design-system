@@ -35,3 +35,24 @@ description: an identifier section with a parent agency logo, agency name, and r
     <li><a href="/privacy">Privacy</a></li>
   </ul>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/government-identifier/macro.njk" import governmentIdentifier %}
+
+{% call governmentIdentifier({
+  label: "Agency identifier",
+  agencyName: "U.S. General Services Administration",
+  agencyHref: "https://www.gsa.gov",
+  logoUrl: "/logo.svg",
+  logoAlt: "GSA logo",
+  description: "An independent agency"
+}) %}
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href="/about"&gt;About&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="/foia"&gt;FOIA requests&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="/accessibility"&gt;Accessibility statement&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+{% endcall %}
+{% endraw %}</code></pre>
+{# END generated: examples #}

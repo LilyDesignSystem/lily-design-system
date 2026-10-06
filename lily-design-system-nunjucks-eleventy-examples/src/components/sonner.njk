@@ -11,3 +11,11 @@ description: a toast notification manager
   {% call toast({ label: "Saved", open: true }) %}Appointment saved.{% endcall %}
   {% call toast({ label: "Error", open: true }) %}Could not upload file.{% endcall %}
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Sonner label="Notifications"&gt;
+  &lt;Toast label="Success"&gt;Patient record saved successfully.&lt;/Toast&gt;
+&lt;/Sonner&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

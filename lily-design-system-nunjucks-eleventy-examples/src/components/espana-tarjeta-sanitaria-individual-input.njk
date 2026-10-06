@@ -27,3 +27,13 @@ description: an input for entering a Tarjeta Sanitaria Individual (TSI) code
   format. The input accepts up to 20 alphanumeric characters and
   does not impose auto-grouping — consumers apply region-specific
   validation as needed.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="Tarjeta Sanitaria Individual" required&gt;
+  &lt;EspanaTarjetaSanitariaIndividualInput label="TSI" value={tsi} required /&gt;
+  &lt;Hint&gt;Enter your CIP-SNS code from your health card&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid TSI number&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

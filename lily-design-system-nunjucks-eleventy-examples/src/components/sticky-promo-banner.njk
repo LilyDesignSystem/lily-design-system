@@ -34,3 +34,18 @@ description: a fixed-position promotional banner with a dismiss button
 }) %}
   <p>This banner is closed and not visible.</p>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/sticky-promo-banner/macro.njk" import stickyPromoBanner %}
+
+{% call stickyPromoBanner({
+  label: "Spring sale promotion",
+  position: "bottom",
+  dismissLabel: "Dismiss promotion"
+}) %}
+  &lt;p&gt;50% off everything this weekend.&lt;/p&gt;
+  &lt;a href="/sale"&gt;Shop now&lt;/a&gt;
+{% endcall %}
+{% endraw %}</code></pre>
+{# END generated: examples #}

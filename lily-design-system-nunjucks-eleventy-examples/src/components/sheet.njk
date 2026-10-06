@@ -10,3 +10,16 @@ description: a panel that slides in from a screen edge as an overlay
   <h2>Quick actions</h2>
   <ul><li>Book appointment</li><li>Refill prescription</li></ul>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Sheet label="Settings" open={settingsOpen} side="right"&gt;
+  &lt;h2&gt;Preferences&lt;/h2&gt;
+  &lt;form&gt;
+    &lt;label&gt;&lt;input type="checkbox" /&gt; Enable notifications&lt;/label&gt;
+    &lt;label&gt;&lt;input type="checkbox" /&gt; Dark mode&lt;/label&gt;
+  &lt;/form&gt;
+  &lt;button onclick={() =&gt; (settingsOpen = false)}&gt;Close&lt;/button&gt;
+&lt;/Sheet&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

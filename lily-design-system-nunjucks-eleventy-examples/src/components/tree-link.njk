@@ -11,3 +11,26 @@ description: one tree link in the trail
 
 <h2>Current page</h2>
 <p>{{ treeLink({ href: "/current", text: "Current", current: true }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;TreeNav label="Documentation sidebar"&gt;
+  &lt;TreeList label="Pages"&gt;
+    &lt;TreeListItem tabindex="0" aria-expanded="true"&gt;
+      &lt;TreeLink href="/docs/components"&gt;Components&lt;/TreeLink&gt;
+      &lt;ul role="group"&gt;
+        &lt;TreeListItem tabindex="-1"&gt;
+          &lt;TreeLink href="/docs/components/button"&gt;Button&lt;/TreeLink&gt;
+        &lt;/TreeListItem&gt;
+        &lt;TreeListItem tabindex="-1"&gt;
+          &lt;TreeLink href="/docs/components/dialog"&gt;Dialog&lt;/TreeLink&gt;
+        &lt;/TreeListItem&gt;
+      &lt;/ul&gt;
+    &lt;/TreeListItem&gt;
+    &lt;TreeListItem tabindex="-1"&gt;
+      &lt;TreeLink href="/docs/api" label="API reference documentation"&gt;API Reference&lt;/TreeLink&gt;
+    &lt;/TreeListItem&gt;
+  &lt;/TreeList&gt;
+&lt;/TreeNav&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

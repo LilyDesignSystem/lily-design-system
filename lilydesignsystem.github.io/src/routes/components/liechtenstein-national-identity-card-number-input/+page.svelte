@@ -3,6 +3,8 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<label class=\"label\" for=\"demo-input\">Label</label><input class=\"liechtenstein-national-identity-card-number-input\" id=\"demo-input\" aria-label=\"an input for entering Liechtenstein's Liechtenstein National Identity Card Number\" />";
   const svelteSource: string = "// In your Svelte component:\nimport LiechtensteinNationalIdentityCardNumberInput from \"lily-design-system-svelte-headless/components/LiechtensteinNationalIdentityCardNumberInput/LiechtensteinNationalIdentityCardNumberInput.svelte\";\n\n<LiechtensteinNationalIdentityCardNumberInput label=\"Label\" />\n";
+  const usageCode: string = "<Field label=\"Liechtenstein National Identity Card Number\" required>\n  <LiechtensteinNationalIdentityCardNumberInput label=\"Liechtenstein National Identity Card Number\" value={value} required />\n  <Hint>2 letters followed by 8 digits (e.g. ID022143586)</Hint>\n  <ErrorMessage>Please enter a valid Liechtenstein National Identity Card Number</ErrorMessage>\n</Field>\n";
+  const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>
 
@@ -24,8 +26,30 @@
   <h2 id="example-heading">Example</h2>
   <div class="component-example-rendered" style="padding: 1rem; border: 1px solid #d8dde0; border-radius: 0.5rem; background: #ffffff;">{@html demoHtml}</div>
   <details style="margin-top: 1rem;">
+    <summary style="cursor: pointer; font-weight: 600;">Show demo markup</summary>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre tabindex="0" style="overflow-x: auto; padding: 1rem; color: #212b32; background: #f0f4f5; border-radius: 0.5rem;"><code>{demoHtml}</code></pre>
+  </details>
+  {#each variants as variant (variant.title)}
+    <h3 style="margin-top: 1.5rem;">{variant.title}</h3>
+    <div class="component-example-rendered" style="padding: 1rem; border: 1px solid #d8dde0; border-radius: 0.5rem; background: #ffffff;">{@html variant.html}</div>
+    <details style="margin-top: 0.5rem;">
+      <summary style="cursor: pointer; font-weight: 600;">Show markup</summary>
+      <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+      <pre tabindex="0" style="overflow-x: auto; padding: 1rem; color: #212b32; background: #f0f4f5; border-radius: 0.5rem;"><code>{variant.html}</code></pre>
+    </details>
+  {/each}
+  {#if usageCode}
+    <details style="margin-top: 1.5rem;" open>
+      <summary style="cursor: pointer; font-weight: 600;">Usage example</summary>
+      <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+      <pre tabindex="0" style="overflow-x: auto; padding: 1rem; color: #212b32; background: #f0f4f5; border-radius: 0.5rem;"><code>{usageCode}</code></pre>
+    </details>
+  {/if}
+  <details style="margin-top: 1rem;">
     <summary style="cursor: pointer; font-weight: 600;">Show Svelte source</summary>
-    <pre style="overflow-x: auto; padding: 1rem; background: #f0f4f5; border-radius: 0.5rem;"><code>{svelteSource}</code></pre>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre tabindex="0" style="overflow-x: auto; padding: 1rem; color: #212b32; background: #f0f4f5; border-radius: 0.5rem;"><code>{svelteSource}</code></pre>
   </details>
 </section>
 <!-- END auto-generated component example -->

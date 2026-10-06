@@ -10,3 +10,16 @@ description: a collapsible block that shows an AI agent's reasoning or thinking,
 {% call thinking({ label: "Thinking" }) %}Step one, then step two.{% endcall %}
 <h2>Streaming</h2>
 {% call thinking({ label: "Thinking", streaming: true, open: true }) %}Working...{% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% call thinking({ label: "Thinking", streaming: true }) %}Step one...{% endcall %}
+{% endraw %}</code></pre>
+<h2>More examples</h2>
+<h3>Open</h3>
+{% raw %}<div class="component-demo-variant"><details class="thinking" open><summary class="thinking-summary">Thinking</summary><div class="thinking-content">Comparing the two options, then checking the constraints before answering.</div></details></div>{% endraw %}
+<details><summary>Show markup</summary><pre tabindex="0"><code>{% raw %}&lt;details class="thinking" open&gt;&lt;summary class="thinking-summary"&gt;Thinking&lt;/summary&gt;&lt;div class="thinking-content"&gt;Comparing the two options, then checking the constraints before answering.&lt;/div&gt;&lt;/details&gt;{% endraw %}</code></pre></details>
+<h3>Streaming (busy)</h3>
+{% raw %}<div class="component-demo-variant"><details class="thinking" open data-streaming="true" aria-busy="true"><summary class="thinking-summary">Thinking</summary><div class="thinking-content">Comparing the two opt</div></details></div>{% endraw %}
+<details><summary>Show markup</summary><pre tabindex="0"><code>{% raw %}&lt;details class="thinking" open data-streaming="true" aria-busy="true"&gt;&lt;summary class="thinking-summary"&gt;Thinking&lt;/summary&gt;&lt;div class="thinking-content"&gt;Comparing the two opt&lt;/div&gt;&lt;/details&gt;{% endraw %}</code></pre></details>
+{# END generated: examples #}

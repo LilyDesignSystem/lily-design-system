@@ -19,3 +19,13 @@ description: an input for entering Estonia's Isikukood (IK)
 
 <h2>Reference</h2>
 <p>See <a href="https://en.wikipedia.org/wiki/National_identification_number#Estonia">Personal Identification Code</a>.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="Personal Identification Code" required&gt;
+  &lt;EestiIsikukoodInput label="Personal Identification Code" value={value} required /&gt;
+  &lt;Hint&gt;11 digits in the form GYYMMDDSSSC: G is sex and century (odd male, even female&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid Personal Identification Code&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

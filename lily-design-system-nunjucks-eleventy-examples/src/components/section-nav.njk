@@ -11,3 +11,14 @@ description: a navigation container for section links
 
 <h2>With accessible label</h2>
 {{ sectionNav({ text: "Example content", label: "SectionNav example" }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;SectionNav label="In this section"&gt;
+  &lt;SectionList&gt;
+    &lt;SectionListItem&gt;&lt;SectionLink href="/section-a"&gt;Section A&lt;/SectionLink&gt;&lt;/SectionListItem&gt;
+    &lt;SectionListItem&gt;&lt;SectionLink href="/section-b" current&gt;Section B&lt;/SectionLink&gt;&lt;/SectionListItem&gt;
+  &lt;/SectionList&gt;
+&lt;/SectionNav&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

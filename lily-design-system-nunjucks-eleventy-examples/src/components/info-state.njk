@@ -33,3 +33,16 @@ description: a composition of illustration, title, description, and action for e
   title: "New feature available",
   description: "You can now group your tasks by project."
 }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/info-state/macro.njk" import infoState %}
+
+{{ infoState({
+  level: "empty",
+  title: "No results",
+  description: "Try a different search query.",
+  action: '&lt;button type="button"&gt;Clear filters&lt;/button&gt;'
+}) }}
+{% endraw %}</code></pre>
+{# END generated: examples #}

@@ -19,3 +19,13 @@ description: an input for entering Romania's Paşaport
 
 <h2>Reference</h2>
 <p>See <a href="https://en.wikipedia.org/wiki/Romanian_passport">Romanian Passport</a>.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="Romanian Passport" required&gt;
+  &lt;RomaniaPasaportInput label="Romanian Passport" value={value} required /&gt;
+  &lt;Hint&gt;8 characters: positions 1-2 [A-Z] and positions 3-8 [0-9]&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid Romanian Passport&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

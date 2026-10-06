@@ -14,3 +14,15 @@ description: a floating action button anchored to a viewport corner
 
 <h2>Top-right disabled</h2>
 {{ floatButton({ label: "Add", position: "top-right", disabled: true, html: "+" }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/float-button/macro.njk" import floatButton %}
+
+{{ floatButton({
+  label: "Compose new message",
+  position: "bottom-right",
+  html: '&lt;svg viewBox="0 0 24 24" aria-hidden="true"&gt;…&lt;/svg&gt;'
+}) }}
+{% endraw %}</code></pre>
+{# END generated: examples #}

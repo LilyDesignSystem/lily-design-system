@@ -9,3 +9,28 @@ description: a kanban table interactive grid body <tbody>
   It maps to the native HTML <code>&lt;tbody&gt;</code>
   element. See the <a href="/components/kanban-table/">Kanban Table
   demo</a> for composed examples.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;KanbanTable label="Sprint board"&gt;
+    &lt;KanbanTableHead&gt;
+        ...
+    &lt;/KanbanTableHead&gt;
+    &lt;KanbanTableBody&gt;
+        &lt;KanbanTableRow&gt;
+            &lt;KanbanTableTD label="Fix login bug"&gt;
+                &lt;h4&gt;Fix login bug&lt;/h4&gt;
+                &lt;p&gt;Assigned to Alice&lt;/p&gt;
+            &lt;/KanbanTableTD&gt;
+            &lt;KanbanTableTD label="Add dashboard"&gt;
+                &lt;h4&gt;Add dashboard&lt;/h4&gt;
+                &lt;p&gt;Assigned to Bob&lt;/p&gt;
+            &lt;/KanbanTableTD&gt;
+            &lt;KanbanTableTD label="Setup CI/CD"&gt;
+                &lt;h4&gt;Setup CI/CD&lt;/h4&gt;
+            &lt;/KanbanTableTD&gt;
+        &lt;/KanbanTableRow&gt;
+    &lt;/KanbanTableBody&gt;
+&lt;/KanbanTable&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

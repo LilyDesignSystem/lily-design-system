@@ -11,3 +11,11 @@ description: one action button inside an action bar
 
 <h2>Disabled</h2>
 {{ actionBarButton({ label: "Archive", text: "Archive", disabled: true }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/action-bar-button/macro.njk" import actionBarButton %}
+
+{{ actionBarButton({ label: "Delete", text: "Delete" }) }}
+{% endraw %}</code></pre>
+{# END generated: examples #}

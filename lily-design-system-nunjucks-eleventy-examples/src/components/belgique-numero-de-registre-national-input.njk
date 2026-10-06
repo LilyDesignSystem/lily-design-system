@@ -19,3 +19,13 @@ description: an input for entering Belgium's Numéro de Registre National / Rijk
 
 <h2>Reference</h2>
 <p>See <a href="https://en.wikipedia.org/wiki/National_identification_number#Belgium">National Register Number</a>.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="National Register Number" required&gt;
+  &lt;BelgiqueNumeroDeRegistreNationalInput label="National Register Number" value={value} required /&gt;
+  &lt;Hint&gt;11 digits where the first 6 are the date of birth (YYMMDD), the next 3 are an ordering number (uneven for men, even for women) and the last 2 a check digit&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid National Register Number&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

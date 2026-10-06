@@ -1,8 +1,10 @@
 <script lang="ts">
-  const html: string = "<h1>Slovenija Emso Input</h1>\n\n<p>an input for entering Slovenia's Enotna Mati\u010dna \u0160tevilka Ob\u010dana (EM\u0160O)</p>\n\n<p>This is a new component. See <a href=\"https://github.com/joelparkerhenderson/lily-design-system/tree/main/components/slovenija-emso-input\">the canonical documentation</a> for full details.</p>";
+  const html: string = "<h1>Slovenija Emso Input</h1>\n\n<p>an input for entering Slovenia's Enotna Matična Številka Občana (EMŠO)</p>\n\n<p>This is a new component. See <a href=\"https://github.com/joelparkerhenderson/lily-design-system/tree/main/components/slovenija-emso-input\">the canonical documentation</a> for full details.</p>";
   // BEGIN auto-generated component example consts
-  const demoHtml: string = "<label class=\"label\" for=\"demo-input\">Label</label><input class=\"slovenija-emso-input\" id=\"demo-input\" aria-label=\"an input for entering Slovenia's Enotna Mati\u010dna \u0160tevilka Ob\u010dana (EM\u0160O)\" />";
+  const demoHtml: string = "<label class=\"label\" for=\"demo-input\">Label</label><input class=\"slovenija-emso-input\" id=\"demo-input\" aria-label=\"an input for entering Slovenia's Enotna Matična Številka Občana (EMŠO)\" />";
   const svelteSource: string = "// In your Svelte component:\nimport SlovenijaEmsoInput from \"lily-design-system-svelte-headless/components/SlovenijaEmsoInput/SlovenijaEmsoInput.svelte\";\n\n<SlovenijaEmsoInput label=\"Label\" />\n";
+  const usageCode: string = "<Field label=\"Unique Master Citizen Number\" required>\n  <SlovenijaEmsoInput label=\"Unique Master Citizen Number\" value={value} required />\n  <Hint>13 digits: the first 7 are the date of birth (DDMMYYY), digits 8-9 the register, 10-12 a sex-and-serial component (000-499 male, 500-999 female), 13 a check digit</Hint>\n  <ErrorMessage>Please enter a valid Unique Master Citizen Number</ErrorMessage>\n</Field>\n";
+  const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>
 
@@ -24,8 +26,30 @@
   <h2 id="example-heading">Example</h2>
   <div class="component-example-rendered" style="padding: 1rem; border: 1px solid #d8dde0; border-radius: 0.5rem; background: #ffffff;">{@html demoHtml}</div>
   <details style="margin-top: 1rem;">
+    <summary style="cursor: pointer; font-weight: 600;">Show demo markup</summary>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre tabindex="0" style="overflow-x: auto; padding: 1rem; color: #212b32; background: #f0f4f5; border-radius: 0.5rem;"><code>{demoHtml}</code></pre>
+  </details>
+  {#each variants as variant (variant.title)}
+    <h3 style="margin-top: 1.5rem;">{variant.title}</h3>
+    <div class="component-example-rendered" style="padding: 1rem; border: 1px solid #d8dde0; border-radius: 0.5rem; background: #ffffff;">{@html variant.html}</div>
+    <details style="margin-top: 0.5rem;">
+      <summary style="cursor: pointer; font-weight: 600;">Show markup</summary>
+      <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+      <pre tabindex="0" style="overflow-x: auto; padding: 1rem; color: #212b32; background: #f0f4f5; border-radius: 0.5rem;"><code>{variant.html}</code></pre>
+    </details>
+  {/each}
+  {#if usageCode}
+    <details style="margin-top: 1.5rem;" open>
+      <summary style="cursor: pointer; font-weight: 600;">Usage example</summary>
+      <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+      <pre tabindex="0" style="overflow-x: auto; padding: 1rem; color: #212b32; background: #f0f4f5; border-radius: 0.5rem;"><code>{usageCode}</code></pre>
+    </details>
+  {/if}
+  <details style="margin-top: 1rem;">
     <summary style="cursor: pointer; font-weight: 600;">Show Svelte source</summary>
-    <pre style="overflow-x: auto; padding: 1rem; background: #f0f4f5; border-radius: 0.5rem;"><code>{svelteSource}</code></pre>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre tabindex="0" style="overflow-x: auto; padding: 1rem; color: #212b32; background: #f0f4f5; border-radius: 0.5rem;"><code>{svelteSource}</code></pre>
   </details>
 </section>
 <!-- END auto-generated component example -->

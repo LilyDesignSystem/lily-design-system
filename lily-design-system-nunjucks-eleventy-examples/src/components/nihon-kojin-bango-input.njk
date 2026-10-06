@@ -8,3 +8,13 @@ description: an input for entering Japan's Individual Number (My Number)
 
 <h2>Default</h2>
 <p>{{ nihonKojinBangoInput({ text: "NihonKojinBangoInput example", label: "NihonKojinBangoInput example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="Individual Number / My Number (マイナンバー)" required&gt;
+  &lt;NihonKojinBangoInput label="Individual Number / My Number (マイナンバー)" value={value} required /&gt;
+  &lt;Hint&gt;Twelve digits, issued to every resident of Japan since 2016. The twelfth digit is a check digit: the first eleven digits are each multiplied by a position-dependent weight (6,5,4,3,2 for positions 1-5; 7,6,5,4,3,2 for positions 6-11), summed, taken Modulus-11, and the remainder subtracted from 11 (remainders of 0 or 1 both yield a check digit of 0).&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid Individual Number / My Number&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

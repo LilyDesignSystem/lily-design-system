@@ -19,3 +19,13 @@ description: an input for entering Poland's Numer Identyfikacji Podatkowej (NIP)
 
 <h2>Reference</h2>
 <p>See <a href="https://en.wikipedia.org/wiki/National_identification_number#Poland">Tax Identification Number</a>.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="Tax Identification Number" required&gt;
+  &lt;PolskaNumerIdentyfikacjiPodatkowejInput label="Tax Identification Number" value={value} required /&gt;
+  &lt;Hint&gt;10 numeric digits used for tax identification&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid Tax Identification Number&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

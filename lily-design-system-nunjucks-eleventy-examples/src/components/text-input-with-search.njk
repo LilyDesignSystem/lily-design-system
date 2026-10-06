@@ -8,3 +8,16 @@ description: a single-line text input with a search button
 
 <p><label for="q">Search</label></p>
 {{ textInputWithSearch({ id: "q", name: "q", label: "Search", placeholder: "Search the NHS" }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;TextInputWithSearch
+  label="Patient lookup"
+  inputLabel="Patient name"
+  searchLabel="Find"
+  value={query}
+  onsearch={handlePatientSearch}
+  placeholder="Enter patient name or ID"
+/&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

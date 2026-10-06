@@ -19,3 +19,12 @@ description: a calendar grid for the twelve months of one year
     {% endcall %}
   {% endcall %}
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/calendar-year-table/macro.njk" import calendarYearTable %}
+{% call calendarYearTable({ label: "2025" }) %}
+  ...calendarTableBody...
+{% endcall %}
+{% endraw %}</code></pre>
+{# END generated: examples #}

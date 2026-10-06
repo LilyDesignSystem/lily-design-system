@@ -1,0 +1,211 @@
+#!/usr/bin/env node
+// bin/generate-site-pages
+//
+// Keep every docs-site component page (lilydesignsystem.github.io/src/routes/
+// components/{slug}/+page.svelte) in the same shape, from the canonical sources:
+//
+//   - A page that is still the bin/new-component placeholder is rebuilt in
+//     full: the article is components/{slug}/index.md rendered with the site's
+//     own `marked`, followed by the Example section and the (separately
+//     generated, bin/generate-api-docs) canonical-contract section.
+//   - EVERY page has its Example region regenerated: the live demo (from the
+//     canonical component-demos.ts), the extra rendered variants and the real
+//     usage example (both from bin/generate-examples' Svelte data), and the
+//     Svelte source snippet.
+//
+// Run bin/generate-examples first, then this, then bin/generate-api-docs.
+
+const fs = require("fs");
+const path = require("path");
+
+const top = path.join(__dirname, "..");
+const read = (p) => fs.readFileSync(path.join(top, p), "utf-8");
+const write = (p, s) => fs.writeFileSync(path.join(top, p), s);
+
+const siteDir = "lilydesignsystem.github.io";
+const { marked } = require(path.join(top, siteDir, "node_modules", "marked"));
+
+// Docs prose sometimes quotes a tag without backticks (component descriptions in components.tsv
+// contain things like `<input type="text">`). marked passes raw HTML through, which put a real,
+// unlabelled <input> into the page. Show raw tags as text instead.
+const escapeText = (t) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+marked.use({ renderer: { html: (token) => escapeText(token.text) } });
+
+// A scrollable <pre> must be keyboard-focusable (axe scrollable-region-focusable).
+const focusablePre = (html) => html.replace(/<pre>/g, '<pre tabindex="0">');
+
+const components = read("components.tsv")
+  .split("\n")
+  .filter((l) => l.trim())
+  .map((l) => {
+    const [slug, name, description] = l.split("\t");
+    return { slug, name, description: description || "" };
+  });
+
+// ---------- canonical demo map + Svelte examples data ----------
+
+const demos = {};
+for (const m of read("lily-design-system-svelte-sveltekit-examples/src/lib/data/component-demos.ts").matchAll(
+  /^ {2}'([^']+)': '((?:[^'\\]|\\.)*)',$/gm
+)) {
+  demos[m[1]] = m[2].replace(/\\'/g, "'").replace(/\\\\/g, "\\");
+}
+
+const examples = {};
+for (const m of read("lily-design-system-svelte-sveltekit-examples/src/lib/data/component-examples.ts").matchAll(
+  /^ {2}"([^"]+)": (\{.*\}),$/gm
+)) {
+  examples[m[1]] = JSON.parse(m[2]);
+}
+
+// A literal "</script" inside a string embedded in the page's own <script> block would end that
+// block early, so it is written as "<\/script" (the same string to JavaScript).
+const safeScript = (json) => json.replace(/<\/script/gi, "<\\/script");
+const jsStr = (s) => safeScript(JSON.stringify(s));
+const escAttr = (s) => s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+// ---------- the regenerated regions ----------
+
+const GENERATED_MARKER = `Rendered from components/slug/index.md`;
+const CONSTS_BEGIN = "  // BEGIN auto-generated component example consts";
+const CONSTS_END = "  // END auto-generated component example consts";
+const MARK_BEGIN = "<!-- BEGIN auto-generated component example -->";
+const MARK_END = "<!-- END auto-generated component example -->";
+
+const BOX =
+  "padding: 1rem; border: 1px solid #d8dde0; border-radius: 0.5rem; background: #ffffff;";
+const PRE =
+  "overflow-x: auto; padding: 1rem; color: #212b32; background: #f0f4f5; border-radius: 0.5rem;";
+const SUM = "cursor: pointer; font-weight: 600;";
+
+function constsFor(c, existingSvelteSource) {
+  const e = examples[c.slug] || {};
+  const svelteSource =
+    existingSvelteSource ??
+    `// In your Svelte component:\nimport ${c.name} from "lily-design-system-svelte-headless/components/${c.name}/${c.name}.svelte";\n\n<${c.name}>\n  <!-- content -->\n</${c.name}>\n`;
+  return [
+    CONSTS_BEGIN,
+    `  const demoHtml: string = ${jsStr(demos[c.slug] || "")};`,
+    `  const svelteSource: string = ${jsStr(svelteSource)};`,
+    `  const usageCode: string = ${jsStr(e.usage ? e.usage.code : "")};`,
+    `  const variants: { title: string; html: string }[] = ${safeScript(JSON.stringify(e.variants || []))};`,
+    CONSTS_END,
+  ].join("\n");
+}
+
+const sectionMarkup = [
+  MARK_BEGIN,
+  `<section class="component-example" aria-labelledby="example-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">`,
+  `  <h2 id="example-heading">Example</h2>`,
+  `  <div class="component-example-rendered" style="${BOX}">{@html demoHtml}</div>`,
+  `  <details style="margin-top: 1rem;">`,
+  `    <summary style="${SUM}">Show demo markup</summary>`,
+  `    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->`,
+  `    <pre tabindex="0" style="${PRE}"><code>{demoHtml}</code></pre>`,
+  `  </details>`,
+  `  {#each variants as variant (variant.title)}`,
+  `    <h3 style="margin-top: 1.5rem;">{variant.title}</h3>`,
+  `    <div class="component-example-rendered" style="${BOX}">{@html variant.html}</div>`,
+  `    <details style="margin-top: 0.5rem;">`,
+  `      <summary style="${SUM}">Show markup</summary>`,
+  `      <!-- svelte-ignore a11y_no_noninteractive_tabindex -->`,
+  `      <pre tabindex="0" style="${PRE}"><code>{variant.html}</code></pre>`,
+  `    </details>`,
+  `  {/each}`,
+  `  {#if usageCode}`,
+  `    <details style="margin-top: 1.5rem;" open>`,
+  `      <summary style="${SUM}">Usage example</summary>`,
+  `      <!-- svelte-ignore a11y_no_noninteractive_tabindex -->`,
+  `      <pre tabindex="0" style="${PRE}"><code>{usageCode}</code></pre>`,
+  `    </details>`,
+  `  {/if}`,
+  `  <details style="margin-top: 1rem;">`,
+  `    <summary style="${SUM}">Show Svelte source</summary>`,
+  `    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->`,
+  `    <pre tabindex="0" style="${PRE}"><code>{svelteSource}</code></pre>`,
+  `  </details>`,
+  `</section>`,
+  MARK_END,
+].join("\n");
+
+// ---------- full page for a placeholder ----------
+
+function descriptionFrom(md, fallback) {
+  const m = md.match(/^# .*\n+([^\n#][^\n]*)/);
+  const text = (m ? m[1] : fallback).replace(/[*_`]/g, "").replace(/\[([^\]]+)\]\([^)]*\)/g, "$1");
+  return text.length > 300 ? text.slice(0, 297) + "…" : text;
+}
+
+function fullPage(c) {
+  const mdPath = `components/${c.slug}/index.md`;
+  const md = read(mdPath);
+  const html = focusablePre(marked.parse(md));
+  return `<script lang="ts">
+  // ${GENERATED_MARKER} — regenerate with bin/generate-site-pages, do not edit.
+  const html: string = ${jsStr(html)};
+${constsFor(c)}
+</script>
+
+<svelte:head>
+  <title>${c.name} — Lily Design System</title>
+  <meta name="description" content="${escAttr(descriptionFrom(md, c.description))}" />
+</svelte:head>
+
+<nav class="component-page-back" aria-label="Breadcrumb" style="max-width: 64rem; margin: 0 auto; padding: 1.5rem 1rem 0;">
+  <a href="/components/">← All components</a>
+</nav>
+
+<article class="component-page prose" style="max-width: 64rem; margin: 0 auto; padding: 1rem 1rem 2rem;">
+  {@html html}
+</article>
+
+${sectionMarkup}
+`;
+}
+
+// ---------- apply ----------
+
+let rebuilt = 0;
+let refreshed = 0;
+for (const c of components) {
+  const p = `${siteDir}/src/routes/components/${c.slug}/+page.svelte`;
+  if (!fs.existsSync(path.join(top, p))) continue;
+  let t = read(p);
+
+  // Rebuild in full when the page is a bin/new-component placeholder (now, or at the last commit — a
+  // page rebuilt earlier in this uncommitted run is one) or was itself generated from the markdown.
+  let wasPlaceholder = false;
+  try {
+    wasPlaceholder = require("child_process")
+      .execFileSync("git", ["show", `HEAD:${p}`], { cwd: top, stdio: ["ignore", "pipe", "ignore"] })
+      .toString()
+      .includes("Generated by bin/new-component");
+  } catch (e) {
+    /* not in HEAD yet */
+  }
+  if (t.includes("Generated by bin/new-component") || t.includes(GENERATED_MARKER) || wasPlaceholder) {
+    // Keep the generated canonical-contract section if one is already there.
+    const contract = t.match(/<!-- BEGIN generated: canonical contract[\s\S]*?<!-- END generated: canonical contract -->/);
+    t = fullPage(c) + (contract ? "\n" + contract[0] + "\n" : "");
+    write(p, t);
+    rebuilt++;
+    continue;
+  }
+
+  // Existing full page: refresh the example region only.
+  const cb = t.indexOf(CONSTS_BEGIN);
+  const ce = t.indexOf(CONSTS_END);
+  if (cb < 0 || ce < 0) continue;
+  const oldConsts = t.slice(cb, ce);
+  const sm = oldConsts.match(/const svelteSource: string = ("(?:[^"\\]|\\.)*");/);
+  const keepSource = sm ? JSON.parse(sm[1]) : undefined;
+  t = t.slice(0, cb) + constsFor(c, keepSource) + t.slice(ce + CONSTS_END.length);
+  t = t.replace(/^(  const html: string = )("(?:[^"\\]|\\.)*");$/m, (_, a, lit) => a + jsStr(focusablePre(JSON.parse(lit))) + ";");
+  const mb = t.indexOf(MARK_BEGIN);
+  const me = t.indexOf(MARK_END);
+  if (mb >= 0 && me >= 0) t = t.slice(0, mb) + sectionMarkup + t.slice(me + MARK_END.length);
+  write(p, t);
+  refreshed++;
+}
+
+console.log(`rebuilt ${rebuilt} placeholder pages; refreshed the example region of ${refreshed} pages`);

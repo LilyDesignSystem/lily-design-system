@@ -8,3 +8,19 @@ description: one step in a tour guide list
   can carry <code>aria-current="step"</code> when it represents the
   user's current step. See the <a href="/components/tour/">Tour
   demo</a> for a composed example.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;TourList label="Feature tour" active={showTour}&gt;
+  &lt;TourListItem label="Search patients" current={step === 0} stepNumber={1} totalSteps={2}&gt;
+    &lt;p&gt;Type a patient name or NHS number into the search bar to find their record.&lt;/p&gt;
+    &lt;button onclick={() =&gt; step++}&gt;Next&lt;/button&gt;
+  &lt;/TourListItem&gt;
+  &lt;TourListItem label="View results" current={step === 1} stepNumber={2} totalSteps={2}&gt;
+    &lt;p&gt;Click a result to open the full patient record.&lt;/p&gt;
+    &lt;button onclick={() =&gt; step--}&gt;Back&lt;/button&gt;
+    &lt;button onclick={() =&gt; showTour = false}&gt;Done&lt;/button&gt;
+  &lt;/TourListItem&gt;
+&lt;/TourList&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

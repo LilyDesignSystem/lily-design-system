@@ -34,3 +34,28 @@ nhsuk: https://service-manual.nhs.uk/design-system/components/notification-banne
   role: "alert",
   text: "Online booking is unavailable. Call 111 for urgent help."
 }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;!-- Non-urgent notification for new messages --&gt;
+&lt;Notification label="New messages"&gt;
+  You have 3 unread messages
+&lt;/Notification&gt;
+
+&lt;!-- Non-urgent success notification --&gt;
+&lt;Notification label="Success"&gt;
+  Your changes have been saved.
+&lt;/Notification&gt;
+
+&lt;!-- Urgent session expiry warning --&gt;
+&lt;Notification label="Session warning" urgent&gt;
+  Your session will expire in 5 minutes.
+  &lt;a href="/session/extend"&gt;Extend session&lt;/a&gt;.
+&lt;/Notification&gt;
+
+&lt;!-- Urgent error notification --&gt;
+&lt;Notification label="Error" urgent&gt;
+  Something went wrong. Please try again.
+&lt;/Notification&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

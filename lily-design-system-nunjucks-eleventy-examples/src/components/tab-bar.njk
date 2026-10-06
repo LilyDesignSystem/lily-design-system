@@ -17,3 +17,14 @@ description: a group of tabs for switching between content panels
 <div id="panel-overview" role="tabpanel" aria-labelledby="tab-overview">
   <p>Overview content.</p>
 </div>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;TabBar label="Medication information"&gt;
+  &lt;TabBarButton selected controls="panel-about"&gt;About this medicine&lt;/TabBarButton&gt;
+  &lt;TabBarButton controls="panel-dosage"&gt;Dosage&lt;/TabBarButton&gt;
+  &lt;TabBarButton controls="panel-side-effects"&gt;Side effects&lt;/TabBarButton&gt;
+  &lt;TabBarButton controls="panel-interactions"&gt;Interactions&lt;/TabBarButton&gt;
+&lt;/TabBar&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

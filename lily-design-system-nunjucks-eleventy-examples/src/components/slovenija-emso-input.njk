@@ -19,3 +19,13 @@ description: an input for entering Slovenia's Enotna Matična Številka Občana 
 
 <h2>Reference</h2>
 <p>See <a href="https://en.wikipedia.org/wiki/Unique_Master_Citizen_Number">Unique Master Citizen Number</a>.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="Unique Master Citizen Number" required&gt;
+  &lt;SlovenijaEmsoInput label="Unique Master Citizen Number" value={value} required /&gt;
+  &lt;Hint&gt;13 digits: the first 7 are the date of birth (DDMMYYY), digits 8-9 the register, 10-12 a sex-and-serial component (000-499 male, 500-999 female), 13 a check digit&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid Unique Master Citizen Number&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

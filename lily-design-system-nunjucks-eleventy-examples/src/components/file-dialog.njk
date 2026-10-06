@@ -10,3 +10,17 @@ description: a dialog for browsing and selecting files
   <h2>Select a file</h2>
   <ul><li>report.pdf</li><li>scan.jpg</li></ul>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;FileDialog label="Open file" open={fileDialogOpen}&gt;
+  &lt;h2&gt;Select a file&lt;/h2&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;button onclick={() =&gt; selectFile('report.pdf')}&gt;report.pdf&lt;/button&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;button onclick={() =&gt; selectFile('data.csv')}&gt;data.csv&lt;/button&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;button onclick={() =&gt; selectFile('photo.jpg')}&gt;photo.jpg&lt;/button&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+  &lt;button onclick={() =&gt; (fileDialogOpen = false)}&gt;Cancel&lt;/button&gt;
+&lt;/FileDialog&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

@@ -8,3 +8,14 @@ description: the status of a tool call as a word, such as pending, running, done
 
 <h2>Running</h2>
 {% call toolCallStatus({ status: "running" }) %}Running{% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/tool-call-status/macro.njk" import toolCallStatus %}
+{% call toolCallStatus({}) %}…{% endcall %}
+{% endraw %}</code></pre>
+<h2>More examples</h2>
+<h3>All four states, each as a word</h3>
+{% raw %}<div class="component-demo-variant"><span class="tool-call-status" data-status="pending">Pending</span> · <span class="tool-call-status" data-status="running">Running</span> · <span class="tool-call-status" data-status="done">Done</span> · <span class="tool-call-status" data-status="error">Failed</span></div>{% endraw %}
+<details><summary>Show markup</summary><pre tabindex="0"><code>{% raw %}&lt;span class="tool-call-status" data-status="pending"&gt;Pending&lt;/span&gt; · &lt;span class="tool-call-status" data-status="running"&gt;Running&lt;/span&gt; · &lt;span class="tool-call-status" data-status="done"&gt;Done&lt;/span&gt; · &lt;span class="tool-call-status" data-status="error"&gt;Failed&lt;/span&gt;{% endraw %}</code></pre></details>
+{# END generated: examples #}

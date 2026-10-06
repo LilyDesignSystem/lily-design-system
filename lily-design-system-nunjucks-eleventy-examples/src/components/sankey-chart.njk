@@ -15,3 +15,14 @@ description: a flow diagram whose link widths encode quantity
 {% call sankeyChart({ label: "Sankey chart example", dataTable: dataTable }) %}
   <svg viewBox="0 0 100 50" width="200" height="100" aria-hidden="true" focusable="false"><circle cx="50" cy="25" r="20"></circle></svg>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/sankey-chart/macro.njk" import sankeyChart %}
+{% call sankeyChart({ label: "Example", describedBy: "desc" }) %}&lt;svg&gt;...&lt;/svg&gt;{% endcall %}
+{% endraw %}</code></pre>
+<h2>More examples</h2>
+<h3>Graphic only (no data table)</h3>
+{% raw %}<div class="component-demo-variant"><figure class="sankey-chart"><div class="sankey-chart-graphic" role="img" aria-label="Flow from sources to outcomes"><svg viewBox="0 0 120 80" width="240" height="160" aria-hidden="true" focusable="false"><rect x="5" y="10" width="8" height="60" fill="currentColor"/><rect x="107" y="10" width="8" height="25" fill="currentColor"/><rect x="107" y="45" width="8" height="25" fill="currentColor"/><path d="M13 14 C60 14 60 14 107 14 L107 34 C60 34 60 34 13 34 Z" fill="currentColor" fill-opacity="0.3"/><path d="M13 44 C60 44 60 49 107 49 L107 69 C60 69 60 64 13 64 Z" fill="currentColor" fill-opacity="0.3"/></svg></div></figure></div>{% endraw %}
+<details><summary>Show markup</summary><pre tabindex="0"><code>{% raw %}&lt;figure class="sankey-chart"&gt;&lt;div class="sankey-chart-graphic" role="img" aria-label="Flow from sources to outcomes"&gt;&lt;svg viewBox="0 0 120 80" width="240" height="160" aria-hidden="true" focusable="false"&gt;&lt;rect x="5" y="10" width="8" height="60" fill="currentColor"/&gt;&lt;rect x="107" y="10" width="8" height="25" fill="currentColor"/&gt;&lt;rect x="107" y="45" width="8" height="25" fill="currentColor"/&gt;&lt;path d="M13 14 C60 14 60 14 107 14 L107 34 C60 34 60 34 13 34 Z" fill="currentColor" fill-opacity="0.3"/&gt;&lt;path d="M13 44 C60 44 60 49 107 49 L107 69 C60 69 60 64 13 64 Z" fill="currentColor" fill-opacity="0.3"/&gt;&lt;/svg&gt;&lt;/div&gt;&lt;/figure&gt;{% endraw %}</code></pre></details>
+{# END generated: examples #}

@@ -19,3 +19,14 @@ description: a wrapper that groups related buttons together
   {{ button({ text: "Duplicate" }) }}
   {{ button({ text: "Delete" }) }}
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/button-group/macro.njk" import buttonGroup %}
+
+{% call buttonGroup({ label: "Form actions" }) %}
+  &lt;button type="submit"&gt;Save&lt;/button&gt;
+  &lt;button type="button"&gt;Cancel&lt;/button&gt;
+{% endcall %}
+{% endraw %}</code></pre>
+{# END generated: examples #}

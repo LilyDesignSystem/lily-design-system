@@ -11,3 +11,15 @@ description: one tab button in a tab group
   {{ tabBarButton({ text: "Not selected" }) }}
   {{ tabBarButton({ text: "Disabled", disabled: true }) }}
 </div>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;TabBarButton
+  selected={activeTab === 'overview'}
+  controls="panel-overview"
+  onclick={() =&gt; activeTab = 'overview'}
+&gt;
+  Overview
+&lt;/TabBarButton&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

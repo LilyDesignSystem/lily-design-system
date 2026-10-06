@@ -11,3 +11,19 @@ description: a card that appears on hover over a trigger
   <h3>Dr Priya Patel</h3>
   <p>GP at High Street Surgery.</p>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;button
+  onmouseenter={() =&gt; open = true}
+  onmouseleave={() =&gt; open = false}
+  onfocus={() =&gt; open = true}
+  onblur={() =&gt; open = false}
+&gt;
+  Hover me
+&lt;/button&gt;
+&lt;HoverCard label="User info" open={open}&gt;
+  &lt;p&gt;Profile details here&lt;/p&gt;
+&lt;/HoverCard&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

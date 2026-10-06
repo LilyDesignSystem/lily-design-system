@@ -19,3 +19,13 @@ description: an input for entering Netherlands's Burgerservicenummer (BSN)
 
 <h2>Reference</h2>
 <p>See <a href="https://en.wikipedia.org/wiki/Burgerservicenummer">Citizen Service Number</a>.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="Citizen Service Number" required&gt;
+  &lt;NederlandBurgerserviceNummerInput label="Citizen Service Number" value={value} required /&gt;
+  &lt;Hint&gt;9-digit number issued via the Personal Records Database (BRP)&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid Citizen Service Number&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

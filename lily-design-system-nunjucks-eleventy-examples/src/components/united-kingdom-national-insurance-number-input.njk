@@ -19,3 +19,13 @@ description: an input for entering United Kingdom's National Insurance Number (N
 
 <h2>Reference</h2>
 <p>See <a href="https://en.wikipedia.org/wiki/National_Insurance_number">National Insurance Number</a>.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="National Insurance Number" required&gt;
+  &lt;UnitedKingdomNationalInsuranceNumberInput label="National Insurance Number" value={value} required /&gt;
+  &lt;Hint&gt;two prefix letters, six digits, and a suffix letter (A, B, C, or D) — e.g. AB123456A&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid National Insurance Number&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

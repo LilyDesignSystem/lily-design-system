@@ -19,3 +19,13 @@ description: an input for entering Czech Republic's Cestovní pas
 
 <h2>Reference</h2>
 <p>See <a href="https://en.wikipedia.org/wiki/Czech_passport">Czech Passport</a>.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="Czech Passport" required&gt;
+  &lt;CeskoCestovniPasInput label="Czech Passport" value={value} required /&gt;
+  &lt;Hint&gt;usually 8 digits, sometimes longer, issued by the Ministry of the Interior&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid Czech Passport&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

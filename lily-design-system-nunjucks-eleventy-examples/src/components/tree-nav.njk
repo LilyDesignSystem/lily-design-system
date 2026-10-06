@@ -28,3 +28,29 @@ description: a hierarchical navigation with expandable branches
     {% endcall %}
   {% endcall %}
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;TreeNav label="Documentation sidebar"&gt;
+  &lt;TreeList label="Docs sections"&gt;
+    &lt;TreeListItem tabindex="0" aria-expanded="true"&gt;
+      &lt;TreeLink href="/docs/getting-started"&gt;Getting Started&lt;/TreeLink&gt;
+      &lt;ul role="group"&gt;
+        &lt;TreeListItem tabindex="-1"&gt;
+          &lt;TreeLink href="/docs/installation"&gt;Installation&lt;/TreeLink&gt;
+        &lt;/TreeListItem&gt;
+        &lt;TreeListItem tabindex="-1"&gt;
+          &lt;TreeLink href="/docs/quick-start"&gt;Quick Start&lt;/TreeLink&gt;
+        &lt;/TreeListItem&gt;
+      &lt;/ul&gt;
+    &lt;/TreeListItem&gt;
+    &lt;TreeListItem tabindex="-1" aria-expanded="false"&gt;
+      &lt;TreeLink href="/docs/components"&gt;Components&lt;/TreeLink&gt;
+    &lt;/TreeListItem&gt;
+    &lt;TreeListItem tabindex="-1"&gt;
+      &lt;TreeLink href="/docs/api"&gt;API Reference&lt;/TreeLink&gt;
+    &lt;/TreeListItem&gt;
+  &lt;/TreeList&gt;
+&lt;/TreeNav&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

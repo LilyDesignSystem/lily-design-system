@@ -37,3 +37,32 @@ description: one chat message
   timeText: "9:40am",
   html: "<p>Your appointment is on <strong>27 April at 9:30am</strong>.</p>"
 }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;ChatNav label="Patient messages"&gt;
+  &lt;ChatList&gt;
+    &lt;ChatListItem&gt;
+      &lt;ChatMessage label="Message from Dr Sarah Mitchell at 10:30 AM"&gt;
+        &lt;Avatar&gt;
+          &lt;AvatarImage src="/photos/sm.jpg" alt="Dr Sarah Mitchell" /&gt;
+        &lt;/Avatar&gt;
+        &lt;span&gt;Dr Sarah Mitchell&lt;/span&gt;
+        &lt;time datetime="2025-03-15T10:30:00"&gt;10:30 AM&lt;/time&gt;
+        &lt;p&gt;Your blood test results are back. Everything looks normal.&lt;/p&gt;
+      &lt;/ChatMessage&gt;
+    &lt;/ChatListItem&gt;
+    &lt;ChatListItem current&gt;
+      &lt;ChatMessage label="Message from Karen Francis at 10:45 AM"&gt;
+        &lt;Avatar&gt;
+          &lt;AvatarImage src="/photos/kf.jpg" alt="Karen Francis" /&gt;
+        &lt;/Avatar&gt;
+        &lt;span&gt;Karen Francis&lt;/span&gt;
+        &lt;time datetime="2025-03-15T10:45:00"&gt;10:45 AM&lt;/time&gt;
+        &lt;p&gt;Thank you, doctor. Should I book a follow-up?&lt;/p&gt;
+      &lt;/ChatMessage&gt;
+    &lt;/ChatListItem&gt;
+  &lt;/ChatList&gt;
+&lt;/ChatNav&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

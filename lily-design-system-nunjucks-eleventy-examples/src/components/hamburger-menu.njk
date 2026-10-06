@@ -7,3 +7,15 @@ description: a toggle button that opens a mobile navigation menu
 {% from "components/hamburger-menu/macro.njk" import hamburgerMenu %}
 
 {{ hamburgerMenu({ controls: "nav", label: "Open menu" }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;HamburgerMenu label="Main menu" open={menuOpen}&gt;
+    &lt;ul&gt;
+        &lt;li&gt;&lt;a href="/"&gt;Home&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="/about"&gt;About&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="/contact"&gt;Contact&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/HamburgerMenu&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

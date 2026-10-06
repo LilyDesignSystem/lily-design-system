@@ -68,3 +68,27 @@ nhsuk: https://service-manual.nhs.uk/design-system/components/select
     {{ option({ value: "pharmacist", text: "Pharmacist", selected: true }) }}
   {% endcall %}
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="Sort by"&gt;
+  &lt;Select label="Sort by"&gt;
+    &lt;Option value="recently-published" selected&gt;Recently published&lt;/Option&gt;
+    &lt;Option value="recently-updated"&gt;Recently updated&lt;/Option&gt;
+    &lt;Option value="most-views"&gt;Most views&lt;/Option&gt;
+  &lt;/Select&gt;
+&lt;/Field&gt;
+
+&lt;Field label="Choose your region"&gt;
+  &lt;Hint&gt;This can be different to what you selected before&lt;/Hint&gt;
+  &lt;Select label="Choose your region"&gt;
+    &lt;Option value=""&gt;Choose region&lt;/Option&gt;
+    &lt;Option value="east"&gt;East of England&lt;/Option&gt;
+    &lt;Option value="london"&gt;London&lt;/Option&gt;
+    &lt;Option value="midlands"&gt;Midlands&lt;/Option&gt;
+    &lt;Option value="northwest"&gt;North West&lt;/Option&gt;
+    &lt;Option value="southeast"&gt;South East&lt;/Option&gt;
+  &lt;/Select&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

@@ -8,3 +8,13 @@ description: an input for entering China's Resident Identity Card Number
 
 <h2>Default</h2>
 <p>{{ zhongguoJuminShenfenzhengHaomaInput({ text: "ZhongguoJuminShenfenzhengHaomaInput example", label: "ZhongguoJuminShenfenzhengHaomaInput example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="居民身份证号码 (Jūmín Shēnfènzhèng Hàomǎ)" required&gt;
+  &lt;ZhongguoJuminShenfenzhengHaomaInput label="居民身份证号码 (Jūmín Shēnfènzhèng Hàomǎ)" value={value} required /&gt;
+  &lt;Hint&gt;Eighteen characters under national standard GB 11643. The first six digits encode the region of registration; the next eight encode date of birth (YYYYMMDD); the next three are a sequence number whose last digit's parity encodes sex (odd male, even female); the eighteenth character is a check character computed with the ISO 7064:1983 MOD 11-2 algorithm over the first seventeen digits — a value of 10 is written as the letter X.&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid 居民身份证号码&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

@@ -10,3 +10,29 @@ description: one item in a tree navigation list
 
 <p>See the <a href="/components/tree-nav/">Tree Nav demo</a>
   for a composed example.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;TreeNav label="Clinical navigation"&gt;
+  &lt;TreeList label="Departments"&gt;
+    &lt;TreeListItem tabindex="0" aria-expanded="true"&gt;
+      Cardiology
+      &lt;ul role="group"&gt;
+        &lt;TreeListItem tabindex="-1"&gt;
+          &lt;TreeLink href="/cardiology/outpatients"&gt;Outpatients&lt;/TreeLink&gt;
+        &lt;/TreeListItem&gt;
+        &lt;TreeListItem tabindex="-1"&gt;
+          &lt;TreeLink href="/cardiology/inpatients"&gt;Inpatients&lt;/TreeLink&gt;
+        &lt;/TreeListItem&gt;
+      &lt;/ul&gt;
+    &lt;/TreeListItem&gt;
+    &lt;TreeListItem tabindex="-1" aria-expanded="false"&gt;
+      Oncology
+    &lt;/TreeListItem&gt;
+    &lt;TreeListItem tabindex="-1"&gt;
+      &lt;TreeLink href="/radiology"&gt;Radiology&lt;/TreeLink&gt;
+    &lt;/TreeListItem&gt;
+  &lt;/TreeList&gt;
+&lt;/TreeNav&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

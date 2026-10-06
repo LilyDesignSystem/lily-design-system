@@ -25,3 +25,19 @@ description: a specialized card for displaying a product with image, title, pric
   <p>Includes priority support and unlimited members.</p>
   <button type="button">Subscribe</button>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/product-card/macro.njk" import productCard %}
+
+{% call productCard({
+  name: "Wireless Headphones",
+  price: "$199.00",
+  imageUrl: "/images/headphones.jpg",
+  imageAlt: "Black over-ear headphones"
+}) %}
+  &lt;p&gt;Active noise cancellation, 30-hour battery.&lt;/p&gt;
+  &lt;button type="button"&gt;Add to cart&lt;/button&gt;
+{% endcall %}
+{% endraw %}</code></pre>
+{# END generated: examples #}

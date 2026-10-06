@@ -12,3 +12,27 @@ description: an ordered list of tour guide steps
   {% call tourListItem({ current: true }) %}Step two (you are here).{% endcall %}
   {% call tourListItem() %}Step three.{% endcall %}
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Tour label="Onboarding"&gt;
+  &lt;TourList label="Getting started guide" active={showTour}&gt;
+    &lt;TourListItem label="Dashboard overview" current={step === 0} stepNumber={1} totalSteps={3}&gt;
+      &lt;p&gt;This is your dashboard. It shows recent activity and key metrics.&lt;/p&gt;
+      &lt;button onclick={() =&gt; step++}&gt;Next&lt;/button&gt;
+      &lt;button onclick={() =&gt; showTour = false}&gt;Skip&lt;/button&gt;
+    &lt;/TourListItem&gt;
+    &lt;TourListItem label="Navigation" current={step === 1} stepNumber={2} totalSteps={3}&gt;
+      &lt;p&gt;Use the sidebar to navigate between patients, appointments, and reports.&lt;/p&gt;
+      &lt;button onclick={() =&gt; step--}&gt;Back&lt;/button&gt;
+      &lt;button onclick={() =&gt; step++}&gt;Next&lt;/button&gt;
+    &lt;/TourListItem&gt;
+    &lt;TourListItem label="Quick actions" current={step === 2} stepNumber={3} totalSteps={3}&gt;
+      &lt;p&gt;Use the task bar at the top for common actions like booking appointments.&lt;/p&gt;
+      &lt;button onclick={() =&gt; step--}&gt;Back&lt;/button&gt;
+      &lt;button onclick={() =&gt; showTour = false}&gt;Finish&lt;/button&gt;
+    &lt;/TourListItem&gt;
+  &lt;/TourList&gt;
+&lt;/Tour&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

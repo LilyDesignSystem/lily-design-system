@@ -20,3 +20,13 @@ description: a wrapper that pins its content to a viewport position while the pa
     Sticky footer — pinned to bottom.
   </div>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/affix/macro.njk" import affix %}
+
+{% call affix({ offsetTop: 16 }) %}
+  &lt;nav class="page-toc"&gt;…&lt;/nav&gt;
+{% endcall %}
+{% endraw %}</code></pre>
+{# END generated: examples #}

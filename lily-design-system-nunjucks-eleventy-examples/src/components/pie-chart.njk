@@ -15,3 +15,14 @@ description: a circular chart divided into slices that show each part of a whole
 {% call pieChart({ label: "Pie chart example", dataTable: dataTable }) %}
   <svg viewBox="0 0 100 50" width="200" height="100" aria-hidden="true" focusable="false"><circle cx="50" cy="25" r="20"></circle></svg>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/pie-chart/macro.njk" import pieChart %}
+{% call pieChart({ label: "Example", describedBy: "desc" }) %}&lt;svg&gt;...&lt;/svg&gt;{% endcall %}
+{% endraw %}</code></pre>
+<h2>More examples</h2>
+<h3>Graphic only (no data table)</h3>
+{% raw %}<div class="component-demo-variant"><figure class="pie-chart"><div class="pie-chart-graphic" role="img" aria-label="Pie chart: share of three products"><svg viewBox="0 0 120 80" width="240" height="160" aria-hidden="true" focusable="false"><circle cx="60" cy="40" r="30" fill="currentColor" fill-opacity="0.25"/><path d="M60 40 L60 10 A30 30 0 0 1 90 40 Z" fill="currentColor"/><path d="M60 40 L90 40 A30 30 0 0 1 45 66 Z" fill="currentColor" fill-opacity="0.6"/></svg></div></figure></div>{% endraw %}
+<details><summary>Show markup</summary><pre tabindex="0"><code>{% raw %}&lt;figure class="pie-chart"&gt;&lt;div class="pie-chart-graphic" role="img" aria-label="Pie chart: share of three products"&gt;&lt;svg viewBox="0 0 120 80" width="240" height="160" aria-hidden="true" focusable="false"&gt;&lt;circle cx="60" cy="40" r="30" fill="currentColor" fill-opacity="0.25"/&gt;&lt;path d="M60 40 L60 10 A30 30 0 0 1 90 40 Z" fill="currentColor"/&gt;&lt;path d="M60 40 L90 40 A30 30 0 0 1 45 66 Z" fill="currentColor" fill-opacity="0.6"/&gt;&lt;/svg&gt;&lt;/div&gt;&lt;/figure&gt;{% endraw %}</code></pre></details>
+{# END generated: examples #}

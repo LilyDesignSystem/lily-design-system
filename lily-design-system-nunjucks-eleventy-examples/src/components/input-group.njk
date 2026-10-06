@@ -24,3 +24,17 @@ description: a group wrapping an input with prefix and suffix addons
 }) %}
   <input type="text" name="subdomain" />
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/input-group/macro.njk" import inputGroup %}
+
+{% call inputGroup({
+  label: "Price",
+  prefix: "$",
+  suffix: ".00"
+}) %}
+  &lt;input type="number" id="price" name="price" value="0"&gt;
+{% endcall %}
+{% endraw %}</code></pre>
+{# END generated: examples #}

@@ -9,3 +9,20 @@ description: a control that expands to reveal more content
 {% call expander({ summary: "Show more details" }) %}
   <p>Extra details appear here when expanded.</p>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Expander summary="How to get your medical records"&gt;
+  &lt;p&gt;You can see your GP records by:&lt;/p&gt;
+  &lt;ul&gt;
+    &lt;li&gt;asking for them at your GP surgery&lt;/li&gt;
+    &lt;li&gt;going online to see them if you have signed up for GP online services&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/Expander&gt;
+
+&lt;Expander summary="How to measure your blood glucose levels"&gt;
+  &lt;p&gt;Testing your blood glucose levels involves a simple finger prick test
+  using a blood glucose monitor.&lt;/p&gt;
+&lt;/Expander&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

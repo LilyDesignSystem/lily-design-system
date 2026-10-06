@@ -27,3 +27,15 @@ description: a masonry layout container for variable-height items
     Final.
   </div>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/masonry/macro.njk" import masonry %}
+
+{% call masonry({ columns: 4, gap: "1.5rem" }) %}
+  &lt;article&gt;Card one&lt;/article&gt;
+  &lt;article&gt;Card two&lt;/article&gt;
+  &lt;article&gt;Card three&lt;/article&gt;
+{% endcall %}
+{% endraw %}</code></pre>
+{# END generated: examples #}

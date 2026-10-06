@@ -13,3 +13,13 @@ description: a hierarchical tree of folders and files with expandable folders
 </li>
 <li role="treeitem" tabindex="-1">README</li>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% call fileTree({ label: "Project files" }) %}&lt;li role="treeitem" tabindex="0"&gt;README&lt;/li&gt;{% endcall %}
+{% endraw %}</code></pre>
+<h2>More examples</h2>
+<h3>Folder collapsed</h3>
+{% raw %}<div class="component-demo-variant"><ul class="file-tree" role="tree" aria-label="Project files"><li role="treeitem" aria-expanded="false" tabindex="0">src<ul role="group"><li role="treeitem" tabindex="-1">index.ts</li></ul></li><li role="treeitem" tabindex="-1">README.md</li></ul></div>{% endraw %}
+<details><summary>Show markup</summary><pre tabindex="0"><code>{% raw %}&lt;ul class="file-tree" role="tree" aria-label="Project files"&gt;&lt;li role="treeitem" aria-expanded="false" tabindex="0"&gt;src&lt;ul role="group"&gt;&lt;li role="treeitem" tabindex="-1"&gt;index.ts&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;li role="treeitem" tabindex="-1"&gt;README.md&lt;/li&gt;&lt;/ul&gt;{% endraw %}</code></pre></details>
+{# END generated: examples #}

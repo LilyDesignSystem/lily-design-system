@@ -39,3 +39,12 @@ nhsuk: https://service-manual.nhs.uk/design-system/components/hint
 <h2>Accessibility</h2>
 <p>Always link the hint to its field with <code>aria-describedby</code>
   so screen readers announce the guidance alongside the field label.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="What is your NHS number?"&gt;
+  &lt;Hint id="nhs-number-hint"&gt;This is a 10-digit number, like 485 777 3456. You can find it on any letter the NHS has sent you.&lt;/Hint&gt;
+  &lt;TextInput label="NHS number" inputmode="numeric" aria-describedby="nhs-number-hint" /&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

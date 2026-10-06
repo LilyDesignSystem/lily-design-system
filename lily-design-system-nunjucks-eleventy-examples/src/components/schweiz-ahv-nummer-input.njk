@@ -8,3 +8,13 @@ description: an input for entering Switzerland's AHV-Nummer / Numero AVS
 
 <h2>Default</h2>
 <p>{{ schweizAhvNummerInput({ text: "SchweizAhvNummerInput example", label: "SchweizAhvNummerInput example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="AHV-Nummer / Numéro AVS" required&gt;
+  &lt;SchweizAhvNummerInput label="AHV-Nummer / Numéro AVS" value={value} required /&gt;
+  &lt;Hint&gt;Thirteen digits, displayed as 756.NNNN.NNNN.NN, always beginning with the country prefix 756. It is a valid EAN-13 barcode number: the final digit is an EAN-13 check digit computed over the twelve preceding digits (alternating-position weights of 1 and 3). Replaced the old 11-digit AHV card number on 1 July 2008.&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid AHV-Nummer / Numéro AVS&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

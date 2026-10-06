@@ -36,3 +36,19 @@ description: a large content card with a prominent image positioned alongside or
   imageAlt: "Accessibility icon",
   description: "WCAG 2.2 AAA compliance baked in."
 }) %}{% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/feature-card/macro.njk" import featureCard %}
+
+{% call featureCard({
+  heading: "Privacy by design",
+  imageUrl: "/img/lock.png",
+  imageAlt: "",
+  description: "Your data, your choice.",
+  imagePosition: "start"
+}) %}
+  &lt;a href="/learn-more"&gt;Learn more&lt;/a&gt;
+{% endcall %}
+{% endraw %}</code></pre>
+{# END generated: examples #}

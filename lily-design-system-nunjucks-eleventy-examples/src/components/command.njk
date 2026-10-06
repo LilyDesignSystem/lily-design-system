@@ -14,3 +14,13 @@ description: a command palette for searching and executing actions
     <li style="padding: 0.5rem;">Update profile</li>
   </ul>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Command label="Command palette" placeholder="Type a command..." value={query}&gt;
+    &lt;div role="option" tabindex="-1" onclick={() =&gt; navigate('/dashboard')}&gt;Go to Dashboard&lt;/div&gt;
+    &lt;div role="option" tabindex="-1" onclick={() =&gt; navigate('/settings')}&gt;Open Settings&lt;/div&gt;
+    &lt;div role="option" tabindex="-1" onclick={() =&gt; toggleTheme()}&gt;Toggle Dark Mode&lt;/div&gt;
+&lt;/Command&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

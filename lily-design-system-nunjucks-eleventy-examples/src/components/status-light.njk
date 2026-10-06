@@ -16,3 +16,13 @@ description: a small colored dot status indicator paired with a status label
   <li>{{ statusLight({ variant: "active", label: "Active" }) }}</li>
   <li>{{ statusLight({ variant: "inactive", label: "Inactive" }) }}</li>
 </ul>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/status-light/macro.njk" import statusLight %}
+
+{{ statusLight({ variant: "positive", label: "Active" }) }}
+{{ statusLight({ variant: "negative", label: "Offline" }) }}
+{{ statusLight({ variant: "notice",   label: "Pending" }) }}
+{% endraw %}</code></pre>
+{# END generated: examples #}

@@ -10,3 +10,14 @@ description: a custom scrollbar element
   <div style="flex: 1; background: var(--nhsuk-pale-grey);">Content</div>
   {{ scrollBar({ value: 30, controls: "x" }) }}
 </div>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;ScrollArea label="Chat messages" style="max-height: 400px; overflow: auto;"&gt;
+  &lt;div class="messages"&gt;&lt;!-- chat messages --&gt;&lt;/div&gt;
+  &lt;ScrollBar orientation="vertical" label="Chat scroll"&gt;
+    &lt;div class="scroll-thumb"&gt;&lt;/div&gt;
+  &lt;/ScrollBar&gt;
+&lt;/ScrollArea&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

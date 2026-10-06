@@ -33,3 +33,13 @@ description: an input for entering a France numéro d'identification au réperto
   <li>3 digits — birth sequence number</li>
   <li>2 digits — modulo-97 control key</li>
 </ol>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="Numéro de Sécurité Sociale" required&gt;
+  &lt;FranceNumeroDIdentificationAuRepertoireInput label="NIR" value={nir} required /&gt;
+  &lt;Hint&gt;Format: X XX XX XX XXX XXX XX (15 digits from your Carte Vitale)&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid NIR&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

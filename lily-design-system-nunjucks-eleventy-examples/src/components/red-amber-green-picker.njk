@@ -30,3 +30,18 @@ description: a picker for selecting a red/amber/green status
     text: "On track"
   }) }}
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;form&gt;
+  &lt;fieldset&gt;
+    &lt;legend&gt;Sprint 14 Status&lt;/legend&gt;
+    &lt;RedAmberGreenPicker label="Overall sprint health"&gt;
+      &lt;RedAmberGreenPickerButton value="red" label="Red - Critical" onclick={handleSelect} /&gt;
+      &lt;RedAmberGreenPickerButton value="amber" label="Amber - At risk" selected onclick={handleSelect} /&gt;
+      &lt;RedAmberGreenPickerButton value="green" label="Green - On track" onclick={handleSelect} /&gt;
+    &lt;/RedAmberGreenPicker&gt;
+  &lt;/fieldset&gt;
+&lt;/form&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

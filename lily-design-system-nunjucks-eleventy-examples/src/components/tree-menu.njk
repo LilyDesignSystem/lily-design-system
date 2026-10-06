@@ -19,3 +19,22 @@ description: a hierarchical tree menu with expandable branches
   {% endcall %}
   {% call treeListItem({ expanded: false }) %}Prescriptions{% endcall %}
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;TreeMenu label="File actions"&gt;
+  &lt;li role="treeitem" tabindex="0" aria-expanded="true"&gt;
+    File
+    &lt;ul role="group"&gt;
+      &lt;li role="treeitem" tabindex="-1"&gt;New&lt;/li&gt;
+      &lt;li role="treeitem" tabindex="-1"&gt;Open&lt;/li&gt;
+      &lt;li role="treeitem" tabindex="-1"&gt;Save&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li role="treeitem" tabindex="-1" aria-expanded="false"&gt;
+    Edit
+  &lt;/li&gt;
+  &lt;li role="treeitem" tabindex="-1"&gt;Help&lt;/li&gt;
+&lt;/TreeMenu&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

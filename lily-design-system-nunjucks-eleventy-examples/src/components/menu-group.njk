@@ -17,3 +17,15 @@ description: a labeled section of menu items within a menu
     <div role="menuitem">contacts.csv</div>
   {% endcall %}
 </div>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/menu-group/macro.njk" import menuGroup %}
+
+{{ menuGroup({
+  label: "View",
+  html: '&lt;div role="menuitem"&gt;Zoom in&lt;/div&gt;'
+       + '&lt;div role="menuitem"&gt;Zoom out&lt;/div&gt;'
+}) }}
+{% endraw %}</code></pre>
+{# END generated: examples #}

@@ -30,3 +30,18 @@ description: a popover dialog with confirm and cancel buttons
   confirmLabel: "OK",
   cancelLabel: "Cancel"
 }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/popconfirm-dialog/macro.njk" import popconfirmDialog %}
+
+{{ popconfirmDialog({
+  open: true,
+  id: "delete-row-1",
+  title: "Delete this row?",
+  description: "This action cannot be undone.",
+  confirmLabel: "Delete",
+  cancelLabel: "Cancel"
+}) }}
+{% endraw %}</code></pre>
+{# END generated: examples #}

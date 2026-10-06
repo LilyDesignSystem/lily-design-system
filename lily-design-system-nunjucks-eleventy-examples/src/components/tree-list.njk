@@ -11,3 +11,20 @@ description: a hierarchical list with nested expandable items
 
 <p>See the <a href="/components/tree-nav/">Tree Nav demo</a>
   for a composed example.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;TreeNav label="Documentation"&gt;
+  &lt;TreeList label="Docs sections"&gt;
+    &lt;TreeListItem tabindex="0" aria-expanded="true"&gt;
+      Getting Started
+      &lt;ul role="group"&gt;
+        &lt;TreeListItem tabindex="-1"&gt;Installation&lt;/TreeListItem&gt;
+        &lt;TreeListItem tabindex="-1"&gt;Quick Start&lt;/TreeListItem&gt;
+      &lt;/ul&gt;
+    &lt;/TreeListItem&gt;
+    &lt;TreeListItem tabindex="-1"&gt;API Reference&lt;/TreeListItem&gt;
+  &lt;/TreeList&gt;
+&lt;/TreeNav&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

@@ -8,3 +8,11 @@ description: a button with a slider that the user needs to slide to confirm
 
 <p>Confirm sensitive actions by sliding:</p>
 {{ sliderButton({ label: "Slide to delete", confirmedLabel: "Deleted" }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;SliderButton label="Slide to delete account" onconfirm={handleDeleteAccount}&gt;
+  Slide to delete account
+&lt;/SliderButton&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

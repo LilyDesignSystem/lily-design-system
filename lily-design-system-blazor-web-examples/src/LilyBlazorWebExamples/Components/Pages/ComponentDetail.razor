@@ -13,6 +13,27 @@
         @((MarkupString)component.DemoHtml)
     </div>
 
+    <details>
+        <summary>Show demo markup</summary>
+        <pre tabindex="0"><code>@component.DemoHtml</code></pre>
+    </details>
+
+    @if (example is not null && example.Variants.Count > 0)
+    {
+        <h2>More examples</h2>
+        @foreach (var variant in example.Variants)
+        {
+            <h3>@variant.Title</h3>
+            <div class="card" style="padding: 1.5rem;">
+                @((MarkupString)variant.Html)
+            </div>
+            <details>
+                <summary>Show markup</summary>
+                <pre tabindex="0"><code>@variant.Html</code></pre>
+            </details>
+        }
+    }
+
     <h2>Details</h2>
     <dl>
         <dt>Name</dt><dd>@component.Name</dd>
@@ -20,7 +41,14 @@
         <dt>Description</dt><dd>@component.Description</dd>
     </dl>
     <h2>Usage</h2>
-    <pre tabindex="0"><code>&lt;@component.Name /&gt;</code></pre>
+    @if (example is not null && example.Usage.Length > 0)
+    {
+        <pre tabindex="0"><code>@example.Usage</code></pre>
+    }
+    else
+    {
+        <pre tabindex="0"><code>&lt;@component.Name /&gt;</code></pre>
+    }
     <h2>Import</h2>
     <pre tabindex="0"><code>@@using LilyBlazorHeadless.Components</code></pre>
 }
@@ -33,8 +61,10 @@ else
 @code {
     [Parameter] public string Slug { get; set; } = "";
     private ComponentInfo? component;
+    private ComponentExample? example;
     protected override void OnParametersSet()
     {
         component = ComponentData.Components.FirstOrDefault(c => c.Slug == Slug);
+        example = ComponentExamples.All.TryGetValue(Slug, out var e) ? e : null;
     }
 }

@@ -15,3 +15,14 @@ description: a map chart that shades regions by the value of a measure
 {% call choroplethChart({ label: "Choropleth chart example", dataTable: dataTable }) %}
   <svg viewBox="0 0 100 50" width="200" height="100" aria-hidden="true" focusable="false"><circle cx="50" cy="25" r="20"></circle></svg>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/choropleth-chart/macro.njk" import choroplethChart %}
+{% call choroplethChart({ label: "Example", describedBy: "desc" }) %}&lt;svg&gt;...&lt;/svg&gt;{% endcall %}
+{% endraw %}</code></pre>
+<h2>More examples</h2>
+<h3>Graphic only (no data table)</h3>
+{% raw %}<div class="component-demo-variant"><figure class="choropleth-chart"><div class="choropleth-chart-graphic" role="img" aria-label="Choropleth chart: four regions shaded by value"><svg viewBox="0 0 120 80" width="240" height="160" aria-hidden="true" focusable="false"><rect x="10" y="10" width="45" height="30" fill="currentColor" fill-opacity="0.9"/><rect x="58" y="10" width="45" height="30" fill="currentColor" fill-opacity="0.4"/><rect x="10" y="43" width="45" height="28" fill="currentColor" fill-opacity="0.6"/><rect x="58" y="43" width="45" height="28" fill="currentColor" fill-opacity="0.2"/></svg></div></figure></div>{% endraw %}
+<details><summary>Show markup</summary><pre tabindex="0"><code>{% raw %}&lt;figure class="choropleth-chart"&gt;&lt;div class="choropleth-chart-graphic" role="img" aria-label="Choropleth chart: four regions shaded by value"&gt;&lt;svg viewBox="0 0 120 80" width="240" height="160" aria-hidden="true" focusable="false"&gt;&lt;rect x="10" y="10" width="45" height="30" fill="currentColor" fill-opacity="0.9"/&gt;&lt;rect x="58" y="10" width="45" height="30" fill="currentColor" fill-opacity="0.4"/&gt;&lt;rect x="10" y="43" width="45" height="28" fill="currentColor" fill-opacity="0.6"/&gt;&lt;rect x="58" y="43" width="45" height="28" fill="currentColor" fill-opacity="0.2"/&gt;&lt;/svg&gt;&lt;/div&gt;&lt;/figure&gt;{% endraw %}</code></pre></details>
+{# END generated: examples #}

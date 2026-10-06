@@ -31,3 +31,17 @@ description: a picker for selecting a five-level colour status
   <code>&lt;button role="radio"&gt;</code> carrying
   <code>aria-checked</code>, <code>tabindex</code> (roving),
   and <code>data-status</code> for styling.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="Clinical risk assessment" required&gt;
+  &lt;RedOrangeYellowGreenBluePicker label="Clinical risk level"&gt;
+    &lt;RedOrangeYellowGreenBluePickerButton value="red" label="Red - Critical" onclick={handleSelect} /&gt;
+    &lt;RedOrangeYellowGreenBluePickerButton value="orange" label="Orange - Serious" onclick={handleSelect} /&gt;
+    &lt;RedOrangeYellowGreenBluePickerButton value="yellow" label="Yellow - Caution" selected onclick={handleSelect} /&gt;
+    &lt;RedOrangeYellowGreenBluePickerButton value="green" label="Green - Good" onclick={handleSelect} /&gt;
+    &lt;RedOrangeYellowGreenBluePickerButton value="blue" label="Blue - Excellent" onclick={handleSelect} /&gt;
+  &lt;/RedOrangeYellowGreenBluePicker&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

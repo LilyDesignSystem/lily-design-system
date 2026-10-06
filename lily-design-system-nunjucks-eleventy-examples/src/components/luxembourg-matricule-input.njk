@@ -8,3 +8,13 @@ description: an input for entering Luxembourg's Numero d'Identification National
 
 <h2>Default</h2>
 <p>{{ luxembourgMatriculeInput({ text: "LuxembourgMatriculeInput example", label: "LuxembourgMatriculeInput example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="Numéro d'Identification Nationale (Matricule)" required&gt;
+  &lt;LuxembourgMatriculeInput label="Numéro d'Identification Nationale (Matricule)" value={value} required /&gt;
+  &lt;Hint&gt;Thirteen digits in the form YYYYMMDDNNNCC: the first eight digits encode date of birth (YYYYMMDD); the next three are a sequence number; the twelfth digit is a Luhn (Modulus-10) check digit computed over the first eleven digits; the thirteenth digit is a second, independent check digit computed with the Verhoeff algorithm over the first twelve digits.&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid Numéro d'Identification Nationale&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

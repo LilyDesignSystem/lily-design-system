@@ -9,3 +9,10 @@ description: a read-only display of a measurement unit
 <p>Value: 75 {{ measurementUnitView({ unit: "kg", unitLabel: "kilograms" }) }}</p>
 <p>Value: 178 {{ measurementUnitView({ unit: "cm", unitLabel: "centimetres" }) }}</p>
 <p>Value: 98.6 {{ measurementUnitView({ unit: "°F", unitLabel: "degrees Fahrenheit" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;MeasurementInstanceView value="72" /&gt;
+&lt;MeasurementUnitView value="kg" label="Kilograms" /&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

@@ -11,3 +11,10 @@ description: a dialog warning about session timeout
 
 <h2>With accessible label</h2>
 {{ timeoutDialog({ text: "Example content", label: "TimeoutDialog example" }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;TimeoutDialog title="You are about to be signed out" open={isOpen} remainingSeconds={120}
+  onExtend={extendSession} onSignOut={signOutNow} /&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

@@ -8,3 +8,13 @@ description: an input for entering Singapore's National Registration Identity Ca
 
 <h2>Default</h2>
 <p>{{ singaporeNationalRegistrationIdentityCardInput({ text: "SingaporeNationalRegistrationIdentityCardInput example", label: "SingaporeNationalRegistrationIdentityCardInput example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="National Registration Identity Card Number / Foreign Identification Number (NRIC/FIN)" required&gt;
+  &lt;SingaporeNationalRegistrationIdentityCardInput label="National Registration Identity Card Number / Foreign Identification Number (NRIC/FIN)" value={value} required /&gt;
+  &lt;Hint&gt;One letter (S or T for citizens/permanent residents; F or G for long-term foreign residents; M for newer FIN series), seven digits, and a trailing check letter. The check letter is computed by multiplying the seven digits by fixed weights (2,7,6,5,4,3,2), summing the products (adding 4 for a G/T prefix or 3 for an M prefix), taking the sum Modulus 11, and mapping (10 - remainder) through a lookup table to a letter.&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid National Registration Identity Card Number / Foreign Identification Number&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

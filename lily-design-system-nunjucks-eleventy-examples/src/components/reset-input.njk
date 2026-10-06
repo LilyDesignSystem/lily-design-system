@@ -33,3 +33,18 @@ description: a button input that resets a form to default values
 <p>Reset buttons often surprise users by wiping form state without
   warning. Prefer a dedicated <a href="/components/button/">
   <code>Button</code></a> with explicit behaviour when possible.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Form label="Registration" onsubmit={handleSubmit}&gt;
+  &lt;Field label="Name" required&gt;
+    &lt;TextInput label="Name" value={name} required /&gt;
+  &lt;/Field&gt;
+  &lt;Field label="Email" required&gt;
+    &lt;EmailInput label="Email" value={email} required /&gt;
+  &lt;/Field&gt;
+  &lt;SubmitInput value="Register" /&gt;
+  &lt;ResetInput value="Clear form" disabled={!formDirty} /&gt;
+&lt;/Form&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

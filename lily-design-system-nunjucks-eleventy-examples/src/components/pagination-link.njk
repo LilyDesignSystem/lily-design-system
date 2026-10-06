@@ -30,3 +30,21 @@ description: one pagination link in the trail
 
 <p>See the <a href="/components/pagination-nav/">PaginationNav
   demo</a> for the composed example.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;PaginationNav label="Pagination"&gt;
+  &lt;PaginationList&gt;
+    &lt;PaginationListItem&gt;
+      &lt;PaginationLink href="/results?page=1" label="Page 1"&gt;1&lt;/PaginationLink&gt;
+    &lt;/PaginationListItem&gt;
+    &lt;PaginationListItem&gt;
+      &lt;PaginationLink href="/results?page=2" label="Page 2" aria-current="page"&gt;2&lt;/PaginationLink&gt;
+    &lt;/PaginationListItem&gt;
+    &lt;PaginationListItem&gt;
+      &lt;PaginationLink href="/results?page=3" label="Page 3"&gt;3&lt;/PaginationLink&gt;
+    &lt;/PaginationListItem&gt;
+  &lt;/PaginationList&gt;
+&lt;/PaginationNav&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

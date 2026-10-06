@@ -35,3 +35,30 @@ description: a generic content panel with optional heading
   <li>Your GP surgery's name</li>
 </ul>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;!-- Confirmation panel on a transaction completion page --&gt;
+&lt;Panel label="Application complete"&gt;
+  &lt;h1&gt;Application complete&lt;/h1&gt;
+  &lt;p&gt;We have sent you a confirmation email to sarah.mitchell@example.com&lt;/p&gt;
+  &lt;p&gt;Your reference number is &lt;strong&gt;HDJ2123F&lt;/strong&gt;&lt;/p&gt;
+&lt;/Panel&gt;
+
+&lt;!-- Appointment confirmation panel --&gt;
+&lt;Panel label="Appointment booked"&gt;
+  &lt;h1&gt;Appointment booked&lt;/h1&gt;
+  &lt;p&gt;Your appointment is on 15 March 2025 at 10:30am at City Road Medical Centre.&lt;/p&gt;
+&lt;/Panel&gt;
+
+&lt;!-- Multiple panels grouping settings sections --&gt;
+&lt;Panel label="Account information"&gt;
+  &lt;h2&gt;Account information&lt;/h2&gt;
+  &lt;p&gt;Name, email, and profile details.&lt;/p&gt;
+&lt;/Panel&gt;
+&lt;Panel label="Notification preferences"&gt;
+  &lt;h2&gt;Notification preferences&lt;/h2&gt;
+  &lt;p&gt;Choose how you want to be notified.&lt;/p&gt;
+&lt;/Panel&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

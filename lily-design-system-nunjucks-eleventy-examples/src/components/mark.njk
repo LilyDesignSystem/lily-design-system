@@ -8,3 +8,14 @@ description: an inline highlight marking text as relevant or referenced, such as
 
 <h2>Search match</h2>
 <p>Found 3 results for {% call mark({}) %}accessible{% endcall %} components.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/mark/macro.njk" import mark %}
+&lt;p&gt;Found 3 results for {% call mark({}) %}accessible{% endcall %} components.&lt;/p&gt;
+{% endraw %}</code></pre>
+<h2>More examples</h2>
+<h3>Several matches in one result</h3>
+{% raw %}<div class="component-demo-variant"><p>An <mark class="mark">accessible</mark> design system makes <mark class="mark">accessible</mark> components the default.</p></div>{% endraw %}
+<details><summary>Show markup</summary><pre tabindex="0"><code>{% raw %}&lt;p&gt;An &lt;mark class="mark"&gt;accessible&lt;/mark&gt; design system makes &lt;mark class="mark"&gt;accessible&lt;/mark&gt; components the default.&lt;/p&gt;{% endraw %}</code></pre></details>
+{# END generated: examples #}

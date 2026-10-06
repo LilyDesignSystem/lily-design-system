@@ -8,3 +8,9 @@ description: an input for entering a date and time with a "now" button
 
 <p><label>Appointment start</label></p>
 {{ dateTimeNowInput({ id: "apt", name: "apt", date: "2026-04-20", time: "09:30" }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;DateTimeNowInput label="Observation recorded" dateValue={obsDate} timeValue={obsTime} nowLabel="Record now" required /&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

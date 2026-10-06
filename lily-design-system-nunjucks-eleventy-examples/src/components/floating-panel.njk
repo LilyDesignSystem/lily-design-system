@@ -10,3 +10,14 @@ description: a panel that floats above page content
   <h3>Need help?</h3>
   <p>Chat to a nurse advisor.</p>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;button onclick={() =&gt; (chatOpen = !chatOpen)}&gt;Chat&lt;/button&gt;
+&lt;FloatingPanel open={chatOpen} label="Live chat"&gt;
+  &lt;h3&gt;Support chat&lt;/h3&gt;
+  &lt;div class="messages"&gt;...&lt;/div&gt;
+  &lt;input type="text" placeholder="Type a message..." /&gt;
+&lt;/FloatingPanel&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

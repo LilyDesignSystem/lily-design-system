@@ -13,3 +13,15 @@ description: one step in a step list with status of waiting, in progress, finish
   {{ stepListItem({ status: "finished", html: "<strong>Finished</strong> — completed" }) }}
   {{ stepListItem({ status: "error", html: "<strong>Error</strong> — needs attention" }) }}
 </ol>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/step-list-item/macro.njk" import stepListItem %}
+
+{{ stepListItem({
+  status: "in-progress",
+  current: true,
+  html: "&lt;strong&gt;Shipping&lt;/strong&gt;&lt;span&gt;Choose a carrier&lt;/span&gt;"
+}) }}
+{% endraw %}</code></pre>
+{# END generated: examples #}

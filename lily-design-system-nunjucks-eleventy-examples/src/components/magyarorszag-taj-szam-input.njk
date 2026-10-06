@@ -8,3 +8,13 @@ description: an input for entering Hungary's Tarsadalombiztositasi Azonosito Jel
 
 <h2>Default</h2>
 <p>{{ magyarorszagTajSzamInput({ text: "MagyarorszagTajSzamInput example", label: "MagyarorszagTajSzamInput example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="Társadalombiztosítási Azonosító Jel (TAJ)" required&gt;
+  &lt;MagyarorszagTajSzamInput label="Társadalombiztosítási Azonosító Jel (TAJ)" value={value} required /&gt;
+  &lt;Hint&gt;Nine digits, displayed as SSS SSS SSK. The first eight digits are a simple issued-in-order serial number; the ninth is a check digit computed by multiplying the first eight digits by alternating weights 3 and 7, summing the products, and taking the result Modulus 10 — an algorithm unique to Hungary, distinct from Luhn.&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid Társadalombiztosítási Azonosító Jel&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

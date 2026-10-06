@@ -23,3 +23,16 @@ description: a boxed callout highlighting key takeaways or next steps from a lon
     <li>Submit before 30 June.</li>
   </ol>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/summary-box/macro.njk" import summaryBox %}
+
+{% call summaryBox({ heading: "Key takeaways" }) %}
+  &lt;ul&gt;
+    &lt;li&gt;First takeaway&lt;/li&gt;
+    &lt;li&gt;Second takeaway&lt;/li&gt;
+  &lt;/ul&gt;
+{% endcall %}
+{% endraw %}</code></pre>
+{# END generated: examples #}

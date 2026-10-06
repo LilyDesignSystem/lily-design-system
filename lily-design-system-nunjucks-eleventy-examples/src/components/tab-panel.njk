@@ -18,3 +18,30 @@ description: a content panel associated with a tab in a tab bar
 {% call tabPanel({ label: "Details", labelledBy: "tab-details", selected: false }) %}
   <p>This panel is hidden until its tab is selected.</p>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/tab-bar/macro.njk" import tabBar %}
+{% from "components/tab-bar-button/macro.njk" import tabBarButton %}
+{% from "components/tab-panel/macro.njk" import tabPanel %}
+
+{% call tabBar({ label: "Sections" }) %}
+  {{ tabBarButton({ id: "tab-1", text: "One",  selected: true }) }}
+  {{ tabBarButton({ id: "tab-2", text: "Two",  selected: false }) }}
+{% endcall %}
+
+{{ tabPanel({
+  id: "panel-1",
+  labelledBy: "tab-1",
+  selected: true,
+  html: "&lt;p&gt;Panel one content.&lt;/p&gt;"
+}) }}
+
+{{ tabPanel({
+  id: "panel-2",
+  labelledBy: "tab-2",
+  selected: false,
+  html: "&lt;p&gt;Panel two content.&lt;/p&gt;"
+}) }}
+{% endraw %}</code></pre>
+{# END generated: examples #}

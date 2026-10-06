@@ -22,3 +22,17 @@ description: a two-panel resizable layout container with a draggable divider bet
   secondaryHtml: "<div style='padding: 1rem; background: var(--nhsuk-grey-5); height: 8rem;'>Bottom — output</div>",
   splitPercent: 60
 }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/split-view/macro.njk" import splitView %}
+
+{{ splitView({
+  label: "Files and preview",
+  orientation: "horizontal",
+  splitPercent: 30,
+  primaryHtml: "&lt;nav&gt;files&lt;/nav&gt;",
+  secondaryHtml: "&lt;article&gt;preview&lt;/article&gt;"
+}) }}
+{% endraw %}</code></pre>
+{# END generated: examples #}

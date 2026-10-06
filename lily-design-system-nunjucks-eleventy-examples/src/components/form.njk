@@ -24,3 +24,17 @@ description: a form element for collecting and submitting user data
 <p>See also the
   <a href="/page-templates/form-example/">composed form page template</a>
   for a realistic NHS UK-style multi-field form.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Form label="Sign in" onsubmit={handleLogin}&gt;
+  &lt;Field label="Email" required&gt;
+    &lt;EmailInput label="Email" value={email} required /&gt;
+  &lt;/Field&gt;
+  &lt;Field label="Password" required&gt;
+    &lt;PasswordInput label="Password" value={password} required /&gt;
+  &lt;/Field&gt;
+  &lt;Button type="submit"&gt;Sign in&lt;/Button&gt;
+&lt;/Form&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

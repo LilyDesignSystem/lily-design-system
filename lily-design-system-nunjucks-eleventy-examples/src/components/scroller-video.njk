@@ -10,3 +10,18 @@ layout: layouts/component-demo.njk
 
 <h2>Default</h2>
 {{ scrollerVideo({ label: "Example" }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;ScrollerVideo
+  src="/videos/climate-story.mp4"
+  label="Rising sea levels"
+  alt="Animation showing coastal flooding progression from 2020 to 2050"
+  bind:progress
+&gt;
+  &lt;div class="step"&gt;&lt;p&gt;Current sea levels&lt;/p&gt;&lt;/div&gt;
+  &lt;div class="step"&gt;&lt;p&gt;Projected 2030 levels&lt;/p&gt;&lt;/div&gt;
+  &lt;div class="step"&gt;&lt;p&gt;Projected 2050 levels&lt;/p&gt;&lt;/div&gt;
+&lt;/ScrollerVideo&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

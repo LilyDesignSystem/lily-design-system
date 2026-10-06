@@ -46,3 +46,16 @@ nhsuk: https://service-manual.nhs.uk/design-system/components/summary-list
   {{ summaryListItem({ key: "Weight", value: "62 kg" }) }}
   {{ summaryListItem({ key: "Blood pressure", value: "118 / 76 mmHg" }) }}
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;SummaryList label="Personal details"&gt;
+  &lt;SummaryListItem term="Name"&gt;Karen Francis&lt;/SummaryListItem&gt;
+  &lt;SummaryListItem term="Date of birth"&gt;15 March 1984&lt;/SummaryListItem&gt;
+  &lt;SummaryListItem term="Contact information"&gt;
+    73 Roman Road&lt;br /&gt;Leeds&lt;br /&gt;LS2 5ZN
+  &lt;/SummaryListItem&gt;
+  &lt;SummaryListItem term="Email"&gt;karen.francis@example.com&lt;/SummaryListItem&gt;
+&lt;/SummaryList&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

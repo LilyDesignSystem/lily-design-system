@@ -15,3 +15,13 @@ description: a list of actions or options triggered by a button
   {{ menuItem({ text: "Save As…", shortcut: "Shift+Ctrl+S", disabled: true }) }}
   {{ menuItem({ text: "Close", shortcut: "Ctrl+W" }) }}
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Menu label="Actions"&gt;
+    &lt;MenuItem onclick={() =&gt; handleCut()}&gt;Cut&lt;/MenuItem&gt;
+    &lt;MenuItem onclick={() =&gt; handleCopy()}&gt;Copy&lt;/MenuItem&gt;
+    &lt;MenuItem onclick={() =&gt; handlePaste()}&gt;Paste&lt;/MenuItem&gt;
+&lt;/Menu&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

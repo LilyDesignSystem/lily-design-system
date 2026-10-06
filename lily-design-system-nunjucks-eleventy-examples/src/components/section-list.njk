@@ -11,3 +11,12 @@ description: an ordered list of section links
 
 <h2>With accessible label</h2>
 {{ sectionList({ text: "Example content", label: "SectionList example" }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;SectionList&gt;
+  &lt;SectionListItem&gt;&lt;SectionLink href="/a"&gt;A&lt;/SectionLink&gt;&lt;/SectionListItem&gt;
+  &lt;SectionListItem&gt;&lt;SectionLink href="/b" current&gt;B&lt;/SectionLink&gt;&lt;/SectionListItem&gt;
+&lt;/SectionList&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

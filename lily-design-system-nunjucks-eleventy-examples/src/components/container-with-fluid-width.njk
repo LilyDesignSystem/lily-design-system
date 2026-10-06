@@ -19,3 +19,13 @@ description: a full-width content wrapper with horizontal padding
     Full-width content with 2rem horizontal padding.
   </div>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/container-with-fluid-width/macro.njk" import containerWithFluidWidth %}
+
+{% call containerWithFluidWidth({ paddingInline: "2rem" }) %}
+  &lt;p&gt;Full-bleed content.&lt;/p&gt;
+{% endcall %}
+{% endraw %}</code></pre>
+{# END generated: examples #}

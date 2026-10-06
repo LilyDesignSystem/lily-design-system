@@ -15,3 +15,14 @@ description: a chart that combines several chart types, such as bars and a line,
 {% call composedChart({ label: "Composed chart example", dataTable: dataTable }) %}
   <svg viewBox="0 0 100 50" width="200" height="100" aria-hidden="true" focusable="false"><circle cx="50" cy="25" r="20"></circle></svg>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/composed-chart/macro.njk" import composedChart %}
+{% call composedChart({ label: "Example", describedBy: "desc" }) %}&lt;svg&gt;...&lt;/svg&gt;{% endcall %}
+{% endraw %}</code></pre>
+<h2>More examples</h2>
+<h3>Graphic only (no data table)</h3>
+{% raw %}<div class="component-demo-variant"><figure class="composed-chart"><div class="composed-chart-graphic" role="img" aria-label="Composed chart: sales bars with a trend line"><svg viewBox="0 0 120 80" width="240" height="160" aria-hidden="true" focusable="false"><rect x="15" y="40" width="16" height="30" fill="currentColor" fill-opacity="0.4"/><rect x="45" y="28" width="16" height="42" fill="currentColor" fill-opacity="0.4"/><rect x="75" y="20" width="16" height="50" fill="currentColor" fill-opacity="0.4"/><polyline points="23,34 53,24 83,14" fill="none" stroke="currentColor" stroke-width="2"/></svg></div></figure></div>{% endraw %}
+<details><summary>Show markup</summary><pre tabindex="0"><code>{% raw %}&lt;figure class="composed-chart"&gt;&lt;div class="composed-chart-graphic" role="img" aria-label="Composed chart: sales bars with a trend line"&gt;&lt;svg viewBox="0 0 120 80" width="240" height="160" aria-hidden="true" focusable="false"&gt;&lt;rect x="15" y="40" width="16" height="30" fill="currentColor" fill-opacity="0.4"/&gt;&lt;rect x="45" y="28" width="16" height="42" fill="currentColor" fill-opacity="0.4"/&gt;&lt;rect x="75" y="20" width="16" height="50" fill="currentColor" fill-opacity="0.4"/&gt;&lt;polyline points="23,34 53,24 83,14" fill="none" stroke="currentColor" stroke-width="2"/&gt;&lt;/svg&gt;&lt;/div&gt;&lt;/figure&gt;{% endraw %}</code></pre></details>
+{# END generated: examples #}

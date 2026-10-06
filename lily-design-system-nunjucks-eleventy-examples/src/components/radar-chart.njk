@@ -15,3 +15,14 @@ description: a radar chart comparing variables on radial axes
 {% call radarChart({ label: "Radar chart example", dataTable: dataTable }) %}
   <svg viewBox="0 0 100 50" width="200" height="100" aria-hidden="true" focusable="false"><circle cx="50" cy="25" r="20"></circle></svg>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/radar-chart/macro.njk" import radarChart %}
+{% call radarChart({ label: "Example", describedBy: "desc" }) %}&lt;svg&gt;...&lt;/svg&gt;{% endcall %}
+{% endraw %}</code></pre>
+<h2>More examples</h2>
+<h3>Graphic only (no data table)</h3>
+{% raw %}<div class="component-demo-variant"><figure class="radar-chart"><div class="radar-chart-graphic" role="img" aria-label="Skills radar across five axes"><svg viewBox="0 0 120 80" width="240" height="160" aria-hidden="true" focusable="false"><polygon points="60,10 105,40 88,70 32,70 15,40" fill="none" stroke="currentColor" stroke-opacity="0.25"/><polygon points="60,22 92,42 78,62 40,60 28,42" fill="currentColor" fill-opacity="0.3" stroke="currentColor"/></svg></div></figure></div>{% endraw %}
+<details><summary>Show markup</summary><pre tabindex="0"><code>{% raw %}&lt;figure class="radar-chart"&gt;&lt;div class="radar-chart-graphic" role="img" aria-label="Skills radar across five axes"&gt;&lt;svg viewBox="0 0 120 80" width="240" height="160" aria-hidden="true" focusable="false"&gt;&lt;polygon points="60,10 105,40 88,70 32,70 15,40" fill="none" stroke="currentColor" stroke-opacity="0.25"/&gt;&lt;polygon points="60,22 92,42 78,62 40,60 28,42" fill="currentColor" fill-opacity="0.3" stroke="currentColor"/&gt;&lt;/svg&gt;&lt;/div&gt;&lt;/figure&gt;{% endraw %}</code></pre></details>
+{# END generated: examples #}

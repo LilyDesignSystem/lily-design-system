@@ -19,3 +19,13 @@ description: an input for entering Sweden's Personnummer
 
 <h2>Reference</h2>
 <p>See <a href="https://en.wikipedia.org/wiki/Personal_identity_number_(Sweden)">Personal Identity Number</a>.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="Personal Identity Number" required&gt;
+  &lt;SverigePersonnummerInput label="Personal Identity Number" value={value} required /&gt;
+  &lt;Hint&gt;12 digits in the format CCYYMMDDZZZQ: CCYYMMDD is the date of birth, ZZZ a serial (odd male, even female), and Q a Luhn check digit&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid Personal Identity Number&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

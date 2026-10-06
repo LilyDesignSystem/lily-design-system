@@ -7,3 +7,12 @@ description: a drag-and-drop area for uploading files
 {% from "components/file-upload/macro.njk" import fileUpload %}
 
 {{ fileUpload({ id: "upload", name: "files", multiple: true, label: "Drop files here, or click to choose" }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="Upload a scan of your referral letter"&gt;
+  &lt;Hint&gt;The file must be a JPG, PNG, or PDF and be smaller than 5MB&lt;/Hint&gt;
+  &lt;FileUpload label="Upload files" accept=".jpg,.png,.pdf" onchange={handleFiles} /&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

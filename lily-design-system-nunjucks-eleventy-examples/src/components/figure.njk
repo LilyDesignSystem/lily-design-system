@@ -10,3 +10,11 @@ description: a self-contained figure with optional caption
 {% call figure({ caption: "Figure 1: A placeholder image with caption." }) %}
   {{ image({ src: "https://via.placeholder.com/400x200?text=Figure", alt: "A placeholder figure", width: 400, height: 200 }) }}
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Figure label="Monthly revenue for 2024"&gt;
+  &lt;svg&gt;&lt;!-- bar chart SVG here --&gt;&lt;/svg&gt;
+&lt;/Figure&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

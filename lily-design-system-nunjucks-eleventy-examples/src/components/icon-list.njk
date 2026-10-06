@@ -20,3 +20,17 @@ description: an ordered list of icon list item components
   {{ iconListItem({ iconHtml: "&#9888;", html: "Warnings use a triangle" }) }}
   {{ iconListItem({ iconHtml: "&#x2139;", html: "Info uses an i" }) }}
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/icon-list/macro.njk" import iconList %}
+{% from "components/icon-list-item/macro.njk" import iconListItem %}
+
+{% call iconList({ label: "Benefits" }) %}
+  {{ iconListItem({
+    text: "Fast",
+    iconHtml: "&lt;svg viewBox='0 0 24 24'&gt;…&lt;/svg&gt;"
+  }) }}
+{% endcall %}
+{% endraw %}</code></pre>
+{# END generated: examples #}

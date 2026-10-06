@@ -22,3 +22,14 @@ description: a read-only display of a US Social Security number
   Values that are not exactly 9 digits render as-is, preserving
   whatever mask characters the consumer supplied:</p>
 <p>{{ unitedStatesSocialSecurityNumberView({ value: "XXX-XX-6789", label: "SSN (last 4)" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;SummaryList&gt;
+  &lt;SummaryListItem&gt;
+    &lt;dt&gt;Social Security Number&lt;/dt&gt;
+    &lt;dd&gt;&lt;UnitedStatesSocialSecurityNumberView label="SSN" value="123-45-6789" /&gt;&lt;/dd&gt;
+  &lt;/SummaryListItem&gt;
+&lt;/SummaryList&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

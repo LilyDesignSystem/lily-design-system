@@ -8,3 +8,9 @@ description: a permanent hyperlink for a Digital Object Identifier
 
 <p>Reference: {{ digitalObjectIdentifierLink({ doi: "10.1038/s41586-021-03819-2" }) }}</p>
 <p>Custom text: {{ digitalObjectIdentifierLink({ doi: "10.1000/xyz", text: "Read the paper" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;a class="digital-object-identifier-link" href="https://doi.org/10.1234/example"&gt;10.1234/example&lt;/a&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

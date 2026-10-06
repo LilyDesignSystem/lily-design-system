@@ -1,0 +1,268 @@
+#!/usr/bin/env node
+// bin/generate-examples
+//
+// Generate the "examples" data that every demonstration page renders next
+// to the one-snippet demo in component-demos.ts:
+//
+//   - usage:    a REAL usage example per component, taken from the docs
+//               (the first fenced block under "## Usage"). Each app prefers
+//               its own library's doc (React's components/{Pascal}.md, Vue's,
+//               Angular's, Blazor's, Nunjucks', Svelte's) and falls back to
+//               the framework-agnostic catalog doc (components/{slug}/index.md).
+//   - variants: extra live-rendered states, from the hand-curated
+//               component-variants.json plus, for every chart whose demo has a
+//               data table, a derived "graphic only" variant.
+//
+// Outputs (overwritten in full, or region-replaced):
+//   - {svelte-sveltekit,react-next,vue-nuxt,angular} component-examples.ts
+//   - blazor-web Data/ComponentExamples.cs
+//   - html-css-js pages/components/component.html (componentExamples region)
+//   - nunjucks-eleventy src/components/{slug}.njk (generated examples region)
+//
+// Run after editing a component's Usage section or component-variants.json,
+// and after bin/generate-registries. bin/test checks nothing here drifts.
+
+const fs = require("fs");
+const path = require("path");
+
+const top = path.join(__dirname, "..");
+const read = (p) => fs.readFileSync(path.join(top, p), "utf-8");
+const exists = (p) => fs.existsSync(path.join(top, p));
+const write = (p, s) => {
+  fs.writeFileSync(path.join(top, p), s);
+  console.log("wrote", p);
+};
+
+const components = read("components.tsv")
+  .split("\n")
+  .filter((l) => l.trim())
+  .map((l) => {
+    const [slug, name, description] = l.split("\t");
+    return { slug, name, description: description || "" };
+  });
+
+// ---------- demos (for derived chart variants) ----------
+
+const demosSource = read("lily-design-system-svelte-sveltekit-examples/src/lib/data/component-demos.ts");
+const demos = {};
+for (const m of demosSource.matchAll(/^ {2}'([^']+)': '((?:[^'\\]|\\.)*)',$/gm)) {
+  demos[m[1]] = m[2].replace(/\\'/g, "'").replace(/\\\\/g, "\\");
+}
+
+// ---------- usage extraction ----------
+
+const MAX_USAGE = 3000;
+function usageFrom(file) {
+  if (!file || !exists(file)) return null;
+  const s = read(file);
+  const sec = s.match(/\n## Usage\n([\s\S]*?)(?=\n## |$)/);
+  if (!sec) return null;
+  const block = sec[1].match(/```([\w-]*)\n([\s\S]*?)```/);
+  if (!block) return null;
+  const code = block[2].replace(/\s+$/, "") + "\n";
+  if (code.length > MAX_USAGE) return null;
+  return { lang: block[1] || "text", code };
+}
+
+const libDoc = {
+  svelte: (c) => `lily-design-system-svelte-headless/components/${c.name}/index.md`,
+  react: (c) => `lily-design-system-react-headless/components/${c.name}.md`,
+  vue: (c) => `lily-design-system-vue-headless/components/${c.name}.md`,
+  angular: (c) => `lily-design-system-angular-headless/components/${c.name}.md`,
+  blazor: (c) => `lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/${c.name}.md`,
+  nunjucks: (c) => `lily-design-system-nunjucks-headless/components/${c.slug}/index.md`,
+  html: () => "", // no HTML-specific library doc: use the catalog doc only where it is HTML, else the demo markup
+};
+const catalogDoc = (c) => `components/${c.slug}/index.md`;
+
+// ---------- variants ----------
+
+const curated = JSON.parse(read("component-variants.json"));
+function variantsFor(c) {
+  const out = (curated[c.slug] || []).map((v) => ({ title: v.title, html: v.html }));
+  const demo = demos[c.slug] || "";
+  if (c.slug.endsWith("-chart") && demo.includes("<svg") && demo.includes(`${c.slug}-data-table`)) {
+    const re = new RegExp(`<div class="${c.slug}-data-table">[\\s\\S]*?</table></div>`);
+    const graphicOnly = demo.replace(re, "");
+    if (graphicOnly !== demo) out.push({ title: "Graphic only (no data table)", html: graphicOnly });
+  }
+  return out;
+}
+
+// Languages the catalog (framework-agnostic) usage may be shown in, per app.
+// Anything else (for example Svelte syntax in the React app) would mislead, so
+// the app falls back to the demo's own HTML markup, which is real usage too.
+const fitsApp = {
+  svelte: ["svelte", "html", "text"],
+  react: ["tsx", "jsx", "html", "text"],
+  vue: ["vue", "html", "text"],
+  angular: ["html", "ts", "angular", "text"],
+  blazor: ["razor", "html", "cs", "text"],
+  nunjucks: ["njk", "nunjucks", "html", "text"],
+  html: ["html", "text"],
+};
+
+// A usage block that is only a placeholder (`<Kbd>...</Kbd>`, `<X />`) teaches nothing.
+const trivial = (u) => !u || (u.code.trim().length < 70 && /(\u2026|\.\.\.|\/>\s*$)/.test(u.code));
+
+function exampleFor(app, c) {
+  let usage = usageFrom(libDoc[app](c));
+  const cat = usageFrom(catalogDoc(c));
+  if (trivial(usage) && cat && !trivial(cat) && fitsApp[app].includes(cat.lang)) usage = cat;
+  if (!usage && cat && fitsApp[app].includes(cat.lang)) usage = cat;
+  // Still a placeholder (or nothing)? The demo's own HTML markup is real usage.
+  if (trivial(usage) && demos[c.slug]) usage = { lang: "html", code: demos[c.slug].replace(/\s+$/, "") + "\n" };
+  const variants = variantsFor(c);
+  const e = {};
+  if (usage) e.usage = usage;
+  if (variants.length) e.variants = variants;
+  return e;
+}
+
+const jsStr = (s) => JSON.stringify(s);
+const csLit = (s) =>
+  '"' +
+  s
+    .replace(/\\/g, "\\\\")
+    .replace(/"/g, '\\"')
+    .replace(/\r/g, "\\r")
+    .replace(/\n/g, "\\n")
+    .replace(/\t/g, "\\t") +
+  '"';
+const escHtml = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+// ---------- TS data files ----------
+
+const TS_HEADER = `// Generated by bin/generate-examples — do not edit.
+// A real usage example per component (from the docs) and extra live-rendered
+// variants (from component-variants.json). Rendered by the component detail page.
+
+export interface ComponentExampleVariant {
+  title: string;
+  html: string;
+}
+
+export interface ComponentExample {
+  usage?: { lang: string; code: string };
+  variants?: ComponentExampleVariant[];
+}
+
+export const componentExamples: Record<string, ComponentExample> = {
+`;
+
+function tsFor(app) {
+  const body = components
+    .map((c) => {
+      const e = exampleFor(app, c);
+      return Object.keys(e).length ? `  ${jsStr(c.slug)}: ${JSON.stringify(e)},` : null;
+    })
+    .filter(Boolean)
+    .join("\n");
+  return `${TS_HEADER}${body}\n};\n`;
+}
+
+write("lily-design-system-svelte-sveltekit-examples/src/lib/data/component-examples.ts", tsFor("svelte"));
+write("lily-design-system-react-next-examples/app/data/component-examples.ts", tsFor("react"));
+write("lily-design-system-vue-nuxt-examples/data/component-examples.ts", tsFor("vue"));
+write("lily-design-system-angular-examples/src/app/component-examples.ts", tsFor("angular"));
+
+// ---------- Blazor ----------
+
+{
+  const entries = components
+    .map((c) => {
+      const e = exampleFor("blazor", c);
+      if (!Object.keys(e).length) return null;
+      const variants = (e.variants || []).map((v) => `new(${csLit(v.title)}, ${csLit(v.html)})`).join(", ");
+      return `        [${csLit(c.slug)}] = new(${csLit(e.usage ? e.usage.lang : "")}, ${csLit(e.usage ? e.usage.code : "")}, new List<ExampleVariant> { ${variants} }),`;
+    })
+    .filter(Boolean)
+    .join("\n");
+  write(
+    "lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Data/ComponentExamples.cs",
+    `// Generated by bin/generate-examples — do not edit.
+namespace LilyBlazorWebExamples.Data;
+
+public record ExampleVariant(string Title, string Html);
+public record ComponentExample(string UsageLang, string Usage, List<ExampleVariant> Variants);
+
+public static class ComponentExamples
+{
+    public static readonly Dictionary<string, ComponentExample> All = new()
+    {
+${entries}
+    };
+}
+`
+  );
+}
+
+// ---------- html-css-js (region in component.html) ----------
+
+function replaceRegion(text, startMarker, endMarker, body, label) {
+  const start = text.indexOf(startMarker);
+  if (start < 0) throw new Error(`start marker not found in ${label}`);
+  const from = start + startMarker.length;
+  const end = text.indexOf(endMarker, from);
+  if (end < 0) throw new Error(`end marker not found in ${label}`);
+  return text.slice(0, from) + "\n" + body + "\n" + text.slice(end);
+}
+
+{
+  const p = "lily-design-system-html-css-js-examples/pages/components/component.html";
+  let t = read(p);
+  if (!t.includes("var componentExamples = {")) {
+    // First run: add the region right after the demo map.
+    const anchor = "            };\n\n                function renderComponent(";
+    if (!t.includes(anchor)) throw new Error("cannot place componentExamples region in " + p);
+    t = t.replace(
+      anchor,
+      "            };\n\n            var componentExamples = {\n            /* END componentExamples */};\n\n                function renderComponent("
+    );
+  }
+  const body = components
+    .map((c) => {
+      const e = exampleFor("html", c);
+      return Object.keys(e).length ? `                ${jsStr(c.slug)}: ${JSON.stringify(e)},` : null;
+    })
+    .filter(Boolean)
+    .join("\n");
+  t = replaceRegion(t, "var componentExamples = {", "/* END componentExamples */", body, p);
+  write(p, t);
+}
+
+// ---------- nunjucks-eleventy (generated region at the end of each page) ----------
+
+{
+  const BEGIN = "{# BEGIN generated: examples (bin/generate-examples) #}";
+  const END = "{# END generated: examples #}";
+  for (const c of components) {
+    const p = `lily-design-system-nunjucks-eleventy-examples/src/components/${c.slug}.njk`;
+    if (!exists(p)) continue;
+    const e = exampleFor("nunjucks", c);
+    let region = "";
+    if (e.usage) {
+      region += `<h2>Usage</h2>\n<pre tabindex="0"><code>{% raw %}${escHtml(e.usage.code)}{% endraw %}</code></pre>\n`;
+    }
+    if (e.variants && e.variants.length) {
+      region += `<h2>More examples</h2>\n`;
+      for (const v of e.variants) {
+        region +=
+          `<h3>${escHtml(v.title)}</h3>\n{% raw %}<div class="component-demo-variant">${v.html}</div>{% endraw %}\n` +
+          `<details><summary>Show markup</summary><pre tabindex="0"><code>{% raw %}${escHtml(v.html)}{% endraw %}</code></pre></details>\n`;
+      }
+    }
+    let t = read(p);
+    const bi = t.indexOf(BEGIN);
+    if (bi >= 0) {
+      const ei = t.indexOf(END, bi);
+      t = t.slice(0, bi).replace(/\s+$/, "\n") + (region ? `\n${BEGIN}\n${region}${END}\n` : "") + t.slice(ei + END.length).replace(/^\n+/, "");
+    } else if (region) {
+      t = t.replace(/\s+$/, "\n") + `\n${BEGIN}\n${region}${END}\n`;
+    }
+    fs.writeFileSync(path.join(top, p), t);
+  }
+  console.log("updated nunjucks-eleventy example pages");
+}
+
+console.log(`done: examples for ${components.length} components`);

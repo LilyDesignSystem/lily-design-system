@@ -19,3 +19,13 @@ description: an input for entering Croatia's Osobni identifikacijski broj (OIB)
 
 <h2>Reference</h2>
 <p>See <a href="https://en.wikipedia.org/wiki/Personal_identification_number_(Croatia)">Personal Identification Number</a>.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="Personal Identification Number" required&gt;
+  &lt;HrvatskaOsobniIdentifikacijskiBrojInput label="Personal Identification Number" value={value} required /&gt;
+  &lt;Hint&gt;11 digits — 10 random digits plus a check digit&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid Personal Identification Number&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

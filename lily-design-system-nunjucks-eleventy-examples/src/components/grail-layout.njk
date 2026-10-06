@@ -74,3 +74,27 @@ description: a responsive web design structure with header, left aside, center m
   <li><code>grail-layout-bottom-footer</code> —
     <code>&lt;footer&gt;</code> (contentinfo landmark)</li>
 </ul>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;GrailLayout&gt;
+  &lt;GrailLayoutTopHeader&gt;
+    &lt;Header label="Clinical Portal" /&gt;
+  &lt;/GrailLayoutTopHeader&gt;
+  &lt;GrailLayoutLeftAside&gt;
+    &lt;TreeNav label="Sections"&gt;...&lt;/TreeNav&gt;
+  &lt;/GrailLayoutLeftAside&gt;
+  &lt;GrailLayoutCenterMain&gt;
+    &lt;h1&gt;Patient Dashboard&lt;/h1&gt;
+    &lt;p&gt;Main content area&lt;/p&gt;
+  &lt;/GrailLayoutCenterMain&gt;
+  &lt;GrailLayoutRightAside&gt;
+    &lt;h2&gt;Quick links&lt;/h2&gt;
+    &lt;ul&gt;&lt;li&gt;&lt;a href="/help"&gt;Help&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
+  &lt;/GrailLayoutRightAside&gt;
+  &lt;GrailLayoutBottomFooter&gt;
+    &lt;Footer /&gt;
+  &lt;/GrailLayoutBottomFooter&gt;
+&lt;/GrailLayout&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

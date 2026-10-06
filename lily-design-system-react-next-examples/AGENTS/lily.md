@@ -94,6 +94,8 @@ All twenty-six follow the `lily-design-system-` prefix and get full subproject t
 - [generate-component-categories](../bin/generate-component-categories): Regenerate components-categories.tsv (per-component HTML tag + category) from components.tsv
 - [generate-api-docs](../bin/generate-api-docs): Canonical-contract sections on the site's component pages, generated from components/*/AGENTS.md — drift-checked
 - [new-component](../bin/new-component): End-to-end scaffolder — one new placeholder component across every layer bin/test verifies
+- [generate-examples](../bin/generate-examples): Usage examples (from the docs) and rendered variants (component-variants.json) for every demonstration page
+- [generate-site-pages](../bin/generate-site-pages): Docs-site component pages from components/{slug}/index.md, with the Example section refreshed on every page
 - [smoke-packages](../bin/smoke-packages): Pack + install each published headless tarball into a scratch consumer and render it
 
 ## Inspirations

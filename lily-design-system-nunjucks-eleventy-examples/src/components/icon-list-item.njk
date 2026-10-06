@@ -12,3 +12,14 @@ description: one item in an icon list with a leading icon slot
   {{ iconListItem({ iconHtml: "&times;", html: "<strong>Rejected</strong>" }) }}
   {{ iconListItem({ iconHtml: "&hellip;", html: "<strong>Pending</strong>" }) }}
 </ul>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/icon-list-item/macro.njk" import iconListItem %}
+
+{{ iconListItem({
+  text: "Fast",
+  iconHtml: "&lt;svg viewBox='0 0 24 24'&gt;…&lt;/svg&gt;"
+}) }}
+{% endraw %}</code></pre>
+{# END generated: examples #}

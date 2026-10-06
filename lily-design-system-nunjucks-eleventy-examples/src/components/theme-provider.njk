@@ -10,3 +10,13 @@ layout: layouts/component-demo.njk
 
 <h2>Default</h2>
 {{ themeProvider({ label: "Example" }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;ThemeProvider theme={{ color: { text: "#1a1a1a", background: "#ffffff", accent: "#2563eb" } }} base="light"&gt;
+  &lt;Card&gt;
+    &lt;p&gt;This content uses the custom theme colors.&lt;/p&gt;
+  &lt;/Card&gt;
+&lt;/ThemeProvider&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

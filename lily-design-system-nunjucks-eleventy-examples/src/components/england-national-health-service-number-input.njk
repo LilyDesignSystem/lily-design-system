@@ -19,3 +19,13 @@ description: an input for entering England's National Health Service Number (NHS
 
 <h2>Reference</h2>
 <p>See <a href="https://en.wikipedia.org/wiki/NHS_number">National Health Service Number</a>.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="National Health Service Number" required&gt;
+  &lt;EnglandNationalHealthServiceNumberInput label="National Health Service Number" value={value} required /&gt;
+  &lt;Hint&gt;10 digits in 3-3-4 format with a Modulus-11 check digit, allocated through the Personal Demographics Service&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid National Health Service Number&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

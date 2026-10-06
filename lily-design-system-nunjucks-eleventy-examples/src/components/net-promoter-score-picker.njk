@@ -28,3 +28,23 @@ description: a picker for selecting a 0-10 Net Promoter Score
   <li><strong>Passive</strong> (7–8) — yellow on hover/select.</li>
   <li><strong>Promoter</strong> (9–10) — green on hover/select.</li>
 </ul>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;p&gt;How likely are you to recommend us to a friend or colleague?&lt;/p&gt;
+&lt;NetPromoterScorePicker label="How likely are you to recommend us?" value={score}&gt;
+    &lt;NetPromoterScorePickerButton value="0" label="0 - Not at all likely" onclick={handleClick} /&gt;
+    &lt;NetPromoterScorePickerButton value="1" label="1" onclick={handleClick} /&gt;
+    &lt;NetPromoterScorePickerButton value="2" label="2" onclick={handleClick} /&gt;
+    &lt;NetPromoterScorePickerButton value="3" label="3" onclick={handleClick} /&gt;
+    &lt;NetPromoterScorePickerButton value="4" label="4" onclick={handleClick} /&gt;
+    &lt;NetPromoterScorePickerButton value="5" label="5" onclick={handleClick} /&gt;
+    &lt;NetPromoterScorePickerButton value="6" label="6" onclick={handleClick} /&gt;
+    &lt;NetPromoterScorePickerButton value="7" label="7" onclick={handleClick} /&gt;
+    &lt;NetPromoterScorePickerButton value="8" label="8" onclick={handleClick} /&gt;
+    &lt;NetPromoterScorePickerButton value="9" label="9" onclick={handleClick} /&gt;
+    &lt;NetPromoterScorePickerButton value="10" label="10 - Extremely likely" onclick={handleClick} /&gt;
+&lt;/NetPromoterScorePicker&gt;
+&lt;p&gt;Selected score: {score}&lt;/p&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

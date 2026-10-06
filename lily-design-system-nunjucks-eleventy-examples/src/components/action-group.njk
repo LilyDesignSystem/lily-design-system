@@ -24,3 +24,19 @@ description: a group of action buttons that can collapse to an overflow menu whe
   {{ button({ text: "Bold" }) }}
   {{ button({ text: "Italic" }) }}
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/action-group/macro.njk" import actionGroup %}
+
+{{ actionGroup({
+  label: "Document actions",
+  html: '&lt;button type="button"&gt;Save&lt;/button&gt;'
+       + '&lt;button type="button"&gt;Print&lt;/button&gt;',
+  overflowLabel: "More actions",
+  overflowOpen: false,
+  overflowId: "doc-overflow",
+  overflowHtml: '&lt;button type="button"&gt;Export&lt;/button&gt;'
+}) }}
+{% endraw %}</code></pre>
+{# END generated: examples #}

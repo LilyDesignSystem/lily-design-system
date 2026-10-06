@@ -15,3 +15,9 @@ description: a vertical column chart visualization for displaying data
 {% call columnChart({ label: "Column chart example", dataTable: dataTable }) %}
   <svg viewBox="0 0 100 50" width="200" height="100" aria-hidden="true" focusable="false"><circle cx="50" cy="25" r="20"></circle></svg>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;ColumnChart label="Monthly revenue" categories={monthlyRevenue} description="Revenue per month for the last year" /&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

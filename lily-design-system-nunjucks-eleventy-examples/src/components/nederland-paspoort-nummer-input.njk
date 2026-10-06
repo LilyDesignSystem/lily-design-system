@@ -19,3 +19,13 @@ description: an input for entering Netherlands's Paspoort Nummer
 
 <h2>Reference</h2>
 <p>See <a href="https://en.wikipedia.org/wiki/Dutch_passport">Dutch Passport Number</a>.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="Dutch Passport Number" required&gt;
+  &lt;NederlandPaspoortNummerInput label="Dutch Passport Number" value={value} required /&gt;
+  &lt;Hint&gt;9 characters: positions 1-2 [A-Z] except 'O', positions 3-8 [A-Z 0-9] except 'O', position 9 [0-9]&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid Dutch Passport Number&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

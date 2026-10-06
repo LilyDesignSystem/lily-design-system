@@ -29,3 +29,9 @@ description: an input for entering a date and time without time zone
 <p>The value format is <code>YYYY-MM-DDTHH:MM</code> without
   time-zone offset. If your application is multi-zone, store the
   submitted value with an explicit time zone at the server.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;DateTimeLocalInput label="Meeting start" value={meetingStart} min="2026-01-01T08:00" max="2026-12-31T18:00" required /&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

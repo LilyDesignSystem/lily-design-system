@@ -11,3 +11,22 @@ description: left sidebar region of a grail layout
   <code>params.label</code> so assistive tech can distinguish it
   from the right aside. See the
   <a href="/components/grail-layout/">composed demo</a>.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;GrailLayout&gt;
+  &lt;GrailLayoutTopHeader&gt;...&lt;/GrailLayoutTopHeader&gt;
+  &lt;GrailLayoutLeftAside&gt;
+    &lt;TreeNav label="Sections"&gt;
+      &lt;TreeList&gt;
+        &lt;TreeListItem&gt;&lt;TreeLink href="/patients"&gt;Patients&lt;/TreeLink&gt;&lt;/TreeListItem&gt;
+        &lt;TreeListItem&gt;&lt;TreeLink href="/appointments"&gt;Appointments&lt;/TreeLink&gt;&lt;/TreeListItem&gt;
+      &lt;/TreeList&gt;
+    &lt;/TreeNav&gt;
+  &lt;/GrailLayoutLeftAside&gt;
+  &lt;GrailLayoutCenterMain&gt;...&lt;/GrailLayoutCenterMain&gt;
+  &lt;GrailLayoutRightAside&gt;...&lt;/GrailLayoutRightAside&gt;
+  &lt;GrailLayoutBottomFooter&gt;...&lt;/GrailLayoutBottomFooter&gt;
+&lt;/GrailLayout&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

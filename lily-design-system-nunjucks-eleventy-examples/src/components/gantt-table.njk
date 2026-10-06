@@ -109,3 +109,32 @@ description: a Gantt chart table interactive grid for planning schedule visualiz
     {% endcall %}
   {% endcall %}
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;GanttTable caption="Project timeline" label="Q1 2025 schedule"&gt;
+  &lt;GanttTableHead&gt;
+    &lt;GanttTableTr&gt;
+      &lt;GanttTableTH scope="col"&gt;Task&lt;/GanttTableTH&gt;
+      &lt;GanttTableTH scope="col"&gt;Jan&lt;/GanttTableTH&gt;
+      &lt;GanttTableTH scope="col"&gt;Feb&lt;/GanttTableTH&gt;
+      &lt;GanttTableTH scope="col"&gt;Mar&lt;/GanttTableTH&gt;
+    &lt;/GanttTableTr&gt;
+  &lt;/GanttTableHead&gt;
+  &lt;GanttTableBody&gt;
+    &lt;GanttTableTr&gt;
+      &lt;GanttTableTH scope="row"&gt;Design phase&lt;/GanttTableTH&gt;
+      &lt;GanttTableTD active&gt;████&lt;/GanttTableTD&gt;
+      &lt;GanttTableTD active&gt;████&lt;/GanttTableTD&gt;
+      &lt;GanttTableTD&gt;&lt;/GanttTableTD&gt;
+    &lt;/GanttTableTr&gt;
+    &lt;GanttTableTr&gt;
+      &lt;GanttTableTH scope="row"&gt;Development&lt;/GanttTableTH&gt;
+      &lt;GanttTableTD&gt;&lt;/GanttTableTD&gt;
+      &lt;GanttTableTD active&gt;████&lt;/GanttTableTD&gt;
+      &lt;GanttTableTD active&gt;████&lt;/GanttTableTD&gt;
+    &lt;/GanttTableTr&gt;
+  &lt;/GanttTableBody&gt;
+&lt;/GanttTable&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

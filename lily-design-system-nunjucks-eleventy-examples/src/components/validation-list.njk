@@ -14,3 +14,16 @@ description: a live-feedback list of input validation rules with pending, passed
   {{ validationListItem({ status: "failed", html: "Includes an uppercase letter" }) }}
   {{ validationListItem({ status: "pending", html: "Includes a special character" }) }}
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/validation-list/macro.njk" import validationList %}
+{% from "components/validation-list-item/macro.njk" import validationListItem %}
+
+{% call validationList({ label: "Password requirements" }) %}
+  {{ validationListItem({ text: "At least 8 characters", status: "pending" }) }}
+  {{ validationListItem({ text: "One uppercase letter", status: "passed" }) }}
+  {{ validationListItem({ text: "One number", status: "failed" }) }}
+{% endcall %}
+{% endraw %}</code></pre>
+{# END generated: examples #}

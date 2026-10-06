@@ -36,3 +36,19 @@ description: an email subscription form composition with idle, submitting, succe
   state: "error",
   errorMessage: "Sorry, something went wrong. Please try again."
 }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/newsletter-signup/macro.njk" import newsletterSignup %}
+
+{{ newsletterSignup({
+  label: "Subscribe to our newsletter",
+  heading: "Stay in the loop",
+  description: "Monthly updates, no spam.",
+  emailLabel: "Email address",
+  emailPlaceholder: "you@example.com",
+  submitLabel: "Subscribe",
+  state: "idle"
+}) }}
+{% endraw %}</code></pre>
+{# END generated: examples #}

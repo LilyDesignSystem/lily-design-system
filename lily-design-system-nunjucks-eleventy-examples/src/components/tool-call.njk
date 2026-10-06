@@ -13,3 +13,19 @@ description: a collapsible record of one tool invocation by an AI agent, with a 
 {% set sum %}{% call toolCallName({}) %}search_web{% endcall %} {% call toolCallStatus({ status: "done" }) %}Done{% endcall %}{% endset %}
 {% call toolCall({ status: "done", open: true, summary: sum }) %}{% call toolCallOutput({ label: "Output" }) %}12 degrees, light rain{% endcall %}{% endcall %}
 
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/tool-call/macro.njk" import toolCall %}
+{% call toolCall({}) %}…{% endcall %}
+{% endraw %}</code></pre>
+<h2>More examples</h2>
+<h3>Pending (closed)</h3>
+{% raw %}<div class="component-demo-variant"><details class="tool-call" data-status="pending"><summary class="tool-call-summary"><span class="tool-call-name">search_web</span> <span class="tool-call-status" data-status="pending">Pending</span></summary><div class="tool-call-content"><div class="tool-call-input" role="group" aria-label="Input"><pre tabindex="0">{"query": "weather in London"}</pre></div></div></details></div>{% endraw %}
+<details><summary>Show markup</summary><pre tabindex="0"><code>{% raw %}&lt;details class="tool-call" data-status="pending"&gt;&lt;summary class="tool-call-summary"&gt;&lt;span class="tool-call-name"&gt;search_web&lt;/span&gt; &lt;span class="tool-call-status" data-status="pending"&gt;Pending&lt;/span&gt;&lt;/summary&gt;&lt;div class="tool-call-content"&gt;&lt;div class="tool-call-input" role="group" aria-label="Input"&gt;&lt;pre tabindex="0"&gt;{"query": "weather in London"}&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;/details&gt;{% endraw %}</code></pre></details>
+<h3>Running (busy)</h3>
+{% raw %}<div class="component-demo-variant"><details class="tool-call" data-status="running" aria-busy="true" open><summary class="tool-call-summary"><span class="tool-call-name">search_web</span> <span class="tool-call-status" data-status="running">Running</span></summary><div class="tool-call-content"><div class="tool-call-input" role="group" aria-label="Input"><pre tabindex="0">{"query": "weather in London"}</pre></div></div></details></div>{% endraw %}
+<details><summary>Show markup</summary><pre tabindex="0"><code>{% raw %}&lt;details class="tool-call" data-status="running" aria-busy="true" open&gt;&lt;summary class="tool-call-summary"&gt;&lt;span class="tool-call-name"&gt;search_web&lt;/span&gt; &lt;span class="tool-call-status" data-status="running"&gt;Running&lt;/span&gt;&lt;/summary&gt;&lt;div class="tool-call-content"&gt;&lt;div class="tool-call-input" role="group" aria-label="Input"&gt;&lt;pre tabindex="0"&gt;{"query": "weather in London"}&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;/details&gt;{% endraw %}</code></pre></details>
+<h3>Error (open, with the alert)</h3>
+{% raw %}<div class="component-demo-variant"><details class="tool-call" data-status="error" open><summary class="tool-call-summary"><span class="tool-call-name">search_web</span> <span class="tool-call-status" data-status="error">Failed</span></summary><div class="tool-call-content"><div class="tool-call-error" role="alert">The tool timed out after 30 seconds.</div></div></details></div>{% endraw %}
+<details><summary>Show markup</summary><pre tabindex="0"><code>{% raw %}&lt;details class="tool-call" data-status="error" open&gt;&lt;summary class="tool-call-summary"&gt;&lt;span class="tool-call-name"&gt;search_web&lt;/span&gt; &lt;span class="tool-call-status" data-status="error"&gt;Failed&lt;/span&gt;&lt;/summary&gt;&lt;div class="tool-call-content"&gt;&lt;div class="tool-call-error" role="alert"&gt;The tool timed out after 30 seconds.&lt;/div&gt;&lt;/div&gt;&lt;/details&gt;{% endraw %}</code></pre></details>
+{# END generated: examples #}

@@ -8,3 +8,10 @@ description: the name of the tool in a tool call, shown in the summary
 
 <h2>Tool name</h2>
 {% call toolCallName({}) %}search_web{% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/tool-call-name/macro.njk" import toolCallName %}
+{% call toolCallName({}) %}…{% endcall %}
+{% endraw %}</code></pre>
+{# END generated: examples #}

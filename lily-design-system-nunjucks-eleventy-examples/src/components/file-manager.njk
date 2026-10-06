@@ -10,3 +10,22 @@ description: a file browser for navigating and managing files
   <h2>Records (3)</h2>
   <ul><li>2026-01-12.pdf</li><li>2026-02-05.pdf</li><li>2026-04-18.pdf</li></ul>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;FileManager label="Project files"&gt;
+    &lt;nav aria-label="Folder breadcrumb"&gt;
+        &lt;a href="/"&gt;Root&lt;/a&gt; / &lt;a href="/docs"&gt;docs&lt;/a&gt;
+    &lt;/nav&gt;
+    &lt;ul&gt;
+        &lt;li&gt;&lt;button&gt;📁 reports/&lt;/button&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;button&gt;📄 meeting-notes.pdf&lt;/button&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;button&gt;📄 budget.xlsx&lt;/button&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;div&gt;
+        &lt;button&gt;Upload&lt;/button&gt;
+        &lt;button&gt;New folder&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/FileManager&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

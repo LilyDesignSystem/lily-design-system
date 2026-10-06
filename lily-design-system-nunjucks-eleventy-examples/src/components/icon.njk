@@ -32,3 +32,16 @@ description: a container for displaying an icon
   {% call icon({ decorative: true }) %}✉️{% endcall %}
   Email the help desk
 </p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;!-- Meaningful icon with accessible label --&gt;
+&lt;Icon label="Close"&gt;x&lt;/Icon&gt;
+
+&lt;!-- Decorative icon hidden from screen readers --&gt;
+&lt;Icon decorative&gt;*&lt;/Icon&gt;
+
+&lt;!-- Icon with custom attributes --&gt;
+&lt;Icon label="Search" data-testid="search-icon"&gt;Q&lt;/Icon&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

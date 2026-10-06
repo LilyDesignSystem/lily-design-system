@@ -21,3 +21,16 @@ description: an icon-based component pairing an icon with a title and descriptio
   heading: "Verified content",
   description: "Every component meets WCAG 2.2 AAA standards."
 }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/pictogram/macro.njk" import pictogram %}
+
+{{ pictogram({
+  layout: "centered",
+  heading: "Privacy",
+  description: "Your data, your choice.",
+  iconHtml: "&lt;svg viewBox='0 0 24 24' aria-hidden='true'&gt;…&lt;/svg&gt;"
+}) }}
+{% endraw %}</code></pre>
+{# END generated: examples #}

@@ -19,3 +19,13 @@ description: an input for entering Spain's Código de Identificación Fiscal (CI
 
 <h2>Reference</h2>
 <p>See <a href="https://en.wikipedia.org/wiki/VAT_identification_number#Spain">Tax Identification Code</a>.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="Tax Identification Code" required&gt;
+  &lt;EspanaCodigoDeIdentificacionFiscalInput label="Tax Identification Code" value={value} required /&gt;
+  &lt;Hint&gt;9 characters: 8 numbers and a control letter (the letters I, Ñ, O, and U are not used)&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid Tax Identification Code&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

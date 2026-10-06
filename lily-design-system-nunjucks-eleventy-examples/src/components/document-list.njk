@@ -11,3 +11,12 @@ description: a list displaying documents with titles and metadata
 
 <h2>With accessible label</h2>
 {{ documentList({ text: "Example content", label: "DocumentList example" }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;DocumentList&gt;
+  &lt;DocumentListItem title="Annual report 2025" href="/docs/annual-2025.pdf" type="PDF" size="1.2 MB" /&gt;
+  &lt;DocumentListItem title="Statement of accounts" href="/docs/accounts-2025.pdf" type="PDF" size="540 KB" /&gt;
+&lt;/DocumentList&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

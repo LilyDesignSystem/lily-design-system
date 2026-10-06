@@ -10,3 +10,20 @@ description: a drawer that slides out from the side of the page
   <h2>Menu</h2>
   <ul><li><a href="/">Home</a></li><li><a href="/services">Services</a></li></ul>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;button onclick={() =&gt; (isOpen = true)}&gt;Open menu&lt;/button&gt;
+
+&lt;SlideOutDrawer label="Navigation menu" open={isOpen}&gt;
+  &lt;nav&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href="/"&gt;Home&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href="/about"&gt;About&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href="/contact"&gt;Contact&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/nav&gt;
+  &lt;button onclick={() =&gt; (isOpen = false)}&gt;Close&lt;/button&gt;
+&lt;/SlideOutDrawer&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

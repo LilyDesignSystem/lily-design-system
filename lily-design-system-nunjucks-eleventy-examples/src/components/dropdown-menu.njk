@@ -11,3 +11,13 @@ description: a menu that opens below a trigger button
   <li><button role="menuitem">Duplicate</button></li>
   <li><button role="menuitem">Delete</button></li>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;DropdownMenu label="More actions" open={menuOpen}&gt;
+    &lt;MenuItem onclick={() =&gt; handleEdit()}&gt;Edit&lt;/MenuItem&gt;
+    &lt;MenuItem onclick={() =&gt; handleDuplicate()}&gt;Duplicate&lt;/MenuItem&gt;
+    &lt;MenuItem onclick={() =&gt; handleDelete()}&gt;Delete&lt;/MenuItem&gt;
+&lt;/DropdownMenu&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

@@ -11,3 +11,17 @@ description: text that arrives in chunks, as an AI answer streams in, announced 
 
 <h2>Complete (announced once)</h2>
 {% call streamingText({ label: "Assistant answer" }) %}The answer has arrived in full.{% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/streaming-text/macro.njk" import streamingText %}
+{% call streamingText({ label: "Assistant answer", streaming: true }) %}Partial text{% endcall %}
+{% endraw %}</code></pre>
+<h2>More examples</h2>
+<h3>Streaming (busy: assistive technology waits)</h3>
+{% raw %}<div class="component-demo-variant"><div class="streaming-text" role="status" aria-live="polite" aria-atomic="true" aria-label="Assistant answer" aria-busy="true" data-streaming="true">Headless components decide meaning, not look and fe</div></div>{% endraw %}
+<details><summary>Show markup</summary><pre tabindex="0"><code>{% raw %}&lt;div class="streaming-text" role="status" aria-live="polite" aria-atomic="true" aria-label="Assistant answer" aria-busy="true" data-streaming="true"&gt;Headless components decide meaning, not look and fe&lt;/div&gt;{% endraw %}</code></pre></details>
+<h3>Complete (the finished text is announced once)</h3>
+{% raw %}<div class="component-demo-variant"><div class="streaming-text" role="status" aria-live="polite" aria-atomic="true" aria-label="Assistant answer">Headless components decide meaning, not look and feel.</div></div>{% endraw %}
+<details><summary>Show markup</summary><pre tabindex="0"><code>{% raw %}&lt;div class="streaming-text" role="status" aria-live="polite" aria-atomic="true" aria-label="Assistant answer"&gt;Headless components decide meaning, not look and feel.&lt;/div&gt;{% endraw %}</code></pre></details>
+{# END generated: examples #}

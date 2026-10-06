@@ -8,3 +8,10 @@ description: the output or result returned by a tool in a tool call
 
 <h2>Labelled output</h2>
 {% call toolCallOutput({ label: "Output" }) %}<pre tabindex="0">12 degrees, light rain</pre>{% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/tool-call-output/macro.njk" import toolCallOutput %}
+{% call toolCallOutput({}) %}…{% endcall %}
+{% endraw %}</code></pre>
+{# END generated: examples #}

@@ -10,3 +10,17 @@ layout: layouts/component-demo.njk
 
 <h2>Default</h2>
 {{ videoPlayer({ label: "Example" }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;VideoPlayer
+  src="/videos/report.mp4"
+  label="Interview with climate scientist"
+  poster="/images/interview-poster.jpg"
+  autoplay
+  muted
+&gt;
+  &lt;span slot="caption"&gt;Dr. Smith discusses recent findings&lt;/span&gt;
+&lt;/VideoPlayer&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

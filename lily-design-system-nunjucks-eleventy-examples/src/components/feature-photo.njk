@@ -10,3 +10,17 @@ layout: layouts/component-demo.njk
 
 <h2>Default</h2>
 {{ featurePhoto({ label: "Example" }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;FeaturePhoto
+  src="/images/city-skyline.jpg"
+  alt="Downtown skyline at sunset with construction cranes visible"
+  width={1200}
+  height={800}
+&gt;
+  &lt;span slot="caption"&gt;The changing skyline of downtown&lt;/span&gt;
+  &lt;span slot="credit"&gt;Photo: Jane Smith / Reuters&lt;/span&gt;
+&lt;/FeaturePhoto&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

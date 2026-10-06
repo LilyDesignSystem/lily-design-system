@@ -22,3 +22,15 @@ description: a CSS grid layout container with configurable columns and gap
   <div style="background: var(--nhsuk-green); color: var(--nhsuk-white); padding: 1rem;">Card 2</div>
   <div style="background: var(--nhsuk-green); color: var(--nhsuk-white); padding: 1rem;">Card 3</div>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/grid/macro.njk" import grid %}
+
+{% call grid({ columns: 3, gap: "1.5rem" }) %}
+  &lt;div&gt;One&lt;/div&gt;
+  &lt;div&gt;Two&lt;/div&gt;
+  &lt;div&gt;Three&lt;/div&gt;
+{% endcall %}
+{% endraw %}</code></pre>
+{# END generated: examples #}

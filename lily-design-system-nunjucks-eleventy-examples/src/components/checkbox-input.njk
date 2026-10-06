@@ -55,3 +55,17 @@ nhsuk: https://service-manual.nhs.uk/design-system/components/checkboxes
   }) }}
   {{ label({ for: "all", text: "Select all (partial)" }) }}
 </p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Fieldset legend="What symptoms are you experiencing?"&gt;
+  &lt;Hint&gt;Select all that apply&lt;/Hint&gt;
+  &lt;CheckboxGroup&gt;
+    &lt;CheckboxInput label="Headache" name="symptoms" value="headache" /&gt;
+    &lt;CheckboxInput label="Fever" name="symptoms" value="fever" /&gt;
+    &lt;CheckboxInput label="Cough" name="symptoms" value="cough" /&gt;
+    &lt;CheckboxInput label="Fatigue" name="symptoms" value="fatigue" /&gt;
+  &lt;/CheckboxGroup&gt;
+&lt;/Fieldset&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

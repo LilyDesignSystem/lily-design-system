@@ -70,6 +70,11 @@ lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Data/ComponentD
 lily-design-system-html-css-js-examples/pages/components/index.html
 lily-design-system-html-css-js-examples/pages/components/component.html
 lilydesignsystem.github.io/src/lib/components.ts
+lily-design-system-svelte-sveltekit-examples/src/lib/data/component-examples.ts
+lily-design-system-react-next-examples/app/data/component-examples.ts
+lily-design-system-vue-nuxt-examples/data/component-examples.ts
+lily-design-system-angular-examples/src/app/component-examples.ts
+lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Data/ComponentExamples.cs
 "
 
 new_dirs_for() (
@@ -950,6 +955,10 @@ echo "Regenerating components-categories.tsv..."
 node bin/generate-component-categories > /dev/null
 echo "Regenerating example-app registries..."
 node bin/generate-registries > /dev/null
+echo "Regenerating the usage examples and rendered variants for every demonstration page..."
+node bin/generate-examples > /dev/null
+echo "Regenerating the docs-site component pages (replaces the placeholder route)..."
+node bin/generate-site-pages > /dev/null
 echo "Regenerating the site's canonical-contract sections..."
 python3 bin/generate-api-docs > /dev/null
 

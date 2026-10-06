@@ -8,3 +8,13 @@ description: a content region clamped to a shorter height with a button that rev
 
 <h2>Default</h2>
 {% call showMore({ moreLabel: "Show more", lessLabel: "Show less", id: "demo-more" }) %}<p>A longer passage of text that a consumer would clamp with CSS keyed on data-expanded.</p>{% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% call showMore({ moreLabel: "Show more", lessLabel: "Show less", id: "bio" }) %}Long text{% endcall %}
+{% endraw %}</code></pre>
+<h2>More examples</h2>
+<h3>Expanded</h3>
+{% raw %}<div class="component-demo-variant"><div class="show-more"><div class="show-more-content" id="show-more-expanded" data-expanded="true"><p>The first paragraph is always visible. The rest of this content is clamped by consumer CSS until the button below reveals it.</p><p>A second paragraph that appears once expanded.</p></div><button type="button" class="show-more-button" aria-expanded="true" aria-controls="show-more-expanded">Show less</button></div></div>{% endraw %}
+<details><summary>Show markup</summary><pre tabindex="0"><code>{% raw %}&lt;div class="show-more"&gt;&lt;div class="show-more-content" id="show-more-expanded" data-expanded="true"&gt;&lt;p&gt;The first paragraph is always visible. The rest of this content is clamped by consumer CSS until the button below reveals it.&lt;/p&gt;&lt;p&gt;A second paragraph that appears once expanded.&lt;/p&gt;&lt;/div&gt;&lt;button type="button" class="show-more-button" aria-expanded="true" aria-controls="show-more-expanded"&gt;Show less&lt;/button&gt;&lt;/div&gt;{% endraw %}</code></pre></details>
+{# END generated: examples #}

@@ -10,3 +10,13 @@ layout: layouts/component-demo.njk
 
 <h2>Default</h2>
 {{ tileMap({ label: "Example" }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;TileMap label="US election results by state" data={stateData}&gt;
+  &lt;div class="tile" style="grid-column: 11; grid-row: 1"&gt;ME&lt;/div&gt;
+  &lt;div class="tile" style="grid-column: 1; grid-row: 2"&gt;AK&lt;/div&gt;
+  &lt;!-- ... more tiles --&gt;
+&lt;/TileMap&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

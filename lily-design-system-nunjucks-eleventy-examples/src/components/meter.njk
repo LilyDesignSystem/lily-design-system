@@ -11,3 +11,9 @@ description: a gauge displaying a scalar value within a known range
 
 <h2>Score</h2>
 <p>{{ meter({ value: 92, min: 0, max: 100, label: "Score: 92 of 100" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Meter label="Disk space used" value={72} max={100} low={25} high={75} optimum={50} /&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

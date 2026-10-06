@@ -10,3 +10,16 @@ layout: layouts/component-demo.njk
 
 <h2>Default</h2>
 {{ graphicBlock({ label: "Example" }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;GraphicBlock
+  title="Global Temperature Anomaly"
+  description="Average land-ocean temperature index, 1880-2025"
+  notes="Source: NASA GISS"
+  label="Line chart showing global temperature anomaly rising from -0.2°C in 1880 to +1.2°C in 2025"
+&gt;
+  &lt;canvas id="temperature-chart"&gt;&lt;/canvas&gt;
+&lt;/GraphicBlock&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

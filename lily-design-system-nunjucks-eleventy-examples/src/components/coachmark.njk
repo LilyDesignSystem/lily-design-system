@@ -30,3 +30,17 @@ description: an anchored popover that spotlights and explains a single feature
   dismissLabel: "Dismiss",
   id: "coach-3"
 }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/coachmark/macro.njk" import coachmark %}
+
+{{ coachmark({
+  id: "feature-tip",
+  open: true,
+  title: "New feature",
+  description: "Click here to try it out.",
+  dismissLabel: "Dismiss"
+}) }}
+{% endraw %}</code></pre>
+{# END generated: examples #}

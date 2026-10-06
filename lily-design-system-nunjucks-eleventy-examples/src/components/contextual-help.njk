@@ -16,3 +16,16 @@ description: a help button that opens a popover with explanatory content
   <p>Your NHS number is on any letter or document the NHS has sent you, or printed
   on prescriptions.</p>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/contextual-help/macro.njk" import contextualHelp %}
+
+{{ contextualHelp({
+  id: "name-help",
+  label: "Help: Full name",
+  expanded: false,
+  html: "&lt;p&gt;Type your full legal name as it appears on your ID.&lt;/p&gt;"
+}) }}
+{% endraw %}</code></pre>
+{# END generated: examples #}

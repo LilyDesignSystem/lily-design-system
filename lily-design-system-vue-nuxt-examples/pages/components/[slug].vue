@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { components } from "~/data/components";
 import { componentDemos } from "~/data/component-demos";
+import { componentExamples } from "~/data/component-examples";
 
 const route = useRoute();
 const slug = route.params.slug as string;
@@ -11,6 +12,7 @@ if (!component) {
 }
 
 const demoHtml = componentDemos[slug];
+const example = componentExamples[slug];
 </script>
 
 <template>
@@ -25,6 +27,23 @@ const demoHtml = componentDemos[slug];
             <p v-else><em>No demo available.</em></p>
         </div>
 
+        <details v-if="demoHtml">
+            <summary>Show demo markup</summary>
+            <pre tabindex="0"><code>{{ demoHtml }}</code></pre>
+        </details>
+
+        <template v-if="example?.variants?.length">
+            <h2>More examples</h2>
+            <div v-for="variant in example.variants" :key="variant.title">
+                <h3>{{ variant.title }}</h3>
+                <div class="card" style="padding: 1.5rem;" v-html="variant.html"></div>
+                <details>
+                    <summary>Show markup</summary>
+                    <pre tabindex="0"><code>{{ variant.html }}</code></pre>
+                </details>
+            </div>
+        </template>
+
         <h2>Details</h2>
         <dl>
             <dt>Name</dt>
@@ -35,7 +54,7 @@ const demoHtml = componentDemos[slug];
             <dd>{{ component!.description }}</dd>
         </dl>
         <h2>Usage</h2>
-        <pre tabindex="0"><code>&lt;{{ component!.name }} /&gt;</code></pre>
+        <pre tabindex="0"><code v-if="example?.usage">{{ example.usage.code }}</code><code v-else>&lt;{{ component!.name }} /&gt;</code></pre>
         <h2>Import</h2>
         <pre tabindex="0"><code>import {{ component!.name }} from "~/components/{{ component!.name }}.vue";</code></pre>
     </main>

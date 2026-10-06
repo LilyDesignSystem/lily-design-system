@@ -21,3 +21,13 @@ description: an input for entering a Tuaisceart Eireann Health and Care Number
     describedBy: "hc-hint"
   }) }}
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="Health and Care Number" required&gt;
+  &lt;TuaisceartEireannHealthAndCareNumberInput label="H&amp;C Number" value={hcNumber} required /&gt;
+  &lt;Hint&gt;Format: XXX XXX XXXX (10 digits from your H&amp;C card)&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid H&amp;C Number&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

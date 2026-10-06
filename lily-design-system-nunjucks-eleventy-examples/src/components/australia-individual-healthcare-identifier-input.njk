@@ -19,3 +19,13 @@ description: an input for entering Australia's Individual Healthcare Identifier 
 
 <h2>Reference</h2>
 <p>See <a href="https://en.wikipedia.org/wiki/My_Health_Record">Individual Healthcare Identifier</a>.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="Individual Healthcare Identifier" required&gt;
+  &lt;AustraliaIndividualHealthcareIdentifierInput label="Individual Healthcare Identifier" value={value} required /&gt;
+  &lt;Hint&gt;16 digits assigned by the Healthcare Identifiers Service&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid Individual Healthcare Identifier&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

@@ -25,3 +25,23 @@ description: a prominent message bar across the top of a page
     <a href="#">Find out more</a>.
   {% endcall %}
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;!-- Information banner for a service-wide delay --&gt;
+&lt;Banner type="info"&gt;
+  &lt;p&gt;You have 7 days left to send your application.
+  &lt;a href="/applications"&gt;View application&lt;/a&gt;.&lt;/p&gt;
+&lt;/Banner&gt;
+
+&lt;!-- Success banner confirming a completed action --&gt;
+&lt;Banner type="success"&gt;
+  &lt;p&gt;Patient record for Sarah Mitchell has been updated.&lt;/p&gt;
+&lt;/Banner&gt;
+
+&lt;!-- Dismissible warning banner with callback --&gt;
+&lt;Banner type="warning" dismissible closeLabel="Dismiss warning" onclose={handleDismiss}&gt;
+  &lt;p&gt;Planned maintenance is scheduled for Saturday 12 April from 09:00 to 13:00.&lt;/p&gt;
+&lt;/Banner&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

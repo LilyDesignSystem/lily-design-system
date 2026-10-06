@@ -11,3 +11,17 @@ description: a chat input form with a text area that grows with its content, sen
 
 <h2>Reply in progress (stop)</h2>
 {{ chatComposer({ label: "Message", sendLabel: "Send", stopLabel: "Stop", busy: true, value: "Explain headless components" }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/chat-composer/macro.njk" import chatComposer %}
+{{ chatComposer({ label: "Message", sendLabel: "Send", stopLabel: "Stop" }) }}
+{% endraw %}</code></pre>
+<h2>More examples</h2>
+<h3>With text (send enabled)</h3>
+{% raw %}<div class="component-demo-variant"><form class="chat-composer"><textarea class="chat-composer-input" aria-label="Message" rows="2">Explain headless components</textarea><button class="chat-composer-button" type="submit" data-state="send"><span class="chat-composer-button-label">Send</span></button></form></div>{% endraw %}
+<details><summary>Show markup</summary><pre tabindex="0"><code>{% raw %}&lt;form class="chat-composer"&gt;&lt;textarea class="chat-composer-input" aria-label="Message" rows="2"&gt;Explain headless components&lt;/textarea&gt;&lt;button class="chat-composer-button" type="submit" data-state="send"&gt;&lt;span class="chat-composer-button-label"&gt;Send&lt;/span&gt;&lt;/button&gt;&lt;/form&gt;{% endraw %}</code></pre></details>
+<h3>Reply in progress (send becomes stop)</h3>
+{% raw %}<div class="component-demo-variant"><form class="chat-composer"><textarea class="chat-composer-input" aria-label="Message" rows="2">Explain headless components</textarea><button class="chat-composer-button" type="button" data-state="stop"><span class="chat-composer-button-label">Stop</span></button></form></div>{% endraw %}
+<details><summary>Show markup</summary><pre tabindex="0"><code>{% raw %}&lt;form class="chat-composer"&gt;&lt;textarea class="chat-composer-input" aria-label="Message" rows="2"&gt;Explain headless components&lt;/textarea&gt;&lt;button class="chat-composer-button" type="button" data-state="stop"&gt;&lt;span class="chat-composer-button-label"&gt;Stop&lt;/span&gt;&lt;/button&gt;&lt;/form&gt;{% endraw %}</code></pre></details>
+{# END generated: examples #}

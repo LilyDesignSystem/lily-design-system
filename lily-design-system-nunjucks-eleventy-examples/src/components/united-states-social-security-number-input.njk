@@ -21,3 +21,13 @@ description: an input for entering a US Social Security number
     describedBy: "ssn-hint"
   }) }}
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="Social Security Number" required&gt;
+  &lt;UnitedStatesSocialSecurityNumberInput label="SSN" value={ssn} required /&gt;
+  &lt;Hint&gt;Format: XXX-XX-XXXX&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid Social Security Number&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

@@ -8,3 +8,13 @@ description: a keyboard shortcut made of one or more key caps, for example Ctrl 
 
 <h2>Default</h2>
 <p>Press {{ kbdShortcut({ keys: ["Ctrl", "K"], label: "Control K" }) }} to search.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{{ kbdShortcut({ keys: ["Ctrl", "K"], label: "Control K" }) }}
+{% endraw %}</code></pre>
+<h2>More examples</h2>
+<h3>Three keys</h3>
+{% raw %}<div class="component-demo-variant"><kbd class="kbd-shortcut"><kbd class="kbd-shortcut-key">Cmd</kbd><span class="kbd-shortcut-separator" aria-hidden="true">+</span><kbd class="kbd-shortcut-key">Shift</kbd><span class="kbd-shortcut-separator" aria-hidden="true">+</span><kbd class="kbd-shortcut-key">P</kbd></kbd></div>{% endraw %}
+<details><summary>Show markup</summary><pre tabindex="0"><code>{% raw %}&lt;kbd class="kbd-shortcut"&gt;&lt;kbd class="kbd-shortcut-key"&gt;Cmd&lt;/kbd&gt;&lt;span class="kbd-shortcut-separator" aria-hidden="true"&gt;+&lt;/span&gt;&lt;kbd class="kbd-shortcut-key"&gt;Shift&lt;/kbd&gt;&lt;span class="kbd-shortcut-separator" aria-hidden="true"&gt;+&lt;/span&gt;&lt;kbd class="kbd-shortcut-key"&gt;P&lt;/kbd&gt;&lt;/kbd&gt;{% endraw %}</code></pre></details>
+{# END generated: examples #}

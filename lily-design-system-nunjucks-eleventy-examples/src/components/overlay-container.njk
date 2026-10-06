@@ -20,3 +20,16 @@ description: a full-viewport overlay backdrop for modals and sheets
     Modal content visible inside the overlay.
   </div>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/overlay-container/macro.njk" import overlayContainer %}
+
+{% call overlayContainer({ open: true, label: "Modal backdrop" }) %}
+  &lt;div role="dialog" aria-modal="true"&gt;
+    &lt;h2&gt;Title&lt;/h2&gt;
+    &lt;p&gt;Body&lt;/p&gt;
+  &lt;/div&gt;
+{% endcall %}
+{% endraw %}</code></pre>
+{# END generated: examples #}

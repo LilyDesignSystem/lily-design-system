@@ -8,3 +8,9 @@ description: a multi-line text area with a live character counter
 
 <p><label for="msg">Your message (max 200 characters)</label></p>
 {{ textAreaInputWithCharacterCounter({ id: "msg", name: "msg", maximum: 200, rows: 4 }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;TextAreaInputWithCharacterCounter label="Feedback" maxLength={500} /&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

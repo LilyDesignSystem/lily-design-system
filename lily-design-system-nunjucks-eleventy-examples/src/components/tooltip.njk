@@ -33,3 +33,18 @@ description: a small popup showing descriptive text on hover or focus
 
 {{ tooltip({ id: "t2", text: "Invisible without JS enhancement" }) }}
 <p>(The tooltip above is hidden — view source.)</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;button aria-describedby="save-tip"
+  onmouseenter={() =&gt; showSaveTip = true}
+  onmouseleave={() =&gt; showSaveTip = false}
+  onfocusin={() =&gt; showSaveTip = true}
+  onfocusout={() =&gt; showSaveTip = false}
+&gt;
+  &lt;Icon name="save" /&gt;
+  &lt;ScreenReaderSpan&gt;Save document&lt;/ScreenReaderSpan&gt;
+&lt;/button&gt;
+&lt;Tooltip id="save-tip" label="Save document" visible={showSaveTip} /&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

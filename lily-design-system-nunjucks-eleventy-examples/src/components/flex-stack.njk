@@ -19,3 +19,14 @@ description: a flex layout container for vertical or horizontal stacking with co
   <div style="background: var(--nhsuk-green); color: var(--nhsuk-white); padding: 0.5rem;">Centre</div>
   <div style="background: var(--nhsuk-green); color: var(--nhsuk-white); padding: 0.5rem;">Right</div>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/flex-stack/macro.njk" import flexStack %}
+
+{% call flexStack({ direction: "row", gap: "0.5rem" }) %}
+  &lt;button&gt;One&lt;/button&gt;
+  &lt;button&gt;Two&lt;/button&gt;
+{% endcall %}
+{% endraw %}</code></pre>
+{# END generated: examples #}

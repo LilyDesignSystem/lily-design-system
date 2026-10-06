@@ -27,3 +27,22 @@ nhsuk: https://service-manual.nhs.uk/design-system/components/fieldset
 {% call fieldset({ legend: "Contact details", isPageHeading: true }) %}
   <p>Enter at least one way for us to reach you.</p>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Fieldset legend="What is your address?"&gt;
+  &lt;Field label="Address line 1"&gt;
+    &lt;TextInput label="Address line 1" autocomplete="address-line1" /&gt;
+  &lt;/Field&gt;
+  &lt;Field label="Address line 2 (optional)"&gt;
+    &lt;TextInput label="Address line 2" autocomplete="address-line2" /&gt;
+  &lt;/Field&gt;
+  &lt;Field label="Town or city"&gt;
+    &lt;TextInput label="Town or city" autocomplete="address-level2" /&gt;
+  &lt;/Field&gt;
+  &lt;Field label="Postcode"&gt;
+    &lt;TextInput label="Postcode" autocomplete="postal-code" /&gt;
+  &lt;/Field&gt;
+&lt;/Fieldset&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

@@ -36,3 +36,22 @@ nhsuk: https://service-manual.nhs.uk/design-system/components/radios
   {{ radioInput({ id: "cm-post", name: "contact", value: "post", disabled: true }) }}
   {{ label({ for: "cm-post", text: "Post (temporarily unavailable)" }) }}
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Fieldset legend="Are you 18 or over?"&gt;
+  &lt;RadioGroup name="age-check"&gt;
+    &lt;RadioInput label="Yes" value="yes" /&gt;
+    &lt;RadioInput label="No" value="no" /&gt;
+  &lt;/RadioGroup&gt;
+&lt;/Fieldset&gt;
+
+&lt;Fieldset legend="How would you like to receive your results?"&gt;
+  &lt;RadioGroup name="results-preference"&gt;
+    &lt;RadioInput label="Email" value="email" hint="We will send results within 24 hours" /&gt;
+    &lt;RadioInput label="Post" value="post" hint="Results will arrive within 7 working days" /&gt;
+    &lt;RadioInput label="I do not want my results" value="none" /&gt;
+  &lt;/RadioGroup&gt;
+&lt;/Fieldset&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

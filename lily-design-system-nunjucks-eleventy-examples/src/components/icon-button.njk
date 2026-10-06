@@ -17,3 +17,14 @@ description: a button containing only an icon with a required accessible label
 
 <h2>Toggle (pressed)</h2>
 {{ iconButton({ label: "Bold", pressed: true, html: "<strong>B</strong>" }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/icon-button/macro.njk" import iconButton %}
+
+{{ iconButton({
+  label: "Close dialog",
+  html: '&lt;svg viewBox="0 0 24 24" aria-hidden="true"&gt;…&lt;/svg&gt;'
+}) }}
+{% endraw %}</code></pre>
+{# END generated: examples #}

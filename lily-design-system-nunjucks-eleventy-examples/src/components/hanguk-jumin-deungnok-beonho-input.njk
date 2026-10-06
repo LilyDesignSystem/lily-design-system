@@ -8,3 +8,13 @@ description: an input for entering South Korea's Resident Registration Number
 
 <h2>Default</h2>
 <p>{{ hangukJuminDeungnokBeonhoInput({ text: "HangukJuminDeungnokBeonhoInput example", label: "HangukJuminDeungnokBeonhoInput example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="Resident Registration Number (주민등록번호)" required&gt;
+  &lt;HangukJuminDeungnokBeonhoInput label="Resident Registration Number (주민등록번호)" value={value} required /&gt;
+  &lt;Hint&gt;Thirteen digits, displayed as NNNNNN-NNNNNNN. The first six digits encode date of birth (YYMMDD); the seventh digit encodes sex and birth century; digits eight through eleven encode place of registration; the twelfth is a sequence number; the thirteenth is a Modulus-11 check digit over the preceding twelve.&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid Resident Registration Number&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

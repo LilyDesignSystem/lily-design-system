@@ -1,0 +1,88 @@
+{
+  "tool-call": [
+    {
+      "title": "Pending (closed)",
+      "html": "<details class=\"tool-call\" data-status=\"pending\"><summary class=\"tool-call-summary\"><span class=\"tool-call-name\">search_web</span> <span class=\"tool-call-status\" data-status=\"pending\">Pending</span></summary><div class=\"tool-call-content\"><div class=\"tool-call-input\" role=\"group\" aria-label=\"Input\"><pre tabindex=\"0\">{\"query\": \"weather in London\"}</pre></div></div></details>"
+    },
+    {
+      "title": "Running (busy)",
+      "html": "<details class=\"tool-call\" data-status=\"running\" aria-busy=\"true\" open><summary class=\"tool-call-summary\"><span class=\"tool-call-name\">search_web</span> <span class=\"tool-call-status\" data-status=\"running\">Running</span></summary><div class=\"tool-call-content\"><div class=\"tool-call-input\" role=\"group\" aria-label=\"Input\"><pre tabindex=\"0\">{\"query\": \"weather in London\"}</pre></div></div></details>"
+    },
+    {
+      "title": "Error (open, with the alert)",
+      "html": "<details class=\"tool-call\" data-status=\"error\" open><summary class=\"tool-call-summary\"><span class=\"tool-call-name\">search_web</span> <span class=\"tool-call-status\" data-status=\"error\">Failed</span></summary><div class=\"tool-call-content\"><div class=\"tool-call-error\" role=\"alert\">The tool timed out after 30 seconds.</div></div></details>"
+    }
+  ],
+  "tool-call-status": [
+    {
+      "title": "All four states, each as a word",
+      "html": "<span class=\"tool-call-status\" data-status=\"pending\">Pending</span> · <span class=\"tool-call-status\" data-status=\"running\">Running</span> · <span class=\"tool-call-status\" data-status=\"done\">Done</span> · <span class=\"tool-call-status\" data-status=\"error\">Failed</span>"
+    }
+  ],
+  "streaming-text": [
+    {
+      "title": "Streaming (busy: assistive technology waits)",
+      "html": "<div class=\"streaming-text\" role=\"status\" aria-live=\"polite\" aria-atomic=\"true\" aria-label=\"Assistant answer\" aria-busy=\"true\" data-streaming=\"true\">Headless components decide meaning, not look and fe</div>"
+    },
+    {
+      "title": "Complete (the finished text is announced once)",
+      "html": "<div class=\"streaming-text\" role=\"status\" aria-live=\"polite\" aria-atomic=\"true\" aria-label=\"Assistant answer\">Headless components decide meaning, not look and feel.</div>"
+    }
+  ],
+  "chat-composer": [
+    {
+      "title": "With text (send enabled)",
+      "html": "<form class=\"chat-composer\"><textarea class=\"chat-composer-input\" aria-label=\"Message\" rows=\"2\">Explain headless components</textarea><button class=\"chat-composer-button\" type=\"submit\" data-state=\"send\"><span class=\"chat-composer-button-label\">Send</span></button></form>"
+    },
+    {
+      "title": "Reply in progress (send becomes stop)",
+      "html": "<form class=\"chat-composer\"><textarea class=\"chat-composer-input\" aria-label=\"Message\" rows=\"2\">Explain headless components</textarea><button class=\"chat-composer-button\" type=\"button\" data-state=\"stop\"><span class=\"chat-composer-button-label\">Stop</span></button></form>"
+    }
+  ],
+  "show-more": [
+    {
+      "title": "Expanded",
+      "html": "<div class=\"show-more\"><div class=\"show-more-content\" id=\"show-more-expanded\" data-expanded=\"true\"><p>The first paragraph is always visible. The rest of this content is clamped by consumer CSS until the button below reveals it.</p><p>A second paragraph that appears once expanded.</p></div><button type=\"button\" class=\"show-more-button\" aria-expanded=\"true\" aria-controls=\"show-more-expanded\">Show less</button></div>"
+    }
+  ],
+  "thinking": [
+    {
+      "title": "Open",
+      "html": "<details class=\"thinking\" open><summary class=\"thinking-summary\">Thinking</summary><div class=\"thinking-content\">Comparing the two options, then checking the constraints before answering.</div></details>"
+    },
+    {
+      "title": "Streaming (busy)",
+      "html": "<details class=\"thinking\" open data-streaming=\"true\" aria-busy=\"true\"><summary class=\"thinking-summary\">Thinking</summary><div class=\"thinking-content\">Comparing the two opt</div></details>"
+    }
+  ],
+  "kbd-shortcut": [
+    {
+      "title": "Three keys",
+      "html": "<kbd class=\"kbd-shortcut\"><kbd class=\"kbd-shortcut-key\">Cmd</kbd><span class=\"kbd-shortcut-separator\" aria-hidden=\"true\">+</span><kbd class=\"kbd-shortcut-key\">Shift</kbd><span class=\"kbd-shortcut-separator\" aria-hidden=\"true\">+</span><kbd class=\"kbd-shortcut-key\">P</kbd></kbd>"
+    }
+  ],
+  "mark": [
+    {
+      "title": "Several matches in one result",
+      "html": "<p>An <mark class=\"mark\">accessible</mark> design system makes <mark class=\"mark\">accessible</mark> components the default.</p>"
+    }
+  ],
+  "one-time-password-input": [
+    {
+      "title": "Four digits",
+      "html": "<label class=\"label\" for=\"otp-four\">PIN</label> <input class=\"one-time-password-input\" id=\"otp-four\" type=\"text\" inputmode=\"numeric\" autocomplete=\"one-time-code\" maxlength=\"4\" pattern=\"[0-9]*\" spellcheck=\"false\" autocapitalize=\"off\" data-length=\"4\" aria-label=\"PIN\" />"
+    }
+  ],
+  "file-tree": [
+    {
+      "title": "Folder collapsed",
+      "html": "<ul class=\"file-tree\" role=\"tree\" aria-label=\"Project files\"><li role=\"treeitem\" aria-expanded=\"false\" tabindex=\"0\">src<ul role=\"group\"><li role=\"treeitem\" tabindex=\"-1\">index.ts</li></ul></li><li role=\"treeitem\" tabindex=\"-1\">README.md</li></ul>"
+    }
+  ],
+  "empty-state": [
+    {
+      "title": "Without an action",
+      "html": "<div class=\"empty-state\" role=\"group\" aria-label=\"No messages\"><h3>No messages yet</h3><p>New messages will appear here.</p></div>"
+    }
+  ]
+}

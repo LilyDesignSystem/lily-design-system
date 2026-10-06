@@ -37,3 +37,13 @@ description: an input for entering a UK NHS number
   browsers have no standardised token for medical-record numbers,
   and <code>spellcheck="false"</code> to suppress irrelevant spell
   check highlighting.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="NHS Number" required&gt;
+  &lt;UnitedKingdomNationalHealthServiceNumberInput label="NHS Number" value={nhsNumber} required /&gt;
+  &lt;Hint&gt;Format: XXX XXX XXXX (10 digits from your NHS records)&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid NHS number&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

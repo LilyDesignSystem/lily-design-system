@@ -12,3 +12,23 @@ description: a display of a content review date
   nextReviewOn: "2026-10-20",
   nextReviewOnText: "20 October 2026"
 }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;!-- Display last reviewed and next review dates at the bottom of a content page --&gt;
+&lt;p&gt;
+  Page last reviewed:
+  &lt;ReviewDate label="Last reviewed" datetime="2025-03-15"&gt;15 March 2025&lt;/ReviewDate&gt;
+&lt;/p&gt;
+&lt;p&gt;
+  Next review due:
+  &lt;ReviewDate label="Next review due" datetime="2028-03-15"&gt;15 March 2028&lt;/ReviewDate&gt;
+&lt;/p&gt;
+
+&lt;!-- Single review date in a compliance dashboard --&gt;
+&lt;ReviewDate label="Last audit" datetime="2025-01-08"&gt;8 January 2025&lt;/ReviewDate&gt;
+
+&lt;!-- Dynamic date with locale-formatted display text --&gt;
+&lt;ReviewDate label="Next review" datetime={isoDate}&gt;{formattedDate}&lt;/ReviewDate&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

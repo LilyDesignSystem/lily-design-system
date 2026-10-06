@@ -8,3 +8,12 @@ description: a visually hidden span of text intended for screen readers
 
 <p>Open in new tab {{ screenReaderSpan({ text: " — opens in a new tab" }) }} →</p>
 <p>The text in the screen-reader-span is visually hidden but read by assistive technology.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;button&gt;
+  &lt;Icon name="close" /&gt;
+  &lt;ScreenReaderSpan&gt;Close dialog&lt;/ScreenReaderSpan&gt;
+&lt;/button&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

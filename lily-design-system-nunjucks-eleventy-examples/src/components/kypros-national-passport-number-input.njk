@@ -19,3 +19,13 @@ description: an input for entering Kypros's National Passport Number
 
 <h2>Reference</h2>
 <p>See <a href="https://en.wikipedia.org/wiki/Cypriot_passport">National Passport Number</a>.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="National Passport Number" required&gt;
+  &lt;KyprosNationalPassportNumberInput label="National Passport Number" value={value} required /&gt;
+  &lt;Hint&gt;passports before 13/12/2010 begin with 'E' followed by 6 digits (e.g. E123456)&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid National Passport Number&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

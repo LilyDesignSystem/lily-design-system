@@ -46,3 +46,23 @@ description: a button with a primary action and a dropdown for related actions
     <li role="menuitem">Run with custom config</li>
   </ul>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/split-button/macro.njk" import splitButton %}
+
+{% call splitButton({
+  label: "Save options",
+  primaryLabel: "Save",
+  menuLabel: "More save options",
+  menuId: "save-menu",
+  menuOpen: false,
+  triggerHtml: '&lt;span aria-hidden="true"&gt;▾&lt;/span&gt;'
+}) %}
+  &lt;ul role="menu"&gt;
+    &lt;li role="menuitem"&gt;Save as…&lt;/li&gt;
+    &lt;li role="menuitem"&gt;Save and close&lt;/li&gt;
+  &lt;/ul&gt;
+{% endcall %}
+{% endraw %}</code></pre>
+{# END generated: examples #}

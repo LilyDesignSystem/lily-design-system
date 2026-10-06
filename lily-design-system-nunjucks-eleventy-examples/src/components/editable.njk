@@ -7,3 +7,9 @@ description: an inline-editable text element
 {% from "components/editable/macro.njk" import editable %}
 
 <p>Patient name: {{ editable({ text: "Alex Morgan", label: "Patient name" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;div class="editable" contenteditable="true"&gt;Click to edit this text&lt;/div&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

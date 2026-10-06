@@ -18,3 +18,19 @@ description: a contextual action bar that appears when items are selected, showi
   {{ actionBarButton({ label: "Archive", text: "Archive" }) }}
   {{ actionBarButton({ label: "Move", text: "Move" }) }}
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/action-bar/macro.njk" import actionBar %}
+{% from "components/action-bar-button/macro.njk" import actionBarButton %}
+
+{{ actionBar({
+  label: "Selection actions",
+  selectedCount: 3,
+  selectedCountLabel: "3 selected",
+  clearSelectionLabel: "Clear selection",
+  html: actionBarButton({ label: "Delete", text: "Delete" })
+       + actionBarButton({ label: "Archive", text: "Archive" })
+}) }}
+{% endraw %}</code></pre>
+{# END generated: examples #}

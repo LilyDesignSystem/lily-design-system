@@ -12,3 +12,11 @@ description: a small inline chart showing a data trend
 <p>Weight trend (last 30 days):
   {{ sparkline({ values: [82, 81, 82, 80, 81, 80, 79, 80, 79, 78], label: "Weight trend", width: 120 }) }}
 </p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Sparkline label="Sales trend over past 7 days"&gt;
+    &lt;svg&gt;&lt;!-- your sparkline SVG here --&gt;&lt;/svg&gt;
+&lt;/Sparkline&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

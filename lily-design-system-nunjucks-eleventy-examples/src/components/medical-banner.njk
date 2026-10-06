@@ -40,3 +40,19 @@ description: a prominent message bar carrying medical information
     text: "Long-term anti-coagulation therapy"
   }) }}
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;MedicalBanner label="Patient summary"&gt;
+  &lt;MedicalBannerBox&gt;
+    &lt;strong&gt;Sarah Mitchell&lt;/strong&gt; | NHS: 485 777 3456 | DOB: 15/03/1984
+  &lt;/MedicalBannerBox&gt;
+  &lt;MedicalBannerBoxForDanger label="Allergies and reactions"&gt;
+    Allergies: Penicillin, Latex
+  &lt;/MedicalBannerBoxForDanger&gt;
+  &lt;MedicalBannerBoxForAdvice label="Care team"&gt;
+    GP: Dr James Lee | Next appointment: 22 April 2025
+  &lt;/MedicalBannerBoxForAdvice&gt;
+&lt;/MedicalBanner&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

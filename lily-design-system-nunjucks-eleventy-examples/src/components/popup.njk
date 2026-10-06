@@ -10,3 +10,14 @@ description: a temporary overlay that appears above page content
   <h3>Hello</h3>
   <p>This is a popup.</p>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;button onclick={() =&gt; showPopup = !showPopup}&gt;Sort results&lt;/button&gt;
+&lt;Popup label="Sort options" open={showPopup}&gt;
+  &lt;button onclick={() =&gt; { sortBy('date'); showPopup = false; }}&gt;Date&lt;/button&gt;
+  &lt;button onclick={() =&gt; { sortBy('name'); showPopup = false; }}&gt;Name&lt;/button&gt;
+  &lt;button onclick={() =&gt; { sortBy('relevance'); showPopup = false; }}&gt;Relevance&lt;/button&gt;
+&lt;/Popup&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

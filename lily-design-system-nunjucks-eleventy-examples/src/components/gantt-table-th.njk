@@ -9,3 +9,26 @@ description: a gantt table interactive grid column header <th>
   It maps to the native HTML <code>&lt;th&gt;</code>
   element. See the <a href="/components/gantt-table/">Gantt Table
   demo</a> for composed examples.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;GanttTable label="Q1 2026 schedule"&gt;
+  &lt;GanttTableHead&gt;
+    &lt;GanttTableTr&gt;
+      &lt;GanttTableTH&gt;Task&lt;/GanttTableTH&gt;
+      &lt;GanttTableTH&gt;Jan&lt;/GanttTableTH&gt;
+      &lt;GanttTableTH&gt;Feb&lt;/GanttTableTH&gt;
+      &lt;GanttTableTH&gt;Mar&lt;/GanttTableTH&gt;
+    &lt;/GanttTableTr&gt;
+  &lt;/GanttTableHead&gt;
+  &lt;GanttTableBody&gt;
+    &lt;GanttTableTr&gt;
+      &lt;th scope="row"&gt;Design phase&lt;/th&gt;
+      &lt;GanttTableTD active&gt;████&lt;/GanttTableTD&gt;
+      &lt;GanttTableTD&gt;&lt;/GanttTableTD&gt;
+      &lt;GanttTableTD&gt;&lt;/GanttTableTD&gt;
+    &lt;/GanttTableTr&gt;
+  &lt;/GanttTableBody&gt;
+&lt;/GanttTable&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

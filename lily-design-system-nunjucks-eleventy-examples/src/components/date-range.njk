@@ -12,3 +12,15 @@ description: a display of a start and end date range
   end: "2026-04-30",
   endText: "30 April 2026"
 }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;DateRange
+    label="Stay dates"
+    startLabel="Check-in"
+    endLabel="Check-out"
+    start={checkIn}
+    end={checkOut}
+/&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

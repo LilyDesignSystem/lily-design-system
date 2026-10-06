@@ -12,3 +12,14 @@ description: one validation rule in a validation list with a status of pending, 
   {{ validationListItem({ status: "passed", html: "Passed — rule satisfied" }) }}
   {{ validationListItem({ status: "failed", html: "Failed — rule violated" }) }}
 </ul>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/validation-list-item/macro.njk" import validationListItem %}
+
+{{ validationListItem({
+  text: "At least 8 characters",
+  status: "pending"
+}) }}
+{% endraw %}</code></pre>
+{# END generated: examples #}

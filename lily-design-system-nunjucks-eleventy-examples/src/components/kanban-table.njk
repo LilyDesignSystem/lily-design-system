@@ -108,3 +108,24 @@ description: a kanban board table interactive grid for organizing items by statu
     {% endcall %}
   {% endcall %}
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;KanbanTable label="Sprint 5 board"&gt;
+    &lt;KanbanTableHead&gt;
+        &lt;KanbanTableRow&gt;
+            &lt;KanbanTableTD&gt;To Do&lt;/KanbanTableTD&gt;
+            &lt;KanbanTableTD&gt;In Progress&lt;/KanbanTableTD&gt;
+            &lt;KanbanTableTD&gt;Done&lt;/KanbanTableTD&gt;
+        &lt;/KanbanTableRow&gt;
+    &lt;/KanbanTableHead&gt;
+    &lt;KanbanTableBody&gt;
+        &lt;KanbanTableRow&gt;
+            &lt;KanbanTableTD label="Fix login bug"&gt;Fix login bug&lt;/KanbanTableTD&gt;
+            &lt;KanbanTableTD label="Add dashboard"&gt;Add dashboard&lt;/KanbanTableTD&gt;
+            &lt;KanbanTableTD label="Setup CI/CD"&gt;Setup CI/CD&lt;/KanbanTableTD&gt;
+        &lt;/KanbanTableRow&gt;
+    &lt;/KanbanTableBody&gt;
+&lt;/KanbanTable&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

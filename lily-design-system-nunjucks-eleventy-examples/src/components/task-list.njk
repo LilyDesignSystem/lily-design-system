@@ -41,3 +41,23 @@ nhsuk: https://service-manual.nhs.uk/design-system/components/task-list
     statusText: "Cannot start yet"
   }) }}
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;TaskList label="Your health assessment"&gt;
+  &lt;TaskListItem href="/your-health/exercise" status="completed"&gt;
+    Exercise
+  &lt;/TaskListItem&gt;
+  &lt;TaskListItem href="/your-health/diet" status="incomplete"&gt;
+    Diet and nutrition
+  &lt;/TaskListItem&gt;
+  &lt;TaskListItem href="/your-health/family-history" status="incomplete"
+    hint="Details of your parents, brothers and sisters"&gt;
+    Family health history
+  &lt;/TaskListItem&gt;
+  &lt;TaskListItem status="cannot-start-yet"&gt;
+    Blood test
+  &lt;/TaskListItem&gt;
+&lt;/TaskList&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

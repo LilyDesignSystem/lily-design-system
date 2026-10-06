@@ -25,3 +25,16 @@ description: a styled heading introducing a major content section, with optional
   subtitle: "Detailed prop and event documentation.",
   level: 3
 }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/section-heading/macro.njk" import sectionHeading %}
+
+{{ sectionHeading({
+  eyebrow: "Why us",
+  heading: "Built for everyone",
+  subtitle: "Open source, privacy first.",
+  level: 2
+}) }}
+{% endraw %}</code></pre>
+{# END generated: examples #}

@@ -14,3 +14,14 @@ description: a horizontal bar of task shortcuts or actions
   {{ taskBarButton({ text: "Print" }) }}
   {{ taskBarButton({ text: "Disabled", disabled: true }) }}
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;TaskBar label="Document actions"&gt;
+  &lt;TaskBarButton&gt;New&lt;/TaskBarButton&gt;
+  &lt;TaskBarButton&gt;Open&lt;/TaskBarButton&gt;
+  &lt;TaskBarButton&gt;Save&lt;/TaskBarButton&gt;
+  &lt;TaskBarButton&gt;Print&lt;/TaskBarButton&gt;
+&lt;/TaskBar&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

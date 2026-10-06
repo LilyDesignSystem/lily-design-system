@@ -11,3 +11,12 @@ description: a form for filtering data by criteria
   <label>Clinician <select><option>All</option><option>Dr Patel</option></select></label>
   <button type="submit">Apply</button>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;DataFilterForm label="Filter results" onsubmit={applyFilters}&gt;
+  &lt;label&gt;Category &lt;select&gt;...&lt;/select&gt;&lt;/label&gt;
+  &lt;button type="submit"&gt;Apply&lt;/button&gt;
+&lt;/DataFilterForm&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

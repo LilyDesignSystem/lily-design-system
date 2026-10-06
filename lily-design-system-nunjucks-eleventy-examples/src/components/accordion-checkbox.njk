@@ -18,3 +18,16 @@ layout: layouts/component-demo.njk
 {% call accordionCheckbox({ id: "subscribe", label: "Subscribe to optional updates", checked: true }) %}
   <p>Choose your topics below.</p>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/accordion-checkbox/macro.njk" import accordionCheckbox %}
+
+{% call accordionCheckbox({
+  id: "comments",
+  label: "I have additional comments"
+}) %}
+  &lt;textarea aria-label="Your comments"&gt;&lt;/textarea&gt;
+{% endcall %}
+{% endraw %}</code></pre>
+{# END generated: examples #}

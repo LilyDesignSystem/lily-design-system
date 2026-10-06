@@ -10,3 +10,19 @@ description: a panel that slides in from the edge of the screen
   <h2>Filters</h2>
   <p>Drawer content here. Open via consumer JS.</p>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;button onclick={() =&gt; (navOpen = true)}&gt;Menu&lt;/button&gt;
+&lt;Drawer label="Main navigation" open={navOpen} side="left"&gt;
+  &lt;nav&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href="/"&gt;Home&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href="/services"&gt;Services&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href="/contact"&gt;Contact&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/nav&gt;
+  &lt;button onclick={() =&gt; (navOpen = false)}&gt;Close&lt;/button&gt;
+&lt;/Drawer&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

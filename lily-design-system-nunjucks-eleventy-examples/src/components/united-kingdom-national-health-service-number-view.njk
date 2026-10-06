@@ -27,3 +27,14 @@ description: a read-only display of a UK NHS number
 <p>An NHS number on its own is ambiguous to screen readers; always
   set <code>label</code> or place the view under a clear heading so
   assistive tech announces the value's purpose.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;SummaryList&gt;
+  &lt;SummaryListItem&gt;
+    &lt;dt&gt;NHS Number&lt;/dt&gt;
+    &lt;dd&gt;&lt;UnitedKingdomNationalHealthServiceNumberView label="NHS Number" value="123 456 7890" /&gt;&lt;/dd&gt;
+  &lt;/SummaryListItem&gt;
+&lt;/SummaryList&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

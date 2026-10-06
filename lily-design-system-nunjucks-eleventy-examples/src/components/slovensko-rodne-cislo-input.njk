@@ -19,3 +19,13 @@ description: an input for entering Slovakia's Rodné číslo (RČ)
 
 <h2>Reference</h2>
 <p>See <a href="https://en.wikipedia.org/wiki/National_identification_number#Slovakia">Slovak Personal Number</a>.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="Slovak Personal Number" required&gt;
+  &lt;SlovenskoRodneCisloInput label="Slovak Personal Number" value={value} required /&gt;
+  &lt;Hint&gt;10 digits in the form YYMMDDCCCX where MM is 01-12 for males and 51-62 for females&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid Slovak Personal Number&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

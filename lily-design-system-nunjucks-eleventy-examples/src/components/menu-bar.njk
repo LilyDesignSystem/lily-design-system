@@ -14,3 +14,14 @@ description: a horizontal bar of menu triggers
   {{ menuBarButton({ text: "View", controls: "menu-view" }) }}
   {{ menuBarButton({ text: "Help", controls: "menu-help" }) }}
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;MenuBar label="Application menu"&gt;
+    &lt;MenuBarButton onclick={() =&gt; openSubmenu('file')}&gt;File&lt;/MenuBarButton&gt;
+    &lt;MenuBarButton onclick={() =&gt; openSubmenu('edit')}&gt;Edit&lt;/MenuBarButton&gt;
+    &lt;MenuBarButton onclick={() =&gt; openSubmenu('view')}&gt;View&lt;/MenuBarButton&gt;
+    &lt;MenuBarButton onclick={() =&gt; openSubmenu('help')}&gt;Help&lt;/MenuBarButton&gt;
+&lt;/MenuBar&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

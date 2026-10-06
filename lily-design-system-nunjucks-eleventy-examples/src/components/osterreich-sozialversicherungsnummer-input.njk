@@ -8,3 +8,13 @@ description: an input for entering Austria's Sozialversicherungsnummer (SVNR)
 
 <h2>Default</h2>
 <p>{{ osterreichSozialversicherungsnummerInput({ text: "OsterreichSozialversicherungsnummerInput example", label: "OsterreichSozialversicherungsnummerInput example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="Sozialversicherungsnummer (SVNR)" required&gt;
+  &lt;OsterreichSozialversicherungsnummerInput label="Sozialversicherungsnummer (SVNR)" value={value} required /&gt;
+  &lt;Hint&gt;Ten digits, displayed as NNNN DDMMYY. The first three digits are a serial number (the first not zero) followed by a Modulus-11 check digit as the fourth digit; the remaining six digits encode date of birth (DDMMYY). If the Modulus-11 remainder is 10, the serial number is incremented by one and the check digit recalculated.&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid Sozialversicherungsnummer&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

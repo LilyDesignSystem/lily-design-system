@@ -12,3 +12,14 @@ description: a select dropdown with additional features
   <option value="smith">Dr Smith</option>
   <option value="ahmed">Nurse Ahmed</option>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;SelectWithExtras label="Country" value={country}&gt;
+  {#snippet before()}&lt;span class="flag-icon"&gt;🏳&lt;/span&gt;{/snippet}
+  &lt;option value="us"&gt;United States&lt;/option&gt;
+  &lt;option value="uk"&gt;United Kingdom&lt;/option&gt;
+  &lt;option value="fr"&gt;France&lt;/option&gt;
+&lt;/SelectWithExtras&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

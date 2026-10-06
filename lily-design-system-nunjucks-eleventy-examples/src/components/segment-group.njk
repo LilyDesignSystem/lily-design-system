@@ -20,3 +20,12 @@ description: a group of mutually exclusive segment options
   {{ segmentGroupItem({ text: "Linear", checked: true }) }}
   {{ segmentGroupItem({ text: "Log" }) }}
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;SegmentGroup label="View mode"&gt;
+  &lt;SegmentGroupItem checked={mode === 'grid'} value="grid" onclick={() =&gt; mode = 'grid'}&gt;Grid&lt;/SegmentGroupItem&gt;
+  &lt;SegmentGroupItem checked={mode === 'list'} value="list" onclick={() =&gt; mode = 'list'}&gt;List&lt;/SegmentGroupItem&gt;
+&lt;/SegmentGroup&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

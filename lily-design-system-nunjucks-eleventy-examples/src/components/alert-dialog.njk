@@ -30,3 +30,18 @@ description: a modal dialog for urgent messages requiring user acknowledgment
     <button value="delete" class="button button-warning">Delete</button>
   </form>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;button onclick={() =&gt; showDialog = true}&gt;Remove patient record&lt;/button&gt;
+
+&lt;AlertDialog
+  open={showDialog}
+  title="Remove patient record"
+  description="This will permanently delete the patient record and all associated notes. This action cannot be undone."
+&gt;
+  &lt;button onclick={handleConfirm}&gt;Yes, remove record&lt;/button&gt;
+  &lt;button onclick={handleCancel}&gt;Cancel&lt;/button&gt;
+&lt;/AlertDialog&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

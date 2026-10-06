@@ -18,3 +18,12 @@ description: a calendar grid for one day as time-slot rows
     {% endcall %}
   {% endcall %}
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/calendar-day-table/macro.njk" import calendarDayTable %}
+{% call calendarDayTable({ label: "Monday 3 March 2025" }) %}
+  ...calendarTableBody...
+{% endcall %}
+{% endraw %}</code></pre>
+{# END generated: examples #}

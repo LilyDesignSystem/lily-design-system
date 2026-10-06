@@ -5,10 +5,12 @@
     import BackLink from "#lib/components/BackLink/BackLink.svelte";
     import { components } from "#lib/data/components.js";
     import { componentDemos } from "#lib/data/component-demos.js";
+    import { componentExamples } from "#lib/data/component-examples.js";
 
     const slug = $derived(page.params.slug);
     const component = $derived(components.find((c) => c.slug === slug));
     const demoHtml = $derived(slug ? componentDemos[slug] : undefined);
+    const example = $derived(slug ? componentExamples[slug] : undefined);
 </script>
 
 <Header label="Site header">
@@ -32,6 +34,27 @@
             {/if}
         </div>
 
+        {#if demoHtml}
+            <details>
+                <summary>Show demo markup</summary>
+                <pre tabindex="0"><code>{demoHtml}</code></pre>
+            </details>
+        {/if}
+
+        {#if example?.variants?.length}
+            <h2>More examples</h2>
+            {#each example.variants as variant (variant.title)}
+                <h3>{variant.title}</h3>
+                <div class="card" style="padding: 1.5rem;">
+                    {@html variant.html}
+                </div>
+                <details>
+                    <summary>Show markup</summary>
+                    <pre tabindex="0"><code>{variant.html}</code></pre>
+                </details>
+            {/each}
+        {/if}
+
         <h2>Details</h2>
         <dl>
             <dt>Name</dt>
@@ -43,7 +66,11 @@
         </dl>
 
         <h2>Usage</h2>
-        <pre tabindex="0"><code>&lt;{component.name} /&gt;</code></pre>
+        {#if example?.usage}
+            <pre tabindex="0"><code>{example.usage.code}</code></pre>
+        {:else}
+            <pre tabindex="0"><code>&lt;{component.name} /&gt;</code></pre>
+        {/if}
 
         <h2>Import</h2>
         <pre tabindex="0"><code>import {component.name} from "#lib/components/{component.name}.svelte";</code></pre>

@@ -19,3 +19,13 @@ description: an input for entering Poland's PESEL
 
 <h2>Reference</h2>
 <p>See <a href="https://en.wikipedia.org/wiki/PESEL">PESEL</a>.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="PESEL" required&gt;
+  &lt;PolskaPeselInput label="PESEL" value={value} required /&gt;
+  &lt;Hint&gt;11 numeric digits&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid PESEL&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

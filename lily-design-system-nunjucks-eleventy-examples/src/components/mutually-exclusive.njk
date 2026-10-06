@@ -11,3 +11,13 @@ description: a fieldset where selecting one option deselects others
 
 <h2>With accessible label</h2>
 {{ mutuallyExclusive({ text: "Example content", label: "MutuallyExclusive example" }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;MutuallyExclusive label="Preferred contact method" value={contact} onChange={setContact}&gt;
+  &lt;CheckboxInput value="email" label="Email" /&gt;
+  &lt;CheckboxInput value="sms" label="SMS" /&gt;
+  &lt;CheckboxInput value="post" label="Post" /&gt;
+&lt;/MutuallyExclusive&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

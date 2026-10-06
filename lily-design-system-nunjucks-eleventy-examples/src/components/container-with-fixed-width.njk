@@ -19,3 +19,13 @@ description: a centered content wrapper with a fixed max-width breakpoint
     Centered content with 40rem max-width — useful for prose articles.
   </div>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/container-with-fixed-width/macro.njk" import containerWithFixedWidth %}
+
+{% call containerWithFixedWidth({ maxWidth: "960px" }) %}
+  &lt;p&gt;Page content.&lt;/p&gt;
+{% endcall %}
+{% endraw %}</code></pre>
+{# END generated: examples #}

@@ -40,3 +40,15 @@ description: a group of radio buttons for selecting one option
   {{ radioInput({ id: "t-evening", name: "appt", value: "evening" }) }}
   {{ label({ for: "t-evening", text: "Evening (5pm – 8pm)" }) }}
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Fieldset legend="Do you know your NHS number?"&gt;
+  &lt;RadioGroup name="nhs-number-known"&gt;
+    &lt;RadioInput label="Yes, I know my NHS number" value="yes" /&gt;
+    &lt;RadioInput label="No, I do not know my NHS number" value="no" /&gt;
+    &lt;RadioInput label="I am not sure" value="unsure" /&gt;
+  &lt;/RadioGroup&gt;
+&lt;/Fieldset&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

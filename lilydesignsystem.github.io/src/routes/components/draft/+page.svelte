@@ -3,6 +3,8 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"draft\" aria-label=\"Draft article\" data-status=\"in-progress\"><h3>Working title</h3><p>Opening paragraph still needs a hook.</p></div>";
   const svelteSource: string = "// In your Svelte component:\nimport Draft from \"lily-design-system-svelte-headless/components/Draft/Draft.svelte\";\n\n<Draft label=\"Draft article\" status=\"in-progress\">\n  <h1>Working title</h1>\n</Draft>\n";
+  const usageCode: string = "<Draft label=\"Draft article\">\n  <h1>Working title</h1>\n  <p>Opening paragraph still needs a hook.</p>\n</Draft>\n";
+  const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>
 
@@ -24,8 +26,30 @@
   <h2 id="example-heading">Example</h2>
   <div class="component-example-rendered" style="padding: 1rem; border: 1px solid #d8dde0; border-radius: 0.5rem; background: #ffffff;">{@html demoHtml}</div>
   <details style="margin-top: 1rem;">
+    <summary style="cursor: pointer; font-weight: 600;">Show demo markup</summary>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre tabindex="0" style="overflow-x: auto; padding: 1rem; color: #212b32; background: #f0f4f5; border-radius: 0.5rem;"><code>{demoHtml}</code></pre>
+  </details>
+  {#each variants as variant (variant.title)}
+    <h3 style="margin-top: 1.5rem;">{variant.title}</h3>
+    <div class="component-example-rendered" style="padding: 1rem; border: 1px solid #d8dde0; border-radius: 0.5rem; background: #ffffff;">{@html variant.html}</div>
+    <details style="margin-top: 0.5rem;">
+      <summary style="cursor: pointer; font-weight: 600;">Show markup</summary>
+      <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+      <pre tabindex="0" style="overflow-x: auto; padding: 1rem; color: #212b32; background: #f0f4f5; border-radius: 0.5rem;"><code>{variant.html}</code></pre>
+    </details>
+  {/each}
+  {#if usageCode}
+    <details style="margin-top: 1.5rem;" open>
+      <summary style="cursor: pointer; font-weight: 600;">Usage example</summary>
+      <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+      <pre tabindex="0" style="overflow-x: auto; padding: 1rem; color: #212b32; background: #f0f4f5; border-radius: 0.5rem;"><code>{usageCode}</code></pre>
+    </details>
+  {/if}
+  <details style="margin-top: 1rem;">
     <summary style="cursor: pointer; font-weight: 600;">Show Svelte source</summary>
-    <pre style="overflow-x: auto; padding: 1rem; background: #f0f4f5; border-radius: 0.5rem;"><code>{svelteSource}</code></pre>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre tabindex="0" style="overflow-x: auto; padding: 1rem; color: #212b32; background: #f0f4f5; border-radius: 0.5rem;"><code>{svelteSource}</code></pre>
   </details>
 </section>
 <!-- END auto-generated component example -->

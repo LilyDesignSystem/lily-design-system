@@ -14,3 +14,15 @@ description: an input displaying a format mask placeholder for the user to fill 
 
 <h2>Currency</h2>
 {{ inputWithMask({ label: "Donation amount", mask: "$_____.__" }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/input-with-mask/macro.njk" import inputWithMask %}
+
+{{ inputWithMask({
+  label: "Phone number",
+  mask: "(___) ___-____",
+  placeholder: "(555) 555-5555"
+}) }}
+{% endraw %}</code></pre>
+{# END generated: examples #}

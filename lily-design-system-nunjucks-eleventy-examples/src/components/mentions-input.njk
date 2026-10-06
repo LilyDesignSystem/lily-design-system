@@ -20,3 +20,20 @@ description: a text input with at-mention autocomplete suggestions
 
 <h2>Custom trigger character</h2>
 {{ mentionsInput({ label: "Tag", placeholder: "Use # to add a tag", triggerChar: "#", expanded: false }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/mentions-input/macro.njk" import mentionsInput %}
+
+{% call mentionsInput({
+  label: "Comment",
+  placeholder: "Type @ to mention someone",
+  expanded: true
+}) %}
+  &lt;ul role="listbox"&gt;
+    &lt;li role="option"&gt;@alice&lt;/li&gt;
+    &lt;li role="option"&gt;@bob&lt;/li&gt;
+  &lt;/ul&gt;
+{% endcall %}
+{% endraw %}</code></pre>
+{# END generated: examples #}

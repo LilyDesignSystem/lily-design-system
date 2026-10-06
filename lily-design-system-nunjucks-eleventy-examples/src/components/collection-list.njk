@@ -22,3 +22,18 @@ description: a compact list of multiple related items such as articles or events
     description: "How to scope, name, and document reusable components."
   }) }}
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/collection-list/macro.njk" import collectionList %}
+{% from "components/collection-list-item/macro.njk" import collectionListItem %}
+
+{% call collectionList({ label: "Latest articles" }) %}
+  {{ collectionListItem({
+    heading: "Article one",
+    meta: "Apr 27, 2026",
+    description: "Lead paragraph for article one"
+  }) }}
+{% endcall %}
+{% endraw %}</code></pre>
+{# END generated: examples #}

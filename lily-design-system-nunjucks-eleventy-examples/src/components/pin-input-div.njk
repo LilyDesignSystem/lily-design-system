@@ -11,3 +11,10 @@ description: a series of single-digit inputs for entering a PIN or OTP code
 
 <h2>4-digit PIN</h2>
 {{ pinInputDiv({ id: "pin", name: "pin", length: 4, label: "4-digit PIN" }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;PinInput label="Enter PIN" value={pin} /&gt;
+&lt;p&gt;Entered PIN: {pin}&lt;/p&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

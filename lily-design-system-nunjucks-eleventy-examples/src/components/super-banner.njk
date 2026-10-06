@@ -8,3 +8,11 @@ description: a super-banner for a high-priority state affecting the whole app
 
 {{ superBanner({ heading: "Service degraded", text: "Some features are slower than usual." }) }}
 {{ superBanner({ level: "danger", heading: "Outage", text: "Booking is offline. Call your GP directly." }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;SuperBanner label="System outage"&gt;
+  Our payment processing service is currently unavailable. We are working to restore it.
+&lt;/SuperBanner&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

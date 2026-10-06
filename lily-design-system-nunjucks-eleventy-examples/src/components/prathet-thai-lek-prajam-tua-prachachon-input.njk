@@ -8,3 +8,13 @@ description: an input for entering Thailand's National Identification Number
 
 <h2>Default</h2>
 <p>{{ prathetThaiLekPrajamTuaPrachachonInput({ text: "PrathetThaiLekPrajamTuaPrachachonInput example", label: "PrathetThaiLekPrajamTuaPrachachonInput example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field label="เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)" required&gt;
+  &lt;PrathetThaiLekPrajamTuaPrachachonInput label="เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)" value={value} required /&gt;
+  &lt;Hint&gt;Thirteen digits. Digit 1 denotes registration category; digits 2-5 denote the district/province office of registration; digits 6-10 form a serial number; digit 11 is a Modulus-11 check digit computed over the first ten digits; digits 12-13 are further disambiguating digits.&lt;/Hint&gt;
+  &lt;ErrorMessage&gt;Please enter a valid เลขประจำตัวประชาชน&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

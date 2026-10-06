@@ -18,3 +18,13 @@ description: a menu that appears on right-click or long-press
   {{ contextMenuItem({ text: "Share…" }) }}
   {{ contextMenuItem({ text: "Delete", shortcut: "Del", danger: true }) }}
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;ContextMenu label="Text actions" open={isContextMenuOpen}&gt;
+    &lt;ContextMenuItem onclick={() =&gt; handleCut()}&gt;Cut&lt;/ContextMenuItem&gt;
+    &lt;ContextMenuItem onclick={() =&gt; handleCopy()}&gt;Copy&lt;/ContextMenuItem&gt;
+    &lt;ContextMenuItem onclick={() =&gt; handlePaste()}&gt;Paste&lt;/ContextMenuItem&gt;
+&lt;/ContextMenu&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

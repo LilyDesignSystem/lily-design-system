@@ -108,3 +108,29 @@ description: a data table interactive grid for displaying and sorting tabular da
     {% endcall %}
   {% endcall %}
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;DataTable caption="Patient appointments" label="Upcoming appointments"&gt;
+  &lt;DataTableHead&gt;
+    &lt;DataTableRow&gt;
+      &lt;DataTableTD scope="col" sortable&gt;Patient name&lt;/DataTableTD&gt;
+      &lt;DataTableTD scope="col" sortable&gt;Date&lt;/DataTableTD&gt;
+      &lt;DataTableTD scope="col"&gt;Status&lt;/DataTableTD&gt;
+    &lt;/DataTableRow&gt;
+  &lt;/DataTableHead&gt;
+  &lt;DataTableBody&gt;
+    &lt;DataTableRow&gt;
+      &lt;DataTableTD&gt;Karen Francis&lt;/DataTableTD&gt;
+      &lt;DataTableTD&gt;15 March 2025&lt;/DataTableTD&gt;
+      &lt;DataTableTD&gt;&lt;Tag variant="success"&gt;Confirmed&lt;/Tag&gt;&lt;/DataTableTD&gt;
+    &lt;/DataTableRow&gt;
+    &lt;DataTableRow&gt;
+      &lt;DataTableTD&gt;James Lee&lt;/DataTableTD&gt;
+      &lt;DataTableTD&gt;22 March 2025&lt;/DataTableTD&gt;
+      &lt;DataTableTD&gt;&lt;Tag variant="warning"&gt;Pending&lt;/Tag&gt;&lt;/DataTableTD&gt;
+    &lt;/DataTableRow&gt;
+  &lt;/DataTableBody&gt;
+&lt;/DataTable&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

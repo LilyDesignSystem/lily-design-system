@@ -17,3 +17,14 @@ description: a numeric value display with title, prefix, and suffix
 
 <h2>Plain</h2>
 {{ statistic({ title: "Items in stock", value: "42" }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/statistic/macro.njk" import statistic %}
+
+{{ statistic({
+  title: "Active users",
+  value: "1,128"
+}) }}
+{% endraw %}</code></pre>
+{# END generated: examples #}

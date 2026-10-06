@@ -15,3 +15,14 @@ description: a dial chart showing one value within a range
 {% call gaugeChart({ label: "Gauge chart example", dataTable: dataTable }) %}
   <svg viewBox="0 0 100 50" width="200" height="100" aria-hidden="true" focusable="false"><circle cx="50" cy="25" r="20"></circle></svg>
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/gauge-chart/macro.njk" import gaugeChart %}
+{% call gaugeChart({ label: "Example", describedBy: "desc" }) %}&lt;svg&gt;...&lt;/svg&gt;{% endcall %}
+{% endraw %}</code></pre>
+<h2>More examples</h2>
+<h3>Graphic only (no data table)</h3>
+{% raw %}<div class="component-demo-variant"><figure class="gauge-chart"><div class="gauge-chart-graphic" role="img" aria-label="Speed gauge: 72 out of 100"><svg viewBox="0 0 120 80" width="240" height="160" aria-hidden="true" focusable="false"><path d="M10 70 A50 50 0 0 1 110 70" fill="none" stroke="currentColor" stroke-opacity="0.25" stroke-width="10"/><path d="M10 70 A50 50 0 0 1 90 33" fill="none" stroke="currentColor" stroke-width="10"/></svg></div></figure></div>{% endraw %}
+<details><summary>Show markup</summary><pre tabindex="0"><code>{% raw %}&lt;figure class="gauge-chart"&gt;&lt;div class="gauge-chart-graphic" role="img" aria-label="Speed gauge: 72 out of 100"&gt;&lt;svg viewBox="0 0 120 80" width="240" height="160" aria-hidden="true" focusable="false"&gt;&lt;path d="M10 70 A50 50 0 0 1 110 70" fill="none" stroke="currentColor" stroke-opacity="0.25" stroke-width="10"/&gt;&lt;path d="M10 70 A50 50 0 0 1 90 33" fill="none" stroke="currentColor" stroke-width="10"/&gt;&lt;/svg&gt;&lt;/div&gt;&lt;/figure&gt;{% endraw %}</code></pre></details>
+{# END generated: examples #}

@@ -20,3 +20,26 @@ description: an ordered list of step items showing progress through a multi-step
   {{ stepListItem({ status: "error", current: true, html: "<strong>2. Payment</strong><br><span>Card declined</span>" }) }}
   {{ stepListItem({ status: "waiting", html: "<strong>3. Confirmation</strong>" }) }}
 {% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{% from "components/step-list/macro.njk" import stepList %}
+{% from "components/step-list-item/macro.njk" import stepListItem %}
+
+{% call stepList({ label: "Checkout progress", current: 1 }) %}
+  {{ stepListItem({
+    status: "finished",
+    html: "&lt;span&gt;Cart&lt;/span&gt;"
+  }) }}
+  {{ stepListItem({
+    status: "in-progress",
+    current: true,
+    html: "&lt;span&gt;Shipping&lt;/span&gt;"
+  }) }}
+  {{ stepListItem({
+    status: "waiting",
+    html: "&lt;span&gt;Payment&lt;/span&gt;"
+  }) }}
+{% endcall %}
+{% endraw %}</code></pre>
+{# END generated: examples #}

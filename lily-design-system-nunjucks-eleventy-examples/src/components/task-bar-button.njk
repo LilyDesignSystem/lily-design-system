@@ -11,3 +11,13 @@ description: one item in a task bar
   {{ taskBarButton({ text: "Pressed", pressed: true }) }}
   {{ taskBarButton({ text: "Disabled", disabled: true }) }}
 </div>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;TaskBar label="Document actions"&gt;
+  &lt;TaskBarButton&gt;New&lt;/TaskBarButton&gt;
+  &lt;TaskBarButton&gt;Save&lt;/TaskBarButton&gt;
+  &lt;TaskBarButton disabled&gt;Delete&lt;/TaskBarButton&gt;
+&lt;/TaskBar&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}
