@@ -401,7 +401,7 @@ const cy: UiStrings = {
   },
   footer: {
     license:
-      'Meddalwedd rhad ac am ddim, ffynhonnell agored — BSD, MIT, Apache-2.0, GPL-2.0, neu GPL-3.0.',
+      'Meddalwedd ffynhonnell agored am ddim — BSD, MIT, Apache-2.0, GPL-2.0, neu GPL-3.0.',
     trademark: 'Mae Lily™ a Lily Design System™ yn nodau masnach.',
     why: 'Pam Lily'
   },
@@ -412,9 +412,9 @@ const cy: UiStrings = {
     share: 'Rhannu'
   },
   home: {
-    heroTitle: 'Dylunio gwe yn well.',
+    heroTitle: 'Dylunio gwefannau yn well.',
     heroTagline:
-      "Mae Lily yn system ddylunio rhad ac am ddim, ffynhonnell agored, hygyrch gyda channoedd o gydrannau ar gyfer saith fframwaith.",
+      "Mae Lily yn system ddylunio ffynhonnell agored am ddim a hygyrch, gyda channoedd o gydrannau ar gyfer saith fframwaith.",
     findPath: "Dewch o hyd i'ch llwybr",
     tutorials: {
       heading: 'Tiwtorialau',
@@ -428,7 +428,7 @@ const cy: UiStrings = {
     examples: {
       heading: 'Apiau enghreifftiol',
       description:
-        "Saith cymhwysiad cyfeirio cyflawn, wedi'u steilio, y gallwch eu clonio a'u haddasu."
+        "Saith cymhwysiad cyfeirio cyflawn, wedi'u harddullio, y gallwch eu clonio a'u haddasu."
     },
     notice:
       "Mae'r dudalen hon wedi'i chyfieithu; mae tudalennau dyfnach (tiwtorialau, dogfennaeth cydrannau) yn Saesneg yn unig am y tro."
@@ -617,6 +617,7 @@ const UI: Record<string, UiStrings> = {
   'ar-001': ar,
   'bn-001': bn,
   'cy-001': cy,
+  'cy-gb': cy,
   'en-001': en,
   'en-gb': enGb,
   'en-gb-oxendict': enGbOxendict,
