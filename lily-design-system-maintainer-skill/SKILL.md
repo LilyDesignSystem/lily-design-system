@@ -109,6 +109,7 @@ tests and stories), the two example apps `bin/test` verifies, and the docs-site 
 | `generate-api-docs` | Regenerate the site's canonical-contract sections from `components/*/AGENTS.md`; drift-checked. |
 | `new-component` | End-to-end scaffolder: one new placeholder component across every layer `bin/test` verifies, then runs the generators below. |
 | `generate-examples` | Per-component usage examples (from the docs) and rendered variants (`component-variants.json`) for every demonstration page. |
+| `generate-sitemap` | Regenerate the docs site's `sitemap.xml` from its route tree; `--check` fails on drift. |
 | `generate-site-pages` | Docs-site component pages: rebuild placeholders from `index.md`, refresh every Example section, write missing Playwright specs. |
 | `smoke-packages` | Pack + install each published headless tarball into a scratch consumer and render it — catches `main`-never-built breakage. |
 | `publish-headless` | Build + publish the 7 npm headless libraries and pack the Blazor one (NuGet publishes only through the `publish.yml` OIDC workflow). |

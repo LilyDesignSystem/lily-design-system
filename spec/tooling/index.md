@@ -33,6 +33,7 @@ Covers the `bin/` toolchain: catalog listers, directory scaffolders, the verific
 | `publish-helpers`                     | Build (`build.js` per catalog) and publish every helper package — npm for the JS catalogs, NuGet for Blazor. |
 | `generate-examples`                   | Per-component usage examples (from the docs) and rendered variants (`component-variants.json`) for every demonstration page; writes the generated data for all example apps. |
 | `generate-site-pages`                 | Rebuild the docs-site component pages that are still placeholders from `components/{slug}/index.md` and refresh every page's Example section. |
+| `generate-sitemap`                    | Regenerate the docs site's `sitemap.xml` (one URL per route, git-derived `<lastmod>`); `--check` reports drift. |
 | `generate-registries`                 | Regenerate every example-app catalog registry from `components.tsv` + the canonical SvelteKit demo map, so hand-copied registries cannot drift. |
 | `check-links`                         | Verify every relative markdown link in tracked `*.md` files resolves (synced AGENTS copies excluded); exits non-zero on breakage. |
 

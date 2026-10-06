@@ -959,6 +959,7 @@ echo "Regenerating the usage examples and rendered variants for every demonstrat
 node bin/generate-examples > /dev/null
 echo "Regenerating the docs-site component pages (replaces the placeholder route)..."
 node bin/generate-site-pages > /dev/null
+node bin/generate-sitemap > /dev/null
 echo "Regenerating the site's canonical-contract sections..."
 python3 bin/generate-api-docs > /dev/null
 

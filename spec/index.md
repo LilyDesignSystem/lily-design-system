@@ -353,6 +353,7 @@ Scripts live in `bin/`:
 | `bin/new-component`                   | End-to-end scaffolder for one new placeholder component. |
 | `bin/generate-examples`               | Per-component usage examples (from the docs) and rendered variants (`component-variants.json`) for every demonstration page. |
 | `bin/generate-site-pages`             | Docs-site component pages: rebuilds placeholders from `index.md`, refreshes every Example section. |
+| `bin/generate-sitemap`                | Docs-site `sitemap.xml` from the SvelteKit route tree (`--check` for drift). |
 | `bin/smoke-packages`                  | Pack + install every headless + npm helper tarball into a scratch consumer and render it. |
 | `bin/make-github-pages`               | Push the docs site subtree to its `github-pages` remote; invoked by `make github-pages`. |
 
@@ -581,7 +582,7 @@ Long-term: versioned releases per subproject npm/NuGet package
 ## 14. Tracking
 
 - Package: lily
-- Version: 0.6.0
+- Version: 0.7.0
 - Created: 2025-08-09
 - Updated: 2026-10-06
 - License: `MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause`

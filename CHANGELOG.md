@@ -9,6 +9,29 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## 0.7.0 — October 2026: 571 components, demonstration pages, documentation sweep — 2026-10-06
+
+The monorepo's first tag since 0.6.0 (2026-08-26). It rolls up the October work, all of it already
+recorded in the dated entries below and published as package releases (headless 0.4.0, html 0.5.0,
+nunjucks 0.3.0, Blazor 0.3.0, themes 0.2.0, every helper package):
+
+- **Catalog 491 → 571**: 48 national-identifier components (2026-09-22) and 32 components from the Baby UI
+  survey and maintainer requests (charts, `tool-call` + five parts, `streaming-text`, `mark`,
+  `chat-composer`, `one-time-password-input`, `multi-select`, the calendar views, …).
+- **Pickers**: `search-picker` and `picker-bar` gain search; every picker has a hoverable, dismissable tooltip.
+- **Demonstration pages** in every example app and the docs site render the live demo, rendered variants and a
+  real usage example (`bin/generate-examples`, `bin/generate-site-pages`, `component-variants.json`).
+- **Documentation sweep**: counts, versions and contracts brought up to date across `spec/`, `AGENTS/`, the
+  26 Claude Skills, `llms.txt`/`llms.json`, the generated per-repository files and the docs site;
+  `spec/index.md` cut from 68 KB to under 40 KB (history moved to `spec/history/`); `plan.md`/`tasks.md`
+  rewritten to current state; `angular-headless` spec and index brought up to date.
+- **New tool**: `bin/generate-sitemap` writes the docs site's `sitemap.xml` (610 URLs, was a hand-kept 15) from
+  the route tree; `--check` reports drift.
+- **Fixes**: `bin/sync` now keeps the site's copy of the 45 themes in step (it had drifted); raw HTML in component
+  descriptions no longer renders as live form controls on the docs site; 166 missing site Playwright specs written.
+- **Verified**: `bin/test`, `bin/check-links`, `bin/check-coverage`, `bin/smoke-packages` (all packages OK), docs
+  site `npm run check` and build, docs-site Playwright 1,873 passed.
+
 ## `chat-composer`, catalog 570 → 571 — 2026-10-05
 
 Baby UI's `composer` built narrowly (maintainer decision; Baby UI's

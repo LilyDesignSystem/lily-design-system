@@ -10,7 +10,7 @@ topic keeps the narrative highlights that earlier versions of the spec carried.
 Covers events up to and including the picker-tooltip, Baby UI triage and chart work of
 2026-10. It does **not** restate current facts: counts, versions and contracts here are
 true **as of the date given in each entry** and are deliberately not updated when the
-catalog grows. For the current state read [spec/index.md](../index.md) and the topic
+catalog grows. For the current state read [spec/index.md](../../index.md) and the topic
 that owns the area.
 
 ## Principles and rules
@@ -67,7 +67,7 @@ that owns the area.
   versions from birth. Verified per `docs/releasing.md`: `bin/test`,
   `bin/check-links`, `bin/publish-helpers --dry-run`, and
   `bin/smoke-packages` all clean before the real npm publish, executed
-  under [GOVERNANCE.md](../GOVERNANCE.md) § AI agent publish
+  under [GOVERNANCE.md](../../GOVERNANCE.md) § AI agent publish
   authority. The four Blazor packages' NuGet release is prepared
   (version bumped, changelog written) but not yet pushed — no local
   OIDC context; needs a `publish.yml` dispatch with `real: true`,
@@ -109,7 +109,7 @@ that owns the area.
   per catalog depending on framework); root `bin/test` and
   `bin/check-links` clean throughout. Helper package count: 48 → 56
   (8 catalogs × 7 helpers). Full record: CHANGELOG.md;
-  [spec/helpers/index.md § picker-bar contract](helpers/index.md).
+  [spec/helpers/index.md § picker-bar contract](../helpers/index.md).
 - **Web Components headless catalog reaches its full achievable scope
   (2026-09-06)** — grew from the 33-component P7-T6/P8-T7 pilot slice to
   456 of 491 in one day, across three waves of parallel-agent batches:
@@ -242,13 +242,13 @@ that owns the area.
   catalogs) and via a real end-to-end `bin/smoke-packages` run. Found
   a real, unrelated pre-existing defect in `bin/publish-helpers
   --dry-run` along the way — see `tasks.md` P7-T19. Full record:
-  [CHANGELOG.md](../CHANGELOG.md).
+  [CHANGELOG.md](../../CHANGELOG.md).
 - **P7-T5 visual regression baseline landed (2026-09-03)** — new
   `e2e/visual-regression.spec.ts` in svelte-sveltekit-examples: 30
   slugs across all 11 catalog categories × 3 themes (the app default,
   GOV.UK GDS, and `dark` for light/dark coverage) = 90 screenshots of
   the demo region only. Baseline committed and re-run confirmed
-  zero-diff. Full record: [CHANGELOG.md](../CHANGELOG.md).
+  zero-diff. Full record: [CHANGELOG.md](../../CHANGELOG.md).
 - **P7-T18 vue-nuxt-examples storybook build fixed (2026-09-03)** — the
   "out-of-range parser error" recorded against `TimelineListItem.vue`
   was neither a Rolldown interop bug nor that file: `node_modules` had
@@ -261,11 +261,11 @@ that owns the area.
   find: `ProgressCircle.test.ts` in this app and
   `svelte-sveltekit-examples` asserted a non-existent `"Progress"` ARIA
   role in 4/6 tests versus the canonical `"progressbar"`; fixed both.
-  Full record: [CHANGELOG.md](../CHANGELOG.md).
+  Full record: [CHANGELOG.md](../../CHANGELOG.md).
 - **NuGet Trusted Publishing adopted, GitHub only (2026-09-02)** — the
   real P2-T2 publish attempt failed on a missing `NUGET_API_KEY`
   secret (never configured, not broken). Adopted OIDC
-  [Trusted Publishing](trusted-publishing/index.md) for NuGet instead
+  [Trusted Publishing](../trusted-publishing/index.md) for NuGet instead
   of minting a long-lived key: `publish.yml` gained a `NuGet/login@v1`
   step (real-mode only) exchanging the job's GitHub OIDC token for a
   1-hour nuget.org key. Deliberate exception to "adopt when the whole
@@ -275,13 +275,13 @@ that owns the area.
   `docs/releasing.md`, and the trusted-publishing spec updated in the
   same change. Two steps remain outside this repo: the maintainer
   registering the nuget.org trusted-publisher policy and adding a
-  `NUGET_USER` secret. Full record: [CHANGELOG.md](../CHANGELOG.md).
+  `NUGET_USER` secret. Full record: [CHANGELOG.md](../../CHANGELOG.md).
 - **AI attribution and publish authority revised (2026-09-02)** —
   two maintainer-directed governance reversals. `AI_STATEMENT.md` §4/§10
   now permit (and CONTRIBUTING.md recommends) a `Co-Authored-By:`
   trailer naming the AI tool on a commit — disclosure, not authorship
   or a sign-off; git's `Author`/`Committer` fields still always name
-  the human. And a new [GOVERNANCE.md](../GOVERNANCE.md) § AI agent
+  the human. And a new [GOVERNANCE.md](../../GOVERNANCE.md) § AI agent
   publish authority authorizes an agentic session to decide a specific,
   already-prepared release meets a written readiness checklist and
   execute the real publish, without asking each time — what a release
@@ -383,7 +383,7 @@ that owns the area.
   (`AGENTS/national-person-identifiers.tsv`, committed 2026-05-30) but
   the old 80/40 figures had persisted in prose across the spec, both
   Claude Skills, `llms.txt`/`llms.json`, and the root special files —
-  corrected repo-wide. Full record: [CHANGELOG.md](../CHANGELOG.md).
+  corrected repo-wide. Full record: [CHANGELOG.md](../../CHANGELOG.md).
 - **Helpers hardening, 2026-07-21 – 2026-07-31** — the `*-select`/
   `*-button` helpers renamed to `*-picker` (`theme-picker`,
   `locale-picker`, `text-size-picker`, `share-picker`; every package
@@ -397,7 +397,7 @@ that owns the area.
   Svelte infinite-loop freeze). Test counts climbed 1231 → 1847 across
   the seven catalogs as each round landed. Full record: CHANGELOG.md.
 
-Older epochs (full detail in [CHANGELOG.md](../CHANGELOG.md), one entry
+Older epochs (full detail in [CHANGELOG.md](../../CHANGELOG.md), one entry
 per version):
 
 - **0.6.0 (2026-07-03)** — Tooling hardening: `bin/test` exits non-zero
@@ -482,7 +482,7 @@ record: CHANGELOG.md.
       had regressed to an empty router in every mode, and even a
       self-owned `import.meta.glob` received empty modules for
       `.page.ts` files. Full record:
-      [analog-ssg-notes.md](../lily-design-system-angular-examples/docs/analog-ssg-notes.md).
+      [analog-ssg-notes.md](../../lily-design-system-angular-examples/docs/analog-ssg-notes.md).
       The app also gained the canonical detail-page shape (PascalCase
       H1, description, back link) backed by a generated
       `components-data.ts` registry.
@@ -550,7 +550,7 @@ record: CHANGELOG.md.
 ## Sources
 
 - [CHANGELOG.md](../../CHANGELOG.md)
-- [spec/index.md](../index.md)
+- [spec/index.md](../../index.md)
 
 ---
 

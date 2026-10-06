@@ -43,7 +43,7 @@ See `AGENTS.md` for the full architecture, component pattern, testing convention
 
 ## Status
 
-Initial scaffold. Infrastructure (package.json, vitest, tsconfig, ng-packagr config) and the full 490-component catalog are in place. Each component is a standalone Angular 20 component with signal inputs and OnPush change detection.
+Complete and published: all 571 catalog components as standalone, signal-based, OnPush Angular components (peer range Angular `>=20 <23`), each with a vitest spec and a Storybook story. Version 0.4.0.
 
 ---
 

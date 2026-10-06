@@ -2,7 +2,7 @@
 
 ## Status
 
-Initial scaffold landed 2026-05-28. Infrastructure + all 490 components present. Pending: `pnpm install` + `vitest run` end-to-end verification.
+Initial scaffold landed 2026-05-28; the library has since been fully verified and published. As of 2026-10-06 it ships all 571 catalog components (571 `.ts` + `.spec.ts` + `.stories.ts` triplets plus docs), version 0.4.0 on npm as `@lilydesignsystem/angular-headless`, with a peer range of Angular `>=20 <23` (the example app runs Angular 22). The "Plan" and "Tasks" checklists below are the original scaffold-era ones, now updated to current state.
 
 ## 2026-09-01 — wrapper-host attribute-selector migration (0.3.0, breaking)
 
@@ -46,7 +46,7 @@ model (see `book-an-appointment.ts`'s file header comment).
 
 Based on the Angular 2026 research summary:
 
-- **Angular 20** (signals, control flow, deferable views, standalone-by-default). Pin to `^20.0.0`, peerDeps `>=20.0.0 <22.0.0`.
+- **Angular 20 baseline, 22 supported** (signals, control flow, deferrable views, standalone-by-default). Peer dependencies `>=20.0.0 <23.0.0`; the example app builds on Angular 22.
 - **Standalone components only**. No NgModules.
 - **Signal inputs + outputs** (`input()`, `output()`, `model()`).
 - **`ChangeDetectionStrategy.OnPush`** on every component.
@@ -60,7 +60,7 @@ Based on the Angular 2026 research summary:
 
 ```
 lily-design-system-angular-headless/
-├── components/                — 490 × 3 files
+├── components/                — 571 × 4 files (.ts, .spec.ts, .stories.ts, .md)
 │   ├── Accordion*.ts          — standalone component
 │   ├── Accordion*.spec.ts     — vitest + TestBed test
 │   ├── Accordion*.md          — per-component doc
@@ -77,18 +77,27 @@ lily-design-system-angular-headless/
 
 ## Plan
 
-- [x] Decide on Angular version target — Angular 20.
+- [x] Decide on Angular version target — Angular 20 baseline (peer range extended to `<23`).
 - [x] Set up build infra (package.json, tsconfig, ng-package, vitest).
-- [x] Generate the 490-component scaffold from templates.
+- [x] Generate the component scaffold (now 571 components) from templates.
 - [x] Index barrel that re-exports every component.
-- [ ] Run `pnpm install` end-to-end (skipped in initial scaffold — pulls a lot of node_modules).
-- [ ] Verify `vitest run` passes for a sample of components.
-- [ ] Set up Storybook 9 for Angular (deferred).
-- [ ] Wire example app subproject (`lily-design-system-angular-examples` — not yet started; placeholder for future work).
+- [x] Run `pnpm install` end-to-end.
+- [x] Verify `vitest run` passes (every component has a spec; see `spec/testing` in the root spec for counts).
+- [x] Storybook for Angular — `@storybook/angular` (webpack builder) with a story per component.
+- [x] Example app subproject `lily-design-system-angular-examples` exists (Analog.js, prerendered).
 
 ## Tasks
 
 - [ ] Spot-check a few generated components for correct ARIA attributes and class hooks.
-- [ ] Smoke-test that `ng-packagr` produces a valid APF bundle.
+- [x] `ng-packagr` produces a valid APF bundle (verified at each release; `bin/smoke-packages` installs and renders it).
 - [ ] Confirm `lily-` prefix on selectors does not collide with consumer namespaces.
 - [ ] Document any per-component prop variations beyond the base `label` / `className` / `value` shape (initial scaffold uses uniform shapes by suffix — `*-input`, `*-view`, etc.).
+
+## Tracking
+
+- Package: `@lilydesignsystem/angular-headless`
+- Version: 0.4.0
+- Framework: Angular `>=20 <23` (signals, standalone, OnPush) + TypeScript
+- Test runner: vitest
+- Package manager: pnpm
+- Contact: Joel Parker Henderson <joel@joelparkerhenderson.com>

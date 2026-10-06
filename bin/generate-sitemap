@@ -1,0 +1,76 @@
+#!/usr/bin/env node
+// bin/generate-sitemap
+//
+// Generate the docs site's sitemap.xml from the SvelteKit route tree: every directory under
+// lilydesignsystem.github.io/src/routes that holds a +page.svelte is one page (a path segment in
+// [brackets] is a dynamic route and is skipped). <lastmod> is the date of the last commit that
+// touched the page's directory (falling back to the page file's mtime when uncommitted).
+//
+//   bin/generate-sitemap           write static/sitemap.xml
+//   bin/generate-sitemap --check   exit 1 if the written file differs (ignoring <lastmod>)
+
+const fs = require("fs");
+const path = require("path");
+const { execFileSync } = require("child_process");
+
+const top = path.join(__dirname, "..");
+const site = path.join(top, "lilydesignsystem.github.io");
+const routes = path.join(site, "src", "routes");
+const out = path.join(site, "static", "sitemap.xml");
+const ORIGIN = "https://lilydesignsystem.com";
+
+function walk(dir, rel, acc) {
+  if (fs.existsSync(path.join(dir, "+page.svelte"))) acc.push(rel);
+  for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (!e.isDirectory() || /^[\[(_.]/.test(e.name)) continue;
+    walk(path.join(dir, e.name), rel ? `${rel}/${e.name}` : e.name, acc);
+  }
+  return acc;
+}
+
+function lastmod(rel) {
+  const dir = path.join(routes, rel);
+  try {
+    const d = execFileSync("git", ["log", "-1", "--format=%cs", "--", dir], { cwd: top, stdio: ["ignore", "pipe", "ignore"] })
+      .toString()
+      .trim();
+    if (d) return d;
+  } catch (e) {
+    /* fall through */
+  }
+  return fs.statSync(path.join(dir, "+page.svelte")).mtime.toISOString().slice(0, 10);
+}
+
+function rank(rel) {
+  if (rel === "") return ["weekly", "1.0"];
+  if (rel === "components") return ["weekly", "0.9"];
+  if (rel.startsWith("components/")) return ["monthly", "0.6"];
+  if (["examples", "about"].includes(rel)) return ["weekly", "0.8"];
+  if (rel === "tutorials" || rel.startsWith("tutorials/")) return ["monthly", "0.6"];
+  if (["news", "roadmap"].includes(rel)) return ["weekly", "0.6"];
+  if (rel.startsWith("locales")) return ["monthly", "0.3"];
+  return ["monthly", "0.5"];
+}
+
+const pages = walk(routes, "", []).sort((a, b) => (a === "" ? -1 : b === "" ? 1 : a.localeCompare(b)));
+const body = pages
+  .map((rel) => {
+    const [freq, pri] = rank(rel);
+    const loc = `${ORIGIN}/${rel ? rel + "/" : ""}`;
+    return `  <url><loc>${loc}</loc><lastmod>${lastmod(rel)}</lastmod><changefreq>${freq}</changefreq><priority>${pri}</priority></url>`;
+  })
+  .join("\n");
+const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`;
+
+if (process.argv.includes("--check")) {
+  const strip = (s) => s.replace(/<lastmod>[^<]*<\/lastmod>/g, "");
+  const have = fs.existsSync(out) ? fs.readFileSync(out, "utf-8") : "";
+  if (strip(have) !== strip(xml)) {
+    console.error("bin/generate-sitemap: static/sitemap.xml is out of date — run bin/generate-sitemap");
+    process.exit(1);
+  }
+  console.log(`generate-sitemap: OK (${pages.length} URLs)`);
+} else {
+  fs.writeFileSync(out, xml);
+  console.log(`wrote ${path.relative(top, out)}: ${pages.length} URLs`);
+}
