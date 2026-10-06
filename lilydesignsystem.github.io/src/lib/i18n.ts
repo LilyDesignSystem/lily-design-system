@@ -33,6 +33,9 @@ export type UiStrings = {
     locale: string;
     textSize: string;
     share: string;
+    search: string;
+    searchInput: string;
+    searchSubmit: string;
   };
   home: {
     heroTitle: string;
@@ -67,7 +70,10 @@ const en: UiStrings = {
     theme: 'Theme',
     locale: 'Language',
     textSize: 'Text size',
-    share: 'Share'
+    share: 'Share',
+    search: 'Search',
+    searchInput: 'Search terms',
+    searchSubmit: 'Search'
   },
   home: {
     heroTitle: 'Build web designs better.',
@@ -123,7 +129,10 @@ const es: UiStrings = {
     theme: 'Tema',
     locale: 'Idioma',
     textSize: 'Tamaño del texto',
-    share: 'Compartir'
+    share: 'Compartir',
+    search: 'Buscar',
+    searchInput: 'Términos de búsqueda',
+    searchSubmit: 'Buscar'
   },
   home: {
     heroTitle: 'Diseña mejor para la web.',
@@ -171,7 +180,10 @@ const fr: UiStrings = {
     theme: 'Thème',
     locale: 'Langue',
     textSize: 'Taille du texte',
-    share: 'Partager'
+    share: 'Partager',
+    search: 'Rechercher',
+    searchInput: 'Termes de recherche',
+    searchSubmit: 'Rechercher'
   },
   home: {
     heroTitle: 'Concevez mieux pour le web.',
@@ -218,7 +230,10 @@ const pt: UiStrings = {
     theme: 'Tema',
     locale: 'Idioma',
     textSize: 'Tamanho do texto',
-    share: 'Compartilhar'
+    share: 'Compartilhar',
+    search: 'Pesquisar',
+    searchInput: 'Termos de pesquisa',
+    searchSubmit: 'Pesquisar'
   },
   home: {
     heroTitle: 'Crie designs melhores para a web.',
@@ -267,7 +282,10 @@ const ru: UiStrings = {
     theme: 'Тема',
     locale: 'Язык',
     textSize: 'Размер текста',
-    share: 'Поделиться'
+    share: 'Поделиться',
+    search: 'Поиск',
+    searchInput: 'Поисковый запрос',
+    searchSubmit: 'Найти'
   },
   home: {
     heroTitle: 'Создавайте веб-дизайн лучше.',
@@ -315,7 +333,10 @@ const hi: UiStrings = {
     theme: 'थीम',
     locale: 'भाषा',
     textSize: 'टेक्स्ट का आकार',
-    share: 'साझा करें'
+    share: 'साझा करें',
+    search: 'खोजें',
+    searchInput: 'खोज शब्द',
+    searchSubmit: 'खोजें'
   },
   home: {
     heroTitle: 'वेब डिज़ाइन को बेहतर बनाइए।',
@@ -360,7 +381,10 @@ const id: UiStrings = {
     theme: 'Tema',
     locale: 'Bahasa',
     textSize: 'Ukuran teks',
-    share: 'Bagikan'
+    share: 'Bagikan',
+    search: 'Cari',
+    searchInput: 'Kata pencarian',
+    searchSubmit: 'Cari'
   },
   home: {
     heroTitle: 'Rancang desain web yang lebih baik.',
@@ -409,7 +433,10 @@ const cy: UiStrings = {
     theme: 'Thema',
     locale: 'Iaith',
     textSize: 'Maint testun',
-    share: 'Rhannu'
+    share: 'Rhannu',
+    search: 'Chwilio',
+    searchInput: 'Termau chwilio',
+    searchSubmit: 'Chwilio'
   },
   home: {
     heroTitle: 'Dylunio gwefannau yn well.',
@@ -457,7 +484,10 @@ const ar: UiStrings = {
     theme: 'السمة',
     locale: 'اللغة',
     textSize: 'حجم النص',
-    share: 'مشاركة'
+    share: 'مشاركة',
+    search: 'بحث',
+    searchInput: 'عبارات البحث',
+    searchSubmit: 'بحث'
   },
   home: {
     heroTitle: 'صمّم الويب بشكل أفضل.',
@@ -501,7 +531,10 @@ const ur: UiStrings = {
     theme: 'تھیم',
     locale: 'زبان',
     textSize: 'متن کا سائز',
-    share: 'شیئر کریں'
+    share: 'شیئر کریں',
+    search: 'تلاش',
+    searchInput: 'تلاش کے الفاظ',
+    searchSubmit: 'تلاش'
   },
   home: {
     heroTitle: 'ویب ڈیزائن کو بہتر بنائیں۔',
@@ -546,7 +579,10 @@ const bn: UiStrings = {
     theme: 'থিম',
     locale: 'ভাষা',
     textSize: 'টেক্সটের আকার',
-    share: 'শেয়ার করুন'
+    share: 'শেয়ার করুন',
+    search: 'অনুসন্ধান',
+    searchInput: 'অনুসন্ধানের শব্দ',
+    searchSubmit: 'অনুসন্ধান'
   },
   home: {
     heroTitle: 'ওয়েব ডিজাইন আরও ভালো করুন।',
@@ -591,7 +627,10 @@ const zh: UiStrings = {
     theme: '主题',
     locale: '语言',
     textSize: '文字大小',
-    share: '分享'
+    share: '分享',
+    search: '搜索',
+    searchInput: '搜索词',
+    searchSubmit: '搜索'
   },
   home: {
     heroTitle: '更好地设计网页。',

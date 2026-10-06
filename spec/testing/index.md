@@ -34,7 +34,7 @@ Re-run in full 2026-10-06 (all suites green; 571 components). The previous basel
 
 Beyond the per-library suites: `bin/check-class-names` (every implementation carries its slug as the first
 token of a class list — run by `bin/test` and CI), and the **docs site's** Playwright suite
-(`lilydesignsystem.github.io/tests/`, 1,873 passing on 2026-10-06, one spec file per component page).
+(`lilydesignsystem.github.io/tests/`, 2,855 passing, 0 failing on 2026-10-06, 571 spec files — measure with `--reporter=json` and read `stats`; a `| tail` hides the failure count and the exit status).
 
 ## Storybook coverage
 

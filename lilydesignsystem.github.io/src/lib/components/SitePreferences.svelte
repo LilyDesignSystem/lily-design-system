@@ -71,8 +71,12 @@
     theme: strings.pickerLabels.theme,
     locale: strings.pickerLabels.locale,
     textSize: strings.pickerLabels.textSize,
-    share: strings.pickerLabels.share
+    share: strings.pickerLabels.share,
+    search: strings.pickerLabels.search,
+    searchInput: strings.pickerLabels.searchInput,
+    searchSubmit: strings.pickerLabels.searchSubmit
   }}
+  searchProps={{ action: '/components/', navigate: (href: string) => goto(href) }}
   themesUrl="/assets/themes/"
   themeProps={{ detectFromSystem: true, storageKey: 'lily-site-theme' }}
   locales={locales()}

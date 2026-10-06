@@ -245,7 +245,7 @@ The repo root's `bin/test` enforces this: `registry_count_or_err` asserts
       `spec/index.md`, matching the convention every other subproject in
       the monorepo follows.
 - [x] Playwright spec coverage across all 571 components (`tests/components/`, written by
-      `bin/generate-site-pages`); 1,873 specs passing 2026-10-06.
+      `bin/generate-site-pages`); 2,855 specs passing, 0 failing, 2026-10-06 (the 166 generated specs were first written with a broken title pattern and an H1 check the docs-style pages could not meet; fixed the same day).
 - [x] A full axe sweep of 575 pages (WCAG 2.0–2.2 A/AA) reports 0 violations (2026-10-06).
 - [x] Theme-CSS links (`/help/`, `/tutorials/theming/`) resolve on the
       deployed site — corrected to `/assets/themes/*.css`, matching

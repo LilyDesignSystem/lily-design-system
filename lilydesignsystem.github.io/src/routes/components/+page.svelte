@@ -1,7 +1,14 @@
 <script lang="ts">
   import { LILY_COMPONENTS, type LilyComponent } from '#lib/components.js';
+  import { page } from '$app/state';
 
   let query = $state('');
+
+  // The header search picker navigates here with `?<text>`; seed and follow the filter from it.
+  $effect(() => {
+    const q = decodeURIComponent(page.url.search.slice(1).replace(/\+/g, ' '));
+    if (q) query = q;
+  });
 
   const tags: { label: string; filter: string }[] = [
     { label: 'buttons', filter: 'button' },
