@@ -26,7 +26,7 @@ the monorepo has its own (spec §14, currently 0.8.0, tagged `vX.Y.Z`).
 | nunjucks headless | npm | 0.4.0, published 2026-10-06 (0.3.0 published 2026-10-06) |
 | Blazor headless | NuGet (`LilyDesignSystem.Blazor.Headless`) | 0.4.0, published 2026-10-06 (0.3.0 published 2026-10-06) |
 | Helper packages (`*-picker`, `picker-bar`, `gantt-chart`, `kanban-board`; 8 catalogs) | npm / NuGet, one line each | each package's own `CHANGELOG.md` is the record; all published as of 2026-10-01 except `svelte-calendar-view` (not yet released) |
-| `@lilydesignsystem/themes` (added 2026-09-28) | npm | 0.3.0, published 2026-10-06 (0.2.0 published 2026-10-06) |
+| `@lilydesignsystem/themes` (added 2026-09-28) | npm | 0.3.1, published 2026-10-06 (0.3.0 published 2026-10-06) |
 
 **First releases are numbered 0.1.0**, whatever version number the tree
 carried internally. A first release numbered higher implies registry

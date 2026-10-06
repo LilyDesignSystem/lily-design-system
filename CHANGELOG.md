@@ -39,7 +39,7 @@ popups: no sideways scroll, every popup inside the viewport. (WebKit's `share-pi
 instead of the list, so it is not testable there.) `.motion-picker-list` / `-option` had no theme rules at all in any
 of the 45 themes and now share the same ones. New regression test `tests/header-popups.spec.ts` (10 cases): fails on the
 old CSS (6 failures), passes now; docs-site suite 2,865 passed, 0 failed. Browsers without anchor positioning keep the
-old absolute placement. `@lilydesignsystem/themes` is not yet republished.
+old absolute placement. Released as `@lilydesignsystem/themes` 0.3.1 (CSS-only patch).
 
 ## Docs-site Playwright suite repaired; header search goes live — 2026-10-06
 
