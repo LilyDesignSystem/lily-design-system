@@ -25,6 +25,19 @@ WebdriverIO `date-range` in Chrome 154; Angular examples 994 unit tests, build a
 Playwright+axe specs; SvelteKit examples date-range axe. Not yet published. `ReviewDate` in Blazor, HTML and
 Nunjucks still differs (tasks P9-T15).
 
+## `ReviewDate` is a `<time>` in Blazor, HTML and Nunjucks; `date-range` description corrected — 2026-10-06
+
+Finishes the alignment started in the entry below. `ReviewDate` rendered `<span aria-label>` in Blazor and HTML
+and a `<p>` of two `<span><time>` blocks in Nunjucks; all three now render `<time class="review-date"
+aria-label datetime>` like every other library, and `components/review-date/AGENTS.md` says `<time>`.
+**Breaking**: the Nunjucks macro's params are now `datetime`, `text`, `label` (the built-in "next review due"
+line is gone — call it twice); Blazor gains `Datetime`. The catalog description of `date-range` ("a display of a
+start and end date range") became "paired start and end date inputs" in `components.tsv`, the CSS template, every
+registry and doc, and the docs-site pages. Verified: Nunjucks 3,449, Blazor 2,110, HTML WebdriverIO
+`review-date` in Chrome 154, `bin/test`, `bin/check-coverage`, `bin/check-links`, the docs-site build and
+date-range/review-date Playwright (10 passed), SvelteKit and Nunjucks examples date-range/review-date (8 and 4
+passed). Not yet published.
+
 ## 0.7.0 — October 2026: 571 components, demonstration pages, documentation sweep — 2026-10-06
 
 The monorepo's first tag since 0.6.0 (2026-08-26). It rolls up the October work, all of it already

@@ -4,7 +4,7 @@
 
 - Component: date-range
 - PascalCase: DateRange
-- Description: a display of a start and end date range
+- Description: paired start and end date inputs
 - HTML tag: <span>
 - CSS class: .date-range
 - Interactive: yes

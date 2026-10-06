@@ -92,7 +92,7 @@ The consumer provides all CSS styling. The component renders with a `.date-input
 ## Related components
 
 - `date-field` — a structured field for entering date components
-- `date-range` — a display of a start and end date range
+- `date-range` — paired start and end date inputs
 - `date-time-local-input` — an input for entering a date and time without time zone <input type="datetime-local">
 - `date-time-now-input` — an input for entering a date and time and "now" button <input type="date"><input type="time"><button type="button">
 - `calendar-range-picker` — a picker for selecting a date range on a calendar

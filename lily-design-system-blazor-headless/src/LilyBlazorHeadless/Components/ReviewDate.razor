@@ -2,13 +2,17 @@
 
 @*
     ReviewDate component
-    a display of a content review date
+    a display of a content review date <time>
 *@
 
-<span class="@($"review-date {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</span>
+<time class="@($"review-date {CssClass}".Trim())" aria-label="@Label" datetime="@(string.IsNullOrEmpty(Datetime) ? null : Datetime)" @attributes="AdditionalAttributes">@ChildContent</time>
 
 @code {
+    /// <summary>Accessible label giving screen readers context for the date.</summary>
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    /// <summary>Machine-readable date/time, ISO 8601.</summary>
+    [Parameter] public string Datetime { get; set; } = "";
+    /// <summary>Human-readable, localised date text.</summary>
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }

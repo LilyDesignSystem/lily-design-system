@@ -93,7 +93,7 @@ The consumer provides all CSS styling. The component renders with a `.date-field
 ## Related components
 
 - `date-input` — an input for entering a date value <input type="date">
-- `date-range` — a display of a start and end date range
+- `date-range` — paired start and end date inputs
 - `calendar-range-picker` — a picker for selecting a date range on a calendar
 
 ## References

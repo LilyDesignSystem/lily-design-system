@@ -2176,11 +2176,12 @@ All items below are done and verified (suites green, `bin/test`, `bin/check-cove
   (macro params `label`, `startLabel`, `endLabel`, `start`, `end`) and Web Components (was a `<span role="group">`)
   brought to it, with tests; the canonical demo and Angular `timeline-and-cards` workaround replaced.
   `ReviewDate` in angular-headless is now a `<time datetime>` like Svelte/React/Vue/Web Components.
-- [ ] **P9-T15 `ReviewDate` shape in Blazor, HTML and Nunjucks**: Blazor renders `<span aria-label>`, HTML and
-  Nunjucks a `<span>` wrapping a `<time>`; Svelte, React, Vue, Web Components and now Angular render the `<time>`
-  itself with `datetime`. Decide and align (breaking for those three).
-- [ ] **P9-T16 Catalog description**: `components.tsv` still describes `date-range` as "a display of a start and
-  end date range"; it is now paired date inputs. Changing it ripples through every registry and doc.
+- [x] **P9-T15 `ReviewDate` shape in Blazor, HTML and Nunjucks** — closed 2026-10-06: all now render the `<time>`
+  itself with `datetime` and `aria-label` (as Svelte, React, Vue, Web Components and Angular). Nunjucks macro params
+  are now `datetime`, `text`, `label` (the combined reviewed + next-review block is gone: render two). Blazor gains a
+  `Datetime` parameter. `components/review-date/AGENTS.md` now says `<time>`.
+- [x] **P9-T16 Catalog description** — closed 2026-10-06: `date-range` is now "paired start and end date inputs" in
+  `components.tsv`, the CSS template, every registry, doc and docs-site page (37 files), regenerated.
 
 ---
 

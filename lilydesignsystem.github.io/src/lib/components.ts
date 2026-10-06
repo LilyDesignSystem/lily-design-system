@@ -133,7 +133,7 @@ export const LILY_COMPONENTS: LilyComponent[] = [
   { name: "data-table-th", pascal: "DataTableTH", description: "a data table interactive grid header cell for displaying and sorting tabular data <th>", status: "beta" },
   { name: "date-field", pascal: "DateField", description: "a structured field for entering date components", status: "beta" },
   { name: "date-input", pascal: "DateInput", description: "an input for entering a date value <input type=\"date\">", status: "stable" },
-  { name: "date-range", pascal: "DateRange", description: "a display of a start and end date range", status: "stable" },
+  { name: "date-range", pascal: "DateRange", description: "paired start and end date inputs", status: "stable" },
   { name: "date-time-local-input", pascal: "DateTimeLocalInput", description: "an input for entering a date and time without time zone <input type=\"datetime-local\">", status: "beta" },
   { name: "date-time-now-input", pascal: "DateTimeNowInput", description: "an input for entering a date and time and \"now\" button <input type=\"date\"><input type=\"time\"><button type=\"button\">", status: "beta" },
   { name: "date-time-view", pascal: "DateTimeView", description: "a read-only display of a formatted date and time", status: "beta" },

@@ -230,7 +230,7 @@ slug below links to the per-component documentation.
 - [data-table-th](components/data-table-th): a data table interactive grid header cell for displaying and sorting tabular data <th>
 - [date-field](components/date-field): a structured field for entering date components
 - [date-input](components/date-input): an input for entering a date value <input type="date">
-- [date-range](components/date-range): a display of a start and end date range
+- [date-range](components/date-range): paired start and end date inputs
 - [date-time-local-input](components/date-time-local-input): an input for entering a date and time without time zone <input type="datetime-local">
 - [date-time-now-input](components/date-time-now-input): an input for entering a date and time and "now" button <input type="date"><input type="time"><button type="button">
 - [date-time-view](components/date-time-view): a read-only display of a formatted date and time

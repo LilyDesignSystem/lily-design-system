@@ -364,7 +364,7 @@ export const componentDemos: Record<string, string> = {
   'related-content': '<div class="related-content" aria-label="a section providing links to related or supporting information">RelatedContent</div>',
   'reset-input': '<input class="reset-input" type="reset" value="Reset" />',
   'resizable': '<div class="resizable" style="resize:both;overflow:auto;border:1px solid #d1d5db;padding:1rem;">Resize me</div>',
-  'review-date': '<div class="review-date"><span>Last reviewed: </span><time datetime="2026-01-15">15 January 2026</time></div>',
+  'review-date': '<time class="review-date" aria-label="Last reviewed" datetime="2026-01-15">15 January 2026</time>',
   'romania-cod-numeric-personal-input': '<label class="label" for="demo-input">Label</label><input class="romania-cod-numeric-personal-input" id="demo-input" aria-label="an input for entering Romania\'s Cod Numeric Personal (CNP)" />',
   'romania-cod-numeric-personal-view': '<span class="romania-cod-numeric-personal-view" aria-label="a read-only display of Romania\'s Cod Numeric Personal (CNP)">RomaniaCodNumericPersonalView</span>',
   'romania-pasaport-input': '<label class="label" for="demo-input">Label</label><input class="romania-pasaport-input" id="demo-input" aria-label="an input for entering Romania\'s Paşaport" />',

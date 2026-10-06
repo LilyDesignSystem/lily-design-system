@@ -6,12 +6,8 @@ description: a display of a content review date
 
 {% from "components/review-date/macro.njk" import reviewDate %}
 
-{{ reviewDate({
-  reviewedOn: "2026-04-20",
-  reviewedOnText: "20 April 2026",
-  nextReviewOn: "2026-10-20",
-  nextReviewOnText: "20 October 2026"
-}) }}
+<p>{{ reviewDate({ label: "Page last reviewed", datetime: "2026-04-20", text: "20 April 2026" }) }}</p>
+<p>{{ reviewDate({ label: "Next review due", datetime: "2026-10-20", text: "20 October 2026" }) }}</p>
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>

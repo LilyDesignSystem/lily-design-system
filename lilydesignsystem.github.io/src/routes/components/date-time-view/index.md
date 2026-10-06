@@ -93,7 +93,7 @@ component to apply font-variant-numeric or letter-spacing for tabular dates.
 ## Related components
 
 - `date-time-local-input` — an input for entering a date and time without time zone <input type="datetime-local">
-- `date-range` — a display of a start and end date range
+- `date-range` — paired start and end date inputs
 - `review-date` — a display of a content review date
 
 ## References

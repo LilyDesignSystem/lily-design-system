@@ -96,7 +96,7 @@ The consumer provides all CSS styling. The component renders with a `.calendar-r
 
 ## Related components
 
-- `date-range` — a display of a start and end date range
+- `date-range` — paired start and end date inputs
 - `date-field` — a structured field for entering date components
 - `calendar-table` — a calendar table interactive grid for managing dates, days, etc. <table>
 

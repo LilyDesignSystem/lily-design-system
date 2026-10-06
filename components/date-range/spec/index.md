@@ -4,7 +4,7 @@ Single source of truth for spec-driven development of the Date Range component. 
 
 ## Goal
 
-Implement the Date Range component: a display of a start and end date range.
+Implement the Date Range component: paired start and end date inputs.
 
 ## HTML Tag and CSS Class
 

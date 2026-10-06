@@ -8,16 +8,14 @@ describe('ReviewDate', function() {
     await browser.url('file://' + path.resolve(__dirname, 'review-date.html'));
   });
 
-  it('should render the span element with correct class', async function() {
-    const el = await $('span.review-date');
+  it('should render a time element with the base class', async function() {
+    const el = await $('time.review-date');
     await expect(el).toExist();
-    const className = await el.getAttribute('class');
-    expect(className).toContain('review-date');
   });
 
-  it('should have an aria-label attribute', async function() {
-    const el = await $('span.review-date');
-    const label = await el.getAttribute('aria-label');
-    expect(label).not.toBeNull();
+  it('should have an aria-label and a machine-readable datetime', async function() {
+    const el = await $('time.review-date');
+    expect(await el.getAttribute('aria-label')).not.toBeNull();
+    expect(await el.getAttribute('datetime')).toMatch(/^\d{4}-\d{2}-\d{2}/);
   });
 });

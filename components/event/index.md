@@ -85,7 +85,7 @@ The consumer provides all CSS styling. The component renders with an `.event` cl
 ## Related components
 
 - `timeline-list-item` — one event in a timeline list
-- `date-range` — a display of a start and end date range
+- `date-range` — paired start and end date inputs
 
 ## References
 

@@ -260,7 +260,7 @@ const COMPONENTS = [
   ],
   ["date-field", "a structured field for entering date components"],
   ["date-input", "an input for entering a date value"],
-  ["date-range", "a display of a start and end date range"],
+  ["date-range", "paired start and end date inputs"],
   [
     "date-time-local-input",
     "an input for entering a date and time without time zone",

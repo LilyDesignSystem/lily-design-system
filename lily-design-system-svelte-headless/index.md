@@ -85,7 +85,7 @@ A headless Svelte 5 component library with 490 components. All components are he
   - **data-table-td**: a data table interactive grid data cell for displaying and sorting tabular data
 - **date-field**: a structured field for entering date components
 - **date-input**: an input for entering a date value
-- **date-range**: a display of a start and end date range
+- **date-range**: paired start and end date inputs
 - **date-time-now-input**: an input for entering a date and time and "now" button
 - **date-time-local-input**: an input for entering a date and time without time zone
 - **details**: a disclosure widget that shows and hides content

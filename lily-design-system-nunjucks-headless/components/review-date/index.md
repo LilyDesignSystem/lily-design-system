@@ -11,7 +11,7 @@ See [components/review-date/index.md](../../../components/review-date/index.md) 
 ```njk
 {% from "components/review-date/macro.njk" import reviewDate %}
 
-{{ reviewDate({ }) }}
+{{ reviewDate({ label: "Last reviewed", datetime: "2026-10-06", text: "6 October 2026" }) }}
 ```
 
 ## Files

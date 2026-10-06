@@ -14,7 +14,7 @@ A display of a start and end date range.
 
 ## When to use
 
-- Use when you need a display of a start and end date range.
+- Use when you need paired start and end date inputs.
 
 ## When not to use
 

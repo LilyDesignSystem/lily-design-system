@@ -34,4 +34,24 @@ public class ReviewDateTests : TestContext
         var root = cut.Find(".review-date");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Renders_a_time_element()
+    {
+        var cut = RenderComponent<ReviewDate>(p => p
+            .Add(x => x.Label, "Last reviewed")
+            .Add(x => x.Datetime, "2026-10-06")
+            .AddChildContent("6 October 2026"));
+        var root = cut.Find("time.review-date");
+        Assert.Equal("2026-10-06", root.GetAttribute("datetime"));
+        Assert.Equal("Last reviewed", root.GetAttribute("aria-label"));
+        Assert.Equal("6 October 2026", root.TextContent);
+    }
+
+    [Fact]
+    public void Omits_datetime_when_not_given()
+    {
+        var cut = RenderComponent<ReviewDate>(p => p.AddChildContent("soon"));
+        Assert.Null(cut.Find("time").GetAttribute("datetime"));
+    }
 }

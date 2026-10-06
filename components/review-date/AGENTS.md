@@ -6,7 +6,7 @@
 - PascalCase: ReviewDate
 - Description: a display of a content review date
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
-- HTML tag: <span>
+- HTML tag: <time>
 - CSS class: .review-date
 - Interactive: no
 

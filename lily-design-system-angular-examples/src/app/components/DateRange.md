@@ -1,6 +1,6 @@
 # DateRange
 
-a display of a start and end date range
+paired start and end date inputs
 
 This is the Angular headless implementation. See `components/date-range/index.md`
 in the canonical repo root for the cross-framework documentation.

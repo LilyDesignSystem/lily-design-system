@@ -871,7 +871,7 @@ export const components: ComponentMeta[] = [
   {
       slug: "date-range",
       name: "DateRange",
-      description: "a display of a start and end date range",
+      description: "paired start and end date inputs",
       tag: "span",
       category: "content",
   },

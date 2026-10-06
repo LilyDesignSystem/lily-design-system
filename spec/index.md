@@ -526,7 +526,7 @@ same exploration use case. Angular uses the webpack-based
 
 Completed items are recorded in [CHANGELOG.md](../CHANGELOG.md) and §12. The `DateRange`/`ReviewDate`
 item that stood here was closed 2026-10-06: `DateRange` is a `<fieldset>` holding two `<input type="date">`
-in every library, and `ReviewDate` is a `<time>` in angular-headless (see the CHANGELOG). Open work is
+in every library, and `ReviewDate` is a `<time>` in every library (see the CHANGELOG). Open work is
 tracked in [tasks.md](../tasks.md) Phase 9.
 
 The completed items (Angular end-to-end verification, Blazor and HTML axe/responsive fixes, the
@@ -566,7 +566,7 @@ section), not into a separate `tasks.md`.
 ## 13. Roadmap
 
 Near-term focus: the open Phase 9 items in [tasks.md](../tasks.md) (the CSS class-name audit for all
-571 components, the deferred Baby UI ideas, the `ReviewDate` shape in Blazor/HTML/Nunjucks);
+571 components, the deferred Baby UI ideas);
 expand composed-page demos beyond the required routes.
 
 Long-term: versioned releases per subproject npm/NuGet package

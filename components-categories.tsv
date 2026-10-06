@@ -121,7 +121,7 @@ data-table-td	td	tables
 data-table-th	th	tables
 date-field	div	content
 date-input	input	forms
-date-range	span	content
+date-range	fieldset	forms
 date-time-local-input	input	forms
 date-time-now-input	div	content
 date-time-view	time	content
@@ -363,7 +363,7 @@ red-orange-yellow-green-blue-view	div	content
 related-content	aside	navigation
 reset-input	input	forms
 resizable	div	content
-review-date	span	content
+review-date	time	content
 romania-cod-numeric-personal-input	input	national
 romania-cod-numeric-personal-view	span	national
 romania-pasaport-input	input	national
@@ -568,4 +568,4 @@ tool-call-input	div	content
 tool-call-output	div	content
 tool-call-error	div	content
 mark	mark	content
-chat-composer	div	content
+chat-composer	form	forms
