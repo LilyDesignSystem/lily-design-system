@@ -2162,14 +2162,19 @@ All items below are done and verified (suites green, `bin/test`, `bin/check-cove
 
 ### Open
 
-- [ ] **P9-T10 Monorepo tag and GitHub Release for the October work** (last tag `v0.6.0`, 2026-08-26).
+- [x] **P9-T10 Monorepo tag and GitHub Release for the October work** — `v0.7.0`, 2026-10-06.
 - [ ] **P9-T11 Per-framework CSS class-name audit for all 571 components** (spec/headless §acceptance).
 - [ ] **P9-T12 Deferred Baby UI ideas**: `attachment`, `tool-chips`, the other agent components
   (`conversation`, `message`, `task-steps`, `loading-state`, …), advanced widgets (`table-of-contents`,
   `filter-table`, `wheel-picker`, `flowchart`, …) and the small primitives (`native-select`,
   `theme-toggle`, `date-picker`, …). Each needs a design pass first (see CHANGELOG 2026-10-05/06).
 - [ ] **P9-T13 Docs-site `error-message` demo colour contrast** (axe `color-contrast`; predates this phase).
-- [ ] **P9-T14 `DateRange`/`ReviewDate` render `<div>` not `<span>` in angular-headless** (spec §11.8).
+- [ ] **P9-T14 `DateRange`/`ReviewDate` in angular-headless** (spec §11.8). Re-examined 2026-10-06: the
+  backlog wording ("`<div>` instead of the canonical `<span>`") is incomplete. `components/date-range/AGENTS.md`
+  says `HTML tag: <span>` but its own Key Behaviors describe a `<fieldset>` with two `<input type="date">`
+  (what Svelte and React ship), while angular-headless renders a bare `<div aria-label>` wrapper. Needs a
+  maintainer decision on the canonical contract first (fieldset+inputs vs. display span), then the AGENTS.md,
+  the eight libraries and the Angular examples workaround (`timeline-and-cards.ts`) aligned to it.
 
 ---
 
