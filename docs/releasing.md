@@ -15,11 +15,11 @@ the steps below actually having been done, not a separate bar.
 ## Version lines
 
 There is no lockstep version. Each published package owns its line, and
-the monorepo has its own (spec §14, currently 0.6.0, tagged `vX.Y.Z`).
+the monorepo has its own (spec §14, currently 0.8.0, tagged `vX.Y.Z`).
 
 | Line | Packages | Current |
 | --- | --- | --- |
-| Monorepo | the canonical catalog + docs, tagged on this repo | 0.6.0 |
+| Monorepo | the canonical catalog + docs, tagged on this repo | 0.8.0 |
 | svelte/react/vue/angular headless | npm | 0.4.0, published 2026-10-06 (0.3.0 published 2026-10-05; scoped `@lilydesignsystem/*`; the unscoped 0.3.1 line predates the 2026-09-16 rescope) |
 | html headless | npm | 0.5.0, published 2026-10-06 (0.4.0 published 2026-10-05) |
 | nunjucks headless | npm | 0.3.0, published 2026-10-06 (0.2.0 published 2026-10-05) |

@@ -5,6 +5,12 @@ and the package follows [Semantic Versioning](https://semver.org/).
 The canonical monorepo history is in the root
 [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md).
 
+## 0.6.0 — 2026-10-06
+
+**Breaking.** `date-range.html` is now a `<fieldset class="date-range">` holding two
+`<input class="date-input" type="date">` (it was a display `<span>`). `review-date.html` is now a
+`<time class="review-date" datetime>` (was a `<span>`). See the monorepo CHANGELOG.
+
 ## 0.5.0 — 2026-10-06
 
 **16 new components (catalog 555 → 571); no breaking changes.**

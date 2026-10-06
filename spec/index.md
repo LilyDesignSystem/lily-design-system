@@ -579,7 +579,7 @@ Long-term: versioned releases per subproject npm/NuGet package
 ## 14. Tracking
 
 - Package: lily
-- Version: 0.7.0
+- Version: 0.8.0
 - Created: 2025-08-09
 - Updated: 2026-10-06
 - License: `MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause`

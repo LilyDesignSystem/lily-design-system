@@ -18,6 +18,15 @@ component changed. Comments are stripped before matching, and two deliberate mut
 behind another class) are each caught. Wired into `bin/test` and CI. It verifies presence and order in the source,
 not that the class sits on the root element.
 
+## 0.8.0 — `DateRange` and `ReviewDate` contracts, theme error contrast, class-name audit — 2026-10-06
+
+Rolls up the four entries below (all breaking for some consumers, hence the minor bump) and publishes them:
+`DateRange` is a `<fieldset>` of two date inputs in all eight libraries; `ReviewDate` is a `<time>` everywhere;
+every theme's error text now meets WCAG contrast; `bin/check-class-names` is part of `bin/test` and CI; the docs
+site's axe sweep (575 pages) is clean. Packages published with it: angular-headless 0.5.0, web-components-headless
+0.5.0, html-headless 0.6.0, nunjucks-headless 0.4.0, Blazor headless 0.4.0, `@lilydesignsystem/themes` 0.3.0.
+svelte/react/vue headless and every helper package are unchanged and stay at their versions.
+
 ## Error text contrast in all 45 themes; docs-site axe sweep clean — 2026-10-06
 
 26 of the 45 reference themes failed WCAG contrast for `.error-message` (2.35–4.4:1): they coloured error text

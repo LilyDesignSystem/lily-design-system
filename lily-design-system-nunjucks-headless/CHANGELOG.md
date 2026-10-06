@@ -5,6 +5,14 @@ and the package follows [Semantic Versioning](https://semver.org/).
 The canonical monorepo history is in the root
 [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md).
 
+## 0.4.0 — 2026-10-06
+
+**Breaking.** The `dateRange` macro renders a `<fieldset class="date-range">` of two date inputs; its params are now
+`label`, `startLabel`, `endLabel`, `start`, `end`, `startName`, `endName`, `id`, `classes`, `attributes` (it was a
+`<span>` of two `<time>`s with `startText`/`endText`/`separator`). The `reviewDate` macro renders a single
+`<time class="review-date" datetime>`; its params are now `datetime`, `text`, `label`, `id`, `classes`, `attributes`
+(the combined reviewed + next-review block is gone: call it twice). See the monorepo CHANGELOG.
+
 ## 0.3.0 — 2026-10-06
 
 **16 new components (catalog 555 → 571); no breaking changes.**

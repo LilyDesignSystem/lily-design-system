@@ -5,6 +5,13 @@ and the package follows [Semantic Versioning](https://semver.org/).
 The canonical monorepo history is in the root
 [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md).
 
+## 0.5.0 — 2026-10-06
+
+**Breaking.** `DateRange` is now a `<fieldset class="date-range" aria-label>` holding two
+`<input class="date-input" type="date" aria-label>` (it was a bare `<div>`); new inputs `startLabel` and `endLabel`
+and two-way `start` / `end` models. `ReviewDate` renders a `<time class="review-date" datetime>` (was a `<div>`);
+new `datetime` input. See the monorepo CHANGELOG, "`DateRange` is a fieldset everywhere".
+
 ## 0.4.0 — 2026-10-06
 
 **16 new components (catalog 555 → 571); no breaking changes.**
