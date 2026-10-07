@@ -1,5 +1,10 @@
 import { ChangeDetectionStrategy, Component, input, model, output } from "@angular/core";
 
+import {
+  LinkPicker,
+  type LinkItem,
+  type LinkNavigatedEvent,
+} from "@lilydesignsystem/angular-link-picker";
 import { ThemePicker } from "@lilydesignsystem/angular-theme-picker";
 import { LocalePicker } from "@lilydesignsystem/angular-locale-picker";
 import { TextSizePicker } from "@lilydesignsystem/angular-text-size-picker";
@@ -84,8 +89,13 @@ export const DEFAULT_SIZES: string[] = [
   "smallest",
 ];
 
-/** Accessible names for the five pickers. Required — no English default. */
+/** Accessible names for the pickers. Required — no English default (`link` only when `links` is given). */
 export type PickerBarLabels = {
+  /**
+   * Accessible name for the link picker's button and list. Needed only when `links` is
+   * supplied; the link picker renders only when both are present.
+   */
+  link?: string;
   /** Accessible name for the search picker's button and search landmark. */
   search: string;
   /** Accessible name for the search picker's text field. */
@@ -119,10 +129,18 @@ export type PickerBarLabels = {
 @Component({
   selector: "lily-picker-bar",
   standalone: true,
-  imports: [SearchPicker, ThemePicker, LocalePicker, TextSizePicker, SharePicker],
+  imports: [LinkPicker, SearchPicker, ThemePicker, LocalePicker, TextSizePicker, SharePicker],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="picker-bar {{ className() }}">
+      @if (links().length > 0 && labels().link) {
+        <lily-link-picker
+          [label]="labels().link!"
+          [links]="links()"
+          [navigate]="linkNavigate()"
+          (navigated)="linkNavigated.emit($event)"
+        />
+      }
       <lily-search-picker
         [label]="labels().search"
         [inputLabel]="labels().searchInput"
@@ -187,6 +205,17 @@ export type PickerBarLabels = {
 export class PickerBar {
   /** Accessible names for each picker. */
   readonly labels = input.required<PickerBarLabels>();
+
+  // --- link-picker ---
+  /**
+   * Page links for the link picker (a home icon), which renders FIRST — leftmost. Defined by the
+   * app; omitted or empty means no link picker (and `labels().link` is then unused).
+   */
+  readonly links = input<LinkItem[]>([]);
+  /** Client-side navigation hook for the links, e.g. a router's `navigateByUrl`. */
+  readonly linkNavigate = input<((href: string) => void) | undefined>(undefined);
+  /** Fires after a page link is chosen. */
+  readonly linkNavigated = output<LinkNavigatedEvent>();
 
   // --- search-picker ---
   /** Placeholder for the search field. No default (it would be English). */

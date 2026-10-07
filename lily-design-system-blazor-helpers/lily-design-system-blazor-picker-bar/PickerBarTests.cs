@@ -271,4 +271,75 @@ public class PickerBarTests : TestContext
 
         Assert.Equal(new[] { "/search?foo" }, navigated);
     }
+
+    // =================================================================
+    // link-picker wiring — §L1–§L4
+    // =================================================================
+
+    private static readonly List<LinkItem> PageLinks = new()
+    {
+        new LinkItem { Label = "Home", Href = "/" },
+        new LinkItem { Label = "About Us", Href = "/about/" },
+        new LinkItem { Label = "Contact Us", Href = "/contact/" },
+        new LinkItem { Label = "Privacy Policy", Href = "/privacy/" },
+    };
+
+    private static readonly PickerBarLabels LabelsWithLink = Labels with { Link = "Pages" };
+
+    private IRenderedComponent<PickerBar> RenderBarWithLinks(
+        System.Action<ComponentParameterCollectionBuilder<PickerBar>>? extra = null)
+        => RenderComponent<PickerBar>(p =>
+        {
+            p.Add(x => x.Labels, LabelsWithLink);
+            p.Add(x => x.ThemesUrl, ThemesUrl);
+            p.Add(x => x.Locales, Locales);
+            p.Add(x => x.Links, PageLinks);
+            extra?.Invoke(p);
+        });
+
+    [Fact]
+    public void Section_L1_A_Link_Picker_Renders_First_When_Links_And_Labels_Link_Are_Given()
+    {
+        var cut = RenderBarWithLinks();
+        var classes = cut.FindAll(".picker-bar > div").Select(d => d.GetAttribute("class")!.Split(' ')[0]).ToArray();
+        Assert.Equal(new[] { "link-picker", "search-picker", "theme-picker", "locale-picker", "text-size-picker", "share-picker" }, classes);
+        Assert.Equal("Pages", cut.Find("button.link-picker-button").GetAttribute("aria-label"));
+        Assert.Equal(new[] { "Home", "About Us", "Contact Us", "Privacy Policy" },
+            cut.FindAll("a.link-picker-link").Select(a => a.TextContent.Trim()));
+    }
+
+    [Fact]
+    public void Section_L2_No_Link_Picker_Without_Links_Empty_Links_Or_Labels_Link()
+    {
+        var none = RenderBar();
+        Assert.Empty(none.FindAll(".link-picker"));
+        Assert.Contains("search-picker", none.Find(".picker-bar > div").GetAttribute("class"));
+
+        var empty = RenderComponent<PickerBar>(p =>
+        {
+            p.Add(x => x.Labels, LabelsWithLink);
+            p.Add(x => x.ThemesUrl, ThemesUrl);
+            p.Add(x => x.Locales, Locales);
+            p.Add(x => x.Links, new List<LinkItem>());
+        });
+        Assert.Empty(empty.FindAll(".link-picker"));
+
+        var noLabel = RenderBar(p => p.Add(x => x.Links, PageLinks));
+        Assert.Empty(noLabel.FindAll(".link-picker"));
+    }
+
+    [Fact]
+    public void Section_L3_LinkAttributes_Reach_The_LinkPicker()
+    {
+        var cut = RenderBarWithLinks(p => p.Add(x => x.LinkAttributes, new Dictionary<string, object> { ["data-x"] = "1" }));
+        Assert.Equal("1", cut.Find("div.link-picker").GetAttribute("data-x"));
+    }
+
+    [Fact]
+    public void Section_L4_The_Links_Are_Real_Anchors_Not_Menu_Items()
+    {
+        var cut = RenderBarWithLinks();
+        Assert.Equal(4, cut.FindAll(".link-picker-list a[href]").Count);
+        Assert.Empty(cut.FindAll(".link-picker-list [role=menuitem]"));
+    }
 }

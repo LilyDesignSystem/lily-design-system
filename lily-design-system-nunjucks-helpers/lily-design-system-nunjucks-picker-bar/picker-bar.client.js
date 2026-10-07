@@ -13,6 +13,10 @@
 // See spec/index.md §4.3 (client.js exports), §5 (behaviour).
 
 import {
+  initLinkPicker,
+  autoInit as autoInitLinkPicker,
+} from "@lilydesignsystem/nunjucks-link-picker";
+import {
   initSearchPicker,
   autoInit as autoInitSearchPicker,
 } from "@lilydesignsystem/nunjucks-search-picker";
@@ -110,11 +114,12 @@ export const DEFAULT_SIZES = [
  * rendered one.
  *
  * @param {HTMLElement} root
- * @param {{searchProps?: object, themeProps?: object, localeProps?: object, textSizeProps?: object, shareProps?: object}=} opts
+ * @param {{linkProps?: object, searchProps?: object, themeProps?: object, localeProps?: object, textSizeProps?: object, shareProps?: object}=} opts
  */
 export function initPickerBar(root, opts = {}) {
   if (!root) {
     return {
+      link: null,
       search: null,
       theme: null,
       locale: null,
@@ -123,6 +128,7 @@ export function initPickerBar(root, opts = {}) {
     };
   }
   const {
+    linkProps = {},
     searchProps = {},
     themeProps = {},
     localeProps = {},
@@ -130,6 +136,7 @@ export function initPickerBar(root, opts = {}) {
     shareProps = {},
   } = opts;
 
+  const linkRoot = root.querySelector("[data-lily-link-picker-root]");
   const searchRoot = root.querySelector("[data-lily-search-picker-root]");
   const themeRoot = root.querySelector("[data-lily-theme-picker-root]");
   const localeRoot = root.querySelector("[data-lily-locale-picker-root]");
@@ -139,6 +146,7 @@ export function initPickerBar(root, opts = {}) {
   const shareRoot = root.querySelector("[data-lily-share-picker-root]");
 
   return {
+    link: linkRoot ? initLinkPicker(linkRoot, linkProps) : null,
     search: searchRoot ? initSearchPicker(searchRoot, searchProps) : null,
     theme: themeRoot ? initThemePicker(themeRoot, themeProps) : null,
     locale: localeRoot ? initLocalePicker(localeRoot, localeProps) : null,
@@ -152,7 +160,7 @@ export function initPickerBar(root, opts = {}) {
 /**
  * Find every `[data-lily-picker-bar-root]` and wire it.
  *
- * @param {{searchProps?: object, themeProps?: object, localeProps?: object, textSizeProps?: object, shareProps?: object}=} opts
+ * @param {{linkProps?: object, searchProps?: object, themeProps?: object, localeProps?: object, textSizeProps?: object, shareProps?: object}=} opts
  * @returns {Array<ReturnType<typeof initPickerBar>>}
  */
 export function autoInit(opts = {}) {
@@ -167,6 +175,7 @@ export function autoInit(opts = {}) {
 // still reach the five siblings' own page-wide autoInit directly, e.g.
 // when a page also has a standalone theme-picker outside any bar.
 export {
+  autoInitLinkPicker,
   autoInitSearchPicker,
   autoInitThemePicker,
   autoInitLocalePicker,

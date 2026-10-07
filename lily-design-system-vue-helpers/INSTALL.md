@@ -9,7 +9,7 @@ Full documentation and the searchable component catalog: <https://lilydesignsyst
 
 ## Install
 
-This catalog ships seven helper packages, all published to npm.
+This catalog ships these helper packages, published to npm.
 Install only what you need:
 
 | Package | Owns |
@@ -18,9 +18,11 @@ Install only what you need:
 | `@lilydesignsystem/vue-locale-picker` | locale preference (`lang` / `dir`) |
 | `@lilydesignsystem/vue-text-size-picker` | text-size preference |
 | `@lilydesignsystem/vue-motion-picker` | reduced-motion preference |
+| `@lilydesignsystem/vue-link-picker` | an app-defined page-links menu (a home icon) |
+| `@lilydesignsystem/vue-search-picker` | a search action |
 | `@lilydesignsystem/vue-share-picker` | a share action |
 | `@lilydesignsystem/vue-date-time-picker` | a date-time form value |
-| `@lilydesignsystem/vue-picker-bar` | composes theme/locale/text-size/share into one page-header row |
+| `@lilydesignsystem/vue-picker-bar` | composes link/search/theme/locale/text-size/share into one page-header row |
 
 ```sh
 npm install @lilydesignsystem/vue-theme-picker

@@ -40,6 +40,12 @@ export default defineConfig({
           import.meta.url,
         ),
       ),
+      "@lilydesignsystem/html-link-picker": fileURLToPath(
+        new URL(
+          "./lily-design-system-html-link-picker/dist/index.js",
+          import.meta.url,
+        ),
+      ),
       "@lilydesignsystem/html-share-picker": fileURLToPath(
         new URL(
           "./lily-design-system-html-share-picker/dist/index.js",

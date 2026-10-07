@@ -9,7 +9,7 @@ Full documentation and the searchable component catalog: <https://lilydesignsyst
 
 ## Install
 
-This catalog ships seven helper packages, all published to npm.
+This catalog ships these helper packages, published to npm.
 Install only what you need:
 
 | Package | Owns |
@@ -18,9 +18,11 @@ Install only what you need:
 | `@lilydesignsystem/angular-locale-picker` | locale preference (`lang` / `dir`) |
 | `@lilydesignsystem/angular-text-size-picker` | text-size preference |
 | `@lilydesignsystem/angular-motion-picker` | reduced-motion preference |
+| `@lilydesignsystem/angular-link-picker` | an app-defined page-links menu (a home icon) |
+| `@lilydesignsystem/angular-search-picker` | a search action |
 | `@lilydesignsystem/angular-share-picker` | a share action |
 | `@lilydesignsystem/angular-date-time-picker` | a date-time form value |
-| `@lilydesignsystem/angular-picker-bar` | composes theme/locale/text-size/share into one page-header row |
+| `@lilydesignsystem/angular-picker-bar` | composes link/search/theme/locale/text-size/share into one page-header row |
 
 ```sh
 npm install @lilydesignsystem/angular-theme-picker

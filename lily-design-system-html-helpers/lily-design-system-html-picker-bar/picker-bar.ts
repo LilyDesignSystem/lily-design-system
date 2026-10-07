@@ -14,12 +14,18 @@
  */
 
 // Side-effect imports: each registers its own custom element.
+import "@lilydesignsystem/html-link-picker";
 import "@lilydesignsystem/html-search-picker";
 import "@lilydesignsystem/html-theme-picker";
 import "@lilydesignsystem/html-locale-picker";
 import "@lilydesignsystem/html-text-size-picker";
 import "@lilydesignsystem/html-share-picker";
 
+import type {
+  LinkPicker,
+  LinkPickerProps,
+  LinkItem,
+} from "@lilydesignsystem/html-link-picker";
 import type {
   SearchPicker,
   SearchPickerProps,
@@ -42,7 +48,7 @@ import type {
   ShareTarget,
 } from "@lilydesignsystem/html-share-picker";
 
-export type { ShareTarget };
+export type { ShareTarget, LinkItem };
 
 /**
  * All 45 Lily reference theme slugs (see `themes/` at the repo root),
@@ -115,8 +121,13 @@ export const DEFAULT_SIZES: string[] = [
   "smallest",
 ];
 
-/** Accessible names for the five pickers. Required — no English default. */
+/** Accessible names for the pickers. Required — no English default (`link` only when `links` is given). */
 export type PickerBarLabels = {
+  /**
+   * Accessible name for the link picker's button and list. Needed only when `links` is
+   * supplied; the link picker renders only when both are present.
+   */
+  link?: string;
   /** Accessible name for the search picker's button and search landmark. */
   search: string;
   /** Accessible name for the search picker's text field. */
@@ -152,6 +163,7 @@ const DEFAULT_LABELS: PickerBarLabels = {
  * so anything here overrides them. Excludes the props `<picker-bar>`
  * already lifts to the top level.
  */
+export type LinkPickerExtra = Partial<Omit<LinkPickerProps, "label" | "links">>;
 export type SearchPickerExtra = Partial<
   Omit<SearchPickerProps, "label" | "inputLabel" | "submitLabel">
 >;
@@ -167,6 +179,9 @@ export type SharePickerExtra = Partial<Omit<SharePickerProps, "label" | "targets
 /** Mirrors the observed attributes / properties for typing convenience. */
 export type PickerBarProps = {
   labels: PickerBarLabels;
+  /** Page links for the link picker, which renders FIRST (leftmost). Omitted or empty: no link picker. */
+  links?: LinkItem[];
+  linkProps?: LinkPickerExtra;
   searchProps?: SearchPickerExtra;
   themesUrl: string;
   themes?: string[];
@@ -195,6 +210,8 @@ export class PickerBar extends HTMLElement {
   #locales: string[] = [];
   #sizes: string[] = DEFAULT_SIZES;
   #shareTargets: ShareTarget[] = [];
+  #links: LinkItem[] = [];
+  #linkProps: LinkPickerExtra = {};
   #searchProps: SearchPickerExtra = {};
   #themeProps: ThemePickerExtra = {};
   #localeProps: LocalePickerExtra = {};
@@ -203,6 +220,7 @@ export class PickerBar extends HTMLElement {
 
   // Rendered-DOM references. Null until #render() has run.
   #rootEl: HTMLDivElement | null = null;
+  #linkPickerEl: LinkPicker | null = null;
   #searchPickerEl: SearchPicker | null = null;
   #themePickerEl: ThemePicker | null = null;
   #localePickerEl: LocalePicker | null = null;
@@ -273,6 +291,22 @@ export class PickerBar extends HTMLElement {
     this.#render();
   }
 
+  get links(): LinkItem[] {
+    return [...this.#links];
+  }
+  set links(v: LinkItem[]) {
+    this.#links = Array.isArray(v) ? v.slice() : [];
+    this.#render();
+  }
+
+  get linkProps(): LinkPickerExtra {
+    return this.#linkProps;
+  }
+  set linkProps(v: LinkPickerExtra) {
+    this.#linkProps = v ?? {};
+    this.#render();
+  }
+
   get searchProps(): SearchPickerExtra {
     return this.#searchProps;
   }
@@ -313,6 +347,10 @@ export class PickerBar extends HTMLElement {
     this.#render();
   }
 
+  /** The rendered `<link-picker>` instance, once connected (null when no links). */
+  get linkPicker(): LinkPicker | null {
+    return this.#linkPickerEl;
+  }
   /** The rendered `<search-picker>` instance, once connected. */
   get searchPicker(): SearchPicker | null {
     return this.#searchPickerEl;
@@ -384,7 +422,19 @@ export class PickerBar extends HTMLElement {
     const root = document.createElement("div");
     root.className = `picker-bar ${extraClass}`.trim();
 
-    // Search comes first in the row (maintainer-directed, 2026-10-02).
+    // The link picker (a home icon) is leftmost (maintainer-directed, 2026-10-07), and only
+    // rendered when the app supplies links and a label for it.
+    this.#linkPickerEl = null;
+    if (this.#links.length > 0 && this.#labels.link) {
+      const linkEl = document.createElement("link-picker") as LinkPicker;
+      linkEl.label = this.#labels.link;
+      linkEl.links = this.#links;
+      Object.assign(linkEl, this.#linkProps);
+      root.appendChild(linkEl);
+      this.#linkPickerEl = linkEl;
+    }
+
+    // Search comes next in the row (maintainer-directed, 2026-10-02).
     const searchEl = document.createElement("search-picker") as SearchPicker;
     searchEl.label = this.#labels.search;
     searchEl.inputLabel = this.#labels.searchInput;

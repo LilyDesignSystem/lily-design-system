@@ -46,6 +46,7 @@ export default defineConfig({
         "@lilydesignsystem/vue-text-size-picker",
         "@lilydesignsystem/vue-share-picker",
         "@lilydesignsystem/vue-search-picker",
+        "@lilydesignsystem/vue-link-picker",
         // theme-picker, locale-picker, text-size-picker, motion-picker,
         // share-picker, search-picker, date-time-picker, kanban-board, and gantt-chart
         // all depend on this now (IconButton/Listbox, or the KanbanTable/

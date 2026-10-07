@@ -290,3 +290,44 @@ describe("PickerBar — search-picker wiring (§7.11, §7.12, §7.13)", () => {
     expect(wrapper.emitted("search")).toEqual([["foo", "/?foo"]]);
   });
 });
+
+const LINKS = [
+  { label: "Home", href: "/" },
+  { label: "About Us", href: "/about/" },
+  { label: "Contact Us", href: "/contact/" },
+  { label: "Privacy Policy", href: "/privacy/" },
+];
+
+describe("PickerBar — link-picker wiring (§L1–§L4)", () => {
+  test("§L1 a link picker renders FIRST when `links` and `labels.link` are given", async () => {
+    const w = build({ links: LINKS, labels: { ...LABELS, link: "Pages" } });
+    const classes = w.findAll(".picker-bar > div").map((d) => d.classes()[0]);
+    expect(classes).toEqual(["link-picker", "search-picker", "theme-picker", "locale-picker", "text-size-picker", "share-picker"]);
+    await w.find("button.link-picker-button").trigger("click");
+    expect(w.findAll(".link-picker-link").map((a) => a.text())).toEqual(["Home", "About Us", "Contact Us", "Privacy Policy"]);
+  });
+
+  test("§L2 no link picker without links, with empty links, or without labels.link", () => {
+    for (const extra of [{}, { links: [], labels: { ...LABELS, link: "Pages" } }, { links: LINKS }]) {
+      const w = build(extra);
+      expect(w.find(".link-picker").exists()).toBe(false);
+      expect(w.find(".picker-bar > div").classes()).toContain("search-picker");
+    }
+  });
+
+  test("§L3 `linkProps` reaches the LinkPicker (navigate) and the bar re-emits link-navigate", async () => {
+    const navigate = vi.fn();
+    const w = build({ links: LINKS, labels: { ...LABELS, link: "Pages" }, linkProps: { navigate } });
+    await w.find("button.link-picker-button").trigger("click");
+    const a = w.find('.link-picker-link[href="/about/"]');
+    a.element.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true, button: 0 }));
+    expect(navigate).toHaveBeenCalledWith("/about/");
+    expect(w.emitted("link-navigate")).toEqual([["/about/", "/about/"]]);
+  });
+
+  test("§L4 the links are real anchors, not menu items", async () => {
+    const w = build({ links: LINKS, labels: { ...LABELS, link: "Pages" } });
+    expect(w.findAll(".link-picker-list a[href]")).toHaveLength(4);
+    expect(w.find('.link-picker-list [role="menuitem"]').exists()).toBe(false);
+  });
+});

@@ -2210,6 +2210,7 @@
         .locale-picker,
         .text-size-picker,
         .search-picker,
+        .link-picker,
         .share-picker,
         .date-time-picker
     ) {
@@ -2222,6 +2223,7 @@
         .locale-picker-button,
         .text-size-picker-button,
         .search-picker-button,
+        .link-picker-button,
         .share-picker-button,
         .date-time-picker-button
     ) {
@@ -2257,6 +2259,7 @@
         .locale-picker-icon,
         .text-size-picker-icon,
         .motion-picker-icon,
+        .link-picker-icon,
         .share-picker-icon,
         .search-picker-icon
     ) {
@@ -2313,6 +2316,31 @@
 
     :where(.share-picker-target:hover, .share-picker-copy:hover) {
         background-color: var(--lily-surface-alt);
+    }
+
+    /* link-picker's list holds real page links (a disclosure, not a menu),
+       so its items get the share list's treatment; the current page is
+       marked by aria-current and shown in bold. */
+    :where(.link-picker-list) > :where(.link-picker-list-item) {
+        list-style: none;
+    }
+
+    :where(.link-picker-link) {
+        display: block;
+        padding: var(--lily-space-xs) var(--lily-space-sm);
+        color: var(--lily-text);
+        text-decoration: none;
+        border-radius: var(--lily-radius-sm);
+        cursor: pointer;
+    }
+
+    :where(.link-picker-link:hover) {
+        background-color: var(--lily-surface-alt);
+    }
+
+    :where(.link-picker-link[aria-current="page"]) {
+        font-weight: 600;
+        background-color: var(--lily-surface-sunken);
     }
 
     /* Copy feedback. Never display:none this — that silences the live
@@ -2596,6 +2624,7 @@
         .locale-picker-tooltip,
         .text-size-picker-tooltip,
         .motion-picker-tooltip,
+        .link-picker-tooltip,
         .share-picker-tooltip,
         .search-picker-tooltip,
         .date-time-picker-tooltip
@@ -2620,6 +2649,7 @@
         .locale-picker-tooltip,
         .text-size-picker-tooltip,
         .motion-picker-tooltip,
+        .link-picker-tooltip,
         .share-picker-tooltip,
         .search-picker-tooltip,
         .date-time-picker-tooltip
@@ -2636,6 +2666,7 @@
         .locale-picker-tooltip,
         .text-size-picker-tooltip,
         .motion-picker-tooltip,
+        .link-picker-tooltip,
         .share-picker-tooltip,
         .search-picker-tooltip,
         .date-time-picker-tooltip
@@ -2689,6 +2720,7 @@
         .locale-picker-list,
         .text-size-picker-list,
         .motion-picker-list,
+        .link-picker-list,
         .share-picker-list,
         .search-picker-panel
     ) {
@@ -2715,6 +2747,7 @@
         .locale-picker-list,
         .text-size-picker-list,
         .motion-picker-list,
+        .link-picker-list,
         .share-picker-list,
         .search-picker-panel
     )[hidden] {
@@ -2732,12 +2765,14 @@
         :where(.locale-picker) { anchor-name: --lily-locale-picker; }
         :where(.text-size-picker) { anchor-name: --lily-text-size-picker; }
         :where(.motion-picker) { anchor-name: --lily-motion-picker; }
+        :where(.link-picker) { anchor-name: --lily-link-picker; }
         :where(.share-picker) { anchor-name: --lily-share-picker; }
         :where(.search-picker) { anchor-name: --lily-search-picker; }
         :where(.theme-picker-list) { position-anchor: --lily-theme-picker; }
         :where(.locale-picker-list) { position-anchor: --lily-locale-picker; }
         :where(.text-size-picker-list) { position-anchor: --lily-text-size-picker; }
         :where(.motion-picker-list) { position-anchor: --lily-motion-picker; }
+        :where(.link-picker-list) { position-anchor: --lily-link-picker; }
         :where(.share-picker-list) { position-anchor: --lily-share-picker; }
         :where(.search-picker-panel) { position-anchor: --lily-search-picker; }
         :where(
@@ -2745,6 +2780,7 @@
             .locale-picker-list,
             .text-size-picker-list,
             .motion-picker-list,
+            .link-picker-list,
             .share-picker-list,
             .search-picker-panel
         ) {

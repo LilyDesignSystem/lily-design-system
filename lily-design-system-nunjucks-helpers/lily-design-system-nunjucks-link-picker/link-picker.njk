@@ -1,0 +1,74 @@
+{#
+  LinkPicker macro — icon button (a bundled home SVG, viewBox 0 0 16 16) that opens a disclosure
+  list of page links the app defines.
+
+  HTML tag: <div> (root), <button> + <ul> (disclosure, NOT a menu)
+  CSS class: link-picker
+  Companion runtime: link-picker.client.js
+
+  It owns an interaction, not a preference: it applies nothing to the document and persists
+  nothing. The links are real hrefs and WORK without JavaScript; the list cannot be opened
+  without it. See docs/ssr.md.
+
+  Params (single `opts` object):
+    label       — string, required. aria-label for the trigger button AND the list, and the
+                  tooltip text. The button is icon-only, so this is the ONLY accessible name it has.
+    links       — array of objects, required, defined by the app, each:
+                    label   — string, required. Visible link text.
+                    href    — string, required. A route ("/about/") or a full URL.
+                    id      — string. Reported to the client's onNavigate; defaults to href.
+                    current — boolean. Marks the current page (aria-current="page").
+                    newTab  — boolean. target="_blank" with rel="noopener noreferrer".
+    name        — string, default "link". Discriminator used to derive ids.
+    id          — string. Id prefix for the list. Defaults to "link-picker-{name}". Supply an
+                  explicit id when rendering two instances that share a `name`.
+    classes     — string. Extra CSS classes on the root <div>.
+    attributes  — object. Extra HTML attributes spread onto the root.
+
+  Custom icon: call the macro with a `{% call %}` block and the block body replaces the default
+  icon inside the button.
+
+  There is NO default list and no English: the package ships no routes.
+
+  Usage:
+    {% from "./link-picker.njk" import linkPicker %}
+    {{ linkPicker({
+      label: "Pages",
+      links: [
+        {label: "Home", href: "/", current: page.url == "/"},
+        {label: "About Us", href: "/about/"},
+        {label: "Contact Us", href: "/contact/"},
+        {label: "Privacy Policy", href: "/privacy/"}
+      ]
+    }) }}
+
+  Then load link-picker.client.js once and call autoInit().
+
+  Spec: spec/index.md §4 (macro parameters, DOM contract).
+#}
+{%- macro linkPicker(opts) -%}
+{%- set name = opts.name | default("link") -%}
+{%- set id = opts.id | default("link-picker-" + name) -%}
+{%- set listId = id + "-list" -%}
+{%- set links = opts.links | default([]) -%}
+<div
+  class="link-picker{% if opts.classes %} {{ opts.classes }}{% endif %}"
+  data-lily-link-picker-root
+  data-lily-link-picker-name="{{ name }}"
+  {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+<button type="button" class="link-picker-button" aria-label="{{ opts.label }}" aria-expanded="false" aria-controls="{{ listId }}" data-lily-link-picker-button>
+{%- if caller %}{{ caller() }}{% else %}<svg class="link-picker-icon" viewBox="0 0 16 16" width="1.05rem" height="1.05rem" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7.5 8 2.5l6 5"/><path d="M3.5 6.5v7h9v-7"/><path d="M6.5 13.5V10h3v3.5"/></svg>{% endif -%}
+</button>
+<div class="link-picker-tooltip" role="tooltip" id="{{ id }}-tooltip" hidden>{{ opts.label }}</div>
+{#- Named like the sibling pickers' popups: a screen reader entering the list hears what it is for. -#}
+<ul class="link-picker-list" id="{{ listId }}" aria-label="{{ opts.label }}" hidden data-lily-link-picker-list>
+{%- for link in links -%}
+  {#- A real link, not role="menuitem": these ARE navigation. -#}
+  <li class="link-picker-list-item">
+    <a class="link-picker-link" data-link-id="{{ link.id | default(link.href) }}" href="{{ link.href }}"{% if link.current %} aria-current="page"{% endif %}{% if link.newTab %} target="_blank" rel="noopener noreferrer"{% endif %}>{{ link.label }}</a>
+  </li>
+{%- endfor -%}
+</ul>
+</div>
+{%- endmacro -%}

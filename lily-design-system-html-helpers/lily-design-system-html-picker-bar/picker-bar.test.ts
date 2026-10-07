@@ -32,6 +32,8 @@ function mount(overrides: Record<string, unknown> = {}): PickerBar {
   if ("themes" in overrides) el.themes = overrides.themes as string[];
   if ("sizes" in overrides) el.sizes = overrides.sizes as string[];
   if ("shareTargets" in overrides) el.shareTargets = overrides.shareTargets as [];
+  if ("links" in overrides) el.links = overrides.links as [];
+  if ("linkProps" in overrides) el.linkProps = overrides.linkProps as object;
   if ("searchProps" in overrides)
     el.searchProps = overrides.searchProps as object;
   if ("themeProps" in overrides) el.themeProps = overrides.themeProps as object;
@@ -229,5 +231,51 @@ describe("PickerBar — search-picker wiring (§7.12, §7.13)", () => {
       new Event("submit", { bubbles: true, cancelable: true }),
     );
     expect(navigate).toHaveBeenCalledWith("/search?foo");
+  });
+});
+
+const LINKS = [
+  { label: "Home", href: "/" },
+  { label: "About Us", href: "/about/" },
+  { label: "Contact Us", href: "/contact/" },
+  { label: "Privacy Policy", href: "/privacy/" },
+];
+
+describe("PickerBar — link-picker wiring (§L1–§L4)", () => {
+  test("§L1 a link picker renders FIRST when `links` and `labels.link` are given", () => {
+    const el = mount({ links: LINKS, labels: { ...LABELS, link: "Pages" } });
+    const tags = Array.from(el.querySelectorAll(".picker-bar > *")).map((n) => n.tagName.toLowerCase());
+    expect(tags).toEqual(["link-picker", "search-picker", "theme-picker", "locale-picker", "text-size-picker", "share-picker"]);
+    expect(el.linkPicker).toBeTruthy();
+    expect(Array.from(el.querySelectorAll(".link-picker-link")).map((a) => a.textContent)).toEqual([
+      "Home", "About Us", "Contact Us", "Privacy Policy",
+    ]);
+    expect(el.querySelector(".link-picker-button")!.getAttribute("aria-label")).toBe("Pages");
+  });
+
+  test("§L2 no link picker without links, with empty links, or without labels.link", () => {
+    for (const overrides of [{}, { links: [], labels: { ...LABELS, link: "Pages" } }, { links: LINKS }]) {
+      const el = mount(overrides);
+      expect(el.querySelector("link-picker")).toBeNull();
+      expect(el.linkPicker).toBeNull();
+      expect(el.querySelector(".picker-bar > *")!.tagName.toLowerCase()).toBe("search-picker");
+      document.body.innerHTML = "";
+    }
+  });
+
+  test("§L3 `linkProps` reaches the LinkPicker (onNavigate)", () => {
+    const onNavigate = vi.fn();
+    const el = mount({ links: LINKS, labels: { ...LABELS, link: "Pages" }, linkProps: { onNavigate } });
+    (el.querySelector(".link-picker-button") as HTMLButtonElement).click();
+    el.querySelector<HTMLAnchorElement>('.link-picker-link[href="/about/"]')!.dispatchEvent(
+      new MouseEvent("click", { bubbles: true, cancelable: true, button: 0 }),
+    );
+    expect(onNavigate).toHaveBeenCalledWith("/about/", "/about/");
+  });
+
+  test("§L4 the links are real anchors, not menu items", () => {
+    const el = mount({ links: LINKS, labels: { ...LABELS, link: "Pages" } });
+    expect(el.querySelectorAll(".link-picker-list a[href]")).toHaveLength(4);
+    expect(el.querySelector('.link-picker-list [role="menuitem"]')).toBeNull();
   });
 });

@@ -3,7 +3,7 @@
 #
 # Packs each headless library plus all six helper pickers
 # (theme-picker, locale-picker, text-size-picker, motion-picker,
-# share-picker, date-time-picker) in each of the six npm-published
+# link-picker, share-picker, date-time-picker) in each of the six npm-published
 # helper catalogs (svelte, react, vue, angular, html, nunjucks — 36
 # packages), installs
 # the tarballs into a scratch consumer project, and imports/renders
@@ -50,7 +50,7 @@ if [ -d "$ROOT/lily-design-system-angular-headless/dist" ]; then
 else
   echo "angular: dist/ missing — run ng-packagr first" >&2; exit 1
 fi
-for p in theme-picker locale-picker text-size-picker motion-picker share-picker date-time-picker; do
+for p in theme-picker locale-picker text-size-picker motion-picker link-picker share-picker date-time-picker; do
   d="$ROOT/lily-design-system-svelte-helpers/lily-design-system-svelte-$p"
   if [ -d "$d/dist" ]; then
     ( cd "$d" && npm pack --pack-destination "$S" ) > /dev/null
@@ -59,7 +59,7 @@ for p in theme-picker locale-picker text-size-picker motion-picker share-picker 
   fi
 done
 for fw in react vue html nunjucks web-components; do
-  for p in theme-picker locale-picker text-size-picker motion-picker share-picker date-time-picker; do
+  for p in theme-picker locale-picker text-size-picker motion-picker link-picker share-picker date-time-picker; do
     d="$ROOT/lily-design-system-$fw-helpers/lily-design-system-$fw-$p"
     if [ -d "$d/dist" ]; then
       ( cd "$d" && npm pack --pack-destination "$S" ) > /dev/null
@@ -68,7 +68,7 @@ for fw in react vue html nunjucks web-components; do
     fi
   done
 done
-for p in theme-picker locale-picker text-size-picker motion-picker share-picker date-time-picker; do
+for p in theme-picker locale-picker text-size-picker motion-picker link-picker share-picker date-time-picker; do
   d="$ROOT/lily-design-system-angular-helpers/lily-design-system-angular-$p"
   if [ -d "$d/dist" ]; then
     ( cd "$d/dist" && npm pack --pack-destination "$S" ) > /dev/null
@@ -94,6 +94,7 @@ import ThemePicker from "@lilydesignsystem/react-theme-picker";
 import LocalePicker from "@lilydesignsystem/react-locale-picker";
 import TextSizePicker from "@lilydesignsystem/react-text-size-picker";
 import MotionPicker from "@lilydesignsystem/react-motion-picker";
+import LinkPicker from "@lilydesignsystem/react-link-picker";
 import SharePicker from "@lilydesignsystem/react-share-picker";
 import DateTimePicker from "@lilydesignsystem/react-date-time-picker";
 const html = renderToStaticMarkup(React.createElement(Button, {}, "Go"));
@@ -111,6 +112,7 @@ const pickers = [
   [LocalePicker, { label: "Language", locales: ["en", "cy"] }, "locale-picker"],
   [TextSizePicker, { label: "Text size", sizes: ["small", "medium", "large"] }, "text-size-picker"],
   [MotionPicker, { label: "Motion", motions: ["no-preference", "reduce"] }, "motion-picker"],
+  [LinkPicker, { label: "Pages", links: [{ label: "Home", href: "/" }] }, "link-picker"],
   [SharePicker, { label: "Share" }, "share-picker"],
   [DateTimePicker, { label: "Date", labels: dtLabels }, "date-time-picker"],
 ];
@@ -129,6 +131,7 @@ import ThemePicker from "@lilydesignsystem/vue-theme-picker";
 import LocalePicker from "@lilydesignsystem/vue-locale-picker";
 import TextSizePicker from "@lilydesignsystem/vue-text-size-picker";
 import MotionPicker from "@lilydesignsystem/vue-motion-picker";
+import LinkPicker from "@lilydesignsystem/vue-link-picker";
 import SharePicker from "@lilydesignsystem/vue-share-picker";
 import DateTimePicker from "@lilydesignsystem/vue-date-time-picker";
 const html = await renderToString(createSSRApp({ render: () => h(Button, {}, () => "Go") }));
@@ -146,6 +149,7 @@ const pickers = [
   [LocalePicker, { label: "Language", locales: ["en", "cy"] }, "locale-picker"],
   [TextSizePicker, { label: "Text size", sizes: ["small", "medium", "large"] }, "text-size-picker"],
   [MotionPicker, { label: "Motion", motions: ["no-preference", "reduce"] }, "motion-picker"],
+  [LinkPicker, { label: "Pages", links: [{ label: "Home", href: "/" }] }, "link-picker"],
   [SharePicker, { label: "Share" }, "share-picker"],
   [DateTimePicker, { label: "Date", labels: dtLabels }, "date-time-picker"],
 ];
@@ -188,6 +192,7 @@ const checks = [
   ["@lilydesignsystem/html-locale-picker", "locale-picker", { label: "Language", locales: "en,cy" }, {}],
   ["@lilydesignsystem/html-text-size-picker", "text-size-picker", { label: "Text size", sizes: "small,medium,large" }, {}],
   ["@lilydesignsystem/html-motion-picker", "motion-picker", { label: "Motion", motions: "no-preference,reduce" }, {}],
+  ["@lilydesignsystem/html-link-picker", "link-picker", { label: "Pages" }, { links: [{ label: "Home", href: "/" }] }],
   ["@lilydesignsystem/html-share-picker", "share-picker", { label: "Share" }, {}],
   ["@lilydesignsystem/html-date-time-picker", "date-time-picker", { label: "Date" }, { labels: dtLabels }],
 ];
@@ -228,6 +233,7 @@ const checks = [
   ["@lilydesignsystem/web-components-locale-picker", "lily-locale-picker", "locale-picker", { label: "Language", locales: "en,cy" }, {}],
   ["@lilydesignsystem/web-components-text-size-picker", "lily-text-size-picker", "text-size-picker", { label: "Text size", sizes: "small,medium,large" }, {}],
   ["@lilydesignsystem/web-components-motion-picker", "lily-motion-picker", "motion-picker", { label: "Motion", motions: "no-preference,reduce" }, {}],
+  ["@lilydesignsystem/web-components-link-picker", "lily-link-picker", "link-picker", { label: "Pages" }, { links: [{ label: "Home", href: "/" }] }],
   ["@lilydesignsystem/web-components-share-picker", "lily-share-picker", "share-picker", { label: "Share" }, {}],
   ["@lilydesignsystem/web-components-date-time-picker", "lily-date-time-picker", "date-time-picker", { label: "Date" }, { labels: dtLabels }],
 ];
@@ -256,7 +262,7 @@ if (!out.includes(String.raw`class="breadcrumb-nav"`)) throw new Error("nunjucks
 // nunjucks-headless — so this checks the .njk macro directly by path
 // rather than importing the package'"'"'s JS entry at all.
 const path = require("node:path");
-const pickerDirs = ["theme-picker", "locale-picker", "text-size-picker", "motion-picker", "share-picker", "date-time-picker"]
+const pickerDirs = ["theme-picker", "locale-picker", "text-size-picker", "motion-picker", "link-picker", "share-picker", "date-time-picker"]
   .map((p) => path.join(process.cwd(), "node_modules", "@lilydesignsystem", "nunjucks-" + p, "dist"));
 const helperEnv = new nunjucks.Environment(new nunjucks.FileSystemLoader(pickerDirs));
 const dtLabels = {
@@ -271,6 +277,7 @@ const checks = [
   ["locale-picker.njk", "localePicker", { label: "Language", locales: ["en", "cy"] }, "locale-picker"],
   ["text-size-picker.njk", "textSizePicker", { label: "Text size", sizes: ["small", "medium", "large"] }, "text-size-picker"],
   ["motion-picker.njk", "motionPicker", { label: "Motion", motions: ["no-preference", "reduce"] }, "motion-picker"],
+  ["link-picker.njk", "linkPicker", { label: "Pages", links: [{ label: "Home", href: "/" }] }, "link-picker"],
   ["share-picker.njk", "sharePicker", { label: "Share" }, "share-picker"],
   ["date-time-picker.njk", "dateTimePicker", { label: "Date", labels: dtLabels }, "date-time-picker"],
 ];
@@ -298,6 +305,7 @@ const helperPackages = [
   ["@lilydesignsystem/angular-locale-picker", "LocalePicker"],
   ["@lilydesignsystem/angular-text-size-picker", "TextSizePicker"],
   ["@lilydesignsystem/angular-motion-picker", "MotionPicker"],
+  ["@lilydesignsystem/angular-link-picker", "LinkPicker"],
   ["@lilydesignsystem/angular-share-picker", "SharePicker"],
   ["@lilydesignsystem/angular-date-time-picker", "DateTimePicker"],
 ];
@@ -320,6 +328,7 @@ cat > src/App.svelte <<'EOF'
   import LocalePicker from "@lilydesignsystem/svelte-locale-picker";
   import TextSizePicker from "@lilydesignsystem/svelte-text-size-picker";
   import MotionPicker from "@lilydesignsystem/svelte-motion-picker";
+  import LinkPicker from "@lilydesignsystem/svelte-link-picker";
   import SharePicker from "@lilydesignsystem/svelte-share-picker";
   import DateTimePicker from "@lilydesignsystem/svelte-date-time-picker";
   const dtLabels = {
@@ -335,6 +344,7 @@ cat > src/App.svelte <<'EOF'
 <LocalePicker label="Language" locales={["en", "cy"]} />
 <TextSizePicker label="Text size" sizes={["small", "medium", "large"]} />
 <MotionPicker label="Motion" motions={["no-preference", "reduce"]} />
+<LinkPicker label="Pages" links={[{ label: "Home", href: "/" }]} />
 <SharePicker label="Share" />
 <DateTimePicker label="Date" labels={dtLabels} />
 EOF
@@ -347,6 +357,7 @@ if (!body.includes('class="theme-picker')) throw new Error("svelte theme-picker 
 if (!body.includes('class="locale-picker')) throw new Error("svelte locale-picker render: " + body);
 if (!body.includes('class="text-size-picker')) throw new Error("svelte text-size-picker render: " + body);
 if (!body.includes('class="motion-picker')) throw new Error("svelte motion-picker render: " + body);
+if (!body.includes('class="link-picker')) throw new Error("svelte link-picker render: " + body);
 if (!body.includes('class="share-picker')) throw new Error("svelte share-picker render: " + body);
 if (!body.includes('class="date-time-picker')) throw new Error("svelte date-time-picker render: " + body);
 console.log("svelte OK");

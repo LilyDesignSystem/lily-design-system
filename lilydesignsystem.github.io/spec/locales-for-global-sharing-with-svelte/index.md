@@ -52,6 +52,17 @@ Each locale is `locales/<code>/` in the book repo, containing:
   locale gets this file scaffolded (matching the topic-file pattern) even
   before it has a translation; it starts empty.
 
+## Locale directory names
+
+**Every locale directory uses the format `<language>-<region>`**, lowercase: a two- or three-letter language code, a hyphen,
+and a region — a two-letter country code (`cy-gb`, `en-us`, `zh-cn`) or the three-digit UN M49 code `001`, "world", for a
+language's international locale (`en-001`, `fr-001`). There are **no bare language directories**: `src/routes/locales/en/`
+(or `fr/`, `cy/`, …) must not exist, so `/locales/en/` is not a route. A browser tag with no route of its own falls back to the
+language's `-001` locale (see the redirect below); it is never given a bare-language alias. The one existing extra segment is
+`en-gb-oxendict` (British English with Oxford spelling, which has no standard subtag); a new variant needs the same
+justification. `bin/test` enforces the rule: every directory under `src/routes/locales/` must match
+`^[a-z]{2,3}-([a-z]{2}|[0-9]{3})(-[a-z0-9]+)?$`.
+
 ## Slugs
 
 Slugs are per-locale, not shared.** Translated locales rename topic directories
@@ -66,14 +77,14 @@ Nothing in the site assumes slugs match across locales.
 On the first visit of a browser session, `/` reads `navigator.languages` (else `navigator.language`) and, if the site has
 a matching `/locales/<code>/` route, redirects there with `replaceState` (so Back does not bounce). Matching is in
 `src/lib/locale-redirect.ts` (`pickLocaleRoute`), per preferred language in order: the tag itself (`cy-GB`, or `cy_GB`,
-→ `cy-gb`), then language + region (`zh-Hans-CN` → `zh-cn`), then the language's generic (`fr-CA` → `fr-001`). Nothing else
-is guessed (`zh-TW` does not fall back to `zh-cn`). A match on the default locale (`en-001`, which `/` already is) means
-no redirect, so `en`, `en-AU` and `en-001` stay on `/`; `en-GB` and `en-US` go to their own English variants. It runs
+→ `cy-gb`), then language + region (`zh-Hans-CN` → `zh-cn`), then the language's international `-001` route (`fr-CA` → `fr-001`, and `en-AU`, which has no `en-au` route,
+→ `/locales/en-001/`). Nothing else is guessed (`zh-TW` has no route and no `zh-001`, so it stays on `/` rather than falling
+back to `zh-cn`). `en-GB` and `en-US` go to their own English variants. It runs
 only in the browser (`onMount`), so the prerendered page and crawlers still get the English home page, at most once per
 session (`sessionStorage` key `lily-locale-redirect-done`; no redirect if session storage is unavailable), and only from
 `/` — never from deeper pages. The route is `/locales/<code>/`, not `/<code>/`. Tests: `tests/locale-redirect.spec.ts`
-(the matcher, and real browsers with `cy-GB`, `en-AU` and `de-DE` locales); the suite's default browser locale is `en` so
-other tests are not redirected.
+(the matcher, and real browsers with `cy-GB`, `en-AU` and `de-DE` locales); the suite's default browser locale is `de-DE`
+(a language with no route) so other tests are not redirected.
 
 ## Locale picker (labels + ordering)
 

@@ -203,6 +203,20 @@ sibling's own `docs/ssr.md`; `picker-bar` adds nothing here.
   `/search?foo`.
 - §7.14 Each of the five nested pickers renders its `.{helper}-picker-tooltip` and `initPickerBar` wires it (hover shows, leave hides); the bar adds no tooltip of its own.
 
+## 7a. The optional leftmost link picker (added 2026-10-07)
+
+`link-picker` — a home icon opening a disclosure of **page links the app defines** — is the leftmost picker, but only when the
+app supplies them:
+
+- **Props:** `links` (array of `{ id?, label, href, current?, newTab? }`, default none), `labels.link` (the picker's accessible
+  name, required only when `links` is given), and `linkProps` (macro: `name`, `id`, `classes`, `attributes`; client: `navigate`, `onNavigate`, which a macro cannot carry). There is no default list and no English.
+- §L1 With `links` non-empty and `labels.link` set, a `link-picker` renders FIRST — before search — named from `labels.link`, listing
+  exactly `links`.
+- §L2 With `links` omitted or empty, or `labels.link` missing, no link picker renders and search is first (§7.2 and the search clause unchanged).
+- §L3 `initPickerBar(root, {{ linkProps }})` wires the link picker and passes `linkProps` (`navigate`).
+- §L4 The links are real `<a href>` elements (not a menu).
+
+
 ## 8. Relationship to the `*-picker` helpers
 
 `picker-bar` wraps five of the `*-picker` helpers in this catalog

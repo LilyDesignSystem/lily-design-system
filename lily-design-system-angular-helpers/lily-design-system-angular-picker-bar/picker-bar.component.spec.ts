@@ -307,3 +307,50 @@ describe("PickerBar — tooltips of the wrapped pickers (§7.14)", () => {
     }
   });
 });
+
+const LINKS = [
+  { label: "Home", href: "/" },
+  { label: "About Us", href: "/about/" },
+  { label: "Contact Us", href: "/contact/" },
+  { label: "Privacy Policy", href: "/privacy/" },
+];
+
+describe("PickerBar — link-picker wiring (§L1–§L4)", () => {
+  test("§L1 a link picker renders FIRST when `links` and `labels.link` are given", async () => {
+    const fixture = await mountSettled({ links: LINKS, labels: { ...LABELS, link: "Pages" } });
+    const tags = Array.from(fixture.nativeElement.querySelectorAll(".picker-bar > *")).map((n: any) => n.tagName.toLowerCase());
+    expect(tags).toEqual(["lily-link-picker", "lily-search-picker", "lily-theme-picker", "lily-locale-picker", "lily-text-size-picker", "lily-share-picker"]);
+    expect(Array.from(fixture.nativeElement.querySelectorAll(".link-picker-link")).map((a: any) => a.textContent.trim())).toEqual([
+      "Home", "About Us", "Contact Us", "Privacy Policy",
+    ]);
+    expect(fixture.nativeElement.querySelector(".link-picker-button").getAttribute("aria-label")).toBe("Pages");
+  });
+
+  test("§L2 no link picker without links, with empty links, or without labels.link", async () => {
+    for (const inputs of [{}, { links: [], labels: { ...LABELS, link: "Pages" } }, { links: LINKS }]) {
+      const fixture = await mountSettled(inputs);
+      expect(fixture.nativeElement.querySelector("lily-link-picker")).toBeNull();
+      expect(fixture.nativeElement.querySelector(".picker-bar > *").tagName.toLowerCase()).toBe("lily-search-picker");
+    }
+  });
+
+  test("§L3 `linkNavigate` reaches the link picker and `linkNavigated` re-emits", async () => {
+    const navigate = vi.fn();
+    const fixture = await mountSettled({ links: LINKS, labels: { ...LABELS, link: "Pages" }, linkNavigate: navigate });
+    const seen: unknown[] = [];
+    fixture.componentInstance.linkNavigated.subscribe((e) => seen.push(e));
+    fixture.nativeElement.querySelector(".link-picker-button").dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    fixture.detectChanges();
+    fixture.nativeElement
+      .querySelector('.link-picker-link[href="/about/"]')
+      .dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true, button: 0 }));
+    expect(navigate).toHaveBeenCalledWith("/about/");
+    expect(seen).toEqual([{ id: "/about/", href: "/about/" }]);
+  });
+
+  test("§L4 the links are real anchors, not menu items", async () => {
+    const fixture = await mountSettled({ links: LINKS, labels: { ...LABELS, link: "Pages" } });
+    expect(fixture.nativeElement.querySelectorAll(".link-picker-list a[href]")).toHaveLength(4);
+    expect(fixture.nativeElement.querySelector('.link-picker-list [role="menuitem"]')).toBeNull();
+  });
+});

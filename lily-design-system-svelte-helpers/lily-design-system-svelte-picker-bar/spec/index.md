@@ -6,8 +6,8 @@ web-components) port this spec one-to-one.
 
 ## 1. Purpose
 
-A single page-header row that composes five of the `*-picker`
-helpers — `search-picker`, `theme-picker`, `locale-picker`,
+A single page-header row that composes the `*-picker`
+helpers — an optional `link-picker` (a home icon opening the app's page links, leftmost, added 2026-10-07), `search-picker`, `theme-picker`, `locale-picker`,
 `text-size-picker`, and `share-picker` — with sensible catalog-wide
 defaults pre-wired, so a consumer can drop one component into a header
 instead of assembling and configuring five. Search comes first in the
@@ -19,7 +19,7 @@ latter is a form control, not a header control — see
 
 ## 2. Scope
 
-In scope: rendering the five pickers in a fixed order (search, theme,
+In scope: rendering the pickers in a fixed order (link when `links` is given, then search, theme,
 locale, text-size, share), forwarding each picker's required and optional
 props, and supplying two catalog-specific defaults (§5.1, §5.2) so the
 common case needs no configuration beyond accessible names, a themes
@@ -31,6 +31,7 @@ DOM application beyond what the five wrapped pickers already do —
 
 ```html
 <div class="picker-bar {class}" ...restProps>
+  <div class="link-picker">…</div>   <!-- only when `links` is non-empty and `labels.link` is set -->
   <div class="search-picker">…</div>
   <div class="theme-picker">…</div>
   <div class="locale-picker">…</div>
@@ -48,7 +49,9 @@ markup of its own beyond the root wrapper.
 
 | Prop            | Type                                | Required | Default              |
 | --------------- | ------------------------------------ | -------- | --------------------- |
-| `labels`         | `{ search, searchInput, searchSubmit, theme, locale, textSize, share }` | yes | — |
+| `labels`         | `{ link?, search, searchInput, searchSubmit, theme, locale, textSize, share }` | yes | — |
+| `links`          | `LinkItem[]`                         | no       | `[]` (no link picker)  |
+| `linkProps`      | `Partial<LinkPicker Props>`          | no       | `{}`                   |
 | `searchProps`    | `Partial<SearchPicker Props>`        | no       | `{}`                   |
 | `themesUrl`      | `string`                             | yes      | —                      |
 | `themes`         | `string[]`                           | no       | `DEFAULT_THEMES` (§5.1) |
@@ -151,10 +154,16 @@ hardcode English text.
 - §7.13 `searchProps` (e.g. `action`, `navigate`) reaches the nested
   `SearchPicker`: with `action: "/search"`, a search for `foo`
   navigates to `/search?foo`.
+- §L1 With `links` non-empty and `labels.link` set, a `link-picker` renders
+  FIRST — before search — named from `labels.link`, listing exactly `links`.
+- §L2 With `links` omitted or empty, or `labels.link` missing, no link picker
+  renders and search is first (§7.2, §7.12 unchanged).
+- §L3 `linkProps` (e.g. `navigate`, `onNavigate`) reaches the nested `LinkPicker`.
+- §L4 The link picker's links are real `<a href>` elements (not a menu).
 
-## 8. Relationship to the six `*-picker` helpers
+## 8. Relationship to the `*-picker` helpers
 
-`PickerBar` wraps five of the `*-picker` helpers in AGENTS/helpers.md
+`PickerBar` wraps six of the `*-picker` helpers in AGENTS/helpers.md
 without altering any of their individual contracts — existing counts,
 markup, and keyboard behaviour for `search-picker`, `theme-picker`,
 `locale-picker`, `text-size-picker`, and `share-picker` are unchanged.

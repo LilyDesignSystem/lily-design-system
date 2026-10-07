@@ -9,8 +9,8 @@ Full documentation and the searchable component catalog: <https://lilydesignsyst
 
 ## Install
 
-This catalog ships seven helper packages as Razor class libraries,
-all published to NuGet. Install only what you need:
+This catalog ships these helper packages as Razor class libraries,
+published to NuGet. Install only what you need:
 
 | Package | Owns |
 | --- | --- |
@@ -18,9 +18,11 @@ all published to NuGet. Install only what you need:
 | `LilyDesignSystem.Blazor.LocalePicker` | locale preference (`lang` / `dir`) |
 | `LilyDesignSystem.Blazor.TextSizePicker` | text-size preference |
 | `LilyDesignSystem.Blazor.MotionPicker` | reduced-motion preference |
+| `LilyDesignSystem.Blazor.LinkPicker` | an app-defined page-links menu (a home icon) |
+| `LilyDesignSystem.Blazor.SearchPicker` | a search action |
 | `LilyDesignSystem.Blazor.SharePicker` | a share action |
 | `LilyDesignSystem.Blazor.DateTimePicker` | a date-time form value |
-| `LilyDesignSystem.Blazor.PickerBar` | composes theme/locale/text-size/share into one page-header row |
+| `LilyDesignSystem.Blazor.PickerBar` | composes link/search/theme/locale/text-size/share into one page-header row |
 
 ```sh
 dotnet add package LilyDesignSystem.Blazor.ThemePicker

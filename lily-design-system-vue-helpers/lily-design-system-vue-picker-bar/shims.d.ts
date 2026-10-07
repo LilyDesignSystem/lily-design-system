@@ -61,6 +61,19 @@ declare module "@lilydesignsystem/vue-share-picker" {
     };
 }
 
+declare module "@lilydesignsystem/vue-link-picker" {
+    const LinkPicker: any;
+    export default LinkPicker;
+    export type Props = Record<string, unknown>;
+    export type LinkItem = {
+        id?: string;
+        label: string;
+        href: string;
+        current?: boolean;
+        newTab?: boolean;
+    };
+}
+
 declare module "@lilydesignsystem/vue-search-picker" {
     const SearchPicker: any;
     export default SearchPicker;

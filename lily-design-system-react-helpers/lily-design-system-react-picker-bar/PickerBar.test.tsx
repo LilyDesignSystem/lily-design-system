@@ -251,3 +251,46 @@ describe("PickerBar — tooltips (§7.14)", () => {
     }
   });
 });
+
+const LINKS = [
+  { label: "Home", href: "/" },
+  { label: "About Us", href: "/about/" },
+  { label: "Contact Us", href: "/contact/" },
+  { label: "Privacy Policy", href: "/privacy/" },
+];
+
+describe("PickerBar — link-picker wiring (§L1–§L4)", () => {
+  test("§L1 a link picker renders FIRST when `links` and `labels.link` are given", () => {
+    const { container } = renderBar({ links: LINKS, labels: { ...LABELS, link: "Pages" } });
+    const classes = Array.from(container.querySelectorAll(".picker-bar > div")).map((d) => d.className.split(" ")[0]);
+    expect(classes).toEqual(["link-picker", "search-picker", "theme-picker", "locale-picker", "text-size-picker", "share-picker"]);
+    fireEvent.click(screen.getByRole("button", { name: "Pages" }));
+    expect(Array.from(document.querySelectorAll(".link-picker-link")).map((a) => a.textContent?.trim())).toEqual([
+      "Home", "About Us", "Contact Us", "Privacy Policy",
+    ]);
+  });
+
+  test("§L2 no link picker without links, with empty links, or without labels.link", () => {
+    for (const extra of [{}, { links: [], labels: { ...LABELS, link: "Pages" } }, { links: LINKS }]) {
+      const { container, unmount } = renderBar(extra);
+      expect(container.querySelector(".link-picker")).toBeNull();
+      expect(container.querySelector(".picker-bar > div")?.classList.contains("search-picker")).toBe(true);
+      unmount();
+    }
+  });
+
+  test("§L3 `linkProps` reaches the LinkPicker (navigate)", () => {
+    const navigate = vi.fn();
+    renderBar({ links: LINKS, labels: { ...LABELS, link: "Pages" }, linkProps: { navigate } });
+    fireEvent.click(screen.getByRole("button", { name: "Pages" }));
+    fireEvent.click(document.querySelector('.link-picker-link[href="/about/"]')!);
+    expect(navigate).toHaveBeenCalledWith("/about/");
+  });
+
+  test("§L4 the links are real anchors, not menu items", () => {
+    renderBar({ links: LINKS, labels: { ...LABELS, link: "Pages" } });
+    fireEvent.click(screen.getByRole("button", { name: "Pages" }));
+    expect(document.querySelectorAll(".link-picker-list a[href]")).toHaveLength(4);
+    expect(document.querySelector('.link-picker-list [role="menuitem"]')).toBeNull();
+  });
+});

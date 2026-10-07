@@ -35,6 +35,8 @@ type MountOptions = {
     label: string;
     href: (url: string, title: string, text: string) => string;
   }>;
+  links?: Array<{ label: string; href: string }>;
+  linkProps?: Record<string, unknown>;
   searchProps?: Record<string, unknown>;
   themeProps?: Record<string, unknown>;
   textSizeProps?: Record<string, unknown>;
@@ -52,6 +54,8 @@ function mount(opts: MountOptions = {}): PickerBar {
   el.locales = opts.locales ?? LOCALES;
   if (opts.sizes) el.sizes = opts.sizes;
   if (opts.shareTargets) el.shareTargets = opts.shareTargets as never;
+  if (opts.links) el.links = opts.links as never;
+  if (opts.linkProps) el.linkProps = opts.linkProps as never;
   if (opts.searchProps) el.searchProps = opts.searchProps as never;
   if (opts.themeProps) el.themeProps = opts.themeProps as never;
   if (opts.textSizeProps) el.textSizeProps = opts.textSizeProps as never;
@@ -275,5 +279,56 @@ describe("PickerBar — search-picker wiring (§7.12, §7.13)", () => {
       new Event("submit", { bubbles: true, cancelable: true }),
     );
     expect(navigate).toHaveBeenCalledWith("/search?foo");
+  });
+});
+
+const LINKS = [
+  { label: "Home", href: "/" },
+  { label: "About Us", href: "/about/" },
+  { label: "Contact Us", href: "/contact/" },
+  { label: "Privacy Policy", href: "/privacy/" },
+];
+
+describe("lily-picker-bar — link-picker wiring (§L1–§L4)", () => {
+  test("§L1 a link picker renders FIRST when `links` and `labels.link` are given", () => {
+    const el = mount({ links: LINKS, labels: { ...LABELS, link: "Pages" } });
+    const tags = Array.from(el.querySelectorAll(".picker-bar > *")).map((n) => n.tagName.toLowerCase());
+    expect(tags).toEqual(["lily-link-picker", "lily-search-picker", "lily-theme-picker", "lily-locale-picker", "lily-text-size-picker", "lily-share-picker"]);
+    expect(el.linkPicker).toBeTruthy();
+    expect(Array.from(el.querySelectorAll(".link-picker-link")).map((a) => a.textContent)).toEqual([
+      "Home", "About Us", "Contact Us", "Privacy Policy",
+    ]);
+    expect(el.querySelector(".link-picker-button")!.getAttribute("aria-label")).toBe("Pages");
+  });
+
+  test("§L2 no link picker without links, with empty links, or without labels.link; it appears and disappears live", () => {
+    for (const opts of [{}, { links: [], labels: { ...LABELS, link: "Pages" } }, { links: LINKS }]) {
+      const el = mount(opts as never);
+      expect(el.querySelector("lily-link-picker")).toBeNull();
+      expect(el.querySelector(".picker-bar > *")!.tagName.toLowerCase()).toBe("lily-search-picker");
+      document.body.innerHTML = "";
+    }
+    const el = mount();
+    el.labels = { ...LABELS, link: "Pages" };
+    el.links = LINKS;
+    expect(el.querySelector(".picker-bar > *")!.tagName.toLowerCase()).toBe("lily-link-picker");
+    el.links = [];
+    expect(el.querySelector("lily-link-picker")).toBeNull();
+  });
+
+  test("§L3 `linkProps` reaches the link picker (onNavigate)", () => {
+    const onNavigate = vi.fn();
+    const el = mount({ links: LINKS, labels: { ...LABELS, link: "Pages" }, linkProps: { onNavigate } });
+    (el.querySelector(".link-picker-button") as HTMLButtonElement).click();
+    el.querySelector<HTMLAnchorElement>('.link-picker-link[href="/about/"]')!.dispatchEvent(
+      new MouseEvent("click", { bubbles: true, cancelable: true, button: 0 }),
+    );
+    expect(onNavigate).toHaveBeenCalledWith("/about/", "/about/");
+  });
+
+  test("§L4 the links are real anchors, not menu items", () => {
+    const el = mount({ links: LINKS, labels: { ...LABELS, link: "Pages" } });
+    expect(el.querySelectorAll(".link-picker-list a[href]")).toHaveLength(4);
+    expect(el.querySelector('.link-picker-list [role="menuitem"]')).toBeNull();
   });
 });

@@ -25,8 +25,8 @@ Companion checklist: [tasks.md](tasks.md).
 - Respect the binding rules in `AGENTS/*.md` (headless, accessibility,
   internationalization, theme, helpers, examples). Svelte is the
   canonical reference implementation; port outward from it.
-- The helpers are the seven `*-picker` packages (theme, locale,
-  text-size, motion, share, search, date-time) plus `picker-bar` — the July plan's
+- The helpers are the eight `*-picker` packages (theme, locale,
+  text-size, motion, share, search, link, date-time) plus `picker-bar` — the July plan's
   `*-select` names are obsolete and must not reappear.
 - Keep commits small and per-task; note completed task IDs in commit
   messages.
@@ -90,7 +90,7 @@ exists; it is kept in `CHANGELOG.md` and `spec/history/`. As of 2026-10-06:
 - **Published** (2026-10-06): headless npm `svelte`/`react`/`vue` 0.4.0, `angular`/`web-components`
   0.5.0, `html` 0.6.0, `nunjucks` 0.4.0; NuGet `LilyDesignSystem.Blazor.Headless` 0.4.0;
   `@lilydesignsystem/themes` 0.3.0; every helper package (npm and NuGet), including the
-  seven pickers and `picker-bar`. NuGet publishes through OIDC trusted publishing from
+  eight pickers and `picker-bar`. NuGet publishes through OIDC trusted publishing from
   `publish.yml` (`NUGET_USER` must be the policy creator's username).
 - **Releases**: monorepo tags `v0.2.0`–`v0.8.0` exist (`v0.7.0` and `v0.8.0` both cut 2026-10-06, each with a
   GitHub Release); all 50 subtrees were pushed at 0.8.0.

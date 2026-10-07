@@ -345,3 +345,48 @@ describe("PickerBar — nested picker tooltips (§7.14)", () => {
     }
   });
 });
+
+const LINKS = [
+  { label: "Home", href: "/" },
+  { label: "About Us", href: "/about/" },
+  { label: "Contact Us", href: "/contact/" },
+  { label: "Privacy Policy", href: "/privacy/" },
+];
+
+describe("pickerBar — link-picker wiring (§L1–§L4)", () => {
+  test("a link picker renders FIRST when `links` and `labels.link` are given", () => {
+    const { root } = setup({ links: LINKS, labels: { ...LABELS, link: "Pages" } });
+    const classes = Array.from(root.querySelectorAll(":scope > div")).map((d) => d.className.split(" ")[0]);
+    expect(classes).toEqual(["link-picker", "search-picker", "theme-picker", "locale-picker", "text-size-picker", "share-picker"]);
+    expect(Array.from(root.querySelectorAll(".link-picker-link")).map((a) => a.textContent)).toEqual([
+      "Home", "About Us", "Contact Us", "Privacy Policy",
+    ]);
+    expect(root.querySelector(".link-picker-button")!.getAttribute("aria-label")).toBe("Pages");
+  });
+
+  test("no link picker without links, with empty links, or without labels.link", () => {
+    for (const extra of [{}, { links: [], labels: { ...LABELS, link: "Pages" } }, { links: LINKS }]) {
+      const { root } = setup(extra);
+      expect(root.querySelector(".link-picker")).toBeNull();
+      expect(root.querySelector(":scope > div")!.classList.contains("search-picker")).toBe(true);
+    }
+  });
+
+  test("initPickerBar wires the link picker and passes `linkProps` (navigate)", () => {
+    const navigate = vi.fn();
+    const { root } = setup({ links: LINKS, labels: { ...LABELS, link: "Pages" } });
+    const wired = initPickerBar(root, { linkProps: { navigate } });
+    expect(wired.link).toBeTruthy();
+    (root.querySelector(".link-picker-button") as HTMLButtonElement).click();
+    (root.querySelector('.link-picker-link[href="/about/"]') as HTMLElement).dispatchEvent(
+      new MouseEvent("click", { bubbles: true, cancelable: true, button: 0 }),
+    );
+    expect(navigate).toHaveBeenCalledWith("/about/");
+  });
+
+  test("the links are real anchors, not menu items", () => {
+    const { root } = setup({ links: LINKS, labels: { ...LABELS, link: "Pages" } });
+    expect(root.querySelectorAll(".link-picker-list a[href]")).toHaveLength(4);
+    expect(root.querySelector('.link-picker-list [role="menuitem"]')).toBeNull();
+  });
+});

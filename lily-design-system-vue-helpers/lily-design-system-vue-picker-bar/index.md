@@ -1,5 +1,7 @@
 # Lily Design System™ — Vue PickerBar
 
+> **Link picker (0.3.0).** Pass `links` (and `labels.link`) to add a `link-picker` — a home icon opening the page links your app defines — as the leftmost icon. It renders only when both are given.
+
 A single page-header row that composes five of the Lily
 [`*-picker` helpers](../index.md) — search, theme, locale, text size,
 and share — with two catalog-wide defaults pre-wired, so you can drop

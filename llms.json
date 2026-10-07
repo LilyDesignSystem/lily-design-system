@@ -109,7 +109,7 @@
         {
           "title": "spec/helpers/index.md",
           "url": "spec/helpers/index.md",
-          "description": "The seven `*-picker` helper contracts in full, picker-bar, and the tooltip contract every picker carries."
+          "description": "The eight `*-picker` helper contracts in full, picker-bar, and the tooltip contract every picker carries."
         },
         {
           "title": "spec/frameworks/index.md",

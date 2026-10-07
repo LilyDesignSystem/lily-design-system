@@ -334,7 +334,19 @@ test_lockfiles_are_tracked() (
     test -z "$untracked" || err "lockfiles must be committed (spec/tooling): $untracked"
 )
 
+# Every locale directory is <language>-<region> (e.g. cy-gb, en-001), never a bare language like
+# "en" (lilydesignsystem.github.io/spec/locales-for-global-sharing-with-svelte, "Locale directory names").
+test_locale_directories_have_a_region() (
+    dir="$top/lilydesignsystem.github.io/src/routes/locales"
+    [ -d "$dir" ] || return 0
+    # find, not a glob: this script runs with globbing off (set -f).
+    bad="$(find "$dir" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; \
+        | grep -Evx '[a-z]{2,3}-([a-z]{2}|[0-9]{3})(-[a-z0-9]+)?' | tr '\n' ' ' || true)"
+    test -z "$bad" || err "locale directories must be <language>-<region>, found: $bad"
+)
+
 test_helper_glyphs_are_bare
+test_locale_directories_have_a_region
 test_no_package_json_pnpm_overrides
 test_lockfiles_are_tracked
 "$top/bin/check-theme" >/dev/null 2>&1 \

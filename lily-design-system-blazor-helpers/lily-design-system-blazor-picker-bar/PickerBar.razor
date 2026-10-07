@@ -4,9 +4,9 @@
     PickerBar — Blazor helper component.
     Single source of truth: spec/index.md (§1–§8).
 
-    A thin composition wrapper: renders SearchPicker, ThemePicker,
-    LocalePicker, TextSizePicker, and SharePicker — in that order, search
-    first — from their own published sibling
+    A thin composition wrapper: renders LinkPicker (only when Links and Labels.Link are
+    given, leftmost), SearchPicker, ThemePicker,
+    LocalePicker, TextSizePicker, and SharePicker — in that order — from their own published sibling
     packages, referenced as ordinary project/package references, not
     vendored source — in one page-header row. Introduces no lifecycle
     of its own beyond two pre-wired defaults (DefaultThemes,
@@ -15,6 +15,13 @@
 *@
 
 <div class="@RootClass" @attributes="AdditionalAttributes">
+    @if (Links.Count > 0 && !string.IsNullOrEmpty(Labels.Link))
+    {
+        <LinkPicker Label="@Labels.Link"
+                    Links="@Links"
+                    @attributes="LinkAttributes" />
+    }
+
     <SearchPicker Label="@Labels.Search"
                   InputLabel="@Labels.SearchInput"
                   SubmitLabel="@Labels.SearchSubmit"

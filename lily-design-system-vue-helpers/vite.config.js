@@ -37,6 +37,14 @@ export default defineConfig({
           import.meta.url,
         ),
       ),
+      // Sixth picker-bar dependency (added 2026-10-07, rendered leftmost, and only when
+      // the app supplies links). Same local-alias-for-tests-only rule as above.
+      "@lilydesignsystem/vue-link-picker": fileURLToPath(
+        new URL(
+          "./lily-design-system-vue-link-picker/dist/index.js",
+          import.meta.url,
+        ),
+      ),
       "@lilydesignsystem/vue-share-picker": fileURLToPath(
         new URL(
           "./lily-design-system-vue-share-picker/dist/index.js",

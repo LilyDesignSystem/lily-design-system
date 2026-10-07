@@ -234,3 +234,47 @@ describe("PickerBar — search-picker wiring (§7.12, §7.13)", () => {
     expect(navigate).toHaveBeenCalledWith("/search?foo");
   });
 });
+
+const LINKS = [
+  { label: "Home", href: "/" },
+  { label: "About Us", href: "/about/" },
+  { label: "Contact Us", href: "/contact/" },
+  { label: "Privacy Policy", href: "/privacy/" },
+];
+
+describe("PickerBar — link-picker wiring (§L1–§L4)", () => {
+  test("§L1 a link picker renders FIRST when `links` and `labels.link` are given", async () => {
+    const { container } = renderBar({ links: LINKS, labels: { ...LABELS, link: "Pages" } });
+    const children = Array.from(container.querySelectorAll(".picker-bar > div")).map((d) => d.className.split(" ")[0]);
+    expect(children).toEqual(["link-picker", "search-picker", "theme-picker", "locale-picker", "text-size-picker", "share-picker"]);
+    await fireEvent.click(screen.getByRole("button", { name: "Pages" }));
+    expect(Array.from(document.querySelectorAll(".link-picker-link")).map((a) => a.textContent?.trim())).toEqual([
+      "Home", "About Us", "Contact Us", "Privacy Policy",
+    ]);
+  });
+
+  test("§L2 no link picker without links, with empty links, or without labels.link", () => {
+    for (const extra of [{}, { links: [] , labels: { ...LABELS, link: "Pages" } }, { links: LINKS }]) {
+      const { container, unmount } = renderBar(extra);
+      expect(container.querySelector(".link-picker")).toBeNull();
+      expect(container.querySelector(".picker-bar > div")?.classList.contains("search-picker")).toBe(true);
+      unmount();
+    }
+  });
+
+  test("§L3 `linkProps` reaches LinkPicker (navigate)", async () => {
+    const navigate = vi.fn();
+    renderBar({ links: LINKS, labels: { ...LABELS, link: "Pages" }, linkProps: { navigate } });
+    await fireEvent.click(screen.getByRole("button", { name: "Pages" }));
+    const about = document.querySelector<HTMLAnchorElement>('.link-picker-link[href="/about/"]')!;
+    about.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true, button: 0 }));
+    expect(navigate).toHaveBeenCalledWith("/about/");
+  });
+
+  test("§L4 the links are real anchors, not menu items", async () => {
+    renderBar({ links: LINKS, labels: { ...LABELS, link: "Pages" } });
+    await fireEvent.click(screen.getByRole("button", { name: "Pages" }));
+    expect(document.querySelectorAll(".link-picker-list a[href]")).toHaveLength(4);
+    expect(document.querySelector('.link-picker-list [role="menuitem"]')).toBeNull();
+  });
+});

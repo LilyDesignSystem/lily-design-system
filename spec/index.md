@@ -42,7 +42,8 @@ coding agents.
 | [monorepo-github-pages](monorepo-github-pages/index.md) | Publishing the docs site via git subtree to a read-only sibling export repo. |
 | [testing](testing/index.md) | Per-framework test suites, Storybook coverage, Playwright e2e, axe, responsive sweep. |
 | [frameworks](frameworks/index.md) | The seven framework pairs (plus the unpaired, Web Components catalog), per-framework file shapes and idioms, the copy-pattern. |
-| [helpers](helpers/index.md) | The `*-helpers` catalogs: the 7 pickers and `picker-bar`, their contracts, manifests, tooltips, and publish pipeline. |
+| [helpers](helpers/index.md) | The `*-helpers` catalogs: the 8 pickers and `picker-bar`, their contracts, manifests, tooltips, and publish pipeline. |
+| [link-picker](link-picker/index.md) | The link-picker button / disclosure-of-links HTML contract: a home icon opening the page links the app defines; leftmost in `picker-bar`. |
 | [theme-picker](theme-picker/index.md) | The theme-picker button / listbox / option HTML contract, one page, bare glyph ◑. |
 | [locale-picker](locale-picker/index.md) | The locale-picker button / listbox / option HTML contract, bare glyph 🌐︎. |
 | [text-size-picker](text-size-picker/index.md) | The text-size-picker button / listbox / option HTML contract, glyph "A", the seven-step size scale. |
@@ -107,8 +108,8 @@ committing.
   `AGENTS.md`, `spec/index.md`).
 - Eight framework-helper catalogs (`*-helpers`), each shipping the
   `theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`,
-  `share-picker`, `search-picker`, and `date-time-picker` helper packages —
-  56 `*-picker` packages in all.
+  `share-picker`, `search-picker`, `link-picker`, and `date-time-picker` helper packages —
+  64 `*-picker` packages in all.
 - A `themes/` directory of 45 ready-to-use reference theme stylesheets.
 - Tooling for listing, scaffolding, syncing, and testing components across
   subprojects (`bin/`).
@@ -147,8 +148,8 @@ git-subtree/multi-forge publishing model: [spec/architecture/](architecture/inde
 - **Helpers** (8 subprojects) — small catalogs of opinionated packages,
   each owning one complete interaction end to end: `theme-picker`,
   `locale-picker`, `text-size-picker`, `motion-picker` (icon button +
-  APG listbox, own a user preference), `share-picker` and `search-picker`
-  (actions), and `date-time-picker` (a form value) — 56 `*-picker`
+  APG listbox, own a user preference), `share-picker`, `search-picker` and `link-picker`
+  (actions), and `date-time-picker` (a form value) — 64 `*-picker`
   packages, SSR-safe, Svelte canonical. See [spec/helpers/](helpers/index.md).
 
 ### Required files
@@ -429,7 +430,7 @@ checked is considered live work; anything unchecked is queued in §12.
       Nuxt.js, Angular + Analog.js, Blazor Web, Nunjucks Eleventy).
 - [x] All 8 helper subprojects exist (Svelte canonical, plus React, Vue,
       Angular, HTML, Nunjucks, Blazor and Web Components ports), each shipping the
-      seven `*-picker` helpers plus `picker-bar` (56 `*-picker` packages;
+      eight `*-picker` helpers plus `picker-bar` (64 `*-picker` packages;
       `motion-picker` added 2026-09-03, `search-picker` 2026-10-02).
       Per-catalog test counts: [spec/testing/](testing/index.md); the
       accessibility-hardening sweeps that produced the current counts: §14.1.
@@ -579,7 +580,7 @@ Long-term: versioned releases per subproject npm/NuGet package
 ## 14. Tracking
 
 - Package: lily
-- Version: 0.8.0
+- Version: 0.9.0
 - Created: 2025-08-09
 - Updated: 2026-10-06
 - License: `MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause`
@@ -599,6 +600,9 @@ The dated, per-event narrative moved to [history](history/index.md) on 2026-10-0
 grown to more than half of this file). [CHANGELOG.md](../CHANGELOG.md) remains the
 canonical release record. Most recent events, newest first:
 
+- **`link-picker` and a leftmost link picker in `picker-bar` (2026-10-07)** — an eighth `*-picker`: a home icon opening a
+  disclosure of page links the app defines (Home, About Us, Contact Us, Privacy Policy, …), in all eight catalogs, with
+  `picker-bar` 0.3.0 rendering it first when given `links`. See [link-picker](link-picker/index.md).
 - **Documentation sweep (2026-10-06)** — counts, versions, contracts and AI-facing files
   brought up to date across the spec, `AGENTS/`, READMEs, `llms.txt`/`llms.json`, the Claude
   Skills and the docs site; `spec/index.md` cut from 68 KB to a size that loads into context.

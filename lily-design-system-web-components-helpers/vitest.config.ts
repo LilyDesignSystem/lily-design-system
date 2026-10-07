@@ -42,6 +42,12 @@ export default defineConfig({
           import.meta.url,
         ),
       ),
+      "@lilydesignsystem/web-components-link-picker": fileURLToPath(
+        new URL(
+          "./lily-design-system-web-components-link-picker/dist/index.js",
+          import.meta.url,
+        ),
+      ),
       "@lilydesignsystem/web-components-share-picker": fileURLToPath(
         new URL(
           "./lily-design-system-web-components-share-picker/dist/index.js",

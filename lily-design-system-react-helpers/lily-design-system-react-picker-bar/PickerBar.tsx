@@ -13,6 +13,10 @@ import SharePicker, {
   type Props as SharePickerProps,
   type ShareTarget,
 } from "@lilydesignsystem/react-share-picker";
+import LinkPicker, {
+  type Props as LinkPickerProps,
+  type LinkItem,
+} from "@lilydesignsystem/react-link-picker";
 import SearchPicker, {
   type Props as SearchPickerProps,
 } from "@lilydesignsystem/react-search-picker";
@@ -89,6 +93,11 @@ export const DEFAULT_SIZES: string[] = [
 
 /** Accessible names for the five pickers. Required — no English default. */
 export type PickerBarLabels = {
+  /**
+   * Accessible name for the link picker's button and list. Needed only when `links` is
+   * supplied; the link picker renders only when both are present.
+   */
+  link?: string;
   /** Accessible name for the search picker's button and search landmark. */
   search: string;
   /** Accessible name for the search picker's text field. */
@@ -109,6 +118,11 @@ export type PickerBarLabels = {
 export type Props = Omit<React.HTMLAttributes<HTMLDivElement>, "children"> & {
   /** Accessible names for each picker. */
   labels: PickerBarLabels;
+
+  /** Page links for the link picker (a home icon), which renders FIRST — leftmost. Omitted or empty: no link picker. */
+  links?: LinkItem[];
+  /** Extra LinkPicker props (e.g. `navigate`, `onNavigate`), spread after this bar's own. */
+  linkProps?: Partial<Omit<LinkPickerProps, "label" | "links">>;
 
   /** Extra SearchPicker props (e.g. `action`, `navigate`, `placeholder`), spread after this bar's own. */
   searchProps?: Partial<Omit<SearchPickerProps, "label" | "inputLabel" | "submitLabel">>;
@@ -141,6 +155,8 @@ export type Props = Omit<React.HTMLAttributes<HTMLDivElement>, "children"> & {
 
 export function PickerBar({
   labels,
+  links = [],
+  linkProps = {},
   searchProps = {},
   themesUrl,
   themes = DEFAULT_THEMES,
@@ -156,6 +172,9 @@ export function PickerBar({
 }: Props): React.ReactElement {
   return (
     <div className={`picker-bar ${className}`.trim()} {...restProps}>
+      {links.length > 0 && labels.link ? (
+        <LinkPicker label={labels.link} links={links} {...linkProps} />
+      ) : null}
       <SearchPicker
         label={labels.search}
         inputLabel={labels.searchInput}

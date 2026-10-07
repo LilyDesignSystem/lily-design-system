@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
   import { LILY_COMPONENTS, type LilyComponent } from '#lib/components.js';
-  import { DEFAULT_LOCALE, locales } from '#lib/locales.js';
+  import { locales } from '#lib/locales.js';
   import { firstVisitThisSession, pickLocaleRoute } from '#lib/locale-redirect.js';
 
   let query = $state('');
@@ -13,7 +13,7 @@
   onMount(() => {
     if (!firstVisitThisSession()) return;
     const preferred = navigator.languages?.length ? navigator.languages : [navigator.language];
-    const code = pickLocaleRoute(preferred, locales(), DEFAULT_LOCALE);
+    const code = pickLocaleRoute(preferred, locales());
     if (code) goto(`/locales/${code}/`, { replaceState: true });
   });
 

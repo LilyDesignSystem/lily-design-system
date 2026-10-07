@@ -5,15 +5,11 @@
 //   1. the tag itself          cy-GB  -> cy-gb   (underscores accepted: cy_GB)
 //   2. language + region       zh-Hans-CN -> zh-cn
 //   3. the language's generic  fr-CA  -> fr-001
-// The first preference that matches wins. Nothing else is guessed: zh-TW has no route here, so
-// it does not fall back to zh-CN. When the match is the default locale (en-001, which the "/"
-// page already is), there is nothing to redirect to and the result is null.
+// The first preference that matches wins; the "-001" route is the language's international
+// locale, so en-AU (no en-au route) goes to en-001. Nothing else is guessed: zh-TW has no route
+// here and no zh-001, so it does not fall back to zh-CN, and stays on "/".
 
-export function pickLocaleRoute(
-  preferred: readonly string[],
-  available: readonly string[],
-  defaultLocale: string
-): string | null {
+export function pickLocaleRoute(preferred: readonly string[], available: readonly string[]): string | null {
   const have = new Set(available);
   for (const raw of preferred) {
     const parts = raw
@@ -27,7 +23,7 @@ export function pickLocaleRoute(
     const region = parts.slice(1).find((p) => /^[a-z]{2}$/.test(p) || /^\d{3}$/.test(p));
     const candidates = [parts.join('-'), region ? `${lang}-${region}` : '', `${lang}-001`];
     for (const c of candidates) {
-      if (c && have.has(c)) return c === defaultLocale ? null : c;
+      if (c && have.has(c)) return c;
     }
   }
   return null;

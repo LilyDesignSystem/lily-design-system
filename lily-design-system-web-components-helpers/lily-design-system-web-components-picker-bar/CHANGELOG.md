@@ -4,6 +4,12 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.3.0 — 2026-10-07
+
+**Added: an optional leftmost link picker (minor, additive).** New `links` (page links the app defines) and `labels.link` render a
+`link-picker` (a home icon opening a disclosure of those links) FIRST in the bar, before search. It renders only when both are
+supplied, so existing consumers see no change. No default links and no English. See the spec §7a (§L1–§L4).
+
 ## 0.2.0 — 2026-10-04
 
 **`search-picker` joins the bar, first in the row.** `<lily-picker-bar>`

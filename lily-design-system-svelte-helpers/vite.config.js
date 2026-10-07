@@ -43,6 +43,12 @@ export default defineConfig({
           import.meta.url,
         ),
       ),
+      "@lilydesignsystem/svelte-link-picker": fileURLToPath(
+        new URL(
+          "./lily-design-system-svelte-link-picker/dist/index.js",
+          import.meta.url,
+        ),
+      ),
       "@lilydesignsystem/svelte-share-picker": fileURLToPath(
         new URL(
           "./lily-design-system-svelte-share-picker/dist/index.js",

@@ -9,7 +9,7 @@ Full documentation and the searchable component catalog: <https://lilydesignsyst
 
 ## Install
 
-This catalog ships seven helper packages, all published to npm.
+This catalog ships these helper packages, published to npm.
 Install only what you need:
 
 | Package | Owns |
@@ -18,9 +18,11 @@ Install only what you need:
 | `@lilydesignsystem/nunjucks-locale-picker` | locale preference (`lang` / `dir`) |
 | `@lilydesignsystem/nunjucks-text-size-picker` | text-size preference |
 | `@lilydesignsystem/nunjucks-motion-picker` | reduced-motion preference |
+| `@lilydesignsystem/nunjucks-link-picker` | an app-defined page-links menu (a home icon) |
+| `@lilydesignsystem/nunjucks-search-picker` | a search action |
 | `@lilydesignsystem/nunjucks-share-picker` | a share action |
 | `@lilydesignsystem/nunjucks-date-time-picker` | a date-time form value |
-| `@lilydesignsystem/nunjucks-picker-bar` | composes theme/locale/text-size/share into one page-header row |
+| `@lilydesignsystem/nunjucks-picker-bar` | composes link/search/theme/locale/text-size/share into one page-header row |
 
 ```sh
 npm install @lilydesignsystem/nunjucks-theme-picker

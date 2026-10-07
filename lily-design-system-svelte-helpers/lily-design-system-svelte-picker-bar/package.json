@@ -1,10 +1,10 @@
 {
   "name": "@lilydesignsystem/svelte-picker-bar",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "engines": {
     "node": "=26"
   },
-  "description": "Lily Design System Svelte 5 picker bar: composes theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row. Headless, SSR-safe, no CSS.",
+  "description": "Lily Design System Svelte 5 picker bar: composes link-picker (optional), search-picker, theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row. Headless, SSR-safe, no CSS.",
   "type": "module",
   "svelte": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -27,6 +27,7 @@
     "svelte": "^5.0.0"
   },
   "dependencies": {
+    "@lilydesignsystem/svelte-link-picker": "^0.1.0",
     "@lilydesignsystem/svelte-search-picker": "^0.1.0",
     "@lilydesignsystem/svelte-theme-picker": "^0.2.0",
     "@lilydesignsystem/svelte-locale-picker": "^0.2.0",

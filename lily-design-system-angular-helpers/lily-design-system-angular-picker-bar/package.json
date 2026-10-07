@@ -1,15 +1,16 @@
 {
   "name": "@lilydesignsystem/angular-picker-bar",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "engines": {
     "node": "=26"
   },
-  "description": "Lily Design System Angular 20 picker bar: composes search-picker, theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row. Headless, SSR-safe, no CSS.",
+  "description": "Lily Design System Angular picker bar: composes link-picker (optional), search-picker, theme-picker, locale-picker, text-size-picker, and share-picker into one page-header row. Headless, SSR-safe, no CSS.",
   "peerDependencies": {
     "@angular/core": ">=20.0.0 <23.0.0",
     "@angular/common": ">=20.0.0 <23.0.0"
   },
   "dependencies": {
+    "@lilydesignsystem/angular-link-picker": "^0.1.0",
     "@lilydesignsystem/angular-search-picker": "^0.1.0",
     "@lilydesignsystem/angular-theme-picker": "^0.2.0",
     "@lilydesignsystem/angular-locale-picker": "^0.2.0",

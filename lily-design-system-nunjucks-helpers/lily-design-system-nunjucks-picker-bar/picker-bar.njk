@@ -1,5 +1,5 @@
 {#
-  PickerBar macro — composes search-picker, theme-picker,
+  PickerBar macro — composes link-picker (optional, leftmost), search-picker, theme-picker,
   locale-picker, text-size-picker, and share-picker (in that order)
   into one page-header row.
 
@@ -25,6 +25,7 @@
   relative to the catalog root, exactly where `node_modules` would
   place it after a real install.
 #}
+{% from "lily-design-system-nunjucks-link-picker/dist/link-picker.njk" import linkPicker %}
 {% from "lily-design-system-nunjucks-search-picker/dist/search-picker.njk" import searchPicker %}
 {% from "lily-design-system-nunjucks-theme-picker/dist/theme-picker.njk" import themePicker %}
 {% from "lily-design-system-nunjucks-locale-picker/dist/locale-picker.njk" import localePicker %}
@@ -68,14 +69,24 @@
 ] -%}
 {#
   Params (single `opts` object):
-    labels        — object, required: { search, searchInput,
+    labels        — object, required: { link?, search, searchInput,
                     searchSubmit, theme, locale, textSize, share }.
+                    `link` names the link picker's button and list and is
+                    needed only when `links` is supplied.
                     The seven accessible names: `search` names the
                     search picker's button and search landmark,
                     `searchInput` its field, `searchSubmit` its ⏎
                     button. No English default — a
                     nav row this catalog invented is exactly what the
                     i18n rule exists to prevent hardcoding.
+    links         — array<object>. Page links for the link picker (a home
+                    icon), rendered FIRST — leftmost. Defined by the app,
+                    each { label, href, id?, current?, newTab? }. Omitted or
+                    empty (or no `labels.link`): no link picker.
+    linkProps     — object. Extra link-picker opts (name, id, classes,
+                    attributes). Its function-valued options (navigate,
+                    onNavigate) cannot pass through a macro — hand them to
+                    picker-bar.client.js's `linkProps` instead.
     themesUrl     — string, required. Forwarded to theme-picker.
     locales       — array<string>, required. Forwarded to locale-picker;
                     no catalog default exists.
@@ -130,6 +141,7 @@
 {%- macro pickerBar(opts) -%}
 {%- set themes = opts.themes | default(DEFAULT_THEMES) -%}
 {%- set sizes = opts.sizes | default(DEFAULT_SIZES) -%}
+{%- set linkProps = opts.linkProps | default({}) -%}
 {%- set searchProps = opts.searchProps | default({}) -%}
 {%- set themeProps = opts.themeProps | default({}) -%}
 {%- set localeProps = opts.localeProps | default({}) -%}
@@ -140,6 +152,16 @@
   data-lily-picker-bar-root
   {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
+{%- if opts.links and opts.links.length > 0 and opts.labels.link -%}
+{{ linkPicker({
+  label: opts.labels.link,
+  links: opts.links,
+  name: linkProps.name,
+  id: linkProps.id,
+  classes: linkProps.classes,
+  attributes: linkProps.attributes
+}) }}
+{%- endif %}
 {{ searchPicker({
   label: opts.labels.search,
   inputLabel: opts.labels.searchInput,

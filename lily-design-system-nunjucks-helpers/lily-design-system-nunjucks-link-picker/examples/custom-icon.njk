@@ -1,0 +1,6 @@
+{% from "lily-design-system-nunjucks-link-picker/dist/link-picker.njk" import linkPicker %}
+
+{# The {% call %} body replaces the icon inside the button, never the links. #}
+{% call linkPicker({label: "Pages", links: [{label: "Home", href: "/"}, {label: "About Us", href: "/about/"}]}) %}
+  <span aria-hidden="true">&#9776;</span>
+{% endcall %}

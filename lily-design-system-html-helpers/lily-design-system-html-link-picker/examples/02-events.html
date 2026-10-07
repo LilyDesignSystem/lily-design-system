@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>link-picker — events and routing</title>
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 2rem; max-width: 40rem; }
+      link-picker { display: inline-block; }
+      .link-picker { position: relative; display: inline-block; }
+      .link-picker-button { cursor: pointer; padding: 0.4rem 0.6rem; background: none; border: 1px solid currentColor; border-radius: 0.25rem; }
+      .link-picker-list {
+        position: absolute; inset-block-start: 100%; inset-inline-start: 0; z-index: 10;
+        margin: 0.25rem 0 0; padding: 0.25rem 0; list-style: none; min-inline-size: max-content;
+        background: #fff; border: 1px solid #d8dde0; border-radius: 0.25rem; box-shadow: 0 2px 8px rgb(0 0 0 / 0.12);
+      }
+      .link-picker-list[hidden], .link-picker-tooltip[hidden] { display: none; }
+      .link-picker-link { display: block; padding: 0.5rem 0.75rem; color: inherit; text-decoration: none; }
+      .link-picker-link:hover { background: #f0f4f5; }
+      .link-picker-link[aria-current="page"] { font-weight: 600; }
+      :focus-visible { outline: 3px solid #ffeb3b; outline-offset: 2px; }
+    </style>
+  </head>
+  <body>
+    <h1>link-picker — events and routing</h1>
+    <p>The cancelable navigate event lets a client-side router take over a plain click; the current page is marked.</p>
+    <link-picker id="pages" label="Pages"></link-picker>
+    <p id="log" aria-live="polite">Choose a link.</p>
+
+    <script type="module">
+      import "/dist/index.js";
+
+      const picker = document.getElementById("pages");
+      picker.links = [
+        { label: "Home", href: "/", current: true },
+        { label: "About Us", href: "/about/" },
+        { label: "Contact Us", href: "/contact/" },
+        { label: "Privacy Policy", href: "/privacy/" },
+      ];
+      picker.addEventListener("navigate", (event) => {
+        // A router would call its own navigate here; preventDefault stops the page load.
+        event.preventDefault();
+        document.getElementById("log").textContent = `navigate: ${event.detail.id}`;
+      });
+    </script>
+  </body>
+</html>

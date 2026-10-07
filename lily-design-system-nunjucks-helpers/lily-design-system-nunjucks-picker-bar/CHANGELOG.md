@@ -8,6 +8,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 **Picks up the pickers' new tooltips (no code change).** The composed pickers now each render a `.{helper}-tooltip` element after their icon button and wire it in their own `init*Picker`; `pickerBar` and `initPickerBar` need no change. Verified by the bar's tests: every picker in the bar renders its tooltip and `initPickerBar` wires it.
 
+## 0.3.0 — 2026-10-07
+
+**Added: an optional leftmost link picker (minor, additive).** New `links` (page links the app defines) and `labels.link` render a
+`link-picker` (a home icon opening a disclosure of those links) FIRST in the bar, before search. It renders only when both are
+supplied, so existing consumers see no change. No default links and no English. See the spec §7a (§L1–§L4).
+
 ## 0.2.0 — 2026-10-04
 
 **`search-picker` joins the bar, first in the row** (ports the

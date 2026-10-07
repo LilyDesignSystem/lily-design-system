@@ -15,18 +15,18 @@ the steps below actually having been done, not a separate bar.
 ## Version lines
 
 There is no lockstep version. Each published package owns its line, and
-the monorepo has its own (spec §14, currently 0.8.0, tagged `vX.Y.Z`).
+the monorepo has its own (spec §14, currently 0.9.0, tagged `vX.Y.Z`).
 
 | Line | Packages | Current |
 | --- | --- | --- |
-| Monorepo | the canonical catalog + docs, tagged on this repo | 0.8.0 |
+| Monorepo | the canonical catalog + docs, tagged on this repo | 0.9.0 |
 | svelte/react/vue headless | npm | 0.4.0, published 2026-10-06 (0.3.0 published 2026-10-05; scoped `@lilydesignsystem/*`; the unscoped 0.3.1 line predates the 2026-09-16 rescope) |
 | angular / web-components headless | npm | 0.5.0, published 2026-10-06 (0.4.0 published 2026-10-06) |
 | html headless | npm | 0.6.0, published 2026-10-06 (0.5.0 published 2026-10-06) |
 | nunjucks headless | npm | 0.4.0, published 2026-10-06 (0.3.0 published 2026-10-06) |
 | Blazor headless | NuGet (`LilyDesignSystem.Blazor.Headless`) | 0.4.0, published 2026-10-06 (0.3.0 published 2026-10-06) |
 | Helper packages (`*-picker`, `picker-bar`, `gantt-chart`, `kanban-board`; 8 catalogs) | npm / NuGet, one line each | each package's own `CHANGELOG.md` is the record; all published as of 2026-10-01 except `svelte-calendar-view` (not yet released) |
-| `@lilydesignsystem/themes` (added 2026-09-28) | npm | 0.3.1, published 2026-10-06 (0.3.0 published 2026-10-06) |
+| `@lilydesignsystem/themes` (added 2026-09-28) | npm | 0.4.0, published 2026-10-07 (0.3.1 published 2026-10-06) |
 
 **First releases are numbered 0.1.0**, whatever version number the tree
 carried internally. A first release numbered higher implies registry

@@ -1,0 +1,14 @@
+@* ChildContent replaces the icon inside the button, never the links. *@
+<LinkPicker Label="Pages" Links="_links">
+    <ChildContent Context="ctx">
+        <span aria-hidden="true">@(ctx.Open ? "▾" : "☰")</span>
+    </ChildContent>
+</LinkPicker>
+
+@code {
+    private readonly List<LinkItem> _links = new()
+    {
+        new() { Label = "Home", Href = "/" },
+        new() { Label = "About Us", Href = "/about/" },
+    };
+}

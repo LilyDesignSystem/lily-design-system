@@ -41,6 +41,12 @@ export default defineConfig({
           import.meta.url,
         ),
       ),
+      "@lilydesignsystem/nunjucks-link-picker": fileURLToPath(
+        new URL(
+          "./lily-design-system-nunjucks-link-picker/dist/index.js",
+          import.meta.url,
+        ),
+      ),
       "@lilydesignsystem/nunjucks-share-picker": fileURLToPath(
         new URL(
           "./lily-design-system-nunjucks-share-picker/dist/index.js",

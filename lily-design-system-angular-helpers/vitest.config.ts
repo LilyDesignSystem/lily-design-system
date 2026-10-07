@@ -59,6 +59,14 @@ export default defineConfig({
           import.meta.url,
         ),
       ),
+      // Added 2026-10-07: picker-bar's sixth wrapped picker, rendered leftmost (only when the app
+      // supplies links).
+      "@lilydesignsystem/angular-link-picker": fileURLToPath(
+        new URL(
+          "./lily-design-system-angular-link-picker/dist/fesm2022/lilydesignsystem-angular-link-picker.mjs",
+          import.meta.url,
+        ),
+      ),
       "@lilydesignsystem/angular-share-picker": fileURLToPath(
         new URL(
           "./lily-design-system-angular-share-picker/dist/fesm2022/lilydesignsystem-angular-share-picker.mjs",

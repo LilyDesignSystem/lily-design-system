@@ -4,6 +4,7 @@
     import TextSizePicker from "@lilydesignsystem/svelte-text-size-picker";
     import SharePicker from "@lilydesignsystem/svelte-share-picker";
     import SearchPicker from "@lilydesignsystem/svelte-search-picker";
+    import LinkPicker from "@lilydesignsystem/svelte-link-picker";
     import type { Props as ThemePickerProps } from "@lilydesignsystem/svelte-theme-picker";
     import type { Props as LocalePickerProps } from "@lilydesignsystem/svelte-locale-picker";
     import type { Props as TextSizePickerProps } from "@lilydesignsystem/svelte-text-size-picker";
@@ -12,6 +13,10 @@
         ShareTarget,
     } from "@lilydesignsystem/svelte-share-picker";
     import type { Props as SearchPickerProps } from "@lilydesignsystem/svelte-search-picker";
+    import type {
+        Props as LinkPickerProps,
+        LinkItem,
+    } from "@lilydesignsystem/svelte-link-picker";
 
     /**
      * All 45 Lily reference theme slugs (see `themes/` at the repo root),
@@ -83,8 +88,13 @@
         "smallest",
     ];
 
-    /** Accessible names for the five pickers. Required — no English default. */
+    /** Accessible names for the pickers. Required — no English default (`link` only when `links` is given). */
     export type PickerBarLabels = {
+        /**
+         * Accessible name for the link picker's button and list. Needed only when `links` is
+         * supplied; the link picker renders only when both are present.
+         */
+        link?: string;
         /** Accessible name for the search picker's button and search landmark. */
         search: string;
         /** Accessible name for the search picker's text field. */
@@ -105,6 +115,14 @@
     export type Props = {
         /** Accessible names for each picker. */
         labels: PickerBarLabels;
+
+        /**
+         * Page links for the link picker (a home icon), which renders FIRST — leftmost — in the bar.
+         * Defined by the app; omitted or empty means no link picker (and `labels.link` is then unused).
+         */
+        links?: LinkItem[];
+        /** Extra LinkPicker props (e.g. `navigate`, `onNavigate`), spread after this bar's own. */
+        linkProps?: Partial<Omit<LinkPickerProps, "label" | "links">>;
 
         /** Extra SearchPicker props (e.g. `action`, `navigate`, `placeholder`), spread after this bar's own. */
         searchProps?: Partial<Omit<SearchPickerProps, "label" | "inputLabel" | "submitLabel">>;
@@ -142,6 +160,8 @@
     let {
         class: className = "",
         labels,
+        links = [],
+        linkProps = {},
         searchProps = {},
         themesUrl,
         themes = DEFAULT_THEMES,
@@ -157,6 +177,9 @@
 </script>
 
 <div class={`picker-bar ${className}`.trim()} {...restProps}>
+    {#if links.length > 0 && labels.link}
+        <LinkPicker label={labels.link} {links} {...linkProps} />
+    {/if}
     <SearchPicker
         label={labels.search}
         inputLabel={labels.searchInput}

@@ -21,12 +21,14 @@
 // import whose binding is never used as a runtime value, dropping the
 // registration side effect with it. A bare side-effect import can
 // never be elided.
+import "@lilydesignsystem/web-components-link-picker";
 import "@lilydesignsystem/web-components-search-picker";
 import "@lilydesignsystem/web-components-theme-picker";
 import "@lilydesignsystem/web-components-locale-picker";
 import "@lilydesignsystem/web-components-text-size-picker";
 import "@lilydesignsystem/web-components-share-picker";
 
+import type { LinkPicker, LinkPickerProps, LinkItem } from "@lilydesignsystem/web-components-link-picker";
 import type { SearchPicker, SearchPickerProps } from "@lilydesignsystem/web-components-search-picker";
 import type { ThemePicker, ThemePickerProps } from "@lilydesignsystem/web-components-theme-picker";
 import type { LocalePicker, LocalePickerProps } from "@lilydesignsystem/web-components-locale-picker";
@@ -110,6 +112,11 @@ export const DEFAULT_SIZES: string[] = [
 
 /** Accessible names for the four pickers. Required — no English default. */
 export type PickerBarLabels = {
+  /**
+   * Accessible name for the link picker's button and list. Needed only when `links` is
+   * supplied; the link picker renders only when both are present.
+   */
+  link?: string;
   /** Accessible name for the search picker's button and search landmark. */
   search: string;
   /** Accessible name for the search picker's text field. */
@@ -147,6 +154,10 @@ export type PickerBarProps = {
   labels: PickerBarLabels;
   /** Property-only extra `<lily-search-picker>` config (`action`, `navigate`, `placeholder`, `onSearch`, …), applied after the bar's own. */
   searchProps?: Partial<Omit<SearchPickerProps, "label" | "inputLabel" | "submitLabel">>;
+  /** Page links for the link picker, which renders FIRST (leftmost). Omitted or empty: no link picker. */
+  links?: LinkItem[];
+  /** Property-only extra `<lily-link-picker>` config (`onNavigate`, …), applied after this bar's own. */
+  linkProps?: Partial<Omit<LinkPickerProps, "label" | "links">>;
   themesUrl: string;
   themes?: string[];
   /** Property-only extra `<lily-theme-picker>` config, applied after the bar's own. */
@@ -182,6 +193,8 @@ export class PickerBar extends HTMLElement {
   #sizes: string[] = [...DEFAULT_SIZES];
   #labels: PickerBarLabels = { ...DEFAULT_LABELS };
   #shareTargets: ShareTarget[] = [];
+  #links: LinkItem[] = [];
+  #linkProps: Partial<LinkPickerProps> = {};
   #searchProps: Partial<SearchPickerProps> = {};
   #themeProps: Partial<ThemePickerProps> = {};
   #localeProps: Partial<LocalePickerProps> = {};
@@ -190,6 +203,7 @@ export class PickerBar extends HTMLElement {
 
   #built = false;
   #rootEl: HTMLDivElement | null = null;
+  #linkEl: LinkPicker | null = null;
   #searchEl: SearchPicker | null = null;
   #themeEl: ThemePicker | null = null;
   #localeEl: LocalePicker | null = null;
@@ -250,6 +264,7 @@ export class PickerBar extends HTMLElement {
   }
   set labels(v: PickerBarLabels) {
     this.#labels = v ?? { ...DEFAULT_LABELS };
+    this.#syncLink();
     if (this.#searchEl) {
       this.#searchEl.label = this.#labels.search;
       this.#searchEl.inputLabel = this.#labels.searchInput;
@@ -268,6 +283,50 @@ export class PickerBar extends HTMLElement {
   set shareTargets(v: ShareTarget[]) {
     this.#shareTargets = Array.isArray(v) ? v.slice() : [];
     if (this.#shareEl) this.#shareEl.targets = this.#shareTargets;
+  }
+
+  /** Page links for the link picker (leftmost). Property-only. */
+  get links(): LinkItem[] {
+    return [...this.#links];
+  }
+  set links(v: LinkItem[]) {
+    this.#links = Array.isArray(v) ? v.slice() : [];
+    this.#syncLink();
+  }
+
+  get linkProps(): Partial<LinkPickerProps> {
+    return { ...this.#linkProps };
+  }
+  set linkProps(v: Partial<LinkPickerProps>) {
+    this.#linkProps = v ?? {};
+    if (this.#linkEl) Object.assign(this.#linkEl, this.#linkProps);
+  }
+
+  /** The rendered `<lily-link-picker>` instance (null when no links). */
+  get linkPicker(): LinkPicker | null {
+    return this.#linkEl;
+  }
+
+  /**
+   * Create, update or remove the link picker so it is the root's first child exactly when
+   * `links` is non-empty and `labels.link` is set. The picker is optional, so unlike the
+   * other five it can appear and disappear after the bar is rendered.
+   */
+  #syncLink(): void {
+    if (!this.#rootEl) return;
+    const wanted = this.#links.length > 0 && !!this.#labels.link;
+    if (!wanted) {
+      this.#linkEl?.remove();
+      this.#linkEl = null;
+      return;
+    }
+    if (!this.#linkEl) {
+      this.#linkEl = document.createElement("lily-link-picker") as LinkPicker;
+      this.#rootEl.insertBefore(this.#linkEl, this.#rootEl.firstChild);
+    }
+    this.#linkEl.label = this.#labels.link as string;
+    this.#linkEl.links = this.#links;
+    Object.assign(this.#linkEl, this.#linkProps);
   }
 
   get searchProps(): Partial<SearchPickerProps> {
@@ -421,5 +480,7 @@ export class PickerBar extends HTMLElement {
     this.#localeEl = localeEl;
     this.#textSizeEl = textSizeEl;
     this.#shareEl = shareEl;
+    this.#linkEl = null;
+    this.#syncLink();
   }
 }

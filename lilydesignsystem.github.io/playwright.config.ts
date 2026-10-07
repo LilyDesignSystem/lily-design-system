@@ -8,8 +8,8 @@ export default defineConfig({
   reporter: process.env.CI ? 'github' : 'list',
   use: {
     baseURL: 'http://localhost:4173',
-    // Plain "en" has no /locales/ route, so "/" is not redirected (en-US, Playwright's default, is).
-    locale: 'en',
+    // A language with no /locales/ route, so "/" is not redirected (en-US, Playwright's default, is).
+    locale: 'de-DE',
     trace: 'on-first-retry'
   },
   projects: [

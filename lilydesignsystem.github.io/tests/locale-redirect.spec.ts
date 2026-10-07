@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import { pickLocaleRoute } from '../src/lib/locale-redirect';
 
 const available = ['ar-001', 'cy-001', 'cy-gb', 'en-001', 'en-gb', 'en-us', 'fr-001', 'pt-001', 'zh-cn'];
-const pick = (...langs: string[]) => pickLocaleRoute(langs, available, 'en-001');
+const pick = (...langs: string[]) => pickLocaleRoute(langs, available);
 
 test.describe('pickLocaleRoute', () => {
   test('exact region match, hyphen or underscore, any case', () => {
@@ -25,14 +25,15 @@ test.describe('pickLocaleRoute', () => {
     expect(pick('de-DE')).toBeNull();
     expect(pick('')).toBeNull();
   });
-  test('the default locale means stay on "/"', () => {
-    expect(pick('en')).toBeNull();
-    expect(pick('en-AU')).toBeNull();
-    expect(pick('en-001')).toBeNull();
+  test('English variants without their own route go to the international en-001', () => {
+    expect(pick('en')).toBe('en-001');
+    expect(pick('en-AU')).toBe('en-001');
+    expect(pick('en-001')).toBe('en-001');
+    expect(pick('en-GB')).toBe('en-gb');
   });
   test('earlier preferences win, and unmatched ones are skipped', () => {
     expect(pick('de-DE', 'fr-CA', 'cy-GB')).toBe('fr-001');
-    expect(pick('en-AU', 'cy-GB')).toBeNull();
+    expect(pick('de-DE', 'en-AU')).toBe('en-001');
   });
 });
 
@@ -51,10 +52,10 @@ test.describe('home page redirect', () => {
   });
   test.describe('English (Australia) browser', () => {
     test.use({ locale: 'en-AU' });
-    test('"/" stays', async ({ page }) => {
+    test('"/" goes to /locales/en-001/ (there is no en-au route)', async ({ page }) => {
       await page.goto('/');
-      await page.waitForTimeout(800);
-      expect(new URL(page.url()).pathname).toBe('/');
+      await page.waitForURL('**/locales/en-001/');
+      await expect(page.locator('html')).toHaveAttribute('lang', 'en');
     });
   });
   test.describe('unsupported language browser', () => {

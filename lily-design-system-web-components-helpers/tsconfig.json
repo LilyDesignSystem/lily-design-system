@@ -9,6 +9,7 @@
     "declaration": true,
     "baseUrl": ".",
     "paths": {
+      "@lilydesignsystem/web-components-link-picker": ["./lily-design-system-web-components-link-picker/dist/index.d.ts"],
       "@lilydesignsystem/web-components-search-picker": ["./lily-design-system-web-components-search-picker/dist/index.d.ts"],
       "@lilydesignsystem/web-components-theme-picker": ["./lily-design-system-web-components-theme-picker/dist/index.d.ts"],
       "@lilydesignsystem/web-components-locale-picker": ["./lily-design-system-web-components-locale-picker/dist/index.d.ts"],

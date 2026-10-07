@@ -1,0 +1,12 @@
+@* The app defines the links: the package ships no routes and no English. *@
+<LinkPicker Label="Pages" Links="_links" />
+
+@code {
+    private readonly List<LinkItem> _links = new()
+    {
+        new() { Label = "Home", Href = "/" },
+        new() { Label = "About Us", Href = "/about/" },
+        new() { Label = "Contact Us", Href = "/contact/" },
+        new() { Label = "Privacy Policy", Href = "/privacy/" },
+    };
+}

@@ -44,7 +44,7 @@ framework stacks through tutorials.
   (`angular`, `blazor`, `html`, `nunjucks`, `react`, `svelte`, `vue`) and
   two cross-cutting tutorials: `theming` (linking a ready-made theme,
   overriding it, and runtime switching with theme-picker) and `helpers`
-  (all seven pickers — theme, locale, text-size, motion, share, search,
+  (all eight pickers — theme, locale, text-size, motion, share, search,
   date-time — plus `picker-bar`, the tooltips, and a combined settings panel).
 - The home page's framework icon row includes an 8th icon, Web
   Components, which links directly to its GitHub repo rather than a
@@ -99,7 +99,7 @@ lilydesignsystem.github.io/
 │           ├── +page.svelte                Tutorials index
 │           ├── angular/, blazor/, html/, nunjucks/, react/, svelte/, vue/
 │           ├── theming/                    Cross-cutting: theme-picker
-│           └── helpers/                    Cross-cutting: all seven pickers + picker-bar
+│           └── helpers/                    Cross-cutting: all eight pickers + picker-bar
 ├── static/
 │   ├── CNAME                 Custom domain (lilydesignsystem.com)
 │   ├── .nojekyll             Disables Jekyll on GitHub Pages
@@ -237,7 +237,7 @@ The repo root's `bin/test` enforces this: `registry_count_or_err` asserts
 - [x] No page uses a pre-rename (`*-select` / `*-button`) name for a
       helper package, class hook, or import path.
 - [x] `/examples/` lists all seven example apps; `/tutorials/helpers/`
-      covers all seven pickers and `picker-bar`.
+      covers all eight pickers and `picker-bar`.
 - [x] The picker bar renders live in the global
       header (`SitePreferences.svelte`), using the real published npm
       packages — verified 2026-09-06.
@@ -259,7 +259,7 @@ The repo root's `bin/test` enforces this: `registry_count_or_err` asserts
   and required files per subproject, which this file satisfies.
 - [components](../../spec/components/index.md) — the 571-component
   catalog this site presents.
-- [helpers](../../spec/helpers/index.md) — the `*-helpers` packages (seven pickers and `picker-bar`);
+- [helpers](../../spec/helpers/index.md) — the `*-helpers` packages (eight pickers and `picker-bar`);
   three are live in this site's header, three remain prose-only (§7).
 - [tooling](../../spec/tooling/index.md) — `bin/generate-registries` and
   `bin/test`'s checks against this subproject.

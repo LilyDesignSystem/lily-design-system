@@ -16,6 +16,10 @@ namespace LilyDesignSystem.Blazor.Helpers;
 /// </summary>
 public sealed record PickerBarLabels
 {
+    /// <summary>Accessible name for the link picker's icon button and list. Needed only when
+    /// <c>Links</c> is supplied; the link picker renders only when both are present.</summary>
+    public string? Link { get; init; }
+
     /// <summary>Accessible name for the search picker's icon button and search landmark.</summary>
     public required string Search { get; init; }
 
@@ -119,6 +123,18 @@ public partial class PickerBar : ComponentBase
 
     /// <summary>Accessible names for each picker.</summary>
     [Parameter, EditorRequired] public PickerBarLabels Labels { get; set; } = default!;
+
+    /// <summary>
+    /// Page links for the link picker (a home icon), which renders FIRST — leftmost. Defined by
+    /// the app; omitted or empty (or no <c>Labels.Link</c>) means no link picker.
+    /// </summary>
+    [Parameter] public IReadOnlyList<LinkItem> Links { get; set; } = Array.Empty<LinkItem>();
+
+    /// <summary>
+    /// Extra LinkPicker parameters (e.g. <c>OnNavigate</c>), splatted onto the nested LinkPicker
+    /// after this bar's own parameters.
+    /// </summary>
+    [Parameter] public Dictionary<string, object>? LinkAttributes { get; set; }
 
     /// <summary>
     /// Extra SearchPicker parameters (e.g. <c>Action</c>, <c>Navigate</c>,

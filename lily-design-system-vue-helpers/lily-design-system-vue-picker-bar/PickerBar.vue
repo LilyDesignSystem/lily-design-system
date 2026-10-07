@@ -3,6 +3,7 @@ import ThemePicker from "@lilydesignsystem/vue-theme-picker";
 import LocalePicker from "@lilydesignsystem/vue-locale-picker";
 import TextSizePicker from "@lilydesignsystem/vue-text-size-picker";
 import SharePicker from "@lilydesignsystem/vue-share-picker";
+import LinkPicker from "@lilydesignsystem/vue-link-picker";
 import SearchPicker from "@lilydesignsystem/vue-search-picker";
 import type { Props as ThemePickerProps } from "@lilydesignsystem/vue-theme-picker";
 import type { Props as LocalePickerProps } from "@lilydesignsystem/vue-locale-picker";
@@ -12,6 +13,10 @@ import type {
     ShareTarget,
 } from "@lilydesignsystem/vue-share-picker";
 import type { Props as SearchPickerProps } from "@lilydesignsystem/vue-search-picker";
+import type {
+    Props as LinkPickerProps,
+    LinkItem,
+} from "@lilydesignsystem/vue-link-picker";
 
 /**
  * All 45 Lily reference theme slugs (see `themes/` at the repo root),
@@ -83,8 +88,13 @@ export const DEFAULT_SIZES: string[] = [
     "smallest",
 ];
 
-/** Accessible names for the five pickers. Required — no English default. */
+/** Accessible names for the pickers. Required — no English default (`link` only when `links` is given). */
 export type PickerBarLabels = {
+    /**
+     * Accessible name for the link picker's button and list. Needed only when `links` is
+     * supplied; the link picker renders only when both are present.
+     */
+    link?: string;
     /** Accessible name for the search picker's button and search landmark. */
     search: string;
     /** Accessible name for the search picker's text field. */
@@ -105,6 +115,11 @@ export type PickerBarLabels = {
 export type Props = {
     /** Accessible names for each picker. */
     labels: PickerBarLabels;
+
+    /** Page links for the link picker (a home icon), which renders FIRST — leftmost. Omitted or empty: no link picker. */
+    links?: LinkItem[];
+    /** Extra LinkPicker props (e.g. `navigate`), bound after this bar's own. */
+    linkProps?: Partial<Omit<LinkPickerProps, "label" | "links" | "class">>;
 
     /** Extra SearchPicker props (e.g. `action`, `navigate`, `placeholder`), bound after this bar's own. */
     searchProps?: Partial<
@@ -144,6 +159,8 @@ export type Props = {
 
 <script setup lang="ts">
 const props = withDefaults(defineProps<Props>(), {
+    links: () => [],
+    linkProps: () => ({}),
     searchProps: () => ({}),
     themes: () => DEFAULT_THEMES,
     themeProps: () => ({}),
@@ -161,6 +178,7 @@ const props = withDefaults(defineProps<Props>(), {
 // fully typed, rather than accepting an untyped `onChange` key inside
 // `themeProps` et al.
 const emit = defineEmits<{
+    (event: "link-navigate", id: string, href: string): void;
     (event: "search", query: string, href: string): void;
     (event: "theme-change", value: string): void;
     (event: "locale-change", value: string): void;
@@ -173,6 +191,13 @@ const emit = defineEmits<{
 
 <template>
     <div :class="`picker-bar ${props.class}`.trim()">
+        <LinkPicker
+            v-if="links.length > 0 && labels.link"
+            :label="labels.link"
+            :links="links"
+            v-bind="linkProps"
+            @navigate="(id: string, href: string) => emit('link-navigate', id, href)"
+        />
         <SearchPicker
             :label="labels.search"
             :inputLabel="labels.searchInput"

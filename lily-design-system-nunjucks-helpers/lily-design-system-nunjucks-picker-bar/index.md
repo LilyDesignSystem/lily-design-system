@@ -1,5 +1,7 @@
 # Lily Design System™ — Nunjucks PickerBar
 
+> **Link picker (0.3.0).** Pass `links` (and `labels.link`) to add a `link-picker` — a home icon opening the page links your app defines — as the leftmost icon. It renders only when both are given.
+
 A single page-header macro that composes five of the Lily
 [`*-picker` helpers](../index.md) in this catalog — search, theme,
 locale, text size, and share, in that order — with two catalog-wide

@@ -1,5 +1,7 @@
 # AGENTS — PickerBar (Nunjucks helper)
 
+> **Link picker (0.3.0).** Pass `links` (and `labels.link`) to add a `link-picker` — a home icon opening the page links your app defines — as the leftmost icon. It renders only when both are given.
+
 Single source of truth: [spec/index.md](./spec/index.md). Read it first; everything
 below is a fast index.
 

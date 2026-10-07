@@ -1,0 +1,21 @@
+@inject NavigationManager Navigation
+
+@* Blazor's router handles the clicks; `Current` marks the page you are on with aria-current="page". *@
+<LinkPicker Label="Pages" Links="Links" OnNavigate="OnNavigate" />
+
+@code {
+    private static readonly (string Label, string Href)[] Pages =
+    {
+        ("Home", "/"), ("About Us", "/about/"), ("Contact Us", "/contact/"), ("Privacy Policy", "/privacy/"),
+    };
+
+    private IReadOnlyList<LinkItem> Links => Pages
+        .Select(p => new LinkItem { Label = p.Label, Href = p.Href, Current = "/" + Navigation.ToBaseRelativePath(Navigation.Uri).TrimEnd('/') == p.Href.TrimEnd('/') || (p.Href == "/" && Navigation.ToBaseRelativePath(Navigation.Uri) == "") })
+        .ToList();
+
+    private Task OnNavigate(LinkNavigateEventArgs args)
+    {
+        Console.WriteLine($"chosen {args.Id} -> {args.Href}");
+        return Task.CompletedTask;
+    }
+}

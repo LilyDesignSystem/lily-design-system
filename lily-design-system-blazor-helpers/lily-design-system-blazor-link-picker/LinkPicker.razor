@@ -1,0 +1,83 @@
+@namespace LilyDesignSystem.Blazor.Helpers
+@using LilyBlazorHeadless.Components
+
+@*
+    LinkPicker — Blazor helper component.
+    Single source of truth: spec/index.md (the Svelte spec is canonical; this is its Blazor port).
+
+    Renders an icon button (a bundled home SVG) that opens a disclosure list of page links the
+    app defines. A disclosure, not a menu: the links are real <a href> elements with no role
+    override, so middle-click, open-in-new-tab and copy-link-address keep working — and Blazor's
+    own router intercepts a same-origin click, so no navigate hook is needed here.
+
+    Focus moves are deferred to OnAfterRenderAsync, so the component is SSR / prerender safe and
+    ships no JS file.
+*@
+
+<div class="@RootClass"
+     @onfocusout="OnRootFocusOutAsync"
+     @onkeydown="OnTipRootKeyDown"
+     @attributes="AdditionalAttributes">
+
+    <IconButton @ref="_triggerComponent"
+                Label="@Label"
+                BaseCssClass="link-picker-button"
+                aria-expanded="@(_open ? "true" : "false")"
+                aria-controls="@ListId"
+                @onclick="OnTriggerClickAsync"
+                @onkeydown="OnTriggerKeyDownAsync"
+                @onfocus="OnTriggerFocus"
+                @onmouseenter="OnTipButtonEnter" @onmouseleave="OnTipButtonLeave"
+                @onmousedown="OnTipButtonMouseDown" @onblur="OnTipButtonBlur">
+        @if (ChildContent is not null)
+        {
+            @ChildContent(BuildContext())
+        }
+        else
+        {
+            @* The icon is decorative: the accessible name is the button's aria-label, never the
+               icon itself. *@
+            <svg class="link-picker-icon" viewBox="0 0 16 16" aria-hidden="true"
+                 fill="none" stroke="currentColor" stroke-width="1.6"
+                 stroke-linecap="round" stroke-linejoin="round"
+                 width="1.05rem" height="1.05rem">
+                <path d="M2 7.5 8 2.5l6 5" />
+                <path d="M3.5 6.5v7h9v-7" />
+                <path d="M6.5 13.5V10h3v3.5" />
+            </svg>
+        }
+    </IconButton>
+
+    @* Purely visual: the same text is already the button's aria-label, so it is not wired with
+       aria-describedby (that would announce the name twice). *@
+    <div class="link-picker-tooltip" role="tooltip" id="@TooltipId" hidden="@(!TooltipVisible)"
+         @onkeydown="OnTipRootKeyDown" @onmouseenter="OnTipTooltipEnter" @onmouseleave="OnTipTooltipLeave">@Label</div>
+
+    @* mousedown default is suppressed so pressing a link does not blur the focused element
+       before the click handler runs. The list carries the picker's accessible name. *@
+    <ul class="link-picker-list"
+        id="@ListId"
+        aria-label="@Label"
+        hidden="@(!_open)"
+        @ref="_listElement"
+        @onkeydown="OnListKeyDownAsync"
+        @onmousedown:preventDefault="true">
+        @for (var i = 0; i < Links.Count; i++)
+        {
+            var index = i;
+            var link = Links[index];
+            <li class="link-picker-list-item">
+                @* A real link, not role="menuitem": these ARE navigation. *@
+                <a class="link-picker-link"
+                   data-link-id="@LinkId(link)"
+                   href="@link.Href"
+                   aria-current="@(link.Current ? "page" : null)"
+                   target="@(link.NewTab ? "_blank" : null)"
+                   rel="@(link.NewTab ? "noopener noreferrer" : null)"
+                   @ref="_itemElements[index]"
+                   @onfocus="() => OnItemFocus(index)"
+                   @onclick="() => ChooseAsync(index)">@link.Label</a>
+            </li>
+        }
+    </ul>
+</div>

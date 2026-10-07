@@ -48,6 +48,12 @@ export default defineConfig({
           import.meta.url,
         ),
       ),
+      "@lilydesignsystem/react-link-picker": fileURLToPath(
+        new URL(
+          "./lily-design-system-react-link-picker/dist/index.js",
+          import.meta.url,
+        ),
+      ),
       "@lilydesignsystem/react-share-picker": fileURLToPath(
         new URL(
           "./lily-design-system-react-share-picker/dist/index.js",

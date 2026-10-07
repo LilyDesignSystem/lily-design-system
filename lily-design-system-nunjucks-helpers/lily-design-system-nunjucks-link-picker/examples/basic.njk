@@ -1,0 +1,15 @@
+{#
+  The app defines the links: the package ships no routes and no English.
+  `current` marks the page you are on with aria-current="page".
+#}
+{% from "lily-design-system-nunjucks-link-picker/dist/link-picker.njk" import linkPicker %}
+
+{{ linkPicker({
+  label: "Pages",
+  links: [
+    {label: "Home", href: "/", current: page.url == "/"},
+    {label: "About Us", href: "/about/", current: page.url == "/about/"},
+    {label: "Contact Us", href: "/contact/", current: page.url == "/contact/"},
+    {label: "Privacy Policy", href: "/privacy/", current: page.url == "/privacy/"}
+  ]
+}) }}

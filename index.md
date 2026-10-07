@@ -84,7 +84,7 @@ Headless versions if you want to use components with all your own styles:
 ## Helpers
 
 Per-framework helper catalogs of small, opinionated packages. Each catalog
-ships seven `*-picker` helpers — 56 packages across 8 catalogs — and each
+ships eight `*-picker` helpers — 64 packages across 8 catalogs — and each
 owns one complete interaction end to end:
 
 - **theme-picker**, **locale-picker**, **text-size-picker**, **motion-picker**

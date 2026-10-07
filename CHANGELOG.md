@@ -18,6 +18,20 @@ component changed. Comments are stripped before matching, and two deliberate mut
 behind another class) are each caught. Wired into `bin/test` and CI. It verifies presence and order in the source,
 not that the class sits on the root element.
 
+## 0.9.0 — `link-picker`, an eighth picker, and a leftmost link picker in `picker-bar` — 2026-10-07
+
+A new helper in all eight catalogs: a **home icon** opening a dropdown of **page links the app defines** (Home → `/`, About Us,
+Contact Us, Privacy Policy, …). A disclosure of real `<a>` links like `share-picker`, not a menu; no default links and no English;
+the picker tooltip; keyboard per the disclosure pattern; `aria-current="page"` and `newTab` per link. Client-side routing is the
+app's — a `navigate` hook (Svelte, React, Vue, Angular), a cancelable `navigate` event (HTML, Web Components), client-runtime hooks
+(Nunjucks), or nothing (Blazor's router intercepts the links). Packages: `@lilydesignsystem/{svelte,react,vue,angular,html,
+nunjucks,web-components}-link-picker` and `LilyDesignSystem.Blazor.LinkPicker`, all 0.1.0, each with a spec, 24–26 tests (one per
+clause) and examples for Home, About Us, Contact Us and Privacy Policy. `picker-bar` 0.3.0 (additive) renders it as the
+**leftmost** icon when given `links` (and `labels.link`); without them nothing changes. All 45 themes style it (popup anchored and
+flipped at the window edge; `bin/check-theme` knows the new hooks); a new `spec/link-picker` topic; `bin/smoke-packages` renders it
+in each consumer; `bin/sync-special-files`'s install tables list it (and the previously missing search-picker). Picker count 56 → 64.
+Published with `@lilydesignsystem/themes` 0.4.0 (the new class hooks). Not yet wired into the docs site's header.
+
 ## 0.8.0 — `DateRange` and `ReviewDate` contracts, theme error contrast, class-name audit — 2026-10-06
 
 Rolls up the four entries below (all breaking for some consumers, hence the minor bump) and publishes them:
@@ -31,10 +45,10 @@ svelte/react/vue headless and every helper package are unchanged and stay at the
 
 On the first visit of a session, `/` now sends a visitor whose browser language has a matching `/locales/<code>/` route
 there (`cy-GB`/`cy_GB` → `/locales/cy-gb/`, `fr-CA` → `/locales/fr-001/`, `zh-Hans-CN` → `/locales/zh-cn/`). Region first,
-then the language's `-001` generic; no other fallbacks; a match on the default `en-001` stays put. Client-side only
+then the language's international `-001` route (`en-AU` → `/locales/en-001/`, `fr-CA` → `/locales/fr-001/`); no other fallbacks.
 (crawlers and the prerendered page are unchanged), once per session, `replaceState`. `src/lib/locale-redirect.ts` holds
-the pure matcher. 9 new tests; docs-site suite 2,874 passed, 0 failed. Note: `en-US` and `en-GB` browsers are redirected
-to the site's English variants, which carry the same English text. Not yet deployed.
+the pure matcher. `en-US` and `en-GB` browsers are redirected to the site's English variants, and `en`/`en-AU` to `/locales/en-001/`, which all carry
+the same English text. Deployed 2026-10-07 (the first version, which kept `en`/`en-AU` on `/`; the `-001` fallback for them was added after).
 
 ## Picker popups no longer slide the page — 2026-10-06
 
