@@ -319,9 +319,9 @@ export function LinkPicker({
                         strokeLinecap="round"
                         strokeLinejoin="round"
                     >
-                        <path d="M2 7.5 8 2.5l6 5" />
-                        <path d="M3.5 6.5v7h9v-7" />
-                        <path d="M6.5 13.5V10h3v3.5" />
+                        <path d="M1 8 8 1.5l7 6.5" />
+                        <path d="M2.5 7v7.5h11V7" />
+                        <path d="M6.5 14.5v-4h3v4" />
                     </svg>
                 )}
             </IconButton>

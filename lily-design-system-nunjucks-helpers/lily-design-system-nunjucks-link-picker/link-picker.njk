@@ -58,7 +58,7 @@
   {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
 <button type="button" class="link-picker-button" aria-label="{{ opts.label }}" aria-expanded="false" aria-controls="{{ listId }}" data-lily-link-picker-button>
-{%- if caller %}{{ caller() }}{% else %}<svg class="link-picker-icon" viewBox="0 0 16 16" width="1.05rem" height="1.05rem" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7.5 8 2.5l6 5"/><path d="M3.5 6.5v7h9v-7"/><path d="M6.5 13.5V10h3v3.5"/></svg>{% endif -%}
+{%- if caller %}{{ caller() }}{% else %}<svg class="link-picker-icon" viewBox="0 0 16 16" width="1.05rem" height="1.05rem" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 8 8 1.5l7 6.5"/><path d="M2.5 7v7.5h11V7"/><path d="M6.5 14.5v-4h3v4"/></svg>{% endif -%}
 </button>
 <div class="link-picker-tooltip" role="tooltip" id="{{ id }}-tooltip" hidden>{{ opts.label }}</div>
 {#- Named like the sibling pickers' popups: a screen reader entering the list hears what it is for. -#}

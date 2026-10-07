@@ -151,7 +151,7 @@ export class LinkPicker extends HTMLElement {
         svg.setAttribute("stroke-width", "1.6");
         svg.setAttribute("stroke-linecap", "round");
         svg.setAttribute("stroke-linejoin", "round");
-        for (const d of ["M2 7.5 8 2.5l6 5", "M3.5 6.5v7h9v-7", "M6.5 13.5V10h3v3.5"]) {
+        for (const d of ["M1 8 8 1.5l7 6.5", "M2.5 7v7.5h11V7", "M6.5 14.5v-4h3v4"]) {
             const path = document.createElementNS(SVG_NS, "path");
             path.setAttribute("d", d);
             svg.appendChild(path);
