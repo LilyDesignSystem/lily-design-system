@@ -98,7 +98,7 @@ All twenty-six follow the `lily-design-system-` prefix and get full subproject t
 - [generate-examples](../bin/generate-examples): Usage examples (from the docs) and rendered variants (component-variants.json) for every demonstration page
 - [extract-site-pages](../bin/extract-site-pages): The docs site's eight main English pages as translation sources (`src/lib/pages/*/en.html`)
 - [check-site-page-translations](../bin/check-site-page-translations): Translated site pages keep the English markup structure and code samples, and each language is complete
-- [generate-locale-pages](../bin/generate-locale-pages): `/locales/<code>/<page>/` routes for every translated language
+- [generate-locale-pages](../bin/generate-locale-pages): `/<code>/<page>/` routes for every translated language
 - [generate-site-pages](../bin/generate-site-pages): Docs-site component pages from components/{slug}/index.md, with the Example section refreshed on every page
 - [generate-sitemap](../bin/generate-sitemap): Docs-site sitemap.xml from the route tree (`--check` reports drift)
 - [smoke-packages](../bin/smoke-packages): Pack + install each published headless tarball into a scratch consumer and render it

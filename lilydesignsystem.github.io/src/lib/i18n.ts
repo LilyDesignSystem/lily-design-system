@@ -1,4 +1,4 @@
-// UI chrome strings for the /locales/<code>/ tree: nav, footer, picker
+// UI chrome strings for the /<code>/ tree: nav, footer, picker
 // labels, and the localized home page's hero/card copy. Deeper content
 // (tutorials, component docs, etc.) is not translated yet — see
 // spec/locales-for-global-sharing-with-svelte/index.md's "starts empty"

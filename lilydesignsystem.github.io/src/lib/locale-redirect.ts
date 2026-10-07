@@ -1,4 +1,4 @@
-// Pick the /locales/<code>/ route that best matches the browser's language preferences, for the
+// Pick the /<code>/ route that best matches the browser's language preferences, for the
 // home page's first-visit redirect. Pure so it can be tested without a browser.
 //
 // Matching, per preferred language in order (navigator.languages, else navigator.language):

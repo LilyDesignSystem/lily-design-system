@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Locale routes drop the `/locales/` prefix — 2026-10-07
+
+`/locales/en-us/` is now `/en-us/`, `/locales/cy-gb/help/` is `/cy-gb/help/`, for all 15 locales; only the locale list stays at `/locales/`.
+The old `/locales/<code>/` URLs are gone (404) by decision, not redirected. `bin/test` now forbids bare-language route directories and
+anything under `src/routes/locales/` except the index.
+
 ## Docs-site main pages translated into 11 languages — 2026-10-07
 
 About, Why Lily, Accessibility, Help, Comparisons, Tutorials, Examples and Skills now exist at `/locales/<code>/<page>/` for all

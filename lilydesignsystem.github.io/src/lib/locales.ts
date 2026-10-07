@@ -1,4 +1,4 @@
-// Locale registry for the site's /locales/<code>/ tree. Source of truth
+// Locale registry for the site's /<code>/ tree. Source of truth
 // for the codes themselves is spec/locales-for-global-sharing-with-svelte
 // /locales.tsv — keep the two in sync if a locale is added or removed.
 //

@@ -3,11 +3,11 @@ import { LOCALE_LABELS, bcp47Tag, isRtl } from '#lib/locales.js';
 
 // Sets <html lang dir> per route at prerender time (adapter-static still
 // runs this hook once per discovered page during the build), so a direct
-// visit to e.g. /locales/ar-001/ renders with the correct language and
+// visit to e.g. /ar-001/ renders with the correct language and
 // text direction from the very first byte — no client-side flash of the
 // wrong direction while LocalePicker's own runtime dir-switching catches
 // up. Non-locale routes keep the app.html default (lang="en").
-const LOCALE_PATH = /^\/locales\/([a-z0-9-]+)\//;
+const LOCALE_PATH = /^\/([a-z0-9-]+)\//;
 
 export const handle: Handle = async ({ event, resolve }) => {
   const match = LOCALE_PATH.exec(event.url.pathname);

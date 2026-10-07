@@ -337,12 +337,20 @@ test_lockfiles_are_tracked() (
 # Every locale directory is <language>-<region> (e.g. cy-gb, en-001), never a bare language like
 # "en" (lilydesignsystem.github.io/spec/locales-for-global-sharing-with-svelte, "Locale directory names").
 test_locale_directories_have_a_region() (
-    dir="$top/lilydesignsystem.github.io/src/routes/locales"
+    dir="$top/lilydesignsystem.github.io/src/routes"
     [ -d "$dir" ] || return 0
-    # find, not a glob: this script runs with globbing off (set -f).
-    bad="$(find "$dir" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; \
-        | grep -Evx '[a-z]{2,3}-([a-z]{2}|[0-9]{3})(-[a-z0-9]+)?' | tr '\n' ' ' || true)"
+    # Locale routes live at /<code>/ (no /locales/ prefix since 2026-10-07). A bare language
+    # directory (two or three letters, no region) is the forbidden shape; find, not a glob: this
+    # script runs with globbing off (set -f).
+    names="$(find "$dir" -mindepth 1 -maxdepth 1 -type d -exec basename {} \;)"
+    langs="$(printf %s\\n "$names" | grep -Ex '[a-z]{2,3}-([a-z]{2}|[0-9]{3})(-[a-z0-9]+)?' | cut -d- -f1 | sort -u || true)"
+    bad=""
+    for l in $langs; do
+        if printf %s\\n "$names" | grep -qx "$l"; then bad="$bad$l "; fi
+    done
     test -z "$bad" || err "locale directories must be <language>-<region>, found: $bad"
+    sub="$(find "$dir/locales" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | tr '\n' ' ' || true)"
+    test -z "$sub" || err "locale routes live at /<code>/, not under /locales/: $sub"
 )
 
 test_helper_glyphs_are_bare

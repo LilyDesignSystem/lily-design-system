@@ -66,11 +66,11 @@ for (const slug of SLUGS) {
   for (const f of fs.readdirSync(path.join(pagesDir, slug))) if (f.endsWith(".html") && f !== "en.html") langs.add(f.slice(0, -5));
 }
 const localeLangs = new Set(
-  fs.readdirSync(path.join(site, "src/routes/locales"), { withFileTypes: true }).filter((e) => e.isDirectory()).map((e) => e.name.split("-")[0])
+  fs.readdirSync(path.join(site, "src/routes"), { withFileTypes: true }).filter((e) => e.isDirectory() && /^[a-z]{2,3}-([a-z]{2}|[0-9]{3})(-[a-z0-9]+)?$/.test(e.name)).map((e) => e.name.split("-")[0])
 );
 
 for (const lang of [...langs].sort()) {
-  if (!localeLangs.has(lang)) err(`${lang}: no /locales/${lang}-*/ directory uses this language`);
+  if (!localeLangs.has(lang)) err(`${lang}: no /${lang}-*/ directory uses this language`);
   for (const slug of SLUGS) {
     const file = path.join(pagesDir, slug, lang + ".html");
     const label = `${slug}/${lang}.html`;

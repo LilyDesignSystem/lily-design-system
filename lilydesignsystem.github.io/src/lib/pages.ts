@@ -1,4 +1,4 @@
-// Translated text pages for the /locales/<code>/<page>/ tree.
+// Translated text pages for the /<code>/<page>/ tree.
 //
 // The English source of each page is src/routes/<slug>/+page.svelte; bin/extract-site-pages turns it into
 // src/lib/pages/<slug>/en.html, and each language adds <slug>/<language>.html with the same markup
@@ -55,18 +55,18 @@ export function pageFor(slug: PageSlug, locale: string): TranslatedPage | null {
 
 /**
  * Point the page's internal links at the same locale's translated pages, so a reader who started in
- * Welsh stays in Welsh: href="/about/" becomes href="/locales/cy-gb/about/". Links to pages that
+ * Welsh stays in Welsh: href="/about/" becomes href="/cy-gb/about/". Links to pages that
  * have no translation (components, the tutorials per framework, …) are left alone.
  */
 export function localizeLinks(html: string, locale: string): string {
   const slugs = PAGE_SLUGS.join('|');
   return html.replace(
     new RegExp(`href="/(${slugs})/"`, 'g'),
-    (_, slug) => `href="/locales/${locale}/${slug}/"`
+    (_, slug) => `href="/${locale}/${slug}/"`
   );
 }
 
 /** The href for a page in a locale: the translated page when there is one, else the English page. */
 export function pageHref(slug: PageSlug, locale: string): string {
-  return hasTranslatedPages(locale) ? `/locales/${locale}/${slug}/` : `/${slug}/`;
+  return hasTranslatedPages(locale) ? `/${locale}/${slug}/` : `/${slug}/`;
 }

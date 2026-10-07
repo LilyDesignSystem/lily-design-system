@@ -36,7 +36,7 @@ Covers the `bin/` toolchain: catalog listers, directory scaffolders, the verific
 | `generate-sitemap`                    | Regenerate the docs site's `sitemap.xml` (one URL per route, git-derived `<lastmod>`); `--check` reports drift. |
 | `extract-site-pages`                  | Turn the docs site's eight main English pages into `src/lib/pages/<page>/en.html` (the translation source); `--check` reports drift. |
 | `check-site-page-translations`        | Verify every `<language>.html` has the English page's exact markup structure and code samples, is actually translated, and that each language covers all eight pages. |
-| `generate-locale-pages`               | Write the `/locales/<code>/<page>/` route files for every non-English locale whose language has all eight pages; `--check` reports drift. |
+| `generate-locale-pages`               | Write the `/<code>/<page>/` route files for every non-English locale whose language has all eight pages; `--check` reports drift. |
 | `check-class-names`                   | Audit that every implementation in all 8 headless libraries carries its slug as the base class (first token of a class list); run by `bin/test` and CI. |
 | `generate-registries`                 | Regenerate every example-app catalog registry from `components.tsv` + the canonical SvelteKit demo map, so hand-copied registries cannot drift. |
 | `check-links`                         | Verify every relative markdown link in tracked `*.md` files resolves (synced AGENTS copies excluded); exits non-zero on breakage. |

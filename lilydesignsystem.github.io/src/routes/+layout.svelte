@@ -7,12 +7,12 @@
 
   let { children } = $props();
 
-  // Every route outside /locales/<code>/ is the site's canonical,
+  // Every route outside /<code>/ is the site's canonical,
   // untranslated content and behaves exactly as before (DEFAULT_LOCALE's
   // strings match that hardcoded English verbatim — see src/lib/i18n.ts).
   // See spec/locales-for-global-sharing-with-svelte for the rollout this
   // is part of.
-  const LOCALE_PATH = /^\/locales\/([a-z0-9-]+)\//;
+  const LOCALE_PATH = /^\/([a-z0-9-]+)\//;
 
   const currentLocale = $derived.by(() => {
     const match = LOCALE_PATH.exec(page.url.pathname);
@@ -21,7 +21,7 @@
 
   const strings = $derived(ui(currentLocale));
 
-  const homeHref = $derived(currentLocale === DEFAULT_LOCALE ? '/' : `/locales/${currentLocale}/`);
+  const homeHref = $derived(currentLocale === DEFAULT_LOCALE ? '/' : `/${currentLocale}/`);
 
   type NavLink = { href: string; label: string };
   const navLinks = $derived<NavLink[]>([

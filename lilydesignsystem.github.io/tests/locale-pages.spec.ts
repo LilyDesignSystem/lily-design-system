@@ -26,7 +26,7 @@ for (const [code, [lang, dir]] of Object.entries(LOCALES)) {
   test.describe(`${code} pages`, () => {
     for (const slug of SLUGS) {
       test(`${slug} has lang ${lang}, dir ${dir}, an h1 and a title`, async ({ page }) => {
-        await page.goto(`/locales/${code}/${slug}/`);
+        await page.goto(`/${code}/${slug}/`);
         await expect(page.locator('html')).toHaveAttribute('lang', lang);
         await expect(page.locator('html')).toHaveAttribute('dir', dir);
         await expect(page.locator('main h1').first()).toBeVisible();
@@ -42,20 +42,20 @@ for (const [code, [lang, dir]] of Object.entries(LOCALES)) {
 }
 
 test('the header nav of a translated page links to translated pages, not English ones', async ({ page }) => {
-  await page.goto('/locales/fr-001/help/');
+  await page.goto('/fr-001/help/');
   const hrefs = await page.locator('header nav a').evaluateAll((as) => as.map((a) => a.getAttribute('href')));
-  expect(hrefs).toContain('/locales/fr-001/about/');
-  expect(hrefs).toContain('/locales/fr-001/tutorials/');
+  expect(hrefs).toContain('/fr-001/about/');
+  expect(hrefs).toContain('/fr-001/tutorials/');
 });
 
 test('links inside a translated page stay in the locale', async ({ page }) => {
-  await page.goto('/locales/es-001/help/');
-  await expect(page.locator('main a[href="/locales/es-001/tutorials/"]').first()).toBeVisible();
+  await page.goto('/es-001/help/');
+  await expect(page.locator('main a[href="/es-001/tutorials/"]').first()).toBeVisible();
   await expect(page.locator('main a[href="/tutorials/"]')).toHaveCount(0);
 });
 
 test('code samples stay byte-identical and focusable', async ({ page }) => {
-  await page.goto('/locales/ru-001/help/');
+  await page.goto('/ru-001/help/');
   const en = await (await page.request.get('/help/')).text();
   const ruPre = await page.locator('main pre').first().textContent();
   expect(ruPre).toContain('git clone https://github.com/LilyDesignSystem/lily-design-system-react-headless');
@@ -64,15 +64,15 @@ test('code samples stay byte-identical and focusable', async ({ page }) => {
 });
 
 test('the header link picker on a translated page lists translated page links', async ({ page }) => {
-  await page.goto('/locales/pt-001/about/');
+  await page.goto('/pt-001/about/');
   await page.waitForSelector('link[data-lily-theme-picker]', { state: 'attached' });
   await page.locator('.link-picker-button').click();
   const hrefs = await page.locator('.link-picker-link').evaluateAll((as) => as.map((a) => a.getAttribute('href')));
-  expect(hrefs).toEqual(['/locales/pt-001/', '/locales/pt-001/about/', '/locales/pt-001/help/', '/locales/pt-001/why/']);
+  expect(hrefs).toEqual(['/pt-001/', '/pt-001/about/', '/pt-001/help/', '/pt-001/why/']);
 });
 
 test('English locales keep the English pages', async ({ page }) => {
-  await page.goto('/locales/en-gb/');
+  await page.goto('/en-gb/');
   const hrefs = await page.locator('header nav a').evaluateAll((as) => as.map((a) => a.getAttribute('href')));
   expect(hrefs).toContain('/about/');
 });

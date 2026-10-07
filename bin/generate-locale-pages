@@ -2,7 +2,7 @@
 // bin/generate-locale-pages
 //
 // Write the thin route files for the translated text pages:
-//   lilydesignsystem.github.io/src/routes/locales/<code>/<slug>/+page.svelte
+//   lilydesignsystem.github.io/src/routes/<code>/<slug>/+page.svelte
 // for every locale directory whose language has all eight page files under src/lib/pages/<slug>/
 // (see src/lib/pages.ts). English locales use the English routes and get none. Route files for a locale
 // that has lost its translations are removed.
@@ -18,8 +18,8 @@ const site = path.join(top, "lilydesignsystem.github.io");
 const SLUGS = ["about", "why", "accessibility", "help", "comparisons", "tutorials", "examples", "skills"];
 const check = process.argv.includes("--check");
 
-const localesDir = path.join(site, "src/routes/locales");
-const codes = fs.readdirSync(localesDir, { withFileTypes: true }).filter((e) => e.isDirectory()).map((e) => e.name);
+const localesDir = path.join(site, "src/routes");
+const codes = fs.readdirSync(localesDir, { withFileTypes: true }).filter((e) => e.isDirectory() && /^[a-z]{2,3}-([a-z]{2}|[0-9]{3})(-[a-z0-9]+)?$/.test(e.name)).map((e) => e.name);
 const hasAll = (lang) => SLUGS.every((s) => fs.existsSync(path.join(site, "src/lib/pages", s, lang + ".html")));
 
 let changes = 0;

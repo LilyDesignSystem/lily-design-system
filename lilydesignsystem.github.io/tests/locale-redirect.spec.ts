@@ -40,9 +40,9 @@ test.describe('pickLocaleRoute', () => {
 test.describe('home page redirect', () => {
   test.describe('Welsh (UK) browser', () => {
     test.use({ locale: 'cy-GB' });
-    test('"/" goes to /locales/cy-gb/ once per session', async ({ page }) => {
+    test('"/" goes to /cy-gb/ once per session', async ({ page }) => {
       await page.goto('/');
-      await page.waitForURL('**/locales/cy-gb/');
+      await page.waitForURL('**/cy-gb/');
       await expect(page.locator('html')).toHaveAttribute('lang', 'cy-GB');
       // Back to "/" in the same session: no second redirect.
       await page.goto('/');
@@ -52,9 +52,9 @@ test.describe('home page redirect', () => {
   });
   test.describe('English (Australia) browser', () => {
     test.use({ locale: 'en-AU' });
-    test('"/" goes to /locales/en-001/ (there is no en-au route)', async ({ page }) => {
+    test('"/" goes to /en-001/ (there is no en-au route)', async ({ page }) => {
       await page.goto('/');
-      await page.waitForURL('**/locales/en-001/');
+      await page.waitForURL('**/en-001/');
       await expect(page.locator('html')).toHaveAttribute('lang', 'en');
     });
   });

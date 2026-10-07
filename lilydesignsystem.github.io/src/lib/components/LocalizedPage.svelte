@@ -1,5 +1,5 @@
 <!--
-  LocalizedPage — a translated text page at /locales/<code>/<slug>/.
+  LocalizedPage — a translated text page at /<code>/<slug>/.
 
   The markup comes from src/lib/pages/<slug>/<language>.html (see src/lib/pages.ts); it is our own
   static content, so it is rendered with {@html}. Code samples (<pre>) are made keyboard-focusable the

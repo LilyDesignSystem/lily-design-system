@@ -97,14 +97,14 @@ the binding rules are:
 
 - **Locale directory names are `<language>-<region>`**, lowercase: a two- or three-letter language code, a hyphen, and a region — a
   two-letter country code (`cy-gb`, `en-us`, `zh-cn`) or the UN M49 code `001` ("world") for a language's *international* locale
-  (`en-001`, `fr-001`). **There are no bare-language directories** (`/locales/en/` is not a route). The one existing extra segment is
+  (`en-001`, `fr-001`). **There are no bare-language directories** (`/en/` is not a route). **There is no `/locales/` URL prefix since 2026-10-07:** a locale is served at `/<code>/` (`/en-us/`, `/cy-gb/help/`); only the list of locales stays at `/locales/`, and the old `/locales/<code>/` URLs were removed (404), not redirected. The one existing extra segment is
   `en-gb-oxendict` (British English, Oxford spelling, which has no standard subtag). `bin/test` enforces the rule on
-  `src/routes/locales/`.
-- **The tree is `/locales/<code>/`**, one thin page per locale around a shared template; `/` is the default locale `en-001` and is the
+  `src/routes/`.
+- **The tree is `/<code>/`**, one thin page per locale around a shared template; `/` is the default locale `en-001` and is the
   untranslated, canonical English site. There are 15 locales: `ar-001 bn-001 cy-001 cy-gb en-001 en-gb en-gb-oxendict en-us es-001
   fr-001 hi-001 id-001 pt-001 ru-001 ur-001 zh-cn`. Component docs and the per-framework tutorials are still English-only, and the translated home page says so in its own language.
 - **The eight main pages are translated too (2026-10-07).** About, Why Lily, Accessibility, Help, Comparisons, Tutorials, Examples and
-  Skills exist at `/locales/<code>/<page>/` for every non-English locale (11 languages: `ar bn cy es fr hi id pt ru ur zh`, which covers
+  Skills exist at `/<code>/<page>/` for every non-English locale (11 languages: `ar bn cy es fr hi id pt ru ur zh`, which covers
   12 locale directories because `cy-001` and `cy-gb` share Welsh). The English page (`src/routes/<page>/+page.svelte`) is the source:
   `bin/extract-site-pages` turns it into `src/lib/pages/<page>/en.html`, each language adds `<language>.html` with *identical markup
   structure* (same tags, `id`s, `href`s and byte-identical `<pre>` code samples; only text and `aria-label`s differ), and
@@ -119,7 +119,7 @@ the binding rules are:
   bare language tag; `cy-gb` becomes `cy-GB`; `ar-001` and `ur-001` are `rtl`) and kept right across client-side navigation.
 - **The home page redirects by browser language, once per session.** On the first visit, `/` reads `navigator.languages` and, for each
   preference in order, tries the tag itself (`cy-GB` or `cy_GB` → `cy-gb`), then language + region (`zh-Hans-CN` → `zh-cn`), then the
-  language's `-001` locale (`fr-CA` → `fr-001`; `en-AU`, which has no `en-au` route, → `/locales/en-001/`). Nothing else is guessed
+  language's `-001` locale (`fr-CA` → `fr-001`; `en-AU`, which has no `en-au` route, → `/en-001/`). Nothing else is guessed
   (`zh-TW` stays on `/`). It runs only in the browser, so the prerendered page and crawlers see the English home page, and only from `/`.
 - **Every locale supplies every UI string**, including the picker labels (theme, language, text size, share, search, search field,
   search button). Translations should follow an authoritative term base where one exists: the Welsh strings use *TermCymru* (Welsh

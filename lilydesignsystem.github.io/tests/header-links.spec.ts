@@ -27,10 +27,10 @@ test.describe('header link picker', () => {
   });
 
   test('in Welsh the picker, its name and its links are Welsh, and Home goes to the Welsh home', async ({ page }) => {
-    await page.goto('/locales/cy-gb/');
+    await page.goto('/cy-gb/');
     await page.waitForSelector('link[data-lily-theme-picker]', { state: 'attached' });
     await page.getByRole('button', { name: 'Tudalennau' }).click();
-    await expect(page.locator('.link-picker-link').first()).toHaveAttribute('href', '/locales/cy-gb/');
+    await expect(page.locator('.link-picker-link').first()).toHaveAttribute('href', '/cy-gb/');
     await expect(page.locator('.link-picker-link[aria-current="page"]')).toHaveText('Hafan');
   });
 

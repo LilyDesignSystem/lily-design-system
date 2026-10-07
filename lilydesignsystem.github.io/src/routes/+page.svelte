@@ -7,14 +7,14 @@
 
   let query = $state('');
 
-  // First visit of a session: if the browser's language has a matching /locales/<code>/ route,
+  // First visit of a session: if the browser's language has a matching /<code>/ route,
   // go there (replacing "/" in the history so Back does not bounce). Client-only, so the
   // prerendered page and crawlers still get the English home page.
   onMount(() => {
     if (!firstVisitThisSession()) return;
     const preferred = navigator.languages?.length ? navigator.languages : [navigator.language];
     const code = pickLocaleRoute(preferred, locales());
-    if (code) goto(`/locales/${code}/`, { replaceState: true });
+    if (code) goto(`/${code}/`, { replaceState: true });
   });
 
   const matches: LilyComponent[] = $derived.by(() => {

@@ -41,7 +41,7 @@
   <ul class="component-list component-list-stacked" aria-label="Languages">
     {#each orderedLocales as code (code)}
       <li class="component-list-item">
-        <a class="component-list-item-link" href="/locales/{code}/">
+        <a class="component-list-item-link" href="/{code}/">
           <span class="component-list-item-name">{localeLabel(code)}</span>
         </a>
       </li>

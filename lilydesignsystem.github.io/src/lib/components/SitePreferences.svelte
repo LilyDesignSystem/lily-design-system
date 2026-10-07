@@ -26,7 +26,7 @@
   // The link picker's menu: pages this site actually has, reusing the nav strings that are already
   // translated for every locale. (The site has no Contact Us or Privacy Policy page to list.)
   const links = $derived([
-    { label: strings.nav.home, href: locale === DEFAULT_LOCALE ? '/' : `/locales/${locale}/` },
+    { label: strings.nav.home, href: locale === DEFAULT_LOCALE ? '/' : `/${locale}/` },
     { label: strings.nav.about, href: pageHref('about', locale) },
     { label: strings.nav.help, href: pageHref('help', locale) },
     { label: strings.footer.why, href: pageHref('why', locale) }
@@ -60,7 +60,7 @@
     }
   ];
 
-  // The site only has translated content at /locales/<code>/ so far (see
+  // The site only has translated content at /<code>/ so far (see
   // spec/locales-for-global-sharing-with-svelte) — switching locale always
   // goes to that locale's home page, not a translated version of whatever
   // page you were on, since most pages don't have one yet.
@@ -69,10 +69,10 @@
   // value — which is this page's own locale. Only navigate on a real
   // change: SvelteKit 2 silently dropped a goto() made before its router
   // was initialised, but SvelteKit 3 performs it, which sent every
-  // non-locale page straight to /locales/en-001/ on load.
+  // non-locale page straight to /en-001/ on load.
   function onLocaleChange(code: string) {
     if (code === locale) return;
-    goto(`/locales/${code}/`);
+    goto(`/${code}/`);
   }
 </script>
 

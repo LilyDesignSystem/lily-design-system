@@ -2094,7 +2094,7 @@ dropped. None is speculative.
   - [x] Root `SitePreferences.svelte` rewritten to compose the real
     `@lilydesignsystem/svelte-picker-bar` helper instead of assembling
     theme/text-size/share pickers by hand, adding the locale picker as a
-    fourth control that navigates to `/locales/<code>/` on change —
+    fourth control that navigates to `/<code>/` on change —
     "add lily pickerbar" from earlier the same session.
   - [x] Adopted `svelte-picker-bar`'s own `DEFAULT_SIZES` (the seven-step
     largest…smallest scale) instead of this site's old bespoke
@@ -2105,7 +2105,7 @@ dropped. None is speculative.
     but no CSS ever consumed it, so changing text size has silently done
     nothing since the picker was first added. Added the real
     `html[data-text-size="…"] { font-size: …% }` scale.
-  - [x] `src/routes/locales/` — an index page (locale list ordered per
+  - [x] `src/routes/` — an index page (locale list ordered per
     the spec: default first, then grouped by language name, then
     alphabetically by label) plus one real static directory per locale
     (`ar-001`, `bn-001`, `cy-001`, `en-001`, `en-gb`, `en-gb-oxendict`,

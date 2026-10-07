@@ -1,5 +1,5 @@
 <!--
-  LocaleHome — the translated home page shown at /locales/<code>/. One
+  LocaleHome — the translated home page shown at /<code>/. One
   shared template so all 15 locales render identical structure; only the
   strings (src/lib/i18n.ts) and the locale code differ per page.
 
