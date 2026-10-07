@@ -67,8 +67,8 @@ packages:
     peerDependencies:
       svelte: ^5.0.0
 
-  '@lilydesignsystem/svelte-link-picker@0.1.0':
-    resolution: {integrity: sha512-vIWv5HVfaU+NPYKnyWhia2HROn+PpIm9iVcGYk8jcEDNeeZeQTpZUpEjgnvrlR97A3I/WD1iaIseEzssztFi1w==}
+  '@lilydesignsystem/svelte-link-picker@0.1.1':
+    resolution: {integrity: sha512-TmgAbQ45eeR16J6GxBlfepp7iNKzL5LUBozCCBDbDZTbmWz+I9J/OEsy39XsQy3D4LCJMnQ1o2qoAbUny7ncog==}
     engines: {node: '=26'}
     peerDependencies:
       svelte: ^5.0.0
@@ -588,7 +588,7 @@ snapshots:
       aria-query: 5.3.2
       svelte: 5.57.1
 
-  '@lilydesignsystem/svelte-link-picker@0.1.0(svelte@5.57.1)':
+  '@lilydesignsystem/svelte-link-picker@0.1.1(svelte@5.57.1)':
     dependencies:
       '@lilydesignsystem/svelte-headless': 0.2.0(svelte@5.57.1)
       svelte: 5.57.1
@@ -600,7 +600,7 @@ snapshots:
 
   '@lilydesignsystem/svelte-picker-bar@0.3.0(svelte@5.57.1)':
     dependencies:
-      '@lilydesignsystem/svelte-link-picker': 0.1.0(svelte@5.57.1)
+      '@lilydesignsystem/svelte-link-picker': 0.1.1(svelte@5.57.1)
       '@lilydesignsystem/svelte-locale-picker': 0.2.0(svelte@5.57.1)
       '@lilydesignsystem/svelte-search-picker': 0.1.0(svelte@5.57.1)
       '@lilydesignsystem/svelte-share-picker': 0.2.0(svelte@5.57.1)
