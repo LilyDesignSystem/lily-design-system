@@ -61,6 +61,20 @@ Example: `es-001` `año-de-vida-ajustado-por-calidad`, `ur-001` `صحت-ایڈج
 
 Nothing in the site assumes slugs match across locales.
 
+## Home-page redirect by browser language
+
+On the first visit of a browser session, `/` reads `navigator.languages` (else `navigator.language`) and, if the site has
+a matching `/locales/<code>/` route, redirects there with `replaceState` (so Back does not bounce). Matching is in
+`src/lib/locale-redirect.ts` (`pickLocaleRoute`), per preferred language in order: the tag itself (`cy-GB`, or `cy_GB`,
+→ `cy-gb`), then language + region (`zh-Hans-CN` → `zh-cn`), then the language's generic (`fr-CA` → `fr-001`). Nothing else
+is guessed (`zh-TW` does not fall back to `zh-cn`). A match on the default locale (`en-001`, which `/` already is) means
+no redirect, so `en`, `en-AU` and `en-001` stay on `/`; `en-GB` and `en-US` go to their own English variants. It runs
+only in the browser (`onMount`), so the prerendered page and crawlers still get the English home page, at most once per
+session (`sessionStorage` key `lily-locale-redirect-done`; no redirect if session storage is unavailable), and only from
+`/` — never from deeper pages. The route is `/locales/<code>/`, not `/<code>/`. Tests: `tests/locale-redirect.spec.ts`
+(the matcher, and real browsers with `cy-GB`, `en-AU` and `de-DE` locales); the suite's default browser locale is `en` so
+other tests are not redirected.
+
 ## Locale picker (labels + ordering)
 
 - Labels live in `locales.js`'s `LOCALE_LABELS`, one entry per code, in that

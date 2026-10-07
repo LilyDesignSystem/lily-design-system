@@ -1,7 +1,21 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
+  import { goto } from '$app/navigation';
   import { LILY_COMPONENTS, type LilyComponent } from '#lib/components.js';
+  import { DEFAULT_LOCALE, locales } from '#lib/locales.js';
+  import { firstVisitThisSession, pickLocaleRoute } from '#lib/locale-redirect.js';
 
   let query = $state('');
+
+  // First visit of a session: if the browser's language has a matching /locales/<code>/ route,
+  // go there (replacing "/" in the history so Back does not bounce). Client-only, so the
+  // prerendered page and crawlers still get the English home page.
+  onMount(() => {
+    if (!firstVisitThisSession()) return;
+    const preferred = navigator.languages?.length ? navigator.languages : [navigator.language];
+    const code = pickLocaleRoute(preferred, locales(), DEFAULT_LOCALE);
+    if (code) goto(`/locales/${code}/`, { replaceState: true });
+  });
 
   const matches: LilyComponent[] = $derived.by(() => {
     const q = query.trim().toLowerCase();

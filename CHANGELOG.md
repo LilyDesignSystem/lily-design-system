@@ -27,6 +27,15 @@ site's axe sweep (575 pages) is clean. Packages published with it: angular-headl
 0.5.0, html-headless 0.6.0, nunjucks-headless 0.4.0, Blazor headless 0.4.0, `@lilydesignsystem/themes` 0.3.0.
 svelte/react/vue headless and every helper package are unchanged and stay at their versions.
 
+## Docs-site home page redirects by browser language — 2026-10-07
+
+On the first visit of a session, `/` now sends a visitor whose browser language has a matching `/locales/<code>/` route
+there (`cy-GB`/`cy_GB` → `/locales/cy-gb/`, `fr-CA` → `/locales/fr-001/`, `zh-Hans-CN` → `/locales/zh-cn/`). Region first,
+then the language's `-001` generic; no other fallbacks; a match on the default `en-001` stays put. Client-side only
+(crawlers and the prerendered page are unchanged), once per session, `replaceState`. `src/lib/locale-redirect.ts` holds
+the pure matcher. 9 new tests; docs-site suite 2,874 passed, 0 failed. Note: `en-US` and `en-GB` browsers are redirected
+to the site's English variants, which carry the same English text. Not yet deployed.
+
 ## Picker popups no longer slide the page — 2026-10-06
 
 Reported on lilydesignsystem.com: clicking the theme picker made the page slide sideways. The theme list (508px:
