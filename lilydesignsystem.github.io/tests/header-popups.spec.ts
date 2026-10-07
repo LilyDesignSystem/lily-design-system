@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 // Regression: the header pickers' popups must stay inside the viewport. The theme list is wider than the
 // space to the right of its button, so it used to overflow and focusing it scrolled the whole page sideways.
 
-const pickers = ['theme-picker', 'locale-picker', 'text-size-picker', 'share-picker', 'search-picker'];
+const pickers = ['link-picker', 'theme-picker', 'locale-picker', 'text-size-picker', 'share-picker', 'search-picker'];
 
 for (const viewport of [
   { width: 1280, height: 800 },

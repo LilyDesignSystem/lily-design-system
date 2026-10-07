@@ -18,6 +18,15 @@ component changed. Comments are stripped before matching, and two deliberate mut
 behind another class) are each caught. Wired into `bin/test` and CI. It verifies presence and order in the source,
 not that the class sits on the root element.
 
+## Docs-site header gains the link picker; home-page locale redirect and locale-directory rule go live — 2026-10-07
+
+The header's `picker-bar` is now 0.3.0 and renders `link-picker` (a home icon, "Pages" / "Tudalennau" / … in all 15 locales) as its
+leftmost icon, listing pages the site really has — Home (the locale's own home), About, Help, Why — with the current page marked and
+client-side navigation. The site has no Contact Us or Privacy Policy page, so those two are not listed. The same deploy ships the
+browser-language redirect with its `*-001` fallback (`en-AU` → `/locales/en-001/`), the `cy-gb` locale, and the rule that locale
+directories are `<language>-<region>`. Verified: docs-site suite 2,880 passed, 0 failed (new `tests/header-links.spec.ts`; the popup
+test now covers the link picker); axe over 575 pages, 0 violations.
+
 ## 0.9.0 — `link-picker`, an eighth picker, and a leftmost link picker in `picker-bar` — 2026-10-07
 
 A new helper in all eight catalogs: a **home icon** opening a dropdown of **page links the app defines** (Home → `/`, About Us,

@@ -33,6 +33,7 @@ export type UiStrings = {
     locale: string;
     textSize: string;
     share: string;
+    link: string;
     search: string;
     searchInput: string;
     searchSubmit: string;
@@ -71,6 +72,7 @@ const en: UiStrings = {
     locale: 'Language',
     textSize: 'Text size',
     share: 'Share',
+    link: 'Pages',
     search: 'Search',
     searchInput: 'Search terms',
     searchSubmit: 'Search'
@@ -130,6 +132,7 @@ const es: UiStrings = {
     locale: 'Idioma',
     textSize: 'Tamaño del texto',
     share: 'Compartir',
+    link: 'Páginas',
     search: 'Buscar',
     searchInput: 'Términos de búsqueda',
     searchSubmit: 'Buscar'
@@ -181,6 +184,7 @@ const fr: UiStrings = {
     locale: 'Langue',
     textSize: 'Taille du texte',
     share: 'Partager',
+    link: 'Pages',
     search: 'Rechercher',
     searchInput: 'Termes de recherche',
     searchSubmit: 'Rechercher'
@@ -231,6 +235,7 @@ const pt: UiStrings = {
     locale: 'Idioma',
     textSize: 'Tamanho do texto',
     share: 'Compartilhar',
+    link: 'Páginas',
     search: 'Pesquisar',
     searchInput: 'Termos de pesquisa',
     searchSubmit: 'Pesquisar'
@@ -283,6 +288,7 @@ const ru: UiStrings = {
     locale: 'Язык',
     textSize: 'Размер текста',
     share: 'Поделиться',
+    link: 'Страницы',
     search: 'Поиск',
     searchInput: 'Поисковый запрос',
     searchSubmit: 'Найти'
@@ -334,6 +340,7 @@ const hi: UiStrings = {
     locale: 'भाषा',
     textSize: 'टेक्स्ट का आकार',
     share: 'साझा करें',
+    link: 'पृष्ठ',
     search: 'खोजें',
     searchInput: 'खोज शब्द',
     searchSubmit: 'खोजें'
@@ -382,6 +389,7 @@ const id: UiStrings = {
     locale: 'Bahasa',
     textSize: 'Ukuran teks',
     share: 'Bagikan',
+    link: 'Halaman',
     search: 'Cari',
     searchInput: 'Kata pencarian',
     searchSubmit: 'Cari'
@@ -434,6 +442,7 @@ const cy: UiStrings = {
     locale: 'Iaith',
     textSize: 'Maint testun',
     share: 'Rhannu',
+    link: 'Tudalennau',
     search: 'Chwilio',
     searchInput: 'Termau chwilio',
     searchSubmit: 'Chwilio'
@@ -485,6 +494,7 @@ const ar: UiStrings = {
     locale: 'اللغة',
     textSize: 'حجم النص',
     share: 'مشاركة',
+    link: 'الصفحات',
     search: 'بحث',
     searchInput: 'عبارات البحث',
     searchSubmit: 'بحث'
@@ -532,6 +542,7 @@ const ur: UiStrings = {
     locale: 'زبان',
     textSize: 'متن کا سائز',
     share: 'شیئر کریں',
+    link: 'صفحات',
     search: 'تلاش',
     searchInput: 'تلاش کے الفاظ',
     searchSubmit: 'تلاش'
@@ -580,6 +591,7 @@ const bn: UiStrings = {
     locale: 'ভাষা',
     textSize: 'টেক্সটের আকার',
     share: 'শেয়ার করুন',
+    link: 'পৃষ্ঠাসমূহ',
     search: 'অনুসন্ধান',
     searchInput: 'অনুসন্ধানের শব্দ',
     searchSubmit: 'অনুসন্ধান'
@@ -628,6 +640,7 @@ const zh: UiStrings = {
     locale: '语言',
     textSize: '文字大小',
     share: '分享',
+    link: '页面',
     search: '搜索',
     searchInput: '搜索词',
     searchSubmit: '搜索'

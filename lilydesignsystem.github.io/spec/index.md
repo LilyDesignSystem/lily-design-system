@@ -238,7 +238,7 @@ The repo root's `bin/test` enforces this: `registry_count_or_err` asserts
       helper package, class hook, or import path.
 - [x] `/examples/` lists all seven example apps; `/tutorials/helpers/`
       covers all eight pickers and `picker-bar`.
-- [x] The picker bar renders live in the global
+- [x] The picker bar (link, search, theme, locale, text-size and share pickers) renders live in the global
       header (`SitePreferences.svelte`), using the real published npm
       packages — verified 2026-09-06.
 - [x] This subproject has `AGENTS.md` and a non-empty

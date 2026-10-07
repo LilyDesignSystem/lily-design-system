@@ -12,6 +12,7 @@
 -->
 <script lang="ts">
   import { goto } from '$app/navigation';
+  import { page } from '$app/state';
   import PickerBar from '@lilydesignsystem/svelte-picker-bar';
   import type { ShareTarget } from '@lilydesignsystem/svelte-share-picker';
   import { LOCALE_LABELS, locales, DEFAULT_LOCALE } from '#lib/locales.js';
@@ -20,6 +21,15 @@
   let { locale = DEFAULT_LOCALE }: { locale?: string } = $props();
 
   const strings = $derived(ui(locale));
+
+  // The link picker's menu: pages this site actually has, reusing the nav strings that are already
+  // translated for every locale. (The site has no Contact Us or Privacy Policy page to list.)
+  const links = $derived([
+    { label: strings.nav.home, href: locale === DEFAULT_LOCALE ? '/' : `/locales/${locale}/` },
+    { label: strings.nav.about, href: '/about/' },
+    { label: strings.nav.help, href: '/help/' },
+    { label: strings.footer.why, href: '/why/' }
+  ].map((l) => ({ ...l, current: page.url.pathname === l.href })));
 
   // No social-network URL ships with the package (see the helper's own
   // docs) — every destination here is this site's own editorial choice.
@@ -68,6 +78,7 @@
 <PickerBar
   class="site-preferences"
   labels={{
+    link: strings.pickerLabels.link,
     theme: strings.pickerLabels.theme,
     locale: strings.pickerLabels.locale,
     textSize: strings.pickerLabels.textSize,
@@ -76,6 +87,8 @@
     searchInput: strings.pickerLabels.searchInput,
     searchSubmit: strings.pickerLabels.searchSubmit
   }}
+  {links}
+  linkProps={{ navigate: (href: string) => goto(href) }}
   searchProps={{ action: '/components/', navigate: (href: string) => goto(href) }}
   themesUrl="/assets/themes/"
   themeProps={{ detectFromSystem: true, storageKey: 'lily-site-theme' }}
