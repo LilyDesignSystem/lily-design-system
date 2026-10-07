@@ -42,7 +42,9 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+/* No smooth scrolling: SvelteKit scrolls to the top after each navigation, and smooth behaviour turned
+   that into a visible animation; a new page should simply appear at the top. */
+html { scroll-behavior: auto; }
 
 body {
   margin: 0;

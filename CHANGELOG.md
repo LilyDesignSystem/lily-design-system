@@ -9,6 +9,11 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Docs site: no smooth scrolling — 2026-10-07
+
+Removed `html { scroll-behavior: smooth }` from the site stylesheet: SvelteKit scrolls to the top after every navigation, and smooth
+scrolling turned that into a visible animation. A new page now appears at the top at once.
+
 ## Docs site: link picker renamed "Places" and not underlined; locale home pages gain the framework icons — 2026-10-07
 
 The header link picker's name is now "Places" (translated in all 12 languages), its menu entries are no longer underlined (the site's bare

@@ -52,3 +52,8 @@ test('link picker entries are not underlined', async ({ page }) => {
   const decoration = await page.locator('.link-picker-link').first().evaluate((a) => getComputedStyle(a).textDecorationLine);
   expect(decoration).toBe('none');
 });
+
+test('navigating does not animate a scroll to the top (no smooth scrolling)', async ({ page }) => {
+  await page.goto('/about/');
+  expect(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior)).toBe('auto');
+});
