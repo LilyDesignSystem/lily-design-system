@@ -42,6 +42,7 @@ export type UiStrings = {
     heroTitle: string;
     heroTagline: string;
     findPath: string;
+    frameworks: string;
     tutorials: { heading: string; description: string };
     components: { heading: string; description: string };
     examples: { heading: string; description: string };
@@ -72,7 +73,7 @@ const en: UiStrings = {
     locale: 'Language',
     textSize: 'Text size',
     share: 'Share',
-    link: 'Pages',
+    link: 'Places',
     search: 'Search',
     searchInput: 'Search terms',
     searchSubmit: 'Search'
@@ -82,6 +83,7 @@ const en: UiStrings = {
     heroTagline:
       'Lily is a free, open-source, accessible design system with hundreds of components for seven frameworks.',
     findPath: 'Find your path',
+    frameworks: 'Supported frameworks',
     tutorials: {
       heading: 'Tutorials',
       description: 'Learn Lily step by step, in whichever framework you use.'
@@ -132,7 +134,7 @@ const es: UiStrings = {
     locale: 'Idioma',
     textSize: 'Tamaño del texto',
     share: 'Compartir',
-    link: 'Páginas',
+    link: 'Lugares',
     search: 'Buscar',
     searchInput: 'Términos de búsqueda',
     searchSubmit: 'Buscar'
@@ -142,6 +144,7 @@ const es: UiStrings = {
     heroTagline:
       'Lily es un sistema de diseño gratuito, de código abierto y accesible, con cientos de componentes para siete frameworks.',
     findPath: 'Encuentra tu camino',
+    frameworks: 'Frameworks compatibles',
     tutorials: {
       heading: 'Tutoriales',
       description: 'Aprende Lily paso a paso, en el framework que uses.'
@@ -184,7 +187,7 @@ const fr: UiStrings = {
     locale: 'Langue',
     textSize: 'Taille du texte',
     share: 'Partager',
-    link: 'Pages',
+    link: 'Places',
     search: 'Rechercher',
     searchInput: 'Termes de recherche',
     searchSubmit: 'Rechercher'
@@ -194,6 +197,7 @@ const fr: UiStrings = {
     heroTagline:
       "Lily est un système de conception gratuit, open source et accessible, avec des centaines de composants pour sept frameworks.",
     findPath: 'Trouvez votre chemin',
+    frameworks: 'Frameworks pris en charge',
     tutorials: {
       heading: 'Tutoriels',
       description: 'Apprenez Lily étape par étape, dans le framework de votre choix.'
@@ -235,7 +239,7 @@ const pt: UiStrings = {
     locale: 'Idioma',
     textSize: 'Tamanho do texto',
     share: 'Compartilhar',
-    link: 'Páginas',
+    link: 'Lugares',
     search: 'Pesquisar',
     searchInput: 'Termos de pesquisa',
     searchSubmit: 'Pesquisar'
@@ -245,6 +249,7 @@ const pt: UiStrings = {
     heroTagline:
       'Lily é um sistema de design gratuito, de código aberto e acessível, com centenas de componentes para sete frameworks.',
     findPath: 'Encontre seu caminho',
+    frameworks: 'Frameworks compatíveis',
     tutorials: {
       heading: 'Tutoriais',
       description: 'Aprenda Lily passo a passo, no framework que você usa.'
@@ -288,7 +293,7 @@ const ru: UiStrings = {
     locale: 'Язык',
     textSize: 'Размер текста',
     share: 'Поделиться',
-    link: 'Страницы',
+    link: 'Места',
     search: 'Поиск',
     searchInput: 'Поисковый запрос',
     searchSubmit: 'Найти'
@@ -298,6 +303,7 @@ const ru: UiStrings = {
     heroTagline:
       'Lily — бесплатная система дизайна с открытым исходным кодом и сотнями доступных компонентов для семи фреймворков.',
     findPath: 'Найдите свой путь',
+    frameworks: 'Поддерживаемые фреймворки',
     tutorials: {
       heading: 'Уроки',
       description: 'Изучайте Lily шаг за шагом на нужном вам фреймворке.'
@@ -340,7 +346,7 @@ const hi: UiStrings = {
     locale: 'भाषा',
     textSize: 'टेक्स्ट का आकार',
     share: 'साझा करें',
-    link: 'पृष्ठ',
+    link: 'स्थान',
     search: 'खोजें',
     searchInput: 'खोज शब्द',
     searchSubmit: 'खोजें'
@@ -350,6 +356,7 @@ const hi: UiStrings = {
     heroTagline:
       'Lily एक निःशुल्क, ओपन-सोर्स, सुगम्य डिज़ाइन सिस्टम है जिसमें सात फ्रेमवर्क के लिए सैकड़ों कॉम्पोनेंट्स हैं।',
     findPath: 'अपना रास्ता खोजें',
+    frameworks: 'समर्थित फ़्रेमवर्क',
     tutorials: {
       heading: 'ट्यूटोरियल',
       description: 'जिस फ्रेमवर्क का आप उपयोग करते हैं, उसमें Lily को चरण-दर-चरण सीखें।'
@@ -389,7 +396,7 @@ const id: UiStrings = {
     locale: 'Bahasa',
     textSize: 'Ukuran teks',
     share: 'Bagikan',
-    link: 'Halaman',
+    link: 'Tempat',
     search: 'Cari',
     searchInput: 'Kata pencarian',
     searchSubmit: 'Cari'
@@ -399,6 +406,7 @@ const id: UiStrings = {
     heroTagline:
       'Lily adalah sistem desain gratis, sumber terbuka, dan aksesibel dengan ratusan komponen untuk tujuh framework.',
     findPath: 'Temukan jalur Anda',
+    frameworks: 'Framework yang didukung',
     tutorials: {
       heading: 'Tutorial',
       description: 'Pelajari Lily langkah demi langkah, di framework yang Anda gunakan.'
@@ -442,7 +450,7 @@ const cy: UiStrings = {
     locale: 'Iaith',
     textSize: 'Maint testun',
     share: 'Rhannu',
-    link: 'Tudalennau',
+    link: 'Lleoedd',
     search: 'Chwilio',
     searchInput: 'Termau chwilio',
     searchSubmit: 'Chwilio'
@@ -452,6 +460,7 @@ const cy: UiStrings = {
     heroTagline:
       "Mae Lily yn system ddylunio ffynhonnell agored am ddim a hygyrch, gyda channoedd o gydrannau ar gyfer saith fframwaith.",
     findPath: "Dewch o hyd i'ch llwybr",
+    frameworks: 'Fframweithiau a gefnogir',
     tutorials: {
       heading: 'Tiwtorialau',
       description: "Dysgwch Lily gam wrth gam, yn y fframwaith rydych chi'n ei ddefnyddio."
@@ -494,7 +503,7 @@ const ar: UiStrings = {
     locale: 'اللغة',
     textSize: 'حجم النص',
     share: 'مشاركة',
-    link: 'الصفحات',
+    link: 'الأماكن',
     search: 'بحث',
     searchInput: 'عبارات البحث',
     searchSubmit: 'بحث'
@@ -503,6 +512,7 @@ const ar: UiStrings = {
     heroTitle: 'صمّم الويب بشكل أفضل.',
     heroTagline: 'Lily نظام تصميم مجاني ومفتوح المصدر ويسهل الوصول إليه، يضم مئات المكوّنات لسبعة أطر عمل.',
     findPath: 'اعثر على مسارك',
+    frameworks: 'أطر العمل المدعومة',
     tutorials: {
       heading: 'الدروس',
       description: 'تعلّم Lily خطوة بخطوة، في إطار العمل الذي تستخدمه.'
@@ -542,7 +552,7 @@ const ur: UiStrings = {
     locale: 'زبان',
     textSize: 'متن کا سائز',
     share: 'شیئر کریں',
-    link: 'صفحات',
+    link: 'مقامات',
     search: 'تلاش',
     searchInput: 'تلاش کے الفاظ',
     searchSubmit: 'تلاش'
@@ -552,6 +562,7 @@ const ur: UiStrings = {
     heroTagline:
       'Lily ایک مفت، اوپن سورس اور قابلِ رسائی ڈیزائن سسٹم ہے جس میں سات فریم ورکس کے لیے سیکڑوں اجزاء شامل ہیں۔',
     findPath: 'اپنا راستہ تلاش کریں',
+    frameworks: 'معاون فریم ورکس',
     tutorials: {
       heading: 'سبق',
       description: 'جس فریم ورک میں کام کرتے ہیں اُس میں Lily مرحلہ وار سیکھیں۔'
@@ -591,7 +602,7 @@ const bn: UiStrings = {
     locale: 'ভাষা',
     textSize: 'টেক্সটের আকার',
     share: 'শেয়ার করুন',
-    link: 'পৃষ্ঠাসমূহ',
+    link: 'স্থানসমূহ',
     search: 'অনুসন্ধান',
     searchInput: 'অনুসন্ধানের শব্দ',
     searchSubmit: 'অনুসন্ধান'
@@ -601,6 +612,7 @@ const bn: UiStrings = {
     heroTagline:
       'Lily একটি বিনামূল্যের, ওপেন-সোর্স, প্রবেশযোগ্য ডিজাইন সিস্টেম, যাতে সাতটি ফ্রেমওয়ার্কের জন্য শত শত কম্পোনেন্ট রয়েছে।',
     findPath: 'আপনার পথ খুঁজুন',
+    frameworks: 'সমর্থিত ফ্রেমওয়ার্ক',
     tutorials: {
       heading: 'টিউটোরিয়াল',
       description: 'আপনি যে ফ্রেমওয়ার্ক ব্যবহার করেন, তাতে ধাপে ধাপে Lily শিখুন।'
@@ -640,7 +652,7 @@ const zh: UiStrings = {
     locale: '语言',
     textSize: '文字大小',
     share: '分享',
-    link: '页面',
+    link: '地点',
     search: '搜索',
     searchInput: '搜索词',
     searchSubmit: '搜索'
@@ -649,6 +661,7 @@ const zh: UiStrings = {
     heroTitle: '更好地设计网页。',
     heroTagline: 'Lily 是一个免费、开源、无障碍的设计系统,为七种框架提供数百个组件。',
     findPath: '找到适合你的路径',
+    frameworks: '支持的框架',
     tutorials: {
       heading: '教程',
       description: '在你使用的框架中,按部就班地学习 Lily。'

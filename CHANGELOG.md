@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Docs site: link picker renamed "Places" and not underlined; locale home pages gain the framework icons — 2026-10-07
+
+The header link picker's name is now "Places" (translated in all 12 languages), its menu entries are no longer underlined (the site's bare
+`a` rule outranked the themes' zero-specificity `text-decoration: none`), and every locale home page (`/en-gb/`, `/fr-001/`, …) shows the
+same framework icon row as the English home page.
+
 ## Locale routes drop the `/locales/` prefix — 2026-10-07
 
 `/locales/en-us/` is now `/en-us/`, `/locales/cy-gb/help/` is `/cy-gb/help/`, for all 15 locales; only the locale list stays at `/locales/`.

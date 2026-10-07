@@ -26,6 +26,56 @@
 <section class="page-intro">
   <h1>{strings.home.heroTitle}</h1>
   <p class="page-intro-tagline">{strings.home.heroTagline}</p>
+  <ul class="framework-icon-row" aria-label={strings.home.frameworks}>
+    <li>
+      <a class="framework-icon-link" href="/tutorials/svelte/">
+        <img src="/assets/images/icons/svelte/64x64.png" alt="" width="40" height="40" />
+        <span>Svelte</span>
+      </a>
+    </li>
+    <li>
+      <a class="framework-icon-link" href="/tutorials/react/">
+        <img src="/assets/images/icons/react/64x64.png" alt="" width="40" height="40" />
+        <span>React</span>
+      </a>
+    </li>
+    <li>
+      <a class="framework-icon-link" href="/tutorials/vue/">
+        <img src="/assets/images/icons/vue/64x64.png" alt="" width="40" height="40" />
+        <span>Vue</span>
+      </a>
+    </li>
+    <li>
+      <a class="framework-icon-link" href="/tutorials/angular/">
+        <img src="/assets/images/icons/angular/64x64.png" alt="" width="40" height="40" />
+        <span>Angular</span>
+      </a>
+    </li>
+    <li>
+      <a class="framework-icon-link" href="/tutorials/blazor/">
+        <img src="/assets/images/icons/blazor/64x64.png" alt="" width="40" height="40" />
+        <span>Blazor</span>
+      </a>
+    </li>
+    <li>
+      <a class="framework-icon-link" href="/tutorials/nunjucks/">
+        <img src="/assets/images/icons/nunjucks/64x64.png" alt="" width="40" height="40" />
+        <span>Nunjucks</span>
+      </a>
+    </li>
+    <li>
+      <a class="framework-icon-link" href="/tutorials/html/">
+        <img src="/assets/images/icons/html/64x64.png" alt="" width="40" height="40" />
+        <span>HTML</span>
+      </a>
+    </li>
+    <li>
+      <a class="framework-icon-link" href="https://github.com/LilyDesignSystem/lily-design-system-web-components-headless">
+        <img src="/assets/images/icons/web-components/64x64.png" alt="" width="40" height="40" />
+        <span>Web Components</span>
+      </a>
+    </li>
+  </ul>
 </section>
 
 <section class="section prose" style="margin: 0 auto;">

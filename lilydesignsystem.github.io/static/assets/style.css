@@ -61,6 +61,10 @@ a {
   text-underline-offset: 0.15em;
 }
 a:hover { color: var(--lily-primary-hover); }
+/* The link picker's menu entries are menu items, not prose links: the reference themes set
+   text-decoration: none, but only at zero specificity, so the bare `a` rule above would win. */
+.link-picker-link,
+.link-picker-link:hover { text-decoration: none; }
 a:focus-visible {
   outline: 3px solid var(--lily-primary);
   outline-offset: 2px;
