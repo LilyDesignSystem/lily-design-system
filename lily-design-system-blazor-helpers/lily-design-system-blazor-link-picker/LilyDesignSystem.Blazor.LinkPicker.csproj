@@ -7,7 +7,7 @@
     <RootNamespace>LilyDesignSystem.Blazor.Helpers</RootNamespace>
     <AssemblyName>LilyDesignSystem.Blazor.LinkPicker</AssemblyName>
     <PackageId>LilyDesignSystem.Blazor.LinkPicker</PackageId>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Authors>Joel Parker Henderson</Authors>
     <Description>Lily Design System Blazor link picker: an icon button (a home icon) opening a disclosure of app-defined page links. Headless, SSR-safe, no CSS.</Description>
     <PackageProjectUrl>https://lilydesignsystem.com/</PackageProjectUrl>
