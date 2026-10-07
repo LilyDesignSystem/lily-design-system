@@ -1,0 +1,58 @@
+#!/usr/bin/env node
+// bin/generate-locale-pages
+//
+// Write the thin route files for the translated text pages:
+//   lilydesignsystem.github.io/src/routes/locales/<code>/<slug>/+page.svelte
+// for every locale directory whose language has all eight page files under src/lib/pages/<slug>/
+// (see src/lib/pages.ts). English locales use the English routes and get none. Route files for a locale
+// that has lost its translations are removed.
+//
+//   bin/generate-locale-pages          write / prune
+//   bin/generate-locale-pages --check  exit 1 if anything would change
+
+const fs = require("fs");
+const path = require("path");
+
+const top = path.join(__dirname, "..");
+const site = path.join(top, "lilydesignsystem.github.io");
+const SLUGS = ["about", "why", "accessibility", "help", "comparisons", "tutorials", "examples", "skills"];
+const check = process.argv.includes("--check");
+
+const localesDir = path.join(site, "src/routes/locales");
+const codes = fs.readdirSync(localesDir, { withFileTypes: true }).filter((e) => e.isDirectory()).map((e) => e.name);
+const hasAll = (lang) => SLUGS.every((s) => fs.existsSync(path.join(site, "src/lib/pages", s, lang + ".html")));
+
+let changes = 0;
+const note = (m) => {
+  changes++;
+  console.log(m);
+};
+
+for (const code of codes) {
+  const lang = code.split("-")[0];
+  const translated = lang !== "en" && hasAll(lang);
+  for (const slug of SLUGS) {
+    const file = path.join(localesDir, code, slug, "+page.svelte");
+    const want = `<script lang="ts">
+  import LocalizedPage from '#lib/components/LocalizedPage.svelte';
+</script>
+
+<LocalizedPage slug="${slug}" locale="${code}" />
+`;
+    const have = fs.existsSync(file) ? fs.readFileSync(file, "utf8") : null;
+    if (translated && have !== want) {
+      note((check ? "would write " : "wrote ") + path.relative(top, file));
+      if (!check) {
+        fs.mkdirSync(path.dirname(file), { recursive: true });
+        fs.writeFileSync(file, want);
+      }
+    } else if (!translated && have !== null) {
+      note((check ? "would remove " : "removed ") + path.relative(top, file));
+      if (!check) {
+        fs.rmSync(path.dirname(file), { recursive: true });
+      }
+    }
+  }
+}
+if (check && changes) process.exit(1);
+if (!changes) console.log("generate-locale-pages: up to date");

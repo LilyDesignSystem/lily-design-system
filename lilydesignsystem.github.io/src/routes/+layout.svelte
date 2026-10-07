@@ -3,6 +3,7 @@
   import SitePreferences from '#lib/components/SitePreferences.svelte';
   import { ui } from '#lib/i18n.js';
   import { DEFAULT_LOCALE, LOCALE_LABELS, bcp47Tag, isRtl } from '#lib/locales.js';
+  import { pageHref } from '#lib/pages.js';
 
   let { children } = $props();
 
@@ -26,11 +27,11 @@
   const navLinks = $derived<NavLink[]>([
     { href: homeHref, label: strings.nav.home },
     { href: '/components/', label: strings.nav.components },
-    { href: '/tutorials/', label: strings.nav.tutorials },
-    { href: '/examples/', label: strings.nav.examples },
-    { href: '/skills/', label: strings.nav.skills },
-    { href: '/help/', label: strings.nav.help },
-    { href: '/about/', label: strings.nav.about }
+    { href: pageHref('tutorials', currentLocale), label: strings.nav.tutorials },
+    { href: pageHref('examples', currentLocale), label: strings.nav.examples },
+    { href: pageHref('skills', currentLocale), label: strings.nav.skills },
+    { href: pageHref('help', currentLocale), label: strings.nav.help },
+    { href: pageHref('about', currentLocale), label: strings.nav.about }
   ]);
 
   function isCurrent(href: string): boolean {
@@ -83,10 +84,10 @@
     <p class="site-footer-trademark">{strings.footer.trademark}</p>
     <div class="site-footer-links">
       <a href="https://github.com/LilyDesignSystem">{strings.nav.github}</a>
-      <a href="/why/">{strings.footer.why}</a>
-      <a href="/tutorials/">{strings.nav.tutorials}</a>
-      <a href="/help/">{strings.nav.help}</a>
-      <a href="/about/">{strings.nav.about}</a>
+      <a href={pageHref('why', currentLocale)}>{strings.footer.why}</a>
+      <a href={pageHref('tutorials', currentLocale)}>{strings.nav.tutorials}</a>
+      <a href={pageHref('help', currentLocale)}>{strings.nav.help}</a>
+      <a href={pageHref('about', currentLocale)}>{strings.nav.about}</a>
       <a href="/locales/">{strings.pickerLabels.locale}</a>
     </div>
   </div>

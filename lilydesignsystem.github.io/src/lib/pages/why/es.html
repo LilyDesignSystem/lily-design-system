@@ -1,0 +1,54 @@
+<!-- title: Por qué Lily — Lily Design System -->
+<!-- description: Los argumentos a favor de Lily: componentes headless a los que tú das estilo, accesibilidad WCAG 2.2 AAA integrada, sin cadenas escritas en el código, ocho frameworks, un catálogo, gratis para siempre. -->
+<section class="page-intro">
+  <h1>Los argumentos a favor de Lily</h1>
+  <p class="page-intro-tagline">Lily te entrega las partes difíciles —semántica, accesibilidad, comportamiento del teclado, internacionalización— y deja el aspecto por completo, y con gusto, en tus manos.</p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Empieza desde tu diseño</h2>
+  <p>Tu equipo ya sabe cómo debe verse su producto. Lily parte exactamente de ahí: aporta lo que es realmente difícil de acertar y costoso de rehacer —el elemento semántico correcto, los estados ARIA, el contrato del teclado, la gestión del foco— y deja cada decisión visual por completo, y con alegría, en tus manos. Tu CSS es el aspecto del sistema de diseño desde el primer día.</p>
+  <p>Como cada componente lleva una clase de enlace estable y una estructura pura, tu estilo sigue siendo tuyo con cada actualización, y la accesibilidad que hay debajo sigue funcionando versión tras versión.</p>
+
+  <h2>A qué se compromete Lily</h2>
+  <ul>
+    <li><strong>Accesible por defecto.</strong> WCAG 2.2 AAA es el objetivo de todos los componentes. Los patrones siguen las Prácticas de Creación de WAI-ARIA; todo componente interactivo se puede manejar con el teclado según un contrato documentado; las aplicaciones de ejemplo mantienen una base limpia de axe-core.</li>
+    <li><strong>Internacionalizable por construcción.</strong> Cada cadena visible para el usuario —cada etiqueta, error y anuncio— es una propiedad con nombres estables en todos los frameworks, de modo que la traducción fluye con naturalidad. El texto de derecha a izquierda y el bidireccional heredan de tu <code>dir</code>. Los componentes sensibles a la configuración regional reciben el idioma como propiedad, siempre de forma explícita.</li>
+    <li><strong>Un catálogo, ocho frameworks.</strong> Los mismos 571 componentes (536 como Web Components nativos) con las mismas clases de enlace y convenciones de propiedades en HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks y Web Components. Tu CSS y los conocimientos de tu equipo se trasladan de una tecnología a otra.</li>
+    <li><strong>Independiente de la estrategia de CSS.</strong> Una clase estable en kebab-case por cada raíz de componente. CSS semántico, utilidades de Tailwind, CSS-in-JS o uno de los 45 temas listos para usar: Lily los acepta todos y se mantiene discretamente al margen.</li>
+    <li><strong>Gratis, para siempre y en tus términos.</strong> Código abierto con la licencia que elijas entre BSD, MIT, Apache-2.0, GPL-2.0 o GPL-3.0. Sin nivel de pago, sin licencias por usuario, sin telemetría.</li>
+  </ul>
+
+  <h2>Profundidad donde importa</h2>
+  <p>Más allá de los botones y diálogos habituales, el catálogo llega más lejos que la mayoría:</p>
+  <ul>
+    <li><strong>Patrones del sector público</strong> investigados a partir de los sistemas de diseño de NHS UK, GOV.UK, USWDS y ONS: resúmenes de errores, avisos de advertencia, listas de resumen, banners de fase y enlaces de salto.</li>
+    <li><strong>140 componentes de identificadores personales nacionales</strong> que abarcan identificadores sanitarios, de documento nacional, fiscales y de pasaporte de más de 50 países, cada uno con su formato y su algoritmo de validación documentados.</li>
+    <li><strong>Elementos editoriales y de scrollytelling</strong> adaptados de Reuters Graphics: diseños de artículo, desplazadores, líneas de tiempo y mapas de mosaicos.</li>
+    <li><strong>Asistentes de selección</strong>: paquetes pequeños que se encargan de una interacción de principio a fin: cambio de tema (con carga de hojas de estilo en tiempo de ejecución), idioma, tamaño del texto, movimiento reducido, búsqueda, enlaces de página, compartir y entrada de fecha y hora. Cada uno es un botón de icono headless que abre una ventana emergente —no un <code>&lt;select&gt;</code> nativo— con persistencia y compatibilidad con SSR integradas.</li>
+  </ul>
+
+  <h2>Temas para el sector público, listos para usar</h2>
+  <p>Lily incluye 45 temas de referencia independientes que apuntan directamente a sus clases de enlace: NHS England, NHS Scotland y NHS Wales (cada uno en variantes para pacientes y para profesionales), GOV.UK, USWDS, paletas inspiradas en Adobe Spectrum y Mozilla Protocol, y un conjunto de temas claros y oscuros de uso general. Enlaza una hoja de estilo y tendrás un aspecto de nivel gubernamental; el asistente <code>theme-picker</code> los cambia en tiempo de ejecución.</p>
+
+  <h2>Cómo se compara Lily</h2>
+  <p>Mantenemos una <a href="/comparisons/">comparación honesta, componente por componente, con otros sistemas de diseño</a>: con y sin estilo, headless, comerciales y del sector público. Donde otra biblioteca te convenga más, la comparación lo mostrará; Lily aprende de todas ellas y cita sus inspiraciones abiertamente.</p>
+
+  <h2>Quién está detrás</h2>
+  <p>Lily es un proyecto de código abierto joven e independiente que agradece la colaboración, la orientación y los comentarios; consulta <a href="/about/">Acerca de</a> para conocer su historia y sus inspiraciones. Todo —la especificación, las pruebas, la hoja de ruta, incluso las herramientas de auditoría— está a la vista en <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a>.</p>
+
+  <h2>Ayuda a que Lily crezca</h2>
+  <p>Si Lily te resulta útil, lo más valioso que puedes hacer es:</p>
+  <ul>
+    <li><strong>Dar una estrella y compartir.</strong> Da una estrella al <a href="https://github.com/LilyDesignSystem/lily-design-system">repositorio principal</a> y enseña el <a href="/components/">catálogo</a> a un compañero: la visibilidad es el recurso más escaso de un proyecto joven.</li>
+    <li><strong>Construir algo y contárnoslo.</strong> Los informes de uso real —qué funcionó y qué podría ser más fluido— influyen en la hoja de ruta más que ninguna otra cosa.</li>
+    <li><strong>Auditar la accesibilidad.</strong> Las pruebas con lectores de pantalla (VoiceOver, NVDA, JAWS) en las <a href="/examples/">aplicaciones de ejemplo</a> valen oro; cuéntanos lo que encuentres.</li>
+    <li><strong>Aportar un tema o una traducción.</strong> Ambas son primeras contribuciones independientes y bien acotadas.</li>
+    <li><strong>Comparte lo que encuentres, con un caso reproducible mínimo,</strong> en el repositorio correspondiente, o escribe a <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.</li>
+  </ul>
+
+  <div class="button-row" style="margin-top: 2rem;">
+    <a class="button button-primary" href="/tutorials/">Start the tutorial</a>
+    <a class="button button-secondary" href="https://github.com/LilyDesignSystem">Star on GitHub</a>
+  </div>
+</section>

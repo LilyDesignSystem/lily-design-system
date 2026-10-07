@@ -86,6 +86,23 @@ session (`sessionStorage` key `lily-locale-redirect-done`; no redirect if sessio
 (the matcher, and real browsers with `cy-GB`, `en-AU` and `de-DE` locales); the suite's default browser locale is `de-DE`
 (a language with no route) so other tests are not redirected.
 
+## Translated text pages
+
+The eight main pages (about, why, accessibility, help, comparisons, tutorials, examples, skills) are translated per **language** (not
+per locale), so `cy-001` and `cy-gb` share `cy.html`.
+
+- Source: `src/routes/<page>/+page.svelte` is the English page. `bin/extract-site-pages` writes `src/lib/pages/<page>/en.html`
+  (Svelte `{`…`}` literals evaluated, HTML escaped, `<pre>` code samples kept verbatim); `--check` fails when it drifts.
+- Translation: `src/lib/pages/<page>/<language>.html` starts with `<!-- title: … -->` and `<!-- description: … -->` comments, then the
+  same markup as `en.html`: identical tags in identical order, identical `id`/`href`/`class`, byte-identical `<pre>` blocks. Only
+  text and `aria-label` values change. Keep tag **order** even where the target language would reorder a sentence.
+- Rendering: `src/lib/pages.ts` loads the files (`import.meta.glob`), `LocalizedPage.svelte` renders one with `{@html}` (adding
+  `tabindex="0"` to `<pre>`), and `bin/generate-locale-pages` writes `src/routes/locales/<code>/<page>/+page.svelte` for every
+  non-English locale whose language has all eight files. `pageHref(slug, locale)` returns the translated URL, or the English one when
+  the language has no pages; the nav, footer, home cards and link picker use it, and `localizeLinks` rewrites links inside the page.
+- Checks (in `bin/test`): `bin/check-site-page-translations` (structure, code identity, not-English, all-eight coverage).
+- Provenance: Welsh uses TermCymru; the rest are machine translations pending native-speaker review.
+
 ## Locale picker (labels + ordering)
 
 - Labels live in `locales.js`'s `LOCALE_LABELS`, one entry per code, in that

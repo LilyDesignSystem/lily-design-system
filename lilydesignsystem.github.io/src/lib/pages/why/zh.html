@@ -1,0 +1,54 @@
+<!-- title: 为什么选择 Lily — Lily Design System -->
+<!-- description: 选择 Lily 的理由：由你自己设置样式的 headless 组件、内置的 WCAG 2.2 AAA 无障碍、没有硬编码字符串、八种框架、一套目录、永久免费。 -->
+<section class="page-intro">
+  <h1>选择 Lily 的理由</h1>
+  <p class="page-intro-tagline">Lily 把最难的部分交给你——语义、无障碍、键盘行为、国际化——并把外观完全、乐意地留给你。</p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>从你的设计出发</h2>
+  <p>你的团队早就知道产品应该是什么样子。Lily 正是从这里出发：它提供真正难以做对、返工代价高昂的部分——正确的语义元素、ARIA 状态、键盘契约、焦点管理——并把每一个视觉决定完全、欣然地留给你。你的 CSS 从第一天起就是这套设计系统的外观。</p>
+  <p>因为每个组件都带有稳定的类钩子和纯粹的结构，你的样式在每次升级中依然属于你，而底层的无障碍能力也会一版接一版地持续生效。</p>
+
+  <h2>Lily 的承诺</h2>
+  <ul>
+    <li><strong>默认无障碍。</strong>WCAG 2.2 AAA 是每个组件的目标。模式遵循 WAI-ARIA 创作实践；每个交互组件都能通过键盘操作，并有文档化的契约；示例应用保持干净的 axe-core 基线。</li>
+    <li><strong>从构造上支持国际化。</strong>每一条面向用户的字符串——每个标签、错误和通知——都是一个在各框架间名称稳定的属性，因此翻译自然流转。从右到左和双向文本继承自你的 <code>dir</code>。感知区域设置的组件把区域设置作为属性接收，始终显式传入。</li>
+    <li><strong>一套目录，八种框架。</strong>同样的 571 个组件（其中 536 个为原生 Web Components），在 HTML、Svelte、React、Vue、Angular、Blazor、Nunjucks 和 Web Components 中使用相同的类钩子和属性约定。你的 CSS 和团队的知识可以跨技术栈迁移。</li>
+    <li><strong>不限定 CSS 策略。</strong>每个组件根元素只有一个稳定的 kebab-case 类。语义化 CSS、Tailwind 工具类、CSS-in-JS，或 45 个现成主题之一——Lily 全部欢迎，并礼貌地让到一边。</li>
+    <li><strong>免费、永久、条款由你定。</strong>开源，可在 BSD、MIT、Apache-2.0、GPL-2.0 或 GPL-3.0 中任选其一。没有付费层级，没有按席位授权，没有遥测。</li>
+  </ul>
+
+  <h2>在关键之处有深度</h2>
+  <p>除了常见的按钮和对话框，这套目录走得比大多数更远：</p>
+  <ul>
+    <li><strong>公共部门模式</strong>，研究自 NHS UK、GOV.UK、USWDS 和 ONS 设计系统——错误摘要、警告提示块、摘要列表、阶段横幅、跳转链接。</li>
+    <li><strong>140 个国家级个人标识符组件</strong>，涵盖 50 多个国家的医疗、国民身份、税务和护照标识符，每个都记录了其格式和校验算法。</li>
+    <li><strong>编辑与滚动叙事基础元素</strong>，改编自 Reuters Graphics——文章布局、滚动器、时间线、瓦片地图。</li>
+    <li><strong>选择器辅助组件</strong>——小型软件包，各自负责一项完整的交互：主题切换（含运行时加载样式表）、语言、文字大小、减弱动效、搜索、页面链接、分享，以及日期时间输入。每个都是打开弹出层的 headless 图标按钮——而不是原生的 <code>&lt;select&gt;</code>——并内置持久化和 SSR 安全。</li>
+  </ul>
+
+  <h2>面向公共部门的主题，开箱即用</h2>
+  <p>Lily 附带 45 个独立的参考主题，直接以其类钩子为目标：NHS England、NHS Scotland 和 NHS Wales（各有面向患者和面向从业者的版本）、GOV.UK、USWDS、受 Adobe Spectrum 和 Mozilla Protocol 启发的调色板，以及一组通用的浅色和深色主题。链接一个样式表，政府级外观即刻生效；<code>theme-picker</code> 辅助组件可在运行时切换它们。</p>
+
+  <h2>Lily 的比较</h2>
+  <p>我们维护着一份坦诚的、逐个组件的<a href="/comparisons/">与其他设计系统的比较</a>——有样式的与 headless 的、商业的与公共部门的。如果别的库更适合你，比较表会显示出来；Lily 向所有这些系统学习，并公开列出自己的灵感来源。</p>
+
+  <h2>幕后是谁</h2>
+  <p>Lily 是一个年轻、独立的开源项目，欢迎协作、指导和反馈——故事和灵感来源见<a href="/about/">关于</a>。一切——规范、测试、路线图，甚至审计工具——都公开在 <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a>。</p>
+
+  <h2>帮助 Lily 成长</h2>
+  <p>如果 Lily 对你有用，最有价值的做法是：</p>
+  <ul>
+    <li><strong>点星并分享。</strong>给<a href="https://github.com/LilyDesignSystem/lily-design-system">主仓库</a>点个星，并向同事展示<a href="/components/">目录</a>——知名度是年轻项目最稀缺的资源。</li>
+    <li><strong>做点东西并告诉我们。</strong>真实使用的反馈——哪些好用、哪些可以更顺畅——比任何东西都更能塑造路线图。</li>
+    <li><strong>审计无障碍。</strong>在<a href="/examples/">示例应用</a>上用屏幕阅读器（VoiceOver、NVDA、JAWS）测试价值连城；请提交你的发现。</li>
+    <li><strong>贡献主题或翻译。</strong>两者都是独立且范围明确的首次贡献。</li>
+    <li><strong>分享你的发现，并附最小复现，</strong>发到相关仓库，或发邮件至 <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>。</li>
+  </ul>
+
+  <div class="button-row" style="margin-top: 2rem;">
+    <a class="button button-primary" href="/tutorials/">Start the tutorial</a>
+    <a class="button button-secondary" href="https://github.com/LilyDesignSystem">Star on GitHub</a>
+  </div>
+</section>

@@ -357,6 +357,12 @@ test_lockfiles_are_tracked
     || err "a headless implementation lacks its base class hook; run bin/check-class-names"
 "$top/bin/generate-api-docs" --check >/dev/null 2>&1 \
     || err "site contract sections drift from components/*/AGENTS.md; run bin/generate-api-docs"
+"$top/bin/extract-site-pages" --check >/dev/null 2>&1 \
+    || err "site pages' English sources drift from their routes; run bin/extract-site-pages"
+"$top/bin/check-site-page-translations" >/dev/null 2>&1 \
+    || err "a translated site page differs in structure or is missing; run bin/check-site-page-translations"
+"$top/bin/generate-locale-pages" --check >/dev/null 2>&1 \
+    || err "locale page routes are out of date; run bin/generate-locale-pages"
 "$top/bin/sync-special-files" --check >/dev/null 2>&1 \
     || err "special files are out of sync; run bin/sync-special-files"
 

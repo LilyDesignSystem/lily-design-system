@@ -1,0 +1,102 @@
+<!-- title: 教程 — Lily Design System -->
+<!-- description: Lily 分步教程：你的第一个组件、样式设置、现成主题和偏好辅助组件——适用于 HTML、Svelte、React、Vue、Angular、Blazor 和 Nunjucks。 -->
+<section class="page-intro">
+  <h1>一步一步学习 Lily</h1>
+  <p class="page-intro-tagline">欢迎！每个教程都从零开始，用大约 10 分钟构建同一个小东西——一个无障碍且带样式的表单——这样你就能在同等条件下比较各个框架。然后再深入学习主题和用户偏好。</p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>开始之前</h2>
+  <p>你需要的东西少得出奇：</p>
+  <ul>
+    <li><strong>HTML 教程</strong>——只需要一个浏览器和一个文本编辑器。这就是全部工具。</li>
+    <li><strong>Svelte、React、Vue、Angular 或 Nunjucks</strong>——<a href="https://git-scm.com/">git</a>、Node 26 以及 pnpm 10 或更高版本。</li>
+    <li><strong>Blazor</strong>——git 和 <a href="https://dotnet.microsoft.com/">.NET SDK</a> 8 或更高版本。</li>
+  </ul>
+  <p>刚接触 headless 组件？你来对地方了——每个教程都会边做边解释发生了什么，每一步都给出可直接复制的准确代码。</p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>从零到发布的四步</h2>
+  </header>
+  <div class="prose" style="margin: 0 auto;">
+    <ol>
+      <li><strong>你的第一个组件</strong>（约 5 分钟）——在下方选择你的框架，获取代码，渲染一个按钮。</li>
+      <li><strong>组合并设置样式</strong>（约 5 分钟）——构建一个带标签的表单，并依据 kebab-case 类钩子为它设置样式（每个框架教程的一部分）。</li>
+      <li><strong>应用主题</strong>（约 15 分钟）——把你手写的 CSS 换成 45 个现成主题之一，然后让用户在运行时切换：<a href="/tutorials/theming/">主题教程</a>。</li>
+      <li><strong>尊重偏好</strong>（约 15 分钟）——用偏好辅助组件添加语言和文字大小选择：<a href="/tutorials/helpers/">辅助组件教程</a>。</li>
+    </ol>
+  </div>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>选择你的框架</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/html/">
+      <h3 class="card-heading">HTML</h3>
+      <p class="card-description">复制带有类钩子的语义化 HTML 就能开始——有浏览器和编辑器就够了。</p>
+      <p class="card-meta">约 10 分钟 · 最容易上手</p>
+    </a>
+    <a class="card" href="/tutorials/svelte/">
+      <h3 class="card-heading">Svelte</h3>
+      <p class="card-description">Svelte 5 runes、代码片段和 <code>bind:value</code> 双向绑定。</p>
+      <p class="card-meta">约 10 分钟</p>
+    </a>
+    <a class="card" href="/tutorials/react/">
+      <h3 class="card-heading">React</h3>
+      <p class="card-description">带有 <code>value</code> + <code>onChange</code> 并展开其余属性的函数组件。</p>
+      <p class="card-meta">约 10 分钟</p>
+    </a>
+    <a class="card" href="/tutorials/vue/">
+      <h3 class="card-heading">Vue</h3>
+      <p class="card-description">支持 <code>v-model</code> 的 Vue 3 单文件组件。</p>
+      <p class="card-meta">约 10 分钟</p>
+    </a>
+    <a class="card" href="/tutorials/angular/">
+      <h3 class="card-heading">Angular</h3>
+      <p class="card-description">带有信号输入和 <code>[(value)]</code> 的 Angular 独立组件。</p>
+      <p class="card-meta">约 10 分钟</p>
+    </a>
+    <a class="card" href="/tutorials/blazor/">
+      <h3 class="card-heading">Blazor</h3>
+      <p class="card-description">带有参数、<code>ChildContent</code> 和 bUnit 测试的 Razor 组件。</p>
+      <p class="card-meta">约 10 分钟</p>
+    </a>
+    <a class="card" href="/tutorials/nunjucks/">
+      <h3 class="card-heading">Nunjucks</h3>
+      <p class="card-description">适用于 Eleventy 和任何 Node 模板流水线的服务端渲染宏。</p>
+      <p class="card-meta">约 10 分钟</p>
+    </a>
+  </div>
+  <p class="prose" style="margin: 0 auto;">拿不定主意？从 <a href="/tutorials/html/">HTML</a> 开始——它讲授所有其他框架共享的类钩子契约，并且可以直接从文件运行。</p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>深入了解</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/theming/">
+      <h3 class="card-heading">主题</h3>
+      <p class="card-description">链接 45 个现成主题之一——NHS、GOV.UK、USWDS、浅色、深色等——用你自己的 CSS 覆盖它，并借助 theme-picker 辅助组件添加运行时主题切换。</p>
+      <p class="card-meta">约 15 分钟</p>
+    </a>
+    <a class="card" href="/tutorials/helpers/">
+      <h3 class="card-heading">偏好辅助组件</h3>
+      <p class="card-description">借助 theme-picker、locale-picker、text-size-picker、motion-picker、search-picker、link-picker、share-picker 和 date-time-picker，让用户控制主题、语言、文字大小、动效、搜索、页面链接、分享以及日期/时间输入：带有持久化、SSR 安全以及自动从右到左检测的 headless 控件。</p>
+      <p class="card-meta">约 15 分钟</p>
+    </a>
+  </div>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>教程之后</h2>
+  <ul>
+    <li>浏览<a href="/components/">组件目录</a>——每个组件都记录了它的属性、ARIA 契约和键盘行为。</li>
+    <li>克隆一个<a href="/examples/">示例应用</a>，查看全部 571 个组件带样式并协同工作的样子——其 CSS 针对的正是你刚用过的那些类钩子，所以随意复制其中任何内容到你的项目里，并按需调整。</li>
+    <li>有疑问？<a href="/help/">帮助页面</a>有答案、常见问题，以及联系友善真人的方式。如果某个教程可以更清楚，请<a href="https://github.com/LilyDesignSystem">告诉我们</a>——我们乐意改进。</li>
+  </ul>
+</section>

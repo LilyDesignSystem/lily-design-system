@@ -205,10 +205,11 @@ pnpm run dev`}</code></pre>
 <section class="section prose" id="helpers" style="margin: 0 auto;">
   <h2>Preference helpers</h2>
   <p>
-    Each framework has a companion <code>*-helpers</code> catalog with five
-    small packages. Each is a headless icon-button + listbox (or, for
-    date-time-picker, a date-picker dialog) — not a native
-    <code>&lt;select&gt;</code> — is SSR-safe, and ships no CSS:
+    Each framework has a companion <code>*-helpers</code> catalog with eight
+    small pickers (and a <code>picker-bar</code> that assembles them). Each is
+    a headless icon-button that opens a popup — a listbox, a list of links, a
+    search form, or (for date-time-picker) a date-picker dialog — not a native
+    <code>&lt;select&gt;</code>; is SSR-safe; and ships no CSS:
   </p>
   <ul>
     <li>
@@ -227,6 +228,21 @@ pnpm run dev`}</code></pre>
       the document; your CSS maps each value to font sizing.
     </li>
     <li>
+      <strong>motion-picker</strong> — sets <code>data-motion</code> on the
+      document, starting from the visitor's reduced-motion setting; your CSS
+      and scripts decide what to suppress.
+    </li>
+    <li>
+      <strong>search-picker</strong> — an icon button that opens a search
+      field; submitting navigates to a search page. Owns an action, not a
+      preference.
+    </li>
+    <li>
+      <strong>link-picker</strong> — a home icon that opens a menu of the page
+      links your app defines (Home, About Us, Contact Us, Privacy Policy, …).
+      Owns an action, not a preference.
+    </li>
+    <li>
       <strong>share-picker</strong> — opens the native share sheet or a
       consumer-supplied destination list, plus copy-the-URL. Owns an
       action, not a preference: applies nothing, persists nothing.
@@ -242,7 +258,7 @@ pnpm run dev`}</code></pre>
   <pre tabindex="0"><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-helpers`}</code></pre>
   <p>
     The Svelte catalog is the canonical reference; React, Vue, Angular, HTML,
-    Nunjucks, and Blazor ports match it contract-for-contract. See the
+    Nunjucks, Web Components, and Blazor ports match it contract-for-contract. See the
     <a href="/tutorials/helpers/">helpers tutorial</a>.
   </p>
 </section>
@@ -316,7 +332,7 @@ pnpm run dev`}</code></pre>
   <p>
     The canonical monorepo additionally ships two
     <a href="https://code.claude.com/docs/en/skills">Claude Skills</a>:
-    <code>lily-skill</code>, a general-purpose skill covering Lily's
+    <code>lily-design-system-skill</code>, a general-purpose skill covering Lily's
     concepts, terminology, and composition patterns for anyone building
     with the system, and <code>lily-design-system-maintainer-skill</code>,
     a technical skill covering the monorepo's required-files layout and

@@ -1,0 +1,95 @@
+<!-- title: Lily + Claude Code — Lily Design System -->
+<!-- description: 26 Skill Claude memberi Claude Code pintu masuk terkurasi yang dapat dimuat ke Lily Design System — konsep umum, payung per framework, dan pendalaman per subproyek untuk pustaka headless dan asisten *-picker. -->
+<section class="page-intro">
+  <h1>Skill pada agen AI membuat Lily semakin mudah</h1>
+  <p class="page-intro-tagline">Lily menyertakan skill yang terfokus — umum, per framework, dan per subproyek — sehingga agen memuat persis konteks yang dibutuhkan dan tidak lebih.</p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Skill apa yang Anda inginkan?</h2>
+  <p>Setiap tingkat menjawab pertanyaan yang berbeda. Muat skill umum saat Anda belum mengenal Lily. Muat skill framework saat Anda mengenal framework Anda tetapi belum tahu subproyek mana yang Anda butuhkan. Muat skill headless atau skill asisten langsung saat Anda sudah tahu persis apa yang sedang dikerjakan.</p>
+
+  <ul>
+    <li><strong>Umum / pemelihara</strong> — “Apa itu Lily?” / “Bagaimana monorepo ini disusun?” — <a href="https://github.com/LilyDesignSystem/lily-design-system-skill" ><code>lily-design-system-skill</code></a >, <a href="https://github.com/LilyDesignSystem/lily-design-system-maintainer-skill" ><code>lily-design-system-maintainer-skill</code></a ></li>
+    <li><strong>Payung framework</strong> — “Apa yang tersedia untuk {framework}, dan bagian mana yang saya butuhkan?” — 8, masing-masing satu <code>{framework}-skill</code></li>
+    <li><strong>Headless / asisten</strong> — “Bagaimana tepatnya saya memakai komponen / asisten *-picker {framework}?” — 16, masing-masing satu <code>{framework}-headless-skill</code> dan satu <code>{framework}-helpers-skill</code></li>
+  </ul>
+
+  <h2>Kedelapan framework</h2>
+  <p>Setiap framework mendapat tumpukan tiga lapis yang sama. Skill payung memetakan semua subproyek nyata framework itu — termasuk aplikasi contoh, yang tidak dicakup oleh kedua skill saudaranya — dan menunjuk ke bawah ke dalamnya alih-alih mengulang kontraknya.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Framework</th>
+        <th>Payung</th>
+        <th>Headless</th>
+        <th>Asisten</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Angular</td>
+        <td><a aria-label="Skill payung Angular" href="https://github.com/LilyDesignSystem/lily-design-system-angular-skill">skill</a></td>
+        <td><a aria-label="Skill headless Angular" href="https://github.com/LilyDesignSystem/lily-design-system-angular-headless-skill">skill</a></td>
+        <td><a aria-label="Skill asisten Angular" href="https://github.com/LilyDesignSystem/lily-design-system-angular-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>Blazor</td>
+        <td><a aria-label="Skill payung Blazor" href="https://github.com/LilyDesignSystem/lily-design-system-blazor-skill">skill</a></td>
+        <td><a aria-label="Skill headless Blazor" href="https://github.com/LilyDesignSystem/lily-design-system-blazor-headless-skill">skill</a></td>
+        <td><a aria-label="Skill asisten Blazor" href="https://github.com/LilyDesignSystem/lily-design-system-blazor-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>HTML</td>
+        <td><a aria-label="Skill payung HTML" href="https://github.com/LilyDesignSystem/lily-design-system-html-skill">skill</a></td>
+        <td><a aria-label="Skill headless HTML" href="https://github.com/LilyDesignSystem/lily-design-system-html-headless-skill">skill</a></td>
+        <td><a aria-label="Skill asisten HTML" href="https://github.com/LilyDesignSystem/lily-design-system-html-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>Nunjucks</td>
+        <td><a aria-label="Skill payung Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system-nunjucks-skill">skill</a></td>
+        <td><a aria-label="Skill headless Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system-nunjucks-headless-skill">skill</a></td>
+        <td><a aria-label="Skill asisten Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system-nunjucks-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>React</td>
+        <td><a aria-label="Skill payung React" href="https://github.com/LilyDesignSystem/lily-design-system-react-skill">skill</a></td>
+        <td><a aria-label="Skill headless React" href="https://github.com/LilyDesignSystem/lily-design-system-react-headless-skill">skill</a></td>
+        <td><a aria-label="Skill asisten React" href="https://github.com/LilyDesignSystem/lily-design-system-react-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>Svelte</td>
+        <td><a aria-label="Skill payung Svelte" href="https://github.com/LilyDesignSystem/lily-design-system-svelte-skill">skill</a></td>
+        <td><a aria-label="Skill headless Svelte" href="https://github.com/LilyDesignSystem/lily-design-system-svelte-headless-skill">skill</a></td>
+        <td><a aria-label="Skill asisten Svelte" href="https://github.com/LilyDesignSystem/lily-design-system-svelte-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>Vue</td>
+        <td><a aria-label="Skill payung Vue" href="https://github.com/LilyDesignSystem/lily-design-system-vue-skill">skill</a></td>
+        <td><a aria-label="Skill headless Vue" href="https://github.com/LilyDesignSystem/lily-design-system-vue-headless-skill">skill</a></td>
+        <td><a aria-label="Skill asisten Vue" href="https://github.com/LilyDesignSystem/lily-design-system-vue-helpers-skill">skill</a></td>
+      </tr>
+      <tr>
+        <td>Web Components</td>
+        <td><a aria-label="Skill payung Web Components" href="https://github.com/LilyDesignSystem/lily-design-system-web-components-skill">skill</a></td>
+        <td>
+          <a
+            aria-label="Skill headless Web Components"
+            href="https://github.com/LilyDesignSystem/lily-design-system-web-components-headless-skill"
+            >skill</a
+          >
+          (536/571)
+        </td>
+        <td><a aria-label="Skill asisten Web Components" href="https://github.com/LilyDesignSystem/lily-design-system-web-components-helpers-skill">skill</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>Web Components adalah satu-satunya pengecualian di kedua arah: katalog headless-nya memiliki cakupan yang disengaja yaitu 536 dari 571 (elemen kustom native, tanpa runtime framework; 35 komponen lainnya dikecualikan secara permanen), dan belum ada aplikasi contoh Web Components — skill payungnya menyatakan hal itu alih-alih menyiratkan adanya aplikasi tersebut.</p>
+
+  <h2>Tambahkan satu skill</h2>
+  <p>Setiap skill adalah berkas <a href="https://code.claude.com/docs/en/skills"><code>SKILL.md</code></a> beserta berkas pendukung, tanpa langkah build. Klon yang Anda butuhkan ke lokasi tempat penyiapan Claude Code Anda memuat skill (lihat dokumentasi resmi yang ditautkan di atas untuk direktori skill proyek atau akun Anda):</p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-skill</code></pre>
+  <p>Bekerja dengan beberapa framework, atau pada monorepo itu sendiri? Klon <a href="https://github.com/LilyDesignSystem/lily-design-system">monorepo kanonis</a> saja — ke-26 skill sudah ada di akarnya, bersama pustaka headless, katalog asisten, dan aplikasi contoh yang mereka jelaskan.</p>
+</section>

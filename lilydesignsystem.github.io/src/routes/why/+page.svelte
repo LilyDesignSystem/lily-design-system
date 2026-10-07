@@ -2,7 +2,7 @@
   <title>Why Lily — Lily Design System</title>
   <meta
     name="description"
-    content="The case for Lily: headless components you style yourself, WCAG 2.2 AAA accessibility built in, no hardcoded strings, seven frameworks, one catalog, free forever."
+    content="The case for Lily: headless components you style yourself, WCAG 2.2 AAA accessibility built in, no hardcoded strings, eight frameworks, one catalog, free forever."
   />
 </svelte:head>
 
@@ -47,10 +47,11 @@
       locale as a prop, always explicitly.
     </li>
     <li>
-      <strong>One catalog, seven frameworks.</strong> The same 571 components
-      with the same class hooks and prop conventions in HTML, Svelte, React,
-      Vue, Angular, Blazor, and Nunjucks. Your CSS and your team's knowledge
-      transfer across stacks.
+      <strong>One catalog, eight frameworks.</strong> The same 571 components
+      (536 as native Web Components) with the same class hooks and prop
+      conventions in HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks, and
+      Web Components. Your CSS and your team's knowledge transfer across
+      stacks.
     </li>
     <li>
       <strong>CSS-strategy agnostic.</strong> One stable kebab-case class per
@@ -77,8 +78,8 @@
       callouts, summary lists, phase banners, skip links.
     </li>
     <li>
-      <strong>80 national personal identifier components</strong> covering
-      healthcare, national-ID, tax, and passport identifiers across 30+
+      <strong>140 national personal identifier components</strong> covering
+      healthcare, national-ID, tax, and passport identifiers across 50+
       countries, each documenting its format and validation algorithm.
     </li>
     <li>
@@ -86,10 +87,12 @@
       Reuters Graphics — article layouts, scrollers, timelines, tile maps.
     </li>
     <li>
-      <strong>Preference helpers</strong> — small packages that own one user
-      preference end to end: theme switching (with runtime stylesheet
-      loading), language, and text size. Each is a native
-      <code>&lt;select&gt;</code> with persistence and SSR safety built in.
+      <strong>Picker helpers</strong> — small packages that own one
+      interaction end to end: theme switching (with runtime stylesheet
+      loading), language, text size, reduced motion, search, page links,
+      sharing, and date-time entry. Each is a headless icon button that opens
+      a popup — not a native <code>&lt;select&gt;</code> — with persistence
+      and SSR safety built in.
     </li>
   </ul>
 

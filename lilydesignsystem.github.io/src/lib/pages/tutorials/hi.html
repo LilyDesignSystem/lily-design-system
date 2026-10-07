@@ -1,0 +1,102 @@
+<!-- title: ट्यूटोरियल — Lily Design System -->
+<!-- description: Lily के चरण-दर-चरण ट्यूटोरियल: आपका पहला कंपोनेंट, स्टाइलिंग, तैयार थीम और वरीयता सहायक — HTML, Svelte, React, Vue, Angular, Blazor और Nunjucks के लिए। -->
+<section class="page-intro">
+  <h1>Lily चरण दर चरण सीखें</h1>
+  <p class="page-intro-tagline">स्वागत है! हर ट्यूटोरियल शून्य से शुरू होता है और लगभग 10 मिनट में वही एक छोटी चीज़ — एक पहुँचनीय, स्टाइल किया हुआ फ़ॉर्म — बनाता है, ताकि आप फ़्रेमवर्कों की बराबरी से तुलना कर सकें। फिर थीम और उपयोगकर्ता की वरीयताओं में और गहराई में जाएँ।</p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>शुरू करने से पहले</h2>
+  <p>आपको आश्चर्यजनक रूप से कम चीज़ें चाहिए:</p>
+  <ul>
+    <li><strong>HTML ट्यूटोरियल के लिए</strong> — बस एक ब्राउज़र और एक टेक्स्ट एडिटर। यही पूरा टूलकिट है।</li>
+    <li><strong>Svelte, React, Vue, Angular या Nunjucks के लिए</strong> — <a href="https://git-scm.com/">git</a>, Node 26 और pnpm 10 या उसके बाद का संस्करण।</li>
+    <li><strong>Blazor के लिए</strong> — git और <a href="https://dotnet.microsoft.com/">.NET SDK</a> 8 या उसके बाद का संस्करण।</li>
+  </ul>
+  <p>headless कंपोनेंट में नए हैं? आप सही जगह पर हैं — हर ट्यूटोरियल चलते-चलते समझाता है कि क्या हो रहा है, और हर चरण नकल करने के लिए ठीक-ठीक कोड दिखाता है।</p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>शून्य से प्रकाशन तक चार चरण</h2>
+  </header>
+  <div class="prose" style="margin: 0 auto;">
+    <ol>
+      <li><strong>आपका पहला कंपोनेंट</strong> (~5 मिनट) — नीचे अपना फ़्रेमवर्क चुनें, कोड प्राप्त करें, और एक बटन रेंडर करें।</li>
+      <li><strong>जोड़ें और स्टाइल करें</strong> (~5 मिनट) — लेबल वाला फ़ॉर्म बनाएँ और उसे kebab-case क्लास हुक के अनुसार स्टाइल करें (हर फ़्रेमवर्क ट्यूटोरियल का हिस्सा)।</li>
+      <li><strong>थीम लगाएँ</strong> (~15 मिनट) — अपनी हाथ से लिखी CSS को 45 तैयार थीम में से किसी एक से बदलें, फिर उपयोगकर्ताओं को रनटाइम पर बदलने दें: <a href="/tutorials/theming/">थीम ट्यूटोरियल</a>।</li>
+      <li><strong>वरीयताओं का सम्मान करें</strong> (~15 मिनट) — वरीयता सहायकों के साथ भाषा और पाठ आकार का चयन जोड़ें: <a href="/tutorials/helpers/">सहायक ट्यूटोरियल</a>।</li>
+    </ol>
+  </div>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>अपना फ़्रेमवर्क चुनें</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/html/">
+      <h3 class="card-heading">HTML</h3>
+      <p class="card-description">क्लास हुक के साथ अर्थपूर्ण HTML की नकल करें और शुरू हो जाएँ — ब्राउज़र और एडिटर काफ़ी हैं।</p>
+      <p class="card-meta">लगभग 10 मिनट · सबसे आसान शुरुआत</p>
+    </a>
+    <a class="card" href="/tutorials/svelte/">
+      <h3 class="card-heading">Svelte</h3>
+      <p class="card-description">Svelte 5 रून, स्निपेट और <code>bind:value</code> द्विदिश बाइंडिंग।</p>
+      <p class="card-meta">लगभग 10 मिनट</p>
+    </a>
+    <a class="card" href="/tutorials/react/">
+      <h3 class="card-heading">React</h3>
+      <p class="card-description"><code>value</code> + <code>onChange</code> और शेष प्रॉप्स फैलाने के साथ फ़ंक्शन कंपोनेंट।</p>
+      <p class="card-meta">लगभग 10 मिनट</p>
+    </a>
+    <a class="card" href="/tutorials/vue/">
+      <h3 class="card-heading">Vue</h3>
+      <p class="card-description"><code>v-model</code> समर्थन के साथ Vue 3 सिंगल-फ़ाइल कंपोनेंट।</p>
+      <p class="card-meta">लगभग 10 मिनट</p>
+    </a>
+    <a class="card" href="/tutorials/angular/">
+      <h3 class="card-heading">Angular</h3>
+      <p class="card-description">सिग्नल इनपुट और <code>[(value)]</code> के साथ Angular स्टैंडअलोन कंपोनेंट।</p>
+      <p class="card-meta">लगभग 10 मिनट</p>
+    </a>
+    <a class="card" href="/tutorials/blazor/">
+      <h3 class="card-heading">Blazor</h3>
+      <p class="card-description">पैरामीटर, <code>ChildContent</code> और bUnit परीक्षणों के साथ Razor कंपोनेंट।</p>
+      <p class="card-meta">लगभग 10 मिनट</p>
+    </a>
+    <a class="card" href="/tutorials/nunjucks/">
+      <h3 class="card-heading">Nunjucks</h3>
+      <p class="card-description">Eleventy और किसी भी Node टेम्पलेट पाइपलाइन के लिए सर्वर पर रेंडर होने वाले मैक्रो।</p>
+      <p class="card-meta">लगभग 10 मिनट</p>
+    </a>
+  </div>
+  <p class="prose" style="margin: 0 auto;">तय नहीं कर पा रहे? <a href="/tutorials/html/">HTML</a> से शुरू करें — यह वह क्लास हुक अनुबंध सिखाता है जो बाकी सभी फ़्रेमवर्क साझा करते हैं, और यह सीधे फ़ाइल से चलता है।</p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>और गहराई में</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/theming/">
+      <h3 class="card-heading">थीमिंग</h3>
+      <p class="card-description">45 तैयार थीम में से कोई एक जोड़ें — NHS, GOV.UK, USWDS, हल्की, गहरी और अन्य — उसे अपनी CSS से ओवरराइड करें, और theme-picker सहायक के साथ रनटाइम पर थीम बदलने की सुविधा जोड़ें।</p>
+      <p class="card-meta">लगभग 15 मिनट</p>
+    </a>
+    <a class="card" href="/tutorials/helpers/">
+      <h3 class="card-heading">वरीयता सहायक</h3>
+      <p class="card-description">theme-picker, locale-picker, text-size-picker, motion-picker, search-picker, link-picker, share-picker और date-time-picker के साथ उपयोगकर्ताओं को थीम, भाषा, पाठ आकार, गति, खोज, पृष्ठ लिंक, साझा करने और दिनांक/समय प्रविष्टि पर नियंत्रण दें: संग्रहण, SSR सुरक्षा और दाएँ-से-बाएँ लेखन की स्वचालित पहचान वाले headless नियंत्रण।</p>
+      <p class="card-meta">लगभग 15 मिनट</p>
+    </a>
+  </div>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>ट्यूटोरियल के बाद</h2>
+  <ul>
+    <li><a href="/components/">कंपोनेंट कैटलॉग</a> देखें — हर कंपोनेंट अपनी प्रॉपर्टी, ARIA अनुबंध और कीबोर्ड व्यवहार दस्तावेज़ित करता है।</li>
+    <li>सभी 571 कंपोनेंट को स्टाइल किए और साथ काम करते देखने के लिए एक <a href="/examples/">उदाहरण ऐप</a> क्लोन करें — उसकी CSS उन्हीं क्लास हुक को लक्षित करती है जो आपने अभी इस्तेमाल किए, इसलिए जो चाहें अपने प्रोजेक्ट में नकल करें और अपनी इच्छानुसार बदलें।</li>
+    <li>सवाल? <a href="/help/">सहायता पृष्ठ</a> पर उत्तर, अक्सर पूछे जाने वाले प्रश्न, और किसी मिलनसार इंसान तक पहुँचने के तरीके हैं। और यदि कोई ट्यूटोरियल और स्पष्ट हो सकता है, तो <a href="https://github.com/LilyDesignSystem">हमें बताएँ</a> — हम खुशी से उसे सुधारेंगे।</li>
+  </ul>
+</section>

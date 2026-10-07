@@ -1,0 +1,306 @@
+<!-- title: Bantuan — Lily Design System -->
+<!-- description: Mulai dengan Lily: pasang paket headless untuk framework Anda, salin komponen, tata, beri tema, lalu rilis. Pemecahan masalah, FAQ, dan dukungan. -->
+<section class="page-intro">
+  <h1>Memulai dengan Lily</h1>
+  <p class="page-intro-tagline">Pilih framework, klon repositori headless atau aplikasi contoh, lalu mulailah menyusun halaman Anda sendiri. Lebih suka jalur yang dipandu? Mulailah dengan <a href="/tutorials/">tutorial</a>.</p>
+</section>
+
+<nav aria-label="On this page" class="prose" style="margin: 0 auto;">
+  <p><strong>Di halaman ini:</strong></p>
+  <ul>
+    <li><a href="#install">Pemasangan</a></li>
+    <li><a href="#use-headless">Memakai komponen headless</a></li>
+    <li><a href="#use-styled">Memakai contoh bertata</a></li>
+    <li><a href="#styling">Penataan dan token desain</a></li>
+    <li><a href="#themes">Tema siap pakai</a></li>
+    <li><a href="#helpers">Asisten preferensi</a></li>
+    <li><a href="#a11y">Aksesibilitas</a></li>
+    <li><a href="#i18n">Internasionalisasi</a></li>
+    <li><a href="#testing">Pengujian</a></li>
+    <li><a href="#ai-agents">Agen AI</a></li>
+    <li><a href="#troubleshooting">Pemecahan masalah</a></li>
+    <li><a href="#contributing">Berkontribusi</a></li>
+    <li><a href="#community">Komunitas dan dukungan</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+</nav>
+
+<section class="section prose" id="install" style="margin: 0 auto;">
+  <h2>Pemasangan</h2>
+  <p>Lily diterbitkan sebagai repositori Git terpisah untuk setiap framework. Cara tercepat mencobanya adalah mengklon repositori headless untuk tumpukan teknologi Anda:</p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system-react-headless
+cd lily-design-system-react-headless
+pnpm install</code></pre>
+  <p>Pola yang sama berlaku untuk framework lain:</p>
+  <ul>
+    <li><code>@lilydesignsystem/html-headless</code> — tidak perlu dipasang; salin berkas <code>.html</code></li>
+    <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/angular-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
+    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
+  </ul>
+  <p>Pustaka headless dirancang untuk diklon atau dimasukkan ke proyek — perlakukan kode sumbernya sebagai sumber kebenaran dan salin yang Anda butuhkan. <a href="#helpers">Asisten preferensi</a> juga dikirim sebagai paket yang dapat dipasang dengan alur build dan penerbitan (npm untuk framework JS, NuGet untuk Blazor).</p>
+</section>
+
+<section class="section prose" id="use-headless" style="margin: 0 auto;">
+  <h2>Memakai komponen headless</h2>
+  <p>Komponen headless menyertakan HTML semantik, ARIA, dan properti — tetapi tanpa CSS. Berikut sebuah tombol di setiap framework:</p>
+
+  <h3>HTML</h3>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button" aria-label="Save"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+
+  <h3>Svelte</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>React</h3>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+&lt;Button onClick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Vue</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+  import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;Button @click="save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Angular</h3>
+  
+  <pre tabindex="0"><code>import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})</code></pre>
+
+  <h3>Blazor</h3>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Nunjucks</h3>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "button" }) }}</code></pre>
+</section>
+
+<section class="section prose" id="use-styled" style="margin: 0 auto;">
+  <h2>Memakai contoh bertata</h2>
+  <p>Aplikasi contoh mencakup CSS, rute, dan halaman demo lengkap. Cara tercepat bereksperimen adalah menjalankan aplikasi contoh SvelteKit, Next, Nuxt, Analog, atau Eleventy dan melihat demonya di <code>/components</code>.</p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-sveltekit-examples
+cd lily-design-system-svelte-sveltekit-examples
+pnpm install
+pnpm run dev</code></pre>
+  <p>Lalu buka <code>http://localhost:5173</code> dan telusuri <code>/components</code>.</p>
+</section>
+
+<section class="section prose" id="styling" style="margin: 0 auto;">
+  <h2>Penataan dan token desain</h2>
+  <p>Setiap komponen dirender dengan satu kelas kebab-case pada elemen akarnya. Misalnya, <code>&lt;Button&gt;</code> merender <code>&lt;button class="button"&gt;</code>. Tata sesuka Anda:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: var(--my-primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.button:hover { background: var(--my-primary-hover); }</code></pre>
+  <p>Palet warna bawaan Lily (dipakai di aplikasi contoh) adalah:</p>
+  <ul>
+    <li>Utama: <code>#2563eb</code></li>
+    <li>Bahaya: <code>#dc2626</code></li>
+    <li>Peringatan: <code>#f59e0b</code></li>
+    <li>Berhasil: <code>#16a34a</code></li>
+    <li>Latar halaman: <code>#f9fafb</code></li>
+    <li>Latar kartu: <code>#ffffff</code></li>
+  </ul>
+  <p>Ini hanya saran, bukan keharusan. Ganti dengan palet merek Anda sendiri dan Lily akan menyesuaikan dengan senang hati.</p>
+</section>
+
+<section class="section prose" id="themes" style="margin: 0 auto;">
+  <h2>Tema siap pakai</h2>
+  <p>Tidak ingin menulis CSS dari awal? Lily menyertakan <strong>45 tema acuan mandiri</strong> di direktori <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>. Masing-masing adalah satu stylesheet yang menargetkan kelas pengait Lily — tautkan dan tampilan Anda langsung tertata:</p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+  <p>Kumpulan ini mencakup:</p>
+  <ul>
+    <li><strong>Sektor publik</strong> — NHS England, NHS Scotland, dan NHS Wales (masing-masing varian untuk pasien dan praktisi), GOV.UK GDS, dan Sistem Desain Web AS.</li>
+    <li><strong>Terinspirasi vendor</strong> — Adobe Spectrum, Mozilla Protocol.</li>
+    <li><strong>Serbaguna</strong> — terang, gelap, nord, dracula, wireframe, dan tiga puluhan lainnya.</li>
+  </ul>
+  <p>Selektor tema memakai <code>:where(...)</code>, sehingga CSS Anda sendiri selalu menang dalam hal spesifisitas. Padukan dengan asisten <code>theme-picker</code> di bawah untuk pergantian saat runtime, atau ikuti <a href="/tutorials/theming/">tutorial tema</a>.</p>
+</section>
+
+<section class="section prose" id="helpers" style="margin: 0 auto;">
+  <h2>Asisten preferensi</h2>
+  <p>Setiap framework memiliki katalog pendamping <code>*-helpers</code> dengan delapan pemilih kecil (dan <code>picker-bar</code> yang merangkainya). Masing-masing adalah tombol ikon headless yang membuka popup — daftar pilihan, daftar tautan, formulir pencarian, atau (untuk date-time-picker) dialog pemilih tanggal — bukan <code>&lt;select&gt;</code> native; aman untuk SSR; dan tidak menyertakan CSS:</p>
+  <ul>
+    <li><strong>theme-picker</strong> — memuat stylesheet tema saat runtime dengan menukar <code>&lt;link&gt;</code> yang dikelola, mengatur <code>data-theme</code> pada dokumen, dan secara opsional menyimpannya ke <code>localStorage</code>.</li>
+    <li><strong>locale-picker</strong> — mengatur <code>lang</code> dan <code>dir</code> (dengan deteksi otomatis kanan-ke-kiri) agar pustaka i18n Anda dapat mengikuti; tidak melakukan penerjemahan sendiri.</li>
+    <li><strong>text-size-picker</strong> — mengatur <code>data-text-size</code> pada dokumen; CSS Anda memetakan setiap nilai ke ukuran huruf.</li>
+    <li><strong>motion-picker</strong> — mengatur <code>data-motion</code> pada dokumen, dimulai dari pengaturan pengurangan gerak pengunjung; CSS dan skrip Anda yang menentukan apa yang ditekan.</li>
+    <li><strong>search-picker</strong> — tombol ikon yang membuka kolom pencarian; pengiriman menavigasi ke halaman pencarian. Memegang sebuah aksi, bukan preferensi.</li>
+    <li><strong>link-picker</strong> — ikon beranda yang membuka menu tautan halaman yang ditetapkan aplikasi Anda (Beranda, Tentang Kami, Hubungi Kami, Kebijakan Privasi, …). Memegang sebuah aksi, bukan preferensi.</li>
+    <li><strong>share-picker</strong> — membuka lembar berbagi native atau daftar tujuan dari konsumen, ditambah salin-URL. Memegang sebuah aksi, bukan preferensi: tidak menerapkan apa pun, tidak menyimpan apa pun.</li>
+    <li><strong>date-time-picker</strong> — kolom teks ditambah dialog pemilih tanggal APG untuk tanggal, waktu, atau keduanya. Memegang nilai formulir, bukan preferensi: string ISO bolak-balik dengan <code>&lt;input type="date"&gt;</code>.</li>
+  </ul>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-helpers</code></pre>
+  <p>Katalog Svelte adalah acuan kanonis; port React, Vue, Angular, HTML, Nunjucks, Web Components, dan Blazor mencocokkannya kontrak demi kontrak. Lihat <a href="/tutorials/helpers/">tutorial asisten</a>.</p>
+</section>
+
+<section class="section prose" id="a11y" style="margin: 0 auto;">
+  <h2>Aksesibilitas</h2>
+  <p>Komponen menargetkan <strong>WCAG 2.2 AAA</strong>. Komponen mengikuti pola berikut:</p>
+  <ul>
+    <li>Elemen HTML semantik alih-alih <code>&lt;div&gt;</code> generik.</li>
+    <li><code>&lt;label for="id"&gt;</code> yang menghubungkan label ke input.</li>
+    <li><code>aria-labelledby</code> / <code>aria-describedby</code> untuk rujukan silang.</li>
+    <li><code>aria-invalid</code> + <code>aria-errormessage</code> untuk status galat.</li>
+    <li><code>role="alert"</code> dan <code>aria-live</code> untuk konten dinamis.</li>
+    <li><code>aria-pressed</code>, <code>aria-expanded</code>, <code>aria-current</code> untuk status.</li>
+    <li><code>tabindex</code> bergerak (roving) untuk kisi.</li>
+  </ul>
+  <p>Indikator fokus sengaja disediakan oleh konsumen — Lily tidak pernah menggambar cincin fokus bawaan yang bertentangan dengan desain Anda. Aplikasi contoh mempertahankan garis dasar axe-core yang bersih di seluruh rutenya.</p>
+</section>
+
+<section class="section prose" id="i18n" style="margin: 0 auto;">
+  <h2>Internasionalisasi</h2>
+  <p>Setiap label, placeholder, pesan galat, dan teks tombol adalah properti. Tidak ada teks yang tertanam di kode. Pasang framework terjemahan pilihan Anda — Paraglide, i18next, vue-i18n, react-intl, berkas .resx, apa saja.</p>
+  <p>Untuk tanggal, angka, dan mata uang, komponen menerima string yang sudah diformat: Anda memformat dengan <code>Intl.DateTimeFormat</code> / <code>Intl.NumberFormat</code> / pustaka pilihan Anda dan meneruskan hasilnya.</p>
+  <p>Asisten <code>locale-picker</code> memberi tahu pustaka i18n Anda tentang lokal yang dipilih dengan mengatur <code>lang</code> dan <code>dir</code> pada akar dokumen.</p>
+</section>
+
+<section class="section prose" id="testing" style="margin: 0 auto;">
+  <h2>Pengujian</h2>
+  <p>Setiap subproyek framework menyertakan pengujiannya sendiri dengan tumpukan idiomatiknya:</p>
+  <ul>
+    <li><strong>HTML</strong>: WebDriverIO yang berjalan di peramban sungguhan.</li>
+    <li><strong>Svelte</strong>: Vitest + <code>@testing-library/svelte</code>.</li>
+    <li><strong>React</strong>: Vitest + <code>@testing-library/react</code>.</li>
+    <li><strong>Vue</strong>: Vitest + <code>@testing-library/vue</code>.</li>
+    <li><strong>Angular</strong>: Vitest + TestBed (melalui plugin Vite Analog).</li>
+    <li><strong>Nunjucks</strong>: Vitest dengan helper render.</li>
+    <li><strong>Blazor</strong>: bUnit.</li>
+  </ul>
+  <p>Pengujian hanya memakai <strong>matcher bawaan Vitest</strong> — tidak pernah matcher <code>jest-dom</code>. Ini menjaga rangkaian pengujian tetap portabel. Aplikasi contoh menambahkan rangkaian Playwright ujung ke ujung, garis dasar aksesibilitas axe-core, dan penyisiran ukuran jendela responsif.</p>
+</section>
+
+<section class="section prose" id="ai-agents" style="margin: 0 auto;">
+  <h2>Agen AI</h2>
+  <p>Situs ini menerbitkan <a href="/llms.txt">llms.txt</a> dan <a href="/llms.json">llms.json</a> di akarnya — peta terkurasi dari halaman terpentingnya, untuk perangkat apa pun yang mengikuti <a href="https://llmstxt.org">konvensi llms.txt</a>.</p>
+  <p>Monorepo kanonis juga menyertakan dua <a href="https://code.claude.com/docs/en/skills">Skill Claude</a>: <code>lily-design-system-skill</code>, skill serbaguna yang mencakup konsep, istilah, dan pola komposisi Lily bagi siapa pun yang membangun dengan sistem ini, dan <code>lily-design-system-maintainer-skill</code>, skill teknis yang mencakup tata letak berkas wajib dan perangkat monorepo bagi siapa pun yang mengerjakannya. Keduanya berada di akar <a href="https://github.com/LilyDesignSystem/lily-design-system">monorepo kanonis</a>.</p>
+</section>
+
+<section class="section prose" id="troubleshooting" style="margin: 0 auto;">
+  <h2>Pemecahan masalah</h2>
+
+  <details class="faq-item">
+    <summary>Komponen dirender tetapi tampak tanpa penataan</summary>
+    <p>Itu headless yang bekerja sebagaimana dirancang — tidak ada CSS yang disertakan bersama komponen. Tulis CSS untuk kelas kebab-case komponen (ditampilkan di setiap <a href="/components/">halaman katalog</a>) atau tautkan salah satu dari <a href="#themes">45 tema siap pakai</a>.</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>CSS saya sepertinya tidak berlaku di atas tema</summary>
+    <p>Seharusnya berlaku — selektor tema dibungkus dalam <code>:where(...)</code>, yang berspesifisitas nol. Jika sebuah aturan tetap kalah, periksa bahwa stylesheet Anda dimuat setelah <code>&lt;link&gt;</code> tema dan bahwa selektornya benar-benar cocok dengan kelas pengait komponen.</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>pnpm install gagal dengan galat peer atau versi</summary>
+    <p>Gunakan pnpm terbaru (v10+) dan Node 22+. Setiap repositori mengunci versi framework-nya di <code>package.json</code>; jika perangkat global Anda lebih lama, <code>pnpm env use --global lts</code> adalah perbaikan tercepat.</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Pembaca layar mengumumkan nama yang salah untuk sebuah kontrol</summary>
+    <p>Periksa properti <code>label</code> yang wajib pada komponen — komponen yang tidak memiliki teks tampak memerlukannya, dan <code>aria-label</code> / <code>aria-labelledby</code> dari konsumen yang diteruskan lewat properti sisa sengaja menang atas pengabelan bawaan. Setiap halaman katalog mendokumentasikan kontrak ARIA komponennya.</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Asisten theme-picker tidak mengganti stylesheet</summary>
+    <p>Pastikan <code>themesUrl</code> menunjuk ke direktori yang dapat diambil peramban (sajikan berkas <code>themes/</code> sebagai aset statis) dan slug tema pada properti <code>themes</code> Anda cocok dengan nama berkas. Asisten menukar <code>href</code> dari satu <code>&lt;link data-lily-theme-picker&gt;</code> yang dikelola — periksa di perangkat pengembang untuk melihat URL yang diminta.</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Ada hal lain yang rusak</summary>
+    <p>Buka isu dengan reproduksi minimal di repositori terkait pada <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a> — atau lihat <a href="#community">komunitas dan dukungan</a>.</p>
+  </details>
+</section>
+
+<section class="section prose" id="contributing" style="margin: 0 auto;">
+  <h2>Berkontribusi</h2>
+  <p>Lily masih muda dan menyambut kolaborasi. Kontribusi yang paling berguna saat ini adalah:</p>
+  <ul>
+    <li>Komponen baru (terutama pola dari sistem desain yang sudah mapan).</li>
+    <li>Tema baru — masing-masing adalah satu stylesheet mandiri, pull request pertama yang ruang lingkupnya jelas.</li>
+    <li>Penataan contoh yang lebih baik — tunjukkan apa yang mungkin.</li>
+    <li>Terjemahan teks aplikasi contoh.</li>
+    <li>Laporan bug dengan reproduksi minimal.</li>
+    <li>Audit aksesibilitas dengan pembaca layar dan teknologi bantu.</li>
+  </ul>
+  <p>Buka isu dan pull request di repositori terkait pada <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a>.</p>
+</section>
+
+<section class="section prose" id="community" style="margin: 0 auto;">
+  <h2>Komunitas dan dukungan</h2>
+  <ul>
+    <li><strong>Pertanyaan dan laporan bug</strong> — buka isu di repositori terkait pada <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a>.</li>
+    <li><strong>Surel</strong> — pemelihara membaca <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a> dan menyambut kolaborasi, bimbingan, dan masukan.</li>
+    <li><strong>Cermin</strong> — Lily juga didorong ke <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> dan <a href="https://gitlab.com/LilyDesignSystem">GitLab</a>, sehingga Anda dapat berpartisipasi dari platform pilihan Anda.</li>
+    <li><strong>Perilaku</strong> — proyek ini mengikuti kode etik standar; bersikaplah baik, berprasangka baiklah.</li>
+  </ul>
+</section>
+
+<section class="section prose" id="faq" style="margin: 0 auto;">
+  <h2>FAQ</h2>
+
+  <details class="faq-item">
+    <summary>Mengapa headless dan bukan bertema bawaan?</summary>
+    <p>Komponen yang sudah tertata memang praktis — sampai tidak cocok dengan merek Anda. Komponen headless sedikit lebih banyak pekerjaan di awal tetapi memberi Anda kendali penuh atas desain visual. Aplikasi contoh dan 45 tema menunjukkan cara menatanya; Anda bisa memakainya atau menggantinya sepenuhnya. Argumen yang lebih panjang ada di <a href="/why/">Mengapa Lily</a>.</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Mengapa begitu banyak komponen?</summary>
+    <p>Lily bertujuan mencakup pola yang dibutuhkan kebanyakan aplikasi tanpa memaksa Anda membangunnya dari nol — termasuk kasus yang lebih khusus seperti input pengenal nasional dan scrollytelling editorial. Katalognya bersumber dari selusin sistem desain mapan ditambah karya orisinal — lihat <a href="/about/">Tentang</a>.</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Bisakah saya memakai Lily dengan Tailwind?</summary>
+    <p>Bisa. Setiap komponen mengekspos satu kelas akar kebab-case ditambah <code>className</code> / <code>class</code> dari konsumen. Tumpuk utilitas Tailwind di atasnya sesuka Anda.</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Bisakah saya memakai Lily dengan framework CSS semantik seperti DaisyUI?</summary>
+    <p>Bisa. Nama kelas kebab-case pada elemen akar berfungsi sebagai pengait CSS semantik. Padukan Lily dengan framework semantik dan Anda mendapatkan komponen yang sudah tertata yang tetap menghormati ARIA dan i18n.</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Apakah ada paket npm?</summary>
+    <p><a href="#helpers">Asisten preferensi</a> dikirim sebagai paket dengan alur penerbitan npm/NuGet. Pustaka komponen headless dirancang untuk diklon atau dimasukkan ke proyek — kode sumbernya adalah hasil kerjanya, jadi Anda dapat membaca, memangkas, dan memiliki persis apa yang Anda rilis. Penerbitan registri untuk pustaka headless tetap ada di peta jalan.</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Mengapa berlisensi ganda?</summary>
+    <p>Proyek yang berbeda memiliki kebutuhan lisensi yang berbeda. BSD dan MIT bersifat permisif, Apache-2.0 memiliki hibah paten, dan opsi GPL mendukung copyleft. Pilih yang sesuai dengan situasi Anda.</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Bagaimana cara melaporkan bug atau meminta fitur?</summary>
+    <p>Buka isu di repositori GitHub terkait, atau kirim surel ke <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.</p>
+  </details>
+</section>

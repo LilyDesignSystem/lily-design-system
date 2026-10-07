@@ -9,6 +9,16 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Docs-site main pages translated into 11 languages — 2026-10-07
+
+About, Why Lily, Accessibility, Help, Comparisons, Tutorials, Examples and Skills now exist at `/locales/<code>/<page>/` for all
+non-English locales (Arabic, Bengali, Welsh (`cy-001` and `cy-gb`), Spanish, French, Hindi, Indonesian, Portuguese, Russian, Urdu,
+Chinese): 96 pages. English remains the source (`bin/extract-site-pages`); `bin/check-site-page-translations` and
+`bin/generate-locale-pages --check` run in `bin/test`. The header nav, footer, locale home cards and the link picker follow the
+visitor's locale. `tests/locale-pages.spec.ts` (101 specs) and an axe sweep of all 96 pages are clean. Welsh follows TermCymru; the
+other ten languages are machine translations that need native-speaker review. Fixed stale facts on the English pages on the way (Next.js
+16, Nuxt 4, Angular 22, `lily-design-system-skill`).
+
 ## `bin/check-class-names`: the CSS class-name audit, automated — 2026-10-06
 
 Every implementation of every component in all eight headless libraries must carry its slug as the base class,

@@ -32,7 +32,7 @@
     <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-svelte-sveltekit-examples">
       <h3 class="card-heading">Svelte + SvelteKit</h3>
       <p class="card-description">
-        SvelteKit app using Svelte 5 runes. Component routes, file-based
+        SvelteKit 3 app using Svelte 5 runes. Component routes, file-based
         routing, and a styled storybook of every component.
       </p>
       <p class="card-meta">→ View on GitHub</p>
@@ -41,7 +41,7 @@
     <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-react-next-examples">
       <h3 class="card-heading">React + Next.js</h3>
       <p class="card-description">
-        Next.js 15 app showing each component in context, with TypeScript
+        Next.js 16 app showing each component in context, with TypeScript
         throughout and demo pages for compound patterns.
       </p>
       <p class="card-meta">→ View on GitHub</p>
@@ -50,7 +50,7 @@
     <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-vue-nuxt-examples">
       <h3 class="card-heading">Vue + Nuxt.js</h3>
       <p class="card-description">
-        Nuxt 3 app. <code>&lt;script setup&gt;</code> and the Composition API
+        Nuxt 4 app. <code>&lt;script setup&gt;</code> and the Composition API
         across every demo route.
       </p>
       <p class="card-meta">→ View on GitHub</p>
@@ -59,7 +59,7 @@
     <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-angular-examples">
       <h3 class="card-heading">Angular + Analog</h3>
       <p class="card-description">
-        Angular 20 + Analog.js app. File-based routing, signals, zoneless
+        Angular 22 + Analog.js app. File-based routing, signals, zoneless
         change detection, and full SSG prerendering.
       </p>
       <p class="card-meta">→ View on GitHub</p>

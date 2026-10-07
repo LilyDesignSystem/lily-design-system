@@ -1,0 +1,80 @@
+<!-- title: উদাহরণ — Lily Design System -->
+<!-- description: কার্যকর উদাহরণ অ্যাপ যা দেখায় HTML, Svelte, React, Vue, Angular, Blazor ও Eleventy-তে Lily কম্পোনেন্ট কীভাবে স্টাইল করতে হয়। -->
+<section class="page-intro">
+  <h1>বাস্তব অ্যাপে Lily দেখুন</h1>
+  <p class="page-intro-tagline">সাতটি কার্যকর উদাহরণ প্রকল্প দেখায় কীভাবে headless কম্পোনেন্ট নিয়ে স্টাইলিং যোগ করে একটি আসল ওয়েবসাইট প্রকাশ করবেন। আপনি যে ফ্রেমওয়ার্ক ব্যবহার করেন তা বেছে নিন।</p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>পূর্ণ CSS ও রাউটিংসহ ডেমো অ্যাপ</h2>
+  </header>
+
+  <div class="card-grid">
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-html-css-js-examples">
+      <h3 class="card-heading">HTML JavaScript</h3>
+      <p class="card-description">সাধারণ HTML পৃষ্ঠা, বিশুদ্ধ JavaScript, কোনো বিল্ড টুল নেই। যেকোনো স্ট্যাটিক হোস্টে বসে যায় — ছোট সাইট ও ক্রমিক উন্নয়নের জন্য একদম উপযুক্ত।</p>
+      <p class="card-meta">→ GitHub-এ দেখুন</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-svelte-sveltekit-examples">
+      <h3 class="card-heading">Svelte + SvelteKit</h3>
+      <p class="card-description">Svelte 5 রুন ব্যবহারকারী SvelteKit 3 অ্যাপ। কম্পোনেন্ট রুট, ফাইল-ভিত্তিক রাউটিং, এবং প্রতিটি কম্পোনেন্টের স্টাইল করা স্টোরিবুক।</p>
+      <p class="card-meta">→ GitHub-এ দেখুন</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-react-next-examples">
+      <h3 class="card-heading">React + Next.js</h3>
+      <p class="card-description">Next.js 16 অ্যাপ যা প্রতিটি কম্পোনেন্টকে তার প্রেক্ষাপটে দেখায়, সর্বত্র TypeScript এবং যৌগিক প্যাটার্নের ডেমো পৃষ্ঠাসহ।</p>
+      <p class="card-meta">→ GitHub-এ দেখুন</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-vue-nuxt-examples">
+      <h3 class="card-heading">Vue + Nuxt.js</h3>
+      <p class="card-description">Nuxt 4 অ্যাপ। প্রতিটি ডেমো রুটে <code>&lt;script setup&gt;</code> ও Composition API।</p>
+      <p class="card-meta">→ GitHub-এ দেখুন</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-angular-examples">
+      <h3 class="card-heading">Angular + Analog</h3>
+      <p class="card-description">Angular 22 + Analog.js অ্যাপ। ফাইল-ভিত্তিক রাউটিং, সিগন্যাল, zone-ছাড়া পরিবর্তন শনাক্তকরণ এবং পূর্ণ SSG প্রি-রেন্ডারিং।</p>
+      <p class="card-meta">→ GitHub-এ দেখুন</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-blazor-web-examples">
+      <h3 class="card-heading">Blazor Web</h3>
+      <p class="card-description">Razor কম্পোনেন্টসহ Blazor Web অ্যাপ। সার্ভার ও WebAssembly উভয়ের জন্য উপযোগী, .NET 10 ভিত্তিসহ।</p>
+      <p class="card-meta">→ GitHub-এ দেখুন</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-nunjucks-eleventy-examples">
+      <h3 class="card-heading">Nunjucks + Eleventy</h3>
+      <p class="card-description">Nunjucks ম্যাক্রো ব্যবহারকারী Eleventy সাইট। কনটেন্ট-সমৃদ্ধ স্ট্যাটিক সাইটের জন্য আদর্শ যারা তবুও একটি আসল কম্পোনেন্ট সিস্টেম চায়।</p>
+      <p class="card-meta">→ GitHub-এ দেখুন</p>
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>প্রতিটি উদাহরণ অ্যাপের কাঠামো একই</h2>
+  </header>
+
+  <div class="prose" style="margin: 0 auto;">
+    <p>ফ্রেমওয়ার্ক বদলানো পরিচিত মনে হওয়ার জন্য, প্রতিটি উদাহরণ অ্যাপ দেয়:</p>
+    <ul>
+      <li><code>/</code>-এ একটি স্বাগত রুট যা প্রকল্পের পরিচয় দেয়।</li>
+      <li><code>/components</code>-এ কম্পোনেন্ট সূচি যা প্রতিটি কম্পোনেন্ট তালিকাভুক্ত করে।</li>
+      <li><code>/components/&lt;component&gt;</code>-এ প্রতি কম্পোনেন্টের জন্য একটি ডেমো পৃষ্ঠা।</li>
+      <li>আসল CSS — বিমূর্ত ডিজাইন টোকেন নয় — যাতে আপনি স্টাইল সরাসরি তুলে নিতে পারেন।</li>
+      <li>প্রথম মুহূর্ত থেকেই কাজ করা কিবোর্ড নেভিগেশন ও ফোকাস ব্যবস্থাপনা।</li>
+    </ul>
+
+    <h3>একটি কম্পোনেন্ট কীভাবে স্টাইল করা হয়েছে দেখতে চান?</h3>
+    <p>সংশ্লিষ্ট উদাহরণ অ্যাপ খুলুন, <code>/components/&lt;name&gt;</code>-এ যান, এবং মার্কআপ ও CSS আপনার নিজের প্রকল্পে কপি করুন। উদাহরণ অ্যাপগুলো ইচ্ছাকৃতভাবে সাধারণ (বা প্রায় সাধারণ) CSS ব্যবহার করে যাতে আপনি আপনার পছন্দের যেকোনো সিস্টেমে মানিয়ে নিতে পারেন।</p>
+
+    <h3>বরং headless চান?</h3>
+    <p>যেকোনো উদাহরণ অ্যাপকে তার সংশ্লিষ্ট <em>headless</em> প্যাকেজের সঙ্গে জুড়ুন — সেগুলো একই কম্পোনেন্ট কোনো CSS ছাড়াই প্রকাশ করে, আপনার নিজের ডিজাইন টোকেনের জন্য প্রস্তুত।</p>
+    <p><a class="button button-primary" href="/components/">ক্যাটালগ ঘুরে দেখুন →</a> <a class="button button-secondary" href="/help/">সেটআপ নির্দেশিকা পড়ুন</a></p>
+  </div>
+</section>

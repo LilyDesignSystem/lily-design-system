@@ -1,0 +1,109 @@
+#!/usr/bin/env node
+// bin/check-site-page-translations
+//
+// Guard the translated text pages (lilydesignsystem.github.io/src/lib/pages/<slug>/<language>.html)
+// against the English source (<slug>/en.html):
+//
+//   * structure  — the same sequence of tags, ids, classes and hrefs (text and text-bearing attributes
+//                  like aria-label may differ);
+//   * code       — every <pre> block byte-identical (code samples are not translated);
+//   * metadata   — a title and a description comment;
+//   * not-English — most of a page's longer text nodes must differ from the English (a copied file is
+//                  not a translation), except pages that are mostly names (comparisons);
+//   * coverage   — every language that has any page has all eight, and every language is one the
+//                  site has a locale for.
+//
+// bin/test runs it. Usage: bin/check-site-page-translations [--list]
+
+const fs = require("fs");
+const path = require("path");
+
+const top = path.join(__dirname, "..");
+const site = path.join(top, "lilydesignsystem.github.io");
+const pagesDir = path.join(site, "src/lib/pages");
+const SLUGS = ["about", "why", "accessibility", "help", "comparisons", "tutorials", "examples", "skills"];
+// Pages that are mostly proper nouns / values, so identical text is expected.
+const MOSTLY_NAMES = new Set(["comparisons"]);
+const KEEP_ATTRS = new Set(["href", "id", "class", "type", "target", "rel", "tabindex", "style", "role", "colspan", "rowspan"]);
+
+const read = (p) => fs.readFileSync(p, "utf8");
+const errors = [];
+const err = (m) => errors.push(m);
+
+function tokens(html) {
+  const body = html.replace(/<!--[\s\S]*?-->/g, "");
+  const out = [];
+  const re = /<(\/?)([a-zA-Z][\w:-]*)((?:\s+[^\s=>]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+))?)*)\s*(\/?)>/g;
+  let m;
+  while ((m = re.exec(body))) {
+    const attrs = [];
+    const are = /([^\s=>]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+)))?/g;
+    let a;
+    while ((a = are.exec(m[3]))) {
+      const name = a[1].toLowerCase();
+      const val = a[2] ?? a[3] ?? a[4] ?? "";
+      if (KEEP_ATTRS.has(name)) attrs.push(`${name}=${val}`);
+      else if (name.startsWith("aria-") || name === "alt" || name === "title" || name === "placeholder") attrs.push(name); // present, text may differ
+      else attrs.push(`${name}=${val}`);
+    }
+    out.push(`${m[1] ? "/" : ""}${m[2].toLowerCase()}${m[4] ? "/" : ""}[${attrs.sort().join(" ")}]`);
+  }
+  return out;
+}
+
+const pres = (html) => (html.match(/<pre[\s\S]*?<\/pre>/g) || []).map((s) => s.replace(/\s+tabindex="0"/, ""));
+
+function longTexts(html) {
+  const noCode = html.replace(/<!--[\s\S]*?-->/g, "").replace(/<pre[\s\S]*?<\/pre>/g, " ").replace(/<code>[\s\S]*?<\/code>/g, " ");
+  return noCode
+    .split(/<[^>]+>/)
+    .map((t) => t.replace(/&[a-z]+;/g, " ").replace(/\s+/g, " ").trim())
+    .filter((t) => t.length >= 25);
+}
+
+const langs = new Set();
+for (const slug of SLUGS) {
+  for (const f of fs.readdirSync(path.join(pagesDir, slug))) if (f.endsWith(".html") && f !== "en.html") langs.add(f.slice(0, -5));
+}
+const localeLangs = new Set(
+  fs.readdirSync(path.join(site, "src/routes/locales"), { withFileTypes: true }).filter((e) => e.isDirectory()).map((e) => e.name.split("-")[0])
+);
+
+for (const lang of [...langs].sort()) {
+  if (!localeLangs.has(lang)) err(`${lang}: no /locales/${lang}-*/ directory uses this language`);
+  for (const slug of SLUGS) {
+    const file = path.join(pagesDir, slug, lang + ".html");
+    const label = `${slug}/${lang}.html`;
+    if (!fs.existsSync(file)) {
+      err(`${label}: missing (a language needs all eight pages)`);
+      continue;
+    }
+    const en = read(path.join(pagesDir, slug, "en.html"));
+    const tr = read(file);
+    if (!/<!--\s*title:\s*\S/.test(tr)) err(`${label}: no title comment`);
+    if (!/<!--\s*description:/.test(tr)) err(`${label}: no description comment`);
+    const a = tokens(en);
+    const b = tokens(tr);
+    if (a.join("\n") !== b.join("\n")) {
+      let i = 0;
+      while (i < a.length && a[i] === b[i]) i++;
+      err(`${label}: structure differs from en.html at tag #${i} (English ${a[i]} vs ${b[i]}); ${a.length} vs ${b.length} tags`);
+    }
+    const pa = pres(en);
+    const pb = pres(tr);
+    if (pa.length !== pb.length || pa.some((p, i) => p !== pb[i])) err(`${label}: <pre> code blocks must be byte-identical to en.html`);
+    if (!MOSTLY_NAMES.has(slug)) {
+      const ea = longTexts(en);
+      const eb = new Set(ea);
+      const same = longTexts(tr).filter((t) => eb.has(t)).length;
+      if (ea.length && same / ea.length > 0.25) err(`${label}: ${same} of ${ea.length} longer text nodes are still the English text`);
+    }
+  }
+}
+
+if (errors.length) {
+  for (const e of errors) console.error("Error: " + e);
+  console.error(`check-site-page-translations: ${errors.length} problem(s)`);
+  process.exit(1);
+}
+console.log(`check-site-page-translations: OK (${langs.size} language(s) × ${SLUGS.length} pages)`);

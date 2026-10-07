@@ -1,0 +1,306 @@
+<!-- title: सहायता — Lily Design System -->
+<!-- description: Lily के साथ शुरुआत करें: अपने फ़्रेमवर्क के लिए headless पैकेज इंस्टॉल करें, कंपोनेंट कॉपी करें, उसे स्टाइल करें, थीम लगाएँ और प्रकाशित करें। समस्या-निवारण, अक्सर पूछे जाने वाले प्रश्न और सहायता। -->
+<section class="page-intro">
+  <h1>Lily के साथ शुरुआत</h1>
+  <p class="page-intro-tagline">एक फ़्रेमवर्क चुनें, headless रिपॉज़िटरी या उदाहरण ऐप क्लोन करें, और अपने पृष्ठ स्वयं बनाना शुरू करें। निर्देशित रास्ता पसंद है? <a href="/tutorials/">ट्यूटोरियल</a> से शुरू करें।</p>
+</section>
+
+<nav aria-label="On this page" class="prose" style="margin: 0 auto;">
+  <p><strong>इस पृष्ठ पर:</strong></p>
+  <ul>
+    <li><a href="#install">इंस्टॉल करना</a></li>
+    <li><a href="#use-headless">headless कंपोनेंट का उपयोग</a></li>
+    <li><a href="#use-styled">स्टाइल किए हुए उदाहरण का उपयोग</a></li>
+    <li><a href="#styling">स्टाइलिंग और डिज़ाइन टोकन</a></li>
+    <li><a href="#themes">तैयार थीम</a></li>
+    <li><a href="#helpers">वरीयता सहायक</a></li>
+    <li><a href="#a11y">पहुँचनीयता</a></li>
+    <li><a href="#i18n">अंतरराष्ट्रीयकरण</a></li>
+    <li><a href="#testing">परीक्षण</a></li>
+    <li><a href="#ai-agents">AI एजेंट</a></li>
+    <li><a href="#troubleshooting">समस्या-निवारण</a></li>
+    <li><a href="#contributing">योगदान</a></li>
+    <li><a href="#community">समुदाय और सहायता</a></li>
+    <li><a href="#faq">अक्सर पूछे जाने वाले प्रश्न</a></li>
+  </ul>
+</nav>
+
+<section class="section prose" id="install" style="margin: 0 auto;">
+  <h2>इंस्टॉल करना</h2>
+  <p>Lily हर फ़्रेमवर्क के लिए अलग Git रिपॉज़िटरी के रूप में प्रकाशित होता है। इसे आज़माने का सबसे तेज़ तरीका अपने स्टैक की headless रिपॉज़िटरी क्लोन करना है:</p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system-react-headless
+cd lily-design-system-react-headless
+pnpm install</code></pre>
+  <p>यही पैटर्न अन्य फ़्रेमवर्क के लिए भी काम करता है:</p>
+  <ul>
+    <li><code>@lilydesignsystem/html-headless</code> — इंस्टॉल की ज़रूरत नहीं; <code>.html</code> फ़ाइलें कॉपी करें</li>
+    <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/angular-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
+    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
+  </ul>
+  <p>headless लाइब्रेरी क्लोन करने या प्रोजेक्ट में शामिल करने के लिए बनाई गई हैं — सोर्स को सच्चाई का स्रोत मानें और जो चाहिए कॉपी करें। <a href="#helpers">वरीयता सहायक</a> इसके अलावा इंस्टॉल करने योग्य पैकेज के रूप में भी आते हैं, बिल्ड और प्रकाशन पाइपलाइन के साथ (JS फ़्रेमवर्क के लिए npm, Blazor के लिए NuGet)।</p>
+</section>
+
+<section class="section prose" id="use-headless" style="margin: 0 auto;">
+  <h2>headless कंपोनेंट का उपयोग</h2>
+  <p>headless कंपोनेंट अर्थपूर्ण HTML, ARIA और प्रॉपर्टी के साथ आते हैं — पर कोई CSS नहीं। यह हर फ़्रेमवर्क में एक बटन है:</p>
+
+  <h3>HTML</h3>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button" aria-label="Save"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+
+  <h3>Svelte</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>React</h3>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+&lt;Button onClick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Vue</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+  import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;Button @click="save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Angular</h3>
+  
+  <pre tabindex="0"><code>import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})</code></pre>
+
+  <h3>Blazor</h3>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Nunjucks</h3>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "button" }) }}</code></pre>
+</section>
+
+<section class="section prose" id="use-styled" style="margin: 0 auto;">
+  <h2>स्टाइल किए हुए उदाहरण का उपयोग</h2>
+  <p>उदाहरण ऐप्स में CSS, रूट और पूर्ण डेमो पृष्ठ शामिल हैं। प्रयोग करने का सबसे तेज़ तरीका SvelteKit, Next, Nuxt, Analog या Eleventy उदाहरण ऐप चलाना और <code>/components</code> पर डेमो देखना है।</p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-sveltekit-examples
+cd lily-design-system-svelte-sveltekit-examples
+pnpm install
+pnpm run dev</code></pre>
+  <p>फिर <code>http://localhost:5173</code> खोलें और <code>/components</code> देखें।</p>
+</section>
+
+<section class="section prose" id="styling" style="margin: 0 auto;">
+  <h2>स्टाइलिंग और डिज़ाइन टोकन</h2>
+  <p>हर कंपोनेंट अपने रूट एलिमेंट पर kebab-case की एक ही क्लास के साथ रेंडर होता है। उदाहरण के लिए, <code>&lt;Button&gt;</code> से <code>&lt;button class="button"&gt;</code> बनता है। उसे जैसे चाहें स्टाइल करें:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: var(--my-primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.button:hover { background: var(--my-primary-hover); }</code></pre>
+  <p>Lily का डिफ़ॉल्ट रंग पैलेट (उदाहरण ऐप्स में उपयोग किया जाने वाला) यह है:</p>
+  <ul>
+    <li>प्राथमिक: <code>#2563eb</code></li>
+    <li>खतरा: <code>#dc2626</code></li>
+    <li>चेतावनी: <code>#f59e0b</code></li>
+    <li>सफलता: <code>#16a34a</code></li>
+    <li>पृष्ठ की पृष्ठभूमि: <code>#f9fafb</code></li>
+    <li>कार्ड की पृष्ठभूमि: <code>#ffffff</code></li>
+  </ul>
+  <p>ये सुझाव हैं, आवश्यकताएँ नहीं। इन्हें अपने ब्रांड के पैलेट से बदल दें और Lily खुशी से साथ चलेगा।</p>
+</section>
+
+<section class="section prose" id="themes" style="margin: 0 auto;">
+  <h2>तैयार थीम</h2>
+  <p>शुरू से CSS नहीं लिखना चाहते? Lily <strong>45 स्वतंत्र संदर्भ थीम</strong> के साथ आता है, जो <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a> डायरेक्टरी में हैं। हर एक Lily के क्लास हुक को लक्षित करने वाली एक स्टाइलशीट है — उसे जोड़ें और स्टाइल लग जाता है:</p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+  <p>यह समूह इन्हें शामिल करता है:</p>
+  <ul>
+    <li><strong>सार्वजनिक क्षेत्र</strong> — NHS England, NHS Scotland और NHS Wales (मरीज़ों और चिकित्सकों के लिए अलग रूप), GOV.UK GDS, और अमेरिकी वेब डिज़ाइन सिस्टम।</li>
+    <li><strong>विक्रेताओं से प्रेरित</strong> — Adobe Spectrum, Mozilla Protocol।</li>
+    <li><strong>सामान्य उद्देश्य</strong> — हल्की, गहरी, nord, dracula, wireframe, और तीस के आसपास और।</li>
+  </ul>
+  <p>थीम सेलेक्टर <code>:where(...)</code> का उपयोग करते हैं, इसलिए विशिष्टता में आपकी अपनी CSS हमेशा जीतती है। रनटाइम पर बदलाव के लिए इन्हें नीचे के <code>theme-picker</code> सहायक के साथ जोड़ें, या <a href="/tutorials/theming/">थीम ट्यूटोरियल</a> का पालन करें।</p>
+</section>
+
+<section class="section prose" id="helpers" style="margin: 0 auto;">
+  <h2>वरीयता सहायक</h2>
+  <p>हर फ़्रेमवर्क का एक साथी <code>*-helpers</code> कैटलॉग है जिसमें आठ छोटे चयनकर्ता हैं (और एक <code>picker-bar</code> जो उन्हें जोड़ता है)। हर एक headless आइकन बटन है जो पॉपअप खोलता है — विकल्पों की सूची, लिंक की सूची, खोज फ़ॉर्म, या (date-time-picker के लिए) तारीख चुनने का डायलॉग — मूल <code>&lt;select&gt;</code> नहीं; SSR के लिए सुरक्षित है; और कोई CSS नहीं देता:</p>
+  <ul>
+    <li><strong>theme-picker</strong> — एक प्रबंधित <code>&lt;link&gt;</code> बदलकर रनटाइम पर थीम स्टाइलशीट लोड करता है, दस्तावेज़ पर <code>data-theme</code> सेट करता है, और वैकल्पिक रूप से <code>localStorage</code> में सहेजता है।</li>
+    <li><strong>locale-picker</strong> — <code>lang</code> और <code>dir</code> सेट करता है (दाएँ-से-बाएँ लेखन की स्वचालित पहचान के साथ) ताकि आपकी i18n लाइब्रेरी उनका अनुसरण कर सके; स्वयं कोई अनुवाद नहीं करता।</li>
+    <li><strong>text-size-picker</strong> — दस्तावेज़ पर <code>data-text-size</code> सेट करता है; आपकी CSS हर मान को फ़ॉन्ट आकार से जोड़ती है।</li>
+    <li><strong>motion-picker</strong> — दस्तावेज़ पर <code>data-motion</code> सेट करता है, आगंतुक की गति-कमी की सेटिंग से शुरू करके; आपकी CSS और स्क्रिप्ट तय करती हैं कि क्या दबाना है।</li>
+    <li><strong>search-picker</strong> — आइकन बटन जो खोज का फ़ील्ड खोलता है; सबमिट करने पर खोज पृष्ठ पर ले जाता है। एक क्रिया का स्वामी है, वरीयता का नहीं।</li>
+    <li><strong>link-picker</strong> — होम आइकन जो आपके ऐप द्वारा परिभाषित पृष्ठ लिंक का मेनू खोलता है (होम, हमारे बारे में, संपर्क करें, गोपनीयता नीति, …)। एक क्रिया का स्वामी है, वरीयता का नहीं।</li>
+    <li><strong>share-picker</strong> — मूल शेयर शीट या उपभोक्ता द्वारा दी गई गंतव्य सूची खोलता है, साथ में URL कॉपी करने की सुविधा। एक क्रिया का स्वामी है, वरीयता का नहीं: कुछ लागू नहीं करता, कुछ सहेजता नहीं।</li>
+    <li><strong>date-time-picker</strong> — तारीख, समय या दोनों के लिए टेक्स्ट फ़ील्ड और APG तारीख चुनने का डायलॉग। एक फ़ॉर्म मान का स्वामी है, वरीयता का नहीं: ISO स्ट्रिंग <code>&lt;input type="date"&gt;</code> के साथ आती-जाती है।</li>
+  </ul>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-helpers</code></pre>
+  <p>Svelte कैटलॉग मानक संदर्भ है; React, Vue, Angular, HTML, Nunjucks, Web Components और Blazor पोर्ट अनुबंध-दर-अनुबंध उससे मेल खाते हैं। <a href="/tutorials/helpers/">सहायक ट्यूटोरियल</a> देखें।</p>
+</section>
+
+<section class="section prose" id="a11y" style="margin: 0 auto;">
+  <h2>पहुँचनीयता</h2>
+  <p>कंपोनेंट <strong>WCAG 2.2 AAA</strong> को लक्ष्य बनाते हैं। वे इन पैटर्न का पालन करते हैं:</p>
+  <ul>
+    <li>सामान्य <code>&lt;div&gt;</code> के बजाय अर्थपूर्ण HTML एलिमेंट।</li>
+    <li>लेबल को इनपुट से जोड़ने वाला <code>&lt;label for="id"&gt;</code>।</li>
+    <li>परस्पर संदर्भ के लिए <code>aria-labelledby</code> / <code>aria-describedby</code>।</li>
+    <li>त्रुटि अवस्थाओं के लिए <code>aria-invalid</code> + <code>aria-errormessage</code>।</li>
+    <li>गतिशील सामग्री के लिए <code>role="alert"</code> और <code>aria-live</code>।</li>
+    <li>अवस्था के लिए <code>aria-pressed</code>, <code>aria-expanded</code>, <code>aria-current</code>।</li>
+    <li>ग्रिड के लिए घूमने वाला <code>tabindex</code>।</li>
+  </ul>
+  <p>फ़ोकस संकेतक जान-बूझकर उपभोक्ता द्वारा दिए जाते हैं — Lily कभी डिफ़ॉल्ट फ़ोकस रिंग नहीं बनाता जो आपके डिज़ाइन से टकराए। उदाहरण ऐप्स अपने सभी रूट पर axe-core का साफ़ आधार-स्तर बनाए रखते हैं।</p>
+</section>
+
+<section class="section prose" id="i18n" style="margin: 0 auto;">
+  <h2>अंतरराष्ट्रीयकरण</h2>
+  <p>हर लेबल, प्लेसहोल्डर, त्रुटि संदेश और बटन का पाठ एक प्रॉपर्टी है। कोई सीधे लिखी स्ट्रिंग नहीं। अपनी पसंद का अनुवाद फ़्रेमवर्क जोड़ें — Paraglide, i18next, vue-i18n, react-intl, .resx फ़ाइलें, कुछ भी।</p>
+  <p>तारीख़ों, संख्याओं और मुद्राओं के लिए कंपोनेंट पहले से फ़ॉर्मैट की गई स्ट्रिंग स्वीकार करते हैं: आप <code>Intl.DateTimeFormat</code> / <code>Intl.NumberFormat</code> / अपनी पसंदीदा लाइब्रेरी से फ़ॉर्मैट करते हैं और नतीजा दे देते हैं।</p>
+  <p><code>locale-picker</code> सहायक दस्तावेज़ की जड़ पर <code>lang</code> और <code>dir</code> सेट करके आपकी i18n लाइब्रेरी को चुनी गई लोकेल का संकेत देता है।</p>
+</section>
+
+<section class="section prose" id="testing" style="margin: 0 auto;">
+  <h2>परीक्षण</h2>
+  <p>हर फ़्रेमवर्क उप-प्रोजेक्ट अपने विशिष्ट स्टैक के साथ अपने परीक्षण उपलब्ध कराता है:</p>
+  <ul>
+    <li><strong>HTML</strong>: असली ब्राउज़र चलाने वाला WebDriverIO।</li>
+    <li><strong>Svelte</strong>: Vitest + <code>@testing-library/svelte</code>.</li>
+    <li><strong>React</strong>: Vitest + <code>@testing-library/react</code>.</li>
+    <li><strong>Vue</strong>: Vitest + <code>@testing-library/vue</code>.</li>
+    <li><strong>Angular</strong>: Vitest + TestBed (Analog Vite प्लगइन के ज़रिए)।</li>
+    <li><strong>Nunjucks</strong>: रेंडर सहायक के साथ Vitest।</li>
+    <li><strong>Blazor</strong>: bUnit.</li>
+  </ul>
+  <p>परीक्षण <strong>केवल Vitest के अंतर्निहित मैचर</strong> इस्तेमाल करते हैं — कभी <code>jest-dom</code> मैचर नहीं। इससे परीक्षण सूट पोर्टेबल रहते हैं। उदाहरण ऐप्स Playwright के एंड-टू-एंड सूट, axe-core पहुँचनीयता आधार-स्तर, और उत्तरदायी व्यूपोर्ट की जाँच जोड़ते हैं।</p>
+</section>
+
+<section class="section prose" id="ai-agents" style="margin: 0 auto;">
+  <h2>AI एजेंट</h2>
+  <p>यह साइट अपनी जड़ पर <a href="/llms.txt">llms.txt</a> और <a href="/llms.json">llms.json</a> प्रकाशित करती है — अपने सबसे महत्वपूर्ण पृष्ठों का एक चुना हुआ नक्शा, हर उस उपकरण के लिए जो <a href="https://llmstxt.org">llms.txt परिपाटी</a> का पालन करता है।</p>
+  <p>मानक मोनोरेपो इसके अलावा दो <a href="https://code.claude.com/docs/en/skills">Claude स्किल</a> भी देता है: <code>lily-design-system-skill</code>, एक सामान्य-उद्देश्य स्किल जो सिस्टम के साथ बनाने वालों के लिए Lily की अवधारणाएँ, शब्दावली और संयोजन पैटर्न कवर करती है, और <code>lily-design-system-maintainer-skill</code>, एक तकनीकी स्किल जो उस पर काम करने वालों के लिए मोनोरेपो की अनिवार्य फ़ाइल संरचना और उपकरण कवर करती है। दोनों <a href="https://github.com/LilyDesignSystem/lily-design-system">मानक मोनोरेपो</a> की जड़ में हैं।</p>
+</section>
+
+<section class="section prose" id="troubleshooting" style="margin: 0 auto;">
+  <h2>समस्या-निवारण</h2>
+
+  <details class="faq-item">
+    <summary>कंपोनेंट रेंडर होता है पर बिना स्टाइल का दिखता है</summary>
+    <p>यह headless का अपेक्षित रूप से काम करना है — कंपोनेंट के साथ कोई CSS नहीं आती। या तो कंपोनेंट की kebab-case क्लास के लिए CSS लिखें (जो हर <a href="/components/">कैटलॉग पृष्ठ</a> पर दिखाई गई है) या <a href="#themes">45 तैयार थीम</a> में से कोई जोड़ें।</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>मेरी CSS थीम के ऊपर लागू होती नहीं दिखती</summary>
+    <p>होनी चाहिए — थीम सेलेक्टर <code>:where(...)</code> में लिपटे हैं, जिसकी विशिष्टता शून्य है। यदि फिर भी कोई नियम हार जाए, तो जाँचें कि आपकी स्टाइलशीट थीम के <code>&lt;link&gt;</code> के बाद लोड होती है और सेलेक्टर वास्तव में कंपोनेंट के क्लास हुक से मेल खाता है।</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>pnpm install पीयर या संस्करण त्रुटि के साथ विफल होता है</summary>
+    <p>मौजूदा pnpm (v10+) और Node 22+ का उपयोग करें। हर रिपॉज़िटरी अपने फ़्रेमवर्क के संस्करण <code>package.json</code> में तय करती है; यदि आपकी वैश्विक टूलचेन पुरानी है, तो <code>pnpm env use --global lts</code> सबसे तेज़ उपाय है।</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>स्क्रीन रीडर किसी नियंत्रण का गलत नाम बोलता है</summary>
+    <p>कंपोनेंट की अनिवार्य <code>label</code> प्रॉपर्टी जाँचें — जिन कंपोनेंट में दिखने वाला पाठ नहीं होता उन्हें यह चाहिए, और उपभोक्ता द्वारा दिए गए <code>aria-label</code> / <code>aria-labelledby</code> जो शेष प्रॉप्स से गुज़ारे जाते हैं, जान-बूझकर अंतर्निहित वायरिंग पर हावी रहते हैं। हर कैटलॉग पृष्ठ कंपोनेंट का ARIA अनुबंध दस्तावेज़ित करता है।</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>theme-picker सहायक स्टाइलशीट नहीं बदलता</summary>
+    <p>पुष्टि करें कि <code>themesUrl</code> ऐसी डायरेक्टरी की ओर इशारा करता है जिसे ब्राउज़र ला सके (<code>themes/</code> फ़ाइलें स्टैटिक एसेट के रूप में परोसें) और आपकी <code>themes</code> प्रॉपर्टी में थीम स्लग फ़ाइल नामों से मेल खाते हैं। सहायक एक प्रबंधित <code>&lt;link data-lily-theme-picker&gt;</code> का <code>href</code> बदलता है — डेवटूल में उसे देखें कि कौन-सा URL माँगा जा रहा है।</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>कुछ और टूटा है</summary>
+    <p>संबंधित रिपॉज़िटरी पर <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a> में न्यूनतम पुनरुत्पादन के साथ इश्यू खोलें — या <a href="#community">समुदाय और सहायता</a> देखें।</p>
+  </details>
+</section>
+
+<section class="section prose" id="contributing" style="margin: 0 auto;">
+  <h2>योगदान</h2>
+  <p>Lily नया है और सहयोग का स्वागत करता है। अभी सबसे उपयोगी योगदान ये हैं:</p>
+  <ul>
+    <li>नए कंपोनेंट (खासकर स्थापित डिज़ाइन सिस्टमों के पैटर्न)।</li>
+    <li>नई थीम — हर एक स्वतंत्र स्टाइलशीट है, एक अच्छी तरह सीमित पहली पुल रिक्वेस्ट।</li>
+    <li>उदाहरणों की बेहतर स्टाइलिंग — दिखाएँ कि क्या संभव है।</li>
+    <li>उदाहरण ऐप्स की स्ट्रिंग के अनुवाद।</li>
+    <li>न्यूनतम पुनरुत्पादन के साथ बग रिपोर्ट।</li>
+    <li>स्क्रीन रीडर और सहायक तकनीक के साथ पहुँचनीयता ऑडिट।</li>
+  </ul>
+  <p>संबंधित रिपॉज़िटरी पर <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a> में इश्यू और पुल रिक्वेस्ट खोलें।</p>
+</section>
+
+<section class="section prose" id="community" style="margin: 0 auto;">
+  <h2>समुदाय और सहायता</h2>
+  <ul>
+    <li><strong>प्रश्न और बग रिपोर्ट</strong> — संबंधित रिपॉज़िटरी पर <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a> में इश्यू खोलें।</li>
+    <li><strong>ईमेल</strong> — अनुरक्षक <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a> पढ़ता है और सहयोग, मार्गदर्शन और प्रतिक्रिया का स्वागत करता है।</li>
+    <li><strong>प्रतिबिंब</strong> — Lily को <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> और <a href="https://gitlab.com/LilyDesignSystem">GitLab</a> पर भी भेजा जाता है, ताकि आप अपनी पसंद के प्लेटफ़ॉर्म से भाग ले सकें।</li>
+    <li><strong>आचरण</strong> — प्रोजेक्ट एक मानक आचार संहिता का पालन करता है; दयालु रहें, सद्भावना मानें।</li>
+  </ul>
+</section>
+
+<section class="section prose" id="faq" style="margin: 0 auto;">
+  <h2>अक्सर पूछे जाने वाले प्रश्न</h2>
+
+  <details class="faq-item">
+    <summary>स्टाइल किए हुए के बजाय headless क्यों?</summary>
+    <p>पहले से स्टाइल किए कंपोनेंट सुविधाजनक होते हैं — जब तक वे आपके ब्रांड से मेल न खाएँ। headless कंपोनेंट में शुरुआत में थोड़ा ज़्यादा काम है पर वे दृश्य डिज़ाइन पर पूरा नियंत्रण देते हैं। उदाहरण ऐप्स और 45 थीम उन्हें स्टाइल करने के तरीके दिखाते हैं; आप उन्हें ले सकते हैं या पूरी तरह बदल सकते हैं। विस्तृत तर्क <a href="/why/">Lily क्यों</a> में है।</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>इतने सारे कंपोनेंट क्यों?</summary>
+    <p>Lily उन पैटर्न को कवर करना चाहता है जिनकी ज़्यादातर ऐप्स को ज़रूरत होती है, आपको उन्हें शुरू से बनाने पर मजबूर किए बिना — राष्ट्रीय पहचानकर्ता इनपुट और संपादकीय स्क्रॉलीटेलिंग जैसे गहरे मामलों सहित। कैटलॉग एक दर्जन स्थापित डिज़ाइन सिस्टमों और मौलिक काम से लिया गया है — <a href="/about/">परिचय</a> देखें।</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>क्या मैं Lily को Tailwind के साथ इस्तेमाल कर सकता हूँ?</summary>
+    <p>हाँ। हर कंपोनेंट एक kebab-case रूट क्लास के साथ उपभोक्ता द्वारा दिया गया <code>className</code> / <code>class</code> उपलब्ध कराता है। Tailwind यूटिलिटी को जैसे चाहें ऊपर परत-दर-परत लगाएँ।</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>क्या मैं Lily को DaisyUI जैसे अर्थपूर्ण CSS फ़्रेमवर्क के साथ इस्तेमाल कर सकता हूँ?</summary>
+    <p>हाँ। रूट एलिमेंट पर kebab-case क्लास नाम अर्थपूर्ण CSS हुक के रूप में काम करते हैं। Lily को अर्थपूर्ण फ़्रेमवर्क के साथ जोड़ें और आपको पहले से स्टाइल किए कंपोनेंट मिलते हैं जो फिर भी ARIA और i18n का सम्मान करते हैं।</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>क्या npm पैकेज है?</summary>
+    <p><a href="#helpers">वरीयता सहायक</a> npm/NuGet प्रकाशन पाइपलाइन के साथ पैकेज के रूप में आते हैं। headless कंपोनेंट लाइब्रेरी क्लोन करने या प्रोजेक्ट में शामिल करने के लिए बनाई गई हैं — सोर्स ही उत्पाद है, ताकि आप जो भेजते हैं उसे ठीक-ठीक पढ़ सकें, छाँट सकें और उसके स्वामी रहें। headless लाइब्रेरी का रजिस्ट्री में प्रकाशन रोडमैप पर बना हुआ है।</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>कई लाइसेंस क्यों?</summary>
+    <p>अलग-अलग प्रोजेक्ट की लाइसेंस ज़रूरतें अलग होती हैं। BSD और MIT उदार हैं, Apache-2.0 में पेटेंट अनुदान है, और GPL विकल्प कॉपीलेफ़्ट का समर्थन करते हैं। जो आपकी स्थिति के अनुकूल हो उसे चुनें।</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>मैं बग की रिपोर्ट या फ़ीचर का अनुरोध कैसे करूँ?</summary>
+    <p>संबंधित GitHub रिपॉज़िटरी पर इश्यू खोलें, या <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a> को ईमेल करें।</p>
+  </details>
+</section>

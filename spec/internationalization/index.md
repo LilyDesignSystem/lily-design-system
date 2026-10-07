@@ -102,8 +102,16 @@ the binding rules are:
   `src/routes/locales/`.
 - **The tree is `/locales/<code>/`**, one thin page per locale around a shared template; `/` is the default locale `en-001` and is the
   untranslated, canonical English site. There are 15 locales: `ar-001 bn-001 cy-001 cy-gb en-001 en-gb en-gb-oxendict en-us es-001
-  fr-001 hi-001 id-001 pt-001 ru-001 ur-001 zh-cn`. Each translated page says, in its own language, that deeper pages (tutorials,
-  component docs) are English-only for now.
+  fr-001 hi-001 id-001 pt-001 ru-001 ur-001 zh-cn`. Component docs and the per-framework tutorials are still English-only, and the translated home page says so in its own language.
+- **The eight main pages are translated too (2026-10-07).** About, Why Lily, Accessibility, Help, Comparisons, Tutorials, Examples and
+  Skills exist at `/locales/<code>/<page>/` for every non-English locale (11 languages: `ar bn cy es fr hi id pt ru ur zh`, which covers
+  12 locale directories because `cy-001` and `cy-gb` share Welsh). The English page (`src/routes/<page>/+page.svelte`) is the source:
+  `bin/extract-site-pages` turns it into `src/lib/pages/<page>/en.html`, each language adds `<language>.html` with *identical markup
+  structure* (same tags, `id`s, `href`s and byte-identical `<pre>` code samples; only text and `aria-label`s differ), and
+  `bin/generate-locale-pages` writes the thin route files. `bin/check-site-page-translations` enforces structure, code-sample identity,
+  that the text is not just English, and that a language is either fully covered (all eight pages) or absent. Internal links inside a
+  translated page, the header nav, the footer, the home cards and the link picker all point at the same locale's pages. Only Welsh was
+  checked against a term base (TermCymru); the other ten are **machine translations awaiting native-speaker review**.
 - **Labels are endonyms** — each language's own name (`Cymraeg`, `Français`, `العربية`) — except where a language has several
   regional locales: then the label adds the region after a dash (`English - Great Britain`, `Cymraeg - Prydain Fawr`), never an
   abbreviation or parenthetical.

@@ -1,0 +1,64 @@
+<!-- title: حول المشروع — Lily Design System -->
+<!-- description: ما هو Lily، والمبادئ التي يقوم عليها، وأنظمة التصميم التي يستلهم منها. -->
+<section class="page-intro">
+  <h1>ما هو Lily؟</h1>
+  <p class="page-intro-tagline">نظام تصميم مجاني ومفتوح المصدر يضع إمكانية الوصول أولًا، يلاقيك حيث تكتب الشيفرة، ويبتعد عن طريقك حين لا تحتاج إليه.</p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>النسخة المختصرة</h2>
+  <p>Lily هو فهرس من <strong>مكوّنات الويب</strong>، يُنفَّذ كل منها بثماني نكهات headless (HTML وSvelte وReact وVue وAngular وBlazor وNunjucks وWeb Components)، إضافةً إلى مجموعة من تطبيقات الأمثلة الكاملة التي توضح كيفية تنسيقها.</p>
+  <p>لا تحتوي النسخ headless على <em>أي CSS</em>. فهي تمنحك HTML دلاليًا وأدوار ARIA وحالاتها ودعم لوحة المفاتيح وخصائص مهيأة للتدويل. وعليك أنت التصميم المرئي.</p>
+
+  <h2>مبادئ التصميم</h2>
+
+  <h3>قابل للوصول</h3>
+  <p>يبدأ كل مكوّن من HTML الدلالي. ولا يُضاف ARIA إلا حيث يعجز HTML وحده عن التعبير عن النمط. وتستهدف المكوّنات <strong>WCAG 2.2 AAA</strong>، فتؤخذ الألوان والمسافات والتركيز والتنقل بلوحة المفاتيح جميعها في الحسبان.</p>
+
+  <h3>قابل للتركيب</h3>
+  <p>يفضّل Lily مكوّنات صغيرة ذات غرض واحد تتراكب معًا. وتتكرر الأنماط المركّبة مرارًا:</p>
+  <ul>
+    <li><code>Nav → List → ListItem</code> — لمسارات التنقل وقوائم المحتويات وقوائم الأكورديون وقوائم الأشجار وترقيم الصفحات</li>
+    <li><code>Form → Field → Input</code> — لأي تخطيط نموذج فيه تسميات وتلميحات وأخطاء</li>
+    <li><code>Table → Head/Body/Foot → Row → Data</code> — للجداول والتقاويم ومخططات غانت ولوحات كانبان</li>
+    <li><code>Bar → BarButton</code> — لأشرطة الأدوات وأشرطة علامات التبويب وأشرطة المهام وأشرطة الإجراءات وأشرطة القوائم</li>
+    <li><code>Picker → PickerButton</code> — لمنتقيات الألوان ومنتقيات التقييم ومنتقيات السمات</li>
+  </ul>
+
+  <h3>قابل للتدويل</h3>
+  <p>لا توجد أي سلسلة نصية ظاهرة للمستخدم مكتوبة في الشيفرة. فالتسميات والنصوص الإرشادية ورسائل الأخطاء ونصوص الأزرار كلها معاملات. أدخل نظام الترجمة الخاص بك فيتحدث Lily أي لغة تتحدثها.</p>
+
+  <h3>Headless</h3>
+  <p>ليس في المكوّنات headless أي <strong>CSS</strong>، ولا كتل <code>&lt;style&gt;</code>، ولا رموز تصميم لم تختَرها. وتكشف اسم فئة واحدًا بصيغة kebab-case على كل عنصر جذر لتستهدفها كما تشاء: CSS دلالي أو Tailwind أو CSS-in-JS، القرار لك.</p>
+
+  <h3>أمثلة متكاملة</h3>
+  <p>تُظهر تطبيقات الأمثلة كيفية تنسيق المكوّنات للاستخدام الفعلي: أي رموز تصميم تُضبط، وأي تنويعات تُضاف، وكيف تُركَّب الصفحات. وهي تطبيقات كاملة بـ SvelteKit وNext.js وNuxt وBlazor وEleventy، وليست مجرد بيئات تجريبية.</p>
+
+  <h2 id="inspirations">مصادر الإلهام</h2>
+  <p>يستمد Lily أنماطه ولغته من مجموعة واسعة عن قصد من أنظمة التصميم:</p>
+  <ul>
+    <li><a href="https://service-manual.nhs.uk/design-system">نظام تصميم NHS UK</a></li>
+    <li><a href="https://design-system.service.gov.uk/">نظام تصميم GOV.UK</a></li>
+    <li><a href="https://designsystem.digital.gov/">نظام تصميم الويب الأمريكي (USWDS)</a></li>
+    <li><a href="https://github.com/ONSdigital/design-system">نظام تصميم ONSdigital</a></li>
+    <li><a href="https://designsystemau.org/">Design System AU (الحكومة الأسترالية)</a></li>
+    <li><a href="https://protocol.mozilla.org/">Mozilla Protocol</a></li>
+    <li><a href="https://spectrum.adobe.com/">Adobe Spectrum</a></li>
+    <li><a href="https://ant.design/">Ant Design</a></li>
+    <li><a href="https://design.wonderflow.ai/">Wonderflow Wanda</a></li>
+    <li><a href="https://daisyui.com/">DaisyUI</a></li>
+    <li><a href="https://ui.shadcn.com/">shadcn/ui</a></li>
+    <li><a href="https://github.com/reuters-graphics/graphics-components">مكوّنات رويترز الرسومية</a></li>
+  </ul>
+
+  <h2>الترخيص</h2>
+  <p>Lily متعدد التراخيص بموجب <strong>BSD أو MIT أو Apache-2.0 أو GPL-2.0 أو GPL-3.0</strong>. اختر الترخيص الذي يناسب مشروعك. وإن لم يناسبك أي منها فتواصل معنا.</p>
+
+  <h2>التواصل</h2>
+  <p>قائد المشروع: Joel Parker Henderson — <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.</p>
+  <p>هل وجدت خللًا، أو لديك فكرة، أو تريد المساهمة بمكوّن؟ افتح مشكلة (issue) أو طلب دمج (pull request) على <a href="https://github.com/LilyDesignSystem">GitHub</a>.</p>
+
+  <div class="callout">
+    <p style="margin: 0;"><strong>الحالة:</strong> Lily عمل جديد تمامًا، ونرحب بالتعاون والإرشاد والملاحظات. ستتغير الأمور وتتطور.</p>
+  </div>
+</section>

@@ -1,0 +1,95 @@
+<!-- title: Lily + Claude Code — Lily Design System -->
+<!-- description: 26 habilidades de Claude ofrecen a Claude Code un punto de entrada cargable y cuidado a Lily Design System: conceptos generales, paraguas por framework y análisis detallados por subproyecto de la biblioteca headless y de los asistentes *-picker. -->
+<section class="page-intro">
+  <h1>Las habilidades en agentes de IA hacen Lily aún más fácil</h1>
+  <p class="page-intro-tagline">Lily incluye habilidades específicas —generales, por framework y por subproyecto— para que un agente cargue exactamente el contexto que necesita y nada más.</p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>¿Qué habilidad quieres?</h2>
+  <p>Cada nivel responde a una pregunta distinta. Carga la habilidad general cuando aún no conozcas Lily. Carga una habilidad de framework cuando conozcas tu framework pero no sepas qué subproyecto necesitas. Carga directamente una habilidad headless o de asistentes cuando ya sepas exactamente en qué estás trabajando.</p>
+
+  <ul>
+    <li><strong>General / mantenimiento</strong> — «¿Qué es Lily?» / «¿Cómo está organizado este monorrepositorio?» — <a href="https://github.com/LilyDesignSystem/lily-design-system-skill" ><code>lily-design-system-skill</code></a >, <a href="https://github.com/LilyDesignSystem/lily-design-system-maintainer-skill" ><code>lily-design-system-maintainer-skill</code></a ></li>
+    <li><strong>Paraguas de framework</strong> — «¿Qué hay disponible para {framework} y qué pieza necesito?» — 8, una <code>{framework}-skill</code> cada uno</li>
+    <li><strong>Headless / asistentes</strong> — «¿Cómo uso exactamente los componentes / asistentes *-picker de {framework}?» — 16, una <code>{framework}-headless-skill</code> y una <code>{framework}-helpers-skill</code> cada uno</li>
+  </ul>
+
+  <h2>Los ocho frameworks</h2>
+  <p>Cada framework recibe la misma pila de tres niveles. La habilidad paraguas mapea todos los subproyectos reales de ese framework —incluida la aplicación de ejemplo, que ninguna de sus dos habilidades hermanas cubre— y remite a ellos en lugar de repetir sus contratos.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Framework</th>
+        <th>Paraguas</th>
+        <th>Headless</th>
+        <th>Asistentes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Angular</td>
+        <td><a aria-label="Habilidad paraguas de Angular" href="https://github.com/LilyDesignSystem/lily-design-system-angular-skill">habilidad</a></td>
+        <td><a aria-label="Habilidad headless de Angular" href="https://github.com/LilyDesignSystem/lily-design-system-angular-headless-skill">habilidad</a></td>
+        <td><a aria-label="Habilidad de asistentes de Angular" href="https://github.com/LilyDesignSystem/lily-design-system-angular-helpers-skill">habilidad</a></td>
+      </tr>
+      <tr>
+        <td>Blazor</td>
+        <td><a aria-label="Habilidad paraguas de Blazor" href="https://github.com/LilyDesignSystem/lily-design-system-blazor-skill">habilidad</a></td>
+        <td><a aria-label="Habilidad headless de Blazor" href="https://github.com/LilyDesignSystem/lily-design-system-blazor-headless-skill">habilidad</a></td>
+        <td><a aria-label="Habilidad de asistentes de Blazor" href="https://github.com/LilyDesignSystem/lily-design-system-blazor-helpers-skill">habilidad</a></td>
+      </tr>
+      <tr>
+        <td>HTML</td>
+        <td><a aria-label="Habilidad paraguas de HTML" href="https://github.com/LilyDesignSystem/lily-design-system-html-skill">habilidad</a></td>
+        <td><a aria-label="Habilidad headless de HTML" href="https://github.com/LilyDesignSystem/lily-design-system-html-headless-skill">habilidad</a></td>
+        <td><a aria-label="Habilidad de asistentes de HTML" href="https://github.com/LilyDesignSystem/lily-design-system-html-helpers-skill">habilidad</a></td>
+      </tr>
+      <tr>
+        <td>Nunjucks</td>
+        <td><a aria-label="Habilidad paraguas de Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system-nunjucks-skill">habilidad</a></td>
+        <td><a aria-label="Habilidad headless de Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system-nunjucks-headless-skill">habilidad</a></td>
+        <td><a aria-label="Habilidad de asistentes de Nunjucks" href="https://github.com/LilyDesignSystem/lily-design-system-nunjucks-helpers-skill">habilidad</a></td>
+      </tr>
+      <tr>
+        <td>React</td>
+        <td><a aria-label="Habilidad paraguas de React" href="https://github.com/LilyDesignSystem/lily-design-system-react-skill">habilidad</a></td>
+        <td><a aria-label="Habilidad headless de React" href="https://github.com/LilyDesignSystem/lily-design-system-react-headless-skill">habilidad</a></td>
+        <td><a aria-label="Habilidad de asistentes de React" href="https://github.com/LilyDesignSystem/lily-design-system-react-helpers-skill">habilidad</a></td>
+      </tr>
+      <tr>
+        <td>Svelte</td>
+        <td><a aria-label="Habilidad paraguas de Svelte" href="https://github.com/LilyDesignSystem/lily-design-system-svelte-skill">habilidad</a></td>
+        <td><a aria-label="Habilidad headless de Svelte" href="https://github.com/LilyDesignSystem/lily-design-system-svelte-headless-skill">habilidad</a></td>
+        <td><a aria-label="Habilidad de asistentes de Svelte" href="https://github.com/LilyDesignSystem/lily-design-system-svelte-helpers-skill">habilidad</a></td>
+      </tr>
+      <tr>
+        <td>Vue</td>
+        <td><a aria-label="Habilidad paraguas de Vue" href="https://github.com/LilyDesignSystem/lily-design-system-vue-skill">habilidad</a></td>
+        <td><a aria-label="Habilidad headless de Vue" href="https://github.com/LilyDesignSystem/lily-design-system-vue-headless-skill">habilidad</a></td>
+        <td><a aria-label="Habilidad de asistentes de Vue" href="https://github.com/LilyDesignSystem/lily-design-system-vue-helpers-skill">habilidad</a></td>
+      </tr>
+      <tr>
+        <td>Web Components</td>
+        <td><a aria-label="Habilidad paraguas de Web Components" href="https://github.com/LilyDesignSystem/lily-design-system-web-components-skill">habilidad</a></td>
+        <td>
+          <a
+            aria-label="Habilidad headless de Web Components"
+            href="https://github.com/LilyDesignSystem/lily-design-system-web-components-headless-skill"
+            >habilidad</a
+          >
+          (536/571)
+        </td>
+        <td><a aria-label="Habilidad de asistentes de Web Components" href="https://github.com/LilyDesignSystem/lily-design-system-web-components-helpers-skill">habilidad</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>Web Components es la única excepción en ambos sentidos: su catálogo headless tiene un alcance deliberado de 536 de 571 (elementos personalizados nativos, sin entorno de ejecución de framework; los otros 35 componentes quedan excluidos de forma permanente), y todavía no existe una aplicación de ejemplo de Web Components: su habilidad paraguas lo dice en lugar de dar a entender que existe una.</p>
+
+  <h2>Añade una habilidad</h2>
+  <p>Cada habilidad es un archivo <a href="https://code.claude.com/docs/en/skills"><code>SKILL.md</code></a> más archivos de apoyo, sin paso de compilación. Clona la que necesites en el lugar desde donde tu configuración de Claude Code carga las habilidades (consulta la documentación oficial enlazada arriba para ver el directorio de habilidades de tu proyecto o de tu cuenta):</p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-skill</code></pre>
+  <p>¿Trabajas con varios frameworks, o en el propio monorrepositorio? Clona en su lugar el <a href="https://github.com/LilyDesignSystem/lily-design-system">monorrepositorio canónico</a>: las 26 habilidades ya viven en su raíz, junto con las bibliotecas headless, los catálogos de asistentes y las aplicaciones de ejemplo que describen.</p>
+</section>

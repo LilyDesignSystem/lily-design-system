@@ -33,7 +33,7 @@
     </li>
     <li>
       Keyboard contracts per interactive component, documented in each
-      component's canonical metadata and exercised by the suites; the five
+      component's canonical metadata and exercised by the suites; the
       helper packages additionally run real-browser Playwright specs.
     </li>
     <li>

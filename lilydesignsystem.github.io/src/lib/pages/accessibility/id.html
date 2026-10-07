@@ -1,0 +1,30 @@
+<!-- title: Aksesibilitas — Lily Design System -->
+<!-- description: Pernyataan aksesibilitas Lily: arti menargetkan WCAG 2.2 AAA di sini — apa yang diverifikasi, oleh apa, apa yang tidak diverifikasi oleh apa pun, dan cara melaporkan masalah. -->
+<section class="page-intro">
+  <h1>Arti “menargetkan WCAG 2.2 AAA” di sini</h1>
+  <p class="page-intro-tagline">Kata <em>menargetkan</em> dipilih dengan sengaja. Halaman ini menyatakan dengan tepat apa yang diverifikasi, oleh apa, apa yang tidak diverifikasi oleh apa pun, dan apa yang kami rencanakan untuk menutup kesenjangan itu. Lily tidak pernah mengklaim “kepatuhan” WCAG — tidak ada audit yang mendukungnya.</p>
+</section>
+
+<section class="prose">
+  <h2>Diverifikasi secara berkelanjutan</h2>
+  <ul>
+    <li>Elemen semantik kanonis, atribut ARIA, dan kelas pengait setiap komponen — ditegaskan oleh rangkaian pengujian unit per framework (lebih dari 15.000 kasus di tujuh framework).</li>
+    <li>Setiap dari 571 halaman demo komponen di aplikasi contoh SvelteKit bebas galat axe (rangkaian aturan WCAG 2.0/2.1 A+AA dan 2.2 AA) — penyisiran seluruh katalog, pertama kali dijadikan garis dasar pada 2026-08-27 dan dijalankan ulang pada 2026-10-06 — ditambah garis dasar per aplikasi pada rute beranda, katalog, dan rute gabungan di ketujuh aplikasi contoh.</li>
+    <li>Kontrak papan ketik untuk setiap komponen interaktif, didokumentasikan dalam metadata kanonis komponen dan diuji oleh rangkaian pengujian; paket asisten juga menjalankan spesifikasi Playwright di peramban sungguhan.</li>
+    <li>Batas bawah ukuran target dan pengaman luapan WCAG 2.2 di seluruh 45 tema; tautan lompat, landmark, dan tidak ada luapan horizontal pada empat ukuran jendela per aplikasi; penerapan <code>lang</code>/<code>dir</code> termasuk pembalikan untuk tulisan kanan-ke-kiri.</li>
+  </ul>
+
+  <h2>Tidak diverifikasi oleh apa pun</h2>
+  <ul>
+    <li><strong>Belum pernah ada audit kesesuaian yang dilakukan.</strong> Tanpa VPAT, tanpa sertifikasi. Perangkat otomatis hanya mencakup sebagian kecil kriteria keberhasilan WCAG.</li>
+    <li>Kriteria khusus AAA (kontras yang ditingkatkan, dan lainnya) adalah niat desain, bukan properti yang telah diverifikasi; rangkaian aturan axe dijalankan pada tingkat A/AA. Belum ada tema kontras tinggi khusus.</li>
+    <li><strong>Perilaku pembaca layar sebagian besar belum diuji.</strong> Rangkaian pengujian menegaskan atribut ARIA, bukan apa yang diumumkan VoiceOver, NVDA, atau JAWS — dan proyek ini lebih dari sekali merilis rangkaian pengujian hijau di atas cacat nyata, yang masing-masing dituliskan di catatan perubahan justru karena pengujian tidak dapat melihatnya.</li>
+  </ul>
+
+  <h2>Yang kami rencanakan</h2>
+  <p>Audit aksesibilitas independen adalah penggunaan pertama yang disebutkan untuk setiap pendanaan proyek, dan cakupan yang dibutuhkan auditor sudah disiapkan. Sampai saat itu, laporan pembaca layar adalah kontribusi yang paling diinginkan proyek ini: “komponen X mengumumkan Y, yang salah karena Z” dapat langsung ditindaklanjuti.</p>
+
+  <h2>Laporkan masalah</h2>
+  <p>Buka isu di <a href="https://github.com/LilyDesignSystem/lily-design-system" >github.com/LilyDesignSystem/lily-design-system</a > atau kirim surel ke <a href="mailto:joel@joelparkerhenderson.com" >joel@joelparkerhenderson.com</a >. Menyebutkan kriteria WCAG membantu tetapi tidak wajib — “Saya tidak bisa mengoperasikan X dengan papan ketik” adalah laporan yang lengkap.</p>
+  <p>Pernyataan lengkap, dengan tabel verifikasi dan riwayat peninjauannya, ada di repositori: <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/accessibility-statement.md" >docs/accessibility-statement.md</a >.</p>
+</section>

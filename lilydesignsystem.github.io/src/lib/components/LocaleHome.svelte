@@ -12,6 +12,7 @@
   import { LILY_COMPONENTS } from '#lib/components.js';
   import { ui } from '#lib/i18n.js';
   import { localeLabel } from '#lib/locales.js';
+  import { pageHref } from '#lib/pages.js';
 
   let { locale }: { locale: string } = $props();
 
@@ -39,7 +40,7 @@
   </header>
 
   <div class="card-grid">
-    <a class="card" href="/tutorials/">
+    <a class="card" href={pageHref('tutorials', locale)}>
       <h3 class="card-heading">{strings.home.tutorials.heading}</h3>
       <p class="card-description">{strings.home.tutorials.description}</p>
     </a>
@@ -48,7 +49,7 @@
       <p class="card-description">{strings.home.components.description}</p>
       <p class="card-meta">{LILY_COMPONENTS.length}</p>
     </a>
-    <a class="card" href="/examples/">
+    <a class="card" href={pageHref('examples', locale)}>
       <h3 class="card-heading">{strings.home.examples.heading}</h3>
       <p class="card-description">{strings.home.examples.description}</p>
     </a>

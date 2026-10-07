@@ -1,0 +1,102 @@
+<!-- title: Tutorial — Lily Design System -->
+<!-- description: Tutorial Lily langkah demi langkah: komponen pertama Anda, penataan, tema siap pakai, dan asisten preferensi — untuk HTML, Svelte, React, Vue, Angular, Blazor, dan Nunjucks. -->
+<section class="page-intro">
+  <h1>Pelajari Lily, selangkah demi selangkah</h1>
+  <p class="page-intro-tagline">Selamat datang! Setiap tutorial dimulai dari nol dan membangun hal kecil yang sama — formulir yang aksesibel dan bertata — dalam sekitar 10 menit, sehingga Anda dapat membandingkan framework secara setara. Setelah itu, dalami tema dan preferensi pengguna.</p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Sebelum memulai</h2>
+  <p>Yang Anda butuhkan ternyata sedikit sekali:</p>
+  <ul>
+    <li><strong>Untuk tutorial HTML</strong> — cukup peramban dan penyunting teks. Itulah seluruh perangkatnya.</li>
+    <li><strong>Untuk Svelte, React, Vue, Angular, atau Nunjucks</strong> — <a href="https://git-scm.com/">git</a>, Node 26, dan pnpm 10 atau lebih baru.</li>
+    <li><strong>Untuk Blazor</strong> — git dan <a href="https://dotnet.microsoft.com/">SDK .NET</a> 8 atau lebih baru.</li>
+  </ul>
+  <p>Baru mengenal komponen headless? Anda berada di tempat yang tepat — setiap tutorial menjelaskan apa yang terjadi selama berjalan, dan setiap langkah menunjukkan kode persis yang perlu disalin.</p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Empat langkah dari nol hingga rilis</h2>
+  </header>
+  <div class="prose" style="margin: 0 auto;">
+    <ol>
+      <li><strong>Komponen pertama Anda</strong> (~5 menit) — pilih framework Anda di bawah, ambil kodenya, dan render sebuah tombol.</li>
+      <li><strong>Susun dan tata</strong> (~5 menit) — bangun formulir berlabel dan tata dengan kelas pengait kebab-case (bagian dari setiap tutorial framework).</li>
+      <li><strong>Beri tema</strong> (~15 menit) — ganti CSS tulisan tangan Anda dengan salah satu dari 45 tema siap pakai, lalu biarkan pengguna beralih saat runtime: <a href="/tutorials/theming/">tutorial tema</a>.</li>
+      <li><strong>Hormati preferensi</strong> (~15 menit) — tambahkan pilihan bahasa dan ukuran teks dengan asisten preferensi: <a href="/tutorials/helpers/">tutorial asisten</a>.</li>
+    </ol>
+  </div>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Pilih framework Anda</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/html/">
+      <h3 class="card-heading">HTML</h3>
+      <p class="card-description">Salin HTML semantik dengan kelas pengaitnya dan mulai — cukup peramban dan penyunting.</p>
+      <p class="card-meta">~10 menit · awal yang paling mudah</p>
+    </a>
+    <a class="card" href="/tutorials/svelte/">
+      <h3 class="card-heading">Svelte</h3>
+      <p class="card-description">Rune Svelte 5, snippet, dan pengikatan dua arah <code>bind:value</code>.</p>
+      <p class="card-meta">~10 menit</p>
+    </a>
+    <a class="card" href="/tutorials/react/">
+      <h3 class="card-heading">React</h3>
+      <p class="card-description">Komponen fungsi dengan <code>value</code> + <code>onChange</code> dan penyebaran properti sisa.</p>
+      <p class="card-meta">~10 menit</p>
+    </a>
+    <a class="card" href="/tutorials/vue/">
+      <h3 class="card-heading">Vue</h3>
+      <p class="card-description">Komponen berkas tunggal Vue 3 dengan dukungan <code>v-model</code>.</p>
+      <p class="card-meta">~10 menit</p>
+    </a>
+    <a class="card" href="/tutorials/angular/">
+      <h3 class="card-heading">Angular</h3>
+      <p class="card-description">Komponen standalone Angular dengan input signal dan <code>[(value)]</code>.</p>
+      <p class="card-meta">~10 menit</p>
+    </a>
+    <a class="card" href="/tutorials/blazor/">
+      <h3 class="card-heading">Blazor</h3>
+      <p class="card-description">Komponen Razor dengan parameter, <code>ChildContent</code>, dan pengujian bUnit.</p>
+      <p class="card-meta">~10 menit</p>
+    </a>
+    <a class="card" href="/tutorials/nunjucks/">
+      <h3 class="card-heading">Nunjucks</h3>
+      <p class="card-description">Makro yang dirender di server untuk Eleventy dan alur templat Node apa pun.</p>
+      <p class="card-meta">~10 menit</p>
+    </a>
+  </div>
+  <p class="prose" style="margin: 0 auto;">Bingung memilih? Mulailah dengan <a href="/tutorials/html/">HTML</a> — tutorial ini mengajarkan kontrak kelas pengait yang dipakai bersama oleh semua framework lain, dan dapat dijalankan langsung dari berkas.</p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Lebih dalam</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/theming/">
+      <h3 class="card-heading">Tema</h3>
+      <p class="card-description">Tautkan salah satu dari 45 tema siap pakai — NHS, GOV.UK, USWDS, terang, gelap, dan lainnya — timpa dengan CSS Anda sendiri, dan tambahkan pergantian tema saat runtime dengan asisten theme-picker.</p>
+      <p class="card-meta">~15 menit</p>
+    </a>
+    <a class="card" href="/tutorials/helpers/">
+      <h3 class="card-heading">Asisten preferensi</h3>
+      <p class="card-description">Beri pengguna kendali atas tema, bahasa, ukuran teks, gerak, pencarian, tautan halaman, berbagi, dan input tanggal/waktu dengan theme-picker, locale-picker, text-size-picker, motion-picker, search-picker, link-picker, share-picker, dan date-time-picker: kontrol headless dengan persistensi, keamanan SSR, dan deteksi otomatis tulisan kanan-ke-kiri.</p>
+      <p class="card-meta">~15 menit</p>
+    </a>
+  </div>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Setelah tutorial</h2>
+  <ul>
+    <li>Jelajahi <a href="/components/">katalog komponen</a> — setiap komponen mendokumentasikan properti, kontrak ARIA, dan perilaku papan ketiknya.</li>
+    <li>Klon sebuah <a href="/examples/">aplikasi contoh</a> untuk melihat ke-571 komponen bertata dan bekerja bersama — CSS-nya menargetkan kelas pengait yang sama dengan yang baru Anda gunakan, jadi salin bagian mana pun ke proyek Anda dan sesuaikan sesuka Anda.</li>
+    <li>Ada pertanyaan? <a href="/help/">Halaman bantuan</a> memuat jawaban, FAQ, dan cara menghubungi orang yang ramah. Dan jika ada tutorial yang bisa lebih jelas, <a href="https://github.com/LilyDesignSystem">beri tahu kami</a> — kami akan dengan senang hati memperbaikinya.</li>
+  </ul>
+</section>

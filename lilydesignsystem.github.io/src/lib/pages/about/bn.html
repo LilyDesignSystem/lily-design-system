@@ -1,0 +1,64 @@
+<!-- title: পরিচিতি — Lily Design System -->
+<!-- description: Lily কী, এর পেছনের নীতিগুলো কী, এবং কোন ডিজাইন সিস্টেম থেকে এটি অনুপ্রেরণা নেয়। -->
+<section class="page-intro">
+  <h1>Lily কী?</h1>
+  <p class="page-intro-tagline">একটি বিনামূল্যের, ওপেন-সোর্স, অ্যাক্সেসিবিলিটি-প্রথম ডিজাইন সিস্টেম, যা আপনি যেখানে কোড লেখেন সেখানেই আপনার সঙ্গে দেখা করে — আর প্রয়োজন না হলে পথ থেকে সরে দাঁড়ায়।</p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>সংক্ষিপ্ত সংস্করণ</h2>
+  <p>Lily হলো <strong>ওয়েব কম্পোনেন্টের</strong> একটি ক্যাটালগ, যার প্রতিটি আটটি headless রূপে বাস্তবায়িত (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks এবং Web Components), সঙ্গে রয়েছে পূর্ণাঙ্গ উদাহরণ অ্যাপের একটি সংগ্রহ, যা দেখায় সেগুলো কীভাবে স্টাইল করতে হয়।</p>
+  <p>headless সংস্করণগুলোতে <em>কোনো CSS-ই নেই</em>। এগুলো আপনাকে দেয় অর্থবহ HTML, ARIA-র ভূমিকা ও অবস্থা, কিবোর্ড সমর্থন এবং আন্তর্জাতিকীকরণ-বান্ধব প্রপার্টি। দৃশ্যমান নকশা আপনিই আনেন।</p>
+
+  <h2>নকশার নীতি</h2>
+
+  <h3>অ্যাক্সেসযোগ্য</h3>
+  <p>প্রতিটি কম্পোনেন্ট অর্থবহ HTML দিয়ে শুরু হয়। ARIA শুধু সেখানেই যোগ করা হয় যেখানে HTML একা প্যাটার্নটি প্রকাশ করতে পারে না। কম্পোনেন্টগুলো <strong>WCAG 2.2 AAA</strong> লক্ষ্য করে — রং, ব্যবধান, ফোকাস এবং কিবোর্ড নেভিগেশন সবই বিবেচনায় নেওয়া হয়।</p>
+
+  <h3>সংযোজনযোগ্য</h3>
+  <p>Lily ছোট, একক-উদ্দেশ্যের কম্পোনেন্ট পছন্দ করে যেগুলো একসঙ্গে জোড়া লাগে। যৌগিক প্যাটার্ন বারবার ফিরে আসে:</p>
+  <ul>
+    <li><code>Nav → List → ListItem</code> — ব্রেডক্রাম্ব, সূচিপত্র, অ্যাকর্ডিয়ন মেনু, ট্রি মেনু এবং পৃষ্ঠা-সংখ্যার জন্য</li>
+    <li><code>Form → Field → Input</code> — লেবেল, ইঙ্গিত ও ত্রুটিসহ যেকোনো ফর্ম বিন্যাসের জন্য</li>
+    <li><code>Table → Head/Body/Foot → Row → Data</code> — টেবিল, ক্যালেন্ডার, গ্যান্ট চার্ট ও কানবান বোর্ডের জন্য</li>
+    <li><code>Bar → BarButton</code> — টুল বার, ট্যাব বার, টাস্ক বার, অ্যাকশন বার ও মেনু বারের জন্য</li>
+    <li><code>Picker → PickerButton</code> — রং বাছাইকারী, রেটিং বাছাইকারী ও থিম বাছাইকারীর জন্য</li>
+  </ul>
+
+  <h3>আন্তর্জাতিকীকরণযোগ্য</h3>
+  <p>ব্যবহারকারীর দেখা একটিও স্ট্রিং কোডে সরাসরি লেখা নেই। লেবেল, প্লেসহোল্ডার, ত্রুটির বার্তা, বোতামের লেখা — সবই প্যারামিটার। আপনার নিজের অনুবাদ ব্যবস্থা যুক্ত করুন, আর আপনি যে ভাষায় কথা বলেন Lily সেই ভাষাতেই কথা বলবে।</p>
+
+  <h3>Headless</h3>
+  <p>headless কম্পোনেন্টে <strong>কোনো CSS নেই</strong>, কোনো <code>&lt;style&gt;</code> ব্লক নেই, আপনি বেছে নেননি এমন কোনো ডিজাইন টোকেন নেই। এগুলো প্রতিটি মূল এলিমেন্টে kebab-case-এ একটিমাত্র ক্লাস নাম প্রকাশ করে, যাতে আপনি যেভাবে খুশি এগুলোকে লক্ষ্য করতে পারেন — অর্থবহ CSS, Tailwind, CSS-in-JS, আপনার ইচ্ছা।</p>
+
+  <h3>পূর্ণাঙ্গ উদাহরণ</h3>
+  <p>উদাহরণ অ্যাপগুলো দেখায় বাস্তব ব্যবহারের জন্য কম্পোনেন্ট কীভাবে স্টাইল করতে হয় — কোন ডিজাইন টোকেন ঠিক করবেন, কোন বৈচিত্র্য যোগ করবেন, পৃষ্ঠা কীভাবে সাজাবেন। এগুলো পূর্ণাঙ্গ SvelteKit, Next.js, Nuxt, Blazor ও Eleventy অ্যাপ, নিছক স্যান্ডবক্স নয়।</p>
+
+  <h2 id="inspirations">অনুপ্রেরণা</h2>
+  <p>Lily তার প্যাটার্ন ও ভাষা নিয়েছে ইচ্ছাকৃতভাবে বিস্তৃত একগুচ্ছ ডিজাইন সিস্টেম থেকে:</p>
+  <ul>
+    <li><a href="https://service-manual.nhs.uk/design-system">NHS UK ডিজাইন সিস্টেম</a></li>
+    <li><a href="https://design-system.service.gov.uk/">GOV.UK ডিজাইন সিস্টেম</a></li>
+    <li><a href="https://designsystem.digital.gov/">মার্কিন ওয়েব ডিজাইন সিস্টেম (USWDS)</a></li>
+    <li><a href="https://github.com/ONSdigital/design-system">ONSdigital ডিজাইন সিস্টেম</a></li>
+    <li><a href="https://designsystemau.org/">Design System AU (অস্ট্রেলীয় সরকার)</a></li>
+    <li><a href="https://protocol.mozilla.org/">Mozilla Protocol</a></li>
+    <li><a href="https://spectrum.adobe.com/">Adobe Spectrum</a></li>
+    <li><a href="https://ant.design/">Ant Design</a></li>
+    <li><a href="https://design.wonderflow.ai/">Wonderflow Wanda</a></li>
+    <li><a href="https://daisyui.com/">DaisyUI</a></li>
+    <li><a href="https://ui.shadcn.com/">shadcn/ui</a></li>
+    <li><a href="https://github.com/reuters-graphics/graphics-components">রয়টার্সের গ্রাফিক্স কম্পোনেন্ট</a></li>
+  </ul>
+
+  <h2>লাইসেন্স</h2>
+  <p>Lily একাধিক লাইসেন্সের অধীনে: <strong>BSD, MIT, Apache-2.0, GPL-2.0 বা GPL-3.0</strong>। আপনার প্রকল্পের উপযোগী লাইসেন্সটি বেছে নিন। এর কোনোটিই না মিললে আমাদের সঙ্গে যোগাযোগ করুন।</p>
+
+  <h2>যোগাযোগ</h2>
+  <p>প্রকল্প প্রধান: Joel Parker Henderson — <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>।</p>
+  <p>বাগ পেয়েছেন, কোনো ধারণা আছে, বা কোনো কম্পোনেন্ট অবদান রাখতে চান? <a href="https://github.com/LilyDesignSystem">GitHub</a>-এ একটি ইস্যু বা পুল রিকোয়েস্ট খুলুন।</p>
+
+  <div class="callout">
+    <p style="margin: 0;"><strong>অবস্থা:</strong> Lily একদম নতুন কাজ এবং আমরা সহযোগিতা, দিকনির্দেশনা ও প্রতিক্রিয়াকে স্বাগত জানাই। অনেক কিছু বদলাবে ও বিকশিত হবে।</p>
+  </div>
+</section>

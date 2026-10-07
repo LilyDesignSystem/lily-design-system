@@ -1,0 +1,80 @@
+<!-- title: 示例 — Lily Design System -->
+<!-- description: 可运行的示例应用，展示如何在 HTML、Svelte、React、Vue、Angular、Blazor 和 Eleventy 中为 Lily 组件设置样式。 -->
+<section class="page-intro">
+  <h1>在真实应用中看 Lily</h1>
+  <p class="page-intro-tagline">七个可运行的示例项目展示如何拿起 headless 组件、叠加样式并发布一个真正的网站。选择你使用的框架。</p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>带完整 CSS 和路由的演示应用</h2>
+  </header>
+
+  <div class="card-grid">
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-html-css-js-examples">
+      <h3 class="card-heading">HTML JavaScript</h3>
+      <p class="card-description">纯 HTML 页面、原生 JavaScript、无需构建工具。可部署在任何静态主机上——非常适合小型网站和渐进增强。</p>
+      <p class="card-meta">→ 在 GitHub 上查看</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-svelte-sveltekit-examples">
+      <h3 class="card-heading">Svelte + SvelteKit</h3>
+      <p class="card-description">使用 Svelte 5 runes 的 SvelteKit 3 应用。组件路由、基于文件的路由，以及每个组件带样式的 storybook。</p>
+      <p class="card-meta">→ 在 GitHub 上查看</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-react-next-examples">
+      <h3 class="card-heading">React + Next.js</h3>
+      <p class="card-description">在上下文中展示每个组件的 Next.js 16 应用，全程使用 TypeScript，并有复合模式的演示页面。</p>
+      <p class="card-meta">→ 在 GitHub 上查看</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-vue-nuxt-examples">
+      <h3 class="card-heading">Vue + Nuxt.js</h3>
+      <p class="card-description">Nuxt 4 应用。每个演示路由都使用 <code>&lt;script setup&gt;</code> 和组合式 API。</p>
+      <p class="card-meta">→ 在 GitHub 上查看</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-angular-examples">
+      <h3 class="card-heading">Angular + Analog</h3>
+      <p class="card-description">Angular 22 + Analog.js 应用。基于文件的路由、信号、无 zone 的变更检测，以及完整的 SSG 预渲染。</p>
+      <p class="card-meta">→ 在 GitHub 上查看</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-blazor-web-examples">
+      <h3 class="card-heading">Blazor Web</h3>
+      <p class="card-description">带 Razor 组件的 Blazor Web 应用。同时适合服务器和 WebAssembly，以 .NET 10 为基线。</p>
+      <p class="card-meta">→ 在 GitHub 上查看</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-nunjucks-eleventy-examples">
+      <h3 class="card-heading">Nunjucks + Eleventy</h3>
+      <p class="card-description">使用 Nunjucks 宏的 Eleventy 网站。适合内容丰富、同时仍想要真正组件系统的静态网站。</p>
+      <p class="card-meta">→ 在 GitHub 上查看</p>
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>每个示例应用的结构都相同</h2>
+  </header>
+
+  <div class="prose" style="margin: 0 auto;">
+    <p>为了让在框架之间切换感觉熟悉，每个示例应用都提供：</p>
+    <ul>
+      <li>位于 <code>/</code> 的欢迎路由，用来介绍本项目。</li>
+      <li>位于 <code>/components</code> 的组件索引，列出每一个组件。</li>
+      <li>位于 <code>/components/&lt;component&gt;</code> 的每个组件一页的演示页面。</li>
+      <li>真实的 CSS——而不是抽象的设计令牌——方便你直接借鉴样式。</li>
+      <li>开箱即用的键盘导航和焦点管理。</li>
+    </ul>
+
+    <h3>想看某一个组件是怎么设置样式的？</h3>
+    <p>打开相应的示例应用，进入 <code>/components/&lt;name&gt;</code>，把标记和 CSS 复制到你自己的项目里。示例应用刻意使用朴素（或接近朴素）的 CSS，方便你适配到任何你偏好的体系。</p>
+
+    <h3>想要 headless 版本？</h3>
+    <p>把任一示例应用与其对应的 <em>headless</em> 包搭配——它们发布同样的组件，但完全不带 CSS，随时可接上你自己的设计令牌。</p>
+    <p><a class="button button-primary" href="/components/">浏览目录 →</a> <a class="button button-secondary" href="/help/">阅读安装指南</a></p>
+  </div>
+</section>

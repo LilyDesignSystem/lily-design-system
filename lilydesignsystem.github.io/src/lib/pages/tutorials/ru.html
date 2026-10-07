@@ -1,0 +1,102 @@
+<!-- title: Учебники — Lily Design System -->
+<!-- description: Пошаговые учебники по Lily: ваш первый компонент, оформление, готовые темы и помощники настроек — для HTML, Svelte, React, Vue, Angular, Blazor и Nunjucks. -->
+<section class="page-intro">
+  <h1>Изучайте Lily шаг за шагом</h1>
+  <p class="page-intro-tagline">Добро пожаловать! Каждый учебник начинается с нуля и строит одно и то же небольшое приложение — доступную оформленную форму — примерно за 10 минут, чтобы вы могли сравнивать фреймворки на равных. Затем углубитесь в темы и пользовательские настройки.</p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Прежде чем начать</h2>
+  <p>Вам понадобится на удивление мало:</p>
+  <ul>
+    <li><strong>Для учебника по HTML</strong> — только браузер и текстовый редактор. Это весь набор инструментов.</li>
+    <li><strong>Для Svelte, React, Vue, Angular или Nunjucks</strong> — <a href="https://git-scm.com/">git</a>, Node 26 и pnpm 10 или новее.</li>
+    <li><strong>Для Blazor</strong> — git и <a href="https://dotnet.microsoft.com/">.NET SDK</a> 8 или новее.</li>
+  </ul>
+  <p>Впервые слышите о headless-компонентах? Вы пришли по адресу: каждый учебник объясняет происходящее по ходу дела, а каждый шаг показывает точный код для копирования.</p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Четыре шага от нуля до запуска</h2>
+  </header>
+  <div class="prose" style="margin: 0 auto;">
+    <ol>
+      <li><strong>Ваш первый компонент</strong> (~5 минут) — выберите фреймворк ниже, получите код и отобразите кнопку.</li>
+      <li><strong>Составьте и оформите</strong> (~5 минут) — постройте форму с подписями и оформите её через классы-зацепки в kebab-case (входит в каждый учебник по фреймворку).</li>
+      <li><strong>Примените тему</strong> (~15 минут) — замените написанный вручную CSS одной из 45 готовых тем, а затем позвольте пользователям переключать её во время выполнения: <a href="/tutorials/theming/">учебник по темам</a>.</li>
+      <li><strong>Учитывайте настройки</strong> (~15 минут) — добавьте выбор языка и размера текста с помощью помощников настроек: <a href="/tutorials/helpers/">учебник по помощникам</a>.</li>
+    </ol>
+  </div>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Выберите свой фреймворк</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/html/">
+      <h3 class="card-heading">HTML</h3>
+      <p class="card-description">Скопируйте семантический HTML с классами-зацепками — и вперёд: достаточно браузера и редактора.</p>
+      <p class="card-meta">~10 минут · самый простой старт</p>
+    </a>
+    <a class="card" href="/tutorials/svelte/">
+      <h3 class="card-heading">Svelte</h3>
+      <p class="card-description">Руны Svelte 5, сниппеты и двусторонняя привязка <code>bind:value</code>.</p>
+      <p class="card-meta">~10 минут</p>
+    </a>
+    <a class="card" href="/tutorials/react/">
+      <h3 class="card-heading">React</h3>
+      <p class="card-description">Функциональные компоненты с <code>value</code> + <code>onChange</code> и передачей остальных свойств.</p>
+      <p class="card-meta">~10 минут</p>
+    </a>
+    <a class="card" href="/tutorials/vue/">
+      <h3 class="card-heading">Vue</h3>
+      <p class="card-description">Однофайловые компоненты Vue 3 с поддержкой <code>v-model</code>.</p>
+      <p class="card-meta">~10 минут</p>
+    </a>
+    <a class="card" href="/tutorials/angular/">
+      <h3 class="card-heading">Angular</h3>
+      <p class="card-description">Автономные компоненты Angular с входами-сигналами и <code>[(value)]</code>.</p>
+      <p class="card-meta">~10 минут</p>
+    </a>
+    <a class="card" href="/tutorials/blazor/">
+      <h3 class="card-heading">Blazor</h3>
+      <p class="card-description">Компоненты Razor с параметрами, <code>ChildContent</code> и тестами bUnit.</p>
+      <p class="card-meta">~10 минут</p>
+    </a>
+    <a class="card" href="/tutorials/nunjucks/">
+      <h3 class="card-heading">Nunjucks</h3>
+      <p class="card-description">Макросы, отрисовываемые на сервере, для Eleventy и любого конвейера шаблонов Node.</p>
+      <p class="card-meta">~10 минут</p>
+    </a>
+  </div>
+  <p class="prose" style="margin: 0 auto;">Не можете выбрать? Начните с <a href="/tutorials/html/">HTML</a> — он учит контракту классов-зацепок, общему для всех остальных фреймворков, и запускается прямо из файла.</p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>Глубже</h2>
+  </header>
+  <div class="card-grid">
+    <a class="card" href="/tutorials/theming/">
+      <h3 class="card-heading">Темы</h3>
+      <p class="card-description">Подключите одну из 45 готовых тем — NHS, GOV.UK, USWDS, светлую, тёмную и другие, — переопределите её собственным CSS и добавьте переключение тем во время выполнения с помощью помощника theme-picker.</p>
+      <p class="card-meta">~15 минут</p>
+    </a>
+    <a class="card" href="/tutorials/helpers/">
+      <h3 class="card-heading">Помощники настроек</h3>
+      <p class="card-description">Дайте пользователям управление темой, языком, размером текста, движением, поиском, ссылками на страницы, функцией «Поделиться» и вводом даты и времени с помощью theme-picker, locale-picker, text-size-picker, motion-picker, search-picker, link-picker, share-picker и date-time-picker: headless-элементов управления с сохранением состояния, безопасностью для SSR и автоматическим определением письма справа налево.</p>
+      <p class="card-meta">~15 минут</p>
+    </a>
+  </div>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>После учебников</h2>
+  <ul>
+    <li>Просмотрите <a href="/components/">каталог компонентов</a> — каждый компонент документирует свои свойства, контракт ARIA и поведение клавиатуры.</li>
+    <li>Клонируйте <a href="/examples/">пример приложения</a>, чтобы увидеть все 571 компонент оформленными и работающими вместе: его CSS нацелен на те же классы-зацепки, что вы только что использовали, поэтому копируйте что угодно в свой проект и подстраивайте как хотите.</li>
+    <li>Вопросы? На <a href="/help/">странице справки</a> есть ответы, список частых вопросов и способы связаться с приветливым человеком. А если какой-то учебник мог бы быть яснее, <a href="https://github.com/LilyDesignSystem">расскажите нам</a> — мы с радостью его улучшим.</li>
+  </ul>
+</section>

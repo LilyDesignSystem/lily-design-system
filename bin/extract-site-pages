@@ -1,0 +1,68 @@
+#!/usr/bin/env node
+// bin/extract-site-pages
+//
+// Extract the English text pages of the docs site into plain HTML content files, the source for
+// translation: lilydesignsystem.github.io/src/routes/<slug>/+page.svelte
+//   -> lilydesignsystem.github.io/src/lib/pages/<slug>/en.html
+//
+// Each file starts with two comments (`<!-- title: … -->`, `<!-- description: … -->`, from the page's
+// <svelte:head>) followed by the page body as HTML. The only Svelte syntax in these pages is a
+// template-literal expression inside <pre><code>{…}</code></pre> (code samples); it is evaluated and
+// HTML-escaped so the output is plain HTML. Every translation (src/lib/pages/<slug>/<code>.html) must
+// keep the same tag skeleton, ids, classes and hrefs, and byte-identical <pre> blocks —
+// bin/check-site-page-translations enforces it.
+//
+//   bin/extract-site-pages           write the files
+//   bin/extract-site-pages --check   exit 1 if a file would change (English drifted from its extract)
+
+const fs = require("fs");
+const path = require("path");
+
+const top = path.join(__dirname, "..");
+const site = path.join(top, "lilydesignsystem.github.io");
+const PAGES = ["about", "why", "accessibility", "help", "comparisons", "tutorials", "examples", "skills"];
+
+const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+function extract(slug) {
+  let src = fs.readFileSync(path.join(site, "src/routes", slug, "+page.svelte"), "utf8");
+  const head = src.match(/<svelte:head>([\s\S]*?)<\/svelte:head>/);
+  if (!head) throw new Error(slug + ": no <svelte:head>");
+  const title = (head[1].match(/<title>([\s\S]*?)<\/title>/) || [])[1];
+  const desc = (head[1].match(/<meta\s+name="description"\s+content="([\s\S]*?)"\s*\/?>/) || [])[1];
+  if (!title) throw new Error(slug + ": missing <title>");
+  let body = src.slice(head.index + head[0].length);
+  // Code samples: <pre …><code>{EXPR}</code></pre>
+  body = body.replace(/<pre([^>]*)><code>\{([\s\S]*?)\}<\/code><\/pre>/g, (_, attrs, expr) => {
+    const value = new Function("return (" + expr + ");")();
+    return `<pre${attrs}><code>${esc(String(value))}</code></pre>`;
+  });
+  const literal = /\{(`(?:[^`\\]|\\.)*`)\}/g;
+  body = body.replace(/<!--[\s\S]*?-->/g, "");
+  // Anything Svelte-ish left once literals and code samples are set aside is a page this script
+  // does not understand: fail loudly rather than emit broken HTML.
+  if (/\{[#@:/]|\{\s*[A-Za-z_$]/.test(body.replace(/<pre[\s\S]*?<\/pre>/g, "").replace(literal, ""))) throw new Error(slug + ": unexpected Svelte syntax left in the body");
+  // Inline literals: {`{framework}`} renders the text {framework}.
+  body = body.replace(literal, (_, lit) => esc(String(new Function("return (" + lit + ");")())));
+  body = body.replace(/\n{3,}/g, "\n\n").trim() + "\n";
+  const clean = (s) => s.replace(/\s+/g, " ").trim();
+  return `<!-- title: ${clean(title)} -->\n<!-- description: ${clean(desc || "")} -->\n${body}`;
+}
+
+let changed = 0;
+for (const slug of PAGES) {
+  const out = path.join(site, "src/lib/pages", slug, "en.html");
+  const html = extract(slug);
+  const have = fs.existsSync(out) ? fs.readFileSync(out, "utf8") : null;
+  if (have !== html) {
+    changed++;
+    if (process.argv.includes("--check")) console.error("out of date: " + path.relative(top, out));
+    else {
+      fs.mkdirSync(path.dirname(out), { recursive: true });
+      fs.writeFileSync(out, html);
+      console.log("wrote " + path.relative(top, out));
+    }
+  }
+}
+if (process.argv.includes("--check") && changed) process.exit(1);
+if (!changed) console.log("extract-site-pages: up to date");

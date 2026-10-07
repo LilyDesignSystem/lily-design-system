@@ -1,0 +1,64 @@
+<!-- title: परिचय — Lily Design System -->
+<!-- description: Lily क्या है, उसके पीछे के सिद्धांत क्या हैं, और वह किन डिज़ाइन सिस्टमों से प्रेरणा लेता है। -->
+<section class="page-intro">
+  <h1>Lily क्या है?</h1>
+  <p class="page-intro-tagline">एक निःशुल्क, ओपन-सोर्स, पहुँचनीयता-प्रथम डिज़ाइन सिस्टम जो आपसे वहीं मिलता है जहाँ आप कोड लिखते हैं — और जब आपको उसकी ज़रूरत न हो तो रास्ते से हट जाता है।</p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>संक्षिप्त रूप</h2>
+  <p>Lily <strong>वेब कंपोनेंट</strong> का एक कैटलॉग है, जिनमें से हर एक आठ headless रूपों में लागू है (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks और Web Components), साथ ही पूरे उदाहरण ऐप्स का एक संग्रह है जो दिखाता है कि उन्हें कैसे स्टाइल किया जाए।</p>
+  <p>headless संस्करणों में <em>बिल्कुल CSS नहीं</em> होती। वे आपको अर्थपूर्ण HTML, ARIA की भूमिकाएँ और अवस्थाएँ, कीबोर्ड समर्थन, और अंतरराष्ट्रीयकरण के अनुकूल प्रॉपर्टी देते हैं। दृश्य डिज़ाइन आप लाते हैं।</p>
+
+  <h2>डिज़ाइन सिद्धांत</h2>
+
+  <h3>पहुँचनीय</h3>
+  <p>हर कंपोनेंट अर्थपूर्ण HTML से शुरू होता है। ARIA केवल वहीं जोड़ा जाता है जहाँ अकेला HTML पैटर्न को व्यक्त नहीं कर सकता। कंपोनेंट <strong>WCAG 2.2 AAA</strong> को लक्ष्य बनाते हैं — रंग, स्पेसिंग, फ़ोकस और कीबोर्ड नेविगेशन सभी पर विचार किया जाता है।</p>
+
+  <h3>जोड़ने योग्य</h3>
+  <p>Lily छोटे, एकल-उद्देश्य वाले कंपोनेंट को प्राथमिकता देता है जो आपस में जुड़ जाते हैं। मिश्रित पैटर्न बार-बार सामने आते हैं:</p>
+  <ul>
+    <li><code>Nav → List → ListItem</code> — ब्रेडक्रम्ब, विषय-सूची, एकॉर्डियन मेनू, ट्री मेनू और पृष्ठ-संख्या के लिए</li>
+    <li><code>Form → Field → Input</code> — लेबल, संकेत और त्रुटियों वाले किसी भी फ़ॉर्म लेआउट के लिए</li>
+    <li><code>Table → Head/Body/Foot → Row → Data</code> — तालिकाओं, कैलेंडर, गैंट चार्ट और कानबन बोर्ड के लिए</li>
+    <li><code>Bar → BarButton</code> — टूल बार, टैब बार, टास्क बार, एक्शन बार और मेनू बार के लिए</li>
+    <li><code>Picker → PickerButton</code> — रंग चयनकर्ता, रेटिंग चयनकर्ता और थीम चयनकर्ता के लिए</li>
+  </ul>
+
+  <h3>अंतरराष्ट्रीयकरण योग्य</h3>
+  <p>उपयोगकर्ता को दिखने वाली एक भी स्ट्रिंग कोड में सीधे नहीं लिखी गई है। लेबल, प्लेसहोल्डर, त्रुटि संदेश, बटन का पाठ — सब पैरामीटर हैं। अपना अनुवाद सिस्टम जोड़ें और Lily वही भाषा बोलेगा जो आप बोलते हैं।</p>
+
+  <h3>Headless</h3>
+  <p>headless कंपोनेंट में <strong>कोई CSS नहीं</strong> होती, कोई <code>&lt;style&gt;</code> ब्लॉक नहीं, कोई डिज़ाइन टोकन नहीं जिसे आपने न चुना हो। वे हर रूट एलिमेंट पर kebab-case में एक ही क्लास नाम उपलब्ध कराते हैं ताकि आप उन्हें जैसे चाहें लक्षित करें — अर्थपूर्ण CSS, Tailwind, CSS-in-JS, आपकी मर्ज़ी।</p>
+
+  <h3>पूरे उदाहरण</h3>
+  <p>उदाहरण ऐप्स दिखाते हैं कि कंपोनेंट को वास्तविक उपयोग के लिए कैसे स्टाइल करें — कौन से डिज़ाइन टोकन तय करें, कौन-से रूपांतर जोड़ें, पृष्ठ कैसे बनाएँ। ये पूर्ण SvelteKit, Next.js, Nuxt, Blazor और Eleventy ऐप्स हैं, केवल सैंडबॉक्स नहीं।</p>
+
+  <h2 id="inspirations">प्रेरणाएँ</h2>
+  <p>Lily पैटर्न और भाषा डिज़ाइन सिस्टमों के एक जान-बूझकर व्यापक समूह से लेता है:</p>
+  <ul>
+    <li><a href="https://service-manual.nhs.uk/design-system">NHS UK डिज़ाइन सिस्टम</a></li>
+    <li><a href="https://design-system.service.gov.uk/">GOV.UK डिज़ाइन सिस्टम</a></li>
+    <li><a href="https://designsystem.digital.gov/">अमेरिकी वेब डिज़ाइन सिस्टम (USWDS)</a></li>
+    <li><a href="https://github.com/ONSdigital/design-system">ONSdigital डिज़ाइन सिस्टम</a></li>
+    <li><a href="https://designsystemau.org/">Design System AU (ऑस्ट्रेलियाई सरकार)</a></li>
+    <li><a href="https://protocol.mozilla.org/">Mozilla Protocol</a></li>
+    <li><a href="https://spectrum.adobe.com/">Adobe Spectrum</a></li>
+    <li><a href="https://ant.design/">Ant Design</a></li>
+    <li><a href="https://design.wonderflow.ai/">Wonderflow Wanda</a></li>
+    <li><a href="https://daisyui.com/">DaisyUI</a></li>
+    <li><a href="https://ui.shadcn.com/">shadcn/ui</a></li>
+    <li><a href="https://github.com/reuters-graphics/graphics-components">रॉयटर्स के ग्राफ़िक्स कंपोनेंट</a></li>
+  </ul>
+
+  <h2>लाइसेंस</h2>
+  <p>Lily कई लाइसेंसों के अंतर्गत है: <strong>BSD, MIT, Apache-2.0, GPL-2.0 या GPL-3.0</strong>। जो लाइसेंस आपके प्रोजेक्ट के अनुकूल हो उसे चुनें। यदि इनमें से कोई भी उपयुक्त न हो तो हमसे संपर्क करें।</p>
+
+  <h2>संपर्क</h2>
+  <p>प्रोजेक्ट प्रमुख: Joel Parker Henderson — <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>।</p>
+  <p>कोई बग मिला, कोई विचार है, या कोई कंपोनेंट योगदान करना चाहते हैं? <a href="https://github.com/LilyDesignSystem">GitHub</a> पर एक इश्यू या पुल रिक्वेस्ट खोलें।</p>
+
+  <div class="callout">
+    <p style="margin: 0;"><strong>स्थिति:</strong> Lily बिल्कुल नया काम है और हम सहयोग, मार्गदर्शन और प्रतिक्रिया का स्वागत करते हैं। चीज़ें बदलेंगी और विकसित होंगी।</p>
+  </div>
+</section>

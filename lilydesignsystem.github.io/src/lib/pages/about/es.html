@@ -1,0 +1,64 @@
+<!-- title: Acerca de — Lily Design System -->
+<!-- description: Qué es Lily, los principios en los que se basa y los sistemas de diseño que la inspiran. -->
+<section class="page-intro">
+  <h1>¿Qué es Lily?</h1>
+  <p class="page-intro-tagline">Un sistema de diseño gratuito, de código abierto y accesible desde el principio, que te encuentra donde programas y se aparta de tu camino cuando no lo necesitas.</p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>La versión corta</h2>
+  <p>Lily es un catálogo de <strong>componentes web</strong>, cada uno implementado en ocho variantes headless (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks y Web Components), además de un conjunto de aplicaciones de ejemplo completas que muestran cómo darles estilo.</p>
+  <p>Las versiones headless no incluyen <em>nada de CSS</em>. Te ofrecen HTML semántico, roles y estados ARIA, compatibilidad con el teclado y propiedades pensadas para la internacionalización. Tú aportas el diseño visual.</p>
+
+  <h2>Principios de diseño</h2>
+
+  <h3>Accesible</h3>
+  <p>Todo componente parte del HTML semántico. ARIA se añade únicamente donde el HTML por sí solo no puede expresar el patrón. Los componentes apuntan a <strong>WCAG 2.2 AAA</strong>: se tienen en cuenta los colores, el espaciado, el foco y la navegación con teclado.</p>
+
+  <h3>Componible</h3>
+  <p>Lily prefiere componentes pequeños, de un solo propósito, que encajan entre sí. Los patrones compuestos aparecen una y otra vez:</p>
+  <ul>
+    <li><code>Nav → List → ListItem</code> — para migas de pan, listas de contenido, menús de acordeón, menús de árbol y paginación</li>
+    <li><code>Form → Field → Input</code> — para cualquier formulario con etiquetas, sugerencias y errores</li>
+    <li><code>Table → Head/Body/Foot → Row → Data</code> — para tablas, calendarios, diagramas de Gantt y tableros kanban</li>
+    <li><code>Bar → BarButton</code> — para barras de herramientas, de pestañas, de tareas, de acciones y de menús</li>
+    <li><code>Picker → PickerButton</code> — para selectores de color, de valoración y de tema</li>
+  </ul>
+
+  <h3>Internacionalizable</h3>
+  <p>Ni una sola cadena visible para el usuario está escrita directamente en el código. Etiquetas, marcadores de posición, mensajes de error, texto de botones: todo son parámetros. Incorpora tu propio sistema de traducción y Lily hablará el idioma que hables tú.</p>
+
+  <h3>Headless</h3>
+  <p>Los componentes headless no tienen <strong>CSS</strong>, ni bloques <code>&lt;style&gt;</code>, ni tokens de diseño que no hayas elegido. Exponen un único nombre de clase en kebab-case en cada elemento raíz, para que puedas apuntarles como prefieras: CSS semántico, Tailwind, CSS-in-JS, tú decides.</p>
+
+  <h3>Ejemplos completos</h3>
+  <p>Las aplicaciones de ejemplo muestran cómo dar estilo a los componentes en un uso real: qué tokens de diseño definir, qué variaciones añadir y cómo componer páginas. Son aplicaciones completas de SvelteKit, Next.js, Nuxt, Blazor y Eleventy, no simples entornos de pruebas.</p>
+
+  <h2 id="inspirations">Inspiraciones</h2>
+  <p>Lily toma patrones y lenguaje de un conjunto deliberadamente amplio de sistemas de diseño:</p>
+  <ul>
+    <li><a href="https://service-manual.nhs.uk/design-system">Sistema de diseño NHS UK</a></li>
+    <li><a href="https://design-system.service.gov.uk/">Sistema de diseño GOV.UK</a></li>
+    <li><a href="https://designsystem.digital.gov/">Sistema de diseño web de EE. UU. (USWDS)</a></li>
+    <li><a href="https://github.com/ONSdigital/design-system">Sistema de diseño de ONSdigital</a></li>
+    <li><a href="https://designsystemau.org/">Design System AU (Gobierno de Australia)</a></li>
+    <li><a href="https://protocol.mozilla.org/">Mozilla Protocol</a></li>
+    <li><a href="https://spectrum.adobe.com/">Adobe Spectrum</a></li>
+    <li><a href="https://ant.design/">Ant Design</a></li>
+    <li><a href="https://design.wonderflow.ai/">Wonderflow Wanda</a></li>
+    <li><a href="https://daisyui.com/">DaisyUI</a></li>
+    <li><a href="https://ui.shadcn.com/">shadcn/ui</a></li>
+    <li><a href="https://github.com/reuters-graphics/graphics-components">Componentes gráficos de Reuters</a></li>
+  </ul>
+
+  <h2>Licencia</h2>
+  <p>Lily tiene licencia múltiple: <strong>BSD, MIT, Apache-2.0, GPL-2.0 o GPL-3.0</strong>. Elige la que mejor se adapte a tu proyecto. Si ninguna te sirve, ponte en contacto con nosotros.</p>
+
+  <h2>Contacto</h2>
+  <p>Responsable del proyecto: Joel Parker Henderson — <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.</p>
+  <p>¿Has encontrado un error, tienes una idea o quieres aportar un componente? Abre una incidencia o una solicitud de cambios en <a href="https://github.com/LilyDesignSystem">GitHub</a>.</p>
+
+  <div class="callout">
+    <p style="margin: 0;"><strong>Estado:</strong> Lily es un trabajo recién nacido y agradecemos la colaboración, la orientación y los comentarios. Las cosas cambiarán y evolucionarán.</p>
+  </div>
+</section>

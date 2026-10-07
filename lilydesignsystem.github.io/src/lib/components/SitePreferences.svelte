@@ -17,6 +17,7 @@
   import type { ShareTarget } from '@lilydesignsystem/svelte-share-picker';
   import { LOCALE_LABELS, locales, DEFAULT_LOCALE } from '#lib/locales.js';
   import { ui } from '#lib/i18n.js';
+  import { pageHref } from '#lib/pages.js';
 
   let { locale = DEFAULT_LOCALE }: { locale?: string } = $props();
 
@@ -26,9 +27,9 @@
   // translated for every locale. (The site has no Contact Us or Privacy Policy page to list.)
   const links = $derived([
     { label: strings.nav.home, href: locale === DEFAULT_LOCALE ? '/' : `/locales/${locale}/` },
-    { label: strings.nav.about, href: '/about/' },
-    { label: strings.nav.help, href: '/help/' },
-    { label: strings.footer.why, href: '/why/' }
+    { label: strings.nav.about, href: pageHref('about', locale) },
+    { label: strings.nav.help, href: pageHref('help', locale) },
+    { label: strings.footer.why, href: pageHref('why', locale) }
   ].map((l) => ({ ...l, current: page.url.pathname === l.href })));
 
   // No social-network URL ships with the package (see the helper's own

@@ -1,0 +1,306 @@
+<!-- title: المساعدة — Lily Design System -->
+<!-- description: ابدأ مع Lily: ثبّت حزمة headless لإطار عملك، وانسخ مكوّنًا، ونسّقه، وطبّق عليه سمة، وأطلقه. استكشاف الأخطاء وإصلاحها، والأسئلة الشائعة، والدعم. -->
+<section class="page-intro">
+  <h1>البدء مع Lily</h1>
+  <p class="page-intro-tagline">اختر إطار عمل، وانسخ مستودع headless أو تطبيق المثال، وابدأ بتركيب صفحاتك الخاصة. تفضّل مسارًا موجَّهًا؟ ابدأ بـ <a href="/tutorials/">الدروس</a>.</p>
+</section>
+
+<nav aria-label="On this page" class="prose" style="margin: 0 auto;">
+  <p><strong>في هذه الصفحة:</strong></p>
+  <ul>
+    <li><a href="#install">التثبيت</a></li>
+    <li><a href="#use-headless">استخدام مكوّن headless</a></li>
+    <li><a href="#use-styled">استخدام مثال منسّق</a></li>
+    <li><a href="#styling">التنسيق ورموز التصميم</a></li>
+    <li><a href="#themes">سمات جاهزة</a></li>
+    <li><a href="#helpers">مساعدات التفضيلات</a></li>
+    <li><a href="#a11y">إمكانية الوصول</a></li>
+    <li><a href="#i18n">التدويل</a></li>
+    <li><a href="#testing">الاختبار</a></li>
+    <li><a href="#ai-agents">وكلاء الذكاء الاصطناعي</a></li>
+    <li><a href="#troubleshooting">استكشاف الأخطاء وإصلاحها</a></li>
+    <li><a href="#contributing">المساهمة</a></li>
+    <li><a href="#community">المجتمع والدعم</a></li>
+    <li><a href="#faq">الأسئلة الشائعة</a></li>
+  </ul>
+</nav>
+
+<section class="section prose" id="install" style="margin: 0 auto;">
+  <h2>التثبيت</h2>
+  <p>يُنشر Lily كمستودعات Git منفصلة لكل إطار عمل. وأسرع طريقة لتجربته هي نسخ مستودع headless لتقنيتك:</p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system-react-headless
+cd lily-design-system-react-headless
+pnpm install</code></pre>
+  <p>ينطبق النمط نفسه على أطر العمل الأخرى:</p>
+  <ul>
+    <li><code>@lilydesignsystem/html-headless</code> — لا حاجة إلى تثبيت؛ انسخ ملفات <code>.html</code></li>
+    <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/angular-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
+    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
+  </ul>
+  <p>صُمّمت مكتبات headless لتُنسخ أو تُضمَّن في المشروع — فاعتبر الشيفرة المصدرية المرجع الأصلي وانسخ ما تحتاج إليه. وتُوزَّع <a href="#helpers">مساعدات التفضيلات</a> كذلك كحزم قابلة للتثبيت مع خط بناء ونشر (npm لأطر JS، وNuGet لـ Blazor).</p>
+</section>
+
+<section class="section prose" id="use-headless" style="margin: 0 auto;">
+  <h2>استخدام مكوّن headless</h2>
+  <p>تأتي مكوّنات headless بـ HTML دلالي وARIA وخصائص — لكن بلا أي CSS. إليك زرًا في كل إطار عمل:</p>
+
+  <h3>HTML</h3>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button" aria-label="Save"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+
+  <h3>Svelte</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>React</h3>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+&lt;Button onClick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Vue</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+  import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;Button @click="save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Angular</h3>
+  
+  <pre tabindex="0"><code>import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})</code></pre>
+
+  <h3>Blazor</h3>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Nunjucks</h3>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "button" }) }}</code></pre>
+</section>
+
+<section class="section prose" id="use-styled" style="margin: 0 auto;">
+  <h2>استخدام مثال منسّق</h2>
+  <p>تتضمن تطبيقات الأمثلة CSS ومسارات وصفحات عرض كاملة. وأسرع طريقة للتجريب هي تشغيل تطبيق مثال SvelteKit أو Next أو Nuxt أو Analog أو Eleventy ومشاهدة العرض في <code>/components</code>.</p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-sveltekit-examples
+cd lily-design-system-svelte-sveltekit-examples
+pnpm install
+pnpm run dev</code></pre>
+  <p>ثم افتح <code>http://localhost:5173</code> وتصفّح <code>/components</code>.</p>
+</section>
+
+<section class="section prose" id="styling" style="margin: 0 auto;">
+  <h2>التنسيق ورموز التصميم</h2>
+  <p>يُعرض كل مكوّن بفئة واحدة بصيغة kebab-case على عنصره الجذر. فمثلًا يُنتج <code>&lt;Button&gt;</code> العنصر <code>&lt;button class="button"&gt;</code>. نسّقه كما تشاء:</p>
+  
+  <pre tabindex="0"><code>.button {
+  background: var(--my-primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.button:hover { background: var(--my-primary-hover); }</code></pre>
+  <p>لوحة ألوان Lily الافتراضية (المستخدمة في تطبيقات الأمثلة):</p>
+  <ul>
+    <li>الأساسي: <code>#2563eb</code></li>
+    <li>الخطر: <code>#dc2626</code></li>
+    <li>التحذير: <code>#f59e0b</code></li>
+    <li>النجاح: <code>#16a34a</code></li>
+    <li>خلفية الصفحة: <code>#f9fafb</code></li>
+    <li>خلفية البطاقة: <code>#ffffff</code></li>
+  </ul>
+  <p>هذه اقتراحات لا متطلبات. استبدلها بلوحة ألوان علامتك التجارية وسيتكيّف Lily بسرور.</p>
+</section>
+
+<section class="section prose" id="themes" style="margin: 0 auto;">
+  <h2>سمات جاهزة</h2>
+  <p>لا تريد كتابة CSS من الصفر؟ يضم Lily <strong>45 سمة مرجعية قائمة بذاتها</strong> في الدليل <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>. كل منها ورقة أنماط واحدة تستهدف فئات الربط في Lily — اربطها ويصبح التنسيق جاهزًا:</p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+  <p>تشمل المجموعة:</p>
+  <ul>
+    <li><strong>القطاع العام</strong> — NHS England وNHS Scotland وNHS Wales (بنسخ للمرضى وللممارسين)، وGOV.UK GDS ونظام تصميم الويب الأمريكي.</li>
+    <li><strong>مستوحاة من جهات مزوِّدة</strong> — Adobe Spectrum وMozilla Protocol.</li>
+    <li><strong>للأغراض العامة</strong> — فاتحة وداكنة وnord وdracula وwireframe ونحو ثلاثين أخرى.</li>
+  </ul>
+  <p>تستخدم محددات السمات <code>:where(...)</code>، فيفوز CSS الخاص بك دائمًا من حيث الخصوصية. اقرنها بالمساعد <code>theme-picker</code> أدناه للتبديل وقت التشغيل، أو اتبع <a href="/tutorials/theming/">درس السمات</a>.</p>
+</section>
+
+<section class="section prose" id="helpers" style="margin: 0 auto;">
+  <h2>مساعدات التفضيلات</h2>
+  <p>لكل إطار عمل فهرس مرافق <code>*-helpers</code> فيه ثمانية منتقيات صغيرة (و<code>picker-bar</code> الذي يجمعها). وكل منها زر أيقونة headless يفتح نافذة منبثقة — قائمة خيارات أو قائمة روابط أو نموذج بحث أو (في date-time-picker) حوار انتقاء تاريخ — وليس <code>&lt;select&gt;</code> أصليًا؛ وهو آمن للعرض على الخادم ولا يأتي بأي CSS:</p>
+  <ul>
+    <li><strong>theme-picker</strong> — يحمّل أوراق أنماط السمات وقت التشغيل بتبديل <code>&lt;link&gt;</code> مُدار، ويضبط <code>data-theme</code> على المستند، ويحفظ اختياريًا في <code>localStorage</code>.</li>
+    <li><strong>locale-picker</strong> — يضبط <code>lang</code> و<code>dir</code> (مع كشف تلقائي للكتابة من اليمين إلى اليسار) لتتبعهما مكتبة i18n لديك؛ ولا يترجم شيئًا بنفسه.</li>
+    <li><strong>text-size-picker</strong> — يضبط <code>data-text-size</code> على المستند؛ ويربط CSS لديك كل قيمة بحجم خط.</li>
+    <li><strong>motion-picker</strong> — يضبط <code>data-motion</code> على المستند، ابتداءً من إعداد تقليل الحركة لدى الزائر؛ ويقرر CSS والسكربتات لديك ما يُكبَح.</li>
+    <li><strong>search-picker</strong> — زر أيقونة يفتح حقل بحث؛ ويؤدي الإرسال إلى صفحة بحث. يملك إجراءً لا تفضيلًا.</li>
+    <li><strong>link-picker</strong> — أيقونة بيت تفتح قائمة بروابط الصفحات التي يحددها تطبيقك (الرئيسية، من نحن، اتصل بنا، سياسة الخصوصية، …). يملك إجراءً لا تفضيلًا.</li>
+    <li><strong>share-picker</strong> — يفتح ورقة المشاركة الأصلية أو قائمة وجهات يوفّرها المستهلك، إضافةً إلى نسخ عنوان URL. يملك إجراءً لا تفضيلًا: لا يطبّق شيئًا ولا يحفظ شيئًا.</li>
+    <li><strong>date-time-picker</strong> — حقل نصي مع حوار انتقاء تاريخ وفق APG لتاريخ أو وقت أو كليهما. يملك قيمة نموذج لا تفضيلًا: تتحول سلسلة ISO ذهابًا وإيابًا مع <code>&lt;input type="date"&gt;</code>.</li>
+  </ul>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-helpers</code></pre>
+  <p>فهرس Svelte هو المرجع المعتمد؛ وتطابقه نسخ React وVue وAngular وHTML وNunjucks وWeb Components وBlazor عقدًا بعقد. راجع <a href="/tutorials/helpers/">درس المساعدات</a>.</p>
+</section>
+
+<section class="section prose" id="a11y" style="margin: 0 auto;">
+  <h2>إمكانية الوصول</h2>
+  <p>تستهدف المكوّنات <strong>WCAG 2.2 AAA</strong>. وهي تتبع هذه الأنماط:</p>
+  <ul>
+    <li>عناصر HTML دلالية بدلًا من عناصر <code>&lt;div&gt;</code> العامة.</li>
+    <li><code>&lt;label for="id"&gt;</code> لربط التسميات بحقول الإدخال.</li>
+    <li><code>aria-labelledby</code> / <code>aria-describedby</code> للإحالات المتبادلة.</li>
+    <li><code>aria-invalid</code> + <code>aria-errormessage</code> لحالات الخطأ.</li>
+    <li><code>role="alert"</code> و<code>aria-live</code> للمحتوى الديناميكي.</li>
+    <li><code>aria-pressed</code> و<code>aria-expanded</code> و<code>aria-current</code> للحالة.</li>
+    <li><code>tabindex</code> المتنقل للشبكات.</li>
+  </ul>
+  <p>مؤشرات التركيز يوفّرها المستهلك عن قصد — فلا يرسم Lily أبدًا حلقة تركيز افتراضية تتعارض مع تصميمك. وتحافظ تطبيقات الأمثلة على خط أساس نظيف لـ axe-core عبر مساراتها.</p>
+</section>
+
+<section class="section prose" id="i18n" style="margin: 0 auto;">
+  <h2>التدويل</h2>
+  <p>كل تسمية ونص إرشادي ورسالة خطأ ونص زر هو خاصية. ولا توجد سلاسل نصية مكتوبة في الشيفرة. أدخل إطار الترجمة الذي تفضّله — Paraglide أو i18next أو vue-i18n أو react-intl أو ملفات .resx، أيًّا كان.</p>
+  <p>بالنسبة إلى التواريخ والأرقام والعملات، تقبل المكوّنات سلاسل منسّقة مسبقًا: تنسّق أنت بـ <code>Intl.DateTimeFormat</code> / <code>Intl.NumberFormat</code> / مكتبتك المفضلة وتمرّر النتيجة.</p>
+  <p>يُعلِم المساعد <code>locale-picker</code> مكتبة i18n لديك بالإعداد المحلي المختار بضبط <code>lang</code> و<code>dir</code> على جذر المستند.</p>
+</section>
+
+<section class="section prose" id="testing" style="margin: 0 auto;">
+  <h2>الاختبار</h2>
+  <p>يأتي كل مشروع فرعي لإطار عمل باختباراته الخاصة بحزمته المعتادة:</p>
+  <ul>
+    <li><strong>HTML</strong>: WebDriverIO يعمل على متصفحات حقيقية.</li>
+    <li><strong>Svelte</strong>: Vitest + <code>@testing-library/svelte</code>.</li>
+    <li><strong>React</strong>: Vitest + <code>@testing-library/react</code>.</li>
+    <li><strong>Vue</strong>: Vitest + <code>@testing-library/vue</code>.</li>
+    <li><strong>Angular</strong>: Vitest + TestBed (عبر إضافة Vite الخاصة بـ Analog).</li>
+    <li><strong>Nunjucks</strong>: Vitest مع مساعد للعرض.</li>
+    <li><strong>Blazor</strong>: bUnit.</li>
+  </ul>
+  <p>تستخدم الاختبارات <strong>المطابقات المدمجة في Vitest فقط</strong> — ولا تستخدم مطابقات <code>jest-dom</code> أبدًا. وهذا يُبقي مجموعات الاختبار قابلة للنقل. وتضيف تطبيقات الأمثلة مجموعات Playwright من الطرف إلى الطرف، وخطوط أساس لإمكانية الوصول بـ axe-core، ومسحًا لأحجام النوافذ المتجاوبة.</p>
+</section>
+
+<section class="section prose" id="ai-agents" style="margin: 0 auto;">
+  <h2>وكلاء الذكاء الاصطناعي</h2>
+  <p>ينشر هذا الموقع <a href="/llms.txt">llms.txt</a> و<a href="/llms.json">llms.json</a> في جذره — خريطة منتقاة لأهم صفحاته، لأي أداة تتبع <a href="https://llmstxt.org">اصطلاح llms.txt</a>.</p>
+  <p>ويضم المستودع الأحادي المعتمد أيضًا <a href="https://code.claude.com/docs/en/skills">مهارتين من مهارات Claude</a>: <code>lily-design-system-skill</code>، وهي مهارة عامة تغطي مفاهيم Lily ومصطلحاته وأنماط تركيبه لكل من يبني بالنظام، و<code>lily-design-system-maintainer-skill</code>، وهي مهارة تقنية تغطي تخطيط الملفات المطلوبة وأدوات المستودع الأحادي لكل من يعمل عليها. وكلتاهما في جذر <a href="https://github.com/LilyDesignSystem/lily-design-system">المستودع الأحادي المعتمد</a>.</p>
+</section>
+
+<section class="section prose" id="troubleshooting" style="margin: 0 auto;">
+  <h2>استكشاف الأخطاء وإصلاحها</h2>
+
+  <details class="faq-item">
+    <summary>مكوّن يُعرض لكنه يبدو بلا تنسيق</summary>
+    <p>هذا هو headless يعمل كما هو مقصود — فلا يأتي أي CSS مع المكوّن. إما أن تكتب CSS لفئة المكوّن بصيغة kebab-case (الظاهرة في كل <a href="/components/">صفحة من الفهرس</a>) أو تربط إحدى <a href="#themes">السمات الجاهزة الـ 45</a>.</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>يبدو أن CSS الخاص بي لا يُطبَّق فوق السمة</summary>
+    <p>ينبغي أن يُطبَّق — فمحددات السمات ملفوفة في <code>:where(...)</code>، وخصوصيتها صفر. وإن ظلت قاعدة ما تخسر، فتحقق من أن ورقة الأنماط لديك تُحمَّل بعد <code>&lt;link&gt;</code> السمة، وأن المحدد يطابق فعلًا فئة الربط للمكوّن.</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>يفشل pnpm install بخطأ في التبعيات النظيرة أو الإصدار</summary>
+    <p>استخدم pnpm حديثًا (الإصدار 10 أو أحدث) وNode 22 أو أحدث. يثبّت كل مستودع إصدارات إطار عمله في <code>package.json</code>؛ وإن كانت سلسلة أدواتك العامة أقدم فإن <code>pnpm env use --global lts</code> هو أسرع حل.</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>قارئ الشاشة ينطق اسمًا خاطئًا لعنصر تحكم</summary>
+    <p>تحقق من الخاصية <code>label</code> المطلوبة في المكوّن — فالمكوّنات التي لا نص ظاهرًا فيها تتطلبها، وتفوز عن قصد قيمتا <code>aria-label</code> / <code>aria-labelledby</code> المقدَّمتان من المستهلك والممرَّرتان عبر الخصائص المتبقية على الربط المدمج. وتوثّق كل صفحة من الفهرس عقد ARIA للمكوّن.</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>المساعد theme-picker لا يبدّل أوراق الأنماط</summary>
+    <p>تأكد من أن <code>themesUrl</code> يشير إلى دليل يستطيع المتصفح جلبه (قدّم ملفات <code>themes/</code> كأصول ثابتة) وأن معرّفات السمات في الخاصية <code>themes</code> تطابق أسماء الملفات. يبدّل المساعد قيمة <code>href</code> لعنصر <code>&lt;link data-lily-theme-picker&gt;</code> واحد مُدار — افحصه في أدوات المطوّر لترى عنوان URL المطلوب.</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>شيء آخر معطّل</summary>
+    <p>افتح مشكلة مع إعادة إنتاج مصغّرة في المستودع المعني على <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a> — أو راجع <a href="#community">المجتمع والدعم</a>.</p>
+  </details>
+</section>
+
+<section class="section prose" id="contributing" style="margin: 0 auto;">
+  <h2>المساهمة</h2>
+  <p>Lily فتيّ ويرحب بالتعاون. وأنفع المساهمات حاليًا:</p>
+  <ul>
+    <li>مكوّنات جديدة (خاصةً أنماط من أنظمة تصميم راسخة).</li>
+    <li>سمات جديدة — كل منها ورقة أنماط قائمة بذاتها، وهي أول طلب دمج محدد النطاق جيدًا.</li>
+    <li>تنسيق أفضل للأمثلة — أظهر ما هو ممكن.</li>
+    <li>ترجمات للسلاسل النصية في تطبيقات الأمثلة.</li>
+    <li>تقارير أخطاء مع إعادة إنتاج مصغّرة.</li>
+    <li>تدقيقات لإمكانية الوصول بقارئات الشاشة والتقنيات المساعدة.</li>
+  </ul>
+  <p>افتح المشكلات وطلبات الدمج في المستودع المعني على <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a>.</p>
+</section>
+
+<section class="section prose" id="community" style="margin: 0 auto;">
+  <h2>المجتمع والدعم</h2>
+  <ul>
+    <li><strong>الأسئلة وتقارير الأخطاء</strong> — افتح مشكلة في المستودع المعني على <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a>.</li>
+    <li><strong>البريد الإلكتروني</strong> — يقرأ القائم على الصيانة <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a> ويرحب بالتعاون والإرشاد والملاحظات.</li>
+    <li><strong>المرايا</strong> — يُدفَع Lily أيضًا إلى <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> و<a href="https://gitlab.com/LilyDesignSystem">GitLab</a>، فيمكنك المشاركة من المنصة التي تفضّلها.</li>
+    <li><strong>السلوك</strong> — يتبع المشروع مدونة سلوك معيارية؛ كن لطيفًا وافترض حسن النية.</li>
+  </ul>
+</section>
+
+<section class="section prose" id="faq" style="margin: 0 auto;">
+  <h2>الأسئلة الشائعة</h2>
+
+  <details class="faq-item">
+    <summary>لماذا headless بدلًا من المنسّق جاهزًا؟</summary>
+    <p>المكوّنات المنسّقة مسبقًا مريحة — إلى أن لا تطابق علامتك التجارية. أما مكوّنات headless فتتطلب جهدًا أكبر قليلًا في البداية لكنها تمنحك تحكمًا كاملًا في التصميم المرئي. وتُظهر تطبيقات الأمثلة والسمات الـ 45 طرقًا لتنسيقها؛ ويمكنك أخذها أو استبدالها بالكامل. والحجة الأطول في <a href="/why/">لماذا Lily</a>.</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>لماذا هذا العدد الكبير من المكوّنات؟</summary>
+    <p>يهدف Lily إلى تغطية الأنماط التي تحتاج إليها معظم التطبيقات دون أن يجبرك على بنائها من الصفر — بما في ذلك حالات أعمق كحقول المعرّفات الوطنية والسرد التحريري بالتمرير. ويستقي الفهرس من اثني عشر نظام تصميم راسخًا إضافةً إلى عمل أصيل — راجع <a href="/about/">حول المشروع</a>.</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>هل يمكنني استخدام Lily مع Tailwind؟</summary>
+    <p>نعم. يكشف كل مكوّن فئة جذر واحدة بصيغة kebab-case إضافةً إلى <code>className</code> / <code>class</code> يوفّره المستهلك. ضع أدوات Tailwind فوقها كما تشاء.</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>هل يمكنني استخدام Lily مع أطر CSS الدلالية مثل DaisyUI؟</summary>
+    <p>نعم. تعمل أسماء الفئات بصيغة kebab-case على العنصر الجذر كروابط CSS دلالية. اقرن Lily بإطار دلالي تحصل على مكوّنات منسّقة مسبقًا لا تزال تحترم ARIA والتدويل.</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>هل توجد حزمة npm؟</summary>
+    <p>تُوزَّع <a href="#helpers">مساعدات التفضيلات</a> كحزم مع خط نشر npm/NuGet. وصُمّمت مكتبات مكوّنات headless لتُنسخ أو تُضمَّن في المشروع — فالشيفرة المصدرية هي المنتَج، فتستطيع أن تقرأ وتقلّم وتملك بالضبط ما تطلقه. ويبقى النشر في السجلات لمكتبات headless على خارطة الطريق.</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>لماذا تراخيص متعددة؟</summary>
+    <p>لدى المشاريع المختلفة احتياجات ترخيص مختلفة. فـ BSD وMIT متساهلان، ولدى Apache-2.0 منحة براءات اختراع، وتدعم خيارات GPL الترخيص بالمثل (copyleft). اختر ما يناسب وضعك.</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>كيف أبلغ عن خلل أو أطلب ميزة؟</summary>
+    <p>افتح مشكلة في مستودع GitHub المعني، أو راسل <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.</p>
+  </details>
+</section>

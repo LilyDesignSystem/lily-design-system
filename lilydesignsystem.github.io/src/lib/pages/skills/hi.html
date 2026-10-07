@@ -1,0 +1,95 @@
+<!-- title: Lily + Claude Code — Lily Design System -->
+<!-- description: 26 Claude स्किल Claude Code को Lily Design System में एक चुना हुआ, लोड करने योग्य प्रवेश-बिंदु देती हैं — सामान्य अवधारणाएँ, प्रति-फ़्रेमवर्क छतरी स्किल, और headless लाइब्रेरी तथा *-picker सहायकों के लिए प्रति-उप-प्रोजेक्ट गहन विवरण। -->
+<section class="page-intro">
+  <h1>AI एजेंट पर स्किल Lily को और भी आसान बनाती हैं</h1>
+  <p class="page-intro-tagline">Lily केंद्रित स्किल के साथ आता है — सामान्य, प्रति-फ़्रेमवर्क और प्रति-उप-प्रोजेक्ट — ताकि एजेंट ठीक वही संदर्भ लोड करे जिसकी उसे ज़रूरत है और उससे अधिक कुछ नहीं।</p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>आपको कौन-सी स्किल चाहिए?</h2>
+  <p>हर स्तर एक अलग सवाल का जवाब देता है। जब आप Lily को अभी नहीं जानते तो सामान्य स्किल लोड करें। जब आप अपना फ़्रेमवर्क जानते हैं पर यह नहीं कि कौन-सा उप-प्रोजेक्ट चाहिए तो फ़्रेमवर्क स्किल लोड करें। जब आप ठीक-ठीक जानते हैं कि किस पर काम कर रहे हैं तो headless स्किल या सहायक स्किल सीधे लोड करें।</p>
+
+  <ul>
+    <li><strong>सामान्य / रखरखाव</strong> — «Lily क्या है?» / «यह मोनोरेपो कैसे बना है?» — <a href="https://github.com/LilyDesignSystem/lily-design-system-skill" ><code>lily-design-system-skill</code></a >, <a href="https://github.com/LilyDesignSystem/lily-design-system-maintainer-skill" ><code>lily-design-system-maintainer-skill</code></a ></li>
+    <li><strong>फ़्रेमवर्क छतरी</strong> — «{framework} के लिए क्या उपलब्ध है, और मुझे कौन-सा हिस्सा चाहिए?» — 8, हर एक के लिए एक <code>{framework}-skill</code></li>
+    <li><strong>Headless / सहायक</strong> — «मैं {framework} के कंपोनेंट / *-picker सहायकों का ठीक-ठीक उपयोग कैसे करूँ?» — 16, हर एक के लिए एक <code>{framework}-headless-skill</code> और एक <code>{framework}-helpers-skill</code></li>
+  </ul>
+
+  <h2>आठ फ़्रेमवर्क</h2>
+  <p>हर फ़्रेमवर्क को वही तीन-स्तरीय ढाँचा मिलता है। छतरी स्किल उस फ़्रेमवर्क के सभी असली उप-प्रोजेक्ट का नक्शा बनाती है — उदाहरण ऐप सहित, जिसे उसकी दोनों सहोदर स्किल कवर नहीं करतीं — और उनके अनुबंध दोहराने के बजाय उनकी ओर संकेत करती है।</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>फ़्रेमवर्क</th>
+        <th>छतरी</th>
+        <th>Headless</th>
+        <th>सहायक</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Angular</td>
+        <td><a aria-label="Angular के लिए सामान्य स्किल" href="https://github.com/LilyDesignSystem/lily-design-system-angular-skill">स्किल</a></td>
+        <td><a aria-label="Angular के लिए headless स्किल" href="https://github.com/LilyDesignSystem/lily-design-system-angular-headless-skill">स्किल</a></td>
+        <td><a aria-label="Angular के लिए सहायक स्किल" href="https://github.com/LilyDesignSystem/lily-design-system-angular-helpers-skill">स्किल</a></td>
+      </tr>
+      <tr>
+        <td>Blazor</td>
+        <td><a aria-label="Blazor के लिए सामान्य स्किल" href="https://github.com/LilyDesignSystem/lily-design-system-blazor-skill">स्किल</a></td>
+        <td><a aria-label="Blazor के लिए headless स्किल" href="https://github.com/LilyDesignSystem/lily-design-system-blazor-headless-skill">स्किल</a></td>
+        <td><a aria-label="Blazor के लिए सहायक स्किल" href="https://github.com/LilyDesignSystem/lily-design-system-blazor-helpers-skill">स्किल</a></td>
+      </tr>
+      <tr>
+        <td>HTML</td>
+        <td><a aria-label="HTML के लिए सामान्य स्किल" href="https://github.com/LilyDesignSystem/lily-design-system-html-skill">स्किल</a></td>
+        <td><a aria-label="HTML के लिए headless स्किल" href="https://github.com/LilyDesignSystem/lily-design-system-html-headless-skill">स्किल</a></td>
+        <td><a aria-label="HTML के लिए सहायक स्किल" href="https://github.com/LilyDesignSystem/lily-design-system-html-helpers-skill">स्किल</a></td>
+      </tr>
+      <tr>
+        <td>Nunjucks</td>
+        <td><a aria-label="Nunjucks के लिए सामान्य स्किल" href="https://github.com/LilyDesignSystem/lily-design-system-nunjucks-skill">स्किल</a></td>
+        <td><a aria-label="Nunjucks के लिए headless स्किल" href="https://github.com/LilyDesignSystem/lily-design-system-nunjucks-headless-skill">स्किल</a></td>
+        <td><a aria-label="Nunjucks के लिए सहायक स्किल" href="https://github.com/LilyDesignSystem/lily-design-system-nunjucks-helpers-skill">स्किल</a></td>
+      </tr>
+      <tr>
+        <td>React</td>
+        <td><a aria-label="React के लिए सामान्य स्किल" href="https://github.com/LilyDesignSystem/lily-design-system-react-skill">स्किल</a></td>
+        <td><a aria-label="React के लिए headless स्किल" href="https://github.com/LilyDesignSystem/lily-design-system-react-headless-skill">स्किल</a></td>
+        <td><a aria-label="React के लिए सहायक स्किल" href="https://github.com/LilyDesignSystem/lily-design-system-react-helpers-skill">स्किल</a></td>
+      </tr>
+      <tr>
+        <td>Svelte</td>
+        <td><a aria-label="Svelte के लिए सामान्य स्किल" href="https://github.com/LilyDesignSystem/lily-design-system-svelte-skill">स्किल</a></td>
+        <td><a aria-label="Svelte के लिए headless स्किल" href="https://github.com/LilyDesignSystem/lily-design-system-svelte-headless-skill">स्किल</a></td>
+        <td><a aria-label="Svelte के लिए सहायक स्किल" href="https://github.com/LilyDesignSystem/lily-design-system-svelte-helpers-skill">स्किल</a></td>
+      </tr>
+      <tr>
+        <td>Vue</td>
+        <td><a aria-label="Vue के लिए सामान्य स्किल" href="https://github.com/LilyDesignSystem/lily-design-system-vue-skill">स्किल</a></td>
+        <td><a aria-label="Vue के लिए headless स्किल" href="https://github.com/LilyDesignSystem/lily-design-system-vue-headless-skill">स्किल</a></td>
+        <td><a aria-label="Vue के लिए सहायक स्किल" href="https://github.com/LilyDesignSystem/lily-design-system-vue-helpers-skill">स्किल</a></td>
+      </tr>
+      <tr>
+        <td>Web Components</td>
+        <td><a aria-label="Web Components के लिए सामान्य स्किल" href="https://github.com/LilyDesignSystem/lily-design-system-web-components-skill">स्किल</a></td>
+        <td>
+          <a
+            aria-label="Web Components के लिए headless स्किल"
+            href="https://github.com/LilyDesignSystem/lily-design-system-web-components-headless-skill"
+            >स्किल</a
+          >
+          (536/571)
+        </td>
+        <td><a aria-label="Web Components के लिए सहायक स्किल" href="https://github.com/LilyDesignSystem/lily-design-system-web-components-helpers-skill">स्किल</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>Web Components दोनों दिशाओं में एकमात्र अपवाद है: उसका headless कैटलॉग 571 में से 536 का जान-बूझकर तय दायरा है (मूल कस्टम एलिमेंट, कोई फ़्रेमवर्क रनटाइम नहीं; शेष 35 कंपोनेंट स्थायी रूप से बाहर हैं), और अभी तक कोई Web Components उदाहरण ऐप नहीं है — उसकी छतरी स्किल यह बताती है, बजाय इसके कि किसी के होने का आभास दे।</p>
+
+  <h2>एक स्किल जोड़ें</h2>
+  <p>हर स्किल एक <a href="https://code.claude.com/docs/en/skills"><code>SKILL.md</code></a> फ़ाइल है और सहायक फ़ाइलें भी, बिना किसी बिल्ड चरण के। जिसकी आपको ज़रूरत है उसे वहाँ क्लोन करें जहाँ से आपका Claude Code सेटअप स्किल लोड करता है (अपने प्रोजेक्ट या खाते की स्किल डायरेक्टरी के लिए ऊपर जुड़े आधिकारिक दस्तावेज़ देखें):</p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-skill</code></pre>
+  <p>कई फ़्रेमवर्क में काम कर रहे हैं, या स्वयं मोनोरेपो पर? इसके बजाय <a href="https://github.com/LilyDesignSystem/lily-design-system">मानक मोनोरेपो</a> क्लोन करें — सभी 26 स्किल पहले से उसकी जड़ में हैं, उन headless लाइब्रेरी, सहायक कैटलॉग और उदाहरण ऐप्स के साथ जिनका वे वर्णन करती हैं।</p>
+</section>

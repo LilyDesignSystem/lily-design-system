@@ -1,0 +1,527 @@
+<!-- title: Cymorth — Lily Design System -->
+<!-- description: Dechreuwch gyda Lily: gosodwch y pecyn headless ar gyfer eich fframwaith, copïwch gydran, arddullwch hi, themeiwch hi, a'i chludo. Datrys problemau, cwestiynau cyffredin, a chymorth. -->
+<section class="page-intro">
+  <h1>Dechrau gyda Lily</h1>
+  <p class="page-intro-tagline">
+    Dewiswch fframwaith, clonïwch y repo headless neu'r ap enghreifftiol, a
+    dechreuwch gyfansoddi eich tudalennau eich hun. Yn well gennych lwybr
+    wedi'i arwain? Dechreuwch gyda'r
+    <a href="/tutorials/">tiwtorialau</a>.
+  </p>
+</section>
+
+<nav aria-label="Ar y dudalen hon" class="prose" style="margin: 0 auto;">
+  <p><strong>Ar y dudalen hon:</strong></p>
+  <ul>
+    <li><a href="#install">Gosod</a></li>
+    <li><a href="#use-headless">Defnyddio cydran headless</a></li>
+    <li><a href="#use-styled">Defnyddio enghraifft wedi'i harddullio</a></li>
+    <li><a href="#styling">Arddullio a thocynnau dylunio</a></li>
+    <li><a href="#themes">Themâu parod</a></li>
+    <li><a href="#helpers">Cynorthwywyr dewisiadau</a></li>
+    <li><a href="#a11y">Hygyrchedd</a></li>
+    <li><a href="#i18n">Rhyngwladoli</a></li>
+    <li><a href="#testing">Profi</a></li>
+    <li><a href="#ai-agents">Asiantau AI</a></li>
+    <li><a href="#troubleshooting">Datrys problemau</a></li>
+    <li><a href="#contributing">Cyfrannu</a></li>
+    <li><a href="#community">Cymuned a chymorth</a></li>
+    <li><a href="#faq">Cwestiynau cyffredin</a></li>
+  </ul>
+</nav>
+
+<section class="section prose" id="install" style="margin: 0 auto;">
+  <h2>Gosod</h2>
+  <p>
+    Cyhoeddir Lily fel repos Git ar wahân ar gyfer pob fframwaith. Y ffordd
+    gyflymaf o'i drio yw clonio'r repo headless ar gyfer eich pentwr:
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system-react-headless
+cd lily-design-system-react-headless
+pnpm install</code></pre>
+  <p>Mae'r un patrwm yn gweithio ar gyfer y fframweithiau eraill:</p>
+  <ul>
+    <li><code>@lilydesignsystem/html-headless</code> — dim angen gosod; copïwch ffeiliau <code>.html</code></li>
+    <li><code>@lilydesignsystem/svelte-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/react-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/angular-headless</code> — <code>pnpm install</code></li>
+    <li><code>@lilydesignsystem/nunjucks-headless</code> — <code>pnpm install</code></li>
+    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
+  </ul>
+  <p>
+    Cynlluniwyd y llyfrgelloedd headless i'w clonio neu eu hymgorffori — trinwch
+    y ffynhonnell fel y ffynhonnell gwirionedd a chopïwch yr hyn sydd ei angen
+    arnoch. Mae'r <a href="#helpers">cynorthwywyr dewisiadau</a> hefyd yn cael
+    eu cludo fel pecynnau y gellir eu gosod, gyda llinell adeiladu a
+    chyhoeddi (npm ar gyfer y fframweithiau JS, NuGet ar gyfer Blazor).
+  </p>
+</section>
+
+<section class="section prose" id="use-headless" style="margin: 0 auto;">
+  <h2>Defnyddio cydran headless</h2>
+  <p>
+    Mae cydrannau headless yn cludo HTML semantig, ARIA, a phriodweddau — ond
+    dim CSS. Dyma Fotwm ym mhob fframwaith:
+  </p>
+
+  <h3>HTML</h3>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="button" aria-label="Save"&gt;
+  Save
+&lt;/button&gt;</code></pre>
+
+  <h3>Svelte</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script&gt;
+  import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
+&lt;/script&gt;
+
+&lt;Button onclick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>React</h3>
+  
+  <pre tabindex="0"><code>import Button from "lily-design-system-react-headless/components/Button";
+
+&lt;Button onClick={save}&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Vue</h3>
+  
+  
+  <pre tabindex="0"><code>&lt;script setup&gt;
+  import Button from "lily-design-system-vue-headless/components/Button.vue";
+&lt;/script&gt;
+
+&lt;Button @click="save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Angular</h3>
+  
+  <pre tabindex="0"><code>import { Button } from "@lilydesignsystem/angular-headless";
+
+@Component({
+  imports: [Button],
+  template: `&lt;lily-button (click)="save()"&gt;Save&lt;/lily-button&gt;`,
+})</code></pre>
+
+  <h3>Blazor</h3>
+  
+  <pre tabindex="0"><code>&lt;Button OnClick="Save"&gt;Save&lt;/Button&gt;</code></pre>
+
+  <h3>Nunjucks</h3>
+  
+  <pre tabindex="0"><code>{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "button" }) }}</code></pre>
+</section>
+
+<section class="section prose" id="use-styled" style="margin: 0 auto;">
+  <h2>Defnyddio enghraifft wedi'i harddullio</h2>
+  <p>
+    Mae'r apiau enghreifftiol yn cynnwys CSS, llwybrau, a thudalennau arddangos
+    llawn. Y ffordd gyflymaf i arbrofi yw cychwyn yr ap enghreifftiol
+    SvelteKit, Next, Nuxt, Analog, neu Eleventy a gweld yr arddangosiad yn
+    <code>/components</code>.
+  </p>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-sveltekit-examples
+cd lily-design-system-svelte-sveltekit-examples
+pnpm install
+pnpm run dev</code></pre>
+  <p>
+    Yna agorwch <code>http://localhost:5173</code> a phorwch <code>/components</code>.
+  </p>
+</section>
+
+<section class="section prose" id="styling" style="margin: 0 auto;">
+  <h2>Arddullio a thocynnau dylunio</h2>
+  <p>
+    Mae pob cydran yn rendro gydag un dosbarth kebab-case ar ei helfen wraidd.
+    Er enghraifft, mae <code>&lt;Button&gt;</code> yn rendro <code>&lt;button class="button"&gt;</code>.
+    Arddullwch hi sut bynnag y dymunwch:
+  </p>
+  
+  <pre tabindex="0"><code>.button {
+  background: var(--my-primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.button:hover { background: var(--my-primary-hover); }</code></pre>
+  <p>Palet lliwiau rhagosodedig Lily (a ddefnyddir yn yr apiau enghreifftiol) yw:</p>
+  <ul>
+    <li>Cynradd: <code>#2563eb</code></li>
+    <li>Perygl: <code>#dc2626</code></li>
+    <li>Rhybudd: <code>#f59e0b</code></li>
+    <li>Llwyddiant: <code>#16a34a</code></li>
+    <li>Cefndir tudalen: <code>#f9fafb</code></li>
+    <li>Cefndir cerdyn: <code>#ffffff</code></li>
+  </ul>
+  <p>
+    Awgrymiadau yw'r rhain, nid gofynion. Amnewidiwch nhw gyda phalet eich
+    brand eich hun a bydd Lily yn dod yn ei flaen yn hapus.
+  </p>
+</section>
+
+<section class="section prose" id="themes" style="margin: 0 auto;">
+  <h2>Themâu parod</h2>
+  <p>
+    Ddim eisiau ysgrifennu CSS o'r dechrau? Mae Lily yn cludo
+    <strong>45 thema gyfeirio annibynnol</strong> yn y cyfeiriadur
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    Mae pob un yn un daflen arddull sy'n targedu bachau dosbarth Lily —
+    cysylltwch â hi ac rydych wedi'ch arddullio:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/assets/themes/united-kingdom-government-digital-service.css" /&gt;</code></pre>
+  <p>Mae'r set yn cynnwys:</p>
+  <ul>
+    <li>
+      <strong>Sector cyhoeddus</strong> — GIG Lloegr, GIG yr Alban, a GIG Cymru
+      (amrywiadau sy'n wynebu cleifion ac sy'n wynebu ymarferwyr ar gyfer pob un), GOV.UK GDS, a
+      System Dylunio Gwe yr Unol Daleithiau.
+    </li>
+    <li><strong>Wedi'u hysbrydoli gan werthwyr</strong> — Adobe Spectrum, Mozilla Protocol.</li>
+    <li>
+      <strong>Pwrpas cyffredinol</strong> — light, dark, nord, dracula, wireframe,
+      a thri deg a mwy yn ychwaneg.
+    </li>
+  </ul>
+  <p>
+    Mae dewiswyr themâu yn defnyddio <code>:where(...)</code>, felly mae eich
+    CSS eich hun bob amser yn ennill o ran penodolrwydd. Pârwch nhw â'r
+    cynorthwyydd <code>theme-picker</code> isod ar gyfer newid wrth redeg, neu
+    dilynwch y <a href="/tutorials/theming/">tiwtorial themeiddio</a>.
+  </p>
+</section>
+
+<section class="section prose" id="helpers" style="margin: 0 auto;">
+  <h2>Cynorthwywyr dewisiadau</h2>
+  <p>
+    Mae gan bob fframwaith gatalog <code>*-helpers</code> cydymaith gydag wyth
+    dewiswr bach (a <code>picker-bar</code> sy'n eu cydosod). Mae pob un yn
+    fotwm eicon headless sy'n agor ffenestr naid — rhestrfocs, rhestr o
+    gysylltiadau, ffurflen chwilio, neu (ar gyfer date-time-picker) deialog
+    dewis dyddiad — nid <code>&lt;select&gt;</code> brodorol; mae'n ddiogel
+    ar gyfer SSR; ac nid yw'n cludo unrhyw CSS:
+  </p>
+  <ul>
+    <li>
+      <strong>theme-picker</strong> — yn llwytho taflenni arddull themâu wrth redeg trwy
+      gyfnewid <code>&lt;link&gt;</code> a reolir, yn gosod
+      <code>data-theme</code> ar y ddogfen, ac yn dewisol yn cadw i
+      <code>localStorage</code>.
+    </li>
+    <li>
+      <strong>locale-picker</strong> — yn gosod <code>lang</code> a
+      <code>dir</code> (gyda chanfod RTL awtomatig) fel y gall eich
+      llyfrgell i18n ddilyn; nid yw'n cyfieithu ei hun.
+    </li>
+    <li>
+      <strong>text-size-picker</strong> — yn gosod <code>data-text-size</code> ar
+      y ddogfen; mae eich CSS yn mapio pob gwerth i faint ffont.
+    </li>
+    <li>
+      <strong>motion-picker</strong> — yn gosod <code>data-motion</code> ar y
+      ddogfen, gan ddechrau o osodiad symudiad llai'r ymwelydd; mae eich CSS
+      a'ch sgriptiau yn penderfynu beth i'w atal.
+    </li>
+    <li>
+      <strong>search-picker</strong> — botwm eicon sy'n agor maes
+      chwilio; mae cyflwyno yn llywio i dudalen chwilio. Mae'n berchen ar
+      weithred, nid dewis.
+    </li>
+    <li>
+      <strong>link-picker</strong> — eicon cartref sy'n agor dewislen o'r
+      cysylltiadau tudalen y mae eich ap yn eu diffinio (Hafan, Amdanom Ni,
+      Cysylltu â Ni, Polisi Preifatrwydd, …). Mae'n berchen ar weithred, nid
+      dewis.
+    </li>
+    <li>
+      <strong>share-picker</strong> — yn agor y daflen rannu frodorol neu
+      restr cyrchfannau a ddarperir gan y defnyddiwr, ynghyd â chopïo'r URL.
+      Mae'n berchen ar weithred, nid dewis: nid yw'n gosod dim, nid yw'n
+      cadw dim.
+    </li>
+    <li>
+      <strong>date-time-picker</strong> — maes testun ynghyd â deialog
+      dewis dyddiad APG ar gyfer dyddiad, amser, neu'r ddau. Mae'n berchen ar
+      werth ffurflen, nid dewis: mae'r llinyn ISO yn teithio'n ôl ac ymlaen i
+      <code>&lt;input type="date"&gt;</code>.
+    </li>
+  </ul>
+  
+  <pre tabindex="0"><code>git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-helpers</code></pre>
+  <p>
+    Catalog Svelte yw'r cyfeirnod canonaidd; mae porthladdoedd React, Vue,
+    Angular, HTML, Nunjucks, Web Components, a Blazor yn cyfateb iddo
+    cytundeb wrth gytundeb. Gweler y
+    <a href="/tutorials/helpers/">tiwtorial cynorthwywyr</a>.
+  </p>
+</section>
+
+<section class="section prose" id="a11y" style="margin: 0 auto;">
+  <h2>Hygyrchedd</h2>
+  <p>Mae cydrannau'n anelu at <strong>WCAG 2.2 AAA</strong>. Maen nhw'n dilyn y patrymau hyn:</p>
+  <ul>
+    <li>Elfennau HTML semantig yn hytrach na <code>&lt;div&gt;</code>s generig.</li>
+    <li><code>&lt;label for="id"&gt;</code> yn cysylltu labeli â mewnbynnau.</li>
+    <li><code>aria-labelledby</code> / <code>aria-describedby</code> ar gyfer croesgyfeiriadau.</li>
+    <li><code>aria-invalid</code> + <code>aria-errormessage</code> ar gyfer cyflyrau gwall.</li>
+    <li><code>role="alert"</code> and <code>aria-live</code> ar gyfer cynnwys deinamig.</li>
+    <li><code>aria-pressed</code>, <code>aria-expanded</code>, <code>aria-current</code> ar gyfer cyflwr.</li>
+    <li><code>tabindex</code> crwydrol ar gyfer gridiau.</li>
+  </ul>
+  <p>
+    Mae dangosyddion ffocws yn cael eu darparu gan y defnyddiwr yn fwriadol —
+    nid yw Lily byth yn paentio cylch ffocws rhagosodedig sy'n gwrthdaro â'ch
+    dyluniad. Mae'r apiau enghreifftiol yn cadw llinell sylfaen axe-core
+    lân ar draws eu llwybrau.
+  </p>
+</section>
+
+<section class="section prose" id="i18n" style="margin: 0 auto;">
+  <h2>Rhyngwladoli</h2>
+  <p>
+    Mae pob label, dalfan, neges gwall, a thestun botwm yn briodwedd. Nid oes
+    unrhyw linynnau wedi'u codio'n galed. Gollyngwch eich fframwaith
+    cyfieithu dewisol i mewn — Paraglide, i18next, vue-i18n, react-intl,
+    ffeiliau .resx, unrhyw beth.
+  </p>
+  <p>
+    Ar gyfer dyddiadau, rhifau, ac arian cyfred, mae'r cydrannau'n derbyn
+    llinynnau wedi'u fformatio ymlaen llaw: rydych chi'n fformatio gyda <code>Intl.DateTimeFormat</code> /
+    <code>Intl.NumberFormat</code> / eich llyfrgell ddewisol ac yn pasio'r canlyniad.
+  </p>
+  <p>
+    Mae'r cynorthwyydd <code>locale-picker</code> yn arwyddo'r locale a
+    ddewiswyd i'ch llyfrgell i18n trwy osod <code>lang</code> a
+    <code>dir</code> ar wraidd y ddogfen.
+  </p>
+</section>
+
+<section class="section prose" id="testing" style="margin: 0 auto;">
+  <h2>Profi</h2>
+  <p>Mae pob is-brosiect fframwaith yn cludo ei brofion ei hun gan ddefnyddio ei bentwr idiomatig:</p>
+  <ul>
+    <li><strong>HTML</strong>: WebDriverIO yn rhedeg porwyr go iawn.</li>
+    <li><strong>Svelte</strong>: Vitest + <code>@testing-library/svelte</code>.</li>
+    <li><strong>React</strong>: Vitest + <code>@testing-library/react</code>.</li>
+    <li><strong>Vue</strong>: Vitest + <code>@testing-library/vue</code>.</li>
+    <li><strong>Angular</strong>: Vitest + TestBed (via the Analog Vite plugin).</li>
+    <li><strong>Nunjucks</strong>: Vitest with a render helper.</li>
+    <li><strong>Blazor</strong>: bUnit.</li>
+  </ul>
+  <p>
+    Mae profion yn defnyddio <strong>paswyr adeiledig Vitest yn unig</strong> — byth
+    <code>jest-dom</code> paswyr. Mae hyn yn cadw'r cyfresi profion yn gludadwy.
+    Mae'r apiau enghreifftiol yn ychwanegu cyfresi Playwright o un pen i'r
+    llall, llinellau sylfaen hygyrchedd axe-core, a ysgubiad porthladd
+    gweld ymatebol.
+  </p>
+</section>
+
+<section class="section prose" id="ai-agents" style="margin: 0 auto;">
+  <h2>Asiantau AI</h2>
+  <p>
+    Mae'r wefan hon yn cyhoeddi <a href="/llms.txt">llms.txt</a> and
+    <a href="/llms.json">llms.json</a> yn ei gwraidd — map wedi'i guradu o'i
+    thudalennau pwysicaf, ar gyfer unrhyw offeryn sy'n dilyn
+    <a href="https://llmstxt.org">confensiwn llms.txt</a>.
+  </p>
+  <p>
+    Mae'r monorepo canonaidd hefyd yn cludo dau
+    <a href="https://code.claude.com/docs/en/skills">Sgil Claude</a>:
+    <code>lily-design-system-skill</code>, sgil pwrpas cyffredinol sy'n cwmpasu cysyniadau,
+    terminoleg, a phatrymau cyfansoddi Lily ar gyfer unrhyw un sy'n adeiladu
+    gyda'r system, a <code>lily-design-system-maintainer-skill</code>,
+    sgil technegol sy'n cwmpasu cynllun ffeiliau gofynnol y monorepo a'r
+    offer ar gyfer unrhyw un sy'n gweithio arno. Mae'r ddau yn byw yng ngwraidd y
+    <a href="https://github.com/LilyDesignSystem/lily-design-system">monorepo canonaidd</a>.
+  </p>
+</section>
+
+<section class="section prose" id="troubleshooting" style="margin: 0 auto;">
+  <h2>Datrys problemau</h2>
+
+  <details class="faq-item">
+    <summary>Mae cydran yn rendro ond yn edrych heb ei harddullio</summary>
+    <p>
+      Dyna headless yn gweithio fel y bwriadwyd — nid oes CSS yn dod gyda'r
+      gydran. Naill ai ysgrifennwch CSS yn erbyn dosbarth kebab-case y gydran
+      (a ddangosir ar bob <a href="/components/">tudalen catalog</a>) neu
+      cysylltwch ag un o'r <a href="#themes">45 thema barod</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Nid yw fy CSS i'n ymddangos yn berthnasol dros thema</summary>
+    <p>
+      Dylai fod — mae dewiswyr themâu wedi'u lapio mewn <code>:where(...)</code>,
+      sydd â phenodolrwydd sero. Os yw rheol yn dal i golli, gwiriwch fod eich
+      taflen arddull yn llwytho ar ôl <code>&lt;link&gt;</code> y thema a bod y
+      dewisydd yn cyfateb mewn gwirionedd i fachyn dosbarth y gydran.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Mae pnpm install yn methu gyda gwall cymar neu fersiwn</summary>
+    <p>
+      Defnyddiwch pnpm cyfredol (v10+) a Node 22+. Mae pob repo yn pinio ei
+      fersiynau fframwaith yn <code>package.json</code>; os yw eich cadwyn
+      offer fyd-eang yn hŷn, <code>pnpm env use --global lts</code> yw'r
+      ateb cyflymaf.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Mae darllenydd sgrin yn cyhoeddi'r enw anghywir ar gyfer rheolydd</summary>
+    <p>
+      Gwiriwch briodwedd <code>label</code> gofynnol y gydran — mae cydrannau
+      heb destun gweladwy angen un, ac mae <code>aria-label</code> /
+      <code>aria-labelledby</code> a ddarperir gan y defnyddiwr ac a basiwyd
+      drwy rest-props yn ennill yn fwriadol dros y gwifrau adeiledig. Mae
+      pob tudalen catalog yn dogfennu cytundeb ARIA y gydran.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Nid yw'r cynorthwyydd theme-picker yn newid taflenni arddull</summary>
+    <p>
+      Cadarnhewch fod <code>themesUrl</code> yn pwyntio at gyfeiriadur y gall y
+      porwr ei nôl (gwasanaethwch y ffeiliau <code>themes/</code> fel asedau
+      statig) a bod slugs y themâu yn eich priodwedd <code>themes</code> yn
+      cyfateb i enwau'r ffeiliau. Mae'r cynorthwyydd yn cyfnewid
+      <code>href</code> un
+      <code>&lt;link data-lily-theme-picker&gt;</code> a reolir — archwiliwch
+      ef mewn devtools i weld yr URL sy'n cael ei ofyn amdano.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Mae rhywbeth arall wedi torri</summary>
+    <p>
+      Agorwch issue gydag atgynhyrchiad lleiaf ar y repo perthnasol yn
+      <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a> —
+      neu gweler <a href="#community">cymuned a chymorth</a>.
+    </p>
+  </details>
+</section>
+
+<section class="section prose" id="contributing" style="margin: 0 auto;">
+  <h2>Cyfrannu</h2>
+  <p>Mae Lily yn ifanc ac yn croesawu cydweithio. Y cyfraniadau mwyaf defnyddiol ar hyn o bryd yw:</p>
+  <ul>
+    <li>Cydrannau newydd (yn enwedig patrymau o systemau dylunio sefydledig).</li>
+    <li>Themâu newydd — mae pob un yn un daflen arddull annibynnol, PR cyntaf wedi'i gwmpasu'n dda.</li>
+    <li>Gwell arddullio enghreifftiau — dangoswch yr hyn sy'n bosibl.</li>
+    <li>Cyfieithiadau o linynnau'r apiau enghreifftiol.</li>
+    <li>Adroddiadau namau gydag atgynhyrchiad lleiaf.</li>
+    <li>Archwiliadau hygyrchedd gyda darllenwyr sgrin a thechnoleg gynorthwyol.</li>
+  </ul>
+  <p>
+    Agorwch issues a PRs yn erbyn y repo perthnasol yn
+    <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a>.
+  </p>
+</section>
+
+<section class="section prose" id="community" style="margin: 0 auto;">
+  <h2>Cymuned a chymorth</h2>
+  <ul>
+    <li>
+      <strong>Cwestiynau ac adroddiadau namau</strong> — agorwch issue ar y
+      repo perthnasol yn
+      <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a>.
+    </li>
+    <li>
+      <strong>E-bost</strong> — mae'r cynhaliwr yn darllen
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>
+      ac yn croesawu cydweithio, arweiniad, ac adborth.
+    </li>
+    <li>
+      <strong>Drychau</strong> — mae Lily hefyd yn cael ei wthio i
+      <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> and
+      <a href="https://gitlab.com/LilyDesignSystem">GitLab</a>, fel y gallwch
+      gymryd rhan o'r efail sydd orau gennych.
+    </li>
+    <li>
+      <strong>Ymddygiad</strong> — mae'r prosiect yn dilyn cod ymddygiad
+      safonol; byddwch yn garedig, rhagdybiwch ewyllys da.
+    </li>
+  </ul>
+</section>
+
+<section class="section prose" id="faq" style="margin: 0 auto;">
+  <h2>Cwestiynau cyffredin</h2>
+
+  <details class="faq-item">
+    <summary>Pam headless yn lle wedi'i arddullio?</summary>
+    <p>
+      Mae cydrannau wedi'u harddullio ymlaen llaw yn gyfleus — nes nad ydyn
+      nhw'n cyfateb i'ch brand. Mae cydrannau headless ychydig yn fwy o waith
+      ymlaen llaw ond yn rhoi rheolaeth lwyr i chi dros y dyluniad gweledol.
+      Mae'r apiau enghreifftiol a'r 45 thema yn dangos ffyrdd o'u harddullio;
+      gallwch gymryd y rheini neu eu hamnewid yn llwyr. Mae'r ddadl hirach ar
+      <a href="/why/">Pam Lily</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Pam cymaint o gydrannau?</summary>
+    <p>
+      Nod Lily yw cwmpasu'r patrymau sydd eu hangen ar y rhan fwyaf o apiau heb
+      eich gorfodi i'w hadeiladu o'r dechrau — gan gynnwys pethau dyfnach fel
+      mewnbynnau dynodwyr cenedlaethol a straeon sgrolio golygyddol. Mae'r
+      catalog yn tynnu o ddwsin o systemau dylunio sefydledig ynghyd â gwaith
+      gwreiddiol — gweler <a href="/about/">Amdanom</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Alla i ddefnyddio Lily gyda Tailwind?</summary>
+    <p>
+      Gallwch. Mae pob cydran yn datgelu un dosbarth gwraidd kebab-case ynghyd â
+       <code>className</code> / <code>class</code>. a ddarperir gan y defnyddiwr. Haenwch
+      gyfleustodau Tailwind ar ei ben sut bynnag y dymunwch.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Alla i ddefnyddio Lily gyda fframweithiau CSS semantig fel DaisyUI?</summary>
+    <p>
+      Gallwch. Mae'r enwau dosbarth kebab-case ar yr elfen wraidd yn gweithio fel
+      bachau CSS semantig. Pârwch Lily â fframwaith semantig a chewch
+      gydrannau wedi'u harddullio ymlaen llaw sy'n dal i barchu ARIA ac i18n.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Oes pecyn npm?</summary>
+    <p>
+      Mae'r <a href="#helpers">cynorthwywyr dewisiadau</a> yn cael eu cludo fel
+      pecynnau gyda llinell gyhoeddi npm/NuGet. Cynlluniwyd y llyfrgelloedd
+      cydrannau headless i'w clonio neu eu hymgorffori — y ffynhonnell yw'r
+      cynnyrch, fel y gallwch ddarllen, tocio, a bod yn berchen ar yn union
+      yr hyn rydych chi'n ei gludo. Mae cyhoeddi i'r gofrestrfa ar gyfer y
+      llyfrgelloedd headless yn parhau ar y map ffordd.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Pam aml-drwyddedig?</summary>
+    <p>
+      Mae gan wahanol brosiectau anghenion trwydded gwahanol. Mae BSD ac MIT yn
+      ganiataol, mae gan Apache-2.0 grant patent, ac mae'r opsiynau GPL yn
+      cefnogi copileft. Dewiswch pa un bynnag sy'n addas i'ch sefyllfa.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Sut ydw i'n adrodd nam neu ofyn am nodwedd?</summary>
+    <p>
+      Agorwch issue ar y repo GitHub perthnasol, neu anfonwch e-bost i
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
+    </p>
+  </details>
+</section>

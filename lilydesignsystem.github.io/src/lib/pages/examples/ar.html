@@ -1,0 +1,80 @@
+<!-- title: أمثلة — Lily Design System -->
+<!-- description: تطبيقات أمثلة عملية توضح كيفية تنسيق مكوّنات Lily في HTML وSvelte وReact وVue وAngular وBlazor وEleventy. -->
+<section class="page-intro">
+  <h1>شاهد Lily في تطبيقات حقيقية</h1>
+  <p class="page-intro-tagline">تُظهر سبعة مشاريع أمثلة عملية كيف تأخذ مكوّنات headless وتضيف التنسيق وتطلق موقعًا حقيقيًا. اختر إطار العمل الذي تستخدمه.</p>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>تطبيقات عرض توضيحي بـ CSS كامل وتوجيه</h2>
+  </header>
+
+  <div class="card-grid">
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-html-css-js-examples">
+      <h3 class="card-heading">HTML JavaScript</h3>
+      <p class="card-description">صفحات HTML عادية وJavaScript خالصة وبلا أدوات بناء. تُوضع على أي استضافة ثابتة — مثالية للمواقع الصغيرة والتحسين التدريجي.</p>
+      <p class="card-meta">→ عرض على GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-svelte-sveltekit-examples">
+      <h3 class="card-heading">Svelte + SvelteKit</h3>
+      <p class="card-description">تطبيق SvelteKit 3 يستخدم رونات Svelte 5. مسارات للمكوّنات وتوجيه قائم على الملفات وstorybook منسّق لكل مكوّن.</p>
+      <p class="card-meta">→ عرض على GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-react-next-examples">
+      <h3 class="card-heading">React + Next.js</h3>
+      <p class="card-description">تطبيق Next.js 16 يعرض كل مكوّن في سياقه، مع TypeScript في كل مكان وصفحات عرض للأنماط المركّبة.</p>
+      <p class="card-meta">→ عرض على GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-vue-nuxt-examples">
+      <h3 class="card-heading">Vue + Nuxt.js</h3>
+      <p class="card-description">تطبيق Nuxt 4. <code>&lt;script setup&gt;</code> وواجهة Composition API عبر كل مسار عرض.</p>
+      <p class="card-meta">→ عرض على GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-angular-examples">
+      <h3 class="card-heading">Angular + Analog</h3>
+      <p class="card-description">تطبيق Angular 22 + Analog.js. توجيه قائم على الملفات وإشارات وكشف للتغيير بلا zone وعرض مسبق كامل بـ SSG.</p>
+      <p class="card-meta">→ عرض على GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-blazor-web-examples">
+      <h3 class="card-heading">Blazor Web</h3>
+      <p class="card-description">تطبيق Blazor Web بمكوّنات Razor. يلائم الخادم وWebAssembly، على أساس .NET 10.</p>
+      <p class="card-meta">→ عرض على GitHub</p>
+    </a>
+
+    <a class="card" href="https://github.com/LilyDesignSystem/lily-design-system-nunjucks-eleventy-examples">
+      <h3 class="card-heading">Nunjucks + Eleventy</h3>
+      <p class="card-description">موقع Eleventy يستخدم ماكروات Nunjucks. مثالي للمواقع الثابتة الغنية بالمحتوى التي تريد مع ذلك نظام مكوّنات حقيقيًا.</p>
+      <p class="card-meta">→ عرض على GitHub</p>
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  <header class="section-heading">
+    <h2>لكل تطبيق مثال الشكل نفسه</h2>
+  </header>
+
+  <div class="prose" style="margin: 0 auto;">
+    <p>لكي يبدو التنقل بين أطر العمل مألوفًا، يوفّر كل تطبيق مثال ما يلي:</p>
+    <ul>
+      <li>مسار ترحيب في <code>/</code> يقدّم المشروع.</li>
+      <li>فهرس للمكوّنات في <code>/components</code> يسرد كل مكوّن.</li>
+      <li>صفحة عرض لكل مكوّن في <code>/components/&lt;component&gt;</code>.</li>
+      <li>CSS حقيقي — لا رموز تصميم مجردة — لتنقل الأنماط مباشرة.</li>
+      <li>تنقل بلوحة المفاتيح وإدارة للتركيز يعملان من أول لحظة.</li>
+    </ul>
+
+    <h3>تحتاج إلى معرفة كيف يُنسَّق مكوّن واحد؟</h3>
+    <p>افتح تطبيق المثال المعني، وانتقل إلى <code>/components/&lt;name&gt;</code>، وانسخ الترميز وCSS إلى مشروعك. تستخدم تطبيقات الأمثلة عمدًا CSS عاديًا (أو شبه عادي) لتتمكن من تكييفها مع أي نظام تفضّله.</p>
+
+    <h3>تريد headless بدلًا من ذلك؟</h3>
+    <p>اقرن أي تطبيق مثال بحزمة <em>headless</em> المقابلة له — فهي تنشر المكوّنات نفسها بلا أي CSS، جاهزة لرموز التصميم الخاصة بك.</p>
+    <p><a class="button button-primary" href="/components/">تصفّح الفهرس →</a> <a class="button button-secondary" href="/help/">اقرأ دليل الإعداد</a></p>
+  </div>
+</section>

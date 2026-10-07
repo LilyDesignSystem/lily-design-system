@@ -26,7 +26,7 @@
     </li>
     <li>
       <strong>For Svelte, React, Vue, Angular, or Nunjucks</strong> —
-      <a href="https://git-scm.com/">git</a>, Node 22 or later, and pnpm 10
+      <a href="https://git-scm.com/">git</a>, Node 26, and pnpm 10
       or later.
     </li>
     <li>
@@ -97,7 +97,7 @@
     </a>
     <a class="card" href="/tutorials/angular/">
       <h3 class="card-heading">Angular</h3>
-      <p class="card-description">Angular 20 standalone components with signal inputs and <code>[(value)]</code>.</p>
+      <p class="card-description">Angular standalone components with signal inputs and <code>[(value)]</code>.</p>
       <p class="card-meta">~10 minutes</p>
     </a>
     <a class="card" href="/tutorials/blazor/">
@@ -135,10 +135,11 @@
     <a class="card" href="/tutorials/helpers/">
       <h3 class="card-heading">Preference helpers</h3>
       <p class="card-description">
-        Give users control of theme, language, text size, sharing, and
-        date/time entry with theme-picker, locale-picker, text-size-picker,
-        share-picker, and date-time-picker: headless controls with
-        persistence, SSR safety, and automatic RTL detection.
+        Give users control of theme, language, text size, motion, search,
+        page links, sharing, and date/time entry with theme-picker,
+        locale-picker, text-size-picker, motion-picker, search-picker,
+        link-picker, share-picker, and date-time-picker: headless controls
+        with persistence, SSR safety, and automatic RTL detection.
       </p>
       <p class="card-meta">~15 minutes</p>
     </a>

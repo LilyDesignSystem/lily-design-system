@@ -18,7 +18,7 @@
   <h2>The short version</h2>
   <p>
     Lily is a catalog of <strong>web components</strong>, each implemented in
-    seven headless flavors (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks)
+    eight headless flavors (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks, and Web Components)
     plus a set of batteries-included example apps that show how to style them.
   </p>
   <p>
