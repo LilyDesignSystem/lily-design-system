@@ -34,7 +34,7 @@ coding agents.
 | [architecture](architecture/index.md) | Monorepo layout, the 23 implementation subprojects (7 full-catalog headless + 1 at its full achievable scope + 7 examples + 8 helper catalogs), `themes/`, the git-subtree model, required files. |
 | [headless](headless/index.md) | Headless design rules: semantic markup, class hooks, rest-props, behaviour boundaries, zero CSS. |
 | [accessibility](accessibility/index.md) | WCAG 2.2 AAA target, WAI-ARIA APG patterns, ARIA reference table, axe-core baselines. |
-| [internationalization](internationalization/index.md) | No hardcoded strings, stable text-prop names, locale-aware props, RTL/bidi. |
+| [internationalization](internationalization/index.md) | No hardcoded strings, stable text-prop names, locale-aware props, RTL/bidi, and the docs site's locale routes (`<language>-<region>` directories, browser-language redirect). |
 | [theme](theme/index.md) | Token shape, `--theme-*` custom properties, `data-theme` variants, the headless forbidden-list. |
 | [components](components/index.md) | The 491-component catalog, suffix→element mapping, name patterns, composition, per-component docs. |
 | [examples](examples/index.md) | Example apps, the three required routes, NHS reference styling, demo render mechanisms. |

@@ -88,6 +88,35 @@ Live-region components own the ARIA plumbing but never the words.
 - The consumer computes plural / gendered / conditional strings and passes the final string in. Components accept rendered text, not counts-plus-templates.
 - Direction inherits from the consumer: set `dir="rtl"` (or `dir="auto"`) on an ancestor and the consumer's CSS handles mirroring. Component markup uses logical structure and does not assume LTR.
 
+## Locale routes (the docs site)
+
+The headless layer picks no locale, but the docs site (`lilydesignsystem.github.io`) is itself localised, and its conventions are the
+reference for any app built on Lily. The full contract is the site's own
+[`spec/locales-for-global-sharing-with-svelte`](../../lilydesignsystem.github.io/spec/locales-for-global-sharing-with-svelte/index.md);
+the binding rules are:
+
+- **Locale directory names are `<language>-<region>`**, lowercase: a two- or three-letter language code, a hyphen, and a region — a
+  two-letter country code (`cy-gb`, `en-us`, `zh-cn`) or the UN M49 code `001` ("world") for a language's *international* locale
+  (`en-001`, `fr-001`). **There are no bare-language directories** (`/locales/en/` is not a route). The one existing extra segment is
+  `en-gb-oxendict` (British English, Oxford spelling, which has no standard subtag). `bin/test` enforces the rule on
+  `src/routes/locales/`.
+- **The tree is `/locales/<code>/`**, one thin page per locale around a shared template; `/` is the default locale `en-001` and is the
+  untranslated, canonical English site. There are 15 locales: `ar-001 bn-001 cy-001 cy-gb en-001 en-gb en-gb-oxendict en-us es-001
+  fr-001 hi-001 id-001 pt-001 ru-001 ur-001 zh-cn`. Each translated page says, in its own language, that deeper pages (tutorials,
+  component docs) are English-only for now.
+- **Labels are endonyms** — each language's own name (`Cymraeg`, `Français`, `العربية`) — except where a language has several
+  regional locales: then the label adds the region after a dash (`English - Great Britain`, `Cymraeg - Prydain Fawr`), never an
+  abbreviation or parenthetical.
+- **Direction and language follow the locale:** `<html lang dir>` is set at prerender time from the locale (`-001` is dropped to the
+  bare language tag; `cy-gb` becomes `cy-GB`; `ar-001` and `ur-001` are `rtl`) and kept right across client-side navigation.
+- **The home page redirects by browser language, once per session.** On the first visit, `/` reads `navigator.languages` and, for each
+  preference in order, tries the tag itself (`cy-GB` or `cy_GB` → `cy-gb`), then language + region (`zh-Hans-CN` → `zh-cn`), then the
+  language's `-001` locale (`fr-CA` → `fr-001`; `en-AU`, which has no `en-au` route, → `/locales/en-001/`). Nothing else is guessed
+  (`zh-TW` stays on `/`). It runs only in the browser, so the prerendered page and crawlers see the English home page, and only from `/`.
+- **Every locale supplies every UI string**, including the picker labels (theme, language, text size, share, search, search field,
+  search button). Translations should follow an authoritative term base where one exists: the Welsh strings use *TermCymru* (Welsh
+  Government), the Spanish ones follow the project's terminology note.
+
 ## Acceptance criteria
 
 - [ ] No headless component contains a hardcoded user-facing string (label, description, placeholder, error, action verb, or announcement). Two real violations found 2026-09-06: (1) React's `EditableForm.tsx` rendered `{children}` *and* its own hardcoded `<button type="submit">Save</button>`, contradicting its own doc comment and its Svelte/Vue counterparts — **fixed**, in both `@lilydesignsystem/react-headless` and its `lily-design-system-react-next-examples` copy, tests updated to supply the button as a child. (2) `RedAmberGreenPicker`/`RedOrangeYellowGreenBluePicker` in svelte (canonical), react, and vue hardcode English `<option>` text ("Red"/"Amber"/"Green", "Orange"/"Yellow"/"Blue"), self-documented in their own header comment as "hardcoded; wrap or fork to localize" — **still open**; angular/blazor/nunjucks implement the div/radiogroup composition pattern instead and have no such strings, so fixing this needs a decision on which shape (native `<select>` vs. composed radiogroup) is actually canonical before the 3 affected catalogs can be brought in line — see the related, still-open `headless` topic item on the same div-vs-select disagreement.
@@ -97,6 +126,8 @@ Live-region components own the ARIA plumbing but never the words.
 - [x] Anchors take visible text via `children`; icon-only links take an explicit `label` prop driving `aria-label`.
 - [x] No component embeds plural / gender / conditional copy logic.
 - [x] No component assumes LTR in its structural HTML; direction is left to the consumer's `dir` + CSS.
+- [x] Every docs-site locale directory is `<language>-<region>`, with no bare-language directories (checked by `bin/test`, 2026-10-07).
+- [x] The docs site's home page redirects by browser language per the algorithm above (tests: `tests/locale-redirect.spec.ts`).
 
 ## Related topics
 
@@ -107,6 +138,8 @@ Live-region components own the ARIA plumbing but never the words.
 
 ## Sources
 
+- [lilydesignsystem.github.io/spec/locales-for-global-sharing-with-svelte](../../lilydesignsystem.github.io/spec/locales-for-global-sharing-with-svelte/index.md)
+- `lilydesignsystem.github.io/src/lib/locales.ts` (the registry), `src/lib/i18n.ts` (the UI strings), `src/lib/locale-redirect.ts` (the matcher)
 - [AGENTS/internationalization.md](../../AGENTS/internationalization.md)
 - [spec/index.md](../index.md) §4.3 Internationalisation
 - [AGENTS/accessibility.md](../../AGENTS/accessibility.md)
