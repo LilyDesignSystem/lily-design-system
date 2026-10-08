@@ -19,6 +19,8 @@ Install only what you need:
 | `@lilydesignsystem/html-text-size-picker` | text-size preference |
 | `@lilydesignsystem/html-motion-picker` | reduced-motion preference |
 | `@lilydesignsystem/html-link-picker` | an app-defined page-links menu (a home icon) |
+| `@lilydesignsystem/html-menu-picker` | a dropdown of whatever the app provides (a hamburger icon) |
+| `@lilydesignsystem/html-settings-picker` | a dropdown of whatever the app provides (a cog icon) |
 | `@lilydesignsystem/html-search-picker` | a search action |
 | `@lilydesignsystem/html-share-picker` | a share action |
 | `@lilydesignsystem/html-date-time-picker` | a date-time form value |

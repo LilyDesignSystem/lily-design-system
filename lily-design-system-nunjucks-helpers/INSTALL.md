@@ -19,6 +19,8 @@ Install only what you need:
 | `@lilydesignsystem/nunjucks-text-size-picker` | text-size preference |
 | `@lilydesignsystem/nunjucks-motion-picker` | reduced-motion preference |
 | `@lilydesignsystem/nunjucks-link-picker` | an app-defined page-links menu (a home icon) |
+| `@lilydesignsystem/nunjucks-menu-picker` | a dropdown of whatever the app provides (a hamburger icon) |
+| `@lilydesignsystem/nunjucks-settings-picker` | a dropdown of whatever the app provides (a cog icon) |
 | `@lilydesignsystem/nunjucks-search-picker` | a search action |
 | `@lilydesignsystem/nunjucks-share-picker` | a share action |
 | `@lilydesignsystem/nunjucks-date-time-picker` | a date-time form value |

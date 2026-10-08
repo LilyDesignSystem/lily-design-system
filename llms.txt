@@ -53,7 +53,7 @@ searchable component catalog: https://lilydesignsystem.com/.
   suites, Storybook coverage, Playwright e2e, axe, responsive sweep.
 - [spec/national-identifiers/index.md](spec/national-identifiers/index.md):
   the 140 national personal identifier components, validation algorithms.
-- [spec/helpers/index.md](spec/helpers/index.md): the eight `*-picker`
+- [spec/helpers/index.md](spec/helpers/index.md): the ten `*-picker`
   helper contracts in full, picker-bar, and the tooltip contract.
 - [spec/frameworks/index.md](spec/frameworks/index.md): the seven
   framework pairs, per-framework file shapes, the copy-pattern.

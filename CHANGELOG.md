@@ -9,6 +9,19 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## `menu-picker` and `settings-picker`, two more pickers, in all eight catalogs — 2026-10-08
+
+Two new free-standing helpers: an icon button (a hamburger, a cog — bundled SVGs on the shared 16x16 grid) that opens a dropdown of
+**whatever the app provides**. A disclosure, not an ARIA menu: the panel is a named `role="group"`; it closes on select, Escape, Tab,
+outside click and focus-out (Blazor: button, Escape and the content's `Close()`), the content receives a `close()`, `open` is
+bindable, and the picker tooltip applies. No default content, no English; not part of `picker-bar`. 80 `*-picker` packages now
+(8 catalogs x 10). Contracts: `spec/menu-picker`, `spec/settings-picker`; the 45 `themes/` style them (popup placement
+included); `bin/smoke-packages`, `bin/check-theme` and the install tables know them. Suites green: Svelte 518, React 528, Vue 527,
+Angular 561, HTML 591, Web Components 589, Nunjucks 663, Blazor 454. A real-browser check against the built HTML packages found
+and fixed one bug the jsdom suite could not see: an element upgraded in place (markup parsed before the element was defined)
+rendered from `attributeChangedCallback` before capturing its children, nesting a second picker inside the panel (test 7.5b).
+Unpublished: first releases will be 0.1.0.
+
 ## Docs site: no smooth scrolling — 2026-10-07
 
 Removed `html { scroll-behavior: smooth }` from the site stylesheet: SvelteKit scrolls to the top after every navigation, and smooth

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>lily-menu-picker — a form and events</title>
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 2rem; max-width: 40rem; }
+      .lily-menu-picker { position: relative; display: inline-block; }
+      .menu-picker-button { cursor: pointer; padding: 0.4rem 0.6rem; background: none; border: 1px solid currentColor; border-radius: 0.25rem; }
+      .menu-picker-panel { position: absolute; inset-block-start: 100%; z-index: 10; margin-block-start: 0.25rem; padding: 0.5rem; background: #fff; border: 1px solid #d8dde0; border-radius: 0.25rem; }
+      .menu-picker-panel[hidden], .menu-picker-tooltip[hidden] { display: none; }
+      :focus-visible { outline: 3px solid #ffeb3b; outline-offset: 2px; }
+    </style>
+  </head>
+  <body>
+    <h1>lily-menu-picker — a form and events</h1>
+    <p>Typing does not close the panel; submitting calls <code>close()</code>. <code>openchange</code> reports every change.</p>
+    <lily-menu-picker id="menu" label="Menu">
+      <form id="search">
+        <input type="search" aria-label="Search" />
+        <button type="submit" data-menu-picker-keep-open>Go</button>
+      </form>
+    </lily-menu-picker>
+    <p id="log" aria-live="polite"></p>
+
+    <script type="module">
+      import "/dist/index.js";
+      const menu = document.getElementById("menu");
+      document.getElementById("search").addEventListener("submit", (event) => {
+        event.preventDefault();
+        menu.close();
+      });
+      menu.addEventListener("openchange", (event) => {
+        document.getElementById("log").textContent = `open: ${event.detail.open}`;
+      });
+    </script>
+  </body>
+</html>

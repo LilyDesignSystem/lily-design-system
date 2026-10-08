@@ -24,6 +24,8 @@
     <ProjectReference Include="..\..\lily-design-system-blazor-text-size-picker\LilyDesignSystem.Blazor.TextSizePicker.csproj" />
     <ProjectReference Include="..\..\lily-design-system-blazor-motion-picker\LilyDesignSystem.Blazor.MotionPicker.csproj" />
     <ProjectReference Include="..\..\lily-design-system-blazor-link-picker\LilyDesignSystem.Blazor.LinkPicker.csproj" />
+    <ProjectReference Include="..\..\lily-design-system-blazor-menu-picker\LilyDesignSystem.Blazor.MenuPicker.csproj" />
+    <ProjectReference Include="..\..\lily-design-system-blazor-settings-picker\LilyDesignSystem.Blazor.SettingsPicker.csproj" />
     <ProjectReference Include="..\..\lily-design-system-blazor-share-picker\LilyDesignSystem.Blazor.SharePicker.csproj" />
     <ProjectReference Include="..\..\lily-design-system-blazor-search-picker\LilyDesignSystem.Blazor.SearchPicker.csproj" />
     <ProjectReference Include="..\..\lily-design-system-blazor-date-time-picker\LilyDesignSystem.Blazor.DateTimePicker.csproj" />
@@ -40,6 +42,8 @@
     <Compile Include="..\..\lily-design-system-blazor-text-size-picker\TextSizePickerTests.cs" />
     <Compile Include="..\..\lily-design-system-blazor-motion-picker\MotionPickerTests.cs" />
     <Compile Include="..\..\lily-design-system-blazor-link-picker\LinkPickerTests.cs" />
+    <Compile Include="..\..\lily-design-system-blazor-menu-picker\MenuPickerTests.cs" />
+    <Compile Include="..\..\lily-design-system-blazor-settings-picker\SettingsPickerTests.cs" />
     <Compile Include="..\..\lily-design-system-blazor-share-picker\SharePickerTests.cs" />
     <Compile Include="..\..\lily-design-system-blazor-search-picker\SearchPickerTests.cs" />
     <Compile Include="..\..\lily-design-system-blazor-date-time-picker\DateTimePickerTests.cs" />

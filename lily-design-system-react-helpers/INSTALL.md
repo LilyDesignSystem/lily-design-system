@@ -19,6 +19,8 @@ Install only what you need:
 | `@lilydesignsystem/react-text-size-picker` | text-size preference |
 | `@lilydesignsystem/react-motion-picker` | reduced-motion preference |
 | `@lilydesignsystem/react-link-picker` | an app-defined page-links menu (a home icon) |
+| `@lilydesignsystem/react-menu-picker` | a dropdown of whatever the app provides (a hamburger icon) |
+| `@lilydesignsystem/react-settings-picker` | a dropdown of whatever the app provides (a cog icon) |
 | `@lilydesignsystem/react-search-picker` | a search action |
 | `@lilydesignsystem/react-share-picker` | a share action |
 | `@lilydesignsystem/react-date-time-picker` | a date-time form value |

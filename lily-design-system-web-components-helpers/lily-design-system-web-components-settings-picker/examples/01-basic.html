@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>lily-settings-picker — basic</title>
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 2rem; max-width: 40rem; }
+      lily-settings-picker { display: inline-block; }
+      .lily-settings-picker { position: relative; display: inline-block; }
+      .settings-picker-button { cursor: pointer; padding: 0.4rem 0.6rem; background: none; border: 1px solid currentColor; border-radius: 0.25rem; }
+      .settings-picker-panel {
+        position: absolute; inset-block-start: 100%; inset-inline-start: 0; z-index: 10;
+        margin: 0.25rem 0 0; padding: 0.25rem 0; min-inline-size: max-content;
+        background: #fff; border: 1px solid #d8dde0; border-radius: 0.25rem; box-shadow: 0 2px 8px rgb(0 0 0 / 0.12);
+      }
+      .settings-picker-panel[hidden], .settings-picker-tooltip[hidden] { display: none; }
+      .settings-picker-panel ul { margin: 0; padding: 0; list-style: none; }
+      .settings-picker-panel a, .settings-picker-panel button { display: block; padding: 0.5rem 0.75rem; color: inherit; text-decoration: none; background: none; border: 0; font: inherit; text-align: start; inline-size: 100%; cursor: pointer; }
+      :focus-visible { outline: 3px solid #ffeb3b; outline-offset: 2px; }
+    </style>
+  </head>
+  <body>
+    <h1>lily-settings-picker — basic</h1>
+    <p>The app provides the panel's content: here, two links and a button.</p>
+    <lily-settings-picker label="Settings">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/about/">About Us</a></li>
+        <li><button type="button">Sign out</button></li>
+      </ul>
+    </lily-settings-picker>
+
+    <script type="module">
+      import "/dist/index.js";
+    </script>
+  </body>
+</html>

@@ -1,0 +1,60 @@
+{#
+  MenuPicker macro — icon button (a bundled hamburger SVG, viewBox 0 0 16 16) that opens a
+  disclosure panel holding whatever the app provides.
+
+  HTML tag: <div> (root), <button> + <div role="group"> (disclosure, NOT a menu)
+  CSS class: menu-picker
+  Companion runtime: menu-picker.client.js
+
+  It owns an interaction, not a preference: it applies nothing to the document and persists
+  nothing. The panel's content is server-rendered and present without JavaScript; the panel
+  cannot be opened without it. See docs/ssr.md.
+
+  The panel's content is the `{% call %}` block body (the macro's `caller()`).
+
+  Params (single `opts` object):
+    label       — string, required. aria-label for the trigger button AND the panel, and the
+                  tooltip text. The button is icon-only, so this is the ONLY accessible name it has.
+    iconHtml    — string. Trusted HTML that replaces the default hamburger icon inside the button.
+    open        — boolean. Render the panel open (aria-expanded="true", no hidden attribute).
+    name        — string, default "menu". Discriminator used to derive ids.
+    id          — string. Id prefix for the panel. Defaults to "menu-picker-{name}". Supply an
+                  explicit id when rendering two instances that share a `name`.
+    classes     — string. Extra CSS classes on the root <div>.
+    attributes  — object. Extra HTML attributes spread onto the root.
+
+  There is NO default content and no English: the package ships no links.
+
+  Usage:
+    {% from "./menu-picker.njk" import menuPicker %}
+    {% call menuPicker({ label: "Menu" }) %}
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/about/">About Us</a></li>
+      </ul>
+    {% endcall %}
+
+  Then load menu-picker.client.js once and call autoInit().
+
+  Spec: spec/index.md §4 (macro parameters, DOM contract).
+#}
+{%- macro menuPicker(opts) -%}
+{%- set name = opts.name | default("menu") -%}
+{%- set id = opts.id | default("menu-picker-" + name) -%}
+{%- set panelId = id + "-panel" -%}
+<div
+  class="menu-picker{% if opts.classes %} {{ opts.classes }}{% endif %}"
+  data-lily-menu-picker-root
+  data-lily-menu-picker-name="{{ name }}"
+  {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+<button type="button" class="menu-picker-button" aria-label="{{ opts.label }}" aria-expanded="{{ 'true' if opts.open else 'false' }}" aria-controls="{{ panelId }}" data-lily-menu-picker-button>
+{%- if opts.iconHtml %}{{ opts.iconHtml | safe }}{% else %}<svg class="menu-picker-icon" viewBox="0 0 16 16" width="1.05rem" height="1.05rem" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 3.5h13M1.5 8h13M1.5 12.5h13"/></svg>{% endif -%}
+</button>
+<div class="menu-picker-tooltip" role="tooltip" id="{{ id }}-tooltip" hidden>{{ opts.label }}</div>
+{#- A named group, not a menu: the content is the app's. -#}
+<div class="menu-picker-panel" id="{{ panelId }}" role="group" aria-label="{{ opts.label }}"{% if not opts.open %} hidden{% endif %} data-lily-menu-picker-panel>
+{%- if caller %}{{ caller() }}{% endif -%}
+</div>
+</div>
+{%- endmacro -%}

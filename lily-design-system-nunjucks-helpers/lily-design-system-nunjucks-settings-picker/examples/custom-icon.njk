@@ -1,0 +1,6 @@
+{% from "lily-design-system-nunjucks-settings-picker/dist/settings-picker.njk" import settingsPicker %}
+
+{# iconHtml (trusted HTML) replaces the cog inside the button, never the panel's content. #}
+{% call settingsPicker({ label: "More", iconHtml: '<span aria-hidden="true">&hellip;</span>' }) %}
+  <a href="/help/">Help</a>
+{% endcall %}

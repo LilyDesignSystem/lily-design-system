@@ -1,0 +1,13 @@
+@* A form in the panel. The context's Close() closes the panel and returns focus to the button. *@
+<MenuPicker Label="Menu">
+    <ChildContent Context="menu">
+        <form @onsubmit="() => menu.Close()">
+            <input type="search" aria-label="Search" @bind="_query" />
+            <button type="submit">Go</button>
+        </form>
+    </ChildContent>
+</MenuPicker>
+
+@code {
+    private string _query = "";
+}

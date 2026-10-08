@@ -1,0 +1,6 @@
+{% from "lily-design-system-nunjucks-menu-picker/dist/menu-picker.njk" import menuPicker %}
+
+{# iconHtml (trusted HTML) replaces the hamburger inside the button, never the panel's content. #}
+{% call menuPicker({ label: "More", iconHtml: '<span aria-hidden="true">&hellip;</span>' }) %}
+  <a href="/help/">Help</a>
+{% endcall %}

@@ -19,6 +19,8 @@ Install only what you need:
 | `@lilydesignsystem/angular-text-size-picker` | text-size preference |
 | `@lilydesignsystem/angular-motion-picker` | reduced-motion preference |
 | `@lilydesignsystem/angular-link-picker` | an app-defined page-links menu (a home icon) |
+| `@lilydesignsystem/angular-menu-picker` | a dropdown of whatever the app provides (a hamburger icon) |
+| `@lilydesignsystem/angular-settings-picker` | a dropdown of whatever the app provides (a cog icon) |
 | `@lilydesignsystem/angular-search-picker` | a search action |
 | `@lilydesignsystem/angular-share-picker` | a share action |
 | `@lilydesignsystem/angular-date-time-picker` | a date-time form value |

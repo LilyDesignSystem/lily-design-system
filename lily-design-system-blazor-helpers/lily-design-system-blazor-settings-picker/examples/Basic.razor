@@ -1,0 +1,10 @@
+@* The app provides the panel's content: the package ships no links and no English. *@
+<SettingsPicker Label="Settings">
+    <ChildContent Context="menu">
+        <ul>
+            <li><a href="/" @onclick="menu.Close">Home</a></li>
+            <li><a href="/about/" @onclick="menu.Close">About Us</a></li>
+            <li><button type="button" @onclick="menu.Close">Sign out</button></li>
+        </ul>
+    </ChildContent>
+</SettingsPicker>

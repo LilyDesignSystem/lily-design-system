@@ -19,6 +19,8 @@ Install only what you need:
 | `@lilydesignsystem/vue-text-size-picker` | text-size preference |
 | `@lilydesignsystem/vue-motion-picker` | reduced-motion preference |
 | `@lilydesignsystem/vue-link-picker` | an app-defined page-links menu (a home icon) |
+| `@lilydesignsystem/vue-menu-picker` | a dropdown of whatever the app provides (a hamburger icon) |
+| `@lilydesignsystem/vue-settings-picker` | a dropdown of whatever the app provides (a cog icon) |
 | `@lilydesignsystem/vue-search-picker` | a search action |
 | `@lilydesignsystem/vue-share-picker` | a share action |
 | `@lilydesignsystem/vue-date-time-picker` | a date-time form value |

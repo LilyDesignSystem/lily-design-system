@@ -19,6 +19,8 @@ published to NuGet. Install only what you need:
 | `LilyDesignSystem.Blazor.TextSizePicker` | text-size preference |
 | `LilyDesignSystem.Blazor.MotionPicker` | reduced-motion preference |
 | `LilyDesignSystem.Blazor.LinkPicker` | an app-defined page-links menu (a home icon) |
+| `LilyDesignSystem.Blazor.MenuPicker` | a dropdown of whatever the app provides (a hamburger icon) |
+| `LilyDesignSystem.Blazor.SettingsPicker` | a dropdown of whatever the app provides (a cog icon) |
 | `LilyDesignSystem.Blazor.SearchPicker` | a search action |
 | `LilyDesignSystem.Blazor.SharePicker` | a share action |
 | `LilyDesignSystem.Blazor.DateTimePicker` | a date-time form value |

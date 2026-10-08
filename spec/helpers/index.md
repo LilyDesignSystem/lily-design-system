@@ -57,7 +57,7 @@ Each helper subproject follows the same spec-driven shape (Svelte example; other
 | `dist/`                            | Build output (`build.js` per catalog; `files`/`exports` maps, `svelte` condition where relevant).                                                                                      |
 | `docs/`, `examples/`               | Topic guides and runnable examples (optional).                                                                                                                                         |
 
-Each `*-helpers` catalog directory, and each helper inside it, is its own `git subtree` pushed to a standalone remote. All 64 picker packages (8 catalogs × 8 pickers, `picker-bar` included as of 2026-09-15) publish via [`bin/publish-helpers`](../../bin/publish-helpers) (npm registries for the JS frameworks, NuGet for Blazor).
+Each `*-helpers` catalog directory, and each helper inside it, is its own `git subtree` pushed to a standalone remote. All 80 picker packages (8 catalogs × 10 pickers, `picker-bar` included as of 2026-09-15) publish via [`bin/publish-helpers`](../../bin/publish-helpers) (npm registries for the JS frameworks, NuGet for Blazor).
 
 Every package is at **0.1.0**. The July 2026 rename from `*-select` / `*-button` to `*-picker` changed the published package names, and a renamed package has no history under its new name — numbering the first release 0.4.0 would imply three releases that never existed. Nothing had been published, so the reset cost nothing. The in-tree history (radio-group picker → native `<select>` → placeholder-pinned `<select>` → icon button + listbox) is preserved in each package's CHANGELOG under a provenance heading. `motion-picker` (added 2026-09-03) never carried the old names, so it has no provenance heading to preserve.
 
@@ -645,6 +645,18 @@ accessibility documentation before writing the table above:
 - [lily-design-system-svelte-helpers/lily-design-system-svelte-calendar-view/](../../lily-design-system-svelte-helpers/lily-design-system-svelte-calendar-view/) — calendar-view contract (canonical spec; implemented only here so far)
 - [bin/publish-helpers](../../bin/publish-helpers) — release pipeline
 - [spec/index.md](../index.md) §3 (subproject architecture)
+
+### `menu-picker` and `settings-picker` (added 2026-10-08)
+
+Two more disclosure-style pickers: an icon button (a hamburger, a cog) opening a dropdown panel of **whatever the app provides**.
+Contracts: [menu-picker](../menu-picker/index.md), [settings-picker](../settings-picker/index.md); the Svelte packages'
+`spec/index.md` are canonical (21 clauses, one test each per port; Blazor 19 — see its spec for the two clauses that do not
+apply without JS interop; HTML and Web Components add 7.5b, markup-written content surviving an in-place upgrade). The panel is a named `role="group"`, not an ARIA menu, because arbitrary content is not a roving-focus
+`menuitem` widget; it closes on select / Escape / Tab / outside click / focus-out (Blazor: button, Escape and the content's
+`Close()`), and the content receives a `close()`. No default content, no English, the picker tooltip, and **not** part of
+`picker-bar`. The two differ only in the icon, class prefix and default accessible name used in docs. Per-catalog idioms:
+`children` (Svelte snippet, React node or render prop), the default slot (Vue), projected content with `[(open)]` (Angular),
+`ChildContent` (Blazor), light-DOM children (HTML, Web Components), a `{% call %}` body plus a client runtime (Nunjucks).
 
 ### `link-picker` (added 2026-10-07)
 

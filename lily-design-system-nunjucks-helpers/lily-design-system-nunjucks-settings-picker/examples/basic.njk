@@ -1,0 +1,12 @@
+{#
+  The app provides the panel's content: the package ships no links and no English.
+#}
+{% from "lily-design-system-nunjucks-settings-picker/dist/settings-picker.njk" import settingsPicker %}
+
+{% call settingsPicker({ label: "Settings" }) %}
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about/">About Us</a></li>
+    <li><button type="button">Sign out</button></li>
+  </ul>
+{% endcall %}

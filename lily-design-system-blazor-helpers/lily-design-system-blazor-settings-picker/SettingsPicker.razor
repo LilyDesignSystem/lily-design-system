@@ -1,0 +1,71 @@
+@namespace LilyDesignSystem.Blazor.Helpers
+@using LilyBlazorHeadless.Components
+
+@*
+    SettingsPicker — Blazor helper component.
+    Single source of truth: spec/index.md (the Svelte spec is canonical; this is its Blazor port).
+
+    Renders an icon button (a bundled cog SVG) that opens a disclosure panel holding whatever
+    the app provides. A disclosure, not a menu: the content is arbitrary, so the panel is a named
+    role="group" with no menu roles and no roving focus.
+
+    Blazor deviations from the canonical contract (no JS interop, so no JS file ships):
+      - There is no outside-click or focus-out close and no automatic close-on-select: Blazor
+        cannot see the event target or the next focus target. The panel closes on the button, on
+        Escape, and when the content calls context.Close().
+      - ArrowDown/ArrowUp on the button focus the panel itself (tabindex="-1"); Tab then walks
+        its content, because Blazor cannot query the first/last focusable element.
+*@
+
+<div class="@RootClass"
+     @onkeydown="OnTipRootKeyDown"
+     @attributes="AdditionalAttributes">
+
+    <IconButton @ref="_triggerComponent"
+                Label="@Label"
+                BaseCssClass="settings-picker-button"
+                aria-expanded="@(Open ? "true" : "false")"
+                aria-controls="@PanelId"
+                @onclick="OnTriggerClickAsync"
+                @onkeydown="OnTriggerKeyDownAsync"
+                @onfocus="OnTriggerFocus"
+                @onmouseenter="OnTipButtonEnter" @onmouseleave="OnTipButtonLeave"
+                @onmousedown="OnTipButtonMouseDown" @onblur="OnTipButtonBlur">
+        @if (Icon is not null)
+        {
+            @Icon(BuildContext())
+        }
+        else
+        {
+            @* The icon is decorative: the accessible name is the button's aria-label, never the
+               icon itself. *@
+            <svg class="settings-picker-icon" viewBox="0 0 16 16" aria-hidden="true"
+                 fill="none" stroke="currentColor" stroke-width="1.6"
+                 stroke-linecap="round" stroke-linejoin="round"
+                 width="1.05rem" height="1.05rem">
+                <path d="M6.7 3.3L7.0 1.4L9.0 1.4L9.3 3.3L10.5 3.8L11.9 2.6L13.4 4.1L12.2 5.6L12.7 6.7L14.6 7.0L14.6 9.0L12.7 9.3L12.2 10.4L13.4 11.9L11.9 13.4L10.5 12.2L9.3 12.7L9.0 14.6L7.0 14.6L6.7 12.7L5.6 12.2L4.1 13.4L2.6 11.9L3.8 10.4L3.3 9.3L1.4 9.0L1.4 7.0L3.3 6.7L3.8 5.5L2.6 4.1L4.1 2.6L5.5 3.8Z" /><circle cx="8" cy="8" r="2.2" />
+            </svg>
+        }
+    </IconButton>
+
+    @* Purely visual: the same text is already the button's aria-label, so it is not wired with
+       aria-describedby (that would announce the name twice). *@
+    <div class="settings-picker-tooltip" role="tooltip" id="@TooltipId" hidden="@(!TooltipVisible)"
+         @onkeydown="OnTipRootKeyDown" @onmouseenter="OnTipTooltipEnter" @onmouseleave="OnTipTooltipLeave">@Label</div>
+
+    @* A named group, not a menu: the content is the app's. *@
+    <div class="settings-picker-panel"
+         id="@PanelId"
+         role="group"
+         tabindex="-1"
+         aria-label="@Label"
+         hidden="@(!Open)"
+         @ref="_panelElement"
+         @onkeydown="OnPanelKeyDownAsync"
+         @onclick="OnPanelClickAsync">
+        @if (ChildContent is not null)
+        {
+            @ChildContent(BuildContext())
+        }
+    </div>
+</div>

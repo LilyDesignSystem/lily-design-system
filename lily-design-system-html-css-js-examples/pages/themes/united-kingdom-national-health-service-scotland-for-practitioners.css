@@ -2307,6 +2307,8 @@
         .text-size-picker,
         .search-picker,
         .link-picker,
+        .menu-picker,
+        .settings-picker,
         .share-picker,
         .date-time-picker
     ) {
@@ -2320,6 +2322,8 @@
         .text-size-picker-button,
         .search-picker-button,
         .link-picker-button,
+        .menu-picker-button,
+        .settings-picker-button,
         .share-picker-button,
         .date-time-picker-button
     ) {
@@ -2356,6 +2360,8 @@
         .text-size-picker-icon,
         .motion-picker-icon,
         .link-picker-icon,
+        .menu-picker-icon,
+        .settings-picker-icon,
         .share-picker-icon,
         .search-picker-icon
     ) {
@@ -2721,6 +2727,8 @@
         .text-size-picker-tooltip,
         .motion-picker-tooltip,
         .link-picker-tooltip,
+        .menu-picker-tooltip,
+        .settings-picker-tooltip,
         .share-picker-tooltip,
         .search-picker-tooltip,
         .date-time-picker-tooltip
@@ -2746,6 +2754,8 @@
         .text-size-picker-tooltip,
         .motion-picker-tooltip,
         .link-picker-tooltip,
+        .menu-picker-tooltip,
+        .settings-picker-tooltip,
         .share-picker-tooltip,
         .search-picker-tooltip,
         .date-time-picker-tooltip
@@ -2763,6 +2773,8 @@
         .text-size-picker-tooltip,
         .motion-picker-tooltip,
         .link-picker-tooltip,
+        .menu-picker-tooltip,
+        .settings-picker-tooltip,
         .share-picker-tooltip,
         .search-picker-tooltip,
         .date-time-picker-tooltip
@@ -2817,6 +2829,8 @@
         .text-size-picker-list,
         .motion-picker-list,
         .link-picker-list,
+        .menu-picker-panel,
+        .settings-picker-panel,
         .share-picker-list,
         .search-picker-panel
     ) {
@@ -2844,6 +2858,8 @@
         .text-size-picker-list,
         .motion-picker-list,
         .link-picker-list,
+        .menu-picker-panel,
+        .settings-picker-panel,
         .share-picker-list,
         .search-picker-panel
     )[hidden] {
@@ -2862,6 +2878,8 @@
         :where(.text-size-picker) { anchor-name: --lily-text-size-picker; }
         :where(.motion-picker) { anchor-name: --lily-motion-picker; }
         :where(.link-picker) { anchor-name: --lily-link-picker; }
+        :where(.menu-picker) { anchor-name: --lily-menu-picker; }
+        :where(.settings-picker) { anchor-name: --lily-settings-picker; }
         :where(.share-picker) { anchor-name: --lily-share-picker; }
         :where(.search-picker) { anchor-name: --lily-search-picker; }
         :where(.theme-picker-list) { position-anchor: --lily-theme-picker; }
@@ -2869,6 +2887,8 @@
         :where(.text-size-picker-list) { position-anchor: --lily-text-size-picker; }
         :where(.motion-picker-list) { position-anchor: --lily-motion-picker; }
         :where(.link-picker-list) { position-anchor: --lily-link-picker; }
+        :where(.menu-picker-panel) { position-anchor: --lily-menu-picker; }
+        :where(.settings-picker-panel) { position-anchor: --lily-settings-picker; }
         :where(.share-picker-list) { position-anchor: --lily-share-picker; }
         :where(.search-picker-panel) { position-anchor: --lily-search-picker; }
         :where(
@@ -2877,6 +2897,8 @@
             .text-size-picker-list,
             .motion-picker-list,
             .link-picker-list,
+            .menu-picker-panel,
+            .settings-picker-panel,
             .share-picker-list,
             .search-picker-panel
         ) {

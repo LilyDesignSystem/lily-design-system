@@ -1,0 +1,5 @@
+@* Icon replaces the cog inside the button, never the panel's content. *@
+<SettingsPicker Label="More">
+    <Icon Context="ctx"><span aria-hidden="true">@(ctx.Open ? "×" : "⋯")</span></Icon>
+    <ChildContent><a href="/help/">Help</a></ChildContent>
+</SettingsPicker>

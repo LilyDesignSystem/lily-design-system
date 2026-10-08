@@ -1,0 +1,12 @@
+{#
+  The app provides the panel's content: the package ships no links and no English.
+#}
+{% from "lily-design-system-nunjucks-menu-picker/dist/menu-picker.njk" import menuPicker %}
+
+{% call menuPicker({ label: "Menu" }) %}
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about/">About Us</a></li>
+    <li><button type="button">Sign out</button></li>
+  </ul>
+{% endcall %}

@@ -40,7 +40,7 @@ and the exact scope.
 
 ## Subprojects for framework helpers
 
-Each catalog ships eight `*-picker` helpers — theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, search-picker (added 2026-10-02), link-picker (added 2026-10-07: a home icon opening the page links the app defines), date-time-picker. The first six are an icon button that opens a popup; none is a native `<select>` any more. `date-time-picker` is the exception: a form control, so it pairs a typeable text field with its trigger and opens an APG date-picker dialog. Svelte is the canonical reference; the other six are idiom ports.
+Each catalog ships ten `*-picker` helpers — theme-picker, locale-picker, text-size-picker, motion-picker, share-picker, search-picker (added 2026-10-02), link-picker (added 2026-10-07: a home icon opening the page links the app defines), menu-picker and settings-picker (added 2026-10-08: a hamburger / a cog opening a dropdown of whatever the app provides), date-time-picker. The first six are an icon button that opens a popup; none is a native `<select>` any more. `date-time-picker` is the exception: a form control, so it pairs a typeable text field with its trigger and opens an APG date-picker dialog. Svelte is the canonical reference; the other six are idiom ports.
 
 - [Lily Design System: HTML helpers](../lily-design-system-html-helpers)
 - [Lily Design System: Svelte helpers](../lily-design-system-svelte-helpers)
@@ -96,6 +96,9 @@ All twenty-six follow the `lily-design-system-` prefix and get full subproject t
 - [generate-api-docs](../bin/generate-api-docs): Canonical-contract sections on the site's component pages, generated from components/*/AGENTS.md — drift-checked
 - [new-component](../bin/new-component): End-to-end scaffolder — one new placeholder component across every layer bin/test verifies
 - [generate-examples](../bin/generate-examples): Usage examples (from the docs) and rendered variants (component-variants.json) for every demonstration page
+- [extract-site-pages](../bin/extract-site-pages): The docs site's eight main English pages as translation sources (`src/lib/pages/*/en.html`)
+- [check-site-page-translations](../bin/check-site-page-translations): Translated site pages keep the English markup structure and code samples, and each language is complete
+- [generate-locale-pages](../bin/generate-locale-pages): `/<code>/<page>/` routes for every translated language
 - [generate-site-pages](../bin/generate-site-pages): Docs-site component pages from components/{slug}/index.md, with the Example section refreshed on every page
 - [generate-sitemap](../bin/generate-sitemap): Docs-site sitemap.xml from the route tree (`--check` reports drift)
 - [smoke-packages](../bin/smoke-packages): Pack + install each published headless tarball into a scratch consumer and render it
