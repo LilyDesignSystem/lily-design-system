@@ -3,6 +3,10 @@
 All notable changes to this helper are documented in this file. The format is loosely based on
 [Keep a Changelog](https://keepachangelog.com/) and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.1.1 — 2026-10-08
+
+Republished from `dist/` (ng-packagr output). 0.1.0 was published from the source directory by mistake and carries no compiled code; it is deprecated on npm. No source change.
+
 ## 0.1.0 — 2026-10-08
 
 **First release.** An icon button (a bundled cog SVG) opening a disclosure panel that holds whatever the

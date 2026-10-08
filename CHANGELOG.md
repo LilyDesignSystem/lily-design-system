@@ -20,7 +20,7 @@ included); `bin/smoke-packages`, `bin/check-theme` and the install tables know t
 Angular 561, HTML 591, Web Components 589, Nunjucks 663, Blazor 454. A real-browser check against the built HTML packages found
 and fixed one bug the jsdom suite could not see: an element upgraded in place (markup parsed before the element was defined)
 rendered from `attributeChangedCallback` before capturing its children, nesting a second picker inside the panel (test 7.5b).
-Unpublished: first releases will be 0.1.0.
+Published 2026-10-08 as 0.1.0 (npm, and NuGet through `publish.yml`). The three Angular packages that went out from the source directory instead of `dist/` (`angular-menu-picker` and `angular-settings-picker` 0.1.0, `angular-link-picker` 0.1.1) carry no compiled code and are deprecated on npm; `0.1.1`, `0.1.1` and `0.1.2` replace them. Angular helpers publish from `dist/`.
 
 ## Docs site: no smooth scrolling — 2026-10-07
 
