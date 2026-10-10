@@ -83,8 +83,8 @@ Headless versions if you want to use components with all your own styles:
 
 ## Helpers
 
-Small, opinionated helper packages for every framework — Svelte's, React's, Vue's, Angular's, HTML's and Web Components'
-as one top-level subproject each, the other two frameworks' in a catalog each.
+Small, opinionated helper packages for every framework — Svelte's, React's, Vue's, Angular's, HTML's, Web Components' and Nunjucks'
+as one top-level subproject each, the other one frameworks' in a catalog each.
 Each framework ships ten `*-picker` helpers — 80 packages in all — and each
 owns one complete interaction end to end:
 
@@ -180,7 +180,21 @@ owns one complete interaction end to end:
   - [`gantt-chart`](lily-design-system-angular-gantt-chart)
   - [`picker-bar`](lily-design-system-angular-picker-bar)
 - [Blazor helpers](lily-design-system-blazor-helpers)
-- [Nunjucks helpers](lily-design-system-nunjucks-helpers)
+- Nunjucks helpers, one top-level subproject per package:
+  - [`date-time-picker`](lily-design-system-nunjucks-date-time-picker)
+  - [`link-picker`](lily-design-system-nunjucks-link-picker)
+  - [`listbox-behavior`](lily-design-system-nunjucks-listbox-behavior)
+  - [`menu-picker`](lily-design-system-nunjucks-menu-picker)
+  - [`search-picker`](lily-design-system-nunjucks-search-picker)
+  - [`settings-picker`](lily-design-system-nunjucks-settings-picker)
+  - [`share-picker`](lily-design-system-nunjucks-share-picker)
+  - [`gantt-chart`](lily-design-system-nunjucks-gantt-chart)
+  - [`kanban-board`](lily-design-system-nunjucks-kanban-board)
+  - [`locale-picker`](lily-design-system-nunjucks-locale-picker)
+  - [`motion-picker`](lily-design-system-nunjucks-motion-picker)
+  - [`text-size-picker`](lily-design-system-nunjucks-text-size-picker)
+  - [`theme-picker`](lily-design-system-nunjucks-theme-picker)
+  - [`picker-bar`](lily-design-system-nunjucks-picker-bar)
 - Web Components helpers — an independent copy of the HTML helpers with `lily-*` tags, one top-level subproject per package:
   - [`date-time-picker`](lily-design-system-web-components-date-time-picker)
   - [`kanban-board`](lily-design-system-web-components-kanban-board)

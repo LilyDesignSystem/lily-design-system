@@ -50,55 +50,6 @@ jobs:
       - name: bin/check-class-names (every headless implementation carries its base class)
         run: bin/check-class-names
 
-  helpers:
-    name: helpers tests (${{ matrix.catalog }})
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        catalog:
-          - lily-design-system-nunjucks-helpers
-    steps:
-      - uses: actions/checkout@v7
-      - name: Free preinstalled runner bloat for headroom
-        # The ubuntu runner ships ~30 GB of toolchains this job never
-        # touches (dotnet SDKs, Android, Haskell, CodeQL bundles).
-        # Reclaim them up front; each removal is best-effort so a
-        # runner-image change never breaks the build.
-        run: |
-          df -h / | tail -1
-          sudo rm -rf /usr/share/dotnet \
-                      /usr/local/lib/android \
-                      /opt/ghc /usr/local/.ghcup \
-                      /opt/hostedtoolcache/CodeQL \
-                      /usr/local/share/boost 2>/dev/null || true
-          df -h / | tail -1
-      - uses: pnpm/action-setup@v6
-        with:
-          version: 11
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 22
-          cache: pnpm
-          cache-dependency-path: ${{ matrix.catalog }}/pnpm-lock.yaml
-      - name: Install
-        working-directory: ${{ matrix.catalog }}
-        run: pnpm install --no-frozen-lockfile
-      - name: Build
-        # picker-bar's test-time vite alias for each sibling package
-        # (theme/locale/text-size/share-picker) resolves to that
-        # sibling's built dist/, since this catalog has no pnpm
-        # workspace linking (no `packages:` glob) to resolve the bare
-        # import another way. dist/ is gitignored, so a fresh checkout
-        # has none until this step builds it -- skipping it reproduces
-        # exactly the "Failed to resolve import" failure this step
-        # exists to prevent.
-        working-directory: ${{ matrix.catalog }}
-        run: pnpm run build
-      - name: Test
-        working-directory: ${{ matrix.catalog }}
-        run: pnpm exec vitest run
-
   helper-packages:
     # Top-level helper packages, one subproject each (the *-helpers
     # catalogs dissolved into them, Svelte first, 2026-10-10). Each is its
@@ -117,6 +68,7 @@ jobs:
           - angular
           - html
           - web-components
+          - nunjucks
     steps:
       - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6
@@ -281,7 +233,7 @@ jobs:
             lily-design-system-vue-*-picker/pnpm-lock.yaml
             lily-design-system-angular-*-picker/pnpm-lock.yaml
             lily-design-system-html-*-picker/pnpm-lock.yaml
-            lily-design-system-nunjucks-helpers/pnpm-lock.yaml
+            lily-design-system-nunjucks-*-picker/pnpm-lock.yaml
       - name: Free preinstalled runner bloat for headroom
         # The ubuntu runner ships ~30 GB of toolchains this job never
         # touches (dotnet SDKs, Android, Haskell, CodeQL bundles).
@@ -363,12 +315,11 @@ jobs:
           for d in $(bin/list-helper-packages html); do
             ( cd "$d" && npm install --no-audit --no-fund --legacy-peer-deps && npm run build && rm -rf node_modules )
           done
-      - name: Build nunjucks helpers dist
-        working-directory: lily-design-system-nunjucks-helpers
+      - name: Build nunjucks helper packages dist
         run: |
-          npm install --no-audit --no-fund --legacy-peer-deps
-          npm run build
-          rm -rf node_modules
+          for d in $(bin/list-helper-packages nunjucks); do
+            ( cd "$d" && npm install --no-audit --no-fund --legacy-peer-deps && npm run build && rm -rf node_modules )
+          done
       - name: Build web-components helper packages dist
         run: |
           for d in $(bin/list-helper-packages web-components); do

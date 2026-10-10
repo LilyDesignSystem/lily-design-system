@@ -1,7 +1,7 @@
 # Lily Design System™ — Nunjucks Helpers Skill
 
 A Claude Skill ([`SKILL.md`](SKILL.md)) that explains how to consume
-[`lily-design-system-nunjucks-helpers`](../lily-design-system-nunjucks-helpers/):
+[the Nunjucks helper packages](../spec/helpers/index.md#nunjucks-helper-packages):
 the six `*-picker` packages (`theme-picker`, `locale-picker`,
 `text-size-picker`, `motion-picker`, `share-picker`, `date-time-picker`),
 the macro-plus-`client.js` split that Nunjucks' server-only rendering

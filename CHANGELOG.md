@@ -9,6 +9,21 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Nunjucks helpers: one top-level subproject per package; the catalog is deleted — 2026-10-10
+
+The 14 packages in `lily-design-system-nunjucks-helpers` (the 13 helpers plus the shared `listbox-behavior`, which gains its own
+`AGENTS.md` and a numbered `spec/index.md`) moved to the repository root the same way, and the catalog was deleted. Each builds with
+its own `build.sh` (tsup on its `.client.js`, plus its `.njk` template copied into `dist/`). The tests' Nunjucks search paths, which
+pointed at the catalog root and the repository root, now both point at the repository root, where every sibling and the headless
+library sit. Lockfiles are seeded from the catalog's. All 14 build and pass (663 tests, as before). The Eleventy example app now
+resolves helper templates and client scripts from the top-level packages. With no npm catalog left, CI's per-catalog `helpers`
+job is gone. 138 published repositories.
+
+Found while verifying, not caused by this move and not fixed here: the Eleventy app's `.eleventy.js` points its headless template
+root at `../@lilydesignsystem/nunjucks-headless`, which does not exist, so `eleventy` fails with `template not found:
+components/button/macro.njk` before and after this change; pointing it at `../lily-design-system-nunjucks-headless` builds all 588
+pages.
+
 ## Web Components helpers: one top-level subproject per package; the catalog is deleted — 2026-10-10
 
 The 13 packages in `lily-design-system-web-components-helpers` moved to the repository root the same way as the HTML packages they

@@ -58,23 +58,13 @@ for p in theme-picker locale-picker text-size-picker motion-picker link-picker m
     echo "svelte-$p: dist/ missing — build it first (cd lily-design-system-svelte-$p && pnpm build)" >&2; exit 1
   fi
 done
-for fw in react vue html web-components; do
+for fw in react vue html web-components nunjucks; do
   for p in theme-picker locale-picker text-size-picker motion-picker link-picker menu-picker settings-picker share-picker date-time-picker; do
     d="$ROOT/lily-design-system-$fw-$p"
     if [ -d "$d/dist" ]; then
       ( cd "$d" && npm pack --pack-destination "$S" ) > /dev/null
     else
       echo "$fw-$p: dist/ missing — build it first (cd lily-design-system-$fw-$p && pnpm build)" >&2; exit 1
-    fi
-  done
-done
-for fw in nunjucks; do
-  for p in theme-picker locale-picker text-size-picker motion-picker link-picker menu-picker settings-picker share-picker date-time-picker; do
-    d="$ROOT/lily-design-system-$fw-helpers/lily-design-system-$fw-$p"
-    if [ -d "$d/dist" ]; then
-      ( cd "$d" && npm pack --pack-destination "$S" ) > /dev/null
-    else
-      echo "$fw-$p: dist/ missing — build the helpers catalog first (cd lily-design-system-$fw-helpers && npm run build)" >&2; exit 1
     fi
   done
 done

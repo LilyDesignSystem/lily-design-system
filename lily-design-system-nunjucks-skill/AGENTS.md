@@ -25,7 +25,7 @@
 A Claude Skill that ties together the three real Nunjucks subprojects in
 this monorepo — [`@lilydesignsystem/nunjucks-headless`](../lily-design-system-nunjucks-headless/)
 (the 571-component headless macro library),
-[`lily-design-system-nunjucks-helpers`](../lily-design-system-nunjucks-helpers/)
+[the Nunjucks helper packages](../spec/helpers/index.md#nunjucks-helper-packages)
 (the six `*-picker` macro-plus-`client.js` packages), and
 [`lily-design-system-nunjucks-eleventy-examples`](../lily-design-system-nunjucks-eleventy-examples/)
 (the fully styled Eleventy 3 reference app) — and helps an agent decide

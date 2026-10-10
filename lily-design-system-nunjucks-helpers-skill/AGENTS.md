@@ -23,7 +23,7 @@
 ## Overview
 
 A Claude Skill explaining how to consume
-[`lily-design-system-nunjucks-helpers`](../lily-design-system-nunjucks-helpers/),
+[the Nunjucks helper packages](../spec/helpers/index.md#nunjucks-helper-packages),
 Lily's Nunjucks port of the six `*-picker` helper packages: the
 macro-plus-`client.js` split forced by Nunjucks' server-only rendering
 (the macro renders markup and `data-lily-*` hooks; a companion ES module
@@ -46,7 +46,7 @@ all seven.
   macro-plus-client.js split unique to this catalog, and the
   no-JavaScript degradation story for each helper.
 - **Isn't**: the Nunjucks helpers catalog itself (that's
-  [`lily-design-system-nunjucks-helpers`](../lily-design-system-nunjucks-helpers/),
+  [the Nunjucks helper packages](../spec/helpers/index.md#nunjucks-helper-packages),
   which ships the six packages this skill explains how to use), isn't the
   general framework-agnostic Lily skill (that's
   [`lily-design-system-skill`](../lily-design-system-skill/)), and isn't

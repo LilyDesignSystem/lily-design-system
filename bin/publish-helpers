@@ -42,7 +42,7 @@ for arg in "$@"; do
   esac
 done
 # --only <dir> restricts the run to one helper catalog (e.g.
-# --only lily-design-system-nunjucks-helpers), or to one top-level
+# --only lily-design-system-blazor-helpers), or to one top-level
 # helper package (e.g. --only lily-design-system-svelte-theme-picker), so a first release
 # of a new catalog does not have to re-run every other catalog. The
 # Blazor/NuGet section runs only when no --only is given, or when it
@@ -104,21 +104,11 @@ publish_npm_package() {
 
 if [ -z "$NUGET_ONLY" ]; then
   echo "== npm helper packages =="
-  # svelte / react / vue / html / nunjucks: each package's `prepublishOnly`
-  # runs the catalog's dist build, so publish from the package root.
-  for d in "$ROOT"/lily-design-system-nunjucks-helpers/lily-design-system-*; do
-    [ -f "$d/package.json" ] || continue
-    only_matches "$(dirname "$d")" || continue
-    ensure_installed "$(dirname "$d")"
-    echo "--> $(basename "$d")"
-    publish_npm_package "$d"
-  done
-
   # Top-level helper packages (the catalogs dissolved into one subproject
   # per package, Svelte first, 2026-10-10): each is its own pnpm root, so
   # install and publish it in place (its `prepublishOnly` runs its own
   # build). --only names the package directory itself.
-  for d in $(for fw in svelte react vue html web-components; do "$ROOT/bin/list-helper-packages" "$fw"; done); do
+  for d in $(for fw in svelte react vue html web-components nunjucks; do "$ROOT/bin/list-helper-packages" "$fw"; done); do
     d="$ROOT/$d"
     [ -f "$d/package.json" ] || continue
     only_matches "$d" || continue

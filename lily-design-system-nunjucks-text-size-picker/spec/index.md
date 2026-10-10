@@ -1,0 +1,478 @@
+# TextSizePicker — Specification (Nunjucks)
+
+Single source of truth for the `@lilydesignsystem/nunjucks-text-size-picker`
+Nunjucks helper. This file drives implementation, testing, and
+documentation in the spec-driven-development style: anything not in
+this spec is out of scope; anything in this spec must be exercised by
+a test.
+
+Sibling files in this directory:
+
+- `text-size-picker.njk` — the macro implementation
+- `text-size-picker.client.js` — runtime JS that owns the lifecycle
+  AND the listbox interaction
+- `text-size-picker.test.ts` — vitest spec exercising every clause in §4–§7
+- `index.md` — user-facing readme
+- `docs/` — topic deep-dives (`accessibility.md`, `ssr.md`)
+
+The headless `@lilydesignsystem/nunjucks-headless` library does not
+(yet) include a canonical `TextSizePicker`; this helper is the
+opinionated, reusable counterpart split into a Nunjucks macro and a
+client-side JS module. It is a direct port of the canonical Svelte
+helper `@lilydesignsystem/svelte-text-size-picker`; the DOM contract
+and behaviour match clause-for-clause, only the framework idioms
+differ.
+
+**BREAKING (Unreleased).** This helper no longer renders a native
+`<select>`. It renders an icon `<button>` that opens a
+`<ul role="listbox">`, matching `theme-picker` and `locale-picker`, so
+all three helpers in the catalog are the same shape. See §3.1 for the
+consequences, which include a real no-JS regression.
+
+---
+
+## 1. Goal
+
+Give a Nunjucks-rendered application a drop-in, headless text-size
+select that:
+
+1. Renders an accessible icon button and listbox of available size
+   slugs from a Nunjucks macro.
+2. **Applies the chosen size** at runtime by setting
+   `data-text-size="{slug}"` on the document root (or on a
+   consumer-supplied target) via a companion client-side JS module.
+3. Optionally persists the chosen size to `localStorage`.
+4. Ships zero CSS — the consumer styles every visual aspect via the
+   `text-size-picker` class hooks and maps each
+   `[data-text-size="{slug}"]` to a real typographic scale.
+
+## 2. Non-goals
+
+- **Typography.** This helper does not define the `font-size` /
+  scale for any slug — only signals the chosen size via the
+  `data-text-size` attribute, the `onChange` callback, and the hidden
+  input's value.
+- **Picking default sizes.** Consumers always supply the list of
+  available size slugs.
+- **System detection.** Deliberately absent. Unlike theme-picker's
+  `prefers-color-scheme` and locale-picker's `navigator.languages`,
+  the web platform exposes no OS "preferred text size" signal, so
+  there is nothing to detect and no `detectFromSystem` prop.
+- **Managed `<link>` / lang / dir.** Unlike the theme and locale
+  helpers, this helper sets only a single `data-*` attribute. No
+  stylesheet swap, no `lang`/`dir`.
+- **Listbox positioning.** The package ships no CSS, including none
+  for placing the open list. That is the consumer's job.
+- **Inline `<script>` tags inside the macro output.** The client.js
+  is a separate ES module loaded once per page.
+
+## 3. Architectural decisions
+
+- **Split between macro and client.js.** The macro renders static
+  HTML with `data-lily-text-size-picker-*` hooks; the client.js owns
+  both the apply lifecycle (`data-text-size`, storage, `onChange`) and
+  the entire listbox interaction (open/close, focus, keyboard,
+  typeahead).
+- **The `data-text-size` attribute is the source of truth.** The
+  control writes there; consumer CSS keys typography off it.
+- **Single `opts` object on the macro** — matches the Lily Nunjucks
+  convention.
+- **Vanilla ES module client.js** — no framework dependency. Exports
+  `initTextSizePicker(root, opts?)`, `autoInit(opts?)`, and `sizeName`.
+  No glyph constant — the default icon is a bundled SVG, not a Unicode
+  character (reversed 2026-09-16; see §9).
+- **SSR-safe.** Macro is a pure template; client.js guards every DOM
+  read/write.
+- **Deterministic ids via the `id` opt.** A Nunjucks macro cannot hold
+  an incrementing module counter the way the canonical Svelte helper
+  does, so `id` (default `text-size-picker-{name}`) is this
+  framework's stable-id mechanism. No `Math.random`, no `Date.now`.
+- **`sizeName` is restated, not delegated.** A Nunjucks macro cannot
+  call into an ES module, and exposing it as a filter would force
+  every consumer to register it on their environment. The macro
+  therefore restates the title-case rule in template syntax and a test
+  holds the two in agreement — the same decision `theme-picker` and
+  `locale-picker` took for `themeName` / `localeName`.
+
+### 3.1 The icon, and what the conversion costs
+
+The button icon is a bundled stroke-drawn "A" SVG (`viewBox="0 0 16
+16"`), not a Unicode character. Until 2026-09-16 it was `"A"` (U+0041
+LATIN CAPITAL LETTER A) — a plain letter chosen over U+1F5DB DECREASE
+FONT SIZE SYMBOL, which has no real glyph in common font stacks and
+means _decrease_ rather than _size_ — reversed maintainer-directed to
+a bundled SVG the same day as the other four page-header pickers; see
+§9.
+
+The conversion costs two things, neither of which is a bug to be fixed
+later. They are documented honestly in `docs/accessibility.md` and
+`docs/ssr.md`:
+
+1. The accessible name rests entirely on `opts.label`.
+2. A hand-rolled listbox has weaker assistive-technology support than
+   a native `<select>`; a native `<select>` remains the better choice
+   for some audiences.
+
+And one regression: **without JavaScript the button cannot be operated
+at all**, which the native `<select>` could. This deserves extra
+weight in this particular helper, whose whole purpose is WCAG 1.4.4
+(Resize Text).
+
+## 4. Public API
+
+### 4.1 Macro parameters
+
+`{% from "./text-size-picker.njk" import textSizePicker %}` then
+`{{ textSizePicker(opts) }}`.
+
+| Key            | Type                    | Required | Default                      | Purpose                                                                                                                              |
+| -------------- | ----------------------- | -------- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `label`        | `string`                | yes      | —                            | Accessible name for the button AND the listbox (`aria-label` on both). The button is icon-only, so this is its ONLY accessible name. |
+| `sizes`        | `array<string>`         | yes      | —                            | Available size slugs (e.g. `["small", "medium", "large", "x-large"]`).                                                               |
+| `value`        | `string`                | no       | `""`                         | Initial slug. Emitted as `data-lily-text-size-picker-value` for the client to read.                                                  |
+| `defaultValue` | `string`                | no       | `""`                         | Initial slug when nothing else is supplied at runtime.                                                                               |
+| `storageKey`   | `string`                | no       | `""`                         | If non-empty, the client.js persists to `localStorage`.                                                                              |
+| `name`         | `string`                | no       | `"text-size"`                | Hidden-input `name` attribute.                                                                                                       |
+| `sizeLabels`   | `object<string,string>` | no       | `{}`                         | Optional pretty labels per slug.                                                                                                     |
+| `id`           | `string`                | no       | `"text-size-picker-{name}"` | Id prefix for the listbox and its options. Supply an explicit id when two instances share a `name`.                                  |
+| `classes`      | `string`                | no       | `""`                         | Extra CSS classes on the root `<div>`.                                                                                               |
+| `attributes`   | `object`                | no       | —                            | Extra HTML attributes spread onto the root.                                                                                          |
+
+There is **no** `detectFromSystem` param (§2) and **no** `placeholder`
+param (this helper never had one).
+
+The `{% call %}` block body replaces the button's **icon** — the
+Nunjucks equivalent of the canonical helper's `children`. It does not
+render options.
+
+### 4.2 DOM contract (macro output)
+
+```html
+<div
+  class="text-size-picker {classes}"
+  data-lily-text-size-picker-root
+  data-lily-text-size-picker-name="{name}"
+  data-lily-text-size-picker-storage-key="{storageKey}"
+  data-lily-text-size-picker-default-value="{defaultValue}"
+  [data-lily-text-size-picker-value="{value}"]
+  …{attributes}
+>
+  <input
+    type="hidden"
+    name="{name}"
+    value="{selected}"
+    data-lily-text-size-picker-input
+  />
+  <button
+    type="button"
+    class="text-size-picker-button"
+    aria-label="{label}"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="{id}-list"
+    data-lily-text-size-picker-button
+  >
+    <svg class="text-size-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="1.05rem" height="1.05rem"><path d="M4 13 7.2 3h1.6L12 13M5.4 9.5h5.2"/></svg>
+  </button>
+  <div class="text-size-picker-tooltip" role="tooltip" id="{id}-tooltip" hidden>{label}</div>
+  <ul
+    class="text-size-picker-list"
+    id="{id}-list"
+    role="listbox"
+    aria-label="{label}"
+    tabindex="-1"
+    hidden
+    data-lily-text-size-picker-list
+  >
+    <li
+      class="text-size-picker-option"
+      id="{id}-option-{i}"
+      role="option"
+      aria-selected="true|false"
+      data-value="{slug}"
+    >
+      {labelFor(slug)}
+    </li>
+  </ul>
+</div>
+```
+
+**Tooltip.** `.text-size-picker-tooltip` is a sibling right after the icon button, always in the markup, `hidden` at rest, holding the button's `label` text (no new macro argument, no new English). `client.js` shows it while the pointer is over the button or over the tooltip itself (hoverable) and while the button has keyboard focus (`:focus-visible`; a mouse click's focus does not count); `Escape` dismisses it without moving focus, wherever focus is while the tooltip is visible (a document-level `keydown` listener exists only while it is shown, so pointer-hover-only works too; WCAG 1.4.13), until the pointer re-enters or focus leaves and returns; it is never shown while the listbox is open. It is purely visual: the text duplicates the button's `aria-label`, so it is deliberately **not** linked with `aria-describedby` (that would announce the name twice). Position and appearance are consumer/theme CSS, via the `hidden` attribute. Canonical reference: the Svelte helper's Tooltip paragraph.
+
+- `labelFor(slug)` is `sizeLabels[slug]` when present, else the slug
+  title-cased per hyphen-word (`x-large` → `X Large`).
+- Server markup marks exactly ONE option `aria-selected="true"`,
+  resolved as `value or defaultValue or ("medium" if present else
+sizes[0])`, and pre-fills the hidden input with it.
+- The listbox renders `hidden`, with no `aria-activedescendant` and no
+  `data-active` — those are client-owned open-state concerns.
+- `data-lily-text-size-picker-value` is emitted only when `opts.value`
+  is set, and is the sole channel by which `opts.value` reaches the
+  client.
+
+### 4.3 Client.js exports
+
+`text-size-picker.client.js` is an ES module exporting:
+
+| Export                             | Type                                           | Purpose                                                                |
+| ---------------------------------- | ---------------------------------------------- | ---------------------------------------------------------------------- |
+| `initTextSizePicker(root, opts?)` | `(HTMLElement, object?) => {setSize, destroy}` | Wire one root.                                                         |
+| `autoInit(opts?)`                  | `(object?) => Array<{setSize, destroy}>`       | Wire every root on the page.                                           |
+| `sizeName(slug)`                   | `(string) => string`                           | Title-case a slug per hyphen-word. Mirrors `themeName` / `localeName`. |
+
+Optional `opts` for `initTextSizePicker` / `autoInit`:
+
+- `onChange(size)` — fired once per applied change; receives the slug.
+- `target` — element receiving `data-text-size` (defaults to
+  `document.documentElement`).
+
+## 5. Behaviour
+
+### 5.1 Initial value resolution (client-side, on `initTextSizePicker`)
+
+The initial slug is the first non-empty value of:
+
+1. `data-lily-text-size-picker-value` (the consumer's `value` prop).
+2. `localStorage.getItem(storageKey)` (only if `storageKey` is set
+   and the read does not throw).
+3. `data-lily-text-size-picker-default-value`.
+4. `"medium"` if present among the rendered option values.
+5. The first option value, or `""` if none.
+
+Unchanged by the icon-button release: `value` already beat storage
+here, so unlike theme-picker there is no precedence reversal and no
+migration warning.
+
+### 5.2 Applying a size
+
+Applying a size `slug` performs, in order:
+
+1. Resolve the target element (defaults to `document.documentElement`).
+2. Set `target.setAttribute("data-text-size", slug)`.
+3. If `storageKey` is non-empty, write `slug` to `localStorage`.
+4. Mirror `slug` into the hidden input's `value`.
+5. Re-derive every option's `aria-selected` against `slug`.
+6. Call `opts.onChange?.(slug)` if supplied.
+
+Applying is **idempotent**: a size already applied is a no-op, so none
+of the steps above repeat and `onChange` does not re-fire. `setSize` on
+the returned controller *is* this function, so without the guard a
+consumer that mirrors the value back from `onChange` re-enters it
+forever.
+
+### 5.3 Listbox interaction (client-owned)
+
+Follows the WAI-ARIA APG listbox pattern, identical to `theme-picker`
+and `locale-picker`.
+
+On the **button**:
+
+| Key                           | Action                                                       |
+| ----------------------------- | ------------------------------------------------------------ |
+| `ArrowDown`, `Enter`, `Space` | Open with the selected size active; focus moves to the list. |
+| `ArrowUp`                     | Open with the LAST option active.                            |
+
+On the **listbox**:
+
+| Key                     | Action                                                                                                                    |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `ArrowDown` / `ArrowUp` | Move the active option. Clamps at the ends; no wrapping.                                                                  |
+| `Home` / `End`          | Jump to the first / last option.                                                                                          |
+| `Enter` / `Space`       | Select the active option, apply it, close, return focus to the button.                                                    |
+| `Escape`                | Close and return focus, leaving the size unchanged.                                                                       |
+| `PageUp` / `PageDown`   | Move the active option by ten, clamped — an APG-optional key for long lists.                                              |
+| `Tab`                   | Close and move on — focus goes to the button first, without cancelling the key, so the browser's default Tab proceeds from the picker's position rather than from `<body>`. |
+| Printable character     | APG typeahead over the option labels: a single character advances to the NEXT match, a repeated character keeps cycling, and only a buffer of differing characters refines, anchored at the active option. 500 ms buffer reset. Matches the rendered label, so `sizeLabels` overrides participate. |
+
+Clicking an option selects it, applies it, and closes the listbox —
+the same close `Enter` performs. Clicking outside the root, or moving
+focus out of it, closes the listbox without changing the size.
+Opening an EMPTY list seeds the active index at -1, so
+`aria-activedescendant` is absent rather than pointing at an id that
+does not exist.
+
+DOM focus stays on the `<ul>`; the cursor is conveyed by
+`aria-activedescendant` and mirrored onto the active option as
+`data-active`. `aria-selected` tracks the **applied** size — a
+different thing from the cursor.
+
+### 5.4 Default labels (macro side)
+
+When `sizeLabels[slug]` is missing, the macro falls back to the slug
+title-cased per hyphen-word, via `{{ slug | replace(r/-/g, " ") | title }}`
+(`x-large` → `X Large`). This is the same rule `sizeName(slug)` states
+in JS; see §3. The client.js does NOT overwrite labels at runtime —
+pretty labels are a macro concern.
+
+### 5.5 SSR
+
+Macro renders deterministic markup; no DOM access at template time.
+Client.js touches `document` only after `initTextSizePicker(root)` is
+called. See `docs/ssr.md`, including the no-JS regression.
+
+## 6. Accessibility
+
+- WCAG 2.2 AAA target; WAI-ARIA APG listbox pattern.
+- Directly supports WCAG 1.4.4 (Resize Text) by letting the user pick
+  a larger typographic scale — this helper's specific concern.
+- `aria-label` is the ONLY accessible name the button has, since the
+  icon is `aria-hidden="true"`.
+- The client provides Arrow / Home / End / Enter / Space / Escape /
+  Tab / typeahead semantics; none of it works before the client runs.
+- Known tradeoffs and the no-JS regression are documented honestly in
+  `docs/accessibility.md` and `docs/ssr.md` rather than being claimed
+  away.
+
+## 7. Testing acceptance criteria
+
+`text-size-picker.test.ts` asserts the numbered items below. Tests run
+under vitest + jsdom. The macro half renders via
+`nunjucks.renderString`; the client.js half mounts that HTML into the
+jsdom document and exercises the runtime. Clause numbers are kept
+parallel with `theme-picker`'s spec so the two read side by side.
+
+### 7.1 Markup contract (macro)
+
+1. **§7.1** Macro renders a `<div>` root containing a `<button>`
+   (`type="button"`, `aria-haspopup="listbox"`,
+   `aria-expanded="false"`, `aria-controls` → the list id) that
+   controls a `<ul role="listbox" tabindex="-1">`; the button renders
+   the default "A" SVG icon in an `aria-hidden` wrapper, and the icon
+   is never the accessible name.
+2. **§7.2** `aria-label` names both the button and the listbox.
+3. **§7.3** One `<li role="option">` per size; the hidden input
+   carries the supplied `name`, defaulting to `"text-size"`.
+4. **§7.4** Each option carries the slug on `data-value` and a stable,
+   unique, deterministic id; an explicit `id` namespaces the listbox
+   and its options.
+5. **§7.5** Default labels title-case the slug per hyphen-word.
+6. **§7.6** `sizeLabels` override the default label; unmapped slugs
+   still fall back to the title-cased slug.
+
+### 7.2 Client.js lifecycle
+
+7. **§7.7** Initial apply sets `data-text-size` on
+   `document.documentElement`.
+8. **§7.8** A custom `target` receives `data-text-size` instead.
+9. **§7.9** Choosing an option updates `data-text-size` and the hidden
+   input, and fires `onChange`.
+10. **§7.10** `setSize` applies a size programmatically.
+11. **§7.11** `autoInit()` wires every
+    `[data-lily-text-size-picker-root]` on the page, and distinct
+    `name`s yield distinct listbox ids.
+12. **§7.12** Init is a safe no-op on a root missing its button and
+    list.
+13. **§7.13** Extra `attributes` spread onto the root `<div>`;
+    `classes` append to the base class hook; `destroy()` detaches the
+    listeners.
+
+### 7.3 Server-rendered listbox state
+
+14. **§7.14** The listbox renders `hidden` and the button collapsed,
+    with no `aria-activedescendant` and no `data-active`, before any
+    JS runs.
+15. **§7.15** Exactly one option is `aria-selected="true"` in the
+    server markup, and every other option is explicitly `"false"`. It
+    is `opts.value` when supplied, else `defaultValue`, else
+    `"medium"` if present, else the first size.
+16. **§7.16** The hidden input is pre-filled server-side so a no-JS
+    form submit still carries a size.
+
+### 7.4 The `value` channel and the icon override
+
+17. **§7.17** `opts.value` is carried on
+    `data-lily-text-size-picker-value` and resolves the initial size.
+18. **§7.18** That data attribute is omitted entirely when `opts.value`
+    is unset.
+19. **§7.19** A `{% call %}` block replaces the icon inside the
+    button, and the accessible name still comes from `aria-label`.
+
+### 7.5 Keyboard contract (APG listbox)
+
+20. **§7.20** `ArrowDown`, `Enter` and `Space` open the listbox and
+    move focus to it; `ArrowUp` opens with the last option active.
+21. **§7.21** Opening puts the active descendant on the selected size;
+    `ArrowDown` / `ArrowUp` move it and clamp at both ends rather than
+    wrapping; `Home` / `End` jump to the first / last option.
+22. **§7.22** `Enter` selects the active option, applies it, closes,
+    and returns focus to the button; `Space` does the same.
+23. **§7.23** `Escape` closes and returns focus without changing the
+    size; `Tab` closes and puts focus on the button, so the browser's
+    default Tab proceeds from the picker's position.
+24. **§7.24** Printable characters run typeahead over the rendered
+    labels (so `sizeLabels` overrides participate), the buffer
+    accumulates and resets after 500 ms, and modifier chords are
+    excluded. Clicking an option selects it; clicking the button
+    toggles; clicking outside or moving focus out closes.
+    `aria-selected` follows the applied size, not merely the active
+    option.
+
+### 7.6 Pure helpers
+
+25. **§7.25** `sizeName` title-cases each hyphen-separated word, and
+    is the JS statement of the rule the macro renders — held in
+    agreement by a test rather than by delegation.
+
+### 7.7 Initial-value resolution
+
+26. **§7.26** The initial size defaults to `"medium"` when present,
+    else `sizes[0]`.
+27. **§7.27** When `storageKey` is set, the active slug is written to
+    `localStorage` and read back on a fresh init.
+28. **§7.28** The full order is
+    `value > storage > defaultValue > "medium" > sizes[0]`; `value`
+    beats a conflicting storage entry, and storage still applies when
+    `value` is absent.
+
+### 7.8 Accessibility hardening
+
+Ported from the canonical Svelte spec's §7.14–§7.17.
+
+29. **§7.29** `Tab` from the open list puts focus on the button BEFORE
+    closing, without cancelling the key, so the browser's default Tab
+    proceeds from the picker's position rather than from `<body>`.
+30. **§7.30** A repeated typeahead character cycles through its
+    matches (the search starts at the option after the active one,
+    wrapping once); a buffer of differing characters refines the match
+    anchored at the active option.
+31. **§7.31** `PageUp` / `PageDown` move the cursor by ten, clamped.
+32. **§7.32** An empty list opens without `aria-activedescendant`.
+33. **§7.33** An `onChange` that mirrors the value back through
+    `setSize` does not re-enter apply: it fires once per changed
+    value.
+34. **§7.34** Renders `.text-size-picker-tooltip` (`role="tooltip"`) as a sibling right after the icon button, holding the button's label, `hidden` at rest, and the button carries no `aria-describedby`.
+35. **§7.35** Pointer over the button shows it; leaving hides it.
+36. **§7.36** It stays visible while the pointer is over the tooltip itself.
+37. **§7.37** Keyboard focus on the button (`:focus-visible`) shows it; blur hides it; mouse-induced focus does not.
+38. **§7.38** `Escape` on the button dismisses it without moving focus; re-entering shows it again.
+39. **§7.39** It is never shown while the listbox is open.
+40. **§7.40** Initialising the same root twice replaces the first tooltip wiring rather than doubling it.
+41. **§7.41** Pointer hover shows the tooltip with focus elsewhere; Escape pressed on `document.body` or another element dismisses it (without `preventDefault`, without moving focus), and the document `keydown` listener exists only while the tooltip is visible (removed on hide, `destroy()` and re-init).
+
+## 8. Out-of-scope (future)
+
+- A complementary `TextSizeView` helper.
+- A built-in default-size table.
+- A no-JS fallback rendering mode.
+
+## 9. Tracking
+
+- Package directory:
+  `lily-design-system-nunjucks-text-size-picker/` (top-level subproject; until 2026-10-10 inside `lily-design-system-nunjucks-helpers/`)
+- Spec version: 0.2.0 (unreleased — the icon-button conversion)
+- Created: 2026-06-17
+- Updated: 2026-09-16
+- **2026-09-16**: default icon changed from the Unicode glyph U+0041
+  LATIN CAPITAL LETTER A (exported as `LATIN_CAPITAL_LETTER_A`) to a
+  bundled outline SVG. Maintainer-directed, applied to all five
+  page-header pickers the same day. The glyph constant was removed,
+  not renamed.
+- License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause
+  (or contact for other terms)
+- Contact: Joel Parker Henderson &lt;joel@joelparkerhenderson.com&gt;
+- Canonical reference: the Svelte helper
+  `@lilydesignsystem/svelte-text-size-picker`
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

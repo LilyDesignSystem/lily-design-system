@@ -8,11 +8,10 @@ const headlessRoot = path.resolve(
   "..",
   "@lilydesignsystem/nunjucks-headless",
 );
-const helpersRoot = path.resolve(
-  projectRoot,
-  "..",
-  "lily-design-system-nunjucks-helpers",
-);
+// The helper packages are top-level subprojects (one per package, since
+// 2026-10-10), so their templates resolve from the repository root, e.g.
+// "lily-design-system-nunjucks-theme-picker/dist/theme-picker.njk".
+const helpersRoot = path.resolve(projectRoot, "..");
 
 export default function (eleventyConfig) {
   const env = new nunjucks.Environment(
@@ -34,14 +33,14 @@ export default function (eleventyConfig) {
 
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
   // The 45 reference themes (synced from the repo root by bin/sync) and
-  // the theme-picker client runtime, vendored from the helpers catalog.
+  // the picker client runtimes, vendored from the top-level helper packages.
   eleventyConfig.addPassthroughCopy({ "src/themes": "themes" });
   eleventyConfig.addPassthroughCopy({
-    "../lily-design-system-nunjucks-helpers/lily-design-system-nunjucks-theme-picker/theme-picker.client.js":
+    "../lily-design-system-nunjucks-theme-picker/theme-picker.client.js":
       "assets/js/theme-picker.client.js",
-    "../lily-design-system-nunjucks-helpers/lily-design-system-nunjucks-locale-picker/dist/index.js":
+    "../lily-design-system-nunjucks-locale-picker/dist/index.js":
       "assets/js/locale-picker.client.js",
-    "../lily-design-system-nunjucks-helpers/lily-design-system-nunjucks-text-size-picker/text-size-picker.client.js":
+    "../lily-design-system-nunjucks-text-size-picker/text-size-picker.client.js":
       "assets/js/text-size-picker.client.js",
   });
 

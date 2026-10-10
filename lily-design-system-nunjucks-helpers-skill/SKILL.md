@@ -6,9 +6,12 @@ license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 
 # Lily Design System™ — Nunjucks `*-picker` helpers
 
-`lily-design-system-nunjucks-helpers` is Lily's Nunjucks port of the
-six-helper `*-picker` catalog: `theme-picker`, `locale-picker`,
-`text-size-picker`, `motion-picker`, `share-picker`, `date-time-picker`.
+The Nunjucks helpers are Lily's Nunjucks port of the `*-picker` helpers
+(`theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`,
+`share-picker`, `date-time-picker` and the rest), each its own top-level
+subproject `lily-design-system-nunjucks-{package}/` since 2026-10-10
+(before that, one `lily-design-system-nunjucks-helpers` catalog), plus the
+shared `listbox-behavior` package.
 Each helper owns one complete interaction end to end rather than being a
 pure markup primitive — most own a **user preference** (selection + DOM
 application + optional persistence); `share-picker` owns an **action**;

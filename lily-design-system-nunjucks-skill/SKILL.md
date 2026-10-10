@@ -17,7 +17,7 @@ headless or helpers contracts in detail; it points at the skills that do.
 | Subproject | What it is | Reach for it when |
 | --- | --- | --- |
 | [`@lilydesignsystem/nunjucks-headless`](../lily-design-system-nunjucks-headless/) | The headless macro library: one Nunjucks macro per component in the catalog, zero CSS, zero bundled JavaScript. | You are importing and calling Lily macros directly and will style and behaviourally wire them yourself. |
-| [`lily-design-system-nunjucks-helpers`](../lily-design-system-nunjucks-helpers/) | Six `*-picker` packages (`theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`, `share-picker`, `date-time-picker`), each a macro + companion `client.js` pair. | You need a page-header preference control, a share action, or a date/time form field with the interaction already built — not just markup. |
+| [the Nunjucks helper packages](../spec/helpers/index.md#nunjucks-helper-packages) | Six `*-picker` packages (`theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`, `share-picker`, `date-time-picker`), each a macro + companion `client.js` pair. | You need a page-header preference control, a share action, or a date/time form field with the interaction already built — not just markup. |
 | [`lily-design-system-nunjucks-eleventy-examples`](../lily-design-system-nunjucks-eleventy-examples/) | A complete, styled Eleventy 3 static site demonstrating every component and several composed pages, dressed in the NHS UK visual language. | You want to see a component or page pattern working end-to-end, run it locally, or copy CSS as a starting point for your own styling. |
 
 `@lilydesignsystem/nunjucks-headless` is the library the other two depend
@@ -111,8 +111,9 @@ Verified in each subproject's own `AGENTS.md`/`AGENTS/nunjucks.md`:
   catalog's macro output wires up to its companion `client.js` — the
   headless catalog has no client-side runtime to wire up at all.
 - **Package naming**: each helper is its own npm package named
-  `lily-design-system-nunjucks-{helper-name}` living as a sibling
-  directory inside the `lily-design-system-nunjucks-helpers` catalog; the
+  `@lilydesignsystem/nunjucks-{helper-name}`, each its own top-level
+  subproject `lily-design-system-nunjucks-{helper-name}/` (since
+  2026-10-10; `bin/list-helper-packages nunjucks`); the
   headless library and the example app are each a single package,
   `@lilydesignsystem/nunjucks-headless` and
   `lily-design-system-nunjucks-eleventy-examples`.

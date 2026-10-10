@@ -197,7 +197,22 @@ updates:
           - "*"
 
   - package-ecosystem: "npm"
-    directory: "/lily-design-system-nunjucks-helpers"
+    # One top-level subproject per Nunjucks helper package (2026-10-10).
+    directories:
+      - "/lily-design-system-nunjucks-date-time-picker"
+      - "/lily-design-system-nunjucks-link-picker"
+      - "/lily-design-system-nunjucks-listbox-behavior"
+      - "/lily-design-system-nunjucks-menu-picker"
+      - "/lily-design-system-nunjucks-search-picker"
+      - "/lily-design-system-nunjucks-settings-picker"
+      - "/lily-design-system-nunjucks-share-picker"
+      - "/lily-design-system-nunjucks-gantt-chart"
+      - "/lily-design-system-nunjucks-kanban-board"
+      - "/lily-design-system-nunjucks-locale-picker"
+      - "/lily-design-system-nunjucks-motion-picker"
+      - "/lily-design-system-nunjucks-text-size-picker"
+      - "/lily-design-system-nunjucks-theme-picker"
+      - "/lily-design-system-nunjucks-picker-bar"
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 10

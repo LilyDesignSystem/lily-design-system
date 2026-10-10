@@ -12,7 +12,7 @@ with a framework-scoped pair.
 ## 1. Role in the ecosystem
 
 A Claude Skill that explains how to consume
-[`lily-design-system-nunjucks-helpers`](../../lily-design-system-nunjucks-helpers/):
+[the Nunjucks helper packages](../../spec/helpers/index.md#nunjucks-helper-packages):
 the six `*-picker` packages (`theme-picker`, `locale-picker`,
 `text-size-picker`, `motion-picker`, `share-picker`, `date-time-picker`),
 the macro-plus-`client.js` split this catalog uses because Nunjucks
@@ -88,11 +88,11 @@ tests to run beyond `bin/test`'s required-files checks.
 
 ## 5. Related topics
 
-- [`lily-design-system-nunjucks-helpers`'s spec/index.md](../../lily-design-system-nunjucks-helpers/spec/index.md) —
+- [the Nunjucks helper packages](../../spec/helpers/index.md#nunjucks-helper-packages) —
   the catalog this skill teaches consumers to use; the source of truth
   for the six packages, their conventions, and the macro-plus-client.js
   split.
-- [`@lilydesignsystem/nunjucks-motion-picker`'s spec/index.md](../../lily-design-system-nunjucks-helpers/lily-design-system-nunjucks-motion-picker/spec/index.md) —
+- [`@lilydesignsystem/nunjucks-motion-picker`'s spec/index.md](../../lily-design-system-nunjucks-motion-picker/spec/index.md) —
   the one helper with a documented server/client deviation, cited
   precisely in `SKILL.md`.
 - [`lily-design-system-nunjucks-headless-skill`'s spec/index.md](../../lily-design-system-nunjucks-headless-skill/spec/index.md) —
